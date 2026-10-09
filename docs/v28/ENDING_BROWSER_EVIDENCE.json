@@ -1,0 +1,210 @@
+{
+  "schemaVersion": "V28-ENDING-BROWSER-2",
+  "status": "PASS",
+  "results": [
+    {
+      "expectedEnding": "DOSTOEVSKY_PETRASHEVSKY",
+      "actualEnding": "DOSTOEVSKY_PETRASHEVSKY",
+      "title": "문을 닫기 전의 목소리",
+      "pattern": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        2,
+        2
+      ],
+      "endingState": {
+        "completedCaseCount": 12,
+        "choiceCounts": {
+          "1": 9,
+          "2": 0,
+          "3": 3
+        },
+        "witnessedCharacters": [
+          "alexei",
+          "pavel"
+        ],
+        "access": {
+          "officialRecord": 9,
+          "crossBorder": 3
+        },
+        "relationships": {
+          "alexei": 9,
+          "pavel": 3
+        },
+        "risk": 3,
+        "routedDocuments": 12,
+        "readDocuments": 12
+      },
+      "screenshot": "artifacts/v28-browser/endings/ending-dostoevsky_petrashevsky.png",
+      "pageErrors": []
+    },
+    {
+      "expectedEnding": "HERZEN",
+      "actualEnding": "HERZEN",
+      "title": "먼 곳으로 건너간 종이",
+      "pattern": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        2
+      ],
+      "endingState": {
+        "completedCaseCount": 12,
+        "choiceCounts": {
+          "1": 0,
+          "2": 9,
+          "3": 3
+        },
+        "witnessedCharacters": [
+          "ekaterina",
+          "pavel"
+        ],
+        "access": {
+          "dossierEvidence": 9,
+          "crossBorder": 3
+        },
+        "relationships": {
+          "ekaterina": 9,
+          "pavel": 3
+        },
+        "risk": 5.25,
+        "routedDocuments": 12,
+        "readDocuments": 12
+      },
+      "screenshot": "artifacts/v28-browser/endings/ending-herzen.png",
+      "pageErrors": []
+    },
+    {
+      "expectedEnding": "BELINSKY",
+      "actualEnding": "BELINSKY",
+      "title": "인쇄소에 남은 불빛",
+      "pattern": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        1,
+        1,
+        1
+      ],
+      "endingState": {
+        "completedCaseCount": 12,
+        "choiceCounts": {
+          "1": 0,
+          "2": 3,
+          "3": 9
+        },
+        "witnessedCharacters": [
+          "pavel",
+          "ekaterina"
+        ],
+        "access": {
+          "crossBorder": 9,
+          "dossierEvidence": 3
+        },
+        "relationships": {
+          "pavel": 9,
+          "ekaterina": 3
+        },
+        "risk": 9.75,
+        "routedDocuments": 12,
+        "readDocuments": 12
+      },
+      "screenshot": "artifacts/v28-browser/endings/ending-belinsky.png",
+      "pageErrors": []
+    },
+    {
+      "expectedEnding": "KHOMYAKOV",
+      "actualEnding": "KHOMYAKOV",
+      "title": "같은 땅의 다른 문장",
+      "pattern": [
+        0,
+        1
+      ],
+      "endingState": {
+        "completedCaseCount": 12,
+        "choiceCounts": {
+          "1": 6,
+          "2": 6,
+          "3": 0
+        },
+        "witnessedCharacters": [
+          "alexei",
+          "ekaterina"
+        ],
+        "access": {
+          "officialRecord": 6,
+          "dossierEvidence": 6
+        },
+        "relationships": {
+          "alexei": 6,
+          "ekaterina": 6
+        },
+        "risk": 1.5,
+        "routedDocuments": 12,
+        "readDocuments": 12
+      },
+      "screenshot": "artifacts/v28-browser/endings/ending-khomyakov.png",
+      "pageErrors": []
+    },
+    {
+      "expectedEnding": "UVAROV",
+      "actualEnding": "UVAROV",
+      "title": "봉인된 기록의 안쪽",
+      "pattern": [
+        0,
+        1,
+        2
+      ],
+      "endingState": {
+        "completedCaseCount": 12,
+        "choiceCounts": {
+          "1": 4,
+          "2": 4,
+          "3": 4
+        },
+        "witnessedCharacters": [
+          "alexei",
+          "ekaterina",
+          "pavel"
+        ],
+        "access": {
+          "officialRecord": 4,
+          "dossierEvidence": 4,
+          "crossBorder": 4
+        },
+        "relationships": {
+          "alexei": 4,
+          "ekaterina": 4,
+          "pavel": 4
+        },
+        "risk": 5,
+        "routedDocuments": 12,
+        "readDocuments": 12
+      },
+      "screenshot": "artifacts/v28-browser/endings/ending-uvarov.png",
+      "pageErrors": []
+    }
+  ]
+}

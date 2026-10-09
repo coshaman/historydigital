@@ -1,0 +1,142 @@
+{
+  "schemaVersion": "V28-PERFORMANCE-HEADED-1",
+  "status": "PASS",
+  "environment": "Playwright Chromium headed foreground on current host; renderer inspected separately; not a universal hardware claim",
+  "maxP95FrameMs": 33,
+  "maxInteractionMs": 534.5,
+  "warning": null,
+  "samples": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "run": 1,
+      "metrics": {
+        "frameCount": 65,
+        "medianFrameMs": 10.400000095367432,
+        "p95FrameMs": 33,
+        "renderer": "WebKit WebGL",
+        "softwareRenderer": false
+      },
+      "latencies": {
+        "choiceToReactionMs": 54.299999952316284,
+        "reactionToInspectionMs": 56.89999997615814,
+        "excerptReadingMs": 352.89999997615814,
+        "inspectionToAftermathMs": 65,
+        "aftermathToNextCaseMs": 64
+      },
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "run": 2,
+      "metrics": {
+        "frameCount": 87,
+        "medianFrameMs": 9.5,
+        "p95FrameMs": 18.199999928474426,
+        "renderer": "WebKit WebGL",
+        "softwareRenderer": false
+      },
+      "latencies": {
+        "choiceToReactionMs": 55.10000002384186,
+        "reactionToInspectionMs": 54.39999997615814,
+        "excerptReadingMs": 328.60000002384186,
+        "inspectionToAftermathMs": 72.40000009536743,
+        "aftermathToNextCaseMs": 69
+      },
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "run": 3,
+      "metrics": {
+        "frameCount": 75,
+        "medianFrameMs": 11,
+        "p95FrameMs": 21.699999928474426,
+        "renderer": "WebKit WebGL",
+        "softwareRenderer": false
+      },
+      "latencies": {
+        "choiceToReactionMs": 58.299999952316284,
+        "reactionToInspectionMs": 74.10000002384186,
+        "excerptReadingMs": 534.5,
+        "inspectionToAftermathMs": 63,
+        "aftermathToNextCaseMs": 50.799999952316284
+      },
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "run": 1,
+      "metrics": {
+        "frameCount": 89,
+        "medianFrameMs": 10.399999976158142,
+        "p95FrameMs": 15.700000047683716,
+        "renderer": "WebKit WebGL",
+        "softwareRenderer": false
+      },
+      "latencies": {
+        "choiceToReactionMs": 66,
+        "reactionToInspectionMs": 50.5,
+        "excerptReadingMs": 289.5,
+        "inspectionToAftermathMs": 57.39999997615814,
+        "aftermathToNextCaseMs": 53.39999997615814
+      },
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "run": 2,
+      "metrics": {
+        "frameCount": 82,
+        "medianFrameMs": 11,
+        "p95FrameMs": 18.699999928474426,
+        "renderer": "WebKit WebGL",
+        "softwareRenderer": false
+      },
+      "latencies": {
+        "choiceToReactionMs": 61.60000002384186,
+        "reactionToInspectionMs": 66.70000004768372,
+        "excerptReadingMs": 390,
+        "inspectionToAftermathMs": 61.89999997615814,
+        "aftermathToNextCaseMs": 49.89999997615814
+      },
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "run": 3,
+      "metrics": {
+        "frameCount": 83,
+        "medianFrameMs": 10.899999976158142,
+        "p95FrameMs": 19.399999976158142,
+        "renderer": "WebKit WebGL",
+        "softwareRenderer": false
+      },
+      "latencies": {
+        "choiceToReactionMs": 56.10000002384186,
+        "reactionToInspectionMs": 53.700000047683716,
+        "excerptReadingMs": 307.5,
+        "inspectionToAftermathMs": 62.90000009536743,
+        "aftermathToNextCaseMs": 64.39999997615814
+      },
+      "pageErrors": []
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+issueId,severity,status,evidence,fix
+V28-BASELINE-META,P2,CLOSED,PLAYER_VISIBLE_COPY_INVENTORY.csv,legacy source strings are unreachable from the V28 production route and browser-verified clear
+V28-LEGACY-MOBILE-OVERFLOW,P1,CLOSED,../v21/BROWSER_QA_V21.json,renderGold now removes the V28-only route class before mounting legacy scenes; desktop and mobile browser QA both PASS
+V28-200P-TEXT-ZOOM,P2,CLOSED,../artifacts/v28-browser/zoom-200p/V28_200P_ZOOM_EVIDENCE.json,headed Chromium 200% evidence with scrollable full choice access

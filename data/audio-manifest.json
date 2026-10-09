@@ -1,0 +1,8 @@
+{
+  "policy":"No bundled copyrighted recordings; all route sounds are short Web Audio synthesis authored in three-walk.js.",
+  "events":[
+    {"id":"northwest-wind","use":"low-pass noise bed during courier traversal","source":"Web Audio generated noise","license":"original project code","period_note":"weather ambience only; no modern recording"},
+    {"id":"wet-cobble-step","use":"triangle transient on movement key release","source":"Web Audio oscillator","license":"original project code","period_note":"stylized low-volume footstep cue"},
+    {"id":"distant-bell","use":"sparse bell tone every nine seconds","source":"Web Audio sine decay","license":"original project code","period_note":"period-appropriate spatial suggestion, not a claimed recorded bell"}
+  ]
+}

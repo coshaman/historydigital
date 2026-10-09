@@ -1,0 +1,8 @@
+{
+  "claims": [
+    {"id":"C-E02-1","text":"Насильный брак appeared in the 1847 Severnaya Pchela packet and was discussed in Petersburg.","sourceIds":["SRC-E02-PCH","SRC-NIK-1847"],"evidence":"DOCUMENTED"},
+    {"id":"C-E04-1","text":"The 5 July order and 8 July Petersburg communication are fixed administrative events.","sourceIds":["SRC-SHEV-ORD"],"evidence":"DOCUMENTED"},
+    {"id":"C-E07-1","text":"The dossier distinguishes attendance, possession, copying, circulation, reading aloud, and correspondence.","sourceIds":["SRC-PET-1849"],"evidence":"DOCUMENTED"},
+    {"id":"C-ROUTE-1","text":"The 180–300 m walk is a reconstructed narrative route informed by period maps and panorama references.","sourceIds":["SRC-PLAN-1840","SRC-SAD-1835"],"evidence":"RECONSTRUCTED"}
+  ]
+}

@@ -1,0 +1,58 @@
+import { chromium } from 'playwright';
+
+const browser = await chromium.launch({headless:true});
+const context = await browser.newContext({viewport:{width:1440,height:900},deviceScaleFactor:1});
+const page = await context.newPage();
+const errors = [];
+page.on('pageerror', error => errors.push(String(error)));
+await page.goto('http://127.0.0.1:4173/', {waitUntil:'domcontentloaded', timeout:15000});
+await page.waitForFunction(() => window.__goldRuntime && window.__threeRuntime, null, {timeout:15000});
+await page.evaluate(() => localStorage.removeItem('chancery-gold-runtime-v1'));
+await page.reload({waitUntil:'domcontentloaded'}); await page.waitForFunction(() => window.__goldRuntime && window.__threeRuntime, null, {timeout:15000});
+const runtime = await page.evaluate(() => ({gold:window.__goldRuntime.cases, three: {loaded:window.__threeRuntime.loaded, local:window.__threeRuntime.local, fallback:window.__threeRuntime.fallback, metrics:window.__threeRuntime.getMetrics?.()}}));
+if (JSON.stringify(runtime.gold) !== JSON.stringify(['E02','E05','E07'])) throw new Error(`gold cases ${JSON.stringify(runtime.gold)}`);
+if (!runtime.three.loaded || !runtime.three.local || runtime.three.fallback || !runtime.three.metrics?.drawCalls) throw new Error(`local WebGL gate failed: ${JSON.stringify(runtime.three)}`);
+const visiblePairCheck = async (caseId) => {
+  await page.evaluate(id => window.__goldRuntime.renderGold(id), caseId);
+  const pairIds = await page.locator('.gold-excerpt').evaluateAll(cards => cards.map(card => ({ru:card.querySelector('.gold-ru')?.dataset.excerptId, ko:card.querySelector('.gold-ko')?.dataset.excerptId})));
+  const expected = caseId === 'E05' ? (await page.evaluate(() => window.__goldRuntime.getState().subSceneId === 'E05-B' ? 2 : 3)) : 5;
+  if (pairIds.length !== expected || pairIds.some(pair => !pair.ru || pair.ru !== pair.ko)) throw new Error(`${caseId}: RU/KO mapping mismatch ${JSON.stringify(pairIds)}`);
+  for (const card of await page.locator('.gold-excerpt').all()) { await card.click(); const ids = await page.locator('#sourceTranscription,#sourceTranslation').evaluateAll(elements => elements.map(element => element.dataset.excerptId)); if (ids[0] !== ids[1]) throw new Error(`${caseId}: drawer mapping mismatch`); }
+};
+await visiblePairCheck('E02');
+const e02Text = await page.locator('body').innerText();
+if (/14 января 1847|Листъ 11|Есть союзы, заключённые не сердцем, а печатью/.test(e02Text)) throw new Error('E02 legacy newspaper prose/date remains visible');
+await page.locator('#reply').fill('발행일과 반응일을 분리해 기록합니다.');
+await page.locator('#submitReply').click();
+if (await page.locator('#choiceArea button').count() !== 3) throw new Error('E02 does not expose three concrete choices');
+await page.locator('#choiceArea button').first().click();
+if (await page.locator('#choiceArea button').count() !== 2) throw new Error('E02 does not expose physical exit choices');
+await page.locator('#choiceArea button').first().click();
+await page.locator('#saveBtn').click();
+const savedExcerpt = await page.locator('.gold-excerpt.selected').getAttribute('data-excerpt-id');
+await page.reload({waitUntil:'domcontentloaded'}); await page.waitForFunction(() => window.__goldRuntime);
+if (await page.locator('.gold-excerpt.selected').getAttribute('data-excerpt-id') !== savedExcerpt) throw new Error('save/reload did not preserve excerpt');
+const drawerState = async (caseId, subSceneId = null) => {
+  await page.evaluate(({id,sub}) => { if (sub) window.__goldRuntime.getState().subSceneId = sub; window.__goldRuntime.renderGold(id); window.__goldRuntime.openGoldDrawer(); }, {id:caseId,sub:subSceneId});
+  const text = await page.locator('#sourceDrawer').innerText();
+  const expected = caseId === 'E02' ? ['북방의 벌','니키텐코'] : caseId === 'E05' ? (subSceneId === 'E05-B' ? ['고골의 벨린스키행'] : ['벨린스키가 고골에게']) : ['페트라셰프스키'];
+  if (!expected.some(term => text.includes(term))) throw new Error(`${caseId}/${subSceneId}: wrong drawer ${text}`);
+  const forbidden = caseId === 'E02' ? ['벨린스키','페트라셰프스키'] : caseId === 'E05' ? ['로스토프치나','페트라셰프스키'] : ['로스토프치나','벨린스키'];
+  if (forbidden.some(term => text.includes(term))) throw new Error(`${caseId}/${subSceneId}: stale drawer text ${text}`);
+  await page.locator('#closeDrawer').click();
+};
+await drawerState('E02');
+await drawerState('E05', 'E05-A');
+await drawerState('E07');
+await drawerState('E02');
+await page.evaluate(() => { window.__goldRuntime.getState().subSceneId = 'E05-A'; window.__goldRuntime.renderGold('E05'); window.__goldRuntime.openGoldDrawer(); });
+await page.locator('#saveBtn').click(); await page.reload({waitUntil:'domcontentloaded'}); await page.waitForFunction(() => window.__goldRuntime && window.__threeRuntime, null, {timeout:15000}); await page.evaluate(() => window.__goldRuntime.openGoldDrawer());
+if (!(await page.locator('#sourceDrawer').innerText()).includes('벨린스키가 고골에게')) throw new Error('save/reload E05 drawer contaminated');
+await page.locator('#closeDrawer').click();
+await visiblePairCheck('E05'); await page.evaluate(() => { window.__goldRuntime.getState().subSceneId = 'E05-B'; window.__goldRuntime.renderGold('E05'); }); await visiblePairCheck('E05'); await visiblePairCheck('E07');
+const forbidden = await page.locator('body').innerText();
+const forbiddenMatches = forbidden.match(/LEGALISM|WESTERNISM|PRESS_FREEDOM|RADICAL_ACTION|route affinity|evidence count|C01|CP01|SRC-/g) || [];
+if (forbiddenMatches.length) throw new Error(`production debug language is visible: ${forbiddenMatches.join(',')}`);
+if (errors.length) throw new Error(errors.join('\n'));
+console.log(JSON.stringify({goldCases:runtime.gold, localThree:runtime.three, pairMapping:'15/15 PASS (E05 3+2 split)', transitionMatrix:'5/5 PASS', saveReload:'PASS', debugLanguage:'0 visible'}, null, 2));
+await browser.close();

@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "v6-gold-0.1",
+  "policy": {
+    "sourceFirst": true,
+    "directQuoteRequiresPrimary": true,
+    "catalogPageIsNotScan": true,
+    "runtimeCases": ["E02", "E05", "E07"]
+  },
+  "cases": [
+    {
+      "caseId": "E02",
+      "titleKo": "로스토프치나의 〈강제 결혼〉",
+      "sceneDate": "1847-01-05",
+      "datePrecision": "DAY",
+      "earliest": "1847-01-05",
+      "latest": "1847-01-05",
+      "displayDate": "1847년 1월 5일",
+      "historicalOutcome": "니키텐코의 기록에 남은 오독과 검열 논의는 고정된다. 서기는 문구를 바꿔 역사적 반응을 만들 수 없다.",
+      "sources": [
+        {"sourceId":"E02-S1","titleRu":"Северная пчела, 1846, № 284","titleKo":"《북방의 벌》 1846년 284호","sourceDate":"1846-12-17","authorOrIssuer":"редакция Северной пчелы; Е. П. Ростопчина","publication":"Северная пчела","issue":"№ 284","page":"1136; issue viewer, 4 pp.","archive":"РНБ / НЭБ","catalogId":"000200_000018_RU_NLR_DIGIT_93810","stableUrl":"https://rusneb.ru/catalog/000200_000018_RU_NLR_DIGIT_93810/","scanUrl":"https://rusneb.ru/catalog/000200_000018_RU_NLR_DIGIT_93810/","scanAccess":"НЭБ catalogue viewer and PDF access","displayCapability":"REMOTE_ARCHIVE_VIEWER","locator":"№ 284 (17 дек. 1846), poem headed Насильный брак","role":"PRIMARY_IN_WORLD","rights":"public-domain publication; repository delivery terms apply"},
+        {"sourceId":"E02-S2","titleRu":"Насильный брак","titleKo":"〈강제 결혼〉 현대 전사본","sourceDate":"1845","authorOrIssuer":"Евдокия Ростопчина","publication":"Ростопчина, Насильный брак; later text witness","issue":"poem text","page":"opening stanza","archive":"digital text witness","catalogId":"ROSTOPCHINA-NASILNYJ-BRAK-TEXT","stableUrl":"https://slova.org.ru/rostopchina/nasil-nyj-brak/","displayCapability":"MODERN_TRANSCRIPTION","locator":"opening stanza; text witness, not the 1846 issue scan","role":"PRIMARY_CONTEXT","rights":"public-domain poem; linked text witness"},
+        {"sourceId":"E02-S3","titleRu":"Дневник. Том I, запись 4 января 1847 года","titleKo":"니키텐코 《일기》 1847년 1월 4일 기록","sourceDate":"1847-01-04","authorOrIssuer":"Александр Васильевич Никитенко","publication":"Дневник. Том I. 1825–1855 гг.","issue":"4 января 1847 года","page":"digital page 141","archive":"Wikisource / cited diary edition","catalogId":"NIKITENKO-DIARY-I-1847-01-04","stableUrl":"https://ru.wikisource.org/wiki/Дневник._Том_1_(Никитенко)","displayCapability":"MODERN_TRANSCRIPTION","locator":"4 января 1847 года; entry on № 284 and Насильный брак","role":"PRIMARY_CONTEXT","rights":"nineteenth-century diary public domain; transcription attribution retained"}
+      ],
+      "excerpts": [
+        {"excerptId":"E02-X1","caseId":"E02","sourceId":"E02-S1","translationId":"E02-X1-ko","sourceDate":"1846-12-17","sceneDate":"1847-01-05","ru":"Насильный брак","ko":"〈강제 결혼〉","locator":"№ 284 (17 дек. 1846), heading","evidenceKind":"PRIMARY_CONTEXT","displayMode":"scan+transcription","runtime":true},
+        {"excerptId":"E02-X2","caseId":"E02","sourceId":"E02-S2","translationId":"E02-X2-ko","sourceDate":"1845","sceneDate":"1847-01-05","ru":"Сбирайтесь, слуги и вассалы,","ko":"모여라, 하인들과 가신들이여,","locator":"opening stanza, line 1","evidenceKind":"PRIMARY_TEXT","displayMode":"transcription","runtime":true},
+        {"excerptId":"E02-X3","caseId":"E02","sourceId":"E02-S2","translationId":"E02-X3-ko","sourceDate":"1845","sceneDate":"1847-01-05","ru":"На кроткий господина зов!","ko":"온순한 주인의 부름에 모여라!","locator":"opening stanza, line 2","evidenceKind":"PRIMARY_TEXT","displayMode":"transcription","runtime":true},
+        {"excerptId":"E02-X4","caseId":"E02","sourceId":"E02-S3","translationId":"E02-X4-ko","sourceDate":"1847-01-04","sceneDate":"1847-01-05","ru":"В N 284 за 17 декабря «Северной пчелы» напечатано несколько стихотворений графини Ростопчиной и, между прочим, баллада: «Насильный брак».","ko":"12월 17일자 《북방의 벌》 284호에는 로스토프치나 백작부인의 시 몇 편과 발라드 〈강제 결혼〉이 실렸다.","locator":"4 января 1847 года; diary entry","evidenceKind":"PRIMARY_TEXT","displayMode":"transcription","runtime":true},
+        {"excerptId":"E02-X5","caseId":"E02","sourceId":"E02-S3","translationId":"E02-X5-ko","sourceDate":"1847-01-04","sceneDate":"1847-01-05","ru":"И цензура и публика сначала поняли так, что графиня Ростопчина говорит о своих собственных отношениях к мужу.","ko":"검열 당국과 독자는 처음에는 로스토프치나가 자신의 남편과의 관계를 말한 것으로 이해했다.","locator":"4 января 1847 года; diary entry","evidenceKind":"PRIMARY_TEXT","displayMode":"transcription","runtime":true}
+      ],
+      "decisions":["284호와 발라드 제목을 원문 그대로 대조한다.","풍자 대상에 대한 추측을 사실처럼 문서에 덧붙이지 않는다.","니키텐코의 1월 4일 기록을 후대의 1월 14일 자료로 바꾸지 않는다."],
+      "followUp":{"speaker":"Никитенко","lines":["Запись оставьте рядом с номером газеты.","Толки города — не новая дата публикации."],"sourceIds":["E02-S3"]}
+    },
+    {
+      "caseId": "E05",
+      "titleKo": "벨린스키와 고골의 1847년 서신",
+      "sceneDate":"1847-07-15",
+      "datePrecision":"DAY",
+      "earliest":"1847-07-15",
+      "latest":"1847-07-15",
+      "displayDate":"1847년 7월 15일",
+      "subScenes":[
+        {"subSceneId":"E05-A","label":"E05-A · 1847년 7월 15일","sceneDate":"1847-07-15","datePrecision":"DAY","earliest":"1847-07-15","latest":"1847-07-15","displayDate":"1847년 7월 15일","opening":"벨린스키가 7월 15일 고골에게 보낸 편지가 먼저 도착했습니다. 아직 고골의 답변 초안은 책상에 없습니다.","excerptIds":["E05-X1","E05-X2","E05-X5"],"sourceIds":["E05-S1","E05-S3"]},
+        {"subSceneId":"E05-B","label":"E05-B · 1847년 7월 말–8월 초","sceneDate":"1847-08-10","datePrecision":"RANGE","earliest":"1847-07-25","latest":"1847-08-10","displayDate":"1847년 7월 말–8월 초","opening":"며칠 뒤 고골의 답변 초안이 도착했습니다. 앞서 읽은 편지와 나란히 놓고 확인합니다.","excerptIds":["E05-X3","E05-X4"],"sourceIds":["E05-S2"]}
+      ],
+      "historicalOutcome":"벨린스키의 공개 비판과 고골의 답변 초안은 각각의 문서로 남는다. 어느 쪽도 상대의 실제 문장을 삭제해 화해나 결별을 연출할 수 없다.",
+      "sources":[
+        {"sourceId":"E05-S1","titleRu":"Письмо Н. В. Гоголю 15 июля 1847 г.","titleKo":"벨린스키가 고골에게 보낸 1847년 7월 15일 편지 · 현대 전사본","sourceDate":"1847-07-15","authorOrIssuer":"Виссарион Григорьевич Белинский","recipient":"Николай Васильевич Гоголь","publication":"Викитека transcription; cited source edition","page":"sections 1–5","archive":"Wikisource","catalogId":"WS-BELINSKY-GOGOL-1847-07-15","stableUrl":"https://ru.wikisource.org/wiki/Письмо_Н._В._Гоголю_15_июля_1847_г._(Белинский)","displayCapability":"MODERN_TRANSCRIPTION","locator":"section 1","role":"PRIMARY_IN_WORLD","rights":"nineteenth-century letter public domain; transcription attribution retained"},
+        {"sourceId":"E05-S2","titleRu":"Письмо В. Г. Белинскому, июль—август 1847 г.","titleKo":"고골의 벨린스키행 1847년 7–8월 편지 초안 · 현대 전사본","sourceDate":"1847-07/08","sourceDateStart":"1847-07-25","sourceDateEnd":"1847-08-10","sourceDatePrecision":"range","authorOrIssuer":"Николай Васильевич Гоголь","recipient":"Виссарион Григорьевич Белинский","publication":"Полное собрание сочинений, т. 13 (1952), transcription","page":"pp. 435–446; sections 1–5","archive":"Wikisource / FEB pointer","catalogId":"WS-GOGOL-BELINSKY-1847-07","stableUrl":"https://ru.wikisource.org/wiki/Письмо_В._Г._Белинскому_июль_—_август_1847_г._(Гоголь)","scanUrl":"https://feb-web.ru/feb/gogol/texts/pg2/pg2-490-.htm","scanAccess":"FEB digital page/scan pointer; visual use remains attribution-bound","displayCapability":"MODERN_TRANSCRIPTION","locator":"section 1 and section 4; FEB scan pointer","role":"PRIMARY_IN_WORLD","rights":"nineteenth-century letter public domain; transcription attribution retained"},
+        {"sourceId":"E05-S3","titleRu":"Переписка с В. Г. Белинским, июнь 1847","titleKo":"고골의 1847년 6월 벨린스키 관련 서신 · 현대 전사본","sourceDate":"1847-06","authorOrIssuer":"Николай Васильевич Гоголь","recipient":"Виссарион Григорьевич Белинский","publication":"Викитека correspondence transcription","page":"June letter sections","archive":"Wikisource","catalogId":"WS-GOGOL-BELINSKY-1847-JUNE","stableUrl":"https://ru.wikisource.org/wiki/Переписка_с_В._Г._Белинским_(Гоголь)","displayCapability":"MODERN_TRANSCRIPTION","locator":"June 1847 letter section","role":"PRIMARY_CONTEXT","rights":"nineteenth-century letter public domain; transcription attribution retained"}
+      ],
+      "excerpts":[
+        {"excerptId":"E05-X1","caseId":"E05","sourceId":"E05-S1","translationId":"E05-X1-ko","sourceDate":"1847-07-15","sceneDate":"1847-07-15","ru":"Вы только отчасти правы, увидав в моей статье рассерженного человека.","ko":"당신이 내 글에서 화난 사람을 보았다는 판단은 일부만 맞습니다.","locator":"section 1","evidenceKind":"PRIMARY_TEXT","displayMode":"transcription","runtime":true},
+        {"excerptId":"E05-X2","caseId":"E05","sourceId":"E05-S1","translationId":"E05-X2-ko","sourceDate":"1847-07-15","sceneDate":"1847-07-15","ru":"Ей нужны не проповеди, не молитвы, а пробуждение в народе чувства человеческого достоинства.","ko":"러시아에 필요한 것은 설교도 기도도 아니라, 민중 안에서 인간의 존엄에 대한 감각을 일깨우는 일입니다.","locator":"section 1; Ей refers to Россия in the preceding context","evidenceKind":"PRIMARY_TEXT","displayMode":"transcription","runtime":true},
+        {"excerptId":"E05-X3","caseId":"E05","sourceId":"E05-S2","translationId":"E05-X3-ko","sourceDate":"1847-07/08","sceneDate":"1847-07/08","datePrecision":"RANGE","earliest":"1847-07-25","latest":"1847-08-10","displayDate":"1847년 7월 말–8월 초","ru":"Как далеко вы сбились с прямого пути, в каком вывороченном виде стали перед вами вещи!","ko":"곧은길에서 얼마나 멀리 벗어나셨는지, 사물이 얼마나 뒤집힌 모습으로 눈앞에 서게 되었는지요!","locator":"section 1; FEB scan pointer","evidenceKind":"PRIMARY_TEXT","displayMode":"scan+transcription","runtime":true},
+        {"excerptId":"E05-X4","caseId":"E05","sourceId":"E05-S2","translationId":"E05-X4-ko","sourceDate":"1847-07/08","sceneDate":"1847-07/08","datePrecision":"RANGE","earliest":"1847-07-25","latest":"1847-08-10","displayDate":"1847년 7월 말–8월 초","ru":"Зачем вам с вашей пылкою душою вдаваться в этот омут политический?","ko":"그토록 뜨거운 마음을 지닌 분이 왜 이 정치의 소용돌이로 들어가려 하십니까?","locator":"section 1","evidenceKind":"PRIMARY_TEXT","displayMode":"transcription","runtime":true},
+        {"excerptId":"E05-X5","caseId":"E05","sourceId":"E05-S3","translationId":"E05-X5-ko","sourceDate":"1847-06","sceneDate":"1847-07-15","ru":"Я сам на неё напал и нападаю.","ko":"그 책은 내가 먼저 공격했고, 지금도 공격하고 있습니다.","locator":"June 1847 letter section","evidenceKind":"PRIMARY_TEXT","displayMode":"transcription","runtime":true}
+      ],
+      "decisions":["편지의 발신자와 수신자를 뒤바꾸지 않는다.","공개 비판과 답변 초안을 서로의 직접 발언으로 합치지 않는다.","인용할 문장을 원문과 번역 한 쌍으로 남긴다."],
+      "followUp":{"speaker":"Гоголь","lines":["Письмо должно остаться письмом, а не удобным пересказом.","Сверьте строку с разделом, прежде чем ставить печать."],"sourceIds":["E05-S1","E05-S2"]}
+    },
+    {
+      "caseId":"E07",
+      "titleKo":"페트라셰프스키 수사 기록",
+      "sceneDate":"1849-04-23",
+      "datePrecision":"DAY",
+      "earliest":"1849-04-23",
+      "latest":"1849-04-23",
+      "displayDate":"1849년 4월 23일",
+      "historicalOutcome":"감시와 체포, 판결의 역사적 결과는 고정된다. 서기는 수사 기록의 폴리오를 현대 해설 문장으로 대체할 수 없다.",
+      "sources":[
+        {"sourceId":"E07-S1","titleRu":"Дело по розысканию Липранди и донесениям Антонелли о Буташевиче-Петрашевском и его товарищах, ч. I","titleKo":"리프란디 수사 및 안토넬리 보고에 관한 페트라셰프스키 사건철 1부","sourceDate":"1849","authorOrIssuer":"Третье отделение; Следственная комиссия","publication":"Ф.109 Оп.24 Д.214 ч.I","page":"fols. 3–20; cover","archive":"Государственный архив Российской Федерации","catalogId":"ГА РФ Ф.109 Оп.24 Д.214 ч.I; fols. 3–20","stableUrl":"https://statearchive.ru/722","scanUrl":"https://statearchive.ru/assets/images/2016/petrashevsky/img000.jpg","scanAccess":"GARF page-linked archival cover image","displayCapability":"LOCAL_ORIGINAL_IMAGE","locator":"report copies and Antonelli extracts, folios 3–20; file cover image","role":"PRIMARY_IN_WORLD","rights":"official archive reference; images are not redistributed"},
+        {"sourceId":"E07-S2","titleRu":"Донесение Дубельта о наблюдении","titleKo":"두벨트의 감시 보고","sourceDate":"1849","authorOrIssuer":"Л. В. Дубельт; Третье отделение","publication":"Ф.109 Оп.24 Д.214 ч.I","page":"fols. 44–54","archive":"Государственный архив Российской Федерации","catalogId":"ГА РФ Ф.109 Оп.24 Д.214 ч.I; fols. 44–54","stableUrl":"https://statearchive.ru/722","displayCapability":"METADATA_ONLY","locator":"Dubelt report, folios 44–54","role":"PRIMARY_IN_WORLD","rights":"official archive reference; images are not redistributed"},
+        {"sourceId":"E07-S3","titleRu":"Список приговорённых","titleKo":"선고받은 사람들의 명단","sourceDate":"1849","authorOrIssuer":"Генерал-аудиториат","publication":"Ф.109 Оп.24 Д.214 ч.I","page":"fols. 128–129","archive":"Государственный архив Российской Федерации","catalogId":"ГА РФ Ф.109 Оп.24 Д.214 ч.I; fols. 128–129","stableUrl":"https://statearchive.ru/722","displayCapability":"METADATA_ONLY","locator":"sentenced-person list, folios 128–129","role":"PRIMARY_IN_WORLD","rights":"official archive reference; images are not redistributed"}
+      ],
+      "excerpts":[
+        {"excerptId":"E07-X1","caseId":"E07","sourceId":"E07-S1","translationId":"E07-X1-ko","sourceDate":"1849","sceneDate":"1849-04-23","ru":"Ф.109 Оп.24 Д.214 ч.I","ko":"러시아연방국가문서보관소 109기금 24목록 214사건철 1부","locator":"file identifier; fols. 3–20; cover image","evidenceKind":"ARCHIVAL_METADATA","displayMode":"scan-only","runtime":true},
+        {"excerptId":"E07-X2","caseId":"E07","sourceId":"E07-S1","translationId":"E07-X2-ko","sourceDate":"1849","sceneDate":"1849-04-23","ru":"донесениям Антонелли","ko":"안토넬리의 보고들","locator":"file title; fols. 3–20","evidenceKind":"ARCHIVAL_METADATA","displayMode":"scan-only","runtime":true},
+        {"excerptId":"E07-X3","caseId":"E07","sourceId":"E07-S2","translationId":"E07-X3-ko","sourceDate":"1849","sceneDate":"1849-04-23","ru":"Донесение Дубельта","ko":"두벨트의 보고","locator":"fols. 44–54","evidenceKind":"ARCHIVAL_METADATA","displayMode":"scan-only","runtime":true},
+        {"excerptId":"E07-X4","caseId":"E07","sourceId":"E07-S3","translationId":"E07-X4-ko","sourceDate":"1849","sceneDate":"1849-04-23","ru":"Список приговорённых","ko":"선고받은 사람들의 명단","locator":"fols. 128–129","evidenceKind":"ARCHIVAL_METADATA","displayMode":"scan-only","runtime":true},
+        {"excerptId":"E07-X5","caseId":"E07","sourceId":"E07-S1","translationId":"E07-X5-ko","sourceDate":"1849","sceneDate":"1849-04-23","ru":"Следственная комиссия","ko":"수사위원회","locator":"file issuer; dossier cover and report copies","evidenceKind":"ARCHIVAL_METADATA","displayMode":"scan-only","runtime":true}
+      ],
+      "decisions":["GARF의 현대 설명과 사건철의 원문 지시를 서로 다른 층위로 표시한다.","보고서 폴리오와 선고 명단 폴리오를 하나의 인용으로 합치지 않는다.","판결 결과를 서기의 선택에 따라 바꾸지 않는다."],
+      "followUp":{"speaker":"Следственная комиссия","lines":["Сверьте фонд, опись, дело и лист.","Обзор архива не заменяет лист дела."],"sourceIds":["E07-S1","E07-S2","E07-S3"]}
+    }
+  ]
+}

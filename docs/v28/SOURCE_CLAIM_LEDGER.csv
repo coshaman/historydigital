@@ -1,0 +1,8 @@
+claimId,claimType,sourceRecord,sourceLocator,status
+C01-HISTORY,case,data/v27-case-bundle.json,caseId=C01; sources array,VERIFIED_V27
+C07-HISTORY,case,data/v27-case-bundle.json,caseId=C07; sources array,VERIFIED_V27
+C17-HISTORY,case,data/v27-case-bundle.json,caseId=C17; sources array,VERIFIED_V27
+C24-HISTORY,case,data/v27-case-bundle.json,caseId=C24; sources array,VERIFIED_V27
+V28-CHARACTERS,fictional-character,narrative/CHARACTER_BIBLE.md,Alexei/Ekaterina/Pavel profiles,AUTHORED
+V28-DIALOGUE,fictional-dialogue,narrative/VN_DIALOGUE_GRAPH.json,case nodes and choices,AUTHORED_WITH_CASE_SOURCE_IDS
+V28-ENDINGS,narrative-ending,narrative/ENDING_DIALOGUES.json,five ending records,AUTHORED_WITH_IMMUTABLE_HISTORY_RULE

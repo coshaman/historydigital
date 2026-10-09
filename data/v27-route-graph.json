@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "V27-ROUTE-GRAPH-1",
+  "purpose": "Normal V27 journey selects a historical branch from issue state; skipped cases remain accessible from the ledger and are not marked experienced.",
+  "transitions": {
+    "C01": [{"to": "C03", "requires": {"stateAuthority": 1}}, {"to": "C14", "requires": {"pressFreedom": 1}}, {"to": "C02"}],
+    "C02": [{"to": "C03"}],
+    "C03": [{"to": "C14", "requires": {"literaturePublicRole": 1}}, {"to": "C04"}],
+    "C04": [{"to": "C17", "requires": {"socialReform": 1}}, {"to": "C05"}],
+    "C05": [{"to": "C14", "requires": {"pressFreedom": 1}}, {"to": "C06"}],
+    "C06": [{"to": "C17", "requires": {"riskTolerance": 1}}, {"to": "C07"}],
+    "C07": [{"to": "C19", "requires": {"westernism": 1}}, {"to": "C14"}],
+    "C14": [{"to": "C19", "requires": {"pressFreedom": 2}}, {"to": "C17"}],
+    "C17": [{"to": "C21", "requires": {"socialReform": 2}}, {"to": "C19"}],
+    "C19": [{"to": "C21", "requires": {"westernism": 2}}, {"to": "C24"}],
+    "C21": [{"to": "C24"}]
+  }
+}

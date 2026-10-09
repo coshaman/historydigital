@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#181512" />
+  <title>잉크의 관청 · 상트페테르부르크 1847</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23181512'/%3E%3Cpath d='M8 24 22 8l3 3-14 14H8z' fill='%23c6a36a'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="masthead">
+      <div class="seal" aria-hidden="true">§</div>
+      <div><p class="kicker" id="globalPlaceYear">상트페테르부르크 · 1847</p><h1>문서 업무 기록</h1></div>
+      <div class="mast-meta"><span id="dateLabel">1847년 1월 14일</span><span class="rule"></span><span>10등관급 서기관</span></div>
+      <button class="evidence-key" id="evidenceBtn" aria-pressed="false"><kbd>H</kbd> 근거 표시</button>
+    </header>
+
+    <section class="desk" aria-label="검열 관청 업무 책상">
+      <div class="desk-grain"></div>
+      <aside class="left-rail">
+        <div class="rail-label">접수·등록 대장</div>
+        <div class="ledger-line active" data-scene="E02"><span>01</span><b>Насильный брак</b><small>1847.01.14 · 접수</small></div>
+        <div class="ledger-line" data-scene="E04"><span>02</span><b>Петербургская бумага</b><small>1847.07.05 · 봉인</small></div>
+        <div class="ledger-line" data-scene="E07"><span>03</span><b>수사 문서철</b><small>1849 · 열람</small></div>
+        <div class="ledger-rule"></div>
+        <p class="rail-note">세 장의 문서. 한 사람의 손. 역사 기록은 휘지 않는다.</p>
+        <div class="evidence-count"><span>기록된 흔적</span><strong id="evidenceCount">0</strong></div>
+        <div class="role-note"><b>당신의 자리</b><p>현대 한국인인 당신은 이 기록을 읽는 바깥의 독자입니다. 방 안에서는 하급 서기관의 자리로 문서를 넘깁니다.</p></div>
+        <div class="act-index"><b>제3막 · 자료 연표</b><button data-scene="E01">1836년 모스크바 잡지 (Телескоп)</button><button data-scene="E03">1847년 편집부 자료 (Современник)</button><button data-scene="E05">1847년 벨린스키 / 고골</button><button data-scene="E06">1848년 4월 위원회</button></div>
+        <label class="case-register" for="caseSelector">전체 사건철</label><select id="caseSelector" aria-label="24개 사건철 선택"><option value="C13">C13 · 페트라셰프스키 모임의 초기 환경</option></select>
+      </aside>
+
+      <section class="document-stage">
+        <div class="incoming-slip"><span>접수 / КАНЦЕЛЯРИЯ</span><span id="slipNo">№ 17</span></div>
+        <canvas id="deskCanvas" aria-label="서기관의 1847년 책상과 문구류"></canvas>
+        <div class="physical-tools" aria-label="책상 위 도구">
+          <button class="desk-object ledger-object" id="ledgerObject" type="button"><span>등록부</span><small>접수 번호와 문서 순서</small></button>
+          <button class="desk-object notebook-object" id="notebookObject" type="button"><span>개인 수첩</span><small>공식 기록 밖의 한 줄</small></button>
+          <button class="desk-object docket-object" id="docketObject" type="button"><span>상신 쪽지</span><small id="docketText">이번 문서에서 먼저 볼 대목</small></button>
+        </div>
+        <div class="petersburg-window" id="petersburgWindow" role="button" tabindex="0" aria-label="창밖 상트페테르부르크 보기">
+          <div class="window-jamb"><div class="window-glazing"><div class="window-sky"><img class="window-plate" src="assets/window-anichkov-1830.jpg" alt="1830년대 안니치코프 다리 풍경 참고 이미지"><i></i><i></i><i></i><i></i><i></i></div><div class="window-mullion" aria-hidden="true"></div></div></div>
+          <div class="window-sill"></div>
+          <span class="window-weather">창밖 · 눈 섞인 북서풍</span>
+        </div>
+        <article class="paper" id="paper" tabindex="0" aria-label="살펴볼 문서">
+          <div class="paper-head"><span id="paperCollection">Сѣверная пчела</span><span id="paperIssue">검토용 전사본</span></div>
+          <div class="paper-title"><span id="paperDate">14 января 1847</span><h2 id="paperTitle">Насильный<br/>брак</h2><p id="paperSub">разговоръ о частномъ, услышанный въ государственномъ</p></div>
+          <div class="paper-columns" id="paperColumns"><p>Есть союзы, заключённые не сердцем, а печатью. В них каждый день кажется мирным, пока сосед не прочтёт договор вслух.</p><p>Редактор оставляет слова на месте; читатель знает, куда они смотрят. <mark data-source="SRC-E02-PCH">Отметьте место, где частное перестаёт быть частным.</mark></p><p class="faded-line">Въ типографской комнате пахнетъ свинцомъ, мокрой шерстью и ожиданиемъ.</p></div>
+          <div class="paper-translation" id="paperTranslation"><b>한국어 번역</b><p>마음이 아니라 인장으로 맺어진 결합이 있다. 이 문장은 사적인 혼인 이야기를 가장하지만, 독자는 그 너머의 국가와 관계를 읽어낼 수 있다.</p></div>
+          <div class="paper-stamp" id="paperStamp">대조 중</div>
+          <div class="paper-footer"><span id="paperFooterLabel">자료철 · E02</span><span class="paper-fold"></span></div>
+        </article>
+        <section class="notebook-closeup" id="notebookCloseup" hidden aria-label="개인 수첩 페이지">
+          <button class="close-physical" id="closeNotebook" type="button">수첩 닫기 ×</button>
+          <p class="kicker">개인 수첩 · 비공식 페이지</p>
+          <h2>오늘 남길 한 줄</h2>
+          <p class="notebook-prompt">공식 보고서와 분리해, 다음 문서를 읽을 때 기억할 내용을 적으십시오.</p>
+          <textarea id="notebookPageInput" rows="7" maxlength="180" placeholder="잉크가 종이에 스미는 동안…"></textarea>
+          <div class="notebook-page-footer"><span>상트페테르부르크 · 1847</span><button class="ink-button" id="saveNotebookPage" type="button">페이지에 저장</button></div>
+        </section>
+        <div class="paper-tools"><button class="source-tab" id="sourceBtn"><span>⌁</span> 자료철 열기</button><button class="translation-tab" id="translationBtn">번역 접기</button></div>
+      </section>
+
+      <aside class="right-rail">
+        <div class="rail-label">서기관의 메모</div>
+        <div class="current-task" id="currentTask"><strong>현재 할 일</strong><span>한국어 번역을 확인한 뒤, 검토할 문장을 표시하십시오.</span></div><p class="instruction" id="instruction">표시된 문장을 읽고, 이 문서를 어떻게 처리할지 정하십시오.</p><div id="caseReviewList" class="case-review-list" hidden></div>
+        <div class="mark-list" id="markList"><span class="empty-mark">아직 남긴 표시가 없습니다.</span></div>
+        <div class="route-state" id="routeState" aria-live="polite"><b>현재 경로</b><span>기사 반응이 다음 문서·사람·초대를 바꿉니다.</span></div>
+        <div class="desk-clock"><span class="clock-face" id="globalYear">1847</span><span>상트페테르부르크 시각</span></div>
+      </aside>
+
+      <div class="dialogue-strip">
+        <div class="v28-portrait" id="v28Portrait"><img class="portrait-image" alt="현재 대화 상대의 초상" /><span class="portrait-shadow"></span></div>
+        <div class="speaker-tag"><span class="speaker-dot"></span><span id="speaker">니키텐코의 일기 여백</span></div>
+        <p id="dialogue">В городе уже говорят о браке, хотя бумага ещё делает вид, будто речь только о доме.</p>
+        <aside class="memo-callback" id="memoCallback" hidden><strong>지난 기록</strong><span id="memoCallbackText"></span></aside>
+        <div class="response-area" id="responseArea">
+          <label for="reply">개인 메모</label>
+          <textarea id="reply" rows="2" maxlength="180" placeholder="공식 보고서와 별도로 남길 한 문장을 쓰십시오…"></textarea>
+          <button class="ink-button" id="submitReply">개인 메모 저장 <span>↗</span></button>
+        </div>
+        <div class="choice-area" id="choiceArea" hidden></div>
+      </div>
+        <div class="ledger-overlay" id="ledgerOverlay" hidden><button class="close-physical" id="closeLedger" type="button">닫기 ×</button><p class="kicker">등록부 · 상트페테르부르크</p><h2>오늘 넘겨받은 문서</h2><button data-ledger-scene="E02" type="button">01 · 강제 결혼 · 1846년 12월 17일</button><button data-ledger-scene="CENSORSHIP_CASE_1847_07" type="button">02 · 1847년 7월 검열 행정 처리</button><button data-ledger-scene="E05" type="button">03 · 벨린스키 / 고골 서신 · 1847년</button><button data-ledger-scene="PERIODICAL_REVIEW_GOLD_1847" type="button">04 · 1847년 8월 정기간행물 검토</button><button data-ledger-scene="E07" type="button">05 · 페트라셰프스키 사건철 · 1849년</button><hr/><p class="kicker">신규 시범 자료</p><button data-ledger-scene="C06" type="button">06 · 레르몬토프 결투 수사 · 1841년</button><button data-ledger-scene="C07" type="button">07 · 《죽은 혼》 출판 검열 · 1842년</button><button data-ledger-scene="C19" type="button">19 · 1848년 유럽 소식과 정기간행물</button></div>
+    </section>
+
+    <footer class="bottom-bar"><span>서류 전달 기록</span><span>H · 근거 표시</span><button id="saveBtn" class="plain-button">기록 저장</button><button id="loadBtn" class="plain-button">기록 불러오기</button><button id="walkBtn" class="walk-button">다음 문서 전달 <span>→</span></button></footer>
+  </main>
+
+  <div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
+    <aside class="source-drawer" id="sourceDrawer" aria-label="연결 자료철" aria-hidden="true">
+    <button class="close-drawer" id="closeDrawer" aria-label="자료 서랍 닫기">×</button>
+    <p class="kicker" id="drawerKicker">자료철 / E02</p><h2>연결된 자료철</h2><figure class="reference-figure"><img id="referenceImage" alt="시대 자료 참고 이미지" hidden /><figcaption id="referenceCaption"></figcaption></figure>
+    <div class="drawer-entry"><strong id="sourceIdA">SRC-E02-PCH</strong><span id="sourceMetaA">НЭБ / Северная пчела · 1847년 1월 14일</span><p id="sourceContextA">11호 「Насильный брак」의 표제와 관련 기록입니다.</p><a id="sourceLinkA" href="https://rusneb.ru/" target="_blank" rel="noreferrer">보존기관 기록 ↗</a></div>
+    <div class="drawer-entry"><strong id="sourceIdB">SRC-NIK-1847</strong><span id="sourceMetaB">А. В. 니키텐코 일기 · 1847년 1월 18일</span><p id="sourceContextB">상트페테르부르크의 소문과 공식 반응을 보여주는 일기 자료입니다.</p><a id="sourceLinkB" href="https://runivers.ru/" target="_blank" rel="noreferrer">판본 참고 ↗</a></div>
+    <section class="source-reading" aria-label="연결 자료 보기"><div class="source-reading-tabs"><button id="scanTab" class="active">원본 이미지</button><button id="transcriptionTab">현대 전사</button><button id="translationTab">한국어 번역</button><button id="bibliographyTab">서지 정보</button></div><figure class="source-scan"><img id="sourceScanImage" alt="연결된 원본 자료" hidden><figcaption id="sourceScanCaption">연결된 원본 자료와 전사를 구분해 확인합니다.</figcaption></figure><pre id="sourceTranscription" hidden></pre><p id="sourceTranslation" hidden></p><pre id="sourceBibliography" hidden></pre><div id="caseEvidenceList" class="case-evidence-list" hidden></div><div class="source-actions"><button id="underlineAction">문장 표시</button><button id="marginAction">여백 메모</button><button id="stampAction">자료철에 넣기</button></div></section>
+    <div class="drawer-legend"><span class="chip documented">기록됨 · 기록</span><span class="chip inferred">추론됨 · 추론</span><span class="chip reconstructed">재구성됨 · 재구성</span></div>
+  </aside>
+
+  <div class="walk-overlay" id="walkOverlay" hidden><div class="walk-scene"><div class="sky"></div><div class="facade facade-a"><i></i><i></i><i></i><i></i></div><div class="facade facade-b"><i></i><i></i><i></i></div><div class="street"><span class="route-line"></span><span class="footstep f1">·</span><span class="footstep f2">·</span><span class="carriage">▰</span><span class="lamp">♢</span></div><div class="walk-copy"><p class="kicker">상트페테르부르크 / 1847</p><h2>문서가 손을 바꾼다.</h2><p>젖은 돌길 위로 눈발이 비껴갑니다. 등불을 따라 위원회실까지 서류를 가져가십시오.</p><button id="finishWalk" class="ink-button">다음 문서에 도착</button></div></div></div>
+
+  <div class="ending-overlay" id="endingOverlay" hidden><div class="ending-card"><p class="kicker">대장이 닫힙니다</p><h2 id="endingTitle"></h2><p id="endingDocumented"></p><p id="endingReconstructed"></p><button class="ink-button" id="restart">새 문서 열기</button></div></div>
+  <script type="module" src="app.js"></script>
+  <script type="module" src="gold-runtime.js"></script>
+  <script type="module" src="three-desk.js"></script>
+  <script type="module" src="three-walk.js"></script>
+  <script src="window-view-controller.js"></script>
+  <script src="main20-runtime.js?v=37-20261004"></script>
+</body>
+</html>

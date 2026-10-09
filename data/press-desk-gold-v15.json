@@ -1,0 +1,52 @@
+{
+  "sceneId": "EG-PRESS-02",
+  "sceneDate": "1849-12-31",
+  "datePrecision": "DAY",
+  "earliest": "1849-12-31",
+  "latest": "1849-12-31",
+  "displayDate": "1849년 12월 31일",
+  "role": "편집부 검토 목록을 준비하는 연락 담당 서기",
+  "incoming": [
+    {
+      "itemId": "PRESS2-01",
+      "caseId": "E02",
+      "sourceId": "E02-S1",
+      "excerptId": "E02-X4",
+      "topic": "출판물과 검열의 오독",
+      "issue": "publication-censorship",
+      "sourceDate": "1846-12-17",
+      "latestPossibleDate": "1846-12-17",
+      "provenance": "Северная пчела, 1846, № 284, p. 1136; E02-X4 diary cross-reference"
+    },
+    {
+      "itemId": "PRESS2-02",
+      "caseId": "E05",
+      "sourceId": "E05-S1",
+      "excerptId": "E05-X2",
+      "topic": "민중의 인간 존엄과 문학 비평",
+      "issue": "literature-social-criticism",
+      "sourceDate": "1847-07-15",
+      "latestPossibleDate": "1847-07-15",
+      "provenance": "Письмо Н. В. Гоголю 15 июля 1847 г., section 1"
+    },
+    {
+      "itemId": "PRESS2-03",
+      "caseId": "E07",
+      "sourceId": "E07-S1",
+      "excerptId": "E07-X1",
+      "topic": "공식 감시와 사건철의 근거",
+      "issue": "official-surveillance-dossier",
+      "sourceDate": "1849",
+      "latestPossibleDate": "1849-12-31",
+      "sourceDatePrecision": "YEAR",
+      "provenance": "Ф.109 Оп.24 Д.214 ч.I, fols. 3–20; file cover and report copies"
+    }
+  ],
+  "constraints": {
+    "sourceDateAtMostSceneDate": true,
+    "availabilityRule": "latestPossibleDate <= earliestPossibleDate",
+    "fakeArticle": false,
+    "distinctTopics": 3,
+    "allPrimaryInWorld": true
+  }
+}

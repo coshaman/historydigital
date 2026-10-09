@@ -1,0 +1,52 @@
+{
+  "status": "FAIL",
+  "caseCount": 24,
+  "nodeCount": 528,
+  "choiceCount": 72,
+  "uniqueUtteranceCount": 390,
+  "repeatedUtteranceCount": 138,
+  "endingCount": 5,
+  "normalRunCaseIds": [
+    "C01",
+    "C02",
+    "C03",
+    "C04",
+    "C05",
+    "C06",
+    "C07",
+    "C14",
+    "C17",
+    "C21",
+    "C19",
+    "C24"
+  ],
+  "failures": [
+    "V28-C01-CHOICE-3: not a spoken player action",
+    "V28-C02-CHOICE-3: not a spoken player action",
+    "V28-C03-CHOICE-3: not a spoken player action",
+    "V28-C04-CHOICE-3: not a spoken player action",
+    "V28-C05-CHOICE-3: not a spoken player action",
+    "V28-C06-CHOICE-3: not a spoken player action",
+    "V28-C07-CHOICE-3: not a spoken player action",
+    "V28-C08-CHOICE-3: not a spoken player action",
+    "V28-C09-CHOICE-3: not a spoken player action",
+    "V28-C10-CHOICE-3: not a spoken player action",
+    "V28-C11-CHOICE-3: not a spoken player action",
+    "V28-C12-CHOICE-3: not a spoken player action",
+    "V28-C13-CHOICE-3: not a spoken player action",
+    "V28-C14-CHOICE-3: not a spoken player action",
+    "V28-C15-CHOICE-3: not a spoken player action",
+    "V28-C16-CHOICE-3: not a spoken player action",
+    "V28-C17-CHOICE-3: not a spoken player action",
+    "V28-C18-CHOICE-3: not a spoken player action",
+    "V28-C19-CHOICE-3: not a spoken player action",
+    "V28-C20-CHOICE-3: not a spoken player action",
+    "V28-C21-CHOICE-3: not a spoken player action",
+    "V28-C22-CHOICE-3: not a spoken player action",
+    "V28-C23-CHOICE-3: not a spoken player action",
+    "V28-C24-CHOICE-3: not a spoken player action"
+  ],
+  "warnings": [
+    "repeated utterances=138"
+  ]
+}

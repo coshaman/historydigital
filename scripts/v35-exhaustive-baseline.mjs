@@ -1,0 +1,24 @@
+import fs from 'node:fs';
+const data = JSON.parse(fs.readFileSync('narrative/MAIN_20MIN_DIALOGUE.json', 'utf8'));
+const people = { alexei: 0, ekaterina: 0, pavel: 0 };
+const canonical = {
+  UVAROV: { C03: [0, 0], C06: [0, 0], C07: [0, 0], E02: [1, 1], E07: [1, 1] },
+  BELINSKY: { C03: [1, 1], C06: [1, 1], C07: [1, 1], E02: [0, 0], E07: [0, 0] },
+  HERZEN: { C03: [2, 2], C06: [2, 2], C07: [2, 2], E02: [2, 2], E07: [2, 2] },
+  KHOMYAKOV: { C03: [1, 1], C06: [1, 1], C07: [2, 2], E02: [1, 1], E07: [3, 3] },
+  DOSTOEVSKY_PETRASHEVSKY: { C03: [2, 2], C06: [2, 2], C07: [1, 1], E02: [0, 2], E07: [0, 0] }
+};
+const sceneIds = data.scenes.map((scene) => scene.id);
+const choices = data.scenes.map((scene) => [scene.choices, scene.postChoices]);
+function sourceFor(route) { const source = { flags: [], relationships: structuredClone(people), history: [] }; for (let i = 0; i < data.scenes.length; i += 1) for (const kind of ['pre_read_choice', 'post_read_choice']) { const choice = kind === 'pre_read_choice' ? choices[i][0][route[i][0]] : choices[i][1][route[i][1]]; source.flags.push(...(choice.flagsAdd || [])); for (const [person, amount] of Object.entries(choice.relationship || {})) source.relationships[person] += amount; source.history.push({ sceneId: sceneIds[i], kind, choiceId: choice.id, action: choice.action, flags: choice.flagsAdd || [] }); } source.flags = [...new Set(source.flags)]; return source; }
+function matches(rule, source) { const actions = new Set(source.history.map((item) => item.action)); const required = rule.requiredActions || rule.actionsAll || []; const forbidden = rule.forbiddenActions || rule.noneFlags || []; const gate = rule.relationshipGate || rule.minRelationships; return (!rule.allFlags || rule.allFlags.every((flag) => source.flags.includes(flag))) && (!rule.noneFlags || rule.noneFlags.every((flag) => !source.flags.includes(flag))) && (!rule.anyFlags || rule.anyFlags.some((flag) => source.flags.includes(flag))) && required.every((action) => actions.has(action)) && !forbidden.some((item) => actions.has(item) || source.flags.includes(item)) && (!gate || Object.entries(gate).every(([person, amount]) => source.relationships[person] >= amount)) && (!rule.minScenes || source.history.filter((item) => item.kind === 'post_read_choice').length >= rule.minScenes); }
+function matched(source) { return data.endings.filter((ending) => matches(ending.rule, source)).map((ending) => ending.id); }
+function routeFromCanonical(item) { return data.scenes.map((scene) => item[scene.id]); }
+const counts = Object.fromEntries(data.endings.map((ending) => [ending.id, 0])); const examples = Object.fromEntries(data.endings.map((ending) => [ending.id, []])); let totalRoutes = 0; let noEndingCount = 0; let multiEndingCount = 0; const routes = [];
+function visit(depth, route) { if (depth === choices.length) { totalRoutes += 1; const result = matched(sourceFor(route)); if (!result.length) noEndingCount += 1; if (result.length > 1) multiEndingCount += 1; if (result.length === 1) { counts[result[0]] += 1; if (examples[result[0]].length < 3) examples[result[0]].push(route.map((pair, index) => ({ sceneId: sceneIds[index], choiceIds: [choices[index][0][pair[0]].id, choices[index][1][pair[1]].id] }))); } return; } for (let first = 0; first < choices[depth][0].length; first += 1) for (let post = 0; post < choices[depth][1].length; post += 1) visit(depth + 1, [...route, [first, post]]); }
+visit(0, []);
+let recoverablePrefixes = 0; let prefixCount = 0; function visitPrefix(depth, route) { if (depth === choices.length - 1) { prefixCount += 1; let possible = false; for (let first = 0; first < choices[depth][0].length; first += 1) for (let post = 0; post < choices[depth][1].length; post += 1) if (matched(sourceFor([...route, [first, post]])).length === 1) possible = true; if (possible) recoverablePrefixes += 1; return; } for (let first = 0; first < choices[depth][0].length; first += 1) for (let post = 0; post < choices[depth][1].length; post += 1) visitPrefix(depth + 1, [...route, [first, post]]); }
+visitPrefix(0, []);
+const canonicalResults = Object.fromEntries(Object.entries(canonical).map(([id, route]) => [id, matched(sourceFor(routeFromCanonical(route)))]));
+const report = { schemaVersion: 'V35-BASELINE-ENDING-EXHAUSTIVE-1', sourceSchema: data.schemaVersion, totalRoutes, choiceShape: data.scenes.map((scene) => ({ sceneId: scene.id, choices: scene.choices.length, postChoices: scene.postChoices.length })), counts, noEndingCount, multiEndingCount, examples, recoverableE07PrefixCount: recoverablePrefixes, e07PrefixCount: prefixCount, recoverableE07PrefixRate: recoverablePrefixes / prefixCount, canonicalResults };
+fs.mkdirSync('docs/v35', { recursive: true }); fs.writeFileSync('docs/v35/BASELINE_ENDING_EXHAUSTIVE.json', JSON.stringify(report, null, 2) + '\n'); console.log(JSON.stringify(report, null, 2));

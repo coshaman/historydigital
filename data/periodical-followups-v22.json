@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "v22-periodical-followup-1",
+  "items": [
+    {
+      "id": "PERIODICAL-FOLLOWUP-SAMARIN-SOVREMENNIK",
+      "branch": "A",
+      "publication": "Москвитянин",
+      "issue": "1847, часть 2",
+      "title": "사마린의 반박문에서 확인하는 문장",
+      "author": "М.... З.... К.... (Ю. Ф. Самарин)",
+      "ru": "Итак, думали мы, мнение наших литературных противников явится в достойнейшей форме — и наконец будет понято и оценено наше мнение.",
+      "ko": "우리는 문학적 반대자들의 견해가 마침내 제대로 제시되고 평가되리라 생각했습니다.",
+      "sourceId": "MOSKVITYANIN_1847_PART2",
+      "excerptId": "SAMARIN_VERIFIED_OPENING_SPAN_1847",
+      "sourceRecordId": "MOSKVITYANIN_1847_PART2",
+      "stableUrl": "https://ru.wikisource.org/wiki/О_мнении_«Современника»,_исторических_и_литературных_(Самарин)",
+      "locator": "기사 시작 p.133; 정확한 런타임 발췌 페이지는 미확인",
+      "evidenceClass": "검증된 본문 구간 · 문학적 논쟁의 목소리",
+      "dialogue": "이 문장은 상대의 주장을 요약한 보고서가 아니라, 사마린이 상대를 어떻게 읽었는지를 보여줍니다. 반박의 어조를 편집 방침의 사실처럼 옮기지는 않겠습니다.",
+      "reply": "반박의 목소리와 잡지의 편집 사실을 한 줄로 합치지 않고 따로 기록하겠습니다."
+    },
+    {
+      "id": "PERIODICAL-FOLLOWUP-SOVREMENNIK-BUTKOV",
+      "branch": "B",
+      "publication": "Отечественные записки",
+      "issue": "1847, № 9",
+      "title": "부트코프 소설의 도시 장면",
+      "author": "Я. П. Бутков",
+      "ru": "Въ Петербургѣ жилъ (и нигдѣ не служилъ) человѣкъ и господинъ, котораго звали по имени и отчеству Григоріемъ Васильевичемъ.",
+      "ko": "페테르부르크에는 어디에도 근무하지 않는 그리고리 바실리예비치라는 신사가 살고 있었습니다.",
+      "sourceId": "OTECHESTVENNYE_ZAPISKI_1847_09",
+      "excerptId": "BUTKOV_VERIFIED_OPENING_SPAN_1847",
+      "sourceRecordId": "OTECHESTVENNYE_ZAPISKI_1847_09",
+      "stableUrl": "https://ru.wikisource.org/wiki/Кредиторы,_любовь_и_заглавия_(Бутков)/ДО",
+      "locator": "1847년 제9호, 209–256쪽; 제1장 시작",
+      "evidenceClass": "검증된 본문 구간 · 허구 속 도시 인물",
+      "dialogue": "여기서 확인되는 것은 한 인물과 그의 도시 이동입니다. 이 장면을 페테르부르크 전체의 고용 통계나 사회 보고서로 바꾸어 적을 근거는 없습니다.",
+      "reply": "인물의 생활 장면으로 보관하고, 도시 전체에 대한 통계적 주장으로 확대하지 않겠습니다."
+    }
+  ]
+}

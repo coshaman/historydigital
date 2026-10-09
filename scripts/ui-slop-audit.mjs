@@ -1,0 +1,6 @@
+import { readFile } from 'node:fs/promises';
+const css=await readFile(new URL('../styles.css',import.meta.url),'utf8');
+const html=await readFile(new URL('../index.html',import.meta.url),'utf8');
+const metrics={roundedCorners:(css.match(/border-radius\s*:/g)||[]).length,backdropBlur:(css.match(/backdrop-filter\s*:/g)||[]).length,purpleDefaults:(css.match(/(?:#|rgb\()\s*(?:6[0-9a-f]{2}|7[0-9a-f]{2}|8[0-9a-f]{2})/gi)||[]).length,glassPanels:(css.match(/backdrop-filter|background:\s*rgba\([^)]*,\s*0\.[7-9]/gi)||[]).length,gridDeclarations:(css.match(/display\s*:\s*grid/g)||[]).length,uiTextNodes:(html.match(/<(?:button|label|h[1-6]|p)[^>]*>[^<]{3,}</g)||[]).length};
+const failures=[]; if(metrics.backdropBlur)failures.push('backdrop blur'); if(metrics.glassPanels>2)failures.push('glass panels'); if(metrics.roundedCorners>8)failures.push('rounded-corner overuse'); if(/purple|indigo/i.test(css))failures.push('purple/indigo palette'); if(!/paper|desk|brass|ink|wood/i.test(css))failures.push('material vocabulary');
+console.log(JSON.stringify({metrics,failures})); if(failures.length)process.exit(1); console.log('ui-slop-audit: paper/ink/wood/brass visual language, no dashboard defaults — PASS');

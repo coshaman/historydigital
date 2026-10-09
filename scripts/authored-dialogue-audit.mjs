@@ -1,0 +1,6 @@
+import { readFile } from 'node:fs/promises';
+const data=JSON.parse(await readFile(new URL('../data/case-dialogues.json',import.meta.url)));
+const failures=[]; const ids=new Set(); const texts=[]; let lines=0;
+for(const c of data.cases){if(ids.has(c.id))failures.push(`duplicate case ${c.id}`);ids.add(c.id);if(c.lines.length<5)failures.push(`${c.id}: fewer than 5 authored lines`);for(const line of c.lines){lines++;texts.push(line.text);for(const key of ['evidence_class','source_ids','voice_profile'])if(!line[key]||(Array.isArray(line[key])&&!line[key].length))failures.push(`${c.id}: missing ${key}`);if(!['DIRECT','PARAPHRASE','RECONSTRUCTED'].includes(line.evidence_class))failures.push(`${c.id}: invalid evidence class`);}}
+if(data.cases.length!==24)failures.push(`cases ${data.cases.length}, expected 24`);if(lines<120)failures.push(`authored lines ${lines}, expected 120`);if(new Set(texts).size<lines)failures.push('duplicate authored line text');
+console.log(JSON.stringify({cases:data.cases.length,authoredLines:lines,uniqueLines:new Set(texts).size,failures},null,2));if(failures.length)process.exit(1);console.log('authored-dialogue-audit: 24 case-specific conversations, evidence metadata, and unique authored lines — PASS');

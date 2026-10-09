@@ -1,0 +1,27 @@
+{
+  "sceneId": "CENSORSHIP_CASE_1847_07",
+  "sceneType": "CENSORSHIP_ADMIN_WORKFLOW",
+  "sceneDate": "1847-07-10",
+  "displayDate": "1847년 7월 10일 · 검열 행정 처리",
+  "datePrecision": "DAY",
+  "role": "censorship committee clerk",
+  "rolePlausibility": "HIGH",
+  "eventFamilyId": "CYRIL_METHODIUS_CENSORSHIP_1847",
+  "corpusNote": "세 기록은 같은 행정 사건군에 속하지만, 키예프 발신 명령·검열관에게 직접 전달된 지시·위원회 내부 회의록으로 관계가 다르다.",
+  "evidenceImageCapability": "SCHOLARLY_EDITION_PAGE_SCAN",
+  "items": [
+    {
+      "itemId": "CENSORSHIP-1847-01", "objectType": "outgoing-order", "shape": "folder", "label": "키예프 지방 명령", "sourceId": "EXT-SHEVCHENKO-DOC-279", "excerptId": "EXT-SHEVCHENKO-DOC-279-X1", "sourceDate": "1847-07-07", "publication": "Киевская гражданская администрация", "issue": "Документ №279", "page": "ДМШ, А-39, спр. 95/25795, арк. 2–2 зв.", "articleTitle": "Распоряжение об изъятии запрещённых сочинений", "author": "И. И. Фундуклей", "city": "Киев", "eventFamilyId": "CYRIL_METHODIUS_CENSORSHIP_1847", "historicalIssueId": "1847-regional-seizure-order", "workflowRelation": "OUTGOING_ORDER", "arrivalBasis": "context-only; outgoing Kyiv order, not Petersburg desk intake", "arrivalSource": "document №279; archival folio 2–2 verso", "evidenceImageCapability": "SCHOLARLY_EDITION_PAGE_SCAN", "ru": "Государь император высочайше повелеть соизволил: напечатанные сочинения: Шевченки — «Кобзарь», Кулиша — «Повесть об украинском народе», «Украина» и «Михайло Чарнышенко», Костомарова — «Украинские баллады» и «Ветка» — запретить и изъять из продажи.", "ko": "황제는 셰우첸코·쿨리시·코스토마로프의 저작을 금지하고 판매에서 거두라고 명령했습니다.", "stableUrl": "https://litopys.org.ua/shevchenko/docum04.htm", "scanUrl": "https://imwerden.de/pdf/kirilo-mefodievskoe_tovarishhestvo_tom1_1990__ocr.pdf"
+    },
+    {
+      "itemId": "CENSORSHIP-1847-02", "objectType": "direct-instruction", "shape": "broadside", "label": "니키텐코에게 직접 전달된 지시", "sourceId": "EXT-SHEVCHENKO-DOC-280", "excerptId": "EXT-SHEVCHENKO-DOC-280-X1", "sourceDate": "1847-07-08", "publication": "Санкт-Петербургский цензурный комитет", "issue": "Документ №280", "page": "ИЛ, ф. 1, №510, оригинал", "articleTitle": "О запрещении печатать объявления", "author": "М. Н. Мусин-Пушкин → А. В. Никитенко", "city": "Санкт-Петербург", "eventFamilyId": "CYRIL_METHODIUS_CENSORSHIP_1847", "historicalIssueId": "1847-periodical-advertising-ban", "workflowRelation": "DIRECT_TO_CENSOR", "arrivalBasis": "direct instruction to Nikitenko; not proof of player-clerk intake", "arrivalSource": "document №280; Institute of Literature, fond 1, №510, original", "evidenceImageCapability": "SCHOLARLY_EDITION_PAGE_SCAN", "ru": "Господин министр народного просвещения, 5-го июля сего года за № 889, предложил мне поставить в обязанность цензорам С.-Петербургского комитета не дозволять помещать в газетах и журналах никаких объявлений как о сочинениях Кулиша, Шевченки и Костомарова, так и вообще о книгах, воспрещаемых по высочайшим повелениям. О таковом предписании его сиятельства предлагаю вам, милостивый государь, к точному и непременному наблюдению.", "ko": "문부대신의 7월 5일 제889호 지시는 금지된 저작에 관한 광고를 신문과 잡지에 싣지 못하게 했고, 무신-푸시킨은 이를 니키텐코에게 직접 전달했습니다.", "stableUrl": "https://litopys.org.ua/shevchenko/docum04.htm", "scanUrl": "https://imwerden.de/pdf/kirilo-mefodievskoe_tovarishhestvo_tom1_1990__ocr.pdf"
+    },
+    {
+      "itemId": "CENSORSHIP-1847-03", "objectType": "committee-minutes", "shape": "ledger", "label": "위원회 내부 회의록", "sourceId": "EXT-SHEVCHENKO-DOC-282", "excerptId": "EXT-SHEVCHENKO-DOC-282-X1", "sourceDate": "1847-07-08", "publication": "Санкт-Петербургский цензурный комитет", "issue": "Журнал заседания №3", "page": "ЦДІА СРСР, ф. 777, оп. 27, №40, арк. 145–145 зв.", "articleTitle": "Запись заседания о предписании министра", "author": "С.-Петербургский цензурный комитет", "city": "Санкт-Петербург", "eventFamilyId": "CYRIL_METHODIUS_CENSORSHIP_1847", "historicalIssueId": "1847-committee-record-of-order", "workflowRelation": "INTERNALLY_CREATED_RECORD", "arrivalBasis": "committee-created minute; not an incoming order", "arrivalSource": "document №282; Central State Historical Archive, fond 777, inventory 27, №40, folios 145–145 verso", "evidenceImageCapability": "SCHOLARLY_EDITION_PAGE_SCAN", "ru": "Слушали: Секретное предписание г. министра народного просвещения от 5 июля за № 889, коим его сиятельство ... не дозволять помещать в газетах и журналах никаких объявлений ... Определено: принять к сведению.", "ko": "위원회는 7월 5일 제889호 비밀 지시를 심의하고, 금지된 저작의 광고를 싣지 못하게 한 내용을 ‘참고로 접수’한다고 회의록에 남겼습니다.", "stableUrl": "https://litopys.org.ua/shevchenko/docum04.htm", "scanUrl": "https://imwerden.de/pdf/kirilo-mefodievskoe_tovarishhestvo_tom1_1990__ocr.pdf"
+    }
+  ],
+  "branchManifest": {
+    "A": {"selectedItemIds": ["CENSORSHIP-1847-01", "CENSORSHIP-1847-02"], "deferredItemIds": ["CENSORSHIP-1847-03"], "nextUnlockedDocumentIds": ["E07-DOC-214", "E05-B-FOLLOWUP"], "nextDialogueId": "CENSORSHIP-1847-A-DIALOGUE"},
+    "B": {"selectedItemIds": ["CENSORSHIP-1847-02", "CENSORSHIP-1847-03"], "deferredItemIds": ["CENSORSHIP-1847-01"], "nextUnlockedDocumentIds": ["E07-DOC-214", "EG-PRESS-CENSORSHIP-FOLLOWUP"], "nextDialogueId": "CENSORSHIP-1847-B-DIALOGUE"}
+  }
+}

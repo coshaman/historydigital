@@ -1,0 +1,228 @@
+{
+  "schemaVersion": "V28-DATE-1",
+  "cases": [
+    {
+      "caseId": "C01",
+      "date": "1836",
+      "sourceStatus": "READY_V27",
+      "sourceIds": [
+        "OBJ-CHAADAEV-DOSSIER-1836",
+        "OBJ-TELESKOP-1836"
+      ]
+    },
+    {
+      "caseId": "C02",
+      "date": "1836",
+      "sourceStatus": "READY_V27",
+      "sourceIds": [
+        "OBJ-WS-CHAADAEV-1836",
+        "OBJ-WS-PUSHKIN-CHAADAEV-1836"
+      ]
+    },
+    {
+      "caseId": "C03",
+      "date": "1837-03",
+      "sourceStatus": "READY_V27",
+      "sourceIds": [
+        "OBJ-PUSHKIN-DEATH-WIKISOURCE-1837",
+        "OBJ-PUSHKIN-DOCUMENTS-1837"
+      ]
+    },
+    {
+      "caseId": "C04",
+      "date": "1839",
+      "sourceStatus": "READY_V27",
+      "sourceIds": [
+        "OBJ-WS-BELINSKY-RUSSIAN-PROSE-1835",
+        "OBJ-WS-BELINSKY-KRAEVSKY-1839"
+      ]
+    },
+    {
+      "caseId": "C05",
+      "date": "1840-05-15",
+      "sourceStatus": "READY_V27",
+      "sourceIds": [
+        "OBJ-WS-LERMONTOV-1840",
+        "OBJ-WS-BELINSKY-LERMONTOV-1840"
+      ]
+    },
+    {
+      "caseId": "C06",
+      "date": "1842-02",
+      "sourceStatus": "READY_V27",
+      "sourceIds": [
+        "V25-LERMONTOV-DUEL",
+        "V25-LERMONTOV-QUESTIONS",
+        "V25-LERMONTOV-COURT"
+      ]
+    },
+    {
+      "caseId": "C07",
+      "date": "1842-05",
+      "sourceStatus": "READY_V27",
+      "sourceIds": [
+        "V25-GOGOL-PLETNEV",
+        "V25-GOGOL-PODOGIN",
+        "V25-MOSKVITYANIN-1842"
+      ]
+    },
+    {
+      "caseId": "C08",
+      "date": "1842–1843",
+      "sourceStatus": "VERIFIED_V27_NOT_IN_NORMAL_RUN",
+      "sourceIds": [
+        "OBJ-WS-BELINSKY-HISTORY-1842",
+        "OBJ-WS-BELINSKY-GOGOL-1842"
+      ]
+    },
+    {
+      "caseId": "C09",
+      "date": "1843–1844",
+      "sourceStatus": "VERIFIED_V27_NOT_IN_NORMAL_RUN",
+      "sourceIds": [
+        "OBJ-WS-BELINSKY-ODOEVSKY-1844",
+        "OBJ-WS-BELINSKY-LERMONTOV-1844"
+      ]
+    },
+    {
+      "caseId": "C10",
+      "date": "1844–1845",
+      "sourceStatus": "VERIFIED_V27_NOT_IN_NORMAL_RUN",
+      "sourceIds": [
+        "OBJ-WS-BELINSKY-PHYSIOLOGY-INTRO-1845",
+        "OBJ-WS-BELINSKY-TARANTAS-1845"
+      ]
+    },
+    {
+      "caseId": "C11",
+      "date": "1845",
+      "sourceStatus": "VERIFIED_V27_NOT_IN_NORMAL_RUN",
+      "sourceIds": [
+        "OBJ-WS-BELINSKY-METEOR-1845",
+        "OBJ-WS-BELINSKY-PHYSIOLOGY-1845"
+      ]
+    },
+    {
+      "caseId": "C12",
+      "date": "1846",
+      "sourceStatus": "VERIFIED_V27_NOT_IN_NORMAL_RUN",
+      "sourceIds": [
+        "OBJ-WS-BELINSKY-PETERSBURG-COLLECTION-1846",
+        "OBJ-WS-YAZYKOV-GOGOL-1846"
+      ]
+    },
+    {
+      "caseId": "C13",
+      "date": "1846",
+      "sourceStatus": "VERIFIED_V27_NOT_IN_NORMAL_RUN",
+      "sourceIds": [
+        "OBJ-WS-PETRASHEVSKY-DICTIONARY-1846",
+        "OBJ-WS-NEKRASOV-PETERSBURG-CHRONICLE-1844"
+      ]
+    },
+    {
+      "caseId": "C15",
+      "date": "1847",
+      "sourceStatus": "VERIFIED_V27_NOT_IN_NORMAL_RUN",
+      "sourceIds": [
+        "OBJ-WS-GOGOL-BEL-1847-JUNE",
+        "OBJ-WS-GOGOL-BEL-1847-AUG"
+      ]
+    },
+    {
+      "caseId": "C16",
+      "date": "1847",
+      "sourceStatus": "VERIFIED_V27_NOT_IN_NORMAL_RUN",
+      "sourceIds": [
+        "OBJ-WS-BELINSKY-1847",
+        "OBJ-WS-GOGOL-BEL-1847-AUG"
+      ]
+    },
+    {
+      "caseId": "C17",
+      "date": "1847",
+      "sourceStatus": "READY_V27",
+      "sourceIds": [
+        "OBJ-SHEVCHENKO-DOC092-1847",
+        "OBJ-SHEVCHENKO-1847"
+      ]
+    },
+    {
+      "caseId": "C18",
+      "date": "1847",
+      "sourceStatus": "VERIFIED_V27_NOT_IN_NORMAL_RUN",
+      "sourceIds": [
+        "OBJ-WS-BEL-ANNENKOV-1847",
+        "OBJ-WS-SOVREMENNIK-1847-ANNOUNCEMENT"
+      ]
+    },
+    {
+      "caseId": "C14",
+      "date": "1847-07",
+      "sourceStatus": "READY_V27",
+      "sourceIds": [
+        "OBJ-WS-BELINSKY-1847",
+        "OBJ-WS-GOGOL-1847"
+      ]
+    },
+    {
+      "caseId": "C20",
+      "date": "1848",
+      "sourceStatus": "VERIFIED_V27_NOT_IN_NORMAL_RUN",
+      "sourceIds": [
+        "OBJ-WS-BELINSKY-REVIEW-1848",
+        "OBJ-WS-SOVREMENNIK-EDITORIAL-1848"
+      ]
+    },
+    {
+      "caseId": "C22",
+      "date": "1848",
+      "sourceStatus": "VERIFIED_V27_NOT_IN_NORMAL_RUN",
+      "sourceIds": [
+        "OBJ-WS-NEKRASOV-SUBSCRIBERS-1848",
+        "OBJ-WS-NEKRASOV-CENSOR-NOTE-1848"
+      ]
+    },
+    {
+      "caseId": "C21",
+      "date": "1848-10",
+      "sourceStatus": "READY_V27",
+      "sourceIds": [
+        "OBJ-WS-SOVREMENNIK-1848",
+        "OBJ-WS-ILLUSTRATED-ALMANAC-1848"
+      ]
+    },
+    {
+      "caseId": "C23",
+      "date": "1849",
+      "sourceStatus": "VERIFIED_V27_NOT_IN_NORMAL_RUN",
+      "sourceIds": [
+        "OBJ-WS-PETRASHEVSKY-CASE-1849",
+        "OBJ-WS-DOSTOEVSKY-INVESTIGATION-1849"
+      ]
+    },
+    {
+      "caseId": "C19",
+      "date": "1849-02",
+      "sourceStatus": "READY_V27",
+      "sourceIds": [
+        "V25-SOVREMENNIK-1848",
+        "V25-ANNENKOV-LITERATURE-1848",
+        "V25-PobEDONOSTSEV-OZ-1848"
+      ]
+    },
+    {
+      "caseId": "C24",
+      "date": "1849-12-22",
+      "sourceStatus": "READY_V27",
+      "sourceIds": [
+        "OBJ-WS-HERZEN-1847",
+        "OBJ-PETRASHEVSKY-1849"
+      ]
+    }
+  ],
+  "chronologicalBySourceList": true,
+  "reversals": [],
+  "status": "PASS",
+  "note": "Source dates are checked against checked-in V27 locators; fictional exposure changes do not alter historical outcomes."
+}

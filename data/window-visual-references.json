@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "v8-window-plate-0.2",
+  "references": [
+    {
+      "id": "WIN-SPB-ANICHKOV-1830",
+      "title": "Panorama of Nevsky Prospect — Anichkov Bridge fragment",
+      "date": "1830s",
+      "creator": "Vasily Semyonovich Sadovnikov (1800–1879)",
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:Anichkov-1830.jpg",
+      "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/c/ca/Anichkov-1830.jpg",
+      "localUrl": "/assets/window-anichkov-1830.jpg",
+      "sourceUrl": "https://upload.wikimedia.org/wikipedia/commons/c/ca/Anichkov-1830.jpg",
+      "rights": "Public domain: PD-old / PD-Art on Wikimedia Commons; author died 1879",
+      "periodClass": "ADJACENT_PERIOD",
+      "historicalNote": "A fragment of Sadovnikov's panorama of Nevsky Prospect, showing the Anichkov Bridge in the 1830s; adjacent-period context, not an exact 1847 street view.",
+      "use": "window plate reference; not presented as an exact 1847 street view"
+    }
+  ]
+}

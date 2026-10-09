@@ -1,0 +1,323 @@
+{
+  "schemaVersion": "V28-PROVENANCE-AUDIT-1",
+  "status": "PASS",
+  "caseCount": 24,
+  "cases": [
+    {
+      "caseId": "C01",
+      "sourceIds": [
+        "OBJ-CHAADAEV-DOSSIER-1836",
+        "OBJ-TELESKOP-1836"
+      ],
+      "historicalExcerptIds": [
+        "V27-C01-X1",
+        "V27-C01-X2"
+      ],
+      "claimCount": 4,
+      "invalidClaims": []
+    },
+    {
+      "caseId": "C02",
+      "sourceIds": [
+        "OBJ-WS-CHAADAEV-1836",
+        "OBJ-WS-PUSHKIN-CHAADAEV-1836"
+      ],
+      "historicalExcerptIds": [
+        "V27-C02-X1",
+        "V27-C02-X2"
+      ],
+      "claimCount": 4,
+      "invalidClaims": []
+    },
+    {
+      "caseId": "C03",
+      "sourceIds": [
+        "OBJ-PUSHKIN-DEATH-WIKISOURCE-1837",
+        "OBJ-PUSHKIN-DOCUMENTS-1837"
+      ],
+      "historicalExcerptIds": [
+        "V27-C03-X1",
+        "V27-C03-X2"
+      ],
+      "claimCount": 4,
+      "invalidClaims": []
+    },
+    {
+      "caseId": "C04",
+      "sourceIds": [
+        "OBJ-WS-BELINSKY-RUSSIAN-PROSE-1835",
+        "OBJ-WS-BELINSKY-KRAEVSKY-1839"
+      ],
+      "historicalExcerptIds": [
+        "V27-C04-X1",
+        "V27-C04-X2"
+      ],
+      "claimCount": 4,
+      "invalidClaims": []
+    },
+    {
+      "caseId": "C05",
+      "sourceIds": [
+        "OBJ-WS-LERMONTOV-1840",
+        "OBJ-WS-BELINSKY-LERMONTOV-1840"
+      ],
+      "historicalExcerptIds": [
+        "V27-C05-X1",
+        "V27-C05-X2"
+      ],
+      "claimCount": 4,
+      "invalidClaims": []
+    },
+    {
+      "caseId": "C06",
+      "sourceIds": [
+        "V25-LERMONTOV-DUEL",
+        "V25-LERMONTOV-QUESTIONS",
+        "V25-LERMONTOV-COURT"
+      ],
+      "historicalExcerptIds": [
+        "V27-C06-X1",
+        "V27-C06-X2"
+      ],
+      "claimCount": 4,
+      "invalidClaims": []
+    },
+    {
+      "caseId": "C07",
+      "sourceIds": [
+        "V25-GOGOL-PLETNEV",
+        "V25-GOGOL-PODOGIN",
+        "V25-MOSKVITYANIN-1842"
+      ],
+      "historicalExcerptIds": [
+        "V25-C07-X1",
+        "V25-C07-X2"
+      ],
+      "claimCount": 4,
+      "invalidClaims": []
+    },
+    {
+      "caseId": "C08",
+      "sourceIds": [
+        "OBJ-WS-BELINSKY-HISTORY-1842",
+        "OBJ-WS-BELINSKY-GOGOL-1842"
+      ],
+      "historicalExcerptIds": [
+        "V27-C08-X1",
+        "V27-C08-X2"
+      ],
+      "claimCount": 4,
+      "invalidClaims": []
+    },
+    {
+      "caseId": "C09",
+      "sourceIds": [
+        "OBJ-WS-BELINSKY-ODOEVSKY-1844",
+        "OBJ-WS-BELINSKY-LERMONTOV-1844"
+      ],
+      "historicalExcerptIds": [
+        "V27-C09-X1",
+        "V27-C09-X2"
+      ],
+      "claimCount": 4,
+      "invalidClaims": []
+    },
+    {
+      "caseId": "C10",
+      "sourceIds": [
+        "OBJ-WS-BELINSKY-PHYSIOLOGY-INTRO-1845",
+        "OBJ-WS-BELINSKY-TARANTAS-1845"
+      ],
+      "historicalExcerptIds": [
+        "V27-C10-X1",
+        "V27-C10-X2"
+      ],
+      "claimCount": 4,
+      "invalidClaims": []
+    },
+    {
+      "caseId": "C11",
+      "sourceIds": [
+        "OBJ-WS-BELINSKY-METEOR-1845",
+        "OBJ-WS-BELINSKY-PHYSIOLOGY-1845"
+      ],
+      "historicalExcerptIds": [
+        "V27-C11-X1",
+        "V27-C11-X2"
+      ],
+      "claimCount": 4,
+      "invalidClaims": []
+    },
+    {
+      "caseId": "C12",
+      "sourceIds": [
+        "OBJ-WS-BELINSKY-PETERSBURG-COLLECTION-1846",
+        "OBJ-WS-YAZYKOV-GOGOL-1846"
+      ],
+      "historicalExcerptIds": [
+        "V27-C12-X1",
+        "V27-C12-X2"
+      ],
+      "claimCount": 4,
+      "invalidClaims": []
+    },
+    {
+      "caseId": "C13",
+      "sourceIds": [
+        "OBJ-WS-PETRASHEVSKY-DICTIONARY-1846",
+        "OBJ-WS-NEKRASOV-PETERSBURG-CHRONICLE-1844"
+      ],
+      "historicalExcerptIds": [
+        "V27-C13-X1",
+        "V27-C13-X2"
+      ],
+      "claimCount": 4,
+      "invalidClaims": []
+    },
+    {
+      "caseId": "C14",
+      "sourceIds": [
+        "OBJ-WS-BELINSKY-1847",
+        "OBJ-WS-GOGOL-1847"
+      ],
+      "historicalExcerptIds": [
+        "V26-C14-X1",
+        "V26-C14-X2"
+      ],
+      "claimCount": 4,
+      "invalidClaims": []
+    },
+    {
+      "caseId": "C15",
+      "sourceIds": [
+        "OBJ-WS-GOGOL-BEL-1847-JUNE",
+        "OBJ-WS-GOGOL-BEL-1847-AUG"
+      ],
+      "historicalExcerptIds": [
+        "V27-C15-X1",
+        "V27-C15-X2"
+      ],
+      "claimCount": 4,
+      "invalidClaims": []
+    },
+    {
+      "caseId": "C16",
+      "sourceIds": [
+        "OBJ-WS-BELINSKY-1847",
+        "OBJ-WS-GOGOL-BEL-1847-AUG"
+      ],
+      "historicalExcerptIds": [
+        "V27-C16-X1",
+        "V27-C16-X2"
+      ],
+      "claimCount": 4,
+      "invalidClaims": []
+    },
+    {
+      "caseId": "C17",
+      "sourceIds": [
+        "OBJ-SHEVCHENKO-DOC092-1847",
+        "OBJ-SHEVCHENKO-1847"
+      ],
+      "historicalExcerptIds": [
+        "V26-C17-X1",
+        "V26-C17-X2"
+      ],
+      "claimCount": 4,
+      "invalidClaims": []
+    },
+    {
+      "caseId": "C18",
+      "sourceIds": [
+        "OBJ-WS-BEL-ANNENKOV-1847",
+        "OBJ-WS-SOVREMENNIK-1847-ANNOUNCEMENT"
+      ],
+      "historicalExcerptIds": [
+        "V27-C18-X1",
+        "V27-C18-X2"
+      ],
+      "claimCount": 4,
+      "invalidClaims": []
+    },
+    {
+      "caseId": "C19",
+      "sourceIds": [
+        "V25-SOVREMENNIK-1848",
+        "V25-ANNENKOV-LITERATURE-1848",
+        "V25-PobEDONOSTSEV-OZ-1848"
+      ],
+      "historicalExcerptIds": [
+        "V25-C19-X1",
+        "V25-C19-X2"
+      ],
+      "claimCount": 4,
+      "invalidClaims": []
+    },
+    {
+      "caseId": "C20",
+      "sourceIds": [
+        "OBJ-WS-BELINSKY-REVIEW-1848",
+        "OBJ-WS-SOVREMENNIK-EDITORIAL-1848"
+      ],
+      "historicalExcerptIds": [
+        "V27-C20-X1",
+        "V27-C20-X2"
+      ],
+      "claimCount": 4,
+      "invalidClaims": []
+    },
+    {
+      "caseId": "C21",
+      "sourceIds": [
+        "OBJ-WS-SOVREMENNIK-1848",
+        "OBJ-WS-ILLUSTRATED-ALMANAC-1848"
+      ],
+      "historicalExcerptIds": [
+        "V27-C21-X1",
+        "V27-C21-X2"
+      ],
+      "claimCount": 4,
+      "invalidClaims": []
+    },
+    {
+      "caseId": "C22",
+      "sourceIds": [
+        "OBJ-WS-NEKRASOV-SUBSCRIBERS-1848",
+        "OBJ-WS-NEKRASOV-CENSOR-NOTE-1848"
+      ],
+      "historicalExcerptIds": [
+        "V27-C22-X1",
+        "V27-C22-X2"
+      ],
+      "claimCount": 4,
+      "invalidClaims": []
+    },
+    {
+      "caseId": "C23",
+      "sourceIds": [
+        "OBJ-WS-PETRASHEVSKY-CASE-1849",
+        "OBJ-WS-DOSTOEVSKY-INVESTIGATION-1849"
+      ],
+      "historicalExcerptIds": [
+        "V27-C23-X1",
+        "V27-C23-X2"
+      ],
+      "claimCount": 4,
+      "invalidClaims": []
+    },
+    {
+      "caseId": "C24",
+      "sourceIds": [
+        "OBJ-WS-HERZEN-1847",
+        "OBJ-PETRASHEVSKY-1849"
+      ],
+      "historicalExcerptIds": [
+        "V26-C24-X1",
+        "V26-C24-X2"
+      ],
+      "claimCount": 4,
+      "invalidClaims": []
+    }
+  ],
+  "failures": []
+}

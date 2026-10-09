@@ -1,0 +1,19 @@
+{
+  "routeId":"NEVSKY-CHANCERY-1847",
+  "lengthMeters":240,
+  "sources":["SRC-PLAN-1840","SRC-SAD-1835"],
+  "referenceImages":[
+    {"title":"1840 St Petersburg plan","url":"https://www.aroundspb.ru/uploads/maps/spb/spb_1700_1840/SPb_1840.jpg","sourcePage":"https://www.aroundspb.ru/karty/377/spb_1700_1840.html","rights":"reference only; binary redistribution not assumed"},
+    {"title":"Sadovnikov Nevsky panorama fragment","url":"https://upload.wikimedia.org/wikipedia/commons/c/ca/Anichkov-1830.jpg","sourcePage":"https://commons.wikimedia.org/wiki/File:Anichkov-1830.jpg","rights":"public-domain status stated on source page; verify before packaging"}
+  ],
+  "geography":"route geometry follows the documented block sequence and period street scale",
+  "weather":"late-winter Petersburg dusk: wet cobbles, low river haze, light wind-driven snow",
+  "landmarks":[
+    {"id":"L01","name":"Canal-side office block","floors":3,"bays":5,"widthMeters":18,"storefronts":1,"sources":["SRC-PLAN-1840"],"confidence":"medium","material":"plaster / wood"},
+    {"id":"L02","name":"Corner lodging house","floors":4,"bays":6,"widthMeters":22,"storefronts":2,"sources":["SRC-PLAN-1840","SRC-SAD-1835"],"confidence":"medium","material":"plaster / stone"},
+    {"id":"L03","name":"Committee approach façade","floors":3,"bays":7,"widthMeters":25,"storefronts":1,"sources":["SRC-SAD-1835"],"confidence":"low","material":"plaster / painted wood"},
+    {"id":"L04","name":"Print-shop frontage","floors":2,"bays":4,"widthMeters":14,"storefronts":2,"sources":["SRC-PLAN-1840","SRC-SAD-1835"],"confidence":"medium","material":"wood / glass"},
+    {"id":"L05","name":"Archive return block","floors":4,"bays":5,"widthMeters":20,"storefronts":0,"sources":["SRC-PLAN-1840"],"confidence":"low","material":"stone / plaster"}
+  ],
+  "reconstructionRules":["no modern road furniture","no modern cars","period Cyrillic signage only","moving carriage and pedestrians","wet cobble sheen","wind-driven snow particles","low blue-grey haze","camera at human eye height","walk speed 1.4–1.8 m/s"]
+}

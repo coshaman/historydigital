@@ -1,0 +1,25 @@
+import { chromium } from 'playwright';
+
+const browser = await chromium.launch({ headless: true });
+const page = await browser.newPage({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+const errors = [];
+page.on('pageerror', error => errors.push(String(error)));
+await page.goto('http://127.0.0.1:4173/', { waitUntil: 'networkidle' });
+await page.evaluate(() => localStorage.removeItem('chancery-gold-runtime-v1'));
+await page.reload({ waitUntil: 'networkidle' });
+await page.locator('#ledgerObject').tap();
+await page.locator('[data-ledger-scene="C13"]').last().tap({ force: true });
+const heads = page.locator('.v25-pilot-excerpt-head');
+await heads.first().waitFor({ state: 'visible' });
+for (let index = 0; index < 5; index++) await heads.nth(index).tap();
+await page.getByText('다섯 발췌를 읽고 처리 단계로 이동').tap();
+const buttons = page.locator('#choiceArea button');
+await buttons.first().scrollIntoViewIfNeeded();
+const boxes = await buttons.evaluateAll(elements => elements.map(element => { const rect = element.getBoundingClientRect(); return { width: rect.width, height: rect.height, bottom: rect.bottom, right: rect.right }; }));
+await page.keyboard.press('h');
+const evidencePressed = await page.locator('#evidenceBtn').getAttribute('aria-pressed');
+await page.screenshot({ path: 'docs/v26/v26-mobile-c13.png', fullPage: true });
+await browser.close();
+if (errors.length) throw new Error(`page errors: ${errors.join('; ')}`);
+if (boxes.some(box => box.height < 44 || box.bottom > 844 || box.right > 390)) throw new Error(`mobile target failure: ${JSON.stringify(boxes)}`);
+console.log(JSON.stringify({ status: 'PASS', viewport: '390x844', evidencePressed, boxes, screenshot: 'docs/v26/v26-mobile-c13.png' }, null, 2));

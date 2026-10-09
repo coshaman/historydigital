@@ -1,0 +1,30 @@
+import { chromium } from 'playwright';
+import { mkdir, writeFile } from 'node:fs/promises';
+const browser = await chromium.launch({ headless: true });
+const out = 'docs/v25/visuals2/screenshots';
+await mkdir(out, { recursive: true });
+const viewports = [['desktop_1366x768', 1366, 768], ['desktop_1440x900', 1440, 900], ['desktop_1920x1080', 1920, 1080], ['mobile_390x844', 390, 844], ['mobile_360x780', 360, 780]];
+const runs = [];
+for (const [name, width, height] of viewports) {
+  const page = await browser.newPage({ viewport: { width, height } });
+  await page.goto('http://127.0.0.1:4173/');
+  await page.waitForFunction(() => window.__goldRuntime?.getPilotManifest && window.__threeRuntime?.loaded);
+  await page.locator('#sourceBtn').click();
+  await page.waitForFunction(() => document.querySelector('#sourceDrawer')?.classList.contains('open'));
+  await page.screenshot({ path: `${out}/${name}-drawer.png` });
+  await page.locator('#closeDrawer').click();
+  await page.locator('#notebookObject').click();
+  await page.waitForFunction(() => document.body.classList.contains('notebook-focus'));
+  await page.screenshot({ path: `${out}/${name}-notebook.png` });
+  await page.locator('#closeNotebook').click();
+  await page.locator('#petersburgWindow').click();
+  await page.waitForFunction(() => document.body.classList.contains('window-focused'));
+  await page.screenshot({ path: `${out}/${name}-window.png` });
+  runs.push({ name, drawer: true, notebook: true, window: true, horizontal: await page.evaluate(() => document.documentElement.scrollWidth - innerWidth) });
+  await page.close();
+}
+const result = { status: runs.every((run) => run.drawer && run.notebook && run.window && run.horizontal <= 0) ? 'PASS' : 'FAIL', runs };
+await writeFile('docs/v25/visuals2/physical-ui-manifest.json', JSON.stringify(result, null, 2));
+console.log(JSON.stringify(result, null, 2));
+await browser.close();
+if (result.status !== 'PASS') process.exitCode = 1;

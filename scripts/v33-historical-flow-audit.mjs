@@ -1,0 +1,17 @@
+import fs from 'node:fs';
+const data = JSON.parse(fs.readFileSync('narrative/MAIN_20MIN_DIALOGUE.json', 'utf8'));
+const failures = [];
+const years = data.scenes.map((scene) => Number(scene.date.slice(0, 4)));
+if (data.schemaVersion !== 'MAIN-20MIN-DIALOGUE-V33') failures.push('schema is not V33');
+if (data.scenes.map((scene) => scene.id).join(',') !== 'C03,C06,C07,E02,E07') failures.push('scene order changed');
+if (years.join(',') !== '1837,1841,1842,1847,1849') failures.push('chronology changed');
+const flatText = JSON.stringify(data.scenes) + JSON.stringify(data.endings);
+if (flatText.includes('두 해가 흘렀다') || flatText.includes('오늘 읽는 것은 1927년') || flatText.includes('GARF 기금')) failures.push('anachronistic in-world wording remains');
+if (!data.scenes.find((scene) => scene.id === 'E07').frameNote.includes('H키 provenance')) failures.push('E07 modern provenance boundary missing');
+for (const scene of data.scenes) for (const excerpt of scene.excerpts) for (const key of ['sourceUrl', 'publication', 'writtenDate', 'provenance', 'verifiedSpan']) if (!excerpt[key]) failures.push(`${scene.id}/${excerpt.excerptId} missing ${key}`);
+for (const ending of data.endings) if (!ending.rule?.actionsAll?.length || !ending.rule?.minRelationships || !ending.lifeDirection) failures.push(`${ending.id} missing causal life-direction gate`);
+const report = { schemaVersion: 'V33-HISTORICAL-FLOW-AUDIT-1', status: failures.length ? 'FAIL' : 'PASS', sceneOrder: data.scenes.map((scene) => scene.id), years, failures };
+fs.mkdirSync('docs/v33', { recursive: true });
+fs.writeFileSync('docs/v33/HISTORICAL_FLOW_AUDIT.json', JSON.stringify(report, null, 2) + '\n');
+console.log(JSON.stringify(report, null, 2));
+if (failures.length) process.exit(1);

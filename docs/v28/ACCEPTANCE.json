@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "V28-ACCEPTANCE-1",
+  "status": "PASS",
+  "caseCount": 24,
+  "nodeCount": 596,
+  "uniqueUtteranceCount": 594,
+  "choiceCount": 72,
+  "endingCount": 5,
+  "normalRunCaseIds": [
+    "C01",
+    "C02",
+    "C03",
+    "C04",
+    "C05",
+    "C06",
+    "C07",
+    "C14",
+    "C17",
+    "C21",
+    "C19",
+    "C24"
+  ],
+  "forbiddenRuntimeCopyFindings": [],
+  "failures": [],
+  "graphSha256": "db7db62bdfc30327727f5a78e2fda0b86b38478bb71253fe46544f6afa0297b2"
+}

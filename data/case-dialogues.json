@@ -1,0 +1,174 @@
+{
+  "schemaVersion":"phase-7.0",
+  "review":"case-specific authored dialogue; no runtime generation",
+  "cases":[
+    {"id":"C01","lines":[
+      {"speaker":"clerk","text":"봉투에는 모스크바 인쇄소의 흔적이 남아 있습니다. 상트페테르부르크에서 인쇄된 글로 적으면 첫 줄부터 기록이 틀어집니다.","evidence_class":"PARAPHRASE","source_ids":["CP01"],"voice_profile":"clerk"},
+      {"speaker":"clerk","text":"차다예프의 문장이 어디에서 발행됐는지와 여기서 어떻게 읽혔는지를 두 칸으로 나누겠습니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP01"],"voice_profile":"clerk"},
+      {"speaker":"messenger","text":"봉인은 한 번 풀렸다가 다시 눌린 모양입니다. 접수표에는 그 사실만 남겨도 충분합니까?","evidence_class":"RECONSTRUCTED","source_ids":["CP01"],"voice_profile":"correspondent"},
+      {"speaker":"clerk","text":"확인한 흔적과 추측을 나누어 적으십시오. 허가 여부는 상급 부서의 판단으로 남깁니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP01"],"voice_profile":"official"},
+      {"speaker":"action","text":"발행지 표기를 보존한 채 접수표를 두 서류철 사이에 끼운다.","evidence_class":"RECONSTRUCTED","source_ids":["CP01"],"voice_profile":"clerk"}
+    ]},
+    {"id":"C02","lines":[
+      {"speaker":"junior-clerk","text":"회람에는 황제의 반응이 먼저 적혀 있고, 압수 목록은 며칠 뒤에 붙었습니다. 어느 쪽을 사건의 시작으로 삼을까요?","evidence_class":"PARAPHRASE","source_ids":["CP02"],"voice_profile":"official"},
+      {"speaker":"clerk","text":"공개 반응과 행정 조치를 한 문장으로 묶지 않겠습니다. 날짜가 서로 다른 일을 다시 갈라놓습니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP02"],"voice_profile":"clerk"},
+      {"speaker":"junior-clerk","text":"그럼 발행소 폐쇄 통지는 선례로 올립니까, 한 번의 처분으로 남깁니까?","evidence_class":"RECONSTRUCTED","source_ids":["CP02"],"voice_profile":"official"},
+      {"speaker":"clerk","text":"명령의 문구와 실제 처리 날짜를 함께 올리십시오. 해석은 여백에만 두겠습니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP02"],"voice_profile":"clerk"},
+      {"speaker":"action","text":"압수 목록의 날짜에 연필선을 긋고 회람 사본을 상급 서류철에 넣는다.","evidence_class":"RECONSTRUCTED","source_ids":["CP02"],"voice_profile":"clerk"}
+    ]},
+    {"id":"C03","lines":[
+      {"speaker":"runner","text":"추도문 교정쇄가 젖었습니다. 삭제 표시는 문장 끝에 몰려 있지만, 판매 장부에는 이미 숫자가 찍혔습니다.","evidence_class":"PARAPHRASE","source_ids":["CP03"],"voice_profile":"editor"},
+      {"speaker":"clerk","text":"애도의 사실과 그 글이 불러온 반응을 따로 읽겠습니다. 소문을 사망 기록처럼 옮기지는 않습니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP03"],"voice_profile":"clerk"},
+      {"speaker":"runner","text":"제목을 그대로 두면 독자가 다른 뜻을 읽을 수 있습니다. 제목도 검토 대상입니까?","evidence_class":"RECONSTRUCTED","source_ids":["CP03"],"voice_profile":"editor"},
+      {"speaker":"clerk","text":"제목을 바꾸기 전에 판본별 차이를 표시하십시오. 같은 애도가 어디서 달라졌는지 먼저 보여야 합니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP03"],"voice_profile":"clerk"},
+      {"speaker":"action","text":"젖은 교정쇄를 압지 위에 펼치고 제목의 판본 번호를 대조한다.","evidence_class":"RECONSTRUCTED","source_ids":["CP03"],"voice_profile":"clerk"}
+    ]},
+    {"id":"C04","lines":[
+      {"speaker":"bookseller","text":"이 호는 진열대에서 오래 머물렀습니다. 목차에는 새 목소리가 보이지만, 허가 도장은 이전 양식입니다.","evidence_class":"PARAPHRASE","source_ids":["CP04"],"voice_profile":"correspondent"},
+      {"speaker":"clerk","text":"독자층과 문체를 한데 묶어 위험 등급을 만들지 않겠습니다. 발행 절차부터 확인하죠.","evidence_class":"RECONSTRUCTED","source_ids":["CP04"],"voice_profile":"clerk"},
+      {"speaker":"bookseller","text":"다음 호 계획을 요구하면 편집부가 감시로 받아들일 겁니다. 그래도 묻겠습니까?","evidence_class":"RECONSTRUCTED","source_ids":["CP04"],"voice_profile":"editor"},
+      {"speaker":"clerk","text":"질문은 요구서에, 판단은 별도 메모에 남깁니다. 두 종이를 섞지 않는 편이 오래 갑니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP04"],"voice_profile":"clerk"},
+      {"speaker":"action","text":"허가 도장 대조표를 목차 뒤에 접어 넣고 다음 호 계획을 요청한다.","evidence_class":"RECONSTRUCTED","source_ids":["CP04"],"voice_profile":"clerk"}
+    ]},
+    {"id":"C05","lines":[
+      {"speaker":"reader","text":"이 소설의 인물은 실재하지 않지만, 항의 편지는 실재합니다. 독자는 냉소를 자기 이야기로 읽었습니다.","evidence_class":"PARAPHRASE","source_ids":["CP05"],"voice_profile":"correspondent"},
+      {"speaker":"clerk","text":"허구의 인물과 실제 항의를 분리해 표시하겠습니다. 도덕적 불쾌감만으로 행정 위험을 만들 수는 없습니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP05"],"voice_profile":"clerk"},
+      {"speaker":"reader","text":"그렇다면 질의서에는 어느 문장을 옮겨야 합니까? 전체 줄거리를 설명할 수는 없잖습니까.","evidence_class":"RECONSTRUCTED","source_ids":["CP05"],"voice_profile":"editor"},
+      {"speaker":"clerk","text":"문장이 놓인 자리와 항의가 가리킨 대목을 함께 적겠습니다. 줄거리를 판결문으로 바꾸지 않겠습니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP05"],"voice_profile":"clerk"},
+      {"speaker":"action","text":"독자 항의 편지와 검열 질의를 서로 다른 묶음으로 봉합한다.","evidence_class":"RECONSTRUCTED","source_ids":["CP05"],"voice_profile":"clerk"}
+    ]},
+    {"id":"C06","lines":[
+      {"speaker":"courier","text":"부고 초안보다 지방 보고가 먼저 도착했습니다. 장례식 참석자 명단에는 소문과 확인된 이름이 섞여 있습니다.","evidence_class":"PARAPHRASE","source_ids":["CP06"],"voice_profile":"official"},
+      {"speaker":"clerk","text":"사망 사실은 보고서에서, 추도의 말은 지면 검토에서 다루겠습니다. 같은 봉투에 넣지 않겠습니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP06"],"voice_profile":"clerk"},
+      {"speaker":"courier","text":"추도문을 줄이면 애도 자체가 사라진다고 발행인이 말합니다. 공개 범위를 정할 수 있습니까?","evidence_class":"RECONSTRUCTED","source_ids":["CP06"],"voice_profile":"editor"},
+      {"speaker":"clerk","text":"삭제할 문장보다 출처가 불분명한 문장을 먼저 표시하십시오. 남길 근거가 있어야 합니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP06"],"voice_profile":"clerk"},
+      {"speaker":"action","text":"지방 보고의 확인 문장에만 붉은 표시를 남기고 추도문은 별도 검토로 돌린다.","evidence_class":"RECONSTRUCTED","source_ids":["CP06"],"voice_profile":"clerk"}
+    ]},
+    {"id":"C07","lines":[
+      {"speaker":"censor","text":"원고의 풍자는 누구를 향합니까? 질의서는 대상을 묻지만, 교정쇄에는 앞뒤 문장이 더 많이 남아 있습니다.","evidence_class":"PARAPHRASE","source_ids":["CP07"],"voice_profile":"official"},
+      {"speaker":"clerk","text":"풍자의 대상과 행정상의 대상을 구분해 읽겠습니다. 한 줄을 떼어 위험의 증거로 삼지 않겠습니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP07"],"voice_profile":"clerk"},
+      {"speaker":"censor","text":"상급 검열관은 삭제 후보만 보길 원합니다. 문맥까지 올리면 시간이 더 걸립니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP07"],"voice_profile":"official"},
+      {"speaker":"clerk","text":"시간이 걸리더라도 앞뒤 두 문장은 붙이겠습니다. 허가 의견의 근거가 그 안에 있습니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP07"],"voice_profile":"clerk"},
+      {"speaker":"action","text":"삭제 후보 양옆의 문장을 함께 오려 공식 질의서 뒤에 붙인다.","evidence_class":"RECONSTRUCTED","source_ids":["CP07"],"voice_profile":"clerk"}
+    ]},
+    {"id":"C08","lines":[
+      {"speaker":"visitor","text":"살롱에서는 같은 단어를 두 사람이 전혀 다르게 씁니다. 판매 기록만으로 어느 쪽이 옳다고 할 수는 없습니다.","evidence_class":"PARAPHRASE","source_ids":["CP08"],"voice_profile":"correspondent"},
+      {"speaker":"clerk","text":"두 발췌문을 한 문단으로 합치지 않겠습니다. 용어가 나온 자리부터 병치하겠습니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP08"],"voice_profile":"clerk"},
+      {"speaker":"visitor","text":"초대장에 답하지 않으면 어느 진영에도 속하지 않은 사람으로 남겠지요. 그게 안전합니까?","evidence_class":"RECONSTRUCTED","source_ids":["CP08"],"voice_profile":"correspondent"},
+      {"speaker":"clerk","text":"안전하다고 적지는 않겠습니다. 참석 여부와 읽은 문서는 서로 다른 기록입니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP08"],"voice_profile":"clerk"},
+      {"speaker":"action","text":"두 잡지 발췌문을 마주 보게 놓고 초대장은 봉투째 대장에 건다.","evidence_class":"RECONSTRUCTED","source_ids":["CP08"],"voice_profile":"clerk"}
+    ]},
+    {"id":"C09","lines":[
+      {"speaker":"editor","text":"반려 메모의 날짜가 비평문보다 늦습니다. 판단이 바뀐 것인지, 원고가 바뀐 것인지 먼저 확인해야 합니다.","evidence_class":"PARAPHRASE","source_ids":["CP09"],"voice_profile":"editor"},
+      {"speaker":"clerk","text":"비평의 방향을 한 사람의 성격으로 설명하지 않겠습니다. 날짜와 문장을 나란히 놓겠습니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP09"],"voice_profile":"clerk"},
+      {"speaker":"editor","text":"독자 투고는 사회 문제를 말하지만, 제출본은 문학 용어만 남겼습니다. 어느 쪽을 보존합니까?","evidence_class":"RECONSTRUCTED","source_ids":["CP09"],"voice_profile":"editor"},
+      {"speaker":"clerk","text":"둘 다 보존하되, 누가 언제 쓴 말인지 표시하겠습니다. 변화 자체가 이 사건의 자료입니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP09"],"voice_profile":"clerk"},
+      {"speaker":"action","text":"반려 메모와 제출본의 날짜를 같은 실로 묶어 편집부에 돌려보낸다.","evidence_class":"RECONSTRUCTED","source_ids":["CP09"],"voice_profile":"clerk"}
+    ]},
+    {"id":"C10","lines":[
+      {"speaker":"writer","text":"제 이름은 교정쇄에서 빼 주십시오. 생활을 쓴 것뿐인데 선언문으로 읽히고 있습니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP10"],"voice_profile":"editor"},
+      {"speaker":"clerk","text":"생활 묘사와 정치적 주장을 분리해 표시하겠습니다. 이름을 지우는 일이 판단을 대신하지는 않습니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP10"],"voice_profile":"clerk"},
+      {"speaker":"writer","text":"연재를 멈추면 독자는 침묵을 답으로 읽을 겁니다. 계속 실을 근거가 있습니까?","evidence_class":"RECONSTRUCTED","source_ids":["CP10"],"voice_profile":"editor"},
+      {"speaker":"clerk","text":"계속할지 멈출지는 상신하겠습니다. 여기서는 반복되는 인물과 문제 문장만 정확히 남깁니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP10"],"voice_profile":"clerk"},
+      {"speaker":"action","text":"경고 쪽지의 문장을 교정쇄 여백에 옮겨 적고 원고는 접지 않는다.","evidence_class":"RECONSTRUCTED","source_ids":["CP10"],"voice_profile":"clerk"}
+    ]},
+    {"id":"C11","lines":[
+      {"speaker":"illustrator","text":"캡션 한 줄만 바꾸면 삽화의 뜻이 달라집니다. 그림과 글 중 무엇을 먼저 검토합니까?","evidence_class":"RECONSTRUCTED","source_ids":["CP11"],"voice_profile":"editor"},
+      {"speaker":"clerk","text":"삽화와 캡션을 떼지 않겠습니다. 배포표의 책임자 이름도 같은 묶음에 둡니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP11"],"voice_profile":"clerk"},
+      {"speaker":"illustrator","text":"발행인은 배포 전에 다시 보겠다고 했습니다. 그 약속을 조건으로 통과시킬 수 있습니까?","evidence_class":"RECONSTRUCTED","source_ids":["CP11"],"voice_profile":"editor"},
+      {"speaker":"clerk","text":"약속은 허가의 근거가 아닙니다. 재검토 날짜와 담당자를 문서로 받아야 합니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP11"],"voice_profile":"clerk"},
+      {"speaker":"action","text":"캡션 교정쇄에 재검토 날짜를 적고 배포표 위에 얹는다.","evidence_class":"RECONSTRUCTED","source_ids":["CP11"],"voice_profile":"clerk"}
+    ]},
+    {"id":"C12","lines":[
+      {"speaker":"editor","text":"추천 쪽지는 짧지만, 원고의 행방은 여러 사람의 손을 거쳤습니다. 명성보다 먼저 경로를 확인해야 합니다.","evidence_class":"PARAPHRASE","source_ids":["CP12"],"voice_profile":"editor"},
+      {"speaker":"clerk","text":"신인의 이름에 위험 등급을 붙이지 않겠습니다. 추천한 사람과 읽은 사람을 각각 기록하겠습니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP12"],"voice_profile":"clerk"},
+      {"speaker":"editor","text":"독자는 가장자리 한 줄을 가리키며 책을 돌려줬습니다. 그 표시도 원고의 일부입니까?","evidence_class":"RECONSTRUCTED","source_ids":["CP12"],"voice_profile":"editor"},
+      {"speaker":"clerk","text":"누가 언제 남겼는지 모르면 사실로 단정하지 않겠습니다. 다만 책이 어떻게 읽혔는지는 남깁니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP12"],"voice_profile":"clerk"},
+      {"speaker":"action","text":"추천 쪽지를 원고와 분리해 봉투에 넣고 독자 표시에는 출처 미상 표를 단다.","evidence_class":"RECONSTRUCTED","source_ids":["CP12"],"voice_profile":"clerk"}
+    ]},
+    {"id":"C13","lines":[
+      {"speaker":"observer","text":"초대장, 외국 서적 목록, 참석자 필기가 한 파일에 들어왔습니다. 관찰 메모에는 확인과 추정이 섞여 있습니다.","evidence_class":"PARAPHRASE","source_ids":["CP13"],"voice_profile":"file-reader"},
+      {"speaker":"clerk","text":"방문했다는 사실과 무엇을 읽었는지는 다른 칸에 적겠습니다. 의도를 대신 써 넣지는 않습니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP13"],"voice_profile":"clerk"},
+      {"speaker":"observer","text":"초대장을 태우면 기록은 사라지지만, 보관하면 제 이름도 남을 수 있습니다. 어느 쪽을 택합니까?","evidence_class":"RECONSTRUCTED","source_ids":["CP13"],"voice_profile":"file-reader"},
+      {"speaker":"clerk","text":"태웠다는 사실도 기록이 됩니다. 초대장을 보관하되 참석 여부는 확인된 문장으로만 남기겠습니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP13"],"voice_profile":"clerk"},
+      {"speaker":"action","text":"초대장과 관찰 메모 사이에 빈 종이를 끼워 사실과 추정을 분리한다.","evidence_class":"RECONSTRUCTED","source_ids":["CP13"],"voice_profile":"clerk"}
+    ]},
+    {"id":"C14","lines":[
+      {"speaker":"new-editor","text":"새 편집진은 낡은 활자를 다시 쓰고 있습니다. 허가 문서는 그대로인데, 지면의 목소리가 달라졌습니다.","evidence_class":"PARAPHRASE","source_ids":["CP14"],"voice_profile":"editor"},
+      {"speaker":"clerk","text":"편집권과 발행권을 분리해 적겠습니다. 개편을 곧바로 논조의 변경으로 단정하지 않겠습니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP14"],"voice_profile":"clerk"},
+      {"speaker":"new-editor","text":"다음 호를 미리 보여 달라는 요구는 새 목소리를 겁주기에 충분합니다. 그래도 보내겠습니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP14"],"voice_profile":"editor"},
+      {"speaker":"clerk","text":"보내 달라는 요구와 검토 결과를 다른 문서로 만들겠습니다. 그 차이가 남아야 합니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP14"],"voice_profile":"clerk"},
+      {"speaker":"action","text":"신규 편집진 명단을 허가 문서 옆에 두고 다음 호 요청서를 봉인한다.","evidence_class":"RECONSTRUCTED","source_ids":["CP14"],"voice_profile":"clerk"}
+    ]},
+    {"id":"C15","lines":[
+      {"speaker":"courier","text":"고골의 해명 편지와 판매소 보고가 같은 날 들어왔습니다. 공개 비평은 이미 지면을 떠돌고 있습니다.","evidence_class":"PARAPHRASE","source_ids":["CP15"],"voice_profile":"correspondent"},
+      {"speaker":"clerk","text":"책의 주장과 비평가의 반응을 나란히 두겠습니다. 사적 편지를 공개 논쟁의 증거로 바꾸지는 않습니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP15"],"voice_profile":"clerk"},
+      {"speaker":"courier","text":"봉투 안쪽 잉크가 아직 젖었습니다. 수신 날짜를 모르면 전달 경로도 흐려집니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP15"],"voice_profile":"correspondent"},
+      {"speaker":"clerk","text":"발신·수신 날짜를 먼저 대조하십시오. 문장의 옳고 그름은 그 다음 칸에 남깁니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP15"],"voice_profile":"clerk"},
+      {"speaker":"action","text":"공개 비평은 자료철에, 편지는 봉투째 별도 서랍에 넣는다.","evidence_class":"RECONSTRUCTED","source_ids":["CP15"],"voice_profile":"clerk"}
+    ]},
+    {"id":"C16","lines":[
+      {"speaker":"carrier","text":"전달자는 봉투를 누가 먼저 열었는지 말하지 않습니다. 편지에는 수신자가 분명히 적혀 있습니다.","evidence_class":"PARAPHRASE","source_ids":["CP16"],"voice_profile":"correspondent"},
+      {"speaker":"clerk","text":"직접 만났다는 말은 쓰지 않겠습니다. 확인되는 것은 서신의 이동과 문장의 수신자입니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP16"],"voice_profile":"clerk"},
+      {"speaker":"carrier","text":"논쟁을 개인적 불화로 적으면 파일은 간단해집니다. 하지만 편지의 어조는 그렇게 끝나지 않습니다.","evidence_class":"PARAPHRASE","source_ids":["CP16"],"voice_profile":"correspondent"},
+      {"speaker":"clerk","text":"간단한 설명 대신 문장과 날짜를 보관 등급에 올리겠습니다. 판단은 읽는 사람에게 남깁니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP16"],"voice_profile":"clerk"},
+      {"speaker":"action","text":"두 편지의 수신자 표기를 확인하고 사본의 보관 등급을 한 단계 올린다.","evidence_class":"RECONSTRUCTED","source_ids":["CP16"],"voice_profile":"clerk"}
+    ]},
+    {"id":"C17","lines":[
+      {"speaker":"official","text":"5일 명령과 8일 통지가 따로 도착했습니다. 봉인 왁스가 굳기 전에 첨부 목록이 늘었습니다.","evidence_class":"PARAPHRASE","source_ids":["CP17"],"voice_profile":"official"},
+      {"speaker":"clerk","text":"명령의 문구와 실제 전달을 나누어 적겠습니다. 세 사람의 조치도 한 줄로 묶지 않습니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP17"],"voice_profile":"clerk"},
+      {"speaker":"official","text":"광고 금지 표시는 이미 지면에 찍혔습니다. 봉인된 부록까지 넘기면 기록이 더 무거워집니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP17"],"voice_profile":"official"},
+      {"speaker":"clerk","text":"무거워진 이유를 적는 것이 제 일입니다. 부록은 열지 말고 상급 부서로 넘기겠습니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP17"],"voice_profile":"clerk"},
+      {"speaker":"action","text":"5일 명령과 8일 통지를 시간순으로 정렬해 봉인 부록과 함께 상신한다.","evidence_class":"RECONSTRUCTED","source_ids":["CP17"],"voice_profile":"clerk"}
+    ]},
+    {"id":"C18","lines":[
+      {"speaker":"salon-visitor","text":"두 봉투의 손글씨는 같지만, 한쪽은 공개 지면을 비판하고 다른 쪽은 편집부에 답합니다.","evidence_class":"PARAPHRASE","source_ids":["CP18"],"voice_profile":"correspondent"},
+      {"speaker":"clerk","text":"비판의 대상과 독자를 구분하겠습니다. 한쪽의 목소리로 다른 쪽의 뜻을 대신 쓰지 않습니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP18"],"voice_profile":"clerk"},
+      {"speaker":"salon-visitor","text":"초대받은 방에 가면 논쟁을 직접 들을 수 있습니다. 그러나 방문은 서류에 남을 겁니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP18"],"voice_profile":"correspondent"},
+      {"speaker":"clerk","text":"방문 여부와 읽은 문서는 따로 기록하겠습니다. 서로 다른 위험을 하나의 표정으로 만들지 않겠습니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP18"],"voice_profile":"clerk"},
+      {"speaker":"action","text":"두 봉투의 발신 흔적을 대조하고 살롱 쪽지는 접힌 채 자료철에 둔다.","evidence_class":"RECONSTRUCTED","source_ids":["CP18"],"voice_profile":"clerk"}
+    ]},
+    {"id":"C19","lines":[
+      {"speaker":"courier","text":"전령은 젖은 외투 안에서 파리 소식 번역본을 꺼냈습니다. 국내 보고와 외국 신문이 한데 젖었습니다.","evidence_class":"PARAPHRASE","source_ids":["CP19"],"voice_profile":"correspondent"},
+      {"speaker":"clerk","text":"번역자가 생략한 부분부터 표시하겠습니다. 외국 보도를 국내 사실처럼 등록하지 않겠습니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP19"],"voice_profile":"clerk"},
+      {"speaker":"courier","text":"긴급 회람은 모든 외국 신문을 다시 보라고 합니다. 지금 읽은 한 장도 회람 대상입니까?","evidence_class":"RECONSTRUCTED","source_ids":["CP19"],"voice_profile":"official"},
+      {"speaker":"clerk","text":"이 장의 출처와 번역자를 먼저 적겠습니다. 그 뒤 재검토 범위를 상급자에게 묻겠습니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP19"],"voice_profile":"clerk"},
+      {"speaker":"action","text":"외국 신문 발췌의 생략 표시를 접지 자국 옆에 옮겨 적는다.","evidence_class":"RECONSTRUCTED","source_ids":["CP19"],"voice_profile":"clerk"}
+    ]},
+    {"id":"C20","lines":[
+      {"speaker":"inspector","text":"국경 검문 보고에는 군중의 숫자가 있고, 특파원 편지에는 다른 날짜가 있습니다. 제한 조치가 먼저였는지는 불분명합니다.","evidence_class":"PARAPHRASE","source_ids":["CP20"],"voice_profile":"official"},
+      {"speaker":"clerk","text":"국외 사건과 국내 조치를 같은 원인으로 쓰지 않겠습니다. 근거가 된 문장을 찾아 표시하겠습니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP20"],"voice_profile":"clerk"},
+      {"speaker":"inspector","text":"임시 제한으로 적으면 다음 회람이 약해지고, 상시 제한으로 적으면 근거가 부족합니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP20"],"voice_profile":"official"},
+      {"speaker":"clerk","text":"기간을 정하지 않은 명령은 그렇게 적겠습니다. 지속 여부는 후속 문서가 말하게 두죠.","evidence_class":"RECONSTRUCTED","source_ids":["CP20"],"voice_profile":"clerk"},
+      {"speaker":"action","text":"제한표 옆에 근거 문장의 위치와 보고 날짜를 함께 기입한다.","evidence_class":"RECONSTRUCTED","source_ids":["CP20"],"voice_profile":"clerk"}
+    ]},
+    {"id":"C21","lines":[
+      {"speaker":"committee-clerk","text":"이미 인쇄된 호가 다시 돌아왔습니다. 사전 검열과 인쇄 후 검토를 같은 절차로 부르면 안 됩니다.","evidence_class":"PARAPHRASE","source_ids":["CP21"],"voice_profile":"official"},
+      {"speaker":"clerk","text":"위원회의 권한과 실제 명령을 분리해 적겠습니다. 질책서의 어조가 권한을 증명하지는 않습니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP21"],"voice_profile":"clerk"},
+      {"speaker":"committee-clerk","text":"회수 목록에 올리면 이미 배포된 지면의 흔적도 따라옵니다. 생략할 사실이 있습니까?","evidence_class":"RECONSTRUCTED","source_ids":["CP21"],"voice_profile":"official"},
+      {"speaker":"clerk","text":"생략할지 말지는 보고서에 표시하겠습니다. 숨긴 사실을 없던 일로 적지는 않겠습니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP21"],"voice_profile":"clerk"},
+      {"speaker":"action","text":"회수 기록의 발행일과 인쇄 후 검토 표시를 서로 다른 잉크로 남긴다.","evidence_class":"RECONSTRUCTED","source_ids":["CP21"],"voice_profile":"clerk"}
+    ]},
+    {"id":"C22","lines":[
+      {"speaker":"printer","text":"납 활자를 다시 녹일 준비를 했습니다. 새 호의 목차에는 삭제된 자리만 남아 있습니다.","evidence_class":"PARAPHRASE","source_ids":["CP22"],"voice_profile":"editor"},
+      {"speaker":"clerk","text":"무엇이 사라졌는지도 편집 기록입니다. 침묵을 새로운 문장처럼 꾸미지는 않겠습니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP22"],"voice_profile":"clerk"},
+      {"speaker":"printer","text":"두 잡지는 같은 말을 다르게 지웠습니다. 다음 호를 함께 보자는 요청은 감시처럼 들릴 겁니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP22"],"voice_profile":"editor"},
+      {"speaker":"clerk","text":"함께 보는 이유를 회람에 적겠습니다. 비교하는 일과 같은 지시를 내리는 일은 다릅니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP22"],"voice_profile":"clerk"},
+      {"speaker":"action","text":"삭제된 교정쇄의 빈 칸을 표시하고 두 잡지의 목차를 나란히 보관한다.","evidence_class":"RECONSTRUCTED","source_ids":["CP22"],"voice_profile":"clerk"}
+    ]},
+    {"id":"C23","lines":[
+      {"speaker":"investigator","text":"새벽 방문 기록과 체포 명령이 한 장 차이로 붙어 있습니다. 압수품 목록에는 책과 편지가 따로 적혔습니다.","evidence_class":"PARAPHRASE","source_ids":["CP23"],"voice_profile":"file-reader"},
+      {"speaker":"clerk","text":"방문·소지·서신·낭독을 각각의 행동으로 남기겠습니다. 한 사람의 의도를 제가 완성하지 않겠습니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP23"],"voice_profile":"clerk"},
+      {"speaker":"investigator","text":"추가 목록을 제출하면 파일의 무게가 달라집니다. 그래도 빠진 물건을 적겠습니까?","evidence_class":"RECONSTRUCTED","source_ids":["CP23"],"voice_profile":"file-reader"},
+      {"speaker":"clerk","text":"확인된 물건만 보태겠습니다. 이름을 지우는 일은 기록의 정리가 아니라 다른 사건입니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP23"],"voice_profile":"clerk"},
+      {"speaker":"action","text":"감시표와 압수품 목록을 행동별로 나누어 dossier 초안에 묶는다.","evidence_class":"RECONSTRUCTED","source_ids":["CP23"],"voice_profile":"clerk"}
+    ]},
+    {"id":"C24","lines":[
+      {"speaker":"reader","text":"심문 기록과 판결문 사본이 닫히기 직전 도착했습니다. 실제 선고와 당신이 남긴 흔적은 다른 층위입니다.","evidence_class":"PARAPHRASE","source_ids":["CP24"],"voice_profile":"file-reader"},
+      {"speaker":"clerk","text":"실제 판결을 바꾸었다고 쓰지 않겠습니다. 제가 읽고 보관하고 옮긴 행동만 마지막 파일에 남깁니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP24"],"voice_profile":"clerk"},
+      {"speaker":"reader","text":"봉인 전에 한 장이 뒤집혀 있습니다. 펼치면 이름이 보이고, 그대로 두면 빈칸으로 남습니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP24"],"voice_profile":"file-reader"},
+      {"speaker":"clerk","text":"확인하지 않은 이름은 적지 않겠습니다. 대신 뒤집힌 종이와 봉인 시각을 기록하겠습니다.","evidence_class":"RECONSTRUCTED","source_ids":["CP24"],"voice_profile":"clerk"},
+      {"speaker":"action","text":"판결문 사본과 개인 파일을 분리한 뒤 봉인 날짜를 마지막 줄에 적는다.","evidence_class":"RECONSTRUCTED","source_ids":["CP24"],"voice_profile":"clerk"}
+    ]}
+  ]
+}

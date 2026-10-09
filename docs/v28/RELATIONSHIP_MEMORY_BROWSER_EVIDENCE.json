@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "V28-MEMORY-BROWSER-1",
+  "status": "PASS",
+  "results": [
+    {
+      "choiceIndex": 1,
+      "aftermathText": "봉인의 순서를 먼저 확인하겠다는 말은 기록의 첫 줄이 될 거예요. 본문을 읽기 전과 후를 섞지 않겠습니다.",
+      "memory": {
+        "caseId": "C01",
+        "callback": "지난번에 “봉인의 순서를 먼저 확인하겠다는 말”라고 말한 것을 기억한다. 처음으로 서로의 이름을 숨겨 주는 선택도 잊지 않겠다.",
+        "heardBy": [
+          "alexei"
+        ]
+      },
+      "nextCaseText": "지난번에 “봉인의 순서를 먼저 확인하겠다는 말”라고 말한 것을 기억한다. 처음으로 서로의 이름을 숨겨 주는 선택도 잊지 않겠다.",
+      "callbackVisibleInNextCase": true,
+      "pageErrors": []
+    },
+    {
+      "choiceIndex": 2,
+      "aftermathText": "실제로 읽은 문장만 남기겠다는 약속은 지키기 어렵지만, 그래서 더 중요해요. 빈칸을 추측으로 메우지 말아요.",
+      "memory": {
+        "caseId": "C01",
+        "callback": "지난번에 “실제로 읽은 문장만 남기겠다는 말”라고 말한 것을 기억한다. 처음으로 서로의 이름을 숨겨 주는 선택도 잊지 않겠다.",
+        "heardBy": [
+          "ekaterina"
+        ]
+      },
+      "nextCaseText": "지난번에 “실제로 읽은 문장만 남기겠다는 말”라고 말한 것을 기억한다. 처음으로 서로의 이름을 숨겨 주는 선택도 잊지 않겠다.",
+      "callbackVisibleInNextCase": true,
+      "pageErrors": []
+    },
+    {
+      "choiceIndex": 3,
+      "aftermathText": "도착 시각부터 적겠다는 말이라면 봉투를 건넬 수 있어요. 누가 언제 들었는지까지 함께 남겨야 합니다.",
+      "memory": {
+        "caseId": "C01",
+        "callback": "지난번에 “도착 시각부터 적겠다는 말”라고 말한 것을 기억한다. 처음으로 서로의 이름을 숨겨 주는 선택도 잊지 않겠다.",
+        "heardBy": [
+          "pavel"
+        ]
+      },
+      "nextCaseText": "지난번에 “도착 시각부터 적겠다는 말”라고 말한 것을 기억한다. 처음으로 서로의 이름을 숨겨 주는 선택도 잊지 않겠다.",
+      "callbackVisibleInNextCase": true,
+      "pageErrors": []
+    }
+  ]
+}

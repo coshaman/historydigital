@@ -1,0 +1,90 @@
+{
+  "schemaVersion": "v27-ending-rules-1",
+  "rules": [
+    {
+      "id": "DOSTOEVSKY_PETRASHEVSKY",
+      "requires": {
+        "issue": {
+          "riskTolerance": 2,
+          "socialReform": 2
+        },
+        "access": {
+          "dossierEvidence": 3
+        },
+        "relation": {
+          "officialPressure": 1
+        },
+        "evidenceCount": 4
+      }
+    },
+    {
+      "id": "HERZEN",
+      "requires": {
+        "issue": {
+          "pressFreedom": 2,
+          "westernism": 2,
+          "riskTolerance": 1
+        },
+        "access": {
+          "crossBorder": 1
+        },
+        "relation": {
+          "editorContact": 1
+        },
+        "evidenceCount": 3
+      }
+    },
+    {
+      "id": "BELINSKY",
+      "requires": {
+        "issue": {
+          "pressFreedom": 2
+        },
+        "access": {
+          "officialRecord": 1
+        },
+        "relation": {
+          "editorContact": 1
+        },
+        "evidenceCount": 3
+      }
+    },
+    {
+      "id": "KHOMYAKOV",
+      "requires": {
+        "issue": {
+          "slavophileAffinity": 1
+        },
+        "access": {
+          "officialRecord": 1
+        },
+        "relation": {
+          "editorContact": 1
+        },
+        "evidenceCount": 3
+      }
+    },
+    {
+      "id": "UVAROV",
+      "requires": {
+        "issue": {
+          "stateAuthority": 2
+        },
+        "access": {
+          "officialRecord": 2
+        },
+        "relation": {
+          "officialPressure": 1
+        },
+        "evidenceCount": 3
+      }
+    }
+  ],
+  "resolutionOrder": [
+    "DOSTOEVSKY_PETRASHEVSKY",
+    "HERZEN",
+    "KHOMYAKOV",
+    "BELINSKY",
+    "UVAROV"
+  ]
+}

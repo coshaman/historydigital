@@ -1,0 +1,12 @@
+{
+  "assets": [
+    {"id":"desk-paper","kind":"authored facsimile-style SVG/CSS composition","year":"1847 reference","license":"original project artwork","confidence":"RECONSTRUCTED","provenance":"source metadata and period typographic conventions"},
+    {"id":"walk-route","kind":"Three.js reconstructed route","year":"1840/1849 reference maps","license":"original project geometry; public-domain map references","confidence":"RECONSTRUCTED","provenance":"SRC-PLAN-1840, SRC-SAD-1835; not a surveyed replica"},
+    {"id":"period-carriage","kind":"low-detail ambient prop","year":"1847 setting","license":"original project geometry","confidence":"RECONSTRUCTED","provenance":"period-setting convention; no famous person represented"},
+    {"id":"paper-fiber","kind":"local SVG material texture","year":"period-material reference","license":"original project asset","confidence":"RECONSTRUCTED","provenance":"fiber/noise texture used only for paper material response"},
+    {"id":"wood-grain","kind":"local SVG material texture","year":"period-material reference","license":"original project asset","confidence":"RECONSTRUCTED","provenance":"wood grain used only for desk material response"},
+    {"id":"wood-pbr-set","kind":"local albedo/roughness/normal texture set","year":"period-material reference","license":"original project asset","confidence":"RECONSTRUCTED","provenance":"wood-grain.svg + wood-roughness.svg + wood-normal.svg"},
+    {"id":"paper-roughness","kind":"local roughness texture","year":"period-material reference","license":"original project asset","confidence":"RECONSTRUCTED","provenance":"paper-fiber.svg paired with paper-roughness.svg"},
+    {"id":"route-reconstruction-gltf","kind":"glTF 2.0 modular façade export","year":"1840/1849 reference geometry","license":"original project geometry","confidence":"RECONSTRUCTED","provenance":"generated from route-evidence.json; SRC-PLAN-1840 and SRC-SAD-1835"}
+  ]
+}

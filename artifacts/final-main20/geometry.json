@@ -1,0 +1,56 @@
+{
+  "route": "#main",
+  "viewports": [
+    {
+      "viewport": "desktop-1440x900",
+      "outerPlayAreaWidth": 1440,
+      "initialWidth": 1440,
+      "choiceWidth": 1440,
+      "delta": 0,
+      "overflow": {
+        "width": 1440,
+        "client": 1440
+      }
+    },
+    {
+      "viewport": "desktop-1366x768",
+      "outerPlayAreaWidth": 1366,
+      "initialWidth": 1366,
+      "choiceWidth": 1366,
+      "delta": 0,
+      "overflow": {
+        "width": 1366,
+        "client": 1366
+      }
+    },
+    {
+      "viewport": "mobile-390x844",
+      "outerPlayAreaWidth": 390,
+      "initialWidth": 390,
+      "choiceWidth": 390,
+      "delta": 0,
+      "overflow": {
+        "width": 390,
+        "client": 390
+      }
+    },
+    {
+      "viewport": "mobile-360x800",
+      "outerPlayAreaWidth": 360,
+      "initialWidth": 360,
+      "choiceWidth": 360,
+      "delta": 0,
+      "overflow": {
+        "width": 360,
+        "client": 360
+      }
+    }
+  ],
+  "endingIds": [
+    "UVAROV",
+    "BELINSKY",
+    "HERZEN",
+    "KHOMYAKOV",
+    "DOSTOEVSKY_PETRASHEVSKY"
+  ]
+}

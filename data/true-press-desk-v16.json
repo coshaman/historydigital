@@ -1,0 +1,72 @@
+{
+  "sceneId": "TRUE-PRESS-DESK",
+  "sceneDate": "1847-08-10",
+  "displayDate": "1847년 8월 10일 · 편집부 접수",
+  "datePrecision": "DAY",
+  "windowDays": 26,
+  "role": "PRIMARY_IN_WORLD",
+  "chronologyBasis": "고골 답변 초안의 기록 범위가 7월 25일–8월 10일로 끝나며, 8월 10일 편집부 접수를 업무일로 둔다. 7월 15일 편지와 7월 24일 검열 허가 표기는 앞선 도착물이다.",
+  "items": [
+    {
+      "itemId": "TRUE-PRESS-01",
+      "objectType": "private-letter-draft",
+      "shape": "broadside",
+      "label": "고골의 답변 초안",
+      "sourceId": "E05-S2",
+      "excerptId": "E05-X3",
+      "excerptSourceId": "E05-S2",
+      "exactDate": "1847-08-10",
+      "datePrecision": "RANGE",
+      "pageFolio": "pp. 435–446 · section 1 · source range 1847-07-25—08-10",
+      "titleRu": "Письмо В. Г. Белинскому, июль—август 1847 г.",
+      "titleKo": "고골이 벨린스키에게 보낸 1847년 7–8월 답변 초안",
+      "ru": "Как далеко вы сбились с прямого пути, в каком вывороченном виде стали перед вами вещи!",
+      "ko": "곧은길에서 얼마나 멀리 벗어나셨는지, 사물이 얼마나 뒤집힌 모습으로 눈앞에 서게 되었는지요!",
+      "provenance": "Wikisource transcription · source range 1847-07-25—08-10 · FEB scan pointer",
+      "sourceUrl": "https://ru.wikisource.org/wiki/Письмо_В._Г._Белинскому_июль_—_август_1847_г._(Гоголь)",
+      "scanUrl": "https://feb-web.ru/feb/gogol/texts/pg2/pg2-490-.htm",
+      "displayCapability": "SCAN_LINK"
+    },
+    {
+      "itemId": "TRUE-PRESS-02",
+      "objectType": "private-letter",
+      "shape": "letter",
+      "label": "벨린스키의 편지",
+      "sourceId": "OBJ-WS-BELINSKY-1847",
+      "excerptId": "EX-WS-BEL-003",
+      "excerptSourceId": "OBJ-WS-BELINSKY-1847",
+      "exactDate": "1847-07-15",
+      "pageFolio": "Wikisource section 1",
+      "titleRu": "Письмо Н. В. Гоголю 15 июля 1847 г.",
+      "titleKo": "고골에게 보낸 1847년 7월 15일 벨린스키의 편지",
+      "ru": "Ей нужны не проповеди, не молитвы, а пробуждение в народе чувства человеческого достоинства.",
+      "ko": "러시아에 필요한 것은 설교나 기도가 아니라, 사람들 안에서 인간의 존엄을 깨우는 일입니다.",
+      "provenance": "Викитека transcription · cited source edition on page",
+      "sourceUrl": "https://ru.wikisource.org/wiki/Письмо_Н._В._Гоголю_15_июля_1847_г._(Белинский)",
+      "displayCapability": "MODERN_TRANSCRIPTION"
+    },
+    {
+      "itemId": "TRUE-PRESS-03",
+      "objectType": "periodical-proof",
+      "shape": "folder",
+      "label": "《Москвитянин》 1부",
+      "sourceId": "EXT-MOSKVITYANIN-1847-P1",
+      "excerptId": "EXT-MOSKVITYANIN-1847-P1-DATE",
+      "excerptSourceId": "EXT-MOSKVITYANIN-1847-P1",
+      "exactDate": "1847-07-24",
+      "pageFolio": "Part 1 · title/permission line",
+      "titleRu": "Москвитянин · 1847 · Часть 1",
+      "titleKo": "《모스크비탸닌》 1847년 1부",
+      "ru": "Цензурное разрешение 24 июля 1847 года.",
+      "ko": "검열 허가일: 1847년 7월 24일.",
+      "provenance": "Викитека page with NЭБ viewer and Wikimedia scan links · Part 1",
+      "sourceUrl": "https://ru.wikisource.org/wiki/Москвитянин/1847",
+      "scanUrl": "https://commons.wikimedia.org/wiki/File:%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B8%D1%82%D1%8F%D0%BD%D0%B8%D0%BD_1847_%D1%87_1.pdf?page=5",
+      "displayCapability": "SCAN_LINK"
+    }
+  ],
+  "branchManifest": {
+    "A": {"selectedItemIds": ["TRUE-PRESS-01", "TRUE-PRESS-02"], "deferredItemIds": ["TRUE-PRESS-03"], "nextUnlockedDocumentIds": ["E07-DOC-214", "E05-B-FOLLOWUP"], "nextDialogueId": "TRUE-PRESS-A-DIALOGUE"},
+    "B": {"selectedItemIds": ["TRUE-PRESS-02", "TRUE-PRESS-03"], "deferredItemIds": ["TRUE-PRESS-01"], "nextUnlockedDocumentIds": ["E07-DOC-214", "EG-PRESS-CENSORSHIP-FOLLOWUP"], "nextDialogueId": "TRUE-PRESS-B-DIALOGUE"}
+  }
+}

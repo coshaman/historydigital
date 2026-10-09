@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "V28-LEGACY-COPY-BROWSER-1",
+  "status": "PASS",
+  "forbidden": [
+    "시범 케이스",
+    "자료 처리의 순서",
+    "내 판단",
+    "케이스 후속 기록",
+    "분기 후속 문서"
+  ],
+  "pageErrors": [],
+  "screenshots": [
+    "artifacts/v28-browser/legacy-copy-sanitized-e02.png"
+  ],
+  "visibleForbidden": [],
+  "visibleCopyClear": true
+}

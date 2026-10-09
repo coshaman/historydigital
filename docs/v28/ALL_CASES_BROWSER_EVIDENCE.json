@@ -1,0 +1,201 @@
+{
+  "schemaVersion": "V28-ALL-CASES-BROWSER-1",
+  "status": "PASS",
+  "caseCount": 24,
+  "chronological": true,
+  "pageErrors": [],
+  "results": [
+    {
+      "caseId": "C01",
+      "expectedTitle": "차다예프의 첫 철학적 편지",
+      "actualTitle": "차다예프의 첫 철학적 편지",
+      "date": "1836-10",
+      "choiceCount": 3,
+      "screenshot": "artifacts/v28-browser/all-cases/C01-arrival.png"
+    },
+    {
+      "caseId": "C02",
+      "expectedTitle": "차다예프 사건 뒤의 공식 반응",
+      "actualTitle": "차다예프 사건 뒤의 공식 반응",
+      "date": "1836-11",
+      "choiceCount": 3,
+      "screenshot": "artifacts/v28-browser/all-cases/C02-arrival.png"
+    },
+    {
+      "caseId": "C03",
+      "expectedTitle": "푸시킨 사망과 언론의 반응",
+      "actualTitle": "푸시킨 사망과 언론의 반응",
+      "date": "1837-03",
+      "choiceCount": 3,
+      "screenshot": "artifacts/v28-browser/all-cases/C03-arrival.png"
+    },
+    {
+      "caseId": "C04",
+      "expectedTitle": "《조국 수기》의 등장",
+      "actualTitle": "《조국 수기》의 등장",
+      "date": "1839-12",
+      "choiceCount": 3,
+      "screenshot": "artifacts/v28-browser/all-cases/C04-arrival.png"
+    },
+    {
+      "caseId": "C05",
+      "expectedTitle": "《우리 시대의 영웅》",
+      "actualTitle": "《우리 시대의 영웅》",
+      "date": "1840-05-15",
+      "choiceCount": 3,
+      "screenshot": "artifacts/v28-browser/all-cases/C05-arrival.png"
+    },
+    {
+      "caseId": "C06",
+      "expectedTitle": "레르몬토프 결투 수사 기록",
+      "actualTitle": "레르몬토프 결투 수사 기록",
+      "date": "1842-02",
+      "choiceCount": 3,
+      "screenshot": "artifacts/v28-browser/all-cases/C06-arrival.png"
+    },
+    {
+      "caseId": "C08",
+      "expectedTitle": "슬라브파와 서구파의 논쟁",
+      "actualTitle": "슬라브파와 서구파의 논쟁",
+      "date": "1842-02",
+      "choiceCount": 3,
+      "screenshot": "artifacts/v28-browser/all-cases/C08-arrival.png"
+    },
+    {
+      "caseId": "C07",
+      "expectedTitle": "《죽은 혼》의 출판과 검열",
+      "actualTitle": "《죽은 혼》의 출판과 검열",
+      "date": "1842-05",
+      "choiceCount": 3,
+      "screenshot": "artifacts/v28-browser/all-cases/C07-arrival.png"
+    },
+    {
+      "caseId": "C09",
+      "expectedTitle": "벨린스키 비평의 변화",
+      "actualTitle": "벨린스키 비평의 변화",
+      "date": "1844-06",
+      "choiceCount": 3,
+      "screenshot": "artifacts/v28-browser/all-cases/C09-arrival.png"
+    },
+    {
+      "caseId": "C10",
+      "expectedTitle": "자연파 논쟁",
+      "actualTitle": "자연파 논쟁",
+      "date": "1845-01",
+      "choiceCount": 3,
+      "screenshot": "artifacts/v28-browser/all-cases/C10-arrival.png"
+    },
+    {
+      "caseId": "C11",
+      "expectedTitle": "상트페테르부르크 문학 연감",
+      "actualTitle": "상트페테르부르크 문학 연감",
+      "date": "1845-09",
+      "choiceCount": 3,
+      "screenshot": "artifacts/v28-browser/all-cases/C11-arrival.png"
+    },
+    {
+      "caseId": "C12",
+      "expectedTitle": "도스토옙스키의 첫 소설",
+      "actualTitle": "도스토옙스키의 첫 소설",
+      "date": "1846-03",
+      "choiceCount": 3,
+      "screenshot": "artifacts/v28-browser/all-cases/C12-arrival.png"
+    },
+    {
+      "caseId": "C13",
+      "expectedTitle": "페트라셰프스키 모임의 초기 환경",
+      "actualTitle": "페트라셰프스키 모임의 초기 환경",
+      "date": "1846-09",
+      "choiceCount": 3,
+      "screenshot": "artifacts/v28-browser/all-cases/C13-arrival.png"
+    },
+    {
+      "caseId": "C15",
+      "expectedTitle": "고골의 《선집》",
+      "actualTitle": "고골의 《선집》",
+      "date": "1847-03",
+      "choiceCount": 3,
+      "screenshot": "artifacts/v28-browser/all-cases/C15-arrival.png"
+    },
+    {
+      "caseId": "C16",
+      "expectedTitle": "벨린스키와 고골의 논쟁",
+      "actualTitle": "벨린스키와 고골의 논쟁",
+      "date": "1847-06",
+      "choiceCount": 3,
+      "screenshot": "artifacts/v28-browser/all-cases/C16-arrival.png"
+    },
+    {
+      "caseId": "C14",
+      "expectedTitle": "《현대인》의 개편",
+      "actualTitle": "《현대인》의 개편",
+      "date": "1847-07",
+      "choiceCount": 3,
+      "screenshot": "artifacts/v28-browser/all-cases/C14-arrival.png"
+    },
+    {
+      "caseId": "C17",
+      "expectedTitle": "셰우첸코·쿨리시·코스토마로프 관련 검열",
+      "actualTitle": "셰우첸코·쿨리시·코스토마로프 관련 검열",
+      "date": "1847-07",
+      "choiceCount": 3,
+      "screenshot": "artifacts/v28-browser/all-cases/C17-arrival.png"
+    },
+    {
+      "caseId": "C18",
+      "expectedTitle": "《현대인》에 대한 슬라브파의 반응",
+      "actualTitle": "《현대인》에 대한 슬라브파의 반응",
+      "date": "1847-12",
+      "choiceCount": 3,
+      "screenshot": "artifacts/v28-browser/all-cases/C18-arrival.png"
+    },
+    {
+      "caseId": "C20",
+      "expectedTitle": "유럽 혁명과 언론 제한",
+      "actualTitle": "유럽 혁명과 언론 제한",
+      "date": "1848-04",
+      "choiceCount": 3,
+      "screenshot": "artifacts/v28-browser/all-cases/C20-arrival.png"
+    },
+    {
+      "caseId": "C21",
+      "expectedTitle": "4월 위원회와 검열 강화",
+      "actualTitle": "4월 위원회와 검열 강화",
+      "date": "1848-10",
+      "choiceCount": 3,
+      "screenshot": "artifacts/v28-browser/all-cases/C21-arrival.png"
+    },
+    {
+      "caseId": "C22",
+      "expectedTitle": "1848년 잡지 지면의 변화",
+      "actualTitle": "1848년 잡지 지면의 변화",
+      "date": "1848-12",
+      "choiceCount": 3,
+      "screenshot": "artifacts/v28-browser/all-cases/C22-arrival.png"
+    },
+    {
+      "caseId": "C19",
+      "expectedTitle": "1848년 유럽 소식과 러시아 정기간행물",
+      "actualTitle": "1848년 유럽 소식과 러시아 정기간행물",
+      "date": "1849-02",
+      "choiceCount": 3,
+      "screenshot": "artifacts/v28-browser/all-cases/C19-arrival.png"
+    },
+    {
+      "caseId": "C23",
+      "expectedTitle": "페트라셰프스키 감시와 체포",
+      "actualTitle": "페트라셰프스키 감시와 체포",
+      "date": "1849-02",
+      "choiceCount": 3,
+      "screenshot": "artifacts/v28-browser/all-cases/C23-arrival.png"
+    },
+    {
+      "caseId": "C24",
+      "expectedTitle": "1849년 수사·선고 기록",
+      "actualTitle": "1849년 수사·선고 기록",
+      "date": "1849-12-22",
+      "choiceCount": 3,
+      "screenshot": "artifacts/v28-browser/all-cases/C24-arrival.png"
+    }
+  ]
+}

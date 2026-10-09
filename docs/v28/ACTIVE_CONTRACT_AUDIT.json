@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "V28-ACTIVE-CONTRACT-AUDIT-1",
+  "status": "PASS",
+  "caseCount": 24,
+  "choiceCount": 72,
+  "bundleExcerptCount": 120,
+  "speechCharacters": 4,
+  "speechSituations": 6,
+  "literaryBorrowings": 0,
+  "failures": []
+}

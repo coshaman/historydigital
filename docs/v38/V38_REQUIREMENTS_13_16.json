@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "V38-REQUIREMENTS-13-16-1",
+  "status": "PASS",
+  "requirements": {
+    "13": {
+      "title": "핵심 문서의 연속 검증 문맥",
+      "status": "PASS",
+      "scenes": 5,
+      "excerptRanges": 13,
+      "contract": "CONTIGUOUS_WITNESS_RANGE",
+      "alignment": "각 범위는 canonical excerpt의 ru/ko 쌍을 참조하며 sourceId·startLocator·endLocator·paragraphCount를 보유"
+    },
+    "14": {
+      "title": "인물별 말투·문장 리듬 구별",
+      "status": "PASS",
+      "characters": ["alexei", "ekaterina", "pavel", "protagonist"],
+      "situationsPerCharacter": 6,
+      "auditRule": "sentenceEndings, rhythm, vocabulary 각 2개 이상; 캐릭터 signature 동일 시 FAIL"
+    },
+    "15": {
+      "title": "문학 차용 provenance 분리",
+      "status": "PASS",
+      "literaryBorrowings": 0,
+      "policy": "검증된 차용이 없으므로 빈 목록; 사료 원문은 literary borrowing으로 분류하지 않음"
+    },
+    "16": {
+      "title": "선택 전 즉시 행동·가시성·위험 안내",
+      "status": "PASS",
+      "choiceDirections": 32,
+      "fields": ["audience", "recordMode", "leavesOffice", "risk"],
+      "hiddenOutcomeDisclosure": false
+    }
+  },
+  "audit": "npm run v38-context-register-choice-audit"
+}

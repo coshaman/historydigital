@@ -1,0 +1,7 @@
+import { readFile, stat } from 'node:fs/promises';
+const root=new URL('../',import.meta.url); const windowData=JSON.parse(await readFile(new URL('../data/window-visual-references.json',import.meta.url))); const ref=windowData.references?.[0]; const failures=[];
+for(const field of ['title','creator','date','sourcePage','downloadUrl','localUrl','rights','periodClass','historicalNote'])if(!ref?.[field])failures.push(`window: missing ${field}`);
+if(ref?.periodClass!=='ADJACENT_PERIOD')failures.push('window: invalid periodClass'); if(!/commons\.wikimedia\.org\/wiki\/File:Anichkov-1830\.jpg/.test(ref?.sourcePage??''))failures.push('window: source page is not Commons file page'); if(!/Public domain/i.test(ref?.rights??''))failures.push('window: rights not verified public domain');
+try{const info=await stat(new URL(`..${ref.localUrl}`,import.meta.url));if(!info.size)failures.push('window: local asset empty');}catch{failures.push('window: local asset missing');}
+const corpus=JSON.parse(await readFile(new URL('../data/v6-gold-cases.json',import.meta.url))); for(const c of corpus.cases)for(const s of c.sources)if(s.scanUrl&&c.caseId==='E05'&&!/FEB|Wikisource/i.test(s.archive))failures.push(`${s.sourceId}: transcription provenance unclear`);
+console.log(JSON.stringify({window:{id:ref.id,creator:ref.creator,date:ref.date,rights:ref.rights,periodClass:ref.periodClass,localAsset:ref.localUrl},failures},null,2)); if(failures.length)process.exit(1);

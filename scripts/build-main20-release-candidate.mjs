@@ -1,0 +1,21 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import crypto from 'node:crypto';
+import { execFileSync } from 'node:child_process';
+
+const root = process.cwd();
+const stage = path.join(root, '.main20-release-staging');
+const zip = path.join(root, 'RUSSIAN_LIVES_MAIN20_FINAL_RELEASE_CANDIDATE_20261005.zip');
+fs.rmSync(stage, { recursive: true, force: true });
+fs.mkdirSync(stage, { recursive: true });
+const files = ['index.html', 'app.js', 'gold-runtime.js', 'main20-runtime.js', 'three-desk.js', 'three-walk.js', 'window-view-controller.js', 'styles.css', 'server.mjs', 'package.json', 'package-lock.json', 'README_RUN_AND_VERIFY.md', 'AGENTS.md'];
+const dirs = ['assets', 'data', 'narrative', 'scripts', 'docs/v28', 'docs/v38', 'artifacts/final-main20', 'artifacts/v28-browser'];
+const copy = (source) => { const target = path.join(stage, source); fs.mkdirSync(path.dirname(target), { recursive: true }); fs.cpSync(path.join(root, source), target, { recursive: true }); };
+files.forEach(copy); dirs.forEach(copy);
+const hashes = [];
+const walk = (dir) => { for (const entry of fs.readdirSync(dir, { withFileTypes: true })) { const full = path.join(dir, entry.name); if (entry.isDirectory()) walk(full); else hashes.push(`${crypto.createHash('sha256').update(fs.readFileSync(full)).digest('hex')}  ${path.relative(stage, full).replaceAll('\\', '/')}`); } };
+walk(stage);
+fs.writeFileSync(path.join(stage, 'SHA256SUMS'), `${hashes.sort().join('\n')}\n`);
+execFileSync('powershell.exe', ['-NoProfile', '-Command', `Compress-Archive -Path '${stage}\\*' -DestinationPath '${zip}' -Force`], { stdio: 'inherit' });
+fs.rmSync(stage, { recursive: true, force: true });
+console.log(JSON.stringify({ status: 'PASS', zip: path.basename(zip), fileCount: hashes.length, sha256: crypto.createHash('sha256').update(fs.readFileSync(zip)).digest('hex') }, null, 2));

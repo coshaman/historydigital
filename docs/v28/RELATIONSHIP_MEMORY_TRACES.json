@@ -1,0 +1,445 @@
+{
+  "schemaVersion": "V28-MEMORY-1",
+  "characterIds": [
+    "alexei",
+    "ekaterina",
+    "pavel"
+  ],
+  "caseCount": 24,
+  "traces": [
+    {
+      "caseId": "C01",
+      "callback": "서로의 이름을 지켜 준 그날",
+      "choiceWitnesses": [
+        [
+          "alexei"
+        ],
+        [
+          "ekaterina"
+        ],
+        [
+          "pavel"
+        ]
+      ],
+      "callbackNodes": [
+        "MEMORY:C01"
+      ]
+    },
+    {
+      "caseId": "C02",
+      "callback": "알렉세이 형 이야기가 처음 드러난 순간",
+      "choiceWitnesses": [
+        [
+          "alexei"
+        ],
+        [
+          "ekaterina"
+        ],
+        [
+          "pavel"
+        ]
+      ],
+      "callbackNodes": [
+        "MEMORY:C02"
+      ]
+    },
+    {
+      "caseId": "C03",
+      "callback": "파벨이 겨울 우편의 지연을 증언한 일",
+      "choiceWitnesses": [
+        [
+          "alexei"
+        ],
+        [
+          "ekaterina"
+        ],
+        [
+          "pavel"
+        ]
+      ],
+      "callbackNodes": [
+        "MEMORY:C03"
+      ]
+    },
+    {
+      "caseId": "C04",
+      "callback": "예카테리나가 내 기억을 시험한 순간",
+      "choiceWitnesses": [
+        [
+          "alexei"
+        ],
+        [
+          "ekaterina"
+        ],
+        [
+          "pavel"
+        ]
+      ],
+      "callbackNodes": [
+        "MEMORY:C04"
+      ]
+    },
+    {
+      "caseId": "C05",
+      "callback": "두 사람이 서로 다른 인용을 기억한 일",
+      "choiceWitnesses": [
+        [
+          "alexei"
+        ],
+        [
+          "ekaterina"
+        ],
+        [
+          "pavel"
+        ]
+      ],
+      "callbackNodes": [
+        "MEMORY:C05"
+      ]
+    },
+    {
+      "caseId": "C06",
+      "callback": "알렉세이가 규정 밖의 질문을 처음 던진 순간",
+      "choiceWitnesses": [
+        [
+          "alexei"
+        ],
+        [
+          "ekaterina"
+        ],
+        [
+          "pavel"
+        ]
+      ],
+      "callbackNodes": [
+        "MEMORY:C06"
+      ]
+    },
+    {
+      "caseId": "C08",
+      "callback": "전달을 맡긴 뒤 파벨의 신뢰가 달라진 일",
+      "choiceWitnesses": [
+        [
+          "alexei"
+        ],
+        [
+          "ekaterina"
+        ],
+        [
+          "pavel"
+        ]
+      ],
+      "callbackNodes": [
+        "MEMORY:C08"
+      ]
+    },
+    {
+      "caseId": "C07",
+      "callback": "예카테리나가 지난번 내 말을 되받아친 순간",
+      "choiceWitnesses": [
+        [
+          "alexei"
+        ],
+        [
+          "ekaterina"
+        ],
+        [
+          "pavel"
+        ]
+      ],
+      "callbackNodes": [
+        "MEMORY:C07"
+      ]
+    },
+    {
+      "caseId": "C09",
+      "callback": "알렉세이가 가족 이야기를 농담으로 덮은 순간",
+      "choiceWitnesses": [
+        [
+          "alexei"
+        ],
+        [
+          "ekaterina"
+        ],
+        [
+          "pavel"
+        ]
+      ],
+      "callbackNodes": [
+        "MEMORY:C09"
+      ]
+    },
+    {
+      "caseId": "C10",
+      "callback": "침묵으로 서로를 지킨 그날",
+      "choiceWitnesses": [
+        [
+          "alexei"
+        ],
+        [
+          "ekaterina"
+        ],
+        [
+          "pavel"
+        ]
+      ],
+      "callbackNodes": [
+        "MEMORY:C10"
+      ]
+    },
+    {
+      "caseId": "C11",
+      "callback": "파벨이 봉투의 무게를 기억한 일",
+      "choiceWitnesses": [
+        [
+          "alexei"
+        ],
+        [
+          "ekaterina"
+        ],
+        [
+          "pavel"
+        ]
+      ],
+      "callbackNodes": [
+        "MEMORY:C11"
+      ]
+    },
+    {
+      "caseId": "C12",
+      "callback": "내가 기억한 한 단어가 다음 대화의 열쇠가 된 일",
+      "choiceWitnesses": [
+        [
+          "alexei"
+        ],
+        [
+          "ekaterina"
+        ],
+        [
+          "pavel"
+        ]
+      ],
+      "callbackNodes": [
+        "MEMORY:C12"
+      ]
+    },
+    {
+      "caseId": "C13",
+      "callback": "알렉세이가 기록을 고치는 대신 여백을 남긴 일",
+      "choiceWitnesses": [
+        [
+          "alexei"
+        ],
+        [
+          "ekaterina"
+        ],
+        [
+          "pavel"
+        ]
+      ],
+      "callbackNodes": [
+        "MEMORY:C13"
+      ]
+    },
+    {
+      "caseId": "C15",
+      "callback": "파벨이 위험한 이름을 지켜 준 일",
+      "choiceWitnesses": [
+        [
+          "alexei"
+        ],
+        [
+          "ekaterina"
+        ],
+        [
+          "pavel"
+        ]
+      ],
+      "callbackNodes": [
+        "MEMORY:C15"
+      ]
+    },
+    {
+      "caseId": "C16",
+      "callback": "알렉세이가 내 문장 길이를 놀린 순간",
+      "choiceWitnesses": [
+        [
+          "alexei"
+        ],
+        [
+          "ekaterina"
+        ],
+        [
+          "pavel"
+        ]
+      ],
+      "callbackNodes": [
+        "MEMORY:C16"
+      ]
+    },
+    {
+      "caseId": "C14",
+      "callback": "두 사람이 처음 손을 맞잡은 순간",
+      "choiceWitnesses": [
+        [
+          "alexei"
+        ],
+        [
+          "ekaterina"
+        ],
+        [
+          "pavel"
+        ]
+      ],
+      "callbackNodes": [
+        "MEMORY:C14"
+      ]
+    },
+    {
+      "caseId": "C17",
+      "callback": "알렉세이가 처음으로 위험을 함께 감수한 일",
+      "choiceWitnesses": [
+        [
+          "alexei"
+        ],
+        [
+          "ekaterina"
+        ],
+        [
+          "pavel"
+        ]
+      ],
+      "callbackNodes": [
+        "MEMORY:C17"
+      ]
+    },
+    {
+      "caseId": "C18",
+      "callback": "예카테리나가 봉투를 숨긴 이유를 털어놓은 순간",
+      "choiceWitnesses": [
+        [
+          "alexei"
+        ],
+        [
+          "ekaterina"
+        ],
+        [
+          "pavel"
+        ]
+      ],
+      "callbackNodes": [
+        "MEMORY:C18"
+      ]
+    },
+    {
+      "caseId": "C20",
+      "callback": "파벨이 전달을 거절한 이유를 설명한 순간",
+      "choiceWitnesses": [
+        [
+          "alexei"
+        ],
+        [
+          "ekaterina"
+        ],
+        [
+          "pavel"
+        ]
+      ],
+      "callbackNodes": [
+        "MEMORY:C20"
+      ]
+    },
+    {
+      "caseId": "C21",
+      "callback": "예카테리나가 내게 실제 봉투를 맡긴 일",
+      "choiceWitnesses": [
+        [
+          "alexei"
+        ],
+        [
+          "ekaterina"
+        ],
+        [
+          "pavel"
+        ]
+      ],
+      "callbackNodes": [
+        "MEMORY:C21"
+      ]
+    },
+    {
+      "caseId": "C22",
+      "callback": "알렉세이가 자신의 실수를 인정한 순간",
+      "choiceWitnesses": [
+        [
+          "alexei"
+        ],
+        [
+          "ekaterina"
+        ],
+        [
+          "pavel"
+        ]
+      ],
+      "callbackNodes": [
+        "MEMORY:C22"
+      ]
+    },
+    {
+      "caseId": "C19",
+      "callback": "지난 사건에서 지킨 이름이 다시 나타난 일",
+      "choiceWitnesses": [
+        [
+          "alexei"
+        ],
+        [
+          "ekaterina"
+        ],
+        [
+          "pavel"
+        ]
+      ],
+      "callbackNodes": [
+        "MEMORY:C19"
+      ]
+    },
+    {
+      "caseId": "C23",
+      "callback": "세 사람의 기억이 한꺼번에 시험받은 순간",
+      "choiceWitnesses": [
+        [
+          "alexei"
+        ],
+        [
+          "ekaterina"
+        ],
+        [
+          "pavel"
+        ]
+      ],
+      "callbackNodes": [
+        "MEMORY:C23"
+      ]
+    },
+    {
+      "caseId": "C24",
+      "callback": "세 사람의 기억이 다섯 갈래를 가른 순간",
+      "choiceWitnesses": [
+        [
+          "alexei"
+        ],
+        [
+          "ekaterina"
+        ],
+        [
+          "pavel"
+        ]
+      ],
+      "callbackNodes": [
+        "MEMORY:C24"
+      ]
+    }
+  ],
+  "callbackCaseCount": 24,
+  "status": "PASS"
+}

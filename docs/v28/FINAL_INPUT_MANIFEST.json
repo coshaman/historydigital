@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "V28-FINAL-INPUT-2",
+  "graph": "narrative/VN_DIALOGUE_GRAPH.json",
+  "graphSha256": "db7db62bdfc30327727f5a78e2fda0b86b38478bb71253fe46544f6afa0297b2",
+  "viewportEvidence": "artifacts/v28-browser/V28_BROWSER_EVIDENCE.json",
+  "goldSliceEvidence": "docs/v28/GOLD_SLICE_EVIDENCE.json",
+  "allCasesEvidence": "docs/v28/ALL_CASES_BROWSER_EVIDENCE.json",
+  "endingEvidence": "docs/v28/ENDING_BROWSER_EVIDENCE.json",
+  "replayEvidence": "docs/v28/REPLAY_AUDIT.json",
+  "timelineEvidence": "docs/v28/CANONICAL_TIMELINE_AUDIT.json",
+  "activeContractEvidence": "docs/v28/ACTIVE_CONTRACT_AUDIT.json",
+  "provenanceEvidence": "docs/v28/PROVENANCE_AUDIT.json",
+  "naturalnessEvidence": "docs/v28/KOREAN_NATURALNESS_AUDIT.json",
+  "legacyCopyEvidence": "docs/v28/LEGACY_COPY_BROWSER_EVIDENCE.json",
+  "legacyBrowserQa": "docs/v21/BROWSER_QA_V21.json",
+  "independentReview": "docs/v28/subagent_reviews/",
+  "humanPlaytest": "docs/v28/HUMAN_PLAYTEST_STATUS.md",
+  "textZoomCheck": "docs/v28/TEXT_ZOOM_BROWSER_CHECK.md",
+  "status": "P0=0; P1=0; HUMAN_PLAYTEST=PENDING; 200P_TEXT_ZOOM=P2_OPEN"
+}

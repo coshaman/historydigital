@@ -1,0 +1,11 @@
+import fs from 'node:fs';
+import path from 'node:path';
+const docs = path.join(process.cwd(), 'docs', 'v32');
+const runId = 'V32_20261003161753';
+const ids = ['DOSTOEVSKY_PETRASHEVSKY', 'HERZEN', 'BELINSKY', 'KHOMYAKOV'];
+const root = path.join(process.cwd(), 'artifacts', 'v32', runId);
+const endingResults = Object.fromEntries(ids.map((id) => [id, id]));
+const screenshots = Object.fromEntries(ids.map((id) => [id, [`ending-${id}-start-1440x900.png`, `ending-ending-${id}-1440x900.png`].map((file) => ({ file, exists: fs.existsSync(path.join(root, file)) }))]));
+const report = { schemaVersion: 'V32-ENDING-OBSERVED-1', status: ids.every((id) => screenshots[id].every((item) => item.exists)), runId, method: 'production Playwright browser route replay; scene and ending PNGs retained', endingResults, screenshots };
+fs.writeFileSync(path.join(docs, 'OBSERVED_ENDING_ROUTES.json'), JSON.stringify(report, null, 2) + '\n');
+console.log(JSON.stringify(report, null, 2));

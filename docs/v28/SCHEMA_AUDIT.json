@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "V28-SCHEMA-AUDIT-1",
+  "status": "PASS",
+  "caseCount": 24,
+  "nodeCount": 596,
+  "choiceCount": 72,
+  "uniqueUtteranceCount": 384,
+  "repeatedUtterances": [],
+  "endingCount": 5,
+  "failures": []
+}

@@ -1,0 +1,16 @@
+{
+  "sceneId": "EG-PRESS-01",
+  "sceneDate": "1847-08-10",
+  "datePrecision": "DAY",
+  "earliest": "1847-08-10",
+  "latest": "1847-08-10",
+  "displayDate": "1847년 8월 10일",
+  "role": "편집부 연락 담당 서기",
+  "sourceCase": "E05",
+  "incoming": [
+    {"itemId":"PRESS-01","sourceId":"E05-S1","excerptId":"E05-X2","topic":"공개 비평과 인간 존엄","sourceDate":"1847-07-15","latestPossibleDate":"1847-07-15","provenance":"Письмо Н. В. Гоголю 15 июля 1847 г., section 1"},
+    {"itemId":"PRESS-02","sourceId":"E05-S2","excerptId":"E05-X3","topic":"답변 초안과 정치적 소용돌이","sourceDate":"1847-07/08","latestPossibleDate":"1847-08-10","sourceDatePrecision":"RANGE","provenance":"Письмо В. Г. Белинскому, июль—август 1847 г., section 1"},
+    {"itemId":"PRESS-03","sourceId":"E05-S3","excerptId":"E05-X5","topic":"앞선 서신과 공개 비평의 맥락","sourceDate":"1847-06","latestPossibleDate":"1847-06-30","sourceDatePrecision":"MONTH","provenance":"Переписка с В. Г. Белинским, June 1847 letter section"}
+  ],
+  "constraints": {"sourceDateAtMostSceneDate":true,"fakeArticle":false,"distinctTopics":3}
+}

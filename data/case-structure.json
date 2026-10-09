@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "phase-7.2",
+  "cases": [
+    {"id":"C01","historicalOutcome":"차다예프의 편지는 공개 논쟁의 금지선을 드러내고, 실제 사건의 처리는 황제의 반응과 검열 기록으로 남는다.","outcomeSourceIds":["OBJ-TELESKOP-1836"],"optionalBranch":"발행지와 전달지를 함께 보존하면 이후 검열 선례를 비교하는 보조 기록이 열린다.","optionalCondition":"preserve-context"},
+    {"id":"C02","historicalOutcome":"사건 뒤의 공식 반응은 개인의 일탈을 넘어 출판 통제의 행정 선례로 남는다.","outcomeSourceIds":["OBJ-TELESKOP-1836"],"optionalBranch":"압수 목록의 날짜를 대조하면 공개 명령과 실제 집행 사이의 차이를 별도 메모로 남길 수 있다.","optionalCondition":"date-check"},
+    {"id":"C03","historicalOutcome":"푸시킨의 죽음은 추도와 언론 통제가 맞물리는 계기가 되었고, 실제 사망 사실과 문단의 반응은 분리해 기록해야 한다.","outcomeSourceIds":["OBJ-SADOVNIKOV-1835"],"optionalBranch":"추도문 원고를 보존하면 애도 문장과 행정적 위험 표식의 차이를 다음 파일에서 비교한다.","optionalCondition":"preserve-obituary"},
+    {"id":"C04","historicalOutcome":"《조국 수기》의 등장은 문학 잡지가 검열·독자·유통의 문제로 읽히는 장면을 남긴다.","outcomeSourceIds":["OBJ-OZ-1848"],"optionalBranch":"독자층 메모를 별도 철하면 다음 호의 논조와 유통 경로를 함께 살핀다.","optionalCondition":"reader-context"},
+    {"id":"C05","historicalOutcome":"《우리 시대의 영웅》은 허구의 인물과 실제 사회 비판을 검열 문서가 어떻게 분리하는지 보여 준다.","outcomeSourceIds":["OBJ-HERZEN-1847"],"optionalBranch":"도덕적 비난과 행정 위험을 나누어 표시하면 문학적 냉소의 처리 경로가 열린다.","optionalCondition":"separate-risk"},
+    {"id":"C06","historicalOutcome":"레르몬토프의 죽음은 부고·추도·지방 보고가 서로 다른 기록 장르로 남는 사건이다.","outcomeSourceIds":["OBJ-SADOVNIKOV-1835"],"optionalBranch":"전령의 경로를 기록하면 공개 부고와 내부 보고의 시차를 비교할 수 있다.","optionalCondition":"route-note"},
+    {"id":"C07","historicalOutcome":"《죽은 혼》의 출판은 풍자와 허가 절차가 한 원고철 안에서 충돌하는 사례가 된다.","outcomeSourceIds":["OBJ-OZ-1848","OBJ-BELINSKY-GOGOL-1847"],"optionalBranch":"삭제 후보의 앞뒤 문맥을 함께 보존하면 상급 검열관에게 근거를 붙여 올릴 수 있다.","optionalCondition":"context-preserved"},
+    {"id":"C08","historicalOutcome":"슬라브파와 서구파의 논쟁은 같은 용어가 서로 다른 역사적 방향을 가리키는 문단의 분기점으로 남는다.","outcomeSourceIds":["OBJ-SOV-1847","OBJ-HERZEN-1847"],"optionalBranch":"두 잡지의 용어표를 병치하면 이후의 비평 문서에서 반복되는 표현을 추적한다.","optionalCondition":"compare-terms"},
+    {"id":"C09","historicalOutcome":"벨린스키의 비평 변화는 문학적 판단과 사회 비판의 관계가 시기별로 달라졌음을 보여 준다.","outcomeSourceIds":["OBJ-BELINSKY-GOGOL-1847"],"optionalBranch":"날짜를 붙인 비평 목록을 남기면 편집부의 반려 기록과 변화의 순서를 대조한다.","optionalCondition":"dated-criticism"},
+    {"id":"C10","historicalOutcome":"자연파 논쟁은 생활 묘사와 정치적 주장 사이의 경계를 검열 실무가 다루는 장면이다.","outcomeSourceIds":["OBJ-SOV-1847","OBJ-HERZEN-1847"],"optionalBranch":"반복되는 인물 유형을 표시하면 다음 연재 원고의 문체 변화가 보인다.","optionalCondition":"track-motif"},
+    {"id":"C11","historicalOutcome":"문학 연감은 필자·편집자·발행인이 서로 다른 책임을 갖는다는 사실을 기록철에 남긴다.","outcomeSourceIds":["OBJ-SOV-1847"],"optionalBranch":"삽화와 캡션을 함께 보관하면 출판물의 시각적 주장도 검토 대상이 된다.","optionalCondition":"keep-caption"},
+    {"id":"C12","historicalOutcome":"도스토옙스키의 첫 소설은 신인 작가의 발견 기록과 후대의 명성을 구분해야 하는 자료가 된다.","outcomeSourceIds":["OBJ-BELINSKY-GOGOL-1847"],"optionalBranch":"추천 쪽지를 원고와 함께 보관하면 편집자 네트워크의 초기 흔적을 추적한다.","optionalCondition":"keep-recommendation"},
+    {"id":"C13","historicalOutcome":"페트라셰프스키 모임의 초기 환경은 소지·열람·참석·감시가 서로 다른 증거라는 점을 남긴다.","outcomeSourceIds":["OBJ-PETRASHEVSKY-1849"],"optionalBranch":"관찰자의 추정에 별도 표식을 붙이면 확인 사실과 수사관의 해석을 분리한다.","optionalCondition":"separate-inference"},
+    {"id":"C14","historicalOutcome":"《현대인》의 개편은 편집권과 발행권의 변화가 문학적 목소리와 함께 기록되는 사례다.","outcomeSourceIds":["OBJ-SOV-1847","OBJ-BELINSKY-GOGOL-1847"],"optionalBranch":"기존 호와 창간호의 문장을 병치하면 편집 방향의 변화가 드러난다.","optionalCondition":"compare-issues"},
+    {"id":"C15","historicalOutcome":"고골의 《선집》은 공개 비평과 사적 편지가 같은 논쟁을 서로 다른 온도로 남긴다.","outcomeSourceIds":["OBJ-BELINSKY-GOGOL-1847","OBJ-WS-GOGOL-1847"],"optionalBranch":"수신·발신 날짜를 함께 보관하면 논쟁의 순서를 다시 구성할 수 있다.","optionalCondition":"date-chain"},
+    {"id":"C16","historicalOutcome":"벨린스키와 고골의 논쟁은 개인적 서신이 문학·사회 비평의 공적 기록으로 이동하는 과정을 남긴다.","outcomeSourceIds":["OBJ-BELINSKY-GOGOL-1847"],"optionalBranch":"편지 사본의 보관 등급을 올리면 실제 문장과 전달 경로를 함께 추적한다.","optionalCondition":"raise-file-grade"},
+    {"id":"C17","historicalOutcome":"셰우첸코·쿨리시·코스토마로프 관련 명령은 인물별 조치와 전달 경로를 행정 파일에서 분리해 보게 한다.","outcomeSourceIds":["OBJ-SHEVCHENKO-1847"],"optionalBranch":"봉인된 부록의 전달 기록을 남기면 명령문과 집행 흔적을 비교한다.","optionalCondition":"seal-log"},
+    {"id":"C18","historicalOutcome":"《현대인》에 대한 슬라브파의 반응은 공개 논쟁과 사적 초대가 서로 다른 네트워크를 만든다는 점을 보여 준다.","outcomeSourceIds":["OBJ-SOV-1847","OBJ-HERZEN-1847"],"optionalBranch":"두 봉투의 손글씨를 대조하면 공개된 비평과 사적 연락의 연결을 보존한다.","optionalCondition":"compare-handwriting"},
+    {"id":"C19","historicalOutcome":"1848년 2월 혁명 소식은 외국 보도·번역·국내 보고가 검열 책상에서 충돌하는 사건이다.","outcomeSourceIds":["OBJ-OZ-1848","OBJ-SOV-1847"],"optionalBranch":"번역자의 생략을 표시하면 외국 신문과 국내 회람의 차이를 다음 검토로 넘긴다.","optionalCondition":"mark-omission"},
+    {"id":"C20","historicalOutcome":"유럽 혁명과 언론 제한은 국외 사건의 보도가 국내 행정 조치로 바뀌는 경로를 남긴다.","outcomeSourceIds":["OBJ-OZ-1848","OBJ-HERZEN-1847"],"optionalBranch":"제한의 근거 문장을 원문과 함께 보존하면 임시 조치와 상시 기준을 구분한다.","optionalCondition":"keep-basis"},
+    {"id":"C21","historicalOutcome":"4월 위원회와 검열 강화는 사전 검열과 사후 회수가 같은 제도 안에서 결합되는 장면이다.","outcomeSourceIds":["OBJ-OZ-1848","OBJ-SOV-1847"],"optionalBranch":"이미 배포된 호의 회수 기록을 남기면 인쇄 뒤의 통제 흔적을 비교한다.","optionalCondition":"recall-record"},
+    {"id":"C22","historicalOutcome":"1848년 잡지 지면의 변화는 삭제된 문장과 남은 침묵 자체가 편집 기록이 되는 사례다.","outcomeSourceIds":["OBJ-SOV-1847","OBJ-OZ-1848"],"optionalBranch":"삭제된 교정쇄를 보관하면 두 잡지의 다음 호에서 사라진 주제를 추적한다.","optionalCondition":"keep-deletion"},
+    {"id":"C23","historicalOutcome":"페트라셰프스키 감시와 체포는 방문·소지·서신·낭독이 수사 파일에서 별도의 행동 증거로 조립되는 사건이다.","outcomeSourceIds":["OBJ-PETRASHEVSKY-1849"],"optionalBranch":"압수품 목록과 방문자 감시표를 함께 넣으면 수사 기록의 증거 강도를 비교한다.","optionalCondition":"compare-dossier"},
+    {"id":"C24","historicalOutcome":"1849년 수사·선고 기록은 실제 판결과 가상 서기관의 이전 기록을 분리한 채 dossier를 닫게 한다.","outcomeSourceIds":["OBJ-PETRASHEVSKY-1849"],"optionalBranch":"네 가지 행동의 근거를 각각 표시하면 마지막 파일에서 증거의 출처를 되짚는다.","optionalCondition":"trace-evidence"}
+  ]
+}

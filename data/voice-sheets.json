@@ -1,0 +1,6 @@
+{
+  "voices": [
+    {"id":"nikitenko","role":"contemporary diarist / indirect evidence","address":"formal observation","vocabulary":["город","бумага","публикация"],"lineLength":"short","interests":["literary reputation","official reaction"],"forbidden":["modern psychology","social media slang"]},
+    {"id":"fictional-clerk","role":"10th-class collegiate secretary","address":"superior titles and office formulas","vocabulary":["получено","к рассмотрению","по распоряжению"],"lineLength":"terse","interests":["procedure","career access","risk"],"forbidden":["anachronistic legal authority","modern political jargon"]}
+  ]
+}

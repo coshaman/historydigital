@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "V28-GOLD-SLICE-EVIDENCE-1",
+  "status": "PASS",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "pageErrors": [],
+  "cases": [
+    {
+      "caseId": "C01",
+      "screenshots": [
+        "artifacts/v28-browser/gold-slice/C01-arrival-1440x900.png",
+        "artifacts/v28-browser/gold-slice/C01-reaction-1440x900.png",
+        "artifacts/v28-browser/gold-slice/C01-inspection-1440x900.png",
+        "artifacts/v28-browser/gold-slice/C01-aftermath-1440x900.png"
+      ]
+    },
+    {
+      "caseId": "C07",
+      "screenshots": [
+        "artifacts/v28-browser/gold-slice/C07-arrival-1440x900.png",
+        "artifacts/v28-browser/gold-slice/C07-reaction-1440x900.png",
+        "artifacts/v28-browser/gold-slice/C07-inspection-1440x900.png",
+        "artifacts/v28-browser/gold-slice/C07-aftermath-1440x900.png"
+      ]
+    },
+    {
+      "caseId": "C17",
+      "screenshots": [
+        "artifacts/v28-browser/gold-slice/C17-arrival-1440x900.png",
+        "artifacts/v28-browser/gold-slice/C17-reaction-1440x900.png",
+        "artifacts/v28-browser/gold-slice/C17-inspection-1440x900.png",
+        "artifacts/v28-browser/gold-slice/C17-aftermath-1440x900.png"
+      ]
+    },
+    {
+      "caseId": "C24",
+      "screenshots": [
+        "artifacts/v28-browser/gold-slice/C24-arrival-1440x900.png",
+        "artifacts/v28-browser/gold-slice/C24-reaction-1440x900.png",
+        "artifacts/v28-browser/gold-slice/C24-inspection-1440x900.png",
+        "artifacts/v28-browser/gold-slice/C24-aftermath-1440x900.png"
+      ]
+    }
+  ]
+}

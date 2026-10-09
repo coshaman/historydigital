@@ -1,0 +1,10 @@
+{
+  "schemaVersion": "V28-INDEPENDENT-REVIEW-2",
+  "reviewAfterFix": true,
+  "reviewers": [
+    {"id":"01a106f0-345e-7161-a08d-ad92f63c5bf0","focus":"visual-ux","report":"docs/v28/subagent_reviews/visual-ux-review.md","opened":["artifacts/v28-browser/V28_BROWSER_EVIDENCE.json","artifacts/v28-browser/all-cases/","artifacts/v28-browser/endings/","styles.css"]},
+    {"id":"01a106f0-3964-7d32-b22b-a58bd038aac4","focus":"narrative-character","report":"docs/v28/subagent_reviews/narrative-review.md","opened":["narrative/VN_DIALOGUE_GRAPH.json","narrative/ENDING_DIALOGUES.json","narrative/CHARACTER_BIBLE.md","docs/v28/ALL_CASES_BROWSER_EVIDENCE.json"]},
+    {"id":"01a106f0-3fdd-70c2-9399-b6aaa8d27ec4","focus":"historical-state","report":"docs/v28/subagent_reviews/historical-state-review.md","opened":["narrative/NARRATIVE_ARC_MATRIX.csv","docs/v28/CANONICAL_TIMELINE_AUDIT.json","docs/v28/REPLAY_AUDIT.json","docs/v28/ENDING_BROWSER_EVIDENCE.json"]}
+  ],
+  "result": "PASS; P0=0; P1=0"
+}

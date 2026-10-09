@@ -1,0 +1,130 @@
+{
+  "schemaVersion": "V28-PERFORMANCE-ACTUAL-1",
+  "status": "PASS_WITH_PERFORMANCE_WARNING",
+  "environment": "Playwright Chromium headless on current host; not a hardware-GPU claim",
+  "maxP95FrameMs": 1184.1000000238419,
+  "maxInteractionMs": 8751.299999952316,
+  "warning": "Current headless host has long frame samples or interaction latency; use a foreground hardware-GPU run before a release performance claim.",
+  "samples": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "run": 1,
+      "metrics": {
+        "frameCount": 4,
+        "medianFrameMs": 201.90000009536743,
+        "p95FrameMs": 651.5
+      },
+      "latencies": {
+        "choiceToReactionMs": 333.10000002384186,
+        "reactionToInspectionMs": 219.5,
+        "excerptReadingMs": 8751.299999952316,
+        "inspectionToAftermathMs": 269,
+        "aftermathToNextCaseMs": 329.8000000715256
+      },
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "run": 2,
+      "metrics": {
+        "frameCount": 4,
+        "medianFrameMs": 322.5,
+        "p95FrameMs": 622.7999999523163
+      },
+      "latencies": {
+        "choiceToReactionMs": 333.60000002384186,
+        "reactionToInspectionMs": 323.5,
+        "excerptReadingMs": 7799.5,
+        "inspectionToAftermathMs": 611.1000000238419,
+        "aftermathToNextCaseMs": 329.10000002384186
+      },
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "run": 3,
+      "metrics": {
+        "frameCount": 3,
+        "medianFrameMs": 5.5,
+        "p95FrameMs": 1184.1000000238419
+      },
+      "latencies": {
+        "choiceToReactionMs": 559.7000000476837,
+        "reactionToInspectionMs": 351.10000002384186,
+        "excerptReadingMs": 5506.200000047684,
+        "inspectionToAftermathMs": 205.30000007152557,
+        "aftermathToNextCaseMs": 261
+      },
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "run": 1,
+      "metrics": {
+        "frameCount": 4,
+        "medianFrameMs": 423.3000000715256,
+        "p95FrameMs": 596.3999999761581
+      },
+      "latencies": {
+        "choiceToReactionMs": 243.89999997615814,
+        "reactionToInspectionMs": 437.5,
+        "excerptReadingMs": 4429.799999952316,
+        "inspectionToAftermathMs": 280.60000002384186,
+        "aftermathToNextCaseMs": 255.20000004768372
+      },
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "run": 2,
+      "metrics": {
+        "frameCount": 4,
+        "medianFrameMs": 666.5,
+        "p95FrameMs": 732.5
+      },
+      "latencies": {
+        "choiceToReactionMs": 269.89999997615814,
+        "reactionToInspectionMs": 139.70000004768372,
+        "excerptReadingMs": 4119.400000095367,
+        "inspectionToAftermathMs": 345.2000000476837,
+        "aftermathToNextCaseMs": 233.29999995231628
+      },
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "run": 3,
+      "metrics": {
+        "frameCount": 9,
+        "medianFrameMs": 119.89999997615814,
+        "p95FrameMs": 254
+      },
+      "latencies": {
+        "choiceToReactionMs": 233.80000007152557,
+        "reactionToInspectionMs": 135.19999992847443,
+        "excerptReadingMs": 2909.1999999284744,
+        "inspectionToAftermathMs": 227.59999990463257,
+        "aftermathToNextCaseMs": 225.80000007152557
+      },
+      "pageErrors": []
+    }
+  ]
+}

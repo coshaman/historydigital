@@ -1,0 +1,25 @@
+{
+  "scene": "1847 Petersburg chancery desk",
+  "props": [
+    {"id":"quill","label_ko":"깃펜","period":"documented writing implement","source_reference":"OBJ-COMMONS-RUSSIA-INTERIORS-1840S","rights":"original project model","provenance":"period interior references","confidence":"reconstructed"},
+    {"id":"inkwell","label_ko":"잉크병","period":"documented writing implement","source_reference":"OBJ-COMMONS-RUSSIA-INTERIORS-1840S","rights":"original project model","provenance":"period interior references","confidence":"reconstructed"},
+    {"id":"pen-knife","label_ko":"펜칼","period":"documented office tool","source_reference":"OBJ-COMMONS-RUSSIA-INTERIORS-1840S","rights":"original project model","provenance":"period office reference","confidence":"reconstructed"},
+    {"id":"sealing-wax","label_ko":"봉인 왁스","period":"documented chancery material","source_reference":"OBJ-WS-CENSORSHIP-1828","rights":"original project model","provenance":"administrative document practice","confidence":"reconstructed"},
+    {"id":"seal","label_ko":"관청 도장","period":"documented chancery tool","source_reference":"OBJ-WS-CENSORSHIP-1828","rights":"original project model","provenance":"administrative document practice","confidence":"reconstructed"},
+    {"id":"sand-shaker","label_ko":"모래 뿌리개","period":"period-verified drying implement","source_reference":"OBJ-COMMONS-RUSSIA-INTERIORS-1840S","rights":"original project model","provenance":"period desk reference","confidence":"reconstructed"},
+    {"id":"ledger","label_ko":"대장","period":"documented record book","source_reference":"OBJ-WS-PETRASHEVSKY-1849-PRIMARY","rights":"original project model","provenance":"dossier and chancery record format","confidence":"reconstructed"},
+    {"id":"periodical","label_ko":"제본 잡지","period":"documented periodical object","source_reference":"OBJ-SOV-1847","rights":"original project model","provenance":"1847 periodical record","confidence":"reconstructed"},
+    {"id":"proof-sheet","label_ko":"교정쇄","period":"documented editorial object","source_reference":"OBJ-SOV-1847","rights":"original project model","provenance":"periodical editorial workflow","confidence":"reconstructed"},
+    {"id":"official-folder","label_ko":"공식 자료철","period":"documented administrative folder","source_reference":"OBJ-WS-CENSORSHIP-1828","rights":"original project model","provenance":"statute and dossier record format","confidence":"reconstructed"},
+    {"id":"envelope","label_ko":"봉투","period":"documented correspondence object","source_reference":"OBJ-WS-BELINSKY-1847","rights":"original project model","provenance":"1847 correspondence packet","confidence":"reconstructed"},
+    {"id":"ribbon","label_ko":"리본 끈","period":"period office binding reference","source_reference":"OBJ-COMMONS-RUSSIA-INTERIORS-1840S","rights":"original project model","provenance":"period interior references","confidence":"reconstructed"},
+    {"id":"lamp","label_ko":"등불","period":"period-verified lamp reference","source_reference":"OBJ-COMMONS-RUSSIA-INTERIORS-1840S","rights":"original project model","provenance":"period interior references","confidence":"reconstructed"},
+    {"id":"scissors","label_ko":"가위","period":"period-verified office tool","source_reference":"OBJ-COMMONS-RUSSIA-INTERIORS-1840S","rights":"original project model","provenance":"period interior references","confidence":"reconstructed"},
+    {"id":"blotter","label_ko":"압지","period":"period-verified drying implement","source_reference":"OBJ-COMMONS-RUSSIA-INTERIORS-1840S","rights":"original project model","provenance":"period desk reference","confidence":"reconstructed"},
+    {"id":"drawer","label_ko":"서랍","period":"documented desk storage","source_reference":"OBJ-COMMONS-RUSSIA-INTERIORS-1840S","rights":"original project model","provenance":"period interior references","confidence":"reconstructed"},
+    {"id":"incoming-tray","label_ko":"받은 서류함","period":"documented office tray","source_reference":"OBJ-COMMONS-RUSSIA-INTERIORS-1840S","rights":"original project model","provenance":"period office reference","confidence":"reconstructed"},
+    {"id":"outgoing-tray","label_ko":"보낼 서류함","period":"documented office tray","source_reference":"OBJ-COMMONS-RUSSIA-INTERIORS-1840S","rights":"original project model","provenance":"period office reference","confidence":"reconstructed"},
+    {"id":"calling-card","label_ko":"방문 카드","period":"period correspondence accessory","source_reference":"OBJ-WS-BELINSKY-1847","rights":"original project model","provenance":"correspondence and social-network references","confidence":"reconstructed"},
+    {"id":"pocket-watch","label_ko":"회중시계","period":"period-verified timepiece","source_reference":"OBJ-COMMONS-RUSSIA-COSTUME-1840S","rights":"original project model","provenance":"1840s Russian visual references","confidence":"reconstructed"}
+  ]
+}

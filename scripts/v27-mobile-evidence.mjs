@@ -1,0 +1,11 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { chromium } from 'playwright';
+const out = path.resolve('artifacts/v27-browser'); fs.mkdirSync(out, { recursive: true });
+const browser = await chromium.launch({ headless: true });
+const page = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1 });
+await page.goto('http://127.0.0.1:4173/', { waitUntil: 'domcontentloaded', timeout: 15000 });
+await page.screenshot({ path: path.join(out, 'mobile-initial.png'), timeout: 10000 });
+fs.writeFileSync(path.join(out, 'MOBILE_EVIDENCE.json'), JSON.stringify({ schemaVersion: 'V27-MOBILE-EVIDENCE-1', viewport: { width: 390, height: 844 }, screenshot: 'mobile-initial.png', note: 'Screenshot captured from the running local app; DOM overflow was covered by npm run mobile.' }, null, 2) + '\n');
+console.log('mobile screenshot captured');
+await browser.close();

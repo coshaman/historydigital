@@ -1,0 +1,7 @@
+{
+  "schemaVersion": "V28-REVIEW-INPUT-1",
+  "status": "BLOCKED",
+  "requiredReports": ["visual-ux-review.md", "narrative-review.md", "historical-state-review.md"],
+  "availableEvidence": ["V28_ACCEPTANCE.json", "KOREAN_NATURALNESS_AUDIT.json", "LEGACY_COPY_BROWSER_EVIDENCE.json", "ALL_CASES_BROWSER_EVIDENCE.json", "../../artifacts/v28-browser/V28_BROWSER_EVIDENCE.json", "ENDING_BROWSER_EVIDENCE.json", "RELATIONSHIP_MEMORY_BROWSER_EVIDENCE.json", "BASELINE_REPRODUCTION.md"],
+  "note": "The required independent reports were not produced by separate reviewer contexts in this run; no PASS is asserted."
+}

@@ -1,0 +1,69 @@
+{
+  "schemaVersion":"v25-pilot-cases-1",
+  "cases":[
+    {
+      "caseId":"C06","sceneId":"V25-C06","date":"1841-07 to 1842-02","titleRu":"Дело о поединке Мартынова с Лермонтовым","titleKo":"레르몬토프 결투 수사 기록","question":"사건의 사망 결과, 목격자의 진술, 군사재판의 절차를 한 사건으로 뭉개지 않고 어떻게 읽을 것인가?","sources":[
+        {"sourceId":"V25-LERMONTOV-DUEL","titleRu":"Дело о произшедшем поединке...","titleKo":"마르티노프와 레르몬토프의 결투 사건","publication":"Пятигорское окружное управление","date":"1841-07-16 to 1841-07-30","locator":"дело о поединке; документы 1, 2, 5, 7, 9","url":"https://lermontov.info/duel/delo2.shtml","sourceType":"ADMINISTRATIVE_PRIMARY","rights":"public-domain transcription; attribution retained","imageStatus":"NOT_CONNECTED","witness":"modern transcription of archival record"},
+        {"sourceId":"V25-LERMONTOV-QUESTIONS","titleRu":"Вопросные пункты... Мартынову","titleKo":"마르티노프에게 보낸 심문 문항과 답변","publication":"Пятигорский окружной суд","date":"1841-09-13","locator":"вопросные пункты; ответы 8–11","url":"https://lermontov.info/duel/voprosi.shtml","sourceType":"JUDICIAL_PRIMARY","rights":"public-domain transcription; attribution retained","imageStatus":"NOT_CONNECTED","witness":"modern transcription of archival record"},
+        {"sourceId":"V25-LERMONTOV-COURT","titleRu":"Дело штаба отдельного Кавказского корпуса","titleKo":"코카서스 군단 본부 군사재판 기록","publication":"Штаб отдельного Кавказского корпуса","date":"1841-08-19 to 1842-02-06","locator":"военное судное отделение; case summary","url":"https://lermontov.info/duel.shtml","sourceType":"MILITARY_PRIMARY","rights":"public-domain transcription; attribution retained","imageStatus":"NOT_CONNECTED","witness":"catalogued transcription; exact folio not exposed on page"}
+      ],
+      "excerpts":[
+        {"excerptId":"V25-C06-X1","sourceId":"V25-LERMONTOV-DUEL","locator":"№1351, 16 июля 1841","ru":"отставной Маиор Мартынов, убил на дуеле Тенгинского пехотного полка Поручика Лермантова","ko":"퇴역 소령 마르티노프가 텡긴 보병연대 레르몬토프 중위를 결투에서 살해했다.","context":"사건을 처음 알린 행정 보고","evidence":"DIRECT"},
+        {"excerptId":"V25-C06-X2","sourceId":"V25-LERMONTOV-DUEL","locator":"№58, 18 июля 1841","ru":"два пистолета, взятые ею после поединка, покорнейше просим Управу прислать к нам при описи для приобщения оных, в силу Свода законов, том 15-й, статьи 825-й, к делу, нами по сему предмету производимому.","ko":"결투 뒤 회수한 권총 두 자루를 목록과 함께 보내 사건 기록에 편입해 달라고, 법전 제15권 제825조에 따라 요청한다.","context":"물적 증거의 편입","evidence":"DIRECT"},
+        {"excerptId":"V25-C06-X3","sourceId":"V25-LERMONTOV-DUEL","locator":"свидетельство Ивана Соколова, 21 июля 1841","ru":"а жили в дружбе и согласии, обходились между собой дружески в чем и подписуюсь.","ko":"두 사람은 우호와 화목 속에서 지냈고 서로 친구처럼 대했다는 것이 그의 증언이다.","context":"목격자의 제한된 관찰","evidence":"DIRECT"},
+        {"excerptId":"V25-C06-X4","sourceId":"V25-LERMONTOV-QUESTIONS","locator":"ответ Мартынова, пункт 8","ru":"поединок этот был совершенно случайный, злобы к нему я никогда не питал","ko":"이 결투는 전적으로 우발적이었고, 나는 그에게 악의를 품은 적이 없었다.","context":"피심문자의 자기 설명","evidence":"DIRECT"},
+        {"excerptId":"V25-C06-X5","sourceId":"V25-LERMONTOV-QUESTIONS","locator":"ответ Мартынова, пункт 11","ru":"От зделанного мною выстрела он упал, — и хотя признаки жизни еще были видны в нем, — но уже он не говорил.","ko":"내가 쏜 뒤 그는 쓰러졌고, 아직 생명의 징후는 있었지만 더는 말하지 못했다.","context":"사망 직후 진술","evidence":"DIRECT"}
+      ],
+      "proceduralChoices":["발신 보고·물적 증거·증언을 각각 사건철에 묶는다.","목격자 진술과 피심문자의 자기 설명을 서로 다른 증거 등급으로 표시한다.","군사재판 기록의 정확한 범위가 확인되기 전까지 판결 결과를 단정하지 않는다."],
+      "judgments":[
+        {"id":"V25-C06-J1","text":"사망 결과는 확정된 사실로 남기되, 피심문자의 동기 설명은 별도 주장으로 읽는다.","effect":{"issue":{"inferredMeaningAsEvidence":-1}},"questionId":"DUEL-EVIDENCE-BOUNDARY","evidenceExcerptIds":["V25-C06-X1","V25-C06-X4"],"justification":"행정 보고는 사망을 알리지만 마르티노프의 동기 설명까지 입증하지 않는다."},
+        {"id":"V25-C06-J2","text":"증언의 침묵과 물적 증거를 함께 보며, 사건의 책임 판단은 군사재판 절차에 남긴다.","effect":{"issue":{"stateAuthority":1}},"questionId":"DUEL-PROCEDURE","evidenceExcerptIds":["V25-C06-X2","V25-C06-X3"],"justification":"권총 편입과 제한된 목격 진술은 절차적 판단의 필요성을 보여 준다."},
+        {"id":"V25-C06-J3","text":"사건을 사적인 원한의 이야기로만 축소하지 않고, 기록을 만든 기관의 시선도 함께 표시한다.","effect":{"issue":{}},"questionId":"DUEL-NARRATIVE-FRAME","evidenceExcerptIds":["V25-C06-X1","V25-C06-X3","V25-C06-X5"],"justification":"같은 사건이 보고·증언·심문 답변이라는 서로 다른 기록 장르로 조립되지만, 장르를 병치하는 일 자체가 문학의 공적 역할에 대한 태도를 입증하지는 않는다."}
+      ],
+      "followups":["사망 사실과 동기 주장을 분리한 보충 기록이 열렸습니다.","물적 증거와 증언을 나눈 군사재판 대조표가 열렸습니다.","기관 기록과 개인 진술을 병치한 사건 해설철이 열렸습니다."]
+    },
+    {
+      "caseId":"C07","sceneId":"V25-C07","date":"1841-12 to 1842-05","titleRu":"Публикация «Мертвых душ»","titleKo":"《죽은 혼》의 출판과 검열","question":"금지된 원고, 수정된 재제출, 허가된 판본의 차이를 어떻게 기록할 것인가?","sources":[
+        {"sourceId":"V25-GOGOL-PLETNEV","titleRu":"Переписка с П. А. Плетневым","titleKo":"고골과 플레트뇨프의 서신","publication":"Wikisource transcription","date":"1842-01-07","locator":"Письмо к Плетневу, 7 января 1842","url":"https://ru.wikisource.org/wiki/Переписка_с_П._А._Плетневым_(Гоголь)","sourceType":"LETTER_PRIMARY","rights":"public-domain text; Wikisource attribution retained","imageStatus":"NOT_CONNECTED","witness":"modern transcription"},
+        {"sourceId":"V25-GOGOL-PODOGIN","titleRu":"Переписка с М. П. Погодиным","titleKo":"고골과 포고딘의 서신","publication":"Wikisource transcription","date":"1842","locator":"editorial note on censorship and Captain Kopeikin","url":"https://ru.wikisource.org/wiki/Переписка_с_М._П._Погодиным_(Гоголь)","sourceType":"LETTER_PRIMARY","rights":"public-domain text; Wikisource attribution retained","imageStatus":"NOT_CONNECTED","witness":"modern transcription"},
+        {"sourceId":"V25-MOSKVITYANIN-1842","titleRu":"Москвитянин/1842","titleKo":"《모스크비탸닌》 1842년 지면","publication":"Москвитянин","date":"1842","locator":"issue contents and censorship permissions","url":"https://ru.wikisource.org/wiki/Москвитянин/1842","sourceType":"PERIODICAL_PRIMARY","rights":"public-domain publication; Wikisource attribution retained","imageStatus":"CATALOG_ONLY","witness":"digitized issue index; page image not copied"}
+      ],
+      "excerpts":[
+        {"excerptId":"V25-C07-X1","sourceId":"V25-GOGOL-PLETNEV","locator":"7 января 1842","ru":"об цензуре я теперь должен говорить. Удар для меня никак не ожиданный: запрещают всю рукопись.","ko":"이제 검열에 대해 말해야 합니다. 전혀 예상하지 못한 타격입니다. 원고 전체를 금지하고 있습니다.","context":"모스크바 검열의 금지 통보","evidence":"DIRECT"},
+        {"excerptId":"V25-C07-X2","sourceId":"V25-GOGOL-PLETNEV","locator":"7 января 1842","ru":"если он находит в ней какое-нибудь место, наводящее на него сомнение, чтоб объявил мне прямо","ko":"그가 원고에서 의심을 불러일으키는 대목을 찾는다면 내게 직접 알려 달라고 했다.","context":"수정 가능성을 열어 둔 요청","evidence":"DIRECT"},
+        {"excerptId":"V25-C07-X3","sourceId":"V25-GOGOL-PODOGIN","locator":"editorial note","ru":"9 марта 1842 г. цензор А. В. Никитенко сделал разрешительную надпись","ko":"1842년 3월 9일 검열관 A. V. 니키텐코가 허가 표기를 남겼다.","context":"허가된 판본의 날짜","evidence":"DIRECT"},
+        {"excerptId":"V25-C07-X4","sourceId":"V25-GOGOL-PODOGIN","locator":"editorial note","ru":"из него была полностью изъята «Повесть о капитане Копейкине»","ko":"그 판본에서는 《코페이킨 대위 이야기》가 완전히 삭제되었다.","context":"허가와 삭제의 동시 기록","evidence":"DIRECT"},
+        {"excerptId":"V25-C07-X5","sourceId":"V25-MOSKVITYANIN-1842","locator":"issue index","ru":"Цензурное разрешение 11 марта 1842 года.","ko":"검열 허가일은 1842년 3월 11일이다.","context":"동시기 정기간행물의 허가 표기","evidence":"DIRECT"}
+      ],
+      "proceduralChoices":["금지 원고·재제출 원고·허가 판본을 세 묶음으로 분리한다.","삭제된 대목과 허가 표기의 날짜를 대조표에 남긴다.","쪽수와 판본이 확인될 때까지 원고의 내용을 요약하지 않고 보류한다."],
+      "judgments":[
+        {"id":"V25-C07-J1","text":"허가 표기가 곧 원고 전체의 원형을 보증하지 않는다고 판단한다.","effect":{"issue":{"inferredMeaningAsEvidence":-1}},"questionId":"DEAD-SOULS-WITNESS","evidenceExcerptIds":["V25-C07-X1","V25-C07-X3","V25-C07-X4"],"justification":"금지·허가·삭제가 서로 다른 텍스트 상태를 가리킨다."},
+        {"id":"V25-C07-J2","text":"삭제된 장면의 부재 자체를 출판 통제의 흔적으로 기록한다.","effect":{"issue":{}},"questionId":"DEAD-SOULS-OMISSION","evidenceExcerptIds":["V25-C07-X3","V25-C07-X4"],"justification":"허가된 판본의 삭제 사실은 출판 통제의 기록이지만, 개인의 censorshipScope 태도를 측정하는 점수는 아니다."},
+        {"id":"V25-C07-J3","text":"저자의 수정 요구와 검열관의 허가를 같은 행위자의 의도로 합치지 않는다.","effect":{"issue":{}},"questionId":"DEAD-SOULS-AGENCY","evidenceExcerptIds":["V25-C07-X2","V25-C07-X3"],"justification":"서신의 요청과 검열관의 허가 표기는 주체와 행위가 다르므로, 선택은 중립적인 행위자 구분 기록으로만 남긴다."}
+      ],
+      "followups":["원고 상태별 보충철이 열렸습니다.","삭제 대목과 허가 표기를 나란히 둔 검열 대조표가 열렸습니다.","저자 요청과 검열관 행위를 분리한 전달 기록이 열렸습니다."]
+    },
+    {
+      "caseId":"C19","sceneId":"V25-C19","date":"1849","titleRu":"Европейские известия и русская периодика","titleKo":"1848년 유럽 소식과 러시아 정기간행물","question":"외국 사건을 전하는 편집 공고와 문학 평론을 같은 종류의 정치 보고로 읽지 않으려면 무엇을 구분해야 하는가?","sources":[
+        {"sourceId":"V25-SOVREMENNIK-1848","titleRu":"Об издании «Современника» в 1848 году","titleKo":"1848년 《현대인》 발행 공고","publication":"Современник","date":"1848","locator":"publication notice","url":"https://ru.wikisource.org/wiki/Об_издании_«Современника»_в_1848_году_(Некрасов)","sourceType":"PERIODICAL_PRIMARY","rights":"public-domain text; Wikisource attribution retained","imageStatus":"NOT_CONNECTED","witness":"modern transcription"},
+        {"sourceId":"V25-ANNENKOV-LITERATURE-1848","titleRu":"Заметки о русской литературе 1848 года","titleKo":"1848년 러시아 문학에 관한 기록","publication":"Современник, 1849 №1","date":"1849","locator":"opening review of 1848 periodicals","url":"https://ru.wikisource.org/wiki/Заметки_о_русской_литературе_1848_года_(Анненков)","sourceType":"LITERARY_CRITICISM_PRIMARY","rights":"public-domain text; Wikisource attribution retained","imageStatus":"NOT_CONNECTED","witness":"modern transcription; later publication about 1848"},
+        {"sourceId":"V25-PobEDONOSTSEV-OZ-1848","titleRu":"Путевые записки русского по Европе в 1847-м году","titleKo":"1847년 러시아인의 유럽 여행기","publication":"Отечественные записки, №5, 1848","date":"1848","locator":"Отечественные записки №5","url":"https://ru.wikisource.org/wiki/Путевые_записки_русского_по_Европе_в_1847-м_году_(Победоносцев)/ДО","sourceType":"PERIODICAL_PRIMARY","rights":"public-domain text; Wikisource attribution retained","imageStatus":"NOT_CONNECTED","witness":"modern transcription"}
+      ],
+      "excerpts":[
+        {"excerptId":"V25-C19-X1","sourceId":"V25-SOVREMENNIK-1848","locator":"publication notice","ru":"С 1848 года в «Современнике» будет помещаться библиография всех выходящих в России книг.","ko":"1848년부터 《현대인》에는 러시아에서 출간되는 모든 책의 서지가 실릴 예정이다.","context":"편집부의 발행 계획","evidence":"DIRECT"},
+        {"excerptId":"V25-C19-X2","sourceId":"V25-SOVREMENNIK-1848","locator":"publication notice","ru":"«Современник» в 1848 году будет выходить аккуратно первого числа каждого месяца","ko":"《현대인》은 1848년에 매달 1일 정기적으로 발행될 예정이다.","context":"정기간행물의 발행 일정","evidence":"DIRECT"},
+        {"excerptId":"V25-C19-X3","sourceId":"V25-ANNENKOV-LITERATURE-1848","locator":"opening paragraph","ru":"поговорим здесь только о журнальной беллетристике","ko":"여기서는 잡지의 문학 작품에 대해서만 이야기하겠다.","context":"평론의 범위 선언","evidence":"DIRECT"},
+        {"excerptId":"V25-C19-X4","sourceId":"V25-ANNENKOV-LITERATURE-1848","locator":"opening paragraph","ru":"Начнем с «Отечественных записок» (1848 г.)","ko":"《조국 수기》(1848년)부터 시작하겠다.","context":"특정 잡지에 대한 문학 평론의 시작","evidence":"DIRECT"},
+        {"excerptId":"V25-C19-X5","sourceId":"V25-PobEDONOSTSEV-OZ-1848","locator":"Отечественные записки №5, 1848","ru":"«Отечественныя Записки», № 5, 1848","ko":"《조국 수기》 제5호, 1848년.","context":"지면의 발행 식별자","evidence":"DIRECT"}
+      ],
+      "proceduralChoices":["발행 일정·서지 목록·문학 평론의 범위를 각각 표시한다.","1848년 지면과 1849년 후대 평론을 판본 연도로 분리한다.","원문 지면이 직접 말하는 출판 정보만 먼저 접수하고 해석은 보류한다."],
+      "judgments":[
+        {"id":"V25-C19-J1","text":"발행 공고를 외국 사건에 대한 정치 논평으로 확대하지 않는다.","effect":{"issue":{"inferredMeaningAsEvidence":-1}},"questionId":"PERIODICAL-GENRE","evidenceExcerptIds":["V25-C19-X1","V25-C19-X2"],"justification":"공고의 직접 대상은 발행 일정과 서지 계획이다."},
+        {"id":"V25-C19-J2","text":"잡지의 서지 계획을 독자가 접근할 수 있는 공론장의 실천으로 읽는다.","effect":{"issue":{"literaturePublicRole":1}},"questionId":"PERIODICAL-PUBLIC-ROLE","evidenceExcerptIds":["V25-C19-X1","V25-C19-X3"],"justification":"서지와 문학 평론의 편집 범위가 독자에게 공개되는 방식이다."},
+        {"id":"V25-C19-J3","text":"동시기 발행 공고와 후대 평론을 시간차가 있는 두 증언으로 대조한다.","effect":{"issue":{}},"questionId":"PERIODICAL-TEMPORAL-WITNESS","evidenceExcerptIds":["V25-C19-X2","V25-C19-X3","V25-C19-X5"],"justification":"1848년 지면과 1849년 평론은 서로 다른 발행 시점을 가지므로, 비교는 시간축을 보존하는 절차이며 pressFreedom 태도를 증명하지 않는다."}
+      ],
+      "followups":["발행 공고의 장르 경계를 표시한 후속철이 열렸습니다.","독자와 편집 계획의 관계를 정리한 문학 공론장 기록이 열렸습니다.","1848년 지면과 1849년 평론을 나란히 둔 판본 대조표가 열렸습니다."]
+    }
+  ]
+}
+

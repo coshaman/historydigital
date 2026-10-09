@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "V28-REPLAY-AUDIT-1",
+  "status": "PASS",
+  "errors": [],
+  "result": {
+    "live": {
+      "completedCaseIds": [
+        "C01"
+      ],
+      "choiceCounts": {
+        "1": 1,
+        "2": 0,
+        "3": 0
+      },
+      "witnessedCharacters": [
+        "alexei"
+      ],
+      "memoryCallbacks": [
+        {
+          "caseId": "C01",
+          "callback": "지난번에 “봉인의 순서를 먼저 확인하겠다는 말”라고 말한 것을 기억한다. 서로의 이름을 지켜 준 그날도 잊지 않겠다.",
+          "heardBy": [
+            "alexei"
+          ]
+        }
+      ],
+      "access": {
+        "officialRecord": 1
+      },
+      "relationships": {
+        "alexei": 1
+      },
+      "risk": 0,
+      "routedDocuments": 1,
+      "readDocuments": 1
+    },
+    "replay": {
+      "completedCaseIds": [
+        "C01"
+      ],
+      "choiceCounts": {
+        "1": 1,
+        "2": 0,
+        "3": 0
+      },
+      "witnessedCharacters": [
+        "alexei"
+      ],
+      "memoryCallbacks": [
+        {
+          "caseId": "C01",
+          "callback": "지난번에 “봉인의 순서를 먼저 확인하겠다는 말”라고 말한 것을 기억한다. 서로의 이름을 지켜 준 그날도 잊지 않겠다.",
+          "heardBy": [
+            "alexei"
+          ]
+        }
+      ],
+      "access": {
+        "officialRecord": 1
+      },
+      "relationships": {
+        "alexei": 1
+      },
+      "risk": 0,
+      "routedDocuments": 1,
+      "readDocuments": 1,
+      "endingId": null
+    }
+  }
+}

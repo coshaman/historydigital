@@ -1,0 +1,134 @@
+{
+  "schemaVersion": "V28-COUNTERFACTUAL-1",
+  "cases": [
+    {
+      "caseId": "C01",
+      "choiceA": {
+        "id": "V28-C01-CHOICE-1",
+        "spoken": "알렉세이와 명령서의 범위부터 확인한다. 편지까지 죄목으로 묶지는 않는다.",
+        "reaction": "명령서의 범위는 여기까지야. 편지까지 넓히지 않겠어.",
+        "effects": {
+          "trust": {
+            "alexei": 1
+          },
+          "access": {
+            "officialRecord": 1
+          }
+        }
+      },
+      "choiceB": {
+        "id": "V28-C01-CHOICE-2",
+        "spoken": "예카테리나와 편지의 목소리를 먼저 읽는다. 명령은 그 뒤에 대조한다.",
+        "reaction": "이 문장이 무엇을 말하는지부터 봐요. 명령서가 뜻을 대신하게 두지 말고요.",
+        "effects": {
+          "trust": {
+            "ekaterina": 1
+          },
+          "access": {
+            "dossierEvidence": 1
+          }
+        }
+      },
+      "differentSpoken": true,
+      "differentReaction": true,
+      "differentEffects": true
+    },
+    {
+      "caseId": "C02",
+      "choiceA": {
+        "id": "V28-C02-CHOICE-1",
+        "spoken": "알렉세이와 서명과 번역자의 빈칸을 따로 남긴다.",
+        "reaction": "서명과 번역자를 다른 칸에 두자. 모르는 것을 한꺼번에 만들지는 않겠어.",
+        "effects": {
+          "trust": {
+            "alexei": 1
+          },
+          "access": {
+            "officialRecord": 1
+          }
+        }
+      },
+      "choiceB": {
+        "id": "V28-C02-CHOICE-2",
+        "spoken": "예카테리나에게 번역 초안의 문장부터 읽어 달라고 한다.",
+        "reaction": "초안의 문장을 먼저 봐요. 이름을 추정하기 전에 문장이 어디서 흔들렸는지 보죠.",
+        "effects": {
+          "trust": {
+            "ekaterina": 1
+          },
+          "access": {
+            "dossierEvidence": 1
+          }
+        }
+      },
+      "differentSpoken": true,
+      "differentReaction": true,
+      "differentEffects": true
+    },
+    {
+      "caseId": "C03",
+      "choiceA": {
+        "id": "V28-C03-CHOICE-1",
+        "spoken": "알렉세이와 사망 소식의 출처와 관청 발표 시각을 따로 대조한다.",
+        "reaction": "발표 시각과 출처를 나누어 적겠어. 사망 사실에 반응의 뜻을 덧붙이진 않지.",
+        "effects": {
+          "trust": {
+            "alexei": 1
+          },
+          "access": {
+            "officialRecord": 1
+          }
+        }
+      },
+      "choiceB": {
+        "id": "V28-C03-CHOICE-2",
+        "spoken": "예카테리나와 추모 문장을 읽고 사실과 애도의 목소리를 나눠 적는다.",
+        "reaction": "신문이 슬퍼한 방식도 기록할 수 있어요. 다만 그 문장을 사망 사실처럼 쓰지는 말아요.",
+        "effects": {
+          "trust": {
+            "ekaterina": 1
+          },
+          "access": {
+            "dossierEvidence": 1
+          }
+        }
+      },
+      "differentSpoken": true,
+      "differentReaction": true,
+      "differentEffects": true
+    },
+    {
+      "caseId": "C04",
+      "choiceA": {
+        "id": "V28-C04-CHOICE-1",
+        "spoken": "알렉세이와 인용문과 생략된 문단을 공식 기록에서 나눈다.",
+        "reaction": "인용한 문장과 잘린 문단을 따로 두겠어. 내 손이 자른 것처럼 남기진 않지.",
+        "effects": {
+          "trust": {
+            "alexei": 1
+          },
+          "access": {
+            "officialRecord": 1
+          }
+        }
+      },
+      "choiceB": {
+        "id": "V28-C04-CHOICE-2",
+        "spoken": "예카테리나와 문단 전체를 확인한 뒤 두 사람의 말을 구분한다.",
+        "reaction": "문단 전체를 먼저 봐요. 비평가의 말이 보고서의 목소리로 둔갑하지 않게요.",
+        "effects": {
+          "trust": {
+            "ekaterina": 1
+          },
+          "access": {
+            "dossierEvidence": 1
+          }
+        }
+      },
+      "differentSpoken": true,
+      "differentReaction": true,
+      "differentEffects": true
+    }
+  ],
+  "status": "PASS"
+}
