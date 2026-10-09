@@ -356,3 +356,10 @@ body.window-view.main20-mode .petersburg-window:before{display:none!important}
   .main20-mode.main20-dialogue .main20-choice-direction{font-size:8.5px!important;line-height:1.18!important}
   .main20-mode.main20-dialogue .main20-choice-progress{font-size:10px!important;line-height:1.15!important}
 }
+
+/* V40 context-first masthead: the scene card introduces the change, then gives the desk back its space. */
+.masthead{position:relative;z-index:9;transition:transform .42s ease,opacity .42s ease,margin-bottom .42s ease}
+body.scene-header-collapsed .masthead{transform:translateY(-100%);opacity:0;pointer-events:none;margin-bottom:-76px}
+.main20-choice-hint{display:block;color:#d8c09a;font-size:10px;line-height:1.35;font-weight:400}
+@media(max-width:700px){.main20-choice-hint{font-size:9px;line-height:1.25}body.scene-header-collapsed .masthead{margin-bottom:-76px}}
+@media(prefers-reduced-motion:reduce){body.scene-header-collapsed .masthead{transition:none}}
