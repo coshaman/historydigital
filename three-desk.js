@@ -1,7 +1,7 @@
 const canvas = document.querySelector('#deskCanvas');
 if (canvas) {
   try {
-    const THREE = await import('/node_modules/three/build/three.module.js');
+    const THREE = await import('https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js');
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x67452f);
     const camera = new THREE.PerspectiveCamera(32, 1, .1, 40);

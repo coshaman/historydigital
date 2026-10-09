@@ -144,7 +144,7 @@ function hideLegacyGoldSurface() {
   if (windowSky && !windowSky.querySelector('.window-plate')) {
     const plate = document.createElement('img'); plate.className = 'window-plate'; plate.alt = '1830년 상트페테르부르크 인접 시기 시각 자료'; plate.loading = 'lazy'; windowSky.append(plate);
   }
-  const plate = windowSky?.querySelector('.window-plate'); if (plate && windowReference) { plate.src = windowReference.localUrl || windowReference.sourceUrl; plate.dataset.sourcePage = windowReference.sourcePage || ''; }
+  const plate = windowSky?.querySelector('.window-plate'); if (plate && windowReference) { plate.src = new URL(windowReference.localUrl || windowReference.sourceUrl, document.baseURI).href; plate.dataset.sourcePage = windowReference.sourcePage || ''; }
 }
 function renderExcerptCards(caseData) {
   const columns = $g('#paperColumns');
@@ -527,16 +527,17 @@ async function bootGoldRuntime() {
   const query = new URLSearchParams(location.search);
   const isMain20Route = location.hash === '' || location.hash === '#main' || query.has('main20');
   const isArchiveV28Route = location.hash === '#archive-v28' || location.hash === '#v28' || location.hash === '#v28-reset' || query.has('v28');
-  corpus = await fetch('/data/v6-gold-cases.json', {cache:'no-store'}).then(response => { if (!response.ok) throw new Error('gold corpus unavailable'); return response.json(); });
-  truePressManifest = await fetch('/data/censorship-case-1847-07.json', {cache:'no-store'}).then(response => { if (!response.ok) throw new Error('censorship case unavailable'); return response.json(); });
-  periodicalManifest = await fetch('/data/periodical-review-gold-1847.json', {cache:'no-store'}).then(response => { if (!response.ok) throw new Error('periodical review unavailable'); return response.json(); });
-  periodicalFollowupManifest = await fetch('/data/periodical-followups-v22.json', {cache:'no-store'}).then(response => { if (!response.ok) throw new Error('periodical followups unavailable'); return response.json(); });
-  windowReference = await fetch('/data/window-visual-references.json', {cache:'no-store'}).then(response => response.ok ? response.json() : null).then(data => data?.references?.[0] || null);
-  pilotManifest = await fetch('/data/v25-pilot-cases.json', {cache:'no-store'}).then(response => { if (!response.ok) throw new Error('v25 pilot cases unavailable'); return response.json(); });
-  v26Manifest = await fetch('/data/v27-case-bundle.json', {cache:'no-store'}).then(response => { if (!response.ok) throw new Error('v27 case bundle unavailable'); return response.json(); });
-  v27Rules = await fetch('/data/v27-ending-rules.json', {cache:'no-store'}).then(response => { if (!response.ok) throw new Error('v27 ending rules unavailable'); return response.json(); });
-  v27RouteGraph = await fetch('/data/v27-route-graph.json', {cache:'no-store'}).then(response => { if (!response.ok) throw new Error('v27 route graph unavailable'); return response.json(); });
-  v28Graph = await fetch('/narrative/VN_DIALOGUE_GRAPH.json', {cache:'no-store'}).then(response => { if (!response.ok) throw new Error('v28 dialogue graph unavailable'); return response.json(); });
+  const routeUrl = (path) => new URL(path, document.baseURI).href;
+  corpus = await fetch(routeUrl('data/v6-gold-cases.json'), {cache:'no-store'}).then(response => { if (!response.ok) throw new Error('gold corpus unavailable'); return response.json(); });
+  truePressManifest = await fetch(routeUrl('data/censorship-case-1847-07.json'), {cache:'no-store'}).then(response => { if (!response.ok) throw new Error('censorship case unavailable'); return response.json(); });
+  periodicalManifest = await fetch(routeUrl('data/periodical-review-gold-1847.json'), {cache:'no-store'}).then(response => { if (!response.ok) throw new Error('periodical review unavailable'); return response.json(); });
+  periodicalFollowupManifest = await fetch(routeUrl('data/periodical-followups-v22.json'), {cache:'no-store'}).then(response => { if (!response.ok) throw new Error('periodical followups unavailable'); return response.json(); });
+  windowReference = await fetch(routeUrl('data/window-visual-references.json'), {cache:'no-store'}).then(response => response.ok ? response.json() : null).then(data => data?.references?.[0] || null);
+  pilotManifest = await fetch(routeUrl('data/v25-pilot-cases.json'), {cache:'no-store'}).then(response => { if (!response.ok) throw new Error('v25 pilot cases unavailable'); return response.json(); });
+  v26Manifest = await fetch(routeUrl('data/v27-case-bundle.json'), {cache:'no-store'}).then(response => { if (!response.ok) throw new Error('v27 case bundle unavailable'); return response.json(); });
+  v27Rules = await fetch(routeUrl('data/v27-ending-rules.json'), {cache:'no-store'}).then(response => { if (!response.ok) throw new Error('v27 ending rules unavailable'); return response.json(); });
+  v27RouteGraph = await fetch(routeUrl('data/v27-route-graph.json'), {cache:'no-store'}).then(response => { if (!response.ok) throw new Error('v27 route graph unavailable'); return response.json(); });
+  v28Graph = await fetch(routeUrl('narrative/VN_DIALOGUE_GRAPH.json'), {cache:'no-store'}).then(response => { if (!response.ok) throw new Error('v28 dialogue graph unavailable'); return response.json(); });
   pilotManifest.cases = [...pilotManifest.cases.filter(item => !v26Manifest.cases.some(existing => existing.caseId === item.caseId)), ...v26Manifest.cases];
   if (location.hash === '#v28-reset') { goldState.v28.phase='arrival'; goldState.v28.completedCaseIds=[]; goldState.v28.journeyPath=[]; goldState.v28.witnessedCharacters=[]; goldState.v28.spokenChoices=[]; goldState.v28.choiceCounts={1:0,2:0,3:0}; goldState.v28.memoryCallbacks=[]; goldState.v28.readExcerptIds=[]; goldState.v28.activeExcerptId=null; goldState.v28.endingId=null; goldState.v28.risk=0; goldState.v28.introIndex=0; goldState.v27.access={}; goldState.relationships={}; goldState.actions=[]; goldState.v28.caseId=v28NormalIds()[0]; goldState.v28.journeyActive=true; goldState.caseId=goldState.v28.caseId; }
   else if (isArchiveV28Route) { goldState.v28.journeyActive = true; goldState.v28.caseId = goldState.v28.caseId || v28NormalIds()[0]; goldState.caseId = goldState.v28.caseId; }

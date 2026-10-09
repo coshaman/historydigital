@@ -4,7 +4,7 @@ const canvas = document.createElement('canvas');
 canvas.id='threeWalkCanvas'; canvas.setAttribute('aria-label','1847년 겨울 상트페테르부르크 거리'); walk.prepend(canvas);
 
 try {
-  const THREE = await import('/node_modules/three/build/three.module.js');
+  const THREE = await import('https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js');
   const scene=new THREE.Scene(); scene.background=new THREE.Color(0x59676b); scene.fog=new THREE.Fog(0x59676b,35,145);
   const camera=new THREE.PerspectiveCamera(58,1,.1,220); camera.position.set(0,1.68,16);
   const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:'high-performance'});
