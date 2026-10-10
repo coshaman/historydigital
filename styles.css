@@ -313,6 +313,10 @@ body.window-view:after{content:'창밖을 보고 있습니다 · 창문을 다�
 .main20-ending-lines{display:grid;gap:8px;grid-column:1/-1;width:100%;margin-bottom:4px}
 .main20-ending-line{display:grid;grid-template-columns:minmax(130px,auto) 1fr;gap:10px;margin:0;padding:8px 10px;background:#eadfc655;border-left:2px solid #b88d51;color:#f0d3a0;font-size:13px;line-height:1.45}
 .main20-ending-line strong{color:#f4d9a5;font-weight:600}.main20-ending-line span{min-width:0}
+.main20-belief-ledger{grid-column:1/-1;width:100%;padding:12px 14px;background:#eadfc622;border:1px solid #b88d5166;color:#eadfcf;line-height:1.5}
+.main20-belief-ledger h3{margin:0 0 6px;color:#f4d9a5;font-size:13px;letter-spacing:.04em}.main20-belief-ledger p{margin:3px 0;font-size:13px}
+.main20-ideology-source{display:grid;gap:7px;width:100%;padding:10px 12px;border:1px solid #b88d514f;background:#271f18cc;color:#e7d8bd;text-align:left}.main20-ideology-source strong{color:#f1cf91;font-size:12px}.main20-ideology-source p{margin:0;padding:7px 0;border-top:1px solid #b88d5129;font-size:12px;line-height:1.45}.main20-ideology-source span{color:#f0d8b1}
+.main20-ideology-paper{margin:0 0 12px}.main20-ideology-paper em{display:block;margin-top:6px;color:#aa9679;font-size:11px}
 @media(max-width:700px){.main20-ending-line{grid-template-columns:1fr;gap:3px}}
 
 /* V33 final window isolation: the outside plate is opaque and indoor props are removed. */
