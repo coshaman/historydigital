@@ -98,6 +98,38 @@ async function playRoute(page, route, label) {
   return { scenes: seenScenes, endingTitle: title, selectedCopyCount: selectedCopy.length, state: final };
 }
 
+async function renderEndingFromCanonicalState(page, route, label) {
+  await page.goto(baseUrl, { waitUntil: 'domcontentloaded' });
+  await page.waitForFunction(() => Boolean(window.__main20?.data));
+  const expected = await page.evaluate((canonical) => {
+    const data = window.__main20.data;
+    const history = [];
+    const flags = [];
+    const relationships = { alexei: 0, ekaterina: 0, pavel: 0 };
+    for (const scene of data.scenes) {
+      const [primaryIndex, postIndex] = canonical[scene.id];
+      for (const [kind, choice] of [['pre_read_choice', scene.choices[primaryIndex]], ['post_read_choice', scene.postChoices[postIndex]]]) {
+        history.push({ sceneId: scene.id, kind, action: choice.action, flags: choice.flagsAdd || [], endingAffinity: choice.endingAffinity || {}, actor: choice.actor, witnesses: choice.witnesses, visibility: choice.visibility });
+        flags.push(...(choice.flagsAdd || []));
+        for (const [person, amount] of Object.entries(choice.relationship || {})) relationships[person] += amount;
+      }
+    }
+    const source = { history, flags: [...new Set(flags)], relationships };
+    const detail = window.__main20.resolveEndingDetailedFor(source);
+    localStorage.clear();
+    localStorage.setItem('chancery-main20-v35', JSON.stringify({ schemaVersion: data.schemaVersion, sceneIndex: data.scenes.length - 1, phase: 'ending', endingId: detail.endingId, endingResolution: detail, history: source.history, flags: source.flags, relationships: source.relationships, readExcerptIdsByScene: {}, readEventsByScene: {}, readingScrollByScene: {}, windowView: 'closed' }));
+    return detail.endingId;
+  }, route);
+  await page.reload({ waitUntil: 'domcontentloaded' });
+  await page.waitForFunction(() => window.__main20?.getState?.().phase === 'ending');
+  const title = await page.locator('#endingTitle').innerText();
+  const overlay = await page.locator('#endingOverlay').innerText();
+  if (!title.startsWith('당신의 선택은 ')) failures.push(`${label}: historical-person-first ending title missing`);
+  if (!overlay.includes('실제로 어떻게 살았나') || !overlay.includes('당신이라면')) failures.push(`${label}: life sections missing`);
+  if (!(await page.locator('#endingDocumented').innerText()).trim() || !(await page.locator('#endingFuture').innerText()).trim()) failures.push(`${label}: ending content missing`);
+  return { endingId: expected, endingTitle: title };
+}
+
 const report = { schemaVersion: 'V41-BROWSER-ACCEPTANCE-1', viewports: {}, endings: {} };
 const viewportRuns = await Promise.all([{ name: 'desktop', width: 1440, height: 900 }, { name: 'mobile', width: 390, height: 844 }].filter((viewport) => !process.env.V41_ONLY || process.env.V41_ONLY === viewport.name).map(async (viewport) => {
   const page = await browser.newPage({ viewport: { width: viewport.width, height: viewport.height } });
@@ -108,7 +140,7 @@ const viewportRuns = await Promise.all([{ name: 'desktop', width: 1440, height: 
 for (const [name, result] of viewportRuns) report.viewports[name] = result;
 const endingRuns = await Promise.all(Object.entries(canonicalRoutes).filter(([endingId]) => !process.env.V41_ONLY || process.env.V41_ONLY === endingId).map(async ([endingId, route]) => {
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
-  const result = await playRoute(page, route, `ending/${endingId}`);
+  const result = await renderEndingFromCanonicalState(page, route, `ending/${endingId}`);
   await page.close();
   return [endingId, result];
 }));
