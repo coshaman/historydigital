@@ -574,3 +574,4 @@ async function bootGoldRuntime() {
   }
 }
 bootGoldRuntime().catch(error => { document.body.dataset.goldRuntimeError = String(error); console.error('Gold runtime failed.', error); });
+document.addEventListener('click',e=>{if((document.body.classList.contains('main20-mode')||window.__main20RuntimeOwner==='main20')&&e.target.closest('#walkBtn')){e.preventDefault();e.stopImmediatePropagation();}},true);

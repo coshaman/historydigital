@@ -299,6 +299,7 @@ body.window-view:after{content:'창밖을 보고 있습니다 · 창문을 다�
 .main20-mode .paper-footer,.main20-mode .paper-stamp{pointer-events:none!important}
 @media(max-width:700px){body.window-view .petersburg-window{width:88vw!important;height:58vh!important}body.window-view:after{width:calc(100vw - 32px);text-align:center;bottom:12px}.main20-mode .desk{grid-template-rows:minmax(0,calc(100vh - 230px)) 190px}.main20-mode .document-stage{padding:16px 16px 8px}.main20-mode .dialogue-strip{grid-template-columns:1fr;min-height:190px;padding:10px 16px}.main20-mode .dialogue-strip>p{font-size:18px}.main20-mode .choice-area{grid-column:1;grid-template-columns:1fr}.main20-mode.main20-reading:not(.window-view) .petersburg-window{width:150px!important;height:110px!important;top:8px!important;right:8px!important}.main20-excerpt{grid-template-columns:1fr}.main20-excerpt .ko-text{border-left:0;border-top:1px solid #6f563850;padding:8px 0 0}}
 .main20-mode.main20-reading .dialogue-strip{position:fixed!important;left:0;right:0;bottom:48px!important;z-index:50;min-height:64px!important;max-height:64px!important;height:64px!important;padding:8px 18px;background:#1d1511f5;border-top:1px solid #d9b27766}
+.main20-mode #walkBtn{display:none!important}
 .main20-mode.main20-reading .dialogue-strip .choice-area{display:flex;grid-column:1/-1;gap:0}
 .main20-mode.main20-reading .dialogue-strip .choice-area .main20-action{width:100%;min-height:46px;text-align:center}
 .main20-mode.main20-reading .document-stage{padding-bottom:78px}
