@@ -30,7 +30,7 @@ const report = await page.evaluate((routes) => {
     const profile = data.endingIdeologyProfiles[endingId];
     const ideology = Object.fromEntries(data.ideologyDimensions.map((key) => [key, 0]));
     for (const [key, amount] of Object.entries(profile.ideologyGate)) ideology[key] = amount;
-    const ideologyEvidence = profile.beliefLedgerLabels.map((statement, index) => ({ statement, choiceId: `V42-TEST-${endingId}-${index}`, callbackKey: `TEST_${endingId}_${index}`, sceneId: 'V42-TEST' }));
+    const ideologyEvidence = profile.beliefLedgerLabels.map((statement, index) => ({ statement, choiceId: `V42-TEST-${endingId}-${index}`, callbackKey: `TEST_${endingId}_${index}`, sceneId: ['V42-PROLOGUE-CHAADAEV', 'C07', 'E07'][index] }));
     const source = { history, flags: [...new Set(flags)], relationships, ideology, ideologyEvidence, visibleCallbacks: ideologyEvidence.map((item) => item.callbackKey) };
     const detail = window.__main20.resolveEndingDetailedFor(source);
     result[endingId] = { resolved: detail.endingId, beliefCount: detail.beliefLedger.length, actionCount: detail.actionEvidence.length, callbackCount: detail.callbackEvidence.length, strongGateSatisfied: detail.strongGateSatisfied, strongMatches: detail.strongMatches };

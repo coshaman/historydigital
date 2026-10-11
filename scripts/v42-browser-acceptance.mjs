@@ -8,7 +8,7 @@ const browser = await chromium.launch({ headless: true, executablePath: 'C:\\Pro
 const state = (page) => page.evaluate(() => window.__main20?.getState());
 const click = async (page, name) => { const button = page.getByRole('button', { name, exact: true }); if (!(await button.count())) throw new Error(`missing button: ${name}`); await button.first().click(); await page.waitForTimeout(20); };
 const advanceButton = async (page) => { const buttons = page.locator('#choiceArea button'); if (!(await buttons.count())) throw new Error('choice area dead end'); await buttons.first().click(); await page.waitForTimeout(20); };
-const readScene = async (page) => { const marks = page.locator('.main20-read-mark'); for (let i = 0; i < await marks.count(); i += 1) { const mark = marks.nth(i); if (await mark.isEnabled()) await mark.click(); } await click(page, '자료 토론으로 간다'); };
+const readScene = async (page) => { const marks = page.locator('.main20-read-mark'); for (let i = 0; i < await marks.count(); i += 1) { const mark = marks.nth(i); await mark.scrollIntoViewIfNeeded(); await page.waitForTimeout(25); if (await mark.isEnabled()) await mark.click(); } await click(page, '자료 토론으로 간다'); };
 const visibleText = (page) => page.locator('body').innerText();
 
 async function play(page) {

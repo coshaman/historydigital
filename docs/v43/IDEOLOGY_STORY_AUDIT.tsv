@@ -1,0 +1,65 @@
+itemType	itemId	classification	decision	reason	sourceSupport
+SCENE	IDELOGY_PROLOGUE	CORE_IDEOLOGICAL	keep	directly stages a historical ideological/social dispute	IDELOGY_PROLOGUE
+SCENE	C03	CORE_IDEOLOGICAL	keep	directly stages a historical ideological/social dispute	C03
+SCENE	C06	SUPPORTING_SOCIAL	keep	supports a social or moral choice without pretending to be a school debate	C06
+SCENE	C07	CORE_IDEOLOGICAL	keep	directly stages a historical ideological/social dispute	C07
+SCENE	E02	SUPPORTING_SOCIAL	keep	supports a social or moral choice without pretending to be a school debate	E02
+SCENE	E07	CORE_IDEOLOGICAL	keep	directly stages a historical ideological/social dispute	E07
+SOURCE	V42-UVAROV-1833	OFFICIAL_NATIONALITY	keep	checked source excerpt supports the route argument	https://www.encyclopedia.com/history/encyclopedias-almanacs-transcripts-and-maps/official-nationality
+SOURCE	V42-TABLE-OF-RANKS	STATE_ORDER	keep	checked source excerpt supports the route argument	https://ru.wikisource.org/wiki/Табель_о_рангах
+SOURCE	V42-CHAADAEV-1836	RUSSIA_EUROPE	keep	checked source excerpt supports the route argument	https://ru.wikisource.org/wiki/Философические_письма_(Чаадаев)
+SOURCE	V42-WESTERNIZER-PRIMARY	WESTERNIZER	keep	checked source excerpt supports the route argument	https://ru.wikisource.org/wiki/Письмо_В._Г._Белинскому_июль_—_август_1847_г._(Гоголь)
+SOURCE	V42-SLAVOPHILE-PRIMARY	SLAVOPHILE	keep	verified context is used as paraphrase, never counterfeit quotation	https://ru.wikisource.org/wiki/О_старом_и_новом_(Хомяков)
+SOURCE	V42-GOGOL-1847	GOGOL_MORAL_REFORM	keep	verified context is used as paraphrase, never counterfeit quotation	https://ru.wikisource.org/wiki/Выбранные_места_из_переписки_с_друзьями_(Гоголь)
+SOURCE	V42-BELINSKY-1847	BELINSKY_SOCIAL_CRITIQUE	keep	checked source excerpt supports the route argument	https://ru.wikisource.org/wiki/Письмо_В._Г._Белинскому_июль_—_август_1847_г._(Гоголь)
+SOURCE	V42-PETRASHEVSKY-FOURIERISM	PETRASHEVSKY_SOCIAL_REFORM	keep	verified context is used as paraphrase, never counterfeit quotation	https://historyrussia.org/?id=5349&layout=edit&view=article
+CHOICE	C03-A	INTERPRETATION	rewrite	player opinion, interpretation, evidence request or dialogue response	C03-S1-LITERATURNYE|C03-S2-SEVERNAYA
+CHOICE	C03-B	INTERPRETATION	rewrite	player opinion, interpretation, evidence request or dialogue response	C03-S1-LITERATURNYE|C03-S2-SEVERNAYA
+CHOICE	C03-C	INTERPRETATION	rewrite	player opinion, interpretation, evidence request or dialogue response	C03-S1-LITERATURNYE|C03-S2-SEVERNAYA
+CHOICE	C03-P1	ACTION	keep	concrete record/delivery consequence	C03-S1-LITERATURNYE|C03-S2-SEVERNAYA
+CHOICE	C03-P2	ACTION	keep	concrete record/delivery consequence	C03-S1-LITERATURNYE|C03-S2-SEVERNAYA
+CHOICE	C03-P3	EVIDENCE_REQUEST	rewrite	player opinion, interpretation, evidence request or dialogue response	C03-S1-LITERATURNYE|C03-S2-SEVERNAYA
+CHOICE	C06-A	INTERPRETATION	rewrite	player opinion, interpretation, evidence request or dialogue response	C06-S1|C06-S1|C06-S1
+CHOICE	C06-B	INTERPRETATION	rewrite	player opinion, interpretation, evidence request or dialogue response	C06-S1|C06-S1|C06-S1
+CHOICE	C06-C	INTERPRETATION	rewrite	player opinion, interpretation, evidence request or dialogue response	C06-S1|C06-S1|C06-S1
+CHOICE	C06-P1	EVIDENCE_REQUEST	rewrite	player opinion, interpretation, evidence request or dialogue response	C06-S1|C06-S1|C06-S1
+CHOICE	C06-P2	EVIDENCE_REQUEST	rewrite	player opinion, interpretation, evidence request or dialogue response	C06-S1|C06-S1|C06-S1
+CHOICE	C06-P3	ACTION	keep	concrete record/delivery consequence	C06-S1|C06-S1|C06-S1
+CHOICE	C07-A	INTERPRETATION	rewrite	player opinion, interpretation, evidence request or dialogue response	C07-S1|C07-S1
+CHOICE	C07-B	INTERPRETATION	rewrite	player opinion, interpretation, evidence request or dialogue response	C07-S1|C07-S1
+CHOICE	C07-C	INTERPRETATION	rewrite	player opinion, interpretation, evidence request or dialogue response	C07-S1|C07-S1
+CHOICE	C07-P1	ACTION	keep	concrete record/delivery consequence	C07-S1|C07-S1
+CHOICE	C07-P2	ACTION	keep	concrete record/delivery consequence	C07-S1|C07-S1
+CHOICE	C07-P3	EVIDENCE_REQUEST	rewrite	player opinion, interpretation, evidence request or dialogue response	C07-S1|C07-S1
+CHOICE	E02-A	OPINION	rewrite	player opinion, interpretation, evidence request or dialogue response	E02-S2|E02-S2|E02-S3
+CHOICE	E02-B	OPINION	rewrite	player opinion, interpretation, evidence request or dialogue response	E02-S2|E02-S2|E02-S3
+CHOICE	E02-C	DIALOGUE_RESPONSE	rewrite	player opinion, interpretation, evidence request or dialogue response	E02-S2|E02-S2|E02-S3
+CHOICE	E02-P1	ACTION	keep	concrete record/delivery consequence	E02-S2|E02-S2|E02-S3
+CHOICE	E02-P2	EVIDENCE_REQUEST	rewrite	player opinion, interpretation, evidence request or dialogue response	E02-S2|E02-S2|E02-S3
+CHOICE	E02-P3	ACTION	keep	concrete record/delivery consequence	E02-S2|E02-S2|E02-S3
+CHOICE	E07-A	OPINION	rewrite	player opinion, interpretation, evidence request or dialogue response	E07-S4|E07-S4|E07-S4
+CHOICE	E07-B	ACTION	keep	concrete record/delivery consequence	E07-S4|E07-S4|E07-S4
+CHOICE	E07-C	ACTION	keep	concrete record/delivery consequence	E07-S4|E07-S4|E07-S4
+CHOICE	E07-D	OPINION	rewrite	player opinion, interpretation, evidence request or dialogue response	E07-S4|E07-S4|E07-S4
+CHOICE	E07-P1	ACTION	keep	concrete record/delivery consequence	E07-S4|E07-S4|E07-S4
+CHOICE	E07-P2	ACTION	keep	concrete record/delivery consequence	E07-S4|E07-S4|E07-S4
+CHOICE	E07-P3	ACTION	keep	concrete record/delivery consequence	E07-S4|E07-S4|E07-S4
+CHOICE	E07-P4	ACTION	keep	concrete record/delivery consequence	E07-S4|E07-S4|E07-S4
+CHOICE	V42-P-EUROPE-LEARN	OPINION	rewrite	player opinion, interpretation, evidence request or dialogue response	V42-CHAADAEV-1836
+CHOICE	V42-P-EUROPE-OWN	OPINION	rewrite	player opinion, interpretation, evidence request or dialogue response	V42-CHAADAEV-1836
+CHOICE	V42-P-EUROPE-BOTH	OPINION	rewrite	player opinion, interpretation, evidence request or dialogue response	V42-CHAADAEV-1836
+CHOICE	V42-P-RANKS-ORDER	OPINION	rewrite	player opinion, interpretation, evidence request or dialogue response	V42-TABLE-OF-RANKS
+CHOICE	V42-P-RANKS-COST	OPINION	rewrite	player opinion, interpretation, evidence request or dialogue response	V42-TABLE-OF-RANKS
+CHOICE	V42-P-UVAROV-COMMON	OPINION	rewrite	player opinion, interpretation, evidence request or dialogue response	V42-UVAROV-1833
+CHOICE	V42-P-UVAROV-QUESTION	OPINION	rewrite	player opinion, interpretation, evidence request or dialogue response	V42-UVAROV-1833
+CHOICE	V42-P-UVAROV-WAIT	OPINION	rewrite	player opinion, interpretation, evidence request or dialogue response	V42-UVAROV-1833
+CHOICE	V42-P-CHAADAEV-WEST	OPINION	rewrite	player opinion, interpretation, evidence request or dialogue response	V42-CHAADAEV-1836|V42-WESTERNIZER-PRIMARY|V42-SLAVOPHILE-PRIMARY
+CHOICE	V42-P-CHAADAEV-TRADITION	OPINION	rewrite	player opinion, interpretation, evidence request or dialogue response	V42-CHAADAEV-1836|V42-WESTERNIZER-PRIMARY|V42-SLAVOPHILE-PRIMARY
+CHOICE	V42-P-CHAADAEV-MIX	OPINION	rewrite	player opinion, interpretation, evidence request or dialogue response	V42-CHAADAEV-1836|V42-WESTERNIZER-PRIMARY|V42-SLAVOPHILE-PRIMARY
+CHOICE	V42-C07-GOGOL-MORAL	OPINION	rewrite	player opinion, interpretation, evidence request or dialogue response	V42-GOGOL-1847
+CHOICE	V42-C07-GOGOL-INSTITUTION	INTERPRETATION	rewrite	player opinion, interpretation, evidence request or dialogue response	V42-GOGOL-1847
+CHOICE	V42-C07-GOGOL-BOTH	INTERPRETATION	rewrite	player opinion, interpretation, evidence request or dialogue response	V42-GOGOL-1847
+CHOICE	V42-C07-GOGOL-DEFER	INTERPRETATION	rewrite	player opinion, interpretation, evidence request or dialogue response	V42-GOGOL-1847
+CHOICE	V42-C07-BELINSKY-PUBLIC	OPINION	rewrite	player opinion, interpretation, evidence request or dialogue response	V42-BELINSKY-1847|V42-WESTERNIZER-PRIMARY
+CHOICE	V42-C07-BELINSKY-MORAL	DIALOGUE_RESPONSE	rewrite	player opinion, interpretation, evidence request or dialogue response	V42-BELINSKY-1847|V42-WESTERNIZER-PRIMARY
+CHOICE	V42-C07-BELINSKY-DEFER	INTERPRETATION	rewrite	player opinion, interpretation, evidence request or dialogue response	V42-BELINSKY-1847|V42-WESTERNIZER-PRIMARY

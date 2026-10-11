@@ -74,7 +74,32 @@
     "historicalStatementClaim": false,
     "note": "이 경로에는 허구 인물의 대사로 차용한 문학 문장이 없습니다. 사료 원문은 문학 차용 레코드가 아니라 출처 발췌로만 표시합니다."
   },
-  "ideologyDimensions": ["officialNationality", "westernizer", "slavophile", "moralOrthodoxReform", "publicLiteraryCriticism", "socialReform", "radicalDiscussion"],
+  "ideologyDimensions": ["officialNationality", "westernizer", "slavophile", "moralOrthodoxReform", "publicLiteraryCriticism", "socialReform", "radicalDiscussion", "stateOrder", "evidentialSkepticism"],
+  "v43ChoiceTypeRegistry": {
+    "OPINION": ["V42-P-EUROPE-LEARN", "V42-P-EUROPE-OWN", "V42-P-EUROPE-BOTH", "V42-P-RANKS-ORDER", "V42-P-RANKS-COST", "V42-P-UVAROV-COMMON", "V42-P-UVAROV-QUESTION", "V42-P-UVAROV-WAIT", "V42-P-CHAADAEV-WEST", "V42-P-CHAADAEV-TRADITION", "V42-P-CHAADAEV-MIX", "V42-C07-GOGOL-MORAL", "V42-C07-BELINSKY-PUBLIC", "E02-A", "E02-B", "E07-A", "E07-D"],
+    "INTERPRETATION": ["C03-A", "C03-B", "C03-C", "C06-A", "C06-B", "C06-C", "C07-A", "C07-B", "C07-C", "V42-C07-GOGOL-INSTITUTION", "V42-C07-GOGOL-BOTH", "V42-C07-GOGOL-DEFER", "V42-C07-BELINSKY-DEFER"],
+    "DIALOGUE_RESPONSE": ["E02-C", "V42-C07-BELINSKY-MORAL"],
+    "EVIDENCE_REQUEST": ["C03-P3", "C06-P1", "C06-P2", "C07-P3", "E02-P2"],
+    "ACTION": ["C03-P1", "C03-P2", "C06-P3", "C07-P1", "C07-P2", "E02-P1", "E02-P3", "E07-B", "E07-C", "E07-P1", "E07-P2", "E07-P3", "E07-P4"]
+  },
+  "v43SourceRequirements": [
+    { "sourceId": "V42-UVAROV-1833", "author": "С. С. Уваров", "workTitle": "О народном просвещении", "ideologicalUse": "OFFICIAL_NATIONALITY" },
+    { "sourceId": "V42-TABLE-OF-RANKS", "author": "Пётр I / Сенат", "workTitle": "Табель о рангах", "ideologicalUse": "STATE_ORDER" },
+    { "sourceId": "V42-CHAADAEV-1836", "author": "П. Я. Чаадаев", "workTitle": "Философическое письмо", "ideologicalUse": "RUSSIA_EUROPE" },
+    { "sourceId": "V42-WESTERNIZER-PRIMARY", "author": "В. Г. Белинский", "workTitle": "Письмо к Гоголю", "ideologicalUse": "WESTERNIZER" },
+    { "sourceId": "V42-SLAVOPHILE-PRIMARY", "author": "А. С. Хомяков", "workTitle": "О старом и новом", "ideologicalUse": "SLAVOPHILE" },
+    { "sourceId": "V42-GOGOL-1847", "author": "Н. В. Гоголь", "workTitle": "Выбранные места из переписки с друзьями", "ideologicalUse": "GOGOL_MORAL_REFORM" },
+    { "sourceId": "V42-BELINSKY-1847", "author": "В. Г. Белинский", "workTitle": "Письмо к Гоголю", "ideologicalUse": "BELINSKY_SOCIAL_CRITIQUE" },
+    { "sourceId": "V42-PETRASHEVSKY-FOURIERISM", "author": "Петрашевский кружок", "workTitle": "독서·토론·푸리에주의 기록", "ideologicalUse": "PETRASHEVSKY_SOCIAL_REFORM" }
+  ],
+  "v43SceneClassification": {
+    "IDELOGY_PROLOGUE": "CORE_IDEOLOGICAL",
+    "C03": "CORE_IDEOLOGICAL",
+    "C06": "SUPPORTING_SOCIAL",
+    "C07": "CORE_IDEOLOGICAL",
+    "E02": "SUPPORTING_SOCIAL",
+    "E07": "CORE_IDEOLOGICAL"
+  },
   "falseEquivalenceWarnings": [
     { "id": "OFFICIAL_NATIONALITY_EQUALS_SLAVOPHILISM", "claim": "공식 민족성은 슬라브주의와 같다", "correction": "국가가 내세운 공식 이념과 정부 밖 지식인 운동은 서로 다른 맥락이다." },
     { "id": "WESTERNIZER_COPIES_ALL_EUROPE", "claim": "서구주의자는 유럽의 모든 것을 베끼려 한다", "correction": "서구주의 논쟁의 핵심에는 법·교육·사회개혁과 러시아의 역사적 경로가 있었다." },
@@ -2372,11 +2397,11 @@
     }
   ],
   "endingIdeologyProfiles": {
-    "UVAROV": { "ideologyGate": { "officialNationality": 2 }, "actionGate": { "all": ["official_record", "official_memo"] }, "beliefLedgerLabels": ["공통된 공적 기준이 필요하다.", "행정 질서는 실제 개인의 경력을 만든다.", "확인된 사실과 기관 책임을 함께 남긴다."] },
-    "BELINSKY": { "ideologyGate": { "publicLiteraryCriticism": 2, "socialReform": 1 }, "actionGate": { "all": ["spoken_public_argument", "literaryArgumentChoice"] }, "beliefLedgerLabels": ["문학은 사회적 고통을 공개적으로 비판할 책임이 있다.", "개인의 도덕만으로 제도적 억압을 해결할 수 없다.", "공적 독자는 논쟁의 책임을 함께 져야 한다."] },
-    "HERZEN": { "ideologyGate": { "westernizer": 2, "socialReform": 2 }, "actionGate": { "all": ["send_to_trusted_reader", "networkReception"] }, "beliefLedgerLabels": ["러시아는 유럽의 법과 교육에서 배워야 한다.", "사회개혁은 위험을 감수할 만큼 중요하다.", "검열 밖에서도 신뢰할 전달망을 만들어야 한다."] },
-    "KHOMYAKOV": { "ideologyGate": { "slavophile": 2, "moralOrthodoxReform": 1 }, "actionGate": { "all": ["communalMediation", "protective_silence"] }, "beliefLedgerLabels": ["러시아의 전통과 공동체는 단순한 결핍이 아니다.", "공식 관료국가와 공동체의 목소리는 다르다.", "도덕적 책임과 사람을 지키는 중재가 필요하다."] },
-    "DOSTOEVSKY_PETRASHEVSKY": { "ideologyGate": { "radicalDiscussion": 1, "socialReform": 1 }, "actionGate": { "all": ["dangerous_discussion", "deliver_scene_chain"] }, "beliefLedgerLabels": ["사회 문제에는 구조적 원인이 있다.", "독서와 토론은 실제 사회개혁의 언어가 될 수 있다.", "위험을 알면서도 논쟁의 통로를 닫지 않는다."] }
+    "UVAROV": { "ideologyGate": { "officialNationality": 2 }, "actionGate": { "all": ["official_record", "official_memo"] }, "beliefSceneMinimum": 3, "beliefLedgerLabels": ["공통된 공적 기준이 필요하다.", "행정 질서는 실제 개인의 경력을 만든다.", "확인된 사실과 기관 책임을 함께 남긴다."] },
+    "BELINSKY": { "ideologyGate": { "publicLiteraryCriticism": 2, "socialReform": 1 }, "actionGate": { "all": ["spoken_public_argument", "literaryArgumentChoice"] }, "beliefSceneMinimum": 3, "beliefLedgerLabels": ["문학은 사회적 고통을 공개적으로 비판할 책임이 있다.", "개인의 도덕만으로 제도적 억압을 해결할 수 없다.", "공적 독자는 논쟁의 책임을 함께 져야 한다."] },
+    "HERZEN": { "ideologyGate": { "westernizer": 2, "socialReform": 2 }, "actionGate": { "all": ["send_to_trusted_reader", "networkReception"] }, "beliefSceneMinimum": 3, "beliefLedgerLabels": ["러시아는 유럽의 법과 교육에서 배워야 한다.", "사회개혁은 위험을 감수할 만큼 중요하다.", "검열 밖에서도 신뢰할 전달망을 만들어야 한다."] },
+    "KHOMYAKOV": { "ideologyGate": { "slavophile": 2, "moralOrthodoxReform": 1 }, "actionGate": { "all": ["communalMediation", "protective_silence"] }, "beliefSceneMinimum": 3, "beliefLedgerLabels": ["러시아의 전통과 공동체는 단순한 결핍이 아니다.", "공식 관료국가와 공동체의 목소리는 다르다.", "도덕적 책임과 사람을 지키는 중재가 필요하다."] },
+    "DOSTOEVSKY_PETRASHEVSKY": { "ideologyGate": { "radicalDiscussion": 1, "socialReform": 1 }, "actionGate": { "all": ["dangerous_discussion", "deliver_scene_chain"] }, "beliefSceneMinimum": 3, "beliefLedgerLabels": ["사회 문제에는 구조적 원인이 있다.", "독서와 토론은 실제 사회개혁의 언어가 될 수 있다.", "위험을 알면서도 논쟁의 통로를 닫지 않는다."] }
   },
   "endings": [
     {
