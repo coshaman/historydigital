@@ -372,6 +372,38 @@ body.scene-header-collapsed .masthead{transform:translateY(-100%);opacity:0;poin
 
 .ending-portrait img{width:100%;height:100%;object-fit:cover;filter:sepia(.16) contrast(1.03)}
 
+/* V52: the ending is a separate, opaque reading surface—not a dialogue beat over the desk. */
+.main20-mode.main20-ending .dialogue-strip{display:none!important}
+.ending-overlay{position:fixed;inset:0;z-index:1000;box-sizing:border-box;overflow-y:auto;overscroll-behavior:contain;place-items:center;padding:clamp(12px,3.2vh,34px);background-color:#120d0a;background-image:radial-gradient(ellipse at 50% 0%,#493221 0%,#211711 48%,#120d0a 100%)}
+.ending-card.ending-sequence{position:relative;display:flex;flex-direction:column;gap:0;width:min(820px,100%);max-width:820px;max-height:calc(100dvh - 2 * clamp(12px,3.2vh,34px));box-sizing:border-box;overflow-y:auto;overscroll-behavior:contain;padding:clamp(22px,4vw,46px);border:1px solid #c6a36a;background:linear-gradient(145deg,#302219,#211813 66%,#291d15);box-shadow:0 24px 80px #000b,0 0 0 7px #1a120dcc,inset 0 0 0 1px #edca8a22;color:#ead9bb}
+.ending-card.ending-sequence:before{content:"";position:absolute;top:12px;left:12px;right:12px;height:3px;background:linear-gradient(90deg,transparent,#d7b476 18%,#f0d49d 50%,#d7b476 82%,transparent);opacity:.78}
+.ending-sequence>.kicker{order:0;margin:0 0 20px;color:#c6a36a;font:600 11px/1.4 'Libre Franklin',Arial,sans-serif;letter-spacing:.2em;text-transform:uppercase}
+.ending-sequence .ending-stage-portrait{order:1;display:grid;grid-template-columns:108px minmax(0,1fr);grid-template-rows:auto auto auto;gap:5px 22px;align-items:center;padding-bottom:23px;border-bottom:1px solid #c6a36a66}
+.ending-sequence .ending-portrait{grid-column:1;grid-row:1/4;width:108px;height:132px;display:grid;place-items:center;overflow:hidden;border:1px solid #c6a36a;box-shadow:6px 7px 0 #120c09;background:linear-gradient(145deg,#59412d,#201711);color:#e5c991;font:36px Georgia,serif}
+.ending-sequence .ending-portrait img{display:block;width:100%;height:100%;object-fit:cover}
+.ending-sequence .ending-portrait img[hidden]{display:none}
+.ending-sequence #endingTitle{grid-column:2;margin:0;color:#f0dfbe;font:normal clamp(28px,4vw,42px)/1.12 'IM Fell English',Georgia,serif;overflow-wrap:anywhere}
+.ending-sequence #endingPortraitName{grid-column:2;margin:4px 0 0;color:#c6a36a;font:500 13px/1.45 'Libre Franklin',Arial,sans-serif}
+.ending-sequence #endingPortraitReason{grid-column:2;margin:4px 0 0;color:#e2cfad;font:16px/1.55 Georgia,serif}
+.ending-sequence .ending-stage-beliefs{order:2}
+.ending-sequence .ending-section{order:3;margin-top:0;padding:20px 0 0;border-top:0}
+.ending-sequence .ending-stage:nth-of-type(4){order:4}
+.ending-sequence .ending-stage:nth-of-type(5){order:5}
+.ending-sequence .ending-stage:nth-of-type(5){order:5}
+.ending-sequence .ending-section h3,.ending-sequence .ending-stage-beliefs h3{margin:0 0 8px;color:#d0ad70;font:600 11px/1.4 'Libre Franklin',Arial,sans-serif;letter-spacing:.13em;text-transform:uppercase}
+.ending-sequence .ending-section p,.ending-sequence .ending-stage-beliefs p{margin:0;color:#dfcfb1;font:15px/1.6 Georgia,serif;overflow-wrap:anywhere}
+.ending-sequence #endingBeliefs,.ending-sequence #endingActions{display:grid;gap:5px}
+.ending-sequence #endingActions p{padding-left:12px;border-left:1px solid #bd9557;color:#d8c5a5;font:13px/1.5 'Libre Franklin',Arial,sans-serif}
+.ending-sequence .ending-callback-lines{order:6;display:grid;gap:8px;margin-top:18px}
+.ending-callback-line{display:grid;grid-template-columns:150px minmax(0,1fr);gap:12px;margin:0;padding:10px 12px;border-left:2px solid #b88d51;background:#eadfc60c;color:#dfcfb1;font:14px/1.5 Georgia,serif}
+.ending-callback-line strong{color:#cfad73;font:600 11px/1.5 'Libre Franklin',Arial,sans-serif}
+.ending-sequence .ending-evidence{order:7;margin-top:20px;padding-top:15px;border-top:1px solid #c6a36a44}
+.ending-sequence .ending-controls{order:8;display:flex;justify-content:flex-end;gap:10px;margin-top:24px;padding-top:17px;border-top:1px solid #c6a36a44}
+.ending-sequence .ending-controls .ink-button{min-height:44px;margin:0;padding:11px 16px;border:1px solid #c6a36a;color:#f0d6a5;background:#342419;cursor:pointer}
+.ending-sequence .ending-controls .ink-button:hover,.ending-sequence .ending-controls .ink-button:focus-visible{background:#583d27;outline:2px solid #e4c488;outline-offset:2px}
+@media(max-width:600px){.ending-overlay{place-items:start center}.ending-card.ending-sequence{max-height:none;min-height:calc(100dvh - 24px);padding:28px 19px;margin:auto 0}.ending-sequence .ending-stage-portrait{grid-template-columns:54px minmax(0,1fr);gap:4px 10px}.ending-sequence .ending-portrait{width:54px;height:68px;font-size:21px}.ending-sequence #endingTitle{font-size:clamp(21px,5.6vw,26px);line-height:1.12}.ending-sequence #endingPortraitName{font-size:11px}.ending-sequence #endingPortraitReason{font-size:13px;line-height:1.42}.ending-callback-line{grid-template-columns:1fr;gap:3px}.ending-sequence .ending-controls{flex-direction:column}.ending-sequence .ending-controls .ink-button{width:100%}}
+@media(prefers-reduced-motion:reduce){.ending-sequence *{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
 /* V46: keep the desk and its paper legible when the optional 3D scene is not loaded. */
 .main20-mode .app-shell{height:100dvh;min-height:0;display:flex;flex-direction:column;overflow:hidden}
 .main20-mode .masthead{flex:0 0 10px;height:10px;min-height:10px;padding:0;border:0;overflow:hidden}

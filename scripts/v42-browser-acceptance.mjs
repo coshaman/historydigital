@@ -60,12 +60,25 @@ async function play(page) {
   }
   const final = await state(page);
   if (final?.phase !== 'ending') failures.push(`route did not reach a real ending: ${final?.phase}`);
-  const endingLayout = await page.evaluate(() => { const overlay = document.querySelector('#endingOverlay'); const card = document.querySelector('#endingOverlay .ending-card'); const rect = card.getBoundingClientRect(); return { visible: !overlay.hidden, overflowY: getComputedStyle(overlay).overflowY, overlayHeight: overlay.clientHeight, overlayScrollHeight: overlay.scrollHeight, cardTop: rect.top, cardBottom: rect.bottom, viewportHeight: innerHeight, restartVisible: document.querySelector('#endingOverlay #restart')?.getBoundingClientRect().height > 0 }; });
+  const endingLayout = await page.evaluate(() => { const overlay = document.querySelector('#endingOverlay'); const card = document.querySelector('#endingOverlay .ending-card'); const dialogue = document.querySelector('.dialogue-strip'); const rect = card.getBoundingClientRect(); const overlayStyle = getComputedStyle(overlay); return { visible: !overlay.hidden, overflowY: overlayStyle.overflowY, position: overlayStyle.position, zIndex: Number(overlayStyle.zIndex), backgroundColor: overlayStyle.backgroundColor, overlayRect: (() => { const box = overlay.getBoundingClientRect(); return { top: box.top, right: box.right, bottom: box.bottom, left: box.left }; })(), dialogueDisplay: getComputedStyle(dialogue).display, overlayHeight: overlay.clientHeight, overlayScrollHeight: overlay.scrollHeight, cardTop: rect.top, cardBottom: rect.bottom, viewportHeight: innerHeight, viewportWidth: innerWidth, restartVisible: document.querySelector('#endingOverlay #restart')?.getBoundingClientRect().height > 0 }; });
+  const rgba = endingLayout.backgroundColor.match(/rgba?\([^)]*[,\s/]\s*([\d.]+)\s*\)$/);
+  const overlayAlpha = endingLayout.backgroundColor.startsWith('rgba') && rgba ? Number(rgba[1]) : 1;
+  if (endingLayout.dialogueDisplay !== 'none') throw new Error(`ending still shows dialogue rail: ${JSON.stringify(endingLayout)}`);
+  if (endingLayout.position !== 'fixed' || endingLayout.zIndex < 100 || endingLayout.overlayRect.top > 0 || endingLayout.overlayRect.left > 0 || endingLayout.overlayRect.right < endingLayout.viewportWidth || endingLayout.overlayRect.bottom < endingLayout.viewportHeight || overlayAlpha < 1) throw new Error(`ending is not a full-screen opaque focus view: ${JSON.stringify(endingLayout)}`);
   if (!endingLayout.visible || !endingLayout.restartVisible || (endingLayout.cardBottom > endingLayout.viewportHeight && endingLayout.overflowY !== 'auto' && endingLayout.overflowY !== 'scroll')) throw new Error(`ending content is clipped or has no reachable restart control: ${JSON.stringify(endingLayout)}`);
+  if ([1440, 390].includes(endingLayout.viewportWidth)) { fs.mkdirSync('artifacts/v46-ending', { recursive: true }); await page.screenshot({ path: `artifacts/v46-ending/ending-${endingLayout.viewportWidth}.png` }); }
+  const endingActions = await page.locator('#endingActions').innerText();
+  if (/MAIN\d+_|V42-|E07_|ACTION_/.test(endingActions)) throw new Error(`ending recap exposes internal action IDs: ${endingActions}`);
+  const modalSemantics = await page.locator('#endingOverlay').evaluate((node) => ({ role: node.getAttribute('role'), modal: node.getAttribute('aria-modal'), appInert: document.querySelector('main')?.inert }));
+  if (modalSemantics.role !== 'dialog' || modalSemantics.modal !== 'true' || !modalSemantics.appInert) throw new Error(`ending is not isolated as an accessible modal: ${JSON.stringify(modalSemantics)}`);
+  await page.getByRole('button', { name: '내 선택 다시 보기', exact: true }).click();
+  await page.locator('#endingOverlay .ending-evidence summary').click();
+  if (!(await page.locator('#endingOverlay .ending-evidence').evaluate((node) => node.open))) throw new Error('ending evidence disclosure did not open');
   const replay = page.getByRole('button', { name: '처음부터 다시 읽는다', exact: true });
   if (!(await replay.count())) throw new Error('ending has no playable restart action');
   await replay.click();
   if ((await state(page))?.phase !== 'onboarding') throw new Error('ending restart did not return to onboarding');
+  if (await page.locator('main').evaluate((node) => node.inert)) throw new Error('ending restart left the main game inert');
   return { final, text: await visibleText(page), prologueText, seen, guard };
 }
 
