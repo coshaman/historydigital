@@ -3,7 +3,7 @@
   const isMain20Route = location.hash === '' || location.hash === '#main' || query.has('main20');
   if (!isMain20Route) return;
   window.__main20RuntimeOwner = 'main20'; window.runtimeOwner = 'main20';
-  const data = await fetch('narrative/MAIN_20MIN_DIALOGUE.json').then((response) => response.json());
+  const data = await fetch('narrative/MAIN_20MIN_DIALOGUE.json?v=46').then((response) => response.json());
   if (Array.isArray(data.v44MainSceneIds) && Array.isArray(data.scenes)) { const archived = data.scenes.filter((item) => !data.v44MainSceneIds.includes(item.id)); data.archiveSceneRecords = [...(data.archiveSceneRecords || []), ...archived]; data.scenes = data.scenes.filter((item) => data.v44MainSceneIds.includes(item.id)); }
   const storageKey = 'chancery-main20-v35';
   const $ = (id) => document.getElementById(id);

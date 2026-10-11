@@ -1,15 +1,16 @@
 import { chromium } from 'playwright';
 
 const base = process.env.MAIN20_BASE_URL || 'http://127.0.0.1:4173';
-const browser = await chromium.launch({ headless: true });
-const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+const browser = await chromium.launch({ headless: true, executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe' });
 const errors = [];
-page.on('pageerror', (error) => errors.push(String(error)));
 
 try {
-  await page.goto(`${base}/?main20=1&v45fresh=1`, { waitUntil: 'domcontentloaded' });
-  await page.waitForFunction(() => Boolean(window.__main20), null, { timeout: 12000 });
-  await page.waitForFunction(() => document.body.classList.contains('main20-mode'));
+  for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 }, { width: 360, height: 640 }]) {
+    const page = await browser.newPage({ viewport });
+    page.on('pageerror', (error) => errors.push(String(error)));
+    await page.goto(`${base}/?main20=1&v46fresh=1`, { waitUntil: 'domcontentloaded' });
+    await page.waitForFunction(() => Boolean(window.__main20), null, { timeout: 12000 });
+    await page.waitForFunction(() => document.body.classList.contains('main20-mode'));
 
   const initial = await page.evaluate(() => ({
     phase: window.__main20.getState().phase,
@@ -36,8 +37,40 @@ try {
   if (!afterOnboarding.title) throw new Error('ideology source paper did not render');
   if (await page.locator('#paperColumns .main20-ideology-paper').count() === 0) throw new Error('ideology source paper did not render');
   if (await page.locator('#choiceArea button').count() === 0) throw new Error('onboarding/prologue controls did not render');
+  const layout = await page.evaluate(() => {
+    const stage = document.querySelector('.document-stage');
+    const paper = document.querySelector('#paper');
+    const columns = document.querySelector('#paperColumns');
+    const title = document.querySelector('#paperTitle');
+    const dialogue = document.querySelector('.dialogue-strip');
+    const choices = document.querySelector('#choiceArea');
+    const style = (node) => getComputedStyle(node);
+    const rect = (node) => { const r = node.getBoundingClientRect(); return { top: r.top, bottom: r.bottom, height: r.height, width: r.width }; };
+    return { viewport: { width: innerWidth, height: innerHeight }, document: { scrollWidth: document.documentElement.scrollWidth, scrollHeight: document.documentElement.scrollHeight }, stage: rect(stage), paper: { ...rect(paper), opacity: style(paper).opacity, pointerEvents: style(paper).pointerEvents, transform: style(paper).transform, title: title.textContent, columnsHeight: rect(columns).height, excerptCount: columns.querySelectorAll('.main20-excerpt').length, excerptFont: parseFloat(style(columns.querySelector('.main20-excerpt p')).fontSize) }, dialogue: { ...rect(dialogue), overflowY: style(dialogue).overflowY, scrollHeight: dialogue.scrollHeight }, choices: { ...rect(choices), hidden: choices.hidden, buttons: [...choices.querySelectorAll('button')].map((button) => { const r = button.getBoundingClientRect(); return { top: r.top, bottom: r.bottom, height: r.height, disabled: button.disabled }; }) }, deskBackground: style(document.querySelector('.desk')).backgroundImage, restartVisible: !document.querySelector('#main20Restart').hidden };
+  });
+  if (layout.paper.opacity !== '1' || layout.paper.pointerEvents === 'none' || layout.paper.width < 260) throw new Error(`paper is dimmed, tiny, or blocked at ${viewport.width}x${viewport.height}: ${JSON.stringify(layout.paper)}`);
+  if (!layout.paper.title || layout.paper.excerptCount < 1 || layout.paper.excerptFont < 14) throw new Error(`newspaper/source text is missing or too small at ${viewport.width}x${viewport.height}: ${JSON.stringify(layout.paper)}`);
+  if (layout.document.scrollWidth > viewport.width) throw new Error(`horizontal overflow at ${viewport.width}x${viewport.height}: document width ${layout.document.scrollWidth}`);
+  if (layout.dialogue.height > viewport.height * 0.48) throw new Error(`dialogue panel consumes too much of the viewport at ${viewport.width}x${viewport.height}: ${layout.dialogue.height}px`);
+  if (!['auto', 'scroll'].includes(layout.dialogue.overflowY)) throw new Error(`dialogue panel cannot scroll at ${viewport.width}x${viewport.height}: ${layout.dialogue.overflowY}`);
+  if (!layout.choices.buttons.length || layout.choices.buttons.some((button) => button.height < 42 || button.bottom > viewport.height - 36)) throw new Error(`choice controls are too small or below the viewport at ${viewport.width}x${viewport.height}: ${JSON.stringify(layout.choices)}`);
+  if (layout.deskBackground === 'none') throw new Error(`wood desk has no CSS fallback at ${viewport.width}x${viewport.height}`);
+  if (!layout.restartVisible) throw new Error(`restart control is missing at ${viewport.width}x${viewport.height}`);
+  await page.locator('#choiceArea button').last().scrollIntoViewIfNeeded();
+  await page.locator('#choiceArea button').last().click();
+  await page.waitForFunction(() => window.__main20.getState().ideologyLineIndex === 1);
+  await page.locator('#choiceArea button').first().click();
+  await page.waitForFunction(() => window.__main20.getState().ideologyReadBeat === 'V42-PROLOGUE-EUROPEANIZATION');
+  if (await page.locator('#choiceArea button').count() < 3) throw new Error(`ideology choices did not appear at ${viewport.width}x${viewport.height}`);
+  await page.locator('#choiceArea button').last().scrollIntoViewIfNeeded();
+  await page.locator('#choiceArea button').last().click();
+  await page.waitForFunction(() => window.__main20.getState().ideologyBeatIndex === 1);
   if (errors.length) throw new Error(`page errors: ${errors.join(' | ')}`);
-  console.log('v45 runtime regression: PASS');
+  console.log(`v46 layout and interaction regression: PASS ${viewport.width}x${viewport.height}`);
+  await page.close();
+  }
+  if (errors.length) throw new Error(`page errors: ${errors.join(' | ')}`);
+  console.log('v46 runtime regression: PASS');
 } finally {
   await browser.close();
 }
