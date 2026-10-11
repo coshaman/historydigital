@@ -8,7 +8,7 @@ try {
   for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 }, { width: 360, height: 640 }]) {
     const page = await browser.newPage({ viewport });
     page.on('pageerror', (error) => errors.push(String(error)));
-    await page.goto(`${base}/?main20=1&v47fresh=1`, { waitUntil: 'domcontentloaded' });
+    await page.goto(`${base}/?main20=1&v48fresh=1`, { waitUntil: 'domcontentloaded' });
     await page.waitForFunction(() => Boolean(window.__main20), null, { timeout: 12000 });
     await page.waitForFunction(() => document.body.classList.contains('main20-mode'));
 
@@ -59,7 +59,8 @@ try {
   await page.locator('#choiceArea button').last().scrollIntoViewIfNeeded();
   await page.locator('#choiceArea button').last().click();
   await page.waitForFunction(() => window.__main20.getState().ideologyLineIndex === 1);
-  await page.locator('#choiceArea button').first().click();
+  if (await page.locator('#choiceArea .main20-ideology-source').count() !== 0) throw new Error(`source excerpt is duplicated in the dialogue panel at ${viewport.width}x${viewport.height}`);
+  await page.locator('#paperColumns .main20-ideology-read').click();
   await page.waitForFunction(() => window.__main20.getState().ideologyReadBeat === 'V42-PROLOGUE-EUROPEANIZATION');
   if (await page.locator('#choiceArea button').count() < 3) throw new Error(`ideology choices did not appear at ${viewport.width}x${viewport.height}`);
   await page.locator('#choiceArea button').last().scrollIntoViewIfNeeded();
@@ -68,11 +69,11 @@ try {
   const polishedFollowUp = await page.locator('#dialogue').textContent();
   if (!polishedFollowUp?.startsWith('관등표를 보면 여기 일자리가')) throw new Error(`natural dialogue presentation did not reach the next beat at ${viewport.width}x${viewport.height}: ${polishedFollowUp}`);
   if (errors.length) throw new Error(`page errors: ${errors.join(' | ')}`);
-  console.log(`v47 layout and interaction regression: PASS ${viewport.width}x${viewport.height}`);
+  console.log(`v48 layout and interaction regression: PASS ${viewport.width}x${viewport.height}`);
   await page.close();
   }
   if (errors.length) throw new Error(`page errors: ${errors.join(' | ')}`);
-  console.log('v47 runtime regression: PASS');
+  console.log('v48 runtime regression: PASS');
 } finally {
   await browser.close();
 }
