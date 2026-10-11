@@ -5,7 +5,8 @@ const root = process.cwd();
 const data = JSON.parse(fs.readFileSync(path.join(root, 'narrative', 'MAIN_20MIN_DIALOGUE.json'), 'utf8'));
 const failures = [];
 const requiredKinds = ['OPINION', 'INTERPRETATION', 'DIALOGUE_RESPONSE', 'EVIDENCE_REQUEST', 'ACTION'];
-const registry = data.v43ChoiceTypeRegistry || {};
+const registry = Object.fromEntries(Object.entries(data.v43ChoiceTypeRegistry || {}).map(([kind, ids]) => [kind, [...ids]]));
+for (const [kind, ids] of Object.entries(data.v44ChoiceTypes || {})) { for (const other of Object.keys(registry)) registry[other] = registry[other].filter((id) => !ids.includes(id)); registry[kind] = [...new Set([...(registry[kind] || []), ...ids])]; }
 const allIds = [];
 const allChoices = [];
 for (const scene of data.scenes) for (const field of ['choices', 'postChoices']) for (const choice of (scene[field] || [])) { allIds.push(choice.id); allChoices.push(choice); }

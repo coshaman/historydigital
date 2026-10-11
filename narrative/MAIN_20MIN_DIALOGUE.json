@@ -26,15 +26,64 @@
     "humanMeasured": false
   },
   "chronology": {
-    "sceneOrder": [
-      "IDELOGY_PROLOGUE",
-      "C03",
-      "C06",
-      "C07",
-      "E02",
-      "E07"
-    ],
+    "sceneOrder": ["IDEOLOGY_PROLOGUE", "C07", "E07"],
     "rule": "availableDate must be on or before sceneDate; laterDocuments are not shown as initial body text"
+  },
+  "v44RouteOrder": ["PROLOGUE", "ACT1_UVAROV", "ACT2_CHAADAEV", "ACT3_SLAVOPHILE_WESTERNIZER", "ACT4_GOGOL_BELINSKY", "ACT5_PETRASHEVSKY_CENSORSHIP", "ENDING"],
+  "v44MainSceneIds": ["C07", "E07"],
+  "archiveScenes": [
+    { "id": "C03", "title": "푸시킨의 죽음과 첫 부고", "routeStatus": "ARCHIVE_OPTIONAL", "reason": "writer/state와 검열 논쟁을 새 원전으로 재구성하지 않은 현재 자료는 필수 사상 루트에서 제외한다." },
+    { "id": "C06", "title": "레르몬토프 결투 수사의 첫 보고", "routeStatus": "ARCHIVE_OPTIONAL", "reason": "사건철과 증언의 증거론은 선택 자료로 보존하되 필수 철학 루트에서는 제외한다." },
+    { "id": "E02", "title": "로스토프치나의 강제 결혼", "routeStatus": "ARCHIVE_OPTIONAL", "reason": "가족 권위와 동의의 사회윤리 자료로 보존하되 핵심 사상 루트의 시간을 차지하지 않는다." }
+  ],
+  "v44BeliefActionModel": {
+    "beliefs": "실제로 선택한 OPINION/INTERPRETATION/DIALOGUE_RESPONSE/EVIDENCE_REQUEST 발언의 문장과 Act 출처",
+    "actions": "ACTION 선택에서만 발생하는 기록·보존·전달·조사 행위",
+    "opinionNeverAutoPublishes": true,
+    "minimumEndingActs": 1,
+    "minimumBeliefActs": 3
+  },
+  "v44EndingBeliefRequirement": {
+    "minimumActs": 3,
+    "acts": {
+      "ACT1_UVAROV": ["V42-PROLOGUE-RANKS", "V42-PROLOGUE-UVAROV"],
+      "ACT2_CHAADAEV": ["V42-PROLOGUE-EUROPEANIZATION", "V42-PROLOGUE-CHAADAEV"],
+      "ACT3_SLAVOPHILE_WESTERNIZER": ["V44-PROLOGUE-SLAVOPHILE-WESTERNIZER"],
+      "ACT4_GOGOL_BELINSKY": ["C07", "V42-C07-GOGOL-1847", "V42-C07-BELINSKY-1847"],
+      "ACT5_PETRASHEVSKY_CENSORSHIP": ["E07"]
+    }
+  },
+  "v44SourceMetadata": [
+    { "sourceId": "V42-TABLE-OF-RANKS", "author": "Пётр I / Сенат", "workTitle": "Табель о рангах", "exactDate": "1722-01-24", "editionArchive": "Российское законодательство X–XX вв., т. 4 / Wikisource", "ideologicalUse": "STATE_ORDER" },
+    { "sourceId": "V42-UVAROV-1833", "author": "С. С. Уваров", "workTitle": "О народном просвещении", "exactDate": "1833-11-19", "editionArchive": "1833 education circular / Encyclopedia.com background", "ideologicalUse": "OFFICIAL_NATIONALITY" },
+    { "sourceId": "V42-CHAADAEV-1836", "author": "П. Я. Чаадаев", "workTitle": "Философическое письмо", "exactDate": "1836-09-01", "editionArchive": "Телескоп, 1836 / Wikisource", "ideologicalUse": "RUSSIA_EUROPE" },
+    { "sourceId": "V42-SLAVOPHILE-PRIMARY", "author": "А. С. Хомяков", "workTitle": "О старом и новом", "exactDate": "1839-01-01", "editionArchive": "Wikisource", "ideologicalUse": "SLAVOPHILE" },
+    { "sourceId": "V42-WESTERNIZER-PRIMARY", "author": "В. Г. Белинский", "workTitle": "Письмо к Гоголю", "exactDate": "1847-07-15", "editionArchive": "Wikisource correspondence", "ideologicalUse": "WESTERNIZER" },
+    { "sourceId": "V42-GOGOL-1847", "author": "Н. В. Гоголь", "workTitle": "Выбранные места из переписки с друзьями", "exactDate": "1847-02-01", "editionArchive": "Wikisource", "ideologicalUse": "GOGOL_MORAL_REFORM" },
+    { "sourceId": "V42-BELINSKY-1847", "author": "В. Г. Белинский", "workTitle": "Письмо к Гоголю", "exactDate": "1847-07-15", "editionArchive": "Wikisource correspondence", "ideologicalUse": "BELINSKY_SOCIAL_CRITIQUE" },
+    { "sourceId": "V42-PETRASHEVSKY-FOURIERISM", "author": "Петрашевский кружок", "workTitle": "독서·토론·푸리에주의 기록", "exactDate": "1845-01-01", "editionArchive": "History Russia contextual record", "ideologicalUse": "PETRASHEVSKY_SOCIAL_REFORM" }
+  ],
+  "v44ChoiceTypes": {
+    "OPINION": ["V42-P-RANKS-ORDER", "V42-P-UVAROV-COMMON", "V42-P-CHAADAEV-WEST", "V42-C07-GOGOL-MORAL", "V42-C07-BELINSKY-PUBLIC", "V44-P-SLAVOPHILE-COMMUNITY", "V44-P-WESTERNIZER-LAW", "E07-A", "E07-D"],
+    "INTERPRETATION": ["V42-P-RANKS-COST", "V42-P-CHAADAEV-MIX", "V42-C07-GOGOL-INSTITUTION", "V42-C07-GOGOL-BOTH", "V42-C07-BELINSKY-DEFER"],
+    "DIALOGUE_RESPONSE": ["V42-C07-BELINSKY-MORAL"],
+    "EVIDENCE_REQUEST": ["V42-P-UVAROV-WAIT", "V42-C07-GOGOL-DEFER", "V44-P-BOTH-PATHS", "E07-B"],
+    "ACTION": ["C07-P1", "C07-P2", "E07-P1", "E07-P2", "E07-P3", "E07-P4"]
+  },
+  "v44ComprehensionGate": [
+    "관등제가 무엇이고 왜 주인공 삶에 중요한가",
+    "정교회·전제정·민족성이 무엇인가",
+    "차다예프가 러시아와 유럽에 어떤 문제를 제기했는가",
+    "슬라브주의와 Official Nationality가 왜 다른가",
+    "슬라브주의와 서구주의는 무엇을 놓고 논쟁했는가",
+    "고골과 벨린스키의 1847년 논쟁은 무엇인가",
+    "검열에서 사상과 행동을 왜 구분하는가",
+    "플레이어가 실제로 어떤 입장을 골랐는가"
+  ],
+  "v44EndingSequence": {
+    "reducedMotion": "모든 단계 즉시 표시",
+    "stages": ["DESK_FADE", "BELIEF_REVEAL", "PORTRAIT_REVEAL", "HISTORICAL_PERSON_REVEAL", "HISTORICAL_LIFE", "PLAYER_FUTURE", "REVIEW_ACTIONS"],
+    "controls": ["내 선택 다시 보기", "근거 자료 보기", "다시 시작"]
   },
   "endingTieProfiles": [
     { "profile": "community-with-official-boundary", "candidates": ["UVAROV", "KHOMYAKOV"], "why": "공식 기록과 공동체 보호가 완전히 대칭이면, 충돌을 함께 감당하는 중재를 우선한다.", "chosenEnding": "KHOMYAKOV" },
@@ -125,7 +174,8 @@
       { "id": "V42-PROLOGUE-EUROPEANIZATION", "date": "1836-02-01", "title": "러시아는 누구의 옷을 입고 있는가", "character": "ekaterina", "sourceIds": ["V42-CHAADAEV-1836"], "lines": [["alexei", "학교와 군대와 관청의 양식은 표트르 이후 크게 달라졌습니다. 이 질서 덕분에 나라가 굴러간다고 보는 사람도 있지요."], ["ekaterina", "그런데 상층 살롱의 프랑스어까지 합치면, 남의 옷을 오래 입어 자기 얼굴을 잊은 건 아닌지 묻게 돼요."]], "choices": [{ "id": "V42-P-EUROPE-LEARN", "text": "유럽의 제도에서 더 배워야 한다고 봅니다.", "spokenText": "유럽의 제도에서 더 배워야 한다고 봅니다.", "sourcePrerequisite": "V42-CHAADAEV-1836", "ideologyEffects": { "westernizer": 1 }, "beliefStatement": "러시아는 유럽의 제도에서 더 배워야 한다.", "callbackKey": "EUROPEAN_LEARNING", "immediateDirection": { "audience": "예카테리나와 이 방의 대화 상대", "recordMode": "사적 대화의 입장으로 남김", "leavesOffice": "아니요 — 책상 안에 머묾", "risk": "유럽식 제도를 선호한다고 들릴 대인 위험" } }, { "id": "V42-P-EUROPE-OWN", "text": "러시아의 역사와 종교의 경로도 함부로 버릴 수 없습니다.", "spokenText": "러시아의 역사와 종교의 경로도 함부로 버릴 수 없습니다.", "sourcePrerequisite": "V42-CHAADAEV-1836", "ideologyEffects": { "slavophile": 1 }, "beliefStatement": "러시아의 역사와 종교의 경로에도 독자적 가치가 있다.", "callbackKey": "RUSSIAN_PATH", "immediateDirection": { "audience": "알렉세이와 예카테리나", "recordMode": "사적 대화의 입장으로 남김", "leavesOffice": "아니요 — 공식 기록에는 쓰지 않음", "risk": "공식 유럽화와 거리를 둔다고 읽힐 위험" } }, { "id": "V42-P-EUROPE-BOTH", "text": "그 둘을 한 문장으로 가를 수는 없습니다. 더 읽어보죠.", "spokenText": "그 둘을 한 문장으로 가를 수는 없습니다. 더 읽어보죠.", "sourcePrerequisite": "V42-CHAADAEV-1836", "ideologyEffects": { "socialReform": 1, "slavophile": 1 }, "beliefStatement": "제도와 전통을 둘 중 하나로 단순화하지 않겠다.", "callbackKey": "REFUSE_BINARY", "immediateDirection": { "audience": "함께 읽는 동료들", "recordMode": "판단 유보를 대화 기록으로 남김", "leavesOffice": "아니요 — 자료는 책상 위에 남음", "risk": "양쪽 모두에게 미온적으로 보일 위험" } }] },
       { "id": "V42-PROLOGUE-RANKS", "date": "1836-03-01", "title": "당신의 열 번째 등급", "character": "alexei", "sourceIds": ["V42-TABLE-OF-RANKS"], "lines": [["alexei", "관등표는 이념이 아니라 일을 배열하는 제도입니다. 군무·문관·궁정이 열네 등급으로 나뉘고, 당신은 지금 10등관급 자리에서 다음 승진을 바라보죠."], ["ekaterina", "그래서 국가 질서는 추상적인 말이 아니에요. 좋은 기록과 상관의 평가는 월급과 지위, 내일의 선택에 붙어 있으니까요."]], "choices": [{ "id": "V42-P-RANKS-ORDER", "text": "예측 가능한 질서와 승진의 통로는 실제로 사람을 지킵니다.", "spokenText": "예측 가능한 질서와 승진의 통로는 실제로 사람을 지킵니다.", "sourcePrerequisite": "V42-TABLE-OF-RANKS", "ideologyEffects": { "officialNationality": 1 }, "beliefStatement": "공통 규범과 예측 가능한 행정은 실제 이익을 준다.", "callbackKey": "ORDER_HAS_BENEFIT", "immediateDirection": { "audience": "알렉세이와 관청 동료", "recordMode": "직무관으로 사적 기록", "leavesOffice": "아니요 — 인사 기록에는 남기지 않음", "risk": "제도에 순응한다고 보일 수 있는 위험" } }, { "id": "V42-P-RANKS-COST", "text": "그 통로가 사람을 살리기도 하지만, 침묵을 보상하기도 합니다.", "spokenText": "그 통로가 사람을 살리기도 하지만, 침묵을 보상하기도 합니다.", "sourcePrerequisite": "V42-TABLE-OF-RANKS", "ideologyEffects": { "socialReform": 1, "publicLiteraryCriticism": 1 }, "beliefStatement": "관료적 승진의 이익과 침묵의 비용을 함께 보겠다.", "callbackKey": "ORDER_HAS_COST", "immediateDirection": { "audience": "예카테리나와 가까운 동료", "recordMode": "사적 반성으로 남김", "leavesOffice": "아니요 — 공식 장부 밖에 머묾", "risk": "승진을 경시한다고 오해받을 위험" } }] },
       { "id": "V42-PROLOGUE-UVAROV", "date": "1836-04-01", "title": "세 단어의 무게", "character": "pavel", "sourceIds": ["V42-UVAROV-1833"], "lines": [["alexei", "학교에서는 세 말을 자주 듣습니다. 정교회, 황제의 권위, 러시아다운 것."], ["pavel", "관청에서는 질서라는 뜻으로 쓰지만, 거리에서는 사람마다 다르게 알아듣습니다. 특히 마지막 말은 누가 정하느냐가 문제지요."]], "choices": [{ "id": "V42-P-UVAROV-COMMON", "text": "큰 나라라면 공통된 기준은 필요하다고 봅니다.", "spokenText": "큰 나라라면 공통된 기준은 필요하다고 봅니다.", "sourcePrerequisite": "V42-UVAROV-1833", "ideologyEffects": { "officialNationality": 1 }, "beliefStatement": "큰 나라에는 공통된 기준과 공적 질서가 필요하다.", "callbackKey": "COMMON_STANDARD", "immediateDirection": { "audience": "관청 동료와 대화 상대", "recordMode": "공적 원칙에 대한 사적 발언", "leavesOffice": "아니요 — 아직 문서로 나가지 않음", "risk": "공식 이념에 가까운 사람으로 읽힐 위험" } }, { "id": "V42-P-UVAROV-QUESTION", "text": "러시아답다는 말을 정부가 혼자 정하는 건 이상합니다.", "spokenText": "러시아답다는 말을 정부가 혼자 정하는 건 이상합니다.", "sourcePrerequisite": "V42-UVAROV-1833", "ideologyEffects": { "publicLiteraryCriticism": 1, "socialReform": 1 }, "beliefStatement": "국가가 국민성의 의미를 독점해서는 안 된다.", "callbackKey": "WHO_DEFINES_RUSSIAN", "immediateDirection": { "audience": "파벨과 예카테리나", "recordMode": "사적 논쟁으로 남김", "leavesOffice": "아니요 — 공식 장부에 쓰지 않음", "risk": "관청에서 불편한 질문으로 기억될 위험" } }, { "id": "V42-P-UVAROV-WAIT", "text": "세 말 모두 아직 추상적입니다. 실제로 어떻게 쓰이는지 보겠습니다.", "spokenText": "세 말 모두 아직 추상적입니다. 실제로 어떻게 쓰이는지 보겠습니다.", "sourcePrerequisite": "V42-UVAROV-1833", "ideologyEffects": { "socialReform": 1 }, "beliefStatement": "공식 이념은 실제 사용 방식까지 보고 판단하겠다.", "callbackKey": "WATCH_USE", "immediateDirection": { "audience": "함께 자료를 읽은 세 사람", "recordMode": "판단 유보 메모", "leavesOffice": "아니요 — 메모는 책상에 남음", "risk": "양쪽 모두에게 회피로 보일 위험" } }] },
-      { "id": "V42-PROLOGUE-CHAADAEV", "date": "1836-10-20", "title": "러시아와 유럽 사이", "character": "ekaterina", "sourceIds": ["V42-CHAADAEV-1836", "V42-WESTERNIZER-PRIMARY", "V42-SLAVOPHILE-PRIMARY"], "lines": [["ekaterina", "차다예프는 러시아가 서구와 동구 어디에도 제대로 속하지 못한 채 역사에서 고립됐다고 몰아붙였어요. 정부가 위험하게 여긴 이유도 그 질문이 너무 넓었기 때문이겠죠."], ["alexei", "그래도 이 나라를 유지해 온 사람들의 삶까지 모두 실패라고 부를 순 없습니다. 법과 교육을 배울 것인지, 공동체의 방식부터 지킬 것인지, 질문은 그렇게 단순하지 않아요."]], "choices": [{ "id": "V42-P-CHAADAEV-WEST", "text": "러시아는 유럽의 경험에서 더 배워야 합니다.", "spokenText": "러시아는 유럽의 경험에서 더 배워야 합니다.", "sourcePrerequisite": "V42-CHAADAEV-1836", "ideologyEffects": { "westernizer": 1, "socialReform": 1 }, "beliefStatement": "러시아는 유럽의 법·교육·개혁 경험에서 더 배워야 한다.", "callbackKey": "LEARN_FROM_EUROPE", "immediateDirection": { "audience": "예카테리나와 사적 독자", "recordMode": "사적 대화 기록", "leavesOffice": "아니요 — 문서로 전달하지 않음", "risk": "유럽 편향으로 낙인찍힐 위험" } }, { "id": "V42-P-CHAADAEV-TRADITION", "text": "러시아의 역사적·종교적 경로 자체에도 가치가 있습니다.", "spokenText": "러시아의 역사적·종교적 경로 자체에도 가치가 있습니다.", "sourcePrerequisite": "V42-CHAADAEV-1836", "ideologyEffects": { "slavophile": 1, "moralOrthodoxReform": 1 }, "beliefStatement": "러시아의 종교적·역사적 경로는 단순한 결핍이 아니다.", "callbackKey": "VALUE_OWN_PATH", "immediateDirection": { "audience": "알렉세이와 파벨", "recordMode": "사적 대화 기록", "leavesOffice": "아니요 — 공식 문서 밖", "risk": "개혁의 필요를 무시한다고 들릴 위험" } }, { "id": "V42-P-CHAADAEV-MIX", "text": "유럽과 러시아를 둘로 가르는 것부터 다시 생각해야 합니다.", "spokenText": "유럽과 러시아를 둘로 가르는 것부터 다시 생각해야 합니다.", "sourcePrerequisite": "V42-CHAADAEV-1836", "ideologyEffects": { "westernizer": 1, "slavophile": 1, "socialReform": 1 }, "beliefStatement": "러시아의 개혁과 전통은 단순한 양자택일이 아니다.", "callbackKey": "BEYOND_BINARY", "immediateDirection": { "audience": "세 사람의 사적 토론", "recordMode": "판단 유보와 추가 독서로 기록", "leavesOffice": "아니요 — 자료는 함께 보관", "risk": "양쪽의 확신을 모두 거스르는 위험" } }] }
+      { "id": "V42-PROLOGUE-CHAADAEV", "date": "1836-10-20", "title": "러시아와 유럽 사이", "character": "ekaterina", "sourceIds": ["V42-CHAADAEV-1836", "V42-WESTERNIZER-PRIMARY", "V42-SLAVOPHILE-PRIMARY"], "lines": [["ekaterina", "차다예프는 러시아가 서구와 동구 어디에도 제대로 속하지 못한 채 역사에서 고립됐다고 몰아붙였어요. 정부가 위험하게 여긴 이유도 그 질문이 너무 넓었기 때문이겠죠."], ["alexei", "그래도 이 나라를 유지해 온 사람들의 삶까지 모두 실패라고 부를 순 없습니다. 법과 교육을 배울 것인지, 공동체의 방식부터 지킬 것인지, 질문은 그렇게 단순하지 않아요."]], "choices": [{ "id": "V42-P-CHAADAEV-WEST", "text": "러시아는 유럽의 경험에서 더 배워야 합니다.", "spokenText": "러시아는 유럽의 경험에서 더 배워야 합니다.", "sourcePrerequisite": "V42-CHAADAEV-1836", "ideologyEffects": { "westernizer": 1, "socialReform": 1 }, "beliefStatement": "러시아는 유럽의 법·교육·개혁 경험에서 더 배워야 한다.", "callbackKey": "LEARN_FROM_EUROPE", "immediateDirection": { "audience": "예카테리나와 사적 독자", "recordMode": "사적 대화 기록", "leavesOffice": "아니요 — 문서로 전달하지 않음", "risk": "유럽 편향으로 낙인찍힐 위험" } }, { "id": "V42-P-CHAADAEV-TRADITION", "text": "러시아의 역사적·종교적 경로 자체에도 가치가 있습니다.", "spokenText": "러시아의 역사적·종교적 경로 자체에도 가치가 있습니다.", "sourcePrerequisite": "V42-CHAADAEV-1836", "ideologyEffects": { "slavophile": 1, "moralOrthodoxReform": 1 }, "beliefStatement": "러시아의 종교적·역사적 경로는 단순한 결핍이 아니다.", "callbackKey": "VALUE_OWN_PATH", "immediateDirection": { "audience": "알렉세이와 파벨", "recordMode": "사적 대화 기록", "leavesOffice": "아니요 — 공식 문서 밖", "risk": "개혁의 필요를 무시한다고 들릴 위험" } }, { "id": "V42-P-CHAADAEV-MIX", "text": "유럽과 러시아를 둘로 가르는 것부터 다시 생각해야 합니다.", "spokenText": "유럽과 러시아를 둘로 가르는 것부터 다시 생각해야 합니다.", "sourcePrerequisite": "V42-CHAADAEV-1836", "ideologyEffects": { "westernizer": 1, "slavophile": 1, "socialReform": 1 }, "beliefStatement": "러시아의 개혁과 전통은 단순한 양자택일이 아니다.", "callbackKey": "BEYOND_BINARY", "immediateDirection": { "audience": "세 사람의 사적 토론", "recordMode": "판단 유보와 추가 독서로 기록", "leavesOffice": "아니요 — 자료는 함께 보관", "risk": "양쪽의 확신을 모두 거스르는 위험" } }] },
+      { "id": "V44-PROLOGUE-SLAVOPHILE-WESTERNIZER", "date": "1839-06-01", "title": "러시아의 길은 어디에 있는가", "character": "pavel", "sourceIds": ["V42-SLAVOPHILE-PRIMARY", "V42-WESTERNIZER-PRIMARY"], "lines": [["pavel", "호먀코프는 남의 형식을 그대로 입는다고 러시아의 내적 진실을 얻을 수 없다고 봅니다. 하지만 그 말이 관청의 공식 이념과 같다는 뜻은 아닙니다."], ["ekaterina", "서구주의자도 러시아를 버리자는 사람이 아니라 법과 교육, 인간의 존엄을 어디서 배울지 묻는 사람들이에요. 그렇다면 두 입장은 무엇을 지키고 무엇을 바꾸려는 걸까요?"]], "choices": [{ "id": "V44-P-SLAVOPHILE-COMMUNITY", "text": "공동체와 러시아의 종교적 전통은 제도의 출발점이 될 수 있습니다.", "spokenText": "공동체와 러시아의 종교적 전통은 제도의 출발점이 될 수 있습니다.", "choiceKind": "OPINION", "ideologyEffects": { "slavophile": 1, "moralOrthodoxReform": 1 }, "beliefStatement": "공동체와 종교적 전통은 러시아의 자율적 개혁 자원이 될 수 있다.", "callbackKey": "COMMUNITY_AS_RESOURCE", "immediateDirection": { "audience": "파벨과 예카테리나", "recordMode": "사적 사상 발언", "leavesOffice": "아니요 — 문서로 보내지 않음", "risk": "공식 민족성과 혼동될 위험" } }, { "id": "V44-P-WESTERNIZER-LAW", "text": "법과 교육의 제도는 유럽의 경험에서 배워야 사람의 존엄을 지킬 수 있습니다.", "spokenText": "법과 교육의 제도는 유럽의 경험에서 배워야 사람의 존엄을 지킬 수 있습니다.", "choiceKind": "OPINION", "ideologyEffects": { "westernizer": 1, "socialReform": 1 }, "beliefStatement": "법과 교육의 경험은 사람의 존엄을 위해 배울 가치가 있다.", "callbackKey": "LAW_AND_DIGNITY", "immediateDirection": { "audience": "예카테리나와 함께 읽은 동료", "recordMode": "사적 사상 발언", "leavesOffice": "아니요 — 문서로 보내지 않음", "risk": "러시아 전통을 낮게 본다고 들릴 위험" } }, { "id": "V44-P-BOTH-PATHS", "text": "둘 중 하나를 국가의 정답으로 만들기보다, 실제 제도와 사람의 삶을 더 보겠습니다.", "spokenText": "둘 중 하나를 국가의 정답으로 만들기보다, 실제 제도와 사람의 삶을 더 보겠습니다.", "choiceKind": "EVIDENCE_REQUEST", "ideologyEffects": { "evidentialSkepticism": 1, "socialReform": 1 }, "beliefStatement": "학파의 이름보다 실제 제도와 사람의 삶을 확인한 뒤 판단하겠다.", "callbackKey": "ASK_FOR_LIVED_EVIDENCE", "immediateDirection": { "audience": "세 사람의 토론", "recordMode": "추가 자료 요청", "leavesOffice": "아니요 — 자료를 더 기다림", "risk": "양쪽 모두에게 결론 회피로 보일 위험" } }] }
     ]
   },
   "c07IdeologicalFollowUp": {
@@ -1982,11 +2032,11 @@
       "choices": [
         {
           "id": "E07-A",
-          "uiLabel": "말하기의 경계를 공개적으로 묻는다",
+          "uiLabel": "검열은 무엇을 막아야 하는지 묻는다",
           "uiHint": "공개 기록에 남기고, 토론이 혐의로 읽힐 즉각적 기관 위험을 받아들입니다.",
-          "displayText": "말이 혐의가 되는 선을 묻죠.",
+          "displayText": "명백한 선동과 행동 준비는 막을 수 있어도, 말하고 읽었다는 이유만으로 처벌해선 안 됩니다.",
           "hint": "공개 기록에 남기고 토론의 위험을 감수합니다.",
-          "spokenText": "토론과 문학적 주장이 언제 혐의가 되는지 공개적으로 묻겠다. 말하기 자체를 범죄로 기록하지 않겠다.",
+          "spokenText": "명백한 선동과 행동 준비는 막을 수 있어도, 말하고 읽었다는 이유만으로 처벌해선 안 된다. 검열은 그 선을 공개적으로 설명해야 한다.",
           "text": "토론과 문학적 주장이 언제 혐의가 되는지 공개적으로 묻겠다. 말하기 자체를 범죄로 기록하지 않겠다.",
           "actor": "PLAYER",
           "action": "spoken_risk_boundary",
@@ -2002,7 +2052,7 @@
             "ekaterina": 1
           },
           "selectedExactExcerpt": "E07-R1,E07-R2",
-          "claim": "토론과 문학적 주장이 언제 혐의가 되는지 공개적으로 묻겠다. 말하기 자체를 범죄로 기록하지 않겠다.",
+          "claim": "명백한 선동과 행동 준비는 막을 수 있어도, 말하고 읽었다는 이유만으로 처벌해선 안 된다.",
           "channel": "spoken",
           "reactionActor": "ekaterina",
           "semantic": {
@@ -2031,11 +2081,11 @@
         },
         {
           "id": "E07-B",
-          "uiLabel": "혐의와 자기변호를 나눈다",
+          "uiLabel": "사상과 행동을 구분한다",
           "uiHint": "공식 기록 담당자가 알게 되며, 확인된 사실 밖으로 나가지 않도록 기관 절차를 택합니다.",
-          "displayText": "혐의와 자기변호를 나누죠.",
+          "displayText": "생각과 행동은 구분해야 합니다. 실제 행동을 준비한 증거가 있을 때만 개입해야 해요.",
           "hint": "공식 기록에서 고발 내용과 확인된 증언을 분리합니다.",
-          "spokenText": "혐의와 자기변호를 공식 기록의 층위로 나눠 적겠다. 확인된 사실 밖으로 사람을 밀어 넣지 않겠다.",
+          "spokenText": "생각과 행동은 구분해야 한다. 실제 행동을 준비한 증거가 있을 때만 개입하고, 토론 자체를 혐의로 만들지는 않겠다.",
           "text": "혐의와 자기변호를 공식 기록의 층위로 나눠 적겠다. 확인된 사실 밖으로 사람을 밀어 넣지 않겠다.",
           "actor": "PLAYER",
           "action": "official_record",
@@ -2050,7 +2100,7 @@
             "alexei": 1
           },
           "selectedExactExcerpt": "E07-R1",
-          "claim": "혐의와 자기변호를 공식 기록의 층위로 나눠 적겠다. 확인된 사실 밖으로 사람을 밀어 넣지 않겠다.",
+          "claim": "생각과 행동은 구분해야 하며 실제 행동을 준비한 증거가 있을 때만 개입해야 한다.",
           "channel": "official-record",
           "reactionActor": "alexei",
           "semantic": {
@@ -2077,11 +2127,11 @@
         },
         {
           "id": "E07-C",
-          "uiLabel": "위험을 알리고 자료를 전달한다",
+          "uiLabel": "국가 안보를 우선해 전달한다",
           "uiHint": "믿을 만한 독자에게 봉투가 나가며, 전달받는 사람까지 노출될 위험을 감수합니다.",
-          "displayText": "위험을 알리고 믿을 독자에게 건네죠.",
+          "displayText": "국가가 실제 폭동을 기다릴 필요는 없어요. 행동 준비가 명백하다면 미리 막을 수 있어야 합니다.",
           "hint": "봉투가 사무실 밖으로 나가며 전달자의 노출 위험을 감수합니다.",
-          "spokenText": "확인된 자료를 위험을 설명한 뒤 믿을 만한 독자에게 전달하겠다. 봉투를 건네는 책임도 내 몫이다.",
+          "spokenText": "국가가 실제 폭동을 기다릴 필요는 없다. 행동 준비가 명백하다면 미리 막을 수 있어야 하며, 그 판단의 책임도 기록해야 한다.",
           "text": "확인된 자료를 위험을 설명한 뒤 믿을 만한 독자에게 전달하겠다. 봉투를 건네는 책임도 내 몫이다.",
           "actor": "PLAYER",
           "action": "routed_document",
@@ -2096,7 +2146,7 @@
             "pavel": 1
           },
           "selectedExactExcerpt": "E07-R1,E07-R2,E07-R3",
-          "claim": "확인된 자료를 위험을 설명한 뒤 믿을 만한 독자에게 전달하겠다. 봉투를 건네는 책임도 내 몫이다.",
+          "claim": "행동 준비가 명백하다면 국가가 미리 개입할 수 있어야 한다.",
           "channel": "routed-document",
           "reactionActor": "pavel",
           "semantic": {
@@ -2125,11 +2175,11 @@
         },
         {
           "id": "E07-D",
-          "uiLabel": "이유를 남기고 잠시 보존한다",
+          "uiLabel": "아직 판단하지 않고 증거를 더 찾는다",
           "uiHint": "예카테리나와 개인 기록에만 남기며, 침묵이 동의로 읽힐 위험을 감수합니다.",
-          "displayText": "침묵할 이유까지 남겨 두죠.",
+          "displayText": "지금 자료로는 토론과 실제 음모를 구분하기 어렵습니다. 더 보고 판단하겠습니다.",
           "hint": "자료는 사적으로 보존하고 침묵이 동의로 읽히지 않게 합니다.",
-          "spokenText": "지금은 침묵하고 증언을 사적으로 보존하겠다. 침묵이 동의가 되지 않도록 이유를 남기겠다.",
+          "spokenText": "지금 자료로는 토론과 실제 음모를 구분하기 어렵다. 추가 증거를 본 뒤 판단하고, 지금의 보류가 동의로 읽히지 않게 이유를 남기겠다.",
           "text": "지금은 침묵하고 증언을 사적으로 보존하겠다. 침묵이 동의가 되지 않도록 이유를 남기겠다.",
           "actor": "PLAYER",
           "action": "silence",
@@ -2144,7 +2194,7 @@
             "ekaterina": 1
           },
           "selectedExactExcerpt": "E07-R1,E07-R2",
-          "claim": "지금은 침묵하고 증언을 사적으로 보존하겠다. 침묵이 동의가 되지 않도록 이유를 남기겠다.",
+          "claim": "토론과 실제 음모를 구분할 추가 증거가 필요하다.",
           "channel": "silence",
           "reactionActor": "ekaterina",
           "semantic": {
@@ -2399,9 +2449,9 @@
   "endingIdeologyProfiles": {
     "UVAROV": { "ideologyGate": { "officialNationality": 2 }, "actionGate": { "all": ["official_record", "official_memo"] }, "beliefSceneMinimum": 3, "beliefLedgerLabels": ["공통된 공적 기준이 필요하다.", "행정 질서는 실제 개인의 경력을 만든다.", "확인된 사실과 기관 책임을 함께 남긴다."] },
     "BELINSKY": { "ideologyGate": { "publicLiteraryCriticism": 2, "socialReform": 1 }, "actionGate": { "all": ["spoken_public_argument", "literaryArgumentChoice"] }, "beliefSceneMinimum": 3, "beliefLedgerLabels": ["문학은 사회적 고통을 공개적으로 비판할 책임이 있다.", "개인의 도덕만으로 제도적 억압을 해결할 수 없다.", "공적 독자는 논쟁의 책임을 함께 져야 한다."] },
-    "HERZEN": { "ideologyGate": { "westernizer": 2, "socialReform": 2 }, "actionGate": { "all": ["send_to_trusted_reader", "networkReception"] }, "beliefSceneMinimum": 3, "beliefLedgerLabels": ["러시아는 유럽의 법과 교육에서 배워야 한다.", "사회개혁은 위험을 감수할 만큼 중요하다.", "검열 밖에서도 신뢰할 전달망을 만들어야 한다."] },
+    "HERZEN": { "ideologyGate": { "westernizer": 2, "socialReform": 2 }, "actionGate": { "all": ["communalMediation", "send_to_trusted_reader"] }, "beliefSceneMinimum": 3, "beliefLedgerLabels": ["러시아는 유럽의 법과 교육에서 배워야 한다.", "사회개혁은 위험을 감수할 만큼 중요하다.", "검열 밖에서도 신뢰할 전달망을 만들어야 한다."] },
     "KHOMYAKOV": { "ideologyGate": { "slavophile": 2, "moralOrthodoxReform": 1 }, "actionGate": { "all": ["communalMediation", "protective_silence"] }, "beliefSceneMinimum": 3, "beliefLedgerLabels": ["러시아의 전통과 공동체는 단순한 결핍이 아니다.", "공식 관료국가와 공동체의 목소리는 다르다.", "도덕적 책임과 사람을 지키는 중재가 필요하다."] },
-    "DOSTOEVSKY_PETRASHEVSKY": { "ideologyGate": { "radicalDiscussion": 1, "socialReform": 1 }, "actionGate": { "all": ["dangerous_discussion", "deliver_scene_chain"] }, "beliefSceneMinimum": 3, "beliefLedgerLabels": ["사회 문제에는 구조적 원인이 있다.", "독서와 토론은 실제 사회개혁의 언어가 될 수 있다.", "위험을 알면서도 논쟁의 통로를 닫지 않는다."] }
+    "DOSTOEVSKY_PETRASHEVSKY": { "ideologyGate": { "radicalDiscussion": 1, "socialReform": 1 }, "actionGate": { "all": ["literaryArgument", "spoken_risk_boundary"] }, "beliefSceneMinimum": 3, "beliefLedgerLabels": ["사회 문제에는 구조적 원인이 있다.", "독서와 토론은 실제 사회개혁의 언어가 될 수 있다.", "위험을 알면서도 논쟁의 통로를 닫지 않는다."] }
   },
   "endings": [
     {

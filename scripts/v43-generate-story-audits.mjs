@@ -3,7 +3,8 @@ import path from 'node:path';
 
 const root = process.cwd();
 const data = JSON.parse(fs.readFileSync(path.join(root, 'narrative', 'MAIN_20MIN_DIALOGUE.json'), 'utf8'));
-const registry = data.v43ChoiceTypeRegistry || {};
+const registry = Object.fromEntries(Object.entries(data.v43ChoiceTypeRegistry || {}).map(([kind, ids]) => [kind, [...ids]]));
+for (const [kind, ids] of Object.entries(data.v44ChoiceTypes || {})) { for (const other of Object.keys(registry)) registry[other] = registry[other].filter((id) => !ids.includes(id)); registry[kind] = [...new Set([...(registry[kind] || []), ...ids])]; }
 const typeOf = (id) => Object.entries(registry).find(([, ids]) => ids.includes(id))?.[0] || 'UNCLASSIFIED';
 const esc = (value) => String(value ?? '').replaceAll('\t', ' ').replaceAll('\n', ' ');
 const all = [];
