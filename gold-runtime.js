@@ -526,6 +526,10 @@ function saveGoldMemo() {
 async function bootGoldRuntime() {
   const query = new URLSearchParams(location.search);
   const isMain20Route = location.hash === '' || location.hash === '#main' || query.has('main20');
+  if (isMain20Route) {
+    window.__goldRuntime = { disabled: true, reason: 'main20-route-owner' };
+    return;
+  }
   const isArchiveV28Route = location.hash === '#archive-v28' || location.hash === '#v28' || location.hash === '#v28-reset' || query.has('v28');
   const routeUrl = (path) => new URL(path, document.baseURI).href;
   corpus = await fetch(routeUrl('data/v6-gold-cases.json'), {cache:'no-store'}).then(response => { if (!response.ok) throw new Error('gold corpus unavailable'); return response.json(); });

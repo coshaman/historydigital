@@ -87,7 +87,7 @@
         <div class="ledger-overlay" id="ledgerOverlay" hidden><button class="close-physical" id="closeLedger" type="button">닫기 ×</button><p class="kicker">등록부 · 상트페테르부르크</p><h2>오늘 넘겨받은 문서</h2><button data-ledger-scene="E02" type="button">01 · 강제 결혼 · 1846년 12월 17일</button><button data-ledger-scene="CENSORSHIP_CASE_1847_07" type="button">02 · 1847년 7월 검열 행정 처리</button><button data-ledger-scene="E05" type="button">03 · 벨린스키 / 고골 서신 · 1847년</button><button data-ledger-scene="PERIODICAL_REVIEW_GOLD_1847" type="button">04 · 1847년 8월 정기간행물 검토</button><button data-ledger-scene="E07" type="button">05 · 페트라셰프스키 사건철 · 1849년</button><hr/><p class="kicker">신규 시범 자료</p><button data-ledger-scene="C06" type="button">06 · 레르몬토프 결투 수사 · 1841년</button><button data-ledger-scene="C07" type="button">07 · 《죽은 혼》 출판 검열 · 1842년</button><button data-ledger-scene="C19" type="button">19 · 1848년 유럽 소식과 정기간행물</button></div>
     </section>
 
-    <footer class="bottom-bar"><span>서류 전달 기록</span><span>H · 근거 표시</span><button id="saveBtn" class="plain-button">기록 저장</button><button id="loadBtn" class="plain-button">기록 불러오기</button><button id="walkBtn" class="walk-button">다음 문서 전달 <span>→</span></button></footer>
+    <footer class="bottom-bar"><span>서류 전달 기록</span><span>H · 근거 표시</span><button id="main20Restart" class="plain-button" hidden>처음부터</button><button id="saveBtn" class="plain-button">기록 저장</button><button id="loadBtn" class="plain-button">기록 불러오기</button><button id="walkBtn" class="walk-button">다음 문서 전달 <span>→</span></button></footer>
   </main>
 
   <div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
@@ -103,11 +103,17 @@
   <div class="walk-overlay" id="walkOverlay" hidden><div class="walk-scene"><div class="sky"></div><div class="facade facade-a"><i></i><i></i><i></i><i></i></div><div class="facade facade-b"><i></i><i></i><i></i></div><div class="street"><span class="route-line"></span><span class="footstep f1">·</span><span class="footstep f2">·</span><span class="carriage">▰</span><span class="lamp">♢</span></div><div class="walk-copy"><p class="kicker">상트페테르부르크 / 1847</p><h2>문서가 손을 바꾼다.</h2><p>젖은 돌길 위로 눈발이 비껴갑니다. 등불을 따라 위원회실까지 서류를 가져가십시오.</p><button id="finishWalk" class="ink-button">다음 문서에 도착</button></div></div></div>
 
   <div class="ending-overlay" id="endingOverlay" hidden><div class="ending-card ending-sequence"><p class="kicker">대장이 닫힙니다</p><section class="ending-stage ending-stage-beliefs"><h3>당신이 반복해서 택한 생각</h3><div id="endingBeliefs"></div></section><section class="ending-stage ending-stage-portrait"><div class="ending-portrait" id="endingPortrait" aria-label="역사적 인물 초상"><img id="endingPortraitImage" alt="" hidden><span id="endingPortraitInitials"></span></div><h2 id="endingTitle"></h2><p id="endingPortraitName"></p><p id="endingPortraitReason"></p></section><section class="ending-stage ending-section"><h3 id="endingLifeHeading">실제 인물의 삶</h3><p id="endingDocumented"></p></section><section class="ending-stage ending-section"><h3>당신이라면</h3><p id="endingFuture"></p></section><section class="ending-stage ending-section"><h3>당신이 실제로 한 일</h3><div id="endingActions"></div></section><details class="ending-stage ending-evidence"><summary>이 결말의 근거 자료 보기</summary><p id="endingSources"></p></details><div class="ending-controls"><button class="ink-button" id="endingReview">내 선택 다시 보기</button><button class="ink-button" id="restart">다시 시작</button></div></div></div>
-  <script type="module" src="app.js?v=20261009"></script>
-  <script type="module" src="gold-runtime.js?v=20261009"></script>
-  <script type="module" src="three-desk.js?v=20261009"></script>
-  <script type="module" src="three-walk.js?v=20261009"></script>
+  <script type="module" src="app.js?v=20261011-45"></script>
+  <script type="module" src="gold-runtime.js?v=20261011-45"></script>
+  <script>
+    const main20Route = location.hash === '' || location.hash === '#main' || new URLSearchParams(location.search).has('main20');
+    if (!main20Route) {
+      for (const source of ['three-desk.js?v=20261011-45', 'three-walk.js?v=20261011-45']) {
+        const script = document.createElement('script'); script.type = 'module'; script.src = source; document.body.append(script);
+      }
+    }
+  </script>
   <script src="window-view-controller.js"></script>
-  <script src="main20-runtime.js?v=42-20261010"></script>
+  <script src="main20-runtime.js?v=45-20261011"></script>
 </body>
 </html>

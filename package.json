@@ -197,6 +197,7 @@
     "v44-generate-choice-audit": "node scripts/v44-generate-choice-audit.mjs",
     "v44-philosophy-first-audit": "node scripts/v44-philosophy-first-audit.mjs",
     "v44-browser-acceptance": "node scripts/v42-browser-acceptance.mjs",
+    "v45-runtime-regression": "node scripts/v45-runtime-regression.mjs",
     "v37-dialogue-export-parity": "node scripts/v37-dialogue-export-parity.mjs",
     "v33-exports": "node scripts/v33-generate-exports.mjs",
     "v33-historical-audit": "node scripts/v33-historical-flow-audit.mjs",
