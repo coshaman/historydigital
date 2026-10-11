@@ -412,7 +412,7 @@ body.scene-header-collapsed .masthead{transform:translateY(-100%);opacity:0;poin
 .main20-mode .desk::after{content:"";position:absolute;z-index:11;left:0;right:0;bottom:var(--dialogue-height);height:17px;pointer-events:none;background:linear-gradient(180deg,#b58a5a,#654128 35%,#322016 82%,#160f0b);box-shadow:0 6px 13px #120a08a8,inset 0 1px 1px #edc48b88}
 .main20-mode .desk-grain{z-index:0;opacity:.5}
 .main20-mode .document-stage{z-index:1;min-height:0;min-width:0;padding:34px clamp(16px,5vw,76px) 12px;overflow:hidden;align-items:center;background:transparent!important}
-.main20-mode .document-stage #deskCanvas{display:none!important}
+.main20-mode .document-stage #deskCanvas{display:block!important;opacity:1}
 .main20-mode .paper,.main20-mode.main20-dialogue .paper,.main20-mode.main20-reading .paper{z-index:3;width:min(100%,1120px);height:auto;min-height:0;max-height:100%;padding:clamp(20px,3vw,40px) clamp(22px,4vw,52px);overflow:auto;opacity:1!important;visibility:visible;pointer-events:auto!important;transform:rotate(-.35deg)!important;transform-origin:center center!important}
 .main20-mode .paper-title{padding:12px 0}
 .main20-mode .paper h2{font-size:clamp(29px,3vw,43px)}

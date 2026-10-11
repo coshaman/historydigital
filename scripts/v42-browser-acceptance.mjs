@@ -14,6 +14,10 @@ const visibleText = (page) => page.locator('body').innerText();
 async function play(page) {
   await page.goto(baseUrl, { waitUntil: 'domcontentloaded' });
   await page.waitForFunction(() => Boolean(window.__main20?.getState), { timeout: 12000 });
+  await page.waitForFunction(() => Boolean(document.querySelector('#deskCanvas')?.dataset.threeLoaded), { timeout: 20000 });
+  const threeDesk = await page.evaluate(() => { const canvas = document.querySelector('#deskCanvas'); const style = canvas && getComputedStyle(canvas); return { present: Boolean(canvas), display: style?.display, loaded: canvas?.dataset.threeLoaded, fallback: canvas?.dataset.fallback }; });
+  if (!threeDesk.present || threeDesk.display === 'none' || threeDesk.loaded !== 'local' || threeDesk.fallback !== 'false') throw new Error(`3D desk was not restored on MAIN20 route: ${JSON.stringify(threeDesk)}`);
+  if ([1996, 1440, 390].includes(await page.evaluate(() => innerWidth))) { const width = await page.evaluate(() => innerWidth); fs.mkdirSync('artifacts/v53-desk', { recursive: true }); await page.screenshot({ path: `artifacts/v53-desk/desk-${width}.png` }); }
   const seen = [];
   let prologueText = '';
   let guard = 0;
