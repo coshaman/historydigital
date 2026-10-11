@@ -375,9 +375,10 @@ body.scene-header-collapsed .masthead{transform:translateY(-100%);opacity:0;poin
 /* V46: keep the desk and its paper legible when the optional 3D scene is not loaded. */
 .main20-mode .app-shell{height:100dvh;min-height:0;display:flex;flex-direction:column;overflow:hidden}
 .main20-mode .masthead{flex:0 0 10px;height:10px;min-height:10px;padding:0;border:0;overflow:hidden}
-.main20-mode .desk{flex:1 1 auto;min-height:0;height:auto;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) clamp(220px,29dvh,320px);background-color:#49301f;background-image:radial-gradient(ellipse at 50% 35%,#795336 0%,#563923 48%,#35251c 100%),repeating-linear-gradient(93deg,transparent 0 13px,#d7a76e0d 14px 15px),repeating-linear-gradient(3deg,transparent 0 32px,#130d0912 33px 35px)}
+.main20-mode .desk{--dialogue-height:clamp(220px,29dvh,320px);flex:1 1 auto;min-height:0;height:auto;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) var(--dialogue-height);background-color:#583b28;background-image:linear-gradient(180deg,#120b0752 0%,transparent 12%,transparent 78%,#180d0999 100%),url('assets/wood-grain.svg?v=50');background-size:100% 100%,100% 100%;background-repeat:no-repeat,no-repeat;box-shadow:inset 0 0 48px #180e0ac4,inset 0 -26px 0 #26170f,inset 0 -29px 0 #a5784a,inset 0 -33px 0 #1c120d}
+.main20-mode .desk::after{content:"";position:absolute;z-index:11;left:0;right:0;bottom:var(--dialogue-height);height:17px;pointer-events:none;background:linear-gradient(180deg,#b58a5a,#654128 35%,#322016 82%,#160f0b);box-shadow:0 6px 13px #120a08a8,inset 0 1px 1px #edc48b88}
 .main20-mode .desk-grain{z-index:0;opacity:.5}
-.main20-mode .document-stage{z-index:1;min-height:0;min-width:0;padding:34px clamp(16px,5vw,76px) 12px;overflow:hidden;align-items:center}
+.main20-mode .document-stage{z-index:1;min-height:0;min-width:0;padding:34px clamp(16px,5vw,76px) 12px;overflow:hidden;align-items:center;background:transparent!important}
 .main20-mode .document-stage #deskCanvas{display:none!important}
 .main20-mode .paper,.main20-mode.main20-dialogue .paper,.main20-mode.main20-reading .paper{z-index:3;width:min(100%,1120px);height:auto;min-height:0;max-height:100%;padding:clamp(20px,3vw,40px) clamp(22px,4vw,52px);overflow:auto;opacity:1!important;visibility:visible;pointer-events:auto!important;transform:rotate(-.35deg)!important;transform-origin:center center!important}
 .main20-mode .paper-title{padding:12px 0}
@@ -406,7 +407,7 @@ body.scene-header-collapsed .masthead{transform:translateY(-100%);opacity:0;poin
 .main20-mode .bottom-bar{position:relative;z-index:60;flex:0 0 48px;min-height:48px;height:48px;overflow-x:auto;white-space:nowrap}
 @media(max-width:700px){
   .main20-mode .app-shell{height:100dvh}
-  .main20-mode .desk{grid-template-rows:minmax(0,1fr) minmax(210px,34dvh)!important}
+  .main20-mode .desk{--dialogue-height:max(210px,34dvh);grid-template-rows:minmax(0,1fr) var(--dialogue-height)!important}
   .main20-mode .dialogue-strip,.main20-mode.main20-dialogue .dialogue-strip{height:34dvh!important;min-height:210px!important;max-height:34dvh!important;overflow-y:auto!important}
   .main20-mode .document-stage{padding:25px 12px 8px;overflow:hidden}
   .main20-mode .paper,.main20-mode.main20-dialogue .paper,.main20-mode.main20-reading .paper{width:100%;max-height:100%;padding:18px 20px}
@@ -427,7 +428,7 @@ body.scene-header-collapsed .masthead{transform:translateY(-100%);opacity:0;poin
   .main20-mode .bottom-bar>*{flex:0 0 auto}
 }
 @media(max-width:700px) and (max-height:700px){
-  .main20-mode .desk{grid-template-rows:minmax(0,1fr) minmax(190px,37dvh)!important}
+  .main20-mode .desk{--dialogue-height:max(190px,37dvh);grid-template-rows:minmax(0,1fr) var(--dialogue-height)!important}
   .main20-mode .dialogue-strip,.main20-mode.main20-dialogue .dialogue-strip{height:37dvh!important;min-height:190px!important;max-height:37dvh!important}
   .main20-mode .paper{padding:12px 15px}
   .main20-mode .paper-title{padding:5px 0}
