@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "routeId": "ACT-III-FOUR-HUBS-V1",
+  "historicalInvariant": "Only the fictional clerk's actions, exposure, work record, relationships and private route vary. Dated historical outcomes never branch.",
+  "choiceEndingAffinity": {
+    "CIRCLE-ATTEND": { "DOSTOEVSKY_PETRASHEVSKY": 1, "HERZEN": 1 },
+    "CIRCLE-DECLINE": { "UVAROV": 1 },
+    "CIRCLE-KEEP-NOTES": { "KHOMYAKOV": 1 },
+    "EXAM-SIT": { "UVAROV": 1 },
+    "EXAM-DEFER": { "KHOMYAKOV": 1 },
+    "EXAM-HELP-PEER": { "DOSTOEVSKY_PETRASHEVSKY": 1, "BELINSKY": 1 },
+    "BOOK-DISCUSS": { "BELINSKY": 1 },
+    "BOOK-PRIVATE": { "HERZEN": 1 },
+    "BOOK-QUESTION": { "KHOMYAKOV": 1, "BELINSKY": 1 },
+    "NEWS-FILE": { "UVAROV": 1 },
+    "NEWS-SHARE": { "HERZEN": 1, "DOSTOEVSKY_PETRASHEVSKY": 1 },
+    "NEWS-REPORT": { "UVAROV": 1, "KHOMYAKOV": 1 }
+  },
+  "sourceIds": ["EXT-TURGENEV-KHOR-KALYNYCH-1847"],
+  "choiceSourceIds": {
+    "BOOK-DISCUSS": ["EXT-TURGENEV-KHOR-KALYNYCH-1847"],
+    "BOOK-PRIVATE": ["EXT-TURGENEV-KHOR-KALYNYCH-1847"],
+    "BOOK-QUESTION": ["EXT-TURGENEV-KHOR-KALYNYCH-1847"]
+  },
+  "eventSourceIdsByChoice": {
+    "BOOK-DISCUSS": ["EXT-TURGENEV-ERMOLAI-MILLER-1847", "EXT-TURGENEV-KONTORA-1847", "EXT-TURGENEV-KARATAEV-1847", "EXT-NEKRASOV-NIGHT-STREET-1847", "EXT-TURGENEV-OVSYANIKOV-1847", "EXT-BELINSKY-CONTEMPORARY-NOTES-1847"],
+    "BOOK-PRIVATE": ["EXT-TURGENEV-LGOV-1847", "EXT-TURGENEV-RADILOV-1847", "EXT-DOSTOEVSKY-POOR-FOLK-1846"],
+    "BOOK-QUESTION": ["EXT-TURGENEV-BURMISTR-1847", "EXT-NEKRASOV-MORAL-MAN-1847"]
+  },
+  "sequence": ["E02", "E04", "H1-CIRCLE", "H2-EXAM", "H3-READING", "H4-NEWS", "E07"],
+  "anchors": [
+    { "id": "C07", "date": "1842-01-07", "historical": true, "sourceIds": ["V42-GOGOL-1847"] },
+    { "id": "E02", "date": "1847-01-05", "historical": true, "sourceIds": ["V42-BELINSKY-1847"] },
+    { "id": "E04", "date": "1847-07-08", "historical": true, "sourceIds": ["EXT-SHEVCHENKO-DOC-282"] },
+    { "id": "E07", "date": "1849-05-10", "historical": true, "sourceIds": ["V42-PETRASHEVSKY-FOURIERISM"] }
+  ],
+  "hubs": [
+    { "id": "H1-CIRCLE", "order": 1, "title": "초대장은 책장 밑에 놓여 있었다", "date": "1847-08-03", "topic": "읽기 모임에 갈 것인가", "branchIds": ["CIRCLE-ATTEND", "CIRCLE-DECLINE", "CIRCLE-KEEP-NOTES"], "nextHubId": "H2-EXAM", "prompt": "파벨은 이름을 적지 않은 초대장을 내밉니다. 모임은 문학과 사회 문제를 함께 읽는 자리라고만 설명합니다.", "eventFamily": "reading_circle" },
+    { "id": "H2-EXAM", "order": 2, "title": "진급 시험을 앞둔 주", "date": "1847-09-12", "topic": "시험과 동료의 사정", "branchIds": ["EXAM-SIT", "EXAM-DEFER", "EXAM-HELP-PEER"], "nextHubId": "H3-READING", "prompt": "시험 범위는 공고됐고, 파벨은 빠진 준비 항목을 숨기지 않습니다. 당신도 시험과 동료 중 어디에 시간을 쓸지 정해야 합니다.", "eventFamily": "rank_history_exam" },
+    { "id": "H3-READING", "order": 3, "title": "저녁 독서 뒤의 말", "date": "1847-12-31", "topic": "소설 속 인물과 책임", "branchIds": ["BOOK-DISCUSS", "BOOK-PRIVATE", "BOOK-QUESTION"], "nextHubId": "H4-NEWS", "prompt": "예카테리나는 같은 장면을 두고 인물의 선택과 그를 둘러싼 제도를 나눠 보자고 합니다. 읽은 대목을 누구 앞에서 어떻게 말할까요?", "eventFamily": "literature_in_company" },
+    { "id": "H4-NEWS", "order": 4, "title": "늦게 도착한 연말 공고", "date": "1848-12-20", "topic": "잡지의 발행과 배달", "branchIds": ["NEWS-FILE", "NEWS-SHARE", "NEWS-REPORT"], "nextHubId": "END", "prompt": "《현대인》 편집부가 한 해의 발행 내용과 지방 배송 문제를 정리한 공고가 도착했습니다. 보고 내용과 실제로 확인한 일을 구분하고, 이 문서를 어디까지 돌릴지 정해야 합니다.", "eventFamily": "periodical_circulation_response" }
+  ],
+  "branches": [
+    { "choiceId": "CIRCLE-ATTEND", "hubId": "H1-CIRCLE", "immediateEventId": "EV-CIRCLE-ATTEND", "nextHubReactionId": "RX-CIRCLE-ATTEND", "callbackKey": "CB-CIRCLE-ATTEND", "sourceIds": ["V42-PETRASHEVSKY-FOURIERISM"], "immediateDirection": { "action": "모임에 가서 듣는다", "audience": "모임 참석자", "recordMode": "공식 장부에는 남기지 않음", "documentLeavesOffice": true, "risk": "동료의 신뢰를 얻지만 이름이 퍼질 수 있음" }, "stateWrites": { "circleContact": "attended", "privateTrust": 1 }, "speakerLines": [{ "speaker": "pavel", "situation": "ordinaryColleague", "text": "말을 보태지 않아도 돼. 오늘은 누가 무슨 책을 가져왔는지만 보면 되니까." }, { "speaker": "ekaterina", "situation": "private", "text": "듣고만 와도 괜찮아요. 다만 돌아오는 길엔 누구와 함께였는지 기억해 둬요." }], "event": { "title": "낯선 방의 책상", "description": "당신은 늦게 도착해 문가에 앉습니다. 책 이야기로 시작한 대화는 노동과 교육 문제로 번져 갑니다.", "fictionalInterpretation": true } },
+    { "choiceId": "CIRCLE-DECLINE", "hubId": "H1-CIRCLE", "immediateEventId": "EV-CIRCLE-DECLINE", "nextHubReactionId": "RX-CIRCLE-DECLINE", "callbackKey": "CB-CIRCLE-DECLINE", "sourceIds": ["V42-PETRASHEVSKY-FOURIERISM"], "immediateDirection": { "action": "초대를 정중히 거절한다", "audience": "파벨 한 사람", "recordMode": "기록 없음", "documentLeavesOffice": false, "risk": "당장의 노출은 줄지만 파벨과 거리가 생길 수 있음" }, "stateWrites": { "circleContact": "declined", "privateTrust": -1 }, "speakerLines": [{ "speaker": "alexei", "situation": "ordinaryColleague", "text": "안 가는 것도 선택이지. 대신 이유를 공문처럼 길게 설명하진 마." }, { "speaker": "pavel", "situation": "conflict", "text": "알겠어. 붙잡진 않을게. 다음번엔 내가 왜 물었는지만 잊지 마." }], "event": { "title": "닫힌 문 앞", "description": "당신은 초대장을 돌려줍니다. 파벨은 더 묻지 않지만, 다음 날에도 평소처럼 인사할지는 알 수 없습니다.", "fictionalInterpretation": true } },
+    { "choiceId": "CIRCLE-KEEP-NOTES", "hubId": "H1-CIRCLE", "immediateEventId": "EV-CIRCLE-NOTES", "nextHubReactionId": "RX-CIRCLE-NOTES", "callbackKey": "CB-CIRCLE-NOTES", "sourceIds": ["V42-PETRASHEVSKY-FOURIERISM"], "immediateDirection": { "action": "가서 책 제목만 개인 수첩에 적는다", "audience": "모임 참석자; 수첩은 본인만 봄", "recordMode": "개인 기록", "documentLeavesOffice": true, "risk": "기억은 남지만 수첩을 잃으면 노출될 수 있음" }, "stateWrites": { "circleContact": "attended-notes", "privateTrace": 1 }, "speakerLines": [{ "speaker": "ekaterina", "situation": "ordinaryColleague", "text": "제목만 적어요. 누가 무슨 말을 했는지까지 옮기면, 그건 기록이 아니라 사람을 데려가는 일이 될 수 있어요." }], "event": { "title": "책 제목 세 개", "description": "수첩에는 책 제목과 날짜만 남습니다. 누가 어떤 말을 했는지는 적지 않기로 합니다.", "fictionalInterpretation": true } },
+
+    { "choiceId": "EXAM-SIT", "hubId": "H2-EXAM", "immediateEventId": "EV-EXAM-SIT", "nextHubReactionId": "RX-EXAM-SIT", "callbackKey": "CB-EXAM-SIT", "sourceIds": ["V42-TABLE-OF-RANKS"], "immediateDirection": { "action": "예정대로 시험에 응한다", "audience": "시험관과 사무실", "recordMode": "공식 성적·인사 기록", "documentLeavesOffice": false, "risk": "당장 실력을 평가받고 결과가 인사에 반영될 수 있음" }, "stateWrites": { "examAction": "sat", "officialTrace": 1 }, "speakerLines": [{ "speaker": "alexei", "situation": "formalInstitutional", "text": "신청은 접수됐습니다. 오늘 답안은 이름과 함께 올라갑니다. 모르는 대목을 아는 척하지 마십시오." }, { "speaker": "protagonist", "situation": "formalInstitutional", "text": "확인한 범위까지만 쓰겠습니다. 나머지는 비워 두겠습니다." }], "event": { "title": "시험장 문이 닫히다", "description": "감독관이 문제지를 걷고, 답안은 봉인된 꾸러미에 들어갑니다. 파벨은 복도 끝에서 다음 시험 범위를 펼쳐 봅니다.", "fictionalInterpretation": true } },
+    { "choiceId": "EXAM-DEFER", "hubId": "H2-EXAM", "immediateEventId": "EV-EXAM-DEFER", "nextHubReactionId": "RX-EXAM-DEFER", "callbackKey": "CB-EXAM-DEFER", "sourceIds": ["V42-TABLE-OF-RANKS"], "immediateDirection": { "action": "이번 회차를 미루고 부족한 범위를 밝힌다", "audience": "상관 한 사람", "recordMode": "사유서가 인사철에 남음", "documentLeavesOffice": false, "risk": "준비 시간을 얻지만 승진이 늦어질 수 있음" }, "stateWrites": { "examAction": "deferred", "officialTrace": 1 }, "speakerLines": [{ "speaker": "alexei", "situation": "conflict", "text": "미루는 건 가능해. 다만 사유를 쓰면 종이도 따라와." }, { "speaker": "protagonist", "situation": "conflict", "text": "그럼 모르는 범위를 적겠습니다. 준비됐다고 적는 것보다 낫습니다." }], "event": { "title": "제출하지 않은 답안", "description": "당신은 시험지를 받기 전 사유를 적습니다. 기록에는 연기 요청만 남고, 다음 회차 결과는 아직 정해지지 않았습니다.", "fictionalInterpretation": true } },
+    { "choiceId": "EXAM-HELP-PEER", "hubId": "H2-EXAM", "immediateEventId": "EV-EXAM-PEER", "nextHubReactionId": "RX-EXAM-PEER", "callbackKey": "CB-EXAM-PEER", "sourceIds": ["V42-TABLE-OF-RANKS"], "immediateDirection": { "action": "시험 전날 파벨과 함께 준비한다", "audience": "파벨", "recordMode": "공식 기록 없음", "documentLeavesOffice": false, "risk": "자기 복습 시간이 줄지만 동료가 기억할 것" }, "stateWrites": { "examAction": "helped-peer", "privateTrust": 1 }, "speakerLines": [{ "speaker": "pavel", "situation": "private", "text": "이 조항은 네가 먼저 봐. 난 어제 여기서 막혔어." }, { "speaker": "protagonist", "situation": "ordinaryColleague", "text": "같이 보자. 내 것도 완전히 외운 건 아니야." }], "event": { "title": "난롯가의 연습문제", "description": "두 사람은 기출 조항을 번갈아 설명하고 서로 막힌 부분을 짚어 줍니다.", "fictionalInterpretation": true } },
+
+    { "choiceId": "BOOK-DISCUSS", "hubId": "H3-READING", "immediateEventId": "EV-BOOK-DISCUSS", "nextHubReactionId": "RX-BOOK-DISCUSS", "callbackKey": "CB-BOOK-DISCUSS", "sourceIds": ["V42-WESTERNIZER-PRIMARY", "V42-SLAVOPHILE-PRIMARY"], "immediateDirection": { "action": "읽은 장면을 동료들 앞에서 토론한다", "audience": "세 동료", "recordMode": "공식 기록 없음", "documentLeavesOffice": false, "risk": "솔직한 의견이 관계를 바꿀 수 있음" }, "stateWrites": { "literatureAction": "public-discussion", "relationshipEkaterina": 1 }, "speakerLines": [{ "speaker": "ekaterina", "situation": "ordinaryColleague", "text": "그 인물이 잘못했다고 끝내면 쉬워요. 그 사람이 놓인 조건까지 보면, 판단이 좀 늦어지죠." }, { "speaker": "alexei", "situation": "conflict", "text": "조건을 보더라도 책임이 사라지진 않아. 그 둘을 한 문장에 섞지 말자." }], "event": { "title": "인물의 선택, 제도의 몫", "description": "동료들은 한 소설 속 인물의 선택과 그가 놓인 조건을 함께 놓고 이야기합니다.", "fictionalInterpretation": true } },
+    { "choiceId": "BOOK-PRIVATE", "hubId": "H3-READING", "immediateEventId": "EV-BOOK-PRIVATE", "nextHubReactionId": "RX-BOOK-PRIVATE", "callbackKey": "CB-BOOK-PRIVATE", "sourceIds": ["V42-GOGOL-1847"], "immediateDirection": { "action": "책을 빌려 개인적으로 읽는다", "audience": "대여자 한 사람", "recordMode": "대여 쪽지가 남음", "documentLeavesOffice": true, "risk": "토론은 피하지만 대여 기록은 남을 수 있음" }, "stateWrites": { "literatureAction": "private-reading", "privateTrace": 1 }, "speakerLines": [{ "speaker": "pavel", "situation": "private", "text": "가져가. 돌려줄 때까지 내가 누구한테 빌려줬는지는 말 안 할게." }, { "speaker": "protagonist", "situation": "private", "text": "고맙다. 다 읽고 내 생각은 그때 말할게." }], "event": { "title": "책의 이름만 적힌 쪽지", "description": "책은 사무실 밖으로 나갑니다. 쪽지에는 제목과 반납 날짜만 남습니다.", "fictionalInterpretation": true } },
+    { "choiceId": "BOOK-QUESTION", "hubId": "H3-READING", "immediateEventId": "EV-BOOK-QUESTION", "nextHubReactionId": "RX-BOOK-QUESTION", "callbackKey": "CB-BOOK-QUESTION", "sourceIds": ["V42-WESTERNIZER-PRIMARY"], "immediateDirection": { "action": "예카테리나에게 먼저 되묻는다", "audience": "예카테리나", "recordMode": "기록 없음", "documentLeavesOffice": false, "risk": "답을 미루는 태도로 보일 수 있지만 대화를 이어갈 수 있음" }, "stateWrites": { "literatureAction": "asked-back", "relationshipEkaterina": 1 }, "speakerLines": [{ "speaker": "protagonist", "situation": "ordinaryColleague", "text": "당신은 어떻게 읽었어요? 내가 먼저 결론 내리면, 당신이 본 걸 놓칠 것 같아서요." }, { "speaker": "ekaterina", "situation": "increasedIntimacy", "text": "난 그가 틀렸다고 봐요. 그래도 왜 그랬는지는 끝까지 읽고 싶어요." }], "event": { "title": "대답을 잠시 미루다", "description": "질문은 예카테리나에게 돌아갑니다. 두 사람은 장면을 다시 펼치고, 인물의 선택을 단정하기 전에 놓친 문장을 찾습니다.", "fictionalInterpretation": true } },
+
+    { "choiceId": "NEWS-FILE", "hubId": "H4-NEWS", "immediateEventId": "EV-NEWS-FILE", "nextHubReactionId": "RX-NEWS-FILE", "callbackKey": "CB-NEWS-FILE", "sourceIds": ["OBJ-WS-SOVREMENNIK-1848"], "immediateDirection": { "action": "편집부 공고와 배송 관련 내용을 별도 편철한다", "audience": "기록실 책임자", "recordMode": "공식 자료철에 남음", "documentLeavesOffice": false, "risk": "내용은 보존되지만 검토 책임도 공식화됨" }, "stateWrites": { "newsAction": "filed", "officialTrace": 1 }, "speakerLines": [{ "speaker": "alexei", "situation": "formalInstitutional", "text": "공고가 말하는 내용과 우리가 확인한 접수 기록은 분리하십시오. 날짜와 발행처도 붙이고요." }, { "speaker": "protagonist", "situation": "formalInstitutional", "text": "알겠습니다. 편집부의 설명과 실제 도착 기록을 따로 적겠습니다." }], "event": { "title": "공고와 접수 기록", "description": "공고는 1848년 《현대인》의 활동과 지방 배송 문제를 설명합니다. 당신은 편집부의 보고와 관청에서 확인한 접수 사실을 나눠 기록합니다.", "fictionalInterpretation": true } },
+    { "choiceId": "NEWS-SHARE", "hubId": "H4-NEWS", "immediateEventId": "EV-NEWS-SHARE", "nextHubReactionId": "RX-NEWS-SHARE", "callbackKey": "CB-NEWS-SHARE", "sourceIds": ["OBJ-WS-SOVREMENNIK-1848"], "immediateDirection": { "action": "편집부 공고를 동료 한 명에게 보여준다", "audience": "신뢰하는 동료 한 명", "recordMode": "공식 기록 없음", "documentLeavesOffice": true, "risk": "공고의 내용이 비공식적으로 퍼질 수 있음" }, "stateWrites": { "newsAction": "shared", "privateTrust": 1 }, "speakerLines": [{ "speaker": "ekaterina", "situation": "private", "text": "읽어도 돼요. 다만 편집부가 쓴 보고라는 건 잊지 말아요. 배송이 늦었다는 말도 우선은 그쪽 설명이니까." }, { "speaker": "protagonist", "situation": "private", "text": "그 점도 함께 말할게요. 다 읽으면 돌려주세요." }], "event": { "title": "편집부의 설명을 나누다", "description": "동료는 공고를 읽고 돌려줍니다. 공식 자료철에는 남지 않지만, 문서의 내용을 누구와 나눴는지는 두 사람 사이의 일이 됩니다.", "fictionalInterpretation": true } },
+    { "choiceId": "NEWS-REPORT", "hubId": "H4-NEWS", "immediateEventId": "EV-NEWS-REPORT", "nextHubReactionId": "RX-NEWS-REPORT", "callbackKey": "CB-NEWS-REPORT", "sourceIds": ["OBJ-WS-SOVREMENNIK-1848"], "eventSourceIds": ["EXT-NEKRASOV-EDITORIAL-ANON-1848"], "immediateDirection": { "action": "공고에 나온 배송 문제의 사실 확인을 상관에게 요청한다", "audience": "상관과 기록 담당자", "recordMode": "공식 검토 메모", "documentLeavesOffice": false, "risk": "개인 판단은 줄지만 배송 기록에 대한 공식 확인 절차가 남음" }, "stateWrites": { "newsAction": "referred", "officialTrace": 1 }, "speakerLines": [{ "speaker": "alexei", "situation": "conflict", "text": "확인 요청을 올리면 네 판단만의 일은 아니게 돼. 대신 관청에 남은 기록도 같이 대조해야 해." }, { "speaker": "protagonist", "situation": "formalInstitutional", "text": "검토를 요청하겠습니다. 편집부의 설명을 확인된 사실처럼 적지는 않겠습니다." }], "event": { "title": "배송 기록의 대조", "description": "공고에 적힌 배송 문제를 확인해 달라는 메모가 담당 부서로 갑니다. 편집부의 보고와 관청의 기록 중 무엇이 일치하는지는 검토 대상으로 남습니다.", "fictionalInterpretation": true } }
+  ],
+  "events": [
+    { "id": "EV-CIRCLE-ATTEND" }, { "id": "EV-CIRCLE-DECLINE" }, { "id": "EV-CIRCLE-NOTES" },
+    { "id": "EV-EXAM-SIT" }, { "id": "EV-EXAM-DEFER" }, { "id": "EV-EXAM-PEER" },
+    { "id": "EV-BOOK-DISCUSS" }, { "id": "EV-BOOK-PRIVATE" }, { "id": "EV-BOOK-QUESTION" },
+    { "id": "EV-NEWS-FILE" }, { "id": "EV-NEWS-SHARE" }, { "id": "EV-NEWS-REPORT" }
+  ],
+  "transitions": [
+    { "fromHubId": "H1-CIRCLE", "fallback": true, "toHubId": "H2-EXAM" },
+    { "fromHubId": "H2-EXAM", "fallback": true, "toHubId": "H3-READING" },
+    { "fromHubId": "H3-READING", "fallback": true, "toHubId": "H4-NEWS" },
+    { "fromHubId": "H4-NEWS", "fallback": true, "toHubId": "END" }
+  ],
+  "eventPredicates": {
+    "nextHubAcknowledgements": [
+      { "key": "circleContact", "reactionTexts": {
+        "RX-CIRCLE-ATTEND": { "speaker": "ekaterina", "situation": "ordinaryColleague", "text": "파벨이 어제 읽던 책을 오늘도 가져왔네요. 당신이 들은 얘긴 아직 묻지 않을게요." },
+        "RX-CIRCLE-DECLINE": { "speaker": "alexei", "situation": "private", "text": "파벨한테 거절한 이유는 따로 묻지 않았어. 네가 말하고 싶을 때 말해." },
+        "RX-CIRCLE-NOTES": { "speaker": "pavel", "situation": "ordinaryColleague", "text": "수첩엔 제목만 적었더라. 누가 한 말까지 옮기지 않은 건 알아." }
+      } },
+      { "key": "examAction", "reactionTexts": {
+        "RX-EXAM-SIT": { "speaker": "ekaterina", "situation": "ordinaryColleague", "text": "시험이 끝났는데도 답안 얘기뿐이네요. 오늘은 그만해요." },
+        "RX-EXAM-DEFER": { "speaker": "alexei", "situation": "ordinaryColleague", "text": "미룬다고 포기한 건 아니지. 사유서엔 네가 모르는 범위가 적혔을 거야." },
+        "RX-EXAM-PEER": { "speaker": "pavel", "situation": "private", "text": "시험 전에 네가 같이 봐 준 조항, 잊지 않았어. 이번엔 네 문장을 들어 볼게." }
+      } },
+      { "key": "literatureAction", "reactionTexts": {
+        "RX-BOOK-DISCUSS": { "speaker": "alexei", "situation": "ordinaryColleague", "text": "지난번엔 인물과 제도를 나눠 보자고 했지. 이번엔 공고에 적힌 말과 우리가 확인한 기록을 나눠 보자." },
+        "RX-BOOK-PRIVATE": { "speaker": "pavel", "situation": "ordinaryColleague", "text": "책은 돌려받았어. 네가 표시해 둔 쪽은 나도 다시 읽어 봤다." },
+        "RX-BOOK-QUESTION": { "speaker": "ekaterina", "situation": "increasedIntimacy", "text": "그때 내가 먼저 말했죠. 이번에도 결론을 서두르지 말아요." }
+      } },
+      { "key": "newsAction", "reactionTexts": {
+        "RX-NEWS-FILE": { "speaker": "alexei", "situation": "formalInstitutional", "text": "자료철엔 발행지와 도착일이 따로 적혔습니다. 그 구분은 유지하십시오." },
+        "RX-NEWS-SHARE": { "speaker": "ekaterina", "situation": "private", "text": "동료에게 보여 준 뒤에도, 확인 전이라는 말은 같이 남겨 뒀어요." },
+        "RX-NEWS-REPORT": { "speaker": "pavel", "situation": "ordinaryColleague", "text": "검토 요청은 올라갔어. 적어도 네가 사실이라고 단정한 메모는 아니더라." }
+      } }
+    ]
+  },
+  "endingRoutes": ["UVAROV", "BELINSKY", "HERZEN", "KHOMYAKOV", "DOSTOEVSKY_PETRASHEVSKY"]
+}

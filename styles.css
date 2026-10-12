@@ -469,3 +469,33 @@ body.scene-header-collapsed .masthead{transform:translateY(-100%);opacity:0;poin
   .main20-mode .paper{padding:12px 15px}
   .main20-mode .paper-title{padding:5px 0}
 }
+
+/* One paper/ink language for the newspaper, branch choices, and their reading controls. */
+:root{
+  --paper-stock:#eadfc6;
+  --paper-stock-shadow:#c8b58e;
+  --document-ink:#2d261d;
+  --document-brass:#9d7948;
+  --document-rule:#806647;
+  --document-focus:#f1d39a;
+  --document-reading-width:1120px;
+  --document-space:clamp(8px,1vw,14px)
+}
+.main20-mode #paper.document-surface{background-color:var(--paper-stock);color:var(--document-ink);border:1px solid var(--document-brass);box-shadow:inset 0 0 0 5px #d7c7a7,inset 0 0 34px #9f805124,0 14px 32px #10090670}
+.main20-mode .main20-excerpt.document-surface{border:1px solid #80664766;border-bottom:2px solid var(--document-brass);background:linear-gradient(120deg,#f1e7cf,#e4d7b8);color:var(--document-ink);box-shadow:inset 0 0 0 3px #ffffff38}
+.main20-mode .document-action{border:1px solid var(--document-brass);border-radius:0;background:linear-gradient(125deg,#f0e5ca,#dfcfaa);color:var(--document-ink);box-shadow:inset 0 0 0 3px #ffffff35,0 3px 0 #3a2819;transition:background-color .16s ease,border-color .16s ease,transform .16s ease}
+.main20-mode .document-action:hover{background:linear-gradient(125deg,#f5ebd4,#e6d3a7);border-color:#d1a866;transform:translateY(-1px)}
+.main20-mode .document-action:focus-visible{outline:2px solid var(--document-focus);outline-offset:3px;z-index:2}
+.main20-mode .document-action:disabled{filter:grayscale(.45);opacity:.66;transform:none}
+.main20-mode .main20-choice-card.document-action{display:flex;flex-direction:column;align-items:flex-start;gap:7px;min-height:82px;padding:12px 14px;text-align:left}
+.main20-mode .main20-choice-card .main20-choice-label{color:var(--document-ink);font-family:Georgia,'Noto Serif KR',serif;font-weight:600}
+.main20-mode .document-action-detail{display:block;color:#5d4b35;font:500 11px/1.42 'Libre Franklin','Noto Sans KR',sans-serif;overflow-wrap:anywhere}
+.main20-mode .main20-ideology-read.document-action{background:linear-gradient(125deg,#e9ddc2,#d5c19a);color:var(--document-ink)}
+.main20-mode .main20-choice-card.document-action:hover .document-action-detail,.main20-mode .main20-choice-card.document-action:focus-visible .document-action-detail{color:#45331f}
+.main20-mode:not(.window-view) .petersburg-window{top:-26px!important}
+@media(max-width:700px){
+  .main20-mode:not(.window-view) .petersburg-window{top:-18px!important}
+  .main20-mode .main20-choice-card.document-action{min-height:64px;padding:9px 11px}
+  .main20-mode .document-action-detail{font-size:10px;line-height:1.35}
+}
+@media(prefers-reduced-motion:reduce){.main20-mode .document-action{transition:none}.main20-mode .document-action:hover{transform:none}}

@@ -1,0 +1,359 @@
+[
+  {
+    "sourceId": "EXT-TURGENEV-KHOR-KALYNYCH-1847",
+    "sourceClass": "PRIMARY_PUBLICATION",
+    "witnessKey": "ivan-sergeevich-turgenev|khor-and-kalinych|1847-sovremennik-no-1|1897-collected-edition-vol-1",
+    "authorOrIssuer": "Иван Сергеевич Тургенев",
+    "title": "Хорь и Калиныч",
+    "date": "1847",
+    "edition": "Полное собрание сочинений И. С. Тургенева. 4-е изд. Санкт-Петербург: Типография Глазунова, т. 1, 1897; text collated to the digitized scan transcription.",
+    "holdingInstitution": "Wikisource scan-backed transcription; digitized scan of the 1897 edition is linked from the transcription.",
+    "locator": "Часть I «Хорь и Калиныч», three consecutive paragraphs beginning «Хорь был человек положительный» and ending «от него многому научился»; witness text lines 223–225 of the stable transcription.",
+    "contextRange": {
+      "paragraphStart": 1,
+      "paragraphEnd": 3,
+      "speaker": "The first-person narrator of Turgenev's literary sketch",
+      "claim": "The narrator contrasts Khory's practical, administrative outlook with Kalinych's emotional and nature-oriented outlook, while describing their unequal positions under serfdom.",
+      "immediateIssue": "How two serfs exercise different forms of judgment and agency within the same landlord's estate; the literary narration is not archival testimony or a verbatim historical conversation."
+    },
+    "originalRussian": [
+      {
+        "segmentId": "EXT-TURGENEV-KK-P1",
+        "order": 1,
+        "text": "Хорь был человек положительный, практический, административная голова, рационалист; Калинич, напротив, принадлежал к числу идеалистов, романтиков, людей восторженных и мечтательных."
+      },
+      {
+        "segmentId": "EXT-TURGENEV-KK-P2",
+        "order": 2,
+        "text": "Хорь понимал действительность, то-есть: обстроился, накопил деньжонку, ладил с барином и с прочими властями; Калинич ходил в лаптях и перебивался кое-как. Хорь расплодил большое семейство, покорное и единодушное; у Калинича была когда-то жена, которой он боялся, а детей и не бывало вовсе."
+      },
+      {
+        "segmentId": "EXT-TURGENEV-KK-P3",
+        "order": 3,
+        "text": "Хорь насквозь видел г-на Полутыкина; Калинич благоговел перед своим господином. Хорь любил Калинича и оказывал ему покровительство; Калинич любил и уважал Хоря. Хорь говорил мало, посмеивался и разумел про себя; Калинич объяснялся с жаром, хотя и не пел соловьем, как бойкий фабричный человек…. Но Калинич был одарен преимуществами, которые признавал сам Хорь, например: он заговаривал кровь, испуг, бешенство, выгонял червей; пчелы ему дались, рука у него была легкая."
+      }
+    ],
+    "koreanTranslation": [
+      {
+        "segmentId": "EXT-TURGENEV-KK-P1",
+        "order": 1,
+        "text": "호리는 현실적이고 실무에 밝았으며 행정 감각이 있는 합리주의자였다. 반대로 칼리니치는 이상주의자이자 낭만주의자였고, 감정이 풍부하고 꿈이 많은 사람이었다."
+      },
+      {
+        "segmentId": "EXT-TURGENEV-KK-P2",
+        "order": 2,
+        "text": "호리는 현실을 알았다. 살림을 꾸리고 돈을 모았으며, 주인과 다른 권력자들과도 원만히 지냈다. 칼리니치는 짚신을 신고 빠듯하게 살아갔다. 호리에게는 순종적이고 한마음인 대가족이 있었고, 칼리니치에게는 한때 두려워하던 아내가 있었지만 자식은 없었다."
+      },
+      {
+        "segmentId": "EXT-TURGENEV-KK-P3",
+        "order": 3,
+        "text": "호리는 폴루티킨 씨를 속속들이 꿰뚫어 보았지만, 칼리니치는 주인을 우러러보았다. 호리는 칼리니치를 아끼며 보살폈고, 칼리니치는 호리를 사랑하고 존경했다. 호리는 말수가 적고 속으로 웃으며 사정을 헤아렸고, 칼리니치는 활기차게 말했지만 능숙한 공장 노동자처럼 유창하지는 않았다…. 그래도 칼리니치에게는 호리도 인정하는 재주가 있었다. 피나 놀람, 광견병을 가라앉히고 벌레를 내쫓았으며, 벌을 잘 길렀고 손재주도 좋았다."
+      }
+    ],
+    "translationStatus": "new project translation, aligned paragraph by paragraph to the Russian transcription; terminology reviewed against the literary context",
+    "availabilityDate": "1847-01",
+    "url": "https://ru.wikisource.org/w/index.php?title=Хорь_и_Калиныч_(Тургенев)/ДО&oldid=4722069",
+    "provenanceNote": "The sketch first appeared in Sovremennik, 1847, no. 1; this excerpt is checked against the scan-backed transcription of the 1897 collected-edition witness. The narrator's labels and characterization are literary construction, not direct testimony by the historical serfs. The scene can support discussion of everyday life and constrained agency, but cannot establish the exact lives of real individuals.",
+    "sceneUsage": ["H3-READING: literary discussion and choice context", "BOOK-DISCUSS", "BOOK-PRIVATE", "BOOK-QUESTION"]
+  },
+  {
+    "sourceId": "EXT-TURGENEV-ERMOLAI-MILLER-1847",
+    "sourceClass": "PRIMARY_PUBLICATION",
+    "witnessKey": "ivan-sergeevich-turgenev|ermolai-and-the-millers-wife|1847-sovremennik|wikisource-ilibrary-transcription",
+    "authorOrIssuer": "Иван Сергеевич Тургенев",
+    "title": "Ермолай и мельничиха",
+    "date": "1847",
+    "edition": "Wikisource transcription; its source note cites the text at iLibrary.ru, without identifying a scanned print page.",
+    "holdingInstitution": "Wikisource text page; the page links its text source to iLibrary.ru. No scan claim is made.",
+    "locator": "Opening, paragraphs 1–2: narrator introduces an evening woodcock hunt with Yermolai and explains the practice of standing at a spring flight path; page text lines 122–123.",
+    "contextRange": { "paragraphStart": 1, "paragraphEnd": 2, "speaker": "The first-person literary narrator addressing readers", "claim": "The narrator explains a seasonal hunting practice through an invitation to readers and a concrete sequence of actions.", "immediateIssue": "How work, leisure, weather, and shared outdoor custom structure an ordinary spring evening; this is literary observation, not an archival report about a named real hunt." },
+    "originalRussian": [
+      { "segmentId": "EXT-TURGENEV-ERMOLAI-P1", "order": 1, "text": "Вечером мы с охотником Ермолаем отправились на «тягу»… Но, может быть, не все мои читатели знают, что такое тяга. Слушайте же, господа." },
+      { "segmentId": "EXT-TURGENEV-ERMOLAI-P2", "order": 2, "text": "За четверть часа до захождения солнца, весной, вы входите в рощу, с ружьем, без собаки. Вы отыскиваете себе место где-нибудь подле опушки, оглядываетесь, осматриваете пистон, перемигиваетесь с товарищем. Четверть часа прошло. Солнце село, но в лесу еще светло; воздух чист и прозрачен; птицы болтливо лепечут; молодая трава блестит веселым блеском изумруда… Вы ждете." }
+    ],
+    "koreanTranslation": [
+      { "segmentId": "EXT-TURGENEV-ERMOLAI-P1", "order": 1, "text": "어느 저녁, 사냥꾼 예르몰라이와 나는 ‘저녁 멧도요 사냥’을 나섰다. 독자 가운데 그게 어떤 사냥인지 모르는 분도 있을지 모르겠다. 자, 들어 보시라." },
+      { "segmentId": "EXT-TURGENEV-ERMOLAI-P2", "order": 2, "text": "봄날 해 지기 15분 전, 총을 들고 개는 데려가지 않은 채 숲에 들어간다. 숲 가장자리에 자리를 잡고 둘러본 뒤 화약 접시를 살피고 동행과 눈인사를 나눈다. 15분이 흐른다. 해는 졌지만 숲은 아직 환하고, 공기는 맑고 투명하다. 새들이 재잘거리고 어린 풀잎은 에메랄드처럼 빛난다…. 이제 기다린다." }
+    ],
+    "translationStatus": "new project translation aligned paragraph by paragraph to the cited Russian transcription",
+    "availabilityDate": "1847",
+    "url": "https://ru.wikisource.org/wiki/Ермолай_и_мельничиха_(Тургенев)",
+    "provenanceNote": "The Wikisource page dates the sketch to 1847 and cites an iLibrary text witness. The excerpt is literary narration and describes a customary practice; it is not direct testimony by a historical hunter.",
+    "sceneUsage": ["EV-BOOK-DISCUSS: selected-event literary context", "EV-BOOK-QUESTION: selected-event literary context"]
+  },
+  {
+    "sourceId": "EXT-TURGENEV-LGOV-1847",
+    "sourceClass": "PRIMARY_PUBLICATION",
+    "witnessKey": "ivan-sergeevich-turgenev|lgov|1847-sovremennik|wikisource-ilibrary-transcription",
+    "authorOrIssuer": "Иван Сергеевич Тургенев",
+    "title": "Льгов",
+    "date": "1847",
+    "edition": "Wikisource transcription; its source note cites the text at iLibrary.ru, without identifying a scanned print page.",
+    "holdingInstitution": "Wikisource text page; the page links its text source to iLibrary.ru. No scan claim is made.",
+    "locator": "Opening, paragraphs 1–2: Yermolai proposes a trip to Lgov; the narrator describes the marsh, pond, reeds, and failed attempt to retrieve birds; page text lines 123–127.",
+    "contextRange": { "paragraphStart": 1, "paragraphEnd": 2, "speaker": "The first-person literary narrator, including Yermolai's quoted proposal", "claim": "The trip is motivated by the scarcity of other game, and local terrain determines what the hunters can practically do.", "immediateIssue": "The relation between rural landscape, work, and leisure in a literary sketch; the narrator's scene is not a survey of Lgov." },
+    "originalRussian": [
+      { "segmentId": "EXT-TURGENEV-LGOV-P1", "order": 1, "text": "— Поедемте-ка в Льгов, — сказал мне однажды уже известный читателям Ермолай, — мы там уток настреляем вдоволь." },
+      { "segmentId": "EXT-TURGENEV-LGOV-P2", "order": 2, "text": "Хотя для настоящего охотника дикая утка не представляет ничего особенно пленительного, но, за неименьем пока другой дичи (дело было в начале сентября: вальдшнепы еще не прилетали, а бегать по полям за куропатками мне надоело), я послушался моего охотника и отправился в Льгов." }
+    ],
+    "koreanTranslation": [
+      { "segmentId": "EXT-TURGENEV-LGOV-P1", "order": 1, "text": "“우리 르고프에나 가죠. 거기라면 오리를 실컷 잡을 수 있습니다.” 독자에게 이미 소개한 예르몰라이가 어느 날 내게 말했다." },
+      { "segmentId": "EXT-TURGENEV-LGOV-P2", "order": 2, "text": "노련한 사냥꾼이라면 야생 오리를 특별히 탐내지는 않는다. 하지만 다른 사냥감이 마땅치 않았다. 9월 초라 멧도요는 아직 오지 않았고, 들판을 다니며 자고새를 쫓는 일도 지겨워진 터라 나는 사냥꾼의 말을 따라 르고프로 향했다." }
+    ],
+    "translationStatus": "new project translation aligned paragraph by paragraph to the cited Russian transcription",
+    "availabilityDate": "1847",
+    "url": "https://ru.wikisource.org/wiki/Льгов_(Тургенев)",
+    "provenanceNote": "The Wikisource page dates the sketch to 1847 and cites an iLibrary text witness. The passage is a literary narrator's account, not a geographic or economic record of the village.",
+    "sceneUsage": ["EV-BOOK-PRIVATE: selected-event literary context"]
+  },
+  {
+    "sourceId": "EXT-TURGENEV-KONTORA-1847",
+    "sourceClass": "PRIMARY_PUBLICATION",
+    "witnessKey": "ivan-sergeevich-turgenev|the-office|1847-sovremennik|wikisource-ilibrary-transcription",
+    "authorOrIssuer": "Иван Сергеевич Тургенев",
+    "title": "Контора",
+    "date": "1847",
+    "edition": "Wikisource transcription; its source note cites the text at iLibrary.ru, without identifying a scanned print page.",
+    "holdingInstitution": "Wikisource text page; the page links its text source to iLibrary.ru. No scan claim is made.",
+    "locator": "Opening, paragraphs 1–2: autumn rain drives the narrator from the road into a field shelter, where he notices an impoverished old man; page text lines 121–123.",
+    "contextRange": { "paragraphStart": 1, "paragraphEnd": 2, "speaker": "The first-person literary narrator", "claim": "A cold rain interrupts travel and exposes a poor man's precarious shelter and food.", "immediateIssue": "How the narrator frames rural poverty through one encounter; the scene does not establish a documented case or the prevalence of hunger." },
+    "originalRussian": [
+      { "segmentId": "EXT-TURGENEV-KONTORA-P1", "order": 1, "text": "Дело было осенью. Уже несколько часов бродил я с ружьем по полям и, вероятно, прежде вечера не вернулся бы в постоялый двор на большой Курской дороге, где ожидала меня моя тройка, если б чрезвычайно мелкий и холодный дождь, который с самого утра, не хуже старой девки, неугомонно и безжалостно приставал ко мне, не заставил меня, наконец, искать где-нибудь поблизости хотя временного убежища." },
+      { "segmentId": "EXT-TURGENEV-KONTORA-P2", "order": 2, "text": "Пока я еще соображал, в какую сторону пойти, глазам моим внезапно представился низкий шалаш возле поля, засеянного горохом. Я подошел к шалашу, заглянул под соломенный намет и увидал старика до того дряхлого, что мне тотчас же вспомнился тот умирающий козел, которого Робинзон нашел в одной из пещер своего острова." }
+    ],
+    "koreanTranslation": [
+      { "segmentId": "EXT-TURGENEV-KONTORA-P1", "order": 1, "text": "가을이었다. 나는 몇 시간째 총을 들고 들판을 헤매고 있었다. 큰 쿠르스크 길의 여관에 세워 둔 마차로 저녁 전에 돌아갔을지도 모르지만, 아침부터 끊임없이 들러붙는 가늘고 찬 비가 마침내 가까운 곳에서 잠시 피할 곳을 찾게 했다." },
+      { "segmentId": "EXT-TURGENEV-KONTORA-P2", "order": 2, "text": "어느 쪽으로 갈지 살피던 중 완두콩밭 옆에 낮은 움막이 눈에 들어왔다. 다가가 짚 지붕 아래를 들여다보니 몹시 늙은이가 있었다. 그를 보는 순간, 로빈슨 크루소가 섬의 동굴에서 발견한 죽어 가던 염소가 떠올랐다." }
+    ],
+    "translationStatus": "new project translation aligned paragraph by paragraph to the cited Russian transcription",
+    "availabilityDate": "1847",
+    "url": "https://ru.wikisource.org/wiki/Контора_(Тургенев)",
+    "provenanceNote": "The Wikisource page dates the sketch to 1847 and cites an iLibrary text witness. The episode is literary narration, not an archival poverty report.",
+    "sceneUsage": ["EV-BOOK-DISCUSS: selected-event literary context", "EV-BOOK-QUESTION: selected-event literary context"]
+  },
+  {
+    "sourceId": "EXT-TURGENEV-BURMISTR-1847",
+    "sourceClass": "PRIMARY_PUBLICATION",
+    "witnessKey": "ivan-sergeevich-turgenev|the-steward|1847-sovremennik|wikisource-turgenev-org-transcription",
+    "authorOrIssuer": "Иван Сергеевич Тургенев",
+    "title": "Бурмистр",
+    "date": "1847",
+    "edition": "Wikisource transcription; its source note cites the Turgenev.org.ru e-text, without identifying a scanned print page.",
+    "holdingInstitution": "Wikisource text page; the page links its text source to Turgenev.org.ru. No scan claim is made.",
+    "locator": "Opening, paragraphs 1–2: narrator introduces landowner Arkady Pavlych and his self-description as strict but fair; page text lines 123–124.",
+    "contextRange": { "paragraphStart": 1, "paragraphEnd": 2, "speaker": "The first-person literary narrator, quoting Arkady Pavlych", "claim": "The landlord's polished self-image of benevolent discipline is immediately set beside his authority over serfs.", "immediateIssue": "How paternalist language can frame punishment as care in a literary scene; this is not a transcript of an actual landlord's speech." },
+    "originalRussian": [
+      { "segmentId": "EXT-TURGENEV-BURMISTR-P1", "order": 1, "text": "Верстах в пятнадцати от моего именья живет один мне знакомый человек, молодой помещик, гвардейский офицер в отставке, Аркадий Павлыч Пеночкин. Дичи у него в поместье водится много, дом построен по плану французского архитектора, люди одеты по-английски, обеды задает он отличные, принимает гостей ласково, а все-таки неохотно к нему едешь. Он человек рассудительный и положительный, воспитанье получил, как водится, отличное, служил, в высшем обществе потерся, а теперь хозяйством занимается с большим успехом." },
+      { "segmentId": "EXT-TURGENEV-BURMISTR-P2", "order": 2, "text": "Аркадий Павлыч, говоря собственными его словами, строг, но справедлив, о благе подданных своих печется и наказывает их — для их же блага. «С ними надобно обращаться, как с детьми, — говорит он в таком случае, — невежество, mon cher; il faut prendre cela en consideration»." }
+    ],
+    "koreanTranslation": [
+      { "segmentId": "EXT-TURGENEV-BURMISTR-P1", "order": 1, "text": "내 영지에서 15베르스타쯤 떨어진 곳에 아는 사람이 산다. 근위대에서 예편한 젊은 지주 아르카디 파블리치 페노치킨이다. 영지에는 사냥감이 많고, 집은 프랑스 건축가의 설계로 지었으며, 하인들은 영국식 옷을 입고, 손님상도 훌륭하다. 그는 사람을 다정하게 맞지만, 나는 어쩐지 그를 찾아가는 일이 내키지 않는다. 분별 있고 실무에 밝은 사람으로, 좋은 교육을 받고 복무한 뒤 상류사회도 거쳤으며, 지금은 영지를 성공적으로 경영한다고 한다." },
+      { "segmentId": "EXT-TURGENEV-BURMISTR-P2", "order": 2, "text": "아르카디 파블리치 자신의 말을 빌리면, 그는 엄하지만 공정하고, ‘백성들’을 아끼기 때문에 그들을 벌준다고 한다. “그들은 아이들처럼 다뤄야 해요. 무지라는 점도 고려해야지요, 친애하는 친구.”" }
+    ],
+    "translationStatus": "new project translation aligned paragraph by paragraph to the cited Russian transcription; French phrase translated in context",
+    "availabilityDate": "1847",
+    "url": "https://ru.wikisource.org/wiki/Бурмистр_(Тургенев)",
+    "provenanceNote": "The Wikisource page dates the sketch to July 1847 and cites a Turgenev.org.ru e-text. Arkady's quoted words belong to a fictional character in the sketch, not to a documented historical landowner.",
+    "sceneUsage": ["EV-BOOK-QUESTION: selected-event literary context"]
+  },
+  {
+    "sourceId": "EXT-TURGENEV-RADILOV-1847",
+    "sourceClass": "PRIMARY_PUBLICATION",
+    "witnessKey": "ivan-sergeevich-turgenev|my-neighbour-radilov|1847-sovremennik|wikisource-ilibrary-transcription",
+    "authorOrIssuer": "Иван Сергеевич Тургенев",
+    "title": "Мой сосед Радилов",
+    "date": "1847",
+    "edition": "Wikisource transcription; its source note cites the text at iLibrary.ru. First publication identified in the page's notes as Sovremennik, 1847.",
+    "holdingInstitution": "Wikisource text page linked to the iLibrary text witness; no scan claim is made.",
+    "locator": "Opening, paragraphs 1–2, beginning with the narrator's account of old lime-tree estates and ending with the description of a surviving lime tree; page lines 121–122.",
+    "contextRange": { "paragraphStart": 1, "paragraphEnd": 2, "speaker": "The first-person literary narrator", "claim": "Old landed estates decay into ruins while lime trees remain among cultivated fields.", "immediateIssue": "The narrator reflects on estate memory and rural change; this is a literary image, not a measured survey of land use." },
+    "originalRussian": [
+      { "segmentId": "EXT-TURGENEV-RADILOV-P1", "order": 1, "text": "…Осенью вальдшнепы часто держатся в старинных липовых садах. Таких садов у нас в Орловской губернии довольно много. Прадеды наши, при выборе места для жительства, непременно отбивали десятины две хорошей земли под фруктовый сад с липовыми аллеями. Лет через пятьдесят, много семьдесят, эти усадьбы, «дворянские гнезда», понемногу исчезали с лица земли, дома сгнивали или продавались на своз, каменные службы превращались в груды развалин, яблони вымирали и шли на дрова, заборы и плетни истреблялись." },
+      { "segmentId": "EXT-TURGENEV-RADILOV-P2", "order": 2, "text": "Одни липы по-прежнему росли себе на славу и теперь, окруженные распаханными полями, гласят нашему ветреному племени о «прежде почивших отцах и братиях». Прекрасное дерево — такая старая липа... Ее щадит даже безжалостный топор русского мужика. Лист на ней мелкий, могучие сучья широко раскинулись во все стороны, вечная тень под ними." }
+    ],
+    "koreanTranslation": [
+      { "segmentId": "EXT-TURGENEV-RADILOV-P1", "order": 1, "text": "…가을이면 멧도요가 오래된 보리수 정원에 자주 깃든다. 오룔 주에는 그런 정원이 꽤 많다. 선조들은 살 곳을 정할 때 과일나무와 보리수 길을 두려고 좋은 땅을 두 데샤티나쯤 떼어 두곤 했다. 오십 년, 길어야 칠십 년이 지나면 그 ‘귀족의 둥지’도 차츰 자취를 감췄다. 집은 썩거나 해체되어 팔렸고, 석조 부속 건물은 폐허가 됐으며, 사과나무는 죽어 땔감이 되고 울타리도 사라졌다." },
+      { "segmentId": "EXT-TURGENEV-RADILOV-P2", "order": 2, "text": "보리수만은 여전히 무성하게 자라, 밭에 둘러싸인 채 변덕스러운 우리 후손에게 먼저 세상을 떠난 이들을 기억하게 한다. 오래된 보리수는 참 아름다운 나무다. 러시아 농부의 무자비한 도끼도 그 나무만은 비켜 간다. 작은 잎 아래 굵은 가지가 사방으로 뻗고, 그 밑에는 늘 그늘이 진다." }
+    ],
+    "translationStatus": "new project translation aligned paragraph by paragraph to the cited Russian transcription",
+    "availabilityDate": "1847-12-31",
+    "url": "https://ru.wikisource.org/wiki/Мой_сосед_Радилов_(Тургенев)",
+    "provenanceNote": "The Wikisource page dates the sketch to 1847 and cites iLibrary.ru; the notes identify first publication in Sovremennik (1847). This description is literary narration, not a documentary land survey.",
+    "sceneUsage": ["EV-BOOK-PRIVATE: selected-event literary context"]
+  },
+  {
+    "sourceId": "EXT-TURGENEV-KARATAEV-1847",
+    "sourceClass": "PRIMARY_PUBLICATION",
+    "witnessKey": "ivan-sergeevich-turgenev|petr-petrovich-karataev|1847-sovremennik-no-2|wikisource-ilibrary-transcription",
+    "authorOrIssuer": "Иван Сергеевич Тургенев",
+    "title": "Пётр Петрович Каратаев",
+    "date": "1847",
+    "edition": "Wikisource transcription, marked proofread; its source note cites iLibrary.ru. First publication identified as Sovremennik, 1847, no. 2.",
+    "holdingInstitution": "Wikisource text page linked to the iLibrary text witness; no scan claim is made.",
+    "locator": "Opening, paragraphs 1–2, beginning with the narrator stranded at a post station and ending as another traveler arrives; page lines 129–130.",
+    "contextRange": { "paragraphStart": 1, "paragraphEnd": 2, "speaker": "The first-person literary narrator", "claim": "A shortage of horses strands the narrator at a post station, where an irritable stationmaster berates the slow-moving drivers.", "immediateIssue": "Travel delays and hierarchy are presented through a fictional encounter; this is not an administrative record of postal stations." },
+    "originalRussian": [
+      { "segmentId": "EXT-TURGENEV-KARATAEV-P1", "order": 1, "text": "Лет пять тому назад, осенью, на дороге из Москвы в Тулу, пришлось мне просидеть почти целый день в почтовом доме за недостатком лошадей. Я возвращался с охоты и имел неосторожность отправить свою тройку вперед." },
+      { "segmentId": "EXT-TURGENEV-KARATAEV-P2", "order": 2, "text": "Смотритель, человек уже старый, угрюмый, с волосами, нависшими над самым носом, с маленькими заспанными глазами, на все мои жалобы и просьбы отвечал отрывистым ворчаньем, в сердцах хлопал дверью, как будто сам проклинал свою должность, и, выходя на крыльцо, бранил ямщиков, которые медленно брели по грязи с пудовыми дугами на руках или сидели на лавке, позевывая и почесываясь, и не обращали особенного внимания на гневные восклицания своего начальника." }
+    ],
+    "koreanTranslation": [
+      { "segmentId": "EXT-TURGENEV-KARATAEV-P1", "order": 1, "text": "다섯 해쯤 전 가을, 모스크바에서 툴라로 가던 길에 역참에서 거의 하루를 보내야 했다. 말이 모자랐기 때문이다. 사냥에서 돌아오던 나는 경솔하게도 내 마차를 먼저 보내 버렸다." },
+      { "segmentId": "EXT-TURGENEV-KARATAEV-P2", "order": 2, "text": "역참지기는 나이 든 심술궂은 사람이었다. 코끝까지 머리카락이 내려오고 작은 눈은 졸려 보였다. 내 불평과 부탁에 퉁명스럽게 투덜대고는, 제 직업을 저주하듯 화가 나 문을 쾅 닫았다. 현관으로 나가서는 진흙길을 무겁게 걸어오거나 벤치에 앉아 하품하고 긁적이는 마부들을 꾸짖었지만, 마부들은 상관의 고함에 별 관심도 보이지 않았다." }
+    ],
+    "translationStatus": "new project translation aligned paragraph by paragraph to the cited Russian transcription",
+    "availabilityDate": "1847-12-31",
+    "url": "https://ru.wikisource.org/wiki/Пётр_Петрович_Каратаев_(Тургенев)",
+    "provenanceNote": "The proofread Wikisource page dates the story to creation in 1846 and publication in 1847; its note identifies Sovremennik, 1847, no. 2. The station and its characters are literary, not documentary testimony.",
+    "sceneUsage": ["EV-BOOK-DISCUSS: selected-event literary context"]
+  },
+  {
+    "sourceId": "EXT-NEKRASOV-NIGHT-STREET-1847",
+    "sourceClass": "PRIMARY_PUBLICATION",
+    "witnessKey": "nikolai-alekseevich-nekrasov|ride-at-night-on-a-dark-street|sovremennik-1847-v5-no1|wikisource-transcription",
+    "authorOrIssuer": "Николай Алексеевич Некрасов",
+    "title": "Еду ли ночью по улице тёмной",
+    "date": "1847",
+    "edition": "Wikisource transcription checked against the page's bibliographic note for Sovremennik, 1847, vol. V, no. 1, pp. 153–154; modern collected-edition text is also identified on the page.",
+    "holdingInstitution": "Wikisource text and pre-reform orthography page; no scan claim is made.",
+    "locator": "Opening two consecutive verse stanzas, from the speaker's recollection of a vulnerable, homeless acquaintance through her forced marriage and escape; main page and first-publication note.",
+    "contextRange": { "paragraphStart": 1, "paragraphEnd": 2, "speaker": "The poem's first-person speaker", "claim": "The speaker recalls a homeless woman whose poverty and violent marriage shape the course of her life.", "immediateIssue": "A poem frames gendered vulnerability and poverty through an individual voice; it is not a case record or a literal witness statement." },
+    "originalRussian": [
+      { "segmentId": "EXT-NEKRASOV-NIGHT-P1", "order": 1, "text": "Еду ли ночью по улице темной,\nБури заслушаюсь в пасмурный день —\nДруг беззащитный, больной и бездомный,\nВдруг предо мной промелькнет твоя тень!\nСердце сожмется мучительной думой.\nС детства судьба невзлюбила тебя:\nБеден и зол был отец твой угрюмый,\nЗамуж пошла ты — другого любя." },
+      { "segmentId": "EXT-NEKRASOV-NIGHT-P2", "order": 2, "text": "Муж тебе выпал недобрый на долю:\nС бешеным нравом, с тяжелой рукой;\nНе покорилась — ушла ты на волю,\nДа не на радость сошлась и со мной…" }
+    ],
+    "koreanTranslation": [
+      { "segmentId": "EXT-NEKRASOV-NIGHT-P1", "order": 1, "text": "밤에 어두운 거리를 가다가, 흐린 날 폭풍 소리에 귀 기울이다가도, 무방비하고 병들고 집 없는 벗의 그림자가 문득 눈앞을 스친다. 가슴은 괴로운 생각에 조여 온다. 어린 시절부터 운은 너를 외면했다. 아버지는 가난하고 성미가 사나웠고, 너는 사랑하는 사람이 아닌 이와 혼인했다." },
+      { "segmentId": "EXT-NEKRASOV-NIGHT-P2", "order": 2, "text": "네 남편은 사나운 성미에 손찌검까지 하는 사람이었다. 너는 굴복하지 않고 집을 나왔지만, 나와 함께 산다고 형편이 나아진 것도 아니었다…" }
+    ],
+    "translationStatus": "new project translation aligned to two consecutive verse stanzas; line breaks preserved",
+    "availabilityDate": "1847-12-31",
+    "url": "https://ru.wikisource.org/wiki/Еду_ли_ночью_по_улице_тёмной_(Некрасов)",
+    "provenanceNote": "The page dates the poem to 1847 and identifies first publication in Sovremennik, 1847, vol. V, no. 1. The poem's speaker and remembered woman are literary voices, not identifiable historical persons.",
+    "sceneUsage": ["EV-BOOK-DISCUSS: selected-event literary context"]
+  },
+  {
+    "sourceId": "EXT-TURGENEV-OVSYANIKOV-1847",
+    "sourceClass": "PRIMARY_PUBLICATION",
+    "witnessKey": "ivan-sergeevich-turgenev|odnodvorets-ovsyanikov|1847-sovremennik|wikisource-ilibrary-transcription",
+    "authorOrIssuer": "Иван Сергеевич Тургенев",
+    "title": "Однодворец Овсяников",
+    "date": "1847",
+    "edition": "Wikisource transcription; its source note cites iLibrary.ru. The page dates the sketch and publication to 1847.",
+    "holdingInstitution": "Wikisource text page linked to iLibrary.ru; no scan claim is made.",
+    "locator": "Opening, consecutive paragraphs beginning with the narrator's description of odnodvortsy households and continuing with Ovsyanikov's conduct toward guests; page lines 124–125.",
+    "contextRange": { "paragraphStart": 1, "paragraphEnd": 2, "speaker": "The first-person literary narrator", "claim": "The narrator contrasts the generally modest means of odnodvortsy with Ovsyanikov's unusual household and measured hospitality.", "immediateIssue": "A literary portrait presents social rank and custom through a fictional household; it is not a statistical survey of odnodvortsy." },
+    "originalRussian": [
+      { "segmentId": "EXT-TURGENEV-OVSYANIKOV-P1", "order": 1, "text": "Говоря вообще, у нас до сих пор однодворца трудно отличить от мужика: хозяйство у него едва ли не хуже мужицкого, телята не выходят из гречихи, лошади чуть живы, упряжь веревочная. Овсяников был исключением из общего правила, хоть и не слыл за богача. Жил он один с своей женой в уютном, опрятном домике, прислугу держал небольшую, одевал людей своих по-русски и называл работниками. Они же у него и землю пахали." },
+      { "segmentId": "EXT-TURGENEV-OVSYANIKOV-P2", "order": 2, "text": "Он и себя не выдавал за дворянина, не прикидывался помещиком, никогда, как говорится, «не забывался», не по первому приглашению садился и при входе нового гостя непременно поднимался с места, но с таким достоинством, с такой величавой приветливостью, что гость невольно ему кланялся пониже. Овсяников придерживался старинных обычаев не из суеверия (душа в нем была довольно свободная), а по привычке." }
+    ],
+    "koreanTranslation": [
+      { "segmentId": "EXT-TURGENEV-OVSYANIKOV-P1", "order": 1, "text": "대체로 말해, 오늘날에도 오드노드보레츠와 농민을 구별하기는 쉽지 않다. 살림살이는 농민보다도 못한 경우가 많고, 송아지는 메밀밭을 벗어나지 못하며, 말은 겨우 버티고, 마구는 밧줄로 엮었다. 오브샤니코프는 부자라고 소문난 사람은 아니었지만 그런 형편의 예외였다. 아내와 단정하고 아늑한 집에서 살았고, 하인은 적게 두었으며, 자기 사람들을 러시아식으로 입히고 ‘일꾼’이라 불렀다. 그들이 그의 땅을 갈았다." },
+      { "segmentId": "EXT-TURGENEV-OVSYANIKOV-P2", "order": 2, "text": "그는 자신을 귀족이라 내세우거나 지주 행세를 하지 않았다. 손님이 오면 곧장 자리에 앉지 않았고, 새 손님이 들어오면 반드시 일어섰다. 그렇다고 비굴한 것도 아니었다. 품위 있고 넉넉한 태도에 손님이 저절로 더 깊이 고개를 숙일 정도였다. 오브샤니코프가 옛 관습을 지킨 건 미신 때문이 아니라 그저 몸에 밴 습관 때문이었다." }
+    ],
+    "translationStatus": "new project translation aligned paragraph by paragraph to the cited Russian transcription",
+    "availabilityDate": "1847-12-31",
+    "url": "https://ru.wikisource.org/wiki/Однодворец_Овсяников_(Тургенев)",
+    "provenanceNote": "The page dates the literary sketch to 1847 and cites iLibrary.ru. The narrator's social descriptions concern fictional characters and should not be treated as a quantitative account.",
+    "sceneUsage": ["EV-BOOK-DISCUSS: selected-event literary context"]
+  },
+  {
+    "sourceId": "EXT-NEKRASOV-MORAL-MAN-1847",
+    "sourceClass": "PRIMARY_PUBLICATION",
+    "witnessKey": "nikolai-alekseevich-nekrasov|the-moral-man|1847-poem|wikisource-collected-edition-transcription",
+    "authorOrIssuer": "Николай Алексеевич Некрасов",
+    "title": "Нравственный человек",
+    "date": "1847",
+    "edition": "Wikisource text, dated 1847 and citing Nekrasov's 15-volume collected works, vol. 1 (Nauka, 1981). No first-print scan is claimed.",
+    "holdingInstitution": "Wikisource transcription of the cited public-domain collected edition.",
+    "locator": "Two consecutive numbered verse sections (1–2), from the speaker's self-congratulation after marital violence through his account of sending a debtor to prison; page lines 101–124.",
+    "contextRange": { "paragraphStart": 1, "paragraphEnd": 2, "speaker": "The satirical poem's first-person persona", "claim": "A speaker repeatedly calls himself moral while recounting harm caused to his wife and a debtor.", "immediateIssue": "The poem exposes self-serving moral language through satire; the speaker is a literary persona, not Nekrasov's testimony or an identified historical person." },
+    "originalRussian": [
+      { "segmentId": "EXT-NEKRASOV-MORAL-P1", "order": 1, "text": "Живя согласно с строгою моралью,\nЯ никому не сделал в жизни зла.\nЖена моя, закрыв лицо вуалью,\nПод вечерок к любовнику пошла.\nЯ в дом к нему с полицией прокрался\nИ уличил… Он вызвал — я не дрался!\nОна слегла в постель и умерла,\nИстерзана позором и печалью…\nЖивя согласно с строгою моралью,\nЯ никому не сделал в жизни зла." },
+      { "segmentId": "EXT-NEKRASOV-MORAL-P2", "order": 2, "text": "Приятель в срок мне долга не представил.\nЯ, намекнув по-дружески ему,\nЗакону рассудить нас предоставил;\nЗакон приговорил его в тюрьму.\nВ ней умер он, не заплатив алтына,\nНо я не злюсь, хоть злиться есть причина!\nЯ долг ему простил того ж числа,\nПочтив его слезами и печалью…\nЖивя согласно с строгою моралью,\nЯ никому не сделал в жизни зла." }
+    ],
+    "koreanTranslation": [
+      { "segmentId": "EXT-NEKRASOV-MORAL-P1", "order": 1, "text": "엄격한 도덕률을 지키며 살아왔으니,\n나는 누구에게도 해를 끼친 적이 없다.\n아내는 베일로 얼굴을 가리고\n저녁 무렵 애인의 집으로 갔다.\n나는 경찰과 함께 그 집에 숨어 들어가\n현장을 잡았다… 그는 결투를 청했지만 난 응하지 않았다!\n아내는 병석에 누웠고 세상을 떠났다.\n수치와 슬픔에 짓눌린 채…\n엄격한 도덕률을 지키며 살아왔으니,\n나는 누구에게도 해를 끼친 적이 없다." },
+      { "segmentId": "EXT-NEKRASOV-MORAL-P2", "order": 2, "text": "친구가 약속한 때에 빚을 갚지 않았다.\n나는 친구답게 넌지시 일러 주고는\n법이 우리 일을 가리도록 맡겼다.\n법은 그를 감옥에 보냈다.\n그는 동전 한 푼 갚지 못한 채 그곳에서 죽었다.\n그래도 난 화나지 않는다, 화낼 이유야 있지만!\n나는 그날 바로 빚을 탕감해 주었고,\n눈물과 슬픔으로 그를 기렸다…\n엄격한 도덕률을 지키며 살아왔으니,\n나는 누구에게도 해를 끼친 적이 없다." }
+    ],
+    "translationStatus": "new project translation aligned to two consecutive numbered verse sections; line breaks preserved",
+    "availabilityDate": "1847-12-31",
+    "url": "https://ru.wikisource.org/wiki/Нравственный_человек_(Некрасов)",
+    "provenanceNote": "The page dates the poem to 1847 and cites a modern scholarly collected edition. The repeated first-person voice is a satirical persona, not an actual speaker's record.",
+    "sceneUsage": ["EV-BOOK-QUESTION: selected-event literary context"]
+  },
+  {
+    "sourceId": "EXT-DOSTOEVSKY-POOR-FOLK-1846",
+    "sourceClass": "PRIMARY_PUBLICATION",
+    "witnessKey": "fyodor-mikhailovich-dostoevsky|poor-folk|petersburg-almanac-1846|wikisource-rev-5610652",
+    "authorOrIssuer": "Фёдор Михайлович Достоевский",
+    "title": "Бедные люди",
+    "date": "1846",
+    "edition": "Первое издание: Петербургский сборник, издаваемый Н. А. Некрасовым, Санкт-Петербург, 1846. Текст сверен по Викитеке; страница указывает az.lib.ru как текстовую основу, сверка с постраничным сканом не заявляется.",
+    "holdingInstitution": "Викитека, проверенная версия транскрипции; указанная на странице текстовая основа — az.lib.ru.",
+    "locator": "Письмо Макара Девушкина Варваре Добросёловой, датированное «Апреля 8»: два следующих друг за другом абзаца о знаке занавески и весеннем утре; транскрипция, строки 127–129.",
+    "contextRange": { "paragraphStart": 1, "paragraphEnd": 2, "speaker": "Макар Девушкин в письме Варваре Добросёловой", "claim": "Девушкин описывает условный знак у окна и собственную радость от того, что Варвара его поняла.", "immediateIssue": "Как герои поддерживают связь и эмоциональную близость при стеснённых бытовых обстоятельствах; речь персонажа не является документальным свидетельством о реальном чиновнике." },
+    "originalRussian": [
+      { "segmentId": "EXT-DOSTOEVSKY-POOR-FOLK-P1", "order": 1, "text": "Вечером, часов в восемь, просыпаюсь (вы знаете, маточка, что я часочек-другой люблю поспать после должности), свечку достал, приготовляю бумаги, чиню перо, вдруг, невзначай, подымаю глаза, — право, у меня сердце нот так и запрыгало! Так вы-таки поняли, чего мне хотелось, чего сердчишку моему хотелось! Вижу, уголочек занавески у окна вашего загнут и прицеплен к горшку с бальзамином, точнехонько так, как я вам тогда намекал; тут же показалось мне, что и личико ваше мелькнуло у окна, что и вы ко мне из комнатки вашей смотрели, что и вы обо мне думали." },
+      { "segmentId": "EXT-DOSTOEVSKY-POOR-FOLK-P2", "order": 2, "text": "И как же мне досадно было, голубчик мой, что миловидного личика-то вашего я не мог разглядеть хорошенько! Было время, когда и мы светло видели, маточка. Не радость старость, родная моя! Вот и теперь всё как-то рябит в глазах; чуть поработаешь вечером, попишешь что-нибудь, наутро и глаза раскраснеются, и слезы текут так, что даже совестно перед чужими бывает." }
+    ],
+    "koreanTranslation": [
+      { "segmentId": "EXT-DOSTOEVSKY-POOR-FOLK-P1", "order": 1, "text": "저녁 여덟 시쯤 잠에서 깼습니다. 아시다시피 저는 관청 일을 마치고 한두 시간 자는 걸 좋아하잖습니까. 촛불을 켜고 서류를 챙기고 펜을 다듬다가 문득 눈을 들었는데, 정말 가슴이 마구 뛰었습니다! 제가 바라던 걸, 제 마음이 바라던 걸 당신이 알아주셨더군요. 창가의 커튼 한쪽을 접어 봉선화 화분에 걸쳐 두셨습니다. 전에 제가 넌지시 부탁드린 바로 그 표시였지요. 창가에 당신 얼굴이 잠깐 비친 것 같기도 했습니다. 당신도 방 안에서 저를 보고, 제 생각을 하고 계신 것 같았습니다." },
+      { "segmentId": "EXT-DOSTOEVSKY-POOR-FOLK-P2", "order": 2, "text": "그 고운 얼굴을 제대로 보지 못해 얼마나 아쉬웠는지 모릅니다, 내 소중한 사람. 한때는 저도 눈이 밝았는데 말이지요. 늙는다는 건 반가운 일이 아니네요. 지금도 눈앞이 흐릿합니다. 저녁에 조금만 일하고 글을 써도 다음 날이면 눈이 충혈되고 눈물이 나서, 남들 앞에서 민망할 정도예요." }
+    ],
+    "translationStatus": "새 프로젝트 번역. 러시아어 원문 두 문단과 순서·문단 단위로 대응시킴.",
+    "availabilityDate": "1846-12-31",
+    "url": "https://ru.wikisource.org/w/index.php?title=Бедные_люди_(Достоевский)/Версия_2&oldid=5610652",
+    "provenanceNote": "작품은 1846년 네크라소프 편 《Петербургский сборник》에 처음 발표되었다. 인용은 출판된 서간체 문학의 일부이며, 마카르의 말이나 경험을 실존 인물의 직접 증언으로 취급하지 않는다. 위키텍스트의 명시된 기반은 az.lib.ru 전사본이며 초판 스캔과 대조했다고 주장하지 않는다.",
+    "sceneUsage": ["EV-BOOK-PRIVATE: selected-event literary context"]
+  },
+  {
+    "sourceId": "EXT-BELINSKY-CONTEMPORARY-NOTES-1847",
+    "sourceClass": "PRIMARY_PUBLICATION",
+    "witnessKey": "vissarion-grigoryevich-belinsky|contemporary-notes-dostoevsky-yazykov|sovremennik-1847-vol-1-no-2|wikisource-rev-5533307",
+    "authorOrIssuer": "Виссарион Григорьевич Белинский",
+    "title": "Современные заметки (Достоевский, Языков)",
+    "date": "1847",
+    "edition": "Первая публикация: Современник, 1847, т. I, № 2, отд. IV «Смесь», с. 179–192. Текст Викитеке указывает dugward.ru и az.lib.ru как цифровые текстовые источники; сверка с постраничным сканом выпуска не заявляется.",
+    "holdingInstitution": "Викитека, проверенная версия транскрипции; на странице указаны dugward.ru и az.lib.ru как текстовые источники.",
+    "locator": "Вступление статьи: два следующих друг за другом абзаца о предыдущем обзоре журналов и новых либо преобразованных изданиях 1847 года; текст транскрипции, строки 108–109.",
+    "contextRange": { "paragraphStart": 1, "paragraphEnd": 2, "speaker": "Виссарион Белинский как автор обзора в «Современнике»", "claim": "Автор объясняет, что предыдущий обзор не обсуждал сами журналы и что оценить новые или преобразованные издания можно лишь после их появления.", "immediateIssue": "Как обозреватель обозначает пределы своей оценки и связывает суждение о журнале с доступом к его выпускам; это позиция конкретного критика." },
+    "originalRussian": [
+      { "segmentId": "EXT-BELINSKY-CONTEMPORARY-NOTES-P1", "order": 1, "text": "В обзоре русской литературы за прошлый 1846 год, помещенном в первой книжке «Современника», мы указали только на некоторые статьи, помещенные в журналах, но о самих журналах не сказали ни слова. О старых нового сказать было нечего, а повторять старое было бы и скучно и бесполезно. Их характер, направление, дух — давно всем известны." },
+      { "segmentId": "EXT-BELINSKY-CONTEMPORARY-NOTES-P2", "order": 2, "text": "И если бы который-нибудь из них, против воли, потерпел какое-нибудь существенное изменение в своем внутреннем значении, всеми мерами усиливаясь, в то же время, сохранить, хотя внешним образом, свой прежний характер, — вероятно, это было бы и без наших указаний тотчас всеми замечено, и нам больше, нежели кому-нибудь другому, было бы неуместно вмешиваться в какие бы то ни было разбирательства по этому предмету… О новых или преобразованных журналах, долженствовавших появиться в новом 1847 году, мы, естественно, не могли говорить потому, что еще не видали их." }
+    ],
+    "koreanTranslation": [
+      { "segmentId": "EXT-BELINSKY-CONTEMPORARY-NOTES-P1", "order": 1, "text": "《Современник》 첫 호에 실린 1846년 러시아 문학 평에서 우리는 여러 잡지에 실린 몇몇 글만 언급하고, 잡지 자체에 대해서는 한마디도 하지 않았습니다. 오래된 잡지들은 새로 말할 내용이 없었고, 이미 한 말을 되풀이하는 것도 지루하고 쓸모없었기 때문입니다. 그 성격과 방향, 분위기는 이미 잘 알려져 있었습니다." },
+      { "segmentId": "EXT-BELINSKY-CONTEMPORARY-NOTES-P2", "order": 2, "text": "그 가운데 어떤 잡지가 원치 않게 본래의 성격과 다른 중대한 변화를 겪고도 겉으로는 예전 모습을 지키려 애쓴다면, 우리의 지적이 없어도 사람들은 금세 알아차렸을 겁니다. 그런 문제에 우리가 끼어드는 건 누구보다 부적절했겠지요… 1847년에 새로 나오거나 개편될 잡지들은 아직 보지 못했으니, 당연히 논할 수 없었습니다." }
+    ],
+    "translationStatus": "새 프로젝트 번역. 연속된 두 문단의 논리와 순서를 유지함.",
+    "availabilityDate": "1847-12-31",
+    "url": "https://ru.wikisource.org/w/index.php?title=Современные_заметки_(Достоевский,_Языков)_(Белинский)&oldid=5533307",
+    "provenanceNote": "1847년 《Современник》에 발표된 동시대 비평 원문이다. 인용은 잡지와 비평의 유통·평가에 관한 Белинский의 관점이며, 당시 모든 편집자나 독자의 경험을 대표한다고 일반화하지 않는다. 원문 페이지가 명시한 것은 텍스트 전사 출처이며 초판 이미지 대조는 주장하지 않는다.",
+    "sceneUsage": ["EV-BOOK-DISCUSS: selected-event literary context"]
+  },
+  {
+    "sourceId": "EXT-NEKRASOV-EDITORIAL-ANON-1848",
+    "sourceClass": "PRIMARY_PUBLICATION",
+    "witnessKey": "nikolai-alekseevich-nekrasov|ot-redaktsii-anonymous-contributions|sovremennik-1848-no-7|wikisource-rev-5276062",
+    "authorOrIssuer": "Николай Алексеевич Некрасов; редакция «Современника»",
+    "title": "От редакции",
+    "date": "1848",
+    "edition": "Первая публикация: Современник, 1848, № 7, отд. IV, с. 62; цензурное разрешение номера — 30 июня 1848. Текст по проверенной версии Викитеки; она указывает az.lib.ru как текстовую основу, сверка с постраничным сканом не заявляется.",
+    "holdingInstitution": "Викитека, проверенная версия транскрипции; цифровая текстовая основа указана как az.lib.ru.",
+    "locator": "Два последовательных абзаца редакционного объявления о присланных без имени статьях, требовании указать авторов и невозможности вернуть неподходящие рукописи; с. 62, отдел IV.",
+    "contextRange": { "paragraphStart": 1, "paragraphEnd": 2, "speaker": "Редакция «Современника», в объявлении, написанном Некрасовым", "claim": "Редакция не может принять статьи без имён и адресов авторов и сообщает, что не может возвращать неподходящие рукописи или вести переписку с их авторами.", "immediateIssue": "Как журнал сообщает авторам о требованиях к подаче и пределах редакционной переписки; это конкретное объявление, а не универсальное описание всех журналов или прямое свидетельство о ненапечатанных авторах." },
+    "originalRussian": [
+      { "segmentId": "EXT-NEKRASOV-EDITORIAL-ANON-P1", "order": 1, "text": "В редакции «Современника» есть несколько статей, присланных из разных городов России; некоторые из них редакция с удовольствием поместила бы в своем журнале, но не может этого сделать, потому что ей неизвестны фамилии и адресы авторов этих статей. Поэтому редакция просит как тех иногородних авторов, которые уже доставили в редакцию свои статьи, так и тех, которые намерены это сделать, сообщить редакции подробно свои имена и место жительства. При этом авторы благоволят объяснять, желают они, чтобы имя их было выставлено под статьей или нет; это желание их будет в точности исполняемо." },
+      { "segmentId": "EXT-NEKRASOV-EDITORIAL-ANON-P2", "order": 2, "text": "Возвращать по почте рукописи, оказавшиеся неудобными к напечатанию, или входить с авторами их в письменные объяснения редакция не может." }
+    ],
+    "koreanTranslation": [
+      { "segmentId": "EXT-NEKRASOV-EDITORIAL-ANON-P1", "order": 1, "text": "《Современник》 편집부에는 러시아 여러 도시에서 보내온 글이 몇 편 있습니다. 그중에는 편집부가 기꺼이 잡지에 싣고 싶지만, 글쓴이의 성과 주소를 알지 못해 실을 수 없는 글도 있습니다. 그래서 이미 원고를 보냈거나 앞으로 보낼 지방 저자들에게 이름과 거주지를 자세히 알려 달라고 요청합니다. 저자는 자기 이름을 글 아래에 공개할지 여부도 함께 밝혀 주십시오. 그 뜻은 그대로 따르겠습니다." },
+      { "segmentId": "EXT-NEKRASOV-EDITORIAL-ANON-P2", "order": 2, "text": "편집부는 게재하기 어려운 원고를 우편으로 돌려보내거나, 그 저자와 편지로 사정을 설명할 수는 없습니다." }
+    ],
+    "translationStatus": "새 프로젝트 번역. 1848년 편집 공지의 두 연속 문단에 맞춰 원문과 번역을 정렬함.",
+    "availabilityDate": "1848-12-20",
+    "url": "https://ru.wikisource.org/wiki/От_редакции_(Некрасов)/Версия_5",
+    "provenanceNote": "이 공지는 1848년 《Современник》 제7호에 실렸고, 위키문고가 적은 검열 허가일은 6월 30일이다. 인용문은 편집부가 저자들에게 보낸 구체적인 안내다. 후대 주석의 프랑스 혁명 관련 설명을 동시대 공지의 문장으로 혼합하지 않는다.",
+    "sceneUsage": ["EV-NEWS-REPORT: selected-event editorial context"]
+  }
+]

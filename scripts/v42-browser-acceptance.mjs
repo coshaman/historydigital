@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import { chromium } from 'playwright';
 
-const baseUrl = 'http://127.0.0.1:4173/?main20=1&v42fresh=1';
+const baseUrl = process.env.V42_BASE_URL || 'http://127.0.0.1:4173/?main20=1&v42fresh=1';
 const failures = [];
 const browser = await chromium.launch({ headless: true, executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe' });
 
@@ -19,10 +19,12 @@ async function play(page) {
   if (!threeDesk.present || threeDesk.display === 'none' || threeDesk.loaded !== 'local' || threeDesk.fallback !== 'false') throw new Error(`3D desk was not restored on MAIN20 route: ${JSON.stringify(threeDesk)}`);
   if ([1996, 1440, 390].includes(await page.evaluate(() => innerWidth))) { const width = await page.evaluate(() => innerWidth); fs.mkdirSync('artifacts/v53-desk', { recursive: true }); await page.screenshot({ path: `artifacts/v53-desk/desk-${width}.png` }); }
   const seen = [];
+  const trace = [];
   let prologueText = '';
   let guard = 0;
   while (guard++ < 500) {
     const current = await state(page);
+    trace.push({ phase: current?.phase, sceneIndex: current?.sceneIndex, sceneId: await page.evaluate(() => window.__main20.data.scenes[window.__main20.getState().sceneIndex]?.id), branchHubIndex: current?.branchHubIndex, routeChoices: current?.routeChoices?.slice() });
     if (!current) throw new Error('MAIN20 state missing');
     if (current.phase === 'ending') break;
     if (current.phase === 'ideology_prologue') prologueText += `\n${await visibleText(page)}`;
@@ -47,13 +49,33 @@ async function play(page) {
       if (!(await cards.count())) throw new Error(`${current.phase} has no visible choice cards`);
       for (let i = 0; i < await cards.count(); i += 1) {
         const copy = await cards.nth(i).innerText();
-        if (!copy.includes('·')) failures.push(`${current.phase}/${i}: immediate direction subcopy missing`);
+        const hint = (await cards.nth(i).locator('.main20-choice-hint').innerText()).trim();
+        if (hint.length < 20) failures.push(`${current.phase}/${i}: immediate direction subcopy is too short: ${JSON.stringify(hint)} (${JSON.stringify(copy)})`);
       }
       await cards.first().click();
     } else if (current.phase === 'reaction' || current.phase === 'final_reaction') {
       await advanceButton(page);
+    } else if (current.phase === 'branch_hub') {
+      const newspaper = page.getByRole('button', { name: '신문에서 읽고 선택지를 연다', exact: true });
+      if (await newspaper.count()) {
+        const before = await page.locator('#paperColumns').innerText();
+        if (!before.trim()) throw new Error(`branch ${current.branchHubIndex} newspaper is empty before reading`);
+        await newspaper.click();
+      } else {
+        const cards = page.locator('#choiceArea .main20-choice-card');
+        if (await cards.count() !== 3) throw new Error(`branch ${current.branchHubIndex} does not show its three options`);
+        for (let i = 0; i < await cards.count(); i += 1) {
+          const copy = await cards.nth(i).innerText();
+          if (!copy.includes('·')) failures.push(`branch ${current.branchHubIndex}/${i}: immediate direction subcopy missing`);
+        }
+        await cards.first().click();
+      }
+    } else if (current.phase === 'branch_event') {
+      await advanceButton(page);
+    } else if (current.phase === 'branch_callback') {
+      await advanceButton(page);
     } else if (current.phase === 'legacy_recovery') {
-      throw new Error('legacy recovery reached during V42 route');
+      throw new Error(`legacy recovery reached during V42 route: ${JSON.stringify({ trace: trace.slice(-12), lastHistory: current.history.slice(-4) })}`);
     } else {
       throw new Error(`unknown phase ${current.phase}`);
     }
@@ -64,6 +86,17 @@ async function play(page) {
   }
   const final = await state(page);
   if (final?.phase !== 'ending') failures.push(`route did not reach a real ending: ${final?.phase}`);
+  const branchEndingAudit = await page.evaluate(() => {
+    const vectors = window.__main20.enumerateRouteVectors();
+    const graph = window.__main20.getBranchGraph();
+    const outcomes = vectors.map(({ choiceIds }) => {
+      const history = choiceIds.map((choiceId, index) => ({ sceneId: graph.hubs[index].id, action: choiceId, choiceKind: 'ACTION', flags: [], endingAffinity: graph.choiceEndingAffinity[choiceId] }));
+      const detail = window.__main20.resolveEndingDetailedFor({ history, relationships: { alexei: 0, ekaterina: 0, pavel: 0 }, flags: [], ideology: {}, ideologyEvidence: [], visibleCallbacks: [] });
+      return { choiceIds, endingId: detail.endingId, unresolved: detail.unresolvedSemanticTie, scores: detail.scores };
+    });
+    return { vectorCount: outcomes.length, distinctEndingCount: new Set(outcomes.map(item => item.endingId).filter(Boolean)).size, unresolvedCount: outcomes.filter(item => item.unresolved).length, samples: outcomes.filter(item => item.endingId).slice(0, 12) };
+  });
+  if (branchEndingAudit.vectorCount !== 81 || branchEndingAudit.distinctEndingCount !== 5 || branchEndingAudit.unresolvedCount) failures.push(`branch-only choices do not materially reach all five endings: ${JSON.stringify(branchEndingAudit)}`);
   const endingLayout = await page.evaluate(() => { const overlay = document.querySelector('#endingOverlay'); const card = document.querySelector('#endingOverlay .ending-card'); const dialogue = document.querySelector('.dialogue-strip'); const rect = card.getBoundingClientRect(); const overlayStyle = getComputedStyle(overlay); return { visible: !overlay.hidden, overflowY: overlayStyle.overflowY, position: overlayStyle.position, zIndex: Number(overlayStyle.zIndex), backgroundColor: overlayStyle.backgroundColor, overlayRect: (() => { const box = overlay.getBoundingClientRect(); return { top: box.top, right: box.right, bottom: box.bottom, left: box.left }; })(), dialogueDisplay: getComputedStyle(dialogue).display, overlayHeight: overlay.clientHeight, overlayScrollHeight: overlay.scrollHeight, cardTop: rect.top, cardBottom: rect.bottom, viewportHeight: innerHeight, viewportWidth: innerWidth, restartVisible: document.querySelector('#endingOverlay #restart')?.getBoundingClientRect().height > 0 }; });
   const rgba = endingLayout.backgroundColor.match(/rgba?\([^)]*[,\s/]\s*([\d.]+)\s*\)$/);
   const overlayAlpha = endingLayout.backgroundColor.startsWith('rgba') && rgba ? Number(rgba[1]) : 1;
@@ -83,11 +116,12 @@ async function play(page) {
   await replay.click();
   if ((await state(page))?.phase !== 'onboarding') throw new Error('ending restart did not return to onboarding');
   if (await page.locator('main').evaluate((node) => node.inert)) throw new Error('ending restart left the main game inert');
-  return { final, text: await visibleText(page), prologueText, seen, guard };
+  return { final, text: await visibleText(page), prologueText, seen, guard, branchEndingAudit };
 }
 
 const report = { status: false, viewports: {} };
-for (const viewport of [{ name: 'screenshot-size', width: 1996, height: 1248 }, { name: 'desktop', width: 1440, height: 900 }, { name: 'mobile', width: 390, height: 844 }, { name: 'compact-mobile', width: 360, height: 640 }]) {
+const viewports = [{ name: 'screenshot-size', width: 1996, height: 1248 }, { name: 'desktop', width: 1440, height: 900 }, { name: 'mobile', width: 390, height: 844 }, { name: 'compact-mobile', width: 360, height: 640 }];
+for (const viewport of process.env.V42_QUICK === '1' ? [viewports[0]] : viewports) {
   const page = await browser.newPage({ viewport: { width: viewport.width, height: viewport.height } });
   try {
     const result = await play(page);
