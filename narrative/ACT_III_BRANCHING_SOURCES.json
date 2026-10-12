@@ -1,5 +1,40 @@
 [
   {
+    "sourceId": "EXT-TURGENEV-BIRYUK-1848",
+    "sourceClass": "PRIMARY_PUBLICATION",
+    "witnessKey": "ivan-sergeevich-turgenev|biryuk|1848-sovremennik-vii-no-2|1954-collected-edition-vol-1",
+    "authorOrIssuer": "Иван Сергеевич Тургенев",
+    "title": "Бирюк",
+    "date": "1848",
+    "edition": "Впервые опубликовано в «Современнике», 1848, т. VII, № 2, отд. I, с. 166–173; сверка текста по: Тургенев И. С. Собрание сочинений в 12 т. М.: Гослитиздат, 1954. Т. 1. С. 233–241.",
+    "holdingInstitution": "Викитека transcription; page cites the 1954 collected edition and identifies the first periodical publication.",
+    "locator": "Consecutive dialogue paragraphs in the lodging scene, from the peasant's plea «Отпусти, Фома Кузьмич…» through Biryuk's reply «Говорят, нельзя…»; first-publication pages 166–173.",
+    "contextRange": {
+      "paragraphStart": 1,
+      "paragraphEnd": 4,
+      "speaker": "The peasant and the forester Foma (Biryuk), in Turgenev's fictional first-person story",
+      "claim": "The peasant pleads that necessity and hungry children drove him to steal a small horse; Biryuk says he is also subordinate and fears being held responsible.",
+      "immediateIssue": "Whether to enforce the rule against theft when the accused describes hunger and dependence; this is literary fiction, not an administrative record or evidence of an actual case."
+    },
+    "translationStatus": "Project Korean translation; aligned paragraph by paragraph to the Russian transcription.",
+    "availabilityDate": "1848-02",
+    "url": "https://ru.wikisource.org/wiki/Бирюк_(Тургенев)",
+    "provenanceNote": "The Wikisource page identifies creation in 1847, first publication in Sovremennik, 1848, vol. VII, no. 2, section I, pp. 166–173, and the 1954 collected-edition witness. Literary fiction is labeled as such; it is not treated as testimony about the fictional clerk or as a real archival case.",
+    "sceneUsage": ["H4-NEWS / NEWS-FILE: optional literary context for the tension between a subordinate's duty and a person's plea of necessity; not evidence about the journal's actual delivery records."],
+    "originalRussian": [
+      {"segmentId":"EXT-TURGENEV-BIRYUK-P1","order":1,"text":"— Отпусти, Фома Кузьмич… не погуби. Ваш-то, сам знаешь, заест во как."},
+      {"segmentId":"EXT-TURGENEV-BIRYUK-P2","order":2,"text":"Бирюк отвернулся. Мужика подергивало, словно лихорадка его колотила. Он встряхивал головой и дышал неровно."},
+      {"segmentId":"EXT-TURGENEV-BIRYUK-P3","order":3,"text":"— Отпусти, — повторял он с унылым отчаяньем, — отпусти, ей-богу отпусти! я заплачу, во как, ей-богу. Ей-богу, с голодухи… детки пищат, сам знаешь. Круто, во как, приходится."},
+      {"segmentId":"EXT-TURGENEV-BIRYUK-P4","order":4,"text":"— Говорят, нельзя. Я тоже человек подневольный: с меня взыщут. Вас баловать тоже не приходится."}
+    ],
+    "koreanTranslation": [
+      {"segmentId":"EXT-TURGENEV-BIRYUK-P1","order":1,"text":"“풀어줘, 포마 쿠즈미치. 제발 우리를 망치지 말게. 자네도 알잖나. 주인댁에서 가만두지 않을 거야.”"},
+      {"segmentId":"EXT-TURGENEV-BIRYUK-P2","order":2,"text":"비류크는 고개를 돌렸다. 사내는 열병이라도 난 듯 몸을 떨었다. 머리를 흔들고 숨을 가쁘게 몰아쉬었다."},
+      {"segmentId":"EXT-TURGENEV-BIRYUK-P3","order":3,"text":"“풀어줘.” 그는 절망한 목소리로 거듭 말했다. “정말 풀어줘. 갚을게. 굶주려서 그랬어… 애들이 배고파 울어. 사정이 얼마나 막막한지 자네도 알잖나.”"},
+      {"segmentId":"EXT-TURGENEV-BIRYUK-P4","order":4,"text":"“안 된다는 말이야. 나도 윗사람 눈치를 보는 처지라, 들키면 내가 책임져야 해. 그렇다고 당신을 봐줄 수도 없고.”"}
+    ]
+  },
+  {
     "sourceId": "EXT-PSZ-CRIMINAL-CODE-PREAMBLE-1845",
     "sourceClass": "PRIMARY_DOCUMENT",
     "witnessKey": "russian-empire|criminal-and-correctional-punishments-code-preamble|1845-08-15|psri-second-collection-no-19283",
