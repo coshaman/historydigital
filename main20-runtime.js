@@ -39,7 +39,7 @@
   let headerScene = -1; let headerTimer;
   function renderHeader(current) { setText('globalPlaceYear', `상트페테르부르크 · ${current.dateLabel}`); setText('dateLabel', current.dateLabel); setText('globalYear', current.date.slice(0, 4)); setText('slipNo', current.id); setText('paperCollection', '연속 자료 발췌'); setText('paperIssue', `${state.sceneIndex + 1} / ${data.scenes.length}`); setText('paperDate', current.dateLabel); setText('paperTitle', current.transitionCard?.event || current.title); setText('paperSub', current.transitionCard?.change || current.sourceMoment); setText('paperFooterLabel', `자료철 · ${current.id}`); const first = current.excerpts[0]; setText('drawerKicker', `자료철 / ${current.id}`); setText('sourceIdA', first?.sourceId || 'SOURCE'); setText('sourceMetaA', `${first?.quoteClass || '자료'} · ${first?.availableDate || current.date}`); setText('sourceContextA', `${first?.context || current.title} · ${first?.locator || ''}`); if ($('sourceLinkA')) $('sourceLinkA').href = first?.sourceUrl || '#'; setText('sourceIdB', current.metadata?.[0]?.sourceId || first?.sourceId || 'SOURCE'); setText('sourceMetaB', current.metadata?.length ? '식별 정보 · 본문 아님' : '연결 자료'); setText('sourceContextB', current.metadata?.[0]?.role || current.sourceMoment); if ($('sourceLinkB')) $('sourceLinkB').href = '#'; if (headerScene !== state.sceneIndex) { headerScene = state.sceneIndex; document.body.classList.remove('scene-header-collapsed'); clearTimeout(headerTimer); if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) document.body.classList.add('scene-header-collapsed'); else headerTimer = window.setTimeout(() => document.body.classList.add('scene-header-collapsed'), 2500); } }
   document.addEventListener('pointerup', () => window.setTimeout(() => document.body.classList.add('scene-header-collapsed'), 0), { once: true });
-  function mode(name) { document.body.classList.add('main20-mode'); document.body.dataset.runtimeOwner = 'main20'; const legacyWalk = $('walkBtn'); if (legacyWalk) legacyWalk.hidden = true; document.body.classList.toggle('main20-reading', name === 'reading'); document.body.classList.toggle('main20-dialogue', name !== 'reading' && name !== 'ending'); document.body.classList.toggle('main20-ending', name === 'ending'); }
+  function mode(name) { document.body.classList.add('main20-mode'); document.body.dataset.runtimeOwner = 'main20'; const legacyWalk = $('walkBtn'); if (legacyWalk) legacyWalk.hidden = true; document.body.classList.toggle('main20-reading', name === 'reading'); document.body.classList.toggle('main20-dialogue', name !== 'reading' && name !== 'ending'); document.body.classList.toggle('main20-ending', name === 'ending'); const keepActionsOnPaper = name === 'reading' || (name === 'dialogue' && (state.routeChoices || []).length > 0); document.body.classList.toggle('main20-paper-choices', keepActionsOnPaper); const actionArea = choices(); const paper = $('paper'); const columns = $('paperColumns'); const dialogueRail = document.querySelector('.dialogue-strip'); if (keepActionsOnPaper && paper && actionArea && !paper.contains(actionArea) && columns) columns.insertAdjacentElement('afterend', actionArea); else if (!keepActionsOnPaper && paper?.contains(actionArea) && dialogueRail) dialogueRail.append(actionArea); }
   function clearChoices() { const node = choices(); node.replaceChildren(); node.hidden = false; } function button(text, handler, disabled = false) { const node = document.createElement('button'); node.type = 'button'; node.className = 'main20-action document-action'; node.textContent = text; node.disabled = disabled; node.onclick = handler; return node; }
   const directionFor = (choice) => choice.immediateDirection || data.choiceImmediateDirections?.[choice.id] || null;
   const MAIN20_DEAD_END_STATES = new Set(['onboarding', 'ideology_prologue', 'c07_ideology', 'branch_hub', 'branch_event', 'branch_callback', 'intro', 'reading', 'source_discussion', 'decision', 'choice', 'post_choice', 'reaction', 'final_reaction', 'ending', 'legacy_recovery']);
@@ -118,11 +118,11 @@
   function renderBranchHub() {
     const hub = branchGraph.hubs[state.branchHubIndex];
     if (!hub) { state.phase = 'intro'; save(); render(); return; }
-    mode('dialogue'); clearChoices(); renderDialogueLine('NARRATION', hub.prompt);
+      mode('reading'); clearChoices();
     setText('instruction', state.activeBranchReadHub === hub.id ? '자료를 읽었습니다. 아래에서 이번 행동을 고르세요.' : '신문 자료를 먼저 읽으면 선택지가 열립니다.');
     const options = branchGraph.branches.filter((branch) => branch.hubId === hub.id);
     const sources = [...new Set(options.flatMap((branch) => branchSourceIds(branch)))];
-    renderBranchPaper(hub.title, hub.date, sources, hub.topic);
+      renderBranchPaper(hub.title, hub.date, sources, `${hub.topic} · ${hub.prompt}`);
     if (state.activeBranchReadHub !== hub.id) {
       choices().hidden = true;
       const read = button('신문에서 읽고 선택지를 연다', () => { state.activeBranchReadHub = hub.id; save(); render(); });
@@ -132,8 +132,9 @@
       const direction = branch.immediateDirection;
       choices().append(choiceButton({ ...branch, displayText: direction.action, immediateDirection: { audience: direction.audience, recordMode: direction.recordMode, leavesOffice: direction.documentLeavesOffice ? '문서가 사무실을 나감' : '사무실에 보관', risk: direction.risk } }, () => {
         const result = window.Main20BranchGraph.resolveBranchEvent(branchGraph, hub.id, branch.choiceId, state);
-        state.routeChoices = result.nextState.routeChoices; state.branchState = result.nextState.branchState;
-        state.activeBranchEventId = result.eventId; state.activeBranchInteractionLines = result.interactionLines || []; state.activeBranchLineIndex = 0; state.activeBranchReadHub = null;
+          state.routeChoices = result.nextState.routeChoices; state.branchState = result.nextState.branchState;
+          const eventNode = window.Main20BranchGraph.resolvePrefixEventNode(branchGraph, state.routeChoices);
+          state.activeBranchEventNodeId = eventNode.id; state.resolvedBranchEventNodeIds = [...(state.resolvedBranchEventNodeIds || []), eventNode.id]; state.activeBranchEventId = result.eventId; state.activeBranchInteractionLines = result.interactionLines || []; state.activeBranchLineIndex = 0; state.activeBranchReadHub = null;
         for (const [key, amount] of Object.entries(branch.stateWrites ?? {})) if (key.startsWith('relationship')) { const person = key.slice('relationship'.length).toLowerCase(); state.relationships[person] = (state.relationships[person] || 0) + Number(amount || 0); }
         state.actions.push(branch.choiceId); state.visibleCallbacks = [...new Set([...state.visibleCallbacks, branch.callbackKey])];
         state.history.push({ sceneId: hub.id, kind: 'branch_choice', choiceId: branch.choiceId, action: branch.choiceId, choiceKind: 'ACTION', witnesses: [direction.audience], visibility: direction.recordMode, callbackKey: branch.callbackKey, sourceIds: branch.sourceIds, endingAffinity: branchGraph.choiceEndingAffinity?.[branch.choiceId] || {} });
@@ -144,8 +145,18 @@
   function renderBranchEvent() {
     const branch = branchGraph.branches.find((item) => item.immediateEventId === state.activeBranchEventId);
     if (!branch) { state.phase = 'branch_hub'; save(); render(); return; }
-    mode('dialogue'); clearChoices(); renderBranchPaper(branch.event.title, branchGraph.hubs[state.branchHubIndex].date, branchEventSourceIds(branch), branch.event.description);
-    const eventLines = [...(state.activeBranchInteractionLines || []), ...branch.speakerLines];
+      const prefix = (state.routeChoices || []).slice(0, state.branchHubIndex + 1);
+      const eventNode = state.activeBranchEventNodeId
+        ? branchGraph.eventNodes?.find((item) => item.id === state.activeBranchEventNodeId)
+        : window.Main20BranchGraph.resolvePrefixEventNode(branchGraph, prefix);
+      if (!eventNode || eventNode.choiceId !== branch.choiceId) throw new Error(`Missing route-specific event node for ${prefix.join(' > ')}`);
+      const expectedHistory = prefix.map((_, index) => window.Main20BranchGraph.resolvePrefixEventNode(branchGraph, prefix.slice(0, index + 1)).id);
+      if (!Array.isArray(state.resolvedBranchEventNodeIds) || !state.resolvedBranchEventNodeIds.length) state.resolvedBranchEventNodeIds = expectedHistory;
+      else if (state.resolvedBranchEventNodeIds.length !== expectedHistory.length || state.resolvedBranchEventNodeIds.some((id, index) => id !== expectedHistory[index])) throw new Error(`Saved route event history does not match choices for ${prefix.join(' > ')}`);
+      if (state.activeBranchEventNodeId && state.activeBranchEventNodeId !== eventNode.id) throw new Error(`Saved active route event does not match choices for ${prefix.join(' > ')}`);
+      state.activeBranchEventNodeId = eventNode.id;
+      mode('dialogue'); clearChoices(); renderBranchPaper(eventNode.title, eventNode.date, eventNode.sourceIds, eventNode.description);
+      const eventLines = eventNode.dialogue;
     const line = eventLines[state.activeBranchLineIndex];
     if (line) {
       renderDialogueLine(line.speaker, line.text);

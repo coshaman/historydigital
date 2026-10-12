@@ -1,5 +1,38 @@
 [
   {
+    "sourceId": "EXT-PSZ-CRIMINAL-CODE-PREAMBLE-1845",
+    "sourceClass": "PRIMARY_DOCUMENT",
+    "witnessKey": "russian-empire|criminal-and-correctional-punishments-code-preamble|1845-08-15|psri-second-collection-no-19283",
+    "authorOrIssuer": "Николай I, от имени императора",
+    "title": "Уложение о наказаніяхъ уголовныхъ и исправительныхъ · предисловие",
+    "date": "1845-08-15",
+    "edition": "Уложеніе о наказаніяхъ уголовныхъ и исправительныхъ. Санкт-Петербург: Типография Второго Отделения Собственной Его Императорского Величества Канцелярии, 1845; Полное собрание законов Российской империи, собрание второе, № 19283.",
+    "holdingInstitution": "Wikisource, transcription linked to the 1845 edition and PSRI scan record.",
+    "locator": "Предисловие, consecutive paragraphs 2–4; stable revision 5633121.",
+    "contextRange": {
+      "paragraphStart": 2,
+      "paragraphEnd": 4,
+      "speaker": "Император Николай I, in the promulgation preface",
+      "claim": "The preface argues that criminal law should be systematically revised, precisely define degrees and circumstances of culpability, and provide proportionate penalties.",
+      "immediateIssue": "The state presents legal codification as a restraint on arbitrary judgment and a guarantee of public order; this is a legal rationale, not a description of censorship procedure or a report about any fictional clerk."
+    },
+    "translationStatus": "Project Korean translation; aligned paragraph by paragraph to the Russian witness.",
+    "availabilityDate": "1845-08-15",
+    "url": "https://ru.wikisource.org/w/index.php?title=Уложение_о_наказаниях_уголовных_и_исправительных_(1845)/ДО&oldid=5633121",
+    "provenanceNote": "Primary imperial legal preface. The text names the Second Department of the Imperial Chancery as the drafting office. Its claims are attributed to the imperial promulgation voice; it must not be presented as neutral proof that legal discretion was eliminated.",
+    "sceneUsage": ["H2-EXAM: optional legal-order context shown alongside the clerk's institutional examination; not a claim that the fictional examination tested this code."],
+    "originalRussian": [
+      {"segmentId":"EXT-PSZ-1845-P2","order":1,"text":"Но при совершеніи сего обширнаго труда, коего польза доказана опытомъ, Мы не теряли изъ вида и необходимости усовершенствованія самой сущности приводимыхъ Нами въ точную опредѣлительность и систему узаконеній, какъ посредствомъ частныхъ исправленій, по замѣчаемымъ при самомъ ихъ дѣйствіи и развитіи неудобствамъ, такъ и чрезъ обнародованіе полныхъ по каждой изъ важнѣйшихъ частей законодательства уложеній."},
+      {"segmentId":"EXT-PSZ-1845-P3","order":2,"text":"Слѣдуя постоянно сей мысли и приводя ее по степенно въ дѣйство, Мы признали за благо приступить къ пересмотру Нашихъ Законовъ Уголовныхъ, коихъ правосудное неослабное исполненіе есть одно изъ вѣрнѣйшихъ ручательствъ благоустройства общественнаго и спокойствія частныхъ лицъ."},
+      {"segmentId":"EXT-PSZ-1845-P4","order":3,"text":"Поручивъ начертаніе проекта новаго оныхъ кодекса, подъ названіемъ Уложенія о Наказаніяхъ Уголовныхъ и Исправительныхъ, Второму Отдѣленію Собственной Нашей Канцеляріи, Мы постановили правиломъ, чтобы въ сей проектъ, составленный сообразно съ системою и раздѣленіями Общаго Свода Законовъ Имперіи, были, безъ малѣйшаго впрочемъ отступленія отъ основныхъ началъ отечественнаго законодательства, внесены всѣ нужныя, по состоянію гражданскаго въ Россіи общества и нравовъ, дополненія къ существующимъ узаконеніямъ; чтобы всѣ, какъ важнѣйшія, такъ и менѣе важныя преступленія и проступки были въ ономъ опредѣлены съ большею, удовлетворительнѣйшею противъ прежняго точностію и означены не только разныя ихъ степени, но и обстоятельства, коими увеличивается или уменьшается вина подсудимаго, и чтобъ за каждое противозаконное дѣяніе было положено соотвѣтствующее ему, соразмѣренное съ свойствомъ его, наказаніе или взысканіе, дабы чрезъ то устранился, по возможности, всякій въ произнесеніи приговоровъ произволъ и обвиняемые были подчинены одному прямому дѣйствію закона."}
+    ],
+    "koreanTranslation": [
+      {"segmentId":"EXT-PSZ-1845-P2","order":1,"text":"이 방대한 작업의 효용은 이미 경험으로 입증되었지만, 우리는 법률 조항의 내용 자체를 더 정확하고 체계 있게 다듬어야 한다는 점도 잊지 않았다. 실제 시행 과정에서 드러난 불편을 개별적으로 바로잡는 한편, 중요한 법률 분야마다 완결된 법전을 공표하는 방법도 필요하다고 보았다."},
+      {"segmentId":"EXT-PSZ-1845-P3","order":2,"text":"이 생각을 꾸준히 실행에 옮기면서 우리는 형법을 다시 살펴보기로 했다. 형법을 공정하게, 그리고 흔들림 없이 집행하는 일은 사회의 질서와 개인의 평온을 지키는 가장 확실한 보장 가운데 하나이기 때문이다."},
+      {"segmentId":"EXT-PSZ-1845-P4","order":3,"text":"이에 우리 관청 제2부에 새 형법전, 곧 《형사·교정 처벌법전》의 초안 작성을 맡겼다. 초안은 제국 법전의 체계와 구분을 따르되 국내 법률의 기본 원칙에서 조금도 벗어나지 않도록 했다. 당시 러시아 사회와 풍속에 맞춰 기존 법률에 필요한 내용을 보충하고, 중대한 범죄와 경미한 위반을 이전보다 정확하게 규정하며, 책임의 정도와 그 가중·감경 사유도 명시하도록 했다. 각 위법 행위에는 그 성격에 맞는 형벌이나 제재를 두어, 판결의 자의성을 가능한 한 줄이고 피고인이 법의 직접적인 적용을 받게 하려는 것이었다."}
+    ]
+  },
+  {
     "sourceId": "EXT-TURGENEV-KHOR-KALYNYCH-1847",
     "sourceClass": "PRIMARY_PUBLICATION",
     "witnessKey": "ivan-sergeevich-turgenev|khor-and-kalinych|1847-sovremennik-no-1|1897-collected-edition-vol-1",

@@ -34,6 +34,7 @@ function validateBranchGraph(graph, sources = []) {
   const reactionIds = new Set();
   const reactionTexts = graph.eventPredicates?.nextHubAcknowledgements?.flatMap(group => Object.keys(group.reactionTexts ?? {})) ?? [];
   const sourceIds = new Set(sources.map(source => typeof source === 'string' ? source : source?.sourceId ?? source?.id));
+  const sourceAvailability = new Map(sources.filter(source => isObject(source)).map(source => [source.sourceId ?? source.id, source.availabilityDate ?? source.availableDate ?? source.date]).filter(([id, date]) => id && typeof date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(date)));
   for (const [choiceId, ids] of Object.entries(graph.eventSourceIdsByChoice ?? {})) {
     if (!branchIds.has(choiceId)) errors.push(`event sources reference unknown choice ${choiceId}`);
     if (!Array.isArray(ids)) errors.push(`${choiceId}: event source list must be an array`);
@@ -64,6 +65,59 @@ function validateBranchGraph(graph, sources = []) {
     for (const id of branch.sourceIds ?? []) if (!sourceIds.has(id)) errors.push(`${branch.id ?? branch.choiceId}: unknown source ${id}`);
     if (branch.eventSourceIds !== undefined && !Array.isArray(branch.eventSourceIds)) errors.push(`${label}: eventSourceIds must be an array`);
     for (const id of branch.eventSourceIds ?? []) if (!sourceIds.has(id)) errors.push(`${label}: unknown event source ${id}`);
+  }
+  if (graph.eventNodes !== undefined) {
+    if (!Array.isArray(graph.eventNodes)) errors.push('eventNodes must be an array');
+    else {
+      const eventNodeIds = unique(graph.eventNodes, 'route event node');
+      const keyOf = prefix => prefix.join('\u001f');
+      const expected = new Map();
+      const enumeratePrefixes = (hubIndex, prefix, predecessorNodeId) => {
+        if (hubIndex >= graph.hubs.length) return;
+        const hub = graph.hubs[hubIndex];
+        const owned = graph.branches.filter(branch => branch.hubId === hub.id);
+        for (const branch of owned) {
+          const choiceId = branch.choiceId ?? branch.id;
+          const requiredPrefix = [...prefix, choiceId];
+          const id = `NODE-${requiredPrefix.join('--')}`;
+          expected.set(keyOf(requiredPrefix), { requiredPrefix, hub, branch, id, predecessorNodeId });
+          enumeratePrefixes(hubIndex + 1, requiredPrefix, id);
+        }
+      };
+      enumeratePrefixes(0, [], null);
+      const actual = new Map();
+      for (const node of graph.eventNodes) {
+        const prefix = node?.requiredPrefix;
+        if (!Array.isArray(prefix) || prefix.length < 1 || prefix.length > graph.hubs.length) {
+          errors.push(`${node?.id ?? '(missing id)'}: route event has invalid requiredPrefix`);
+          continue;
+        }
+        const key = keyOf(prefix);
+        if (actual.has(key)) errors.push(`duplicate route event prefix ${prefix.join(' > ')}`);
+        else actual.set(key, node);
+        const target = expected.get(key);
+        if (!target) {
+          errors.push(`${node?.id ?? '(missing id)'}: route event has unknown or out-of-order prefix ${prefix.join(' > ')}`);
+          continue;
+        }
+        if (node.hubId !== target.hub.id) errors.push(`${node.id}: route event has invalid hub ${node.hubId}; expected ${target.hub.id}`);
+        if ((node.predecessorNodeId ?? null) !== target.predecessorNodeId) errors.push(`${node.id}: route event has invalid predecessor; expected ${target.predecessorNodeId ?? 'null'}`);
+        if (typeof node.date !== 'string' || node.date !== target.hub.date) errors.push(`${node.id}: route event date must match ${target.hub.id}`);
+        if (typeof node.location !== 'string' || !node.location.trim()) errors.push(`${node.id}: route event missing location`);
+        if (!Array.isArray(node.dialogue) || node.dialogue.length === 0 || node.dialogue.some(line => !line || typeof line.speaker !== 'string' || !line.speaker.trim() || typeof line.text !== 'string' || !line.text.trim())) errors.push(`${node.id}: route event missing valid dialogue`);
+        if (!Array.isArray(node.sourceIds) || node.sourceIds.length === 0) errors.push(`${node.id}: route event missing sourceIds`);
+        for (const id of node.sourceIds ?? []) {
+          if (!sourceIds.has(id)) errors.push(`${node.id}: unknown route event source ${id}`);
+          const availableDate = sourceAvailability.get(id);
+          if (availableDate && node.date && availableDate > node.date) errors.push(`${node.id}: source ${id} is unavailable before ${availableDate}`);
+        }
+        if (!Array.isArray(node.visibleCallbacks) || node.visibleCallbacks.some(callback => typeof callback !== 'string' || !callback.trim())) errors.push(`${node.id}: route event visibleCallbacks must be an array of non-empty strings`);
+        if (typeof node.immediateNextAction !== 'string' || !node.immediateNextAction.trim()) errors.push(`${node.id}: route event missing immediateNextAction`);
+      }
+      for (const [key, target] of expected) if (!actual.has(key)) errors.push(`missing route event prefix coverage: ${target.requiredPrefix.join(' > ')}`);
+      if (graph.eventNodes.length !== 120 || expected.size !== 120) errors.push(`route event coverage must contain exactly 120 prefix nodes; found ${graph.eventNodes.length}`);
+      if (eventNodeIds.size !== graph.eventNodes.length) errors.push('route event node IDs must be unique');
+    }
   }
   if (graph.pairwiseInteractions !== undefined) {
     if (!Array.isArray(graph.pairwiseInteractions)) errors.push('pairwiseInteractions must be an array');

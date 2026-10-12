@@ -21,6 +21,22 @@ const makeGraph = () => {
   return { schemaVersion: 1, hubs, branches, events: branches.map(branch => ({ id: branch.immediateEventId })), anchors: [{ id: 'E02', date: '1847-01-05', historical: true }, { id: 'E04', date: '1847-07-08', historical: true }, { id: 'E07', date: '1849-05-10', historical: true }], sequence: ['H1', 'H2', 'E02', 'H3', 'E04', 'H4', 'E07'], transitions: [], eventPredicates: { nextHubAcknowledgements: [{ reactionTexts: Object.fromEntries(branches.map(branch => [branch.nextHubReactionId, { speaker: 'alexei', text: 'A reaction.' }])) }] }, endingRoutes: ['ENDING-1', 'ENDING-2', 'ENDING-3', 'ENDING-4', 'ENDING-5'] };
 };
 
+function makePrefixEventNodes(graph) {
+  const nodes = [];
+  const visit = (prefix, predecessorNodeId) => {
+    const hub = graph.hubs[prefix.length];
+    const branches = graph.branches.filter(branch => branch.hubId === hub.id);
+    for (const branch of branches) {
+      const requiredPrefix = [...prefix, branch.choiceId];
+      const id = `NODE-${requiredPrefix.join('--')}`;
+      nodes.push({ id, requiredPrefix, hubId: hub.id, predecessorNodeId, date: hub.date, location: 'Office', dialogue: [{ speaker: 'pavel', text: 'We should keep this separate.' }], sourceIds: ['SRC-1'], visibleCallbacks: [branch.callbackKey], immediateNextAction: 'Continue to the next record.' });
+      if (requiredPrefix.length < graph.hubs.length) visit(requiredPrefix, id);
+    }
+  };
+  visit([], null);
+  return nodes;
+}
+
 test('accepts four three-option hubs and a complete minimal graph', () => {
   assert.deepEqual(validateBranchGraph(makeGraph(), ['SRC-1']), { valid: true, errors: [] });
 });
@@ -93,6 +109,38 @@ test('rejects ambiguous, absent, and out-of-order authored event prefixes', () =
   assert.throws(() => branchGraph.resolvePrefixEventNode(graph, ['B2-2', 'B1-1']), /out of order/i);
 });
 
+test('requires exactly one valid, source-linked event node for all 120 route prefixes', () => {
+  const graph = makeGraph();
+  graph.eventNodes = makePrefixEventNodes(graph);
+  assert.equal(graph.eventNodes.length, 120);
+  assert.deepEqual(validateBranchGraph(graph, ['SRC-1']), { valid: true, errors: [] });
+
+  graph.eventNodes.pop();
+  assert.match(validateBranchGraph(graph, ['SRC-1']).errors.join('\n'), /missing.*prefix|prefix.*coverage/i);
+});
+
+test('rejects route event nodes with invalid predecessor, hub, source, or absent dialogue', () => {
+  const graph = makeGraph();
+  graph.eventNodes = makePrefixEventNodes(graph);
+  graph.eventNodes[0].predecessorNodeId = 'MISSING-PREDECESSOR';
+  graph.eventNodes[1].hubId = 'MISSING-HUB';
+  graph.eventNodes[2].sourceIds = ['MISSING-SOURCE'];
+  graph.eventNodes[3].dialogue = [];
+  const errors = validateBranchGraph(graph, ['SRC-1']).errors.join('\n');
+  assert.match(errors, /predecessor/i);
+  assert.match(errors, /hub/i);
+  assert.match(errors, /source/i);
+  assert.match(errors, /dialogue/i);
+});
+
+test('rejects route event nodes that disclose sources before their publication availability date', () => {
+  const graph = makeGraph();
+  graph.eventNodes = makePrefixEventNodes(graph);
+  graph.eventNodes[0].sourceIds = ['SRC-FUTURE'];
+  const sources = [{ sourceId: 'SRC-1' }, { sourceId: 'SRC-FUTURE', availabilityDate: '1849-01-01' }];
+  assert.match(validateBranchGraph(graph, sources).errors.join('\n'), /SRC-FUTURE.*before|before.*SRC-FUTURE/i);
+});
+
 test('uses an explicit valid next-hub fallback when predicates do not match', () => {
   const graph = makeGraph();
   graph.transitions = [{ fromHubId: 'H1', when: { exposureAtLeast: 99 }, toHubId: 'MISSING' }, { fromHubId: 'H1', fallback: true, toHubId: 'H2' }];
@@ -152,6 +200,36 @@ test('project graph has 81 vectors and every option has its own event, reaction,
   assert.ok(projectGraph.branches.filter(branch => branch.hubId === 'H4-NEWS').every(branch => branch.sourceIds.includes('OBJ-WS-SOVREMENNIK-1848')));
 });
 
+test('all 81 complete routes resolve four source-linked prefix-specific scene beats', () => {
+  const sourceRecords = [...(main20.sourceRegister ?? []), ...addedSources, ...censorshipCase.items];
+  const sourceIds = new Set(sourceRecords.map(source => source.sourceId));
+  assert.equal(projectGraph.eventNodes?.length, 120, 'the route must check in all 120 event nodes');
+  const perDepth = [1, 2, 3, 4].map(depth => projectGraph.eventNodes.filter(node => node.requiredPrefix.length === depth).length);
+  assert.deepEqual(perDepth, [3, 9, 27, 81]);
+  assert.deepEqual(validateBranchGraph(projectGraph, sourceRecords), { valid: true, errors: [] });
+  for (let depth = 1; depth <= 4; depth += 1) {
+    const scenes = projectGraph.eventNodes.filter(node => node.requiredPrefix.length === depth);
+    assert.equal(new Set(scenes.map(node => JSON.stringify(node.dialogue))).size, [3, 9, 27, 81][depth - 1], `every depth-${depth} prefix needs distinguishable dialogue`);
+  }
+  const vectors = enumerateRouteVectors(projectGraph);
+  const signatures = new Set();
+  for (const vector of vectors) {
+    const nodeIds = [];
+    const dialogueBeats = [];
+    for (let depth = 1; depth <= 4; depth += 1) {
+      const node = branchGraph.resolvePrefixEventNode(projectGraph, vector.choiceIds.slice(0, depth));
+      nodeIds.push(node.id);
+      dialogueBeats.push(node.dialogue.map(line => `${line.speaker}:${line.text}`).join('\n'));
+      assert.ok(node.sourceIds.every(id => sourceIds.has(id)), `${node.id} must resolve every source`);
+      assert.ok(node.dialogue.length >= 1, `${node.id} must show its route-specific scene beat`);
+    }
+    assert.equal(new Set(nodeIds).size, 4);
+    signatures.add(nodeIds.join('|'));
+    assert.equal(dialogueBeats.every(Boolean), true);
+  }
+  assert.equal(signatures.size, 81);
+});
+
 test('E02 and E04 remain in the active chronological player route', async () => {
   assert.ok(main20.v44MainSceneIds?.includes('E02'), 'E02 must not be silently archived from the active route');
   const activeIds = [...main20.v44MainSceneIds, 'E04'];
@@ -201,7 +279,9 @@ test('literature choice source is displayed before selection and again in its se
   }
   assert.match(source, /options\.flatMap\(\(branch\) => branchSourceIds\(branch\)\)/);
   assert.match(source, /function branchEventSourceIds\(branch\)/);
-  assert.match(source, /renderBranchPaper\(branch\.event\.title,[^\n]*branchEventSourceIds\(branch\)/);
+  assert.match(source, /resolvePrefixEventNode\(branchGraph, state\.routeChoices\)/);
+  assert.match(source, /renderBranchPaper\(eventNode\.title, eventNode\.date, eventNode\.sourceIds, eventNode\.description\)/);
+  assert.match(source, /const eventLines = eventNode\.dialogue/);
   assert.deepEqual(route.eventSourceIdsByChoice['BOOK-DISCUSS'], ['EXT-TURGENEV-ERMOLAI-MILLER-1847', 'EXT-TURGENEV-KONTORA-1847', 'EXT-TURGENEV-KARATAEV-1847', 'EXT-NEKRASOV-NIGHT-STREET-1847', 'EXT-TURGENEV-OVSYANIKOV-1847', 'EXT-BELINSKY-CONTEMPORARY-NOTES-1847', 'EXT-HERZEN-DILETTANTISM-1843', 'EXT-HERZEN-GRANOVSKY-LECTURES-1843', 'EXT-HERZEN-GRANOVSKY-SECOND-LETTER-1844', 'EXT-KAVELIN-LEGAL-LIFE-ANCIENT-RUSSIA-1847', 'EXT-KAVELIN-REPLY-MOSKVITYANIN-1847', 'EXT-KHOMYAKOV-RUSSIAN-ART-SCHOOL-1847', 'EXT-HERZEN-PUBLIC-LECTURES-ROULIER-1845', 'EXT-BELINSKY-GOGOL-REVIEW-1847', 'EXT-NEKRASOV-NEW-POET-1847']);
   assert.ok(route.eventSourceIdsByChoice['BOOK-PRIVATE'].includes('EXT-DOSTOEVSKY-POOR-FOLK-1846'));
   assert.ok(route.eventSourceIdsByChoice['BOOK-PRIVATE'].includes('EXT-DOSTOEVSKY-NINE-LETTERS-1847'));

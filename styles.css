@@ -499,3 +499,18 @@ body.scene-header-collapsed .masthead{transform:translateY(-100%);opacity:0;poin
   .main20-mode .document-action-detail{font-size:10px;line-height:1.35}
 }
 @media(prefers-reduced-motion:reduce){.main20-mode .document-action{transition:none}.main20-mode .document-action:hover{transform:none}}
+
+/* Keep the player's reading and decision in one physical object. The source
+   column scrolls independently; the three actions remain visible on paper. */
+.main20-mode.main20-paper-choices .dialogue-strip{display:none!important}
+.main20-mode.main20-paper-choices .paper{display:flex!important;flex-direction:column!important;min-height:0!important;overflow:hidden!important}
+.main20-mode.main20-paper-choices .paper-columns{flex:1 1 auto!important;min-height:0!important;overflow:auto!important;overscroll-behavior:contain}
+.main20-mode.main20-paper-choices #choiceArea{position:static!important;inset:auto!important;display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;width:auto!important;max-height:34%;flex:0 0 auto;margin:12px 0 0;padding:10px 0 0;border-top:1px solid rgba(100,70,35,.3);overflow:auto;z-index:4}
+.main20-mode.main20-paper-choices #choiceArea[hidden]{display:none!important}
+.main20-mode.main20-paper-choices #choiceArea .main20-choice-card{min-width:0;min-height:72px;padding:10px 12px;overflow-wrap:anywhere}
+.main20-mode.main20-reading.main20-paper-choices .document-stage{height:100%!important;min-height:0!important}
+.main20-mode.main20-reading.main20-paper-choices .paper{height:100%!important;max-height:100%!important}
+@media(max-width:700px){
+  .main20-mode.main20-paper-choices #choiceArea{grid-template-columns:1fr;gap:7px;max-height:min(17vh,132px);min-height:0;margin-top:8px;padding-top:8px}
+  .main20-mode.main20-paper-choices #choiceArea .main20-choice-card{min-height:56px;padding:8px 10px}
+}

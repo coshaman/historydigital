@@ -2,13 +2,14 @@ import fs from 'node:fs';
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE || 'playwright');
 
 const baseUrl = process.env.V42_BASE_URL || 'http://127.0.0.1:4173/?main20=1&v42fresh=1';
+const artifactRoot = process.env.V42_ARTIFACT_DIR || 'artifacts';
 const failures = [];
 const browser = await chromium.launch({ headless: true, executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe' });
 
 const state = (page) => page.evaluate(() => window.__main20?.getState());
 const click = async (page, name) => { const button = page.getByRole('button', { name, exact: true }); if (!(await button.count())) throw new Error(`missing button: ${name}`); await button.first().click(); await page.waitForTimeout(20); };
 const advanceButton = async (page) => { const buttons = page.locator('#choiceArea button'); if (!(await buttons.count())) throw new Error('choice area dead end'); await buttons.first().click(); await page.waitForTimeout(20); };
-const readScene = async (page) => { const marks = page.locator('.main20-read-mark'); for (let i = 0; i < await marks.count(); i += 1) { const mark = marks.nth(i); await mark.scrollIntoViewIfNeeded(); await page.waitForTimeout(25); if (await mark.isEnabled()) await mark.click(); } const layout = await page.evaluate(() => { const dialogue = document.querySelector('.dialogue-strip'); const paper = document.querySelector('#paper'); const columns = document.querySelector('#paperColumns'); const button = document.querySelector('#choiceArea button'); const stage = document.querySelector('.document-stage'); const desk = document.querySelector('.desk'); const dialogueRect = dialogue?.getBoundingClientRect(); const paperRect = paper?.getBoundingClientRect(); const buttonRect = button?.getBoundingClientRect(); const stageRect = stage?.getBoundingClientRect(); const deskRect = desk?.getBoundingClientRect(); return { viewport: { width: innerWidth, height: innerHeight }, desk: deskRect && { top: deskRect.top, bottom: deskRect.bottom, grid: getComputedStyle(desk).gridTemplateRows }, stage: stageRect && { top: stageRect.top, bottom: stageRect.bottom, paddingBottom: getComputedStyle(stage).paddingBottom }, dialogue: dialogueRect && { top: dialogueRect.top, bottom: dialogueRect.bottom, height: dialogueRect.height, overflowY: getComputedStyle(dialogue).overflowY }, paper: paperRect && { top: paperRect.top, bottom: paperRect.bottom, height: paperRect.height, overflowY: getComputedStyle(paper).overflowY }, columns: columns && { overflowY: getComputedStyle(columns).overflowY, clientHeight: columns.clientHeight, scrollHeight: columns.scrollHeight }, button: buttonRect && { top: buttonRect.top, bottom: buttonRect.bottom, height: buttonRect.height } }; }); if (!layout.dialogue || layout.dialogue.top < 0 || layout.dialogue.bottom > layout.viewport.height || layout.dialogue.height > 180 || !layout.paper || layout.paper.bottom > layout.dialogue.top || !['auto', 'scroll'].includes(layout.paper.overflowY) || !['auto', 'scroll'].includes(layout.columns?.overflowY) || !['auto', 'scroll'].includes(layout.dialogue.overflowY) || !layout.button || layout.button.top < layout.dialogue.top || layout.button.bottom > layout.dialogue.bottom) throw new Error(`reading page overlaps or hides the continuation UI at ${layout.viewport.width}x${layout.viewport.height}: ${JSON.stringify(layout)}`); await click(page, '자료 토론으로 간다'); };
+const readScene = async (page) => { const marks = page.locator('.main20-read-mark'); for (let i = 0; i < await marks.count(); i += 1) { const mark = marks.nth(i); await mark.scrollIntoViewIfNeeded(); await page.waitForTimeout(25); if (await mark.isEnabled()) await mark.click(); } const layout = await page.evaluate(() => { const paper = document.querySelector('#paper'); const columns = document.querySelector('#paperColumns'); const area = document.querySelector('#choiceArea'); const button = document.querySelector('#choiceArea button'); const paperRect = paper?.getBoundingClientRect(); const areaRect = area?.getBoundingClientRect(); const buttonRect = button?.getBoundingClientRect(); return { viewport: { width: innerWidth, height: innerHeight }, insidePaper: Boolean(paper && area && paper.contains(area)), paper: paperRect && { top: paperRect.top, bottom: paperRect.bottom, left: paperRect.left, right: paperRect.right, height: paperRect.height }, area: areaRect && { top: areaRect.top, bottom: areaRect.bottom, left: areaRect.left, right: areaRect.right }, columns: columns && { overflowY: getComputedStyle(columns).overflowY, clientHeight: columns.clientHeight, scrollHeight: columns.scrollHeight }, button: buttonRect && { top: buttonRect.top, bottom: buttonRect.bottom } }; }); if (!layout.insidePaper || !layout.paper || layout.paper.top < 0 || layout.paper.bottom > layout.viewport.height || !['auto', 'scroll'].includes(layout.columns?.overflowY) || !layout.button || layout.button.bottom > layout.paper.bottom || layout.area.top < layout.paper.top || layout.area.bottom > layout.paper.bottom) throw new Error(`reading page hides the continuation UI at ${layout.viewport.width}x${layout.viewport.height}: ${JSON.stringify(layout)}`); await click(page, '자료 토론으로 간다'); };
 const visibleText = (page) => page.locator('body').innerText();
 
 async function play(page) {
@@ -17,7 +18,7 @@ async function play(page) {
   await page.waitForFunction(() => Boolean(document.querySelector('#deskCanvas')?.dataset.threeLoaded), { timeout: 20000 });
   const threeDesk = await page.evaluate(() => { const canvas = document.querySelector('#deskCanvas'); const style = canvas && getComputedStyle(canvas); return { present: Boolean(canvas), display: style?.display, loaded: canvas?.dataset.threeLoaded, fallback: canvas?.dataset.fallback }; });
   if (!threeDesk.present || threeDesk.display === 'none' || threeDesk.loaded !== 'local' || threeDesk.fallback !== 'false') throw new Error(`3D desk was not restored on MAIN20 route: ${JSON.stringify(threeDesk)}`);
-  if ([1996, 1440, 390].includes(await page.evaluate(() => innerWidth))) { const width = await page.evaluate(() => innerWidth); fs.mkdirSync('artifacts/v53-desk', { recursive: true }); await page.screenshot({ path: `artifacts/v53-desk/desk-${width}.png` }); }
+  if ([1996, 1440, 390].includes(await page.evaluate(() => innerWidth))) { const width = await page.evaluate(() => innerWidth); fs.mkdirSync(`${artifactRoot}/v53-desk`, { recursive: true }); await page.screenshot({ path: `${artifactRoot}/v53-desk/desk-${width}.png` }); }
   const seen = [];
   const trace = [];
   let prologueText = '';
@@ -63,6 +64,8 @@ async function play(page) {
         await newspaper.click();
       } else {
         const cards = page.locator('#choiceArea .main20-choice-card');
+        const choiceLayout = await page.evaluate(() => { const paper = document.querySelector('#paper'); const area = document.querySelector('#choiceArea'); const paperRect = paper?.getBoundingClientRect(); const areaRect = area?.getBoundingClientRect(); return { insidePaper: Boolean(paper && area && paper.contains(area)), paper: paperRect && { top: paperRect.top, bottom: paperRect.bottom, left: paperRect.left, right: paperRect.right }, choices: areaRect && { top: areaRect.top, bottom: areaRect.bottom, left: areaRect.left, right: areaRect.right }, hidden: area?.hidden }; });
+        if (!choiceLayout.insidePaper || choiceLayout.hidden || !choiceLayout.choices || choiceLayout.choices.top < choiceLayout.paper.top || choiceLayout.choices.bottom > choiceLayout.paper.bottom || choiceLayout.choices.left < choiceLayout.paper.left || choiceLayout.choices.right > choiceLayout.paper.right) throw new Error(`branch choices are visually detached from the newspaper: ${JSON.stringify(choiceLayout)}`);
         if (await cards.count() !== 3) throw new Error(`branch ${current.branchHubIndex} does not show its three options`);
         for (let i = 0; i < await cards.count(); i += 1) {
           const copy = await cards.nth(i).innerText();
@@ -71,6 +74,29 @@ async function play(page) {
         await cards.first().click();
       }
     } else if (current.phase === 'branch_event') {
+      const expectedEventNodeId = await page.evaluate(() => {
+        const game = window.__main20;
+        const state = game.getState();
+        const graph = game.getBranchGraph();
+        return window.Main20BranchGraph.resolvePrefixEventNode(graph, state.routeChoices.slice(0, state.branchHubIndex + 1)).id;
+      });
+      if (current.activeBranchEventNodeId !== expectedEventNodeId) throw new Error(`branch event did not resolve the full route prefix: got ${current.activeBranchEventNodeId}, expected ${expectedEventNodeId}`);
+      if (!current.resolvedBranchEventNodeIds?.includes(expectedEventNodeId)) throw new Error(`resolved prefix event history was not saved: ${expectedEventNodeId}`);
+      if (current.activeBranchLineIndex === 0) {
+        await page.locator('#saveBtn').click();
+        await page.locator('#loadBtn').click();
+        const resumed = await state(page);
+        if (resumed.activeBranchEventNodeId !== expectedEventNodeId || !resumed.resolvedBranchEventNodeIds?.includes(expectedEventNodeId)) throw new Error(`save/load lost branch event ${expectedEventNodeId}`);
+      }
+      const expectedEventContent = await page.evaluate(() => {
+        const game = window.__main20;
+        const state = game.getState();
+        const node = game.getBranchGraph().eventNodes.find(item => item.id === state.activeBranchEventNodeId);
+        return { line: node?.dialogue[state.activeBranchLineIndex]?.text ?? null, description: node?.description ?? null };
+      });
+      const renderedEventText = await page.locator('#dialogue').innerText();
+      const visibleEventContent = expectedEventContent.line ?? expectedEventContent.description;
+      if (!visibleEventContent || !renderedEventText.includes(visibleEventContent)) throw new Error(`prefix-specific event content not visible: ${expectedEventNodeId}; lineIndex=${current.activeBranchLineIndex}; expected=${JSON.stringify(visibleEventContent)}; rendered=${JSON.stringify(renderedEventText)}`);
       if (current.activeBranchInteractionLines?.length && current.activeBranchLineIndex === 0) {
         const firstInteraction = current.activeBranchInteractionLines[0].text;
         const rendered = await page.locator('#dialogue').innerText();
@@ -108,7 +134,7 @@ async function play(page) {
   if (endingLayout.dialogueDisplay !== 'none') throw new Error(`ending still shows dialogue rail: ${JSON.stringify(endingLayout)}`);
   if (endingLayout.position !== 'fixed' || endingLayout.zIndex < 100 || endingLayout.overlayRect.top > 0 || endingLayout.overlayRect.left > 0 || endingLayout.overlayRect.right < endingLayout.viewportWidth || endingLayout.overlayRect.bottom < endingLayout.viewportHeight || overlayAlpha < 1) throw new Error(`ending is not a full-screen opaque focus view: ${JSON.stringify(endingLayout)}`);
   if (!endingLayout.visible || !endingLayout.restartVisible || (endingLayout.cardBottom > endingLayout.viewportHeight && endingLayout.overflowY !== 'auto' && endingLayout.overflowY !== 'scroll')) throw new Error(`ending content is clipped or has no reachable restart control: ${JSON.stringify(endingLayout)}`);
-  if ([1440, 390].includes(endingLayout.viewportWidth)) { fs.mkdirSync('artifacts/v46-ending', { recursive: true }); await page.screenshot({ path: `artifacts/v46-ending/ending-${endingLayout.viewportWidth}.png` }); }
+  if ([1440, 390].includes(endingLayout.viewportWidth)) { fs.mkdirSync(`${artifactRoot}/v46-ending`, { recursive: true }); await page.screenshot({ path: `${artifactRoot}/v46-ending/ending-${endingLayout.viewportWidth}.png` }); }
   const endingActions = await page.locator('#endingActions').innerText();
   if (/MAIN\d+_|V42-|E07_|ACTION_/.test(endingActions)) throw new Error(`ending recap exposes internal action IDs: ${endingActions}`);
   const modalSemantics = await page.locator('#endingOverlay').evaluate((node) => ({ role: node.getAttribute('role'), modal: node.getAttribute('aria-modal'), appInert: document.querySelector('main')?.inert }));
@@ -141,7 +167,7 @@ for (const viewport of process.env.V42_QUICK === '1' ? [viewports[0]] : viewport
 await browser.close();
 report.status = failures.length === 0;
 report.failures = failures;
-fs.mkdirSync('artifacts/v42-browser', { recursive: true });
-fs.writeFileSync('artifacts/v42-browser/report.json', JSON.stringify(report, null, 2) + '\n');
+fs.mkdirSync(`${artifactRoot}/v42-browser`, { recursive: true });
+fs.writeFileSync(`${artifactRoot}/v42-browser/report.json`, JSON.stringify(report, null, 2) + '\n');
 console.log(JSON.stringify(report, null, 2));
 if (!report.status) process.exit(1);
