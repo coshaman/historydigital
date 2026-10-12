@@ -65,6 +65,32 @@ function validateBranchGraph(graph, sources = []) {
     if (branch.eventSourceIds !== undefined && !Array.isArray(branch.eventSourceIds)) errors.push(`${label}: eventSourceIds must be an array`);
     for (const id of branch.eventSourceIds ?? []) if (!sourceIds.has(id)) errors.push(`${label}: unknown event source ${id}`);
   }
+  if (graph.pairwiseInteractions !== undefined) {
+    if (!Array.isArray(graph.pairwiseInteractions)) errors.push('pairwiseInteractions must be an array');
+    else {
+      const pairKeys = new Set();
+      const hubOrder = new Map(graph.hubs.map((hub, index) => [hub.id, index]));
+      for (const interaction of graph.pairwiseInteractions) {
+        const label = `${interaction?.afterChoiceId ?? '(missing prior choice)'} -> ${interaction?.currentChoiceId ?? '(missing current choice)'}`;
+        const prior = graph.branches.find(branch => branch.choiceId === interaction?.afterChoiceId);
+        const current = graph.branches.find(branch => branch.choiceId === interaction?.currentChoiceId);
+        if (!prior || !current) errors.push(`pairwise interaction ${label}: references unknown choice`);
+        else if (hubOrder.get(prior.hubId) >= hubOrder.get(current.hubId)) errors.push(`pairwise interaction ${label}: choices are not in forward hub order`);
+        const key = `${interaction?.currentChoiceId}|${interaction?.afterChoiceId}`;
+        if (pairKeys.has(key)) errors.push(`pairwise interaction ${label}: duplicate choice pair`);
+        pairKeys.add(key);
+        if (!interaction?.line || typeof interaction.line.speaker !== 'string' || !interaction.line.speaker.trim() || typeof interaction.line.text !== 'string' || !interaction.line.text.trim()) errors.push(`pairwise interaction ${label}: missing speaker or dialogue text`);
+      }
+      for (const [currentIndex, hub] of graph.hubs.entries()) {
+        if (currentIndex === 0) continue;
+        for (const current of graph.branches.filter(branch => branch.hubId === hub.id)) {
+          for (const priorHub of graph.hubs.slice(0, currentIndex)) for (const prior of graph.branches.filter(branch => branch.hubId === priorHub.id)) {
+            if (!pairKeys.has(`${current.choiceId}|${prior.choiceId}`)) errors.push(`pairwise interaction missing ${prior.choiceId} -> ${current.choiceId}`);
+          }
+        }
+      }
+    }
+  }
   for (const transition of graph.transitions) {
     if (!hubIds.has(transition.fromHubId)) errors.push(`transition has missing source hub ${transition.fromHubId}`);
     if (transition.toHubId !== 'END' && !hubIds.has(transition.toHubId)) errors.push(`transition has missing target ${transition.toHubId}`);
@@ -92,7 +118,11 @@ function resolveBranchEvent(graph, hubId, choiceId, routeState = {}) {
     branchState: { ...(routeState.branchState ?? {}), ...(branch.stateWrites ?? {}) },
     historicalAnchors: routeState.historicalAnchors ?? graph.anchors
   };
-  return { eventId: branch.immediateEventId, reactionId: branch.nextHubReactionId, callbackKey: branch.callbackKey, nextState };
+  const priorChoiceIds = new Set(existing);
+  const interactionLines = (graph.pairwiseInteractions ?? [])
+    .filter((variant) => variant.currentChoiceId === branch.choiceId && priorChoiceIds.has(variant.afterChoiceId))
+    .map((variant) => ({ ...variant.line, choiceId: variant.afterChoiceId }));
+  return { eventId: branch.immediateEventId, reactionId: branch.nextHubReactionId, callbackKey: branch.callbackKey, interactionLines, nextState };
 }
 
 function matches(when, state) {

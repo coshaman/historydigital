@@ -90,7 +90,7 @@ test('project graph has 81 vectors and every option has its own event, reaction,
   const result = validateBranchGraph(projectGraph, [...sourceIds]);
   assert.deepEqual(result, { valid: true, errors: [] });
   assert.equal(enumerateRouteVectors(projectGraph).length, 81);
-  assert.deepEqual(projectGraph.sequence, ['E02', 'E04', 'H1-CIRCLE', 'H2-EXAM', 'H3-READING', 'H4-NEWS', 'E07']);
+  assert.deepEqual(projectGraph.sequence, ['E02', 'V42-C07-GOGOL-1847', 'E04', 'V42-C07-BELINSKY-1847', 'H1-CIRCLE', 'H2-EXAM', 'H3-READING', 'H4-NEWS', 'E07']);
   assert.ok(projectGraph.anchors.some(anchor => anchor.id === 'E04' && anchor.sourceIds.includes('EXT-SHEVCHENKO-DOC-282')));
   const activeE04 = e04Scene.excerpts.find(excerpt => excerpt.sourceId === 'EXT-SHEVCHENKO-DOC-282');
   assert.ok(activeE04?.ru.includes('Присутствовали:') && activeE04?.ru.includes('Слушали:'));
@@ -135,10 +135,19 @@ test('E02 and E04 remain in the active chronological player route', async () => 
   assert.ok(main20.v44MainSceneIds?.includes('E02'), 'E02 must not be silently archived from the active route');
   const activeIds = [...main20.v44MainSceneIds, 'E04'];
   for (const id of ['E02', 'E04', 'E07']) assert.ok(activeIds.includes(id), `${id} is not active`);
-  assert.deepEqual(projectGraph.sequence.slice(0, 4), ['E02', 'E04', 'H1-CIRCLE', 'H2-EXAM']);
+  assert.deepEqual(projectGraph.sequence.slice(0, 5), ['E02', 'V42-C07-GOGOL-1847', 'E04', 'V42-C07-BELINSKY-1847', 'H1-CIRCLE']);
   assert.ok(projectGraph.hubs.find(hub => hub.id === 'H1-CIRCLE').date > projectGraph.anchors.find(anchor => anchor.id === 'E04').date);
   const runtime = await readFile(new URL('../main20-runtime.js', import.meta.url), 'utf8');
   assert.match(runtime, /current\.id === 'E04' && !state\.c07IdeologyComplete/);
+  assert.match(runtime, /current\.id === 'E02' && !state\.c07PreE04Complete/);
+  assert.match(runtime, /c07BeatIndex = c07BeforeE04 \? 0 : 1/);
+  assert.match(runtime, /state\.sceneIndex = data\.scenes\.findIndex\(\(item\) => item\.id === 'E04'\)/);
+});
+
+test('private circle notes are not known by Alexei unless the player shares them', () => {
+  const route = projectGraph;
+  const leak = route.pairwiseInteractions.find(line => line.currentChoiceId === 'NEWS-FILE' && line.afterChoiceId === 'CIRCLE-KEEP-NOTES');
+  assert.doesNotMatch(leak.line.text, /수첩|메모|적었|기록했/);
 });
 
 test('every immediate branch choice carries auditable, non-terminal ending evidence into saved history', async () => {
@@ -172,7 +181,38 @@ test('literature choice source is displayed before selection and again in its se
   assert.match(source, /options\.flatMap\(\(branch\) => branchSourceIds\(branch\)\)/);
   assert.match(source, /function branchEventSourceIds\(branch\)/);
   assert.match(source, /renderBranchPaper\(branch\.event\.title,[^\n]*branchEventSourceIds\(branch\)/);
-  assert.deepEqual(route.eventSourceIdsByChoice['BOOK-DISCUSS'], ['EXT-TURGENEV-ERMOLAI-MILLER-1847', 'EXT-TURGENEV-KONTORA-1847', 'EXT-TURGENEV-KARATAEV-1847', 'EXT-NEKRASOV-NIGHT-STREET-1847', 'EXT-TURGENEV-OVSYANIKOV-1847', 'EXT-BELINSKY-CONTEMPORARY-NOTES-1847']);
+  assert.deepEqual(route.eventSourceIdsByChoice['BOOK-DISCUSS'], ['EXT-TURGENEV-ERMOLAI-MILLER-1847', 'EXT-TURGENEV-KONTORA-1847', 'EXT-TURGENEV-KARATAEV-1847', 'EXT-NEKRASOV-NIGHT-STREET-1847', 'EXT-TURGENEV-OVSYANIKOV-1847', 'EXT-BELINSKY-CONTEMPORARY-NOTES-1847', 'EXT-HERZEN-DILETTANTISM-1843', 'EXT-HERZEN-GRANOVSKY-LECTURES-1843', 'EXT-HERZEN-GRANOVSKY-SECOND-LETTER-1844', 'EXT-KAVELIN-LEGAL-LIFE-ANCIENT-RUSSIA-1847', 'EXT-KAVELIN-REPLY-MOSKVITYANIN-1847', 'EXT-KHOMYAKOV-RUSSIAN-ART-SCHOOL-1847', 'EXT-HERZEN-PUBLIC-LECTURES-ROULIER-1845', 'EXT-BELINSKY-GOGOL-REVIEW-1847', 'EXT-NEKRASOV-NEW-POET-1847']);
   assert.ok(route.eventSourceIdsByChoice['BOOK-PRIVATE'].includes('EXT-DOSTOEVSKY-POOR-FOLK-1846'));
+  assert.ok(route.eventSourceIdsByChoice['BOOK-PRIVATE'].includes('EXT-DOSTOEVSKY-NINE-LETTERS-1847'));
+  assert.ok(route.eventSourceIdsByChoice['BOOK-QUESTION'].includes('EXT-PANAEV-RELATIVES-1847'));
+  assert.ok(route.eventSourceIdsByChoice['BOOK-QUESTION'].includes('EXT-BRANT-ANTON-GOREMYKA-REVIEW-1847'));
   assert.ok(route.branches.find(branch => branch.choiceId === 'NEWS-REPORT')?.eventSourceIds?.includes('EXT-NEKRASOV-EDITORIAL-ANON-1848'));
+});
+
+test('each later hub resolves a distinct authored line for all prior hub-choice combinations', () => {
+  assert.ok(Array.isArray(projectGraph.pairwiseInteractions), 'route has no pairwise event dialogue');
+  let pairCount = 0;
+  for (const laterHub of projectGraph.hubs.slice(1)) {
+    const earlierHubs = projectGraph.hubs.slice(0, projectGraph.hubs.indexOf(laterHub));
+    for (const current of projectGraph.branches.filter(branch => branch.hubId === laterHub.id)) {
+      for (const earlierHub of earlierHubs) {
+        const earlierBranches = projectGraph.branches.filter(branch => branch.hubId === earlierHub.id);
+        const texts = earlierBranches.map(earlier => resolveBranchEvent(projectGraph, laterHub.id, current.choiceId, {
+          routeChoices: projectGraph.hubs.slice(0, projectGraph.hubs.indexOf(laterHub)).map(hub => hub.id === earlierHub.id ? earlier.choiceId : projectGraph.branches.find(branch => branch.hubId === hub.id).choiceId)
+        }).interactionLines?.find(line => line.choiceId === earlier.choiceId)?.text);
+        assert.ok(texts.every(Boolean), `${earlierHub.id} -> ${laterHub.id}/${current.choiceId} has an unresolved event response`);
+        assert.equal(new Set(texts).size, earlierBranches.length, `${laterHub.id}/${current.choiceId} collapses earlier ${earlierHub.id} choices into identical dialogue`);
+        pairCount += texts.length;
+      }
+    }
+  }
+  assert.equal(pairCount, 54);
+});
+
+test('rejects malformed, duplicated, unreachable, or out-of-route pairwise dialogue', () => {
+  const graph = structuredClone(projectGraph);
+  graph.pairwiseInteractions = [...graph.pairwiseInteractions, { ...graph.pairwiseInteractions[0] }];
+  graph.pairwiseInteractions.push({ currentChoiceId: 'MISSING-CHOICE', afterChoiceId: 'CIRCLE-ATTEND', line: { speaker: 'pavel', text: '...' } });
+  graph.pairwiseInteractions.push({ currentChoiceId: 'BOOK-DISCUSS', afterChoiceId: 'CIRCLE-ATTEND', line: { speaker: '', text: '' } });
+  assert.match(validateBranchGraph(graph, [...addedSources.map(source => source.sourceId), ...(main20.sourceRegister ?? []).map(source => source.sourceId)]).errors.join('\n'), /pairwise interaction/i);
 });

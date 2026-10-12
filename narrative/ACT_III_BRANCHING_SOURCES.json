@@ -355,5 +355,470 @@
     "url": "https://ru.wikisource.org/wiki/От_редакции_(Некрасов)/Версия_5",
     "provenanceNote": "이 공지는 1848년 《Современник》 제7호에 실렸고, 위키문고가 적은 검열 허가일은 6월 30일이다. 인용문은 편집부가 저자들에게 보낸 구체적인 안내다. 후대 주석의 프랑스 혁명 관련 설명을 동시대 공지의 문장으로 혼합하지 않는다.",
     "sceneUsage": ["EV-NEWS-REPORT: selected-event editorial context"]
+  },
+  {
+    "sourceId": "EXT-HERZEN-DILETTANTISM-1843",
+    "sourceClass": "PRIMARY_PUBLICATION",
+    "witnessKey": "alexander-ivanovich-herzen|dilettantism-in-science-article-1|otechestvennye-zapiski-1843|collected-edition-1975-text",
+    "authorOrIssuer": "Александр Иванович Герцен (печатался под подписью «Ис-р»)",
+    "title": "Дилетантизм в науке, статья первая",
+    "date": "1843",
+    "edition": "The cycle was first published in Отечественные записки in 1843 under the signature «Ис-р». Text in the checked Wikisource transcription follows Герцен, Собрание сочинений в 8 томах, vol. II (Москва: Правда, 1975), pp. 5–86; no first-print scan collation is claimed.",
+    "holdingInstitution": "Wikisource transcription; stated textual basis is the 1975 collected edition. The Wikisource page separately identifies the 1843 first publication.",
+    "locator": "Article I, opening two consecutive paragraphs, beginning «Мы живем на рубеже двух миров» and «Люди внешние предаются»; collected edition vol. II, opening of the essay.",
+    "contextRange": {
+      "paragraphStart": 1,
+      "paragraphEnd": 2,
+      "speaker": "Herzen’s essay voice, published under «Ис-р».",
+      "claim": "The writer describes readers caught between shaken old beliefs and new ideas, then presents science as a proposed means of intellectual reconciliation.",
+      "immediateIssue": "Whether science can meet moral and emotional needs, and how intellectual positions are misrepresented."
+    },
+    "originalRussian": [
+      {
+        "segmentId": "EXT-HERZEN-DIL-1843-P1",
+        "order": 1,
+        "text": "Мы живем на рубеже двух миров — оттого особая тягость, затруднительность жизни для мыслящих людей. Старые убеждения, все прошедшее миросозерцание потрясены — но они дороги сердцу. Новые убеждения, многообъемлющие и великие, не успели еще принести плода; первые листы, почки пророчат могучие цветы, но этих цветов нет, и они чужды сердцу. Множество людей осталось без прошедших убеждений и без настоящих. Другие механически спутали долю того и другого и погрузились в печальные сумерки."
+      },
+      {
+        "segmentId": "EXT-HERZEN-DIL-1843-P2",
+        "order": 2,
+        "text": "Люди внешние предаются в таком случае ежедневной суете; люди созерцательные — страдают: во что б ни стало ищут примирения, потому что с внутренним раздором, без краеугольного камня нравственному бытию человек не может жить. Между тем всеобщее примирение в сфере мышления провозгласилось миру наукой."
+      }
+    ],
+    "koreanTranslation": [
+      {
+        "segmentId": "EXT-HERZEN-DIL-1843-P1",
+        "order": 1,
+        "text": "우리는 두 세계의 경계에 살고 있다. 그래서 생각하는 사람의 삶은 유난히 무겁고 어렵다. 오래된 신념과 지나간 세계관은 흔들렸지만 여전히 마음에 소중하다. 새롭고 넓은 신념은 아직 결실을 맺지 못했다. 첫 잎과 싹은 힘찬 꽃을 예고하지만, 꽃은 아직 없고 마음에도 낯설다. 과거의 신념도 현재의 신념도 갖지 못한 사람이 많다. 두 시대의 몫을 기계적으로 뒤섞은 사람들은 우울한 황혼 속으로 가라앉았다."
+      },
+      {
+        "segmentId": "EXT-HERZEN-DIL-1843-P2",
+        "order": 2,
+        "text": "그런 때 세상일에만 매달리는 사람은 하루하루의 분주함에 몸을 맡기고, 사색하는 사람은 괴로워한다. 사람은 마음속 분열을 안고, 도덕적 삶을 받쳐 줄 주춧돌도 없이 살 수 없기에 어떻게든 화해의 길을 찾는다. 그런데 사상 영역에서 보편적 화해를 이루겠다고 세상에 나선 것이 과학이었다."
+      }
+    ],
+    "translationStatus": "새 프로젝트 번역. 연속된 두 문단과 문단별 대응.",
+    "availabilityDate": "1843",
+    "url": "https://ru.wikisource.org/wiki/Дилетантизм_в_науке_(Герцен)",
+    "provenanceNote": "The article page states first publication in Отечественные записки in 1843 and identifies the later 1975 collected edition as its text basis. The excerpt represents Herzen’s argument, not neutral public opinion.",
+    "sceneUsage": [
+      "EV-BOOK-DISCUSS: philosophical reading context"
+    ]
+  },
+  {
+    "sourceId": "EXT-HERZEN-GRANOVSKY-LECTURES-1843",
+    "sourceClass": "PRIMARY_PUBLICATION",
+    "witnessKey": "alexander-ivanovich-herzen|public-lectures-granovsky-letter-to-petersburg|moskovskie-vedomosti-1843-no-142|collected-edition-text",
+    "authorOrIssuer": "Александр Иванович Герцен",
+    "title": "Публичные чтения г. Грановского (Письмо в Петербург)",
+    "date": "1843",
+    "edition": "The Wikisource page dates the essay to 1843 and identifies its text basis as Herzen’s collected works, vol. 2 (1954), pp. 5–86. The first-print newspaper citation is recorded in the article’s bibliographic apparatus; this entry uses the later collected text, not a claimed page-image collation.",
+    "holdingInstitution": "Wikisource transcription of the 1954 collected-edition text.",
+    "locator": "Two consecutive paragraphs in section I, beginning «В самом событии этого курса» and «Г-н Грановский»; section I opening, following the paragraph that introduces Granovsky’s public medieval-history course.",
+    "contextRange": {
+      "paragraphStart": 2,
+      "paragraphEnd": 3,
+      "speaker": "Herzen writing to a Petersburg reader about Granovsky’s public history lectures in Moscow.",
+      "claim": "The essay places the lectures within a live dispute about Western civilization and Russia’s historical development, and argues that listeners should hear a sympathetic account before rejecting a whole historical period.",
+      "immediateIssue": "How to evaluate Europe’s past in relation to Russia without treating one civilization as inherently alien."
+    },
+    "originalRussian": [
+      {
+        "segmentId": "EXT-HERZEN-GRAN-1843-P2",
+        "order": 1,
+        "text": "В самом событии этого курса есть что-то чрезвычайно поэтическое: в то время, когда трудный вопрос об истинном отношении западной цивилизации к нашему историческому развитию занимает всех мыслящих, и разрешается противуположно, является один из молодых преподавателей нашего университета на кафедре, чтоб передать живым словом историю того оконченного отдела судеб мира германо-католического, которого самобытно развивающаяся Россия не имела."
+      },
+      {
+        "segmentId": "EXT-HERZEN-GRAN-1843-P3",
+        "order": 2,
+        "text": "Г-н Грановский, года три тому назад оставивший скамьи лучших германских университетов, посвятивший жизнь свою глубокому изучению европейской истории, выходит перед московским обществом не как адвокат средних веков, а как заявитель великого ряда событий, в их органической связи с судьбами всего человечества; его чтения не могут быть разрешением вопроса, но должны внести в него новые данные; он вправе требовать, чтоб, желая осуждать и отталкивать целую фазу жизни человечества, выслушали по крайней мере симпатический рассказ о ней."
+      }
+    ],
+    "koreanTranslation": [
+      {
+        "segmentId": "EXT-HERZEN-GRAN-1843-P2",
+        "order": 1,
+        "text": "이 강의가 열린 일 자체에는 시적인 면이 있다. 서구 문명이 러시아의 역사적 발전과 어떤 관계인지, 생각하는 사람마다 서로 다르게 답하는 어려운 문제에 관심을 두던 때였다. 그런 때 젊은 대학 교수가 강단에 서서, 독자적으로 발전해 온 러시아에는 없었던 게르만·가톨릭 세계의 한 시대를 살아 있는 말로 들려주려 한다."
+      },
+      {
+        "segmentId": "EXT-HERZEN-GRAN-1843-P3",
+        "order": 2,
+        "text": "그라노프스키 씨는 3년쯤 전 독일의 훌륭한 대학들을 떠난 뒤 유럽사를 깊이 연구해 왔다. 그는 중세의 변호인으로 모스크바 사회 앞에 선 것이 아니라, 인류의 운명과 유기적으로 이어진 일련의 사건을 전하려고 섰다. 그의 강의가 이 문제를 단번에 해결해 주지는 않겠지만 새로운 자료를 보탤 수는 있다. 한 시대 전체를 비난하고 밀어내려는 사람이라면, 적어도 그 시대를 호의적으로 그린 이야기를 먼저 들어야 한다."
+      }
+    ],
+    "translationStatus": "새 프로젝트 번역. 원문 연속 두 문단과 문단별 대응.",
+    "availabilityDate": "1843",
+    "url": "https://ru.wikisource.org/wiki/Публичные_чтения_г._Грановского_(Герцен)",
+    "provenanceNote": "The page identifies Herzen as author, dates the essay to 1843, and reproduces it from the collected works. The quoted article reports on a real lecture course but is Herzen’s account, not a transcript of the lectures.",
+    "sceneUsage": [
+      "EV-BOOK-DISCUSS: competing historical interpretations"
+    ]
+  },
+  {
+   "sourceId": "EXT-HERZEN-PUBLIC-LECTURES-ROULIER-1845",
+    "sourceClass": "PRIMARY_PUBLICATION",
+    "witnessKey": "alexander-ivanovich-herzen|public-lectures-professor-roulier|moskovskie-vedomosti-1845-nos-147-148|collected-edition-text",
+    "authorOrIssuer": "Александр Иванович Герцен (подпись «И—р»)",
+    "title": "Публичные чтения г-на профессора Рулье",
+    "date": "1845",
+    "edition": "First published in Московские ведомости, nos. 147–148, December 1845, signed «И—р». The checked Wikisource page is a collected-works transcription based on the newspaper text; no direct newspaper scan collation is claimed.",
+    "holdingInstitution": "Wikisource transcription; the edition notes identify the newspaper witness.",
+    "locator": "Opening consecutive paragraphs of the article, beginning «Одна из главных потребностей нашего времени» and «Нам кажется почти невозможным»; nos. 147–148, December 1845.",
+    "contextRange": {
+      "paragraphStart": 1,
+      "paragraphEnd": 2,
+      "speaker": "Herzen reviewing Professor Roulier’s public lectures on natural history.",
+      "claim": "Scientific knowledge should reach the public in clear language and foster evidence-based thinking and honest acceptance of results.",
+      "immediateIssue": "Whether popular teaching can make natural science accessible without sacrificing rigor; these are Herzen’s views, not a verbatim lecture transcript."
+    },
+    "originalRussian": [
+      {
+        "segmentId": "EXT-HERZEN-ROULIER-1845-P1",
+        "order": 1,
+        "text": "Одна из главных потребностей нашего времени — обобщение истинных, дельных сведений об естествознании. Их много в науке — их мало в обществе; надобно втолкнуть их в поток общественного сознания, надобно их сделать доступными, надобно дать им форму живую, как жива природа, надобно дать им язык откровенный, простой, как ее собственный язык, которым она развертывает бесконечное богатство своей сущности в величественной и стройной простоте."
+      },
+      {
+        "segmentId": "EXT-HERZEN-ROULIER-1845-P2",
+        "order": 2,
+        "text": "Нам кажется почти невозможным без естествоведения воспитать действительное, мощное умственное развитие; никакая отрасль знаний не приучает так ума к твердому, положительному шагу; к смирению перед истиной, к добросовестному труду и, что еще важнее, к добросовестному принятию последствий такими, какими они выйдут, как изучение природы; им бы мы начинали воспитание для того, чтоб очистить отроческий ум от предрассудков, дать ему возмужать на этой здоровой пище и потом уже раскрыть для него, окрепнувшего и вооруженного, мир человеческий, мир истории, из которого двери отворяются прямо в деятельность, в собственное участие в современных вопросах."
+      }
+    ],
+    "koreanTranslation": [
+      {
+        "segmentId": "EXT-HERZEN-ROULIER-1845-P1",
+        "order": 1,
+        "text": "우리 시대에 절실한 일 가운데 하나는 자연과학의 참되고 쓸모 있는 지식을 모아 정리하는 것이다. 학문 안에는 그런 지식이 많지만 사회에는 적다. 그것을 사회의 의식 속으로 가져와 누구나 접할 수 있게 해야 한다. 살아 있는 자연처럼 생동감 있는 형식을 주고, 자연이 그 풍부한 본질을 웅장하면서도 질서 있게 펼치듯 솔직하고 쉬운 말로 전해야 한다."
+      },
+      {
+        "segmentId": "EXT-HERZEN-ROULIER-1845-P2",
+        "order": 2,
+        "text": "자연과학 없이 실질적이고 힘 있는 지적 성장을 이루기는 어렵다고 본다. 자연을 연구하는 일만큼 마음을 단단하고 확실하게 나아가게 하고, 진리 앞에서 겸손하게 하며 성실히 노력하게 하는 분야는 없다. 더 중요한 것은 결과가 어떻게 나오든 정직하게 받아들이는 태도를 가르친다는 점이다. 교육은 자연을 공부하는 데서 시작해 청소년의 마음에서 편견을 걷어 내고, 충분히 자라난 뒤에는 인간 세계와 역사의 문을 열어 주어야 한다. 그 문 너머에는 실천과 오늘의 문제에 직접 참여하는 길이 놓여 있다."
+      }
+    ],
+    "translationStatus": "새 프로젝트 번역. 문단 단위로 러시아어 원문과 맞춤.",
+    "availabilityDate": "1845-12",
+    "url": "https://ru.wikisource.org/wiki/Статьи_и_фельетоны_(1841-1846)_(Герцен)",
+    "provenanceNote": "The cited source is a collected-works transcription of Herzen’s newspaper review. The passage is his educational argument about Roulier’s lectures, not a quotation from Roulier himself.",
+    "sceneUsage": [
+      "EV-BOOK-DISCUSS: science, education, and public access"
+    ]
+  },
+  {
+    "sourceId": "EXT-HERZEN-GRANOVSKY-SECOND-LETTER-1844",
+    "sourceClass": "PRIMARY_PUBLICATION",
+    "witnessKey": "alexander-ivanovich-herzen|granovsky-public-lectures-second-letter|moskvitianin-1844-no-7|collected-edition-text",
+    "authorOrIssuer": "Александр Иванович Герцен",
+    "title": "О публичных чтениях г-на Грановского (Письмо второе)",
+    "date": "1844",
+    "edition": "Published in 1844; the Wikisource page identifies Herzen’s collected works, vol. 2 (1954), as the text basis. First-print citation is «Москвитянин», no. 7 (1844), p. 167; no image collation is claimed.",
+    "holdingInstitution": "Wikisource transcription of the 1954 collected-edition text.",
+    "locator": "Opening two consecutive paragraphs, beginning «Публичные чтения Грановского кончились» and «Этими прекрасными словами».",
+    "contextRange": {
+      "paragraphStart": 1,
+      "paragraphEnd": 2,
+      "speaker": "Herzen reporting the final lecture and audience response.",
+      "claim": "He describes listeners who agree and disagree openly, growing attendance, and women attending Granovsky’s lectures.",
+      "immediateIssue": "Whether public teaching can welcome women as serious learners and bring university scholarship into city life."
+    },
+    "originalRussian": [
+      {
+        "segmentId": "EXT-HERZEN-GRAN2-1844-P1",
+        "order": 1,
+        "text": "Публичные чтения Грановского кончились; в ушах моих еще раздается дрожащий от внутреннего волнения, глубоко потрясенный от сильного чувства голос, которым он благодарил слушателей, и дружный, громкий, продолжительный ответ, которым аудитория прогремела ему свою благодарность. — «Благодарю еще раз, благодарю тех, которые, сочувствуя мне, разделили добросовестность моих ученых убеждений, благодарю и тех, которые, не разделяя их, с открытым челом, прямо и благородно высказывали мне свою противоположность!»."
+      },
+      {
+        "segmentId": "EXT-HERZEN-GRAN2-1844-P2",
+        "order": 2,
+        "text": "Этими прекрасными словами заключил Грановский свой курс. Вы помните, что, после первого чтения, я решился назвать событием замечательным этот курс, — теперь я имею некоторое право сказать, что не ошибся. Участие к чтениям г-на Грановского беспрерывно возрастало; его кафедра была постоянно окружена тройным венком дам, и заметьте, доцент читал свой предмет со всею важностью науки, не рассыпая ненужных цветов, не жертвуя глубиною для приятной легкости."
+      }
+    ],
+    "koreanTranslation": [
+      {
+        "segmentId": "EXT-HERZEN-GRAN2-1844-P1",
+        "order": 1,
+        "text": "그라노프스키의 공개 강의가 끝났다. 내 귀에는 아직도 깊은 감정에 북받쳐 떨리던 그의 목소리가 남아 있다. 청중에게 감사 인사를 건네자, 강당은 한목소리로 크고 오래 환호하며 답했다. 그는 이렇게 말했다. “다시 한 번 감사드립니다. 제 학문적 신념에 공감해 함께 진지하게 고민해 주신 분들께도, 그 신념에 동의하지 않으면서도 숨김없이 당당하고 품위 있게 반대 의견을 말씀해 주신 분들께도 감사드립니다.”"
+      },
+      {
+        "segmentId": "EXT-HERZEN-GRAN2-1844-P2",
+        "order": 2,
+        "text": "그 말로 그라노프스키는 강의를 마쳤다. 첫 강의 뒤 내가 이 강의를 주목할 만한 사건이라고 불렀던 걸 기억할 것이다. 이제 보니 틀리지 않았다. 강의에 대한 관심은 계속 커졌고, 그의 강단 둘레에는 늘 여성 청중이 모여들었다. 주목할 점은 그가 학문을 가볍게 꾸미거나 깊이를 희생하지 않고, 학문다운 무게를 지켜 강의했다는 것이다."
+      }
+    ],
+    "translationStatus": "새 프로젝트 번역. 러시아어 문단 순서와 문맥을 보존.",
+    "availabilityDate": "1844",
+    "url": "https://ru.wikisource.org/wiki/О_публичных_чтениях_г-на_Грановского_(Герцен)",
+    "provenanceNote": "This is a separate 1844 publication continuing Herzen’s reporting, not merely a second URL for the 1843 letter. It is Herzen’s account of the audience, not an attendance register.",
+    "sceneUsage": [
+      "EV-BOOK-DISCUSS: public access to learning and disagreement"
+    ]
+  },
+  {
+    "sourceId": "EXT-KAVELIN-LEGAL-LIFE-ANCIENT-RUSSIA-1847",
+    "sourceClass": "PRIMARY_PUBLICATION",
+    "witnessKey": "konstantin-kavelin|view-on-legal-life-ancient-russia|sovremennik-1847-vol-1-book-1-section-2|wikisource-collected-text",
+    "authorOrIssuer": "Константин Дмитриевич Кавелин",
+    "title": "Взгляд на юридический быт древней России",
+    "date": "1847",
+    "edition": "First publication in Современник, 1847, vol. I, book 1, section II; Wikisource text is transcribed from a later collected edition and names az.lib.ru as the textual source. No first-print image collation is claimed.",
+    "holdingInstitution": "Wikisource transcription, with first-publication year shown on the page.",
+    "locator": "Opening two consecutive paragraphs, beginning «В наше время русская история становится» and «Прибавим, что все некогда».",
+    "contextRange": {
+      "paragraphStart": 1,
+      "paragraphEnd": 2,
+      "speaker": "Kavelin introducing an argument about how to interpret Russia’s past.",
+      "claim": "Interest in Russian history has broadened, while Kavelin argues that Russia’s historical trajectory is exceptional among Slavic states.",
+      "immediateIssue": "Whether Russia’s past is exceptional and how comparative history should be used; this is Kavelin’s thesis, not a neutral consensus."
+    },
+    "originalRussian": [
+      {
+        "segmentId": "EXT-KAVELIN-LEGAL-1847-P1",
+        "order": 1,
+        "text": "В наше время русская история становится предметом общего любопытства и деятельного изучения. Прежде она была доступна одним избранным, на которых потому и смотрели с каким-то удивлением, переходящим в благоговение. Теперь все образованные люди интересуются русской историей; не только у нас, даже в Европе многие ею занимаются. Объяснять причины этого нового, весьма недавнего явления мы считаем излишним. Россия Петра Великого, Россия Екатерины II, Россия XIX в. объясняют его достаточно."
+      },
+      {
+        "segmentId": "EXT-KAVELIN-LEGAL-1847-P2",
+        "order": 2,
+        "text": "Прибавим, что все некогда обширные и сильные государства, основанные славянами, пали. Одна Россия, государство тоже славянское, создалась так крепко и прочно, что вынесла все внешние и внутренние бури и из каждой выходила как будто с новыми силами. Ее судьба — совсем особенная, исключительная в славянском мире, отчасти истребленном, отчасти порабощенном и угнетенном в прочих его отраслях. Это делает ее явлением совершенно новым, небывалым в истории."
+      }
+    ],
+    "koreanTranslation": [
+      {
+        "segmentId": "EXT-KAVELIN-LEGAL-1847-P1",
+        "order": 1,
+        "text": "오늘날 러시아 역사는 많은 사람의 관심을 받고 활발히 연구되는 대상이 되었다. 예전에는 일부 사람만 접할 수 있었기에, 사람들은 그들을 놀라움과 경외심을 담아 바라보곤 했다. 이제는 교양 있는 사람이라면 누구나 러시아 역사에 관심을 보인다. 우리뿐 아니라 유럽에서도 연구하는 이들이 많다. 이 새롭고도 얼마 되지 않은 현상의 이유를 굳이 설명할 필요는 없을 것이다. 표트르 대제 시대의 러시아, 예카테리나 2세 시대의 러시아, 그리고 19세기 러시아가 이미 충분히 보여 준다."
+      },
+      {
+        "segmentId": "EXT-KAVELIN-LEGAL-1847-P2",
+        "order": 2,
+        "text": "덧붙이자면, 한때 넓은 영토와 강한 힘을 가졌던 슬라브계 국가들은 모두 무너졌다. 같은 슬라브계 국가인 러시아만은 굳건히 세워져 안팎의 격변을 견뎌 냈고, 그때마다 새 힘을 얻은 듯했다. 다른 슬라브 지역들이 일부는 사라지고 일부는 예속과 억압을 겪은 것과 달리, 러시아의 운명은 유난히 독특하다. 이 점이 러시아를 역사상 전례 없는 현상으로 만든다."
+      }
+    ],
+    "translationStatus": "새 프로젝트 번역. 연속 문단과 문단별 번역을 맞춤.",
+    "availabilityDate": "1847",
+    "url": "https://ru.wikisource.org/wiki/Взгляд_на_юридический_быт_древней_России_(Кавелин)",
+    "provenanceNote": "The article page dates the text to 1847 and gives the work title; the quoted assertions are Kavelin’s historical interpretation and should be presented as an argument, not uncontested fact.",
+    "sceneUsage": [
+      "EV-BOOK-DISCUSS: Russia and comparative historical interpretation"
+    ]
+  },
+  {
+    "sourceId": "EXT-KAVELIN-REPLY-MOSKVITYANIN-1847",
+    "sourceClass": "PRIMARY_PUBLICATION",
+    "witnessKey": "konstantin-kavelin|reply-to-moskvityanin|sovremennik-1847-no-12|wikisource-collected-text",
+    "authorOrIssuer": "Константин Дмитриевич Кавелин",
+    "title": "Ответ «Москвитянину»",
+    "date": "1847",
+    "edition": "Published in 1847; Wikisource text page identifies a later collected text and az.lib.ru as the transcription basis. The page’s notes discuss the publication context and censorship-related variants; no first-print page image collation is claimed.",
+    "holdingInstitution": "Wikisource transcription of a later collected text with publication notes.",
+    "locator": "Opening two consecutive paragraphs, beginning «Во втором нумере „Москвитянина“» and «Признаюсь, автор критики».",
+    "contextRange": {
+      "paragraphStart": 1,
+      "paragraphEnd": 2,
+      "speaker": "Kavelin replying to a critique in Москвитянин signed «М… З… К…».",
+      "claim": "He defends theory as a method for comparing historical facts while acknowledging that the critic has raised a problem about theoretical reasoning.",
+      "immediateIssue": "How to distinguish a theory grounded in historical processes from an ideal imposed on evidence."
+    },
+    "originalRussian": [
+      {
+        "segmentId": "EXT-KAVELIN-REPLY-1847-P1",
+        "order": 1,
+        "text": "Во втором нумере «Москвитянина» в статье г. M … З … К … под заглавием «О мнениях „Современника“, исторических и литературных» помещен подробный разбор моей статьи «Взгляд на юридический быт древней России», напечатанной в № 1 «Современника». Тон критики, кажущаяся дельность возражений, последовательность взгляда — все налагает на меня обязанность отвечать. Г. M … З … К … удостоил мою статью прочтением, следовательно, на этот раз спор возможен …"
+      },
+      {
+        "segmentId": "EXT-KAVELIN-REPLY-1847-P2",
+        "order": 2,
+        "text": "Признаюсь, автор критики поставил меня в затруднительное и неловкое положение. В моей статье я отстаивал необходимость теории для русской истории: это была основная мысль, заставившая меня взяться за перо. Критика г. M … З … К … показала весь вред, происходящий от теоретического воззрения, и мне как будто приходится опровергать себя. Постараемся объяснить это очевидное недоразумение."
+      }
+    ],
+    "koreanTranslation": [
+      {
+        "segmentId": "EXT-KAVELIN-REPLY-1847-P1",
+        "order": 1,
+        "text": "《Москвитянин》 제2호에는 ‘М… З… К…’라는 필명으로 실린 글이 내가 《Современник》 제1호에 발표한 「고대 러시아의 법적 생활을 바라보며」를 자세히 비판했다. 비판의 어조와 그럴듯한 반론, 일관된 관점까지 생각하면 답하지 않을 수 없다. 적어도 이번에는 상대가 내 글을 읽었으니 논쟁이 가능하다…"
+      },
+      {
+        "segmentId": "EXT-KAVELIN-REPLY-1847-P2",
+        "order": 2,
+        "text": "솔직히 말해, 그 비판은 나를 난처하게 했다. 내 글의 핵심은 러시아 역사를 이해하려면 이론이 필요하다는 주장이었다. 그런데 ‘М… З… К…’의 비판은 이론적 관점이 낳는 폐해를 지적했고, 그러자 나는 마치 내 주장을 스스로 반박해야 하는 처지가 된 듯했다. 이 분명한 오해부터 풀어 보자."
+      }
+    ],
+    "translationStatus": "새 프로젝트 번역. 원문 문단별 대응.",
+    "availabilityDate": "1847",
+    "url": "https://ru.wikisource.org/wiki/Ответ_«Москвитянину»_(Кавелин)",
+    "provenanceNote": "This is Kavelin’s distinct reply to a contemporary review, not a second URL for his earlier article. The page dates it to 1847; the quoted text is checked against its transcription, while exact issue pagination remains unclaimed here.",
+    "sceneUsage": [
+      "EV-BOOK-DISCUSS: testing an argument against contemporary criticism"
+    ]
+  },
+  {
+    "sourceId": "EXT-KHOMYAKOV-RUSSIAN-ART-SCHOOL-1847",
+    "sourceClass": "PRIMARY_PUBLICATION",
+    "witnessKey": "alexei-stepanovich-khomyakov|possibility-of-russian-art-school|moscow-literary-scholarly-almanac-1847|first-edition-text",
+    "authorOrIssuer": "Алексей Степанович Хомяков",
+    "title": "О возможности русской художественной школы",
+    "date": "1847",
+    "edition": "First publication: Московский литературный и ученый сборник на 1847 год (Москва, 1847), pp. 319–358. Wikisource transcription is checked against the cited 1847 almanac scan on Wikimedia Commons; censor permission is dated 21 February 1847.",
+    "holdingInstitution": "Digitized 1847 almanac scan on Wikimedia Commons and Wikisource transcription.",
+    "locator": "Two consecutive paragraphs in the closing section, beginning «Общение заключается» and «Только такого рода общение»; printed pages 319–358.",
+    "contextRange": {
+      "paragraphStart": 1,
+      "paragraphEnd": 2,
+      "speaker": "Khomyakov making a Slavophile argument about education, collective life, and cultural exchange.",
+      "claim": "He defines communion as more than an exchange of ideas or services and links learning to shared life.",
+      "immediateIssue": "Whether scholarship and art should imitate Western forms or grow through a locally rooted participatory culture; this is Khomyakov’s normative position."
+    },
+    "originalRussian": [
+      {
+        "segmentId": "EXT-KHOMYAKOV-ART-1847-P1",
+        "order": 1,
+        "text": "Общение заключается не в простом размене понятий, не в холодном и не в эгоистическом размене услуг, не в сухом уважении к чужому праву, всегда оговаривающем уважение к своим собственным правам; но в живом размене не понятий одних, но чувств, в общении воли, в разделении не только горя (ибо сострадание чувство слишком обыкновенное), но и радости жизненной."
+      },
+      {
+        "segmentId": "EXT-KHOMYAKOV-ART-1847-P2",
+        "order": 2,
+        "text": "Только такого рода общение может возвратить нас к началам жизни, нами утраченной, и привести нас из состояния безнародной отвлеченности и мертвой самодовольной рассудочности к полному участию в особенностях, характере и физиономии народа. Наши школьнические полузнания развились бы до науки и развили бы науку, внеся в нее великие и до сих пор ей чуждые начала, отличающие нас от западного мира с его латино-протестантскою односторонностью, с его историческим раздвоением."
+      }
+    ],
+    "koreanTranslation": [
+      {
+        "segmentId": "EXT-KHOMYAKOV-ART-1847-P1",
+        "order": 1,
+        "text": "함께 산다는 것은 생각을 주고받는 데 그치지 않는다. 차갑고 자기 이익만 따지는 서비스 교환도 아니고, 남의 권리를 존중한다고 말하면서 늘 자기 권리부터 단서로 붙이는 태도도 아니다. 생각뿐 아니라 감정을 나누고, 뜻을 함께하며, 슬픔만이 아니라 살아가는 기쁨까지 나누는 일이다."
+      },
+      {
+        "segmentId": "EXT-KHOMYAKOV-ART-1847-P2",
+        "order": 2,
+        "text": "그런 교류만이 우리가 잃어버린 삶의 뿌리로 돌아가게 하고, 민족과 동떨어진 추상과 생기 없는 자기만족적 이성에서 벗어나 한 민족의 특성과 성격, 고유한 모습을 온전히 살아 내게 한다. 아직 서툰 우리의 지식도 그런 바탕에서 학문으로 자랄 수 있고, 서구 세계의 라틴·프로테스탄트적 편향과 역사적 분열에는 낯선 원리를 학문에 보탤 수 있다."
+      }
+    ],
+    "translationStatus": "새 프로젝트 번역. 러시아어 원문과 문단별 대응.",
+    "availabilityDate": "1847-02",
+    "url": "https://ru.wikisource.org/wiki/О_возможности_русской_художественной_школы_(Хомяков)",
+    "provenanceNote": "This is the 1847 published essay, not Khomyakov’s separate 1839 manuscript «О старом и новом». Its claims are the author’s argument, not an uncontested account of Russian culture.",
+    "sceneUsage": [
+      "EV-BOOK-DISCUSS: community, knowledge, and national culture"
+    ]
+  },
+  {
+    "sourceId": "EXT-BELINSKY-GOGOL-REVIEW-1847",
+    "sourceClass": "PRIMARY_PUBLICATION",
+    "witnessKey": "vissarion-belinsky|review-of-dead-souls-1847|sovremennik-1847-v1-no1|1948-collected-text",
+    "authorOrIssuer": "Виссарион Григорьевич Белинский",
+    "title": "Похождения Чичикова, или Мёртвые души. Поэма Н. Гоголя",
+    "date": "1847",
+    "edition": "Белинский, Собрание сочинений в 3 т. М.: ГИХЛ, 1948, т. III, с. 684–686; Wikisource transcription with first-publication locator.",
+    "holdingInstitution": "Wikisource transcription; first publication locator and cited 1948 edition recorded on page.",
+    "locator": "Opening two consecutive paragraphs, beginning «Ни время, ни место…» and continuing into the assessment of language and style.",
+    "contextRange": {"paragraphStart":1,"paragraphEnd":2,"speaker":"Belinsky as a signed literary critic","claim":"He praises the joining of social idea and artistic form in Dead Souls, then distinguishes the work's linguistic and stylistic strengths and weaknesses.","immediateIssue":"Whether literature may be judged by social idea and artistic form together; a critic's argument, not neutral historical fact."},
+    "originalRussian": [
+      {"segmentId":"EXT-BEL-GOGOL-REV-P1","order":1,"text":"Ни время, ни место не позволяют нам входить в подробные объяснения о «Мертвых душах», тем более что это мы непременно сделаем в скором времени, представив читателям «Современника», может быть, не одну статью вообще о сочинениях Гоголя и о «Мертвых душах» в особенности. Теперь же скажем коротко, что, по нашему крайнему разумению и искреннему, горячему убеждению, «Мертвые души» стоят выше всего, что было и есть в русской литературе, ибо в них глубокость живой общественной идеи неразрывно сочеталась с бесконечною художественностию образов, и этот роман, почему-то названный автором поэмою, представляет собою произведение, столь же национальное, сколько и высокохудожественное."},
+      {"segmentId":"EXT-BEL-GOGOL-REV-P2","order":2,"text":"В нем есть свои недостатки, важные и неважные. К последним относим мы неправильности в языке, который вообще составляет столь же слабую сторону таланта Гоголя, сколько его слог (стиль) составляет сильную сторону его таланта."}
+    ],
+    "koreanTranslation": [
+      {"segmentId":"EXT-BEL-GOGOL-REV-P1","order":1,"text":"지금은 《죽은 혼》을 자세히 논할 시간도 지면도 없다. 곧 《소브레멘니크》 독자에게 고골의 작품, 특히 이 작품을 다룬 글을 선보일 생각이다. 우선 짧게 말하자면, 내 솔직하고 뜨거운 확신으로 《죽은 혼》은 러시아 문학의 어떤 작품보다도 뛰어나다. 살아 있는 사회적 사상과 풍부한 예술적 형상이 떼려야 뗄 수 없이 결합했기 때문이다. 작가가 어쩐지 ‘시’라고 부른 이 소설은 민족적이면서도 예술성이 높다."},
+      {"segmentId":"EXT-BEL-GOGOL-REV-P2","order":2,"text":"작품에는 크고 작은 약점도 있다. 작은 쪽으로는 언어의 부정확함을 들 수 있다. 고골의 재능에서 언어는 약점인 반면, 문체는 강점이다."}
+    ],
+    "translationStatus":"새 프로젝트 번역, 러시아어 문단과 1:1 대응.",
+    "availabilityDate":"1847-01",
+    "url":"https://ru.wikisource.org/wiki/Похождения_Чичикова,_или_Мёртвые_души._Поэма_Н._Гоголя_(1846)_(Белинский)",
+    "provenanceNote":"First published in Sovremennik, 1847, vol. I, no. 1, section III, pp. 56–59, signed В. Б. The displayed text is a 1948 collected-edition transcription, not a claim to a facsimile of the issue. This is contemporary criticism, not Gogol's own statement.",
+    "sceneUsage":["EV-BOOK-DISCUSS: contemporary reception and social idea in literature"]
+  },
+  {
+    "sourceId":"EXT-DOSTOEVSKY-PETERSBURG-CHRONICLE-1847",
+    "sourceClass":"PRIMARY_PUBLICATION",
+    "witnessKey":"fyodor-dostoevsky|petersburg-chronicle-27-april-1847|sankt-peterburgskie-vedomosti|wikisource-azlib-transcription",
+    "authorOrIssuer":"Фёдор Михайлович Достоевский",
+    "title":"Петербургская летопись",
+    "date":"1847-04-27",
+    "edition":"Wikisource transcription citing az.lib.ru; 27 April installment, with no scan claim.",
+    "holdingInstitution":"Wikisource text page, transcription source cited as az.lib.ru.",
+    "locator":"27 April installment, contiguous opening paragraphs from the spring walk through the habitual «что нового?» question.",
+    "contextRange":{"paragraphStart":1,"paragraphEnd":2,"speaker":"The feuilleton's first-person literary narrator","claim":"A spring thaw draws a recovering Petersburg resident outdoors; the habitual greeting ‘what is new?’ carries a weary public mood.","immediateIssue":"The narrator's satirical picture of urban routine and public conversation; literary observation, not a statistical survey."},
+    "originalRussian":[
+      {"segmentId":"EXT-DOST-PET-APR27-P1","order":1,"text":"Еще недавно я никак не мог себе представить петербургского жителя иначе как в халате, в колпаке, в плотно закупоренной комнате и с непременною обязанностию принимать что-нибудь через два часа по столовой ложке. Конечно, не все же были больные. Иным болеть запрещали обязанности. Других отстаивала богатырская их натура. Но вот наконец сияет солнце, и эта новость бесспорно стоит всякой другой. Выздоравливающий колеблется; нерешительно снимает колпак, в раздумьи приводит в порядок наружность и наконец соглашается пойти походить, разумеется во всем вооружении, в фуфайке, в шубе, в галошах."},
+      {"segmentId":"EXT-DOST-PET-APR27-P2","order":2,"text":"Приятным изумлением поражает его теплота воздуха, какая-то праздничность уличной толпы, оглушающий шум экипажей по обнаженной мостовой. Наконец на Невском проспекте выздоравливающий глотает новую пыль! Сердце его начинает биться, и что-то вроде улыбки кривит его губы, доселе вопросительно и недоверчиво сжатые. Первая петербургская пыль после потопа грязи и чего-то очень мокрого в воздухе, конечно, не уступает в сладости древнему дыму отечественных очагов, и гуляющий, с лица которого спадает недоверчивость, решается наконец насладиться весною. Вообще в петербургском жителе, решающемся насладиться весною, есть что-то такое добродушное и наивное, что как-то нельзя не разделить его радости. Он даже, при встрече с приятелем, забывает свой обыденный вопрос: что нового? и заменяет его другим, гораздо более интересным: а каков денек?"}
+    ],
+    "koreanTranslation":[
+      {"segmentId":"EXT-DOST-PET-APR27-P1","order":1,"text":"얼마 전까지만 해도 나는 페테르부르크 사람이라면 으레 실내복과 모자를 쓰고, 문을 꼭 닫은 방에서 두 시간마다 한 숟갈씩 약을 먹는 모습으로만 떠올렸다. 물론 모두가 아픈 건 아니었다. 어떤 사람은 일이 아플 틈을 주지 않았고, 어떤 사람은 타고난 체력으로 버텼다. 그런데 마침내 해가 났다. 이 소식은 다른 어떤 소식보다 반가울 만했다. 회복 중인 사람은 망설이다 모자를 벗고 옷매무새를 가다듬은 뒤, 솜옷에 외투에 덧신까지 단단히 갖춰 입고 산책을 나가기로 한다."},
+      {"segmentId":"EXT-DOST-PET-APR27-P2","order":2,"text":"따뜻한 공기와 축제처럼 들뜬 거리, 맨돌 위를 울리는 마차 소리가 그를 반긴다. 넵스키 대로에 이르러서는 새 먼지까지 들이마신다. 심장이 뛰고, 늘 의심스레 다물려 있던 입가에 희미한 미소가 번진다. 진창과 축축한 공기를 지나 처음 마시는 페테르부르크의 봄 먼지도 고향 난롯가의 오래된 연기만큼 반갑다. 얼굴에서 경계가 풀린 산책자는 마침내 봄을 누린다. 봄을 만끽하는 페테르부르크 사람에게는 순박한 면이 있어, 그 기쁨을 함께 느끼게 된다. 친구를 만나면 늘 하던 ‘새 소식 있나?’ 대신 ‘오늘 날씨가 어떻지?’ 하고 묻는다."}
+    ],
+    "translationStatus":"새 프로젝트 번역, 러시아어 문단과 1:1 대응.",
+    "availabilityDate":"1847-04-27",
+    "url":"https://ru.wikisource.org/wiki/Петербургская_летопись_(Достоевский)",
+    "provenanceNote":"The page dates the feuilleton to 1847 and identifies Dostoevsky; the installment heading gives 27 April. Transcription page cites az.lib.ru; original newspaper issue not claimed as directly collated. Literary satire should not be treated as a survey of all Petersburg residents.",
+    "sceneUsage":["EV-BOOK-PRIVATE: urban conversation and private circles"]
+  },
+  {
+    "sourceId":"EXT-DOSTOEVSKY-NINE-LETTERS-1847","sourceClass":"PRIMARY_PUBLICATION","witnessKey":"fyodor-dostoevsky|roman-in-nine-letters|sovremennik-1847-vol1-no1|rvb-transcription",
+    "authorOrIssuer":"Фёдор Михайлович Достоевский","title":"Роман в девяти письмах","date":"1847","edition":"RVB collected text, cited in the Wikisource transcription; first publication in Sovremennik, 1847, vol. I, no. 1, pp. 45–54.","holdingInstitution":"Wikisource transcription linked to the RVB text; journal locator stated on the page.",
+    "locator":"Letter I, two consecutive paragraphs beginning with the salutation and ending with the invitation to tea and evening conversation.","contextRange":{"paragraphStart":1,"paragraphEnd":2,"speaker":"Pyotr Ivanych, writing privately to Ivan Petrovich","claim":"The writer jokingly describes his search for a friend, invokes their social circle, and asks to meet over tea about an unspecified urgent matter.","immediateIssue":"A private letter uses comic form to stage friendship, social visits, and reputation; fictional correspondence, not a surviving historical letter."},
+    "originalRussian":[{"segmentId":"EXT-DOST-NINE-P1","order":1,"text":"Милостивый государь и драгоценнейший друг, Иван Петрович! Вот уже третий день, как я, можно сказать, гоняюсь за вами, драгоценнейший друг мой, имея переговорить о наинужнейшем деле, и нигде не встречаю вас. Жена моя вчера, в бытность нашу у Семена Алексеича, весьма кстати подшутила над вами, говоря, что вас с Татьяной Петровной вышла парочка непоседов. Трех месяцев нет, как женаты, а уже неглижируете домашними своими пенатами."},{"segmentId":"EXT-DOST-NINE-P2","order":2,"text":"Мы все много смеялись, — от полноты искреннего расположения нашего к вам, разумеется, — но, кроме шуток, бесценнейший мой, задали вы мне хлопот. Говорит мне Семен Алексеич, что не в клубе ли вы Соединенного общества на бале? Оставляю жену у супруги Семена Алексеича, сам же лечу в Соединенное общество. Смех и горе! представьте мое положение: я на бал — и один, без жены!"}],
+    "koreanTranslation":[{"segmentId":"EXT-DOST-NINE-P1","order":1,"text":"존경하는, 더없이 소중한 친구 이반 페트로비치에게. 벌써 사흘째 자네를 찾아다니고 있네. 꼭 의논할 일이 있는데 도무지 만나질 못했어. 어제 세묜 알렉세이치 댁에 갔을 때 아내가 자네를 두고 한마디 하더군. 결혼한 지 석 달도 안 됐는데 타티야나 페트로브나와 둘이 어찌나 돌아다니는지, 집에 붙어 있질 않는다고 말이야."},{"segmentId":"EXT-DOST-NINE-P2","order":2,"text":"우린 자네를 아끼는 마음에서 한참 웃었지. 하지만 농담은 그만하고, 자네 때문에 내가 꽤 애를 먹었네. 세묜 알렉세이치는 자네가 사교 클럽 무도회에 간 것 아니냐더군. 나는 아내를 그 집에 남겨 두고 곧장 클럽으로 달려갔지. 우습고도 난처한 일이야. 아내도 없이 혼자 무도회에 가게 된 내 꼴을 상상해 보게."}],
+    "translationStatus":"새 프로젝트 번역, 러시아어 문단과 1:1 대응.","availabilityDate":"1847-01","url":"https://ru.wikisource.org/wiki/Роман_в_девяти_письмах_(Достоевский)","provenanceNote":"Written in November 1845 and first published in Sovremennik, 1847, vol. I, no. 1, department IV, pp. 45–54. Transcription cites the RVB collected edition; no original issue facsimile claim. The letter writers are fictional characters.","sceneUsage":["EV-BOOK-PRIVATE: friendship, letters, and the boundaries of private talk"]
+  },
+  {
+    "sourceId":"EXT-PANAEV-RELATIVES-1847","sourceClass":"PRIMARY_PUBLICATION","witnessKey":"ivan-panaev|relatives|sovremennik-1847-no2|wikisource-azlib-transcription",
+    "authorOrIssuer":"Иван Иванович Панаев","title":"Родственники","date":"1847","edition":"Wikisource transcription citing az.lib.ru; no original issue scan is claimed.","holdingInstitution":"Wikisource transcription, with linked electronic text source.",
+    "locator":"Chapter I, consecutive opening paragraphs introducing the village, its co-owners, and their family relations.","contextRange":{"paragraphStart":1,"paragraphEnd":2,"speaker":"Third-person narrator of Panaev's fictional moral tale","claim":"The narrator counts male serf souls and divides a village among several landowners before introducing one owner's household.","immediateIssue":"How the narrative makes ownership and household hierarchy visible; a satirical literary representation, not a verified census of a historical village."},
+    "originalRussian":[{"segmentId":"EXT-PAN-REL-P1","order":1,"text":"В селе Благовещенском числилось 232 души мужеского пола. Село Благовещенское принадлежало шестерым владельцам, из которых три имели в нем постоянное местопребывание: холостой и отставной армейский поручик Брыкалов, лет сорока; неслуживший дворянин Ардальон Игнатьич Стойковский, пятидесяти девяти лет, отец многочисленного семейства и слуга супруги своей Агафьи Васильевны, барыни толстой, с бельмом на правом глазу, — и, наконец, сестрица Ардальона Игнатьича — Олимпиада Игнатьевна, вдова лет пятидесяти шести, не без основания пользовавшаяся уважением всего околотка за свои нравственные и религиозные правила."},{"segmentId":"EXT-PAN-REL-P2","order":2,"text":"У Олимпиады Игнатьевны были сын и дочь — Петруша и Наташа. Петруше было лет девятнадцать, Наташе двадцать два года. Из 232 душ села Благовещенского, Брюхатово тож, 62 души принадлежали Олимпиаде Игнатьевне, 85 душ ее брату, 45 поручику Брыкалову, а остальные за тем другим владельцам, о которых упоминать здесь не для чего."}],
+    "koreanTranslation":[{"segmentId":"EXT-PAN-REL-P1","order":1,"text":"블라고베셴스코예 마을에는 남자 농노가 232명으로 기록돼 있었다. 마을은 여섯 지주의 소유였고, 그중 세 사람이 상주했다. 독신으로 예편한 군 중위 브리칼로프, 대가족의 가장이자 아내 아가피야 바실리예브나의 눈치를 보는 귀족 아르달리온 이그나티치 스토이콥스키, 그리고 아르달리온의 누이 올림피아다 이그나티예브나였다. 쉰여섯 살 과부인 그녀는 도덕과 신앙심으로 근방의 존경을 받았다."},{"segmentId":"EXT-PAN-REL-P2","order":2,"text":"올림피아다에게는 아들 페트루샤와 딸 나타샤가 있었다. 페트루샤는 열아홉 살쯤, 나타샤는 스물두 살이었다. 블라고베셴스코예, 또는 브류하토보라고도 하는 이 마을의 232명 가운데 62명은 올림피아다의 소유였고 85명은 오빠의, 45명은 브리칼로프 중위의 소유였다. 나머지는 굳이 이름을 들 필요도 없는 다른 지주들이 나눠 가졌다."}],
+    "translationStatus":"새 프로젝트 번역, 러시아어 문단과 1:1 대응.","availabilityDate":"1847-02","url":"https://ru.wikisource.org/wiki/Родственники_(Панаев)","provenanceNote":"The transcription dates the work to 1847 and cites az.lib.ru; bibliographic accounts place its first publication in Sovremennik, 1847, no. 2. Fictional satire, not a primary census return; its enumerated figures belong to the narrative.","sceneUsage":["EV-BOOK-QUESTION: literary framing of household hierarchy and serf ownership"]
+  },
+  {
+    "sourceId":"EXT-NEKRASOV-NEW-POET-1847","sourceClass":"PRIMARY_PUBLICATION","witnessKey":"nikolai-nekrasov|new-poet-literary-mask|sovremennik-1847-no1|1995-collected-edition",
+    "authorOrIssuer":"Первоначально анонимный автор; поздняя атрибуция Н. А. Некрасову","title":"Новый поэт","date":"1847","edition":"Nekrasov, Complete Works and Letters in 15 volumes, vol. 12, book 2. St Petersburg: Nauka, 1995; Wikisource transcription.","holdingInstitution":"Wikisource transcription based on the 1995 collected edition; original journal authorship was anonymous.",
+    "locator":"Opening two consecutive paragraphs of the satirical persona's self-description.","contextRange":{"paragraphStart":1,"paragraphEnd":2,"speaker":"The deliberately unstable persona ‘New Poet’","claim":"The persona claims to become whatever company expects, then insists only that he is well-bred and well-intentioned.","immediateIssue":"A literary satire of fashionable adaptability and self-presentation; attribution is retrospective and the mask is not a historical speaker."},
+    "originalRussian":[{"segmentId":"EXT-NEKR-NP-P1","order":1,"text":"Я ни умен, ни глуп, ни учен, ни неуч, ни богач, ни беден, ни стар, ни молод, ни красив, ни дурен, ни холост, ни женат. Я с стариком — старик, с юношей — юноша, с умным — умен, с глупым — глуп, с неучем — неуч, с педантом — педант; я с богачем — богат, с бедняком — беден, с женатым я женат, с холостым — холост…"},{"segmentId":"EXT-NEKR-NP-P2","order":2,"text":"Я, словом, сам не знаю, что я такое!.. Несомненно только, что я человек благовоспитанный и благонамеренный… У меня лицо бледное, оливковое, — короче, геморроидальное; ноги как щепки, вообще мяса на костях мало; я смотрю, как накануне переселения в иной лучший мир, куда, между нами будь сказано, мне смертельно не хочется; люблю пожаловаться на боль в пояснице, в груди, на простуду, на индижестию, а между тем живу себе да живу и долго буду жить, и многих толстяков переживу."}],
+    "koreanTranslation":[{"segmentId":"EXT-NEKR-NP-P1","order":1,"text":"나는 똑똑하지도 어리석지도, 배운 사람도 무식한 사람도 아니다. 부자도 가난뱅이도, 늙은이도 젊은이도, 잘생기지도 못나지도, 독신도 기혼자도 아니지. 늙은이 곁에서는 늙은이가 되고 젊은이와 있으면 젊은이가 된다. 영리한 사람 앞에서는 영리해지고, 어리석은 사람 앞에서는 같이 어리석어진다. 부자와 있으면 부자, 가난한 사람과 있으면 가난한 사람, 기혼자와 있으면 기혼자, 독신과 있으면 독신이다…"},{"segmentId":"EXT-NEKR-NP-P2","order":2,"text":"한마디로 나 자신도 내가 뭔지 모르겠다! 분명한 건 내가 예의 바르고 선량한 사람이라는 사실뿐이다… 얼굴은 창백하고 올리브빛이며, 좋게 말해도 치질 환자 꼴이다. 다리는 나뭇가지 같고 살도 별로 없다. 금방 저세상으로 갈 사람처럼 보이지만, 솔직히 나는 죽고 싶지 않다. 허리며 가슴이 아프고 감기에 걸렸다고 늘 투덜대면서도, 나는 계속 살아 있고 오래 살 것이다. 살찐 사람들보다 더 오래 버틸지도 모른다."}],
+    "translationStatus":"새 프로젝트 번역, 원문의 희화적 자기소개와 문단별 대응.","availabilityDate":"1847-01","url":"https://ru.wikisource.org/wiki/Новый_поэт_(Некрасов)","provenanceNote":"First published in Sovremennik, 1847, no. 1, anonymously; later collected under Nekrasov's name. The text uses a satirical literary mask. Do not present its ‘I’ as Nekrasov's direct autobiography or a historical person's speech.","sceneUsage":["EV-BOOK-DISCUSS: literary masks, editorial voice, and public persona"]
+  }
+  ,{
+    "sourceId":"EXT-HERZEN-THIEF-MAGPIE-1848","sourceClass":"PRIMARY_PUBLICATION","witnessKey":"alexander-herzen|thief-magpie|sovremennik-1848-vii-no1|moshkov-library-transcription",
+    "authorOrIssuer":"Александр Иванович Герцен","title":"Сорока-воровка","date":"1848","edition":"Wikisource transcription citing the Maxim Moshkov Library text; first publication locator is given in the text notes.","holdingInstitution":"Wikisource text page; no issue facsimile claimed.",
+    "locator":"Opening debate, two consecutive speaker turns on women, family authority, and the stage.","contextRange":{"paragraphStart":1,"paragraphEnd":2,"speaker":"Three fictional men debating the scarcity of women actors","claim":"One speaker argues that a woman's place is domestic and that public performance threatens family morals; another challenges the claim by comparing other societies.","immediateIssue":"Whether social convention or innate nature limits women's public and artistic lives; fictional debate, not a survey of women or a historical transcript."},
+    "originalRussian":[{"segmentId":"EXT-HERZEN-SOROKA-P1","order":1,"text":"— Заметили ли вы, — сказал молодой человек, остриженный под гребенку, продолжая начатый разговор о театре, — заметили ли вы, что у нас хотя и редки хорошие актеры, но бывают, а хороших актрис почти вовсе нет и только в предании сохранилось имя Семеновой; не без причины же это."},{"segmentId":"EXT-HERZEN-SOROKA-P2","order":2,"text":"— Причину искать недалеко; вы ее не понимаете только потому, — возразил другой, остриженный в кружок, — что вы на все смотрите сквозь западные очки. Славянская женщина никогда не привыкнет выходить на помост сцены и отдаваться глазам толпы, возбуждать в ней те чувства, которые она приносит в исключительный дар своему главе; ее место дома, а не на позорище. Незамужняя — она дочь, дочь покорная, безгласная; замужем — она покорная жена."}],
+    "koreanTranslation":[{"segmentId":"EXT-HERZEN-SOROKA-P1","order":1,"text":"“연극 얘기를 하던 참인데, 우리에겐 괜찮은 남자 배우가 드물긴 해도 있잖습니까. 그런데 좋은 여배우는 거의 없고, 세묘노바라는 이름만 옛이야기처럼 남아 있더군요. 이유가 없지는 않겠지요.” 머리를 짧게 깎은 젊은이가 말했다."},{"segmentId":"EXT-HERZEN-SOROKA-P2","order":2,"text":"“이유는 어렵지 않소. 당신이 세상을 서양식으로만 보니 모를 뿐이지. 슬라브 여성이 무대에 올라 군중의 시선을 받고, 남편에게만 바치는 감정을 사람들 앞에서 드러낼 리 없소. 여자는 집에 있어야지, 무대에 설 사람이 아니오. 결혼 전에는 말없이 순종하는 딸이고, 결혼한 뒤에는 순종하는 아내요.” 다른 이가 반박했다."}],
+    "translationStatus":"새 프로젝트 번역, 논쟁의 발화 순서와 문단별 대응.","availabilityDate":"1848-01","url":"https://ru.wikisource.org/wiki/Сорока-воровка_(Герцен)","provenanceNote":"Created in 1846, first published in Sovremennik, 1848, vol. VII, no. 1, section I, pp. 125–147, under the pseudonym Искандер. The dialogue is fictional and does not establish social practice by itself.","sceneUsage":["EV-NEWS-SHARE: public debate about women and artistic work"]
+  },
+  {
+    "sourceId":"EXT-TURGENEV-MALINOVAYA-WATER-1848","sourceClass":"PRIMARY_PUBLICATION","witnessKey":"ivan-turgenev|raspberry-water|sovremennik-1848-vii-no2|ilibrary-transcription",
+    "authorOrIssuer":"Иван Сергеевич Тургенев","title":"Малиновая вода","date":"1848","edition":"Wikisource transcription citing iLibrary.ru; first Sovremennik publication locator recorded in notes.","holdingInstitution":"Wikisource/iLibrary e-text; no scan claim.",
+    "locator":"Opening two consecutive paragraphs introducing the heat, narrator's exhaustion, and arrival at the spring.","contextRange":{"paragraphStart":1,"paragraphEnd":2,"speaker":"First-person narrator of a literary sketch","claim":"Severe August heat stops the hunt; the narrator and his dog reach a spring used by passers-by.","immediateIssue":"Rural landscape and daily bodily hardship frame the encounter to come; literary narration, not meteorological measurement or a census."},
+    "originalRussian":[{"segmentId":"EXT-TURG-MAL-P1","order":1,"text":"В начале августа жары часто стоят нестерпимые. В это время, от двенадцати до трех часов, самый решительный и сосредоточенный человек не в состоянии охотиться и самая преданная собака начинает «чистить охотнику шпоры», то есть идет за ним шагом, болезненно прищурив глаза и преувеличенно высунув язык, а в ответ на укоризны своего господина униженно виляет хвостом и выражает смущение на лице, но вперед не подвигается. Именно в такой день случилось мне быть на охоте."},{"segmentId":"EXT-TURG-MAL-P2","order":2,"text":"Долго противился я искушению прилечь где-нибудь в тени хоть на мгновение; долго моя неутомимая собака продолжала рыскать по кустам, хотя сама, видимо, ничего не ожидала путного от своей лихорадочной деятельности. Удушливый зной принудил меня, наконец, подумать о сбережении последних наших сил и способностей."}],
+    "koreanTranslation":[{"segmentId":"EXT-TURG-MAL-P1","order":1,"text":"8월 초에는 견디기 힘든 더위가 이어지곤 한다. 한낮에는 아무리 끈기 있는 사람도 사냥을 할 수 없고, 충직한 개도 사냥꾼의 박차를 닦듯 뒤를 따라 천천히 걷는다. 눈을 가늘게 뜨고 혀를 축 늘어뜨린 채, 주인이 나무라도 꼬리만 힘없이 흔들 뿐 앞으로 나아가지 않는다. 나도 바로 그런 날 사냥을 나갔다."},{"segmentId":"EXT-TURG-MAL-P2","order":2,"text":"나는 그늘에 잠시라도 눕고 싶은 마음을 한참 버텼다. 지치지 않는 개도 덤불을 뒤졌지만, 그 부산한 움직임으로 뭔가 얻으리라 기대하는 눈치는 아니었다. 숨 막히는 더위에 결국 우리에게 남은 힘이라도 아껴야겠다고 생각했다."}],
+    "translationStatus":"새 프로젝트 번역, 러시아어 문단과 1:1 대응.","availabilityDate":"1848-02","url":"https://ru.wikisource.org/wiki/Малиновая_вода_(Тургенев)","provenanceNote":"Written in 1847 and first published in Sovremennik, 1848, vol. VII, no. 2, section I, pp. 148–157. The source page cites iLibrary.ru; no first-print scan collation is claimed.","sceneUsage":["EV-NEWS-FILE: rural setting and conditions surrounding literary encounters"]
+  },
+  {
+    "sourceId":"EXT-TURGENEV-DISTRICT-DOCTOR-1848","sourceClass":"PRIMARY_PUBLICATION","witnessKey":"ivan-turgenev|district-doctor|sovremennik-1848-vii-no2|ilibrary-transcription",
+    "authorOrIssuer":"Иван Сергеевич Тургенев","title":"Уездный лекарь","date":"1848","edition":"Wikisource transcription citing iLibrary.ru; first Sovremennik publication locator stated in notes.","holdingInstitution":"Wikisource/iLibrary electronic text; no scan claim.",
+    "locator":"Opening two paragraphs: narrator's illness, doctor's visit, payment, and conversation over tea.","contextRange":{"paragraphStart":1,"paragraphEnd":2,"speaker":"First-person narrator recounting a fictional encounter with a district doctor","claim":"A travelling narrator calls a local doctor, pays him, and finds that a routine visit turns into an extended conversation.","immediateIssue":"The doctor's work, payment, and personal voice enter a literary narrative; not a medical case record."},
+    "originalRussian":[{"segmentId":"EXT-TURG-DOCTOR-P1","order":1,"text":"Однажды осенью, на возвратном пути с отъезжего поля, я простудился и занемог. К счастью, лихорадка застигла меня в уездном городе, в гостинице; я послал за доктором. Через полчаса явился уездный лекарь, человек небольшого роста, худенький и черноволосый."},{"segmentId":"EXT-TURG-DOCTOR-P2","order":2,"text":"Он прописал мне обычное потогонное, велел приставить горчичник, весьма ловко запустил к себе под обшлаг пятирублевую бумажку, причем, однако, сухо кашлянул и глянул в сторону, и уже совсем было собрался отправиться восвояси, да как-то разговорился и остался. Жар меня томил; я предвидел бессонную ночь и рад был поболтать с добрым человеком. Подали чай. Пустился мой доктор в разговоры. Малый он был неглупый, выражался бойко и довольно забавно."}],
+    "koreanTranslation":[{"segmentId":"EXT-TURG-DOCTOR-P1","order":1,"text":"어느 가을, 들판 사냥을 마치고 돌아오다가 감기에 걸려 앓았다. 다행히 열이 오른 곳은 군청 소재지의 여관이었다. 의사를 불렀더니 30분쯤 뒤에 키가 작고 마른, 검은 머리의 군의가 찾아왔다."},{"segmentId":"EXT-TURG-DOCTOR-P2","order":2,"text":"그는 흔한 발한제를 처방하고 겨자찜질을 시킨 뒤, 5루블 지폐를 소매 안에 재빨리 넣었다. 그러면서도 헛기침을 하고 시선을 돌렸다. 막 돌아가려던 그는 어쩐 일인지 말을 이어 갔다. 열에 시달리던 나는 잠 못 들 밤을 예상하고 있었으니, 사람 좋은 이와 이야기를 나누는 게 반가웠다. 차가 나오자 의사는 말을 시작했다. 꽤 영리했고 말솜씨도 경쾌하고 재미있는 사람이었다."}],
+    "translationStatus":"새 프로젝트 번역, 러시아어 문단과 1:1 대응.","availabilityDate":"1848-02","url":"https://ru.wikisource.org/wiki/Уездный_лекарь_(Тургенев)","provenanceNote":"Written in 1847 and first published in Sovremennik, 1848, vol. VII, no. 2, section I. Wikisource cites iLibrary.ru; the scene is fictional, not an actual doctor's account.","sceneUsage":["EV-NEWS-REPORT: medical service and the narrator's account of a local encounter"]
+  },
+  {
+    "sourceId":"EXT-NEKRASOV-FRIENDLY-LETTERS-1847","sourceClass":"PRIMARY_PUBLICATION","witnessKey":"nikolai-nekrasov|selected-passages-from-friendly-letters|sovremennik-1847-no12|1995-collected-text",
+    "authorOrIssuer":"Николай Алексеевич Некрасов (поздняя атрибуция; журнальный текст без подписи)","title":"Выбранные места из приятельских писем","date":"1847","edition":"Nekrasov, Complete Works and Letters, 15 vols., vol. 12, book 1. St Petersburg: Nauka, 1995; first-print bibliographic note identifies Sovremennik, 1847, no. 12, department IV, pp. 194–201.","holdingInstitution":"Wikisource transcription citing az.lib.ru and the later collected text; no issue scan claimed.",
+    "locator":"Opening two paragraphs introducing the provincial reader's reliance on Petersburg and the satirical collection of letters between supposed friends.","contextRange":{"paragraphStart":1,"paragraphEnd":2,"speaker":"A feuilleton narrator addressing a provincial reader, followed by an imagined interlocutor","claim":"The narrator challenges the idea that friends can satisfy all provincial needs by mail and introduces satirical extracts from letters.","immediateIssue":"Dependence on Petersburg networks and the comic performance of friendship; the letters are a literary device, not authentic correspondence."},
+    "originalRussian":[{"segmentId":"EXT-NEKR-FRIEND-P1","order":1,"text":"Где бы вы ни жили на всем пространстве Российской империи, от Вислы до Камчатки и от Архангельска до Арарата, вы никак не можете удовлетворить всем своим потребностям на месте, и вам зачем-нибудь да надо будет хоть раз обратиться к Петербургу. Что вы в таком случае станете делать?"},{"segmentId":"EXT-NEKR-FRIEND-P2","order":2,"text":"Как что? вот забавно! а друзья-то на что? напишу к приятелю, так он мне с первой же почтой вышлет все, что нужно и даже чего не нужно. Насчет последнего не спорю, но в первом позвольте усомниться и в доказательство сообщить вам несколько извлечений из хранящейся у меня коллекции приятельских писем, от разных Пиладов к многоразличным Орестам."}],
+    "koreanTranslation":[{"segmentId":"EXT-NEKR-FRIEND-P1","order":1,"text":"러시아 제국 어디에 살든, 비스와강에서 캄차카까지, 아르한겔스크에서 아라라트까지, 현지에서 필요한 것을 전부 해결할 수는 없습니다. 언젠가는 무슨 일이든 페테르부르크에 손을 벌려야 하지요. 그럴 때 어떻게 하시겠습니까?"},{"segmentId":"EXT-NEKR-FRIEND-P2","order":2,"text":"어떻게 하긴요? 친구가 있잖습니까. 편지를 보내면 필요한 건 물론 필요하지 않은 것까지 첫 우편으로 보내 줄 텐데요. 필요 없는 것까지 보내 준다는 말은 그럴 수도 있겠네요. 하지만 꼭 필요한 것까지 보내 준다는 말은 의심스럽습니다. 증거로 여러 ‘필라데스’가 갖가지 ‘오레스테스’에게 보낸 편지 중 몇 대목을 보여 드리지요."}],
+    "translationStatus":"새 프로젝트 번역, 원문 문단과 풍자적 문답을 1:1 대응.","availabilityDate":"1847-12","url":"https://ru.wikisource.org/wiki/Выбранные_места_из_приятельских_писем_(Некрасов)","provenanceNote":"First publication in Sovremennik, 1847, no. 12, department IV, pp. 194–201; the first journal text was unsigned, and later editorial attribution to Nekrasov is not treated here as certain. The supposed letters are a feuilleton device, not archival correspondence.","sceneUsage":["EV-BOOK-PRIVATE: provincial reliance on correspondence and literary persona"]
+  }
+  ,{
+    "sourceId":"EXT-NEKRASOV-SOVREMENNIK-1848-REPORT","sourceClass":"PRIMARY_PUBLICATION","witnessKey":"nikolai-nekrasov|on-publication-of-sovremennik-1848|sovremennik-1847-no9|1997-editorial-records",
+    "authorOrIssuer":"Николай Алексеевич Некрасов","title":"Об издании «Современника» в 1848 году","date":"1847","edition":"Nekrasov, Complete Works and Letters in 15 volumes, vol. 13, book 1. St Petersburg: Nauka, 1997; Wikisource transcription citing az.lib.ru.","holdingInstitution":"Wikisource transcription; no original issue scan claimed.",
+    "locator":"Opening two consecutive paragraphs of the publisher's report on the journal's first year under new management.","contextRange":{"paragraphStart":1,"paragraphEnd":2,"speaker":"Nekrasov addressing the journal's reading public as a publisher","claim":"He announces the reorganization, says initial printings sold out and a second printing was needed, and reports more than two thousand subscribers.","immediateIssue":"The publisher's self-reported reach and production account; numbers are a contemporary claim, not independently audited circulation data."},
+    "originalRussian":[{"segmentId":"EXT-NEKR-SOVR48-P1","order":1,"text":"Русской публике уже известно, что «Современник» с 1847 года подвергся совершенному преобразованию: редакция его перешла к профессору СПб. университета А. В. Никитенко; издание — к И. И. Панаеву и Н. А. Некрасову. Объем журнала был значительно увеличен, и к участию в нем приглашены многие известные русские ученые и литераторы."},{"segmentId":"EXT-NEKR-SOVR48-P2","order":2,"text":"Успех превзошел ожидания: с первой же книжки количество напечатанных первоначально экземпляров оказалось недостаточным, потребовалось второе издание, которое также почти все распродано. Таким образом, «Современник» в первый же год своего преобразования достиг с лишком двух тысяч подписчиков."}],
+    "koreanTranslation":[{"segmentId":"EXT-NEKR-SOVR48-P1","order":1,"text":"독자 여러분도 아시다시피 《소브레멘니크》는 1847년 크게 개편됐습니다. 편집은 페테르부르크대 교수 니키텐코가 맡고, 출판은 파나예프와 네크라소프가 맡았습니다. 잡지 분량을 크게 늘렸고, 이름난 러시아 학자와 문인들도 여럿 참여하도록 초대했습니다."},{"segmentId":"EXT-NEKR-SOVR48-P2","order":2,"text":"기대보다 반응이 좋았습니다. 첫 호의 초판 부수가 모자라 재판을 찍었는데, 그마저 거의 다 팔렸습니다. 개편 첫해 《소브레멘니크》의 구독자는 2천 명을 조금 넘었습니다."}],
+    "translationStatus":"새 프로젝트 번역, 원문 문단과 수치 표현을 1:1 대응.","availabilityDate":"1847-09","url":"https://az.lib.ru/n/nekrasow_n_a/text_1847_ob_izdanii.shtml","provenanceNote":"Published in 1847 as a report about the periodical's publishing activity during the preceding eight months. The Wikisource text page identifies az.lib.ru as its source. It is the publisher's own account; its print-run and subscriber numbers are not independent audit figures.","sceneUsage":["EV-NEWS-FILE: contemporary publisher report on print circulation and production"]
+  }
+  ,{
+    "sourceId":"EXT-BRANT-ANTON-GOREMYKA-REVIEW-1847","sourceClass":"PRIMARY_PUBLICATION","witnessKey":"leopold-brant|review-of-anton-goremyka|sovremennik-1847-no11|azlib-transcription",
+    "authorOrIssuer":"Леопольд Васильевич Брант","title":"Антон-Горемыка. Повесть Д. Григоровича","date":"1847","edition":"Wikisource transcription citing az.lib.ru; bibliographic heading identifies Sovremennik's 11th 1847 issue.","holdingInstitution":"Wikisource text transcription; no issue scan claimed.",
+    "locator":"Review opening, two consecutive paragraphs introducing the dominance of journal publication and the earlier reception of Grigorovich's Village.","contextRange":{"paragraphStart":1,"paragraphEnd":2,"speaker":"Leopold Brant reviewing Grigorovich's fiction","claim":"Brant complains that new novels now appear in thick periodicals and dismisses Grigorovich's earlier Village as unnoticed and formally weak despite some feeling.","immediateIssue":"Contemporary disagreement over literary realism, class subjects, and the periodical market; a hostile review, not an impartial assessment or evidence about peasants themselves."},
+    "originalRussian":[{"segmentId":"EXT-BRANT-AG-P1","order":1,"text":"Ни осень, ни зима с мороза без снега и со снегом, не принесли нам, как бывало прежде, новых повестей или романов, отдельно изданных. Они укладываются теперь (на вечный покой) в толстых книжищах Отечественных Записок, Современника и других современных повременников. Делать нечего: будем иногда заглядывать в журнальные романы, написанные под отважную диктовку самопризнанного вдохновения гг. начинающих, и начинающих смело, не говоря уже — без опыта жизни, без решительного дарования, но даже и без достаточного познания языка."},{"segmentId":"EXT-BRANT-AG-P2","order":2,"text":"В прошлом году, г. Григорович напечатал в Отечественных Записках повесть, под заглавием: Деревня. Она прошла незамеченною, и в целом далеко не выдерживала критика: но в ней был трогательный конец, вообще местами проглядывало чувство, и Северная Пчела, для ободрения первых опытов молодого автора, похвалила его, радуясь, что, по примеру других, он не слишком увлекся тогда мнимым юмором, тупою насмешкою и грязною натурою."}],
+    "koreanTranslation":[{"segmentId":"EXT-BRANT-AG-P1","order":1,"text":"예전 같으면 신간 소설을 따로 묶어 내던 가을과 겨울에도, 이제는 새 작품이 나오지 않는다. 《오테체스트벤니예 자피스키》나 《소브레멘니크》 같은 두툼한 정기간행물에 모두 실려 버린다. 별수 없이 초심자들의 잡지 소설도 들춰 보게 된다. 그들은 영감이 시키는 대로 대담하게 쓰지만, 삶의 경험도 뚜렷한 재능도 없고 언어를 충분히 아는 것조차 아니다."},{"segmentId":"EXT-BRANT-AG-P2","order":2,"text":"지난해 그리고로비치는 《오테체스트벤니예 자피스키》에 《마을》이라는 중편을 발표했다. 별 주목을 받지 못했고 전체적으로 비평을 견디기 어려웠다. 그래도 감동적인 결말이 있었고 곳곳에 감정이 배어 있었다. 《세베르나야 프첼라》는 젊은 작가의 첫 시도를 북돋우려는 듯, 다른 이들처럼 억지 유머와 무딘 조롱, 지저분한 소재에 지나치게 기대지 않았다고 칭찬했다."}],
+    "translationStatus":"새 프로젝트 번역, 비평가의 공격적 어조와 평가의 대상을 구분해 옮김.","availabilityDate":"1847-11","url":"https://ru.wikisource.org/wiki/Антон-Горемыка._Повесть_Д._Григоровича_(Брант)","provenanceNote":"A signed contemporary review published in 1847 in Sovremennik's 11th issue. The text criticizes Grigorovich's novel and earlier Village; it is evidence of a critical dispute, not a reliable description of rural life or a neutral judgment.","sceneUsage":["EV-BOOK-QUESTION: contemporary disagreement over literary depictions of peasant life"]
   }
 ]

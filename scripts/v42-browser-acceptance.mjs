@@ -1,5 +1,5 @@
 import fs from 'node:fs';
-import { chromium } from 'playwright';
+const { chromium } = await import(process.env.PLAYWRIGHT_MODULE || 'playwright');
 
 const baseUrl = process.env.V42_BASE_URL || 'http://127.0.0.1:4173/?main20=1&v42fresh=1';
 const failures = [];
@@ -71,6 +71,11 @@ async function play(page) {
         await cards.first().click();
       }
     } else if (current.phase === 'branch_event') {
+      if (current.activeBranchInteractionLines?.length && current.activeBranchLineIndex === 0) {
+        const firstInteraction = current.activeBranchInteractionLines[0].text;
+        const rendered = await page.locator('#dialogue').innerText();
+        if (!rendered.includes(firstInteraction)) throw new Error(`resolved prior-choice dialogue is not visible: ${firstInteraction}`);
+      }
       await advanceButton(page);
     } else if (current.phase === 'branch_callback') {
       await advanceButton(page);
