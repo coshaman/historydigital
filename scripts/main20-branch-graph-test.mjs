@@ -72,6 +72,27 @@ test('resolves the immediate branch and preserves prior choices and immutable hi
   assert.deepEqual(result.nextState.historicalAnchors, graph.anchors);
 });
 
+test('resolves one authored event by the exact ordered choice prefix', () => {
+  const graph = makeGraph();
+  graph.eventNodes = [
+    { id: 'NODE-A', requiredPrefix: ['B1-1', 'B2-2'] },
+    { id: 'NODE-B', requiredPrefix: ['B1-2', 'B2-2'] }
+  ];
+  assert.equal(branchGraph.resolvePrefixEventNode(graph, ['B1-2', 'B2-2']).id, 'NODE-B');
+});
+
+test('rejects ambiguous, absent, and out-of-order authored event prefixes', () => {
+  const graph = makeGraph();
+  graph.eventNodes = [
+    { id: 'NODE-A', requiredPrefix: ['B1-1', 'B2-2'] },
+    { id: 'NODE-DUPLICATE', requiredPrefix: ['B1-1', 'B2-2'] }
+  ];
+  assert.throws(() => branchGraph.resolvePrefixEventNode(graph, ['B1-1', 'B2-2']), /ambiguous/i);
+  graph.eventNodes.pop();
+  assert.throws(() => branchGraph.resolvePrefixEventNode(graph, ['B1-3', 'B2-1']), /no authored event/i);
+  assert.throws(() => branchGraph.resolvePrefixEventNode(graph, ['B2-2', 'B1-1']), /out of order/i);
+});
+
 test('uses an explicit valid next-hub fallback when predicates do not match', () => {
   const graph = makeGraph();
   graph.transitions = [{ fromHubId: 'H1', when: { exposureAtLeast: 99 }, toHubId: 'MISSING' }, { fromHubId: 'H1', fallback: true, toHubId: 'H2' }];

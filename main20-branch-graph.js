@@ -125,6 +125,28 @@ function resolveBranchEvent(graph, hubId, choiceId, routeState = {}) {
   return { eventId: branch.immediateEventId, reactionId: branch.nextHubReactionId, callbackKey: branch.callbackKey, interactionLines, nextState };
 }
 
+function resolvePrefixEventNode(graph, prefix) {
+  if (!Array.isArray(prefix) || prefix.length === 0) throw new Error('route prefix must contain at least one choice');
+  const hubOrder = new Map((graph?.hubs ?? []).map((hub, index) => [hub.id, index]));
+  let previousHubIndex = -1;
+  const visitedHubs = new Set();
+  for (const choiceId of prefix) {
+    const branch = graph?.branches?.find(item => (item.choiceId ?? item.id) === choiceId);
+    if (!branch) throw new Error(`unknown route choice ${choiceId}`);
+    const currentHubIndex = hubOrder.get(branch.hubId);
+    if (currentHubIndex === undefined) throw new Error(`route choice ${choiceId} references unknown hub ${branch.hubId}`);
+    if (visitedHubs.has(branch.hubId) || currentHubIndex <= previousHubIndex) throw new Error(`route prefix is out of order at ${choiceId}`);
+    visitedHubs.add(branch.hubId);
+    previousHubIndex = currentHubIndex;
+  }
+  const matches = (graph.eventNodes ?? []).filter(node => Array.isArray(node.requiredPrefix)
+    && node.requiredPrefix.length === prefix.length
+    && node.requiredPrefix.every((choiceId, index) => choiceId === prefix[index]));
+  if (matches.length > 1) throw new Error(`ambiguous authored event for route prefix ${prefix.join(' > ')}`);
+  if (matches.length === 0) throw new Error(`no authored event for route prefix ${prefix.join(' > ')}`);
+  return matches[0];
+}
+
 function matches(when, state) {
   if (!when || !isObject(when)) return false;
   return Object.entries(when).every(([key, value]) => {
@@ -148,6 +170,6 @@ function resolveRouteNextStep(graph, stepId) {
   return index >= 0 ? graph.sequence[index + 1] ?? null : null;
 }
 
-const api = { validateBranchGraph, enumerateRouteVectors, resolveBranchEvent, resolveNextHub, resolveRouteNextStep };
+const api = { validateBranchGraph, enumerateRouteVectors, resolveBranchEvent, resolvePrefixEventNode, resolveNextHub, resolveRouteNextStep };
 if (typeof module !== 'undefined' && module.exports) module.exports = api;
 if (typeof globalThis !== 'undefined') globalThis.Main20BranchGraph = api;
