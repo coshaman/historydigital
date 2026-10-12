@@ -439,6 +439,7 @@ body.scene-header-collapsed .masthead{transform:translateY(-100%);opacity:0;poin
 .main20-mode.main20-reading .dialogue-strip .choice-area{display:grid;grid-template-columns:1fr}
 .main20-mode.main20-reading .document-stage{height:100%!important;min-height:0!important;box-sizing:border-box;align-items:stretch!important}
 .main20-mode.main20-reading .paper{width:min(100%,1120px);height:100%!important;min-height:0!important;max-height:100%!important;overflow-y:auto!important;transform:none!important}
+.main20-mode.main20-reading #paper{z-index:6!important}
 .main20-mode #main20Restart{position:relative;z-index:60;min-width:72px;min-height:40px}
 .main20-mode .bottom-bar{position:relative;z-index:60;flex:0 0 48px;min-height:48px;height:48px;overflow-x:auto;white-space:nowrap}
 @media(max-width:700px){
@@ -505,12 +506,30 @@ body.scene-header-collapsed .masthead{transform:translateY(-100%);opacity:0;poin
 .main20-mode.main20-paper-choices .dialogue-strip{display:none!important}
 .main20-mode.main20-paper-choices .paper{display:flex!important;flex-direction:column!important;min-height:0!important;overflow:hidden!important}
 .main20-mode.main20-paper-choices .paper-columns{flex:1 1 auto!important;min-height:0!important;overflow:auto!important;overscroll-behavior:contain}
+.main20-mode .paper-translation[hidden]{display:none!important}
+.main20-mode.main20-paper-choices .paper-dialogue{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:start;gap:9px;flex:0 0 auto;min-width:0;margin:8px 0 0;padding:9px 12px;border:0;border-left:2px solid var(--document-brass);background:linear-gradient(110deg,#e3d3b1,#eadfc6);color:var(--document-ink);font:15px/1.5 'Noto Sans KR',sans-serif}
+.main20-mode.main20-paper-choices .paper-dialogue[hidden],.main20-mode.main20-reading .paper-dialogue{display:none!important}
+.main20-mode.main20-paper-choices .paper-dialogue-speaker{color:#725638;font-size:11px;font-weight:700;white-space:nowrap}
+.main20-mode.main20-paper-choices .paper-dialogue-line{min-width:0;margin:0;overflow-wrap:anywhere}
 .main20-mode.main20-paper-choices #choiceArea{position:static!important;inset:auto!important;display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;width:auto!important;max-height:34%;flex:0 0 auto;margin:12px 0 0;padding:10px 0 0;border-top:1px solid rgba(100,70,35,.3);overflow:auto;z-index:4}
 .main20-mode.main20-paper-choices #choiceArea[hidden]{display:none!important}
 .main20-mode.main20-paper-choices #choiceArea .main20-choice-card{min-width:0;min-height:72px;padding:10px 12px;overflow-wrap:anywhere}
 .main20-mode.main20-reading.main20-paper-choices .document-stage{height:100%!important;min-height:0!important}
 .main20-mode.main20-reading.main20-paper-choices .paper{height:100%!important;max-height:100%!important}
+.main20-mode.main20-paper-choices .desk{--dialogue-height:0px!important;grid-template-rows:minmax(0,1fr)!important}
+.main20-mode.main20-paper-choices .document-stage{grid-row:1!important;height:100%!important;min-height:0!important;padding-top:12px!important;padding-bottom:12px!important;align-items:stretch!important;z-index:12!important}
+.main20-mode.main20-paper-choices #paper{position:relative!important;z-index:12!important;width:min(100%,1120px)!important;height:100%!important;max-height:100%!important;min-height:0!important;transform:none!important}
+.main20-mode.main20-paper-choices .physical-tools{z-index:4!important;pointer-events:none!important}
+.main20-mode.main20-paper-choices .paper-columns{flex:1 1 0!important;max-height:none!important}
+@media(max-height:500px){.main20-mode.main20-paper-choices .paper-title{padding:5px 0!important}.main20-mode.main20-paper-choices .paper-dialogue{margin-top:4px!important;padding:6px 10px!important}.main20-mode.main20-paper-choices #choiceArea{margin-top:6px}}
 @media(max-width:700px){
-  .main20-mode.main20-paper-choices #choiceArea{grid-template-columns:1fr;gap:7px;max-height:min(17vh,132px);min-height:0;margin-top:8px;padding-top:8px}
+  .main20-mode.main20-paper-choices .paper-dialogue{grid-template-columns:1fr;gap:3px;margin-top:5px;padding:6px 8px;font-size:13px;line-height:1.4}
+  .main20-mode.main20-paper-choices .paper-dialogue-speaker{font-size:10px}
+  .main20-mode.main20-paper-choices #choiceArea{grid-template-columns:1fr;gap:7px;max-height:min(17vh,132px);min-height:0;margin-top:6px;padding-top:8px}
   .main20-mode.main20-paper-choices #choiceArea .main20-choice-card{min-height:56px;padding:8px 10px}
 }
+@media(max-height:500px){.main20-mode.main20-paper-choices .document-stage{padding-top:3px!important;padding-bottom:3px!important}}
+
+/* The paper reader must win over legacy fixed-choice placements and desk hit targets. */
+.main20-mode.main20-paper-choices.gold-runtime.case-periodical-review-gold-1847 #choiceArea{position:static!important;inset:auto!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;width:auto!important;max-height:34%!important;z-index:auto!important}
+.main20-mode.main20-paper-choices .physical-tools{z-index:0!important}

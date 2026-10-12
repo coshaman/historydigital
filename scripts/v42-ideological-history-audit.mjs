@@ -23,7 +23,9 @@ const ids = new Set([
   ...(data.c07IdeologicalFollowUp?.beats || []).map((beat) => beat.id)
 ]);
 for (const id of requiredBeats) requireValue(ids.has(id), `missing required beat ${id}`);
-requireValue((data.chronology?.sceneOrder || []).indexOf('C03') > 0, 'ideology prologue must precede C03');
+const chronologyOrder = data.chronology?.sceneOrder || [];
+const firstActiveChronologyScene = (data.v44MainSceneIds || []).find((id) => chronologyOrder.includes(id));
+requireValue(chronologyOrder.indexOf('IDEOLOGY_PROLOGUE') >= 0 && chronologyOrder.indexOf(firstActiveChronologyScene) > chronologyOrder.indexOf('IDEOLOGY_PROLOGUE'), 'ideology prologue must precede the first active main-route scene');
 requireValue(data.c07IdeologicalFollowUp?.chronologyOrder?.join('>') === '1842>1847-GOGOL>1847-BELINSKY', 'C07 1842→1847 chronology missing');
 requireValue(!JSON.stringify(data).toLowerCase().includes('chekhov'), 'Chekhov is anachronistically present');
 

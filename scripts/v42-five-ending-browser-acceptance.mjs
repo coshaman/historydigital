@@ -1,5 +1,5 @@
 import fs from 'node:fs';
-import { chromium } from 'playwright';
+const { chromium } = await import(process.env.PLAYWRIGHT_MODULE || 'playwright');
 
 const routes = {
   UVAROV: { C03: [0, 0], C06: [0, 0], C07: [0, 0], E02: [1, 1], E07: [1, 1] },
@@ -10,7 +10,7 @@ const routes = {
 };
 const browser = await chromium.launch({ headless: true, executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe' });
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
-await page.goto('http://127.0.0.1:4173/?main20=1&v42fresh=1', { waitUntil: 'domcontentloaded' });
+await page.goto(process.env.V42_FIVE_BASE_URL || 'http://127.0.0.1:4173/?main20=1&v42fresh=1', { waitUntil: 'domcontentloaded' });
 await page.waitForFunction(() => Boolean(window.__main20?.data), { timeout: 12000 });
 const report = await page.evaluate((routes) => {
   const data = window.__main20.data;
@@ -19,8 +19,9 @@ const report = await page.evaluate((routes) => {
     const history = [];
     const flags = [];
     const relationships = { alexei: 8, ekaterina: 8, pavel: 8 };
-    for (const scene of data.scenes) {
-      const [primaryIndex, postIndex] = route[scene.id];
+    for (const [sceneId, [primaryIndex, postIndex]] of Object.entries(route)) {
+      const scene = data.scenes.find(item => item.id === sceneId) || data.archiveSceneRecords?.find(item => item.id === sceneId);
+      if (!scene) throw new Error(`five-ending fixture references unavailable scene ${sceneId}`);
       for (const choice of [scene.choices[primaryIndex], scene.postChoices[postIndex]]) {
         history.push({ sceneId: scene.id, kind: 'post_read_choice', action: choice.action, flags: choice.flagsAdd || [], endingAffinity: choice.endingAffinity || {}, actor: choice.actor, witnesses: choice.witnesses, visibility: choice.visibility });
         flags.push(...(choice.flagsAdd || []));

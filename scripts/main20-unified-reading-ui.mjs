@@ -44,9 +44,31 @@ try {
     assert.ok(await page.evaluate(() => document.activeElement?.matches('#choiceArea button')));
     await page.keyboard.press('Enter');
     assert.notEqual((await page.evaluate(() => window.__main20.getState())).onboardingIndex, state.onboardingIndex);
+    const beforeResize = await page.evaluate(() => ({ url: location.href, state: window.__main20.getState() }));
+    const resizedViewport = viewport.width === 1440 ? { width: 720, height: 450 } : viewport.width === 1024 ? { width: 390, height: 844 } : { width: 844, height: 390 };
+    await page.setViewportSize(resizedViewport);
+    const afterResize = await page.evaluate(() => {
+      const button = document.querySelector('#choiceArea button');
+      const rect = button?.getBoundingClientRect();
+      return { url: location.href, pageWidth: document.documentElement.scrollWidth, viewportWidth: innerWidth, phase: window.__main20.getState().phase, onboardingIndex: window.__main20.getState().onboardingIndex, button: rect && { left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom }, buttonVisible: Boolean(rect?.height && getComputedStyle(button).display !== 'none') };
+    });
+    assert.equal(afterResize.url, beforeResize.url, 'resize must not reload/navigate the route');
+    assert.equal(afterResize.phase, beforeResize.state.phase);
+    assert.equal(afterResize.onboardingIndex, beforeResize.state.onboardingIndex);
+    assert.ok(afterResize.pageWidth <= afterResize.viewportWidth, `resize overflow: ${JSON.stringify(afterResize)}`);
+    assert.ok(afterResize.buttonVisible && afterResize.button.left >= 0 && afterResize.button.right <= afterResize.viewportWidth, `choice no longer fits/can be reached after resize: ${JSON.stringify(afterResize)}`);
     await page.close();
   }
-  console.log('main20-unified-ui: 1440x900, 1024x768, 390x844 — PASS');
+  const reducedPage = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+  await reducedPage.emulateMedia({ reducedMotion: 'reduce' });
+  await reducedPage.goto(base, { waitUntil: 'domcontentloaded' });
+  await reducedPage.waitForFunction(() => Boolean(window.__main20?.getState));
+  const reducedMotion = await reducedPage.locator('#choiceArea button').first().evaluate(button => ({ requested: matchMedia('(prefers-reduced-motion: reduce)').matches, transition: getComputedStyle(button).transitionProperty, animation: getComputedStyle(button).animationName }));
+  assert.equal(reducedMotion.requested, true);
+  assert.equal(reducedMotion.transition, 'none');
+  assert.equal(reducedMotion.animation, 'none');
+  await reducedPage.close();
+  console.log('main20-unified-ui: 1440x900, 1024x768, 390x844, 200%-effective 720x450 resize, keyboard, reduced motion — PASS');
 } finally {
   await browser?.close();
   server.kill();

@@ -21,6 +21,8 @@
     "source-audit": "node scripts/source-audit.mjs",
     "act-iii-source-audit": "node scripts/act-iii-source-expansion-audit.mjs",
     "main20-branch-graph-test": "node --test scripts/main20-branch-graph-test.mjs",
+    "main20-81-routes": "node scripts/main20-81-route-acceptance.mjs",
+    "main20-unified-ui": "node scripts/main20-unified-reading-ui.mjs",
     "placeholder-audit": "node scripts/placeholder-audit.mjs",
     "baseline-inventory": "node scripts/baseline-inventory.mjs",
     "corpus-audit": "node scripts/corpus-audit.mjs",

@@ -133,6 +133,20 @@ test('rejects route event nodes with invalid predecessor, hub, source, or absent
   assert.match(errors, /dialogue/i);
 });
 
+test('validator rejects duplicate and unreachable event-prefix nodes instead of hiding route gaps', () => {
+  const duplicated = structuredClone(projectGraph);
+  duplicated.eventNodes.push({ ...structuredClone(duplicated.eventNodes[0]), id: 'NODE-DUPLICATE-PREFIX' });
+  const duplicateErrors = validateBranchGraph(duplicated, [...new Set(duplicated.eventNodes.flatMap(node => node.sourceIds))]).errors.join('\n');
+  assert.match(duplicateErrors, /duplicate route event prefix/);
+  assert.match(duplicateErrors, /exactly 120 prefix nodes/);
+
+  const orphaned = structuredClone(projectGraph);
+  orphaned.eventNodes[0].requiredPrefix = ['UNKNOWN-CHOICE'];
+  const orphanErrors = validateBranchGraph(orphaned, [...new Set(orphaned.eventNodes.flatMap(node => node.sourceIds))]).errors.join('\n');
+  assert.match(orphanErrors, /unknown or out-of-order prefix/);
+  assert.match(orphanErrors, /missing route event prefix coverage/);
+});
+
 test('rejects route event nodes that disclose sources before their publication availability date', () => {
   const graph = makeGraph();
   graph.eventNodes = makePrefixEventNodes(graph);
@@ -228,6 +242,24 @@ test('all 81 complete routes resolve four source-linked prefix-specific scene be
     assert.equal(dialogueBeats.every(Boolean), true);
   }
   assert.equal(signatures.size, 81);
+});
+
+test('every cross-hub interaction resolved for a route prefix is present in its playable event dialogue', () => {
+  const vectors = enumerateRouteVectors(projectGraph);
+  const checkedPairs = new Set();
+  for (const { choiceIds } of vectors) {
+    let routeState = { routeChoices: [], branchState: {}, historicalAnchors: projectGraph.anchors };
+    for (let index = 0; index < choiceIds.length; index += 1) {
+      const resolved = branchGraph.resolveBranchEvent(projectGraph, projectGraph.hubs[index].id, choiceIds[index], routeState);
+      routeState = resolved.nextState;
+      const eventNode = branchGraph.resolvePrefixEventNode(projectGraph, choiceIds.slice(0, index + 1));
+      for (const interaction of resolved.interactionLines || []) {
+        assert.ok(eventNode.dialogue.some(line => line.speaker === interaction.speaker && line.text === interaction.text), `${eventNode.id} omits cross-hub reaction: ${interaction.text}`);
+        checkedPairs.add(`${choiceIds.slice(0, index).join('|')}→${choiceIds[index]}`);
+      }
+    }
+  }
+  assert.equal(checkedPairs.size, 117, 'depths 2–4 must expose all 9 + 27 + 81 ordered route-prefix interactions');
 });
 
 test('E02 and E04 remain in the active chronological player route', async () => {

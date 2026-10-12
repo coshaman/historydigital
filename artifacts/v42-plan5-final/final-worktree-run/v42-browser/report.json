@@ -1,0 +1,76 @@
+{
+  "status": true,
+  "viewports": {
+    "screenshot-size": {
+      "phase": "ending",
+      "sceneIndex": 3,
+      "guard": 115,
+      "bodyWidth": {
+        "body": 1996,
+        "viewport": 1996,
+        "walk": true
+      }
+    },
+    "desktop": {
+      "phase": "ending",
+      "sceneIndex": 3,
+      "guard": 115,
+      "bodyWidth": {
+        "body": 1440,
+        "viewport": 1440,
+        "walk": true
+      }
+    },
+    "laptop": {
+      "phase": "ending",
+      "sceneIndex": 3,
+      "guard": 115,
+      "bodyWidth": {
+        "body": 1280,
+        "viewport": 1280,
+        "walk": true
+      }
+    },
+    "tablet-portrait": {
+      "phase": "ending",
+      "sceneIndex": 3,
+      "guard": 115,
+      "bodyWidth": {
+        "body": 768,
+        "viewport": 768,
+        "walk": true
+      }
+    },
+    "mobile": {
+      "phase": "ending",
+      "sceneIndex": 3,
+      "guard": 115,
+      "bodyWidth": {
+        "body": 390,
+        "viewport": 390,
+        "walk": true
+      }
+    },
+    "compact-mobile": {
+      "phase": "ending",
+      "sceneIndex": 3,
+      "guard": 115,
+      "bodyWidth": {
+        "body": 360,
+        "viewport": 360,
+        "walk": true
+      }
+    },
+    "mobile-landscape": {
+      "phase": "ending",
+      "sceneIndex": 3,
+      "guard": 115,
+      "bodyWidth": {
+        "body": 844,
+        "viewport": 844,
+        "walk": true
+      }
+    }
+  },
+  "failures": []
+}

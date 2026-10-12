@@ -1,0 +1,18 @@
+{
+  "status": true,
+  "vectorCount": 81,
+  "browserChoiceReplays": 120,
+  "routeEventNodesPlayed": 120,
+  "distinctCrossHubPrefixes": 117,
+  "endingIds": [
+    "BELINSKY",
+    "DOSTOEVSKY_PETRASHEVSKY",
+    "HERZEN",
+    "KHOMYAKOV",
+    "UVAROV"
+  ],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  }
+}
