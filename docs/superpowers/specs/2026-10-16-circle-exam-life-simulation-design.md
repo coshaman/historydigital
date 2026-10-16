@@ -1,7 +1,7 @@
 # Circle Learning, Rank Examination, and Later-Life Simulation
 
-**Status:** Draft for user review  
-**Date:** 2026-10-16  
+**Status:** Approved; implemented
+**Date:** 2026-10-16
 **Scope:** Russian Lives: Act III, from the reading-circle hub through the ending epilogue.
 
 ## Objective
