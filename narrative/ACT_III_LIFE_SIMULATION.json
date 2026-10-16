@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "periods": [
+    {
+      "id": "FIRST-POST-EXAM-YEAR",
+      "year": 1850,
+      "statePath": "examOutcome",
+      "default": {"id":"LIFE-1850-UNSET","title":"책상에 남은 빈칸","textKo":"시험 기록에는 점수가 남아 있지 않습니다. 당신은 맡은 서류를 다시 정리하고, 다음 결정을 서두르지 않습니다.","fictional":true,"basis":["examOutcome"]},
+      "variants": {
+        "passed": {"id":"LIFE-1850-PASSED","title":"새 책상에 익숙해지다","textKo":"이번 회차의 답안은 기준을 넘겼고, 가상의 인사 기록에는 진급이 적혔습니다. 새 책상에는 더 많은 이름과 결재선이 놓였습니다. 당신은 빠뜨린 문장이 없는지 밤마다 문서를 한 장씩 되짚습니다.","fictional":true,"basis":["examCorrectCount","promotionStatus"]},
+        "failed": {"id":"LIFE-1850-FAILED","title":"같은 창구, 다른 하루","textKo":"이번 회차는 기준에 이르지 못했습니다. 진급은 이번에는 이뤄지지 않았고, 당신은 원래 맡았던 창구로 돌아옵니다. 틀린 답을 숨기는 대신, 다음 문서부터는 근거를 한 줄 더 확인합니다.","fictional":true,"basis":["examCorrectCount","promotionStatus"]},
+        "deferred": {"id":"LIFE-1850-DEFERRED","title":"비워 둔 답안","textKo":"당신은 시험을 미뤘습니다. 점수도 승패도 기록되지 않았습니다. 사유서 한 장이 인사철에 끼워졌고, 준비가 덜 된 부분은 다음 달 업무표 옆에 남습니다.","fictional":true,"basis":["examOutcome","branchState.examAction"]},
+        "helped-peer": {"id":"LIFE-1850-PEER","title":"두 사람 몫의 밤","textKo":"시험 전날, 당신은 파벨과 문제를 나눠 봤습니다. 이번 회차 성적은 없습니다. 대신 그날 이후 파벨은 막히는 문서를 혼자 감추지 않고 당신 책상에 가져옵니다.","fictional":true,"basis":["examOutcome","branchState.examAction"]}
+      }
+    },
+    {
+      "id": "THE-CIRCLE-KEPT-IN-MIND",
+      "year": 1852,
+      "statePath": "branchState.circleContact",
+      "default": {"id":"LIFE-1852-NO-CIRCLE-RECORD","title":"들리지 않은 방","textKo":"그 모임에 대한 기록은 당신의 수첩에 남지 않았습니다. 사람들의 생각을 직접 확인하지 못한 만큼, 남의 말만으로 그들을 단정하지 않으려 합니다.","fictional":true,"basis":["branchState.circleContact"]},
+      "variants": {
+        "attended": {"id":"LIFE-1852-CIRCLE","title":"책장을 덮은 뒤에도","textKo":"그날 들은 이야기는 어느 한 사람의 생각으로 정리되지 않았습니다. 당신은 서로 다른 책을 읽던 얼굴들을 기억하며, 관청 문서에도 발언과 확인된 사실을 구분해 적습니다.","fictional":true,"basis":["branchState.circleContact"]},
+        "attended-notes": {"id":"LIFE-1852-NOTES","title":"세 권의 제목","textKo":"수첩에는 책 제목과 날짜만 남겼습니다. 몇 해가 지나도 누구의 말을 옮기지 않았다는 점은 그대로입니다. 기억은 희미해져도, 적지 않기로 한 선택은 남았습니다.","fictional":true,"basis":["branchState.circleContact"]},
+        "declined": {"id":"LIFE-1852-DECLINED","title":"돌려준 초대장","textKo":"초대장을 돌려준 뒤 모임에서 무엇을 읽었는지는 알지 못했습니다. 파벨과의 대화는 한동안 짧았지만, 서류를 주고받을 때면 둘은 다시 필요한 말을 나눴습니다.","fictional":true,"basis":["branchState.circleContact"]}
+      }
+    },
+    {
+      "id": "A-BOOK-RETURNS",
+      "year": 1855,
+      "statePath": "branchState.literatureAction",
+      "default": {"id":"LIFE-1855-NO-BOOK","title":"읽지 못한 쪽","textKo":"책에 관한 당신의 답은 기록되지 않았습니다. 그래도 동료의 판단을 옮겨 적을 때에는, 그 사람의 목소리와 문서의 결론을 한 줄에 섞지 않게 됐습니다.","fictional":true,"basis":["branchState.literatureAction"]},
+      "variants": {
+        "public-discussion": {"id":"LIFE-1855-DISCUSSION","title":"다르게 읽은 문장","textKo":"예카테리나와 나눈 독서 대화는 결론보다 질문을 오래 남겼습니다. 당신은 인물의 선택과 그를 둘러싼 조건을 따로 적는 습관을 업무 기록에도 가져옵니다.","fictional":true,"basis":["branchState.literatureAction"]},
+        "private-reading": {"id":"LIFE-1855-PRIVATE","title":"돌아온 책","textKo":"빌려 온 책은 제때 돌아갔습니다. 여백에 표시한 문장에 대해 파벨이 물었고, 당신은 한 번에 답을 정하지 않고 책을 다시 펼쳤습니다.","fictional":true,"basis":["branchState.literatureAction"]},
+        "asked-back": {"id":"LIFE-1855-QUESTION","title":"대답 대신 질문","textKo":"당신이 먼저 되물었던 대화 뒤로, 예카테리나는 가끔 판단이 서지 않는 문서를 함께 읽자고 했습니다. 둘은 서명 전에 서로 빠뜨린 근거가 없는지 확인합니다.","fictional":true,"basis":["branchState.literatureAction","relationships.ekaterina"]}
+      }
+    },
+    {
+      "id": "THE-CIRCULAR-TRAVELS",
+      "year": 1858,
+      "statePath": "branchState.newsAction",
+      "default": {"id":"LIFE-1858-NEWS-UNSET","title":"도착하지 않은 공고","textKo":"공고를 어떻게 처리했는지 기록은 없습니다. 당신은 확인되지 않은 소식이 사실처럼 복사되지 않도록, 출처와 도착 날짜부터 적습니다.","fictional":true,"basis":["branchState.newsAction"]},
+      "variants": {
+        "filed": {"id":"LIFE-1858-FILED","title":"철해 둔 날짜","textKo":"편집부의 설명과 접수 기록은 서로 다른 칸에 보관됐습니다. 후임자가 그 자료철을 열 때마다, 무엇이 보고였고 무엇을 관청이 확인했는지 구분할 수 있었습니다.","fictional":true,"basis":["branchState.newsAction"]},
+        "shared": {"id":"LIFE-1858-SHARED","title":"한 사람에게 보여 준 종이","textKo":"공고는 공식 자료철 대신 동료 한 사람에게 건넸습니다. 몇 해 뒤에도 두 사람은 그 문서가 편집부의 설명이었다는 점을 함께 기억합니다.","fictional":true,"basis":["branchState.newsAction"]},
+        "referred": {"id":"LIFE-1858-REFERRED","title":"확인을 청한 메모","textKo":"배송 기록을 대조해 달라는 메모는 검토 절차에 들어갔습니다. 답을 재촉하기보다, 확인되지 않은 설명을 사실로 옮기지 않는 일이 당신의 원칙이 됩니다.","fictional":true,"basis":["branchState.newsAction"]}
+      }
+    },
+    {
+      "id": "A-LARGER-LEDGER",
+      "year": 1862,
+      "statePath": "examOutcome",
+      "default": {"id":"LIFE-1862-UNDECIDED","title":"다음 칸은 비워 두다","textKo":"승진 기록은 이 이야기에서 확정되지 않았습니다. 당신은 맡은 일의 범위를 정확히 적고, 아직 오지 않은 결정을 미리 장부에 쓰지 않습니다.","fictional":true,"basis":["examOutcome"]},
+      "variants": {
+        "passed": {"id":"LIFE-1862-PROMOTED","title":"이름을 맡는 자리","textKo":"더 큰 자료철에는 동료들의 이름과 책임이 함께 들어왔습니다. 당신은 서류를 빨리 넘기는 것만큼, 누가 어떤 판단을 했는지 남기는 일이 중요하다는 걸 배웁니다.","fictional":true,"basis":["promotionStatus","branchState.newsAction"]},
+        "failed": {"id":"LIFE-1862-STEADY","title":"맡은 일을 다시 배우다","textKo":"같은 창구에 오래 머문 시간은 문서의 작은 어긋남을 알아보는 눈을 길렀습니다. 후임은 처리 속도를 물었고, 당신은 먼저 출처와 날짜를 대조하라고 답합니다.","fictional":true,"basis":["promotionStatus","branchState.newsAction"]}
+      }
+    },
+    {
+      "id": "A-PRIVATE-CORRESPONDENCE",
+      "year": 1868,
+      "statePath": "relationships.ekaterina",
+      "default": {"id":"LIFE-1868-DISTANT","title":"서랍 속의 편지","textKo":"예카테리나와는 필요한 업무 인사만 주고받았습니다. 오래된 편지와 책갈피는 서랍에 남았지만, 두 사람은 더 가까운 사이였다고 기록되지 않습니다.","fictional":true,"basis":["relationships.ekaterina"]},
+      "variants": {
+        "1": {"id":"LIFE-1868-CLOSE","title":"서로에게 남긴 안부","textKo":"예카테리나는 가끔 안부를 물었고, 당신은 답장을 짧게 쓰지 못했습니다. 함께 읽은 문장과 확인해 둔 기록은 직장 밖에서도 두 사람의 대화에 남았습니다.","fictional":true,"basis":["relationships.ekaterina","branchState.literatureAction"]}
+      }
+    },
+    {
+      "id": "THE-LAST-DESK",
+      "year": 1874,
+      "statePath": "promotionStatus",
+      "default": {"id":"LIFE-1874-PENDING","title":"마지막으로 정리한 자료철","textKo":"당신의 마지막 책상에는 남이 확인할 수 있도록 정리한 종이가 남았습니다. 가상의 기록은 여기서 끝납니다. 그보다 뒤의 삶은 이 장면이 대신 말하지 않습니다.","fictional":true,"basis":["branchState","history"]},
+      "variants": {
+        "promoted": {"id":"LIFE-1874-PROMOTED","title":"마지막 결재선","textKo":"마지막으로 정리한 자료철에는 서로 다른 설명과 확인된 사실이 나란히 놓였습니다. 당신이 맡아 온 이름과 서류는 다른 손으로 넘어가고, 오래 쓴 펜은 책상 서랍에 남습니다.","fictional":true,"basis":["promotionStatus","branchState.newsAction"]},
+        "not-promoted": {"id":"LIFE-1874-NO-PROMOTION","title":"마지막 접수 번호","textKo":"마지막으로 정리한 접수부에는 날짜와 출처가 빠짐없이 적혀 있었습니다. 직함보다 그 기록을 먼저 찾는 후임이 있었고, 당신은 그 습관을 남겼습니다.","fictional":true,"basis":["promotionStatus","branchState.newsAction"]}
+      }
+    }
+  ]
+}

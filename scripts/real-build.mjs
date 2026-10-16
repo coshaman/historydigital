@@ -4,7 +4,7 @@ import crypto from 'node:crypto';
 
 const root = process.cwd();
 const dist = path.join(root, 'dist');
-const files = ['index.html', 'styles.css', 'app.js', 'gold-runtime.js', 'three-desk.js', 'three-walk.js', 'window-view-controller.js', 'main20-runtime.js', 'server.mjs'];
+const files = ['index.html', 'styles.css', 'app.js', 'gold-runtime.js', 'three-desk.js', 'three-walk.js', 'window-view-controller.js', 'main20-branch-graph.js', 'main20-exam.js', 'main20-life-simulation.js', 'main20-runtime.js', 'server.mjs'];
 const dirs = ['data', 'assets', 'narrative'];
 await fs.rm(dist, { recursive: true, force: true });
 await fs.mkdir(dist, { recursive: true });

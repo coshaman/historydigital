@@ -499,3 +499,40 @@ body.scene-header-collapsed .masthead{transform:translateY(-100%);opacity:0;poin
   .main20-mode .document-action-detail{font-size:10px;line-height:1.35}
 }
 @media(prefers-reduced-motion:reduce){.main20-mode .document-action{transition:none}.main20-mode .document-action:hover{transform:none}}
+
+/* Learning, examination, and the fictional clerk's later-life sequence. */
+body.main20-circle-warehouse .document-stage{background:radial-gradient(ellipse at 50% 36%,#765337 0,#453022 46%,#211812 82%)}
+body.main20-circle-warehouse #deskCanvas{filter:brightness(.66) sepia(.14) saturate(.86)}
+body.main20-circle-warehouse .paper{box-shadow:14px 17px 0 #140e0b80,0 0 38px #d09d4c30}
+.main20-mode.main20-reading .main20-learning-excerpt{grid-template-columns:1fr;gap:12px;background:#e7d8b6;border-left:3px solid #ab8350}
+.main20-mode.main20-reading .main20-learning-excerpt .ru-text{font-style:italic}
+.main20-mode.main20-reading .learning-context-note{grid-column:1/-1;margin:0;padding-top:8px;border-top:1px solid #6f563850;font:13px/1.5 Georgia,serif;color:#544532}
+.main20-mode.main20-reading .main20-prep-unit{padding:14px 16px;margin:0 0 12px;background:#e8d9b9;border:1px solid #866c464a}
+.main20-mode.main20-reading .main20-prep-unit h3{margin:0 0 7px;font:600 19px/1.25 Georgia,serif;color:#382b1c}
+.main20-mode.main20-reading .main20-prep-unit p{margin:0 0 9px;font:16px/1.6 Georgia,serif;color:#3b3023}
+.main20-mode.main20-reading .main20-prep-unit small{display:block;font:11px/1.4 'Libre Franklin',sans-serif;color:#62513a;overflow-wrap:anywhere}
+.main20-mode.main20-reading .main20-exam-option{min-height:48px;text-align:left;line-height:1.4}
+.main20-mode.main20-reading .main20-exam-option[aria-pressed="true"]{border-color:#b38b51;background:#e5d0a8;color:#2b2118;box-shadow:inset 0 0 0 2px #b38b5166}
+.main20-mode.main20-reading .choice-area:has(.main20-exam-option){grid-template-columns:repeat(2,minmax(0,1fr));max-height:34dvh;overflow:auto;overscroll-behavior:contain}
+.main20-mode.main20-reading .main20-exam-result-row{padding:8px 10px;margin:0;border-bottom:1px solid #735d3c55;font:14px/1.5 Georgia,serif}
+.main20-mode.main20-ending .dialogue-strip{display:none!important;visibility:hidden!important}
+.ending-life-timeline{position:relative;margin:24px 0;padding:20px 22px 22px;background:linear-gradient(135deg,#34271e,#241a14);border:1px solid #c1a06b;box-shadow:inset 0 0 0 4px #c1a06b1a}
+.ending-life-timeline h3{margin:0 0 6px;color:#f0dcb3;font:500 clamp(24px,3vw,34px)/1.15 Georgia,serif}
+.ending-timeline-note,.ending-timeline-progress{margin:0 0 12px;color:#cbb58d;font:12px/1.45 'Libre Franklin',sans-serif}
+.ending-timeline-track{display:flex;gap:5px;margin:16px 0 18px}
+.ending-timeline-track span{height:3px;flex:1;background:#a58a5c55}
+.ending-timeline-track span.active{background:#d7b477;box-shadow:0 0 9px #d7b47755}
+.ending-life-timeline h4{margin:0 0 9px;color:#e7c88e;font:600 20px/1.3 Georgia,serif}
+.ending-timeline-copy{margin:0;max-width:68ch;color:#eadbc0;font:17px/1.7 Georgia,serif}
+.ending-timeline-controls{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px}
+.ending-timeline-controls button{min-height:42px}
+.ending-timeline-controls button:disabled{opacity:.45;cursor:default}
+@media(max-width:700px){
+  .main20-mode.main20-reading .choice-area:has(.main20-exam-option){grid-template-columns:1fr;max-height:34dvh}
+  .main20-mode.main20-reading .main20-exam-option{min-height:44px;padding:8px 10px;font-size:14px}
+  .ending-life-timeline{padding:16px 14px 18px}
+  .ending-timeline-copy{font-size:15px;line-height:1.6}
+  .ending-timeline-controls{display:grid;grid-template-columns:1fr 1fr}
+  .ending-timeline-controls button:last-child{grid-column:1/-1}
+}
+@media(prefers-reduced-motion:reduce){.ending-timeline-track span{scroll-behavior:auto;transition:none}}

@@ -4,10 +4,12 @@
   if (!isMain20Route) return;
   window.__main20RuntimeOwner = 'main20'; window.runtimeOwner = 'main20';
   const data = await fetch('narrative/MAIN_20MIN_DIALOGUE.json?v=48').then((response) => response.json());
-  const [branchGraph, branchSources, e04Scene] = await Promise.all([
+  const [branchGraph, branchSources, e04Scene, learningExam, lifeSimulation] = await Promise.all([
     fetch('narrative/ACT_III_BRANCH_ROUTE.json?v=3').then((response) => response.json()),
     fetch('narrative/ACT_III_BRANCHING_SOURCES.json?v=2').then((response) => response.json()),
-    fetch('narrative/E04_SCENE.json?v=1').then((response) => response.json())
+    fetch('narrative/E04_SCENE.json?v=1').then((response) => response.json()),
+    fetch('narrative/ACT_III_LEARNING_EXAM.json?v=1').then((response) => response.json()),
+    fetch('narrative/ACT_III_LIFE_SIMULATION.json?v=1').then((response) => response.json())
   ]);
   data.sourceRegister = [...(data.sourceRegister || []), ...branchSources.map((source) => ({
     sourceId: source.sourceId, date: source.date, edition: source.edition, locator: source.locator,
@@ -25,10 +27,22 @@
   });
   const storageKey = 'chancery-main20-v35';
   const $ = (id) => document.getElementById(id);
-  const fresh = () => ({ schemaVersion: data.schemaVersion, sceneIndex: 0, phase: 'onboarding', onboardingIndex: 0, onboardingComplete: false, introIndex: 0, discussionIndex: 0, reactionIndex: 0, ideologyBeatIndex: 0, ideologyLineIndex: 0, ideologyReadBeat: null, c07BeatIndex: 0, c07LineIndex: 0, c07ReadBeat: null, c07IdeologyComplete: false, initialChoiceId: null, postChoiceId: null, branchHubIndex: 0, routeChoices: [], branchState: {}, activeBranchEventId: null, activeBranchLineIndex: 0, activeBranchReadHub: null, readExcerptIdsByScene: {}, readEventsByScene: {}, readingScrollByScene: {}, history: [], flags: [], ideology: Object.fromEntries((data.ideologyDimensions || []).map((key) => [key, 0])), ideologyEvidence: [], beliefs: [], actions: [], visibleCallbacks: [], relationships: { alexei: 0, ekaterina: 0, pavel: 0 }, windowView: 'closed', endingId: null, endingResolution: null, legacyEndingTitle: null });
+  const fresh = () => ({ schemaVersion: data.schemaVersion, sceneIndex: 0, phase: 'onboarding', onboardingIndex: 0, onboardingComplete: false, introIndex: 0, discussionIndex: 0, reactionIndex: 0, ideologyBeatIndex: 0, ideologyLineIndex: 0, ideologyReadBeat: null, c07BeatIndex: 0, c07LineIndex: 0, c07ReadBeat: null, c07IdeologyComplete: false, initialChoiceId: null, postChoiceId: null, branchHubIndex: 0, routeChoices: [], branchState: {}, activeBranchEventId: null, activeBranchLineIndex: 0, activeBranchReadHub: null, circleLearningIndex: 0, examQuestionIndex: 0, examAnswers: {}, examOutcome: 'unset', examCorrectCount: null, promotionStatus: 'pending', endingTimelineIndex: 0, readExcerptIdsByScene: {}, readEventsByScene: {}, readingScrollByScene: {}, history: [], flags: [], ideology: Object.fromEntries((data.ideologyDimensions || []).map((key) => [key, 0])), ideologyEvidence: [], beliefs: [], actions: [], visibleCallbacks: [], relationships: { alexei: 0, ekaterina: 0, pavel: 0 }, windowView: 'closed', endingId: null, endingResolution: null, legacyEndingTitle: null });
   const normalize = (raw) => { const next = fresh(); if (!raw) return next; const legacy = raw.schemaVersion === 'MAIN-20MIN-DIALOGUE-V34' || raw.schemaVersion === 'MAIN-20MIN-DIALOGUE-V33' || raw.schemaVersion === 'MAIN-20MIN-DIALOGUE-V32' || raw.schemaVersion === 'MAIN-20MIN-DIALOGUE-V35'; if (raw.schemaVersion !== data.schemaVersion && !legacy) return next; Object.assign(next, raw); next.schemaVersion = data.schemaVersion; next.routeChoices = Array.isArray(raw.routeChoices) ? raw.routeChoices.filter((id) => branchGraph.branches.some((branch) => branch.choiceId === id)).slice(0, branchGraph.hubs.length) : []; next.branchHubIndex = Number.isInteger(raw.branchHubIndex) && raw.branchHubIndex >= 0 && raw.branchHubIndex <= branchGraph.hubs.length ? raw.branchHubIndex : 0; next.branchState = raw.branchState && typeof raw.branchState === 'object' && !Array.isArray(raw.branchState) ? raw.branchState : {}; next.activeBranchEventId = branchGraph.events.some((event) => event.id === raw.activeBranchEventId) ? raw.activeBranchEventId : null; next.activeBranchLineIndex = Number.isInteger(raw.activeBranchLineIndex) && raw.activeBranchLineIndex >= 0 ? raw.activeBranchLineIndex : 0; next.activeBranchReadHub = branchGraph.hubs.some((hub) => hub.id === raw.activeBranchReadHub) ? raw.activeBranchReadHub : null; next.readExcerptIdsByScene = raw.readExcerptIdsByScene && typeof raw.readExcerptIdsByScene === 'object' ? raw.readExcerptIdsByScene : {}; next.readEventsByScene = raw.readEventsByScene && typeof raw.readEventsByScene === 'object' ? raw.readEventsByScene : {}; next.readingScrollByScene = raw.readingScrollByScene && typeof raw.readingScrollByScene === 'object' ? raw.readingScrollByScene : {}; next.flags = Array.isArray(raw.flags) ? [...new Set(raw.flags)] : []; next.history = Array.isArray(raw.history) ? raw.history : []; next.ideology = { ...fresh().ideology, ...(raw.ideology || {}) }; next.ideologyEvidence = Array.isArray(raw.ideologyEvidence) ? raw.ideologyEvidence : []; next.beliefs = Array.isArray(raw.beliefs) ? raw.beliefs : next.ideologyEvidence; next.actions = Array.isArray(raw.actions) ? raw.actions : next.history.filter((item) => item.choiceKind === 'ACTION').map((item) => item.action); next.visibleCallbacks = Array.isArray(raw.visibleCallbacks) ? raw.visibleCallbacks : []; next.relationships = { ...next.relationships, ...(raw.relationships || {}) }; if (legacy) { next.legacyEndingTitle = raw.endingId || raw.legacyEndingTitle || null; next.endingId = null; next.endingResolution = null; if (next.phase === 'ending' || next.phase === 'final_choice') next.phase = 'legacy_recovery'; } return next; };
   const rawSave = query.has('v42fresh') ? null : JSON.parse(localStorage.getItem(storageKey) || localStorage.getItem('chancery-main20-v34') || localStorage.getItem('chancery-main20-v33') || localStorage.getItem('chancery-main20-v32') || 'null');
-  let state = normalize(rawSave);
+  const normalizeFeatureState = (candidate) => {
+    const next = candidate || fresh();
+    next.circleLearningIndex = Number.isInteger(next.circleLearningIndex) ? Math.max(0, Math.min(learningExam.learningUnits.length - 1, next.circleLearningIndex)) : 0;
+    next.examQuestionIndex = Number.isInteger(next.examQuestionIndex) ? Math.max(0, Math.min(learningExam.questions.length - 1, next.examQuestionIndex)) : 0;
+    const validQuestionIds = new Set(learningExam.questions.map((question) => question.id));
+    next.examAnswers = Object.fromEntries(Object.entries(next.examAnswers && typeof next.examAnswers === 'object' ? next.examAnswers : {}).filter(([questionId, optionId]) => validQuestionIds.has(questionId) && learningExam.questions.find((question) => question.id === questionId)?.options.some((option) => option.id === optionId)));
+    if (!['passed', 'failed', 'deferred', 'helped-peer', 'unset'].includes(next.examOutcome)) next.examOutcome = 'unset';
+    next.examCorrectCount = Number.isInteger(next.examCorrectCount) && next.examCorrectCount >= 0 && next.examCorrectCount <= learningExam.questionCount ? next.examCorrectCount : null;
+    next.promotionStatus = window.Main20Exam.derivePromotionStatus(next.examOutcome);
+    next.endingTimelineIndex = Number.isInteger(next.endingTimelineIndex) ? Math.max(0, Math.min(lifeSimulation.periods.length - 1, next.endingTimelineIndex)) : 0;
+    return next;
+  };
+  let state = normalizeFeatureState(normalize(rawSave));
   const scene = () => data.scenes[state.sceneIndex]; const save = () => localStorage.setItem(storageKey, JSON.stringify(state)); const setText = (id, text) => { const node = $(id); if (node) node.textContent = text; }; const setVisible = (id, visible) => { const node = $(id); if (node) node.hidden = !visible; }; const choices = () => $('choiceArea'); const readIds = (current = scene()) => state.readExcerptIdsByScene[current.id] || [];
   const markRead = (current, excerptId) => { const ids = new Set(readIds(current)); if (ids.has(excerptId)) return; ids.add(excerptId); state.readExcerptIdsByScene[current.id] = [...ids]; state.readEventsByScene[current.id] = [...(state.readEventsByScene[current.id] || []), { excerptId, at: new Date().toISOString() }]; save(); };
   const currentContextId = () => state.phase === 'ideology_prologue' ? data.ideologyPrologue.beats[state.ideologyBeatIndex]?.id : state.phase === 'c07_ideology' ? data.c07IdeologicalFollowUp.beats[state.c07BeatIndex]?.id : scene().id;
@@ -42,7 +56,7 @@
   function mode(name) { document.body.classList.add('main20-mode'); document.body.dataset.runtimeOwner = 'main20'; const legacyWalk = $('walkBtn'); if (legacyWalk) legacyWalk.hidden = true; document.body.classList.toggle('main20-reading', name === 'reading'); document.body.classList.toggle('main20-dialogue', name !== 'reading' && name !== 'ending'); document.body.classList.toggle('main20-ending', name === 'ending'); }
   function clearChoices() { const node = choices(); node.replaceChildren(); node.hidden = false; } function button(text, handler, disabled = false) { const node = document.createElement('button'); node.type = 'button'; node.className = 'main20-action document-action'; node.textContent = text; node.disabled = disabled; node.onclick = handler; return node; }
   const directionFor = (choice) => choice.immediateDirection || data.choiceImmediateDirections?.[choice.id] || null;
-  const MAIN20_DEAD_END_STATES = new Set(['onboarding', 'ideology_prologue', 'c07_ideology', 'branch_hub', 'branch_event', 'branch_callback', 'intro', 'reading', 'source_discussion', 'decision', 'choice', 'post_choice', 'reaction', 'final_reaction', 'ending', 'legacy_recovery']);
+  const MAIN20_DEAD_END_STATES = new Set(['onboarding', 'ideology_prologue', 'c07_ideology', 'branch_hub', 'branch_event', 'branch_callback', 'circle_learning', 'exam_prep', 'exam_questions', 'exam_result', 'intro', 'reading', 'source_discussion', 'decision', 'choice', 'post_choice', 'reaction', 'final_reaction', 'ending', 'legacy_recovery']);
   function choiceButton(choice, handler) { const node = button('', handler); node.classList.add('main20-choice-card'); const label = document.createElement('span'); label.className = 'main20-choice-label'; label.textContent = choice.displayText || choice.uiLabel || choice.text; node.append(label); const hint = document.createElement('span'); hint.className = 'main20-choice-hint document-action-detail'; const direction = directionFor(choice); hint.textContent = direction ? `${direction.audience} · ${direction.recordMode} · ${direction.leavesOffice} · ${direction.risk}` : (choice.hint || choice.uiHint || '선택 직후의 기록 경로를 정합니다.'); node.append(hint); node.removeAttribute('title'); return node; }
   function selectMemoryCallbacks(current, source = state, limit = 1) { const history = source.history || []; return (current.memoryCallbacks || []).map((callback) => { const hits = history.map((item, index) => ({ item, index })).filter(({ item }) => callback.actionsAny.includes(item.action) && !callback.notIfActions?.some((action) => history.some((entry) => entry.action === action))); const latest = hits.at(-1); return { callback, latestIndex: latest?.index ?? -1, relevance: callback.relevanceScenes?.includes(current.id) ? 20 : 0, priority: callback.priority || 0 }; }).filter((item) => item.latestIndex >= 0).sort((a, b) => (b.relevance + b.latestIndex + b.priority) - (a.relevance + a.latestIndex + a.priority)).slice(0, limit).map((item) => item.callback); }
   function memoryLine(current) { return selectMemoryCallbacks(current, state, 1)[0]; }
@@ -136,7 +150,12 @@
         for (const [key, amount] of Object.entries(branch.stateWrites ?? {})) if (key.startsWith('relationship')) { const person = key.slice('relationship'.length).toLowerCase(); state.relationships[person] = (state.relationships[person] || 0) + Number(amount || 0); }
         state.actions.push(branch.choiceId); state.visibleCallbacks = [...new Set([...state.visibleCallbacks, branch.callbackKey])];
         state.history.push({ sceneId: hub.id, kind: 'branch_choice', choiceId: branch.choiceId, action: branch.choiceId, choiceKind: 'ACTION', witnesses: [direction.audience], visibility: direction.recordMode, callbackKey: branch.callbackKey, sourceIds: branch.sourceIds, endingAffinity: branchGraph.choiceEndingAffinity?.[branch.choiceId] || {} });
-        state.phase = 'branch_event'; save(); render();
+        if (branch.choiceId === 'CIRCLE-ATTEND' || branch.choiceId === 'CIRCLE-KEEP-NOTES') { state.circleLearningIndex = 0; state.phase = 'circle_learning'; }
+        else if (branch.choiceId === 'EXAM-SIT') { state.examQuestionIndex = 0; state.examAnswers = {}; state.examOutcome = 'unset'; state.examCorrectCount = null; state.promotionStatus = 'pending'; state.phase = 'exam_prep'; }
+        else if (branch.choiceId === 'EXAM-DEFER') { state.examOutcome = 'deferred'; state.examCorrectCount = null; state.examAnswers = {}; state.promotionStatus = 'pending'; state.phase = 'branch_event'; }
+        else if (branch.choiceId === 'EXAM-HELP-PEER') { state.examOutcome = 'helped-peer'; state.examCorrectCount = null; state.examAnswers = {}; state.promotionStatus = 'pending'; state.phase = 'branch_event'; }
+        else state.phase = 'branch_event';
+        save(); render();
       }));
     }
   }
@@ -152,6 +171,92 @@
       renderDialogueLine('NARRATION', branch.event.description);
       choices().append(button('이 선택의 뒷말을 듣는다', () => { state.phase = 'branch_callback'; save(); render(); }));
     }
+  }
+  function renderLearningExcerpt(unit, includeSummary = true) {
+    const columns = $('paperColumns'); if (!columns) return;
+    columns.replaceChildren();
+    const article = document.createElement('article'); article.className = 'main20-excerpt main20-learning-excerpt';
+    const source = data.sourceRegister.find((item) => item.sourceId === unit.provenance.sourceId);
+    const meta = document.createElement('small'); meta.textContent = `${source?.edition || unit.provenance.sourceClass} · ${unit.provenance.startLocator} — ${unit.provenance.endLocator}`;
+    article.append(meta);
+    if (unit.provenance.quotedRussian) { const ru = document.createElement('p'); ru.className = 'ru-text'; ru.textContent = unit.provenance.quotedRussian; article.append(ru); }
+    const ko = document.createElement('p'); ko.className = 'ko-text'; ko.textContent = unit.provenance.projectTranslationKo || unit.bodyKo; article.append(ko);
+    if (includeSummary) { const context = document.createElement('p'); context.className = 'learning-context-note'; context.textContent = unit.provenance.contextNoteKo || ''; article.append(context); }
+    columns.append(article);
+  }
+  function renderLearningScene() {
+    mode('reading'); clearChoices(); setVisible('paper', true); setVisible('responseArea', false);
+    const unit = learningExam.learningUnits[state.circleLearningIndex];
+    if (!unit) { state.phase = 'branch_event'; save(); render(); return; }
+    setText('paperCollection', '페테르부르크 · 저녁 독서 모임'); setText('paperIssue', `${state.circleLearningIndex + 1} / ${learningExam.learningUnits.length}`);
+    setText('paperDate', '1847년 8월'); setText('paperTitle', unit.title); setText('paperSub', '읽은 문장과 그 문맥을 함께 살펴봅니다.'); setText('paperFooterLabel', `자료철 · ${unit.sourceIds.join(' · ')}`);
+    renderLearningExcerpt(unit);
+    const line = unit.speakerLines?.[0];
+    renderDialogueLine(line?.speaker || 'NARRATION', line?.text || unit.bodyKo);
+    choices().append(button(state.circleLearningIndex + 1 < learningExam.learningUnits.length ? '다음 쪽을 읽는다' : '책을 덮고 자리로 돌아간다', () => {
+      if (state.circleLearningIndex + 1 < learningExam.learningUnits.length) state.circleLearningIndex += 1;
+      else { state.phase = 'branch_event'; state.activeBranchLineIndex = 0; }
+      save(); render();
+    }));
+  }
+  function renderExamPrep() {
+    mode('reading'); clearChoices(); setVisible('paper', true); setVisible('responseArea', false);
+    const attended = ['attended', 'attended-notes'].includes(state.branchState.circleContact);
+    setText('paperCollection', '진급 시험 · 공개 교재'); setText('paperIssue', `${learningExam.questions.length}문항 · 통과 기준 ${learningExam.passThreshold}개`);
+    setText('paperDate', '1847년 9월'); setText('paperTitle', attended ? '읽었던 내용을 다시 펼치다' : '시험 전에 공개 교재를 읽다');
+    setText('paperSub', attended ? '모임에서 읽은 자료와 같은 범위를 다시 볼 수 있습니다.' : '모임에 참석하지 않았어도 누구나 같은 범위를 읽고 시험을 볼 수 있습니다.');
+    setText('paperFooterLabel', '시험 준비 자료 · 누구나 열람 가능');
+    const columns = $('paperColumns'); columns?.replaceChildren();
+    for (const unitId of learningExam.publicPrepUnitIds) {
+      const unit = learningExam.learningUnits.find((item) => item.id === unitId); if (!unit || !columns) continue;
+      const section = document.createElement('section'); section.className = 'main20-prep-unit';
+      const heading = document.createElement('h3'); heading.textContent = unit.title;
+      const body = document.createElement('p'); body.textContent = unit.bodyKo;
+      const range = document.createElement('small'); range.textContent = `${unit.provenance.sourceId} · ${unit.provenance.startLocator} — ${unit.provenance.endLocator}`;
+      section.append(heading, body, range); columns.append(section);
+    }
+    renderDialogueLine('NARRATION', '다섯 문제는 여기 실린 내용에서만 나옵니다. 서클에 갔는지에 따라 문제나 기준이 달라지지는 않습니다.');
+    choices().append(button('같은 다섯 문제에 답한다', () => { state.examQuestionIndex = 0; state.phase = 'exam_questions'; save(); render(); }));
+  }
+  function renderExamQuestion() {
+    mode('reading'); clearChoices(); setVisible('paper', true); setVisible('responseArea', false);
+    const question = learningExam.questions[state.examQuestionIndex];
+    if (!question) { state.phase = 'exam_result'; save(); render(); return; }
+    const unit = learningExam.learningUnits.find((item) => question.learningUnitIds.includes(item.id));
+    setText('paperCollection', '진급 시험 · 답안지'); setText('paperIssue', `${state.examQuestionIndex + 1} / ${learningExam.questionCount}`);
+    setText('paperDate', '1847년 9월'); setText('paperTitle', '시험 문제'); setText('paperSub', question.prompt); setText('paperFooterLabel', `문항 ${state.examQuestionIndex + 1} · 출처 ${question.sourceIds.join(' · ')}`);
+    renderLearningExcerpt(unit, false);
+    renderDialogueLine('NARRATION', question.prompt);
+    const selected = state.examAnswers[question.id];
+    for (const option of question.options) {
+      const answer = button(option.text, () => { state.examAnswers[question.id] = option.id; save(); render(); choices().querySelector('[aria-pressed="true"]')?.focus(); });
+      answer.classList.add('main20-exam-option'); answer.setAttribute('aria-pressed', String(selected === option.id)); answer.setAttribute('data-answer-id', option.id); choices().append(answer);
+    }
+    const finalQuestion = state.examQuestionIndex === learningExam.questions.length - 1;
+    choices().append(button(finalQuestion ? '답안을 제출한다' : '다음 문제', () => {
+      if (!state.examAnswers[question.id]) return;
+      if (finalQuestion) {
+        const result = window.Main20Exam.scoreExam(state.examAnswers, learningExam);
+        state.examCorrectCount = result.correctCount; state.examOutcome = result.outcome; state.promotionStatus = window.Main20Exam.derivePromotionStatus(result.outcome); state.phase = 'exam_result';
+      } else state.examQuestionIndex += 1;
+      save(); render();
+    }, !selected));
+  }
+  function renderExamResult() {
+    mode('reading'); clearChoices(); setVisible('paper', true); setVisible('responseArea', false);
+    const passed = state.examOutcome === 'passed';
+    setText('paperCollection', '진급 시험 · 결과 통지'); setText('paperIssue', `${state.examCorrectCount} / ${learningExam.questionCount}`);
+    setText('paperDate', '1847년 9월'); setText('paperTitle', passed ? '이번 회차 시험을 통과했습니다' : '이번 회차는 기준에 미치지 못했습니다');
+    setText('paperSub', passed ? '이번 회차 진급 절차에 들어갑니다.' : '이번 회차의 진급은 이뤄지지 않습니다.');
+    setText('paperFooterLabel', `가상 주인공 · ${passed ? '진급 절차 진행' : '이번 회차 미통과'}`);
+    const columns = $('paperColumns'); columns?.replaceChildren();
+    learningExam.questions.forEach((question, index) => {
+      const row = document.createElement('p'); row.className = 'main20-exam-result-row';
+      const correct = state.examAnswers[question.id] === learningExam.answerKey[question.id];
+      row.textContent = `${index + 1}. ${question.prompt} · ${correct ? '맞음' : '다시 확인할 문제'}`; columns?.append(row);
+    });
+    renderDialogueLine('NARRATION', passed ? '답안은 기록실에 들어갑니다. 이제 그 결과가 당신에게 어떤 자리를 열었는지 지켜봅니다.' : '틀린 답은 숨기지 않고 표시했습니다. 이번 결과는 이 이야기 속 당신의 경로에만 남습니다.');
+    choices().append(button('시험 기록을 접는다', () => { state.activeBranchLineIndex = 0; state.phase = 'branch_event'; save(); render(); }));
   }
   function renderBranchCallback() {
     const branch = branchGraph.branches.find((item) => item.choiceId === state.routeChoices[state.branchHubIndex]);
@@ -208,7 +313,51 @@
     const review = $('endingReview'); if (review) review.onclick = () => $('endingActions')?.parentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
     const restart = $('restart'); if (restart) { restart.textContent = '처음부터 다시 읽는다'; restart.onclick = () => { state = fresh(); save(); setVisible('endingOverlay', false); const app = document.querySelector('main'); if (app) app.inert = false; render(); }; }
   }
+  function renderLifeTimeline() {
+    const timeline = window.Main20LifeSimulation.buildLifeTimeline(state, lifeSimulation);
+    if (!timeline.length) return;
+    let section = $('endingTimeline');
+    if (!section) {
+      section = document.createElement('section'); section.id = 'endingTimeline'; section.className = 'ending-stage ending-life-timeline';
+      const card = document.querySelector('.ending-card'); const future = $('endingFuture')?.parentElement;
+      if (card) card.insertBefore(section, future || null);
+    }
+    const index = Math.max(0, Math.min(timeline.length - 1, state.endingTimelineIndex));
+    const episode = timeline[index]; section.replaceChildren();
+    const label = document.createElement('p'); label.className = 'kicker'; label.textContent = '기록된 역사 뒤 · 가상의 삶';
+    const heading = document.createElement('h3'); heading.textContent = '그 뒤의 시간';
+    const notice = document.createElement('p'); notice.className = 'ending-timeline-note'; notice.textContent = '이 시간선은 당신의 선택에 따라 그려 본 가상의 서사입니다.';
+    const track = document.createElement('div'); track.className = 'ending-timeline-track'; track.setAttribute('aria-label', '이후 삶의 시간선');
+    timeline.forEach((entry, dotIndex) => { const dot = document.createElement('span'); dot.className = dotIndex === index ? 'active' : ''; dot.setAttribute('aria-hidden', 'true'); track.append(dot); });
+    const progress = document.createElement('p'); progress.className = 'ending-timeline-progress'; progress.setAttribute('aria-live', 'polite'); progress.textContent = `${index + 1} / ${timeline.length} · ${episode.periodLabel}`;
+    const title = document.createElement('h4'); title.textContent = episode.title;
+    const copy = document.createElement('p'); copy.className = 'ending-timeline-copy'; copy.textContent = episode.textKo;
+    const controls = document.createElement('div'); controls.className = 'ending-timeline-controls';
+    const previous = document.createElement('button'); previous.type = 'button'; previous.className = 'ink-button'; previous.textContent = '이전 시기'; previous.disabled = index === 0;
+    previous.onclick = () => { state.endingTimelineIndex = Math.max(0, index - 1); save(); renderLifeTimeline(); $('endingTimelinePrevious')?.focus(); };
+    previous.id = 'endingTimelinePrevious';
+    const next = document.createElement('button'); next.type = 'button'; next.className = 'ink-button'; next.id = 'endingTimelineNext'; next.textContent = index + 1 < timeline.length ? '다음 시기' : '마지막 시기'; next.disabled = index + 1 >= timeline.length;
+    next.onclick = () => { state.endingTimelineIndex = Math.min(timeline.length - 1, index + 1); save(); renderLifeTimeline(); $('endingTimelineNext')?.focus(); };
+    const replay = document.createElement('button'); replay.type = 'button'; replay.className = 'plain-button'; replay.id = 'endingTimelineReplay'; replay.textContent = '처음부터 다시 보기';
+    replay.onclick = () => { state.endingTimelineIndex = 0; save(); renderLifeTimeline(); $('endingTimelineReplay')?.focus(); };
+    controls.append(previous, next, replay); section.append(label, heading, notice, track, progress, title, copy, controls);
+  }
+  const renderEndingBase = renderEnding;
+  renderEnding = function renderEndingWithLifeTimeline() { renderEndingBase(); renderLifeTimeline(); };
   function render() { setVisible('endingOverlay', false); const app = document.querySelector('main'); if (app) app.inert = false; const headerBeat = state.phase === 'ideology_prologue' ? data.ideologyPrologue.beats[state.ideologyBeatIndex] : state.phase === 'c07_ideology' ? data.c07IdeologicalFollowUp.beats[state.c07BeatIndex] : state.phase === 'branch_hub' || state.phase === 'branch_event' || state.phase === 'branch_callback' ? branchGraph.hubs[Math.min(state.branchHubIndex, branchGraph.hubs.length - 1)] : null; renderHeader(headerBeat ? { ...scene(), id: headerBeat.id, date: headerBeat.date, dateLabel: headerBeat.dateLabel || headerBeat.date, title: headerBeat.title, sourceMoment: headerBeat.prompt || '사료를 읽고 당대의 논쟁을 자신의 말로 정리합니다.', transitionCard: { event: headerBeat.title, change: '자료를 읽고 선택한 뒤 동료의 반응을 확인합니다.' }, excerpts: [] } : scene()); if (!MAIN20_DEAD_END_STATES.has(state.phase)) state.phase = 'legacy_recovery'; if (state.phase === 'onboarding') renderOnboarding(); else if (state.phase === 'ideology_prologue') renderIdeologyPrologue(); else if (state.phase === 'c07_ideology') renderC07Ideology(); else if (state.phase === 'branch_hub') renderBranchHub(); else if (state.phase === 'branch_event') renderBranchEvent(); else if (state.phase === 'branch_callback') renderBranchCallback(); else if (state.phase === 'intro') renderIntro(); else if (state.phase === 'reading') renderReading(); else if (state.phase === 'source_discussion') renderSourceDiscussion(); else if (state.phase === 'decision' || state.phase === 'choice') renderDecision(); else if (state.phase === 'post_choice') renderPostChoice(); else if (state.phase === 'reaction') renderReaction(); else if (state.phase === 'final_reaction') renderFinalReaction(); else if (state.phase === 'legacy_recovery') renderRecovery(); else renderEnding(); }
+  const renderCore = render;
+  render = function renderLearningAndExam() {
+    state = normalizeFeatureState(state);
+    document.body.classList.toggle('main20-circle-warehouse', state.phase === 'circle_learning');
+    if (!['circle_learning', 'exam_prep', 'exam_questions', 'exam_result'].includes(state.phase)) return renderCore();
+    const hub = branchGraph.hubs[Math.min(state.branchHubIndex, branchGraph.hubs.length - 1)];
+    const title = state.phase === 'circle_learning' ? '창고의 저녁 독서 모임' : state.phase === 'exam_prep' ? '진급 시험 준비' : '진급 시험';
+    renderHeader({ ...scene(), id: hub?.id || 'H1-CIRCLE', date: hub?.date || '1847-09-12', dateLabel: hub?.date || '1847-09-12', title, sourceMoment: '읽은 문서의 문맥을 확인하고 다음 절차로 나아갑니다.', transitionCard: { event: title, change: '자료를 읽고 이어서 진행할 수 있습니다.' }, excerpts: [] });
+    if (state.phase === 'circle_learning') renderLearningScene();
+    else if (state.phase === 'exam_prep') renderExamPrep();
+    else if (state.phase === 'exam_questions') renderExamQuestion();
+    else renderExamResult();
+  };
   if (state.legacyEndingTitle) { state.phase = 'legacy_recovery'; state.endingId = null; } else if (state.phase === 'ending' && !resolveEnding(state)) { state.phase = 'legacy_recovery'; state.endingId = null; }
   const resetMain20 = () => { state = fresh(); save(); setVisible('endingOverlay', false); const app = document.querySelector('main'); if (app) app.inert = false; render(); };
   const restart = $('main20Restart'); if (restart) { restart.hidden = false; restart.onclick = resetMain20; }
