@@ -48,3 +48,20 @@ Final review: author self-review of the complete worktree diff plus fresh automa
 
 LIVE_OPENAI_SMOKE: UNVERIFIED (no key in environment; no live request made)
 V32_RELEASE_CANDIDATE: NO (live-provider dialogue remains unverified)
+
+## Fresh rerun at 814fcabce6e0c0a20eb1f5334752a92d8e7cc02e — 2026-10-28
+
+- `npm run check`: PASS (12/12 graph tests and historical lint)
+- `npm run lint`: PASS
+- `npm run test`: PASS
+- `npm run build`: PASS
+- `npm run test:ai-schema`: PASS (8/8)
+- `npm run test:ai-state`: PASS (22/22)
+- `npm run test:late-game`: PASS (21/21)
+- `npm run test:secrets`: PASS (3/3 and source/frontend scan)
+- `npm run audit:late-game-assets`: PASS (6 backgrounds, 4 event stills)
+- `npm run browser:late-game`: PASS (1440×900, 1366×768, 390×844, 360×800)
+- `npm run v42-browser-acceptance`: PASS (6 routes; 1996×1248, 1440×900, 390×844, 360×640; no failures or horizontal overflow)
+- `npm run v42-five-ending-browser-acceptance`: PASS (UVAROV, BELINSKY, HERZEN, KHOMYAKOV, DOSTOEVSKY_PETRASHEVSKY)
+
+The desktop Circle → Bookshop → Reading route completed seven typed turns and restored its memory after reload. The Supper → Bookshop route reached a distinct ending and restored memory. The API-outage route continued on authored fallback through the ending. The report records 31 browser requests and no unexpected client context fields. All provider responses were offline mocks; `OPENAI_API_KEY` was absent, so live API status remains `UNVERIFIED` and release-candidate status remains `NO`.

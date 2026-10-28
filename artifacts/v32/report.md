@@ -3,6 +3,7 @@
 Date: 2026-10-28  
 Branch: `codex/v32-ai-late-game`  
 Base: `756f9033765329db8eec2cbdbfc175febf5d874e`
+Verified commit: `814fcabce6e0c0a20eb1f5334752a92d8e7cc02e`
 
 ## Result
 
@@ -62,3 +63,9 @@ V32_RELEASE_CANDIDATE: NO
 ```
 
 `V32_RELEASE_CANDIDATE` remains `NO` until the live-provider dialogue path is smoke-tested with a configured server-side key.
+
+## Fresh verification rerun — 2026-10-28
+
+At verified commit `814fcabce6e0c0a20eb1f5334752a92d8e7cc02e`, the required `npm run check`, `lint`, `test`, and `build` commands passed again. AI schema/state/late-game tests, secret scanning, and the late-game asset audit also passed. Real-browser late-game checks passed at 1440×900, 1366×768, 390×844, and 360×800. The full route replay passed at 1996×1248, 1440×900, 390×844, and 360×640; all six route runs reached an ending, body width matched viewport width, and the report contained no failures. The seven-turn desktop Circle route and Supper/Bookshop route both confirmed memory restoration; the API-fallback route reached UVAROV. The separate five-ending acceptance passed all five ending contracts.
+
+The environment still has no `OPENAI_API_KEY`, so no live provider request was made: `LIVE_OPENAI_SMOKE: UNVERIFIED`; `V32_RELEASE_CANDIDATE: NO`. Latest browser screenshots and transcripts are included in the refreshed verification ZIP. This report update and packaging do not modify game code.
