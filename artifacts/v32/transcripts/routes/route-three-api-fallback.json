@@ -1,0 +1,106 @@
+{
+  "id": "route-three-api-fallback",
+  "mode": "API failure with authored browser fallback",
+  "branchVectorEndingTarget": "UVAROV",
+  "choices": [
+    "CIRCLE-ATTEND",
+    "EXAM-SIT",
+    "BOOK-DISCUSS",
+    "NEWS-FILE"
+  ],
+  "activities": [
+    "BOOKSHOP_01",
+    "READING_01"
+  ],
+  "scenes": [
+    {
+      "sceneId": "CIRCLE_01",
+      "exchange": [
+        {
+          "role": "user",
+          "text": "원문부터 함께 읽고 서로의 생각을 확인하고 싶어요."
+        },
+        {
+          "role": "assistant",
+          "speakerId": "ekaterina",
+          "text": "어느 문장을 두고 그렇게 생각했는지부터 말해 줘요.",
+          "beats": [
+            {
+              "speakerId": "ekaterina",
+              "textKo": "어느 문장을 두고 그렇게 생각했는지부터 말해 줘요."
+            }
+          ]
+        }
+      ],
+      "fallback": true
+    },
+    {
+      "sceneId": "BOOKSHOP_01",
+      "exchange": [
+        {
+          "role": "user",
+          "text": "이 책을 빌려 읽고 싶어요. 어느 대목부터 보면 좋을까요?"
+        },
+        {
+          "role": "assistant",
+          "speakerId": "pavel",
+          "text": "이 책은 가방에 들어가겠네. 들고 갈지, 다음에 올지 정해.",
+          "beats": [
+            {
+              "speakerId": "pavel",
+              "textKo": "이 책은 가방에 들어가겠네. 들고 갈지, 다음에 올지 정해."
+            }
+          ]
+        }
+      ],
+      "fallback": true
+    },
+    {
+      "sceneId": "READING_01",
+      "exchange": [
+        {
+          "role": "user",
+          "text": "앞 문장과 이어서 읽고 인물의 처지를 생각해 볼게요."
+        },
+        {
+          "role": "assistant",
+          "speakerId": "ekaterina",
+          "text": "그 문장을 한 번 더 읽어 봐요. 앞 문장과 같이.",
+          "beats": [
+            {
+              "speakerId": "ekaterina",
+              "textKo": "그 문장을 한 번 더 읽어 봐요. 앞 문장과 같이."
+            }
+          ]
+        }
+      ],
+      "fallback": true
+    },
+    {
+      "sceneId": "EXAM_01",
+      "exchange": [
+        {
+          "role": "user",
+          "text": "답안의 근거가 된 문장을 다시 확인하겠습니다."
+        },
+        {
+          "role": "assistant",
+          "speakerId": "alexei",
+          "text": "점수는 정해진 답안표로 확인하겠습니다.",
+          "beats": [
+            {
+              "speakerId": "alexei",
+              "textKo": "점수는 정해진 답안표로 확인하겠습니다."
+            }
+          ]
+        }
+      ],
+      "fallback": true
+    }
+  ],
+  "actualEndingId": "UVAROV",
+  "finalPhase": "ending",
+  "circleTurns": 1,
+  "memoryPersistedAcrossReload": false,
+  "requestCount": 4
+}

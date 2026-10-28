@@ -1,0 +1,43 @@
+
+> chancery-of-ink@1.0.0 v32-historical-audit
+> node scripts/v32-historical-dialogue-audit.mjs
+
+{
+  "schemaVersion": "V32-HISTORICAL-DIALOGUE-AUDIT-1",
+  "status": "PASS",
+  "sceneOrder": [
+    "IDEOLOGY_PROLOGUE",
+    "C07",
+    "E07"
+  ],
+  "chronological": [
+    1837,
+    1841,
+    1842,
+    1847,
+    1849
+  ],
+  "substantiveExcerpts": [
+    {
+      "scene": "C03",
+      "count": 2
+    },
+    {
+      "scene": "C06",
+      "count": 3
+    },
+    {
+      "scene": "C07",
+      "count": 2
+    },
+    {
+      "scene": "E02",
+      "count": 3
+    },
+    {
+      "scene": "E07",
+      "count": 3
+    }
+  ],
+  "failures": []
+}

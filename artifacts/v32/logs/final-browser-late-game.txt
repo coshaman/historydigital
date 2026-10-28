@@ -1,0 +1,9 @@
+
+> chancery-of-ink@1.0.0 browser:late-game
+> node scripts/late-game-browser.mjs
+
+PASS late game 1440x900: circle reply, save, two-of-three activity selection, responsive bounds
+PASS late game 1366x768: circle reply, save, two-of-three activity selection, responsive bounds
+MOBILE_LAYOUT {"viewportWidth":390,"documentWidth":390,"bodyClasses":"main20-mode late-game-mode main20-dialogue","panel":{"top":296.953125,"bottom":583.90625,"height":286.953125,"client":286,"scroll":286,"overflow":"visible"},"choices":{"top":372.171875,"bottom":464.671875,"display":"grid"},"response":{"top":469.671875,"bottom":550.671875,"hidden":false},"rails":[["left-rail","none"],["incoming-slip","none"],["right-rail","none"]],"props":[["physical-tools","none"],["petersburg-window","none"]],"buttonCount":3,"imageLoaded":true}
+PASS late game 390x844: circle reply, save, two-of-three activity selection, responsive bounds
+PASS late game 360x800: circle reply, save, two-of-three activity selection, responsive bounds

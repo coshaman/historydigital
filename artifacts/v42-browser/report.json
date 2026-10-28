@@ -3,8 +3,9 @@
   "viewports": {
     "screenshot-size": {
       "phase": "ending",
+      "endingId": "UVAROV",
       "sceneIndex": 3,
-      "guard": 129,
+      "guard": 128,
       "bodyWidth": {
         "body": 1996,
         "viewport": 1996,
@@ -13,8 +14,9 @@
     },
     "desktop": {
       "phase": "ending",
+      "endingId": "UVAROV",
       "sceneIndex": 3,
-      "guard": 129,
+      "guard": 128,
       "bodyWidth": {
         "body": 1440,
         "viewport": 1440,
@@ -23,8 +25,9 @@
     },
     "mobile": {
       "phase": "ending",
+      "endingId": "UVAROV",
       "sceneIndex": 3,
-      "guard": 129,
+      "guard": 128,
       "bodyWidth": {
         "body": 390,
         "viewport": 390,
@@ -33,14 +36,804 @@
     },
     "compact-mobile": {
       "phase": "ending",
+      "endingId": "UVAROV",
       "sceneIndex": 3,
-      "guard": 129,
+      "guard": 128,
       "bodyWidth": {
         "body": 360,
         "viewport": 360,
         "walk": true
       }
     }
+  },
+  "routes": {
+    "viewport-screenshot-size": {
+      "id": "viewport-screenshot-size",
+      "mode": "schema-valid deterministic offline mock",
+      "branchVectorEndingTarget": "UVAROV",
+      "choices": [
+        "CIRCLE-ATTEND",
+        "EXAM-SIT",
+        "BOOK-DISCUSS",
+        "NEWS-FILE"
+      ],
+      "activities": [
+        "BOOKSHOP_01",
+        "READING_01"
+      ],
+      "scenes": [
+        {
+          "sceneId": "CIRCLE_01",
+          "exchange": [
+            {
+              "role": "user",
+              "text": "원문부터 함께 읽고 서로의 생각을 확인하고 싶어요."
+            },
+            {
+              "role": "assistant",
+              "speakerId": "ekaterina",
+              "text": "어느 문장을 두고 그렇게 생각했는지, 앞뒤를 같이 읽어 봐요.",
+              "beats": [
+                {
+                  "speakerId": "ekaterina",
+                  "textKo": "어느 문장을 두고 그렇게 생각했는지, 앞뒤를 같이 읽어 봐요."
+                }
+              ]
+            }
+          ],
+          "fallback": false
+        },
+        {
+          "sceneId": "BOOKSHOP_01",
+          "exchange": [
+            {
+              "role": "user",
+              "text": "이 책을 빌려 읽고 싶어요. 어느 대목부터 보면 좋을까요?"
+            },
+            {
+              "role": "assistant",
+              "speakerId": "ekaterina",
+              "text": "서클에서 원문부터 함께 읽자고 했던 말, 기억하고 있어요. 여기서도 그 문장부터 볼까요?",
+              "beats": [
+                {
+                  "speakerId": "ekaterina",
+                  "textKo": "서클에서 원문부터 함께 읽자고 했던 말, 기억하고 있어요. 여기서도 그 문장부터 볼까요?"
+                }
+              ]
+            }
+          ],
+          "fallback": false
+        },
+        {
+          "sceneId": "READING_01",
+          "exchange": [
+            {
+              "role": "user",
+              "text": "앞 문장과 이어서 읽고 인물의 처지를 생각해 볼게요."
+            },
+            {
+              "role": "assistant",
+              "speakerId": "ekaterina",
+              "text": "서클에서 원문부터 함께 읽자고 했던 말, 기억하고 있어요. 여기서도 그 문장부터 볼까요?",
+              "beats": [
+                {
+                  "speakerId": "ekaterina",
+                  "textKo": "서클에서 원문부터 함께 읽자고 했던 말, 기억하고 있어요. 여기서도 그 문장부터 볼까요?"
+                }
+              ]
+            }
+          ],
+          "fallback": false
+        },
+        {
+          "sceneId": "EXAM_01",
+          "exchange": [
+            {
+              "role": "user",
+              "text": "답안의 근거가 된 문장을 다시 확인하겠습니다."
+            },
+            {
+              "role": "assistant",
+              "speakerId": "alexei",
+              "text": "서클에서 원문부터 함께 읽자고 했던 말, 기억하고 있어요. 여기서도 그 문장부터 볼까요?",
+              "beats": [
+                {
+                  "speakerId": "alexei",
+                  "textKo": "서클에서 원문부터 함께 읽자고 했던 말, 기억하고 있어요. 여기서도 그 문장부터 볼까요?"
+                }
+              ]
+            }
+          ],
+          "fallback": false
+        }
+      ],
+      "actualEndingId": "UVAROV",
+      "finalPhase": "ending",
+      "circleTurns": 1,
+      "memoryPersistedAcrossReload": false,
+      "requestCount": 4
+    },
+    "viewport-desktop": {
+      "id": "viewport-desktop",
+      "mode": "schema-valid deterministic offline mock",
+      "branchVectorEndingTarget": "UVAROV",
+      "choices": [
+        "CIRCLE-ATTEND",
+        "EXAM-SIT",
+        "BOOK-DISCUSS",
+        "NEWS-FILE"
+      ],
+      "activities": [
+        "BOOKSHOP_01",
+        "READING_01"
+      ],
+      "scenes": [
+        {
+          "sceneId": "CIRCLE_01",
+          "exchange": [
+            {
+              "role": "user",
+              "text": "원문부터 함께 읽고 서로의 생각을 확인하고 싶어요."
+            },
+            {
+              "role": "assistant",
+              "speakerId": "ekaterina",
+              "text": "어느 문장을 두고 그렇게 생각했는지, 앞뒤를 같이 읽어 봐요.",
+              "beats": [
+                {
+                  "speakerId": "ekaterina",
+                  "textKo": "어느 문장을 두고 그렇게 생각했는지, 앞뒤를 같이 읽어 봐요."
+                }
+              ]
+            }
+          ],
+          "fallback": false
+        },
+        {
+          "sceneId": "CIRCLE_01",
+          "exchange": [
+            {
+              "role": "user",
+              "text": "같은 문장도 읽는 사람에 따라 다르게 들리네요."
+            },
+            {
+              "role": "assistant",
+              "speakerId": "ekaterina",
+              "text": "어느 문장을 두고 그렇게 생각했는지, 앞뒤를 같이 읽어 봐요.",
+              "beats": [
+                {
+                  "speakerId": "ekaterina",
+                  "textKo": "어느 문장을 두고 그렇게 생각했는지, 앞뒤를 같이 읽어 봐요."
+                }
+              ]
+            }
+          ],
+          "fallback": false
+        },
+        {
+          "sceneId": "CIRCLE_01",
+          "exchange": [
+            {
+              "role": "user",
+              "text": "그 해석이 어떤 기록에 기대는지 살펴볼까요?"
+            },
+            {
+              "role": "assistant",
+              "speakerId": "ekaterina",
+              "text": "어느 문장을 두고 그렇게 생각했는지, 앞뒤를 같이 읽어 봐요.",
+              "beats": [
+                {
+                  "speakerId": "ekaterina",
+                  "textKo": "어느 문장을 두고 그렇게 생각했는지, 앞뒤를 같이 읽어 봐요."
+                }
+              ]
+            }
+          ],
+          "fallback": false
+        },
+        {
+          "sceneId": "CIRCLE_01",
+          "exchange": [
+            {
+              "role": "user",
+              "text": "사람들이 실제로 감당할 위험도 같이 생각하고 싶어요."
+            },
+            {
+              "role": "assistant",
+              "speakerId": "ekaterina",
+              "text": "어느 문장을 두고 그렇게 생각했는지, 앞뒤를 같이 읽어 봐요.",
+              "beats": [
+                {
+                  "speakerId": "ekaterina",
+                  "textKo": "어느 문장을 두고 그렇게 생각했는지, 앞뒤를 같이 읽어 봐요."
+                }
+              ]
+            }
+          ],
+          "fallback": false
+        },
+        {
+          "sceneId": "CIRCLE_01",
+          "exchange": [
+            {
+              "role": "user",
+              "text": "누가 이 말을 듣게 되는지도 중요하겠어요."
+            },
+            {
+              "role": "assistant",
+              "speakerId": "ekaterina",
+              "text": "어느 문장을 두고 그렇게 생각했는지, 앞뒤를 같이 읽어 봐요.",
+              "beats": [
+                {
+                  "speakerId": "ekaterina",
+                  "textKo": "어느 문장을 두고 그렇게 생각했는지, 앞뒤를 같이 읽어 봐요."
+                }
+              ]
+            }
+          ],
+          "fallback": false
+        },
+        {
+          "sceneId": "CIRCLE_01",
+          "exchange": [
+            {
+              "role": "user",
+              "text": "그럼에도 서로의 말을 들어야 한다고 봐요."
+            },
+            {
+              "role": "assistant",
+              "speakerId": "ekaterina",
+              "text": "어느 문장을 두고 그렇게 생각했는지, 앞뒤를 같이 읽어 봐요.",
+              "beats": [
+                {
+                  "speakerId": "ekaterina",
+                  "textKo": "어느 문장을 두고 그렇게 생각했는지, 앞뒤를 같이 읽어 봐요."
+                }
+              ]
+            }
+          ],
+          "fallback": false
+        },
+        {
+          "sceneId": "CIRCLE_01",
+          "exchange": [
+            {
+              "role": "user",
+              "text": "오늘은 판단을 서두르지 않고 더 읽어 보겠습니다."
+            },
+            {
+              "role": "assistant",
+              "speakerId": "ekaterina",
+              "text": "어느 문장을 두고 그렇게 생각했는지, 앞뒤를 같이 읽어 봐요.",
+              "beats": [
+                {
+                  "speakerId": "ekaterina",
+                  "textKo": "어느 문장을 두고 그렇게 생각했는지, 앞뒤를 같이 읽어 봐요."
+                }
+              ]
+            }
+          ],
+          "fallback": false
+        },
+        {
+          "sceneId": "BOOKSHOP_01",
+          "exchange": [
+            {
+              "role": "user",
+              "text": "이 책을 빌려 읽고 싶어요. 어느 대목부터 보면 좋을까요?"
+            },
+            {
+              "role": "assistant",
+              "speakerId": "ekaterina",
+              "text": "서클에서 원문부터 함께 읽자고 했던 말, 기억하고 있어요. 여기서도 그 문장부터 볼까요?",
+              "beats": [
+                {
+                  "speakerId": "ekaterina",
+                  "textKo": "서클에서 원문부터 함께 읽자고 했던 말, 기억하고 있어요. 여기서도 그 문장부터 볼까요?"
+                }
+              ]
+            }
+          ],
+          "fallback": false
+        },
+        {
+          "sceneId": "READING_01",
+          "exchange": [
+            {
+              "role": "user",
+              "text": "앞 문장과 이어서 읽고 인물의 처지를 생각해 볼게요."
+            },
+            {
+              "role": "assistant",
+              "speakerId": "ekaterina",
+              "text": "서클에서 원문부터 함께 읽자고 했던 말, 기억하고 있어요. 여기서도 그 문장부터 볼까요?",
+              "beats": [
+                {
+                  "speakerId": "ekaterina",
+                  "textKo": "서클에서 원문부터 함께 읽자고 했던 말, 기억하고 있어요. 여기서도 그 문장부터 볼까요?"
+                }
+              ]
+            }
+          ],
+          "fallback": false
+        },
+        {
+          "sceneId": "EXAM_01",
+          "exchange": [
+            {
+              "role": "user",
+              "text": "답안의 근거가 된 문장을 다시 확인하겠습니다."
+            },
+            {
+              "role": "assistant",
+              "speakerId": "alexei",
+              "text": "서클에서 원문부터 함께 읽자고 했던 말, 기억하고 있어요. 여기서도 그 문장부터 볼까요?",
+              "beats": [
+                {
+                  "speakerId": "alexei",
+                  "textKo": "서클에서 원문부터 함께 읽자고 했던 말, 기억하고 있어요. 여기서도 그 문장부터 볼까요?"
+                }
+              ]
+            }
+          ],
+          "fallback": false
+        }
+      ],
+      "actualEndingId": "UVAROV",
+      "finalPhase": "ending",
+      "circleTurns": 7,
+      "memoryPersistedAcrossReload": true,
+      "requestCount": 10
+    },
+    "viewport-mobile": {
+      "id": "viewport-mobile",
+      "mode": "schema-valid deterministic offline mock",
+      "branchVectorEndingTarget": "UVAROV",
+      "choices": [
+        "CIRCLE-ATTEND",
+        "EXAM-SIT",
+        "BOOK-DISCUSS",
+        "NEWS-FILE"
+      ],
+      "activities": [
+        "BOOKSHOP_01",
+        "READING_01"
+      ],
+      "scenes": [
+        {
+          "sceneId": "CIRCLE_01",
+          "exchange": [
+            {
+              "role": "user",
+              "text": "원문부터 함께 읽고 서로의 생각을 확인하고 싶어요."
+            },
+            {
+              "role": "assistant",
+              "speakerId": "ekaterina",
+              "text": "어느 문장을 두고 그렇게 생각했는지, 앞뒤를 같이 읽어 봐요.",
+              "beats": [
+                {
+                  "speakerId": "ekaterina",
+                  "textKo": "어느 문장을 두고 그렇게 생각했는지, 앞뒤를 같이 읽어 봐요."
+                }
+              ]
+            }
+          ],
+          "fallback": false
+        },
+        {
+          "sceneId": "BOOKSHOP_01",
+          "exchange": [
+            {
+              "role": "user",
+              "text": "이 책을 빌려 읽고 싶어요. 어느 대목부터 보면 좋을까요?"
+            },
+            {
+              "role": "assistant",
+              "speakerId": "ekaterina",
+              "text": "서클에서 원문부터 함께 읽자고 했던 말, 기억하고 있어요. 여기서도 그 문장부터 볼까요?",
+              "beats": [
+                {
+                  "speakerId": "ekaterina",
+                  "textKo": "서클에서 원문부터 함께 읽자고 했던 말, 기억하고 있어요. 여기서도 그 문장부터 볼까요?"
+                }
+              ]
+            }
+          ],
+          "fallback": false
+        },
+        {
+          "sceneId": "READING_01",
+          "exchange": [
+            {
+              "role": "user",
+              "text": "앞 문장과 이어서 읽고 인물의 처지를 생각해 볼게요."
+            },
+            {
+              "role": "assistant",
+              "speakerId": "ekaterina",
+              "text": "서클에서 원문부터 함께 읽자고 했던 말, 기억하고 있어요. 여기서도 그 문장부터 볼까요?",
+              "beats": [
+                {
+                  "speakerId": "ekaterina",
+                  "textKo": "서클에서 원문부터 함께 읽자고 했던 말, 기억하고 있어요. 여기서도 그 문장부터 볼까요?"
+                }
+              ]
+            }
+          ],
+          "fallback": false
+        },
+        {
+          "sceneId": "EXAM_01",
+          "exchange": [
+            {
+              "role": "user",
+              "text": "답안의 근거가 된 문장을 다시 확인하겠습니다."
+            },
+            {
+              "role": "assistant",
+              "speakerId": "alexei",
+              "text": "서클에서 원문부터 함께 읽자고 했던 말, 기억하고 있어요. 여기서도 그 문장부터 볼까요?",
+              "beats": [
+                {
+                  "speakerId": "alexei",
+                  "textKo": "서클에서 원문부터 함께 읽자고 했던 말, 기억하고 있어요. 여기서도 그 문장부터 볼까요?"
+                }
+              ]
+            }
+          ],
+          "fallback": false
+        }
+      ],
+      "actualEndingId": "UVAROV",
+      "finalPhase": "ending",
+      "circleTurns": 1,
+      "memoryPersistedAcrossReload": false,
+      "requestCount": 4
+    },
+    "viewport-compact-mobile": {
+      "id": "viewport-compact-mobile",
+      "mode": "schema-valid deterministic offline mock",
+      "branchVectorEndingTarget": "UVAROV",
+      "choices": [
+        "CIRCLE-ATTEND",
+        "EXAM-SIT",
+        "BOOK-DISCUSS",
+        "NEWS-FILE"
+      ],
+      "activities": [
+        "BOOKSHOP_01",
+        "READING_01"
+      ],
+      "scenes": [
+        {
+          "sceneId": "CIRCLE_01",
+          "exchange": [
+            {
+              "role": "user",
+              "text": "원문부터 함께 읽고 서로의 생각을 확인하고 싶어요."
+            },
+            {
+              "role": "assistant",
+              "speakerId": "ekaterina",
+              "text": "어느 문장을 두고 그렇게 생각했는지, 앞뒤를 같이 읽어 봐요.",
+              "beats": [
+                {
+                  "speakerId": "ekaterina",
+                  "textKo": "어느 문장을 두고 그렇게 생각했는지, 앞뒤를 같이 읽어 봐요."
+                }
+              ]
+            }
+          ],
+          "fallback": false
+        },
+        {
+          "sceneId": "BOOKSHOP_01",
+          "exchange": [
+            {
+              "role": "user",
+              "text": "이 책을 빌려 읽고 싶어요. 어느 대목부터 보면 좋을까요?"
+            },
+            {
+              "role": "assistant",
+              "speakerId": "ekaterina",
+              "text": "서클에서 원문부터 함께 읽자고 했던 말, 기억하고 있어요. 여기서도 그 문장부터 볼까요?",
+              "beats": [
+                {
+                  "speakerId": "ekaterina",
+                  "textKo": "서클에서 원문부터 함께 읽자고 했던 말, 기억하고 있어요. 여기서도 그 문장부터 볼까요?"
+                }
+              ]
+            }
+          ],
+          "fallback": false
+        },
+        {
+          "sceneId": "READING_01",
+          "exchange": [
+            {
+              "role": "user",
+              "text": "앞 문장과 이어서 읽고 인물의 처지를 생각해 볼게요."
+            },
+            {
+              "role": "assistant",
+              "speakerId": "ekaterina",
+              "text": "서클에서 원문부터 함께 읽자고 했던 말, 기억하고 있어요. 여기서도 그 문장부터 볼까요?",
+              "beats": [
+                {
+                  "speakerId": "ekaterina",
+                  "textKo": "서클에서 원문부터 함께 읽자고 했던 말, 기억하고 있어요. 여기서도 그 문장부터 볼까요?"
+                }
+              ]
+            }
+          ],
+          "fallback": false
+        },
+        {
+          "sceneId": "EXAM_01",
+          "exchange": [
+            {
+              "role": "user",
+              "text": "답안의 근거가 된 문장을 다시 확인하겠습니다."
+            },
+            {
+              "role": "assistant",
+              "speakerId": "alexei",
+              "text": "서클에서 원문부터 함께 읽자고 했던 말, 기억하고 있어요. 여기서도 그 문장부터 볼까요?",
+              "beats": [
+                {
+                  "speakerId": "alexei",
+                  "textKo": "서클에서 원문부터 함께 읽자고 했던 말, 기억하고 있어요. 여기서도 그 문장부터 볼까요?"
+                }
+              ]
+            }
+          ],
+          "fallback": false
+        }
+      ],
+      "actualEndingId": "UVAROV",
+      "finalPhase": "ending",
+      "circleTurns": 1,
+      "memoryPersistedAcrossReload": false,
+      "requestCount": 4
+    },
+    "route-two-supper-bookshop": {
+      "id": "route-two-supper-bookshop",
+      "mode": "schema-valid deterministic offline mock",
+      "branchVectorEndingTarget": "DOSTOEVSKY_PETRASHEVSKY",
+      "choices": [
+        "CIRCLE-ATTEND",
+        "EXAM-SIT",
+        "BOOK-DISCUSS",
+        "NEWS-SHARE"
+      ],
+      "activities": [
+        "SUPPER_01",
+        "BOOKSHOP_01"
+      ],
+      "scenes": [
+        {
+          "sceneId": "CIRCLE_01",
+          "exchange": [
+            {
+              "role": "user",
+              "text": "원문부터 함께 읽고 서로의 생각을 확인하고 싶어요."
+            },
+            {
+              "role": "assistant",
+              "speakerId": "ekaterina",
+              "text": "어느 문장을 두고 그렇게 생각했는지, 앞뒤를 같이 읽어 봐요.",
+              "beats": [
+                {
+                  "speakerId": "ekaterina",
+                  "textKo": "어느 문장을 두고 그렇게 생각했는지, 앞뒤를 같이 읽어 봐요."
+                }
+              ]
+            }
+          ],
+          "fallback": false
+        },
+        {
+          "sceneId": "CIRCLE_01",
+          "exchange": [
+            {
+              "role": "user",
+              "text": "같은 문장도 읽는 사람에 따라 다르게 들리네요."
+            },
+            {
+              "role": "assistant",
+              "speakerId": "ekaterina",
+              "text": "어느 문장을 두고 그렇게 생각했는지, 앞뒤를 같이 읽어 봐요.",
+              "beats": [
+                {
+                  "speakerId": "ekaterina",
+                  "textKo": "어느 문장을 두고 그렇게 생각했는지, 앞뒤를 같이 읽어 봐요."
+                }
+              ]
+            }
+          ],
+          "fallback": false
+        },
+        {
+          "sceneId": "SUPPER_01",
+          "exchange": [
+            {
+              "role": "user",
+              "text": "오늘은 일과 책 이야기를 잠시 접고, 다들 좀 먹어요."
+            },
+            {
+              "role": "assistant",
+              "speakerId": "ekaterina",
+              "text": "서클에서 원문부터 함께 읽자고 했던 말, 기억하고 있어요. 여기서도 그 문장부터 볼까요?",
+              "beats": [
+                {
+                  "speakerId": "ekaterina",
+                  "textKo": "서클에서 원문부터 함께 읽자고 했던 말, 기억하고 있어요. 여기서도 그 문장부터 볼까요?"
+                }
+              ]
+            }
+          ],
+          "fallback": false
+        },
+        {
+          "sceneId": "BOOKSHOP_01",
+          "exchange": [
+            {
+              "role": "user",
+              "text": "이 책을 빌려 읽고 싶어요. 어느 대목부터 보면 좋을까요?"
+            },
+            {
+              "role": "assistant",
+              "speakerId": "ekaterina",
+              "text": "서클에서 원문부터 함께 읽자고 했던 말, 기억하고 있어요. 여기서도 그 문장부터 볼까요?",
+              "beats": [
+                {
+                  "speakerId": "ekaterina",
+                  "textKo": "서클에서 원문부터 함께 읽자고 했던 말, 기억하고 있어요. 여기서도 그 문장부터 볼까요?"
+                }
+              ]
+            }
+          ],
+          "fallback": false
+        },
+        {
+          "sceneId": "EXAM_01",
+          "exchange": [
+            {
+              "role": "user",
+              "text": "답안의 근거가 된 문장을 다시 확인하겠습니다."
+            },
+            {
+              "role": "assistant",
+              "speakerId": "alexei",
+              "text": "서클에서 원문부터 함께 읽자고 했던 말, 기억하고 있어요. 여기서도 그 문장부터 볼까요?",
+              "beats": [
+                {
+                  "speakerId": "alexei",
+                  "textKo": "서클에서 원문부터 함께 읽자고 했던 말, 기억하고 있어요. 여기서도 그 문장부터 볼까요?"
+                }
+              ]
+            }
+          ],
+          "fallback": false
+        }
+      ],
+      "actualEndingId": "BELINSKY",
+      "finalPhase": "ending",
+      "circleTurns": 2,
+      "memoryPersistedAcrossReload": true,
+      "requestCount": 5
+    },
+    "route-three-api-fallback": {
+      "id": "route-three-api-fallback",
+      "mode": "API failure with authored browser fallback",
+      "branchVectorEndingTarget": "UVAROV",
+      "choices": [
+        "CIRCLE-ATTEND",
+        "EXAM-SIT",
+        "BOOK-DISCUSS",
+        "NEWS-FILE"
+      ],
+      "activities": [
+        "BOOKSHOP_01",
+        "READING_01"
+      ],
+      "scenes": [
+        {
+          "sceneId": "CIRCLE_01",
+          "exchange": [
+            {
+              "role": "user",
+              "text": "원문부터 함께 읽고 서로의 생각을 확인하고 싶어요."
+            },
+            {
+              "role": "assistant",
+              "speakerId": "ekaterina",
+              "text": "어느 문장을 두고 그렇게 생각했는지부터 말해 줘요.",
+              "beats": [
+                {
+                  "speakerId": "ekaterina",
+                  "textKo": "어느 문장을 두고 그렇게 생각했는지부터 말해 줘요."
+                }
+              ]
+            }
+          ],
+          "fallback": true
+        },
+        {
+          "sceneId": "BOOKSHOP_01",
+          "exchange": [
+            {
+              "role": "user",
+              "text": "이 책을 빌려 읽고 싶어요. 어느 대목부터 보면 좋을까요?"
+            },
+            {
+              "role": "assistant",
+              "speakerId": "pavel",
+              "text": "이 책은 가방에 들어가겠네. 들고 갈지, 다음에 올지 정해.",
+              "beats": [
+                {
+                  "speakerId": "pavel",
+                  "textKo": "이 책은 가방에 들어가겠네. 들고 갈지, 다음에 올지 정해."
+                }
+              ]
+            }
+          ],
+          "fallback": true
+        },
+        {
+          "sceneId": "READING_01",
+          "exchange": [
+            {
+              "role": "user",
+              "text": "앞 문장과 이어서 읽고 인물의 처지를 생각해 볼게요."
+            },
+            {
+              "role": "assistant",
+              "speakerId": "ekaterina",
+              "text": "그 문장을 한 번 더 읽어 봐요. 앞 문장과 같이.",
+              "beats": [
+                {
+                  "speakerId": "ekaterina",
+                  "textKo": "그 문장을 한 번 더 읽어 봐요. 앞 문장과 같이."
+                }
+              ]
+            }
+          ],
+          "fallback": true
+        },
+        {
+          "sceneId": "EXAM_01",
+          "exchange": [
+            {
+              "role": "user",
+              "text": "답안의 근거가 된 문장을 다시 확인하겠습니다."
+            },
+            {
+              "role": "assistant",
+              "speakerId": "alexei",
+              "text": "점수는 정해진 답안표로 확인하겠습니다.",
+              "beats": [
+                {
+                  "speakerId": "alexei",
+                  "textKo": "점수는 정해진 답안표로 확인하겠습니다."
+                }
+              ]
+            }
+          ],
+          "fallback": true
+        }
+      ],
+      "actualEndingId": "UVAROV",
+      "finalPhase": "ending",
+      "circleTurns": 1,
+      "memoryPersistedAcrossReload": false,
+      "requestCount": 4
+    }
+  },
+  "mockRequestAudit": {
+    "count": 31,
+    "unexpectedClientFields": []
   },
   "failures": []
 }

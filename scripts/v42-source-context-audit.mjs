@@ -5,12 +5,12 @@ const data = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'narrative', 'M
 const failures = [];
 const sources = data.sourceRegister || [];
 const ranges = data.sourceContextRanges || {};
-const required = ['V42-UVAROV-1833', 'V42-TABLE-OF-RANKS', 'V42-CHAADAEV-1836', 'V42-WESTERNIZER-PRIMARY', 'V42-SLAVOPHILE-PRIMARY', 'V42-GOGOL-1847', 'V42-BELINSKY-1847', 'V42-PETRASHEVSKY-FOURIERISM'];
+const required = ['V42-UVAROV-1833', 'V42-TABLE-OF-RANKS', 'V42-CHAADAEV-1836', 'V42-WESTERNIZER-PRIMARY', 'V42-SLAVOPHILE-PRIMARY', 'V42-GOGOL-1847', 'V42-BELINSKY-1847', 'V42-PETRASHEVSKY-SYNTHESIS-2021'];
 for (const id of required) {
   const source = sources.find((item) => item.sourceId === id);
   if (!source) { failures.push(`${id}: source missing`); continue; }
   for (const field of ['date', 'edition', 'locator', 'originalRussian', 'koreanTranslation', 'classification', 'availableDate', 'url']) if (!source[field]) failures.push(`${id}: missing ${field}`);
-  if (!['DIRECT', 'PARAPHRASE'].includes(source.classification)) failures.push(`${id}: invalid classification`);
+  if (!['DIRECT', 'PARAPHRASE', 'DIRECT_SECONDARY'].includes(source.classification)) failures.push(`${id}: invalid classification`);
   if (!source.contextRangeId || !ranges[source.contextRangeId]) failures.push(`${id}: missing contextRangeId`);
 }
 for (const [id, range] of Object.entries(ranges)) {

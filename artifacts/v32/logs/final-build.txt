@@ -1,0 +1,5 @@
+
+> chancery-of-ink@1.0.0 build
+> node scripts/static-integrity-check.mjs
+
+static-integrity: source readability, JavaScript syntax, and JSON parsing — PASS (no bundler configured)

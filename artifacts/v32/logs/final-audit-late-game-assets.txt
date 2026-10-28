@@ -1,0 +1,5 @@
+
+> chancery-of-ink@1.0.0 audit:late-game-assets
+> node scripts/late-game-asset-audit.mjs
+
+late-game-asset-audit: 6 backgrounds, 4 event stills, 1442162 optimized bytes — PASS

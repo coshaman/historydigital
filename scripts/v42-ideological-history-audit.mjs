@@ -8,7 +8,7 @@ const failures = [];
 const requireValue = (condition, message) => { if (!condition) failures.push(message); };
 
 const dimensions = ['officialNationality', 'westernizer', 'slavophile', 'moralOrthodoxReform', 'publicLiteraryCriticism', 'socialReform', 'radicalDiscussion'];
-const requiredSources = ['V42-UVAROV-1833', 'V42-TABLE-OF-RANKS', 'V42-CHAADAEV-1836', 'V42-WESTERNIZER-PRIMARY', 'V42-SLAVOPHILE-PRIMARY', 'V42-GOGOL-1847', 'V42-BELINSKY-1847', 'V42-PETRASHEVSKY-FOURIERISM'];
+const requiredSources = ['V42-UVAROV-1833', 'V42-TABLE-OF-RANKS', 'V42-CHAADAEV-1836', 'V42-WESTERNIZER-PRIMARY', 'V42-SLAVOPHILE-PRIMARY', 'V42-GOGOL-1847', 'V42-BELINSKY-1847', 'V42-PETRASHEVSKY-SYNTHESIS-2021'];
 const requiredBeats = ['V42-PROLOGUE-EUROPEANIZATION', 'V42-PROLOGUE-RANKS', 'V42-PROLOGUE-UVAROV', 'V42-PROLOGUE-CHAADAEV', 'V42-C07-GOGOL-1847', 'V42-C07-BELINSKY-1847'];
 const forbidden = ['OFFICIAL_NATIONALITY_EQUALS_SLAVOPHILISM', 'WESTERNIZER_COPIES_ALL_EUROPE', 'SLAVOPHILE_ETHNIC_NATIONALISM', 'GOGOL_GOVERNMENT_PROPAGANDA', 'BELINSKY_REVOLUTIONARY_SOCIALIST', 'PETRASHEVSKY_UNIFIED_PARTY', 'TABLE_OF_RANKS_IDEOLOGY'];
 
@@ -23,7 +23,7 @@ const ids = new Set([
   ...(data.c07IdeologicalFollowUp?.beats || []).map((beat) => beat.id)
 ]);
 for (const id of requiredBeats) requireValue(ids.has(id), `missing required beat ${id}`);
-requireValue((data.chronology?.sceneOrder || []).indexOf('C03') > 0, 'ideology prologue must precede C03');
+requireValue(data.v44RouteOrder?.[0] === 'PROLOGUE' && data.v44RouteOrder.indexOf('ACT1_UVAROV') > 0, 'ideology prologue must precede the historical choice route');
 requireValue(data.c07IdeologicalFollowUp?.chronologyOrder?.join('>') === '1842>1847-GOGOL>1847-BELINSKY', 'C07 1842→1847 chronology missing');
 requireValue(!JSON.stringify(data).toLowerCase().includes('chekhov'), 'Chekhov is anachronistically present');
 
@@ -37,7 +37,7 @@ requireValue(ideologicalChoices.length >= 6, 'fewer than six ideological choices
 for (const choice of ideologicalChoices) {
   const direction = data.choiceImmediateDirections?.[choice.id] || choice.immediateDirection;
   requireValue(direction && direction.audience && direction.recordMode && direction.leavesOffice && direction.risk, `choice ${choice.id} lacks immediate direction fields`);
-  requireValue(choice.sourcePrerequisite, `choice ${choice.id} lacks source prerequisite`);
+  requireValue(choice.sourcePrerequisite && data.sourceRegister.some((source) => source.sourceId === choice.sourcePrerequisite), `choice ${choice.id} lacks a registered source prerequisite`);
 }
 
 if (failures.length) {

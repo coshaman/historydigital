@@ -1,0 +1,5 @@
+
+> chancery-of-ink@1.0.0 lint
+> node scripts/ui-lint.mjs
+
+ui-lint: bespoke palette, no dead controls, reduced motion present — PASS

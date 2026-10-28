@@ -1,0 +1,62 @@
+
+> chancery-of-ink@1.0.0 test:ai-schema
+> node --test scripts/ai-schema-test.mjs
+
+TAP version 13
+# Subtest: schema remains strict and keeps every model-authorized collection bounded
+ok 1 - schema remains strict and keeps every model-authorized collection bounded
+  ---
+  duration_ms: 6.7323
+  type: 'test'
+  ...
+# Subtest: accepts a complete in-scene structured turn
+ok 2 - accepts a complete in-scene structured turn
+  ---
+  duration_ms: 4.0762
+  type: 'test'
+  ...
+# Subtest: rejects unknown fields and malformed turns
+ok 3 - rejects unknown fields and malformed turns
+  ---
+  duration_ms: 0.7923
+  type: 'test'
+  ...
+# Subtest: rejects a semantic signal that is not allowed for the active scene
+ok 4 - rejects a semantic signal that is not allowed for the active scene
+  ---
+  duration_ms: 0.6974
+  type: 'test'
+  ...
+# Subtest: rejects unknown historical claims, backgrounds, expressions and action IDs
+ok 5 - rejects unknown historical claims, backgrounds, expressions and action IDs
+  ---
+  duration_ms: 5.5267
+  type: 'test'
+  ...
+# Subtest: rejects overlong dialogue and excessive beat, reply or memory counts
+ok 6 - rejects overlong dialogue and excessive beat, reply or memory counts
+  ---
+  duration_ms: 3.1624
+  type: 'test'
+  ...
+# Subtest: rejects model-authored memory outside known ownership or allowed memory kind
+ok 7 - rejects model-authored memory outside known ownership or allowed memory kind
+  ---
+  duration_ms: 0.5104
+  type: 'test'
+  ...
+# Subtest: rejects dialogue speakers and relationship targets outside the active scene cast
+ok 8 - rejects dialogue speakers and relationship targets outside the active scene cast
+  ---
+  duration_ms: 0.625
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 458.0102

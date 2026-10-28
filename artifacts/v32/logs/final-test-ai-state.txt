@@ -1,0 +1,146 @@
+
+> chancery-of-ink@1.0.0 test:ai-state
+> node --test scripts/ai-state-test.mjs scripts/ai-memory-context-test.mjs scripts/ai-endpoint-test.mjs scripts/openai-responses-test.mjs scripts/worker-session-test.mjs
+
+TAP version 13
+# Subtest: turn handler requires exact allowed browser origin and caps JSON bytes
+ok 1 - turn handler requires exact allowed browser origin and caps JSON bytes
+  ---
+  duration_ms: 6.1585
+  type: 'test'
+  ...
+# Subtest: turn handler validates scene, session quota, and rejects client control fields
+ok 2 - turn handler validates scene, session quota, and rejects client control fields
+  ---
+  duration_ms: 1.7725
+  type: 'test'
+  ...
+# Subtest: provider failure returns an authored fallback without losing route progress or exposing errors
+ok 3 - provider failure returns an authored fallback without losing route progress or exposing errors
+  ---
+  duration_ms: 4.4035
+  type: 'test'
+  ...
+# Subtest: compact memory model summarizes only bounded server conversation and cannot affect game state
+ok 4 - compact memory model summarizes only bounded server conversation and cannot affect game state
+  ---
+  duration_ms: 4.2811
+  type: 'test'
+  ...
+# Subtest: keeps session context server-owned and rejects client-supplied memory, summaries, and history
+ok 5 - keeps session context server-owned and rejects client-supplied memory, summaries, and history
+  ---
+  duration_ms: 7.7442
+  type: 'test'
+  ...
+# Subtest: memory stores a bounded quote of actual player input, never model-invented summary text
+ok 6 - memory stores a bounded quote of actual player input, never model-invented summary text
+  ---
+  duration_ms: 3.9927
+  type: 'test'
+  ...
+# Subtest: rejects invalid owner, out-of-scene character, unsupported kind, or empty player input
+ok 7 - rejects invalid owner, out-of-scene character, unsupported kind, or empty player input
+  ---
+  duration_ms: 0.6658
+  type: 'test'
+  ...
+# Subtest: memory persistence deduplicates, validates on restore, and retains a bounded durable set
+ok 8 - memory persistence deduplicates, validates on restore, and retains a bounded durable set
+  ---
+  duration_ms: 4.3567
+  type: 'test'
+  ...
+# Subtest: character memories survive moves between authored scenes and save restoration
+ok 9 - character memories survive moves between authored scenes and save restoration
+  ---
+  duration_ms: 3.2729
+  type: 'test'
+  ...
+# Subtest: context keeps only relevant lore and character memories, with ten recent turns and bounded copy
+ok 10 - context keeps only relevant lore and character memories, with ten recent turns and bounded copy
+  ---
+  duration_ms: 2.9473
+  type: 'test'
+  ...
+# Subtest: narrator-only secondary synthesis is not included in the NPC context
+ok 11 - narrator-only secondary synthesis is not included in the NPC context
+  ---
+  duration_ms: 0.7419
+  type: 'test'
+  ...
+# Subtest: month-only source dates are treated as available after the month closes
+ok 12 - month-only source dates are treated as available after the month closes
+  ---
+  duration_ms: 0.8334
+  type: 'test'
+  ...
+# Subtest: applies fixed, replayable effects only for a known scene signal
+ok 13 - applies fixed, replayable effects only for a known scene signal
+  ---
+  duration_ms: 7.5101
+  type: 'test'
+  ...
+# Subtest: unknown, scene-disallowed signals and model-authored numeric fields cannot mutate state
+ok 14 - unknown, scene-disallowed signals and model-authored numeric fields cannot mutate state
+  ---
+  duration_ms: 1.0669
+  type: 'test'
+  ...
+# Subtest: repeated stance signals are capped once per scene and bounded per run
+ok 15 - repeated stance signals are capped once per scene and bounded per run
+  ---
+  duration_ms: 2.4946
+  type: 'test'
+  ...
+# Subtest: relationships clamp and repeated relationship signals do not farm trust
+ok 16 - relationships clamp and repeated relationship signals do not farm trust
+  ---
+  duration_ms: 1.3865
+  type: 'test'
+  ...
+# Subtest: relationship effects cannot target a character absent from the active scene
+ok 17 - relationship effects cannot target a character absent from the active scene
+  ---
+  duration_ms: 0.7453
+  type: 'test'
+  ...
+# Subtest: does not alter historical anchors or the ending resolver input while allowing route evidence
+ok 18 - does not alter historical anchors or the ending resolver input while allowing route evidence
+  ---
+  duration_ms: 1.1642
+  type: 'test'
+  ...
+# Subtest: Responses adapter sends strict schema and parses structured output without exposing key
+ok 19 - Responses adapter sends strict schema and parses structured output without exposing key
+  ---
+  duration_ms: 80.9296
+  type: 'test'
+  ...
+# Subtest: Responses adapter rejects HTTP and incomplete/invalid structured results safely
+ok 20 - Responses adapter rejects HTTP and incomplete/invalid structured results safely
+  ---
+  duration_ms: 4.69
+  type: 'test'
+  ...
+# Subtest: memory summarizer uses its separate compact model and strict bounded schema
+ok 21 - memory summarizer uses its separate compact model and strict bounded schema
+  ---
+  duration_ms: 8.1614
+  type: 'test'
+  ...
+# Subtest: Cloudflare Durable Object keeps bounded session context across handler instances
+ok 22 - Cloudflare Durable Object keeps bounded session context across handler instances
+  ---
+  duration_ms: 71.5671
+  type: 'test'
+  ...
+1..22
+# tests 22
+# suites 0
+# pass 22
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 724.8228

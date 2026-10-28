@@ -1,0 +1,140 @@
+
+> chancery-of-ink@1.0.0 test:late-game
+> node --test scripts/late-game-content-test.mjs scripts/ai-injection-test.mjs scripts/ai-outage-test.mjs scripts/ai-history-guard-test.mjs scripts/main20-exam-scoring-test.mjs scripts/main20-learning-exam-test.mjs
+
+TAP version 13
+# Subtest: all injected claims resolve to usable sources available by the scene date
+ok 1 - all injected claims resolve to usable sources available by the scene date
+  ---
+  duration_ms: 3.6279
+  type: 'test'
+  ...
+# Subtest: bookshop inventory excludes sources not publicly available by the scene date
+ok 2 - bookshop inventory excludes sources not publicly available by the scene date
+  ---
+  duration_ms: 0.9777
+  type: 'test'
+  ...
+# Subtest: prompt injection and arbitrary ending/state fields are rejected and fall back to authored dialogue
+ok 3 - prompt injection and arbitrary ending/state fields are rejected and fall back to authored dialogue
+  ---
+  duration_ms: 10.6953
+  type: 'test'
+  ...
+# Subtest: a schema-valid response to an injected request still cannot set arbitrary game state
+ok 4 - a schema-valid response to an injected request still cannot set arbitrary game state
+  ---
+  duration_ms: 6.0489
+  type: 'test'
+  ...
+# Subtest: 429 provider outage retries once and keeps a bounded fallback turn playable
+ok 5 - 429 provider outage retries once and keeps a bounded fallback turn playable
+  ---
+  duration_ms: 7.9424
+  type: 'test'
+  ...
+# Subtest: 500 provider outage retries once and keeps a bounded fallback turn playable
+ok 6 - 500 provider outage retries once and keeps a bounded fallback turn playable
+  ---
+  duration_ms: 2.0851
+  type: 'test'
+  ...
+# Subtest: timeout provider outage retries once and keeps a bounded fallback turn playable
+ok 7 - timeout provider outage retries once and keeps a bounded fallback turn playable
+  ---
+  duration_ms: 1.5963
+  type: 'test'
+  ...
+# Subtest: malformed output provider outage retries once and keeps a bounded fallback turn playable
+ok 8 - malformed output provider outage retries once and keeps a bounded fallback turn playable
+  ---
+  duration_ms: 2.6188
+  type: 'test'
+  ...
+# Subtest: all late-game scene cards have stable IDs, source records and allowed claim lists
+ok 9 - all late-game scene cards have stable IDs, source records and allowed claim lists
+  ---
+  duration_ms: 5.3183
+  type: 'test'
+  ...
+# Subtest: source claims and reading excerpts are available by scene date and keep provenance classes distinct
+ok 10 - source claims and reading excerpts are available by scene date and keep provenance classes distinct
+  ---
+  duration_ms: 2.1407
+  type: 'test'
+  ...
+# Subtest: modern Petrashevsky synthesis is dated to its 2021 publication and never enters period character dialogue
+ok 11 - modern Petrashevsky synthesis is dated to its 2021 publication and never enters period character dialogue
+  ---
+  duration_ms: 0.5151
+  type: 'test'
+  ...
+# Subtest: bookshop inventory has three date-available items and excludes private/future circulation
+ok 12 - bookshop inventory has three date-available items and excludes private/future circulation
+  ---
+  duration_ms: 0.8934
+  type: 'test'
+  ...
+# Subtest: exam bank contains 10–15 source-backed questions, with a fixed five-question attempt and 3/5 threshold
+ok 13 - exam bank contains 10–15 source-backed questions, with a fixed five-question attempt and 3/5 threshold
+  ---
+  duration_ms: 1.4181
+  type: 'test'
+  ...
+# Subtest: the public preparation material covers every exam question and claim source
+ok 14 - the public preparation material covers every exam question and claim source
+  ---
+  duration_ms: 1.0594
+  type: 'test'
+  ...
+# Subtest: scores exact answer IDs and applies the 3-of-5 boundary
+ok 15 - scores exact answer IDs and applies the 3-of-5 boundary
+  ---
+  duration_ms: 3.4295
+  type: 'test'
+  ...
+# Subtest: missing, unknown, and malformed answers are never counted as correct
+ok 16 - missing, unknown, and malformed answers are never counted as correct
+  ---
+  duration_ms: 0.5611
+  type: 'test'
+  ...
+# Subtest: exam subset is deterministic for a saved seed and varies across playthroughs
+ok 17 - exam subset is deterministic for a saved seed and varies across playthroughs
+  ---
+  duration_ms: 4.6016
+  type: 'test'
+  ...
+# Subtest: promotion is derived from exam outcome; deferred and helped-peer remain pending
+ok 18 - promotion is derived from exam outcome; deferred and helped-peer remain pending
+  ---
+  duration_ms: 0.5132
+  type: 'test'
+  ...
+# Subtest: exam has a 10–15 uniquely sourced bank and each attempt remains five questions
+ok 19 - exam has a 10–15 uniquely sourced bank and each attempt remains five questions
+  ---
+  duration_ms: 31.217
+  type: 'test'
+  ...
+# Subtest: circle lesson and public preparation cover every examinable learning unit
+ok 20 - circle lesson and public preparation cover every examinable learning unit
+  ---
+  duration_ms: 5.5789
+  type: 'test'
+  ...
+# Subtest: learning data does not frame ideology, moral judgment, or literary interpretation as scored answers
+ok 21 - learning data does not frame ideology, moral judgment, or literary interpretation as scored answers
+  ---
+  duration_ms: 5.2619
+  type: 'test'
+  ...
+1..21
+# tests 21
+# suites 0
+# pass 21
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 673.2429

@@ -1,0 +1,5 @@
+
+> chancery-of-ink@1.0.0 test
+> node scripts/route-test.mjs
+
+route-test: five gated endings, branching relationship/invitation route, and E02/E04/E07 anchors — PASS
