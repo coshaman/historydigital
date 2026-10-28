@@ -1,15 +1,16 @@
 {
   "schemaVersion": 1,
   "questionCount": 5,
+  "questionBankCount": 12,
   "passThreshold": 3,
   "learningUnits": [
     {
       "id": "FRIDAY-READING",
       "title": "금요일 저녁, 무엇을 함께 읽었나",
       "bodyKo": "러시아역사회의 글은 페트라셰프스키 모임의 금요일 독서 주제를 유물론 철학과 혁명 운동의 역사라고 정리합니다. 다만 모임 전체를 하나의 생각으로 묶지는 않습니다. 유럽의 정치 문헌을 더 읽으며 급진적인 소수도 생겼다고 이어서 설명하죠. 오늘 이 방의 대화도 먼저 책에서 시작합니다.",
-      "sourceIds": ["V42-PETRASHEVSKY-FOURIERISM"],
+      "sourceIds": ["V42-PETRASHEVSKY-SYNTHESIS-2021"],
       "provenance": {
-        "sourceId": "V42-PETRASHEVSKY-FOURIERISM",
+        "sourceId": "V42-PETRASHEVSKY-SYNTHESIS-2021",
         "startLocator": "Российское историческое общество article, paragraph beginning ‘Собираясь по пятницам’",
         "endLocator": "same paragraph; ends with the list ‘истории революционных движений’",
         "sourceClass": "SECONDARY_HISTORICAL_SYNTHESIS",
@@ -24,9 +25,9 @@
       "id": "IDEAS-IN-CIRCULATION",
       "title": "한 모임 안에도 여러 갈래가 있었다",
       "bodyKo": "같은 글은 샤를 푸리에, 로버트 오언, 에티엔 카베의 구상이 당시 자유주의 지식인들 사이에서 읽혔다고 설명합니다. 이들을 한데 묶어 모든 참석자의 신념으로 돌릴 수는 없습니다. 독서 모임은 같은 책을 펼쳐도 서로 다른 질문과 결론을 남길 수 있습니다.",
-      "sourceIds": ["V42-PETRASHEVSKY-FOURIERISM"],
+      "sourceIds": ["V42-PETRASHEVSKY-SYNTHESIS-2021"],
       "provenance": {
-        "sourceId": "V42-PETRASHEVSKY-FOURIERISM",
+        "sourceId": "V42-PETRASHEVSKY-SYNTHESIS-2021",
         "startLocator": "Российское историческое общество article, paragraph beginning ‘Особенно популярными в этой среде’",
         "endLocator": "same paragraph; ends with the description of shared residences and private property",
         "sourceClass": "SECONDARY_HISTORICAL_SYNTHESIS",
@@ -68,9 +69,36 @@
       },
       "fictionalElements": ["가상의 주인공이 시험 결과를 받아 드는 장면"],
       "speakerLines": [{"speaker":"alexei","text":"시험 점수만 보지 마십시오. 그 뒤에 어떤 절차가 이어지는지도 읽어 두십시오."}]
+    },
+    {
+      "id": "SOURCE-CLASSES",
+      "title": "문서의 목소리와 연구자의 정리",
+      "bodyKo": "원문에 적힌 내용과 후대 연구자의 요약은 같은 종류의 증거가 아닙니다. 《Хорь и Калиныч》는 1847년에 실린 문학 작품이고, 페트라셰프스키 모임의 독서 주제를 소개하는 러시아역사회의 글은 현대의 역사 연구입니다. 둘 다 읽을 수 있지만, 하나를 다른 하나처럼 인용해서는 안 됩니다.",
+      "sourceIds": ["EXT-TURGENEV-KHOR-KALYNYCH-1847", "V42-PETRASHEVSKY-SYNTHESIS-2021"],
+      "provenance": { "sourceId": "EXT-TURGENEV-KHOR-KALYNYCH-1847", "startLocator": "primary publication record for the 1847 first publication", "endLocator": "paired with the source-class designation of the modern RIO historical synthesis", "sourceClass": "PRIMARY_PUBLICATION_AND_SECONDARY_HISTORICAL_SYNTHESIS", "contextNoteKo": "문학 작품의 서술자와 현대 연구자의 역사 요약은 각각의 출처 성격을 붙여 읽습니다." },
+      "fictionalElements": [],
+      "speakerLines": [{"speaker":"ekaterina","text":"누가 쓴 문장인지부터 봐요. 이야기를 들려주는 사람과 역사를 정리하는 사람은 다르니까."}]
+    },
+    {
+      "id": "LITERARY-AVAILABILITY",
+      "title": "서가에 놓일 수 있었던 책",
+      "bodyKo": "1847년 여름의 서점 장면에서 살펴볼 수 있는 세 작품은 출판 시기를 확인했습니다. 《Мёртвые души》 제1부는 1842년, 《Бедные люди》는 1846년 네크라소프 편 《Петербургский сборник》에, 《Хорь и Калиныч》는 1847년 《Современник》 제1호에 실렸습니다. 이 서점의 실제 재고를 보여주는 기록은 아니므로, 장면의 책 선택은 허구입니다.",
+      "sourceIds": ["EXT-GOGOL-DEAD-SOULS-1842", "EXT-DOSTOEVSKY-POOR-FOLK-1846", "EXT-TURGENEV-KHOR-KALYNYCH-1847"],
+      "provenance": { "sourceId": "EXT-TURGENEV-KHOR-KALYNYCH-1847", "startLocator": "publication metadata for each listed work", "endLocator": "through 1847, issue 1 of Sovremennik", "sourceClass": "SCHOLARLY_PUBLICATION_CATALOG_AND_PRIMARY_PUBLICATION_RECORDS", "contextNoteKo": "출판 연도와 작품의 현장 재고 여부는 별개의 주장입니다." },
+      "fictionalElements": ["서점의 진열과 특정 책의 재고"],
+      "speakerLines": [{"speaker":"pavel","text":"읽을 책이 있었던 것과 지금 이 가게에 꽂혀 있는 건 다른 얘기지."}]
+    },
+    {
+      "id": "KHOR-CLOSE-READING",
+      "title": "두 인물을 대비하는 서술",
+      "bodyKo": "투르게네프의 세 연속 문단은 호리의 현실적이고 실무적인 면과 칼리니치의 감정적이고 꿈 많은 면을 대비합니다. 작품 속 화자는 그들의 형편과 관계도 함께 묘사합니다. 이는 서술자가 만든 문학적 장면이지, 실제 인물의 면담 기록은 아닙니다.",
+      "sourceIds": ["EXT-TURGENEV-KHOR-KALYNYCH-1847"],
+      "provenance": { "sourceId": "EXT-TURGENEV-KHOR-KALYNYCH-1847", "startLocator": "Часть I, paragraph beginning ‘Хорь был человек положительный’", "endLocator": "third consecutive paragraph, ending ‘от него многому научился’", "sourceClass": "PRIMARY_PUBLICATION", "quotedRussian": "Хорь был человек положительный, практический, административная голова, рационалист; Калинич, напротив, принадлежал к числу идеалистов, романтиков, людей восторженных и мечтательных.", "projectTranslationKo": "호리는 현실적이고 실무에 밝았으며 행정 감각이 있는 합리주의자였다. 반대로 칼리니치는 이상주의자이자 낭만주의자였고, 감정이 풍부하고 꿈이 많은 사람이었다.", "contextNoteKo": "연속 세 문단 전체를 대조 자료로 제공합니다. 인물 성격과 계급 관계는 문학적 서술로 읽습니다." },
+      "fictionalElements": [],
+      "speakerLines": [{"speaker":"ekaterina","text":"호리와 칼리니치는 같은 집안에서 살지만, 작가는 둘을 아주 다르게 보여 줘요."}]
     }
   ],
-  "publicPrepUnitIds": ["FRIDAY-READING", "IDEAS-IN-CIRCULATION", "RANKS-AND-SERVICE", "ENTRY-TO-COLLEGES"],
+  "publicPrepUnitIds": ["FRIDAY-READING", "IDEAS-IN-CIRCULATION", "RANKS-AND-SERVICE", "ENTRY-TO-COLLEGES", "SOURCE-CLASSES", "LITERARY-AVAILABILITY", "KHOR-CLOSE-READING"],
   "questions": [
     {
       "id": "Q1-FRIDAY-READING",
@@ -83,7 +111,7 @@
         {"id":"Q1-D","text":"농업 세금 장부만"}
       ],
       "learningUnitIds": ["FRIDAY-READING"],
-      "sourceIds": ["V42-PETRASHEVSKY-FOURIERISM"],
+      "sourceIds": ["V42-PETRASHEVSKY-SYNTHESIS-2021"],
       "answerRationale": "해당 글은 금요일 모임에서 유물론 철학과 혁명 운동의 역사를 다룬 책을 읽었다고 적습니다."
     },
     {
@@ -97,7 +125,7 @@
         {"id":"Q2-D","text":"다윈, 뉴턴, 파스퇴르"}
       ],
       "learningUnitIds": ["IDEAS-IN-CIRCULATION"],
-      "sourceIds": ["V42-PETRASHEVSKY-FOURIERISM"],
+      "sourceIds": ["V42-PETRASHEVSKY-SYNTHESIS-2021"],
       "answerRationale": "글은 샤를 푸리에, 로버트 오언, 에티엔 카베를 특히 인기 있었던 사상가로 함께 듭니다."
     },
     {
@@ -141,6 +169,55 @@
       "learningUnitIds": ["ENTRY-TO-COLLEGES"],
       "sourceIds": ["V42-TABLE-OF-RANKS"],
       "answerRationale": "제14항은 교육, 관청의 심사, 상원에의 제출, 임명장 수령을 차례로 적습니다."
+    },
+    {
+      "id": "Q6-SOURCE-CLASS", "kind": "SOURCE_LITERACY",
+      "prompt": "페트라셰프스키 모임의 금요일 독서 주제를 요약한 러시아역사회의 글은 어떤 자료인가요?",
+      "options": [{"id":"Q6-A","text":"현대의 2차 역사 연구"},{"id":"Q6-B","text":"1847년 모임에서 받아 적은 속기록"},{"id":"Q6-C","text":"페트라셰프스키의 자필 일기"},{"id":"Q6-D","text":"당시 관청의 시험 답안"}],
+      "learningUnitIds": ["SOURCE-CLASSES"], "sourceIds": ["V42-PETRASHEVSKY-SYNTHESIS-2021"],
+      "answerRationale": "해당 글은 모임의 독서 주제를 정리한 현대 역사 연구이며 참석자의 직접 발언이 아닙니다."
+    },
+    {
+      "id": "Q7-KHOR-PUBLICATION", "kind": "CHRONOLOGY",
+      "prompt": "《Хорь и Калиныч》는 언제 처음 실렸나요?",
+      "options": [{"id":"Q7-A","text":"1847년 《Современник》 제1호"},{"id":"Q7-B","text":"1842년 《Петербургский сборник》"},{"id":"Q7-C","text":"1849년 수사 기록"},{"id":"Q7-D","text":"1852년 단행본으로만 처음 공개"}],
+      "learningUnitIds": ["LITERARY-AVAILABILITY"], "sourceIds": ["EXT-TURGENEV-KHOR-KALYNYCH-1847"],
+      "answerRationale": "작품은 1847년 《Современник》 제1호에 실렸습니다."
+    },
+    {
+      "id": "Q8-POOR-FOLK-PUBLICATION", "kind": "CHRONOLOGY",
+      "prompt": "《Бедные люди》가 처음 실린 곳은 어디인가요?",
+      "options": [{"id":"Q8-A","text":"1846년 네크라소프 편 《Петербургский сборник》"},{"id":"Q8-B","text":"1842년 《Современник》"},{"id":"Q8-C","text":"1849년 관청 자료철"},{"id":"Q8-D","text":"1833년 관등표 부록"}],
+      "learningUnitIds": ["LITERARY-AVAILABILITY"], "sourceIds": ["EXT-DOSTOEVSKY-POOR-FOLK-1846"],
+      "answerRationale": "확인된 서지 정보는 1846년 《Петербургский сборник》 수록본을 가리킵니다."
+    },
+    {
+      "id": "Q9-DEAD-SOULS-DATE", "kind": "CHRONOLOGY",
+      "prompt": "《Мёртвые души》 제1부의 출판 연도는 언제인가요?",
+      "options": [{"id":"Q9-A","text":"1842년"},{"id":"Q9-B","text":"1847년"},{"id":"Q9-C","text":"1855년"},{"id":"Q9-D","text":"1861년"}],
+      "learningUnitIds": ["LITERARY-AVAILABILITY"], "sourceIds": ["EXT-GOGOL-DEAD-SOULS-1842"],
+      "answerRationale": "서지 자료는 《Мёртвые души》 제1부의 출판 연도를 1842년으로 기록합니다."
+    },
+    {
+      "id": "Q10-KHOR-NARRATION", "kind": "SOURCE_LITERACY",
+      "prompt": "《Хорь и Калиныч》의 호리와 칼리니치 성격 묘사는 어떤 목소리로 제시되나요?",
+      "options": [{"id":"Q10-A","text":"작품 속 서술자의 문학적 묘사"},{"id":"Q10-B","text":"두 인물이 남긴 행정 증언"},{"id":"Q10-C","text":"관등표의 법률 조항"},{"id":"Q10-D","text":"현대 연구자의 직접 인용"}],
+      "learningUnitIds": ["KHOR-CLOSE-READING", "SOURCE-CLASSES"], "sourceIds": ["EXT-TURGENEV-KHOR-KALYNYCH-1847"],
+      "answerRationale": "이 문장은 투르게네프 작품의 서술이며 실제 농민들의 속기록이 아닙니다."
+    },
+    {
+      "id": "Q11-POOR-FOLK-LETTER", "kind": "SOURCE_LITERACY",
+      "prompt": "《Бедные люди》의 편지에서 마카르는 접힌 커튼을 무엇으로 받아들이나요?",
+      "options": [{"id":"Q11-A","text":"상대가 자신에게 보낸 신호"},{"id":"Q11-B","text":"관청의 공식 봉인"},{"id":"Q11-C","text":"서점의 가격표"},{"id":"Q11-D","text":"시험 결과 통지"}],
+      "learningUnitIds": ["SOURCE-CLASSES"], "sourceIds": ["EXT-DOSTOEVSKY-POOR-FOLK-1846"],
+      "answerRationale": "편지 속 화자는 창가 커튼이 접힌 모습을 두 사람 사이의 표시로 해석합니다."
+    },
+    {
+      "id": "Q12-PRIMARY-VS-SYNTHESIS", "kind": "SOURCE_LITERACY",
+      "prompt": "1847년 문학 작품의 원문과 현대 역사 연구의 요약을 읽을 때 가장 알맞은 태도는 무엇인가요?",
+      "options": [{"id":"Q12-A","text":"각 문장의 출처 성격을 확인하고, 요약을 당시 인물의 말로 바꾸지 않는다"},{"id":"Q12-B","text":"두 자료가 같은 주제를 다루면 저자와 시기를 구분하지 않는다"},{"id":"Q12-C","text":"현대 연구의 문장을 1847년 직접 인용으로 표시한다"},{"id":"Q12-D","text":"문학 작품의 인물을 실제 행정 기록의 증인으로 취급한다"}],
+      "learningUnitIds": ["SOURCE-CLASSES"], "sourceIds": ["EXT-TURGENEV-KHOR-KALYNYCH-1847", "V42-PETRASHEVSKY-SYNTHESIS-2021"],
+      "answerRationale": "자료의 종류와 시기를 유지하면 현대 해석과 동시대 문학 작품을 같은 증거처럼 혼합하지 않습니다."
     }
   ],
   "answerKey": {
@@ -148,6 +225,13 @@
     "Q2-IDEAS-IN-CIRCULATION": "Q2-A",
     "Q3-RANKS-CLASSES": "Q3-A",
     "Q4-RANKS-SENIORITY": "Q4-A",
-    "Q5-COLLEGIUM-ENTRY": "Q5-A"
+    "Q5-COLLEGIUM-ENTRY": "Q5-A",
+    "Q6-SOURCE-CLASS": "Q6-A",
+    "Q7-KHOR-PUBLICATION": "Q7-A",
+    "Q8-POOR-FOLK-PUBLICATION": "Q8-A",
+    "Q9-DEAD-SOULS-DATE": "Q9-A",
+    "Q10-KHOR-NARRATION": "Q10-A",
+    "Q11-POOR-FOLK-LETTER": "Q11-A",
+    "Q12-PRIMARY-VS-SYNTHESIS": "Q12-A"
   }
 }

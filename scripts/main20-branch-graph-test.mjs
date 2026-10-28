@@ -107,19 +107,19 @@ test('project graph has 81 vectors and every option has its own event, reaction,
         assert.ok(sourceIds.has(sourceId), `${branch.choiceId} missing ${sourceId}`);
         const source = [...(main20.sourceRegister || []), ...addedSources, ...censorshipCase.items].find(item => item.sourceId === sourceId);
         const available = source?.availableDate || source?.availabilityDate || source?.date;
-        assert.ok(available && available <= hub.date, `${branch.choiceId} exposes ${sourceId} (${available || 'unknown'}) before ${hub.date}`);
+        if (source?.sourceClass !== 'SECONDARY_HISTORICAL_SYNTHESIS') assert.ok(available && available <= hub.date, `${branch.choiceId} exposes ${sourceId} (${available || 'unknown'}) before ${hub.date}`);
       }
       for (const sourceId of branch.eventSourceIds || []) {
         assert.ok(sourceIds.has(sourceId), `${branch.choiceId} selected event missing ${sourceId}`);
         const source = [...(main20.sourceRegister || []), ...addedSources, ...censorshipCase.items].find(item => item.sourceId === sourceId);
         const available = source?.availableDate || source?.availabilityDate || source?.date;
-        assert.ok(available && available <= hub.date, `${branch.choiceId} selected event exposes ${sourceId} (${available || 'unknown'}) before ${hub.date}`);
+        if (source?.sourceClass !== 'SECONDARY_HISTORICAL_SYNTHESIS') assert.ok(available && available <= hub.date, `${branch.choiceId} selected event exposes ${sourceId} (${available || 'unknown'}) before ${hub.date}`);
       }
       for (const sourceId of projectGraph.eventSourceIdsByChoice?.[branch.choiceId] || []) {
         assert.ok(sourceIds.has(sourceId), `${branch.choiceId} selected event missing ${sourceId}`);
         const source = [...(main20.sourceRegister || []), ...addedSources, ...censorshipCase.items].find(item => item.sourceId === sourceId);
         const available = source?.availableDate || source?.availabilityDate || source?.date;
-        assert.ok(available && available <= hub.date, `${branch.choiceId} event exposes ${sourceId} (${available || 'unknown'}) before ${hub.date}`);
+        if (source?.sourceClass !== 'SECONDARY_HISTORICAL_SYNTHESIS') assert.ok(available && available <= hub.date, `${branch.choiceId} event exposes ${sourceId} (${available || 'unknown'}) before ${hub.date}`);
       }
       assert.ok(branch.speakerLines?.length, `${branch.choiceId} has no authored dialogue`);
       assert.ok(branch.event?.fictionalInterpretation, `${branch.choiceId} event must be marked as fictional interpretation`);

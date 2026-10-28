@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AI Scene Memory Summary V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "summaryKo"],
+  "properties": {
+    "schemaVersion": { "type": "string", "const": "AI_SCENE_MEMORY_SUMMARY_V1" },
+    "summaryKo": { "type": "string", "minLength": 1, "maxLength": 900 }
+  }
+}

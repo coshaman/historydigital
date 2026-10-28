@@ -1,0 +1,46 @@
+{
+  "status": true,
+  "viewports": {
+    "screenshot-size": {
+      "phase": "ending",
+      "sceneIndex": 3,
+      "guard": 129,
+      "bodyWidth": {
+        "body": 1996,
+        "viewport": 1996,
+        "walk": true
+      }
+    },
+    "desktop": {
+      "phase": "ending",
+      "sceneIndex": 3,
+      "guard": 129,
+      "bodyWidth": {
+        "body": 1440,
+        "viewport": 1440,
+        "walk": true
+      }
+    },
+    "mobile": {
+      "phase": "ending",
+      "sceneIndex": 3,
+      "guard": 129,
+      "bodyWidth": {
+        "body": 390,
+        "viewport": 390,
+        "walk": true
+      }
+    },
+    "compact-mobile": {
+      "phase": "ending",
+      "sceneIndex": 3,
+      "guard": 129,
+      "bodyWidth": {
+        "body": 360,
+        "viewport": 360,
+        "walk": true
+      }
+    }
+  },
+  "failures": []
+}

@@ -74,6 +74,21 @@ async function play(page) {
       await advanceButton(page);
     } else if (current.phase === 'branch_callback') {
       await advanceButton(page);
+    } else if (current.phase === 'circle_learning') {
+      await advanceButton(page);
+    } else if (current.phase === 'late_game_scene') {
+      await click(page, current.lateGameSceneTurn >= 8 ? '다음 장소로 간다' : '이 장면을 마친다');
+    } else if (current.phase === 'late_game_activities') {
+      const options = page.locator('.late-game-activity-choice:not(:disabled)');
+      if (!(await options.count())) throw new Error('late-game activity selection has no available choice');
+      await options.first().click();
+    } else if (current.phase === 'exam_prep') {
+      await click(page, '같은 다섯 문제에 답한다');
+    } else if (current.phase === 'exam_questions') {
+      await page.locator('.main20-exam-option').first().click();
+      await page.locator('#choiceArea button').last().click();
+    } else if (current.phase === 'exam_result') {
+      await click(page, '시험 기록을 접는다');
     } else if (current.phase === 'legacy_recovery') {
       throw new Error(`legacy recovery reached during V42 route: ${JSON.stringify({ trace: trace.slice(-12), lastHistory: current.history.slice(-4) })}`);
     } else {

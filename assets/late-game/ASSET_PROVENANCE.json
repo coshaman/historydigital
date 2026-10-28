@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "created": "2026-10-28",
+  "method": "OpenAI built-in image generation; new project assets; no reference images",
+  "notes": "Atmosphere illustrations only. They do not depict or substantiate historical evidence. Generated scene art is not a reconstruction of a specific documented room or event.",
+  "assets": [
+    { "id": "petersburg_snow_street", "file": "petersburg_snow_street.webp", "role": "location_background", "prompt": "Saint Petersburg street winter evening 1847, horse-drawn sleigh and pedestrians, snowy Nevsky Prospect, canal and imperial stone facades, cold blue-gray fog, restrained 19th-century Russian genre painting, dialogue-safe composition, no text or modern objects." },
+    { "id": "circle_apartment_night", "file": "circle_apartment_night.webp", "role": "location_background", "prompt": "Modest rented Petersburg apartment literary reading circle, winter 1847, oil lamp, samovar, frost window, books, worn furniture, period interior genre painting, no text or modern objects." },
+    { "id": "nevsky_bookshop_interior", "file": "nevsky_bookshop_interior.webp", "role": "location_background", "prompt": "Intimate Nevsky Prospect bookshop interior in Saint Petersburg 1847, dark walnut shelves, Russian books, frosted window, brass lamp, period interior painting, no text or modern objects." },
+    { "id": "modest_tavern_supper_room", "file": "modest_tavern_supper_room.webp", "role": "location_background", "prompt": "Modest Petersburg tavern dining room 1847, bread, soup and tea, oil lamp, period coats, winter window, subdued 19th-century genre painting, no text or modern objects." },
+    { "id": "reading_room_night", "file": "reading_room_night.webp", "role": "location_background", "prompt": "Small rented Petersburg room at night in 1847, open book with pencil notes, oil lamp, frost window, shawl, quiet 19th-century Russian interior, no legible text or modern objects." },
+    { "id": "examination_chamber", "file": "examination_chamber.webp", "role": "location_background", "prompt": "Imperial Russian civil service examination chamber in Saint Petersburg 1847, long wooden table, inkstand and official papers, high snowy windows, severe modest period room, no modern objects or text." },
+    { "id": "circle_first_entry", "file": "circle_first_entry.webp", "role": "event_still", "prompt": "Woman in a dark modest dress enters a lamplit Petersburg apartment reading circle in 1847 and places gloves beside an open book; winter snow at the window; natural understated 19th-century scene; no text or modern objects." },
+    { "id": "bookshop_window_light", "file": "bookshop_window_light.webp", "role": "event_still", "prompt": "1847 Saint Petersburg bookseller's hands open a freshly printed Russian novel by a frosted window, warm lamp and cold street, no legible letters, no modern objects." },
+    { "id": "supper_lamplight", "file": "supper_lamplight.webp", "role": "event_still", "prompt": "Three young Russian clerks and a woman share bread and tea at a modest Petersburg supper table in 1847, candid quiet conversation, period clothing, no text or modern objects." },
+    { "id": "reading_margin_note", "file": "reading_margin_note.webp", "role": "event_still", "prompt": "Two friends in an 1847 Petersburg rented room lean over an open book, one marks a margin with pencil while the other listens; warm oil lamp, cold window, period clothing, no legible text or modern objects." }
+  ]
+}
+

@@ -200,10 +200,10 @@
       "ideologicalUse": "BELINSKY_SOCIAL_CRITIQUE"
     },
     {
-      "sourceId": "V42-PETRASHEVSKY-FOURIERISM",
-      "author": "Петрашевский кружок",
-      "workTitle": "독서·토론·푸리에주의 기록",
-      "exactDate": "1845-01-01",
+      "sourceId": "V42-PETRASHEVSKY-SYNTHESIS-2021",
+      "author": "Российское историческое общество",
+      "workTitle": "«Подвергнуть смертной казни расстрелянием»: К 200-летию М. В. Петрашевского",
+      "exactDate": "2021-01-21",
       "editionArchive": "History Russia contextual record",
       "ideologicalUse": "PETRASHEVSKY_SOCIAL_REFORM"
     }
@@ -597,7 +597,7 @@
       "ideologicalUse": "BELINSKY_SOCIAL_CRITIQUE"
     },
     {
-      "sourceId": "V42-PETRASHEVSKY-FOURIERISM",
+      "sourceId": "V42-PETRASHEVSKY-SYNTHESIS-2021",
       "author": "Петрашевский кружок",
       "workTitle": "독서·토론·푸리에주의 기록",
       "ideologicalUse": "PETRASHEVSKY_SOCIAL_REFORM"
@@ -734,8 +734,8 @@
       "contextRangeId": "V42-R-BELINSKY-1847"
     },
     {
-      "sourceId": "V42-PETRASHEVSKY-FOURIERISM",
-      "date": "1845-01-01",
+      "sourceId": "V42-PETRASHEVSKY-SYNTHESIS-2021",
+      "date": "2021-01-21",
     "edition": "Российское историческое общество, «Подвергнуть смертной казни расстрелянием»: К 200-летию М. В. Петрашевского",
     "locator": "본문 중 ‘Собираясь по пятницам’으로 시작하는 문단; 금요일 모임의 독서 주제",
     "originalRussian": "Собираясь по пятницам, читали книги по материалистической философии, истории революционных движений.",
@@ -743,7 +743,7 @@
     "classification": "DIRECT_SECONDARY",
     "sourceClass": "SECONDARY_HISTORICAL_SYNTHESIS",
     "authorOrIssuer": "Российское историческое общество",
-      "availableDate": "1845-01-01",
+      "availableDate": "2021-01-21",
       "url": "https://historyrussia.org/?id=5349&layout=edit&view=article",
       "contextRangeId": "V42-R-PETRASHEVSKY"
     },
@@ -1719,12 +1719,12 @@
     },
     "V42-R-PETRASHEVSKY": {
       "type": "CONTIGUOUS_WITNESS_RANGE",
-      "sourceId": "V42-PETRASHEVSKY-FOURIERISM",
+      "sourceId": "V42-PETRASHEVSKY-SYNTHESIS-2021",
       "startLocator": "1840s circle reading and discussion account",
       "endLocator": "1840s circle participant differences and risk account",
       "paragraphCount": 2,
-      "ruRef": "V42-PETRASHEVSKY-FOURIERISM",
-      "koRef": "V42-PETRASHEVSKY-FOURIERISM",
+      "ruRef": "V42-PETRASHEVSKY-SYNTHESIS-2021",
+      "koRef": "V42-PETRASHEVSKY-SYNTHESIS-2021",
     "startLocator": "paragraph beginning ‘Собираясь по пятницам, читали книги…’",
     "endLocator": "same paragraph, ending ‘истории революционных движений’",
     "paragraphCount": 1,

@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AI Scene Turn V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "sceneId", "turnType", "beats", "suggestedReplies", "semanticSignals", "relationshipSignals", "goalSignal", "memoryCandidates", "historicalClaimIds", "uiCue"],
+  "properties": {
+    "schemaVersion": { "type": "string", "const": "AI_SCENE_TURN_V1" },
+    "sceneId": { "type": "string", "enum": ["CIRCLE_01", "BOOKSHOP_01", "SUPPER_01", "READING_01", "EXAM_01"] },
+    "turnType": { "type": "string", "enum": ["DIALOGUE", "SCENE_TRANSITION", "SCENE_COMPLETE"] },
+    "beats": {
+      "type": "array", "minItems": 1, "maxItems": 4,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["type", "speakerId", "textKo", "emotion", "expressionId", "actionId"],
+        "properties": {
+          "type": { "type": "string", "enum": ["DIALOGUE", "ACTION", "NARRATION"] },
+          "speakerId": { "type": "string", "enum": ["alexei", "ekaterina", "pavel", "protagonist", "narrator", "examiner"] },
+          "textKo": { "type": "string", "minLength": 1, "maxLength": 600 },
+          "emotion": { "type": "string", "enum": ["neutral", "curious", "guarded", "warm", "irritated", "sad", "amused", "afraid", "focused"] },
+          "expressionId": { "type": "string", "maxLength": 64 },
+          "actionId": { "type": "string", "maxLength": 64 }
+        }
+      }
+    },
+    "suggestedReplies": {
+      "type": "array", "minItems": 2, "maxItems": 3,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "textKo", "tone"],
+        "properties": {
+          "id": { "type": "string", "enum": ["R1", "R2", "R3"] },
+          "textKo": { "type": "string", "minLength": 8, "maxLength": 80 },
+          "tone": { "type": "string", "enum": ["cautious", "curious", "empathetic", "direct", "playful", "reflective"] }
+        }
+      }
+    },
+    "semanticSignals": { "type": "array", "maxItems": 2, "uniqueItems": true, "items": { "type": "string", "maxLength": 64 } },
+    "relationshipSignals": {
+      "type": "array", "maxItems": 2,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["characterId", "signal"],
+        "properties": {
+          "characterId": { "type": "string", "enum": ["alexei", "ekaterina", "pavel"] },
+          "signal": { "type": "string", "enum": ["TRUST_UP", "TRUST_DOWN", "NO_CHANGE"] }
+        }
+      }
+    },
+    "goalSignal": { "type": "string", "enum": ["PROGRESS", "HOLD", "COMPLETE", "NO_CHANGE"] },
+    "memoryCandidates": {
+      "type": "array", "maxItems": 2,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["subjectId", "characterId", "sceneId", "kind", "summaryKo", "salience"],
+        "properties": {
+          "subjectId": { "type": "string", "enum": ["player"] },
+          "characterId": { "type": "string", "enum": ["alexei", "ekaterina", "pavel"] },
+          "sceneId": { "type": "string", "enum": ["CIRCLE_01", "BOOKSHOP_01", "SUPPER_01", "READING_01", "EXAM_01"] },
+          "kind": { "type": "string", "enum": ["STANCE", "PROMISE", "QUESTION", "RELATIONSHIP_MOMENT"] },
+          "summaryKo": { "type": "string", "minLength": 1, "maxLength": 180 },
+          "salience": { "type": "string", "enum": ["LOW", "MEDIUM", "HIGH"] }
+        }
+      }
+    },
+    "historicalClaimIds": { "type": "array", "maxItems": 4, "uniqueItems": true, "items": { "type": "string", "maxLength": 80 } },
+    "uiCue": {
+      "type": "object", "additionalProperties": false,
+      "required": ["backgroundId", "cgId", "sfxId"],
+      "properties": {
+        "backgroundId": { "type": "string", "maxLength": 64 },
+        "cgId": { "type": "string", "maxLength": 64 },
+        "sfxId": { "type": "string", "enum": ["none", "paper_turn", "footsteps_snow", "door_soft", "room_ambience", "clock_tick"] }
+      }
+    }
+  }
+}

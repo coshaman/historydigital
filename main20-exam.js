@@ -18,5 +18,26 @@
     return 'pending';
   }
 
-  root.Main20Exam = Object.freeze({ scoreExam, derivePromotionStatus });
+  function selectExamQuestions(examData, seed) {
+    const questions = Array.isArray(examData?.questions) ? examData.questions.filter(question => question && typeof question.id === 'string') : [];
+    const count = Number.isInteger(examData?.questionCount) && examData.questionCount > 0 ? examData.questionCount : 5;
+    if (questions.length <= count) return questions.slice();
+    let state = 2166136261;
+    for (const char of String(seed ?? '')) state = Math.imul(state ^ char.charCodeAt(0), 16777619) >>> 0;
+    const random = () => {
+      state = (state + 0x6D2B79F5) >>> 0;
+      let value = state;
+      value = Math.imul(value ^ (value >>> 15), value | 1);
+      value ^= value + Math.imul(value ^ (value >>> 7), value | 61);
+      return ((value ^ (value >>> 14)) >>> 0) / 4294967296;
+    };
+    const shuffled = questions.slice();
+    for (let index = shuffled.length - 1; index > 0; index -= 1) {
+      const target = Math.floor(random() * (index + 1));
+      [shuffled[index], shuffled[target]] = [shuffled[target], shuffled[index]];
+    }
+    return shuffled.slice(0, count);
+  }
+
+  root.Main20Exam = Object.freeze({ scoreExam, derivePromotionStatus, selectExamQuestions });
 })(globalThis);

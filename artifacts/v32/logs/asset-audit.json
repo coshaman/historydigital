@@ -1,0 +1,68 @@
+{
+  "status": "PASS",
+  "backgrounds": 6,
+  "eventStills": 4,
+  "totalBytes": 1442162,
+  "assets": [
+    {
+      "id": "petersburg_snow_street",
+      "role": "location_background",
+      "bytes": 226178,
+      "referencedByScenario": false
+    },
+    {
+      "id": "circle_apartment_night",
+      "role": "location_background",
+      "bytes": 148562,
+      "referencedByScenario": true
+    },
+    {
+      "id": "nevsky_bookshop_interior",
+      "role": "location_background",
+      "bytes": 203922,
+      "referencedByScenario": true
+    },
+    {
+      "id": "modest_tavern_supper_room",
+      "role": "location_background",
+      "bytes": 152714,
+      "referencedByScenario": true
+    },
+    {
+      "id": "reading_room_night",
+      "role": "location_background",
+      "bytes": 118572,
+      "referencedByScenario": true
+    },
+    {
+      "id": "examination_chamber",
+      "role": "location_background",
+      "bytes": 137606,
+      "referencedByScenario": true
+    },
+    {
+      "id": "circle_first_entry",
+      "role": "event_still",
+      "bytes": 103264,
+      "referencedByScenario": true
+    },
+    {
+      "id": "bookshop_window_light",
+      "role": "event_still",
+      "bytes": 120378,
+      "referencedByScenario": true
+    },
+    {
+      "id": "supper_lamplight",
+      "role": "event_still",
+      "bytes": 120378,
+      "referencedByScenario": true
+    },
+    {
+      "id": "reading_margin_note",
+      "role": "event_still",
+      "bytes": 110588,
+      "referencedByScenario": true
+    }
+  ]
+}

@@ -536,3 +536,64 @@ body.main20-circle-warehouse .paper{box-shadow:14px 17px 0 #140e0b80,0 0 38px #d
   .ending-timeline-controls button:last-child{grid-column:1/-1}
 }
 @media(prefers-reduced-motion:reduce){.ending-timeline-track span{scroll-behavior:auto;transition:none}}
+
+/* AI-assisted late-game scenes reuse the paper desk and its original dialogue strip. */
+.late-game-objective{font-size:clamp(16px,1.25vw,20px);line-height:1.65;max-width:72ch}
+.main20-mode.late-game-mode .document-stage{background-size:cover;background-position:center;background-repeat:no-repeat}
+.late-game-event-still{display:block;width:min(100%,760px);max-height:260px;object-fit:cover;margin:12px auto;border:1px solid rgba(103,72,37,.35);box-shadow:0 5px 14px #1a100b33}
+.late-game-transcript{display:grid;gap:8px;max-height:18dvh;overflow-y:auto;overscroll-behavior:contain;padding:8px 12px;border-top:1px solid rgba(174,132,70,.24);scrollbar-color:#9c7541 #261d16}
+.main20-mode .dialogue-strip:has(.late-game-transcript){grid-template-columns:clamp(64px,9vw,110px) minmax(0,1fr);gap:8px 16px;align-items:start}
+.main20-mode .dialogue-strip:has(.late-game-transcript) .v28-portrait{grid-column:1;grid-row:1/5;width:100%;max-height:110px}
+.main20-mode .dialogue-strip:has(.late-game-transcript) .speaker-tag,.main20-mode .dialogue-strip:has(.late-game-transcript) .late-game-transcript,.main20-mode .dialogue-strip:has(.late-game-transcript) .response-area,.main20-mode .dialogue-strip:has(.late-game-transcript) .choice-area{grid-column:2;min-width:0;width:100%}
+.main20-mode .dialogue-strip:has(.late-game-transcript) #memoCallback{display:none}
+.late-game-transcript p{display:grid;grid-template-columns:minmax(90px,150px) 1fr;gap:10px;margin:0;font-size:clamp(14px,1.05vw,17px);line-height:1.5}
+.late-game-transcript strong{color:#d0aa70;font-size:.88em}
+.late-game-transcript .late-game-user-line span{color:#f0dfbc}
+#dialogue[hidden]{display:none}
+.late-game-source-note{display:grid;gap:6px;margin:12px 0;padding:10px 13px;border-left:2px solid #ae8446;background:rgba(75,49,27,.07)}
+.late-game-source-note small,.late-game-primary-excerpt>small{font-size:12px;line-height:1.5;color:#705b3d}
+.late-game-primary-excerpt{margin:14px 0;padding:14px 16px;background:#f0e2bd;border:1px solid rgba(103,72,37,.25)}
+.late-game-paragraph-pair{display:grid;grid-template-columns:1fr 1fr;gap:18px;border-top:1px solid rgba(103,72,37,.2);padding-top:9px;margin-top:9px}
+.late-game-paragraph-pair p{margin:0;font:clamp(14px,1.15vw,18px)/1.55 Georgia,'Times New Roman',serif;overflow-wrap:anywhere}
+.late-game-paragraph-pair p[lang=ko]{font-family:inherit}
+.late-game-activity-choice{display:block;width:100%;min-height:54px;margin:8px 0;text-align:left}
+.main20-mode.main20-dialogue .response-area:has(#lateGameReply){display:grid;grid-template-columns:1fr;gap:8px;max-height:28dvh;overflow:auto;padding:10px 14px}
+#lateGameReply{width:100%;min-height:54px;max-height:18dvh;resize:vertical;padding:10px 12px;border:1px solid #8d7046;background:#f5e8c8;color:#261d16;font:inherit;line-height:1.5}
+.main20-mode.main20-dialogue.late-game-mode .choice-area{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));max-height:25dvh;overflow:auto;gap:8px}
+.main20-mode.main20-dialogue.late-game-mode .choice-area>button{min-width:0;white-space:normal;overflow-wrap:anywhere}
+@media(max-width:700px){body.late-game-mode .left-rail,body.late-game-mode .right-rail,body.late-game-mode .incoming-slip{display:none!important}.late-game-paragraph-pair{grid-template-columns:1fr;gap:8px}.main20-mode.main20-dialogue.late-game-mode .choice-area{grid-template-columns:1fr;max-height:17dvh;overflow-y:auto}.main20-mode.main20-dialogue .response-area:has(#lateGameReply){max-height:16dvh;padding:6px}.main20-mode.main20-reading.late-game-mode .paper-title{padding:6px 0}.main20-mode.main20-reading.late-game-mode .paper h2{font-size:24px;line-height:1.08}.late-game-primary-excerpt{padding:10px}.late-game-transcript{max-height:12dvh;padding:6px}.late-game-transcript p{grid-template-columns:90px 1fr;gap:6px}.main20-mode .dialogue-strip:has(.late-game-transcript){grid-template-columns:62px minmax(0,1fr);padding:8px;gap:6px}.main20-mode .dialogue-strip:has(.late-game-transcript) .v28-portrait{grid-row:1/5;max-height:78px}.main20-mode.main20-dialogue.late-game-mode .dialogue-strip{min-height:0!important;max-height:calc(100dvh - 340px);overflow-y:auto!important}}
+@media(prefers-reduced-motion:reduce){.late-game-primary-excerpt,.late-game-activity-choice{scroll-behavior:auto;transition:none}}
+
+/* V32 small-screen dialogue layout: keep the scene legible and the primary controls in view. */
+@media(max-width:700px){
+  .main20-mode.main20-dialogue.late-game-mode .desk{grid-template-rows:minmax(190px,34dvh) max-content!important}
+  .main20-mode.main20-dialogue.late-game-mode .document-stage{min-height:190px!important}
+  .main20-mode.main20-dialogue.late-game-mode .dialogue-strip{display:grid;grid-template-columns:minmax(0,1fr)!important;grid-template-rows:auto auto auto auto!important;gap:5px!important;min-height:0!important;max-height:none!important;overflow:visible!important;padding:8px 10px 12px!important}
+  .main20-mode.main20-dialogue.late-game-mode .dialogue-strip .v28-portrait{display:none!important}
+  .main20-mode.main20-dialogue.late-game-mode .dialogue-strip .speaker-tag,.main20-mode.main20-dialogue.late-game-mode .dialogue-strip .late-game-transcript,.main20-mode.main20-dialogue.late-game-mode .dialogue-strip .response-area,.main20-mode.main20-dialogue.late-game-mode .dialogue-strip .choice-area{grid-column:1!important;width:100%!important}
+  .main20-mode.main20-dialogue.late-game-mode .speaker-tag{font-size:11px!important}
+  .main20-mode.main20-dialogue.late-game-mode .late-game-transcript{max-height:9dvh!important;padding:4px 7px!important;gap:4px!important}
+  .main20-mode.main20-dialogue.late-game-mode .late-game-transcript p{grid-template-columns:72px minmax(0,1fr)!important;font-size:12px!important;line-height:1.35!important}
+  .main20-mode.main20-dialogue.late-game-mode .response-area:has(#lateGameReply){grid-template-columns:minmax(0,1fr) auto!important;gap:5px!important;max-height:none!important;overflow:visible!important;padding:4px 0!important}
+  .main20-mode.main20-dialogue.late-game-mode #lateGameReply{grid-column:1!important;min-height:42px!important;max-height:72px!important;padding:6px 8px!important;font-size:13px!important}
+  .main20-mode.main20-dialogue.late-game-mode .late-game-send{grid-column:2!important;grid-row:2!important;align-self:stretch!important;padding:6px 9px!important;font-size:11px!important}
+  .main20-mode.main20-dialogue.late-game-mode .choice-area{grid-template-columns:repeat(2,minmax(0,1fr))!important;grid-auto-flow:row;max-height:none!important;overflow:visible!important;gap:5px!important}
+  .main20-mode.main20-dialogue.late-game-mode .choice-area>button{min-height:38px!important;padding:5px 7px!important;font-size:11px!important;line-height:1.25!important}
+  .main20-mode.main20-dialogue.late-game-mode .choice-area>button:last-child:nth-child(odd){grid-column:1/-1}
+}
+
+@media(max-width:700px){
+  body.late-game-mode .physical-tools,body.late-game-mode .petersburg-window{display:none!important}
+  body.late-game-mode .document-stage{padding-top:12px!important}
+}
+@media(max-width:700px){
+  .main20-mode.main20-dialogue.late-game-mode .paper{height:auto!important;min-height:0!important;max-height:34dvh!important;overflow-y:auto!important;padding:10px 14px 12px!important;transform:none!important}
+  .main20-mode.main20-dialogue.late-game-mode .paper-title{padding:5px 0 8px!important}
+  .main20-mode.main20-dialogue.late-game-mode .paper h2{font-size:24px!important;line-height:1.08!important}
+  .main20-mode.main20-dialogue.late-game-mode .paper-columns{display:block!important;max-height:none!important;overflow:visible!important;padding:8px 0!important}
+  .main20-mode.main20-dialogue.late-game-mode .late-game-objective{display:none!important}
+  .main20-mode.main20-dialogue.late-game-mode .late-game-event-still{max-height:96px!important;margin:5px auto!important}
+  .main20-mode.main20-dialogue.late-game-mode .late-game-source-note{margin:5px 0!important;padding:6px 8px!important;overflow-wrap:anywhere}
+  .main20-mode.main20-dialogue.late-game-mode .paper-footer{position:static!important;margin-top:8px}
+  .main20-mode.main20-dialogue.late-game-mode .paper-stamp{position:static!important;display:block;width:max-content;margin:6px 0 0 auto}
+}

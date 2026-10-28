@@ -1,0 +1,36 @@
+{
+  "provider": "schema-valid browser mock; no live OpenAI request",
+  "sessionId": "session-1793177359482-0.40227477232404596",
+  "sceneId": "CIRCLE_01",
+  "turns": [
+    {
+      "role": "user",
+      "text": "원문을 읽고 나서 제 생각을 말하고 싶어요."
+    },
+    {
+      "role": "assistant",
+      "speakerId": "ekaterina",
+      "text": "어느 문장을 두고 그렇게 생각했는지부터 말해 줘요.",
+      "beats": [
+        {
+          "speakerId": "ekaterina",
+          "textKo": "어느 문장을 두고 그렇게 생각했는지부터 말해 줘요."
+        }
+      ],
+      "replies": [
+        {
+          "id": "R1",
+          "textKo": "그 말의 근거가 된 문장을 같이 볼까요?",
+          "tone": "curious"
+        },
+        {
+          "id": "R2",
+          "textKo": "오늘은 여기까지 듣고 생각해 볼게요.",
+          "tone": "reflective"
+        }
+      ]
+    }
+  ],
+  "memories": [],
+  "summary": ""
+}

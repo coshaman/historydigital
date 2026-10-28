@@ -4,12 +4,13 @@
   if (!isMain20Route) return;
   window.__main20RuntimeOwner = 'main20'; window.runtimeOwner = 'main20';
   const data = await fetch('narrative/MAIN_20MIN_DIALOGUE.json?v=48').then((response) => response.json());
-  const [branchGraph, branchSources, e04Scene, learningExam, lifeSimulation] = await Promise.all([
+  const [branchGraph, branchSources, e04Scene, learningExam, lifeSimulation, lateGame] = await Promise.all([
     fetch('narrative/ACT_III_BRANCH_ROUTE.json?v=3').then((response) => response.json()),
     fetch('narrative/ACT_III_BRANCHING_SOURCES.json?v=2').then((response) => response.json()),
     fetch('narrative/E04_SCENE.json?v=1').then((response) => response.json()),
     fetch('narrative/ACT_III_LEARNING_EXAM.json?v=1').then((response) => response.json()),
-    fetch('narrative/ACT_III_LIFE_SIMULATION.json?v=1').then((response) => response.json())
+    fetch('narrative/ACT_III_LIFE_SIMULATION.json?v=1').then((response) => response.json()),
+    fetch('narrative/LATE_GAME_SCENARIOS.json?v=1').then((response) => response.json())
   ]);
   data.sourceRegister = [...(data.sourceRegister || []), ...branchSources.map((source) => ({
     sourceId: source.sourceId, date: source.date, edition: source.edition, locator: source.locator,
@@ -27,11 +28,23 @@
   });
   const storageKey = 'chancery-main20-v35';
   const $ = (id) => document.getElementById(id);
-  const fresh = () => ({ schemaVersion: data.schemaVersion, sceneIndex: 0, phase: 'onboarding', onboardingIndex: 0, onboardingComplete: false, introIndex: 0, discussionIndex: 0, reactionIndex: 0, ideologyBeatIndex: 0, ideologyLineIndex: 0, ideologyReadBeat: null, c07BeatIndex: 0, c07LineIndex: 0, c07ReadBeat: null, c07IdeologyComplete: false, initialChoiceId: null, postChoiceId: null, branchHubIndex: 0, routeChoices: [], branchState: {}, activeBranchEventId: null, activeBranchLineIndex: 0, activeBranchReadHub: null, circleLearningIndex: 0, examQuestionIndex: 0, examAnswers: {}, examOutcome: 'unset', examCorrectCount: null, promotionStatus: 'pending', endingTimelineIndex: 0, readExcerptIdsByScene: {}, readEventsByScene: {}, readingScrollByScene: {}, history: [], flags: [], ideology: Object.fromEntries((data.ideologyDimensions || []).map((key) => [key, 0])), ideologyEvidence: [], beliefs: [], actions: [], visibleCallbacks: [], relationships: { alexei: 0, ekaterina: 0, pavel: 0 }, windowView: 'closed', endingId: null, endingResolution: null, legacyEndingTitle: null });
-  const normalize = (raw) => { const next = fresh(); if (!raw) return next; const legacy = raw.schemaVersion === 'MAIN-20MIN-DIALOGUE-V34' || raw.schemaVersion === 'MAIN-20MIN-DIALOGUE-V33' || raw.schemaVersion === 'MAIN-20MIN-DIALOGUE-V32' || raw.schemaVersion === 'MAIN-20MIN-DIALOGUE-V35'; if (raw.schemaVersion !== data.schemaVersion && !legacy) return next; Object.assign(next, raw); next.schemaVersion = data.schemaVersion; next.routeChoices = Array.isArray(raw.routeChoices) ? raw.routeChoices.filter((id) => branchGraph.branches.some((branch) => branch.choiceId === id)).slice(0, branchGraph.hubs.length) : []; next.branchHubIndex = Number.isInteger(raw.branchHubIndex) && raw.branchHubIndex >= 0 && raw.branchHubIndex <= branchGraph.hubs.length ? raw.branchHubIndex : 0; next.branchState = raw.branchState && typeof raw.branchState === 'object' && !Array.isArray(raw.branchState) ? raw.branchState : {}; next.activeBranchEventId = branchGraph.events.some((event) => event.id === raw.activeBranchEventId) ? raw.activeBranchEventId : null; next.activeBranchLineIndex = Number.isInteger(raw.activeBranchLineIndex) && raw.activeBranchLineIndex >= 0 ? raw.activeBranchLineIndex : 0; next.activeBranchReadHub = branchGraph.hubs.some((hub) => hub.id === raw.activeBranchReadHub) ? raw.activeBranchReadHub : null; next.readExcerptIdsByScene = raw.readExcerptIdsByScene && typeof raw.readExcerptIdsByScene === 'object' ? raw.readExcerptIdsByScene : {}; next.readEventsByScene = raw.readEventsByScene && typeof raw.readEventsByScene === 'object' ? raw.readEventsByScene : {}; next.readingScrollByScene = raw.readingScrollByScene && typeof raw.readingScrollByScene === 'object' ? raw.readingScrollByScene : {}; next.flags = Array.isArray(raw.flags) ? [...new Set(raw.flags)] : []; next.history = Array.isArray(raw.history) ? raw.history : []; next.ideology = { ...fresh().ideology, ...(raw.ideology || {}) }; next.ideologyEvidence = Array.isArray(raw.ideologyEvidence) ? raw.ideologyEvidence : []; next.beliefs = Array.isArray(raw.beliefs) ? raw.beliefs : next.ideologyEvidence; next.actions = Array.isArray(raw.actions) ? raw.actions : next.history.filter((item) => item.choiceKind === 'ACTION').map((item) => item.action); next.visibleCallbacks = Array.isArray(raw.visibleCallbacks) ? raw.visibleCallbacks : []; next.relationships = { ...next.relationships, ...(raw.relationships || {}) }; if (legacy) { next.legacyEndingTitle = raw.endingId || raw.legacyEndingTitle || null; next.endingId = null; next.endingResolution = null; if (next.phase === 'ending' || next.phase === 'final_choice') next.phase = 'legacy_recovery'; } return next; };
   const rawSave = query.has('v42fresh') ? null : JSON.parse(localStorage.getItem(storageKey) || localStorage.getItem('chancery-main20-v34') || localStorage.getItem('chancery-main20-v33') || localStorage.getItem('chancery-main20-v32') || 'null');
+  const defaultExamSeed = rawSave?.examSeed || rawSave?.lateGameSessionId || crypto.randomUUID?.() || `exam-${Date.now()}`;
+  const examQuestionBank = [...learningExam.questions];
+  const applyExamSeed = (seed) => { learningExam.questions = window.Main20Exam.selectExamQuestions({ ...learningExam, questions: examQuestionBank }, seed); };
+  applyExamSeed(defaultExamSeed);
+  const fresh = () => ({ schemaVersion: data.schemaVersion, sceneIndex: 0, phase: 'onboarding', onboardingIndex: 0, onboardingComplete: false, introIndex: 0, discussionIndex: 0, reactionIndex: 0, ideologyBeatIndex: 0, ideologyLineIndex: 0, ideologyReadBeat: null, c07BeatIndex: 0, c07LineIndex: 0, c07ReadBeat: null, c07IdeologyComplete: false, initialChoiceId: null, postChoiceId: null, branchHubIndex: 0, routeChoices: [], branchState: {}, activeBranchEventId: null, activeBranchLineIndex: 0, activeBranchReadHub: null, circleLearningIndex: 0, examQuestionIndex: 0, examAnswers: {}, examOutcome: 'unset', examCorrectCount: null, promotionStatus: 'pending', examSeed: defaultExamSeed, endingTimelineIndex: 0, readExcerptIdsByScene: {}, readEventsByScene: {}, readingScrollByScene: {}, history: [], flags: [], ideology: Object.fromEntries((data.ideologyDimensions || []).map((key) => [key, 0])), ideologyEvidence: [], beliefs: [], actions: [], visibleCallbacks: [], relationships: { alexei: 0, ekaterina: 0, pavel: 0 }, lateGameSessionId: crypto.randomUUID?.() || `session-${Date.now()}-${Math.random()}`, lateGameMemories: [], lateGameTurns: [], lateGameSummary: '', lateGameSceneId: null, lateGameSceneTurn: 0, lateGameActivities: [], lateGamePendingActivities: [], windowView: 'closed', endingId: null, endingResolution: null, legacyEndingTitle: null });
+  const normalize = (raw) => { const next = fresh(); if (!raw) return next; const legacy = raw.schemaVersion === 'MAIN-20MIN-DIALOGUE-V34' || raw.schemaVersion === 'MAIN-20MIN-DIALOGUE-V33' || raw.schemaVersion === 'MAIN-20MIN-DIALOGUE-V32' || raw.schemaVersion === 'MAIN-20MIN-DIALOGUE-V35'; if (raw.schemaVersion !== data.schemaVersion && !legacy) return next; Object.assign(next, raw); next.schemaVersion = data.schemaVersion; next.routeChoices = Array.isArray(raw.routeChoices) ? raw.routeChoices.filter((id) => branchGraph.branches.some((branch) => branch.choiceId === id)).slice(0, branchGraph.hubs.length) : []; next.branchHubIndex = Number.isInteger(raw.branchHubIndex) && raw.branchHubIndex >= 0 && raw.branchHubIndex <= branchGraph.hubs.length ? raw.branchHubIndex : 0; next.branchState = raw.branchState && typeof raw.branchState === 'object' && !Array.isArray(raw.branchState) ? raw.branchState : {}; next.activeBranchEventId = branchGraph.events.some((event) => event.id === raw.activeBranchEventId) ? raw.activeBranchEventId : null; next.activeBranchLineIndex = Number.isInteger(raw.activeBranchLineIndex) && raw.activeBranchLineIndex >= 0 ? raw.activeBranchLineIndex : 0; next.activeBranchReadHub = branchGraph.hubs.some((hub) => hub.id === raw.activeBranchReadHub) ? raw.activeBranchReadHub : null; next.readExcerptIdsByScene = raw.readExcerptIdsByScene && typeof raw.readExcerptIdsByScene === 'object' ? raw.readExcerptIdsByScene : {}; next.readEventsByScene = raw.readEventsByScene && typeof raw.readEventsByScene === 'object' ? raw.readEventsByScene : {}; next.readingScrollByScene = raw.readingScrollByScene && typeof raw.readingScrollByScene === 'object' ? raw.readingScrollByScene : {}; next.flags = Array.isArray(raw.flags) ? [...new Set(raw.flags)] : []; next.history = Array.isArray(raw.history) ? raw.history : []; next.ideology = { ...fresh().ideology, ...(raw.ideology || {}) }; next.ideologyEvidence = Array.isArray(raw.ideologyEvidence) ? raw.ideologyEvidence : []; next.beliefs = Array.isArray(raw.beliefs) ? raw.beliefs : next.ideologyEvidence; next.actions = Array.isArray(raw.actions) ? raw.actions : next.history.filter((item) => item.choiceKind === 'ACTION').map((item) => item.action); next.visibleCallbacks = Array.isArray(raw.visibleCallbacks) ? raw.visibleCallbacks : []; next.relationships = { ...next.relationships, ...(raw.relationships || {}) }; if (legacy) { next.legacyEndingTitle = raw.endingId || raw.legacyEndingTitle || null; next.endingId = null; next.endingResolution = null; if (next.phase === 'ending' || next.phase === 'final_choice') next.phase = 'legacy_recovery'; } return next; };
   const normalizeFeatureState = (candidate) => {
     const next = candidate || fresh();
+    if (typeof next.lateGameSessionId !== 'string' || !/^[a-zA-Z0-9_-]{8,80}$/.test(next.lateGameSessionId)) next.lateGameSessionId = fresh().lateGameSessionId;
+    next.lateGameMemories = Array.isArray(next.lateGameMemories) ? next.lateGameMemories.filter((item) => item?.subjectId === 'player' && ['alexei', 'ekaterina', 'pavel'].includes(item.characterId) && typeof item.summaryKo === 'string').slice(-24) : [];
+    next.lateGameTurns = Array.isArray(next.lateGameTurns) ? next.lateGameTurns.filter((item) => ['user', 'assistant'].includes(item.role) && typeof item.text === 'string').slice(-10) : [];
+    next.lateGameSummary = typeof next.lateGameSummary === 'string' ? next.lateGameSummary.slice(0, 1200) : '';
+    next.lateGameSceneId = lateGame.scenes.some((item) => item.id === next.lateGameSceneId && (item.kind === 'AI_DIALOGUE' || item.id === 'EXAM_01')) ? next.lateGameSceneId : null;
+    next.lateGameSceneTurn = Number.isInteger(next.lateGameSceneTurn) ? Math.max(0, Math.min(8, next.lateGameSceneTurn)) : 0;
+    next.lateGameActivities = Array.isArray(next.lateGameActivities) ? next.lateGameActivities.filter((id, index, all) => lateGame.schedule.activityIds.includes(id) && all.indexOf(id) === index).slice(0, 2) : [];
+    next.lateGamePendingActivities = Array.isArray(next.lateGamePendingActivities) ? next.lateGamePendingActivities.filter((id) => lateGame.schedule.activityIds.includes(id)).slice(0, 2) : [];
     next.circleLearningIndex = Number.isInteger(next.circleLearningIndex) ? Math.max(0, Math.min(learningExam.learningUnits.length - 1, next.circleLearningIndex)) : 0;
     next.examQuestionIndex = Number.isInteger(next.examQuestionIndex) ? Math.max(0, Math.min(learningExam.questions.length - 1, next.examQuestionIndex)) : 0;
     const validQuestionIds = new Set(learningExam.questions.map((question) => question.id));
@@ -56,7 +69,7 @@
   function mode(name) { document.body.classList.add('main20-mode'); document.body.dataset.runtimeOwner = 'main20'; const legacyWalk = $('walkBtn'); if (legacyWalk) legacyWalk.hidden = true; document.body.classList.toggle('main20-reading', name === 'reading'); document.body.classList.toggle('main20-dialogue', name !== 'reading' && name !== 'ending'); document.body.classList.toggle('main20-ending', name === 'ending'); }
   function clearChoices() { const node = choices(); node.replaceChildren(); node.hidden = false; } function button(text, handler, disabled = false) { const node = document.createElement('button'); node.type = 'button'; node.className = 'main20-action document-action'; node.textContent = text; node.disabled = disabled; node.onclick = handler; return node; }
   const directionFor = (choice) => choice.immediateDirection || data.choiceImmediateDirections?.[choice.id] || null;
-  const MAIN20_DEAD_END_STATES = new Set(['onboarding', 'ideology_prologue', 'c07_ideology', 'branch_hub', 'branch_event', 'branch_callback', 'circle_learning', 'exam_prep', 'exam_questions', 'exam_result', 'intro', 'reading', 'source_discussion', 'decision', 'choice', 'post_choice', 'reaction', 'final_reaction', 'ending', 'legacy_recovery']);
+  const MAIN20_DEAD_END_STATES = new Set(['late_game_scene', 'late_game_activities', 'onboarding', 'ideology_prologue', 'c07_ideology', 'branch_hub', 'branch_event', 'branch_callback', 'circle_learning', 'exam_prep', 'exam_questions', 'exam_result', 'intro', 'reading', 'source_discussion', 'decision', 'choice', 'post_choice', 'reaction', 'final_reaction', 'ending', 'legacy_recovery']);
   function choiceButton(choice, handler) { const node = button('', handler); node.classList.add('main20-choice-card'); const label = document.createElement('span'); label.className = 'main20-choice-label'; label.textContent = choice.displayText || choice.uiLabel || choice.text; node.append(label); const hint = document.createElement('span'); hint.className = 'main20-choice-hint document-action-detail'; const direction = directionFor(choice); hint.textContent = direction ? `${direction.audience} · ${direction.recordMode} · ${direction.leavesOffice} · ${direction.risk}` : (choice.hint || choice.uiHint || '선택 직후의 기록 경로를 정합니다.'); node.append(hint); node.removeAttribute('title'); return node; }
   function selectMemoryCallbacks(current, source = state, limit = 1) { const history = source.history || []; return (current.memoryCallbacks || []).map((callback) => { const hits = history.map((item, index) => ({ item, index })).filter(({ item }) => callback.actionsAny.includes(item.action) && !callback.notIfActions?.some((action) => history.some((entry) => entry.action === action))); const latest = hits.at(-1); return { callback, latestIndex: latest?.index ?? -1, relevance: callback.relevanceScenes?.includes(current.id) ? 20 : 0, priority: callback.priority || 0 }; }).filter((item) => item.latestIndex >= 0).sort((a, b) => (b.relevance + b.latestIndex + b.priority) - (a.relevance + a.latestIndex + a.priority)).slice(0, limit).map((item) => item.callback); }
   function memoryLine(current) { return selectMemoryCallbacks(current, state, 1)[0]; }
@@ -110,7 +123,8 @@
   const ideologyGateMatches = (gate, source = state) => !gate || Object.entries(gate).every(([dimension, minimum]) => Number(source.ideology?.[dimension] || 0) >= Number(minimum));
   const actionGateMatches = (gate, source = state) => { if (!gate) return true; const actions = new Set((source.history || []).map((item) => item.action)); return (gate.all || []).every((action) => actions.has(action)) && (!gate.any || gate.any.some((action) => actions.has(action))); };
   function matches(rule, source = state) { const actions = new Set(source.history.map((item) => item.action)); const requiredActions = rule.requiredActions || rule.actionsAll || []; const forbiddenActions = rule.forbiddenActions || rule.noneFlags || []; const relationshipGate = rule.relationshipGate || rule.minRelationships; const relationshipsOk = !relationshipGate || Object.entries(relationshipGate).every(([person, amount]) => (source.relationships[person] || 0) >= amount); const beliefScenes = new Set((source.ideologyEvidence || []).map((item) => item.sceneId).filter(Boolean)); const beliefActs = new Set(Object.entries(data.v44EndingBeliefRequirement?.acts || {}).filter(([, contexts]) => contexts.some((context) => beliefScenes.has(context))).map(([act]) => act)); const beliefActMinimum = data.v44EndingBeliefRequirement?.minimumActs || 0; const legacyGate = !rule.ideologyGate; const legacyConditions = !legacyGate || ((!rule.allFlags || rule.allFlags.every((flag) => source.flags.includes(flag))) && (!rule.anyFlags || rule.anyFlags.some((flag) => source.flags.includes(flag))) && requiredActions.every((action) => actions.has(action)) && relationshipsOk && (!rule.minScenes || source.history.filter((item) => item.kind === 'post_read_choice').length >= rule.minScenes)); return ideologyGateMatches(rule.ideologyGate, source) && actionGateMatches(rule.actionGate, source) && legacyConditions && !forbiddenActions.some((item) => actions.has(item) || source.flags.includes(item)) && (!rule.beliefSceneMinimum || beliefScenes.size >= rule.beliefSceneMinimum) && beliefActs.size >= beliefActMinimum; }
-  function choiceForAction(action) { const onboarding = data.onboarding?.response; if (onboarding?.action === action) return onboarding; for (const beat of [...(data.ideologyPrologue?.beats || []), ...(data.c07IdeologicalFollowUp?.beats || [])]) { const found = (beat.choices || []).find((item) => item.action === action || item.id === action); if (found) return found; } for (const current of data.scenes) for (const list of [current.choices, current.postChoices]) { const found = list.find((item) => item.action === action); if (found) return found; } return null; }
+  function choiceForAction(action) { const onboarding = data.onboarding?.response; if (onboarding?.action === action) return onboarding; for (const beat of [...(data.ideologyPrologue?.beats || []), ...(data.c07IdeologicalFollowUp?.beats || [])]) { const found = (beat.choices || []).find((item) => item.action === action || item.id === action); if (found) return found; } for (const current of [...(data.scenes || []), ...(data.archiveSceneRecords || [])]) for (const list of [current.choices || [], current.postChoices || []]) { const found = list.find((item) => item.action === action || item.id === action); if (found) return found; } return null; }
+  function actionLabel(action) { const choice = choiceForAction(action); return choice?.text || choice?.spoken || choice?.label || data.v32ActionLabels?.[action] || '선택한 처리 내용을 기록에 남겼습니다.'; }
   function resolveEndingDetailed(source = state) { if (!source.history?.length) return null; const ids = data.endings.map((ending) => ending.id); const scores = Object.fromEntries(ids.map((id) => [id, 0])); const supporting = Object.fromEntries(ids.map((id) => [id, []])); const supportStrength = Object.fromEntries(ids.map((id) => [id, 0])); const contradictions = Object.fromEntries(ids.map((id) => [id, []])); const relationshipScores = Object.fromEntries(ids.map((id) => [id, 0])); const e07Affinity = Object.fromEntries(ids.map((id) => [id, 0])); for (const item of source.history) { const choice = choiceForAction(item.action); const values = item.endingAffinity || choice?.endingAffinity || {}; for (const id of ids) { const value = Number(values[id] || 0); scores[id] += value; if (value > 0) { supporting[id].push(item.action); supportStrength[id] += value; if (item.sceneId === 'E07') e07Affinity[id] += value; } } } const relationshipEvidence = { ...source.relationships }; for (const ending of data.endings) { const gate = ending.rule.relationshipGate || ending.rule.minRelationships || {}; const ratios = Object.entries(gate).map(([person, amount]) => Math.min(1, (source.relationships[person] || 0) / Math.max(1, amount))); relationshipScores[ending.id] = ratios.length ? ratios.reduce((sum, value) => sum + value, 0) / ratios.length : 0; const satisfied = ratios.every((value) => value >= 1); if (satisfied) scores[ending.id] += 2; else for (const [person, amount] of Object.entries(gate)) scores[ending.id] += Math.min(1, (source.relationships[person] || 0) / Math.max(1, amount)); const forbidden = ending.rule.forbiddenActions || ending.rule.noneFlags || []; for (const item of source.history) if (forbidden.some((value) => value === item.action || (item.flags || []).includes(value))) { scores[ending.id] -= 2; contradictions[ending.id].push(item.action); } } const strongMatches = data.endings.filter((ending) => matches({ ...ending.rule, ...(data.endingIdeologyProfiles?.[ending.id] || {}) }, source)).map((ending) => ending.id); const pool = strongMatches.length ? strongMatches : ids; const topScore = Math.max(...pool.map((id) => scores[id])); let remaining = pool.filter((id) => Math.abs(scores[id] - topScore) < 1e-9); let tieBreak = remaining.length === 1 ? 'score-unique' : null; let tieProfile = null; const retainMaximum = (metric, reason) => { if (remaining.length < 2) return; const maximum = Math.max(...remaining.map(metric)); const next = remaining.filter((id) => Math.abs(metric(id) - maximum) < 1e-9); if (next.length < remaining.length) { remaining = next; tieBreak = reason; } }; retainMaximum((id) => supporting[id].length, 'support-count'); retainMaximum((id) => supportStrength[id], 'support-strength'); retainMaximum((id) => relationshipScores[id], 'relationship-evidence'); retainMaximum((id) => e07Affinity[id], 'e07-affinity'); if (remaining.length > 1) { for (let index = source.history.length - 1; index >= 0 && remaining.length > 1; index -= 1) { const item = source.history[index]; const values = item.endingAffinity || choiceForAction(item.action)?.endingAffinity || {}; const maximum = Math.max(...remaining.map((id) => Number(values[id] || 0))); if (maximum > 0) { const next = remaining.filter((id) => Math.abs(Number(values[id] || 0) - maximum) < 1e-9); if (next.length < remaining.length) { remaining = next; tieBreak = 'recent-observable-action'; } } } } if (remaining.length > 1) { const profile = (data.endingTieProfiles || []).find((item) => item.candidates.length === remaining.length && item.candidates.every((id) => remaining.includes(id))); if (profile && remaining.includes(profile.chosenEnding)) { tieProfile = profile; remaining = [profile.chosenEnding]; tieBreak = 'explicit-profile'; } } const unresolvedSemanticTie = remaining.length > 1; const endingId = unresolvedSemanticTie ? null : remaining[0] || null; const arrayOrderFallback = Boolean(tieBreak === 'array-order-fallback' && endingId); const profile = endingId ? data.endingIdeologyProfiles?.[endingId] : null; const endingDetail = { endingId, unresolvedSemanticTie, scores, supportingActions: endingId ? supporting[endingId].slice(-6) : [], contradictions: endingId ? contradictions[endingId] : [], strongGateSatisfied: strongMatches.includes(endingId), strongMatches, relationshipEvidence, relationshipScores, supportCounts: Object.fromEntries(ids.map((id) => [id, supporting[id].length])), supportStrength, e07Affinity, tieBreak, tieProfile, arrayOrderFallback, ideologicalEvidence: source.ideology || {}, beliefLedger: (source.ideologyEvidence || []).map((item) => item.statement).filter(Boolean).slice(-5), actionEvidence: (source.history || []).filter((item) => !item.choiceKind || item.choiceKind === 'ACTION').map((item) => item.action).filter(Boolean).slice(-6), callbackEvidence: (source.visibleCallbacks || []).slice(-3), beliefLedgerLabels: profile?.beliefLedgerLabels || [] }; return endingDetail; }
   function resolveEnding(source = state) { return resolveEndingDetailed(source)?.endingId || null; }
   function renderBranchPaper(title, date, sourceIds, note) {
@@ -195,7 +209,7 @@
     renderDialogueLine(line?.speaker || 'NARRATION', line?.text || unit.bodyKo);
     choices().append(button(state.circleLearningIndex + 1 < learningExam.learningUnits.length ? '다음 쪽을 읽는다' : '책을 덮고 자리로 돌아간다', () => {
       if (state.circleLearningIndex + 1 < learningExam.learningUnits.length) state.circleLearningIndex += 1;
-      else { state.phase = 'branch_event'; state.activeBranchLineIndex = 0; }
+      else { state.phase = 'late_game_scene'; state.lateGameSceneId = 'CIRCLE_01'; state.lateGameSceneTurn = 0; state.lateGameTurns = []; }
       save(); render();
     }));
   }
@@ -256,7 +270,7 @@
       row.textContent = `${index + 1}. ${question.prompt} · ${correct ? '맞음' : '다시 확인할 문제'}`; columns?.append(row);
     });
     renderDialogueLine('NARRATION', passed ? '답안은 기록실에 들어갑니다. 이제 그 결과가 당신에게 어떤 자리를 열었는지 지켜봅니다.' : '틀린 답은 숨기지 않고 표시했습니다. 이번 결과는 이 이야기 속 당신의 경로에만 남습니다.');
-    choices().append(button('시험 기록을 접는다', () => { state.activeBranchLineIndex = 0; state.phase = 'branch_event'; save(); render(); }));
+    choices().append(button('시험 기록을 접는다', () => { state.activeBranchLineIndex = 0; enterLateGameScene('EXAM_01'); }));
   }
   function renderBranchCallback() {
     const branch = branchGraph.branches.find((item) => item.choiceId === state.routeChoices[state.branchHubIndex]);
@@ -290,7 +304,7 @@
     const beliefsNode = $('endingBeliefs');
     if (beliefsNode) { beliefsNode.replaceChildren(); (detail?.beliefLedger?.length ? detail.beliefLedger : detail?.beliefLedgerLabels || []).slice(-5).forEach((belief) => { const item = document.createElement('p'); item.className = 'ending-belief-line'; item.textContent = `· ${belief}`; beliefsNode.append(item); }); }
     const actionNode = $('endingActions');
-    if (actionNode) { actionNode.replaceChildren(); (detail?.actionEvidence || []).slice(-6).forEach((action) => { const choice = choiceForAction(action); const item = document.createElement('p'); item.textContent = `· ${choice?.text || choice?.spoken || choice?.label || action}`; actionNode.append(item); }); }
+    if (actionNode) { actionNode.replaceChildren(); (detail?.actionEvidence || []).slice(-6).forEach((action) => { const item = document.createElement('p'); item.textContent = `· ${actionLabel(action)}`; actionNode.append(item); }); }
     const callbackNode = $('endingCallbackLines');
     if (callbackNode) {
       callbackNode.replaceChildren();
@@ -344,10 +358,134 @@
   }
   const renderEndingBase = renderEnding;
   renderEnding = function renderEndingWithLifeTimeline() { renderEndingBase(); renderLifeTimeline(); };
+  function enterLateGameScene(sceneId) {
+    state.lateGameSceneId = sceneId; state.lateGameSceneTurn = 0; state.lateGameTurns = [];
+    state.phase = 'late_game_scene'; save(); render();
+  }
+  function renderLateGamePhase() {
+    document.body.classList.add('late-game-mode');
+    if (state.phase === 'late_game_activities') {
+      document.querySelector('.document-stage')?.style.setProperty('background-image', 'linear-gradient(rgba(24,18,13,.38),rgba(24,18,13,.52)),url("assets/late-game/petersburg_snow_street.webp")');
+      const selected = new Set(state.lateGameActivities);
+      mode('reading'); clearChoices(); setVisible('paper', true); setVisible('responseArea', false);
+      setText('paperCollection', '서클 이후 · 저녁 약속'); setText('paperIssue', `${selected.size} / 2`); setText('paperDate', '1847년 8월'); setText('paperTitle', '오늘 저녁, 어디에 갈까'); setText('paperSub', '서점·저녁 식사·함께 읽기 중 두 곳을 고릅니다. 선택하지 않은 자리는 다음 날로 미뤄집니다.'); setText('paperFooterLabel', '서클 뒤의 두 저녁');
+      const columns = $('paperColumns'); columns?.replaceChildren();
+      for (const id of lateGame.schedule.activityIds) {
+        const scene = lateGame.scenes.find(item => item.id === id); const buttonNode = button(`${selected.has(id) ? '✓ ' : ''}${scene.locationKo}`, () => {
+          if (selected.has(id) || selected.size >= 2) return;
+          state.lateGameActivities = [...state.lateGameActivities, id];
+          if (state.lateGameActivities.length === 2) { state.lateGamePendingActivities = [...state.lateGameActivities]; enterLateGameScene(state.lateGamePendingActivities.shift()); }
+          else { save(); render(); }
+        }, selected.has(id) || selected.size >= 2);
+        buttonNode.classList.add('late-game-activity-choice'); columns?.append(buttonNode);
+      }
+      renderDialogueLine('NARRATION', '둘러볼 자리는 셋이다. 오늘은 두 곳만 들를 수 있다.');
+      choices().append(button('오늘은 여기까지 정한다', () => { if (state.lateGameActivities.length === 2) { state.lateGamePendingActivities = [...state.lateGameActivities]; enterLateGameScene(state.lateGamePendingActivities.shift()); } }, state.lateGameActivities.length !== 2));
+      return;
+    }
+    const scene = lateGame.scenes.find(item => item.id === state.lateGameSceneId);
+    if (!scene) { state.phase = 'branch_event'; save(); render(); return; }
+    document.querySelector('.document-stage')?.style.setProperty('background-image', `linear-gradient(rgba(24,18,13,.38),rgba(24,18,13,.52)),url("assets/late-game/${scene.backgroundId}.webp")`);
+    const date = scene.date.split('-'); const dateLabel = `${date[0]}년 ${Number(date[1])}월 ${Number(date[2])}일`;
+    renderHeader({ ...sceneForRuntime(), id: scene.id, date: scene.date, dateLabel, title: scene.locationKo, sourceMoment: scene.objectiveKo, transitionCard: { event: scene.locationKo, change: scene.objectiveKo }, excerpts: [] });
+    mode('dialogue'); clearChoices(); setVisible('paper', true);
+    setText('paperCollection', '페테르부르크 · 1847년'); setText('paperIssue', `${Math.min(state.lateGameSceneTurn, scene.turnLimit)} / ${scene.turnLimit}`); setText('paperDate', dateLabel); setText('paperTitle', scene.locationKo); setText('paperSub', scene.objectiveKo); setText('paperFooterLabel', `자료철 · ${scene.sourceIds.join(' · ') || '허구의 대화 장면'}`);
+    const columns = $('paperColumns'); columns?.replaceChildren();
+    const note = document.createElement('p'); note.className = 'late-game-objective'; note.textContent = scene.objectiveKo; columns?.append(note);
+    if (scene.cgId && scene.id !== 'EXAM_01') { const image = document.createElement('img'); image.className = 'late-game-event-still'; image.src = `assets/late-game/${scene.cgId}.webp`; image.alt = ''; image.setAttribute('aria-hidden', 'true'); image.loading = 'lazy'; image.onerror = () => image.remove(); columns?.append(image); }
+    for (const sourceId of scene.sourceIds) { const source = data.sourceRegister.find(item => item.sourceId === sourceId); if (!source) continue; const entry = document.createElement('article'); entry.className = 'main20-excerpt late-game-source-note'; const title = document.createElement('strong'); title.textContent = `${source.sourceId} · ${source.classification || '자료'}`; const provenance = document.createElement('small'); provenance.textContent = `${source.edition || ''} · ${source.contextRangeId || sourceId} · ${source.availableDate || ''}`; entry.append(title, provenance); columns?.append(entry); }
+    for (const excerpt of scene.excerpts || []) {
+      const source = branchSources.find(item => item.sourceId === excerpt.sourceId); if (!source) continue;
+      const article = document.createElement('article'); article.className = 'main20-excerpt late-game-primary-excerpt';
+      const label = document.createElement('small'); label.textContent = `${source.sourceId} · ${excerpt.locator}`; article.append(label);
+      for (const segmentId of excerpt.segmentIds) {
+        const ruText = source.originalRussian.find(item => item.segmentId === segmentId)?.text; const koText = source.koreanTranslation.find(item => item.segmentId === segmentId)?.text;
+        if (!ruText || !koText) continue;
+        const pair = document.createElement('div'); pair.className = 'late-game-paragraph-pair'; const ru = document.createElement('p'); ru.lang = 'ru'; ru.textContent = ruText; const ko = document.createElement('p'); ko.lang = 'ko'; ko.textContent = koText; pair.append(ru, ko); article.append(pair);
+      }
+      columns?.append(article);
+    }
+    const last = state.lateGameTurns.at(-1);
+    const lastBeat = last?.role === 'assistant' ? last.beats?.at(-1) : null;
+    if (lastBeat) renderDialogueLine(lastBeat.speakerId, lastBeat.textKo);
+    else if (last?.role === 'user') renderDialogueLine('NARRATION', '말이 잠시 끊겼다. 상대가 생각을 고르는 동안, 창밖 눈발이 유리창을 두드린다.');
+    else renderDialogueLine('NARRATION', scene.objectiveKo);
+    renderLateGameTranscript(scene);
+    const replies = last?.role === 'assistant' && Array.isArray(last.replies) ? last.replies : [
+      { id: 'R1', textKo: '그렇게 생각한 까닭을 먼저 들어 보고 싶어요.', tone: 'curious' },
+      { id: 'R2', textKo: '오늘은 그 이야기를 조금 더 해 봐요.', tone: 'reflective' },
+    ];
+    for (const reply of replies) choices().append(button(reply.textKo, () => submitLateGameTurn(reply.textKo)));
+    const responseArea = $('responseArea'); responseArea.replaceChildren(); responseArea.hidden = false;
+    const label = document.createElement('label'); label.htmlFor = 'lateGameReply'; label.textContent = '직접 답하기';
+    const input = document.createElement('textarea'); input.id = 'lateGameReply'; input.rows = 2; input.maxLength = 800; input.placeholder = '하고 싶은 말을 적으세요. 비워 둔 채 제안 답변을 골라도 됩니다.';
+    const send = button('말을 건넨다', () => submitLateGameTurn(input.value)); send.classList.add('late-game-send');
+    responseArea.append(label, input, send);
+    input.addEventListener('keydown', event => { if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); send.click(); } });
+    const continueButton = button(state.lateGameSceneTurn >= scene.turnLimit ? '다음 장소로 간다' : '이 장면을 마친다', finishLateGameScene);
+    choices().append(continueButton);
+  }
+  function sceneForRuntime() { return data.scenes[state.sceneIndex] || data.scenes[0]; }
+  function renderLateGameTranscript(scene) {
+    const strip = document.querySelector('.dialogue-strip'); const dialogue = $('dialogue'); if (!strip || !dialogue) return;
+    strip.querySelector('.late-game-transcript')?.remove(); dialogue.hidden = true;
+    const transcript = document.createElement('div'); transcript.className = 'late-game-transcript'; transcript.setAttribute('role', 'log'); transcript.setAttribute('aria-live', 'polite');
+    const entries = state.lateGameTurns.slice(-10);
+    if (!entries.length) entries.push({ role: 'assistant', speakerId: 'NARRATION', text: scene.objectiveKo });
+    for (const entry of entries) {
+      const beats = entry.role === 'assistant' && Array.isArray(entry.beats) ? entry.beats : [{ speakerId: entry.role === 'user' ? 'PLAYER' : entry.speakerId, textKo: entry.text }];
+      for (const beat of beats) {
+        const row = document.createElement('p'); row.className = entry.role === 'user' ? 'late-game-user-line' : 'late-game-character-line';
+        const name = document.createElement('strong'); name.textContent = labelFor(beat.speakerId); const copy = document.createElement('span'); copy.textContent = beat.textKo || entry.text || '';
+        row.append(name, copy); transcript.append(row);
+      }
+    }
+    strip.insertBefore(transcript, $('responseArea')); transcript.scrollTop = transcript.scrollHeight;
+  }
+  function localLateGameFallback(scene) {
+    const line = lateGame.fallbackBeats.find(item => scene.fallbackBeatIds.includes(item.id));
+    const speaker = scene.cast.includes(line.speakerId) ? line.speakerId : scene.cast[0];
+    const expression = scene.allowedExpressionIds.find(id => id.startsWith(`${speaker}_`)) || (scene.allowedExpressionIds.includes('none') ? 'none' : scene.allowedExpressionIds[0]);
+    return { turn: { schemaVersion: 'AI_SCENE_TURN_V1', sceneId: scene.id, turnType: 'DIALOGUE', beats: [{ type: 'DIALOGUE', speakerId: speaker, textKo: line.textKo, emotion: 'neutral', expressionId: expression, actionId: 'NONE' }], suggestedReplies: [{ id: 'R1', textKo: '그 말의 근거가 된 문장을 같이 볼까요?', tone: 'curious' }, { id: 'R2', textKo: '오늘은 여기까지 듣고 생각해 볼게요.', tone: 'reflective' }], semanticSignals: [], relationshipSignals: [], goalSignal: 'HOLD', memoryCandidates: [], historicalClaimIds: [], uiCue: { backgroundId: scene.backgroundId, cgId: scene.cgId, sfxId: 'none' } }, memories: state.lateGameMemories, fallback: true };
+  }
+  async function submitLateGameTurn(raw) {
+    const playerInput = String(raw || '').trim().slice(0, 800); if (!playerInput) { $('lateGameReply')?.focus(); return; }
+    const scene = lateGame.scenes.find(item => item.id === state.lateGameSceneId); if (!scene || state.lateGameSceneTurn >= scene.turnLimit) return;
+    const responseArea = $('responseArea'); const controls = [...responseArea.querySelectorAll('button,textarea'), ...choices().querySelectorAll('button')]; controls.forEach(node => { node.disabled = true; });
+    renderDialogueLine('NARRATION', '잠시 이야기를 고르고 있습니다…');
+    $('dialogue').hidden = false;
+    const sessionId = state.lateGameSessionId;
+    let result;
+    try {
+      const apiBase = String(window.CHANCERY_AI_API_BASE_URL || '').replace(/\/+$/, '');
+      const request = await fetch(`${apiBase}/api/ai/turn`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ sessionId, sceneId: scene.id, turnIndex: state.lateGameSceneTurn + 1, playerInput }) });
+      if (!request.ok) throw new Error('turn unavailable'); result = await request.json();
+    } catch { result = localLateGameFallback(scene); }
+    const turn = result?.turn;
+    if (!turn?.beats?.length) { controls.forEach(node => { node.disabled = false; }); renderDialogueLine('NARRATION', '대화가 잠시 끊겼다. 다시 말하거나 이 장면을 마칠 수 있다.'); return; }
+    state.lateGameMemories = Array.isArray(result.memories) ? result.memories.slice(-24) : state.lateGameMemories;
+    state.lateGameSummary = typeof result.summary === 'string' ? result.summary.slice(0, 1200) : state.lateGameSummary;
+    const speaker = turn.beats[0].speakerId; const responseText = turn.beats.map(beat => beat.textKo).join(' ');
+    state.lateGameTurns = [...state.lateGameTurns, { role: 'user', text: playerInput }, { role: 'assistant', speakerId: speaker, text: responseText, beats: turn.beats.map(beat => ({ speakerId: beat.speakerId, textKo: beat.textKo })), replies: turn.suggestedReplies }].slice(-10);
+    state.lateGameSceneTurn += 1;
+    if (window.Main20AiStateEngine) { const applied = window.Main20AiStateEngine.applySceneTurn(state, turn, scene, playerInput); Object.assign(state, applied.state); }
+    save(); render();
+  }
+  function finishLateGameScene() {
+    if (state.lateGameSceneId === 'CIRCLE_01') { state.phase = 'late_game_activities'; }
+    else if (state.lateGamePendingActivities.length) { enterLateGameScene(state.lateGamePendingActivities.shift()); return; }
+    else { state.phase = 'branch_event'; state.activeBranchLineIndex = 0; }
+    state.lateGameSceneId = null; state.lateGameSceneTurn = 0; save(); render();
+  }
   function render() { setVisible('endingOverlay', false); const app = document.querySelector('main'); if (app) app.inert = false; const headerBeat = state.phase === 'ideology_prologue' ? data.ideologyPrologue.beats[state.ideologyBeatIndex] : state.phase === 'c07_ideology' ? data.c07IdeologicalFollowUp.beats[state.c07BeatIndex] : state.phase === 'branch_hub' || state.phase === 'branch_event' || state.phase === 'branch_callback' ? branchGraph.hubs[Math.min(state.branchHubIndex, branchGraph.hubs.length - 1)] : null; renderHeader(headerBeat ? { ...scene(), id: headerBeat.id, date: headerBeat.date, dateLabel: headerBeat.dateLabel || headerBeat.date, title: headerBeat.title, sourceMoment: headerBeat.prompt || '사료를 읽고 당대의 논쟁을 자신의 말로 정리합니다.', transitionCard: { event: headerBeat.title, change: '자료를 읽고 선택한 뒤 동료의 반응을 확인합니다.' }, excerpts: [] } : scene()); if (!MAIN20_DEAD_END_STATES.has(state.phase)) state.phase = 'legacy_recovery'; if (state.phase === 'onboarding') renderOnboarding(); else if (state.phase === 'ideology_prologue') renderIdeologyPrologue(); else if (state.phase === 'c07_ideology') renderC07Ideology(); else if (state.phase === 'branch_hub') renderBranchHub(); else if (state.phase === 'branch_event') renderBranchEvent(); else if (state.phase === 'branch_callback') renderBranchCallback(); else if (state.phase === 'intro') renderIntro(); else if (state.phase === 'reading') renderReading(); else if (state.phase === 'source_discussion') renderSourceDiscussion(); else if (state.phase === 'decision' || state.phase === 'choice') renderDecision(); else if (state.phase === 'post_choice') renderPostChoice(); else if (state.phase === 'reaction') renderReaction(); else if (state.phase === 'final_reaction') renderFinalReaction(); else if (state.phase === 'legacy_recovery') renderRecovery(); else renderEnding(); }
   const renderCore = render;
   render = function renderLearningAndExam() {
     state = normalizeFeatureState(state);
+    if (['late_game_scene', 'late_game_activities'].includes(state.phase)) return renderLateGamePhase();
+    document.body.classList.remove('late-game-mode');
+    $('dialogue').hidden = false;
+    document.querySelector('.late-game-transcript')?.remove();
+    document.querySelector('.document-stage')?.style.removeProperty('background-image');
     document.body.classList.toggle('main20-circle-warehouse', state.phase === 'circle_learning');
     if (!['circle_learning', 'exam_prep', 'exam_questions', 'exam_result'].includes(state.phase)) return renderCore();
     const hub = branchGraph.hubs[Math.min(state.branchHubIndex, branchGraph.hubs.length - 1)];
@@ -359,7 +497,7 @@
     else renderExamResult();
   };
   if (state.legacyEndingTitle) { state.phase = 'legacy_recovery'; state.endingId = null; } else if (state.phase === 'ending' && !resolveEnding(state)) { state.phase = 'legacy_recovery'; state.endingId = null; }
-  const resetMain20 = () => { state = fresh(); save(); setVisible('endingOverlay', false); const app = document.querySelector('main'); if (app) app.inert = false; render(); };
+  const resetMain20 = () => { state = fresh(); state.examSeed = crypto.randomUUID?.() || `exam-${Date.now()}-${Math.random()}`; applyExamSeed(state.examSeed); save(); setVisible('endingOverlay', false); const app = document.querySelector('main'); if (app) app.inert = false; render(); };
   const restart = $('main20Restart'); if (restart) { restart.hidden = false; restart.onclick = resetMain20; }
   $('saveBtn').onclick = () => { save(); $('saveBtn').textContent = '기록 저장됨'; }; $('loadBtn').onclick = () => { state = normalize(JSON.parse(localStorage.getItem(storageKey) || localStorage.getItem('chancery-main20-v34') || 'null')); render(); $('loadBtn').textContent = '기록 불러옴'; }; window.addEventListener('window-view-change', (event) => { state.windowView = event.detail.open ? 'open' : 'closed'; save(); }); document.body.classList.add('main20-mode'); window.__main20 = { getState: () => JSON.parse(JSON.stringify(state)), data, resolveEnding, resolveEndingFor: (candidate) => resolveEnding(candidate), resolveEndingDetailedFor: (candidate) => resolveEndingDetailed(candidate), readIds: (sceneId) => [...(state.readExcerptIdsByScene[sceneId] || [])], memoryLineFor: (sceneId, candidate) => { const current = data.scenes.find((item) => item.id === sceneId); return selectMemoryCallbacks(current, candidate || state, 2).map((callback) => callback.character); }, renderedMemory: () => selectMemoryCallbacks(scene(), state, 1).map((callback) => ({ character: callback.character, line: callback.line })), getWindowSnapshot: () => ({ state: JSON.parse(JSON.stringify(state)), scrollTop: $('paperColumns')?.scrollTop || 0 }), setWindowView: (open) => { state.windowView = open ? 'open' : 'closed'; save(); }, restoreWindowSnapshot: (snapshot) => { if (snapshot?.state) state = normalize(snapshot.state); state.windowView = 'closed'; save(); render(); requestAnimationFrame(() => { if ($('paperColumns')) $('paperColumns').scrollTop = snapshot?.scrollTop || 0; }); }, reset: resetMain20 }; render();
   window.__main20.getBranchGraph = () => JSON.parse(JSON.stringify(branchGraph));

@@ -1,0 +1,1 @@
+module.exports = `Stay inside the active scene objective, cast, and turn limit. Suggested replies are optional player utterances, not forced choices. Emit only whitelisted scene claims, signals, expressions, actions, and UI identifiers from the supplied schema. Do not advance scenes; the deterministic runtime does that.`;

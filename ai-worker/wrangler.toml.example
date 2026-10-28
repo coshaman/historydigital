@@ -1,0 +1,20 @@
+name = "chancery-ai-turn"
+main = "src/index.js"
+compatibility_date = "2026-10-28"
+compatibility_flags = ["nodejs_compat"]
+
+[[durable_objects.bindings]]
+name = "CHANCERY_SESSIONS"
+class_name = "ChancerySession"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["ChancerySession"]
+
+[vars]
+CHANCERY_ALLOWED_ORIGINS = "https://coshaman.github.io"
+OPENAI_DIALOGUE_MODEL = "gpt-6.1-terra"
+OPENAI_MEMORY_MODEL = "gpt-6-luna"
+
+# Set the secret with `wrangler secret put OPENAI_API_KEY`.
+# Never place its value in this file or a checked-in .env.

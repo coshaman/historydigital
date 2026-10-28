@@ -1,0 +1,57 @@
+{
+  "status": true,
+  "mode": "resolver contract across all five authored endings",
+  "report": {
+    "UVAROV": {
+      "resolved": "UVAROV",
+      "strongGateSatisfied": true,
+      "strongMatches": [
+        "UVAROV"
+      ],
+      "beliefCount": 3,
+      "actionCount": 5,
+      "callbackCount": 3
+    },
+    "BELINSKY": {
+      "resolved": "BELINSKY",
+      "strongGateSatisfied": true,
+      "strongMatches": [
+        "BELINSKY"
+      ],
+      "beliefCount": 3,
+      "actionCount": 5,
+      "callbackCount": 3
+    },
+    "HERZEN": {
+      "resolved": "HERZEN",
+      "strongGateSatisfied": true,
+      "strongMatches": [
+        "HERZEN"
+      ],
+      "beliefCount": 3,
+      "actionCount": 6,
+      "callbackCount": 3
+    },
+    "KHOMYAKOV": {
+      "resolved": "KHOMYAKOV",
+      "strongGateSatisfied": true,
+      "strongMatches": [
+        "KHOMYAKOV"
+      ],
+      "beliefCount": 3,
+      "actionCount": 6,
+      "callbackCount": 3
+    },
+    "DOSTOEVSKY_PETRASHEVSKY": {
+      "resolved": "DOSTOEVSKY_PETRASHEVSKY",
+      "strongGateSatisfied": true,
+      "strongMatches": [
+        "DOSTOEVSKY_PETRASHEVSKY"
+      ],
+      "beliefCount": 3,
+      "actionCount": 6,
+      "callbackCount": 3
+    }
+  },
+  "failures": []
+}

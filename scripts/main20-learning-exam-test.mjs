@@ -4,19 +4,24 @@ import test from 'node:test';
 
 const contentUrl = new URL('../narrative/ACT_III_LEARNING_EXAM.json', import.meta.url);
 const sourcesUrl = new URL('../narrative/MAIN_20MIN_DIALOGUE.json', import.meta.url);
+const extraSourcesUrl = new URL('../narrative/ACT_III_BRANCHING_SOURCES.json', import.meta.url);
+const loreUrl = new URL('../narrative/AI_LORE_CARDS.json', import.meta.url);
 
 async function loadContent() {
   return JSON.parse(await readFile(contentUrl, 'utf8'));
 }
 
-test('learning/exam content has five uniquely sourced factual questions', async () => {
+test('exam has a 10–15 uniquely sourced bank and each attempt remains five questions', async () => {
   const content = await loadContent();
   const sourceData = JSON.parse(await readFile(sourcesUrl, 'utf8'));
-  const knownSources = new Set(sourceData.sourceRegister.map((entry) => entry.sourceId));
+  const extraSources = JSON.parse(await readFile(extraSourcesUrl, 'utf8'));
+  const lore = JSON.parse(await readFile(loreUrl, 'utf8'));
+  const knownSources = new Set([...sourceData.sourceRegister.map((entry) => entry.sourceId), ...extraSources.map((entry) => entry.sourceId), ...lore.externalSources.map((entry) => entry.sourceId)]);
   assert.equal(content.questionCount, 5);
   assert.equal(content.passThreshold, 3);
-  assert.equal(content.questions.length, 5);
-  assert.equal(new Set(content.questions.map((question) => question.id)).size, 5);
+  assert.ok(content.questions.length >= 10 && content.questions.length <= 15);
+  assert.equal(content.questionBankCount, content.questions.length);
+  assert.equal(new Set(content.questions.map((question) => question.id)).size, content.questions.length);
   for (const question of content.questions) {
     assert.ok(question.prompt.trim());
     assert.ok(question.learningUnitIds.length > 0, `${question.id} has a taught prerequisite`);
@@ -28,7 +33,7 @@ test('learning/exam content has five uniquely sourced factual questions', async 
   }
   assert.deepEqual(Object.keys(content.answerKey).sort(), content.questions.map((question) => question.id).sort());
   for (const question of content.questions) {
-    assert.ok(question.options.some((option) => option.id === content.answerKey[question.id]), `${question.id} has one valid keyed answer`);
+    assert.equal(question.options.filter((option) => option.id === content.answerKey[question.id]).length, 1, `${question.id} has one valid keyed answer`);
   }
 });
 
@@ -46,14 +51,14 @@ test('circle lesson and public preparation cover every examinable learning unit'
     assert.ok(unit.title.trim() && unit.bodyKo.trim());
     assert.ok(unit.sourceIds.length > 0);
     assert.ok(unit.provenance?.startLocator && unit.provenance?.endLocator);
-    assert.ok(unit.sourceIds.every((id) => id === unit.provenance.sourceId));
+    assert.ok(unit.sourceIds.includes(unit.provenance.sourceId));
   }
 });
 
 test('learning data does not frame ideology, moral judgment, or literary interpretation as scored answers', async () => {
   const content = await loadContent();
   for (const question of content.questions) {
-    assert.equal(question.kind, 'FACT');
+    assert.ok(['FACT', 'SOURCE_LITERACY', 'CHRONOLOGY'].includes(question.kind));
     assert.ok(question.answerRationale?.trim());
     assert.ok(question.rubric === undefined, 'no subjective rubric');
   }
