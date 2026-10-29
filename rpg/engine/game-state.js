@@ -309,6 +309,12 @@ function resolveEnding(state, endingId, campaign) {
   return { ok: true, state: next };
 }
 
+function describeHostMoney(money) {
+  if (!Number.isFinite(money?.amount)) return '개인 자금은 선택한 자료에서 확인되지 않는다.';
+  const unit = money.unit === 'kopeks' ? '코페이카' : money.unit ?? '화폐 단위 미상';
+  return `주머니에는 ${money.amount}${unit}가 있다.`;
+}
+
 function knowledgeForHost(state, hostId) {
   const host = state.hosts?.[hostId];
   if (!host) return [];
@@ -443,6 +449,6 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
   return state;
 }
 
-const V33GameState = { createInitialState, moveActor, possessHost, enterLiteraryRealm, leaveLiteraryRealm, releaseHost, transitionMap, performQuestAction, knowledgeForHost, recordSourceRead, recordEvidenceRead, recordDialogueTurn, advanceWorldTime, advanceChapter, advanceCampaignDate, resolveEnding, saveGame, loadGame, stateHash, canOccupy, nearTile };
+const V33GameState = { describeHostMoney, createInitialState, moveActor, possessHost, enterLiteraryRealm, leaveLiteraryRealm, releaseHost, transitionMap, performQuestAction, knowledgeForHost, recordSourceRead, recordEvidenceRead, recordDialogueTurn, advanceWorldTime, advanceChapter, advanceCampaignDate, resolveEnding, saveGame, loadGame, stateHash, canOccupy, nearTile };
 if (typeof module !== 'undefined' && module.exports) module.exports = V33GameState;
 if (typeof globalThis !== 'undefined') globalThis.V33GameState = V33GameState;

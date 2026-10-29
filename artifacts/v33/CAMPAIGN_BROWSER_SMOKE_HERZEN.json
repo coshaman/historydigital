@@ -1,6 +1,6 @@
 {
   "schemaVersion": "V33_CAMPAIGN_BROWSER_SMOKE_V1",
-  "base": "http://127.0.0.1:4173/",
+  "base": "http://127.0.0.1:54473/",
   "endingId": "HERZEN",
   "status": "PASS",
   "steps": [
@@ -203,6 +203,17 @@
       "OBJ-WS-PETRASHEVSKY-REPORT-1849",
       "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
     ],
+    "learning": {
+      "phase": "complete",
+      "circleLearning": "declined",
+      "lessonIndex": 4,
+      "examAnswers": {},
+      "examOutcome": "deferred",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "timelineIndex": 0,
+      "examAction": "defer"
+    },
     "immutableOutcomes": {
       "SOVREMENNIK_1847_ISSUE_PUBLICATION": "the attested 1847 issue remains historically published",
       "SOVREMENNIK_1848_PUBLICATION": "the attested journal publication history remains unchanged",

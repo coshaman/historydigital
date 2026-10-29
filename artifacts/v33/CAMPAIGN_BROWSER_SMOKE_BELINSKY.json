@@ -1,6 +1,6 @@
 {
   "schemaVersion": "V33_CAMPAIGN_BROWSER_SMOKE_V1",
-  "base": "http://127.0.0.1:4173/",
+  "base": "http://127.0.0.1:54473/",
   "endingId": "BELINSKY",
   "status": "PASS",
   "steps": [
@@ -219,6 +219,23 @@
       "OBJ-WS-PETRASHEVSKY-REPORT-1849",
       "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
     ],
+    "learning": {
+      "phase": "complete",
+      "circleLearning": "attended-notes",
+      "lessonIndex": 4,
+      "examAnswers": {
+        "Q1-FRIDAY-READING": "Q1-A",
+        "Q2-IDEAS-IN-CIRCULATION": "Q2-A",
+        "Q3-RANKS-CLASSES": "Q3-B",
+        "Q4-RANKS-SENIORITY": "Q4-B",
+        "Q5-COLLEGIUM-ENTRY": "Q5-B"
+      },
+      "examOutcome": "failed",
+      "examCorrectCount": 2,
+      "promotionStatus": "not-promoted",
+      "timelineIndex": 0,
+      "examAction": "sit"
+    },
     "immutableOutcomes": {
       "SOVREMENNIK_1847_ISSUE_PUBLICATION": "the attested 1847 issue remains historically published",
       "SOVREMENNIK_1848_PUBLICATION": "the attested journal publication history remains unchanged",

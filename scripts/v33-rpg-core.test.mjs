@@ -7,7 +7,7 @@ import path from 'node:path';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const require = createRequire(import.meta.url);
-const { createInitialState, moveActor, possessHost, releaseHost, transitionMap, performQuestAction, saveGame, loadGame, knowledgeForHost, recordSourceRead, recordEvidenceRead, advanceWorldTime, recordDialogueTurn, stateHash } = require('../rpg/engine/game-state.js');
+const { createInitialState, moveActor, possessHost, releaseHost, transitionMap, performQuestAction, saveGame, loadGame, knowledgeForHost, recordSourceRead, recordEvidenceRead, advanceWorldTime, recordDialogueTurn, stateHash, describeHostMoney } = require('../rpg/engine/game-state.js');
 const json = async relative => JSON.parse(await readFile(path.join(root, relative), 'utf8'));
 const loadMaps = async () => Object.fromEntries(await Promise.all((await readdir(path.join(root, 'rpg/maps'))).filter(file => file.endsWith('.json')).map(async file => [path.basename(file, '.json'), await json(`rpg/maps/${file}`)])));
 
@@ -55,6 +55,12 @@ test('host cards represent four distinct playable circumstances and reference re
   assert.equal(tiles.subarray(0, 8).toString('hex'), '89504e470d0a1a0a');
   assert.equal(tiles.readUInt32BE(16), 256);
   assert.equal(tiles.readUInt32BE(20), 160);
+});
+
+test('unknown documented funds are described without rendering null as a coin amount', async () => {
+  const nekrasov = await json('rpg/characters/nekrasov_reconstruction.json');
+  assert.equal(describeHostMoney(nekrasov.money), '개인 자금은 선택한 자료에서 확인되지 않는다.');
+  assert.equal(describeHostMoney({ amount: 27, unit: 'kopeks' }), '주머니에는 27코페이카가 있다.');
 });
 
 test('historical source excerpt is contiguous, RU/KO aligned and linked to a checked-in source record', async () => {

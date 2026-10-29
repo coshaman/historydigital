@@ -22,8 +22,15 @@ function finishLearning(state, endingId, variant) {
   const action = endingId === 'HERZEN' ? 'defer' : endingId === 'KHOMYAKOV' ? 'help-peer' : 'sit';
   progress = beginExam(progress, action);
   if (action === 'sit') {
-    const answers = Object.fromEntries(learningExam.questions.map((question, index) => [question.id,
-      endingId === 'BELINSKY' && index >= 2 ? 'INTENTIONALLY_WRONG' : learningExam.answerKey[question.id]]));
+    const answers = Object.fromEntries(learningExam.questions.map((question, index) => {
+      const correctOptionId = learningExam.answerKey[question.id];
+      const deliberatelyWrong = endingId === 'BELINSKY' && index >= 2;
+      const selectedOptionId = deliberatelyWrong
+        ? question.options.find(option => option.id !== correctOptionId)?.id
+        : correctOptionId;
+      assert.ok(selectedOptionId && question.options.some(option => option.id === selectedOptionId), `${question.id} must use an authored option`);
+      return [question.id, selectedOptionId];
+    }));
     progress = submitExam(progress, answers, learningExam);
   }
   progress = completeLearning(progress);
@@ -108,6 +115,7 @@ export function buildRoute(endingId, variant) {
   state = takeAction(state, 'CIRCLE_LETTER_1849_MAY', action4);
   state = finishLearning(state, endingId, variant);
   const stateBeforeEnding = state;
+  assert.doesNotThrow(() => engine.loadGame(engine.saveGame(stateBeforeEnding), { maps, hostCards: cards, quests, learningExam }), `${endingId} route must survive a browser save/reload`);
   const ending = engine.resolveEnding(state, endingId, campaign);
   assert.equal(ending.ok, true, `resolve ${endingId}, variant ${variant}: ${ending.reason ?? ''}`);
   assert.equal(ending.state.endingId, endingId);
