@@ -37,7 +37,7 @@ try {
     await page.goto(base, { waitUntil: 'networkidle' });
     await page.evaluate(save => { localStorage.clear(); localStorage.setItem('v33-rpg-save', save); }, rawSave);
     await page.reload({ waitUntil: 'networkidle' });
-    await page.getByRole('button', { name: '말 걸기 · 예카테리나' }).click();
+    await page.locator('#talk').click();
     await page.getByLabel('대사 입력').fill('교정쇄를 원문과 대조하고 싶어요.');
     await page.getByRole('button', { name: '말하기' }).click();
     await page.getByText('어느 줄을 말하는 거죠? 원문이랑 나란히 놓고 봐야 알겠어요.').waitFor();

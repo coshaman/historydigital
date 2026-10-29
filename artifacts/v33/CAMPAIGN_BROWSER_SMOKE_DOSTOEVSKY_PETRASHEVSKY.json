@@ -1,6 +1,6 @@
 {
   "schemaVersion": "V33_CAMPAIGN_BROWSER_SMOKE_V1",
-  "base": "http://127.0.0.1:56002/",
+  "base": "http://127.0.0.1:55635/",
   "endingId": "DOSTOEVSKY_PETRASHEVSKY",
   "status": "PASS",
   "steps": [
@@ -65,6 +65,28 @@
     },
     {
       "type": "possession",
+      "hostId": "nekrasov_reconstruction",
+      "mapId": "nevsky",
+      "position": {
+        "x": 22,
+        "y": 9
+      }
+    },
+    {
+      "type": "repossess-after-map-arrival-and-reload",
+      "hostId": "nekrasov_reconstruction",
+      "mapId": "nevsky"
+    },
+    {
+      "type": "move-host-clear-of-exit",
+      "hostId": "nekrasov_reconstruction",
+      "position": {
+        "x": 20,
+        "y": 9
+      }
+    },
+    {
+      "type": "possession",
       "hostId": "courier_pavel",
       "mapId": "nevsky",
       "position": {
@@ -97,7 +119,8 @@
     {
       "type": "archive-source-read",
       "sourceId": "OBJ-WS-NEKRASOV-EDITORIAL-1848",
-      "hostId": "printer_ekaterina",
+      "hostId": null,
+      "embodiedHostId": "printer_ekaterina",
       "mapId": "printshop",
       "titleKo": "《현대인》 편집부의 1848년 공고"
     },

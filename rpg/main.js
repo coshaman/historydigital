@@ -196,14 +196,12 @@ function nearbyConversationPartner() {
   const actorId = state.player.embodiment;
   if (!actorId) return null;
   const position = state.hosts[actorId].position;
-  const people = currentMap().layers.find(item => item.name === 'NPCs')?.objects ?? [];
-  return people.map(object => cards.find(card => card.id === mapObjectProperties(object).hostId)).filter(card => {
-    const person = card && state.hosts[card.id];
-    return person && card.id !== actorId && person.mapId === state.world.currentMapId && Math.abs(person.position.x - position.x) + Math.abs(person.position.y - position.y) <= 2;
+  return Object.values(state.hosts).map(person => ({ person, card: cards.find(card => card.id === person.id) })).filter(({ person, card }) => {
+    return card && person.historicalAliveAndPresent && card.id !== actorId && person.mapId === state.world.currentMapId && Math.abs(person.position.x - position.x) + Math.abs(person.position.y - position.y) <= 2;
   }).sort((a, b) => {
-    const left = state.hosts[a.id].position, right = state.hosts[b.id].position;
-    return Math.abs(left.x - position.x) + Math.abs(left.y - position.y) - Math.abs(right.x - position.x) - Math.abs(right.y - position.y);
-  })[0] ?? null;
+    const aPosition = a.person.position, bPosition = b.person.position;
+    return Math.abs(aPosition.x - position.x) + Math.abs(aPosition.y - position.y) - Math.abs(bPosition.x - position.x) - Math.abs(bPosition.y - position.y);
+  })[0]?.card ?? null;
 }
 function updateHud() {
   const map = currentMap(), host = state.player.embodiment ? cards.find(card => card.id === state.player.embodiment) : null;
@@ -242,7 +240,11 @@ function updateHud() {
 function sayRecord(text) { $('#record').textContent = text; }
 function currentNearby() {
   const at = actor().position;
-  const interactables = [...currentMap().layers.find(layer => layer.name === 'Interactions').objects, ...currentMap().layers.find(layer => layer.name === 'NPCs').objects];
+  const people = Object.values(state.hosts).filter(host => host.historicalAliveAndPresent && host.mapId === currentMap().mapId).map(host => ({
+    type: 'npc', x: host.position.x * 16, y: host.position.y * 16,
+    properties: [{ name: 'hostId', value: host.id }],
+  }));
+  const interactables = [...currentMap().layers.find(layer => layer.name === 'Interactions').objects, ...people];
   return interactables.filter(object => {
     const props = Object.fromEntries((object.properties ?? []).map(p => [p.name, p.value]));
     const host = object.type === 'npc' ? state.hosts[props.hostId] : null;
@@ -255,14 +257,17 @@ function currentNearby() {
 function questIsAvailable(activeQuest) {
   return Boolean(activeQuest && (activeQuest.chapterId === state.world.chapterId || (activeQuest.chapterId === 'LITERARY_DEAD_SOULS' && state.world.activeRealm?.id === campaign.literaryRealm.id)) && (!activeQuest.date || activeQuest.date <= state.world.date || activeQuest.chapterId === 'LITERARY_DEAD_SOULS'));
 }
-function sourceRead(sourceId, archiveSourceIds = []) {
+function sourceRead(sourceId, archiveSourceIds = [], readingMode = 'PHYSICAL_COPY') {
   const record = sourceRecords.get(sourceId);
   if (!record) { sayRecord('자료 목록에서 확인되지 않는 문서다.'); return; }
-  const recorded = recordSourceRead(state, sourceId, maps, archiveSourceIds);
+  const recorded = recordSourceRead(state, sourceId, maps, archiveSourceIds, readingMode);
   if (recorded.ok) setState(recorded.state);
   else { sayRecord(recorded.reason === 'source_not_present' ? '이 장소나 시점에는 아직 열람할 수 없는 자료다.' : '이 자료를 지금은 읽을 수 없다.'); return; }
   showSourceSummary(record);
-  sayRecord(`자료 읽음 · ${record.creator ?? record.author} · 원문과 번역을 기록`);
+  const recordedMode = recorded.state.ledger.at(-1)?.readingMode;
+  sayRecord(recordedMode === 'PHYSICAL_COPY'
+    ? `현장에서 읽음 · ${record.creator ?? record.author} · 현재 몸의 자료 기록에 남겼다`
+    : `자료철에서 살펴봄 · ${record.creator ?? record.author} · 기록의 손님 메모에 남겼다`);
 }
 function showSourceSummary(record = source) {
   const isTurgenev = record.sourceId === source.sourceId;
@@ -286,11 +291,13 @@ function openSourceDrawer() {
     const availableDate = sourceObject?.properties?.find(property => property.name === 'availableDate')?.value;
     return !availableDate || availableDate <= state.world.date;
   });
-  const sourceButtons = unlocked.map(id => sourceRecords.get(id)).map(record => ({ label: record.titleKo, subcopy: `${record.documentDate ?? '1847'} · ${record.type ?? '문학 원문'} · ${record.range ?? record.witness.range}`, run: () => sourceRead(record.sourceId, unlocked) }));
+  const sourceButtons = unlocked.map(id => sourceRecords.get(id)).map(record => ({ label: record.titleKo, subcopy: `${record.documentDate ?? '1847'} · ${record.type ?? '문학 원문'} · ${record.range ?? record.witness.range}`, run: () => sourceRead(record.sourceId, unlocked, 'PLAYER_ARCHIVE') }));
   const realmActions = state.world.activeRealm
     ? [{ label: '문학 세계에서 돌아오기', subcopy: '1847–1849 역사 연표로 돌아갑니다 · 문학 속 사건은 역사 기록에 합쳐지지 않습니다', run: () => { const result = leaveLiteraryRealm(state, maps); if (result.ok) { setState(result.state); say('현실의 거리로 돌아오다', '도청 소재지의 여관은 소설 속에 남아 있다. 이곳에서 본 것은 역사 속 사람의 기억이 되지 않는다.', [{ label: '자료철 열기', run: openSourceDrawer }]); } } }]
     : [{ label: '《죽은 혼》의 문학 세계로 들어가기', subcopy: '1842년 소설의 별도 장면입니다 · 역사 연표와 인물의 지식은 섞이지 않습니다 · 몸을 놓은 뒤 들어갑니다', run: () => { const card = cards.find(item => item.id === campaign.literaryRealm.hostId); const result = enterLiteraryRealm(state, maps[campaign.literaryRealm.mapId], card); if (result.ok) { setState(result.state); say('《죽은 혼》의 여관', '소설 제1장에 나오는 도청 소재지 여관이다. 여기의 장부와 인물은 문학 세계에만 속한다.', [{ label: '자료철 열기', run: openSourceDrawer }]); } else sayRecord('먼저 빌린 몸을 놓아주고 다시 시도하자.'); } }];
-  say(state.world.activeRealm ? '문학 세계의 자료' : '지금까지 열린 자료', state.world.activeRealm ? '읽은 문장은 소설 속 인물의 지식으로만 기록된다.' : '읽은 문서는 현재 몸의 지식에만 기록된다. 아직 날짜가 오지 않은 자료는 연표가 진행된 뒤 열린다.', [...sourceButtons, ...realmActions]);
+  say(state.world.activeRealm ? '문학 세계의 자료' : '지금까지 열린 자료', state.world.activeRealm
+    ? '소설 속에 놓인 책을 직접 읽으면 그 장면의 인물이 알게 된다.'
+    : '자료철은 기록의 손님이 살펴보는 목록이다. 빌린 몸의 지식에는 그 사람이 현장에서 직접 읽거나 전달받은 자료만 남는다. 날짜가 오지 않은 문서는 연표가 진행된 뒤 열린다.', [...sourceButtons, ...realmActions]);
 }
 function continuationFor(activeQuest) {
   if (activeQuest.chapterId === 'LITERARY_DEAD_SOULS') return [{ label: '문학 세계 자료철 열기', run: openSourceDrawer }];
@@ -448,13 +455,26 @@ function interact() {
   if (activeDialogueHost) return;
   const near = currentNearby();
   if (!near.length) { say('아직 손이 닿지 않는다', '주변을 조금 더 걸어 가까이 가 보자. 사람에게 다가가면 그 사람의 자리에서 도시를 볼 수 있다.', []); return; }
-  const object = state.player.embodiment
-    ? near.find(item => {
+  const nearbyPeople = near.filter(item => item.type === 'npc');
+  if (!state.player.embodiment && nearbyPeople.length > 1 && !near.some(item => item.type === 'source' || item.type === 'map-exit')) {
+    const choices = nearbyPeople.map(item => {
+      const hostId = mapObjectProperties(item).hostId, card = cards.find(character => character.id === hostId), person = state.hosts[hostId];
+      return { label: `${card.displayNameKo} 살펴보기`, subcopy: `${card.occupation} · ${person.currentActivityKo || card.personalObjective}`, run: () => inspect(item) };
+    });
+    say('가까이에 사람이 있다', '누구에게 다가갈지 고르자. 인물을 먼저 살펴본 뒤 몸을 빌릴 수 있다.', choices);
+    return;
+  }
+  const activeQuestObject = near.find(item => {
       if (item.type !== 'quest-object') return false;
       const questId = Object.fromEntries((item.properties ?? []).map(property => [property.name, property.value])).questId;
       return questIsAvailable(questsById.get(questId)) && state.quests[questId]?.status !== 'resolved';
-    }) ?? near.find(item => item.type === 'quest-object' && questIsAvailable(questsById.get(Object.fromEntries((item.properties ?? []).map(property => [property.name, property.value])).questId))) ?? near.find(item => item.type === 'npc' && mapObjectProperties(item).hostId !== state.player.embodiment) ?? near.find(item => item.type === 'map-exit') ?? near.find(item => item.type === 'source') ?? near[0]
-    : near.find(item => item.type === 'source') ?? near.find(item => item.type === 'map-exit') ?? near.find(item => item.type === 'npc') ?? near[0];
+    });
+  const object = activeQuestObject
+    ?? near.find(item => item.type === 'source')
+    ?? near.find(item => item.type === 'map-exit')
+    ?? near.find(item => item.type === 'npc' && mapObjectProperties(item).hostId !== state.player.embodiment)
+    ?? near.find(item => item.type === 'quest-object' && questIsAvailable(questsById.get(mapObjectProperties(item).questId)))
+    ?? near[0];
   inspect(object);
 }
 function move(direction) {

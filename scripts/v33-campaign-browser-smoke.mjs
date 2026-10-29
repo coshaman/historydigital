@@ -104,7 +104,14 @@ async function possess(hostId) {
   const competingTargets = mapById[state.world.currentMapId].layers.find(layer => layer.name === 'Interactions').objects.filter(object => object.type === 'source' || object.type === 'map-exit').map(objectTile);
   await moveNear(state.world.currentMapId, host.position, 2, tile => competingTargets.every(target => distance(tile, target) > 1));
   await interact();
-  await page.getByRole('button', { name: '몸을 빌린다' }).click();
+  const personChoice = page.getByRole('button', { name: `${cardById[hostId].displayNameKo} 살펴보기`, exact: false });
+  if (await personChoice.count()) await personChoice.click();
+  const borrowAction = page.getByRole('button', { name: '몸을 빌린다' });
+  if (!(await borrowAction.count())) {
+    const observed = await page.evaluate(() => ({ headline: document.querySelector('#headline').textContent, actions: [...document.querySelectorAll('#actions button')].map(button => button.innerText), body: document.querySelector('#bodyname').textContent }));
+    throw new Error(`No possession action for ${hostId}; ${JSON.stringify(observed)}`);
+  }
+  await borrowAction.click();
   await page.getByText(`몸을 빌림 · ${cardById[hostId].displayNameKo}`).waitFor();
   const after = await snapshot();
   assert.equal(after.player.embodiment, hostId);
@@ -175,8 +182,9 @@ async function readUnlockedSource(sourceId) {
   assert.ok(renderedText.includes(source.paragraphs[0].ru), `${sourceId} Russian source paragraph rendered in the source drawer`);
   assert.ok(renderedText.includes(source.paragraphs[0].ko), `${sourceId} aligned Korean translation rendered in the source drawer`);
   const state = await snapshot();
-  assert.ok(state.ledger.some(event => event.sourceId === sourceId && event.hostId === state.player.embodiment), `${sourceId} drawer reading is recorded for the current host`);
-  report.steps.push({ type: 'archive-source-read', sourceId, hostId: state.player.embodiment, mapId: state.world.currentMapId, titleKo: source.titleKo });
+  assert.ok(state.ledger.some(event => event.sourceId === sourceId && event.hostId === null && event.readingMode === 'PLAYER_ARCHIVE'), `${sourceId} archive reading is recorded as player research, not host knowledge`);
+  assert.ok(!state.hosts[state.player.embodiment].knownEvidenceIds.includes(sourceId), `${sourceId} archive reading does not enter the embodied host's memory`);
+  report.steps.push({ type: 'archive-source-read', sourceId, hostId: null, embodiedHostId: state.player.embodiment, mapId: state.world.currentMapId, titleKo: source.titleKo });
 }
 async function completeQuest(questId, actionId, { avoidObjectId = null } = {}) {
   const quest = questById[questId], action = quest.actions.find(item => item.id === actionId);
@@ -244,8 +252,18 @@ try {
 
   // 1848: visit the reconstructed editor, then carry the notice as the courier.
   await possess('nekrasov_reconstruction');
-  await release();
   await transitionTo('printshop-nevsky-door', 'nevsky');
+  await release();
+  await page.locator('#save').click();
+  await page.reload({ waitUntil: 'networkidle' });
+  await page.waitForSelector('#world');
+  const arrivedNekrasov = await snapshot();
+  assert.equal(arrivedNekrasov.hosts.nekrasov_reconstruction.mapId, 'nevsky', 'the historical reconstruction remains at the legal exit arrival after save/load');
+  await possess('nekrasov_reconstruction');
+  report.steps.push({ type: 'repossess-after-map-arrival-and-reload', hostId: 'nekrasov_reconstruction', mapId: 'nevsky' });
+  await moveNear('nevsky', { x: 20, y: 9 }, 0);
+  report.steps.push({ type: 'move-host-clear-of-exit', hostId: 'nekrasov_reconstruction', position: (await snapshot()).hosts.nekrasov_reconstruction.position });
+  await release();
   await possess('courier_pavel');
   await transitionTo('nevsky-printshop-door', 'printshop');
   await readSource('printshop', 'OBJ-WS-NEKRASOV-EDITORIAL-1848', 26);

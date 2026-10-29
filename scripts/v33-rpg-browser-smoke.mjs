@@ -28,9 +28,16 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 1366, height: 768
       const px = Math.floor(canvas.width * x / 9), py = Math.floor(canvas.height * y / 9);
       colors.add([...ctx.getImageData(px, py, 1, 1).data].join(','));
     }
-    return { width: canvas.width, height: canvas.height, sampledColors: colors.size };
+    const ratio = canvas.width / canvas.clientWidth, row = Math.floor(canvas.height / 2), background = [98, 86, 75];
+    let scenePixels = 0;
+    for (let x = 0; x < canvas.width; x++) {
+      const pixel = ctx.getImageData(x, row, 1, 1).data;
+      if (pixel[0] !== background[0] || pixel[1] !== background[1] || pixel[2] !== background[2]) scenePixels++;
+    }
+    return { width: canvas.width, height: canvas.height, sampledColors: colors.size, mapCoverage: scenePixels / canvas.width, cssTileScale: canvas.clientWidth / (30 * 16) * ratio };
   });
   if (initialCanvas.sampledColors < 4) throw new Error(`Initial world canvas was not drawn: ${JSON.stringify(initialCanvas)}`);
+  if (initialCanvas.mapCoverage < 0.7) throw new Error(`World map is still too small within the playfield: ${JSON.stringify(initialCanvas)}`);
   const initialClock = await page.locator('#clock').innerText();
   let evidenceHotkey = false;
   if (viewport.width < 500) {
@@ -69,7 +76,7 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 1366, height: 768
   if (metrics.document.width > viewport.width) throw new Error(`Horizontal overflow at ${viewport.width}: ${metrics.document.width}`);
   if (metrics.buttons.some(button => !button.visible)) throw new Error(`Touch controls clipped at ${viewport.width}`);
   if (errors.length) throw new Error(`Browser errors at ${viewport.width}: ${errors.join('; ')}`);
-  report.viewports.push({ ...metrics, clueText, initialClock, advancedClock, savedClueRestored: true, offlineDialogue: false, evidenceHotkey, errors });
+  report.viewports.push({ ...metrics, canvas: initialCanvas, clueText, initialClock, advancedClock, savedClueRestored: true, offlineDialogue: false, evidenceHotkey, errors });
   await context.close();
 }
 {

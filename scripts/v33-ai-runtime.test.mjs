@@ -135,6 +135,33 @@ test('schema-invalid model output falls back to bounded authored character dialo
   assert.equal(result.body.turn.suggestedReplies.length, 3);
 });
 
+test('historical AI dialogue falls back when it introduces a year absent from its authorized source packet', async () => {
+  const store = new MemorySessionStore(); let modelInput;
+  const unsupported = validTurn('V33_TALK_NEKRASOV_EDITORIAL_NOTICE', 'nekrasov_reconstruction');
+  unsupported.beats[0].textKo = '1849년 행사는 취소됐고, 벨린스키는 1850년에도 살아 있었다고 들었습니다.';
+  const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store, allowedOrigins: ['https://game.example'], provider: { generate: async request => { modelInput = request.input; return unsupported; } } });
+  const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'nekrasov_reconstruction' }));
+  const result = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken, requestId: 'unsupported-fact-0001', playerInput: '공고에 나온 일을 알려 주세요.' }));
+  assert.equal(result.status, 200);
+  assert.equal(result.body.fallback, true);
+  assert.equal(result.body.mode, 'FALLBACK_PROVIDER');
+  assert.deepEqual(modelInput.sourceEvidence.map(source => source.sourceId), ['OBJ-WS-NEKRASOV-EDITORIAL-1848', 'OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE']);
+  assert.ok(modelInput.sourceEvidence.every(source => source.paragraphs?.length > 0 && source.paragraphs.every(paragraph => paragraph.ru && paragraph.ko)));
+  assert.equal(result.body.turn.beats[0].textKo, '공고에는 발송이 늦어진 이유와 수령 확인 방법을 적었습니다. 못 받은 호가 있다면 편집부가 조사하겠다고도 밝혔고요. 여기 적히지 않은 사적인 말까지 제 말처럼 보태지는 않겠습니다.');
+});
+
+test('historical AI dialogue retains claims whose dates are present in the authorized source packet', async () => {
+  const store = new MemorySessionStore();
+  const supported = validTurn('V33_TALK_NEKRASOV_EDITORIAL_NOTICE', 'nekrasov_reconstruction');
+  supported.beats[0].textKo = '1848년 첫 호는 지방으로 늦게 도착했고, 편집부는 다음 호부터 공고한 일정에 맞춰 보내겠다고 했습니다.';
+  const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store, allowedOrigins: ['https://game.example'], provider: { generate: async () => supported } });
+  const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'nekrasov_reconstruction' }));
+  const result = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken, requestId: 'supported-fact-0001', playerInput: '공고에 나온 일을 알려 주세요.' }));
+  assert.equal(result.status, 200);
+  assert.equal(result.body.fallback, false);
+  assert.equal(result.body.turn.beats[0].textKo, supported.beats[0].textKo);
+});
+
 test('429, 500, and timeout from the provider use authored fallback without exposing provider errors', async t => {
   for (const [name, failure] of [['429', 'provider request failed (429)'], ['500', 'provider request failed (500)'], ['timeout', 'provider request timed out']]) {
     await t.test(name, async () => {
@@ -203,4 +230,19 @@ test('Cloudflare Worker route serves a signed session and completes an offline t
   assert.equal(body.mode, 'BLOCKED_NO_KEY');
   assert.equal(body.fallback, true);
   assert.equal(body.turn.suggestedReplies.length, 3);
+});
+
+test('unsupported or malformed session starts are rejected before consuming the global start budget', async () => {
+  const budgetNamespace = new FakeNamespace(RpgGlobalBudget);
+  const env = { RPG_SESSION_SIGNING_KEY: 'test-signing-secret-at-least-32-bytes-long', RPG_ALLOWED_ORIGINS: 'https://game.example', RPG_SESSIONS: new FakeNamespace(RpgSession), RPG_BUDGETS: budgetNamespace };
+  const headers = { origin: 'https://game.example', 'content-type': 'application/json' };
+  const invalid = await workerFetch(new Request('https://worker.example/api/rpg/session/start', { method: 'POST', headers, body: JSON.stringify({ hostId: 'not-a-supported-character' }) }), env);
+  assert.equal(invalid.status, 400);
+  const malformed = await workerFetch(new Request('https://worker.example/api/rpg/session/start', { method: 'POST', headers, body: JSON.stringify({ hostId: 'seamstress_anna', extra: 'ignored?' }) }), env);
+  assert.equal(malformed.status, 400);
+  const budget = budgetNamespace.objects.get('v33-rpg-global');
+  assert.equal(budget, undefined, 'invalid requests do not even instantiate the shared start-budget object');
+  const valid = await workerFetch(new Request('https://worker.example/api/rpg/session/start', { method: 'POST', headers, body: JSON.stringify({ hostId: 'seamstress_anna' }) }), env);
+  assert.equal(valid.status, 201);
+  assert.equal(budgetNamespace.objects.get('v33-rpg-global').state.storage.data.get('starts').dayCount, 1);
 });

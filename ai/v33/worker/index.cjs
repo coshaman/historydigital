@@ -1,6 +1,6 @@
 'use strict';
 
-const { createRpgAiService } = require('../session-runtime.cjs');
+const { createRpgAiService, isSupportedHostId } = require('../session-runtime.cjs');
 const { createResponsesProvider } = require('../openai-provider.cjs');
 const SESSION_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 const SESSION_TURNS = 80;
@@ -47,6 +47,10 @@ const worker = {
     let raw, body;
     try { raw = await request.text(); if (new TextEncoder().encode(raw).byteLength > 2048) return new Response(JSON.stringify({ error: 'request_too_large' }), { status: 413, headers }); body = JSON.parse(raw); }
     catch { return new Response(JSON.stringify({ error: 'invalid_json' }), { status: 400, headers }); }
+    if (url.pathname.endsWith('/start')) {
+      if (!body || Array.isArray(body) || typeof body !== 'object' || Object.keys(body).length !== 1 || !Object.hasOwn(body, 'hostId')) return new Response(JSON.stringify({ error: 'invalid_request' }), { status: 400, headers });
+      if (!isSupportedHostId(body.hostId)) return new Response(JSON.stringify({ error: 'unsupported_host' }), { status: 400, headers });
+    }
     const budget = makeBudget(env.RPG_BUDGETS);
     if (url.pathname.endsWith('/start') && !(await budget.consumeStart())) return new Response(JSON.stringify({ error: 'global_start_limit' }), { status: 429, headers });
     const service = createRpgAiService({ secret: env.RPG_SESSION_SIGNING_KEY, store: makeSessionStore(env.RPG_SESSIONS), allowedOrigins: allow, provider: env.OPENAI_API_KEY ? createResponsesProvider({ apiKey: env.OPENAI_API_KEY }) : null, globalLimiter: { consume: () => budget.consume() }, dialogueModel: env.OPENAI_DIALOGUE_MODEL || 'gpt-6.1-terra' });

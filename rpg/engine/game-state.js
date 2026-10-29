@@ -112,13 +112,11 @@ function advanceWorldTime(state, minutes, maps, reservedTiles = []) {
 
 function canOccupy(map, x, y, ignoreHostId = null, hostStates = null) {
   if (!map || tileAt(layer(map, 'Collision'), x, y) !== 0) return false;
+  if (hostStates) return !Object.values(hostStates).some(host => host.id !== ignoreHostId && host.historicalAliveAndPresent !== false && host.mapId === map.mapId && host.position.x === x && host.position.y === y);
   const npcLayer = layer(map, 'NPCs');
   return !(npcLayer?.objects ?? []).some(npc => {
-    const hostId = properties(npc).hostId;
-    if (hostId === ignoreHostId) return false;
-    const host = hostStates?.[hostId];
-    if (hostStates && (!host || host.mapId !== map.mapId)) return false;
-    const tile = host ? host.position : objectTile(npc);
+    if (properties(npc).hostId === ignoreHostId) return false;
+    const tile = objectTile(npc);
     return tile.x === x && tile.y === y;
   });
 }
@@ -144,8 +142,7 @@ function moveActor(state, direction, map, maps = { [map?.mapId]: map }) {
 function possessHost(state, hostId, map) {
   if (!state || state.player.embodiment) return { ok: false, reason: 'already_embodied', state };
   const host = state.hosts[hostId];
-  const present = (layer(map, 'NPCs')?.objects ?? []).some(item => properties(item).hostId === hostId);
-  if (!host || !host.historicalAliveAndPresent || !present || host.mapId !== state.world.currentMapId || map.mapId !== state.world.currentMapId) return { ok: false, reason: 'host_not_here', state };
+  if (!host || !host.historicalAliveAndPresent || host.mapId !== state.world.currentMapId || map.mapId !== state.world.currentMapId) return { ok: false, reason: 'host_not_here', state };
   if (!nearTile(state.player.position, host.position, 2)) return { ok: false, reason: 'too_far', state };
   const next = clone(state);
   next.player.embodiment = hostId;
@@ -321,13 +318,13 @@ function knowledgeForHost(state, hostId) {
   return [...new Set([...host.privateKnowledgeIds, ...host.witnessedKnowledgeIds, ...host.knownEvidenceIds])];
 }
 
-function recordSourceRead(state, sourceId, maps, archiveSourceIds = []) {
+function recordSourceRead(state, sourceId, maps, archiveSourceIds = [], readingMode = 'PHYSICAL_COPY') {
   const map = maps?.[state?.world?.currentMapId];
   const allSourceObjects = Object.values(maps ?? {}).flatMap(item => layer(item, 'Interactions')?.objects ?? []).filter(object => properties(object).sourceId === sourceId);
   const sourceMap = Object.values(maps ?? {}).find(item => layer(item, 'Interactions')?.objects.some(object => properties(object).sourceId === sourceId));
   const target = allSourceObjects[0];
-  const inPlace = allSourceObjects.some(object => layer(map, 'Interactions')?.objects.includes(object));
-  const archiveAccess = archiveSourceIds.includes(sourceId);
+  const inPlace = readingMode === 'PHYSICAL_COPY' && allSourceObjects.some(object => layer(map, 'Interactions')?.objects.includes(object));
+  const archiveAccess = readingMode === 'PLAYER_ARCHIVE' && archiveSourceIds.includes(sourceId);
   const sourceChapter = properties(target ?? {}).availableChapterId;
   const chronology = ['V33_1847_PRINT', 'V33_1848_PUBLIC', 'V33_1849_CIRCLE'];
   const chapterAvailable = !sourceChapter || chronology.indexOf(state.world.chapterId) >= chronology.indexOf(sourceChapter);
@@ -341,11 +338,11 @@ function recordSourceRead(state, sourceId, maps, archiveSourceIds = []) {
   const next = clone(timed);
   if (!next.world.discoveredSourceIds.includes(sourceId)) next.world.discoveredSourceIds.push(sourceId);
   if (!next.player.observedEvidenceIds.includes(sourceId)) next.player.observedEvidenceIds.push(sourceId);
-  if (next.player.embodiment) {
+  if (next.player.embodiment && inPlace) {
     const host = next.hosts[next.player.embodiment];
     if (host && !host.knownEvidenceIds.includes(sourceId)) host.knownEvidenceIds.push(sourceId);
   }
-  next.ledger.push({ eventId: `READ_${next.ledger.length + 1}`, date: next.world.date, mapId: next.world.currentMapId, hostId: next.player.embodiment, sourceId, priorStateHash: stateHash(timed), nextStateHash: null });
+  next.ledger.push({ eventId: `READ_${next.ledger.length + 1}`, date: next.world.date, mapId: next.world.currentMapId, hostId: inPlace ? next.player.embodiment : null, sourceId, readingMode: inPlace ? 'PHYSICAL_COPY' : 'PLAYER_ARCHIVE', priorStateHash: stateHash(timed), nextStateHash: null });
   next.ledger.at(-1).nextStateHash = stateHash(next);
   return { ok: true, state: next };
 }

@@ -171,6 +171,40 @@ test('a resident remains at their current host position instead of colliding or 
   assert.deepEqual(restored.hosts.courier_pavel.position, { x: 12, y: 14 });
 });
 
+test('a host arriving on a legal map exit remains a present body even without a static NPC spawn marker', async () => {
+  const maps = await loadMaps();
+  const cards = await Promise.all((await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)));
+  const { canOccupy } = require('../rpg/engine/game-state.js');
+  let state = createInitialState({ maps, hostCards: cards });
+  state.world.currentMapId = 'nevsky';
+  state.hosts.nekrasov_reconstruction.mapId = 'nevsky';
+  state.hosts.nekrasov_reconstruction.position = { x: 22, y: 9 };
+  state.player.position = { x: 22, y: 9 };
+  const restored = loadGame(saveGame(state), { maps, hostCards: cards });
+  assert.equal(canOccupy(maps.nevsky, 22, 9, null, restored.hosts), false, 'the arriving body blocks its tile');
+  const entered = possessHost(restored, 'nekrasov_reconstruction', maps.nevsky);
+  assert.equal(entered.ok, true, 'a present source-constrained host can be possessed at the arrival point');
+});
+
+test('reading an unlocked archive copy does not silently transfer it into the embodied host knowledge', async () => {
+  const maps = await loadMaps();
+  const cards = await Promise.all((await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)));
+  const sourceId = 'OBJ-WS-PETRASHEVSKY-REPORT-1849';
+  const state = createInitialState({ maps, hostCards: cards });
+  state.world.chapterId = 'V33_1849_CIRCLE';
+  state.world.date = '1849-04-22';
+  state.world.currentMapId = 'chancery';
+  state.player.position = { ...state.hosts.clerk_alexei.position };
+  const embodied = possessHost(state, 'clerk_alexei', maps.chancery).state;
+  const read = recordSourceRead(embodied, sourceId, maps, [sourceId], 'PLAYER_ARCHIVE');
+  assert.equal(read.ok, true, 'the player may consult an unlocked source in the archive drawer');
+  assert.ok(read.state.player.observedEvidenceIds.includes(sourceId), 'the player records their own research');
+  assert.ok(!knowledgeForHost(read.state, 'clerk_alexei').includes(sourceId), 'opening the archive drawer does not count as reading the copy on the desk');
+  assert.equal(read.state.ledger.at(-1).hostId, null, 'archive-only reading records no host as reader');
+  const restored = loadGame(saveGame(read.state), { maps, hostCards: cards });
+  assert.ok(!knowledgeForHost(restored, 'clerk_alexei').includes(sourceId), 'save/load preserves the knowledge boundary');
+});
+
 test('quest state changes only after a host-specific allowed physical action', async () => {
   const maps = await loadMaps();
   const cards = await Promise.all((await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)));

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { createRenderer } from '../rpg/engine/renderer.js';
+import { calculateCamera, createRenderer } from '../rpg/engine/renderer.js';
 
 class FakeContext {
   drawCount = 0;
@@ -21,6 +21,21 @@ class FakeCanvas {
   getContext() { return this.context; }
   getBoundingClientRect() { return { width: this.clientWidth, height: this.clientHeight }; }
 }
+
+test('camera enlarges the world, follows its actor, and clamps cleanly at map edges', () => {
+  const desktop = calculateCamera({ viewportWidth: 1384, viewportHeight: 357, mapWidth: 30, mapHeight: 20, tileSize: 16, position: { x: 15, y: 10 } });
+  const mobile = calculateCamera({ viewportWidth: 370, viewportHeight: 379, mapWidth: 30, mapHeight: 20, tileSize: 16, position: { x: 15, y: 10 } });
+  assert.ok(desktop.scale > 1.8, 'desktop pixel tiles must be visibly larger than whole-map fit');
+  assert.ok(desktop.mapWidthPixels > desktop.viewportWidth * 0.75, 'desktop map should use most of the playfield width');
+  assert.ok(desktop.visibleTilesY < 12, 'camera should show a readable nearby section instead of shrinking the full map');
+  assert.ok(Math.abs(desktop.actorScreenX - desktop.viewportWidth / 2) < desktop.scale * 16, 'interior actor remains within one tile of horizontal center');
+  assert.ok(Math.abs(desktop.actorScreenY - desktop.viewportHeight / 2) < desktop.scale * 16, 'interior actor remains within one tile of vertical center');
+  assert.ok(mobile.visibleTilesX < 20 && mobile.visibleTilesY < 20, 'mobile uses a scrollable camera window');
+
+  const edge = calculateCamera({ viewportWidth: 1384, viewportHeight: 357, mapWidth: 30, mapHeight: 20, tileSize: 16, position: { x: 0, y: 0 } });
+  assert.ok(edge.actorScreenX >= 0 && edge.actorScreenY >= 0, 'player stays visible at the northwest map edge');
+  assert.ok(edge.actorScreenX < desktop.viewportWidth / 2 && edge.actorScreenY < desktop.viewportHeight / 2, 'camera clamps instead of revealing empty space beyond map edges');
+});
 
 test('canvas redraws after the asynchronous Petersburg tilesheet finishes loading', () => {
   const images = [];

@@ -1,3 +1,30 @@
+export function calculateCamera({ viewportWidth, viewportHeight, mapWidth, mapHeight, tileSize = 16, position, zoom = 2.25 }) {
+  const mapWidthWorld = mapWidth * tileSize, mapHeightWorld = mapHeight * tileSize;
+  const fitScale = Math.min(viewportWidth / mapWidthWorld, viewportHeight / mapHeightWorld);
+  const scale = fitScale * zoom;
+  const visibleWidth = viewportWidth / scale, visibleHeight = viewportHeight / scale;
+  const centerX = (position.x + 0.5) * tileSize, centerY = (position.y + 0.5) * tileSize;
+  const offsetX = mapWidthWorld <= visibleWidth
+    ? (viewportWidth - mapWidthWorld * scale) / 2
+    : -Math.max(0, Math.min(mapWidthWorld - visibleWidth, centerX - visibleWidth / 2)) * scale;
+  const offsetY = mapHeightWorld <= visibleHeight
+    ? (viewportHeight - mapHeightWorld * scale) / 2
+    : -Math.max(0, Math.min(mapHeightWorld - visibleHeight, centerY - visibleHeight / 2)) * scale;
+  return {
+    scale,
+    offsetX,
+    offsetY,
+    viewportWidth,
+    viewportHeight,
+    mapWidthPixels: mapWidthWorld * scale,
+    mapHeightPixels: mapHeightWorld * scale,
+    visibleTilesX: visibleWidth / tileSize,
+    visibleTilesY: visibleHeight / tileSize,
+    actorScreenX: offsetX + centerX * scale,
+    actorScreenY: offsetY + centerY * scale,
+  };
+}
+
 export function createRenderer(canvas, assets) {
   const ctx = canvas.getContext('2d', { alpha: false });
   ctx.imageSmoothingEnabled = false;
@@ -47,8 +74,10 @@ export function createRenderer(canvas, assets) {
     resize();
     const ratio = canvas.width / canvas.getBoundingClientRect().width;
     ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-    const w = canvas.clientWidth, h = canvas.clientHeight, scale = Math.min(w / (map.width * tile), h / (map.height * tile));
-    const ox = (w - map.width * tile * scale) / 2, oy = (h - map.height * tile * scale) / 2;
+    const w = canvas.clientWidth, h = canvas.clientHeight;
+    const actor = state.player.embodiment ? state.hosts[state.player.embodiment] : state.player;
+    const camera = calculateCamera({ viewportWidth: w, viewportHeight: h, mapWidth: map.width, mapHeight: map.height, tileSize: tile, position: actor.position });
+    const { scale, offsetX: ox, offsetY: oy } = camera;
     ctx.fillStyle = '#62564b'; ctx.fillRect(0, 0, w, h);
     const background = mapCanvas(map);
     if (background) ctx.drawImage(background, ox, oy, background.width * scale, background.height * scale);
@@ -78,7 +107,6 @@ export function createRenderer(canvas, assets) {
       if (sprite.complete && sprite.naturalWidth) ctx.drawImage(sprite, frame * 16, dir * 24, 16, 24, px, py - 8 * scale, 16 * scale, 24 * scale);
       if (state.player.embodiment === card.id) { ctx.strokeStyle = '#f2d38b'; ctx.lineWidth = 1; ctx.beginPath(); ctx.ellipse(px + 8 * scale, py + 15 * scale, 8 * scale, 3 * scale, 0, 0, Math.PI * 2); ctx.stroke(); }
     }
-    const actor = state.player.embodiment ? state.hosts[state.player.embodiment] : state.player;
     const px = ox + actor.position.x * tile * scale, py = oy + actor.position.y * tile * scale;
     if (!state.player.embodiment) { ctx.fillStyle = '#efe0b5'; ctx.fillRect(px + 7 * scale, py + 5 * scale, 3 * scale, 8 * scale); ctx.fillRect(px + 5 * scale, py + 3 * scale, 7 * scale, 3 * scale); }
     // Warm paper lanterns mark the active space without covering tile detail.

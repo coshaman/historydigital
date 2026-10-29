@@ -14,7 +14,7 @@ await new Promise((resolve, reject) => portProbe.close(error => error ? reject(e
 const server = spawn(process.execPath, ['server.mjs'], {
   cwd: root,
   env: { ...process.env, CHANCERY_PORT: String(port) },
-  stdio: 'ignore',
+  stdio: ['ignore', 'ignore', 'inherit'],
   windowsHide: true,
 });
 const url = `http://127.0.0.1:${port}/`;
@@ -29,16 +29,20 @@ try {
     } catch {}
     await delay(250);
   }
-  if (!ready) throw new Error(`Local game server did not become ready at ${url}`);
+  if (!ready) throw new Error(`Local game server did not become ready at ${url} (exitCode=${server.exitCode})`);
 
-  for (const script of [
+  const campaignCase = process.argv.find(argument => argument.startsWith('--campaign-case='))?.slice('--campaign-case='.length);
+  const scripts = campaignCase
+    ? [['scripts/v33-campaign-browser-acceptance.mjs', `--case=${campaignCase}`]]
+    : [
     'scripts/v33-interpersonal-dialogue-browser.mjs',
     'scripts/v33-rpg-browser-smoke.mjs',
     'scripts/v33-ending-browser-smoke.mjs',
     'scripts/v33-campaign-browser-acceptance.mjs',
-  ]) {
+  ].map(script => [script]);
+  for (const [script, ...scriptArgs] of scripts) {
     console.log(`\n> ${script} (${url})`);
-    const result = spawnSync(process.execPath, [script], {
+    const result = spawnSync(process.execPath, [script, ...scriptArgs], {
       cwd: root,
       env: { ...process.env, V33_RPG_URL: url },
       stdio: 'inherit',

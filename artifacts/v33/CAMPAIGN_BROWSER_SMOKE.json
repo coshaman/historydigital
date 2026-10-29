@@ -2,6 +2,7 @@
   "schemaVersion": "V33_FULL_CAMPAIGN_BROWSER_ACCEPTANCE_V1",
   "status": "PASS",
   "endingCount": 5,
+  "selectedCase": null,
   "routes": [
     {
       "endingId": "UVAROV",

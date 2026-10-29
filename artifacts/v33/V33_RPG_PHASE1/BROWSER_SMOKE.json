@@ -1,6 +1,6 @@
 {
   "schemaVersion": "V33_RPG_BROWSER_SMOKE_V1",
-  "base": "http://127.0.0.1:56002/",
+  "base": "http://127.0.0.1:55635/",
   "viewports": [
     {
       "viewport": {
@@ -93,6 +93,13 @@
           "visible": true
         }
       ],
+      "canvas": {
+        "width": 1382,
+        "height": 476,
+        "sampledColors": 10,
+        "mapCoverage": 1,
+        "cssTileScale": 2.879166666666667
+      },
       "clueText": "배달 표식처럼 보이지만, 이 말만으로는 어느 집인지 알 수 없다. 봉투도 없으니 내용을 짐작할 근거는 없다.\n\n접힌 종이에는 “등불 둘, 뒤문”이라고 짧게 적혀 있다. 이름도 날짜도 봉인도 없다. 누구에게 보낼 쪽지인지는 알 수 없다.\n\n이 소품과 문구는 플레이를 위해 만든 허구 장면입니다. 역사 사료 인용이 아닙니다.",
       "initialClock": "09:00",
       "advancedClock": "09:06",
@@ -192,6 +199,13 @@
           "visible": true
         }
       ],
+      "canvas": {
+        "width": 1309,
+        "height": 348,
+        "sampledColors": 12,
+        "mapCoverage": 0.8968678380443086,
+        "cssTileScale": 2.7270833333333333
+      },
       "clueText": "배달 표식처럼 보이지만, 이 말만으로는 어느 집인지 알 수 없다. 봉투도 없으니 내용을 짐작할 근거는 없다.\n\n접힌 종이에는 “등불 둘, 뒤문”이라고 짧게 적혀 있다. 이름도 날짜도 봉인도 없다. 누구에게 보낼 쪽지인지는 알 수 없다.\n\n이 소품과 문구는 플레이를 위해 만든 허구 장면입니다. 역사 사료 인용이 아닙니다.",
       "initialClock": "09:00",
       "advancedClock": "09:06",
@@ -291,6 +305,13 @@
           "visible": true
         }
       ],
+      "canvas": {
+        "width": 368,
+        "height": 377,
+        "sampledColors": 18,
+        "mapCoverage": 1,
+        "cssTileScale": 0.7666666666666667
+      },
       "clueText": "배달 표식처럼 보이지만, 이 말만으로는 어느 집인지 알 수 없다. 봉투도 없으니 내용을 짐작할 근거는 없다.\n\n접힌 종이에는 “등불 둘, 뒤문”이라고 짧게 적혀 있다. 이름도 날짜도 봉인도 없다. 누구에게 보낼 쪽지인지는 알 수 없다.\n\n이 소품과 문구는 플레이를 위해 만든 허구 장면입니다. 역사 사료 인용이 아닙니다.",
       "initialClock": "09:00",
       "advancedClock": "09:08",
@@ -390,6 +411,13 @@
           "visible": true
         }
       ],
+      "canvas": {
+        "width": 338,
+        "height": 354,
+        "sampledColors": 14,
+        "mapCoverage": 1,
+        "cssTileScale": 0.7041666666666667
+      },
       "clueText": "배달 표식처럼 보이지만, 이 말만으로는 어느 집인지 알 수 없다. 봉투도 없으니 내용을 짐작할 근거는 없다.\n\n접힌 종이에는 “등불 둘, 뒤문”이라고 짧게 적혀 있다. 이름도 날짜도 봉인도 없다. 누구에게 보낼 쪽지인지는 알 수 없다.\n\n이 소품과 문구는 플레이를 위해 만든 허구 장면입니다. 역사 사료 인용이 아닙니다.",
       "initialClock": "09:00",
       "advancedClock": "09:08",
@@ -414,7 +442,7 @@
       "clientHeight": 335
     },
     "choiceResolved": true,
-    "explorationDurationMs": 128387,
+    "explorationDurationMs": 128285,
     "timedGatePassed": true,
     "errors": []
   },
