@@ -11,6 +11,11 @@
 - Source access: campaign script now reads a previously opened 1848 source through the in-game source drawer when another host needs to learn it. This records the reading for that host while preserving per-host knowledge boundaries.
 - Character assets: 8 character cards now link to their own 64×64 face portraits with provenance records. `npm run v33-image-audit` checks dimensions and provenance.
 - The separate offline fallback remains the verified AI state. Live Responses API remains blocked/unverified without a configured production key and Worker endpoint; human playtest on deployed Pages remains pending.
+- The learning reducer rejects answer objects with unknown question IDs; this prevents a fully correct set plus a forged extra field from being treated as a pass. The regression was observed failing before the reducer change and passes in the current focused/full suite.
+- Ending browser checks now assert historical comparison precedes the fictional timeline, all five endings begin at episode 1/7, next/replay works without changing route state, and reduced-motion mode keeps navigation and the no-dialogue ending layout available.
+- Invalid option IDs are omitted from saved answers and count as unanswered; unknown question IDs invalidate the submission and are not persisted, so a malformed result still round-trips through save validation.
+- Mid-lesson progress round-trips through the actual V33 save/load reducer. The seven fictional episodes are asserted chronological; mobile restart clears the saved exam and timeline.
+- Dialogue audits: speech-register audit PASS; 24 case conversations / 120 authored unique lines PASS; runtime audit PASS (802 lines, 216 choices); plan audit PASS; 100-line Korean dialogue review PASS.
 
 ## Checks recorded by the run
 
@@ -49,3 +54,9 @@ The detailed machine-readable evidence is in `artifacts/v33/V33_RPG_PHASE1/BROWS
 
 - Live OpenAI Responses API remains `BLOCKED_NO_KEY / UNVERIFIED`; no production Worker URL or secret was present for this run. Local tests cover server-side boundaries and offline fallback only.
 - A human playtest on the final deployed Pages build remains pending.
+
+## Final approved V33 learning/life follow-up
+
+- The updated verification ZIP was extracted to a clean directory and `npm run acceptance:v33` passed from that extracted copy. This included the V33 learning/save boundary cases, build, lint, `npm run check`, 81 route vectors, four browser viewport sizes, all five ending UIs, and five complete campaign routes.
+- The standalone legacy `npm run main20-learning-exam-acceptance` timed out waiting for `window.__main20` on the old `?main20=1` entry. The approved learning/life experience is integrated in V33; its browser coverage is the V33 acceptance above. Do not treat that obsolete MAIN20 harness as a V33 regression.
+- Live production AI credentials/Worker and human playtest of deployed Pages remain external pending gates, as described above.

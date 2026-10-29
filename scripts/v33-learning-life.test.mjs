@@ -48,13 +48,22 @@ test('learning progress advances through all units and can be saved and resumed'
 test('five factual answers grade transparently at the 2/5 and 3/5 promotion boundary', () => {
   const ready = reachExam('attended');
   const correct = Object.fromEntries(exam.questions.map(question => [question.id, exam.answerKey[question.id]]));
-  const two = { ...correct, [exam.questions[2].id]: 'wrong', [exam.questions[3].id]: 'wrong', [exam.questions[4].id]: 'wrong' };
+  const wrongOption = question => question.options.find(option => option.id !== exam.answerKey[question.id]).id;
+  const two = { ...correct, [exam.questions[2].id]: wrongOption(exam.questions[2]), [exam.questions[3].id]: wrongOption(exam.questions[3]), [exam.questions[4].id]: wrongOption(exam.questions[4]) };
   const three = { ...two, [exam.questions[2].id]: exam.answerKey[exam.questions[2].id] };
   assert.deepEqual(submitExam(ready, two, exam), { ...ready, phase: 'result', examAnswers: two, examCorrectCount: 2, examOutcome: 'failed', promotionStatus: 'not-promoted' });
   assert.deepEqual(submitExam(ready, three, exam), { ...ready, phase: 'result', examAnswers: three, examCorrectCount: 3, examOutcome: 'passed', promotionStatus: 'promoted' });
   assert.deepEqual(scoreExam({}, exam), { correctCount: 0, total: 5, passed: false, outcome: 'failed' });
   assert.equal(scoreExam(correct, exam).correctCount, 5);
-  assert.equal(scoreExam({ ...correct, extra: 'Q1-A' }, exam).correctCount, 5);
+  assert.deepEqual(scoreExam({ ...correct, extra: 'Q1-A' }, exam), { correctCount: 0, total: 5, passed: false, outcome: 'failed' });
+  const malformedSubmission = submitExam(ready, { ...correct, extra: 'Q1-A' }, exam);
+  assert.equal(malformedSubmission.examOutcome, 'failed');
+  assert.equal(malformedSubmission.examCorrectCount, 0);
+  assert.deepEqual(malformedSubmission.examAnswers, {}, 'unknown answer keys must not poison the persisted exam save');
+  const invalidOption = submitExam(ready, { ...correct, [exam.questions[4].id]: 'UNKNOWN-OPTION' }, exam);
+  assert.equal(invalidOption.examCorrectCount, 4);
+  assert.equal(invalidOption.examOutcome, 'passed');
+  assert.equal(Object.hasOwn(invalidOption.examAnswers, exam.questions[4].id), false, 'invalid options count as unanswered and are not persisted');
 });
 
 test('answer selection rejects unknown questions and options without changing progress', () => {
@@ -91,6 +100,7 @@ test('fictional life timeline is seven dated episodes and changes with exam, cir
   const other = buildLifeTimeline({ ...base, learning: { ...base.learning, circleLearning: 'declined', examOutcome: 'failed', examCorrectCount: 2, promotionStatus: 'not-promoted' }, ledger: [{ actionId: 'CARRY_NOTICE_ABROAD' }] }, timeline);
   assert.equal(first.length, 7);
   assert.deepEqual(first, repeated);
+  assert.deepEqual(first.map(episode => episode.year), [...first.map(episode => episode.year)].sort((a, b) => a - b), 'timeline periods remain in chronological order');
   assert.ok(first.every(episode => episode.fictional === true && episode.id && episode.year));
   assert.notDeepEqual(first.map(episode => episode.id), other.map(episode => episode.id));
 });
@@ -124,6 +134,11 @@ test('new game state carries a resumable learning arc; legacy version-one saves 
   const quests = await Promise.all(['printshop-article','public-discourse-1848','circle-investigation-1849','circle-letter-1849-may','literary-dead-souls'].map(id => readFile(new URL(`../rpg/quests/${id}.json`, import.meta.url)).then(JSON.parse)));
   const fresh = gameState.createInitialState({ maps, hostCards: cards, quests });
   assert.equal(fresh.learning.phase, 'circle-choice');
+  let studying = chooseCirclePath(createLearningProgress(), 'attended');
+  studying = advanceStudy(studying, exam);
+  fresh.learning = studying;
+  const progressSave = gameState.saveGame(fresh);
+  assert.deepEqual(gameState.loadGame(progressSave, { maps, hostCards: cards, quests, learningExam: exam }).learning, studying, 'an interrupted lesson resumes at the saved unit');
   fresh.ledger.push({ eventId: 'OLD_RECORD', eventType: 'DIALOGUE_TURN', hostId: 'clerk_alexei' });
   delete fresh.learning;
   fresh.version = 1;

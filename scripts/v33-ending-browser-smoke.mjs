@@ -59,6 +59,26 @@ try {
     const journeyText = await page.locator('#ending-journey').innerText();
     assert.ok(journeyCount === 1 && journeyText.length > 60, `journey entries not rendered: ${journeyCount}, ${journeyText.length}`);
     assert.ok(await page.locator('#ending-sources a').count() >= 3);
+    const historyComesFirst = await page.evaluate(() => Boolean(
+      document.querySelector('#ending-historical-comparison').compareDocumentPosition(document.querySelector('#ending-life-section')) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ));
+    assert.equal(historyComesFirst, true, 'documented biography must precede the fictional life timeline');
+    assert.match(await page.locator('#ending-life-progress').innerText(), /1 \/ 7/);
+    const routeBeforeReplay = await page.evaluate(() => {
+      const state = JSON.parse(localStorage.getItem('v33-rpg-save')).state;
+      state.learning.timelineIndex = 0;
+      return state;
+    });
+    await page.locator('#ending-life-next').click();
+    assert.match(await page.locator('#ending-life-progress').innerText(), /2 \/ 7/);
+    await page.locator('#ending-life-replay').click();
+    assert.match(await page.locator('#ending-life-progress').innerText(), /1 \/ 7/);
+    const routeAfterReplay = await page.evaluate(() => {
+      const state = JSON.parse(localStorage.getItem('v33-rpg-save')).state;
+      state.learning.timelineIndex = 0;
+      return state;
+    });
+    assert.deepEqual(routeAfterReplay, routeBeforeReplay, 'timeline playback must not mutate the completed route');
     assert.equal(errors.length, 0, errors.join('; '));
     await page.screenshot({ path: `artifacts/v33/V33_RPG_PHASE1/ending-${ending.id.toLowerCase()}-1440x900.png`, fullPage: true });
     results.push({ endingId: ending.id, choiceVisible: true, resolvedInBrowser: true, errors });
@@ -75,6 +95,15 @@ try {
     await page.getByRole('button', { name: '마지막 기록을 정리한다' }).click();
     await page.getByRole('button', { name: ending.titleKo, exact: false }).click();
     await page.locator('#ending-screen:not([hidden])').waitFor();
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    assert.equal(await page.locator('.lower').isVisible(), false, 'ending must not expose a dialogue panel');
+    assert.equal(await page.locator('#ending-life-next').isVisible(), true, 'reduced-motion timeline remains navigable');
+    const reducedMotionStyle = await page.locator('#ending-life-episode').evaluate(element => ({
+      preferenceHonored: matchMedia('(prefers-reduced-motion: reduce)').matches,
+      animationName: getComputedStyle(element).animationName,
+      transitionDuration: getComputedStyle(element).transitionDuration,
+    }));
+    assert.deepEqual(reducedMotionStyle, { preferenceHonored: true, animationName: 'none', transitionDuration: '0s' });
     const bounds = await page.evaluate(() => ({ viewportWidth: innerWidth, documentWidth: document.documentElement.scrollWidth, panelScrollHeight: document.querySelector('.ending-document').scrollHeight, panelClientHeight: document.querySelector('.ending-document').clientHeight }));
     assert.equal(bounds.documentWidth, bounds.viewportWidth, 'mobile ending must not overflow horizontally');
     await page.locator('.ending-document').evaluate(element => { element.scrollTop = 0; });
@@ -83,6 +112,9 @@ try {
     const restartBox = await page.locator('#ending-restart').boundingBox();
     assert.ok(restartBox && restartBox.x >= 0 && restartBox.x + restartBox.width <= 360 && restartBox.y + restartBox.height <= 800);
     await page.screenshot({ path: 'artifacts/v33/V33_RPG_PHASE1/ending-uvarov-360x800-bottom.png' });
+    await page.locator('#ending-restart').click();
+    await page.waitForFunction(() => document.querySelector('#ending-screen').hidden);
+    assert.equal(await page.evaluate(() => localStorage.getItem('v33-rpg-save')), null, 'restart clears the completed exam and timeline save');
     results.push({ endingId: ending.id, mobileViewport: bounds, restartControlVisibleAfterScroll: true });
     await context.close();
   }

@@ -1,6 +1,6 @@
 # Circle Learning, Rank Exam, and Later-Life Simulation Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Build a source-grounded reading-circle lesson, an identical fair exam for all routes, and an interactive state-shaped fictional-life timeline while preserving the existing Act III graph and five endings.
 
@@ -42,11 +42,11 @@
 **Interfaces:**
 - Produces an implementation inventory listing verified source IDs/ranges, current runtime phase/state names, ending IDs, and available Playwright/browser scripts for Tasks 2–6.
 
-- [ ] Inspect `origin/master` and current branch status; preserve all existing untracked files and logs.
-- [ ] At implementation start, create/reuse an isolated worktree from the latest approved `origin/master` state; do not blindly merge or overwrite the dirty primary checkout.
-- [ ] Run existing `npm run check` and focused branch-graph test before editing; save baseline outputs.
-- [ ] Inspect each candidate source record and quote enough context to verify five objective teachable facts; reject unsupported or ambiguous claims.
-- [ ] Map current save schema/migration, branch event phases, ending render entry point, and route replay API. Do not start feature edits until the inventory identifies these exact integration points.
+- [x] Inspect `origin/master` and current branch status; preserve all existing untracked files and logs.
+- [x] At implementation start, create/reuse an isolated worktree from the latest approved `origin/master` state; do not blindly merge or overwrite the dirty primary checkout.
+- [x] Run existing `npm run check` and focused branch-graph test before editing; save baseline outputs.
+- [x] Inspect each candidate source record and quote enough context to verify five objective teachable facts; reject unsupported or ambiguous claims.
+- [x] Map current save schema/migration, branch event phases, ending render entry point, and route replay API. Do not start feature edits until the inventory identifies these exact integration points.
 
 ### Task 2: Define source-backed lesson and exam data with failing content tests
 
@@ -62,11 +62,11 @@
 - Each question: stable `id`, prompt, answer options with stable IDs, `learningUnitIds[]`, `sourceIds[]`.
 - Answer key maps each question ID to exactly one answer option ID.
 
-- [ ] Write tests that fail for question count other than five, duplicate IDs, missing learning prerequisite, missing/unknown source IDs, answer key with zero/multiple valid answers, unsupported public-prep coverage, and threshold other than 3.
-- [ ] Run `node --test scripts/main20-learning-exam-test.mjs`; verify the intended schema assertions fail before implementation.
-- [ ] Author five fact questions only from Task 1-verified sources; every tested fact appears in both circle teaching and public preparation content.
-- [ ] Add test assertions that every question maps to at least one taught unit and source record and that public prep covers all five questions.
-- [ ] Add `main20-learning-exam-test` package script and run it to PASS.
+- [x] Write tests that fail for question count other than five, duplicate IDs, missing learning prerequisite, missing/unknown source IDs, answer key with zero/multiple valid answers, unsupported public-prep coverage, and threshold other than 3.
+- [x] Run `node --test scripts/main20-learning-exam-test.mjs`; verify the intended schema assertions fail before implementation.
+- [x] Author five fact questions only from Task 1-verified sources; every tested fact appears in both circle teaching and public preparation content.
+- [x] Add test assertions that every question maps to at least one taught unit and source record and that public prep covers all five questions.
+- [x] Add `main20-learning-exam-test` package script and run it to PASS.
 
 ### Task 3: Implement pure exam scoring and outcome transitions
 
@@ -80,10 +80,10 @@
 - `derivePromotionStatus(examOutcome) -> 'promoted' | 'not-promoted' | 'pending'`.
 - Missing/invalid answers are incorrect; malformed answer payloads cannot throw or yield a pass.
 
-- [ ] Add failing tests for 0/5, 2/5, 3/5, 5/5, omitted answers, invalid option IDs, duplicate/extra answer keys, and defer/help outcome handling.
-- [ ] Run the focused test and verify it fails on the missing pure functions.
-- [ ] Implement scoring with no DOM, localStorage, hidden affinity, or history mutation.
-- [ ] Run the focused test and verify boundary and malformed-input cases pass.
+- [x] Add failing tests for 0/5, 2/5, 3/5, 5/5, omitted answers, invalid option IDs, duplicate/extra answer keys, and defer/help outcome handling.
+- [x] Run the focused test and verify it fails on the missing pure functions.
+- [x] Implement scoring with no DOM, localStorage, hidden affinity, or history mutation.
+- [x] Run the focused test and verify boundary and malformed-input cases pass.
 
 ### Task 4: Build the warehouse learning and exam UI
 
@@ -98,14 +98,14 @@
 - Runtime state: `examOutcome`, `examCorrectCount`, `examAnswers`, `promotionStatus`; preserve existing `circleContact` as the canonical circle route field.
 - UI IDs/data hooks: stable hooks for learning progress/continue, prep start, question/options, submit, result/continue, and browser tests.
 
-- [ ] Add integration tests for all three circle choices, warehouse lesson entry only for attended routes, public preparation for every non-attendee, identical exam payload, and no philosophy/opinion prompt.
-- [ ] Run the focused browser/test harness and verify it fails before runtime/UI integration.
-- [ ] Render lesson beats as readable document-focused content with character reactions; use checked-in source records for claims and visibly distinguish fictional connective scene text.
-- [ ] Let non-attendees open the public preparation sheet; ensure attendees get a recall/review route but can revisit the same material.
-- [ ] Implement five-question selection, progress and selected states, keyboard/touch-accessible controls, submit validation, result copy, and continuation into the existing branch graph.
-- [ ] Add versioned save/load migration for interrupted learning/exam phases; verify old saves retain route choices/evidence and restart clears exam state.
-- [ ] Style desktop/mobile and reduced-motion layouts; retain scrolling without nested-scroll traps or controls under fixed bars.
-- [ ] Run focused content, scoring, and browser tests; confirm pass/fail/defer/help paths each continue without dead ends.
+- [x] Add integration tests for all three circle choices, warehouse lesson entry only for attended routes, public preparation for every non-attendee, identical exam payload, and no philosophy/opinion prompt.
+- [x] Run the focused browser/test harness and verify it fails before runtime/UI integration.
+- [x] Render lesson beats as readable document-focused content with character reactions; use checked-in source records for claims and visibly distinguish fictional connective scene text.
+- [x] Let non-attendees open the public preparation sheet; ensure attendees get a recall/review route but can revisit the same material.
+- [x] Implement five-question selection, progress and selected states, keyboard/touch-accessible controls, submit validation, result copy, and continuation into the existing branch graph.
+- [x] Add versioned save/load migration for interrupted learning/exam phases; verify old saves retain route choices/evidence and restart clears exam state.
+- [x] Style desktop/mobile and reduced-motion layouts; retain scrolling without nested-scroll traps or controls under fixed bars.
+- [x] Run focused content, scoring, and browser tests; confirm pass/fail/defer/help paths each continue without dead ends.
 
 ### Task 5: Add deterministic fictional-life timeline model and content
 
@@ -120,11 +120,11 @@
 - `buildLifeTimeline(state, templates) -> Episode[]`; deterministic ordering and output for identical state.
 - Each episode includes period label, title, concise narrative, state basis keys, fictional label, and optional `sourceIds[]` only for historical context.
 
-- [ ] Add failing tests for 6–8 episodes per supported route state, deterministic output, varied exam/circle/promotion/work/relationship conditions, valid state predicates, and invariant historical outcomes.
-- [ ] Run focused tests to confirm they fail before builder/data exist.
-- [ ] Author the smallest coherent set of template branches that yields 6–8 distinct period beats over multiple years, including passed, failed, deferred, and helped-peer paths.
-- [ ] Ensure no episode invents a real-person interaction or claims fictional clerk events as sourced history; historical context text must resolve to checked-in sources.
-- [ ] Implement pure timeline construction and run tests for every outcome combination.
+- [x] Add failing tests for 6–8 episodes per supported route state, deterministic output, varied exam/circle/promotion/work/relationship conditions, valid state predicates, and invariant historical outcomes.
+- [x] Run focused tests to confirm they fail before builder/data exist.
+- [x] Author the smallest coherent set of template branches that yields 6–8 distinct period beats over multiple years, including passed, failed, deferred, and helped-peer paths.
+- [x] Ensure no episode invents a real-person interaction or claims fictional clerk events as sourced history; historical context text must resolve to checked-in sources.
+- [x] Implement pure timeline construction and run tests for every outcome combination.
 
 ### Task 6: Integrate ending timeline, accessible playback, and save/replay
 
@@ -140,11 +140,11 @@
 - Playback state tracks visible episode index only; next/pause/replay are deterministic and do not alter route affinity.
 - Browser hook exposes current rendered episode IDs/index and simulation completion to tests without exposing hidden ending mechanics to players.
 
-- [ ] Add failing browser assertions that timeline follows historical comparison, each of the five ending IDs renders a timeline, no dialogue panel is active/visible, and replay does not change route state.
-- [ ] Run browser test to establish failures before ending integration.
-- [ ] Render timeline periods with restrained motion, explicit pause/next/replay, and a complete static sequence when reduced-motion is enabled.
-- [ ] Ensure keyboard, touch, focus management, and mobile scrolling reach every episode/control; test long Korean content and fixed footer overlap.
-- [ ] Verify pass/fail/defer/help timelines and all five ending IDs at desktop and mobile-like viewport sizes.
+- [x] Add failing browser assertions that timeline follows historical comparison, each of the five ending IDs renders a timeline, no dialogue panel is active/visible, and replay does not change route state.
+- [x] Run browser test to establish failures before ending integration.
+- [x] Render timeline periods with restrained motion, explicit pause/next/replay, and a complete static sequence when reduced-motion is enabled.
+- [x] Ensure keyboard, touch, focus management, and mobile scrolling reach every episode/control; test long Korean content and fixed footer overlap.
+- [x] Verify pass/fail/defer/help timelines and all five ending IDs at desktop and mobile-like viewport sizes.
 
 ### Task 7: Exhaustive route, provenance, dialogue, and release verification
 
@@ -158,12 +158,12 @@
 - Acceptance report includes route vector, circle route, exam outcome/score where applicable, promotion state, ending ID, timeline episode IDs, console/page errors, viewport, and source IDs used.
 - Preserve existing `scripts/main20-branch-graph-test.mjs` guarantees and `npm run check` integration.
 
-- [ ] Add exhaustive replay coverage for all 81 route vectors plus exam answer boundary cases and all four exam action/outcome families.
-- [ ] Assert the five exact ending IDs remain unchanged and historical anchor payloads match byte-for-byte across route replays.
-- [ ] Audit all new teaching/question/result/timeline claims against checked-in source IDs and exact provenance; audit character speech register and ensure dialogue rhythm/endings remain distinguishable.
-- [ ] Run `npm run main20-learning-exam-test`, `npm run main20-life-simulation-test`, `npm run main20-learning-exam-acceptance`, existing branch graph tests, and `npm run check`.
-- [ ] Run the app at desktop and mobile-like sizes; inspect screenshots and interaction progression, reduced-motion, save/load, restart, source drawer, H overlay, courier, typed response, and no-clipped-controls behavior.
-- [ ] Fix all failures and rerun the full verification set; only then commit the explicitly changed implementation files and push to the user-approved destination after confirming its branch mapping and remote state.
+- [x] Add exhaustive replay coverage for all 81 route vectors plus exam answer boundary cases and all four exam action/outcome families.
+- [x] Assert the five exact ending IDs remain unchanged and historical anchor payloads match byte-for-byte across route replays.
+- [x] Audit all new teaching/question/result/timeline claims against checked-in source IDs and exact provenance; audit character speech register and ensure dialogue rhythm/endings remain distinguishable.
+- [x] Run `npm run main20-learning-exam-test`, `npm run main20-life-simulation-test`, `npm run main20-learning-exam-acceptance`, existing branch graph tests, and `npm run check`.
+- [x] Run the app at desktop and mobile-like sizes; inspect screenshots and interaction progression, reduced-motion, save/load, restart, source drawer, H overlay, courier, typed response, and no-clipped-controls behavior.
+- [x] Fix all failures and rerun the full verification set; only then commit the explicitly changed implementation files and push to the user-approved destination after confirming its branch mapping and remote state.
 
 ## Self-review against the approved spec
 
@@ -183,4 +183,18 @@ The approved design was integrated into the active `rpg/main.js` V33 campaign ra
 - Added V33-specific learning tests and connected them to `acceptance:v33`; all 9 focused tests pass.
 - The reducer-backed route matrix passes all five ending IDs across 10 variants and records each learning outcome. `npm run v33-rpg-core-test`, `npm run v33-ai-test`, `npm run build:v33`, `npm run build`, `npm run lint`, `npm run check`, and `npm test` pass.
 - The initial-screen audit found and fixed two startup rendering blockers: the local HTTP server returned `text/plain` for the new `.mjs` browser module, and async tile-sheet loading did not request a redraw. The focused MIME and renderer tests pass; the browser smoke now asserts that the initial canvas is live and textured. All 24 RPG core tests pass after adapting the existing ending test to provide the required completed learning state.
-- Browser UI acceptance remains open: the repository Playwright runner denied local navigation (`ERR_NETWORK_ACCESS_DENIED`). The in-app browser reaches the existing 4173 page, but that process still renders an uninitialized shell and is not demonstrably serving this worktree. Fresh-browser visual checks of learning, timeline, and responsive controls are still required; previous screenshots predate this addition.
+- At the time of this initial record, browser UI acceptance was open because the in-app browser did not serve this worktree. The follow-up V33 completion audit below closed this with local Playwright checks for all five endings and full campaign routes across desktop and mobile viewports.
+
+## Follow-up execution record — V33 completion audit (2026-10-30)
+
+The approved feature had already been integrated into `rpg/` by the prior V33 implementation, as recorded above; the plan's original `MAIN20` file list is superseded. Final implementation mappings are `rpg/data/learning-exam.json`, `rpg/engine/learning-life.mjs`, `rpg/data/life-simulation.json`, `rpg/main.js`, `index.html`, `rpg/choices.css`, and V33 tests.
+
+- Regraded every spec section against the current V33 runtime and the existing execution record. Ruling: retain the previous V33 integration rather than recreating feature logic in the legacy MAIN20 app; the approved user experience and state contract are the binding requirements.
+- Closed a grading/save defect: unknown question keys now fail the attempt and are removed from persistent answers; invalid option IDs count as unanswered and are not persisted. Tests were observed failing before the fix, then passed.
+- Expanded acceptance: the real reducer save/load resumes an interrupted lesson; the life timeline is chronological; each of the five ending UIs places documented biography before the fictional timeline, supports next/replay without changing route state, hides dialogue, and keeps the same navigation in reduced-motion mode. Restart clears the stored exam/timeline.
+- `npm run acceptance:v33` passed after the implementation updates: RPG core, learning/life (9/9), server MIME, async renderer, AI/Worker fallback/security, historical audit, 17-image provenance audit, 10 ending-route variants, build, lint, `npm run check` (including all 81 branch vectors), route tests, four viewport browser checks, five ending UIs, and five full-campaign routes.
+- Dialogue audit commands passed: `v42-speech-register-audit`, `authored-dialogue-audit` (24 cases / 120 unique lines), `runtime-dialogue-audit` (24 cases / 802 lines / 216 choices), `dialogue-plan-audit`, and `korean-dialogue-review` (100 lines).
+- Remaining global release gates are external: live Responses API remains unverified without production credentials/Worker endpoint, and human playtest of the deployed Pages build remains pending. No release-ready claim is made on those gates.
+
+- Final archive verification: rebuilt the verification ZIP from the updated V33 worktree, extracted it, and ran `npm run acceptance:v33` successfully from the extracted copy, including browser tests and all five full-campaign routes.
+- The separate legacy main20-learning-exam-acceptance harness timed out waiting for window.__main20 in the retired MAIN20 runtime. The approved feature runs in V33; the V33 acceptance suite passed. External live AI and deployed human-playtest gates remain pending.

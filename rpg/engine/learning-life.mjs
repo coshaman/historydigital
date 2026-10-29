@@ -61,10 +61,21 @@ export function selectExamAnswer(progress, questionId, optionId, examData) {
   return { ...progress, examAnswers: { ...(progress.examAnswers ?? {}), [questionId]: optionId } };
 }
 
+function persistableExamAnswers(answers, examData) {
+  const submitted = answers && typeof answers === 'object' && !Array.isArray(answers) ? answers : {};
+  const questions = new Map((Array.isArray(examData?.questions) ? examData.questions : []).map(question => [question.id, question]));
+  if (Object.keys(submitted).some(questionId => !questions.has(questionId))) return {};
+  return Object.fromEntries(Object.entries(submitted).filter(([questionId, optionId]) => questions.get(questionId).options?.some(option => option.id === optionId)));
+}
+
 export function scoreExam(answers, examData) {
   const submitted = answers && typeof answers === 'object' && !Array.isArray(answers) ? answers : {};
   const questions = Array.isArray(examData?.questions) ? examData.questions : [];
   const answerKey = examData?.answerKey && typeof examData.answerKey === 'object' ? examData.answerKey : {};
+  const questionIds = new Set(questions.map(question => question.id));
+  if (Object.keys(submitted).some(questionId => !questionIds.has(questionId))) {
+    return { correctCount: 0, total: questions.length, passed: false, outcome: 'failed' };
+  }
   const correctCount = questions.reduce((count, question) => {
     const answerId = submitted[question.id];
     const isKnownOption = question.options?.some(option => option.id === answerId) === true;
@@ -76,11 +87,12 @@ export function scoreExam(answers, examData) {
 
 export function submitExam(progress, answers, examData) {
   if (progress?.phase !== 'exam') return progress;
-  const score = scoreExam(answers, examData);
+  const examAnswers = persistableExamAnswers(answers, examData);
+  const score = scoreExam(examAnswers, examData);
   return {
     ...progress,
     phase: 'result',
-    examAnswers: { ...(answers && typeof answers === 'object' && !Array.isArray(answers) ? answers : {}) },
+    examAnswers,
     examCorrectCount: score.correctCount,
     examOutcome: score.outcome,
     promotionStatus: score.passed ? 'promoted' : 'not-promoted',

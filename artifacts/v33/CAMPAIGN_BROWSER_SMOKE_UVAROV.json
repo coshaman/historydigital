@@ -1,6 +1,6 @@
 {
   "schemaVersion": "V33_CAMPAIGN_BROWSER_SMOKE_V1",
-  "base": "http://127.0.0.1:50232/",
+  "base": "http://127.0.0.1:56002/",
   "endingId": "UVAROV",
   "status": "PASS",
   "steps": [
