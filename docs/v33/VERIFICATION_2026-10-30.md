@@ -2,19 +2,27 @@
 
 ## Result
 
-`npm run acceptance:v33` exited 0 on branch `codex/v33-possession-rpg` after the save-description and ending-route fixture fixes. The verified commit `c6ac18708fdb0f05403fd916d91885bef489a655` was then pushed to `master`; GitHub Actions and Pages both completed successfully. The public deployment was checked with HTTP resource fetches and a Playwright gameplay smoke.
+`npm run acceptance:v33` previously exited 0 on branch `codex/v33-possession-rpg` after the save-description and ending-route fixture fixes. The verified commit `c6ac18708fdb0f05403fd916d91885bef489a655` was then pushed to `master`; GitHub Actions and Pages both completed successfully. The public deployment was checked with HTTP resource fetches and a Playwright gameplay smoke. A follow-up 2026-10-30 verification added interpersonal dialogue and per-host portrait checks and reran the browser acceptance suite successfully; see the current result below.
+
+## Follow-up verification — 2026-10-30
+
+- Full browser acceptance: PASS. All five complete campaign routes reached their intended endings from a clean browser state, with the four 1847–1849 quests resolved and required sources recorded. Reports and 1440×900 screenshots are in `artifacts/v33/CAMPAIGN_BROWSER_SMOKE*.json` and `artifacts/v33/campaign-full-run-*.png`.
+- Interpersonal conversation: PASS at 1440×900, 1366×768, 390×844, and 360×800. Anna speaks as the embodied player to adjacent Ekaterina; the reply is attributed to Ekaterina; ledger speaker/interlocutor IDs are distinct; conversation does not mutate quests; portrait loads at 64×64; input remains visible and does not overlap movement controls.
+- Source access: campaign script now reads a previously opened 1848 source through the in-game source drawer when another host needs to learn it. This records the reading for that host while preserving per-host knowledge boundaries.
+- Character assets: 8 character cards now link to their own 64×64 face portraits with provenance records. `npm run v33-image-audit` checks dimensions and provenance.
+- The separate offline fallback remains the verified AI state. Live Responses API remains blocked/unverified without a configured production key and Worker endpoint; human playtest on deployed Pages remains pending.
 
 ## Checks recorded by the run
 
 | Gate | Result |
 |---|---|
-| RPG core | 25/25 tests passed |
+| RPG core | 27/27 tests passed |
 | Learning and life simulation | 9/9 tests passed |
 | Local HTTP MIME handling | passed |
 | Canvas renderer startup | passed |
 | AI/Worker security, memory, limits and fallback | 14/14 tests passed |
 | Historical flow audit | PASS; 3 dated arcs, 7 sources, 4 historical packets, 5 quests, 5 ending IDs |
-| Pixel asset audit | PASS; 9 PNGs with dimensions and provenance checked |
+| Pixel asset audit | PASS; 17 PNGs with dimensions and provenance checked, including eight 64×64 portraits |
 | Ending reducer matrix | PASS; 10 variants across 5 endings |
 | Static RPG build | PASS; 49 files, relative paths, legacy Chancery entry preserved |
 | Static integrity, lint, historical check and route tests | PASS |
@@ -22,7 +30,7 @@
 | Browser two-map route | PASS; 128,624 ms goal-directed route, source reader scroll, clue, host changes and quest decision |
 | Browser Chancery/courtyard route | PASS; access restriction, observer entry, clue inspection and return |
 | Ending UI | PASS; all five endings, no gameplay/dialogue panel under the ending, mobile scroll and restart |
-| Full campaign browser routes | PASS; all five endings reached from the 1847–1849 campaign |
+| Full campaign browser routes | PASS; all five endings reached from the 1847–1849 campaign. Repeated per-host source reading uses the source drawer and retains speaker-specific knowledge. |
 
 The detailed machine-readable evidence is in `artifacts/v33/V33_RPG_PHASE1/BROWSER_SMOKE.json`, `artifacts/v33/ENDING_BROWSER_SMOKE.json`, `artifacts/v33/CAMPAIGN_BROWSER_SMOKE.json`, the five per-ending campaign reports, `artifacts/v33/ENDING_ROUTE_MATRIX.json`, `docs/v33/HISTORICAL_FLOW_AUDIT.json`, and `docs/v33/IMAGE_AUDIT.json`. Screenshots for the viewport, ending, and full-campaign routes are stored alongside those reports under `artifacts/v33/`.
 

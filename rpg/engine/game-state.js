@@ -364,12 +364,15 @@ function recordEvidenceRead(state, evidenceId, maps) {
   return { ok: true, state: next };
 }
 
-function recordDialogueTurn(state, { hostId, sceneId, intentClass = 'GENERAL_CONVERSATION' } = {}, maps = {}) {
-  if (!state?.player || state.player.embodiment !== hostId || !state.hosts?.[hostId] || state.hosts[hostId].mapId !== state.world.currentMapId || typeof sceneId !== 'string' || !/^V33_[A-Z0-9_]{3,64}$/.test(sceneId)) return { ok: false, reason: 'dialogue_host_unavailable', state };
+function recordDialogueTurn(state, { hostId, actorHostId, sceneId, intentClass = 'GENERAL_CONVERSATION' } = {}, maps = {}) {
+  const map = maps?.[state?.world?.currentMapId], speaker = state?.hosts?.[hostId], actor = state?.hosts?.[actorHostId];
+  const speakerPresent = layer(map, 'NPCs')?.objects.some(item => properties(item).hostId === hostId);
+  if (!state?.player || state.player.embodiment !== actorHostId || !actor || actor.mapId !== state.world.currentMapId || !speaker || speaker.mapId !== state.world.currentMapId || !speakerPresent || typeof sceneId !== 'string' || !/^V33_[A-Z0-9_]{3,64}$/.test(sceneId)) return { ok: false, reason: 'dialogue_host_unavailable', state };
+  if (hostId === actorHostId || !nearTile(actor.position, speaker.position, 2)) return { ok: false, reason: 'dialogue_partner_unavailable', state };
   if (!['SOURCE_REQUEST', 'ACTION_REQUEST', 'RISK_QUESTION', 'PERSONAL_QUESTION', 'GENERAL_CONVERSATION'].includes(intentClass)) return { ok: false, reason: 'invalid_intent_class', state };
   const timed = advanceWorldTime(state, 1, maps);
   const next = clone(timed);
-  const event = { eventId: `DIALOGUE_${next.ledger.length + 1}`, eventType: 'DIALOGUE_TURN', date: next.world.date, clockMinutes: next.world.clockMinutes, mapId: next.world.currentMapId, hostId, sceneId, intentClass, priorStateHash: stateHash(timed), nextStateHash: null };
+  const event = { eventId: `DIALOGUE_${next.ledger.length + 1}`, eventType: 'DIALOGUE_TURN', date: next.world.date, clockMinutes: next.world.clockMinutes, mapId: next.world.currentMapId, hostId, interlocutorHostId: actorHostId, sceneId, intentClass, priorStateHash: stateHash(timed), nextStateHash: null };
   next.ledger.push(event);
   event.nextStateHash = stateHash(next);
   return { ok: true, state: next };

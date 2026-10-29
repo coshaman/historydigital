@@ -110,5 +110,11 @@
       },
       "activityKo": "인쇄대 쪽 작업을 맡는다"
     }
-  ]
+  ],
+  "portrait": {
+    "file": "assets/portrait-printer_ekaterina.png",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+  }
 }

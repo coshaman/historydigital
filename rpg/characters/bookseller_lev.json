@@ -109,5 +109,11 @@
       },
       "activityKo": "가로등 쪽 손님을 살핀다"
     }
-  ]
+  ],
+  "portrait": {
+    "file": "assets/portrait-bookseller_lev.png",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+  }
 }

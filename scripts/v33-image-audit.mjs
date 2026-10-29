@@ -71,6 +71,10 @@ for (const character of characters) {
   const result = results.find(item => item.path === `rpg/${filename}`);
   if (!result) { failures.push(`${character.id} references missing sprite ${sprite?.file}`); continue; }
   if (result.width % sprite.frameWidth || result.height % sprite.frameHeight) failures.push(`${character.id} sprite dimensions do not align to ${sprite.frameWidth}×${sprite.frameHeight} frames`);
+  const portraitPath = character.portrait?.file?.replaceAll('\\', '/');
+  const portrait = results.find(item => item.path === `rpg/${portraitPath}`);
+  if (!portrait || portrait.width !== 64 || portrait.height !== 64) failures.push(`${character.id} requires a 64×64 face portrait`);
+  if (!records.has(`rpg/${portraitPath}`)) failures.push(`${character.id} portrait has no provenance record`);
 }
 const tileSheet = results.find(item => item.path === 'rpg/assets/petersburg-tiles.png');
 if (!tileSheet || tileSheet.width % 16 || tileSheet.height % 16) failures.push('Petersburg tilesheet is missing or does not align to the 16px map grid');

@@ -121,8 +121,12 @@
       "generatedBy": "scripts/v33-generate-literary-assets.mjs",
       "license": "original project-authored pixels",
       "historicalConfidence": "LITERARY_CHARACTER_RECONSTRUCTION",
-      "intendedScene": ["dead-souls"],
-      "sourceIds": ["LIT-GOGOL-DEAD-SOULS-1842"],
+      "intendedScene": [
+        "dead-souls"
+      ],
+      "sourceIds": [
+        "LIT-GOGOL-DEAD-SOULS-1842"
+      ],
       "notes": "고골 소설 속 인물의 픽셀 재구성이다. 실제 인물 초상이 아니다."
     },
     {
@@ -132,10 +136,143 @@
       "generatedBy": "scripts/v33-generate-literary-assets.mjs",
       "license": "original project-authored pixels",
       "historicalConfidence": "SOURCE_CONSTRAINED_HISTORICAL_RECONSTRUCTION",
-      "intendedScene": ["printshop"],
-      "sourceIds": ["OBJ-WS-NEKRASOV-EDITORIAL-1848", "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE"],
-      "sourceUrls": ["https://ru.wikisource.org/wiki/От_редакции_(Некрасов)/Версия_3", "https://ru.wikisource.org/wiki/Об_издании_«Современника»_в_1849_году_(Некрасов)"],
+      "intendedScene": [
+        "printshop"
+      ],
+      "sourceIds": [
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE"
+      ],
+      "sourceUrls": [
+        "https://ru.wikisource.org/wiki/От_редакции_(Некрасов)/Версия_3",
+        "https://ru.wikisource.org/wiki/Об_издании_«Современника»_в_1849_году_(Некрасов)"
+      ],
       "notes": "네크라소프의 실제 초상을 재현한 그림이 아니라, 출처에 구속된 게임용 픽셀 표현이다."
+    },
+    {
+      "id": "portrait-bookseller_lev",
+      "path": "rpg/assets/portrait-bookseller_lev.png",
+      "type": "GENERATED_PIXEL_FACE_PORTRAIT",
+      "generatedBy": "image generation contact sheet, nearest-neighbor crop to 64×64",
+      "license": "original project-generated illustrative artwork",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": [
+        "nevsky",
+        "printshop",
+        "courtyard"
+      ],
+      "sourceIds": [
+        "OBJ-SOV-1847"
+      ],
+      "notes": "Fictional character illustration for the game; no claim of a documented individual. Source contact sheet: artifacts/v33/portrait-source-sheet.png."
+    },
+    {
+      "id": "portrait-clerk_alexei",
+      "path": "rpg/assets/portrait-clerk_alexei.png",
+      "type": "GENERATED_PIXEL_FACE_PORTRAIT",
+      "generatedBy": "image generation contact sheet, nearest-neighbor crop to 64×64",
+      "license": "original project-generated illustrative artwork",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": [
+        "nevsky",
+        "printshop",
+        "chancery"
+      ],
+      "sourceIds": [],
+      "notes": "Fictional character illustration for the game; no claim of a documented individual. Source contact sheet: artifacts/v33/portrait-source-sheet.png."
+    },
+    {
+      "id": "portrait-courier_pavel",
+      "path": "rpg/assets/portrait-courier_pavel.png",
+      "type": "GENERATED_PIXEL_FACE_PORTRAIT",
+      "generatedBy": "image generation contact sheet, nearest-neighbor crop to 64×64",
+      "license": "original project-generated illustrative artwork",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": [
+        "nevsky",
+        "printshop",
+        "courtyard"
+      ],
+      "sourceIds": [],
+      "notes": "Fictional character illustration for the game; no claim of a documented individual. Source contact sheet: artifacts/v33/portrait-source-sheet.png."
+    },
+    {
+      "id": "portrait-literary_chichikov",
+      "path": "rpg/assets/portrait-literary_chichikov.png",
+      "type": "GENERATED_PIXEL_FACE_PORTRAIT",
+      "generatedBy": "image generation contact sheet, nearest-neighbor crop to 64×64",
+      "license": "original project-generated illustrative artwork",
+      "historicalConfidence": "LITERARY_CHARACTER_RECONSTRUCTION",
+      "intendedScene": [
+        "dead-souls"
+      ],
+      "sourceIds": [
+        "LIT-GOGOL-DEAD-SOULS-1842"
+      ],
+      "notes": "Literary character illustration from a separate novel realm; not a real person. Source contact sheet: artifacts/v33/portrait-source-sheet.png."
+    },
+    {
+      "id": "portrait-nekrasov_reconstruction",
+      "path": "rpg/assets/portrait-nekrasov_reconstruction.png",
+      "type": "GENERATED_PIXEL_FACE_PORTRAIT",
+      "generatedBy": "image generation contact sheet, nearest-neighbor crop to 64×64",
+      "license": "original project-generated illustrative artwork",
+      "historicalConfidence": "SOURCE_CONSTRAINED_HISTORICAL_RECONSTRUCTION",
+      "intendedScene": [
+        "printshop",
+        "nevsky"
+      ],
+      "sourceIds": [
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE"
+      ],
+      "notes": "Source-constrained stylized reconstruction; not a verified likeness or portrait. Source contact sheet: artifacts/v33/portrait-source-sheet.png."
+    },
+    {
+      "id": "portrait-printer_ekaterina",
+      "path": "rpg/assets/portrait-printer_ekaterina.png",
+      "type": "GENERATED_PIXEL_FACE_PORTRAIT",
+      "generatedBy": "image generation contact sheet, nearest-neighbor crop to 64×64",
+      "license": "original project-generated illustrative artwork",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": [
+        "nevsky",
+        "printshop",
+        "courtyard"
+      ],
+      "sourceIds": [
+        "OBJ-SOV-1847"
+      ],
+      "notes": "Fictional character illustration for the game; no claim of a documented individual. Source contact sheet: artifacts/v33/portrait-source-sheet.png."
+    },
+    {
+      "id": "portrait-seamstress_anna",
+      "path": "rpg/assets/portrait-seamstress_anna.png",
+      "type": "GENERATED_PIXEL_FACE_PORTRAIT",
+      "generatedBy": "image generation contact sheet, nearest-neighbor crop to 64×64",
+      "license": "original project-generated illustrative artwork",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": [
+        "nevsky",
+        "courtyard",
+        "printshop"
+      ],
+      "sourceIds": [],
+      "notes": "Fictional character illustration for the game; no claim of a documented individual. Source contact sheet: artifacts/v33/portrait-source-sheet.png."
+    },
+    {
+      "id": "portrait-tenant_mikhail",
+      "path": "rpg/assets/portrait-tenant_mikhail.png",
+      "type": "GENERATED_PIXEL_FACE_PORTRAIT",
+      "generatedBy": "image generation contact sheet, nearest-neighbor crop to 64×64",
+      "license": "original project-generated illustrative artwork",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": [
+        "nevsky",
+        "courtyard"
+      ],
+      "sourceIds": [],
+      "notes": "Fictional character illustration for the game; no claim of a documented individual. Source contact sheet: artifacts/v33/portrait-source-sheet.png."
     }
   ]
 }

@@ -191,6 +191,20 @@ const say = (title, text, actions = []) => { $('#headline').textContent = title;
 const setState = next => { state = next; updateHud(); requestRender(); };
 function currentMap() { return maps[state.world.currentMapId]; }
 function actor() { return state.player.embodiment ? state.hosts[state.player.embodiment] : state.player; }
+function mapObjectProperties(object) { return Object.fromEntries((object?.properties ?? []).map(property => [property.name, property.value])); }
+function nearbyConversationPartner() {
+  const actorId = state.player.embodiment;
+  if (!actorId) return null;
+  const position = state.hosts[actorId].position;
+  const people = currentMap().layers.find(item => item.name === 'NPCs')?.objects ?? [];
+  return people.map(object => cards.find(card => card.id === mapObjectProperties(object).hostId)).filter(card => {
+    const person = card && state.hosts[card.id];
+    return person && card.id !== actorId && person.mapId === state.world.currentMapId && Math.abs(person.position.x - position.x) + Math.abs(person.position.y - position.y) <= 2;
+  }).sort((a, b) => {
+    const left = state.hosts[a.id].position, right = state.hosts[b.id].position;
+    return Math.abs(left.x - position.x) + Math.abs(left.y - position.y) - Math.abs(right.x - position.x) - Math.abs(right.y - position.y);
+  })[0] ?? null;
+}
 function updateHud() {
   const map = currentMap(), host = state.player.embodiment ? cards.find(card => card.id === state.player.embodiment) : null;
   $('#place').textContent = map.metadata.displayNameKo; $('#mapname').textContent = map.metadata.displayNameKo;
@@ -203,7 +217,9 @@ function updateHud() {
   $('#bodyname').textContent = host ? `몸을 빌림 · ${host.displayNameKo}` : '바깥에서 바라보는 중';
   $('#coins').textContent = host ? (state.hosts[host.id].money.amount == null ? '자금 기록 없음' : `${state.hosts[host.id].money.amount} 코페이카`) : '몸을 빌리면 주머니를 확인할 수 있습니다';
   $('#release').disabled = !host || Boolean(activeDialogueHost);
-  $('#talk').disabled = !host || Boolean(activeDialogueHost);
+  const conversationPartner = nearbyConversationPartner();
+  $('#talk').textContent = conversationPartner ? `말 걸기 · ${conversationPartner.displayNameKo}` : '가까이서 말하기';
+  $('#talk').disabled = !host || !conversationPartner || Boolean(activeDialogueHost);
   document.querySelectorAll('.touch-pad button').forEach(button => { button.disabled = Boolean(activeDialogueHost); });
   $('#load').disabled = !localStorage.getItem('v33-rpg-save');
   const notebook = $('#host-notebook'), facts = $('#host-facts');
@@ -300,7 +316,13 @@ function inspect(object) {
   const props = Object.fromEntries((object.properties ?? []).map(p => [p.name, p.value]));
   if (object.type === 'npc') {
     const card = cards.find(item => item.id === props.hostId), host = state.hosts[props.hostId];
-    say(card.displayNameKo, `${card.occupation}. ${card.personalObjective} 가까이에서 그 사람의 시야로 들어갈 수 있다.`, [{ label: '몸을 빌린다', run: () => { const result = possessHost(state, card.id, currentMap()); if (result.ok) { setState(result.state); say(card.displayNameKo, `눈높이가 달라졌다. ${card.speechRhythm} ${describeHostMoney(host.money)}`, []); sayRecord(`시야 전환 · ${card.displayNameKo}`); } else sayRecord(result.reason === 'already_embodied' ? '먼저 현재 몸을 놓아주자.' : '한두 걸음 더 가까이 가 보자.'); } }]);
+    if (state.player.embodiment && card.id !== state.player.embodiment) {
+      say(card.displayNameKo, `${card.occupation}. ${card.personalObjective}`, [{ label: `${card.displayNameKo}에게 말 걸기`, run: () => startConversation(card) }]);
+    } else if (state.player.embodiment === card.id) {
+      say(card.displayNameKo, `지금 빌린 몸이다. ${card.personalObjective} · ${describeHostMoney(host.money)}`, [{ label: '이 몸의 수첩 보기', run: () => { $('#host-notebook').open = true; $('#host-notebook').hidden = false; } }]);
+    } else {
+      say(card.displayNameKo, `${card.occupation}. ${card.personalObjective} 가까이에서 그 사람의 시야로 들어갈 수 있다.`, [{ label: '몸을 빌린다', run: () => { const result = possessHost(state, card.id, currentMap()); if (result.ok) { setState(result.state); say(card.displayNameKo, `눈높이가 달라졌다. ${card.speechRhythm} ${describeHostMoney(host.money)}`, []); sayRecord(`시야 전환 · ${card.displayNameKo}`); } else sayRecord(result.reason === 'already_embodied' ? '먼저 현재 몸을 놓아주자.' : '한두 걸음 더 가까이 가 보자.'); } }]);
+    }
   } else if (object.type === 'map-exit') {
     const result = transitionMap(state, props.exitId, maps);
     if (result.ok) { setState(result.state); say('문을 나서다', `${currentMap().metadata.displayNameKo}의 공기와 소리가 바뀐다. 다른 사람들은 각자 있던 자리에 남아 있다.`, []); sayRecord('직접 문을 지나 장소를 옮겼다.'); }
@@ -431,7 +453,7 @@ function interact() {
       if (item.type !== 'quest-object') return false;
       const questId = Object.fromEntries((item.properties ?? []).map(property => [property.name, property.value])).questId;
       return questIsAvailable(questsById.get(questId)) && state.quests[questId]?.status !== 'resolved';
-    }) ?? near.find(item => item.type === 'quest-object' && questIsAvailable(questsById.get(Object.fromEntries((item.properties ?? []).map(property => [property.name, property.value])).questId))) ?? near.find(item => item.type === 'map-exit') ?? near.find(item => item.type === 'source') ?? near[0]
+    }) ?? near.find(item => item.type === 'quest-object' && questIsAvailable(questsById.get(Object.fromEntries((item.properties ?? []).map(property => [property.name, property.value])).questId))) ?? near.find(item => item.type === 'npc' && mapObjectProperties(item).hostId !== state.player.embodiment) ?? near.find(item => item.type === 'map-exit') ?? near.find(item => item.type === 'source') ?? near[0]
     : near.find(item => item.type === 'source') ?? near.find(item => item.type === 'map-exit') ?? near.find(item => item.type === 'npc') ?? near[0];
   inspect(object);
 }
@@ -444,6 +466,7 @@ function move(direction) {
 function finishConversation(hostId) {
   activeDialogueController?.abort(); activeDialogueController = null; activeDialogueHost = null; updateHud();
   $('.lower').classList.remove('is-talking');
+  $('#dialogue-speaker').hidden = true;
   if (dialogueSessions.get(hostId)?.mode === 'BLOCKED_LIMIT') { dialogueSessions.delete(hostId); sessionStorage.removeItem(`v33-rpg-session:${hostId}`); }
   const card = cards.find(item => item.id === hostId);
   say(card.displayNameKo, '대화를 마쳤다. 그 사람은 지금 하던 일을 이어간다.', []);
@@ -451,6 +474,10 @@ function finishConversation(hostId) {
 }
 function showConversation(card, promptText, replies, statusText = '') {
   $('.lower').classList.add('is-talking');
+  $('#dialogue-portrait').src = `./rpg/${card.portrait.file}`;
+  $('#dialogue-portrait').alt = `${card.displayNameKo} 초상`;
+  $('#dialogue-speaker-name').textContent = card.displayNameKo;
+  $('#dialogue-speaker').hidden = false;
   $('#host-notebook').open = false; $('#host-notebook').hidden = true;
   const lines = dialogueTranscripts.get(card.id) ?? [];
   const text = lines.length ? lines.slice(-12).map(line => `${line.speaker} · ${line.text}`).join('\n\n') : promptText;
@@ -466,7 +493,8 @@ function showConversation(card, promptText, replies, statusText = '') {
   if (statusText) sayRecord(statusText);
 }
 async function startConversation(card) {
-  if (state.player.embodiment !== card.id) { sayRecord('이야기를 나누려면 먼저 이 사람의 몸을 빌려야 한다.'); return; }
+  const actorCard = cards.find(item => item.id === state.player.embodiment), partner = nearbyConversationPartner();
+  if (!actorCard || partner?.id !== card.id || activeDialogueHost) { sayRecord('말을 건넬 사람이 가까이 있지 않다.'); return; }
   activeDialogueHost = card.id; updateHud();
   let session = dialogueSessions.get(card.id);
   if (!session && aiBaseUrl) {
@@ -489,12 +517,13 @@ async function startConversation(card) {
     if (activeDialogueHost !== card.id) return;
   }
   const mode = !aiBaseUrl ? '오프라인 대사로 진행한다' : session?.mode === 'BLOCKED_NO_KEY' ? 'BLOCKED_NO_KEY · 인물별 오프라인 대사로 진행한다' : session ? '대화 세션이 준비됐다' : '연결할 수 없어 오프라인 대사로 진행한다';
-  showConversation(card, '그 사람이 맡은 일과 알고 있는 범위 안에서 이야기를 나눌 수 있다. 대화만으로 돈이나 퀘스트 결과가 바뀌지는 않는다.', aiScenes.sessions[card.id].fallbackReplies, mode);
+  showConversation(card, `${actorCard.displayNameKo}의 처지에서 ${card.displayNameKo}에게 말을 건넨다. 상대는 자기 경험과 알고 있는 범위 안에서 답한다. 대화만으로 돈이나 퀘스트 결과가 바뀌지는 않는다.`, aiScenes.sessions[card.id].fallbackReplies, mode);
 }
 async function sendConversation(card, playerText, replyId = null) {
-  if (activeDialogueHost !== card.id || state.player.embodiment !== card.id) return;
+  if (activeDialogueHost !== card.id || state.player.embodiment === card.id || nearbyConversationPartner()?.id !== card.id) return;
   const intentClass = classifyTypedResponse(playerText);
-  const lines = dialogueTranscripts.get(card.id) ?? []; lines.push({ speaker: '나', text: playerText });
+  const actorCard = cards.find(item => item.id === state.player.embodiment);
+  const lines = dialogueTranscripts.get(card.id) ?? []; lines.push({ speaker: actorCard.displayNameKo, text: playerText });
   const session = dialogueSessions.get(card.id); let turn = null, fallbackReason = '';
   if (session?.token && !['BLOCKED_NO_KEY', 'BLOCKED_LIMIT'].includes(session.mode) && aiBaseUrl) {
     const controller = new AbortController(); activeDialogueController = controller;
@@ -520,7 +549,7 @@ async function sendConversation(card, playerText, replyId = null) {
   if (!turn) turn = { beats: [{ speakerId: card.id, textKo: local.fallbackKo, emotion: 'neutral' }], suggestedReplies: local.fallbackReplies.map((textKo, index) => ({ id: `R${index + 1}`, textKo })) };
   for (const beat of turn.beats) lines.push({ speaker: beat.speakerId === 'NARRATION' ? '기록' : card.displayNameKo, text: beat.textKo });
   dialogueTranscripts.set(card.id, lines.slice(-24));
-  const recorded = recordDialogueTurn(state, { hostId: card.id, sceneId: local.sceneId, intentClass }, maps);
+  const recorded = recordDialogueTurn(state, { hostId: card.id, actorHostId: actorCard.id, sceneId: local.sceneId, intentClass }, maps);
   if (recorded.ok) setState(recorded.state);
   const replies = (turn.suggestedReplies ?? []).slice(0, 3);
   showConversation(card, '', replies.map(reply => reply.textKo), `${replyId ? `선택한 말 · ${replyId} · ` : ''}입력 분류 · ${intentLabels[intentClass]} · ${fallbackReason || (session ? '대화 내용을 이 인물의 세션에만 남겼다' : '오프라인 대사 · 게임 진행은 계속할 수 있다')}`);
@@ -540,7 +569,7 @@ document.addEventListener('keydown', event => {
 });
 document.querySelectorAll('[data-move]').forEach(button => button.addEventListener('click', () => move(button.dataset.move)));
 $('#use').addEventListener('click', interact);
-$('#talk').addEventListener('click', () => { const host = cards.find(card => card.id === state.player.embodiment); if (host) startConversation(host); });
+$('#talk').addEventListener('click', () => { const partner = nearbyConversationPartner(); if (partner) startConversation(partner); else sayRecord('먼저 다른 사람 곁으로 다가가자.'); });
 $('#release').addEventListener('click', () => { const result = releaseHost(state, currentMap()); if (result.ok) { setState(result.state); say('몸을 놓아주다', '그 사람은 자기 자리에서 계속 살아간다. 네가 본 것과 그 사람이 아는 것은 섞이지 않는다.', []); } });
 $('#save').addEventListener('click', () => { localStorage.setItem('v33-rpg-save', saveGame(state)); $('#load').disabled = false; sayRecord('기록을 저장했다.'); });
 $('#load').addEventListener('click', () => {

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "V33-IMAGE-AUDIT-2",
   "status": "PASS",
-  "pngCount": 9,
+  "pngCount": 17,
   "assets": [
     {
       "path": "rpg/assets/alexei.png",
@@ -83,6 +83,78 @@
       "sha256": "b129dffdc917e7e4728ba35940810d61146e0bcc1971a8db7dbc8678d6c3f893",
       "license": "original project-authored pixels",
       "confidence": "RECONSTRUCTED"
+    },
+    {
+      "path": "rpg/assets/portrait-bookseller_lev.png",
+      "width": 64,
+      "height": 64,
+      "bytes": 9858,
+      "sha256": "88fa5f3197480126130cde59babd652ede10c073f6f4b9ed9406a329df959a51",
+      "license": "original project-generated illustrative artwork",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-clerk_alexei.png",
+      "width": 64,
+      "height": 64,
+      "bytes": 8630,
+      "sha256": "26652a0662b95bf02238dc771b7d159a6462d6ab725422bdb2f9801f0dbbb62d",
+      "license": "original project-generated illustrative artwork",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-courier_pavel.png",
+      "width": 64,
+      "height": 64,
+      "bytes": 10135,
+      "sha256": "c9b35c2052687879bb5096382ea82960499d08291d342af018c8646114a40f40",
+      "license": "original project-generated illustrative artwork",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-literary_chichikov.png",
+      "width": 64,
+      "height": 64,
+      "bytes": 9669,
+      "sha256": "514331df4b4373dc2ecdd849c911de4231839601226a678c4caacd0f4adfaf80",
+      "license": "original project-generated illustrative artwork",
+      "confidence": "LITERARY_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-nekrasov_reconstruction.png",
+      "width": 64,
+      "height": 64,
+      "bytes": 9103,
+      "sha256": "f83131a9005ce67dad8adeaeeab9c3a6853e5682ae139fd6c72090cacc4a5566",
+      "license": "original project-generated illustrative artwork",
+      "confidence": "SOURCE_CONSTRAINED_HISTORICAL_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-printer_ekaterina.png",
+      "width": 64,
+      "height": 64,
+      "bytes": 9998,
+      "sha256": "d0418b78f144110ebdfc63fe56e1f40e3dad7f7ace9ede0eda2144229ab0a3d6",
+      "license": "original project-generated illustrative artwork",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-seamstress_anna.png",
+      "width": 64,
+      "height": 64,
+      "bytes": 10707,
+      "sha256": "eb032363577d3a0731d03c1131e12f61452ba2595059b7e98bd9d4f76092c9c7",
+      "license": "original project-generated illustrative artwork",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-tenant_mikhail.png",
+      "width": 64,
+      "height": 64,
+      "bytes": 10414,
+      "sha256": "0cbbe490219e3b953d83267b4326d47abc0b2a9f4b428b42ea3ecf0629c99401",
+      "license": "original project-generated illustrative artwork",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
     }
   ],
   "failures": []

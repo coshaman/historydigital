@@ -129,7 +129,28 @@ async function readSource(mapId, sourceId, avoidObjectId = null) {
   const sourceObject = findObject(mapId, object => object.type === 'source' && objectProps(object).sourceId === sourceId);
   const avoidObject = avoidObjectId == null ? null : findObject(mapId, object => object.id === avoidObjectId);
   const avoidTile = avoidObject ? objectTile(avoidObject) : null;
-  await moveNear(mapId, objectTile(sourceObject), 1, tile => !avoidTile || distance(tile, avoidTile) > 1);
+  const interactions = mapById[mapId].layers.find(layer => layer.name === 'Interactions').objects;
+  const initialState = await snapshot();
+  await moveNear(mapId, objectTile(sourceObject), 1, tile => {
+    if (avoidTile && distance(tile, avoidTile) <= 1) return false;
+    // E prioritizes quest objects, then exits and NPCs over source documents.
+    // Stand on a reachable tile where the source is the unambiguous target.
+    return interactions.every(object => {
+      if (object.id === sourceObject.id) return true;
+      const props = objectProps(object);
+      if (object.type === 'quest-object') {
+        const quest = questById[props.questId];
+        if (!quest || quest.chapterId !== initialState.world.chapterId || initialState.quests[quest.id]?.status === 'resolved') return true;
+        return distance(tile, objectTile(object)) > 1;
+      }
+      if (object.type === 'map-exit') return distance(tile, objectTile(object)) > 1;
+      if (object.type === 'npc' && props.hostId !== initialState.player.embodiment) {
+        const host = initialState.hosts[props.hostId];
+        return !host || distance(tile, host.position) > 2;
+      }
+      return true;
+    });
+  });
   await interact();
   const source = sourceById.get(sourceId);
   assert.ok(source, `source record ${sourceId} is registered`);
@@ -143,19 +164,19 @@ async function readSource(mapId, sourceId, avoidObjectId = null) {
   assert.ok(state.ledger.some(event => event.sourceId === sourceId), `${sourceId} reading is ledgered`);
   report.steps.push({ type: 'source-read', sourceId, hostId: state.player.embodiment, mapId, titleKo: source.titleKo });
 }
-async function talk(text) {
-  const before = await snapshot(), hostId = before.player.embodiment;
-  assert.ok(hostId, 'dialogue requires an embodied host');
-  await page.locator('#talk').click();
-  await page.getByRole('textbox', { name: '대사 입력' }).waitFor();
-  await page.getByRole('textbox', { name: '대사 입력' }).fill(text);
-  await page.getByRole('button', { name: '말하기' }).click();
-  await page.getByText(/오프라인 대사|BLOCKED_NO_KEY|대화 세션이 준비됐다/).waitFor();
-  const after = await snapshot();
-  assert.equal(after.ledger.at(-1).eventType, 'DIALOGUE_TURN');
-  assert.equal(after.ledger.at(-1).hostId, hostId);
-  await page.getByRole('button', { name: '대화 마치기' }).click();
-  report.steps.push({ type: 'dialogue', hostId, intentClass: after.ledger.at(-1).intentClass, offlineCapable: true });
+async function readUnlockedSource(sourceId) {
+  const source = sourceById.get(sourceId);
+  assert.ok(source, `source record ${sourceId} is registered`);
+  await page.locator('#source-drawer-open').click();
+  await page.getByRole('button', { name: source.titleKo, exact: false }).click();
+  await page.getByRole('button', { name: '원문과 번역 펼치기' }).waitFor();
+  await page.getByRole('button', { name: '원문과 번역 펼치기' }).click();
+  const renderedText = await page.locator('#journal-text').innerText();
+  assert.ok(renderedText.includes(source.paragraphs[0].ru), `${sourceId} Russian source paragraph rendered in the source drawer`);
+  assert.ok(renderedText.includes(source.paragraphs[0].ko), `${sourceId} aligned Korean translation rendered in the source drawer`);
+  const state = await snapshot();
+  assert.ok(state.ledger.some(event => event.sourceId === sourceId && event.hostId === state.player.embodiment), `${sourceId} drawer reading is recorded for the current host`);
+  report.steps.push({ type: 'archive-source-read', sourceId, hostId: state.player.embodiment, mapId: state.world.currentMapId, titleKo: source.titleKo });
 }
 async function completeQuest(questId, actionId, { avoidObjectId = null } = {}) {
   const quest = questById[questId], action = quest.actions.find(item => item.id === actionId);
@@ -208,10 +229,9 @@ try {
   await page.reload({ waitUntil: 'networkidle' });
   await page.waitForSelector('#world');
 
-  // 1847: read the periodical physically, speak as the printer, and resolve the proof decision.
+  // 1847: read the periodical physically and resolve the proof decision.
   await transitionTo('nevsky-printshop-door', 'printshop');
   await possess('printer_ekaterina');
-  await talk('이 문장을 어디까지 확인한 뒤 넘기는 게 좋을까요?');
   await readSource('printshop', 'OBJ-SOV-1847', 20);
   await readSource('printshop', 'LIT-TURGENEV-KHOR-KALYNYCH-1847', 20);
   const printAction = endingId === 'BELINSKY' ? 'ASK_FOR_SOURCE' : endingId === 'UVAROV' ? 'RETURN_MANUSCRIPT' : 'HOLD_FOR_CORRECTION';
@@ -224,11 +244,9 @@ try {
 
   // 1848: visit the reconstructed editor, then carry the notice as the courier.
   await possess('nekrasov_reconstruction');
-  await talk('편집부 공고를 누가 읽을 수 있는지 궁금합니다.');
   await release();
   await transitionTo('printshop-nevsky-door', 'nevsky');
   await possess('courier_pavel');
-  await talk('봉투를 맡길 때 무엇을 먼저 확인해야 하죠?');
   await transitionTo('nevsky-printshop-door', 'printshop');
   await readSource('printshop', 'OBJ-WS-NEKRASOV-EDITORIAL-1848', 26);
   if (endingId === 'HERZEN') {
@@ -239,7 +257,7 @@ try {
   } else {
     await release();
     await possess('printer_ekaterina');
-    await readSource('printshop', 'OBJ-WS-NEKRASOV-EDITORIAL-1848', 26);
+    await readUnlockedSource('OBJ-WS-NEKRASOV-EDITORIAL-1848');
     const publicAction = endingId === 'KHOMYAKOV' ? 'KEEP_LOCAL_READING' : 'HOLD_NOTICE';
     await completeQuest('PUBLIC_DISCOURSE_1848', publicAction);
   }
@@ -249,7 +267,6 @@ try {
 
   // 1849: inspect the report and later letter from the clerk's actual office, preserving history.
   await possess('clerk_alexei');
-  await talk('보고서의 정보원과 확인된 사실을 어떻게 나눠 적을까요?');
   await readSource('chancery', 'OBJ-WS-PETRASHEVSKY-REPORT-1849', 32);
   const reportAction = endingId === 'DOSTOEVSKY_PETRASHEVSKY' ? 'REFUSE_NAMING' : 'FILE_OFFICIAL_REPORT';
   await completeQuest('CIRCLE_INVESTIGATION_1849', reportAction, { avoidObjectId: 33 });

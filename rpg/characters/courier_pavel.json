@@ -107,5 +107,11 @@
       },
       "activityKo": "가로등 길목을 지난다"
     }
-  ]
+  ],
+  "portrait": {
+    "file": "assets/portrait-courier_pavel.png",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+  }
 }

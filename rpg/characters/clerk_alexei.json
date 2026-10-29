@@ -107,5 +107,11 @@
       },
       "activityKo": "안쪽 책장에 서류를 옮긴다"
     }
-  ]
+  ],
+  "portrait": {
+    "file": "assets/portrait-clerk_alexei.png",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+  }
 }

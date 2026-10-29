@@ -14,7 +14,7 @@
     "ru": null,
     "status": "not_applicable"
   },
-  "legalMobility": "하숙집·작업장·공개 거리 이용; 관청과 살롱 출입은 소개/고용 없이 불가",
+  "legalMobility": "하숙집·공개 거리와 수선 주문을 맡은 인쇄소 작업장 이용; 관청과 살롱 출입은 소개/고용 없이 불가",
   "wealthBracket": "precarious",
   "money": {
     "amount": 18,
@@ -61,7 +61,8 @@
   },
   "allowedMaps": [
     "nevsky",
-    "courtyard"
+    "courtyard",
+    "printshop"
   ],
   "start": {
     "mapId": "nevsky",
@@ -107,5 +108,11 @@
       },
       "activityKo": "안뜰 쪽으로 돌아간다"
     }
-  ]
+  ],
+  "portrait": {
+    "file": "assets/portrait-seamstress_anna.png",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+  }
 }

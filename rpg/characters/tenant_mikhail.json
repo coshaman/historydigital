@@ -106,5 +106,11 @@
       },
       "activityKo": "물을 길으러 우물가로 간다"
     }
-  ]
+  ],
+  "portrait": {
+    "file": "assets/portrait-tenant_mikhail.png",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+  }
 }

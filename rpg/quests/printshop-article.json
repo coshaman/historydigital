@@ -48,7 +48,8 @@
     {
       "id": "ASK_FOR_SOURCE",
       "hostIds": [
-        "printer_ekaterina"
+        "printer_ekaterina",
+        "seamstress_anna"
       ],
       "labelKo": "인쇄된 원문과 대조한 뒤 결정한다",
       "subcopyKo": "작업장 동료가 볼 수 있습니다 · 공식 장부가 아닌 대조 메모에 남습니다 · 사본은 남고 결정이 늦어집니다",

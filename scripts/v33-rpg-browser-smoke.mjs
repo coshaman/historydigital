@@ -63,40 +63,13 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 1366, height: 768
     return { viewport: { width: innerWidth, height: innerHeight }, document: { width: document.documentElement.scrollWidth, height: document.documentElement.scrollHeight }, shell, field, lower, pad, buttons: [...document.querySelectorAll('.touch-pad button')].map(button => { const r = button.getBoundingClientRect(); return { label: button.innerText, x: r.x, y: r.y, right: r.right, bottom: r.bottom, visible: r.width > 0 && r.height > 0 && r.left >= 0 && r.top >= 0 && r.right <= innerWidth && r.bottom <= innerHeight }; }) };
   });
   await page.screenshot({ path: path.join(out, `clue-${viewport.width}x${viewport.height}.png`) });
-  await page.locator('#talk').click();
-  if (!(await page.locator('.touch-pad button:disabled').count())) throw new Error(`Movement buttons were not locked during dialogue at ${viewport.width}`);
-  await page.getByRole('textbox', { name: '대사 입력' }).fill('오늘은 무사히 봉투를 전하고 싶어요.');
-  await page.getByRole('button', { name: '말하기' }).click();
-  await page.getByText('오프라인 대사 · 게임 진행은 계속할 수 있다').waitFor();
-  const dialogueButtons = await page.locator('#actions > button').count();
-  if (dialogueButtons !== 4 || !(await page.locator('#release').isDisabled())) throw new Error('Offline dialogue did not keep its three replies and locked body control');
-  const dialogueLayout = await page.evaluate(() => {
-  const selectors = ['.dialogue-panel', '#dialogue', '#actions', '.dialogue-input'];
-    return Object.fromEntries(selectors.map(selector => {
-      const element = document.querySelector(selector);
-      if (!element) return [selector, null];
-      const r = element.getBoundingClientRect();
-      const style = getComputedStyle(element);
-      return [selector, { x:r.x, y:r.y, width:r.width, height:r.height, right:r.right, bottom:r.bottom, scrollHeight:element.scrollHeight, clientHeight:element.clientHeight, overflowY:style.overflowY }];
-    }));
-  });
-  const dialogueInputVisible = await page.locator('.dialogue-input').evaluate(element => { const r = element.getBoundingClientRect(); return r.width > 0 && r.height > 0 && r.top >= 0 && r.bottom <= innerHeight; });
-  if (!dialogueInputVisible) throw new Error(`Dialogue input is not visible at ${viewport.width}`);
-  const dialogueOverlap = await page.evaluate(() => { const a = document.querySelector('.dialogue-input').getBoundingClientRect(), b = document.querySelector('.touch-pad').getBoundingClientRect(); return a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top; });
-  if (dialogueOverlap) throw new Error(`Dialogue input overlaps mobile movement controls at ${viewport.width}`);
-  await page.screenshot({ path: path.join(out, `dialogue-${viewport.width}x${viewport.height}.png`) });
-  await page.locator('#save').click();
-  const dialogueRecord = await page.evaluate(() => JSON.parse(localStorage.getItem('v33-rpg-save')).state.ledger.at(-1));
-  if (dialogueRecord?.eventType !== 'DIALOGUE_TURN' || Object.hasOwn(dialogueRecord, 'playerText')) throw new Error('Dialogue event must be private-free and must not include raw player text');
-  await page.getByRole('button', { name: '대화 마치기' }).click();
-  if (await page.locator('.touch-pad button:disabled').count()) throw new Error(`Movement buttons remained locked after dialogue at ${viewport.width}`);
   await page.keyboard.press('h');
   await page.getByText('지금까지 열린 자료').waitFor();
   evidenceHotkey = true;
   if (metrics.document.width > viewport.width) throw new Error(`Horizontal overflow at ${viewport.width}: ${metrics.document.width}`);
   if (metrics.buttons.some(button => !button.visible)) throw new Error(`Touch controls clipped at ${viewport.width}`);
   if (errors.length) throw new Error(`Browser errors at ${viewport.width}: ${errors.join('; ')}`);
-  report.viewports.push({ ...metrics, dialogueLayout, dialogueInputVisible, dialogueOverlap, clueText, initialClock, advancedClock, savedClueRestored: true, offlineDialogue: true, evidenceHotkey, dialogueOptions: dialogueButtons - 1, errors });
+  report.viewports.push({ ...metrics, clueText, initialClock, advancedClock, savedClueRestored: true, offlineDialogue: false, evidenceHotkey, errors });
   await context.close();
 }
 {

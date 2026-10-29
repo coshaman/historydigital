@@ -32,6 +32,7 @@ try {
   if (!ready) throw new Error(`Local game server did not become ready at ${url}`);
 
   for (const script of [
+    'scripts/v33-interpersonal-dialogue-browser.mjs',
     'scripts/v33-rpg-browser-smoke.mjs',
     'scripts/v33-ending-browser-smoke.mjs',
     'scripts/v33-campaign-browser-acceptance.mjs',

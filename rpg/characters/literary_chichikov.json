@@ -3,13 +3,24 @@
   "kind": "LITERARY",
   "displayNameKo": "파벨 이바노비치 치치코프",
   "displayNameRu": "Павел Иванович Чичиков",
-  "ageAtDate": { "value": null, "status": "not_stated_in_excerpt" },
+  "ageAtDate": {
+    "value": null,
+    "status": "not_stated_in_excerpt"
+  },
   "socialEstate": "literary provincial landowner",
   "occupation": "작품 속 지주이자 콜레기아 고문",
-  "rank": { "value": "коллежский советник", "ru": "Коллежский советник", "status": "stated_in_chapter_one" },
+  "rank": {
+    "value": "коллежский советник",
+    "ru": "Коллежский советник",
+    "status": "stated_in_chapter_one"
+  },
   "legalMobility": "작품 속 도청 소재지 여관과 도시를 오간다. 역사적 상트페테르부르크의 출입 규칙은 적용되지 않는다.",
   "wealthBracket": "unknown",
-  "money": { "amount": null, "unit": null, "status": "not_stated_in_excerpt" },
+  "money": {
+    "amount": null,
+    "unit": null,
+    "status": "not_stated_in_excerpt"
+  },
   "literacy": "여관 장부에 이름과 관등을 적는다.",
   "health": "not stated in the chosen passage",
   "reputationByGroup": {},
@@ -21,16 +32,53 @@
   "knownEvidenceIds": [],
   "desires": "도시에 도착해 자기 이름과 용무를 알린다.",
   "fears": "이 장면의 발췌문에는 특정한 두려움이 적혀 있지 않다.",
-  "taboos": ["소설 속 일을 실제 1840년대 상트페테르부르크의 사건이나 증언으로 말하지 않는다."],
+  "taboos": [
+    "소설 속 일을 실제 1840년대 상트페테르부르크의 사건이나 증언으로 말하지 않는다."
+  ],
   "speechRhythm": "예의를 지키며 질문으로 정보를 얻고, 자기 용무는 필요한 만큼만 밝힌다.",
-  "lexicon": ["여관", "도청 소재지", "장부", "지주"],
-  "emotions": ["관찰", "계산", "공손함"],
+  "lexicon": [
+    "여관",
+    "도청 소재지",
+    "장부",
+    "지주"
+  ],
+  "emotions": [
+    "관찰",
+    "계산",
+    "공손함"
+  ],
   "personalObjective": "여관 장부에 이름과 관등, 용무를 남긴다.",
-  "allowedMaps": ["dead-souls"],
-  "start": { "mapId": "dead-souls", "x": 10, "y": 10 },
-  "inventory": ["여행용 서류 묶음"],
-  "sourceIds": ["LIT-GOGOL-DEAD-SOULS-1842"],
+  "allowedMaps": [
+    "dead-souls"
+  ],
+  "start": {
+    "mapId": "dead-souls",
+    "x": 10,
+    "y": 10
+  },
+  "inventory": [
+    "여행용 서류 묶음"
+  ],
+  "sourceIds": [
+    "LIT-GOGOL-DEAD-SOULS-1842"
+  ],
   "canonConstraint": "Literary character reconstructed from chapter one of Gogol’s 1842 novel. He is not a historical witness.",
   "reconstructionDisclaimer": "《죽은 혼》 속 인물이다. 이 장면은 작품의 문학 세계에서만 진행된다.",
-  "sprite": { "file": "assets/chichikov.png", "frameWidth": 16, "frameHeight": 24, "style": "original pixel interpretation", "palette": { "cloth": "#604735", "trim": "#c3a070", "headwear": "#332a24" } }
+  "sprite": {
+    "file": "assets/chichikov.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "original pixel interpretation",
+    "palette": {
+      "cloth": "#604735",
+      "trim": "#c3a070",
+      "headwear": "#332a24"
+    }
+  },
+  "portrait": {
+    "file": "assets/portrait-literary_chichikov.png",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "LITERARY_CHARACTER_RECONSTRUCTION"
+  }
 }

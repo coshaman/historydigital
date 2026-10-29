@@ -57,6 +57,23 @@ test('host cards represent four distinct playable circumstances and reference re
   assert.equal(tiles.readUInt32BE(20), 160);
 });
 
+test('every playable or reconstructed character has a provenance-linked 64px face portrait', async () => {
+  const cards = await Promise.all((await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)));
+  const manifest = await json('rpg/assets/ASSET_PROVENANCE.json');
+  for (const card of cards) {
+    assert.equal(card.portrait.width, 64, `${card.id} portrait width`);
+    assert.equal(card.portrait.height, 64, `${card.id} portrait height`);
+    const image = await readFile(path.join(root, 'rpg', card.portrait.file));
+    assert.equal(image.subarray(0, 8).toString('hex'), '89504e470d0a1a0a');
+    assert.equal(image.readUInt32BE(16), 64);
+    assert.equal(image.readUInt32BE(20), 64);
+    const record = manifest.assets.find(asset => asset.path === `rpg/${card.portrait.file}`);
+    assert.ok(record, `${card.id} portrait provenance record`);
+    assert.equal(record.historicalConfidence, card.portrait.historicalConfidence);
+    assert.ok(record.notes?.length > 20, `${card.id} portrait reconstruction note`);
+  }
+});
+
 test('unknown documented funds are described without rendering null as a coin amount', async () => {
   const nekrasov = await json('rpg/characters/nekrasov_reconstruction.json');
   assert.equal(describeHostMoney(nekrasov.money), '개인 자금은 선택한 자료에서 확인되지 않는다.');
@@ -354,19 +371,54 @@ test('dialogue can be ledgered only for the embodied host and never mutates a qu
   const cards = await Promise.all((await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)));
   let state = createInitialState({ maps, hostCards: cards });
   state = possessHost(state, 'courier_pavel', maps.nevsky).state;
-  const rejected = recordDialogueTurn(state, { hostId: 'clerk_alexei', sceneId: 'V33_TALK_CLERK_ALEXEI' }, maps);
-  assert.equal(rejected.ok, false);
-  const recorded = recordDialogueTurn(state, { hostId: 'courier_pavel', sceneId: 'V33_TALK_COURIER_PAVEL', intentClass: 'SOURCE_REQUEST' }, maps);
+  state.hosts.printer_ekaterina.mapId = 'nevsky';
+  state.hosts.printer_ekaterina.position = { x: 10, y: 15 };
+  const tooFar = recordDialogueTurn(state, { hostId: 'clerk_alexei', actorHostId: 'courier_pavel', sceneId: 'V33_TALK_CLERK_ALEXEI' }, maps);
+  assert.equal(tooFar.ok, false);
+  const recorded = recordDialogueTurn(state, { hostId: 'printer_ekaterina', actorHostId: 'courier_pavel', sceneId: 'V33_TALK_PRINTER_EKATERINA', intentClass: 'SOURCE_REQUEST' }, maps);
   assert.equal(recorded.ok, true);
   assert.equal(recorded.state.ledger.at(-1).eventType, 'DIALOGUE_TURN');
   assert.equal(recorded.state.ledger.at(-1).intentClass, 'SOURCE_REQUEST');
-  assert.equal(recordDialogueTurn(state, { hostId: 'courier_pavel', sceneId: 'V33_TALK_COURIER_PAVEL', intentClass: 'CHANGE_ENDING' }, maps).reason, 'invalid_intent_class');
+  assert.equal(recorded.state.ledger.at(-1).hostId, 'printer_ekaterina');
+  assert.equal(recorded.state.ledger.at(-1).interlocutorHostId, 'courier_pavel');
+  assert.equal(recordDialogueTurn(state, { hostId: 'courier_pavel', actorHostId: 'courier_pavel', sceneId: 'V33_TALK_COURIER_PAVEL' }, maps).reason, 'dialogue_partner_unavailable');
+  assert.equal(recordDialogueTurn(state, { hostId: 'printer_ekaterina', actorHostId: 'courier_pavel', sceneId: 'V33_TALK_PRINTER_EKATERINA', intentClass: 'CHANGE_ENDING' }, maps).reason, 'invalid_intent_class');
   assert.deepEqual(recorded.state.quests, state.quests);
   assert.deepEqual(recorded.state.hosts.courier_pavel.money, state.hosts.courier_pavel.money);
+  assert.deepEqual(recorded.state.hosts.courier_pavel.privateKnowledgeIds, state.hosts.courier_pavel.privateKnowledgeIds);
+  assert.deepEqual(recorded.state.hosts.printer_ekaterina.privateKnowledgeIds, state.hosts.printer_ekaterina.privateKnowledgeIds);
   assert.equal(recorded.state.endingId, undefined);
   const restored = loadGame(saveGame(recorded.state), { maps, hostCards: cards });
   assert.equal(restored.ledger.at(-1).eventType, 'DIALOGUE_TURN');
   assert.equal(Object.hasOwn(restored.ledger.at(-1), 'playerText'), false);
+});
+
+test('Anna can carry her sewing errand into the printshop and use her own literacy to compare a source', async () => {
+  const maps = await loadMaps();
+  const cards = await Promise.all((await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)));
+  const quest = await json('rpg/quests/printshop-article.json');
+  const anna = cards.find(card => card.id === 'seamstress_anna');
+  assert.ok(anna.allowedMaps.includes('printshop'));
+  assert.equal(quest.actions.find(action => action.id === 'ASK_FOR_SOURCE').hostIds.includes('seamstress_anna'), true);
+  let state = createInitialState({ maps, hostCards: cards, quests: [quest] });
+  state.player.position = { x: 22, y: 8 };
+  state.player.embodiment = anna.id;
+  state.hosts[anna.id].mapId = 'nevsky';
+  state.hosts[anna.id].position = { ...state.player.position };
+  const crossed = transitionMap(state, 'nevsky-printshop-door', maps);
+  assert.equal(crossed.ok, true, 'Anna can physically cross the public-facing printshop door for her sewing order');
+  state = crossed.state;
+  assert.equal(state.world.currentMapId, 'printshop');
+  const source = recordSourceRead(state, 'LIT-TURGENEV-KHOR-KALYNYCH-1847', maps, ['LIT-TURGENEV-KHOR-KALYNYCH-1847']);
+  assert.equal(source.ok, true);
+  state = source.state;
+  const target = maps.printshop.layers.find(layer => layer.name === 'Interactions').objects.find(object => object.id === quest.entry.objectId);
+  state.hosts[anna.id].position = { x: 11, y: 13 };
+  state.player.position = { ...state.hosts[anna.id].position };
+  const compared = performQuestAction(state, { questId: quest.id, hostId: anna.id, actionId: 'ASK_FOR_SOURCE', objectId: target.id }, { quests: [quest], maps });
+  assert.equal(compared.ok, true, 'Anna can use her own reading knowledge at the physical proof object');
+  assert.equal(compared.state.quests[quest.id].result, 'ASK_FOR_SOURCE');
+  assert.deepEqual(compared.state.hosts[anna.id].privateKnowledgeIds, state.hosts[anna.id].privateKnowledgeIds);
 });
 
 test('campaign contains source-aligned 1847–1849 arcs with a separate literary realm and exactly five authored endings', async () => {
