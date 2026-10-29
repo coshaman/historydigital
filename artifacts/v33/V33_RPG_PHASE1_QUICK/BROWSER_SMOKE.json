@@ -1,0 +1,547 @@
+{
+  "schemaVersion": "V33_RPG_BROWSER_SMOKE_V1",
+  "base": "https://coshaman.github.io/historydigital/",
+  "viewports": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "document": {
+        "width": 1440,
+        "height": 900
+      },
+      "shell": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 900,
+        "right": 1440,
+        "bottom": 900
+      },
+      "field": {
+        "x": 28,
+        "y": 117,
+        "width": 1384,
+        "height": 357,
+        "right": 1412,
+        "bottom": 474
+      },
+      "lower": {
+        "x": 28,
+        "y": 486,
+        "width": 1384,
+        "height": 360,
+        "right": 1412,
+        "bottom": 846
+      },
+      "pad": {
+        "x": 1200,
+        "y": 599.5,
+        "width": 196,
+        "height": 134,
+        "right": 1396,
+        "bottom": 733.5
+      },
+      "buttons": [
+        {
+          "label": "↑",
+          "x": 1274,
+          "y": 599.5,
+          "right": 1322,
+          "bottom": 641.5,
+          "visible": true
+        },
+        {
+          "label": "←",
+          "x": 1222,
+          "y": 645.5,
+          "right": 1270,
+          "bottom": 687.5,
+          "visible": true
+        },
+        {
+          "label": "↓",
+          "x": 1274,
+          "y": 645.5,
+          "right": 1322,
+          "bottom": 687.5,
+          "visible": true
+        },
+        {
+          "label": "→",
+          "x": 1326,
+          "y": 645.5,
+          "right": 1374,
+          "bottom": 687.5,
+          "visible": true
+        },
+        {
+          "label": "살펴보기",
+          "x": 1222,
+          "y": 691.5,
+          "right": 1322,
+          "bottom": 733.5,
+          "visible": true
+        },
+        {
+          "label": "놓아주기",
+          "x": 1326,
+          "y": 691.5,
+          "right": 1374,
+          "bottom": 733.5,
+          "visible": true
+        }
+      ],
+      "dialogueLayout": {
+        ".dialogue-panel": null,
+        "#dialogue": null,
+        "#actions": {
+          "x": 44,
+          "y": 706,
+          "width": 1136,
+          "height": 81,
+          "right": 1180,
+          "bottom": 787,
+          "scrollHeight": 81,
+          "clientHeight": 81,
+          "overflowY": "visible"
+        },
+        ".dialogue-input": {
+          "x": 44,
+          "y": 749,
+          "width": 620,
+          "height": 38,
+          "right": 664,
+          "bottom": 787,
+          "scrollHeight": 38,
+          "clientHeight": 38,
+          "overflowY": "visible"
+        }
+      },
+      "dialogueInputVisible": true,
+      "dialogueOverlap": false,
+      "clueText": "배달 표식처럼 보이지만, 이 말만으로는 어느 집인지 알 수 없다. 봉투도 없으니 내용을 짐작할 근거는 없다.\n\n접힌 종이에는 “등불 둘, 뒤문”이라고 짧게 적혀 있다. 이름도 날짜도 봉인도 없다. 누구에게 보낼 쪽지인지는 알 수 없다.\n\n이 소품과 문구는 플레이를 위해 만든 허구 장면입니다. 역사 사료 인용이 아닙니다.",
+      "initialClock": "09:00",
+      "advancedClock": "09:06",
+      "savedClueRestored": true,
+      "offlineDialogue": true,
+      "evidenceHotkey": true,
+      "dialogueOptions": 3,
+      "errors": []
+    },
+    {
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "document": {
+        "width": 1366,
+        "height": 768
+      },
+      "shell": {
+        "x": 0,
+        "y": 0,
+        "width": 1366,
+        "height": 768,
+        "right": 1366,
+        "bottom": 768
+      },
+      "field": {
+        "x": 27.3125,
+        "y": 114.3125,
+        "width": 1311.375,
+        "height": 281.1875,
+        "right": 1338.6875,
+        "bottom": 395.5
+      },
+      "lower": {
+        "x": 27.3125,
+        "y": 407.5,
+        "width": 1311.375,
+        "height": 307.1875,
+        "right": 1338.6875,
+        "bottom": 714.6875
+      },
+      "pad": {
+        "x": 1126.6875,
+        "y": 494.59375,
+        "width": 196,
+        "height": 134,
+        "right": 1322.6875,
+        "bottom": 628.59375
+      },
+      "buttons": [
+        {
+          "label": "↑",
+          "x": 1200.6875,
+          "y": 494.59375,
+          "right": 1248.6875,
+          "bottom": 536.59375,
+          "visible": true
+        },
+        {
+          "label": "←",
+          "x": 1148.6875,
+          "y": 540.59375,
+          "right": 1196.6875,
+          "bottom": 582.59375,
+          "visible": true
+        },
+        {
+          "label": "↓",
+          "x": 1200.6875,
+          "y": 540.59375,
+          "right": 1248.6875,
+          "bottom": 582.59375,
+          "visible": true
+        },
+        {
+          "label": "→",
+          "x": 1252.6875,
+          "y": 540.59375,
+          "right": 1300.6875,
+          "bottom": 582.59375,
+          "visible": true
+        },
+        {
+          "label": "살펴보기",
+          "x": 1148.6875,
+          "y": 586.59375,
+          "right": 1248.6875,
+          "bottom": 628.59375,
+          "visible": true
+        },
+        {
+          "label": "놓아주기",
+          "x": 1252.6875,
+          "y": 586.59375,
+          "right": 1300.6875,
+          "bottom": 628.59375,
+          "visible": true
+        }
+      ],
+      "dialogueLayout": {
+        ".dialogue-panel": null,
+        "#dialogue": null,
+        "#actions": {
+          "x": 43.3125,
+          "y": 574.6875,
+          "width": 1063.375,
+          "height": 81,
+          "right": 1106.6875,
+          "bottom": 655.6875,
+          "scrollHeight": 81,
+          "clientHeight": 81,
+          "overflowY": "visible"
+        },
+        ".dialogue-input": {
+          "x": 43.3125,
+          "y": 617.6875,
+          "width": 620,
+          "height": 38,
+          "right": 663.3125,
+          "bottom": 655.6875,
+          "scrollHeight": 38,
+          "clientHeight": 38,
+          "overflowY": "visible"
+        }
+      },
+      "dialogueInputVisible": true,
+      "dialogueOverlap": false,
+      "clueText": "배달 표식처럼 보이지만, 이 말만으로는 어느 집인지 알 수 없다. 봉투도 없으니 내용을 짐작할 근거는 없다.\n\n접힌 종이에는 “등불 둘, 뒤문”이라고 짧게 적혀 있다. 이름도 날짜도 봉인도 없다. 누구에게 보낼 쪽지인지는 알 수 없다.\n\n이 소품과 문구는 플레이를 위해 만든 허구 장면입니다. 역사 사료 인용이 아닙니다.",
+      "initialClock": "09:00",
+      "advancedClock": "09:06",
+      "savedClueRestored": true,
+      "offlineDialogue": true,
+      "evidenceHotkey": true,
+      "dialogueOptions": 3,
+      "errors": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "document": {
+        "width": 390,
+        "height": 844
+      },
+      "shell": {
+        "x": 0,
+        "y": 0,
+        "width": 390,
+        "height": 844,
+        "right": 390,
+        "bottom": 844
+      },
+      "field": {
+        "x": 10,
+        "y": 106,
+        "width": 370,
+        "height": 378.9375,
+        "right": 380,
+        "bottom": 484.9375
+      },
+      "lower": {
+        "x": 10,
+        "y": 492.9375,
+        "width": 370,
+        "height": 337.59375,
+        "right": 380,
+        "bottom": 830.53125
+      },
+      "pad": {
+        "x": 20,
+        "y": 734.53125,
+        "width": 350,
+        "height": 88,
+        "right": 370,
+        "bottom": 822.53125
+      },
+      "buttons": [
+        {
+          "label": "↑",
+          "x": 90.796875,
+          "y": 734.53125,
+          "right": 157.59375,
+          "bottom": 776.53125,
+          "visible": true
+        },
+        {
+          "label": "←",
+          "x": 20,
+          "y": 780.53125,
+          "right": 86.796875,
+          "bottom": 822.53125,
+          "visible": true
+        },
+        {
+          "label": "↓",
+          "x": 90.796875,
+          "y": 780.53125,
+          "right": 157.59375,
+          "bottom": 822.53125,
+          "visible": true
+        },
+        {
+          "label": "→",
+          "x": 161.59375,
+          "y": 780.53125,
+          "right": 228.390625,
+          "bottom": 822.53125,
+          "visible": true
+        },
+        {
+          "label": "살펴보기",
+          "x": 232.390625,
+          "y": 734.53125,
+          "right": 299.1875,
+          "bottom": 822.53125,
+          "visible": true
+        },
+        {
+          "label": "놓아주기",
+          "x": 303.1875,
+          "y": 734.53125,
+          "right": 370,
+          "bottom": 822.53125,
+          "visible": true
+        }
+      ],
+      "dialogueLayout": {
+        ".dialogue-panel": null,
+        "#dialogue": null,
+        "#actions": {
+          "x": 20,
+          "y": 461.5,
+          "width": 346,
+          "height": 218,
+          "right": 366,
+          "bottom": 679.5,
+          "scrollHeight": 218,
+          "clientHeight": 218,
+          "overflowY": "visible"
+        },
+        ".dialogue-input": {
+          "x": 20,
+          "y": 633.5,
+          "width": 346,
+          "height": 46,
+          "right": 366,
+          "bottom": 679.5,
+          "scrollHeight": 46,
+          "clientHeight": 46,
+          "overflowY": "visible"
+        }
+      },
+      "dialogueInputVisible": true,
+      "dialogueOverlap": false,
+      "clueText": "배달 표식처럼 보이지만, 이 말만으로는 어느 집인지 알 수 없다. 봉투도 없으니 내용을 짐작할 근거는 없다.\n\n접힌 종이에는 “등불 둘, 뒤문”이라고 짧게 적혀 있다. 이름도 날짜도 봉인도 없다. 누구에게 보낼 쪽지인지는 알 수 없다.\n\n이 소품과 문구는 플레이를 위해 만든 허구 장면입니다. 역사 사료 인용이 아닙니다.",
+      "initialClock": "09:00",
+      "advancedClock": "09:08",
+      "savedClueRestored": true,
+      "offlineDialogue": true,
+      "evidenceHotkey": true,
+      "dialogueOptions": 3,
+      "errors": []
+    },
+    {
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "document": {
+        "width": 360,
+        "height": 800
+      },
+      "shell": {
+        "x": 0,
+        "y": 0,
+        "width": 360,
+        "height": 800,
+        "right": 360,
+        "bottom": 800
+      },
+      "field": {
+        "x": 10,
+        "y": 106,
+        "width": 340,
+        "height": 355.78125,
+        "right": 350,
+        "bottom": 461.78125
+      },
+      "lower": {
+        "x": 10,
+        "y": 469.78125,
+        "width": 340,
+        "height": 320,
+        "right": 350,
+        "bottom": 789.78125
+      },
+      "pad": {
+        "x": 20,
+        "y": 693.78125,
+        "width": 320,
+        "height": 88,
+        "right": 340,
+        "bottom": 781.78125
+      },
+      "buttons": [
+        {
+          "label": "↑",
+          "x": 84.796875,
+          "y": 693.78125,
+          "right": 145.59375,
+          "bottom": 735.78125,
+          "visible": true
+        },
+        {
+          "label": "←",
+          "x": 20,
+          "y": 739.78125,
+          "right": 80.796875,
+          "bottom": 781.78125,
+          "visible": true
+        },
+        {
+          "label": "↓",
+          "x": 84.796875,
+          "y": 739.78125,
+          "right": 145.59375,
+          "bottom": 781.78125,
+          "visible": true
+        },
+        {
+          "label": "→",
+          "x": 149.59375,
+          "y": 739.78125,
+          "right": 210.390625,
+          "bottom": 781.78125,
+          "visible": true
+        },
+        {
+          "label": "살펴보기",
+          "x": 214.390625,
+          "y": 693.78125,
+          "right": 275.1875,
+          "bottom": 781.78125,
+          "visible": true
+        },
+        {
+          "label": "놓아주기",
+          "x": 279.1875,
+          "y": 693.78125,
+          "right": 339.984375,
+          "bottom": 781.78125,
+          "visible": true
+        }
+      ],
+      "dialogueLayout": {
+        ".dialogue-panel": null,
+        "#dialogue": null,
+        "#actions": {
+          "x": 20,
+          "y": 404.34375,
+          "width": 316,
+          "height": 218,
+          "right": 336,
+          "bottom": 622.34375,
+          "scrollHeight": 218,
+          "clientHeight": 218,
+          "overflowY": "visible"
+        },
+        ".dialogue-input": {
+          "x": 20,
+          "y": 576.34375,
+          "width": 316,
+          "height": 46,
+          "right": 336,
+          "bottom": 622.34375,
+          "scrollHeight": 46,
+          "clientHeight": 46,
+          "overflowY": "visible"
+        }
+      },
+      "dialogueInputVisible": true,
+      "dialogueOverlap": false,
+      "clueText": "배달 표식처럼 보이지만, 이 말만으로는 어느 집인지 알 수 없다. 봉투도 없으니 내용을 짐작할 근거는 없다.\n\n접힌 종이에는 “등불 둘, 뒤문”이라고 짧게 적혀 있다. 이름도 날짜도 봉인도 없다. 누구에게 보낼 쪽지인지는 알 수 없다.\n\n이 소품과 문구는 플레이를 위해 만든 허구 장면입니다. 역사 사료 인용이 아닙니다.",
+      "initialClock": "09:00",
+      "advancedClock": "09:08",
+      "savedClueRestored": true,
+      "offlineDialogue": true,
+      "evidenceHotkey": true,
+      "dialogueOptions": 3,
+      "errors": []
+    }
+  ],
+  "failures": [],
+  "fullRoute": {
+    "mapTransition": true,
+    "hostPerspectives": [
+      "observer",
+      "courier_pavel",
+      "printer_ekaterina"
+    ],
+    "clueInspected": "PRINTSHOP_ROUTING_NOTE",
+    "sourceRead": true,
+    "sourceReaderScroll": {
+      "scrollHeight": 499,
+      "clientHeight": 335
+    },
+    "choiceResolved": true,
+    "explorationDurationMs": 3281,
+    "timedGatePassed": null,
+    "errors": []
+  },
+  "otherMaps": {
+    "chanceryVisit": true,
+    "clerkAccess": true,
+    "alexeiDeniedCourtyard": true,
+    "observerEnteredCourtyard": true,
+    "mikhailClueRead": true,
+    "mikhailReturnedToStreet": true,
+    "errors": []
+  },
+  "status": "PASS"
+}

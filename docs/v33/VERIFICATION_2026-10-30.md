@@ -2,7 +2,7 @@
 
 ## Result
 
-`npm run acceptance:v33` exited 0 on branch `codex/v33-possession-rpg` after the save-description and ending-route fixture fixes. This was a local run against the current source, not a new GitHub Pages deployment.
+`npm run acceptance:v33` exited 0 on branch `codex/v33-possession-rpg` after the save-description and ending-route fixture fixes. The verified commit `c6ac18708fdb0f05403fd916d91885bef489a655` was then pushed to `master`; GitHub Actions and Pages both completed successfully. The public deployment was checked with HTTP resource fetches and a Playwright gameplay smoke.
 
 ## Checks recorded by the run
 
@@ -26,6 +26,12 @@
 
 The detailed machine-readable evidence is in `artifacts/v33/V33_RPG_PHASE1/BROWSER_SMOKE.json`, `artifacts/v33/ENDING_BROWSER_SMOKE.json`, `artifacts/v33/CAMPAIGN_BROWSER_SMOKE.json`, the five per-ending campaign reports, `artifacts/v33/ENDING_ROUTE_MATRIX.json`, `docs/v33/HISTORICAL_FLOW_AUDIT.json`, and `docs/v33/IMAGE_AUDIT.json`. Screenshots for the viewport, ending, and full-campaign routes are stored alongside those reports under `artifacts/v33/`.
 
+## Deployed Pages verification
+
+- GitHub Actions: [V33 GitHub Pages run 40928153096](https://github.com/coshaman/historydigital/actions/runs/40928153096) — success.
+- GitHub Pages deployment: [run 40928152549](https://github.com/coshaman/historydigital/actions/runs/40928152549) — success.
+- Public entry point and core RPG assets returned HTTP 200. The post-deployment Playwright smoke passed at 1440×900, 1366×768, 390×844, and 360×800, with map transitions, host possession, source reading, save/reload, quest choice, and Chancery/courtyard interactions. Machine-readable evidence and screenshots are in `artifacts/v33/DEPLOYED_PAGES_SMOKE_2026-10-30.json` and `artifacts/v33/V33_RPG_PHASE1_QUICK/`.
+
 ## Fixes found during verification
 
 - Possessing a host whose source record has `money.amount: null` previously rendered `null코페이카`. The UI now describes funds as unconfirmed by the selected sources; the RPG core regression test also checks a known `kopeks` balance.
@@ -34,4 +40,4 @@ The detailed machine-readable evidence is in `artifacts/v33/V33_RPG_PHASE1/BROWS
 ## External verification still pending
 
 - Live OpenAI Responses API remains `BLOCKED_NO_KEY / UNVERIFIED`; no production Worker URL or secret was present for this run. Local tests cover server-side boundaries and offline fallback only.
-- A human playtest on the final deployed Pages build remains pending. This branch's verification run did not publish to Pages; see `DEPLOYMENT.md` for the last documented deployment.
+- A human playtest on the final deployed Pages build remains pending.

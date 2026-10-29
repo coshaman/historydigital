@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "V33_DEPLOYED_PAGES_SMOKE_V1",
+  "status": "PASS",
+  "verifiedAt": "2026-10-29T18:13:11Z",
+  "commit": "c6ac18708fdb0f05403fd916d91885bef489a655",
+  "deployment": {
+    "pagesUrl": "https://coshaman.github.io/historydigital/",
+    "workflow": "https://github.com/coshaman/historydigital/actions/runs/40928153096",
+    "workflowConclusion": "success",
+    "pagesDeployment": "https://github.com/coshaman/historydigital/actions/runs/40928152549",
+    "pagesDeploymentConclusion": "success"
+  },
+  "httpResources": [
+    { "path": "/", "status": 200 },
+    { "path": "/rpg/main.js", "status": 200 },
+    { "path": "/rpg/ai/config.js", "status": 200 },
+    { "path": "/rpg/maps/nevsky.json", "status": 200 },
+    { "path": "/rpg/quests/campaign.json", "status": 200 },
+    { "path": "/rpg/quests/circle-investigation-1849.json", "status": 200 },
+    { "path": "/rpg/characters/clerk_alexei.json", "status": 200 },
+    { "path": "/rpg/data/historical-source-packets.json", "status": 200 },
+    { "path": "/rpg/data/learning-exam.json", "status": 200 },
+    { "path": "/rpg/assets/petersburg-tiles.png", "status": 200 },
+    { "path": "/rpg/engine/game-state.js", "status": 200 }
+  ],
+  "playwright": {
+    "script": "scripts/v33-rpg-browser-smoke.mjs --quick",
+    "baseUrl": "https://coshaman.github.io/historydigital/",
+    "status": "PASS",
+    "timedExplorationGate": "not_run_in_quick_mode; full 120-second route passed in local acceptance",
+    "viewports": [
+      { "width": 1440, "height": 900, "documentWidth": 1440, "documentHeight": 900, "controlsVisible": true, "savedClueRestored": true },
+      { "width": 1366, "height": 768, "documentWidth": 1366, "documentHeight": 768, "controlsVisible": true, "savedClueRestored": true },
+      { "width": 390, "height": 844, "documentWidth": 390, "documentHeight": 844, "controlsVisible": true, "savedClueRestored": true },
+      { "width": 360, "height": 800, "documentWidth": 360, "documentHeight": 800, "controlsVisible": true, "savedClueRestored": true }
+    ],
+    "twoMapRoute": {
+      "mapTransition": true,
+      "hostPerspectives": ["observer", "courier_pavel", "printer_ekaterina"],
+      "clueInspected": "PRINTSHOP_ROUTING_NOTE",
+      "sourceRead": true,
+      "sourceReaderScroll": { "scrollHeight": 499, "clientHeight": 335 },
+      "choiceResolved": true,
+      "pageErrors": []
+    },
+    "chanceryAndCourtyard": {
+      "chanceryVisit": true,
+      "clerkAccess": true,
+      "alexeiDeniedCourtyard": true,
+      "observerEnteredCourtyard": true,
+      "mikhailClueRead": true,
+      "mikhailReturnedToStreet": true,
+      "pageErrors": []
+    },
+    "detailedReport": "artifacts/v33/V33_RPG_PHASE1_QUICK/BROWSER_SMOKE.json",
+    "screenshots": "artifacts/v33/V33_RPG_PHASE1_QUICK/"
+  },
+  "liveAI": "BLOCKED_NO_KEY / UNVERIFIED"
+}
