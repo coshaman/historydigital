@@ -1,0 +1,32 @@
+
+> chancery-of-ink@1.0.0 v33-browser-acceptance
+> node scripts/v33-browser-acceptance.mjs
+
+
+> scripts/v33-interpersonal-dialogue-browser.mjs (http://127.0.0.1:63333/)
+node:internal/modules/run_main:122
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: dialogue portrait should stay hidden before a conversation at 1440
+
+true !== false
+
+    at file:///C:/Users/owner/.codex/worktrees/v33-possession-rpg/history/scripts/v33-interpersonal-dialogue-browser.mjs:55:12 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: true,
+  expected: false,
+  operator: 'strictEqual'
+}
+
+Node.js v22.15.0
+file:///C:/Users/owner/.codex/worktrees/v33-possession-rpg/history/scripts/v33-browser-acceptance.mjs:53
+    if (result.status !== 0) throw new Error(`${script} failed with status ${result.status}`);
+                                   ^
+
+Error: scripts/v33-interpersonal-dialogue-browser.mjs failed with status 1
+    at file:///C:/Users/owner/.codex/worktrees/v33-possession-rpg/history/scripts/v33-browser-acceptance.mjs:53:36
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+
+Node.js v22.15.0

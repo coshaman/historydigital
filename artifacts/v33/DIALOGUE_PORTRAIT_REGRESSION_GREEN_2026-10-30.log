@@ -1,0 +1,370 @@
+
+> chancery-of-ink@1.0.0 v33-browser-acceptance
+> node scripts/v33-browser-acceptance.mjs
+
+
+> scripts/v33-interpersonal-dialogue-browser.mjs (http://127.0.0.1:52092/)
+{
+  "status": "PASS",
+  "viewports": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "embodiedHost": "seamstress_anna",
+      "speaker": "printer_ekaterina",
+      "portrait": {
+        "src": "./rpg/assets/portrait-printer_ekaterina.png",
+        "alt": "예카테리나 벨로바 초상",
+        "width": 64,
+        "height": 64,
+        "visible": true
+      },
+      "response": "mocked AI provider response",
+      "questChangedByConversation": false,
+      "documentWidth": 1440,
+      "input": {
+        "top": 749.0625,
+        "bottom": 787.0625,
+        "visible": true
+      },
+      "inputOverlapsControls": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "embodiedHost": "seamstress_anna",
+      "speaker": "printer_ekaterina",
+      "portrait": {
+        "src": "./rpg/assets/portrait-printer_ekaterina.png",
+        "alt": "예카테리나 벨로바 초상",
+        "width": 64,
+        "height": 64,
+        "visible": true
+      },
+      "response": "mocked AI provider response",
+      "questChangedByConversation": false,
+      "documentWidth": 1366,
+      "input": {
+        "top": 617.5625,
+        "bottom": 655.5625,
+        "visible": true
+      },
+      "inputOverlapsControls": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "embodiedHost": "seamstress_anna",
+      "speaker": "printer_ekaterina",
+      "portrait": {
+        "src": "./rpg/assets/portrait-printer_ekaterina.png",
+        "alt": "예카테리나 벨로바 초상",
+        "width": 64,
+        "height": 64,
+        "visible": true
+      },
+      "response": "mocked AI provider response",
+      "questChangedByConversation": false,
+      "documentWidth": 390,
+      "input": {
+        "top": 634.359375,
+        "bottom": 680.359375,
+        "visible": true
+      },
+      "inputOverlapsControls": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "embodiedHost": "seamstress_anna",
+      "speaker": "printer_ekaterina",
+      "portrait": {
+        "src": "./rpg/assets/portrait-printer_ekaterina.png",
+        "alt": "예카테리나 벨로바 초상",
+        "width": 64,
+        "height": 64,
+        "visible": true
+      },
+      "response": "mocked AI provider response",
+      "questChangedByConversation": false,
+      "documentWidth": 360,
+      "input": {
+        "top": 593.203125,
+        "bottom": 639.203125,
+        "visible": true
+      },
+      "inputOverlapsControls": false,
+      "pageErrors": []
+    }
+  ]
+}
+
+> scripts/v33-rpg-browser-smoke.mjs (http://127.0.0.1:52092/)
+viewport 1440x900
+viewport 1366x768
+viewport 390x844
+viewport 360x800
+{
+  "status": "PASS",
+  "viewports": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "document": {
+        "width": 1440,
+        "height": 900
+      },
+      "controlsVisible": true,
+      "savedClueRestored": true
+    },
+    {
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "document": {
+        "width": 1366,
+        "height": 768
+      },
+      "controlsVisible": true,
+      "savedClueRestored": true
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "document": {
+        "width": 390,
+        "height": 844
+      },
+      "controlsVisible": true,
+      "savedClueRestored": true
+    },
+    {
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "document": {
+        "width": 360,
+        "height": 800
+      },
+      "controlsVisible": true,
+      "savedClueRestored": true
+    }
+  ]
+}
+
+> scripts/v33-ending-browser-smoke.mjs (http://127.0.0.1:52092/)
+ending selected · UVAROV · http://127.0.0.1:52092/
+page closed · UVAROV
+ending selected · BELINSKY · http://127.0.0.1:52092/
+page closed · BELINSKY
+ending selected · HERZEN · http://127.0.0.1:52092/
+page closed · HERZEN
+ending selected · KHOMYAKOV · http://127.0.0.1:52092/
+page closed · KHOMYAKOV
+ending selected · DOSTOEVSKY_PETRASHEVSKY · http://127.0.0.1:52092/
+page closed · DOSTOEVSKY_PETRASHEVSKY
+{
+  "schemaVersion": "V33_ENDING_BROWSER_SMOKE_V1",
+  "status": "PASS",
+  "browserEndingCount": 5,
+  "mobileEndingChecked": true,
+  "results": [
+    {
+      "endingId": "UVAROV",
+      "choiceVisible": true,
+      "resolvedInBrowser": true,
+      "errors": []
+    },
+    {
+      "endingId": "BELINSKY",
+      "choiceVisible": true,
+      "resolvedInBrowser": true,
+      "errors": []
+    },
+    {
+      "endingId": "HERZEN",
+      "choiceVisible": true,
+      "resolvedInBrowser": true,
+      "errors": []
+    },
+    {
+      "endingId": "KHOMYAKOV",
+      "choiceVisible": true,
+      "resolvedInBrowser": true,
+      "errors": []
+    },
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "choiceVisible": true,
+      "resolvedInBrowser": true,
+      "errors": []
+    },
+    {
+      "endingId": "UVAROV",
+      "mobileViewport": {
+        "viewportWidth": 360,
+        "documentWidth": 360,
+        "panelScrollHeight": 2149,
+        "panelClientHeight": 778
+      },
+      "restartControlVisibleAfterScroll": true
+    }
+  ]
+}
+
+> scripts/v33-campaign-browser-acceptance.mjs (http://127.0.0.1:52092/)
+PASS · UVAROV
+PASS · BELINSKY
+PASS · HERZEN
+PASS · KHOMYAKOV
+PASS · DOSTOEVSKY_PETRASHEVSKY
+{
+  "schemaVersion": "V33_FULL_CAMPAIGN_BROWSER_ACCEPTANCE_V1",
+  "status": "PASS",
+  "endingCount": 5,
+  "selectedCase": null,
+  "routes": [
+    {
+      "endingId": "UVAROV",
+      "status": "PASS",
+      "resolvedQuests": [
+        "CIRCLE_INVESTIGATION_1849",
+        "CIRCLE_LETTER_1849_MAY",
+        "PRINTSHOP_PROOF_1847",
+        "PUBLIC_DISCOURSE_1848"
+      ],
+      "hosts": [
+        "printer_ekaterina",
+        "nekrasov_reconstruction",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "sources": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "screenshot": "artifacts/v33/campaign-full-run-uvarov-1440x900.png",
+      "error": null
+    },
+    {
+      "endingId": "BELINSKY",
+      "status": "PASS",
+      "resolvedQuests": [
+        "CIRCLE_INVESTIGATION_1849",
+        "CIRCLE_LETTER_1849_MAY",
+        "PRINTSHOP_PROOF_1847",
+        "PUBLIC_DISCOURSE_1848"
+      ],
+      "hosts": [
+        "printer_ekaterina",
+        "nekrasov_reconstruction",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "sources": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "screenshot": "artifacts/v33/campaign-full-run-belinsky-1440x900.png",
+      "error": null
+    },
+    {
+      "endingId": "HERZEN",
+      "status": "PASS",
+      "resolvedQuests": [
+        "CIRCLE_INVESTIGATION_1849",
+        "CIRCLE_LETTER_1849_MAY",
+        "PRINTSHOP_PROOF_1847",
+        "PUBLIC_DISCOURSE_1848"
+      ],
+      "hosts": [
+        "printer_ekaterina",
+        "nekrasov_reconstruction",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "sources": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "screenshot": "artifacts/v33/campaign-full-run-herzen-1440x900.png",
+      "error": null
+    },
+    {
+      "endingId": "KHOMYAKOV",
+      "status": "PASS",
+      "resolvedQuests": [
+        "CIRCLE_INVESTIGATION_1849",
+        "CIRCLE_LETTER_1849_MAY",
+        "PRINTSHOP_PROOF_1847",
+        "PUBLIC_DISCOURSE_1848"
+      ],
+      "hosts": [
+        "printer_ekaterina",
+        "nekrasov_reconstruction",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "sources": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "screenshot": "artifacts/v33/campaign-full-run-khomyakov-1440x900.png",
+      "error": null
+    },
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "status": "PASS",
+      "resolvedQuests": [
+        "CIRCLE_INVESTIGATION_1849",
+        "CIRCLE_LETTER_1849_MAY",
+        "PRINTSHOP_PROOF_1847",
+        "PUBLIC_DISCOURSE_1848"
+      ],
+      "hosts": [
+        "printer_ekaterina",
+        "nekrasov_reconstruction",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "sources": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "screenshot": "artifacts/v33/campaign-full-run-dostoevsky_petrashevsky-1440x900.png",
+      "error": null
+    }
+  ]
+}

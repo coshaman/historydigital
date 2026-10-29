@@ -26,7 +26,11 @@ try {
     page.setDefaultTimeout(8000);
     const errors = [];
     page.on('pageerror', error => errors.push(String(error)));
-    await page.addInitScript(() => { window.V33_RPG_AI_API_BASE_URL = 'https://worker.test'; });
+    await page.route('**/rpg/ai/config.js', route => route.fulfill({
+      status: 200,
+      contentType: 'application/javascript',
+      body: `window.V33_RPG_AI_API_BASE_URL = 'https://worker.test';`,
+    }));
     await page.route('https://worker.test/api/rpg/session/start', async route => {
       const body = JSON.parse(route.request().postData()); sessionStarts.push(body);
       sessionTokenNumber += 1;
