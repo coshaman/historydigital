@@ -23,8 +23,8 @@ Set `RPG_AI_API_BASE_URL` to the public Worker URL at static build time. It is a
 - `POST /api/rpg/dialogue` accepts only the token, an idempotency key, and bounded player text. Host, scene, character profile, dialogue memory and turn count come from server storage.
 - Each character scene defines a single dialogue objective, allowed/forbidden topics, and an eight-turn scene limit. Replies contain spoken text and 2–3 ordinary utterance suggestions only; they have no quest, stat, item, relationship, or ending fields.
 - `GET /api/rpg/health` reports `configured` or `BLOCKED_NO_KEY`; it never reveals secret values.
-- Session dialogue context expires seven days after creation; later turns do not extend retention. Recent dialogue is limited to eight turns and sensitive email, URL, and phone-like strings are redacted before context/storage. No IP address is stored.
-- A fixed global Durable Object enforces per-minute/day service caps. Public CORS is not authentication; users can call the public endpoint outside a browser. Configure OpenAI project-side spending limits and monitor actual invoices separately from request-count caps.
+- Session dialogue context expires seven days after creation; later turns do not extend retention. Recent dialogue is limited to eight turns and sensitive email, URL, and phone-like strings are redacted before context/storage. The Worker HMACs Cloudflare's client address for a temporary rate-limit bucket; it does not persist the raw IP, and caller buckets expire after two days.
+- A Durable Object enforces per-caller limits (8 starts/minute and 40/day; 30 dialogue turns/minute and 200/day) plus global per-minute/day service caps. CORS is not authentication; custom clients and IP rotation remain possible. Configure OpenAI project-side spending limits and monitor actual invoices separately from request-count caps.
 - Provider 429, 500, timeout, and malformed response conditions use authored offline dialogue; they never mutate game state.
 
 ## Verification truth

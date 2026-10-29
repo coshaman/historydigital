@@ -8,6 +8,10 @@ const SESSION_MINUTE_TURNS = 12;
 const GLOBAL_MINUTE_TURNS = 300;
 const GLOBAL_DAILY_TURNS = 1200;
 const GLOBAL_DAILY_STARTS = 1000;
+const CALLER_MINUTE_STARTS = 8;
+const CALLER_DAILY_STARTS = 40;
+const CALLER_MINUTE_TURNS = 30;
+const CALLER_DAILY_TURNS = 200;
 
 function json(body, status = 200) { return Response.json(body, { status, headers: { 'cache-control': 'no-store' } }); }
 function origins(value) { return String(value ?? '').split(',').map(value => value.trim()).filter(Boolean); }
@@ -25,10 +29,21 @@ function makeSessionStore(namespace) {
     release: (id, requestId, now) => call(id, 'release', { requestId, now }),
   };
 }
-function makeBudget(namespace) {
+function makeBudget(namespace, callerId) {
   const stub = namespace.get(namespace.idFromName('v33-rpg-global'));
-  const consume = async kind => (await stub.fetch(`https://rpg-budget/${kind}`, { method: 'POST' })).status === 204;
-  return { consume: () => consume('consume-turn'), consumeStart: () => consume('consume-start') };
+  const callerStub = callerId ? namespace.get(namespace.idFromName(`v33-rpg-caller-${callerId}`)) : null;
+  const consume = async (target, kind) => (await target.fetch(`https://rpg-budget/${kind}`, { method: 'POST' })).status === 204;
+  return {
+    consume: () => consume(stub, 'consume-turn'),
+    consumeStart: () => consume(stub, 'consume-start'),
+    consumeCallerStart: () => callerStub ? consume(callerStub, 'consume-caller-start') : Promise.resolve(false),
+    consumeCallerTurn: () => callerStub ? consume(callerStub, 'consume-caller-turn') : Promise.resolve(false),
+  };
+}
+async function callerKey(address, secret) {
+  const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  const digest = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(address || 'unknown'));
+  return [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2, '0')).join('');
 }
 
 const worker = {
@@ -51,9 +66,13 @@ const worker = {
       if (!body || Array.isArray(body) || typeof body !== 'object' || Object.keys(body).length !== 1 || !Object.hasOwn(body, 'hostId')) return new Response(JSON.stringify({ error: 'invalid_request' }), { status: 400, headers });
       if (!isSupportedHostId(body.hostId)) return new Response(JSON.stringify({ error: 'unsupported_host' }), { status: 400, headers });
     }
-    const budget = makeBudget(env.RPG_BUDGETS);
-    if (url.pathname.endsWith('/start') && !(await budget.consumeStart())) return new Response(JSON.stringify({ error: 'global_start_limit' }), { status: 429, headers });
-    const service = createRpgAiService({ secret: env.RPG_SESSION_SIGNING_KEY, store: makeSessionStore(env.RPG_SESSIONS), allowedOrigins: allow, provider: env.OPENAI_API_KEY ? createResponsesProvider({ apiKey: env.OPENAI_API_KEY }) : null, globalLimiter: { consume: () => budget.consume() }, dialogueModel: env.OPENAI_DIALOGUE_MODEL || 'gpt-6.1-terra' });
+    const clientKey = await callerKey(request.headers.get('cf-connecting-ip') ?? '', env.RPG_SESSION_SIGNING_KEY);
+    const budget = makeBudget(env.RPG_BUDGETS, clientKey);
+    if (url.pathname.endsWith('/start')) {
+      if (!(await budget.consumeCallerStart())) return new Response(JSON.stringify({ error: 'caller_start_limit' }), { status: 429, headers });
+      if (!(await budget.consumeStart())) return new Response(JSON.stringify({ error: 'global_start_limit' }), { status: 429, headers });
+    }
+    const service = createRpgAiService({ secret: env.RPG_SESSION_SIGNING_KEY, store: makeSessionStore(env.RPG_SESSIONS), allowedOrigins: allow, provider: env.OPENAI_API_KEY ? createResponsesProvider({ apiKey: env.OPENAI_API_KEY }) : null, globalLimiter: { consume: async () => (await budget.consumeCallerTurn()) && (await budget.consume()) }, dialogueModel: env.OPENAI_DIALOGUE_MODEL || 'gpt-6.1-terra' });
     const result = await service.handle({ method: request.method, path: url.pathname, origin, body });
     return new Response(result.status === 204 ? null : JSON.stringify(result.body), { status: result.status, headers: { ...headers, ...result.headers } });
   },
@@ -116,20 +135,23 @@ class RpgGlobalBudget {
   constructor(state) { this.state = state; }
   async fetch(request) {
     const op = new URL(request.url).pathname.slice(1);
-    if (request.method !== 'POST' || !['consume-turn','consume-start'].includes(op)) return json({ error: 'not_found' }, 404);
-    const now = Date.now(), day = Math.floor(now / 86_400_000), key = op === 'consume-start' ? 'starts' : 'turns';
+    if (request.method !== 'POST' || !['consume-turn','consume-start','consume-caller-start','consume-caller-turn'].includes(op)) return json({ error: 'not_found' }, 404);
+    const caller = op.startsWith('consume-caller-'), start = op.endsWith('-start');
+    const now = Date.now(), day = Math.floor(now / 86_400_000), key = caller ? (start ? 'callerStarts' : 'callerTurns') : (start ? 'starts' : 'turns');
     const accepted = await this.state.storage.transaction(async tx => {
       const minute = Math.floor(now / 60_000);
       const count = await tx.get(key) ?? { minute, minuteCount: 0, day, dayCount: 0 };
       if (count.minute !== minute) { count.minute = minute; count.minuteCount = 0; }
       if (count.day !== day) { count.day = day; count.dayCount = 0; }
-      const perMinute = op === 'consume-start' ? 80 : GLOBAL_MINUTE_TURNS;
-      const perDay = op === 'consume-start' ? GLOBAL_DAILY_STARTS : GLOBAL_DAILY_TURNS;
+      const perMinute = caller ? (start ? CALLER_MINUTE_STARTS : CALLER_MINUTE_TURNS) : (start ? 80 : GLOBAL_MINUTE_TURNS);
+      const perDay = caller ? (start ? CALLER_DAILY_STARTS : CALLER_DAILY_TURNS) : (start ? GLOBAL_DAILY_STARTS : GLOBAL_DAILY_TURNS);
       if (count.minuteCount >= perMinute || count.dayCount >= perDay) return false;
       count.minuteCount++; count.dayCount++; await tx.put(key, count); return true;
     });
+    if (caller && accepted && this.state.storage.setAlarm) await this.state.storage.setAlarm(now + 2 * 86_400_000);
     return new Response(null, { status: accepted ? 204 : 429 });
   }
+  async alarm() { await this.state.storage.deleteAll(); }
 }
 
 module.exports = { ...worker, RpgSession, RpgGlobalBudget };

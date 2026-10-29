@@ -246,3 +246,28 @@ test('unsupported or malformed session starts are rejected before consuming the 
   assert.equal(valid.status, 201);
   assert.equal(budgetNamespace.objects.get('v33-rpg-global').state.storage.data.get('starts').dayCount, 1);
 });
+
+test('Worker applies independent per-caller limits to valid session starts and dialogue turns', async () => {
+  const budgetNamespace = new FakeNamespace(RpgGlobalBudget);
+  const env = { RPG_SESSION_SIGNING_KEY: 'test-signing-secret-at-least-32-bytes-long', RPG_ALLOWED_ORIGINS: 'https://game.example', RPG_SESSIONS: new FakeNamespace(RpgSession), RPG_BUDGETS: budgetNamespace };
+  const headersFor = ip => ({ origin: 'https://game.example', 'content-type': 'application/json', 'cf-connecting-ip': ip });
+  const tokens = [];
+  for (let index = 0; index < 8; index++) {
+    const response = await workerFetch(new Request('https://worker.example/api/rpg/session/start', { method: 'POST', headers: headersFor('203.0.113.10'), body: JSON.stringify({ hostId: 'clerk_alexei' }) }), env);
+    assert.equal(response.status, 201);
+    tokens.push((await response.json()).sessionToken);
+  }
+  const limited = await workerFetch(new Request('https://worker.example/api/rpg/session/start', { method: 'POST', headers: headersFor('203.0.113.10'), body: JSON.stringify({ hostId: 'clerk_alexei' }) }), env);
+  assert.equal(limited.status, 429);
+  const otherCaller = await workerFetch(new Request('https://worker.example/api/rpg/session/start', { method: 'POST', headers: headersFor('203.0.113.11'), body: JSON.stringify({ hostId: 'clerk_alexei' }) }), env);
+  assert.equal(otherCaller.status, 201);
+  for (let index = 0; index < 30; index++) {
+    const turn = await workerFetch(new Request('https://worker.example/api/rpg/dialogue', { method: 'POST', headers: headersFor('203.0.113.10'), body: JSON.stringify({ sessionToken: tokens[index % tokens.length], requestId: `caller-turn-${String(index).padStart(4, '0')}`, playerInput: '접수 순서를 확인할까요?' }) }), env);
+    assert.equal(turn.status, 200);
+  }
+  const turnLimited = await workerFetch(new Request('https://worker.example/api/rpg/dialogue', { method: 'POST', headers: headersFor('203.0.113.10'), body: JSON.stringify({ sessionToken: tokens[0], requestId: 'caller-turn-over-limit', playerInput: '한 번 더 물어봅니다.' }) }), env);
+  assert.equal(turnLimited.status, 429);
+  const callerKeys = [...budgetNamespace.objects.keys()].filter(key => key.startsWith('v33-rpg-caller-'));
+  assert.equal(callerKeys.length, 2, 'raw client addresses are not used as Durable Object names');
+  assert.ok(callerKeys.every(key => !key.includes('203.0.113')));
+});

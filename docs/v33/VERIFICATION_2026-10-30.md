@@ -25,11 +25,11 @@
 | Learning and life simulation | 9/9 tests passed |
 | Local HTTP MIME handling | passed |
 | Canvas renderer startup | passed |
-| AI/Worker security, memory, limits and fallback | 14/14 tests passed |
+| AI/Worker security, memory, limits and fallback | 15/15 test groups passed (18 including nested provider-error cases) |
 | Historical flow audit | PASS; 3 dated arcs, 7 sources, 4 historical packets, 5 quests, 5 ending IDs |
 | Pixel asset audit | PASS; 17 PNGs with dimensions and provenance checked, including eight 64×64 portraits |
 | Ending reducer matrix | PASS; 10 variants across 5 endings |
-| Static RPG build | PASS; 49 files, relative paths, legacy Chancery entry preserved |
+| Static RPG build | PASS; 57 files, relative paths, legacy Chancery entry preserved |
 | Static integrity, lint, historical check and route tests | PASS |
 | Browser viewport smoke | PASS at 1440×900, 1366×768, 390×844 and 360×800 |
 | Browser two-map route | PASS; 128,624 ms goal-directed route, source reader scroll, clue, host changes and quest decision |
@@ -54,6 +54,12 @@ The detailed machine-readable evidence is in `artifacts/v33/V33_RPG_PHASE1/BROWS
 
 - Live OpenAI Responses API remains `BLOCKED_NO_KEY / UNVERIFIED`; no production Worker URL or secret was present for this run. Local tests cover server-side boundaries and offline fallback only.
 - A human playtest on the final deployed Pages build remains pending.
+
+## Follow-up — caller-level Worker budgets
+
+- Added independent Durable Object buckets derived from HMAC(CF-Connecting-IP, `RPG_SESSION_SIGNING_KEY`); raw client addresses are not stored. Per-caller limits are 8 session starts/minute and 40/day, plus 30 dialogue turns/minute and 200/day. Buckets are deleted after two days.
+- Regression tests drive the Cloudflare Worker route: one caller hits the start cap and dialogue cap, a second caller remains independent, and Durable Object identifiers contain no raw IP text. The V33 full acceptance rerun passed after this change, including the four-viewport browser smoke, all five ending interfaces, and five complete campaign routes.
+- These limits slow single-address abuse but do not authenticate users and can be bypassed by IP rotation. Global request caps and provider-side spend controls remain necessary. No live Worker/key was configured, so this is local Worker behavior verification, not production deployment verification.
 
 ## Final approved V33 learning/life follow-up
 

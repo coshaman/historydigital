@@ -8,7 +8,7 @@ The output is a project site and works below `/historydigital/` because all game
 
 ## Worker
 
-Follow `ai/v33/worker/README.md`. Configure the actual Pages **origin** in `RPG_ALLOWED_ORIGINS`; the repository path is not part of the browser `Origin`. Store `OPENAI_API_KEY` and `RPG_SESSION_SIGNING_KEY` as Worker secrets only. Set an account/project spending cap as well as the Worker's request budget. CORS is not user authentication; anonymous callers can still make custom HTTP requests.
+Follow `ai/v33/worker/README.md`. Configure the actual Pages **origin** in `RPG_ALLOWED_ORIGINS`; the repository path is not part of the browser `Origin`. Store `OPENAI_API_KEY` and `RPG_SESSION_SIGNING_KEY` as Worker secrets only. Set an account/project spending cap as well as the Worker's request budget. Per-caller HMAC buckets limit ordinary single-IP abuse, but CORS is not authentication and IP rotation can bypass caller limits.
 
 ## Current verification
 
