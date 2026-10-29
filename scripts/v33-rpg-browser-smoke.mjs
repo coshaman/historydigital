@@ -45,6 +45,7 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 1366, height: 768
   const clueText = await page.locator('#journal-text').innerText();
   if (!clueText.includes('봉투') || !clueText.includes('배달 표식처럼 보이지만')) throw new Error('Pavel clue copy did not appear');
   await page.locator('#save').click();
+  if (await page.locator('#load').isDisabled()) throw new Error(`Load control remained disabled immediately after saving at ${viewport.width}`);
   await page.reload({ waitUntil: 'networkidle' });
   await page.waitForSelector('#journal-text');
   const restoredJournal = await page.locator('#journal-text').innerText();

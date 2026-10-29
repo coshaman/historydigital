@@ -542,7 +542,7 @@ document.querySelectorAll('[data-move]').forEach(button => button.addEventListen
 $('#use').addEventListener('click', interact);
 $('#talk').addEventListener('click', () => { const host = cards.find(card => card.id === state.player.embodiment); if (host) startConversation(host); });
 $('#release').addEventListener('click', () => { const result = releaseHost(state, currentMap()); if (result.ok) { setState(result.state); say('몸을 놓아주다', '그 사람은 자기 자리에서 계속 살아간다. 네가 본 것과 그 사람이 아는 것은 섞이지 않는다.', []); } });
-$('#save').addEventListener('click', () => { localStorage.setItem('v33-rpg-save', saveGame(state)); sayRecord('기록을 저장했다.'); });
+$('#save').addEventListener('click', () => { localStorage.setItem('v33-rpg-save', saveGame(state)); $('#load').disabled = false; sayRecord('기록을 저장했다.'); });
 $('#load').addEventListener('click', () => {
   const saved = localStorage.getItem('v33-rpg-save');
   if (!saved) return;
