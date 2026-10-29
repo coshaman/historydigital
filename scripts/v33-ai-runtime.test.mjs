@@ -46,7 +46,16 @@ test('AI dialogue receives the embodied public character context and keeps each 
   }
   assert.deepEqual(observed.map(input => input.conversation.embodiedPlayer.id), ['seamstress_anna', 'seamstress_anna', 'clerk_alexei']);
   assert.equal(observed[0].conversation.embodiedPlayer.occupation, '옷 수선과 바느질 품을 받는 노동자');
+  assert.equal(observed[0].conversation.embodiedPlayer.legalMobility, '하숙집·공개 거리와 수선 주문을 맡은 인쇄소 작업장 이용; 관청과 살롱 출입은 소개/고용 없이 불가');
+  assert.deepEqual(observed[0].conversation.embodiedPlayer.wealthBracket, { value: 'precarious', status: 'designedEstimate' });
+  assert.equal(observed[0].conversation.embodiedPlayer.personalObjective, '교정쇄를 읽어도 되는지 물어보고 오늘 품삯을 지킨다');
+  assert.equal(observed[0].conversation.embodiedPlayer.risk, '오늘 일감을 놓치면 방세 납부가 늦어진다');
+  assert.equal(observed[2].conversation.embodiedPlayer.personalObjective, '인쇄소에서 올라온 교정쇄의 접수 경로를 확인한다');
+  assert.notEqual(observed[0].conversation.embodiedPlayer.legalMobility, observed[2].conversation.embodiedPlayer.legalMobility);
+  assert.equal(observed[0].conversation.embodiedPlayer.inventory, undefined);
+  assert.equal(observed[0].conversation.embodiedPlayer.relations, undefined);
   assert.equal(JSON.stringify(observed[0].conversation.embodiedPlayer).includes('knownPrivateFacts'), false);
+  assert.equal(JSON.stringify(observed[0].conversation.embodiedPlayer).includes('secretKnowledge'), false);
   assert.equal(observed[0].conversation.embodiedPlayer.money, undefined);
   assert.deepEqual(observed[0].recentTurns, []);
   assert.match(JSON.stringify(observed[1].recentTurns), /안나로서 물어볼게요/);
