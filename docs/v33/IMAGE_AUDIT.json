@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "V33-IMAGE-AUDIT-2",
+  "status": "PASS",
+  "pngCount": 9,
+  "assets": [
+    {
+      "path": "rpg/assets/alexei.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 516,
+      "sha256": "89c7481852a1efaffe8b86777fa6afcc4be8c1811d24e4bcf51d56e52fe98a5a",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/anna.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 534,
+      "sha256": "fa472be2c96a43424ccdeb94f5ed132193102ad1f74da74fba57d2c7563863b6",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/chichikov.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 394,
+      "sha256": "1411553f6aaba42d9b4e745bbd476e9a818e3a25da1ca95baa149a1266c3b6e4",
+      "license": "original project-authored pixels",
+      "confidence": "LITERARY_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/ekaterina.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 497,
+      "sha256": "6be4fcf91467c2baebb89e23edc71fa5a5ea446fc09dfe7bb14fff43e55592d2",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/lev.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 516,
+      "sha256": "a02de10f577ff016f7fb3c8db40e961d9a4e70628f0aec0093c0d68b534f55d6",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/mikhail.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 534,
+      "sha256": "40cbb84947c076be779957ddc7aaa0752d8b317ef6701e034eac28713ef5a1c5",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/nekrasov.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 393,
+      "sha256": "659719e9b8208870720b721fbee01a3a70c29bdec24721b9cc46319dc001817c",
+      "license": "original project-authored pixels",
+      "confidence": "SOURCE_CONSTRAINED_HISTORICAL_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/pavel.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 557,
+      "sha256": "ad68882edc891127891d4aaacd71c74f34516ade19e8aacdc322c9d0c06c9ff3",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/petersburg-tiles.png",
+      "width": 256,
+      "height": 160,
+      "bytes": 2453,
+      "sha256": "b129dffdc917e7e4728ba35940810d61146e0bcc1971a8db7dbc8678d6c3f893",
+      "license": "original project-authored pixels",
+      "confidence": "RECONSTRUCTED"
+    }
+  ],
+  "failures": []
+}

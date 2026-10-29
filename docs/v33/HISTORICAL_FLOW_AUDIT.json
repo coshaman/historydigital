@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "V33-HISTORICAL-FLOW-AUDIT-2",
+  "status": "PASS",
+  "arcOrder": [
+    {
+      "id": "V33_1847_PRINT",
+      "date": "1847-06-01"
+    },
+    {
+      "id": "V33_1848_PUBLIC",
+      "date": "1848-01-01"
+    },
+    {
+      "id": "V33_1849_CIRCLE",
+      "date": "1849-04-22"
+    }
+  ],
+  "sourceCount": 7,
+  "historicalPacketCount": 4,
+  "questCount": 5,
+  "endingIds": [
+    "UVAROV",
+    "BELINSKY",
+    "HERZEN",
+    "KHOMYAKOV",
+    "DOSTOEVSKY_PETRASHEVSKY"
+  ],
+  "failures": []
+}
