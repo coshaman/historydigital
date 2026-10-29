@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "V33_PRODUCTION_SAVE_LOAD_CHECK_V1",
+  "status": "PASS",
+  "commit": "fed554d66a258e58b22e88664355c343f213ba8b",
+  "url": "https://coshaman.github.io/historydigital/?build=fed554d",
+  "checks": [
+    {
+      "action": "Open the deployed game with a clean query-string build URL",
+      "result": "PASS",
+      "evidence": "The pixel RPG title, city map, HUD, journal, and touch controls rendered."
+    },
+    {
+      "action": "Click 기록",
+      "result": "PASS",
+      "evidence": "The UI displayed 기록을 저장했다. and 불러오기 became enabled."
+    },
+    {
+      "action": "Click 불러오기",
+      "result": "PASS",
+      "evidence": "The saved scene restored and the UI displayed 저장한 현장으로 돌아왔다."
+    }
+  ],
+  "automatedSuite": "npm run acceptance:v33",
+  "automatedSuiteStatus": "INCOMPLETE: unit, security, ending matrix, build, lint, check, and route tests passed; the Playwright smoke phase could not reach its local test server from the isolated command session and was stopped.",
+  "verifiedSeparately": "Production save/load behavior was checked through browser UI clicks."
+}
