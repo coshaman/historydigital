@@ -1,6 +1,9 @@
 name: V33 GitHub Pages
 
 on:
+  push:
+    branches:
+      - master
   workflow_dispatch:
 
 permissions:
