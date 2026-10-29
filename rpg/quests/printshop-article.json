@@ -1,0 +1,56 @@
+{
+  "id": "PRINTSHOP_PROOF_1847",
+  "titleKo": "교정쇄의 행선지",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "인쇄소의 허구 교정쇄 사본을 누가 어떤 절차로 다룰지 정한다. 실제 간행물의 역사적 발행 사실은 이 선택으로 바뀌지 않는다.",
+  "historicalOutcome": {
+    "id": "SOVREMENNIK_1847_ISSUE_PUBLICATION",
+    "value": "the attested 1847 issue remains historically published",
+    "sourceIds": [
+      "OBJ-SOV-1847"
+    ]
+  },
+  "entry": {
+    "mapId": "printshop",
+    "objectId": 20,
+    "requiredHostId": "printer_ekaterina"
+  },
+  "actions": [
+    {
+      "id": "RETURN_MANUSCRIPT",
+      "hostIds": [
+        "printer_ekaterina"
+      ],
+      "labelKo": "교정쇄 사본을 편집실로 돌려보낸다",
+      "subcopyKo": "편집실 직원에게 보입니다 · 작업 전달표에 남습니다 · 사본이 작업장을 떠나고 전달이 늦어질 수 있습니다",
+      "resultKo": "사본을 편집실로 보냈다. 인쇄소와 편집실이 그 사실을 안다.",
+      "resultFlag": "proofReturned",
+      "followup": "EDITORIAL_RETURN"
+    },
+    {
+      "id": "HOLD_FOR_CORRECTION",
+      "hostIds": [
+        "printer_ekaterina"
+      ],
+      "labelKo": "확인할 문장에 표시하고 작업대에 보류한다",
+      "subcopyKo": "가까운 동료에게 보입니다 · 공식 장부에는 남지 않고 작업장에 머뭅니다 · 마감이 늦어질 수 있습니다",
+      "resultKo": "확인할 곳을 표시해 작업대에 남겼다. 교정쇄는 아직 작업장을 떠나지 않았다.",
+      "resultFlag": "proofHeld",
+      "followup": "CORRECTION_HOLD"
+    },
+    {
+      "id": "ASK_FOR_SOURCE",
+      "hostIds": [
+        "printer_ekaterina"
+      ],
+      "labelKo": "인쇄된 원문과 대조한 뒤 결정한다",
+      "subcopyKo": "작업장 동료가 볼 수 있습니다 · 공식 장부가 아닌 대조 메모에 남습니다 · 사본은 남고 결정이 늦어집니다",
+      "requiredKnowledgeId": "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+      "resultKo": "인쇄된 원문과 대조하기로 했다. 확인이 끝날 때까지 사본은 작업대에 남는다.",
+      "resultFlag": "proofCompared",
+      "followup": "SOURCE_COMPARISON"
+    }
+  ],
+  "completion": "one authorized action on the represented physical object"
+}

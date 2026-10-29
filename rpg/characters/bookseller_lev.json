@@ -1,0 +1,113 @@
+{
+  "id": "bookseller_lev",
+  "kind": "FICTIONAL",
+  "displayNameKo": "레프",
+  "displayNameRu": "Лев",
+  "ageAtDate": {
+    "value": 42,
+    "status": "fictional_character_design"
+  },
+  "socialEstate": "petty_bourgeois",
+  "occupation": "가판과 작은 서가에서 책·잡지를 파는 상인",
+  "rank": {
+    "value": null,
+    "ru": null,
+    "status": "not_applicable"
+  },
+  "legalMobility": "공개 거리와 거래 중인 인쇄소 이용; 관청 기록실 출입은 허가가 필요하다",
+  "wealthBracket": "modest",
+  "money": {
+    "amount": 83,
+    "unit": "kopeks",
+    "status": "designedEstimate"
+  },
+  "literacy": "러시아어 인쇄물과 거래 장부를 읽는다",
+  "health": "working",
+  "reputationByGroup": {
+    "trade": "careful"
+  },
+  "risk": "팔리지 않은 재고와 외상값이 다음 발주를 막을 수 있다",
+  "relations": {},
+  "secretKnowledge": [
+    {
+      "id": "LEV_STOCK_NOTE",
+      "summaryKo": "새 잡지 묶음의 값은 아직 치르지 않았고 반품 기한이 남아 있다."
+    }
+  ],
+  "knownEvidence": [],
+  "privateKnowledgeIds": [
+    "LEV_STOCK_NOTE"
+  ],
+  "knownEvidenceIds": [],
+  "desires": "외상값을 회수하고 팔리지 않은 책의 손실을 줄인다",
+  "fears": "거래처가 값을 미루고 재고 책임을 자신에게 돌리는 것",
+  "taboos": [
+    "구매자가 보지 못한 문장을 읽었다고 말하지 않는다"
+  ],
+  "speechRhythm": "가격과 반품 기한을 먼저 말하고 상대 반응을 살핀다",
+  "lexicon": [
+    "외상",
+    "묶음",
+    "반품"
+  ],
+  "emotions": [
+    "계산",
+    "호기심",
+    "완곡한 경계"
+  ],
+  "personalObjective": "신문 가판의 재고와 반품 기한을 확인한다",
+  "objectiveByChapter": {
+    "1847": "읽을거리의 값과 유통 경로를 확인한다"
+  },
+  "allowedMaps": [
+    "nevsky",
+    "printshop",
+    "courtyard"
+  ],
+  "start": {
+    "mapId": "nevsky",
+    "x": 25,
+    "y": 16
+  },
+  "wealthBracketStatus": "designedEstimate",
+  "inventory": [
+    "접이식 장부",
+    "동전 주머니"
+  ],
+  "sourceIds": [
+    "OBJ-SOV-1847"
+  ],
+  "canonConstraint": "fictional bookseller; invented prices and business terms are not treated as period evidence",
+  "reconstructionDisclaimer": "허구 인물이며 재고·수입은 이 장면을 위한 설계 수치다.",
+  "sprite": {
+    "file": "assets/lev.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "coat",
+    "palette": {
+      "cloth": "#4c4a43",
+      "trim": "#bc9a67",
+      "headwear": "#675542"
+    }
+  },
+  "schedule": [
+    {
+      "atMinute": 540,
+      "mapId": "nevsky",
+      "position": {
+        "x": 25,
+        "y": 16
+      },
+      "activityKo": "가판의 책을 정리한다"
+    },
+    {
+      "atMinute": 600,
+      "mapId": "nevsky",
+      "position": {
+        "x": 24,
+        "y": 14
+      },
+      "activityKo": "가로등 쪽 손님을 살핀다"
+    }
+  ]
+}

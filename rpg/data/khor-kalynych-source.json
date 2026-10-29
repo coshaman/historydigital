@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "V33_SOURCE_CONTEXT_V1",
+  "sourceId": "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+  "titleRu": "Хорь и Калинычъ",
+  "titleKo": "호리와 칼리니치",
+  "author": "И. С. Тургенев",
+  "dateCreated": "1847",
+  "firstPublication": "Современник, 1847, том I, № 1, раздел «Смесь»",
+  "firstPublicationSourceId": "OBJ-SOV-1847",
+  "firstPublicationSourceUrl": "https://library.turgenev.ru/?page_id=545",
+  "catalogUrl": "https://rusneb.ru/catalog/000199_000009_007828983/",
+  "witness": {
+    "edition": "Полное собраніе сочиненій И. С. Тургенева. 4-е изд. Санкт-Петербург: Типографія Глазунова, т. 1.",
+    "sourceUrl": "https://ru.wikisource.org/wiki/Хорь_и_Калиныч_(Тургенев)/ДО",
+    "stableRevisionUrl": "https://ru.wikisource.org/w/index.php?title=Хорь_и_Калиныч_(Тургенев)/ДО&oldid=4722069",
+    "range": "opening narrative; lines 123–129 on the cited edition page, four consecutive paragraphs",
+    "note": "The excerpt is from the fourth collected edition, not a facsimile transcription of the 1847 first printing. The work is fiction; its narrator is not treated as a historical witness."
+  },
+  "paragraphs": [
+    {
+      "ru": "Въ первый же день моего знакомства съ г. Полутыкинымъ, онъ пригласилъ меня на ночь къ себѣ.",
+      "ko": "폴루티킨 씨를 처음 만난 날, 그는 나를 자기 집에서 하룻밤 묵고 가라고 초대했다."
+    },
+    {
+      "ru": "— До меня верстъ пять будетъ, — прибавилъ онъ: — пѣшкомъ идти далеко; зайдемте сперва къ Хорю. (Читатель позволитъ мнѣ не передавать его заиканья).",
+      "ko": "“우리 집까지는 5베르스타쯤 될 겁니다. 걸어가기엔 머니, 먼저 호리네 들렀다 갑시다.” 그가 덧붙였다. (말을 더듬는 버릇은 옮기지 않겠다.)"
+    },
+    {
+      "ru": "— А кто такой Хорь?",
+      "ko": "“호리는 누구죠?”"
+    },
+    {
+      "ru": "— А мой мужикъ…. Онъ отсюда близехонько.",
+      "ko": "“제 농노입니다…. 여기서 아주 가까워요.”"
+    }
+  ],
+  "translationNoteKo": "이 프로젝트의 번역이다. 현대 한국어 번역본의 문장을 가져오지 않았다."
+}

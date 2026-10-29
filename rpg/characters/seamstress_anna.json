@@ -1,0 +1,111 @@
+{
+  "id": "seamstress_anna",
+  "kind": "FICTIONAL",
+  "displayNameKo": "안나",
+  "displayNameRu": "Анна",
+  "ageAtDate": {
+    "value": 25,
+    "status": "fictional_character_design"
+  },
+  "socialEstate": "urban_laborer",
+  "occupation": "옷 수선과 바느질 품을 받는 노동자",
+  "rank": {
+    "value": null,
+    "ru": null,
+    "status": "not_applicable"
+  },
+  "legalMobility": "하숙집·작업장·공개 거리 이용; 관청과 살롱 출입은 소개/고용 없이 불가",
+  "wealthBracket": "precarious",
+  "money": {
+    "amount": 18,
+    "unit": "kopeks",
+    "status": "designedEstimate"
+  },
+  "literacy": "짧은 인쇄 문장을 읽을 수 있음",
+  "health": "working",
+  "reputationByGroup": {
+    "courtyard": "steady_worker"
+  },
+  "risk": "오늘 일감을 놓치면 방세 납부가 늦어진다",
+  "relations": {},
+  "secretKnowledge": [
+    {
+      "id": "ANNA_WORK_ORDER",
+      "summaryKo": "수선 맡긴 옷의 주인은 아직 값을 치르지 않았다."
+    }
+  ],
+  "knownEvidence": [],
+  "privateKnowledgeIds": [
+    "ANNA_WORK_ORDER"
+  ],
+  "knownEvidenceIds": [],
+  "desires": "수선값과 다음 일감을 확보한다",
+  "fears": "다른 사람의 소문 때문에 일감을 잃는 것",
+  "taboos": [
+    "당사자가 없는 자리에서 이름을 퍼뜨리지 않는다"
+  ],
+  "speechRhythm": "짧고 분명하며 돈과 시간을 숨기지 않는다",
+  "lexicon": [
+    "수선값",
+    "방세",
+    "마감"
+  ],
+  "emotions": [
+    "피로",
+    "단단함",
+    "가벼운 농담"
+  ],
+  "personalObjective": "교정쇄를 읽어도 되는지 물어보고 오늘 품삯을 지킨다",
+  "objectiveByChapter": {
+    "1847": "인쇄소에 들른 이유를 밝히되 남의 편지 내용은 말하지 않는다"
+  },
+  "allowedMaps": [
+    "nevsky",
+    "courtyard"
+  ],
+  "start": {
+    "mapId": "nevsky",
+    "x": 7,
+    "y": 14
+  },
+  "wealthBracketStatus": "designedEstimate",
+  "inventory": [
+    "바늘통",
+    "남색 실",
+    "수선 맡은 소매"
+  ],
+  "sourceIds": [],
+  "canonConstraint": "fictional resident; has no privileged access to official or private correspondence",
+  "reconstructionDisclaimer": "허구 인물이다. 품삯·재산은 재구성용 설계 수치다.",
+  "sprite": {
+    "file": "assets/anna.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "scarf",
+    "palette": {
+      "cloth": "#5d4436",
+      "trim": "#9d7449",
+      "headwear": "#765c4b"
+    }
+  },
+  "schedule": [
+    {
+      "atMinute": 540,
+      "mapId": "nevsky",
+      "position": {
+        "x": 7,
+        "y": 14
+      },
+      "activityKo": "거리에서 수선 일을 찾는다"
+    },
+    {
+      "atMinute": 600,
+      "mapId": "nevsky",
+      "position": {
+        "x": 4,
+        "y": 15
+      },
+      "activityKo": "안뜰 쪽으로 돌아간다"
+    }
+  ]
+}

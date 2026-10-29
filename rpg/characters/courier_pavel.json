@@ -1,0 +1,111 @@
+{
+  "id": "courier_pavel",
+  "kind": "FICTIONAL",
+  "displayNameKo": "파벨 안토노프",
+  "displayNameRu": "Павел Антонов",
+  "ageAtDate": {
+    "value": 34,
+    "status": "fictional_character_design"
+  },
+  "socialEstate": "urban_laborer",
+  "occupation": "인쇄물과 봉투를 나르는 배달원",
+  "rank": {
+    "value": null,
+    "ru": null,
+    "status": "not_applicable"
+  },
+  "legalMobility": "배달 경로와 공개 거리 이용; 봉투를 열 권한이나 관청 출입 권한 없음",
+  "wealthBracket": "precarious",
+  "money": {
+    "amount": 11,
+    "unit": "kopeks",
+    "status": "designedEstimate"
+  },
+  "literacy": "주소와 배달 표식을 판독함; 봉투 안의 내용은 알지 못함",
+  "health": "working",
+  "reputationByGroup": {
+    "street": "knows_the_routes"
+  },
+  "risk": "지각하면 품삯과 다음 일감을 잃을 수 있음",
+  "relations": {},
+  "secretKnowledge": [
+    {
+      "id": "PAVEL_CLOSED_ENVELOPE",
+      "summaryKo": "배달 봉투는 봉인되어 있고 내용은 모른다."
+    }
+  ],
+  "knownEvidence": [],
+  "privateKnowledgeIds": [
+    "PAVEL_CLOSED_ENVELOPE"
+  ],
+  "knownEvidenceIds": [],
+  "desires": "정해진 시각에 봉투를 온전하게 건넨다",
+  "fears": "봉투가 훼손됐다는 누명을 쓰는 것",
+  "taboos": [
+    "밀봉된 편지를 읽지 않는다"
+  ],
+  "speechRhythm": "길과 날씨, 남은 시간을 먼저 짚는다",
+  "lexicon": [
+    "골목",
+    "빗물",
+    "마감"
+  ],
+  "emotions": [
+    "초조",
+    "유머",
+    "경계"
+  ],
+  "personalObjective": "봉투를 열지 않고 수취인에게 전달한다",
+  "objectiveByChapter": {
+    "1847": "배달 경로를 지키며 인쇄소에 들른다"
+  },
+  "allowedMaps": [
+    "nevsky",
+    "printshop",
+    "courtyard"
+  ],
+  "start": {
+    "mapId": "nevsky",
+    "x": 10,
+    "y": 16
+  },
+  "wealthBracketStatus": "designedEstimate",
+  "inventory": [
+    "밀봉 봉투",
+    "끈 달린 가방"
+  ],
+  "sourceIds": [],
+  "canonConstraint": "fictional courier; sealed contents are not available without a witnessed opening event",
+  "reconstructionDisclaimer": "허구 인물이다. 이동 시간과 품삯은 시스템을 위한 추정치다.",
+  "sprite": {
+    "file": "assets/pavel.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "cap",
+    "palette": {
+      "cloth": "#713e31",
+      "trim": "#bd9b64",
+      "headwear": "#44342d"
+    }
+  },
+  "schedule": [
+    {
+      "atMinute": 540,
+      "mapId": "nevsky",
+      "position": {
+        "x": 10,
+        "y": 16
+      },
+      "activityKo": "네프스키 쪽 배달을 시작한다"
+    },
+    {
+      "atMinute": 600,
+      "mapId": "nevsky",
+      "position": {
+        "x": 23,
+        "y": 10
+      },
+      "activityKo": "가로등 길목을 지난다"
+    }
+  ]
+}

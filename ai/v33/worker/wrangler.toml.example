@@ -1,0 +1,23 @@
+name = "russian-lives-v33-rpg-ai"
+main = "index.cjs"
+compatibility_date = "2026-10-29"
+compatibility_flags = ["nodejs_compat"]
+
+[[durable_objects.bindings]]
+name = "RPG_SESSIONS"
+class_name = "RpgSession"
+
+[[durable_objects.bindings]]
+name = "RPG_BUDGETS"
+class_name = "RpgGlobalBudget"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["RpgSession", "RpgGlobalBudget"]
+
+[vars]
+RPG_ALLOWED_ORIGINS = "https://coshaman.github.io"
+OPENAI_DIALOGUE_MODEL = "gpt-6.1-terra"
+
+# Add OPENAI_API_KEY and RPG_SESSION_SIGNING_KEY with Wrangler secrets.
+# Never put either value in this file, GitHub Pages settings, or a checked-in .env.

@@ -1,0 +1,111 @@
+{
+  "id": "clerk_alexei",
+  "kind": "FICTIONAL",
+  "displayNameKo": "알렉세이 오를로프",
+  "displayNameRu": "Алексей Орлов",
+  "ageAtDate": {
+    "value": 31,
+    "status": "fictional_character_design"
+  },
+  "socialEstate": "service_class",
+  "occupation": "관청의 문서 정리 서기",
+  "rank": {
+    "value": "10등급 콜레기스키 세크레타리",
+    "ru": "коллежский секретарь",
+    "status": "fictional_design"
+  },
+  "legalMobility": "공무 문서가 있는 기관과 공개 거리만 이용; 인쇄·최종 검열 권한 없음",
+  "wealthBracket": "modest",
+  "money": {
+    "amount": 64,
+    "unit": "kopeks",
+    "status": "designedEstimate"
+  },
+  "literacy": "러시아어 행정 문서에 능숙",
+  "health": "working",
+  "reputationByGroup": {
+    "office": "careful"
+  },
+  "risk": "공식 장부에 남는 행위에 신중",
+  "relations": {},
+  "secretKnowledge": [
+    {
+      "id": "ALEXEI_OFFICE_ROUTING",
+      "summaryKo": "상신 전에는 접수 번호와 담당자를 먼저 확인한다."
+    }
+  ],
+  "knownEvidence": [],
+  "privateKnowledgeIds": [
+    "ALEXEI_OFFICE_ROUTING"
+  ],
+  "knownEvidenceIds": [],
+  "desires": "접수 순서를 틀리지 않고 상급자 검토를 받는다",
+  "fears": "권한 밖 판단이 공식 서명으로 남는 것",
+  "taboos": [
+    "상급자의 결재를 대신하지 않는다"
+  ],
+  "speechRhythm": "짧고 절차를 확인한 뒤 말한다",
+  "lexicon": [
+    "접수",
+    "원본",
+    "상신"
+  ],
+  "emotions": [
+    "절제",
+    "걱정",
+    "마른 농담"
+  ],
+  "personalObjective": "인쇄소에서 올라온 교정쇄의 접수 경로를 확인한다",
+  "objectiveByChapter": {
+    "1847": "한 인쇄물의 접수와 전달 경로를 기록한다"
+  },
+  "allowedMaps": [
+    "nevsky",
+    "printshop",
+    "chancery"
+  ],
+  "start": {
+    "mapId": "chancery",
+    "x": 11,
+    "y": 13
+  },
+  "wealthBracketStatus": "designedEstimate",
+  "inventory": [
+    "작은 수첩",
+    "연필"
+  ],
+  "sourceIds": [],
+  "canonConstraint": "fictional person; never replaces a real official or makes a final historical censorship decision",
+  "reconstructionDisclaimer": "허구 인물이며 직무 범위와 경제 수치는 플레이용 재구성이다.",
+  "sprite": {
+    "file": "assets/alexei.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "coat",
+    "palette": {
+      "cloth": "#3b4144",
+      "trim": "#874333",
+      "headwear": "#51473b"
+    }
+  },
+  "schedule": [
+    {
+      "atMinute": 540,
+      "mapId": "chancery",
+      "position": {
+        "x": 11,
+        "y": 13
+      },
+      "activityKo": "접수대에서 문서를 정리한다"
+    },
+    {
+      "atMinute": 600,
+      "mapId": "chancery",
+      "position": {
+        "x": 14,
+        "y": 13
+      },
+      "activityKo": "안쪽 책장에 서류를 옮긴다"
+    }
+  ]
+}

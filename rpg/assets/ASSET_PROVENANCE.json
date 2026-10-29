@@ -1,0 +1,141 @@
+{
+  "schemaVersion": "V33_ASSET_PROVENANCE_V1",
+  "assets": [
+    {
+      "id": "petersburg-tiles",
+      "path": "rpg/assets/petersburg-tiles.png",
+      "type": "ORIGINAL_PIXEL_ART",
+      "generatedBy": "scripts/v33-generate-rpg-content.mjs",
+      "license": "original project-authored pixels",
+      "historicalConfidence": "RECONSTRUCTED",
+      "intendedScene": [
+        "nevsky",
+        "printshop"
+      ],
+      "sourceIds": [
+        "OBJ-PETERSBURG-PLAN-1840",
+        "OBJ-SADOVNIKOV-1835"
+      ],
+      "sourceUrls": [
+        "https://expositions.nlr.ru/ex_map/mozaika_Saint-Petersburg/historic_plans.php",
+        "https://rusmuseumvrm.ru/data/collections/engraving/gr.-1929_6/index.php"
+      ],
+      "notes": "Stylized period fabric; no exact building, named shop, or surveyed street position is claimed."
+    },
+    {
+      "id": "sprite-clerk_alexei",
+      "path": "rpg/assets/alexei.png",
+      "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
+      "generatedBy": "scripts/v33-generate-rpg-content.mjs",
+      "license": "original project-authored pixels",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": [
+        "nevsky",
+        "printshop",
+        "chancery"
+      ],
+      "sourceIds": [],
+      "notes": "허구 인물이며 직무 범위와 경제 수치는 플레이용 재구성이다."
+    },
+    {
+      "id": "sprite-printer_ekaterina",
+      "path": "rpg/assets/ekaterina.png",
+      "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
+      "generatedBy": "scripts/v33-generate-rpg-content.mjs",
+      "license": "original project-authored pixels",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": [
+        "nevsky",
+        "printshop",
+        "courtyard"
+      ],
+      "sourceIds": [
+        "OBJ-SOV-1847"
+      ],
+      "notes": "허구 인물이다. 장면의 교정쇄와 작업장은 역사적 사례를 바탕으로 한 재구성이다."
+    },
+    {
+      "id": "sprite-courier_pavel",
+      "path": "rpg/assets/pavel.png",
+      "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
+      "generatedBy": "scripts/v33-generate-rpg-content.mjs",
+      "license": "original project-authored pixels",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": [
+        "nevsky",
+        "printshop",
+        "courtyard"
+      ],
+      "sourceIds": [],
+      "notes": "허구 인물이다. 이동 시간과 품삯은 시스템을 위한 추정치다."
+    },
+    {
+      "id": "sprite-seamstress_anna",
+      "path": "rpg/assets/anna.png",
+      "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
+      "generatedBy": "scripts/v33-generate-rpg-content.mjs",
+      "license": "original project-authored pixels",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": [
+        "nevsky",
+        "courtyard"
+      ],
+      "sourceIds": [],
+      "notes": "허구 인물이다. 품삯·재산은 재구성용 설계 수치다."
+    },
+    {
+      "id": "sprite-tenant_mikhail",
+      "path": "rpg/assets/mikhail.png",
+      "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
+      "generatedBy": "scripts/v33-generate-rpg-content.mjs",
+      "license": "original project-authored pixels",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": [
+        "nevsky",
+        "courtyard"
+      ],
+      "sourceIds": [],
+      "notes": "허구 주민이며 수입과 방세는 플레이용으로 만든 수치다."
+    },
+    {
+      "id": "sprite-bookseller_lev",
+      "path": "rpg/assets/lev.png",
+      "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
+      "generatedBy": "scripts/v33-generate-rpg-content.mjs",
+      "license": "original project-authored pixels",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": [
+        "nevsky",
+        "printshop",
+        "courtyard"
+      ],
+      "sourceIds": [
+        "OBJ-SOV-1847"
+      ],
+      "notes": "허구 인물이며 재고·수입은 이 장면을 위한 설계 수치다."
+    },
+    {
+      "id": "sprite-literary_chichikov",
+      "path": "rpg/assets/chichikov.png",
+      "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
+      "generatedBy": "scripts/v33-generate-literary-assets.mjs",
+      "license": "original project-authored pixels",
+      "historicalConfidence": "LITERARY_CHARACTER_RECONSTRUCTION",
+      "intendedScene": ["dead-souls"],
+      "sourceIds": ["LIT-GOGOL-DEAD-SOULS-1842"],
+      "notes": "고골 소설 속 인물의 픽셀 재구성이다. 실제 인물 초상이 아니다."
+    },
+    {
+      "id": "sprite-nekrasov_reconstruction",
+      "path": "rpg/assets/nekrasov.png",
+      "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
+      "generatedBy": "scripts/v33-generate-literary-assets.mjs",
+      "license": "original project-authored pixels",
+      "historicalConfidence": "SOURCE_CONSTRAINED_HISTORICAL_RECONSTRUCTION",
+      "intendedScene": ["printshop"],
+      "sourceIds": ["OBJ-WS-NEKRASOV-EDITORIAL-1848", "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE"],
+      "sourceUrls": ["https://ru.wikisource.org/wiki/От_редакции_(Некрасов)/Версия_3", "https://ru.wikisource.org/wiki/Об_издании_«Современника»_в_1849_году_(Некрасов)"],
+      "notes": "네크라소프의 실제 초상을 재현한 그림이 아니라, 출처에 구속된 게임용 픽셀 표현이다."
+    }
+  ]
+}

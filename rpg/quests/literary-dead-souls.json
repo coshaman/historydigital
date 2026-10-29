@@ -1,0 +1,13 @@
+{
+  "id": "LITERARY_DEAD_SOULS_1842",
+  "titleKo": "여관 장부에 남기는 이름",
+  "chapterId": "LITERARY_DEAD_SOULS",
+  "date": "1842-01-01",
+  "premiseKo": "치치코프는 여관에 도착해 장부에 이름과 관등, 용무를 적는다. 이 장면은 소설 속 사건이고 실제 역사의 기록과 분리된다.",
+  "historicalOutcome": { "id": "GOGOL_CHICHIKOV_HOTEL_REGISTER", "value": "the novel's chapter-one registration remains part of the fixed literary text", "sourceIds": ["LIT-GOGOL-DEAD-SOULS-1842"] },
+  "entry": { "mapId": "dead-souls", "objectId": 81, "requiredHostId": "literary_chichikov" },
+  "actions": [
+    { "id": "COPY_CANONICAL_ENTRY", "hostIds": ["literary_chichikov"], "labelKo": "책에 적힌 관등과 용무를 그대로 옮긴다", "subcopyKo": "여관 종업원이 읽습니다 · 작품 속 여관 장부에 남습니다 · 소설에 적힌 소개를 따른다는 선택입니다", "resultKo": "장부에는 ‘콜레기아 고문 파벨 이바노비치 치치코프, 지주, 개인 용무로 여행 중’이라고 적었다. 작품의 원래 장면은 그대로다.", "resultFlag": "canonicalEntryCopied", "requiredKnowledgeId": "LIT-GOGOL-DEAD-SOULS-1842" },
+    { "id": "ADD_PRIVATE_MARGIN", "hostIds": ["literary_chichikov"], "labelKo": "장부를 옮겨 적고 여백에 개인 메모를 남긴다", "subcopyKo": "장부를 보는 여관 종업원에게 보입니다 · 사본의 여백에 남습니다 · 원문과 내 기록을 구별해야 합니다", "resultKo": "장부의 기재 내용을 사본에 옮기고 여백을 따로 표시했다. 문학 작품의 사건은 달라지지 않는다.", "resultFlag": "privateMarginAdded", "requiredKnowledgeId": "LIT-GOGOL-DEAD-SOULS-1842" }
+  ]
+}

@@ -1,0 +1,268 @@
+{
+  "schemaVersion": "V33_ENDING_ROUTE_MATRIX_V1",
+  "status": "PASS",
+  "distinctEndingIds": [
+    "UVAROV",
+    "BELINSKY",
+    "HERZEN",
+    "KHOMYAKOV",
+    "DOSTOEVSKY_PETRASHEVSKY"
+  ],
+  "routeCount": 10,
+  "routes": [
+    {
+      "endingId": "UVAROV",
+      "variant": 0,
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "HOLD_NOTICE",
+        "FILE_OFFICIAL_REPORT",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "UVAROV",
+      "variant": 1,
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "KEEP_LOCAL_READING",
+        "FILE_OFFICIAL_REPORT",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "bookseller_lev",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "BELINSKY",
+      "variant": 0,
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "HOLD_NOTICE",
+        "REFUSE_NAMING",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "BELINSKY",
+      "variant": 1,
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "KEEP_LOCAL_READING",
+        "REFUSE_NAMING",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "bookseller_lev",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "HERZEN",
+      "variant": 0,
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "CARRY_NOTICE_ABROAD",
+        "REFUSE_NAMING",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "HERZEN",
+      "variant": 1,
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "CARRY_NOTICE_ABROAD",
+        "REFUSE_NAMING",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "KHOMYAKOV",
+      "variant": 0,
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "KEEP_LOCAL_READING",
+        "REFUSE_NAMING",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "KHOMYAKOV",
+      "variant": 1,
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "KEEP_LOCAL_READING",
+        "REFUSE_NAMING",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "bookseller_lev",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "variant": 0,
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "HOLD_NOTICE",
+        "REFUSE_NAMING",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "variant": 1,
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "KEEP_LOCAL_READING",
+        "REFUSE_NAMING",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "bookseller_lev",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    }
+  ]
+}

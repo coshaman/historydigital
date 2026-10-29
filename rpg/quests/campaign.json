@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "V33_CAMPAIGN_V1",
+  "arcs": [
+    { "id": "V33_1847_PRINT", "date": "1847-06-01", "startMapId": "nevsky", "questIds": ["PRINTSHOP_PROOF_1847"], "sources": ["OBJ-SOV-1847", "LIT-TURGENEV-KHOR-KALYNYCH-1847"], "titleKo": "교정쇄가 건너가는 길" },
+    { "id": "V33_1848_PUBLIC", "date": "1848-01-01", "startMapId": "printshop", "questIds": ["PUBLIC_DISCOURSE_1848"], "sources": ["OBJ-WS-NEKRASOV-EDITORIAL-1848", "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE"], "titleKo": "독자에게 닿는 소식" },
+    { "id": "V33_1849_CIRCLE", "date": "1849-04-22", "startMapId": "chancery", "questIds": ["CIRCLE_INVESTIGATION_1849", "CIRCLE_LETTER_1849_MAY"], "sources": ["OBJ-WS-PETRASHEVSKY-REPORT-1849", "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"], "titleKo": "모임과 수사 기록" }
+  ],
+  "literaryRealm": { "id": "LITERARY_DEAD_SOULS", "mapId": "dead-souls", "date": "1842-01-01", "hostId": "literary_chichikov", "sourceId": "LIT-GOGOL-DEAD-SOULS-1842", "realmClass": "LITERARY_REALM", "historicalWitness": false },
+  "endings": [
+    { "id": "UVAROV", "titleKo": "관청의 질서 안에 남다", "requiredActions": ["FILE_OFFICIAL_REPORT"] },
+    { "id": "BELINSKY", "titleKo": "비평이 독자에게 닿도록 하다", "requiredActions": ["ASK_FOR_SOURCE"] },
+    { "id": "HERZEN", "titleKo": "소식이 국경을 건너게 하다", "requiredActions": ["CARRY_NOTICE_ABROAD"] },
+    { "id": "KHOMYAKOV", "titleKo": "동네의 읽기 모임을 지키다", "requiredActions": ["KEEP_LOCAL_READING"] },
+    { "id": "DOSTOEVSKY_PETRASHEVSKY", "titleKo": "이름과 기록의 위험을 받아들이다", "requiredActions": ["REFUSE_NAMING"] }
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "id": "printer_ekaterina",
+  "kind": "FICTIONAL",
+  "displayNameKo": "예카테리나 벨로바",
+  "displayNameRu": "Екатерина Белова",
+  "ageAtDate": {
+    "value": 28,
+    "status": "fictional_character_design"
+  },
+  "socialEstate": "urban_artisan",
+  "occupation": "인쇄소 교정·활자 정리 노동자",
+  "rank": {
+    "value": null,
+    "ru": null,
+    "status": "not_applicable"
+  },
+  "legalMobility": "자신의 작업장과 공개 거리 이용; 관청 기록실 출입 권한 없음",
+  "wealthBracket": "poor",
+  "money": {
+    "amount": 27,
+    "unit": "kopeks",
+    "status": "designedEstimate"
+  },
+  "literacy": "교정쇄를 읽고 활자 오류를 찾을 수 있음",
+  "health": "working",
+  "reputationByGroup": {
+    "workshop": "reliable"
+  },
+  "risk": "인쇄물에 남는 이름과 인쇄 비용을 함께 계산",
+  "relations": {},
+  "secretKnowledge": [
+    {
+      "id": "EKATERINA_PROOF_ORDER",
+      "summaryKo": "오늘 교정쇄는 배달되기 전까지 작업대 위에 있다."
+    }
+  ],
+  "knownEvidence": [],
+  "privateKnowledgeIds": [
+    "EKATERINA_PROOF_ORDER"
+  ],
+  "knownEvidenceIds": [],
+  "desires": "작업한 교정쇄의 전달처와 책임자를 확인한다",
+  "fears": "자신이 보지 못한 문장까지 자기 이름으로 책임지는 것",
+  "taboos": [
+    "남의 이름을 허락 없이 원고에 적지 않는다"
+  ],
+  "speechRhythm": "질문을 짧게 던지고 낱말을 바로잡는다",
+  "lexicon": [
+    "교정쇄",
+    "활자",
+    "인쇄비"
+  ],
+  "emotions": [
+    "집중",
+    "빈정거림",
+    "불안"
+  ],
+  "personalObjective": "교정쇄를 돌려보낼지, 보류할지, 검토용으로 묶을지 정한다",
+  "objectiveByChapter": {
+    "1847": "교정쇄의 실제 전달 경로를 정한다"
+  },
+  "allowedMaps": [
+    "nevsky",
+    "printshop",
+    "courtyard"
+  ],
+  "start": {
+    "mapId": "printshop",
+    "x": 11,
+    "y": 13
+  },
+  "wealthBracketStatus": "designedEstimate",
+  "inventory": [
+    "활자 집게",
+    "천 조각"
+  ],
+  "sourceIds": [
+    "OBJ-SOV-1847"
+  ],
+  "canonConstraint": "fictional worker; her choices affect only a reconstructed duplicate proof, never the periodical’s attested publication",
+  "reconstructionDisclaimer": "허구 인물이다. 장면의 교정쇄와 작업장은 역사적 사례를 바탕으로 한 재구성이다.",
+  "sprite": {
+    "file": "assets/ekaterina.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "apron",
+    "palette": {
+      "cloth": "#465345",
+      "trim": "#b17a49",
+      "headwear": "#68533e"
+    }
+  },
+  "schedule": [
+    {
+      "atMinute": 540,
+      "mapId": "printshop",
+      "position": {
+        "x": 11,
+        "y": 13
+      },
+      "activityKo": "교정쇄와 활자를 살핀다"
+    },
+    {
+      "atMinute": 600,
+      "mapId": "printshop",
+      "position": {
+        "x": 9,
+        "y": 13
+      },
+      "activityKo": "인쇄대 쪽 작업을 맡는다"
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "id": "tenant_mikhail",
+  "kind": "FICTIONAL",
+  "displayNameKo": "미하일",
+  "displayNameRu": "Михаил",
+  "ageAtDate": {
+    "value": 37,
+    "status": "fictional_character_design"
+  },
+  "socialEstate": "urban_laborer",
+  "occupation": "하숙집에 머물며 짐 나르는 품을 받는 일용직 노동자",
+  "rank": {
+    "value": null,
+    "ru": null,
+    "status": "not_applicable"
+  },
+  "legalMobility": "안뜰과 공개 거리 이용; 관청 기록실과 인쇄 작업장에는 들어갈 권한이 없음",
+  "wealthBracket": "precarious",
+  "money": {
+    "amount": 9,
+    "unit": "kopeks",
+    "status": "designedEstimate"
+  },
+  "literacy": "주소와 짧은 표지는 알아보지만 긴 문서는 천천히 읽는다",
+  "health": "working",
+  "reputationByGroup": {
+    "lodging": "keeps_to_himself"
+  },
+  "risk": "하루 일감이 끊기면 방세와 식비가 함께 밀린다",
+  "relations": {},
+  "secretKnowledge": [
+    {
+      "id": "MIKHAIL_RENT_DUE",
+      "summaryKo": "방세를 내일까지 마련해야 하고 집주인은 한 번만 미뤄 주기로 했다."
+    }
+  ],
+  "knownEvidence": [],
+  "privateKnowledgeIds": [
+    "MIKHAIL_RENT_DUE"
+  ],
+  "knownEvidenceIds": [],
+  "desires": "오늘 받을 품삯으로 방을 지키고 다음 일감을 얻는다",
+  "fears": "밀린 방세 때문에 짐을 밖으로 내놓게 되는 것",
+  "taboos": [
+    "다른 하숙인의 사정을 주인에게 함부로 전하지 않는다"
+  ],
+  "speechRhythm": "돈과 날짜를 확인한 뒤 짧게 대답한다",
+  "lexicon": [
+    "방세",
+    "품삯",
+    "하루치"
+  ],
+  "emotions": [
+    "걱정",
+    "눈치",
+    "조용한 끈기"
+  ],
+  "personalObjective": "방세 쪽지의 액수를 확인하고 오늘 일감을 구한다",
+  "objectiveByChapter": {
+    "1847": "하숙집 안뜰에서 방세와 일감 문제를 해결한다"
+  },
+  "allowedMaps": [
+    "nevsky",
+    "courtyard"
+  ],
+  "start": {
+    "mapId": "courtyard",
+    "x": 10,
+    "y": 13
+  },
+  "wealthBracketStatus": "designedEstimate",
+  "inventory": [
+    "천 보자기",
+    "나무 숟가락"
+  ],
+  "sourceIds": [],
+  "canonConstraint": "fictional resident; rent and wages are designed scene values, not a historical case record",
+  "reconstructionDisclaimer": "허구 주민이며 수입과 방세는 플레이용으로 만든 수치다.",
+  "sprite": {
+    "file": "assets/mikhail.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "scarf",
+    "palette": {
+      "cloth": "#4f5350",
+      "trim": "#b18c5e",
+      "headwear": "#5e5545"
+    }
+  },
+  "schedule": [
+    {
+      "atMinute": 540,
+      "mapId": "courtyard",
+      "position": {
+        "x": 10,
+        "y": 13
+      },
+      "activityKo": "하숙집 안뜰에 머문다"
+    },
+    {
+      "atMinute": 600,
+      "mapId": "courtyard",
+      "position": {
+        "x": 15,
+        "y": 13
+      },
+      "activityKo": "물을 길으러 우물가로 간다"
+    }
+  ]
+}

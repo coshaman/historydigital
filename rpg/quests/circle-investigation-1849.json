@@ -1,0 +1,13 @@
+{
+  "id": "CIRCLE_INVESTIGATION_1849",
+  "titleKo": "수사 문서와 남겨진 이름",
+  "chapterId": "V33_1849_CIRCLE",
+  "date": "1849-04-22",
+  "premiseKo": "1849년 4월 22일 수사 보고서는 정보원의 주장을 국가기관의 관점에서 기록한다. 이 시점에는 5월 5일 편지를 아직 열람할 수 없다. 실제 체포와 재판의 결과는 바뀌지 않는다.",
+  "historicalOutcome": { "id": "PETRASHEVSKY_ARRESTS_1849", "value": "the documented arrests and sentences remain fixed historical outcomes", "sourceIds": ["OBJ-WS-PETRASHEVSKY-REPORT-1849", "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"] },
+  "entry": { "mapId": "chancery", "objectId": 32 },
+  "actions": [
+    { "id": "FILE_OFFICIAL_REPORT", "hostIds": ["clerk_alexei"], "labelKo": "보고서의 문구와 출처를 함께 접수한다", "subcopyKo": "접수 담당자와 상급자가 봅니다 · 공식 등록부에 남습니다 · 조사기관의 주장을 기록하는 책임을 집니다", "resultKo": "보고서의 작성 주체와 정보원 주장을 구분해 등록했다. 접수는 실제 사건의 처분을 바꾸지 않는다.", "resultFlag": "reportFiled", "requiredKnowledgeId": "OBJ-WS-PETRASHEVSKY-REPORT-1849" },
+    { "id": "REFUSE_NAMING", "hostIds": ["clerk_alexei", "courier_pavel"], "labelKo": "확인되지 않은 이름은 옮기지 않는다", "subcopyKo": "직속 담당자는 알 수 있습니다 · 비공식 보류 메모에 남습니다 · 전달 지연과 문책 위험을 감수합니다", "resultKo": "확인되지 않은 이름을 새 문서에 옮기지 않았다. 기존 체포와 수사 기록은 그대로 남아 있다.", "resultFlag": "namesWithheld" }
+  ]
+}

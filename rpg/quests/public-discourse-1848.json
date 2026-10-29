@@ -1,0 +1,14 @@
+{
+  "id": "PUBLIC_DISCOURSE_1848",
+  "titleKo": "늦어진 소식의 행선지",
+  "chapterId": "V33_1848_PUBLIC",
+  "date": "1848-01-01",
+  "premiseKo": "편집부 공고에는 발송 지연과 다음 호의 계획이 함께 적혀 있다. 실제 발행 기록을 바꾸지 않고, 허구의 한 묶음을 누가 어떤 경로로 읽을지 정한다.",
+  "historicalOutcome": { "id": "SOVREMENNIK_1848_PUBLICATION", "value": "the attested journal publication history remains unchanged", "sourceIds": ["OBJ-WS-NEKRASOV-EDITORIAL-1848"] },
+  "entry": { "mapId": "printshop", "objectId": 26 },
+  "actions": [
+    { "id": "CARRY_NOTICE_ABROAD", "hostIds": ["courier_pavel"], "labelKo": "공고 사본을 지방행 우편 묶음에 넣는다", "subcopyKo": "포장 담당자가 보게 됩니다 · 발송 메모에 남습니다 · 봉투가 작업장을 떠나고 지연 위험을 감수합니다", "resultKo": "공고 사본을 지방행 묶음에 넣었다. 실제 잡지의 발행 기록은 그대로이고, 이 사본이 도착할지는 알 수 없다.", "resultFlag": "noticeSent", "requiredKnowledgeId": "OBJ-WS-NEKRASOV-EDITORIAL-1848" },
+    { "id": "KEEP_LOCAL_READING", "hostIds": ["printer_ekaterina", "bookseller_lev", "nekrasov_reconstruction"], "labelKo": "가게 안에서 공고를 함께 읽는다", "subcopyKo": "가게에 있는 독자들이 듣습니다 · 사적인 메모로 남깁니다 · 더 넓게 퍼지지 않지만 이름을 숨기기 어렵습니다", "resultKo": "가게에 있던 사람들과 공고를 읽었다. 소식은 가까운 독자에게 닿았지만 바깥으로 나가지는 않았다.", "resultFlag": "localReading" },
+    { "id": "HOLD_NOTICE", "hostIds": ["printer_ekaterina", "bookseller_lev", "nekrasov_reconstruction"], "labelKo": "내용을 확인할 때까지 묶음에 보관한다", "subcopyKo": "작업장 안에서만 보입니다 · 보관 메모에 남습니다 · 발송이 늦어질 수 있습니다", "resultKo": "공고 사본을 따로 보관했다. 읽을 사람은 아직 정하지 않았다.", "resultFlag": "noticeHeld" }
+  ]
+}

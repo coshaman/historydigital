@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "V33_SOURCE_REGISTER_V1",
+  "sources": [
+    {
+      "sourceId": "OBJ-SOV-1847",
+      "type": "PRIMARY_BIBLIOGRAPHIC_RECORD",
+      "title": "Современник : журнал литературный и политический",
+      "publisher": "Н. А. Некрасов",
+      "date": "1847",
+      "issue": "том I, № 1",
+      "url": "https://rusneb.ru/catalog/000199_000009_007828983/",
+      "archive": "Национальная электронная библиотека / Российская государственная библиотека"
+    },
+    {
+      "sourceId": "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+      "type": "LITERARY_SOURCE_WITNESS",
+      "author": "И. С. Тургенев",
+      "work": "Хорь и Калинычъ",
+      "edition": "Полное собраніе сочиненій И. С. Тургенева. 4-е изд. Санкт-Петербург: Типографія Глазунова, т. 1.",
+      "range": "opening narrative; lines 123–129 on the cited edition page, four consecutive paragraphs",
+      "url": "https://ru.wikisource.org/w/index.php?title=Хорь_и_Калиныч_(Тургенев)/ДО&oldid=4722069",
+      "firstPublicationSourceUrl": "https://library.turgenev.ru/?page_id=545",
+      "rights": "Original work is public domain; the project uses its own Korean translation."
+    },
+    {
+      "sourceId": "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+      "type": "CONTEMPORARY_EDITORIAL_NOTICE_MODERN_TRANSCRIPTION",
+      "title": "От редакции",
+      "creator": "Редакция «Современника»; public notice by Nikolay Nekrasov",
+      "date": "1848",
+      "edition": "Н. А. Некрасов. Полное собрание сочинений и писем в 15 томах, т. 13, кн. 1. Санкт-Петербург: Наука, 1997.",
+      "range": "Wikisource lines 117–119, three consecutive paragraphs of the 1848 editor’s notice.",
+      "url": "https://ru.wikisource.org/wiki/От_редакции_(Некрасов)/Версия_3",
+      "rights": "Public-domain original; new Korean project translation. Modern scholarly transcription, not a facsimile."
+    },
+    {
+      "sourceId": "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+      "type": "CONTEMPORARY_EDITORIAL_NOTICE_MODERN_TRANSCRIPTION",
+      "title": "Об издании «Современника» в 1849 году",
+      "creator": "Н. А. Некрасов, редакционно-издательское объявление",
+      "date": "1848 (announcing the 1849 publishing year)",
+      "edition": "Н. А. Некрасов. Полное собрание сочинений и писем в 15 томах, т. 13, кн. 1. Санкт-Петербург: Наука, 1997.",
+      "range": "Wikisource lines 182–190, eight consecutive paragraph blocks in the 1848 notice for the 1849 publishing year; the section begins with provincial distribution and continues through complaints, redress, and dispatch changes.",
+      "url": "https://ru.wikisource.org/wiki/Об_издании_«Современника»_в_1849_году_(Некрасов)",
+      "rights": "Public-domain original; new Korean project translation. Modern scholarly transcription, not a facsimile."
+    },
+    {
+      "sourceId": "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+      "type": "CONTEMPORARY_STATE_INVESTIGATION_REPORT_MODERN_TRANSCRIPTION",
+      "title": "Доклад генерал-аудиториата о деле петрашевцев",
+      "creator": "1849 General-Auditoriat report, reproduced in the 1928 documentary collection «Петрашевцы»",
+      "date": "1849",
+      "edition": "Петрашевцы. Ленинград, 1928; source transcription on Wikisource.",
+      "range": "Wikisource lines 388–394, seven consecutive paragraphs in the report section; begins with the April 22 discussion and continues through the arrest order and named detainees.",
+      "url": "https://ru.wikisource.org/wiki/Петрашевцы_(Петрашевский)",
+      "rights": "Public-domain original; new Korean project translation. Modern scholarly transcription, not a facsimile."
+    },
+    {
+      "sourceId": "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849",
+      "type": "CONTEMPORARY_OFFICIAL_LETTER_MODERN_TRANSCRIPTION",
+      "title": "Письмо Л. В. Дубельта И. А. Набокову",
+      "creator": "Л. В. Дубельт to И. А. Набоков",
+      "date": "1849-05-05",
+      "edition": "«Следственное дело М. М. Достоевского-петрашевца», in Достоевский — материалы и исследования. Ленинград: Наука, 1974; transcription on Wikisource.",
+      "range": "Wikisource lines 127–135, the full consecutive letter beginning «5 мая 1849 г. Секретно» and ending with Dubelt's signature; archive locator in the edition: ЦГВИА, ф. 801, оп. 84/28, № 55, ч. 36, л. 1.",
+      "url": "https://ru.wikisource.org/wiki/Следственное_дело_М._М._Достоевского-петрашевца",
+      "rights": "Public-domain original; new Korean project translation. Modern scholarly transcription, not a facsimile."
+    },
+    {
+      "sourceId": "LIT-GOGOL-DEAD-SOULS-1842",
+      "type": "LITERARY_SOURCE_WITNESS_MODERN_TRANSCRIPTION",
+      "title": "Мертвые души. Том первый",
+      "creator": "Николай Васильевич Гоголь",
+      "date": "1842",
+      "edition": "Н. В. Гоголь. Мертвые души. Том первый. Полное собрание сочинений, т. 6. Москва—Ленинград: Издательство АН СССР, 1951.",
+      "range": "Wikisource lines 128–130, three consecutive paragraphs at the beginning of chapter one.",
+      "url": "https://ru.wikisource.org/wiki/Мертвые_души._Том_первый_(Гоголь)",
+      "rights": "Public-domain original; new Korean project translation."
+    }
+  ]
+}

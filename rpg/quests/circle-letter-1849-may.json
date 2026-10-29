@@ -1,0 +1,13 @@
+{
+  "id": "CIRCLE_LETTER_1849_MAY",
+  "titleKo": "5월 5일에 도착한 비밀 편지",
+  "chapterId": "V33_1849_CIRCLE",
+  "date": "1849-05-05",
+  "premiseKo": "날짜가 5월 5일로 넘어간 뒤에야 두벨트가 나보코프에게 보낸 비밀 편지를 읽을 수 있다. 편지의 지시와 전달 경로를 어떻게 기록할지 정한다. 이미 일어난 체포의 결과는 바뀌지 않는다.",
+  "historicalOutcome": { "id": "PETRASHEVSKY_ARRESTS_1849", "value": "the documented arrests and sentences remain fixed historical outcomes", "sourceIds": ["OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"] },
+  "entry": { "mapId": "chancery", "objectId": 33 },
+  "actions": [
+    { "id": "PRESERVE_LETTER", "hostIds": ["clerk_alexei", "courier_pavel"], "labelKo": "편지의 작성자와 전달 경로를 함께 보존한다", "subcopyKo": "문서 담당자와 상급자가 보게 됩니다 · 사본 대장에 남습니다 · 비밀 편지를 다루는 책임을 집니다", "resultKo": "편지의 작성자와 전달 경로를 대장에 기록했다. 원문의 지시와 이미 일어난 체포는 바뀌지 않는다.", "resultFlag": "letterPreserved", "requiredKnowledgeId": "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849" },
+    { "id": "REFUSE_NAMING", "hostIds": ["clerk_alexei", "courier_pavel"], "labelKo": "편지 속 이름을 새 장부에 옮기지 않는다", "subcopyKo": "직속 담당자는 알 수 있습니다 · 비공식 보류 메모에 남습니다 · 전달 지연과 문책 위험을 감수합니다", "resultKo": "편지 속 이름을 새 장부에 옮기지 않았다. 원문은 남아 있고 체포 기록도 그대로다.", "resultFlag": "letterNamesWithheld" }
+  ]
+}

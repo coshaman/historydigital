@@ -1,0 +1,8 @@
+.lower{max-height:40dvh;overflow:hidden}
+.journal{min-height:0;max-height:100%;overflow:auto;overscroll-behavior:contain}
+.actions button{display:grid;gap:4px;text-align:left;font:13px 'Noto Serif KR',serif;max-width:min(330px,100%)}
+.actions small{font:11px/1.45 'Noto Serif KR',serif;color:#c8b58f}
+.journal #journal-text{white-space:pre-wrap}
+.field-notebook{margin-top:8px}
+#host-notebook summary{color:#c49c62;font-size:12px;cursor:pointer}
+#host-facts{margin:6px 0;padding-left:18px;color:#d2c09e;font-size:12px;line-height:1.55}
