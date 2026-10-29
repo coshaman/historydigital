@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createRequire } from 'node:module';
+import { pathToFileURL } from 'node:url';
 
 const require = createRequire(import.meta.url);
 const engine = require('../rpg/engine/game-state.js');
@@ -42,7 +43,7 @@ function takeAction(state, questId, actionId) {
   return result.state;
 }
 
-function finishRoute(endingId, variant) {
+export function buildRoute(endingId, variant) {
   let state = engine.createInitialState({ maps, hostCards: cards, quests });
   const historicalArcs = campaign.arcs;
   state = parkNear(state, 'nekrasov_reconstruction', 'printshop');
@@ -85,6 +86,7 @@ function finishRoute(endingId, variant) {
   state = readForHost(state, arc3.sources[1], [arc3.sources[1]]);
   const action4 = endingId === 'DOSTOEVSKY_PETRASHEVSKY' ? 'REFUSE_NAMING' : 'PRESERVE_LETTER';
   state = takeAction(state, 'CIRCLE_LETTER_1849_MAY', action4);
+  const stateBeforeEnding = state;
   const ending = engine.resolveEnding(state, endingId, campaign);
   assert.equal(ending.ok, true, `resolve ${endingId}, variant ${variant}: ${ending.reason ?? ''}`);
   assert.equal(ending.state.endingId, endingId);
@@ -92,14 +94,20 @@ function finishRoute(endingId, variant) {
   assert.equal(ending.state.world.immutableOutcomes.PETRASHEVSKY_ARRESTS_1849, 'the documented arrests and sentences remain fixed historical outcomes');
   assert.equal(new Set(ending.state.world.possessionHistory.map(item => item.hostId).filter(id => ending.state.hosts[id].kind !== 'LITERARY')).size >= 4, true);
   assert.equal(new Set(ending.state.ledger.flatMap(item => item.sourceIds ?? (item.sourceId ? [item.sourceId] : []))).size >= 3, true);
-  return { endingId, variant, actions: ending.state.ledger.filter(item => item.actionId).map(item => item.actionId), sourcesRead: ending.state.ledger.filter(item => item.sourceId).map(item => item.sourceId), hosts: [...new Set(ending.state.world.possessionHistory.map(item => item.hostId))], date: ending.state.world.date };
+  return {
+    stateBeforeEnding,
+    endingState: ending.state,
+    summary: { endingId, variant, actions: ending.state.ledger.filter(item => item.actionId).map(item => item.actionId), sourcesRead: ending.state.ledger.filter(item => item.sourceId).map(item => item.sourceId), hosts: [...new Set(ending.state.world.possessionHistory.map(item => item.hostId))], date: ending.state.world.date },
+  };
 }
 
-const routes = [];
-for (const ending of campaign.endings) for (let variant = 0; variant < 2; variant++) routes.push(finishRoute(ending.id, variant));
-assert.equal(routes.length, 10);
-assert.deepEqual(new Set(routes.map(route => route.endingId)), new Set(campaign.endings.map(ending => ending.id)));
-const report = { schemaVersion: 'V33_ENDING_ROUTE_MATRIX_V1', status: 'PASS', distinctEndingIds: [...new Set(routes.map(route => route.endingId))], routeCount: routes.length, routes };
-await fs.mkdir(path.join(root, 'artifacts/v33'), { recursive: true });
-await fs.writeFile(path.join(root, 'artifacts/v33/ENDING_ROUTE_MATRIX.json'), `${JSON.stringify(report, null, 2)}\n`);
-console.log(JSON.stringify({ status: report.status, routeCount: report.routeCount, endings: report.distinctEndingIds }, null, 2));
+if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
+  const routes = [];
+  for (const ending of campaign.endings) for (let variant = 0; variant < 2; variant++) routes.push(buildRoute(ending.id, variant).summary);
+  assert.equal(routes.length, 10);
+  assert.deepEqual(new Set(routes.map(route => route.endingId)), new Set(campaign.endings.map(ending => ending.id)));
+  const report = { schemaVersion: 'V33_ENDING_ROUTE_MATRIX_V1', status: 'PASS', distinctEndingIds: [...new Set(routes.map(route => route.endingId))], routeCount: routes.length, routes };
+  await fs.mkdir(path.join(root, 'artifacts/v33'), { recursive: true });
+  await fs.writeFile(path.join(root, 'artifacts/v33/ENDING_ROUTE_MATRIX.json'), `${JSON.stringify(report, null, 2)}\n`);
+  console.log(JSON.stringify({ status: report.status, routeCount: report.routeCount, endings: report.distinctEndingIds }, null, 2));
+}

@@ -15,6 +15,21 @@
     <section class="lower"><div class="journal"><div class="section-head"><span>현장 기록</span><button id="talk" disabled>대화</button><span id="coins">—</span></div><h2 id="headline">거리의 소리</h2><p id="journal-text">가게 문이 열릴 때마다 종이 냄새가 찬 공기 속으로 번진다. 사람들은 제 갈 길을 가고, 누구도 도시 전체를 한눈에 보지는 못한다.</p><div class="actions" id="actions"></div><details id="host-notebook" hidden><summary>이 몸의 수첩</summary><ul id="host-facts"></ul></details><div class="record-line" id="record" aria-live="polite">먼저 주변을 걸어 보세요.</div></div><nav class="touch-pad" aria-label="터치 이동"><button data-move="up" aria-label="위">↑</button><button data-move="left" aria-label="왼쪽">←</button><button data-move="down" aria-label="아래">↓</button><button data-move="right" aria-label="오른쪽">→</button><button class="use" id="use">살펴보기</button><button class="release" id="release">놓아주기</button></nav></section>
     <footer><span>이야기는 한 사람의 시야와 손이 닿는 데서 시작됩니다.</span><span>16×16 타일 · 이동 기록은 이 기기에 저장</span></footer>
   </main>
+  <section id="ending-screen" class="ending-screen" aria-labelledby="ending-title" hidden>
+    <article class="ending-document" role="dialog" aria-modal="true" aria-labelledby="ending-title">
+      <header class="ending-document-head"><span id="ending-date" class="ending-date"></span><span class="ending-stamp">현장 기록 · 보존본</span></header>
+      <p class="ending-kicker">마지막 기록</p>
+      <h2 id="ending-title"></h2>
+      <p id="ending-epilogue" class="ending-epilogue"></p>
+      <div class="ending-columns">
+        <section><h3>당신이 남긴 자취</h3><ol id="ending-journey"></ol></section>
+        <section><h3>함께 빌린 삶</h3><ul id="ending-hosts"></ul></section>
+      </div>
+      <section class="ending-history-section"><h3>역사적 기록은 바뀌지 않는다</h3><p id="ending-history"></p></section>
+      <details class="ending-source-section"><summary>확인한 자료와 판본</summary><ul id="ending-sources"></ul></details>
+      <footer class="ending-document-foot"><span>상트페테르부르크 · 현장 기록철</span><button id="ending-restart" type="button">새 기록 시작</button></footer>
+    </article>
+  </section>
   <script src="rpg/ai/config.js"></script>
   <script type="module" src="rpg/main.js"></script>
 </body>

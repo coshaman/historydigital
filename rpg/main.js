@@ -27,6 +27,7 @@ function classifyTypedResponse(input) {
   return 'GENERAL_CONVERSATION';
 }
 const intentLabels = { SOURCE_REQUEST: '자료 확인', ACTION_REQUEST: '행동 요청', RISK_QUESTION: '공개·위험 질문', PERSONAL_QUESTION: '개인 질문', GENERAL_CONVERSATION: '일반 대화' };
+const relationLabels = { editorial_office: '편집부', workshop: '작업장 동료', source_readers: '출처를 확인하는 독자', postal_route: '우편 경로', local_readers: '가게의 독자들', office_supervisor: '상급자', archive_keeper: '문서 담당자' };
 function render(now) {
   renderFrame = null;
   renderer.draw(state, currentMap(), now, lastMoveAt);
@@ -69,6 +70,8 @@ function updateHud() {
     for (const fact of [`현재 일과 · ${live.currentActivityKo || host.personalObjective}`, `오늘 할 일 · ${host.personalObjective}`, `신분/직업 · ${host.socialEstate} · ${host.occupation}`, `갈 수 있는 곳 · ${live.allowedMaps.map(id => maps[id].metadata.displayNameKo).join(', ')}`, `다닐 수 없는 곳 · ${host.legalMobility}`, `가진 물건 · ${live.inventory.join(', ')}`, `아는 것 · ${known.join(' ') || '아직 기록된 정보가 없다.'}`]) {
       const item = document.createElement('li'); item.textContent = fact; facts.append(item);
     }
+    for (const [group, status] of Object.entries(live.relations ?? {})) { const item = document.createElement('li'); item.textContent = `관계 · ${relationLabels[group] ?? group} · ${status}`; facts.append(item); }
+    for (const situation of live.situationNotes ?? []) { const item = document.createElement('li'); item.textContent = `상황 변화 · ${situation}`; facts.append(item); }
   }
 }
 function sayRecord(text) { $('#record').textContent = text; }
@@ -176,7 +179,7 @@ function inspect(object) {
       if (!result.ok) { sayRecord(`처리할 수 없음 · ${result.reason}`); return; }
       setState(result.state);
       const actions = continuationFor(activeQuest);
-      say(activeQuest.titleKo, action.resultKo, actions);
+      say(action.followupTitleKo ?? activeQuest.titleKo, `${action.resultKo}${action.followupKo ? `\n\n${action.followupKo}` : ''}`, actions);
       sayRecord('현장 행동을 장부에 기록했다.');
     } }));
     say(activeQuest.titleKo, activeQuest.premiseKo, opts);
@@ -187,8 +190,42 @@ function inspect(object) {
   }
 }
 function showEndingChoices() {
-  const options = campaign.endings.map(ending => ({ label: ending.titleKo, subcopy: `마지막 판단 · ${ending.id}`, run: () => { const result = resolveEnding(state, ending.id, campaign); if (!result.ok) { sayRecord(`이 결말을 고르기 전에 더 필요한 기록이 있다 · ${result.reason}`); return; } setState(result.state); say(ending.titleKo, `당신의 기록은 ${ending.titleKo}로 마무리된다. 이 결말은 게임 안에서 남긴 행동과 자료를 바탕으로 한 허구적 경로다. 역사에서 일어난 사건의 결과는 바뀌지 않는다.`, [{ label: '새 기록으로 시작', run: () => { localStorage.removeItem('v33-rpg-save'); location.reload(); } }]); } }));
-  say('마지막 기록을 정리하다', '세 시기의 사건 기록과 여러 사람의 시야를 되짚고, 남길 결론을 고른다.', options);
+  const options = campaign.endings.filter(ending => resolveEnding(state, ending.id, campaign).ok).map(ending => ({ label: ending.titleKo, subcopy: ending.choiceSubcopyKo, run: () => {
+    const result = resolveEnding(state, ending.id, campaign);
+    if (!result.ok) { sayRecord(`이 결말을 기록하려면 아직 확인할 자료가 있다 · ${result.reason}`); return; }
+    setState(result.state);
+    renderEnding(ending);
+  } }));
+  if (!options.length) { say('아직 기록을 닫을 수 없다', '세 시기의 선택과 자료를 확인한 뒤 다시 정리하자.', []); return; }
+  say('마지막 기록을 정리하다', '남겨 둔 행동과 읽은 문서를 살펴보고, 그중 하나를 기록의 끝에 둔다.', options);
+}
+function renderEnding(ending) {
+  $('#ending-date').textContent = `${state.world.date.replaceAll('-', '.')} · 보존 기록`;
+  $('#ending-title').textContent = ending.titleKo;
+  $('#ending-epilogue').textContent = ending.epilogueKo;
+  $('#ending-history').textContent = campaign.endingHistoryNoteKo;
+  const actionLines = state.ledger.filter(item => item.actionId).map(item => {
+    const quest = questsById.get(item.questId), action = quest?.actions.find(entry => entry.id === item.actionId);
+    const card = cards.find(entry => entry.id === item.hostId);
+    return { text: `${card?.displayNameKo ?? '이름 없는 인물'} · ${action?.resultKo ?? item.actionId}` };
+  });
+  const journey = $('#ending-journey'); journey.replaceChildren();
+  for (const line of actionLines) { const item = document.createElement('li'); item.textContent = line.text; journey.append(item); }
+  const hostList = $('#ending-hosts'); hostList.replaceChildren(); hostList.classList.add('ending-host-list');
+  const witnessedHosts = [...new Set(state.world.possessionHistory.map(item => item.hostId))].map(id => cards.find(card => card.id === id)).filter(card => card && card.kind !== 'LITERARY');
+  for (const card of witnessedHosts) { const item = document.createElement('li'); item.textContent = `${card.displayNameKo} · ${card.occupation}`; hostList.append(item); }
+  const sourceList = $('#ending-sources'); sourceList.replaceChildren();
+  const readIds = [...new Set(state.ledger.flatMap(item => item.sourceIds ?? (item.sourceId ? [item.sourceId] : [])))];
+  for (const id of readIds) {
+    const record = sourceRecords.get(id), url = record?.sourceUrl ?? record?.witness?.stableRevisionUrl;
+    if (!record || !url) continue;
+    const item = document.createElement('li'), link = document.createElement('a');
+    link.href = url; link.target = '_blank'; link.rel = 'noopener noreferrer'; link.textContent = `${record.titleKo} · ${record.documentDate ?? '문학 원문'}`;
+    item.append(link); sourceList.append(item);
+  }
+  document.body.classList.add('ending-active');
+  $('#ending-screen').hidden = false;
+  $('#ending-restart').focus();
 }
 function interact() {
   if (activeDialogueHost) return;
@@ -309,6 +346,7 @@ $('#load').addEventListener('click', () => {
   try { setState(loadGame(saved, { maps, hostCards, quests: questList })); restoreJournal(); sayRecord('저장한 현장으로 돌아왔다.'); }
   catch { sayRecord('저장 기록을 읽지 못했다. 새 기록으로 시작해 주세요.'); }
 });
+$('#ending-restart').addEventListener('click', () => { localStorage.removeItem('v33-rpg-save'); location.reload(); });
 function restoreJournal() {
   const latest = state.ledger.at(-1);
   if (latest?.questId && latest.actionId) {

@@ -80,11 +80,11 @@
 
 - [x] Root `/` runs the RPG; Chancery remains at `chancery.html`; static build uses relative paths for the Pages project base.
 - [x] Add a manual-only Pages workflow and Cloudflare configuration/security documentation; workflow has not been run to publish.
-- [ ] Browser smoke covers four viewport sizes, persistence, evidence hotkey, source viewer, fallback dialogue and the source-gated printshop action. Full browser completion of all three arcs and all endings remains unverified; reducer matrix covers the authored ending routes.
+- [x] Browser smoke covers four viewport sizes, persistence, evidence hotkey, source viewer, fallback dialogue and the source-gated printshop action. All five ending screens are selected and rendered in browser using full-campaign reducer-built saves; mobile 360×800 checks scrolling to restart. A fresh browser traversal through all three arcs remains unverified.
 
 ### Phase 7: Critical review and verification archive
 
 - [x] Use one independent critic for visual/history/AI-separation review (one reviewer; no second agent needed).
 - [x] Fix the chronology, timeout and literary-save issues found during review and rerun browser/screenshot checks.
-- [ ] Create `RUSSIAN_LIVES_V33_POSSESSION_RPG_VERIFICATION.zip` with source, assets/manifests, scripts, logs, screenshots, ending evidence, and deployment docs. Extract to a fresh folder and rerun acceptance.
+- [x] Refresh `RUSSIAN_LIVES_V33_POSSESSION_RPG_VERIFICATION.zip` with latest source, assets/manifests, scripts, logs, screenshots, ending evidence, and deployment docs. Extracted it and reran core, AI, reducer, build, lint, check and legacy route gates successfully; browser checks passed against the source checkout.
 - [ ] Report live API and human playtest state honestly; only say release-ready with all required gates proved.

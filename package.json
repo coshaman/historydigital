@@ -246,9 +246,10 @@
     "v33-rpg-core-test": "node --test scripts/v33-rpg-core.test.mjs",
     "v33-ai-test": "node --test scripts/v33-ai-runtime.test.mjs",
     "v33-ending-route-matrix": "node scripts/v33-ending-route-matrix.mjs",
+    "v33-ending-browser": "node scripts/v33-ending-browser-smoke.mjs",
     "build:v33": "node scripts/v33-static-build.mjs",
     "v33-rpg-browser": "node scripts/v33-rpg-browser-smoke.mjs",
-    "acceptance:v33": "npm run v33-rpg-core-test && npm run v33-ai-test && npm run v33-ending-route-matrix && npm run build:v33 && npm run build && npm run lint && npm run check && npm test && npm run v33-rpg-browser",
+    "acceptance:v33": "npm run v33-rpg-core-test && npm run v33-ai-test && npm run v33-ending-route-matrix && npm run build:v33 && npm run build && npm run lint && npm run check && npm test && npm run v33-rpg-browser && npm run v33-ending-browser",
   "verify": "npm run v27-verify && npm run build && npm run lint && npm run check && npm run audit && npm run test && npm run perf && npm run mobile && npm run source-audit && npm run gltf-audit && npm run placeholder-audit && npm run corpus-audit && npm run case-content-audit && npm run ending-epilogue-audit && npm run phase2-sim && npm run ending-sim && npm run korean-copy-lint && npm run korean-dialogue-review && npm run desk-scene-audit && npm run source-interaction-audit && npm run ui-slop-audit && npm run copy-clarity && npm run authored-dialogue-audit && npm run runtime-dialogue-audit && npm run playtime-audit && npm run audio-audit && npm run browser-qa && npm run dialogue-plan-audit && npm run v5-viewport && npm run v5-translation && npm run v5-performance && npm run v21-build-provenance && npm run v21-runtime-manifest-parity && npm run v21-readability-qa && npm run v23-ui-acceptance && npm run v23-choice-replay && npm run v22-periodical-actual-content"
   },
   "devDependencies": {

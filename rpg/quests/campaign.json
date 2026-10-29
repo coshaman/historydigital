@@ -7,10 +7,11 @@
   ],
   "literaryRealm": { "id": "LITERARY_DEAD_SOULS", "mapId": "dead-souls", "date": "1842-01-01", "hostId": "literary_chichikov", "sourceId": "LIT-GOGOL-DEAD-SOULS-1842", "realmClass": "LITERARY_REALM", "historicalWitness": false },
   "endings": [
-    { "id": "UVAROV", "titleKo": "관청의 질서 안에 남다", "requiredActions": ["FILE_OFFICIAL_REPORT"] },
-    { "id": "BELINSKY", "titleKo": "비평이 독자에게 닿도록 하다", "requiredActions": ["ASK_FOR_SOURCE"] },
-    { "id": "HERZEN", "titleKo": "소식이 국경을 건너게 하다", "requiredActions": ["CARRY_NOTICE_ABROAD"] },
-    { "id": "KHOMYAKOV", "titleKo": "동네의 읽기 모임을 지키다", "requiredActions": ["KEEP_LOCAL_READING"] },
-    { "id": "DOSTOEVSKY_PETRASHEVSKY", "titleKo": "이름과 기록의 위험을 받아들이다", "requiredActions": ["REFUSE_NAMING"] }
-  ]
+    { "id": "UVAROV", "titleKo": "관청의 질서 안에 남다", "choiceSubcopyKo": "보고서를 공식 접수해 상급자와 장부에 남깁니다 · 기관의 주장을 옮긴 책임도 기록에 남습니다", "epilogueKo": "당신은 보고서를 접수해 공식 기록으로 남겼다. 작성자의 주장과 확인된 사실을 나누려 애썼지만, 문서에 이름을 올린 순간 그 판단의 책임도 함께 맡게 됐다.", "requiredActions": ["FILE_OFFICIAL_REPORT"] },
+    { "id": "BELINSKY", "titleKo": "비평이 독자에게 닿도록 하다", "choiceSubcopyKo": "교정쇄를 출처와 대조합니다 · 작업장 메모에 남고 확인이 늦어집니다", "epilogueKo": "당신은 인쇄하기 전에 문장이 어디서 왔는지 물었다. 한 번 더 확인하느라 작업은 늦어졌지만, 출처를 지운 채 서둘러 넘기지는 않았다.", "requiredActions": ["ASK_FOR_SOURCE"] },
+    { "id": "HERZEN", "titleKo": "소식이 가게 밖으로 나가다", "choiceSubcopyKo": "공고 사본을 지방행 우편 묶음에 넣습니다 · 포장 담당자에게 보이고 발송 비용과 지연 위험이 생깁니다", "epilogueKo": "당신은 공고 사본을 지방행 우편 묶음에 넣었다. 실제 잡지의 발행 기록은 그대로다. 이 사본이 목적지에 닿을지는 알 수 없지만, 소식을 가게 밖으로 보내기로 했다.", "requiredActions": ["CARRY_NOTICE_ABROAD"] },
+    { "id": "KHOMYAKOV", "titleKo": "동네의 읽기 모임을 지키다", "choiceSubcopyKo": "가게 안의 독자들과 함께 읽습니다 · 사적인 메모에 남고 널리 퍼지지는 않습니다", "epilogueKo": "당신은 공고를 가게 안에서 함께 읽었다. 더 넓은 곳으로 보내지는 못했지만, 그 자리에 있던 사람들은 같은 문장을 각자의 사정으로 읽었다.", "requiredActions": ["KEEP_LOCAL_READING"] },
+    { "id": "DOSTOEVSKY_PETRASHEVSKY", "titleKo": "확인되지 않은 이름을 옮기지 않다", "choiceSubcopyKo": "새 장부에 이름을 적지 않습니다 · 전달이 늦어지고 직속 담당자의 문책 위험을 감수합니다", "epilogueKo": "당신은 확인되지 않은 이름을 새 장부에 옮기지 않았다. 기록은 늦어졌고 그 선택의 책임은 당신에게 돌아올 수 있다. 이미 남은 수사와 체포의 기록은 바뀌지 않는다.", "requiredActions": ["REFUSE_NAMING"] }
+  ],
+  "endingHistoryNoteKo": "이 기록에서 달라지는 것은 허구의 인물들이 문서를 다루고 서로를 대하는 경로다. 실제 잡지의 발행과 페트라솁스키 사건의 체포·재판 결과는 플레이어의 선택으로 바뀌지 않는다."
 }

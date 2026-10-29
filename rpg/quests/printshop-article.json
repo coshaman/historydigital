@@ -26,7 +26,10 @@
       "subcopyKo": "편집실 직원에게 보입니다 · 작업 전달표에 남습니다 · 사본이 작업장을 떠나고 전달이 늦어질 수 있습니다",
       "resultKo": "사본을 편집실로 보냈다. 인쇄소와 편집실이 그 사실을 안다.",
       "resultFlag": "proofReturned",
-      "followup": "EDITORIAL_RETURN"
+      "followup": "EDITORIAL_RETURN",
+      "followupTitleKo": "편집실로 돌아간 사본",
+      "followupKo": "전달표에 반납 시각이 적혔다. 오늘의 교정쇄는 작업장을 떠났고, 예카테리나는 다음 교정 의뢰를 기다린다.",
+      "effects": { "situationKo": "교정쇄 사본을 편집실로 돌려보냈다.", "relations": { "editorial_office": "반납 절차를 확인했다" }, "inventoryRemove": ["교정쇄 사본"] }
     },
     {
       "id": "HOLD_FOR_CORRECTION",
@@ -37,7 +40,10 @@
       "subcopyKo": "가까운 동료에게 보입니다 · 공식 장부에는 남지 않고 작업장에 머뭅니다 · 마감이 늦어질 수 있습니다",
       "resultKo": "확인할 곳을 표시해 작업대에 남겼다. 교정쇄는 아직 작업장을 떠나지 않았다.",
       "resultFlag": "proofHeld",
-      "followup": "CORRECTION_HOLD"
+      "followup": "CORRECTION_HOLD",
+      "followupTitleKo": "작업대에 남은 표시",
+      "followupKo": "표시한 문장 옆에 확인 메모가 놓였다. 사본은 남아 있지만 마감 전에 다시 읽을 사람이 필요하다.",
+      "effects": { "situationKo": "교정 확인을 위해 작업을 보류했다.", "relations": { "workshop": "재확인 요청을 함께 맡았다" } }
     },
     {
       "id": "ASK_FOR_SOURCE",
@@ -49,7 +55,10 @@
       "requiredKnowledgeId": "LIT-TURGENEV-KHOR-KALYNYCH-1847",
       "resultKo": "인쇄된 원문과 대조하기로 했다. 확인이 끝날 때까지 사본은 작업대에 남는다.",
       "resultFlag": "proofCompared",
-      "followup": "SOURCE_COMPARISON"
+      "followup": "SOURCE_COMPARISON",
+      "followupTitleKo": "원문 옆의 교정표",
+      "followupKo": "인쇄된 원문과 대조한 표시가 작업대에 남았다. 확인한 문장은 이제 출처와 함께 편집부에 돌아갈 수 있다.",
+      "effects": { "situationKo": "교정쇄를 원문과 대조했다.", "relations": { "source_readers": "출처 확인을 먼저 요청했다" } }
     }
   ],
   "completion": "one authorized action on the represented physical object"

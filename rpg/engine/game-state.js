@@ -27,6 +27,7 @@ function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky
     schedule: clone(card.schedule ?? []),
     scheduleId: null,
     currentActivityKo: '',
+    situationNotes: [],
     facing: 'down',
     historicalAliveAndPresent: true,
     money: { ...card.money },
@@ -228,15 +229,24 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
   const target = layer(entryMap, 'Interactions')?.objects.find(item => item.id === quest.entry.objectId);
   if (!target || host.mapId !== quest.entry.mapId || state.world.currentMapId !== quest.entry.mapId || objectId !== quest.entry.objectId || !nearTile(host.position, objectTile(target))) return { ok: false, reason: 'physical_object_unavailable', state };
   if (action.requiredKnowledgeId && !knowledgeForHost(state, hostId).includes(action.requiredKnowledgeId)) return { ok: false, reason: 'host_lacks_knowledge', state };
+  const effects = action.effects ?? {}, relationEffects = effects.relations ?? {}, inventoryRemove = effects.inventoryRemove ?? [], inventoryAdd = effects.inventoryAdd ?? [];
+  if (effects.moneyDelta !== undefined && (!Number.isInteger(effects.moneyDelta) || Math.abs(effects.moneyDelta) > 10000 || !Number.isFinite(host.money?.amount) || host.money.amount + effects.moneyDelta < 0)) return { ok: false, reason: 'invalid_or_unaffordable_effect', state };
+  if (Object.values(relationEffects).some(value => typeof value !== 'string' || value.length > 160) || (effects.situationKo !== undefined && (typeof effects.situationKo !== 'string' || effects.situationKo.length > 220))) return { ok: false, reason: 'invalid_action_effect', state };
+  if (!Array.isArray(inventoryRemove) || !Array.isArray(inventoryAdd) || inventoryRemove.some(item => typeof item !== 'string' || !host.inventory.includes(item)) || inventoryAdd.some(item => typeof item !== 'string' || item.length > 80)) return { ok: false, reason: 'required_item_missing', state };
   const timed = advanceWorldTime(state, 5, maps);
   const next = clone(timed);
   next.quests[questId] = { status: 'resolved', result: action.id };
   next.hosts[hostId].questFlags[action.resultFlag] = true;
+  if (effects.moneyDelta) next.hosts[hostId].money.amount += effects.moneyDelta;
+  for (const item of inventoryRemove) next.hosts[hostId].inventory.splice(next.hosts[hostId].inventory.indexOf(item), 1);
+  next.hosts[hostId].inventory.push(...inventoryAdd);
+  Object.assign(next.hosts[hostId].relations, relationEffects);
+  if (effects.situationKo && !next.hosts[hostId].situationNotes.includes(effects.situationKo)) next.hosts[hostId].situationNotes.push(effects.situationKo);
   if (literaryQuest) {
     next.world.literaryOutcomes ??= {};
     next.world.literaryOutcomes[quest.historicalOutcome.id] = quest.historicalOutcome.value;
   } else next.world.immutableOutcomes[quest.historicalOutcome.id] = quest.historicalOutcome.value;
-  const entry = { eventId: `ACTION_${next.ledger.length + 1}`, eventType: literaryQuest ? 'LITERARY_ACTION' : 'HISTORICAL_ACTION', ...(literaryQuest ? { realmId: state.world.activeRealm.id } : {}), date: next.world.date, mapId: next.world.currentMapId, hostId, questId, actionId, objectId, witnesses: [], sourceIds: action.requiredKnowledgeId ? [action.requiredKnowledgeId] : [], priorStateHash: stateHash(timed), nextStateHash: null };
+  const entry = { eventId: `ACTION_${next.ledger.length + 1}`, eventType: literaryQuest ? 'LITERARY_ACTION' : 'HISTORICAL_ACTION', ...(literaryQuest ? { realmId: state.world.activeRealm.id } : {}), date: next.world.date, mapId: next.world.currentMapId, hostId, questId, actionId, objectId, witnesses: [], effectsApplied: { moneyDelta: effects.moneyDelta ?? 0, inventoryRemove, inventoryAdd, relations: relationEffects, situationKo: effects.situationKo ?? null }, sourceIds: action.requiredKnowledgeId ? [action.requiredKnowledgeId] : [], priorStateHash: stateHash(timed), nextStateHash: null };
   next.ledger.push(entry);
   entry.nextStateHash = stateHash(next);
   return { ok: true, state: next };
@@ -374,6 +384,7 @@ function loadGame(raw, { maps, hostCards, quests = [] } = {}) {
     const host = state.hosts?.[card.id];
     if (host) {
       host.schedule ??= clone(card.schedule ?? []);
+      host.situationNotes ??= [];
       const slot = scheduleEntry(host, state.world.clockMinutes);
       host.scheduleId ??= slot ? `${slot.mapId}:${slot.atMinute}` : null;
       host.currentActivityKo ??= slot?.activityKo ?? '';

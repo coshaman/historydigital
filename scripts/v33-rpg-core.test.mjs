@@ -167,6 +167,55 @@ test('quest state changes only after a host-specific allowed physical action', a
   assert.equal(changed.state.ledger.at(-1).hostId, 'printer_ekaterina');
 });
 
+test('every historical quest choice records its own follow-up and deterministic relationship or situation change', async () => {
+  const maps = await loadMaps();
+  const cards = await Promise.all((await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)));
+  const quests = await Promise.all(['printshop-article', 'public-discourse-1848', 'circle-investigation-1849', 'circle-letter-1849-may'].map(name => json(`rpg/quests/${name}.json`)));
+  const allFollowups = new Set();
+  for (const quest of quests) {
+    const followups = new Set();
+    for (const action of quest.actions) {
+      assert.ok(action.followupTitleKo && action.followupKo, `${quest.id}/${action.id} needs a distinct follow-up beat`);
+      assert.ok(action.effects && (action.effects.situationKo || Object.keys(action.effects.relations ?? {}).length || action.effects.moneyDelta), `${quest.id}/${action.id} needs an authored state effect`);
+      followups.add(action.followupTitleKo);
+      const map = maps[quest.entry.mapId], target = map.layers.find(item => item.name === 'Interactions').objects.find(item => item.id === quest.entry.objectId);
+      const position = { x: Math.floor(target.x / 16), y: Math.floor(target.y / 16) };
+      let state = createInitialState({ maps, hostCards: cards, quests });
+      state.world.chapterId = quest.chapterId;
+      state.world.date = quest.date;
+      state.world.currentMapId = quest.entry.mapId;
+      const hostId = action.hostIds[0];
+      state.hosts[hostId].mapId = quest.entry.mapId;
+      state.hosts[hostId].position = { ...position };
+      state.player.position = { ...position };
+      if (action.requiredKnowledgeId) state.hosts[hostId].knownEvidenceIds.push(action.requiredKnowledgeId);
+      state = possessHost(state, hostId, map).state;
+      const changed = performQuestAction(state, { questId: quest.id, hostId, actionId: action.id, objectId: target.id }, { quests, maps });
+      assert.equal(changed.ok, true, `${quest.id}/${action.id}`);
+      assert.equal(changed.state.ledger.at(-1).effectsApplied.situationKo, action.effects.situationKo ?? null);
+      for (const [relationId, statusKo] of Object.entries(action.effects.relations ?? {})) assert.equal(changed.state.hosts[hostId].relations[relationId], statusKo);
+      for (const item of action.effects.inventoryRemove ?? []) assert.ok(!changed.state.hosts[hostId].inventory.includes(item));
+      for (const item of action.effects.inventoryAdd ?? []) assert.ok(changed.state.hosts[hostId].inventory.includes(item));
+      if (action.effects.moneyDelta) assert.equal(changed.state.hosts[hostId].money.amount, state.hosts[hostId].money.amount + action.effects.moneyDelta);
+    }
+    assert.equal(followups.size, quest.actions.length, `${quest.id} must branch into distinct authored aftermaths`);
+    for (const title of followups) allFollowups.add(title);
+  }
+  assert.ok(allFollowups.size >= 8);
+  const shippingQuest = quests.find(quest => quest.id === 'PUBLIC_DISCOURSE_1848');
+  shippingQuest.actions.find(action => action.id === 'CARRY_NOTICE_ABROAD').effects.moneyDelta = -12;
+  let state = createInitialState({ maps, hostCards: cards, quests });
+  state.world.chapterId = shippingQuest.chapterId; state.world.date = shippingQuest.date; state.world.currentMapId = shippingQuest.entry.mapId;
+  const target = maps.printshop.layers.find(layer => layer.name === 'Interactions').objects.find(item => item.id === shippingQuest.entry.objectId);
+  const position = { x: Math.floor(target.x / 16), y: Math.floor(target.y / 16) };
+  state.hosts.courier_pavel.mapId = 'printshop'; state.hosts.courier_pavel.position = { ...position }; state.hosts.courier_pavel.knownEvidenceIds.push('OBJ-WS-NEKRASOV-EDITORIAL-1848');
+  state.player.position = { ...position }; state = possessHost(state, 'courier_pavel', maps.printshop).state;
+  const unaffordable = performQuestAction(state, { questId: shippingQuest.id, hostId: 'courier_pavel', actionId: 'CARRY_NOTICE_ABROAD', objectId: target.id }, { quests, maps });
+  assert.equal(unaffordable.ok, false);
+  assert.equal(unaffordable.reason, 'invalid_or_unaffordable_effect');
+  assert.equal(unaffordable.state.quests[shippingQuest.id].status, 'open');
+});
+
 test('reading a physical source records it for the current perspective only', async () => {
   const maps = await loadMaps();
   const cards = await Promise.all((await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)));

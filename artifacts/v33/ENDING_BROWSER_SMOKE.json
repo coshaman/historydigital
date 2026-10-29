@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "V33_ENDING_BROWSER_SMOKE_V1",
+  "status": "PASS",
+  "browserEndingCount": 5,
+  "mobileEndingChecked": true,
+  "results": [
+    {
+      "endingId": "UVAROV",
+      "choiceVisible": true,
+      "resolvedInBrowser": true,
+      "errors": []
+    },
+    {
+      "endingId": "BELINSKY",
+      "choiceVisible": true,
+      "resolvedInBrowser": true,
+      "errors": []
+    },
+    {
+      "endingId": "HERZEN",
+      "choiceVisible": true,
+      "resolvedInBrowser": true,
+      "errors": []
+    },
+    {
+      "endingId": "KHOMYAKOV",
+      "choiceVisible": true,
+      "resolvedInBrowser": true,
+      "errors": []
+    },
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "choiceVisible": true,
+      "resolvedInBrowser": true,
+      "errors": []
+    },
+    {
+      "endingId": "UVAROV",
+      "mobileViewport": {
+        "viewportWidth": 360,
+        "documentWidth": 360,
+        "panelScrollHeight": 1136,
+        "panelClientHeight": 778
+      },
+      "restartControlVisibleAfterScroll": true
+    }
+  ]
+}
