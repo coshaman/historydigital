@@ -108,3 +108,9 @@ The detailed machine-readable evidence is in `artifacts/v33/V33_RPG_PHASE1/BROWS
 - No Actions variables are currently configured (`gh variable list` returned none), and the published config returns HTTP 200 with an empty Worker URL. No Wrangler CLI/auth or Worker credentials are present in this environment. `V33_LIVE_AI` remains `BLOCKED_NO_KEY`; this change enables configuration but does not claim a live provider test.
 - After the change, `npm run acceptance:v33` completed successfully through its browser acceptance stage (exit code 0). This re-ran the V33 core, learning/life, HTTP server, renderer, AI fallback, historical claim, historical/image audit, ending-route, static-config, build, lint, check, route, and browser suites; all five campaign ending routes passed. The acceptance run rewrote a few timestamped browser evidence files, which were excluded from this patch.
 - The rebuilt verification ZIP was extracted into a clean folder and the full `npm run acceptance:v33` suite passed there as well (exit code 0), including all four viewport sizes, all five ending screens, and all five complete campaign routes.
+
+## Pages publishing mode correction — 2026-10-30
+
+- The first deployment after the Worker URL build fix revealed the repository Pages site still used `legacy` branch-root publishing, so the successful Actions deployment did not replace the public files. The Pages site was changed to `workflow` publishing and the V33 workflow was dispatched again.
+- GitHub Actions deployment `40968090498` succeeded. A cache-busted public check confirmed the game entry, generated Worker config, and `build-manifest.json` all return HTTP 200; the manifest lists 58 files and marks `publicAiWorkerConfigured: false`.
+- The generated config is active, but the GitHub Actions variable `RPG_AI_API_BASE_URL` remains unset. Live AI is therefore still `BLOCKED_NO_KEY / UNVERIFIED`; the game uses authored offline responses.
