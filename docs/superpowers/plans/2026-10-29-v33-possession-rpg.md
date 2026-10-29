@@ -81,6 +81,7 @@
 
 - [x] Root `/` runs the RPG; Chancery remains at `chancery.html`; static build uses relative paths for the Pages project base. Final commit `a0fa6e1` deployed successfully and passed a fresh public four-viewport smoke.
 - [x] Add the Pages workflow and Cloudflare configuration/security documentation. Push of `abb14bde7b32bc45849d470ff91afaecb986fe45` deployed successfully via GitHub Actions run `40957947798`.
+- [x] Connect the public GitHub Actions variable `RPG_AI_API_BASE_URL` through the Pages workflow into `V33_RPG_AI_API_BASE_URL`; validate HTTPS origin, reject unsafe URL forms, and preserve blank-URL offline mode. Live Worker URL/credentials remain unconfigured.
 - [x] Browser smoke covers four viewport sizes, persistence, evidence hotkey, source viewer, fallback dialogue and the source-gated printshop action. Five clean-save browser runs physically traverse all three arcs, four host perspectives, source readings, dialogue and quest decisions to their respective endings; mobile 360×800 separately checks ending scroll and restart.
 
 ### Phase 7: Critical review and verification archive

@@ -26,6 +26,8 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build:v33
+        env:
+          RPG_AI_API_BASE_URL: ${{ vars.RPG_AI_API_BASE_URL }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist-v33

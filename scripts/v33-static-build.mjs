@@ -2,12 +2,14 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 
 const root = process.cwd(), output = path.join(root, 'dist-v33');
+const publicAiWorkerUrl = resolvePublicAiWorkerUrl(process.env.RPG_AI_API_BASE_URL ?? '');
 const required = ['index.html', 'chancery.html', 'rpg/main.js', 'rpg/rpg.css', 'rpg/engine/game-state.js', 'rpg/engine/learning-life.mjs', 'rpg/data/learning-exam.json', 'rpg/data/learning-sources.json', 'rpg/data/life-simulation.json', 'rpg/data/historical-comparisons.json', 'rpg/maps/nevsky.json', 'rpg/maps/printshop.json', 'rpg/maps/chancery.json', 'rpg/maps/courtyard.json', 'rpg/maps/dead-souls.json', 'rpg/assets/petersburg-tiles.png', 'rpg/assets/chichikov.png', 'rpg/assets/nekrasov.png'];
 await fs.rm(output, { recursive: true, force: true });
 await fs.mkdir(output, { recursive: true });
 await fs.copyFile(path.join(root, 'index.html'), path.join(output, 'index.html'));
 await fs.copyFile(path.join(root, 'chancery.html'), path.join(output, 'chancery.html'));
 await fs.cp(path.join(root, 'rpg'), path.join(output, 'rpg'), { recursive: true });
+await fs.writeFile(path.join(output, 'rpg/ai/config.js'), `// Public Worker URL only; provider secrets stay in Cloudflare Worker secrets.\nwindow.V33_RPG_AI_API_BASE_URL = ${JSON.stringify(publicAiWorkerUrl)};\n`);
 for (const file of required) {
   const stat = await fs.stat(path.join(output, file)).catch(() => null);
   if (!stat?.isFile() || stat.size === 0) throw new Error(`Missing static RPG artifact: ${file}`);
@@ -22,6 +24,17 @@ async function inventory(directory, prefix = '') {
   }
 }
 await inventory(output);
-const manifest = { schemaVersion: 'V33_STATIC_BUILD_V1', entry: 'index.html', preservedEntry: 'chancery.html', basePathSafe: true, liveAi: 'BLOCKED_NO_KEY_UNVERIFIED', fileCount: files.length, files };
+const manifest = { schemaVersion: 'V33_STATIC_BUILD_V1', entry: 'index.html', preservedEntry: 'chancery.html', basePathSafe: true, liveAi: 'BLOCKED_NO_KEY_UNVERIFIED', publicAiWorkerConfigured: Boolean(publicAiWorkerUrl), fileCount: files.length, files };
 await fs.writeFile(path.join(output, 'build-manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`);
 console.log(JSON.stringify({ status: 'PASS', artifact: 'dist-v33/', entry: manifest.entry, preservedEntry: manifest.preservedEntry, fileCount: files.length }, null, 2));
+
+function resolvePublicAiWorkerUrl(value) {
+  const input = String(value).trim();
+  if (!input) return '';
+  let url;
+  try { url = new URL(input); } catch { throw new Error('RPG_AI_API_BASE_URL must be a valid HTTPS Worker origin.'); }
+  const localHttp = url.protocol === 'http:' && ['localhost', '127.0.0.1', '[::1]'].includes(url.hostname);
+  if (url.protocol !== 'https:' && !localHttp) throw new Error('RPG_AI_API_BASE_URL must use HTTPS except for localhost development.');
+  if (url.username || url.password || url.search || url.hash || url.pathname !== '/') throw new Error('RPG_AI_API_BASE_URL must be a Worker origin without credentials, path, query, or fragment.');
+  return url.origin;
+}

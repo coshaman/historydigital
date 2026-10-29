@@ -15,7 +15,9 @@ npx wrangler secret put OPENAI_API_KEY
 npx wrangler deploy
 ```
 
-Set `RPG_AI_API_BASE_URL` to the public Worker URL at static build time. It is a URL, not a secret. Do not add the OpenAI key to a Pages variable, Actions variable, repository, browser storage, URL, or client request.
+Set the repository Actions variable `RPG_AI_API_BASE_URL` to the Worker **origin** (scheme and hostname only), for example `https://russian-lives-v33-rpg-ai.example.workers.dev`. The Pages workflow passes this public URL into `npm run build:v33`, which validates and injects it as `window.V33_RPG_AI_API_BASE_URL` in the generated static build. The variable is not a credential. If absent, the game builds in offline mode. The build rejects non-HTTPS URLs (except localhost development), embedded credentials, URL paths, queries, and fragments. Do not add the OpenAI key to a Pages variable, Actions variable, repository, browser storage, URL, or client request.
+
+After setting or changing the variable, run the `V33 GitHub Pages` workflow on `master` to publish the new public endpoint. `OPENAI_API_KEY` and `RPG_SESSION_SIGNING_KEY` remain Cloudflare Worker secrets set with Wrangler.
 
 ## Endpoint and privacy contract
 
@@ -31,4 +33,10 @@ Set `RPG_AI_API_BASE_URL` to the public Worker URL at static build time. It is a
 
 ## Verification truth
 
-Offline schema, origin, token, replay, injection, fallback, and Worker-storage checks run locally without credentials. No live API request has been made in this build; report `V33_LIVE_AI: BLOCKED_NO_KEY` until a configured Worker and real key complete a paid smoke check. Do not label the provider path live based only on mock tests.
+Offline schema, origin, token, replay, injection, fallback, Worker-storage, and static build endpoint configuration checks run locally without credentials. No live API request has been made in this build; report `V33_LIVE_AI: BLOCKED_NO_KEY` until a configured Worker and real key complete a paid smoke check. Do not label the provider path live based only on mock tests.
+
+## 2026-10-30 Worker URL setup verification
+
+- `RPG_AI_API_BASE_URL` is now passed from GitHub's nonsecret Actions variables into the Pages build and normalized into the runtime's `window.V33_RPG_AI_API_BASE_URL` setting. It is a public Worker origin, not an OpenAI credential.
+- The repository currently has no Actions variables; the deployed frontend config is blank and therefore correctly remains offline. `gh variable set RPG_AI_API_BASE_URL --repo coshaman/historydigital --body https://<worker>.workers.dev` followed by a Pages workflow run configures the client endpoint. API and signing keys remain Cloudflare Worker secrets.
+- Static build configuration regression tests pass 2/2. No actual Worker or live API request was tested; `V33_LIVE_AI` stays `BLOCKED_NO_KEY`.

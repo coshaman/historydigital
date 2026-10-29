@@ -40,3 +40,9 @@ Follow `ai/v33/worker/README.md`. Configure the actual Pages **origin** in `RPG_
 - V33 Pages workflow [40964982387](https://github.com/coshaman/historydigital/actions/runs/40964982387) and Pages deployment workflow [40964981998](https://github.com/coshaman/historydigital/actions/runs/40964981998) both completed successfully.
 - The published site at `https://coshaman.github.io/historydigital/` passed the fresh Chrome smoke at 1440×900, 1366×768, 390×844 and 360×800. All four document widths matched their viewport widths; controls were visible and the saved clue restored. Report and captures are in `artifacts/v33/V33_RPG_PHASE1_QUICK/`.
 - The historical claim ledger is part of the deployed static bundle. This frontend-only smoke does not call a live AI provider. `LIVE_AI` remains `BLOCKED_NO_KEY / UNVERIFIED`, and human playtesting remains pending.
+
+## Worker URL wiring follow-up — 2026-10-30
+
+- Fixed a configuration gap between setup instructions and runtime: the Pages workflow now passes the public `RPG_AI_API_BASE_URL` repository variable to the static build, which injects the validated origin into `window.V33_RPG_AI_API_BASE_URL`.
+- The build rejects non-HTTPS URLs except localhost development, embedded credentials, non-root paths, queries and fragments; it excludes provider secrets and keeps offline behavior when the variable is empty. Automated configuration tests pass 2/2.
+- The current repository has no Actions variables and the published runtime config is empty. No Wrangler CLI/session or Worker API credentials are available, so live AI remains unverified. Configure only the public URL as an Actions variable; keep `OPENAI_API_KEY` and `RPG_SESSION_SIGNING_KEY` as Cloudflare Worker secrets.

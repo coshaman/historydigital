@@ -8,8 +8,9 @@ GitHub Pages serves the game only. This Worker is the only service that receives
 2. From this folder run `npx wrangler login`.
 3. Run `npx wrangler secret put RPG_SESSION_SIGNING_KEY` and enter a new random secret of at least 32 bytes.
 4. Run `npx wrangler secret put OPENAI_API_KEY` and enter the OpenAI project key.
-5. Run `npx wrangler deploy` and set the resulting Worker URL in the static game's public `RPG_AI_API_BASE_URL` setting. That URL is public and is not a credential.
-6. Call `GET /api/rpg/health` from the Pages origin. It returns service availability only, never a key or secret.
+5. Run `npx wrangler deploy`, then copy the resulting origin (for example, `https://russian-lives-v33-rpg-ai.example.workers.dev`).
+6. Set the repository Actions **variable** `RPG_AI_API_BASE_URL` to that origin. For example: `gh variable set RPG_AI_API_BASE_URL --repo coshaman/historydigital --body https://russian-lives-v33-rpg-ai.example.workers.dev`. This is public configuration, not a secret. The Pages workflow passes it into `npm run build:v33`, which writes only the validated HTTPS origin to `rpg/ai/config.js` in the static artifact. Missing variable means offline mode; unsafe schemes, credentials, paths and query strings fail the build.
+7. Run the `V33 GitHub Pages` workflow on `master` (or push the next approved change) to rebuild Pages, then call `GET /api/rpg/health` from the deployed Pages origin. It reports service availability only and never returns a key or secret.
 
 To rotate a key or signing secret, create the replacement in the provider dashboard, run the matching `wrangler secret put` command, redeploy, and revoke the old value. No API key belongs in Pages build variables or browser code. `OPENAI_API_KEY` is absent from this example and all checked-in source.
 
