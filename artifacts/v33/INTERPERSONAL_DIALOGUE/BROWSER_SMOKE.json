@@ -15,7 +15,7 @@
         "height": 64,
         "visible": true
       },
-      "response": "authored offline fallback",
+      "response": "mocked AI provider response",
       "questChangedByConversation": false,
       "documentWidth": 1440,
       "input": {
@@ -40,7 +40,7 @@
         "height": 64,
         "visible": true
       },
-      "response": "authored offline fallback",
+      "response": "mocked AI provider response",
       "questChangedByConversation": false,
       "documentWidth": 1366,
       "input": {
@@ -65,12 +65,12 @@
         "height": 64,
         "visible": true
       },
-      "response": "authored offline fallback",
+      "response": "mocked AI provider response",
       "questChangedByConversation": false,
       "documentWidth": 390,
       "input": {
-        "top": 633.5,
-        "bottom": 679.5,
+        "top": 634.359375,
+        "bottom": 680.359375,
         "visible": true
       },
       "inputOverlapsControls": false,
@@ -90,12 +90,12 @@
         "height": 64,
         "visible": true
       },
-      "response": "authored offline fallback",
+      "response": "mocked AI provider response",
       "questChangedByConversation": false,
       "documentWidth": 360,
       "input": {
-        "top": 576.34375,
-        "bottom": 622.34375,
+        "top": 593.203125,
+        "bottom": 639.203125,
         "visible": true
       },
       "inputOverlapsControls": false,

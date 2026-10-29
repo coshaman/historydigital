@@ -60,7 +60,7 @@
 ### Phase 3: V32 AI adapter and security
 
 - [x] Port the strict schema/provider/context/memory/fallback adapter and Worker/DO without replacing the preserved Chancery route.
-- [x] Add signed opaque session start and Worker-owned host/knowledge/turn context; expose bounded scene and player input.
+- [x] Add signed opaque session start and Worker-owned host/knowledge/turn context; expose bounded scene and player input. Follow-up: sessions also bind the embodied speaker/NPC pair and safely pass public embodied-role context; pair-scoped browser storage is covered by `2026-10-30-v33-ai-dialogue-pair-context.md`.
 - [x] Add atomic per-session/global budget limits, idempotent replay, fixed session retention, and personal identifier redaction.
 - [x] Test prompt injection, forged state, 429/500/timeout/schema errors, host isolation and offline fallback. Live provider remains `BLOCKED_NO_KEY / UNVERIFIED`.
 

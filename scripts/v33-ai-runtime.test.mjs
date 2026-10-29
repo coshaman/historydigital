@@ -34,6 +34,50 @@ test('session is server-bound to one host; client cannot choose scene, inject me
   }
 });
 
+test('AI dialogue receives the embodied public character context and keeps each speaker-pair memory separate', async () => {
+  const store = new MemorySessionStore(), observed = [];
+  const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store, allowedOrigins: ['https://game.example'], provider: { generate: async request => { observed.push(request.input); return validTurn(request.input.scene.id, request.input.character.id); } } });
+  const annaToEkaterina = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'printer_ekaterina', actorHostId: 'seamstress_anna' }));
+  const alexeiToEkaterina = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'printer_ekaterina', actorHostId: 'clerk_alexei' }));
+  assert.equal(annaToEkaterina.status, 201);
+  assert.equal(alexeiToEkaterina.status, 201);
+  for (const [session, requestId, playerInput] of [[annaToEkaterina, 'pair-anna-000001', '안나로서 물어볼게요.'], [annaToEkaterina, 'pair-anna-000002', '수선값은 오늘 받을 수 있을까요?'], [alexeiToEkaterina, 'pair-alexei-00001', '알렉세이로서 묻습니다.']]) {
+    assert.equal((await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: session.body.sessionToken, requestId, playerInput }))).status, 200);
+  }
+  assert.deepEqual(observed.map(input => input.conversation.embodiedPlayer.id), ['seamstress_anna', 'seamstress_anna', 'clerk_alexei']);
+  assert.equal(observed[0].conversation.embodiedPlayer.occupation, '옷 수선과 바느질 품을 받는 노동자');
+  assert.equal(JSON.stringify(observed[0].conversation.embodiedPlayer).includes('knownPrivateFacts'), false);
+  assert.equal(observed[0].conversation.embodiedPlayer.money, undefined);
+  assert.deepEqual(observed[0].recentTurns, []);
+  assert.match(JSON.stringify(observed[1].recentTurns), /안나로서 물어볼게요/);
+  assert.deepEqual(observed[2].recentTurns, [], "Ekaterina's session with Alexei cannot inherit her Anna conversation");
+  for (const actorHostId of ['unknown_actor', 'printer_ekaterina']) {
+    assert.equal((await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'printer_ekaterina', actorHostId }))).status, 400);
+  }
+});
+
+test('dialogue requests within one session serialize so a later turn cannot overwrite stale memory', async () => {
+  const store = new MemorySessionStore(), started = Promise.withResolvers(), releaseFirst = Promise.withResolvers();
+  const observedInputs = [];
+  const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store, allowedOrigins: ['https://game.example'], provider: { generate: async request => {
+    observedInputs.push(request.input);
+    if (observedInputs.length === 1) { started.resolve(); await releaseFirst.promise; }
+    return validTurn(request.input.scene.id, request.input.character.id);
+  } } });
+  const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'clerk_alexei' }));
+  const firstTurn = service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken, requestId: 'serialized-turn-0001', playerInput: '첫 번째 질문입니다.' }));
+  await started.promise;
+  const concurrentTurn = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken, requestId: 'serialized-turn-0002', playerInput: '동시에 보낸 두 번째 질문입니다.' }));
+  assert.equal(concurrentTurn.status, 409);
+  assert.equal(concurrentTurn.body.error, 'request_in_progress');
+  releaseFirst.resolve();
+  assert.equal((await firstTurn).status, 200);
+  const retriedTurn = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken, requestId: 'serialized-turn-0002', playerInput: '동시에 보낸 두 번째 질문입니다.' }));
+  assert.equal(retriedTurn.status, 200);
+  assert.equal(observedInputs.length, 2);
+  assert.match(JSON.stringify(observedInputs[1].recentTurns), /첫 번째 질문입니다/);
+});
+
 test('signed opaque sessions reject forgery and foreign origins, while missing AI credentials remain explicitly fallback-only', async () => {
   const store = new MemorySessionStore();
   const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store, allowedOrigins: ['https://game.example'], provider: null });
@@ -196,7 +240,7 @@ test('Durable Object transactions enforce per-session turns and the global daily
   const claims = await Promise.all(Array.from({ length: 4 }, (_, index) => session.fetch(new Request('https://session/claim', { method: 'POST', body: JSON.stringify({ requestId: 'parallel-' + index + '-0001', inputHash: String(index), now }) }))));
   const claimBodies = await Promise.all(claims.map(result => result.json()));
   assert.equal(claimBodies.filter(item => item.kind === 'claimed').length, 1);
-  assert.equal(claimBodies.filter(item => item.kind === 'rate_limit').length, 3);
+  assert.equal(claimBodies.filter(item => item.kind === 'busy').length, 3);
 
   const budgetStorage = new FakeStorage(), day = Math.floor(now / 86_400_000), minute = Math.floor(now / 60_000);
   budgetStorage.data.set('turns', { minute, minuteCount: 0, day, dayCount: 1199 });
@@ -204,6 +248,16 @@ test('Durable Object transactions enforce per-session turns and the global daily
   const responses = await Promise.all(Array.from({ length: 4 }, () => budget.fetch(new Request('https://budget/consume-turn', { method: 'POST' }))));
   assert.equal(responses.filter(result => result.status === 204).length, 1);
   assert.equal(responses.filter(result => result.status === 429).length, 3);
+});
+
+test('Durable Object admits only one unfinished dialogue turn per session', async () => {
+  const now = Date.now(), storage = new FakeStorage();
+  storage.data.set('context', { hostId: 'clerk_alexei', sceneId: 'V33_TALK_CLERK_ALEXEI', turnLimit: 8, expiresAt: now + 60_000, usedTurns: 0, windowStart: now, windowCount: 0, requests: {}, recentTurns: [] });
+  const session = new RpgSession({ storage });
+  const claims = await Promise.all(Array.from({ length: 3 }, (_, index) => session.fetch(new Request('https://session/claim', { method: 'POST', body: JSON.stringify({ requestId: `unfinished-${index}-0001`, inputHash: String(index), now }) }))));
+  const bodies = await Promise.all(claims.map(result => result.json()));
+  assert.equal(bodies.filter(item => item.kind === 'claimed').length, 1);
+  assert.equal(bodies.filter(item => item.kind === 'busy').length, 2);
 });
 
 class FakeNamespace {
@@ -219,7 +273,7 @@ class FakeNamespace {
 test('Cloudflare Worker route serves a signed session and completes an offline turn through Durable Objects', async () => {
   const env = { RPG_SESSION_SIGNING_KEY: 'test-signing-secret-at-least-32-bytes-long', RPG_ALLOWED_ORIGINS: 'https://game.example', RPG_SESSIONS: new FakeNamespace(RpgSession), RPG_BUDGETS: new FakeNamespace(RpgGlobalBudget) };
   const headers = { origin: 'https://game.example', 'content-type': 'application/json' };
-  const start = await workerFetch(new Request('https://worker.example/api/rpg/session/start', { method: 'POST', headers, body: JSON.stringify({ hostId: 'seamstress_anna' }) }), env);
+  const start = await workerFetch(new Request('https://worker.example/api/rpg/session/start', { method: 'POST', headers, body: JSON.stringify({ hostId: 'seamstress_anna', actorHostId: 'clerk_alexei' }) }), env);
   assert.equal(start.status, 201);
   const session = await start.json();
   assert.equal(session.mode, 'BLOCKED_NO_KEY');
@@ -240,6 +294,10 @@ test('unsupported or malformed session starts are rejected before consuming the 
   assert.equal(invalid.status, 400);
   const malformed = await workerFetch(new Request('https://worker.example/api/rpg/session/start', { method: 'POST', headers, body: JSON.stringify({ hostId: 'seamstress_anna', extra: 'ignored?' }) }), env);
   assert.equal(malformed.status, 400);
+  const unknownActor = await workerFetch(new Request('https://worker.example/api/rpg/session/start', { method: 'POST', headers, body: JSON.stringify({ hostId: 'seamstress_anna', actorHostId: 'not-a-supported-character' }) }), env);
+  assert.equal(unknownActor.status, 400);
+  const sameSpeakerAndActor = await workerFetch(new Request('https://worker.example/api/rpg/session/start', { method: 'POST', headers, body: JSON.stringify({ hostId: 'seamstress_anna', actorHostId: 'seamstress_anna' }) }), env);
+  assert.equal(sameSpeakerAndActor.status, 400);
   const budget = budgetNamespace.objects.get('v33-rpg-global');
   assert.equal(budget, undefined, 'invalid requests do not even instantiate the shared start-budget object');
   const valid = await workerFetch(new Request('https://worker.example/api/rpg/session/start', { method: 'POST', headers, body: JSON.stringify({ hostId: 'seamstress_anna' }) }), env);

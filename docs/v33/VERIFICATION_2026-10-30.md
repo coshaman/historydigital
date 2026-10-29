@@ -25,7 +25,7 @@
 | Learning and life simulation | 9/9 tests passed |
 | Local HTTP MIME handling | passed |
 | Canvas renderer startup | passed |
-| AI/Worker security, memory, limits and fallback | 15/15 test groups passed (18 including nested provider-error cases) |
+| AI/Worker security, memory, limits and fallback | 18/18 test groups passed (21 including nested provider-error cases) |
 | Historical flow audit | PASS; 3 dated arcs, 7 sources, 4 historical packets, 5 quests, 5 ending IDs |
 | Pixel asset audit | PASS; 17 PNGs with dimensions and provenance checked, including eight 64×64 portraits |
 | Ending reducer matrix | PASS; 10 variants across 5 endings |
@@ -60,6 +60,20 @@ The detailed machine-readable evidence is in `artifacts/v33/V33_RPG_PHASE1/BROWS
 - Added independent Durable Object buckets derived from HMAC(CF-Connecting-IP, `RPG_SESSION_SIGNING_KEY`); raw client addresses are not stored. Per-caller limits are 8 session starts/minute and 40/day, plus 30 dialogue turns/minute and 200/day. Buckets are deleted after two days.
 - Regression tests drive the Cloudflare Worker route: one caller hits the start cap and dialogue cap, a second caller remains independent, and Durable Object identifiers contain no raw IP text. The V33 full acceptance rerun passed after this change, including the four-viewport browser smoke, all five ending interfaces, and five complete campaign routes.
 - These limits slow single-address abuse but do not authenticate users and can be bypassed by IP rotation. Global request caps and provider-side spend controls remain necessary. No live Worker/key was configured, so this is local Worker behavior verification, not production deployment verification.
+
+## Follow-up — embodied dialogue pair context
+
+- Dialogue sessions now optionally bind an allowlisted speaking NPC and a distinct embodied player character. The model receives only the embodied character's public identity, occupation, social estate, rank, and speech cues. It does not receive that character's private knowledge, money, or player state as facts known to the NPC.
+- Session tokens and browser transcripts are keyed by the ordered actor/NPC pair. The AI runtime regression proves Anna→Ekaterina turns remain in that pair while Alexei→Ekaterina starts with an empty separate memory. The interpersonal browser harness uses a mocked Worker response (not a live provider) and checks both pair payloads and distinct stored tokens; all four viewport layouts pass and the conversation leaves quest state unchanged.
+- The worker and browser-context tests passed alongside the RPG core, learning/life, renderer, historical, asset, route, build, lint, `npm run check`, and `npm test` gates. The full four-viewport RPG smoke and five ending/campaign route browser checks also passed.
+
+## Follow-up — pending dialogue request isolation
+
+- Per-session turns now serialize in both the local memory store and Cloudflare Durable Object. A second unfinished request receives `409 request_in_progress`; abandoned claims are released after a 60-second lease.
+- While a reply is pending, the input, submit, and reply choices are disabled. Closing mid-request invalidates the client session token; reopening starts a fresh session for that actor/NPC pair, and late responses are ignored.
+- The browser regression uses a deliberately held response and verifies duplicate submission is locked and a response arriving after close/reopen never appears in the new transcript. Four desktop/mobile viewport cases passed. AI runtime tests passed 21/21.
+- Actor identity is a client-declared role-play context, not authenticated against local save data. It only frames dialogue; it does not establish game authority or enable state mutation. This is an intentional constraint of the static offline-first game architecture.
+- The current `RUSSIAN_LIVES_V33_POSSESSION_RPG_VERIFICATION.zip` contains 604 entries and was extracted to a clean directory. `npm run acceptance:v33` exited 0 there: AI runtime 21/21, the four viewport checks, all five ending screens, and all five full campaign routes passed, along with the build, lint, historical checks and core route tests.
 
 ## Final approved V33 learning/life follow-up
 
