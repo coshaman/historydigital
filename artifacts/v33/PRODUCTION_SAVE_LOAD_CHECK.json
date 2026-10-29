@@ -21,6 +21,6 @@
     }
   ],
   "automatedSuite": "npm run acceptance:v33",
-  "automatedSuiteStatus": "INCOMPLETE: unit, security, ending matrix, build, lint, check, and route tests passed; the Playwright smoke phase could not reach its local test server from the isolated command session and was stopped.",
+  "automatedSuiteStatus": "INCOMPLETE: unit, security, ending matrix, build, lint, check, and route tests passed. Browser acceptance starts its local server, but Playwright Chrome times out after launch because the headless remote-control pipe does not connect in this Windows runner; headless Edge showed the same pipe failure.",
   "verifiedSeparately": "Production save/load behavior was checked through browser UI clicks."
 }
