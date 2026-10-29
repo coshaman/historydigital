@@ -31,5 +31,12 @@ Follow `ai/v33/worker/README.md`. Configure the actual Pages **origin** in `RPG_
 ## Historical source audit follow-up — 2026-10-30
 
 - Added an auditable ledger linking 13 unique aligned Russian/Korean source paragraphs to visible in-game source objects and campaign arcs. Where a claim is cited by a quest, the verifier checks that quest's source dependency too. It resolves each paragraph against its registered source packet, edition, and contiguous range and rejects duplicate or unsupported references.
-- The focused claim-ledger test passed 7/7, and full `npm run acceptance:v33` passed, including all browser viewport and ending/campaign route checks. The verifier checks that each cited object is a visible source object available in the referenced campaign chapter. This follow-up has not yet been deployed in the published site.
+- The focused claim-ledger test passed 7/7, and full `npm run acceptance:v33` passed, including all browser viewport and ending/campaign route checks. The verifier checks that each cited object is a visible source object available in the referenced campaign chapter. The follow-up was subsequently deployed in commit `a0fa6e1`; see “Latest push and public Pages verification” below.
 - Live AI remains `BLOCKED_NO_KEY / UNVERIFIED`; human playtesting is pending.
+
+## Latest push and public Pages verification — 2026-10-30
+
+- Commit `a0fa6e1d88a63b040b298b09dc6cd2d65bde8766` was pushed to both `master` and `codex/v33-possession-rpg`.
+- V33 Pages workflow [40964982387](https://github.com/coshaman/historydigital/actions/runs/40964982387) and Pages deployment workflow [40964981998](https://github.com/coshaman/historydigital/actions/runs/40964981998) both completed successfully.
+- The published site at `https://coshaman.github.io/historydigital/` passed the fresh Chrome smoke at 1440×900, 1366×768, 390×844 and 360×800. All four document widths matched their viewport widths; controls were visible and the saved clue restored. Report and captures are in `artifacts/v33/V33_RPG_PHASE1_QUICK/`.
+- The historical claim ledger is part of the deployed static bundle. This frontend-only smoke does not call a live AI provider. `LIVE_AI` remains `BLOCKED_NO_KEY / UNVERIFIED`, and human playtesting remains pending.

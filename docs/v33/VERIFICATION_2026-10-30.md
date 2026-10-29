@@ -93,3 +93,9 @@ The detailed machine-readable evidence is in `artifacts/v33/V33_RPG_PHASE1/BROWS
 - `npm run v33-historical-claim-ledger-test` passed 7/7 cases, including invalid paragraph/provenance, wrong-arc and wrong-quest sources, duplicate excerpt, placeholder claim, and hidden/non-source/wrong-chapter map object rejection. `npm run v33-historical-audit` passed and reported 13 unique excerpts against the minimum of 12.
 - Full `npm run acceptance:v33` passed with exit code 0. This run included all four desktop/mobile browser widths, all five ending UIs, and all five complete campaign routes. The initial sandboxed browser run could not reach its local server because the environment denied socket access; rerunning with local browser socket permission succeeded.
 - Live AI remains `BLOCKED_NO_KEY / UNVERIFIED`, and human playtesting remains pending.
+
+## Public verification of final pushed commit — 2026-10-30
+
+- Commit `a0fa6e1d88a63b040b298b09dc6cd2d65bde8766` is on both `master` and `codex/v33-possession-rpg`. Pages build `40964982387` and deployment `40964981998` completed successfully.
+- A fresh public smoke on `https://coshaman.github.io/historydigital/` passed at 1440×900, 1366×768, 390×844 and 360×800. Each document width matched its viewport, controls stayed visible, and the saved clue restored. Captures and machine report: `artifacts/v33/V33_RPG_PHASE1_QUICK/`.
+- Live AI remains `BLOCKED_NO_KEY / UNVERIFIED`; human playtesting remains pending.
