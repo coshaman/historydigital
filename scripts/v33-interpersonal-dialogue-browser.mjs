@@ -52,6 +52,7 @@ try {
     await page.goto(base, { waitUntil: 'networkidle' });
     await page.evaluate(save => { localStorage.clear(); localStorage.setItem('v33-rpg-save', save); }, rawSave);
     await page.reload({ waitUntil: 'networkidle' });
+    assert.equal(await page.locator('#dialogue-speaker').isVisible(), false, `dialogue portrait should stay hidden before a conversation at ${viewport.width}`);
     await page.locator('#talk').click();
     await page.getByLabel('대사 입력').fill('교정쇄를 원문과 대조하고 싶어요.');
     await page.getByRole('button', { name: '말하기' }).click();

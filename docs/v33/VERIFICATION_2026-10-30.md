@@ -114,3 +114,9 @@ The detailed machine-readable evidence is in `artifacts/v33/V33_RPG_PHASE1/BROWS
 - The first deployment after the Worker URL build fix revealed the repository Pages site still used `legacy` branch-root publishing, so the successful Actions deployment did not replace the public files. The Pages site was changed to `workflow` publishing and the V33 workflow was dispatched again.
 - GitHub Actions deployment `40968090498` succeeded. A cache-busted public check confirmed the game entry, generated Worker config, and `build-manifest.json` all return HTTP 200; the manifest lists 58 files and marks `publicAiWorkerConfigured: false`.
 - The generated config is active, but the GitHub Actions variable `RPG_AI_API_BASE_URL` remains unset. Live AI is therefore still `BLOCKED_NO_KEY / UNVERIFIED`; the game uses authored offline responses.
+
+## Dialogue portrait visibility regression — 2026-10-30
+
+- Visual inspection of the newly published mobile/desktop playthrough found an empty speaker portrait frame before any conversation. Root cause: `.dialogue-speaker { display:flex }` overrode the HTML `hidden` attribute in the browser's cascade.
+- Added a browser regression assertion that the speaker block is not visible before dialogue begins; observed the expected failing result (`true !== false`) before the CSS fix. `.dialogue-speaker[hidden] { display:none }` now preserves the authored visibility state. Existing dialogue acceptance also verifies the active speaker's 64×64 portrait file loads.
+- Full `npm run acceptance:v33` passed after the fix (exit code 0): static/data/AI checks, lint, `npm run check`, route tests, four viewport playthroughs, five ending UIs, and all five complete campaign routes. The main browser report recorded a 128,447 ms goal-directed route and no page errors.
