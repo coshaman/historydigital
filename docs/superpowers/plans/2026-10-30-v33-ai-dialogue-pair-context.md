@@ -55,4 +55,4 @@
 
 - [x] Update verification evidence and rebuild the external review ZIP.
 - [x] Rebuild the ZIP, extract it to a clean directory, and run `npm run acceptance:v33` against the final contents (604 files; exit 0, including all five full browser campaign routes).
-- [ ] Commit and push to both `master` and `codex/v33-possession-rpg`.
+- [x] Commit and push to both `master` and `codex/v33-possession-rpg`.
