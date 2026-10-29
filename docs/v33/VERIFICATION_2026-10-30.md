@@ -73,10 +73,23 @@ The detailed machine-readable evidence is in `artifacts/v33/V33_RPG_PHASE1/BROWS
 - While a reply is pending, the input, submit, and reply choices are disabled. Closing mid-request invalidates the client session token; reopening starts a fresh session for that actor/NPC pair, and late responses are ignored.
 - The browser regression uses a deliberately held response and verifies duplicate submission is locked and a response arriving after close/reopen never appears in the new transcript. Four desktop/mobile viewport cases passed. AI runtime tests passed 21/21.
 - Actor identity is a client-declared role-play context, not authenticated against local save data. It only frames dialogue; it does not establish game authority or enable state mutation. This is an intentional constraint of the static offline-first game architecture.
-- The current `RUSSIAN_LIVES_V33_POSSESSION_RPG_VERIFICATION.zip` contains 604 entries and was extracted to a clean directory. `npm run acceptance:v33` exited 0 there: AI runtime 21/21, the four viewport checks, all five ending screens, and all five full campaign routes passed, along with the build, lint, historical checks and core route tests.
+- The current `RUSSIAN_LIVES_V33_POSSESSION_RPG_VERIFICATION.zip` contains 606 entries and was extracted to a clean directory. `npm run acceptance:v33` exited 0 there: AI runtime 21/21, the four viewport checks, all five ending screens, and all five full campaign routes passed, along with the build, lint, historical checks and core route tests.
+
+## Post-push public Pages smoke — 2026-10-30
+
+- V33 Pages workflow `40957947798` completed successfully for commit `abb14bde7b32bc45849d470ff91afaecb986fe45`.
+- Chrome smoke against `https://coshaman.github.io/historydigital/` passed at 1440×900, 1366×768, 390×844 and 360×800. It verified the rendered map, viewport bounds, touch controls, host possession, source and clue interactions, save/reload, evidence overlay, map traversal, source-gated choice, and access behavior. Machine report and captures: `artifacts/v33/V33_RPG_PHASE1_QUICK/`.
+- The public Pages frontend has no live AI endpoint configured for this run. No OpenAI request was made; `V33_LIVE_AI` remains `BLOCKED_NO_KEY / UNVERIFIED`. Human playtesting remains pending.
 
 ## Final approved V33 learning/life follow-up
 
 - The updated verification ZIP was extracted to a clean directory and `npm run acceptance:v33` passed from that extracted copy. This included the V33 learning/save boundary cases, build, lint, `npm run check`, 81 route vectors, four browser viewport sizes, all five ending UIs, and five complete campaign routes.
 - The standalone legacy `npm run main20-learning-exam-acceptance` timed out waiting for `window.__main20` on the old `?main20=1` entry. The approved learning/life experience is integrated in V33; its browser coverage is the V33 acceptance above. Do not treat that obsolete MAIN20 harness as a V33 regression.
 - Live production AI credentials/Worker and human playtest of deployed Pages remain external pending gates, as described above.
+
+## Historical claim ledger follow-up — 2026-10-30
+
+- Added `rpg/data/historical-claim-ledger.json` with 13 distinct Russian/Korean paragraph references across the 1848 publication notices, the 1849 investigation report, and Dubelt's May 5 letter. Each claim is labeled as an assertion made by its source and linked to a visible in-game source object and campaign arc; quest links are checked when the claim is used by a quest.
+- `npm run v33-historical-claim-ledger-test` passed 7/7 cases, including invalid paragraph/provenance, wrong-arc and wrong-quest sources, duplicate excerpt, placeholder claim, and hidden/non-source/wrong-chapter map object rejection. `npm run v33-historical-audit` passed and reported 13 unique excerpts against the minimum of 12.
+- Full `npm run acceptance:v33` passed with exit code 0. This run included all four desktop/mobile browser widths, all five ending UIs, and all five complete campaign routes. The initial sandboxed browser run could not reach its local server because the environment denied socket access; rerunning with local browser socket permission succeeded.
+- Live AI remains `BLOCKED_NO_KEY / UNVERIFIED`, and human playtesting remains pending.

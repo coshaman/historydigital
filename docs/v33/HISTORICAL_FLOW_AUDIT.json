@@ -25,5 +25,12 @@
     "KHOMYAKOV",
     "DOSTOEVSKY_PETRASHEVSKY"
   ],
+  "claimLedger": {
+    "status": "PASS",
+    "claimCount": 13,
+    "uniqueExcerptCount": 13,
+    "minimumUniqueExcerpts": 12,
+    "failures": []
+  },
   "failures": []
 }

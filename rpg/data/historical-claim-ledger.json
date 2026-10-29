@@ -1,0 +1,188 @@
+{
+  "schemaVersion": "V33_HISTORICAL_CLAIM_LEDGER_V1",
+  "minimumUniqueExcerpts": 12,
+  "claims": [
+    {
+      "claimId": "NOTICE48-DISTRIBUTION",
+      "claimClass": "SOURCE_ASSERTION",
+      "sourceId": "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+      "paragraphIndex": 1,
+      "arcId": "V33_1848_PUBLIC",
+      "questId": "PUBLIC_DISCOURSE_1848",
+      "claimKo": "편집부는 1848년 첫 호의 지방 배송이 주문 증가로 늦어졌다고 공고했다.",
+      "useKo": "첫 호 배송 지연 공고를 읽고 사본 발송 여부를 정하는 장면",
+      "useRef": {
+        "file": "rpg/maps/printshop.json",
+        "objectId": 25
+      }
+    },
+    {
+      "claimId": "NOTICE48-ARTICLE-PLACEMENT",
+      "claimClass": "SOURCE_ASSERTION",
+      "sourceId": "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+      "paragraphIndex": 2,
+      "arcId": "V33_1848_PUBLIC",
+      "questId": "PUBLIC_DISCOURSE_1848",
+      "claimKo": "편집부는 《1847년 러시아 문학 개관》의 두 번째 글을 제2호 대신 제3호에 싣겠다고 알렸다.",
+      "useKo": "글의 게재 순서 변경을 놓고 편집 기록을 다루는 장면",
+      "useRef": {
+        "file": "rpg/maps/printshop.json",
+        "objectId": 25
+      }
+    },
+    {
+      "claimId": "NOTICE48-LAMARTINE",
+      "claimClass": "SOURCE_ASSERTION",
+      "sourceId": "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+      "paragraphIndex": 3,
+      "arcId": "V33_1848_PUBLIC",
+      "questId": "PUBLIC_DISCOURSE_1848",
+      "claimKo": "공고는 라마르틴의 회고록 인쇄와 러시아어 번역 계획을 독자에게 알렸다.",
+      "useKo": "공고에 실린 신간 소식을 살피는 장면",
+      "useRef": {
+        "file": "rpg/maps/printshop.json",
+        "objectId": 25
+      }
+    },
+    {
+      "claimId": "NOTICE49-DISTRIBUTION-ROUTE",
+      "claimClass": "SOURCE_ASSERTION",
+      "sourceId": "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+      "paragraphIndex": 1,
+      "arcId": "V33_1848_PUBLIC",
+      "questId": null,
+      "claimKo": "1849년 간행 안내는 배송에 관해 자세히 설명하겠다고 예고하며, 지방 구독자는 발송 방식을 알고 있다고 했다.",
+      "useKo": "배송 안내의 도입 문단을 읽고 이어지는 발송 절차를 확인하는 장면",
+      "useRef": {
+        "file": "rpg/maps/printshop.json",
+        "objectId": 28
+      }
+    },
+    {
+      "claimId": "NOTICE49-SEALED",
+      "claimClass": "SOURCE_ASSERTION",
+      "sourceId": "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+      "paragraphIndex": 2,
+      "arcId": "V33_1848_PUBLIC",
+      "questId": null,
+      "claimKo": "편집부는 각 호를 봉투와 띠지로 포장해 발송했다고 설명했다.",
+      "useKo": "봉투가 사무실 밖으로 나가는 장면의 문서 근거",
+      "useRef": {
+        "file": "rpg/maps/printshop.json",
+        "objectId": 28
+      }
+    },
+    {
+      "claimId": "NOTICE49-COMPLAINTS",
+      "claimClass": "SOURCE_ASSERTION",
+      "sourceId": "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+      "paragraphIndex": 3,
+      "arcId": "V33_1848_PUBLIC",
+      "questId": null,
+      "claimKo": "편집부는 호를 받지 못했거나 상태가 좋지 않다는 구독자 항의가 있었다고 밝혔다.",
+      "useKo": "배송 항의의 처리 방식을 선택하는 장면",
+      "useRef": {
+        "file": "rpg/maps/printshop.json",
+        "objectId": 28
+      }
+    },
+    {
+      "claimId": "NOTICE49-REMEDY",
+      "claimClass": "SOURCE_ASSERTION",
+      "sourceId": "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+      "paragraphIndex": 5,
+      "arcId": "V33_1848_PUBLIC",
+      "questId": null,
+      "claimKo": "편집부는 미수령 신고를 조사하고 배송 문제를 바로잡겠다고 약속했다.",
+      "useKo": "미수령 신고를 편집부에 알릴지 판단하는 장면",
+      "useRef": {
+        "file": "rpg/maps/printshop.json",
+        "objectId": 28
+      }
+    },
+    {
+      "claimId": "REPORT-APRIL22",
+      "claimClass": "SOURCE_ASSERTION",
+      "sourceId": "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+      "paragraphIndex": 1,
+      "arcId": "V33_1849_CIRCLE",
+      "questId": "CIRCLE_INVESTIGATION_1849",
+      "claimKo": "1849년 보고서는 4월 22일 모임에서 검열과 문필가의 대중 영향에 관한 논의가 있었다고 적었다.",
+      "useKo": "보고서의 모임 기록과 기관의 주장을 구분해 읽는 장면",
+      "useRef": {
+        "file": "rpg/maps/chancery.json",
+        "objectId": 30
+      }
+    },
+    {
+      "claimId": "REPORT-INFORMANT",
+      "claimClass": "SOURCE_ASSERTION",
+      "sourceId": "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+      "paragraphIndex": 2,
+      "arcId": "V33_1849_CIRCLE",
+      "questId": "CIRCLE_INVESTIGATION_1849",
+      "claimKo": "보고서는 정보원 안토넬리가 톨스토프를 만나 그에 대한 평가를 보고했다고 서술한다.",
+      "useKo": "정보원 보고를 독립적으로 확인된 사실과 혼동하지 않도록 접수하는 장면",
+      "useRef": {
+        "file": "rpg/maps/chancery.json",
+        "objectId": 30
+      }
+    },
+    {
+      "claimId": "REPORT-SECRET-COMMISSION",
+      "claimClass": "SOURCE_ASSERTION",
+      "sourceId": "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+      "paragraphIndex": 5,
+      "arcId": "V33_1849_CIRCLE",
+      "questId": "CIRCLE_INVESTIGATION_1849",
+      "claimKo": "보고서는 황제의 명령으로 관련 인물을 조사할 비밀위원회가 꾸려졌다고 기록한다.",
+      "useKo": "보고서를 공식 등록할 때 조사 절차를 확인하는 장면",
+      "useRef": {
+        "file": "rpg/maps/chancery.json",
+        "objectId": 30
+      }
+    },
+    {
+      "claimId": "REPORT-ARRESTS",
+      "claimClass": "SOURCE_ASSERTION",
+      "sourceId": "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+      "paragraphIndex": 7,
+      "arcId": "V33_1849_CIRCLE",
+      "questId": "CIRCLE_INVESTIGATION_1849",
+      "claimKo": "보고서는 페트라솁스키와 관련해 33명이 체포됐다고 적었다.",
+      "useKo": "이미 기록된 체포 결과를 되돌릴 수 없는 역사적 사실로 다루는 장면",
+      "useRef": {
+        "file": "rpg/maps/chancery.json",
+        "objectId": 30
+      }
+    },
+    {
+      "claimId": "DUBELT-LETTER-DATE",
+      "claimClass": "SOURCE_ASSERTION",
+      "sourceId": "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849",
+      "paragraphIndex": 1,
+      "arcId": "V33_1849_CIRCLE",
+      "questId": "CIRCLE_LETTER_1849_MAY",
+      "claimKo": "두벨트의 비밀 편지는 1849년 5월 5일자로 작성되었다.",
+      "useKo": "날짜와 비밀 표시를 확인하고 편지의 접수 경로를 정하는 장면",
+      "useRef": {
+        "file": "rpg/maps/chancery.json",
+        "objectId": 31
+      }
+    },
+    {
+      "claimId": "DUBELT-LETTER-ORDER",
+      "claimClass": "SOURCE_ASSERTION",
+      "sourceId": "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849",
+      "paragraphIndex": 4,
+      "arcId": "V33_1849_CIRCLE",
+      "questId": "CIRCLE_LETTER_1849_MAY",
+      "claimKo": "두벨트는 미하일 도스토옙스키를 체포하고 책과 서류를 봉인해 인계하라고 지시했다고 편지에 적었다.",
+      "useKo": "편지의 지시와 전달 경로를 기록할지 선택하는 장면",
+      "useRef": {
+        "file": "rpg/maps/chancery.json",
+        "objectId": 31
+      }
+    }
+  ]
+}

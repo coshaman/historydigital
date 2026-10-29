@@ -69,17 +69,18 @@
 - [x] Implement the 1847 print/censorship, 1848 public discourse/news, and dated 1849 investigation stages with aligned source packets.
 - [x] Add source-bound historical reconstruction and separate literary realm; enforce date, location, knowledge and canonical outcome rules.
 - [x] Add event ledger, cross-host perspective replay, evidence drawer, provenance and localized dialogue.
+- [x] Verify at least 12 unique aligned historical excerpts through a source-range and campaign-use claim ledger; 13 unique excerpts pass.
 
 ### Phase 5: Five evidence-weighted endings
 
 - [x] Preserve all five exact IDs: `UVAROV`, `BELINSKY`, `HERZEN`, `KHOMYAKOV`, `DOSTOEVSKY_PETRASHEVSKY`.
 - [x] Resolve through accumulated possession/action/evidence/relationship history with an authored final decision for mixed states.
-- [x] Exercise two reducer-backed variants per ending (10 routes); all resolve at the final May 5 stage. Browser DOM replay of all endings remains unverified.
+- [x] Exercise two reducer-backed variants per ending (10 routes); all resolve at the final May 5 stage. Browser DOM replay of all five ending screens passed, including mobile scrolling and restart (`artifacts/v33/ENDING_BROWSER_SMOKE.json`).
 
 ### Phase 6: Publishable build and browser validation
 
 - [x] Root `/` runs the RPG; Chancery remains at `chancery.html`; static build uses relative paths for the Pages project base.
-- [x] Add a manual-only Pages workflow and Cloudflare configuration/security documentation; workflow has not been run to publish.
+- [x] Add the Pages workflow and Cloudflare configuration/security documentation. Push of `abb14bde7b32bc45849d470ff91afaecb986fe45` deployed successfully via GitHub Actions run `40957947798`.
 - [x] Browser smoke covers four viewport sizes, persistence, evidence hotkey, source viewer, fallback dialogue and the source-gated printshop action. Five clean-save browser runs physically traverse all three arcs, four host perspectives, source readings, dialogue and quest decisions to their respective endings; mobile 360×800 separately checks ending scroll and restart.
 
 ### Phase 7: Critical review and verification archive
@@ -87,4 +88,5 @@
 - [x] Use one independent critic for visual/history/AI-separation review (one reviewer; no second agent needed).
 - [x] Fix the chronology, timeout and literary-save issues found during review and rerun browser/screenshot checks.
 - [x] Refresh `RUSSIAN_LIVES_V33_POSSESSION_RPG_VERIFICATION.zip` with the full-campaign browser script, five route reports/screenshots, latest source and deployment docs. Extract to a fresh folder and run `npm run acceptance:v33`; all tests, four viewport checks, five ending UIs and five full-campaign routes passed against the extracted app.
-- [ ] Report live API and human playtest state honestly; only say release-ready with all required gates proved.
+- [x] Report live API and human playtest state honestly; neither live AI nor a human playtest is claimed as verified. The goal remains incomplete until externally blocked gates are resolved or explicitly accepted.
+- [x] Add historical claim-ledger regression coverage; full `npm run acceptance:v33` passes, including the four viewport cases, five ending screens and five complete campaign routes.

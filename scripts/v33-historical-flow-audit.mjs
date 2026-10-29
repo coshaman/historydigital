@@ -1,9 +1,11 @@
 import fs from 'node:fs';
+import { auditHistoricalClaimLedger } from './v33-historical-claim-ledger.mjs';
 
 const read = (file) => JSON.parse(fs.readFileSync(file, 'utf8'));
 const campaign = read('rpg/quests/campaign.json');
 const register = read('rpg/data/source-register.json');
 const packets = read('rpg/data/historical-source-packets.json');
+const claimLedger = read('rpg/data/historical-claim-ledger.json');
 const failures = [];
 const expectedArcs = [
   ['V33_1847_PRINT', '1847-06-01'],
@@ -14,6 +16,7 @@ const sourceIds = new Set(register.sources.map((source) => source.sourceId));
 const records = new Map(packets.records.map((record) => [record.sourceId, record]));
 const questFiles = fs.readdirSync('rpg/quests').filter((file) => file.endsWith('.json') && file !== 'campaign.json');
 const quests = questFiles.map((file) => ({ file, ...read(`rpg/quests/${file}`) }));
+const maps = fs.readdirSync('rpg/maps').filter((file) => file.endsWith('.json')).map((file) => ({ file: `rpg/maps/${file}`, data: read(`rpg/maps/${file}`) }));
 
 if (campaign.schemaVersion !== 'V33_CAMPAIGN_V1') failures.push('RPG campaign schema is not V33_CAMPAIGN_V1');
 if (register.schemaVersion !== 'V33_SOURCE_REGISTER_V1') failures.push('RPG source register schema mismatch');
@@ -43,6 +46,9 @@ for (const record of packets.records) {
 for (const sourceId of campaign.arcs.flatMap((arc) => arc.sources)) if (sourceId.startsWith('OBJ-') && !records.has(sourceId) && !['OBJ-SOV-1847'].includes(sourceId)) failures.push(`document source ${sourceId} has no aligned historical packet`);
 for (const ending of campaign.endings) if (!ending.requiredActions?.length || !ending.epilogueKo || !ending.choiceSubcopyKo) failures.push(`${ending.id} lacks a sourced action route or player-facing consequence copy`);
 
+const claimLedgerAudit = auditHistoricalClaimLedger({ ledger: claimLedger, campaign, register, packets, quests, maps });
+failures.push(...claimLedgerAudit.failures);
+
 const report = {
   schemaVersion: 'V33-HISTORICAL-FLOW-AUDIT-2',
   status: failures.length ? 'FAIL' : 'PASS',
@@ -51,6 +57,7 @@ const report = {
   historicalPacketCount: packets.records.length,
   questCount: quests.length,
   endingIds: campaign.endings.map((ending) => ending.id),
+  claimLedger: claimLedgerAudit,
   failures,
 };
 fs.mkdirSync('docs/v33', { recursive: true });
