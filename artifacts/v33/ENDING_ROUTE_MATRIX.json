@@ -13,6 +13,10 @@
     {
       "endingId": "UVAROV",
       "variant": 0,
+      "circleLearning": "attended",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
       "actions": [
         "HOLD_FOR_CORRECTION",
         "HOLD_NOTICE",
@@ -38,6 +42,10 @@
     {
       "endingId": "UVAROV",
       "variant": 1,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
       "actions": [
         "ASK_FOR_SOURCE",
         "KEEP_LOCAL_READING",
@@ -64,6 +72,10 @@
     {
       "endingId": "BELINSKY",
       "variant": 0,
+      "circleLearning": "attended",
+      "examOutcome": "failed",
+      "examCorrectCount": 2,
+      "promotionStatus": "not-promoted",
       "actions": [
         "ASK_FOR_SOURCE",
         "HOLD_NOTICE",
@@ -89,6 +101,10 @@
     {
       "endingId": "BELINSKY",
       "variant": 1,
+      "circleLearning": "attended-notes",
+      "examOutcome": "failed",
+      "examCorrectCount": 2,
+      "promotionStatus": "not-promoted",
       "actions": [
         "ASK_FOR_SOURCE",
         "KEEP_LOCAL_READING",
@@ -115,6 +131,10 @@
     {
       "endingId": "HERZEN",
       "variant": 0,
+      "circleLearning": "declined",
+      "examOutcome": "deferred",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
       "actions": [
         "HOLD_FOR_CORRECTION",
         "CARRY_NOTICE_ABROAD",
@@ -140,6 +160,10 @@
     {
       "endingId": "HERZEN",
       "variant": 1,
+      "circleLearning": "declined",
+      "examOutcome": "deferred",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
       "actions": [
         "ASK_FOR_SOURCE",
         "CARRY_NOTICE_ABROAD",
@@ -165,6 +189,10 @@
     {
       "endingId": "KHOMYAKOV",
       "variant": 0,
+      "circleLearning": "attended",
+      "examOutcome": "helped-peer",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
       "actions": [
         "HOLD_FOR_CORRECTION",
         "KEEP_LOCAL_READING",
@@ -190,6 +218,10 @@
     {
       "endingId": "KHOMYAKOV",
       "variant": 1,
+      "circleLearning": "attended",
+      "examOutcome": "helped-peer",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
       "actions": [
         "ASK_FOR_SOURCE",
         "KEEP_LOCAL_READING",
@@ -216,6 +248,10 @@
     {
       "endingId": "DOSTOEVSKY_PETRASHEVSKY",
       "variant": 0,
+      "circleLearning": "attended",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
       "actions": [
         "HOLD_FOR_CORRECTION",
         "HOLD_NOTICE",
@@ -241,6 +277,10 @@
     {
       "endingId": "DOSTOEVSKY_PETRASHEVSKY",
       "variant": 1,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
       "actions": [
         "ASK_FOR_SOURCE",
         "KEEP_LOCAL_READING",

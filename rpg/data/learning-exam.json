@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "questionCount": 5,
+  "passThreshold": 3,
+  "learningUnits": [
+    {
+      "id": "FRIDAY-READING",
+      "title": "금요일 저녁, 무엇을 함께 읽었나",
+      "bodyKo": "러시아역사회의 글은 페트라셰프스키 모임의 금요일 독서 주제를 유물론 철학과 혁명 운동의 역사라고 정리합니다. 다만 모임 전체를 하나의 생각으로 묶지는 않습니다. 유럽의 정치 문헌을 더 읽으며 급진적인 소수도 생겼다고 이어서 설명하죠. 오늘 이 방의 대화도 먼저 책에서 시작합니다.",
+      "sourceIds": ["V42-PETRASHEVSKY-FOURIERISM"],
+      "provenance": {
+        "sourceId": "V42-PETRASHEVSKY-FOURIERISM",
+        "startLocator": "Российское историческое общество article, paragraph beginning ‘Собираясь по пятницам’",
+        "endLocator": "same paragraph; ends with the list ‘истории революционных движений’",
+        "sourceClass": "SECONDARY_HISTORICAL_SYNTHESIS",
+        "quotedRussian": "Собираясь по пятницам, читали книги по материалистической философии, истории революционных движений.",
+        "projectTranslationKo": "금요일마다 모여 유물론 철학과 혁명 운동의 역사를 다룬 책을 읽었다.",
+        "contextNoteKo": "현대 러시아역사회의 글이 모임의 독서 주제를 요약한 문장입니다. 모임 참석자의 직접 발언으로 제시하지 않습니다."
+      },
+      "fictionalElements": ["주인공과 동료들이 이 문장을 읽고 대화하는 장면"],
+      "speakerLines": [{"speaker":"pavel","text":"금요일마다 모였다는군. 무슨 책을 펼쳤는지부터 보자."}]
+    },
+    {
+      "id": "IDEAS-IN-CIRCULATION",
+      "title": "한 모임 안에도 여러 갈래가 있었다",
+      "bodyKo": "같은 글은 샤를 푸리에, 로버트 오언, 에티엔 카베의 구상이 당시 자유주의 지식인들 사이에서 읽혔다고 설명합니다. 이들을 한데 묶어 모든 참석자의 신념으로 돌릴 수는 없습니다. 독서 모임은 같은 책을 펼쳐도 서로 다른 질문과 결론을 남길 수 있습니다.",
+      "sourceIds": ["V42-PETRASHEVSKY-FOURIERISM"],
+      "provenance": {
+        "sourceId": "V42-PETRASHEVSKY-FOURIERISM",
+        "startLocator": "Российское историческое общество article, paragraph beginning ‘Особенно популярными в этой среде’",
+        "endLocator": "same paragraph; ends with the description of shared residences and private property",
+        "sourceClass": "SECONDARY_HISTORICAL_SYNTHESIS",
+        "contextNoteKo": "현대 연구 글의 요약입니다. 특정 인물의 직접 발언이나 모든 모임 참석자의 공통 신념으로 취급하지 않습니다."
+      },
+      "fictionalElements": ["주인공과 동료들이 책의 차이를 이야기하는 장면"],
+      "speakerLines": [{"speaker":"ekaterina","text":"같은 책을 읽었다고 같은 생각을 했던 건 아니겠죠."}]
+    },
+    {
+      "id": "RANKS-AND-SERVICE",
+      "title": "관등표가 나눈 세 갈래",
+      "bodyKo": "1722년 관등표는 군무·문관·궁정의 직급을 등급별로 배열했습니다. 표의 제목은 같은 등급 안에서 직급을 받은 시기를 기준으로 서열을 정한다고 밝힙니다. 이어지는 문구에는 군무 직급을 다른 직급보다 앞세우는 예외도 적혀 있습니다. 서열은 책상 위 이름표만이 아니라 관청에서 누가 먼저 말하고 결재하는지에도 닿았습니다.",
+      "sourceIds": ["V42-TABLE-OF-RANKS"],
+      "provenance": {
+        "sourceId": "V42-TABLE-OF-RANKS",
+        "startLocator": "Document title and table headings, opening line beginning ‘Табель о рангах всех чинов’",
+        "endLocator": "same title line; ends with the military-rank precedence clause ‘воинские выше протчих’",
+        "sourceClass": "PRIMARY_LAW",
+        "quotedRussian": "Табель о рангах всех чинов, воинских, статских и придворных, которые в котором классе чины; и которые в одном классе, те имеют по старшинству времени вступления в чин между собою, однако ж воинские выше протчих.",
+        "projectTranslationKo": "군무·문관·궁정의 모든 직급을 등급별로 정한다. 같은 등급에서는 그 직급을 받은 시기를 따르되, 군무 직급은 다른 직급보다 앞선다.",
+        "contextNoteKo": "1722년 관등표의 제목 자체가 문서의 적용 대상과 서열 원칙, 예외를 한 문장으로 밝힙니다."
+      },
+      "fictionalElements": ["관청 동료들이 표를 펼쳐 직급 구성을 읽는 장면"],
+      "speakerLines": [{"speaker":"protagonist","text":"세 분야를 한 표에 넣었군요. 같은 등급이라도 순서를 정하는 규칙이 있고요."}]
+    },
+    {
+      "id": "ENTRY-TO-COLLEGES",
+      "title": "시험을 통과한 뒤에도 남는 절차",
+      "bodyKo": "관등표의 14항은 교육받은 귀족 자제를 먼저 콜레기아 융커로 들이고, 해당 관청의 심사와 상원 보고, 임명장을 거치도록 적었습니다. 그러니 시험은 승진 그 자체라기보다 다음 절차로 들어가는 문턱에 가까웠습니다. 이 게임의 시험 결과는 가상의 주인공에게만 적용됩니다.",
+      "sourceIds": ["V42-TABLE-OF-RANKS"],
+      "provenance": {
+        "sourceId": "V42-TABLE-OF-RANKS",
+        "startLocator": "Numbered application clause 14, paragraph beginning ‘Надлежит дворянских детей в колегиах производить снизу’",
+        "endLocator": "same clause; ends with the requirement for patents (‘патенты получили’)",
+        "sourceClass": "PRIMARY_LAW",
+        "quotedRussian": "Надлежит дворянских детей в колегиах производить снизу; а имянно, перво в колегии юнкары, ежели ученые, и освидетелствованы от колегии, и в Сенате представлены, и патенты получили.",
+        "projectTranslationKo": "관청에는 귀족 자제를 아래 직급부터 올려야 한다. 교육을 받은 자는 먼저 콜레기아 융커로 두되, 관청의 심사와 상원 보고를 거쳐 임명장을 받아야 한다.",
+        "contextNoteKo": "관등표 제14항의 인사 절차입니다. 오늘 장면의 시험과 인사 결과는 가상 주인공의 서사 장치이며 실제 인물의 시험 기록이 아닙니다."
+      },
+      "fictionalElements": ["가상의 주인공이 시험 결과를 받아 드는 장면"],
+      "speakerLines": [{"speaker":"alexei","text":"시험 점수만 보지 마십시오. 그 뒤에 어떤 절차가 이어지는지도 읽어 두십시오."}]
+    }
+  ],
+  "publicPrepUnitIds": ["FRIDAY-READING", "IDEAS-IN-CIRCULATION", "RANKS-AND-SERVICE", "ENTRY-TO-COLLEGES"],
+  "questions": [
+    {
+      "id": "Q1-FRIDAY-READING",
+      "kind": "FACT",
+      "prompt": "러시아역사회의 글에 따르면, 페트라셰프스키 모임의 금요일 저녁에는 어떤 책을 읽었나요?",
+      "options": [
+        {"id":"Q1-A","text":"유물론 철학과 혁명 운동의 역사"},
+        {"id":"Q1-B","text":"항해술과 해군 전술"},
+        {"id":"Q1-C","text":"궁정 예법과 무도회 순서"},
+        {"id":"Q1-D","text":"농업 세금 장부만"}
+      ],
+      "learningUnitIds": ["FRIDAY-READING"],
+      "sourceIds": ["V42-PETRASHEVSKY-FOURIERISM"],
+      "answerRationale": "해당 글은 금요일 모임에서 유물론 철학과 혁명 운동의 역사를 다룬 책을 읽었다고 적습니다."
+    },
+    {
+      "id": "Q2-IDEAS-IN-CIRCULATION",
+      "kind": "FACT",
+      "prompt": "같은 글이 당시 자유주의 지식인들 사이에서 인기가 있었다고 든 세 사람은 누구인가요?",
+      "options": [
+        {"id":"Q2-A","text":"푸리에, 오언, 카베"},
+        {"id":"Q2-B","text":"푸시킨, 고골, 레르몬토프"},
+        {"id":"Q2-C","text":"표트르 대제, 예카테리나 2세, 알렉산드르 1세"},
+        {"id":"Q2-D","text":"다윈, 뉴턴, 파스퇴르"}
+      ],
+      "learningUnitIds": ["IDEAS-IN-CIRCULATION"],
+      "sourceIds": ["V42-PETRASHEVSKY-FOURIERISM"],
+      "answerRationale": "글은 샤를 푸리에, 로버트 오언, 에티엔 카베를 특히 인기 있었던 사상가로 함께 듭니다."
+    },
+    {
+      "id": "Q3-RANKS-CLASSES",
+      "kind": "FACT",
+      "prompt": "관등표 제목이 직급을 나눈 세 분야는 무엇인가요?",
+      "options": [
+        {"id":"Q3-A","text":"군무·문관·궁정"},
+        {"id":"Q3-B","text":"교회·대학·극장"},
+        {"id":"Q3-C","text":"수도·항구·농촌"},
+        {"id":"Q3-D","text":"상인·농민·장인"}
+      ],
+      "learningUnitIds": ["RANKS-AND-SERVICE"],
+      "sourceIds": ["V42-TABLE-OF-RANKS"],
+      "answerRationale": "1722년 관등표 제목에는 군무·문관·궁정 직급을 모두 대상으로 한다고 적혀 있습니다."
+    },
+    {
+      "id": "Q4-RANKS-SENIORITY",
+      "kind": "FACT",
+      "prompt": "같은 등급 안의 서열에 대해 관등표 제목이 밝힌 원칙은 무엇인가요?",
+      "options": [
+        {"id":"Q4-A","text":"그 직급에 들어온 시기를 기준으로 하되, 군무 직급에는 별도 우선권을 둔다"},
+        {"id":"Q4-B","text":"나이가 많은 사람을 언제나 먼저 세운다"},
+        {"id":"Q4-C","text":"재산이 많은 사람을 먼저 세운다"},
+        {"id":"Q4-D","text":"같은 등급이면 순서를 정하지 않는다"}
+      ],
+      "learningUnitIds": ["RANKS-AND-SERVICE"],
+      "sourceIds": ["V42-TABLE-OF-RANKS"],
+      "answerRationale": "제목은 직급에 들어온 시기를 원칙으로 쓰고, 군무 직급을 다른 분야보다 높게 둔다는 예외를 덧붙입니다."
+    },
+    {
+      "id": "Q5-COLLEGIUM-ENTRY",
+      "kind": "FACT",
+      "prompt": "관등표 제14항에서 교육받은 귀족 자제가 콜레기아 융커로 임명되기 전에 거치도록 한 절차에 가장 가까운 것은 무엇인가요?",
+      "options": [
+        {"id":"Q5-A","text":"관청의 심사, 상원 보고, 임명장 발급"},
+        {"id":"Q5-B","text":"모임 동료 두 명의 추천만 받기"},
+        {"id":"Q5-C","text":"군 복무를 마친 뒤 추첨하기"},
+        {"id":"Q5-D","text":"궁정 무도회에서 이름을 알리기"}
+      ],
+      "learningUnitIds": ["ENTRY-TO-COLLEGES"],
+      "sourceIds": ["V42-TABLE-OF-RANKS"],
+      "answerRationale": "제14항은 교육, 관청의 심사, 상원에의 제출, 임명장 수령을 차례로 적습니다."
+    }
+  ],
+  "answerKey": {
+    "Q1-FRIDAY-READING": "Q1-A",
+    "Q2-IDEAS-IN-CIRCULATION": "Q2-A",
+    "Q3-RANKS-CLASSES": "Q3-A",
+    "Q4-RANKS-SENIORITY": "Q4-A",
+    "Q5-COLLEGIUM-ENTRY": "Q5-A"
+  }
+}

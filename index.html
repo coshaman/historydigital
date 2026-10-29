@@ -26,8 +26,26 @@
         <section><h3>함께 빌린 삶</h3><ul id="ending-hosts"></ul></section>
       </div>
       <section class="ending-history-section"><h3>역사적 기록은 바뀌지 않는다</h3><p id="ending-history"></p></section>
+      <section id="ending-historical-comparison" class="ending-historical-comparison" aria-labelledby="ending-comparison-title">
+        <p class="ending-kicker">기록으로 확인되는 삶</p><h3 id="ending-comparison-title"></h3><p id="ending-comparison-text"></p><p id="ending-comparison-route"></p><ul id="ending-comparison-sources"></ul>
+      </section>
+      <section id="ending-life-section" class="ending-life-section" aria-labelledby="ending-life-title">
+        <p class="ending-kicker">가상의 서기 · 이후의 삶</p><h3 id="ending-life-title">당신이 고른 뒤의 시간</h3>
+        <p class="ending-life-note">이 연표는 플레이 기록으로 만든 허구입니다. 실존 인물의 전기나 실제 사건의 기록이 아닙니다.</p>
+        <p id="ending-life-progress" aria-live="polite"></p><article id="ending-life-episode" class="ending-life-episode" aria-live="polite"></article>
+        <nav class="ending-life-controls" aria-label="이후 삶 연표 조작"><button id="ending-life-previous" type="button">이전 시기</button><button id="ending-life-next" type="button">다음 시기</button><button id="ending-life-replay" type="button">처음부터 다시 보기</button></nav>
+      </section>
       <details class="ending-source-section"><summary>확인한 자료와 판본</summary><ul id="ending-sources"></ul></details>
       <footer class="ending-document-foot"><span>상트페테르부르크 · 현장 기록철</span><button id="ending-restart" type="button">새 기록 시작</button></footer>
+    </article>
+  </section>
+  <section id="learning-screen" class="learning-screen" aria-labelledby="learning-title" hidden>
+    <article class="learning-document" role="dialog" aria-modal="true" aria-labelledby="learning-title">
+      <header class="learning-document-head"><span id="learning-stage" class="learning-stage">독서 모임</span><button id="learning-leave" type="button">잠시 나가기</button></header>
+      <p class="learning-kicker">관청 서기의 저녁</p><h2 id="learning-title" tabindex="-1"></h2>
+      <p id="learning-intro" class="learning-intro"></p><div id="learning-content" class="learning-content"></div>
+      <nav id="learning-controls" class="learning-controls" aria-label="학습 진행"></nav>
+      <footer class="learning-document-foot"><span id="learning-save-state">학습 진행은 이 기기에 저장됩니다.</span><button id="learning-save" type="button">기록 저장</button></footer>
     </article>
   </section>
   <script src="rpg/ai/config.js"></script>

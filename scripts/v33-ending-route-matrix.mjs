@@ -3,6 +3,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 import { pathToFileURL } from 'node:url';
+import { advanceStudy, beginExam, chooseCirclePath, completeLearning, submitExam } from '../rpg/engine/learning-life.mjs';
 
 const require = createRequire(import.meta.url);
 const engine = require('../rpg/engine/game-state.js');
@@ -12,6 +13,25 @@ const maps = Object.fromEntries(await Promise.all((await fs.readdir(path.join(ro
 const cards = await Promise.all((await fs.readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => read(`rpg/characters/${file}`)));
 const quests = await Promise.all(['printshop-article', 'public-discourse-1848', 'circle-investigation-1849', 'circle-letter-1849-may', 'literary-dead-souls'].map(name => read(`rpg/quests/${name}.json`)));
 const campaign = await read('rpg/quests/campaign.json');
+const learningExam = await read('rpg/data/learning-exam.json');
+
+function finishLearning(state, endingId, variant) {
+  const circleChoice = endingId === 'HERZEN' ? 'declined' : endingId === 'KHOMYAKOV' ? 'attended' : variant ? 'attended-notes' : 'attended';
+  let progress = chooseCirclePath(state.learning, circleChoice);
+  for (let index = 0; index < learningExam.learningUnits.length; index++) progress = advanceStudy(progress, learningExam);
+  const action = endingId === 'HERZEN' ? 'defer' : endingId === 'KHOMYAKOV' ? 'help-peer' : 'sit';
+  progress = beginExam(progress, action);
+  if (action === 'sit') {
+    const answers = Object.fromEntries(learningExam.questions.map((question, index) => [question.id,
+      endingId === 'BELINSKY' && index >= 2 ? 'INTENTIONALLY_WRONG' : learningExam.answerKey[question.id]]));
+    progress = submitExam(progress, answers, learningExam);
+  }
+  progress = completeLearning(progress);
+  assert.equal(progress.phase, 'complete');
+  state.learning = progress;
+  state.ledger.push({ eventId: `LEARNING_${state.ledger.length + 1}`, eventType: 'LEARNING_ARC_COMPLETED', date: state.world.date, circleLearning: circleChoice, examOutcome: progress.examOutcome, promotionStatus: progress.promotionStatus, sourceIds: learningExam.learningUnits.flatMap(unit => unit.sourceIds) });
+  return state;
+}
 
 function parkNear(state, hostId, mapId) {
   const map = maps[mapId], host = state.hosts[hostId];
@@ -86,6 +106,7 @@ export function buildRoute(endingId, variant) {
   state = readForHost(state, arc3.sources[1], [arc3.sources[1]]);
   const action4 = endingId === 'DOSTOEVSKY_PETRASHEVSKY' ? 'REFUSE_NAMING' : 'PRESERVE_LETTER';
   state = takeAction(state, 'CIRCLE_LETTER_1849_MAY', action4);
+  state = finishLearning(state, endingId, variant);
   const stateBeforeEnding = state;
   const ending = engine.resolveEnding(state, endingId, campaign);
   assert.equal(ending.ok, true, `resolve ${endingId}, variant ${variant}: ${ending.reason ?? ''}`);
@@ -97,7 +118,7 @@ export function buildRoute(endingId, variant) {
   return {
     stateBeforeEnding,
     endingState: ending.state,
-    summary: { endingId, variant, actions: ending.state.ledger.filter(item => item.actionId).map(item => item.actionId), sourcesRead: ending.state.ledger.filter(item => item.sourceId).map(item => item.sourceId), hosts: [...new Set(ending.state.world.possessionHistory.map(item => item.hostId))], date: ending.state.world.date },
+    summary: { endingId, variant, circleLearning: ending.state.learning.circleLearning, examOutcome: ending.state.learning.examOutcome, examCorrectCount: ending.state.learning.examCorrectCount, promotionStatus: ending.state.learning.promotionStatus, actions: ending.state.ledger.filter(item => item.actionId).map(item => item.actionId), sourcesRead: ending.state.ledger.filter(item => item.sourceId).map(item => item.sourceId), hosts: [...new Set(ending.state.world.possessionHistory.map(item => item.hostId))], date: ending.state.world.date },
   };
 }
 

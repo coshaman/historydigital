@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "periods": [
+    {
+      "id": "FIRST-POST-EXAM-YEAR",
+      "year": 1850,
+      "statePath": "learning.examOutcome",
+      "default": {"id":"V33-LIFE-1850-UNSET","title":"책상에 남은 빈칸","textKo":"시험 기록에는 점수가 남아 있지 않습니다. 맡은 서류를 다시 정리하며 다음 기회를 기다립니다.","fictional":true,"basis":["learning.examOutcome"]},
+      "variants": {
+        "passed": {"id":"V33-LIFE-1850-PASSED","title":"새 책상에 익숙해지다","textKo":"이번 회차 답안은 기준을 넘겼습니다. 가상의 인사 기록에 진급이 적히고, 더 많은 이름이 놓인 책상을 맡습니다.","fictional":true,"basis":["learning.examCorrectCount","learning.promotionStatus"]},
+        "failed": {"id":"V33-LIFE-1850-FAILED","title":"같은 창구, 다른 하루","textKo":"이번 회차는 기준에 이르지 못했습니다. 진급은 이뤄지지 않았고, 맡았던 창구에서 일을 이어갑니다.","fictional":true,"basis":["learning.examCorrectCount","learning.promotionStatus"]},
+        "deferred": {"id":"V33-LIFE-1850-DEFERRED","title":"비워 둔 답안","textKo":"시험을 미뤘습니다. 점수는 기록되지 않았고, 준비가 덜 된 부분은 다음 업무표 옆에 남았습니다.","fictional":true,"basis":["learning.examOutcome"]},
+        "helped-peer": {"id":"V33-LIFE-1850-PEER","title":"두 사람 몫의 저녁","textKo":"시험 대신 파벨과 공부했습니다. 이번 회차 점수는 없지만, 그날 이후 서로 막힌 문서를 함께 살펴봅니다.","fictional":true,"basis":["learning.examOutcome","learning.examAction"]}
+      }
+    },
+    {
+      "id": "THE-CIRCLE-KEPT-IN-MIND",
+      "year": 1852,
+      "statePath": "learning.circleLearning",
+      "default": {"id":"V33-LIFE-1852-UNSET","title":"들리지 않은 방","textKo":"그 모임에 대한 기록은 수첩에 남지 않았습니다. 직접 확인하지 못한 이야기를 함부로 단정하지 않으려 합니다.","fictional":true,"basis":["learning.circleLearning"]},
+      "variants": {
+        "attended": {"id":"V33-LIFE-1852-CIRCLE","title":"책장을 덮은 뒤에도","textKo":"그날의 대화는 한 사람의 생각으로 정리되지 않았습니다. 문서에 옮길 때 발언과 확인된 사실을 나누는 습관이 남았습니다.","fictional":true,"basis":["learning.circleLearning"]},
+        "attended-notes": {"id":"V33-LIFE-1852-NOTES","title":"책 제목만 남기다","textKo":"수첩에는 책 제목과 날짜만 적었습니다. 누구의 말을 옮기지 않기로 한 선택도 오래 기억에 남았습니다.","fictional":true,"basis":["learning.circleLearning"]},
+        "declined": {"id":"V33-LIFE-1852-DECLINED","title":"돌려준 초대장","textKo":"초대를 사양한 뒤 모임에서 무엇을 읽었는지는 알지 못했습니다. 파벨과는 필요한 서류를 주고받으며 다시 말을 나눴습니다.","fictional":true,"basis":["learning.circleLearning"]}
+      }
+    },
+    {
+      "id": "THE-PROOF-RETURNS",
+      "year": 1855,
+      "statePath": "route.printshopAction",
+      "default": {"id":"V33-LIFE-1855-PROOF-UNSET","title":"교정쇄의 여백","textKo":"교정쇄를 어떻게 다뤘는지 기록은 없습니다. 문장을 옮기기 전 출처와 날짜를 다시 확인합니다.","fictional":true,"basis":["route.printshopAction"]},
+      "variants": {
+        "ASK_FOR_SOURCE": {"id":"V33-LIFE-1855-SOURCE","title":"출처를 먼저 묻다","textKo":"원문 대조를 요청했던 습관은 새 문서에도 이어졌습니다. 동료들은 빠른 결재보다 근거를 확인할 시간을 먼저 잡았습니다.","fictional":true,"basis":["route.printshopAction"]},
+        "HOLD_FOR_CORRECTION": {"id":"V33-LIFE-1855-HOLD","title":"함께 다시 본 교정쇄","textKo":"작업을 보류하고 재확인을 맡았던 동료와 이후에도 인쇄 전 문장을 함께 읽었습니다.","fictional":true,"basis":["route.printshopAction","route.workshopRelationship"]},
+        "RETURN_MANUSCRIPT": {"id":"V33-LIFE-1855-RETURN","title":"돌아간 사본","textKo":"교정쇄 사본은 편집실로 돌아갔습니다. 반납 절차와 다음 판본의 출처를 확인하는 일이 당신의 일과에 남았습니다.","fictional":true,"basis":["route.printshopAction"]}
+      }
+    },
+    {
+      "id": "THE-CIRCULAR-TRAVELS",
+      "year": 1858,
+      "statePath": "route.publicAction",
+      "default": {"id":"V33-LIFE-1858-UNSET","title":"도착하지 않은 공고","textKo":"공고를 어떻게 처리했는지 기록은 없습니다. 확인되지 않은 소식이 사실처럼 복사되지 않도록 날짜부터 적습니다.","fictional":true,"basis":["route.publicAction"]},
+      "variants": {
+        "CARRY_NOTICE_ABROAD": {"id":"V33-LIFE-1858-MAILED","title":"지방행 우편 묶음","textKo":"공고 사본을 우편 묶음에 맡겼습니다. 발송 비용과 전달 경로를 확인하는 일도 당신이 맡았습니다.","fictional":true,"basis":["route.publicAction","hosts.courier_pavel.money"]},
+        "KEEP_LOCAL_READING": {"id":"V33-LIFE-1858-LOCAL","title":"가게 안에서 함께 읽다","textKo":"공고는 가게 안의 독자들과 함께 읽었습니다. 더 널리 보내지는 않았지만, 그 자리의 질문은 작업장 대화로 이어졌습니다.","fictional":true,"basis":["route.publicAction"]},
+        "HOLD_NOTICE": {"id":"V33-LIFE-1858-HELD","title":"확인을 기다리는 사본","textKo":"공고 사본을 발송 묶음에서 빼 두었습니다. 도착 날짜와 문구가 맞는지 확인한 뒤에야 다음 처리를 정했습니다.","fictional":true,"basis":["route.publicAction"]}
+      }
+    },
+    {
+      "id": "A-LARGER-LEDGER",
+      "year": 1862,
+      "statePath": "learning.examOutcome",
+      "default": {"id":"V33-LIFE-1862-UNDECIDED","title":"다음 칸은 비워 두다","textKo":"승진 기록은 확정되지 않았습니다. 맡은 일의 범위를 정확히 적고, 아직 오지 않은 결정을 앞서 쓰지 않습니다.","fictional":true,"basis":["learning.examOutcome"]},
+      "variants": {
+        "passed": {"id":"V33-LIFE-1862-PROMOTED","title":"이름과 책임을 맡다","textKo":"더 큰 자료철에 동료들의 이름과 책임이 들어왔습니다. 누가 어떤 판단을 했는지 함께 남기는 일이 중요해졌습니다.","fictional":true,"basis":["learning.promotionStatus","route.publicAction"]},
+        "failed": {"id":"V33-LIFE-1862-STEADY","title":"맡은 일을 다시 배우다","textKo":"같은 창구에서 보낸 시간은 문서의 작은 어긋남을 알아보는 눈을 길렀습니다. 후임에게 출처와 날짜를 먼저 대조하라고 일러 줍니다.","fictional":true,"basis":["learning.promotionStatus"]},
+        "deferred": {"id":"V33-LIFE-1862-DEFERRED","title":"다음 회차를 준비하다","textKo":"시험을 미룬 뒤에도 준비는 이어졌습니다. 점수를 미리 채우지 않고, 다음 회차에 확인할 항목을 정리했습니다.","fictional":true,"basis":["learning.examOutcome"]},
+        "helped-peer": {"id":"V33-LIFE-1862-PEER","title":"함께 익힌 절차","textKo":"파벨과 나눠 본 조항은 새로 온 동료에게 설명할 때도 도움이 됐습니다. 둘은 막힌 부분을 숨기기보다 함께 확인했습니다.","fictional":true,"basis":["learning.examOutcome"]}
+      }
+    },
+    {
+      "id": "THE-WORKSHOP-RELATION",
+      "year": 1868,
+      "statePath": "route.workshopRelationship",
+      "default": {"id":"V33-LIFE-1868-SEPARATE","title":"서랍에 남은 교정표","textKo":"작업장 동료와의 관계는 업무 인사에 머물렀습니다. 오래된 교정표는 자료철에 정리해 두었습니다.","fictional":true,"basis":["route.workshopRelationship"]},
+      "variants": {
+        "shared-work": {"id":"V33-LIFE-1868-SHARED","title":"함께 맡은 재확인","textKo":"함께 재확인을 맡았던 동료와는 몇 해 뒤에도 어려운 문장을 나눠 읽었습니다. 가까워진 계기는 일에서 생긴 신뢰였습니다.","fictional":true,"basis":["route.workshopRelationship"]}
+      }
+    },
+    {
+      "id": "THE-LAST-DESK",
+      "year": 1874,
+      "statePath": "learning.examOutcome",
+      "default": {"id":"V33-LIFE-1874-PENDING","title":"마지막으로 정리한 자료철","textKo":"마지막 책상에는 다른 이가 확인할 수 있도록 정리한 종이가 남았습니다. 가상의 기록은 여기서 끝납니다.","fictional":true,"basis":["learning.examOutcome","ledger"]},
+      "variants": {
+        "passed": {"id":"V33-LIFE-1874-PROMOTED","title":"마지막 결재선","textKo":"마지막 자료철에는 서로 다른 설명과 확인된 사실이 나란히 놓였습니다. 오래 맡아 온 책임은 다른 손으로 넘어갔습니다.","fictional":true,"basis":["learning.promotionStatus","ledger"]},
+        "failed": {"id":"V33-LIFE-1874-NO-PROMOTION","title":"마지막 접수 번호","textKo":"마지막 접수부에는 날짜와 출처가 빠짐없이 적혀 있었습니다. 직함보다 그 기록을 먼저 찾는 후임이 있었습니다.","fictional":true,"basis":["learning.promotionStatus","ledger"]},
+        "deferred": {"id":"V33-LIFE-1874-DEFERRED","title":"끝내 남겨 둔 빈칸","textKo":"승진 시험 기록에는 끝내 점수가 적히지 않았습니다. 당신은 맡은 문서와 확인한 근거를 다음 사람에게 넘겼습니다.","fictional":true,"basis":["learning.examOutcome","ledger"]},
+        "helped-peer": {"id":"V33-LIFE-1874-PEER","title":"함께 남긴 설명","textKo":"시험 대신 나눈 공부는 동료에게 절차를 설명하는 습관으로 이어졌습니다. 마지막 자료철에도 두 사람이 함께 확인한 표시가 남았습니다.","fictional":true,"basis":["learning.examOutcome","ledger"]}
+      }
+    }
+  ]
+}

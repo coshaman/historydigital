@@ -1,9 +1,10 @@
 import { createRenderer } from './engine/renderer.js';
+import { advanceStudy, beginExam, buildLifeTimeline, chooseCirclePath, completeLearning, getExamQuestions, selectExamAnswer, submitExam } from './engine/learning-life.mjs';
 import './engine/game-state.js';
 const { createInitialState, moveActor, possessHost, releaseHost, transitionMap, performQuestAction, saveGame, loadGame, nearTile, knowledgeForHost, recordSourceRead, recordEvidenceRead, recordDialogueTurn, enterLiteraryRealm, leaveLiteraryRealm, advanceChapter, advanceCampaignDate, resolveEnding } = globalThis.V33GameState;
 
 const readJson = async path => (await fetch(path)).json();
-const [street, shop, chancery, courtyard, literaryMap, firstQuest, source, firstIssue, historicalSources, literarySource, campaign, publicQuest, circleQuest, letterQuest, literaryQuest, sceneObservations, aiScenes] = await Promise.all([readJson('./rpg/maps/nevsky.json'), readJson('./rpg/maps/printshop.json'), readJson('./rpg/maps/chancery.json'), readJson('./rpg/maps/courtyard.json'), readJson('./rpg/maps/dead-souls.json'), readJson('./rpg/quests/printshop-article.json'), readJson('./rpg/data/khor-kalynych-source.json'), readJson('./rpg/data/sovremennik-1847-issue.json'), readJson('./rpg/data/historical-source-packets.json'), readJson('./rpg/data/dead-souls-source.json'), readJson('./rpg/quests/campaign.json'), readJson('./rpg/quests/public-discourse-1848.json'), readJson('./rpg/quests/circle-investigation-1849.json'), readJson('./rpg/quests/circle-letter-1849-may.json'), readJson('./rpg/quests/literary-dead-souls.json'), readJson('./rpg/data/scene-observations.json'), readJson('./rpg/ai/scenes.json')]);
+const [street, shop, chancery, courtyard, literaryMap, firstQuest, source, firstIssue, historicalSources, literarySource, campaign, publicQuest, circleQuest, letterQuest, literaryQuest, sceneObservations, aiScenes, learningExam, learningSourceData, lifeTemplates, historicalComparisons] = await Promise.all([readJson('./rpg/maps/nevsky.json'), readJson('./rpg/maps/printshop.json'), readJson('./rpg/maps/chancery.json'), readJson('./rpg/maps/courtyard.json'), readJson('./rpg/maps/dead-souls.json'), readJson('./rpg/quests/printshop-article.json'), readJson('./rpg/data/khor-kalynych-source.json'), readJson('./rpg/data/sovremennik-1847-issue.json'), readJson('./rpg/data/historical-source-packets.json'), readJson('./rpg/data/dead-souls-source.json'), readJson('./rpg/quests/campaign.json'), readJson('./rpg/quests/public-discourse-1848.json'), readJson('./rpg/quests/circle-investigation-1849.json'), readJson('./rpg/quests/circle-letter-1849-may.json'), readJson('./rpg/quests/literary-dead-souls.json'), readJson('./rpg/data/scene-observations.json'), readJson('./rpg/ai/scenes.json'), readJson('./rpg/data/learning-exam.json'), readJson('./rpg/data/learning-sources.json'), readJson('./rpg/data/life-simulation.json'), readJson('./rpg/data/historical-comparisons.json')]);
 const cards = await Promise.all(['clerk_alexei','printer_ekaterina','courier_pavel','seamstress_anna','tenant_mikhail','bookseller_lev','nekrasov_reconstruction','literary_chichikov'].map(id => readJson(`./rpg/characters/${id}.json`)));
 const maps = { nevsky: street, printshop: shop, chancery, courtyard, 'dead-souls': literaryMap }, hostCards = cards;
 const questList = [firstQuest, publicQuest, circleQuest, letterQuest, literaryQuest];
@@ -11,13 +12,161 @@ const questsById = new Map(questList.map(item => [item.id, item]));
 const sourceRecords = new Map([source, firstIssue, ...historicalSources.records, literarySource].map(record => [record.sourceId, record]));
 const initial = () => createInitialState({ maps, hostCards, quests: questList });
 let state;
-try { state = localStorage.getItem('v33-rpg-save') ? loadGame(localStorage.getItem('v33-rpg-save'), { maps, hostCards, quests: questList }) : initial(); }
+try { state = localStorage.getItem('v33-rpg-save') ? loadGame(localStorage.getItem('v33-rpg-save'), { maps, hostCards, quests: questList, learningExam }) : initial(); }
 catch { state = initial(); }
 const canvas = document.querySelector('#world'), renderer = createRenderer(canvas, { hostCards });
 const $ = selector => document.querySelector(selector);
 let lastMoveAt = 0, renderFrame = null, renderTimer = null, activeDialogueHost = null, activeDialogueController = null;
 const dialogueSessions = new Map(), dialogueTranscripts = new Map();
 const aiBaseUrl = String(window.V33_RPG_AI_API_BASE_URL ?? '').replace(/\/$/, '');
+function learningActionButton(label, run, subcopy = '') {
+  const button = document.createElement('button'); button.type = 'button'; button.textContent = label;
+  if (subcopy) { const note = document.createElement('small'); note.textContent = subcopy; button.append(note); }
+  button.addEventListener('click', run); return button;
+}
+function writeLearningProgress(progress, eventType = null, details = {}) {
+  if (!progress || progress === state.learning) return;
+  const next = structuredClone(state); next.learning = progress;
+  if (eventType) next.ledger.push({ eventId: `LEARNING_${next.ledger.length + 1}`, eventType, date: next.world.date, ...details });
+  setState(next);
+  localStorage.setItem('v33-rpg-save', saveGame(next));
+  $('#load').disabled = false;
+}
+function chooseCircle(choice) {
+  const nextProgress = chooseCirclePath(state.learning, choice);
+  if (nextProgress === state.learning) return;
+  const next = structuredClone(state); next.learning = nextProgress;
+  const pavel = next.hosts.courier_pavel;
+  pavel.relations ??= {};
+  pavel.situationNotes ??= [];
+  const notes = {
+    attended: ['초대에 응해 독서 모임에 다녀왔다.', '모임에서 함께 책을 읽었다.'],
+    'attended-notes': ['모임에 참석해 책 제목만 수첩에 남겼다.', '책 제목만 적고 참석자의 말을 기록하지 않았다.'],
+    declined: ['독서 모임 초대를 사양했다.', '초대를 사양했지만 공개 교재로 시험 내용을 공부할 수 있다.'],
+  }[choice];
+  pavel.relations.reading_circle = notes[0];
+  pavel.situationNotes.push(notes[1]);
+  next.ledger.push({ eventId: `LEARNING_${next.ledger.length + 1}`, eventType: 'CIRCLE_LEARNING_CHOICE', date: next.world.date, choice, sourceIds: [] });
+  setState(next); localStorage.setItem('v33-rpg-save', saveGame(next)); $('#load').disabled = false; renderLearning();
+}
+function hideLearningScreen() {
+  $('#learning-screen').hidden = true; document.body.classList.remove('learning-active');
+  say('학습을 잠시 멈췄다', '여기까지의 진행과 선택한 답은 저장됐다. 마지막 자료를 다시 살펴보면 이어서 열 수 있다.', [{ label: '학습을 이어간다', run: showLearningHub }]);
+}
+function showLearningHub() {
+  if (state.learning.phase === 'complete') { showEndingChoices(); return; }
+  renderLearning(true);
+}
+function renderLearning(focus = false) {
+  const screen = $('#learning-screen'), content = $('#learning-content'), controls = $('#learning-controls'), learning = state.learning;
+  screen.hidden = false; document.body.classList.add('learning-active'); content.replaceChildren(); controls.replaceChildren();
+  $('#learning-leave').onclick = hideLearningScreen;
+  $('#learning-save').onclick = () => { localStorage.setItem('v33-rpg-save', saveGame(state)); $('#learning-save-state').textContent = '현재 단계와 답을 저장했습니다.'; $('#load').disabled = false; };
+  const addButton = (label, run, note = '') => controls.append(learningActionButton(label, run, note));
+  const persist = (progress, eventType, details) => { writeLearningProgress(progress, eventType, details); renderLearning(); };
+  if (learning.phase === 'circle-choice') {
+    $('#learning-stage').textContent = '독서 모임 · 초대장'; $('#learning-title').textContent = '파벨이 저녁 모임을 권했다';
+    $('#learning-intro').textContent = '모임에 갈지, 책 제목만 적을지, 초대를 사양할지 정할 수 있다. 참석 기록은 공식 장부에 들어가지 않는다.';
+    const choices = [
+      ['모임에 참석한다', 'attended', '창고의 독서방에서 책과 사료를 읽고 이야기를 듣는다 · 공식 장부에는 남지 않는다 · 참석자에게 얼굴이 알려진다'],
+      ['참석해 책 제목만 적는다', 'attended-notes', '독서방에는 가되 발언은 옮기지 않는다 · 수첩에는 책 제목만 남긴다 · 수첩을 잃으면 노출될 수 있다'],
+      ['초대를 사양한다', 'declined', '모임에는 가지 않는다 · 같은 시험 범위는 공개 교재로 공부할 수 있다 · 파벨과 거리가 생길 수 있다'],
+    ];
+    for (const [label, value, note] of choices) addButton(label, () => chooseCircle(value), note);
+  } else if (learning.phase === 'learning' || learning.phase === 'public-prep') {
+    const unit = learningExam.learningUnits[learning.lessonIndex];
+    if (!unit) { persist({ ...learning, phase: 'exam-choice' }); return; }
+    const attendee = learning.phase === 'learning';
+    $('#learning-stage').textContent = attendee ? `독서방 · ${learning.lessonIndex + 1} / ${learningExam.learningUnits.length}` : `공개 교재 · ${learning.lessonIndex + 1} / ${learningExam.publicPrepUnitIds.length}`;
+    $('#learning-title').textContent = unit.title;
+    $('#learning-intro').textContent = attendee ? '창고의 작은 독서방. 문서에 적힌 내용과 이 방에서 만든 허구의 장면을 나눠 읽는다.' : '모임에 가지 않아도 볼 수 있는 공개 준비 자료다. 참석자와 같은 다섯 문항, 같은 정답 기준으로 시험을 본다.';
+    const body = document.createElement('p'); body.className = 'learning-unit-body'; body.textContent = unit.bodyKo; content.append(body);
+    const fiction = document.createElement('p'); fiction.className = 'learning-fiction-note'; fiction.textContent = `이야기를 위한 장면 · ${unit.fictionalElements?.join(' · ') ?? '가상의 서기가 자료를 읽는 장면'}`; content.append(fiction);
+    if (attendee && learning.circleLearning === 'attended') for (const line of unit.speakerLines ?? []) {
+      const voice = document.createElement('p'); voice.className = 'learning-voice'; voice.textContent = `${({ alexei: '알렉세이', ekaterina: '예카테리나', pavel: '파벨', protagonist: '서기' })[line.speaker] ?? line.speaker} · “${line.text}”`; content.append(voice);
+    }
+    if (unit.provenance?.quotedRussian) {
+      const excerpt = document.createElement('blockquote'); excerpt.className = 'learning-excerpt'; excerpt.textContent = unit.provenance.quotedRussian; content.append(excerpt);
+      if (unit.provenance.projectTranslationKo) { const translation = document.createElement('p'); translation.className = 'learning-translation'; translation.textContent = unit.provenance.projectTranslationKo; content.append(translation); }
+    }
+    if (unit.provenance?.contextNoteKo) { const context = document.createElement('p'); context.className = 'learning-context'; context.textContent = unit.provenance.contextNoteKo; content.append(context); }
+    const source = learningSourceData.sources.find(item => item.sourceId === unit.provenance?.sourceId);
+    if (source) {
+      const citation = document.createElement('p'); citation.className = 'learning-citation'; citation.textContent = `${source.sourceId} · ${source.authorOrIssuer} · ${source.edition}\n확인 범위: ${unit.provenance.startLocator} → ${unit.provenance.endLocator}`; content.append(citation);
+      const link = document.createElement('a'); link.href = source.sourceUrl; link.target = '_blank'; link.rel = 'noopener noreferrer'; link.textContent = '원문·자료 설명 열기'; link.className = 'learning-source-link'; content.append(link);
+    }
+    if (learning.lessonIndex > 0) addButton('이전 자료', () => persist({ ...learning, lessonIndex: learning.lessonIndex - 1 }, null));
+    addButton(learning.lessonIndex + 1 >= learningExam.learningUnits.length ? '시험 선택으로' : '다음 자료', () => {
+      const nextProgress = advanceStudy(learning, learningExam);
+      const eventType = unit.sourceIds?.length ? 'LEARNING_UNIT_READ' : null;
+      persist(nextProgress, eventType, { learningUnitId: unit.id, sourceIds: [...(unit.sourceIds ?? [])], publicPreparation: learning.phase === 'public-prep' });
+    }, `문항에 쓰이는 자료 · ${unit.sourceIds.join(', ')}`);
+  } else if (learning.phase === 'exam-choice') {
+    $('#learning-stage').textContent = '진급 시험 · 선택'; $('#learning-title').textContent = '이번 회차를 어떻게 할까';
+    $('#learning-intro').textContent = '시험에 응시하거나, 미루거나, 파벨과 함께 공부할 수 있다. 모임에 갔는지는 문항과 합격 기준을 바꾸지 않는다.';
+    const note = document.createElement('p'); note.className = 'learning-result-note'; note.textContent = '응시하면 사실 확인 문항 5개를 풀고 3개 이상 맞힐 때 이번 회차 진급 자격을 얻는다. 미루기와 동료 돕기는 점수 없이 기록된다.'; content.append(note);
+    const takeExamAction = (action, eventType) => {
+      const progress = beginExam(state.learning, action), next = structuredClone(state); next.learning = progress;
+      if (action === 'help-peer') {
+        const pavel = next.hosts.courier_pavel; pavel.situationNotes ??= []; pavel.relations ??= {};
+        pavel.situationNotes.push('가상의 서기와 진급 시험 조항을 함께 공부했다.');
+        pavel.relations.examPreparation = '시험 대신 함께 공부했다';
+      }
+      next.ledger.push({ eventId: `LEARNING_${next.ledger.length + 1}`, eventType, date: next.world.date, partnerHostId: action === 'help-peer' ? 'courier_pavel' : undefined, score: null });
+      setState(next); localStorage.setItem('v33-rpg-save', saveGame(next)); renderLearning();
+    };
+    addButton('시험에 응시한다', () => takeExamAction('sit', 'EXAM_STARTED'), '모임 참석 여부와 무관하게 같은 다섯 문항에 답한다');
+    addButton('이번 회차를 미룬다', () => takeExamAction('defer', 'EXAM_DEFERRED'), '점수와 승패를 기록하지 않는다 · 승진은 보류된다');
+    addButton('파벨과 함께 공부한다', () => takeExamAction('help-peer', 'EXAM_HELPED_PEER'), '시험은 보지 않는다 · 파벨과의 공부 기록을 남긴다');
+    addButton('자료를 다시 읽는다', () => persist({ ...learning, phase: learning.circleLearning === 'declined' ? 'public-prep' : 'learning', lessonIndex: 0 }, null));
+  } else if (learning.phase === 'exam') {
+    $('#learning-stage').textContent = `진급 시험 · ${Object.keys(learning.examAnswers ?? {}).length} / ${learningExam.questionCount} 답`; $('#learning-title').textContent = '문서에서 확인한 사실';
+    $('#learning-intro').textContent = '정답은 앞서 읽은 자료에 적힌 사실로 정한다. 다섯 문항 중 세 문항 이상을 맞히면 이번 회차에 진급 자격을 얻는다.';
+    for (const [index, question] of learningExam.questions.entries()) {
+      const fieldset = document.createElement('fieldset'); fieldset.className = 'exam-question';
+      const legend = document.createElement('legend'); legend.textContent = `${index + 1}. ${question.prompt}`; fieldset.append(legend);
+      for (const option of question.options) {
+        const label = document.createElement('label'); label.className = 'exam-option';
+        const radio = document.createElement('input'); radio.type = 'radio'; radio.name = question.id; radio.value = option.id; radio.checked = learning.examAnswers?.[question.id] === option.id;
+        radio.addEventListener('change', () => {
+          const next = selectExamAnswer(state.learning, question.id, option.id, learningExam);
+          writeLearningProgress(next);
+          const count = Object.keys(next.examAnswers).length;
+          $('#learning-stage').textContent = `진급 시험 · ${count} / ${learningExam.questionCount} 답`;
+          const submit = $('#learning-controls [data-submit-exam]'); if (submit) submit.disabled = count !== learningExam.questionCount;
+        });
+        const text = document.createElement('span'); text.textContent = option.text; label.append(radio, text); fieldset.append(label);
+      }
+      const citation = document.createElement('small'); citation.className = 'exam-source'; citation.textContent = `확인할 자료 · ${question.sourceIds.join(', ')}`; fieldset.append(citation); content.append(fieldset);
+    }
+    const submit = learningActionButton('답안을 제출한다', () => {
+      const result = submitExam(state.learning, state.learning.examAnswers, learningExam);
+      persist(result, 'EXAM_SUBMITTED', { correctCount: result.examCorrectCount, outcome: result.examOutcome });
+    }, '제출 뒤에는 이번 회차 점수와 승진 자격을 확인할 수 있다');
+    submit.dataset.submitExam = 'true'; submit.disabled = Object.keys(learning.examAnswers ?? {}).length !== learningExam.questionCount; controls.append(submit);
+  } else if (learning.phase === 'result') {
+    $('#learning-stage').textContent = '진급 시험 · 결과';
+    const resultText = {
+      passed: ['이번 회차는 통과했다', `${learning.examCorrectCount} / ${learningExam.questionCount}개 정답. 가상의 서기는 이번 회차 진급 자격을 얻었다. 실제 관등표의 절차와 역사적 사건은 바뀌지 않는다.`],
+      failed: ['이번 회차는 통과하지 못했다', `${learning.examCorrectCount} / ${learningExam.questionCount}개 정답. 이번 회차 진급은 이뤄지지 않는다. 답안은 기록에 남고 이후의 역사 사건은 바뀌지 않는다.`],
+      deferred: ['이번 회차를 미뤘다', '점수는 기록하지 않았다. 진급 여부도 보류 상태로 남는다.'],
+      'helped-peer': ['파벨과 함께 공부했다', '시험 점수는 없다. 파벨과 조항을 함께 살펴본 일이 서기의 이후 삶에 남는다.'],
+    }[learning.examOutcome] ?? ['결과를 확인할 수 없다', '학습 화면을 다시 열어 진행을 확인하자.'];
+    $('#learning-title').textContent = resultText[0]; $('#learning-intro').textContent = resultText[1];
+    const record = document.createElement('p'); record.className = 'learning-result-note'; record.textContent = `점수 · ${learning.examCorrectCount == null ? '미기록' : `${learning.examCorrectCount} / ${learningExam.questionCount}`}　진급 · ${{ promoted: '이번 회차 자격 획득', 'not-promoted': '이번 회차에는 해당 없음', pending: '보류' }[learning.promotionStatus]}`; content.append(record);
+    addButton('마지막 기록으로 이어간다', () => {
+      const progress = completeLearning(state.learning);
+      writeLearningProgress(progress, 'LEARNING_ARC_COMPLETED', { circleLearning: progress.circleLearning, examOutcome: progress.examOutcome, promotionStatus: progress.promotionStatus });
+      $('#learning-screen').hidden = true; document.body.classList.remove('learning-active'); showEndingChoices();
+    }, '다섯 결말은 앞서 한 역사적 행동으로 결정된다');
+  } else {
+    $('#learning-stage').textContent = '독서 모임'; $('#learning-title').textContent = '다음 장으로 이어진다';
+    $('#learning-intro').textContent = '선택한 공부 방식과 시험 결과가 이후 삶의 연표에 반영된다.';
+    addButton('마지막 기록으로 이어간다', showEndingChoices);
+  }
+  $('#learning-save-state').textContent = '진행 단계와 답안은 선택할 때마다 이 기기에 저장됩니다.';
+  if (focus) requestAnimationFrame(() => $('#learning-title').focus());
+}
 function classifyTypedResponse(input) {
   const text = String(input).toLocaleLowerCase('ko-KR');
   if (/출처|사료|원문|자료|문서|근거/.test(text)) return 'SOURCE_REQUEST';
@@ -145,7 +294,7 @@ function continuationFor(activeQuest) {
     setState(advanced.state);
     say(nextArc.titleKo, `기록은 다음 연도로 이어졌다. ${nextArc.date.slice(0, 4)}년의 거리에서 새 사건을 살펴보자.`, [{ label: '자료철 열기', run: openSourceDrawer }]);
   } }];
-  return [{ label: '마지막 기록을 정리한다', run: showEndingChoices }];
+  return [{ label: '마지막 기록을 정리한다', subcopy: '독서 모임 선택과 진급 시험을 마친 뒤 다섯 결말을 확인합니다', run: showLearningHub }];
 }
 function inspect(object) {
   const props = Object.fromEntries((object.properties ?? []).map(p => [p.name, p.value]));
@@ -192,20 +341,56 @@ function inspect(object) {
   }
 }
 function showEndingChoices() {
+  if (state.learning?.phase !== 'complete') { showLearningHub(); return; }
   const options = campaign.endings.filter(ending => resolveEnding(state, ending.id, campaign).ok).map(ending => ({ label: ending.titleKo, subcopy: ending.choiceSubcopyKo, run: () => {
     const result = resolveEnding(state, ending.id, campaign);
     if (!result.ok) { sayRecord(`이 결말을 기록하려면 아직 확인할 자료가 있다 · ${result.reason}`); return; }
     setState(result.state);
+    localStorage.setItem('v33-rpg-save', saveGame(result.state));
     renderEnding(ending);
   } }));
   if (!options.length) { say('아직 기록을 닫을 수 없다', '세 시기의 선택과 자료를 확인한 뒤 다시 정리하자.', []); return; }
   say('마지막 기록을 정리하다', '남겨 둔 행동과 읽은 문서를 살펴보고, 그중 하나를 기록의 끝에 둔다.', options);
 }
+function renderLifeTimeline() {
+  const episodes = buildLifeTimeline(state, lifeTemplates), index = Math.min(state.learning.timelineIndex, episodes.length - 1), episode = episodes[index];
+  const card = $('#ending-life-episode'); card.replaceChildren();
+  if (!episode) { card.textContent = '이후 삶의 연표 자료를 찾을 수 없다.'; return; }
+  $('#ending-life-progress').textContent = `${episode.periodLabel} · ${index + 1} / ${episodes.length}`;
+  const title = document.createElement('h4'); title.textContent = episode.title;
+  const text = document.createElement('p'); text.textContent = episode.textKo;
+  const mark = document.createElement('small'); mark.textContent = '가상의 서기 · 플레이 기록으로 구성한 장면';
+  card.append(title, text, mark);
+  $('#ending-life-previous').disabled = index === 0;
+  $('#ending-life-next').disabled = index === episodes.length - 1;
+  $('#ending-life-previous').onclick = () => moveLifeTimeline(-1);
+  $('#ending-life-next').onclick = () => moveLifeTimeline(1);
+  $('#ending-life-replay').onclick = () => {
+    const next = structuredClone(state); next.learning.timelineIndex = 0; state = next;
+    localStorage.setItem('v33-rpg-save', saveGame(next)); renderLifeTimeline(); $('#ending-life-replay').focus();
+  };
+}
+function moveLifeTimeline(delta) {
+  const count = buildLifeTimeline(state, lifeTemplates).length;
+  const next = structuredClone(state); next.learning.timelineIndex = Math.max(0, Math.min(count - 1, next.learning.timelineIndex + delta)); state = next;
+  localStorage.setItem('v33-rpg-save', saveGame(next)); renderLifeTimeline(); $(`#ending-life-${delta < 0 ? 'previous' : 'next'}`).focus();
+}
 function renderEnding(ending) {
+  $('#learning-screen').hidden = true; document.body.classList.remove('learning-active');
   $('#ending-date').textContent = `${state.world.date.replaceAll('-', '.')} · 보존 기록`;
   $('#ending-title').textContent = ending.titleKo;
   $('#ending-epilogue').textContent = ending.epilogueKo;
   $('#ending-history').textContent = campaign.endingHistoryNoteKo;
+  const comparison = historicalComparisons.comparisons.find(item => item.endingId === ending.id);
+  $('#ending-comparison-title').textContent = comparison ? comparison.personKo : '비교 자료 없음';
+  $('#ending-comparison-text').textContent = comparison?.documentedLifeKo ?? '';
+  $('#ending-comparison-route').textContent = comparison?.routeContextKo ?? '';
+  const comparisonSources = $('#ending-comparison-sources'); comparisonSources.replaceChildren();
+  for (const sourceInfo of comparison?.sources ?? []) {
+    const item = document.createElement('li'), link = document.createElement('a');
+    link.href = sourceInfo.url; link.target = '_blank'; link.rel = 'noopener noreferrer';
+    link.textContent = `${sourceInfo.sourceId} · ${sourceInfo.claim} · ${sourceInfo.locator}`; item.append(link); comparisonSources.append(item);
+  }
   const actionLines = state.ledger.filter(item => item.actionId).map(item => {
     const quest = questsById.get(item.questId), action = quest?.actions.find(entry => entry.id === item.actionId);
     const card = cards.find(entry => entry.id === item.hostId);
@@ -225,6 +410,14 @@ function renderEnding(ending) {
     link.href = url; link.target = '_blank'; link.rel = 'noopener noreferrer'; link.textContent = `${record.titleKo} · ${record.documentDate ?? '문학 원문'}`;
     item.append(link); sourceList.append(item);
   }
+  for (const id of readIds) {
+    const record = learningSourceData.sources.find(item => item.sourceId === id);
+    if (!record) continue;
+    const item = document.createElement('li'), link = document.createElement('a');
+    link.href = record.sourceUrl; link.target = '_blank'; link.rel = 'noopener noreferrer'; link.textContent = `${record.titleKo} · ${record.sourceId} · ${record.range}`;
+    item.append(link); sourceList.append(item);
+  }
+  renderLifeTimeline();
   document.body.classList.add('ending-active');
   $('#ending-screen').hidden = false;
   $('#ending-restart').focus();
@@ -334,6 +527,10 @@ async function sendConversation(card, playerText, replyId = null) {
   $('.journal').scrollTop = $('.journal').scrollHeight;
 }
 document.addEventListener('keydown', event => {
+  if (!$('#learning-screen').hidden) {
+    if (event.key === 'Escape') { event.preventDefault(); hideLearningScreen(); }
+    return;
+  }
   const direction = ({ ArrowUp: 'up', w: 'up', W: 'up', ArrowDown: 'down', s: 'down', S: 'down', ArrowLeft: 'left', a: 'left', A: 'left', ArrowRight: 'right', d: 'right', D: 'right' })[event.key];
   if (direction) { event.preventDefault(); move(direction); }
   if (!activeDialogueHost && (event.key === 'e' || event.key === 'E' || event.key === 'Enter')) { event.preventDefault(); interact(); }
@@ -349,7 +546,14 @@ $('#save').addEventListener('click', () => { localStorage.setItem('v33-rpg-save'
 $('#load').addEventListener('click', () => {
   const saved = localStorage.getItem('v33-rpg-save');
   if (!saved) return;
-  try { setState(loadGame(saved, { maps, hostCards, quests: questList })); restoreJournal(); sayRecord('저장한 현장으로 돌아왔다.'); }
+  try {
+    $('#learning-screen').hidden = true; document.body.classList.remove('learning-active');
+    setState(loadGame(saved, { maps, hostCards, quests: questList, learningExam })); restoreJournal();
+    if (state.endingId) renderEnding(campaign.endings.find(item => item.id === state.endingId));
+    else if (['learning', 'public-prep', 'exam-choice', 'exam', 'result'].includes(state.learning.phase)) showLearningHub();
+    else if (state.learning.phase === 'complete') showEndingChoices();
+    sayRecord('저장한 현장으로 돌아왔다.');
+  }
   catch { sayRecord('저장 기록을 읽지 못했다. 새 기록으로 시작해 주세요.'); }
 });
 $('#ending-restart').addEventListener('click', () => { localStorage.removeItem('v33-rpg-save'); location.reload(); });
@@ -373,5 +577,8 @@ function restoreJournal() {
 restoreJournal();
 updateHud();
 requestRender();
+if (state.endingId) renderEnding(campaign.endings.find(item => item.id === state.endingId));
+else if (['learning', 'public-prep', 'exam-choice', 'exam', 'result'].includes(state.learning.phase)) showLearningHub();
+else if (state.learning.phase === 'complete') showEndingChoices();
 $('#record').insertAdjacentHTML('afterend', '<button id="source-drawer-open" type="button">자료철 열기</button>');
 $('#source-drawer-open').addEventListener('click', openSourceDrawer);

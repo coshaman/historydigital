@@ -174,3 +174,12 @@
 - Speech quality and provenance rules are audited in Task 7; dialogue changes remain limited to new learning-scene lines unless testing exposes a required correction.
 - Potentially unsupported historical facts are blocked at Task 1; implementation must substitute verified facts rather than inventing them.
 - The existing primary checkout contains extensive untracked user artifacts and is behind `origin/master` by two commits. Plan requires an isolated current-base worktree and explicit-path staging; no untracked artifacts are to be swept into commits.
+
+## Execution record — active V33 integration (2026-10-29)
+
+The approved design was integrated into the active `rpg/main.js` V33 campaign rather than the superseded MAIN20 runtime named in the original implementation outline. The data and state contracts above remain the same.
+
+- Implemented the circle choice, public study path, four source-backed lessons, identical five-question exam, pass/fail/defer/help outcomes, version-1 save migration, and a deterministic seven-period fictional timeline after the historical ending comparison.
+- Added V33-specific learning tests and connected them to `acceptance:v33`; all 9 focused tests pass.
+- The reducer-backed route matrix passes all five ending IDs across 10 variants and records each learning outcome. `npm run v33-rpg-core-test`, `npm run v33-ai-test`, `npm run build:v33`, `npm run build`, `npm run lint`, `npm run check`, and `npm test` pass.
+- Browser UI acceptance remains open: the available browser automation environment denied local app navigation (`ERR_NETWORK_ACCESS_DENIED`), so the new learning modal and timeline have not yet been visually checked at desktop/mobile sizes. Earlier V33 screenshots predate this addition.

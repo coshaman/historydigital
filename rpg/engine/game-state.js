@@ -1,6 +1,6 @@
 'use strict';
 
-const SAVE_VERSION = 1;
+const SAVE_VERSION = 2;
 const DIRECTIONS = Object.freeze({ up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] });
 
 function layer(map, name) { return map?.layers?.find(item => item.name === name); }
@@ -14,6 +14,9 @@ function nearTile(position, tile, maxDistance = 1) {
 }
 function objectTile(object) { return { x: Math.floor(object.x / 16), y: Math.floor(object.y / 16) }; }
 function clone(value) { return structuredClone(value); }
+function initialLearningState() {
+  return { phase: 'circle-choice', circleLearning: null, lessonIndex: 0, examAnswers: {}, examOutcome: 'unset', examCorrectCount: null, promotionStatus: 'pending', timelineIndex: 0 };
+}
 
 function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky' }) {
   if (!maps?.[startMapId] || !Array.isArray(hostCards) || hostCards.length < 1) throw new Error('A known start map and host cards are required');
@@ -66,6 +69,7 @@ function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky
     player: { position: { x: spawn.x, y: spawn.y }, facing: 'down', embodiment: null, currentGoals: [], observedEvidenceIds: [], crossPerspectiveNotes: [], gameSaveVersion: SAVE_VERSION },
     hosts,
     quests: Object.fromEntries(quests.map(quest => [quest.id, { status: 'open', result: null }])),
+    learning: initialLearningState(),
     ledger: [],
     activeDialogue: null,
   };
@@ -290,6 +294,7 @@ function advanceCampaignDate(state, date, campaign, quests = []) {
 function resolveEnding(state, endingId, campaign) {
   const ending = campaign?.endings?.find(item => item.id === endingId);
   if (!ending || state.endingId) return { ok: false, reason: 'unknown_or_closed_ending', state };
+  if (state.learning?.phase !== 'complete' || !['passed', 'failed', 'deferred', 'helped-peer'].includes(state.learning?.examOutcome)) return { ok: false, reason: 'learning_arc_incomplete', state };
   const allQuestIds = campaign.arcs.flatMap(arc => arc.questIds);
   if (allQuestIds.some(id => state.quests?.[id]?.status !== 'resolved')) return { ok: false, reason: 'campaign_incomplete', state };
   const hostIds = new Set((state.world.possessionHistory ?? []).map(item => item.hostId).filter(id => state.hosts[id]?.kind !== 'LITERARY'));
@@ -375,10 +380,34 @@ function saveGame(state) {
   return JSON.stringify({ saveVersion: SAVE_VERSION, checksum: stateHash(state), state });
 }
 
-function loadGame(raw, { maps, hostCards, quests = [] } = {}) {
+function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {}) {
   const envelope = typeof raw === 'string' ? JSON.parse(raw) : raw;
-  if (envelope?.saveVersion !== SAVE_VERSION || !envelope.state || envelope.checksum !== stateHash(envelope.state)) throw new Error('Invalid or corrupted V33 save');
+  if (![1, SAVE_VERSION].includes(envelope?.saveVersion) || !envelope.state || envelope.checksum !== stateHash(envelope.state)) throw new Error('Invalid or corrupted V33 save');
   const state = clone(envelope.state);
+  state.version = SAVE_VERSION;
+  state.learning ??= initialLearningState();
+  state.learning.examAnswers ??= {};
+  state.learning.examOutcome ??= 'unset';
+  state.learning.examCorrectCount ??= null;
+  state.learning.promotionStatus ??= state.learning.examOutcome === 'passed' ? 'promoted' : state.learning.examOutcome === 'failed' ? 'not-promoted' : 'pending';
+  state.learning.timelineIndex ??= 0;
+  if (!['circle-choice', 'learning', 'public-prep', 'exam-choice', 'exam', 'result', 'complete'].includes(state.learning.phase)) throw new Error('Save contains an invalid learning phase');
+  if (!['unset', 'passed', 'failed', 'deferred', 'helped-peer'].includes(state.learning.examOutcome)) throw new Error('Save contains an invalid exam outcome');
+  if (state.learning.circleLearning !== null && !['attended', 'attended-notes', 'declined'].includes(state.learning.circleLearning)) throw new Error('Save contains an invalid circle choice');
+  if (state.learning.phase !== 'circle-choice' && !state.learning.circleLearning) throw new Error('Save skipped the circle choice');
+  if (!state.learning.examAnswers || typeof state.learning.examAnswers !== 'object' || Array.isArray(state.learning.examAnswers)) throw new Error('Save contains invalid exam answers');
+  if (!Number.isInteger(state.learning.timelineIndex) || state.learning.timelineIndex < 0 || state.learning.timelineIndex > 6) throw new Error('Save contains an invalid life timeline position');
+  if (state.learning.examCorrectCount !== null && (!Number.isInteger(state.learning.examCorrectCount) || state.learning.examCorrectCount < 0 || state.learning.examCorrectCount > 5)) throw new Error('Save contains an invalid exam score');
+  const promotion = state.learning.examOutcome === 'passed' ? 'promoted' : state.learning.examOutcome === 'failed' ? 'not-promoted' : 'pending';
+  if (state.learning.promotionStatus !== promotion) throw new Error('Save contains an inconsistent promotion result');
+  if (['passed', 'failed', 'deferred', 'helped-peer'].includes(state.learning.examOutcome) && !['result', 'complete'].includes(state.learning.phase)) throw new Error('Save contains a premature exam outcome');
+  if (['deferred', 'helped-peer'].includes(state.learning.examOutcome) && (state.learning.examCorrectCount !== null || Object.keys(state.learning.examAnswers).length)) throw new Error('Unscored exam action contains answers or a score');
+  if (state.learning.examOutcome === 'passed' && state.learning.examCorrectCount < 3) throw new Error('Passing result is below the published threshold');
+  if (state.learning.examOutcome === 'failed' && state.learning.examCorrectCount >= 3) throw new Error('Failing result meets the published threshold');
+  if (learningExam) for (const [questionId, optionId] of Object.entries(state.learning.examAnswers)) {
+    const question = learningExam.questions.find(item => item.id === questionId);
+    if (!question?.options.some(option => option.id === optionId)) throw new Error('Save contains an unknown exam answer');
+  }
   state.world.clockMinutes ??= 540;
   for (const card of hostCards) {
     const host = state.hosts?.[card.id];

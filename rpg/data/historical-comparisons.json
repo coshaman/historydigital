@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "comparisons": [
+    {
+      "endingId": "UVAROV",
+      "personKo": "세르게이 우바로프",
+      "documentedLifeKo": "세르게이 우바로프는 1833년부터 1849년까지 러시아 제국의 국민교육 장관을 지냈고, 1818년부터 상트페테르부르크 과학아카데미 의장을 맡았습니다. 그는 정교·전제·국민성이라는 국가 이념을 교육 행정의 언어로 정리하고, 고등교육과 학교의 통제를 강화했습니다.",
+      "routeContextKo": "당신의 선택은 공적 질서와 기관 책임을 우선한 경로와 닮았습니다. 우바로프와 실제로 교류했다는 뜻은 아닙니다.",
+      "sources": [{"sourceId":"V41-LIFE-UVAROV-1","claim":"1786–1855; Academy president 1818–1855; Minister of Education 1833–1849; official nationality doctrine and education policy","url":"https://www.vle.lt/straipsnis/sergej-uvarov/","locator":"biographical entry, career and education-policy paragraphs"}]
+    },
+    {
+      "endingId": "BELINSKY",
+      "personKo": "비사리온 벨린스키",
+      "documentedLifeKo": "비사리온 벨린스키는 1811년 태어난 비평가·공론가로, 모스크바대학교에서 제적된 뒤 1839년 상트페테르부르크로 옮겨 《Отечественные записки》에서 활동했습니다. 1847년에는 《Современник》의 비평을 이끌며 문학을 사회적 논쟁의 장으로 읽었습니다.",
+      "routeContextKo": "당신의 선택은 원문과 근거를 확인해 독자에게 전하려는 경로와 닮았습니다. 벨린스키와 친분을 맺었다는 뜻은 아닙니다.",
+      "sources": [{"sourceId":"V41-LIFE-BELINSKY-1","claim":"1811–1848; critic and publicist; Moscow University expulsion; St Petersburg work and Sovremennik criticism","url":"https://www.vle.lt/straipsnis/vissarion-belinskij/","locator":"biographical entry, education, Petersburg and criticism paragraphs"}]
+    },
+    {
+      "endingId": "HERZEN",
+      "personKo": "알렉산드르 게르첸",
+      "documentedLifeKo": "알렉산드르 게르첸은 1847년 러시아를 떠나 서유럽으로 갔고, 런던에서 러시아 자유출판을 조직해 제정과 전제를 비판하는 글을 러시아어 독자에게 보냈습니다. 그의 활동은 검열 기관 밖의 인쇄와 전달망을 통해 공적 목소리를 이어 가는 방식이었습니다.",
+      "routeContextKo": "당신의 선택은 자료를 기관 밖의 독자에게 전하려는 경로와 닮았습니다. 게르첸의 해외 활동에 참여하거나 그와 만났다는 뜻은 아닙니다.",
+      "sources": [{"sourceId":"V41-LIFE-HERZEN-1","claim":"1847 departure from Russia and later London Free Russian Press; anti-despotism memoir context","url":"https://www.gutenberg.org/files/78360/78360-h/78360-h.htm","locator":"Memoirs of Alexander Herzen, chapters describing emigration and the London press"}]
+    },
+    {
+      "endingId": "KHOMYAKOV",
+      "personKo": "알렉세이 호먀코프",
+      "documentedLifeKo": "알렉세이 호먀코프는 모스크바의 귀족 지식인으로, 슬라브주의의 초기 사상가이자 신학자·시인으로 활동했습니다. 그는 문학과 역사에 관한 논쟁을 이어 가면서 영지의 일과 개혁적 농노제 폐지론, 공동체적 교회의 이상을 함께 붙들었습니다.",
+      "routeContextKo": "당신의 선택은 함께 읽고 판단을 나누려는 경로와 닮았습니다. 호먀코프와 같은 사상을 가졌다는 뜻은 아닙니다.",
+      "sources": [{"sourceId":"V41-LIFE-KHOMYAKOV-1","claim":"1804–1860; Slavophile philosopher; literary and estate work; reform-oriented emancipation position","url":"https://old.bigenc.ru/philosophy/text/4696283","locator":"Большая российская энциклопедия, biography and intellectual-work paragraphs"}]
+    },
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "personKo": "젊은 표도르 도스토옙스키와 페트라셰프스키 모임",
+      "documentedLifeKo": "도스토옙스키는 1847년부터 페트라셰프스키의 금요 모임에 참석해 검열, 농노제, 사회개혁을 토론했고, 1849년 모임 사람들과 함께 체포되었습니다. 그는 사형 선고 뒤 처형 직전의 모의 처형을 겪고 시베리아 유형과 강제노동으로 보내졌으며, 그 경험은 이후의 문학과 사유에 깊게 남았습니다.",
+      "routeContextKo": "당신의 선택은 이름을 옮기기 전 근거와 위험을 살피는 경로와 닮았습니다. 도스토옙스키나 모임 사람들과의 교류를 만들어 내지 않습니다.",
+      "sources": [
+        {"sourceId":"V41-LIFE-DOSTOEVSKY-1","claim":"Petrashevsky discussions, 1849 arrest, mock execution and Siberian hard labour","url":"https://dostoevskytimeline.com/","locator":"Chronology entry: Arrest, Death Sentence, and Mock Execution"},
+        {"sourceId":"V41-LIFE-DOSTOEVSKY-2","claim":"1849 arrest and circle context in a public historical account","url":"https://historyrussia.org/?id=5349&layout=edit&view=article","locator":"Российское историческое общество, Petrashevsky anniversary article"}
+      ]
+    }
+  ]
+}

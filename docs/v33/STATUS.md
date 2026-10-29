@@ -1,13 +1,17 @@
 # V33 possession RPG delivery status
 
-Updated 2026-10-29 after fresh-save, full-campaign browser runs.
+Updated 2026-10-29 after integrating the approved circle, exam, and later-life simulation design into V33.
 
 ## Verified locally
 
-- `npm run acceptance:v33` passed: 24 RPG core tests, 14 AI/Worker tests, 10 reducer-backed ending routes, static build, repository build/lint/historical checks, legacy route tests, and browser checks (see current run evidence below).
+- Current code checks passed: 24 RPG core tests, 9 circle/exam/timeline tests, 14 AI/Worker tests, 10 reducer-backed ending routes, static build, repository build/lint/historical checks, and legacy route tests.
+- The new route matrix includes circle attendance, notes-only attendance, and declining; it exercises pass, fail, defer, and help-peer outcomes while keeping all five ending IDs and historical anchors unchanged.
+- The static build now requires the learning/exam source data, deterministic timeline, comparison records, and pure progression module.
+- Browser acceptance for the newly added learning screens could not run in this environment: the browser automation sandbox denied navigation to the local app (`ERR_NETWORK_ACCESS_DENIED`), including the already-open 4173 app. The prior browser reports below predate this feature and do not verify the new UI.
+- `git diff --check` passed.
 - Browser smoke passed at 1440×900, 1366×768, 390×844 and 360×800. Document bounds matched each viewport; controls were visible; a saved clue survived reload.
 - The browser ending run passed for all five authored outcomes and checked the mobile ending document at 360×800, including scroll access to the restart control; `artifacts/v33/ENDING_BROWSER_SMOKE.json` records the result.
-- Five additional browser runs started from clean saves and physically traversed the 1847, 1848, and 1849 arcs to UVAROV, BELINSKY, HERZEN, KHOMYAKOV, and DOSTOEVSKY_PETRASHEVSKY. Every run read the dated Russian source and Korean translation in the world, used four distinct host perspectives, resolved all four historical quests, and preserved every immutable campaign outcome. `artifacts/v33/CAMPAIGN_BROWSER_SMOKE.json` and its per-ending reports record the paths.
+- Before the learning integration, five additional browser runs started from clean saves and physically traversed the 1847, 1848, and 1849 arcs to all five endings. Those earlier runs do not cover the new exam modal and timeline.
 - The physical route caught and fixed two progression defects: a completed quest did not restore its next-chapter control after save/reload, and an old adjacent quest object could mask the current chapter's interaction. The full route also verifies moving clear of a doorway when an exit and NPC share the interaction radius.
 - Browser smoke also exercised offline dialogue, H-key evidence access and the source-gated printshop action. Screenshots and the JSON report are in `artifacts/v33/V33_RPG_PHASE1/`.
 - The historical chronology regression is covered: the May 5 letter remains unavailable on April 22 until the dated campaign stage advances. The literary save/reload test verifies the separate literary outcome store.
@@ -17,7 +21,7 @@ Updated 2026-10-29 after fresh-save, full-campaign browser runs.
 
 ## Scope and release limits
 
-- The five full campaigns and endings were browser-played at 1440×900. The refreshed ZIP was extracted and `npm run acceptance:v33` passed from the extracted folder, including four viewport checks, all five ending UIs, and all five full-campaign routes against the extracted build. The four-size smoke exercises the opening route, while the mobile end screen is verified separately at 360×800; a complete campaign on mobile has not been run.
+- Earlier V33 browser acceptance covered the pre-integration game at desktop and mobile-like widths. The current circle/exam modal and later-life timeline still need a browser run at desktop and mobile-like sizes because local navigation was blocked in this environment.
 - The Worker has automated offline/security tests, but no production URL or API secret was supplied. Live model behavior is `BLOCKED_NO_KEY / UNVERIFIED`.
 - The Pages workflow has not been run to publish, and a human playtest on the deployed site is pending. This build is not marked release-ready.
 - The live OpenAI provider, production Pages deployment, deployed-site playtest, and a full mobile campaign remain unverified and are not described as complete.

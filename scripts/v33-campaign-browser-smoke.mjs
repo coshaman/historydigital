@@ -7,7 +7,7 @@ const root = process.cwd();
 const base = process.env.V33_RPG_URL || 'http://127.0.0.1:4173/';
 const out = path.join(root, 'artifacts', 'v33');
 const readJson = file => fs.readFile(path.join(root, file), 'utf8').then(JSON.parse);
-const [campaign, mapsList, cards, quests, sources, firstSource, firstIssue] = await Promise.all([
+const [campaign, mapsList, cards, quests, sources, firstSource, firstIssue, learningExam] = await Promise.all([
   readJson('rpg/quests/campaign.json'),
   Promise.all(['nevsky', 'printshop', 'chancery', 'courtyard', 'dead-souls'].map(id => readJson(`rpg/maps/${id}.json`))),
   Promise.all(['clerk_alexei', 'printer_ekaterina', 'courier_pavel', 'seamstress_anna', 'tenant_mikhail', 'bookseller_lev', 'nekrasov_reconstruction', 'literary_chichikov'].map(id => readJson(`rpg/characters/${id}.json`))),
@@ -15,6 +15,7 @@ const [campaign, mapsList, cards, quests, sources, firstSource, firstIssue] = aw
   readJson('rpg/data/historical-source-packets.json'),
   readJson('rpg/data/khor-kalynych-source.json'),
   readJson('rpg/data/sovremennik-1847-issue.json'),
+  readJson('rpg/data/learning-exam.json'),
 ]);
 const mapById = Object.fromEntries(mapsList.map(map => [map.mapId, map]));
 const cardById = Object.fromEntries(cards.map(card => [card.id, card]));
@@ -179,6 +180,27 @@ async function continueCampaign(buttonPattern) {
   await button.waitFor();
   await button.click();
 }
+async function completeLearningArc() {
+  const circleChoice = endingId === 'HERZEN' ? '초대를 사양한다' : endingId === 'KHOMYAKOV' ? '모임에 참석한다' : '참석해 책 제목만 적는다';
+  await page.getByRole('button', { name: circleChoice, exact: false }).click();
+  for (let index = 0; index < learningExam.learningUnits.length; index++) {
+    await page.getByRole('button', { name: /다음 자료|시험 선택으로/ }).click();
+  }
+  if (endingId === 'HERZEN') await page.getByRole('button', { name: '이번 회차를 미룬다' }).click();
+  else if (endingId === 'KHOMYAKOV') await page.getByRole('button', { name: '파벨과 함께 공부한다' }).click();
+  else {
+    await page.getByRole('button', { name: '시험에 응시한다' }).click();
+    for (const [index, question] of learningExam.questions.entries()) {
+      const answer = endingId === 'BELINSKY' && index >= 2
+        ? question.options.find(option => option.id !== learningExam.answerKey[question.id])
+        : question.options.find(option => option.id === learningExam.answerKey[question.id]);
+      await page.locator(`input[name="${question.id}"][value="${answer.id}"]`).check();
+    }
+    await page.getByRole('button', { name: '답안을 제출한다' }).click();
+  }
+  await page.getByRole('button', { name: '마지막 기록으로 이어간다' }).click();
+  await page.locator('#learning-screen').waitFor({ state: 'hidden' });
+}
 
 try {
   await page.goto(base, { waitUntil: 'networkidle' });
@@ -238,6 +260,10 @@ try {
   await completeQuest('CIRCLE_LETTER_1849_MAY', letterAction, { avoidObjectId: 32 });
   const final = await snapshot();
   await continueCampaign(/마지막 기록을 정리한다/);
+  await completeLearningArc();
+  const learned = await snapshot();
+  assert.equal(learned.learning.phase, 'complete');
+  assert.ok(['passed', 'failed', 'deferred', 'helped-peer'].includes(learned.learning.examOutcome));
   await page.getByRole('button', { name: ending.titleKo, exact: false }).waitFor();
   await page.getByRole('button', { name: ending.titleKo, exact: false }).click();
   await page.locator('#ending-screen:not([hidden])').waitFor();
@@ -251,12 +277,17 @@ try {
   const expectedOutcomes = Object.fromEntries(quests.filter(quest => quest.chapterId !== 'LITERARY_DEAD_SOULS').map(quest => [quest.historicalOutcome.id, quest.historicalOutcome.value]));
   assert.deepEqual(final.world.immutableOutcomes, expectedOutcomes);
   assert.equal(await page.locator('#ending-title').innerText(), ending.titleKo);
+  assert.ok((await page.locator('#ending-comparison-text').innerText()).length > 40);
+  assert.match(await page.locator('#ending-life-episode').innerText(), /가상의 서기/);
+  assert.equal(await page.locator('#ending-life-next').isVisible(), true);
+  await page.locator('#ending-life-next').click();
+  assert.match(await page.locator('#ending-life-progress').innerText(), /2 \/ 7/);
   assert.equal(await page.locator('.playfield').isVisible(), false);
   assert.equal(errors.length, 0, errors.join('; '));
   const screenshot = `campaign-full-run-${endingId.toLowerCase()}-1440x900.png`;
   await page.screenshot({ path: path.join(out, screenshot), fullPage: true });
   report.status = 'PASS';
-  report.final = { endingId, chapterId: final.world.chapterId, date: final.world.date, mapId: final.world.currentMapId, resolvedQuests, hostIds: distinctHosts, sourceIds, immutableOutcomes: final.world.immutableOutcomes };
+  report.final = { endingId, chapterId: final.world.chapterId, date: final.world.date, mapId: final.world.currentMapId, resolvedQuests, hostIds: distinctHosts, sourceIds, learning: learned.learning, immutableOutcomes: final.world.immutableOutcomes };
   report.screenshot = `artifacts/v33/${screenshot}`;
 } catch (error) {
   report.status = 'FAIL';
