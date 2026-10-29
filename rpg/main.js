@@ -87,6 +87,9 @@ function currentNearby() {
     return nearTile(at, position, object.type === 'npc' ? 2 : 1);
   });
 }
+function questIsAvailable(activeQuest) {
+  return Boolean(activeQuest && (activeQuest.chapterId === state.world.chapterId || (activeQuest.chapterId === 'LITERARY_DEAD_SOULS' && state.world.activeRealm?.id === campaign.literaryRealm.id)) && (!activeQuest.date || activeQuest.date <= state.world.date || activeQuest.chapterId === 'LITERARY_DEAD_SOULS'));
+}
 function sourceRead(sourceId, archiveSourceIds = []) {
   const record = sourceRecords.get(sourceId);
   if (!record) { sayRecord('자료 목록에서 확인되지 않는 문서다.'); return; }
@@ -167,8 +170,7 @@ function inspect(object) {
   }
   else if (props.questId) {
     const activeQuest = questsById.get(props.questId);
-    const questIsAvailable = activeQuest && (activeQuest.chapterId === state.world.chapterId || (activeQuest.chapterId === 'LITERARY_DEAD_SOULS' && state.world.activeRealm?.id === campaign.literaryRealm.id)) && (!activeQuest.date || activeQuest.date <= state.world.date || activeQuest.chapterId === 'LITERARY_DEAD_SOULS');
-    if (!questIsAvailable) { say('아직 시작할 때가 아니다', '이 장의 사건이 열리면 여기서 이어진다.', []); return; }
+    if (!questIsAvailable(activeQuest)) { say('아직 시작할 때가 아니다', '이 장의 사건이 열리면 여기서 이어진다.', []); return; }
     if (state.quests[activeQuest.id]?.status === 'resolved') {
       say(activeQuest.titleKo, '이 장의 선택은 이미 기록되어 있다. 다음으로 이어갈 수 있다.', continuationFor(activeQuest));
       return;
@@ -232,7 +234,11 @@ function interact() {
   const near = currentNearby();
   if (!near.length) { say('아직 손이 닿지 않는다', '주변을 조금 더 걸어 가까이 가 보자. 사람에게 다가가면 그 사람의 자리에서 도시를 볼 수 있다.', []); return; }
   const object = state.player.embodiment
-    ? near.find(item => item.type === 'quest-object') ?? near.find(item => item.type === 'map-exit') ?? near.find(item => item.type === 'source') ?? near[0]
+    ? near.find(item => {
+      if (item.type !== 'quest-object') return false;
+      const questId = Object.fromEntries((item.properties ?? []).map(property => [property.name, property.value])).questId;
+      return questIsAvailable(questsById.get(questId)) && state.quests[questId]?.status !== 'resolved';
+    }) ?? near.find(item => item.type === 'quest-object' && questIsAvailable(questsById.get(Object.fromEntries((item.properties ?? []).map(property => [property.name, property.value])).questId))) ?? near.find(item => item.type === 'map-exit') ?? near.find(item => item.type === 'source') ?? near[0]
     : near.find(item => item.type === 'source') ?? near.find(item => item.type === 'map-exit') ?? near.find(item => item.type === 'npc') ?? near[0];
   inspect(object);
 }
@@ -350,8 +356,8 @@ $('#ending-restart').addEventListener('click', () => { localStorage.removeItem('
 function restoreJournal() {
   const latest = state.ledger.at(-1);
   if (latest?.questId && latest.actionId) {
-    const action = questsById.get(latest.questId)?.actions.find(item => item.id === latest.actionId);
-    if (action) { say('교정쇄에 남긴 결정', action.resultKo, []); return; }
+    const quest = questsById.get(latest.questId), action = quest?.actions.find(item => item.id === latest.actionId);
+    if (action) { say('교정쇄에 남긴 결정', action.resultKo, state.quests[latest.questId]?.status === 'resolved' ? continuationFor(quest) : []); return; }
   }
   if (latest?.evidenceId) {
     const clue = sceneObservations.entries[latest.evidenceId];

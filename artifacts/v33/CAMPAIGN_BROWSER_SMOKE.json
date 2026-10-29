@@ -1,0 +1,132 @@
+{
+  "schemaVersion": "V33_FULL_CAMPAIGN_BROWSER_ACCEPTANCE_V1",
+  "status": "PASS",
+  "endingCount": 5,
+  "routes": [
+    {
+      "endingId": "UVAROV",
+      "status": "PASS",
+      "resolvedQuests": [
+        "CIRCLE_INVESTIGATION_1849",
+        "CIRCLE_LETTER_1849_MAY",
+        "PRINTSHOP_PROOF_1847",
+        "PUBLIC_DISCOURSE_1848"
+      ],
+      "hosts": [
+        "printer_ekaterina",
+        "nekrasov_reconstruction",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "sources": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "screenshot": "artifacts/v33/campaign-full-run-uvarov-1440x900.png",
+      "error": null
+    },
+    {
+      "endingId": "BELINSKY",
+      "status": "PASS",
+      "resolvedQuests": [
+        "CIRCLE_INVESTIGATION_1849",
+        "CIRCLE_LETTER_1849_MAY",
+        "PRINTSHOP_PROOF_1847",
+        "PUBLIC_DISCOURSE_1848"
+      ],
+      "hosts": [
+        "printer_ekaterina",
+        "nekrasov_reconstruction",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "sources": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "screenshot": "artifacts/v33/campaign-full-run-belinsky-1440x900.png",
+      "error": null
+    },
+    {
+      "endingId": "HERZEN",
+      "status": "PASS",
+      "resolvedQuests": [
+        "CIRCLE_INVESTIGATION_1849",
+        "CIRCLE_LETTER_1849_MAY",
+        "PRINTSHOP_PROOF_1847",
+        "PUBLIC_DISCOURSE_1848"
+      ],
+      "hosts": [
+        "printer_ekaterina",
+        "nekrasov_reconstruction",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "sources": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "screenshot": "artifacts/v33/campaign-full-run-herzen-1440x900.png",
+      "error": null
+    },
+    {
+      "endingId": "KHOMYAKOV",
+      "status": "PASS",
+      "resolvedQuests": [
+        "CIRCLE_INVESTIGATION_1849",
+        "CIRCLE_LETTER_1849_MAY",
+        "PRINTSHOP_PROOF_1847",
+        "PUBLIC_DISCOURSE_1848"
+      ],
+      "hosts": [
+        "printer_ekaterina",
+        "nekrasov_reconstruction",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "sources": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "screenshot": "artifacts/v33/campaign-full-run-khomyakov-1440x900.png",
+      "error": null
+    },
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "status": "PASS",
+      "resolvedQuests": [
+        "CIRCLE_INVESTIGATION_1849",
+        "CIRCLE_LETTER_1849_MAY",
+        "PRINTSHOP_PROOF_1847",
+        "PUBLIC_DISCOURSE_1848"
+      ],
+      "hosts": [
+        "printer_ekaterina",
+        "nekrasov_reconstruction",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "sources": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "screenshot": "artifacts/v33/campaign-full-run-dostoevsky_petrashevsky-1440x900.png",
+      "error": null
+    }
+  ]
+}

@@ -1,0 +1,229 @@
+{
+  "schemaVersion": "V33_CAMPAIGN_BROWSER_SMOKE_V1",
+  "base": "http://127.0.0.1:4173/",
+  "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+  "status": "PASS",
+  "steps": [
+    {
+      "type": "map-transition",
+      "from": "nevsky",
+      "to": "printshop",
+      "exitId": "nevsky-printshop-door"
+    },
+    {
+      "type": "possession",
+      "hostId": "printer_ekaterina",
+      "mapId": "printshop",
+      "position": {
+        "x": 11,
+        "y": 13
+      }
+    },
+    {
+      "type": "dialogue",
+      "hostId": "printer_ekaterina",
+      "intentClass": "GENERAL_CONVERSATION",
+      "offlineCapable": true
+    },
+    {
+      "type": "source-read",
+      "sourceId": "OBJ-SOV-1847",
+      "hostId": "printer_ekaterina",
+      "mapId": "printshop",
+      "titleKo": "《현대인》 1847년 제1호 서지 기록"
+    },
+    {
+      "type": "source-read",
+      "sourceId": "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+      "hostId": "printer_ekaterina",
+      "mapId": "printshop",
+      "titleKo": "호리와 칼리니치"
+    },
+    {
+      "type": "quest-action",
+      "questId": "PRINTSHOP_PROOF_1847",
+      "actionId": "HOLD_FOR_CORRECTION",
+      "hostId": "printer_ekaterina",
+      "effectsApplied": {
+        "moneyDelta": 0,
+        "inventoryRemove": [],
+        "inventoryAdd": [],
+        "relations": {
+          "workshop": "재확인 요청을 함께 맡았다"
+        },
+        "situationKo": "교정 확인을 위해 작업을 보류했다."
+      }
+    },
+    {
+      "type": "possession",
+      "hostId": "nekrasov_reconstruction",
+      "mapId": "printshop",
+      "position": {
+        "x": 18,
+        "y": 7
+      }
+    },
+    {
+      "type": "dialogue",
+      "hostId": "nekrasov_reconstruction",
+      "intentClass": "RISK_QUESTION",
+      "offlineCapable": true
+    },
+    {
+      "type": "map-transition",
+      "from": "printshop",
+      "to": "nevsky",
+      "exitId": "printshop-nevsky-door"
+    },
+    {
+      "type": "possession",
+      "hostId": "courier_pavel",
+      "mapId": "nevsky",
+      "position": {
+        "x": 23,
+        "y": 10
+      }
+    },
+    {
+      "type": "dialogue",
+      "hostId": "courier_pavel",
+      "intentClass": "GENERAL_CONVERSATION",
+      "offlineCapable": true
+    },
+    {
+      "type": "map-transition",
+      "from": "nevsky",
+      "to": "printshop",
+      "exitId": "nevsky-printshop-door"
+    },
+    {
+      "type": "source-read",
+      "sourceId": "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+      "hostId": "courier_pavel",
+      "mapId": "printshop",
+      "titleKo": "《현대인》 편집부의 1848년 공고"
+    },
+    {
+      "type": "possession",
+      "hostId": "printer_ekaterina",
+      "mapId": "printshop",
+      "position": {
+        "x": 9,
+        "y": 13
+      }
+    },
+    {
+      "type": "source-read",
+      "sourceId": "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+      "hostId": "printer_ekaterina",
+      "mapId": "printshop",
+      "titleKo": "《현대인》 편집부의 1848년 공고"
+    },
+    {
+      "type": "quest-action",
+      "questId": "PUBLIC_DISCOURSE_1848",
+      "actionId": "HOLD_NOTICE",
+      "hostId": "printer_ekaterina",
+      "effectsApplied": {
+        "moneyDelta": 0,
+        "inventoryRemove": [],
+        "inventoryAdd": [],
+        "relations": {
+          "workshop": "보관을 맡고 다음 결정을 기다린다"
+        },
+        "situationKo": "공고 사본을 발송 묶음에서 빼 보관했다."
+      }
+    },
+    {
+      "type": "possession",
+      "hostId": "clerk_alexei",
+      "mapId": "chancery",
+      "position": {
+        "x": 14,
+        "y": 13
+      }
+    },
+    {
+      "type": "dialogue",
+      "hostId": "clerk_alexei",
+      "intentClass": "PERSONAL_QUESTION",
+      "offlineCapable": true
+    },
+    {
+      "type": "source-read",
+      "sourceId": "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+      "hostId": "clerk_alexei",
+      "mapId": "chancery",
+      "titleKo": "모임 보고와 체포 명령"
+    },
+    {
+      "type": "quest-action",
+      "questId": "CIRCLE_INVESTIGATION_1849",
+      "actionId": "REFUSE_NAMING",
+      "hostId": "clerk_alexei",
+      "effectsApplied": {
+        "moneyDelta": 0,
+        "inventoryRemove": [],
+        "inventoryAdd": [],
+        "relations": {
+          "office_supervisor": "이름의 근거를 다시 확인해 달라고 요청했다"
+        },
+        "situationKo": "확인되지 않은 이름을 새 장부에서 보류했다."
+      }
+    },
+    {
+      "type": "source-read",
+      "sourceId": "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849",
+      "hostId": "clerk_alexei",
+      "mapId": "chancery",
+      "titleKo": "잘못 체포된 사람 대신 형제를 체포하라는 명령"
+    },
+    {
+      "type": "quest-action",
+      "questId": "CIRCLE_LETTER_1849_MAY",
+      "actionId": "REFUSE_NAMING",
+      "hostId": "clerk_alexei",
+      "effectsApplied": {
+        "moneyDelta": 0,
+        "inventoryRemove": [],
+        "inventoryAdd": [],
+        "relations": {
+          "office_supervisor": "색인 전 추가 확인을 요청했다"
+        },
+        "situationKo": "새 색인 작성을 멈추고 편지를 원문철에 남겼다."
+      }
+    }
+  ],
+  "errors": [],
+  "final": {
+    "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+    "chapterId": "V33_1849_CIRCLE",
+    "date": "1849-05-05",
+    "mapId": "chancery",
+    "resolvedQuests": [
+      "CIRCLE_INVESTIGATION_1849",
+      "CIRCLE_LETTER_1849_MAY",
+      "PRINTSHOP_PROOF_1847",
+      "PUBLIC_DISCOURSE_1848"
+    ],
+    "hostIds": [
+      "printer_ekaterina",
+      "nekrasov_reconstruction",
+      "courier_pavel",
+      "clerk_alexei"
+    ],
+    "sourceIds": [
+      "OBJ-SOV-1847",
+      "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+      "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+      "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+      "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+    ],
+    "immutableOutcomes": {
+      "SOVREMENNIK_1847_ISSUE_PUBLICATION": "the attested 1847 issue remains historically published",
+      "SOVREMENNIK_1848_PUBLICATION": "the attested journal publication history remains unchanged",
+      "PETRASHEVSKY_ARRESTS_1849": "the documented arrests and sentences remain fixed historical outcomes"
+    }
+  },
+  "screenshot": "artifacts/v33/campaign-full-run-dostoevsky_petrashevsky-1440x900.png"
+}
