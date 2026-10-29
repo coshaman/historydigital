@@ -446,6 +446,7 @@ test('chapter and ending reducer preserve fixed historical outcomes and resolve 
   state = next.state;
   state.world.date = '1849-05-05';
   state.world.possessionHistory = [{ hostId: 'printer_ekaterina' }, { hostId: 'clerk_alexei' }, { hostId: 'courier_pavel' }, { hostId: 'seamstress_anna' }];
+  state.learning = { ...state.learning, phase: 'complete', circleLearning: 'attended', examOutcome: 'passed', examCorrectCount: 5, promotionStatus: 'promoted' };
   for (const quest of Object.values(state.quests)) quest.status = 'resolved';
   state.ledger.push({ questId: 'PUBLIC_DISCOURSE_1848', sourceIds: ['OBJ-WS-NEKRASOV-EDITORIAL-1848', 'OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE', 'OBJ-WS-PETRASHEVSKY-REPORT-1849'] });
   for (const ending of campaign.endings) {

@@ -4,10 +4,11 @@ Updated 2026-10-29 after integrating the approved circle, exam, and later-life s
 
 ## Verified locally
 
-- Current code checks passed: 24 RPG core tests, 9 circle/exam/timeline tests, 14 AI/Worker tests, 10 reducer-backed ending routes, static build, repository build/lint/historical checks, and legacy route tests.
+- Current code checks passed: 24 RPG core tests, 9 circle/exam/timeline tests, MIME and async-render regression tests, 14 AI/Worker tests, 10 reducer-backed ending routes, static build, repository build/lint/historical checks, and legacy route tests.
 - The new route matrix includes circle attendance, notes-only attendance, and declining; it exercises pass, fail, defer, and help-peer outcomes while keeping all five ending IDs and historical anchors unchanged.
 - The static build now requires the learning/exam source data, deterministic timeline, comparison records, and pure progression module.
-- Browser acceptance for the newly added learning screens could not run in this environment: the browser automation sandbox denied navigation to the local app (`ERR_NETWORK_ACCESS_DENIED`), including the already-open 4173 app. The prior browser reports below predate this feature and do not verify the new UI.
+- Initial-screen audit found that `server.mjs` served the new `.mjs` module as `text/plain`, preventing browser module startup, and that the renderer did not request a frame when its tilesheet loaded after the first draw. Both root causes are fixed; the MIME mapping and async canvas redraw each have a focused passing regression test. The browser acceptance now also checks initial canvas sizing and rendered pixel variation.
+- Browser acceptance for the new learning screens could not run from the repository's Playwright runner because it denied local navigation (`ERR_NETWORK_ACCESS_DENIED`). The in-app browser can open the existing 4173 server, but its page remains uninitialized (default 300×150 canvas and no runtime-injected source-drawer button) after reload; that server is not demonstrably serving this worktree's fixed files. Fresh-browser visual acceptance of the new UI remains outstanding.
 - `git diff --check` passed.
 - Browser smoke passed at 1440×900, 1366×768, 390×844 and 360×800. Document bounds matched each viewport; controls were visible; a saved clue survived reload.
 - The browser ending run passed for all five authored outcomes and checked the mobile ending document at 360×800, including scroll access to the restart control; `artifacts/v33/ENDING_BROWSER_SMOKE.json` records the result.
@@ -30,5 +31,6 @@ Updated 2026-10-29 after integrating the approved circle, exam, and later-life s
 
 - `artifacts/v33/V33_RPG_PHASE1/BROWSER_SMOKE.json`
 - `artifacts/v33/ENDING_ROUTE_MATRIX.json`
+- `artifacts/v33/STARTUP_RENDER_TESTS.json`
 - `artifacts/v33/V33_RPG_PHASE1/*.png`
 - `docs/v33/DEPLOYMENT.md`

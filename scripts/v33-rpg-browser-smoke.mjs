@@ -21,6 +21,16 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 1366, height: 768
   await page.evaluate(() => localStorage.clear());
   await page.reload({ waitUntil: 'networkidle' });
   await page.waitForSelector('#world');
+  await page.waitForFunction(() => document.querySelector('#source-drawer-open') && document.querySelector('#world').width > 300);
+  const initialCanvas = await page.evaluate(() => {
+    const canvas = document.querySelector('#world'), ctx = canvas.getContext('2d'), colors = new Set();
+    for (let y = 1; y <= 8; y++) for (let x = 1; x <= 8; x++) {
+      const px = Math.floor(canvas.width * x / 9), py = Math.floor(canvas.height * y / 9);
+      colors.add([...ctx.getImageData(px, py, 1, 1).data].join(','));
+    }
+    return { width: canvas.width, height: canvas.height, sampledColors: colors.size };
+  });
+  if (initialCanvas.sampledColors < 4) throw new Error(`Initial world canvas was not drawn: ${JSON.stringify(initialCanvas)}`);
   const initialClock = await page.locator('#clock').innerText();
   let evidenceHotkey = false;
   if (viewport.width < 500) {

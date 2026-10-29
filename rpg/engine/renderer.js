@@ -3,8 +3,18 @@ export function createRenderer(canvas, assets) {
   ctx.imageSmoothingEnabled = false;
   const images = new Map();
   const mapCache = new Map();
+  let latestDrawArgs = null;
+  let assetFrameQueued = false;
+  function redrawAfterAssetLoad() {
+    if (!latestDrawArgs || assetFrameQueued) return;
+    assetFrameQueued = true;
+    requestAnimationFrame(() => {
+      assetFrameQueued = false;
+      if (latestDrawArgs) draw(...latestDrawArgs);
+    });
+  }
   function getImage(url) {
-    if (!images.has(url)) { const image = new Image(); image.onload = () => mapCache.clear(); image.src = url; images.set(url, image); }
+    if (!images.has(url)) { const image = new Image(); image.onload = () => { mapCache.clear(); redrawAfterAssetLoad(); }; image.src = url; images.set(url, image); }
     return images.get(url);
   }
   const tileImage = getImage(new URL('../assets/petersburg-tiles.png', import.meta.url));
@@ -33,6 +43,7 @@ export function createRenderer(canvas, assets) {
     return surface;
   }
   function draw(state, map, time = 0, lastMoveAt = 0) {
+    latestDrawArgs = [state, map, time, lastMoveAt];
     resize();
     const ratio = canvas.width / canvas.getBoundingClientRect().width;
     ctx.setTransform(ratio, 0, 0, ratio, 0, 0);

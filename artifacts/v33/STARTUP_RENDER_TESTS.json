@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "V33_STARTUP_RENDER_TESTS_V1",
+  "status": "PASS",
+  "testedAt": "2026-10-29",
+  "tests": [
+    {
+      "name": "local server assigns browser-loadable MIME types to JavaScript modules",
+      "command": "npm run v33-http-server-test",
+      "assertions": [".js maps to text/javascript", ".mjs maps to text/javascript", "HTML keeps text/html"]
+    },
+    {
+      "name": "canvas redraws after the asynchronous Petersburg tilesheet finishes loading",
+      "command": "npm run v33-renderer-load-test",
+      "assertions": ["first draw waits for the delayed image", "image load schedules a new frame", "backing canvas follows visible dimensions"]
+    }
+  ],
+  "browserVisualRecheck": "PENDING: existing 4173 browser service is not demonstrably serving this worktree; Playwright local navigation is blocked in this environment."
+}
