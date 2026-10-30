@@ -8,6 +8,7 @@ Updated 2026-10-30 after browser verification of the circle, exam, campaign, end
 - The physical path is playable: enter through the source drawer, approach and possess Akaky, read the on-map excerpt, walk to the worn coat, record Petrovich's canonical repair verdict, then return to the historical map. Literary action results cannot alter the 1847–1849 historical outcomes.
 - `npm run acceptance:v33` passed after the expansion. This includes core/save validation, the source-bound literary AI context, history and asset audits, build/lint/repository checks, four desktop/mobile browser viewports, all five ending screens, and all five full campaign routes.
 - The dedicated browser smoke verified the Overcoat sequence at 1440×900 with no horizontal overflow and no browser errors. Report and screenshot: `artifacts/v33/OVERCOAT_REALM/`.
+- GitHub Pages deployed commit `7b7adc1` successfully. The public browser smoke passed at 1440×900, 1366×768, 390×844, and 360×800, with matching document/viewport widths and save restoration. The new Overcoat map, source, characters, and quest each returned HTTP 200.
 - Live provider credentials and a human playtest of the deployed site remain external release gates; this work verifies the authored offline dialogue path.
 
 ## Verified locally

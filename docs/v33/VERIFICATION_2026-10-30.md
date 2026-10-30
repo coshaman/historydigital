@@ -206,3 +206,10 @@ The detailed machine-readable evidence is in `artifacts/v33/V33_RPG_PHASE1/BROWS
 
 - The 635-entry ZIP was extracted into a new temporary folder. After running `npm ci --offline` from the included lockfile, `npm run acceptance:v33` passed (exit code 0) there, including all five ending UIs, the Overcoat route, four viewport checks, and all five campaign outcomes.
 - Captured extracted-copy output: `artifacts/v33/V33_ARCHIVE_EXTRACTED_OVERCOAT_2026-10-30.log`.
+
+## Public Pages verification — 2026-10-30
+
+- Commit `7b7adc1` was pushed to `master`; GitHub Pages workflow run `40991146573` completed successfully.
+- The deployed game passed the browser smoke at 1440×900, 1366×768, 390×844, and 360×800. Each page width matched its viewport, controls remained visible, and the saved clue restored after reload.
+- The deployed Overcoat map, source packet, Akaky character card, and quest each returned HTTP 200.
+- Updated evidence package: 636 entries. Every changed or added source/evidence file matched the packaged bytes; 7-Zip archive integrity check passed.
