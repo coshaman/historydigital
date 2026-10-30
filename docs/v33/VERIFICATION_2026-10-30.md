@@ -175,3 +175,10 @@ The detailed machine-readable evidence is in `artifacts/v33/V33_RPG_PHASE1/BROWS
 - The Worker now derives a possessed character's estimated money and inventory from the checked-in actor card and the validated, authored action IDs in the local history hint. Resource effects come from quest definitions; invalid balances or attempts to remove absent inventory entries are rejected. Neither resource values nor action descriptions are accepted from the client.
 - Resource context is explicitly unverified player-side information. NPC dialogue must not reveal it unless the player discloses it; it is only there to shape player-side reply suggestions and does not change browser-owned deterministic state. Balances carry `designedEstimate` status.
 - Regression coverage confirms Pavel's 4-kopeck courier expense (11 to 7) and Ekaterina returning the proof copy, as well as rejection of injected `actorResources` and prompt rules preventing NPC leakage. `npm run v33-ai-test` passed 22/22 after adding coverage for all eight embodied character cards, including two unknown balances preserved as null. The full `npm run acceptance:v33` suite passed with exit code 0; see `artifacts/v33/V33_ACCEPTANCE_RESOURCE_CARD_CONTEXT_2026-10-30.log`.
+
+
+## AI dialogue private-context output guard — 2026-10-30
+
+- A mocked provider reproduced a privacy leak: it repeated the embodied character's private fact, held item, and exact starting balance in NPC speech, which the prior schema and prompt-only checks accepted.
+- The Worker now falls back to authored dialogue if NPC speech repeats an undisclosed private knowledge sentence, inventory label, action situation, relationship status, or exact balance. Matching is normalized for Korean spacing and punctuation; content previously disclosed by the player and facts available to the NPC from the authorized source packet are allowed. Player-side suggested replies are not scanned.
+- Regression tests prove both rejection of the hidden information and acceptance after the player states it. `npm run v33-ai-test` passes 23/23. Full acceptance is captured in `artifacts/v33/V33_ACCEPTANCE_AI_PRIVACY_GUARD_2026-10-30.log`.

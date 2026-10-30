@@ -115,6 +115,35 @@ function hasUnsupportedHistoricalYear(turn, scene) {
   return turn.beats.some(beat => [...beat.textKo.matchAll(/\b(?:1[5-9]\d{2}|20\d{2})\b/g)]
     .some(match => !sourceText.includes(match[0])));
 }
+function hasUndisclosedPlayerContext(turn, input) {
+  const conversation = input.conversation ?? {}, embodied = conversation.embodiedPlayer;
+  if (!embodied) return false;
+  const normalize = value => String(value ?? '').toLocaleLowerCase('ko').replace(/[\s\p{P}\p{S}]/gu, '');
+  const disclosed = normalize([input.playerInput, ...(input.recentTurns ?? []).filter(item => item.role === 'user').map(item => item.text)].join(' '));
+  const publicContext = normalize([
+    authorizedSourceText({ allowedSourceIds: input.scene?.knownFactIds ?? [] }),
+    ...(input.character?.knownPrivateFacts ?? []),
+  ].join(' '));
+  const privatePhrases = [
+    ...(embodied.playerKnownFacts ?? []),
+    ...(conversation.playerResources?.inventory ?? []),
+    ...(conversation.playerActions ?? []).map(item => item.situationKo),
+    ...Object.values(conversation.relationshipHints ?? {}),
+  ].filter(value => typeof value === 'string' && value.trim());
+  const npcText = turn.beats.filter(beat => beat.speakerId !== 'NARRATION').map(beat => normalize(beat.textKo)).join(' ');
+  if (privatePhrases.some(phrase => {
+    const normalized = normalize(phrase);
+    return normalized.length > 0 && !disclosed.includes(normalized) && !publicContext.includes(normalized) && npcText.includes(normalized);
+  })) return true;
+  const money = conversation.playerResources?.money;
+  if (!Number.isSafeInteger(money?.amount) || !['kopeks', '코페이카'].includes(money.unit)) return false;
+  const amount = String(money.amount).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const currency = money.unit === 'kopeks' ? 'kopeks?' : '코페이카';
+  const exactBalance = new RegExp(`(?<!\\d)${amount}\\s*${currency}(?![\\p{L}])`, 'iu');
+  const spokenBalance = turn.beats.filter(beat => beat.speakerId !== 'NARRATION').map(beat => beat.textKo).join(' ');
+  const playerDisclosedBalance = exactBalance.test([input.playerInput, ...(input.recentTurns ?? []).filter(item => item.role === 'user').map(item => item.text)].join(' '));
+  return exactBalance.test(spokenBalance) && !playerDisclosedBalance;
+}
 function fallbackTurn(scene) {
   return { schemaVersion: TURN_SCHEMA_VERSION, sceneId: scene.sceneId, beats: [{ speakerId: scene.hostId, textKo: scene.fallbackKo, emotion: 'neutral' }], suggestedReplies: scene.fallbackReplies.slice(0, 3).map((textKo, index) => ({ id: `R${index + 1}`, textKo, tone: ['curious','direct','reflective'][index] })) };
 }
@@ -274,7 +303,7 @@ function createRpgAiService({ secret, store, allowedOrigins = [], provider = nul
     if (provider) {
       try {
         const output = await provider.generate({ input, instructions, format: responseFormat(scene), model: dialogueModel, maxOutputTokens: 420 });
-        if (!validateTurn(output, scene) || hasUnsupportedHistoricalYear(output, scene)) throw new Error('invalid or unsupported historical response');
+        if (!validateTurn(output, scene) || hasUnsupportedHistoricalYear(output, scene) || hasUndisclosedPlayerContext(output, input)) throw new Error('invalid or unsupported historical response');
         responseBody = { turn: output, fallback: false, mode: 'AI' };
       } catch { fallback = true; }
     }

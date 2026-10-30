@@ -135,6 +135,24 @@ test('derived starting resources stay character-specific and preserve unknown hi
   assert.equal(observed.find(input => input.conversation.embodiedPlayer.id === 'literary_chichikov').conversation.playerResources.money.amount, null, 'literary reconstruction must not invent a balance');
 });
 
+test('NPC output falls back when it discloses undisclosed player-only facts or resources', async () => {
+  const store = new MemorySessionStore();
+  const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store, allowedOrigins: ['https://game.example'], provider: { generate: async request => {
+    const fact = request.input.conversation.embodiedPlayer.playerKnownFacts[0];
+    const { money, inventory } = request.input.conversation.playerResources;
+    const leaked = validTurn(request.input.scene.id, request.input.character.id);
+    leaked.beats[0].textKo = `제가 알기로는 ${money.amount}코페이카가 있고 ${inventory.at(-1)}도 갖고 계시며, ${fact}`;
+    return leaked;
+  } } });
+  const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'printer_ekaterina', actorHostId: 'seamstress_anna' }));
+  const hidden = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken, requestId: 'private-leak-check-01', playerInput: '오늘 일감은 있나요?' }));
+  assert.equal(hidden.body.fallback, true, 'NPC must not expose private role facts, exact funds, or held inventory');
+  assert.doesNotMatch(hidden.body.turn.beats[0].textKo, /18코페이카|수선 맡은 소매|수선 맡긴 옷의 주인은 아직 값을 치르지 않았다/);
+
+  const disclosed = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken, requestId: 'private-leak-check-02', playerInput: '수선 맡긴 옷의 주인은 아직 값을 치르지 않았다. 제 수선 맡은 소매와 18코페이카 이야기도 제가 먼저 꺼냈어요.' }));
+  assert.equal(disclosed.body.fallback, false, 'player-disclosed facts may be discussed by the NPC');
+});
+
 test('dialogue requests within one session serialize so a later turn cannot overwrite stale memory', async () => {
   const store = new MemorySessionStore(), started = Promise.withResolvers(), releaseFirst = Promise.withResolvers();
   const observedInputs = [];
