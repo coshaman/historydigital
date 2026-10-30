@@ -35,8 +35,8 @@ test('session is server-bound to one host; client cannot choose scene, inject me
 });
 
 test('AI dialogue receives the embodied public character context and keeps each speaker-pair memory separate', async () => {
-  const store = new MemorySessionStore(), observed = [];
-  const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store, allowedOrigins: ['https://game.example'], provider: { generate: async request => { observed.push(request.input); return validTurn(request.input.scene.id, request.input.character.id); } } });
+  const store = new MemorySessionStore(), observed = [], observedInstructions = [];
+  const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store, allowedOrigins: ['https://game.example'], provider: { generate: async request => { observed.push(request.input); observedInstructions.push(request.instructions); return validTurn(request.input.scene.id, request.input.character.id); } } });
   const annaToEkaterina = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'printer_ekaterina', actorHostId: 'seamstress_anna' }));
   const alexeiToEkaterina = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'printer_ekaterina', actorHostId: 'clerk_alexei' }));
   assert.equal(annaToEkaterina.status, 201);
@@ -55,12 +55,17 @@ test('AI dialogue receives the embodied public character context and keeps each 
   assert.equal(observed[0].conversation.embodiedPlayer.personalObjective, '교정쇄를 읽어도 되는지 물어보고 오늘 품삯을 지킨다');
   assert.equal(observed[0].conversation.embodiedPlayer.risk, '오늘 일감을 놓치면 방세 납부가 늦어진다');
   assert.equal(observed[2].conversation.embodiedPlayer.personalObjective, '인쇄소에서 올라온 교정쇄의 접수 경로를 확인한다');
+  assert.equal(observed[0].conversation.embodiedPlayer.literacy, '짧은 인쇄 문장을 읽을 수 있음');
+  assert.deepEqual(observed[0].conversation.embodiedPlayer.playerKnownFacts, ['수선 맡긴 옷의 주인은 아직 값을 치르지 않았다.']);
+  assert.deepEqual(observed[2].conversation.embodiedPlayer.playerKnownFacts, ['상신 전에는 접수 번호와 담당자를 먼저 확인한다.']);
+  assert.notDeepEqual(observed[0].conversation.embodiedPlayer.playerKnownFacts, observed[2].conversation.embodiedPlayer.playerKnownFacts);
   assert.notEqual(observed[0].conversation.embodiedPlayer.legalMobility, observed[2].conversation.embodiedPlayer.legalMobility);
   assert.equal(observed[0].conversation.embodiedPlayer.inventory, undefined);
   assert.equal(observed[0].conversation.embodiedPlayer.relations, undefined);
-  assert.equal(JSON.stringify(observed[0].conversation.embodiedPlayer).includes('knownPrivateFacts'), false);
-  assert.equal(JSON.stringify(observed[0].conversation.embodiedPlayer).includes('secretKnowledge'), false);
+  assert.equal(JSON.stringify(observed[0].conversation.embodiedPlayer).includes('ALEXEI_OFFICE_ROUTING'), false);
+  assert.deepEqual(observed[0].character.knownPrivateFacts, ['오늘 교정쇄는 배달되기 전까지 작업대 위에 있다.']);
   assert.equal(observed[0].conversation.embodiedPlayer.money, undefined);
+  assert.match(observedInstructions[0], /playerKnownFacts[\s\S]*NPC 대사에서 누설하지 않는다/);
   assert.deepEqual(observed[0].recentTurns, []);
   assert.match(JSON.stringify(observed[1].recentTurns), /안나로서 물어볼게요/);
   assert.deepEqual(observed[2].recentTurns, [], "Ekaterina's session with Alexei cannot inherit her Anna conversation");
