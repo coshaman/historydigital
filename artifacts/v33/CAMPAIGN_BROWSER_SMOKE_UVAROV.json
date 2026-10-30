@@ -1,6 +1,6 @@
 {
   "schemaVersion": "V33_CAMPAIGN_BROWSER_SMOKE_V1",
-  "base": "http://127.0.0.1:51034/",
+  "base": "http://127.0.0.1:57944/",
   "endingId": "UVAROV",
   "status": "PASS",
   "steps": [
@@ -196,6 +196,10 @@
     }
   ],
   "errors": [],
+  "fontsAtEnding": {
+    "status": "loaded",
+    "faces": []
+  },
   "final": {
     "endingId": "UVAROV",
     "chapterId": "V33_1849_CIRCLE",

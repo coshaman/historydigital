@@ -1,15 +1,8 @@
 {
-  "schemaVersion": "V33_ENDING_ROUTE_MATRIX_V2",
+  "schemaVersion": "V33_ENDING_ROUTE_MATRIX_V3",
   "status": "PASS",
   "fixtureType": "reducer-route-vectors; host coordinates are fixtures, not physical traversal evidence",
-  "mixedActionVectorCount": 23,
-  "omittedIncompatibleVector": [
-    "HOLD_FOR_CORRECTION",
-    "HOLD_NOTICE",
-    "REFUSE_NAMING",
-    "PRESERVE_LETTER"
-  ],
-  "omittedVectorReason": "none of the five authored endings accepts this combination of four required route actions",
+  "mixedActionVectorCount": 24,
   "distinctEndingIds": [
     "UVAROV",
     "BELINSKY",
@@ -17,7 +10,7 @@
     "KHOMYAKOV",
     "DOSTOEVSKY_PETRASHEVSKY"
   ],
-  "routeCount": 120,
+  "routeCount": 121,
   "routes": [
     {
       "endingId": "UVAROV",
@@ -3506,6 +3499,35 @@
         "HOLD_NOTICE",
         "FILE_OFFICIAL_REPORT",
         "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "variant": 4,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "HOLD_NOTICE",
+        "REFUSE_NAMING",
+        "PRESERVE_LETTER"
       ],
       "sourcesRead": [
         "OBJ-SOV-1847",
