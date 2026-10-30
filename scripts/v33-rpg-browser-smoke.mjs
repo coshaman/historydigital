@@ -11,7 +11,7 @@ fs.mkdirSync(out, { recursive: true });
 const browser = await chromium.launch({ headless: true, executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe' });
 const report = { schemaVersion: 'V33_RPG_BROWSER_SMOKE_V1', base, viewports: [], failures: [] };
 
-for (const viewport of [{ width: 1440, height: 900 }, { width: 1366, height: 768 }, { width: 390, height: 844 }, { width: 360, height: 800 }]) {
+for (const viewport of [{ width: 1440, height: 900 }, { width: 1366, height: 768 }, { width: 1111, height: 720 }, { width: 390, height: 844 }, { width: 360, height: 800 }]) {
   console.log(`viewport ${viewport.width}x${viewport.height}`);
   const context = await browser.newContext({ viewport });
   const page = await context.newPage();
@@ -212,6 +212,7 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 1366, height: 768
   await context.close();
 }
 await browser.close();
-report.status = report.viewports.length === 4 && report.fullRoute?.choiceResolved && report.otherMaps?.mikhailReturnedToStreet && report.failures.length === 0 ? 'PASS' : 'FAIL';
+report.status = report.viewports.length === 5 && report.fullRoute?.choiceResolved && report.otherMaps?.mikhailReturnedToStreet && report.failures.length === 0 ? 'PASS' : 'FAIL';
 fs.writeFileSync(path.join(out, 'BROWSER_SMOKE.json'), `${JSON.stringify(report, null, 2)}\n`);
 console.log(JSON.stringify({ status: report.status, viewports: report.viewports.map(item => ({ viewport: item.viewport, document: item.document, controlsVisible: item.buttons.every(button => button.visible), savedClueRestored: item.savedClueRestored })) }, null, 2));
+if (report.status !== 'PASS') process.exitCode = 1;

@@ -322,6 +322,7 @@ try {
   assert.match(await page.locator('#ending-life-progress').innerText(), /2 \/ 7/);
   assert.equal(await page.locator('.playfield').isVisible(), false);
   assert.equal(errors.length, 0, errors.join('; '));
+  report.fontsAtEnding = await page.evaluate(() => ({ status: document.fonts.status, faces: [...document.fonts].map(face => ({ family: face.family, status: face.status })) }));
   const screenshot = `campaign-full-run-${endingId.toLowerCase()}-1440x900.png`;
   await page.screenshot({ path: path.join(out, screenshot), fullPage: true });
   report.status = 'PASS';

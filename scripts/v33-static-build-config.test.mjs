@@ -43,3 +43,8 @@ test('Pages workflow passes only the public Worker URL variable to the static bu
   assert.match(workflow, /RPG_AI_API_BASE_URL:\s*\$\{\{\s*vars\.RPG_AI_API_BASE_URL\s*\}\}/);
   assert.doesNotMatch(workflow, /OPENAI_API_KEY/);
 });
+
+test('RPG first paint does not wait for a remote font stylesheet', () => {
+  const css = ['rpg/rpg.css', 'rpg/choices.css'].map(file => fs.readFileSync(path.join(root, file), 'utf8')).join('\n');
+  assert.doesNotMatch(css, /@import\s+url\(["']?https?:\/\//i);
+});
