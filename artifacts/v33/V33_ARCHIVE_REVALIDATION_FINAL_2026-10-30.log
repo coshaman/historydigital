@@ -1,0 +1,1419 @@
+
+> chancery-of-ink@1.0.0 acceptance:v33
+> npm run v33-rpg-core-test && npm run v33-street-material-test && npm run v33-learning-life-test && npm run v33-http-server-test && npm run v33-renderer-load-test && npm run v33-exploration-coverage-test && npm run v33-ai-test && npm run v33-historical-claim-ledger-test && npm run v33-historical-audit && npm run v33-image-audit && npm run v33-ending-route-matrix && npm run v33-static-build-config-test && npm run build:v33 && npm run build && npm run lint && npm run check && npm test && npm run v33-browser-acceptance
+
+
+> chancery-of-ink@1.0.0 v33-rpg-core-test
+> node --test scripts/v33-rpg-core.test.mjs
+
+TAP version 13
+# Subtest: Nevsky and printshop are connected Tiled maps with separate collision and interaction layers
+ok 1 - Nevsky and printshop are connected Tiled maps with separate collision and interaction layers
+  ---
+  duration_ms: 24.8928
+  type: 'test'
+  ...
+# Subtest: host cards represent four distinct playable circumstances and reference real pixel sheets
+ok 2 - host cards represent four distinct playable circumstances and reference real pixel sheets
+  ---
+  duration_ms: 16.4874
+  type: 'test'
+  ...
+# Subtest: every playable or reconstructed character has a provenance-linked 64px face portrait
+ok 3 - every playable or reconstructed character has a provenance-linked 64px face portrait
+  ---
+  duration_ms: 13.7906
+  type: 'test'
+  ...
+# Subtest: every character card declares its chapter objective, estimate status, and playable sprite atlas
+ok 4 - every character card declares its chapter objective, estimate status, and playable sprite atlas
+  ---
+  duration_ms: 19.3251
+  type: 'test'
+  ...
+# Subtest: unknown documented funds are described without rendering null as a coin amount
+ok 5 - unknown documented funds are described without rendering null as a coin amount
+  ---
+  duration_ms: 1.7985
+  type: 'test'
+  ...
+# Subtest: historical source excerpt is contiguous, RU/KO aligned and linked to a checked-in source record
+ok 6 - historical source excerpt is contiguous, RU/KO aligned and linked to a checked-in source record
+  ---
+  duration_ms: 7.749
+  type: 'test'
+  ...
+# Subtest: world movement respects tile collision and does not move the host while unpossessed
+ok 7 - world movement respects tile collision and does not move the host while unpossessed
+  ---
+  duration_ms: 13.7092
+  type: 'test'
+  ...
+# Subtest: possession requires a nearby present body; release preserves both positions and private knowledge
+ok 8 - possession requires a nearby present body; release preserves both positions and private knowledge
+  ---
+  duration_ms: 10.7206
+  type: 'test'
+  ...
+# Subtest: crossing a map boundary requires the nearby physical exit and preserves the possessed host
+ok 9 - crossing a map boundary requires the nearby physical exit and preserves the possessed host
+  ---
+  duration_ms: 10.7504
+  type: 'test'
+  ...
+# Subtest: a resident remains at their current host position instead of colliding or being possessed remotely
+ok 10 - a resident remains at their current host position instead of colliding or being possessed remotely
+  ---
+  duration_ms: 12.4464
+  type: 'test'
+  ...
+# Subtest: a host arriving on a legal map exit remains a present body even without a static NPC spawn marker
+ok 11 - a host arriving on a legal map exit remains a present body even without a static NPC spawn marker
+  ---
+  duration_ms: 7.3933
+  type: 'test'
+  ...
+# Subtest: reading an unlocked archive copy does not silently transfer it into the embodied host knowledge
+ok 12 - reading an unlocked archive copy does not silently transfer it into the embodied host knowledge
+  ---
+  duration_ms: 9.1421
+  type: 'test'
+  ...
+# Subtest: quest state changes only after a host-specific allowed physical action
+ok 13 - quest state changes only after a host-specific allowed physical action
+  ---
+  duration_ms: 10.219
+  type: 'test'
+  ...
+# Subtest: every historical quest choice records its own follow-up and deterministic relationship or situation change
+ok 14 - every historical quest choice records its own follow-up and deterministic relationship or situation change
+  ---
+  duration_ms: 27.8199
+  type: 'test'
+  ...
+# Subtest: reading a physical source records it for the current perspective only
+ok 15 - reading a physical source records it for the current perspective only
+  ---
+  duration_ms: 7.8305
+  type: 'test'
+  ...
+# Subtest: fictional street clue is learned only by a present body that physically inspects it
+ok 16 - fictional street clue is learned only by a present body that physically inspects it
+  ---
+  duration_ms: 10.262
+  type: 'test'
+  ...
+# Subtest: load rejects a re-checksummed save that leaks discovered evidence to another host
+ok 17 - load rejects a re-checksummed save that leaks discovered evidence to another host
+  ---
+  duration_ms: 12.5083
+  type: 'test'
+  ...
+# Subtest: save/load preserves split world, player, host knowledge and rejects malformed state
+ok 18 - save/load preserves split world, player, host knowledge and rejects malformed state
+  ---
+  duration_ms: 8.1884
+  type: 'test'
+  ...
+# Subtest: Chancery and courtyard are door-connected maps with access tied to the embodied host
+ok 19 - Chancery and courtyard are door-connected maps with access tied to the embodied host
+  ---
+  duration_ms: 6.4505
+  type: 'test'
+  ...
+# Subtest: one literary source can be read by two hosts without sharing their knowledge
+ok 20 - one literary source can be read by two hosts without sharing their knowledge
+  ---
+  duration_ms: 9.3667
+  type: 'test'
+  ...
+# Subtest: unembodied residents follow their local schedule while an embodied host stays under player control
+ok 21 - unembodied residents follow their local schedule while an embodied host stays under player control
+  ---
+  duration_ms: 6.3159
+  type: 'test'
+  ...
+# Subtest: older version-one saves acquire the world clock and current schedule without losing state
+ok 22 - older version-one saves acquire the world clock and current schedule without losing state
+  ---
+  duration_ms: 7.7134
+  type: 'test'
+  ...
+# Subtest: dialogue can be ledgered only for the embodied host and never mutates a quest or hidden score
+ok 23 - dialogue can be ledgered only for the embodied host and never mutates a quest or hidden score
+  ---
+  duration_ms: 7.4879
+  type: 'test'
+  ...
+# Subtest: Anna can carry her sewing errand into the printshop and use her own literacy to compare a source
+ok 24 - Anna can carry her sewing errand into the printshop and use her own literacy to compare a source
+  ---
+  duration_ms: 10.9564
+  type: 'test'
+  ...
+# Subtest: campaign contains source-aligned 1847–1849 arcs with a separate literary realm and exactly five authored endings
+ok 25 - campaign contains source-aligned 1847–1849 arcs with a separate literary realm and exactly five authored endings
+  ---
+  duration_ms: 7.4974
+  type: 'test'
+  ...
+# Subtest: the project root launches the pixel RPG while the former Chancery route remains reachable
+ok 26 - the project root launches the pixel RPG while the former Chancery route remains reachable
+  ---
+  duration_ms: 1.6449
+  type: 'test'
+  ...
+# Subtest: literary realm is source-bound, enterable, and cannot rewind or alter the historical timeline
+ok 27 - literary realm is source-bound, enterable, and cannot rewind or alter the historical timeline
+  ---
+  duration_ms: 11.3698
+  type: 'test'
+  ...
+# Subtest: The Overcoat reconstruction is a separate, source-bound realm with its own playable host and fixed literary outcome
+ok 28 - The Overcoat reconstruction is a separate, source-bound realm with its own playable host and fixed literary outcome
+  ---
+  duration_ms: 17.4644
+  type: 'test'
+  ...
+# Subtest: chapter and ending reducer preserve fixed historical outcomes and resolve mixed histories through a final authored decision
+ok 29 - chapter and ending reducer preserve fixed historical outcomes and resolve mixed histories through a final authored decision
+  ---
+  duration_ms: 11.5348
+  type: 'test'
+  ...
+# Subtest: future dated source packets remain locked until their chapter begins
+ok 30 - future dated source packets remain locked until their chapter begins
+  ---
+  duration_ms: 8.3819
+  type: 'test'
+  ...
+# Subtest: the May 5 letter stays locked on April 22 until the authored campaign date advances
+ok 31 - the May 5 letter stays locked on April 22 until the authored campaign date advances
+  ---
+  duration_ms: 13.9687
+  type: 'test'
+  ...
+1..31
+# tests 31
+# suites 0
+# pass 31
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 563.4929
+
+> chancery-of-ink@1.0.0 v33-street-material-test
+> node --test scripts/v33-street-material.test.mjs
+
+TAP version 13
+# Subtest: Nevsky renders a sourced sidewalk, wet gutter, and distinct carriageway surfaces
+ok 1 - Nevsky renders a sourced sidewalk, wet gutter, and distinct carriageway surfaces
+  ---
+  duration_ms: 2.0096
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 223.0851
+
+> chancery-of-ink@1.0.0 v33-learning-life-test
+> node --test scripts/v33-learning-life.test.mjs
+
+TAP version 13
+# Subtest: attendees, notes-only attendees, and non-attendees reach the same sourced five-question exam
+ok 1 - attendees, notes-only attendees, and non-attendees reach the same sourced five-question exam
+  ---
+  duration_ms: 3.8176
+  type: 'test'
+  ...
+# Subtest: learning progress advances through all units and can be saved and resumed
+ok 2 - learning progress advances through all units and can be saved and resumed
+  ---
+  duration_ms: 0.5754
+  type: 'test'
+  ...
+# Subtest: five factual answers grade transparently at the 2/5 and 3/5 promotion boundary
+ok 3 - five factual answers grade transparently at the 2/5 and 3/5 promotion boundary
+  ---
+  duration_ms: 1.3753
+  type: 'test'
+  ...
+# Subtest: answer selection rejects unknown questions and options without changing progress
+ok 4 - answer selection rejects unknown questions and options without changing progress
+  ---
+  duration_ms: 0.3608
+  type: 'test'
+  ...
+# Subtest: deferring and helping Pavel produce distinct unscored outcomes
+ok 5 - deferring and helping Pavel produce distinct unscored outcomes
+  ---
+  duration_ms: 1.7138
+  type: 'test'
+  ...
+# Subtest: fictional life timeline is seven dated episodes and changes with exam, circle, and recorded work
+ok 6 - fictional life timeline is seven dated episodes and changes with exam, circle, and recorded work
+  ---
+  duration_ms: 2.047
+  type: 'test'
+  ...
+# Subtest: course facts cite checked-in source records and every timeline episode is labeled fictional
+ok 7 - course facts cite checked-in source records and every timeline episode is labeled fictional
+  ---
+  duration_ms: 19.7623
+  type: 'test'
+  ...
+# Subtest: new game state carries a resumable learning arc; legacy version-one saves migrate without losing records
+ok 8 - new game state carries a resumable learning arc; legacy version-one saves migrate without losing records
+  ---
+  duration_ms: 19.5397
+  type: 'test'
+  ...
+# Subtest: the reducer rejects ending resolution until exam, deferral, or helping a peer is explicitly recorded
+ok 9 - the reducer rejects ending resolution until exam, deferral, or helping a peer is explicitly recorded
+  ---
+  duration_ms: 15.5572
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 305.3277
+
+> chancery-of-ink@1.0.0 v33-http-server-test
+> node --test scripts/v33-http-server-test.mjs
+
+TAP version 13
+# Subtest: local server assigns browser-loadable MIME types to JavaScript modules
+ok 1 - local server assigns browser-loadable MIME types to JavaScript modules
+  ---
+  duration_ms: 1.3187
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 223.5989
+
+> chancery-of-ink@1.0.0 v33-renderer-load-test
+> node --test scripts/v33-renderer-load-test.mjs
+
+TAP version 13
+# (node:13396) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/owner/.codex/worktrees/v33-possession-rpg/history/.v33-archive-verify-final/rpg/engine/renderer.js is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\.v33-archive-verify-final\\package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: camera enlarges the world, follows its actor, and clamps cleanly at map edges
+ok 1 - camera enlarges the world, follows its actor, and clamps cleanly at map edges
+  ---
+  duration_ms: 1.9506
+  type: 'test'
+  ...
+# Subtest: canvas redraws after the asynchronous Petersburg tilesheet finishes loading
+ok 2 - canvas redraws after the asynchronous Petersburg tilesheet finishes loading
+  ---
+  duration_ms: 3.6695
+  type: 'test'
+  ...
+# Subtest: character rendering reads its image, frame dimensions, and direction rows from spriteAtlas
+ok 3 - character rendering reads its image, frame dimensions, and direction rows from spriteAtlas
+  ---
+  duration_ms: 1.9647
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 231.9175
+
+> chancery-of-ink@1.0.0 v33-exploration-coverage-test
+> node --test scripts/v33-exploration-coverage.test.mjs
+
+TAP version 13
+# Subtest: elapsed waiting cannot qualify as goal-directed exploration
+ok 1 - elapsed waiting cannot qualify as goal-directed exploration
+  ---
+  duration_ms: 1.5617
+  type: 'test'
+  ...
+# Subtest: a route qualifies only after real movement, reading, perspective, map, and quest interactions
+ok 2 - a route qualifies only after real movement, reading, perspective, map, and quest interactions
+  ---
+  duration_ms: 1.7424
+  type: 'test'
+  ...
+# Subtest: one-host or source-free play cannot qualify as cross-perspective exploration
+ok 3 - one-host or source-free play cannot qualify as cross-perspective exploration
+  ---
+  duration_ms: 0.2962
+  type: 'test'
+  ...
+# Subtest: reading and switching hosts without purposeful movement cannot satisfy the exploration gate
+ok 4 - reading and switching hosts without purposeful movement cannot satisfy the exploration gate
+  ---
+  duration_ms: 1.4173
+  type: 'test'
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 231.4523
+
+> chancery-of-ink@1.0.0 v33-ai-test
+> node --test scripts/v33-ai-runtime.test.mjs
+
+TAP version 13
+# Subtest: session is server-bound to one host; client cannot choose scene, inject memory, or mutate the RPG
+ok 1 - session is server-bound to one host; client cannot choose scene, inject memory, or mutate the RPG
+  ---
+  duration_ms: 12.4365
+  type: 'test'
+  ...
+# Subtest: AI dialogue receives the embodied public character context and keeps each speaker-pair memory separate
+ok 2 - AI dialogue receives the embodied public character context and keeps each speaker-pair memory separate
+  ---
+  duration_ms: 11.0273
+  type: 'test'
+  ...
+# Subtest: Petrovich can discuss only the sourced Overcoat passage with Akaky in the literary realm
+ok 3 - Petrovich can discuss only the sourced Overcoat passage with Akaky in the literary realm
+  ---
+  duration_ms: 2.5332
+  type: 'test'
+  ...
+# Subtest: derived starting resources stay character-specific and preserve unknown historical amounts
+ok 4 - derived starting resources stay character-specific and preserve unknown historical amounts
+  ---
+  duration_ms: 9.3044
+  type: 'test'
+  ...
+# Subtest: NPC output falls back when it discloses undisclosed player-only facts or resources
+ok 5 - NPC output falls back when it discloses undisclosed player-only facts or resources
+  ---
+  duration_ms: 3.7842
+  type: 'test'
+  ...
+# Subtest: dialogue requests within one session serialize so a later turn cannot overwrite stale memory
+ok 6 - dialogue requests within one session serialize so a later turn cannot overwrite stale memory
+  ---
+  duration_ms: 2.6427
+  type: 'test'
+  ...
+# Subtest: signed opaque sessions reject forgery and foreign origins, while missing AI credentials remain explicitly fallback-only
+ok 7 - signed opaque sessions reject forgery and foreign origins, while missing AI credentials remain explicitly fallback-only
+  ---
+  duration_ms: 0.785
+  type: 'test'
+  ...
+# Subtest: historical reconstruction and literary host have bounded scene IDs and offline sessions
+ok 8 - historical reconstruction and literary host have bounded scene IDs and offline sessions
+  ---
+  duration_ms: 1.3135
+  type: 'test'
+  ...
+# Subtest: idempotent replay returns the cached reply and does not call the provider twice
+ok 9 - idempotent replay returns the cached reply and does not call the provider twice
+  ---
+  duration_ms: 1.4615
+  type: 'test'
+  ...
+# Subtest: host sessions never share dialogue memory and personal identifiers are redacted before the provider
+ok 10 - host sessions never share dialogue memory and personal identifiers are redacted before the provider
+  ---
+  duration_ms: 1.8606
+  type: 'test'
+  ...
+# Subtest: session memory retention is fixed from creation and is not extended by dialogue
+ok 11 - session memory retention is fixed from creation and is not extended by dialogue
+  ---
+  duration_ms: 1.2007
+  type: 'test'
+  ...
+# Subtest: prompt injection remains untrusted player data; Responses API key stays in the server authorization header
+ok 12 - prompt injection remains untrusted player data; Responses API key stays in the server authorization header
+  ---
+  duration_ms: 38.6678
+  type: 'test'
+  ...
+# Subtest: schema-invalid model output falls back to bounded authored character dialogue
+ok 13 - schema-invalid model output falls back to bounded authored character dialogue
+  ---
+  duration_ms: 1.4138
+  type: 'test'
+  ...
+# Subtest: historical AI dialogue falls back when it introduces a year absent from its authorized source packet
+ok 14 - historical AI dialogue falls back when it introduces a year absent from its authorized source packet
+  ---
+  duration_ms: 1.3277
+  type: 'test'
+  ...
+# Subtest: historical AI dialogue falls back when it invents a real-person claim without a year or source claim ID
+ok 15 - historical AI dialogue falls back when it invents a real-person claim without a year or source claim ID
+  ---
+  duration_ms: 2.8956
+  type: 'test'
+  ...
+# Subtest: historical AI dialogue retains claims whose dates are present in the authorized source packet
+ok 16 - historical AI dialogue retains claims whose dates are present in the authorized source packet
+  ---
+  duration_ms: 1.1903
+  type: 'test'
+  ...
+# Subtest: historical AI dialogue rejects claim IDs outside the scene source allowlist
+ok 17 - historical AI dialogue rejects claim IDs outside the scene source allowlist
+  ---
+  duration_ms: 0.853
+  type: 'test'
+  ...
+# Subtest: 429, 500, and timeout from the provider use authored fallback without exposing provider errors
+    # Subtest: 429
+    ok 1 - 429
+      ---
+      duration_ms: 0.8817
+      type: 'test'
+      ...
+    # Subtest: 500
+    ok 2 - 500
+      ---
+      duration_ms: 1.3284
+      type: 'test'
+      ...
+    # Subtest: timeout
+    ok 3 - timeout
+      ---
+      duration_ms: 0.8212
+      type: 'test'
+      ...
+    1..3
+ok 18 - 429, 500, and timeout from the provider use authored fallback without exposing provider errors
+  ---
+  duration_ms: 4.0266
+  type: 'test'
+  ...
+# Subtest: Durable Object transactions enforce per-session turns and the global daily budget atomically
+ok 19 - Durable Object transactions enforce per-session turns and the global daily budget atomically
+  ---
+  duration_ms: 15.7236
+  type: 'test'
+  ...
+# Subtest: Durable Object admits only one unfinished dialogue turn per session
+ok 20 - Durable Object admits only one unfinished dialogue turn per session
+  ---
+  duration_ms: 3.9992
+  type: 'test'
+  ...
+# Subtest: Cloudflare Worker route validates relationship hints and completes an offline turn through Durable Objects
+ok 21 - Cloudflare Worker route validates relationship hints and completes an offline turn through Durable Objects
+  ---
+  duration_ms: 54.3172
+  type: 'test'
+  ...
+# Subtest: unsupported or malformed session starts are rejected before consuming the global start budget
+ok 22 - unsupported or malformed session starts are rejected before consuming the global start budget
+  ---
+  duration_ms: 4.4056
+  type: 'test'
+  ...
+# Subtest: Worker applies independent per-caller limits to valid session starts and dialogue turns
+ok 23 - Worker applies independent per-caller limits to valid session starts and dialogue turns
+  ---
+  duration_ms: 101.7312
+  type: 'test'
+  ...
+1..23
+# tests 26
+# suites 0
+# pass 26
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 532.4347
+
+> chancery-of-ink@1.0.0 v33-historical-claim-ledger-test
+> node --test scripts/v33-historical-claim-ledger.test.mjs
+
+TAP version 13
+# Subtest: historical claim ledger resolves at least twelve aligned excerpts into playable campaign issues
+ok 1 - historical claim ledger resolves at least twelve aligned excerpts into playable campaign issues
+  ---
+  duration_ms: 8.5676
+  type: 'test'
+  ...
+# Subtest: claim ledger rejects claims without an aligned source range
+ok 2 - claim ledger rejects claims without an aligned source range
+  ---
+  duration_ms: 2.6772
+  type: 'test'
+  ...
+# Subtest: claim ledger rejects historical claims assigned to a campaign that does not contain the source
+ok 3 - claim ledger rejects historical claims assigned to a campaign that does not contain the source
+  ---
+  duration_ms: 2.535
+  type: 'test'
+  ...
+# Subtest: claim ledger rejects duplicate excerpts and non-meaningful placeholder claims
+ok 4 - claim ledger rejects duplicate excerpts and non-meaningful placeholder claims
+  ---
+  duration_ms: 2.113
+  type: 'test'
+  ...
+# Subtest: claim ledger requires a real in-game source object and rejects a mismatched quest citation
+ok 5 - claim ledger requires a real in-game source object and rejects a mismatched quest citation
+  ---
+  duration_ms: 1.2935
+  type: 'test'
+  ...
+# Subtest: claim ledger rejects whitespace and non-text source provenance fields
+ok 6 - claim ledger rejects whitespace and non-text source provenance fields
+  ---
+  duration_ms: 1.2249
+  type: 'test'
+  ...
+# Subtest: claim ledger rejects hidden, non-source, or wrong-chapter map objects
+ok 7 - claim ledger rejects hidden, non-source, or wrong-chapter map objects
+  ---
+  duration_ms: 11.9439
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 275.8687
+
+> chancery-of-ink@1.0.0 v33-historical-audit
+> node scripts/v33-historical-flow-audit.mjs
+
+{
+  "schemaVersion": "V33-HISTORICAL-FLOW-AUDIT-2",
+  "status": "PASS",
+  "arcOrder": [
+    {
+      "id": "V33_1847_PRINT",
+      "date": "1847-06-01"
+    },
+    {
+      "id": "V33_1848_PUBLIC",
+      "date": "1848-01-01"
+    },
+    {
+      "id": "V33_1849_CIRCLE",
+      "date": "1849-04-22"
+    }
+  ],
+  "sourceCount": 7,
+  "historicalPacketCount": 4,
+  "questCount": 6,
+  "endingIds": [
+    "UVAROV",
+    "BELINSKY",
+    "HERZEN",
+    "KHOMYAKOV",
+    "DOSTOEVSKY_PETRASHEVSKY"
+  ],
+  "claimLedger": {
+    "status": "PASS",
+    "claimCount": 13,
+    "uniqueExcerptCount": 13,
+    "minimumUniqueExcerpts": 12,
+    "failures": []
+  },
+  "failures": []
+}
+
+> chancery-of-ink@1.0.0 v33-image-audit
+> node scripts/v33-image-audit.mjs
+
+{
+  "schemaVersion": "V33-IMAGE-AUDIT-2",
+  "status": "PASS",
+  "pngCount": 21,
+  "assets": [
+    {
+      "path": "rpg/assets/akaky.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 402,
+      "sha256": "cb12e8f10e6ed8ed7619e3e4bddf16a23439b4133a4e1b7b707c5250778343fb",
+      "license": "original project-authored pixels",
+      "confidence": "LITERARY_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/alexei.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 516,
+      "sha256": "89c7481852a1efaffe8b86777fa6afcc4be8c1811d24e4bcf51d56e52fe98a5a",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/anna.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 534,
+      "sha256": "fa472be2c96a43424ccdeb94f5ed132193102ad1f74da74fba57d2c7563863b6",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/chichikov.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 394,
+      "sha256": "1411553f6aaba42d9b4e745bbd476e9a818e3a25da1ca95baa149a1266c3b6e4",
+      "license": "original project-authored pixels",
+      "confidence": "LITERARY_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/ekaterina.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 497,
+      "sha256": "6be4fcf91467c2baebb89e23edc71fa5a5ea446fc09dfe7bb14fff43e55592d2",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/lev.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 516,
+      "sha256": "a02de10f577ff016f7fb3c8db40e961d9a4e70628f0aec0093c0d68b534f55d6",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/mikhail.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 534,
+      "sha256": "40cbb84947c076be779957ddc7aaa0752d8b317ef6701e034eac28713ef5a1c5",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/nekrasov.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 393,
+      "sha256": "659719e9b8208870720b721fbee01a3a70c29bdec24721b9cc46319dc001817c",
+      "license": "original project-authored pixels",
+      "confidence": "SOURCE_CONSTRAINED_HISTORICAL_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/pavel.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 557,
+      "sha256": "ad68882edc891127891d4aaacd71c74f34516ade19e8aacdc322c9d0c06c9ff3",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/petersburg-tiles.png",
+      "width": 256,
+      "height": 160,
+      "bytes": 2766,
+      "sha256": "3f94c20e6bf72ad736686a1caf3ab09d63164096078d7d990a2d0c8296795a48",
+      "license": "original project-authored pixels",
+      "confidence": "RECONSTRUCTED"
+    },
+    {
+      "path": "rpg/assets/petrovich.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 397,
+      "sha256": "e227924a02b1c97f1a75d978925bdccdbe01db9859d7e888ab59517f3977d682",
+      "license": "original project-authored pixels",
+      "confidence": "LITERARY_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-bookseller_lev.png",
+      "width": 64,
+      "height": 64,
+      "bytes": 9858,
+      "sha256": "88fa5f3197480126130cde59babd652ede10c073f6f4b9ed9406a329df959a51",
+      "license": "original project-generated illustrative artwork",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-clerk_alexei.png",
+      "width": 64,
+      "height": 64,
+      "bytes": 8630,
+      "sha256": "26652a0662b95bf02238dc771b7d159a6462d6ab725422bdb2f9801f0dbbb62d",
+      "license": "original project-generated illustrative artwork",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-courier_pavel.png",
+      "width": 64,
+      "height": 64,
+      "bytes": 10135,
+      "sha256": "c9b35c2052687879bb5096382ea82960499d08291d342af018c8646114a40f40",
+      "license": "original project-generated illustrative artwork",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-literary_akaky.png",
+      "width": 64,
+      "height": 64,
+      "bytes": 270,
+      "sha256": "822cb9485f8c0b06dae27e3d8077267fd470d4dc8762a6befef97a21d8e8937d",
+      "license": "original project-authored pixels",
+      "confidence": "LITERARY_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-literary_chichikov.png",
+      "width": 64,
+      "height": 64,
+      "bytes": 9669,
+      "sha256": "514331df4b4373dc2ecdd849c911de4231839601226a678c4caacd0f4adfaf80",
+      "license": "original project-generated illustrative artwork",
+      "confidence": "LITERARY_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-literary_petrovich.png",
+      "width": 64,
+      "height": 64,
+      "bytes": 283,
+      "sha256": "893cc8c4bf402f5b9e19ac91f22204ed3f3d5ae9c88306b3f3703da830b7c492",
+      "license": "original project-authored pixels",
+      "confidence": "LITERARY_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-nekrasov_reconstruction.png",
+      "width": 64,
+      "height": 64,
+      "bytes": 9103,
+      "sha256": "f83131a9005ce67dad8adeaeeab9c3a6853e5682ae139fd6c72090cacc4a5566",
+      "license": "original project-generated illustrative artwork",
+      "confidence": "SOURCE_CONSTRAINED_HISTORICAL_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-printer_ekaterina.png",
+      "width": 64,
+      "height": 64,
+      "bytes": 9998,
+      "sha256": "d0418b78f144110ebdfc63fe56e1f40e3dad7f7ace9ede0eda2144229ab0a3d6",
+      "license": "original project-generated illustrative artwork",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-seamstress_anna.png",
+      "width": 64,
+      "height": 64,
+      "bytes": 10707,
+      "sha256": "eb032363577d3a0731d03c1131e12f61452ba2595059b7e98bd9d4f76092c9c7",
+      "license": "original project-generated illustrative artwork",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-tenant_mikhail.png",
+      "width": 64,
+      "height": 64,
+      "bytes": 10414,
+      "sha256": "0cbbe490219e3b953d83267b4326d47abc0b2a9f4b428b42ea3ecf0629c99401",
+      "license": "original project-generated illustrative artwork",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    }
+  ],
+  "failures": []
+}
+
+> chancery-of-ink@1.0.0 v33-ending-route-matrix
+> node scripts/v33-ending-route-matrix.mjs
+
+{
+  "status": "PASS",
+  "routeCount": 120,
+  "endings": [
+    "UVAROV",
+    "BELINSKY",
+    "HERZEN",
+    "KHOMYAKOV",
+    "DOSTOEVSKY_PETRASHEVSKY"
+  ]
+}
+
+> chancery-of-ink@1.0.0 v33-static-build-config-test
+> node --test scripts/v33-static-build-config.test.mjs
+
+TAP version 13
+# Subtest: static build injects the public Worker URL, rejects unsafe URLs, and preserves offline mode
+ok 1 - static build injects the public Worker URL, rejects unsafe URLs, and preserves offline mode
+  ---
+  duration_ms: 984.1946
+  type: 'test'
+  ...
+# Subtest: Pages workflow passes only the public Worker URL variable to the static build
+ok 2 - Pages workflow passes only the public Worker URL variable to the static build
+  ---
+  duration_ms: 0.8867
+  type: 'test'
+  ...
+# Subtest: RPG first paint does not wait for a remote font stylesheet
+ok 3 - RPG first paint does not wait for a remote font stylesheet
+  ---
+  duration_ms: 1.2552
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1206.4147
+
+> chancery-of-ink@1.0.0 build:v33
+> node scripts/v33-static-build.mjs
+
+{
+  "status": "PASS",
+  "artifact": "dist-v33/",
+  "entry": "index.html",
+  "preservedEntry": "chancery.html",
+  "fileCount": 67
+}
+
+> chancery-of-ink@1.0.0 build
+> node scripts/static-integrity-check.mjs
+
+static-integrity: source readability, JavaScript syntax, and JSON parsing — PASS (no bundler configured)
+
+> chancery-of-ink@1.0.0 lint
+> node scripts/ui-lint.mjs
+
+ui-lint: bespoke palette, no dead controls, reduced motion present — PASS
+
+> chancery-of-ink@1.0.0 check
+> node scripts/historical-lint.mjs && node --test scripts/main20-branch-graph-test.mjs
+
+historical-lint: 9 sources, 3 core scenes + 7 Act III packets, 3 dialogue lines, 4 claims, 2 voice sheets, 8 assets, exactly 5 endings — PASS
+TAP version 13
+# Subtest: accepts four three-option hubs and a complete minimal graph
+ok 1 - accepts four three-option hubs and a complete minimal graph
+  ---
+  duration_ms: 5.0593
+  type: 'test'
+  ...
+# Subtest: rejects duplicate graph identifiers
+ok 2 - rejects duplicate graph identifiers
+  ---
+  duration_ms: 1.1212
+  type: 'test'
+  ...
+# Subtest: rejects missing targets, sources, immediate directions, and branch events
+ok 3 - rejects missing targets, sources, immediate directions, and branch events
+  ---
+  duration_ms: 0.5352
+  type: 'test'
+  ...
+# Subtest: rejects incomplete choice disclosure, duplicate callbacks, and missing reactions
+ok 4 - rejects incomplete choice disclosure, duplicate callbacks, and missing reactions
+  ---
+  duration_ms: 1.7187
+  type: 'test'
+  ...
+# Subtest: enumerates all 81 distinct four-choice vectors
+ok 5 - enumerates all 81 distinct four-choice vectors
+  ---
+  duration_ms: 19.6431
+  type: 'test'
+  ...
+# Subtest: resolves the immediate branch and preserves prior choices and immutable historical anchors
+ok 6 - resolves the immediate branch and preserves prior choices and immutable historical anchors
+  ---
+  duration_ms: 0.9934
+  type: 'test'
+  ...
+# Subtest: uses an explicit valid next-hub fallback when predicates do not match
+ok 7 - uses an explicit valid next-hub fallback when predicates do not match
+  ---
+  duration_ms: 0.8675
+  type: 'test'
+  ...
+# Subtest: resolves the interleaved historical scene order without going backward in time
+ok 8 - resolves the interleaved historical scene order without going backward in time
+  ---
+  duration_ms: 0.6383
+  type: 'test'
+  ...
+# Subtest: project graph has 81 vectors and every option has its own event, reaction, callback and resolvable source
+ok 9 - project graph has 81 vectors and every option has its own event, reaction, callback and resolvable source
+  ---
+  duration_ms: 3.0785
+  type: 'test'
+  ...
+# Subtest: E02 and E04 remain in the active chronological player route
+ok 10 - E02 and E04 remain in the active chronological player route
+  ---
+  duration_ms: 14.1283
+  type: 'test'
+  ...
+# Subtest: every immediate branch choice carries auditable, non-terminal ending evidence into saved history
+ok 11 - every immediate branch choice carries auditable, non-terminal ending evidence into saved history
+  ---
+  duration_ms: 3.9133
+  type: 'test'
+  ...
+# Subtest: literature choice source is displayed before selection and again in its selected event
+ok 12 - literature choice source is displayed before selection and again in its selected event
+  ---
+  duration_ms: 7.3243
+  type: 'test'
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 12
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 299.1716
+
+> chancery-of-ink@1.0.0 test
+> node scripts/route-test.mjs
+
+route-test: five gated endings, branching relationship/invitation route, and E02/E04/E07 anchors — PASS
+
+> chancery-of-ink@1.0.0 v33-browser-acceptance
+> node scripts/v33-browser-acceptance.mjs
+
+
+> scripts/v33-interpersonal-dialogue-browser.mjs (http://127.0.0.1:61035/)
+{
+  "status": "PASS",
+  "viewports": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "embodiedHost": "seamstress_anna",
+      "speaker": "printer_ekaterina",
+      "portrait": {
+        "src": "./rpg/assets/portrait-printer_ekaterina.png",
+        "alt": "예카테리나 벨로바 초상",
+        "width": 64,
+        "height": 64,
+        "visible": true
+      },
+      "response": "mocked AI provider response",
+      "questChangedByConversation": false,
+      "documentWidth": 1440,
+      "input": {
+        "top": 749.0625,
+        "bottom": 787.0625,
+        "visible": true
+      },
+      "inputOverlapsControls": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "embodiedHost": "seamstress_anna",
+      "speaker": "printer_ekaterina",
+      "portrait": {
+        "src": "./rpg/assets/portrait-printer_ekaterina.png",
+        "alt": "예카테리나 벨로바 초상",
+        "width": 64,
+        "height": 64,
+        "visible": true
+      },
+      "response": "mocked AI provider response",
+      "questChangedByConversation": false,
+      "documentWidth": 1366,
+      "input": {
+        "top": 617.5625,
+        "bottom": 655.5625,
+        "visible": true
+      },
+      "inputOverlapsControls": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "embodiedHost": "seamstress_anna",
+      "speaker": "printer_ekaterina",
+      "portrait": {
+        "src": "./rpg/assets/portrait-printer_ekaterina.png",
+        "alt": "예카테리나 벨로바 초상",
+        "width": 64,
+        "height": 64,
+        "visible": true
+      },
+      "response": "mocked AI provider response",
+      "questChangedByConversation": false,
+      "documentWidth": 390,
+      "input": {
+        "top": 634.359375,
+        "bottom": 680.359375,
+        "visible": true
+      },
+      "inputOverlapsControls": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "embodiedHost": "seamstress_anna",
+      "speaker": "printer_ekaterina",
+      "portrait": {
+        "src": "./rpg/assets/portrait-printer_ekaterina.png",
+        "alt": "예카테리나 벨로바 초상",
+        "width": 64,
+        "height": 64,
+        "visible": true
+      },
+      "response": "mocked AI provider response",
+      "questChangedByConversation": false,
+      "documentWidth": 360,
+      "input": {
+        "top": 593.203125,
+        "bottom": 639.203125,
+        "visible": true
+      },
+      "inputOverlapsControls": false,
+      "pageErrors": []
+    }
+  ]
+}
+
+> scripts/v33-rpg-browser-smoke.mjs (http://127.0.0.1:61035/)
+viewport 1440x900
+viewport 1366x768
+viewport 1111x720
+viewport 390x844
+viewport 360x800
+{
+  "status": "PASS",
+  "viewports": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "document": {
+        "width": 1440,
+        "height": 900
+      },
+      "controlsVisible": true,
+      "savedClueRestored": true
+    },
+    {
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "document": {
+        "width": 1366,
+        "height": 768
+      },
+      "controlsVisible": true,
+      "savedClueRestored": true
+    },
+    {
+      "viewport": {
+        "width": 1111,
+        "height": 720
+      },
+      "document": {
+        "width": 1111,
+        "height": 720
+      },
+      "controlsVisible": true,
+      "savedClueRestored": true
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "document": {
+        "width": 390,
+        "height": 844
+      },
+      "controlsVisible": true,
+      "savedClueRestored": true
+    },
+    {
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "document": {
+        "width": 360,
+        "height": 800
+      },
+      "controlsVisible": true,
+      "savedClueRestored": true
+    }
+  ]
+}
+
+> scripts/v33-overcoat-browser-smoke.mjs (http://127.0.0.1:61035/)
+{
+  "map": "《외투》 속 재단사의 방",
+  "body": "몸을 빌림 · 아카키 아카키예비치 바슈마치킨",
+  "title": "외투를 고칠 수 있을까",
+  "result": "페트로비치는 외투를 고칠 수 없다고 말했다. 이 판정은 《외투》의 장면 그대로다.",
+  "record": "현장 행동을 장부에 기록했다.",
+  "horizontalOverflow": false,
+  "canvas": {
+    "width": 1382,
+    "height": 494
+  },
+  "base": "http://127.0.0.1:61035/",
+  "sourceGate": {
+    "entryBlockedBeforeReading": true,
+    "archiveExcerptReadBeforeEntry": true,
+    "entrySucceededAfterReading": true
+  },
+  "returnedToHistoricalMap": true,
+  "noPageErrors": true
+}
+
+> scripts/v33-ending-browser-smoke.mjs (http://127.0.0.1:61035/)
+ending selected · UVAROV · http://127.0.0.1:61035/
+page closed · UVAROV
+ending selected · BELINSKY · http://127.0.0.1:61035/
+page closed · BELINSKY
+ending selected · HERZEN · http://127.0.0.1:61035/
+page closed · HERZEN
+ending selected · KHOMYAKOV · http://127.0.0.1:61035/
+page closed · KHOMYAKOV
+ending selected · DOSTOEVSKY_PETRASHEVSKY · http://127.0.0.1:61035/
+page closed · DOSTOEVSKY_PETRASHEVSKY
+{
+  "schemaVersion": "V33_ENDING_BROWSER_SMOKE_V1",
+  "status": "PASS",
+  "browserEndingCount": 5,
+  "mobileEndingChecked": true,
+  "results": [
+    {
+      "endingId": "UVAROV",
+      "choiceVisible": true,
+      "resolvedInBrowser": true,
+      "errors": []
+    },
+    {
+      "endingId": "BELINSKY",
+      "choiceVisible": true,
+      "resolvedInBrowser": true,
+      "errors": []
+    },
+    {
+      "endingId": "HERZEN",
+      "choiceVisible": true,
+      "resolvedInBrowser": true,
+      "errors": []
+    },
+    {
+      "endingId": "KHOMYAKOV",
+      "choiceVisible": true,
+      "resolvedInBrowser": true,
+      "errors": []
+    },
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "choiceVisible": true,
+      "resolvedInBrowser": true,
+      "errors": []
+    },
+    {
+      "endingId": "UVAROV",
+      "mobileViewport": {
+        "viewportWidth": 360,
+        "documentWidth": 360,
+        "panelScrollHeight": 2195,
+        "panelClientHeight": 778
+      },
+      "restartControlVisibleAfterScroll": true
+    }
+  ]
+}
+
+> scripts/v33-campaign-browser-acceptance.mjs (http://127.0.0.1:61035/)
+PASS · UVAROV
+PASS · BELINSKY
+PASS · HERZEN
+PASS · KHOMYAKOV
+PASS · DOSTOEVSKY_PETRASHEVSKY
+{
+  "schemaVersion": "V33_FULL_CAMPAIGN_BROWSER_ACCEPTANCE_V1",
+  "status": "PASS",
+  "endingCount": 5,
+  "selectedCase": null,
+  "routes": [
+    {
+      "endingId": "UVAROV",
+      "status": "PASS",
+      "resolvedQuests": [
+        "CIRCLE_INVESTIGATION_1849",
+        "CIRCLE_LETTER_1849_MAY",
+        "PRINTSHOP_PROOF_1847",
+        "PUBLIC_DISCOURSE_1848"
+      ],
+      "hosts": [
+        "printer_ekaterina",
+        "nekrasov_reconstruction",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "sources": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "screenshot": "artifacts/v33/campaign-full-run-uvarov-1440x900.png",
+      "error": null
+    },
+    {
+      "endingId": "BELINSKY",
+      "status": "PASS",
+      "resolvedQuests": [
+        "CIRCLE_INVESTIGATION_1849",
+        "CIRCLE_LETTER_1849_MAY",
+        "PRINTSHOP_PROOF_1847",
+        "PUBLIC_DISCOURSE_1848"
+      ],
+      "hosts": [
+        "printer_ekaterina",
+        "nekrasov_reconstruction",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "sources": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "screenshot": "artifacts/v33/campaign-full-run-belinsky-1440x900.png",
+      "error": null
+    },
+    {
+      "endingId": "HERZEN",
+      "status": "PASS",
+      "resolvedQuests": [
+        "CIRCLE_INVESTIGATION_1849",
+        "CIRCLE_LETTER_1849_MAY",
+        "PRINTSHOP_PROOF_1847",
+        "PUBLIC_DISCOURSE_1848"
+      ],
+      "hosts": [
+        "printer_ekaterina",
+        "nekrasov_reconstruction",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "sources": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "screenshot": "artifacts/v33/campaign-full-run-herzen-1440x900.png",
+      "error": null
+    },
+    {
+      "endingId": "KHOMYAKOV",
+      "status": "PASS",
+      "resolvedQuests": [
+        "CIRCLE_INVESTIGATION_1849",
+        "CIRCLE_LETTER_1849_MAY",
+        "PRINTSHOP_PROOF_1847",
+        "PUBLIC_DISCOURSE_1848"
+      ],
+      "hosts": [
+        "printer_ekaterina",
+        "nekrasov_reconstruction",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "sources": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "screenshot": "artifacts/v33/campaign-full-run-khomyakov-1440x900.png",
+      "error": null
+    },
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "status": "PASS",
+      "resolvedQuests": [
+        "CIRCLE_INVESTIGATION_1849",
+        "CIRCLE_LETTER_1849_MAY",
+        "PRINTSHOP_PROOF_1847",
+        "PUBLIC_DISCOURSE_1848"
+      ],
+      "hosts": [
+        "printer_ekaterina",
+        "nekrasov_reconstruction",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "sources": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "screenshot": "artifacts/v33/campaign-full-run-dostoevsky_petrashevsky-1440x900.png",
+      "error": null
+    }
+  ]
+}
