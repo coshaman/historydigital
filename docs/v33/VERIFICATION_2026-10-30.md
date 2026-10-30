@@ -21,15 +21,15 @@
 
 | Gate | Result |
 |---|---|
-| RPG core | 27/27 tests passed |
+| RPG core | 31/31 tests passed |
 | Learning and life simulation | 9/9 tests passed |
 | Local HTTP MIME handling | passed |
 | Canvas renderer startup | passed |
-| AI/Worker security, memory, limits and fallback | 18/18 test groups passed (21 including nested provider-error cases) |
-| Historical flow audit | PASS; 3 dated arcs, 7 sources, 4 historical packets, 5 quests, 5 ending IDs |
-| Pixel asset audit | PASS; 17 PNGs with dimensions and provenance checked, including eight 64×64 portraits |
+| AI/Worker security, memory, limits and fallback | 23/23 test groups passed (26 including nested provider-error cases) |
+| Historical flow audit | PASS; 3 dated arcs, 7 sources, 4 historical packets, 6 quests, 5 ending IDs |
+| Pixel asset audit | PASS; 21 PNGs with dimensions and provenance checked, including eight 64×64 portraits |
 | Ending reducer matrix | PASS; 120 reducer fixtures cover 23 of 24 possible four-choice vectors across 5 endings. The single omitted vector cannot meet any ending's authored required-action gate. Host positions are fixtures, not physical traversal evidence. |
-| Static RPG build | PASS; 57 files, relative paths, legacy Chancery entry preserved |
+| Static RPG build | PASS; 67 files, relative paths, legacy Chancery entry preserved |
 | Static integrity, lint, historical check and route tests | PASS |
 | Browser viewport smoke | PASS at 1440×900, 1366×768, 390×844 and 360×800 |
 | Browser two-map route | PASS; action-based coverage (43 successful moves, 7 verified inspections, 2 source readings, 2 hosts, map transition, quest decision), source reader scroll, clue and no page errors |
