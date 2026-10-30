@@ -1,6 +1,6 @@
 {
   "schemaVersion": "V33_CAMPAIGN_BROWSER_SMOKE_V1",
-  "base": "http://127.0.0.1:60444/",
+  "base": "http://127.0.0.1:53962/",
   "endingId": "KHOMYAKOV",
   "status": "PASS",
   "steps": [

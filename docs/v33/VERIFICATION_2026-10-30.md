@@ -182,3 +182,9 @@ The detailed machine-readable evidence is in `artifacts/v33/V33_RPG_PHASE1/BROWS
 - A mocked provider reproduced a privacy leak: it repeated the embodied character's private fact, held item, and exact starting balance in NPC speech, which the prior schema and prompt-only checks accepted.
 - The Worker now falls back to authored dialogue if NPC speech repeats an undisclosed private knowledge sentence, inventory label, action situation, relationship status, or exact balance. Matching is normalized for Korean spacing and punctuation; content previously disclosed by the player and facts available to the NPC from the authorized source packet are allowed. Player-side suggested replies are not scanned.
 - Regression tests prove both rejection of the hidden information and acceptance after the player states it. `npm run v33-ai-test` passes 23/23. Full acceptance is captured in `artifacts/v33/V33_ACCEPTANCE_AI_PRIVACY_GUARD_2026-10-30.log`.
+
+
+## Worker HTTP resource-injection regression — 2026-10-30
+
+- The actual Worker route now explicitly rejects client-provided `actorResources` with `400 invalid_request` and confirms the rejected request does not consume a Durable Object turn. `npm run v33-ai-test` passes 23/23.
+- Full acceptance log: `artifacts/v33/V33_ACCEPTANCE_WORKER_RESOURCE_INJECTION_2026-10-30.log`.
