@@ -4,10 +4,10 @@ import './engine/game-state.js';
 const { createInitialState, moveActor, possessHost, releaseHost, transitionMap, performQuestAction, saveGame, loadGame, nearTile, knowledgeForHost, recordSourceRead, recordEvidenceRead, recordDialogueTurn, enterLiteraryRealm, leaveLiteraryRealm, advanceChapter, advanceCampaignDate, resolveEnding, describeHostMoney } = globalThis.V33GameState;
 
 const readJson = async path => (await fetch(path)).json();
-const [street, shop, chancery, courtyard, literaryMap, firstQuest, source, firstIssue, historicalSources, literarySource, campaign, publicQuest, circleQuest, letterQuest, literaryQuest, sceneObservations, aiScenes, learningExam, learningSourceData, lifeTemplates, historicalComparisons] = await Promise.all([readJson('./rpg/maps/nevsky.json'), readJson('./rpg/maps/printshop.json'), readJson('./rpg/maps/chancery.json'), readJson('./rpg/maps/courtyard.json'), readJson('./rpg/maps/dead-souls.json'), readJson('./rpg/quests/printshop-article.json'), readJson('./rpg/data/khor-kalynych-source.json'), readJson('./rpg/data/sovremennik-1847-issue.json'), readJson('./rpg/data/historical-source-packets.json'), readJson('./rpg/data/dead-souls-source.json'), readJson('./rpg/quests/campaign.json'), readJson('./rpg/quests/public-discourse-1848.json'), readJson('./rpg/quests/circle-investigation-1849.json'), readJson('./rpg/quests/circle-letter-1849-may.json'), readJson('./rpg/quests/literary-dead-souls.json'), readJson('./rpg/data/scene-observations.json'), readJson('./rpg/ai/scenes.json'), readJson('./rpg/data/learning-exam.json'), readJson('./rpg/data/learning-sources.json'), readJson('./rpg/data/life-simulation.json'), readJson('./rpg/data/historical-comparisons.json')]);
-const cards = await Promise.all(['clerk_alexei','printer_ekaterina','courier_pavel','seamstress_anna','tenant_mikhail','bookseller_lev','nekrasov_reconstruction','literary_chichikov'].map(id => readJson(`./rpg/characters/${id}.json`)));
-const maps = { nevsky: street, printshop: shop, chancery, courtyard, 'dead-souls': literaryMap }, hostCards = cards;
-const questList = [firstQuest, publicQuest, circleQuest, letterQuest, literaryQuest];
+const [street, shop, chancery, courtyard, literaryMap, overcoatMap, firstQuest, source, firstIssue, historicalSources, literarySource, overcoatSource, campaign, publicQuest, circleQuest, letterQuest, literaryQuest, overcoatQuest, sceneObservations, aiScenes, learningExam, learningSourceData, lifeTemplates, historicalComparisons] = await Promise.all([readJson('./rpg/maps/nevsky.json'), readJson('./rpg/maps/printshop.json'), readJson('./rpg/maps/chancery.json'), readJson('./rpg/maps/courtyard.json'), readJson('./rpg/maps/dead-souls.json'), readJson('./rpg/maps/overcoat.json'), readJson('./rpg/quests/printshop-article.json'), readJson('./rpg/data/khor-kalynych-source.json'), readJson('./rpg/data/sovremennik-1847-issue.json'), readJson('./rpg/data/historical-source-packets.json'), readJson('./rpg/data/dead-souls-source.json'), readJson('./rpg/data/overcoat-source.json'), readJson('./rpg/quests/campaign.json'), readJson('./rpg/quests/public-discourse-1848.json'), readJson('./rpg/quests/circle-investigation-1849.json'), readJson('./rpg/quests/circle-letter-1849-may.json'), readJson('./rpg/quests/literary-dead-souls.json'), readJson('./rpg/quests/literary-overcoat.json'), readJson('./rpg/data/scene-observations.json'), readJson('./rpg/ai/scenes.json'), readJson('./rpg/data/learning-exam.json'), readJson('./rpg/data/learning-sources.json'), readJson('./rpg/data/life-simulation.json'), readJson('./rpg/data/historical-comparisons.json')]);
+const cards = await Promise.all(['clerk_alexei','printer_ekaterina','courier_pavel','seamstress_anna','tenant_mikhail','bookseller_lev','nekrasov_reconstruction','literary_chichikov','literary_akaky','literary_petrovich'].map(id => readJson(`./rpg/characters/${id}.json`)));
+const maps = { nevsky: street, printshop: shop, chancery, courtyard, 'dead-souls': literaryMap, overcoat: overcoatMap }, hostCards = cards;
+const questList = [firstQuest, publicQuest, circleQuest, letterQuest, literaryQuest, overcoatQuest];
 const questsById = new Map(questList.map(item => [item.id, item]));
 const relationHintValues = new Map();
 for (const quest of questList) for (const action of quest.actions ?? []) {
@@ -26,7 +26,7 @@ function playerActionHintsFor(hostId) {
   return state.ledger.filter(entry => entry.hostId === hostId && ['HISTORICAL_ACTION', 'LITERARY_ACTION'].includes(entry.eventType))
     .slice(-12).map(({ questId, actionId }) => ({ questId, actionId }));
 }
-const sourceRecords = new Map([source, firstIssue, ...historicalSources.records, literarySource].map(record => [record.sourceId, record]));
+const sourceRecords = new Map([source, firstIssue, ...historicalSources.records, literarySource, overcoatSource].map(record => [record.sourceId, record]));
 const initial = () => createInitialState({ maps, hostCards, quests: questList });
 let state;
 try { state = localStorage.getItem('v33-rpg-save') ? loadGame(localStorage.getItem('v33-rpg-save'), { maps, hostCards, quests: questList, learningExam }) : initial(); }
@@ -274,7 +274,8 @@ function currentNearby() {
   });
 }
 function questIsAvailable(activeQuest) {
-  return Boolean(activeQuest && (activeQuest.chapterId === state.world.chapterId || (activeQuest.chapterId === 'LITERARY_DEAD_SOULS' && state.world.activeRealm?.id === campaign.literaryRealm.id)) && (!activeQuest.date || activeQuest.date <= state.world.date || activeQuest.chapterId === 'LITERARY_DEAD_SOULS'));
+  const literary = Boolean(activeQuest?.realmId || activeQuest?.chapterId?.startsWith('LITERARY_'));
+  return Boolean(activeQuest && (literary ? state.world.activeRealm?.id === (activeQuest.realmId ?? activeQuest.chapterId) : activeQuest.chapterId === state.world.chapterId) && (!activeQuest.date || activeQuest.date <= state.world.date || literary));
 }
 function sourceRead(sourceId, archiveSourceIds = [], readingMode = 'PHYSICAL_COPY') {
   const record = sourceRecords.get(sourceId);
@@ -313,13 +314,13 @@ function openSourceDrawer() {
   const sourceButtons = unlocked.map(id => sourceRecords.get(id)).map(record => ({ label: record.titleKo, subcopy: `${record.documentDate ?? '1847'} · ${record.type ?? '문학 원문'} · ${record.range ?? record.witness.range}`, run: () => sourceRead(record.sourceId, unlocked, 'PLAYER_ARCHIVE') }));
   const realmActions = state.world.activeRealm
     ? [{ label: '문학 세계에서 돌아오기', subcopy: '1847–1849 역사 연표로 돌아갑니다 · 문학 속 사건은 역사 기록에 합쳐지지 않습니다', run: () => { const result = leaveLiteraryRealm(state, maps); if (result.ok) { setState(result.state); say('현실의 거리로 돌아오다', '도청 소재지의 여관은 소설 속에 남아 있다. 이곳에서 본 것은 역사 속 사람의 기억이 되지 않는다.', [{ label: '자료철 열기', run: openSourceDrawer }]); } } }]
-    : [{ label: '《죽은 혼》의 문학 세계로 들어가기', subcopy: '1842년 소설의 별도 장면입니다 · 역사 연표와 인물의 지식은 섞이지 않습니다 · 몸을 놓은 뒤 들어갑니다', run: () => { const card = cards.find(item => item.id === campaign.literaryRealm.hostId); const result = enterLiteraryRealm(state, maps[campaign.literaryRealm.mapId], card); if (result.ok) { setState(result.state); say('《죽은 혼》의 여관', '소설 제1장에 나오는 도청 소재지 여관이다. 여기의 장부와 인물은 문학 세계에만 속한다.', [{ label: '자료철 열기', run: openSourceDrawer }]); } else sayRecord('먼저 빌린 몸을 놓아주고 다시 시도하자.'); } }];
+    : campaign.literaryRealms.map(realm => ({ label: realm.entryLabelKo, subcopy: `1842년 소설의 별도 장면입니다 · 역사 연표와 지식은 섞이지 않습니다 · 몸을 놓은 뒤 들어갑니다`, run: () => { const card = cards.find(item => item.id === realm.hostId); const result = enterLiteraryRealm(state, maps[realm.mapId], card); if (result.ok) { setState(result.state); say(realm.titleKo, `${card.displayNameKo}의 작품 속 장면이다. 이곳의 인물과 선택은 문학 세계에만 남는다.`, [{ label: '자료철 열기', run: openSourceDrawer }]); } else sayRecord('먼저 빌린 몸을 놓아주고 다시 시도하자.'); } }));
   say(state.world.activeRealm ? '문학 세계의 자료' : '지금까지 열린 자료', state.world.activeRealm
     ? '소설 속에 놓인 책을 직접 읽으면 그 장면의 인물이 알게 된다.'
     : '자료철은 기록의 손님이 살펴보는 목록이다. 빌린 몸의 지식에는 그 사람이 현장에서 직접 읽거나 전달받은 자료만 남는다. 날짜가 오지 않은 문서는 연표가 진행된 뒤 열린다.', [...sourceButtons, ...realmActions]);
 }
 function continuationFor(activeQuest) {
-  if (activeQuest.chapterId === 'LITERARY_DEAD_SOULS') return [{ label: '문학 세계 자료철 열기', run: openSourceDrawer }];
+  if (activeQuest.realmId || activeQuest.chapterId?.startsWith('LITERARY_')) return [{ label: '문학 세계 자료철 열기', run: openSourceDrawer }];
   const arcIndex = campaign.arcs.findIndex(arc => arc.id === state.world.chapterId), arc = campaign.arcs[arcIndex];
   const questIndex = arc?.questIds.indexOf(activeQuest.id) ?? -1;
   const laterQuest = arc?.questIds.slice(questIndex + 1).map(id => questsById.get(id)).find(quest => state.quests[quest.id]?.status !== 'resolved');

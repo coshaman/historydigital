@@ -28,9 +28,9 @@ try {
     if (loadedPlace !== '관청 접수실') {
       const diagnosis = await page.evaluate(async () => {
         const read = async path => (await fetch(path)).json();
-        const maps = Object.fromEntries(await Promise.all(['nevsky', 'printshop', 'chancery', 'courtyard', 'dead-souls'].map(async id => [id, await read(`./rpg/maps/${id}.json`)])));
-        const hostCards = await Promise.all(['clerk_alexei','printer_ekaterina','courier_pavel','seamstress_anna','tenant_mikhail','bookseller_lev','nekrasov_reconstruction','literary_chichikov'].map(id => read(`./rpg/characters/${id}.json`)));
-        const quests = await Promise.all(['printshop-article','public-discourse-1848','circle-investigation-1849','circle-letter-1849-may','literary-dead-souls'].map(id => read(`./rpg/quests/${id}.json`)));
+        const maps = Object.fromEntries(await Promise.all(['nevsky', 'printshop', 'chancery', 'courtyard', 'dead-souls', 'overcoat'].map(async id => [id, await read(`./rpg/maps/${id}.json`)])));
+        const hostCards = await Promise.all(['clerk_alexei','printer_ekaterina','courier_pavel','seamstress_anna','tenant_mikhail','bookseller_lev','nekrasov_reconstruction','literary_chichikov','literary_akaky','literary_petrovich'].map(id => read(`./rpg/characters/${id}.json`)));
+        const quests = await Promise.all(['printshop-article','public-discourse-1848','circle-investigation-1849','circle-letter-1849-may','literary-dead-souls','literary-overcoat'].map(id => read(`./rpg/quests/${id}.json`)));
         const learningExam = await read('./rpg/data/learning-exam.json');
         const saved = localStorage.getItem('v33-rpg-save');
         try {

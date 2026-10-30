@@ -32,11 +32,15 @@ try {
   if (!ready) throw new Error(`Local game server did not become ready at ${url} (exitCode=${server.exitCode})`);
 
   const campaignCase = process.argv.find(argument => argument.startsWith('--campaign-case='))?.slice('--campaign-case='.length);
-  const scripts = campaignCase
+  const overcoatOnly = process.argv.includes('--overcoat-only');
+  const scripts = overcoatOnly
+    ? [['scripts/v33-overcoat-browser-smoke.mjs']]
+    : campaignCase
     ? [['scripts/v33-campaign-browser-acceptance.mjs', `--case=${campaignCase}`]]
     : [
     'scripts/v33-interpersonal-dialogue-browser.mjs',
     'scripts/v33-rpg-browser-smoke.mjs',
+    'scripts/v33-overcoat-browser-smoke.mjs',
     'scripts/v33-ending-browser-smoke.mjs',
     'scripts/v33-campaign-browser-acceptance.mjs',
   ].map(script => [script]);

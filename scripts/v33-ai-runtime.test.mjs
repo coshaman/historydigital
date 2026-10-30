@@ -105,12 +105,30 @@ test('AI dialogue receives the embodied public character context and keeps each 
   }
 });
 
+test('Petrovich can discuss only the sourced Overcoat passage with Akaky in the literary realm', async () => {
+  let providerInput, providerInstructions;
+  const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store: new MemorySessionStore(), allowedOrigins: ['https://game.example'], provider: { generate: async request => { providerInput = request.input; providerInstructions = request.instructions; return validTurn(request.input.scene.id, request.input.character.id); } } });
+  const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'literary_petrovich', actorHostId: 'literary_akaky' }));
+  assert.equal(opened.status, 201);
+  const turn = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken, requestId: 'overcoat-dialogue-0001', playerInput: '이 외투는 정말 손볼 수 없습니까?' }));
+  assert.equal(turn.status, 200);
+  assert.equal(turn.body.fallback, false);
+  assert.equal(providerInput.scene.id, 'V33_TALK_LITERARY_PETROVICH');
+  assert.deepEqual(providerInput.scene.allowedSourceIds, ['LIT-GOGOL-OVERCOAT-1842']);
+  assert.equal(providerInput.character.id, 'literary_petrovich');
+  assert.equal(providerInput.conversation.embodiedPlayer.id, 'literary_akaky');
+  assert.equal(providerInput.conversation.embodiedPlayer.kind, 'LITERARY');
+  assert.match(providerInstructions, /문학 인물은 문학 세계 밖의 역사 증언자로 말하지 않는다/);
+});
+
 test('derived starting resources stay character-specific and preserve unknown historical amounts', async () => {
   const actors = [
     require('../rpg/characters/bookseller_lev.json'),
     require('../rpg/characters/clerk_alexei.json'),
     require('../rpg/characters/courier_pavel.json'),
     require('../rpg/characters/literary_chichikov.json'),
+    require('../rpg/characters/literary_akaky.json'),
+    require('../rpg/characters/literary_petrovich.json'),
     require('../rpg/characters/nekrasov_reconstruction.json'),
     require('../rpg/characters/printer_ekaterina.json'),
     require('../rpg/characters/seamstress_anna.json'),

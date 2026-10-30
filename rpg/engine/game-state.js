@@ -49,8 +49,9 @@ function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky
     const slot = scheduleEntry(host, 540);
     if (slot) { host.scheduleId = `${slot.mapId}:${slot.atMinute}`; host.currentActivityKo = slot.activityKo ?? ''; }
   }
-  const immutableOutcomes = Object.fromEntries(quests.filter(quest => quest.chapterId !== 'LITERARY_DEAD_SOULS').map(quest => [quest.historicalOutcome.id, quest.historicalOutcome.value]));
-  const literaryOutcomes = Object.fromEntries(quests.filter(quest => quest.chapterId === 'LITERARY_DEAD_SOULS').map(quest => [quest.historicalOutcome.id, quest.historicalOutcome.value]));
+  const isLiteraryQuest = quest => Boolean(quest.realmId) || quest.chapterId?.startsWith('LITERARY_');
+  const immutableOutcomes = Object.fromEntries(quests.filter(quest => !isLiteraryQuest(quest)).map(quest => [quest.historicalOutcome.id, quest.historicalOutcome.value]));
+  const literaryOutcomes = Object.fromEntries(quests.filter(isLiteraryQuest).map(quest => [quest.historicalOutcome.id, quest.historicalOutcome.value]));
   return {
     version: SAVE_VERSION,
     world: {
@@ -222,8 +223,9 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
   const quest = quests.find(item => item.id === questId), current = state.quests?.[questId], action = quest?.actions.find(item => item.id === actionId);
   if (!quest || !current || current.status !== 'open' || !action) return { ok: false, reason: 'unknown_or_closed_action', state };
   if (quest.date && quest.date > state.world.date) return { ok: false, reason: 'quest_not_yet_available', state };
-  const literaryQuest = quest.chapterId === 'LITERARY_DEAD_SOULS';
-  if (literaryQuest ? state.world.activeRealm?.id !== 'LITERARY_DEAD_SOULS' : (quest.chapterId !== state.world.chapterId || Boolean(state.world.activeRealm))) return { ok: false, reason: 'quest_outside_chapter', state };
+  const literaryQuest = Boolean(quest.realmId) || quest.chapterId?.startsWith('LITERARY_');
+  const requiredRealmId = quest.realmId ?? quest.chapterId;
+  if (literaryQuest ? state.world.activeRealm?.id !== requiredRealmId : (quest.chapterId !== state.world.chapterId || Boolean(state.world.activeRealm))) return { ok: false, reason: 'quest_outside_chapter', state };
   if (state.player.embodiment !== hostId || !state.hosts[hostId]) return { ok: false, reason: 'wrong_embodiment', state };
   if (!action.hostIds.includes(hostId)) return { ok: false, reason: 'host_not_authorized', state };
   const host = state.hosts[hostId], entryMap = maps[quest.entry.mapId];
@@ -443,7 +445,7 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
   }
   if (!Number.isInteger(state.player.position?.x) || !Number.isInteger(state.player.position?.y) || state.player.position.x < 0 || state.player.position.y < 0 || state.player.position.x >= maps[state.world.currentMapId].width || state.player.position.y >= maps[state.world.currentMapId].height) throw new Error('Save contains an invalid player position');
   for (const quest of quests) {
-    const outcomeStore = quest.chapterId === 'LITERARY_DEAD_SOULS' ? state.world.literaryOutcomes : state.world.immutableOutcomes;
+    const outcomeStore = (Boolean(quest.realmId) || quest.chapterId?.startsWith('LITERARY_')) ? state.world.literaryOutcomes : state.world.immutableOutcomes;
     if (outcomeStore?.[quest.historicalOutcome.id] !== quest.historicalOutcome.value) throw new Error('Save modified an immutable historical or literary outcome');
   }
   return state;

@@ -2,9 +2,18 @@
 
 Updated 2026-10-30 after browser verification of the circle, exam, campaign, ending, and later-life timeline flows.
 
+## Literary expansion: Gogol's The Overcoat — 2026-10-30
+
+- Added a separately namespaced 1842 literary realm for Akaky Bashmachkin and the tailor Petrovich. Six contiguous Russian paragraphs from the 1952 scholarly edition transcription are paired with this project's Korean translation and recorded with a source range and URL.
+- The physical path is playable: enter through the source drawer, approach and possess Akaky, read the on-map excerpt, walk to the worn coat, record Petrovich's canonical repair verdict, then return to the historical map. Literary action results cannot alter the 1847–1849 historical outcomes.
+- `npm run acceptance:v33` passed after the expansion. This includes core/save validation, the source-bound literary AI context, history and asset audits, build/lint/repository checks, four desktop/mobile browser viewports, all five ending screens, and all five full campaign routes.
+- The dedicated browser smoke verified the Overcoat sequence at 1440×900 with no horizontal overflow and no browser errors. Report and screenshot: `artifacts/v33/OVERCOAT_REALM/`.
+- Live provider credentials and a human playtest of the deployed site remain external release gates; this work verifies the authored offline dialogue path.
+
 ## Verified locally
 
 - `npm run acceptance:v33` passed on the current implementation after the possessed-character dialogue context change, including core and learning/exam tests, historical and asset audits, static build, repository checks, four-viewport browser smoke, five ending UIs, and five full campaign routes. The captured run is `artifacts/v33/V33_ACCEPTANCE_ROLE_CONTEXT_2026-10-30.log`.
+- The Overcoat-expanded ZIP was extracted into a clean temporary directory, dependencies were installed from its lockfile, and `npm run acceptance:v33` passed there too. The exact extracted-copy log is `artifacts/v33/V33_ARCHIVE_EXTRACTED_OVERCOAT_2026-10-30.log`.
 - A fresh full Uvarov campaign browser run passed from the player's in-game route. It physically completed the 1847, 1848, and 1849 quests, made a reading-circle choice, completed the learning units, sat the exam, and reached the ending. The report is `artifacts/v33/CAMPAIGN_BROWSER_SMOKE_UVAROV.json`.
 - The ending browser smoke passed all five ending screens. It checked the later-life timeline next/replay controls at desktop size, and the 360×800 mobile layout, reduced-motion behavior, scroll access to restart, and restart action. See `artifacts/v33/ENDING_BROWSER_SMOKE.json`.
 - The existing campaign browser acceptance also runs circle/exam interactions in each route: attendance, notes-only attendance, declining, passing/failing, deferring, and helping Pavel. Route matrix logic checks retain the same questions and pass threshold regardless of attendance.

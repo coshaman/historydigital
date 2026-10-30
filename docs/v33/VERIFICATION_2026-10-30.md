@@ -194,3 +194,15 @@ The detailed machine-readable evidence is in `artifacts/v33/V33_RPG_PHASE1/BROWS
 
 - A provider response containing `1·8 코페이카` bypassed the prior strict digit-plus-currency pattern even though the player had not disclosed the amount.
 - The checker now removes spacing and punctuation before matching the exact balance and recognizes the project's Korean, English, and Russian kopek forms. It still allows the value after the player states it. Regression test and full acceptance log: `artifacts/v33/V33_ACCEPTANCE_BALANCE_NORMALIZATION_2026-10-30.log`.
+## Gogol literary realm expansion — 2026-10-30
+
+- Added an Overcoat scene with Akaky Bashmachkin and Petrovich as literary characters in a realm separate from the 1847–1849 campaign. Six consecutive paragraphs from the 1952 USSR Academy of Sciences edition are recorded in Russian alongside new Korean translations and a precise transcription range.
+- The on-map browser path passed: enter the realm, possess Akaky, open the source text, walk to the coat, select the canonical repair verdict, and return to the historical map. At 1440×900 the document did not overflow horizontally; the browser reported no page errors.
+- `npm run acceptance:v33` exited 0 after the changes. Core tests, source and asset audits, static build, lint, historical checks, all four desktop/mobile viewport checks, all five ending UIs, and all five complete campaign routes passed.
+- Full acceptance initially exposed that the ending-route fixture omitted the new literary outcome from its initial save. The fixture and its failure diagnostics now load the added map, characters, and quest; all five ending saves and browser endings then passed.
+- Live AI remains offline because no Worker URL/provider key is configured. The added Petrovich scene is covered by the authored-context runtime tests; live provider output remains unverified.
+
+## Fresh extraction verification — Overcoat expansion
+
+- The 635-entry ZIP was extracted into a new temporary folder. After running `npm ci --offline` from the included lockfile, `npm run acceptance:v33` passed (exit code 0) there, including all five ending UIs, the Overcoat route, four viewport checks, and all five campaign outcomes.
+- Captured extracted-copy output: `artifacts/v33/V33_ARCHIVE_EXTRACTED_OVERCOAT_2026-10-30.log`.

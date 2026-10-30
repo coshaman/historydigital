@@ -273,6 +273,78 @@
       ],
       "sourceIds": [],
       "notes": "Fictional character illustration for the game; no claim of a documented individual. Source contact sheet: artifacts/v33/portrait-source-sheet.png."
+    },
+    {
+      "id": "sprite-literary_akaky",
+      "path": "rpg/assets/akaky.png",
+      "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
+      "generatedBy": "scripts/v33-generate-literary-assets.mjs",
+      "license": "original project-authored pixels",
+      "historicalConfidence": "LITERARY_CHARACTER_RECONSTRUCTION",
+      "intendedScene": [
+        "overcoat"
+      ],
+      "sourceIds": [
+        "LIT-GOGOL-OVERCOAT-1842"
+      ],
+      "sourceUrls": [
+        "https://rvb.ru/gogol/01text/vol_03/01povesti/0046.htm"
+      ],
+      "notes": "Akaky Akakievich is a fictional character; patches and worn-coat palette are a scene-bound pixel interpretation."
+    },
+    {
+      "id": "sprite-literary_petrovich",
+      "path": "rpg/assets/petrovich.png",
+      "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
+      "generatedBy": "scripts/v33-generate-literary-assets.mjs",
+      "license": "original project-authored pixels",
+      "historicalConfidence": "LITERARY_CHARACTER_RECONSTRUCTION",
+      "intendedScene": [
+        "overcoat"
+      ],
+      "sourceIds": [
+        "LIT-GOGOL-OVERCOAT-1842"
+      ],
+      "sourceUrls": [
+        "https://rvb.ru/gogol/01text/vol_03/01povesti/0046.htm"
+      ],
+      "notes": "Petrovich is a fictional tailor in Gogol’s story; work-apron and needle are a literary scene interpretation."
+    },
+    {
+      "id": "portrait-literary_akaky",
+      "path": "rpg/assets/portrait-literary_akaky.png",
+      "type": "ORIGINAL_PIXEL_FACE_PORTRAIT",
+      "generatedBy": "scripts/v33-generate-literary-assets.mjs",
+      "license": "original project-authored pixels",
+      "historicalConfidence": "LITERARY_CHARACTER_RECONSTRUCTION",
+      "intendedScene": [
+        "overcoat"
+      ],
+      "sourceIds": [
+        "LIT-GOGOL-OVERCOAT-1842"
+      ],
+      "sourceUrls": [
+        "https://rvb.ru/gogol/01text/vol_03/01povesti/0046.htm"
+      ],
+      "notes": "Pixel portrait of a literary character, not a documented likeness."
+    },
+    {
+      "id": "portrait-literary_petrovich",
+      "path": "rpg/assets/portrait-literary_petrovich.png",
+      "type": "ORIGINAL_PIXEL_FACE_PORTRAIT",
+      "generatedBy": "scripts/v33-generate-literary-assets.mjs",
+      "license": "original project-authored pixels",
+      "historicalConfidence": "LITERARY_CHARACTER_RECONSTRUCTION",
+      "intendedScene": [
+        "overcoat"
+      ],
+      "sourceIds": [
+        "LIT-GOGOL-OVERCOAT-1842"
+      ],
+      "sourceUrls": [
+        "https://rvb.ru/gogol/01text/vol_03/01povesti/0046.htm"
+      ],
+      "notes": "Pixel portrait of a literary character, not a documented likeness."
     }
   ]
 }

@@ -11,7 +11,7 @@ const root = process.cwd();
 const read = relative => fs.readFile(path.join(root, relative), 'utf8').then(JSON.parse);
 const maps = Object.fromEntries(await Promise.all((await fs.readdir(path.join(root, 'rpg/maps'))).filter(file => file.endsWith('.json')).map(async file => [path.basename(file, '.json'), await read(`rpg/maps/${file}`)])));
 const cards = await Promise.all((await fs.readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => read(`rpg/characters/${file}`)));
-const quests = await Promise.all(['printshop-article', 'public-discourse-1848', 'circle-investigation-1849', 'circle-letter-1849-may', 'literary-dead-souls'].map(name => read(`rpg/quests/${name}.json`)));
+const quests = await Promise.all(['printshop-article', 'public-discourse-1848', 'circle-investigation-1849', 'circle-letter-1849-may', 'literary-dead-souls', 'literary-overcoat'].map(name => read(`rpg/quests/${name}.json`)));
 const campaign = await read('rpg/quests/campaign.json');
 const learningExam = await read('rpg/data/learning-exam.json');
 

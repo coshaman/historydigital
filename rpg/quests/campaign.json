@@ -6,6 +6,10 @@
     { "id": "V33_1849_CIRCLE", "date": "1849-04-22", "startMapId": "chancery", "questIds": ["CIRCLE_INVESTIGATION_1849", "CIRCLE_LETTER_1849_MAY"], "sources": ["OBJ-WS-PETRASHEVSKY-REPORT-1849", "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"], "titleKo": "모임과 수사 기록" }
   ],
   "literaryRealm": { "id": "LITERARY_DEAD_SOULS", "mapId": "dead-souls", "date": "1842-01-01", "hostId": "literary_chichikov", "sourceId": "LIT-GOGOL-DEAD-SOULS-1842", "realmClass": "LITERARY_REALM", "historicalWitness": false },
+  "literaryRealms": [
+    { "id": "LITERARY_DEAD_SOULS", "mapId": "dead-souls", "date": "1842-01-01", "hostId": "literary_chichikov", "sourceId": "LIT-GOGOL-DEAD-SOULS-1842", "titleKo": "《죽은 혼》의 여관", "entryLabelKo": "《죽은 혼》의 여관으로 들어가기", "realmClass": "LITERARY_REALM", "historicalWitness": false },
+    { "id": "LITERARY_OVERCOAT", "mapId": "overcoat", "date": "1842-01-01", "hostId": "literary_akaky", "sourceId": "LIT-GOGOL-OVERCOAT-1842", "titleKo": "《외투》 속 재단사의 방", "entryLabelKo": "《외투》 속 재단사의 방으로 들어가기", "realmClass": "LITERARY_REALM", "historicalWitness": false }
+  ],
   "endings": [
     { "id": "UVAROV", "titleKo": "관청의 질서 안에 남다", "choiceSubcopyKo": "보고서를 공식 접수해 상급자와 장부에 남깁니다 · 기관의 주장을 옮긴 책임도 기록에 남습니다", "epilogueKo": "당신은 보고서를 접수해 공식 기록으로 남겼다. 작성자의 주장과 확인된 사실을 나누려 애썼지만, 문서에 이름을 올린 순간 그 판단의 책임도 함께 맡게 됐다.", "requiredActions": ["FILE_OFFICIAL_REPORT"] },
     { "id": "BELINSKY", "titleKo": "비평이 독자에게 닿도록 하다", "choiceSubcopyKo": "교정쇄를 출처와 대조합니다 · 작업장 메모에 남고 확인이 늦어집니다", "epilogueKo": "당신은 인쇄하기 전에 문장이 어디서 왔는지 물었다. 한 번 더 확인하느라 작업은 늦어졌지만, 출처를 지운 채 서둘러 넘기지는 않았다.", "requiredActions": ["ASK_FOR_SOURCE"] },

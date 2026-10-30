@@ -1,8 +1,17 @@
 {
   "schemaVersion": "V33-IMAGE-AUDIT-2",
   "status": "PASS",
-  "pngCount": 17,
+  "pngCount": 21,
   "assets": [
+    {
+      "path": "rpg/assets/akaky.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 402,
+      "sha256": "cb12e8f10e6ed8ed7619e3e4bddf16a23439b4133a4e1b7b707c5250778343fb",
+      "license": "original project-authored pixels",
+      "confidence": "LITERARY_CHARACTER_RECONSTRUCTION"
+    },
     {
       "path": "rpg/assets/alexei.png",
       "width": 48,
@@ -85,6 +94,15 @@
       "confidence": "RECONSTRUCTED"
     },
     {
+      "path": "rpg/assets/petrovich.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 397,
+      "sha256": "e227924a02b1c97f1a75d978925bdccdbe01db9859d7e888ab59517f3977d682",
+      "license": "original project-authored pixels",
+      "confidence": "LITERARY_CHARACTER_RECONSTRUCTION"
+    },
+    {
       "path": "rpg/assets/portrait-bookseller_lev.png",
       "width": 64,
       "height": 64,
@@ -112,12 +130,30 @@
       "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
     },
     {
+      "path": "rpg/assets/portrait-literary_akaky.png",
+      "width": 64,
+      "height": 64,
+      "bytes": 270,
+      "sha256": "822cb9485f8c0b06dae27e3d8077267fd470d4dc8762a6befef97a21d8e8937d",
+      "license": "original project-authored pixels",
+      "confidence": "LITERARY_CHARACTER_RECONSTRUCTION"
+    },
+    {
       "path": "rpg/assets/portrait-literary_chichikov.png",
       "width": 64,
       "height": 64,
       "bytes": 9669,
       "sha256": "514331df4b4373dc2ecdd849c911de4231839601226a678c4caacd0f4adfaf80",
       "license": "original project-generated illustrative artwork",
+      "confidence": "LITERARY_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-literary_petrovich.png",
+      "width": 64,
+      "height": 64,
+      "bytes": 283,
+      "sha256": "893cc8c4bf402f5b9e19ac91f22204ed3f3d5ae9c88306b3f3703da830b7c492",
+      "license": "original project-authored pixels",
       "confidence": "LITERARY_CHARACTER_RECONSTRUCTION"
     },
     {

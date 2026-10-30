@@ -1,0 +1,14 @@
+{
+  "id": "LITERARY_OVERCOAT_1842",
+  "titleKo": "외투를 고칠 수 있을까",
+  "chapterId": "LITERARY_OVERCOAT",
+  "realmId": "LITERARY_OVERCOAT",
+  "date": "1842-01-01",
+  "premiseKo": "아카키 아카키예비치는 등과 어깨가 닳은 외투를 들고 오래 알고 지낸 재단사 페트로비치를 찾아왔다. 이 장면은 《외투》에 근거한 문학적 재구성이다.",
+  "historicalOutcome": { "id": "GOGOL_AKAKY_OVERCOAT", "value": "The selected passage keeps its canonical outcome: Petrovich judges the worn coat beyond repair and tells Akaky to order a new one.", "sourceIds": ["LIT-GOGOL-OVERCOAT-1842"] },
+  "entry": { "mapId": "overcoat", "objectId": 81, "requiredHostId": "literary_akaky" },
+  "actions": [
+    { "id": "RECORD_CANONICAL_REFUSAL", "hostIds": ["literary_akaky"], "labelKo": "페트로비치의 수선 불가 판정을 그대로 기록한다", "subcopyKo": "재단사와 사본을 읽는 사람에게 보입니다 · 문학 속 장면 기록에 남습니다 · 작품의 다음 사건은 바뀌지 않습니다", "resultKo": "페트로비치는 외투를 고칠 수 없다고 말했다. 이 판정은 《외투》의 장면 그대로다.", "resultFlag": "recordedCanonicalRefusal", "requiredKnowledgeId": "LIT-GOGOL-OVERCOAT-1842", "effects": { "situationKo": "재단사는 낡은 외투를 수선할 수 없다고 판정했다." } },
+    { "id": "ANNOTATE_REPAIR_COST", "hostIds": ["literary_akaky"], "labelKo": "수선할 수 없는 이유와 새 외투 비용을 여백에 적는다", "subcopyKo": "재단사에게 보이고 사본의 여백에 남습니다 · 겉감과 안감의 상태를 함께 적습니다 · 작품의 다음 사건은 바뀌지 않습니다", "resultKo": "겉감이 비치고 안감이 터졌다는 설명을 판정 옆에 적었다. 외투가 새것으로 바뀌는 작품의 사건은 그대로다.", "resultFlag": "annotatedRepairCost", "requiredKnowledgeId": "LIT-GOGOL-OVERCOAT-1842", "effects": { "situationKo": "외투의 겉감과 안감이 닳아 수선이 어렵다는 대목을 여백에 기록했다." } }
+  ]
+}

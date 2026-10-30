@@ -35,8 +35,8 @@ test('host cards represent four distinct playable circumstances and reference re
   const historicalReconstructions = cards.filter(card => card.kind === 'HISTORICAL_RECONSTRUCTION');
   assert.equal(historicalTownResidents.length, 6);
   assert.equal(historicalReconstructions.length, 1);
-  assert.equal(cards.length, 8);
-  assert.equal(new Set(cards.map(card => card.id)).size, 8);
+  assert.equal(cards.length, 10);
+  assert.equal(new Set(cards.map(card => card.id)).size, 10);
   const assetManifest = await json('rpg/assets/ASSET_PROVENANCE.json');
   assert.ok(cards.every(card => assetManifest.assets.some(asset => asset.path === `rpg/${card.sprite.file}`)), 'every host sprite has checked-in provenance');
   assert.ok(new Set(historicalTownResidents.map(card => card.socialEstate)).size >= 4);
@@ -329,7 +329,7 @@ test('save/load preserves split world, player, host knowledge and rejects malfor
 test('Chancery and courtyard are door-connected maps with access tied to the embodied host', async () => {
   const maps = await loadMaps();
   const cards = await Promise.all((await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)));
-  assert.deepEqual(Object.keys(maps).sort(), ['chancery', 'courtyard', 'dead-souls', 'nevsky', 'printshop']);
+  assert.deepEqual(Object.keys(maps).sort(), ['chancery', 'courtyard', 'dead-souls', 'nevsky', 'overcoat', 'printshop']);
   const doors = Object.values(maps).flatMap(map => map.layers.find(layer => layer.name === 'Interactions').objects.filter(object => object.type === 'map-exit').map(object => ({ map, object, props: Object.fromEntries(object.properties.map(property => [property.name, property.value])) })));
   assert.ok(doors.length >= 6);
   assert.ok(doors.every(door => maps[door.props.targetMapId]));
@@ -501,7 +501,7 @@ test('literary realm is source-bound, enterable, and cannot rewind or alter the 
   state = entered.state;
   assert.equal(state.world.date, date);
   assert.equal(state.world.activeRealm.id, 'LITERARY_DEAD_SOULS');
-  const possessed = possessHost(state, card.id, map);
+  const possessed = possessHost(state, card.id, maps[map.mapId]);
   assert.equal(possessed.ok, true);
   state = possessed.state;
   assert.equal(state.world.immutableOutcomes.SOVREMENNIK_1847_ISSUE_PUBLICATION, undefined);
@@ -522,6 +522,52 @@ test('literary realm is source-bound, enterable, and cannot rewind or alter the 
   assert.equal(exited.state.player.embodiment, null);
   assert.equal(source.sourceId, 'LIT-GOGOL-DEAD-SOULS-1842');
   assert.equal(map.metadata.mapClass, 'LITERARY_REALM');
+});
+
+test('The Overcoat reconstruction is a separate, source-bound realm with its own playable host and fixed literary outcome', async () => {
+  const map = await json('rpg/maps/overcoat.json');
+  const card = await json('rpg/characters/literary_akaky.json');
+  const source = await json('rpg/data/overcoat-source.json');
+  const quest = await json('rpg/quests/literary-overcoat.json');
+  const campaign = await json('rpg/quests/campaign.json');
+  const { enterLiteraryRealm, leaveLiteraryRealm, performQuestAction } = require('../rpg/engine/game-state.js');
+  const maps = await loadMaps(); maps[map.mapId] = map;
+  const cards = [...await Promise.all((await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)))];
+  const quests = [quest];
+  let state = createInitialState({ maps, hostCards: cards, quests, startMapId: 'nevsky' });
+  const historicalBefore = structuredClone(state.world.immutableOutcomes);
+  const entered = enterLiteraryRealm(state, map, card);
+  assert.equal(entered.ok, true);
+  state = entered.state;
+  assert.equal(state.world.activeRealm.id, 'LITERARY_OVERCOAT');
+  assert.equal(state.world.currentMapId, 'overcoat');
+  assert.equal(state.world.date, '1847-06-01', 'literary travel cannot rewind the historical campaign date');
+  const possessed = possessHost(state, card.id, map);
+  assert.equal(possessed.ok, true);
+  state = possessed.state;
+  const read = recordSourceRead(state, source.sourceId, maps);
+  assert.equal(read.ok, true);
+  state = read.state;
+  for (let step = 0; step < 7; step += 1) {
+    const moved = moveActor(state, 'right', map, maps);
+    assert.equal(moved.moved, true, 'Akaky can walk to the coat interaction');
+    state = moved.state;
+  }
+  const action = quest.actions[0];
+  const completed = performQuestAction(state, { questId: quest.id, hostId: card.id, actionId: action.id, objectId: quest.entry.objectId }, { quests, maps });
+  assert.equal(completed.ok, true);
+  state = completed.state;
+  assert.deepEqual(state.world.immutableOutcomes, historicalBefore, 'literary choices never mutate historical outcomes');
+  assert.ok(state.world.literaryOutcomes.GOGOL_AKAKY_OVERCOAT, 'the novel outcome stays in its literary namespace');
+  assert.equal(state.quests[quest.id].status, 'resolved');
+  assert.equal(source.realmClass, 'LITERARY_REALM');
+  assert.equal(source.author, 'Николай Васильевич Гоголь');
+  assert.match(source.range, /consecutive/);
+  const exited = leaveLiteraryRealm(state, maps);
+  assert.equal(exited.ok, true);
+  assert.equal(exited.state.world.currentMapId, 'nevsky');
+  assert.equal(exited.state.world.date, '1847-06-01');
+  assert.equal(campaign.literaryRealms.some(realm => realm.id === 'LITERARY_OVERCOAT'), true);
 });
 
 test('chapter and ending reducer preserve fixed historical outcomes and resolve mixed histories through a final authored decision', async () => {

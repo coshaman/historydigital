@@ -3,7 +3,7 @@
 const { createHmac, timingSafeEqual, randomUUID } = require('node:crypto');
 const scenes = require('../../rpg/ai/scenes.json').sessions;
 const historicalSources = require('../../rpg/data/historical-source-packets.json').records;
-const literarySources = [require('../../rpg/data/dead-souls-source.json')];
+const literarySources = [require('../../rpg/data/dead-souls-source.json'), require('../../rpg/data/overcoat-source.json')];
 const sourceRecords = new Map([...historicalSources, ...literarySources].map(source => [source.sourceId, source]));
 const cards = new Map([
   require('../../rpg/characters/clerk_alexei.json'),
@@ -14,6 +14,8 @@ const cards = new Map([
   require('../../rpg/characters/bookseller_lev.json'),
   require('../../rpg/characters/nekrasov_reconstruction.json'),
   require('../../rpg/characters/literary_chichikov.json'),
+  require('../../rpg/characters/literary_akaky.json'),
+  require('../../rpg/characters/literary_petrovich.json'),
 ].map(card => [card.id, card]));
 const relationshipQuests = [
   require('../../rpg/quests/printshop-article.json'),
@@ -21,7 +23,7 @@ const relationshipQuests = [
   require('../../rpg/quests/circle-investigation-1849.json'),
   require('../../rpg/quests/circle-letter-1849-may.json'),
 ];
-const dialogueQuests = [...relationshipQuests, require('../../rpg/quests/literary-dead-souls.json')];
+const dialogueQuests = [...relationshipQuests, require('../../rpg/quests/literary-dead-souls.json'), require('../../rpg/quests/literary-overcoat.json')];
 const actorActionRecords = new Map();
 for (const quest of dialogueQuests) for (const action of quest.actions ?? []) {
   actorActionRecords.set(`${quest.id}:${action.id}`, { questId: quest.id, actionId: action.id, hostIds: action.hostIds, situationKo: action.effects?.situationKo ?? action.resultKo, effects: action.effects ?? {} });
@@ -298,7 +300,7 @@ function createRpgAiService({ secret, store, allowedOrigins = [], provider = nul
     if (globalLimiter ? !(await globalLimiter.consume(time)) : !(await store.consumeGlobal(time))) { await store.release(sessionId, body.requestId, time); return response(429, { error: 'global_rate_limit' }, request.origin, allowedOrigins); }
     const scene = { ...configuration, hostId: card.id };
     const sourceEvidence = (scene.allowedSourceIds ?? []).map(sourceId => sourceRecords.get(sourceId)).filter(Boolean).map(source => ({ sourceId: source.sourceId, titleKo: source.titleKo, documentDate: source.documentDate, contextKo: source.contextKo, paragraphs: (source.paragraphs ?? []).map(paragraph => ({ ru: paragraph.ru, ko: paragraph.ko })) }));
-    const input = { scene: { id: scene.sceneId, objective: scene.dialogueObjective, focusKo: scene.focusKo, allowedTopics: scene.allowedTopics, forbiddenTopics: scene.forbiddenTopics, knownFactIds: scene.allowedSourceIds }, conversation: { embodiedPlayer: context.actorHostId ? safeEmbodiedProfile(cards.get(context.actorHostId)) : null, playerResources, relationshipHints: context.actorHostId ? actorRelations : {}, playerActions: context.actorHostId ? actorActions : [] }, sourceEvidence, character: safeProfile(card), recentTurns: context.recentTurns.slice(-8), playerInput: inputKo };
+    const input = { scene: { id: scene.sceneId, objective: scene.dialogueObjective, focusKo: scene.focusKo, allowedTopics: scene.allowedTopics, forbiddenTopics: scene.forbiddenTopics, allowedSourceIds: scene.allowedSourceIds, knownFactIds: scene.allowedSourceIds }, conversation: { embodiedPlayer: context.actorHostId ? safeEmbodiedProfile(cards.get(context.actorHostId)) : null, playerResources, relationshipHints: context.actorHostId ? actorRelations : {}, playerActions: context.actorHostId ? actorActions : [] }, sourceEvidence, character: safeProfile(card), recentTurns: context.recentTurns.slice(-8), playerInput: inputKo };
     let responseBody, fallback = !provider;
     if (provider) {
       try {
