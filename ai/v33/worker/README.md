@@ -1,6 +1,6 @@
 # V33 RPG dialogue Worker
 
-GitHub Pages serves the game only. This Worker is the only service that receives the OpenAI secret. Requests from other origins are rejected; the exact Pages origin is configured in `RPG_ALLOWED_ORIGINS`.
+The game is a static site that can be served by GitHub Pages or Vercel. This Cloudflare Worker is the only service that receives the OpenAI secret. Requests from unlisted origins are rejected; set the deployed game's exact browser origin in `RPG_ALLOWED_ORIGINS`.
 
 ## Deploy
 
@@ -9,8 +9,10 @@ GitHub Pages serves the game only. This Worker is the only service that receives
 3. Run `npx wrangler secret put RPG_SESSION_SIGNING_KEY` and enter a new random secret of at least 32 bytes.
 4. Run `npx wrangler secret put OPENAI_API_KEY` and enter the OpenAI project key.
 5. Run `npx wrangler deploy`, then copy the resulting origin (for example, `https://russian-lives-v33-rpg-ai.example.workers.dev`).
-6. Set the repository Actions **variable** `RPG_AI_API_BASE_URL` to that origin. For example: `gh variable set RPG_AI_API_BASE_URL --repo coshaman/historydigital --body https://russian-lives-v33-rpg-ai.example.workers.dev`. This is public configuration, not a secret. The Pages workflow passes it into `npm run build:v33`, which writes only the validated HTTPS origin to `rpg/ai/config.js` in the static artifact. Missing variable means offline mode; unsafe schemes, credentials, paths and query strings fail the build.
-7. Run the `V33 GitHub Pages` workflow on `master` (or push the next approved change) to rebuild Pages, then call `GET /api/rpg/health` from the deployed Pages origin. It reports service availability only and never returns a key or secret.
+6. Set the public build variable `RPG_AI_API_BASE_URL` to the Worker origin. On Vercel, add it at **Project → Settings → Environment Variables** and select Production (select Preview only if its origin is also allowlisted); on GitHub Pages, set the repository Actions variable of the same name. The build writes only the validated HTTPS origin to the static artifact. Missing variable means offline mode; unsafe schemes, credentials, paths, and query strings fail the build.
+7. Redeploy the Vercel project or run the `V33 GitHub Pages` workflow on `master`, then call `GET /api/rpg/health` from the deployed game origin. It reports service availability only and never returns a key or secret.
+
+For Vercel, add the exact production site origin (for example `https://<project>.vercel.app`, or your custom domain) to `RPG_ALLOWED_ORIGINS` in the Worker configuration and redeploy the Worker. Add a Preview origin only when you need AI dialogue in that Preview. Never place `OPENAI_API_KEY` or `RPG_SESSION_SIGNING_KEY` in Vercel; keep both as Cloudflare Worker secrets.
 
 To rotate a key or signing secret, create the replacement in the provider dashboard, run the matching `wrangler secret put` command, redeploy, and revoke the old value. No API key belongs in Pages build variables or browser code. `OPENAI_API_KEY` is absent from this example and all checked-in source.
 

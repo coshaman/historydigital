@@ -2,9 +2,15 @@
 
 ## Static game
 
-The repository root serves the RPG from `index.html`; the former Chancery game remains at `chancery.html`. The RPG uses relative asset paths and is packaged with `npm run build:v33` into `dist-v33/`. The GitHub Pages workflow runs on pushes to `master` and supports manual dispatch. The repository's Pages source must be set to GitHub Actions.
+The repository root serves the RPG from `index.html`; the former Chancery game remains at `chancery.html`. The RPG uses relative asset paths and is packaged with `npm run build:v33` into `dist-v33/`.
 
-The output is a project site and works below `/historydigital/` because all game assets are relative. The public game has no provider key. The only public AI setting is the optional Worker base URL in `rpg/ai/config.js`.
+### Vercel
+
+The repository-root `vercel.json` selects the static “Other” preset, runs `npm ci` and `npm run build:v33`, and publishes `dist-v33/`. Import the repository with its root directory set to the repository root and Production Branch set to `master`. Configure the optional public Worker origin as `RPG_AI_API_BASE_URL` in **Project → Settings → Environment Variables**; the value is embedded in the static client at build time, so it is public configuration. Redeploy after changing it. The Vercel setup, production/preview scope, and secret-handling instructions are in the root [README](../../README.md).
+
+GitHub Pages remains a supported alternative: its workflow runs on pushes to `master` and supports manual dispatch. The repository's Pages source must be set to GitHub Actions.
+
+The output works at a domain root or below `/historydigital/` because all game assets are relative. The public game has no provider key. The only public AI setting is the optional Worker base URL in `rpg/ai/config.js`.
 
 ## Worker
 
