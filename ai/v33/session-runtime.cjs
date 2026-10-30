@@ -137,12 +137,12 @@ function hasUndisclosedPlayerContext(turn, input) {
   })) return true;
   const money = conversation.playerResources?.money;
   if (!Number.isSafeInteger(money?.amount) || !['kopeks', '코페이카'].includes(money.unit)) return false;
-  const amount = String(money.amount).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const currency = money.unit === 'kopeks' ? 'kopeks?' : '코페이카';
-  const exactBalance = new RegExp(`(?<!\\d)${amount}\\s*${currency}(?![\\p{L}])`, 'iu');
   const spokenBalance = turn.beats.filter(beat => beat.speakerId !== 'NARRATION').map(beat => beat.textKo).join(' ');
-  const playerDisclosedBalance = exactBalance.test([input.playerInput, ...(input.recentTurns ?? []).filter(item => item.role === 'user').map(item => item.text)].join(' '));
-  return exactBalance.test(spokenBalance) && !playerDisclosedBalance;
+  const playerDisclosure = [input.playerInput, ...(input.recentTurns ?? []).filter(item => item.role === 'user').map(item => item.text)].join(' ');
+  const currencies = money.unit === 'kopeks' ? ['kopeks', 'kopek', 'kopecks', 'kopeck', 'копеек', 'копейки', 'копейка', '코페이카'] : [money.unit];
+  const balanceForms = currencies.map(currency => `${money.amount}${currency}`);
+  const containsBalance = text => balanceForms.some(form => normalize(text).includes(normalize(form)));
+  return containsBalance(spokenBalance) && !containsBalance(playerDisclosure);
 }
 function fallbackTurn(scene) {
   return { schemaVersion: TURN_SCHEMA_VERSION, sceneId: scene.sceneId, beats: [{ speakerId: scene.hostId, textKo: scene.fallbackKo, emotion: 'neutral' }], suggestedReplies: scene.fallbackReplies.slice(0, 3).map((textKo, index) => ({ id: `R${index + 1}`, textKo, tone: ['curious','direct','reflective'][index] })) };

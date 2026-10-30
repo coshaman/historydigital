@@ -188,3 +188,9 @@ The detailed machine-readable evidence is in `artifacts/v33/V33_RPG_PHASE1/BROWS
 
 - The actual Worker route now explicitly rejects client-provided `actorResources` with `400 invalid_request` and confirms the rejected request does not consume a Durable Object turn. `npm run v33-ai-test` passes 23/23.
 - Full acceptance log: `artifacts/v33/V33_ACCEPTANCE_WORKER_RESOURCE_INJECTION_2026-10-30.log`.
+
+
+## Normalized balance-leak check — 2026-10-30
+
+- A provider response containing `1·8 코페이카` bypassed the prior strict digit-plus-currency pattern even though the player had not disclosed the amount.
+- The checker now removes spacing and punctuation before matching the exact balance and recognizes the project's Korean, English, and Russian kopek forms. It still allows the value after the player states it. Regression test and full acceptance log: `artifacts/v33/V33_ACCEPTANCE_BALANCE_NORMALIZATION_2026-10-30.log`.
