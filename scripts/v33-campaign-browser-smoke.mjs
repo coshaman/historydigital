@@ -28,7 +28,10 @@ const ending = campaign.endings.find(item => item.id === endingId);
 assert.ok(ending, `unknown ending case ${endingId}`);
 
 const browser = await chromium.launch({ headless: true, executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe' });
-const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+const recordVideo = process.env.V33_RECORD_VIDEO === '1';
+const contextOptions = { viewport: { width: 1440, height: 900 } };
+if (recordVideo) contextOptions.recordVideo = { dir: path.join(out, 'videos'), size: { width: 1440, height: 900 } };
+const context = await browser.newContext(contextOptions);
 const page = await context.newPage();
 page.setDefaultTimeout(10000);
 const errors = [];
@@ -333,6 +336,8 @@ try {
     await page.screenshot({ path: path.join(out, 'campaign-full-run-failure-1440x900.png'), fullPage: true });
   } catch {}
 } finally {
+  await context.close();
+  if (recordVideo) report.video = path.relative(root, await page.video().path()).replaceAll('\\', '/');
   await browser.close();
   await fs.mkdir(out, { recursive: true });
   await fs.writeFile(path.join(out, `CAMPAIGN_BROWSER_SMOKE_${endingId}.json`), `${JSON.stringify(report, null, 2)}\n`);

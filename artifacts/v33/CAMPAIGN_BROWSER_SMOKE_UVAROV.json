@@ -1,6 +1,6 @@
 {
   "schemaVersion": "V33_CAMPAIGN_BROWSER_SMOKE_V1",
-  "base": "http://127.0.0.1:63962/",
+  "base": "https://coshaman.github.io/historydigital/",
   "endingId": "UVAROV",
   "status": "PASS",
   "steps": [
@@ -243,5 +243,6 @@
       "PETRASHEVSKY_ARRESTS_1849": "the documented arrests and sentences remain fixed historical outcomes"
     }
   },
-  "screenshot": "artifacts/v33/campaign-full-run-uvarov-1440x900.png"
+  "screenshot": "artifacts/v33/campaign-full-run-uvarov-1440x900.png",
+  "video": "artifacts/v33/campaign-full-run-uvarov-1440x900.webm"
 }

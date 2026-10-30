@@ -46,3 +46,11 @@ Follow `ai/v33/worker/README.md`. Configure the actual Pages **origin** in `RPG_
 - Fixed a configuration gap between setup instructions and runtime: the Pages workflow now passes the public `RPG_AI_API_BASE_URL` repository variable to the static build, which injects the validated origin into `window.V33_RPG_AI_API_BASE_URL`.
 - The build rejects non-HTTPS URLs except localhost development, embedded credentials, non-root paths, queries and fragments; it excludes provider secrets and keeps offline behavior when the variable is empty. Automated configuration tests pass 2/2.
 - The current repository has no Actions variables and the published runtime config is empty. No Wrangler CLI/session or Worker API credentials are available, so live AI remains unverified. Configure only the public URL as an Actions variable; keep `OPENAI_API_KEY` and `RPG_SESSION_SIGNING_KEY` as Cloudflare Worker secrets.
+
+## Latest source-gated realm and campaign deployment — 2026-10-30
+
+- Commit `03f6c9e44a918a55bdb0631b6a1b46397cfc08d6` deployed successfully in V33 Pages workflow [41015842048](https://github.com/coshaman/historydigital/actions/runs/41015842048).
+- The public entry page, AI config, build manifest, and current `rpg/engine/game-state.js` all returned HTTP 200. The deployed code contains the literary source gate. Its public AI URL is empty and the manifest correctly reports `publicAiWorkerConfigured: false` and `BLOCKED_NO_KEY_UNVERIFIED`.
+- Public Playwright verification passed the novel-first《외투》 entry, in-realm quest, and return to the historical map; all five public campaign routes also passed. The Uvarov full-route video is `artifacts/v33/campaign-full-run-uvarov-1440x900.webm`. Reports: `artifacts/v33/DEPLOYED_PAGES_POST_PUSH_2026-10-30.json`, `artifacts/v33/OVERCOAT_REALM/BROWSER_SMOKE.json`, and the `CAMPAIGN_BROWSER_SMOKE*.json` files.
+- The final external-review ZIP was extracted into a clean directory; after installing its locked dependencies from cache, `npm run acceptance:v33` exited 0, including all five local browser campaign routes. The raw log is `artifacts/v33/V33_ARCHIVE_EXTRACTED_POST_PUSH_2026-10-30.log`.
+- This is automated public-site verification, not a human playtest. Live AI remains unconfigured and unverified; authored offline fallback remains active.

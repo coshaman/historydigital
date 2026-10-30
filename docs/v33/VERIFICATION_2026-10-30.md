@@ -47,6 +47,14 @@ The detailed machine-readable evidence is in `artifacts/v33/V33_RPG_PHASE1/BROWS
 - Live AI source claim IDs constrain model output to the checked-in scene source allowlist, and uncited named historical figures trigger authored fallback. These checks improve grounding but do not amount to a general semantic fact verifier; the live provider remains unconfigured and unverified.
 - The updated verification archive passed `7z t`, installed dependencies from the local npm cache in its clean extraction, and completed `npm run acceptance:v33` there, including all five full-campaign routes.
 
+## Post-push public verification
+
+- GitHub Pages workflow [41015842048](https://github.com/coshaman/historydigital/actions/runs/41015842048) completed successfully for commit `03f6c9e44a918a55bdb0631b6a1b46397cfc08d6`.
+- The public page, deployed AI config, build manifest, and source-gated reducer returned HTTP 200. The published manifest says `publicAiWorkerConfigured: false`; live AI remains `BLOCKED_NO_KEY_UNVERIFIED`.
+- Playwright against the public URL passed the 《외투》 source-first entry and historical return, then completed all five campaign endings. Evidence is recorded in `artifacts/v33/DEPLOYED_PAGES_POST_PUSH_2026-10-30.json` and the linked browser reports. This remains automated verification; human playtest is `PENDING`.
+- A real public Uvarov route recording is included at `artifacts/v33/campaign-full-run-uvarov-1440x900.webm`, alongside the raw PNG browser screenshots.
+- The final 643-file external-review ZIP was extracted to a new directory and `npm run acceptance:v33` exited 0 from that extracted copy; the raw output is `artifacts/v33/V33_ARCHIVE_EXTRACTED_POST_PUSH_2026-10-30.log`.
+
 ## Deployed Pages verification
 
 - GitHub Actions: [V33 GitHub Pages run 40928153096](https://github.com/coshaman/historydigital/actions/runs/40928153096) — success.

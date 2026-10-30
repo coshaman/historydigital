@@ -1,6 +1,6 @@
 {
   "schemaVersion": "V33_CAMPAIGN_BROWSER_SMOKE_V1",
-  "base": "http://127.0.0.1:63962/",
+  "base": "https://coshaman.github.io/historydigital/",
   "endingId": "DOSTOEVSKY_PETRASHEVSKY",
   "status": "PASS",
   "steps": [

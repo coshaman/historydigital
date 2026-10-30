@@ -56,6 +56,8 @@ try {
     horizontalOverflow: document.documentElement.scrollWidth > innerWidth,
     canvas: { width: document.querySelector('#world').clientWidth, height: document.querySelector('#world').clientHeight },
   }));
+  report.base = base;
+  report.sourceGate = { entryBlockedBeforeReading: true, archiveExcerptReadBeforeEntry: true, entrySucceededAfterReading: true };
   if (!report.result.includes('《외투》')) throw new Error(`Literary framing missing from action result: ${report.result}`);
   if (report.horizontalOverflow) throw new Error('Overcoat route overflows at desktop viewport');
   if (errors.length) throw new Error(`Browser errors: ${errors.join('; ')}`);

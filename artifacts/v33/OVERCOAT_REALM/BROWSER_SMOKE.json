@@ -9,6 +9,12 @@
     "width": 1382,
     "height": 494
   },
+  "base": "https://coshaman.github.io/historydigital/",
+  "sourceGate": {
+    "entryBlockedBeforeReading": true,
+    "archiveExcerptReadBeforeEntry": true,
+    "entrySucceededAfterReading": true
+  },
   "returnedToHistoricalMap": true,
   "noPageErrors": true
 }
