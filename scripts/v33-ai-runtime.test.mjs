@@ -105,6 +105,36 @@ test('AI dialogue receives the embodied public character context and keeps each 
   }
 });
 
+test('derived starting resources stay character-specific and preserve unknown historical amounts', async () => {
+  const actors = [
+    require('../rpg/characters/bookseller_lev.json'),
+    require('../rpg/characters/clerk_alexei.json'),
+    require('../rpg/characters/courier_pavel.json'),
+    require('../rpg/characters/literary_chichikov.json'),
+    require('../rpg/characters/nekrasov_reconstruction.json'),
+    require('../rpg/characters/printer_ekaterina.json'),
+    require('../rpg/characters/seamstress_anna.json'),
+    require('../rpg/characters/tenant_mikhail.json'),
+  ];
+  const observed = [];
+  const store = new MemorySessionStore();
+  const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store, allowedOrigins: ['https://game.example'], provider: { generate: async request => { observed.push(request.input); return validTurn(request.input.scene.id, request.input.character.id); } } });
+  for (let index = 0; index < actors.length; index++) {
+    const actor = actors[index], hostId = actor.id === 'clerk_alexei' ? 'printer_ekaterina' : 'clerk_alexei';
+    const session = await service.handle(request('POST', '/api/rpg/session/start', { hostId, actorHostId: actor.id }));
+    assert.equal(session.status, 201, `${actor.id} can be selected as the embodied character`);
+    assert.equal((await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: session.body.sessionToken, requestId: `resource-card-${String(index).padStart(2, '0')}`, playerInput: '제 형편을 생각하며 이야기합니다.' }))).status, 200);
+  }
+  assert.equal(observed.length, actors.length);
+  for (let index = 0; index < actors.length; index++) {
+    const expected = actors[index], actual = observed[index].conversation.playerResources;
+    assert.deepEqual(actual.money, expected.money, `${expected.id} retains the card's amount and provenance`);
+    assert.deepEqual(actual.inventory, expected.inventory, `${expected.id} receives only their own inventory`);
+  }
+  assert.equal(observed.find(input => input.conversation.embodiedPlayer.id === 'nekrasov_reconstruction').conversation.playerResources.money.amount, null, 'unknown amount must remain unknown');
+  assert.equal(observed.find(input => input.conversation.embodiedPlayer.id === 'literary_chichikov').conversation.playerResources.money.amount, null, 'literary reconstruction must not invent a balance');
+});
+
 test('dialogue requests within one session serialize so a later turn cannot overwrite stale memory', async () => {
   const store = new MemorySessionStore(), started = Promise.withResolvers(), releaseFirst = Promise.withResolvers();
   const observedInputs = [];
