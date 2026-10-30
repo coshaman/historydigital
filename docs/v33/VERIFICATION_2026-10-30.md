@@ -28,16 +28,24 @@
 | AI/Worker security, memory, limits and fallback | 18/18 test groups passed (21 including nested provider-error cases) |
 | Historical flow audit | PASS; 3 dated arcs, 7 sources, 4 historical packets, 5 quests, 5 ending IDs |
 | Pixel asset audit | PASS; 17 PNGs with dimensions and provenance checked, including eight 64×64 portraits |
-| Ending reducer matrix | PASS; 10 variants across 5 endings |
+| Ending reducer matrix | PASS; 120 reducer fixtures cover 23 of 24 possible four-choice vectors across 5 endings. The single omitted vector cannot meet any ending's authored required-action gate. Host positions are fixtures, not physical traversal evidence. |
 | Static RPG build | PASS; 57 files, relative paths, legacy Chancery entry preserved |
 | Static integrity, lint, historical check and route tests | PASS |
 | Browser viewport smoke | PASS at 1440×900, 1366×768, 390×844 and 360×800 |
-| Browser two-map route | PASS; 128,624 ms goal-directed route, source reader scroll, clue, host changes and quest decision |
+| Browser two-map route | PASS; action-based coverage (43 successful moves, 7 verified inspections, 2 source readings, 2 hosts, map transition, quest decision), source reader scroll, clue and no page errors |
 | Browser Chancery/courtyard route | PASS; access restriction, observer entry, clue inspection and return |
 | Ending UI | PASS; all five endings, no gameplay/dialogue panel under the ending, mobile scroll and restart |
 | Full campaign browser routes | PASS; all five endings reached from the 1847–1849 campaign. Repeated per-host source reading uses the source drawer and retains speaker-specific knowledge. |
 
 The detailed machine-readable evidence is in `artifacts/v33/V33_RPG_PHASE1/BROWSER_SMOKE.json`, `artifacts/v33/ENDING_BROWSER_SMOKE.json`, `artifacts/v33/CAMPAIGN_BROWSER_SMOKE.json`, the five per-ending campaign reports, `artifacts/v33/ENDING_ROUTE_MATRIX.json`, `docs/v33/HISTORICAL_FLOW_AUDIT.json`, and `docs/v33/IMAGE_AUDIT.json`. Screenshots for the viewport, ending, and full-campaign routes are stored alongside those reports under `artifacts/v33/`.
+
+## Independent regression follow-up
+
+- Literary realm entry now requires reading its checked-in novel excerpt through the source drawer first. The reducer rejects early entry, archive review records the reader without transferring the text into an embodied host's knowledge, and both literary realms test the read-then-enter sequence.
+- The route matrix now exercises 120 ending-route fixtures across 23 feasible mixed action vectors. The remaining four-choice vector conflicts with every authored ending's mandatory action, so it is explicitly reported as incompatible instead of being represented as a playable completed route. These reducer fixtures do not claim physical traversal; the separate browser campaign remains the physical-walk evidence.
+- Cloudflare Worker turns now use a shared Durable Object semaphore capped at eight in-flight dialogue requests, with expiring leases and `finally` release. AI runtime tests exercise concurrent admission, rejection at capacity, and slot reuse.
+- Live AI source claim IDs constrain model output to the checked-in scene source allowlist, and uncited named historical figures trigger authored fallback. These checks improve grounding but do not amount to a general semantic fact verifier; the live provider remains unconfigured and unverified.
+- The updated verification archive passed `7z t`, installed dependencies from the local npm cache in its clean extraction, and completed `npm run acceptance:v33` there, including all five full-campaign routes.
 
 ## Deployed Pages verification
 
@@ -119,7 +127,7 @@ The detailed machine-readable evidence is in `artifacts/v33/V33_RPG_PHASE1/BROWS
 
 - Visual inspection of the newly published mobile/desktop playthrough found an empty speaker portrait frame before any conversation. Root cause: `.dialogue-speaker { display:flex }` overrode the HTML `hidden` attribute in the browser's cascade.
 - Added a browser regression assertion that the speaker block is not visible before dialogue begins; observed the expected failing result (`true !== false`) before the CSS fix. `.dialogue-speaker[hidden] { display:none }` now preserves the authored visibility state. Existing dialogue acceptance also verifies the active speaker's 64×64 portrait file loads.
-- Full `npm run acceptance:v33` passed after the fix (exit code 0): static/data/AI checks, lint, `npm run check`, route tests, four viewport playthroughs, five ending UIs, and all five complete campaign routes. The main browser report recorded a 128,447 ms goal-directed route and no page errors.
+- Full `npm run acceptance:v33` passed after the fix (exit code 0): static/data/AI checks, lint, `npm run check`, route tests, four viewport playthroughs, five ending UIs, and all five complete campaign routes. The earlier browser script inserted over two minutes of fixed waits; that elapsed-time metric was not proof of player engagement and is superseded by the action-based route report in `artifacts/v33/V33_RPG_PHASE1/BROWSER_SMOKE.json`.
 - After commit `fda2883` deployed, the public Pages build passed `v33-rpg-browser-smoke.mjs --quick` at 1440×900, 1366×768, 390×844 and 360×800, including map travel, possession, source inspection, save/reload and no horizontal overflow. The public multi-turn dialogue browser test also passed all four sizes: the speaker block stays hidden before a conversation, Ekaterina's 64×64 portrait loads during it, no page errors occur, and dialogue alone does not mutate the quest. That test substitutes the generated config and mocks the Worker endpoints; it is not a live OpenAI smoke. Reports and screenshots are in `artifacts/v33/V33_RPG_PHASE1_QUICK/` and `artifacts/v33/INTERPERSONAL_DIALOGUE/`.
 - The final verification ZIP was extracted to a clean folder; its own `npm run acceptance:v33` passed with exit code 0, including all five complete campaign routes. The captured source-run and extracted-archive logs are included under `artifacts/v33/`.
 

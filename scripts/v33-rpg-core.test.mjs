@@ -516,6 +516,12 @@ test('literary realm is source-bound, enterable, and cannot rewind or alter the 
   assert.equal(state.world.immutableOutcomes.GOGOL_CHICHIKOV_HOTEL_REGISTER, undefined);
   assert.ok(state.world.literaryOutcomes.GOGOL_CHICHIKOV_HOTEL_REGISTER);
   const date = state.world.date;
+  const blockedUntilRead = enterLiteraryRealm(state, map, card);
+  assert.equal(blockedUntilRead.ok, false, 'the player must read the novel excerpt in the archive first');
+  assert.equal(blockedUntilRead.reason, 'literary_source_unread');
+  const archiveRead = recordSourceRead(state, source.sourceId, maps, [source.sourceId], 'PLAYER_ARCHIVE');
+  assert.equal(archiveRead.ok, true, 'the published novel may be reviewed from the archive before entering its fictional scene');
+  state = archiveRead.state;
   const entered = enterLiteraryRealm(state, map, card);
   assert.equal(entered.ok, true);
   state = entered.state;
@@ -556,6 +562,12 @@ test('The Overcoat reconstruction is a separate, source-bound realm with its own
   const quests = [quest];
   let state = createInitialState({ maps, hostCards: cards, quests, startMapId: 'nevsky' });
   const historicalBefore = structuredClone(state.world.immutableOutcomes);
+  const blockedUntilRead = enterLiteraryRealm(state, map, card);
+  assert.equal(blockedUntilRead.ok, false);
+  assert.equal(blockedUntilRead.reason, 'literary_source_unread');
+  const archiveRead = recordSourceRead(state, source.sourceId, maps, [source.sourceId], 'PLAYER_ARCHIVE');
+  assert.equal(archiveRead.ok, true);
+  state = archiveRead.state;
   const entered = enterLiteraryRealm(state, map, card);
   assert.equal(entered.ok, true);
   state = entered.state;

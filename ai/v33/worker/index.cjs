@@ -13,6 +13,8 @@ const CALLER_MINUTE_STARTS = 8;
 const CALLER_DAILY_STARTS = 40;
 const CALLER_MINUTE_TURNS = 30;
 const CALLER_DAILY_TURNS = 200;
+const GLOBAL_MAX_INFLIGHT_TURNS = 8;
+const GLOBAL_TURN_LEASE_MS = 90_000;
 
 function json(body, status = 200) { return Response.json(body, { status, headers: { 'cache-control': 'no-store' } }); }
 function origins(value) { return String(value ?? '').split(',').map(value => value.trim()).filter(Boolean); }
@@ -39,6 +41,8 @@ function makeBudget(namespace, callerId) {
     consumeStart: () => consume(stub, 'consume-start'),
     consumeCallerStart: () => callerStub ? consume(callerStub, 'consume-caller-start') : Promise.resolve(false),
     consumeCallerTurn: () => callerStub ? consume(callerStub, 'consume-caller-turn') : Promise.resolve(false),
+    acquireTurn: async leaseId => (await stub.fetch('https://rpg-budget/acquire-turn', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ leaseId }) })).status === 204,
+    releaseTurn: async leaseId => { await stub.fetch('https://rpg-budget/release-turn', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ leaseId }) }); },
   };
 }
 async function callerKey(address, secret) {
@@ -75,7 +79,13 @@ const worker = {
       if (!(await budget.consumeStart())) return new Response(JSON.stringify({ error: 'global_start_limit' }), { status: 429, headers });
     }
     const service = createRpgAiService({ secret: env.RPG_SESSION_SIGNING_KEY, store: makeSessionStore(env.RPG_SESSIONS), allowedOrigins: allow, provider: env.OPENAI_API_KEY ? createResponsesProvider({ apiKey: env.OPENAI_API_KEY }) : null, globalLimiter: { consume: async () => (await budget.consumeCallerTurn()) && (await budget.consume()) }, dialogueModel: env.OPENAI_DIALOGUE_MODEL || 'gpt-6.1-terra' });
-    const result = await service.handle({ method: request.method, path: url.pathname, origin, body });
+    let result;
+    if (url.pathname === '/api/rpg/dialogue') {
+      const leaseId = crypto.randomUUID();
+      if (!(await budget.acquireTurn(leaseId))) return new Response(JSON.stringify({ error: 'global_concurrency_limit' }), { status: 429, headers });
+      try { result = await service.handle({ method: request.method, path: url.pathname, origin, body }); }
+      finally { await budget.releaseTurn(leaseId); }
+    } else result = await service.handle({ method: request.method, path: url.pathname, origin, body });
     return new Response(result.status === 204 ? null : JSON.stringify(result.body), { status: result.status, headers: { ...headers, ...result.headers } });
   },
 };
@@ -146,7 +156,24 @@ class RpgGlobalBudget {
   constructor(state) { this.state = state; }
   async fetch(request) {
     const op = new URL(request.url).pathname.slice(1);
-    if (request.method !== 'POST' || !['consume-turn','consume-start','consume-caller-start','consume-caller-turn'].includes(op)) return json({ error: 'not_found' }, 404);
+    if (request.method !== 'POST' || !['consume-turn','consume-start','consume-caller-start','consume-caller-turn','acquire-turn','release-turn'].includes(op)) return json({ error: 'not_found' }, 404);
+    let data = {};
+    if (op === 'acquire-turn' || op === 'release-turn') { try { data = await request.json(); } catch { return json({ error: 'invalid_internal_request' }, 400); } }
+    if (op === 'acquire-turn' || op === 'release-turn') {
+      const now = Number(data.now) || Date.now();
+      if (typeof data.leaseId !== 'string' || !/^[\w-]{1,80}$/.test(data.leaseId)) return json({ error: 'invalid_lease' }, 400);
+      if (op === 'release-turn') {
+        await this.state.storage.transaction(async tx => { const leases = await tx.get('turnLeases') ?? {}; delete leases[data.leaseId]; await tx.put('turnLeases', leases); });
+        return new Response(null, { status: 204 });
+      }
+      const accepted = await this.state.storage.transaction(async tx => {
+        const leases = await tx.get('turnLeases') ?? {};
+        for (const [id, expiresAt] of Object.entries(leases)) if (expiresAt <= now) delete leases[id];
+        if (Object.hasOwn(leases, data.leaseId) || Object.keys(leases).length >= GLOBAL_MAX_INFLIGHT_TURNS) { await tx.put('turnLeases', leases); return false; }
+        leases[data.leaseId] = now + GLOBAL_TURN_LEASE_MS; await tx.put('turnLeases', leases); return true;
+      });
+      return new Response(null, { status: accepted ? 204 : 429 });
+    }
     const caller = op.startsWith('consume-caller-'), start = op.endsWith('-start');
     const now = Date.now(), day = Math.floor(now / 86_400_000), key = caller ? (start ? 'callerStarts' : 'callerTurns') : (start ? 'starts' : 'turns');
     const accepted = await this.state.storage.transaction(async tx => {

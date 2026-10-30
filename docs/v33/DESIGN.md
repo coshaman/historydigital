@@ -21,7 +21,7 @@ Walk the 1847 Petersburg street → approach a person or object → inspect what
 
 ## First playable slice
 
-Phase 1 ships the Nevsky-edge street and a printshop connected by real doors; the observer and four varied fictional residents; one complete possession→objective→dialogue→physical action→release loop; source inspection; save/load; collision and mobile controls. The player must have at least two minutes of meaningful movement and interaction before later systems are widened.
+Phase 1 ships the Nevsky-edge street and a printshop connected by real doors; the observer and four varied fictional residents; one complete possession→objective→dialogue→physical action→release loop; source inspection; save/load; collision and mobile controls. The route must provide at least two minutes' worth of meaningful movement and interaction. Browser automation measures successful in-game movement and verified interactions; wall-clock time, including scripted waits, is not engagement evidence.
 
 Subsequent phases add Chancery and courtyard, cross-host replay, an explicitly reconstructed historical host, a separate literary realm, authored RPG action gates, V32 AI/fallback adapter, the three historical arcs, and evidence-weighted five-ending resolution.
 

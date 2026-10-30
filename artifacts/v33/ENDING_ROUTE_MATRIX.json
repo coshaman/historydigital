@@ -1,6 +1,15 @@
 {
-  "schemaVersion": "V33_ENDING_ROUTE_MATRIX_V1",
+  "schemaVersion": "V33_ENDING_ROUTE_MATRIX_V2",
   "status": "PASS",
+  "fixtureType": "reducer-route-vectors; host coordinates are fixtures, not physical traversal evidence",
+  "mixedActionVectorCount": 23,
+  "omittedIncompatibleVector": [
+    "HOLD_FOR_CORRECTION",
+    "HOLD_NOTICE",
+    "REFUSE_NAMING",
+    "PRESERVE_LETTER"
+  ],
+  "omittedVectorReason": "none of the five authored endings accepts this combination of four required route actions",
   "distinctEndingIds": [
     "UVAROV",
     "BELINSKY",
@@ -8,7 +17,7 @@
     "KHOMYAKOV",
     "DOSTOEVSKY_PETRASHEVSKY"
   ],
-  "routeCount": 10,
+  "routeCount": 120,
   "routes": [
     {
       "endingId": "UVAROV",
@@ -19,9 +28,9 @@
       "promotionStatus": "promoted",
       "actions": [
         "HOLD_FOR_CORRECTION",
-        "HOLD_NOTICE",
+        "CARRY_NOTICE_ABROAD",
         "FILE_OFFICIAL_REPORT",
-        "PRESERVE_LETTER"
+        "REFUSE_NAMING"
       ],
       "sourcesRead": [
         "OBJ-SOV-1847",
@@ -48,6 +57,1289 @@
       "promotionStatus": "promoted",
       "actions": [
         "ASK_FOR_SOURCE",
+        "CARRY_NOTICE_ABROAD",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "UVAROV",
+      "variant": 2,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "KEEP_LOCAL_READING",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "UVAROV",
+      "variant": 3,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "KEEP_LOCAL_READING",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "bookseller_lev",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "UVAROV",
+      "variant": 4,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "HOLD_NOTICE",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "UVAROV",
+      "variant": 5,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "HOLD_NOTICE",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "UVAROV",
+      "variant": 6,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "CARRY_NOTICE_ABROAD",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "UVAROV",
+      "variant": 7,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "CARRY_NOTICE_ABROAD",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "UVAROV",
+      "variant": 8,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "KEEP_LOCAL_READING",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "UVAROV",
+      "variant": 9,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "KEEP_LOCAL_READING",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "bookseller_lev",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "UVAROV",
+      "variant": 10,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "HOLD_NOTICE",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "UVAROV",
+      "variant": 11,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "HOLD_NOTICE",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "UVAROV",
+      "variant": 12,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "CARRY_NOTICE_ABROAD",
+        "FILE_OFFICIAL_REPORT",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "UVAROV",
+      "variant": 13,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "CARRY_NOTICE_ABROAD",
+        "FILE_OFFICIAL_REPORT",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "UVAROV",
+      "variant": 14,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "KEEP_LOCAL_READING",
+        "FILE_OFFICIAL_REPORT",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "UVAROV",
+      "variant": 15,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "KEEP_LOCAL_READING",
+        "FILE_OFFICIAL_REPORT",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "bookseller_lev",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "UVAROV",
+      "variant": 16,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "HOLD_NOTICE",
+        "FILE_OFFICIAL_REPORT",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "UVAROV",
+      "variant": 17,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "HOLD_NOTICE",
+        "FILE_OFFICIAL_REPORT",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "UVAROV",
+      "variant": 18,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "CARRY_NOTICE_ABROAD",
+        "FILE_OFFICIAL_REPORT",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "UVAROV",
+      "variant": 19,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "CARRY_NOTICE_ABROAD",
+        "FILE_OFFICIAL_REPORT",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "UVAROV",
+      "variant": 20,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "KEEP_LOCAL_READING",
+        "FILE_OFFICIAL_REPORT",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "UVAROV",
+      "variant": 21,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "KEEP_LOCAL_READING",
+        "FILE_OFFICIAL_REPORT",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "bookseller_lev",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "UVAROV",
+      "variant": 22,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "HOLD_NOTICE",
+        "FILE_OFFICIAL_REPORT",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "UVAROV",
+      "variant": 23,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "HOLD_NOTICE",
+        "FILE_OFFICIAL_REPORT",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "BELINSKY",
+      "variant": 0,
+      "circleLearning": "attended",
+      "examOutcome": "failed",
+      "examCorrectCount": 2,
+      "promotionStatus": "not-promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "CARRY_NOTICE_ABROAD",
+        "REFUSE_NAMING",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "BELINSKY",
+      "variant": 1,
+      "circleLearning": "attended-notes",
+      "examOutcome": "failed",
+      "examCorrectCount": 2,
+      "promotionStatus": "not-promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "CARRY_NOTICE_ABROAD",
+        "REFUSE_NAMING",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "BELINSKY",
+      "variant": 2,
+      "circleLearning": "attended-notes",
+      "examOutcome": "failed",
+      "examCorrectCount": 2,
+      "promotionStatus": "not-promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "KEEP_LOCAL_READING",
+        "REFUSE_NAMING",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "BELINSKY",
+      "variant": 3,
+      "circleLearning": "attended-notes",
+      "examOutcome": "failed",
+      "examCorrectCount": 2,
+      "promotionStatus": "not-promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "KEEP_LOCAL_READING",
+        "REFUSE_NAMING",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "bookseller_lev",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "BELINSKY",
+      "variant": 4,
+      "circleLearning": "attended-notes",
+      "examOutcome": "failed",
+      "examCorrectCount": 2,
+      "promotionStatus": "not-promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "HOLD_NOTICE",
+        "REFUSE_NAMING",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "BELINSKY",
+      "variant": 5,
+      "circleLearning": "attended-notes",
+      "examOutcome": "failed",
+      "examCorrectCount": 2,
+      "promotionStatus": "not-promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "HOLD_NOTICE",
+        "REFUSE_NAMING",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "BELINSKY",
+      "variant": 6,
+      "circleLearning": "attended-notes",
+      "examOutcome": "failed",
+      "examCorrectCount": 2,
+      "promotionStatus": "not-promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "CARRY_NOTICE_ABROAD",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "BELINSKY",
+      "variant": 7,
+      "circleLearning": "attended-notes",
+      "examOutcome": "failed",
+      "examCorrectCount": 2,
+      "promotionStatus": "not-promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "CARRY_NOTICE_ABROAD",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "BELINSKY",
+      "variant": 8,
+      "circleLearning": "attended-notes",
+      "examOutcome": "failed",
+      "examCorrectCount": 2,
+      "promotionStatus": "not-promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "KEEP_LOCAL_READING",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "BELINSKY",
+      "variant": 9,
+      "circleLearning": "attended-notes",
+      "examOutcome": "failed",
+      "examCorrectCount": 2,
+      "promotionStatus": "not-promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "KEEP_LOCAL_READING",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "bookseller_lev",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "BELINSKY",
+      "variant": 10,
+      "circleLearning": "attended-notes",
+      "examOutcome": "failed",
+      "examCorrectCount": 2,
+      "promotionStatus": "not-promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "HOLD_NOTICE",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "BELINSKY",
+      "variant": 11,
+      "circleLearning": "attended-notes",
+      "examOutcome": "failed",
+      "examCorrectCount": 2,
+      "promotionStatus": "not-promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "HOLD_NOTICE",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "BELINSKY",
+      "variant": 12,
+      "circleLearning": "attended-notes",
+      "examOutcome": "failed",
+      "examCorrectCount": 2,
+      "promotionStatus": "not-promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "CARRY_NOTICE_ABROAD",
+        "REFUSE_NAMING",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "BELINSKY",
+      "variant": 13,
+      "circleLearning": "attended-notes",
+      "examOutcome": "failed",
+      "examCorrectCount": 2,
+      "promotionStatus": "not-promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "CARRY_NOTICE_ABROAD",
+        "REFUSE_NAMING",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "BELINSKY",
+      "variant": 14,
+      "circleLearning": "attended-notes",
+      "examOutcome": "failed",
+      "examCorrectCount": 2,
+      "promotionStatus": "not-promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "KEEP_LOCAL_READING",
+        "REFUSE_NAMING",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "BELINSKY",
+      "variant": 15,
+      "circleLearning": "attended-notes",
+      "examOutcome": "failed",
+      "examCorrectCount": 2,
+      "promotionStatus": "not-promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "KEEP_LOCAL_READING",
+        "REFUSE_NAMING",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "bookseller_lev",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "BELINSKY",
+      "variant": 16,
+      "circleLearning": "attended-notes",
+      "examOutcome": "failed",
+      "examCorrectCount": 2,
+      "promotionStatus": "not-promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "HOLD_NOTICE",
+        "REFUSE_NAMING",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "BELINSKY",
+      "variant": 17,
+      "circleLearning": "attended-notes",
+      "examOutcome": "failed",
+      "examCorrectCount": 2,
+      "promotionStatus": "not-promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "HOLD_NOTICE",
+        "REFUSE_NAMING",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "BELINSKY",
+      "variant": 18,
+      "circleLearning": "attended-notes",
+      "examOutcome": "failed",
+      "examCorrectCount": 2,
+      "promotionStatus": "not-promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "CARRY_NOTICE_ABROAD",
+        "FILE_OFFICIAL_REPORT",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "BELINSKY",
+      "variant": 19,
+      "circleLearning": "attended-notes",
+      "examOutcome": "failed",
+      "examCorrectCount": 2,
+      "promotionStatus": "not-promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "CARRY_NOTICE_ABROAD",
+        "FILE_OFFICIAL_REPORT",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "BELINSKY",
+      "variant": 20,
+      "circleLearning": "attended-notes",
+      "examOutcome": "failed",
+      "examCorrectCount": 2,
+      "promotionStatus": "not-promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "KEEP_LOCAL_READING",
+        "FILE_OFFICIAL_REPORT",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "BELINSKY",
+      "variant": 21,
+      "circleLearning": "attended-notes",
+      "examOutcome": "failed",
+      "examCorrectCount": 2,
+      "promotionStatus": "not-promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
         "KEEP_LOCAL_READING",
         "FILE_OFFICIAL_REPORT",
         "PRESERVE_LETTER"
@@ -71,15 +1363,15 @@
     },
     {
       "endingId": "BELINSKY",
-      "variant": 0,
-      "circleLearning": "attended",
+      "variant": 22,
+      "circleLearning": "attended-notes",
       "examOutcome": "failed",
       "examCorrectCount": 2,
       "promotionStatus": "not-promoted",
       "actions": [
         "ASK_FOR_SOURCE",
         "HOLD_NOTICE",
-        "REFUSE_NAMING",
+        "FILE_OFFICIAL_REPORT",
         "PRESERVE_LETTER"
       ],
       "sourcesRead": [
@@ -100,11 +1392,1119 @@
     },
     {
       "endingId": "BELINSKY",
-      "variant": 1,
+      "variant": 23,
       "circleLearning": "attended-notes",
       "examOutcome": "failed",
       "examCorrectCount": 2,
       "promotionStatus": "not-promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "HOLD_NOTICE",
+        "FILE_OFFICIAL_REPORT",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "HERZEN",
+      "variant": 0,
+      "circleLearning": "declined",
+      "examOutcome": "deferred",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "CARRY_NOTICE_ABROAD",
+        "REFUSE_NAMING",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "HERZEN",
+      "variant": 1,
+      "circleLearning": "declined",
+      "examOutcome": "deferred",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "CARRY_NOTICE_ABROAD",
+        "REFUSE_NAMING",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "HERZEN",
+      "variant": 2,
+      "circleLearning": "declined",
+      "examOutcome": "deferred",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "CARRY_NOTICE_ABROAD",
+        "REFUSE_NAMING",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "HERZEN",
+      "variant": 3,
+      "circleLearning": "declined",
+      "examOutcome": "deferred",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "CARRY_NOTICE_ABROAD",
+        "REFUSE_NAMING",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "HERZEN",
+      "variant": 4,
+      "circleLearning": "declined",
+      "examOutcome": "deferred",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "CARRY_NOTICE_ABROAD",
+        "REFUSE_NAMING",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "HERZEN",
+      "variant": 5,
+      "circleLearning": "declined",
+      "examOutcome": "deferred",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "CARRY_NOTICE_ABROAD",
+        "REFUSE_NAMING",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "HERZEN",
+      "variant": 6,
+      "circleLearning": "declined",
+      "examOutcome": "deferred",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "CARRY_NOTICE_ABROAD",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "HERZEN",
+      "variant": 7,
+      "circleLearning": "declined",
+      "examOutcome": "deferred",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "CARRY_NOTICE_ABROAD",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "HERZEN",
+      "variant": 8,
+      "circleLearning": "declined",
+      "examOutcome": "deferred",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "CARRY_NOTICE_ABROAD",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "HERZEN",
+      "variant": 9,
+      "circleLearning": "declined",
+      "examOutcome": "deferred",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "CARRY_NOTICE_ABROAD",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "HERZEN",
+      "variant": 10,
+      "circleLearning": "declined",
+      "examOutcome": "deferred",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "CARRY_NOTICE_ABROAD",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "HERZEN",
+      "variant": 11,
+      "circleLearning": "declined",
+      "examOutcome": "deferred",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "CARRY_NOTICE_ABROAD",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "HERZEN",
+      "variant": 12,
+      "circleLearning": "declined",
+      "examOutcome": "deferred",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "CARRY_NOTICE_ABROAD",
+        "REFUSE_NAMING",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "HERZEN",
+      "variant": 13,
+      "circleLearning": "declined",
+      "examOutcome": "deferred",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "CARRY_NOTICE_ABROAD",
+        "REFUSE_NAMING",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "HERZEN",
+      "variant": 14,
+      "circleLearning": "declined",
+      "examOutcome": "deferred",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "CARRY_NOTICE_ABROAD",
+        "REFUSE_NAMING",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "HERZEN",
+      "variant": 15,
+      "circleLearning": "declined",
+      "examOutcome": "deferred",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "CARRY_NOTICE_ABROAD",
+        "REFUSE_NAMING",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "HERZEN",
+      "variant": 16,
+      "circleLearning": "declined",
+      "examOutcome": "deferred",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "CARRY_NOTICE_ABROAD",
+        "REFUSE_NAMING",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "HERZEN",
+      "variant": 17,
+      "circleLearning": "declined",
+      "examOutcome": "deferred",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "CARRY_NOTICE_ABROAD",
+        "REFUSE_NAMING",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "HERZEN",
+      "variant": 18,
+      "circleLearning": "declined",
+      "examOutcome": "deferred",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "CARRY_NOTICE_ABROAD",
+        "FILE_OFFICIAL_REPORT",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "HERZEN",
+      "variant": 19,
+      "circleLearning": "declined",
+      "examOutcome": "deferred",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "CARRY_NOTICE_ABROAD",
+        "FILE_OFFICIAL_REPORT",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "HERZEN",
+      "variant": 20,
+      "circleLearning": "declined",
+      "examOutcome": "deferred",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "CARRY_NOTICE_ABROAD",
+        "FILE_OFFICIAL_REPORT",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "HERZEN",
+      "variant": 21,
+      "circleLearning": "declined",
+      "examOutcome": "deferred",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "CARRY_NOTICE_ABROAD",
+        "FILE_OFFICIAL_REPORT",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "HERZEN",
+      "variant": 22,
+      "circleLearning": "declined",
+      "examOutcome": "deferred",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "CARRY_NOTICE_ABROAD",
+        "FILE_OFFICIAL_REPORT",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "HERZEN",
+      "variant": 23,
+      "circleLearning": "declined",
+      "examOutcome": "deferred",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "CARRY_NOTICE_ABROAD",
+        "FILE_OFFICIAL_REPORT",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "KHOMYAKOV",
+      "variant": 0,
+      "circleLearning": "attended",
+      "examOutcome": "helped-peer",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "KEEP_LOCAL_READING",
+        "REFUSE_NAMING",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "KHOMYAKOV",
+      "variant": 1,
+      "circleLearning": "attended",
+      "examOutcome": "helped-peer",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "KEEP_LOCAL_READING",
+        "REFUSE_NAMING",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "bookseller_lev",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "KHOMYAKOV",
+      "variant": 2,
+      "circleLearning": "attended",
+      "examOutcome": "helped-peer",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "KEEP_LOCAL_READING",
+        "REFUSE_NAMING",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "KHOMYAKOV",
+      "variant": 3,
+      "circleLearning": "attended",
+      "examOutcome": "helped-peer",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "KEEP_LOCAL_READING",
+        "REFUSE_NAMING",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "bookseller_lev",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "KHOMYAKOV",
+      "variant": 4,
+      "circleLearning": "attended",
+      "examOutcome": "helped-peer",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "KEEP_LOCAL_READING",
+        "REFUSE_NAMING",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "KHOMYAKOV",
+      "variant": 5,
+      "circleLearning": "attended",
+      "examOutcome": "helped-peer",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "KEEP_LOCAL_READING",
+        "REFUSE_NAMING",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "bookseller_lev",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "KHOMYAKOV",
+      "variant": 6,
+      "circleLearning": "attended",
+      "examOutcome": "helped-peer",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "KEEP_LOCAL_READING",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "KHOMYAKOV",
+      "variant": 7,
+      "circleLearning": "attended",
+      "examOutcome": "helped-peer",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "KEEP_LOCAL_READING",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "bookseller_lev",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "KHOMYAKOV",
+      "variant": 8,
+      "circleLearning": "attended",
+      "examOutcome": "helped-peer",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "KEEP_LOCAL_READING",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "KHOMYAKOV",
+      "variant": 9,
+      "circleLearning": "attended",
+      "examOutcome": "helped-peer",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "KEEP_LOCAL_READING",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "bookseller_lev",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "KHOMYAKOV",
+      "variant": 10,
+      "circleLearning": "attended",
+      "examOutcome": "helped-peer",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "KEEP_LOCAL_READING",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "KHOMYAKOV",
+      "variant": 11,
+      "circleLearning": "attended",
+      "examOutcome": "helped-peer",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "KEEP_LOCAL_READING",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "bookseller_lev",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "KHOMYAKOV",
+      "variant": 12,
+      "circleLearning": "attended",
+      "examOutcome": "helped-peer",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "KEEP_LOCAL_READING",
+        "REFUSE_NAMING",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "KHOMYAKOV",
+      "variant": 13,
+      "circleLearning": "attended",
+      "examOutcome": "helped-peer",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
       "actions": [
         "ASK_FOR_SOURCE",
         "KEEP_LOCAL_READING",
@@ -129,66 +2529,8 @@
       "date": "1849-05-05"
     },
     {
-      "endingId": "HERZEN",
-      "variant": 0,
-      "circleLearning": "declined",
-      "examOutcome": "deferred",
-      "examCorrectCount": null,
-      "promotionStatus": "pending",
-      "actions": [
-        "HOLD_FOR_CORRECTION",
-        "CARRY_NOTICE_ABROAD",
-        "REFUSE_NAMING",
-        "PRESERVE_LETTER"
-      ],
-      "sourcesRead": [
-        "OBJ-SOV-1847",
-        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
-        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
-        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
-        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
-        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
-      ],
-      "hosts": [
-        "nekrasov_reconstruction",
-        "printer_ekaterina",
-        "courier_pavel",
-        "clerk_alexei"
-      ],
-      "date": "1849-05-05"
-    },
-    {
-      "endingId": "HERZEN",
-      "variant": 1,
-      "circleLearning": "declined",
-      "examOutcome": "deferred",
-      "examCorrectCount": null,
-      "promotionStatus": "pending",
-      "actions": [
-        "ASK_FOR_SOURCE",
-        "CARRY_NOTICE_ABROAD",
-        "REFUSE_NAMING",
-        "PRESERVE_LETTER"
-      ],
-      "sourcesRead": [
-        "OBJ-SOV-1847",
-        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
-        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
-        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
-        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
-        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
-      ],
-      "hosts": [
-        "nekrasov_reconstruction",
-        "printer_ekaterina",
-        "courier_pavel",
-        "clerk_alexei"
-      ],
-      "date": "1849-05-05"
-    },
-    {
       "endingId": "KHOMYAKOV",
-      "variant": 0,
+      "variant": 14,
       "circleLearning": "attended",
       "examOutcome": "helped-peer",
       "examCorrectCount": null,
@@ -217,7 +2559,7 @@
     },
     {
       "endingId": "KHOMYAKOV",
-      "variant": 1,
+      "variant": 15,
       "circleLearning": "attended",
       "examOutcome": "helped-peer",
       "examCorrectCount": null,
@@ -226,6 +2568,242 @@
         "ASK_FOR_SOURCE",
         "KEEP_LOCAL_READING",
         "REFUSE_NAMING",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "bookseller_lev",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "KHOMYAKOV",
+      "variant": 16,
+      "circleLearning": "attended",
+      "examOutcome": "helped-peer",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "KEEP_LOCAL_READING",
+        "REFUSE_NAMING",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "KHOMYAKOV",
+      "variant": 17,
+      "circleLearning": "attended",
+      "examOutcome": "helped-peer",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "KEEP_LOCAL_READING",
+        "REFUSE_NAMING",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "bookseller_lev",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "KHOMYAKOV",
+      "variant": 18,
+      "circleLearning": "attended",
+      "examOutcome": "helped-peer",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "KEEP_LOCAL_READING",
+        "FILE_OFFICIAL_REPORT",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "KHOMYAKOV",
+      "variant": 19,
+      "circleLearning": "attended",
+      "examOutcome": "helped-peer",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "KEEP_LOCAL_READING",
+        "FILE_OFFICIAL_REPORT",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "bookseller_lev",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "KHOMYAKOV",
+      "variant": 20,
+      "circleLearning": "attended",
+      "examOutcome": "helped-peer",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "KEEP_LOCAL_READING",
+        "FILE_OFFICIAL_REPORT",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "KHOMYAKOV",
+      "variant": 21,
+      "circleLearning": "attended",
+      "examOutcome": "helped-peer",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "KEEP_LOCAL_READING",
+        "FILE_OFFICIAL_REPORT",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "bookseller_lev",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "KHOMYAKOV",
+      "variant": 22,
+      "circleLearning": "attended",
+      "examOutcome": "helped-peer",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "KEEP_LOCAL_READING",
+        "FILE_OFFICIAL_REPORT",
+        "PRESERVE_LETTER"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "KHOMYAKOV",
+      "variant": 23,
+      "circleLearning": "attended",
+      "examOutcome": "helped-peer",
+      "examCorrectCount": null,
+      "promotionStatus": "pending",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "KEEP_LOCAL_READING",
+        "FILE_OFFICIAL_REPORT",
         "PRESERVE_LETTER"
       ],
       "sourcesRead": [
@@ -249,6 +2827,123 @@
       "endingId": "DOSTOEVSKY_PETRASHEVSKY",
       "variant": 0,
       "circleLearning": "attended",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "CARRY_NOTICE_ABROAD",
+        "REFUSE_NAMING",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "variant": 1,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "CARRY_NOTICE_ABROAD",
+        "REFUSE_NAMING",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "variant": 2,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "KEEP_LOCAL_READING",
+        "REFUSE_NAMING",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "variant": 3,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "KEEP_LOCAL_READING",
+        "REFUSE_NAMING",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "bookseller_lev",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "variant": 4,
+      "circleLearning": "attended-notes",
       "examOutcome": "passed",
       "examCorrectCount": 5,
       "promotionStatus": "promoted",
@@ -276,7 +2971,298 @@
     },
     {
       "endingId": "DOSTOEVSKY_PETRASHEVSKY",
-      "variant": 1,
+      "variant": 5,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "HOLD_NOTICE",
+        "REFUSE_NAMING",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "variant": 6,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "CARRY_NOTICE_ABROAD",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "variant": 7,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "CARRY_NOTICE_ABROAD",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "variant": 8,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "KEEP_LOCAL_READING",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "variant": 9,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "KEEP_LOCAL_READING",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "bookseller_lev",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "variant": 10,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "HOLD_NOTICE",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "variant": 11,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "HOLD_NOTICE",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "variant": 12,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "CARRY_NOTICE_ABROAD",
+        "REFUSE_NAMING",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "variant": 13,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "CARRY_NOTICE_ABROAD",
+        "REFUSE_NAMING",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "variant": 14,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "KEEP_LOCAL_READING",
+        "REFUSE_NAMING",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "variant": 15,
       "circleLearning": "attended-notes",
       "examOutcome": "passed",
       "examCorrectCount": 5,
@@ -300,6 +3286,239 @@
         "printer_ekaterina",
         "courier_pavel",
         "bookseller_lev",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "variant": 16,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "HOLD_NOTICE",
+        "REFUSE_NAMING",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "variant": 17,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "HOLD_NOTICE",
+        "REFUSE_NAMING",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "variant": 18,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "CARRY_NOTICE_ABROAD",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "variant": 19,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "CARRY_NOTICE_ABROAD",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "variant": 20,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "KEEP_LOCAL_READING",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "variant": 21,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "KEEP_LOCAL_READING",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "bookseller_lev",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "variant": 22,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "HOLD_NOTICE",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
+        "clerk_alexei"
+      ],
+      "date": "1849-05-05"
+    },
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "variant": 23,
+      "circleLearning": "attended-notes",
+      "examOutcome": "passed",
+      "examCorrectCount": 5,
+      "promotionStatus": "promoted",
+      "actions": [
+        "ASK_FOR_SOURCE",
+        "HOLD_NOTICE",
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "hosts": [
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "courier_pavel",
         "clerk_alexei"
       ],
       "date": "1849-05-05"

@@ -15,7 +15,7 @@
 ## Verification
 
 - `node --test scripts/v33-rpg-core.test.mjs`: 16/16 pass, including reciprocal map doors, access restrictions, save migration, world-clock scheduling, host control, and same-source cross-perspective isolation.
-- `node scripts/v33-rpg-browser-smoke.mjs`: PASS at 1440×900 and 390×844, including a 128,701 ms directed route. No horizontal overflow; touch controls fit; clock advances visibly; source panel scrolls; fictional clues and save restoration work; source-gated action resolves; Chancery → Nevsky → courtyard is playable; Alexei is denied courtyard access; Mikhail reads his own fictional rent note and returns to the street. No page errors.
+- `node scripts/v33-rpg-browser-smoke.mjs`: PASS at 1440×900 and 390×844. The directed route records successful in-game movement and confirmed interactions instead of treating scripted waiting as active play. No horizontal overflow; touch controls fit; clock advances visibly; source panel scrolls; fictional clues and save restoration work; source-gated action resolves; Chancery → Nevsky → courtyard is playable; Alexei is denied courtyard access; Mikhail reads his own fictional rent note and returns to the street. No page errors.
 - Visual evidence and run report: `artifacts/v33/V33_RPG_PHASE1/`.
 
 ## Remaining in this phase

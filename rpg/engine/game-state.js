@@ -154,6 +154,8 @@ function possessHost(state, hostId, map) {
 
 function enterLiteraryRealm(state, map, card) {
   if (!state || state.player.embodiment || state.world.activeRealm || map?.metadata?.mapClass !== 'LITERARY_REALM' || card?.kind !== 'LITERARY' || !card.allowedMaps.includes(map.mapId) || !state.hosts[card.id]) return { ok: false, reason: 'literary_realm_unavailable', state };
+  const requiredSources = map.metadata.sourceIds ?? [];
+  if (requiredSources.some(sourceId => !(state.world.discoveredSourceIds ?? []).includes(sourceId))) return { ok: false, reason: 'literary_source_unread', state };
   const next = clone(state);
   next.world.returnLocation = { mapId: next.world.currentMapId, position: { ...next.player.position } };
   next.world.activeRealm = { id: map.metadata.realmId, mapClass: 'LITERARY_REALM', sourceIds: [...(map.metadata.sourceIds ?? [])] };
@@ -331,7 +333,9 @@ function recordSourceRead(state, sourceId, maps, archiveSourceIds = [], readingM
   const chronology = ['V33_1847_PRINT', 'V33_1848_PUBLIC', 'V33_1849_CIRCLE'];
   const chapterAvailable = !sourceChapter || chronology.indexOf(state.world.chapterId) >= chronology.indexOf(sourceChapter);
   const literaryScope = sourceMap?.metadata?.mapClass === 'LITERARY_REALM';
-  const scopeAllowed = literaryScope ? state.world.activeRealm?.id === sourceMap.metadata.realmId : !state.world.activeRealm;
+  const scopeAllowed = literaryScope
+    ? archiveAccess || state.world.activeRealm?.id === sourceMap.metadata.realmId
+    : !state.world.activeRealm;
   const sourceDate = properties(target ?? {}).availableDate;
   const dateAvailable = !sourceDate || sourceDate <= state.world.date;
   const isHere = Boolean(target && chapterAvailable && dateAvailable && scopeAllowed && (inPlace || archiveAccess));

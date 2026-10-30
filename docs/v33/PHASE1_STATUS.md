@@ -23,13 +23,11 @@
 - Screenshots and the machine-readable report are in `artifacts/v33/V33_RPG_PHASE1/`.
 - Screenshot review confirms the full world map, current body, journal and mobile touch pad remain visible at both target sizes. The wood-and-brass printshop has readable foreground objects. Street tile density still needs review before widening the game.
 
-## Still required for the Phase 1 gate
-
 ## Phase 1 gate
 
-- Goal-directed observer → source → Pavel/clue → physical street door → Ekaterina/source → gated proof decision took 128,659 ms in one browser session.
+- Goal-directed observer → source → Pavel/clue → physical street door → Ekaterina/source → gated proof decision passed the action-based browser gate: 43 successful tile moves, 7 verified object interactions, 2 source readings, 2 distinct possessed hosts, 1 map transition, and 1 quest choice. The automated route completes in seconds; its wall-clock duration is not presented as player engagement time.
 - Captured and inspected 1440×900 and 390×844 screenshots. The full map and journal fit; all mobile touch controls remain in the viewport; source text scrolls within the journal.
 - Street surface is intentionally a continuous Petersburg cobblestone ground; the printshop adds distinct timber, counter and paper surfaces. The first slice is visually readable at both checked sizes. Revisit density if later map scale or additional objects make targets indistinct.
-- The long route initially exposed an animation-loop CPU issue: an always-on 60 Hz canvas loop delayed the final screenshot. Rendering is now event-driven while idle and runs briefly during movement. The same 128-second path and final capture then passed with no browser exceptions.
+- The long route initially exposed an animation-loop CPU issue: an always-on 60 Hz canvas loop delayed the final screenshot. Rendering is now event-driven while idle and runs briefly during movement. The action-based route and final capture pass with no browser exceptions.
 
-**Phase 1: PASS. Phase 2 may proceed.**
+**Phase 1 movement/interaction capability: PASS. Automated wall-clock playtime: not claimed.**

@@ -89,9 +89,7 @@ export function buildRoute(endingId, variant) {
   state = readForHost(state, arc2.sources[0], arc2.sources);
   state = readForHost(state, arc2.sources[1], arc2.sources);
   let action2;
-  if (endingId === 'HERZEN') action2 = 'CARRY_NOTICE_ABROAD';
-  else if (endingId === 'KHOMYAKOV') action2 = 'KEEP_LOCAL_READING';
-  else action2 = variant % 2 ? 'KEEP_LOCAL_READING' : 'HOLD_NOTICE';
+  action2 = endingId === 'HERZEN' ? 'CARRY_NOTICE_ABROAD' : endingId === 'KHOMYAKOV' ? 'KEEP_LOCAL_READING' : ['CARRY_NOTICE_ABROAD', 'KEEP_LOCAL_READING', 'HOLD_NOTICE'][Math.floor(variant / 2) % 3];
   if (action2 === 'CARRY_NOTICE_ABROAD') {
     if (!engine.knowledgeForHost(state, 'courier_pavel').includes(arc2.sources[0])) state = readForHost(state, arc2.sources[0], arc2.sources);
   } else if (action2 === 'KEEP_LOCAL_READING' && !['printer_ekaterina', 'bookseller_lev', 'nekrasov_reconstruction'].includes(state.player.embodiment)) {
@@ -107,11 +105,11 @@ export function buildRoute(endingId, variant) {
   const arc3 = historicalArcs[2];
   state = parkNear(state, 'clerk_alexei', 'chancery');
   state = readForHost(state, arc3.sources[0], [arc3.sources[0]]);
-  const action3 = endingId === 'UVAROV' ? 'FILE_OFFICIAL_REPORT' : 'REFUSE_NAMING';
+  const action3 = endingId === 'UVAROV' || Math.floor(variant / 6) % 2 ? 'FILE_OFFICIAL_REPORT' : 'REFUSE_NAMING';
   state = takeAction(state, 'CIRCLE_INVESTIGATION_1849', action3);
   state = engine.advanceCampaignDate(state, '1849-05-05', campaign, quests).state;
   state = readForHost(state, arc3.sources[1], [arc3.sources[1]]);
-  const action4 = endingId === 'DOSTOEVSKY_PETRASHEVSKY' ? 'REFUSE_NAMING' : 'PRESERVE_LETTER';
+  const action4 = endingId === 'DOSTOEVSKY_PETRASHEVSKY' ? 'REFUSE_NAMING' : Math.floor(variant / 12) % 2 ? 'PRESERVE_LETTER' : 'REFUSE_NAMING';
   state = takeAction(state, 'CIRCLE_LETTER_1849_MAY', action4);
   state = finishLearning(state, endingId, variant);
   const stateBeforeEnding = state;
@@ -132,10 +130,11 @@ export function buildRoute(endingId, variant) {
 
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
   const routes = [];
-  for (const ending of campaign.endings) for (let variant = 0; variant < 2; variant++) routes.push(buildRoute(ending.id, variant).summary);
-  assert.equal(routes.length, 10);
+  for (const ending of campaign.endings) for (let variant = 0; variant < 24; variant++) routes.push(buildRoute(ending.id, variant).summary);
+  assert.equal(routes.length, 120);
+  assert.equal(new Set(routes.map(route => route.actions.join('|'))).size, 23, 'the reducer fixtures cover every mixed four-choice vector compatible with an authored ending');
   assert.deepEqual(new Set(routes.map(route => route.endingId)), new Set(campaign.endings.map(ending => ending.id)));
-  const report = { schemaVersion: 'V33_ENDING_ROUTE_MATRIX_V1', status: 'PASS', distinctEndingIds: [...new Set(routes.map(route => route.endingId))], routeCount: routes.length, routes };
+  const report = { schemaVersion: 'V33_ENDING_ROUTE_MATRIX_V2', status: 'PASS', fixtureType: 'reducer-route-vectors; host coordinates are fixtures, not physical traversal evidence', mixedActionVectorCount: 23, omittedIncompatibleVector: ['HOLD_FOR_CORRECTION', 'HOLD_NOTICE', 'REFUSE_NAMING', 'PRESERVE_LETTER'], omittedVectorReason: 'none of the five authored endings accepts this combination of four required route actions', distinctEndingIds: [...new Set(routes.map(route => route.endingId))], routeCount: routes.length, routes };
   await fs.mkdir(path.join(root, 'artifacts/v33'), { recursive: true });
   await fs.writeFile(path.join(root, 'artifacts/v33/ENDING_ROUTE_MATRIX.json'), `${JSON.stringify(report, null, 2)}\n`);
   console.log(JSON.stringify({ status: report.status, routeCount: report.routeCount, endings: report.distinctEndingIds }, null, 2));

@@ -304,7 +304,9 @@ function showSourceSummary(record = source) {
   } }]);
 }
 function openSourceDrawer() {
-  const available = state.world.activeRealm ? [...(state.world.activeRealm.sourceIds ?? [])] : campaign.arcs.filter(arc => arc.id === state.world.chapterId || state.world.completedChapterIds?.includes(arc.id)).flatMap(arc => arc.sources);
+  const available = state.world.activeRealm
+    ? [...(state.world.activeRealm.sourceIds ?? [])]
+    : [...campaign.arcs.filter(arc => arc.id === state.world.chapterId || state.world.completedChapterIds?.includes(arc.id)).flatMap(arc => arc.sources), ...campaign.literaryRealms.map(realm => realm.sourceId)];
   const unlocked = [...new Set(available)].filter(id => {
     if (!sourceRecords.has(id)) return false;
     const sourceObject = Object.values(maps).flatMap(map => map.layers.find(layer => layer.name === 'Interactions')?.objects ?? []).find(object => object.properties?.some(property => property.name === 'sourceId' && property.value === id));
@@ -314,7 +316,7 @@ function openSourceDrawer() {
   const sourceButtons = unlocked.map(id => sourceRecords.get(id)).map(record => ({ label: record.titleKo, subcopy: `${record.documentDate ?? '1847'} · ${record.type ?? '문학 원문'} · ${record.range ?? record.witness.range}`, run: () => sourceRead(record.sourceId, unlocked, 'PLAYER_ARCHIVE') }));
   const realmActions = state.world.activeRealm
     ? [{ label: '문학 세계에서 돌아오기', subcopy: '1847–1849 역사 연표로 돌아갑니다 · 문학 속 사건은 역사 기록에 합쳐지지 않습니다', run: () => { const result = leaveLiteraryRealm(state, maps); if (result.ok) { setState(result.state); say('현실의 거리로 돌아오다', '도청 소재지의 여관은 소설 속에 남아 있다. 이곳에서 본 것은 역사 속 사람의 기억이 되지 않는다.', [{ label: '자료철 열기', run: openSourceDrawer }]); } } }]
-    : campaign.literaryRealms.map(realm => ({ label: realm.entryLabelKo, subcopy: `1842년 소설의 별도 장면입니다 · 역사 연표와 지식은 섞이지 않습니다 · 몸을 놓은 뒤 들어갑니다`, run: () => { const card = cards.find(item => item.id === realm.hostId); const result = enterLiteraryRealm(state, maps[realm.mapId], card); if (result.ok) { setState(result.state); say(realm.titleKo, `${card.displayNameKo}의 작품 속 장면이다. 이곳의 인물과 선택은 문학 세계에만 남는다.`, [{ label: '자료철 열기', run: openSourceDrawer }]); } else sayRecord('먼저 빌린 몸을 놓아주고 다시 시도하자.'); } }));
+    : campaign.literaryRealms.map(realm => ({ label: realm.entryLabelKo, subcopy: `먼저 자료철에서 작품 원문을 읽습니다 · 1842년 소설의 장면이며 역사 연표와 분리됩니다`, run: () => { const card = cards.find(item => item.id === realm.hostId); const result = enterLiteraryRealm(state, maps[realm.mapId], card); if (result.ok) { setState(result.state); say(realm.titleKo, `${card.displayNameKo}의 작품 속 장면이다. 이곳의 인물과 선택은 문학 세계에만 남는다.`, [{ label: '자료철 열기', run: openSourceDrawer }]); } else sayRecord(result.reason === 'literary_source_unread' ? '자료철에서 해당 작품의 원문을 먼저 읽어야 한다.' : '먼저 빌린 몸을 놓아주고 다시 시도하자.'); } }));
   say(state.world.activeRealm ? '문학 세계의 자료' : '지금까지 열린 자료', state.world.activeRealm
     ? '소설 속에 놓인 책을 직접 읽으면 그 장면의 인물이 알게 된다.'
     : '자료철은 기록의 손님이 살펴보는 목록이다. 빌린 몸의 지식에는 그 사람이 현장에서 직접 읽거나 전달받은 자료만 남는다. 날짜가 오지 않은 문서는 연표가 진행된 뒤 열린다.', [...sourceButtons, ...realmActions]);

@@ -21,6 +21,15 @@ try {
   const realmChoices = await page.locator('#actions').innerText();
   if (!realmChoices.includes('외투')) throw new Error(`The source drawer did not offer the Overcoat realm: ${realmChoices}`);
   await page.locator('#actions button').filter({ hasText: '《외투》 속 재단사의 방으로 들어가기' }).click();
+  await page.getByText('자료철에서 해당 작품의 원문을 먼저 읽어야 한다.', { exact: true }).waitFor();
+  if ((await page.locator('#mapname').innerText()).includes('재단사의 방')) throw new Error('The literary realm opened before its source was read');
+  await page.getByRole('button', { name: /《외투》 · 낡은 옷과 새 외투의 값/ }).click();
+  await page.getByRole('button', { name: '원문과 번역 펼치기' }).waitFor();
+  await page.getByRole('button', { name: '원문과 번역 펼치기' }).click();
+  await page.getByText('페테르부르크에는 해마다 400루블 안팎', { exact: false }).waitFor();
+  await page.getByRole('button', { name: '판본과 출처 보기' }).click();
+  await page.getByRole('button', { name: '자료 목록으로' }).click();
+  await page.locator('#actions button').filter({ hasText: '《외투》 속 재단사의 방으로 들어가기' }).click();
   await page.getByText('《외투》 속 재단사의 방', { exact: true }).first().waitFor();
   await page.locator('#use').click();
   const akakyActions = await page.locator('#actions').innerText();

@@ -8,7 +8,7 @@ const { RpgSession, RpgGlobalBudget, fetch: workerFetch } = require('../ai/v33/w
 const { createResponsesProvider } = require('../ai/v33/openai-provider.cjs');
 
 function validTurn(sceneId, speakerId = 'printer_ekaterina') {
-  return { schemaVersion: 'V33_RPG_DIALOGUE_V1', sceneId, beats: [{ speakerId, textKo: '그 문장은 한 번 더 보고 넘기죠.', emotion: 'focused' }], suggestedReplies: [{ id: 'R1', textKo: '문제 된 줄을 같이 읽어봐요.', tone: 'curious' }, { id: 'R2', textKo: '인쇄비와 책임자부터 확인할게요.', tone: 'direct' }] };
+  return { schemaVersion: 'V33_RPG_DIALOGUE_V2', sceneId, beats: [{ speakerId, textKo: '그 문장은 한 번 더 보고 넘기죠.', emotion: 'focused', claimIds: [] }], suggestedReplies: [{ id: 'R1', textKo: '문제 된 줄을 같이 읽어봐요.', tone: 'curious' }, { id: 'R2', textKo: '인쇄비와 책임자부터 확인할게요.', tone: 'direct' }] };
 }
 const request = (method, path, body, origin = 'https://game.example') => ({ method, path, body, origin });
 
@@ -312,16 +312,41 @@ test('historical AI dialogue falls back when it introduces a year absent from it
   assert.equal(result.body.turn.beats[0].textKo, '공고에는 발송이 늦어진 이유와 수령 확인 방법을 적었습니다. 못 받은 호가 있다면 편집부가 조사하겠다고도 밝혔고요. 여기 적히지 않은 사적인 말까지 제 말처럼 보태지는 않겠습니다.');
 });
 
+test('historical AI dialogue falls back when it invents a real-person claim without a year or source claim ID', async () => {
+  const unsupported = validTurn('V33_TALK_NEKRASOV_EDITORIAL_NOTICE', 'nekrasov_reconstruction');
+  unsupported.beats[0].textKo = '벨린스키는 편집부 회의에 참석해 이 글을 승인했다고 들었습니다.';
+  const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store: new MemorySessionStore(), allowedOrigins: ['https://game.example'], provider: { generate: async () => unsupported } });
+  const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'nekrasov_reconstruction' }));
+  const result = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken, requestId: 'unsupported-person-0001', playerInput: '편집부에서 무슨 일이 있었는지 알려 주세요.' }));
+
+  assert.equal(result.status, 200);
+  assert.equal(result.body.fallback, true);
+  assert.equal(result.body.turn.beats[0].textKo, '공고에는 발송이 늦어진 이유와 수령 확인 방법을 적었습니다. 못 받은 호가 있다면 편집부가 조사하겠다고도 밝혔고요. 여기 적히지 않은 사적인 말까지 제 말처럼 보태지는 않겠습니다.');
+});
+
 test('historical AI dialogue retains claims whose dates are present in the authorized source packet', async () => {
-  const store = new MemorySessionStore();
+  const store = new MemorySessionStore(); let modelInput;
   const supported = validTurn('V33_TALK_NEKRASOV_EDITORIAL_NOTICE', 'nekrasov_reconstruction');
   supported.beats[0].textKo = '1848년 첫 호는 지방으로 늦게 도착했고, 편집부는 다음 호부터 공고한 일정에 맞춰 보내겠다고 했습니다.';
-  const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store, allowedOrigins: ['https://game.example'], provider: { generate: async () => supported } });
+  supported.beats[0].claimIds = ['NOTICE48-DISTRIBUTION'];
+  const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store, allowedOrigins: ['https://game.example'], provider: { generate: async request => { modelInput = request.input; return supported; } } });
   const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'nekrasov_reconstruction' }));
   const result = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken, requestId: 'supported-fact-0001', playerInput: '공고에 나온 일을 알려 주세요.' }));
   assert.equal(result.status, 200);
   assert.equal(result.body.fallback, false);
   assert.equal(result.body.turn.beats[0].textKo, supported.beats[0].textKo);
+  assert.ok(modelInput.sourceClaims.some(claim => claim.claimId === 'NOTICE48-DISTRIBUTION' && claim.sourceId === 'OBJ-WS-NEKRASOV-EDITORIAL-1848'));
+});
+
+test('historical AI dialogue rejects claim IDs outside the scene source allowlist', async () => {
+  const forged = validTurn('V33_TALK_NEKRASOV_EDITORIAL_NOTICE', 'nekrasov_reconstruction');
+  forged.beats[0].claimIds = ['REPORT-ARRESTS'];
+  const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store: new MemorySessionStore(), allowedOrigins: ['https://game.example'], provider: { generate: async () => forged } });
+  const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'nekrasov_reconstruction' }));
+  const result = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken, requestId: 'forged-claim-id-0001', playerInput: '공고를 설명해 주세요.' }));
+
+  assert.equal(result.status, 200);
+  assert.equal(result.body.fallback, true);
 });
 
 test('429, 500, and timeout from the provider use authored fallback without exposing provider errors', async t => {
@@ -366,6 +391,12 @@ test('Durable Object transactions enforce per-session turns and the global daily
   const responses = await Promise.all(Array.from({ length: 4 }, () => budget.fetch(new Request('https://budget/consume-turn', { method: 'POST' }))));
   assert.equal(responses.filter(result => result.status === 204).length, 1);
   assert.equal(responses.filter(result => result.status === 429).length, 3);
+
+  const slots = await Promise.all(Array.from({ length: 12 }, (_, index) => budget.fetch(new Request('https://budget/acquire-turn', { method: 'POST', body: JSON.stringify({ leaseId: `lease-${index}`, now }) }))));
+  assert.equal(slots.filter(result => result.status === 204).length, 8, 'the shared semaphore caps active turns across sessions');
+  assert.equal(slots.filter(result => result.status === 429).length, 4);
+  await budget.fetch(new Request('https://budget/release-turn', { method: 'POST', body: JSON.stringify({ leaseId: 'lease-0' }) }));
+  assert.equal((await budget.fetch(new Request('https://budget/acquire-turn', { method: 'POST', body: JSON.stringify({ leaseId: 'lease-extra', now }) }))).status, 204, 'released capacity can be reused');
 });
 
 test('Durable Object admits only one unfinished dialogue turn per session', async () => {
