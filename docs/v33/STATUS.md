@@ -12,6 +12,15 @@ Updated 2026-10-30 after browser verification of the circle, exam, campaign, end
 - One Node warning remains in the renderer unit-test import: Node reparses `rpg/engine/renderer.js` as ESM because the package scope does not declare its module type. This is test-runner overhead; browser acceptance reported no page errors.
 - This run validates offline authored dialogue and Worker protections only. It does not establish live OpenAI connectivity or replace a human playtest.
 
+## Nevsky street-surface update — 2026-10-30
+
+- Extended the original tileset with distinct carriageway cobbles, wheel-worn stones, sidewalk slabs, and a gutter course; applied them to the Nevsky ground layer without changing collision or interaction positions.
+- Linked the visual reference to the verified 1835 Sadovnikov panorama. The provenance note explicitly treats paving and curb dimensions as stylized, not surveyed.
+- Added a focused street-material regression to `acceptance:v33`. Full acceptance passed, including all four desktop/mobile viewports, the Overcoat route, five ending panels, and five full campaign routes. Log: `artifacts/v33/V33_STREET_MATERIAL_ACCEPTANCE_2026-10-30.log`.
+- Directly inspected the refreshed 1440×900 and 360×800 map screenshots; both render the new paving within the viewport without horizontal overflow.
+- Rebuilt `RUSSIAN_LIVES_V33_POSSESSION_RPG_VERIFICATION.zip` from the full checkout with unique entries; `7z t` reports no archive errors.
+- Extracted the rebuilt archive into a clean temporary directory, installed from its lockfile with `npm ci --offline`, and passed the same full `npm run acceptance:v33` suite. Log: `artifacts/v33/V33_ARCHIVE_STREET_MATERIAL_ACCEPTANCE_2026-10-30.log`.
+
 ## Literary expansion: Gogol's The Overcoat — 2026-10-30
 
 - Added a separately namespaced 1842 literary realm for Akaky Bashmachkin and the tailor Petrovich. Six contiguous Russian paragraphs from the 1952 scholarly edition transcription are paired with this project's Korean translation and recorded with a source range and URL.

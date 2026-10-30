@@ -1,6 +1,6 @@
 {
   "schemaVersion": "V33_RPG_BROWSER_SMOKE_V1",
-  "base": "http://127.0.0.1:55512/",
+  "base": "http://127.0.0.1:51034/",
   "viewports": [
     {
       "viewport": {
@@ -96,7 +96,7 @@
       "canvas": {
         "width": 1382,
         "height": 546,
-        "sampledColors": 13,
+        "sampledColors": 17,
         "mapCoverage": 1,
         "cssTileScale": 2.879166666666667
       },
@@ -202,7 +202,7 @@
       "canvas": {
         "width": 1309,
         "height": 418,
-        "sampledColors": 14,
+        "sampledColors": 20,
         "mapCoverage": 1,
         "cssTileScale": 2.7270833333333333
       },
@@ -308,7 +308,7 @@
       "canvas": {
         "width": 368,
         "height": 377,
-        "sampledColors": 18,
+        "sampledColors": 23,
         "mapCoverage": 1,
         "cssTileScale": 0.7666666666666667
       },
@@ -414,7 +414,7 @@
       "canvas": {
         "width": 338,
         "height": 354,
-        "sampledColors": 14,
+        "sampledColors": 18,
         "mapCoverage": 1,
         "cssTileScale": 0.7041666666666667
       },

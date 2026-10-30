@@ -10,6 +10,14 @@
 - A single Node `MODULE_TYPELESS_PACKAGE_JSON` warning appears while tests import the browser ESM renderer; it does not appear as a browser page error. This is recorded for follow-up rather than changing the project-wide module mode.
 - Live AI remains unverified because the deployed Worker URL and provider credentials are not configured. Deployed human playtest remains pending.
 
+## Nevsky street-surface update — 2026-10-30
+
+- Added four original pixel-art surface tiles for damp cobbles, wheel-worn cobbles, sidewalk slabs, and the gutter. Nevsky's map uses a deterministic carriageway pattern while preserving its collision and interaction layers.
+- Added a focused regression and included it in `npm run acceptance:v33`; the full source-tree acceptance exited 0. Browser coverage passed at 1440×900, 1366×768, 390×844, and 360×800, including 《외투》, all five endings, and all five campaign routes. Full log: `artifacts/v33/V33_STREET_MATERIAL_ACCEPTANCE_2026-10-30.log`.
+- Reviewed the 1440×900 and 360×800 captures; the paving is visible at both sizes and the mobile viewport width remains 360 pixels.
+- Asset provenance cites the verified Virtual Russian Museum 1835 Sadovnikov panorama. The source informs the street scene and facade rhythm; the paving pattern and curb widths are documented as stylized reconstructions.
+- Rebuilt the external verification ZIP from the full checkout with unique paths, including the new regression, full acceptance log, refreshed browser reports/captures, and status documents. `7z t` passed. A clean extraction installed with `npm ci --offline` and passed the complete `npm run acceptance:v33` suite; output: `artifacts/v33/V33_ARCHIVE_STREET_MATERIAL_ACCEPTANCE_2026-10-30.log`.
+
 ## Result
 
 `npm run acceptance:v33` previously exited 0 on branch `codex/v33-possession-rpg` after the save-description and ending-route fixture fixes. The verified commit `c6ac18708fdb0f05403fd916d91885bef489a655` was then pushed to `master`; GitHub Actions and Pages both completed successfully. The public deployment was checked with HTTP resource fetches and a Playwright gameplay smoke. A follow-up 2026-10-30 verification added interpersonal dialogue and per-host portrait checks and reran the browser acceptance suite successfully; see the current result below.

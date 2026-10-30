@@ -88,8 +88,8 @@
       "path": "rpg/assets/petersburg-tiles.png",
       "width": 256,
       "height": 160,
-      "bytes": 2453,
-      "sha256": "b129dffdc917e7e4728ba35940810d61146e0bcc1971a8db7dbc8678d6c3f893",
+      "bytes": 2766,
+      "sha256": "3f94c20e6bf72ad736686a1caf3ab09d63164096078d7d990a2d0c8296795a48",
       "license": "original project-authored pixels",
       "confidence": "RECONSTRUCTED"
     },

@@ -1,4 +1,4 @@
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { deflateSync } from 'node:zlib';
@@ -64,6 +64,14 @@ const tileDrawers = [
   ({ rect, line, put }) => { rect(0, 0, 16, 16, '#40332b'); rect(2, 2, 12, 12, '#76533a'); rect(3, 3, 10, 2, '#b28c5e'); rect(4, 7, 8, 6, '#39302a'); line(4, 13, 11, 13, '#c3a168'); put(7, 9, '#dfc696'); },
   ({ rect, line }) => { rect(0, 0, 16, 16, '#43352c'); rect(2, 3, 12, 11, '#9a7b56'); rect(3, 4, 10, 9, '#695039'); line(4, 5, 11, 5, '#d0af75'); line(4, 8, 11, 8, '#d0af75'); line(4, 11, 11, 11, '#d0af75'); },
   ({ rect, put, line }) => { rect(0, 0, 16, 16, '#47362a'); rect(2, 4, 12, 9, '#9a6b46'); rect(4, 3, 8, 2, '#d1aa69'); rect(4, 6, 8, 4, '#312922'); put(6, 7, '#e3c48a'); line(2, 13, 13, 13, '#30241e'); },
+  ({ rect, line, put }) => { rect(0, 0, 16, 16, '#484541'); for (let y = 0; y < 16; y += 5) { const shift = y % 10 ? 2 : 0; for (let x = shift; x < 16; x += 8) { rect(x, y, 7, 4, '#5a5650'); line(x + 1, y, x + 5, y, '#6d665d'); put(x + 6, y + 3, '#363533'); } } },
+  ({ rect, line, put }) => { rect(0, 0, 16, 16, '#504c47'); for (let y = 1; y < 16; y += 5) { const shift = y % 10 ? 4 : 1; for (let x = shift; x < 16; x += 8) { rect(x, y, 6, 4, '#625c54'); line(x + 1, y, x + 4, y, '#797166'); } } put(3, 12, '#373633'); put(13, 6, '#777066'); },
+  ({ rect, line, put }) => { rect(0, 0, 16, 16, '#756d62'); rect(0, 0, 15, 15, '#92887b'); line(0, 7, 15, 7, '#6b6258'); line(7, 0, 7, 15, '#6b6258'); line(2, 2, 5, 2, '#aaa08f'); line(10, 10, 13, 10, '#aaa08f'); put(6, 6, '#5d554c'); },
+  ({ rect, line, put }) => { rect(0, 0, 16, 16, '#5b554d'); rect(0, 0, 16, 5, '#83796c'); line(0, 5, 15, 5, '#3c3934'); line(2, 8, 14, 8, '#70685f'); line(4, 9, 12, 9, '#49453f'); put(3, 13, '#82796d'); put(13, 12, '#373633'); },
+  ({ rect, line, put }) => { rect(0, 0, 16, 16, '#3d3b39'); for (let y = 1; y < 16; y += 5) { const shift = y % 10 ? 3 : 0; for (let x = shift; x < 16; x += 7) { rect(x, y, 6, 4, '#514e4a'); line(x + 1, y, x + 4, y, '#67615a'); put(x + 5, y + 3, '#302f2d'); } } },
+  ({ rect, line, put }) => { rect(0, 0, 16, 16, '#403e3b'); for (let y = 0; y < 16; y += 5) { const shift = y % 10 ? 1 : 4; for (let x = shift; x < 16; x += 8) { rect(x, y, 6, 4, '#55514b'); line(x, y, x + 3, y, '#777067'); } } line(1, 9, 14, 9, '#66615a'); put(5, 10, '#797267'); put(12, 10, '#2e2d2b'); },
+  ({ rect, line, put }) => { rect(0, 0, 16, 16, '#746c61'); rect(0, 0, 15, 15, '#9a9082'); line(0, 7, 15, 7, '#6b6259'); line(7, 0, 7, 15, '#6b6259'); line(1, 1, 6, 1, '#b0a494'); line(9, 9, 14, 9, '#b0a494'); put(6, 6, '#554d45'); },
+  ({ rect, line, put }) => { rect(0, 0, 16, 16, '#534e47'); rect(0, 0, 16, 5, '#81786b'); line(0, 5, 15, 5, '#393733'); line(1, 8, 14, 8, '#6c655c'); line(3, 9, 12, 9, '#48443f'); put(2, 12, '#777064'); put(13, 13, '#343331'); },
 ];
 function drawText({ put, text, x, y, color }) {
   const glyphs = { 'К': ['101','110','100','110','101'], 'Н': ['101','101','111','101','101'], 'И': ['101','101','111','111','101'], 'Г': ['111','100','100','100','100'], 'П': ['111','101','101','101','101'], 'Е': ['111','100','110','100','111'], 'Ч': ['101','101','111','001','001'], 'Ь': ['100','100','110','101','110'], 'А': ['010','101','111','101','101'], 'Я': ['011','101','011','101','101'], 'О': ['111','101','101','101','111'], 'В': ['110','101','110','101','110'] };
@@ -71,7 +79,7 @@ function drawText({ put, text, x, y, color }) {
 }
 function buildTileset() {
   return image(256, 160, ({ put, rect, line }) => {
-    for (let i = 0; i < 40; i++) tileDrawers[i % tileDrawers.length]({ put: (x,y,c) => put((i % 16) * 16 + x, Math.floor(i / 16) * 16 + y, c), rect: (x,y,w,h,c) => rect((i % 16) * 16 + x, Math.floor(i / 16) * 16 + y, w,h,c), line: (x1,y1,x2,y2,c) => line((i % 16) * 16 + x1, Math.floor(i/16)*16+y1, (i%16)*16+x2, Math.floor(i/16)*16+y2,c) });
+    for (let i = 0; i < tileDrawers.length; i++) tileDrawers[i]({ put: (x,y,c) => put((i % 16) * 16 + x, Math.floor(i / 16) * 16 + y, c), rect: (x,y,w,h,c) => rect((i % 16) * 16 + x, Math.floor(i / 16) * 16 + y, w,h,c), line: (x1,y1,x2,y2,c) => line((i % 16) * 16 + x1, Math.floor(i/16)*16+y1, (i%16)*16+x2, Math.floor(i/16)*16+y2,c) });
     drawText({ put, text: 'КНИГИ', x: 210, y: 118, color: '#4a3126' });
   });
 }
@@ -118,19 +126,24 @@ function makeMap({ id, name, width, height, baseGid, observerStart, architecture
   for (const [x,y,gid] of architecture) set(arch,x,y,gid);
   for (const [x,y,gid] of collision) set(block,x,y,gid);
   for (const [x,y,gid] of (mapProperties.decorations ?? [])) set(decor,x,y,gid);
-  const { decorations, ...metadata } = mapProperties;
+  for (const [x,y,gid] of (mapProperties.groundTiles ?? [])) set(ground,x,y,gid);
+  const { decorations, groundTiles, ...metadata } = mapProperties;
   return {
     type: 'map', version: '1.10', tiledversion: '1.10.2', orientation: 'orthogonal', renderorder: 'right-down', compressionlevel: -1,
     name: id, mapId: id, metadata: { displayNameKo: name, observerStart, ...metadata },
     width, height, tilewidth: 16, tileheight: 16, infinite: false, nextlayerid: 7, nextobjectid: 1,
     properties: Object.entries({ mapId: id, displayNameKo: name, observerStart, ...metadata }).map(([name,value]) => ({ name, type: 'string', value: JSON.stringify(value) })),
-    tilesets: [{ firstgid: 1, name: 'petersburg-1847-original', image: '../assets/petersburg-tiles.png', imagewidth: 256, imageheight: 160, tilewidth: 16, tileheight: 16, tilecount: 40, columns: 16 }],
+    tilesets: [{ firstgid: 1, name: 'petersburg-1847-original', image: '../assets/petersburg-tiles.png', imagewidth: 256, imageheight: 160, tilewidth: 16, tileheight: 16, tilecount: tileDrawers.length, columns: 16 }],
     layers: [tileLayer('Ground',width,height,ground,1), tileLayer('Architecture',width,height,arch,2), tileLayer('Collision',width,height,block,3), tileLayer('StreetDetail',width,height,decor,4), objectLayer('Interactions',objects,5), objectLayer('NPCs',npcs,6)],
   };
 }
 
 function buildMaps() {
-  const streetW = 30, streetH = 20, streetArch = [], streetCollision = [], streetDecor = [];
+  const streetW = 30, streetH = 20, streetArch = [], streetCollision = [], streetDecor = [], streetGround = [];
+  for (let y = 8; y <= 9; y++) for (let x = 1; x <= 28; x++) streetGround.push([x,y,43]);
+  for (let x = 1; x <= 28; x++) streetGround.push([x,10,44]);
+  for (let y = 11; y <= 17; y++) for (let x = 1; x <= 28; x++) streetGround.push([x,y,((x + y * 3) % 5 === 0) ? 42 : 41]);
+  for (let x = 1; x <= 28; x++) streetGround.push([x,18,43]);
   for (let x = 0; x < streetW; x++) { streetCollision.push([x,0,1],[x,19,1]); }
   for (let y = 0; y < streetH; y++) streetCollision.push([0,y,1],[29,y,1]);
   for (let y = 2; y <= 7; y++) for (let x = 1; x <= 28; x++) { streetArch.push([x,y,7]); streetCollision.push([x,y,1]); }
@@ -157,7 +170,7 @@ function buildMaps() {
     obj(14,'미하일','npc',27,15,{hostId:'tenant_mikhail'}),
     obj(15,'레프','npc',25,16,{hostId:'bookseller_lev'}),
   ];
-  const street = makeMap({ id:'nevsky', name:'네프스키 거리', width:streetW,height:streetH,baseGid:1,observerStart:{x:11,y:16},architecture:streetArch,collision:streetCollision,objects:streetObjects,npcs:streetNpcs, mapProperties:{ date:'1847-06-01', mapClass:'REAL_WORLD_RECONSTRUCTION', geography:'stylized, not georeferenced', sourceIds:['OBJ-PETERSBURG-PLAN-1840','OBJ-SADOVNIKOV-1835'], note:'1840/1849 plan and 1830–1835 panorama inform street fabric; map proportions and exact shop positions are not claimed as surveyed.' ,decorations:streetDecor }});
+  const street = makeMap({ id:'nevsky', name:'네프스키 거리', width:streetW,height:streetH,baseGid:1,observerStart:{x:11,y:16},architecture:streetArch,collision:streetCollision,objects:streetObjects,npcs:streetNpcs, mapProperties:{ date:'1847-06-01', mapClass:'REAL_WORLD_RECONSTRUCTION', geography:'stylized, not georeferenced', sourceIds:['OBJ-PETERSBURG-PLAN-1840','OBJ-SADOVNIKOV-1835'], note:'1830–1835 panorama informs the continuous facade rhythm and active main-street scene; paving, curb widths, and exact shop positions are stylized reconstructions, not surveyed details.', decorations:streetDecor, groundTiles:streetGround }});
 
   const shopW=24,shopH=18,shopArch=[],shopCollision=[],shopDecor=[];
   for (let x=0;x<shopW;x++) shopCollision.push([x,0,1],[x,17,1]);
@@ -268,7 +281,7 @@ const quest = {
 const provenance = {
   schemaVersion:'V33_ASSET_PROVENANCE_V1',
   assets:[
-    {id:'petersburg-tiles',path:'rpg/assets/petersburg-tiles.png',type:'ORIGINAL_PIXEL_ART',generatedBy:'scripts/v33-generate-rpg-content.mjs',license:'original project-authored pixels',historicalConfidence:'RECONSTRUCTED',intendedScene:['nevsky','printshop'],sourceIds:['OBJ-PETERSBURG-PLAN-1840','OBJ-SADOVNIKOV-1835'],sourceUrls:['https://expositions.nlr.ru/ex_map/mozaika_Saint-Petersburg/historic_plans.php','https://rusmuseumvrm.ru/data/collections/engraving/gr.-1929_6/index.php'],notes:'Stylized period fabric; no exact building, named shop, or surveyed street position is claimed.'},
+    {id:'petersburg-tiles',path:'rpg/assets/petersburg-tiles.png',type:'ORIGINAL_PIXEL_ART',generatedBy:'scripts/v33-generate-rpg-content.mjs',license:'original project-authored pixels',historicalConfidence:'RECONSTRUCTED',intendedScene:['nevsky','printshop'],sourceIds:['OBJ-PETERSBURG-PLAN-1840','OBJ-SADOVNIKOV-1835'],sourceUrls:['https://expositions.nlr.ru/ex_map/mozaika_Saint-Petersburg/historic_plans.php','https://rusmuseumvrm.ru/data/collections/engraving/gr.-1929_15/index.php?lang=ru'],notes:'The panorama informs continuous facade rhythm and an active main-street scene. Paving, curb widths, and exact shop positions are stylized reconstructions, not surveyed details.'},
     ...characters.map(card=>({id:`sprite-${card.id}`,path:`rpg/${card.sprite.file}`,type:'ORIGINAL_PIXEL_SPRITE_SHEET',generatedBy:'scripts/v33-generate-rpg-content.mjs',license:'original project-authored pixels',historicalConfidence:'FICTIONAL_CHARACTER_RECONSTRUCTION',intendedScene:card.allowedMaps,sourceIds:card.sourceIds,notes:card.reconstructionDisclaimer})),
   ],
 };
@@ -305,6 +318,31 @@ const sceneObservations = {
 };
 
 function putGridRow(grid,y,x0,x1,gid) { for(let x=x0;x<=x1;x++) grid.push([x,y,gid]); }
+if (process.argv.includes('--street-materials-only')) {
+  const mapPath = path.join(out, 'maps', 'nevsky.json');
+  const map = JSON.parse(await readFile(mapPath, 'utf8'));
+  map.tilesets[0].tilecount = tileDrawers.length;
+  const ground = map.layers.find(layer => layer.name === 'Ground').data;
+  const put = (x, y, gid) => { ground[y * map.width + x] = gid; };
+  for (let y = 8; y <= 9; y++) for (let x = 1; x <= 28; x++) put(x, y, 43);
+  for (let x = 1; x <= 28; x++) put(x, 10, 44);
+  for (let y = 11; y <= 17; y++) for (let x = 1; x <= 28; x++) put(x, y, ((x + y * 3) % 5 === 0) ? 42 : 41);
+  for (let x = 1; x <= 28; x++) put(x, 18, 43);
+  const note = '1830–1835 panorama informs the continuous facade rhythm and active main-street scene; paving, curb widths, and exact shop positions are stylized reconstructions, not surveyed details.';
+  map.metadata.note = note;
+  const noteProperty = map.properties.find(property => property.name === 'note');
+  if (noteProperty) noteProperty.value = JSON.stringify(note);
+  const provenancePath = path.join(out, 'assets', 'ASSET_PROVENANCE.json');
+  const provenance = JSON.parse(await readFile(provenancePath, 'utf8'));
+  const tiles = provenance.assets.find(asset => asset.path === 'rpg/assets/petersburg-tiles.png');
+  tiles.notes = 'The panorama informs continuous facade rhythm and an active main-street scene. Paving, curb widths, and exact shop positions are stylized reconstructions, not surveyed details.';
+  tiles.sourceUrls = ['https://expositions.nlr.ru/ex_map/mozaika_Saint-Petersburg/historic_plans.php', 'https://rusmuseumvrm.ru/data/collections/engraving/gr.-1929_15/index.php?lang=ru'];
+  await writeFile(path.join(out, 'assets', 'petersburg-tiles.png'), buildTileset());
+  await writeFile(mapPath, `${JSON.stringify(map, null, 2)}\n`.replace(/\n/g, '\r\n'));
+  await writeFile(provenancePath, `${JSON.stringify(provenance, null, 2)}\n`.replace(/\n/g, '\r\n'));
+  console.log('Updated the original Petersburg tileset and Nevsky street materials.');
+  process.exit(0);
+}
 const maps = buildMaps();
 await mkdir(path.join(out,'assets'),{recursive:true}); await mkdir(path.join(out,'maps'),{recursive:true}); await mkdir(path.join(out,'characters'),{recursive:true}); await mkdir(path.join(out,'quests'),{recursive:true}); await mkdir(path.join(out,'data'),{recursive:true});
 await writeFile(path.join(out,'assets/petersburg-tiles.png'),buildTileset());
