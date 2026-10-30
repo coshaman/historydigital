@@ -1,6 +1,6 @@
 {
   "schemaVersion": "V33_RPG_BROWSER_SMOKE_V1",
-  "base": "http://127.0.0.1:63840/",
+  "base": "http://127.0.0.1:59704/",
   "viewports": [
     {
       "viewport": {
@@ -442,7 +442,7 @@
       "clientHeight": 335
     },
     "choiceResolved": true,
-    "explorationDurationMs": 128557,
+    "explorationDurationMs": 128251,
     "timedGatePassed": true,
     "errors": []
   },

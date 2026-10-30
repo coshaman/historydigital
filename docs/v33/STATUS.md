@@ -10,10 +10,12 @@ Updated 2026-10-30 after browser verification of the circle, exam, campaign, end
 - The existing campaign browser acceptance also runs circle/exam interactions in each route: attendance, notes-only attendance, declining, passing/failing, deferring, and helping Pavel. Route matrix logic checks retain the same questions and pass threshold regardless of attendance.
 - The earlier full acceptance run and fresh extracted ZIP acceptance are recorded in `artifacts/v33/V33_ACCEPTANCE_2026-10-30.log` and `artifacts/v33/V33_ARCHIVE_EXTRACTED_ACCEPTANCE_2026-10-30.log`.
 - The later role-context patch was tested through `npm run acceptance:v33` from both the source tree and a clean extraction of the current ZIP. Logs are `artifacts/v33/V33_ACCEPTANCE_ROLE_CONTEXT_2026-10-30.log` and `artifacts/v33/V33_ARCHIVE_EXTRACTED_ROLE_CONTEXT_2026-10-30.log`.
+- The dynamic relationship-context patch also passed the full source-tree acceptance, including all four browser sizes, five endings, and five full campaign routes. Its log is `artifacts/v33/V33_ACCEPTANCE_RELATION_CONTEXT_2026-10-30.log`.
+- The same full acceptance passed after extracting the 614-entry package into a fresh directory. The extracted run log is `artifacts/v33/V33_ARCHIVE_EXTRACTED_RELATION_CONTEXT_2026-10-30.log`.
 - Dialogue and map browser checks passed at 1440×900, 1366×768, 390×844, and 360×800. The dialogue portrait is hidden until conversation begins, then its portrait loads; no page errors or horizontal overflow were reported.
 - The game is deployed through GitHub Pages workflow publishing. Pages mode is `workflow`; workflow run `40971793027` succeeded for commit `a593ea0`. Public smoke verified the site, generated config, and build manifest return HTTP 200.
 - The public build has no configured Worker URL. It correctly stays in authored offline mode; no live provider call is made.
-- The Worker supplies each AI turn with the possessed character's authored occupation, social estate/rank, legal mobility, estimated wealth bracket and status, speech cues, motives, risks, and taboos. Private knowledge, exact money, current inventory, dynamic relationships, and quest state stay out of that context; player motives are explicitly private guidance the NPC must not reveal or presume to know.
+- The Worker supplies each AI turn with the possessed character's authored occupation, social estate/rank, legal mobility, estimated wealth bracket and status, speech cues, motives, risks, and taboos. Exact money, current inventory, private knowledge, and quest state stay out of that context; player motives are explicitly private guidance the NPC must not reveal or presume to know. Current group-level relationship statuses may be sent as unverified, allowlisted tone hints and cannot authorize game-state changes.
 - The original initial-screen failures were caused by an incorrect JavaScript MIME type for `.mjs` and no redraw after asynchronous tilesheet load. Both are fixed and have focused regression coverage.
 - The blank speaker portrait frame was caused by the flex display rule overriding the browser's native `[hidden]` behavior. The CSS now explicitly hides `.dialogue-speaker[hidden]`, with a browser regression assertion.
 - `git diff --check` passed during the prior delivery verification.
@@ -31,6 +33,8 @@ Updated 2026-10-30 after browser verification of the circle, exam, campaign, end
 - `artifacts/v33/V33_ACCEPTANCE_2026-10-30.log`
 - `artifacts/v33/V33_ACCEPTANCE_ROLE_CONTEXT_2026-10-30.log`
 - `artifacts/v33/V33_ARCHIVE_EXTRACTED_ROLE_CONTEXT_2026-10-30.log`
+- `artifacts/v33/V33_ACCEPTANCE_RELATION_CONTEXT_2026-10-30.log`
+- `artifacts/v33/V33_ARCHIVE_EXTRACTED_RELATION_CONTEXT_2026-10-30.log`
 - `artifacts/v33/V33_ARCHIVE_EXTRACTED_ACCEPTANCE_2026-10-30.log`
 - `artifacts/v33/V33_RPG_PHASE1_QUICK/`
 - `artifacts/v33/INTERPERSONAL_DIALOGUE/`

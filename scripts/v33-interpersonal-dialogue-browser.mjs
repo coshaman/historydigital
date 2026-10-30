@@ -47,6 +47,7 @@ try {
     start.player.position = { x: 10, y: 13 };
     start.hosts.seamstress_anna.mapId = 'printshop';
     start.hosts.seamstress_anna.position = { x: 10, y: 13 };
+    start.hosts.seamstress_anna.relations.workshop = '재확인 요청을 함께 맡았다';
     start.hosts.printer_ekaterina.mapId = 'printshop';
     start.hosts.printer_ekaterina.position = { x: 11, y: 13 };
     const possessed = engine.possessHost(start, 'seamstress_anna', maps.printshop);
@@ -62,6 +63,7 @@ try {
     await page.getByRole('button', { name: '말하기' }).click();
     await page.getByText('mocked ai line').waitFor();
     assert.deepEqual(sessionStarts.at(-1), { hostId: 'printer_ekaterina', actorHostId: 'seamstress_anna' });
+    assert.deepEqual(dialogueRequests.at(-1).actorRelations, { workshop: '재확인 요청을 함께 맡았다' });
     assert.equal(dialogueRequests.at(-1).sessionToken, `mock-session-${sessionTokenNumber}`);
     const portrait = await page.locator('#dialogue-portrait').evaluate(image => ({ src: image.getAttribute('src'), alt: image.alt, width: image.naturalWidth, height: image.naturalHeight, visible: image.getBoundingClientRect().width > 0 }));
     assert.match(portrait.src, /portrait-printer_ekaterina\.png$/);
@@ -93,6 +95,7 @@ try {
       alexeiStart.player.position = { x: 10, y: 13 };
       alexeiStart.hosts.clerk_alexei.mapId = 'printshop';
       alexeiStart.hosts.clerk_alexei.position = { x: 10, y: 13 };
+      alexeiStart.hosts.clerk_alexei.relations.office_supervisor = '공식 접수 책임을 맡겼다';
       alexeiStart.hosts.printer_ekaterina.mapId = 'printshop';
       alexeiStart.hosts.printer_ekaterina.position = { x: 11, y: 13 };
       const alexeiPossessed = engine.possessHost(alexeiStart, 'clerk_alexei', maps.printshop);
@@ -104,6 +107,7 @@ try {
       await page.getByRole('button', { name: '말하기' }).click();
       await page.getByText('mocked ai line').waitFor();
       assert.deepEqual(sessionStarts.at(-1), { hostId: 'printer_ekaterina', actorHostId: 'clerk_alexei' });
+      assert.deepEqual(dialogueRequests.at(-1).actorRelations, { office_supervisor: '공식 접수 책임을 맡겼다' });
       const pairSessions = await page.evaluate(() => Object.entries(sessionStorage).filter(([key]) => key.startsWith('v33-rpg-session:')));
       assert.equal(pairSessions.length, 2);
       assert.equal(new Set(pairSessions.map(([, token]) => token)).size, 2);

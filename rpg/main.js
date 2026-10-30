@@ -9,6 +9,19 @@ const cards = await Promise.all(['clerk_alexei','printer_ekaterina','courier_pav
 const maps = { nevsky: street, printshop: shop, chancery, courtyard, 'dead-souls': literaryMap }, hostCards = cards;
 const questList = [firstQuest, publicQuest, circleQuest, letterQuest, literaryQuest];
 const questsById = new Map(questList.map(item => [item.id, item]));
+const relationHintValues = new Map();
+for (const quest of questList) for (const action of quest.actions ?? []) {
+  for (const [group, relation] of Object.entries(action.effects?.relations ?? {})) {
+    if (!relationHintValues.has(group)) relationHintValues.set(group, new Set());
+    relationHintValues.get(group).add(relation);
+  }
+}
+relationHintValues.set('reading_circle', new Set(['초대에 응해 독서 모임에 다녀왔다.', '모임에 참석해 책 제목만 수첩에 남겼다.', '독서 모임 초대를 사양했다.']));
+relationHintValues.set('examPreparation', new Set(['시험 대신 함께 공부했다']));
+function relationshipHintsFor(hostId) {
+  const relations = state.hosts[hostId]?.relations ?? {};
+  return Object.fromEntries(Object.entries(relations).filter(([group, value]) => relationHintValues.get(group)?.has(value)));
+}
 const sourceRecords = new Map([source, firstIssue, ...historicalSources.records, literarySource].map(record => [record.sourceId, record]));
 const initial = () => createInitialState({ maps, hostCards, quests: questList });
 let state;
@@ -564,7 +577,7 @@ async function sendConversation(card, playerText, replyId = null) {
     const timer = setTimeout(() => controller.abort(), 20000);
     showConversation(card, '', [], '잠시 생각하는 중…');
     try {
-      const response = await fetch(`${aiBaseUrl}/api/rpg/dialogue`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ sessionToken: session.token, requestId: crypto.randomUUID(), playerInput: playerText }), signal: controller.signal });
+      const response = await fetch(`${aiBaseUrl}/api/rpg/dialogue`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ sessionToken: session.token, requestId: crypto.randomUUID(), playerInput: playerText, actorRelations: relationshipHintsFor(actorCard.id) }), signal: controller.signal });
       if (!response.ok) {
         if (response.status === 429) {
           session.mode = 'BLOCKED_LIMIT'; dialogueSessions.set(key, session); sessionStorage.removeItem(dialogueStorageKey(key));
