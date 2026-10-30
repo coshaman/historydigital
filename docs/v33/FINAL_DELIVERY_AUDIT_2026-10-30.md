@@ -18,14 +18,15 @@
 ## Release limits
 
 - Live OpenAI dialogue is **not verified**. This environment has no Worker URL, OpenAI key, Cloudflare token, or Pages Actions variable. The game remains completable with authored offline dialogue. Follow `docs/v33/AI_WORKER_SETUP.md` to deploy and configure the optional Worker; keep provider and signing keys in Cloudflare Worker secrets.
-- The GitHub Pages configuration is present and the public site has been smoke-tested in prior delivery records. The current source revision must pass the Pages workflow before it is described as deployed.
+- GitHub Pages workflow run `41071005946` completed successfully for commit `841c16f5c98d30c4e5de2345717348edb34ae155`; the deployed site was freshly opened in the browser and rendered the Petersburg map, date/time, map controls, and touch controls.
+- The public AI Worker remains unconfigured. The browser still uses authored offline dialogue unless a public Worker origin is added to the repository's Pages Actions variable and the Pages build is rerun.
 - Automated browser routes are not a human playtest. No human playtest is claimed in this audit.
 
 ## External review package
 
 `RUSSIAN_LIVES_V33_POSSESSION_RPG_VERIFICATION.zip` is the review package. It contains source, setup and deployment instructions, checked-in historical sources, asset provenance, test logs, browser reports, and screenshots. It excludes `.git`, `node_modules`, and generated local build output.
 
-- Archive integrity: `7z t` passed, 653 files, 36,856,692 uncompressed bytes.
+- Archive integrity: `7z t` passed, 653 files, 36,856,942 uncompressed bytes.
 - Clean extraction: `npm ci --offline` succeeded; `npm run acceptance:v33` exited 0 from the extracted copy.
 - Source-tree run: `artifacts/v33/V33_ACCEPTANCE_FINAL_2026-10-30.log`.
 - Extracted-copy run: `artifacts/v33/V33_ARCHIVE_REVALIDATION_FINAL_2026-10-30.log`.
