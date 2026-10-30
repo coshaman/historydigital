@@ -4,11 +4,12 @@ import { calculateCamera, createRenderer } from '../rpg/engine/renderer.js';
 
 class FakeContext {
   drawCount = 0;
+  drawCalls = [];
   imageSmoothingEnabled = true;
   globalCompositeOperation = 'source-over';
   setTransform() {}
   fillRect() {}
-  drawImage() { this.drawCount++; }
+  drawImage(...args) { this.drawCount++; this.drawCalls.push(args); }
   createRadialGradient() { return { addColorStop() {} }; }
 }
 
@@ -59,6 +60,38 @@ test('canvas redraws after the asynchronous Petersburg tilesheet finishes loadin
     images[0].finishLoading();
     assert.ok(canvas.context.drawCount > 0, 'tile image load must trigger a frame with map pixels');
     assert.equal(canvas.width, canvas.clientWidth, 'backing canvas is sized to its visible surface');
+  } finally {
+    delete globalThis.window;
+    delete globalThis.Image;
+    delete globalThis.document;
+    delete globalThis.requestAnimationFrame;
+  }
+});
+
+test('character rendering reads its image, frame dimensions, and direction rows from spriteAtlas', () => {
+  const images = [];
+  globalThis.window = { devicePixelRatio: 1, matchMedia: () => ({ matches: true }) };
+  globalThis.Image = class {
+    complete = true;
+    naturalWidth = 256;
+    naturalHeight = 256;
+    set src(value) { this.url = String(value); images.push(this); }
+  };
+  globalThis.document = { createElement: () => new FakeCanvas() };
+  globalThis.requestAnimationFrame = callback => { callback(0); return 1; };
+  try {
+    const canvas = new FakeCanvas();
+    const card = { id: 'test-host', sprite: { file: 'legacy.png', frameWidth: 16, frameHeight: 24 }, spriteAtlas: { file: 'atlas.png', frameWidth: 8, frameHeight: 12, directions: 4, framesPerDirection: 2, directionRows: { down: 0, up: 1, left: 2, right: 3 } } };
+    const renderer = createRenderer(canvas, { hostCards: [card] });
+    const map = { mapId: 'test', width: 4, height: 4, layers: [] };
+    const host = { id: card.id, mapId: 'test', position: { x: 2, y: 2 }, facing: 'right' };
+    const state = { player: { position: { x: 2, y: 2 }, embodiment: null }, hosts: { [host.id]: host }, quests: {} };
+    renderer.draw(state, map, 1000, 0);
+    const atlasImage = images.find(image => image.url.endsWith('/atlas.png'));
+    assert.ok(atlasImage, 'renderer loads the declared atlas asset');
+    const spriteCall = canvas.context.drawCalls?.find(call => call[0] === atlasImage);
+    assert.ok(spriteCall, 'renderer draws the declared atlas asset');
+    assert.deepEqual(spriteCall.slice(1, 5), [0, 36, 8, 12], 'direction row and crop size use the atlas declaration');
   } finally {
     delete globalThis.window;
     delete globalThis.Image;

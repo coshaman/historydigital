@@ -213,3 +213,11 @@ The detailed machine-readable evidence is in `artifacts/v33/V33_RPG_PHASE1/BROWS
 - The deployed game passed the browser smoke at 1440×900, 1366×768, 390×844, and 360×800. Each page width matched its viewport, controls remained visible, and the saved clue restored after reload.
 - The deployed Overcoat map, source packet, Akaky character card, and quest each returned HTTP 200.
 - Updated evidence package: 636 entries. Every changed or added source/evidence file matched the packaged bytes; 7-Zip archive integrity check passed.
+
+## Character data and sprite-atlas audit — 2026-10-30
+
+- All 10 active character JSON cards now satisfy the goal's required profile fields, include a chapter objective and wealth-status note, and declare a 48×96 PNG as a 16×24, four-direction, three-frame atlas. Literary and historical reconstruction cards mark their source limits rather than presenting unknowns as known facts.
+- The runtime crops the sprite atlas using each card's declared frame size and direction rows. A focused renderer test reproduced the previous mismatch before the change and now verifies that the declared file and crop coordinates are used.
+- The complete `npm run acceptance:v33` run passed after this change. The browser leg covered 1440×900, 1366×768, 390×844, and 360×800, the Overcoat route, all five ending UIs, and all five complete campaign routes. Full output: `artifacts/v33/V33_ACCEPTANCE_CHARACTER_ATLAS_2026-10-30.log`.
+- The dialogue browser harness now waits for the saved embodied-character state to appear after reload instead of relying solely on a timing-sensitive `networkidle` event. The regression run verified the speaker portrait, saved relationship/action context, and non-mutating conversation across all four viewports.
+- A fresh extraction of the evidence ZIP installed offline and passed the complete `npm run acceptance:v33` suite (exit code 0), including four viewport checks, the Overcoat route, five ending screens, and five full campaign routes. Extracted-copy log: `artifacts/v33/V33_ARCHIVE_EXTRACTED_CHARACTER_ATLAS_2026-10-30.log`.

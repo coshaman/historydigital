@@ -80,5 +80,22 @@
     "width": 64,
     "height": 64,
     "historicalConfidence": "LITERARY_CHARACTER_RECONSTRUCTION"
-  }
+  },
+  "spriteAtlas": {
+    "file": "assets/chichikov.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "directions": 4,
+    "framesPerDirection": 3,
+    "directionRows": {
+      "down": 0,
+      "up": 1,
+      "left": 2,
+      "right": 3
+    }
+  },
+  "objectiveByChapter": {
+    "LITERARY_DEAD_SOULS": "여관 장부에 이름과 관등, 용무를 남긴다."
+  },
+  "wealthBracketStatus": "선택한 소설 대목은 치치코프의 재산 액수를 밝히지 않는다."
 }

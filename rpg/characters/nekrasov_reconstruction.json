@@ -92,5 +92,23 @@
     "width": 64,
     "height": 64,
     "historicalConfidence": "SOURCE_CONSTRAINED_HISTORICAL_RECONSTRUCTION"
-  }
+  },
+  "spriteAtlas": {
+    "file": "assets/nekrasov.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "directions": 4,
+    "framesPerDirection": 3,
+    "directionRows": {
+      "down": 0,
+      "up": 1,
+      "left": 2,
+      "right": 3
+    }
+  },
+  "objectiveByChapter": {
+    "V33_1848_PUBLIC": "1848년 편집부 공고의 발송 문제와 구독자 대응을 검토한다.",
+    "V33_1849_CIRCLE": "1849년 호수 공고에 적힌 발행 정보를 검토한다."
+  },
+  "wealthBracketStatus": "인용한 편집 공고는 개인 재산을 밝히지 않는다."
 }

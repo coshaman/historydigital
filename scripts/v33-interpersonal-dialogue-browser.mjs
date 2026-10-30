@@ -60,7 +60,8 @@ try {
 
     await page.goto(base, { waitUntil: 'networkidle' });
     await page.evaluate(save => { localStorage.clear(); localStorage.setItem('v33-rpg-save', save); }, rawSave);
-    await page.reload({ waitUntil: 'networkidle' });
+    await page.reload({ waitUntil: 'domcontentloaded', timeout: 15000 });
+    await page.waitForFunction(() => document.querySelector('#bodyname')?.textContent.includes('안나'), undefined, { timeout: 15000 });
     assert.equal(await page.locator('#dialogue-speaker').isVisible(), false, `dialogue portrait should stay hidden before a conversation at ${viewport.width}`);
     await page.locator('#talk').click();
     await page.getByLabel('대사 입력').fill('교정쇄를 원문과 대조하고 싶어요.');

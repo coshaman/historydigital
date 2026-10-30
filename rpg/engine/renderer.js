@@ -100,11 +100,13 @@ export function createRenderer(canvas, assets) {
     }
     for (const card of hostCards) {
       const host = state.hosts[card.id]; if (!host || host.mapId !== map.mapId) continue;
-      const sprite = getImage(new URL(`../${card.sprite.file}`, import.meta.url));
+      const atlas = card.spriteAtlas ?? card.sprite;
+      const sprite = getImage(new URL(`../${atlas.file}`, import.meta.url));
       const active = state.player.embodiment === card.id;
-      const frame = !reducedMotion && active && time - lastMoveAt < 360 ? Math.floor(time / 120) % 3 : 0;
-      const dir = ({ down: 0, up: 1, left: 2, right: 3 })[host.facing] ?? 0, px = ox + host.position.x * tile * scale, py = oy + host.position.y * tile * scale;
-      if (sprite.complete && sprite.naturalWidth) ctx.drawImage(sprite, frame * 16, dir * 24, 16, 24, px, py - 8 * scale, 16 * scale, 24 * scale);
+      const frameCount = atlas.framesPerDirection ?? 3, frameWidth = atlas.frameWidth ?? 16, frameHeight = atlas.frameHeight ?? 24;
+      const frame = !reducedMotion && active && time - lastMoveAt < 360 ? Math.floor(time / 120) % frameCount : 0;
+      const dir = atlas.directionRows?.[host.facing] ?? ({ down: 0, up: 1, left: 2, right: 3 })[host.facing] ?? 0, px = ox + host.position.x * tile * scale, py = oy + host.position.y * tile * scale;
+      if (sprite.complete && sprite.naturalWidth) ctx.drawImage(sprite, frame * frameWidth, dir * frameHeight, frameWidth, frameHeight, px, py - 8 * scale, frameWidth * scale, frameHeight * scale);
       if (state.player.embodiment === card.id) { ctx.strokeStyle = '#f2d38b'; ctx.lineWidth = 1; ctx.beginPath(); ctx.ellipse(px + 8 * scale, py + 15 * scale, 8 * scale, 3 * scale, 0, 0, Math.PI * 2); ctx.stroke(); }
     }
     const px = ox + actor.position.x * tile * scale, py = oy + actor.position.y * tile * scale;

@@ -74,6 +74,26 @@ test('every playable or reconstructed character has a provenance-linked 64px fac
   }
 });
 
+test('every character card declares its chapter objective, estimate status, and playable sprite atlas', async () => {
+  const cards = await Promise.all((await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)));
+  for (const card of cards) {
+    for (const key of ['ageAtDate', 'socialEstate', 'rank', 'legalMobility', 'wealthBracket', 'literacy', 'health', 'reputationByGroup', 'risk', 'relations', 'secretKnowledge', 'knownEvidence', 'desires', 'fears', 'taboos', 'speechRhythm', 'lexicon', 'emotions', 'objectiveByChapter', 'allowedMaps', 'spriteAtlas', 'sourceIds', 'canonConstraint', 'reconstructionDisclaimer']) assert.ok(card[key] !== undefined, `${card.id}: required character field ${key}`);
+    assert.ok(card.objectiveByChapter && Object.keys(card.objectiveByChapter).length, `${card.id}: objectiveByChapter`);
+    assert.ok(card.wealthBracketStatus, `${card.id}: wealthBracketStatus`);
+    assert.ok(card.spriteAtlas?.file, `${card.id}: spriteAtlas.file`);
+    assert.equal(card.spriteAtlas.file, card.sprite.file, `${card.id}: the renderer atlas agrees with its character sprite`);
+    assert.equal(card.spriteAtlas.frameWidth, 16, `${card.id}: frame width`);
+    assert.equal(card.spriteAtlas.frameHeight, 24, `${card.id}: frame height`);
+    assert.equal(card.spriteAtlas.directions, 4, `${card.id}: four directions`);
+    assert.equal(card.spriteAtlas.framesPerDirection, 3, `${card.id}: three frames per direction`);
+    assert.deepEqual(card.spriteAtlas.directionRows, { down: 0, up: 1, left: 2, right: 3 }, `${card.id}: direction rows`);
+    const image = await readFile(path.join(root, 'rpg', card.spriteAtlas.file));
+    const width = image.readUInt32BE(16), height = image.readUInt32BE(20);
+    assert.equal(width, card.spriteAtlas.frameWidth * card.spriteAtlas.framesPerDirection, `${card.id}: atlas width matches its declared walk frames`);
+    assert.equal(height, card.spriteAtlas.frameHeight * card.spriteAtlas.directions, `${card.id}: atlas height matches its direction rows`);
+  }
+});
+
 test('unknown documented funds are described without rendering null as a coin amount', async () => {
   const nekrasov = await json('rpg/characters/nekrasov_reconstruction.json');
   assert.equal(describeHostMoney(nekrasov.money), '개인 자금은 선택한 자료에서 확인되지 않는다.');

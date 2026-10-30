@@ -11,6 +11,13 @@ Updated 2026-10-30 after browser verification of the circle, exam, campaign, end
 - GitHub Pages deployed commit `7b7adc1` successfully. The public browser smoke passed at 1440×900, 1366×768, 390×844, and 360×800, with matching document/viewport widths and save restoration. The new Overcoat map, source, characters, and quest each returned HTTP 200.
 - Live provider credentials and a human playtest of the deployed site remain external release gates; this work verifies the authored offline dialogue path.
 
+## Character contract and atlas follow-up — 2026-10-30
+
+- All 10 active character cards now declare chapter-specific objectives, wealth-status provenance, and a four-direction/three-frame sprite atlas. Literary and historical reconstruction cards explicitly distinguish source-stated information from facts the selected text does not establish.
+- The canvas renderer now uses each card's atlas path, frame geometry, and direction-row mapping. It no longer relies on hard-coded sprite cropping for movement frames.
+- Added core schema and renderer regressions. The renderer test first failed when the declared atlas was ignored; after the change, renderer tests pass 3/3 and `npm run acceptance:v33` passes, including all four browser sizes, the Overcoat route, five endings and five complete campaign routes.
+- Captured full acceptance output: `artifacts/v33/V33_ACCEPTANCE_CHARACTER_ATLAS_2026-10-30.log`.
+
 ## Verified locally
 
 - `npm run acceptance:v33` passed on the current implementation after the possessed-character dialogue context change, including core and learning/exam tests, historical and asset audits, static build, repository checks, four-viewport browser smoke, five ending UIs, and five full campaign routes. The captured run is `artifacts/v33/V33_ACCEPTANCE_ROLE_CONTEXT_2026-10-30.log`.
@@ -61,6 +68,8 @@ Updated 2026-10-30 after browser verification of the circle, exam, campaign, end
 - `artifacts/v33/V33_ACCEPTANCE_ACTION_CONTEXT_2026-10-30.log`
 - `artifacts/v33/V33_ARCHIVE_EXTRACTED_RELATION_CONTEXT_2026-10-30.log`
 - `artifacts/v33/V33_ARCHIVE_EXTRACTED_ACCEPTANCE_2026-10-30.log`
+- `artifacts/v33/V33_ACCEPTANCE_CHARACTER_ATLAS_2026-10-30.log`
+- `artifacts/v33/V33_ARCHIVE_EXTRACTED_CHARACTER_ATLAS_2026-10-30.log` (fresh ZIP extraction acceptance, exit 0)
 - `artifacts/v33/V33_RPG_PHASE1_QUICK/`
 - `artifacts/v33/INTERPERSONAL_DIALOGUE/`
 - `docs/v33/VERIFICATION_2026-10-30.md`

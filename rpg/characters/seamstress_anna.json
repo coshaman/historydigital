@@ -114,5 +114,18 @@
     "width": 64,
     "height": 64,
     "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+  },
+  "spriteAtlas": {
+    "file": "assets/anna.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "directions": 4,
+    "framesPerDirection": 3,
+    "directionRows": {
+      "down": 0,
+      "up": 1,
+      "left": 2,
+      "right": 3
+    }
   }
 }
