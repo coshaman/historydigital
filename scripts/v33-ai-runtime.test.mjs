@@ -29,7 +29,7 @@ test('session is server-bound to one host; client cannot choose scene, inject me
   assert.equal(providerInput.playerInput, body.playerInput);
   assert.equal(providerInput.endingId, undefined);
   assert.equal(JSON.stringify(providerInput).includes('test-signing-secret'), false);
-  for (const extra of [{ hostId: 'clerk_alexei' }, { memories: [{ summaryKo: 'fake' }] }, { endingId: 'HERZEN' }, { state: { ideology: 999 } }]) {
+  for (const extra of [{ hostId: 'clerk_alexei' }, { memories: [{ summaryKo: 'fake' }] }, { endingId: 'HERZEN' }, { state: { ideology: 999 } }, { actorResources: { money: { amount: 9999 }, inventory: ['교정쇄 사본'] } }]) {
     assert.equal((await service.handle(request('POST', '/api/rpg/dialogue', { ...body, requestId: `request-${Math.random()}`, ...extra }))).status, 400);
   }
 });
@@ -39,16 +39,22 @@ test('AI dialogue receives the embodied public character context and keeps each 
   const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store, allowedOrigins: ['https://game.example'], provider: { generate: async request => { observed.push(request.input); observedInstructions.push(request.instructions); return validTurn(request.input.scene.id, request.input.character.id); } } });
   const annaToEkaterina = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'printer_ekaterina', actorHostId: 'seamstress_anna' }));
   const alexeiToEkaterina = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'printer_ekaterina', actorHostId: 'clerk_alexei' }));
+  const pavelToEkaterina = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'printer_ekaterina', actorHostId: 'courier_pavel' }));
+  const ekaterinaToAnna = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'seamstress_anna', actorHostId: 'printer_ekaterina' }));
   assert.equal(annaToEkaterina.status, 201);
   assert.equal(alexeiToEkaterina.status, 201);
+  assert.equal(pavelToEkaterina.status, 201);
+  assert.equal(ekaterinaToAnna.status, 201);
   for (const [session, requestId, playerInput, actorRelations, actorActions] of [
     [annaToEkaterina, 'pair-anna-000001', '안나로서 물어볼게요.', { workshop: '재확인 요청을 함께 맡았다' }, [{ questId: 'PRINTSHOP_PROOF_1847', actionId: 'ASK_FOR_SOURCE' }]],
     [annaToEkaterina, 'pair-anna-000002', '수선값은 오늘 받을 수 있을까요?', { workshop: '보관을 맡고 다음 결정을 기다린다' }, [{ questId: 'PRINTSHOP_PROOF_1847', actionId: 'ASK_FOR_SOURCE' }]],
     [alexeiToEkaterina, 'pair-alexei-00001', '알렉세이로서 묻습니다.', { office_supervisor: '공식 접수 책임을 맡겼다' }, [{ questId: 'CIRCLE_INVESTIGATION_1849', actionId: 'FILE_OFFICIAL_REPORT' }]],
+    [pavelToEkaterina, 'pair-pavel-000001', '공고 사본을 배달하러 가야 합니다.', {}, [{ questId: 'PUBLIC_DISCOURSE_1848', actionId: 'CARRY_NOTICE_ABROAD' }]],
+    [ekaterinaToAnna, 'pair-ekaterina-0001', '교정쇄를 돌려보냈습니다.', {}, [{ questId: 'PRINTSHOP_PROOF_1847', actionId: 'RETURN_MANUSCRIPT' }]],
   ]) {
     assert.equal((await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: session.body.sessionToken, requestId, playerInput, actorRelations, actorActions }))).status, 200);
   }
-  assert.deepEqual(observed.map(input => input.conversation.embodiedPlayer.id), ['seamstress_anna', 'seamstress_anna', 'clerk_alexei']);
+  assert.deepEqual(observed.map(input => input.conversation.embodiedPlayer.id), ['seamstress_anna', 'seamstress_anna', 'clerk_alexei', 'courier_pavel', 'printer_ekaterina']);
   assert.equal(observed[0].conversation.embodiedPlayer.occupation, '옷 수선과 바느질 품을 받는 노동자');
   assert.equal(observed[0].conversation.embodiedPlayer.legalMobility, '하숙집·공개 거리와 수선 주문을 맡은 인쇄소 작업장 이용; 관청과 살롱 출입은 소개/고용 없이 불가');
   assert.deepEqual(observed[0].conversation.embodiedPlayer.wealthBracket, { value: 'precarious', status: 'designedEstimate' });
@@ -76,6 +82,12 @@ test('AI dialogue receives the embodied public character context and keeps each 
   assert.equal(observed[0].conversation.relationshipHints.relationship, undefined);
   assert.deepEqual(observed[0].conversation.playerActions, [{ questId: 'PRINTSHOP_PROOF_1847', actionId: 'ASK_FOR_SOURCE', situationKo: '교정쇄를 원문과 대조했다.' }]);
   assert.deepEqual(observed[2].conversation.playerActions, [{ questId: 'CIRCLE_INVESTIGATION_1849', actionId: 'FILE_OFFICIAL_REPORT', situationKo: '보고서를 공식 등록부에 접수했다.' }]);
+  assert.equal(observed[3].conversation.playerResources.money.amount, 7, 'Pavel’s dispatched-copy cost is reflected in player-side context');
+  assert.deepEqual(observed[3].conversation.playerResources.inventory, ['밀봉 봉투', '끈 달린 가방']);
+  assert.equal(observed[4].conversation.playerResources.money.amount, 27);
+  assert.deepEqual(observed[4].conversation.playerResources.inventory, ['활자 집게', '천 조각']);
+  assert.equal(observed[3].conversation.playerResources.money.status, 'designedEstimate');
+  assert.match(observedInstructions[0], /playerResources[\s\S]*NPC가 이를 알거나 대사에서 말하지 않는다/);
   assert.equal(JSON.stringify(observed[0].conversation.relationshipHints).includes('test-signing-secret'), false);
   const changedReplayContext = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: annaToEkaterina.body.sessionToken, requestId: 'pair-anna-000001', playerInput: '안나로서 물어볼게요.', actorRelations: { workshop: '보관을 맡고 다음 결정을 기다린다' }, actorActions: [{ questId: 'PRINTSHOP_PROOF_1847', actionId: 'ASK_FOR_SOURCE' }] }));
   assert.equal(changedReplayContext.status, 409, 'idempotency must include relationship context so replays cannot change it');
@@ -87,7 +99,7 @@ test('AI dialogue receives the embodied public character context and keeps each 
   assert.equal(malformedActions.status, 400, 'player action context must use an authored action owned by the embodied character');
   const foreignActions = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: alexeiToEkaterina.body.sessionToken, requestId: 'pair-alexei-foreign-action', playerInput: '대답해 주세요.', actorActions: [{ questId: 'PRINTSHOP_PROOF_1847', actionId: 'ASK_FOR_SOURCE' }] }));
   assert.equal(foreignActions.status, 400, 'an action unavailable to the embodied character is rejected');
-  assert.equal(store.globalWindow.count, 3, 'rejected cross-character action context must not consume a global request budget slot');
+  assert.equal(store.globalWindow.count, 5, 'rejected cross-character action context must not consume a global request budget slot');
   for (const actorHostId of ['unknown_actor', 'printer_ekaterina']) {
     assert.equal((await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'printer_ekaterina', actorHostId }))).status, 400);
   }

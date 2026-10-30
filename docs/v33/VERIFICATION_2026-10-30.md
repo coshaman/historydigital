@@ -168,3 +168,10 @@ The detailed machine-readable evidence is in `artifacts/v33/V33_RPG_PHASE1/BROWS
 - Tests cover Anna's authorized source-comparison action, Alexei's different office action, cross-character rejection, malformed IDs, and replay conflicts when action context changes. The browser test completes Anna's physical source-gated action, then confirms the authored situation hint is sent at all four viewport sizes; a subsequent Alexei conversation starts with an empty action history.
 - The cross-character rejection regression exposed that invalid-but-well-formed action context consumed a global limiter slot before authorization. Validation now rejects it and releases the session claim before touching the global request budget; a focused assertion confirms the budget count is unchanged.
 - `npm run v33-ai-test`: 21/21 passed. `npm run v33-browser-acceptance`: all four browser sizes, five ending screens, and five complete campaign routes passed. The latest full `npm run acceptance:v33` run passed with exit code 0; see `artifacts/v33/V33_ACCEPTANCE_ACTION_CONTEXT_2026-10-30.log`.
+
+
+## Derived player resource dialogue context — 2026-10-30
+
+- The Worker now derives a possessed character's estimated money and inventory from the checked-in actor card and the validated, authored action IDs in the local history hint. Resource effects come from quest definitions; invalid balances or attempts to remove absent inventory entries are rejected. Neither resource values nor action descriptions are accepted from the client.
+- Resource context is explicitly unverified player-side information. NPC dialogue must not reveal it unless the player discloses it; it is only there to shape player-side reply suggestions and does not change browser-owned deterministic state. Balances carry `designedEstimate` status.
+- Regression coverage confirms Pavel's 4-kopeck courier expense (11 to 7) and Ekaterina returning the proof copy, as well as rejection of injected `actorResources` and prompt rules preventing NPC leakage. `npm run v33-ai-test` passed 21/21.
