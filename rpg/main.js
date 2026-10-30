@@ -22,6 +22,10 @@ function relationshipHintsFor(hostId) {
   const relations = state.hosts[hostId]?.relations ?? {};
   return Object.fromEntries(Object.entries(relations).filter(([group, value]) => relationHintValues.get(group)?.has(value)));
 }
+function playerActionHintsFor(hostId) {
+  return state.ledger.filter(entry => entry.hostId === hostId && ['HISTORICAL_ACTION', 'LITERARY_ACTION'].includes(entry.eventType))
+    .slice(-12).map(({ questId, actionId }) => ({ questId, actionId }));
+}
 const sourceRecords = new Map([source, firstIssue, ...historicalSources.records, literarySource].map(record => [record.sourceId, record]));
 const initial = () => createInitialState({ maps, hostCards, quests: questList });
 let state;
@@ -577,7 +581,7 @@ async function sendConversation(card, playerText, replyId = null) {
     const timer = setTimeout(() => controller.abort(), 20000);
     showConversation(card, '', [], '잠시 생각하는 중…');
     try {
-      const response = await fetch(`${aiBaseUrl}/api/rpg/dialogue`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ sessionToken: session.token, requestId: crypto.randomUUID(), playerInput: playerText, actorRelations: relationshipHintsFor(actorCard.id) }), signal: controller.signal });
+      const response = await fetch(`${aiBaseUrl}/api/rpg/dialogue`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ sessionToken: session.token, requestId: crypto.randomUUID(), playerInput: playerText, actorRelations: relationshipHintsFor(actorCard.id), actorActions: playerActionHintsFor(actorCard.id) }), signal: controller.signal });
       if (!response.ok) {
         if (response.status === 429) {
           session.mode = 'BLOCKED_LIMIT'; dialogueSessions.set(key, session); sessionStorage.removeItem(dialogueStorageKey(key));
