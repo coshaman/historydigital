@@ -1,6 +1,6 @@
 {
   "schemaVersion": "V33_RPG_BROWSER_SMOKE_V1",
-  "base": "http://127.0.0.1:63962/",
+  "base": "http://127.0.0.1:55512/",
   "viewports": [
     {
       "viewport": {

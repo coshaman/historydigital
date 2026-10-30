@@ -9,7 +9,7 @@
     "width": 1382,
     "height": 494
   },
-  "base": "https://coshaman.github.io/historydigital/",
+  "base": "http://127.0.0.1:55512/",
   "sourceGate": {
     "entryBlockedBeforeReading": true,
     "archiveExcerptReadBeforeEntry": true,

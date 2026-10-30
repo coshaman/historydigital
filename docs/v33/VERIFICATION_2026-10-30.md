@@ -1,5 +1,15 @@
 # V33 verification run — 2026-10-30
 
+## Source-tree revalidation after commit `c253988` — 2026-10-30
+
+- `npm run acceptance:v33` completed with exit code 0 on the current source tree. The captured output is `artifacts/v33/V33_ACCEPTANCE_REVALIDATION_2026-10-30.log` (45,747 bytes).
+- Core/save 31/31, learning/life 9/9, HTTP MIME 1/1, renderer 3/3, exploration coverage 4/4, AI/Worker 26/26, historical claim ledger 7/7, static Worker URL config 2/2, and branch-graph 12/12 passed. The ending route matrix passed 120 fixtures.
+- Browser checks passed at 1440×900, 1366×768, 390×844, and 360×800. Source-gated 《외투》, all five ending interfaces, and all five complete campaign routes passed.
+- The rebuilt verification ZIP (645 entries after adding both acceptance logs) passed `7z t`, was freshly extracted, and passed `npm run acceptance:v33` with exit 0 after installing its locked dependencies from the local cache. Captured output: `artifacts/v33/V33_ARCHIVE_REVALIDATION_2026-10-30.log`.
+- The first default-sandbox attempt could not start the localhost test server; the same command passed when rerun with local-socket access. No code change was needed for that environment-specific failure.
+- A single Node `MODULE_TYPELESS_PACKAGE_JSON` warning appears while tests import the browser ESM renderer; it does not appear as a browser page error. This is recorded for follow-up rather than changing the project-wide module mode.
+- Live AI remains unverified because the deployed Worker URL and provider credentials are not configured. Deployed human playtest remains pending.
+
 ## Result
 
 `npm run acceptance:v33` previously exited 0 on branch `codex/v33-possession-rpg` after the save-description and ending-route fixture fixes. The verified commit `c6ac18708fdb0f05403fd916d91885bef489a655` was then pushed to `master`; GitHub Actions and Pages both completed successfully. The public deployment was checked with HTTP resource fetches and a Playwright gameplay smoke. A follow-up 2026-10-30 verification added interpersonal dialogue and per-host portrait checks and reran the browser acceptance suite successfully; see the current result below.

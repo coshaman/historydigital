@@ -2,6 +2,16 @@
 
 Updated 2026-10-30 after browser verification of the circle, exam, campaign, ending, and later-life timeline flows.
 
+## Fresh source-tree acceptance — 2026-10-30
+
+- Re-ran `npm run acceptance:v33` on the source tree after commit `c253988d09b27b8005ea626888f912cd09fb9049`; it exited 0. The complete console output is `artifacts/v33/V33_ACCEPTANCE_REVALIDATION_2026-10-30.log`.
+- Core reducer/save: 31/31; learning/exam/life: 9/9; HTTP MIME: 1/1; renderer: 3/3; exploration coverage: 4/4; AI/Worker: 26/26; historical claim ledger: 7/7; ending-route matrix: 120 fixtures; static URL config: 2/2; repository branch graph: 12/12.
+- Browser acceptance passed at 1440×900, 1366×768, 390×844, and 360×800; 《외투》 source-first entry/return passed; all five ending panels and all five full campaign routes passed without route errors.
+- Rebuilt the 645-entry external-review ZIP, passed `7z t`, extracted it into a new directory, installed locked dependencies from the local npm cache, and ran the same full acceptance successfully from the extracted copy. Log: `artifacts/v33/V33_ARCHIVE_REVALIDATION_2026-10-30.log`.
+- The first default-sandbox attempt could not start its localhost browser server; rerunning the identical acceptance with the required local-socket permission passed. This was an execution-environment constraint, not an application test failure.
+- One Node warning remains in the renderer unit-test import: Node reparses `rpg/engine/renderer.js` as ESM because the package scope does not declare its module type. This is test-runner overhead; browser acceptance reported no page errors.
+- This run validates offline authored dialogue and Worker protections only. It does not establish live OpenAI connectivity or replace a human playtest.
+
 ## Literary expansion: Gogol's The Overcoat — 2026-10-30
 
 - Added a separately namespaced 1842 literary realm for Akaky Bashmachkin and the tailor Petrovich. Six contiguous Russian paragraphs from the 1952 scholarly edition transcription are paired with this project's Korean translation and recorded with a source range and URL.
