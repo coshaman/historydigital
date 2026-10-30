@@ -11,6 +11,7 @@ Updated 2026-10-30 after browser verification of the circle, exam, campaign, end
 - The earlier full acceptance run and fresh extracted ZIP acceptance are recorded in `artifacts/v33/V33_ACCEPTANCE_2026-10-30.log` and `artifacts/v33/V33_ARCHIVE_EXTRACTED_ACCEPTANCE_2026-10-30.log`.
 - The later role-context patch was tested through `npm run acceptance:v33` from both the source tree and a clean extraction of the current ZIP. Logs are `artifacts/v33/V33_ACCEPTANCE_ROLE_CONTEXT_2026-10-30.log` and `artifacts/v33/V33_ARCHIVE_EXTRACTED_ROLE_CONTEXT_2026-10-30.log`.
 - The dynamic relationship-context patch also passed the full source-tree acceptance, including all four browser sizes, five endings, and five full campaign routes. Its log is `artifacts/v33/V33_ACCEPTANCE_RELATION_CONTEXT_2026-10-30.log`.
+- After adding HTTP-handler/Durable Object coverage for allowlisted and invented relationship hints, the full `npm run acceptance:v33` suite passed again (exit code 0), including all five ending screens and complete campaign routes. Log: `artifacts/v33/V33_ACCEPTANCE_WORKER_RELATION_2026-10-30.log`.
 - The same full acceptance passed after extracting the 614-entry package into a fresh directory. The extracted run log is `artifacts/v33/V33_ARCHIVE_EXTRACTED_RELATION_CONTEXT_2026-10-30.log`.
 - Dialogue and map browser checks passed at 1440×900, 1366×768, 390×844, and 360×800. The dialogue portrait is hidden until conversation begins, then its portrait loads; no page errors or horizontal overflow were reported.
 - The game is deployed through GitHub Pages workflow publishing. Pages mode is `workflow`; workflow run `40971793027` succeeded for commit `a593ea0`. Public smoke verified the site, generated config, and build manifest return HTTP 200.
@@ -34,6 +35,7 @@ Updated 2026-10-30 after browser verification of the circle, exam, campaign, end
 - `artifacts/v33/V33_ACCEPTANCE_ROLE_CONTEXT_2026-10-30.log`
 - `artifacts/v33/V33_ARCHIVE_EXTRACTED_ROLE_CONTEXT_2026-10-30.log`
 - `artifacts/v33/V33_ACCEPTANCE_RELATION_CONTEXT_2026-10-30.log`
+- `artifacts/v33/V33_ACCEPTANCE_WORKER_RELATION_2026-10-30.log`
 - `artifacts/v33/V33_ARCHIVE_EXTRACTED_RELATION_CONTEXT_2026-10-30.log`
 - `artifacts/v33/V33_ARCHIVE_EXTRACTED_ACCEPTANCE_2026-10-30.log`
 - `artifacts/v33/V33_RPG_PHASE1_QUICK/`

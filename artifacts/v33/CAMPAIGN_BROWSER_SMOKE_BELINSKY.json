@@ -1,6 +1,6 @@
 {
   "schemaVersion": "V33_CAMPAIGN_BROWSER_SMOKE_V1",
-  "base": "http://127.0.0.1:59704/",
+  "base": "http://127.0.0.1:59644/",
   "endingId": "BELINSKY",
   "status": "PASS",
   "steps": [
