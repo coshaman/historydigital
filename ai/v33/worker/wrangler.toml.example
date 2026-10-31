@@ -16,6 +16,8 @@ tag = "v1"
 new_sqlite_classes = ["RpgSession", "RpgGlobalBudget"]
 
 [vars]
+# Replace/add your actual Vercel production origin; separate origins with commas.
+# Example: "https://your-project.vercel.app,https://coshaman.github.io"
 RPG_ALLOWED_ORIGINS = "https://coshaman.github.io"
 OPENAI_DIALOGUE_MODEL = "gpt-6.1-terra"
 
