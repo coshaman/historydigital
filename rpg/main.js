@@ -1,4 +1,5 @@
 import { createRenderer } from './engine/renderer.js';
+import { ownsKeyboardInput, observationText } from './engine/player-presentation.mjs';
 import { advanceStudy, beginExam, buildLifeTimeline, chooseCirclePath, completeLearning, getExamQuestions, selectExamAnswer, submitExam } from './engine/learning-life.mjs';
 import './engine/game-state.js';
 const { createInitialState, moveActor, possessHost, releaseHost, transitionMap, performQuestAction, saveGame, loadGame, nearTile, knowledgeForHost, recordSourceRead, recordEvidenceRead, recordDialogueTurn, enterLiteraryRealm, leaveLiteraryRealm, advanceChapter, advanceCampaignDate, resolveEnding, describeHostMoney } = globalThis.V33GameState;
@@ -194,7 +195,7 @@ function classifyTypedResponse(input) {
   if (/왜|어떻|느끼|가족|좋아|싫어|걱정|이름/.test(text)) return 'PERSONAL_QUESTION';
   return 'GENERAL_CONVERSATION';
 }
-const intentLabels = { SOURCE_REQUEST: '자료 확인', ACTION_REQUEST: '행동 요청', RISK_QUESTION: '공개·위험 질문', PERSONAL_QUESTION: '개인 질문', GENERAL_CONVERSATION: '일반 대화' };
+
 const relationLabels = { editorial_office: '편집부', workshop: '작업장 동료', source_readers: '출처를 확인하는 독자', postal_route: '우편 경로', local_readers: '가게의 독자들', office_supervisor: '상급자', archive_keeper: '문서 담당자' };
 function render(now) {
   renderFrame = null;
@@ -350,7 +351,7 @@ function inspect(object) {
     } else if (state.player.embodiment === card.id) {
       say(card.displayNameKo, `지금 빌린 몸이다. ${card.personalObjective} · ${describeHostMoney(host.money)}`, [{ label: '이 몸의 수첩 보기', run: () => { $('#host-notebook').open = true; $('#host-notebook').hidden = false; } }]);
     } else {
-      say(card.displayNameKo, `${card.occupation}. ${card.personalObjective} 가까이에서 그 사람의 시야로 들어갈 수 있다.`, [{ label: '몸을 빌린다', run: () => { const result = possessHost(state, card.id, currentMap()); if (result.ok) { setState(result.state); say(card.displayNameKo, `눈높이가 달라졌다. ${card.speechRhythm} ${describeHostMoney(host.money)}`, []); sayRecord(`시야 전환 · ${card.displayNameKo}`); } else sayRecord(result.reason === 'already_embodied' ? '먼저 현재 몸을 놓아주자.' : '한두 걸음 더 가까이 가 보자.'); } }]);
+      say(card.displayNameKo, `${card.occupation}. ${card.personalObjective} 가까이에서 그 사람의 시야로 들어갈 수 있다.`, [{ label: '몸을 빌린다', run: () => { const result = possessHost(state, card.id, currentMap()); if (result.ok) { setState(result.state); say(card.displayNameKo, `눈높이가 달라졌다. ${card.personalObjective} ${describeHostMoney(host.money)}`, []); sayRecord(`시야 전환 · ${card.displayNameKo}`); } else sayRecord(result.reason === 'already_embodied' ? '먼저 현재 몸을 놓아주자.' : '한두 걸음 더 가까이 가 보자.'); } }]);
     }
   } else if (object.type === 'map-exit') {
     const result = transitionMap(state, props.exitId, maps);
@@ -365,7 +366,7 @@ function inspect(object) {
     if (!clue || !recorded.ok) { say('아직 손이 닿지 않는다', '한 걸음 가까이 가서 살펴보자.', []); return; }
     setState(recorded.state);
     const hostLine = state.player.embodiment ? clue.hostLines[state.player.embodiment] : null;
-    say(clue.titleKo, `${hostLine ?? clue.textKo}\n\n${clue.textKo}\n\n${sceneObservations.disclaimerKo}`, []);
+    say(clue.titleKo, observationText(clue, state.player.embodiment), []);
     sayRecord(`허구 소품 조사 · ${clue.titleKo} · ${state.player.embodiment ? '현재 몸의 수첩에 기록' : '관찰 기록에만 저장'}`);
   }
   else if (props.questId) {
@@ -567,8 +568,8 @@ async function startConversation(card) {
     finally { clearTimeout(timer); if (activeDialogueController === controller) activeDialogueController = null; }
     if (activeDialogueHost !== card.id || activeDialogueKey !== key || dialogueGeneration !== generation) return;
   }
-  const mode = !aiBaseUrl ? '오프라인 대사로 진행한다' : session?.mode === 'BLOCKED_NO_KEY' ? 'BLOCKED_NO_KEY · 인물별 오프라인 대사로 진행한다' : session ? '대화 세션이 준비됐다' : '연결할 수 없어 오프라인 대사로 진행한다';
-  showConversation(card, `${actorCard.displayNameKo}의 처지에서 ${card.displayNameKo}에게 말을 건넨다. 상대는 자기 경험과 알고 있는 범위 안에서 답한다. 대화만으로 돈이나 퀘스트 결과가 바뀌지는 않는다.`, aiScenes.sessions[card.id].fallbackReplies, mode);
+
+  showConversation(card, aiScenes.sessions[card.id].fallbackKo, aiScenes.sessions[card.id].fallbackReplies, session && session.mode !== 'BLOCKED_NO_KEY' ? 'Esc · 대화 마치기' : '준비된 대화 · Esc로 마치기');
 }
 async function sendConversation(card, playerText, replyId = null) {
   const key = activeDialogueKey;
@@ -610,10 +611,12 @@ async function sendConversation(card, playerText, replyId = null) {
   const recorded = recordDialogueTurn(state, { hostId: card.id, actorHostId: actorCard.id, sceneId: local.sceneId, intentClass }, maps);
   if (recorded.ok) setState(recorded.state);
   const replies = (turn.suggestedReplies ?? []).slice(0, 3);
-  showConversation(card, '', replies.map(reply => reply.textKo), `${replyId ? `선택한 말 · ${replyId} · ` : ''}입력 분류 · ${intentLabels[intentClass]} · ${fallbackReason || (session ? '대화 내용을 이 인물의 세션에만 남겼다' : '오프라인 대사 · 게임 진행은 계속할 수 있다')}`);
+  showConversation(card, '', replies.map(reply => reply.textKo), fallbackReason ? '연결이 원활하지 않아 준비된 대화로 이어갑니다.' : session ? 'Esc · 대화 마치기' : '준비된 대화 · Esc로 마치기');
   $('.journal').scrollTop = $('.journal').scrollHeight;
 }
 document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && activeDialogueHost && !event.isComposing) { event.preventDefault(); finishConversation(activeDialogueHost); return; }
+  if (ownsKeyboardInput(event) || state.endingId) return;
   if (!$('#learning-screen').hidden) {
     if (event.key === 'Escape') { event.preventDefault(); hideLearningScreen(); }
     return;
@@ -654,7 +657,7 @@ function restoreJournal() {
     const clue = sceneObservations.entries[latest.evidenceId];
     if (clue) {
       const hostLine = latest.hostId ? clue.hostLines[latest.hostId] : null;
-      say(clue.titleKo, `${hostLine ?? clue.textKo}\n\n${clue.textKo}\n\n${sceneObservations.disclaimerKo}`, []);
+      say(clue.titleKo, observationText(clue, latest.hostId), []);
       sayRecord('저장한 허구 소품 관찰을 불러왔다.');
       return;
     }
