@@ -20,9 +20,18 @@ This is an ongoing audit, not a claim that the game is finished or fun for every
 ## Still to inspect and improve
 
 - Verify real typing, Korean composition, button activation, and Escape after enabling browser control.
-- Authored offline conversation currently repeats a single fallback line regardless of the selected reply; it needs meaningful authored responses rather than cosmetic random variation.
+- Authored offline conversation now has three distinct exchanges for each of nine speakable NPCs (27 total), with consumed topics removed and an explicit closing line. Runtime rendering still needs a browser pass.
 - Review the street's repeated paving, building silhouettes, object readability, motion and ambience against the actual rendered game.
 - Play the opening without prior knowledge and check whether the next useful destination is understandable.
 - Recheck the complete campaign, evening learning, and endings for pacing, character voice and layout after the remaining improvements.
 
 The current release ZIP predates this in-progress patch. Refresh it after the next rendered acceptance pass.
+
+## Authored conversation follow-up
+
+- Added `rpg/ai/authored-dialogue.mjs`. Fictional speech is project-authored and linked to the character cards; literary/historical reconstruction speech carries the existing source IDs and is explicitly not quotation or literary borrowing.
+- Exact selected topics receive their authored answers; unsupported free text during connection failure gets a narrator prompt to choose a topic, rather than a fabricated understanding of the input.
+- Conversation progress is keyed by embodied-player/NPC pair for the current browser session. It does not alter inventory, world events or ending outcomes. Reloading the page resets this transient conversation progress.
+- The free-input form is shown only when a live session is available. A failed provider response switches the pair to authored topics; the UI explains the switch.
+- Refined keyboard ownership: buttons retain native Enter/Space activation, but do not trap movement keys after a click. Editable fields and composition retain all input.
+- Six presentation/dialogue unit tests and 26 AI runtime tests pass. The tests exercise distinct responses, finite topic exhaustion, unknown input, immutable progress, pair separation and key ownership; they do not establish rendered UX or live provider connectivity.

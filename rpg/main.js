@@ -1,5 +1,6 @@
 import { createRenderer } from './engine/renderer.js';
 import { ownsKeyboardInput, observationText } from './engine/player-presentation.mjs';
+import { conversations, availableTopics, authoredReply } from './ai/authored-dialogue.mjs';
 import { advanceStudy, beginExam, buildLifeTimeline, chooseCirclePath, completeLearning, getExamQuestions, selectExamAnswer, submitExam } from './engine/learning-life.mjs';
 import './engine/game-state.js';
 const { createInitialState, moveActor, possessHost, releaseHost, transitionMap, performQuestAction, saveGame, loadGame, nearTile, knowledgeForHost, recordSourceRead, recordEvidenceRead, recordDialogueTurn, enterLiteraryRealm, leaveLiteraryRealm, advanceChapter, advanceCampaignDate, resolveEnding, describeHostMoney } = globalThis.V33GameState;
@@ -36,6 +37,8 @@ const canvas = document.querySelector('#world'), renderer = createRenderer(canva
 const $ = selector => document.querySelector(selector);
 let lastMoveAt = 0, renderFrame = null, renderTimer = null, activeDialogueHost = null, activeDialogueKey = null, activeDialogueController = null, dialogueGeneration = 0, dialogueRequestPending = false;
 const dialogueSessions = new Map(), dialogueTranscripts = new Map();
+const heardTopics = new Map();
+const hasLiveDialogue = key => aiBaseUrl && dialogueSessions.get(key)?.token && !['BLOCKED_NO_KEY', 'BLOCKED_LIMIT', 'AUTHORED'].includes(dialogueSessions.get(key)?.mode);
 const dialogueKey = (actorHostId, speakerHostId) => `${actorHostId}::${speakerHostId}`;
 const dialogueStorageKey = key => `v33-rpg-session:${key}`;
 const aiBaseUrl = String(window.V33_RPG_AI_API_BASE_URL ?? '').replace(/\/$/, '');
@@ -532,11 +535,13 @@ function showConversation(card, promptText, replies, statusText = '') {
   replyActions.push({ label: '대화 마치기', run: () => finishConversation(card.id) });
   say(card.displayNameKo, text, replyActions);
   if (dialogueRequestPending) $('#actions').querySelectorAll('button').forEach(button => { if (button.textContent.trim() !== '대화 마치기') button.disabled = true; });
+  if (hasLiveDialogue(activeDialogueKey)) {
   const form = document.createElement('form'); form.className = 'dialogue-input';
   const input = document.createElement('input'); input.type = 'text'; input.maxLength = 800; input.autocomplete = 'off'; input.placeholder = '하고 싶은 말을 적어보세요'; input.setAttribute('aria-label', '대사 입력'); input.disabled = dialogueRequestPending;
   const submit = document.createElement('button'); submit.type = 'submit'; submit.textContent = '말하기'; submit.disabled = dialogueRequestPending;
   form.append(input, submit); form.addEventListener('submit', event => { event.preventDefault(); const value = input.value.trim(); if (value) sendConversation(card, value); });
   $('#actions').append(form);
+  }
   $('.journal').scrollTop = 0;
   if (statusText) sayRecord(statusText);
 }
@@ -569,7 +574,10 @@ async function startConversation(card) {
     if (activeDialogueHost !== card.id || activeDialogueKey !== key || dialogueGeneration !== generation) return;
   }
 
-  showConversation(card, aiScenes.sessions[card.id].fallbackKo, aiScenes.sessions[card.id].fallbackReplies, session && session.mode !== 'BLOCKED_NO_KEY' ? 'Esc · 대화 마치기' : '준비된 대화 · Esc로 마치기');
+  const authored = conversations[card.id];
+  const remaining = availableTopics(card.id, heardTopics.get(key));
+  showConversation(card, authored.opening, hasLiveDialogue(key) ? aiScenes.sessions[card.id].fallbackReplies : remaining,
+    hasLiveDialogue(key) ? 'Esc · 대화 마치기' : remaining.length ? '화제를 골라 말을 건네세요 · Esc로 마치기' : '이야기를 마쳤습니다 · Esc로 마치기');
 }
 async function sendConversation(card, playerText, replyId = null) {
   const key = activeDialogueKey;
@@ -579,7 +587,7 @@ async function sendConversation(card, playerText, replyId = null) {
   const actorCard = cards.find(item => item.id === state.player.embodiment);
   const lines = dialogueTranscripts.get(key) ?? []; lines.push({ speaker: actorCard.displayNameKo, text: playerText });
   const session = dialogueSessions.get(key); let turn = null, fallbackReason = '';
-  if (session?.token && !['BLOCKED_NO_KEY', 'BLOCKED_LIMIT'].includes(session.mode) && aiBaseUrl) {
+  if (hasLiveDialogue(key)) {
     dialogueRequestPending = true;
     const controller = new AbortController(); activeDialogueController = controller;
     const timer = setTimeout(() => controller.abort(), 20000);
@@ -595,7 +603,7 @@ async function sendConversation(card, playerText, replyId = null) {
       }
       const data = await response.json(), candidate = data.turn;
       if (candidate?.sceneId !== aiScenes.sessions[card.id].sceneId || !Array.isArray(candidate.beats) || candidate.beats.length < 1 || candidate.beats.length > 2 || !candidate.beats.every(beat => beat && [card.id, 'NARRATION'].includes(beat.speakerId) && typeof beat.textKo === 'string' && beat.textKo.length <= 420) || !Array.isArray(candidate.suggestedReplies) || candidate.suggestedReplies.length < 2 || candidate.suggestedReplies.length > 3 || !candidate.suggestedReplies.every(reply => reply && typeof reply.textKo === 'string' && reply.textKo.length <= 80)) throw new Error('invalid dialogue response');
-      turn = candidate; fallbackReason = data.fallback ? data.mode : '';
+      turn = data.fallback ? null : candidate; fallbackReason = data.fallback ? data.mode : '';
     } catch { fallbackReason ||= '연결이 늦어 오프라인 대사로 이어간다'; }
     finally {
       clearTimeout(timer);
@@ -605,13 +613,19 @@ async function sendConversation(card, playerText, replyId = null) {
     if (activeDialogueHost !== card.id || activeDialogueKey !== key || dialogueGeneration !== generation) return;
   }
   const local = aiScenes.sessions[card.id];
-  if (!turn) turn = { beats: [{ speakerId: card.id, textKo: local.fallbackKo, emotion: 'neutral' }], suggestedReplies: local.fallbackReplies.map((textKo, index) => ({ id: `R${index + 1}`, textKo })) };
+  if (!turn) {
+    const reply = authoredReply(card.id, playerText, heardTopics.get(key));
+    heardTopics.set(key, reply.heard);
+    if (session) session.mode = 'AUTHORED';
+    turn = { beats: [{ speakerId: reply.speakerId, textKo: reply.text, emotion: 'neutral' }], suggestedReplies: reply.replies.map(textKo => ({ textKo })) };
+    if (reply.complete && reply.text !== conversations[card.id].closing) turn.beats.push({ speakerId: card.id, textKo: conversations[card.id].closing });
+  }
   for (const beat of turn.beats) lines.push({ speaker: beat.speakerId === 'NARRATION' ? '기록' : card.displayNameKo, text: beat.textKo });
   dialogueTranscripts.set(key, lines.slice(-24));
   const recorded = recordDialogueTurn(state, { hostId: card.id, actorHostId: actorCard.id, sceneId: local.sceneId, intentClass }, maps);
   if (recorded.ok) setState(recorded.state);
   const replies = (turn.suggestedReplies ?? []).slice(0, 3);
-  showConversation(card, '', replies.map(reply => reply.textKo), fallbackReason ? '연결이 원활하지 않아 준비된 대화로 이어갑니다.' : session ? 'Esc · 대화 마치기' : '준비된 대화 · Esc로 마치기');
+  showConversation(card, '', replies.map(reply => reply.textKo), fallbackReason ? '연결이 원활하지 않아 화제를 골라 이어갑니다.' : hasLiveDialogue(key) ? 'Esc · 대화 마치기' : replies.length ? '다른 화제를 고르거나 대화를 마치세요.' : '이야기를 마쳤습니다 · Esc로 마치기');
   $('.journal').scrollTop = $('.journal').scrollHeight;
 }
 document.addEventListener('keydown', event => {

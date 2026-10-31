@@ -6,11 +6,19 @@ test('native editing, composition, modified keys and focused controls retain key
   for (const property of ['defaultPrevented', 'isComposing', 'ctrlKey', 'metaKey', 'altKey']) {
     assert.equal(ownsKeyboardInput({ [property]: true }), true);
   }
-  for (const tag of ['input', 'textarea', 'select', 'button', 'a', 'summary']) {
+  for (const tag of ['input', 'textarea', 'select']) {
     assert.equal(ownsKeyboardInput({ target: { closest: selector => selector.split(', ').includes(tag) ? {} : null } }), true);
   }
   assert.equal(ownsKeyboardInput({ target: { closest: () => null } }), false);
   assert.equal(ownsKeyboardInput({}), false);
+});
+
+test('clicking a control does not swallow subsequent movement keys; Enter and Space still activate it', () => {
+  for (const tag of ['button', 'a', 'summary']) {
+    const target = { closest: selector => selector.split(', ').includes(tag) ? {} : null };
+    for (const key of ['w', 'a', 's', 'd', 'ArrowUp', 'ArrowDown', 'e']) assert.equal(ownsKeyboardInput({ key, target }), false);
+    for (const key of ['Enter', ' ']) assert.equal(ownsKeyboardInput({ key, target }), true);
+  }
 });
 
 test('observations show the object once and add only the current host thought', () => {
