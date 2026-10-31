@@ -23,6 +23,24 @@ class FakeCanvas {
   getBoundingClientRect() { return { width: this.clientWidth, height: this.clientHeight }; }
 }
 
+test('visual map cache draws architecture without collision masks or hidden layers overpainting it', () => {
+  const surfaces = [];
+  globalThis.window = { devicePixelRatio: 1, matchMedia: () => ({ matches: true }) };
+  globalThis.Image = class { complete = true; naturalWidth = 256; set src(value) {} };
+  globalThis.document = { createElement: () => { const surface = new FakeCanvas(); surfaces.push(surface); return surface; } };
+  try {
+    const renderer = createRenderer(new FakeCanvas(), { hostCards: [] });
+    const layer = (name, gid, visible = true) => ({ name, type: 'tilelayer', visible, data: [gid] });
+    const map = { mapId: 'layer-regression', width: 1, height: 1, layers: [layer('Ground', 2), layer('Architecture', 7), layer('Collision', 1), layer('StreetDetail', 15), layer('Hidden', 3, false)] };
+    const before = JSON.stringify(map);
+    renderer.draw({ player: { position: { x: 0, y: 0 } }, hosts: {}, quests: {} }, map);
+    assert.deepEqual(surfaces[0].context.drawCalls.map(call => call[1]), [16, 96, 224]);
+    assert.equal(JSON.stringify(map), before, 'rendering must preserve collision data for movement');
+  } finally {
+    delete globalThis.window; delete globalThis.Image; delete globalThis.document;
+  }
+});
+
 test('camera enlarges the world, follows its actor, and clamps cleanly at map edges', () => {
   const desktop = calculateCamera({ viewportWidth: 1384, viewportHeight: 357, mapWidth: 30, mapHeight: 20, tileSize: 16, position: { x: 15, y: 10 } });
   const mobile = calculateCamera({ viewportWidth: 370, viewportHeight: 379, mapWidth: 30, mapHeight: 20, tileSize: 16, position: { x: 15, y: 10 } });

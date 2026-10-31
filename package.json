@@ -250,7 +250,7 @@
     "v33-street-material-test": "node --test scripts/v33-street-material.test.mjs",
     "v33-learning-life-test": "node --test scripts/v33-learning-life.test.mjs",
     "v33-http-server-test": "node --test scripts/v33-http-server-test.mjs",
-    "v33-renderer-load-test": "node --test scripts/v33-renderer-load-test.mjs",
+    "v33-renderer-load-test": "node --test scripts/v33-renderer-load-test.mjs scripts/v33-world-presentation.test.mjs",
     "v33-exploration-coverage-test": "node --test scripts/v33-exploration-coverage.test.mjs",
     "v33-ai-test": "node --test scripts/v33-ai-runtime.test.mjs",
     "v33-ending-route-matrix": "node scripts/v33-ending-route-matrix.mjs",

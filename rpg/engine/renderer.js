@@ -1,3 +1,5 @@
+import { objectIsPresent, interactionTile } from './world-presentation.mjs';
+
 export function calculateCamera({ viewportWidth, viewportHeight, mapWidth, mapHeight, tileSize = 16, position, zoom = 2.25 }) {
   const mapWidthWorld = mapWidth * tileSize, mapHeightWorld = mapHeight * tileSize;
   const fitScale = Math.min(viewportWidth / mapWidthWorld, viewportHeight / mapHeightWorld);
@@ -59,7 +61,8 @@ export function createRenderer(canvas, assets) {
     if (!tileImage.complete || !tileImage.naturalWidth) return null;
     const surface = document.createElement('canvas'); surface.width = map.width * tile; surface.height = map.height * tile;
     const paint = surface.getContext('2d'); paint.imageSmoothingEnabled = false;
-    for (const layer of map.layers.filter(item => item.type === 'tilelayer')) {
+    // Collision uses 1 as a boolean mask, not the cobblestone tile with gid 1.
+    for (const layer of map.layers.filter(item => item.type === 'tilelayer' && item.name !== 'Collision' && item.visible !== false)) {
       for (let y = 0; y < map.height; y++) for (let x = 0; x < map.width; x++) {
         const gid = layer.data[y * map.width + x]; if (!gid) continue;
         const index = gid - 1, sx = (index % 16) * tile, sy = Math.floor(index / 16) * tile;
@@ -92,14 +95,15 @@ export function createRenderer(canvas, assets) {
     }
     const objectLayer = map.layers.find(item => item.name === 'Interactions');
     for (const object of objectLayer?.objects ?? []) {
+      if (!objectIsPresent(object, state, assets.quests)) continue;
       const p = Object.fromEntries((object.properties ?? []).map(v => [v.name, v.value]));
       const x = ox + object.x * scale, y = oy + object.y * scale;
-      if (object.type === 'map-exit') { ctx.fillStyle = '#c49c62'; ctx.fillRect(x + 4 * scale, y + 3 * scale, 8 * scale, 12 * scale); ctx.fillStyle = '#382820'; ctx.fillRect(x + 6 * scale, y + 5 * scale, 5 * scale, 10 * scale); }
-      else { ctx.fillStyle = object.type === 'quest-object' ? '#b78342' : '#d5c193'; ctx.fillRect(x + 4 * scale, y + 4 * scale, 8 * scale, 8 * scale); ctx.fillStyle = '#30231e'; ctx.fillRect(x + 6 * scale, y + 6 * scale, 4 * scale, 4 * scale); }
+      const index = interactionTile(object) - 1;
+      if (tileImage.complete && tileImage.naturalWidth) ctx.drawImage(tileImage, index % 16 * tile, Math.floor(index / 16) * tile, tile, tile, x, y, tile * scale, tile * scale);
       if (state.player.embodiment && p.questId && state.quests[p.questId]?.status === 'open') { ctx.strokeStyle = '#f0d79e'; ctx.lineWidth = 1.5; ctx.strokeRect(x + 1, y + 1, 14 * scale, 14 * scale); }
     }
-    for (const card of hostCards) {
-      const host = state.hosts[card.id]; if (!host || host.mapId !== map.mapId) continue;
+    for (const card of [...hostCards].sort((a, b) => (state.hosts[a.id]?.position.y ?? 0) - (state.hosts[b.id]?.position.y ?? 0))) {
+      const host = state.hosts[card.id]; if (!host || host.mapId !== map.mapId || host.historicalAliveAndPresent === false) continue;
       const atlas = card.spriteAtlas ?? card.sprite;
       const sprite = getImage(new URL(`../${atlas.file}`, import.meta.url));
       const active = state.player.embodiment === card.id;

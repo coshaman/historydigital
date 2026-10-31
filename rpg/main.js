@@ -1,4 +1,5 @@
 import { createRenderer } from './engine/renderer.js';
+import { objectIsPresent } from './engine/world-presentation.mjs';
 import { ownsKeyboardInput, observationText } from './engine/player-presentation.mjs';
 import { conversations, availableTopics, authoredReply } from './ai/authored-dialogue.mjs';
 import { advanceStudy, beginExam, buildLifeTimeline, chooseCirclePath, completeLearning, getExamQuestions, selectExamAnswer, submitExam } from './engine/learning-life.mjs';
@@ -33,7 +34,7 @@ const initial = () => createInitialState({ maps, hostCards, quests: questList })
 let state;
 try { state = localStorage.getItem('v33-rpg-save') ? loadGame(localStorage.getItem('v33-rpg-save'), { maps, hostCards, quests: questList, learningExam }) : initial(); }
 catch { state = initial(); }
-const canvas = document.querySelector('#world'), renderer = createRenderer(canvas, { hostCards });
+const canvas = document.querySelector('#world'), renderer = createRenderer(canvas, { hostCards, quests: questList });
 const $ = selector => document.querySelector(selector);
 let lastMoveAt = 0, renderFrame = null, renderTimer = null, activeDialogueHost = null, activeDialogueKey = null, activeDialogueController = null, dialogueGeneration = 0, dialogueRequestPending = false;
 const dialogueSessions = new Map(), dialogueTranscripts = new Map();
@@ -269,6 +270,7 @@ function currentNearby() {
   }));
   const interactables = [...currentMap().layers.find(layer => layer.name === 'Interactions').objects, ...people];
   return interactables.filter(object => {
+    if (!objectIsPresent(object, state, questList)) return false;
     const props = Object.fromEntries((object.properties ?? []).map(p => [p.name, p.value]));
     const host = object.type === 'npc' ? state.hosts[props.hostId] : null;
     if (object.type === 'npc' && (!host || host.mapId !== currentMap().mapId)) return false;

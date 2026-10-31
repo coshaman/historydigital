@@ -1,0 +1,137 @@
+{
+  "evidence": "Direct native Canvas rendering using real map data and renderer; no browser layout or traversal verified.",
+  "comparisons": [
+    {
+      "mapId": "chancery",
+      "position": {
+        "x": 12,
+        "y": 7
+      },
+      "width": 1384,
+      "height": 480,
+      "file": "chancery-1384.png",
+      "collisionCells": 131
+    },
+    {
+      "mapId": "chancery",
+      "position": {
+        "x": 12,
+        "y": 7
+      },
+      "width": 370,
+      "height": 360,
+      "file": "chancery-370.png",
+      "collisionCells": 131
+    },
+    {
+      "mapId": "courtyard",
+      "position": {
+        "x": 12,
+        "y": 7
+      },
+      "width": 1384,
+      "height": 480,
+      "file": "courtyard-1384.png",
+      "collisionCells": 135
+    },
+    {
+      "mapId": "courtyard",
+      "position": {
+        "x": 12,
+        "y": 7
+      },
+      "width": 370,
+      "height": 360,
+      "file": "courtyard-370.png",
+      "collisionCells": 135
+    },
+    {
+      "mapId": "dead-souls",
+      "position": {
+        "x": 12,
+        "y": 7
+      },
+      "width": 1384,
+      "height": 480,
+      "file": "dead-souls-1384.png",
+      "collisionCells": 135
+    },
+    {
+      "mapId": "dead-souls",
+      "position": {
+        "x": 12,
+        "y": 7
+      },
+      "width": 370,
+      "height": 360,
+      "file": "dead-souls-370.png",
+      "collisionCells": 135
+    },
+    {
+      "mapId": "nevsky",
+      "position": {
+        "x": 14,
+        "y": 8
+      },
+      "width": 1384,
+      "height": 480,
+      "file": "nevsky-1384.png",
+      "collisionCells": 271
+    },
+    {
+      "mapId": "nevsky",
+      "position": {
+        "x": 14,
+        "y": 8
+      },
+      "width": 370,
+      "height": 360,
+      "file": "nevsky-370.png",
+      "collisionCells": 271
+    },
+    {
+      "mapId": "overcoat",
+      "position": {
+        "x": 12,
+        "y": 7
+      },
+      "width": 1384,
+      "height": 480,
+      "file": "overcoat-1384.png",
+      "collisionCells": 135
+    },
+    {
+      "mapId": "overcoat",
+      "position": {
+        "x": 12,
+        "y": 7
+      },
+      "width": 370,
+      "height": 360,
+      "file": "overcoat-370.png",
+      "collisionCells": 135
+    },
+    {
+      "mapId": "printshop",
+      "position": {
+        "x": 12,
+        "y": 7
+      },
+      "width": 1384,
+      "height": 480,
+      "file": "printshop-1384.png",
+      "collisionCells": 153
+    },
+    {
+      "mapId": "printshop",
+      "position": {
+        "x": 12,
+        "y": 7
+      },
+      "width": 370,
+      "height": 360,
+      "file": "printshop-370.png",
+      "collisionCells": 153
+    }
+  ]
+}

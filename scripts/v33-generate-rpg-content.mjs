@@ -2,6 +2,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { deflateSync } from 'node:zlib';
+import { addVisibleBoundaries } from './v33-map-boundaries.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const out = path.join(root, 'rpg');
@@ -134,7 +135,7 @@ function makeMap({ id, name, width, height, baseGid, observerStart, architecture
     width, height, tilewidth: 16, tileheight: 16, infinite: false, nextlayerid: 7, nextobjectid: 1,
     properties: Object.entries({ mapId: id, displayNameKo: name, observerStart, ...metadata }).map(([name,value]) => ({ name, type: 'string', value: JSON.stringify(value) })),
     tilesets: [{ firstgid: 1, name: 'petersburg-1847-original', image: '../assets/petersburg-tiles.png', imagewidth: 256, imageheight: 160, tilewidth: 16, tileheight: 16, tilecount: tileDrawers.length, columns: 16 }],
-    layers: [tileLayer('Ground',width,height,ground,1), tileLayer('Architecture',width,height,arch,2), tileLayer('Collision',width,height,block,3), tileLayer('StreetDetail',width,height,decor,4), objectLayer('Interactions',objects,5), objectLayer('NPCs',npcs,6)],
+    layers: addVisibleBoundaries({ mapId: id, width, height, layers: [tileLayer('Ground',width,height,ground,1), tileLayer('Architecture',width,height,arch,2), tileLayer('Collision',width,height,block,3), tileLayer('StreetDetail',width,height,decor,4), objectLayer('Interactions',objects,5), objectLayer('NPCs',npcs,6)] }).layers,
   };
 }
 
