@@ -1,5 +1,6 @@
 import { createRenderer } from './engine/renderer.js';
 import { objectIsPresent } from './engine/world-presentation.mjs';
+import { questChoices, continuationQuest } from './engine/quest-presentation.mjs';
 import { ownsKeyboardInput, observationText } from './engine/player-presentation.mjs';
 import { conversations, availableTopics, authoredReply } from './ai/authored-dialogue.mjs';
 import { advanceStudy, beginExam, buildLifeTimeline, chooseCirclePath, completeLearning, getExamQuestions, selectExamAnswer, submitExam } from './engine/learning-life.mjs';
@@ -211,7 +212,22 @@ function requestRender() {
   if (renderFrame === null) renderFrame = requestAnimationFrame(render);
 }
 window.addEventListener('resize', requestRender, { passive: true });
-const say = (title, text, actions = []) => { $('#headline').textContent = title; $('#journal-text').textContent = text; $('#actions').replaceChildren(...actions.map(({ label, subcopy, run }) => { const button = document.createElement('button'); button.type = 'button'; const heading = document.createElement('span'); heading.textContent = label; button.append(heading); if (subcopy) { const detail = document.createElement('small'); detail.textContent = subcopy; button.append(detail); } button.addEventListener('click', run); return button; })); };
+function say(title, text, actions = []) {
+  $('#headline').textContent = title;
+  $('#journal-text').textContent = text;
+  const readyQuest = continuationQuest(state, campaign, questList);
+  const persistentLabel = readyQuest ? continuationFor(readyQuest)[0].label : null;
+  const visibleActions = actions.filter(action => action.label !== persistentLabel);
+  $('#actions').replaceChildren(...visibleActions.map(({ label, subcopy, run, disabled = false }) => {
+    const button = document.createElement('button');
+    button.type = 'button'; button.disabled = disabled;
+    const heading = document.createElement('span'); heading.textContent = label; button.append(heading);
+    if (subcopy) { const detail = document.createElement('small'); detail.textContent = subcopy; button.append(detail); }
+    button.addEventListener('click', run);
+    return button;
+  }));
+  $('.journal').scrollTop = 0;
+}
 const setState = next => { state = next; updateHud(); requestRender(); };
 function currentMap() { return maps[state.world.currentMapId]; }
 function actor() { return state.player.embodiment ? state.hosts[state.player.embodiment] : state.player; }
@@ -244,6 +260,10 @@ function updateHud() {
   $('#talk').disabled = !host || !conversationPartner || Boolean(activeDialogueHost);
   document.querySelectorAll('.touch-pad button').forEach(button => { button.disabled = Boolean(activeDialogueHost); });
   $('#load').disabled = !localStorage.getItem('v33-rpg-save');
+  const readyQuest = continuationQuest(state, campaign, questList);
+  const routeButton = $('#route-continue');
+  routeButton.hidden = !readyQuest || Boolean(activeDialogueHost);
+  if (readyQuest) routeButton.textContent = continuationFor(readyQuest)[0].label;
   const notebook = $('#host-notebook'), facts = $('#host-facts');
   notebook.hidden = !host; facts.replaceChildren();
   if (host) {
@@ -381,8 +401,8 @@ function inspect(object) {
       say(activeQuest.titleKo, '이 장의 선택은 이미 기록되어 있다. 다음으로 이어갈 수 있다.', continuationFor(activeQuest));
       return;
     }
-    const actionSpecs = activeQuest.actions.filter(action => action.hostIds.includes(state.player.embodiment) && (!action.requiredKnowledgeId || knowledgeForHost(state, state.player.embodiment).includes(action.requiredKnowledgeId)));
-    const opts = actionSpecs.map(action => ({ label: action.labelKo, subcopy: action.subcopyKo, run: () => {
+    const choiceStates = questChoices(activeQuest, state.player.embodiment, knowledgeForHost(state, state.player.embodiment));
+    const opts = choiceStates.map(({ action, missingSourceId }) => ({ label: action.labelKo, disabled: Boolean(missingSourceId), subcopy: `${missingSourceId ? `먼저 이 몸으로 「${sourceRecords.get(missingSourceId)?.titleKo ?? '관련 자료'}」을 현장에서 읽어야 합니다.\n` : ''}${action.subcopyKo}`, run: () => {
       const result = performQuestAction(state, { questId: activeQuest.id, hostId: state.player.embodiment, actionId: action.id, objectId: object.id }, { quests: questList, maps });
       if (!result.ok) { sayRecord(`처리할 수 없음 · ${result.reason}`); return; }
       setState(result.state);
@@ -390,7 +410,22 @@ function inspect(object) {
       say(action.followupTitleKo ?? activeQuest.titleKo, `${action.resultKo}${action.followupKo ? `\n\n${action.followupKo}` : ''}`, actions);
       sayRecord('현장 행동을 장부에 기록했다.');
     } }));
-    say(activeQuest.titleKo, activeQuest.premiseKo, opts);
+    let guidance = '';
+    if (!choiceStates.length) {
+      const names = [...new Set(activeQuest.actions.flatMap(action => action.hostIds))].map(id => cards.find(card => card.id === id)?.displayNameKo).filter(Boolean);
+      guidance = `\n\n이 일은 ${names.join(', ')}의 몸으로 할 수 있다. ${state.player.embodiment ? '지금 몸을 놓아준 뒤 그 사람을 찾아가자.' : '그 사람 곁에서 살펴보기를 눌러 몸을 빌리자.'}`;
+    }
+    const missingIds = [...new Set(choiceStates.map(choice => choice.missingSourceId).filter(Boolean))];
+    for (const id of missingIds) {
+      const record = sourceRecords.get(id);
+      const physical = currentNearby().find(item => item.type === 'source' && mapObjectProperties(item).sourceId === id);
+      if (physical) opts.push({ label: `자료 읽기 · ${record.titleKo}`, subcopy: '바로 곁의 자료를 현재 인물의 시야로 읽습니다.', run: () => sourceRead(id) });
+      else {
+        const location = Object.values(maps).find(map => map.layers.find(layer => layer.name === 'Interactions')?.objects.some(item => item.type === 'source' && mapObjectProperties(item).sourceId === id));
+        guidance += `\n\n「${record?.titleKo ?? '관련 자료'}」은 ${location?.metadata.displayNameKo ?? '현장'}에 있다. 종이 모양의 자료 곁으로 가서 살펴보자.`;
+      }
+    }
+    say(activeQuest.titleKo, `${activeQuest.premiseKo}${guidance}`, opts);
   } else {
     const title = object.name || '작업장';
     say(title, '종이와 활자에 손이 닿은 흔적이 남아 있다. 여기서 보이는 물건은 한 사람이 확인한 만큼만 기록할 수 있다.', []);
@@ -480,7 +515,7 @@ function renderEnding(ending) {
   $('#ending-restart').focus();
 }
 function interact() {
-  if (activeDialogueHost) return;
+  if (activeDialogueHost || state.endingId || !$('#learning-screen').hidden) return;
   const near = currentNearby();
   if (!near.length) { say('아직 손이 닿지 않는다', '주변을 조금 더 걸어 가까이 가 보자. 사람에게 다가가면 그 사람의 자리에서 도시를 볼 수 있다.', []); return; }
   const nearbyPeople = near.filter(item => item.type === 'npc');
@@ -506,7 +541,7 @@ function interact() {
   inspect(object);
 }
 function move(direction) {
-  if (activeDialogueHost) return;
+  if (activeDialogueHost || state.endingId || !$('#learning-screen').hidden) return;
   const result = moveActor(state, direction, currentMap(), maps);
   if (result.moved) { setState(result.state); lastMoveAt = performance.now(); }
   else sayRecord('벽이나 가구가 길을 막고 있다.');
@@ -686,5 +721,8 @@ requestRender();
 if (state.endingId) renderEnding(campaign.endings.find(item => item.id === state.endingId));
 else if (['learning', 'public-prep', 'exam-choice', 'exam', 'result'].includes(state.learning.phase)) showLearningHub();
 else if (state.learning.phase === 'complete') showEndingChoices();
-$('#record').insertAdjacentHTML('afterend', '<button id="source-drawer-open" type="button">자료철 열기</button>');
 $('#source-drawer-open').addEventListener('click', openSourceDrawer);
+$('#route-continue').addEventListener('click', () => {
+  const quest = continuationQuest(state, campaign, questList);
+  if (quest && !activeDialogueHost) continuationFor(quest)[0].run();
+});

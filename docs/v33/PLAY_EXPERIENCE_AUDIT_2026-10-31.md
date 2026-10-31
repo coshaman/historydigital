@@ -38,6 +38,15 @@ The current release ZIP predates this in-progress patch. Refresh it after the ne
 - Eight renderer/presentation tests, 31 core tests, four exploration-coverage tests and the historical-flow audit passed. The dialogue subagent's three authored-conversation tests passed. These do not establish human-perceived fun, final visual quality or browser input behavior.
 - Browser access was attempted again; the tool still reports `Local browser use is disabled in Work settings`. A real opening-to-ending click-through, responsive HTML review and pacing/ambience review remain outstanding. The goal is not complete.
 
+## Choice prerequisites and persistent continuation
+
+- Code inspection found that `inspect()` filtered out every action requiring unread evidence. Anna at the proofreading table, or Akaky before reading the literary passage, could therefore see a premise with no choice and no explanation. Eligible actions now remain visible but disabled, naming the source that the current character must read. Nearby physical copies get a read action; otherwise the journal names the place to find the source. No character knowledge or historical outcome is granted by these hints.
+- When the current body has no authorized action, the journal names the eligible characters and explains how to change perspective. It no longer leaves an unexplained empty action area.
+- Continuation used to live only in the replaceable journal action list. Reading another source or talking after finishing a quest could replace it; a reload after a later ledger event could also lose it. A persistent journal navigation control now derives readiness from quest state, independent of the last journal event. It advances the date only when needed, disappears while a current quest remains playable, and does not skip unresolved earlier quests. Duplicate contextual continuation buttons are omitted, including on initial restore.
+- Journal replacement resets its scroll position to show the new heading. Movement and interaction handlers now refuse world actions while the learning or ending screen is active. The footer explains controls instead of displaying the tile resolution.
+- Ten presentation/dialogue tests pass, including unread-source choices, literary prerequisites, reload-independent progression, and the April/May transition. Static build, syntax/integrity check and `npm run check` pass. HTML interaction and layout still require a browser pass.
+- The user reported enabling local browser access. Both the existing tool session and a freshly reset session still returned `Local browser use is disabled in Work settings`. No browser playtest is claimed; the exact reason the setting has not taken effect is unknown.
+
 ## Authored conversation follow-up
 
 - Added `rpg/ai/authored-dialogue.mjs`. Fictional speech is project-authored and linked to the character cards; literary/historical reconstruction speech carries the existing source IDs and is explicitly not quotation or literary borrowing.
