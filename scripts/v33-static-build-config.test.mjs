@@ -16,32 +16,28 @@ function buildWith(env) {
   });
 }
 
-test('static build injects the public Worker URL, rejects unsafe URLs, and preserves offline mode', () => {
-  const workerUrl = 'https://russian-lives-v33-rpg-ai.example.workers.dev';
+test('static build keeps provider credentials and endpoint configuration out of browser artifacts', () => {
   const result = buildWith({
-    RPG_AI_API_BASE_URL: `${workerUrl}/`,
     OPENAI_API_KEY: 'test-secret-must-never-be-built',
   });
   assert.equal(result.status, 0, result.stderr || result.stdout);
   const config = fs.readFileSync(configPath, 'utf8');
-  assert.ok(config.includes(`window.V33_RPG_AI_API_BASE_URL = ${JSON.stringify(workerUrl)};`));
-  assert.equal(config.includes('test-secret-must-never-be-built'), false);
-
-  const previousConfig = config;
-  const unsafe = buildWith({ RPG_AI_API_BASE_URL: 'javascript:alert(1)' });
-  assert.notEqual(unsafe.status, 0);
-  assert.match(unsafe.stderr, /RPG_AI_API_BASE_URL/);
-  assert.equal(fs.readFileSync(configPath, 'utf8'), previousConfig);
-
-  const offline = buildWith({ RPG_AI_API_BASE_URL: '' });
-  assert.equal(offline.status, 0, offline.stderr || offline.stdout);
-  assert.ok(fs.readFileSync(configPath, 'utf8').includes('window.V33_RPG_AI_API_BASE_URL = "";'));
+  assert.match(config, /same-origin Vercel Function/);
+  const builtFiles = fs.readdirSync(path.join(root, 'dist-v33'), { recursive: true }).filter(file => typeof file === 'string');
+  for (const file of builtFiles) {
+    if (!/\.(?:js|html|json)$/.test(file)) continue;
+    assert.equal(fs.readFileSync(path.join(root, 'dist-v33', file), 'utf8').includes('test-secret-must-never-be-built'), false, `secret absent from ${file}`);
+  }
 });
 
-test('Pages workflow passes only the public Worker URL variable to the static build', () => {
-  const workflow = fs.readFileSync(path.join(root, '.github', 'workflows', 'pages-v33.yml'), 'utf8');
-  assert.match(workflow, /RPG_AI_API_BASE_URL:\s*\$\{\{\s*vars\.RPG_AI_API_BASE_URL\s*\}\}/);
-  assert.doesNotMatch(workflow, /OPENAI_API_KEY/);
+test('Vercel API is a root-level Node Function and uses the environment key only server-side', () => {
+  const api = fs.readFileSync(path.join(root, 'api', 'rpg', '[...path].js'), 'utf8');
+  assert.match(api, /process\.env\.OPENAI_API_KEY/);
+  assert.doesNotMatch(api, /NEXT_PUBLIC_OPENAI_API_KEY|window\.[A-Z_]*OPENAI/);
+  const vercel = JSON.parse(fs.readFileSync(path.join(root, 'vercel.json'), 'utf8'));
+  assert.equal(vercel.outputDirectory, 'dist-v33');
+  assert.equal(vercel.functions['api/rpg/[...path].js'].maxDuration, 30);
+  assert.ok(fs.existsSync(path.join(root, 'api', 'rpg', '[...path].js')));
 });
 
 test('RPG first paint does not wait for a remote font stylesheet', () => {

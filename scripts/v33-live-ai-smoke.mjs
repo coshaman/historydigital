@@ -1,0 +1,34 @@
+import { spawn } from 'node:child_process';
+import { setTimeout as delay } from 'node:timers/promises';
+
+const origin = 'http://127.0.0.1:4173';
+const child = spawn(process.execPath, ['--env-file-if-exists=.env.local', 'server.mjs'], { stdio: 'ignore', windowsHide: true });
+let turns = 0;
+try {
+  let ready = false;
+  for (let attempt = 0; attempt < 50; attempt++) {
+    try { if ((await fetch(`${origin}/api/rpg/health`)).ok) { ready = true; break; } } catch {}
+    await delay(200);
+  }
+  if (!ready) throw new Error('server_unavailable');
+  const started = await fetch(`${origin}/api/rpg/session/start`, {
+    method: 'POST', headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ hostId: 'printer_ekaterina', actorHostId: 'seamstress_anna' }),
+  });
+  if (!started.ok) throw new Error(`session_start_${started.status}`);
+  const session = await started.json();
+  const response = await fetch(`${origin}/api/rpg/dialogue`, {
+    method: 'POST', headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ sessionToken: session.sessionToken, requestId: crypto.randomUUID(), playerInput: '그 문장에서 가장 먼저 확인해야 할 대목은 어디인가요?', actorRelations: {}, actorActions: [] }),
+  });
+  turns++;
+  if (!response.ok) throw new Error(`dialogue_${response.status}`);
+  const result = await response.json();
+  if (result.fallback || result.mode !== 'AI' || !result.turn?.beats?.length) throw new Error(`provider_${response.headers.get('x-v33-provider-result') || 'response_validation'}`);
+  process.stdout.write(JSON.stringify({ status: 'PASS', model: process.env.OPENAI_DIALOGUE_MODEL || 'gpt-5.4-mini', paidGenerations: turns, responseValidated: true }) + '\n');
+} catch (error) {
+  process.stderr.write(JSON.stringify({ status: 'FAIL', reason: String(error?.message || 'smoke_failed').replace(/[^a-zA-Z0-9_-]/g, '_') }) + '\n');
+  process.exitCode = 1;
+} finally {
+  child.kill();
+}

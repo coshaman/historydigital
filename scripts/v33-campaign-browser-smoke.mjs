@@ -208,7 +208,7 @@ async function completeQuest(questId, actionId, { avoidObjectId = null } = {}) {
   return { state, action };
 }
 async function continueCampaign(buttonPattern) {
-  const button = page.locator('#actions button').filter({ hasText: buttonPattern }).first();
+  const button = page.locator('#route-continue').filter({ hasText: buttonPattern }).first();
   await button.waitFor();
   await button.click();
 }

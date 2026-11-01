@@ -46,7 +46,7 @@ try {
   for (let step = 0; step < 9; step += 1) await page.locator('[data-move="right"]').click();
   await page.locator('#use').click();
   await page.getByRole('button', { name: '수선 불가 판정을 그대로 기록한다' }).click();
-  await page.getByText('페트로비치는 외투를 고칠 수 없다고 말했다.', { exact: false }).waitFor();
+  await page.getByText('페트로비치는 외투를 고칠 수 없다고 했다.', { exact: false }).waitFor();
   const report = await page.evaluate(() => ({
     map: document.querySelector('#mapname').textContent,
     body: document.querySelector('#bodyname').textContent,
@@ -58,7 +58,7 @@ try {
   }));
   report.base = base;
   report.sourceGate = { entryBlockedBeforeReading: true, archiveExcerptReadBeforeEntry: true, entrySucceededAfterReading: true };
-  if (!report.result.includes('《외투》')) throw new Error(`Literary framing missing from action result: ${report.result}`);
+  if (!report.result.includes('판정을 그대로 기록했다')) throw new Error(`Recorded repair decision missing from action result: ${report.result}`);
   if (report.horizontalOverflow) throw new Error('Overcoat route overflows at desktop viewport');
   if (errors.length) throw new Error(`Browser errors: ${errors.join('; ')}`);
   await page.screenshot({ path: path.join(output, 'akaky-record-1440x900.png'), fullPage: true });

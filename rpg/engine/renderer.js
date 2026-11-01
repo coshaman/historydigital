@@ -1,3 +1,6 @@
+import { objectIsPresent, interactionTile } from './world-presentation.mjs';
+import { atmosphereForMap, mapHasAtmosphere } from './atmosphere.mjs';
+
 export function calculateCamera({ viewportWidth, viewportHeight, mapWidth, mapHeight, tileSize = 16, position, zoom = 2.25 }) {
   const mapWidthWorld = mapWidth * tileSize, mapHeightWorld = mapHeight * tileSize;
   const fitScale = Math.min(viewportWidth / mapWidthWorld, viewportHeight / mapHeightWorld);
@@ -47,7 +50,9 @@ export function createRenderer(canvas, assets) {
   const tileImage = getImage(new URL('../assets/petersburg-tiles.png', import.meta.url));
   const hostCards = assets.hostCards;
   const tile = 16;
-  const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+  const motionPreference = window.matchMedia?.('(prefers-reduced-motion: reduce)');
+  let reducedMotion = motionPreference?.matches ?? false;
+  motionPreference?.addEventListener?.('change', event => { reducedMotion = event.matches; redrawAfterAssetLoad(); });
   function resize() {
     const rect = canvas.getBoundingClientRect(), ratio = Math.min(window.devicePixelRatio || 1, 2);
     const width = Math.max(1, Math.round(rect.width * ratio)), height = Math.max(1, Math.round(rect.height * ratio));
@@ -59,7 +64,8 @@ export function createRenderer(canvas, assets) {
     if (!tileImage.complete || !tileImage.naturalWidth) return null;
     const surface = document.createElement('canvas'); surface.width = map.width * tile; surface.height = map.height * tile;
     const paint = surface.getContext('2d'); paint.imageSmoothingEnabled = false;
-    for (const layer of map.layers.filter(item => item.type === 'tilelayer')) {
+    // Collision uses 1 as a boolean mask, not the cobblestone tile with gid 1.
+    for (const layer of map.layers.filter(item => item.type === 'tilelayer' && item.name !== 'Collision' && item.visible !== false)) {
       for (let y = 0; y < map.height; y++) for (let x = 0; x < map.width; x++) {
         const gid = layer.data[y * map.width + x]; if (!gid) continue;
         const index = gid - 1, sx = (index % 16) * tile, sy = Math.floor(index / 16) * tile;
@@ -92,14 +98,15 @@ export function createRenderer(canvas, assets) {
     }
     const objectLayer = map.layers.find(item => item.name === 'Interactions');
     for (const object of objectLayer?.objects ?? []) {
+      if (!objectIsPresent(object, state, assets.quests)) continue;
       const p = Object.fromEntries((object.properties ?? []).map(v => [v.name, v.value]));
       const x = ox + object.x * scale, y = oy + object.y * scale;
-      if (object.type === 'map-exit') { ctx.fillStyle = '#c49c62'; ctx.fillRect(x + 4 * scale, y + 3 * scale, 8 * scale, 12 * scale); ctx.fillStyle = '#382820'; ctx.fillRect(x + 6 * scale, y + 5 * scale, 5 * scale, 10 * scale); }
-      else { ctx.fillStyle = object.type === 'quest-object' ? '#b78342' : '#d5c193'; ctx.fillRect(x + 4 * scale, y + 4 * scale, 8 * scale, 8 * scale); ctx.fillStyle = '#30231e'; ctx.fillRect(x + 6 * scale, y + 6 * scale, 4 * scale, 4 * scale); }
+      const index = interactionTile(object) - 1;
+      if (tileImage.complete && tileImage.naturalWidth) ctx.drawImage(tileImage, index % 16 * tile, Math.floor(index / 16) * tile, tile, tile, x, y, tile * scale, tile * scale);
       if (state.player.embodiment && p.questId && state.quests[p.questId]?.status === 'open') { ctx.strokeStyle = '#f0d79e'; ctx.lineWidth = 1.5; ctx.strokeRect(x + 1, y + 1, 14 * scale, 14 * scale); }
     }
-    for (const card of hostCards) {
-      const host = state.hosts[card.id]; if (!host || host.mapId !== map.mapId) continue;
+    for (const card of [...hostCards].sort((a, b) => (state.hosts[a.id]?.position.y ?? 0) - (state.hosts[b.id]?.position.y ?? 0))) {
+      const host = state.hosts[card.id]; if (!host || host.mapId !== map.mapId || host.historicalAliveAndPresent === false) continue;
       const atlas = card.spriteAtlas ?? card.sprite;
       const sprite = getImage(new URL(`../${atlas.file}`, import.meta.url));
       const active = state.player.embodiment === card.id;
@@ -113,7 +120,30 @@ export function createRenderer(canvas, assets) {
     if (!state.player.embodiment) { ctx.fillStyle = '#efe0b5'; ctx.fillRect(px + 7 * scale, py + 5 * scale, 3 * scale, 8 * scale); ctx.fillRect(px + 5 * scale, py + 3 * scale, 7 * scale, 3 * scale); }
     // Warm paper lanterns mark the active space without covering tile detail.
     const glow = ctx.createRadialGradient(px + 8 * scale, py + 8 * scale, 2, px + 8 * scale, py + 8 * scale, 46 * scale);
-    glow.addColorStop(0, '#d4a35d18'); glow.addColorStop(1, '#d4a35d00'); ctx.globalCompositeOperation = 'screen'; ctx.fillStyle = glow; ctx.fillRect(ox, oy, map.width * tile * scale, map.height * tile * scale); ctx.globalCompositeOperation = 'source-over';
+    const pulse = reducedMotion ? 0.5 : (Math.sin(time / 850) + 1) / 2;
+    glow.addColorStop(0, `rgba(212,163,93,${0.055 + pulse * 0.025})`); glow.addColorStop(1, '#d4a35d00'); ctx.globalCompositeOperation = 'screen'; ctx.fillStyle = glow; ctx.fillRect(ox, oy, map.width * tile * scale, map.height * tile * scale); ctx.globalCompositeOperation = 'source-over';
+    const atmosphere = atmosphereForMap(map.mapId, map.width * tile * scale, map.height * tile * scale, time, reducedMotion);
+    if (atmosphere) {
+      ctx.save();
+      ctx.beginPath(); ctx.rect(ox, oy, map.width * tile * scale, map.height * tile * scale); ctx.clip();
+      if (atmosphere.kind === 'drizzle') {
+        const hazeY = oy + map.height * tile * scale * (0.44 + (reducedMotion ? 0 : Math.sin(time / 2400) * 0.018));
+        const haze = ctx.createLinearGradient(0, hazeY, 0, hazeY + map.height * tile * scale * 0.16);
+        haze.addColorStop(0, 'rgba(182,198,202,0)'); haze.addColorStop(0.5, 'rgba(182,198,202,0.055)'); haze.addColorStop(1, 'rgba(182,198,202,0)');
+        ctx.fillStyle = haze; ctx.fillRect(ox, hazeY, map.width * tile * scale, map.height * tile * scale * 0.16);
+        ctx.lineWidth = 1;
+        for (const drop of atmosphere.particles) {
+          ctx.strokeStyle = `rgba(190,204,204,${drop.alpha})`;
+          ctx.beginPath(); ctx.moveTo(ox + drop.x, oy + drop.y); ctx.lineTo(ox + drop.x - 1.5, oy + drop.y + drop.length); ctx.stroke();
+        }
+      } else {
+        for (const mote of atmosphere.particles) {
+          ctx.fillStyle = `rgba(239,207,145,${mote.alpha})`;
+          ctx.fillRect(ox + mote.x, oy + mote.y, mote.size, mote.size);
+        }
+      }
+      ctx.restore();
+    }
   }
-  return { draw };
+  return { draw, needsAmbientFrames: map => mapHasAtmosphere(map.mapId) && !reducedMotion };
 }

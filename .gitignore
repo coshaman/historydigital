@@ -1,5 +1,10 @@
 node_modules/
 dist/
+dist-v33/
+.vercel/
+.env
+.env.*
+!.env.example
 debug.log
 .main20-extract-check/
 .main20-extract-final/

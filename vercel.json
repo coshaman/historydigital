@@ -3,5 +3,10 @@
   "framework": null,
   "installCommand": "npm ci",
   "buildCommand": "npm run build:v33",
-  "outputDirectory": "dist-v33"
+  "outputDirectory": "dist-v33",
+  "functions": {
+    "api/rpg/[...path].js": {
+      "maxDuration": 30
+    }
+  }
 }
