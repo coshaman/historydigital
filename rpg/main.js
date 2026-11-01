@@ -396,32 +396,54 @@ function questIsAvailable(activeQuest) {
   const literary = Boolean(activeQuest?.realmId || activeQuest?.chapterId?.startsWith('LITERARY_'));
   return Boolean(activeQuest && (literary ? state.world.activeRealm?.id === (activeQuest.realmId ?? activeQuest.chapterId) : activeQuest.chapterId === state.world.chapterId) && (!activeQuest.date || activeQuest.date <= state.world.date || literary));
 }
+let pendingSourceRead = null;
 function sourceRead(sourceId, archiveSourceIds = [], readingMode = 'PHYSICAL_COPY') {
   const record = sourceRecords.get(sourceId);
   if (!record) { sayRecord('자료 목록에서 확인되지 않는 문서다.'); return; }
-  const recorded = recordSourceRead(state, sourceId, maps, archiveSourceIds, readingMode);
-  if (recorded.ok) setState(recorded.state);
-  else { sayRecord(recorded.reason === 'source_not_present' ? '이 장소나 시점에는 아직 열람할 수 없는 자료다.' : '이 자료를 지금은 읽을 수 없다.'); return; }
-  showSourceSummary(record);
+  const prepared = recordSourceRead(state, sourceId, maps, archiveSourceIds, readingMode);
+  if (!prepared.ok) { sayRecord(prepared.reason === 'source_not_present' ? '이 장소나 시점에는 아직 열람할 수 없는 자료다.' : '이 자료를 지금은 읽을 수 없다.'); return; }
+  openSourceReader(record, { nextState: prepared.state, readingMode });
+}
+function openSourceReader(record, { nextState = null, readingMode = null } = {}) {
+  const dialog = $('#source-reader'), isTurgenev = record.sourceId === source.sourceId;
+  const context = isTurgenev ? '1847년 《Современник》 첫 호에 실린 「호리와 칼리니치」의 도입부입니다. 화자는 지주 폴루티킨을 따라 농노 호리의 집으로 향합니다. 작품 속 서술이지 역사적 증언은 아닙니다.' : record.contextKo;
+  const provenance = isTurgenev ? `${record.witness.edition}\n위치: ${record.witness.range}\n첫 간행물: ${record.firstPublication}\n${record.witness.note}\n${record.translationNoteKo}` : `${record.edition}\n문서 시점: ${record.documentDate}\n위치: ${record.range}\n자료 성격: ${record.type}\n${record.translationNoteKo}`;
+  const url = isTurgenev ? record.witness.stableRevisionUrl : record.sourceUrl;
+  pendingSourceRead = nextState ? { nextState, readingMode, record } : null;
+  $('#source-reader-meta').textContent = `${record.documentDate ?? '1847'} · ${record.type ?? '문학 원문'} · ${record.range ?? record.witness?.range ?? ''}`;
+  $('#source-reader-title').textContent = record.titleKo;
+  $('#source-reader-context').textContent = context;
+  $('#source-reader-provenance-text').textContent = provenance;
+  $('#source-reader-passages').replaceChildren(...record.paragraphs.map((paragraph, index) => {
+    const section = document.createElement('section'); section.className = 'source-passage';
+    const label = document.createElement('h3'); label.textContent = `원문과 번역 · ${index + 1}`;
+    const ru = document.createElement('p'); ru.className = 'source-passage-ru'; ru.lang = 'ru'; ru.textContent = paragraph.ru;
+    const ko = document.createElement('p'); ko.className = 'source-passage-ko'; ko.lang = 'ko'; ko.textContent = paragraph.ko;
+    section.append(label, ru, ko); return section;
+  }));
+  const links = [
+    { label: '확인한 원문 열기', href: url, detail: record.range ?? record.witness.range },
+    ...(isTurgenev ? [{ label: '첫 간행 기록', href: record.firstPublicationSourceUrl }, { label: '잡지 서지', href: record.catalogUrl }] : []),
+  ].filter(item => item.href);
+  $('#source-reader-links').replaceChildren(...links.map(item => { const a = document.createElement('a'); a.href = item.href; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = item.detail ? `${item.label} · ${item.detail}` : item.label; return a; }));
+  $('#source-reader-status').textContent = pendingSourceRead ? '원문과 번역을 읽은 뒤 수첩에 남기세요.' : '이미 읽은 자료입니다.';
+  $('#source-reader-complete').hidden = !pendingSourceRead;
+  if (dialog.open) dialog.close();
+  dialog.showModal();
+}
+$('#source-reader-close').addEventListener('click', () => $('#source-reader').close());
+$('#source-reader-complete').addEventListener('click', () => {
+  if (!pendingSourceRead) return;
+  const { nextState, readingMode, record } = pendingSourceRead;
+  setState(nextState); pendingSourceRead = null; $('#source-reader').close();
   tutorialAdvance('target');
-  const recordedMode = recorded.state.ledger.at(-1)?.readingMode;
-  sayRecord(recordedMode === 'PHYSICAL_COPY'
+  sayRecord(readingMode === 'PHYSICAL_COPY'
     ? `현장에서 읽음 · ${record.creator ?? record.author} · 현재 몸의 자료 기록에 남겼다`
     : `자료철에서 살펴봄 · ${record.creator ?? record.author} · 기록의 손님 메모에 남겼다`);
-}
+});
+$('#source-reader').addEventListener('close', () => { pendingSourceRead = null; });
 function showSourceSummary(record = source) {
-  const isTurgenev = record.sourceId === source.sourceId;
-  const context = isTurgenev ? '1847년 《Современник》 첫 호에 실린 「호리와 칼리니치」의 도입부다. 화자는 지주 폴루티킨을 따라 그의 농노 호리 집으로 향한다. 작품 속 서술이며 역사적 증언이 아니다.' : record.contextKo;
-  const provenance = isTurgenev ? `${record.witness.edition}\n\n위치: ${record.witness.range}\n\n첫 간행물: ${record.firstPublication}\n\n${record.witness.note}\n\n${record.translationNoteKo}` : `${record.edition}\n\n문서 시점: ${record.documentDate}\n위치: ${record.range}\n자료 성격: ${record.type}\n\n${record.translationNoteKo}`;
-  const url = isTurgenev ? record.witness.stableRevisionUrl : record.sourceUrl;
-  say(record.titleKo, context, [{ label: '원문과 번역 펼치기', run: () => {
-    const body = record.paragraphs.map((paragraph, index) => `(${index + 1}) ${paragraph.ru}\n${paragraph.ko}`).join('\n\n');
-    say(record.titleKo, `${context}\n\n${body}`, [{ label: '판본과 출처 보기', run: () => { say('판본과 출처', provenance, [
-      { label: '확인한 원문 열기', subcopy: record.range ?? record.witness.range, run: () => window.open(url, '_blank', 'noopener,noreferrer') },
-      ...(isTurgenev ? [{ label: '작품의 첫 간행 기록 열기', subcopy: '투르게네프 전자도서관', run: () => window.open(record.firstPublicationSourceUrl, '_blank', 'noopener,noreferrer') }, { label: '《Современник》 1847년 제1호 서지 열기', subcopy: '러시아 국립전자도서관', run: () => window.open(record.catalogUrl, '_blank', 'noopener,noreferrer') }] : []),
-      { label: '자료 목록으로', run: () => openSourceDrawer() },
-    ]); } }]);
-  } }]);
+  openSourceReader(record);
 }
 function openSourceDrawer() {
   const available = state.world.activeRealm
@@ -615,12 +637,25 @@ function interact() {
   const near = currentNearby();
   if (!near.length) { say('아직 손이 닿지 않는다', '주변을 조금 더 걸어 가까이 가 보자. 사람에게 다가가면 그 사람의 자리에서 도시를 볼 수 있다.', []); return; }
   const nearbyPeople = near.filter(item => item.type === 'npc');
-  if (!state.player.embodiment && nearbyPeople.length > 1 && !near.some(item => item.type === 'source' || item.type === 'map-exit')) {
-    const choices = nearbyPeople.map(item => {
+  if (!state.player.embodiment && nearbyPeople.length > 0 && (nearbyPeople.length > 1 || near.some(item => ['source', 'map-exit', 'quest-object'].includes(item.type)))) {
+    const peopleChoices = nearbyPeople.map(item => {
       const hostId = mapObjectProperties(item).hostId, card = cards.find(character => character.id === hostId), person = state.hosts[hostId];
       return { label: `${card.displayNameKo} 살펴보기`, subcopy: `${card.occupation} · ${person.currentActivityKo || card.personalObjective}`, run: () => inspect(item) };
     });
-    say('가까이에 사람이 있다', '누구에게 다가갈지 고르자. 인물을 먼저 살펴본 뒤 몸을 빌릴 수 있다.', choices);
+    const nearbyObjects = near.filter(item => ['source', 'map-exit', 'quest-object'].includes(item.type)).map(item => {
+      const props = mapObjectProperties(item);
+      if (item.type === 'source') {
+        const record = sourceRecords.get(props.sourceId);
+        return { label: `자료 읽기 · ${record?.titleKo ?? '문서'}`, subcopy: record?.range ?? record?.witness?.range ?? '가까이에 놓인 자료', run: () => inspect(item) };
+      }
+      if (item.type === 'map-exit') {
+        const destination = maps[props.targetMapId]?.metadata?.displayNameKo ?? '다음 장소';
+        return { label: `문을 지나 ${destination}로`, subcopy: '실제 출입문을 통해 장소를 옮깁니다.', run: () => inspect(item) };
+      }
+      const quest = questsById.get(props.questId);
+      return { label: `사건 살펴보기 · ${quest?.titleKo ?? '현장 기록'}`, subcopy: quest?.premiseKo ?? '', run: () => inspect(item) };
+    });
+    say('가까이에 사람과 문서가 있다', '살펴볼 사람이나 주변의 문서·출입문을 고르세요.', [...peopleChoices, ...nearbyObjects]);
     return;
   }
   const activeQuestObject = near.find(item => {
@@ -630,8 +665,9 @@ function interact() {
     });
   const object = activeQuestObject
     ?? near.find(item => item.type === 'source')
-    ?? near.find(item => item.type === 'map-exit')
+    ?? (state.player.embodiment ? near.find(item => item.type === 'map-exit') : null)
     ?? near.find(item => item.type === 'npc' && mapObjectProperties(item).hostId !== state.player.embodiment)
+    ?? near.find(item => item.type === 'map-exit')
     ?? near.find(item => item.type === 'quest-object' && questIsAvailable(questsById.get(mapObjectProperties(item).questId)))
     ?? near[0];
   inspect(object);
@@ -755,7 +791,8 @@ async function sendConversation(card, playerText, replyId = null) {
         if (response.status === 429) {
           session.mode = 'BLOCKED_LIMIT'; dialogueSessions.set(key, session); sessionStorage.removeItem(dialogueStorageKey(key));
           fallbackReason = '대화 요청 한도에 도달해 오프라인 대사로 이어간다';
-        }
+        } else if (response.status === 401) fallbackReason = '대화 연결이 끝났어요. 다시 말을 걸어 주세요.';
+        else fallbackReason = '서버가 대화를 처리하지 못해 준비된 대사로 이어갑니다.';
         throw new Error('dialogue unavailable');
       }
       const data = await response.json(), candidate = data.turn;
@@ -764,7 +801,8 @@ async function sendConversation(card, playerText, replyId = null) {
         session.token = data.sessionToken;
         sessionStorage.setItem(dialogueStorageKey(key), session.token);
       }
-      turn = data.fallback ? null : candidate; fallbackReason = data.fallback ? data.mode : '';
+      turn = data.fallback ? null : candidate;
+      fallbackReason = data.fallback ? 'AI 대화가 응답을 마무리하지 못해 준비된 대사로 이어갑니다.' : '';
     } catch { fallbackReason ||= '연결이 늦어 오프라인 대사로 이어갑니다.'; }
     finally {
       clearTimeout(timer);

@@ -1,6 +1,6 @@
 {
   "schemaVersion": "V33_RPG_BROWSER_SMOKE_V1",
-  "base": "https://coshaman.github.io/historydigital/",
+  "base": "http://127.0.0.1:4173/",
   "viewports": [
     {
       "viewport": {
@@ -95,332 +95,14 @@
       ],
       "canvas": {
         "width": 1382,
-        "height": 546,
-        "sampledColors": 13,
-        "mapCoverage": 1,
+        "height": 355,
+        "sampledColors": 20,
+        "mapCoverage": 0.8668596237337193,
         "cssTileScale": 2.879166666666667
       },
-      "clueText": "배달 표식처럼 보이지만, 이 말만으로는 어느 집인지 알 수 없다. 봉투도 없으니 내용을 짐작할 근거는 없다.\n\n접힌 종이에는 “등불 둘, 뒤문”이라고 짧게 적혀 있다. 이름도 날짜도 봉인도 없다. 누구에게 보낼 쪽지인지는 알 수 없다.\n\n이 소품과 문구는 플레이를 위해 만든 허구 장면입니다. 역사 사료 인용이 아닙니다.",
+      "clueText": "접힌 종이에는 “등불 둘, 뒤문”이라고 짧게 적혀 있다. 이름도 날짜도 봉인도 없다. 누구에게 보낼 쪽지인지는 알 수 없다.\n\n“등불 둘이라… 어느 집 뒤문인데? 주소 한 줄만 더 쓰지.”",
       "initialClock": "09:00",
       "advancedClock": "09:06",
-      "savedClueRestored": true,
-      "offlineDialogue": false,
-      "evidenceHotkey": true,
-      "errors": []
-    },
-    {
-      "viewport": {
-        "width": 1366,
-        "height": 768
-      },
-      "document": {
-        "width": 1366,
-        "height": 768
-      },
-      "shell": {
-        "x": 0,
-        "y": 0,
-        "width": 1366,
-        "height": 768,
-        "right": 1366,
-        "bottom": 768
-      },
-      "field": {
-        "x": 27.3125,
-        "y": 114.3125,
-        "width": 1311.375,
-        "height": 281.1875,
-        "right": 1338.6875,
-        "bottom": 395.5
-      },
-      "lower": {
-        "x": 27.3125,
-        "y": 407.5,
-        "width": 1311.375,
-        "height": 307.1875,
-        "right": 1338.6875,
-        "bottom": 714.6875
-      },
-      "pad": {
-        "x": 1126.6875,
-        "y": 494.59375,
-        "width": 196,
-        "height": 134,
-        "right": 1322.6875,
-        "bottom": 628.59375
-      },
-      "buttons": [
-        {
-          "label": "↑",
-          "x": 1200.6875,
-          "y": 494.59375,
-          "right": 1248.6875,
-          "bottom": 536.59375,
-          "visible": true
-        },
-        {
-          "label": "←",
-          "x": 1148.6875,
-          "y": 540.59375,
-          "right": 1196.6875,
-          "bottom": 582.59375,
-          "visible": true
-        },
-        {
-          "label": "↓",
-          "x": 1200.6875,
-          "y": 540.59375,
-          "right": 1248.6875,
-          "bottom": 582.59375,
-          "visible": true
-        },
-        {
-          "label": "→",
-          "x": 1252.6875,
-          "y": 540.59375,
-          "right": 1300.6875,
-          "bottom": 582.59375,
-          "visible": true
-        },
-        {
-          "label": "살펴보기",
-          "x": 1148.6875,
-          "y": 586.59375,
-          "right": 1248.6875,
-          "bottom": 628.59375,
-          "visible": true
-        },
-        {
-          "label": "놓아주기",
-          "x": 1252.6875,
-          "y": 586.59375,
-          "right": 1300.6875,
-          "bottom": 628.59375,
-          "visible": true
-        }
-      ],
-      "canvas": {
-        "width": 1309,
-        "height": 418,
-        "sampledColors": 14,
-        "mapCoverage": 1,
-        "cssTileScale": 2.7270833333333333
-      },
-      "clueText": "배달 표식처럼 보이지만, 이 말만으로는 어느 집인지 알 수 없다. 봉투도 없으니 내용을 짐작할 근거는 없다.\n\n접힌 종이에는 “등불 둘, 뒤문”이라고 짧게 적혀 있다. 이름도 날짜도 봉인도 없다. 누구에게 보낼 쪽지인지는 알 수 없다.\n\n이 소품과 문구는 플레이를 위해 만든 허구 장면입니다. 역사 사료 인용이 아닙니다.",
-      "initialClock": "09:00",
-      "advancedClock": "09:06",
-      "savedClueRestored": true,
-      "offlineDialogue": false,
-      "evidenceHotkey": true,
-      "errors": []
-    },
-    {
-      "viewport": {
-        "width": 390,
-        "height": 844
-      },
-      "document": {
-        "width": 390,
-        "height": 844
-      },
-      "shell": {
-        "x": 0,
-        "y": 0,
-        "width": 390,
-        "height": 844,
-        "right": 390,
-        "bottom": 844
-      },
-      "field": {
-        "x": 10,
-        "y": 106,
-        "width": 370,
-        "height": 378.9375,
-        "right": 380,
-        "bottom": 484.9375
-      },
-      "lower": {
-        "x": 10,
-        "y": 492.9375,
-        "width": 370,
-        "height": 337.59375,
-        "right": 380,
-        "bottom": 830.53125
-      },
-      "pad": {
-        "x": 20,
-        "y": 734.53125,
-        "width": 350,
-        "height": 88,
-        "right": 370,
-        "bottom": 822.53125
-      },
-      "buttons": [
-        {
-          "label": "↑",
-          "x": 90.796875,
-          "y": 734.53125,
-          "right": 157.59375,
-          "bottom": 776.53125,
-          "visible": true
-        },
-        {
-          "label": "←",
-          "x": 20,
-          "y": 780.53125,
-          "right": 86.796875,
-          "bottom": 822.53125,
-          "visible": true
-        },
-        {
-          "label": "↓",
-          "x": 90.796875,
-          "y": 780.53125,
-          "right": 157.59375,
-          "bottom": 822.53125,
-          "visible": true
-        },
-        {
-          "label": "→",
-          "x": 161.59375,
-          "y": 780.53125,
-          "right": 228.390625,
-          "bottom": 822.53125,
-          "visible": true
-        },
-        {
-          "label": "살펴보기",
-          "x": 232.390625,
-          "y": 734.53125,
-          "right": 299.1875,
-          "bottom": 822.53125,
-          "visible": true
-        },
-        {
-          "label": "놓아주기",
-          "x": 303.1875,
-          "y": 734.53125,
-          "right": 370,
-          "bottom": 822.53125,
-          "visible": true
-        }
-      ],
-      "canvas": {
-        "width": 368,
-        "height": 377,
-        "sampledColors": 18,
-        "mapCoverage": 1,
-        "cssTileScale": 0.7666666666666667
-      },
-      "clueText": "배달 표식처럼 보이지만, 이 말만으로는 어느 집인지 알 수 없다. 봉투도 없으니 내용을 짐작할 근거는 없다.\n\n접힌 종이에는 “등불 둘, 뒤문”이라고 짧게 적혀 있다. 이름도 날짜도 봉인도 없다. 누구에게 보낼 쪽지인지는 알 수 없다.\n\n이 소품과 문구는 플레이를 위해 만든 허구 장면입니다. 역사 사료 인용이 아닙니다.",
-      "initialClock": "09:00",
-      "advancedClock": "09:08",
-      "savedClueRestored": true,
-      "offlineDialogue": false,
-      "evidenceHotkey": true,
-      "errors": []
-    },
-    {
-      "viewport": {
-        "width": 360,
-        "height": 800
-      },
-      "document": {
-        "width": 360,
-        "height": 800
-      },
-      "shell": {
-        "x": 0,
-        "y": 0,
-        "width": 360,
-        "height": 800,
-        "right": 360,
-        "bottom": 800
-      },
-      "field": {
-        "x": 10,
-        "y": 106,
-        "width": 340,
-        "height": 355.78125,
-        "right": 350,
-        "bottom": 461.78125
-      },
-      "lower": {
-        "x": 10,
-        "y": 469.78125,
-        "width": 340,
-        "height": 320,
-        "right": 350,
-        "bottom": 789.78125
-      },
-      "pad": {
-        "x": 20,
-        "y": 693.78125,
-        "width": 320,
-        "height": 88,
-        "right": 340,
-        "bottom": 781.78125
-      },
-      "buttons": [
-        {
-          "label": "↑",
-          "x": 84.796875,
-          "y": 693.78125,
-          "right": 145.59375,
-          "bottom": 735.78125,
-          "visible": true
-        },
-        {
-          "label": "←",
-          "x": 20,
-          "y": 739.78125,
-          "right": 80.796875,
-          "bottom": 781.78125,
-          "visible": true
-        },
-        {
-          "label": "↓",
-          "x": 84.796875,
-          "y": 739.78125,
-          "right": 145.59375,
-          "bottom": 781.78125,
-          "visible": true
-        },
-        {
-          "label": "→",
-          "x": 149.59375,
-          "y": 739.78125,
-          "right": 210.390625,
-          "bottom": 781.78125,
-          "visible": true
-        },
-        {
-          "label": "살펴보기",
-          "x": 214.390625,
-          "y": 693.78125,
-          "right": 275.1875,
-          "bottom": 781.78125,
-          "visible": true
-        },
-        {
-          "label": "놓아주기",
-          "x": 279.1875,
-          "y": 693.78125,
-          "right": 339.984375,
-          "bottom": 781.78125,
-          "visible": true
-        }
-      ],
-      "canvas": {
-        "width": 338,
-        "height": 354,
-        "sampledColors": 14,
-        "mapCoverage": 1,
-        "cssTileScale": 0.7041666666666667
-      },
-      "clueText": "배달 표식처럼 보이지만, 이 말만으로는 어느 집인지 알 수 없다. 봉투도 없으니 내용을 짐작할 근거는 없다.\n\n접힌 종이에는 “등불 둘, 뒤문”이라고 짧게 적혀 있다. 이름도 날짜도 봉인도 없다. 누구에게 보낼 쪽지인지는 알 수 없다.\n\n이 소품과 문구는 플레이를 위해 만든 허구 장면입니다. 역사 사료 인용이 아닙니다.",
-      "initialClock": "09:00",
-      "advancedClock": "09:08",
       "savedClueRestored": true,
       "offlineDialogue": false,
       "evidenceHotkey": true,
@@ -438,12 +120,23 @@
     "clueInspected": "PRINTSHOP_ROUTING_NOTE",
     "sourceRead": true,
     "sourceReaderScroll": {
-      "scrollHeight": 499,
+      "scrollHeight": 449,
       "clientHeight": 335
     },
     "choiceResolved": true,
-    "explorationDurationMs": 3591,
-    "timedGatePassed": null,
+    "routeCoverage": {
+      "movementInputs": 41,
+      "objectInspections": 7,
+      "sourceReads": 2,
+      "hostIds": [
+        "courier_pavel",
+        "printer_ekaterina"
+      ],
+      "mapTransitions": 1,
+      "questDecisions": 1,
+      "goalDirected": true
+    },
+    "elapsedWallTimeIsNotUsedAsEngagementEvidence": true,
     "errors": []
   },
   "otherMaps": {

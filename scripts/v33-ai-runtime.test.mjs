@@ -25,6 +25,10 @@ test('session is server-bound to one host; client cannot choose scene, inject me
   assert.equal(turn.body.fallback, false);
   assert.equal(turn.body.turn.suggestedReplies.length, 2);
   assert.equal(providerInput.character.id, 'printer_ekaterina');
+  assert.equal(providerInput.character.worldview.status, 'fictional_character_design');
+  assert.match(providerInput.character.worldview.stanceKo, /직접 읽고 고친 줄/);
+  assert.equal(providerInput.character.worldview.sceneAnchorIds, undefined, 'quest anchors are not presented as historical citations for a fictional opinion');
+  assert.match(providerInput.character.worldview.designBasisKo, /실제 견해나 발언을 재현하지 않는다/);
   assert.deepEqual(providerInput.conversation.sceneContext, { date: '1847-06-01', mapId: 'printshop', placeKo: '네프스키 인쇄소', questId: 'PRINTSHOP_PROOF_1847', questTitleKo: '교정쇄의 행선지' });
   assert.equal(providerInput.playerInput, body.playerInput);
   assert.equal(providerInput.endingId, undefined);

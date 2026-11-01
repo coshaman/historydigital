@@ -1,6 +1,6 @@
 {
   "schemaVersion": "V33_CAMPAIGN_BROWSER_SMOKE_V1",
-  "base": "http://127.0.0.1:57944/",
+  "base": "http://127.0.0.1:62806/",
   "endingId": "KHOMYAKOV",
   "status": "PASS",
   "steps": [
@@ -90,7 +90,7 @@
       "hostId": "courier_pavel",
       "mapId": "nevsky",
       "position": {
-        "x": 23,
+        "x": 20,
         "y": 10
       }
     },
@@ -112,7 +112,7 @@
       "hostId": "printer_ekaterina",
       "mapId": "printshop",
       "position": {
-        "x": 9,
+        "x": 10,
         "y": 13
       }
     },
@@ -144,7 +144,7 @@
       "hostId": "clerk_alexei",
       "mapId": "chancery",
       "position": {
-        "x": 14,
+        "x": 13,
         "y": 13
       }
     },

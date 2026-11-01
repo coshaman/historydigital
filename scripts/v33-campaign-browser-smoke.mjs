@@ -99,25 +99,37 @@ async function moveNear(mapId, target, maxDistance = 1, extraGoal = () => true) 
   }
   throw new Error(`movement exceeded 160 steps on ${mapId} toward ${JSON.stringify(target)}`);
 }
-async function interact() { await page.keyboard.press('e'); }
+async function interact() { await page.locator('#use').click(); }
 async function possess(hostId) {
-  const state = await snapshot(), host = state.hosts[hostId];
+  let state = await snapshot(), host = state.hosts[hostId];
   assert.ok(host, `unknown host ${hostId}`);
-  assert.equal(host.mapId, state.world.currentMapId, `${hostId} must be physically present before possession`);
-  const competingTargets = mapById[state.world.currentMapId].layers.find(layer => layer.name === 'Interactions').objects.filter(object => object.type === 'source' || object.type === 'map-exit').map(objectTile);
-  await moveNear(state.world.currentMapId, host.position, 2, tile => competingTargets.every(target => distance(tile, target) > 1));
+  if (host.mapId !== state.world.currentMapId) {
+    const exit = findObject(state.world.currentMapId, object => object.type === 'map-exit' && objectProps(object).targetMapId === host.mapId);
+    assert.ok(exit, `${hostId} moved to ${host.mapId}; player needs a legal connected exit from ${state.world.currentMapId}`);
+    await transitionTo(objectProps(exit).exitId, host.mapId);
+    state = await snapshot(); host = state.hosts[hostId];
+    assert.equal(host.mapId, state.world.currentMapId, `${hostId} must be physically present before possession`);
+  }
+  await moveNear(state.world.currentMapId, host.position, 2);
   await interact();
   const personChoice = page.getByRole('button', { name: `${cardById[hostId].displayNameKo} 살펴보기`, exact: false });
   if (await personChoice.count()) await personChoice.click();
+  else {
+    const observed = await page.evaluate(() => ({ headline: document.querySelector('#headline').textContent, actions: [...document.querySelectorAll('#actions button')].map(button => button.innerText) }));
+    assert.ok(observed.headline.includes(cardById[hostId].displayNameKo) || observed.actions.some(label => label.includes(cardById[hostId].displayNameKo)), `interaction did not target ${hostId}: ${JSON.stringify(observed)}`);
+  }
   const borrowAction = page.getByRole('button', { name: '몸을 빌린다' });
   if (!(await borrowAction.count())) {
     const observed = await page.evaluate(() => ({ headline: document.querySelector('#headline').textContent, actions: [...document.querySelectorAll('#actions button')].map(button => button.innerText), body: document.querySelector('#bodyname').textContent }));
     throw new Error(`No possession action for ${hostId}; ${JSON.stringify(observed)}`);
   }
   await borrowAction.click();
-  await page.getByText(`몸을 빌림 · ${cardById[hostId].displayNameKo}`).waitFor();
   const after = await snapshot();
-  assert.equal(after.player.embodiment, hostId);
+  if (after.player.embodiment !== hostId) {
+    const observed = await page.evaluate(() => ({ headline: document.querySelector('#headline').textContent, actions: [...document.querySelectorAll('#actions button')].map(button => button.innerText), body: document.querySelector('#bodyname').textContent, map: document.querySelector('#mapname').textContent, place: document.querySelector('#place').textContent }));
+    throw new Error(`Possession action did not take ${hostId}; state=${after.player.embodiment}; ${JSON.stringify(observed)}`);
+  }
+  await page.getByText(`몸을 빌림 · ${cardById[hostId].displayNameKo}`).waitFor();
   report.steps.push({ type: 'possession', hostId, mapId: after.world.currentMapId, position: after.hosts[hostId].position });
 }
 async function release() {
@@ -130,6 +142,8 @@ async function transitionTo(exitId, targetMapId) {
   const exit = findObject(mapId, object => object.type === 'map-exit' && objectProps(object).exitId === exitId);
   await moveNear(mapId, objectTile(exit), 1);
   await interact();
+  const routeChoice = page.getByRole('button', { name: `문을 지나 ${mapById[targetMapId].metadata.displayNameKo}로`, exact: false });
+  if (await routeChoice.count()) await routeChoice.click();
   await page.waitForFunction(expected => document.querySelector('#place').textContent === expected, mapById[targetMapId].metadata.displayNameKo);
   const state = await snapshot();
   assert.equal(state.world.currentMapId, targetMapId);
@@ -164,12 +178,12 @@ async function readSource(mapId, sourceId, avoidObjectId = null) {
   await interact();
   const source = sourceById.get(sourceId);
   assert.ok(source, `source record ${sourceId} is registered`);
-  await page.getByRole('button', { name: '원문과 번역 펼치기' }).waitFor();
-  assert.equal(await page.locator('#headline').innerText(), source.titleKo);
-  await page.getByRole('button', { name: '원문과 번역 펼치기' }).click();
-  const renderedText = await page.locator('#journal-text').innerText();
+  await page.locator('#source-reader').waitFor({ state: 'visible' });
+  assert.equal(await page.locator('#source-reader-title').innerText(), source.titleKo);
+  const renderedText = await page.locator('#source-reader-passages').innerText();
   assert.ok(renderedText.includes(source.paragraphs[0].ru), `${sourceId} Russian source paragraph rendered`);
   assert.ok(renderedText.includes(source.paragraphs[0].ko), `${sourceId} aligned Korean translation rendered`);
+  await page.locator('#source-reader-complete').click();
   const state = await snapshot();
   assert.ok(state.ledger.some(event => event.sourceId === sourceId), `${sourceId} reading is ledgered`);
   report.steps.push({ type: 'source-read', sourceId, hostId: state.player.embodiment, mapId, titleKo: source.titleKo });
@@ -179,11 +193,11 @@ async function readUnlockedSource(sourceId) {
   assert.ok(source, `source record ${sourceId} is registered`);
   await page.locator('#source-drawer-open').click();
   await page.getByRole('button', { name: source.titleKo, exact: false }).click();
-  await page.getByRole('button', { name: '원문과 번역 펼치기' }).waitFor();
-  await page.getByRole('button', { name: '원문과 번역 펼치기' }).click();
-  const renderedText = await page.locator('#journal-text').innerText();
+  await page.locator('#source-reader').waitFor({ state: 'visible' });
+  const renderedText = await page.locator('#source-reader-passages').innerText();
   assert.ok(renderedText.includes(source.paragraphs[0].ru), `${sourceId} Russian source paragraph rendered in the source drawer`);
   assert.ok(renderedText.includes(source.paragraphs[0].ko), `${sourceId} aligned Korean translation rendered in the source drawer`);
+  await page.locator('#source-reader-complete').click();
   const state = await snapshot();
   assert.ok(state.ledger.some(event => event.sourceId === sourceId && event.hostId === null && event.readingMode === 'PLAYER_ARCHIVE'), `${sourceId} archive reading is recorded as player research, not host knowledge`);
   assert.ok(!state.hosts[state.player.embodiment].knownEvidenceIds.includes(sourceId), `${sourceId} archive reading does not enter the embodied host's memory`);

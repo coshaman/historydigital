@@ -5,7 +5,7 @@ Russian Lives: Act III is a browser RPG deployed as a static game plus same-orig
 ## Deploy on Vercel
 
 1. Import `coshaman/historydigital` in Vercel and keep **Root Directory** at the repository root.
-2. `vercel.json` sets the Other framework preset, `npm ci`, `npm run build:v33`, and `dist-v33` as the static output. The root `api/` directory is deployed as Vercel Functions.
+2. In Vercel → Project → Settings → Git, set **Production Branch** to `main` so direct pushes there create production deployments. `vercel.json` sets the Other framework preset, `npm ci`, `npm run build:v33`, and `dist-v33` as the static output. The root `api/` directory is deployed as Vercel Functions.
 3. Add the environment variable below in **Project → Settings → Environment Variables**. Choose Production, and Preview too if you want AI dialogue on previews. Redeploy after changing it.
 
 | Variable | Value | Environment |
@@ -40,6 +40,13 @@ npm run v33-live-ai-smoke
 ```
 
 The smoke makes one short dialogue-generation request, prints only pass/fail and a safe error category, and never prints the key or dialogue. It fails if the API falls back to authored text. The previous generic `provider_response_validation` code did not distinguish a network failure from a response rejected by the game's schema or historical/context safeguards, so that run cannot identify the exact cause. The local smoke now reports safe categories such as `network_error`, `http_401`, `response_schema_invalid`, `unsupported_historical_year`, `uncited_historical_person`, or `undisclosed_player_context`; it never prints prompt or response text. In Vercel, inspect the Function runtime logs for the `rpg_provider_fallback` event and its code.
+
+### If AI dialogue falls back on the deployed site
+
+- Test `https://<your-vercel-domain>/api/rpg/health`. A working deployment returns JSON with `status: "ok"` and `ai: "configured"`.
+- If that URL shows a 404 or a static page, the game is being opened on a static host such as GitHub Pages. GitHub Pages cannot run this repository's `/api/rpg/*` Node Functions; use the Vercel deployment URL.
+- If health returns `ai: "BLOCKED_NO_KEY"`, set `OPENAI_API_KEY` for the Vercel Production environment (and Preview if needed), then redeploy. Environment changes do not update an already-built deployment.
+- If health is configured but dialogue still falls back, open Vercel → Project → Logs → Functions and inspect the `rpg_provider_fallback` event's safe `code`. `http_401` means the provider rejected the credential; `http_429` means the project or rate limit refused the request; `network_error`/`timeout` means the function could not complete the request; `response_schema_invalid`, `unsupported_historical_year`, `uncited_historical_person`, and `undisclosed_player_context` mean the game's validation intentionally selected authored dialogue.
 
 ## Runtime notes
 

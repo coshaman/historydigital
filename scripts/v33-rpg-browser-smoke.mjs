@@ -10,8 +10,14 @@ const out = path.join(root, 'artifacts', 'v33', quickMode ? 'V33_RPG_PHASE1_QUIC
 fs.mkdirSync(out, { recursive: true });
 const browser = await chromium.launch({ headless: true, executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe' });
 const report = { schemaVersion: 'V33_RPG_BROWSER_SMOKE_V1', base, viewports: [], failures: [] };
+const goExit = async (page, destination) => {
+  await page.keyboard.press('e');
+  const exitChoice = page.locator('#actions button').filter({ hasText: `문을 지나 ${destination}로` });
+  if (await exitChoice.count()) await exitChoice.first().click();
+  await page.waitForFunction(expected => document.querySelector('#place').textContent === expected, destination);
+};
 
-for (const viewport of [{ width: 1440, height: 900 }, { width: 1366, height: 768 }, { width: 1111, height: 720 }, { width: 390, height: 844 }, { width: 360, height: 800 }]) {
+for (const viewport of (quickMode ? [{ width: 1440, height: 900 }] : [{ width: 1440, height: 900 }, { width: 1366, height: 768 }, { width: 1111, height: 720 }, { width: 390, height: 844 }, { width: 360, height: 800 }])) {
   console.log(`viewport ${viewport.width}x${viewport.height}`);
   const context = await browser.newContext({ viewport });
   const page = await context.newPage();
@@ -87,6 +93,7 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 1366, height: 768
   const page = await context.newPage();
   const errors = [];
   const explorationEvents = [];
+  const nevskyMap = JSON.parse(fs.readFileSync(path.join(root, 'rpg', 'maps', 'nevsky.json'), 'utf8'));
   const currentGameMinute = async () => {
     const match = (await page.locator('#clock').innerText()).match(/^(\d{2}):(\d{2})$/);
     if (!match) throw new Error(`Game clock is not readable: ${match?.[0] ?? 'empty'}`);
@@ -94,21 +101,54 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 1366, height: 768
   };
   const move = async (direction, count = 1) => {
     const before = await currentGameMinute();
-    for (let step = 0; step < count; step++) await page.keyboard.press(direction);
+    for (let step = 0; step < count; step++) { await page.keyboard.press(direction); await page.locator('#save').click(); }
     const after = await currentGameMinute();
     explorationEvents.push({ type: 'move', count: (after - before + 1440) % 1440 });
   };
+  const approachTile = async (targetPosition, targetMapId = 'nevsky', hostId = null) => {
+    const collision = nevskyMap.layers.find(layer => layer.name === 'Collision').data;
+    const steps = [[0, -1, 'ArrowUp'], [1, 0, 'ArrowRight'], [0, 1, 'ArrowDown'], [-1, 0, 'ArrowLeft']];
+    for (let attempt = 0; attempt < 40; attempt++) {
+      const current = await page.evaluate(() => JSON.parse(localStorage.getItem('v33-rpg-save')).state);
+      const actor = current.player.embodiment ? current.hosts[current.player.embodiment] : current.player;
+      const target = hostId ? current.hosts[hostId].position : targetPosition;
+      if (current.world.currentMapId !== targetMapId || (hostId && current.hosts[hostId].mapId !== targetMapId)) throw new Error(`Target left ${targetMapId}`);
+      if (Math.max(Math.abs(actor.position.x - target.x), Math.abs(actor.position.y - target.y)) <= 1) return;
+      const queue = [{ x: actor.position.x, y: actor.position.y, path: [] }], seen = new Set([`${actor.position.x},${actor.position.y}`]);
+      let route = null;
+      while (queue.length && !route) {
+        const tile = queue.shift();
+        for (const [dx, dy, key] of steps) {
+          const x = tile.x + dx, y = tile.y + dy, id = `${x},${y}`;
+          if (x < 0 || y < 0 || x >= nevskyMap.width || y >= nevskyMap.height || collision[y * nevskyMap.width + x] || seen.has(id)) continue;
+          if (Object.entries(current.hosts).some(([otherId, other]) => otherId !== current.player.embodiment && other.historicalAliveAndPresent !== false && other.mapId === targetMapId && other.position.x === x && other.position.y === y)) continue;
+          const nextPath = [...tile.path, key];
+          if (Math.max(Math.abs(x - target.x), Math.abs(y - target.y)) <= 1) { route = nextPath; break; }
+          seen.add(id); queue.push({ x, y, path: nextPath });
+        }
+      }
+      if (!route?.length) throw new Error(`No walkable route to target from ${actor.position.x},${actor.position.y}`);
+      await move(route[0]);
+    }
+    throw new Error(`Could not reach target within 40 player steps`);
+  };
+  const approachHost = hostId => approachTile(null, 'nevsky', hostId);
   const inspect = async () => {
-    await page.keyboard.press('e');
+    await page.locator('#use').click();
   };
   const readSource = async () => {
-    await page.getByRole('button', { name: '원문과 번역 펼치기' }).click();
-    await page.getByText('“호리는 누구죠?”').waitFor();
+    await page.locator('#source-reader').waitFor({ state: 'visible' });
+    await page.locator('#source-reader-passages').getByText('“호리는 누구죠?”').waitFor();
+    await page.locator('#source-reader-complete').click();
     explorationEvents.push({ type: 'read_source' });
   };
   const possess = async hostId => {
+    const hostNames = { courier_pavel: '파벨 안토노프', printer_ekaterina: '예카테리나 벨로바', seamstress_anna: '안나', clerk_alexei: '알렉세이 오를로프' };
+    const inspectChoice = page.locator('#actions button').filter({ hasText: `${hostNames[hostId]} 살펴보기` });
+    if (await inspectChoice.count()) await inspectChoice.first().click();
     await page.getByRole('button', { name: '몸을 빌린다' }).click();
     await page.waitForFunction(() => !document.querySelector('#bodyname').textContent.includes('바깥에서 바라보는 중'));
+    await page.locator('#save').click();
     explorationEvents.push({ type: 'possess', hostId });
   };
   page.on('pageerror', error => errors.push(String(error)));
@@ -119,20 +159,33 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 1366, height: 768
   await move('ArrowLeft', 5);
   await move('ArrowUp', 4);
   await inspect();
-  await page.getByRole('button', { name: '원문과 번역 펼치기' }).waitFor();
+  if (!(await page.locator('#source-reader').isVisible())) {
+    const sourceOption = page.locator('#actions button').filter({ hasText: '자료 읽기' });
+    if (!(await sourceOption.count())) {
+      const observed = await page.evaluate(() => ({ place: document.querySelector('#place').textContent, headline: document.querySelector('#headline').textContent, actions: [...document.querySelectorAll('#actions button')].map(button => button.innerText), record: document.querySelector('#record').textContent }));
+      throw new Error(`Expected the source or its readable menu option after the physical path: ${JSON.stringify(observed)}`);
+    }
+    await sourceOption.first().click();
+  }
+  await page.locator('#source-reader').waitFor({ state: 'visible' });
   explorationEvents.push({ type: 'inspect' });
-  if (!(await page.getByRole('button', { name: '원문과 번역 펼치기' }).count())) {
+  if (!(await page.locator('#source-reader').isVisible())) {
     const observed = await page.evaluate(() => ({ place: document.querySelector('#place').textContent, body: document.querySelector('#bodyname').textContent, headline: document.querySelector('#headline').textContent, text: document.querySelector('#journal-text').textContent, record: document.querySelector('#record').textContent }));
     throw new Error(`Reader action unavailable after physical path: ${JSON.stringify(observed)}; console=${errors.join('; ')}`);
   }
   await readSource();
-  await move('ArrowRight', 3);
-  await move('ArrowDown', 3);
+  await approachHost('courier_pavel');
   await inspect();
+  const pavelChoice = page.locator('#actions button').filter({ hasText: '파벨 안토노프 살펴보기' });
+  if (await pavelChoice.count()) await pavelChoice.first().click();
+  if (!(await page.getByRole('button', { name: '몸을 빌린다' }).count())) {
+    const observed = await page.evaluate(() => ({ place: document.querySelector('#place').textContent, body: document.querySelector('#bodyname').textContent, headline: document.querySelector('#headline').textContent, actions: [...document.querySelectorAll('#actions button')].map(button => button.innerText), record: document.querySelector('#record').textContent }));
+    throw new Error(`Pavel was not in the interaction range after the planned route: ${JSON.stringify(observed)}`);
+  }
   await page.getByRole('button', { name: '몸을 빌린다' }).waitFor();
   explorationEvents.push({ type: 'inspect' });
   await possess('courier_pavel');
-  await move('ArrowRight', 2);
+  await approachTile({ x: 12, y: 16 });
   await inspect();
   await page.getByRole('heading', { name: '돌 틈에 낀 쪽지' }).waitFor();
   explorationEvents.push({ type: 'inspect' });
@@ -143,13 +196,15 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 1366, height: 768
   await page.getByText('네프스키 인쇄소', { exact: true }).first().waitFor();
   explorationEvents.push({ type: 'inspect' }, { type: 'map_transition' });
   await inspect();
+  const ekaterinaChoice = page.locator('#actions button').filter({ hasText: '예카테리나 벨로바 살펴보기' });
+  if (await ekaterinaChoice.count()) await ekaterinaChoice.first().click();
   await page.getByRole('button', { name: '몸을 빌린다' }).waitFor();
   explorationEvents.push({ type: 'inspect' });
   await possess('printer_ekaterina');
   await move('ArrowLeft', 3);
   await move('ArrowUp');
   await inspect();
-  await page.getByRole('button', { name: '원문과 번역 펼치기' }).waitFor();
+  await page.locator('#source-reader').waitFor({ state: 'visible' });
   explorationEvents.push({ type: 'inspect' });
   await readSource();
   const reader = await page.locator('.journal').evaluate(element => ({ scrollHeight: element.scrollHeight, clientHeight: element.clientHeight }));
@@ -181,21 +236,18 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 1366, height: 768
   await page.keyboard.press('ArrowDown');
   for (let step = 0; step < 7; step++) await page.keyboard.press('ArrowLeft');
   for (let step = 0; step < 8; step++) await page.keyboard.press('ArrowUp');
-  await page.keyboard.press('e');
-  await page.waitForFunction(() => document.querySelector('#place').textContent === '관청 접수실');
+  await goExit(page, '관청 접수실');
   await page.keyboard.press('e');
   await page.getByRole('button', { name: '몸을 빌린다' }).click();
   await page.keyboard.press('ArrowRight');
   for (let step = 0; step < 3; step++) await page.keyboard.press('ArrowDown');
-  await page.keyboard.press('e');
-  await page.waitForFunction(() => document.querySelector('#place').textContent === '네프스키 거리');
+  await goExit(page, '네프스키 거리');
   for (let step = 0; step < 12; step++) await page.keyboard.press('ArrowRight');
   await page.keyboard.press('ArrowUp');
   await page.keyboard.press('e');
   await page.getByText('이 몸으로는 들어갈 수 없다').waitFor();
   await page.locator('#release').click();
-  await page.keyboard.press('e');
-  await page.waitForFunction(() => document.querySelector('#place').textContent === '하숙집 안뜰');
+  await goExit(page, '하숙집 안뜰');
   await page.keyboard.press('e');
   await page.getByRole('button', { name: '몸을 빌린다' }).click();
   await page.keyboard.press('ArrowLeft');
@@ -207,14 +259,13 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 1366, height: 768
   await page.screenshot({ path: path.join(out, 'courtyard-rent-1440x900.png') });
   for (let step = 0; step < 4; step++) await page.keyboard.press('ArrowRight');
   for (let step = 0; step < 4; step++) await page.keyboard.press('ArrowDown');
-  await page.keyboard.press('e');
-  await page.waitForFunction(() => document.querySelector('#place').textContent === '네프스키 거리');
+  await goExit(page, '네프스키 거리');
   if (errors.length) throw new Error(`Chancery/courtyard browser errors: ${errors.join('; ')}`);
   report.otherMaps = { chanceryVisit: true, clerkAccess: true, alexeiDeniedCourtyard: true, observerEnteredCourtyard: true, mikhailClueRead: true, mikhailReturnedToStreet: true, errors };
   await context.close();
 }
 await browser.close();
-report.status = report.viewports.length === 5 && report.fullRoute?.choiceResolved && report.otherMaps?.mikhailReturnedToStreet && report.failures.length === 0 ? 'PASS' : 'FAIL';
+report.status = report.viewports.length === (quickMode ? 1 : 5) && report.fullRoute?.choiceResolved && report.otherMaps?.mikhailReturnedToStreet && report.failures.length === 0 ? 'PASS' : 'FAIL';
 fs.writeFileSync(path.join(out, 'BROWSER_SMOKE.json'), `${JSON.stringify(report, null, 2)}\n`);
 console.log(JSON.stringify({ status: report.status, viewports: report.viewports.map(item => ({ viewport: item.viewport, document: item.document, controlsVisible: item.buttons.every(button => button.visible), savedClueRestored: item.savedClueRestored })) }, null, 2));
 if (report.status !== 'PASS') process.exitCode = 1;

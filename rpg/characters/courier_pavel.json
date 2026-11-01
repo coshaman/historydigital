@@ -93,8 +93,8 @@
       "atMinute": 540,
       "mapId": "nevsky",
       "position": {
-        "x": 10,
-        "y": 16
+        "x": 22,
+        "y": 10
       },
       "activityKo": "네프스키 쪽 배달을 시작한다"
     },
@@ -106,6 +106,39 @@
         "y": 10
       },
       "activityKo": "가로등 길목을 지난다"
+    },
+    {
+      "atMinute": 630,
+      "mapId": "printshop",
+      "position": {
+        "x": 10,
+        "y": 13
+      },
+      "activityKo": "봉투를 열지 않고 수취인에게 건넨다",
+      "task": {
+        "id": "PAVEL_DELIVER_SEALED_ENVELOPE_01",
+        "type": "DELIVER",
+        "recipientHostId": "printer_ekaterina",
+        "itemKo": "밀봉 봉투"
+      }
+    },
+    {
+      "atMinute": 660,
+      "mapId": "nevsky",
+      "position": {
+        "x": 23,
+        "y": 10
+      },
+      "activityKo": "빈 가방을 메고 거리로 돌아간다"
+    },
+    {
+      "atMinute": 720,
+      "mapId": "courtyard",
+      "position": {
+        "x": 12,
+        "y": 13
+      },
+      "activityKo": "처마 밑에서 빗물을 털고 잠시 쉰다"
     }
   ],
   "portrait": {

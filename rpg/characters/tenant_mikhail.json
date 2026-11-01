@@ -105,6 +105,24 @@
         "y": 13
       },
       "activityKo": "물을 길으러 우물가로 간다"
+    },
+    {
+      "atMinute": 660,
+      "mapId": "nevsky",
+      "position": {
+        "x": 8,
+        "y": 16
+      },
+      "activityKo": "하루 품을 구할 곳을 살핀다"
+    },
+    {
+      "atMinute": 720,
+      "mapId": "courtyard",
+      "position": {
+        "x": 13,
+        "y": 15
+      },
+      "activityKo": "해 질 무렵 방으로 돌아간다"
     }
   ],
   "portrait": {

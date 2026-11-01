@@ -108,6 +108,24 @@
         "y": 14
       },
       "activityKo": "가로등 쪽 손님을 살핀다"
+    },
+    {
+      "atMinute": 660,
+      "mapId": "printshop",
+      "position": {
+        "x": 8,
+        "y": 15
+      },
+      "activityKo": "팔리지 않은 묶음의 외상값을 맞춘다"
+    },
+    {
+      "atMinute": 720,
+      "mapId": "nevsky",
+      "position": {
+        "x": 25,
+        "y": 16
+      },
+      "activityKo": "저녁 장사 전에 가판으로 돌아간다"
     }
   ],
   "portrait": {

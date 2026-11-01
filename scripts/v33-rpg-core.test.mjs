@@ -388,19 +388,47 @@ test('one literary source can be read by two hosts without sharing their knowled
   assert.equal(state.ledger.filter(entry => entry.sourceId === 'LIT-TURGENEV-KHOR-KALYNYCH-1847').length, 2);
 });
 
-test('unembodied residents follow their local schedule while an embodied host stays under player control', async () => {
+test('unembodied residents follow local schedules by collision-aware steps while embodied hosts stay under player control', async () => {
   const maps = await loadMaps();
   const cards = await Promise.all((await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)));
   let state = createInitialState({ maps, hostCards: cards });
   assert.equal(state.world.clockMinutes, 540);
+  const start = { ...state.hosts.courier_pavel.position };
   const scheduled = advanceWorldTime(state, 60, maps);
   assert.equal(scheduled.world.clockMinutes, 600);
-  assert.deepEqual(scheduled.hosts.courier_pavel.position, { x: 23, y: 10 });
-  assert.equal(scheduled.ledger.at(-1).eventType, 'SCHEDULE_MOVEMENT');
+  assert.equal(scheduled.ledger.at(-1).eventType, 'NPC_SIMULATION');
+  assert.ok(scheduled.ledger.at(-1).moves.some(move => move.hostId === 'courier_pavel'));
+  assert.notDeepEqual(scheduled.hosts.courier_pavel.position, start);
+  assert.ok(scheduled.ledger.at(-1).moves.filter(move => move.hostId === 'courier_pavel').every(move => move.fromMapId !== move.toMapId ? Boolean(move.viaExit) : Math.abs(move.from.x - move.to.x) + Math.abs(move.from.y - move.to.y) === 1));
   state = possessHost(state, 'courier_pavel', maps.nevsky).state;
   const controlled = advanceWorldTime(state, 60, maps);
-  assert.deepEqual(controlled.hosts.courier_pavel.position, { x: 10, y: 16 });
+  assert.deepEqual(controlled.hosts.courier_pavel.position, start);
   assert.ok(controlled.world.clockMinutes > state.world.clockMinutes);
+});
+
+test('offscreen simulation advances independent NPC routines for a full 30 minutes without grid teleports', async () => {
+  const maps = await loadMaps();
+  const cards = await Promise.all((await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)));
+  const state = createInitialState({ maps, hostCards: cards });
+  state.world.clockMinutes = 590;
+  const next = advanceWorldTime(state, 30, maps), simulation = next.ledger.at(-1);
+  assert.equal(next.world.clockMinutes - state.world.clockMinutes, 30);
+  assert.equal(simulation.eventType, 'NPC_SIMULATION');
+  assert.equal(simulation.simulatedMinutes, 30);
+  assert.ok(new Set(simulation.moves.map(move => move.hostId)).size >= 4, 'independent routines should move multiple offscreen actors');
+  assert.ok(simulation.moves.every(move => move.fromMapId !== move.toMapId ? Boolean(move.viaExit) : Math.abs(move.from.x - move.to.x) + Math.abs(move.from.y - move.to.y) === 1));
+  assert.equal(stateHash(advanceWorldTime(state, 30, maps)), stateHash(next), 'same initial state and elapsed time produce the same world state');
+});
+
+test('courier autonomously delivers the sealed envelope only when the recipient is physically reachable', async () => {
+  const maps = await loadMaps();
+  const cards = await Promise.all((await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)));
+  const state = createInitialState({ maps, hostCards: cards }), next = advanceWorldTime(state, 110, maps);
+  const event = next.ledger.find(item => item.eventType === 'NPC_SIMULATION');
+  assert.ok(event.deliveries.some(delivery => delivery.hostId === 'courier_pavel' && delivery.recipientHostId === 'printer_ekaterina' && delivery.itemKo === '밀봉 봉투'));
+  assert.ok(!next.hosts.courier_pavel.inventory.includes('밀봉 봉투'));
+  assert.ok(next.hosts.printer_ekaterina.inventory.includes('밀봉 봉투'));
+  assert.ok(!next.ledger.some(item => item.eventType === 'HISTORICAL_ACTION' && item.actionId?.includes('ENVELOPE')));
 });
 
 test('older version-one saves acquire the world clock and current schedule without losing state', async () => {
@@ -417,7 +445,7 @@ test('older version-one saves acquire the world clock and current schedule witho
   const loaded = loadGame({ saveVersion: 1, checksum: stateHash(legacy), state: legacy }, { maps, hostCards: cards });
   assert.equal(loaded.world.clockMinutes, 540);
   assert.equal(loaded.hosts.courier_pavel.currentActivityKo, '네프스키 쪽 배달을 시작한다');
-  assert.equal(loaded.hosts.courier_pavel.schedule.length, 2);
+  assert.equal(loaded.hosts.courier_pavel.schedule.length, fresh.hosts.courier_pavel.schedule.length);
 });
 
 test('dialogue can be ledgered only for the embodied host and never mutates a quest or hidden score', async () => {
@@ -427,10 +455,12 @@ test('dialogue can be ledgered only for the embodied host and never mutates a qu
   state = possessHost(state, 'courier_pavel', maps.nevsky).state;
   state.hosts.printer_ekaterina.mapId = 'nevsky';
   state.hosts.printer_ekaterina.position = { x: 10, y: 15 };
+  const npcPositions = Object.fromEntries(Object.values(state.hosts).map(host => [host.id, { mapId: host.mapId, position: { ...host.position } }]));
   const tooFar = recordDialogueTurn(state, { hostId: 'clerk_alexei', actorHostId: 'courier_pavel', sceneId: 'V33_TALK_CLERK_ALEXEI' }, maps);
   assert.equal(tooFar.ok, false);
   const recorded = recordDialogueTurn(state, { hostId: 'printer_ekaterina', actorHostId: 'courier_pavel', sceneId: 'V33_TALK_PRINTER_EKATERINA', intentClass: 'SOURCE_REQUEST' }, maps);
   assert.equal(recorded.ok, true);
+  assert.deepEqual(Object.fromEntries(Object.values(recorded.state.hosts).map(host => [host.id, { mapId: host.mapId, position: host.position }])), npcPositions, 'NPC movement pauses during dialogue');
   assert.equal(recorded.state.ledger.at(-1).eventType, 'DIALOGUE_TURN');
   assert.equal(recorded.state.ledger.at(-1).intentClass, 'SOURCE_REQUEST');
   assert.equal(recorded.state.ledger.at(-1).hostId, 'printer_ekaterina');

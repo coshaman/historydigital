@@ -5,8 +5,8 @@ import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
 const { _test: api } = require('../api/rpg/[...path].js');
 
-function invoke(path, body, method = 'POST') {
-  const req = { method, url: path, body, headers: { host: 'game.example', origin: 'https://game.example', 'x-forwarded-host': 'game.example', 'x-forwarded-proto': 'https' } };
+function invoke(path, body, method = 'POST', { origin = 'https://game.example' } = {}) {
+  const req = { method, url: path, body, headers: { host: 'game.example', ...(origin ? { origin } : {}), 'x-forwarded-host': 'game.example', 'x-forwarded-proto': 'https' } };
   const res = {
     headers: {}, statusCode: 200, output: '',
     setHeader(name, value) { this.headers[name] = value; },
@@ -31,4 +31,13 @@ test('Vercel routes reject browser origins different from the request host', asy
   const res = { headers: {}, statusCode: 200, setHeader(name, value) { this.headers[name] = value; }, end(value = '') { this.output = value; } };
   await api.handle(req, res);
   assert.equal(res.statusCode, 403);
+});
+
+test('read-only health probe works from an address bar without weakening game-route origin checks', async () => {
+  const health = await invoke('/api/rpg/health', undefined, 'GET', { origin: '' });
+  assert.equal(health.status, 200);
+  assert.equal(health.body.status, 'ok');
+  assert.ok(['configured', 'BLOCKED_NO_KEY'].includes(health.body.ai));
+  const start = await invoke('/api/rpg/session/start', {}, 'POST', { origin: '' });
+  assert.equal(start.status, 403);
 });

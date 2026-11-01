@@ -45,6 +45,14 @@
     "상급자의 결재를 대신하지 않는다"
   ],
   "speechRhythm": "짧고 절차를 확인한 뒤 말한다",
+  "worldview": {
+    "status": "fictional_character_design",
+    "stanceKo": "접수와 결재의 선을 지키면 책임이 한 사람에게 몰리는 일을 줄일 수 있다고 믿는다. 문서의 순서를 확인하는 일은 판단을 미루는 핑계가 아니라, 누가 무엇을 결정했는지 남기는 방법이라고 여긴다.",
+    "tensionKo": "절차가 사람을 보호할 수 있다는 믿음과, 절차 밖에 놓인 사람은 목소리를 잃는다는 불편함이 함께 있다.",
+    "blindSpotKo": "장부에 남지 않는 노동과 사정은 보이지 않기 쉬워, 서류가 정돈되면 문제가 해결된 듯 여길 때가 있다.",
+    "designBasisKo": "허구 관청 서기 캐릭터 설계이며 실제 관료나 역사 인물의 견해·권한을 대신하지 않는다.",
+    "sceneAnchorIds": ["PRINTSHOP_PROOF_1847", "OBJ-WS-PETRASHEVSKY-REPORT-1849"]
+  },
   "lexicon": [
     "접수",
     "원본",
@@ -106,6 +114,33 @@
         "y": 13
       },
       "activityKo": "안쪽 책장에 서류를 옮긴다"
+    },
+    {
+      "atMinute": 660,
+      "mapId": "chancery",
+      "position": {
+        "x": 17,
+        "y": 12
+      },
+      "activityKo": "접수부와 원본을 대조한다"
+    },
+    {
+      "atMinute": 720,
+      "mapId": "nevsky",
+      "position": {
+        "x": 5,
+        "y": 11
+      },
+      "activityKo": "점심 뒤 인쇄소로 갈 길을 살핀다"
+    },
+    {
+      "atMinute": 780,
+      "mapId": "chancery",
+      "position": {
+        "x": 12,
+        "y": 15
+      },
+      "activityKo": "퇴근 전 접수 수를 다시 센다"
     }
   ],
   "portrait": {
