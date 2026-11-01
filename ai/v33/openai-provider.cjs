@@ -26,6 +26,7 @@ function createResponsesProvider({ apiKey, fetchImpl = fetch, endpoint = 'https:
       } catch (error) {
         if (error?.name === 'AbortError') { provider.lastFailureCode = 'timeout'; throw new Error('provider request timed out'); }
         if (error instanceof SyntaxError) { provider.lastFailureCode = 'malformed_json'; throw new Error('provider returned malformed structured output'); }
+        if (!provider.lastFailureCode) provider.lastFailureCode = 'network_error';
         throw error;
       } finally { clearTimeout(timer); }
     },

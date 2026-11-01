@@ -39,7 +39,7 @@ To validate a real provider response, start the local server with `.env.local` l
 npm run v33-live-ai-smoke
 ```
 
-The smoke makes one short dialogue-generation request, prints only pass/fail and a safe error category, and never prints the key or dialogue. It fails if the API falls back to authored text. A `provider_response_validation` result means the provider returned parseable output, but the game rejected it against its response schema or historical/context safeguards. The local smoke now reports which gate rejected it (`response_schema_invalid`, `unsupported_historical_year`, `uncited_historical_person`, or `undisclosed_player_context`). Provider HTTP failures, malformed JSON, and timeouts have separate categories.
+The smoke makes one short dialogue-generation request, prints only pass/fail and a safe error category, and never prints the key or dialogue. It fails if the API falls back to authored text. The previous generic `provider_response_validation` code did not distinguish a network failure from a response rejected by the game's schema or historical/context safeguards, so that run cannot identify the exact cause. The local smoke now reports safe categories such as `network_error`, `http_401`, `response_schema_invalid`, `unsupported_historical_year`, `uncited_historical_person`, or `undisclosed_player_context`; it never prints prompt or response text. In Vercel, inspect the Function runtime logs for the `rpg_provider_fallback` event and its code.
 
 ## Runtime notes
 

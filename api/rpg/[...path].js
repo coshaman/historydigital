@@ -82,7 +82,10 @@ async function handle(req, res) {
   const sessionIdToken = isDialogue ? `${capsule.id}.${createHmac('sha256', secret).update(capsule.id).digest('base64url')}` : null;
   const serviceBody = isDialogue ? { ...req.body, sessionToken: sessionIdToken } : req.body;
   const result = await service.handle({ method: req.method, path: route, origin, body: serviceBody });
-  if (process.env.VERCEL !== '1' && provider?.lastFailureCode) result.headers['x-v33-provider-result'] = provider.lastFailureCode;
+  if (provider?.lastFailureCode) {
+    if (process.env.VERCEL === '1') console.warn(JSON.stringify({ event: 'rpg_provider_fallback', code: provider.lastFailureCode }));
+    else result.headers['x-v33-provider-result'] = provider.lastFailureCode;
+  }
   if (result.status === 200 || result.status === 201) {
     const innerToken = isDialogue ? sessionIdToken : result.body.sessionToken;
     const id = readToken(innerToken, secret);

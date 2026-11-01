@@ -1,6 +1,6 @@
 {
   "schema": "V34_QUEST_ONBOARDING_REGISTRY_V1",
-  "generatedAt": "2026-11-01T11:38:27.697Z",
+  "generatedAt": "2026-11-01T11:41:37.110Z",
   "derivedStatePolicy": "Quest state remains in the game state. This guide derives its current step from date, chapter, host access, knowledge, map exits, and collision tiles.",
   "tutorial": [
     {

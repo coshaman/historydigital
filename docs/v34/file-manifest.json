@@ -1,16 +1,16 @@
 {
   "schema": "V34_EVIDENCE_FILE_HASHES_V1",
-  "generatedAt": "2026-11-01T11:38:27.787Z",
+  "generatedAt": "2026-11-01T11:41:37.200Z",
   "files": [
     {
       "path": "README.md",
-      "bytes": 5017,
-      "sha256": "d3ac53f249f753ba2430dd7454c9e680da12f2ee9c31ef721d185e19919d7ca7"
+      "bytes": 5151,
+      "sha256": "32f290048aedc27a1da05ce27fbabd1d794a8cd46e0fbc3dae5016a4873d9198"
     },
     {
       "path": "api/rpg/[...path].js",
-      "bytes": 4996,
-      "sha256": "c46259cd300c2dc9cc9ed2d4756a286d5b0b0ab692380a792a7d7c19cdb5e481"
+      "bytes": 5115,
+      "sha256": "eb14732e5bdbf932c5a4b9759aa1cb397c2fe37f4f0167d36caf503d7904b960"
     },
     {
       "path": "vercel.json",
@@ -64,8 +64,8 @@
     },
     {
       "path": "scripts/v33-ai-runtime.test.mjs",
-      "bytes": 39136,
-      "sha256": "cf955b07d33ef00504c753e3d07313d22664a409ea438e5071f60ad24caaef4e"
+      "bytes": 39535,
+      "sha256": "4e35b7d408560fe9e5a6261b6be5d2ddef980f2cbdf6da1248ab524ccc7887b1"
     },
     {
       "path": "scripts/v33-authored-dialogue.test.mjs",
@@ -314,13 +314,13 @@
     },
     {
       "path": "docs/v34/SECURITY_AND_PROVENANCE.md",
-      "bytes": 1951,
-      "sha256": "fbaf6be2eb46be0ea897460e08a0e57fafaad66725654616e1ddda5d2692e0d5"
+      "bytes": 1929,
+      "sha256": "170b267c482beec5c40b63df150193202e7ea83315fba879a6823d63e8a42440"
     },
     {
       "path": "docs/v34/tutorial-quest-registry.json",
       "bytes": 13362,
-      "sha256": "e3728498870ae4c10f77320daac10f372c8a0a1b6162a28f252e14d9b14971c6"
+      "sha256": "1d1923e77d4855afc32e83f42d14b0dc5b222d14d4a62fbf4df8f887e283511d"
     },
     {
       "path": "docs/v34/acceptance-run.log",

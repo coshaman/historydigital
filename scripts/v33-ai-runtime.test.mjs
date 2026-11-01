@@ -397,3 +397,9 @@ test('429, 500, and timeout from the provider use authored fallback without expo
     });
   }
 });
+
+test('Responses provider classifies transport failures without exposing the thrown error', async () => {
+  const provider = createResponsesProvider({ apiKey: 'test-key', fetchImpl: async () => { throw new TypeError('network details must stay private'); } });
+  await assert.rejects(provider.generate({ input: {}, format: {} }));
+  assert.equal(provider.lastFailureCode, 'network_error');
+});
