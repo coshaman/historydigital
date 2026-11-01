@@ -26,17 +26,12 @@ try {
     page.setDefaultTimeout(8000);
     const errors = [];
     page.on('pageerror', error => errors.push(String(error)));
-    await page.route('**/rpg/ai/config.js', route => route.fulfill({
-      status: 200,
-      contentType: 'application/javascript',
-      body: `window.V33_RPG_AI_API_BASE_URL = 'https://worker.test';`,
-    }));
-    await page.route('https://worker.test/api/rpg/session/start', async route => {
+    await page.route('**/api/rpg/session/start', async route => {
       const body = JSON.parse(route.request().postData()); sessionStarts.push(body);
       sessionTokenNumber += 1;
       await route.fulfill({ status: 201, contentType: 'application/json', body: JSON.stringify({ sessionToken: `mock-session-${sessionTokenNumber}`, mode: 'AI' }) });
     });
-    await page.route('https://worker.test/api/rpg/dialogue', async route => {
+    await page.route('**/api/rpg/dialogue', async route => {
       const body = JSON.parse(route.request().postData()); dialogueRequests.push(body);
       if (body.playerInput === '응답이 늦게 도착합니다.') await new Promise(resolve => { releaseSlowDialogue = resolve; });
       const line = body.playerInput === '응답이 늦게 도착합니다.' ? 'stale response must not appear' : 'mocked ai line';

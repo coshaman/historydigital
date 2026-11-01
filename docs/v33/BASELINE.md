@@ -39,3 +39,6 @@ Date: 2026-10-29
 - 1847–1849 Petersburg is the active timeline; earlier source material is only shown with an explicit date/context. Famous historical outcomes remain immutable.
 - Existing source records are reused where fit. New period details and asset motifs need source IDs/URLs in the RPG provenance manifest. Public-domain underlying artwork does not automatically grant rights to repository scans.
 - The local-root `AGENTS.md` DoD continues to apply: source drawer, evidence key, five exact endings, mobile/reduced-motion and source-first outcomes must remain reachable through the preserved Chancery entry.
+# Architecture status — 2026-11-01
+
+This baseline records the earlier design. The active deployment is now Vercel-only; see the repository [README](../../README.md) and [deployment notes](./DEPLOYMENT.md).

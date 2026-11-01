@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node server.mjs",
+    "start": "node --env-file-if-exists=.env.local server.mjs",
     "build": "node scripts/static-integrity-check.mjs",
     "real-build": "node scripts/real-build.mjs",
     "real-build-browser": "npm run real-build && node scripts/real-build-browser-smoke.mjs",
@@ -253,16 +253,18 @@
     "v33-renderer-load-test": "node --test scripts/v33-renderer-load-test.mjs scripts/v33-world-presentation.test.mjs",
     "v33-exploration-coverage-test": "node --test scripts/v33-exploration-coverage.test.mjs",
     "v33-ai-test": "node --test scripts/v33-ai-runtime.test.mjs",
+    "v33-vercel-api-test": "node --test scripts/v33-vercel-api.test.mjs",
     "v33-ending-route-matrix": "node scripts/v33-ending-route-matrix.mjs",
     "v33-ending-browser": "node scripts/v33-ending-browser-smoke.mjs",
     "v33-campaign-browser": "node scripts/v33-campaign-browser-acceptance.mjs",
     "build:v33": "node scripts/v33-static-build.mjs",
+    "v33-live-ai-smoke": "node --env-file-if-exists=.env.local scripts/v33-live-ai-smoke.mjs",
     "v33-static-build-config-test": "node --test scripts/v33-static-build-config.test.mjs",
     "v33-rpg-browser": "node scripts/v33-rpg-browser-smoke.mjs",
     "v33-overcoat-browser": "node scripts/v33-browser-acceptance.mjs --overcoat-only",
     "v33-browser-acceptance": "node scripts/v33-browser-acceptance.mjs",
     "v33-player-presentation-test": "node --test scripts/v33-player-presentation.test.mjs scripts/v33-authored-dialogue.test.mjs scripts/v33-quest-presentation.test.mjs",
-    "acceptance:v33": "npm run v33-player-presentation-test && npm run v33-rpg-core-test && npm run v33-street-material-test && npm run v33-learning-life-test && npm run v33-http-server-test && npm run v33-renderer-load-test && npm run v33-exploration-coverage-test && npm run v33-ai-test && npm run v33-historical-claim-ledger-test && npm run v33-historical-audit && npm run v33-image-audit && npm run v33-ending-route-matrix && npm run v33-static-build-config-test && npm run build:v33 && npm run build && npm run lint && npm run check && npm test && npm run v33-browser-acceptance",
+    "acceptance:v33": "npm run v33-player-presentation-test && npm run v33-rpg-core-test && npm run v33-street-material-test && npm run v33-learning-life-test && npm run v33-http-server-test && npm run v33-renderer-load-test && npm run v33-exploration-coverage-test && npm run v33-ai-test && npm run v33-vercel-api-test && npm run v33-historical-claim-ledger-test && npm run v33-historical-audit && npm run v33-image-audit && npm run v33-ending-route-matrix && npm run v33-static-build-config-test && npm run build:v33 && npm run build && npm run lint && npm run check && npm test && npm run v33-browser-acceptance",
   "verify": "npm run v27-verify && npm run build && npm run lint && npm run check && npm run audit && npm run test && npm run perf && npm run mobile && npm run source-audit && npm run gltf-audit && npm run placeholder-audit && npm run corpus-audit && npm run case-content-audit && npm run ending-epilogue-audit && npm run phase2-sim && npm run ending-sim && npm run korean-copy-lint && npm run korean-dialogue-review && npm run desk-scene-audit && npm run source-interaction-audit && npm run ui-slop-audit && npm run copy-clarity && npm run authored-dialogue-audit && npm run runtime-dialogue-audit && npm run playtime-audit && npm run audio-audit && npm run browser-qa && npm run dialogue-plan-audit && npm run v5-viewport && npm run v5-translation && npm run v5-performance && npm run v21-build-provenance && npm run v21-runtime-manifest-parity && npm run v21-readability-qa && npm run v23-ui-acceptance && npm run v23-choice-replay && npm run v22-periodical-actual-content"
   },
   "devDependencies": {

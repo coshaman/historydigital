@@ -93,3 +93,6 @@ Updated 2026-10-30 after browser verification of the circle, exam, campaign, end
 - `artifacts/v33/INTERPERSONAL_DIALOGUE/`
 - `docs/v33/VERIFICATION_2026-10-30.md`
 - `docs/v33/DEPLOYMENT.md`
+# Current deployment note — 2026-11-01
+
+This page's dated entries below document earlier builds. The active production target is Vercel: static assets under `dist-v33/` plus the root `api/rpg/[...path].js` Node Function. Provider setup is documented in the repository [README](../../README.md). The previous external Worker and GitHub Pages deployment files have been removed.

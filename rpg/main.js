@@ -40,10 +40,10 @@ const $ = selector => document.querySelector(selector);
 let lastMoveAt = 0, renderFrame = null, renderTimer = null, activeDialogueHost = null, activeDialogueKey = null, activeDialogueController = null, dialogueGeneration = 0, dialogueRequestPending = false;
 const dialogueSessions = new Map(), dialogueTranscripts = new Map();
 const heardTopics = new Map();
-const hasLiveDialogue = key => aiBaseUrl && dialogueSessions.get(key)?.token && !['BLOCKED_NO_KEY', 'BLOCKED_LIMIT', 'AUTHORED'].includes(dialogueSessions.get(key)?.mode);
+const hasLiveDialogue = key => dialogueSessions.get(key)?.token && !['BLOCKED_NO_KEY', 'BLOCKED_LIMIT', 'AUTHORED'].includes(dialogueSessions.get(key)?.mode);
 const dialogueKey = (actorHostId, speakerHostId) => `${actorHostId}::${speakerHostId}`;
 const dialogueStorageKey = key => `v33-rpg-session:${key}`;
-const aiBaseUrl = String(window.V33_RPG_AI_API_BASE_URL ?? '').replace(/\/$/, '');
+const aiBaseUrl = '';
 function learningActionButton(label, run, subcopy = '') {
   const button = document.createElement('button'); button.type = 'button'; button.textContent = label;
   if (subcopy) { const note = document.createElement('small'); note.textContent = subcopy; button.append(note); }
@@ -590,7 +590,7 @@ async function startConversation(card) {
   dialogueRequestPending = false;
   activeDialogueHost = card.id; activeDialogueKey = key; updateHud();
   let session = dialogueSessions.get(key);
-  if (!session && aiBaseUrl) {
+  if (!session) {
     showConversation(card, '대화를 준비하고 있다…', [], '서버 연결을 확인하는 중');
     const controller = new AbortController(); activeDialogueController = controller;
     const timer = setTimeout(() => controller.abort(), 8000);
@@ -640,6 +640,10 @@ async function sendConversation(card, playerText, replyId = null) {
       }
       const data = await response.json(), candidate = data.turn;
       if (candidate?.sceneId !== aiScenes.sessions[card.id].sceneId || !Array.isArray(candidate.beats) || candidate.beats.length < 1 || candidate.beats.length > 2 || !candidate.beats.every(beat => beat && [card.id, 'NARRATION'].includes(beat.speakerId) && typeof beat.textKo === 'string' && beat.textKo.length <= 420) || !Array.isArray(candidate.suggestedReplies) || candidate.suggestedReplies.length < 2 || candidate.suggestedReplies.length > 3 || !candidate.suggestedReplies.every(reply => reply && typeof reply.textKo === 'string' && reply.textKo.length <= 80)) throw new Error('invalid dialogue response');
+      if (data.sessionToken) {
+        session.token = data.sessionToken;
+        sessionStorage.setItem(dialogueStorageKey(key), session.token);
+      }
       turn = data.fallback ? null : candidate; fallbackReason = data.fallback ? data.mode : '';
     } catch { fallbackReason ||= '연결이 늦어 오프라인 대사로 이어간다'; }
     finally {

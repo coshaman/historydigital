@@ -31,3 +31,6 @@
 - Clean extraction: the extracted archive passed `npm run acceptance:v33`, including browser routes for all five endings. The local npm cache did not contain `three@0.180.0`, so the acceptance used the already-installed locked dependencies copied into the extraction; no source files were copied from outside the archive.
 - Source-tree and extracted-copy runs both passed `npm run acceptance:v33` after adding the 24th mixed action vector.
 - Browser captures and machine-readable acceptance reports are included under `artifacts/v33/`.
+# Superseded deployment note — 2026-11-01
+
+The release-limit notes below describe the state at the time of the 2026-10-30 audit. The active Vercel-only setup and local API verification are documented in the repository [README](../../README.md) and current [deployment notes](./DEPLOYMENT.md); the old Worker setup guide has been removed.
