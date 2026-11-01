@@ -1,0 +1,402 @@
+{
+  "schema": "V34_QUEST_ONBOARDING_REGISTRY_V1",
+  "generatedAt": "2026-11-01T11:00:28.401Z",
+  "derivedStatePolicy": "Quest state remains in the game state. This guide derives its current step from date, chapter, host access, knowledge, map exits, and collision tiles.",
+  "tutorial": [
+    {
+      "index": 1,
+      "move": "다가가기",
+      "instruction": "먼저 가까운 사람에게 다가가 보세요. 이미 곁에 있으면 바로 살펴보기를 눌러도 됩니다."
+    },
+    {
+      "index": 2,
+      "move": "살펴보기",
+      "instruction": "사람 가까이에서 E 또는 살펴보기를 누르면 그 사람의 사정과 몸을 빌리는 선택이 나옵니다."
+    },
+    {
+      "index": 3,
+      "move": "빙의",
+      "instruction": "몸을 빌리면 그 사람의 자리와 아는 것이 적용됩니다. 아래 목표에서 지금 할 일을 확인하세요."
+    },
+    {
+      "index": 4,
+      "move": "수첩 열기",
+      "instruction": "J 또는 수첩 열기로 해야 할 일, 가진 것, 읽은 자료를 나누어 볼 수 있습니다."
+    },
+    {
+      "index": 5,
+      "move": "수첩 닫기",
+      "instruction": "해야 할 일을 읽었으면 수첩을 닫으세요. 필요할 때 목적지를 표시할 수 있습니다."
+    },
+    {
+      "index": 6,
+      "move": "자료 읽기",
+      "instruction": "표시된 곳에 가서 실제 문서나 물건을 살펴보세요. 조사와 선택이 기록되어야 다음 단계로 넘어갑니다."
+    },
+    {
+      "index": 7,
+      "move": "대화하기",
+      "instruction": "사람 가까이에서 말 걸기를 누르세요. 선택지는 빠른 대답이고, 직접 입력은 원하는 말입니다."
+    },
+    {
+      "index": 8,
+      "move": "대화 마치기",
+      "instruction": "대화를 마치면 현장으로 돌아와 갱신된 목표를 확인하세요. 이제 길을 따라 계속할 수 있습니다."
+    }
+  ],
+  "dialogueHosts": [
+    {
+      "id": "clerk_alexei",
+      "nameKo": "알렉세이 오를로프",
+      "startMapId": "chancery",
+      "allowedMaps": [
+        "nevsky",
+        "printshop",
+        "chancery"
+      ]
+    },
+    {
+      "id": "printer_ekaterina",
+      "nameKo": "예카테리나 벨로바",
+      "startMapId": "printshop",
+      "allowedMaps": [
+        "nevsky",
+        "printshop",
+        "courtyard"
+      ]
+    },
+    {
+      "id": "courier_pavel",
+      "nameKo": "파벨 안토노프",
+      "startMapId": "nevsky",
+      "allowedMaps": [
+        "nevsky",
+        "printshop",
+        "courtyard"
+      ]
+    },
+    {
+      "id": "seamstress_anna",
+      "nameKo": "안나",
+      "startMapId": "nevsky",
+      "allowedMaps": [
+        "nevsky",
+        "courtyard",
+        "printshop"
+      ]
+    },
+    {
+      "id": "tenant_mikhail",
+      "nameKo": "미하일",
+      "startMapId": "courtyard",
+      "allowedMaps": [
+        "nevsky",
+        "courtyard"
+      ]
+    },
+    {
+      "id": "bookseller_lev",
+      "nameKo": "레프",
+      "startMapId": "nevsky",
+      "allowedMaps": [
+        "nevsky",
+        "printshop",
+        "courtyard"
+      ]
+    },
+    {
+      "id": "nekrasov_reconstruction",
+      "nameKo": "니콜라이 네크라소프",
+      "startMapId": "printshop",
+      "allowedMaps": [
+        "printshop",
+        "nevsky"
+      ]
+    },
+    {
+      "id": "literary_chichikov",
+      "nameKo": "파벨 이바노비치 치치코프",
+      "startMapId": "dead-souls",
+      "allowedMaps": [
+        "dead-souls"
+      ]
+    },
+    {
+      "id": "literary_akaky",
+      "nameKo": "아카키 아카키예비치 바슈마치킨",
+      "startMapId": "overcoat",
+      "allowedMaps": [
+        "overcoat"
+      ]
+    },
+    {
+      "id": "literary_petrovich",
+      "nameKo": "페트로비치",
+      "startMapId": "overcoat",
+      "allowedMaps": [
+        "overcoat"
+      ]
+    }
+  ],
+  "quests": [
+    {
+      "id": "PRINTSHOP_PROOF_1847",
+      "titleKo": "교정쇄의 행선지",
+      "date": "1847-06-01",
+      "chapterId": "V33_1847_PRINT",
+      "entry": {
+        "mapId": "printshop",
+        "objectId": 20,
+        "requiredHostId": "printer_ekaterina"
+      },
+      "actions": [
+        {
+          "id": "RETURN_MANUSCRIPT",
+          "labelKo": "교정쇄 사본을 편집실로 돌려보낸다",
+          "hostIds": [
+            "printer_ekaterina"
+          ],
+          "hostNamesKo": [
+            "예카테리나 벨로바"
+          ],
+          "requiredKnowledgeId": null,
+          "immediateSubcopyKo": "편집실 직원에게 보입니다 · 작업 전달표에 남습니다 · 사본이 작업장을 떠나고 전달이 늦어질 수 있습니다"
+        },
+        {
+          "id": "HOLD_FOR_CORRECTION",
+          "labelKo": "확인할 문장에 표시하고 작업대에 보류한다",
+          "hostIds": [
+            "printer_ekaterina"
+          ],
+          "hostNamesKo": [
+            "예카테리나 벨로바"
+          ],
+          "requiredKnowledgeId": null,
+          "immediateSubcopyKo": "가까운 동료에게 보입니다 · 공식 장부에는 남지 않고 작업장에 머뭅니다 · 마감이 늦어질 수 있습니다"
+        },
+        {
+          "id": "ASK_FOR_SOURCE",
+          "labelKo": "인쇄된 원문과 대조한 뒤 결정한다",
+          "hostIds": [
+            "printer_ekaterina",
+            "seamstress_anna"
+          ],
+          "hostNamesKo": [
+            "예카테리나 벨로바",
+            "안나"
+          ],
+          "requiredKnowledgeId": "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+          "immediateSubcopyKo": "작업장 동료가 볼 수 있습니다 · 공식 장부가 아닌 대조 메모에 남습니다 · 사본은 남고 결정이 늦어집니다"
+        }
+      ]
+    },
+    {
+      "id": "PUBLIC_DISCOURSE_1848",
+      "titleKo": "늦어진 소식의 행선지",
+      "date": "1848-01-01",
+      "chapterId": "V33_1848_PUBLIC",
+      "entry": {
+        "mapId": "printshop",
+        "objectId": 26
+      },
+      "actions": [
+        {
+          "id": "CARRY_NOTICE_ABROAD",
+          "labelKo": "공고 사본을 지방행 우편 묶음에 넣는다",
+          "hostIds": [
+            "courier_pavel"
+          ],
+          "hostNamesKo": [
+            "파벨 안토노프"
+          ],
+          "requiredKnowledgeId": "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+          "immediateSubcopyKo": "포장 담당자가 봅니다 · 발송 메모에 남습니다 · 사본이 작업장을 떠나며 발송비 4코페이카와 지연 위험이 생깁니다"
+        },
+        {
+          "id": "KEEP_LOCAL_READING",
+          "labelKo": "가게 안에서 공고를 함께 읽는다",
+          "hostIds": [
+            "printer_ekaterina",
+            "bookseller_lev",
+            "nekrasov_reconstruction"
+          ],
+          "hostNamesKo": [
+            "예카테리나 벨로바",
+            "레프",
+            "니콜라이 네크라소프"
+          ],
+          "requiredKnowledgeId": null,
+          "immediateSubcopyKo": "가게에 있는 독자들이 듣습니다 · 사적인 메모에 남습니다 · 더 넓게 퍼지지는 않습니다"
+        },
+        {
+          "id": "HOLD_NOTICE",
+          "labelKo": "내용을 확인할 때까지 묶음에 보관한다",
+          "hostIds": [
+            "printer_ekaterina",
+            "bookseller_lev",
+            "nekrasov_reconstruction"
+          ],
+          "hostNamesKo": [
+            "예카테리나 벨로바",
+            "레프",
+            "니콜라이 네크라소프"
+          ],
+          "requiredKnowledgeId": null,
+          "immediateSubcopyKo": "작업장 안에서만 보입니다 · 보관 메모에 남습니다 · 발송이 늦어질 수 있습니다"
+        }
+      ]
+    },
+    {
+      "id": "CIRCLE_INVESTIGATION_1849",
+      "titleKo": "수사 문서와 남겨진 이름",
+      "date": "1849-04-22",
+      "chapterId": "V33_1849_CIRCLE",
+      "entry": {
+        "mapId": "chancery",
+        "objectId": 32
+      },
+      "actions": [
+        {
+          "id": "FILE_OFFICIAL_REPORT",
+          "labelKo": "보고서의 문구와 출처를 함께 접수한다",
+          "hostIds": [
+            "clerk_alexei"
+          ],
+          "hostNamesKo": [
+            "알렉세이 오를로프"
+          ],
+          "requiredKnowledgeId": "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+          "immediateSubcopyKo": "접수 담당자와 상급자가 봅니다 · 공식 등록부에 남습니다 · 조사기관의 주장을 기록하는 책임을 집니다"
+        },
+        {
+          "id": "REFUSE_NAMING",
+          "labelKo": "확인되지 않은 이름은 옮기지 않는다",
+          "hostIds": [
+            "clerk_alexei",
+            "courier_pavel"
+          ],
+          "hostNamesKo": [
+            "알렉세이 오를로프",
+            "파벨 안토노프"
+          ],
+          "requiredKnowledgeId": null,
+          "immediateSubcopyKo": "직속 담당자는 알 수 있습니다 · 비공식 보류 메모에 남습니다 · 전달 지연과 문책 위험을 감수합니다"
+        }
+      ]
+    },
+    {
+      "id": "CIRCLE_LETTER_1849_MAY",
+      "titleKo": "5월 5일에 도착한 비밀 편지",
+      "date": "1849-05-05",
+      "chapterId": "V33_1849_CIRCLE",
+      "entry": {
+        "mapId": "chancery",
+        "objectId": 33
+      },
+      "actions": [
+        {
+          "id": "PRESERVE_LETTER",
+          "labelKo": "편지의 작성자와 전달 경로를 함께 보존한다",
+          "hostIds": [
+            "clerk_alexei",
+            "courier_pavel"
+          ],
+          "hostNamesKo": [
+            "알렉세이 오를로프",
+            "파벨 안토노프"
+          ],
+          "requiredKnowledgeId": "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849",
+          "immediateSubcopyKo": "문서 담당자와 상급자가 보게 됩니다 · 사본 대장에 남습니다 · 비밀 편지를 다루는 책임을 집니다"
+        },
+        {
+          "id": "REFUSE_NAMING",
+          "labelKo": "편지 속 이름을 새 장부에 옮기지 않는다",
+          "hostIds": [
+            "clerk_alexei",
+            "courier_pavel"
+          ],
+          "hostNamesKo": [
+            "알렉세이 오를로프",
+            "파벨 안토노프"
+          ],
+          "requiredKnowledgeId": null,
+          "immediateSubcopyKo": "직속 담당자는 알 수 있습니다 · 비공식 보류 메모에 남습니다 · 전달 지연과 문책 위험을 감수합니다"
+        }
+      ]
+    },
+    {
+      "id": "LITERARY_DEAD_SOULS_1842",
+      "titleKo": "여관 장부에 남기는 이름",
+      "date": "1842-01-01",
+      "chapterId": "LITERARY_DEAD_SOULS",
+      "entry": {
+        "mapId": "dead-souls",
+        "objectId": 81,
+        "requiredHostId": "literary_chichikov"
+      },
+      "actions": [
+        {
+          "id": "COPY_CANONICAL_ENTRY",
+          "labelKo": "책에 적힌 관등과 용무를 그대로 옮긴다",
+          "hostIds": [
+            "literary_chichikov"
+          ],
+          "hostNamesKo": [
+            "파벨 이바노비치 치치코프"
+          ],
+          "requiredKnowledgeId": "LIT-GOGOL-DEAD-SOULS-1842",
+          "immediateSubcopyKo": "여관 종업원이 읽습니다 · 여관 장부에 남습니다 · 별도 메모는 보태지 않습니다"
+        },
+        {
+          "id": "ADD_PRIVATE_MARGIN",
+          "labelKo": "장부를 옮겨 적고 여백에 개인 메모를 남긴다",
+          "hostIds": [
+            "literary_chichikov"
+          ],
+          "hostNamesKo": [
+            "파벨 이바노비치 치치코프"
+          ],
+          "requiredKnowledgeId": "LIT-GOGOL-DEAD-SOULS-1842",
+          "immediateSubcopyKo": "여관 종업원도 봅니다 · 사본 여백에 남습니다 · 장부 내용과 개인 메모가 나란히 보입니다"
+        }
+      ]
+    },
+    {
+      "id": "LITERARY_OVERCOAT_1842",
+      "titleKo": "외투를 고칠 수 있을까",
+      "date": "1842-01-01",
+      "chapterId": "LITERARY_OVERCOAT",
+      "entry": {
+        "mapId": "overcoat",
+        "objectId": 81,
+        "requiredHostId": "literary_akaky"
+      },
+      "actions": [
+        {
+          "id": "RECORD_CANONICAL_REFUSAL",
+          "labelKo": "페트로비치의 수선 불가 판정을 그대로 기록한다",
+          "hostIds": [
+            "literary_akaky"
+          ],
+          "hostNamesKo": [
+            "아카키 아카키예비치 바슈마치킨"
+          ],
+          "requiredKnowledgeId": "LIT-GOGOL-OVERCOAT-1842",
+          "immediateSubcopyKo": "재단사와 사본을 읽는 사람에게 보입니다 · 장면 기록에 남습니다 · 판정에 덧붙이는 메모는 없습니다"
+        },
+        {
+          "id": "ANNOTATE_REPAIR_COST",
+          "labelKo": "수선할 수 없는 이유와 새 외투 비용을 여백에 적는다",
+          "hostIds": [
+            "literary_akaky"
+          ],
+          "hostNamesKo": [
+            "아카키 아카키예비치 바슈마치킨"
+          ],
+          "requiredKnowledgeId": "LIT-GOGOL-OVERCOAT-1842",
+          "immediateSubcopyKo": "재단사에게 보이고 사본의 여백에 남습니다 · 겉감과 안감의 상태를 함께 적습니다 · 수선 판정의 근거가 구체적으로 드러납니다"
+        }
+      ]
+    }
+  ]
+}

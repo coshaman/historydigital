@@ -47,3 +47,58 @@ body.ending-active .game-shell{visibility:hidden}
 body.learning-active{overflow:hidden}body.learning-active .game-shell{visibility:hidden}
 @media(max-width:620px){.learning-screen{place-items:start center;padding:8px}.learning-document{max-height:calc(100dvh - 16px);padding:20px 16px}.learning-document-head,.learning-document-foot{align-items:flex-start}.learning-document-foot{flex-direction:column}.learning-controls{display:grid;grid-template-columns:1fr}.learning-controls button{max-width:none;width:100%}.ending-life-episode{padding:16px}.ending-life-controls{display:grid;grid-template-columns:1fr}.ending-life-controls button{min-height:42px}}
 @media(prefers-reduced-motion:reduce){.learning-screen *,.ending-life-section *{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+.mission-tracker{display:grid;gap:5px;margin:0 0 9px;padding:10px 12px;background:#30241b;border:1px solid #8a6b43;border-left:4px solid #c49c62;color:#f0e2c3}
+.mission-top,.mission-controls{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.mission-top{font:12px 'IBM Plex Mono',monospace;color:#d2b780}
+.mission-tracker h2{margin:0;font-size:19px;line-height:1.35}
+.mission-tracker p{font-size:16px;line-height:1.45;max-width:100%;overflow-wrap:anywhere}
+.mission-tracker #mission-action{margin:0;font-weight:600;color:#fff0cc}
+.mission-tracker .mission-secondary{margin:0;color:#ddceb0}
+.mission-controls button,.tutorial-card button,.quest-journal button{min-height:44px;border:1px solid #94754a;background:#3a2a1e;color:#f0dfbd;padding:8px 12px;font:14px 'Noto Serif KR',serif;cursor:pointer}
+.mission-controls button[aria-pressed="true"],.journal-done{border-color:#c49c62;color:#ffdf9b}
+kbd{font:11px 'IBM Plex Mono',monospace;color:#d8c59f}
+.pin-legend{position:absolute;right:14px;bottom:12px;padding:7px 10px;background:#201813e8;border:1px solid #b7925d;color:#ffdfa0;font-size:14px;pointer-events:none}
+.tutorial-card{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 8px;padding:8px 10px;background:#3a2a1e;border-left:3px solid #d0ac6b;font-size:15px;line-height:1.45}
+.tutorial-card[hidden],.mission-tracker[hidden]{display:none!important}
+.journal-tools button,#mission-tracker button,.tutorial-card button,.quest-journal button{font-size:14px}
+.quest-journal{width:min(760px,calc(100vw - 24px));max-height:min(88dvh,850px);overflow:auto;padding:clamp(16px,3vw,30px);color:#32271d;background:#e9dcbd;border:2px solid #9b774e;box-shadow:0 0 0 5px #382820,0 18px 70px #000b;overscroll-behavior:contain}
+.quest-journal::backdrop{background:#100d0be8}
+.quest-journal header{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid #b39c70;padding-bottom:12px}
+.quest-journal header h2{margin:3px 0 0;font-size:clamp(22px,4vw,32px)}
+.journal-kicker{color:#705638;font:12px 'IBM Plex Mono',monospace}
+.journal-tabs{display:flex;gap:6px;overflow-x:auto;padding:12px 0;border-bottom:1px solid #b39c70;overscroll-behavior-inline:contain}
+.journal-tabs button{flex:none;min-height:44px;background:#d8c8a5;color:#382820}
+.journal-tabs button[aria-selected="true"]{background:#382820;color:#f2e3c2}
+.journal-tab-panel{padding:16px 3px;font-size:16px;line-height:1.7;overflow-wrap:anywhere}
+.journal-tab-panel h3{margin:0 0 10px;font-size:21px;line-height:1.35}
+.journal-tab-panel p{margin:7px 0}
+.journal-tab-panel ul,.journal-tab-panel ol{display:grid;gap:8px;padding-left:23px}
+.journal-tab-panel li{font-size:16px;line-height:1.65}
+.journal-tab-panel[hidden]{display:none}
+.journal-done{padding:10px 0;border-top:1px solid #b39c70}
+.journal-done{color:#59442c}
+.dialogue-history{margin:8px 0;border-top:1px solid #6c5038;padding-top:6px}
+.dialogue-history summary{cursor:pointer;color:#d0b47e;font-size:14px;min-height:32px}
+.dialogue-history ol{max-height:24vh;overflow:auto;margin:6px 0;padding-left:23px;font-size:14px;line-height:1.6}
+.dialogue-history li{padding:4px 0}
+.lower.is-talking #headline{display:none}
+.lower.is-talking .dialogue-speaker-name{font-weight:600}
+.dialogue-input{max-width:none;width:100%}
+.dialogue-input input{font-size:16px;min-height:46px}
+.dialogue-input button{min-height:46px;font-size:15px!important}
+.dialogue-char-count{align-self:center;white-space:nowrap;color:#d7c5a2;font-size:12px}
+.record-line{font-size:13px;line-height:1.45}
+.journal-tools button:focus-visible,.mission-controls button:focus-visible,.quest-journal button:focus-visible,.tutorial-card button:focus-visible{outline:3px solid #d0ac6b;outline-offset:2px}
+@media(max-width:760px){
+  .mission-tracker{padding:9px 10px}
+  .mission-tracker h2{font-size:18px}
+  .mission-tracker p{font-size:16px;line-height:1.4}
+  .mission-controls{position:sticky;bottom:0;z-index:2;display:grid;grid-template-columns:1fr 1fr;padding:5px 0;background:#30241b}
+  .mission-controls button{width:100%;padding:7px 8px}
+  .tutorial-card{font-size:15px}
+  .quest-journal{width:calc(100vw - 16px);max-height:calc(100dvh - 16px);padding:16px 13px}
+  .quest-journal header{align-items:flex-start}
+  .journal-tabs{margin-inline:-3px}
+}
+@media(prefers-reduced-motion:reduce){.mission-tracker,.quest-journal,.tutorial-card{scroll-behavior:auto!important;animation:none!important;transition:none!important}}

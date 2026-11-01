@@ -1,0 +1,376 @@
+{
+  "schema": "V34_EVIDENCE_FILE_HASHES_V1",
+  "generatedAt": "2026-11-01T11:00:28.486Z",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 4508,
+      "sha256": "f67eda4cee0a0e156fb610e982be08915870f46a11327d9146a836e0e7de61b3"
+    },
+    {
+      "path": "api/rpg/[...path].js",
+      "bytes": 4996,
+      "sha256": "c46259cd300c2dc9cc9ed2d4756a286d5b0b0ab692380a792a7d7c19cdb5e481"
+    },
+    {
+      "path": "vercel.json",
+      "bytes": 262,
+      "sha256": "7a201ce076ffc2bdabe316d78f17c66a007a75f7da2e1fbc089b657c2be8c8f8"
+    },
+    {
+      "path": ".env.example",
+      "bytes": 151,
+      "sha256": "0f4826ebdbcaf411338c656e78b32edfc2cb75cbf589ec5f509af41e9ff5bba9"
+    },
+    {
+      "path": "ai/v33/session-runtime.cjs",
+      "bytes": 34253,
+      "sha256": "a6d0dda1a3934ca52b3c8eec813c5873ecafe128354033f5e05794387ec5adc4"
+    },
+    {
+      "path": "index.html",
+      "bytes": 9311,
+      "sha256": "c77de30cf3819a2e169f526d6cc045ce105b5056688ce95727b6c567a3fe7ffa"
+    },
+    {
+      "path": "package.json",
+      "bytes": 21585,
+      "sha256": "9c102851ab8e7e5565eaa9bdbac09c9669117d0e7c9881d71d6d7bd61a221257"
+    },
+    {
+      "path": "rpg/ai/authored-dialogue.mjs",
+      "bytes": 12327,
+      "sha256": "1ee40240e3c9a9fea625ac942fe70e85783d630605442ba23c3b0d57d203e7f1"
+    },
+    {
+      "path": "rpg/choices.css",
+      "bytes": 14159,
+      "sha256": "2f81fd92bfd9cca34c01b1aace65cd0eef7b7622323b5399df85d246f9501ef0"
+    },
+    {
+      "path": "rpg/engine/renderer.js",
+      "bytes": 10712,
+      "sha256": "60d3040a6d08cc6487e97a0b11af8171554e56ef3afbe80bc002742fde673ce0"
+    },
+    {
+      "path": "rpg/engine/quest-guidance.mjs",
+      "bytes": 17768,
+      "sha256": "b74ac06fb6ed0e48698ea71553d1bc1086538ad75f44278ade6b9f2af8254054"
+    },
+    {
+      "path": "rpg/main.js",
+      "bytes": 78008,
+      "sha256": "483900be12f88038b1f7e29f50b2c7a6e509ef7b7000dce89fb6414aa947ca02"
+    },
+    {
+      "path": "scripts/v33-ai-runtime.test.mjs",
+      "bytes": 36405,
+      "sha256": "961130ee1bcb638c054c8102d318f02e9d17bfee88ac890f3291a5286f7b0791"
+    },
+    {
+      "path": "scripts/v33-authored-dialogue.test.mjs",
+      "bytes": 3962,
+      "sha256": "f3b46f26349ecef66a559a452df016d4a3a01fb15d16e6c29231a0205b87b9f8"
+    },
+    {
+      "path": "scripts/v33-interpersonal-dialogue-browser.mjs",
+      "bytes": 11091,
+      "sha256": "c5361b6bd8307565e5942758fd6053b67785fa4442eb41801f60bd1aa4aa7cde"
+    },
+    {
+      "path": "scripts/v33-live-ai-smoke.mjs",
+      "bytes": 2063,
+      "sha256": "0bb21acc584fca0313b9d5b93bf27085699ccf85c11ae3a7be2450231b616da3"
+    },
+    {
+      "path": "scripts/v33-rpg-browser-smoke.mjs",
+      "bytes": 15156,
+      "sha256": "0f8c2d27897dff103ef9057ba9e18dda507c1131c046ac2624892d871bcc36d5"
+    },
+    {
+      "path": "scripts/v34-browser-evidence.mjs",
+      "bytes": 13362,
+      "sha256": "10dcdde4a887342351ca5cd1bd57fb33b7803c1d282d79b9e222ce6695735446"
+    },
+    {
+      "path": "scripts/v34-quest-guidance.test.mjs",
+      "bytes": 6645,
+      "sha256": "f1ce921dce2d5eb962650618ae1906bbf50f45e628baea94f8f20cdda28bbd85"
+    },
+    {
+      "path": "scripts/v34-create-evidence-files.mjs",
+      "bytes": 8361,
+      "sha256": "2902cfe7a8e443eae145ff00d2831d4cc67bad436ae203753ef6f86ef27a0115"
+    },
+    {
+      "path": "docs/v34/acceptance-run.log",
+      "bytes": 51736,
+      "sha256": "387a7934c75ecb608f50bc17e5f4886d90c67062fc7b55bf92a213fbb4523f32"
+    },
+    {
+      "path": "docs/v34/after-1366x768.png",
+      "bytes": 104204,
+      "sha256": "3bb0114085ff9083a3ed3fc4a75049acd9931dd18c7128dc7c1ad271cd162e0e"
+    },
+    {
+      "path": "docs/v34/after-1440x900.png",
+      "bytes": 125072,
+      "sha256": "c1c68eed11c76cca465aef7ba10b577aa089a2b0f90fbae57d8655caa5edbac8"
+    },
+    {
+      "path": "docs/v34/after-360x800.png",
+      "bytes": 67169,
+      "sha256": "c6021af829b56eeb0417bc0df3dc45e3aef314e9888c4e49007c9581202010c3"
+    },
+    {
+      "path": "docs/v34/after-390x844.png",
+      "bytes": 70636,
+      "sha256": "673aea245857b61d3fcf575cf45f6650abf257cfdd4665e438444c94ab751be1"
+    },
+    {
+      "path": "docs/v34/after-initial-1366x768.png",
+      "bytes": 105814,
+      "sha256": "1ef3ce49cae490fdee1d4ca26caf8171dea1847838ef3f5dc66047ce4d77967e"
+    },
+    {
+      "path": "docs/v34/after-journal-1366x768.png",
+      "bytes": 103703,
+      "sha256": "21822526f0acd4b7bb69804cc69e4a260c94fdafd7fcaa4168411635ae756017"
+    },
+    {
+      "path": "docs/v34/baseline-1366x768.png",
+      "bytes": 102941,
+      "sha256": "a9241cfeb35e6c8179689854ec644402a00f1e69157676622b41268a4de8fcda"
+    },
+    {
+      "path": "docs/v34/baseline-after-inspect.png",
+      "bytes": 102746,
+      "sha256": "d2f68f3bbc986d0c9c9d208478d74ff0a045f81ee218edec13bb96999e87dcec"
+    },
+    {
+      "path": "docs/v34/baseline-after-possess.png",
+      "bytes": 103353,
+      "sha256": "4a2dc73df0fb4ef08b0ad7b54ecf211862e7a11441530b0230b3f01deb9d880f"
+    },
+    {
+      "path": "docs/v34/BASELINE.md",
+      "bytes": 3228,
+      "sha256": "ec730a8d104320f403757b97edd4a1ee2a2ca66fa50405e77e8a4fb1e3e4864c"
+    },
+    {
+      "path": "docs/v34/blind-review-2026-11-01.md",
+      "bytes": 5326,
+      "sha256": "1ac3184817fc3d9dd45bb5cb48fc7c0f408ee84d42c5220258e7e339b4081e73"
+    },
+    {
+      "path": "docs/v34/browser-evidence.json",
+      "bytes": 11185,
+      "sha256": "2f45815aac551c8a7711e3429192bce795f0e2c6bbc125186c33f0a86e835e3e"
+    },
+    {
+      "path": "docs/v34/DIALOGUE_TRANSCRIPT.md",
+      "bytes": 888,
+      "sha256": "abe2708ba4656400f02727da37e75c1d0a902e246e17de9bb7987ca9a2d44054"
+    },
+    {
+      "path": "docs/v34/five-ending-trace.json",
+      "bytes": 1329,
+      "sha256": "03dd8d91a4665b2bb05eafdbed3d5d4dcbd6a11010a0bda1f1ca4f37f144156b"
+    },
+    {
+      "path": "docs/v34/host-step-table.csv",
+      "bytes": 5182,
+      "sha256": "8a611504a7b6a3f1cb34dbb4641b2b4ef2d0dc4b74c506aa6ac91761d38049be"
+    },
+    {
+      "path": "docs/v34/journal-1366x768.png",
+      "bytes": 102842,
+      "sha256": "25b8ed13841173e6eb41e97977aaa5b625f608e81d671954ea649a367d538778"
+    },
+    {
+      "path": "docs/v34/journal-1440x900.png",
+      "bytes": 115706,
+      "sha256": "ac36840e938765b3ce20411c297c3a38f4de8654cee09f25d7a9fa43e58e438c"
+    },
+    {
+      "path": "docs/v34/journal-360x800.png",
+      "bytes": 54857,
+      "sha256": "b95c6ae8ff43369fc83a32e8432e0d8993f56ef5dc33d82368a3a7f45898fc0c"
+    },
+    {
+      "path": "docs/v34/journal-390x844.png",
+      "bytes": 56393,
+      "sha256": "2428083c306bce76f513d099847b3277f5e0cf93a758ccde368a1ccfe61fa2ff"
+    },
+    {
+      "path": "docs/v34/QA_MATRIX.csv",
+      "bytes": 1349,
+      "sha256": "0de904fab22cd84329b1c18e7ee707ac25aa724a5638b1c00753a33e233eacc2"
+    },
+    {
+      "path": "docs/v34/RUN_GUIDE.md",
+      "bytes": 1911,
+      "sha256": "ece2d185ce59627934f6095cf320d0a62afffe84d10755accd8448687fb7b458"
+    },
+    {
+      "path": "docs/v34/screenshots/guided-first-host-1366x768.png",
+      "bytes": 109907,
+      "sha256": "6942507a12466b188e8b1bf63db8aaa887a67c97c1f672d4cd5a92950e228118"
+    },
+    {
+      "path": "docs/v34/screenshots/journal-1366x768.png",
+      "bytes": 77325,
+      "sha256": "9b240a9a06acc1b57ace79dda24b1c3e3da238b3cc7fd6ceccad55ebc82c7ded"
+    },
+    {
+      "path": "docs/v34/screenshots/journal-1440x900.png",
+      "bytes": 88393,
+      "sha256": "2ff3707d86d65cb67404bebcb53c08971f89c4c01e283e5b878be40c37266499"
+    },
+    {
+      "path": "docs/v34/screenshots/journal-360x800.png",
+      "bytes": 36230,
+      "sha256": "d6d640c83a3373cd20ffddb07fdf92fa576b75eb067bea8e7699f0abab926e0a"
+    },
+    {
+      "path": "docs/v34/screenshots/journal-390x844.png",
+      "bytes": 41652,
+      "sha256": "43e0c536925a0a876eb60b8fbc853746cd2beb9902866b9971b9ae950f70664f"
+    },
+    {
+      "path": "docs/v34/screenshots/journal-683x384.png",
+      "bytes": 25251,
+      "sha256": "2e37d8cdcc8ca5a9b55192babbdbad98834f06bd305cea97e82d6410855d511e"
+    },
+    {
+      "path": "docs/v34/screenshots/journal-possessed-pavel-1366x768.png",
+      "bytes": 81586,
+      "sha256": "1b35effef38d7d369683d9065bfd863f86566cfdefcd80aab2142c63881d60b9"
+    },
+    {
+      "path": "docs/v34/screenshots/mock-online-and-fallback-1366x768.png",
+      "bytes": 107636,
+      "sha256": "f62483c5651d888fa4881329103677282245f3f4335c6af037c1544f0211f349"
+    },
+    {
+      "path": "docs/v34/screenshots/offline-dialogue-1366x768.png",
+      "bytes": 115199,
+      "sha256": "025a2741e29ef61f266c051887f2f1ecc87fa5971f7d9384b865bce5815a5122"
+    },
+    {
+      "path": "docs/v34/screenshots/pinned-1366x768.png",
+      "bytes": 104998,
+      "sha256": "495e1f3e00a3377fed6f59e14afa736212532379bf0e9cb00e44b11e8f173199"
+    },
+    {
+      "path": "docs/v34/screenshots/pinned-1440x900.png",
+      "bytes": 125997,
+      "sha256": "55836ef76d2e88a6192a0e3b450827b4268b831acdc2e4a75e86b83e9648e65b"
+    },
+    {
+      "path": "docs/v34/screenshots/pinned-360x800.png",
+      "bytes": 62787,
+      "sha256": "1ff0f954a23c300220f4de327c32b6ae1f9cc97d9c8e26b48edfd0427e2c929b"
+    },
+    {
+      "path": "docs/v34/screenshots/pinned-390x844.png",
+      "bytes": 71950,
+      "sha256": "08ff84a8a8b0cabbe77b46aa978e31bf67c6adb0c8a2b837faaf03c78e2c53e7"
+    },
+    {
+      "path": "docs/v34/screenshots/possessed-pavel-1366x768.png",
+      "bytes": 105950,
+      "sha256": "1ff8c01bc11d2125a2cbcccf10d24055dd0ec0055a1c62729257c202586d9cb2"
+    },
+    {
+      "path": "docs/v34/screenshots/start-1366x768.png",
+      "bytes": 100235,
+      "sha256": "437119ca3a3b76219fdfc5e1a5d2a164d9f71cab394da81371763e9a6f7d5d8a"
+    },
+    {
+      "path": "docs/v34/screenshots/start-1440x900.png",
+      "bytes": 120400,
+      "sha256": "f9fa9f394cb63d36000a4f43a0a42c57677932f58e8a99313f14471cc5fb3698"
+    },
+    {
+      "path": "docs/v34/screenshots/start-360x800.png",
+      "bytes": 59816,
+      "sha256": "c30efed49f3e781985108d9b0663bf3741ac7760c7b6c74bc09aaa442a8e52e1"
+    },
+    {
+      "path": "docs/v34/screenshots/start-390x844.png",
+      "bytes": 68805,
+      "sha256": "57ad0e810fa3df7e06c0a7886f7ff48ce8297c5daabbe761b46ab5446d008bb1"
+    },
+    {
+      "path": "docs/v34/screenshots/start-683x384.png",
+      "bytes": 43049,
+      "sha256": "faef4b5a114f119b554b4e4af39552f572b1d609c0e3604af93fc383492ca58f"
+    },
+    {
+      "path": "docs/v34/SECURITY_AND_PROVENANCE.md",
+      "bytes": 1439,
+      "sha256": "487e8d3734a86c362454932002e28900ea90f10a5dc91a7b4bebedb462ca51e6"
+    },
+    {
+      "path": "docs/v34/tutorial-quest-registry.json",
+      "bytes": 13362,
+      "sha256": "c4bc8eed67496b9b621770363b1079ad02748f3788fe34f4f1cb425d23eaa160"
+    },
+    {
+      "path": "docs/v34/acceptance-run.log",
+      "bytes": 51736,
+      "sha256": "387a7934c75ecb608f50bc17e5f4886d90c67062fc7b55bf92a213fbb4523f32"
+    },
+    {
+      "path": "artifacts/v33/ENDING_ROUTE_MATRIX.json",
+      "bytes": 99707,
+      "sha256": "494e44703da35e10335df74069c2aafcd6a835b247b6941d666e06dc3ee49b59"
+    },
+    {
+      "path": "artifacts/v33/ENDING_BROWSER_SMOKE.json",
+      "bytes": 1081,
+      "sha256": "8a4197f004a74416e9bf5cac85f1e3f77ec2a5064948c543269d523bfa3bd14c"
+    },
+    {
+      "path": "artifacts/v33/CAMPAIGN_BROWSER_SMOKE.json",
+      "bytes": 3804,
+      "sha256": "11313c247d252f6bf81f5c48598f1dbfab7afe89fc617bb72eec6a470481ad13"
+    },
+    {
+      "path": "artifacts/v33/PRODUCTION_SAVE_LOAD_CHECK.json",
+      "bytes": 1245,
+      "sha256": "5104c66be7cf7573e65cfe56c65ab6a2610efcbec2d31f818309bbbfec63f07e"
+    },
+    {
+      "path": "artifacts/v33/V33_RPG_PHASE1/BROWSER_SMOKE.json",
+      "bytes": 15284,
+      "sha256": "d23cc6288a68f9a77a323d423f7407ecd9a42c4cb55ebaf34acd8e10d36868a1"
+    },
+    {
+      "path": "artifacts/v33/campaign-full-run-uvarov-1440x900.png",
+      "bytes": 95435,
+      "sha256": "9f7f13f62b70b2fd1ad8ec3c28114ff1093d5782b13b692bf7048e45e7655388"
+    },
+    {
+      "path": "artifacts/v33/campaign-full-run-belinsky-1440x900.png",
+      "bytes": 96102,
+      "sha256": "3a525dd7870782a99d244e16772eb845cd2155e212500af6d49841b9ef0f93e7"
+    },
+    {
+      "path": "artifacts/v33/campaign-full-run-herzen-1440x900.png",
+      "bytes": 97375,
+      "sha256": "13d5f6e45e02bbdb3e7c34fa40417513e011558e4c35552cbb2c3ba815d1c1ad"
+    },
+    {
+      "path": "artifacts/v33/campaign-full-run-khomyakov-1440x900.png",
+      "bytes": 97467,
+      "sha256": "73ea968e342efb53bb89bc6af2cc140ba574105686191e7b2ae0320e5d577a25"
+    },
+    {
+      "path": "artifacts/v33/campaign-full-run-dostoevsky_petrashevsky-1440x900.png",
+      "bytes": 108798,
+      "sha256": "1719b0ab3ce960c51c8a5dc10832865e0a3d78988a9f6dbd9ca918649e49d1ee"
+    }
+  ]
+}

@@ -1,8 +1,9 @@
 import { createRenderer } from './engine/renderer.js';
 import { objectIsPresent } from './engine/world-presentation.mjs';
 import { questChoices, continuationQuest } from './engine/quest-presentation.mjs';
+import { resolveQuestGuidance } from './engine/quest-guidance.mjs';
 import { ownsKeyboardInput, observationText } from './engine/player-presentation.mjs';
-import { conversations, availableTopics, authoredReply } from './ai/authored-dialogue.mjs';
+import { conversations, availableTopics, authoredReply, contextualOpening } from './ai/authored-dialogue.mjs';
 import { advanceStudy, beginExam, buildLifeTimeline, chooseCirclePath, completeLearning, getExamQuestions, selectExamAnswer, submitExam } from './engine/learning-life.mjs';
 import './engine/game-state.js';
 const { createInitialState, moveActor, possessHost, releaseHost, transitionMap, performQuestAction, saveGame, loadGame, nearTile, knowledgeForHost, recordSourceRead, recordEvidenceRead, recordDialogueTurn, enterLiteraryRealm, leaveLiteraryRealm, advanceChapter, advanceCampaignDate, resolveEnding, describeHostMoney } = globalThis.V33GameState;
@@ -39,11 +40,42 @@ const canvas = document.querySelector('#world'), renderer = createRenderer(canva
 const $ = selector => document.querySelector(selector);
 let lastMoveAt = 0, renderFrame = null, renderTimer = null, activeDialogueHost = null, activeDialogueKey = null, activeDialogueController = null, dialogueGeneration = 0, dialogueRequestPending = false;
 const dialogueSessions = new Map(), dialogueTranscripts = new Map();
+const dialogueCurrentLines = new Map();
 const heardTopics = new Map();
 const hasLiveDialogue = key => dialogueSessions.get(key)?.token && !['BLOCKED_NO_KEY', 'BLOCKED_LIMIT', 'AUTHORED'].includes(dialogueSessions.get(key)?.mode);
 const dialogueKey = (actorHostId, speakerHostId) => `${actorHostId}::${speakerHostId}`;
 const dialogueStorageKey = key => `v33-rpg-session:${key}`;
 const aiBaseUrl = '';
+let missionGuidance = null, destinationPinned = false, journalReturnFocus = null;
+const tutorialStorageKey = 'v34-tutorial-stage';
+let tutorialStage = localStorage.getItem(tutorialStorageKey) ?? '0';
+const tutorialCopy = [
+  '먼저 가까운 사람에게 다가가 보세요. 이미 곁에 있으면 바로 살펴보기를 눌러도 됩니다.',
+  '사람 가까이에서 E 또는 살펴보기를 누르면 그 사람의 사정과 몸을 빌리는 선택이 나옵니다.',
+  '몸을 빌리면 그 사람의 자리와 아는 것이 적용됩니다. 아래 목표에서 지금 할 일을 확인하세요.',
+  'J 또는 수첩 열기로 해야 할 일, 가진 것, 읽은 자료를 나누어 볼 수 있습니다.',
+  '해야 할 일을 읽었으면 수첩을 닫으세요. 필요할 때 목적지를 표시할 수 있습니다.',
+  '표시된 곳에 가서 실제 문서나 물건을 살펴보세요. 조사와 선택이 기록되어야 다음 단계로 넘어갑니다.',
+  '사람 가까이에서 말 걸기를 누르세요. 선택지는 빠른 대답이고, 직접 입력은 원하는 말입니다.',
+  '대화를 마치면 현장으로 돌아와 갱신된 목표를 확인하세요. 이제 길을 따라 계속할 수 있습니다.',
+];
+function updateTutorial() {
+  const card = $('#tutorial-card');
+  const active = tutorialStage !== 'done' && Number(tutorialStage) < tutorialCopy.length;
+  card.hidden = !active;
+  if (active) { $('#tutorial-step').textContent = `처음 안내 · ${Number(tutorialStage) + 1} / ${tutorialCopy.length} · ${tutorialCopy[Number(tutorialStage)]}`; $('#tutorial-skip').textContent = '건너뛰기'; }
+}
+function tutorialAdvance(eventName) {
+  if (tutorialStage === 'done') return;
+  const stage = Number(tutorialStage);
+  const advances = { move: [[0,1]], inspect: [[0,2],[1,2]], possess: [[2,3]], journalOpen: [[3,4]], journalClose: [[4,5]], target: [[5,6]], talk: [[6,7]], finish: [[7,8]] };
+  const nextStage = advances[eventName]?.find(([from]) => from === stage)?.[1];
+  if (nextStage !== undefined) {
+    tutorialStage = String(nextStage);
+    if (Number(tutorialStage) >= tutorialCopy.length) tutorialStage = 'done';
+    localStorage.setItem(tutorialStorageKey, tutorialStage); updateTutorial();
+  }
+}
 function learningActionButton(label, run, subcopy = '') {
   const button = document.createElement('button'); button.type = 'button'; button.textContent = label;
   if (subcopy) { const note = document.createElement('small'); note.textContent = subcopy; button.append(note); }
@@ -205,7 +237,7 @@ const relationLabels = { editorial_office: '편집부', workshop: '작업장 동
 function render(now) {
   renderFrame = null;
   const map = currentMap();
-  renderer.draw(state, map, now, lastMoveAt);
+  renderer.draw(state, map, now, lastMoveAt, { ...missionGuidance, pinned: destinationPinned });
   const animate = renderer.needsAmbientFrames(map) && document.visibilityState !== 'hidden';
   if (now - lastMoveAt < 360 || animate) renderTimer = window.setTimeout(() => { renderTimer = null; requestRender(); }, animate ? 80 : 40);
 }
@@ -232,7 +264,12 @@ function say(title, text, actions = []) {
   }));
   $('.journal').scrollTop = 0;
 }
-const setState = next => { state = next; updateHud(); requestRender(); };
+const setState = next => {
+  const oldHost = state?.player?.embodiment, oldQuest = missionGuidance?.questId;
+  state = next; updateHud();
+  if (oldHost !== state.player.embodiment || oldQuest !== missionGuidance?.questId) { destinationPinned = false; updateHud(); }
+  requestRender();
+};
 function currentMap() { return maps[state.world.currentMapId]; }
 function actor() { return state.player.embodiment ? state.hosts[state.player.embodiment] : state.player; }
 function mapObjectProperties(object) { return Object.fromEntries((object?.properties ?? []).map(property => [property.name, property.value])); }
@@ -262,28 +299,80 @@ function updateHud() {
   const conversationPartner = nearbyConversationPartner();
   $('#talk').textContent = conversationPartner ? `말 걸기 · ${conversationPartner.displayNameKo}` : '가까이서 말하기';
   $('#talk').disabled = !host || !conversationPartner || Boolean(activeDialogueHost);
-  document.querySelectorAll('.touch-pad button').forEach(button => { button.disabled = Boolean(activeDialogueHost); });
+  document.querySelectorAll('.touch-pad button').forEach(button => { button.disabled = Boolean(activeDialogueHost && !button.hasAttribute('data-move')); });
   $('#load').disabled = !localStorage.getItem('v33-rpg-save');
+  missionGuidance = resolveQuestGuidance({ state, quests: questList, maps, hostCards: cards });
+  const tracker = $('#mission-tracker'); tracker.hidden = Boolean(state.endingId);
+  $('#mission-identity').textContent = host ? `현재 빙의: ${host.displayNameKo} · ${host.occupation}` : '현재 인물: 관찰자';
+  $('#mission-title').textContent = missionGuidance.questTitleKo ?? '지금 할 일';
+  $('#mission-action').textContent = `${missionGuidance.actionKo}${missionGuidance.placeKo ? ` · ${missionGuidance.placeKo}` : ''}`;
+  $('#mission-reason').textContent = missionGuidance.reasonKo ?? '';
+  $('#mission-method').textContent = missionGuidance.blocked ? `막힘 · ${missionGuidance.blockedReasonKo ?? '조건을 확인하세요.'}` : missionGuidance.howKo ?? '';
+  $('#mission-progress').textContent = missionGuidance.progress?.totalSteps ? `${missionGuidance.progress.completedSteps} / ${missionGuidance.progress.totalSteps}` : '';
+  $('#mission-pin').disabled = !missionGuidance.target;
+  $('#mission-pin').setAttribute('aria-pressed', String(destinationPinned && Boolean(missionGuidance.target)));
+  $('#mission-pin').textContent = destinationPinned && missionGuidance.target ? '목적지 표시 중' : '목적지 표시';
+  $('#pin-legend').hidden = !(destinationPinned && missionGuidance.target);
   const readyQuest = continuationQuest(state, campaign, questList);
   const routeButton = $('#route-continue');
   routeButton.hidden = !readyQuest || Boolean(activeDialogueHost);
   if (readyQuest) routeButton.textContent = continuationFor(readyQuest)[0].label;
-  const notebook = $('#host-notebook'), facts = $('#host-facts');
-  notebook.hidden = !host; facts.replaceChildren();
+  $('#host-notebook').hidden = true;
+  const oldFacts = $('#host-facts'); if (oldFacts) oldFacts.replaceChildren();
+  $('#journal-host-name').textContent = host ? `${host.displayNameKo} · ${host.occupation}` : '관찰자';
+  $('#journal-title').textContent = host ? `${host.displayNameKo}의 수첩` : '현장 수첩';
+  $('#journal-quest-title').textContent = missionGuidance.questTitleKo ?? '지금 할 일';
+  $('#journal-goal-action').textContent = missionGuidance.actionKo ?? '';
+  $('#journal-goal-reason').textContent = missionGuidance.reasonKo ?? '';
+  $('#journal-goal-how').textContent = missionGuidance.howKo ?? '';
+  $('#journal-goal-place').textContent = `장소 · ${missionGuidance.placeKo ?? map.metadata.displayNameKo}`;
+  $('#journal-completed').textContent = missionGuidance.progress?.totalSteps ? `이 사건 진행 · ${missionGuidance.progress.completedSteps} / ${missionGuidance.progress.totalSteps} 완료` : '';
+  $('#journal-pin').disabled = !missionGuidance.target;
+  $('#journal-pin').textContent = destinationPinned ? '목적지 표시 중' : '목적지 표시';
+  const fill = (selector, rows, tag = 'li') => { const list = $(selector); list.replaceChildren(...rows.map(value => { const item = document.createElement(tag); item.textContent = value; return item; })); };
+  for (const selector of ['#journal-inventory','#journal-relations','#journal-sources','#journal-history']) $(selector).replaceChildren();
   if (host) {
     const live = state.hosts[host.id], known = host.secretKnowledge.filter(item => live.privateKnowledgeIds.includes(item.id)).map(item => item.summaryKo);
-    if (live.knownEvidenceIds.includes(source.sourceId)) known.push('투르게네프의 작품 원문과 번역을 읽었다.');
-    for (const record of historicalSources.records) if (live.knownEvidenceIds.includes(record.sourceId)) known.push(`${record.documentDate}년 자료를 읽었다 · ${record.titleKo}`);
+    if (live.knownEvidenceIds.includes(source.sourceId)) known.push('투르게네프 「호리와 칼리니치」 원문');
+    for (const record of historicalSources.records) if (live.knownEvidenceIds.includes(record.sourceId)) known.push(`${record.documentDate} · ${record.titleKo}`);
     for (const id of live.knownEvidenceIds) {
       const clue = sceneObservations.entries[id];
-      if (clue) known.push(`허구 소품 조사 · ${clue.titleKo}`);
+      if (clue) known.push(clue.titleKo);
     }
-    for (const fact of [`현재 일과 · ${live.currentActivityKo || host.personalObjective}`, `오늘 할 일 · ${host.personalObjective}`, `신분/직업 · ${host.socialEstate} · ${host.occupation}`, `갈 수 있는 곳 · ${live.allowedMaps.map(id => maps[id].metadata.displayNameKo).join(', ')}`, `다닐 수 없는 곳 · ${host.legalMobility}`, `가진 물건 · ${live.inventory.join(', ')}`, `아는 것 · ${known.join(' ') || '아직 기록된 정보가 없다.'}`]) {
-      const item = document.createElement('li'); item.textContent = fact; facts.append(item);
-    }
-    for (const [group, status] of Object.entries(live.relations ?? {})) { const item = document.createElement('li'); item.textContent = `관계 · ${relationLabels[group] ?? group} · ${status}`; facts.append(item); }
-    for (const situation of live.situationNotes ?? []) { const item = document.createElement('li'); item.textContent = `상황 변화 · ${situation}`; facts.append(item); }
+    $('#journal-inventory').append(...(live.inventory.length ? live.inventory : ['따로 기록된 물건이 없습니다.']).map(value => { const li=document.createElement('li');li.textContent=value;return li; }));
+    const relations = Object.entries(live.relations ?? {}).map(([group,status])=>`${relationLabels[group] ?? group} · ${status}`).concat(live.situationNotes ?? []);
+    fill('#journal-relations', relations.length ? relations : ['아직 기록된 관계 변화가 없습니다.']);
+    fill('#journal-sources', known.length ? known : ['이 몸으로 확인한 자료와 단서가 없습니다.']);
   }
+  const logs = state.ledger.slice(-12).reverse().map(entry => {
+    if (entry.eventType === 'DIALOGUE_TURN') return `${entry.date} · ${cards.find(item=>item.id===entry.hostId)?.displayNameKo ?? '대화'}와 이야기함`;
+    if (entry.eventType === 'HISTORICAL_ACTION' || entry.eventType === 'LITERARY_ACTION') { const q=questsById.get(entry.questId), a=q?.actions.find(item=>item.id===entry.actionId); return `${entry.date} · ${a?.labelKo ?? '문서에 선택을 남김'}`; }
+    if (entry.eventType === 'READ_SOURCE') return `${entry.date} · 자료를 읽음`;
+    if (entry.eventType === 'OBSERVE_EVIDENCE') return `${entry.date} · 현장의 흔적을 살펴봄`;
+    return null;
+  }).filter(Boolean);
+  fill('#journal-history', logs.length ? logs : ['아직 남긴 기록이 없습니다.'], 'li');
+  updateTutorial();
+}
+function setJournalTab(name) {
+  document.querySelectorAll('[data-journal-tab]').forEach(button => button.setAttribute('aria-selected', String(button.dataset.journalTab === name)));
+  document.querySelectorAll('[data-journal-panel]').forEach(panel => { panel.hidden = panel.dataset.journalPanel !== name; });
+  $('#journal-title').textContent = ({ goal: '해야 할 일', inventory: '지금 가진 것', people: '인물과 관계', sources: '읽은 자료', history: '지난 기록' })[name] ?? '해야 할 일';
+}
+function openJournal() {
+  journalReturnFocus = document.activeElement;
+  setJournalTab('goal'); $('#quest-journal').showModal(); $('#journal-close').focus();
+  tutorialAdvance('journalOpen');
+}
+function closeJournal() {
+  const dialog = $('#quest-journal'); if (dialog.open) dialog.close();
+  tutorialAdvance('journalClose');
+  if (journalReturnFocus?.isConnected) journalReturnFocus.focus();
+}
+function toggleDestinationPin() {
+  if (!missionGuidance?.target) return;
+  destinationPinned = !destinationPinned;
+  updateHud(); requestRender();
 }
 function sayRecord(text) { $('#record').textContent = text; }
 function currentNearby() {
@@ -314,6 +403,7 @@ function sourceRead(sourceId, archiveSourceIds = [], readingMode = 'PHYSICAL_COP
   if (recorded.ok) setState(recorded.state);
   else { sayRecord(recorded.reason === 'source_not_present' ? '이 장소나 시점에는 아직 열람할 수 없는 자료다.' : '이 자료를 지금은 읽을 수 없다.'); return; }
   showSourceSummary(record);
+  tutorialAdvance('target');
   const recordedMode = recorded.state.ledger.at(-1)?.readingMode;
   sayRecord(recordedMode === 'PHYSICAL_COPY'
     ? `현장에서 읽음 · ${record.creator ?? record.author} · 현재 몸의 자료 기록에 남겼다`
@@ -374,13 +464,14 @@ function continuationFor(activeQuest) {
 function inspect(object) {
   const props = Object.fromEntries((object.properties ?? []).map(p => [p.name, p.value]));
   if (object.type === 'npc') {
+    tutorialAdvance('inspect');
     const card = cards.find(item => item.id === props.hostId), host = state.hosts[props.hostId];
     if (state.player.embodiment && card.id !== state.player.embodiment) {
       say(card.displayNameKo, `${card.occupation}. ${card.personalObjective}`, [{ label: `${card.displayNameKo}에게 말 걸기`, run: () => startConversation(card) }]);
     } else if (state.player.embodiment === card.id) {
-      say(card.displayNameKo, `지금 빌린 몸이다. ${card.personalObjective} · ${describeHostMoney(host.money)}`, [{ label: '이 몸의 수첩 보기', run: () => { $('#host-notebook').open = true; $('#host-notebook').hidden = false; } }]);
+      say(card.displayNameKo, `지금 빌린 몸이다. ${card.personalObjective} · ${describeHostMoney(host.money)}`, [{ label: '이 몸의 수첩 보기', run: openJournal }]);
     } else {
-      say(card.displayNameKo, `${card.occupation}. ${card.personalObjective} 가까이에서 그 사람의 시야로 들어갈 수 있다.`, [{ label: '몸을 빌린다', run: () => { const result = possessHost(state, card.id, currentMap()); if (result.ok) { setState(result.state); say(card.displayNameKo, `눈높이가 달라졌다. ${card.personalObjective} ${describeHostMoney(host.money)}`, []); sayRecord(`시야 전환 · ${card.displayNameKo}`); } else sayRecord(result.reason === 'already_embodied' ? '먼저 현재 몸을 놓아주자.' : '한두 걸음 더 가까이 가 보자.'); } }]);
+      say(card.displayNameKo, `${card.occupation}. ${card.personalObjective} 가까이에서 그 사람의 시야로 들어갈 수 있다.`, [{ label: '몸을 빌린다', run: () => { const result = possessHost(state, card.id, currentMap()); if (result.ok) { setState(result.state); tutorialAdvance('possess'); say(card.displayNameKo, `눈높이가 달라졌다. ${card.personalObjective} ${describeHostMoney(host.money)}`, []); sayRecord(`시야 전환 · ${card.displayNameKo}`); } else sayRecord(result.reason === 'already_embodied' ? '먼저 현재 몸을 놓아주자.' : '한두 걸음 더 가까이 가 보자.'); } }]);
     }
   } else if (object.type === 'map-exit') {
     const result = transitionMap(state, props.exitId, maps);
@@ -410,6 +501,7 @@ function inspect(object) {
       const result = performQuestAction(state, { questId: activeQuest.id, hostId: state.player.embodiment, actionId: action.id, objectId: object.id }, { quests: questList, maps });
       if (!result.ok) { sayRecord(`처리할 수 없음 · ${result.reason}`); return; }
       setState(result.state);
+      tutorialAdvance('target');
       const actions = continuationFor(activeQuest);
       say(action.followupTitleKo ?? activeQuest.titleKo, `${action.resultKo}${action.followupKo ? `\n\n${action.followupKo}` : ''}`, actions);
       sayRecord('현장 행동을 장부에 기록했다.');
@@ -545,9 +637,10 @@ function interact() {
   inspect(object);
 }
 function move(direction) {
-  if (activeDialogueHost || state.endingId || !$('#learning-screen').hidden) return;
+  if (activeDialogueHost) finishConversation(activeDialogueHost);
+  if (state.endingId || !$('#learning-screen').hidden) return;
   const result = moveActor(state, direction, currentMap(), maps);
-  if (result.moved) { setState(result.state); lastMoveAt = performance.now(); }
+  if (result.moved) { setState(result.state); tutorialAdvance('move'); lastMoveAt = performance.now(); }
   else sayRecord('벽이나 가구가 길을 막고 있다.');
 }
 function finishConversation(hostId) {
@@ -560,6 +653,7 @@ function finishConversation(hostId) {
   if (key && interruptedTurn) { dialogueSessions.delete(key); sessionStorage.removeItem(dialogueStorageKey(key)); }
   if (key && dialogueSessions.get(key)?.mode === 'BLOCKED_LIMIT') { dialogueSessions.delete(key); sessionStorage.removeItem(dialogueStorageKey(key)); }
   const card = cards.find(item => item.id === hostId);
+  tutorialAdvance('finish');
   say(card.displayNameKo, '대화를 마쳤다. 그 사람은 지금 하던 일을 이어간다.', []);
   sayRecord('대화 기록을 남기고 현장으로 돌아왔다.');
 }
@@ -571,20 +665,24 @@ function showConversation(card, promptText, replies, statusText = '') {
   $('#dialogue-speaker').hidden = false;
   $('#host-notebook').open = false; $('#host-notebook').hidden = true;
   const lines = dialogueTranscripts.get(activeDialogueKey) ?? [];
-  const text = lines.length ? lines.slice(-12).map(line => `${line.speaker} · ${line.text}`).join('\n\n') : promptText;
+  const history = $('#dialogue-history'), historyLines = $('#dialogue-history-lines');
+  history.hidden = !lines.length; historyLines.replaceChildren(...lines.slice(-12).map(line => { const li=document.createElement('li'); li.textContent=`${line.speaker} · ${line.text}`; return li; }));
   const replyActions = replies.slice(0, 3).map((label, index) => ({ label, run: () => sendConversation(card, label, `R${index + 1}`) }));
   replyActions.push({ label: '대화 마치기', run: () => finishConversation(card.id) });
-  say(card.displayNameKo, text, replyActions);
-  if (dialogueRequestPending) $('#actions').querySelectorAll('button').forEach(button => { if (button.textContent.trim() !== '대화 마치기') button.disabled = true; });
-  if (hasLiveDialogue(activeDialogueKey)) {
+  say('대화 중', promptText || dialogueCurrentLines.get(activeDialogueKey) || '', replyActions);
+  if (dialogueRequestPending) $('#actions').querySelectorAll('.dialogue-input button').forEach(button => { button.disabled = true; });
+  {
   const form = document.createElement('form'); form.className = 'dialogue-input';
-  const input = document.createElement('input'); input.type = 'text'; input.maxLength = 800; input.autocomplete = 'off'; input.placeholder = '하고 싶은 말을 적어보세요'; input.setAttribute('aria-label', '대사 입력'); input.disabled = dialogueRequestPending;
-  const submit = document.createElement('button'); submit.type = 'submit'; submit.textContent = '말하기'; submit.disabled = dialogueRequestPending;
-  form.append(input, submit); form.addEventListener('submit', event => { event.preventDefault(); const value = input.value.trim(); if (value) sendConversation(card, value); });
+  const input = document.createElement('input'); input.type = 'text'; input.maxLength = 800; input.autocomplete = 'off'; input.placeholder = '직접 하고 싶은 말을 적어보세요'; input.setAttribute('aria-label', '대사 입력, 최대 800자'); input.disabled = dialogueRequestPending;
+  const counter = document.createElement('span'); counter.className = 'dialogue-char-count'; counter.setAttribute('aria-live','polite'); counter.textContent = `${input.value.length} / 800자`;
+  const submit = document.createElement('button'); submit.type = 'submit'; submit.textContent = dialogueRequestPending ? '답을 기다리는 중' : '직접 말하기'; submit.disabled = dialogueRequestPending;
+  input.addEventListener('input',()=>{counter.textContent=`${input.value.length} / 800자`;});
+  input.addEventListener('keydown',event=>{if(event.key==='Enter'&&!event.isComposing){event.preventDefault();form.requestSubmit();}});
+  form.append(input, counter, submit); form.addEventListener('submit', event => { event.preventDefault(); const value = input.value.trim(); if (value && !event.isComposing) sendConversation(card, value); });
   $('#actions').append(form);
   }
   $('.journal').scrollTop = 0;
-  if (statusText) sayRecord(statusText);
+  sayRecord(statusText || (hasLiveDialogue(activeDialogueKey) ? '직접 말하거나 준비된 대답을 고르세요.' : '오프라인 · 입력은 기록되지만, 자유 대화 대신 확인된 짧은 대답과 준비된 선택지를 사용합니다.'));
 }
 async function startConversation(card) {
   const actorCard = cards.find(item => item.id === state.player.embodiment), partner = nearbyConversationPartner();
@@ -593,9 +691,12 @@ async function startConversation(card) {
   const generation = ++dialogueGeneration;
   dialogueRequestPending = false;
   activeDialogueHost = card.id; activeDialogueKey = key; updateHud();
+  tutorialAdvance('talk');
   let session = dialogueSessions.get(key);
+  const authored = conversations[card.id], remaining = availableTopics(card.id, heardTopics.get(key));
+  dialogueCurrentLines.set(key, contextualOpening(card.id, actorCard.id));
+  showConversation(card, dialogueCurrentLines.get(key), remaining, '선택지는 빠른 대답입니다. 직접 입력해도 됩니다.');
   if (!session) {
-    showConversation(card, '대화를 준비하고 있다…', [], '서버 연결을 확인하는 중');
     const controller = new AbortController(); activeDialogueController = controller;
     const timer = setTimeout(() => controller.abort(), 8000);
     try {
@@ -615,10 +716,8 @@ async function startConversation(card) {
     if (activeDialogueHost !== card.id || activeDialogueKey !== key || dialogueGeneration !== generation) return;
   }
 
-  const authored = conversations[card.id];
-  const remaining = availableTopics(card.id, heardTopics.get(key));
-  showConversation(card, authored.opening, hasLiveDialogue(key) ? aiScenes.sessions[card.id].fallbackReplies : remaining,
-    hasLiveDialogue(key) ? 'Esc · 대화 마치기' : remaining.length ? '화제를 골라 말을 건네세요 · Esc로 마치기' : '이야기를 마쳤습니다 · Esc로 마치기');
+  showConversation(card, dialogueCurrentLines.get(key), hasLiveDialogue(key) ? aiScenes.sessions[card.id].fallbackReplies : remaining,
+    hasLiveDialogue(key) ? '온라인 · 직접 입력과 준비된 대답을 모두 쓸 수 있습니다.' : '오프라인 · 입력은 기록되며, 준비된 대답도 고를 수 있습니다.');
 }
 async function sendConversation(card, playerText, replyId = null) {
   const key = activeDialogueKey;
@@ -627,14 +726,31 @@ async function sendConversation(card, playerText, replyId = null) {
   const intentClass = classifyTypedResponse(playerText);
   const actorCard = cards.find(item => item.id === state.player.embodiment);
   const lines = dialogueTranscripts.get(key) ?? []; lines.push({ speaker: actorCard.displayNameKo, text: playerText });
-  const session = dialogueSessions.get(key); let turn = null, fallbackReason = '';
+  dialogueTranscripts.set(key, lines.slice(-24));
+  let session = dialogueSessions.get(key); let turn = null, fallbackReason = '';
+  if (!hasLiveDialogue(key)) {
+    const controller = new AbortController(); activeDialogueController = controller;
+    const timer = setTimeout(() => controller.abort(), 7000);
+    try {
+      const response = await fetch(`${aiBaseUrl}/api/rpg/session/start`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ hostId: card.id, actorHostId: actorCard.id }), signal: controller.signal });
+      if (response.ok) {
+        const result = await response.json();
+        if (result.sessionToken && result.mode !== 'AUTHORED' && result.mode !== 'BLOCKED_NO_KEY') {
+          session = { token: result.sessionToken, mode: result.mode }; dialogueSessions.set(key, session); sessionStorage.setItem(dialogueStorageKey(key), session.token);
+        } else fallbackReason = '오프라인 · 서버 대화를 사용할 수 없어 준비된 대답으로 답합니다.';
+      } else fallbackReason = '연결을 다시 확인했지만 오프라인 대답으로 이어갑니다.';
+    } catch { fallbackReason = '연결이 끊겨 오프라인 대답으로 이어갑니다.'; }
+    finally { clearTimeout(timer); if (activeDialogueController === controller) activeDialogueController = null; }
+    if (activeDialogueHost !== card.id || activeDialogueKey !== key || dialogueGeneration !== generation) return;
+  }
   if (hasLiveDialogue(key)) {
     dialogueRequestPending = true;
     const controller = new AbortController(); activeDialogueController = controller;
     const timer = setTimeout(() => controller.abort(), 20000);
-    showConversation(card, '', [], '잠시 생각하는 중…');
+    dialogueCurrentLines.set(key, '말을 들었어요. 잠시 생각하고 있어요.');
+    showConversation(card, dialogueCurrentLines.get(key), [], '답변을 기다리는 중 · Esc로 대화를 마칠 수 있습니다.');
     try {
-      const response = await fetch(`${aiBaseUrl}/api/rpg/dialogue`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ sessionToken: session.token, requestId: crypto.randomUUID(), playerInput: playerText, actorRelations: relationshipHintsFor(actorCard.id), actorActions: playerActionHintsFor(actorCard.id) }), signal: controller.signal });
+      const response = await fetch(`${aiBaseUrl}/api/rpg/dialogue`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ sessionToken: session.token, requestId: crypto.randomUUID(), playerInput: playerText, actorRelations: relationshipHintsFor(actorCard.id), actorActions: playerActionHintsFor(actorCard.id), sceneContext: { date: state.world.date, mapId: state.world.currentMapId, questId: missionGuidance?.questId ?? null } }), signal: controller.signal });
       if (!response.ok) {
         if (response.status === 429) {
           session.mode = 'BLOCKED_LIMIT'; dialogueSessions.set(key, session); sessionStorage.removeItem(dialogueStorageKey(key));
@@ -649,7 +765,7 @@ async function sendConversation(card, playerText, replyId = null) {
         sessionStorage.setItem(dialogueStorageKey(key), session.token);
       }
       turn = data.fallback ? null : candidate; fallbackReason = data.fallback ? data.mode : '';
-    } catch { fallbackReason ||= '연결이 늦어 오프라인 대사로 이어간다'; }
+    } catch { fallbackReason ||= '연결이 늦어 오프라인 대사로 이어갑니다.'; }
     finally {
       clearTimeout(timer);
       if (activeDialogueController === controller) activeDialogueController = null;
@@ -665,15 +781,17 @@ async function sendConversation(card, playerText, replyId = null) {
     turn = { beats: [{ speakerId: reply.speakerId, textKo: reply.text, emotion: 'neutral' }], suggestedReplies: reply.replies.map(textKo => ({ textKo })) };
     if (reply.complete && reply.text !== conversations[card.id].closing) turn.beats.push({ speakerId: card.id, textKo: conversations[card.id].closing });
   }
-  for (const beat of turn.beats) lines.push({ speaker: beat.speakerId === 'NARRATION' ? '기록' : card.displayNameKo, text: beat.textKo });
+  for (const beat of turn.beats) lines.push({ speaker: beat.speakerId === 'NARRATION' ? card.displayNameKo : card.displayNameKo, text: beat.textKo });
   dialogueTranscripts.set(key, lines.slice(-24));
+  dialogueCurrentLines.set(key, turn.beats.map(beat => beat.textKo).join('\n'));
   const recorded = recordDialogueTurn(state, { hostId: card.id, actorHostId: actorCard.id, sceneId: local.sceneId, intentClass }, maps);
   if (recorded.ok) setState(recorded.state);
   const replies = (turn.suggestedReplies ?? []).slice(0, 3);
-  showConversation(card, '', replies.map(reply => reply.textKo), fallbackReason ? '연결이 원활하지 않아 화제를 골라 이어갑니다.' : hasLiveDialogue(key) ? 'Esc · 대화 마치기' : replies.length ? '다른 화제를 고르거나 대화를 마치세요.' : '이야기를 마쳤습니다 · Esc로 마치기');
+  showConversation(card, dialogueCurrentLines.get(key), replies.map(reply => reply.textKo), fallbackReason || (hasLiveDialogue(key) ? '온라인 · 준비된 대답 또는 직접 입력' : '오프라인 · 준비된 대답 또는 직접 입력'));
   $('.journal').scrollTop = $('.journal').scrollHeight;
 }
 document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && !event.isComposing && $('#quest-journal').open) { event.preventDefault(); closeJournal(); return; }
   if (event.key === 'Escape' && activeDialogueHost && !event.isComposing) { event.preventDefault(); finishConversation(activeDialogueHost); return; }
   if (ownsKeyboardInput(event) || state.endingId) return;
   if (!$('#learning-screen').hidden) {
@@ -682,6 +800,7 @@ document.addEventListener('keydown', event => {
   }
   const direction = ({ ArrowUp: 'up', w: 'up', W: 'up', ArrowDown: 'down', s: 'down', S: 'down', ArrowLeft: 'left', a: 'left', A: 'left', ArrowRight: 'right', d: 'right', D: 'right' })[event.key];
   if (direction) { event.preventDefault(); move(direction); }
+  if (!activeDialogueHost && (event.key === 'j' || event.key === 'J')) { event.preventDefault(); if ($('#quest-journal').open) closeJournal(); else openJournal(); return; }
   if (!activeDialogueHost && (event.key === 'e' || event.key === 'E' || event.key === 'Enter')) { event.preventDefault(); interact(); }
   if (!activeDialogueHost && (event.key === 'h' || event.key === 'H')) { event.preventDefault(); openSourceDrawer(); }
   if (event.key === 'Escape' && activeDialogueHost) { finishConversation(activeDialogueHost); return; }
@@ -706,6 +825,14 @@ $('#load').addEventListener('click', () => {
   catch { sayRecord('저장 기록을 읽지 못했다. 새 기록으로 시작해 주세요.'); }
 });
 $('#ending-restart').addEventListener('click', () => { localStorage.removeItem('v33-rpg-save'); location.reload(); });
+$('#mission-pin').addEventListener('click', toggleDestinationPin);
+$('#journal-pin').addEventListener('click', toggleDestinationPin);
+$('#journal-open').addEventListener('click', openJournal);
+$('#journal-close').addEventListener('click', closeJournal);
+$('#quest-journal').addEventListener('click', event => { if (event.target === $('#quest-journal')) closeJournal(); });
+document.querySelectorAll('[data-journal-tab]').forEach(button => button.addEventListener('click', () => setJournalTab(button.dataset.journalTab)));
+$('#tutorial-skip').addEventListener('click', () => { tutorialStage = 'done'; localStorage.setItem(tutorialStorageKey, tutorialStage); updateTutorial(); sayRecord('도움말을 건너뛰었습니다. 수첩은 언제든 J로 열 수 있습니다.'); });
+$('#tutorial-replay').addEventListener('click', () => { tutorialStage = '0'; localStorage.setItem(tutorialStorageKey, tutorialStage); updateTutorial(); sayRecord('도움말을 처음부터 다시 시작합니다.'); });
 function restoreJournal() {
   const latest = state.ledger.at(-1);
   if (latest?.questId && latest.actionId) {

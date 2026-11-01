@@ -90,8 +90,8 @@
     "v21-readability-qa": "node scripts/v21-readability-qa.mjs",
     "v21-periodical-branches": "node scripts/v21-periodical-branches.mjs",
     "v21-memo-provenance": "node scripts/v21-memo-provenance.mjs",
-  "v21-periodical-action-replay": "node scripts/v21-periodical-action-replay.mjs",
-  "v21-full-canonical-route-replay": "node scripts/v21-full-canonical-route-replay.mjs",
+    "v21-periodical-action-replay": "node scripts/v21-periodical-action-replay.mjs",
+    "v21-full-canonical-route-replay": "node scripts/v21-full-canonical-route-replay.mjs",
     "v21-build-provenance": "node scripts/v21-build-provenance.mjs",
     "v22-before-evidence": "node scripts/v22-before-evidence.mjs",
     "v22-ui-acceptance": "node scripts/v22-ui-acceptance.mjs",
@@ -218,21 +218,20 @@
     "v28-copy-inventory": "node scripts/v28-generate-copy-inventory.mjs",
     "v28-korean-naturalness": "node scripts/v28-korean-naturalness-audit.mjs",
     "v28-acceptance": "node scripts/v28-acceptance.mjs",
-  "v28-browser-evidence": "node scripts/v28-browser-evidence.mjs",
-  "v28-all-cases-browser-evidence": "node scripts/v28-all-cases-browser-evidence.mjs",
+    "v28-browser-evidence": "node scripts/v28-browser-evidence.mjs",
+    "v28-all-cases-browser-evidence": "node scripts/v28-all-cases-browser-evidence.mjs",
     "v28-legacy-copy-browser": "node scripts/v28-legacy-copy-browser-evidence.mjs",
-  "v28-save-reload": "node scripts/v28-save-reload.mjs",
-  "v28-replay-audit": "node scripts/v28-replay-audit.mjs",
-  "v28-timeline-audit": "node scripts/v28-canonical-timeline-audit.mjs",
+    "v28-save-reload": "node scripts/v28-save-reload.mjs",
+    "v28-replay-audit": "node scripts/v28-replay-audit.mjs",
+    "v28-timeline-audit": "node scripts/v28-canonical-timeline-audit.mjs",
     "v28-gold-slice-evidence": "node scripts/v28-gold-slice-evidence.mjs",
     "v28-active-contract-audit": "node scripts/v28-active-contract-audit.mjs",
-  "v28-ending-browser-evidence": "node scripts/v28-ending-browser-evidence.mjs",
+    "v28-ending-browser-evidence": "node scripts/v28-ending-browser-evidence.mjs",
     "v28-performance-browser": "node scripts/v28-performance-browser-evidence.mjs",
     "v28-performance-headed": "node scripts/v28-performance-browser-evidence.mjs --headed",
     "v28-200p-zoom-evidence": "node scripts/v28-200p-zoom-evidence.mjs",
     "v28-ending-tail-evidence": "node scripts/v28-ending-tail-evidence.mjs",
     "v28-ending-uvarov-evidence": "node scripts/v28-ending-uvarov-evidence.mjs",
-    "v28-ending-browser-evidence": "node scripts/v28-ending-browser-evidence.mjs",
     "v28-qa-reports": "node scripts/v28-qa-reports.mjs",
     "acceptance:v28": "npm run v28-author-narrative && npm run v28-schema-audit && npm run v28-arc-matrix && npm run v28-copy-inventory && npm run v28-acceptance && npm run build && npm run check && npm run lint && npm run test && npm run v28-browser-evidence",
     "timeline-ui-consistency": "node scripts/v16-timeline-ui-consistency.mjs",
@@ -267,7 +266,11 @@
     "v33-browser-acceptance": "node scripts/v33-browser-acceptance.mjs",
     "v33-player-presentation-test": "node --test scripts/v33-player-presentation.test.mjs scripts/v33-authored-dialogue.test.mjs scripts/v33-quest-presentation.test.mjs",
     "acceptance:v33": "npm run v33-player-presentation-test && npm run v33-rpg-core-test && npm run v33-street-material-test && npm run v33-learning-life-test && npm run v33-http-server-test && npm run v33-renderer-load-test && npm run v33-atmosphere-test && npm run v33-atmosphere-browser && npm run v33-exploration-coverage-test && npm run v33-ai-test && npm run v33-vercel-api-test && npm run v33-historical-claim-ledger-test && npm run v33-historical-audit && npm run v33-image-audit && npm run v33-ending-route-matrix && npm run v33-static-build-config-test && npm run build:v33 && npm run build && npm run lint && npm run check && npm test && npm run v33-browser-acceptance",
-  "verify": "npm run v27-verify && npm run build && npm run lint && npm run check && npm run audit && npm run test && npm run perf && npm run mobile && npm run source-audit && npm run gltf-audit && npm run placeholder-audit && npm run corpus-audit && npm run case-content-audit && npm run ending-epilogue-audit && npm run phase2-sim && npm run ending-sim && npm run korean-copy-lint && npm run korean-dialogue-review && npm run desk-scene-audit && npm run source-interaction-audit && npm run ui-slop-audit && npm run copy-clarity && npm run authored-dialogue-audit && npm run runtime-dialogue-audit && npm run playtime-audit && npm run audio-audit && npm run browser-qa && npm run dialogue-plan-audit && npm run v5-viewport && npm run v5-translation && npm run v5-performance && npm run v21-build-provenance && npm run v21-runtime-manifest-parity && npm run v21-readability-qa && npm run v23-ui-acceptance && npm run v23-choice-replay && npm run v22-periodical-actual-content"
+    "verify": "npm run v27-verify && npm run build && npm run lint && npm run check && npm run audit && npm run test && npm run perf && npm run mobile && npm run source-audit && npm run gltf-audit && npm run placeholder-audit && npm run corpus-audit && npm run case-content-audit && npm run ending-epilogue-audit && npm run phase2-sim && npm run ending-sim && npm run korean-copy-lint && npm run korean-dialogue-review && npm run desk-scene-audit && npm run source-interaction-audit && npm run ui-slop-audit && npm run copy-clarity && npm run authored-dialogue-audit && npm run runtime-dialogue-audit && npm run playtime-audit && npm run audio-audit && npm run browser-qa && npm run dialogue-plan-audit && npm run v5-viewport && npm run v5-translation && npm run v5-performance && npm run v21-build-provenance && npm run v21-runtime-manifest-parity && npm run v21-readability-qa && npm run v23-ui-acceptance && npm run v23-choice-replay && npm run v22-periodical-actual-content",
+    "v34-quest-guidance-test": "node --test scripts/v34-quest-guidance.test.mjs",
+    "v34-browser-evidence": "node scripts/v34-browser-evidence.mjs",
+    "v34-guidance-test": "node --test scripts/v34-quest-guidance.test.mjs",
+    "v34-create-evidence": "node scripts/v34-create-evidence-files.mjs"
   },
   "devDependencies": {
     "playwright": "^1.63.0"
@@ -276,4 +279,3 @@
     "three": "^0.180.0"
   }
 }
-

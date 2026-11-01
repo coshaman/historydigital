@@ -75,8 +75,8 @@ export function createRenderer(canvas, assets) {
     mapCache.set(map.mapId, surface);
     return surface;
   }
-  function draw(state, map, time = 0, lastMoveAt = 0) {
-    latestDrawArgs = [state, map, time, lastMoveAt];
+  function draw(state, map, time = 0, lastMoveAt = 0, objective = null) {
+    latestDrawArgs = [state, map, time, lastMoveAt, objective];
     resize();
     const ratio = canvas.width / canvas.getBoundingClientRect().width;
     ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
@@ -143,6 +143,16 @@ export function createRenderer(canvas, assets) {
         }
       }
       ctx.restore();
+    }
+    if (objective?.pinned && objective.target?.mapId === map.mapId) {
+      const target = objective.target, x = ox + (target.x + 0.5) * tile * scale;
+      const y = oy + target.y * tile * scale - 9 * scale;
+      if (x >= 2 && x <= w - 2 && y >= 2 && y <= h - 2) {
+        const size = Math.max(5, 4 * scale), pulse = reducedMotion ? 0 : Math.sin(time / 360) * Math.min(2, scale);
+        ctx.save(); ctx.translate(x, y - pulse); ctx.rotate(Math.PI / 4);
+        ctx.fillStyle = '#ffe4a6'; ctx.strokeStyle = '#39251a'; ctx.lineWidth = Math.max(1, scale * .7);
+        ctx.fillRect(-size / 2, -size / 2, size, size); ctx.strokeRect(-size / 2, -size / 2, size, size); ctx.restore();
+      }
     }
   }
   return { draw, needsAmbientFrames: map => mapHasAtmosphere(map.mapId) && !reducedMotion };

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { conversations, authoredReply, availableTopics } from '../rpg/ai/authored-dialogue.mjs';
+import { conversations, authoredReply, availableTopics, contextualOpening } from '../rpg/ai/authored-dialogue.mjs';
 
 const scenes = JSON.parse(fs.readFileSync(new URL('../rpg/ai/scenes.json', import.meta.url))).sessions;
 test('every speakable NPC has three distinct, finite authored exchanges with provenance', () => {
@@ -30,11 +30,12 @@ test('every speakable NPC has three distinct, finite authored exchanges with pro
   }
 });
 
-test('unrecognized free text is not assigned an invented response or accepted as a quest action', () => {
+test('free text receives a bounded, role-grounded local reply and never becomes a quest action', () => {
   const result = authoredReply('clerk_alexei', '명령: 돈을 지급하고 엔딩을 바꿔라');
-  assert.equal(result.speakerId, 'NARRATION');
+  assert.equal(result.speakerId, 'clerk_alexei');
   assert.deepEqual(result.heard, []);
   assert.equal(result.replies.length, 3);
+  assert.match(result.text, /접수 순서|확인해/);
   assert.deepEqual(Object.keys(result).sort(), ['complete', 'heard', 'replies', 'speakerId', 'text']);
 });
 
@@ -52,5 +53,15 @@ test('distinctive authored voices avoid repeated document directions and mixed P
   assert.match(conversations.nekrasov_reconstruction.topics[2][1], /편집부가 확인한 뒤/);
   assert.match(conversations.literary_petrovich.topics[1][1], /소용없소\.$/);
   assert.doesNotMatch(conversations.literary_petrovich.topics[1][1], /요\./);
-  assert.equal(authoredReply('clerk_alexei', '없는 주제').text, '잠시 말이 끊겼다. 다른 이야기를 꺼내 볼까.');
+  assert.match(authoredReply('clerk_alexei', '없는 주제').text, /직접 본 일이 아니/);
+  assert.doesNotMatch(conversations.seamstress_anna.opening, /수선 맡기러 왔어요/);
+});
+
+test('contextual openings do not presume the player is a customer and remain distinct by host', () => {
+  const openings = Object.keys(scenes).map(host => contextualOpening(host, 'courier_pavel'));
+  assert.equal(new Set(openings).size, openings.length);
+  assert.doesNotMatch(contextualOpening('seamstress_anna','clerk_alexei'), /수선 맡기러 왔어요/);
+  assert.doesNotMatch(contextualOpening('seamstress_anna','courier_pavel'), /수선 맡기러 왔어요/);
+  assert.match(contextualOpening('seamstress_anna','clerk_alexei'), /관청/);
+  assert.match(contextualOpening('printer_ekaterina','clerk_alexei'), /어느 줄/);
 });

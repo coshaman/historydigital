@@ -61,8 +61,9 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 1366, height: 768
     const diagnosis = await page.evaluate(() => ({ headline: document.querySelector('#headline').textContent, text: document.querySelector('#journal-text').textContent, record: document.querySelector('#record').textContent, hasSave: Boolean(localStorage.getItem('v33-rpg-save')), savedLedgerTail: JSON.parse(localStorage.getItem('v33-rpg-save') || 'null')?.state?.ledger?.slice(-3) }));
     throw new Error(`Saved clue did not restore at ${viewport.width}: ${JSON.stringify(diagnosis)}`);
   }
-  await page.locator('#host-notebook summary').click();
-  await page.getByText('허구 소품 조사 · 돌 틈에 낀 쪽지').waitFor();
+  await page.locator('#journal-open').click();
+  await page.locator('[data-journal-tab="sources"]').click();
+  await page.locator('#journal-sources').getByText('돌 틈에 낀 쪽지', { exact: true }).waitFor();
   const advancedClock = await page.locator('#clock').innerText();
   if (advancedClock === initialClock || !/^\d{2}:\d{2}$/.test(advancedClock)) throw new Error(`World clock did not visibly advance at ${viewport.width}: ${initialClock} → ${advancedClock}`);
   const metrics = await page.evaluate(() => {
@@ -71,6 +72,7 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 1366, height: 768
     return { viewport: { width: innerWidth, height: innerHeight }, document: { width: document.documentElement.scrollWidth, height: document.documentElement.scrollHeight }, shell, field, lower, pad, buttons: [...document.querySelectorAll('.touch-pad button')].map(button => { const r = button.getBoundingClientRect(); return { label: button.innerText, x: r.x, y: r.y, right: r.right, bottom: r.bottom, visible: r.width > 0 && r.height > 0 && r.left >= 0 && r.top >= 0 && r.right <= innerWidth && r.bottom <= innerHeight }; }) };
   });
   await page.screenshot({ path: path.join(out, `clue-${viewport.width}x${viewport.height}.png`) });
+  await page.locator('#journal-close').click();
   await page.keyboard.press('h');
   await page.getByText('지금까지 열린 자료').waitFor();
   evidenceHotkey = true;
