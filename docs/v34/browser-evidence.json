@@ -1,0 +1,492 @@
+{
+  "origin": "http://127.0.0.1:4188/",
+  "generatedAt": "2026-11-01T11:07:42.896Z",
+  "results": [
+    {
+      "label": "360x800 tracker visible",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "360x800 objective is at least 16px",
+      "passed": true,
+      "evidence": "16px"
+    },
+    {
+      "label": "360x800 no horizontal page overflow",
+      "passed": true,
+      "evidence": "{\"scroll\":360,\"client\":360}"
+    },
+    {
+      "label": "360x800 journal opens",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "360x800 journal goal tab",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "360x800 journal inventory tab",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "360x800 journal people tab",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "360x800 journal sources tab",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "360x800 journal history tab",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "360x800 Esc closes journal",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "360x800 pin control works",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "360x800 console/page errors",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "390x844 tracker visible",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "390x844 objective is at least 16px",
+      "passed": true,
+      "evidence": "16px"
+    },
+    {
+      "label": "390x844 no horizontal page overflow",
+      "passed": true,
+      "evidence": "{\"scroll\":390,\"client\":390}"
+    },
+    {
+      "label": "390x844 journal opens",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "390x844 journal goal tab",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "390x844 journal inventory tab",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "390x844 journal people tab",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "390x844 journal sources tab",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "390x844 journal history tab",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "390x844 Esc closes journal",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "390x844 pin control works",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "390x844 console/page errors",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "1366x768 tracker visible",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "1366x768 objective is at least 16px",
+      "passed": true,
+      "evidence": "16px"
+    },
+    {
+      "label": "1366x768 no horizontal page overflow",
+      "passed": true,
+      "evidence": "{\"scroll\":1366,\"client\":1366}"
+    },
+    {
+      "label": "1366x768 journal opens",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "1366x768 journal goal tab",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "1366x768 journal inventory tab",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "1366x768 journal people tab",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "1366x768 journal sources tab",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "1366x768 journal history tab",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "1366x768 Esc closes journal",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "1366x768 pin control works",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "1366x768 console/page errors",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "1440x900 tracker visible",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "1440x900 objective is at least 16px",
+      "passed": true,
+      "evidence": "16px"
+    },
+    {
+      "label": "1440x900 no horizontal page overflow",
+      "passed": true,
+      "evidence": "{\"scroll\":1440,\"client\":1440}"
+    },
+    {
+      "label": "1440x900 journal opens",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "1440x900 journal goal tab",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "1440x900 journal inventory tab",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "1440x900 journal people tab",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "1440x900 journal sources tab",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "1440x900 journal history tab",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "1440x900 Esc closes journal",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "1440x900 pin control works",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "1440x900 console/page errors",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "683x384 tracker visible",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "683x384 objective is at least 16px",
+      "passed": true,
+      "evidence": "16px"
+    },
+    {
+      "label": "683x384 no horizontal page overflow",
+      "passed": true,
+      "evidence": "{\"scroll\":683,\"client\":683}"
+    },
+    {
+      "label": "683x384 journal opens",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "683x384 journal goal tab",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "683x384 journal inventory tab",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "683x384 journal people tab",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "683x384 journal sources tab",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "683x384 journal history tab",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "683x384 Esc closes journal",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "683x384 pin control works",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "short-height layout exposes vertical page scrolling",
+      "passed": true,
+      "evidence": "{\"scroll\":878,\"client\":384}"
+    },
+    {
+      "label": "short-height goal instructions are reachable without a clipped inner panel",
+      "passed": true,
+      "evidence": "{\"x\":34,\"y\":181.078125,\"width\":614,\"height\":22.390625}"
+    },
+    {
+      "label": "683x384 console/page errors",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "first objective selects the nearby quest-eligible host",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "objective provides a concrete walk path",
+      "passed": true,
+      "evidence": "오른쪽 1칸 → 위 2칸 → 왼쪽 3칸 이동한 뒤 E를 누르세요."
+    },
+    {
+      "label": "following the displayed route reaches a person interaction",
+      "passed": true,
+      "evidence": "몸을 빌린다"
+    },
+    {
+      "label": "collision-aware directions lead to the named first host",
+      "passed": true,
+      "evidence": "몸을 빌림 · 안나"
+    },
+    {
+      "label": "guided first-host journey has no console/page errors",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "walk to a visible person and inspect",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "possess the person reached by movement",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "current identity updates immediately after possession",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "wrong-host objective directs to a permitted host",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "possessed-pavel-1366x768 journal opens",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "possessed-pavel-1366x768 journal goal tab",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "possessed-pavel-1366x768 journal inventory tab",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "possessed-pavel-1366x768 journal people tab",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "possessed-pavel-1366x768 journal sources tab",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "possessed-pavel-1366x768 journal history tab",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "possessed-pavel-1366x768 Esc closes journal",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "nearby person becomes talk target",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "offline conversation always shows typed input",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "offline state is stated plainly",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "typed input character count updates",
+      "passed": true,
+      "evidence": "11 / 800자"
+    },
+    {
+      "label": "offline free text receives a deterministic host-grounded reply",
+      "passed": true,
+      "evidence": "수선은 끝냈어요. 아직 값을 못 받아서 오늘은 그 얘기부터 해야 해요."
+    },
+    {
+      "label": "player utterance and NPC reply are retained in separate transcript",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "authored response remains available beside the input",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "authored reply adds a separate transcript turn",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "Escape closes conversation",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "save reload restores possessed body",
+      "passed": true,
+      "evidence": "몸을 빌림 · 파벨 안토노프"
+    },
+    {
+      "label": "save reload recalculates identical objective",
+      "passed": true,
+      "evidence": "안나에게 몸을 맡기세요 · 네프스키 거리 <> 안나에게 몸을 맡기세요 · 네프스키 거리"
+    },
+    {
+      "label": "offline core journey has no console/page errors",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "walk to a visible person and inspect",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "possess the person reached by movement",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "mock online dialogue displays validated current NPC turn",
+      "passed": true,
+      "evidence": "seamstress_anna: 수선은 끝났어요. 오늘은 값을 받아야 해요."
+    },
+    {
+      "label": "mock request includes current map/date scene context",
+      "passed": true,
+      "evidence": "{\"date\":\"1847-06-01\",\"mapId\":\"nevsky\",\"questId\":\"PRINTSHOP_PROOF_1847\"}"
+    },
+    {
+      "label": "429 response returns to clear authored fallback",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "aborted provider request falls back without trapping the scene",
+      "passed": true,
+      "evidence": ""
+    },
+    {
+      "label": "mock API journey has no console/page errors",
+      "passed": true,
+      "evidence": ""
+    }
+  ],
+  "failures": []
+}

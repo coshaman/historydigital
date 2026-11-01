@@ -61,7 +61,7 @@ try {
     await page.locator('#talk').click();
     await page.getByLabel('대사 입력').fill('교정쇄를 원문과 대조하고 싶어요.');
     await page.getByRole('button', { name: '말하기' }).click();
-    await page.getByText('mocked ai line').waitFor();
+    await page.locator('#journal-text').getByText('mocked ai line', { exact: true }).waitFor();
     assert.deepEqual(sessionStarts.at(-1), { hostId: 'printer_ekaterina', actorHostId: 'seamstress_anna' });
     assert.deepEqual(dialogueRequests.at(-1).actorRelations, { source_readers: '출처 확인을 먼저 요청했다', workshop: '재확인 요청을 함께 맡았다' });
     assert.deepEqual(dialogueRequests.at(-1).actorActions, [{ questId: 'PRINTSHOP_PROOF_1847', actionId: 'ASK_FOR_SOURCE' }]);
@@ -106,7 +106,7 @@ try {
       await page.locator('#talk').click();
       await page.getByLabel('대사 입력').fill('접수 순서와 담당자를 확인하겠습니다.');
       await page.getByRole('button', { name: '말하기' }).click();
-      await page.getByText('mocked ai line').waitFor();
+      await page.locator('#journal-text').getByText('mocked ai line', { exact: true }).waitFor();
       assert.deepEqual(sessionStarts.at(-1), { hostId: 'printer_ekaterina', actorHostId: 'clerk_alexei' });
       assert.deepEqual(dialogueRequests.at(-1).actorRelations, { office_supervisor: '공식 접수 책임을 맡겼다' });
       assert.deepEqual(dialogueRequests.at(-1).actorActions, [], 'Alexei must not inherit Anna’s completed action context');
@@ -116,7 +116,7 @@ try {
       assert.deepEqual(new Set(dialogueRequests.slice(-2).map(request => request.sessionToken)), new Set(pairSessions.map(([, token]) => token)));
       await page.getByLabel('대사 입력').fill('응답이 늦게 도착합니다.');
       await page.locator('.dialogue-input button').click();
-      await page.getByText('잠시 생각하는 중…').waitFor();
+      await page.getByRole('button', { name: '답을 기다리는 중' }).waitFor();
       assert.equal(await page.locator('.dialogue-input button').isDisabled(), true, 'submitting is locked while an AI turn is pending');
       const requestCount = dialogueRequests.length;
       await page.locator('.dialogue-input button').evaluate(button => button.click());
@@ -126,7 +126,7 @@ try {
       await page.locator('#talk').click();
       await page.getByLabel('대사 입력').fill('이제 다시 물어보겠습니다.');
       await page.locator('.dialogue-input button').click();
-      await page.getByText('mocked ai line').waitFor();
+      await page.locator('#journal-text').getByText('mocked ai line', { exact: true }).waitFor();
       releaseSlowDialogue?.(); releaseSlowDialogue = null;
       await page.waitForTimeout(100);
       assert.equal(await page.getByText('stale response must not appear').count(), 0, 'a response from the closed conversation cannot render in a reopened one');

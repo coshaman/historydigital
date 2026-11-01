@@ -39,7 +39,7 @@ To validate a real provider response, start the local server with `.env.local` l
 npm run v33-live-ai-smoke
 ```
 
-The smoke makes one short dialogue-generation request, prints only pass/fail and token usage, and never prints the key or dialogue. It fails if the API falls back to authored text.
+The smoke makes one short dialogue-generation request, prints only pass/fail and a safe error category, and never prints the key or dialogue. It fails if the API falls back to authored text. A `provider_response_validation` result means the provider returned parseable output, but the game rejected it against its response schema or historical/context safeguards. The local smoke now reports which gate rejected it (`response_schema_invalid`, `unsupported_historical_year`, `uncited_historical_person`, or `undisclosed_player_context`). Provider HTTP failures, malformed JSON, and timeouts have separate categories.
 
 ## Runtime notes
 
@@ -47,6 +47,21 @@ The smoke makes one short dialogue-generation request, prints only pass/fail and
 - Session continuity is held in a compressed, HMAC-signed token stored in the browser's session storage. The signing secret is derived on the server from the provider key; no database or third-party runtime is required.
 - Since sessions are stateless, a user can replay an older signed token to fork their own conversation. The game does not use AI output to mutate quest state, inventory, relationships, or endings. Configure Vercel Firewall rate limits and OpenAI project spending limits for production traffic.
 - Each generation disables model reasoning and caps the response at 420 output tokens. Provider failures use authored offline dialogue.
+
+## V34 quest and dialogue checks
+
+The Vercel deployment remains a static build plus same-origin Node Functions; no Cloudflare service or client-side key is used. For local private input, put `OPENAI_API_KEY` in the ignored `.env.local` file and run `npm start`. For Vercel, add the same variable under **Project → Settings → Environment Variables**, mark it Sensitive, choose Production and any Preview environments you use, then redeploy. Never use a `NEXT_PUBLIC_` variable for the key.
+
+The quest tracker is derived from checked-in quest actions, host permissions, current chapter/date, map exits, and each body's own known evidence. It is recalculated after movement, possession, save/load, and quest changes. Offline typed dialogue remains visible and records the player's line; local replies use checked-in character facts, and unsupported topics are identified as offline rather than presented as generated AI.
+
+Run the focused quest selector and browser evidence checks with:
+
+```powershell
+npm run v34-quest-guidance-test
+npm run v34-browser-evidence
+```
+
+The browser evidence command uses the running local server at port 4188 by default, captures screenshots under `docs/v34/screenshots/`, and mocks online replies. The one-turn live smoke above is optional and may incur one provider generation; it does not print the key or reply text.
 
 ## Other commands
 

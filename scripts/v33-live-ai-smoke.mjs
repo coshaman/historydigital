@@ -1,12 +1,13 @@
 import { spawn } from 'node:child_process';
 import { setTimeout as delay } from 'node:timers/promises';
 
-const origin = 'http://127.0.0.1:4173';
-const child = spawn(process.execPath, ['--env-file-if-exists=.env.local', 'server.mjs'], { stdio: 'ignore', windowsHide: true });
+const port = Number(process.env.CHANCERY_PORT || 4173);
+const origin = `http://127.0.0.1:${port}`;
+const child = spawn(process.execPath, ['--env-file-if-exists=.env.local', 'server.mjs'], { stdio: 'ignore', windowsHide: true, env: { ...process.env, CHANCERY_PORT: String(port) } });
 let turns = 0;
 try {
   let ready = false;
-  for (let attempt = 0; attempt < 50; attempt++) {
+  for (let attempt = 0; attempt < 100; attempt++) {
     try { if ((await fetch(`${origin}/api/rpg/health`)).ok) { ready = true; break; } } catch {}
     await delay(200);
   }
