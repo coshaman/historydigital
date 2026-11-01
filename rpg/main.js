@@ -204,14 +204,18 @@ function classifyTypedResponse(input) {
 const relationLabels = { editorial_office: '편집부', workshop: '작업장 동료', source_readers: '출처를 확인하는 독자', postal_route: '우편 경로', local_readers: '가게의 독자들', office_supervisor: '상급자', archive_keeper: '문서 담당자' };
 function render(now) {
   renderFrame = null;
-  renderer.draw(state, currentMap(), now, lastMoveAt);
-  if (now - lastMoveAt < 360) renderTimer = window.setTimeout(() => { renderTimer = null; requestRender(); }, 40);
+  const map = currentMap();
+  renderer.draw(state, map, now, lastMoveAt);
+  const animate = renderer.needsAmbientFrames(map) && document.visibilityState !== 'hidden';
+  if (now - lastMoveAt < 360 || animate) renderTimer = window.setTimeout(() => { renderTimer = null; requestRender(); }, animate ? 80 : 40);
 }
 function requestRender() {
   if (renderTimer !== null) { window.clearTimeout(renderTimer); renderTimer = null; }
   if (renderFrame === null) renderFrame = requestAnimationFrame(render);
 }
 window.addEventListener('resize', requestRender, { passive: true });
+document.addEventListener('visibilitychange', requestRender);
+window.matchMedia?.('(prefers-reduced-motion: reduce)').addEventListener?.('change', requestRender);
 function say(title, text, actions = []) {
   $('#headline').textContent = title;
   $('#journal-text').textContent = text;

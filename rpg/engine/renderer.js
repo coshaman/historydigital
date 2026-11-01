@@ -1,4 +1,5 @@
 import { objectIsPresent, interactionTile } from './world-presentation.mjs';
+import { atmosphereForMap, mapHasAtmosphere } from './atmosphere.mjs';
 
 export function calculateCamera({ viewportWidth, viewportHeight, mapWidth, mapHeight, tileSize = 16, position, zoom = 2.25 }) {
   const mapWidthWorld = mapWidth * tileSize, mapHeightWorld = mapHeight * tileSize;
@@ -49,7 +50,9 @@ export function createRenderer(canvas, assets) {
   const tileImage = getImage(new URL('../assets/petersburg-tiles.png', import.meta.url));
   const hostCards = assets.hostCards;
   const tile = 16;
-  const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+  const motionPreference = window.matchMedia?.('(prefers-reduced-motion: reduce)');
+  let reducedMotion = motionPreference?.matches ?? false;
+  motionPreference?.addEventListener?.('change', event => { reducedMotion = event.matches; redrawAfterAssetLoad(); });
   function resize() {
     const rect = canvas.getBoundingClientRect(), ratio = Math.min(window.devicePixelRatio || 1, 2);
     const width = Math.max(1, Math.round(rect.width * ratio)), height = Math.max(1, Math.round(rect.height * ratio));
@@ -117,7 +120,30 @@ export function createRenderer(canvas, assets) {
     if (!state.player.embodiment) { ctx.fillStyle = '#efe0b5'; ctx.fillRect(px + 7 * scale, py + 5 * scale, 3 * scale, 8 * scale); ctx.fillRect(px + 5 * scale, py + 3 * scale, 7 * scale, 3 * scale); }
     // Warm paper lanterns mark the active space without covering tile detail.
     const glow = ctx.createRadialGradient(px + 8 * scale, py + 8 * scale, 2, px + 8 * scale, py + 8 * scale, 46 * scale);
-    glow.addColorStop(0, '#d4a35d18'); glow.addColorStop(1, '#d4a35d00'); ctx.globalCompositeOperation = 'screen'; ctx.fillStyle = glow; ctx.fillRect(ox, oy, map.width * tile * scale, map.height * tile * scale); ctx.globalCompositeOperation = 'source-over';
+    const pulse = reducedMotion ? 0.5 : (Math.sin(time / 850) + 1) / 2;
+    glow.addColorStop(0, `rgba(212,163,93,${0.055 + pulse * 0.025})`); glow.addColorStop(1, '#d4a35d00'); ctx.globalCompositeOperation = 'screen'; ctx.fillStyle = glow; ctx.fillRect(ox, oy, map.width * tile * scale, map.height * tile * scale); ctx.globalCompositeOperation = 'source-over';
+    const atmosphere = atmosphereForMap(map.mapId, map.width * tile * scale, map.height * tile * scale, time, reducedMotion);
+    if (atmosphere) {
+      ctx.save();
+      ctx.beginPath(); ctx.rect(ox, oy, map.width * tile * scale, map.height * tile * scale); ctx.clip();
+      if (atmosphere.kind === 'drizzle') {
+        const hazeY = oy + map.height * tile * scale * (0.44 + (reducedMotion ? 0 : Math.sin(time / 2400) * 0.018));
+        const haze = ctx.createLinearGradient(0, hazeY, 0, hazeY + map.height * tile * scale * 0.16);
+        haze.addColorStop(0, 'rgba(182,198,202,0)'); haze.addColorStop(0.5, 'rgba(182,198,202,0.055)'); haze.addColorStop(1, 'rgba(182,198,202,0)');
+        ctx.fillStyle = haze; ctx.fillRect(ox, hazeY, map.width * tile * scale, map.height * tile * scale * 0.16);
+        ctx.lineWidth = 1;
+        for (const drop of atmosphere.particles) {
+          ctx.strokeStyle = `rgba(190,204,204,${drop.alpha})`;
+          ctx.beginPath(); ctx.moveTo(ox + drop.x, oy + drop.y); ctx.lineTo(ox + drop.x - 1.5, oy + drop.y + drop.length); ctx.stroke();
+        }
+      } else {
+        for (const mote of atmosphere.particles) {
+          ctx.fillStyle = `rgba(239,207,145,${mote.alpha})`;
+          ctx.fillRect(ox + mote.x, oy + mote.y, mote.size, mote.size);
+        }
+      }
+      ctx.restore();
+    }
   }
-  return { draw };
+  return { draw, needsAmbientFrames: map => mapHasAtmosphere(map.mapId) && !reducedMotion };
 }
