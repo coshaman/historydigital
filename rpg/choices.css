@@ -102,3 +102,10 @@ kbd{font:11px 'IBM Plex Mono',monospace;color:#d8c59f}
   .journal-tabs{margin-inline:-3px}
 }
 @media(prefers-reduced-motion:reduce){.mission-tracker,.quest-journal,.tutorial-card{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+@media(max-height:500px){
+  body:not(.ending-active):not(.learning-active){overflow-y:auto}
+  .game-shell{height:auto;min-height:100dvh;grid-template-rows:auto minmax(180px,42dvh) auto;align-content:start}
+  .lower{max-height:none;min-height:0;overflow:visible;grid-template-rows:auto auto}
+  .journal{max-height:none;min-height:0;overflow:visible}
+}

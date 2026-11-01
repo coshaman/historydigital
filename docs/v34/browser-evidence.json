@@ -1,6 +1,6 @@
 {
   "origin": "http://127.0.0.1:4188/",
-  "generatedAt": "2026-11-01T10:50:40.713Z",
+  "generatedAt": "2026-11-01T11:07:42.896Z",
   "results": [
     {
       "label": "360x800 tracker visible",
@@ -296,6 +296,16 @@
       "label": "683x384 pin control works",
       "passed": true,
       "evidence": ""
+    },
+    {
+      "label": "short-height layout exposes vertical page scrolling",
+      "passed": true,
+      "evidence": "{\"scroll\":878,\"client\":384}"
+    },
+    {
+      "label": "short-height goal instructions are reachable without a clipped inner panel",
+      "passed": true,
+      "evidence": "{\"x\":34,\"y\":181.078125,\"width\":614,\"height\":22.390625}"
     },
     {
       "label": "683x384 console/page errors",

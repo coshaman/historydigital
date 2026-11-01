@@ -51,6 +51,15 @@ for (const [width, height] of [[360,800],[390,844],[1366,768],[1440,900],[683,38
   check(await page.locator('#mission-pin').getAttribute('aria-pressed') === 'true', `${tag} pin control works`);
   await page.waitForTimeout(100);
   if (width === 360 || width === 390 || width === 1366 || width === 1440) await page.screenshot({ path: path.join(outDir, `pinned-${tag}.png`) });
+  if (width === 683) {
+    const vertical = await page.evaluate(() => ({ scroll: document.scrollingElement.scrollHeight, client: document.scrollingElement.clientHeight }));
+    check(vertical.scroll > vertical.client, 'short-height layout exposes vertical page scrolling', JSON.stringify(vertical));
+    await page.locator('#mission-method').scrollIntoViewIfNeeded();
+    const methodBox = await page.locator('#mission-method').boundingBox();
+    check(Boolean(methodBox) && methodBox.y >= 0 && methodBox.y + methodBox.height <= height, 'short-height goal instructions are reachable without a clipped inner panel', JSON.stringify(methodBox));
+    await page.screenshot({ path: path.join(outDir, 'short-height-objective-683x384.png') });
+    await page.evaluate(() => window.scrollTo(0,0));
+  }
   check(errors.length === 0, `${tag} console/page errors`, errors.join(' | '));
   await context.close();
 }

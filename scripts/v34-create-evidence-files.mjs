@@ -49,7 +49,7 @@ const matrix = [
   ['390x844','tracker, journal tabs, objective pin, no horizontal overflow, minimum font','PASS','screenshots/start-390x844.png; screenshots/journal-390x844.png'],
   ['1366x768','tracker, journal tabs, pin, offline and mocked online dialogue, save/reload','PASS','screenshots/start-1366x768.png; screenshots/offline-dialogue-1366x768.png'],
   ['1440x900','tracker, journal tabs, objective pin, no horizontal overflow','PASS','screenshots/start-1440x900.png; screenshots/journal-1440x900.png'],
-  ['683x384','200% zoom layout equivalent, tracker and journal','PASS','screenshots/start-683x384.png; screenshots/journal-683x384.png'],
+  ['683x384','200% zoom effective viewport; vertical scrolling keeps tracker and instructions reachable','PASS','screenshots/start-683x384.png; screenshots/journal-683x384.png; screenshots/short-height-objective-683x384.png'],
   ['1366x768 guided route','follow the visible collision-aware arrows with UI controls and possess named host','PASS','screenshots/guided-first-host-1366x768.png'],
   ['endings','five exact ending paths and 360px ending scroll/restart','PASS',`five-ending-trace.json (${endingIds.join(', ')})`],
   ['blind run A','fresh desktop first host, journal and source progression','PASS','blind-review-2026-11-01.md'],
