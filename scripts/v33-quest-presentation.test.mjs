@@ -5,7 +5,7 @@ import { questChoices, continuationQuest } from '../rpg/engine/quest-presentatio
 
 const read = async file => JSON.parse(await fs.readFile(new URL(`../rpg/quests/${file}.json`, import.meta.url), 'utf8'));
 const campaign = await read('campaign');
-const quests = await Promise.all(['printshop-article', 'public-discourse-1848', 'circle-investigation-1849', 'circle-letter-1849-may', 'literary-overcoat'].map(read));
+const quests = await Promise.all(['printshop-article', 'public-discourse-1848', 'circle-investigation-1849', 'circle-letter-1849-may', 'literary-overcoat', 'literary-dead-souls'].map(read));
 
 test('an unread source stays visible as a prerequisite rather than erasing every choice', () => {
   const proof = quests[0];
@@ -49,4 +49,10 @@ test('April report offers date progression, May letter still requires a physical
   assert.equal(continuationQuest(state, campaign, quests).id, 'CIRCLE_LETTER_1849_MAY');
   state.quests.CIRCLE_INVESTIGATION_1849.status = 'open';
   assert.equal(continuationQuest(state, campaign, quests), null, 'later completion never bypasses an earlier open quest');
+});
+
+test('player-facing outcomes describe the record made without repeating historical or literary disclaimers', () => {
+  const playerCopy = quests.flatMap(quest => [quest.premiseKo, ...quest.actions.flatMap(action => [action.labelKo, action.subcopyKo, action.resultKo, action.followupKo ?? ''])]).join('\n');
+  assert.doesNotMatch(playerCopy, /실제 사건의 처분을 바꾸지|실제 체포와 재판의 결과는 바뀌지|실제 역사의 기록과 분리|작품의 원래 장면은 그대로|문학 작품의 사건은 달라지지|작품의 다음 사건은 바뀌지|이미 일어난 일을 되돌리지는 못한다/);
+  for (const quest of quests.filter(item => item.historicalOutcome)) assert.ok(quest.historicalOutcome.sourceIds.length, `${quest.id} retains source-backed canonical outcome`);
 });
