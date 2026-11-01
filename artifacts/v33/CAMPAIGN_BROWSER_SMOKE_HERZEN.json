@@ -1,9 +1,31 @@
 {
   "schemaVersion": "V33_CAMPAIGN_BROWSER_SMOKE_V1",
-  "base": "http://127.0.0.1:62806/",
+  "base": "http://127.0.0.1:52554/",
   "endingId": "HERZEN",
   "status": "PASS",
   "steps": [
+    {
+      "type": "possession",
+      "hostId": "seamstress_anna",
+      "mapId": "nevsky",
+      "position": {
+        "x": 7,
+        "y": 14
+      }
+    },
+    {
+      "type": "case-related-source-read",
+      "questId": "PRINTSHOP_PROOF_1847",
+      "sourceId": "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+      "readingMode": "PHYSICAL_COPY",
+      "hostId": "seamstress_anna"
+    },
+    {
+      "type": "case-context-review",
+      "questId": "PRINTSHOP_PROOF_1847",
+      "hostId": "seamstress_anna",
+      "readRelatedSourceId": "LIT-TURGENEV-KHOR-KALYNYCH-1847"
+    },
     {
       "type": "map-transition",
       "from": "nevsky",
@@ -11,41 +33,32 @@
       "exitId": "nevsky-printshop-door"
     },
     {
-      "type": "possession",
-      "hostId": "printer_ekaterina",
-      "mapId": "printshop",
-      "position": {
-        "x": 11,
-        "y": 13
-      }
-    },
-    {
       "type": "source-read",
       "sourceId": "OBJ-SOV-1847",
-      "hostId": "printer_ekaterina",
+      "hostId": "seamstress_anna",
       "mapId": "printshop",
       "titleKo": "《현대인》 1847년 제1호 서지 기록"
     },
     {
       "type": "source-read",
       "sourceId": "LIT-TURGENEV-KHOR-KALYNYCH-1847",
-      "hostId": "printer_ekaterina",
+      "hostId": "seamstress_anna",
       "mapId": "printshop",
       "titleKo": "호리와 칼리니치"
     },
     {
       "type": "quest-action",
       "questId": "PRINTSHOP_PROOF_1847",
-      "actionId": "HOLD_FOR_CORRECTION",
-      "hostId": "printer_ekaterina",
+      "actionId": "ASK_FOR_SOURCE",
+      "hostId": "seamstress_anna",
       "effectsApplied": {
         "moneyDelta": 0,
         "inventoryRemove": [],
         "inventoryAdd": [],
         "relations": {
-          "workshop": "재확인 요청을 함께 맡았다"
+          "source_readers": "출처 확인을 먼저 요청했다"
         },
-        "situationKo": "교정 확인을 위해 작업을 보류했다."
+        "situationKo": "교정쇄를 원문과 대조했다."
       }
     },
     {
@@ -56,6 +69,12 @@
         "x": 18,
         "y": 7
       }
+    },
+    {
+      "type": "case-context-review",
+      "questId": "PUBLIC_DISCOURSE_1848",
+      "hostId": "nekrasov_reconstruction",
+      "readRelatedSourceId": null
     },
     {
       "type": "map-transition",
@@ -90,7 +109,7 @@
       "hostId": "courier_pavel",
       "mapId": "nevsky",
       "position": {
-        "x": 20,
+        "x": 21,
         "y": 10
       }
     },
@@ -130,6 +149,12 @@
         "x": 13,
         "y": 13
       }
+    },
+    {
+      "type": "case-context-review",
+      "questId": "CIRCLE_INVESTIGATION_1849",
+      "hostId": "clerk_alexei",
+      "readRelatedSourceId": null
     },
     {
       "type": "source-read",
@@ -193,14 +218,14 @@
       "PUBLIC_DISCOURSE_1848"
     ],
     "hostIds": [
-      "printer_ekaterina",
+      "seamstress_anna",
       "nekrasov_reconstruction",
       "courier_pavel",
       "clerk_alexei"
     ],
     "sourceIds": [
-      "OBJ-SOV-1847",
       "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+      "OBJ-SOV-1847",
       "OBJ-WS-NEKRASOV-EDITORIAL-1848",
       "OBJ-WS-PETRASHEVSKY-REPORT-1849",
       "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"

@@ -113,6 +113,63 @@ test('AI dialogue receives the embodied public character context and keeps each 
   }
 });
 
+test('V35 runs three contextual mock turns for each of six fictional character voices', async () => {
+  const cases = [
+    ['seamstress_anna', '1847-06-01', 'nevsky', 'PRINTSHOP_PROOF_1847', 'printer_ekaterina'],
+    ['printer_ekaterina', '1847-06-01', 'printshop', 'PRINTSHOP_PROOF_1847', 'seamstress_anna'],
+    ['clerk_alexei', '1849-04-22', 'chancery', 'CIRCLE_INVESTIGATION_1849', null],
+    ['courier_pavel', '1849-04-22', 'nevsky', 'CIRCLE_INVESTIGATION_1849', null],
+    ['tenant_mikhail', '1847-06-01', 'courtyard', null, null],
+    ['bookseller_lev', '1848-01-01', 'nevsky', null, null],
+  ];
+  const observed = [];
+  const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store: new MemorySessionStore(), allowedOrigins: ['https://game.example'], provider: { generate: async request => { observed.push(request.input); return validTurn(request.input.scene.id, request.input.character.id); } } });
+  for (const [hostId, date, mapId, questId, actorHostId] of cases) {
+    const opened = await service.handle(request('POST', '/api/rpg/session/start', actorHostId ? { hostId, actorHostId } : { hostId }));
+    assert.equal(opened.status, 201, hostId);
+    for (let turn = 0; turn < 3; turn += 1) {
+      const result = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken, requestId: `v35-${hostId}-${turn}-0001`, playerInput: ['그 일은 왜 중요한가요?', '그 말은 누구의 경험에서 나온 건가요?', '다른 선택도 가능했을까요?'][turn], sceneContext: { date, mapId, questId } }));
+      assert.equal(result.status, 200, `${hostId} turn ${turn}`);
+      assert.equal(result.body.fallback, false, `${hostId} turn ${turn}`);
+      assert.ok(result.body.turn.suggestedReplies.length >= 2 && result.body.turn.suggestedReplies.length <= 3);
+    }
+  }
+  assert.equal(observed.length, 18);
+  for (const [hostId] of cases) {
+    const rows = observed.filter(input => input.character.id === hostId);
+    assert.equal(rows.length, 3, hostId);
+    const profile = rows[0].character;
+    assert.equal(profile.worldview.status, 'fictional_character_design', hostId);
+    assert.ok(profile.socialEstate && profile.legalMobility && profile.literacy && profile.wealthBracket, `${hostId} social and economic context is bounded and server-derived`);
+    assert.equal(Object.keys(profile.speechRegister).length, 6, hostId);
+    assert.equal(Object.keys(profile.topicStances).length, 5, hostId);
+    assert.equal(profile.voiceSamples.length, 3, hostId);
+    assert.ok(new Set(profile.voiceSamples.map(line => line.match(/[^\s.!?…]+[.!?…]?$/)?.[0])).size >= 2, `${hostId} voice samples vary their sentence endings`);
+    assert.equal(rows[0].scene.allowedTopics.length >= 5, true, hostId);
+  }
+  assert.equal(new Set(observed.filter((_, index) => index % 3 === 0).map(input => input.character.speechRhythm)).size, 6, 'character voices must not collapse to a shared rhythm');
+  assert.equal(observed.find(input => input.character.id === 'printer_ekaterina').caseContext.questId, 'PRINTSHOP_PROOF_1847');
+  assert.ok(observed.find(input => input.character.id === 'printer_ekaterina').sourceEvidence.some(source => source.sourceId === 'LIT-TURGENEV-KHOR-KALYNYCH-1847'));
+  assert.equal(observed.find(input => input.character.id === 'clerk_alexei').caseContext.questId, 'CIRCLE_INVESTIGATION_1849');
+  assert.ok(observed.find(input => input.character.id === 'clerk_alexei').sourceEvidence.some(source => source.sourceId === 'OBJ-WS-PETRASHEVSKY-REPORT-1849'));
+  assert.equal(observed.find(input => input.character.id === 'courier_pavel').caseContext.questId, 'CIRCLE_INVESTIGATION_1849');
+  assert.equal(observed.find(input => input.character.id === 'tenant_mikhail').caseContext, null);
+});
+
+test('1848 public-delivery case context reaches the editorial reconstruction with dated source claims', async () => {
+  let input;
+  const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store: new MemorySessionStore(), allowedOrigins: ['https://game.example'], provider: { generate: async request => { input = request.input; return validTurn(request.input.scene.id, request.input.character.id); } } });
+  const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'nekrasov_reconstruction' }));
+  const result = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken, requestId: 'v35-public-case-0001', playerInput: '지방 구독자가 잡지를 늦게 받았다고 합니다. 공고에는 뭐라고 적혔나요?', sceneContext: { date: '1848-01-01', mapId: 'printshop', questId: 'PUBLIC_DISCOURSE_1848' } }));
+  assert.equal(result.status, 200);
+  assert.equal(result.body.fallback, false);
+  assert.equal(input.caseContext.questId, 'PUBLIC_DISCOURSE_1848');
+  assert.match(input.caseContext.historicalBoundaryKo, /검열 탓으로 돌리지 않는다/);
+  assert.ok(input.sourceEvidence.some(item => item.sourceId === 'OBJ-WS-NEKRASOV-EDITORIAL-1848'));
+  assert.ok(input.sourceEvidence.some(item => item.sourceId === 'OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE'));
+  assert.ok(input.sourceClaims.some(item => item.claimId === 'NOTICE49-DISTRIBUTION-ROUTE'));
+});
+
 test('Petrovich can discuss only the sourced Overcoat passage with Akaky in the literary realm', async () => {
   let providerInput, providerInstructions;
   const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store: new MemorySessionStore(), allowedOrigins: ['https://game.example'], provider: { generate: async request => { providerInput = request.input; providerInstructions = request.instructions; return validTurn(request.input.scene.id, request.input.character.id); } } });

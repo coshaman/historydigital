@@ -7,7 +7,7 @@ import path from 'node:path';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const require = createRequire(import.meta.url);
-const { createInitialState, moveActor, possessHost, releaseHost, transitionMap, performQuestAction, saveGame, loadGame, knowledgeForHost, recordSourceRead, recordEvidenceRead, advanceWorldTime, recordDialogueTurn, stateHash, describeHostMoney } = require('../rpg/engine/game-state.js');
+const { createInitialState, moveActor, possessHost, releaseHost, transitionMap, performQuestAction, saveGame, loadGame, knowledgeForHost, recordSourceRead, recordEvidenceRead, advanceNpcWorld, advanceWorldTime, recordDialogueTurn, stateHash, describeHostMoney } = require('../rpg/engine/game-state.js');
 const json = async relative => JSON.parse(await readFile(path.join(root, relative), 'utf8'));
 const loadMaps = async () => Object.fromEntries(await Promise.all((await readdir(path.join(root, 'rpg/maps'))).filter(file => file.endsWith('.json')).map(async file => [path.basename(file, '.json'), await json(`rpg/maps/${file}`)])));
 
@@ -170,6 +170,19 @@ test('crossing a map boundary requires the nearby physical exit and preserves th
   assert.equal(crossed.state.player.embodiment, null);
   assert.equal(crossed.state.hosts.printer_ekaterina.mapId, 'printshop');
   assert.equal(crossed.state.hosts.courier_pavel.mapId, 'nevsky');
+});
+
+test('map entry finds a nearby free tile when a resident occupies the configured arrival point', async () => {
+  const maps = await loadMaps();
+  const cards = await Promise.all((await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)));
+  const state = createInitialState({ maps, hostCards: cards });
+  state.player.position = { x: 22, y: 9 };
+  state.hosts.seamstress_anna.mapId = 'printshop';
+  state.hosts.seamstress_anna.position = { x: 12, y: 14 };
+  const crossed = transitionMap(state, 'nevsky-printshop-door', maps);
+  assert.equal(crossed.ok, true);
+  assert.notDeepEqual(crossed.state.hosts.courier_pavel.position, { x: 12, y: 14 });
+  assert.notDeepEqual(crossed.state.hosts.seamstress_anna.position, crossed.state.hosts.courier_pavel.position);
 });
 
 test('a resident remains at their current host position instead of colliding or being possessed remotely', async () => {
@@ -411,13 +424,25 @@ test('offscreen simulation advances independent NPC routines for a full 30 minut
   const cards = await Promise.all((await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)));
   const state = createInitialState({ maps, hostCards: cards });
   state.world.clockMinutes = 590;
-  const next = advanceWorldTime(state, 30, maps), simulation = next.ledger.at(-1);
+  const beforeHash = stateHash(state);
+  const next = advanceNpcWorld(state, 30, maps), simulation = next.ledger.at(-1);
   assert.equal(next.world.clockMinutes - state.world.clockMinutes, 30);
   assert.equal(simulation.eventType, 'NPC_SIMULATION');
   assert.equal(simulation.simulatedMinutes, 30);
   assert.ok(new Set(simulation.moves.map(move => move.hostId)).size >= 4, 'independent routines should move multiple offscreen actors');
   assert.ok(simulation.moves.every(move => move.fromMapId !== move.toMapId ? Boolean(move.viaExit) : Math.abs(move.from.x - move.to.x) + Math.abs(move.from.y - move.to.y) === 1));
+  assert.equal(stateHash(state), beforeHash, 'NPC advancement returns a new state without mutating its input');
   assert.equal(stateHash(advanceWorldTime(state, 30, maps)), stateHash(next), 'same initial state and elapsed time produce the same world state');
+});
+
+test('NPC routines pause during dialogue time while the in-world clock still advances', async () => {
+  const maps = await loadMaps();
+  const cards = await Promise.all(['seamstress_anna','printer_ekaterina','clerk_alexei','courier_pavel','tenant_mikhail','bookseller_lev'].map(id => json(`rpg/characters/${id}.json`)));
+  const state = createInitialState({ maps, hostCards: cards }), hostPositions = Object.fromEntries(Object.entries(state.hosts).map(([id, host]) => [id, { mapId: host.mapId, position: { ...host.position } }]));
+  const paused = advanceWorldTime(state, 5, maps, [], { pauseNpcSimulation: true });
+  assert.equal(paused.world.clockMinutes, state.world.clockMinutes + 5);
+  assert.equal(paused.ledger.some(item => item.eventType === 'NPC_SIMULATION'), false);
+  for (const [id, host] of Object.entries(paused.hosts)) assert.deepEqual({ mapId: host.mapId, position: host.position }, hostPositions[id], `${id} remains still during dialogue`);
 });
 
 test('courier autonomously delivers the sealed envelope only when the recipient is physically reachable', async () => {

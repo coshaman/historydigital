@@ -9,11 +9,41 @@
     "width": 1382,
     "height": 355
   },
-  "base": "http://127.0.0.1:62806/",
+  "base": "http://127.0.0.1:52554/",
   "sourceGate": {
     "entryBlockedBeforeReading": true,
     "archiveExcerptReadBeforeEntry": true,
-    "entrySucceededAfterReading": true
+    "entrySucceededAfterReading": true,
+    "reader": {
+      "titleKo": "《외투》 · 낡은 옷과 새 외투의 값",
+      "titleRu": "Шинель",
+      "citation": "LIT-GOGOL-OVERCOAT-1842 · EX-GOGOL-OVERCOAT-1842-COAT-L151-156 · DIRECT 원문 · 판면 RECONSTRUCTED",
+      "layout": "source-reader source-reader--book",
+      "russianVisible": true,
+      "koreanVisible": true,
+      "sourceLinkVisible": true,
+      "horizontalOverflow": false
+    },
+    "readerViewports": [
+      {
+        "width": 1366,
+        "documentWidth": 1366,
+        "dialogWidth": 1040,
+        "dialogHeight": 707
+      },
+      {
+        "width": 390,
+        "documentWidth": 390,
+        "dialogWidth": 352,
+        "dialogHeight": 830
+      },
+      {
+        "width": 360,
+        "documentWidth": 360,
+        "dialogWidth": 322,
+        "dialogHeight": 786
+      }
+    ]
   },
   "returnedToHistoricalMap": true,
   "noPageErrors": true

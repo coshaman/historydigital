@@ -10,6 +10,7 @@ const { createInitialState, moveActor, possessHost, releaseHost, transitionMap, 
 
 const readJson = async path => (await fetch(path)).json();
 const [street, shop, chancery, courtyard, literaryMap, overcoatMap, firstQuest, source, firstIssue, historicalSources, literarySource, overcoatSource, campaign, publicQuest, circleQuest, letterQuest, literaryQuest, overcoatQuest, sceneObservations, aiScenes, learningExam, learningSourceData, lifeTemplates, historicalComparisons] = await Promise.all([readJson('./rpg/maps/nevsky.json'), readJson('./rpg/maps/printshop.json'), readJson('./rpg/maps/chancery.json'), readJson('./rpg/maps/courtyard.json'), readJson('./rpg/maps/dead-souls.json'), readJson('./rpg/maps/overcoat.json'), readJson('./rpg/quests/printshop-article.json'), readJson('./rpg/data/khor-kalynych-source.json'), readJson('./rpg/data/sovremennik-1847-issue.json'), readJson('./rpg/data/historical-source-packets.json'), readJson('./rpg/data/dead-souls-source.json'), readJson('./rpg/data/overcoat-source.json'), readJson('./rpg/quests/campaign.json'), readJson('./rpg/quests/public-discourse-1848.json'), readJson('./rpg/quests/circle-investigation-1849.json'), readJson('./rpg/quests/circle-letter-1849-may.json'), readJson('./rpg/quests/literary-dead-souls.json'), readJson('./rpg/quests/literary-overcoat.json'), readJson('./rpg/data/scene-observations.json'), readJson('./rpg/ai/scenes.json'), readJson('./rpg/data/learning-exam.json'), readJson('./rpg/data/learning-sources.json'), readJson('./rpg/data/life-simulation.json'), readJson('./rpg/data/historical-comparisons.json')]);
+const [sourceReaderIndex, caseContextData] = await Promise.all([readJson('./rpg/data/source-reader-index.json'), readJson('./rpg/data/case-contexts.json')]);
 const cards = await Promise.all(['clerk_alexei','printer_ekaterina','courier_pavel','seamstress_anna','tenant_mikhail','bookseller_lev','nekrasov_reconstruction','literary_chichikov','literary_akaky','literary_petrovich'].map(id => readJson(`./rpg/characters/${id}.json`)));
 const maps = { nevsky: street, printshop: shop, chancery, courtyard, 'dead-souls': literaryMap, overcoat: overcoatMap }, hostCards = cards;
 const questList = [firstQuest, publicQuest, circleQuest, letterQuest, literaryQuest, overcoatQuest];
@@ -32,12 +33,33 @@ function playerActionHintsFor(hostId) {
     .slice(-12).map(({ questId, actionId }) => ({ questId, actionId }));
 }
 const sourceRecords = new Map([source, firstIssue, ...historicalSources.records, literarySource, overcoatSource].map(record => [record.sourceId, record]));
+const sourceReaderRecords = new Map(sourceReaderIndex.records.map(record => [record.sourceId, record]));
+const caseContextsByQuest = new Map(caseContextData.cases.map(item => [item.questId, item]));
 const initial = () => createInitialState({ maps, hostCards, quests: questList });
 let state;
 try { state = localStorage.getItem('v33-rpg-save') ? loadGame(localStorage.getItem('v33-rpg-save'), { maps, hostCards, quests: questList, learningExam }) : initial(); }
 catch { state = initial(); }
 const canvas = document.querySelector('#world'), renderer = createRenderer(canvas, { hostCards, quests: questList });
 const $ = selector => document.querySelector(selector);
+const caseContextButton = document.createElement('button');
+caseContextButton.id = 'case-context-open'; caseContextButton.type = 'button'; caseContextButton.hidden = true; caseContextButton.textContent = '사건 맥락 보기';
+caseContextButton.addEventListener('click', () => {
+  const hostId = state.player.embodiment, context = caseContextsByQuest.get(missionGuidance?.questId), role = context?.roles?.[hostId];
+  if (!context || !role) return;
+  const questions = role.discussionQuestions.map(question => `· ${question}`).join('\n');
+  const text = `${role.entrySituationKo}\n\n${context.playerFacing.premiseKo}\n\n${role.personalStakesKo}\n\n${context.playerFacing.decisionQuestionKo}\n\n이 인물이 던질 질문\n${questions}\n\n${context.historicalBoundaryKo}`;
+  const sourceActions = context.sourceIds.map(id => sourceRecords.get(id)).filter(Boolean).map(record => ({
+    label: `관련 자료 · ${record.titleKo}`,
+    subcopy: `${record.sourceId} · ${sourceReaderRecords.get(record.sourceId)?.pageLocator ?? record.range ?? record.witness?.range ?? ''}`,
+    run: () => {
+      const physical = currentNearby().some(item => item.type === 'source' && mapObjectProperties(item).sourceId === record.sourceId);
+      if (physical) sourceRead(record.sourceId);
+      else sourceRead(record.sourceId, context.sourceIds, 'PLAYER_ARCHIVE');
+    },
+  }));
+  say(context.playerFacing.sceneTitleKo, text, sourceActions);
+});
+$('.mission-controls').append(caseContextButton);
 let lastMoveAt = 0, renderFrame = null, renderTimer = null, activeDialogueHost = null, activeDialogueKey = null, activeDialogueController = null, dialogueGeneration = 0, dialogueRequestPending = false;
 const dialogueSessions = new Map(), dialogueTranscripts = new Map();
 const dialogueCurrentLines = new Map();
@@ -308,6 +330,8 @@ function updateHud() {
   $('#mission-action').textContent = `${missionGuidance.actionKo}${missionGuidance.placeKo ? ` · ${missionGuidance.placeKo}` : ''}`;
   $('#mission-reason').textContent = missionGuidance.reasonKo ?? '';
   $('#mission-method').textContent = missionGuidance.blocked ? `막힘 · ${missionGuidance.blockedReasonKo ?? '조건을 확인하세요.'}` : missionGuidance.howKo ?? '';
+  const caseContext = host ? caseContextsByQuest.get(missionGuidance.questId) : null;
+  caseContextButton.hidden = !caseContext?.roles?.[host.id] || Boolean(state.endingId);
   $('#mission-progress').textContent = missionGuidance.progress?.totalSteps ? `${missionGuidance.progress.completedSteps} / ${missionGuidance.progress.totalSteps}` : '';
   $('#mission-pin').disabled = !missionGuidance.target;
   $('#mission-pin').setAttribute('aria-pressed', String(destinationPinned && Boolean(missionGuidance.target)));
@@ -397,6 +421,14 @@ function questIsAvailable(activeQuest) {
   return Boolean(activeQuest && (literary ? state.world.activeRealm?.id === (activeQuest.realmId ?? activeQuest.chapterId) : activeQuest.chapterId === state.world.chapterId) && (!activeQuest.date || activeQuest.date <= state.world.date || literary));
 }
 let pendingSourceRead = null;
+let sourceReaderMode = ['bilingual', 'ko', 'ru'].includes(localStorage.getItem('v35-source-reader-mode')) ? localStorage.getItem('v35-source-reader-mode') : 'bilingual';
+function applySourceReaderMode(mode) {
+  if (!['bilingual', 'ko', 'ru'].includes(mode)) return;
+  sourceReaderMode = mode; localStorage.setItem('v35-source-reader-mode', mode);
+  const dialog = $('#source-reader'); dialog.dataset.readingMode = mode;
+  dialog.querySelectorAll('[data-reading-mode]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.readingMode === mode)));
+}
+$('#source-reader').querySelectorAll('[data-reading-mode]').forEach(button => button.addEventListener('click', () => applySourceReaderMode(button.dataset.readingMode)));
 function sourceRead(sourceId, archiveSourceIds = [], readingMode = 'PHYSICAL_COPY') {
   const record = sourceRecords.get(sourceId);
   if (!record) { sayRecord('자료 목록에서 확인되지 않는 문서다.'); return; }
@@ -405,29 +437,38 @@ function sourceRead(sourceId, archiveSourceIds = [], readingMode = 'PHYSICAL_COP
   openSourceReader(record, { nextState: prepared.state, readingMode });
 }
 function openSourceReader(record, { nextState = null, readingMode = null } = {}) {
-  const dialog = $('#source-reader'), isTurgenev = record.sourceId === source.sourceId;
-  const context = isTurgenev ? '1847년 《Современник》 첫 호에 실린 「호리와 칼리니치」의 도입부입니다. 화자는 지주 폴루티킨을 따라 농노 호리의 집으로 향합니다. 작품 속 서술이지 역사적 증언은 아닙니다.' : record.contextKo;
-  const provenance = isTurgenev ? `${record.witness.edition}\n위치: ${record.witness.range}\n첫 간행물: ${record.firstPublication}\n${record.witness.note}\n${record.translationNoteKo}` : `${record.edition}\n문서 시점: ${record.documentDate}\n위치: ${record.range}\n자료 성격: ${record.type}\n${record.translationNoteKo}`;
+  const dialog = $('#source-reader'), index = sourceReaderRecords.get(record.sourceId), isTurgenev = record.sourceId === source.sourceId;
+  if (!index) { sayRecord('이 자료의 서지 표시 정보를 찾지 못했다.'); return; }
+  const context = isTurgenev ? index.contextKo : index.contextKo ?? record.contextKo;
+  const provenance = `${record.creator ?? record.author ?? ''}\n작성·문서 시점: ${index.documentDate ?? index.creationDate ?? record.documentDate ?? record.dateCreated ?? '기재 없음'}\n최초 간행: ${index.publicationDate ?? record.firstPublication ?? '서지상 간행일 확인 불가'}\n판본: ${record.edition ?? record.witness?.edition ?? '서지 판본 정보 없음'}\n정확한 범위: ${index.pageLocator ?? record.range ?? record.witness?.range ?? ''}\n자료 성격: ${record.type ?? '기록 유형 미분류'} · ${index.rightsNoteKo}\n${record.translationNoteKo ?? sourceReaderIndex.translationPolicyKo}`;
   const url = isTurgenev ? record.witness.stableRevisionUrl : record.sourceUrl;
   pendingSourceRead = nextState ? { nextState, readingMode, record } : null;
-  $('#source-reader-meta').textContent = `${record.documentDate ?? '1847'} · ${record.type ?? '문학 원문'} · ${record.range ?? record.witness?.range ?? ''}`;
+  dialog.className = `source-reader source-reader--${index.layout}`;
+  const layoutLabel = ({ catalog: '서지 자료', book: '책 원문', periodical: '잡지 자료', official: '관청 문서', letter: '편지' })[index.layout] ?? '사료';
+  const sourceYear = String(index.documentDate ?? index.creationDate ?? index.publicationDate ?? record.documentDate ?? '연도 미상').slice(0, 4);
+  $('#source-reader-meta').textContent = `${sourceYear}년 · ${layoutLabel} · 발췌 ${index.excerptId}`;
   $('#source-reader-title').textContent = record.titleKo;
+  $('#source-reader-title-ru').textContent = record.titleRu ?? '';
   $('#source-reader-context').textContent = context;
   $('#source-reader-provenance-text').textContent = provenance;
+  $('#source-reader-ids').textContent = `${record.sourceId} · ${index.excerptId} · ${index.textStatus} 원문 · 판면 ${index.renderingStatus}`;
+  $('#source-reader-dates').textContent = `작성·문서: ${index.documentDate ?? index.creationDate ?? record.documentDate ?? record.dateCreated ?? '확인된 날짜 없음'} · 최초 간행: ${index.publicationDate ?? record.firstPublication ?? '확인된 간행일 없음'} · 이 장면의 날짜: ${state.world.date}`;
+  $('#source-reader-reconstruction').textContent = '실제 스캔 이미지가 아니라, 확인 가능한 원문을 읽기 좋게 배치한 재구성 판면입니다.';
   $('#source-reader-passages').replaceChildren(...record.paragraphs.map((paragraph, index) => {
     const section = document.createElement('section'); section.className = 'source-passage';
-    const label = document.createElement('h3'); label.textContent = `원문과 번역 · ${index + 1}`;
+    const label = document.createElement('h3'); label.textContent = `문단 ${index + 1} · 원문과 번역`;
     const ru = document.createElement('p'); ru.className = 'source-passage-ru'; ru.lang = 'ru'; ru.textContent = paragraph.ru;
     const ko = document.createElement('p'); ko.className = 'source-passage-ko'; ko.lang = 'ko'; ko.textContent = paragraph.ko;
     section.append(label, ru, ko); return section;
   }));
   const links = [
-    { label: '확인한 원문 열기', href: url, detail: record.range ?? record.witness.range },
+    { label: '확인한 러시아어 원문 열기', href: url, detail: index.pageLocator ?? record.range ?? record.witness?.range },
     ...(isTurgenev ? [{ label: '첫 간행 기록', href: record.firstPublicationSourceUrl }, { label: '잡지 서지', href: record.catalogUrl }] : []),
   ].filter(item => item.href);
   $('#source-reader-links').replaceChildren(...links.map(item => { const a = document.createElement('a'); a.href = item.href; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = item.detail ? `${item.label} · ${item.detail}` : item.label; return a; }));
   $('#source-reader-status').textContent = pendingSourceRead ? '원문과 번역을 읽은 뒤 수첩에 남기세요.' : '이미 읽은 자료입니다.';
   $('#source-reader-complete').hidden = !pendingSourceRead;
+  applySourceReaderMode(sourceReaderMode);
   if (dialog.open) dialog.close();
   dialog.showModal();
 }
@@ -493,7 +534,19 @@ function inspect(object) {
     } else if (state.player.embodiment === card.id) {
       say(card.displayNameKo, `지금 빌린 몸이다. ${card.personalObjective} · ${describeHostMoney(host.money)}`, [{ label: '이 몸의 수첩 보기', run: openJournal }]);
     } else {
-      say(card.displayNameKo, `${card.occupation}. ${card.personalObjective} 가까이에서 그 사람의 시야로 들어갈 수 있다.`, [{ label: '몸을 빌린다', run: () => { const result = possessHost(state, card.id, currentMap()); if (result.ok) { setState(result.state); tutorialAdvance('possess'); say(card.displayNameKo, `눈높이가 달라졌다. ${card.personalObjective} ${describeHostMoney(host.money)}`, []); sayRecord(`시야 전환 · ${card.displayNameKo}`); } else sayRecord(result.reason === 'already_embodied' ? '먼저 현재 몸을 놓아주자.' : '한두 걸음 더 가까이 가 보자.'); } }]);
+      const context = caseContextsByQuest.get(missionGuidance?.questId), role = context?.roles?.[card.id];
+      const intro = role ? `${role.entrySituationKo}\n\n${context.playerFacing.stakesKo}` : `${card.occupation}. ${card.personalObjective}`;
+      const options = [{ label: '몸을 빌린다', subcopy: role?.goalKo, run: () => {
+        const result = possessHost(state, card.id, currentMap());
+        if (result.ok) {
+          setState(result.state); tutorialAdvance('possess');
+          const opening = role ? `${role.entrySituationKo}\n\n${context.playerFacing.premiseKo}\n\n${role.personalStakesKo}` : `눈높이가 달라졌다. ${card.personalObjective} ${describeHostMoney(host.money)}`;
+          say(role ? context.playerFacing.sceneTitleKo : card.displayNameKo, opening, role ? [{ label: '사건의 배경과 확인할 질문', run: () => caseContextButton.click() }] : []);
+          sayRecord(`시야 전환 · ${card.displayNameKo}`);
+        } else sayRecord(result.reason === 'already_embodied' ? '먼저 현재 몸을 놓아주자.' : '한두 걸음 더 가까이 가 보자.');
+      } }];
+      if (role) options.push({ label: '이 사건의 맥락을 먼저 읽는다', subcopy: context.playerFacing.decisionQuestionKo, run: () => caseContextButton.click() });
+      say(card.displayNameKo, `${intro}\n\n가까이에서 그 사람의 시야로 들어갈 수 있다.`, options);
     }
   } else if (object.type === 'map-exit') {
     const result = transitionMap(state, props.exitId, maps);

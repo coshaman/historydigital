@@ -202,15 +202,14 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog) {
   return { moveRows, deliveryRows };
 }
 
-function advanceWorldTime(state, minutes, maps, reservedTiles = [], options = {}) {
-  if (!Number.isFinite(minutes) || minutes <= 0) return state;
+function advanceNpcWorld(state, elapsedMinutes, maps, options = {}) {
+  if (!Number.isFinite(elapsedMinutes) || elapsedMinutes <= 0) return state;
   const next = clone(state);
-  const tickCount = Math.min(10080, Math.max(1, Math.floor(minutes))), movementLog = [], deliveryLog = [];
+  const tickCount = Math.min(10080, Math.max(1, Math.floor(elapsedMinutes))), movementLog = [], deliveryLog = [];
   const startClock = next.world.clockMinutes ?? 540;
   for (let tick = 1; tick <= tickCount; tick += 1) {
     next.world.clockMinutes = startClock + tick;
-    if (options.pauseNpcSimulation) continue;
-    const result = simulateNpcMinute(next, maps, { reservedTiles, pausedHostIds: options.pausedHostIds }, tick, movementLog);
+    const result = simulateNpcMinute(next, maps, options, tick, movementLog);
     deliveryLog.push(...result.deliveryRows);
   }
   if (movementLog.length || deliveryLog.length) {
@@ -219,6 +218,16 @@ function advanceWorldTime(state, minutes, maps, reservedTiles = [], options = {}
     entry.nextStateHash = stateHash(next);
   }
   return next;
+}
+
+function advanceWorldTime(state, minutes, maps, reservedTiles = [], options = {}) {
+  if (!Number.isFinite(minutes) || minutes <= 0) return state;
+  if (options.pauseNpcSimulation) {
+    const next = clone(state);
+    next.world.clockMinutes = (next.world.clockMinutes ?? 540) + Math.min(10080, Math.max(1, Math.floor(minutes)));
+    return next;
+  }
+  return advanceNpcWorld(state, minutes, maps, { reservedTiles, pausedHostIds: options.pausedHostIds });
 }
 
 function canOccupy(map, x, y, ignoreHostId = null, hostStates = null) {
@@ -230,6 +239,21 @@ function canOccupy(map, x, y, ignoreHostId = null, hostStates = null) {
     const tile = objectTile(npc);
     return tile.x === x && tile.y === y;
   });
+}
+
+function nearestOpenArrival(map, preferred, hostId, hosts) {
+  const maxRadius = map.width + map.height;
+  for (let radius = 0; radius <= maxRadius; radius++) {
+    for (let dy = -radius; dy <= radius; dy++) {
+      const dx = radius - Math.abs(dy);
+      const candidates = dx === 0
+        ? [{ x: preferred.x, y: preferred.y + dy }]
+        : [{ x: preferred.x - dx, y: preferred.y + dy }, { x: preferred.x + dx, y: preferred.y + dy }];
+      const open = candidates.find(tile => canOccupy(map, tile.x, tile.y, hostId, hosts));
+      if (open) return open;
+    }
+  }
+  return null;
 }
 
 function moveActor(state, direction, map, maps = { [map?.mapId]: map }) {
@@ -316,8 +340,10 @@ function transitionMap(state, exitId, maps) {
   const host = hostId ? state.hosts[hostId] : null;
   if (!data.publicAccess && !hostId) return { ok: false, reason: 'person_required', state };
   if (hostId && (!host || !host.allowedMaps.includes(data.targetMapId))) return { ok: false, reason: 'host_lacks_access', state };
-  const arrival = { x: Number(data.arrivalX), y: Number(data.arrivalY) };
-  if (!Number.isInteger(arrival.x) || !Number.isInteger(arrival.y) || !canOccupy(targetMap, arrival.x, arrival.y, hostId, state.hosts)) return { ok: false, reason: 'invalid_arrival', state };
+  const preferredArrival = { x: Number(data.arrivalX), y: Number(data.arrivalY) };
+  if (!Number.isInteger(preferredArrival.x) || !Number.isInteger(preferredArrival.y)) return { ok: false, reason: 'invalid_arrival', state };
+  const arrival = nearestOpenArrival(targetMap, preferredArrival, hostId, state.hosts);
+  if (!arrival) return { ok: false, reason: 'invalid_arrival', state };
   const timed = advanceWorldTime(state, 5, maps, [{ mapId: data.targetMapId, position: arrival }]);
   const next = clone(timed);
   next.world.currentMapId = data.targetMapId;
@@ -565,6 +591,6 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
   return state;
 }
 
-const V33GameState = { describeHostMoney, createInitialState, moveActor, possessHost, enterLiteraryRealm, leaveLiteraryRealm, releaseHost, transitionMap, performQuestAction, knowledgeForHost, recordSourceRead, recordEvidenceRead, recordDialogueTurn, advanceWorldTime, advanceChapter, advanceCampaignDate, resolveEnding, saveGame, loadGame, stateHash, canOccupy, nearTile };
+const V33GameState = { describeHostMoney, createInitialState, moveActor, possessHost, enterLiteraryRealm, leaveLiteraryRealm, releaseHost, transitionMap, performQuestAction, knowledgeForHost, recordSourceRead, recordEvidenceRead, recordDialogueTurn, advanceNpcWorld, advanceWorldTime, advanceChapter, advanceCampaignDate, resolveEnding, saveGame, loadGame, stateHash, canOccupy, nearTile };
 if (typeof module !== 'undefined' && module.exports) module.exports = V33GameState;
 if (typeof globalThis !== 'undefined') globalThis.V33GameState = V33GameState;

@@ -45,6 +45,16 @@
     "밀봉된 편지를 읽지 않는다"
   ],
   "speechRhythm": "길과 날씨, 남은 시간을 먼저 짚는다",
+  "worldview": {"status":"fictional_character_design","stanceKo":"전달한 봉투의 봉인과 경로가 자기 책임의 경계라고 믿는다. 길 위에서 본 것과 봉투 안의 내용은 다른 일이다.","tensionKo":"늦지 않게 전해야 하는 압박과, 서두르다 봉투나 사람을 위험에 빠뜨릴 수 있다는 걱정 사이에서 움직인다.","blindSpotKo":"정해진 전달 절차를 지키면 자신이 할 일은 끝났다고 여겨, 문서가 도착한 뒤의 사람들 사정을 지나칠 수 있다.","designBasisKo":"허구 배달원 캐릭터 설계이며 실제 역사 인물의 견해나 발언이 아니다.","sceneAnchorIds":["CIRCLE_INVESTIGATION_1849","CIRCLE_LETTER_1849_MAY"]},
+  "topicStances": {
+    "serfdom": {"knowledgeKind":"street_limited","positionKo":"법과 농촌의 사정은 모른다. 길에서 누구를 어디까지 들여보내는지 같은 눈앞의 차이를 말한다."},
+    "censorship": {"knowledgeKind":"sealed_mail_boundary","positionKo":"관청 안의 판단은 모른다. 봉투의 봉인, 수취인, 전달 시각만 확인한다."},
+    "literature": {"knowledgeKind":"delivery_and_publication","positionKo":"인쇄물을 배달할 뿐 읽지 않은 글의 내용이나 작가의 뜻을 설명하지 않는다."},
+    "poverty_and_class": {"knowledgeKind":"fictional_lived_experience","positionKo":"지각하면 오늘 품삯과 다음 배달이 끊긴다. 이동 시간과 날씨가 생활비에 바로 닿는다."},
+    "slavophilism_and_westernism": {"knowledgeKind":"unfamiliar_terms","positionKo":"논쟁의 이름은 잘 모른다. 사람들이 어디로 모이고 어떤 종이를 주고받는지는 안다."}
+  },
+  "speechRegister": {"firstMeeting":"낯선 사람에게 필요한 길 안내만 존댓말","colleague":"익숙한 동료에게 짧고 빠른 반말","private":"걱정을 숨기려 짧은 농담을 붙인다","conflict":"배달 경로와 봉인 상태를 반복 확인하며 말이 빨라진다","intimacy":"상대가 먼저 다가오면 장난이 조금 늘어난다","formal":"수취인과 관청 앞에서는 주소와 전달 시각을 분명히 말한다"},
+  "voiceSamples": ["길은 열려 있어요. 봉인은 그대로고.","받는 사람 이름만 다시 불러줘요.","내용은 몰라요. 내가 맡은 건 도착까지예요."],
   "lexicon": [
     "골목",
     "빗물",

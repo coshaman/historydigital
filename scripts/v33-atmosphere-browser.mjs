@@ -4,12 +4,23 @@ import { createServer } from 'node:net';
 import { setTimeout as delay } from 'node:timers/promises';
 import { chromium } from 'playwright';
 
-const probe = createServer();
-await new Promise((resolve, reject) => { probe.once('error', reject); probe.listen(0, '127.0.0.1', resolve); });
-const port = probe.address().port;
-await new Promise((resolve, reject) => probe.close(error => error ? reject(error) : resolve()));
-const origin = `http://127.0.0.1:${port}`;
-const server = spawn(process.execPath, ['server.mjs'], { cwd: process.cwd(), env: { ...process.env, CHANCERY_PORT: String(port) }, stdio: 'ignore', windowsHide: true });
+let server = null;
+let origin = process.env.V33_RPG_URL;
+if (!origin) {
+  const probe = createServer();
+  await new Promise((resolve, reject) => { probe.once('error', reject); probe.listen(0, '127.0.0.1', resolve); });
+  const port = probe.address().port;
+  await new Promise((resolve, reject) => probe.close(error => error ? reject(error) : resolve()));
+  origin = `http://127.0.0.1:${port}`;
+  server = spawn(process.execPath, ['server.mjs'], { cwd: process.cwd(), env: { ...process.env, CHANCERY_PORT: String(port) }, stdio: ['ignore', 'ignore', 'pipe'], windowsHide: true });
+}
+let startupError = '';
+let spawnError = '';
+if (server) {
+  server.stderr.setEncoding('utf8');
+  server.stderr.on('data', chunk => { startupError = `${startupError}${chunk}`.slice(-2000); });
+  server.on('error', error => { spawnError = error.message; });
+}
 const browser = await chromium.launch({ headless: true });
 
 async function canvasFrame(page) {
@@ -40,7 +51,7 @@ try {
     try { if ((await fetch(origin)).ok) { ready = true; break; } } catch {}
     await delay(200);
   }
-  assert.ok(ready, 'local game server starts for atmosphere visual test');
+  assert.ok(ready, `local game server starts for atmosphere visual test${spawnError ? ` · ${spawnError}` : ''}${startupError ? ` · ${startupError}` : ''}${server && server.exitCode !== null ? ` · exit ${server.exitCode}` : ''}`);
   const motion = await testMotionPreferences();
   assert.equal(motion.moving, true, 'ambient drizzle changes the exterior canvas over time');
   assert.equal(motion.still, false, 'reduced-motion canvas stays visually still');
@@ -48,5 +59,5 @@ try {
   process.stdout.write(JSON.stringify({ status: 'PASS', ...motion }) + '\n');
 } finally {
   await browser.close();
-  server.kill();
+  server?.kill();
 }

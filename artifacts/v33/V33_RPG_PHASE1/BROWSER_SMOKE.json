@@ -1,6 +1,6 @@
 {
   "schemaVersion": "V33_RPG_BROWSER_SMOKE_V1",
-  "base": "http://127.0.0.1:62806/",
+  "base": "http://127.0.0.1:52554/",
   "viewports": [
     {
       "viewport": {
@@ -96,7 +96,7 @@
       "canvas": {
         "width": 1382,
         "height": 355,
-        "sampledColors": 20,
+        "sampledColors": 16,
         "mapCoverage": 0.8668596237337193,
         "cssTileScale": 2.879166666666667
       },
@@ -308,7 +308,7 @@
       "canvas": {
         "width": 1065,
         "height": 278,
-        "sampledColors": 16,
+        "sampledColors": 14,
         "mapCoverage": 0.8816901408450705,
         "cssTileScale": 2.21875
       },
@@ -414,7 +414,7 @@
       "canvas": {
         "width": 368,
         "height": 377,
-        "sampledColors": 22,
+        "sampledColors": 26,
         "mapCoverage": 1,
         "cssTileScale": 0.7666666666666667
       },
@@ -520,7 +520,7 @@
       "canvas": {
         "width": 338,
         "height": 354,
-        "sampledColors": 22,
+        "sampledColors": 24,
         "mapCoverage": 1,
         "cssTileScale": 0.7041666666666667
       },
@@ -544,7 +544,7 @@
     "clueInspected": "PRINTSHOP_ROUTING_NOTE",
     "sourceRead": true,
     "sourceReaderScroll": {
-      "scrollHeight": 449,
+      "scrollHeight": 570,
       "clientHeight": 335
     },
     "choiceResolved": true,

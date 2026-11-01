@@ -45,6 +45,16 @@
     "다른 하숙인의 사정을 주인에게 함부로 전하지 않는다"
   ],
   "speechRhythm": "상대 반응을 살피며 말을 고른다. 낯선 이에게는 조심스럽게 존댓말을 쓰고, 막막할 때는 문장을 흐리거나 되묻는다. 안나보다 설명이 조금 길어도 사정을 한 번만 말하고 동정을 구하지 않는다",
+  "worldview": {"status":"fictional_character_design","stanceKo":"집과 일은 혼자 버티는 몫처럼 보여도, 서로의 사정을 함부로 퍼뜨리지 않는 작은 약속이 사람을 지킨다고 믿는다.","tensionKo":"도움을 청해야 오늘을 넘길 수 있지만, 빚진 사람으로만 보이거나 다른 하숙인의 신뢰를 잃고 싶지 않다.","blindSpotKo":"당장 방세를 마련하는 데 매달려 고용주와 집주인이 정한 조건 자체를 바꾸기 어렵다고 체념한다.","designBasisKo":"허구 일용직 노동자 캐릭터 설계이며 실제 역사 인물의 견해나 발언이 아니다.","sceneAnchorIds":["PRINTSHOP_PROOF_1847"]},
+  "topicStances": {
+    "serfdom": {"knowledgeKind":"limited_personal_comparison","positionKo":"자기 도시 생활과 농촌의 법적 지위를 같은 것으로 말하지 않는다. 누가 떠날 수 있고 누가 붙들려 있는지 묻는다."},
+    "censorship": {"knowledgeKind":"no_office_access","positionKo":"관청 내부 정보는 없다. 소문을 사실처럼 전하지 않고, 집주인과 일자리에서 겪는 눈치를 말한다."},
+    "literature": {"knowledgeKind":"slow_reader_personal_response","positionKo":"긴 글은 천천히 읽는다. 읽은 문장의 느낌은 말할 수 있어도 작품의 사회적 진실을 대표하지 않는다."},
+    "poverty_and_class": {"knowledgeKind":"fictional_lived_experience","positionKo":"방세와 식비가 하루 일감에 달려 있다. 도움을 청하면서도 다른 사람의 사정을 함부로 공개하지 않는다."},
+    "slavophilism_and_westernism": {"knowledgeKind":"unfamiliar_terms","positionKo":"사상 논쟁보다 오늘 일감과 방세를 먼저 확인하고, 어려운 용어는 뜻을 물어본다."}
+  },
+  "speechRegister": {"firstMeeting":"낯선 이에게 조심스러운 존댓말과 짧은 되물음","colleague":"같이 품일하는 사람에게 조금 긴 반말","private":"신뢰가 생기면 망설임을 말로 인정한다","conflict":"상대 말을 끊지 않고 자기 사정을 한 번 설명한 뒤 선을 긋는다","intimacy":"급하게 친밀해지지 않으며 안심하면 문장을 끝까지 말한다","formal":"집주인과 관청에는 공손하지만 요구를 흐리지 않는다"},
+  "voiceSamples": ["내일까지만 미뤄 달라고 했어요. 그 뒤는 아직 모르겠고요.","다른 방 사람 얘긴 빼 주세요. 그분은 내게 말하지 않았어요.","일 있으면 내가 먼저 갈게."],
   "lexicon": [
     "방세",
     "품삯",

@@ -1,0 +1,272 @@
+{
+  "schemaVersion": "V35_EVIDENCE_MANIFEST_V1",
+  "credentialScan": "PASS",
+  "excluded": [
+    ".env.local",
+    "credentials",
+    ".git",
+    "generated failure captures"
+  ],
+  "files": [
+    {
+      "path": "ai/v33/session-runtime.cjs",
+      "bytes": 38993,
+      "sha256": "95e2f00ca2989c09b9b093321461c38859d8df483b05916c6d8ae2d5d8186f9a"
+    },
+    {
+      "path": "artifacts/v33/CAMPAIGN_BROWSER_SMOKE_BELINSKY.json",
+      "bytes": 7941,
+      "sha256": "153d5523a0efc9c9e18dd9ca48f661e9df3e7aab03734d76085ab252a22361db"
+    },
+    {
+      "path": "artifacts/v33/CAMPAIGN_BROWSER_SMOKE_DOSTOEVSKY_PETRASHEVSKY.json",
+      "bytes": 8034,
+      "sha256": "5218705c5c65acfa1586676c1d06566a93b6f7de73ea6a2914a38314e9cb01f1"
+    },
+    {
+      "path": "artifacts/v33/CAMPAIGN_BROWSER_SMOKE_HERZEN.json",
+      "bytes": 6697,
+      "sha256": "e98d9eb91277d5da37dce54f38ae2cc7c0a6cc9daf51e82344a85158769cd297"
+    },
+    {
+      "path": "artifacts/v33/CAMPAIGN_BROWSER_SMOKE_KHOMYAKOV.json",
+      "bytes": 7774,
+      "sha256": "6f4bda02db79ec7d0de51170bd3a2093d48e20a7bc44b8fc9d586368810219d0"
+    },
+    {
+      "path": "artifacts/v33/CAMPAIGN_BROWSER_SMOKE_UVAROV.json",
+      "bytes": 7980,
+      "sha256": "d937d6f82d19b353474ccf9f715020ed15201e712368778a56b6b6fe039977d5"
+    },
+    {
+      "path": "artifacts/v33/campaign-full-run-belinsky-1440x900.png",
+      "bytes": 97413,
+      "sha256": "9f49a7123675911526f92b39d4375ffa9ddfdd54459cfcb50cebf4c824e12920"
+    },
+    {
+      "path": "artifacts/v33/campaign-full-run-dostoevsky_petrashevsky-1440x900.png",
+      "bytes": 109439,
+      "sha256": "c7336b3d1b38f3c38bae7bdc579cdac18e969cca93dce5688ff699ed94bcf539"
+    },
+    {
+      "path": "artifacts/v33/campaign-full-run-herzen-1440x900.png",
+      "bytes": 98318,
+      "sha256": "de8d2233686b8c7c1378d9b2479f3d81a222871794ec1d2d508f835938be2f0e"
+    },
+    {
+      "path": "artifacts/v33/campaign-full-run-khomyakov-1440x900.png",
+      "bytes": 98323,
+      "sha256": "0bc121e25c144a7de28906e793858bf0d016b516bd034f67ef8c3e18ac9e3acd"
+    },
+    {
+      "path": "artifacts/v33/campaign-full-run-uvarov-1440x900.png",
+      "bytes": 95419,
+      "sha256": "0f705a5ac023baf1b15b8c21070cef130575617a12798b2e1ac594ed7c1bd643"
+    },
+    {
+      "path": "artifacts/v33/ENDING_BROWSER_SMOKE.json",
+      "bytes": 1033,
+      "sha256": "e24a58e73628d30a9539d33b6303ec6eda9d7c15c5e43717daad227b294d0625"
+    },
+    {
+      "path": "docs/v35/API_FAILURE_DIAGNOSIS.md",
+      "bytes": 2561,
+      "sha256": "bf5c0f4ad81e4091ee01e169ac722e16b57c4a990b99fc3098183166915fe802"
+    },
+    {
+      "path": "docs/v35/api-live-smoke.json",
+      "bytes": 395,
+      "sha256": "b061fa2fe80611c9109b2e215b3300a56dad66c643931b1d2a9ff6c79510ef9b"
+    },
+    {
+      "path": "docs/v35/BASELINE.md",
+      "bytes": 5668,
+      "sha256": "46182307ebb1b47a04b9fab3bdd75559965e1e781f3b2cae7c6604b23ba73cce"
+    },
+    {
+      "path": "docs/v35/CHARACTER_KNOWLEDGE_AND_SOURCE_LEDGER.csv",
+      "bytes": 38495,
+      "sha256": "5334afbabb5308d193de20fab5f70f076e87e2d1a7a95fedb1c67493c742eec7"
+    },
+    {
+      "path": "docs/v35/content-audit.json",
+      "bytes": 4345,
+      "sha256": "5ae2a182d93eee45c1e06bda05378b02e95a9d536a5dc2318e8365472cf3f615"
+    },
+    {
+      "path": "docs/v35/npc-30-minute-replay.json",
+      "bytes": 8953,
+      "sha256": "273e8838a092c99b7eeb059ebea6b02656dc290b43b420e7037c11002a95de3a"
+    },
+    {
+      "path": "docs/v35/QUEST_SOURCE_DIALOGUE_MATRIX.csv",
+      "bytes": 9365,
+      "sha256": "a67867418b374ab3b8bb8fc91cd3afc0a181ca883ec4cab80ff1b11000422edc"
+    },
+    {
+      "path": "docs/v35/REGRESSION_MATRIX.csv",
+      "bytes": 2761,
+      "sha256": "80487424fdb6fdc931a0371ffa900336b0597cf8a3d3f31ce85915609e671493"
+    },
+    {
+      "path": "docs/v35/screenshots/source-reader-overcoat-1366x768.png",
+      "bytes": 160078,
+      "sha256": "d181d7e7f4507f15cc1e97f05441b011d42e0eb91534e6f40fdc6488778ace77"
+    },
+    {
+      "path": "docs/v35/screenshots/source-reader-overcoat-1440x900.png",
+      "bytes": 216674,
+      "sha256": "f40c047088df4c4300534a96c9e977a7098761217b5579742fd263781b86829a"
+    },
+    {
+      "path": "docs/v35/screenshots/source-reader-overcoat-360x800.png",
+      "bytes": 70794,
+      "sha256": "072c5fbdd1ce354ea2076a33bced5f675adb38e5187e75541e0d11d385bb8947"
+    },
+    {
+      "path": "docs/v35/screenshots/source-reader-overcoat-390x844.png",
+      "bytes": 81696,
+      "sha256": "cbfbc9262ed149a1d4dea17ab1511aa2b612a64472656cdb0f7a9e25b98080fa"
+    },
+    {
+      "path": "docs/v35/VERIFICATION_REPORT.md",
+      "bytes": 2651,
+      "sha256": "bab37d1b7528f9b87bf6d1260e63e467bd8cbcc707938a12afd4cfd8f8561e50"
+    },
+    {
+      "path": "docs/v35/WORLDVIEW_BIBLE.md",
+      "bytes": 15527,
+      "sha256": "2d51a4be12fd436d0ae245870f1d18206a3e92ef6d0e7d0e5a52a644a0d1325f"
+    },
+    {
+      "path": "index.html",
+      "bytes": 10897,
+      "sha256": "a397c92f7dcb959c7b3e778ff303e46118649aca6b8df8691ece0f3cd05a0af6"
+    },
+    {
+      "path": "package.json",
+      "bytes": 22084,
+      "sha256": "ba17c4e179856ab7959c9fe64b0e955a69c53e331aa0415c774603228e0d99af"
+    },
+    {
+      "path": "README.md",
+      "bytes": 7644,
+      "sha256": "540e047c195ef7548f6b46d2a3b07dea0ee117d1d9f72ff42a1af4b9e1fa7e83"
+    },
+    {
+      "path": "rpg/ai/scenes.json",
+      "bytes": 11806,
+      "sha256": "642820d8ca268954db805cbbbf19dbdc0b4bb1f2e399a4f10335a8eb9452179c"
+    },
+    {
+      "path": "rpg/characters/bookseller_lev.json",
+      "bytes": 6336,
+      "sha256": "750080fd12e295a984ef93be25844ce9ca909467d35633220fa63d6d393b9e99"
+    },
+    {
+      "path": "rpg/characters/clerk_alexei.json",
+      "bytes": 6643,
+      "sha256": "0286200cebcfa0148e06fc8fb4f753474b3a840b3a4221a3ca4d51c8533f26a3"
+    },
+    {
+      "path": "rpg/characters/courier_pavel.json",
+      "bytes": 6522,
+      "sha256": "23b118872b689a1a854ec09324c33c2f9e22a1b2c4691c5e98b9d8c29ae98803"
+    },
+    {
+      "path": "rpg/characters/printer_ekaterina.json",
+      "bytes": 6866,
+      "sha256": "9401a417a0af1a490036fdec3ccef0040e19fb8906804c53d99ded4372fac1af"
+    },
+    {
+      "path": "rpg/characters/seamstress_anna.json",
+      "bytes": 6666,
+      "sha256": "4d2b3ed32e7b1a14d43a2a5e9696b01149d7f03f7f7c9354441aa52f70bcd66a"
+    },
+    {
+      "path": "rpg/characters/tenant_mikhail.json",
+      "bytes": 6639,
+      "sha256": "8f2243b1f0ba7b7f2fc468f0a03fdc9acf7744a83f161650f2045918ba1d356d"
+    },
+    {
+      "path": "rpg/choices.css",
+      "bytes": 20015,
+      "sha256": "b2b77a7ca6be0bcf45f9c7f59c8fd5afc61c617755e7e693ee2a1bbad0b060e6"
+    },
+    {
+      "path": "rpg/data/case-contexts.json",
+      "bytes": 15672,
+      "sha256": "1063425f5bf6d979f0650be38c7a428200334a43edd59c7b57ef95679f81a996"
+    },
+    {
+      "path": "rpg/data/source-reader-index.json",
+      "bytes": 5752,
+      "sha256": "70474c5804cae8e8784cd3b2782460fdcd88b113b70ebc2b4050f3ff62c6b5f2"
+    },
+    {
+      "path": "rpg/engine/game-state.js",
+      "bytes": 43529,
+      "sha256": "e9f1afe079d14a16d38956a0350632993ef8c7825e5eab5f55edab506c5418cb"
+    },
+    {
+      "path": "rpg/main.js",
+      "bytes": 85788,
+      "sha256": "720f7ac94adc7dc89f197cd479b3a391e17a231d4d79d826f00489c1ead5eaa8"
+    },
+    {
+      "path": "scripts/v33-ai-runtime.test.mjs",
+      "bytes": 45311,
+      "sha256": "b0ae0720bf250431efcfe39d8af03e738bd7cba1df6a2b2bfd32e177a9fc852a"
+    },
+    {
+      "path": "scripts/v33-atmosphere-browser.mjs",
+      "bytes": 3008,
+      "sha256": "d8ed604a97714bb25ed9f21c0714f58f9c082271ea26ad845f1415b7ba05ebcc"
+    },
+    {
+      "path": "scripts/v33-browser-acceptance.mjs",
+      "bytes": 2932,
+      "sha256": "629ce29f7a5da7e6658e29da6fc99a00c276f784bb2d701269710f2920a2892d"
+    },
+    {
+      "path": "scripts/v33-campaign-browser-smoke.mjs",
+      "bytes": 28054,
+      "sha256": "65af85bf9d98d9314586a67a1ce3d9928bf2799eda3eee1039b7aee036aaf93e"
+    },
+    {
+      "path": "scripts/v33-overcoat-browser-smoke.mjs",
+      "bytes": 7611,
+      "sha256": "95e7d913b2eb1c5fb134088dff4a14df6a8538d32cc308262b6a4c2ce972ea27"
+    },
+    {
+      "path": "scripts/v33-rpg-core.test.mjs",
+      "bytes": 54079,
+      "sha256": "273133b472b6d06d06ce4c919009a3f999242f62c557fb18145a613012e9ef6b"
+    },
+    {
+      "path": "scripts/v35-build-matrices.mjs",
+      "bytes": 4079,
+      "sha256": "5653552748d8ba93e05fd128c35fba6235074b9012d317ccb6e6aa8370381d57"
+    },
+    {
+      "path": "scripts/v35-content-audit.mjs",
+      "bytes": 4952,
+      "sha256": "5862a56fe934f31836eaa8a1938d5ca07626795be1f3be7ce9c8e0582bb9a377"
+    },
+    {
+      "path": "scripts/v35-generate-npc-replay.mjs",
+      "bytes": 4704,
+      "sha256": "f0d6074c257981c08588fc90712c918f1e55c75df763c017d3a2d060e4dee162"
+    },
+    {
+      "path": "scripts/v35-package-evidence.mjs",
+      "bytes": 3595,
+      "sha256": "f3a46e892cb4c0d65820dc5f79a8b47b47aedb300c8a166998fc7f5cd22ade24"
+    },
+    {
+      "path": "server.mjs",
+      "bytes": 1965,
+      "sha256": "ef55b201e6d42f6aefb0ff70e4e0bc89831d841b837607bee5d8f82af1504e9d"
+    }
+  ]
+}

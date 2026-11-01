@@ -55,6 +55,22 @@ The smoke makes one short dialogue-generation request, prints only pass/fail and
 - Since sessions are stateless, a user can replay an older signed token to fork their own conversation. The game does not use AI output to mutate quest state, inventory, relationships, or endings. Configure Vercel Firewall rate limits and OpenAI project spending limits for production traffic.
 - Each generation disables model reasoning and caps the response at 420 output tokens. Provider failures use authored offline dialogue.
 
+## V35 contextual play and evidence
+
+The printshop, 1848 distribution notice, 1849 investigation report, and May letter each have a checked-in case context that connects the document to a character's situation, practical stakes, and authorized quest actions. `rpg/data/source-reader-index.json` supplies the reader layout, exact excerpt ID/range, date facets, and Korean context. Historical text stays separate from fictional character positions and dialogue.
+
+Run the V35 evidence checks with:
+
+```powershell
+npm run v35-build-matrices
+npm run v35-content-audit
+npm run v35-npc-replay
+npm run v35-ai-mock-audit
+npm run v35-browser-acceptance
+```
+
+`v35-npc-replay` writes the deterministic 30-minute movement and save/reload record to `docs/v35/npc-30-minute-replay.json`. The browser acceptance serves the built `dist-v33` artifact, exercises the source reader at desktop and phone widths, and replays the five endings. `docs/v35/` contains the worldview and source matrices, baseline, audit output, screenshots, and replay evidence. The separate live API smoke is `npm run v33-live-ai-smoke`; it makes one provider generation and never writes the key or conversation into evidence.
+
 ## V34 quest and dialogue checks
 
 The Vercel deployment remains a static build plus same-origin Node Functions; no Cloudflare service or client-side key is used. For local private input, put `OPENAI_API_KEY` in the ignored `.env.local` file and run `npm start`. For Vercel, add the same variable under **Project → Settings → Environment Variables**, mark it Sensitive, choose Production and any Preview environments you use, then redeploy. Never use a `NEXT_PUBLIC_` variable for the key.
