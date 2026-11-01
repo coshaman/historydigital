@@ -9,7 +9,7 @@ export const conversations = {
     topics: [
       ['번호부터 보면 될까요?', '네. 맨 위의 번호부터 보시죠. 그다음에 원본과 사본이 맞는지 확인하면 됩니다.'],
       ['이름 하나 적는 데도 조심스럽네요.', '잘못 옮기면 고치는 건 제 몫이니까요. 이름은 한 번 더 봅니다.'],
-      ['담당자가 없으면 어떻게 하죠?', '기다려야죠. 받을 사람도 모르고 넘길 순 없습니다. 나중에 어디로 갔느냐고 물으면 제가 답해야 하니까요.'],
+      ['담당자가 없으면 어떻게 하죠?', '받을 사람이 없으면 두겠습니다. 그냥 넘겼다가 어디 갔냐고 물으면 제가 답해야 하니까요.'],
     ],
   },
   printer_ekaterina: {
@@ -78,7 +78,7 @@ export const conversations = {
     closing: '이 외투는 고치기 어렵소.',
     topics: [
       ['어디가 제일 심한가요?', '등하고 어깨요. 보시오, 천이 다 비치잖소.'],
-      ['안감만 고치면 안 될까요?', '안감은 터지고 겉감은 닳았소. 안감만 손봐선 안 돼요.'],
+      ['안감만 고치면 안 될까요?', '안감은 터지고 겉감은 닳았소. 안감만 손봐서는 소용없소.'],
       ['조금만 더 입을 수는 없을까요?', '덧대 봐야 오래 못 입소.'],
     ],
   },
@@ -87,9 +87,9 @@ export const conversations = {
     opening: '잡지를 받지 못하셨습니까? 발송에 관한 공고를 보시죠.',
     closing: '수령 확인과 재발송 안내는 공고에 적어두었습니다.',
     topics: [
-      ['발송이 늦어진 건가요?', '왜 늦어졌는지는 공고에 적었습니다. 그 대목을 함께 보시죠.'],
+      ['발송이 늦어진 건가요?', '발송 사정은 공고에 적었습니다. 먼저 그 날짜부터 확인해 보시죠.'],
       ['받지 못한 호는 어떻게 합니까?', '편집부에서 받으셨는지 확인하고 조사할 겁니다. 공고에도 그렇게 밝혔고요.'],
-      ['분실한 호는 다시 보내줍니까?', '다시 보내는 문제도 공고에 적어두었습니다. 못 받은 호에 관한 대목을 보시죠.'],
+      ['분실한 호는 다시 보내줍니까?', '받지 못한 호는 편집부가 확인한 뒤 다시 보내도록 했습니다.'],
     ],
   },
 };
@@ -105,7 +105,7 @@ export function authoredReply(hostId, playerText, heard = []) {
   const nextHeard = match ? [...heard, match[0]] : [...heard];
   const replies = availableTopics(hostId, nextHeard);
   return {
-    text: match ? match[1] : replies.length ? '잠시 말을 멈춘다. 다른 화제로 말을 걸어보자.' : conversation.closing,
+    text: match ? match[1] : replies.length ? '잠시 말이 끊겼다. 다른 이야기를 꺼내 볼까.' : conversation.closing,
     speakerId: match || !replies.length ? hostId : 'NARRATION',
     heard: nextHeard,
     replies,

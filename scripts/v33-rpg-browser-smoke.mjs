@@ -49,15 +49,15 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 1366, height: 768
   await page.getByRole('button', { name: '몸을 빌린다' }).click();
   await page.keyboard.press('ArrowRight');
   await page.keyboard.press('e');
-  await page.getByText('이 소품과 문구는 플레이를 위해 만든 허구 장면입니다. 역사 사료 인용이 아닙니다.').waitFor();
+  await page.getByRole('heading', { name: '돌 틈에 낀 쪽지' }).waitFor();
   const clueText = await page.locator('#journal-text').innerText();
-  if (!clueText.includes('봉투') || !clueText.includes('배달 표식처럼 보이지만')) throw new Error('Pavel clue copy did not appear');
+  if (!clueText.includes('등불 둘') || !clueText.includes('뒤문')) throw new Error(`Pavel clue copy did not appear: ${clueText}`);
   await page.locator('#save').click();
   if (await page.locator('#load').isDisabled()) throw new Error(`Load control remained disabled immediately after saving at ${viewport.width}`);
   await page.reload({ waitUntil: 'networkidle' });
   await page.waitForSelector('#journal-text');
   const restoredJournal = await page.locator('#journal-text').innerText();
-  if (!restoredJournal.includes('배달 표식처럼 보이지만')) {
+  if (!restoredJournal.includes('등불 둘') || !restoredJournal.includes('뒤문')) {
     const diagnosis = await page.evaluate(() => ({ headline: document.querySelector('#headline').textContent, text: document.querySelector('#journal-text').textContent, record: document.querySelector('#record').textContent, hasSave: Boolean(localStorage.getItem('v33-rpg-save')), savedLedgerTail: JSON.parse(localStorage.getItem('v33-rpg-save') || 'null')?.state?.ledger?.slice(-3) }));
     throw new Error(`Saved clue did not restore at ${viewport.width}: ${JSON.stringify(diagnosis)}`);
   }
@@ -200,8 +200,8 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 1366, height: 768
   await page.keyboard.press('ArrowLeft');
   await page.keyboard.press('ArrowUp');
   await page.keyboard.press('e');
-  await page.getByText('이 소품과 문구는 플레이를 위해 만든 허구 장면입니다. 역사 사료 인용이 아닙니다.').waitFor();
-  await page.getByText('내일까지 내야 하는 건 맞아').waitFor();
+  await page.getByRole('heading', { name: '방세 쪽지' }).waitFor();
+  await page.getByText(/내일까지라… 오늘은 꼭 일거리를 구해야 하는데/).waitFor();
   await page.screenshot({ path: path.join(out, 'courtyard-rent-1440x900.png') });
   for (let step = 0; step < 4; step++) await page.keyboard.press('ArrowRight');
   for (let step = 0; step < 4; step++) await page.keyboard.press('ArrowDown');

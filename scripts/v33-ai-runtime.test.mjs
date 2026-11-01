@@ -71,6 +71,8 @@ test('AI dialogue receives the embodied public character context and keeps each 
   assert.deepEqual(observed[0].character.knownPrivateFacts, ['오늘 교정쇄는 배달되기 전까지 작업대 위에 있다.']);
   assert.equal(observed[0].conversation.embodiedPlayer.money, undefined);
   assert.match(observedInstructions[0], /playerKnownFacts[\s\S]*NPC 대사에서 누설하지 않는다/);
+  assert.match(observedInstructions[0], /인물마다 말버릇을 한두 개만 살리고 직업 설명을 대사마다 반복하지 않는다/);
+  assert.match(observedInstructions[0], /관계와 상황에 따라 존대·반말의 거리를 자연스럽게 조절/);
   assert.deepEqual(observed[0].recentTurns, []);
   assert.match(JSON.stringify(observed[1].recentTurns), /안나로서 물어볼게요/);
   assert.deepEqual(observed[2].recentTurns, [], "Ekaterina's session with Alexei cannot inherit her Anna conversation");

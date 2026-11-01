@@ -46,3 +46,11 @@ test('topic progress can be isolated by the embodied-player/NPC pair', () => {
   assert.equal(availableTopics('printer_ekaterina', progress.get(first)).length, 2);
   assert.equal(availableTopics('printer_ekaterina', progress.get(second)).length, 3);
 });
+
+test('distinctive authored voices avoid repeated document directions and mixed Petrovich endings', () => {
+  assert.match(conversations.nekrasov_reconstruction.topics[0][1], /날짜부터 확인/);
+  assert.match(conversations.nekrasov_reconstruction.topics[2][1], /편집부가 확인한 뒤/);
+  assert.match(conversations.literary_petrovich.topics[1][1], /소용없소\.$/);
+  assert.doesNotMatch(conversations.literary_petrovich.topics[1][1], /요\./);
+  assert.equal(authoredReply('clerk_alexei', '없는 주제').text, '잠시 말이 끊겼다. 다른 이야기를 꺼내 볼까.');
+});
