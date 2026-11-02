@@ -1,0 +1,74 @@
+{
+  "id": "NOBLE_STATUS_DEBT_1847",
+  "titleKo": "체면을 지킬 돈과 갚을 돈",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "안드레이는 급료가 늦어진 동안 빚을 숨겨 체면을 지킬지, 지출을 줄이고 상환 날짜를 알릴지 고민한다.",
+  "historicalOutcome": {
+    "id": "NOBLE_STATUS_DEBT_1847_FICTIONAL_OUTCOME",
+    "value": "fictional work and household choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "chancery",
+    "objectId": 1009,
+    "requiredHostId": "minor_noble_andrei"
+  },
+  "actions": [
+    {
+      "id": "MINOR_NOBLE_ANDREI_CHOICE_1",
+      "hostIds": [
+        "minor_noble_andrei"
+      ],
+      "labelKo": "지출을 줄이고 채권자에게 지급 날짜를 알린다",
+      "subcopyKo": "안드레이와 채권자가 압니다 · 개인 지출 목록에 남습니다 · 체면을 잃고도 날짜를 못 맞출 위험이 있습니다",
+      "resultKo": "지출을 줄이고 날짜를 먼저 알렸다. 사정은 드러났지만 약속을 지킬 수 있을지는 남아 있다.",
+      "resultFlag": "andreiDated",
+      "followupTitleKo": "체면을 지킬 돈과 갚을 돈",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "빚 상환 날짜와 줄일 지출을 정리했다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    },
+    {
+      "id": "MINOR_NOBLE_ANDREI_CHOICE_2",
+      "hostIds": [
+        "minor_noble_andrei"
+      ],
+      "labelKo": "가문의 이름을 내세워 빚을 더 미룬다",
+      "subcopyKo": "채권자가 압니다 · 새 약속 어음에 남습니다 · 빚과 이자가 더 커질 수 있습니다",
+      "resultKo": "가문의 이름으로 시간을 더 얻었다. 당장 체면은 지켰지만 빚의 책임은 커졌다.",
+      "resultFlag": "andreiDeferred",
+      "followupTitleKo": "체면을 지킬 돈과 갚을 돈",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "가문의 이름을 내세워 지급을 미뤘다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    },
+    {
+      "id": "MINOR_NOBLE_ANDREI_CHOICE_3",
+      "hostIds": [
+        "minor_noble_andrei"
+      ],
+      "labelKo": "가족에게 사정을 알리고 함께 지출을 다시 정한다",
+      "subcopyKo": "안드레이와 가족이 압니다 · 가계 메모에 남습니다 · 가족의 신뢰가 흔들릴 수 있습니다",
+      "resultKo": "가족에게 급료와 빚을 털어놓았다. 부담을 나눌 수 있지만 숨긴 일을 설명해야 한다.",
+      "resultFlag": "andreiTold",
+      "followupTitleKo": "체면을 지킬 돈과 갚을 돈",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "가족과 지출 및 상환 계획을 다시 정했다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named work record"
+}

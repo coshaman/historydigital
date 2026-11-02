@@ -2917,6 +2917,108 @@
               "value": "scribal_yuri"
             }
           ]
+        },
+        {
+          "id": 906,
+          "name": "이리나",
+          "type": "npc",
+          "x": 192,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "innkeeper_irina"
+            }
+          ]
+        },
+        {
+          "id": 907,
+          "name": "바실리",
+          "type": "npc",
+          "x": 192,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "student_vasily"
+            }
+          ]
+        },
+        {
+          "id": 908,
+          "name": "류보프",
+          "type": "npc",
+          "x": 192,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "teacher_lyubov"
+            }
+          ]
+        },
+        {
+          "id": 909,
+          "name": "안드레이",
+          "type": "npc",
+          "x": 192,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "minor_noble_andrei"
+            }
+          ]
+        },
+        {
+          "id": 910,
+          "name": "폴리나",
+          "type": "npc",
+          "x": 192,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "landlady_polina"
+            }
+          ]
+        },
+        {
+          "id": 911,
+          "name": "루카",
+          "type": "npc",
+          "x": 192,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "watercarrier_luka"
+            }
+          ]
         }
       ]
     }

@@ -134,6 +134,12 @@ test('new editor, police, and market cohort characters receive their own validat
     ['print_apprentice_stepan', 'bookbinder_elizaveta', 'printshop', '1847-06-01', 'stepan-session-0001'],
     ['bookbinder_elizaveta', 'print_apprentice_stepan', 'printshop', '1847-06-01', 'elizaveta-session-0001'],
     ['scribal_yuri', 'apothecary_yakov', 'chancery', '1847-06-01', 'yuri-session-0000001'],
+    ['innkeeper_irina', 'student_vasily', 'courtyard', '1847-06-01', 'irina-session-000001'],
+    ['student_vasily', 'teacher_lyubov', 'nevsky', '1847-06-01', 'vasily-session-00001'],
+    ['teacher_lyubov', 'student_vasily', 'courtyard', '1847-06-01', 'lyubov-session-0001'],
+    ['minor_noble_andrei', 'clerk_alexei', 'chancery', '1847-06-01', 'andrei-session-0001'],
+    ['landlady_polina', 'housemaid_olga', 'courtyard', '1847-06-01', 'polina-session-0001'],
+    ['watercarrier_luka', 'coachman_timofey', 'courtyard', '1847-06-01', 'luka-session-00001'],
   ]) {
     const session = await service.handle(request('POST', '/api/rpg/session/start', { hostId, actorHostId }));
     assert.equal(session.status, 201, `${hostId} session should start`);
@@ -145,7 +151,7 @@ test('new editor, police, and market cohort characters receive their own validat
     assert.equal(reply.body.fallback, false);
     assert.equal(reply.body.turn.beats[0].speakerId, hostId);
   }
-  assert.deepEqual(observed.map(item => item.character.id), ['editor_sofia', 'police_sergeant_ivan', 'yardkeeper_semyon', 'laundress_mariya', 'baker_fyodor', 'market_nadezhda', 'porter_gavrila', 'coachman_timofey', 'housemaid_olga', 'midwife_avdotya', 'apothecary_yakov', 'print_apprentice_stepan', 'bookbinder_elizaveta', 'scribal_yuri']);
+  assert.deepEqual(observed.map(item => item.character.id), ['editor_sofia', 'police_sergeant_ivan', 'yardkeeper_semyon', 'laundress_mariya', 'baker_fyodor', 'market_nadezhda', 'porter_gavrila', 'coachman_timofey', 'housemaid_olga', 'midwife_avdotya', 'apothecary_yakov', 'print_apprentice_stepan', 'bookbinder_elizaveta', 'scribal_yuri', 'innkeeper_irina', 'student_vasily', 'teacher_lyubov', 'minor_noble_andrei', 'landlady_polina', 'watercarrier_luka']);
   for (const item of observed.slice(2)) assert.ok(item.character.speechRhythm && item.character.worldview.stanceKo, `${item.character.id} context must carry a voice and point of view`);
   assert.match(observed[0].character.speechRhythm, /출처|편집/);
   assert.match(observed[1].character.worldview.designBasisKo, /실제.*재현하지 않는다/);

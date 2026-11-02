@@ -31,7 +31,9 @@
         "police_sergeant_ivan",
         "print_apprentice_stepan",
         "bookbinder_elizaveta",
-        "scribal_yuri"
+        "scribal_yuri",
+        "student_vasily",
+        "minor_noble_andrei"
       ],
       "connections": [
         {
@@ -96,7 +98,11 @@
         "courier_pavel",
         "seamstress_anna",
         "housemaid_olga",
-        "midwife_avdotya"
+        "midwife_avdotya",
+        "innkeeper_irina",
+        "teacher_lyubov",
+        "landlady_polina",
+        "watercarrier_luka"
       ],
       "connections": [
         {

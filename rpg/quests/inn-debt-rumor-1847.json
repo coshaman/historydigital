@@ -1,0 +1,74 @@
+{
+  "id": "INN_DEBT_RUMOR_1847",
+  "titleKo": "이름을 적을 것인가, 외상을 둘 것인가",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "이리나는 숙박비가 밀린 손님을 두고 장부에 신분과 빚을 자세히 적을지, 다른 손님에게 소문이 돌지 않게 할지 정해야 한다.",
+  "historicalOutcome": {
+    "id": "INN_DEBT_RUMOR_1847_FICTIONAL_OUTCOME",
+    "value": "fictional work and household choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "courtyard",
+    "objectId": 1006,
+    "requiredHostId": "innkeeper_irina"
+  },
+  "actions": [
+    {
+      "id": "INNKEEPER_IRINA_CHOICE_1",
+      "hostIds": [
+        "innkeeper_irina"
+      ],
+      "labelKo": "숙박 날짜와 미수금만 적고 이름은 봉투에 따로 보관한다",
+      "subcopyKo": "이리나와 손님만 봅니다 · 외상 장부와 봉투에 분리 기록됩니다 · 다시 확인할 일이 늘어납니다",
+      "resultKo": "숙박 일수와 미수금만 장부에 적고 이름은 따로 보관했다. 외상은 확인되지만 정산에 시간이 더 든다.",
+      "resultFlag": "irinaSeparated",
+      "followupTitleKo": "이름을 적을 것인가, 외상을 둘 것인가",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "외상 금액과 손님 이름을 별도로 기록했다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    },
+    {
+      "id": "INNKEEPER_IRINA_CHOICE_2",
+      "hostIds": [
+        "innkeeper_irina"
+      ],
+      "labelKo": "손님의 이름과 빚을 공용 게시판에 붙인다",
+      "subcopyKo": "여관 손님과 종업원이 봅니다 · 공용 게시판에 남습니다 · 체면과 신뢰를 잃을 위험이 있습니다",
+      "resultKo": "외상 사실을 공용으로 알렸다. 다른 손님은 알게 됐지만 손님은 다시 머물지 않을 수 있다.",
+      "resultFlag": "irinaPosted",
+      "followupTitleKo": "이름을 적을 것인가, 외상을 둘 것인가",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "손님의 외상 정보를 공용 게시판에 붙였다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    },
+    {
+      "id": "INNKEEPER_IRINA_CHOICE_3",
+      "hostIds": [
+        "innkeeper_irina"
+      ],
+      "labelKo": "기한을 정해 개인 외상 장부에 남긴다",
+      "subcopyKo": "이리나와 손님만 압니다 · 개인 장부에 남습니다 · 정한 날에도 갚지 않을 위험이 있습니다",
+      "resultKo": "손님과 날짜를 정해 외상으로 남겼다. 공개는 피했지만 약속을 지킬지는 아직 모른다.",
+      "resultFlag": "irinaDated",
+      "followupTitleKo": "이름을 적을 것인가, 외상을 둘 것인가",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "미수금 지급 날짜를 손님과 정했다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named work record"
+}

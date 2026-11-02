@@ -18,7 +18,7 @@ const mapById = new Map(maps);
 const sourceById = new Map(sourceRegister.sources.map(source => [source.sourceId, source]));
 const registeredLegacyIds = new Set(sourceRegister.sources.flatMap(source => source.legacySourceIds ?? []));
 const characterRecords = await Promise.all(characterFiles.filter(file => file.endsWith('.json')).map(file => readJson(`rpg/characters/${file}`)));
-const questRecords = await Promise.all(['printshop-article','public-discourse-1848','circle-investigation-1849','circle-letter-1849-may','yard-ledger-1847','laundry-wages-1847','bakery-flour-1847','market-prices-1847','porter-load-1847','coach-fare-1847','household-privacy-1847','midwife-care-cost-1847','apothecary-limits-1847','apprentice-authorship-1847','bookbinder-damage-1847','scribal-copy-1847'].map(id => readJson(`rpg/quests/${id}.json`)));
+const questRecords = await Promise.all(['printshop-article','public-discourse-1848','circle-investigation-1849','circle-letter-1849-may','yard-ledger-1847','laundry-wages-1847','bakery-flour-1847','market-prices-1847','porter-load-1847','coach-fare-1847','household-privacy-1847','midwife-care-cost-1847','apothecary-limits-1847','apprentice-authorship-1847','bookbinder-damage-1847','scribal-copy-1847','inn-debt-rumor-1847','student-circle-risk-1847','teacher-access-cost-1847','noble-status-debt-1847','landlady-rent-commons-1847','water-access-queue-1847'].map(id => readJson(`rpg/quests/${id}.json`)));
 const cityResidents = new Map(characterRecords.filter(person => person.kind === 'FICTIONAL').map(person => [person.id, person]));
 const require = createRequire(import.meta.url);
 require('../rpg/engine/game-state.js');
@@ -152,9 +152,9 @@ test('market arrival surfaces a local personal quest and a resident receives the
   assert.match(baker.actionKo, /밀가루|표도르|남은 밀가루/);
 });
 
-test('all six neighborhood residents have a reachable physical work record and disclosed choices', () => {
+test('all twelve neighborhood residents have a reachable physical work record and disclosed choices', () => {
   const runtimeMaps = Object.fromEntries(maps.filter(([id]) => !['dead-souls','overcoat'].includes(id)));
-  const ids=['housemaid_olga','midwife_avdotya','apothecary_yakov','print_apprentice_stepan','bookbinder_elizaveta','scribal_yuri'];
+  const ids=['housemaid_olga','midwife_avdotya','apothecary_yakov','print_apprentice_stepan','bookbinder_elizaveta','scribal_yuri','innkeeper_irina','student_vasily','teacher_lyubov','minor_noble_andrei','landlady_polina','watercarrier_luka'];
   const state=game.createInitialState({maps:runtimeMaps,hostCards:[...cityResidents.values()],quests:questRecords,startMapId:'nevsky'});
   for(const id of ids){
     const quest=questRecords.find(item=>item.actions[0].hostIds.includes(id));

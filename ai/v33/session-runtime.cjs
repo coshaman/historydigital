@@ -9,7 +9,7 @@ const caseContexts = require('../../rpg/data/case-contexts.json').cases;
 const historicalClaims = require('../../rpg/data/historical-claim-ledger.json').claims;
 const historicalPeople = require('../../rpg/data/historical-comparisons.json').comparisons;
 const mapRecords = new Map(['nevsky','printshop','chancery','courtyard','market-quay','dead-souls','overcoat','police-station'].map(id => [id, require(`../../rpg/maps/${id}.json`)]));
-const questRecords = new Map(['printshop-article','public-discourse-1848','circle-investigation-1849','circle-letter-1849-may','yard-ledger-1847','laundry-wages-1847','bakery-flour-1847','market-prices-1847','porter-load-1847','coach-fare-1847','household-privacy-1847','midwife-care-cost-1847','apothecary-limits-1847','apprentice-authorship-1847','bookbinder-damage-1847','scribal-copy-1847','literary-dead-souls','literary-overcoat'].map(id => { const quest = require(`../../rpg/quests/${id}.json`); return [quest.id, quest]; }));
+const questRecords = new Map(['printshop-article','public-discourse-1848','circle-investigation-1849','circle-letter-1849-may','yard-ledger-1847','laundry-wages-1847','bakery-flour-1847','market-prices-1847','porter-load-1847','coach-fare-1847','household-privacy-1847','midwife-care-cost-1847','apothecary-limits-1847','apprentice-authorship-1847','bookbinder-damage-1847','scribal-copy-1847','inn-debt-rumor-1847','student-circle-risk-1847','teacher-access-cost-1847','noble-status-debt-1847','landlady-rent-commons-1847','water-access-queue-1847','literary-dead-souls','literary-overcoat'].map(id => { const quest = require(`../../rpg/quests/${id}.json`); return [quest.id, quest]; }));
 const historicalNameVariants = [...new Set([
   ...historicalPeople.flatMap(person => person.personKo.split(/[와,·]/).flatMap(part => {
     const words = part.replace(/^(젊은|청년)\s+/, '').replace(/\s*(모임|사상가|비평가).*$/, '').trim().split(/\s+/).filter(Boolean);
@@ -43,6 +43,12 @@ const cards = new Map([
   require('../../rpg/characters/print_apprentice_stepan.json'),
   require('../../rpg/characters/bookbinder_elizaveta.json'),
   require('../../rpg/characters/scribal_yuri.json'),
+  require('../../rpg/characters/innkeeper_irina.json'),
+  require('../../rpg/characters/student_vasily.json'),
+  require('../../rpg/characters/teacher_lyubov.json'),
+  require('../../rpg/characters/minor_noble_andrei.json'),
+  require('../../rpg/characters/landlady_polina.json'),
+  require('../../rpg/characters/watercarrier_luka.json'),
   require('../../rpg/characters/nekrasov_reconstruction.json'),
   require('../../rpg/characters/literary_chichikov.json'),
   require('../../rpg/characters/literary_akaky.json'),
@@ -65,6 +71,12 @@ const relationshipQuests = [
   require('../../rpg/quests/apprentice-authorship-1847.json'),
   require('../../rpg/quests/bookbinder-damage-1847.json'),
   require('../../rpg/quests/scribal-copy-1847.json'),
+  require('../../rpg/quests/inn-debt-rumor-1847.json'),
+  require('../../rpg/quests/student-circle-risk-1847.json'),
+  require('../../rpg/quests/teacher-access-cost-1847.json'),
+  require('../../rpg/quests/noble-status-debt-1847.json'),
+  require('../../rpg/quests/landlady-rent-commons-1847.json'),
+  require('../../rpg/quests/water-access-queue-1847.json'),
 ];
 const dialogueQuests = [...relationshipQuests, require('../../rpg/quests/literary-dead-souls.json'), require('../../rpg/quests/literary-overcoat.json')];
 const actorActionRecords = new Map();

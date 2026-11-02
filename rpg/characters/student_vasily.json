@@ -1,0 +1,193 @@
+{
+  "id": "student_vasily",
+  "kind": "FICTIONAL",
+  "displayNameKo": "바실리",
+  "displayNameRu": "Василий Петров",
+  "ageAtDate": {
+    "value": 21,
+    "status": "fictional_character_design"
+  },
+  "socialEstate": "gentry_household_tutor",
+  "occupation": "서점과 독서 모임을 오가며 공부하는 학생",
+  "rank": {
+    "value": null,
+    "ru": null,
+    "status": "not_applicable"
+  },
+  "legalMobility": "고용 가정과 공개 거리, 서점과 인쇄소만 이용; 대학이나 관청의 직책을 가정하지 않는다",
+  "wealthBracket": "dependent_on_employer",
+  "wealthBracketStatus": "fictional_character_design",
+  "money": {
+    "amount": null,
+    "unit": null,
+    "status": "not established"
+  },
+  "literacy": "러시아어와 프랑스어에 능숙; 철학서는 읽지만 모든 논쟁의 전문가라고 여기지 않는다",
+  "health": "working",
+  "reputationByGroup": {
+    "readers": "careful_reader"
+  },
+  "risk": "자신이 읽은 문장과 남이 전한 소문을 분리한다",
+  "relations": {},
+  "secretKnowledge": [
+    {
+      "id": "STUDENT_VASILY_PRIVATE_NOTE",
+      "summaryKo": "바실리는 공개 독서 모임의 회비를 아직 내지 못했고, 발언 순서가 자기 차례인지 확실하지 않다."
+    }
+  ],
+  "knownEvidence": [],
+  "privateKnowledgeIds": [
+    "STUDENT_VASILY_PRIVATE_NOTE"
+  ],
+  "knownEvidenceIds": [],
+  "desires": "생각을 말할 자유와 그 말을 한 사람이 감당할 위험을 어떻게 함께 볼까요?",
+  "fears": "바실리는 독서 모임에서 제도와 변화에 관한 견해를 말해 달라는 요청을 받았다. 공개 발언과 조용히 듣는 일 사이에서 선택한다.",
+  "taboos": [
+    "읽지 않은 원문을 읽었다고 말하지 않는다",
+    "살롱의 사적 대화를 역사적 사실로 꾸미지 않는다"
+  ],
+  "speechRhythm": "책에서 읽은 문장을 떠올리며 질문을 길게 시작하지만, 친구가 걱정하면 말을 멈추고 현실적인 비용을 묻는다.",
+  "speechRegister": {
+    "firstMeeting": "처음엔 책 제목과 읽으려는 이유를 빠르게 묻는다.",
+    "colleague": "독서 모임 친구에게는 반말로 질문을 주고받는다.",
+    "private": "가까운 사람에게만 모임에서 느낀 두려움과 호기심을 말한다.",
+    "conflict": "위험을 가볍게 여긴다는 말을 들으면 말이 빨라지고 사례를 든다.",
+    "intimacy": "친한 동료와는 농담 섞어 논쟁하지만 책의 한 문장을 다시 따진다.",
+    "formal": "후원자와 교사에게는 예의를 지키며 수업료와 모임 범위를 묻는다."
+  },
+  "voiceSamples": [
+    "책을 찾으러 왔어요? 제가 읽은 쪽은 아직 돌려주지 않았어요. 무슨 얘기죠?",
+    "서로 다른 생각을 들어야 한다고 믿어요. 다만 누가 듣고 있는지 모르는 자리라면 말할 범위도 생각해야겠죠.",
+    "서로 다른 생각을 들을 필요가 있다고 믿지만, 모든 자리에서 모든 말을 똑같이 공개해야 한다고 보지는 않는다. 말할 사람의 위험도 함께 따져야 한다."
+  ],
+  "worldview": {
+    "status": "fictional_character_design",
+    "stanceKo": "서로 다른 생각을 들을 필요가 있다고 믿지만, 모든 자리에서 모든 말을 똑같이 공개해야 한다고 보지는 않는다. 말할 사람의 위험도 함께 따져야 한다.",
+    "tensionKo": "바실리는 독서 모임에서 제도와 변화에 관한 견해를 말해 달라는 요청을 받았다. 공개 발언과 조용히 듣는 일 사이에서 선택한다.",
+    "blindSpotKo": "자기 일이 급할 때 상대가 감당할 비용을 충분히 보지 못할 수 있다.",
+    "designBasisKo": "허구 시민 설정으로 실제 개인의 증언이나 사건을 나타내지 않는다.",
+    "sceneAnchorIds": [
+      "STUDENT_CIRCLE_RISK_1847"
+    ]
+  },
+  "topicStances": {
+    "serfdom": {
+      "knowledgeKind": "no_documented_stance",
+      "positionKo": "이 허구 인물은 농촌 제도의 직접 경험이나 확인된 정보를 가진 것으로 설정하지 않는다."
+    },
+    "censorship": {
+      "knowledgeKind": "fictional_workplace_context_only",
+      "positionKo": "문서의 전달·교정에서 자신이 직접 맡은 일만 말하고 실제 검열 규정을 대신 설명하지 않는다."
+    },
+    "literature": {
+      "knowledgeKind": "reader_limited",
+      "positionKo": "작가의 뜻을 대변하지 않고 자신이 읽거나 들은 범위만 말한다."
+    },
+    "poverty_and_class": {
+      "knowledgeKind": "fictional_lived_experience",
+      "positionKo": "서로 다른 생각을 들을 필요가 있다고 믿지만, 모든 자리에서 모든 말을 똑같이 공개해야 한다고 보지는 않는다. 말할 사람의 위험도 함께 따져야 한다."
+    },
+    "slavophilism_and_westernism": {
+      "knowledgeKind": "unfamiliar_terms",
+      "positionKo": "사상 진영을 대변하지 않는다. 일과 이웃에게 생기는 비용을 중심으로 말한다."
+    }
+  },
+  "lexicon": [
+    "전제",
+    "반례",
+    "경험",
+    "누가 비용을 치르죠"
+  ],
+  "emotions": [
+    "호기심",
+    "논쟁의 즐거움",
+    "자기검열"
+  ],
+  "personalObjective": "생각을 말할 자유와 그 말을 한 사람이 감당할 위험을 어떻게 함께 볼까요?",
+  "objectiveByChapter": {
+    "1847": "생각을 말할 자유와 그 말을 한 사람이 감당할 위험을 어떻게 함께 볼까요?"
+  },
+  "allowedMaps": [
+    "nevsky",
+    "courtyard",
+    "market-quay",
+    "printshop",
+    "chancery"
+  ],
+  "start": {
+    "mapId": "nevsky",
+    "x": 23,
+    "y": 14
+  },
+  "inventory": [
+    "번역 원고",
+    "여백이 많은 독서 노트"
+  ],
+  "sourceIds": [],
+  "canonConstraint": "fictional citizen; never treated as an attested historical individual or witness",
+  "reconstructionDisclaimer": "허구 인물의 일과 선택만 다룬다.",
+  "sprite": {
+    "file": "assets/student_vasily.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "original pixel interpretation; reused neutral civilian atlas"
+  },
+  "schedule": [
+    {
+      "atMinute": 420,
+      "mapId": "nevsky",
+      "position": {
+        "x": 23,
+        "y": 14
+      },
+      "activityKo": "서점에서 읽을 책을 찾는다"
+    },
+    {
+      "atMinute": 600,
+      "mapId": "courtyard",
+      "position": {
+        "x": 15,
+        "y": 13
+      },
+      "activityKo": "독서 모임에서 질문을 나눈다"
+    },
+    {
+      "atMinute": 780,
+      "mapId": "market-quay",
+      "position": {
+        "x": 22,
+        "y": 14
+      },
+      "activityKo": "회비와 책값을 계산한다"
+    },
+    {
+      "atMinute": 960,
+      "mapId": "nevsky",
+      "position": {
+        "x": 23,
+        "y": 14
+      },
+      "activityKo": "책을 반납하고 숙소로 돌아간다"
+    }
+  ],
+  "portrait": {
+    "file": "assets/portrait-student_vasily.svg",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+  },
+  "spriteAtlas": {
+    "file": "assets/anna.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "directions": 4,
+    "framesPerDirection": 3,
+    "directionRows": {
+      "down": 0,
+      "up": 1,
+      "left": 2,
+      "right": 3
+    }
+  },
+  "speechStatus": "FICTIONAL_DESIGN"
+}

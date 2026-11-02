@@ -1,0 +1,196 @@
+{
+  "id": "innkeeper_irina",
+  "kind": "FICTIONAL",
+  "displayNameKo": "이리나",
+  "displayNameRu": "Ирина Соколова",
+  "ageAtDate": {
+    "value": 47,
+    "status": "fictional_character_design"
+  },
+  "socialEstate": "petty_bourgeois",
+  "occupation": "셋방 손님을 받고 식사와 숙박비를 정산하는 여관주인",
+  "rank": {
+    "value": null,
+    "ru": null,
+    "status": "not_applicable"
+  },
+  "legalMobility": "공개 거리와 거래 중인 인쇄소 이용; 관청 기록실 출입은 허가가 필요하다",
+  "wealthBracket": "modest",
+  "money": {
+    "amount": 83,
+    "unit": "kopeks",
+    "status": "designedEstimate"
+  },
+  "literacy": "러시아어 인쇄물과 거래 장부를 읽는다",
+  "health": "working",
+  "reputationByGroup": {
+    "trade": "careful"
+  },
+  "risk": "팔리지 않은 재고와 외상값이 다음 발주를 막을 수 있다",
+  "relations": {},
+  "secretKnowledge": [
+    {
+      "id": "INNKEEPER_IRINA_PRIVATE_NOTE",
+      "summaryKo": "한 손님이 숙박비 일부를 미뤄 달라고 했지만 갚을 날짜는 정하지 않았다."
+    }
+  ],
+  "knownEvidence": [],
+  "privateKnowledgeIds": [
+    "INNKEEPER_IRINA_PRIVATE_NOTE"
+  ],
+  "knownEvidenceIds": [],
+  "desires": "빚을 기록하면서 손님의 사생활은 어떻게 지킬 수 있을까요?",
+  "fears": "이리나는 숙박비가 밀린 손님을 두고 장부에 신분과 빚을 자세히 적을지, 다른 손님에게 소문이 돌지 않게 할지 정해야 한다.",
+  "taboos": [
+    "구매자가 보지 못한 문장을 읽었다고 말하지 않는다"
+  ],
+  "speechRhythm": "잔돈과 방 날짜부터 확인한다. 손님의 말은 듣되 장부에는 필요한 항목만 남기려 한다.",
+  "worldview": {
+    "status": "fictional_character_design",
+    "stanceKo": "외상은 갚아야 하지만 손님의 사정을 장부 밖으로 퍼뜨릴 권리는 없다고 본다. 여관을 유지할 돈과 사람의 체면을 함께 계산한다.",
+    "tensionKo": "이리나는 숙박비가 밀린 손님을 두고 장부에 신분과 빚을 자세히 적을지, 다른 손님에게 소문이 돌지 않게 할지 정해야 한다.",
+    "blindSpotKo": "자기 일이 급할 때 상대가 감당할 비용을 충분히 보지 못할 수 있다.",
+    "designBasisKo": "허구 시민 설정으로 실제 개인의 증언이나 사건을 나타내지 않는다.",
+    "sceneAnchorIds": [
+      "INN_DEBT_RUMOR_1847"
+    ]
+  },
+  "topicStances": {
+    "serfdom": {
+      "knowledgeKind": "no_documented_stance",
+      "positionKo": "이 허구 인물은 농촌 제도의 직접 경험이나 확인된 정보를 가진 것으로 설정하지 않는다."
+    },
+    "censorship": {
+      "knowledgeKind": "fictional_workplace_context_only",
+      "positionKo": "문서의 전달·교정에서 자신이 직접 맡은 일만 말하고 실제 검열 규정을 대신 설명하지 않는다."
+    },
+    "literature": {
+      "knowledgeKind": "reader_limited",
+      "positionKo": "작가의 뜻을 대변하지 않고 자신이 읽거나 들은 범위만 말한다."
+    },
+    "poverty_and_class": {
+      "knowledgeKind": "fictional_lived_experience",
+      "positionKo": "외상은 갚아야 하지만 손님의 사정을 장부 밖으로 퍼뜨릴 권리는 없다고 본다. 여관을 유지할 돈과 사람의 체면을 함께 계산한다."
+    },
+    "slavophilism_and_westernism": {
+      "knowledgeKind": "unfamiliar_terms",
+      "positionKo": "사상 진영을 대변하지 않는다. 일과 이웃에게 생기는 비용을 중심으로 말한다."
+    }
+  },
+  "speechRegister": {
+    "firstMeeting": "낯선 손님에게 방 날짜와 값을 먼저 묻는다.",
+    "colleague": "함께 일하는 이와는 빈방·식사·외상 금액을 짧게 맞춘다.",
+    "private": "믿는 손님에게만 장부에 적지 않은 걱정을 털어놓는다.",
+    "conflict": "체면보다 정산 기준을 앞세우고 사생활을 퍼뜨리지 말라 한다.",
+    "intimacy": "단골에게는 오래 묵은 외상을 가볍게 농담하지만 날짜를 확인한다.",
+    "formal": "관청이나 거래처에는 정중하고 정확하게 계산 내용을 말한다."
+  },
+  "voiceSamples": [
+    "방을 찾으시오, 식사를 찾으시오? 먼저 날짜와 값을 정합시다.",
+    "외상은 장부에 남겨야 해요. 그렇다고 손님의 사정을 다른 방 사람에게 말할 일은 아니죠.",
+    "외상은 갚아야 하지만 손님의 사정을 장부 밖으로 퍼뜨릴 권리는 없다고 본다. 여관을 유지할 돈과 사람의 체면을 함께 계산한다."
+  ],
+  "lexicon": [
+    "외상",
+    "묶음",
+    "반품"
+  ],
+  "emotions": [
+    "계산",
+    "호기심",
+    "완곡한 경계"
+  ],
+  "personalObjective": "빚을 기록하면서 손님의 사생활은 어떻게 지킬 수 있을까요?",
+  "objectiveByChapter": {
+    "1847": "빚을 기록하면서 손님의 사생활은 어떻게 지킬 수 있을까요?"
+  },
+  "allowedMaps": [
+    "nevsky",
+    "courtyard",
+    "market-quay",
+    "printshop",
+    "chancery"
+  ],
+  "start": {
+    "mapId": "courtyard",
+    "x": 7,
+    "y": 10
+  },
+  "wealthBracketStatus": "designedEstimate",
+  "inventory": [
+    "접이식 장부",
+    "동전 주머니"
+  ],
+  "sourceIds": [],
+  "canonConstraint": "fictional citizen; never treated as an attested historical individual or witness",
+  "reconstructionDisclaimer": "허구 인물의 일과 선택만 다룬다.",
+  "sprite": {
+    "file": "assets/innkeeper_irina.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "coat",
+    "palette": {
+      "cloth": "#4c4a43",
+      "trim": "#bc9a67",
+      "headwear": "#675542"
+    }
+  },
+  "schedule": [
+    {
+      "atMinute": 420,
+      "mapId": "courtyard",
+      "position": {
+        "x": 7,
+        "y": 10
+      },
+      "activityKo": "빈방과 식사 준비를 확인한다"
+    },
+    {
+      "atMinute": 600,
+      "mapId": "market-quay",
+      "position": {
+        "x": 9,
+        "y": 14
+      },
+      "activityKo": "손님을 위한 식재료를 산다"
+    },
+    {
+      "atMinute": 780,
+      "mapId": "nevsky",
+      "position": {
+        "x": 21,
+        "y": 12
+      },
+      "activityKo": "새로 온 손님의 짐을 확인한다"
+    },
+    {
+      "atMinute": 960,
+      "mapId": "courtyard",
+      "position": {
+        "x": 7,
+        "y": 10
+      },
+      "activityKo": "숙박 날짜와 외상을 정산한다"
+    }
+  ],
+  "portrait": {
+    "file": "assets/portrait-innkeeper_irina.svg",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+  },
+  "spriteAtlas": {
+    "file": "assets/lev.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "directions": 4,
+    "framesPerDirection": 3,
+    "directionRows": {
+      "down": 0,
+      "up": 1,
+      "left": 2,
+      "right": 3
+    }
+  },
+  "speechStatus": "FICTIONAL_DESIGN"
+}

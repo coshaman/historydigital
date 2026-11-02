@@ -1,0 +1,74 @@
+{
+  "id": "STUDENT_CIRCLE_RISK_1847",
+  "titleKo": "말할 기회와 감당할 위험",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "바실리는 독서 모임에서 제도와 변화에 관한 견해를 말해 달라는 요청을 받았다. 공개 발언과 조용히 듣는 일 사이에서 선택한다.",
+  "historicalOutcome": {
+    "id": "STUDENT_CIRCLE_RISK_1847_FICTIONAL_OUTCOME",
+    "value": "fictional work and household choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "nevsky",
+    "objectId": 1007,
+    "requiredHostId": "student_vasily"
+  },
+  "actions": [
+    {
+      "id": "STUDENT_VASILY_CHOICE_1",
+      "hostIds": [
+        "student_vasily"
+      ],
+      "labelKo": "회비와 이름을 내고 공개 토론에서 말한다",
+      "subcopyKo": "모임 참석자와 주최자가 압니다 · 참석 명부와 회비 장부에 남습니다 · 발언이 밖으로 전해질 위험을 감수합니다",
+      "resultKo": "바실리는 이름을 올리고 공개 발언을 택했다. 의견을 나눌 수 있지만 누가 들었는지는 통제하기 어렵다.",
+      "resultFlag": "vasilySpoke",
+      "followupTitleKo": "말할 기회와 감당할 위험",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "회비를 내고 공개 모임에서 발언하기로 했다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    },
+    {
+      "id": "STUDENT_VASILY_CHOICE_2",
+      "hostIds": [
+        "student_vasily"
+      ],
+      "labelKo": "이름은 올리지 않고 토론을 듣는다",
+      "subcopyKo": "모임 참석자만 압니다 · 공식 명부에는 남지 않습니다 · 질문에 답하지 못해 기회를 놓칠 수 있습니다",
+      "resultKo": "바실리는 조용히 듣기로 했다. 다른 견해는 들을 수 있지만 자기 의견을 남기지는 않았다.",
+      "resultFlag": "vasilyListened",
+      "followupTitleKo": "말할 기회와 감당할 위험",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "명부 없이 모임을 듣기로 했다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    },
+    {
+      "id": "STUDENT_VASILY_CHOICE_3",
+      "hostIds": [
+        "student_vasily"
+      ],
+      "labelKo": "먼저 주최자에게 참석자와 기록 방식을 묻는다",
+      "subcopyKo": "바실리와 주최자가 압니다 · 사전 질문만 남습니다 · 확인하는 동안 발언 순서가 지나갈 수 있습니다",
+      "resultKo": "바실리는 누가 참석하고 기록을 남기는지 물었다. 위험을 가늠할 수 있지만 차례를 놓칠 수도 있다.",
+      "resultFlag": "vasilyAsked",
+      "followupTitleKo": "말할 기회와 감당할 위험",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "토론의 참석자와 기록 방식을 확인했다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named work record"
+}

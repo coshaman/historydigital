@@ -96,7 +96,7 @@
       "canvas": {
         "width": 1382,
         "height": 355,
-        "sampledColors": 16,
+        "sampledColors": 17,
         "mapCoverage": 0.8668596237337193,
         "cssTileScale": 2.879166666666667
       },
@@ -308,7 +308,7 @@
       "canvas": {
         "width": 1065,
         "height": 278,
-        "sampledColors": 16,
+        "sampledColors": 17,
         "mapCoverage": 0.8816901408450705,
         "cssTileScale": 2.21875
       },
@@ -414,7 +414,7 @@
       "canvas": {
         "width": 368,
         "height": 377,
-        "sampledColors": 25,
+        "sampledColors": 26,
         "mapCoverage": 1,
         "cssTileScale": 0.7666666666666667
       },
@@ -520,7 +520,7 @@
       "canvas": {
         "width": 338,
         "height": 339,
-        "sampledColors": 31,
+        "sampledColors": 32,
         "mapCoverage": 1,
         "cssTileScale": 0.7041666666666667
       },

@@ -916,6 +916,198 @@
       "fallbackReplies": [
         "검열된 문서의 사본을 보존하면서 소지자의 안전도 지킬 수 있을까요?"
       ]
+    },
+    "innkeeper_irina": {
+      "sceneId": "V36_TALK_INNKEEPER_IRINA",
+      "dialogueObjective": "빚을 기록하면서 손님의 사생활은 어떻게 지킬 수 있을까요?",
+      "focusKo": "외상은 갚아야 하지만 손님의 사정을 장부 밖으로 퍼뜨릴 권리는 없다고 본다. 여관을 유지할 돈과 사람의 체면을 함께 계산한다.",
+      "turnLimit": 8,
+      "allowedTopics": [
+        "빚을 기록하면서 손님의 사생활은 어떻게 지킬 수 있을까요?",
+        "셋방 손님을 받고 식사와 숙박비를 정산하는 여관주인",
+        "품삯과 일터에서 겪는 구체적인 선택"
+      ],
+      "forbiddenTopics": [
+        "허구 장면을 실제 역사 증언으로 말하기",
+        "확인되지 않은 역사적 사실이나 제국의 규정",
+        "다른 인물의 사정을 대신 단정하기",
+        "게임의 숨은 수치나 결말"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "guarded",
+        "warm",
+        "irritated",
+        "focused"
+      ],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": [],
+      "fallbackKo": "외상은 장부에 남겨야 해요. 그렇다고 손님의 사정을 다른 방 사람에게 말할 일은 아니죠.",
+      "fallbackReplies": [
+        "빚을 기록하면서 손님의 사생활은 어떻게 지킬 수 있을까요?"
+      ]
+    },
+    "student_vasily": {
+      "sceneId": "V36_TALK_STUDENT_VASILY",
+      "dialogueObjective": "생각을 말할 자유와 그 말을 한 사람이 감당할 위험을 어떻게 함께 볼까요?",
+      "focusKo": "서로 다른 생각을 들을 필요가 있다고 믿지만, 모든 자리에서 모든 말을 똑같이 공개해야 한다고 보지는 않는다. 말할 사람의 위험도 함께 따져야 한다.",
+      "turnLimit": 8,
+      "allowedTopics": [
+        "생각을 말할 자유와 그 말을 한 사람이 감당할 위험을 어떻게 함께 볼까요?",
+        "서점과 독서 모임을 오가며 공부하는 학생",
+        "품삯과 일터에서 겪는 구체적인 선택"
+      ],
+      "forbiddenTopics": [
+        "허구 장면을 실제 역사 증언으로 말하기",
+        "확인되지 않은 역사적 사실이나 제국의 규정",
+        "다른 인물의 사정을 대신 단정하기",
+        "게임의 숨은 수치나 결말"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "guarded",
+        "warm",
+        "irritated",
+        "focused"
+      ],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": [],
+      "fallbackKo": "서로 다른 생각을 들어야 한다고 믿어요. 다만 누가 듣고 있는지 모르는 자리라면 말할 범위도 생각해야겠죠.",
+      "fallbackReplies": [
+        "생각을 말할 자유와 그 말을 한 사람이 감당할 위험을 어떻게 함께 볼까요?"
+      ]
+    },
+    "teacher_lyubov": {
+      "sceneId": "V36_TALK_TEACHER_LYUBOV",
+      "dialogueObjective": "모두에게 배울 기회를 주려면 수업과 재료의 비용을 누가 나눠야 할까요?",
+      "focusKo": "배울 기회는 돈 있는 집에만 묶여서는 안 되지만, 교사와 종이값을 늘 한 사람이 대신 감당할 수도 없다고 본다.",
+      "turnLimit": 8,
+      "allowedTopics": [
+        "모두에게 배울 기회를 주려면 수업과 재료의 비용을 누가 나눠야 할까요?",
+        "아이들에게 글을 가르치고 집에서 수업을 하는 교사",
+        "품삯과 일터에서 겪는 구체적인 선택"
+      ],
+      "forbiddenTopics": [
+        "허구 장면을 실제 역사 증언으로 말하기",
+        "확인되지 않은 역사적 사실이나 제국의 규정",
+        "다른 인물의 사정을 대신 단정하기",
+        "게임의 숨은 수치나 결말"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "guarded",
+        "warm",
+        "irritated",
+        "focused"
+      ],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": [],
+      "fallbackKo": "배움은 열어두고 싶어요. 하지만 종이도 수업 시간도 저절로 생기진 않으니, 누구와 나눌지 정해야 해요.",
+      "fallbackReplies": [
+        "모두에게 배울 기회를 주려면 수업과 재료의 비용을 누가 나눠야 할까요?"
+      ]
+    },
+    "minor_noble_andrei": {
+      "sceneId": "V36_TALK_MINOR_NOBLE_ANDREI",
+      "dialogueObjective": "신분의 체면을 지키느라 빚을 숨기면 누구에게 비용이 돌아갈까요?",
+      "focusKo": "가문의 이름이 문을 열어줄 때가 있다고 믿지만, 이름만으로 빚이 사라지진 않는다는 걸 안다. 체면을 위해 다른 사람에게 비용을 넘기고 싶진 않다.",
+      "turnLimit": 8,
+      "allowedTopics": [
+        "신분의 체면을 지키느라 빚을 숨기면 누구에게 비용이 돌아갈까요?",
+        "수입이 줄어든 하급 귀족 가문의 청년",
+        "품삯과 일터에서 겪는 구체적인 선택"
+      ],
+      "forbiddenTopics": [
+        "허구 장면을 실제 역사 증언으로 말하기",
+        "확인되지 않은 역사적 사실이나 제국의 규정",
+        "다른 인물의 사정을 대신 단정하기",
+        "게임의 숨은 수치나 결말"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "guarded",
+        "warm",
+        "irritated",
+        "focused"
+      ],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": [],
+      "fallbackKo": "가문의 이름으로 시간을 벌 수는 있겠죠. 하지만 어음을 갚는 날짜까지 대신 정해 주진 않으니 지출을 다시 봐야 합니다.",
+      "fallbackReplies": [
+        "신분의 체면을 지키느라 빚을 숨기면 누구에게 비용이 돌아갈까요?"
+      ]
+    },
+    "landlady_polina": {
+      "sceneId": "V36_TALK_LANDLADY_POLINA",
+      "dialogueObjective": "한 세입자의 방세를 기다려주면서 공동 비용은 어떻게 공평하게 나눌까요?",
+      "focusKo": "방세는 집을 유지하는 데 필요하지만, 사정이 어려운 세입자에게 비용을 모두 넘기는 것도 해결은 아니라고 본다. 기준을 공개하고 기한을 정해야 한다.",
+      "turnLimit": 8,
+      "allowedTopics": [
+        "한 세입자의 방세를 기다려주면서 공동 비용은 어떻게 공평하게 나눌까요?",
+        "셋방을 내주고 방세와 공동 비용을 관리하는 임대인",
+        "품삯과 일터에서 겪는 구체적인 선택"
+      ],
+      "forbiddenTopics": [
+        "허구 장면을 실제 역사 증언으로 말하기",
+        "확인되지 않은 역사적 사실이나 제국의 규정",
+        "다른 인물의 사정을 대신 단정하기",
+        "게임의 숨은 수치나 결말"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "guarded",
+        "warm",
+        "irritated",
+        "focused"
+      ],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": [],
+      "fallbackKo": "방세가 밀리면 장작값도 모자라요. 기다릴 수는 있지만 언제까지인지 정해야 다른 사람 몫을 빼지 않죠.",
+      "fallbackReplies": [
+        "한 세입자의 방세를 기다려주면서 공동 비용은 어떻게 공평하게 나눌까요?"
+      ]
+    },
+    "watercarrier_luka": {
+      "sceneId": "V36_TALK_WATERCARRIER_LUKA",
+      "dialogueObjective": "물 나르는 노동의 값과 모두가 필요한 물의 순서를 어떻게 함께 정할까요?",
+      "focusKo": "물은 모두에게 필요하지만 물을 나르는 노동과 시간에도 값이 든다. 부유한 집이 돈으로 순서를 계속 앞당기면 공동의 약속은 무너질 수 있다.",
+      "turnLimit": 8,
+      "allowedTopics": [
+        "물 나르는 노동의 값과 모두가 필요한 물의 순서를 어떻게 함께 정할까요?",
+        "강가와 안뜰 사이에서 물을 나르는 노동자",
+        "품삯과 일터에서 겪는 구체적인 선택"
+      ],
+      "forbiddenTopics": [
+        "허구 장면을 실제 역사 증언으로 말하기",
+        "확인되지 않은 역사적 사실이나 제국의 규정",
+        "다른 인물의 사정을 대신 단정하기",
+        "게임의 숨은 수치나 결말"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "guarded",
+        "warm",
+        "irritated",
+        "focused"
+      ],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": [],
+      "fallbackKo": "돈을 더 준다는 집이 있지만 안뜰에도 순서가 있소. 어느 쪽을 먼저 하면 누군가는 더 기다려야 하오.",
+      "fallbackReplies": [
+        "물 나르는 노동의 값과 모두가 필요한 물의 순서를 어떻게 함께 정할까요?"
+      ]
     }
   }
 }

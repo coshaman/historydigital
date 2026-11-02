@@ -1,0 +1,74 @@
+{
+  "id": "LANDLADY_RENT_COMMONS_1847",
+  "titleKo": "방세 독촉과 공동 지출",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "폴리나는 방세가 밀린 세입자를 재촉해야 하지만, 안뜰 장작과 물값도 함께 마련해야 한다.",
+  "historicalOutcome": {
+    "id": "LANDLADY_RENT_COMMONS_1847_FICTIONAL_OUTCOME",
+    "value": "fictional work and household choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "courtyard",
+    "objectId": 1010,
+    "requiredHostId": "landlady_polina"
+  },
+  "actions": [
+    {
+      "id": "LANDLADY_POLINA_CHOICE_1",
+      "hostIds": [
+        "landlady_polina"
+      ],
+      "labelKo": "기한을 정해 방세와 공동 비용을 나눠 적는다",
+      "subcopyKo": "폴리나와 해당 세입자가 압니다 · 장부에 기한과 항목이 남습니다 · 다시 미납될 수 있습니다",
+      "resultKo": "방세와 공동 장작값을 나눠 적고 기한을 정했다. 무엇이 부족한지 보이지만 납부는 보장되지 않는다.",
+      "resultFlag": "polinaSeparated",
+      "followupTitleKo": "방세 독촉과 공동 지출",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "방세와 공동 비용의 지급 날짜를 따로 적었다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    },
+    {
+      "id": "LANDLADY_POLINA_CHOICE_2",
+      "hostIds": [
+        "landlady_polina"
+      ],
+      "labelKo": "방세가 밀린 세입자에게 즉시 방을 비우라고 한다",
+      "subcopyKo": "폴리나와 해당 세입자가 압니다 · 퇴거 메모에 남습니다 · 이웃과의 갈등 및 빈방 손실을 감수합니다",
+      "resultKo": "세입자에게 방을 비우라고 통보했다. 장부는 정리될 수 있지만 세입자는 거처를 잃는다.",
+      "resultFlag": "polinaEvicted",
+      "followupTitleKo": "방세 독촉과 공동 지출",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "방세가 밀린 세입자에게 퇴거를 통보했다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    },
+    {
+      "id": "LANDLADY_POLINA_CHOICE_3",
+      "hostIds": [
+        "landlady_polina"
+      ],
+      "labelKo": "공동 비용을 세입자들과 다시 계산하고 일부를 미룬다",
+      "subcopyKo": "안뜰 세입자들이 압니다 · 공동 장부에 남습니다 · 장작 구입이 늦어질 수 있습니다",
+      "resultKo": "모두가 비용을 다시 나눠 부담하기로 했다. 한 집의 압박은 줄었지만 장작을 늦게 살 수도 있다.",
+      "resultFlag": "polinaShared",
+      "followupTitleKo": "방세 독촉과 공동 지출",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "공동 비용을 다시 나눠 일부 지급을 미뤘다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named work record"
+}

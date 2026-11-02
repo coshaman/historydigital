@@ -748,6 +748,138 @@
       "intendedScene": "chancery",
       "sourceIds": [],
       "notes": "Original stylized portrait of a fictional resident; not a documented likeness."
+    },
+    {
+      "id": "sprite-innkeeper_irina",
+      "path": "rpg/assets/innkeeper_irina.png",
+      "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
+      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
+      "license": "original project-authored pixels",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": "courtyard",
+      "sourceIds": [],
+      "notes": "Derived from the project pixel-sprite template for a fictional resident; not a documented likeness."
+    },
+    {
+      "id": "portrait-innkeeper_irina",
+      "path": "rpg/assets/portrait-innkeeper_irina.svg",
+      "type": "ORIGINAL_VECTOR_PORTRAIT",
+      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
+      "license": "original project-authored vector artwork",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": "courtyard",
+      "sourceIds": [],
+      "notes": "Original stylized portrait of a fictional resident; not a documented likeness."
+    },
+    {
+      "id": "sprite-student_vasily",
+      "path": "rpg/assets/student_vasily.png",
+      "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
+      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
+      "license": "original project-authored pixels",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": "nevsky",
+      "sourceIds": [],
+      "notes": "Derived from the project pixel-sprite template for a fictional resident; not a documented likeness."
+    },
+    {
+      "id": "portrait-student_vasily",
+      "path": "rpg/assets/portrait-student_vasily.svg",
+      "type": "ORIGINAL_VECTOR_PORTRAIT",
+      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
+      "license": "original project-authored vector artwork",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": "nevsky",
+      "sourceIds": [],
+      "notes": "Original stylized portrait of a fictional resident; not a documented likeness."
+    },
+    {
+      "id": "sprite-teacher_lyubov",
+      "path": "rpg/assets/teacher_lyubov.png",
+      "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
+      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
+      "license": "original project-authored pixels",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": "courtyard",
+      "sourceIds": [],
+      "notes": "Derived from the project pixel-sprite template for a fictional resident; not a documented likeness."
+    },
+    {
+      "id": "portrait-teacher_lyubov",
+      "path": "rpg/assets/portrait-teacher_lyubov.svg",
+      "type": "ORIGINAL_VECTOR_PORTRAIT",
+      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
+      "license": "original project-authored vector artwork",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": "courtyard",
+      "sourceIds": [],
+      "notes": "Original stylized portrait of a fictional resident; not a documented likeness."
+    },
+    {
+      "id": "sprite-minor_noble_andrei",
+      "path": "rpg/assets/minor_noble_andrei.png",
+      "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
+      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
+      "license": "original project-authored pixels",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": "chancery",
+      "sourceIds": [],
+      "notes": "Derived from the project pixel-sprite template for a fictional resident; not a documented likeness."
+    },
+    {
+      "id": "portrait-minor_noble_andrei",
+      "path": "rpg/assets/portrait-minor_noble_andrei.svg",
+      "type": "ORIGINAL_VECTOR_PORTRAIT",
+      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
+      "license": "original project-authored vector artwork",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": "chancery",
+      "sourceIds": [],
+      "notes": "Original stylized portrait of a fictional resident; not a documented likeness."
+    },
+    {
+      "id": "sprite-landlady_polina",
+      "path": "rpg/assets/landlady_polina.png",
+      "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
+      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
+      "license": "original project-authored pixels",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": "courtyard",
+      "sourceIds": [],
+      "notes": "Derived from the project pixel-sprite template for a fictional resident; not a documented likeness."
+    },
+    {
+      "id": "portrait-landlady_polina",
+      "path": "rpg/assets/portrait-landlady_polina.svg",
+      "type": "ORIGINAL_VECTOR_PORTRAIT",
+      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
+      "license": "original project-authored vector artwork",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": "courtyard",
+      "sourceIds": [],
+      "notes": "Original stylized portrait of a fictional resident; not a documented likeness."
+    },
+    {
+      "id": "sprite-watercarrier_luka",
+      "path": "rpg/assets/watercarrier_luka.png",
+      "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
+      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
+      "license": "original project-authored pixels",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": "courtyard",
+      "sourceIds": [],
+      "notes": "Derived from the project pixel-sprite template for a fictional resident; not a documented likeness."
+    },
+    {
+      "id": "portrait-watercarrier_luka",
+      "path": "rpg/assets/portrait-watercarrier_luka.svg",
+      "type": "ORIGINAL_VECTOR_PORTRAIT",
+      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
+      "license": "original project-authored vector artwork",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": "courtyard",
+      "sourceIds": [],
+      "notes": "Original stylized portrait of a fictional resident; not a documented likeness."
     }
   ]
 }

@@ -1,0 +1,197 @@
+{
+  "id": "teacher_lyubov",
+  "kind": "FICTIONAL",
+  "displayNameKo": "류보프",
+  "displayNameRu": "Любовь Орлова",
+  "ageAtDate": {
+    "value": 35,
+    "status": "fictional_character_design"
+  },
+  "socialEstate": "urban_laborer",
+  "occupation": "아이들에게 글을 가르치고 집에서 수업을 하는 교사",
+  "rank": {
+    "value": null,
+    "ru": null,
+    "status": "not_applicable"
+  },
+  "legalMobility": "하숙집·공개 거리와 수선 주문을 맡은 인쇄소 작업장 이용; 관청과 살롱 출입은 소개/고용 없이 불가",
+  "wealthBracket": "precarious",
+  "money": {
+    "amount": 18,
+    "unit": "kopeks",
+    "status": "designedEstimate"
+  },
+  "literacy": "짧은 인쇄 문장을 읽을 수 있음",
+  "health": "working",
+  "reputationByGroup": {
+    "courtyard": "steady_worker"
+  },
+  "risk": "오늘 일감을 놓치면 방세 납부가 늦어진다",
+  "relations": {},
+  "secretKnowledge": [
+    {
+      "id": "TEACHER_LYUBOV_PRIVATE_NOTE",
+      "summaryKo": "한 학생의 수업료가 두 번 밀렸고, 남은 종이는 다음 수업까지 넉넉하지 않다."
+    }
+  ],
+  "knownEvidence": [],
+  "privateKnowledgeIds": [
+    "TEACHER_LYUBOV_PRIVATE_NOTE"
+  ],
+  "knownEvidenceIds": [],
+  "desires": "모두에게 배울 기회를 주려면 수업과 재료의 비용을 누가 나눠야 할까요?",
+  "fears": "류보프는 수업료를 낼 수 없는 아이에게 수업을 계속할지, 남은 종이를 다른 학생과 나눌지 정해야 한다.",
+  "taboos": [
+    "당사자가 없는 자리에서 이름을 퍼뜨리지 않는다"
+  ],
+  "speechRhythm": "학생이 어디에서 막혔는지 먼저 묻고, 예시를 들며 차근차근 설명한다. 비용을 말할 때는 돌려 말하지 않는다.",
+  "speechRegister": {
+    "firstMeeting": "처음 온 학생에게 아는 글자와 필요한 수업부터 묻는다.",
+    "colleague": "다른 교사와는 종이·수업 시간·학생 수를 구체적으로 맞춘다.",
+    "private": "사적으로는 학생을 돕고 싶은 마음과 자기 생활비 걱정을 함께 말한다.",
+    "conflict": "무상 수업을 당연시하면 준비 시간과 재료값을 단호하게 설명한다.",
+    "intimacy": "가까운 학생에게는 짧은 격려와 구체적인 과제를 건넨다.",
+    "formal": "가족이나 후원자에게는 정중하게 비용과 수업 조건을 밝힌다."
+  },
+  "voiceSamples": [
+    "책을 펴고 어디까지 읽었는지 보여 주세요. 수업은 그 다음부터 시작해요.",
+    "배움은 열어두고 싶어요. 하지만 종이도 수업 시간도 저절로 생기진 않으니, 누구와 나눌지 정해야 해요.",
+    "배울 기회는 돈 있는 집에만 묶여서는 안 되지만, 교사와 종이값을 늘 한 사람이 대신 감당할 수도 없다고 본다."
+  ],
+  "worldview": {
+    "status": "fictional_character_design",
+    "stanceKo": "배울 기회는 돈 있는 집에만 묶여서는 안 되지만, 교사와 종이값을 늘 한 사람이 대신 감당할 수도 없다고 본다.",
+    "tensionKo": "류보프는 수업료를 낼 수 없는 아이에게 수업을 계속할지, 남은 종이를 다른 학생과 나눌지 정해야 한다.",
+    "blindSpotKo": "자기 일이 급할 때 상대가 감당할 비용을 충분히 보지 못할 수 있다.",
+    "designBasisKo": "허구 시민 설정으로 실제 개인의 증언이나 사건을 나타내지 않는다.",
+    "sceneAnchorIds": [
+      "TEACHER_ACCESS_COST_1847"
+    ]
+  },
+  "topicStances": {
+    "serfdom": {
+      "knowledgeKind": "no_documented_stance",
+      "positionKo": "이 허구 인물은 농촌 제도의 직접 경험이나 확인된 정보를 가진 것으로 설정하지 않는다."
+    },
+    "censorship": {
+      "knowledgeKind": "fictional_workplace_context_only",
+      "positionKo": "문서의 전달·교정에서 자신이 직접 맡은 일만 말하고 실제 검열 규정을 대신 설명하지 않는다."
+    },
+    "literature": {
+      "knowledgeKind": "reader_limited",
+      "positionKo": "작가의 뜻을 대변하지 않고 자신이 읽거나 들은 범위만 말한다."
+    },
+    "poverty_and_class": {
+      "knowledgeKind": "fictional_lived_experience",
+      "positionKo": "배울 기회는 돈 있는 집에만 묶여서는 안 되지만, 교사와 종이값을 늘 한 사람이 대신 감당할 수도 없다고 본다."
+    },
+    "slavophilism_and_westernism": {
+      "knowledgeKind": "unfamiliar_terms",
+      "positionKo": "사상 진영을 대변하지 않는다. 일과 이웃에게 생기는 비용을 중심으로 말한다."
+    }
+  },
+  "lexicon": [
+    "수선값",
+    "방세",
+    "마감"
+  ],
+  "emotions": [
+    "피로",
+    "단단함",
+    "가벼운 농담"
+  ],
+  "personalObjective": "모두에게 배울 기회를 주려면 수업과 재료의 비용을 누가 나눠야 할까요?",
+  "objectiveByChapter": {
+    "1847": "모두에게 배울 기회를 주려면 수업과 재료의 비용을 누가 나눠야 할까요?"
+  },
+  "allowedMaps": [
+    "nevsky",
+    "courtyard",
+    "market-quay",
+    "printshop",
+    "chancery"
+  ],
+  "start": {
+    "mapId": "courtyard",
+    "x": 17,
+    "y": 13
+  },
+  "wealthBracketStatus": "designedEstimate",
+  "inventory": [
+    "바늘통",
+    "남색 실",
+    "수선 맡은 소매"
+  ],
+  "sourceIds": [],
+  "canonConstraint": "fictional citizen; never treated as an attested historical individual or witness",
+  "reconstructionDisclaimer": "허구 인물의 일과 선택만 다룬다.",
+  "sprite": {
+    "file": "assets/teacher_lyubov.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "scarf",
+    "palette": {
+      "cloth": "#5d4436",
+      "trim": "#9d7449",
+      "headwear": "#765c4b"
+    }
+  },
+  "schedule": [
+    {
+      "atMinute": 420,
+      "mapId": "courtyard",
+      "position": {
+        "x": 17,
+        "y": 13
+      },
+      "activityKo": "아이들에게 글 읽기를 가르친다"
+    },
+    {
+      "atMinute": 600,
+      "mapId": "nevsky",
+      "position": {
+        "x": 18,
+        "y": 12
+      },
+      "activityKo": "수업에 쓸 책과 종이를 찾는다"
+    },
+    {
+      "atMinute": 780,
+      "mapId": "market-quay",
+      "position": {
+        "x": 18,
+        "y": 14
+      },
+      "activityKo": "종이값과 다음 수업 시간을 맞춘다"
+    },
+    {
+      "atMinute": 960,
+      "mapId": "courtyard",
+      "position": {
+        "x": 17,
+        "y": 13
+      },
+      "activityKo": "학생별 연습 분량을 정리한다"
+    }
+  ],
+  "portrait": {
+    "file": "assets/portrait-teacher_lyubov.svg",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+  },
+  "spriteAtlas": {
+    "file": "assets/anna.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "directions": 4,
+    "framesPerDirection": 3,
+    "directionRows": {
+      "down": 0,
+      "up": 1,
+      "left": 2,
+      "right": 3
+    }
+  },
+  "speechStatus": "FICTIONAL_DESIGN"
+}

@@ -16,6 +16,7 @@ const goExit = async (page, destination) => {
   if (await exitChoice.count()) await exitChoice.first().click();
   await page.waitForFunction(expected => document.querySelector('#mapname')?.textContent === expected, destination);
 };
+const moveKey = async (page, key) => { await page.keyboard.press(key); await page.waitForTimeout(380); };
 
 for (const viewport of (quickMode ? [{ width: 1440, height: 900 }] : [{ width: 1440, height: 900 }, { width: 1366, height: 768 }, { width: 1111, height: 720 }, { width: 390, height: 844 }, { width: 360, height: 800 }])) {
   console.log(`viewport ${viewport.width}x${viewport.height}`);
@@ -49,11 +50,11 @@ for (const viewport of (quickMode ? [{ width: 1440, height: 900 }] : [{ width: 1
   let evidenceHotkey = false;
   if (viewport.width < 500) {
     await page.locator('[data-move="right"]').click();
-    await page.keyboard.press('ArrowLeft');
+    await moveKey(page, 'ArrowLeft');
   }
   await page.keyboard.press('e');
   await page.getByRole('button', { name: '몸을 빌린다' }).click();
-  await page.keyboard.press('ArrowRight');
+  await moveKey(page, 'ArrowRight');
   await page.keyboard.press('e');
   await page.getByRole('heading', { name: '돌 틈에 낀 쪽지' }).waitFor();
   const clueText = await page.locator('#journal-text').innerText();
@@ -237,18 +238,18 @@ for (const viewport of (quickMode ? [{ width: 1440, height: 900 }] : [{ width: 1
   await page.goto(base, { waitUntil: 'networkidle' });
   await page.evaluate(() => localStorage.clear());
   await page.reload({ waitUntil: 'networkidle' });
-  await page.keyboard.press('ArrowDown');
-  for (let step = 0; step < 7; step++) await page.keyboard.press('ArrowLeft');
-  for (let step = 0; step < 8; step++) await page.keyboard.press('ArrowUp');
+  await moveKey(page, 'ArrowDown');
+  for (let step = 0; step < 7; step++) await moveKey(page, 'ArrowLeft');
+  for (let step = 0; step < 8; step++) await moveKey(page, 'ArrowUp');
   await goExit(page, '관청 접수실');
   await page.keyboard.press('e');
   await page.locator('#actions button').filter({ hasText: '알렉세이 오를로프 살펴보기' }).click();
   await page.getByRole('button', { name: '몸을 빌린다' }).click();
-  await page.keyboard.press('ArrowRight');
-  for (let step = 0; step < 3; step++) await page.keyboard.press('ArrowDown');
+  await moveKey(page, 'ArrowRight');
+  for (let step = 0; step < 3; step++) await moveKey(page, 'ArrowDown');
   await goExit(page, '네프스키 거리');
-  for (let step = 0; step < 12; step++) await page.keyboard.press('ArrowRight');
-  await page.keyboard.press('ArrowUp');
+  for (let step = 0; step < 12; step++) await moveKey(page, 'ArrowRight');
+  await moveKey(page, 'ArrowUp');
   await page.keyboard.press('e');
   await page.getByText('이 몸으로는 들어갈 수 없다').waitFor();
   await page.locator('#release').click();
@@ -257,15 +258,18 @@ for (const viewport of (quickMode ? [{ width: 1440, height: 900 }] : [{ width: 1
   const mikhailChoice = page.locator('#actions button').filter({ hasText: '미하일 살펴보기' });
   if (await mikhailChoice.count()) await mikhailChoice.first().click();
   await page.getByRole('button', { name: '몸을 빌린다' }).click();
-  await page.keyboard.press('ArrowLeft');
-  await page.keyboard.press('ArrowLeft');
-  await page.keyboard.press('ArrowUp');
+  await moveKey(page, 'ArrowLeft');
+  await moveKey(page, 'ArrowLeft');
+  await moveKey(page, 'ArrowUp');
   await page.keyboard.press('e');
-  await page.getByRole('heading', { name: '방세 쪽지' }).waitFor();
+  await page.getByRole('heading', { name: '방세 쪽지' }).waitFor({ timeout: 5000 }).catch(async () => {
+    const state = await page.evaluate(() => ({ map: document.querySelector('#mapname')?.textContent, clock: document.querySelector('#clock')?.textContent, headline: document.querySelector('#headline')?.textContent, record: document.querySelector('#record')?.textContent, actions: document.querySelector('#actions')?.innerText }));
+    throw new Error(`Courtyard rent document did not appear: ${JSON.stringify(state)}`);
+  });
   await page.getByText(/내일까지라… 오늘은 꼭 일거리를 구해야 하는데/).waitFor();
   await page.screenshot({ path: path.join(out, 'courtyard-rent-1440x900.png') });
-  for (let step = 0; step < 4; step++) await page.keyboard.press('ArrowRight');
-  for (let step = 0; step < 4; step++) await page.keyboard.press('ArrowDown');
+  for (let step = 0; step < 4; step++) await moveKey(page, 'ArrowRight');
+  for (let step = 0; step < 4; step++) await moveKey(page, 'ArrowDown');
   await goExit(page, '네프스키 거리');
   if (errors.length) throw new Error(`Chancery/courtyard browser errors: ${errors.join('; ')}`);
   report.otherMaps = { chanceryVisit: true, clerkAccess: true, alexeiDeniedCourtyard: true, observerEnteredCourtyard: true, mikhailClueRead: true, mikhailReturnedToStreet: true, errors };

@@ -1,0 +1,74 @@
+{
+  "id": "TEACHER_ACCESS_COST_1847",
+  "titleKo": "배울 기회와 종이값",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "류보프는 수업료를 낼 수 없는 아이에게 수업을 계속할지, 남은 종이를 다른 학생과 나눌지 정해야 한다.",
+  "historicalOutcome": {
+    "id": "TEACHER_ACCESS_COST_1847_FICTIONAL_OUTCOME",
+    "value": "fictional work and household choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "courtyard",
+    "objectId": 1008,
+    "requiredHostId": "teacher_lyubov"
+  },
+  "actions": [
+    {
+      "id": "TEACHER_LYUBOV_CHOICE_1",
+      "hostIds": [
+        "teacher_lyubov"
+      ],
+      "labelKo": "학생의 수업을 이어가고 재료 부족을 공개적으로 알린다",
+      "subcopyKo": "류보프와 학생 가족이 압니다 · 수업 메모에 남습니다 · 다른 학생의 종이가 줄 수 있습니다",
+      "resultKo": "수업을 계속하고 종이 부족을 알렸다. 학생은 배울 수 있지만 수업 방식과 재료를 다시 조정해야 한다.",
+      "resultFlag": "lyubovContinued",
+      "followupTitleKo": "배울 기회와 종이값",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "수업을 이어가며 종이 부족을 알렸다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    },
+    {
+      "id": "TEACHER_LYUBOV_CHOICE_2",
+      "hostIds": [
+        "teacher_lyubov"
+      ],
+      "labelKo": "밀린 수업료를 먼저 받고 다음 수업을 잡는다",
+      "subcopyKo": "류보프와 해당 가족이 압니다 · 개인 수업 장부에 남습니다 · 학생이 수업을 쉬게 될 수 있습니다",
+      "resultKo": "수업료를 먼저 정산하고 날짜를 다시 잡기로 했다. 교사의 비용은 보호되지만 학생은 기다려야 한다.",
+      "resultFlag": "lyubovPayment",
+      "followupTitleKo": "배울 기회와 종이값",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "수업료 정산 뒤 다음 수업을 정했다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    },
+    {
+      "id": "TEACHER_LYUBOV_CHOICE_3",
+      "hostIds": [
+        "teacher_lyubov"
+      ],
+      "labelKo": "학생들에게 종이와 수업 시간을 조금씩 나눈다",
+      "subcopyKo": "류보프와 수업에 온 학생들이 압니다 · 공동 사용표에 남습니다 · 한 사람당 연습 시간이 줄 수 있습니다",
+      "resultKo": "종이와 시간을 함께 나눴다. 더 많은 학생이 참여하지만 각자 연습량은 줄었다.",
+      "resultFlag": "lyubovShared",
+      "followupTitleKo": "배울 기회와 종이값",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "종이와 수업 시간을 공동으로 나눴다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named work record"
+}
