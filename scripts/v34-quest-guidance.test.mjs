@@ -78,3 +78,12 @@ test('host without action rights gets a clear switch hint and cannot receive an 
   assert.equal(guide.taskType,'SWITCH');assert.match(guide.reasonKo,/현재 몸으로 처리할 수 없습니다|맡을 수 있습니다/);
   if(guide.target?.mapId)assert.ok(state.hosts.courier_pavel.allowedMaps.includes(guide.target.mapId));
 });
+
+test('finishing every available quest explains the next playable path instead of leaving a blank objective',()=>{
+  const state=embody(stateAt(hostCards.find(item=>item.id==='clerk_alexei').start.mapId),'clerk_alexei');
+  const guide=resolveQuestGuidance({state,quests:[],maps,hostCards});
+  assert.equal(guide.taskType,'COMPLETE');
+  assert.match(guide.actionKo,/오늘 맡은 기록을 마쳤습니다/);
+  assert.match(guide.howKo,/질문을 담고 표시된 인물에게 가세요/);
+  assert.match(guide.howKo,/다른 인물의 관점/);
+});

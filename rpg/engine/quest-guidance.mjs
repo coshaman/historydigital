@@ -164,9 +164,9 @@ export function resolveQuestGuidance({ state, quests, maps, hostCards }) {
   if (!quest) {
     const nextDateQuest = candidates.find(item => item.date > state.world.date && state.quests[item.id]?.status !== 'resolved');
     return { questId: null, hostId: host.id, questTitleKo: '오늘 맡은 일', taskType: nextDateQuest ? 'WAIT' : 'COMPLETE',
-      actionKo: nextDateQuest ? `${Number(nextDateQuest.date.slice(5,7))}월 ${Number(nextDateQuest.date.slice(8,10))}일 자료가 올 때까지 기다리세요` : '지금 할 수 있는 사건 기록이 없습니다',
-      reasonKo: nextDateQuest ? '아직 도착하지 않은 자료는 미리 열 수 없습니다.' : `${host.displayNameKo}의 다른 일이나 주변 사람을 살펴볼 수 있습니다.`,
-      howKo: nextDateQuest ? '거리와 작업장을 둘러보거나 연표를 이어가세요.' : '수첩에서 가진 것과 읽은 자료를 확인하세요.', placeKo: map.metadata.displayNameKo,
+      actionKo: nextDateQuest ? `${Number(nextDateQuest.date.slice(5,7))}월 ${Number(nextDateQuest.date.slice(8,10))}일 자료가 올 때까지 기다리세요` : '오늘 맡은 기록을 마쳤습니다 · 남은 관점 질문을 골라 보세요',
+      reasonKo: nextDateQuest ? '아직 도착하지 않은 자료는 미리 열 수 없습니다.' : `${host.displayNameKo}가 맡은 기록은 끝났습니다. 사건·이념 임무에서 질문을 고르면 다음에 만날 사람과 물을 내용이 표시됩니다.`,
+      howKo: nextDateQuest ? '거리와 작업장을 둘러보거나 연표를 이어가세요.' : '질문을 담고 표시된 인물에게 가세요. 가까이서 E를 눌러 빙의한 다음 말 걸기를 누르면 됩니다. 다른 인물의 관점도 들으면 수첩에 비교 메모가 남습니다.', placeKo: map.metadata.displayNameKo,
       target: null, progress: { completedSteps: 0, totalSteps: 0 }, known: true, blocked: false };
   }
 

@@ -47,10 +47,15 @@ try {
       rows: [...document.querySelectorAll('#discussion-quest-items li')].map(item => item.textContent),
       overflowX: document.documentElement.scrollWidth > innerWidth,
     }));
-    if (!result.boardVisible || !result.missionVisible || !/다른 직업의 사람에게 같은 문제/.test(result.guidance) || result.rows.length < 16 || result.overflowX || errors.length) {
+    if (!result.boardVisible || !result.missionVisible || !/다른 직업의 사람에게 같은 문제/.test(result.guidance) || result.rows.length !== 4 || result.overflowX || errors.length) {
       throw new Error(`opinion_board_not_actionable:${JSON.stringify({ result, errors })}`);
     }
-    checks.push({ ...result, pageErrors: errors });
+    await page.locator('#discussion-quest-more').click();
+    const expandedRows = await page.locator('#discussion-quest-items li').count();
+    if (expandedRows < 16 || await page.locator('.discussion-inquiry-select').count() < 16) throw new Error(`opinion_questions_not_expandable:${expandedRows}`);
+    await page.locator('.discussion-inquiry-select').first().click();
+    if (!/선택한 질문/.test(await page.locator('#discussion-quest-guidance').textContent())) throw new Error('selected_opinion_question_not_guided');
+    checks.push({ ...result, expandedRows, selectedQuestionGuided: true, pageErrors: errors });
     await context.close();
   }
   const playState = createInitialState({ maps, hostCards, quests, startMapId: 'nevsky' });
@@ -86,7 +91,7 @@ try {
   const offlineResult = await page.evaluate(() => {
     const state = JSON.parse(localStorage.getItem('v33-rpg-save')).state;
     const event = [...state.ledger].reverse().find(item => item.discussionId === 'INQUIRY_CENSORSHIP_AND_LABOR');
-    return { aiGenerated: event?.aiGenerated === true, discussionId: event?.discussionId, lastLedgerEvent: state.ledger.at(-1), perspectiveCount: state.player.dialogueGrowth.perspectiveNotes.filter(note => note.discussionId === event?.discussionId).length, aiReplyCount: state.player.dialogueGrowth.aiReplies, boardRows: [...document.querySelectorAll('#discussion-quest-items li')].map(item => item.textContent), boardGuidance: document.querySelector('#discussion-quest-guidance')?.textContent, recordText: document.querySelector('#record')?.textContent, answerText: document.querySelector('#journal-text')?.textContent, dialogueHistory: document.querySelector('#dialogue-history-lines')?.textContent, remainingButtons: [...document.querySelectorAll('#actions button')].map(button => button.textContent) };
+    return { aiGenerated: event?.aiGenerated === true, discussionId: event?.discussionId, perspectiveHostIds: state.ledger.filter(item => item.discussionId === event?.discussionId).map(item => item.hostId), lastLedgerEvent: state.ledger.at(-1), perspectiveCount: state.player.dialogueGrowth.perspectiveNotes.filter(note => note.discussionId === event?.discussionId).length, aiReplyCount: state.player.dialogueGrowth.aiReplies, boardRows: [...document.querySelectorAll('#discussion-quest-items li')].map(item => item.textContent), boardGuidance: document.querySelector('#discussion-quest-guidance')?.textContent, recordText: document.querySelector('#record')?.textContent, answerText: document.querySelector('#journal-text')?.textContent, dialogueHistory: document.querySelector('#dialogue-history-lines')?.textContent, remainingButtons: [...document.querySelectorAll('#actions button')].map(button => button.textContent) };
   });
   if (offlineResult.aiGenerated || offlineResult.discussionId !== 'INQUIRY_CENSORSHIP_AND_LABOR' || offlineResult.perspectiveCount !== 1 || offlineResult.aiReplyCount !== 0 || !offlineResult.boardRows.some(row => /1\/2 관점/.test(row)) || !/다른 직업의 사람에게 같은 문제/.test(offlineResult.boardGuidance) || errors.length) {
     throw new Error(`offline_question_did_not_progress_honestly:${JSON.stringify({ offlineResult, conversationProbe, errors })}`);
@@ -98,7 +103,7 @@ try {
   await page.getByRole('button', { name: '몸을 빌린다' }).click();
   await page.locator('#talk').click();
   const secondQuestion = page.locator('#actions button').filter({ hasText: '문서에 적힌 주장과 확인한 사실을 나누는 일은 누구의 책임이라고 보세요?' }).first();
-  if (await secondQuestion.count() !== 1) throw new Error(`second_perspective_question_not_offered:${JSON.stringify(await page.locator('#actions button').allTextContents())}`);
+  if (await secondQuestion.count() !== 1) throw new Error(`second_perspective_question_not_offered:${JSON.stringify({ actor: await page.evaluate(() => JSON.parse(localStorage.getItem('v33-rpg-save')).state.player.embodiment), ledger: await page.evaluate(() => JSON.parse(localStorage.getItem('v33-rpg-save')).state.ledger.filter(item => item.discussionId === 'INQUIRY_CENSORSHIP_AND_LABOR').map(item => ({ hostId: item.hostId, actorHostId: item.actorHostId }))), buttons: await page.locator('#actions button').allTextContents() })}`);
   await secondQuestion.click();
   await page.waitForTimeout(1200);
   await page.locator('#save').click();

@@ -208,7 +208,7 @@ test('V35 runs three contextual mock turns for each of eight fictional character
     assert.equal(rows[0].scene.allowedTopics.length >= 5, true, hostId);
   }
   assert.equal(new Set(observed.filter((_, index) => index % 3 === 0).map(input => input.character.speechRhythm)).size, cases.length, 'character voices must not collapse to a shared rhythm');
-  assert.ok(observedInstructions.every(text => text.includes('첫 문장에 분명히 답한다')));
+  assert.ok(observedInstructions.every(text => text.includes('모든 답을 같은 틀에 넣지 않는다')));
   assert.equal(observed.find(input => input.character.id === 'printer_ekaterina').caseContext.questId, 'PRINTSHOP_PROOF_1847');
   assert.ok(observed.find(input => input.character.id === 'printer_ekaterina').sourceEvidence.some(source => source.sourceId === 'LIT-TURGENEV-KHOR-KALYNYCH-1847'));
   assert.equal(observed.find(input => input.character.id === 'clerk_alexei').caseContext.questId, 'CIRCLE_INVESTIGATION_1849');

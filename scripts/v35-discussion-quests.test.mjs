@@ -89,10 +89,16 @@ test('the opening opinion quests tell a first-time player what to do before poss
   assert.match(board.rows[0], /명령이 절차에 맞더라도 결과가 부당/);
   assert.match(board.rows.join(' '), /알렉세이|콘스탄틴/);
   assert.equal(board.rows.length, quests.length, 'the board exposes every currently available inquiry, not only the first three');
+  assert.equal(board.recommendations.length, quests.length, 'each inquiry has a concrete next character and exact question');
+  assert.ok(board.recommendations[0].hostId);
+  assert.ok(board.recommendations[0].promptKo);
+  assert.match(board.recommendations[0].progressKo, /0\/2 관점/);
   const active = quests.find(item => item.id === 'INQUIRY_OFFICIAL_DUTY_AND_MORALITY');
   const inConversation = discussionBoardView([active], 'clerk_alexei', { clerk_alexei: '알렉세이' });
   assert.match(inConversation.rows[0], /지금 대화 중인 알렉세이에게/);
   assert.match(inConversation.rows[0], /결재선/);
+  assert.equal(inConversation.recommendations[0].hostId, 'clerk_alexei');
+  assert.match(inConversation.recommendations[0].promptKo, /결재선/);
   const firstPerspective = { ...active, perspectiveHostIds: ['clerk_alexei'] };
   const nextPerspective = discussionBoardView([firstPerspective], 'clerk_alexei', { clerk_alexei: '알렉세이', senior_clerk_konstantin: '콘스탄틴' });
   assert.match(nextPerspective.rows[0], /1\/2 관점/);

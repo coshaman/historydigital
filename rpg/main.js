@@ -123,6 +123,7 @@ async function openDialogueSession(card, actorCard, signal) {
   return { token: result.sessionToken, mode: 'AI' };
 }
 let missionGuidance = null, destinationPinned = false, journalReturnFocus = null;
+let queuedDiscussionInquiry = null, showAllDiscussionQuestions = false;
 const tutorialStorageKey = 'v34-tutorial-stage';
 let tutorialStage = localStorage.getItem(tutorialStorageKey) ?? '0';
 const tutorialCopy = [
@@ -402,6 +403,37 @@ function updateHud() {
       $('#mission-method').textContent = press.howKo;
     }
   }
+  if (queuedDiscussionInquiry) {
+    const targetHost = state.hosts[queuedDiscussionInquiry.hostId];
+    const targetMap = targetHost ? maps[targetHost.mapId] : null;
+    const inCurrentMap = targetHost?.mapId === map.mapId;
+    const nextAction = host?.id === queuedDiscussionInquiry.hostId ? '가까이 있는 인물에게 말을 거세요' : !host ? '가까이 가서 E를 누르고 이 인물의 몸을 빌리세요' : '표시된 인물이 있는 구역으로 이동하세요';
+    missionGuidance = {
+      ...missionGuidance,
+      questId: queuedDiscussionInquiry.questId,
+      phaseId: 'opinion-inquiry',
+      hostId: queuedDiscussionInquiry.hostId,
+      taskType: host?.id === queuedDiscussionInquiry.hostId ? 'TALK' : host ? 'TRAVEL' : 'POSSESS',
+      questTitleKo: `사건·이념 임무 · ${queuedDiscussionInquiry.titleKo}`,
+      actionKo: `${queuedDiscussionInquiry.hostNameKo}에게 물어보기 · ${queuedDiscussionInquiry.progressKo}`,
+      reasonKo: queuedDiscussionInquiry.stakesKo,
+      howKo: `${nextAction}. 준비한 질문은 대화 선택지 맨 앞에 놓입니다.`,
+      placeKo: targetMap?.metadata.displayNameKo ?? '위치를 확인할 수 없음',
+      target: inCurrentMap ? { mapId: map.mapId, kind: 'npc', npcId: targetHost.id, ...targetHost.position } : null,
+      progress: { completedSteps: queuedDiscussionInquiry.completedPerspectives, totalSteps: queuedDiscussionInquiry.requiredPerspectives },
+      known: true,
+      blocked: !targetHost,
+    };
+    $('#mission-title').textContent = missionGuidance.questTitleKo;
+    $('#mission-action').textContent = missionGuidance.actionKo;
+    $('#mission-reason').textContent = missionGuidance.reasonKo;
+    $('#mission-method').textContent = missionGuidance.howKo;
+    $('#mission-progress').textContent = `${missionGuidance.progress.completedSteps} / ${missionGuidance.progress.totalSteps} 관점`;
+    $('#mission-pin').disabled = !missionGuidance.target;
+    $('#mission-pin').setAttribute('aria-pressed', String(destinationPinned && Boolean(missionGuidance.target)));
+    $('#mission-pin').textContent = destinationPinned && missionGuidance.target ? '목적지 표시 중' : '목적지 표시';
+    $('#pin-legend').hidden = !(destinationPinned && missionGuidance.target);
+  }
   const caseContext = host ? caseContextsByQuest.get(missionGuidance.questId) : null;
   caseContextButton.hidden = !caseContext?.roles?.[host.id] || Boolean(state.endingId);
   const discussionQuests = currentDiscussionQuests();
@@ -412,12 +444,41 @@ function updateHud() {
     Object.fromEntries(cards.map(card => [card.id, card.displayNameKo])));
   discussionBoard.hidden = (!discussionView.visible && !reflectionPrompts.length) || Boolean(state.endingId);
   $('#discussion-quest-progress').textContent = discussionView.progressKo;
-  $('#discussion-quest-guidance').textContent = discussionView.guidanceKo;
-  const inquiryRows = discussionView.rows;
+  $('#discussion-quest-guidance').textContent = queuedDiscussionInquiry
+    ? `선택한 질문 · ${queuedDiscussionInquiry.titleKo} — ${queuedDiscussionInquiry.hostNameKo}에게 “${queuedDiscussionInquiry.promptKo}”라고 물어보세요. 현재 위치: ${state.hosts[queuedDiscussionInquiry.hostId]?.mapId === map.mapId ? '이 구역' : maps[state.hosts[queuedDiscussionInquiry.hostId]?.mapId]?.metadata.displayNameKo ?? '다른 구역'}. ${host ? '가까이 다가가 말을 걸면 대화 선택지 맨 앞에 나타납니다.' : '그 인물 가까이서 E를 눌러 몸을 빌린 뒤, 다시 가까이서 말을 거세요.'}`
+    : discussionView.guidanceKo;
+  const inquiryRows = discussionView.recommendations ?? [];
   const followUpRows = reflectionPrompts.slice(0, 2).map(prompt => `비교 메모 후속 대화 · ${discussionHost.displayNameKo}에게: “${prompt.promptKo}”`);
-  $('#discussion-quest-items').replaceChildren(...(inquiryRows.length || followUpRows.length
-    ? [...inquiryRows, ...followUpRows].map(text => Object.assign(document.createElement('li'), { textContent: text }))
-    : [Object.assign(document.createElement('li'), { textContent: discussionHost ? '이 인물에게 남은 질문이 없습니다. 다른 관점을 모으거나 직접 하고 싶은 말을 적어 보세요.' : '가까운 사람에게 말을 걸면 그 인물에게 맞는 사상·생활 질문이 대화 선택지에 나타납니다.' })]));
+  const inquiryList = $('#discussion-quest-items');
+  const visibleInquiries = showAllDiscussionQuestions ? inquiryRows : inquiryRows.slice(0, 4);
+  inquiryList.replaceChildren(...(visibleInquiries.length || followUpRows.length
+    ? [
+      ...visibleInquiries.map(item => {
+        const li = document.createElement('li');
+        const detail = document.createElement('span');
+        detail.textContent = `${item.titleKo} · ${item.progressKo} · ${item.hostNameKo}에게: “${item.promptKo}”${item.stakesKo ? ` — ${item.stakesKo}` : ''}`;
+        const choose = document.createElement('button');
+        choose.type = 'button'; choose.className = 'discussion-inquiry-select';
+        choose.textContent = queuedDiscussionInquiry?.questId === item.questId && queuedDiscussionInquiry?.hostId === item.hostId ? '선택됨' : '이 질문 담기';
+        choose.setAttribute('aria-pressed', String(queuedDiscussionInquiry?.questId === item.questId && queuedDiscussionInquiry?.hostId === item.hostId));
+        choose.addEventListener('click', () => {
+          queuedDiscussionInquiry = item;
+          destinationPinned = true;
+          updateHud();
+          const target = state.hosts[item.hostId];
+          const place = maps[target?.mapId]?.metadata.displayNameKo ?? '현재 위치';
+          sayRecord(`${item.titleKo} 질문을 골랐습니다. ${place}에 있는 ${item.hostNameKo}에게 가세요. ${state.player.embodiment ? '가까이서 말 걸기를 누르면 질문이 대화 선택지 맨 앞에 놓입니다.' : '가까이서 E를 눌러 몸을 빌린 뒤 말을 걸면 질문이 맨 앞에 나타납니다.'}`);
+        });
+        li.append(detail, choose);
+        return li;
+      }),
+      ...followUpRows.map(text => Object.assign(document.createElement('li'), { textContent: text })),
+    ]
+    : [Object.assign(document.createElement('li'), { textContent: discussionHost ? '이 인물에게 남은 관점 질문이 없습니다. 다른 사람에게 같은 쟁점을 묻거나 수첩의 관점 노트를 살펴보세요.' : '생각·이념·역사 사건을 살피려면 질문을 담고, 표시된 인물에게 다가가 말을 거세요.' })]));
+  const moreQuestions = $('#discussion-quest-more');
+  moreQuestions.hidden = inquiryRows.length <= 4;
+  moreQuestions.textContent = showAllDiscussionQuestions ? '질문 접기' : `질문 더 보기 · ${inquiryRows.length - 4}개`;
+  moreQuestions.onclick = () => { showAllDiscussionQuestions = !showAllDiscussionQuestions; updateHud(); };
   $('#mission-progress').textContent = missionGuidance.progress?.totalSteps ? `${missionGuidance.progress.completedSteps} / ${missionGuidance.progress.totalSteps}` : '';
   $('#mission-pin').disabled = !missionGuidance.target;
   $('#mission-pin').setAttribute('aria-pressed', String(destinationPinned && Boolean(missionGuidance.target)));
@@ -1143,9 +1204,10 @@ async function startConversation(card) {
   const liveDiscussionQuests = currentDiscussionQuests();
   const topicalQuestions = discussionPromptsForHost(card.id, liveDiscussionQuests).map(item => item.promptKo);
   const reflectionQuestions = discussionReflectionPromptsForHost(card.id, state, liveDiscussionQuests).map(item => item.promptKo);
-  const starterReplies = [...new Set([...topicalQuestions, ...reflectionQuestions, ...remaining])].slice(0, 3);
+  const queuedQuestion = queuedDiscussionInquiry?.hostId === card.id ? queuedDiscussionInquiry.promptKo : null;
+  const starterReplies = [...new Set([queuedQuestion, ...topicalQuestions, ...reflectionQuestions, ...remaining].filter(Boolean))].slice(0, 3);
   showConversation(card, dialogueCurrentLines.get(key), starterReplies,
-    sessionFailure ? `AI 연결 실패 · ${sessionFailure}` : hasLiveDialogue(key) ? 'AI 세션 준비됨 · 질문을 보내면 실제 생성 답변을 확인합니다.' : '오프라인 대사 · API가 연결되지 않아 이 답변은 모델이 생성하지 않습니다.');
+    sessionFailure ? `AI 연결 실패 · ${sessionFailure}` : hasLiveDialogue(key) ? 'AI 세션 준비됨 · 질문을 보내면 실제 생성 답변을 확인합니다.' : 'AI 생성 답변을 받지 못했습니다 · 이 설치는 준비된 짧은 대사만 제공합니다. 설정에서 API 주소와 오류 기록을 확인하세요.');
 }
 async function sendConversation(card, playerText, replyId = null) {
   const key = activeDialogueKey;
@@ -1234,6 +1296,7 @@ async function sendConversation(card, playerText, replyId = null) {
   dialogueTranscripts.set(key, lines.slice(-24));
   dialogueCurrentLines.set(key, turn.beats.map(beat => beat.textKo).join('\n'));
   const recorded = recordDialogueTurn(state, { hostId: card.id, actorHostId: actorCard.id, sceneId: local.sceneId, intentClass, discussionId: discussionPrompt?.discussionId ?? null, discussionTitleKo: discussionPrompt?.questTitleKo, reflectionId: reflectionPrompt?.reflectionId ?? null, aiGenerated }, maps);
+  if (recorded.ok && queuedDiscussionInquiry?.hostId === card.id && queuedDiscussionInquiry?.promptKo === playerText) queuedDiscussionInquiry = null;
   if (recorded.ok) setState(recorded.state);
   const replies = (turn.suggestedReplies ?? []).slice(0, 3);
   const reward = recorded.ok ? recorded.state.ledger.at(-1)?.dialogueReward : null;

@@ -66,12 +66,30 @@ export function discussionBoardView(quests, hostId = null, hostNames = {}) {
       const firstQuestion = quest.hosts?.[firstHost]?.promptKo ?? quest.reflectionPromptKo ?? quest.titleKo;
       return `${quest.titleKo} · ${quest.perspectiveHostIds?.length ?? 0}/${quest.requiredPerspectiveCount ?? 2} 관점 · ${firstName}에게 먼저 묻기: “${firstQuestion}”`;
     });
+  const recommendations = active.map(quest => {
+    const eligible = eligibleFor(quest);
+    const selectedHostId = hostId && eligible.includes(hostId) ? hostId : eligible[0];
+    const prompt = selectedHostId ? quest.hosts?.[selectedHostId]?.promptKo : null;
+    if (!selectedHostId || !prompt) return null;
+    return {
+      questId: quest.id,
+      hostId: selectedHostId,
+      hostNameKo: hostNames[selectedHostId] ?? selectedHostId,
+      titleKo: quest.titleKo,
+      promptKo: prompt,
+      progressKo: `${quest.perspectiveHostIds?.length ?? 0}/${quest.requiredPerspectiveCount ?? 2} 관점`,
+      completedPerspectives: quest.perspectiveHostIds?.length ?? 0,
+      requiredPerspectives: quest.requiredPerspectiveCount ?? 2,
+      stakesKo: quest.stakesKo ?? '',
+    };
+  }).filter(Boolean);
   return {
     progressKo: `사건과 생각을 묻기 · ${completedCount} / ${(quests ?? []).length} 완료`,
     guidanceKo: hostId
       ? '아래 질문을 이 인물에게 해보세요. 다른 직업의 사람에게 같은 문제를 다시 물으면 두 관점이 기록됩니다.'
       : '아래 질문 하나를 골라 가까운 사람에게 물어보세요. 다른 직업의 사람에게 같은 문제를 다시 물으면 두 관점을 비교할 수 있습니다.',
     rows,
+    recommendations,
     visible: active.length > 0,
   };
 }
