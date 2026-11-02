@@ -4,7 +4,7 @@ import { questChoices, continuationQuest } from './engine/quest-presentation.mjs
 import { resolveQuestGuidance } from './engine/quest-guidance.mjs';
 import { ownsKeyboardInput, observationText } from './engine/player-presentation.mjs';
 import { availableDiscussionQuests, discussionPromptsForHost, discussionReflectionPromptsForHost } from './engine/discussion-quests.mjs';
-import { selectDialogueTurn } from './engine/dialogue-response.mjs';
+import { dialogueSessionNeedsReconnect, selectDialogueTurn } from './engine/dialogue-response.mjs';
 import { appendApiDiagnostic, clearApiDiagnostics, readApiDiagnostics } from './engine/api-diagnostics.mjs';
 import { CITY_PRODUCTS, NEWSPAPER_STORIES, newspaperAssignment, purchaseCityProduct, publishNewspaperIssue, shareSourceWithEditor, readNewspaperIssue, circulateNewspaperIssue, commitSuspiciousAct, resolvePoliceCustody, publishedIssueLabel } from './engine/civic-life.mjs';
 import { conversations, availableTopics, authoredReply, contextualOpening } from './ai/authored-dialogue.mjs';
@@ -70,7 +70,7 @@ let lastMoveAt = 0, renderFrame = null, renderTimer = null, activeDialogueHost =
 const dialogueSessions = new Map(), dialogueTranscripts = new Map();
 const dialogueCurrentLines = new Map();
 const heardTopics = new Map();
-const hasLiveDialogue = key => dialogueSessions.get(key)?.token && !['BLOCKED_NO_KEY', 'BLOCKED_LIMIT', 'AUTHORED'].includes(dialogueSessions.get(key)?.mode);
+const hasLiveDialogue = key => !dialogueSessionNeedsReconnect(dialogueSessions.get(key));
 const dialogueKey = (actorHostId, speakerHostId) => `${actorHostId}::${speakerHostId}`;
 const dialogueStorageKey = key => `v33-rpg-session:${key}`;
 const aiBaseUrl = '';
@@ -406,13 +406,16 @@ function updateHud() {
   const currentPrompts = discussionHost ? discussionPromptsForHost(discussionHost.id, discussionQuests) : [];
   const reflectionPrompts = discussionHost ? discussionReflectionPromptsForHost(discussionHost.id, state, discussionQuests) : [];
   discussionBoard.hidden = !host || (!activeDiscussionCount && !reflectionPrompts.length) || Boolean(state.endingId);
-  $('#discussion-quest-progress').textContent = `관점 임무 · ${discussionQuests.filter(item => item.completed).length} / ${discussionQuests.length} 완료 · 한 주제는 두 인물과 이야기하면 마무리됩니다`;
+  $('#discussion-quest-progress').textContent = `견해 임무 · ${discussionQuests.filter(item => item.completed).length} / ${discussionQuests.length} 완료`;
+  $('#discussion-quest-guidance').textContent = discussionHost && currentPrompts.length
+    ? `${discussionHost.displayNameKo}에게 아래 질문을 고르고, 같은 주제로 다른 인물의 생각도 들어보세요.`
+    : '대화에서 사상·이념·사건 질문을 골라 서로 다른 두 인물의 생각을 비교하세요. 아래 목록에서 지금 물을 사람을 확인할 수 있습니다.';
   const inquiryRows = currentPrompts.length
-    ? currentPrompts.slice(0, 3).map(prompt => `${prompt.questTitleKo} · ${prompt.progressKo} · ${discussionHost.displayNameKo}에게: “${prompt.promptKo}”`)
+    ? currentPrompts.slice(0, 3).map(prompt => `지금 할 일 · ${discussionHost.displayNameKo}에게 말을 걸고 이 질문을 고르세요: “${prompt.promptKo}” · ${prompt.questTitleKo} (${prompt.progressKo})`)
     : discussionQuests.filter(quest => !quest.completed)
       .slice(0, 3).map(quest => {
         const availablePeople = Object.keys(quest.hosts).filter(id => !quest.perspectiveHostIds.includes(id)).map(id => cards.find(card => card.id === id)?.displayNameKo).filter(Boolean).join(' · ');
-        return `${quest.titleKo} · 관점 ${quest.perspectiveHostIds.length}/${quest.requiredPerspectiveCount} · ${availablePeople}에게 물을 수 있습니다. 가까이 가서 말을 걸어 보세요.`;
+        return `지금 할 일 · ${quest.titleKo} (${quest.perspectiveHostIds.length}/${quest.requiredPerspectiveCount}) · ${availablePeople} 중 한 명에게 가까이 가서 말을 걸고 질문을 고르세요.`;
       });
   const followUpRows = reflectionPrompts.slice(0, 2).map(prompt => `비교 메모 후속 대화 · ${discussionHost.displayNameKo}에게: “${prompt.promptKo}”`);
   $('#discussion-quest-items').replaceChildren(...(inquiryRows.length || followUpRows.length
@@ -1100,6 +1103,11 @@ async function startConversation(card) {
   activeDialogueHost = card.id; activeDialogueKey = key; updateHud();
   tutorialAdvance('talk');
   let session = dialogueSessions.get(key), sessionFailure = '';
+  if (session && dialogueSessionNeedsReconnect(session)) {
+    dialogueSessions.delete(key);
+    sessionStorage.removeItem(dialogueStorageKey(key));
+    session = null;
+  }
   const remaining = availableTopics(card.id, heardTopics.get(key));
   dialogueCurrentLines.set(key, contextualOpening(card.id, actorCard.id));
   showConversation(card, dialogueCurrentLines.get(key), remaining, '선택지는 빠른 대답입니다. 직접 입력해도 됩니다.');
@@ -1204,7 +1212,6 @@ async function sendConversation(card, playerText, replyId = null) {
   if (!turn) {
     const reply = authoredReply(card.id, playerText, heardTopics.get(key));
     heardTopics.set(key, reply.heard);
-    if (session) session.mode = 'AUTHORED';
     turn = { beats: [{ speakerId: reply.speakerId, textKo: reply.text, emotion: 'neutral' }], suggestedReplies: reply.replies.map(textKo => ({ textKo })) };
     if (reply.complete && reply.text !== conversations[card.id].closing) turn.beats.push({ speakerId: card.id, textKo: conversations[card.id].closing });
   }

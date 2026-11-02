@@ -76,6 +76,36 @@
       }
     },
     {
+      "id": "INQUIRY_REFORM_AND_LIVED_COST",
+      "date": "1847-06-01",
+      "titleKo": "제도를 바꾸자는 말, 그 비용은 누가 치를까",
+      "requiredPerspectiveCount": 2,
+      "stakesKo": "개혁의 이상과 품삯·책값·배움의 기회처럼 사람마다 다르게 닿는 현실을 맞대어 봅니다.",
+      "reflectionPromptKo": "변화가 필요하다는 말에 동의해도, 당장 생계를 잃는 사람이 있다면 무엇부터 바꿔야 할까요?",
+      "topicId": "reform_and_lived_cost",
+      "sourceIds": ["LIT-TURGENEV-KHOR-KALYNYCH-1847", "OBJ-SOV-1847"],
+      "hosts": {
+        "seamstress_anna": { "promptKo": "세상이 나아진다는 말은 들어요. 그런데 이번 주 품삯이 줄어든다면 그 변화는 누구에게 좋은 걸까요?" },
+        "bookseller_lev": { "promptKo": "새 제도가 책을 더 많이 읽게 만든다 해도, 종이값과 인쇄공의 품삯은 누가 책임져야 하오?" },
+        "reader_darya": { "promptKo": "배움의 기회를 넓히려는 변화가 누군가의 생계를 흔든다면, 그 비용도 함께 나눠야 하지 않을까요?" }
+      }
+    },
+    {
+      "id": "INQUIRY_PUBLIC_ORDER_AND_LIBERTY",
+      "date": "1848-01-01",
+      "titleKo": "질서와 자유가 부딪힐 때",
+      "requiredPerspectiveCount": 2,
+      "stakesKo": "안전을 이유로 표현이나 모임을 제한할 때, 제한을 주장하는 쪽에도 근거와 책임을 요구할 수 있는지 살핍니다.",
+      "reflectionPromptKo": "위험을 막기 위한 제한이 필요하더라도, 누가 그 위험을 증명하고 제한을 끝낼 시점을 정해야 할까요?",
+      "topicId": "public_order_and_liberty",
+      "sourceIds": ["OBJ-WS-NEKRASOV-EDITORIAL-1848", "OBJ-SOV-1847"],
+      "hosts": {
+        "police_sergeant_ivan": { "promptKo": "위험을 막으려는 조치가 사람의 말을 막게 되면, 어디서 멈춰야 한다고 보십니까?" },
+        "clerk_alexei": { "promptKo": "안전을 이유로 내린 제한을 기록한다면, 명령과 확인된 위험을 같은 문장에 적어도 될까요?" },
+        "printer_ekaterina": { "promptKo": "인쇄를 멈추라는 지시가 오면, 작업자는 근거를 물을 수 있어야 하지 않을까요?" }
+      }
+    },
+    {
       "id": "INQUIRY_BOOKS_AND_CLASS",
       "date": "1848-01-01",
       "titleKo": "책값과 읽을 권리 사이에서",
@@ -148,6 +178,22 @@
         "police_sergeant_ivan": { "promptKo": "안전을 위해 사람의 이름과 움직임을 기록한다면, 어디서 멈춰야 한다고 보십니까?" },
         "senior_clerk_konstantin": { "promptKo": "관청이 안전을 내세워 기록을 모을 때, 기준과 수정 책임은 누가 져야 합니까?" },
         "reader_darya": { "promptKo": "안전 때문에 누군가의 이름이 기록된다면, 그 사람에게 기록을 확인하고 고칠 기회도 있어야 할까요?" }
+      }
+    },
+    {
+      "id": "INQUIRY_WITNESS_AND_JUDGMENT",
+      "date": "1849-04-22",
+      "titleKo": "사건을 판단하기 전에 누구의 말을 확인할까",
+      "requiredPerspectiveCount": 2,
+      "stakesKo": "직접 본 일, 전해 들은 말, 공식 문서의 주장을 나누고 잘못된 판단을 바로잡을 책임을 묻습니다.",
+      "reflectionPromptKo": "서로 다른 진술이 남았을 때, 먼저 확인할 자료와 잘못된 기록을 고칠 책임자는 누구일까요?",
+      "topicId": "witness_and_judgment",
+      "sourceIds": ["OBJ-WS-PETRASHEVSKY-REPORT-1849", "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"],
+      "hosts": {
+        "courier_pavel": { "promptKo": "봉투를 전한 것만 본 사람에게 사건 전체를 묻는다면, 어디까지 답하는 게 정직할까요?" },
+        "clerk_alexei": { "promptKo": "상급자 보고와 직접 확인한 사실이 다르면, 어느 쪽을 먼저 장부에 남겨야 합니까?" },
+        "police_sergeant_ivan": { "promptKo": "목격과 전언이 뒤섞인 진술로 누군가를 의심하게 됐다면, 무엇부터 다시 확인하시겠습니까?" },
+        "printer_ekaterina": { "promptKo": "확인되지 않은 이름이 인쇄될 판이라면, 작업자는 어디서 멈춰야 할까요?" }
       }
     }
   ]

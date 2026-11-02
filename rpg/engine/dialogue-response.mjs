@@ -4,3 +4,7 @@ export function selectDialogueTurn(data) {
   }
   return { kind: 'generated', turn: data.turn };
 }
+
+export function dialogueSessionNeedsReconnect(session) {
+  return !session?.token || session.mode !== 'AI';
+}
