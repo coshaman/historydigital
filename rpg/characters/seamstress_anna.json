@@ -73,6 +73,7 @@
     "가벼운 농담"
   ],
   "personalObjective": "교정쇄를 읽어도 되는지 물어보고 오늘 품삯을 지킨다",
+  "needs": { "income": 74, "fatigue": 32, "safety": 38, "socialBelonging": 34, "restThreshold": 40, "workFatiguePerMinute": 0.05, "restFatigueReliefPerMinute": 0.16 },
   "objectiveByChapter": {
     "1847": "인쇄소에 들른 이유를 밝히되 남의 편지 내용은 말하지 않는다"
   },
@@ -143,6 +144,12 @@
         "y": 13
       },
       "activityKo": "방세를 건네고 남은 일을 묻는다"
+    },
+    {
+      "atMinute": 900,
+      "mapId": "courtyard",
+      "position": { "x": 11, "y": 13 },
+      "activityKo": "수선 도구를 내려놓고 잠시 앉아 쉰다"
     }
   ],
   "portrait": {

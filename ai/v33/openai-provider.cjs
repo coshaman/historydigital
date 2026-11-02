@@ -16,7 +16,12 @@ function createResponsesProvider({ apiKey, fetchImpl = fetch, endpoint = 'https:
         });
         if (!response.ok) { provider.lastFailureCode = `http_${response.status}`; throw new Error(`provider request failed (${response.status})`); }
         const data = await response.json();
-        if (data.status !== 'completed') { provider.lastFailureCode = 'incomplete_response'; throw new Error('provider response incomplete'); }
+        if (data.status !== 'completed') {
+          const reason = data.incomplete_details?.reason;
+          provider.lastFailureCode = reason === 'max_output_tokens' ? 'incomplete_max_output_tokens'
+            : reason === 'content_filter' ? 'incomplete_content_filter' : 'incomplete_response';
+          throw new Error('provider response incomplete');
+        }
         let output = data.output_text;
         if (typeof output !== 'string' || !output.trim()) output = data.output?.flatMap(item => item.content ?? []).find(item => item.type === 'output_text')?.text;
         if (typeof output !== 'string' || !output.trim()) { provider.lastFailureCode = 'missing_output'; throw new Error('provider response incomplete'); }

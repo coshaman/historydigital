@@ -49,7 +49,7 @@
     "status": "fictional_character_design",
     "stanceKo": "정확한 인쇄가 필요하지만 시간 압박과 재인쇄 비용을 노동자에게만 돌려서는 안 된다고 본다. 자신이 확인한 글자는 책임지되 지시받은 변경을 따로 기록하려 한다.",
     "tensionKo": "니키타는 오탈자를 고치느라 인쇄를 늦추면 품삯이 줄고, 서둘러 넘기면 검열 뒤 문장을 다시 찍어야 할 수 있다.",
-    "blindSpotKo": "자기 일이 급할 때 상대가 감당할 비용을 충분히 보지 못할 수 있다.",
+    "blindSpotKo": "활자를 빠르게 맞추고 줄을 정리하는 데 집중해, 줄바꿈과 생략이 문장의 뜻을 바꾸는 순간을 지나칠 수 있다.",
     "designBasisKo": "허구 시민 설정으로 실제 개인의 증언이나 사건을 나타내지 않는다.",
     "sceneAnchorIds": [
       "TYPESETTER_SPEED_CENSORSHIP_1847"

@@ -66,6 +66,7 @@
     "완곡한 경계"
   ],
   "personalObjective": "신문 가판의 재고와 반품 기한을 확인한다",
+  "needs": { "income": 48, "fatigue": 24, "safety": 35, "socialBelonging": 26, "restThreshold": 34, "workFatiguePerMinute": 0.035, "restFatigueReliefPerMinute": 0.12 },
   "objectiveByChapter": {
     "1847": "읽을거리의 값과 유통 경로를 확인한다"
   },
@@ -137,6 +138,12 @@
         "y": 16
       },
       "activityKo": "저녁 장사 전에 가판으로 돌아간다"
+    },
+    {
+      "atMinute": 900,
+      "mapId": "courtyard",
+      "position": { "x": 12, "y": 14 },
+      "activityKo": "가판을 닫고 방에서 잠시 쉰다"
     }
   ],
   "portrait": {

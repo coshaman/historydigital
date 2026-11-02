@@ -66,6 +66,7 @@
     "조용한 끈기"
   ],
   "personalObjective": "방세 쪽지의 액수를 확인하고 오늘 일감을 구한다",
+  "needs": { "income": 88, "fatigue": 30, "safety": 58, "socialBelonging": 62, "restThreshold": 38, "workFatiguePerMinute": 0.04, "restFatigueReliefPerMinute": 0.15 },
   "objectiveByChapter": {
     "1847": "하숙집 안뜰에서 방세와 일감 문제를 해결한다"
   },
@@ -133,7 +134,7 @@
         "x": 13,
         "y": 15
       },
-      "activityKo": "해 질 무렵 방으로 돌아간다"
+      "activityKo": "해 질 무렵 방으로 돌아가 잠시 쉰다"
     }
   ],
   "portrait": {

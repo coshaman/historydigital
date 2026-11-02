@@ -103,7 +103,7 @@ function providerFailureLabel(code) {
     network_error: 'OpenAI 연결 실패', timeout: 'OpenAI 응답 시간 초과', http_401: 'OpenAI API 키 인증 실패',
     http_403: 'OpenAI 키 권한 또는 프로젝트 접근 거부', http_429: 'OpenAI 사용량 한도 또는 속도 제한',
     http_500: 'OpenAI 서버 오류', http_502: 'OpenAI 게이트웨이 오류', http_503: 'OpenAI 일시 중단',
-    incomplete_response: '모델 응답 미완료', missing_output: '모델 응답 본문 없음', malformed_json: '모델 구조화 응답 해석 실패',
+    incomplete_response: '모델 응답 미완료', incomplete_max_output_tokens: '응답 토큰 한도 부족', incomplete_content_filter: '모델 응답 안전 필터 중단', missing_output: '모델 응답 본문 없음', malformed_json: '모델 구조화 응답 해석 실패',
     response_schema_invalid: '모델 응답 형식 검증 실패', unsupported_historical_year: '역사 연도 근거 검증 실패',
     uncited_historical_person: '인물 근거 검증 실패', undisclosed_player_context: '비공개 맥락 보호 검증 실패',
     provider_response_validation: '모델 응답 검증 실패',
@@ -441,7 +441,7 @@ function updateHud() {
   const discussionHost = conversationPartner;
   const reflectionPrompts = discussionHost ? discussionReflectionPromptsForHost(discussionHost.id, state, discussionQuests) : [];
   const discussionView = discussionBoardView(discussionQuests, discussionHost?.id ?? null,
-    Object.fromEntries(cards.map(card => [card.id, card.displayNameKo])));
+    Object.fromEntries(cards.map(card => [card.id, card.displayNameKo])), discussionQuestData.quests.length);
   discussionBoard.hidden = (!discussionView.visible && !reflectionPrompts.length) || Boolean(state.endingId);
   $('#discussion-quest-progress').textContent = discussionView.progressKo;
   $('#discussion-quest-guidance').textContent = queuedDiscussionInquiry
@@ -456,7 +456,10 @@ function updateHud() {
       ...visibleInquiries.map(item => {
         const li = document.createElement('li');
         const detail = document.createElement('span');
-        detail.textContent = `${item.titleKo} · ${item.progressKo} · ${item.hostNameKo}에게: “${item.promptKo}”${item.stakesKo ? ` — ${item.stakesKo}` : ''}`;
+        const targetState = state.hosts[item.hostId];
+        const targetPlaceKo = maps[targetState?.mapId]?.metadata.displayNameKo ?? '위치 확인 중';
+        const evidenceTitles = (discussionQuestById.get(item.questId)?.sourceIds ?? []).map(id => sourceRecords.get(id)?.titleKo).filter(Boolean);
+        detail.textContent = `${item.titleKo} · ${item.progressKo} · ${item.hostNameKo} (${targetPlaceKo})에게: “${item.promptKo}”${item.stakesKo ? ` — ${item.stakesKo}` : ''}${evidenceTitles.length ? ` · 관련 자료: ${evidenceTitles.join(', ')}` : ''}`;
         const choose = document.createElement('button');
         choose.type = 'button'; choose.className = 'discussion-inquiry-select';
         choose.textContent = queuedDiscussionInquiry?.questId === item.questId && queuedDiscussionInquiry?.hostId === item.hostId ? '선택됨' : '이 질문 담기';
@@ -1068,7 +1071,7 @@ function interact() {
     const peopleChoices = nearbyPeople.map(item => {
       const hostId = mapObjectProperties(item).hostId, card = cards.find(character => character.id === hostId), person = state.hosts[hostId];
       const routineStateKo = ({ TRAVELLING: '이동 중', WORKING: '일하는 중', TRADING: '거래 중', RESTING: '쉬는 중', SOCIALIZING: '사람들과 이야기하는 중', DELIVERING: '물건을 전하는 중', POSSESSED: '다른 이의 시야에 들어와 있음' })[person.routineState?.state] ?? '자기 일과를 보내는 중';
-      const goalKo = ({ FOLLOW_RECIPIENT: '받을 사람을 찾아가는 중', FOLLOW_TRADE_PARTNER: '거래 상대를 찾아가는 중', NEED_MEAL: '허기를 채우러 가는 중' })[person.activeGoal?.type] ?? person.currentActivityKo ?? card.personalObjective;
+      const goalKo = ({ FOLLOW_RECIPIENT: '받을 사람을 찾아가는 중', FOLLOW_TRADE_PARTNER: '거래 상대를 찾아가는 중', NEED_MEAL: '허기를 채우러 가는 중', NEED_REST: '피로를 풀 곳으로 가는 중' })[person.activeGoal?.type] ?? person.currentActivityKo ?? card.personalObjective;
       const hungerKo = (person.needs?.hunger ?? 0) >= 65 ? '끼니가 급함' : (person.needs?.hunger ?? 0) >= 45 ? '허기를 느끼는 중' : '허기 낮음';
       return { label: `${card.displayNameKo} 살펴보기`, subcopy: `${card.occupation} · ${routineStateKo} · ${goalKo} · ${hungerKo}`, run: () => inspect(item) };
     });

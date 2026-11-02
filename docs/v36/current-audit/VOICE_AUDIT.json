@@ -1,0 +1,10 @@
+{
+  "schemaVersion": "V36_VOICE_AUDIT_V1",
+  "status": "PASS",
+  "residents": 36,
+  "uniqueBlindSpots": 36,
+  "distinctEndingAndRhythmSignatures": 36,
+  "registerSituations": 6,
+  "duplicateBlindSpotGroups": [],
+  "indistinctVoiceGroups": []
+}

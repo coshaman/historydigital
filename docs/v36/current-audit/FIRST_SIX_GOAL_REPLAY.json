@@ -1,0 +1,206 @@
+{
+  "schemaVersion": "V36_FIRST_SIX_GOAL_REPLAY_1",
+  "status": "PASS",
+  "phase": "V36_PHASE_2_FIRST_SIX",
+  "deterministicReplays": 2,
+  "residents": [
+    {
+      "id": "clerk_alexei",
+      "authoredNeeds": {
+        "income": 36,
+        "fatigue": 22,
+        "safety": 42,
+        "socialBelonging": 24,
+        "restThreshold": 32,
+        "workFatiguePerMinute": 0.035,
+        "restFatigueReliefPerMinute": 0.12
+      },
+      "initialFatigue": 22,
+      "finalFatigue": 14.260000000000018,
+      "finalMapId": "chancery",
+      "activeGoal": {
+        "type": "SCHEDULE",
+        "taskId": null,
+        "targetHostId": null,
+        "targetMapId": "chancery",
+        "reason": "authored_daily_schedule",
+        "selectedAtMinute": 901
+      },
+      "currentActivityKo": "늦은 접수를 마치고 잠시 앉아 쉰다"
+    },
+    {
+      "id": "printer_ekaterina",
+      "authoredNeeds": {
+        "income": 58,
+        "fatigue": 26,
+        "safety": 48,
+        "socialBelonging": 38,
+        "restThreshold": 35,
+        "workFatiguePerMinute": 0.04,
+        "restFatigueReliefPerMinute": 0.14
+      },
+      "initialFatigue": 26,
+      "finalFatigue": 12.259999999999629,
+      "finalMapId": "courtyard",
+      "activeGoal": {
+        "type": "SCHEDULE",
+        "taskId": null,
+        "targetHostId": null,
+        "targetMapId": "courtyard",
+        "reason": "authored_daily_schedule",
+        "selectedAtMinute": 901
+      },
+      "currentActivityKo": "일을 접고 안뜰 방에서 잠시 쉰다"
+    },
+    {
+      "id": "courier_pavel",
+      "authoredNeeds": {
+        "income": 66,
+        "fatigue": 32,
+        "safety": 55,
+        "socialBelonging": 28,
+        "restThreshold": 43,
+        "workFatiguePerMinute": 0.045,
+        "restFatigueReliefPerMinute": 0.16
+      },
+      "initialFatigue": 32,
+      "finalFatigue": 0,
+      "finalMapId": "courtyard",
+      "activeGoal": {
+        "type": "SCHEDULE",
+        "taskId": null,
+        "targetHostId": null,
+        "targetMapId": "courtyard",
+        "reason": "authored_daily_schedule",
+        "selectedAtMinute": 720
+      },
+      "currentActivityKo": "처마 밑에서 빗물을 털고 잠시 쉰다"
+    },
+    {
+      "id": "seamstress_anna",
+      "authoredNeeds": {
+        "income": 74,
+        "fatigue": 32,
+        "safety": 38,
+        "socialBelonging": 34,
+        "restThreshold": 40,
+        "workFatiguePerMinute": 0.05,
+        "restFatigueReliefPerMinute": 0.16
+      },
+      "initialFatigue": 32,
+      "finalFatigue": 13.679999999999556,
+      "finalMapId": "courtyard",
+      "activeGoal": {
+        "type": "SCHEDULE",
+        "taskId": null,
+        "targetHostId": null,
+        "targetMapId": "courtyard",
+        "reason": "authored_daily_schedule",
+        "selectedAtMinute": 838
+      },
+      "currentActivityKo": "수선 도구를 내려놓고 잠시 앉아 쉰다"
+    },
+    {
+      "id": "tenant_mikhail",
+      "authoredNeeds": {
+        "income": 88,
+        "fatigue": 30,
+        "safety": 58,
+        "socialBelonging": 62,
+        "restThreshold": 38,
+        "workFatiguePerMinute": 0.04,
+        "restFatigueReliefPerMinute": 0.15
+      },
+      "initialFatigue": 30,
+      "finalFatigue": 1.0899999999997778,
+      "finalMapId": "courtyard",
+      "activeGoal": {
+        "type": "SCHEDULE",
+        "taskId": null,
+        "targetHostId": null,
+        "targetMapId": "courtyard",
+        "reason": "authored_daily_schedule",
+        "selectedAtMinute": 720
+      },
+      "currentActivityKo": "해 질 무렵 방으로 돌아가 잠시 쉰다"
+    },
+    {
+      "id": "bookseller_lev",
+      "authoredNeeds": {
+        "income": 48,
+        "fatigue": 24,
+        "safety": 35,
+        "socialBelonging": 26,
+        "restThreshold": 34,
+        "workFatiguePerMinute": 0.035,
+        "restFatigueReliefPerMinute": 0.12
+      },
+      "initialFatigue": 24,
+      "finalFatigue": 28.974999999999923,
+      "finalMapId": "courtyard",
+      "activeGoal": {
+        "type": "SCHEDULE",
+        "taskId": null,
+        "targetHostId": null,
+        "targetMapId": "courtyard",
+        "reason": "authored_daily_schedule",
+        "selectedAtMinute": 900
+      },
+      "currentActivityKo": "가판을 닫고 방에서 잠시 쉰다"
+    }
+  ],
+  "elapsedMinutes": 480,
+  "needDrivenRestResidents": [
+    "clerk_alexei",
+    "printer_ekaterina",
+    "seamstress_anna"
+  ],
+  "needGoalEvents": [
+    {
+      "hostId": "seamstress_anna",
+      "minute": 235,
+      "type": "NEED_REST",
+      "taskId": "REST:seamstress_anna:900",
+      "targetHostId": null,
+      "targetMapId": "courtyard",
+      "reason": "fatigue_threshold_before_authored_rest_window",
+      "selectedAtMinute": 775
+    },
+    {
+      "hostId": "printer_ekaterina",
+      "minute": 281,
+      "type": "NEED_REST",
+      "taskId": "REST:printer_ekaterina:900",
+      "targetHostId": null,
+      "targetMapId": "courtyard",
+      "reason": "fatigue_threshold_before_authored_rest_window",
+      "selectedAtMinute": 821
+    },
+    {
+      "hostId": "clerk_alexei",
+      "minute": 333,
+      "type": "NEED_REST",
+      "taskId": "REST:clerk_alexei:900",
+      "targetHostId": null,
+      "targetMapId": "chancery",
+      "reason": "fatigue_threshold_before_authored_rest_window",
+      "selectedAtMinute": 873
+    }
+  ],
+  "physicalCourierHandoffs": [
+    {
+      "hostId": "courier_pavel",
+      "recipientHostId": "printer_ekaterina",
+      "itemKo": "밀봉 봉투",
+      "taskId": "PAVEL_DELIVER_SEALED_ENVELOPE_01",
+      "mapId": "printshop",
+      "minute": 100
+    }
+  ],
+  "possessionPausedAutonomy": true,
+  "releaseResumedAutonomy": true,
+  "saveReloadParity": true,
+  "legacyNeedMigration": true,
+  "autonomousQuestCompletions": 0,
+  "finalStateHash": "eec2506d"
+}

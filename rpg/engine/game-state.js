@@ -18,10 +18,16 @@ function initialLearningState() {
   return { phase: 'circle-choice', circleLearning: null, lessonIndex: 0, examAnswers: {}, examOutcome: 'unset', examCorrectCount: null, promotionStatus: 'pending', timelineIndex: 0 };
 }
 function initialNpcNeeds(card, clockMinutes = 540) {
+  const profile = card.needs ?? {};
   const manualWork = /노동|운반|세탁|마부|제빵|활자|판매|장사|하인|수선|수위|짐|마차|시장/.test(card.occupation ?? '');
   const scarcity = ['poor', 'modest'].includes(card.wealthBracket);
-  return { hunger: scarcity ? 38 : 28, fatigue: manualWork ? 24 : 14, hungerPerMinute: 0.035, workFatiguePerMinute: manualWork ? 0.028 : 0.018,
-    restFatigueReliefPerMinute: 0.06, lastMealAtMinute: clockMinutes };
+  return { hunger: scarcity ? 38 : 28, fatigue: Number.isFinite(profile.fatigue) ? profile.fatigue : manualWork ? 24 : 14,
+    incomePressure: Number.isFinite(profile.income) ? profile.income : (scarcity ? 62 : 28),
+    safetyConcern: Number.isFinite(profile.safety) ? profile.safety : 25,
+    socialNeed: Number.isFinite(profile.socialBelonging) ? profile.socialBelonging : 30,
+    restThreshold: Number.isFinite(profile.restThreshold) ? profile.restThreshold : 72,
+    hungerPerMinute: 0.035, workFatiguePerMinute: Number.isFinite(profile.workFatiguePerMinute) ? profile.workFatiguePerMinute : manualWork ? 0.028 : 0.018,
+    restFatigueReliefPerMinute: Number.isFinite(profile.restFatigueReliefPerMinute) ? profile.restFatigueReliefPerMinute : 0.06, lastMealAtMinute: clockMinutes };
 }
 
 function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky' }) {
@@ -247,6 +253,14 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
   }
 
   if (host.needs) {
+    const restCandidate = (host.schedule ?? []).filter(slot => /잠시 쉰다|앉아 쉰다|일을 접고 쉰다|방에서 쉰다/.test(slot.activityKo ?? ''))
+      .map(slot => ({ slot, wait: (slot.atMinute - localMinute + 1440) % 1440 }))
+      .filter(goal => goal.wait <= 360)
+      .sort((a, b) => a.wait - b.wait)[0];
+    const isContinuingRestGoal = host.activeGoal?.type === 'NEED_REST' && host.needs.fatigue >= Math.max(0, host.needs.restThreshold - 10);
+    if (restCandidate && (host.needs.fatigue >= host.needs.restThreshold || isContinuingRestGoal)) {
+      return { slot: restCandidate.slot, goalType: 'NEED_REST', targetHostId: null, taskId: `REST:${host.id}:${restCandidate.slot.atMinute}`, reason: 'fatigue_threshold_before_authored_rest_window' };
+    }
     const mealCandidates = (host.schedule ?? []).filter(slot => slot.task?.type === 'CONSUME' && slot.task.itemKo && host.inventory.includes(slot.task.itemKo))
       .map(slot => ({ slot, wait: (slot.atMinute - localMinute + 1440) % 1440 }))
       .filter(goal => goal.wait <= 60);
@@ -293,6 +307,9 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
     setRoutineState(host, routine, host.currentActivityKo, slot.mapId, slot.position, state.world.clockMinutes, stateChanges, minuteOffset);
     host.needs.hunger = Math.min(100, host.needs.hunger + host.needs.hungerPerMinute);
     host.needs.fatigue = Math.max(0, Math.min(100, host.needs.fatigue + (routine === 'RESTING' ? -host.needs.restFatigueReliefPerMinute : routine === 'TRAVELLING' ? 0.01 : host.needs.workFatiguePerMinute)));
+    if (routine === 'SOCIALIZING') host.needs.socialNeed = Math.max(0, (host.needs.socialNeed ?? 0) - 0.05);
+    else host.needs.socialNeed = Math.min(100, (host.needs.socialNeed ?? 0) + 0.004);
+    if (routine === 'WORKING' && host.needs.incomePressure > 0) host.needs.incomePressure = Math.max(0, host.needs.incomePressure - 0.002);
     if (state.world.clockMinutes % 5 !== 0) continue;
     const before = { mapId: host.mapId, position: { ...host.position } };
     const step = nextNpcStep(state, host, slot, maps, reservedTiles);
@@ -310,6 +327,12 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
     host.inventory.splice(host.inventory.indexOf(task.itemKo), 1);
     if (!recipient.inventory.includes(task.itemKo)) recipient.inventory.push(task.itemKo);
     host.routineTaskCompletedId = task.id;
+    host.needs ??= initialNpcNeeds(host, state.world.clockMinutes);
+    recipient.needs ??= initialNpcNeeds(recipient, state.world.clockMinutes);
+    host.needs.socialNeed = Math.max(0, host.needs.socialNeed - 8);
+    recipient.needs.socialNeed = Math.max(0, recipient.needs.socialNeed - 8);
+    host.relations[recipient.id] ??= '봉투를 건넨 수취인';
+    recipient.relations[host.id] ??= '봉투를 전한 배달원';
     deliveryRows.push({ hostId: host.id, recipientHostId: recipient.id, itemKo: task.itemKo, taskId: task.id, mapId: host.mapId, minute: minuteOffset });
   }
   for (const host of hosts) {
@@ -324,6 +347,12 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
     if (!recipient.inventory.includes(task.itemKo)) recipient.inventory.push(task.itemKo);
     host.money.amount += moneyAmount;
     recipient.money.amount -= moneyAmount;
+    host.needs ??= initialNpcNeeds(host, state.world.clockMinutes);
+    recipient.needs ??= initialNpcNeeds(recipient, state.world.clockMinutes);
+    host.needs.incomePressure = Math.max(0, host.needs.incomePressure - Math.min(12, moneyAmount * 2));
+    recipient.needs.incomePressure = Math.min(100, recipient.needs.incomePressure + Math.min(8, moneyAmount));
+    host.needs.socialNeed = Math.max(0, host.needs.socialNeed - 8);
+    recipient.needs.socialNeed = Math.max(0, recipient.needs.socialNeed - 8);
     host.relations[recipient.id] = task.relationshipKo ?? '거래를 마친 이웃';
     recipient.relations[host.id] = task.recipientRelationshipKo ?? '거래를 마친 이웃';
     host.routineTaskCompletedId = task.id;
@@ -790,6 +819,11 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
       host.situationNotes ??= [];
       host.activeGoal ??= null;
       host.needs ??= initialNpcNeeds(card, state.world.clockMinutes);
+      const defaultNeeds = initialNpcNeeds(card, state.world.clockMinutes);
+      for (const [key, value] of Object.entries(defaultNeeds)) host.needs[key] ??= value;
+      for (const key of ['hunger', 'fatigue', 'incomePressure', 'safetyConcern', 'socialNeed', 'restThreshold']) {
+        if (!Number.isFinite(host.needs[key]) || host.needs[key] < 0 || host.needs[key] > 100) throw new Error(`Save contains invalid NPC need: ${card.id}.${key}`);
+      }
       const slot = scheduleEntry(host, state.world.clockMinutes);
       host.scheduleId ??= slot ? `${slot.mapId}:${slot.atMinute}` : null;
       host.currentActivityKo ??= slot?.activityKo ?? '';

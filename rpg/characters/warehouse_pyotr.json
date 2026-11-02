@@ -62,7 +62,7 @@
     "status": "fictional_character_design",
     "stanceKo": "물품 기록은 필요하지만 장부의 누락만으로 특정 사람을 도둑으로 몰아서는 안 된다고 본다. 자기 몫의 실수도 확인되면 적으려 한다.",
     "tensionKo": "창고 물품 하나가 수량표와 맞지 않는다. 표트르는 이름을 먼저 적을지, 입출고를 다시 세고 빈칸을 남길지 골라야 한다.",
-    "blindSpotKo": "자기 일이 급할 때 상대가 감당할 비용을 충분히 보지 못할 수 있다.",
+    "blindSpotKo": "창고의 수량을 맞추려는 마음에, 기록이 틀린 책임을 현장 노동자에게 먼저 돌릴 수 있다.",
     "designBasisKo": "허구 시민 설정으로 실제 개인의 증언이나 사건을 나타내지 않는다.",
     "sceneAnchorIds": [
       "WAREHOUSE_LOSS_RECORD_1847"

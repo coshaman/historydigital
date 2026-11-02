@@ -455,7 +455,7 @@ function createRpgAiService({ secret, store, allowedOrigins = [], provider = nul
     let responseBody, fallback = !provider;
     if (provider) {
       try {
-        const output = await provider.generate({ input, instructions, format: responseFormat(scene), model: dialogueModel, maxOutputTokens: 420 });
+        const output = await provider.generate({ input, instructions, format: responseFormat(scene), model: dialogueModel, maxOutputTokens: 700 });
         if (!validateTurn(output, scene)) { provider.lastFailureCode = 'response_schema_invalid'; throw new Error('invalid provider response schema'); }
         if (hasUnsupportedHistoricalYear(output, scene)) { provider.lastFailureCode = 'unsupported_historical_year'; throw new Error('unsupported historical year'); }
         if (hasUncitedHistoricalPerson(output, scene)) { provider.lastFailureCode = 'uncited_historical_person'; throw new Error('uncited historical person'); }

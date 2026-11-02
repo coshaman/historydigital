@@ -1,8 +1,8 @@
 {
-  "auditedHead": "bcdb5bac8a4b7c48136cd785dafd4be14be68619",
+  "auditedHead": "49cee556bbdb1cf65324822913b1e0a2d975e8f6",
   "branch": "codex/master-dialogue-opinions",
-  "generatedAt": "2026-11-02T17:58:52.863Z",
-  "workingTreeStatus": "M docs/v36/current-audit/API_AUDIT.md\n M docs/v36/current-audit/HEAD_AUDIT.json\n M docs/v36/current-audit/MAP_GRAPH_AUDIT.json\n M docs/v36/current-audit/NPC_ROSTER_AUDIT.csv\n M rpg/characters/editor_sofia.json\n M rpg/characters/police_sergeant_ivan.json\n M rpg/characters/reader_darya.json\n M rpg/characters/senior_clerk_konstantin.json",
+  "generatedAt": "2026-11-02T18:59:31.430Z",
+  "workingTreeStatus": "M ai/v33/openai-provider.cjs\n M ai/v33/session-runtime.cjs\n M docs/v36/INDEPENDENT_REVIEW_P1_FOLLOWUP.md\n M docs/v36/current-audit/API_AUDIT.md\n M docs/v36/current-audit/HEAD_AUDIT.json\n M docs/v36/current-audit/MAP_GRAPH_AUDIT.json\n M docs/v36/current-audit/NPC_ROSTER_AUDIT.csv\n M package.json\n M rpg/characters/apothecary_yakov.json\n M rpg/characters/baker_fyodor.json\n M rpg/characters/bookbinder_elizaveta.json\n M rpg/characters/bookseller_lev.json\n M rpg/characters/carter_roman.json\n M rpg/characters/clerk_alexei.json\n M rpg/characters/coachman_timofey.json\n M rpg/characters/courier_pavel.json\n M rpg/characters/fishseller_klavdiya.json\n M rpg/characters/housemaid_olga.json\n M rpg/characters/innkeeper_irina.json\n M rpg/characters/junior_guard_sergey.json\n M rpg/characters/landlady_polina.json\n M rpg/characters/laundress_mariya.json\n M rpg/characters/lodging_tatyana.json\n M rpg/characters/market_nadezhda.json\n M rpg/characters/midwife_avdotya.json\n M rpg/characters/minor_noble_andrei.json\n M rpg/characters/porter_gavrila.json\n M rpg/characters/print_apprentice_stepan.json\n M rpg/characters/printer_ekaterina.json\n M rpg/characters/scribal_yuri.json\n M rpg/characters/seamstress_anna.json\n M rpg/characters/servant_varvara.json\n M rpg/characters/street_vendor_matryona.json\n M rpg/characters/student_vasily.json\n M rpg/characters/teacher_lyubov.json\n M rpg/characters/tenant_mikhail.json\n M rpg/characters/typesetter_nikita.json\n M rpg/characters/warehouse_pyotr.json\n M rpg/characters/watercarrier_luka.json\n M rpg/characters/yardkeeper_semyon.json\n M rpg/choices.css\n M rpg/engine/discussion-quests.mjs\n M rpg/engine/game-state.js\n M rpg/main.js\n M scripts/v33-ai-runtime.test.mjs\n M scripts/v35-discussion-quests.test.mjs\n M scripts/v36-baseline-inventory.mjs\n M scripts/v36-opinion-board-browser-test.mjs\n?? docs/v36/current-audit/FIRST_SIX_GOAL_REPLAY.json\n?? docs/v36/current-audit/VOICE_AUDIT.json\n?? scripts/v36-goal-driven-six-test.mjs\n?? scripts/v36-voice-audit.mjs",
   "counts": {
     "characterRecords": 40,
     "fictionalCityCitizens": 36,
@@ -22,7 +22,7 @@
   "rosterGaps": {
     "scheduleUnderFour": [],
     "residentsWithTwoAuthoredActorRelations": 0,
-    "residentsWithExplicitNeedsProfile": 0,
+    "residentsWithExplicitNeedsProfile": 6,
     "residentsWithFourExplicitTodayGoals": 0,
     "residentsWithPersonalObjective": 36
   },
@@ -33,7 +33,7 @@
   },
   "knownConstraints": [
     "The 36 fictional city residents exist as active cards, but route-specific possession is not proven by the roster count.",
-    "NPC movement is still primarily schedule-led; the new utility layer currently selects one hunger-driven meal goal and tracks authored delivery/trade partners, not a general competing-goal planner.",
+    "NPC movement is schedule-led with an initial needs-driven layer: hunger meals and fatigue-triggered rest for the first six residents, plus authored delivery/trade target tracking. Income, safety, social goals, and competing-goal planning remain incomplete.",
     "The current city prototype connects three gameplay districts and has three usable interiors, below the V36 targets of six and eight.",
     "The cohort has 26 primarily single-choice work quests and one six-stage life chain; it does not meet the 30 three-stage personal quest or 10 social-chain targets.",
     "Maps are stylized and not georeferenced; cited records contextualize them but do not prove survey-grade in-game coordinates.",

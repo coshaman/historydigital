@@ -62,7 +62,7 @@
     "status": "fictional_character_design",
     "stanceKo": "물은 모두에게 필요하지만 물을 나르는 노동과 시간에도 값이 든다. 부유한 집이 돈으로 순서를 계속 앞당기면 공동의 약속은 무너질 수 있다.",
     "tensionKo": "루카는 돈을 더 내겠다는 집에 먼저 물을 나를지, 안뜰의 순서대로 나눌지 정한다.",
-    "blindSpotKo": "자기 일이 급할 때 상대가 감당할 비용을 충분히 보지 못할 수 있다.",
+    "blindSpotKo": "물을 나눈 순서와 통 수를 세느라, 줄을 서기 어려운 이웃이 물을 얻지 못하는 이유를 놓칠 수 있다.",
     "designBasisKo": "허구 시민 설정으로 실제 개인의 증언이나 사건을 나타내지 않는다.",
     "sceneAnchorIds": [
       "WATER_ACCESS_QUEUE_1847"

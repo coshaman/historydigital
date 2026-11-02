@@ -73,6 +73,7 @@
     "마른 농담"
   ],
   "personalObjective": "인쇄소에서 올라온 교정쇄의 접수 경로를 확인한다",
+  "needs": { "income": 36, "fatigue": 22, "safety": 42, "socialBelonging": 24, "restThreshold": 32, "workFatiguePerMinute": 0.035, "restFatigueReliefPerMinute": 0.12 },
   "objectiveByChapter": {
     "1847": "한 인쇄물의 접수와 전달 경로를 기록한다"
   },
@@ -151,6 +152,12 @@
         "y": 15
       },
       "activityKo": "퇴근 전 접수 수를 다시 센다"
+    },
+    {
+      "atMinute": 900,
+      "mapId": "chancery",
+      "position": { "x": 12, "y": 15 },
+      "activityKo": "늦은 접수를 마치고 잠시 앉아 쉰다"
     }
   ],
   "portrait": {

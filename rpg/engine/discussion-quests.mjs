@@ -42,7 +42,7 @@ export function discussionReflectionPromptsForHost(hostId, state, quests) {
     }));
 }
 
-export function discussionBoardView(quests, hostId = null, hostNames = {}) {
+export function discussionBoardView(quests, hostId = null, hostNames = {}, totalQuestCount = quests?.length ?? 0) {
   const active = (quests ?? []).filter(quest => !quest.completed)
     .sort((a, b) => (b.perspectiveHostIds?.length ?? 0) - (a.perspectiveHostIds?.length ?? 0));
   const completedCount = (quests ?? []).length - active.length;
@@ -66,6 +66,10 @@ export function discussionBoardView(quests, hostId = null, hostNames = {}) {
       const firstQuestion = quest.hosts?.[firstHost]?.promptKo ?? quest.reflectionPromptKo ?? quest.titleKo;
       return `${quest.titleKo} · ${quest.perspectiveHostIds?.length ?? 0}/${quest.requiredPerspectiveCount ?? 2} 관점 · ${firstName}에게 먼저 묻기: “${firstQuestion}”`;
     });
+  const nextComparison = active.find(quest => (quest.perspectiveHostIds?.length ?? 0) > 0 && eligibleFor(quest).length);
+  const nextComparisonHost = nextComparison ? eligibleFor(nextComparison)[0] : null;
+  const nextComparisonName = hostNames[nextComparisonHost] ?? nextComparisonHost;
+  const nextComparisonQuestion = nextComparison?.hosts?.[nextComparisonHost]?.promptKo;
   const recommendations = active.map(quest => {
     const eligible = eligibleFor(quest);
     const selectedHostId = hostId && eligible.includes(hostId) ? hostId : eligible[0];
@@ -84,10 +88,12 @@ export function discussionBoardView(quests, hostId = null, hostNames = {}) {
     };
   }).filter(Boolean);
   return {
-    progressKo: `사건과 생각을 묻기 · ${completedCount} / ${(quests ?? []).length} 완료`,
-    guidanceKo: hostId
-      ? '아래 질문을 이 인물에게 해보세요. 다른 직업의 사람에게 같은 문제를 다시 물으면 두 관점이 기록됩니다.'
-      : '아래 질문 하나를 골라 가까운 사람에게 물어보세요. 다른 직업의 사람에게 같은 문제를 다시 물으면 두 관점을 비교할 수 있습니다.',
+    progressKo: `사건과 생각을 묻기 · ${completedCount} / ${(quests ?? []).length} 완료 · 지금 ${(quests ?? []).length}개 / 전체 ${totalQuestCount}개`,
+    guidanceKo: nextComparison
+      ? `사건·이념 임무 · 첫 관점 기록됨. 다음은 ${nextComparisonName}에게 같은 쟁점 묻기: “${nextComparisonQuestion}” 표시된 인물에게 이동해 E로 몸을 빌린 뒤, 가까이서 말을 걸어 질문하세요. 두 관점을 모으면 수첩에 비교 메모가 남습니다.`
+      : hostId
+        ? '사건·이념 임무 · 질문을 하나 고르고 이 인물에게 말을 건 뒤, 표시되는 다른 직업의 사람에게 같은 쟁점을 물어보세요. 두 관점이 모이면 수첩에 비교 메모가 남습니다.'
+        : '사건·이념 임무 · ① 질문 선택 ② 표시된 인물에게 이동해 E로 몸을 빌리기 ③ 가까이서 말을 걸고 질문하기. 다음 인물에게 같은 쟁점을 물으면 관점 비교 메모를 얻습니다.',
     rows,
     recommendations,
     visible: active.length > 0,

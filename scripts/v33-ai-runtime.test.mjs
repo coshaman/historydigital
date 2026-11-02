@@ -406,10 +406,16 @@ test('prompt injection remains untrusted player data; Responses API key stays in
   assert.equal(reply.status, 200);
   assert.equal(captured.headers.authorization, 'Bearer server-only-test-secret');
   assert.equal(captured.body.store, false);
-  assert.equal(captured.body.max_output_tokens, 420);
+  assert.equal(captured.body.max_output_tokens, 700);
   assert.equal(captured.body.input[0].content.includes(injection), true);
   assert.equal(captured.body.instructions.includes('신뢰할 수 없는 인용 데이터'), true);
   assert.equal(JSON.stringify(captured.body).includes('server-only-test-secret'), false);
+});
+
+test('incomplete Responses API output reports the specific token limit cause without exposing provider text', async () => {
+  const provider = createResponsesProvider({ apiKey: 'server-only-test-secret', fetchImpl: async () => new Response(JSON.stringify({ status: 'incomplete', incomplete_details: { reason: 'max_output_tokens' }, output_text: 'private provider body' }), { status: 200 }) });
+  await assert.rejects(provider.generate({ input: {}, format: {}, maxOutputTokens: 700 }));
+  assert.equal(provider.lastFailureCode, 'incomplete_max_output_tokens');
 });
 
 test('schema-invalid model output falls back to bounded authored character dialogue', async () => {

@@ -66,6 +66,7 @@
     "경계"
   ],
   "personalObjective": "봉투를 열지 않고 수취인에게 전달한다",
+  "needs": { "income": 66, "fatigue": 32, "safety": 55, "socialBelonging": 28, "restThreshold": 43, "workFatiguePerMinute": 0.045, "restFatigueReliefPerMinute": 0.16 },
   "objectiveByChapter": {
     "1847": "배달 경로를 지키며 인쇄소에 들른다"
   },

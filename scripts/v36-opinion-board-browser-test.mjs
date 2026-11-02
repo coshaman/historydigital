@@ -47,7 +47,7 @@ try {
       rows: [...document.querySelectorAll('#discussion-quest-items li')].map(item => item.textContent),
       overflowX: document.documentElement.scrollWidth > innerWidth,
     }));
-    if (!result.boardVisible || !result.missionVisible || !/다른 직업의 사람에게 같은 문제/.test(result.guidance) || result.rows.length !== 4 || result.overflowX || errors.length) {
+    if (!result.boardVisible || !result.missionVisible || !/E로 몸을 빌리기/.test(result.guidance) || !/다음 인물에게 같은 쟁점/.test(result.guidance) || result.rows.length !== 4 || result.overflowX || errors.length) {
       throw new Error(`opinion_board_not_actionable:${JSON.stringify({ result, errors })}`);
     }
     await page.locator('#discussion-quest-more').click();
@@ -74,6 +74,9 @@ try {
   await page.goto(url, { waitUntil: 'networkidle' });
   await page.evaluate(value => { localStorage.clear(); localStorage.setItem('v33-rpg-save', value); localStorage.setItem('v34-tutorial-stage', 'done'); }, saveGame(playState));
   await page.reload({ waitUntil: 'networkidle' });
+  const laborInquiry = page.locator('#discussion-quest-items li').filter({ hasText: '인쇄 노동자는 문장의 뜻까지 책임져야 할까' });
+  await laborInquiry.getByRole('button', { name: '이 질문 담기' }).click();
+  if (!/예카테리나 벨로바에게/.test(await page.locator('#discussion-quest-guidance').textContent())) throw new Error('selected_question_did_not_name_first_speaker');
   await page.locator('#talk').click();
   await page.waitForTimeout(150);
   const offeredQuestions = await page.locator('#actions button').allTextContents();
@@ -93,7 +96,7 @@ try {
     const event = [...state.ledger].reverse().find(item => item.discussionId === 'INQUIRY_CENSORSHIP_AND_LABOR');
     return { aiGenerated: event?.aiGenerated === true, discussionId: event?.discussionId, perspectiveHostIds: state.ledger.filter(item => item.discussionId === event?.discussionId).map(item => item.hostId), lastLedgerEvent: state.ledger.at(-1), perspectiveCount: state.player.dialogueGrowth.perspectiveNotes.filter(note => note.discussionId === event?.discussionId).length, aiReplyCount: state.player.dialogueGrowth.aiReplies, boardRows: [...document.querySelectorAll('#discussion-quest-items li')].map(item => item.textContent), boardGuidance: document.querySelector('#discussion-quest-guidance')?.textContent, recordText: document.querySelector('#record')?.textContent, answerText: document.querySelector('#journal-text')?.textContent, dialogueHistory: document.querySelector('#dialogue-history-lines')?.textContent, remainingButtons: [...document.querySelectorAll('#actions button')].map(button => button.textContent) };
   });
-  if (offlineResult.aiGenerated || offlineResult.discussionId !== 'INQUIRY_CENSORSHIP_AND_LABOR' || offlineResult.perspectiveCount !== 1 || offlineResult.aiReplyCount !== 0 || !offlineResult.boardRows.some(row => /1\/2 관점/.test(row)) || !/다른 직업의 사람에게 같은 문제/.test(offlineResult.boardGuidance) || errors.length) {
+    if (offlineResult.aiGenerated || offlineResult.discussionId !== 'INQUIRY_CENSORSHIP_AND_LABOR' || offlineResult.perspectiveCount !== 1 || offlineResult.aiReplyCount !== 0 || !offlineResult.boardRows.some(row => /1\/2 관점/.test(row)) || !/첫 관점 기록됨.*알렉세이 오를로프에게 같은 쟁점 묻기/.test(offlineResult.boardGuidance) || errors.length) {
     throw new Error(`offline_question_did_not_progress_honestly:${JSON.stringify({ offlineResult, conversationProbe, errors })}`);
   }
   await page.getByRole('button', { name: '대화 마치기' }).click();
@@ -103,6 +106,7 @@ try {
   await page.getByRole('button', { name: '몸을 빌린다' }).click();
   await page.locator('#talk').click();
   const secondQuestion = page.locator('#actions button').filter({ hasText: '문서에 적힌 주장과 확인한 사실을 나누는 일은 누구의 책임이라고 보세요?' }).first();
+  await secondQuestion.waitFor({ state: 'visible', timeout: 5000 });
   if (await secondQuestion.count() !== 1) throw new Error(`second_perspective_question_not_offered:${JSON.stringify({ actor: await page.evaluate(() => JSON.parse(localStorage.getItem('v33-rpg-save')).state.player.embodiment), ledger: await page.evaluate(() => JSON.parse(localStorage.getItem('v33-rpg-save')).state.ledger.filter(item => item.discussionId === 'INQUIRY_CENSORSHIP_AND_LABOR').map(item => ({ hostId: item.hostId, actorHostId: item.actorHostId }))), buttons: await page.locator('#actions button').allTextContents() })}`);
   await secondQuestion.click();
   await page.waitForTimeout(1200);
