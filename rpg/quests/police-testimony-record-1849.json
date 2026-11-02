@@ -1,0 +1,46 @@
+{
+  "id": "POLICE_TESTIMONY_RECORD_1849",
+  "titleKo": "보고서에 이름을 올리기 전에",
+  "chapterId": "V33_1849_CIRCLE",
+  "date": "1849-04-22",
+  "premiseKo": "경사 이반은 사건 뒤에 도착한 몇 개의 진술을 접수한다. 직접 본 일, 다른 사람에게 들은 말, 아직 확인하지 못한 추정을 한 문서에 섞지 말아야 한다.",
+  "sourceIds": ["OBJ-WS-PETRASHEVSKY-REPORT-1849"],
+  "historicalOutcome": { "id": "POLICE_TESTIMONY_RECORD_1849_FICTIONAL_OUTCOME", "value": "fictional record-handling choice only; immutable historical events remain unchanged", "sourceIds": [] },
+  "entry": { "mapId": "police-station", "objectId": 1020, "requiredHostId": "police_sergeant_ivan" },
+  "actions": [
+    {
+      "id": "POLICE_TESTIMONY_RECORD_1849_SEPARATE",
+      "hostIds": ["police_sergeant_ivan"],
+      "labelKo": "목격과 전언을 다른 칸에 적는다",
+      "subcopyKo": "접수 담당자와 수사 책임자가 봅니다 · 공식 장부에 남습니다 · 전언만으로는 후속 조사가 늦어질 수 있습니다",
+      "resultKo": "이반은 목격 사실과 전해 들은 말을 나눠 적었다. 장부는 길어졌지만, 누가 직접 확인한 일인지는 분명해졌다.",
+      "resultFlag": "ivanSeparatedWitnessAndRumor",
+      "followupTitleKo": "이름을 기록하는 책임",
+      "followupKo": "진술을 구분해도 아직 확인되지 않은 내용은 남아 있다.",
+      "effects": { "situationKo": "목격 사실과 전언을 다른 칸에 기록했다.", "relations": { "office": "목격 사실과 전언을 나누어 적었다" } }
+    },
+    {
+      "id": "POLICE_TESTIMONY_RECORD_1849_PRIVATE",
+      "hostIds": ["police_sergeant_ivan"],
+      "labelKo": "이름은 빼고 확인할 질문만 상급자에게 보낸다",
+      "subcopyKo": "이반과 상급자만 압니다 · 비공개 메모로 남습니다 · 당사자가 보호받지만 확인이 더뎌질 수 있습니다",
+      "resultKo": "이반은 이름을 적지 않고 확인할 질문만 올렸다. 당사자의 신원은 장부에 바로 남지 않지만, 수사에 필요한 단서도 줄었다.",
+      "resultFlag": "ivanWithheldNames",
+      "followupTitleKo": "이름을 기록하는 책임",
+      "followupKo": "신원을 보호한 만큼 후속 확인을 누가 맡을지도 정해야 한다.",
+      "effects": { "situationKo": "신원을 뺀 질문 메모를 상급자에게 보냈다.", "relations": { "office": "확인 질문만 비공개로 올렸다" } }
+    },
+    {
+      "id": "POLICE_TESTIMONY_RECORD_1849_DELAY",
+      "hostIds": ["police_sergeant_ivan"],
+      "labelKo": "두 번째 진술이 올 때까지 이름 기록을 보류한다",
+      "subcopyKo": "접수 창구와 상급자가 압니다 · 보류 표시가 장부에 남습니다 · 다른 진술을 기다리는 동안 조치가 늦어집니다",
+      "resultKo": "이반은 서로 맞지 않는 진술을 더 확인하기로 했다. 성급한 지목은 피했지만, 기다리는 동안 사건 처리는 미뤄졌다.",
+      "resultFlag": "ivanWaitedForSecondStatement",
+      "followupTitleKo": "이름을 기록하는 책임",
+      "followupKo": "기다리는 동안에도 기록이 필요한 사람의 안전은 따로 살펴야 한다.",
+      "effects": { "situationKo": "두 번째 진술을 받을 때까지 이름 기록을 보류했다.", "relations": { "office": "추가 진술을 기다리기로 했다" } }
+    }
+  ],
+  "completion": "one authorized record-handling choice at the police intake desk"
+}

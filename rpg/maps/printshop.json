@@ -29,7 +29,7 @@
   "tileheight": 16,
   "infinite": false,
   "nextlayerid": 7,
-  "nextobjectid": 1100,
+  "nextobjectid": 1021,
   "properties": [
     {
       "name": "mapId",
@@ -2176,6 +2176,23 @@
               "name": "questId",
               "type": "string",
               "value": "TYPESETTER_SPEED_CENSORSHIP_1847"
+            }
+          ]
+        },
+        {
+          "id": 1020,
+          "name": "편집부의 확인 메모",
+          "type": "quest-object",
+          "x": 272,
+          "y": 160,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "EDITOR_PUBLICATION_RECORD_1847"
             }
           ]
         }

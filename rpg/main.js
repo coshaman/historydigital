@@ -1,7 +1,7 @@
 import { createRenderer } from './engine/renderer.js';
 import { objectIsPresent, questPrerequisitesMet } from './engine/world-presentation.mjs';
 import { questChoices, continuationQuest } from './engine/quest-presentation.mjs';
-import { resolveQuestGuidance } from './engine/quest-guidance.mjs';
+import { guideToResident, resolveQuestGuidance } from './engine/quest-guidance.mjs';
 import { ownsKeyboardInput, observationText } from './engine/player-presentation.mjs';
 import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHost, discussionReflectionPromptsForHost } from './engine/discussion-quests.mjs';
 import { dialogueSessionNeedsReconnect, selectDialogueTurn, shouldUseAuthoredOfflineReply } from './engine/dialogue-response.mjs';
@@ -17,7 +17,8 @@ const [street, shop, chancery, courtyard, marketMap, literaryMap, overcoatMap, p
 const [sourceReaderIndex, caseContextData, discussionQuestData, districtRegistry] = await Promise.all([readJson('./rpg/data/source-reader-index.json'), readJson('./rpg/data/case-contexts.json'), readJson('./rpg/data/discussion-quests.json'), readJson('./rpg/data/city-districts-v36.json')]);
 const cards = await Promise.all(['clerk_alexei','printer_ekaterina','courier_pavel','seamstress_anna','tenant_mikhail','bookseller_lev','senior_clerk_konstantin','reader_darya','editor_sofia','police_sergeant_ivan','yardkeeper_semyon','laundress_mariya','baker_fyodor','market_nadezhda','porter_gavrila','coachman_timofey','housemaid_olga','midwife_avdotya','apothecary_yakov','print_apprentice_stepan','bookbinder_elizaveta','scribal_yuri','innkeeper_irina','student_vasily','teacher_lyubov','minor_noble_andrei','landlady_polina','watercarrier_luka','fishseller_klavdiya','warehouse_pyotr','servant_varvara','junior_guard_sergey','carter_roman','street_vendor_matryona','typesetter_nikita','lodging_tatyana','nekrasov_reconstruction','literary_chichikov','literary_akaky','literary_petrovich'].map(id => readJson(`./rpg/characters/${id}.json`)));
 const maps = { nevsky: street, printshop: shop, chancery, courtyard, 'market-quay': marketMap, 'dead-souls': literaryMap, overcoat: overcoatMap, 'police-station': policeMap }, hostCards = cards;
-const questList = [firstQuest, publicQuest, circleQuest, letterQuest, literaryQuest, overcoatQuest, ...marketPersonalQuests];
+const addedPersonalQuests = await Promise.all(['editor-publication-record-1847','police-testimony-record-1849','reader-source-and-rumor-1847','senior-clerk-review-and-signature-1847','tenant-rent-and-firewood-1847'].map(id => readJson(`./rpg/quests/${id}.json`)));
+const questList = [firstQuest, publicQuest, circleQuest, letterQuest, literaryQuest, overcoatQuest, ...marketPersonalQuests, ...addedPersonalQuests];
 const questsById = new Map(questList.map(item => [item.id, item]));
 const relationHintValues = new Map();
 for (const quest of questList) for (const action of quest.actions ?? []) {
@@ -405,9 +406,8 @@ function updateHud() {
   }
   if (queuedDiscussionInquiry) {
     const targetHost = state.hosts[queuedDiscussionInquiry.hostId];
-    const targetMap = targetHost ? maps[targetHost.mapId] : null;
-    const inCurrentMap = targetHost?.mapId === map.mapId;
-    const nextAction = host?.id === queuedDiscussionInquiry.hostId ? '가까이 있는 인물에게 말을 거세요' : !host ? '가까이 가서 E를 누르고 이 인물의 몸을 빌리세요' : '표시된 인물이 있는 구역으로 이동하세요';
+    const targetGuide = targetHost ? guideToResident({ state, maps, hostCards: cards, targetHostId: targetHost.id }) : null;
+    const nextAction = !host ? '먼저 질문할 인물과 다른 주민의 몸을 빌리세요' : host.id === queuedDiscussionInquiry.hostId ? '다른 주민의 몸을 빌린 뒤 이 인물에게 말을 거세요' : '표시된 상대에게 가까이 가서 말을 거세요';
     missionGuidance = {
       ...missionGuidance,
       questId: queuedDiscussionInquiry.questId,
@@ -417,12 +417,12 @@ function updateHud() {
       questTitleKo: `사건·이념 임무 · ${queuedDiscussionInquiry.titleKo}`,
       actionKo: `${queuedDiscussionInquiry.hostNameKo}에게 물어보기 · ${queuedDiscussionInquiry.progressKo}`,
       reasonKo: queuedDiscussionInquiry.stakesKo,
-      howKo: `${nextAction}. 준비한 질문은 대화 선택지 맨 앞에 놓입니다.`,
-      placeKo: targetMap?.metadata.displayNameKo ?? '위치를 확인할 수 없음',
-      target: inCurrentMap ? { mapId: map.mapId, kind: 'npc', npcId: targetHost.id, ...targetHost.position } : null,
+      howKo: `${nextAction}. ${targetGuide?.howKo ?? ''} 준비한 질문은 대화 선택지 맨 앞에 놓입니다.`,
+      placeKo: targetGuide?.placeKo ?? (targetHost ? maps[targetHost.mapId]?.metadata.displayNameKo : '위치를 확인할 수 없음'),
+      target: targetGuide?.target ?? null,
       progress: { completedSteps: queuedDiscussionInquiry.completedPerspectives, totalSteps: queuedDiscussionInquiry.requiredPerspectives },
       known: true,
-      blocked: !targetHost,
+      blocked: !targetHost || Boolean(targetGuide?.blocked),
     };
     $('#mission-title').textContent = missionGuidance.questTitleKo;
     $('#mission-action').textContent = missionGuidance.actionKo;
@@ -470,7 +470,7 @@ function updateHud() {
           updateHud();
           const target = state.hosts[item.hostId];
           const place = maps[target?.mapId]?.metadata.displayNameKo ?? '현재 위치';
-          sayRecord(`${item.titleKo} 질문을 골랐습니다. ${place}에 있는 ${item.hostNameKo}에게 가세요. ${state.player.embodiment ? '가까이서 말 걸기를 누르면 질문이 대화 선택지 맨 앞에 놓입니다.' : '가까이서 E를 눌러 몸을 빌린 뒤 말을 걸면 질문이 맨 앞에 나타납니다.'}`);
+          sayRecord(`${item.titleKo} 질문을 담았습니다. ${place}에 있는 ${item.hostNameKo}에게 물어보세요. 먼저 다른 주민의 몸을 빌린 뒤, 그 인물 가까이서 말 걸기를 누르면 질문이 대화 선택지 맨 앞에 나타납니다.`);
         });
         li.append(detail, choose);
         return li;
@@ -596,10 +596,10 @@ async function checkApiHealth() {
         ? 'GitHub Pages는 정적 파일만 제공합니다. AI 대화는 Vercel의 master 배포 주소에서 사용하세요.'
         : response.status === 404 ? '이 배포에서 /api/rpg/health 경로를 찾지 못했습니다. Vercel의 master Production 배포를 확인하세요.' : 'Vercel Function 응답과 배포 로그를 확인하세요.';
     } else if (body.ai === 'configured') {
-      stateText.textContent = 'API 정상 · 서버 키 설정됨';
-      detail.textContent = 'health 응답과 OPENAI_API_KEY 설정을 확인했습니다. 개별 대화의 모델 생성 성공 여부는 대화 오류 기록과 Function 로그에서 확인하세요.';
+      stateText.textContent = '서버 키 확인됨 · 모델 응답은 미검증';
+      detail.textContent = '이 확인은 Vercel Function과 OPENAI_API_KEY 존재 여부만 봅니다. 실제 모델 생성은 인물에게 질문을 보낼 때 요청되며, 실패하면 오프라인 대사로 바꾸지 않고 오류와 재시도 버튼을 표시합니다.';
     } else {
-      stateText.textContent = 'API 연결됨 · 서버 키 미설정';
+      stateText.textContent = '대화 API 응답 · 서버 키 미설정';
       detail.textContent = '대화 API 경로는 응답하지만 Vercel에 OPENAI_API_KEY가 설정되지 않아 실제 모델 대화는 생성할 수 없습니다.';
     }
   } catch (error) {

@@ -106,7 +106,8 @@
   "wealthBracketStatus": "fictional_game_balance",
   "inventory": [
     "교정 연필",
-    "접이식 교정자"
+    "접이식 교정자",
+    "교정쇄 출처 메모"
   ],
   "sourceIds": [
     "LIT-TURGENEV-KHOR-KALYNYCH-1847",
@@ -171,7 +172,13 @@
         "x": 14,
         "y": 12
       },
-      "activityKo": "다음 호의 교정쇄를 확인한다"
+      "activityKo": "다음 호의 교정쇄를 확인한다",
+      "task": {
+        "type": "DELIVER",
+        "id": "SOFIA_SOURCE_NOTE_TO_DARYA_1847",
+        "itemKo": "교정쇄 출처 메모",
+        "recipientHostId": "reader_darya"
+      }
     },
     {
       "atMinute": 840,
@@ -183,6 +190,15 @@
       "activityKo": "가판대에 남은 호수와 독자 반응을 적는다"
     },
     {
+      "atMinute": 900,
+      "mapId": "printshop",
+      "position": {
+        "x": 14,
+        "y": 12
+      },
+      "activityKo": "교정 도구를 내려놓고 잠시 쉰다"
+    },
+    {
       "atMinute": 1020,
       "mapId": "printshop",
       "position": {
@@ -191,5 +207,14 @@
       },
       "activityKo": "인쇄를 마친 뒤 출처 메모를 서랍에 넣는다"
     }
-  ]
+  ],
+  "needs": {
+    "income": 56,
+    "fatigue": 31,
+    "safety": 42,
+    "socialBelonging": 44,
+    "restThreshold": 35,
+    "workFatiguePerMinute": 0.045,
+    "restFatigueReliefPerMinute": 0.16
+  }
 }

@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "V36_PHASE2_NEIGHBORHOOD_BROWSER_1",
+  "status": "PASS",
+  "generatedAt": "2026-11-02T19:59:39.348Z",
+  "elapsedNpcSimulationMinutes": 120,
+  "coreResidentCount": 12,
+  "viewports": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "documentWidth": 1440,
+      "mapId": "nevsky",
+      "mission": "말할 기회와 감당할 위험",
+      "opinionBoardVisible": true,
+      "scheduledResidentsInMap": 17,
+      "canvas": {
+        "width": 1382,
+        "height": 355
+      },
+      "screenshot": "nevsky-12-resident-neighborhood.png",
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "documentWidth": 1440,
+      "mapId": "market-quay",
+      "mission": "장작 장부의 빈칸",
+      "opinionBoardVisible": true,
+      "scheduledResidentsInMap": 10,
+      "canvas": {
+        "width": 1382,
+        "height": 355
+      },
+      "screenshot": "market-quay-12-resident-neighborhood.png",
+      "pageErrors": []
+    }
+  ]
+}

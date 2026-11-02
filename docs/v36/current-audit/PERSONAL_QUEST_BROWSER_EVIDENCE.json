@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "questId": "READER_SOURCE_AND_RUMOR_1847",
+  "hostId": "reader_darya",
+  "choiceCount": 3,
+  "chosenAction": "READER_SOURCE_AND_RUMOR_1847_QUOTE",
+  "resolved": true,
+  "pageErrors": []
+}

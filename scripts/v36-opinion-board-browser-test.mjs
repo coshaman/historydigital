@@ -14,7 +14,7 @@ const mapFiles = (await readdir(path.join(root, 'rpg/maps'))).filter(name => nam
 const maps = Object.fromEntries(await Promise.all(mapFiles.map(async name => [name.slice(0, -5), await readJson(`rpg/maps/${name}`)])));
 const hostIds = ['clerk_alexei','printer_ekaterina','courier_pavel','seamstress_anna','tenant_mikhail','bookseller_lev','senior_clerk_konstantin','reader_darya','editor_sofia','police_sergeant_ivan','yardkeeper_semyon','laundress_mariya','baker_fyodor','market_nadezhda','porter_gavrila','coachman_timofey','housemaid_olga','midwife_avdotya','apothecary_yakov','print_apprentice_stepan','bookbinder_elizaveta','scribal_yuri','innkeeper_irina','student_vasily','teacher_lyubov','minor_noble_andrei','landlady_polina','watercarrier_luka','fishseller_klavdiya','warehouse_pyotr','servant_varvara','junior_guard_sergey','carter_roman','street_vendor_matryona','typesetter_nikita','lodging_tatyana','nekrasov_reconstruction','literary_chichikov','literary_akaky','literary_petrovich'];
 const hostCards = await Promise.all(hostIds.map(id => readJson(`rpg/characters/${id}.json`)));
-const questIds = ['printshop-article','public-discourse-1848','circle-investigation-1849','circle-letter-1849-may','yard-ledger-1847','laundry-wages-1847','bakery-flour-1847','market-prices-1847','porter-load-1847','coach-fare-1847','household-privacy-1847','midwife-care-cost-1847','apothecary-limits-1847','apprentice-authorship-1847','bookbinder-damage-1847','scribal-copy-1847','inn-debt-rumor-1847','student-circle-risk-1847','teacher-access-cost-1847','noble-status-debt-1847','landlady-rent-commons-1847','water-access-queue-1847','fish-storage-time-1847','warehouse-loss-record-1847','servant-private-warning-1847','guard-entry-bribe-1847','carter-delivery-delay-1847','street-vendor-weather-1847','typesetter-speed-censorship-1847','lodging-reading-income-1847','literary-dead-souls','literary-overcoat'];
+const questIds = ['printshop-article','public-discourse-1848','circle-investigation-1849','circle-letter-1849-may','yard-ledger-1847','laundry-wages-1847','bakery-flour-1847','market-prices-1847','porter-load-1847','coach-fare-1847','household-privacy-1847','midwife-care-cost-1847','apothecary-limits-1847','apprentice-authorship-1847','bookbinder-damage-1847','scribal-copy-1847','inn-debt-rumor-1847','student-circle-risk-1847','teacher-access-cost-1847','noble-status-debt-1847','landlady-rent-commons-1847','water-access-queue-1847','fish-storage-time-1847','warehouse-loss-record-1847','servant-private-warning-1847','guard-entry-bribe-1847','carter-delivery-delay-1847','street-vendor-weather-1847','typesetter-speed-censorship-1847','lodging-reading-income-1847','editor-publication-record-1847','police-testimony-record-1849','reader-source-and-rumor-1847','senior-clerk-review-and-signature-1847','tenant-rent-and-firewood-1847','literary-dead-souls','literary-overcoat'];
 const quests = await Promise.all(questIds.map(id => readJson(`rpg/quests/${id}.json`)));
 const probe = createServer();
 await new Promise((resolve, reject) => { probe.once('error', reject); probe.listen(0, '127.0.0.1', resolve); });
@@ -47,7 +47,7 @@ try {
       rows: [...document.querySelectorAll('#discussion-quest-items li')].map(item => item.textContent),
       overflowX: document.documentElement.scrollWidth > innerWidth,
     }));
-    if (!result.boardVisible || !result.missionVisible || !/E로 몸을 빌리기/.test(result.guidance) || !/다음 인물에게 같은 쟁점/.test(result.guidance) || result.rows.length !== 4 || result.overflowX || errors.length) {
+    if (!result.boardVisible || !result.missionVisible || !/다른 주민의 몸/.test(result.guidance) || !/다음에는 다른 직업/.test(result.guidance) || result.rows.length !== 4 || result.overflowX || errors.length) {
       throw new Error(`opinion_board_not_actionable:${JSON.stringify({ result, errors })}`);
     }
     await page.locator('#discussion-quest-more').click();
@@ -55,7 +55,9 @@ try {
     if (expandedRows < 16 || await page.locator('.discussion-inquiry-select').count() < 16) throw new Error(`opinion_questions_not_expandable:${expandedRows}`);
     await page.locator('.discussion-inquiry-select').first().click();
     if (!/선택한 질문/.test(await page.locator('#discussion-quest-guidance').textContent())) throw new Error('selected_opinion_question_not_guided');
-    checks.push({ ...result, expandedRows, selectedQuestionGuided: true, pageErrors: errors });
+    const selectedMission = { title: await page.locator('#mission-title').textContent(), action: await page.locator('#mission-action').textContent(), method: await page.locator('#mission-method').textContent(), pinDisabled: await page.locator('#mission-pin').isDisabled(), pinPressed: await page.locator('#mission-pin').getAttribute('aria-pressed') };
+    if (selectedMission.pinDisabled || selectedMission.pinPressed !== 'true' || !/몸/.test(selectedMission.method)) throw new Error(`opinion_target_not_actionable:${JSON.stringify(selectedMission)}`);
+    checks.push({ ...result, expandedRows, selectedQuestionGuided: true, selectedMission, pageErrors: errors });
     await context.close();
   }
   const playState = createInitialState({ maps, hostCards, quests, startMapId: 'nevsky' });

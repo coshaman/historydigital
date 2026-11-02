@@ -1,0 +1,45 @@
+{
+  "id": "TENANT_RENT_AND_FIREWOOD_1847",
+  "titleKo": "방세와 공동 장작",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "하숙인 미하일은 방세를 내고 나면 공동 장작값이 모자랄 수 있다는 말을 듣는다. 집주인에게 사정을 밝힐지, 다른 세입자와 비용을 나눌지 정해야 한다.",
+  "historicalOutcome": { "id": "TENANT_RENT_AND_FIREWOOD_1847_FICTIONAL_OUTCOME", "value": "fictional lodging-house choice only; no real household or historical record is represented", "sourceIds": [] },
+  "entry": { "mapId": "courtyard", "objectId": 1020, "requiredHostId": "tenant_mikhail" },
+  "actions": [
+    {
+      "id": "TENANT_RENT_AND_FIREWOOD_1847_SHARED",
+      "hostIds": ["tenant_mikhail"],
+      "labelKo": "세입자들과 장작값과 사용 순서를 함께 적는다",
+      "subcopyKo": "안뜰 세입자들이 압니다 · 공동 장부에 남습니다 · 내 몫보다 더 내라는 요구를 받을 수 있습니다",
+      "resultKo": "미하일은 장작값과 사용 순서를 함께 적었다. 누구 몫인지 다툴 단서는 줄었지만, 여유가 있는 이웃이 더 부담하라는 말도 나왔다.",
+      "resultFlag": "mikhailSharedFuelLedger",
+      "followupTitleKo": "살림의 비용을 나누는 방법",
+      "followupKo": "같이 쓰는 물건을 나눠도, 각자가 낼 수 있는 돈까지 같아지는 것은 아니다.",
+      "effects": { "situationKo": "세입자들과 공동 장작 장부를 작성했다.", "relations": { "household": "공동 비용을 함께 적었다" } }
+    },
+    {
+      "id": "TENANT_RENT_AND_FIREWOOD_1847_PRIVATE",
+      "hostIds": ["tenant_mikhail"],
+      "labelKo": "집주인에게 방세 날짜를 미룰 수 있는지 조용히 묻는다",
+      "subcopyKo": "미하일과 집주인만 압니다 · 사적인 약속으로 남습니다 · 거절되면 장작을 살 돈이 더 줄어듭니다",
+      "resultKo": "미하일은 먼저 집주인에게 날짜를 물었다. 세입자들 앞에서 사정을 밝히지는 않았지만, 허락이 나지 않으면 장작값은 더 빠듯해진다.",
+      "resultFlag": "mikhailAskedRentExtension",
+      "followupTitleKo": "살림의 비용을 나누는 방법",
+      "followupKo": "사적인 유예가 받아들여지면 새 날짜와 장작값을 다시 계산해야 한다.",
+      "effects": { "situationKo": "방세 납부일을 미룰 수 있는지 집주인에게 물었다.", "relations": { "household": "납부 날짜를 따로 상의했다" } }
+    },
+    {
+      "id": "TENANT_RENT_AND_FIREWOOD_1847_MINIMUM",
+      "hostIds": ["tenant_mikhail"],
+      "labelKo": "장작은 필요한 만큼만 사고 세입자별 몫을 나눈다",
+      "subcopyKo": "안뜰 세입자들이 압니다 · 구매 메모에 남습니다 · 추운 날 장작이 모자랄 수 있습니다",
+      "resultKo": "미하일은 우선 필요한 만큼만 사기로 했다. 당장 내야 할 돈은 줄었지만, 추운 날까지 버틸 장작이 충분할지는 알 수 없다.",
+      "resultFlag": "mikhailBoughtMinimumFuel",
+      "followupTitleKo": "살림의 비용을 나누는 방법",
+      "followupKo": "날씨가 바뀌면 필요한 양과 각자의 부담을 다시 살펴야 한다.",
+      "effects": { "situationKo": "장작 구매량을 줄이고 세입자별 부담을 계산했다.", "relations": { "household": "필요한 양부터 함께 계산했다" } }
+    }
+  ],
+  "completion": "one authorized household choice at the shared lodging ledger"
+}

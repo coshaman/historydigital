@@ -14,9 +14,10 @@ const mixed = Object.fromEntries(Object.entries(exhaustive.mixed).map(([id, rows
 const tieRoutes = Object.entries(exhaustive.tieSamples).flatMap(([reason, rows]) => rows.slice(0, 2).map((row, index) => ({ name: `tie-${reason}-${index + 1}`, pattern: routeToPattern(row.route), reason })));
 let seed = 35; const random = []; for (let i = 0; i < 10; i += 1) { const route = {}; for (const scene of data.scenes) { seed = (seed * 1664525 + 1013904223) >>> 0; const first = seed % scene.choices.length; seed = (seed * 1664525 + 1013904223) >>> 0; const post = seed % scene.postChoices.length; route[scene.id] = [first, post]; } random.push(route); }
 const root = process.cwd(); const out = path.join(root, 'artifacts', 'v36', 'BROWSER_ACCEPTANCE'); fs.mkdirSync(out, { recursive: true }); const browser = await chromium.launch({ headless: true }); const results = []; const memoryEvidence = []; const dialogueEvidence = [];
+const baseUrl = process.env.CHANCERY_BASE_URL || 'http://127.0.0.1:4173';
 async function play(name, pattern, viewport, saveLoad = false) {
   const context = await browser.newContext({ viewport }); const page = await context.newPage(); page.setDefaultTimeout(20000); const errors = []; page.on('pageerror', (error) => errors.push(String(error)));
-  await page.goto('http://127.0.0.1:4173/?main20=1#v36-' + name, { waitUntil: 'domcontentloaded' }); await page.evaluate(() => localStorage.clear()); await page.reload({ waitUntil: 'domcontentloaded' }); await page.waitForFunction(() => Boolean(window.__main20));
+  await page.goto(baseUrl + '/?main20=1#v36-' + name, { waitUntil: 'domcontentloaded' }); await page.evaluate(() => localStorage.clear()); await page.reload({ waitUntil: 'domcontentloaded' }); await page.waitForFunction(() => Boolean(window.__main20));
   const scenes = []; const renderedMemory = []; const seenMemoryScenes = new Set();
   for (let index = 0; index < data.scenes.length; index += 1) {
     while (await page.evaluate(() => window.__main20.getState().phase === 'intro')) {

@@ -28,7 +28,7 @@
   "tileheight": 16,
   "infinite": false,
   "nextlayerid": 7,
-  "nextobjectid": 1100,
+  "nextobjectid": 1021,
   "properties": [
     {
       "name": "mapId",
@@ -2119,6 +2119,23 @@
               "name": "questId",
               "type": "string",
               "value": "GUARD_ENTRY_BRIBE_1847"
+            }
+          ]
+        },
+        {
+          "id": 1020,
+          "name": "검토 의견과 결재 서명표",
+          "type": "quest-object",
+          "x": 128,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "SENIOR_CLERK_REVIEW_AND_SIGNATURE_1847"
             }
           ]
         }

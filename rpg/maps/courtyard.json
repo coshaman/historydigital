@@ -29,7 +29,7 @@
   "tileheight": 16,
   "infinite": false,
   "nextlayerid": 7,
-  "nextobjectid": 1100,
+  "nextobjectid": 1021,
   "properties": [
     {
       "name": "mapId",
@@ -2101,6 +2101,23 @@
               "name": "questId",
               "type": "string",
               "value": "LODGING_READING_INCOME_1847"
+            }
+          ]
+        },
+        {
+          "id": 1020,
+          "name": "방세와 공동 장작 분담 메모",
+          "type": "quest-object",
+          "x": 304,
+          "y": 208,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "TENANT_RENT_AND_FIREWOOD_1847"
             }
           ]
         }

@@ -1,0 +1,46 @@
+{
+  "id": "SENIOR_CLERK_REVIEW_AND_SIGNATURE_1847",
+  "titleKo": "검토 의견과 결재 서명",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "상급 문서 담당자 콘스탄틴은 결재를 기다리는 문서에서 검토 메모와 최종 지시가 한 문장처럼 붙어 있는 것을 발견한다. 누가 검토했고 누가 결정했는지 분명히 남겨야 한다.",
+  "sourceIds": ["OBJ-SOV-1847"],
+  "historicalOutcome": { "id": "SENIOR_CLERK_REVIEW_AND_SIGNATURE_1847_FICTIONAL_OUTCOME", "value": "fictional office workflow choice only; no historical censor or decision is represented", "sourceIds": [] },
+  "entry": { "mapId": "chancery", "objectId": 1020, "requiredHostId": "senior_clerk_konstantin" },
+  "actions": [
+    {
+      "id": "SENIOR_CLERK_REVIEW_AND_SIGNATURE_1847_SEPARATE",
+      "hostIds": ["senior_clerk_konstantin"],
+      "labelKo": "검토 메모에 담당자와 시각을 적어 결재 문서에 붙인다",
+      "subcopyKo": "접수실과 결재자가 봅니다 · 공식 문서에 함께 보관됩니다 · 검토 의견이 공개되어 불편한 질문을 받을 수 있습니다",
+      "resultKo": "콘스탄틴은 검토 메모를 결재 문서와 함께 묶고, 작성자와 시각을 적었다. 책임은 더 분명해졌지만 그의 판단도 기록으로 남았다.",
+      "resultFlag": "konstantinAttachedReviewNote",
+      "followupTitleKo": "검토와 결정은 같은 일이 아니다",
+      "followupKo": "메모를 붙여도 최종 서명자가 지는 결정의 책임까지 대신할 수는 없다.",
+      "effects": { "situationKo": "작성자와 시각을 표시한 검토 메모를 공식 문서에 붙였다.", "relations": { "office": "검토와 결재를 문서에서 구분했다" } }
+    },
+    {
+      "id": "SENIOR_CLERK_REVIEW_AND_SIGNATURE_1847_RETURN",
+      "hostIds": ["senior_clerk_konstantin"],
+      "labelKo": "결재자에게 결정 문장을 다시 써 달라고 돌려보낸다",
+      "subcopyKo": "콘스탄틴과 결재자가 압니다 · 반송 장부에 남습니다 · 처리와 전달이 늦어질 수 있습니다",
+      "resultKo": "콘스탄틴은 행위 주체가 드러나도록 문서를 돌려보냈다. 누가 지시했는지 확인할 수 있지만, 결재는 하루 더 미뤄질 수 있다.",
+      "resultFlag": "konstantinReturnedForSignature",
+      "followupTitleKo": "검토와 결정은 같은 일이 아니다",
+      "followupKo": "문장이 고쳐진 뒤에도 검토와 최종 결정을 서로 다른 이름으로 남겨야 한다.",
+      "effects": { "situationKo": "결정 주체를 분명히 적도록 문서를 반송했다.", "relations": { "office": "결재 문장을 다시 확인해 달라고 했다" } }
+    },
+    {
+      "id": "SENIOR_CLERK_REVIEW_AND_SIGNATURE_1847_FILE",
+      "hostIds": ["senior_clerk_konstantin"],
+      "labelKo": "검토 의견만 별도철에 보관하고 결재를 기다린다",
+      "subcopyKo": "콘스탄틴과 기록 담당자만 압니다 · 비공개 검토철에 남습니다 · 나중에 결정 근거를 찾기 어려울 수 있습니다",
+      "resultKo": "콘스탄틴은 검토 의견을 별도철에 넣었다. 당장의 혼선을 피했지만, 두 기록이 나뉜 만큼 나중에 함께 찾아야 한다.",
+      "resultFlag": "konstantinFiledReviewSeparately",
+      "followupTitleKo": "검토와 결정은 같은 일이 아니다",
+      "followupKo": "별도철의 메모가 최종 판단과 함께 검토되도록 보관 위치를 남겼다.",
+      "effects": { "situationKo": "검토 의견을 결재 서류와 분리해 보관했다.", "relations": { "office": "검토 메모를 별도철에 남겼다" } }
+    }
+  ],
+  "completion": "one authorized document-handling choice at the chancery copy register"
+}

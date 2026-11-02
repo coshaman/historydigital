@@ -1,0 +1,46 @@
+{
+  "id": "EDITOR_PUBLICATION_RECORD_1847",
+  "titleKo": "호외를 내기 전, 누구의 이름을 적나",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "편집자 소피아는 확인되지 않은 제보를 받았다. 독자가 알아야 할 내용은 남기되, 제보자의 신원과 확인되지 않은 주장을 어떻게 다룰지 정해야 한다.",
+  "sourceIds": ["OBJ-SOV-1847"],
+  "historicalOutcome": { "id": "EDITOR_PUBLICATION_RECORD_1847_FICTIONAL_OUTCOME", "value": "fictional editorial choice only; no historical publication or person is altered", "sourceIds": [] },
+  "entry": { "mapId": "printshop", "objectId": 1020, "requiredHostId": "editor_sofia" },
+  "actions": [
+    {
+      "id": "EDITOR_PUBLICATION_RECORD_1847_VERIFIED",
+      "hostIds": ["editor_sofia"],
+      "labelKo": "확인된 문장만 싣고 제보자 이름은 빼 둔다",
+      "subcopyKo": "편집부와 독자에게 공개됩니다 · 교정쇄와 발행 기록에 남습니다 · 핵심 정보가 줄어들 수 있습니다",
+      "resultKo": "소피아는 확인한 사실만 남기고 제보자의 이름은 뺐다. 기사의 범위는 좁아졌지만, 근거 없는 이름이 독자에게 퍼지지는 않는다.",
+      "resultFlag": "sofiaVerifiedFactsOnly",
+      "followupTitleKo": "확인한 말과 전해 들은 말",
+      "followupKo": "제보자의 신원과 기사에 실린 사실은 다른 기록으로 다루기로 했다.",
+      "effects": { "situationKo": "확인된 문장만 인쇄하고 제보자 이름은 공개하지 않기로 했다.", "relations": { "source_readers": "근거 확인을 먼저 요청했다" } }
+    },
+    {
+      "id": "EDITOR_PUBLICATION_RECORD_1847_HOLD",
+      "hostIds": ["editor_sofia"],
+      "labelKo": "인쇄를 미루고 제보자에게 다시 확인한다",
+      "subcopyKo": "소피아와 제보자만 압니다 · 편집부 메모에 남습니다 · 발행 시각을 놓칠 수 있습니다",
+      "resultKo": "소피아는 확인을 마칠 때까지 인쇄를 멈췄다. 독자에게 잘못 전할 위험은 줄었지만, 기다리는 동안 소식은 늦어진다.",
+      "resultFlag": "sofiaHeldForVerification",
+      "followupTitleKo": "확인한 말과 전해 들은 말",
+      "followupKo": "마감과 확인 중 무엇을 먼저 택했는지 편집 메모에 남았다.",
+      "effects": { "situationKo": "제보 확인을 위해 인쇄를 보류했다.", "relations": { "workshop": "재확인 요청을 함께 맡았다" } }
+    },
+    {
+      "id": "EDITOR_PUBLICATION_RECORD_1847_LABEL",
+      "hostIds": ["editor_sofia"],
+      "labelKo": "제보와 확인 사실을 나눠 표시해 싣는다",
+      "subcopyKo": "독자에게 제보의 출처가 보입니다 · 신문과 편집 장부에 남습니다 · 제보자가 추측의 책임까지 떠안을 수 있습니다",
+      "resultKo": "소피아는 제보와 확인된 내용을 구분해 실었다. 독자는 정보의 한계를 볼 수 있지만, 이름이 드러나면 제보자는 추측까지 책임지라는 압박을 받을 수 있다.",
+      "resultFlag": "sofiaLabeledSource",
+      "followupTitleKo": "확인한 말과 전해 들은 말",
+      "followupKo": "표시를 달았다고 해서 제보 내용이 확인된 사실로 바뀌지는 않는다.",
+      "effects": { "situationKo": "제보와 확인 사실을 구분해 신문에 실었다.", "relations": { "source_readers": "출처 구분을 함께 검토했다" } }
+    }
+  ],
+  "completion": "one authorized editorial choice at the printshop publication record"
+}

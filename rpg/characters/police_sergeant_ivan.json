@@ -176,6 +176,15 @@
       "activityKo": "신고가 접수된 거리와 목격 위치를 다시 살핀다"
     },
     {
+      "atMinute": 900,
+      "mapId": "police-station",
+      "position": {
+        "x": 7,
+        "y": 3
+      },
+      "activityKo": "순찰 장부를 덮고 잠시 쉰다"
+    },
+    {
       "atMinute": 1020,
       "mapId": "police-station",
       "position": {
@@ -184,5 +193,14 @@
       },
       "activityKo": "미확인 진술은 별도 묶음에 남긴다"
     }
-  ]
+  ],
+  "needs": {
+    "income": 32,
+    "fatigue": 30,
+    "safety": 54,
+    "socialBelonging": 24,
+    "restThreshold": 34,
+    "workFatiguePerMinute": 0.038,
+    "restFatigueReliefPerMinute": 0.14
+  }
 }

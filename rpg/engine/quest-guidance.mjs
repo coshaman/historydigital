@@ -85,6 +85,21 @@ function destination({ state, maps, host, target }) {
   return { target: { ...target, kind: target.kind ?? 'object' }, route: [], walkDirections: directions, blocked: false, placeKo: maps[target.mapId]?.metadata.displayNameKo ?? target.mapId };
 }
 
+export function guideToResident({ state, maps, hostCards, targetHostId }) {
+  const person = state?.hosts?.[targetHostId];
+  const actorCard = hostCards.find(card => card.id === state?.player?.embodiment) ?? null;
+  if (!person?.historicalAliveAndPresent || !maps?.[person.mapId]) return { target: null, route: [], blocked: true, blockedReasonKo: '질문할 인물의 위치를 확인할 수 없습니다.' };
+  const target = { mapId: person.mapId, kind: 'npc', npcId: person.id, x: person.position.x, y: person.position.y };
+  const place = destination({ state, maps, host: actorCard, target });
+  if (place.blocked && actorCard) {
+    const publicPlace = destination({ state, maps, host: null, target });
+    if (!publicPlace.blocked) return { ...publicPlace, target: null, requiresRelease: true, blocked: false,
+      howKo: `현재 몸으로는 이 인물에게 갈 수 없습니다. 몸을 놓아준 뒤 관찰자의 길을 이용해 이동하세요. ${publicPlace.howKo ?? pathKo(publicPlace.walkDirections)}` };
+  }
+  if (place.blocked) return place;
+  return { ...place, howKo: `${pathKo(place.walkDirections)}${place.target?.kind === 'exit' ? ' 출구를 지나 표시된 구역으로 가세요.' : ' 인물 곁에서 말을 거세요.'}` };
+}
+
 export function resolveQuestGuidance({ state, quests, maps, hostCards }) {
   if (state.endingId) return { taskType: 'COMPLETE', actionKo: '기록을 읽고 새로 시작하세요', reasonKo: '이번 기록은 끝났습니다.', howKo: '새 기록 시작을 누르세요.', target: null, progress: { completedSteps: 1, totalSteps: 1 }, known: true, blocked: false };
   const mapId = state.world.currentMapId, map = maps[mapId];

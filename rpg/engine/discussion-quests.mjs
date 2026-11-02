@@ -88,12 +88,12 @@ export function discussionBoardView(quests, hostId = null, hostNames = {}, total
     };
   }).filter(Boolean);
   return {
-    progressKo: `사건과 생각을 묻기 · ${completedCount} / ${(quests ?? []).length} 완료 · 지금 ${(quests ?? []).length}개 / 전체 ${totalQuestCount}개`,
+    progressKo: `사건·철학·이념 임무 · ${completedCount} / ${(quests ?? []).length} 완료 · 지금 ${(quests ?? []).length}개 / 전체 ${totalQuestCount}개`,
     guidanceKo: nextComparison
-      ? `사건·이념 임무 · 첫 관점 기록됨. 다음은 ${nextComparisonName}에게 같은 쟁점 묻기: “${nextComparisonQuestion}” 표시된 인물에게 이동해 E로 몸을 빌린 뒤, 가까이서 말을 걸어 질문하세요. 두 관점을 모으면 수첩에 비교 메모가 남습니다.`
+      ? `사건·이념 임무 · 첫 관점 기록됨. 다음은 ${nextComparisonName}에게 같은 쟁점 묻기: “${nextComparisonQuestion}” 질문할 인물과 다른 주민의 몸을 빌린 뒤, 표시된 상대에게 가까이 가서 말 걸기를 누르세요. 두 관점을 모으면 수첩에 비교 메모가 남습니다.`
       : hostId
-        ? '사건·이념 임무 · 질문을 하나 고르고 이 인물에게 말을 건 뒤, 표시되는 다른 직업의 사람에게 같은 쟁점을 물어보세요. 두 관점이 모이면 수첩에 비교 메모가 남습니다.'
-        : '사건·이념 임무 · ① 질문 선택 ② 표시된 인물에게 이동해 E로 몸을 빌리기 ③ 가까이서 말을 걸고 질문하기. 다음 인물에게 같은 쟁점을 물으면 관점 비교 메모를 얻습니다.',
+        ? '사건·이념 임무 · 질문을 하나 담고 표시된 인물에게 말 걸기. 그 인물과 다른 주민의 몸을 빌려 대화하세요. 다음에는 다른 직업의 사람에게 같은 쟁점을 물으면 관점 비교 메모가 남습니다.'
+        : '사건·이념 임무 · ① 질문 담기 ② 질문할 인물과 다른 주민의 몸 빌리기 ③ 표시된 상대에게 다가가 말 걸기. 다음에는 다른 직업의 사람에게 같은 쟁점을 물으면 관점 비교 메모가 남습니다.',
     rows,
     recommendations,
     visible: active.length > 0,

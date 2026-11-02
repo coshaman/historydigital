@@ -117,7 +117,8 @@
   "wealthBracketStatus": "designedEstimate",
   "inventory": [
     "큰 열쇠 꾸러미",
-    "짧은 빗자루"
+    "짧은 빗자루",
+    "장작 수량표"
   ],
   "sourceIds": [],
   "canonConstraint": "fictional citizen; never treated as an attested historical individual or witness",
@@ -172,6 +173,30 @@
       "activityKo": "세입자에게 안뜰 규칙을 알린다"
     },
     {
+      "atMinute": 900,
+      "mapId": "courtyard",
+      "position": {
+        "x": 7,
+        "y": 12
+      },
+      "activityKo": "장작을 세고 잠시 쉰다"
+    },
+    {
+      "atMinute": 960,
+      "mapId": "courtyard",
+      "position": {
+        "x": 9,
+        "y": 12
+      },
+      "activityKo": "세탁 일꾼에게 장작 수량표를 건넨다",
+      "task": {
+        "type": "DELIVER",
+        "id": "SEMYON_WOOD_COUNT_TO_MARIYA_1847",
+        "itemKo": "장작 수량표",
+        "recipientHostId": "laundress_mariya"
+      }
+    },
+    {
       "atMinute": 1020,
       "mapId": "courtyard",
       "position": {
@@ -199,5 +224,14 @@
       "left": 2,
       "right": 3
     }
+  },
+  "needs": {
+    "income": 72,
+    "fatigue": 37,
+    "safety": 48,
+    "socialBelonging": 52,
+    "restThreshold": 42,
+    "workFatiguePerMinute": 0.04,
+    "restFatigueReliefPerMinute": 0.15
   }
 }

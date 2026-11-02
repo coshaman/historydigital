@@ -73,7 +73,7 @@ try {
     const settingsLayout = await page.locator('#api-settings').evaluate(element => { const rect=element.getBoundingClientRect(); return { width:rect.width,height:rect.height,right:rect.right,bottom:rect.bottom }; });
     assert.ok(settingsLayout.width <= viewport.width && settingsLayout.height <= viewport.height, `API settings dialog fits viewport ${viewport.width}`);
     const initialInquiryBoard = await page.locator('#discussion-quest-board').innerText();
-    assert.match(initialInquiryBoard, /사건과 생각을 묻기/);
+    assert.match(initialInquiryBoard, /사건·철학·이념 임무/);
     assert.match(initialInquiryBoard, /다른 직업의 사람에게 같은 문제/);
     assert.match(initialInquiryBoard, /0\/2 관점/);
     assert.match(initialInquiryBoard, /검열|책에서|명령/);

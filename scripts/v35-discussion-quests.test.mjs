@@ -83,8 +83,8 @@ test('the opening opinion quests tell a first-time player what to do before poss
   const quests = availableDiscussionQuests({ world: { date: '1847-06-01' }, ledger: [] }, definitions);
   const board = discussionBoardView(quests, null, { clerk_alexei: '알렉세이', senior_clerk_konstantin: '콘스탄틴' });
   assert.equal(board.visible, true);
-  assert.match(board.progressKo, /사건과 생각을 묻기/);
-  assert.match(board.guidanceKo, /질문 선택.*표시된 인물에게 이동해 E.*다음 인물에게 같은 쟁점/);
+  assert.match(board.progressKo, /사건·철학·이념 임무/);
+  assert.match(board.guidanceKo, /질문 담기.*질문할 인물과 다른 주민의 몸.*표시된 상대.*같은 쟁점/);
   assert.match(board.rows[0], /먼저 묻기/);
   assert.match(board.rows[0], /명령이 절차에 맞더라도 결과가 부당/);
   assert.match(board.rows.join(' '), /알렉세이|콘스탄틴/);
@@ -94,7 +94,7 @@ test('the opening opinion quests tell a first-time player what to do before poss
   assert.ok(board.recommendations[0].promptKo);
   assert.match(board.recommendations[0].progressKo, /0\/2 관점/);
   assert.match(board.guidanceKo, /사건·이념 임무/);
-  assert.match(board.guidanceKo, /E로 몸을 빌리기/);
+  assert.match(board.guidanceKo, /다른 주민의 몸/);
   assert.match(board.guidanceKo, /비교 메모/);
   const active = quests.find(item => item.id === 'INQUIRY_OFFICIAL_DUTY_AND_MORALITY');
   const inConversation = discussionBoardView([active], 'clerk_alexei', { clerk_alexei: '알렉세이' });
@@ -107,7 +107,7 @@ test('the opening opinion quests tell a first-time player what to do before poss
   assert.match(nextPerspective.rows[0], /1\/2 관점/);
   assert.match(nextPerspective.rows[0], /콘스탄틴에게 같은 쟁점을 물어보세요/);
   assert.match(nextPerspective.guidanceKo, /첫 관점 기록됨.*콘스탄틴에게.*같은 쟁점 묻기/);
-  assert.match(nextPerspective.guidanceKo, /E로 몸을 빌린 뒤/);
+  assert.match(nextPerspective.guidanceKo, /질문할 인물과 다른 주민의 몸/);
 });
 
 test('an authored offline answer still records the asked perspective without claiming AI generation', () => {
