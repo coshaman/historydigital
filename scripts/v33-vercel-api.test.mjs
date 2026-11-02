@@ -3,16 +3,18 @@ import test from 'node:test';
 import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
-const { _test: api } = require('../api/rpg/[...path].js');
+const handler = require('../api/rpg/[...path].js');
+const api = handler._test;
 
-function invoke(path, body, method = 'POST', { origin = 'https://game.example' } = {}) {
+function invoke(path, body, method = 'POST', { origin = 'https://game.example', routeOverride = null } = {}) {
   const req = { method, url: path, body, headers: { host: 'game.example', ...(origin ? { origin } : {}), 'x-forwarded-host': 'game.example', 'x-forwarded-proto': 'https' } };
   const res = {
     headers: {}, statusCode: 200, output: '',
     setHeader(name, value) { this.headers[name] = value; },
     end(value = '') { this.output = value; },
   };
-  return api.handle(req, res).then(() => ({ status: res.statusCode, headers: res.headers, body: res.output ? JSON.parse(res.output) : {} }));
+  const handled = routeOverride ? handler.forRoute(routeOverride)(req, res) : api.handle(req, res);
+  return handled.then(() => ({ status: res.statusCode, headers: res.headers, body: res.output ? JSON.parse(res.output) : {} }));
 }
 
 test('Vercel route signs state into the session token so a fresh function invocation can continue', async () => {
@@ -40,4 +42,14 @@ test('read-only health probe works from an address bar without weakening game-ro
   assert.ok(['configured', 'BLOCKED_NO_KEY'].includes(health.body.ai));
   const start = await invoke('/api/rpg/session/start', {}, 'POST', { origin: '' });
   assert.equal(start.status, 403);
+});
+
+test('explicit Vercel function routes dispatch health, session start, and dialogue on deep paths', async () => {
+  const health = await invoke('/api/rpg/health', undefined, 'GET', { origin: '', routeOverride: '/api/rpg/health' });
+  assert.equal(health.status, 200);
+  const started = await invoke('/api/rpg/session/start', { hostId: 'printer_ekaterina', actorHostId: 'seamstress_anna' }, 'POST', { routeOverride: '/api/rpg/session/start' });
+  assert.equal(started.status, 201);
+  const turned = await invoke('/api/rpg/dialogue', { sessionToken: started.body.sessionToken, requestId: 'explicit-route-0001', playerInput: '원칙과 생활이 다르면 무엇을 먼저 살펴봐야 하나요?', actorRelations: {}, actorActions: [] }, 'POST', { routeOverride: '/api/rpg/dialogue' });
+  assert.equal(turned.status, 200);
+  assert.equal(turned.body.fallback, true);
 });

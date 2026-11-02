@@ -37,6 +37,10 @@ test('Vercel API is a root-level Node Function and uses the environment key only
   const vercel = JSON.parse(fs.readFileSync(path.join(root, 'vercel.json'), 'utf8'));
   assert.equal(vercel.outputDirectory, 'dist-v33');
   assert.equal(vercel.functions['api/rpg/[...path].js'].maxDuration, 30);
+  for (const route of ['api/rpg/health.js', 'api/rpg/session/start.js', 'api/rpg/dialogue.js']) {
+    assert.equal(vercel.functions[route].maxDuration, 30, `${route} has a bounded Vercel runtime`);
+    assert.ok(fs.existsSync(path.join(root, route)), `${route} is an explicit deployable function route`);
+  }
   assert.ok(fs.existsSync(path.join(root, 'api', 'rpg', '[...path].js')));
 });
 

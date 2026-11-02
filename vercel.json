@@ -7,6 +7,15 @@
   "functions": {
     "api/rpg/[...path].js": {
       "maxDuration": 30
+    },
+    "api/rpg/health.js": {
+      "maxDuration": 30
+    },
+    "api/rpg/session/start.js": {
+      "maxDuration": 30
+    },
+    "api/rpg/dialogue.js": {
+      "maxDuration": 30
     }
   }
 }

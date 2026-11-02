@@ -53,8 +53,8 @@ function send(res, result, origin) {
   res.end(JSON.stringify(result.body));
 }
 
-async function handle(req, res) {
-  const route = new URL(req.url, `https://${req.headers.host || 'localhost'}`).pathname;
+async function handle(req, res, routeOverride = null) {
+  const route = routeOverride || new URL(req.url, `https://${req.headers.host || 'localhost'}`).pathname;
   // Allow a read-only health probe from the address bar and uptime monitors.
   // Stateful game routes still require a same-origin browser request below.
   if (req.method === 'GET' && route === '/api/rpg/health' && !req.headers.origin) {
@@ -101,9 +101,13 @@ async function handle(req, res) {
   return send(res, result, origin);
 }
 
-module.exports = async function handler(req, res) {
-  try { await handle(req, res); }
-  catch { send(res, { status: 500, headers: { 'cache-control': 'no-store' }, body: { error: 'server_error' } }, ''); }
-};
+function routeHandler(routeOverride = null) {
+  return async function handler(req, res) {
+    try { await handle(req, res, routeOverride); }
+    catch { send(res, { status: 500, headers: { 'cache-control': 'no-store' }, body: { error: 'server_error' } }, ''); }
+  };
+}
 
+module.exports = routeHandler();
+module.exports.forRoute = routeHandler;
 module.exports._test = { handle, openSession, sealSession, requestOrigin };
