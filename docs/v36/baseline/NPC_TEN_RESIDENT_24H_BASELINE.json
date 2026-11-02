@@ -104,7 +104,8 @@
               "status": "designedEstimate"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "IDLE",
+            "routineActivityKo": ""
           },
           {
             "id": "printer_ekaterina",
@@ -127,7 +128,8 @@
               "status": "designedEstimate"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "IDLE",
+            "routineActivityKo": ""
           },
           {
             "id": "courier_pavel",
@@ -149,7 +151,8 @@
               "status": "designedEstimate"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "IDLE",
+            "routineActivityKo": ""
           },
           {
             "id": "seamstress_anna",
@@ -172,7 +175,8 @@
               "status": "designedEstimate"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "IDLE",
+            "routineActivityKo": ""
           },
           {
             "id": "tenant_mikhail",
@@ -194,7 +198,8 @@
               "status": "designedEstimate"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "IDLE",
+            "routineActivityKo": ""
           },
           {
             "id": "bookseller_lev",
@@ -216,7 +221,8 @@
               "status": "designedEstimate"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "IDLE",
+            "routineActivityKo": ""
           },
           {
             "id": "senior_clerk_konstantin",
@@ -238,7 +244,8 @@
               "status": "not established"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "IDLE",
+            "routineActivityKo": ""
           },
           {
             "id": "reader_darya",
@@ -260,7 +267,8 @@
               "status": "not established"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "IDLE",
+            "routineActivityKo": ""
           },
           {
             "id": "editor_sofia",
@@ -282,7 +290,8 @@
               "status": "fictional_game_balance"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "IDLE",
+            "routineActivityKo": ""
           },
           {
             "id": "police_sergeant_ivan",
@@ -304,7 +313,8 @@
               "status": "fictional_game_balance"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "IDLE",
+            "routineActivityKo": ""
           }
         ]
       },
@@ -332,7 +342,8 @@
               "status": "designedEstimate"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "WORKING",
+            "routineActivityKo": "접수대에서 문서를 정리한다"
           },
           {
             "id": "printer_ekaterina",
@@ -355,7 +366,8 @@
               "status": "designedEstimate"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "WORKING",
+            "routineActivityKo": "교정쇄와 활자를 살핀다"
           },
           {
             "id": "courier_pavel",
@@ -377,7 +389,8 @@
               "status": "designedEstimate"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "TRAVELLING",
+            "routineActivityKo": "네프스키 쪽 배달을 시작한다"
           },
           {
             "id": "seamstress_anna",
@@ -400,7 +413,8 @@
               "status": "designedEstimate"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "WORKING",
+            "routineActivityKo": "거리에서 수선 일을 찾는다"
           },
           {
             "id": "tenant_mikhail",
@@ -422,7 +436,8 @@
               "status": "designedEstimate"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "WORKING",
+            "routineActivityKo": "하숙집 안뜰에 머문다"
           },
           {
             "id": "bookseller_lev",
@@ -444,7 +459,8 @@
               "status": "designedEstimate"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "WORKING",
+            "routineActivityKo": "가판의 책을 정리한다"
           },
           {
             "id": "senior_clerk_konstantin",
@@ -466,7 +482,8 @@
               "status": "not established"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "WORKING",
+            "routineActivityKo": "검토 메모와 결재 문서를 나눈다"
           },
           {
             "id": "reader_darya",
@@ -488,7 +505,8 @@
               "status": "not established"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "WORKING",
+            "routineActivityKo": "서점에서 새로 나온 글을 살핀다"
           },
           {
             "id": "editor_sofia",
@@ -510,7 +528,8 @@
               "status": "fictional_game_balance"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "WORKING",
+            "routineActivityKo": "교정쇄에 출처와 날짜를 적는다"
           },
           {
             "id": "police_sergeant_ivan",
@@ -532,7 +551,8 @@
               "status": "fictional_game_balance"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "WORKING",
+            "routineActivityKo": "신고 장부의 목격자 칸을 확인한다"
           }
         ]
       },
@@ -560,7 +580,8 @@
               "status": "designedEstimate"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "TRAVELLING",
+            "routineActivityKo": "점심 뒤 인쇄소로 갈 길을 살핀다"
           },
           {
             "id": "printer_ekaterina",
@@ -584,7 +605,8 @@
               "status": "designedEstimate"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "TRAVELLING",
+            "routineActivityKo": "작업장을 나서 다음 주문을 확인한다"
           },
           {
             "id": "courier_pavel",
@@ -605,7 +627,8 @@
               "status": "designedEstimate"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "TRAVELLING",
+            "routineActivityKo": "처마 밑에서 빗물을 털고 잠시 쉰다"
           },
           {
             "id": "seamstress_anna",
@@ -628,7 +651,8 @@
               "status": "designedEstimate"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "TRAVELLING",
+            "routineActivityKo": "방세를 건네고 남은 일을 묻는다"
           },
           {
             "id": "tenant_mikhail",
@@ -650,7 +674,8 @@
               "status": "designedEstimate"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "TRAVELLING",
+            "routineActivityKo": "해 질 무렵 방으로 돌아간다"
           },
           {
             "id": "bookseller_lev",
@@ -672,7 +697,8 @@
               "status": "designedEstimate"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "TRAVELLING",
+            "routineActivityKo": "저녁 장사 전에 가판으로 돌아간다"
           },
           {
             "id": "senior_clerk_konstantin",
@@ -694,7 +720,8 @@
               "status": "not established"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "TRAVELLING",
+            "routineActivityKo": "점심 뒤 관청으로 돌아갈 길을 걷는다"
           },
           {
             "id": "reader_darya",
@@ -716,7 +743,8 @@
               "status": "not established"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "TRAVELLING",
+            "routineActivityKo": "인쇄소의 교정쇄를 확인한다"
           },
           {
             "id": "editor_sofia",
@@ -738,7 +766,8 @@
               "status": "fictional_game_balance"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "TRAVELLING",
+            "routineActivityKo": "다음 호의 교정쇄를 확인한다"
           },
           {
             "id": "police_sergeant_ivan",
@@ -760,7 +789,8 @@
               "status": "fictional_game_balance"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "TRAVELLING",
+            "routineActivityKo": "진술서와 압수 목록을 정리한다"
           }
         ]
       },
@@ -788,7 +818,8 @@
               "status": "designedEstimate"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "WORKING",
+            "routineActivityKo": "퇴근 전 접수 수를 다시 센다"
           },
           {
             "id": "printer_ekaterina",
@@ -812,7 +843,8 @@
               "status": "designedEstimate"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "WORKING",
+            "routineActivityKo": "작업장을 나서 다음 주문을 확인한다"
           },
           {
             "id": "courier_pavel",
@@ -833,7 +865,8 @@
               "status": "designedEstimate"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "RESTING",
+            "routineActivityKo": "처마 밑에서 빗물을 털고 잠시 쉰다"
           },
           {
             "id": "seamstress_anna",
@@ -856,7 +889,8 @@
               "status": "designedEstimate"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "TRAVELLING",
+            "routineActivityKo": "방세를 건네고 남은 일을 묻는다"
           },
           {
             "id": "tenant_mikhail",
@@ -878,7 +912,8 @@
               "status": "designedEstimate"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "WORKING",
+            "routineActivityKo": "해 질 무렵 방으로 돌아간다"
           },
           {
             "id": "bookseller_lev",
@@ -900,7 +935,8 @@
               "status": "designedEstimate"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "TRADING",
+            "routineActivityKo": "저녁 장사 전에 가판으로 돌아간다"
           },
           {
             "id": "senior_clerk_konstantin",
@@ -922,7 +958,8 @@
               "status": "not established"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "WORKING",
+            "routineActivityKo": "점심 뒤 관청으로 돌아갈 길을 걷는다"
           },
           {
             "id": "reader_darya",
@@ -944,7 +981,8 @@
               "status": "not established"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "WORKING",
+            "routineActivityKo": "인쇄소의 교정쇄를 확인한다"
           },
           {
             "id": "editor_sofia",
@@ -966,7 +1004,8 @@
               "status": "fictional_game_balance"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "WORKING",
+            "routineActivityKo": "다음 호의 교정쇄를 확인한다"
           },
           {
             "id": "police_sergeant_ivan",
@@ -988,7 +1027,8 @@
               "status": "fictional_game_balance"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "WORKING",
+            "routineActivityKo": "진술서와 압수 목록을 정리한다"
           }
         ]
       },
@@ -1016,7 +1056,8 @@
               "status": "designedEstimate"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "WORKING",
+            "routineActivityKo": "접수대에서 문서를 정리한다"
           },
           {
             "id": "printer_ekaterina",
@@ -1040,7 +1081,8 @@
               "status": "designedEstimate"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "WORKING",
+            "routineActivityKo": "교정쇄와 활자를 살핀다"
           },
           {
             "id": "courier_pavel",
@@ -1061,7 +1103,8 @@
               "status": "designedEstimate"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "WORKING",
+            "routineActivityKo": "네프스키 쪽 배달을 시작한다"
           },
           {
             "id": "seamstress_anna",
@@ -1084,7 +1127,8 @@
               "status": "designedEstimate"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "WORKING",
+            "routineActivityKo": "거리에서 수선 일을 찾는다"
           },
           {
             "id": "tenant_mikhail",
@@ -1106,7 +1150,8 @@
               "status": "designedEstimate"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "WORKING",
+            "routineActivityKo": "하숙집 안뜰에 머문다"
           },
           {
             "id": "bookseller_lev",
@@ -1128,7 +1173,8 @@
               "status": "designedEstimate"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "WORKING",
+            "routineActivityKo": "가판의 책을 정리한다"
           },
           {
             "id": "senior_clerk_konstantin",
@@ -1150,7 +1196,8 @@
               "status": "not established"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "WORKING",
+            "routineActivityKo": "검토 메모와 결재 문서를 나눈다"
           },
           {
             "id": "reader_darya",
@@ -1172,7 +1219,8 @@
               "status": "not established"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "WORKING",
+            "routineActivityKo": "서점에서 새로 나온 글을 살핀다"
           },
           {
             "id": "editor_sofia",
@@ -1194,7 +1242,8 @@
               "status": "fictional_game_balance"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "WORKING",
+            "routineActivityKo": "교정쇄에 출처와 날짜를 적는다"
           },
           {
             "id": "police_sergeant_ivan",
@@ -1216,7 +1265,8 @@
               "status": "fictional_game_balance"
             },
             "routineTaskCompletedId": null,
-            "stateMachineState": "NOT_PRESENT_IN_V35_RUNTIME"
+            "stateMachineState": "WORKING",
+            "routineActivityKo": "신고 장부의 목격자 칸을 확인한다"
           }
         ]
       }

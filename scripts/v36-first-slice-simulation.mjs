@@ -37,7 +37,7 @@ function snapshot(state, label) {
     return { id: card.id, mapId: host.mapId, position: { ...host.position }, scheduleId: host.scheduleId,
       activityKo: host.currentActivityKo, objective: host.objective, inventory: [...host.inventory],
       money: { ...host.money }, routineTaskCompletedId: host.routineTaskCompletedId ?? null,
-      stateMachineState: 'NOT_PRESENT_IN_V35_RUNTIME' };
+      stateMachineState: host.routineState?.state ?? 'UNINITIALIZED', routineActivityKo: host.routineState?.activityKo ?? '' };
   }) };
 }
 function scheduleDigest(state) {
@@ -85,9 +85,11 @@ const possessedStart = { mapId: possessionProbe.hosts[possessedId].mapId, ...pos
 const duringPossession = game.advanceNpcWorld(possessionProbe, 30, maps);
 const possessedAfter = { mapId: duringPossession.hosts[possessedId].mapId, ...duringPossession.hosts[possessedId].position };
 if (JSON.stringify(possessedStart) !== JSON.stringify(possessedAfter)) throw new Error('possessed_actor_autonomous_move');
+if (duringPossession.hosts[possessedId].routineState?.state !== 'POSSESSED') throw new Error('possessed_actor_state_not_visible');
 const resumed = game.advanceNpcWorld({ ...duringPossession, player: { ...duringPossession.player, embodiment: null } }, 30, maps);
 const resumedPosition = { mapId: resumed.hosts[possessedId].mapId, ...resumed.hosts[possessedId].position };
 if (JSON.stringify(possessedAfter) === JSON.stringify(resumedPosition)) throw new Error('autonomy_did_not_resume_after_release');
+if (resumed.hosts[possessedId].routineState?.state === 'POSSESSED') throw new Error('possessed_actor_state_did_not_resume');
 
 const report = { schemaVersion: 'V36_FIRST_SLICE_BASELINE_REPLAY_V1', baselineCommit: '7974392eb6e30a19607ff306972159fe5cd47b2e',
   scope: { cityResidents: characters.length, namedLiteraryCharactersExcluded: true, durationMinutes: 1440,

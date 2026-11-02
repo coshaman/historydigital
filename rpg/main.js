@@ -1,5 +1,5 @@
 import { createRenderer } from './engine/renderer.js';
-import { objectIsPresent } from './engine/world-presentation.mjs';
+import { objectIsPresent, questPrerequisitesMet } from './engine/world-presentation.mjs';
 import { questChoices, continuationQuest } from './engine/quest-presentation.mjs';
 import { resolveQuestGuidance } from './engine/quest-guidance.mjs';
 import { ownsKeyboardInput, observationText } from './engine/player-presentation.mjs';
@@ -566,7 +566,7 @@ function currentNearby() {
 }
 function questIsAvailable(activeQuest) {
   const literary = Boolean(activeQuest?.realmId || activeQuest?.chapterId?.startsWith('LITERARY_'));
-  return Boolean(activeQuest && (literary ? state.world.activeRealm?.id === (activeQuest.realmId ?? activeQuest.chapterId) : activeQuest.chapterId === state.world.chapterId) && (!activeQuest.date || activeQuest.date <= state.world.date || literary));
+  return Boolean(activeQuest && questPrerequisitesMet(state, activeQuest) && (literary ? state.world.activeRealm?.id === (activeQuest.realmId ?? activeQuest.chapterId) : activeQuest.chapterId === state.world.chapterId) && (!activeQuest.date || activeQuest.date <= state.world.date || literary));
 }
 let pendingSourceRead = null;
 let sourceReaderMode = ['bilingual', 'ko', 'ru'].includes(localStorage.getItem('v35-source-reader-mode')) ? localStorage.getItem('v35-source-reader-mode') : 'bilingual';
@@ -871,14 +871,17 @@ function inspect(object) {
       say(activeQuest.titleKo, '이 장의 선택은 이미 기록되어 있다. 다음으로 이어갈 수 있다.', continuationFor(activeQuest));
       return;
     }
-    const choiceStates = questChoices(activeQuest, state.player.embodiment, knowledgeForHost(state, state.player.embodiment));
+    const choiceStates = questChoices(activeQuest, state.player.embodiment, knowledgeForHost(state, state.player.embodiment), state);
     const opts = choiceStates.map(({ action, missingSourceId }) => ({ label: action.labelKo, disabled: Boolean(missingSourceId), subcopy: `${missingSourceId ? `먼저 이 몸으로 「${sourceRecords.get(missingSourceId)?.titleKo ?? '관련 자료'}」을 현장에서 읽어야 합니다.\n` : ''}${action.subcopyKo}`, run: () => {
       const result = performQuestAction(state, { questId: activeQuest.id, hostId: state.player.embodiment, actionId: action.id, objectId: object.id }, { quests: questList, maps });
       if (!result.ok) { sayRecord(`처리할 수 없음 · ${result.reason}`); return; }
       setState(result.state);
       tutorialAdvance('target');
       const actions = continuationFor(activeQuest);
-      say(action.followupTitleKo ?? activeQuest.titleKo, `${action.resultKo}${action.followupKo ? `\n\n${action.followupKo}` : ''}`, actions);
+      const chain = activeQuest.lifeChain, chainProgress = chain ? result.state.world.lifeChains?.[chain.id] : null;
+      const changedMetrics = chainProgress ? Object.entries(chainProgress.metrics).filter(([, value]) => value !== 0).map(([key, value]) => `${chain.metricsKo?.[key] ?? key} ${value > 0 ? '+' : ''}${value}`).join(' · ') : '';
+      const chainNote = chain ? `\n\n${chain.titleKo} · ${chainProgress.stage}/${chain.stageCount}${changedMetrics ? `\n이어진 장부: ${changedMetrics}` : ''}` : '';
+      say(action.followupTitleKo ?? activeQuest.titleKo, `${action.resultKo}${action.followupKo ? `\n\n${action.followupKo}` : ''}${chainNote}`, actions);
       sayRecord('현장 행동을 장부에 기록했다.');
     } }));
     let guidance = '';
@@ -896,7 +899,14 @@ function inspect(object) {
         guidance += `\n\n「${record?.titleKo ?? '관련 자료'}」은 ${location?.metadata.displayNameKo ?? '현장'}에 있다. 종이 모양의 자료 곁으로 가서 살펴보자.`;
       }
     }
-    say(activeQuest.titleKo, `${activeQuest.premiseKo}${guidance}`, opts);
+    const chain = activeQuest.lifeChain;
+    const progress = chain ? state.world.lifeChains?.[chain.id] : null;
+    const priorEntry = chain && chain.stage > 1 ? progress?.history?.at(-1) : null;
+    const priorQuest = priorEntry ? questsById.get(priorEntry.questId) : null;
+    const priorAction = priorEntry ? priorQuest?.actions.find(item => item.id === priorEntry.actionId) : null;
+    const chainContext = priorAction ? `\n\n앞선 일 · ${priorAction.resultKo}` : '';
+    const title = chain ? `${chain.titleKo} · ${chain.stage}/${chain.stageCount} — ${activeQuest.titleKo}` : activeQuest.titleKo;
+    say(title, `${activeQuest.premiseKo}${chainContext}${guidance}`, opts);
   } else {
     const title = object.name || '작업장';
     say(title, '종이와 활자에 손이 닿은 흔적이 남아 있다. 여기서 보이는 물건은 한 사람이 확인한 만큼만 기록할 수 있다.', []);
@@ -994,7 +1004,8 @@ function interact() {
   if (!state.player.embodiment && nearbyPeople.length > 0 && (nearbyPeople.length > 1 || Boolean(civicService) || near.some(item => ['source', 'map-exit', 'quest-object'].includes(item.type)))) {
     const peopleChoices = nearbyPeople.map(item => {
       const hostId = mapObjectProperties(item).hostId, card = cards.find(character => character.id === hostId), person = state.hosts[hostId];
-      return { label: `${card.displayNameKo} 살펴보기`, subcopy: `${card.occupation} · ${person.currentActivityKo || card.personalObjective}`, run: () => inspect(item) };
+      const routineStateKo = ({ TRAVELLING: '이동 중', WORKING: '일하는 중', TRADING: '거래 중', RESTING: '쉬는 중', SOCIALIZING: '사람들과 이야기하는 중', DELIVERING: '물건을 전하는 중', POSSESSED: '다른 이의 시야에 들어와 있음' })[person.routineState?.state] ?? '자기 일과를 보내는 중';
+      return { label: `${card.displayNameKo} 살펴보기`, subcopy: `${card.occupation} · ${routineStateKo} · ${person.currentActivityKo || card.personalObjective}`, run: () => inspect(item) };
     });
     const nearbyObjects = near.filter(item => ['source', 'map-exit', 'quest-object'].includes(item.type) || Boolean(mapObjectProperties(item).serviceId)).map(item => {
       const props = mapObjectProperties(item);

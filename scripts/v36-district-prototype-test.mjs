@@ -164,6 +164,13 @@ test('all twenty neighborhood residents have a reachable physical work record an
     embodied.player.embodiment=id;
     embodied.player.position={...actor.position};
     const guidance=resolveQuestGuidance({state:embodied,quests:questRecords,maps:runtimeMaps,hostCards:[...cityResidents.values()]});
+    if (['baker_fyodor','market_nadezhda','warehouse_pyotr','carter_roman','porter_gavrila','landlady_polina'].includes(id)) {
+      assert.equal(guidance.questId,'BAKERY_FLOUR_1847','a life-chain resident should be guided to the current chain stage, not an unrelated quest');
+      assert.match(guidance.questTitleKo,/밀가루가 셋방까지 가는 길/);
+      if (id !== 'baker_fyodor') assert.match(guidance.actionKo,/표도르/);
+      assert.equal(guidance.blocked,false);
+      continue;
+    }
     assert.equal(guidance.questId,quest.id,`${id} should see their own task first in its district`);
     assert.equal(guidance.blocked,false,`${id} task must be reachable`);
     for(const action of quest.actions){

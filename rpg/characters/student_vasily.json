@@ -177,7 +177,7 @@
     "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
   },
   "spriteAtlas": {
-    "file": "assets/anna.png",
+    "file": "assets/student_vasily.png",
     "frameWidth": 16,
     "frameHeight": 24,
     "directions": 4,

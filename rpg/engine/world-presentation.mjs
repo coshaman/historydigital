@@ -8,9 +8,20 @@ export function objectIsPresent(object, state, quests = []) {
   if (object.type !== 'quest-object') return true;
   const quest = quests.find(item => item.id === p.questId);
   if (!quest) return false;
+  if (!questPrerequisitesMet(state, quest)) return false;
   const realm = quest.realmId ?? (quest.chapterId?.startsWith('LITERARY_') ? quest.chapterId : null);
   return realm ? state.world.activeRealm?.id === realm
     : quest.chapterId === state.world.chapterId && (!quest.date || quest.date <= state.world.date);
+}
+
+export function questPrerequisitesMet(state, quest) {
+  if ((quest.prerequisiteQuestIds ?? []).some(id => state.quests?.[id]?.status !== 'resolved')) return false;
+  const chain = quest.lifeChain;
+  if (!chain) return true;
+  const progress = state.world?.lifeChains?.[chain.id];
+  if (chain.stage === 1) return !progress;
+  return progress?.stage === chain.stage - 1
+    && progress.history?.at(-1)?.questId === chain.previousQuestId;
 }
 
 // Existing project-authored tiles: a physical object, not a generic hollow square.

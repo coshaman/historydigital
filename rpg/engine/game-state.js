@@ -30,6 +30,7 @@ function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky
     schedule: clone(card.schedule ?? []),
     scheduleId: null,
     currentActivityKo: '',
+    routineState: { state: 'IDLE', activityKo: '', targetMapId: card.start.mapId, targetPosition: { x: card.start.x, y: card.start.y }, changedAtMinute: 540, minutesInState: 0 },
     situationNotes: [],
     facing: 'down',
     historicalAliveAndPresent: true,
@@ -62,6 +63,7 @@ function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky
       discoveredSourceIds: [],
       witnessedFacts: [],
       worldFlags: {},
+      lifeChains: {},
       immutableOutcomes,
       literaryOutcomes,
       possessionHistory: [],
@@ -80,6 +82,25 @@ function scheduleEntry(host, clockMinutes) {
   const schedule = [...(host.schedule ?? [])].sort((a, b) => a.atMinute - b.atMinute);
   const minute = ((clockMinutes % 1440) + 1440) % 1440;
   return [...schedule].reverse().find(item => item.atMinute <= minute) ?? schedule[0] ?? null;
+}
+
+function routineActivityState(activityKo = '', task = null) {
+  if (task?.type === 'DELIVER') return 'DELIVERING';
+  if (/식사|쉬|휴식|잠|문을 닫|하루를 마|집으로 돌아/.test(activityKo)) return 'RESTING';
+  if (/사러|팔|값을|장사|손님|거래|물건을 건네|물건을 전/.test(activityKo)) return 'TRADING';
+  if (/대화|읽|수업|모임|이야기|방문/.test(activityKo)) return 'SOCIALIZING';
+  if (activityKo) return 'WORKING';
+  return 'IDLE';
+}
+
+function setRoutineState(host, state, activityKo, targetMapId, targetPosition, absoluteMinute, stateChanges, minuteOffset) {
+  const previous = host.routineState?.state ?? 'IDLE';
+  if (previous !== state || host.routineState?.activityKo !== activityKo || host.routineState?.targetMapId !== targetMapId) {
+    host.routineState = { state, activityKo, targetMapId, targetPosition: targetPosition ? { ...targetPosition } : null, changedAtMinute: absoluteMinute, minutesInState: 0 };
+    stateChanges.push({ hostId: host.id, minute: minuteOffset, from: previous, to: state, activityKo, mapId: host.mapId });
+  } else {
+    host.routineState.minutesInState = Math.min(10080, (host.routineState.minutesInState ?? 0) + 1);
+  }
 }
 
 const NPC_STEPS = Object.freeze([[0, -1, 'up'], [1, 0, 'right'], [0, 1, 'down'], [-1, 0, 'left']]);
@@ -166,7 +187,7 @@ function nextNpcStep(state, host, slot, maps, reservedTiles) {
   const next = path[0], direction = NPC_STEPS.find(([dx, dy]) => host.position.x + dx === next.x && host.position.y + dy === next.y)?.[2];
   return direction ? { mapId: host.mapId, position: next, facing: direction } : null;
 }
-function simulateNpcMinute(state, maps, options, minuteOffset, movementLog) {
+function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stateChanges) {
   const embodiedId = state.player.embodiment, paused = new Set(options.pausedHostIds ?? []), reservedTiles = [...(options.reservedTiles ?? [])];
   if (!state.player.embodiment) reservedTiles.push({ mapId: state.world.currentMapId, position: state.player.position });
   const moveRows = [], deliveryRows = [];
@@ -180,7 +201,15 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog) {
     host.currentActivityKo = slot.activityKo ?? '';
     const currentMap = maps?.[host.mapId], scheduledMap = maps?.[slot.mapId];
     const inActiveRealm = currentMap?.metadata?.mapClass === 'LITERARY_REALM';
-    if (host.id === embodiedId || paused.has(host.id) || host.historicalAliveAndPresent === false || !scheduledMap || inActiveRealm !== Boolean(state.world.activeRealm) || state.world.clockMinutes % 5 !== 0) continue;
+    if (host.id === embodiedId) {
+      setRoutineState(host, 'POSSESSED', host.currentActivityKo, slot.mapId, slot.position, state.world.clockMinutes, stateChanges, minuteOffset);
+      continue;
+    }
+    if (paused.has(host.id) || host.historicalAliveAndPresent === false || !scheduledMap || inActiveRealm !== Boolean(state.world.activeRealm)) continue;
+    const atWorkplace = host.mapId === slot.mapId && nearTile(host.position, slot.position, 1);
+    const routine = atWorkplace ? routineActivityState(host.currentActivityKo, slot.task) : 'TRAVELLING';
+    setRoutineState(host, routine, host.currentActivityKo, slot.mapId, slot.position, state.world.clockMinutes, stateChanges, minuteOffset);
+    if (state.world.clockMinutes % 5 !== 0) continue;
     const before = { mapId: host.mapId, position: { ...host.position } };
     const step = nextNpcStep(state, host, slot, maps, reservedTiles);
     if (step) { host.mapId = step.mapId; host.position = step.position; host.facing = step.facing; }
@@ -206,14 +235,14 @@ function advanceNpcWorld(state, elapsedMinutes, maps, options = {}) {
   if (!Number.isFinite(elapsedMinutes) || elapsedMinutes <= 0) return state;
   const next = clone(state);
   const tickCount = Math.min(10080, Math.max(1, Math.floor(elapsedMinutes))), movementLog = [], deliveryLog = [];
-  const startClock = next.world.clockMinutes ?? 540;
+  const startClock = next.world.clockMinutes ?? 540, stateChanges = [];
   for (let tick = 1; tick <= tickCount; tick += 1) {
     next.world.clockMinutes = startClock + tick;
-    const result = simulateNpcMinute(next, maps, options, tick, movementLog);
+    const result = simulateNpcMinute(next, maps, options, tick, movementLog, stateChanges);
     deliveryLog.push(...result.deliveryRows);
   }
-  if (movementLog.length || deliveryLog.length) {
-    const entry = { eventId: `NPC_SIM_${next.ledger.length + 1}`, eventType: 'NPC_SIMULATION', date: next.world.date, mapId: next.world.currentMapId, startClockMinutes: startClock, endClockMinutes: next.world.clockMinutes, simulatedMinutes: tickCount, moves: movementLog, deliveries: deliveryLog, priorStateHash: stateHash(state), nextStateHash: null };
+  if (movementLog.length || deliveryLog.length || stateChanges.length) {
+    const entry = { eventId: `NPC_SIM_${next.ledger.length + 1}`, eventType: 'NPC_SIMULATION', date: next.world.date, mapId: next.world.currentMapId, startClockMinutes: startClock, endClockMinutes: next.world.clockMinutes, simulatedMinutes: tickCount, moves: movementLog, deliveries: deliveryLog, stateChanges, priorStateHash: stateHash(state), nextStateHash: null };
     next.ledger.push(entry);
     entry.nextStateHash = stateHash(next);
   }
@@ -361,6 +390,10 @@ function transitionMap(state, exitId, maps) {
 function performQuestAction(state, { questId, hostId, actionId, objectId }, { quests = [], maps = {} } = {}) {
   const quest = quests.find(item => item.id === questId), current = state.quests?.[questId], action = quest?.actions.find(item => item.id === actionId);
   if (!quest || !current || current.status !== 'open' || !action) return { ok: false, reason: 'unknown_or_closed_action', state };
+  if ((quest.prerequisiteQuestIds ?? []).some(id => state.quests?.[id]?.status !== 'resolved')) return { ok: false, reason: 'quest_chain_locked', state };
+  const chain = quest.lifeChain, chainProgress = chain ? state.world.lifeChains?.[chain.id] : null;
+  if (chain && (chain.stage === 1 ? Boolean(chainProgress) : chainProgress?.stage !== chain.stage - 1 || chainProgress?.history?.at(-1)?.questId !== chain.previousQuestId)) return { ok: false, reason: 'quest_chain_locked', state };
+  if (action.requiredPriorResultFlags?.length && !action.requiredPriorResultFlags.includes(chainProgress?.history?.at(-1)?.resultFlag)) return { ok: false, reason: 'prior_choice_not_available', state };
   if (quest.date && quest.date > state.world.date) return { ok: false, reason: 'quest_not_yet_available', state };
   const literaryQuest = Boolean(quest.realmId) || quest.chapterId?.startsWith('LITERARY_');
   const requiredRealmId = quest.realmId ?? quest.chapterId;
@@ -372,6 +405,8 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
   if (!target || host.mapId !== quest.entry.mapId || state.world.currentMapId !== quest.entry.mapId || objectId !== quest.entry.objectId || !nearTile(host.position, objectTile(target))) return { ok: false, reason: 'physical_object_unavailable', state };
   if (action.requiredKnowledgeId && !knowledgeForHost(state, hostId).includes(action.requiredKnowledgeId)) return { ok: false, reason: 'host_lacks_knowledge', state };
   const effects = action.effects ?? {}, relationEffects = effects.relations ?? {}, inventoryRemove = effects.inventoryRemove ?? [], inventoryAdd = effects.inventoryAdd ?? [];
+  const chainDelta = effects.lifeChainDelta ?? {};
+  if (Object.entries(chainDelta).some(([key, value]) => !/^[a-z][a-zA-Z0-9]{0,39}$/.test(key) || !Number.isInteger(value) || Math.abs(value) > 20)) return { ok: false, reason: 'invalid_life_chain_effect', state };
   if (effects.moneyDelta !== undefined && (!Number.isInteger(effects.moneyDelta) || Math.abs(effects.moneyDelta) > 10000 || !Number.isFinite(host.money?.amount) || host.money.amount + effects.moneyDelta < 0)) return { ok: false, reason: 'invalid_or_unaffordable_effect', state };
   if (Object.values(relationEffects).some(value => typeof value !== 'string' || value.length > 160) || (effects.situationKo !== undefined && (typeof effects.situationKo !== 'string' || effects.situationKo.length > 220))) return { ok: false, reason: 'invalid_action_effect', state };
   if (!Array.isArray(inventoryRemove) || !Array.isArray(inventoryAdd) || inventoryRemove.some(item => typeof item !== 'string' || !host.inventory.includes(item)) || inventoryAdd.some(item => typeof item !== 'string' || item.length > 80)) return { ok: false, reason: 'required_item_missing', state };
@@ -388,7 +423,14 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
     next.world.literaryOutcomes ??= {};
     next.world.literaryOutcomes[quest.historicalOutcome.id] = quest.historicalOutcome.value;
   } else next.world.immutableOutcomes[quest.historicalOutcome.id] = quest.historicalOutcome.value;
-  const entry = { eventId: `ACTION_${next.ledger.length + 1}`, eventType: literaryQuest ? 'LITERARY_ACTION' : 'HISTORICAL_ACTION', ...(literaryQuest ? { realmId: state.world.activeRealm.id } : {}), date: next.world.date, mapId: next.world.currentMapId, hostId, questId, actionId, objectId, witnesses: [], effectsApplied: { moneyDelta: effects.moneyDelta ?? 0, inventoryRemove, inventoryAdd, relations: relationEffects, situationKo: effects.situationKo ?? null }, sourceIds: action.requiredKnowledgeId ? [action.requiredKnowledgeId] : [], priorStateHash: stateHash(timed), nextStateHash: null };
+  if (chain) {
+    next.world.lifeChains ??= {};
+    const currentProgress = next.world.lifeChains[chain.id] ?? { stage: 0, metrics: {}, history: [] };
+    const metrics = { ...currentProgress.metrics };
+    for (const [key, delta] of Object.entries(chainDelta)) metrics[key] = Math.max(-100, Math.min(100, (metrics[key] ?? 0) + delta));
+    next.world.lifeChains[chain.id] = { stage: chain.stage, metrics, history: [...currentProgress.history, { stage: chain.stage, questId, hostId, actionId, resultFlag: action.resultFlag, date: next.world.date }] };
+  }
+  const entry = { eventId: `ACTION_${next.ledger.length + 1}`, eventType: literaryQuest ? 'LITERARY_ACTION' : 'HISTORICAL_ACTION', ...(literaryQuest ? { realmId: state.world.activeRealm.id } : {}), ...(chain ? { lifeChainId: chain.id, lifeChainStage: chain.stage, lifeChainDelta: chainDelta } : {}), date: next.world.date, mapId: next.world.currentMapId, hostId, questId, actionId, objectId, witnesses: [], effectsApplied: { moneyDelta: effects.moneyDelta ?? 0, inventoryRemove, inventoryAdd, relations: relationEffects, situationKo: effects.situationKo ?? null }, sourceIds: action.requiredKnowledgeId ? [action.requiredKnowledgeId] : [], priorStateHash: stateHash(timed), nextStateHash: null };
   next.ledger.push(entry);
   entry.nextStateHash = stateHash(next);
   return { ok: true, state: next };
@@ -611,6 +653,7 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
       const slot = scheduleEntry(host, state.world.clockMinutes);
       host.scheduleId ??= slot ? `${slot.mapId}:${slot.atMinute}` : null;
       host.currentActivityKo ??= slot?.activityKo ?? '';
+      host.routineState ??= { state: 'IDLE', activityKo: host.currentActivityKo, targetMapId: slot?.mapId ?? host.mapId, targetPosition: slot?.position ? { ...slot.position } : { ...host.position }, changedAtMinute: state.world.clockMinutes, minutesInState: 0 };
     }
   }
   const ids = new Set(hostCards.map(card => card.id));

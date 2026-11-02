@@ -33,10 +33,10 @@ test('host cards represent four distinct playable circumstances and reference re
   const cards = await Promise.all(files.filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)));
   const historicalTownResidents = cards.filter(card => card.kind === 'FICTIONAL');
   const historicalReconstructions = cards.filter(card => card.kind === 'HISTORICAL_RECONSTRUCTION');
-  assert.equal(historicalTownResidents.length, 10);
+  assert.equal(historicalTownResidents.length, 36);
   assert.equal(historicalReconstructions.length, 1);
-  assert.equal(cards.length, 14);
-  assert.equal(new Set(cards.map(card => card.id)).size, 14);
+  assert.equal(cards.length, 40);
+  assert.equal(new Set(cards.map(card => card.id)).size, 40);
   const assetManifest = await json('rpg/assets/ASSET_PROVENANCE.json');
   assert.ok(cards.every(card => assetManifest.assets.some(asset => asset.path === `rpg/${card.sprite.file}`)), 'every host sprite has checked-in provenance');
   assert.ok(new Set(historicalTownResidents.map(card => card.socialEstate)).size >= 4);
@@ -374,7 +374,7 @@ test('save/load preserves split world, player, host knowledge and rejects malfor
 test('Chancery and courtyard are door-connected maps with access tied to the embodied host', async () => {
   const maps = await loadMaps();
   const cards = await Promise.all((await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)));
-  assert.deepEqual(Object.keys(maps).sort(), ['chancery', 'courtyard', 'dead-souls', 'nevsky', 'overcoat', 'police-station', 'printshop']);
+  assert.deepEqual(Object.keys(maps).sort(), ['chancery', 'courtyard', 'dead-souls', 'market-quay', 'nevsky', 'overcoat', 'police-station', 'printshop']);
   const doors = Object.values(maps).flatMap(map => map.layers.find(layer => layer.name === 'Interactions').objects.filter(object => object.type === 'map-exit').map(object => ({ map, object, props: Object.fromEntries(object.properties.map(property => [property.name, property.value])) })));
   assert.ok(doors.length >= 6);
   assert.ok(doors.every(door => maps[door.props.targetMapId]));
@@ -521,8 +521,9 @@ test('dialogue can be ledgered only for the embodied host and never mutates a qu
   assert.equal(recorded.state.ledger.at(-1).hostId, 'printer_ekaterina');
   assert.equal(recorded.state.ledger.at(-1).interlocutorHostId, 'courier_pavel');
   const offlineOpinion = recordDialogueTurn(state, { hostId: 'printer_ekaterina', actorHostId: 'courier_pavel', sceneId: 'V33_TALK_PRINTER_EKATERINA', discussionId: 'INQUIRY_CENSORSHIP_AND_LABOR' }, maps);
-  assert.equal(offlineOpinion.state.ledger.at(-1).discussionId, undefined, 'local authored fallback cannot award a viewpoint record');
-  assert.equal(offlineOpinion.state.player.dialogueGrowth.insight, 0);
+  assert.equal(offlineOpinion.state.ledger.at(-1).discussionId, 'INQUIRY_CENSORSHIP_AND_LABOR', 'an authored offline reply still records which viewpoint was heard');
+  assert.equal(offlineOpinion.state.player.dialogueGrowth.insight, 1);
+  assert.equal(offlineOpinion.state.player.dialogueGrowth.aiReplies, 0, 'offline text is never counted as generated AI');
   const opinion = recordDialogueTurn(state, { hostId: 'printer_ekaterina', actorHostId: 'courier_pavel', sceneId: 'V33_TALK_PRINTER_EKATERINA', discussionId: 'INQUIRY_CENSORSHIP_AND_LABOR', discussionTitleKo: '인쇄 노동자는 문장의 뜻까지 책임져야 할까', aiGenerated: true }, maps);
   assert.equal(opinion.ok, true);
   assert.equal(opinion.state.ledger.at(-1).discussionId, 'INQUIRY_CENSORSHIP_AND_LABOR');

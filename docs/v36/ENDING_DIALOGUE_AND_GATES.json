@@ -1,0 +1,294 @@
+{
+  "schemaVersion": "V36-ENDING-GATES-1",
+  "endings": [
+    {
+      "id": "UVAROV",
+      "title": "당신의 선택은 세르게이 우바로프와 가장 닮았습니다",
+      "rule": {
+        "allFlags": [
+          "publicCivicClaim",
+          "institutionalBoundary",
+          "e07Evidence",
+          "chronologyBoundary"
+        ],
+        "noneFlags": [
+          "networkDelivery",
+          "publicDebate"
+        ],
+        "minScenes": 5,
+        "actionsAll": [
+          "public_citation",
+          "report_medical_fact_only",
+          "institutionalBoundaryChoice",
+          "official_record",
+          "official_memo"
+        ],
+        "minRelationships": {
+          "alexei": 4
+        },
+        "meaningStatement": "확인된 사실·기관 책임·공식 문서의 경계를 우선한 삶의 방향.",
+        "requiredActions": [
+          "public_citation",
+          "report_medical_fact_only",
+          "institutionalBoundaryChoice",
+          "official_record",
+          "official_memo"
+        ],
+        "forbiddenActions": [
+          "networkDelivery",
+          "publicDebate"
+        ],
+        "relationshipGate": {
+          "alexei": 4
+        },
+        "sourceScenes": [
+          "C03",
+          "C06",
+          "C07",
+          "E07"
+        ]
+      },
+      "callbacks": [
+        "C03-A",
+        "C06-P1",
+        "C07-A",
+        "E07-B",
+        "E07-P2"
+      ],
+      "lifeDirection": "공적 질서와 기관 책임을 우선하는 관료적 경로를 택했다. 우바로프 체제와 의미상 가까운 선택이지, 우바로프와의 교류를 뜻하지 않는다.",
+      "dialogueLines": 1
+    },
+    {
+      "id": "BELINSKY",
+      "title": "당신의 선택은 비사리온 벨린스키와 가장 닮았습니다",
+      "rule": {
+        "allFlags": [
+          "literaryArgument",
+          "publicDebate",
+          "e07Evidence",
+          "chronologyBoundary"
+        ],
+        "noneFlags": [
+          "networkDelivery",
+          "institutionalBoundary"
+        ],
+        "minScenes": 5,
+        "actionsAll": [
+          "literaryArgumentChoice",
+          "interpret_captive_voice",
+          "literaryArgument",
+          "spoken_risk_boundary",
+          "spoken_public_argument"
+        ],
+        "minRelationships": {
+          "ekaterina": 4
+        },
+        "meaningStatement": "문학적 주장과 검열을 공개 논쟁의 대상으로 남긴 삶의 방향.",
+        "requiredActions": [
+          "literaryArgumentChoice",
+          "interpret_captive_voice",
+          "literaryArgument",
+          "spoken_risk_boundary",
+          "spoken_public_argument"
+        ],
+        "forbiddenActions": [
+          "networkDelivery",
+          "institutionalBoundary"
+        ],
+        "relationshipGate": {
+          "ekaterina": 4
+        },
+        "sourceScenes": [
+          "C07",
+          "E02",
+          "E07"
+        ]
+      },
+      "callbacks": [
+        "C07-B",
+        "E02-A",
+        "E02-P1",
+        "E07-A",
+        "E07-P1"
+      ],
+      "lifeDirection": "문학을 공적 비평과 논쟁의 장으로 보는 경로를 택했다. 벨린스키와 실제 친분을 맺었다는 뜻이 아니다.",
+      "dialogueLines": 1
+    },
+    {
+      "id": "HERZEN",
+      "title": "당신의 선택은 알렉산드르 게르첸과 가장 닮았습니다",
+      "rule": {
+        "allFlags": [
+          "networkDelivery",
+          "riskAccepted",
+          "e07Evidence",
+          "chronologyBoundary"
+        ],
+        "noneFlags": [
+          "institutionalBoundary",
+          "publicCivicClaim"
+        ],
+        "minScenes": 5,
+        "actionsAll": [
+          "trace_print_route",
+          "deliver_scene_chain",
+          "networkReception",
+          "routed_document",
+          "send_to_trusted_reader"
+        ],
+        "minRelationships": {
+          "pavel": 4
+        },
+        "meaningStatement": "제도 밖 전달망으로 비판적 목소리를 운반하되 노출 위험을 감당한 삶의 방향.",
+        "requiredActions": [
+          "trace_print_route",
+          "deliver_scene_chain",
+          "networkReception",
+          "routed_document",
+          "send_to_trusted_reader"
+        ],
+        "forbiddenActions": [
+          "institutionalBoundary",
+          "publicCivicClaim"
+        ],
+        "relationshipGate": {
+          "pavel": 4
+        },
+        "sourceScenes": [
+          "C03",
+          "C06",
+          "E02",
+          "E07"
+        ]
+      },
+      "callbacks": [
+        "C03-C",
+        "C06-P3",
+        "E02-C",
+        "E07-C",
+        "E07-P3"
+      ],
+      "lifeDirection": "위험을 설명하고 믿을 만한 독자에게 자료를 전달하는 제도 밖의 경로를 택했다. 헤르첸의 미래 해외 활동을 비유로만 참조한다.",
+      "dialogueLines": 1
+    },
+    {
+      "id": "KHOMYAKOV",
+      "title": "당신의 선택은 알렉세이 호먀코프와 가장 닮았습니다",
+      "rule": {
+        "allFlags": [
+          "mediatedConflict",
+          "communalDuty",
+          "privateVoiceProtected",
+          "e07Evidence"
+        ],
+        "noneFlags": [
+          "networkDelivery",
+          "institutionalBoundary"
+        ],
+        "minScenes": 5,
+        "actionsAll": [
+          "preserve_public_grief",
+          "mark_missing_witness",
+          "suspend_verdict",
+          "reserve_poem_judgment",
+          "protective_silence"
+        ],
+        "minRelationships": {
+          "alexei": 1,
+          "ekaterina": 3
+        },
+        "meaningStatement": "행정적 판단과 문학적 목소리 사이에서 공동체적·중재적 책임을 택한 삶의 방향.",
+        "requiredActions": [
+          "preserve_public_grief",
+          "mark_missing_witness",
+          "suspend_verdict",
+          "reserve_poem_judgment",
+          "protective_silence"
+        ],
+        "forbiddenActions": [
+          "networkDelivery",
+          "institutionalBoundary"
+        ],
+        "relationshipGate": {
+          "alexei": 1,
+          "ekaterina": 3
+        },
+        "sourceScenes": [
+          "C03",
+          "C06",
+          "C07",
+          "E02",
+          "E07"
+        ]
+      },
+      "callbacks": [
+        "C03-B",
+        "C06-B",
+        "C07-C",
+        "E02-B",
+        "E07-D",
+        "E07-P4"
+      ],
+      "lifeDirection": "어느 한쪽의 승리보다 공동체가 함께 감당할 판단을 남겼다. 호먀코프와 동일한 사상을 가졌다고 단정하지 않는다.",
+      "dialogueLines": 1
+    },
+    {
+      "id": "DOSTOEVSKY_PETRASHEVSKY",
+      "title": "젊은 도스토옙스키와 페트라셰프스키 모임을 닮은 선택",
+      "rule": {
+        "allFlags": [
+          "networkDelivery",
+          "riskAccepted",
+          "literaryArgument",
+          "e07Evidence",
+          "chronologyBoundary"
+        ],
+        "noneFlags": [
+          "institutionalBoundary"
+        ],
+        "minScenes": 5,
+        "actionsAll": [
+          "map_scene_inspection",
+          "deliver_scene_chain",
+          "dangerous_discussion",
+          "spoken_risk_boundary",
+          "spoken_public_argument"
+        ],
+        "minRelationships": {
+          "pavel": 3,
+          "ekaterina": 2
+        },
+        "meaningStatement": "문학적 토론·서클·전달이 국가 수사의 경계에 닿는 위험을 감수한 삶의 방향.",
+        "requiredActions": [
+          "map_scene_inspection",
+          "deliver_scene_chain",
+          "dangerous_discussion",
+          "spoken_risk_boundary",
+          "spoken_public_argument"
+        ],
+        "forbiddenActions": [
+          "institutionalBoundary"
+        ],
+        "relationshipGate": {
+          "pavel": 3,
+          "ekaterina": 2
+        },
+        "sourceScenes": [
+          "C06",
+          "E02",
+          "E07"
+        ]
+      },
+      "callbacks": [
+        "C03-C",
+        "C06-C",
+        "C06-P3",
+        "E02-P3",
+        "E07-A",
+        "E07-P1"
+      ],
+      "lifeDirection": "위험한 토론의 문턱에서 말하기와 전달의 책임을 함께 택했다. 도스토옙스키·페트라셰프스키와의 친분을 만들지 않는다.",
+      "dialogueLines": 1
+    }
+  ]
+}

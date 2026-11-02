@@ -30,6 +30,9 @@
         "situationKo": "입고·반출 수량을 재확인하고 빈칸을 표시했다.",
         "relations": {
           "work_or_household": "선택한 문제를 함께 확인했다"
+        },
+        "lifeChainDelta": {
+          "verifiedLoads": 1
         }
       }
     },
@@ -48,6 +51,9 @@
         "situationKo": "확인 전에 마지막 기록자 이름을 적었다.",
         "relations": {
           "work_or_household": "선택한 문제를 함께 확인했다"
+        },
+        "lifeChainDelta": {
+          "unverifiedAccusations": 1
         }
       }
     },
@@ -66,9 +72,33 @@
         "situationKo": "운반표 대조가 끝날 때까지 반출을 보류했다.",
         "relations": {
           "work_or_household": "선택한 문제를 함께 확인했다"
+        },
+        "lifeChainDelta": {
+          "dispatchDelay": 1
         }
       }
     }
   ],
-  "completion": "one authorized choice at the named work record"
+  "completion": "one authorized choice at the named work record",
+  "lifeChain": {
+    "id": "MARKET_MEAL_ROUTE_1847",
+    "titleKo": "밀가루가 셋방까지 가는 길",
+    "stage": 3,
+    "stageCount": 6,
+    "previousQuestId": "MARKET_PRICES_1847",
+    "metricsKo": {
+      "affordableMeals": "끼니 부담",
+      "workerKopeks": "일한 사람의 몫",
+      "foodWaste": "버려진 식량",
+      "orderDelay": "주문 지연",
+      "verifiedLoads": "확인한 짐",
+      "unverifiedAccusations": "근거 없는 지목",
+      "dispatchDelay": "운송 지연",
+      "transportRisk": "운송 위험",
+      "householdAccess": "셋방의 식량 접근"
+    }
+  },
+  "prerequisiteQuestIds": [
+    "MARKET_PRICES_1847"
+  ]
 }

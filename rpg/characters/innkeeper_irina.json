@@ -180,7 +180,7 @@
     "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
   },
   "spriteAtlas": {
-    "file": "assets/lev.png",
+    "file": "assets/innkeeper_irina.png",
     "frameWidth": 16,
     "frameHeight": 24,
     "directions": 4,

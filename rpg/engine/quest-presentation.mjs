@@ -1,6 +1,8 @@
 // Display prerequisites without revealing ending scores or bypassing reducer checks.
-export function questChoices(quest, hostId, knowledge = []) {
-  return quest.actions.filter(action => action.hostIds.includes(hostId)).map(action => ({
+export function questChoices(quest, hostId, knowledge = [], state = null) {
+  const chain = quest.lifeChain, priorFlag = chain ? state?.world?.lifeChains?.[chain.id]?.history?.at(-1)?.resultFlag : null;
+  return quest.actions.filter(action => action.hostIds.includes(hostId))
+    .filter(action => !action.requiredPriorResultFlags?.length || action.requiredPriorResultFlags.includes(priorFlag)).map(action => ({
     action,
     missingSourceId: action.requiredKnowledgeId && !knowledge.includes(action.requiredKnowledgeId) ? action.requiredKnowledgeId : null,
   }));

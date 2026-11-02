@@ -181,7 +181,7 @@
     "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
   },
   "spriteAtlas": {
-    "file": "assets/anna.png",
+    "file": "assets/lodging_tatyana.png",
     "frameWidth": 16,
     "frameHeight": 24,
     "directions": 4,

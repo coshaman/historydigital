@@ -1,0 +1,499 @@
+{
+  "schemaVersion": "V36-ACTOR-VISIBILITY-AUDIT-1",
+  "status": "PASS",
+  "choiceCount": 32,
+  "failures": [],
+  "rows": [
+    {
+      "sceneId": "C03",
+      "kind": "choices",
+      "choiceId": "C03-A",
+      "actor": "PLAYER",
+      "reactionActor": "alexei",
+      "witnesses": [
+        "PUBLIC"
+      ],
+      "visibility": "PUBLIC",
+      "whoHears": [
+        "PUBLIC"
+      ],
+      "reactionSequence": null
+    },
+    {
+      "sceneId": "C03",
+      "kind": "choices",
+      "choiceId": "C03-B",
+      "actor": "PLAYER",
+      "reactionActor": "ekaterina",
+      "witnesses": [
+        "PUBLIC"
+      ],
+      "visibility": "PUBLIC",
+      "whoHears": [
+        "PUBLIC"
+      ],
+      "reactionSequence": null
+    },
+    {
+      "sceneId": "C03",
+      "kind": "choices",
+      "choiceId": "C03-C",
+      "actor": "PLAYER",
+      "reactionActor": "pavel",
+      "witnesses": [
+        "pavel"
+      ],
+      "visibility": "DELIVERY_NETWORK",
+      "whoHears": [
+        "pavel"
+      ],
+      "reactionSequence": null
+    },
+    {
+      "sceneId": "C03",
+      "kind": "postChoices",
+      "choiceId": "C03-P1",
+      "actor": "PLAYER",
+      "reactionActor": "alexei",
+      "witnesses": [
+        "OFFICIAL_RECORD"
+      ],
+      "visibility": "OFFICIAL_RECORD",
+      "whoHears": [
+        "OFFICIAL_RECORD"
+      ],
+      "reactionSequence": null
+    },
+    {
+      "sceneId": "C03",
+      "kind": "postChoices",
+      "choiceId": "C03-P2",
+      "actor": "PLAYER",
+      "reactionActor": "ekaterina",
+      "witnesses": [
+        "ekaterina"
+      ],
+      "visibility": "SPOKEN_PRIVATE_TO_NPC",
+      "whoHears": [
+        "ekaterina"
+      ],
+      "reactionSequence": null
+    },
+    {
+      "sceneId": "C03",
+      "kind": "postChoices",
+      "choiceId": "C03-P3",
+      "actor": "PLAYER",
+      "reactionActor": "pavel",
+      "witnesses": [
+        "pavel"
+      ],
+      "visibility": "DELIVERY_NETWORK",
+      "whoHears": [
+        "pavel"
+      ],
+      "reactionSequence": null
+    },
+    {
+      "sceneId": "C06",
+      "kind": "choices",
+      "choiceId": "C06-A",
+      "actor": "PLAYER",
+      "reactionActor": "alexei",
+      "witnesses": [
+        "PUBLIC"
+      ],
+      "visibility": "PUBLIC",
+      "whoHears": [
+        "PUBLIC"
+      ],
+      "reactionSequence": null
+    },
+    {
+      "sceneId": "C06",
+      "kind": "choices",
+      "choiceId": "C06-B",
+      "actor": "PLAYER",
+      "reactionActor": "ekaterina",
+      "witnesses": [
+        "PUBLIC"
+      ],
+      "visibility": "PUBLIC",
+      "whoHears": [
+        "PUBLIC"
+      ],
+      "reactionSequence": null
+    },
+    {
+      "sceneId": "C06",
+      "kind": "choices",
+      "choiceId": "C06-C",
+      "actor": "PLAYER",
+      "reactionActor": "pavel",
+      "witnesses": [
+        "pavel"
+      ],
+      "visibility": "DELIVERY_NETWORK",
+      "whoHears": [
+        "pavel"
+      ],
+      "reactionSequence": null
+    },
+    {
+      "sceneId": "C06",
+      "kind": "postChoices",
+      "choiceId": "C06-P1",
+      "actor": "PLAYER",
+      "reactionActor": "alexei",
+      "witnesses": [
+        "OFFICIAL_RECORD"
+      ],
+      "visibility": "OFFICIAL_RECORD",
+      "whoHears": [
+        "OFFICIAL_RECORD"
+      ],
+      "reactionSequence": null
+    },
+    {
+      "sceneId": "C06",
+      "kind": "postChoices",
+      "choiceId": "C06-P2",
+      "actor": "PLAYER",
+      "reactionActor": "ekaterina",
+      "witnesses": [
+        "ekaterina"
+      ],
+      "visibility": "SPOKEN_PRIVATE_TO_NPC",
+      "whoHears": [
+        "ekaterina"
+      ],
+      "reactionSequence": null
+    },
+    {
+      "sceneId": "C06",
+      "kind": "postChoices",
+      "choiceId": "C06-P3",
+      "actor": "PLAYER",
+      "reactionActor": "pavel",
+      "witnesses": [
+        "pavel"
+      ],
+      "visibility": "DELIVERY_NETWORK",
+      "whoHears": [
+        "pavel"
+      ],
+      "reactionSequence": null
+    },
+    {
+      "sceneId": "C07",
+      "kind": "choices",
+      "choiceId": "C07-A",
+      "actor": "PLAYER",
+      "reactionActor": "alexei",
+      "witnesses": [
+        "alexei"
+      ],
+      "visibility": "SPOKEN",
+      "whoHears": [
+        "alexei"
+      ],
+      "reactionSequence": null
+    },
+    {
+      "sceneId": "C07",
+      "kind": "choices",
+      "choiceId": "C07-B",
+      "actor": "PLAYER",
+      "reactionActor": "ekaterina",
+      "witnesses": [
+        "ekaterina"
+      ],
+      "visibility": "SPOKEN",
+      "whoHears": [
+        "ekaterina"
+      ],
+      "reactionSequence": null
+    },
+    {
+      "sceneId": "C07",
+      "kind": "choices",
+      "choiceId": "C07-C",
+      "actor": "PLAYER",
+      "reactionActor": "alexei",
+      "witnesses": [
+        "alexei",
+        "ekaterina"
+      ],
+      "visibility": "SPOKEN",
+      "whoHears": [
+        "alexei",
+        "ekaterina"
+      ],
+      "reactionSequence": [
+        [
+          "alexei",
+          "유보는 회피가 아니군요."
+        ],
+        [
+          "ekaterina",
+          "원문을 먼저 보자는 말이라면 나도 기다리겠어요."
+        ]
+      ]
+    },
+    {
+      "sceneId": "C07",
+      "kind": "postChoices",
+      "choiceId": "C07-P1",
+      "actor": "PLAYER",
+      "reactionActor": "alexei",
+      "witnesses": [
+        "OFFICIAL_RECORD"
+      ],
+      "visibility": "OFFICIAL_RECORD",
+      "whoHears": [
+        "OFFICIAL_RECORD"
+      ],
+      "reactionSequence": null
+    },
+    {
+      "sceneId": "C07",
+      "kind": "postChoices",
+      "choiceId": "C07-P2",
+      "actor": "PLAYER",
+      "reactionActor": "ekaterina",
+      "witnesses": [
+        "PUBLIC"
+      ],
+      "visibility": "PUBLIC",
+      "whoHears": [
+        "PUBLIC"
+      ],
+      "reactionSequence": null
+    },
+    {
+      "sceneId": "C07",
+      "kind": "postChoices",
+      "choiceId": "C07-P3",
+      "actor": "PLAYER",
+      "reactionActor": "NARRATION",
+      "witnesses": [
+        "alexei"
+      ],
+      "visibility": "SPOKEN",
+      "whoHears": [
+        "alexei"
+      ],
+      "reactionSequence": null
+    },
+    {
+      "sceneId": "E02",
+      "kind": "choices",
+      "choiceId": "E02-A",
+      "actor": "PLAYER",
+      "reactionActor": "ekaterina",
+      "witnesses": [
+        "ekaterina"
+      ],
+      "visibility": "SPOKEN",
+      "whoHears": [
+        "ekaterina"
+      ],
+      "reactionSequence": null
+    },
+    {
+      "sceneId": "E02",
+      "kind": "choices",
+      "choiceId": "E02-B",
+      "actor": "PLAYER",
+      "reactionActor": "alexei",
+      "witnesses": [
+        "alexei"
+      ],
+      "visibility": "SPOKEN",
+      "whoHears": [
+        "alexei"
+      ],
+      "reactionSequence": null
+    },
+    {
+      "sceneId": "E02",
+      "kind": "choices",
+      "choiceId": "E02-C",
+      "actor": "PLAYER",
+      "reactionActor": "pavel",
+      "witnesses": [
+        "pavel"
+      ],
+      "visibility": "DELIVERY_NETWORK",
+      "whoHears": [
+        "pavel"
+      ],
+      "reactionSequence": null
+    },
+    {
+      "sceneId": "E02",
+      "kind": "postChoices",
+      "choiceId": "E02-P1",
+      "actor": "PLAYER",
+      "reactionActor": "ekaterina",
+      "witnesses": [
+        "PUBLIC"
+      ],
+      "visibility": "PUBLIC",
+      "whoHears": [
+        "PUBLIC"
+      ],
+      "reactionSequence": null
+    },
+    {
+      "sceneId": "E02",
+      "kind": "postChoices",
+      "choiceId": "E02-P2",
+      "actor": "PLAYER",
+      "reactionActor": "alexei",
+      "witnesses": [
+        "alexei"
+      ],
+      "visibility": "SPOKEN",
+      "whoHears": [
+        "alexei"
+      ],
+      "reactionSequence": null
+    },
+    {
+      "sceneId": "E02",
+      "kind": "postChoices",
+      "choiceId": "E02-P3",
+      "actor": "PLAYER",
+      "reactionActor": "pavel",
+      "witnesses": [
+        "pavel"
+      ],
+      "visibility": "SPOKEN",
+      "whoHears": [
+        "pavel"
+      ],
+      "reactionSequence": null
+    },
+    {
+      "sceneId": "E07",
+      "kind": "choices",
+      "choiceId": "E07-A",
+      "actor": "PLAYER",
+      "reactionActor": "ekaterina",
+      "witnesses": [
+        "PUBLIC"
+      ],
+      "visibility": "PUBLIC",
+      "whoHears": [
+        "PUBLIC"
+      ],
+      "reactionSequence": null
+    },
+    {
+      "sceneId": "E07",
+      "kind": "choices",
+      "choiceId": "E07-B",
+      "actor": "PLAYER",
+      "reactionActor": "alexei",
+      "witnesses": [
+        "alexei"
+      ],
+      "visibility": "SPOKEN",
+      "whoHears": [
+        "alexei"
+      ],
+      "reactionSequence": null
+    },
+    {
+      "sceneId": "E07",
+      "kind": "choices",
+      "choiceId": "E07-C",
+      "actor": "PLAYER",
+      "reactionActor": "pavel",
+      "witnesses": [
+        "pavel"
+      ],
+      "visibility": "DELIVERY_NETWORK",
+      "whoHears": [
+        "pavel"
+      ],
+      "reactionSequence": null
+    },
+    {
+      "sceneId": "E07",
+      "kind": "choices",
+      "choiceId": "E07-D",
+      "actor": "PLAYER",
+      "reactionActor": "ekaterina",
+      "witnesses": [
+        "ekaterina"
+      ],
+      "visibility": "SPOKEN_PRIVATE_TO_NPC",
+      "whoHears": [
+        "ekaterina"
+      ],
+      "reactionSequence": null
+    },
+    {
+      "sceneId": "E07",
+      "kind": "postChoices",
+      "choiceId": "E07-P1",
+      "actor": "PLAYER",
+      "reactionActor": "ekaterina",
+      "witnesses": [
+        "PUBLIC"
+      ],
+      "visibility": "PUBLIC",
+      "whoHears": [
+        "PUBLIC"
+      ],
+      "reactionSequence": null
+    },
+    {
+      "sceneId": "E07",
+      "kind": "postChoices",
+      "choiceId": "E07-P2",
+      "actor": "PLAYER",
+      "reactionActor": "alexei",
+      "witnesses": [
+        "OFFICIAL_RECORD"
+      ],
+      "visibility": "OFFICIAL_RECORD",
+      "whoHears": [
+        "OFFICIAL_RECORD"
+      ],
+      "reactionSequence": null
+    },
+    {
+      "sceneId": "E07",
+      "kind": "postChoices",
+      "choiceId": "E07-P3",
+      "actor": "PLAYER",
+      "reactionActor": "pavel",
+      "witnesses": [
+        "pavel"
+      ],
+      "visibility": "DELIVERY_NETWORK",
+      "whoHears": [
+        "pavel"
+      ],
+      "reactionSequence": null
+    },
+    {
+      "sceneId": "E07",
+      "kind": "postChoices",
+      "choiceId": "E07-P4",
+      "actor": "PLAYER",
+      "reactionActor": "ekaterina",
+      "witnesses": [
+        "ekaterina"
+      ],
+      "visibility": "SPOKEN_PRIVATE_TO_NPC",
+      "whoHears": [
+        "ekaterina"
+      ],
+      "reactionSequence": null
+    }
+  ]
+}

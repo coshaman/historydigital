@@ -30,6 +30,9 @@
         "situationKo": "적재량과 배달 순서를 양쪽에 알렸다.",
         "relations": {
           "work_or_household": "선택한 문제를 함께 확인했다"
+        },
+        "lifeChainDelta": {
+          "dispatchDelay": -1
         }
       }
     },
@@ -48,6 +51,10 @@
         "situationKo": "운임이 높은 주문을 먼저 배달하기로 했다.",
         "relations": {
           "work_or_household": "선택한 문제를 함께 확인했다"
+        },
+        "lifeChainDelta": {
+          "workerKopeks": 1,
+          "affordableMeals": -1
         }
       }
     },
@@ -66,9 +73,33 @@
         "situationKo": "마차 축을 점검한 뒤 출발하기로 했다.",
         "relations": {
           "work_or_household": "선택한 문제를 함께 확인했다"
+        },
+        "lifeChainDelta": {
+          "transportRisk": -1
         }
       }
     }
   ],
-  "completion": "one authorized choice at the named work record"
+  "completion": "one authorized choice at the named work record",
+  "lifeChain": {
+    "id": "MARKET_MEAL_ROUTE_1847",
+    "titleKo": "밀가루가 셋방까지 가는 길",
+    "stage": 4,
+    "stageCount": 6,
+    "previousQuestId": "WAREHOUSE_LOSS_RECORD_1847",
+    "metricsKo": {
+      "affordableMeals": "끼니 부담",
+      "workerKopeks": "일한 사람의 몫",
+      "foodWaste": "버려진 식량",
+      "orderDelay": "주문 지연",
+      "verifiedLoads": "확인한 짐",
+      "unverifiedAccusations": "근거 없는 지목",
+      "dispatchDelay": "운송 지연",
+      "transportRisk": "운송 위험",
+      "householdAccess": "셋방의 식량 접근"
+    }
+  },
+  "prerequisiteQuestIds": [
+    "WAREHOUSE_LOSS_RECORD_1847"
+  ]
 }

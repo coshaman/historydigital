@@ -30,6 +30,10 @@
         "situationKo": "어깨 통증을 알리고 오늘 짐을 거절했다.",
         "relations": {
           "work_or_household": "선택한 문제를 직접 확인했다"
+        },
+        "lifeChainDelta": {
+          "transportRisk": -1,
+          "workerKopeks": -1
         }
       }
     },
@@ -48,6 +52,10 @@
         "situationKo": "동료와 짐을 나눠 들고 품삯을 나누기로 했다.",
         "relations": {
           "work_or_household": "선택한 문제를 직접 확인했다"
+        },
+        "lifeChainDelta": {
+          "transportRisk": -1,
+          "workerKopeks": -1
         }
       }
     },
@@ -66,9 +74,34 @@
         "situationKo": "무거운 짐을 혼자 들고 통증을 작업표에 적었다.",
         "relations": {
           "work_or_household": "선택한 문제를 직접 확인했다"
+        },
+        "lifeChainDelta": {
+          "transportRisk": 1,
+          "workerKopeks": 1
         }
       }
     }
   ],
-  "completion": "one authorized choice at the named market work object"
+  "completion": "one authorized choice at the named market work object",
+  "lifeChain": {
+    "id": "MARKET_MEAL_ROUTE_1847",
+    "titleKo": "밀가루가 셋방까지 가는 길",
+    "stage": 5,
+    "stageCount": 6,
+    "previousQuestId": "CARTER_DELIVERY_DELAY_1847",
+    "metricsKo": {
+      "affordableMeals": "끼니 부담",
+      "workerKopeks": "일한 사람의 몫",
+      "foodWaste": "버려진 식량",
+      "orderDelay": "주문 지연",
+      "verifiedLoads": "확인한 짐",
+      "unverifiedAccusations": "근거 없는 지목",
+      "dispatchDelay": "운송 지연",
+      "transportRisk": "운송 위험",
+      "householdAccess": "셋방의 식량 접근"
+    }
+  },
+  "prerequisiteQuestIds": [
+    "CARTER_DELIVERY_DELAY_1847"
+  ]
 }

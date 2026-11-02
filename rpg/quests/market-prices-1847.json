@@ -30,6 +30,10 @@
         "situationKo": "젖은 채소의 상태를 알리고 가격을 낮췄다.",
         "relations": {
           "work_or_household": "선택한 문제를 직접 확인했다"
+        },
+        "lifeChainDelta": {
+          "affordableMeals": 1,
+          "workerKopeks": -1
         }
       }
     },
@@ -48,6 +52,10 @@
         "situationKo": "젖은 채소 상태를 공개하고 값을 유지했다.",
         "relations": {
           "work_or_household": "선택한 문제를 직접 확인했다"
+        },
+        "lifeChainDelta": {
+          "affordableMeals": -1,
+          "workerKopeks": 1
         }
       }
     },
@@ -66,9 +74,33 @@
         "situationKo": "상한 채소를 골라내고 판매 가능한 것만 남겼다.",
         "relations": {
           "work_or_household": "선택한 문제를 직접 확인했다"
+        },
+        "lifeChainDelta": {
+          "foodWaste": 1
         }
       }
     }
   ],
-  "completion": "one authorized choice at the named market work object"
+  "completion": "one authorized choice at the named market work object",
+  "lifeChain": {
+    "id": "MARKET_MEAL_ROUTE_1847",
+    "titleKo": "밀가루가 셋방까지 가는 길",
+    "stage": 2,
+    "stageCount": 6,
+    "previousQuestId": "BAKERY_FLOUR_1847",
+    "metricsKo": {
+      "affordableMeals": "끼니 부담",
+      "workerKopeks": "일한 사람의 몫",
+      "foodWaste": "버려진 식량",
+      "orderDelay": "주문 지연",
+      "verifiedLoads": "확인한 짐",
+      "unverifiedAccusations": "근거 없는 지목",
+      "dispatchDelay": "운송 지연",
+      "transportRisk": "운송 위험",
+      "householdAccess": "셋방의 식량 접근"
+    }
+  },
+  "prerequisiteQuestIds": [
+    "BAKERY_FLOUR_1847"
+  ]
 }

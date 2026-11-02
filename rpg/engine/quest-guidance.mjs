@@ -1,3 +1,5 @@
+import { questPrerequisitesMet } from './world-presentation.mjs';
+
 const propsOf = object => Object.fromEntries((object?.properties ?? []).map(item => [item.name, item.value]));
 const tileOf = object => ({ x: Math.floor(object.x / 16), y: Math.floor(object.y / 16) });
 const distance = (a, b) => Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
@@ -24,7 +26,6 @@ function walkPath(state, map, target, { radius = 1, targetHostId = null } = {}) 
   }
   return null;
 }
-
 function pathKo(path) {
   if (!path?.length) return '목적지 곁에 있습니다. E를 누르세요.';
   const groups = [];
@@ -90,7 +91,7 @@ export function resolveQuestGuidance({ state, quests, maps, hostCards }) {
   const embodied = state.player.embodiment ? state.hosts[state.player.embodiment] : null;
   const host = embodied ? hostCards.find(card => card.id === embodied.id) : null;
   if (!host) {
-    const availableQuests = quests.filter(item => item.chapterId === state.world.chapterId && (!item.date || item.date <= state.world.date) && state.quests[item.id]?.status !== 'resolved').sort((a,b)=>(a.date??'').localeCompare(b.date??''));
+    const availableQuests = quests.filter(item => item.chapterId === state.world.chapterId && (!item.date || item.date <= state.world.date) && state.quests[item.id]?.status !== 'resolved' && questPrerequisitesMet(state, item)).sort((a,b)=>(a.date??'').localeCompare(b.date??''));
     const observerQuest = availableQuests.find(item => item.entry?.mapId === mapId) ?? availableQuests[0];
     const eligibleIds = observerQuest ? new Set(observerQuest.actions.flatMap(action => action.hostIds)) : null;
     const candidates = Object.values(state.hosts).filter(person => person.historicalAliveAndPresent && (!eligibleIds || eligibleIds.has(person.id)))
@@ -118,7 +119,45 @@ export function resolveQuestGuidance({ state, quests, maps, hostCards }) {
     ? state.world.activeRealm?.id === (quest.realmId ?? quest.chapterId)
     : quest.chapterId === state.world.chapterId)
     .sort((a, b) => (a.date ?? '').localeCompare(b.date ?? ''));
-  const playableCandidates = candidates.filter(item => (!item.date || item.date <= state.world.date) && state.quests[item.id]?.status !== 'resolved');
+  const playableCandidates = candidates.filter(item => (!item.date || item.date <= state.world.date) && state.quests[item.id]?.status !== 'resolved' && questPrerequisitesMet(state, item));
+  // A resident who belongs to a later stage of a personal chain should be
+  // directed to the next stage owner, instead of receiving an unrelated
+  // fallback campaign objective that makes the chain look broken.
+  const lockedChain = candidates.find(item => item.lifeChain
+    && item.actions?.some(action => action.hostIds.includes(host.id))
+    && state.quests[item.id]?.status !== 'resolved'
+    && (!item.date || item.date <= state.world.date)
+    && !questPrerequisitesMet(state, item));
+  if (lockedChain) {
+    const chain = candidates.filter(item => item.lifeChain?.id === lockedChain.lifeChain.id);
+    const nextStage = chain.find(item => state.quests[item.id]?.status !== 'resolved' && questPrerequisitesMet(state, item))
+      ?? chain.find(item => state.quests[item.id]?.status !== 'resolved');
+    const ownerId = nextStage?.actions?.flatMap(action => action.hostIds).find(id => id !== host.id);
+    const owner = ownerId ? state.hosts[ownerId] : null;
+    const ownerCard = hostCards.find(item => item.id === ownerId);
+    if (owner && ownerCard && owner.historicalAliveAndPresent) {
+      const route = routeFrom(mapId, owner.mapId, embodied, maps);
+      if (route?.length) {
+        const exit = route[0], exitMap = maps[exit.mapId];
+        const directions = walkPath(state, exitMap, exit, { radius: 1 });
+        if (directions) return { questId: nextStage.id, phaseId: 'life-chain-switch', hostId: owner.id,
+          questTitleKo: `${lockedChain.lifeChain.titleKo} · ${nextStage.lifeChain.stage}/${nextStage.lifeChain.stageCount}`,
+          taskType: 'TRAVEL', actionKo: `${ownerCard.displayNameKo}가 있는 ${maps[owner.mapId]?.metadata.displayNameKo}로 가세요`,
+          reasonKo: `이 연속 퀘스트는 ${ownerCard.displayNameKo}의 선택에서 시작합니다. 앞 단계를 마치면 다음 사람의 일이 열립니다.`,
+          howKo: `${pathKo(directions)} 현재 몸이 통과할 수 있는 길입니다.`, placeKo: `${maps[owner.mapId]?.metadata.displayNameKo}로 가는 길`,
+          target: { ...exit, kind: 'exit', finalMapId: owner.mapId }, route, progress: { completedSteps: 0, totalSteps: chain.length }, known: true, blocked: false };
+      }
+      if (owner.mapId === mapId) {
+        const directions = walkPath(state, map, owner.position, { radius: 2, targetHostId: owner.id });
+        if (directions) return { questId: nextStage.id, phaseId: 'life-chain-switch', hostId: owner.id,
+          questTitleKo: `${lockedChain.lifeChain.titleKo} · ${nextStage.lifeChain.stage}/${nextStage.lifeChain.stageCount}`,
+          taskType: 'SWITCH', actionKo: `${ownerCard.displayNameKo}에게 몸을 맡기세요`,
+          reasonKo: `이 연속 퀘스트는 ${ownerCard.displayNameKo}의 선택에서 시작합니다. 앞 단계를 마치면 다음 사람의 일이 열립니다.`,
+          howKo: `${pathKo(directions)} 가까이서 E를 눌러 살펴보세요.`, placeKo: maps[mapId].metadata.displayNameKo,
+          target: { mapId, kind: 'npc', npcId: owner.id, ...owner.position }, progress: { completedSteps: 0, totalSteps: chain.length }, known: true, blocked: false };
+      }
+    }
+  }
   const canHostQuest = item => item.actions?.some(action => action.hostIds.includes(host.id));
   const quest = playableCandidates.find(item => item.entry?.mapId === mapId && canHostQuest(item))
     ?? playableCandidates.find(canHostQuest) ?? playableCandidates[0];
@@ -137,7 +176,8 @@ export function resolveQuestGuidance({ state, quests, maps, hostCards }) {
   const entryTarget = entryObject ? { mapId: entryMapId, objectId: entryObject.id, name: entryObject.name, ...tileOf(entryObject), kind: 'object' } : null;
   const completed = state.ledger.filter(entry => entry.questId === quest.id && ['HISTORICAL_ACTION','LITERARY_ACTION'].includes(entry.eventType)).length;
   const total = (quest.actions ?? []).length;
-  const base = { questId: quest.id, phaseId: state.quests[quest.id]?.status ?? 'open', hostId: host.id, questTitleKo: quest.titleKo,
+  const chain = quest.lifeChain;
+  const base = { questId: quest.id, phaseId: state.quests[quest.id]?.status ?? 'open', hostId: host.id, questTitleKo: chain ? `${chain.titleKo} · ${chain.stage}/${chain.stageCount} — ${quest.titleKo}` : quest.titleKo,
     progress: { completedSteps: Math.min(completed, total), totalSteps: Math.max(1,total) }, known: true };
 
   if (!allowed.length) {

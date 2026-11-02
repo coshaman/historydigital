@@ -30,6 +30,10 @@
         "situationKo": "밀가루에 맞춰 빵 수량을 줄였다.",
         "relations": {
           "work_or_household": "선택한 문제를 직접 확인했다"
+        },
+        "lifeChainDelta": {
+          "affordableMeals": 1,
+          "workerKopeks": -1
         }
       }
     },
@@ -48,6 +52,10 @@
         "situationKo": "밀가루를 더 사기 위해 빵값을 올렸다.",
         "relations": {
           "work_or_household": "선택한 문제를 직접 확인했다"
+        },
+        "lifeChainDelta": {
+          "affordableMeals": -1,
+          "workerKopeks": 1
         }
       }
     },
@@ -66,9 +74,30 @@
         "situationKo": "주문을 받은 순서대로 굽고 지연을 알리기로 했다.",
         "relations": {
           "work_or_household": "선택한 문제를 직접 확인했다"
+        },
+        "lifeChainDelta": {
+          "orderDelay": 1
         }
       }
     }
   ],
-  "completion": "one authorized choice at the named market work object"
+  "completion": "one authorized choice at the named market work object",
+  "lifeChain": {
+    "id": "MARKET_MEAL_ROUTE_1847",
+    "titleKo": "밀가루가 셋방까지 가는 길",
+    "stage": 1,
+    "stageCount": 6,
+    "previousQuestId": null,
+    "metricsKo": {
+      "affordableMeals": "끼니 부담",
+      "workerKopeks": "일한 사람의 몫",
+      "foodWaste": "버려진 식량",
+      "orderDelay": "주문 지연",
+      "verifiedLoads": "확인한 짐",
+      "unverifiedAccusations": "근거 없는 지목",
+      "dispatchDelay": "운송 지연",
+      "transportRisk": "운송 위험",
+      "householdAccess": "셋방의 식량 접근"
+    }
+  }
 }

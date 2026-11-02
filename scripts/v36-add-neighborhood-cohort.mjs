@@ -63,6 +63,7 @@ for (const person of people) {
   }[person.id];
   card.speechRegister={firstMeeting:registers[0],colleague:registers[1],private:registers[2],conflict:registers[3],intimacy:registers[4],formal:registers[5]};
   card.sprite={...card.sprite,file:`assets/${person.id}.png`};
+  card.spriteAtlas={...(card.spriteAtlas??{}),file:card.sprite.file,frameWidth:16,frameHeight:24,directions:4,framesPerDirection:3,directionRows:{down:0,up:1,left:2,right:3}};
   const positions={courtyard:[5,13],market:[13,14],printshop:[10,10],chancery:[12,12]};
   let nextMinute=420;
   const at=(mapId,position,activityKo)=>{const atMinute=nextMinute;nextMinute+=180;return {atMinute,mapId,position:{x:position[0],y:position[1]},activityKo};};
