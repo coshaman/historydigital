@@ -1,0 +1,16 @@
+area,baseline invariant,authoritative check,baseline evidence,status
+possession,player controls selected host and release preserves their own routine,rpg/v33 core tests + browser replay,V33_RPG_PHASE1 browser report,PASS_SOURCE_BUILD_ONLY
+quest-guidance,only active accessible actions appear and source prerequisites remain,quest-guidance tests + browser replay,v34 quest tests and current 5-viewport smoke,PASS_SOURCE_BUILD_ONLY
+source-provenance,each source keeps immutable ID/range/url and RU-KO paragraph pairing,source audit + source reader DOM parity,checked-in source records,PASS_DATA_ONLY
+source-read-state,only completed physical/archive reading is recorded; observer and host knowledge remain distinct,game-state tests + source modal close/complete browser replay,33 core tests; no reader screenshot,PARTIAL
+AI-session,session host binding/idempotency/rate limits and authored fallback remain,AI runtime + Vercel function contract tests,27 AI tests and 3 API tests,PASS_MOCK_ONLY
+AI-historical-guard,unsupported years/names/source claims fail closed,AI adversarial tests with sourced 2-3 turn cases,existing AI tests do not cover 6x3 role matrix,PARTIAL
+NPC-pathing,no blocked-tile travel; no occupied tile collision; possession pauses self AI,deterministic 30-minute replay + browser movement capture,33 core tests but no six-host 30-minute report,PARTIAL
+NPC-delivery,only present courier delivers once to present reachable recipient,core delivery tests + replay ledger,current regression tests,PARTIAL
+save-migration,old V34 save loads and new NPC/dialogue/source state resumes exactly,fixture migration test + browser reload,existing save/read browser checks,PARTIAL
+literary-world,literary outcomes stay separate and source gate remains,Overcoat/Dead Souls browser + state tests,source-build browser report,PASS_SOURCE_BUILD_ONLY
+endings,exact five ending IDs, all routes and immutable historical facts,ending matrix + full campaign browser on dist-v33,source-build run passed five routes; dist run pending,PARTIAL
+learning-life,circle choice/exam paths/timeline and promotion consequences remain,learning unit/exam/life tests + browser acceptance,current package tests,NOT_RECHECKED_ON_DIST
+responsive-ui,1440x900/1366x768/390x844/360x800 no horizontal overflow or clipped controls,actual dist-v33 browser geometry + screenshots,earlier source-build smoke only,PARTIAL
+api-secrets,no key/session token in bundle/log/archive/static manifest,static bundle scan + zip scan + sanitized logs,existing ZIP did not include keys; new full audit pending,PARTIAL
+production-deploy,Vercel build output and same-origin API functions deploy from main,Vercel build and live URL health/dialogue verification,vercel.json only; project unavailable,NOT_VERIFIED

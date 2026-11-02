@@ -99,25 +99,37 @@ async function moveNear(mapId, target, maxDistance = 1, extraGoal = () => true) 
   }
   throw new Error(`movement exceeded 160 steps on ${mapId} toward ${JSON.stringify(target)}`);
 }
-async function interact() { await page.keyboard.press('e'); }
+async function interact() { await page.locator('#use').click(); }
 async function possess(hostId) {
-  const state = await snapshot(), host = state.hosts[hostId];
+  let state = await snapshot(), host = state.hosts[hostId];
   assert.ok(host, `unknown host ${hostId}`);
-  assert.equal(host.mapId, state.world.currentMapId, `${hostId} must be physically present before possession`);
-  const competingTargets = mapById[state.world.currentMapId].layers.find(layer => layer.name === 'Interactions').objects.filter(object => object.type === 'source' || object.type === 'map-exit').map(objectTile);
-  await moveNear(state.world.currentMapId, host.position, 2, tile => competingTargets.every(target => distance(tile, target) > 1));
+  if (host.mapId !== state.world.currentMapId) {
+    const exit = findObject(state.world.currentMapId, object => object.type === 'map-exit' && objectProps(object).targetMapId === host.mapId);
+    assert.ok(exit, `${hostId} moved to ${host.mapId}; player needs a legal connected exit from ${state.world.currentMapId}`);
+    await transitionTo(objectProps(exit).exitId, host.mapId);
+    state = await snapshot(); host = state.hosts[hostId];
+    assert.equal(host.mapId, state.world.currentMapId, `${hostId} must be physically present before possession`);
+  }
+  await moveNear(state.world.currentMapId, host.position, 2);
   await interact();
   const personChoice = page.getByRole('button', { name: `${cardById[hostId].displayNameKo} 살펴보기`, exact: false });
   if (await personChoice.count()) await personChoice.click();
+  else {
+    const observed = await page.evaluate(() => ({ headline: document.querySelector('#headline').textContent, actions: [...document.querySelectorAll('#actions button')].map(button => button.innerText) }));
+    assert.ok(observed.headline.includes(cardById[hostId].displayNameKo) || observed.actions.some(label => label.includes(cardById[hostId].displayNameKo)), `interaction did not target ${hostId}: ${JSON.stringify(observed)}`);
+  }
   const borrowAction = page.getByRole('button', { name: '몸을 빌린다' });
   if (!(await borrowAction.count())) {
     const observed = await page.evaluate(() => ({ headline: document.querySelector('#headline').textContent, actions: [...document.querySelectorAll('#actions button')].map(button => button.innerText), body: document.querySelector('#bodyname').textContent }));
     throw new Error(`No possession action for ${hostId}; ${JSON.stringify(observed)}`);
   }
   await borrowAction.click();
-  await page.getByText(`몸을 빌림 · ${cardById[hostId].displayNameKo}`).waitFor();
   const after = await snapshot();
-  assert.equal(after.player.embodiment, hostId);
+  if (after.player.embodiment !== hostId) {
+    const observed = await page.evaluate(() => ({ headline: document.querySelector('#headline').textContent, actions: [...document.querySelectorAll('#actions button')].map(button => button.innerText), body: document.querySelector('#bodyname').textContent, map: document.querySelector('#mapname').textContent, place: document.querySelector('#place').textContent }));
+    throw new Error(`Possession action did not take ${hostId}; state=${after.player.embodiment}; ${JSON.stringify(observed)}`);
+  }
+  await page.getByText(`몸을 빌림 · ${cardById[hostId].displayNameKo}`).waitFor();
   report.steps.push({ type: 'possession', hostId, mapId: after.world.currentMapId, position: after.hosts[hostId].position });
 }
 async function release() {
@@ -129,7 +141,15 @@ async function transitionTo(exitId, targetMapId) {
   const mapId = (await snapshot()).world.currentMapId;
   const exit = findObject(mapId, object => object.type === 'map-exit' && objectProps(object).exitId === exitId);
   await moveNear(mapId, objectTile(exit), 1);
+  const positioned = await snapshot();
+  assert.ok(distance(actorState(positioned).position, objectTile(exit)) <= 1,
+    `transition ${exitId} did not reach the doorway: ${JSON.stringify({ position: actorState(positioned).position, doorway: objectTile(exit), hostId: positioned.player.embodiment })}`);
   await interact();
+  if ((await snapshot()).world.currentMapId !== targetMapId) {
+    const routeChoice = page.getByRole('button', { name: `문을 지나 ${mapById[targetMapId].metadata.displayNameKo}로`, exact: false });
+    assert.ok(await routeChoice.count(), `transition ${exitId} neither changed maps nor exposed its route choice: ${JSON.stringify({ state: await snapshot(), ui: await page.evaluate(() => ({ actions: [...document.querySelectorAll('#actions button')].map(button => button.innerText), place: document.querySelector('#place').textContent, headline: document.querySelector('#headline')?.textContent, journal: document.querySelector('#journal-text')?.textContent, record: document.querySelector('#record')?.textContent, status: document.querySelector('#status')?.textContent })) })}`);
+    await routeChoice.click();
+  }
   await page.waitForFunction(expected => document.querySelector('#place').textContent === expected, mapById[targetMapId].metadata.displayNameKo);
   const state = await snapshot();
   assert.equal(state.world.currentMapId, targetMapId);
@@ -164,12 +184,12 @@ async function readSource(mapId, sourceId, avoidObjectId = null) {
   await interact();
   const source = sourceById.get(sourceId);
   assert.ok(source, `source record ${sourceId} is registered`);
-  await page.getByRole('button', { name: '원문과 번역 펼치기' }).waitFor();
-  assert.equal(await page.locator('#headline').innerText(), source.titleKo);
-  await page.getByRole('button', { name: '원문과 번역 펼치기' }).click();
-  const renderedText = await page.locator('#journal-text').innerText();
+  await page.locator('#source-reader').waitFor({ state: 'visible' });
+  assert.equal(await page.locator('#source-reader-title').innerText(), source.titleKo);
+  const renderedText = await page.locator('#source-reader-passages').innerText();
   assert.ok(renderedText.includes(source.paragraphs[0].ru), `${sourceId} Russian source paragraph rendered`);
   assert.ok(renderedText.includes(source.paragraphs[0].ko), `${sourceId} aligned Korean translation rendered`);
+  await page.locator('#source-reader-complete').click();
   const state = await snapshot();
   assert.ok(state.ledger.some(event => event.sourceId === sourceId), `${sourceId} reading is ledgered`);
   report.steps.push({ type: 'source-read', sourceId, hostId: state.player.embodiment, mapId, titleKo: source.titleKo });
@@ -179,15 +199,39 @@ async function readUnlockedSource(sourceId) {
   assert.ok(source, `source record ${sourceId} is registered`);
   await page.locator('#source-drawer-open').click();
   await page.getByRole('button', { name: source.titleKo, exact: false }).click();
-  await page.getByRole('button', { name: '원문과 번역 펼치기' }).waitFor();
-  await page.getByRole('button', { name: '원문과 번역 펼치기' }).click();
-  const renderedText = await page.locator('#journal-text').innerText();
+  await page.locator('#source-reader').waitFor({ state: 'visible' });
+  const renderedText = await page.locator('#source-reader-passages').innerText();
   assert.ok(renderedText.includes(source.paragraphs[0].ru), `${sourceId} Russian source paragraph rendered in the source drawer`);
   assert.ok(renderedText.includes(source.paragraphs[0].ko), `${sourceId} aligned Korean translation rendered in the source drawer`);
+  await page.locator('#source-reader-complete').click();
   const state = await snapshot();
   assert.ok(state.ledger.some(event => event.sourceId === sourceId && event.hostId === null && event.readingMode === 'PLAYER_ARCHIVE'), `${sourceId} archive reading is recorded as player research, not host knowledge`);
   assert.ok(!state.hosts[state.player.embodiment].knownEvidenceIds.includes(sourceId), `${sourceId} archive reading does not enter the embodied host's memory`);
   report.steps.push({ type: 'archive-source-read', sourceId, hostId: null, embodiedHostId: state.player.embodiment, mapId: state.world.currentMapId, titleKo: source.titleKo });
+}
+async function inspectCaseContext(questId, { readRelatedSourceId = null } = {}) {
+  await page.locator('#case-context-open').waitFor({ state: 'visible' });
+  await page.locator('#case-context-open').click();
+  const visibleContext = await page.locator('#journal-text').innerText();
+  assert.ok(visibleContext.length > 100, `${questId} should show usable case context`);
+  assert.match(visibleContext, /허구|보고서|편지|인쇄|품삯|출처/);
+  if (readRelatedSourceId) {
+    const stateBeforeRead = await snapshot();
+    const related = page.locator('#actions button').filter({ hasText: readRelatedSourceId });
+    await related.waitFor({ state: 'visible' });
+    await related.click();
+    await page.locator('#source-reader').waitFor({ state: 'visible' });
+    const source = sourceById.get(readRelatedSourceId);
+    assert.ok((await page.locator('#source-reader-passages').innerText()).includes(source.paragraphs[0].ru));
+    await page.locator('#source-reader-complete').click();
+    const state = await snapshot();
+    const readEvent = state.ledger.slice(stateBeforeRead.ledger.length).find(event => event.sourceId === readRelatedSourceId);
+    assert.ok(readEvent, `case context opens and records related source ${readRelatedSourceId}`);
+    if (readEvent.readingMode === 'PHYSICAL_COPY') assert.equal(readEvent.hostId, state.player.embodiment);
+    else assert.equal(readEvent.readingMode, 'PLAYER_ARCHIVE');
+    report.steps.push({ type: 'case-related-source-read', questId, sourceId: readRelatedSourceId, readingMode: readEvent.readingMode, hostId: readEvent.hostId ?? null });
+  }
+  report.steps.push({ type: 'case-context-review', questId, hostId: (await snapshot()).player.embodiment, readRelatedSourceId });
 }
 async function completeQuest(questId, actionId, { avoidObjectId = null } = {}) {
   const quest = questById[questId], action = quest.actions.find(item => item.id === actionId);
@@ -240,13 +284,26 @@ try {
   await page.reload({ waitUntil: 'networkidle' });
   await page.waitForSelector('#world');
 
-  // 1847: read the periodical physically and resolve the proof decision.
-  await transitionTo('nevsky-printshop-door', 'printshop');
-  await possess('printer_ekaterina');
-  await readSource('printshop', 'OBJ-SOV-1847', 20);
-  await readSource('printshop', 'LIT-TURGENEV-KHOR-KALYNYCH-1847', 20);
-  const printAction = endingId === 'BELINSKY' ? 'ASK_FOR_SOURCE' : endingId === 'UVAROV' ? 'RETURN_MANUSCRIPT' : 'HOLD_FOR_CORRECTION';
-  await completeQuest('PRINTSHOP_PROOF_1847', printAction);
+  // 1847: Anna reads the case framing as herself; Ekaterina then checks the paper at work.
+  await possess('seamstress_anna');
+  await inspectCaseContext('PRINTSHOP_PROOF_1847', { readRelatedSourceId: 'LIT-TURGENEV-KHOR-KALYNYCH-1847' });
+  let printAction;
+  if (endingId === 'HERZEN') {
+    await transitionTo('nevsky-printshop-door', 'printshop');
+    await readSource('printshop', 'OBJ-SOV-1847', 20);
+    await readSource('printshop', 'LIT-TURGENEV-KHOR-KALYNYCH-1847', 20);
+    printAction = 'ASK_FOR_SOURCE';
+    await completeQuest('PRINTSHOP_PROOF_1847', printAction);
+  } else {
+    await release();
+    await transitionTo('nevsky-printshop-door', 'printshop');
+    await possess('printer_ekaterina');
+    await inspectCaseContext('PRINTSHOP_PROOF_1847', { readRelatedSourceId: 'LIT-TURGENEV-KHOR-KALYNYCH-1847' });
+    await readSource('printshop', 'OBJ-SOV-1847', 20);
+    await readSource('printshop', 'LIT-TURGENEV-KHOR-KALYNYCH-1847', 20);
+    printAction = endingId === 'BELINSKY' ? 'ASK_FOR_SOURCE' : endingId === 'UVAROV' ? 'RETURN_MANUSCRIPT' : 'HOLD_FOR_CORRECTION';
+    await completeQuest('PRINTSHOP_PROOF_1847', printAction);
+  }
   await page.locator('#save').click();
   await page.reload({ waitUntil: 'networkidle' });
   await page.getByText('교정쇄에 남긴 결정').waitFor();
@@ -255,6 +312,7 @@ try {
 
   // 1848: visit the reconstructed editor, then carry the notice as the courier.
   await possess('nekrasov_reconstruction');
+  await inspectCaseContext('PUBLIC_DISCOURSE_1848');
   await transitionTo('printshop-nevsky-door', 'nevsky');
   await release();
   await page.locator('#save').click();
@@ -288,6 +346,7 @@ try {
 
   // 1849: inspect the report and later letter from the clerk's actual office, preserving history.
   await possess('clerk_alexei');
+  await inspectCaseContext('CIRCLE_INVESTIGATION_1849');
   await readSource('chancery', 'OBJ-WS-PETRASHEVSKY-REPORT-1849', 32);
   const reportAction = endingId === 'DOSTOEVSKY_PETRASHEVSKY' ? 'REFUSE_NAMING' : 'FILE_OFFICIAL_REPORT';
   await completeQuest('CIRCLE_INVESTIGATION_1849', reportAction, { avoidObjectId: 33 });

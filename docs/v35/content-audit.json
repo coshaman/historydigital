@@ -1,0 +1,172 @@
+{
+  "schemaVersion": "V35_CONTENT_AUDIT_V1",
+  "status": "PASS",
+  "sourceReaderRecords": 8,
+  "fictionalCharacterProfiles": 6,
+  "caseFlows": 4,
+  "playableRoles": 10,
+  "caseRoleMatrix": [
+    {
+      "questId": "PRINTSHOP_PROOF_1847",
+      "eraDate": "1847-06-01",
+      "roleId": "seamstress_anna",
+      "sourceIds": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847"
+      ],
+      "excerptIds": [
+        "EX-OBJ-SOV-1847-BIB-001",
+        "EX-TURGENEV-KHOR-1847-OPENING-001"
+      ],
+      "authorizedActionIds": [
+        "ASK_FOR_SOURCE"
+      ]
+    },
+    {
+      "questId": "PRINTSHOP_PROOF_1847",
+      "eraDate": "1847-06-01",
+      "roleId": "printer_ekaterina",
+      "sourceIds": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847"
+      ],
+      "excerptIds": [
+        "EX-OBJ-SOV-1847-BIB-001",
+        "EX-TURGENEV-KHOR-1847-OPENING-001"
+      ],
+      "authorizedActionIds": [
+        "RETURN_MANUSCRIPT",
+        "HOLD_FOR_CORRECTION",
+        "ASK_FOR_SOURCE"
+      ]
+    },
+    {
+      "questId": "CIRCLE_INVESTIGATION_1849",
+      "eraDate": "1849-04-22",
+      "roleId": "clerk_alexei",
+      "sourceIds": [
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849"
+      ],
+      "excerptIds": [
+        "EX-PETRASHEVSKY-REPORT-1849-L388-394"
+      ],
+      "authorizedActionIds": [
+        "FILE_OFFICIAL_REPORT",
+        "REFUSE_NAMING"
+      ]
+    },
+    {
+      "questId": "CIRCLE_INVESTIGATION_1849",
+      "eraDate": "1849-04-22",
+      "roleId": "courier_pavel",
+      "sourceIds": [
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849"
+      ],
+      "excerptIds": [
+        "EX-PETRASHEVSKY-REPORT-1849-L388-394"
+      ],
+      "authorizedActionIds": [
+        "REFUSE_NAMING"
+      ]
+    },
+    {
+      "questId": "CIRCLE_LETTER_1849_MAY",
+      "eraDate": "1849-05-05",
+      "roleId": "clerk_alexei",
+      "sourceIds": [
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "excerptIds": [
+        "EX-DUBELT-LETTER-1849-05-05-L127-135"
+      ],
+      "authorizedActionIds": [
+        "PRESERVE_LETTER",
+        "REFUSE_NAMING"
+      ]
+    },
+    {
+      "questId": "CIRCLE_LETTER_1849_MAY",
+      "eraDate": "1849-05-05",
+      "roleId": "courier_pavel",
+      "sourceIds": [
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "excerptIds": [
+        "EX-DUBELT-LETTER-1849-05-05-L127-135"
+      ],
+      "authorizedActionIds": [
+        "PRESERVE_LETTER",
+        "REFUSE_NAMING"
+      ]
+    },
+    {
+      "questId": "PUBLIC_DISCOURSE_1848",
+      "eraDate": "1848-01-01",
+      "roleId": "courier_pavel",
+      "sourceIds": [
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE"
+      ],
+      "excerptIds": [
+        "EX-NEKRASOV-EDITORIAL-1848-L117-119",
+        "EX-NEKRASOV-1849-ANNOUNCEMENT-L182-190"
+      ],
+      "authorizedActionIds": [
+        "CARRY_NOTICE_ABROAD"
+      ]
+    },
+    {
+      "questId": "PUBLIC_DISCOURSE_1848",
+      "eraDate": "1848-01-01",
+      "roleId": "printer_ekaterina",
+      "sourceIds": [
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE"
+      ],
+      "excerptIds": [
+        "EX-NEKRASOV-EDITORIAL-1848-L117-119",
+        "EX-NEKRASOV-1849-ANNOUNCEMENT-L182-190"
+      ],
+      "authorizedActionIds": [
+        "KEEP_LOCAL_READING",
+        "HOLD_NOTICE"
+      ]
+    },
+    {
+      "questId": "PUBLIC_DISCOURSE_1848",
+      "eraDate": "1848-01-01",
+      "roleId": "bookseller_lev",
+      "sourceIds": [
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE"
+      ],
+      "excerptIds": [
+        "EX-NEKRASOV-EDITORIAL-1848-L117-119",
+        "EX-NEKRASOV-1849-ANNOUNCEMENT-L182-190"
+      ],
+      "authorizedActionIds": [
+        "KEEP_LOCAL_READING",
+        "HOLD_NOTICE"
+      ]
+    },
+    {
+      "questId": "PUBLIC_DISCOURSE_1848",
+      "eraDate": "1848-01-01",
+      "roleId": "nekrasov_reconstruction",
+      "sourceIds": [
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE"
+      ],
+      "excerptIds": [
+        "EX-NEKRASOV-EDITORIAL-1848-L117-119",
+        "EX-NEKRASOV-1849-ANNOUNCEMENT-L182-190"
+      ],
+      "authorizedActionIds": [
+        "KEEP_LOCAL_READING",
+        "HOLD_NOTICE"
+      ]
+    }
+  ],
+  "immutableEndingCount": 5,
+  "inspectedSourceMetadataOnly": true
+}

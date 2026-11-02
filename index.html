@@ -24,6 +24,14 @@
     <section class="journal-tab-panel" data-journal-panel="sources" hidden><h3>읽은 자료</h3><ul id="journal-sources"></ul></section>
     <section class="journal-tab-panel" data-journal-panel="history" hidden><h3>지난 기록</h3><ol id="journal-history"></ol></section>
   </dialog>
+  <dialog id="source-reader" class="source-reader" aria-labelledby="source-reader-title">
+    <header class="source-reader-head"><div><span class="source-reader-kicker" id="source-reader-meta"></span><h2 id="source-reader-title"></h2><p id="source-reader-title-ru" lang="ru"></p><p id="source-reader-context"></p></div><button id="source-reader-close" type="button" aria-label="자료 닫기">닫기 <kbd>Esc</kbd></button></header>
+    <div class="source-reader-tools" role="group" aria-label="본문 표시 방식"><span>읽기 방식</span><button type="button" data-reading-mode="bilingual" aria-pressed="true">원문과 번역</button><button type="button" data-reading-mode="ko" aria-pressed="false">한국어 중심</button><button type="button" data-reading-mode="ru" aria-pressed="false">원문 중심</button></div>
+    <section class="source-reader-citation" aria-label="자료 식별 정보"><span id="source-reader-ids"></span><span id="source-reader-dates"></span><span id="source-reader-reconstruction"></span></section>
+    <div id="source-reader-passages" class="source-reader-passages"></div>
+    <details class="source-reader-provenance"><summary>판본과 출처</summary><p id="source-reader-provenance-text"></p></details><nav id="source-reader-links" class="source-reader-links" aria-label="원문 링크"></nav>
+    <footer class="source-reader-actions"><span id="source-reader-status">원문과 번역을 읽은 뒤 수첩에 남기세요.</span><button id="source-reader-complete" type="button">읽고 수첩에 남기기</button></footer>
+  </dialog>
   <section id="ending-screen" class="ending-screen" aria-labelledby="ending-title" hidden>
     <article class="ending-document" role="dialog" aria-modal="true" aria-labelledby="ending-title">
       <header class="ending-document-head"><span id="ending-date" class="ending-date"></span><span class="ending-stamp">현장 기록 · 보존본</span></header>

@@ -1,0 +1,10 @@
+{
+  "schemaVersion": "V35_API_LIVE_SMOKE_V1",
+  "status": "PASS",
+  "providerModel": "gpt-5.4-mini",
+  "paidGenerations": 1,
+  "responseValidated": true,
+  "secretPrinted": false,
+  "dialoguePersisted": false,
+  "diagnosis": "The local server key and provider path work. The prior public GitHub Pages host cannot execute this repository's Vercel Node Functions; see API_FAILURE_DIAGNOSIS.md."
+}

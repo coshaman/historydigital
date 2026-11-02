@@ -54,13 +54,19 @@ function send(res, result, origin) {
 }
 
 async function handle(req, res) {
+  const route = new URL(req.url, `https://${req.headers.host || 'localhost'}`).pathname;
+  // Allow a read-only health probe from the address bar and uptime monitors.
+  // Stateful game routes still require a same-origin browser request below.
+  if (req.method === 'GET' && route === '/api/rpg/health' && !req.headers.origin) {
+    const configured = Boolean(process.env.OPENAI_API_KEY);
+    return send(res, { status: 200, headers: { 'cache-control': 'no-store' }, body: { status: 'ok', ai: configured ? 'configured' : 'BLOCKED_NO_KEY' } }, '');
+  }
   const origin = requestOrigin(req);
   if (req.method === 'OPTIONS') return send(res, { status: 204, headers: {}, body: {} }, origin);
   if (!origin) return send(res, { status: 403, headers: {}, body: { error: 'same_origin_required' } }, '');
   const key = process.env.OPENAI_API_KEY || '';
   const secret = sessionSecret(key);
   const store = new MemorySessionStore();
-  const route = new URL(req.url, origin).pathname;
   const isDialogue = route === '/api/rpg/dialogue';
   let capsule = null;
   if (isDialogue) {

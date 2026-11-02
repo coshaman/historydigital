@@ -1,8 +1,12 @@
 import { spawn, spawnSync } from 'node:child_process';
+import { access } from 'node:fs/promises';
+import path from 'node:path';
 import { createServer } from 'node:net';
 import { setTimeout as delay } from 'node:timers/promises';
 
 const root = process.cwd();
+const staticRoot = path.join(root, 'dist-v33');
+await access(path.join(staticRoot, 'index.html')).catch(() => { throw new Error('Build the release artifact first with npm run build:v33; browser acceptance serves dist-v33, not the source checkout.'); });
 const portProbe = createServer();
 await new Promise((resolve, reject) => {
   portProbe.once('error', reject);
@@ -13,7 +17,7 @@ await new Promise((resolve, reject) => portProbe.close(error => error ? reject(e
 
 const server = spawn(process.execPath, ['server.mjs'], {
   cwd: root,
-  env: { ...process.env, CHANCERY_PORT: String(port) },
+  env: { ...process.env, CHANCERY_PORT: String(port), CHANCERY_STATIC_ROOT: staticRoot },
   stdio: ['ignore', 'ignore', 'inherit'],
   windowsHide: true,
 });
@@ -33,11 +37,15 @@ try {
 
   const campaignCase = process.argv.find(argument => argument.startsWith('--campaign-case='))?.slice('--campaign-case='.length);
   const overcoatOnly = process.argv.includes('--overcoat-only');
-  const scripts = overcoatOnly
+const atmosphereOnly = process.argv.includes('--atmosphere-only');
+const scripts = atmosphereOnly
+    ? [['scripts/v33-atmosphere-browser.mjs']]
+    : overcoatOnly
     ? [['scripts/v33-overcoat-browser-smoke.mjs']]
     : campaignCase
     ? [['scripts/v33-campaign-browser-acceptance.mjs', `--case=${campaignCase}`]]
     : [
+    'scripts/v33-atmosphere-browser.mjs',
     'scripts/v33-interpersonal-dialogue-browser.mjs',
     'scripts/v33-rpg-browser-smoke.mjs',
     'scripts/v33-overcoat-browser-smoke.mjs',

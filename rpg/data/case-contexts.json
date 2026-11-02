@@ -1,0 +1,154 @@
+{
+  "schemaVersion": "V35_CASE_CONTEXTS_V1",
+  "scopeNoteKo": "생활 장면과 새로 쓴 대사는 게임 속 허구 설정이다. 역사 주장과 원문은 연결된 sourceId와 claimId에만 근거한다.",
+  "cases": [
+    {
+      "questId": "PRINTSHOP_PROOF_1847",
+      "eraDate": "1847-06-01",
+      "sourceIds": ["OBJ-SOV-1847", "LIT-TURGENEV-KHOR-KALYNYCH-1847"],
+      "claimIds": [],
+      "historicalBoundaryKo": "《현대인》의 제1호와 「호리와 칼리니치」의 간행은 서지와 문학 원문으로 확인한다. 아래 인쇄소의 교정쇄·수선 일감·대화는 게임을 위한 허구이며 실제 인쇄소 직원의 증언이 아니다.",
+      "playerFacing": {
+        "sceneTitleKo": "교정쇄와 오늘 품삯",
+        "premiseKo": "작업대에는 편집실로 돌아가야 할 교정쇄 사본이 놓여 있다. 교정 노동자와 수선 일을 맡긴 안나는 각자 다른 이유로 이 종이를 기다린다.",
+        "stakesKo": "사본을 바로 돌려보내면 마감은 지킬 수 있지만 확인할 시간은 줄어든다. 작업대에 두면 동료가 살필 수 있으나 결정이 늦어진다. 안나에게는 오늘 받을 수선값과 다음 일감이 걸려 있다.",
+        "decisionQuestionKo": "누가 문장을 확인하고, 지연의 부담은 누가 감당해야 할까?",
+        "firstLeadId": "printer_ekaterina"
+      },
+      "roles": {
+        "seamstress_anna": {
+          "entrySituationKo": "안나는 맡긴 옷의 수선값을 아직 받지 못했다. 이 설정에서 그녀는 인쇄소에 들러 대금을 확인하고 다음 일감도 알아보려 한다.",
+          "goalKo": "수선값을 확인하고 다음 일을 구하되, 허락 없이 남의 교정쇄를 읽었다고 여겨지지 않는 것.",
+          "personalStakesKo": "문장 확인을 돕느라 시간을 쓰면 오늘 품삯이 늦어질 수 있고, 서둘러 넘기면 문제를 발견할 기회를 놓칠 수 있다.",
+          "knowledgeKinds": ["private: ANNA_WORK_ORDER", "direct_read: LIT-TURGENEV-KHOR-KALYNYCH-1847 후 실제 읽기 완료 시"],
+          "discussionQuestions": ["오늘 품삯이 걸렸는데도 문장을 확인할 이유가 있을까?", "호리의 생활을 그린 소설을 안나 자신의 처지와 같다고 볼 수 있을까?"],
+          "authorizedActionIds": ["ASK_FOR_SOURCE"]
+        },
+        "printer_ekaterina": {
+          "entrySituationKo": "예카테리나는 교정쇄를 편집실로 돌려보낼지, 눈에 걸린 문장을 더 확인할지 정해야 한다. 인쇄비와 다음 주문도 기다리고 있다.",
+          "goalKo": "자기가 실제로 손댄 문장과 편집부가 정한 내용을 가르고, 전달 책임자를 확인하는 것.",
+          "personalStakesKo": "반납하면 작업은 진행되지만 확인이 끝나지 않는다. 보류하면 동료가 다시 읽을 수 있으나 마감과 수입이 늦어질 수 있다.",
+          "knowledgeKinds": ["private: EKATERINA_PROOF_ORDER", "direct_read: OBJ-SOV-1847 또는 LIT-TURGENEV-KHOR-KALYNYCH-1847 후 실제 읽기 완료 시"],
+          "discussionQuestions": ["교정 노동자는 자신이 고치지 않은 문장까지 책임져야 할까?", "소설 속 농노와 지주의 관계를 어떤 문장으로 독자에게 보여줄지 누가 정해야 할까?"],
+          "authorizedActionIds": ["RETURN_MANUSCRIPT", "HOLD_FOR_CORRECTION", "ASK_FOR_SOURCE"]
+        }
+      },
+      "followupSource": "rpg/quests/printshop-article.json#actions"
+    },
+    {
+      "questId": "CIRCLE_INVESTIGATION_1849",
+      "eraDate": "1849-04-22",
+      "sourceIds": ["OBJ-WS-PETRASHEVSKY-REPORT-1849"],
+      "claimIds": ["REPORT-APRIL22", "REPORT-INFORMANT", "REPORT-SECRET-COMMISSION", "REPORT-ARRESTS"],
+      "historicalBoundaryKo": "사료는 조사기관이 편찬한 보고다. 정보원의 평가·혐의·명령을 그 문서가 그렇게 적었다고 설명하며, 중립적인 모임 기록이나 독립적으로 입증된 혐의라고 바꾸지 않는다.",
+      "playerFacing": {
+        "sceneTitleKo": "보고서에 적힌 말과 확인된 사실",
+        "premiseKo": "관청에 도착한 조사 보고서는 4월 22일 모임에서 검열을 논의했다고 적은 뒤, 정보원의 보고와 체포 명령을 이어 적는다. 문서는 서로 다른 출처의 말을 한 장부에 묶었다.",
+        "stakesKo": "보고서를 접수하면 공식 등록부와 담당자의 이름에 남는다. 확인되지 않은 이름을 보류하면 전달이 늦어지고 상급자의 질문을 받을 수 있다.",
+        "decisionQuestionKo": "보고서의 주장을 어떤 출처 표기와 함께 남겨야 할까?",
+        "firstLeadId": "OBJ-WS-PETRASHEVSKY-REPORT-1849"
+      },
+      "roles": {
+        "clerk_alexei": {
+          "entrySituationKo": "알렉세이는 문서를 접수하고 출처와 담당자를 대조하는 서기다. 보고서의 서술, 정보원의 주장을, 직접 확인된 사실처럼 한데 적어도 되는지가 문제다.",
+          "goalKo": "원문을 등록하면서 누가 어떤 내용을 주장했는지 구분하고, 자기 권한 밖의 판단을 서명으로 확정하지 않는 것.",
+          "personalStakesKo": "공식 접수는 문서의 경로를 남기지만 자신도 기록 책임을 진다. 이름을 보류하면 상급자에게 지연 사유를 설명해야 한다.",
+          "knowledgeKinds": ["direct_read: OBJ-WS-PETRASHEVSKY-REPORT-1849 후 실제 읽기 완료 시", "unknown: 보고서 밖의 모임 참석자 생각과 정보원의 진실성"],
+          "discussionQuestions": ["관청 보고서가 누군가의 말을 옮길 때, 문서의 서기는 주장의 출처를 어디까지 밝혀야 할까?", "이름을 보류하는 일이 사람을 보호할까, 조사 기록을 불완전하게 만들까?"],
+          "authorizedActionIds": ["FILE_OFFICIAL_REPORT", "REFUSE_NAMING"]
+        },
+        "courier_pavel": {
+          "entrySituationKo": "파벨은 봉인된 문서와 전달 경로를 맡는다. 봉투나 보고서 내용을 읽었다고 가정하지 않는다.",
+          "goalKo": "봉인과 수취 경로를 온전히 지키고, 받은 문서의 내용 판단은 담당자에게 맡기는 것.",
+          "personalStakesKo": "봉투를 열지 않는 것은 배달 규칙을 지키지만, 누구에게 전달했는지는 기록에 남는다.",
+          "knowledgeKinds": ["private: PAVEL_CLOSED_ENVELOPE", "unknown: 봉인 안의 문구와 보고서 작성자의 판단"],
+          "discussionQuestions": ["전달자는 봉투 내용 대신 어떤 경로를 정확히 남길 수 있을까?", "봉인이 온전하다는 기록만으로 전달 책임은 충분할까?"],
+          "authorizedActionIds": ["REFUSE_NAMING"]
+        }
+      },
+      "followupSource": "rpg/quests/circle-investigation-1849.json#actions"
+    },
+    {
+      "questId": "CIRCLE_LETTER_1849_MAY",
+      "eraDate": "1849-05-05",
+      "sourceIds": ["OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"],
+      "claimIds": ["DUBELT-LETTER-DATE", "DUBELT-LETTER-ORDER"],
+      "historicalBoundaryKo": "이는 두벨트가 나보코프에게 보낸 비밀 편지의 현대 전사문이다. 서신의 지시를 인물의 직접 확인이나 중립적 판결로 바꾸지 않는다.",
+      "playerFacing": {
+        "sceneTitleKo": "봉투 안의 지시와 장부의 이름",
+        "premiseKo": "5월 5일자 편지는 안드레이 도스토옙스키가 잘못 체포되었으니 미하일을 체포하고 서류를 봉인해 보내라고 지시한다. 이제 서기는 원문과 전달 경로를 어떻게 기록할지 결정한다.",
+        "stakesKo": "원문과 경로를 함께 보존하면 다음 담당자는 지시의 출처를 확인할 수 있다. 새 장부에 이름을 옮기지 않으면 확인을 요구하는 책임과 지연이 남는다.",
+        "decisionQuestionKo": "비밀 편지의 지시를 충실히 옮기는 것과 이름을 더 퍼뜨리지 않는 것 중 어떤 기록을 남길까?",
+        "firstLeadId": "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      },
+      "roles": {
+        "clerk_alexei": {
+          "entrySituationKo": "알렉세이는 편지 작성자, 수신자, 날짜, 봉인과 인계 경로를 원문에서 확인할 수 있다. 지시가 옳았는지 판단하는 권한까지 가진 것은 아니다.",
+          "goalKo": "출처와 지시를 분리해 보존하고 공식 문서가 무엇을 명령했는지 정확히 남기는 것.",
+          "personalStakesKo": "사본 대장에 올리면 책임이 이름과 함께 남는다. 색인에서 이름을 보류하면 전달 누락과 지연을 설명해야 한다.",
+          "knowledgeKinds": ["direct_read: OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849 후 실제 읽기 완료 시", "unknown: 편지 바깥에서 체포가 집행된 전체 경위"],
+          "discussionQuestions": ["지시를 기록하는 서기는 지시의 주장과 확인된 사건을 어떻게 나눠야 할까?", "원문을 보존하면서 색인에 이름을 다시 쓰지 않을 수 있을까?"],
+          "authorizedActionIds": ["PRESERVE_LETTER", "REFUSE_NAMING"]
+        },
+        "courier_pavel": {
+          "entrySituationKo": "파벨은 편지가 봉인되어 있을 때 내용을 모른다. 실제로 열람이 끝난 뒤에만 화면의 원문에 관해 이야기할 수 있다.",
+          "goalKo": "전달한 사람과 받은 사람, 봉인 상태와 경로를 정확하게 구분하는 것.",
+          "personalStakesKo": "전달 확인을 적으면 책임은 분명해지지만, 읽지 않은 내용까지 자기 말로 보증해서는 안 된다.",
+          "knowledgeKinds": ["private: PAVEL_CLOSED_ENVELOPE", "direct_read: 문서를 실제로 열람한 이후에만 공개된 내용", "unknown: 문서에 없는 집행 상황"],
+          "discussionQuestions": ["내용을 모르는 배달원은 어떤 사실을 자신 있게 말할 수 있을까?", "전달 경로를 보존하는 것과 이름을 널리 옮기는 것은 어떻게 다를까?"],
+          "authorizedActionIds": ["PRESERVE_LETTER", "REFUSE_NAMING"]
+        }
+      },
+      "followupSource": "rpg/quests/circle-letter-1849-may.json#actions"
+    },
+    {
+      "questId": "PUBLIC_DISCOURSE_1848",
+      "eraDate": "1848-01-01",
+      "sourceIds": ["OBJ-WS-NEKRASOV-EDITORIAL-1848", "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE"],
+      "claimIds": ["NOTICE48-DISTRIBUTION", "NOTICE49-DISTRIBUTION-ROUTE"],
+      "historicalBoundaryKo": "편집부 공지는 배송 지연과 구독자 응대를 설명한다. 이 문서들은 지연을 검열 탓으로 돌리지 않는다. 1849년 발행 안내는 1848년에 작성된 별도 공고다.",
+      "playerFacing": {
+        "sceneTitleKo": "늦게 도착한 잡지와 구독자의 항의",
+        "premiseKo": "편집부는 지방에서 첫 호가 늦게 도착했다는 항의를 받고 발송 시각과 수령 확인표를 살폈다. 공고는 조사와 재발송 방침을 알리지만, 모든 묶음이 제때 도착했다고 보증하지는 않는다.",
+        "stakesKo": "공고 사본을 지방행 묶음에 넣으면 발송 기록과 비용이 남고 작업장을 떠난다. 가게에서 함께 읽으면 가까운 독자에게만 닿고, 보관하면 내용 확인을 기다리는 동안 발송이 늦어진다.",
+        "decisionQuestionKo": "배송 문제를 알리는 이 공고를 어디까지, 누구에게 전할까?",
+        "firstLeadId": "OBJ-WS-NEKRASOV-EDITORIAL-1848"
+      },
+      "roles": {
+        "courier_pavel": {
+          "entrySituationKo": "파벨은 공고 사본 한 부를 지방행 묶음에 넣으라는 부탁을 받았다. 실제 배송이 성공할지, 편집부가 설명한 원인이 옳은지는 알 수 없다.",
+          "goalKo": "봉투와 주소, 발송비를 확인하고 수령 결과를 약속하지 않는 것.",
+          "personalStakesKo": "사본을 맡으면 배달표에 한 부가 기록되고 품삯과 시간이 든다. 주소가 흐리면 왕복이 늦어질 수 있다.",
+          "knowledgeKinds": ["private: PAVEL_POSTAL_ROUTE", "direct_read: 공고를 실제로 읽은 이후 문서에 적힌 배송 절차", "unknown: 실제 수취 결과와 편집부 밖의 원인"],
+          "discussionQuestions": ["배송을 맡은 사람은 도착을 보장하지 못할 때 어떤 확인을 남겨야 할까?", "공고 사본 한 부를 더 보내면 누구의 비용과 시간이 드나?"],
+          "authorizedActionIds": ["CARRY_NOTICE_ABROAD"]
+        },
+        "printer_ekaterina": {
+          "entrySituationKo": "예카테리나는 공고 사본의 보관·발송 여부를 정할 수 있지만, 지방 우체국의 실제 처리 과정을 직접 확인하지 못한다.",
+          "goalKo": "읽은 문장과 인쇄·전달 책임을 구분하고, 납기와 독자의 필요를 함께 살피는 것.",
+          "personalStakesKo": "함께 읽으면 소식은 가게에 머문다. 보관하면 밖으로 전달되지 않고, 다음 작업에 쓸 시간이 줄어든다.",
+          "knowledgeKinds": ["direct_read: OBJ-WS-NEKRASOV-EDITORIAL-1848 실제 열람 후", "unknown: 공고 밖의 배송 원인과 수취 결과"],
+          "discussionQuestions": ["공고가 약속한 것과 실제 배달원이 보장할 수 있는 것은 어떻게 다를까?", "읽을 사람을 먼저 모으는 것과 발송 마감을 지키는 것 중 무엇이 급할까?"],
+          "authorizedActionIds": ["KEEP_LOCAL_READING", "HOLD_NOTICE"]
+        },
+        "bookseller_lev": {
+          "entrySituationKo": "레프는 잡지 묶음의 외상값과 반품 기한을 계산한다. 배송 문제는 장부의 재고와 독자의 신뢰에도 영향을 준다.",
+          "goalKo": "공고를 실제로 필요한 독자에게 보여주면서, 팔리지 않은 묶음의 위험도 숨기지 않는 것.",
+          "personalStakesKo": "가게 안에서 읽으면 비용과 전달 범위는 작지만, 지방 독자는 소식을 받지 못한다. 보관하면 발송 기한과 반품 기한이 함께 다가온다.",
+          "knowledgeKinds": ["private: LEV_STOCK_NOTE", "direct_read: 공고를 실제로 읽은 이후 문서에 적힌 배송 안내", "unknown: 지방 구독자가 실제로 받은 날짜"],
+          "discussionQuestions": ["독자가 아직 받지 못한 잡지의 값을 먼저 청구해도 될까?", "배송 약속이 틀렸을 때 손해를 누가 먼저 떠안나?"],
+          "authorizedActionIds": ["KEEP_LOCAL_READING", "HOLD_NOTICE"]
+        },
+        "nekrasov_reconstruction": {
+          "entrySituationKo": "이 인물은 1848년 편집부 공지를 바탕으로 한 허구 재구성이다. 문서에 적힌 배송 지연·수령 확인·재발송만 설명하고 사적인 생각을 덧붙이지 않는다.",
+          "goalKo": "구독자에게 공고의 약속과 실제 기록의 범위를 함께 알리는 것.",
+          "personalStakesKo": "공고는 편집부의 설명이므로, 독자가 이를 개별 배달의 보증으로 받아들이지 않게 해야 한다.",
+          "knowledgeKinds": ["source: OBJ-WS-NEKRASOV-EDITORIAL-1848", "source: OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE", "unknown: 확인되지 않은 사적 대화와 이후의 개별 배송 결과"],
+          "discussionQuestions": ["편집부는 수령 확인을 왜 구독자에게 요청했을까?", "문서의 약속과 확인된 배송 결과를 어떻게 구분해 전할까?"],
+          "authorizedActionIds": ["KEEP_LOCAL_READING", "HOLD_NOTICE"]
+        }
+      },
+      "followupSource": "rpg/quests/public-discourse-1848.json#actions"
+    }
+  ]
+}

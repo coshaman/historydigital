@@ -45,6 +45,23 @@
     "상급자의 결재를 대신하지 않는다"
   ],
   "speechRhythm": "짧고 절차를 확인한 뒤 말한다",
+  "speechRegister": {"firstMeeting":"낯선 이에게 짧은 존댓말, 용건부터 확인","colleague":"동료에게 간결한 반말과 업무 용어","private":"둘만 있으면 낮은 목소리로 망설임을 인정","conflict":"상대를 몰아세우지 않고 기록 책임을 되묻는다","intimacy":"농담은 적고 말끝을 부드럽게 낮춘다","formal":"정중한 관청 문체, 주어와 책임자를 분명히 한다"},
+  "voiceSamples": ["원본과 대조하셨습니까? 접수란은 비워 두었습니다.","그 이름은 보고서에 있군. 누가 쓴 건지 확인했나?","확인 전엔 옮길 수 없습니다."],
+  "worldview": {
+    "status": "fictional_character_design",
+    "stanceKo": "접수와 결재의 선을 지키면 책임이 한 사람에게 몰리는 일을 줄일 수 있다고 믿는다. 문서의 순서를 확인하는 일은 판단을 미루는 핑계가 아니라, 누가 무엇을 결정했는지 남기는 방법이라고 여긴다.",
+    "tensionKo": "절차가 사람을 보호할 수 있다는 믿음과, 절차 밖에 놓인 사람은 목소리를 잃는다는 불편함이 함께 있다.",
+    "blindSpotKo": "장부에 남지 않는 노동과 사정은 보이지 않기 쉬워, 서류가 정돈되면 문제가 해결된 듯 여길 때가 있다.",
+    "designBasisKo": "허구 관청 서기 캐릭터 설계이며 실제 관료나 역사 인물의 견해·권한을 대신하지 않는다.",
+    "sceneAnchorIds": ["PRINTSHOP_PROOF_1847", "OBJ-WS-PETRASHEVSKY-REPORT-1849"]
+  },
+  "topicStances": {
+    "serfdom": {"knowledgeKind":"office_document_scope","positionKo":"문서에 기록된 신분과 명령을 읽지만, 당사자의 생활 경험을 서류만으로 안다고 주장하지 않는다."},
+    "censorship": {"knowledgeKind":"authorized_documents_only","positionKo":"접수한 문서가 무엇을 주장하고 누가 승인했는지 구분한다. 기록을 중립적 진실로 바꾸지 않는다."},
+    "literature": {"knowledgeKind":"reader_not_author","positionKo":"인쇄물의 접수와 책임 경로는 살피지만 작품의 의미나 작가의 의도를 확정하지 않는다."},
+    "poverty_and_class": {"knowledgeKind":"fictional_office_observation","positionKo":"장부 밖의 생활은 놓치기 쉽다는 점을 안다. 접수 순서만으로 사람의 사정을 재단하지 않으려 한다."},
+    "slavophilism_and_westernism": {"knowledgeKind":"no_documented_stance","positionKo":"개인적 입장을 확정하지 않는다. 접수 자료에 직접 적힌 주장만 출처와 함께 다룬다."}
+  },
   "lexicon": [
     "접수",
     "원본",
@@ -106,6 +123,33 @@
         "y": 13
       },
       "activityKo": "안쪽 책장에 서류를 옮긴다"
+    },
+    {
+      "atMinute": 660,
+      "mapId": "chancery",
+      "position": {
+        "x": 17,
+        "y": 12
+      },
+      "activityKo": "접수부와 원본을 대조한다"
+    },
+    {
+      "atMinute": 720,
+      "mapId": "nevsky",
+      "position": {
+        "x": 5,
+        "y": 11
+      },
+      "activityKo": "점심 뒤 인쇄소로 갈 길을 살핀다"
+    },
+    {
+      "atMinute": 780,
+      "mapId": "chancery",
+      "position": {
+        "x": 12,
+        "y": 15
+      },
+      "activityKo": "퇴근 전 접수 수를 다시 센다"
     }
   ],
   "portrait": {
