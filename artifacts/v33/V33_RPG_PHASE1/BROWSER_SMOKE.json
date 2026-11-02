@@ -414,7 +414,7 @@
       "canvas": {
         "width": 368,
         "height": 377,
-        "sampledColors": 26,
+        "sampledColors": 25,
         "mapCoverage": 1,
         "cssTileScale": 0.7666666666666667
       },
@@ -549,7 +549,7 @@
     },
     "choiceResolved": true,
     "routeCoverage": {
-      "movementInputs": 41,
+      "movementInputs": 39,
       "objectInspections": 7,
       "sourceReads": 2,
       "hostIds": [

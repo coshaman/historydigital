@@ -1,0 +1,183 @@
+{
+  "id": "housemaid_olga",
+  "kind": "FICTIONAL",
+  "displayNameKo": "올가",
+  "displayNameRu": "Ольга Андреева",
+  "ageAtDate": {
+    "value": 29,
+    "status": "fictional_character_design"
+  },
+  "socialEstate": "urban_laborer",
+  "occupation": "하숙집과 셋방을 오가며 청소와 심부름을 맡는 가사 노동자",
+  "rank": {
+    "value": null,
+    "ru": null,
+    "status": "not_applicable"
+  },
+  "legalMobility": "시장과 공개 거리, 안뜰 통로만 이용하는 허구 인물; 고용·가격·관청 결정 권한은 맡지 않는다.",
+  "wealthBracket": "precarious",
+  "money": {
+    "amount": 14,
+    "unit": "kopeks",
+    "status": "designedEstimate"
+  },
+  "literacy": "자기 일과 관련된 표식·계산표를 읽는다. 문해력 범위는 허구 인물 설정이다.",
+  "health": "working",
+  "reputationByGroup": {
+    "neighbors": "known_by_daily_work"
+  },
+  "risk": "일감을 잃거나 이웃의 신뢰를 잃을 가능성을 함께 계산한다.",
+  "relations": {},
+  "secretKnowledge": [
+    {
+      "id": "HOUSEMAID_OLGA_PRIVATE_NOTE",
+      "summaryKo": "고용주가 세입자 한 사람의 방을 비우려는 듯한 말을 했지만, 올가는 전체 대화를 듣지 못했다."
+    }
+  ],
+  "knownEvidence": [],
+  "privateKnowledgeIds": [
+    "HOUSEMAID_OLGA_PRIVATE_NOTE"
+  ],
+  "knownEvidenceIds": [],
+  "desires": "남을 돕는다는 이유로 우연히 들은 사적인 말을 전해도 될까요?",
+  "fears": "올가는 고용주 집에서 들은 말을 세입자에게 전할지 고민한다. 직접 본 사실과 우연히 들은 사적인 말을 나눠야 한다.",
+  "taboos": [
+    "확인하지 않은 사람의 사정을 대신 단정하지 않는다."
+  ],
+  "speechRhythm": "집안일 순서와 사람의 표정을 기억한다. 말을 아끼다가 구체적인 위험을 물으면 짧게 답한다.",
+  "speechRegister": {
+    "firstMeeting": "낯선 이에게 용건부터 묻고 집안 규칙을 알려준다.",
+    "colleague": "함께 일하는 사람과는 말이 짧아지고 서로 맡은 일을 확인한다.",
+    "private": "믿는 사람에게만 들은 말과 걱정을 조심스레 털어놓는다.",
+    "conflict": "직접 본 일과 들은 말을 나누며 소문을 옮기지 말자고 한다.",
+    "intimacy": "가까운 사람에게는 짧은 농담과 다정한 부탁이 섞인다.",
+    "formal": "고용주 앞에서는 예의를 갖추되 맡은 일과 시간을 분명히 말한다."
+  },
+  "voiceSamples": [
+    "물동이는 문 옆에 두세요. 바닥부터 닦아야 해요. 무슨 일로 찾으셨어요?",
+    "집주인 댁에서 들은 말이 하나 있어요. 확실한 위협인지, 내가 잘못 알아들은 건지 먼저 생각해야 해요.",
+    "남을 돕고 싶어도 우연히 들은 말을 자기 판단으로 퍼뜨리면 안 된다고 생각한다. 위험이 눈앞에 있을 때는 침묵도 선택이라는 걸 안다."
+  ],
+  "worldview": {
+    "status": "fictional_character_design",
+    "stanceKo": "남을 돕고 싶어도 우연히 들은 말을 자기 판단으로 퍼뜨리면 안 된다고 생각한다. 위험이 눈앞에 있을 때는 침묵도 선택이라는 걸 안다.",
+    "tensionKo": "올가는 고용주 집에서 들은 말을 세입자에게 전할지 고민한다. 직접 본 사실과 우연히 들은 사적인 말을 나눠야 한다.",
+    "blindSpotKo": "자기 일이 급할 때 상대가 감당할 비용을 충분히 보지 못할 수 있다.",
+    "designBasisKo": "허구 시민 설정으로 실제 개인의 증언이나 사건을 나타내지 않는다.",
+    "sceneAnchorIds": [
+      "HOUSEHOLD_PRIVACY_1847"
+    ]
+  },
+  "topicStances": {
+    "serfdom": {
+      "knowledgeKind": "no_documented_stance",
+      "positionKo": "이 허구 인물은 농촌 제도의 직접 경험이나 확인된 정보를 가진 것으로 설정하지 않는다."
+    },
+    "censorship": {
+      "knowledgeKind": "fictional_workplace_context_only",
+      "positionKo": "문서의 전달·교정에서 자신이 직접 맡은 일만 말하고 실제 검열 규정을 대신 설명하지 않는다."
+    },
+    "literature": {
+      "knowledgeKind": "reader_limited",
+      "positionKo": "작가의 뜻을 대변하지 않고 자신이 읽거나 들은 범위만 말한다."
+    },
+    "poverty_and_class": {
+      "knowledgeKind": "fictional_lived_experience",
+      "positionKo": "남을 돕고 싶어도 우연히 들은 말을 자기 판단으로 퍼뜨리면 안 된다고 생각한다. 위험이 눈앞에 있을 때는 침묵도 선택이라는 걸 안다."
+    },
+    "slavophilism_and_westernism": {
+      "knowledgeKind": "unfamiliar_terms",
+      "positionKo": "사상 진영을 대변하지 않는다. 일과 이웃에게 생기는 비용을 중심으로 말한다."
+    }
+  },
+  "lexicon": [
+    "린넨",
+    "품삯",
+    "장작"
+  ],
+  "emotions": [
+    "경계",
+    "걱정",
+    "마른 농담"
+  ],
+  "personalObjective": "남을 돕는다는 이유로 우연히 들은 사적인 말을 전해도 될까요?",
+  "objectiveByChapter": {
+    "1847": "남을 돕는다는 이유로 우연히 들은 사적인 말을 전해도 될까요?"
+  },
+  "allowedMaps": [
+    "nevsky",
+    "courtyard",
+    "market-quay",
+    "printshop",
+    "chancery"
+  ],
+  "start": {
+    "mapId": "courtyard",
+    "x": 5,
+    "y": 13
+  },
+  "wealthBracketStatus": "designedEstimate",
+  "inventory": [
+    "접은 린넨",
+    "세탁 비누"
+  ],
+  "sourceIds": [],
+  "canonConstraint": "fictional citizen; never treated as an attested historical individual or witness",
+  "reconstructionDisclaimer": "허구 인물의 일과 선택만 다룬다.",
+  "sprite": {
+    "file": "assets/housemaid_olga.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "scarf",
+    "palette": {
+      "cloth": "#56625a",
+      "trim": "#c2a16a",
+      "headwear": "#554338"
+    }
+  },
+  "speechStatus": "FICTIONAL_DESIGN",
+  "schedule": [
+    {
+      "atMinute": 420,
+      "mapId": "courtyard",
+      "position": {
+        "x": 5,
+        "y": 13
+      },
+      "activityKo": "셋방의 물과 마른 걸레를 챙긴다"
+    },
+    {
+      "atMinute": 600,
+      "mapId": "nevsky",
+      "position": {
+        "x": 9,
+        "y": 12
+      },
+      "activityKo": "고용주 집으로 심부름을 간다"
+    },
+    {
+      "atMinute": 780,
+      "mapId": "market-quay",
+      "position": {
+        "x": 5,
+        "y": 14
+      },
+      "activityKo": "안뜰에 필요한 물건을 산다"
+    },
+    {
+      "atMinute": 960,
+      "mapId": "courtyard",
+      "position": {
+        "x": 5,
+        "y": 13
+      },
+      "activityKo": "저녁 물품과 심부름을 정리한다"
+    }
+  ],
+  "portrait": {
+    "file": "assets/portrait-housemaid_olga.svg",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+  }
+}

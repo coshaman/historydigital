@@ -1,0 +1,196 @@
+{
+  "id": "print_apprentice_stepan",
+  "kind": "FICTIONAL",
+  "displayNameKo": "스테판",
+  "displayNameRu": "Степан Орлов",
+  "ageAtDate": {
+    "value": 18,
+    "status": "fictional_character_design"
+  },
+  "socialEstate": "urban_laborer",
+  "occupation": "활자함을 정리하고 인쇄기를 돕는 견습공",
+  "rank": {
+    "value": null,
+    "ru": null,
+    "status": "not_applicable"
+  },
+  "legalMobility": "배달 경로와 공개 거리 이용; 봉투를 열 권한이나 관청 출입 권한 없음",
+  "wealthBracket": "precarious",
+  "money": {
+    "amount": 11,
+    "unit": "kopeks",
+    "status": "designedEstimate"
+  },
+  "literacy": "주소와 배달 표식을 판독함; 봉투 안의 내용은 알지 못함",
+  "health": "working",
+  "reputationByGroup": {
+    "street": "knows_the_routes"
+  },
+  "risk": "지각하면 품삯과 다음 일감을 잃을 수 있음",
+  "relations": {},
+  "secretKnowledge": [
+    {
+      "id": "PRINT_APPRENTICE_STEPAN_PRIVATE_NOTE",
+      "summaryKo": "스테판은 교정쇄가 돌아온 뒤 한 줄이 바뀐 것을 봤지만, 누가 바꿨는지는 보지 못했다."
+    }
+  ],
+  "knownEvidence": [],
+  "privateKnowledgeIds": [
+    "PRINT_APPRENTICE_STEPAN_PRIVATE_NOTE"
+  ],
+  "knownEvidenceIds": [],
+  "desires": "문장을 인쇄한 사람은 누가 고친 문장까지 책임져야 할까요?",
+  "fears": "스테판은 익명 전단의 교정쇄에서 문장이 바뀐 것을 알아챘다. 누가 고쳤는지 남기면 동료가 곤란해질 수 있다.",
+  "taboos": [
+    "밀봉된 편지를 읽지 않는다"
+  ],
+  "speechRhythm": "활자와 줄 수를 세며 빠르게 묻는다. 호기심이 앞서도 누가 손댔는지 확인하기 전에는 결론을 보류한다.",
+  "worldview": {
+    "status": "fictional_character_design",
+    "stanceKo": "견습이라고 책임이 없는 건 아니지만, 작업자 이름 하나가 글의 뜻을 바꾼 사람을 대신해서는 안 된다고 생각한다.",
+    "tensionKo": "스테판은 익명 전단의 교정쇄에서 문장이 바뀐 것을 알아챘다. 누가 고쳤는지 남기면 동료가 곤란해질 수 있다.",
+    "blindSpotKo": "자기 일이 급할 때 상대가 감당할 비용을 충분히 보지 못할 수 있다.",
+    "designBasisKo": "허구 시민 설정으로 실제 개인의 증언이나 사건을 나타내지 않는다.",
+    "sceneAnchorIds": [
+      "APPRENTICE_AUTHorship_1847"
+    ]
+  },
+  "topicStances": {
+    "serfdom": {
+      "knowledgeKind": "no_documented_stance",
+      "positionKo": "이 허구 인물은 농촌 제도의 직접 경험이나 확인된 정보를 가진 것으로 설정하지 않는다."
+    },
+    "censorship": {
+      "knowledgeKind": "fictional_workplace_context_only",
+      "positionKo": "문서의 전달·교정에서 자신이 직접 맡은 일만 말하고 실제 검열 규정을 대신 설명하지 않는다."
+    },
+    "literature": {
+      "knowledgeKind": "reader_limited",
+      "positionKo": "작가의 뜻을 대변하지 않고 자신이 읽거나 들은 범위만 말한다."
+    },
+    "poverty_and_class": {
+      "knowledgeKind": "fictional_lived_experience",
+      "positionKo": "견습이라고 책임이 없는 건 아니지만, 작업자 이름 하나가 글의 뜻을 바꾼 사람을 대신해서는 안 된다고 생각한다."
+    },
+    "slavophilism_and_westernism": {
+      "knowledgeKind": "unfamiliar_terms",
+      "positionKo": "사상 진영을 대변하지 않는다. 일과 이웃에게 생기는 비용을 중심으로 말한다."
+    }
+  },
+  "speechRegister": {
+    "firstMeeting": "낯선 손님에게 작업 중인 활자를 건드리지 말라고 먼저 말한다.",
+    "colleague": "동료 견습공과는 빠른 반말로 줄과 글자를 확인한다.",
+    "private": "사적인 대화에서 인정받고 싶은 마음을 숨기지 않는다.",
+    "conflict": "잘못을 지적받으면 먼저 교정쇄를 펴고 사실부터 대조한다.",
+    "intimacy": "친한 동료에게 호기심 섞인 농담을 하고 바로 질문을 잇는다.",
+    "formal": "책임자에게는 존대하지만 자신이 맡은 활자를 분명히 말한다."
+  },
+  "voiceSamples": [
+    "활자함은 건드리지 마세요. 지금 줄 맞추는 중이에요. 어느 대목을 찾으세요?",
+    "교정쇄에서 한 줄이 바뀌었어요. 누가 고쳤는지 적어야 하는데, 내 눈으로 본 건 바뀐 활자뿐이에요.",
+    "견습이라고 책임이 없는 건 아니지만, 작업자 이름 하나가 글의 뜻을 바꾼 사람을 대신해서는 안 된다고 생각한다."
+  ],
+  "lexicon": [
+    "골목",
+    "빗물",
+    "마감"
+  ],
+  "emotions": [
+    "초조",
+    "유머",
+    "경계"
+  ],
+  "personalObjective": "문장을 인쇄한 사람은 누가 고친 문장까지 책임져야 할까요?",
+  "objectiveByChapter": {
+    "1847": "문장을 인쇄한 사람은 누가 고친 문장까지 책임져야 할까요?"
+  },
+  "allowedMaps": [
+    "nevsky",
+    "courtyard",
+    "market-quay",
+    "printshop",
+    "chancery"
+  ],
+  "start": {
+    "mapId": "printshop",
+    "x": 10,
+    "y": 10
+  },
+  "wealthBracketStatus": "designedEstimate",
+  "inventory": [
+    "밀봉 봉투",
+    "끈 달린 가방"
+  ],
+  "sourceIds": [],
+  "canonConstraint": "fictional citizen; never treated as an attested historical individual or witness",
+  "reconstructionDisclaimer": "허구 인물의 일과 선택만 다룬다.",
+  "sprite": {
+    "file": "assets/print_apprentice_stepan.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "cap",
+    "palette": {
+      "cloth": "#713e31",
+      "trim": "#bd9b64",
+      "headwear": "#44342d"
+    }
+  },
+  "schedule": [
+    {
+      "atMinute": 420,
+      "mapId": "printshop",
+      "position": {
+        "x": 10,
+        "y": 10
+      },
+      "activityKo": "활자함에서 교정에 쓸 글자를 찾는다"
+    },
+    {
+      "atMinute": 600,
+      "mapId": "nevsky",
+      "position": {
+        "x": 16,
+        "y": 12
+      },
+      "activityKo": "종이 묶음을 인쇄소로 옮긴다"
+    },
+    {
+      "atMinute": 780,
+      "mapId": "market-quay",
+      "position": {
+        "x": 17,
+        "y": 14
+      },
+      "activityKo": "거래처의 인쇄 주문을 확인한다"
+    },
+    {
+      "atMinute": 960,
+      "mapId": "printshop",
+      "position": {
+        "x": 10,
+        "y": 10
+      },
+      "activityKo": "교정표와 작업 순서를 정리한다"
+    }
+  ],
+  "portrait": {
+    "file": "assets/portrait-print_apprentice_stepan.svg",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+  },
+  "spriteAtlas": {
+    "file": "assets/pavel.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "directions": 4,
+    "framesPerDirection": 3,
+    "directionRows": {
+      "down": 0,
+      "up": 1,
+      "left": 2,
+      "right": 3
+    }
+  },
+  "speechStatus": "FICTIONAL_DESIGN"
+}

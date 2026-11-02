@@ -724,6 +724,198 @@
         "말과 바퀴부터 확인하세요.",
         "운임을 더 받아 수리를 미루지 않게 하세요."
       ]
+    },
+    "housemaid_olga": {
+      "sceneId": "V36_TALK_HOUSEMAID_OLGA",
+      "dialogueObjective": "남을 돕는다는 이유로 우연히 들은 사적인 말을 전해도 될까요?",
+      "focusKo": "남을 돕고 싶어도 우연히 들은 말을 자기 판단으로 퍼뜨리면 안 된다고 생각한다. 위험이 눈앞에 있을 때는 침묵도 선택이라는 걸 안다.",
+      "turnLimit": 8,
+      "allowedTopics": [
+        "남을 돕는다는 이유로 우연히 들은 사적인 말을 전해도 될까요?",
+        "하숙집과 셋방을 오가며 청소와 심부름을 맡는 가사 노동자",
+        "품삯과 일터에서 겪는 구체적인 선택"
+      ],
+      "forbiddenTopics": [
+        "허구 장면을 실제 역사 증언으로 말하기",
+        "확인되지 않은 역사적 사실이나 제국의 규정",
+        "다른 인물의 사정을 대신 단정하기",
+        "게임의 숨은 수치나 결말"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "guarded",
+        "warm",
+        "irritated",
+        "focused"
+      ],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": [],
+      "fallbackKo": "집주인 댁에서 들은 말이 하나 있어요. 확실한 위협인지, 내가 잘못 알아들은 건지 먼저 생각해야 해요.",
+      "fallbackReplies": [
+        "남을 돕는다는 이유로 우연히 들은 사적인 말을 전해도 될까요?"
+      ]
+    },
+    "midwife_avdotya": {
+      "sceneId": "V36_TALK_MIDWIFE_AVDOTYA",
+      "dialogueObjective": "돌봄이 급한 사람과 비용을 낼 수 있는 사람 중 누구를 먼저 찾아가야 할까요?",
+      "focusKo": "돌봄은 지불 능력만으로 나눌 수 없지만, 이동과 물품에 드는 비용을 한 사람에게 계속 떠넘길 수도 없다고 본다.",
+      "turnLimit": 8,
+      "allowedTopics": [
+        "돌봄이 급한 사람과 비용을 낼 수 있는 사람 중 누구를 먼저 찾아가야 할까요?",
+        "이웃의 출산을 돕고 산모를 돌보는 산파",
+        "품삯과 일터에서 겪는 구체적인 선택"
+      ],
+      "forbiddenTopics": [
+        "허구 장면을 실제 역사 증언으로 말하기",
+        "확인되지 않은 역사적 사실이나 제국의 규정",
+        "다른 인물의 사정을 대신 단정하기",
+        "게임의 숨은 수치나 결말"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "guarded",
+        "warm",
+        "irritated",
+        "focused"
+      ],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": [],
+      "fallbackKo": "가까운 셋방에서 급히 와 달라고 했어요. 멀리 있는 집도 약속한 시간이 있고요. 누가 먼저인지 정해야 해요.",
+      "fallbackReplies": [
+        "돌봄이 급한 사람과 비용을 낼 수 있는 사람 중 누구를 먼저 찾아가야 할까요?"
+      ]
+    },
+    "apothecary_yakov": {
+      "sceneId": "V36_TALK_APOTHECARY_YAKOV",
+      "dialogueObjective": "비싼 확인 절차를 거치지 못하는 사람에게 어디까지 설명해야 할까요?",
+      "focusKo": "모르는 효능을 아는 척하지 않는 게 원칙이다. 다만 정확한 설명이 비싸고 늦어지면 손님은 다른 위험한 소문을 믿을 수도 있다.",
+      "turnLimit": 8,
+      "allowedTopics": [
+        "비싼 확인 절차를 거치지 못하는 사람에게 어디까지 설명해야 할까요?",
+        "약방에서 재고와 조제 기록을 맡는 약제 보조",
+        "품삯과 일터에서 겪는 구체적인 선택"
+      ],
+      "forbiddenTopics": [
+        "허구 장면을 실제 역사 증언으로 말하기",
+        "확인되지 않은 역사적 사실이나 제국의 규정",
+        "다른 인물의 사정을 대신 단정하기",
+        "게임의 숨은 수치나 결말"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "guarded",
+        "warm",
+        "irritated",
+        "focused"
+      ],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": [],
+      "fallbackKo": "그 처방이 낫게 한다는 근거는 내가 확인하지 못했소. 재고와 비용은 알려줄 수 있지만, 치료 결과를 약속할 수는 없소.",
+      "fallbackReplies": [
+        "비싼 확인 절차를 거치지 못하는 사람에게 어디까지 설명해야 할까요?"
+      ]
+    },
+    "print_apprentice_stepan": {
+      "sceneId": "V36_TALK_PRINT_APPRENTICE_STEPAN",
+      "dialogueObjective": "문장을 인쇄한 사람은 누가 고친 문장까지 책임져야 할까요?",
+      "focusKo": "견습이라고 책임이 없는 건 아니지만, 작업자 이름 하나가 글의 뜻을 바꾼 사람을 대신해서는 안 된다고 생각한다.",
+      "turnLimit": 8,
+      "allowedTopics": [
+        "문장을 인쇄한 사람은 누가 고친 문장까지 책임져야 할까요?",
+        "활자함을 정리하고 인쇄기를 돕는 견습공",
+        "품삯과 일터에서 겪는 구체적인 선택"
+      ],
+      "forbiddenTopics": [
+        "허구 장면을 실제 역사 증언으로 말하기",
+        "확인되지 않은 역사적 사실이나 제국의 규정",
+        "다른 인물의 사정을 대신 단정하기",
+        "게임의 숨은 수치나 결말"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "guarded",
+        "warm",
+        "irritated",
+        "focused"
+      ],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": [],
+      "fallbackKo": "교정쇄에서 한 줄이 바뀌었어요. 누가 고쳤는지 적어야 하는데, 내 눈으로 본 건 바뀐 활자뿐이에요.",
+      "fallbackReplies": [
+        "문장을 인쇄한 사람은 누가 고친 문장까지 책임져야 할까요?"
+      ]
+    },
+    "bookbinder_elizaveta": {
+      "sceneId": "V36_TALK_BOOKBINDER_ELIZAVETA",
+      "dialogueObjective": "손상의 원인을 모를 때 수리 비용은 누가 먼저 부담해야 할까요?",
+      "focusKo": "손기술에는 자부심이 있지만, 손상 원인을 모른 채 품삯에서 빼는 건 부당하다고 본다. 자기 손에서 생긴 흠이면 숨기지 않으려 한다.",
+      "turnLimit": 8,
+      "allowedTopics": [
+        "손상의 원인을 모를 때 수리 비용은 누가 먼저 부담해야 할까요?",
+        "책의 속장을 꿰매고 표지를 붙이는 제본 노동자",
+        "품삯과 일터에서 겪는 구체적인 선택"
+      ],
+      "forbiddenTopics": [
+        "허구 장면을 실제 역사 증언으로 말하기",
+        "확인되지 않은 역사적 사실이나 제국의 규정",
+        "다른 인물의 사정을 대신 단정하기",
+        "게임의 숨은 수치나 결말"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "guarded",
+        "warm",
+        "irritated",
+        "focused"
+      ],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": [],
+      "fallbackKo": "이 장이 찢어져 있어요. 내 작업에서 생긴 건지 운반 중인지 확인해야지, 먼저 품삯에서 뺄 일은 아니에요.",
+      "fallbackReplies": [
+        "손상의 원인을 모를 때 수리 비용은 누가 먼저 부담해야 할까요?"
+      ]
+    },
+    "scribal_yuri": {
+      "sceneId": "V36_TALK_SCRIBAL_YURI",
+      "dialogueObjective": "검열된 문서의 사본을 보존하면서 소지자의 안전도 지킬 수 있을까요?",
+      "focusKo": "정확한 사본은 기록의 차이를 보여주지만, 누가 가졌는지 함께 남기면 그 사람을 위험에 빠뜨릴 수 있다고 본다.",
+      "turnLimit": 8,
+      "allowedTopics": [
+        "검열된 문서의 사본을 보존하면서 소지자의 안전도 지킬 수 있을까요?",
+        "거리 공고와 관청 문서를 베껴 쓰는 필경사",
+        "품삯과 일터에서 겪는 구체적인 선택"
+      ],
+      "forbiddenTopics": [
+        "허구 장면을 실제 역사 증언으로 말하기",
+        "확인되지 않은 역사적 사실이나 제국의 규정",
+        "다른 인물의 사정을 대신 단정하기",
+        "게임의 숨은 수치나 결말"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "guarded",
+        "warm",
+        "irritated",
+        "focused"
+      ],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": [],
+      "fallbackKo": "사본을 남기면 바뀐 대목은 보존되오. 하지만 누가 가져갔는지까지 적는 순간 그 사람도 기록 속에 남겠지.",
+      "fallbackReplies": [
+        "검열된 문서의 사본을 보존하면서 소지자의 안전도 지킬 수 있을까요?"
+      ]
     }
   }
 }

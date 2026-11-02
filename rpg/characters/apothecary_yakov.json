@@ -1,0 +1,196 @@
+{
+  "id": "apothecary_yakov",
+  "kind": "FICTIONAL",
+  "displayNameKo": "야코프",
+  "displayNameRu": "Яков Смирнов",
+  "ageAtDate": {
+    "value": 39,
+    "status": "fictional_character_design"
+  },
+  "socialEstate": "petty_bourgeois",
+  "occupation": "약방에서 재고와 조제 기록을 맡는 약제 보조",
+  "rank": {
+    "value": null,
+    "ru": null,
+    "status": "not_applicable"
+  },
+  "legalMobility": "공개 거리와 거래 중인 인쇄소 이용; 관청 기록실 출입은 허가가 필요하다",
+  "wealthBracket": "modest",
+  "money": {
+    "amount": 83,
+    "unit": "kopeks",
+    "status": "designedEstimate"
+  },
+  "literacy": "러시아어 인쇄물과 거래 장부를 읽는다",
+  "health": "working",
+  "reputationByGroup": {
+    "trade": "careful"
+  },
+  "risk": "팔리지 않은 재고와 외상값이 다음 발주를 막을 수 있다",
+  "relations": {},
+  "secretKnowledge": [
+    {
+      "id": "APOTHECARY_YAKOV_PRIVATE_NOTE",
+      "summaryKo": "손님이 가져온 민간 처방의 출처를 확인하지 못했다."
+    }
+  ],
+  "knownEvidence": [],
+  "privateKnowledgeIds": [
+    "APOTHECARY_YAKOV_PRIVATE_NOTE"
+  ],
+  "knownEvidenceIds": [],
+  "desires": "비싼 확인 절차를 거치지 못하는 사람에게 어디까지 설명해야 할까요?",
+  "fears": "야코프는 손님이 가져온 소문 속 처방을 확인해 달라는 부탁을 받았다. 확실하지 않은 효능을 말하지 않으면서 비용 걱정도 다뤄야 한다.",
+  "taboos": [
+    "구매자가 보지 못한 문장을 읽었다고 말하지 않는다"
+  ],
+  "speechRhythm": "재고 수량과 출처를 되묻는다. 단정적인 말은 피하고, 모르는 부분을 문장 앞에 둔다.",
+  "worldview": {
+    "status": "fictional_character_design",
+    "stanceKo": "모르는 효능을 아는 척하지 않는 게 원칙이다. 다만 정확한 설명이 비싸고 늦어지면 손님은 다른 위험한 소문을 믿을 수도 있다.",
+    "tensionKo": "야코프는 손님이 가져온 소문 속 처방을 확인해 달라는 부탁을 받았다. 확실하지 않은 효능을 말하지 않으면서 비용 걱정도 다뤄야 한다.",
+    "blindSpotKo": "자기 일이 급할 때 상대가 감당할 비용을 충분히 보지 못할 수 있다.",
+    "designBasisKo": "허구 시민 설정으로 실제 개인의 증언이나 사건을 나타내지 않는다.",
+    "sceneAnchorIds": [
+      "APOTHECARY_LIMITS_1847"
+    ]
+  },
+  "topicStances": {
+    "serfdom": {
+      "knowledgeKind": "no_documented_stance",
+      "positionKo": "이 허구 인물은 농촌 제도의 직접 경험이나 확인된 정보를 가진 것으로 설정하지 않는다."
+    },
+    "censorship": {
+      "knowledgeKind": "fictional_workplace_context_only",
+      "positionKo": "문서의 전달·교정에서 자신이 직접 맡은 일만 말하고 실제 검열 규정을 대신 설명하지 않는다."
+    },
+    "literature": {
+      "knowledgeKind": "reader_limited",
+      "positionKo": "작가의 뜻을 대변하지 않고 자신이 읽거나 들은 범위만 말한다."
+    },
+    "poverty_and_class": {
+      "knowledgeKind": "fictional_lived_experience",
+      "positionKo": "모르는 효능을 아는 척하지 않는 게 원칙이다. 다만 정확한 설명이 비싸고 늦어지면 손님은 다른 위험한 소문을 믿을 수도 있다."
+    },
+    "slavophilism_and_westernism": {
+      "knowledgeKind": "unfamiliar_terms",
+      "positionKo": "사상 진영을 대변하지 않는다. 일과 이웃에게 생기는 비용을 중심으로 말한다."
+    }
+  },
+  "speechRegister": {
+    "firstMeeting": "낯선 손님에게 물건의 이름과 출처부터 묻는다.",
+    "colleague": "약방 동료와는 재고 수량과 표기를 간결하게 맞춘다.",
+    "private": "믿는 사람에게도 모르는 것을 아는 척하지 않는다.",
+    "conflict": "상대가 재촉해도 근거와 소문을 구분하며 단정하지 않는다.",
+    "intimacy": "가까운 단골에게는 마른 농담을 곁들이되 선택은 손님에게 둔다.",
+    "formal": "손님에게 정중하고 정확한 가격·재고 범위만 말한다."
+  },
+  "voiceSamples": [
+    "무슨 물건인지 먼저 보여 주시오. 이름만 듣고 효능을 말할 수는 없소.",
+    "그 처방이 낫게 한다는 근거는 내가 확인하지 못했소. 재고와 비용은 알려줄 수 있지만, 치료 결과를 약속할 수는 없소.",
+    "모르는 효능을 아는 척하지 않는 게 원칙이다. 다만 정확한 설명이 비싸고 늦어지면 손님은 다른 위험한 소문을 믿을 수도 있다."
+  ],
+  "lexicon": [
+    "외상",
+    "묶음",
+    "반품"
+  ],
+  "emotions": [
+    "계산",
+    "호기심",
+    "완곡한 경계"
+  ],
+  "personalObjective": "비싼 확인 절차를 거치지 못하는 사람에게 어디까지 설명해야 할까요?",
+  "objectiveByChapter": {
+    "1847": "비싼 확인 절차를 거치지 못하는 사람에게 어디까지 설명해야 할까요?"
+  },
+  "allowedMaps": [
+    "nevsky",
+    "courtyard",
+    "market-quay",
+    "printshop",
+    "chancery"
+  ],
+  "start": {
+    "mapId": "market-quay",
+    "x": 13,
+    "y": 14
+  },
+  "wealthBracketStatus": "designedEstimate",
+  "inventory": [
+    "접이식 장부",
+    "동전 주머니"
+  ],
+  "sourceIds": [],
+  "canonConstraint": "fictional citizen; never treated as an attested historical individual or witness",
+  "reconstructionDisclaimer": "허구 인물의 일과 선택만 다룬다.",
+  "sprite": {
+    "file": "assets/apothecary_yakov.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "coat",
+    "palette": {
+      "cloth": "#4c4a43",
+      "trim": "#bc9a67",
+      "headwear": "#675542"
+    }
+  },
+  "schedule": [
+    {
+      "atMinute": 420,
+      "mapId": "market-quay",
+      "position": {
+        "x": 13,
+        "y": 14
+      },
+      "activityKo": "재고와 외상 장부를 맞춘다"
+    },
+    {
+      "atMinute": 600,
+      "mapId": "nevsky",
+      "position": {
+        "x": 15,
+        "y": 12
+      },
+      "activityKo": "약방 창고에서 물품을 받는다"
+    },
+    {
+      "atMinute": 780,
+      "mapId": "market-quay",
+      "position": {
+        "x": 13,
+        "y": 14
+      },
+      "activityKo": "손님에게 확인된 가격을 알린다"
+    },
+    {
+      "atMinute": 960,
+      "mapId": "nevsky",
+      "position": {
+        "x": 15,
+        "y": 12
+      },
+      "activityKo": "남은 재고와 미수금을 정리한다"
+    }
+  ],
+  "portrait": {
+    "file": "assets/portrait-apothecary_yakov.svg",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+  },
+  "spriteAtlas": {
+    "file": "assets/lev.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "directions": 4,
+    "framesPerDirection": 3,
+    "directionRows": {
+      "down": 0,
+      "up": 1,
+      "left": 2,
+      "right": 3
+    }
+  },
+  "speechStatus": "FICTIONAL_DESIGN"
+}

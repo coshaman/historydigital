@@ -1,0 +1,197 @@
+{
+  "id": "bookbinder_elizaveta",
+  "kind": "FICTIONAL",
+  "displayNameKo": "엘리자베타",
+  "displayNameRu": "Елизавета Морозова",
+  "ageAtDate": {
+    "value": 33,
+    "status": "fictional_character_design"
+  },
+  "socialEstate": "urban_artisan",
+  "occupation": "책의 속장을 꿰매고 표지를 붙이는 제본 노동자",
+  "rank": {
+    "value": null,
+    "ru": null,
+    "status": "not_applicable"
+  },
+  "legalMobility": "자신의 작업장과 공개 거리 이용; 관청 기록실 출입 권한 없음",
+  "wealthBracket": "poor",
+  "money": {
+    "amount": 27,
+    "unit": "kopeks",
+    "status": "designedEstimate"
+  },
+  "literacy": "교정쇄를 읽고 활자 오류를 찾을 수 있음",
+  "health": "working",
+  "reputationByGroup": {
+    "workshop": "reliable"
+  },
+  "risk": "인쇄물에 남는 이름과 인쇄 비용을 함께 계산",
+  "relations": {},
+  "secretKnowledge": [
+    {
+      "id": "BOOKBINDER_ELIZAVETA_PRIVATE_NOTE",
+      "summaryKo": "찢어진 장은 제본을 끝낸 뒤 발견했으며 손상 시점은 보지 못했다."
+    }
+  ],
+  "knownEvidence": [],
+  "privateKnowledgeIds": [
+    "BOOKBINDER_ELIZAVETA_PRIVATE_NOTE"
+  ],
+  "knownEvidenceIds": [],
+  "desires": "손상의 원인을 모를 때 수리 비용은 누가 먼저 부담해야 할까요?",
+  "fears": "제본을 마친 책 한 권에서 장이 찢어진 채 발견됐다. 엘리자베타는 인쇄소, 운반인, 자기 작업 중 누구의 책임인지 모른다.",
+  "taboos": [
+    "남의 이름을 허락 없이 원고에 적지 않는다"
+  ],
+  "speechRhythm": "종이 결, 실밥, 마른 풀을 구체적으로 짚는다. 자존심이 상하면 말수가 줄지만, 작업 순서를 설명할 때는 또렷하다.",
+  "speechRegister": {
+    "firstMeeting": "처음 온 사람에게 풀이 마를 때까지 책등을 잡지 말라 한다.",
+    "colleague": "작업 동료와는 손상 위치와 공정을 구체적인 말로 주고받는다.",
+    "private": "사적인 자리에서 손기술에 대한 자부심과 임금 걱정을 털어놓는다.",
+    "conflict": "원인을 모른 채 품삯을 깎으려 하면 말수가 줄고 단호해진다.",
+    "intimacy": "가까운 사람에게는 작업 농담을 섞고 책을 조심히 다루라 당부한다.",
+    "formal": "거래처와는 정중하되 납기와 수리 비용을 명확히 한다."
+  },
+  "voiceSamples": [
+    "책등을 잡아당기지 마세요. 아직 풀이 마르는 중이에요. 어떤 책을 찾으세요?",
+    "이 장이 찢어져 있어요. 내 작업에서 생긴 건지 운반 중인지 확인해야지, 먼저 품삯에서 뺄 일은 아니에요.",
+    "손기술에는 자부심이 있지만, 손상 원인을 모른 채 품삯에서 빼는 건 부당하다고 본다. 자기 손에서 생긴 흠이면 숨기지 않으려 한다."
+  ],
+  "worldview": {
+    "status": "fictional_character_design",
+    "stanceKo": "손기술에는 자부심이 있지만, 손상 원인을 모른 채 품삯에서 빼는 건 부당하다고 본다. 자기 손에서 생긴 흠이면 숨기지 않으려 한다.",
+    "tensionKo": "제본을 마친 책 한 권에서 장이 찢어진 채 발견됐다. 엘리자베타는 인쇄소, 운반인, 자기 작업 중 누구의 책임인지 모른다.",
+    "blindSpotKo": "자기 일이 급할 때 상대가 감당할 비용을 충분히 보지 못할 수 있다.",
+    "designBasisKo": "허구 시민 설정으로 실제 개인의 증언이나 사건을 나타내지 않는다.",
+    "sceneAnchorIds": [
+      "BOOKBINDER_DAMAGE_1847"
+    ]
+  },
+  "topicStances": {
+    "serfdom": {
+      "knowledgeKind": "no_documented_stance",
+      "positionKo": "이 허구 인물은 농촌 제도의 직접 경험이나 확인된 정보를 가진 것으로 설정하지 않는다."
+    },
+    "censorship": {
+      "knowledgeKind": "fictional_workplace_context_only",
+      "positionKo": "문서의 전달·교정에서 자신이 직접 맡은 일만 말하고 실제 검열 규정을 대신 설명하지 않는다."
+    },
+    "literature": {
+      "knowledgeKind": "reader_limited",
+      "positionKo": "작가의 뜻을 대변하지 않고 자신이 읽거나 들은 범위만 말한다."
+    },
+    "poverty_and_class": {
+      "knowledgeKind": "fictional_lived_experience",
+      "positionKo": "손기술에는 자부심이 있지만, 손상 원인을 모른 채 품삯에서 빼는 건 부당하다고 본다. 자기 손에서 생긴 흠이면 숨기지 않으려 한다."
+    },
+    "slavophilism_and_westernism": {
+      "knowledgeKind": "unfamiliar_terms",
+      "positionKo": "사상 진영을 대변하지 않는다. 일과 이웃에게 생기는 비용을 중심으로 말한다."
+    }
+  },
+  "lexicon": [
+    "교정쇄",
+    "활자",
+    "인쇄비"
+  ],
+  "emotions": [
+    "집중",
+    "빈정거림",
+    "불안"
+  ],
+  "personalObjective": "손상의 원인을 모를 때 수리 비용은 누가 먼저 부담해야 할까요?",
+  "objectiveByChapter": {
+    "1847": "손상의 원인을 모를 때 수리 비용은 누가 먼저 부담해야 할까요?"
+  },
+  "allowedMaps": [
+    "nevsky",
+    "courtyard",
+    "market-quay",
+    "printshop",
+    "chancery"
+  ],
+  "start": {
+    "mapId": "printshop",
+    "x": 6,
+    "y": 12
+  },
+  "wealthBracketStatus": "designedEstimate",
+  "inventory": [
+    "활자 집게",
+    "천 조각",
+    "교정쇄 사본"
+  ],
+  "sourceIds": [],
+  "canonConstraint": "fictional citizen; never treated as an attested historical individual or witness",
+  "reconstructionDisclaimer": "허구 인물의 일과 선택만 다룬다.",
+  "sprite": {
+    "file": "assets/bookbinder_elizaveta.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "apron",
+    "palette": {
+      "cloth": "#465345",
+      "trim": "#b17a49",
+      "headwear": "#68533e"
+    }
+  },
+  "schedule": [
+    {
+      "atMinute": 420,
+      "mapId": "printshop",
+      "position": {
+        "x": 6,
+        "y": 12
+      },
+      "activityKo": "속장을 꿰매고 표지 풀을 바른다"
+    },
+    {
+      "atMinute": 600,
+      "mapId": "market-quay",
+      "position": {
+        "x": 21,
+        "y": 14
+      },
+      "activityKo": "완성한 책의 인수 시각을 맞춘다"
+    },
+    {
+      "atMinute": 780,
+      "mapId": "nevsky",
+      "position": {
+        "x": 20,
+        "y": 12
+      },
+      "activityKo": "책방에 제본한 묶음을 전달한다"
+    },
+    {
+      "atMinute": 960,
+      "mapId": "printshop",
+      "position": {
+        "x": 6,
+        "y": 12
+      },
+      "activityKo": "손상과 남은 실을 확인한다"
+    }
+  ],
+  "portrait": {
+    "file": "assets/portrait-bookbinder_elizaveta.svg",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+  },
+  "spriteAtlas": {
+    "file": "assets/ekaterina.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "directions": 4,
+    "framesPerDirection": 3,
+    "directionRows": {
+      "down": 0,
+      "up": 1,
+      "left": 2,
+      "right": 3
+    }
+  },
+  "speechStatus": "FICTIONAL_DESIGN"
+}

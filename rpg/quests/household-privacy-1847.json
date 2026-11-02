@@ -1,0 +1,74 @@
+{
+  "id": "HOUSEHOLD_PRIVACY_1847",
+  "titleKo": "들어서는 말, 남겨도 되는 말",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "올가는 고용주 집에서 들은 말을 세입자에게 전할지 고민한다. 직접 본 사실과 우연히 들은 사적인 말을 나눠야 한다.",
+  "historicalOutcome": {
+    "id": "HOUSEHOLD_PRIVACY_1847_FICTIONAL_OUTCOME",
+    "value": "fictional work and household choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "courtyard",
+    "objectId": 1000,
+    "requiredHostId": "housemaid_olga"
+  },
+  "actions": [
+    {
+      "id": "HOUSEMAID_OLGA_CHOICE_1",
+      "hostIds": [
+        "housemaid_olga"
+      ],
+      "labelKo": "들은 말은 옮기지 않고 직접 본 변화만 메모한다",
+      "subcopyKo": "올가와 안뜰 관리인이 봅니다 · 개인 심부름 메모에 남습니다 · 필요한 경고가 늦어질 수 있습니다",
+      "resultKo": "직접 본 짐 이동과 날짜만 적었다. 사적인 말을 단정하지 않았지만, 세입자는 아직 상황을 모른다.",
+      "resultFlag": "olgaObserved",
+      "followupTitleKo": "들어서는 말, 남겨도 되는 말",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "직접 본 변화만 날짜와 함께 적었다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    },
+    {
+      "id": "HOUSEMAID_OLGA_CHOICE_2",
+      "hostIds": [
+        "housemaid_olga"
+      ],
+      "labelKo": "세입자에게 확인되지 않은 말을 그대로 전한다",
+      "subcopyKo": "올가와 해당 세입자가 압니다 · 공식 기록에는 남지 않습니다 · 고용주와의 신뢰가 깨질 위험을 감수합니다",
+      "resultKo": "세입자에게 들은 말을 전했다. 대비할 시간은 생겼지만, 불완전한 말이 더 퍼질 수 있다.",
+      "resultFlag": "olgaWarned",
+      "followupTitleKo": "들어서는 말, 남겨도 되는 말",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "미확인 대화를 세입자에게 전했다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    },
+    {
+      "id": "HOUSEMAID_OLGA_CHOICE_3",
+      "hostIds": [
+        "housemaid_olga"
+      ],
+      "labelKo": "고용주에게 방을 비우려는 뜻인지 직접 묻는다",
+      "subcopyKo": "올가와 고용주가 압니다 · 심부름 메모에 질문만 남습니다 · 다음 일감을 잃을 위험을 감수합니다",
+      "resultKo": "올가는 뜻을 직접 물었다. 소문을 퍼뜨리진 않았지만, 대답을 듣기 전까지 일자리가 불안해질 수 있다.",
+      "resultFlag": "olgaAsked",
+      "followupTitleKo": "들어서는 말, 남겨도 되는 말",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "고용주에게 방 정리의 뜻을 직접 확인했다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named work record"
+}

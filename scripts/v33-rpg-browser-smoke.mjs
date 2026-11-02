@@ -94,6 +94,7 @@ for (const viewport of (quickMode ? [{ width: 1440, height: 900 }] : [{ width: 1
   const errors = [];
   const explorationEvents = [];
   const nevskyMap = JSON.parse(fs.readFileSync(path.join(root, 'rpg', 'maps', 'nevsky.json'), 'utf8'));
+  const routeMaps = Object.fromEntries(['nevsky','courtyard','market-quay','printshop','chancery','police-station'].map(id => [id, JSON.parse(fs.readFileSync(path.join(root,'rpg','maps',`${id}.json`),'utf8'))]));
   const currentGameMinute = async () => {
     const match = (await page.locator('#clock').innerText()).match(/^(\d{2}):(\d{2})$/);
     if (!match) throw new Error(`Game clock is not readable: ${match?.[0] ?? 'empty'}`);
@@ -106,24 +107,27 @@ for (const viewport of (quickMode ? [{ width: 1440, height: 900 }] : [{ width: 1
     explorationEvents.push({ type: 'move', count: (after - before + 1440) % 1440 });
   };
   const approachTile = async (targetPosition, targetMapId = 'nevsky', hostId = null) => {
-    const collision = nevskyMap.layers.find(layer => layer.name === 'Collision').data;
+    const routeMap = routeMaps[targetMapId];
+    if (!routeMap) throw new Error(`No collision map loaded for ${targetMapId}`);
+    const collision = routeMap.layers.find(layer => layer.name === 'Collision').data;
     const steps = [[0, -1, 'ArrowUp'], [1, 0, 'ArrowRight'], [0, 1, 'ArrowDown'], [-1, 0, 'ArrowLeft']];
     for (let attempt = 0; attempt < 40; attempt++) {
       const current = await page.evaluate(() => JSON.parse(localStorage.getItem('v33-rpg-save')).state);
       const actor = current.player.embodiment ? current.hosts[current.player.embodiment] : current.player;
       const target = hostId ? current.hosts[hostId].position : targetPosition;
       if (current.world.currentMapId !== targetMapId || (hostId && current.hosts[hostId].mapId !== targetMapId)) throw new Error(`Target left ${targetMapId}`);
-      if (Math.max(Math.abs(actor.position.x - target.x), Math.abs(actor.position.y - target.y)) <= 1) return;
+      const withinReach = position => Math.abs(actor.position.x-position.x)+Math.abs(actor.position.y-position.y) <= (hostId ? 2 : 1);
+      if (withinReach(target)) return;
       const queue = [{ x: actor.position.x, y: actor.position.y, path: [] }], seen = new Set([`${actor.position.x},${actor.position.y}`]);
       let route = null;
       while (queue.length && !route) {
         const tile = queue.shift();
         for (const [dx, dy, key] of steps) {
           const x = tile.x + dx, y = tile.y + dy, id = `${x},${y}`;
-          if (x < 0 || y < 0 || x >= nevskyMap.width || y >= nevskyMap.height || collision[y * nevskyMap.width + x] || seen.has(id)) continue;
+          if (x < 0 || y < 0 || x >= routeMap.width || y >= routeMap.height || collision[y * routeMap.width + x] || seen.has(id)) continue;
           if (Object.entries(current.hosts).some(([otherId, other]) => otherId !== current.player.embodiment && other.historicalAliveAndPresent !== false && other.mapId === targetMapId && other.position.x === x && other.position.y === y)) continue;
           const nextPath = [...tile.path, key];
-          if (Math.max(Math.abs(x - target.x), Math.abs(y - target.y)) <= 1) { route = nextPath; break; }
+          if (Math.abs(x-target.x)+Math.abs(y-target.y) <= (hostId ? 2 : 1)) { route = nextPath; break; }
           seen.add(id); queue.push({ x, y, path: nextPath });
         }
       }
@@ -201,10 +205,10 @@ for (const viewport of (quickMode ? [{ width: 1440, height: 900 }] : [{ width: 1
   await page.getByRole('button', { name: '몸을 빌린다' }).waitFor();
   explorationEvents.push({ type: 'inspect' });
   await possess('printer_ekaterina');
-  await move('ArrowLeft', 3);
-  await move('ArrowUp');
+  await approachTile({ x: 8, y: 12 }, 'printshop');
   await inspect();
-  await page.locator('#source-reader').waitFor({ state: 'visible' });
+  try { await page.locator('#source-reader').waitFor({ state: 'visible', timeout: 8000 }); }
+  catch { throw new Error(`Source reader did not open: ${JSON.stringify(await page.evaluate(() => ({map:document.querySelector('#mapname')?.textContent,body:document.querySelector('#bodyname')?.textContent,headline:document.querySelector('#headline')?.textContent,text:document.querySelector('#journal-text')?.textContent,actions:[...document.querySelectorAll('#actions button')].map(button=>button.innerText),position:JSON.parse(localStorage.getItem('v33-rpg-save')).state.player.position,host:JSON.parse(localStorage.getItem('v33-rpg-save')).state.player.embodiment})))}; errors=${errors.join('; ')}`); }
   explorationEvents.push({ type: 'inspect' });
   await readSource();
   const reader = await page.locator('.journal').evaluate(element => ({ scrollHeight: element.scrollHeight, clientHeight: element.clientHeight }));
@@ -238,6 +242,7 @@ for (const viewport of (quickMode ? [{ width: 1440, height: 900 }] : [{ width: 1
   for (let step = 0; step < 8; step++) await page.keyboard.press('ArrowUp');
   await goExit(page, '관청 접수실');
   await page.keyboard.press('e');
+  await page.locator('#actions button').filter({ hasText: '알렉세이 오를로프 살펴보기' }).click();
   await page.getByRole('button', { name: '몸을 빌린다' }).click();
   await page.keyboard.press('ArrowRight');
   for (let step = 0; step < 3; step++) await page.keyboard.press('ArrowDown');
@@ -249,6 +254,8 @@ for (const viewport of (quickMode ? [{ width: 1440, height: 900 }] : [{ width: 1
   await page.locator('#release').click();
   await goExit(page, '하숙집 안뜰');
   await page.keyboard.press('e');
+  const mikhailChoice = page.locator('#actions button').filter({ hasText: '미하일 살펴보기' });
+  if (await mikhailChoice.count()) await mikhailChoice.first().click();
   await page.getByRole('button', { name: '몸을 빌린다' }).click();
   await page.keyboard.press('ArrowLeft');
   await page.keyboard.press('ArrowLeft');

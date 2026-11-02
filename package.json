@@ -181,6 +181,7 @@
     "v36-first-slice-sim": "node scripts/v36-first-slice-simulation.mjs",
     "v36-district-prototype-test": "node --test scripts/v36-district-prototype-test.mjs",
     "v36-add-market-cohort": "node scripts/v36-add-market-cohort.mjs",
+    "v36-add-neighborhood-cohort": "node scripts/v36-add-neighborhood-cohort.mjs",
     "v36-market-cohort-simulation": "node scripts/v36-market-cohort-simulation.mjs",
     "v36-opinion-board-browser": "node scripts/v36-opinion-board-browser-test.mjs",
     "v36-first-slice": "npm run v36-district-prototype-test && npm run v36-first-slice-sim",

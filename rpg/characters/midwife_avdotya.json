@@ -1,0 +1,197 @@
+{
+  "id": "midwife_avdotya",
+  "kind": "FICTIONAL",
+  "displayNameKo": "아브도티야",
+  "displayNameRu": "Авдотья Иванова",
+  "ageAtDate": {
+    "value": 44,
+    "status": "fictional_character_design"
+  },
+  "socialEstate": "urban_laborer",
+  "occupation": "이웃의 출산을 돕고 산모를 돌보는 산파",
+  "rank": {
+    "value": null,
+    "ru": null,
+    "status": "not_applicable"
+  },
+  "legalMobility": "하숙집·공개 거리와 수선 주문을 맡은 인쇄소 작업장 이용; 관청과 살롱 출입은 소개/고용 없이 불가",
+  "wealthBracket": "precarious",
+  "money": {
+    "amount": 18,
+    "unit": "kopeks",
+    "status": "designedEstimate"
+  },
+  "literacy": "짧은 인쇄 문장을 읽을 수 있음",
+  "health": "working",
+  "reputationByGroup": {
+    "courtyard": "steady_worker"
+  },
+  "risk": "오늘 일감을 놓치면 방세 납부가 늦어진다",
+  "relations": {},
+  "secretKnowledge": [
+    {
+      "id": "MIDWIFE_AVDOTYA_PRIVATE_NOTE",
+      "summaryKo": "셋방의 호출이 얼마나 급한지는 아직 직접 확인하지 못했다."
+    }
+  ],
+  "knownEvidence": [],
+  "privateKnowledgeIds": [
+    "MIDWIFE_AVDOTYA_PRIVATE_NOTE"
+  ],
+  "knownEvidenceIds": [],
+  "desires": "돌봄이 급한 사람과 비용을 낼 수 있는 사람 중 누구를 먼저 찾아가야 할까요?",
+  "fears": "아브도티야는 멀리 사는 유복한 집의 유료 호출과 가까운 셋방의 긴급 부탁을 함께 받았다. 누구를 먼저 찾아갈지 정한다.",
+  "taboos": [
+    "당사자가 없는 자리에서 이름을 퍼뜨리지 않는다"
+  ],
+  "speechRhythm": "상태를 함부로 진단하지 않고 이동 시간과 준비물을 센다. 급할수록 문장을 짧게 끊는다.",
+  "speechRegister": {
+    "firstMeeting": "처음엔 호출 장소와 시간을 먼저 확인한다.",
+    "colleague": "동료에게는 준비물과 이동 순서를 빠르게 맞춘다.",
+    "private": "사적인 대화에서 피로와 비용 걱정을 솔직히 말한다.",
+    "conflict": "급한 상황일수록 짧고 단호하게 확인되지 않은 진단을 막는다.",
+    "intimacy": "가까운 이웃에게는 걱정을 받아주되 할 수 있는 일을 구분한다.",
+    "formal": "의뢰인에게 정중히 말하고 비용·방문 시각을 명확히 알린다."
+  },
+  "voiceSamples": [
+    "길을 막지 말아 주세요. 부름이 두 군데 와서 순서를 정해야 해요. 어디서 오셨죠?",
+    "가까운 셋방에서 급히 와 달라고 했어요. 멀리 있는 집도 약속한 시간이 있고요. 누가 먼저인지 정해야 해요.",
+    "돌봄은 지불 능력만으로 나눌 수 없지만, 이동과 물품에 드는 비용을 한 사람에게 계속 떠넘길 수도 없다고 본다."
+  ],
+  "worldview": {
+    "status": "fictional_character_design",
+    "stanceKo": "돌봄은 지불 능력만으로 나눌 수 없지만, 이동과 물품에 드는 비용을 한 사람에게 계속 떠넘길 수도 없다고 본다.",
+    "tensionKo": "아브도티야는 멀리 사는 유복한 집의 유료 호출과 가까운 셋방의 긴급 부탁을 함께 받았다. 누구를 먼저 찾아갈지 정한다.",
+    "blindSpotKo": "자기 일이 급할 때 상대가 감당할 비용을 충분히 보지 못할 수 있다.",
+    "designBasisKo": "허구 시민 설정으로 실제 개인의 증언이나 사건을 나타내지 않는다.",
+    "sceneAnchorIds": [
+      "MIDWIFE_CARE_COST_1847"
+    ]
+  },
+  "topicStances": {
+    "serfdom": {
+      "knowledgeKind": "no_documented_stance",
+      "positionKo": "이 허구 인물은 농촌 제도의 직접 경험이나 확인된 정보를 가진 것으로 설정하지 않는다."
+    },
+    "censorship": {
+      "knowledgeKind": "fictional_workplace_context_only",
+      "positionKo": "문서의 전달·교정에서 자신이 직접 맡은 일만 말하고 실제 검열 규정을 대신 설명하지 않는다."
+    },
+    "literature": {
+      "knowledgeKind": "reader_limited",
+      "positionKo": "작가의 뜻을 대변하지 않고 자신이 읽거나 들은 범위만 말한다."
+    },
+    "poverty_and_class": {
+      "knowledgeKind": "fictional_lived_experience",
+      "positionKo": "돌봄은 지불 능력만으로 나눌 수 없지만, 이동과 물품에 드는 비용을 한 사람에게 계속 떠넘길 수도 없다고 본다."
+    },
+    "slavophilism_and_westernism": {
+      "knowledgeKind": "unfamiliar_terms",
+      "positionKo": "사상 진영을 대변하지 않는다. 일과 이웃에게 생기는 비용을 중심으로 말한다."
+    }
+  },
+  "lexicon": [
+    "수선값",
+    "방세",
+    "마감"
+  ],
+  "emotions": [
+    "피로",
+    "단단함",
+    "가벼운 농담"
+  ],
+  "personalObjective": "돌봄이 급한 사람과 비용을 낼 수 있는 사람 중 누구를 먼저 찾아가야 할까요?",
+  "objectiveByChapter": {
+    "1847": "돌봄이 급한 사람과 비용을 낼 수 있는 사람 중 누구를 먼저 찾아가야 할까요?"
+  },
+  "allowedMaps": [
+    "nevsky",
+    "courtyard",
+    "market-quay",
+    "printshop",
+    "chancery"
+  ],
+  "start": {
+    "mapId": "courtyard",
+    "x": 10,
+    "y": 14
+  },
+  "wealthBracketStatus": "designedEstimate",
+  "inventory": [
+    "바늘통",
+    "남색 실",
+    "수선 맡은 소매"
+  ],
+  "sourceIds": [],
+  "canonConstraint": "fictional citizen; never treated as an attested historical individual or witness",
+  "reconstructionDisclaimer": "허구 인물의 일과 선택만 다룬다.",
+  "sprite": {
+    "file": "assets/midwife_avdotya.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "scarf",
+    "palette": {
+      "cloth": "#5d4436",
+      "trim": "#9d7449",
+      "headwear": "#765c4b"
+    }
+  },
+  "schedule": [
+    {
+      "atMinute": 420,
+      "mapId": "courtyard",
+      "position": {
+        "x": 10,
+        "y": 14
+      },
+      "activityKo": "호출 시간과 가져갈 물품을 확인한다"
+    },
+    {
+      "atMinute": 600,
+      "mapId": "market-quay",
+      "position": {
+        "x": 8,
+        "y": 14
+      },
+      "activityKo": "필요한 물품의 값과 외상을 묻는다"
+    },
+    {
+      "atMinute": 780,
+      "mapId": "nevsky",
+      "position": {
+        "x": 14,
+        "y": 12
+      },
+      "activityKo": "셋방의 호출을 확인하러 간다"
+    },
+    {
+      "atMinute": 960,
+      "mapId": "courtyard",
+      "position": {
+        "x": 10,
+        "y": 14
+      },
+      "activityKo": "방문 순서와 비용을 기록한다"
+    }
+  ],
+  "portrait": {
+    "file": "assets/portrait-midwife_avdotya.svg",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+  },
+  "spriteAtlas": {
+    "file": "assets/anna.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "directions": 4,
+    "framesPerDirection": 3,
+    "directionRows": {
+      "down": 0,
+      "up": 1,
+      "left": 2,
+      "right": 3
+    }
+  },
+  "speechStatus": "FICTIONAL_DESIGN"
+}

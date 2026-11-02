@@ -1,8 +1,8 @@
 {
   "schemaVersion": "V33-IMAGE-AUDIT-3",
   "status": "PASS",
-  "pngCount": 33,
-  "svgCount": 6,
+  "pngCount": 39,
+  "svgCount": 12,
   "assets": [
     {
       "path": "rpg/assets/akaky.png",
@@ -32,11 +32,29 @@
       "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
     },
     {
+      "path": "rpg/assets/apothecary_yakov.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 516,
+      "sha256": "a02de10f577ff016f7fb3c8db40e961d9a4e70628f0aec0093c0d68b534f55d6",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
       "path": "rpg/assets/baker_fyodor.png",
       "width": 48,
       "height": 96,
       "bytes": 504,
       "sha256": "3fcf8f173b9721cf2676aea04700e7f07a987581250357bb0a41fb6b764b7080",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/bookbinder_elizaveta.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 497,
+      "sha256": "6be4fcf91467c2baebb89e23edc71fa5a5ea446fc09dfe7bb14fff43e55592d2",
       "license": "original project-authored pixels",
       "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
     },
@@ -68,6 +86,15 @@
       "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
     },
     {
+      "path": "rpg/assets/housemaid_olga.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 508,
+      "sha256": "7ceb833fd2a8b2437a378098f51d22119424f3d0f7a9e3223c2094bc02640154",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
       "path": "rpg/assets/laundress_mariya.png",
       "width": 48,
       "height": 96,
@@ -91,6 +118,15 @@
       "height": 96,
       "bytes": 507,
       "sha256": "b4310e843e96661dcaad6d10d34d4bbce1b36801f6072e216c81a438b54a01b0",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/midwife_avdotya.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 534,
+      "sha256": "fa472be2c96a43424ccdeb94f5ed132193102ad1f74da74fba57d2c7563863b6",
       "license": "original project-authored pixels",
       "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
     },
@@ -293,6 +329,24 @@
       "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
     },
     {
+      "path": "rpg/assets/print_apprentice_stepan.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 557,
+      "sha256": "ad68882edc891127891d4aaacd71c74f34516ade19e8aacdc322c9d0c06c9ff3",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/scribal_yuri.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 516,
+      "sha256": "89c7481852a1efaffe8b86777fa6afcc4be8c1811d24e4bcf51d56e52fe98a5a",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
       "path": "rpg/assets/yardkeeper_semyon.png",
       "width": 48,
       "height": 96,
@@ -311,6 +365,33 @@
       "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
     },
     {
+      "path": "rpg/assets/portrait-apothecary_yakov.svg",
+      "width": 64,
+      "height": 64,
+      "bytes": 520,
+      "sha256": "ec956da642f0413507f70c3df45324c232cb3e5a938e4c8a723b5f67d7a646ec",
+      "license": "original project-authored vector artwork",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-bookbinder_elizaveta.svg",
+      "width": 64,
+      "height": 64,
+      "bytes": 520,
+      "sha256": "52c367064afe800f0d5364ca6996e571a3d16f0465cb5d15e710d68af75dbe33",
+      "license": "original project-authored vector artwork",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-housemaid_olga.svg",
+      "width": 64,
+      "height": 64,
+      "bytes": 520,
+      "sha256": "70778b0660f399a8489b32acc9f6d97b36c69cb502f1029c36cb47bb341631c3",
+      "license": "original project-authored vector artwork",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
       "path": "rpg/assets/portrait-ivan.svg",
       "width": 64,
       "height": 64,
@@ -320,11 +401,38 @@
       "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
     },
     {
+      "path": "rpg/assets/portrait-midwife_avdotya.svg",
+      "width": 64,
+      "height": 64,
+      "bytes": 520,
+      "sha256": "70778b0660f399a8489b32acc9f6d97b36c69cb502f1029c36cb47bb341631c3",
+      "license": "original project-authored vector artwork",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-print_apprentice_stepan.svg",
+      "width": 64,
+      "height": 64,
+      "bytes": 520,
+      "sha256": "04d9e22af9ebf8c1cdbbf50c8afe17a0729e11d01aa285ab49484de15ee91eca",
+      "license": "original project-authored vector artwork",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
       "path": "rpg/assets/portrait-reader-darya.svg",
       "width": 64,
       "height": 64,
       "bytes": 780,
       "sha256": "2edc9500b50b59059080d06b59d8dc8160d2e8fc259b51116d0cfcfa5f374413",
+      "license": "original project-authored vector artwork",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-scribal_yuri.svg",
+      "width": 64,
+      "height": 64,
+      "bytes": 520,
+      "sha256": "f9f357300fcfdb228d1c1c16ed7393385bd369d52462737ddc986f7f2db8faba",
       "license": "original project-authored vector artwork",
       "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
     },

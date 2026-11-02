@@ -1,0 +1,74 @@
+{
+  "id": "APPRENTICE_AUTHorship_1847",
+  "titleKo": "고친 글자와 찍은 손",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "스테판은 익명 전단의 교정쇄에서 문장이 바뀐 것을 알아챘다. 누가 고쳤는지 남기면 동료가 곤란해질 수 있다.",
+  "historicalOutcome": {
+    "id": "APPRENTICE_AUTHorship_1847_FICTIONAL_OUTCOME",
+    "value": "fictional work and household choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "printshop",
+    "objectId": 1003,
+    "requiredHostId": "print_apprentice_stepan"
+  },
+  "actions": [
+    {
+      "id": "PRINT_APPRENTICE_STEPAN_CHOICE_1",
+      "hostIds": [
+        "print_apprentice_stepan"
+      ],
+      "labelKo": "바뀐 활자와 확인 시각만 교정표에 남긴다",
+      "subcopyKo": "인쇄소 작업자와 교정 담당이 봅니다 · 작업표에 남습니다 · 수정자를 찾는 일이 늦어질 수 있습니다",
+      "resultKo": "바뀐 줄과 확인한 시각을 적었다. 사실은 남지만 수정한 사람은 아직 확인되지 않았다.",
+      "resultFlag": "stepanMarked",
+      "followupTitleKo": "고친 글자와 찍은 손",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "바뀐 줄과 확인 시각을 교정표에 적었다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    },
+    {
+      "id": "PRINT_APPRENTICE_STEPAN_CHOICE_2",
+      "hostIds": [
+        "print_apprentice_stepan"
+      ],
+      "labelKo": "동료의 이름을 추측해 작업표에 적는다",
+      "subcopyKo": "인쇄소 책임자와 동료가 봅니다 · 작업표에 이름이 남습니다 · 잘못 지목하면 견습 자리를 잃을 수 있습니다",
+      "resultKo": "추측한 이름을 작업표에 올렸다. 조사는 시작될 수 있지만 그 사람이 고쳤다는 증거는 없다.",
+      "resultFlag": "stepanNamed",
+      "followupTitleKo": "고친 글자와 찍은 손",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "확인되지 않은 수정자 이름을 작업표에 썼다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    },
+    {
+      "id": "PRINT_APPRENTICE_STEPAN_CHOICE_3",
+      "hostIds": [
+        "print_apprentice_stepan"
+      ],
+      "labelKo": "작업표를 잠시 보류하고 교정쇄를 동료와 대조한다",
+      "subcopyKo": "교정쇄를 다룬 두 사람이 압니다 · 공식 작업표에는 아직 남지 않습니다 · 배포가 늦어질 수 있습니다",
+      "resultKo": "교정쇄를 다시 맞춰 보기로 했다. 잘못된 인쇄를 막을 수 있지만 다른 작업이 밀린다.",
+      "resultFlag": "stepanCompared",
+      "followupTitleKo": "고친 글자와 찍은 손",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "작업표를 보류하고 교정쇄를 대조하기로 했다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named work record"
+}

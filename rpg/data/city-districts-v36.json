@@ -28,7 +28,10 @@
         "senior_clerk_konstantin",
         "reader_darya",
         "editor_sofia",
-        "police_sergeant_ivan"
+        "police_sergeant_ivan",
+        "print_apprentice_stepan",
+        "bookbinder_elizaveta",
+        "scribal_yuri"
       ],
       "connections": [
         {
@@ -91,7 +94,9 @@
       "residentIds": [
         "tenant_mikhail",
         "courier_pavel",
-        "seamstress_anna"
+        "seamstress_anna",
+        "housemaid_olga",
+        "midwife_avdotya"
       ],
       "connections": [
         {
@@ -136,7 +141,8 @@
         "baker_fyodor",
         "market_nadezhda",
         "porter_gavrila",
-        "coachman_timofey"
+        "coachman_timofey",
+        "apothecary_yakov"
       ],
       "connections": [
         {

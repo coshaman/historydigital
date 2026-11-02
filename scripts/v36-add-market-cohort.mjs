@@ -27,7 +27,8 @@ function npcObject(id, name, x, y){return {id,name,type:'npc',x:x*16,y:y*16,widt
 function interactionObject(id,name,type,x,y,properties={}){return {id,name,type,x:x*16,y:y*16,width:16,height:16,visible:true,properties:Object.entries(properties).map(([name,value])=>({name,type:typeof value==='number'?'int':'string',value}))};}
 
 const map = await read('rpg/maps/nevsky.json');
-const market = structuredClone(map);
+const existingMarket=await fs.readFile(path.join(root,'rpg/maps/market-quay.json'),'utf8').then(JSON.parse).catch(()=>null);
+const market = existingMarket ?? structuredClone(map);
 market.name='market-quay';market.mapId='market-quay';market.metadata={displayNameKo:'강변 장터',observerStart:{x:22,y:10},date:'1847-06-01',mapClass:'REAL_WORLD_RECONSTRUCTION',districtId:'MARKET_QUAY',geography:'fictional market-and-quay scene; no exact historical locator claimed',sourceIds:['V36-MAP-NLR-19C-PLANS','V36-ART-RUSSIAN-MUSEUM-COLLMANN-1840S','V36-PHYSIOLOGY-PETERSBURG-1845'],note:'Original pixel reconstruction of a generic market and landing. It does not identify a documented address, merchant, quay, or measured 1847 street plan.'};
 market.properties=Object.entries(market.metadata).map(([name,value])=>({name,type:'string',value:JSON.stringify(value)}));
 const ground=market.layers.find(layer=>layer.name==='Ground').data, architecture=market.layers.find(layer=>layer.name==='Architecture').data, collision=market.layers.find(layer=>layer.name==='Collision').data;
@@ -38,8 +39,11 @@ for(let x=17;x<=21;x++){architecture[5*30+x]=23;collision[4*30+x]=1;}
 for(let x=23;x<=27;x++){architecture[5*30+x]=27;collision[4*30+x]=1;}
 const objects=[interactionObject(101,'네프스키로 돌아가는 길','map-exit',1,10,{exitId:'market-nevsky-gate',targetMapId:'nevsky',arrivalX:27,arrivalY:10,returnExitId:'nevsky-market-gate',publicAccess:true})];
 for(let i=0;i<people.length;i++){const p=people[i];objects.push(interactionObject(110+i,p.object,'quest-object',...p.target,{questId:p.quest}));}
-market.layers.find(layer=>layer.name==='Interactions').objects=objects;
-market.layers.find(layer=>layer.name==='NPCs').objects=people.map((p,i)=>npcObject(p.id,p.ko,...p.start));
+const oldInteractions=market.layers.find(layer=>layer.name==='Interactions').objects.filter(object=>!objects.some(created=>created.id===object.id));
+market.layers.find(layer=>layer.name==='Interactions').objects=[...objects,...oldInteractions];
+const firstCohortIds=new Set(people.map(person=>person.id));
+const oldResidents=market.layers.find(layer=>layer.name==='NPCs').objects.filter(object=>!object.properties?.some(property=>property.name==='hostId'&&firstCohortIds.has(property.value)));
+market.layers.find(layer=>layer.name==='NPCs').objects=[...people.map(person=>npcObject(person.id,person.ko,...person.start)),...oldResidents];
 market.nextobjectid=120;market.nextlayerid=7;
 const nevskyExit=interactionObject(20,'강변 장터 입구','map-exit',28,10,{exitId:'nevsky-market-gate',targetMapId:'market-quay',arrivalX:2,arrivalY:10,returnExitId:'market-nevsky-gate',publicAccess:true});
 const street=await read('rpg/maps/nevsky.json');

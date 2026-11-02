@@ -9,7 +9,7 @@ const caseContexts = require('../../rpg/data/case-contexts.json').cases;
 const historicalClaims = require('../../rpg/data/historical-claim-ledger.json').claims;
 const historicalPeople = require('../../rpg/data/historical-comparisons.json').comparisons;
 const mapRecords = new Map(['nevsky','printshop','chancery','courtyard','market-quay','dead-souls','overcoat','police-station'].map(id => [id, require(`../../rpg/maps/${id}.json`)]));
-const questRecords = new Map(['printshop-article','public-discourse-1848','circle-investigation-1849','circle-letter-1849-may','yard-ledger-1847','laundry-wages-1847','bakery-flour-1847','market-prices-1847','porter-load-1847','coach-fare-1847','literary-dead-souls','literary-overcoat'].map(id => { const quest = require(`../../rpg/quests/${id}.json`); return [quest.id, quest]; }));
+const questRecords = new Map(['printshop-article','public-discourse-1848','circle-investigation-1849','circle-letter-1849-may','yard-ledger-1847','laundry-wages-1847','bakery-flour-1847','market-prices-1847','porter-load-1847','coach-fare-1847','household-privacy-1847','midwife-care-cost-1847','apothecary-limits-1847','apprentice-authorship-1847','bookbinder-damage-1847','scribal-copy-1847','literary-dead-souls','literary-overcoat'].map(id => { const quest = require(`../../rpg/quests/${id}.json`); return [quest.id, quest]; }));
 const historicalNameVariants = [...new Set([
   ...historicalPeople.flatMap(person => person.personKo.split(/[와,·]/).flatMap(part => {
     const words = part.replace(/^(젊은|청년)\s+/, '').replace(/\s*(모임|사상가|비평가).*$/, '').trim().split(/\s+/).filter(Boolean);
@@ -37,6 +37,12 @@ const cards = new Map([
   require('../../rpg/characters/market_nadezhda.json'),
   require('../../rpg/characters/porter_gavrila.json'),
   require('../../rpg/characters/coachman_timofey.json'),
+  require('../../rpg/characters/housemaid_olga.json'),
+  require('../../rpg/characters/midwife_avdotya.json'),
+  require('../../rpg/characters/apothecary_yakov.json'),
+  require('../../rpg/characters/print_apprentice_stepan.json'),
+  require('../../rpg/characters/bookbinder_elizaveta.json'),
+  require('../../rpg/characters/scribal_yuri.json'),
   require('../../rpg/characters/nekrasov_reconstruction.json'),
   require('../../rpg/characters/literary_chichikov.json'),
   require('../../rpg/characters/literary_akaky.json'),
@@ -53,6 +59,12 @@ const relationshipQuests = [
   require('../../rpg/quests/market-prices-1847.json'),
   require('../../rpg/quests/porter-load-1847.json'),
   require('../../rpg/quests/coach-fare-1847.json'),
+  require('../../rpg/quests/household-privacy-1847.json'),
+  require('../../rpg/quests/midwife-care-cost-1847.json'),
+  require('../../rpg/quests/apothecary-limits-1847.json'),
+  require('../../rpg/quests/apprentice-authorship-1847.json'),
+  require('../../rpg/quests/bookbinder-damage-1847.json'),
+  require('../../rpg/quests/scribal-copy-1847.json'),
 ];
 const dialogueQuests = [...relationshipQuests, require('../../rpg/quests/literary-dead-souls.json'), require('../../rpg/quests/literary-overcoat.json')];
 const actorActionRecords = new Map();

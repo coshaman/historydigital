@@ -128,6 +128,12 @@ test('new editor, police, and market cohort characters receive their own validat
     ['market_nadezhda', 'porter_gavrila', 'market-quay', '1847-06-01', 'nadezhda-session-0001'],
     ['porter_gavrila', 'coachman_timofey', 'market-quay', '1847-06-01', 'gavrila-session-0001'],
     ['coachman_timofey', 'yardkeeper_semyon', 'market-quay', '1847-06-01', 'timofey-session-0001'],
+    ['housemaid_olga', 'midwife_avdotya', 'courtyard', '1847-06-01', 'olga-session-00001'],
+    ['midwife_avdotya', 'housemaid_olga', 'courtyard', '1847-06-01', 'avdotya-session-0001'],
+    ['apothecary_yakov', 'housemaid_olga', 'market-quay', '1847-06-01', 'yakov-session-00001'],
+    ['print_apprentice_stepan', 'bookbinder_elizaveta', 'printshop', '1847-06-01', 'stepan-session-0001'],
+    ['bookbinder_elizaveta', 'print_apprentice_stepan', 'printshop', '1847-06-01', 'elizaveta-session-0001'],
+    ['scribal_yuri', 'apothecary_yakov', 'chancery', '1847-06-01', 'yuri-session-0000001'],
   ]) {
     const session = await service.handle(request('POST', '/api/rpg/session/start', { hostId, actorHostId }));
     assert.equal(session.status, 201, `${hostId} session should start`);
@@ -139,7 +145,7 @@ test('new editor, police, and market cohort characters receive their own validat
     assert.equal(reply.body.fallback, false);
     assert.equal(reply.body.turn.beats[0].speakerId, hostId);
   }
-  assert.deepEqual(observed.map(item => item.character.id), ['editor_sofia', 'police_sergeant_ivan', 'yardkeeper_semyon', 'laundress_mariya', 'baker_fyodor', 'market_nadezhda', 'porter_gavrila', 'coachman_timofey']);
+  assert.deepEqual(observed.map(item => item.character.id), ['editor_sofia', 'police_sergeant_ivan', 'yardkeeper_semyon', 'laundress_mariya', 'baker_fyodor', 'market_nadezhda', 'porter_gavrila', 'coachman_timofey', 'housemaid_olga', 'midwife_avdotya', 'apothecary_yakov', 'print_apprentice_stepan', 'bookbinder_elizaveta', 'scribal_yuri']);
   for (const item of observed.slice(2)) assert.ok(item.character.speechRhythm && item.character.worldview.stanceKo, `${item.character.id} context must carry a voice and point of view`);
   assert.match(observed[0].character.speechRhythm, /출처|편집/);
   assert.match(observed[1].character.worldview.designBasisKo, /실제.*재현하지 않는다/);

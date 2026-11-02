@@ -30,7 +30,7 @@
   "tileheight": 16,
   "infinite": false,
   "nextlayerid": 7,
-  "nextobjectid": 120,
+  "nextobjectid": 1100,
   "properties": [
     {
       "name": "displayNameKo",
@@ -2688,6 +2688,23 @@
               "value": "COACH_FARE_1847"
             }
           ]
+        },
+        {
+          "id": 1002,
+          "name": "약방 재고와 외상 장부",
+          "type": "quest-object",
+          "x": 224,
+          "y": 256,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "APOTHECARY_LIMITS_1847"
+            }
+          ]
         }
       ]
     },
@@ -2796,6 +2813,108 @@
               "name": "hostId",
               "type": "string",
               "value": "coachman_timofey"
+            }
+          ]
+        },
+        {
+          "id": 900,
+          "name": "올가",
+          "type": "npc",
+          "x": 80,
+          "y": 208,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "housemaid_olga"
+            }
+          ]
+        },
+        {
+          "id": 901,
+          "name": "아브도티야",
+          "type": "npc",
+          "x": 160,
+          "y": 224,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "midwife_avdotya"
+            }
+          ]
+        },
+        {
+          "id": 902,
+          "name": "야코프",
+          "type": "npc",
+          "x": 208,
+          "y": 224,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "apothecary_yakov"
+            }
+          ]
+        },
+        {
+          "id": 903,
+          "name": "스테판",
+          "type": "npc",
+          "x": 160,
+          "y": 160,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "print_apprentice_stepan"
+            }
+          ]
+        },
+        {
+          "id": 904,
+          "name": "엘리자베타",
+          "type": "npc",
+          "x": 96,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "bookbinder_elizaveta"
+            }
+          ]
+        },
+        {
+          "id": 905,
+          "name": "유리",
+          "type": "npc",
+          "x": 192,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "scribal_yuri"
             }
           ]
         }
