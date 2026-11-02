@@ -1062,6 +1062,28 @@
       "intendedScene": "courtyard",
       "sourceIds": [],
       "notes": "Original stylized portrait of a fictional resident; not a documented likeness."
+    },
+    {
+      "id": "sprite-reader_darya",
+      "path": "rpg/assets/reader_darya.png",
+      "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
+      "license": "original project-authored pixels",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": "nevsky",
+      "sourceIds": [],
+      "notes": "Original pixel interpretation using the neutral civilian atlas for fictional citizen reader_darya; not a documented likeness or evidence of a specific individual's clothing."
+    },
+    {
+      "id": "sprite-senior_clerk_konstantin",
+      "path": "rpg/assets/senior_clerk_konstantin.png",
+      "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
+      "license": "original project-authored pixels",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": "chancery",
+      "sourceIds": [],
+      "notes": "Original pixel interpretation using the neutral office atlas for fictional citizen senior_clerk_konstantin; not a documented likeness or evidence of a specific individual's clothing."
     }
   ]
 }

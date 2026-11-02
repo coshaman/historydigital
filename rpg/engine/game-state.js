@@ -809,6 +809,15 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
     if (!question?.options.some(option => option.id === optionId)) throw new Error('Save contains an unknown exam answer');
   }
   state.world.clockMinutes ??= 540;
+  state.world.immutableOutcomes ??= {};
+  state.world.literaryOutcomes ??= {};
+  state.quests ??= {};
+  for (const quest of quests) {
+    const literary = Boolean(quest.realmId) || quest.chapterId?.startsWith('LITERARY_');
+    const outcomeStore = literary ? state.world.literaryOutcomes : state.world.immutableOutcomes;
+    if (!Object.hasOwn(outcomeStore, quest.historicalOutcome.id)) outcomeStore[quest.historicalOutcome.id] = quest.historicalOutcome.value;
+    state.quests[quest.id] ??= { status: 'open', result: null };
+  }
   const seededHosts = createInitialState({ maps, hostCards, quests }).hosts;
   state.hosts ??= {};
   for (const card of hostCards) if (!state.hosts[card.id]) state.hosts[card.id] = seededHosts[card.id];

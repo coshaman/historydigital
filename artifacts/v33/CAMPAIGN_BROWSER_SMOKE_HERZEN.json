@@ -1,6 +1,6 @@
 {
   "schemaVersion": "V33_CAMPAIGN_BROWSER_SMOKE_V1",
-  "base": "http://127.0.0.1:58803/",
+  "base": "http://127.0.0.1:53583/",
   "endingId": "HERZEN",
   "status": "PASS",
   "steps": [
@@ -266,7 +266,24 @@
       "CARTER_DELIVERY_DELAY_1847_FICTIONAL_OUTCOME": "fictional work and household choice only; no historical public record is altered",
       "STREET_VENDOR_WEATHER_1847_FICTIONAL_OUTCOME": "fictional work and household choice only; no historical public record is altered",
       "TYPESETTER_SPEED_CENSORSHIP_1847_FICTIONAL_OUTCOME": "fictional work and household choice only; no historical public record is altered",
-      "LODGING_READING_INCOME_1847_FICTIONAL_OUTCOME": "fictional work and household choice only; no historical public record is altered"
+      "LODGING_READING_INCOME_1847_FICTIONAL_OUTCOME": "fictional work and household choice only; no historical public record is altered",
+      "ALEXEI_ENVELOPE_REGISTER_1847_STAGE_1_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "ALEXEI_ENVELOPE_REGISTER_1847_STAGE_2_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "ALEXEI_ENVELOPE_REGISTER_1847_STAGE_3_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "PAVEL_PROOF_DELIVERY_1847_STAGE_1_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "PAVEL_PROOF_DELIVERY_1847_STAGE_2_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "PAVEL_PROOF_DELIVERY_1847_STAGE_3_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "ANNA_COAT_REPAIR_1847_STAGE_1_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "ANNA_COAT_REPAIR_1847_STAGE_2_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "ANNA_COAT_REPAIR_1847_STAGE_3_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "LEV_BOOK_RESERVATION_1847_STAGE_1_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "LEV_BOOK_RESERVATION_1847_STAGE_2_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "LEV_BOOK_RESERVATION_1847_STAGE_3_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "EDITOR_PUBLICATION_RECORD_1847_FICTIONAL_OUTCOME": "fictional editorial choice only; no historical publication or person is altered",
+      "POLICE_TESTIMONY_RECORD_1849_FICTIONAL_OUTCOME": "fictional record-handling choice only; immutable historical events remain unchanged",
+      "READER_SOURCE_AND_RUMOR_1847_FICTIONAL_OUTCOME": "fictional reading and teaching choice only; no historical reader or author is represented",
+      "SENIOR_CLERK_REVIEW_AND_SIGNATURE_1847_FICTIONAL_OUTCOME": "fictional office workflow choice only; no historical censor or decision is represented",
+      "TENANT_RENT_AND_FIREWOOD_1847_FICTIONAL_OUTCOME": "fictional lodging-house choice only; no real household or historical record is represented"
     }
   },
   "screenshot": "artifacts/v33/campaign-full-run-herzen-1440x900.png"

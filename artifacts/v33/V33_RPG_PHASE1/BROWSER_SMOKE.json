@@ -1,6 +1,6 @@
 {
   "schemaVersion": "V33_RPG_BROWSER_SMOKE_V1",
-  "base": "http://127.0.0.1:64830/",
+  "base": "http://127.0.0.1:61413/",
   "viewports": [
     {
       "viewport": {
@@ -96,7 +96,7 @@
       "canvas": {
         "width": 1382,
         "height": 355,
-        "sampledColors": 22,
+        "sampledColors": 23,
         "mapCoverage": 0.8668596237337193,
         "cssTileScale": 2.879166666666667
       },
@@ -202,7 +202,7 @@
       "canvas": {
         "width": 1309,
         "height": 279,
-        "sampledColors": 14,
+        "sampledColors": 22,
         "mapCoverage": 0.7188693659281895,
         "cssTileScale": 2.7270833333333333
       },
@@ -308,7 +308,7 @@
       "canvas": {
         "width": 1065,
         "height": 278,
-        "sampledColors": 17,
+        "sampledColors": 24,
         "mapCoverage": 0.8816901408450705,
         "cssTileScale": 2.21875
       },
@@ -414,7 +414,7 @@
       "canvas": {
         "width": 368,
         "height": 377,
-        "sampledColors": 25,
+        "sampledColors": 33,
         "mapCoverage": 1,
         "cssTileScale": 0.7666666666666667
       },
@@ -520,7 +520,7 @@
       "canvas": {
         "width": 338,
         "height": 339,
-        "sampledColors": 31,
+        "sampledColors": 44,
         "mapCoverage": 1,
         "cssTileScale": 0.7041666666666667
       },
@@ -544,7 +544,7 @@
     "clueInspected": "PRINTSHOP_ROUTING_NOTE",
     "sourceRead": true,
     "sourceReaderScroll": {
-      "scrollHeight": 766,
+      "scrollHeight": 893,
       "clientHeight": 335
     },
     "choiceResolved": true,

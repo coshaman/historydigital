@@ -69,12 +69,12 @@ try {
     assert.equal(await page.locator('#dialogue-speaker').isVisible(), false, `dialogue portrait should stay hidden before a conversation at ${viewport.width}`);
     const dialogueCountBeforeHealth = dialogueRequests.length, sessionCountBeforeHealth = sessionStarts.length;
     await page.locator('#settings-open').click();
-    await page.getByText('API 정상 · 서버 키 설정됨', { exact: true }).waitFor();
+    await page.getByText('서버 키 확인됨 · 모델 응답은 미검증', { exact: true }).waitFor();
     const settingsLayout = await page.locator('#api-settings').evaluate(element => { const rect=element.getBoundingClientRect(); return { width:rect.width,height:rect.height,right:rect.right,bottom:rect.bottom }; });
     assert.ok(settingsLayout.width <= viewport.width && settingsLayout.height <= viewport.height, `API settings dialog fits viewport ${viewport.width}`);
     const initialInquiryBoard = await page.locator('#discussion-quest-board').innerText();
     assert.match(initialInquiryBoard, /사건·철학·이념 임무/);
-    assert.match(initialInquiryBoard, /다른 직업의 사람에게 같은 문제/);
+    assert.match(initialInquiryBoard, /다른 직업의 사람에게 같은 쟁점/);
     assert.match(initialInquiryBoard, /0\/2 관점/);
     assert.match(initialInquiryBoard, /검열|책에서|명령/);
     assert.equal(dialogueRequests.length, dialogueCountBeforeHealth, 'health probe does not create an AI dialogue');

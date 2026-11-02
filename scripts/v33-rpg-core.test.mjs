@@ -533,6 +533,26 @@ test('V35 expands old saves with the new intellectual cast without losing the ex
   assert.deepEqual(loaded.player.dialogueGrowth, { insight: 0, aiReplies: 0, perspectiveNotes: [], comparisonNotes: [], reflectionIds: [] });
 });
 
+test('old V36 saves migrate newly added quest states and immutable outcomes without resetting existing progress', async () => {
+  const maps = await loadMaps();
+  const cards = await Promise.all((await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)));
+  const questFiles = (await readdir(path.join(root, 'rpg/quests'))).filter(file => file.endsWith('.json') && file !== 'campaign.json');
+  const quests = await Promise.all(questFiles.map(file => json(`rpg/quests/${file}`)));
+  const newLifeChainPrefixes = ['ALEXEI_ENVELOPE_REGISTER_1847', 'PAVEL_PROOF_DELIVERY_1847', 'ANNA_COAT_REPAIR_1847', 'LEV_BOOK_RESERVATION_1847'];
+  const legacyQuests = quests.filter(quest => !newLifeChainPrefixes.some(prefix => quest.id.startsWith(prefix)));
+  const legacy = createInitialState({ maps, hostCards: cards, quests: legacyQuests });
+  const retainedQuest = legacyQuests[0];
+  legacy.quests[retainedQuest.id] = { status: 'resolved', result: 'legacy-record' };
+  const loaded = loadGame({ saveVersion: 3, checksum: stateHash(legacy), state: legacy }, { maps, hostCards: cards, quests });
+  const addedQuests = quests.filter(quest => newLifeChainPrefixes.some(prefix => quest.id.startsWith(prefix)));
+  assert.equal(addedQuests.length, 12);
+  for (const quest of addedQuests) {
+    assert.deepEqual(loaded.quests[quest.id], { status: 'open', result: null });
+    assert.equal(loaded.world.immutableOutcomes[quest.historicalOutcome.id], quest.historicalOutcome.value);
+  }
+  assert.deepEqual(loaded.quests[retainedQuest.id], { status: 'resolved', result: 'legacy-record' });
+});
+
 test('older version-one saves acquire the world clock and current schedule without losing state', async () => {
   const maps = await loadMaps();
   const cards = await Promise.all((await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)));

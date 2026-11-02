@@ -18,11 +18,11 @@ test('Nevsky renders a sourced sidewalk, wet gutter, and distinct carriageway su
   }
   assert.ok(row(10).slice(1, 29).every(gid => gid === 44), 'a gutter separates paving from the carriageway');
   const carriageway = [11, 12, 13, 14, 15, 16, 17].flatMap(y => row(y).slice(1, 29));
-  assert.ok(carriageway.every(gid => gid === 41 || gid === 42), 'the center lane uses wet cobble variants');
-  assert.ok(carriageway.includes(41) && carriageway.includes(42), 'wheel-worn and damp cobbles both appear');
+  assert.ok(carriageway.every(gid => gid >= 46 && gid <= 49), 'the center lane uses the V36 street-stone variants');
+  assert.deepEqual([...new Set(carriageway)].sort((a, b) => a - b), [46, 47, 48, 49], 'all four wheel-worn and damp cobble tiles appear');
 
-  assert.ok(map.metadata.sourceIds.includes('OBJ-SADOVNIKOV-1835'));
+  assert.ok(map.metadata.sourceIds.includes('OBJ-SADOVNIKOV-1835'), 'the Nevsky reconstruction retains its earlier panorama reference');
   const asset = provenance.assets.find(entry => entry.path === 'rpg/assets/petersburg-tiles.png');
-  assert.ok(asset?.sourceIds.includes('OBJ-SADOVNIKOV-1835'), 'the original pixel tiles retain their historical visual source');
-  assert.ok(asset.sourceUrls.some(url => url.includes('/gr.-1929_15/')), 'the tile provenance links to the verified panorama record');
+  assert.ok(asset?.sourceIds.includes('V36-GUIDE-PUSHKAREV-1843'), 'the expanded atlas cites the verified 1843 Petersburg guide');
+  assert.ok(asset.sourceUrls.some(url => url === 'https://www.prlib.ru/item/441202'), 'the tile provenance links to the guide record');
 });
