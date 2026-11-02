@@ -37,3 +37,16 @@ test('opinion quests collect two distinct character perspectives before comparis
   assert.equal(discussionReflectionPromptsForHost('clerk_alexei', stateWithNote, [completed]).length, 0, 'follow-up prompts are one-time per character');
   assert.equal(availableDiscussionQuests({ ...state, ledger: [{ eventType: 'DIALOGUE_TURN' }] }, definitions).find(item => item.id === prompt.discussionId).completed, false);
 });
+
+test('new press and public-safety opinion missions name the concrete dispute and playable speakers', () => {
+  const quests = availableDiscussionQuests({ world: { date: '1849-04-22' }, ledger: [] }, definitions);
+  const press = quests.find(item => item.id === 'INQUIRY_NEWS_AND_PUBLIC_TRUTH');
+  const safety = quests.find(item => item.id === 'INQUIRY_SAFETY_AND_RECORDS');
+  assert.ok(press && safety);
+  assert.match(press.stakesKo, /제목|독자|인쇄/);
+  assert.ok(press.hosts.editor_sofia && press.hosts.bookseller_lev && press.hosts.reader_darya);
+  assert.match(safety.stakesKo, /실제 보고서|개인의 권리/);
+  assert.ok(safety.hosts.police_sergeant_ivan && safety.hosts.senior_clerk_konstantin);
+  assert.deepEqual(press.sourceIds, ['OBJ-WS-NEKRASOV-EDITORIAL-1848']);
+  assert.deepEqual(safety.sourceIds, ['OBJ-WS-PETRASHEVSKY-REPORT-1849']);
+});

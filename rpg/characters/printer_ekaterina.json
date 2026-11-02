@@ -79,7 +79,8 @@
   "allowedMaps": [
     "nevsky",
     "printshop",
-    "courtyard"
+    "courtyard",
+    "police-station"
   ],
   "start": {
     "mapId": "printshop",

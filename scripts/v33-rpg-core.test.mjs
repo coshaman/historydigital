@@ -33,21 +33,24 @@ test('host cards represent four distinct playable circumstances and reference re
   const cards = await Promise.all(files.filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)));
   const historicalTownResidents = cards.filter(card => card.kind === 'FICTIONAL');
   const historicalReconstructions = cards.filter(card => card.kind === 'HISTORICAL_RECONSTRUCTION');
-  assert.equal(historicalTownResidents.length, 8);
+  assert.equal(historicalTownResidents.length, 10);
   assert.equal(historicalReconstructions.length, 1);
-  assert.equal(cards.length, 12);
-  assert.equal(new Set(cards.map(card => card.id)).size, 12);
+  assert.equal(cards.length, 14);
+  assert.equal(new Set(cards.map(card => card.id)).size, 14);
   const assetManifest = await json('rpg/assets/ASSET_PROVENANCE.json');
   assert.ok(cards.every(card => assetManifest.assets.some(asset => asset.path === `rpg/${card.sprite.file}`)), 'every host sprite has checked-in provenance');
   assert.ok(new Set(historicalTownResidents.map(card => card.socialEstate)).size >= 4);
   for (const card of cards) {
     for (const key of ['id', 'kind', 'displayNameKo', 'displayNameRu', 'occupation', 'legalMobility', 'wealthBracket', 'privateKnowledgeIds', 'knownEvidenceIds', 'personalObjective', 'allowedMaps', 'sprite', 'sourceIds', 'canonConstraint']) assert.ok(card[key] !== undefined, `${card.id} lacks ${key}`);
-    assert.ok(card.sprite.file.endsWith('.png'));
     assert.ok(card.sprite.frameWidth === 16 && card.sprite.frameHeight === 24);
     const image = await readFile(path.join(root, 'rpg', card.sprite.file));
-    assert.equal(image.subarray(0, 8).toString('hex'), '89504e470d0a1a0a');
-    assert.equal(image.readUInt32BE(16), 48);
-    assert.equal(image.readUInt32BE(20), 96);
+    if (card.sprite.file.endsWith('.svg')) {
+      assert.match(image.toString('utf8'), /<svg\b[^>]*viewBox="0 0 48 96"/);
+    } else {
+      assert.equal(image.subarray(0, 8).toString('hex'), '89504e470d0a1a0a');
+      assert.equal(image.readUInt32BE(16), 48);
+      assert.equal(image.readUInt32BE(20), 96);
+    }
   }
   assert.match(historicalReconstructions[0].canonConstraint, /not a quotation/);
   assert.ok(historicalReconstructions[0].sourceIds.includes('OBJ-WS-NEKRASOV-EDITORIAL-1848'));
@@ -93,9 +96,13 @@ test('every character card declares its chapter objective, estimate status, and 
     assert.equal(card.spriteAtlas.framesPerDirection, 3, `${card.id}: three frames per direction`);
     assert.deepEqual(card.spriteAtlas.directionRows, { down: 0, up: 1, left: 2, right: 3 }, `${card.id}: direction rows`);
     const image = await readFile(path.join(root, 'rpg', card.spriteAtlas.file));
-    const width = image.readUInt32BE(16), height = image.readUInt32BE(20);
-    assert.equal(width, card.spriteAtlas.frameWidth * card.spriteAtlas.framesPerDirection, `${card.id}: atlas width matches its declared walk frames`);
-    assert.equal(height, card.spriteAtlas.frameHeight * card.spriteAtlas.directions, `${card.id}: atlas height matches its direction rows`);
+    if (card.spriteAtlas.file.endsWith('.svg')) {
+      assert.match(image.toString('utf8'), /<svg\b[^>]*viewBox="0 0 48 96"/, `${card.id}: vector atlas matches its declared walk frames`);
+    } else {
+      const width = image.readUInt32BE(16), height = image.readUInt32BE(20);
+      assert.equal(width, card.spriteAtlas.frameWidth * card.spriteAtlas.framesPerDirection, `${card.id}: atlas width matches its declared walk frames`);
+      assert.equal(height, card.spriteAtlas.frameHeight * card.spriteAtlas.directions, `${card.id}: atlas height matches its direction rows`);
+    }
   }
 });
 
@@ -367,7 +374,7 @@ test('save/load preserves split world, player, host knowledge and rejects malfor
 test('Chancery and courtyard are door-connected maps with access tied to the embodied host', async () => {
   const maps = await loadMaps();
   const cards = await Promise.all((await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)));
-  assert.deepEqual(Object.keys(maps).sort(), ['chancery', 'courtyard', 'dead-souls', 'nevsky', 'overcoat', 'printshop']);
+  assert.deepEqual(Object.keys(maps).sort(), ['chancery', 'courtyard', 'dead-souls', 'nevsky', 'overcoat', 'police-station', 'printshop']);
   const doors = Object.values(maps).flatMap(map => map.layers.find(layer => layer.name === 'Interactions').objects.filter(object => object.type === 'map-exit').map(object => ({ map, object, props: Object.fromEntries(object.properties.map(property => [property.name, property.value])) })));
   assert.ok(doors.length >= 6);
   assert.ok(doors.every(door => maps[door.props.targetMapId]));

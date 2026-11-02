@@ -49,7 +49,8 @@
   "personalObjective": "공고에 적힌 발송 지연과 구독자 대응을 검토한다.",
   "allowedMaps": [
     "printshop",
-    "nevsky"
+    "nevsky",
+    "police-station"
   ],
   "start": {
     "mapId": "printshop",

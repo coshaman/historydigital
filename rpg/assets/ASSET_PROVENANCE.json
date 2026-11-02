@@ -369,6 +369,54 @@
       "sourceIds": ["LIT-TURGENEV-KHOR-KALYNYCH-1847", "OBJ-SOV-1847", "OBJ-WS-NEKRASOV-EDITORIAL-1848"],
       "sourceUrls": [],
       "notes": "Original stylized portrait of a fictional reader; no historical likeness is claimed."
+    },
+    {
+      "id": "sprite-editor-sofia",
+      "path": "rpg/assets/sofia-sprite.svg",
+      "type": "ORIGINAL_VECTOR_SPRITE_SHEET",
+      "generatedBy": "hand-authored project SVG",
+      "license": "original project-authored vector artwork",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": ["printshop", "nevsky"],
+      "sourceIds": ["LIT-TURGENEV-KHOR-KALYNYCH-1847", "OBJ-WS-NEKRASOV-EDITORIAL-1848"],
+      "sourceUrls": [],
+      "notes": "Original vector walk-cycle for fictional editor Sofia; no historical likeness is claimed."
+    },
+    {
+      "id": "portrait-editor-sofia",
+      "path": "rpg/assets/portrait-sofia.svg",
+      "type": "ORIGINAL_VECTOR_FACE_PORTRAIT",
+      "generatedBy": "hand-authored project SVG",
+      "license": "original project-authored vector artwork",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": ["printshop", "nevsky"],
+      "sourceIds": ["LIT-TURGENEV-KHOR-KALYNYCH-1847", "OBJ-WS-NEKRASOV-EDITORIAL-1848"],
+      "sourceUrls": [],
+      "notes": "Original stylized portrait of fictional editor Sofia; no historical likeness is claimed."
+    },
+    {
+      "id": "sprite-police-ivan",
+      "path": "rpg/assets/ivan-sprite.svg",
+      "type": "ORIGINAL_VECTOR_SPRITE_SHEET",
+      "generatedBy": "hand-authored project SVG",
+      "license": "original project-authored vector artwork",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": ["police-station", "nevsky"],
+      "sourceIds": [],
+      "sourceUrls": [],
+      "notes": "Original vector walk-cycle for fictional police sergeant Ivan; not a reconstruction of an actual officer."
+    },
+    {
+      "id": "portrait-police-ivan",
+      "path": "rpg/assets/portrait-ivan.svg",
+      "type": "ORIGINAL_VECTOR_FACE_PORTRAIT",
+      "generatedBy": "hand-authored project SVG",
+      "license": "original project-authored vector artwork",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": ["police-station", "nevsky"],
+      "sourceIds": [],
+      "sourceUrls": [],
+      "notes": "Original stylized portrait of fictional police sergeant Ivan; no historical likeness is claimed."
     }
   ]
 }

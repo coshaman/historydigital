@@ -4,17 +4,19 @@ import { questChoices, continuationQuest } from './engine/quest-presentation.mjs
 import { resolveQuestGuidance } from './engine/quest-guidance.mjs';
 import { ownsKeyboardInput, observationText } from './engine/player-presentation.mjs';
 import { availableDiscussionQuests, discussionPromptsForHost, discussionReflectionPromptsForHost } from './engine/discussion-quests.mjs';
+import { selectDialogueTurn } from './engine/dialogue-response.mjs';
 import { appendApiDiagnostic, clearApiDiagnostics, readApiDiagnostics } from './engine/api-diagnostics.mjs';
+import { CITY_PRODUCTS, NEWSPAPER_STORIES, purchaseCityProduct, publishNewspaperIssue, readNewspaperIssue, circulateNewspaperIssue, commitSuspiciousAct, resolvePoliceCustody, publishedIssueLabel } from './engine/civic-life.mjs';
 import { conversations, availableTopics, authoredReply, contextualOpening } from './ai/authored-dialogue.mjs';
 import { advanceStudy, beginExam, buildLifeTimeline, chooseCirclePath, completeLearning, getExamQuestions, selectExamAnswer, submitExam } from './engine/learning-life.mjs';
 import './engine/game-state.js';
 const { createInitialState, moveActor, possessHost, releaseHost, transitionMap, performQuestAction, saveGame, loadGame, nearTile, knowledgeForHost, recordSourceRead, recordEvidenceRead, recordDialogueTurn, enterLiteraryRealm, leaveLiteraryRealm, advanceChapter, advanceCampaignDate, resolveEnding, describeHostMoney } = globalThis.V33GameState;
 
 const readJson = async path => (await fetch(path)).json();
-const [street, shop, chancery, courtyard, literaryMap, overcoatMap, firstQuest, source, firstIssue, historicalSources, literarySource, overcoatSource, campaign, publicQuest, circleQuest, letterQuest, literaryQuest, overcoatQuest, sceneObservations, aiScenes, learningExam, learningSourceData, lifeTemplates, historicalComparisons] = await Promise.all([readJson('./rpg/maps/nevsky.json'), readJson('./rpg/maps/printshop.json'), readJson('./rpg/maps/chancery.json'), readJson('./rpg/maps/courtyard.json'), readJson('./rpg/maps/dead-souls.json'), readJson('./rpg/maps/overcoat.json'), readJson('./rpg/quests/printshop-article.json'), readJson('./rpg/data/khor-kalynych-source.json'), readJson('./rpg/data/sovremennik-1847-issue.json'), readJson('./rpg/data/historical-source-packets.json'), readJson('./rpg/data/dead-souls-source.json'), readJson('./rpg/data/overcoat-source.json'), readJson('./rpg/quests/campaign.json'), readJson('./rpg/quests/public-discourse-1848.json'), readJson('./rpg/quests/circle-investigation-1849.json'), readJson('./rpg/quests/circle-letter-1849-may.json'), readJson('./rpg/quests/literary-dead-souls.json'), readJson('./rpg/quests/literary-overcoat.json'), readJson('./rpg/data/scene-observations.json'), readJson('./rpg/ai/scenes.json'), readJson('./rpg/data/learning-exam.json'), readJson('./rpg/data/learning-sources.json'), readJson('./rpg/data/life-simulation.json'), readJson('./rpg/data/historical-comparisons.json')]);
+const [street, shop, chancery, courtyard, literaryMap, overcoatMap, policeMap, firstQuest, source, firstIssue, historicalSources, literarySource, overcoatSource, campaign, publicQuest, circleQuest, letterQuest, literaryQuest, overcoatQuest, sceneObservations, aiScenes, learningExam, learningSourceData, lifeTemplates, historicalComparisons] = await Promise.all([readJson('./rpg/maps/nevsky.json'), readJson('./rpg/maps/printshop.json'), readJson('./rpg/maps/chancery.json'), readJson('./rpg/maps/courtyard.json'), readJson('./rpg/maps/dead-souls.json'), readJson('./rpg/maps/overcoat.json'), readJson('./rpg/maps/police-station.json'), readJson('./rpg/quests/printshop-article.json'), readJson('./rpg/data/khor-kalynych-source.json'), readJson('./rpg/data/sovremennik-1847-issue.json'), readJson('./rpg/data/historical-source-packets.json'), readJson('./rpg/data/dead-souls-source.json'), readJson('./rpg/data/overcoat-source.json'), readJson('./rpg/quests/campaign.json'), readJson('./rpg/quests/public-discourse-1848.json'), readJson('./rpg/quests/circle-investigation-1849.json'), readJson('./rpg/quests/circle-letter-1849-may.json'), readJson('./rpg/quests/literary-dead-souls.json'), readJson('./rpg/quests/literary-overcoat.json'), readJson('./rpg/data/scene-observations.json'), readJson('./rpg/ai/scenes.json'), readJson('./rpg/data/learning-exam.json'), readJson('./rpg/data/learning-sources.json'), readJson('./rpg/data/life-simulation.json'), readJson('./rpg/data/historical-comparisons.json')]);
 const [sourceReaderIndex, caseContextData, discussionQuestData] = await Promise.all([readJson('./rpg/data/source-reader-index.json'), readJson('./rpg/data/case-contexts.json'), readJson('./rpg/data/discussion-quests.json')]);
-const cards = await Promise.all(['clerk_alexei','printer_ekaterina','courier_pavel','seamstress_anna','tenant_mikhail','bookseller_lev','senior_clerk_konstantin','reader_darya','nekrasov_reconstruction','literary_chichikov','literary_akaky','literary_petrovich'].map(id => readJson(`./rpg/characters/${id}.json`)));
-const maps = { nevsky: street, printshop: shop, chancery, courtyard, 'dead-souls': literaryMap, overcoat: overcoatMap }, hostCards = cards;
+const cards = await Promise.all(['clerk_alexei','printer_ekaterina','courier_pavel','seamstress_anna','tenant_mikhail','bookseller_lev','senior_clerk_konstantin','reader_darya','editor_sofia','police_sergeant_ivan','nekrasov_reconstruction','literary_chichikov','literary_akaky','literary_petrovich'].map(id => readJson(`./rpg/characters/${id}.json`)));
+const maps = { nevsky: street, printshop: shop, chancery, courtyard, 'dead-souls': literaryMap, overcoat: overcoatMap, 'police-station': policeMap }, hostCards = cards;
 const questList = [firstQuest, publicQuest, circleQuest, letterQuest, literaryQuest, overcoatQuest];
 const questsById = new Map(questList.map(item => [item.id, item]));
 const relationHintValues = new Map();
@@ -81,7 +83,9 @@ function dialogueApiFailure(error) {
   if (error?.apiCode === 'client_response_invalid') return 'API가 응답했지만 대화 형식 검증에 실패했습니다. 설정의 오류 기록과 Vercel Function 로그를 확인해 주세요.';
   if (error?.apiCode === 'invalid_response_json' || error?.name === 'SyntaxError') return 'API 응답을 JSON으로 읽지 못했습니다. 설정의 오류 기록과 Vercel Function 로그를 확인해 주세요.';
   if (error?.apiCode === 'BLOCKED_NO_KEY') return 'Vercel에 OPENAI_API_KEY가 설정되지 않았습니다.';
-  if (error?.status === 404) return '이 배포에는 대화 API가 없습니다. Vercel master 최신 배포를 열어 주세요.';
+  if (error?.status === 404) return location.hostname.endsWith('.github.io')
+    ? 'GitHub Pages에는 서버 API가 없습니다. Vercel에 배포된 같은 게임 주소를 열어야 AI 대화를 사용할 수 있습니다.'
+    : '이 배포에는 대화 API가 없습니다. Vercel master 최신 배포를 열어 주세요.';
   if (error?.status === 403) return '게임 주소와 API 주소가 다릅니다. 같은 Vercel 도메인에서 열어 주세요.';
   if (error?.status === 401) return '대화 세션이 만료되었습니다. 새 연결로 다시 시도합니다.';
   if (error?.status === 429) return '대화 요청 한도에 도달했습니다. 잠시 뒤 다시 시도해 주세요.';
@@ -361,7 +365,7 @@ function updateHud() {
   $('#calendar-date').textContent = state.world.activeRealm ? '소설 속 장면' : `${year}년 ${month}월 ${day}일`;
   const dayMinute = ((state.world.clockMinutes ?? 540) % 1440 + 1440) % 1440;
   $('#clock').textContent = state.world.activeRealm ? '문학 세계 · 1842' : `${String(Math.floor(dayMinute / 60)).padStart(2, '0')}:${String(dayMinute % 60).padStart(2, '0')}`;
-  $('#bodyname').textContent = host ? `몸을 빌림 · ${host.displayNameKo}` : '바깥에서 바라보는 중';
+  $('#bodyname').textContent = state.player.civic?.custody?.active ? `경찰 접수실 · 조사 대기 · ${cards.find(card => card.id === state.player.civic.custody.hostId)?.displayNameKo ?? '당사자'}` : host ? `몸을 빌림 · ${host.displayNameKo}` : '바깥에서 바라보는 중';
   $('#coins').textContent = host ? (state.hosts[host.id].money.amount == null ? '자금 기록 없음' : `${state.hosts[host.id].money.amount} 코페이카`) : '몸을 빌리면 주머니를 확인할 수 있습니다';
   $('#release').disabled = !host || Boolean(activeDialogueHost);
   const conversationPartner = nearbyConversationPartner();
@@ -376,6 +380,12 @@ function updateHud() {
   $('#mission-action').textContent = `${missionGuidance.actionKo}${missionGuidance.placeKo ? ` · ${missionGuidance.placeKo}` : ''}`;
   $('#mission-reason').textContent = missionGuidance.reasonKo ?? '';
   $('#mission-method').textContent = missionGuidance.blocked ? `막힘 · ${missionGuidance.blockedReasonKo ?? '조건을 확인하세요.'}` : missionGuidance.howKo ?? '';
+  if (state.player.civic?.custody?.active) {
+    $('#mission-title').textContent = '경찰 접수실에서 진술하기';
+    $('#mission-action').textContent = `접수 사유 · ${state.player.civic.custody.reasonKo}`;
+    $('#mission-reason').textContent = '진술서를 쓰거나 8코페이카를 내야 거리로 돌아갈 수 있습니다.';
+    $('#mission-method').textContent = '접수 창구에 다가가 살펴보세요.';
+  }
   const caseContext = host ? caseContextsByQuest.get(missionGuidance.questId) : null;
   caseContextButton.hidden = !caseContext?.roles?.[host.id] || Boolean(state.endingId);
   const discussionQuests = currentDiscussionQuests(), activeDiscussionCount = discussionQuests.filter(item => !item.completed).length;
@@ -428,7 +438,7 @@ function updateHud() {
       if (clue) known.push(clue.titleKo);
     }
     const discussionItems = (state.player.dialogueGrowth?.comparisonNotes ?? []).map(note => `관점 대조 메모 · ${note.titleKo}`);
-    const visibleInventory = [...live.inventory, ...discussionItems];
+    const visibleInventory = [...live.inventory.map(item => publishedIssueLabel(state, item) ?? CITY_PRODUCTS.find(product => product.id === item)?.titleKo ?? item), ...discussionItems];
     $('#journal-inventory').append(...(visibleInventory.length ? visibleInventory : ['따로 기록된 물건이 없습니다.']).map(value => { const li=document.createElement('li');li.textContent=value;return li; }));
     const relations = Object.entries(live.relations ?? {}).map(([group,status])=>`${relationLabels[group] ?? group} · ${status}`).concat(live.situationNotes ?? []);
     fill('#journal-relations', relations.length ? relations : ['아직 기록된 관계 변화가 없습니다.']);
@@ -455,6 +465,10 @@ function updateHud() {
     if (entry.eventType === 'HISTORICAL_ACTION' || entry.eventType === 'LITERARY_ACTION') { const q=questsById.get(entry.questId), a=q?.actions.find(item=>item.id===entry.actionId); return `${entry.date} · ${a?.labelKo ?? '문서에 선택을 남김'}`; }
     if (entry.eventType === 'READ_SOURCE') return `${entry.date} · 자료를 읽음`;
     if (entry.eventType === 'OBSERVE_EVIDENCE') return `${entry.date} · 현장의 흔적을 살펴봄`;
+    if (entry.eventType === 'CITY_PURCHASE') return `${entry.date} · 가판대에서 ${CITY_PRODUCTS.find(product => product.id === entry.productId)?.titleKo ?? '물건'} 구입 · ${entry.priceKopeks} 코페이카`;
+    if (entry.eventType === 'NEWSPAPER_PUBLISHED') return `${entry.date} · 신문 인쇄 · ${NEWSPAPER_STORIES.find(story => story.id === entry.storyId)?.titleKo ?? entry.storyId}`;
+    if (entry.eventType === 'NEWSPAPER_CIRCULATED') return `${entry.date} · 신문 배포 · ${entry.route === 'postal' ? '지방행 우편' : '거리 독자'}`;
+    if (entry.eventType === 'SUSPICIOUS_ACT' || entry.eventType === 'POLICE_CUSTODY' || entry.eventType === 'POLICE_RELEASE') return `${entry.date} · ${entry.eventType === 'SUSPICIOUS_ACT' ? '수상한 행동 기록' : entry.eventType === 'POLICE_CUSTODY' ? '경찰 접수·연행' : '경찰 접수실 석방'}`;
     return null;
   }).filter(Boolean);
   fill('#journal-history', logs.length ? logs : ['아직 남긴 기록이 없습니다.'], 'li');
@@ -502,7 +516,9 @@ async function checkApiHealth() {
     if (!response.ok || body.status !== 'ok') {
       saveApiError({ endpoint: '/api/rpg/health', kind: 'health_error', status: response.status, code: body.error || 'health_unavailable' });
       stateText.textContent = `API 확인 실패 · HTTP ${response.status}`;
-      detail.textContent = response.status === 404 ? '이 배포에서 /api/rpg/health 경로를 찾지 못했습니다. Vercel의 master Production 배포를 확인하세요.' : 'Vercel Function 응답과 배포 로그를 확인하세요.';
+      detail.textContent = response.status === 404 && location.hostname.endsWith('.github.io')
+        ? 'GitHub Pages는 정적 파일만 제공합니다. AI 대화는 Vercel의 master 배포 주소에서 사용하세요.'
+        : response.status === 404 ? '이 배포에서 /api/rpg/health 경로를 찾지 못했습니다. Vercel의 master Production 배포를 확인하세요.' : 'Vercel Function 응답과 배포 로그를 확인하세요.';
     } else if (body.ai === 'configured') {
       stateText.textContent = 'API 정상 · 서버 키 설정됨';
       detail.textContent = 'health 응답과 OPENAI_API_KEY 설정을 확인했습니다. 개별 대화의 모델 생성 성공 여부는 대화 오류 기록과 Function 로그에서 확인하세요.';
@@ -646,8 +662,135 @@ function continuationFor(activeQuest) {
   } }];
   return [{ label: '마지막 기록을 정리한다', subcopy: '독서 모임 선택과 진급 시험을 마친 뒤 다섯 결말을 확인합니다', run: showLearningHub }];
 }
+function civicWitnesses(object, offenderId) {
+  const tile = { x: Math.floor(object.x / 16), y: Math.floor(object.y / 16) };
+  return Object.values(state.hosts).filter(person => person.id !== offenderId && person.historicalAliveAndPresent && person.mapId === state.world.currentMapId
+    && Math.abs(person.position.x - tile.x) + Math.abs(person.position.y - tile.y) <= 4).map(person => person.id);
+}
+function requireCivicHost(serviceName) {
+  const hostId = state.player.embodiment;
+  if (!hostId) { say(serviceName, '돈을 내거나 장부에 이름을 남기려면 먼저 이곳을 드나드는 사람의 몸을 빌려야 합니다.', []); return null; }
+  return hostId;
+}
+function buyCityProduct(product, hostId) {
+  const result = purchaseCityProduct(state, { hostId, productId: product.id });
+  if (!result.ok) {
+    const reason = { insufficient_funds: '주머니에 든 돈이 모자랍니다.', money_not_established: '이 인물의 소지금은 기록에 없어 거래할 수 없습니다.' }[result.reason] ?? '지금은 거래할 수 없습니다.';
+    sayRecord(reason); return;
+  }
+  setState(result.state);
+  say('가판대에서 물건을 샀다', `${product.titleKo} · ${product.priceKopeks} 코페이카를 지불했습니다. 소지품은 수첩에 기록됩니다.`, product.sourceId ? [{ label: '구입한 호를 읽는다', subcopy: '개인 소장본을 펼칩니다 · 읽은 자료에 남습니다.', run: () => sourceRead(product.sourceId, [product.sourceId], 'PLAYER_ARCHIVE') }] : []);
+  sayRecord(`${product.titleKo} 구입 · ${product.priceKopeks} 코페이카`);
+}
+function openBooksellerCounter() {
+  const hostId = requireCivicHost('레프의 가판');
+  const products = CITY_PRODUCTS.map(product => ({ label: `${product.titleKo} · ${product.priceKopeks} 코페이카`, subcopy: product.kind === 'periodical' ? '출판된 호를 소장합니다 · 구매 내역이 장부에 남습니다.' : '신문 제작이나 발송에 쓰입니다 · 소지품에 추가됩니다.', disabled: !hostId || hostId === 'bookseller_lev' || !Number.isFinite(state.hosts[hostId]?.money?.amount) || state.hosts[hostId].money.amount < product.priceKopeks, run: () => hostId && buyCityProduct(product, hostId) }));
+  if (hostId) products.push({ label: '신문 한 부를 값을 치르지 않고 가져간다', subcopy: '레프와 거리의 목격자가 볼 수 있습니다 · 발각되면 경찰 접수실로 연행되고 신문은 압수됩니다.', run: () => performSuspiciousAct('TAKE_UNPAID_NEWSPAPER', hostId, currentNearby().find(item => item.type === 'shop-counter')) });
+  say('레프의 서적·신문 가판', `물품값은 게임 진행을 위한 설정 금액입니다. 현재 소지금 · ${describeHostMoney(hostId ? state.hosts[hostId].money : { amount: null })}`, products);
+}
+function showPrintedIssue(issue, hostId) {
+  const read = readNewspaperIssue(state, { hostId, issueId: issue.id });
+  if (!read.ok) { sayRecord('그 호를 가진 사람만 펼쳐 볼 수 있습니다.'); return; }
+  if (!read.alreadyRead) setState(read.state);
+  say(issue.titleKo, `${issue.editorialKo}\n\n${issue.bodyKo}\n\n근거 자료 · ${issue.sourceId} · 발행일 ${issue.publishedDate}`, [
+    { label: '근거 원문을 함께 읽는다', subcopy: '인쇄한 기사의 바탕이 된 자료를 엽니다.', run: () => sourceRead(issue.sourceId, [issue.sourceId], 'PLAYER_ARCHIVE') },
+  ]);
+  sayRecord(read.alreadyRead ? '이미 읽은 호입니다.' : '신문을 읽었다 · 근거 자료가 수첩에 기록됐다.');
+}
+function circulateIssue(hostId, issueId, route) {
+  const result = circulateNewspaperIssue(state, { hostId, issueId, route });
+  if (!result.ok) { sayRecord(({ envelope_missing: '먼저 발송용 봉투를 사세요.', insufficient_postage: '우편료 4코페이카가 부족합니다.', issue_not_owned: '그 신문은 지금 소지품에 없습니다.' })[result.reason] ?? '이 경로로 보낼 수 없습니다.'); return; }
+  setState(result.state);
+  const resultText = route === 'postal' ? '한 부를 봉투에 넣어 지방행 묶음에 맡겼습니다. 도착 여부는 아직 알 수 없습니다.' : '한 부를 가판에 놓아 거리 독자에게 건넸습니다.';
+  say('호외를 배포했다', `${resultText} 실제 간행 기록을 바꾸는 일은 아닙니다.`, []);
+  sayRecord(route === 'postal' ? '발송료 4 코페이카 · 봉투 1개 사용' : '거리 배포 기록 · 신문 1부 사용');
+}
+function openNewsstand() {
+  const hostId = requireCivicHost('신문 가판');
+  if (!hostId) return;
+  const civic = state.player.civic ?? { publishedIssues: [] };
+  const issues = civic.publishedIssues.filter(issue => state.hosts[hostId].inventory.includes(`newspaper_issue:${issue.id}`));
+  const actions = issues.flatMap(issue => [
+    { label: `내 신문 읽기 · ${issue.titleKo}`, subcopy: `${issue.sourceId}에 근거한 기사 · 개인 수첩에 읽은 호를 남깁니다.`, run: () => showPrintedIssue(issue, hostId) },
+    { label: `거리 독자에게 나눈다 · ${issue.titleKo}`, subcopy: '가판과 거리를 지나는 사람이 봅니다 · 호외 1부가 손을 떠납니다.', run: () => circulateIssue(hostId, issue.id, 'street') },
+    { label: `지방행 우편으로 보낸다 · ${issue.titleKo}`, subcopy: '발송 장부에 남습니다 · 봉투 1개와 우편료 4코페이카를 씁니다.', disabled: !state.hosts[hostId].inventory.includes('envelope_bundle') || state.hosts[hostId].money.amount < 4, run: () => circulateIssue(hostId, issue.id, 'postal') },
+  ]);
+  if (!issues.length) actions.push({ label: '아직 배포할 호외가 없다', subcopy: '인쇄소 편집대에서 자료를 확인하고 신문용 종이와 잉크로 한 부를 만들어 오세요.', disabled: true, run() {} });
+  say('거리 신문 가판', `${issues.length ? `가방에 든 호외 ${issues.length}부를 독자에게 건넬 수 있습니다.` : '이 가판은 거리 신문이 독자에게 닿는 곳입니다.'}\n\n《현대인》 1847년 제1호의 출판 자료는 레프에게서 구입할 수 있습니다.`, actions);
+}
+function printIssue(story, hostId) {
+  const result = publishNewspaperIssue(state, { hostId, storyId: story.id });
+  if (!result.ok) {
+    const missing = result.reason === 'source_not_read_by_editor' ? '이 편집자가 먼저 근거 자료를 읽어야 합니다.' : result.reason === 'printing_supplies_missing' ? '신문용 종이 한 묶음과 인쇄용 잉크가 필요합니다.' : result.reason === 'not_newsroom_staff' ? '교정·편집을 맡은 사람의 몸이 필요합니다.' : '지금은 이 호를 인쇄할 수 없습니다.';
+    sayRecord(missing); return;
+  }
+  setState(result.state);
+  say('거리 신문을 인쇄했다', `${story.titleKo} · 종이와 잉크를 사용했습니다. 기사에는 확인한 자료와 인쇄 날짜를 함께 남겼습니다.`, [{ label: '새 호를 읽는다', subcopy: '인쇄한 문장과 근거를 확인합니다.', run: () => showPrintedIssue(result.issue, hostId) }]);
+  sayRecord(`신문 발행 · ${story.sourceId}`);
+}
+function openNewsroomDesk() {
+  const hostId = requireCivicHost('거리 신문 편집대');
+  if (!hostId) return;
+  const host = state.hosts[hostId], stories = NEWSPAPER_STORIES.filter(story => story.date <= state.world.date);
+  const actions = stories.map(story => {
+    const hasSource = host.knownEvidenceIds.includes(story.sourceId), hasSupplies = host.inventory.includes('newsprint_sheet') && host.inventory.includes('printing_ink');
+    const allowedEditor = ['printer_ekaterina', 'editor_sofia', 'nekrasov_reconstruction'].includes(hostId);
+    return { label: `호외 인쇄 · ${story.titleKo}`, subcopy: !allowedEditor ? '교정·편집을 맡은 사람과 함께 오세요.' : !hasSource ? `먼저 편집자가 근거를 읽어야 합니다 · ${story.sourceId}` : !hasSupplies ? '신문용 종이 한 묶음과 인쇄용 잉크가 필요합니다.' : `${story.sourceId}에 근거한 기사 · 신문 1부와 종이, 잉크를 씁니다.`, disabled: !allowedEditor || !hasSource || !hasSupplies, run: () => printIssue(story, hostId) };
+  });
+  for (const story of stories.filter(item => !host.knownEvidenceIds.includes(item.sourceId))) actions.push({ label: `근거 자료 읽기 · ${story.titleKo}`, subcopy: `${story.sourceId} · 원문을 확인한 뒤 편집할 수 있습니다.`, run: () => sourceRead(story.sourceId, [story.sourceId], 'PLAYER_ARCHIVE') });
+  const sealed = currentNearby().find(item => mapObjectProperties(item).serviceId === 'sealed-dispatch');
+  if (sealed) actions.push({ label: '봉인된 발송 묶음을 허락 없이 연다', subcopy: '편집자와 배달원이 알 수 있습니다 · 발각되면 경찰 접수실로 연행됩니다.', run: () => performSuspiciousAct('OPEN_SEALED_DISPATCH', hostId, sealed) });
+  say('거리 신문 편집대', `출처를 확인한 기사만 인쇄할 수 있습니다. 실제 자료를 요약할 때도 소설 속 인물과 역사적 증언은 구분합니다.\n\n현재 가진 종이 ${host.inventory.filter(item => item === 'newsprint_sheet').length}묶음 · 잉크 ${host.inventory.filter(item => item === 'printing_ink').length}병`, actions);
+}
+function performSuspiciousAct(actId, hostId, object) {
+  if (!object) { sayRecord('현장을 찾지 못했습니다.'); return; }
+  const result = commitSuspiciousAct(state, { hostId, actId, witnessIds: civicWitnesses(object, hostId), maps });
+  if (!result.ok) { sayRecord('지금은 그 행동을 할 수 없습니다.'); return; }
+  setState(result.state);
+  if (result.arrested) {
+    const names = result.witnessed.map(id => cards.find(card => card.id === id)?.displayNameKo).filter(Boolean);
+    say('경찰 접수실로 연행됐다', `${result.act.titleKo}. ${names.length ? `${names.join(', ')}이(가) 현장을 보았습니다. ` : ''}가져간 물건은 확인 뒤 돌려줘야 합니다. 접수 창구에서 진술하거나 8코페이카를 내고 풀려날 수 있습니다.`, []);
+    sayRecord('목격자 진술로 경찰이 현장에 출동했다.');
+  } else {
+    say('수상한 행동이 장부에 남았다', `${result.act.titleKo}. 이번에는 본 사람이 없었습니다. 다시 수상한 일을 하면 발각될 수 있습니다.`, []);
+    sayRecord(`주의 수준 ${result.state.player.civic.suspicion} / 3`);
+  }
+}
+function releaseFromCustody(resolution) {
+  const result = resolvePoliceCustody(state, { resolution });
+  if (!result.ok) { sayRecord(result.reason === 'insufficient_funds' ? '8코페이카가 부족합니다. 진술서를 쓸 수 있습니다.' : '석방 절차를 처리하지 못했습니다.'); return; }
+  setState(result.state);
+  say('접수실을 나설 수 있다', resolution === 'pay_fine' ? '벌금 8코페이카를 납부했습니다. 압수된 물건을 돌려주고 기록을 정리했습니다.' : '진술서가 장부에 들어갔습니다. 압수된 물건을 돌려주고 기록을 정리했습니다.', []);
+  sayRecord('석방 처리 · 네프스키 거리로 나가는 문이 열렸다.');
+}
+function openPoliceDesk() {
+  const custody = state.player.civic?.custody;
+  if (!custody?.active) { say('경찰 접수 창구', '신고자의 말, 직접 목격한 사실, 아직 확인하지 못한 추정을 장부의 서로 다른 칸에 적습니다. 이 접수실과 절차는 허구의 게임 장면입니다.', []); return; }
+  const host = state.hosts[custody.hostId], canPay = Number.isFinite(host.money?.amount) && host.money.amount >= 8;
+  say('진술과 석방 절차', `접수 사유 · ${custody.reasonKo}\n압수 대상 · ${custody.stolenItemId ? '신문 1부' : '없음'}\n\n벌금을 내면 소지금에서 8코페이카가 빠집니다. 진술서를 쓰면 돈은 들지 않지만 사건 경위가 장부에 남습니다. 어느 쪽이든 압수된 물건은 돌려줘야 합니다.`, [
+    { label: '8코페이카를 내고 석방된다', subcopy: '경찰 접수 장부에 벌금 납부가 남습니다.', disabled: !canPay, run: () => releaseFromCustody('pay_fine') },
+    { label: '진술서를 쓰고 석방된다', subcopy: '돈은 들지 않습니다 · 사건 경위와 본인의 설명이 공식 기록으로 남습니다.', run: () => releaseFromCustody('give_statement') },
+  ]);
+}
+function openCivicService(serviceId, object) {
+  if (serviceId === 'bookseller-counter') return openBooksellerCounter();
+  if (serviceId === 'newsstand') return openNewsstand();
+  if (serviceId === 'newsroom-desk') return openNewsroomDesk();
+  if (serviceId === 'police-desk' || serviceId === 'police-ledger') return openPoliceDesk();
+  if (serviceId === 'sealed-dispatch' || serviceId === 'circulation-register') {
+    const hostId = requireCivicHost(object.name); if (!hostId) return;
+    const actId = serviceId === 'sealed-dispatch' ? 'OPEN_SEALED_DISPATCH' : 'ALTER_CIRCULATION_REGISTER';
+    say(object.name, serviceId === 'sealed-dispatch' ? '발송을 기다리는 봉투가 봉인되어 있습니다. 열람 권한은 주어지지 않았습니다.' : '접수표와 발송 기록이 묶여 있습니다. 고치면 원본과 장부의 번호가 달라집니다.', [
+      { label: '장부와 봉인을 그대로 둔다', subcopy: '아무 기록도 바뀌지 않습니다.', run() {} },
+      { label: serviceId === 'sealed-dispatch' ? '봉인을 몰래 연다' : '기록을 몰래 고친다', subcopy: '주변 사람이 볼 수 있습니다 · 발각되면 경찰에 연행되고 공식 기록이 남습니다.', run: () => performSuspiciousAct(actId, hostId, object) },
+    ]);
+    return;
+  }
+  say(object.name || '시청할 기록', '이곳의 문서와 흔적을 살펴볼 수 있습니다.', []);
+}
 function inspect(object) {
   const props = Object.fromEntries((object.properties ?? []).map(p => [p.name, p.value]));
+  if (props.serviceId) { openCivicService(props.serviceId, object); return; }
   if (object.type === 'npc') {
     tutorialAdvance('inspect');
     const card = cards.find(item => item.id === props.hostId), host = state.hosts[props.hostId];
@@ -811,14 +954,16 @@ function interact() {
   if (activeDialogueHost || state.endingId || !$('#learning-screen').hidden) return;
   const near = currentNearby();
   if (!near.length) { say('아직 손이 닿지 않는다', '주변을 조금 더 걸어 가까이 가 보자. 사람에게 다가가면 그 사람의 자리에서 도시를 볼 수 있다.', []); return; }
+  const civicService = near.find(item => mapObjectProperties(item).serviceId);
   const nearbyPeople = near.filter(item => item.type === 'npc');
-  if (!state.player.embodiment && nearbyPeople.length > 0 && (nearbyPeople.length > 1 || near.some(item => ['source', 'map-exit', 'quest-object'].includes(item.type)))) {
+  if (!state.player.embodiment && nearbyPeople.length > 0 && (nearbyPeople.length > 1 || Boolean(civicService) || near.some(item => ['source', 'map-exit', 'quest-object'].includes(item.type)))) {
     const peopleChoices = nearbyPeople.map(item => {
       const hostId = mapObjectProperties(item).hostId, card = cards.find(character => character.id === hostId), person = state.hosts[hostId];
       return { label: `${card.displayNameKo} 살펴보기`, subcopy: `${card.occupation} · ${person.currentActivityKo || card.personalObjective}`, run: () => inspect(item) };
     });
-    const nearbyObjects = near.filter(item => ['source', 'map-exit', 'quest-object'].includes(item.type)).map(item => {
+    const nearbyObjects = near.filter(item => ['source', 'map-exit', 'quest-object'].includes(item.type) || Boolean(mapObjectProperties(item).serviceId)).map(item => {
       const props = mapObjectProperties(item);
+      if (props.serviceId) return { label: `${item.name} 이용`, subcopy: '이 장소의 물건이나 기록을 살펴봅니다.', run: () => inspect(item) };
       if (item.type === 'source') {
         const record = sourceRecords.get(props.sourceId);
         return { label: `자료 읽기 · ${record?.titleKo ?? '문서'}`, subcopy: record?.range ?? record?.witness?.range ?? '가까이에 놓인 자료', run: () => inspect(item) };
@@ -833,6 +978,8 @@ function interact() {
     say('가까이에 사람과 문서가 있다', '살펴볼 사람이나 주변의 문서·출입문을 고르세요.', [...peopleChoices, ...nearbyObjects]);
     return;
   }
+  if (state.player.embodiment && civicService) { inspect(civicService); return; }
+  if (!state.player.embodiment && civicService && !nearbyPeople.length) { inspect(civicService); return; }
   const activeQuestObject = near.find(item => {
       if (item.type !== 'quest-object') return false;
       const questId = Object.fromEntries((item.properties ?? []).map(property => [property.name, property.value])).questId;
@@ -894,11 +1041,13 @@ function showConversation(card, promptText, replies, statusText = '') {
   }
   if (statusText.startsWith('AI 연결 실패') || statusText.startsWith('AI 응답 생성 실패')) {
     const retry = document.createElement('button'); retry.type = 'button'; retry.textContent = 'AI 다시 연결';
-    retry.addEventListener('click', () => {
+    retry.addEventListener('click', async () => {
       const key = activeDialogueKey;
+      const retryText = statusText.startsWith('AI 응답 생성 실패') ? (dialogueTranscripts.get(key) ?? []).at(-1)?.text : null;
       if (key) { dialogueSessions.delete(key); sessionStorage.removeItem(dialogueStorageKey(key)); }
       finishConversation(card.id);
-      startConversation(card);
+      await startConversation(card);
+      if (retryText && activeDialogueHost === card.id && activeDialogueKey === key) sendConversation(card, retryText);
     });
     $('#actions').append(retry);
   }
@@ -939,7 +1088,7 @@ async function startConversation(card) {
   const reflectionQuestions = discussionReflectionPromptsForHost(card.id, state, liveDiscussionQuests).map(item => item.promptKo);
   const starterReplies = [...new Set([...topicalQuestions, ...reflectionQuestions, ...remaining])].slice(0, 3);
   showConversation(card, dialogueCurrentLines.get(key), starterReplies,
-    sessionFailure ? `AI 연결 실패 · ${sessionFailure}` : hasLiveDialogue(key) ? 'AI 연결됨 · 직접 입력하거나 생각을 묻는 질문을 고르세요.' : '오프라인 대사 · AI 연결이 확인되지 않았습니다.');
+    sessionFailure ? `AI 연결 실패 · ${sessionFailure}` : hasLiveDialogue(key) ? 'AI 세션 준비됨 · 질문을 보내면 실제 생성 답변을 확인합니다.' : '오프라인 대사 · API가 연결되지 않아 이 답변은 모델이 생성하지 않습니다.');
 }
 async function sendConversation(card, playerText, replyId = null) {
   const key = activeDialogueKey;
@@ -992,9 +1141,10 @@ async function sendConversation(card, playerText, replyId = null) {
         session.token = data.sessionToken;
         sessionStorage.setItem(dialogueStorageKey(key), session.token);
       }
-      turn = data.fallback ? null : candidate;
-      fallbackReason = data.fallback ? `AI 응답 생성 실패 · ${providerFailureLabel(data.providerErrorCode || response.headers.get('x-v33-provider-result'))}. 준비된 대사로 이어갑니다. ‘AI 다시 연결’로 재시도할 수 있습니다.` : '';
-      if (data.fallback && data.mode !== 'BLOCKED_NO_KEY') saveApiError({ endpoint: '/api/rpg/dialogue', kind: 'provider_fallback', status: response.status, code: data.providerErrorCode || 'provider_response_validation' });
+      const selection = selectDialogueTurn(data);
+      turn = selection.kind === 'generated' ? selection.turn : null;
+      fallbackReason = selection.kind === 'unavailable' ? `AI 응답 생성 실패 · ${providerFailureLabel(selection.providerErrorCode || response.headers.get('x-v33-provider-result'))}. 생성된 답변이 없어 이번 질문은 기록하지 않았습니다. ‘AI 다시 연결’로 같은 질문을 재시도할 수 있습니다.` : '';
+      if (selection.kind === 'unavailable' && data.mode !== 'BLOCKED_NO_KEY') saveApiError({ endpoint: '/api/rpg/dialogue', kind: 'provider_fallback', status: response.status, code: selection.providerErrorCode || 'provider_response_validation' });
     } catch (error) {
       recordApiFailure('/api/rpg/dialogue', error);
       fallbackReason ||= `AI 연결 실패 · ${dialogueApiFailure(error)}`;
@@ -1007,6 +1157,12 @@ async function sendConversation(card, playerText, replyId = null) {
     if (activeDialogueHost !== card.id || activeDialogueKey !== key || dialogueGeneration !== generation) return;
   }
   const local = aiScenes.sessions[card.id];
+  if (!turn && fallbackReason.startsWith('AI 응답 생성 실패')) {
+    dialogueCurrentLines.set(key, '이번 질문의 생성 답변을 받지 못했습니다. 준비된 대사로 대신하지 않았어요.');
+    showConversation(card, dialogueCurrentLines.get(key), [], fallbackReason);
+    $('.journal').scrollTop = $('.journal').scrollHeight;
+    return;
+  }
   const aiGenerated = Boolean(turn);
   if (!turn) {
     const reply = authoredReply(card.id, playerText, heardTopics.get(key));

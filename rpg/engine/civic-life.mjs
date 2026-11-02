@@ -1,0 +1,144 @@
+export const CITY_PRODUCTS = Object.freeze([
+  { id: 'newspaper_1847_01', titleKo: '《현대인》 1847년 제1호', priceKopeks: 4, kind: 'periodical', sourceId: 'OBJ-SOV-1847' },
+  { id: 'newsprint_sheet', titleKo: '신문용 종이 한 묶음', priceKopeks: 3, kind: 'supply' },
+  { id: 'printing_ink', titleKo: '인쇄용 잉크 한 병', priceKopeks: 2, kind: 'supply' },
+  { id: 'envelope_bundle', titleKo: '발송용 봉투 묶음', priceKopeks: 2, kind: 'supply' },
+]);
+
+export const NEWSPAPER_STORIES = Object.freeze([
+  { id: 'LITERARY_RURAL_LIFE_1847', titleKo: '농촌의 두 사람을 그린 글', date: '1847-06-01', sourceId: 'LIT-TURGENEV-KHOR-KALYNYCH-1847', bodyKo: '이번 문학면은 지주 폴루티킨과 농노 호리·칼리니치를 그린 투르게네프의 글을 다룹니다. 작품 속 인물의 묘사를 실제 농촌 전체의 증언으로 바꾸지 않고, 문학이 누구의 삶을 보여주며 누구의 말을 대신하지 못하는지 묻습니다.', editorialKo: '소설 속 인물의 모습과 실제 농촌 사람들의 경험을 구분해 싣는다.' },
+  { id: 'DELIVERY_NOTICE_1848', titleKo: '지방 구독자에게 늦어진 소식', date: '1848-01-01', sourceId: 'OBJ-WS-NEKRASOV-EDITORIAL-1848', bodyKo: '편집부 공고는 지방 구독자에게 잡지가 도착하는 경로와 수령 확인, 분실 뒤 재발송 절차를 알립니다. 확인된 공고의 범위를 넘어 지연 원인을 추측하지 않고, 편집부와 우체국이 독자에게 무엇을 약속했는지 살핍니다.', editorialKo: '발송 안내에 적힌 절차와 독자에게 한 약속을 나란히 보여준다.' },
+  { id: 'CIRCLE_REPORT_1849', titleKo: '보고서에는 누가 말했는가', date: '1849-04-22', sourceId: 'OBJ-WS-PETRASHEVSKY-REPORT-1849', bodyKo: '관청 수사 보고서가 모임과 체포 지시를 어떤 출처로 엮었는지 살펴봅니다. 보고서에 적힌 주장은 보고서가 그렇게 기록했다는 사실과 구분해 싣고, 목격·전달·추정이 한 문장에 섞이지 않았는지 묻습니다.', editorialKo: '주장의 출처와 문서의 기록 방식을 함께 밝힌다.' },
+]);
+
+const clone = value => structuredClone(value);
+const productById = new Map(CITY_PRODUCTS.map(item => [item.id, item]));
+const storyById = new Map(NEWSPAPER_STORIES.map(item => [item.id, item]));
+const hasItem = (host, id) => host?.inventory?.includes(id);
+function ensureCivic(state) {
+  state.player.civic ??= { suspicion: 0, custody: null, publishedIssues: [], readIssueIds: [], circulatedIssues: [] };
+  state.player.civic.publishedIssues ??= [];
+  state.player.civic.readIssueIds ??= [];
+  state.player.civic.circulatedIssues ??= [];
+  state.player.civic.suspicion ??= 0;
+  return state.player.civic;
+}
+function record(next, eventType, hostId, details) {
+  const event = { eventId: `${eventType}_${next.ledger.length + 1}`, eventType, date: next.world.date, mapId: next.world.currentMapId, hostId, ...details };
+  next.ledger.push(event);
+}
+
+export function purchaseCityProduct(state, { hostId, productId } = {}) {
+  const product = productById.get(productId), host = state?.hosts?.[hostId];
+  if (!product || !host) return { ok: false, reason: 'unknown_product_or_host', state };
+  if (state.player.civic?.custody?.active) return { ok: false, reason: 'custody_active', state };
+  if (!Number.isFinite(host.money?.amount)) return { ok: false, reason: 'money_not_established', state };
+  if (host.money.amount < product.priceKopeks) return { ok: false, reason: 'insufficient_funds', state };
+  const next = clone(state);
+  next.hosts[hostId].money.amount -= product.priceKopeks;
+  next.hosts[hostId].inventory.push(product.id);
+  record(next, 'CITY_PURCHASE', hostId, { productId, priceKopeks: product.priceKopeks });
+  return { ok: true, state: next, product };
+}
+
+export function publishNewspaperIssue(state, { hostId, storyId, mapId = 'printshop' } = {}) {
+  const story = storyById.get(storyId), host = state?.hosts?.[hostId];
+  if (!story || !host) return { ok: false, reason: 'unknown_story_or_host', state };
+  if (!['printer_ekaterina', 'editor_sofia', 'nekrasov_reconstruction'].includes(hostId)) return { ok: false, reason: 'not_newsroom_staff', state };
+  if (state.world.currentMapId !== mapId || host.mapId !== mapId) return { ok: false, reason: 'not_at_newsroom', state };
+  if (story.date > state.world.date) return { ok: false, reason: 'story_not_yet_available', state };
+  if (!(host.knownEvidenceIds ?? []).includes(story.sourceId)) return { ok: false, reason: 'source_not_read_by_editor', state };
+  if (!hasItem(host, 'newsprint_sheet') || !hasItem(host, 'printing_ink')) return { ok: false, reason: 'printing_supplies_missing', state };
+  const next = clone(state), civic = ensureCivic(next), nextId = `CITY_ISSUE_${civic.publishedIssues.length + 1}`;
+  next.hosts[hostId].inventory.splice(next.hosts[hostId].inventory.indexOf('newsprint_sheet'), 1);
+  next.hosts[hostId].inventory.splice(next.hosts[hostId].inventory.indexOf('printing_ink'), 1);
+  next.hosts[hostId].inventory.push(`newspaper_issue:${nextId}`);
+  const issue = { id: nextId, storyId, titleKo: story.titleKo, bodyKo: story.bodyKo, editorialKo: story.editorialKo, sourceId: story.sourceId, publishedDate: state.world.date, publisherHostId: hostId };
+  civic.publishedIssues.push(issue);
+  record(next, 'NEWSPAPER_PUBLISHED', hostId, { issueId: nextId, storyId, sourceId: story.sourceId });
+  return { ok: true, state: next, issue };
+}
+
+export function readNewspaperIssue(state, { hostId, issueId } = {}) {
+  const host = state?.hosts?.[hostId], civic = state?.player?.civic;
+  const issue = civic?.publishedIssues?.find(item => item.id === issueId);
+  if (!host || !issue || !hasItem(host, `newspaper_issue:${issueId}`)) return { ok: false, reason: 'issue_not_owned', state };
+  if (civic.readIssueIds?.includes(issueId)) return { ok: true, state, issue, alreadyRead: true };
+  const next = clone(state), nextCivic = ensureCivic(next);
+  nextCivic.readIssueIds.push(issueId);
+  if (!next.hosts[hostId].knownEvidenceIds.includes(issue.sourceId)) next.hosts[hostId].knownEvidenceIds.push(issue.sourceId);
+  record(next, 'NEWSPAPER_READ', hostId, { issueId, sourceId: issue.sourceId });
+  return { ok: true, state: next, issue, alreadyRead: false };
+}
+
+export function circulateNewspaperIssue(state, { hostId, issueId, route = 'street' } = {}) {
+  const host = state?.hosts?.[hostId], issue = state?.player?.civic?.publishedIssues?.find(item => item.id === issueId);
+  if (!host || !issue || !hasItem(host, `newspaper_issue:${issueId}`)) return { ok: false, reason: 'issue_not_owned', state };
+  if (!['street', 'postal'].includes(route)) return { ok: false, reason: 'unknown_circulation_route', state };
+  if (route === 'postal' && !hasItem(host, 'envelope_bundle')) return { ok: false, reason: 'envelope_missing', state };
+  if (route === 'postal' && (!Number.isFinite(host.money?.amount) || host.money.amount < 4)) return { ok: false, reason: 'insufficient_postage', state };
+  const next = clone(state), civic = ensureCivic(next), nextHost = next.hosts[hostId], issueItem = `newspaper_issue:${issueId}`;
+  nextHost.inventory.splice(nextHost.inventory.indexOf(issueItem), 1);
+  if (route === 'postal') {
+    nextHost.inventory.splice(nextHost.inventory.indexOf('envelope_bundle'), 1);
+    nextHost.money.amount -= 4;
+  }
+  civic.circulatedIssues.push({ issueId, route, date: next.world.date, hostId });
+  record(next, 'NEWSPAPER_CIRCULATED', hostId, { issueId, route, postageKopeks: route === 'postal' ? 4 : 0 });
+  return { ok: true, state: next, issue, route };
+}
+
+export function commitSuspiciousAct(state, { hostId, actId, witnessIds = [], maps } = {}) {
+  const host = state?.hosts?.[hostId];
+  const acts = {
+    TAKE_UNPAID_NEWSPAPER: { itemId: 'newspaper_1847_01', titleKo: '신문을 값을 치르지 않고 가져감' },
+    OPEN_SEALED_DISPATCH: { itemId: null, titleKo: '봉인된 발송 묶음을 허락 없이 엶' },
+    ALTER_CIRCULATION_REGISTER: { itemId: null, titleKo: '발송 장부의 기록을 몰래 고침' },
+  };
+  const act = acts[actId];
+  if (!host || !act || !maps?.['police-station'] || state.player.embodiment !== hostId) return { ok: false, reason: 'invalid_suspicious_act', state };
+  if (state.player.civic?.custody?.active) return { ok: false, reason: 'custody_active', state };
+  const next = clone(state), civic = ensureCivic(next), witnessed = [...new Set(witnessIds.filter(id => id !== hostId))];
+  civic.suspicion = Math.min(3, civic.suspicion + 1);
+  if (act.itemId) next.hosts[hostId].inventory.push(act.itemId);
+  record(next, 'SUSPICIOUS_ACT', hostId, { actId, witnessedBy: witnessed });
+  const arrested = witnessed.length > 0 || civic.suspicion >= 2;
+  if (arrested) {
+    const station = maps['police-station'], spawn = station.metadata?.detentionArrival ?? station.metadata?.observerStart ?? { x: 3, y: 7 };
+    civic.custody = { active: true, hostId, reasonKo: act.titleKo, actId, arrestedAt: next.world.date, witnessedBy: witnessed, stolenItemId: act.itemId };
+    next.world.currentMapId = 'police-station';
+    next.hosts[hostId].mapId = 'police-station';
+    next.hosts[hostId].position = { ...spawn };
+    next.player.position = { ...spawn };
+    record(next, 'POLICE_CUSTODY', hostId, { actId, witnessedBy: witnessed });
+  }
+  return { ok: true, state: next, act, witnessed, arrested };
+}
+
+export function resolvePoliceCustody(state, { resolution } = {}) {
+  const civic = state?.player?.civic, custody = civic?.custody, host = custody?.active && state.hosts[custody.hostId];
+  if (!host || state.world.currentMapId !== 'police-station') return { ok: false, reason: 'not_in_custody', state };
+  if (!['pay_fine', 'give_statement'].includes(resolution)) return { ok: false, reason: 'unknown_resolution', state };
+  if (resolution === 'pay_fine' && (!Number.isFinite(host.money?.amount) || host.money.amount < 8)) return { ok: false, reason: 'insufficient_funds', state };
+  const next = clone(state), nextCivic = ensureCivic(next), nextCustody = nextCivic.custody, nextHost = next.hosts[nextCustody.hostId];
+  if (resolution === 'pay_fine') nextHost.money.amount -= 8;
+  if (nextCustody.stolenItemId) {
+    const index = nextHost.inventory.indexOf(nextCustody.stolenItemId);
+    if (index >= 0) nextHost.inventory.splice(index, 1);
+  }
+  nextCustody.active = false;
+  nextCustody.resolution = resolution;
+  nextCustody.releasedAt = next.world.date;
+  nextCivic.suspicion = 0;
+  record(next, 'POLICE_RELEASE', nextCustody.hostId, { resolution, fineKopeks: resolution === 'pay_fine' ? 8 : 0, stolenItemReturned: Boolean(nextCustody.stolenItemId) });
+  return { ok: true, state: next, resolution };
+}
+
+export function productLabel(productId) {
+  return productById.get(productId)?.titleKo ?? productById.get(productId.replace(/^newspaper_issue:.+$/, ''))?.titleKo ?? productId;
+}
+
+export function publishedIssueLabel(state, itemId) {
+  const issueId = String(itemId).match(/^newspaper_issue:(.+)$/)?.[1];
+  return state.player.civic?.publishedIssues?.find(item => item.id === issueId)?.titleKo ?? null;
+}

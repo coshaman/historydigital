@@ -67,7 +67,7 @@ function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky
       possessionHistory: [],
       completedChapterIds: [],
     },
-    player: { position: { x: spawn.x, y: spawn.y }, facing: 'down', embodiment: null, currentGoals: [], observedEvidenceIds: [], crossPerspectiveNotes: [], dialogueGrowth: { insight: 0, aiReplies: 0, perspectiveNotes: [], comparisonNotes: [], reflectionIds: [] }, gameSaveVersion: SAVE_VERSION },
+    player: { position: { x: spawn.x, y: spawn.y }, facing: 'down', embodiment: null, currentGoals: [], observedEvidenceIds: [], crossPerspectiveNotes: [], civic: { suspicion: 0, custody: null, publishedIssues: [], readIssueIds: [], circulatedIssues: [] }, dialogueGrowth: { insight: 0, aiReplies: 0, perspectiveNotes: [], comparisonNotes: [], reflectionIds: [] }, gameSaveVersion: SAVE_VERSION },
     hosts,
     quests: Object.fromEntries(quests.map(quest => [quest.id, { status: 'open', result: null }])),
     learning: initialLearningState(),
@@ -332,6 +332,7 @@ function transitionMap(state, exitId, maps) {
   const exit = exits.find(item => item.type === 'map-exit' && properties(item).exitId === exitId);
   if (!exit) return { ok: false, reason: 'unknown_exit', state };
   const data = properties(exit), targetMap = maps[data.targetMapId];
+  if (state.player.civic?.custody?.active && data.targetMapId !== 'police-station') return { ok: false, reason: 'custody_active', state };
   if (!targetMap || !nearTile(state.player.position, objectTile(exit))) return { ok: false, reason: 'exit_not_reachable', state };
   const currentRealmClass = currentMap.metadata?.mapClass === 'LITERARY_REALM';
   const targetRealmClass = targetMap.metadata?.mapClass === 'LITERARY_REALM';
@@ -566,6 +567,12 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
   state.player.dialogueGrowth.perspectiveNotes ??= [];
   state.player.dialogueGrowth.comparisonNotes ??= [];
   state.player.dialogueGrowth.reflectionIds ??= [];
+  state.player.civic ??= { suspicion: 0, custody: null, publishedIssues: [], readIssueIds: [], circulatedIssues: [] };
+  state.player.civic.suspicion ??= 0;
+  state.player.civic.publishedIssues ??= [];
+  state.player.civic.readIssueIds ??= [];
+  state.player.civic.circulatedIssues ??= [];
+  if (!Number.isInteger(state.player.civic.suspicion) || state.player.civic.suspicion < 0 || state.player.civic.suspicion > 3 || !Array.isArray(state.player.civic.publishedIssues) || !Array.isArray(state.player.civic.readIssueIds) || !Array.isArray(state.player.civic.circulatedIssues) || (state.player.civic.custody !== null && (typeof state.player.civic.custody !== 'object' || typeof state.player.civic.custody.active !== 'boolean' || !hostCards.some(card => card.id === state.player.civic.custody.hostId)))) throw new Error('Save contains invalid civic state');
   if (!Number.isSafeInteger(state.player.dialogueGrowth.insight) || state.player.dialogueGrowth.insight < 0 || !Number.isSafeInteger(state.player.dialogueGrowth.aiReplies) || state.player.dialogueGrowth.aiReplies < 0 || !Array.isArray(state.player.dialogueGrowth.perspectiveNotes) || !Array.isArray(state.player.dialogueGrowth.comparisonNotes) || !Array.isArray(state.player.dialogueGrowth.reflectionIds)) throw new Error('Save contains invalid dialogue growth');
   state.learning ??= initialLearningState();
   state.learning.examAnswers ??= {};

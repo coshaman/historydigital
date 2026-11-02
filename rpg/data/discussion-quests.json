@@ -119,6 +119,36 @@
         "courier_pavel": { "promptKo": "봉투 내용은 모른 채 전달한 사람이라면, 장부에 무엇까지 책임지고 말할 수 있을까요?" },
         "printer_ekaterina": { "promptKo": "이름이 인쇄된 뒤 생길 일을 모른다면, 문장을 옮기는 사람은 어디서 멈춰야 할까요?" }
       }
+    },
+    {
+      "id": "INQUIRY_NEWS_AND_PUBLIC_TRUTH",
+      "date": "1848-01-01",
+      "titleKo": "신문은 사실을 전할까, 판단을 만들까",
+      "requiredPerspectiveCount": 2,
+      "stakesKo": "기사의 선택과 제목, 독자의 접근성, 인쇄 노동이 공론에 미치는 영향을 나눠 봅니다.",
+      "reflectionPromptKo": "사실을 알리는 기사도 독자의 판단을 이끌 수 있어요. 무엇을 공개하고 무엇을 보류할지 누가 설명해야 할까요?",
+      "topicId": "press_and_public_truth",
+      "sourceIds": ["OBJ-WS-NEKRASOV-EDITORIAL-1848"],
+      "hosts": {
+        "editor_sofia": { "promptKo": "신문은 사실을 전하는가요, 아니면 무엇을 중요하게 볼지 독자에게 가르치기도 하나요?" },
+        "bookseller_lev": { "promptKo": "잘 팔릴 이야기와 꼭 알려야 할 이야기가 다르면, 장사하는 사람은 뭘 먼저 택해야 하오?" },
+        "reader_darya": { "promptKo": "기자가 사실만 썼다고 해도 제목과 선택이 독자의 판단을 바꿀 수 있지 않을까요?" }
+      }
+    },
+    {
+      "id": "INQUIRY_SAFETY_AND_RECORDS",
+      "date": "1849-04-22",
+      "titleKo": "안전을 위한 기록은 어디까지 허용될까",
+      "requiredPerspectiveCount": 2,
+      "stakesKo": "실제 보고서의 주장과 확인 사실을 구분하면서, 안전을 위한 기록이 개인의 권리를 침해할 때 책임을 묻습니다.",
+      "reflectionPromptKo": "안전을 이유로 이름을 기록할 때, 누가 필요성을 증명하고 잘못된 기록을 고쳐야 할까요?",
+      "topicId": "safety_surveillance_and_rights",
+      "sourceIds": ["OBJ-WS-PETRASHEVSKY-REPORT-1849"],
+      "hosts": {
+        "police_sergeant_ivan": { "promptKo": "안전을 위해 사람의 이름과 움직임을 기록한다면, 어디서 멈춰야 한다고 보십니까?" },
+        "senior_clerk_konstantin": { "promptKo": "관청이 안전을 내세워 기록을 모을 때, 기준과 수정 책임은 누가 져야 합니까?" },
+        "reader_darya": { "promptKo": "안전 때문에 누군가의 이름이 기록된다면, 그 사람에게 기록을 확인하고 고칠 기회도 있어야 할까요?" }
+      }
     }
   ]
 }

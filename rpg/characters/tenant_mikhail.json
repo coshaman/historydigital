@@ -71,7 +71,8 @@
   },
   "allowedMaps": [
     "nevsky",
-    "courtyard"
+    "courtyard",
+    "police-station"
   ],
   "start": {
     "mapId": "courtyard",

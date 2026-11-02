@@ -1,0 +1,177 @@
+{
+  "id": "editor_sofia",
+  "kind": "FICTIONAL",
+  "displayNameKo": "소피야 미하일로바",
+  "displayNameRu": "Софья Михайлова",
+  "ageAtDate": {
+    "value": 31,
+    "status": "fictional_character_design"
+  },
+  "socialEstate": "urban_literate_worker",
+  "occupation": "인쇄소 겸 편집실의 교정·배포 담당자",
+  "rank": {
+    "value": null,
+    "ru": null,
+    "status": "not_applicable"
+  },
+  "legalMobility": "인쇄소와 공개 거리 이용; 관청 기록실 출입 권한 없음",
+  "wealthBracket": "modest",
+  "money": {
+    "amount": 24,
+    "unit": "kopeks",
+    "status": "fictional_game_balance"
+  },
+  "literacy": "러시아어 원고와 인쇄 교정쇄를 읽고 서신 장부를 정리한다",
+  "health": "working",
+  "reputationByGroup": {
+    "workshop": "precise"
+  },
+  "risk": "출처를 잘못 붙인 한 문장이 편집실과 배달 노동자에게 책임으로 돌아올 수 있다",
+  "relations": {},
+  "secretKnowledge": [],
+  "knownEvidence": [],
+  "privateKnowledgeIds": [],
+  "knownEvidenceIds": [],
+  "desires": "확인한 출처를 독자에게 닿는 문장으로 만들고, 교정과 배포 책임을 분명히 나눈다",
+  "fears": "마감을 이유로 확인되지 않은 말을 사실처럼 찍는 것",
+  "taboos": [
+    "문학 속 인물의 말을 실제 농촌 사람의 증언으로 꾸미지 않는다",
+    "작성자와 전달자를 한데 묶어 책임을 숨기지 않는다"
+  ],
+  "speechRhythm": "먼저 문장이나 출처를 되묻고, 짧은 편집 판단 뒤 독자에게 미칠 일을 덧붙인다",
+  "worldview": {
+    "status": "fictional_character_design",
+    "stanceKo": "신문은 독자가 판단할 자료와 그 자료의 출처를 함께 보여줘야 한다고 믿는다.",
+    "tensionKo": "독자에게 빨리 알리고 싶지만, 속도를 앞세우면 확인되지 않은 말이 누군가를 다치게 할 수 있다.",
+    "blindSpotKo": "편집실에서 문장을 다듬을 시간이 모든 사람에게 주어지는 것은 아니라는 사실을 잊기 쉽다.",
+    "designBasisKo": "허구 편집자 캐릭터 설계이며 실제 편집자나 역사 인물의 발언·견해가 아니다.",
+    "sceneAnchorIds": [
+      "PRINTSHOP_PROOF_1847",
+      "PUBLIC_DISCOURSE_1848"
+    ]
+  },
+  "topicStances": {
+    "censorship": {
+      "knowledgeKind": "fictional_printshop_experience",
+      "positionKo": "검열관의 판단을 안다고 하지 않는다. 돌아온 교정쇄와 삭제 흔적을 출처와 함께 싣는 일을 고민한다."
+    },
+    "official_record_and_rumor": {
+      "knowledgeKind": "fictional_editorial_practice",
+      "positionKo": "누가 직접 말했고 누가 옮겼는지 표기해야 독자가 소문을 사실로 오해하지 않는다고 본다."
+    },
+    "poverty_and_class": {
+      "knowledgeKind": "workshop_labor_observation",
+      "positionKo": "값을 낮춘 신문이 읽힐 기회를 넓히더라도 종이와 인쇄 노동의 비용을 숨기면 안 된다고 본다."
+    }
+  },
+  "speechRegister": {
+    "firstMeeting": "낯선 사람에게 용건과 출처를 차분히 묻는다",
+    "colleague": "작업자에게 짧은 반말과 교정 용어를 쓴다",
+    "private": "둘만 있으면 마감 압박과 자기 실수를 인정한다",
+    "conflict": "문장보다 먼저 누가 확인했고 누가 승인했는지 묻는다",
+    "intimacy": "신뢰가 쌓이면 농담을 섞고 말끝을 부드럽게 한다",
+    "formal": "독자 공고와 인쇄 지시에는 출처·시점·책임자를 분명히 쓴다"
+  },
+  "voiceSamples": [
+    "이 문장, 누가 확인했죠? 출처부터 여백에 적어 둬요.",
+    "마감은 알아요. 그래도 확인 안 한 이름을 활자에 올리진 않겠어요.",
+    "독자에게 빨리 닿는 것과, 틀리지 않게 닿는 건 같은 일이 아니에요."
+  ],
+  "lexicon": [
+    "교정쇄",
+    "출처",
+    "마감"
+  ],
+  "emotions": [
+    "집중",
+    "시간 압박",
+    "독자에 대한 책임"
+  ],
+  "personalObjective": "자료를 확인해 한 쪽짜리 거리 신문을 편집하고 독자에게 보낸다",
+  "objectiveByChapter": {
+    "1847": "원문과 출처를 확인한 첫 문학면을 만든다",
+    "1848": "발송 지연 공고를 독자가 이해할 수 있게 싣는다",
+    "1849": "보고서의 주장과 출처를 분리해 기록한다"
+  },
+  "allowedMaps": [
+    "nevsky",
+    "printshop",
+    "police-station"
+  ],
+  "start": {
+    "mapId": "printshop",
+    "x": 14,
+    "y": 12
+  },
+  "wealthBracketStatus": "fictional_game_balance",
+  "inventory": [
+    "교정 연필",
+    "접이식 교정자"
+  ],
+  "sourceIds": [
+    "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+    "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+    "OBJ-WS-PETRASHEVSKY-REPORT-1849"
+  ],
+  "canonConstraint": "fictional newsroom editor; every historical article is constrained by the cited source record",
+  "reconstructionDisclaimer": "허구 편집자이며 실제 역사 인물이나 편집부의 발언을 재현하지 않는다.",
+  "sprite": {
+    "file": "assets/sofia-sprite.svg",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "coat",
+    "palette": {
+      "cloth": "#5d3841",
+      "trim": "#d1b17c",
+      "headwear": "#4b3035"
+    }
+  },
+  "spriteAtlas": {
+    "file": "assets/sofia-sprite.svg",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "directions": 4,
+    "framesPerDirection": 3,
+    "directionRows": {
+      "down": 0,
+      "up": 1,
+      "left": 2,
+      "right": 3
+    }
+  },
+  "portrait": {
+    "file": "assets/portrait-sofia.svg",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+  },
+  "schedule": [
+    {
+      "atMinute": 540,
+      "mapId": "printshop",
+      "position": {
+        "x": 14,
+        "y": 12
+      },
+      "activityKo": "교정쇄에 출처와 날짜를 적는다"
+    },
+    {
+      "atMinute": 660,
+      "mapId": "nevsky",
+      "position": {
+        "x": 20,
+        "y": 13
+      },
+      "activityKo": "가판대의 독자 반응을 듣는다"
+    },
+    {
+      "atMinute": 720,
+      "mapId": "printshop",
+      "position": {
+        "x": 14,
+        "y": 12
+      },
+      "activityKo": "다음 호의 교정쇄를 확인한다"
+    }
+  ]
+}

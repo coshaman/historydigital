@@ -28,7 +28,7 @@
   "tileheight": 16,
   "infinite": false,
   "nextlayerid": 7,
-  "nextobjectid": 37,
+  "nextobjectid": 38,
   "properties": [
     {
       "name": "mapId",
@@ -2092,6 +2092,28 @@
               "value": "V33_1848_PUBLIC"
             }
           ]
+        },
+        {
+          "id": 29,
+          "name": "거리 신문 편집대",
+          "type": "newsroom-desk",
+          "x": 240,
+          "y": 144,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [{ "name": "serviceId", "type": "string", "value": "newsroom-desk" }]
+        },
+        {
+          "id": 37,
+          "name": "봉인된 지방행 발송 묶음",
+          "type": "sealed-dispatch",
+          "x": 224,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [{ "name": "serviceId", "type": "string", "value": "sealed-dispatch" }]
         }
       ]
     },

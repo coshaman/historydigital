@@ -244,6 +244,7 @@
     "playtime-audit": "node scripts/playtime-audit.mjs",
     "korean-dialogue-review": "node scripts/korean-dialogue-review.mjs",
     "v33-rpg-core-test": "node --test scripts/v33-rpg-core.test.mjs",
+    "v35-civic-life-test": "node --test scripts/civic-life.test.mjs",
     "v33-generate-street-materials": "node scripts/v33-generate-rpg-content.mjs --street-materials-only",
     "v33-street-material-test": "node --test scripts/v33-street-material.test.mjs",
     "v33-learning-life-test": "node --test scripts/v33-learning-life.test.mjs",
@@ -263,7 +264,7 @@
     "v33-rpg-browser": "node scripts/v33-rpg-browser-smoke.mjs",
     "v33-overcoat-browser": "node scripts/v33-browser-acceptance.mjs --overcoat-only",
     "v33-browser-acceptance": "node scripts/v33-browser-acceptance.mjs",
-    "v33-player-presentation-test": "node --test scripts/v33-player-presentation.test.mjs scripts/v33-authored-dialogue.test.mjs scripts/v33-quest-presentation.test.mjs",
+    "v33-player-presentation-test": "node --test scripts/v33-player-presentation.test.mjs scripts/v33-authored-dialogue.test.mjs scripts/v33-quest-presentation.test.mjs scripts/dialogue-response.test.mjs",
     "acceptance:v33": "npm run v33-player-presentation-test && npm run v33-rpg-core-test && npm run v33-street-material-test && npm run v33-learning-life-test && npm run v33-http-server-test && npm run v33-renderer-load-test && npm run v33-atmosphere-test && npm run v33-exploration-coverage-test && npm run v33-ai-test && npm run v33-vercel-api-test && npm run v33-historical-claim-ledger-test && npm run v33-historical-audit && npm run v33-image-audit && npm run v33-ending-route-matrix && npm run v33-static-build-config-test && npm run build:v33 && npm run build && npm run lint && npm run check && npm test && npm run v33-browser-acceptance",
     "verify": "npm run v27-verify && npm run build && npm run lint && npm run check && npm run audit && npm run test && npm run perf && npm run mobile && npm run source-audit && npm run gltf-audit && npm run placeholder-audit && npm run corpus-audit && npm run case-content-audit && npm run ending-epilogue-audit && npm run phase2-sim && npm run ending-sim && npm run korean-copy-lint && npm run korean-dialogue-review && npm run desk-scene-audit && npm run source-interaction-audit && npm run ui-slop-audit && npm run copy-clarity && npm run authored-dialogue-audit && npm run runtime-dialogue-audit && npm run playtime-audit && npm run audio-audit && npm run browser-qa && npm run dialogue-plan-audit && npm run v5-viewport && npm run v5-translation && npm run v5-performance && npm run v21-build-provenance && npm run v21-runtime-manifest-parity && npm run v21-readability-qa && npm run v23-ui-acceptance && npm run v23-choice-replay && npm run v22-periodical-actual-content",
     "v34-quest-guidance-test": "node --test scripts/v34-quest-guidance.test.mjs",
@@ -277,7 +278,7 @@
     "api-diagnostics-test": "node --test scripts/api-diagnostics.test.mjs",
     "v35-package-evidence": "node scripts/v35-package-evidence.mjs",
     "v35-browser-acceptance": "npm run build:v33 && npm run v33-browser-acceptance",
-    "acceptance:v35": "npm run v35-build-matrices && npm run v35-content-audit && npm run v35-npc-replay && npm run v35-ai-mock-audit && node --test scripts/v35-discussion-quests.test.mjs scripts/v33-authored-dialogue.test.mjs && npm run api-diagnostics-test && npm run acceptance:v33"
+    "acceptance:v35": "npm run v35-build-matrices && npm run v35-content-audit && npm run v35-npc-replay && npm run v35-ai-mock-audit && node --test scripts/v35-discussion-quests.test.mjs scripts/v33-authored-dialogue.test.mjs && npm run v35-civic-life-test && npm run api-diagnostics-test && npm run acceptance:v33"
   },
   "devDependencies": {
     "playwright": "^1.63.0"

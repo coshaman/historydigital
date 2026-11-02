@@ -79,7 +79,8 @@
   "allowedMaps": [
     "nevsky",
     "printshop",
-    "chancery"
+    "chancery",
+    "police-station"
   ],
   "start": {
     "mapId": "chancery",

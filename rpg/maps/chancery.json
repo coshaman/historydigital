@@ -27,7 +27,7 @@
   "tileheight": 16,
   "infinite": false,
   "nextlayerid": 7,
-  "nextobjectid": 53,
+  "nextobjectid": 57,
   "properties": [
     {
       "name": "mapId",
@@ -2052,6 +2052,17 @@
               "value": "CIRCLE_LETTER_1849_MAY"
             }
           ]
+        },
+        {
+          "id": 34,
+          "name": "발송 장부의 수정 흔적",
+          "type": "inspectable",
+          "x": 240,
+          "y": 160,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [{ "name": "serviceId", "type": "string", "value": "circulation-register" }]
         }
       ]
     },

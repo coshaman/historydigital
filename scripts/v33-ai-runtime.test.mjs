@@ -113,6 +113,31 @@ test('AI dialogue receives the embodied public character context and keeps each 
   }
 });
 
+test('new editor and police characters receive their own validated live dialogue scenes', async () => {
+  const observed = [], store = new MemorySessionStore();
+  const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store, allowedOrigins: ['https://game.example'], provider: { generate: async request => {
+    observed.push(request.input);
+    return validTurn(request.input.scene.id, request.input.character.id);
+  } } });
+  for (const [hostId, actorHostId, mapId, date, requestId] of [
+    ['editor_sofia', 'printer_ekaterina', 'printshop', '1848-01-01', 'sofia-session-0001'],
+    ['police_sergeant_ivan', 'clerk_alexei', 'police-station', '1849-04-22', 'ivan-session-00001'],
+  ]) {
+    const session = await service.handle(request('POST', '/api/rpg/session/start', { hostId, actorHostId }));
+    assert.equal(session.status, 201, `${hostId} session should start`);
+    const reply = await service.handle(request('POST', '/api/rpg/dialogue', {
+      sessionToken: session.body.sessionToken, requestId, playerInput: '이 기록에서 가장 먼저 따져야 할 점은 무엇입니까?',
+      sceneContext: { date, mapId, questId: null },
+    }));
+    assert.equal(reply.status, 200);
+    assert.equal(reply.body.fallback, false);
+    assert.equal(reply.body.turn.beats[0].speakerId, hostId);
+  }
+  assert.deepEqual(observed.map(item => item.character.id), ['editor_sofia', 'police_sergeant_ivan']);
+  assert.match(observed[0].character.speechRhythm, /출처|편집/);
+  assert.match(observed[1].character.worldview.designBasisKo, /실제.*재현하지 않는다/);
+});
+
 test('V35 runs three contextual mock turns for each of eight fictional character voices', async () => {
   const cases = [
     ['seamstress_anna', '1847-06-01', 'nevsky', 'PRINTSHOP_PROOF_1847', 'printer_ekaterina'],

@@ -38,7 +38,9 @@
   "emotions": ["호기심", "논쟁의 즐거움", "자기검열"],
   "personalObjective": "책에서 배운 원칙을 도시 사람의 생활과 대조한다",
   "objectiveByChapter": { "V33_1847_PRINT": "읽은 문장과 생활의 차이를 이야기한다", "V33_1848_PUBLIC": "공개된 글이 누구에게 닿는지 살핀다", "V33_1849_CIRCLE": "소문과 확인된 기록을 구분한다" },
-  "allowedMaps": ["nevsky", "printshop"],
+  "allowedMaps": ["nevsky", "printshop",
+    "police-station"
+  ],
   "start": { "mapId": "nevsky", "x": 15, "y": 12 },
   "inventory": ["번역 원고", "여백이 많은 독서 노트"],
   "sourceIds": ["LIT-TURGENEV-KHOR-KALYNYCH-1847", "OBJ-SOV-1847", "OBJ-WS-NEKRASOV-EDITORIAL-1848"],

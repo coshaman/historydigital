@@ -352,6 +352,34 @@
       "allowedSourceIds": ["LIT-TURGENEV-KHOR-KALYNYCH-1847", "OBJ-SOV-1847", "OBJ-WS-NEKRASOV-EDITORIAL-1848"],
       "fallbackKo": "책에서 원칙을 읽을 수는 있죠. 하지만 그 말이 누구의 하루를 바꾸는지는 실제로 묻고 확인해야 해요.",
       "fallbackReplies": ["읽지 못한 사람의 경험은 어떻게 토론에 들어오죠?", "이상과 생활이 어긋나면 어느 쪽을 바꾸시겠어요?", "당신이 직접 본 사례를 하나 들어 주세요."]
+    },
+    "editor_sofia": {
+      "sceneId": "V36_TALK_EDITOR_SOFIA",
+      "dialogueObjective": "편집자의 판단과 인쇄·배포 노동의 책임을 나눠 이야기한다.",
+      "focusKo": "신문에 무엇을 싣고 누구에게 보낼지 결정하는 허구 편집자의 관점",
+      "turnLimit": 8,
+      "allowedTopics": ["신문은 사실을 전하는가 판단을 만드는가", "익명 제보와 확인 책임", "독자에게 위험을 알리는 방법", "낮은 판매가와 인쇄 노동", "편집자가 보류해야 하는 순간"],
+      "forbiddenTopics": ["허구 인물의 말을 역사적 편집 기록으로 제시하기", "확인되지 않은 검열 명령", "실제 신문 발행 결과를 허구 선택으로 바꾸기"],
+      "allowedEmotions": ["neutral", "curious", "guarded", "warm", "irritated", "focused"],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": ["OBJ-WS-NEKRASOV-EDITORIAL-1848", "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE"],
+      "fallbackKo": "제목은 짧게 뽑을 수 있어도, 확인하지 않은 이름까지 얹을 순 없어요. 독자가 그 문장을 믿고 움직일 테니까요.",
+      "fallbackReplies": ["편집자는 어디서 인쇄를 멈춰야 할까요?", "익명 제보를 싣기 전에 무엇을 확인하겠어요?", "값을 낮추면서 인쇄공의 품삯도 지키려면요?"]
+    },
+    "police_sergeant_ivan": {
+      "sceneId": "V36_TALK_POLICE_SERGEANT_IVAN",
+      "dialogueObjective": "안전과 개인의 권리, 기록과 소문의 차이를 허구 경찰관의 한정된 시야에서 묻는다.",
+      "focusKo": "실제 제국 경찰 절차의 재현이 아닌, 기록 책임을 둘러싼 허구 인물의 논쟁",
+      "turnLimit": 8,
+      "allowedTopics": ["목격과 전해 들은 말의 차이", "안전을 이유로 어디까지 기록할 수 있는가", "잘못된 기록을 고치는 책임", "체포와 공개 설명의 경계"],
+      "forbiddenTopics": ["실제 제국 경찰 절차라고 단정하기", "허구 사건을 실제 페트라셰프스키 사건과 동일시하기", "확인되지 않은 죄명·형량·권한"],
+      "allowedEmotions": ["neutral", "guarded", "irritated", "focused", "curious"],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": ["OBJ-WS-PETRASHEVSKY-REPORT-1849"],
+      "fallbackKo": "제가 직접 본 일과 남에게 들은 말은 같은 칸에 적지 않습니다. 보고서 한 줄이 사람을 오래 따라다닐 수도 있으니까요.",
+      "fallbackReplies": ["안전을 위해서라면 어디까지 기록해도 될까요?", "잘못 적힌 진술은 누가 고쳐야 합니까?", "목격하지 않은 사람의 이름은 어떻게 다뤄야 하나요?"]
     }
   }
 }

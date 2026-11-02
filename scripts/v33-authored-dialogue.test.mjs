@@ -82,3 +82,14 @@ test('contextual openings do not presume the player is a customer and remain dis
   assert.match(contextualOpening('seamstress_anna','clerk_alexei'), /관청/);
   assert.match(contextualOpening('printer_ekaterina','clerk_alexei'), /어느 줄/);
 });
+
+test('editor and police personas have separate registers, viewpoints and discussion-ready authored replies', () => {
+  const sofia = authoredReply('editor_sofia', conversations.editor_sofia.topics[0][0]);
+  const ivan = authoredReply('police_sergeant_ivan', conversations.police_sergeant_ivan.topics[0][0]);
+  assert.match(sofia.text, /제목|편집/);
+  assert.match(ivan.text, /위험|감시/);
+  assert.notEqual(sofia.text, ivan.text);
+  assert.match(conversations.editor_sofia.opening, /인쇄/);
+  assert.match(conversations.police_sergeant_ivan.opening, /보신 일인지/);
+  assert.ok(conversations.editor_sofia.provenance.length && conversations.police_sergeant_ivan.provenance.length);
+});

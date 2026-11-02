@@ -2,6 +2,12 @@
 
 Russian Lives: Act III is a browser RPG deployed as a static game plus same-origin Vercel Node Functions. AI dialogue is optional; without a key, authored dialogue remains playable.
 
+## Play loop additions
+
+The 1847–1849 city now connects buying a periodical and printing supplies to reading a cited source, editing a one-page street issue, then handing it out or mailing it. The fictional police intake room follows witnessed tampering or repeated suspicious acts; statement and fine outcomes are recorded in the save. Ten viewpoint inquiries ask players to compare what different characters think about class, censorship, public reporting, safety, and responsibility. A successfully generated model reply is the text shown in play; if provider validation fails, the game reports the reason and offers a retry instead of silently substituting authored dialogue.
+
+For AI dialogue, use the Vercel deployment URL. GitHub Pages serves the static game but cannot run `/api/rpg/*`; its API status panel now names this hosting limit directly.
+
 ## Deploy on Vercel
 
 1. Import `coshaman/historydigital` in Vercel and keep **Root Directory** at the repository root.

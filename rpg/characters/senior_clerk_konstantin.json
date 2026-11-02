@@ -38,7 +38,9 @@
   "emotions": ["절제", "회의", "마른 유머"],
   "personalObjective": "검토 메모와 결재 문서를 구분해 보관한다",
   "objectiveByChapter": { "V33_1847_PRINT": "검토 메모와 결재 문서를 구분한다", "V33_1848_PUBLIC": "공고에서 확인된 발송 책임을 기록한다", "V33_1849_CIRCLE": "확인된 사실과 상급자 지시를 나누어 적는다" },
-  "allowedMaps": ["chancery", "nevsky"],
+  "allowedMaps": ["chancery", "nevsky",
+    "police-station"
+  ],
   "start": { "mapId": "chancery", "x": 8, "y": 10 },
   "inventory": ["검토 메모철", "황동 인장함"],
   "sourceIds": ["OBJ-SOV-1847", "OBJ-WS-PETRASHEVSKY-REPORT-1849"],

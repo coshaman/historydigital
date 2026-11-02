@@ -87,13 +87,13 @@ try {
       assert.match(await page.locator('#record').textContent(), /AI 응답 생성 실패.*모델 응답 형식 검증 실패/);
       await page.locator('#save').click();
       const failedEvent = await page.evaluate(() => JSON.parse(localStorage.getItem('v33-rpg-save')).state.ledger.findLast(event => event.eventType === 'DIALOGUE_TURN'));
-      assert.equal(failedEvent.discussionId, undefined, 'provider fallback must not complete an opinion mission');
+      assert.equal(failedEvent, undefined, 'a failed model generation is not recorded as a completed dialogue turn');
+      assert.match(await page.locator('#journal-text').textContent(), /생성 답변을 받지 못했습니다/);
       await page.locator('#settings-open').click();
       await page.getByText('response_schema_invalid', { exact: false }).waitFor();
       assert.equal(await page.locator('#api-diagnostics-list').innerText().then(text => text.includes('response_schema_invalid')), true, 'diagnostics panel displays safe local provider error codes');
       await page.locator('#api-settings-close').click();
       await page.getByRole('button', { name: 'AI 다시 연결' }).click();
-      await page.getByRole('button', { name: opinionPrompt }).click();
       await page.locator('#journal-text').getByText('mocked ai line', { exact: true }).waitFor();
       await page.getByRole('button', { name: '대화 마치기' }).click();
     }
