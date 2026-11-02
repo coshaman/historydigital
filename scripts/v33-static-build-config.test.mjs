@@ -44,3 +44,9 @@ test('RPG first paint does not wait for a remote font stylesheet', () => {
   const css = ['rpg/rpg.css', 'rpg/choices.css'].map(file => fs.readFileSync(path.join(root, file), 'utf8')).join('\n');
   assert.doesNotMatch(css, /@import\s+url\(["']?https?:\/\//i);
 });
+
+test('static HTML may link to the Vercel dashboard without loading remote assets', () => {
+  const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+  assert.match(html, /href="https:\/\/vercel\.com\/dashboard"/);
+  assert.doesNotMatch(html, /<(?:script|img|link)\b[^>]*\b(?:src|href)="https?:\/\//i);
+});

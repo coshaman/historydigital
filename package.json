@@ -274,9 +274,10 @@
     "v35-content-audit": "node scripts/v35-content-audit.mjs",
     "v35-npc-replay": "node scripts/v35-generate-npc-replay.mjs",
     "v35-ai-mock-audit": "node --test scripts/v33-ai-runtime.test.mjs",
+    "api-diagnostics-test": "node --test scripts/api-diagnostics.test.mjs",
     "v35-package-evidence": "node scripts/v35-package-evidence.mjs",
     "v35-browser-acceptance": "npm run build:v33 && npm run v33-browser-acceptance",
-    "acceptance:v35": "npm run v35-build-matrices && npm run v35-content-audit && npm run v35-npc-replay && npm run v35-ai-mock-audit && node --test scripts/v35-discussion-quests.test.mjs scripts/v33-authored-dialogue.test.mjs && npm run acceptance:v33"
+    "acceptance:v35": "npm run v35-build-matrices && npm run v35-content-audit && npm run v35-npc-replay && npm run v35-ai-mock-audit && node --test scripts/v35-discussion-quests.test.mjs scripts/v33-authored-dialogue.test.mjs && npm run api-diagnostics-test && npm run acceptance:v33"
   },
   "devDependencies": {
     "playwright": "^1.63.0"

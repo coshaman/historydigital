@@ -2,7 +2,7 @@
   "schemaVersion": "V35_CONTENT_AUDIT_V1",
   "status": "PASS",
   "sourceReaderRecords": 8,
-  "fictionalCharacterProfiles": 6,
+  "fictionalCharacterProfiles": 8,
   "caseFlows": 4,
   "playableRoles": 10,
   "caseRoleMatrix": [

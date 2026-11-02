@@ -9,7 +9,7 @@ const write = (relative, content) => {
   fs.mkdirSync(path.dirname(target), { recursive: true });
   fs.writeFileSync(target, content);
 };
-const characterIds = ['seamstress_anna','printer_ekaterina','clerk_alexei','courier_pavel','tenant_mikhail','bookseller_lev'];
+const characterIds = ['seamstress_anna','printer_ekaterina','clerk_alexei','courier_pavel','tenant_mikhail','bookseller_lev','senior_clerk_konstantin','reader_darya'];
 const characters = characterIds.map(id => read(`rpg/characters/${id}.json`));
 const cases = read('rpg/data/case-contexts.json').cases;
 const readerRecords = new Map(read('rpg/data/source-reader-index.json').records.map(item => [item.sourceId, item]));

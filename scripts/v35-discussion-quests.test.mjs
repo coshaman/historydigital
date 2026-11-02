@@ -6,7 +6,13 @@ import definitions from '../rpg/data/discussion-quests.json' with { type: 'json'
 test('discussion quests unlock by campaign date and preserve fictional viewpoint boundaries', () => {
   const state = { world: { date: '1847-06-01' }, ledger: [] };
   const quests = availableDiscussionQuests(state, definitions);
-  assert.equal(quests.length, 2);
+  assert.equal(quests.length, 4, 'four viewpoint missions are available from the opening date');
+  assert.deepEqual(quests.map(quest => quest.id), [
+    'INQUIRY_OFFICIAL_DUTY_AND_MORALITY',
+    'INQUIRY_IDEAS_AND_LIVED_LIFE',
+    'INQUIRY_LITERATURE_AND_SERFDOM',
+    'INQUIRY_CENSORSHIP_AND_LABOR',
+  ]);
   assert.equal(definitions.historicalBoundaryKo.includes('실제 발언'), true);
   assert.equal(quests.every(quest => quest.sourceIds.every(sourceId => typeof sourceId === 'string')), true);
 });

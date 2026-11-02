@@ -7,7 +7,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const read = relative => JSON.parse(fs.readFileSync(path.join(root, relative), 'utf8'));
 const sourceIndex = read('rpg/data/source-reader-index.json');
 const contexts = read('rpg/data/case-contexts.json').cases;
-const characterIds = ['seamstress_anna','printer_ekaterina','clerk_alexei','courier_pavel','tenant_mikhail','bookseller_lev'];
+const characterIds = ['seamstress_anna','printer_ekaterina','clerk_alexei','courier_pavel','tenant_mikhail','bookseller_lev','senior_clerk_konstantin','reader_darya'];
 for (const id of characterIds) {
   const card = read(`rpg/characters/${id}.json`);
   assert.equal(card.worldview.status, 'fictional_character_design', `${id} opinions remain labeled fictional`);

@@ -4,6 +4,7 @@ import { questChoices, continuationQuest } from './engine/quest-presentation.mjs
 import { resolveQuestGuidance } from './engine/quest-guidance.mjs';
 import { ownsKeyboardInput, observationText } from './engine/player-presentation.mjs';
 import { availableDiscussionQuests, discussionPromptsForHost } from './engine/discussion-quests.mjs';
+import { appendApiDiagnostic, clearApiDiagnostics, readApiDiagnostics } from './engine/api-diagnostics.mjs';
 import { conversations, availableTopics, authoredReply, contextualOpening } from './ai/authored-dialogue.mjs';
 import { advanceStudy, beginExam, buildLifeTimeline, chooseCirclePath, completeLearning, getExamQuestions, selectExamAnswer, submitExam } from './engine/learning-life.mjs';
 import './engine/game-state.js';
@@ -12,7 +13,7 @@ const { createInitialState, moveActor, possessHost, releaseHost, transitionMap, 
 const readJson = async path => (await fetch(path)).json();
 const [street, shop, chancery, courtyard, literaryMap, overcoatMap, firstQuest, source, firstIssue, historicalSources, literarySource, overcoatSource, campaign, publicQuest, circleQuest, letterQuest, literaryQuest, overcoatQuest, sceneObservations, aiScenes, learningExam, learningSourceData, lifeTemplates, historicalComparisons] = await Promise.all([readJson('./rpg/maps/nevsky.json'), readJson('./rpg/maps/printshop.json'), readJson('./rpg/maps/chancery.json'), readJson('./rpg/maps/courtyard.json'), readJson('./rpg/maps/dead-souls.json'), readJson('./rpg/maps/overcoat.json'), readJson('./rpg/quests/printshop-article.json'), readJson('./rpg/data/khor-kalynych-source.json'), readJson('./rpg/data/sovremennik-1847-issue.json'), readJson('./rpg/data/historical-source-packets.json'), readJson('./rpg/data/dead-souls-source.json'), readJson('./rpg/data/overcoat-source.json'), readJson('./rpg/quests/campaign.json'), readJson('./rpg/quests/public-discourse-1848.json'), readJson('./rpg/quests/circle-investigation-1849.json'), readJson('./rpg/quests/circle-letter-1849-may.json'), readJson('./rpg/quests/literary-dead-souls.json'), readJson('./rpg/quests/literary-overcoat.json'), readJson('./rpg/data/scene-observations.json'), readJson('./rpg/ai/scenes.json'), readJson('./rpg/data/learning-exam.json'), readJson('./rpg/data/learning-sources.json'), readJson('./rpg/data/life-simulation.json'), readJson('./rpg/data/historical-comparisons.json')]);
 const [sourceReaderIndex, caseContextData, discussionQuestData] = await Promise.all([readJson('./rpg/data/source-reader-index.json'), readJson('./rpg/data/case-contexts.json'), readJson('./rpg/data/discussion-quests.json')]);
-const cards = await Promise.all(['clerk_alexei','printer_ekaterina','courier_pavel','seamstress_anna','tenant_mikhail','bookseller_lev','nekrasov_reconstruction','literary_chichikov','literary_akaky','literary_petrovich'].map(id => readJson(`./rpg/characters/${id}.json`)));
+const cards = await Promise.all(['clerk_alexei','printer_ekaterina','courier_pavel','seamstress_anna','tenant_mikhail','bookseller_lev','senior_clerk_konstantin','reader_darya','nekrasov_reconstruction','literary_chichikov','literary_akaky','literary_petrovich'].map(id => readJson(`./rpg/characters/${id}.json`)));
 const maps = { nevsky: street, printshop: shop, chancery, courtyard, 'dead-souls': literaryMap, overcoat: overcoatMap }, hostCards = cards;
 const questList = [firstQuest, publicQuest, circleQuest, letterQuest, literaryQuest, overcoatQuest];
 const questsById = new Map(questList.map(item => [item.id, item]));
@@ -71,7 +72,14 @@ const hasLiveDialogue = key => dialogueSessions.get(key)?.token && !['BLOCKED_NO
 const dialogueKey = (actorHostId, speakerHostId) => `${actorHostId}::${speakerHostId}`;
 const dialogueStorageKey = key => `v33-rpg-session:${key}`;
 const aiBaseUrl = '';
+function saveApiError(entry) { appendApiDiagnostic(localStorage, entry); }
+function recordApiFailure(endpoint, error) {
+  if (error?.apiCode && error.apiCode !== 'BLOCKED_NO_KEY') saveApiError({ endpoint, kind: 'client_error', code: error.apiCode });
+  else if (!error?.status) saveApiError({ endpoint, kind: error?.name === 'SyntaxError' ? 'client_error' : 'network_error', code: error?.name === 'AbortError' ? 'timeout' : error?.name === 'SyntaxError' ? 'invalid_response_json' : 'network_error' });
+}
 function dialogueApiFailure(error) {
+  if (error?.apiCode === 'client_response_invalid') return 'API가 응답했지만 대화 형식 검증에 실패했습니다. 설정의 오류 기록과 Vercel Function 로그를 확인해 주세요.';
+  if (error?.apiCode === 'invalid_response_json' || error?.name === 'SyntaxError') return 'API 응답을 JSON으로 읽지 못했습니다. 설정의 오류 기록과 Vercel Function 로그를 확인해 주세요.';
   if (error?.apiCode === 'BLOCKED_NO_KEY') return 'Vercel에 OPENAI_API_KEY가 설정되지 않았습니다.';
   if (error?.status === 404) return '이 배포에는 대화 API가 없습니다. Vercel master 최신 배포를 열어 주세요.';
   if (error?.status === 403) return '게임 주소와 API 주소가 다릅니다. 같은 Vercel 도메인에서 열어 주세요.';
@@ -98,11 +106,12 @@ async function openDialogueSession(card, actorCard, signal) {
   const response = await fetch(`${aiBaseUrl}/api/rpg/session/start`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ hostId: card.id, actorHostId: actorCard.id }), signal });
   if (!response.ok) {
     const body = await response.json().catch(() => ({}));
+    saveApiError({ endpoint: '/api/rpg/session/start', kind: 'http_error', status: response.status, code: body.error || 'session_start_failed' });
     throw Object.assign(new Error('dialogue_session_unavailable'), { status: response.status, apiCode: body.error });
   }
-  const result = await response.json();
-  if (result.mode === 'BLOCKED_NO_KEY') throw Object.assign(new Error('dialogue_provider_not_configured'), { apiCode: 'BLOCKED_NO_KEY' });
-  if (!result.sessionToken || result.mode !== 'AI') throw Object.assign(new Error('dialogue_session_invalid'), { apiCode: result.mode || 'invalid_session' });
+  const result = await response.json().catch(error => { error.apiCode = 'invalid_response_json'; throw error; });
+  if (result.mode === 'BLOCKED_NO_KEY') { saveApiError({ endpoint: '/api/rpg/session/start', kind: 'provider_not_configured', status: response.status, code: 'blocked_no_key' }); throw Object.assign(new Error('dialogue_provider_not_configured'), { apiCode: 'BLOCKED_NO_KEY' }); }
+  if (!result.sessionToken || result.mode !== 'AI') { saveApiError({ endpoint: '/api/rpg/session/start', kind: 'http_error', status: response.status, code: result.mode || 'invalid_session' }); throw Object.assign(new Error('dialogue_session_invalid'), { apiCode: result.mode || 'invalid_session' }); }
   return { token: result.sessionToken, mode: 'AI' };
 }
 let missionGuidance = null, destinationPinned = false, journalReturnFocus = null;
@@ -375,9 +384,16 @@ function updateHud() {
   const currentPrompts = discussionHost ? discussionPromptsForHost(discussionHost.id, discussionQuests) : [];
   discussionBoard.hidden = !host || !activeDiscussionCount || Boolean(state.endingId);
   $('#discussion-quest-progress').textContent = `생각을 묻는 선택형 임무 · ${discussionQuests.filter(item => item.completed).length} / ${discussionQuests.length} 완료`;
-  $('#discussion-quest-items').replaceChildren(...(currentPrompts.length
-    ? currentPrompts.slice(0, 2).map(prompt => { const li = document.createElement('li'); li.textContent = `${prompt.questTitleKo} · ${discussionHost.displayNameKo}에게: “${prompt.promptKo}”`; return li; })
-    : [Object.assign(document.createElement('li'), { textContent: '가까운 사람에게 말을 걸면 그 인물에게 맞는 사상·생활 질문이 대화 선택지에 나타납니다.' })]));
+  const inquiryRows = currentPrompts.length
+    ? currentPrompts.slice(0, 3).map(prompt => `${prompt.questTitleKo} · ${discussionHost.displayNameKo}에게: “${prompt.promptKo}”`)
+    : discussionQuests.filter(quest => !quest.completed && Object.hasOwn(quest.hosts ?? {}, host?.id))
+      .slice(0, 3).map(quest => {
+        const availablePeople = Object.keys(quest.hosts).map(id => cards.find(card => card.id === id)?.displayNameKo).filter(Boolean).join(' · ');
+        return `${quest.titleKo} · ${availablePeople}에게 물을 수 있습니다. 가까이 가서 말을 걸어 보세요.`;
+      });
+  $('#discussion-quest-items').replaceChildren(...(inquiryRows.length
+    ? inquiryRows.map(text => Object.assign(document.createElement('li'), { textContent: text }))
+    : [Object.assign(document.createElement('li'), { textContent: discussionHost ? '지금은 이 인물에게 남은 생각 질문이 없습니다. 다른 사람과 이야기해 보세요.' : '가까운 사람에게 말을 걸면 그 인물에게 맞는 사상·생활 질문이 대화 선택지에 나타납니다.' })]));
   $('#mission-progress').textContent = missionGuidance.progress?.totalSteps ? `${missionGuidance.progress.completedSteps} / ${missionGuidance.progress.totalSteps}` : '';
   $('#mission-pin').disabled = !missionGuidance.target;
   $('#mission-pin').setAttribute('aria-pressed', String(destinationPinned && Boolean(missionGuidance.target)));
@@ -400,7 +416,7 @@ function updateHud() {
   $('#journal-pin').disabled = !missionGuidance.target;
   $('#journal-pin').textContent = destinationPinned ? '목적지 표시 중' : '목적지 표시';
   const fill = (selector, rows, tag = 'li') => { const list = $(selector); list.replaceChildren(...rows.map(value => { const item = document.createElement(tag); item.textContent = value; return item; })); };
-  for (const selector of ['#journal-inventory','#journal-relations','#journal-sources','#journal-history']) $(selector).replaceChildren();
+  for (const selector of ['#journal-inventory','#journal-relations','#journal-sources','#journal-history','#journal-perspective-notes']) $(selector).replaceChildren();
   if (host) {
     const live = state.hosts[host.id], known = host.secretKnowledge.filter(item => live.privateKnowledgeIds.includes(item.id)).map(item => item.summaryKo);
     if (live.knownEvidenceIds.includes(source.sourceId)) known.push('투르게네프 「호리와 칼리니치」 원문');
@@ -414,6 +430,13 @@ function updateHud() {
     fill('#journal-relations', relations.length ? relations : ['아직 기록된 관계 변화가 없습니다.']);
     fill('#journal-sources', known.length ? known : ['이 몸으로 확인한 자료와 단서가 없습니다.']);
   }
+  const dialogueGrowth = state.player.dialogueGrowth ?? { insight: 0, aiReplies: 0, perspectiveNotes: [] };
+  $('#journal-growth-stats').textContent = `대화 경험 ${dialogueGrowth.aiReplies} · 통찰 ${dialogueGrowth.insight}`;
+  const reflectionRows = (dialogueGrowth.perspectiveNotes ?? []).map(note => {
+    const quest = discussionQuestById.get(note.discussionId), hostCard = cards.find(item => item.id === note.hostId);
+    return `${note.date} · ${quest?.titleKo ?? '대화에서 얻은 관점'} · ${hostCard?.displayNameKo ?? '대화 상대'}의 시각`;
+  });
+  fill('#journal-perspective-notes', reflectionRows.length ? reflectionRows : ['사건이나 생각에 관한 질문을 AI와 나누면 이곳에 관점 메모와 통찰이 쌓입니다.']);
   const logs = state.ledger.slice(-12).reverse().map(entry => {
     if (entry.eventType === 'DIALOGUE_TURN') return `${entry.date} · ${entry.discussionId ? `견해 질문 · ${discussionQuestById.get(entry.discussionId)?.titleKo ?? '주제 대화'}` : `${cards.find(item=>item.id===entry.hostId)?.displayNameKo ?? '대화'}와 이야기함`}`;
     if (entry.eventType === 'HISTORICAL_ACTION' || entry.eventType === 'LITERARY_ACTION') { const q=questsById.get(entry.questId), a=q?.actions.find(item=>item.id===entry.actionId); return `${entry.date} · ${a?.labelKo ?? '문서에 선택을 남김'}`; }
@@ -427,7 +450,7 @@ function updateHud() {
 function setJournalTab(name) {
   document.querySelectorAll('[data-journal-tab]').forEach(button => button.setAttribute('aria-selected', String(button.dataset.journalTab === name)));
   document.querySelectorAll('[data-journal-panel]').forEach(panel => { panel.hidden = panel.dataset.journalPanel !== name; });
-  $('#journal-title').textContent = ({ goal: '해야 할 일', inventory: '지금 가진 것', people: '인물과 관계', sources: '읽은 자료', history: '지난 기록' })[name] ?? '해야 할 일';
+  $('#journal-title').textContent = ({ goal: '해야 할 일', inventory: '지금 가진 것', people: '인물과 관계', sources: '읽은 자료', reflections: '관점 노트', history: '지난 기록' })[name] ?? '해야 할 일';
 }
 function openJournal() {
   journalReturnFocus = document.activeElement;
@@ -443,6 +466,46 @@ function toggleDestinationPin() {
   if (!missionGuidance?.target) return;
   destinationPinned = !destinationPinned;
   updateHud(); requestRender();
+}
+function renderApiDiagnostics() {
+  const rows = readApiDiagnostics(localStorage);
+  const list = $('#api-diagnostics-list');
+  list.replaceChildren(...(rows.length ? rows : [{ at: '', endpoint: '', kind: '', status: null, code: '' }]).map(entry => {
+    const item = document.createElement('li');
+    item.textContent = entry.at
+      ? `${new Date(entry.at).toLocaleString('ko-KR')} · ${entry.endpoint} · ${entry.kind} · HTTP ${entry.status ?? '—'} · ${entry.code}`
+      : '이 브라우저에 저장된 API 오류가 없습니다.';
+    return item;
+  }));
+}
+async function checkApiHealth() {
+  const stateText = $('#api-health-state'), detail = $('#api-health-detail'), checked = $('#api-health-checked');
+  const button = $('#api-health-refresh'); button.disabled = true; stateText.textContent = '확인 중…'; detail.textContent = '모델 생성은 요청하지 않습니다.';
+  const controller = new AbortController(), timer = setTimeout(() => controller.abort(), 8000);
+  try {
+    const response = await fetch('/api/rpg/health', { cache: 'no-store', signal: controller.signal });
+    const body = await response.json().catch(() => ({}));
+    checked.textContent = `마지막 확인 · ${new Date().toLocaleString('ko-KR')}`;
+    if (!response.ok || body.status !== 'ok') {
+      saveApiError({ endpoint: '/api/rpg/health', kind: 'health_error', status: response.status, code: body.error || 'health_unavailable' });
+      stateText.textContent = `API 확인 실패 · HTTP ${response.status}`;
+      detail.textContent = response.status === 404 ? '이 배포에서 /api/rpg/health 경로를 찾지 못했습니다. Vercel의 master Production 배포를 확인하세요.' : 'Vercel Function 응답과 배포 로그를 확인하세요.';
+    } else if (body.ai === 'configured') {
+      stateText.textContent = 'API 정상 · 서버 키 설정됨';
+      detail.textContent = 'health 응답과 OPENAI_API_KEY 설정을 확인했습니다. 개별 대화의 모델 생성 성공 여부는 대화 오류 기록과 Function 로그에서 확인하세요.';
+    } else {
+      stateText.textContent = 'API 연결됨 · 서버 키 미설정';
+      detail.textContent = '대화 API 경로는 응답하지만 Vercel에 OPENAI_API_KEY가 설정되지 않아 실제 모델 대화는 생성할 수 없습니다.';
+    }
+  } catch (error) {
+    const code = error?.name === 'AbortError' ? 'timeout' : 'network_error';
+    saveApiError({ endpoint: '/api/rpg/health', kind: 'health_error', code });
+    stateText.textContent = 'API 확인 실패';
+    detail.textContent = code === 'timeout' ? '8초 안에 응답하지 않았습니다. 네트워크 또는 Vercel Function 로그를 확인하세요.' : '네트워크에 연결하지 못했습니다. 배포 주소와 브라우저 연결을 확인하세요.';
+    checked.textContent = `마지막 확인 · ${new Date().toLocaleString('ko-KR')}`;
+  } finally {
+    clearTimeout(timer); button.disabled = false; renderApiDiagnostics();
+  }
 }
 function sayRecord(text) { $('#record').textContent = text; }
 function currentNearby() {
@@ -853,7 +916,7 @@ async function startConversation(card) {
       }
       if (dialogueGeneration !== generation || activeDialogueKey !== key) return;
       dialogueSessions.set(key, session);
-    } catch (error) { session = null; sessionFailure = dialogueApiFailure(error); }
+    } catch (error) { recordApiFailure('/api/rpg/session/start', error); session = null; sessionFailure = dialogueApiFailure(error); }
     finally { clearTimeout(timer); if (activeDialogueController === controller) activeDialogueController = null; }
     if (activeDialogueHost !== card.id || activeDialogueKey !== key || dialogueGeneration !== generation) return;
   }
@@ -879,7 +942,7 @@ async function sendConversation(card, playerText, replyId = null) {
     try {
       session = await openDialogueSession(card, actorCard, controller.signal);
       dialogueSessions.set(key, session); sessionStorage.setItem(dialogueStorageKey(key), session.token);
-    } catch (error) { fallbackReason = `AI 연결 실패 · ${dialogueApiFailure(error)}`; }
+    } catch (error) { recordApiFailure('/api/rpg/session/start', error); fallbackReason = `AI 연결 실패 · ${dialogueApiFailure(error)}`; }
     finally { clearTimeout(timer); if (activeDialogueController === controller) activeDialogueController = null; }
     if (activeDialogueHost !== card.id || activeDialogueKey !== key || dialogueGeneration !== generation) return;
   }
@@ -903,17 +966,22 @@ async function sendConversation(card, playerText, replyId = null) {
         if (response.status === 429) {
           session.mode = 'BLOCKED_LIMIT'; dialogueSessions.set(key, session); sessionStorage.removeItem(dialogueStorageKey(key));
         }
+        saveApiError({ endpoint: '/api/rpg/dialogue', kind: 'http_error', status: response.status, code: 'dialogue_request_failed' });
         throw Object.assign(new Error('dialogue_unavailable'), { status: response.status });
       }
       const data = await response.json(), candidate = data.turn;
-      if (candidate?.sceneId !== aiScenes.sessions[card.id].sceneId || !Array.isArray(candidate.beats) || candidate.beats.length < 1 || candidate.beats.length > 2 || !candidate.beats.every(beat => beat && [card.id, 'NARRATION'].includes(beat.speakerId) && typeof beat.textKo === 'string' && beat.textKo.length <= 420) || !Array.isArray(candidate.suggestedReplies) || candidate.suggestedReplies.length < 2 || candidate.suggestedReplies.length > 3 || !candidate.suggestedReplies.every(reply => reply && typeof reply.textKo === 'string' && reply.textKo.length <= 80)) throw new Error('invalid dialogue response');
+      if (candidate?.sceneId !== aiScenes.sessions[card.id].sceneId || !Array.isArray(candidate.beats) || candidate.beats.length < 1 || candidate.beats.length > 2 || !candidate.beats.every(beat => beat && [card.id, 'NARRATION'].includes(beat.speakerId) && typeof beat.textKo === 'string' && beat.textKo.length <= 420) || !Array.isArray(candidate.suggestedReplies) || candidate.suggestedReplies.length < 2 || candidate.suggestedReplies.length > 3 || !candidate.suggestedReplies.every(reply => reply && typeof reply.textKo === 'string' && reply.textKo.length <= 80)) throw Object.assign(new Error('invalid dialogue response'), { apiCode: 'client_response_invalid' });
       if (data.sessionToken) {
         session.token = data.sessionToken;
         sessionStorage.setItem(dialogueStorageKey(key), session.token);
       }
       turn = data.fallback ? null : candidate;
       fallbackReason = data.fallback ? `AI 응답 생성 실패 · ${providerFailureLabel(data.providerErrorCode || response.headers.get('x-v33-provider-result'))}. 준비된 대사로 이어갑니다. ‘AI 다시 연결’로 재시도할 수 있습니다.` : '';
-    } catch (error) { fallbackReason ||= `AI 연결 실패 · ${dialogueApiFailure(error)}`; }
+      if (data.fallback && data.mode !== 'BLOCKED_NO_KEY') saveApiError({ endpoint: '/api/rpg/dialogue', kind: 'provider_fallback', status: response.status, code: data.providerErrorCode || 'provider_response_validation' });
+    } catch (error) {
+      recordApiFailure('/api/rpg/dialogue', error);
+      fallbackReason ||= `AI 연결 실패 · ${dialogueApiFailure(error)}`;
+    }
     finally {
       clearTimeout(timer);
       if (activeDialogueController === controller) activeDialogueController = null;
@@ -933,7 +1001,7 @@ async function sendConversation(card, playerText, replyId = null) {
   for (const beat of turn.beats) lines.push({ speaker: beat.speakerId === 'NARRATION' ? card.displayNameKo : card.displayNameKo, text: beat.textKo });
   dialogueTranscripts.set(key, lines.slice(-24));
   dialogueCurrentLines.set(key, turn.beats.map(beat => beat.textKo).join('\n'));
-  const recorded = recordDialogueTurn(state, { hostId: card.id, actorHostId: actorCard.id, sceneId: local.sceneId, intentClass, discussionId: aiGenerated ? discussionPrompt?.discussionId : null }, maps);
+  const recorded = recordDialogueTurn(state, { hostId: card.id, actorHostId: actorCard.id, sceneId: local.sceneId, intentClass, discussionId: aiGenerated ? discussionPrompt?.discussionId : null, aiGenerated }, maps);
   if (recorded.ok) setState(recorded.state);
   const replies = (turn.suggestedReplies ?? []).slice(0, 3);
   showConversation(card, dialogueCurrentLines.get(key), replies.map(reply => reply.textKo), fallbackReason || (aiGenerated ? 'AI 답변 · 인물의 처지와 견해가 반영되었습니다.' : '오프라인 대사 · AI 답변은 생성되지 않았습니다.'));
@@ -1005,6 +1073,16 @@ requestRender();
 if (state.endingId) renderEnding(campaign.endings.find(item => item.id === state.endingId));
 else if (['learning', 'public-prep', 'exam-choice', 'exam', 'result'].includes(state.learning.phase)) showLearningHub();
 else if (state.learning.phase === 'complete') showEndingChoices();
+$('#settings-open').addEventListener('click', () => { renderApiDiagnostics(); $('#api-settings').showModal(); checkApiHealth(); });
+$('#api-settings-close').addEventListener('click', () => $('#api-settings').close());
+$('#api-health-refresh').addEventListener('click', checkApiHealth);
+$('#api-settings').addEventListener('click', event => { if (event.target === $('#api-settings')) $('#api-settings').close(); });
+$('#api-diagnostics-clear').addEventListener('click', () => { clearApiDiagnostics(localStorage); renderApiDiagnostics(); });
+$('#api-diagnostics-copy').addEventListener('click', async () => {
+  const report = JSON.stringify(readApiDiagnostics(localStorage), null, 2);
+  try { await navigator.clipboard.writeText(report); sayRecord('민감한 대화 내용 없이 API 오류 기록을 복사했습니다.'); }
+  catch { sayRecord('클립보드 접근을 허용하지 않았습니다.'); }
+});
 $('#source-drawer-open').addEventListener('click', openSourceDrawer);
 $('#route-continue').addEventListener('click', () => {
   const quest = continuationQuest(state, campaign, questList);

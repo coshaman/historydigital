@@ -310,6 +310,34 @@
         "받지 못한 호의 처리부터 읽어보죠.",
         "이 문서에 없는 내용은 추측하지 않겠습니다."
       ]
+    },
+    "senior_clerk_konstantin": {
+      "sceneId": "V35_TALK_SENIOR_CLERK_KONSTANTIN",
+      "dialogueObjective": "검토 의견과 공식 결재의 차이, 관료 개인의 책임을 따진다.",
+      "focusKo": "관청 문서 절차와 개인의 책임, 검열 권한의 한계를 두고 벌이는 짧은 논쟁",
+      "turnLimit": 8,
+      "allowedTopics": ["검토와 최종 승인", "문서 서명과 책임", "검열의 절차와 결과", "관료제와 개인의 양심", "기록에 남지 않는 사람의 사정", "공식 명령과 실제 집행의 차이"],
+      "forbiddenTopics": ["실제 역사 인물의 비공개 발언", "확인되지 않은 관청 명령", "게임 결말이나 숨은 수치"],
+      "allowedEmotions": ["neutral", "curious", "guarded", "irritated", "focused"],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": ["OBJ-SOV-1847", "OBJ-WS-PETRASHEVSKY-REPORT-1849"],
+      "fallbackKo": "검토 메모를 남겼다는 사실과 최종 승인했다는 사실은 다릅니다. 문서에는 누가 무엇을 했는지 각각 적어야 합니다.",
+      "fallbackReplies": ["부당한 결과도 절차를 지키면 괜찮습니까?", "서명하지 않은 사람에게 책임을 물을 수 있나요?", "문서에 담기지 않은 사람의 입장은 어떻게 합니까?"]
+    },
+    "reader_darya": {
+      "sceneId": "V35_TALK_READER_DARYA",
+      "dialogueObjective": "문학과 사상의 원칙이 실제 사람의 생활을 어떻게 바꾸는지 논쟁한다.",
+      "focusKo": "농노제, 검열, 계층과 교육, 서구와 러시아의 사상 논쟁을 생활의 구체적인 비용과 연결한다.",
+      "turnLimit": 8,
+      "allowedTopics": ["책이 타인의 삶을 대표할 수 있는가", "검열과 독자의 판단", "교육과 계층", "사상 논쟁의 생활상 결과", "가난과 고용", "원칙과 경험의 충돌"],
+      "forbiddenTopics": ["사적 살롱 대화를 역사적 사실로 제시하기", "원문에서 확인되지 않은 역사 주장", "상대의 경험을 대신 말하기"],
+      "allowedEmotions": ["neutral", "curious", "warm", "irritated", "amused", "focused"],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": ["LIT-TURGENEV-KHOR-KALYNYCH-1847", "OBJ-SOV-1847", "OBJ-WS-NEKRASOV-EDITORIAL-1848"],
+      "fallbackKo": "책에서 원칙을 읽을 수는 있죠. 하지만 그 말이 누구의 하루를 바꾸는지는 실제로 묻고 확인해야 해요.",
+      "fallbackReplies": ["읽지 못한 사람의 경험은 어떻게 토론에 들어오죠?", "이상과 생활이 어긋나면 어느 쪽을 바꾸시겠어요?", "당신이 직접 본 사례를 하나 들어 주세요."]
     }
   }
 }

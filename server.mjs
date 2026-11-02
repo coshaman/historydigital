@@ -6,7 +6,7 @@ import { createRequire } from 'node:module';
 import { mimeTypeFor } from './server-mime.mjs';
 
 const root = fileURLToPath(new URL('.', import.meta.url));
-const staticRoot = process.env.CHANCERY_STATIC_ROOT ? resolve(process.env.CHANCERY_STATIC_ROOT) : root;
+const staticRoot = resolve(process.env.CHANCERY_STATIC_ROOT || root);
 const port = Number(process.env.CHANCERY_PORT || 4173);
 const require = createRequire(import.meta.url);
 const apiHandler = require('./api/rpg/[...path].js');

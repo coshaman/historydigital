@@ -32,6 +32,7 @@ try {
       sessionTokenNumber += 1;
       await route.fulfill({ status: 201, contentType: 'application/json', body: JSON.stringify({ sessionToken: `mock-session-${sessionTokenNumber}`, mode: 'AI' }) });
     });
+    await page.route('**/api/rpg/health', async route => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ status: 'ok', ai: 'configured' }) }));
     await page.route('**/api/rpg/dialogue', async route => {
       const body = JSON.parse(route.request().postData()); dialogueRequests.push(body);
       if (body.playerInput === '응답이 늦게 도착합니다.') await new Promise(resolve => { releaseSlowDialogue = resolve; });
@@ -64,6 +65,17 @@ try {
     await page.reload({ waitUntil: 'domcontentloaded', timeout: 15000 });
     await page.waitForFunction(() => document.querySelector('#bodyname')?.textContent.includes('안나'), undefined, { timeout: 15000 });
     assert.equal(await page.locator('#dialogue-speaker').isVisible(), false, `dialogue portrait should stay hidden before a conversation at ${viewport.width}`);
+    const dialogueCountBeforeHealth = dialogueRequests.length, sessionCountBeforeHealth = sessionStarts.length;
+    await page.locator('#settings-open').click();
+    await page.getByText('API 정상 · 서버 키 설정됨', { exact: true }).waitFor();
+    const settingsLayout = await page.locator('#api-settings').evaluate(element => { const rect=element.getBoundingClientRect(); return { width:rect.width,height:rect.height,right:rect.right,bottom:rect.bottom }; });
+    assert.ok(settingsLayout.width <= viewport.width && settingsLayout.height <= viewport.height, `API settings dialog fits viewport ${viewport.width}`);
+    const initialInquiryBoard = await page.locator('#discussion-quest-board').innerText();
+    assert.match(initialInquiryBoard, /생각을 묻는 선택형 임무/);
+    assert.match(initialInquiryBoard, /검열|책에서|명령/);
+    assert.equal(dialogueRequests.length, dialogueCountBeforeHealth, 'health probe does not create an AI dialogue');
+    assert.equal(sessionStarts.length, sessionCountBeforeHealth, 'health probe does not create an AI session');
+    await page.locator('#api-settings-close').click();
     if (viewport.width === 1440) {
       const opinionPrompt = '이 문장이 농노의 삶을 보여준다면, 작가와 인쇄 노동자는 각각 어디까지 책임져야 할까요?';
       fallbackNextDialogue = true;
@@ -74,6 +86,10 @@ try {
       await page.locator('#save').click();
       const failedEvent = await page.evaluate(() => JSON.parse(localStorage.getItem('v33-rpg-save')).state.ledger.findLast(event => event.eventType === 'DIALOGUE_TURN'));
       assert.equal(failedEvent.discussionId, undefined, 'provider fallback must not complete an opinion mission');
+      await page.locator('#settings-open').click();
+      await page.getByText('response_schema_invalid', { exact: false }).waitFor();
+      assert.equal(await page.locator('#api-diagnostics-list').innerText().then(text => text.includes('response_schema_invalid')), true, 'diagnostics panel displays safe local provider error codes');
+      await page.locator('#api-settings-close').click();
       await page.getByRole('button', { name: 'AI 다시 연결' }).click();
       await page.getByRole('button', { name: opinionPrompt }).click();
       await page.locator('#journal-text').getByText('mocked ai line', { exact: true }).waitFor();

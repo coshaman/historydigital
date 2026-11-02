@@ -345,6 +345,30 @@
         "https://rvb.ru/gogol/01text/vol_03/01povesti/0046.htm"
       ],
       "notes": "Pixel portrait of a literary character, not a documented likeness."
+    },
+    {
+      "id": "portrait-senior-clerk-konstantin",
+      "path": "rpg/assets/portrait-senior-clerk-konstantin.svg",
+      "type": "ORIGINAL_VECTOR_FACE_PORTRAIT",
+      "generatedBy": "hand-authored project SVG",
+      "license": "original project-authored vector artwork",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": ["chancery", "nevsky"],
+      "sourceIds": ["OBJ-SOV-1847", "OBJ-WS-PETRASHEVSKY-REPORT-1849"],
+      "sourceUrls": [],
+      "notes": "Original stylized portrait of a fictional senior clerk; no historical likeness is claimed."
+    },
+    {
+      "id": "portrait-reader-darya",
+      "path": "rpg/assets/portrait-reader-darya.svg",
+      "type": "ORIGINAL_VECTOR_FACE_PORTRAIT",
+      "generatedBy": "hand-authored project SVG",
+      "license": "original project-authored vector artwork",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": ["nevsky", "printshop"],
+      "sourceIds": ["LIT-TURGENEV-KHOR-KALYNYCH-1847", "OBJ-SOV-1847", "OBJ-WS-NEKRASOV-EDITORIAL-1848"],
+      "sourceUrls": [],
+      "notes": "Original stylized portrait of a fictional reader; no historical likeness is claimed."
     }
   ]
 }

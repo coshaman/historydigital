@@ -3,6 +3,29 @@
   "historicalBoundaryKo": "아래 질문과 답은 허구 인물의 관점 탐색이다. 역사 인물의 실제 발언이나 당시 단체의 공동 입장으로 기록하지 않는다.",
   "quests": [
     {
+      "id": "INQUIRY_OFFICIAL_DUTY_AND_MORALITY",
+      "date": "1847-06-01",
+      "titleKo": "명령을 따르는 일과 책임지는 일",
+      "topicId": "bureaucratic_responsibility",
+      "sourceIds": ["OBJ-SOV-1847"],
+      "hosts": {
+        "senior_clerk_konstantin": { "promptKo": "명령이 절차에 맞더라도 결과가 부당하다면, 문서 담당자는 어디까지 책임져야 할까요?" },
+        "clerk_alexei": { "promptKo": "결재선이 분명하면 책임도 공정하게 나뉜다고 보십니까?" }
+      }
+    },
+    {
+      "id": "INQUIRY_IDEAS_AND_LIVED_LIFE",
+      "date": "1847-06-01",
+      "titleKo": "책에서 배운 원칙은 생활을 바꿀 수 있을까",
+      "topicId": "ideas_and_lived_experience",
+      "sourceIds": ["LIT-TURGENEV-KHOR-KALYNYCH-1847", "OBJ-SOV-1847"],
+      "hosts": {
+        "reader_darya": { "promptKo": "책에서 배운 원칙이 누군가의 삶과 어긋나면, 원칙을 바꿔야 할까요 아니면 현실을 바꿔야 할까요?" },
+        "seamstress_anna": { "promptKo": "책에서 말하는 정의가 오늘 일한 사람의 품삯까지 바꾸지 못한다면, 그 생각은 무슨 쓸모가 있을까요?" },
+        "bookseller_lev": { "promptKo": "좋은 생각을 담은 책이 비싸서 못 읽힌다면, 그 생각은 누구의 것이오?" }
+      }
+    },
+    {
       "id": "INQUIRY_LITERATURE_AND_SERFDOM",
       "date": "1847-06-01",
       "titleKo": "소설은 농촌의 삶을 어디까지 말할 수 있을까",

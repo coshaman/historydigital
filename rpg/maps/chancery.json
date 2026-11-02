@@ -2162,6 +2162,19 @@
               "value": "bookseller_lev"
             }
           ]
+        },
+        {
+          "id": 56,
+          "name": "콘스탄틴",
+          "type": "npc",
+          "x": 128,
+          "y": 160,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            { "name": "hostId", "type": "string", "value": "senior_clerk_konstantin" }
+          ]
         }
       ]
     }

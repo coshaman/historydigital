@@ -33,10 +33,10 @@ test('host cards represent four distinct playable circumstances and reference re
   const cards = await Promise.all(files.filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)));
   const historicalTownResidents = cards.filter(card => card.kind === 'FICTIONAL');
   const historicalReconstructions = cards.filter(card => card.kind === 'HISTORICAL_RECONSTRUCTION');
-  assert.equal(historicalTownResidents.length, 6);
+  assert.equal(historicalTownResidents.length, 8);
   assert.equal(historicalReconstructions.length, 1);
-  assert.equal(cards.length, 10);
-  assert.equal(new Set(cards.map(card => card.id)).size, 10);
+  assert.equal(cards.length, 12);
+  assert.equal(new Set(cards.map(card => card.id)).size, 12);
   const assetManifest = await json('rpg/assets/ASSET_PROVENANCE.json');
   assert.ok(cards.every(card => assetManifest.assets.some(asset => asset.path === `rpg/${card.sprite.file}`)), 'every host sprite has checked-in provenance');
   assert.ok(new Set(historicalTownResidents.map(card => card.socialEstate)).size >= 4);
@@ -64,9 +64,14 @@ test('every playable or reconstructed character has a provenance-linked 64px fac
     assert.equal(card.portrait.width, 64, `${card.id} portrait width`);
     assert.equal(card.portrait.height, 64, `${card.id} portrait height`);
     const image = await readFile(path.join(root, 'rpg', card.portrait.file));
-    assert.equal(image.subarray(0, 8).toString('hex'), '89504e470d0a1a0a');
-    assert.equal(image.readUInt32BE(16), 64);
-    assert.equal(image.readUInt32BE(20), 64);
+    if (card.portrait.file.endsWith('.svg')) {
+      const markup = image.toString('utf8');
+      assert.match(markup, /<svg\b[^>]*viewBox="0 0 64 64"/);
+    } else {
+      assert.equal(image.subarray(0, 8).toString('hex'), '89504e470d0a1a0a');
+      assert.equal(image.readUInt32BE(16), 64);
+      assert.equal(image.readUInt32BE(20), 64);
+    }
     const record = manifest.assets.find(asset => asset.path === `rpg/${card.portrait.file}`);
     assert.ok(record, `${card.id} portrait provenance record`);
     assert.equal(record.historicalConfidence, card.portrait.historicalConfidence);
@@ -456,6 +461,22 @@ test('courier autonomously delivers the sealed envelope only when the recipient 
   assert.ok(!next.ledger.some(item => item.eventType === 'HISTORICAL_ACTION' && item.actionId?.includes('ENVELOPE')));
 });
 
+test('V35 expands old saves with the new intellectual cast without losing the existing character or progress', async () => {
+  const maps = await loadMaps();
+  const cards = await Promise.all((await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)));
+  const state = createInitialState({ maps, hostCards: cards });
+  state.player.dialogueGrowth = undefined;
+  delete state.hosts.senior_clerk_konstantin;
+  delete state.hosts.reader_darya;
+  state.hosts.courier_pavel.inventory.push('오래된 편지');
+  const envelope = { saveVersion: 2, state, checksum: stateHash(state) };
+  const loaded = loadGame(envelope, { maps, hostCards: cards });
+  assert.ok(loaded.hosts.senior_clerk_konstantin);
+  assert.ok(loaded.hosts.reader_darya);
+  assert.deepEqual(loaded.hosts.courier_pavel.inventory, ['밀봉 봉투', '끈 달린 가방', '오래된 편지']);
+  assert.deepEqual(loaded.player.dialogueGrowth, { insight: 0, aiReplies: 0, perspectiveNotes: [] });
+});
+
 test('older version-one saves acquire the world clock and current schedule without losing state', async () => {
   const maps = await loadMaps();
   const cards = await Promise.all((await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)));
@@ -490,9 +511,17 @@ test('dialogue can be ledgered only for the embodied host and never mutates a qu
   assert.equal(recorded.state.ledger.at(-1).intentClass, 'SOURCE_REQUEST');
   assert.equal(recorded.state.ledger.at(-1).hostId, 'printer_ekaterina');
   assert.equal(recorded.state.ledger.at(-1).interlocutorHostId, 'courier_pavel');
-  const opinion = recordDialogueTurn(state, { hostId: 'printer_ekaterina', actorHostId: 'courier_pavel', sceneId: 'V33_TALK_PRINTER_EKATERINA', discussionId: 'INQUIRY_CENSORSHIP_AND_LABOR' }, maps);
+  const offlineOpinion = recordDialogueTurn(state, { hostId: 'printer_ekaterina', actorHostId: 'courier_pavel', sceneId: 'V33_TALK_PRINTER_EKATERINA', discussionId: 'INQUIRY_CENSORSHIP_AND_LABOR' }, maps);
+  assert.equal(offlineOpinion.state.ledger.at(-1).discussionId, undefined, 'local authored fallback cannot award a viewpoint record');
+  assert.equal(offlineOpinion.state.player.dialogueGrowth.insight, 0);
+  const opinion = recordDialogueTurn(state, { hostId: 'printer_ekaterina', actorHostId: 'courier_pavel', sceneId: 'V33_TALK_PRINTER_EKATERINA', discussionId: 'INQUIRY_CENSORSHIP_AND_LABOR', aiGenerated: true }, maps);
   assert.equal(opinion.ok, true);
   assert.equal(opinion.state.ledger.at(-1).discussionId, 'INQUIRY_CENSORSHIP_AND_LABOR');
+  assert.equal(opinion.state.ledger.at(-1).dialogueReward, 'PERSPECTIVE_NOTE');
+  assert.equal(opinion.state.player.dialogueGrowth.insight, 1);
+  assert.equal(opinion.state.player.dialogueGrowth.aiReplies, 1);
+  const repeatedOpinion = recordDialogueTurn(opinion.state, { hostId: 'printer_ekaterina', actorHostId: 'courier_pavel', sceneId: 'V33_TALK_PRINTER_EKATERINA', discussionId: 'INQUIRY_CENSORSHIP_AND_LABOR', aiGenerated: true }, maps);
+  assert.equal(repeatedOpinion.state.player.dialogueGrowth.insight, 1, 'one discussion gives one persistent insight item');
   assert.equal(recordDialogueTurn(state, { hostId: 'printer_ekaterina', actorHostId: 'courier_pavel', sceneId: 'V33_TALK_PRINTER_EKATERINA', discussionId: 'FAKE_QUEST' }, maps).reason, 'invalid_discussion_id');
   assert.equal(recordDialogueTurn(state, { hostId: 'courier_pavel', actorHostId: 'courier_pavel', sceneId: 'V33_TALK_COURIER_PAVEL' }, maps).reason, 'dialogue_partner_unavailable');
   assert.equal(recordDialogueTurn(state, { hostId: 'printer_ekaterina', actorHostId: 'courier_pavel', sceneId: 'V33_TALK_PRINTER_EKATERINA', intentClass: 'CHANGE_ENDING' }, maps).reason, 'invalid_intent_class');

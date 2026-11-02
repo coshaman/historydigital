@@ -9,6 +9,7 @@ const provenance = JSON.parse(fs.readFileSync(path.join(assetRoot, 'ASSET_PROVEN
 const characters = fs.readdirSync(path.join(root, 'rpg', 'characters')).filter(file => file.endsWith('.json')).map(file => JSON.parse(fs.readFileSync(path.join(root, 'rpg', 'characters', file), 'utf8')));
 const failures = [];
 const pngs = fs.readdirSync(assetRoot).filter(file => file.toLowerCase().endsWith('.png'));
+const svgs = fs.readdirSync(assetRoot).filter(file => file.toLowerCase().endsWith('.svg'));
 const records = new Map(provenance.assets.map(asset => [asset.path.replaceAll('\\', '/'), asset]));
 
 const crcTable = new Uint32Array(256);
@@ -64,6 +65,20 @@ for (const file of pngs) {
   catch (error) { failures.push(`${relativePath}: ${error.message}`); }
   results.push({ path: relativePath, width: dimensions?.width ?? null, height: dimensions?.height ?? null, bytes: bytes.length, sha256: createHash('sha256').update(bytes).digest('hex'), license: asset.license, confidence: asset.historicalConfidence });
 }
+const svgResults = [];
+for (const file of svgs) {
+  const relativePath = `rpg/assets/${file}`;
+  const asset = records.get(relativePath);
+  if (!asset) { failures.push(`${relativePath} has no asset provenance record`); continue; }
+  if (!asset.license || !asset.type || !asset.historicalConfidence) failures.push(`${relativePath} lacks type, license, or historical-confidence metadata`);
+  const bytes = fs.readFileSync(path.join(assetRoot, file));
+  const markup = bytes.toString('utf8');
+  const viewBox = markup.match(/<svg\b[^>]*\bviewBox=["']0 0 (\d+) (\d+)["']/i);
+  if (!markup.startsWith('<svg ') || !viewBox) failures.push(`${relativePath} has no valid SVG root/viewBox`);
+  if (/<script\b|\son[a-z]+\s*=|(?:href|src)=["']https?:/i.test(markup)) failures.push(`${relativePath} contains active code or an external resource`);
+  const width = viewBox ? Number(viewBox[1]) : null, height = viewBox ? Number(viewBox[2]) : null;
+  svgResults.push({ path: relativePath, width, height, bytes: bytes.length, sha256: createHash('sha256').update(bytes).digest('hex'), license: asset.license, confidence: asset.historicalConfidence });
+}
 for (const asset of provenance.assets) if (asset.path.startsWith('rpg/assets/') && !fs.existsSync(path.join(root, asset.path))) failures.push(`${asset.path} is listed in provenance but missing`);
 for (const character of characters) {
   const sprite = character.sprite;
@@ -72,14 +87,14 @@ for (const character of characters) {
   if (!result) { failures.push(`${character.id} references missing sprite ${sprite?.file}`); continue; }
   if (result.width % sprite.frameWidth || result.height % sprite.frameHeight) failures.push(`${character.id} sprite dimensions do not align to ${sprite.frameWidth}×${sprite.frameHeight} frames`);
   const portraitPath = character.portrait?.file?.replaceAll('\\', '/');
-  const portrait = results.find(item => item.path === `rpg/${portraitPath}`);
+  const portrait = [...results, ...svgResults].find(item => item.path === `rpg/${portraitPath}`);
   if (!portrait || portrait.width !== 64 || portrait.height !== 64) failures.push(`${character.id} requires a 64×64 face portrait`);
   if (!records.has(`rpg/${portraitPath}`)) failures.push(`${character.id} portrait has no provenance record`);
 }
 const tileSheet = results.find(item => item.path === 'rpg/assets/petersburg-tiles.png');
 if (!tileSheet || tileSheet.width % 16 || tileSheet.height % 16) failures.push('Petersburg tilesheet is missing or does not align to the 16px map grid');
 
-const result = { schemaVersion: 'V33-IMAGE-AUDIT-2', status: failures.length ? 'FAIL' : 'PASS', pngCount: results.length, assets: results, failures };
+const result = { schemaVersion: 'V33-IMAGE-AUDIT-3', status: failures.length ? 'FAIL' : 'PASS', pngCount: results.length, svgCount: svgResults.length, assets: [...results, ...svgResults], failures };
 fs.mkdirSync(path.join(root, 'docs', 'v33'), { recursive: true });
 fs.writeFileSync(path.join(root, 'docs', 'v33', 'IMAGE_AUDIT.json'), `${JSON.stringify(result, null, 2)}\n`);
 console.log(JSON.stringify(result, null, 2));

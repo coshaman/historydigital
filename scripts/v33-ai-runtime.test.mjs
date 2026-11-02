@@ -113,7 +113,7 @@ test('AI dialogue receives the embodied public character context and keeps each 
   }
 });
 
-test('V35 runs three contextual mock turns for each of six fictional character voices', async () => {
+test('V35 runs three contextual mock turns for each of eight fictional character voices', async () => {
   const cases = [
     ['seamstress_anna', '1847-06-01', 'nevsky', 'PRINTSHOP_PROOF_1847', 'printer_ekaterina'],
     ['printer_ekaterina', '1847-06-01', 'printshop', 'PRINTSHOP_PROOF_1847', 'seamstress_anna'],
@@ -121,9 +121,12 @@ test('V35 runs three contextual mock turns for each of six fictional character v
     ['courier_pavel', '1849-04-22', 'nevsky', 'CIRCLE_INVESTIGATION_1849', null],
     ['tenant_mikhail', '1847-06-01', 'courtyard', null, null],
     ['bookseller_lev', '1848-01-01', 'nevsky', null, null],
+    ['senior_clerk_konstantin', '1847-06-01', 'chancery', null, null],
+    ['reader_darya', '1847-06-01', 'nevsky', null, null],
   ];
   const observed = [];
-  const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store: new MemorySessionStore(), allowedOrigins: ['https://game.example'], provider: { generate: async request => { observed.push(request.input); return validTurn(request.input.scene.id, request.input.character.id); } } });
+  const observedInstructions = [];
+  const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store: new MemorySessionStore(), allowedOrigins: ['https://game.example'], provider: { generate: async request => { observed.push(request.input); observedInstructions.push(request.instructions); return validTurn(request.input.scene.id, request.input.character.id); } } });
   for (const [hostId, date, mapId, questId, actorHostId] of cases) {
     const opened = await service.handle(request('POST', '/api/rpg/session/start', actorHostId ? { hostId, actorHostId } : { hostId }));
     assert.equal(opened.status, 201, hostId);
@@ -134,7 +137,7 @@ test('V35 runs three contextual mock turns for each of six fictional character v
       assert.ok(result.body.turn.suggestedReplies.length >= 2 && result.body.turn.suggestedReplies.length <= 3);
     }
   }
-  assert.equal(observed.length, 18);
+  assert.equal(observed.length, 24);
   for (const [hostId] of cases) {
     const rows = observed.filter(input => input.character.id === hostId);
     assert.equal(rows.length, 3, hostId);
@@ -147,7 +150,8 @@ test('V35 runs three contextual mock turns for each of six fictional character v
     assert.ok(new Set(profile.voiceSamples.map(line => line.match(/[^\s.!?…]+[.!?…]?$/)?.[0])).size >= 2, `${hostId} voice samples vary their sentence endings`);
     assert.equal(rows[0].scene.allowedTopics.length >= 5, true, hostId);
   }
-  assert.equal(new Set(observed.filter((_, index) => index % 3 === 0).map(input => input.character.speechRhythm)).size, 6, 'character voices must not collapse to a shared rhythm');
+  assert.equal(new Set(observed.filter((_, index) => index % 3 === 0).map(input => input.character.speechRhythm)).size, cases.length, 'character voices must not collapse to a shared rhythm');
+  assert.ok(observedInstructions.every(text => text.includes('첫 문장에 분명히 답한다')));
   assert.equal(observed.find(input => input.character.id === 'printer_ekaterina').caseContext.questId, 'PRINTSHOP_PROOF_1847');
   assert.ok(observed.find(input => input.character.id === 'printer_ekaterina').sourceEvidence.some(source => source.sourceId === 'LIT-TURGENEV-KHOR-KALYNYCH-1847'));
   assert.equal(observed.find(input => input.character.id === 'clerk_alexei').caseContext.questId, 'CIRCLE_INVESTIGATION_1849');

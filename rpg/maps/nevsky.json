@@ -2859,6 +2859,19 @@
               "value": "bookseller_lev"
             }
           ]
+        },
+        {
+          "id": 16,
+          "name": "다리야",
+          "type": "npc",
+          "x": 240,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            { "name": "hostId", "type": "string", "value": "reader_darya" }
+          ]
         }
       ]
     }

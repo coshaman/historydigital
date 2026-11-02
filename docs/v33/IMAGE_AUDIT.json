@@ -1,7 +1,8 @@
 {
-  "schemaVersion": "V33-IMAGE-AUDIT-2",
+  "schemaVersion": "V33-IMAGE-AUDIT-3",
   "status": "PASS",
   "pngCount": 21,
+  "svgCount": 2,
   "assets": [
     {
       "path": "rpg/assets/akaky.png",
@@ -190,6 +191,24 @@
       "bytes": 10414,
       "sha256": "0cbbe490219e3b953d83267b4326d47abc0b2a9f4b428b42ea3ecf0629c99401",
       "license": "original project-generated illustrative artwork",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-reader-darya.svg",
+      "width": 64,
+      "height": 64,
+      "bytes": 780,
+      "sha256": "2edc9500b50b59059080d06b59d8dc8160d2e8fc259b51116d0cfcfa5f374413",
+      "license": "original project-authored vector artwork",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-senior-clerk-konstantin.svg",
+      "width": 64,
+      "height": 64,
+      "bytes": 679,
+      "sha256": "2ed3b94b8e2fc0c5cd2946ca1bb15bbc8e862e22c991701503895d785fc3659f",
+      "license": "original project-authored vector artwork",
       "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
     }
   ],

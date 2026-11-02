@@ -14,7 +14,7 @@ for (const file of required) {
   if (!stat?.isFile() || stat.size === 0) throw new Error(`Missing static RPG artifact: ${file}`);
 }
 const html = await fs.readFile(path.join(output, 'index.html'), 'utf8');
-if (!/rpg\/main\.js/.test(html) || /(?:src|href)="https?:\/\//.test(html)) throw new Error('Root entry must use local relative RPG assets.');
+if (!/rpg\/main\.js/.test(html) || /<(?:script|img|link)\b[^>]*\b(?:src|href)="https?:\/\//i.test(html)) throw new Error('Root entry must load executable and visual assets locally.');
 const files = [];
 async function inventory(directory, prefix = '') {
   for (const entry of await fs.readdir(directory, { withFileTypes: true })) {

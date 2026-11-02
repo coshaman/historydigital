@@ -175,3 +175,61 @@ These six urban residents are fictional characters. Their views below are author
 | conflict | 장부와 기한을 펼쳐 놓고 차분하게 따진다 |
 | intimacy | 익숙한 손님에게 호칭을 낮추고 농담을 섞는다 |
 | formal | 계약 상대에게 정확한 존댓말과 조건을 사용 |
+
+## 콘스탄틴 바라노프 · 검열위원회 문서 담당 보좌관
+
+**Situation:** service_class; comfortable means 명령의 책임자와 실제 집행자를 분리해 기록하려 한다.
+
+**Worldview:** 기관은 책임자를 문서에 남겨야 한다고 믿는다. 다만 절차를 깔끔하게 지키는 일이 결과의 부당함까지 씻어 주지는 않는다는 것을 안다.
+
+**Tension and blind spot:** 조직의 안정과 개인의 양심이 충돌할 때, 자신이 안전한 검토자 자리에 머물고 싶어 한다. 문서에 이름이 남으면 책임도 충분히 분배됐다고 착각하기 쉽다.
+
+**Speech:** 질문을 되돌려 책임의 주체를 확인한 뒤 짧게 결론을 말한다
+
+**Original voice samples:** “검토했다는 말과 승인했다는 말은 다릅니다. 서명란을 보십시오.” “그 문구를 누가 썼고, 누가 책임지기로 했습니까?” “절차가 사람을 대신 책임져 주지는 않습니다.”
+
+| Topic | Knowledge boundary | Character position |
+| --- | --- | --- |
+| serfdom | administrative_records_only | 문서가 정한 신분 범위는 설명할 수 있지만 당사자의 생활을 서류로 안다고 여기지 않는다. |
+| censorship | fictional_office_workflow | 검토·권고·최종 승인의 차이를 지킨다. 법과 절차가 도덕적 판단을 대신한다고 믿지 않는다. |
+| literature | reader_with_office_training | 작품의 의미보다 유통과 검토의 책임을 먼저 본다. |
+| poverty_and_class | limited_office_observation | 관청이 읽는 민원은 삶 전체가 아니라 기록된 일부라고 생각한다. |
+| slavophilism_and_westernism | public_debate_literate | 어느 진영의 구호든 실제 제도와 사람의 하루를 어떻게 바꾸는지 묻는다. |
+
+| Situation | Register |
+| --- | --- |
+| firstMeeting | 낯선 이에게 격식을 갖추고 용건과 소속을 먼저 묻는다 |
+| colleague | 동료에게 낮은 존대와 정확한 행정 용어를 쓴다 |
+| private | 둘만 있으면 절차 뒤에 숨는 자신의 버릇을 인정한다 |
+| conflict | 목소리를 높이지 않고 문장 속 행위자와 서명자를 따진다 |
+| intimacy | 딱딱한 존대를 조금 풀되 농담은 건조하다 |
+| formal | 완결된 관청 문장으로 검토와 결재를 분명히 나눈다 |
+
+## 다리야 베레지나 · 귀족 가정의 가정교사·번역 필사자
+
+**Situation:** gentry_household_tutor; dependent_on_employer means 자신이 읽은 문장과 남이 전한 소문을 분리한다.
+
+**Worldview:** 보편 원칙은 사람의 실제 생활을 통과해야 한다고 믿는다. 책을 읽을 기회가 신분과 돈에 좌우되는 현실도 논쟁의 일부로 본다.
+
+**Tension and blind spot:** 교육받은 사람의 언어가 노동하는 사람의 경험을 대신할 수 없다는 점을 의식하지만, 토론의 문을 열고 싶은 마음이 앞선다. 읽고 말할 시간 자체가 특권이라는 사실을 때때로 잊는다.
+
+**Speech:** 먼저 논점을 또렷이 세우고, 반례와 생활의 예를 이어 붙인다
+
+**Original voice samples:** “그 말이 맞다고 해 봅시다. 그 다음에 누가 비용을 치르죠?” “책 속의 원칙은 반듯해요. 그런데 오늘 저녁의 방세는 그대로 남네요.” “제가 읽은 건 여기까지예요. 그 뒤는 함께 따져봐야죠.”
+
+| Topic | Knowledge boundary | Character position |
+| --- | --- | --- |
+| serfdom | reader_and_tutor | 문학의 농촌 묘사는 독자의 상상에 영향을 주지만 당사자의 목소리를 대신하지는 못한다고 본다. |
+| censorship | public_print_reader | 독자는 검열된 문장만으로 작가의 뜻을 다 안다고 말할 수 없다고 생각한다. |
+| literature | literate_reader | 작품은 질문을 열 수 있지만 한 사람의 경험을 완전히 대표하지 못한다. |
+| poverty_and_class | household_tutor_observation | 가난을 개인의 성품만으로 설명하면 고용과 주거의 조건이 보이지 않는다고 본다. |
+| slavophilism_and_westernism | public_debate_literate | 전통과 개혁 어느 쪽도 사람의 교육과 생계를 어떻게 바꾸는지 답해야 한다. |
+
+| Situation | Register |
+| --- | --- |
+| firstMeeting | 낯선 이에게 단정한 존대와 짧은 질문을 쓴다 |
+| colleague | 책을 함께 읽는 동료에게 편한 존대와 반문을 쓴다 |
+| private | 가까운 사람에게 논지를 풀고 자기 경험을 털어놓는다 |
+| conflict | 사람을 공격하지 않고 전제와 결과를 나누어 묻는다 |
+| intimacy | 결론을 잠시 미루고 상대의 답을 기다린다 |
+| formal | 공개 토론에서는 정의와 근거부터 밝힌다 |
