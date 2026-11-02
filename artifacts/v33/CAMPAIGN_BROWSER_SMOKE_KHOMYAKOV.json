@@ -1,6 +1,6 @@
 {
   "schemaVersion": "V33_CAMPAIGN_BROWSER_SMOKE_V1",
-  "base": "http://127.0.0.1:52554/",
+  "base": "http://127.0.0.1:58803/",
   "endingId": "KHOMYAKOV",
   "status": "PASS",
   "steps": [
@@ -110,29 +110,16 @@
       "mapId": "nevsky",
       "position": {
         "x": 22,
-        "y": 9
+        "y": 8
       }
     },
     {
       "type": "repossess-after-map-arrival-and-reload",
       "hostId": "nekrasov_reconstruction",
-      "mapId": "nevsky"
-    },
-    {
-      "type": "move-host-clear-of-exit",
-      "hostId": "nekrasov_reconstruction",
-      "position": {
-        "x": 20,
-        "y": 9
-      }
-    },
-    {
-      "type": "possession",
-      "hostId": "courier_pavel",
       "mapId": "nevsky",
       "position": {
         "x": 22,
-        "y": 9
+        "y": 8
       }
     },
     {
@@ -140,6 +127,15 @@
       "from": "nevsky",
       "to": "printshop",
       "exitId": "nevsky-printshop-door"
+    },
+    {
+      "type": "possession",
+      "hostId": "courier_pavel",
+      "mapId": "printshop",
+      "position": {
+        "x": 11,
+        "y": 13
+      }
     },
     {
       "type": "source-read",
@@ -185,8 +181,8 @@
       "hostId": "clerk_alexei",
       "mapId": "chancery",
       "position": {
-        "x": 14,
-        "y": 12
+        "x": 13,
+        "y": 13
       }
     },
     {
@@ -284,7 +280,33 @@
     "immutableOutcomes": {
       "SOVREMENNIK_1847_ISSUE_PUBLICATION": "the attested 1847 issue remains historically published",
       "SOVREMENNIK_1848_PUBLICATION": "the attested journal publication history remains unchanged",
-      "PETRASHEVSKY_ARRESTS_1849": "the documented arrests and sentences remain fixed historical outcomes"
+      "PETRASHEVSKY_ARRESTS_1849": "the documented arrests and sentences remain fixed historical outcomes",
+      "YARD_LEDGER_1847_FICTIONAL_OUTCOME": "fictional household and work choice only; no historical public record is altered",
+      "LAUNDRY_WAGES_1847_FICTIONAL_OUTCOME": "fictional household and work choice only; no historical public record is altered",
+      "BAKERY_FLOUR_1847_FICTIONAL_OUTCOME": "fictional household and work choice only; no historical public record is altered",
+      "MARKET_PRICES_1847_FICTIONAL_OUTCOME": "fictional household and work choice only; no historical public record is altered",
+      "PORTER_LOAD_1847_FICTIONAL_OUTCOME": "fictional household and work choice only; no historical public record is altered",
+      "COACH_FARE_1847_FICTIONAL_OUTCOME": "fictional household and work choice only; no historical public record is altered",
+      "HOUSEHOLD_PRIVACY_1847_FICTIONAL_OUTCOME": "fictional work and household choice only; no historical public record is altered",
+      "MIDWIFE_CARE_COST_1847_FICTIONAL_OUTCOME": "fictional work and household choice only; no historical public record is altered",
+      "APOTHECARY_LIMITS_1847_FICTIONAL_OUTCOME": "fictional work and household choice only; no historical public record is altered",
+      "APPRENTICE_AUTHorship_1847_FICTIONAL_OUTCOME": "fictional work and household choice only; no historical public record is altered",
+      "BOOKBINDER_DAMAGE_1847_FICTIONAL_OUTCOME": "fictional work and household choice only; no historical public record is altered",
+      "SCRIBAL_COPY_1847_FICTIONAL_OUTCOME": "fictional work and household choice only; no historical public record is altered",
+      "INN_DEBT_RUMOR_1847_FICTIONAL_OUTCOME": "fictional work and household choice only; no historical public record is altered",
+      "STUDENT_CIRCLE_RISK_1847_FICTIONAL_OUTCOME": "fictional work and household choice only; no historical public record is altered",
+      "TEACHER_ACCESS_COST_1847_FICTIONAL_OUTCOME": "fictional work and household choice only; no historical public record is altered",
+      "NOBLE_STATUS_DEBT_1847_FICTIONAL_OUTCOME": "fictional work and household choice only; no historical public record is altered",
+      "LANDLADY_RENT_COMMONS_1847_FICTIONAL_OUTCOME": "fictional work and household choice only; no historical public record is altered",
+      "WATER_ACCESS_QUEUE_1847_FICTIONAL_OUTCOME": "fictional work and household choice only; no historical public record is altered",
+      "FISH_STORAGE_TIME_1847_FICTIONAL_OUTCOME": "fictional work and household choice only; no historical public record is altered",
+      "WAREHOUSE_LOSS_RECORD_1847_FICTIONAL_OUTCOME": "fictional work and household choice only; no historical public record is altered",
+      "SERVANT_PRIVATE_WARNING_1847_FICTIONAL_OUTCOME": "fictional work and household choice only; no historical public record is altered",
+      "GUARD_ENTRY_BRIBE_1847_FICTIONAL_OUTCOME": "fictional work and household choice only; no historical public record is altered",
+      "CARTER_DELIVERY_DELAY_1847_FICTIONAL_OUTCOME": "fictional work and household choice only; no historical public record is altered",
+      "STREET_VENDOR_WEATHER_1847_FICTIONAL_OUTCOME": "fictional work and household choice only; no historical public record is altered",
+      "TYPESETTER_SPEED_CENSORSHIP_1847_FICTIONAL_OUTCOME": "fictional work and household choice only; no historical public record is altered",
+      "LODGING_READING_INCOME_1847_FICTIONAL_OUTCOME": "fictional work and household choice only; no historical public record is altered"
     }
   },
   "screenshot": "artifacts/v33/campaign-full-run-khomyakov-1440x900.png"

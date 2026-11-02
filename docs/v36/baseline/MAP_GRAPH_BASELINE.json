@@ -1,18 +1,16 @@
 {
-  "baselineCommit": "90399812ff64d447f61dc72c16a342335d870cf1",
-  "generatedAt": "2026-11-02T12:58:28.150Z",
+  "baselineCommit": "7974392eb6e30a19607ff306972159fe5cd47b2e",
+  "generatedAt": "2026-11-02T08:55:05.174Z",
   "summary": {
-    "totalMaps": 8,
-    "cityAndReconstructionMaps": 6,
+    "totalMaps": 7,
+    "cityAndReconstructionMaps": 5,
     "literaryMapsSeparate": 2,
     "knownInteriorCandidatesByMetadata": [
       "chancery",
       "police-station",
       "printshop"
     ],
-    "totalInteractionObjects": 68,
-    "nonExitInteractionCandidates": 58,
-    "totalMapExitObjects": 10,
+    "totalMapExitObjects": 8,
     "missingTargets": []
   },
   "maps": [
@@ -27,7 +25,7 @@
       "sourceIds": [
         "OBJ-PETERSBURG-PLAN-1840"
       ],
-      "interactionObjects": 11,
+      "interactionObjects": 8,
       "mapExits": [
         {
           "objectId": 42,
@@ -56,7 +54,7 @@
         "OBJ-PETERSBURG-PLAN-1840",
         "OBJ-SADOVNIKOV-1835"
       ],
-      "interactionObjects": 11,
+      "interactionObjects": 3,
       "mapExits": [
         {
           "objectId": 62,
@@ -88,36 +86,6 @@
       "mapExits": []
     },
     {
-      "mapId": "market-quay",
-      "nameKo": "강변 장터",
-      "mapClass": "REAL_WORLD_RECONSTRUCTION",
-      "width": 30,
-      "height": 20,
-      "geography": "fictional market-and-quay scene; no exact historical locator claimed",
-      "date": "1847-06-01",
-      "sourceIds": [
-        "V36-MAP-NLR-19C-PLANS",
-        "V36-ART-RUSSIAN-MUSEUM-COLLMANN-1840S",
-        "V36-PHYSIOLOGY-PETERSBURG-1845"
-      ],
-      "interactionObjects": 11,
-      "mapExits": [
-        {
-          "objectId": 101,
-          "label": "네프스키로 돌아가는 길",
-          "targetMapId": "nevsky",
-          "exitId": "market-nevsky-gate",
-          "arrival": {
-            "x": 27,
-            "y": 10
-          },
-          "requiredHostId": null,
-          "publicAccess": true,
-          "targetExists": true
-        }
-      ]
-    },
-    {
       "mapId": "nevsky",
       "nameKo": "네프스키 거리",
       "mapClass": "REAL_WORLD_RECONSTRUCTION",
@@ -129,7 +97,7 @@
         "OBJ-PETERSBURG-PLAN-1840",
         "OBJ-SADOVNIKOV-1835"
       ],
-      "interactionObjects": 12,
+      "interactionObjects": 9,
       "mapExits": [
         {
           "objectId": 3,
@@ -178,19 +146,6 @@
           "arrival": {
             "x": 4,
             "y": 6
-          },
-          "requiredHostId": null,
-          "publicAccess": true,
-          "targetExists": true
-        },
-        {
-          "objectId": 20,
-          "label": "강변 장터 입구",
-          "targetMapId": "market-quay",
-          "exitId": "nevsky-market-gate",
-          "arrival": {
-            "x": 2,
-            "y": 10
           },
           "requiredHostId": null,
           "publicAccess": true,
@@ -250,7 +205,7 @@
         "OBJ-SOV-1847",
         "OBJ-PETERSBURG-PLAN-1840"
       ],
-      "interactionObjects": 14,
+      "interactionObjects": 11,
       "mapExits": [
         {
           "objectId": 23,

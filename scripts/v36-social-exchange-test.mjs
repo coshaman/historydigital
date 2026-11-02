@@ -23,7 +23,7 @@ possessed.player.embodiment = 'baker_fyodor';
 const paused = game.advanceNpcWorld(possessed, 90, mapTable);
 assert.equal(paused.ledger.flatMap(event => event.exchanges ?? []).length, 0, 'a possessed resident cannot autonomously trade');
 
-const exchanges = [], meals = [];
+const exchanges = [], meals = [], goals = [];
 const movementTrace = [];
 for (let minute = 0; minute < 600; minute += 1) {
   const ledgerLength = state.ledger.length;
@@ -37,6 +37,7 @@ for (let minute = 0; minute < 600; minute += 1) {
     exchanges.push({ ...exchange, occurredAt: event.startClockMinutes + exchange.minute });
   }
   meals.push(...(event?.meals ?? []).map(meal => ({ ...meal, occurredAt: event.startClockMinutes + meal.minute })));
+  goals.push(...(event?.goals ?? []));
 }
 assert.equal(exchanges.length, 1, `the scheduled market exchange should occur once; nearby=${JSON.stringify({ baker: { mapId: state.hosts.baker_fyodor.mapId, position: state.hosts.baker_fyodor.position, taskId: state.hosts.baker_fyodor.routineTaskCompletedId }, seller: { mapId: state.hosts.market_nadezhda.mapId, position: state.hosts.market_nadezhda.position }, movementTrace })}`);
 assert.equal(exchanges[0].hostId, 'baker_fyodor');
@@ -57,6 +58,9 @@ assert.equal(meals[0].occurredAt, 1045, 'consumption happens after the seller ph
 assert.ok(meals[0].hungerAfter < meals[0].hungerBefore, 'the meal should relieve the resident hunger need');
 assert.equal(state.hosts.market_nadezhda.inventory.includes('빵 한 묶음'), false);
 assert.equal(state.hosts.market_nadezhda.needs.lastMealAtMinute, 1045);
+assert.ok(goals.some(goal => goal.hostId === 'baker_fyodor' && goal.type === 'FOLLOW_TRADE_PARTNER' && goal.targetHostId === 'market_nadezhda'), 'the baker should select and track the seller as a social trade goal');
+assert.ok(goals.some(goal => goal.hostId === 'market_nadezhda' && goal.type === 'NEED_MEAL' && goal.taskId === 'NADEZHDA_EVENING_BREAD_1847'), `the seller should select the meal location as a hunger-driven goal before eating; goals=${JSON.stringify(goals.filter(goal => goal.hostId === 'market_nadezhda'))}`);
 const loaded = game.loadGame(game.saveGame(state), { maps: mapTable, hostCards: cards });
 assert.equal(game.stateHash(loaded), game.stateHash(state), 'trade, goods, funds, and relationship survive save/load');
-console.log(JSON.stringify({ status: 'PASS', exchangeCount: exchanges.length, exchange: exchanges[0], mealCount: meals.length, meal: meals[0], needsTriggeredMeal: true, goodsAndFundsTransferred: true, relationshipRecordedForBothResidents: true, possessionPausesTrade: true, saveReloadParity: true }, null, 2));
+assert.equal(loaded.hosts.baker_fyodor.activeGoal?.type, state.hosts.baker_fyodor.activeGoal?.type, 'the active resident goal survives save/load');
+console.log(JSON.stringify({ status: 'PASS', exchangeCount: exchanges.length, exchange: exchanges[0], goalSelections: goals.filter(goal => ['FOLLOW_TRADE_PARTNER','NEED_MEAL'].includes(goal.type)), mealCount: meals.length, meal: meals[0], needsTriggeredMeal: true, goodsAndFundsTransferred: true, relationshipRecordedForBothResidents: true, possessionPausesTrade: true, saveReloadParity: true }, null, 2));

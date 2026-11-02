@@ -447,6 +447,55 @@ test('offscreen simulation advances independent NPC routines for a full 30 minut
   assert.equal(stateHash(advanceWorldTime(state, 30, maps)), stateHash(next), 'same initial state and elapsed time produce the same world state');
 });
 
+test('an NPC leaves a map exit when its configured arrival tile is occupied', async () => {
+  const maps = await loadMaps();
+  const cards = await Promise.all((await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)));
+  let state = createInitialState({ maps, hostCards: cards });
+  state.world.clockMinutes = 599;
+  state.hosts.print_apprentice_stepan.mapId = 'printshop';
+  state.hosts.print_apprentice_stepan.position = { x: 12, y: 13 };
+  state.hosts.print_apprentice_stepan.schedule = [{ atMinute: 600, mapId: 'nevsky', position: { x: 16, y: 12 }, activityKo: '인쇄물을 옮긴다' }];
+  state.hosts.courier_pavel.mapId = 'nevsky';
+  state.hosts.courier_pavel.position = { x: 22, y: 9 };
+  const pausedHostIds = Object.keys(state.hosts).filter(id => id !== 'print_apprentice_stepan');
+  const next = advanceNpcWorld(state, 1, maps, { pausedHostIds });
+  assert.equal(next.hosts.print_apprentice_stepan.mapId, 'nevsky');
+  assert.notDeepEqual(next.hosts.print_apprentice_stepan.position, { x: 22, y: 9 });
+  assert.notDeepEqual(next.hosts.print_apprentice_stepan.position, next.hosts.courier_pavel.position);
+  assert.notDeepEqual(next.hosts.print_apprentice_stepan.position, { x: 12, y: 15 }, 'an NPC never stops on the printshop doorway approach tile');
+  assert.ok(Math.abs(next.hosts.print_apprentice_stepan.position.x - 22) + Math.abs(next.hosts.print_apprentice_stepan.position.y - 8) > 1, 'NPC arrival keeps the exit approach clear');
+  assert.ok(next.ledger.at(-1).moves.some(move => move.hostId === 'print_apprentice_stepan' && move.viaExit === 'printshop-nevsky-door'));
+});
+
+test('an NPC schedule never parks a resident on the only walkable approach to an exit', async () => {
+  const maps = await loadMaps();
+  const cards = await Promise.all((await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)));
+  const state = createInitialState({ maps, hostCards: cards });
+  state.world.clockMinutes = 599;
+  state.hosts.bookbinder_elizaveta.mapId = 'nevsky';
+  state.hosts.bookbinder_elizaveta.position = { x: 22, y: 10 };
+  state.hosts.bookbinder_elizaveta.schedule = [{ atMinute: 600, mapId: 'nevsky', position: { x: 22, y: 9 }, activityKo: '출입구 옆에서 일한다' }];
+  const pausedHostIds = Object.keys(state.hosts).filter(id => id !== 'bookbinder_elizaveta');
+  const next = advanceNpcWorld(state, 1, maps, { pausedHostIds });
+  assert.notDeepEqual(next.hosts.bookbinder_elizaveta.position, { x: 22, y: 9 });
+  assert.ok(Math.abs(next.hosts.bookbinder_elizaveta.position.x - 22) + Math.abs(next.hosts.bookbinder_elizaveta.position.y - 8) > 1);
+});
+
+test('a resident yields one adjacent tile when the player needs to pass through a crowded street', async () => {
+  const maps = await loadMaps();
+  const cards = await Promise.all((await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)));
+  const state = createInitialState({ maps, hostCards: cards, startMapId: 'printshop' });
+  for (const host of Object.values(state.hosts)) host.mapId = 'courtyard';
+  state.player.position = { x: 10, y: 10 };
+  state.hosts.courier_pavel.mapId = 'printshop';
+  state.hosts.courier_pavel.position = { x: 11, y: 10 };
+  const moved = moveActor(state, 'right', maps.printshop, maps);
+  assert.equal(moved.moved, true);
+  assert.deepEqual(moved.state.player.position, { x: 11, y: 10 });
+  assert.notDeepEqual(moved.state.hosts.courier_pavel.position, { x: 11, y: 10 });
+  assert.equal(moved.state.ledger.at(-1).eventType, 'NPC_YIELD');
+});
+
 test('NPC routines pause during dialogue time while the in-world clock still advances', async () => {
   const maps = await loadMaps();
   const cards = await Promise.all(['seamstress_anna','printer_ekaterina','clerk_alexei','courier_pavel','tenant_mikhail','bookseller_lev'].map(id => json(`rpg/characters/${id}.json`)));

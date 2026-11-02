@@ -17,6 +17,7 @@ const [campaign, mapsList, cards, quests, sources, firstSource, firstIssue, lear
   readJson('rpg/data/sovremennik-1847-issue.json'),
   readJson('rpg/data/learning-exam.json'),
 ]);
+const runtimeQuests = await Promise.all((await fs.readdir(path.join(root, 'rpg/quests'))).filter(file => file.endsWith('.json') && file !== 'campaign.json').map(file => readJson(`rpg/quests/${file}`)));
 const mapById = Object.fromEntries(mapsList.map(map => [map.mapId, map]));
 const cardById = Object.fromEntries(cards.map(card => [card.id, card]));
 const questById = Object.fromEntries(quests.map(quest => [quest.id, quest]));
@@ -57,7 +58,14 @@ function actorState(state) { return state.player.embodiment ? state.hosts[state.
 function passable(map, state, x, y, blocked) {
   if (!Number.isInteger(x) || !Number.isInteger(y) || x < 0 || y < 0 || x >= map.width || y >= map.height) return false;
   if (map.layers.find(layer => layer.name === 'Collision').data[y * map.width + x] !== 0 || blocked.has(`${x},${y}`)) return false;
-  return !Object.values(state.hosts).some(host => host.id !== state.player.embodiment && host.mapId === map.mapId && host.position.x === x && host.position.y === y);
+  const residents = Object.values(state.hosts).filter(host => host.id !== state.player.embodiment && host.mapId === map.mapId && host.position.x === x && host.position.y === y);
+  if (!residents.length) return true;
+  return residents.length === 1 && directions.some(([, [dx, dy]]) => {
+    const nx = x + dx, ny = y + dy;
+    return nx >= 0 && ny >= 0 && nx < map.width && ny < map.height
+      && map.layers.find(layer => layer.name === 'Collision').data[ny * map.width + nx] === 0
+      && !Object.values(state.hosts).some(host => host.id !== residents[0].id && host.mapId === map.mapId && host.position.x === nx && host.position.y === ny);
+  });
 }
 function routeTo(state, mapId, target, maxDistance, extraGoal = () => true, blocked = new Set()) {
   const map = mapById[mapId], start = actorState(state).position;
@@ -103,14 +111,20 @@ async function interact() { await page.locator('#use').click(); }
 async function possess(hostId) {
   let state = await snapshot(), host = state.hosts[hostId];
   assert.ok(host, `unknown host ${hostId}`);
-  if (host.mapId !== state.world.currentMapId) {
-    const exit = findObject(state.world.currentMapId, object => object.type === 'map-exit' && objectProps(object).targetMapId === host.mapId);
-    assert.ok(exit, `${hostId} moved to ${host.mapId}; player needs a legal connected exit from ${state.world.currentMapId}`);
-    await transitionTo(objectProps(exit).exitId, host.mapId);
+  let closeEnough = false;
+  for (let attempt = 0; attempt < 12; attempt += 1) {
     state = await snapshot(); host = state.hosts[hostId];
-    assert.equal(host.mapId, state.world.currentMapId, `${hostId} must be physically present before possession`);
+    if (host.mapId !== state.world.currentMapId) {
+      const exit = findObject(state.world.currentMapId, object => object.type === 'map-exit' && objectProps(object).targetMapId === host.mapId);
+      assert.ok(exit, `${hostId} moved to ${host.mapId}; player needs a legal connected exit from ${state.world.currentMapId}`);
+      await transitionTo(objectProps(exit).exitId, host.mapId);
+      continue;
+    }
+    await moveNear(state.world.currentMapId, host.position, 2);
+    state = await snapshot(); host = state.hosts[hostId];
+    if (host.mapId === state.world.currentMapId && distance(actorState(state).position, host.position) <= 2) { closeEnough = true; break; }
   }
-  await moveNear(state.world.currentMapId, host.position, 2);
+  assert.ok(closeEnough, `${hostId} continued moving before the player could approach`);
   await interact();
   const personChoice = page.getByRole('button', { name: `${cardById[hostId].displayNameKo} 살펴보기`, exact: false });
   if (await personChoice.count()) await personChoice.click();
@@ -150,7 +164,7 @@ async function transitionTo(exitId, targetMapId) {
     assert.ok(await routeChoice.count(), `transition ${exitId} neither changed maps nor exposed its route choice: ${JSON.stringify({ state: await snapshot(), ui: await page.evaluate(() => ({ actions: [...document.querySelectorAll('#actions button')].map(button => button.innerText), place: document.querySelector('#place').textContent, headline: document.querySelector('#headline')?.textContent, journal: document.querySelector('#journal-text')?.textContent, record: document.querySelector('#record')?.textContent, status: document.querySelector('#status')?.textContent })) })}`);
     await routeChoice.click();
   }
-  await page.waitForFunction(expected => document.querySelector('#place').textContent === expected, mapById[targetMapId].metadata.displayNameKo);
+  await page.waitForFunction(expected => document.querySelector('#mapname').textContent === expected, mapById[targetMapId].metadata.displayNameKo);
   const state = await snapshot();
   assert.equal(state.world.currentMapId, targetMapId);
   report.steps.push({ type: 'map-transition', from: mapId, to: targetMapId, exitId });
@@ -321,12 +335,12 @@ try {
   const arrivedNekrasov = await snapshot();
   assert.equal(arrivedNekrasov.hosts.nekrasov_reconstruction.mapId, 'nevsky', 'the historical reconstruction remains at the legal exit arrival after save/load');
   await possess('nekrasov_reconstruction');
-  report.steps.push({ type: 'repossess-after-map-arrival-and-reload', hostId: 'nekrasov_reconstruction', mapId: 'nevsky' });
-  await moveNear('nevsky', { x: 20, y: 9 }, 0);
-  report.steps.push({ type: 'move-host-clear-of-exit', hostId: 'nekrasov_reconstruction', position: (await snapshot()).hosts.nekrasov_reconstruction.position });
+  const repossessed = await snapshot(), reconstructionPosition = repossessed.hosts.nekrasov_reconstruction.position;
+  assert.ok(!Object.values(repossessed.hosts).some(host => host.id !== 'nekrasov_reconstruction' && host.mapId === 'nevsky' && host.position.x === reconstructionPosition.x && host.position.y === reconstructionPosition.y), 'the reloaded resident remains a distinct body');
+  report.steps.push({ type: 'repossess-after-map-arrival-and-reload', hostId: 'nekrasov_reconstruction', mapId: 'nevsky', position: reconstructionPosition });
   await release();
   await possess('courier_pavel');
-  await transitionTo('nevsky-printshop-door', 'printshop');
+  if ((await snapshot()).world.currentMapId !== 'printshop') await transitionTo('nevsky-printshop-door', 'printshop');
   await readSource('printshop', 'OBJ-WS-NEKRASOV-EDITORIAL-1848', 26);
   if (endingId === 'HERZEN') {
     const beforePostage = (await snapshot()).hosts.courier_pavel.money.amount;
@@ -342,7 +356,7 @@ try {
   }
   await continueCampaign(/1849년으로 이어가기/);
   await page.waitForFunction(() => document.querySelector('#world-date').textContent.includes('1849'));
-  await page.waitForFunction(() => document.querySelector('#place').textContent === '관청 접수실');
+  await page.waitForFunction(() => document.querySelector('#mapname').textContent === '관청 접수실');
 
   // 1849: inspect the report and later letter from the clerk's actual office, preserving history.
   await possess('clerk_alexei');
@@ -371,7 +385,7 @@ try {
   assert.deepEqual(resolvedQuests.sort(), campaign.arcs.flatMap(arc => arc.questIds).sort());
   assert.ok(distinctHosts.length >= 4, `four real-world host perspectives required: ${distinctHosts}`);
   assert.ok(sourceIds.length >= 3, `three or more source records required: ${sourceIds}`);
-  const expectedOutcomes = Object.fromEntries(quests.filter(quest => quest.chapterId !== 'LITERARY_DEAD_SOULS').map(quest => [quest.historicalOutcome.id, quest.historicalOutcome.value]));
+  const expectedOutcomes = Object.fromEntries(runtimeQuests.filter(quest => quest.historicalOutcome && !quest.chapterId?.startsWith('LITERARY_')).map(quest => [quest.historicalOutcome.id, quest.historicalOutcome.value]));
   assert.deepEqual(final.world.immutableOutcomes, expectedOutcomes);
   assert.equal(await page.locator('#ending-title').innerText(), ending.titleKo);
   assert.ok((await page.locator('#ending-comparison-text').innerText()).length > 40);
@@ -392,7 +406,8 @@ try {
   report.error = String(error?.stack ?? error);
   try {
     const state = await snapshot();
-    report.failureState = { chapterId: state.world.chapterId, date: state.world.date, mapId: state.world.currentMapId, embodiment: state.player.embodiment, quests: state.quests, ledgerTail: state.ledger.slice(-8) };
+    report.failureState = { chapterId: state.world.chapterId, date: state.world.date, mapId: state.world.currentMapId, embodiment: state.player.embodiment, actorPosition: actorState(state).position, presentHosts: Object.values(state.hosts).filter(host => host.mapId === state.world.currentMapId).map(host => ({ id: host.id, position: host.position, embodied: host.id === state.player.embodiment })), quests: state.quests, ledgerTail: state.ledger.slice(-8) };
+    report.failureUi = await page.evaluate(() => { const button = document.querySelector('#use'), rect = button?.getBoundingClientRect(); return { buttonText: button?.innerText, disabled: button?.disabled, display: button && getComputedStyle(button).display, visibility: button && getComputedStyle(button).visibility, pointerEvents: button && getComputedStyle(button).pointerEvents, buttonRect: rect && { x: rect.x, y: rect.y, width: rect.width, height: rect.height }, elementAtButton: rect && document.elementFromPoint(rect.x + rect.width / 2, rect.y + rect.height / 2)?.outerHTML?.slice(0, 240), overlays: [...document.querySelectorAll('[role=dialog],dialog,[aria-modal=true]')].map(node => ({ id: node.id, visible: node.getClientRects().length > 0 })) }; });
     await page.screenshot({ path: path.join(out, 'campaign-full-run-failure-1440x900.png'), fullPage: true });
   } catch {}
 } finally {

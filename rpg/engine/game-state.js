@@ -1,6 +1,6 @@
 'use strict';
 
-const SAVE_VERSION = 3;
+const SAVE_VERSION = 36;
 const DIRECTIONS = Object.freeze({ up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] });
 
 function layer(map, name) { return map?.layers?.find(item => item.name === name); }
@@ -37,6 +37,7 @@ function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky
     scheduleId: null,
     currentActivityKo: '',
     routineState: { state: 'IDLE', activityKo: '', targetMapId: card.start.mapId, targetPosition: { x: card.start.x, y: card.start.y }, changedAtMinute: 540, minutesInState: 0 },
+    activeGoal: null,
     needs: initialNpcNeeds(card),
     situationNotes: [],
     facing: 'down',
@@ -170,6 +171,16 @@ function exitApproachTiles(map, exitTile) {
   const candidates = [exitTile, ...NPC_STEPS.map(([dx, dy]) => ({ x: exitTile.x + dx, y: exitTile.y + dy }))];
   return candidates.filter(tile => tileAt(layer(map, 'Collision'), tile.x, tile.y) === 0);
 }
+function exitClearanceTiles(map) {
+  const tiles = [];
+  for (const { tile } of mapExitObjects(map)) {
+    for (let dy = -1; dy <= 1; dy += 1) for (let dx = -1; dx <= 1; dx += 1) {
+      const candidate = { x: tile.x + dx, y: tile.y + dy };
+      if (Math.abs(dx) + Math.abs(dy) <= 1 && tileAt(layer(map, 'Collision'), candidate.x, candidate.y) === 0) tiles.push(candidate);
+    }
+  }
+  return new Set(tiles.map(tileKey));
+}
 function nextNpcStep(state, host, slot, maps, reservedTiles) {
   if (host.mapId !== slot.mapId) {
     const route = npcMapRoute(host.mapId, slot.mapId, host, maps);
@@ -177,9 +188,13 @@ function nextNpcStep(state, host, slot, maps, reservedTiles) {
     const { exit, toMapId } = route[0], fromMap = maps[host.mapId], toMap = maps[toMapId];
     const approach = findGridPath(fromMap, host.position, exitApproachTiles(fromMap, exit.tile), tile => npcCanOccupy(state, host.id, host.mapId, tile, maps, reservedTiles));
     if (approach === null) return null;
-    if (!approach.length) {
-      const arrival = { x: Number(exit.data.arrivalX), y: Number(exit.data.arrivalY) };
-      if (!Number.isInteger(arrival.x) || !Number.isInteger(arrival.y) || !npcCanOccupy(state, host.id, toMapId, arrival, maps, reservedTiles)) return null;
+    // Cross before entering the narrow doorway approach. Leaving an NPC there
+    // can trap the player before another clock tick advances the resident.
+    if (approach.length <= 2) {
+      const preferred = { x: Number(exit.data.arrivalX), y: Number(exit.data.arrivalY) };
+      if (!Number.isInteger(preferred.x) || !Number.isInteger(preferred.y)) return null;
+      const arrival = nearestNpcArrival(state, host.id, toMap, preferred, maps, reservedTiles);
+      if (!arrival) return null;
       return { mapId: toMapId, position: arrival, facing: host.facing, viaExit: exit.data.exitId };
     }
     const next = approach[0], direction = NPC_STEPS.find(([dx, dy]) => host.position.x + dx === next.x && host.position.y + dy === next.y)?.[2];
@@ -187,36 +202,95 @@ function nextNpcStep(state, host, slot, maps, reservedTiles) {
   }
   const map = maps?.[host.mapId], requested = slot.position;
   if (!map || !Number.isInteger(requested?.x) || !Number.isInteger(requested?.y)) return null;
-  const goals = [requested, ...NPC_STEPS.map(([dx, dy]) => ({ x: requested.x + dx, y: requested.y + dy }))]
-    .filter(tile => tileAt(layer(map, 'Collision'), tile.x, tile.y) === 0 && !isReserved(host.mapId, tile, reservedTiles));
+  const doorwayTiles = exitClearanceTiles(map);
+  let goals = [requested, ...NPC_STEPS.map(([dx, dy]) => ({ x: requested.x + dx, y: requested.y + dy }))]
+    .filter(tile => tileAt(layer(map, 'Collision'), tile.x, tile.y) === 0 && !isReserved(host.mapId, tile, reservedTiles) && !doorwayTiles.has(tileKey(tile)));
+  if (!goals.length) {
+    for (let radius = 2; radius <= 4 && !goals.length; radius += 1) {
+      goals = [];
+      for (let dy = -radius; dy <= radius; dy += 1) for (let dx = -radius; dx <= radius; dx += 1) {
+        if (Math.abs(dx) + Math.abs(dy) !== radius) continue;
+        const tile = { x: requested.x + dx, y: requested.y + dy };
+        if (tileAt(layer(map, 'Collision'), tile.x, tile.y) === 0 && !isReserved(host.mapId, tile, reservedTiles) && !doorwayTiles.has(tileKey(tile))) goals.push(tile);
+      }
+    }
+  }
   const path = findGridPath(map, host.position, goals, tile => npcCanOccupy(state, host.id, host.mapId, tile, maps, reservedTiles));
   if (path === null || !path.length) return null;
   const next = path[0], direction = NPC_STEPS.find(([dx, dy]) => host.position.x + dx === next.x && host.position.y + dy === next.y)?.[2];
   return direction ? { mapId: host.mapId, position: next, facing: direction } : null;
 }
+function nearestNpcArrival(state, hostId, map, preferred, maps, reservedTiles) {
+  const maxRadius = map.width + map.height;
+  const doorwayTiles = exitClearanceTiles(map);
+  for (let radius = 0; radius <= maxRadius; radius += 1) {
+    for (let dy = -radius; dy <= radius; dy += 1) {
+      const dx = radius - Math.abs(dy);
+      const candidates = dx === 0
+        ? [{ x: preferred.x, y: preferred.y + dy }]
+        : [{ x: preferred.x - dx, y: preferred.y + dy }, { x: preferred.x + dx, y: preferred.y + dy }];
+      const open = candidates.find(tile => npcCanOccupy(state, hostId, map.mapId, tile, maps, reservedTiles) && !doorwayTiles.has(tileKey(tile)));
+      if (open) return open;
+    }
+  }
+  return null;
+}
+function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
+  const localMinute = ((state.world.clockMinutes % 1440) + 1440) % 1440;
+  const scheduledTask = scheduledSlot?.task;
+  if (scheduledTask && ['DELIVER', 'EXCHANGE'].includes(scheduledTask.type) && host.routineTaskCompletedId !== scheduledTask.id && host.inventory.includes(scheduledTask.itemKo)) {
+    const recipient = state.hosts[scheduledTask.recipientHostId];
+    const canPay = scheduledTask.type !== 'EXCHANGE' || (Number.isInteger(scheduledTask.moneyAmount) && scheduledTask.moneyAmount > 0 && Number.isFinite(recipient?.money?.amount) && recipient.money.amount >= scheduledTask.moneyAmount);
+    if (recipient && canPay && recipient.id !== state.player.embodiment && recipient.historicalAliveAndPresent !== false && host.allowedMaps.includes(recipient.mapId) && npcMapRoute(host.mapId, recipient.mapId, host, maps) !== null) {
+      return { slot: { ...scheduledSlot, mapId: recipient.mapId, position: { ...recipient.position } }, goalType: scheduledTask.type === 'DELIVER' ? 'FOLLOW_RECIPIENT' : 'FOLLOW_TRADE_PARTNER', targetHostId: recipient.id, taskId: scheduledTask.id, reason: 'social_action_tracks_recipient' };
+    }
+  }
+
+  if (host.needs) {
+    const mealCandidates = (host.schedule ?? []).filter(slot => slot.task?.type === 'CONSUME' && slot.task.itemKo && host.inventory.includes(slot.task.itemKo))
+      .map(slot => ({ slot, wait: (slot.atMinute - localMinute + 1440) % 1440 }))
+      .filter(goal => goal.wait <= 60);
+    if (scheduledTask?.type === 'CONSUME' && scheduledTask.itemKo && host.inventory.includes(scheduledTask.itemKo)) mealCandidates.push({ slot: scheduledSlot, wait: 0 });
+    const meal = mealCandidates.filter(goal => host.needs.hunger >= (Number.isFinite(goal.slot.task.minimumHunger) ? goal.slot.task.minimumHunger : 40)).sort((a, b) => a.wait - b.wait)[0];
+    if (meal) return { slot: meal.slot, goalType: 'NEED_MEAL', targetHostId: null, taskId: meal.slot.task.id, reason: 'hunger_threshold_before_meal_window' };
+  }
+  return { slot: scheduledSlot, goalType: 'SCHEDULE', targetHostId: null, taskId: scheduledTask?.id ?? null, reason: 'authored_daily_schedule' };
+}
+function recordNpcGoal(host, goal, absoluteMinute, minuteOffset, goalRows) {
+  const next = { type: goal.goalType, taskId: goal.taskId, targetHostId: goal.targetHostId, targetMapId: goal.slot?.mapId ?? null, reason: goal.reason };
+  const previous = host.activeGoal;
+  if (!previous || previous.type !== next.type || previous.taskId !== next.taskId || previous.targetHostId !== next.targetHostId || previous.targetMapId !== next.targetMapId) {
+    host.activeGoal = { ...next, selectedAtMinute: absoluteMinute };
+    goalRows.push({ hostId: host.id, minute: minuteOffset, ...host.activeGoal });
+  }
+}
 function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stateChanges) {
   const embodiedId = state.player.embodiment, paused = new Set(options.pausedHostIds ?? []), reservedTiles = [...(options.reservedTiles ?? [])];
   if (!state.player.embodiment) reservedTiles.push({ mapId: state.world.currentMapId, position: state.player.position });
-  const moveRows = [], deliveryRows = [], exchangeRows = [], mealRows = [];
+  const moveRows = [], deliveryRows = [], exchangeRows = [], mealRows = [], goalRows = [];
   const hosts = Object.values(state.hosts).sort((a, b) => a.id.localeCompare(b.id));
   for (const host of hosts) {
-    const slot = scheduleEntry(host, state.world.clockMinutes);
-    if (!slot) continue;
-    const scheduleId = `${slot.mapId}:${slot.atMinute}`;
+    const scheduledSlot = scheduleEntry(host, state.world.clockMinutes);
+    if (!scheduledSlot) continue;
+    const scheduleId = `${scheduledSlot.mapId}:${scheduledSlot.atMinute}`;
     if (host.scheduleId !== scheduleId) host.routineTaskCompletedId = null;
     host.scheduleId = scheduleId;
-    host.currentActivityKo = slot.activityKo ?? '';
-    const currentMap = maps?.[host.mapId], scheduledMap = maps?.[slot.mapId];
+    const currentMap = maps?.[host.mapId];
     const inActiveRealm = currentMap?.metadata?.mapClass === 'LITERARY_REALM';
     if (host.id === embodiedId) {
-      setRoutineState(host, 'POSSESSED', host.currentActivityKo, slot.mapId, slot.position, state.world.clockMinutes, stateChanges, minuteOffset);
+      if (host.activeGoal?.type !== 'POSSESSED') host.activeGoal = { type: 'POSSESSED', taskId: null, targetHostId: null, targetMapId: host.mapId, reason: 'player_controls_embodied_host', selectedAtMinute: state.world.clockMinutes };
+      setRoutineState(host, 'POSSESSED', host.currentActivityKo, host.mapId, host.position, state.world.clockMinutes, stateChanges, minuteOffset);
       continue;
     }
-    if (paused.has(host.id) || host.historicalAliveAndPresent === false || !scheduledMap || inActiveRealm !== Boolean(state.world.activeRealm)) continue;
+    if (paused.has(host.id) || host.historicalAliveAndPresent === false || inActiveRealm !== Boolean(state.world.activeRealm)) continue;
+    host.needs ??= initialNpcNeeds(host, state.world.clockMinutes);
+    const goal = selectNpcRoutineGoal(state, host, scheduledSlot, maps), slot = goal.slot;
+    if (!slot || !maps?.[slot.mapId]) continue;
+    recordNpcGoal(host, goal, state.world.clockMinutes, minuteOffset, goalRows);
+    host.currentActivityKo = slot.activityKo ?? '';
     const atWorkplace = host.mapId === slot.mapId && nearTile(host.position, slot.position, 1);
     const routine = atWorkplace ? routineActivityState(host.currentActivityKo, slot.task) : 'TRAVELLING';
     setRoutineState(host, routine, host.currentActivityKo, slot.mapId, slot.position, state.world.clockMinutes, stateChanges, minuteOffset);
-    host.needs ??= initialNpcNeeds(host, state.world.clockMinutes);
     host.needs.hunger = Math.min(100, host.needs.hunger + host.needs.hungerPerMinute);
     host.needs.fatigue = Math.max(0, Math.min(100, host.needs.fatigue + (routine === 'RESTING' ? -host.needs.restFatigueReliefPerMinute : routine === 'TRAVELLING' ? 0.01 : host.needs.workFatiguePerMinute)));
     if (state.world.clockMinutes % 5 !== 0) continue;
@@ -268,23 +342,24 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
     host.routineTaskCompletedId = task.id;
     mealRows.push({ hostId: host.id, itemKo: task.itemKo, hungerBefore, hungerAfter: host.needs.hunger, taskId: task.id, mapId: host.mapId, minute: minuteOffset });
   }
-  return { moveRows, deliveryRows, exchangeRows, mealRows };
+  return { moveRows, deliveryRows, exchangeRows, mealRows, goalRows };
 }
 
 function advanceNpcWorld(state, elapsedMinutes, maps, options = {}) {
   if (!Number.isFinite(elapsedMinutes) || elapsedMinutes <= 0) return state;
   const next = clone(state);
   const tickCount = Math.min(10080, Math.max(1, Math.floor(elapsedMinutes))), movementLog = [], deliveryLog = [];
-  const startClock = next.world.clockMinutes ?? 540, stateChanges = [], exchangeLog = [], mealLog = [];
+  const startClock = next.world.clockMinutes ?? 540, stateChanges = [], exchangeLog = [], mealLog = [], goalLog = [];
   for (let tick = 1; tick <= tickCount; tick += 1) {
     next.world.clockMinutes = startClock + tick;
     const result = simulateNpcMinute(next, maps, options, tick, movementLog, stateChanges);
     deliveryLog.push(...result.deliveryRows);
     exchangeLog.push(...result.exchangeRows);
     mealLog.push(...result.mealRows);
+    goalLog.push(...result.goalRows);
   }
-  if (movementLog.length || deliveryLog.length || stateChanges.length || exchangeLog.length || mealLog.length) {
-    const entry = { eventId: `NPC_SIM_${next.ledger.length + 1}`, eventType: 'NPC_SIMULATION', date: next.world.date, mapId: next.world.currentMapId, startClockMinutes: startClock, endClockMinutes: next.world.clockMinutes, simulatedMinutes: tickCount, moves: movementLog, deliveries: deliveryLog, exchanges: exchangeLog, meals: mealLog, stateChanges, priorStateHash: stateHash(state), nextStateHash: null };
+  if (movementLog.length || deliveryLog.length || stateChanges.length || exchangeLog.length || mealLog.length || goalLog.length) {
+    const entry = { eventId: `NPC_SIM_${next.ledger.length + 1}`, eventType: 'NPC_SIMULATION', date: next.world.date, mapId: next.world.currentMapId, startClockMinutes: startClock, endClockMinutes: next.world.clockMinutes, simulatedMinutes: tickCount, moves: movementLog, deliveries: deliveryLog, exchanges: exchangeLog, meals: mealLog, goals: goalLog, stateChanges, priorStateHash: stateHash(state), nextStateHash: null };
     next.ledger.push(entry);
     entry.nextStateHash = stateHash(next);
   }
@@ -327,6 +402,23 @@ function nearestOpenArrival(map, preferred, hostId, hosts) {
   return null;
 }
 
+function yieldBlockingResident(state, map, x, y, movingHostId) {
+  const blocker = Object.values(state.hosts).find(host => host.id !== movingHostId && host.historicalAliveAndPresent !== false && host.mapId === map.mapId && host.position.x === x && host.position.y === y);
+  if (!blocker) return null;
+  const actor = state.player.embodiment ? state.hosts[state.player.embodiment] : state.player;
+  const doorwayTiles = exitClearanceTiles(map);
+  const destination = NPC_STEPS.map(([dx, dy]) => ({ x: x + dx, y: y + dy }))
+    .find(tile => tileAt(layer(map, 'Collision'), tile.x, tile.y) === 0
+      && !(actor.position.x === tile.x && actor.position.y === tile.y)
+      && !(x === tile.x && y === tile.y)
+      && !doorwayTiles.has(tileKey(tile))
+      && !Object.values(state.hosts).some(host => host.id !== blocker.id && host.historicalAliveAndPresent !== false && host.mapId === map.mapId && host.position.x === tile.x && host.position.y === tile.y));
+  if (!destination) return null;
+  const from = { ...blocker.position };
+  blocker.position = destination;
+  return { hostId: blocker.id, from, to: { ...destination } };
+}
+
 function moveActor(state, direction, map, maps = { [map?.mapId]: map }) {
   const delta = DIRECTIONS[direction];
   if (!delta || !state || !map || state.world.currentMapId !== map.mapId) return { state, moved: false, reason: 'invalid_direction_or_map' };
@@ -334,14 +426,17 @@ function moveActor(state, direction, map, maps = { [map?.mapId]: map }) {
   const actor = hostId ? state.hosts[hostId] : state.player;
   if (!actor || (hostId && actor.mapId !== state.world.currentMapId)) return { state, moved: false, reason: 'actor_not_present' };
   const x = actor.position.x + delta[0], y = actor.position.y + delta[1];
-  if (!canOccupy(map, x, y, hostId, state.hosts)) return { state, moved: false, reason: 'collision' };
+  if (tileAt(layer(map, 'Collision'), x, y) !== 0) return { state, moved: false, reason: 'collision' };
   const timed = advanceWorldTime(state, 1, maps, [{ mapId: map.mapId, position: { x, y } }]);
+  let yielded = null;
+  if (!canOccupy(map, x, y, hostId, timed.hosts)) yielded = yieldBlockingResident(timed, map, x, y, hostId);
   if (!canOccupy(map, x, y, hostId, timed.hosts)) return { state, moved: false, reason: 'collision' };
   const next = clone(timed);
   const nextActor = hostId ? next.hosts[hostId] : next.player;
   nextActor.position = { x, y };
   nextActor.facing = direction;
   next.player.position = { x, y };
+  if (yielded) next.ledger.push({ eventId: `NPC_YIELD_${next.ledger.length + 1}`, eventType: 'NPC_YIELD', date: next.world.date, mapId: map.mapId, movingHostId: hostId, hostId: yielded.hostId, from: yielded.from, to: yielded.to, reason: 'resident_makes_room_for_player' });
   return { state: next, moved: true, reason: null };
 }
 
@@ -641,9 +736,10 @@ function saveGame(state) {
 
 function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {}) {
   const envelope = typeof raw === 'string' ? JSON.parse(raw) : raw;
-  if (![1, 2, SAVE_VERSION].includes(envelope?.saveVersion) || !envelope.state || envelope.checksum !== stateHash(envelope.state)) throw new Error('Invalid or corrupted V33 save');
+  if (![1, 2, 3, SAVE_VERSION].includes(envelope?.saveVersion) || !envelope.state || envelope.checksum !== stateHash(envelope.state)) throw new Error('Invalid or corrupted V36 save');
   const state = clone(envelope.state);
   state.version = SAVE_VERSION;
+  state.player.gameSaveVersion = SAVE_VERSION;
   if (!state.player.dialogueGrowth) {
     const legacyNotes = new Map();
     for (const entry of state.ledger ?? []) if (entry.eventType === 'DIALOGUE_TURN' && entry.discussionId && !legacyNotes.has(entry.discussionId)) legacyNotes.set(entry.discussionId, { discussionId: entry.discussionId, hostId: entry.hostId, date: entry.date });
@@ -692,6 +788,7 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
     if (host) {
       host.schedule ??= clone(card.schedule ?? []);
       host.situationNotes ??= [];
+      host.activeGoal ??= null;
       host.needs ??= initialNpcNeeds(card, state.world.clockMinutes);
       const slot = scheduleEntry(host, state.world.clockMinutes);
       host.scheduleId ??= slot ? `${slot.mapId}:${slot.atMinute}` : null;

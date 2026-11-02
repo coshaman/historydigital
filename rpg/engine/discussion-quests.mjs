@@ -67,10 +67,10 @@ export function discussionBoardView(quests, hostId = null, hostNames = {}) {
       return `${quest.titleKo} · ${quest.perspectiveHostIds?.length ?? 0}/${quest.requiredPerspectiveCount ?? 2} 관점 · ${firstName}에게 먼저 묻기: “${firstQuestion}”`;
     });
   return {
-    progressKo: `사건·사상 견해 조사 · ${completedCount} / ${(quests ?? []).length} 완료`,
+    progressKo: `사건과 생각을 묻기 · ${completedCount} / ${(quests ?? []).length} 완료`,
     guidanceKo: hostId
-      ? '아래 질문을 골라 첫 관점을 기록하세요. 이어서 다른 인물의 몸으로 바꿔 같은 쟁점을 물으면 2/2로 마무리됩니다.'
-      : '진행 방법 · 가까운 사람에게 빙의해 대화하고, 아래 첫 질문을 고르세요. 다른 인물의 몸으로 바꿔 같은 쟁점을 한 번 더 물으면 두 관점이 기록됩니다.',
+      ? '아래 질문을 이 인물에게 해보세요. 다른 직업의 사람에게 같은 문제를 다시 물으면 두 관점이 기록됩니다.'
+      : '아래 질문 하나를 골라 가까운 사람에게 물어보세요. 다른 직업의 사람에게 같은 문제를 다시 물으면 두 관점을 비교할 수 있습니다.',
     rows,
     visible: active.length > 0,
   };

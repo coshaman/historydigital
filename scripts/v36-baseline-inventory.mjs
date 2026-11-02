@@ -3,7 +3,7 @@ import { mkdir, readFile, readdir, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const root = process.cwd();
-const out = path.join(root, 'docs', 'v36', 'baseline');
+const out = path.join(root, 'docs', 'v36', 'current-audit');
 const git = (...args) => execFileSync('git', ['-c', `safe.directory=${root.replaceAll('\\', '/')}`, ...args], { cwd: root, encoding: 'utf8' }).trim();
 const json = async file => JSON.parse(await readFile(path.join(root, file), 'utf8'));
 const csvCell = value => `"${String(value ?? '').replaceAll('"', '""')}"`;
@@ -40,7 +40,7 @@ const npcRows = characters.map(person => {
     [...new Set(questHostIds.get(id) ?? [])].join('|'), playableInClient ? 'catalogued; runtime possession still requires live reachability' : 'restricted/reconstruction; verify route-specific constraints',
     (person.sourceIds ?? []).join('|'), person.sprite?.file ?? person.spriteAtlas?.file ?? '', person.portrait?.file ?? ''];
 });
-await writeFile(path.join(out, 'NPC_EXISTING_INVENTORY.csv'), csv(
+await writeFile(path.join(out, 'NPC_ROSTER_AUDIT.csv'), csv(
   ['id','baseline_class','kind','name_ko','occupation','social_estate','start_map','allowed_maps','schedule_entries','scheduled_map_ids','personal_objective','quest_action_coverage','possession_baseline','source_ids','sprite_path','portrait_path'], npcRows), 'utf8');
 
 const mapRows = maps.map(map => {
@@ -59,7 +59,7 @@ const mapIdSet = new Set(mapRows.map(map => map.mapId));
 for (const map of mapRows) map.mapExits = map.mapExits.map(exit => ({ ...exit, targetExists: mapIdSet.has(exit.targetMapId) }));
 const cityMaps = mapRows.filter(map => map.mapClass !== 'LITERARY_REALM');
 const interiorCandidates = cityMaps.filter(map => /interior|room|office|shop|station|house/i.test(map.geography)).map(map => map.mapId);
-await writeFile(path.join(out, 'MAP_GRAPH_BASELINE.json'), JSON.stringify({ baselineCommit: commit, generatedAt,
+await writeFile(path.join(out, 'MAP_GRAPH_AUDIT.json'), JSON.stringify({ auditedHead: commit, generatedAt,
   summary: { totalMaps: mapRows.length, cityAndReconstructionMaps: cityMaps.length,
     literaryMapsSeparate: mapRows.length - cityMaps.length, knownInteriorCandidatesByMetadata: interiorCandidates,
     totalInteractionObjects: mapRows.reduce((sum, map) => sum + map.interactionObjects, 0),
@@ -95,7 +95,7 @@ const assetRows = await Promise.all(assetFiles.map(async file => {
     record?.type ?? 'NO_PROVENANCE_RECORD', record?.generatedBy ?? '', record?.license ?? 'UNRECORDED',
     (record?.sourceIds ?? []).join('|'), (record?.sourceUrls ?? []).join('|'), record?.historicalConfidence ?? 'UNRECORDED', record?.notes ?? ''];
 }));
-await writeFile(path.join(out, 'ASSET_BASELINE.csv'), csv(
+await writeFile(path.join(out, 'ASSET_AUDIT.csv'), csv(
   ['asset_id','path','bytes','dimensions','asset_type','generated_by','license','source_ids','source_urls','historical_confidence','notes'], assetRows), 'utf8');
 
 const questRows = [];
@@ -103,23 +103,38 @@ for (const quest of quests) questRows.push([quest.id, 'campaign_or_case', quest.
   quest.actions?.length ?? 0, [...new Set((quest.actions ?? []).flatMap(action => action.hostIds ?? []))].join('|'),
   [...new Set((quest.actions ?? []).flatMap(action => action.sourceIds ?? []))].join('|'), quest.historicalOutcome?.id ?? '', quest.historicalOutcome?.value ?? '']);
 const discussion = await json('rpg/data/discussion-quests.json');
+const districts = await json('rpg/data/city-districts-v36.json');
 for (const quest of discussion.quests ?? []) questRows.push([quest.id, 'opinion_or_perspective', '', quest.date ?? '', quest.titleKo ?? '',
   Object.keys(quest.hosts ?? {}).length, Object.keys(quest.hosts ?? {}).join('|'), (quest.sourceIds ?? []).join('|'), '', '']);
-await writeFile(path.join(out, 'QUEST_BASELINE.csv'), csv(
+await writeFile(path.join(out, 'QUEST_AUDIT.csv'), csv(
   ['quest_id','baseline_type','chapter_id','available_date','title_ko','action_or_host_count','host_ids','source_ids','immutable_outcome_id','historical_outcome'], questRows), 'utf8');
 
-const baseline = { baselineCommit: commit, branch, generatedAt, workingTreeStatus: git('status', '--porcelain'),
+const baseline = { auditedHead: commit, branch, generatedAt, workingTreeStatus: git('status', '--porcelain'),
   counts: { characterRecords: characters.length, fictionalCityCitizens: npcRows.filter(row => row[1] === 'FICTIONAL_CITY_CITIZEN').length,
     literaryCharacters: npcRows.filter(row => row[1] === 'LITERARY_REALM_CHARACTER').length,
     historicalReconstructions: npcRows.filter(row => row[1] === 'HISTORICAL_RECONSTRUCTION').length,
     mapRecords: maps.length, cityAndReconstructionMaps: cityMaps.length, questRecords: questRows.length,
-    personalOrCaseQuestFiles: quests.length, opinionQuestRecords: (discussion.quests ?? []).length, assetFiles: assetFiles.length },
-  knownConstraints: ['NPC schedules currently mostly move on a 5-minute simulation tick using tile paths; no 36-agent roster is present.',
-    'Character records mix fictional city residents, literary-world characters, and a historical reconstruction; these must not be counted as the same population.',
-    'Maps are stylized and not georeferenced; map citations provide context, not survey-grade in-game coordinates.',
-    'Possession availability is runtime- and reachability-dependent; catalogue presence is not proof of 30 playable residents.'] };
-await writeFile(path.join(out, 'CURRENT_HEAD_BASELINE.json'), JSON.stringify(baseline, null, 2) + '\n', 'utf8');
+    personalOrCaseQuestFiles: quests.length, opinionQuestRecords: (discussion.quests ?? []).length, assetFiles: assetFiles.length,
+    registeredGameplayDistricts: (districts.districts ?? []).length,
+    playableDistricts: (districts.districts ?? []).filter(district => district.prototypeStatus === 'PHASE_1_PLAYABLE_PROTOTYPE').length,
+    currentCityNonExitInteractionObjects: cityMaps.reduce((sum, map) => sum + map.interactionObjects - map.mapExits.length, 0),
+    distinctProvenanceAssetTypes: new Set((provenance.assets ?? []).map(asset => asset.type)).size },
+  rosterGaps: { scheduleUnderFour: characters.filter(person => person.kind === 'FICTIONAL' && !person.id.startsWith('literary_') && (person.schedule ?? []).length < 4).map(person => person.id),
+    residentsWithTwoAuthoredActorRelations: characters.filter(person => person.kind === 'FICTIONAL' && !person.id.startsWith('literary_') && Object.keys(person.relations ?? {}).length >= 2).length,
+    residentsWithExplicitNeedsProfile: characters.filter(person => person.kind === 'FICTIONAL' && !person.id.startsWith('literary_') && Boolean(person.needs)).length,
+    residentsWithFourExplicitTodayGoals: characters.filter(person => person.kind === 'FICTIONAL' && !person.id.startsWith('literary_') && (person.todayGoals ?? []).length >= 4).length,
+    residentsWithPersonalObjective: characters.filter(person => person.kind === 'FICTIONAL' && !person.id.startsWith('literary_') && Boolean(person.personalObjective)).length },
+  questGaps: { threeStagePersonalQuestRecords: quests.filter(quest => quest.lifeChain?.stageCount >= 3).length,
+    uniqueAuthoredLifeChains: new Set(quests.map(quest => quest.lifeChain?.id).filter(Boolean)).size,
+    threeStagePersonalQuestChains: new Set(quests.filter(quest => quest.lifeChain?.stageCount >= 3).map(quest => quest.lifeChain.id)).size },
+  knownConstraints: ['The 36 fictional city residents exist as active cards, but route-specific possession is not proven by the roster count.',
+    'NPC movement is still primarily schedule-led; the new utility layer currently selects one hunger-driven meal goal and tracks authored delivery/trade partners, not a general competing-goal planner.',
+    'The current city prototype connects three gameplay districts and has three usable interiors, below the V36 targets of six and eight.',
+    'The cohort has 26 primarily single-choice work quests and one six-stage life chain; it does not meet the 30 three-stage personal quest or 10 social-chain targets.',
+    'Maps are stylized and not georeferenced; cited records contextualize them but do not prove survey-grade in-game coordinates.',
+    'Local live-provider smoke does not verify the Vercel production deployment or its environment variables.'] };
+await writeFile(path.join(out, 'HEAD_AUDIT.json'), JSON.stringify(baseline, null, 2) + '\n', 'utf8');
 
-await writeFile(path.join(out, 'API_REGRESSION.md'), `# API baseline — V36 PHASE 0\n\nBaseline HEAD: \`${commit}\` (${branch})\n\n- Deployment contract: Vercel same-origin functions; no Cloudflare worker or external client-side key.\n- Runtime routes: \`/api/rpg/health\`, \`/api/rpg/session/start\`, \`/api/rpg/dialogue\`.\n- Secret configuration name: \`OPENAI_API_KEY\` (value intentionally not recorded); optional \`OPENAI_DIALOGUE_MODEL\`.\n- Dialogue uses a server-created, signed session and validated model response. NPC schedule simulation is local deterministic game-state code and must not call the LLM.\n- Required regression coverage: successful generated turn, missing-key authored fallback, provider 429/5xx/timeout fallback, invalid response rejection, session recovery, no client-side secret, no AI mutation of authoritative quest/economy state.\n- Baseline smoke evidence before V36 expansion: one paid live generation passed using local environment configuration on 2026-11-02; no key value is stored in this report.\n- Current known risk: serverless deployment configuration and production environment must be checked from the target Vercel project; local smoke alone does not prove production settings.\n`, 'utf8');
+await writeFile(path.join(out, 'API_AUDIT.md'), `# API audit — current V36 checkpoint\n\nAudited HEAD: \`${commit}\` (${branch})\n\n- Deployment contract: Vercel same-origin functions; no Cloudflare worker or external client-side key.\n- Runtime routes: \`/api/rpg/health\`, \`/api/rpg/session/start\`, \`/api/rpg/dialogue\`.\n- Secret configuration name: \`OPENAI_API_KEY\` (value intentionally not recorded); optional \`OPENAI_DIALOGUE_MODEL\`.\n- Dialogue uses a server-created, signed session and validated model response. NPC simulation must not call the LLM.\n- Regression coverage includes generated turns, missing-key fallback, provider 429/5xx/timeout, invalid response rejection, session recovery, and authoritative-state protection.\n- One local paid generation passed on 2026-11-02; this verifies local response generation only. Vercel production deployment and environment settings remain unverified.\n`, 'utf8');
 
-console.log(JSON.stringify({ status: 'PASS', baselineCommit: commit, output: path.relative(root, out).replaceAll('\\', '/'), counts: baseline.counts }, null, 2));
+console.log(JSON.stringify({ status: 'AUDITED', auditedHead: commit, output: path.relative(root, out).replaceAll('\\', '/'), counts: baseline.counts, constraints: baseline.knownConstraints }, null, 2));

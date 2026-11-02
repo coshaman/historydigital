@@ -16,7 +16,7 @@ const quests = await Promise.all(questFiles.map(id => json(`../rpg/quests/${id}.
 
 function simulate() {
   let state = game.createInitialState({ maps, hostCards: cards, quests, startMapId: 'nevsky' });
-  const startHash = game.stateHash(state), startingQuestState = JSON.stringify(state.quests), moved = new Set(), activeStates = new Set(), changedStateResidents = new Set(), exchanges = [], meals = [], checked = [];
+  const startHash = game.stateHash(state), startingQuestState = JSON.stringify(state.quests), moved = new Set(), activeStates = new Set(), changedStateResidents = new Set(), exchanges = [], meals = [], goals = [], checked = [];
   for (let minutes = 5; minutes <= 1440; minutes += 5) {
     const before = state;
     state = game.advanceNpcWorld(state, 5, maps);
@@ -24,6 +24,7 @@ function simulate() {
     for (const change of event?.stateChanges ?? []) { activeStates.add(change.to); changedStateResidents.add(change.hostId); }
     exchanges.push(...(event?.exchanges ?? []).map(exchange => ({ ...exchange, occurredAt: event.startClockMinutes + exchange.minute })));
     meals.push(...(event?.meals ?? []).map(meal => ({ ...meal, occurredAt: event.startClockMinutes + meal.minute })));
+    goals.push(...(event?.goals ?? []));
     for (const move of event?.moves ?? []) {
       moved.add(move.hostId);
       if (move.fromMapId !== move.toMapId) assert.ok(move.viaExit, `map change without a door: ${move.hostId}`);
@@ -42,7 +43,7 @@ function simulate() {
   const saved = game.saveGame(state);
   const loaded = game.loadGame(saved, { maps, hostCards: cards, quests });
   assert.equal(game.stateHash(loaded), game.stateHash(state), 'save/load lost the simulated cohort state');
-  return { endHash: game.stateHash(state), moves: state.ledger.filter(event => event.eventType === 'NPC_SIMULATION').flatMap(event => event.moves).length, exchanges, meals, moved: [...moved].sort(), changedStateResidents: [...changedStateResidents].sort(), activeStates: [...activeStates].sort(), checks: checked.length };
+  return { endHash: game.stateHash(state), moves: state.ledger.filter(event => event.eventType === 'NPC_SIMULATION').flatMap(event => event.moves).length, exchanges, meals, goals, moved: [...moved].sort(), changedStateResidents: [...changedStateResidents].sort(), activeStates: [...activeStates].sort(), checks: checked.length };
 }
 
 const a = simulate(), b = simulate();
@@ -53,10 +54,12 @@ assert.equal(a.meals[0].hostId, 'market_nadezhda');
 assert.equal(a.meals[0].itemKo, '빵 한 묶음');
 assert.equal(a.meals[0].occurredAt, 1045, 'the resident eats after physically reaching the scheduled meal location');
 assert.ok(a.meals[0].hungerAfter < a.meals[0].hungerBefore, 'the resident need should trigger and benefit from the meal');
+assert.ok(a.goals.some(goal => goal.hostId === 'baker_fyodor' && goal.type === 'FOLLOW_TRADE_PARTNER' && goal.targetHostId === 'market_nadezhda'));
+assert.ok(a.goals.some(goal => goal.hostId === 'market_nadezhda' && goal.type === 'NEED_MEAL' && goal.taskId === 'NADEZHDA_EVENING_BREAD_1847'));
 assert.equal(cards.length, 36, 'expected 36 active fictional city residents');
 const cohortIds=['yardkeeper_semyon','laundress_mariya','baker_fyodor','market_nadezhda','porter_gavrila','coachman_timofey','housemaid_olga','midwife_avdotya','apothecary_yakov','print_apprentice_stepan','bookbinder_elizaveta','scribal_yuri','innkeeper_irina','student_vasily','teacher_lyubov','minor_noble_andrei','landlady_polina','watercarrier_luka','fishseller_klavdiya','warehouse_pyotr','servant_varvara','junior_guard_sergey','carter_roman','street_vendor_matryona','typesetter_nikita','lodging_tatyana'];
 for (const id of cohortIds) assert.ok(a.moved.includes(id), `${id} did not move during the day`);
 assert.deepEqual(a.changedStateResidents, [...cards.map(card => card.id)].sort(), 'every resident must enter an observable routine state');
 assert.ok(a.activeStates.includes('TRAVELLING'), 'the FSM should expose route-following');
 assert.ok(a.activeStates.includes('WORKING'), 'the FSM should expose scheduled work');
-console.log(JSON.stringify({ status: 'PASS', residents: cards.length, durationMinutes: 1440, deterministicReplays: 2, saveReloadParity: true, occupancyChecks: a.checks, movementCount: a.moves, exchangeCount: a.exchanges.length, exchanges: a.exchanges, mealCount: a.meals.length, meals: a.meals, routineStateKinds: a.activeStates, routineStateResidents: a.changedStateResidents.length, newResidentsMoved: a.moved.filter(id => cohortIds.includes(id)) }, null, 2));
+console.log(JSON.stringify({ status: 'PASS', residents: cards.length, durationMinutes: 1440, deterministicReplays: 2, saveReloadParity: true, occupancyChecks: a.checks, movementCount: a.moves, goalSelectionCount: a.goals.length, goalTypes: [...new Set(a.goals.map(goal => goal.type))], exchangeCount: a.exchanges.length, exchanges: a.exchanges, mealCount: a.meals.length, meals: a.meals, routineStateKinds: a.activeStates, routineStateResidents: a.changedStateResidents.length, newResidentsMoved: a.moved.filter(id => cohortIds.includes(id)) }, null, 2));

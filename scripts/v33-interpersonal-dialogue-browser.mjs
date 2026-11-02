@@ -73,8 +73,8 @@ try {
     const settingsLayout = await page.locator('#api-settings').evaluate(element => { const rect=element.getBoundingClientRect(); return { width:rect.width,height:rect.height,right:rect.right,bottom:rect.bottom }; });
     assert.ok(settingsLayout.width <= viewport.width && settingsLayout.height <= viewport.height, `API settings dialog fits viewport ${viewport.width}`);
     const initialInquiryBoard = await page.locator('#discussion-quest-board').innerText();
-    assert.match(initialInquiryBoard, /사건·사상 견해 조사/);
-    assert.match(initialInquiryBoard, /다른 인물의 몸으로 바꿔 같은 쟁점/);
+    assert.match(initialInquiryBoard, /사건과 생각을 묻기/);
+    assert.match(initialInquiryBoard, /다른 직업의 사람에게 같은 문제/);
     assert.match(initialInquiryBoard, /0\/2 관점/);
     assert.match(initialInquiryBoard, /검열|책에서|명령/);
     assert.equal(dialogueRequests.length, dialogueCountBeforeHealth, 'health probe does not create an AI dialogue');

@@ -78,6 +78,11 @@ test('AI dialogue receives the embodied public character context and keeps each 
   assert.equal(observed[0].conversation.embodiedPlayer.money, undefined);
   assert.match(observedInstructions[0], /playerKnownFacts[\s\S]*NPC 대사에서 누설하지 않는다/);
   assert.match(observedInstructions[0], /인물마다 말버릇을 한두 개만 살리고 직업 설명을 대사마다 반복하지 않는다/);
+  assert.match(observedInstructions[0], /인물의 목소리는 주장만 바꾸는 것으로 구분되지 않는다/);
+  assert.match(observedInstructions[0], /알렉세이는 지시와 확인 사실을 나눠 적는 서기답게/);
+  assert.match(observedInstructions[0], /예카테리나는 인쇄와 교정의 손에 잡히는 문제/);
+  assert.match(observedInstructions[0], /파벨은 길·날씨·시각·봉인/);
+  assert.match(observedInstructions[0], /안나는 품삯·방세·마감/);
   assert.match(observedInstructions[0], /관계와 상황에 따라 존대·반말의 거리를 자연스럽게 조절/);
   assert.match(observedInstructions[0], /인물 카드의 두려움이나 목표를 그대로 되풀이하지 말고/);
   assert.deepEqual(observed[0].recentTurns, []);

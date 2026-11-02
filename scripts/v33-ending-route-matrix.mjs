@@ -11,7 +11,17 @@ const root = process.cwd();
 const read = relative => fs.readFile(path.join(root, relative), 'utf8').then(JSON.parse);
 const maps = Object.fromEntries(await Promise.all((await fs.readdir(path.join(root, 'rpg/maps'))).filter(file => file.endsWith('.json')).map(async file => [path.basename(file, '.json'), await read(`rpg/maps/${file}`)])));
 const cards = await Promise.all((await fs.readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => read(`rpg/characters/${file}`)));
-const quests = await Promise.all(['printshop-article', 'public-discourse-1848', 'circle-investigation-1849', 'circle-letter-1849-may', 'literary-dead-souls', 'literary-overcoat'].map(name => read(`rpg/quests/${name}.json`)));
+export const runtimeQuestIds = [
+  'printshop-article', 'public-discourse-1848', 'circle-investigation-1849', 'circle-letter-1849-may',
+  'literary-dead-souls', 'literary-overcoat', 'yard-ledger-1847', 'laundry-wages-1847',
+  'bakery-flour-1847', 'market-prices-1847', 'porter-load-1847', 'coach-fare-1847',
+  'household-privacy-1847', 'midwife-care-cost-1847', 'apothecary-limits-1847', 'apprentice-authorship-1847',
+  'bookbinder-damage-1847', 'scribal-copy-1847', 'inn-debt-rumor-1847', 'student-circle-risk-1847',
+  'teacher-access-cost-1847', 'noble-status-debt-1847', 'landlady-rent-commons-1847', 'water-access-queue-1847',
+  'fish-storage-time-1847', 'warehouse-loss-record-1847', 'servant-private-warning-1847', 'guard-entry-bribe-1847',
+  'carter-delivery-delay-1847', 'street-vendor-weather-1847', 'typesetter-speed-censorship-1847', 'lodging-reading-income-1847',
+];
+const quests = await Promise.all(runtimeQuestIds.map(name => read(`rpg/quests/${name}.json`)));
 const campaign = await read('rpg/quests/campaign.json');
 const learningExam = await read('rpg/data/learning-exam.json');
 

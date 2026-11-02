@@ -47,7 +47,7 @@ try {
       rows: [...document.querySelectorAll('#discussion-quest-items li')].map(item => item.textContent),
       overflowX: document.documentElement.scrollWidth > innerWidth,
     }));
-    if (!result.boardVisible || !result.missionVisible || !/빙의해 대화/.test(result.guidance) || result.rows.length < 1 || result.overflowX || errors.length) {
+    if (!result.boardVisible || !result.missionVisible || !/다른 직업의 사람에게 같은 문제/.test(result.guidance) || result.rows.length < 16 || result.overflowX || errors.length) {
       throw new Error(`opinion_board_not_actionable:${JSON.stringify({ result, errors })}`);
     }
     checks.push({ ...result, pageErrors: errors });
@@ -88,7 +88,7 @@ try {
     const event = [...state.ledger].reverse().find(item => item.discussionId === 'INQUIRY_CENSORSHIP_AND_LABOR');
     return { aiGenerated: event?.aiGenerated === true, discussionId: event?.discussionId, lastLedgerEvent: state.ledger.at(-1), perspectiveCount: state.player.dialogueGrowth.perspectiveNotes.filter(note => note.discussionId === event?.discussionId).length, aiReplyCount: state.player.dialogueGrowth.aiReplies, boardRows: [...document.querySelectorAll('#discussion-quest-items li')].map(item => item.textContent), boardGuidance: document.querySelector('#discussion-quest-guidance')?.textContent, recordText: document.querySelector('#record')?.textContent, answerText: document.querySelector('#journal-text')?.textContent, dialogueHistory: document.querySelector('#dialogue-history-lines')?.textContent, remainingButtons: [...document.querySelectorAll('#actions button')].map(button => button.textContent) };
   });
-  if (offlineResult.aiGenerated || offlineResult.discussionId !== 'INQUIRY_CENSORSHIP_AND_LABOR' || offlineResult.perspectiveCount !== 1 || offlineResult.aiReplyCount !== 0 || !offlineResult.boardRows.some(row => /1\/2 관점/.test(row)) || !/다른 인물의 몸으로 바꿔/.test(offlineResult.boardGuidance) || errors.length) {
+  if (offlineResult.aiGenerated || offlineResult.discussionId !== 'INQUIRY_CENSORSHIP_AND_LABOR' || offlineResult.perspectiveCount !== 1 || offlineResult.aiReplyCount !== 0 || !offlineResult.boardRows.some(row => /1\/2 관점/.test(row)) || !/다른 직업의 사람에게 같은 문제/.test(offlineResult.boardGuidance) || errors.length) {
     throw new Error(`offline_question_did_not_progress_honestly:${JSON.stringify({ offlineResult, conversationProbe, errors })}`);
   }
   await page.getByRole('button', { name: '대화 마치기' }).click();

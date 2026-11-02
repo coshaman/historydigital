@@ -177,6 +177,7 @@
     "v35-actor-audit": "node scripts/v35-actor-visibility-audit.mjs",
     "v36-tie-baseline": "node scripts/v36-ending-tie-baseline.mjs",
     "v36-baseline": "node scripts/v36-baseline-inventory.mjs",
+    "v36-current-audit": "node scripts/v36-baseline-inventory.mjs",
     "v36-baseline-browser": "node scripts/v36-baseline-browser-capture.mjs",
     "v36-first-slice-sim": "node scripts/v36-first-slice-simulation.mjs",
     "v36-district-prototype-test": "node --test scripts/v36-district-prototype-test.mjs",

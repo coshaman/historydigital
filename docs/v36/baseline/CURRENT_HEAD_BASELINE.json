@@ -1,19 +1,19 @@
 {
-  "baselineCommit": "90399812ff64d447f61dc72c16a342335d870cf1",
+  "baselineCommit": "7974392eb6e30a19607ff306972159fe5cd47b2e",
   "branch": "codex/master-dialogue-opinions",
-  "generatedAt": "2026-11-02T12:58:28.150Z",
-  "workingTreeStatus": "M docs/v36/baseline/API_REGRESSION.md\n M docs/v36/baseline/ASSET_BASELINE.csv\n M docs/v36/baseline/CURRENT_HEAD_BASELINE.json\n M docs/v36/baseline/MAP_GRAPH_BASELINE.json\n M docs/v36/baseline/NPC_EXISTING_INVENTORY.csv\n M docs/v36/baseline/QUEST_BASELINE.csv",
+  "generatedAt": "2026-11-02T08:55:05.174Z",
+  "workingTreeStatus": "M package.json\n?? docs/v36/\n?? scripts/v36-baseline-inventory.mjs",
   "counts": {
-    "characterRecords": 40,
-    "fictionalCityCitizens": 36,
+    "characterRecords": 14,
+    "fictionalCityCitizens": 10,
     "literaryCharacters": 3,
     "historicalReconstructions": 1,
-    "mapRecords": 8,
-    "cityAndReconstructionMaps": 6,
-    "questRecords": 56,
-    "personalOrCaseQuestFiles": 33,
-    "opinionQuestRecords": 23,
-    "assetFiles": 80
+    "mapRecords": 7,
+    "cityAndReconstructionMaps": 5,
+    "questRecords": 20,
+    "personalOrCaseQuestFiles": 7,
+    "opinionQuestRecords": 13,
+    "assetFiles": 28
   },
   "knownConstraints": [
     "NPC schedules currently mostly move on a 5-minute simulation tick using tile paths; no 36-agent roster is present.",

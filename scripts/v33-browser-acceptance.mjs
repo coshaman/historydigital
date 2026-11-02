@@ -38,10 +38,19 @@ try {
   const campaignCase = process.argv.find(argument => argument.startsWith('--campaign-case='))?.slice('--campaign-case='.length);
   const overcoatOnly = process.argv.includes('--overcoat-only');
 const atmosphereOnly = process.argv.includes('--atmosphere-only');
+const endingOnly = process.argv.includes('--ending-only');
+const rpgOnly = process.argv.includes('--rpg-only');
+const campaignOnly = process.argv.includes('--campaign-only');
 const scripts = atmosphereOnly
     ? [['scripts/v33-atmosphere-browser.mjs']]
     : overcoatOnly
     ? [['scripts/v33-overcoat-browser-smoke.mjs']]
+    : endingOnly
+    ? [['scripts/v33-ending-browser-smoke.mjs']]
+    : rpgOnly
+    ? [['scripts/v33-rpg-browser-smoke.mjs']]
+    : campaignOnly
+    ? [['scripts/v33-campaign-browser-acceptance.mjs']]
     : campaignCase
     ? [['scripts/v33-campaign-browser-acceptance.mjs', `--case=${campaignCase}`]]
     : [
@@ -56,7 +65,7 @@ const scripts = atmosphereOnly
     console.log(`\n> ${script} (${url})`);
     const result = spawnSync(process.execPath, [script, ...scriptArgs], {
       cwd: root,
-      env: { ...process.env, V33_RPG_URL: url },
+      env: { ...process.env, V33_RPG_URL: url, ...(rpgOnly ? { V33_BROWSER_RUN_ID: new Date().toISOString().replaceAll(':', '-') } : {}) },
       stdio: 'inherit',
       timeout: 15 * 60 * 1000,
       windowsHide: true,

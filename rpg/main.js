@@ -1007,8 +1007,9 @@ function interact() {
     const peopleChoices = nearbyPeople.map(item => {
       const hostId = mapObjectProperties(item).hostId, card = cards.find(character => character.id === hostId), person = state.hosts[hostId];
       const routineStateKo = ({ TRAVELLING: '이동 중', WORKING: '일하는 중', TRADING: '거래 중', RESTING: '쉬는 중', SOCIALIZING: '사람들과 이야기하는 중', DELIVERING: '물건을 전하는 중', POSSESSED: '다른 이의 시야에 들어와 있음' })[person.routineState?.state] ?? '자기 일과를 보내는 중';
+      const goalKo = ({ FOLLOW_RECIPIENT: '받을 사람을 찾아가는 중', FOLLOW_TRADE_PARTNER: '거래 상대를 찾아가는 중', NEED_MEAL: '허기를 채우러 가는 중' })[person.activeGoal?.type] ?? person.currentActivityKo ?? card.personalObjective;
       const hungerKo = (person.needs?.hunger ?? 0) >= 65 ? '끼니가 급함' : (person.needs?.hunger ?? 0) >= 45 ? '허기를 느끼는 중' : '허기 낮음';
-      return { label: `${card.displayNameKo} 살펴보기`, subcopy: `${card.occupation} · ${routineStateKo} · ${hungerKo} · ${person.currentActivityKo || card.personalObjective}`, run: () => inspect(item) };
+      return { label: `${card.displayNameKo} 살펴보기`, subcopy: `${card.occupation} · ${routineStateKo} · ${goalKo} · ${hungerKo}`, run: () => inspect(item) };
     });
     const nearbyObjects = near.filter(item => ['source', 'map-exit', 'quest-object'].includes(item.type) || Boolean(mapObjectProperties(item).serviceId)).map(item => {
       const props = mapObjectProperties(item);

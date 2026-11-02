@@ -10,7 +10,7 @@ const game = require('../rpg/engine/game-state.js');
 test('discussion quests unlock by campaign date and preserve fictional viewpoint boundaries', () => {
   const state = { world: { date: '1847-06-01' }, ledger: [] };
   const quests = availableDiscussionQuests(state, definitions);
-  assert.equal(quests.length, 6, 'six viewpoint missions are available from the opening date');
+  assert.equal(quests.length, 16, 'sixteen philosophy, event, and daily-life viewpoint missions are available from the opening date');
   assert.deepEqual(quests.map(quest => quest.id), [
     'INQUIRY_OFFICIAL_DUTY_AND_MORALITY',
     'INQUIRY_IDEAS_AND_LIVED_LIFE',
@@ -18,6 +18,16 @@ test('discussion quests unlock by campaign date and preserve fictional viewpoint
     'INQUIRY_CENSORSHIP_AND_LABOR',
     'INQUIRY_CENSORSHIP_AND_PUBLIC_ORDER',
     'INQUIRY_REFORM_AND_LIVED_COST',
+    'INQUIRY_WAGES_AND_NEIGHBORHOOD_1847',
+    'INQUIRY_PRICE_AND_WORK_1847',
+    'INQUIRY_RISK_AND_CHOICE_1847',
+    'INQUIRY_PRIVACY_AND_TESTIMONY_1847',
+    'INQUIRY_CARE_AND_COST_1847',
+    'INQUIRY_AUTHORSHIP_AND_CRAFT_1847',
+    'INQUIRY_SCARCITY_AND_PUBLIC_SPACE_1847',
+    'INQUIRY_RECORD_AND_AUTHORITY_1847',
+    'INQUIRY_PRINT_LABOR_AND_TRUTH_1847',
+    'INQUIRY_LEARNING_AND_LIVELIHOOD_1847',
   ]);
   assert.equal(definitions.historicalBoundaryKo.includes('실제 발언'), true);
   assert.equal(quests.every(quest => quest.sourceIds.every(sourceId => typeof sourceId === 'string')), true);
@@ -73,8 +83,8 @@ test('the opening opinion quests tell a first-time player what to do before poss
   const quests = availableDiscussionQuests({ world: { date: '1847-06-01' }, ledger: [] }, definitions);
   const board = discussionBoardView(quests, null, { clerk_alexei: '알렉세이', senior_clerk_konstantin: '콘스탄틴' });
   assert.equal(board.visible, true);
-  assert.match(board.progressKo, /사건·사상 견해 조사/);
-  assert.match(board.guidanceKo, /빙의해 대화하고.*같은 쟁점을 한 번 더/);
+  assert.match(board.progressKo, /사건과 생각을 묻기/);
+  assert.match(board.guidanceKo, /가까운 사람에게 물어보세요.*다른 직업의 사람에게 같은 문제/);
   assert.match(board.rows[0], /먼저 묻기/);
   assert.match(board.rows[0], /명령이 절차에 맞더라도 결과가 부당/);
   assert.match(board.rows.join(' '), /알렉세이|콘스탄틴/);

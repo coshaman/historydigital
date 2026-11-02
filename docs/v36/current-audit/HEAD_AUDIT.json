@@ -1,0 +1,47 @@
+{
+  "auditedHead": "e8d728028881831fdcfdf7e9bff03c4975e31f40",
+  "branch": "codex/master-dialogue-opinions",
+  "generatedAt": "2026-11-02T14:54:29.148Z",
+  "workingTreeStatus": "M ai/v33/session-runtime.cjs\n M artifacts/v33/INTERPERSONAL_DIALOGUE/anna-speaks-with-ekaterina-1366.png\n M artifacts/v33/INTERPERSONAL_DIALOGUE/anna-speaks-with-ekaterina-1440.png\n M artifacts/v33/INTERPERSONAL_DIALOGUE/anna-speaks-with-ekaterina-360.png\n M artifacts/v33/INTERPERSONAL_DIALOGUE/anna-speaks-with-ekaterina-390.png\n M artifacts/v33/OVERCOAT_REALM/BROWSER_SMOKE.json\n M artifacts/v33/OVERCOAT_REALM/akaky-record-1440x900.png\n M artifacts/v33/V33_RPG_PHASE1/BROWSER_SMOKE.json\n M artifacts/v33/V33_RPG_PHASE1/clue-1111x720.png\n M artifacts/v33/V33_RPG_PHASE1/clue-1366x768.png\n M artifacts/v33/V33_RPG_PHASE1/clue-1440x900.png\n M artifacts/v33/V33_RPG_PHASE1/clue-360x800.png\n M artifacts/v33/V33_RPG_PHASE1/clue-390x844.png\n M artifacts/v33/V33_RPG_PHASE1/courtyard-rent-1440x900.png\n M artifacts/v33/V33_RPG_PHASE1/printshop-source-choice-1440x900.png\n M docs/v35/screenshots/source-reader-overcoat-1366x768.png\n M docs/v35/screenshots/source-reader-overcoat-1440x900.png\n M docs/v35/screenshots/source-reader-overcoat-360x800.png\n M docs/v35/screenshots/source-reader-overcoat-390x844.png\n M docs/v36/baseline/API_REGRESSION.md\n M docs/v36/baseline/ASSET_BASELINE.csv\n M docs/v36/baseline/BASELINE_HEAD_AND_DIFF.md\n M docs/v36/baseline/CURRENT_HEAD_BASELINE.json\n M docs/v36/baseline/MAP_GRAPH_BASELINE.json\n M docs/v36/baseline/NPC_EXISTING_INVENTORY.csv\n M docs/v36/baseline/QUEST_BASELINE.csv\n M package.json\n M rpg/engine/discussion-quests.mjs\n M rpg/engine/game-state.js\n M rpg/main.js\n M scripts/v33-learning-life.test.mjs\n M scripts/v35-discussion-quests.test.mjs\n M scripts/v36-baseline-inventory.mjs\n M scripts/v36-market-cohort-simulation.mjs\n M scripts/v36-save-migration.mjs\n M scripts/v36-social-exchange-test.mjs\n?? docs/v36/SAVE_MIGRATION.json\n?? docs/v36/current-audit/",
+  "counts": {
+    "characterRecords": 40,
+    "fictionalCityCitizens": 36,
+    "literaryCharacters": 3,
+    "historicalReconstructions": 1,
+    "mapRecords": 8,
+    "cityAndReconstructionMaps": 6,
+    "questRecords": 56,
+    "personalOrCaseQuestFiles": 33,
+    "opinionQuestRecords": 23,
+    "assetFiles": 80,
+    "registeredGameplayDistricts": 3,
+    "playableDistricts": 3,
+    "currentCityNonExitInteractionObjects": 52,
+    "distinctProvenanceAssetTypes": 7
+  },
+  "rosterGaps": {
+    "scheduleUnderFour": [
+      "editor_sofia",
+      "police_sergeant_ivan",
+      "reader_darya",
+      "senior_clerk_konstantin"
+    ],
+    "residentsWithTwoAuthoredActorRelations": 0,
+    "residentsWithExplicitNeedsProfile": 0,
+    "residentsWithFourExplicitTodayGoals": 0,
+    "residentsWithPersonalObjective": 36
+  },
+  "questGaps": {
+    "threeStagePersonalQuestRecords": 6,
+    "uniqueAuthoredLifeChains": 1,
+    "threeStagePersonalQuestChains": 1
+  },
+  "knownConstraints": [
+    "The 36 fictional city residents exist as active cards, but route-specific possession is not proven by the roster count.",
+    "NPC movement is still primarily schedule-led; the new utility layer currently selects one hunger-driven meal goal and tracks authored delivery/trade partners, not a general competing-goal planner.",
+    "The current city prototype connects three gameplay districts and has three usable interiors, below the V36 targets of six and eight.",
+    "The cohort has 26 primarily single-choice work quests and one six-stage life chain; it does not meet the 30 three-stage personal quest or 10 social-chain targets.",
+    "Maps are stylized and not georeferenced; cited records contextualize them but do not prove survey-grade in-game coordinates.",
+    "Local live-provider smoke does not verify the Vercel production deployment or its environment variables."
+  ]
+}

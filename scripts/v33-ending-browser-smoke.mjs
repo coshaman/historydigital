@@ -3,7 +3,7 @@ import { createRequire } from 'node:module';
 import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { chromium } from 'playwright';
-import { buildRoute } from './v33-ending-route-matrix.mjs';
+import { buildRoute, runtimeQuestIds } from './v33-ending-route-matrix.mjs';
 
 const require = createRequire(import.meta.url);
 const engine = require('../rpg/engine/game-state.js');
@@ -24,21 +24,24 @@ try {
     await page.goto(base, { waitUntil: 'networkidle' });
     await page.evaluate(save => localStorage.setItem('v33-rpg-save', save), engine.saveGame(stateBeforeEnding));
     await page.reload({ waitUntil: 'networkidle' });
-    const loadedPlace = await page.locator('#place').innerText();
+    const loadWaitError = await page.waitForFunction(() => document.querySelector('#mapname')?.textContent === '관청 접수실', null, { timeout: 10000 }).then(() => null).catch(error => String(error));
+    const loadedPlace = await page.locator('#mapname').innerText();
     if (loadedPlace !== '관청 접수실') {
-      const diagnosis = await page.evaluate(async () => {
+      const diagnosis = await page.evaluate(async ({ savedHostIds, questIds }) => {
         const read = async path => (await fetch(path)).json();
-        const maps = Object.fromEntries(await Promise.all(['nevsky', 'printshop', 'chancery', 'courtyard', 'dead-souls', 'overcoat'].map(async id => [id, await read(`./rpg/maps/${id}.json`)])));
-        const hostCards = await Promise.all(['clerk_alexei','printer_ekaterina','courier_pavel','seamstress_anna','tenant_mikhail','bookseller_lev','nekrasov_reconstruction','literary_chichikov','literary_akaky','literary_petrovich'].map(id => read(`./rpg/characters/${id}.json`)));
-        const quests = await Promise.all(['printshop-article','public-discourse-1848','circle-investigation-1849','circle-letter-1849-may','literary-dead-souls','literary-overcoat'].map(id => read(`./rpg/quests/${id}.json`)));
+        const mapIds = ['nevsky', 'printshop', 'chancery', 'courtyard', 'market-quay', 'dead-souls', 'overcoat', 'police-station'];
+        const maps = Object.fromEntries(await Promise.all(mapIds.map(async id => [id, await read(`./rpg/maps/${id}.json`)])));
+        const hostCards = await Promise.all(savedHostIds.map(id => read(`./rpg/characters/${id}.json`)));
+        const quests = await Promise.all(questIds.map(id => read(`./rpg/quests/${id}.json`)));
         const learningExam = await read('./rpg/data/learning-exam.json');
         const saved = localStorage.getItem('v33-rpg-save');
+        const savedState = JSON.parse(saved).state;
         try {
           const state = window.V33GameState.loadGame(saved, { maps, hostCards, quests, learningExam });
-          return { loadError: null, savedMap: state.world.currentMapId, savedHost: state.player.embodiment, saveLength: saved?.length };
-        } catch (error) { return { loadError: String(error), saveLength: saved?.length }; }
-      });
-      throw new Error(`Ending route save failed to restore: expected 관청 접수실, saw ${loadedPlace}; ${JSON.stringify(diagnosis)}`);
+          return { loadError: null, savedMap: state.world.currentMapId, savedHost: state.player.embodiment, saveLength: saved?.length, savedHostCount: Object.keys(savedState.hosts).length, providedHostCount: hostCards.length, questCount: quests.length, missingMapIds: [...new Set(Object.values(savedState.hosts).map(host => host.mapId))].filter(id => !maps[id]) };
+        } catch (error) { return { loadError: String(error), saveLength: saved?.length, savedHostCount: Object.keys(savedState.hosts).length, providedHostCount: hostCards.length, questCount: quests.length, savedHostIds: Object.keys(savedState.hosts), providedHostIds: hostCards.map(card => card.id) }; }
+      }, { savedHostIds: Object.keys(stateBeforeEnding.hosts), questIds: runtimeQuestIds });
+      throw new Error(`Ending route save failed to restore: expected 관청 접수실, saw ${loadedPlace}; ${JSON.stringify({ diagnosis, loadWaitError, pageErrors: errors })}`);
     }
     assert.match(await page.locator('#bodyname').innerText(), /알렉세이 오를로프/);
 

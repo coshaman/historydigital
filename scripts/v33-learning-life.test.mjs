@@ -146,7 +146,7 @@ test('new game state carries a resumable learning arc; legacy version-one saves 
   const restored = gameState.loadGame(oldEnvelope, { maps, hostCards: cards, quests });
   assert.equal(restored.learning.phase, 'circle-choice');
   assert.equal(restored.ledger[0].eventId, 'OLD_RECORD');
-  assert.equal(JSON.parse(gameState.saveGame(restored)).saveVersion, 3);
+  assert.equal(JSON.parse(gameState.saveGame(restored)).saveVersion, 36);
 });
 
 test('the reducer rejects ending resolution until exam, deferral, or helping a peer is explicitly recorded', async () => {
