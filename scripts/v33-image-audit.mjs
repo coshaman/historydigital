@@ -83,7 +83,7 @@ for (const asset of provenance.assets) if (asset.path.startsWith('rpg/assets/') 
 for (const character of characters) {
   const sprite = character.sprite;
   const filename = sprite?.file?.replaceAll('\\', '/');
-  const result = results.find(item => item.path === `rpg/${filename}`);
+  const result = [...results, ...svgResults].find(item => item.path === `rpg/${filename}`);
   if (!result) { failures.push(`${character.id} references missing sprite ${sprite?.file}`); continue; }
   if (result.width % sprite.frameWidth || result.height % sprite.frameHeight) failures.push(`${character.id} sprite dimensions do not align to ${sprite.frameWidth}×${sprite.frameHeight} frames`);
   const portraitPath = character.portrait?.file?.replaceAll('\\', '/');

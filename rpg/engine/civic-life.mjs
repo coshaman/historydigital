@@ -11,6 +11,29 @@ export const NEWSPAPER_STORIES = Object.freeze([
   { id: 'CIRCLE_REPORT_1849', titleKo: '보고서에는 누가 말했는가', date: '1849-04-22', sourceId: 'OBJ-WS-PETRASHEVSKY-REPORT-1849', bodyKo: '관청 수사 보고서가 모임과 체포 지시를 어떤 출처로 엮었는지 살펴봅니다. 보고서에 적힌 주장은 보고서가 그렇게 기록했다는 사실과 구분해 싣고, 목격·전달·추정이 한 문장에 섞이지 않았는지 묻습니다.', editorialKo: '주장의 출처와 문서의 기록 방식을 함께 밝힌다.' },
 ]);
 
+const PRESS_STAFF = new Set(['printer_ekaterina', 'editor_sofia', 'nekrasov_reconstruction']);
+
+export function newspaperAssignment(state, hostId, maps = {}) {
+  if (!PRESS_STAFF.has(hostId) || !state?.hosts?.[hostId]) return null;
+  const host = state.hosts[hostId], civic = state.player.civic ?? {};
+  const circulatedStoryIds = new Set((civic.circulatedIssues ?? []).map(entry => civic.publishedIssues?.find(issue => issue.id === entry.issueId)?.storyId).filter(Boolean));
+  const story = NEWSPAPER_STORIES.find(item => item.date <= state.world.date && !circulatedStoryIds.has(item.id));
+  if (!story) return null;
+  const issue = (civic.publishedIssues ?? []).find(item => item.storyId === story.id);
+  const ownsIssue = issue && hasItem(host, `newspaper_issue:${issue.id}`);
+  if (ownsIssue) return { titleKo: '신문을 독자에게 전하기', actionKo: `「${story.titleKo}」 배포`, placeKo: '네프스키 거리 신문 가판', reasonKo: '인쇄한 호외를 거리 독자에게 나누거나 지방행 우편에 맡깁니다.', howKo: '호외를 가진 인물로 신문 가판을 살펴보세요.' };
+  if (issue) return { titleKo: '인쇄한 신문을 가판으로 옮기기', actionKo: `「${story.titleKo}」 회수`, placeKo: '호외를 가진 인물', reasonKo: '이 호외는 인쇄됐지만 현재 편집자가 가지고 있지 않습니다.', howKo: '발행한 인물에게 몸을 빌려 가판으로 가져가세요.' };
+  if (!(host.knownEvidenceIds ?? []).includes(story.sourceId)) {
+    if (state.player.observedEvidenceIds?.includes(story.sourceId)) return { titleKo: '확인한 근거를 편집자에게 전달하기', actionKo: `자료 전달 · ${story.titleKo}`, placeKo: '네프스키 인쇄소 편집대', reasonKo: '당신의 자료철에서 확인한 원문은 편집자가 아직 모릅니다.', howKo: '편집대에서 근거를 공유한 뒤 인쇄하세요.' };
+    const sourceMaps = Object.values(maps).filter(map => map.layers?.find(layer => layer.name === 'Interactions')?.objects.some(object => object.properties?.some(property => property.name === 'sourceId' && property.value === story.sourceId)));
+    const sourceMap = sourceMaps.find(map => map.mapId === state.world.currentMapId) ?? sourceMaps[0];
+    const sourcePlace = sourceMap?.metadata?.displayNameKo ?? '네프스키 인쇄소';
+    return { titleKo: '근거를 확인해 신문 만들기', actionKo: `자료 읽기 · ${story.titleKo}`, placeKo: sourcePlace, reasonKo: '편집자가 기사 근거를 직접 확인해야 인쇄할 수 있습니다.', howKo: `「${story.sourceId}」 원문을 읽고 편집대로 돌아오세요.` };
+  }
+  if (!hasItem(host, 'newsprint_sheet') || !hasItem(host, 'printing_ink')) return { titleKo: '신문 재료를 마련하기', actionKo: '신문용 종이와 인쇄용 잉크 구입', placeKo: '네프스키 거리 레프의 가판', reasonKo: `종이 3코페이카와 잉크 2코페이카가 필요합니다. 현재 편집자 소지금은 ${host.money?.amount ?? '기록 없음'} 코페이카입니다.`, howKo: '돈이 있는 인물로 레프에게서 재료를 산 뒤 편집자에게 건네세요.' };
+  return { titleKo: '근거를 확인해 신문 만들기', actionKo: `호외 인쇄 · ${story.titleKo}`, placeKo: '네프스키 인쇄소 편집대', reasonKo: `확인한 자료 ${story.sourceId}와 종이, 잉크가 준비됐습니다.`, howKo: '편집대에서 호외를 인쇄한 뒤 가판으로 가져가세요.' };
+}
+
 const clone = value => structuredClone(value);
 const productById = new Map(CITY_PRODUCTS.map(item => [item.id, item]));
 const storyById = new Map(NEWSPAPER_STORIES.map(item => [item.id, item]));
@@ -59,15 +82,29 @@ export function publishNewspaperIssue(state, { hostId, storyId, mapId = 'printsh
   return { ok: true, state: next, issue };
 }
 
+export function shareSourceWithEditor(state, { hostId, sourceId } = {}) {
+  const host = state?.hosts?.[hostId];
+  if (!PRESS_STAFF.has(hostId) || !host || state.player.embodiment !== hostId || state.world.currentMapId !== 'printshop' || host.mapId !== 'printshop') return { ok: false, reason: 'not_at_newsroom', state };
+  if (![...storyById.values()].some(story => story.sourceId === sourceId)) return { ok: false, reason: 'source_not_used_by_current_issue', state };
+  if (!(state.player.observedEvidenceIds ?? []).includes(sourceId)) return { ok: false, reason: 'source_not_read_by_player', state };
+  if ((host.knownEvidenceIds ?? []).includes(sourceId)) return { ok: true, state, alreadyKnown: true };
+  const next = clone(state);
+  next.hosts[hostId].knownEvidenceIds.push(sourceId);
+  record(next, 'EDITORIAL_SOURCE_SHARED', hostId, { sourceId, from: 'player_archive' });
+  return { ok: true, state: next };
+}
+
 export function readNewspaperIssue(state, { hostId, issueId } = {}) {
   const host = state?.hosts?.[hostId], civic = state?.player?.civic;
   const issue = civic?.publishedIssues?.find(item => item.id === issueId);
-  if (!host || !issue || !hasItem(host, `newspaper_issue:${issueId}`)) return { ok: false, reason: 'issue_not_owned', state };
-  if (civic.readIssueIds?.includes(issueId)) return { ok: true, state, issue, alreadyRead: true };
+  const owned = Boolean(host && hasItem(host, `newspaper_issue:${issueId}`));
+  const publicCopy = Boolean(civic?.circulatedIssues?.some(entry => entry.issueId === issueId && entry.route === 'street') && state.world.currentMapId === 'nevsky');
+  if (!host || !issue || (!owned && !publicCopy)) return { ok: false, reason: 'issue_not_owned', state };
+  if (state.ledger?.some(entry => entry.eventType === 'NEWSPAPER_READ' && entry.issueId === issueId && entry.hostId === hostId)) return { ok: true, state, issue, alreadyRead: true };
   const next = clone(state), nextCivic = ensureCivic(next);
-  nextCivic.readIssueIds.push(issueId);
+  if (!nextCivic.readIssueIds.includes(issueId)) nextCivic.readIssueIds.push(issueId);
   if (!next.hosts[hostId].knownEvidenceIds.includes(issue.sourceId)) next.hosts[hostId].knownEvidenceIds.push(issue.sourceId);
-  record(next, 'NEWSPAPER_READ', hostId, { issueId, sourceId: issue.sourceId });
+  record(next, 'NEWSPAPER_READ', hostId, { issueId, sourceId: issue.sourceId, publicCopy: !owned });
   return { ok: true, state: next, issue, alreadyRead: false };
 }
 

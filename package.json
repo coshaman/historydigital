@@ -245,6 +245,7 @@
     "korean-dialogue-review": "node scripts/korean-dialogue-review.mjs",
     "v33-rpg-core-test": "node --test scripts/v33-rpg-core.test.mjs",
     "v35-civic-life-test": "node --test scripts/civic-life.test.mjs",
+    "v35-civic-browser-acceptance": "node scripts/v35-civic-browser-acceptance.mjs",
     "v33-generate-street-materials": "node scripts/v33-generate-rpg-content.mjs --street-materials-only",
     "v33-street-material-test": "node --test scripts/v33-street-material.test.mjs",
     "v33-learning-life-test": "node --test scripts/v33-learning-life.test.mjs",
@@ -278,7 +279,7 @@
     "api-diagnostics-test": "node --test scripts/api-diagnostics.test.mjs",
     "v35-package-evidence": "node scripts/v35-package-evidence.mjs",
     "v35-browser-acceptance": "npm run build:v33 && npm run v33-browser-acceptance",
-    "acceptance:v35": "npm run v35-build-matrices && npm run v35-content-audit && npm run v35-npc-replay && npm run v35-ai-mock-audit && node --test scripts/v35-discussion-quests.test.mjs scripts/v33-authored-dialogue.test.mjs && npm run v35-civic-life-test && npm run api-diagnostics-test && npm run acceptance:v33"
+    "acceptance:v35": "npm run v35-build-matrices && npm run v35-content-audit && npm run v35-npc-replay && npm run v35-ai-mock-audit && node --test scripts/v35-discussion-quests.test.mjs scripts/v33-authored-dialogue.test.mjs && npm run v35-civic-life-test && npm run build:v33 && npm run v35-civic-browser-acceptance && npm run api-diagnostics-test && npm run acceptance:v33"
   },
   "devDependencies": {
     "playwright": "^1.63.0"

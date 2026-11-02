@@ -6,7 +6,7 @@ import { ownsKeyboardInput, observationText } from './engine/player-presentation
 import { availableDiscussionQuests, discussionPromptsForHost, discussionReflectionPromptsForHost } from './engine/discussion-quests.mjs';
 import { selectDialogueTurn } from './engine/dialogue-response.mjs';
 import { appendApiDiagnostic, clearApiDiagnostics, readApiDiagnostics } from './engine/api-diagnostics.mjs';
-import { CITY_PRODUCTS, NEWSPAPER_STORIES, purchaseCityProduct, publishNewspaperIssue, readNewspaperIssue, circulateNewspaperIssue, commitSuspiciousAct, resolvePoliceCustody, publishedIssueLabel } from './engine/civic-life.mjs';
+import { CITY_PRODUCTS, NEWSPAPER_STORIES, newspaperAssignment, purchaseCityProduct, publishNewspaperIssue, shareSourceWithEditor, readNewspaperIssue, circulateNewspaperIssue, commitSuspiciousAct, resolvePoliceCustody, publishedIssueLabel } from './engine/civic-life.mjs';
 import { conversations, availableTopics, authoredReply, contextualOpening } from './ai/authored-dialogue.mjs';
 import { advanceStudy, beginExam, buildLifeTimeline, chooseCirclePath, completeLearning, getExamQuestions, selectExamAnswer, submitExam } from './engine/learning-life.mjs';
 import './engine/game-state.js';
@@ -345,6 +345,10 @@ const setState = next => {
 function currentMap() { return maps[state.world.currentMapId]; }
 function actor() { return state.player.embodiment ? state.hosts[state.player.embodiment] : state.player; }
 function mapObjectProperties(object) { return Object.fromEntries((object?.properties ?? []).map(property => [property.name, property.value])); }
+function mapWithSource(sourceId) {
+  const candidates = Object.values(maps).filter(map => map.layers?.find(layer => layer.name === 'Interactions')?.objects.some(object => mapObjectProperties(object).sourceId === sourceId));
+  return candidates.find(map => map.mapId === state.world.currentMapId) ?? candidates[0] ?? null;
+}
 function nearbyConversationPartner() {
   const actorId = state.player.embodiment;
   if (!actorId) return null;
@@ -385,6 +389,14 @@ function updateHud() {
     $('#mission-action').textContent = `접수 사유 · ${state.player.civic.custody.reasonKo}`;
     $('#mission-reason').textContent = '진술서를 쓰거나 8코페이카를 내야 거리로 돌아갈 수 있습니다.';
     $('#mission-method').textContent = '접수 창구에 다가가 살펴보세요.';
+  } else if (host) {
+    const press = newspaperAssignment(state, host.id, maps);
+    if (press) {
+      $('#mission-title').textContent = press.titleKo;
+      $('#mission-action').textContent = `${press.actionKo} · ${press.placeKo}`;
+      $('#mission-reason').textContent = press.reasonKo;
+      $('#mission-method').textContent = press.howKo;
+    }
   }
   const caseContext = host ? caseContextsByQuest.get(missionGuidance.questId) : null;
   caseContextButton.hidden = !caseContext?.roles?.[host.id] || Boolean(state.endingId);
@@ -709,14 +721,19 @@ function openNewsstand() {
   const hostId = requireCivicHost('신문 가판');
   if (!hostId) return;
   const civic = state.player.civic ?? { publishedIssues: [] };
-  const issues = civic.publishedIssues.filter(issue => state.hosts[hostId].inventory.includes(`newspaper_issue:${issue.id}`));
-  const actions = issues.flatMap(issue => [
-    { label: `내 신문 읽기 · ${issue.titleKo}`, subcopy: `${issue.sourceId}에 근거한 기사 · 개인 수첩에 읽은 호를 남깁니다.`, run: () => showPrintedIssue(issue, hostId) },
-    { label: `거리 독자에게 나눈다 · ${issue.titleKo}`, subcopy: '가판과 거리를 지나는 사람이 봅니다 · 호외 1부가 손을 떠납니다.', run: () => circulateIssue(hostId, issue.id, 'street') },
-    { label: `지방행 우편으로 보낸다 · ${issue.titleKo}`, subcopy: '발송 장부에 남습니다 · 봉투 1개와 우편료 4코페이카를 씁니다.', disabled: !state.hosts[hostId].inventory.includes('envelope_bundle') || state.hosts[hostId].money.amount < 4, run: () => circulateIssue(hostId, issue.id, 'postal') },
-  ]);
+  const host = state.hosts[hostId];
+  const issues = civic.publishedIssues.filter(issue => host.inventory.includes(`newspaper_issue:${issue.id}`) || civic.circulatedIssues.some(entry => entry.issueId === issue.id && entry.route === 'street'));
+  const actions = issues.flatMap(issue => {
+    const ownsIssue = host.inventory.includes(`newspaper_issue:${issue.id}`);
+    const read = { label: `${ownsIssue ? '소장한 호 읽기' : '거리 독자가 놓고 간 호 읽기'} · ${issue.titleKo}`, subcopy: `${issue.sourceId}에 근거한 기사 · 읽은 자료가 이 인물의 수첩에 남습니다.`, run: () => showPrintedIssue(issue, hostId) };
+    if (!ownsIssue) return [read];
+    return [read,
+      { label: `거리 독자에게 나눈다 · ${issue.titleKo}`, subcopy: '가판에 공개합니다 · 이 거리의 다른 인물이 읽고 근거를 확인할 수 있습니다.', run: () => circulateIssue(hostId, issue.id, 'street') },
+      { label: `지방행 우편으로 보낸다 · ${issue.titleKo}`, subcopy: '발송 장부에 남습니다 · 봉투 1개와 우편료 4코페이카를 씁니다.', disabled: !host.inventory.includes('envelope_bundle') || host.money.amount < 4, run: () => circulateIssue(hostId, issue.id, 'postal') },
+    ];
+  });
   if (!issues.length) actions.push({ label: '아직 배포할 호외가 없다', subcopy: '인쇄소 편집대에서 자료를 확인하고 신문용 종이와 잉크로 한 부를 만들어 오세요.', disabled: true, run() {} });
-  say('거리 신문 가판', `${issues.length ? `가방에 든 호외 ${issues.length}부를 독자에게 건넬 수 있습니다.` : '이 가판은 거리 신문이 독자에게 닿는 곳입니다.'}\n\n《현대인》 1847년 제1호의 출판 자료는 레프에게서 구입할 수 있습니다.`, actions);
+  say('거리 신문 가판', `${issues.length ? `소장하거나 거리 독자가 놓고 간 호외 ${issues.length}부가 있습니다.` : '이 가판은 신문이 독자에게 닿는 곳입니다.'}\n\n《현대인》 1847년 제1호의 출판 자료는 레프에게서 구입할 수 있습니다.`, actions);
 }
 function printIssue(story, hostId) {
   const result = publishNewspaperIssue(state, { hostId, storyId: story.id });
@@ -728,6 +745,13 @@ function printIssue(story, hostId) {
   say('거리 신문을 인쇄했다', `${story.titleKo} · 종이와 잉크를 사용했습니다. 기사에는 확인한 자료와 인쇄 날짜를 함께 남겼습니다.`, [{ label: '새 호를 읽는다', subcopy: '인쇄한 문장과 근거를 확인합니다.', run: () => showPrintedIssue(result.issue, hostId) }]);
   sayRecord(`신문 발행 · ${story.sourceId}`);
 }
+function shareEditorialSource(story, hostId) {
+  const result = shareSourceWithEditor(state, { hostId, sourceId: story.sourceId });
+  if (!result.ok) { sayRecord(result.reason === 'source_not_read_by_player' ? '먼저 원문을 읽고 자료철에 남기세요.' : '편집대에서 자료를 전달할 수 없습니다.'); return; }
+  if (!result.alreadyKnown) setState(result.state);
+  say('근거를 편집자에게 건넸다', `「${story.sourceId}」를 확인한 기록과 함께 ${cards.find(card => card.id === hostId)?.displayNameKo}의 편집 수첩에 옮겼습니다.`, []);
+  sayRecord('자료 전달 · 원문 확인과 편집자 인계가 장부에 남았다.');
+}
 function openNewsroomDesk() {
   const hostId = requireCivicHost('거리 신문 편집대');
   if (!hostId) return;
@@ -737,10 +761,23 @@ function openNewsroomDesk() {
     const allowedEditor = ['printer_ekaterina', 'editor_sofia', 'nekrasov_reconstruction'].includes(hostId);
     return { label: `호외 인쇄 · ${story.titleKo}`, subcopy: !allowedEditor ? '교정·편집을 맡은 사람과 함께 오세요.' : !hasSource ? `먼저 편집자가 근거를 읽어야 합니다 · ${story.sourceId}` : !hasSupplies ? '신문용 종이 한 묶음과 인쇄용 잉크가 필요합니다.' : `${story.sourceId}에 근거한 기사 · 신문 1부와 종이, 잉크를 씁니다.`, disabled: !allowedEditor || !hasSource || !hasSupplies, run: () => printIssue(story, hostId) };
   });
-  for (const story of stories.filter(item => !host.knownEvidenceIds.includes(item.sourceId))) actions.push({ label: `근거 자료 읽기 · ${story.titleKo}`, subcopy: `${story.sourceId} · 원문을 확인한 뒤 편집할 수 있습니다.`, run: () => sourceRead(story.sourceId, [story.sourceId], 'PLAYER_ARCHIVE') });
+  const remoteSources = stories.filter(item => !host.knownEvidenceIds.includes(item.sourceId)).filter(story => {
+    if (state.player.observedEvidenceIds?.includes(story.sourceId)) return false;
+    const map = mapWithSource(story.sourceId);
+    return map && map.mapId !== state.world.currentMapId;
+  });
+  for (const story of stories.filter(item => !host.knownEvidenceIds.includes(item.sourceId))) {
+    if (state.player.observedEvidenceIds?.includes(story.sourceId)) {
+      actions.push({ label: `확인한 자료 전달 · ${story.titleKo}`, subcopy: `${story.sourceId} · 편집자에게 원문을 확인한 기록을 넘깁니다.`, run: () => shareEditorialSource(story, hostId) });
+      continue;
+    }
+    const sourceMap = mapWithSource(story.sourceId);
+    if (sourceMap?.mapId === state.world.currentMapId) actions.push({ label: `근거 자료 읽기 · ${story.titleKo}`, subcopy: `${story.sourceId} · 이 편집자가 인쇄소에서 원문을 읽고 수첩에 기록합니다.`, run: () => sourceRead(story.sourceId) });
+  }
   const sealed = currentNearby().find(item => mapObjectProperties(item).serviceId === 'sealed-dispatch');
   if (sealed) actions.push({ label: '봉인된 발송 묶음을 허락 없이 연다', subcopy: '편집자와 배달원이 알 수 있습니다 · 발각되면 경찰 접수실로 연행됩니다.', run: () => performSuspiciousAct('OPEN_SEALED_DISPATCH', hostId, sealed) });
-  say('거리 신문 편집대', `출처를 확인한 기사만 인쇄할 수 있습니다. 실제 자료를 요약할 때도 소설 속 인물과 역사적 증언은 구분합니다.\n\n현재 가진 종이 ${host.inventory.filter(item => item === 'newsprint_sheet').length}묶음 · 잉크 ${host.inventory.filter(item => item === 'printing_ink').length}병`, actions);
+  const remoteNote = remoteSources.length ? `\n\n다음 원문은 ${remoteSources.map(story => `${mapWithSource(story.sourceId)?.metadata.displayNameKo ?? '다른 장소'}에서 직접 읽으세요.`).join(' ')}` : '';
+  say('거리 신문 편집대', `출처를 확인한 기사만 인쇄할 수 있습니다. 실제 자료를 요약할 때도 소설 속 인물과 역사적 증언은 구분합니다.${remoteNote}\n\n현재 가진 종이 ${host.inventory.filter(item => item === 'newsprint_sheet').length}묶음 · 잉크 ${host.inventory.filter(item => item === 'printing_ink').length}병`, actions);
 }
 function performSuspiciousAct(actId, hostId, object) {
   if (!object) { sayRecord('현장을 찾지 못했습니다.'); return; }

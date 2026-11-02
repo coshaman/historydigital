@@ -2,7 +2,7 @@
   "schemaVersion": "V33-IMAGE-AUDIT-3",
   "status": "PASS",
   "pngCount": 21,
-  "svgCount": 2,
+  "svgCount": 6,
   "assets": [
     {
       "path": "rpg/assets/akaky.png",
@@ -194,6 +194,24 @@
       "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
     },
     {
+      "path": "rpg/assets/ivan-sprite.svg",
+      "width": 48,
+      "height": 96,
+      "bytes": 730,
+      "sha256": "52d8198efe9f4724ba788eb8ace88b6b52c67886ea3f7197a8f80ac28a5bea35",
+      "license": "original project-authored vector artwork",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-ivan.svg",
+      "width": 64,
+      "height": 64,
+      "bytes": 777,
+      "sha256": "5e0db38ad504d38a0713f56143352d102c3d0cdd20dd9fa4480c55b5111d190d",
+      "license": "original project-authored vector artwork",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
       "path": "rpg/assets/portrait-reader-darya.svg",
       "width": 64,
       "height": 64,
@@ -208,6 +226,24 @@
       "height": 64,
       "bytes": 679,
       "sha256": "2ed3b94b8e2fc0c5cd2946ca1bb15bbc8e862e22c991701503895d785fc3659f",
+      "license": "original project-authored vector artwork",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-sofia.svg",
+      "width": 64,
+      "height": 64,
+      "bytes": 742,
+      "sha256": "a4b517cb3059f8f677aa4685bd1dca757d513c31480a152ea45dbfbebe456507",
+      "license": "original project-authored vector artwork",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/sofia-sprite.svg",
+      "width": 48,
+      "height": 96,
+      "bytes": 717,
+      "sha256": "05229f9fb2090035da5fc18476cf31c274ce14dce51ce234ae58201d11b08da7",
       "license": "original project-authored vector artwork",
       "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
     }
