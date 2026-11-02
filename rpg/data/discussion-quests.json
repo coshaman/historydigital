@@ -6,6 +6,9 @@
       "id": "INQUIRY_OFFICIAL_DUTY_AND_MORALITY",
       "date": "1847-06-01",
       "titleKo": "명령을 따르는 일과 책임지는 일",
+      "requiredPerspectiveCount": 2,
+      "stakesKo": "절차를 지켰다는 사실과 부당한 결과에 책임지는 일을 따로 살핍니다.",
+      "reflectionPromptKo": "알렉세이와 콘스탄틴에게 같은 책임 문제를 물었어요. 절차를 지키는 일과 부당한 결과를 막는 일 중 무엇을 먼저 따져야 할까요?",
       "topicId": "bureaucratic_responsibility",
       "sourceIds": ["OBJ-SOV-1847"],
       "hosts": {
@@ -17,6 +20,9 @@
       "id": "INQUIRY_IDEAS_AND_LIVED_LIFE",
       "date": "1847-06-01",
       "titleKo": "책에서 배운 원칙은 생활을 바꿀 수 있을까",
+      "requiredPerspectiveCount": 2,
+      "stakesKo": "보편 원칙의 말과 품삯·방세·교육 같은 생활 조건을 맞대어 봅니다.",
+      "reflectionPromptKo": "안나와 다리야는 책의 원칙을 서로 다른 생활에서 바라봤어요. 누가 그 원칙의 비용을 치르는지 묻는다면 결론도 달라질까요?",
       "topicId": "ideas_and_lived_experience",
       "sourceIds": ["LIT-TURGENEV-KHOR-KALYNYCH-1847", "OBJ-SOV-1847"],
       "hosts": {
@@ -29,6 +35,9 @@
       "id": "INQUIRY_LITERATURE_AND_SERFDOM",
       "date": "1847-06-01",
       "titleKo": "소설은 농촌의 삶을 어디까지 말할 수 있을까",
+      "requiredPerspectiveCount": 2,
+      "stakesKo": "작품이 농촌을 보여주는 일과 당사자의 목소리를 대신하는 일을 구분합니다.",
+      "reflectionPromptKo": "작품이 농촌을 그리는 일과 농촌 사람의 목소리를 대신하는 일은 어디서 갈라질까요?",
       "topicId": "serfdom",
       "sourceIds": ["LIT-TURGENEV-KHOR-KALYNYCH-1847"],
       "hosts": {
@@ -40,6 +49,9 @@
       "id": "INQUIRY_CENSORSHIP_AND_LABOR",
       "date": "1847-06-01",
       "titleKo": "인쇄 노동자는 문장의 뜻까지 책임져야 할까",
+      "requiredPerspectiveCount": 2,
+      "stakesKo": "교정쇄의 수정, 인쇄 노동, 검토와 결재의 책임을 나눠 봅니다.",
+      "reflectionPromptKo": "글자를 고친 사람과 결재한 사람이 다르다면 결과에 대한 책임은 어떻게 나뉘어야 할까요?",
       "topicId": "censorship",
       "sourceIds": ["OBJ-SOV-1847", "LIT-TURGENEV-KHOR-KALYNYCH-1847"],
       "hosts": {
@@ -48,9 +60,28 @@
       }
     },
     {
+      "id": "INQUIRY_CENSORSHIP_AND_PUBLIC_ORDER",
+      "date": "1847-06-01",
+      "titleKo": "검열은 누구를 보호하고 누구를 침묵시키나",
+      "requiredPerspectiveCount": 2,
+      "stakesKo": "남은 문장만으로 작가의 뜻을 단정할 수 있는지, 제한의 기준과 책임은 누가 져야 하는지 따져 봅니다.",
+      "reflectionPromptKo": "남은 문장과 빠진 문장 중 무엇을 근거로 삼아야 할까요? 안전을 말하는 쪽과 자유를 말하는 쪽에 같은 증명을 요구할 수 있을까요?",
+      "topicId": "censorship_and_public_order",
+      "sourceIds": ["OBJ-SOV-1847", "LIT-TURGENEV-KHOR-KALYNYCH-1847"],
+      "hosts": {
+        "reader_darya": { "promptKo": "검열로 빠진 문장이 있다면, 독자는 남은 글만으로 작가의 뜻을 판단해도 될까요?" },
+        "senior_clerk_konstantin": { "promptKo": "공공의 질서를 이유로 문장을 막을 때, 그 기준과 책임은 누가 기록해야 합니까?" },
+        "printer_ekaterina": { "promptKo": "검열 뒤 바뀐 문장을 인쇄하는 사람에게는 어디까지 거절할 권리가 있을까요?" },
+        "clerk_alexei": { "promptKo": "공식 기록에 남지 않은 문장도 사실을 판단하는 근거가 될 수 있을까요?" }
+      }
+    },
+    {
       "id": "INQUIRY_BOOKS_AND_CLASS",
       "date": "1848-01-01",
       "titleKo": "책값과 읽을 권리 사이에서",
+      "requiredPerspectiveCount": 2,
+      "stakesKo": "독자의 접근성뿐 아니라 종이값·인쇄 노동·외상 부담도 함께 따집니다.",
+      "reflectionPromptKo": "책값을 낮추는 결정이 인쇄 노동자의 몫과 읽을 기회를 함께 바꾼다면, 어떤 비용부터 공개해야 할까요?",
       "topicId": "poverty_and_class",
       "sourceIds": ["OBJ-WS-NEKRASOV-EDITORIAL-1848"],
       "hosts": {
@@ -63,6 +94,9 @@
       "id": "INQUIRY_SLAVOPHILE_AND_WESTERNER",
       "date": "1848-01-01",
       "titleKo": "서로 다른 생각은 누구의 하루를 바꾸나",
+      "requiredPerspectiveCount": 2,
+      "stakesKo": "사상 진영의 이름보다 교육·일자리·인쇄 현장에서 달라지는 조건을 묻습니다.",
+      "reflectionPromptKo": "전통을 지키는 일과 제도를 바꾸는 일을 놓고, 구호 말고 실제로 달라져야 할 한 가지를 꼽는다면 무엇일까요?",
       "topicId": "slavophilism_and_westernism",
       "sourceIds": ["OBJ-WS-NEKRASOV-EDITORIAL-1848"],
       "hosts": {
@@ -75,6 +109,9 @@
       "id": "INQUIRY_RECORD_AND_RUMOR",
       "date": "1849-04-22",
       "titleKo": "이름을 적기 전에 무엇을 확인할까",
+      "requiredPerspectiveCount": 2,
+      "stakesKo": "소문·목격·전달·공식 기록이 사람의 이름과 책임으로 바뀌는 순간을 살핍니다.",
+      "reflectionPromptKo": "소문이 공식 문서로 옮겨지는 순간 확인 책임은 누가 져야 할까요? 들은 사람과 적은 사람의 책임은 어떻게 다를까요?",
       "topicId": "official_record_and_rumor",
       "sourceIds": ["OBJ-WS-PETRASHEVSKY-REPORT-1849", "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"],
       "hosts": {

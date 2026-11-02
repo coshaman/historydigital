@@ -3,7 +3,7 @@ import { objectIsPresent } from './engine/world-presentation.mjs';
 import { questChoices, continuationQuest } from './engine/quest-presentation.mjs';
 import { resolveQuestGuidance } from './engine/quest-guidance.mjs';
 import { ownsKeyboardInput, observationText } from './engine/player-presentation.mjs';
-import { availableDiscussionQuests, discussionPromptsForHost } from './engine/discussion-quests.mjs';
+import { availableDiscussionQuests, discussionPromptsForHost, discussionReflectionPromptsForHost } from './engine/discussion-quests.mjs';
 import { appendApiDiagnostic, clearApiDiagnostics, readApiDiagnostics } from './engine/api-diagnostics.mjs';
 import { conversations, availableTopics, authoredReply, contextualOpening } from './ai/authored-dialogue.mjs';
 import { advanceStudy, beginExam, buildLifeTimeline, chooseCirclePath, completeLearning, getExamQuestions, selectExamAnswer, submitExam } from './engine/learning-life.mjs';
@@ -382,18 +382,20 @@ function updateHud() {
   const discussionBoard = $('#discussion-quest-board');
   const discussionHost = conversationPartner;
   const currentPrompts = discussionHost ? discussionPromptsForHost(discussionHost.id, discussionQuests) : [];
-  discussionBoard.hidden = !host || !activeDiscussionCount || Boolean(state.endingId);
-  $('#discussion-quest-progress').textContent = `생각을 묻는 선택형 임무 · ${discussionQuests.filter(item => item.completed).length} / ${discussionQuests.length} 완료`;
+  const reflectionPrompts = discussionHost ? discussionReflectionPromptsForHost(discussionHost.id, state, discussionQuests) : [];
+  discussionBoard.hidden = !host || (!activeDiscussionCount && !reflectionPrompts.length) || Boolean(state.endingId);
+  $('#discussion-quest-progress').textContent = `관점 임무 · ${discussionQuests.filter(item => item.completed).length} / ${discussionQuests.length} 완료 · 한 주제는 두 인물과 이야기하면 마무리됩니다`;
   const inquiryRows = currentPrompts.length
-    ? currentPrompts.slice(0, 3).map(prompt => `${prompt.questTitleKo} · ${discussionHost.displayNameKo}에게: “${prompt.promptKo}”`)
-    : discussionQuests.filter(quest => !quest.completed && Object.hasOwn(quest.hosts ?? {}, host?.id))
+    ? currentPrompts.slice(0, 3).map(prompt => `${prompt.questTitleKo} · ${prompt.progressKo} · ${discussionHost.displayNameKo}에게: “${prompt.promptKo}”`)
+    : discussionQuests.filter(quest => !quest.completed)
       .slice(0, 3).map(quest => {
-        const availablePeople = Object.keys(quest.hosts).map(id => cards.find(card => card.id === id)?.displayNameKo).filter(Boolean).join(' · ');
-        return `${quest.titleKo} · ${availablePeople}에게 물을 수 있습니다. 가까이 가서 말을 걸어 보세요.`;
+        const availablePeople = Object.keys(quest.hosts).filter(id => !quest.perspectiveHostIds.includes(id)).map(id => cards.find(card => card.id === id)?.displayNameKo).filter(Boolean).join(' · ');
+        return `${quest.titleKo} · 관점 ${quest.perspectiveHostIds.length}/${quest.requiredPerspectiveCount} · ${availablePeople}에게 물을 수 있습니다. 가까이 가서 말을 걸어 보세요.`;
       });
-  $('#discussion-quest-items').replaceChildren(...(inquiryRows.length
-    ? inquiryRows.map(text => Object.assign(document.createElement('li'), { textContent: text }))
-    : [Object.assign(document.createElement('li'), { textContent: discussionHost ? '지금은 이 인물에게 남은 생각 질문이 없습니다. 다른 사람과 이야기해 보세요.' : '가까운 사람에게 말을 걸면 그 인물에게 맞는 사상·생활 질문이 대화 선택지에 나타납니다.' })]));
+  const followUpRows = reflectionPrompts.slice(0, 2).map(prompt => `비교 메모 후속 대화 · ${discussionHost.displayNameKo}에게: “${prompt.promptKo}”`);
+  $('#discussion-quest-items').replaceChildren(...(inquiryRows.length || followUpRows.length
+    ? [...inquiryRows, ...followUpRows].map(text => Object.assign(document.createElement('li'), { textContent: text }))
+    : [Object.assign(document.createElement('li'), { textContent: discussionHost ? '이 인물에게 남은 질문이 없습니다. 다른 관점을 모으거나 직접 하고 싶은 말을 적어 보세요.' : '가까운 사람에게 말을 걸면 그 인물에게 맞는 사상·생활 질문이 대화 선택지에 나타납니다.' })]));
   $('#mission-progress').textContent = missionGuidance.progress?.totalSteps ? `${missionGuidance.progress.completedSteps} / ${missionGuidance.progress.totalSteps}` : '';
   $('#mission-pin').disabled = !missionGuidance.target;
   $('#mission-pin').setAttribute('aria-pressed', String(destinationPinned && Boolean(missionGuidance.target)));
@@ -425,17 +427,28 @@ function updateHud() {
       const clue = sceneObservations.entries[id];
       if (clue) known.push(clue.titleKo);
     }
-    $('#journal-inventory').append(...(live.inventory.length ? live.inventory : ['따로 기록된 물건이 없습니다.']).map(value => { const li=document.createElement('li');li.textContent=value;return li; }));
+    const discussionItems = (state.player.dialogueGrowth?.comparisonNotes ?? []).map(note => `관점 대조 메모 · ${note.titleKo}`);
+    const visibleInventory = [...live.inventory, ...discussionItems];
+    $('#journal-inventory').append(...(visibleInventory.length ? visibleInventory : ['따로 기록된 물건이 없습니다.']).map(value => { const li=document.createElement('li');li.textContent=value;return li; }));
     const relations = Object.entries(live.relations ?? {}).map(([group,status])=>`${relationLabels[group] ?? group} · ${status}`).concat(live.situationNotes ?? []);
     fill('#journal-relations', relations.length ? relations : ['아직 기록된 관계 변화가 없습니다.']);
     fill('#journal-sources', known.length ? known : ['이 몸으로 확인한 자료와 단서가 없습니다.']);
   }
+  if (!host) {
+    const discussionItems = (state.player.dialogueGrowth?.comparisonNotes ?? []).map(note => `관점 대조 메모 · ${note.titleKo}`);
+    $('#journal-inventory').append(...(discussionItems.length ? discussionItems : ['따로 기록된 물건이 없습니다.']).map(value => { const li=document.createElement('li');li.textContent=value;return li; }));
+  }
   const dialogueGrowth = state.player.dialogueGrowth ?? { insight: 0, aiReplies: 0, perspectiveNotes: [] };
-  $('#journal-growth-stats').textContent = `대화 경험 ${dialogueGrowth.aiReplies} · 통찰 ${dialogueGrowth.insight}`;
+  $('#journal-growth-stats').textContent = `AI 대화 ${dialogueGrowth.aiReplies}회 · 모은 관점 ${dialogueGrowth.insight}개 · 대조 메모 ${dialogueGrowth.comparisonNotes?.length ?? 0}개`;
   const reflectionRows = (dialogueGrowth.perspectiveNotes ?? []).map(note => {
     const quest = discussionQuestById.get(note.discussionId), hostCard = cards.find(item => item.id === note.hostId);
     return `${note.date} · ${quest?.titleKo ?? '대화에서 얻은 관점'} · ${hostCard?.displayNameKo ?? '대화 상대'}의 시각`;
   });
+  for (const note of dialogueGrowth.comparisonNotes ?? []) {
+    const quest = discussionQuestById.get(note.discussionId);
+    const names = note.hostIds.map(id => cards.find(item => item.id === id)?.displayNameKo).filter(Boolean);
+    reflectionRows.push(`${note.date} · 대조 메모: ${note.titleKo} · ${names.join(' ↔ ')}`);
+  }
   fill('#journal-perspective-notes', reflectionRows.length ? reflectionRows : ['사건이나 생각에 관한 질문을 AI와 나누면 이곳에 관점 메모와 통찰이 쌓입니다.']);
   const logs = state.ledger.slice(-12).reverse().map(entry => {
     if (entry.eventType === 'DIALOGUE_TURN') return `${entry.date} · ${entry.discussionId ? `견해 질문 · ${discussionQuestById.get(entry.discussionId)?.titleKo ?? '주제 대화'}` : `${cards.find(item=>item.id===entry.hostId)?.displayNameKo ?? '대화'}와 이야기함`}`;
@@ -921,8 +934,10 @@ async function startConversation(card) {
     if (activeDialogueHost !== card.id || activeDialogueKey !== key || dialogueGeneration !== generation) return;
   }
 
-  const topicalQuestions = discussionPromptsForHost(card.id, currentDiscussionQuests()).map(item => item.promptKo);
-  const starterReplies = [...new Set([...topicalQuestions, ...remaining])].slice(0, 3);
+  const liveDiscussionQuests = currentDiscussionQuests();
+  const topicalQuestions = discussionPromptsForHost(card.id, liveDiscussionQuests).map(item => item.promptKo);
+  const reflectionQuestions = discussionReflectionPromptsForHost(card.id, state, liveDiscussionQuests).map(item => item.promptKo);
+  const starterReplies = [...new Set([...topicalQuestions, ...reflectionQuestions, ...remaining])].slice(0, 3);
   showConversation(card, dialogueCurrentLines.get(key), starterReplies,
     sessionFailure ? `AI 연결 실패 · ${sessionFailure}` : hasLiveDialogue(key) ? 'AI 연결됨 · 직접 입력하거나 생각을 묻는 질문을 고르세요.' : '오프라인 대사 · AI 연결이 확인되지 않았습니다.');
 }
@@ -932,7 +947,9 @@ async function sendConversation(card, playerText, replyId = null) {
   if (activeDialogueHost !== card.id || !key || dialogueRequestPending || state.player.embodiment === card.id || nearbyConversationPartner()?.id !== card.id) return;
   const intentClass = classifyTypedResponse(playerText);
   const actorCard = cards.find(item => item.id === state.player.embodiment);
-  const discussionPrompt = discussionPromptsForHost(card.id, currentDiscussionQuests()).find(item => item.promptKo === playerText);
+  const liveDiscussionQuests = currentDiscussionQuests();
+  const discussionPrompt = discussionPromptsForHost(card.id, liveDiscussionQuests).find(item => item.promptKo === playerText);
+  const reflectionPrompt = discussionReflectionPromptsForHost(card.id, state, liveDiscussionQuests).find(item => item.promptKo === playerText);
   const lines = dialogueTranscripts.get(key) ?? []; lines.push({ speaker: actorCard.displayNameKo, text: playerText });
   dialogueTranscripts.set(key, lines.slice(-24));
   let session = dialogueSessions.get(key); let turn = null, fallbackReason = '';
@@ -1001,10 +1018,12 @@ async function sendConversation(card, playerText, replyId = null) {
   for (const beat of turn.beats) lines.push({ speaker: beat.speakerId === 'NARRATION' ? card.displayNameKo : card.displayNameKo, text: beat.textKo });
   dialogueTranscripts.set(key, lines.slice(-24));
   dialogueCurrentLines.set(key, turn.beats.map(beat => beat.textKo).join('\n'));
-  const recorded = recordDialogueTurn(state, { hostId: card.id, actorHostId: actorCard.id, sceneId: local.sceneId, intentClass, discussionId: aiGenerated ? discussionPrompt?.discussionId : null, aiGenerated }, maps);
+  const recorded = recordDialogueTurn(state, { hostId: card.id, actorHostId: actorCard.id, sceneId: local.sceneId, intentClass, discussionId: aiGenerated ? discussionPrompt?.discussionId : null, discussionTitleKo: discussionPrompt?.questTitleKo, reflectionId: aiGenerated ? reflectionPrompt?.reflectionId : null, aiGenerated }, maps);
   if (recorded.ok) setState(recorded.state);
   const replies = (turn.suggestedReplies ?? []).slice(0, 3);
-  showConversation(card, dialogueCurrentLines.get(key), replies.map(reply => reply.textKo), fallbackReason || (aiGenerated ? 'AI 답변 · 인물의 처지와 견해가 반영되었습니다.' : '오프라인 대사 · AI 답변은 생성되지 않았습니다.'));
+  const reward = recorded.ok ? recorded.state.ledger.at(-1)?.dialogueReward : null;
+  const rewardStatus = reward === 'COMPARISON_NOTE' ? ' · 관점 대조 메모 획득 · 다른 인물에게 후속 질문 가능' : reward === 'PERSPECTIVE_NOTE' ? ' · 관점 메모와 통찰 +1' : '';
+  showConversation(card, dialogueCurrentLines.get(key), replies.map(reply => reply.textKo), fallbackReason || (aiGenerated ? `AI 답변 · 인물의 처지와 견해가 반영되었습니다.${rewardStatus}` : '오프라인 대사 · AI 답변은 생성되지 않았습니다.'));
   $('.journal').scrollTop = $('.journal').scrollHeight;
 }
 document.addEventListener('keydown', event => {

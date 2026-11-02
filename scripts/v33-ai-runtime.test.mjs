@@ -279,7 +279,7 @@ test('signed opaque sessions reject forgery and foreign origins, while missing A
 
 test('historical reconstruction and literary host have bounded scene IDs and offline sessions', async () => {
   const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store: new MemorySessionStore(), allowedOrigins: ['https://game.example'], provider: null });
-  for (const hostId of ['nekrasov_reconstruction', 'literary_chichikov']) {
+  for (const hostId of ['nekrasov_reconstruction', 'literary_chichikov', 'literary_akaky']) {
     const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId }));
     assert.equal(opened.status, 201);
     assert.equal(opened.body.mode, 'BLOCKED_NO_KEY');
@@ -288,6 +288,7 @@ test('historical reconstruction and literary host have bounded scene IDs and off
     assert.equal(turn.body.turn.sceneId.length > 0, true);
     assert.equal(turn.body.turn.beats[0].speakerId, hostId);
     assert.equal(turn.body.fallback, true);
+    if (hostId === 'literary_akaky') assert.deepEqual(require('../rpg/ai/scenes.json').sessions[hostId].allowedSourceIds, ['LIT-GOGOL-OVERCOAT-1842']);
   }
 });
 

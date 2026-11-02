@@ -71,7 +71,9 @@ try {
     const settingsLayout = await page.locator('#api-settings').evaluate(element => { const rect=element.getBoundingClientRect(); return { width:rect.width,height:rect.height,right:rect.right,bottom:rect.bottom }; });
     assert.ok(settingsLayout.width <= viewport.width && settingsLayout.height <= viewport.height, `API settings dialog fits viewport ${viewport.width}`);
     const initialInquiryBoard = await page.locator('#discussion-quest-board').innerText();
-    assert.match(initialInquiryBoard, /생각을 묻는 선택형 임무/);
+    assert.match(initialInquiryBoard, /관점 임무/);
+    assert.match(initialInquiryBoard, /두 인물과 이야기하면 마무리/);
+    assert.match(initialInquiryBoard, /관점 0\/2/);
     assert.match(initialInquiryBoard, /검열|책에서|명령/);
     assert.equal(dialogueRequests.length, dialogueCountBeforeHealth, 'health probe does not create an AI dialogue');
     assert.equal(sessionStarts.length, sessionCountBeforeHealth, 'health probe does not create an AI session');
@@ -98,7 +100,11 @@ try {
     await page.locator('#talk').click();
     await page.getByLabel('대사 입력').fill('교정쇄를 원문과 대조하고 싶어요.');
     await page.getByRole('button', { name: '말하기' }).click();
-    await page.locator('#journal-text').getByText('mocked ai line', { exact: true }).waitFor();
+    try {
+      await page.locator('#journal-text').getByText('mocked ai line', { exact: true }).waitFor({ timeout: 15000 });
+    } catch {
+      throw new Error(`first AI reply did not render: requests=${dialogueRequests.length}, starts=${sessionStarts.length}, status=${await page.locator('#record').textContent()}, dialogue=${await page.locator('#journal-text').textContent()}, pageErrors=${errors.join(' | ')}`);
+    }
     assert.deepEqual(sessionStarts.at(-1), { hostId: 'printer_ekaterina', actorHostId: 'seamstress_anna' });
     assert.deepEqual(dialogueRequests.at(-1).actorRelations, { source_readers: '출처 확인을 먼저 요청했다', workshop: '재확인 요청을 함께 맡았다' });
     assert.deepEqual(dialogueRequests.at(-1).actorActions, [{ questId: 'PRINTSHOP_PROOF_1847', actionId: 'ASK_FOR_SOURCE' }]);
@@ -163,8 +169,13 @@ try {
       await page.getByRole('button', { name: '대화 마치기' }).click();
       await page.locator('#talk').click();
       await page.getByLabel('대사 입력').fill('이제 다시 물어보겠습니다.');
+      const requestsBeforeReopen = dialogueRequests.length;
       await page.locator('.dialogue-input button').click();
-      await page.locator('#journal-text').getByText('mocked ai line', { exact: true }).waitFor();
+      try {
+        await page.locator('#journal-text').getByText('mocked ai line', { exact: true }).waitFor({ timeout: 15000 });
+      } catch {
+        throw new Error(`reopened AI conversation did not render: requests=${dialogueRequests.length - requestsBeforeReopen}, starts=${sessionStarts.length}, status=${await page.locator('#record').textContent()}, dialogue=${await page.locator('#journal-text').textContent()}, pageErrors=${errors.join(' | ')}`);
+      }
       releaseSlowDialogue?.(); releaseSlowDialogue = null;
       await page.waitForTimeout(100);
       assert.equal(await page.getByText('stale response must not appear').count(), 0, 'a response from the closed conversation cannot render in a reopened one');

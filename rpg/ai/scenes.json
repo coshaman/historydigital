@@ -277,6 +277,20 @@
         "새 외투의 값과 이유를 여백에 적겠습니다."
       ]
     },
+    "literary_akaky": {
+      "sceneId": "V33_TALK_LITERARY_AKAKY",
+      "dialogueObjective": "《외투》의 선택된 장면에서 아카키의 낡은 외투와 그가 감당하는 생활의 부담을 이야기한다.",
+      "focusKo": "작품에 적힌 외투의 상태, 추위, 관리들의 조롱과 수선 문제에 한정한다.",
+      "turnLimit": 6,
+      "allowedTopics": ["등과 어깨가 닳은 외투", "북쪽의 추위", "관청 동료들의 조롱", "수선과 새 외투의 비용", "작품 속 필사 업무"],
+      "forbiddenTopics": ["실제 역사 증언으로 주장하기", "선택된 대목 뒤의 사건을 미리 알기", "문학 속 인물의 말을 실제 관리들의 공통 경험으로 일반화하기"],
+      "allowedEmotions": ["neutral", "guarded", "worried", "focused"],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": ["LIT-GOGOL-OVERCOAT-1842"],
+      "fallbackKo": "등과 어깨의 천이 닳아 속이 비칠 만큼 얇아졌습니다. 안감도 터졌다고 들었어요. 새 외투가 필요하다는 말은 들었지만, 그 비용을 마련할 수 있을지는 다른 문제입니다.",
+      "fallbackReplies": ["외투가 닳은 곳을 함께 살펴보죠.", "관청에서 사람들이 어떻게 대했는지 묻고 싶어요.", "수선이 어렵다는 말을 들은 뒤 무엇이 가장 걱정됐나요?"]
+    },
     "nekrasov_reconstruction": {
       "sceneId": "V33_TALK_NEKRASOV_EDITORIAL_NOTICE",
       "dialogueObjective": "1848년 편집부 공고에서 확인되는 구독자 발송과 대응만 설명한다.",

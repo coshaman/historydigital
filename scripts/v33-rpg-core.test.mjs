@@ -474,7 +474,7 @@ test('V35 expands old saves with the new intellectual cast without losing the ex
   assert.ok(loaded.hosts.senior_clerk_konstantin);
   assert.ok(loaded.hosts.reader_darya);
   assert.deepEqual(loaded.hosts.courier_pavel.inventory, ['밀봉 봉투', '끈 달린 가방', '오래된 편지']);
-  assert.deepEqual(loaded.player.dialogueGrowth, { insight: 0, aiReplies: 0, perspectiveNotes: [] });
+  assert.deepEqual(loaded.player.dialogueGrowth, { insight: 0, aiReplies: 0, perspectiveNotes: [], comparisonNotes: [], reflectionIds: [] });
 });
 
 test('older version-one saves acquire the world clock and current schedule without losing state', async () => {
@@ -501,9 +501,11 @@ test('dialogue can be ledgered only for the embodied host and never mutates a qu
   state = possessHost(state, 'courier_pavel', maps.nevsky).state;
   state.hosts.printer_ekaterina.mapId = 'nevsky';
   state.hosts.printer_ekaterina.position = { x: 10, y: 15 };
-  const npcPositions = Object.fromEntries(Object.values(state.hosts).map(host => [host.id, { mapId: host.mapId, position: { ...host.position } }]));
   const tooFar = recordDialogueTurn(state, { hostId: 'clerk_alexei', actorHostId: 'courier_pavel', sceneId: 'V33_TALK_CLERK_ALEXEI' }, maps);
   assert.equal(tooFar.ok, false);
+  state.hosts.clerk_alexei.mapId = 'nevsky';
+  state.hosts.clerk_alexei.position = { x: 11, y: 15 };
+  const npcPositions = Object.fromEntries(Object.values(state.hosts).map(host => [host.id, { mapId: host.mapId, position: { ...host.position } }]));
   const recorded = recordDialogueTurn(state, { hostId: 'printer_ekaterina', actorHostId: 'courier_pavel', sceneId: 'V33_TALK_PRINTER_EKATERINA', intentClass: 'SOURCE_REQUEST' }, maps);
   assert.equal(recorded.ok, true);
   assert.deepEqual(Object.fromEntries(Object.values(recorded.state.hosts).map(host => [host.id, { mapId: host.mapId, position: host.position }])), npcPositions, 'NPC movement pauses during dialogue');
@@ -514,14 +516,25 @@ test('dialogue can be ledgered only for the embodied host and never mutates a qu
   const offlineOpinion = recordDialogueTurn(state, { hostId: 'printer_ekaterina', actorHostId: 'courier_pavel', sceneId: 'V33_TALK_PRINTER_EKATERINA', discussionId: 'INQUIRY_CENSORSHIP_AND_LABOR' }, maps);
   assert.equal(offlineOpinion.state.ledger.at(-1).discussionId, undefined, 'local authored fallback cannot award a viewpoint record');
   assert.equal(offlineOpinion.state.player.dialogueGrowth.insight, 0);
-  const opinion = recordDialogueTurn(state, { hostId: 'printer_ekaterina', actorHostId: 'courier_pavel', sceneId: 'V33_TALK_PRINTER_EKATERINA', discussionId: 'INQUIRY_CENSORSHIP_AND_LABOR', aiGenerated: true }, maps);
+  const opinion = recordDialogueTurn(state, { hostId: 'printer_ekaterina', actorHostId: 'courier_pavel', sceneId: 'V33_TALK_PRINTER_EKATERINA', discussionId: 'INQUIRY_CENSORSHIP_AND_LABOR', discussionTitleKo: '인쇄 노동자는 문장의 뜻까지 책임져야 할까', aiGenerated: true }, maps);
   assert.equal(opinion.ok, true);
   assert.equal(opinion.state.ledger.at(-1).discussionId, 'INQUIRY_CENSORSHIP_AND_LABOR');
   assert.equal(opinion.state.ledger.at(-1).dialogueReward, 'PERSPECTIVE_NOTE');
   assert.equal(opinion.state.player.dialogueGrowth.insight, 1);
   assert.equal(opinion.state.player.dialogueGrowth.aiReplies, 1);
   const repeatedOpinion = recordDialogueTurn(opinion.state, { hostId: 'printer_ekaterina', actorHostId: 'courier_pavel', sceneId: 'V33_TALK_PRINTER_EKATERINA', discussionId: 'INQUIRY_CENSORSHIP_AND_LABOR', aiGenerated: true }, maps);
-  assert.equal(repeatedOpinion.state.player.dialogueGrowth.insight, 1, 'one discussion gives one persistent insight item');
+  assert.equal(repeatedOpinion.state.player.dialogueGrowth.insight, 1, 'repeating the same character does not grant another insight');
+  assert.equal(repeatedOpinion.state.player.dialogueGrowth.comparisonNotes.length, 0);
+  const secondPerspective = recordDialogueTurn(opinion.state, { hostId: 'clerk_alexei', actorHostId: 'courier_pavel', sceneId: 'V33_TALK_CLERK_ALEXEI', discussionId: 'INQUIRY_CENSORSHIP_AND_LABOR', discussionTitleKo: '인쇄 노동자는 문장의 뜻까지 책임져야 할까', aiGenerated: true }, maps);
+  assert.equal(secondPerspective.ok, true);
+  assert.equal(secondPerspective.state.player.dialogueGrowth.insight, 2);
+  assert.equal(secondPerspective.state.ledger.at(-1).dialogueReward, 'COMPARISON_NOTE');
+  assert.deepEqual(secondPerspective.state.player.dialogueGrowth.comparisonNotes[0].hostIds.sort(), ['clerk_alexei', 'printer_ekaterina']);
+  const reflection = recordDialogueTurn(secondPerspective.state, { hostId: 'printer_ekaterina', actorHostId: 'courier_pavel', sceneId: 'V33_TALK_PRINTER_EKATERINA', reflectionId: 'INQUIRY_CENSORSHIP_AND_LABOR', aiGenerated: true }, maps);
+  assert.equal(reflection.state.player.dialogueGrowth.reflectionIds.includes('INQUIRY_CENSORSHIP_AND_LABOR::printer_ekaterina'), true);
+  const restoredGrowth = loadGame(saveGame(reflection.state), { maps, hostCards: cards }).player.dialogueGrowth;
+  assert.equal(restoredGrowth.comparisonNotes[0].discussionId, 'INQUIRY_CENSORSHIP_AND_LABOR');
+  assert.ok(restoredGrowth.reflectionIds.includes('INQUIRY_CENSORSHIP_AND_LABOR::printer_ekaterina'), 'earned comparison prompts persist after reload');
   assert.equal(recordDialogueTurn(state, { hostId: 'printer_ekaterina', actorHostId: 'courier_pavel', sceneId: 'V33_TALK_PRINTER_EKATERINA', discussionId: 'FAKE_QUEST' }, maps).reason, 'invalid_discussion_id');
   assert.equal(recordDialogueTurn(state, { hostId: 'courier_pavel', actorHostId: 'courier_pavel', sceneId: 'V33_TALK_COURIER_PAVEL' }, maps).reason, 'dialogue_partner_unavailable');
   assert.equal(recordDialogueTurn(state, { hostId: 'printer_ekaterina', actorHostId: 'courier_pavel', sceneId: 'V33_TALK_PRINTER_EKATERINA', intentClass: 'CHANGE_ENDING' }, maps).reason, 'invalid_intent_class');

@@ -67,7 +67,7 @@ function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky
       possessionHistory: [],
       completedChapterIds: [],
     },
-    player: { position: { x: spawn.x, y: spawn.y }, facing: 'down', embodiment: null, currentGoals: [], observedEvidenceIds: [], crossPerspectiveNotes: [], dialogueGrowth: { insight: 0, aiReplies: 0, perspectiveNotes: [] }, gameSaveVersion: SAVE_VERSION },
+    player: { position: { x: spawn.x, y: spawn.y }, facing: 'down', embodiment: null, currentGoals: [], observedEvidenceIds: [], crossPerspectiveNotes: [], dialogueGrowth: { insight: 0, aiReplies: 0, perspectiveNotes: [], comparisonNotes: [], reflectionIds: [] }, gameSaveVersion: SAVE_VERSION },
     hosts,
     quests: Object.fromEntries(quests.map(quest => [quest.id, { status: 'open', result: null }])),
     learning: initialLearningState(),
@@ -503,25 +503,39 @@ function recordEvidenceRead(state, evidenceId, maps) {
   return { ok: true, state: next };
 }
 
-function recordDialogueTurn(state, { hostId, actorHostId, sceneId, intentClass = 'GENERAL_CONVERSATION', discussionId = null, aiGenerated = false } = {}, maps = {}) {
+function recordDialogueTurn(state, { hostId, actorHostId, sceneId, intentClass = 'GENERAL_CONVERSATION', discussionId = null, discussionTitleKo = '', reflectionId = null, aiGenerated = false } = {}, maps = {}) {
   const map = maps?.[state?.world?.currentMapId], speaker = state?.hosts?.[hostId], actor = state?.hosts?.[actorHostId];
   const speakerPresent = layer(map, 'NPCs')?.objects.some(item => properties(item).hostId === hostId);
   if (!state?.player || state.player.embodiment !== actorHostId || !actor || actor.mapId !== state.world.currentMapId || !speaker || speaker.mapId !== state.world.currentMapId || !speakerPresent || typeof sceneId !== 'string' || !/^V33_[A-Z0-9_]{3,64}$/.test(sceneId)) return { ok: false, reason: 'dialogue_host_unavailable', state };
   if (hostId === actorHostId || !nearTile(actor.position, speaker.position, 2)) return { ok: false, reason: 'dialogue_partner_unavailable', state };
   if (!['SOURCE_REQUEST', 'ACTION_REQUEST', 'RISK_QUESTION', 'PERSONAL_QUESTION', 'GENERAL_CONVERSATION'].includes(intentClass)) return { ok: false, reason: 'invalid_intent_class', state };
   if (discussionId !== null && (typeof discussionId !== 'string' || !/^INQUIRY_[A-Z0-9_]{3,64}$/.test(discussionId))) return { ok: false, reason: 'invalid_discussion_id', state };
+  if (reflectionId !== null && (typeof reflectionId !== 'string' || !/^INQUIRY_[A-Z0-9_]{3,64}$/.test(reflectionId))) return { ok: false, reason: 'invalid_reflection_id', state };
   if (typeof aiGenerated !== 'boolean') return { ok: false, reason: 'invalid_ai_generation_flag', state };
   const timed = advanceWorldTime(state, 1, maps, [], { pauseNpcSimulation: true, pausedHostIds: [hostId, actorHostId] });
   const next = clone(timed);
   next.player.dialogueGrowth ??= { insight: 0, aiReplies: 0, perspectiveNotes: [] };
   next.player.dialogueGrowth.perspectiveNotes ??= [];
+  next.player.dialogueGrowth.comparisonNotes ??= [];
+  next.player.dialogueGrowth.reflectionIds ??= [];
   if (aiGenerated) next.player.dialogueGrowth.aiReplies += 1;
-  const earnsInsight = aiGenerated && Boolean(discussionId) && !next.player.dialogueGrowth.perspectiveNotes.some(note => note.discussionId === discussionId);
+  const alreadyHeardPerspective = discussionId && next.player.dialogueGrowth.perspectiveNotes.some(note => note.discussionId === discussionId && note.hostId === hostId);
+  const priorPerspectiveCount = discussionId ? new Set(next.player.dialogueGrowth.perspectiveNotes.filter(note => note.discussionId === discussionId).map(note => note.hostId)).size : 0;
+  const earnsInsight = aiGenerated && Boolean(discussionId) && !alreadyHeardPerspective;
+  let dialogueReward = null;
   if (earnsInsight) {
     next.player.dialogueGrowth.insight += 1;
     next.player.dialogueGrowth.perspectiveNotes.push({ discussionId, hostId, date: next.world.date });
+    dialogueReward = 'PERSPECTIVE_NOTE';
+    if (priorPerspectiveCount >= 1 && !next.player.dialogueGrowth.comparisonNotes.some(note => note.discussionId === discussionId)) {
+      const comparisonNote = { discussionId, titleKo: String(discussionTitleKo).slice(0, 100) || '생각의 차이를 살핀 기록', hostIds: [...new Set([...next.player.dialogueGrowth.perspectiveNotes.filter(note => note.discussionId === discussionId).map(note => note.hostId), hostId])], date: next.world.date };
+      next.player.dialogueGrowth.comparisonNotes.push(comparisonNote);
+      dialogueReward = 'COMPARISON_NOTE';
+    }
   }
-  const event = { eventId: `DIALOGUE_${next.ledger.length + 1}`, eventType: 'DIALOGUE_TURN', date: next.world.date, clockMinutes: next.world.clockMinutes, mapId: next.world.currentMapId, hostId, interlocutorHostId: actorHostId, sceneId, intentClass, ...(aiGenerated ? { aiGenerated: true } : {}), ...(earnsInsight ? { discussionId, dialogueReward: 'PERSPECTIVE_NOTE' } : {}), priorStateHash: stateHash(timed), nextStateHash: null };
+  const reflectionKey = reflectionId ? `${reflectionId}::${hostId}` : null;
+  if (aiGenerated && reflectionKey && !next.player.dialogueGrowth.reflectionIds.includes(reflectionKey)) next.player.dialogueGrowth.reflectionIds.push(reflectionKey);
+  const event = { eventId: `DIALOGUE_${next.ledger.length + 1}`, eventType: 'DIALOGUE_TURN', date: next.world.date, clockMinutes: next.world.clockMinutes, mapId: next.world.currentMapId, hostId, interlocutorHostId: actorHostId, sceneId, intentClass, ...(aiGenerated ? { aiGenerated: true } : {}), ...(earnsInsight ? { discussionId, dialogueReward } : {}), ...(aiGenerated && reflectionKey ? { reflectionId } : {}), priorStateHash: stateHash(timed), nextStateHash: null };
   next.ledger.push(event);
   event.nextStateHash = stateHash(next);
   return { ok: true, state: next };
@@ -547,10 +561,12 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
     const legacyNotes = new Map();
     for (const entry of state.ledger ?? []) if (entry.eventType === 'DIALOGUE_TURN' && entry.discussionId && !legacyNotes.has(entry.discussionId)) legacyNotes.set(entry.discussionId, { discussionId: entry.discussionId, hostId: entry.hostId, date: entry.date });
     const perspectiveNotes = [...legacyNotes.values()];
-    state.player.dialogueGrowth = { insight: perspectiveNotes.length, aiReplies: (state.ledger ?? []).filter(entry => entry.eventType === 'DIALOGUE_TURN' && entry.aiGenerated).length, perspectiveNotes };
+    state.player.dialogueGrowth = { insight: perspectiveNotes.length, aiReplies: (state.ledger ?? []).filter(entry => entry.eventType === 'DIALOGUE_TURN' && entry.aiGenerated).length, perspectiveNotes, comparisonNotes: [], reflectionIds: [] };
   }
   state.player.dialogueGrowth.perspectiveNotes ??= [];
-  if (!Number.isSafeInteger(state.player.dialogueGrowth.insight) || state.player.dialogueGrowth.insight < 0 || !Number.isSafeInteger(state.player.dialogueGrowth.aiReplies) || state.player.dialogueGrowth.aiReplies < 0 || !Array.isArray(state.player.dialogueGrowth.perspectiveNotes)) throw new Error('Save contains invalid dialogue growth');
+  state.player.dialogueGrowth.comparisonNotes ??= [];
+  state.player.dialogueGrowth.reflectionIds ??= [];
+  if (!Number.isSafeInteger(state.player.dialogueGrowth.insight) || state.player.dialogueGrowth.insight < 0 || !Number.isSafeInteger(state.player.dialogueGrowth.aiReplies) || state.player.dialogueGrowth.aiReplies < 0 || !Array.isArray(state.player.dialogueGrowth.perspectiveNotes) || !Array.isArray(state.player.dialogueGrowth.comparisonNotes) || !Array.isArray(state.player.dialogueGrowth.reflectionIds)) throw new Error('Save contains invalid dialogue growth');
   state.learning ??= initialLearningState();
   state.learning.examAnswers ??= {};
   state.learning.examOutcome ??= 'unset';
