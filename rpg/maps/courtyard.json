@@ -15,6 +15,7 @@
     },
     "date": "1847-06-01",
     "mapClass": "REAL_WORLD_RECONSTRUCTION",
+    "districtId": "COURTYARD_HOUSEHOLD",
     "geography": "fictional lodging courtyard; not a documented named address",
     "sourceIds": [
       "OBJ-PETERSBURG-PLAN-1840",

@@ -25,8 +25,9 @@ try {
   turns++;
   if (!response.ok) throw new Error(`dialogue_${response.status}`);
   const result = await response.json();
-  if (result.fallback || result.mode !== 'AI' || !result.turn?.beats?.length) throw new Error(`provider_${response.headers.get('x-v33-provider-result') || 'response_validation'}`);
-  process.stdout.write(JSON.stringify({ status: 'PASS', model: process.env.OPENAI_DIALOGUE_MODEL || 'gpt-5.4-mini', paidGenerations: turns, responseValidated: true }) + '\n');
+  const generatedText = result.turn?.beats?.map(beat => beat.textKo).filter(text => typeof text === 'string' && text.trim()).join('\n') ?? '';
+  if (result.fallback || result.mode !== 'AI' || !generatedText) throw new Error(`provider_${response.headers.get('x-v33-provider-result') || 'response_validation'}`);
+  process.stdout.write(JSON.stringify({ status: 'PASS', model: process.env.OPENAI_DIALOGUE_MODEL || 'gpt-5.4-mini', paidGenerations: turns, generatedTextLength: generatedText.length, generatedTextReturned: true }) + '\n');
 } catch (error) {
   process.stderr.write(JSON.stringify({ status: 'FAIL', reason: String(error?.message || 'smoke_failed').replace(/[^a-zA-Z0-9_-]/g, '_') }) + '\n');
   process.exitCode = 1;

@@ -1,0 +1,436 @@
+{
+  "schemaVersion": "V35_NPC_REPLAY_V1",
+  "result": "PASS",
+  "elapsedMinutes": 30,
+  "clockStart": 590,
+  "clockEnd": 620,
+  "initialStateHash": "c2b47582",
+  "resultStateHash": "9c9bc9c6",
+  "deterministicReplay": true,
+  "inputImmutable": true,
+  "movedActors": [
+    "courier_pavel",
+    "bookseller_lev",
+    "clerk_alexei",
+    "printer_ekaterina",
+    "seamstress_anna",
+    "tenant_mikhail"
+  ],
+  "movementCount": 18,
+  "deliveryCount": 0,
+  "collisionChecks": [
+    {
+      "minute": 5,
+      "hostId": "courier_pavel",
+      "destinationFree": true
+    },
+    {
+      "minute": 10,
+      "hostId": "bookseller_lev",
+      "destinationFree": true
+    },
+    {
+      "minute": 10,
+      "hostId": "clerk_alexei",
+      "destinationFree": true
+    },
+    {
+      "minute": 10,
+      "hostId": "courier_pavel",
+      "destinationFree": true
+    },
+    {
+      "minute": 10,
+      "hostId": "printer_ekaterina",
+      "destinationFree": true
+    },
+    {
+      "minute": 10,
+      "hostId": "seamstress_anna",
+      "destinationFree": true
+    },
+    {
+      "minute": 10,
+      "hostId": "tenant_mikhail",
+      "destinationFree": true
+    },
+    {
+      "minute": 15,
+      "hostId": "bookseller_lev",
+      "destinationFree": true
+    },
+    {
+      "minute": 15,
+      "hostId": "clerk_alexei",
+      "destinationFree": true
+    },
+    {
+      "minute": 15,
+      "hostId": "courier_pavel",
+      "destinationFree": true
+    },
+    {
+      "minute": 15,
+      "hostId": "seamstress_anna",
+      "destinationFree": true
+    },
+    {
+      "minute": 15,
+      "hostId": "tenant_mikhail",
+      "destinationFree": true
+    },
+    {
+      "minute": 20,
+      "hostId": "courier_pavel",
+      "destinationFree": true
+    },
+    {
+      "minute": 20,
+      "hostId": "seamstress_anna",
+      "destinationFree": true
+    },
+    {
+      "minute": 20,
+      "hostId": "tenant_mikhail",
+      "destinationFree": true
+    },
+    {
+      "minute": 25,
+      "hostId": "courier_pavel",
+      "destinationFree": true
+    },
+    {
+      "minute": 25,
+      "hostId": "tenant_mikhail",
+      "destinationFree": true
+    },
+    {
+      "minute": 30,
+      "hostId": "courier_pavel",
+      "destinationFree": true
+    }
+  ],
+  "saveReloadParity": true,
+  "movementLog": [
+    {
+      "hostId": "courier_pavel",
+      "minute": 5,
+      "scheduleId": "nevsky:540",
+      "activityKo": "네프스키 쪽 배달을 시작한다",
+      "fromMapId": "nevsky",
+      "from": {
+        "x": 10,
+        "y": 16
+      },
+      "toMapId": "nevsky",
+      "to": {
+        "x": 10,
+        "y": 15
+      },
+      "viaExit": null
+    },
+    {
+      "hostId": "bookseller_lev",
+      "minute": 10,
+      "scheduleId": "nevsky:600",
+      "activityKo": "가로등 쪽 손님을 살핀다",
+      "fromMapId": "nevsky",
+      "from": {
+        "x": 25,
+        "y": 16
+      },
+      "toMapId": "nevsky",
+      "to": {
+        "x": 25,
+        "y": 15
+      },
+      "viaExit": null
+    },
+    {
+      "hostId": "clerk_alexei",
+      "minute": 10,
+      "scheduleId": "chancery:600",
+      "activityKo": "안쪽 책장에 서류를 옮긴다",
+      "fromMapId": "chancery",
+      "from": {
+        "x": 11,
+        "y": 13
+      },
+      "toMapId": "chancery",
+      "to": {
+        "x": 12,
+        "y": 13
+      },
+      "viaExit": null
+    },
+    {
+      "hostId": "courier_pavel",
+      "minute": 10,
+      "scheduleId": "nevsky:600",
+      "activityKo": "가로등 길목을 지난다",
+      "fromMapId": "nevsky",
+      "from": {
+        "x": 10,
+        "y": 15
+      },
+      "toMapId": "nevsky",
+      "to": {
+        "x": 10,
+        "y": 14
+      },
+      "viaExit": null
+    },
+    {
+      "hostId": "printer_ekaterina",
+      "minute": 10,
+      "scheduleId": "printshop:600",
+      "activityKo": "인쇄대 쪽 작업을 맡는다",
+      "fromMapId": "printshop",
+      "from": {
+        "x": 11,
+        "y": 13
+      },
+      "toMapId": "printshop",
+      "to": {
+        "x": 10,
+        "y": 13
+      },
+      "viaExit": null
+    },
+    {
+      "hostId": "seamstress_anna",
+      "minute": 10,
+      "scheduleId": "nevsky:600",
+      "activityKo": "안뜰 쪽으로 돌아간다",
+      "fromMapId": "nevsky",
+      "from": {
+        "x": 7,
+        "y": 14
+      },
+      "toMapId": "nevsky",
+      "to": {
+        "x": 7,
+        "y": 15
+      },
+      "viaExit": null
+    },
+    {
+      "hostId": "tenant_mikhail",
+      "minute": 10,
+      "scheduleId": "courtyard:600",
+      "activityKo": "물을 길으러 우물가로 간다",
+      "fromMapId": "courtyard",
+      "from": {
+        "x": 10,
+        "y": 13
+      },
+      "toMapId": "courtyard",
+      "to": {
+        "x": 11,
+        "y": 13
+      },
+      "viaExit": null
+    },
+    {
+      "hostId": "bookseller_lev",
+      "minute": 15,
+      "scheduleId": "nevsky:600",
+      "activityKo": "가로등 쪽 손님을 살핀다",
+      "fromMapId": "nevsky",
+      "from": {
+        "x": 25,
+        "y": 15
+      },
+      "toMapId": "nevsky",
+      "to": {
+        "x": 25,
+        "y": 14
+      },
+      "viaExit": null
+    },
+    {
+      "hostId": "clerk_alexei",
+      "minute": 15,
+      "scheduleId": "chancery:600",
+      "activityKo": "안쪽 책장에 서류를 옮긴다",
+      "fromMapId": "chancery",
+      "from": {
+        "x": 12,
+        "y": 13
+      },
+      "toMapId": "chancery",
+      "to": {
+        "x": 13,
+        "y": 13
+      },
+      "viaExit": null
+    },
+    {
+      "hostId": "courier_pavel",
+      "minute": 15,
+      "scheduleId": "nevsky:600",
+      "activityKo": "가로등 길목을 지난다",
+      "fromMapId": "nevsky",
+      "from": {
+        "x": 10,
+        "y": 14
+      },
+      "toMapId": "nevsky",
+      "to": {
+        "x": 10,
+        "y": 13
+      },
+      "viaExit": null
+    },
+    {
+      "hostId": "seamstress_anna",
+      "minute": 15,
+      "scheduleId": "nevsky:600",
+      "activityKo": "안뜰 쪽으로 돌아간다",
+      "fromMapId": "nevsky",
+      "from": {
+        "x": 7,
+        "y": 15
+      },
+      "toMapId": "nevsky",
+      "to": {
+        "x": 6,
+        "y": 15
+      },
+      "viaExit": null
+    },
+    {
+      "hostId": "tenant_mikhail",
+      "minute": 15,
+      "scheduleId": "courtyard:600",
+      "activityKo": "물을 길으러 우물가로 간다",
+      "fromMapId": "courtyard",
+      "from": {
+        "x": 11,
+        "y": 13
+      },
+      "toMapId": "courtyard",
+      "to": {
+        "x": 12,
+        "y": 13
+      },
+      "viaExit": null
+    },
+    {
+      "hostId": "courier_pavel",
+      "minute": 20,
+      "scheduleId": "nevsky:600",
+      "activityKo": "가로등 길목을 지난다",
+      "fromMapId": "nevsky",
+      "from": {
+        "x": 10,
+        "y": 13
+      },
+      "toMapId": "nevsky",
+      "to": {
+        "x": 10,
+        "y": 12
+      },
+      "viaExit": null
+    },
+    {
+      "hostId": "seamstress_anna",
+      "minute": 20,
+      "scheduleId": "nevsky:600",
+      "activityKo": "안뜰 쪽으로 돌아간다",
+      "fromMapId": "nevsky",
+      "from": {
+        "x": 6,
+        "y": 15
+      },
+      "toMapId": "nevsky",
+      "to": {
+        "x": 5,
+        "y": 15
+      },
+      "viaExit": null
+    },
+    {
+      "hostId": "tenant_mikhail",
+      "minute": 20,
+      "scheduleId": "courtyard:600",
+      "activityKo": "물을 길으러 우물가로 간다",
+      "fromMapId": "courtyard",
+      "from": {
+        "x": 12,
+        "y": 13
+      },
+      "toMapId": "courtyard",
+      "to": {
+        "x": 13,
+        "y": 13
+      },
+      "viaExit": null
+    },
+    {
+      "hostId": "courier_pavel",
+      "minute": 25,
+      "scheduleId": "nevsky:600",
+      "activityKo": "가로등 길목을 지난다",
+      "fromMapId": "nevsky",
+      "from": {
+        "x": 10,
+        "y": 12
+      },
+      "toMapId": "nevsky",
+      "to": {
+        "x": 10,
+        "y": 11
+      },
+      "viaExit": null
+    },
+    {
+      "hostId": "tenant_mikhail",
+      "minute": 25,
+      "scheduleId": "courtyard:600",
+      "activityKo": "물을 길으러 우물가로 간다",
+      "fromMapId": "courtyard",
+      "from": {
+        "x": 13,
+        "y": 13
+      },
+      "toMapId": "courtyard",
+      "to": {
+        "x": 14,
+        "y": 13
+      },
+      "viaExit": null
+    },
+    {
+      "hostId": "courier_pavel",
+      "minute": 30,
+      "scheduleId": "nevsky:600",
+      "activityKo": "가로등 길목을 지난다",
+      "fromMapId": "nevsky",
+      "from": {
+        "x": 10,
+        "y": 11
+      },
+      "toMapId": "nevsky",
+      "to": {
+        "x": 10,
+        "y": 10
+      },
+      "viaExit": null
+    }
+  ],
+  "deliveryLog": [],
+  "courierTaskReplay": {
+    "elapsedMinutes": 110,
+    "deliveries": [
+      {
+        "hostId": "courier_pavel",
+        "recipientHostId": "printer_ekaterina",
+        "itemKo": "밀봉 봉투",
+        "taskId": "PAVEL_DELIVER_SEALED_ENVELOPE_01",
+        "mapId": "printshop",
+        "minute": 110
+      }
+    ]
+  }
+}

@@ -15,6 +15,7 @@
     },
     "date": "1847-06-01",
     "mapClass": "REAL_WORLD_RECONSTRUCTION",
+    "districtId": "NEVSKY_COMMERCIAL",
     "geography": "fictional office interior; no specific historical institution or room is claimed",
     "sourceIds": [
       "OBJ-PETERSBURG-PLAN-1840"

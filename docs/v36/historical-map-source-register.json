@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "V36_HISTORICAL_MAP_SOURCE_REGISTER_V1",
+  "baselineCommit": "7974392eb6e30a19607ff306972159fe5cd47b2e",
+  "researchDate": "2026-11-02",
+  "policy": "Sources establish bounded features only. The playable street grid is a stylized, non-georeferenced reconstruction unless a feature is tied to an exact mapped locator. No source image is redistributed by this register.",
+  "sources": [
+    {
+      "sourceId": "V36-MAP-NLR-19C-PLANS",
+      "title": "19th-century plans of Saint Petersburg; Russian National Library Mosaic of Petersburg",
+      "sourceType": "PERIOD_MAP",
+      "sourceUrl": "https://expositions.nlr.ru/eng/ex_map/mozaika_Saint-Petersburg/plans_19_century.php",
+      "relatedCatalogUrl": "https://expositions.nlr.ru/eng/ex_map/mozaika_Saint-Petersburg/historic_plans.php",
+      "verifiedMetadata": "RNB describes the detailed 1828 Schubert plan at 1:4200 and lists the 1846 Military Topographic Depot atlas Plans of St Petersburg from 1700 to 1840. The latter is a 1846 publication whose historical map sequence includes the 1840 city state.",
+      "eraRange": "1828 map / 1840 mapped state / 1846 publication",
+      "locale": "Saint Petersburg",
+      "pageOrFolio": "Catalog and explanatory exhibition pages; individual map sheets/folios must be checked before exact street geometry is claimed.",
+      "visualFeature": "Macro street and waterway topology; building footprints only where the selected sheet makes them legible.",
+      "confidence": "HIGH for catalog facts; MEDIUM for macro geography pending sheet-level comparison.",
+      "rights": "Catalog metadata reviewed; reproduction rights for map images not reviewed. No image reused.",
+      "creditedArtist": "Military Topographic Depot; Schubert-led survey plan (1828) as attributed by RNB.",
+      "gameTransformation": "Use as a dated reference for district connections and broad street orientation. Do not use it to claim exact 1847 shop locations or surveyed coordinates without sheet/locator verification.",
+      "researchUrl": "https://expositions.nlr.ru/eng/ex_map/mozaika_Saint-Petersburg/historic_plans.php"
+    },
+    {
+      "sourceId": "V36-MAP-TSYLOV-1849",
+      "title": "N. I. Tsylov, Atlas of the Thirteen Parts of Saint Petersburg",
+      "sourceType": "LATER_REFERENCE",
+      "sourceUrl": "https://rusneb.ru/catalog/000200_000018_v19_rc_1287364/",
+      "verifiedMetadata": "NEB/NLR catalog records St Petersburg, 1849, 20 leaves and 407 separately paginated plans; held by the Russian National Library.",
+      "eraRange": "1849 publication; two years after the game's initial 1847 date",
+      "locale": "Saint Petersburg, thirteen administrative parts",
+      "pageOrFolio": "Catalog record verified; specific plan folios require separate inspection.",
+      "visualFeature": "Later street, embankment, lane, state-house, and private-house comparison.",
+      "confidence": "HIGH for publication metadata; LOW as direct evidence of 1847 conditions.",
+      "rights": "Catalog metadata reviewed; scan and reproduction rights not reviewed. No image reused.",
+      "creditedArtist": "Compiled by N. I. Tsylov; individual engraving credits require sheet-level review.",
+      "gameTransformation": "Comparison only. Never cite the 1849 atlas by itself as proof that a detail existed in 1847."
+    },
+    {
+      "sourceId": "V36-GUIDE-PUSHKAREV-1843",
+      "title": "Ivan Pushkarev, Guide to Saint Petersburg and its Environs",
+      "sourceType": "PERIOD_TEXT",
+      "sourceUrl": "https://www.prlib.ru/item/441202",
+      "verifiedMetadata": "Presidential Library catalog identifies Pushkarev (1808–1848), St Petersburg, 1843, XVI + 468 + 34 pages and one plan; electronic copy source is the Russian State Library.",
+      "eraRange": "1843 publication",
+      "locale": "Saint Petersburg and environs",
+      "pageOrFolio": "Catalog record only in this pass; page-level guide entries must be read before asserting individual addresses or access rules.",
+      "visualFeature": "Names of streets, facilities, districts, and visitor routes once page-level entries are checked.",
+      "confidence": "HIGH for catalog metadata; UNVERIFIED for any specific facility or route not yet read in the scan.",
+      "rights": "Catalog metadata reviewed; scan access and reproduction terms not reviewed. No scan image reused.",
+      "creditedArtist": "Ivan Ilyich Pushkarev, author; printer listed by catalog as the Department of Foreign Trade printing house.",
+      "gameTransformation": "Use only the checked page/entry and locator in the historical feature ledger; do not infer private access from a guidebook listing."
+    },
+    {
+      "sourceId": "V36-PHYSIOLOGY-PETERSBURG-1845",
+      "title": "Physiology of Petersburg, Part 1, edited by N. Nekrasov",
+      "sourceType": "PERIOD_TEXT",
+      "sourceUrl": "https://www.prlib.ru/item/1327533",
+      "verifiedMetadata": "Presidential Library catalog records the 1845 St Petersburg edition, 303 pages with illustrations, and identifies sketches including the Petersburg dvornik, street organ-grinders, Petersburg Side, and Petersburg corners.",
+      "eraRange": "1845 publication",
+      "locale": "Petersburg urban life as portrayed by Russian writers",
+      "pageOrFolio": "Catalog contents verified; individual scene pages must be checked before paraphrase or quotation.",
+      "visualFeature": "Literary descriptions of occupations and everyday urban scenes; not a representative city census or unbiased statistical account.",
+      "confidence": "HIGH for catalog metadata and contents list; MEDIUM/LOW for generalized claims about prevalence.",
+      "rights": "Catalog metadata reviewed; scan and image reproduction terms not reviewed. No page image reused.",
+      "creditedArtist": "N. Nekrasov, editor; named contributors as cataloged by the Presidential Library.",
+      "gameTransformation": "Contextualize fictional daily-life scenes and explicitly label literary representation. Never turn a sketch into a city-wide statistic."
+    },
+    {
+      "sourceId": "V36-ART-RUSSIAN-MUSEUM-COLLMANN-1840S",
+      "title": "Russian Museum virtual exhibition, Saint Petersburg: City and Citizens",
+      "sourceType": "PERIOD_PAINTING",
+      "sourceUrl": "https://rusmuseumvrm.ru/online_resources/art_gallery/spb._gorod_i_gorozhane/index.php?lang=ru&p=803&page=1&ps=500&show=alpha&t=0",
+      "verifiedMetadata": "The museum lists K. I. Collmann, Hire a Cab (1842, watercolor on paper, inventory R-1099), Ice Delivery (1842, watercolor on paper, R-12703), and Street in the Rain (1840). Museum interpretation discusses ordinary street activity and genre watercolor conventions.",
+      "eraRange": "1840, 1842, and other cataloged 1840s works",
+      "locale": "Petersburg streets and embankments",
+      "pageOrFolio": "Museum object records R-1099 and R-12703; dimensions and media shown on exhibition listing.",
+      "visualFeature": "Cab hire, ice delivery, street commerce, transport, clothing silhouettes, and rainy street atmosphere.",
+      "confidence": "HIGH for museum catalog metadata; visual interpretation remains subject to inspecting each original image.",
+      "rights": "Museum listing reviewed; reuse/download rights not established. Use only as research reference; do not redistribute museum images.",
+      "creditedArtist": "K. I. Collmann for the two 1842 watercolors; the museum identifies the 1840 Street in the Rain under the same exhibition listing.",
+      "gameTransformation": "Create original pixel art inspired by visible, inspected features and mark it CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE. Do not claim the pixel reconstruction is a documentary image.",
+      "catalogResearchUrl": "https://rusmuseumvrm.ru/online_resources/art_gallery/spb._gorod_i_gorozhane/index.php?lang=ru&p=803&page=1&ps=500&show=name&t=0"
+    }
+  ],
+  "verifiedLimits": [
+    "The game map grid remains stylized and not georeferenced; map sources do not authorize exact in-game coordinates without a sheet-level comparison.",
+    "The 1849 Tsylov atlas is later reference material for the 1847 opening and is not direct 1847 evidence.",
+    "Physiology of Petersburg is a literary sketch collection, not a representative statistical survey.",
+    "Russian Museum images are not copied into the game; image rights were not cleared for redistribution."
+  ]
+}

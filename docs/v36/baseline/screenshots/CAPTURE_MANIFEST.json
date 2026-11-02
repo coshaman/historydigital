@@ -1,0 +1,91 @@
+{
+  "baselineCommit": "7974392eb6e30a19607ff306972159fe5cd47b2e",
+  "generatedAt": "2026-11-02T08:57:55.229Z",
+  "purpose": "Pre-V36 implementation screenshots of the existing playable build; baseline only, not V36 acceptance evidence.",
+  "viewports": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "document": {
+        "width": 1440,
+        "height": 900
+      },
+      "body": "몸을 빌림 · 알렉세이 오를로프",
+      "mission": "교정쇄의 행선지",
+      "opinionMission": "견해 임무 · 0 / 6 완료",
+      "opinionBoardVisible": true,
+      "canvas": {
+        "width": 1382,
+        "height": 355
+      },
+      "actionsVisible": true,
+      "screenshot": "1440x900-baseline.png",
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 1366,
+        "height": 768
+      },
+      "document": {
+        "width": 1366,
+        "height": 768
+      },
+      "body": "몸을 빌림 · 알렉세이 오를로프",
+      "mission": "교정쇄의 행선지",
+      "opinionMission": "견해 임무 · 0 / 6 완료",
+      "opinionBoardVisible": true,
+      "canvas": {
+        "width": 1309,
+        "height": 279
+      },
+      "actionsVisible": true,
+      "screenshot": "1366x768-baseline.png",
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "document": {
+        "width": 390,
+        "height": 844
+      },
+      "body": "몸을 빌림 · 알렉세이 오를로프",
+      "mission": "교정쇄의 행선지",
+      "opinionMission": "견해 임무 · 0 / 6 완료",
+      "opinionBoardVisible": true,
+      "canvas": {
+        "width": 368,
+        "height": 377
+      },
+      "actionsVisible": true,
+      "screenshot": "390x844-baseline.png",
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "document": {
+        "width": 360,
+        "height": 800
+      },
+      "body": "몸을 빌림 · 알렉세이 오를로프",
+      "mission": "교정쇄의 행선지",
+      "opinionMission": "견해 임무 · 0 / 6 완료",
+      "opinionBoardVisible": true,
+      "canvas": {
+        "width": 338,
+        "height": 339
+      },
+      "actionsVisible": true,
+      "screenshot": "360x800-baseline.png",
+      "pageErrors": []
+    }
+  ]
+}

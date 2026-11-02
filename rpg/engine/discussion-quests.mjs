@@ -41,3 +41,26 @@ export function discussionReflectionPromptsForHost(hostId, state, quests) {
       promptKo: quest.reflectionPromptKo ?? '이 문제를 다른 사람과도 이야기했어요. 당신은 어떤 점을 가장 먼저 따져봐야 한다고 생각하나요?',
     }));
 }
+
+export function discussionBoardView(quests, hostId = null, hostNames = {}) {
+  const active = (quests ?? []).filter(quest => !quest.completed);
+  const completedCount = (quests ?? []).length - active.length;
+  const eligibleFor = quest => Object.keys(quest.hosts ?? {})
+    .filter(id => !quest.perspectiveHostIds?.includes(id))
+    .map(id => hostNames[id] ?? id);
+  const rows = hostId
+    ? active.flatMap(quest => {
+        const prompt = quest.hosts?.[hostId];
+        if (!prompt || quest.perspectiveHostIds?.includes(hostId)) return [];
+        return [`${quest.titleKo} · ${quest.perspectiveHostIds?.length ?? 0}/${quest.requiredPerspectiveCount ?? 2} 관점 · 이 인물에게 “${prompt.promptKo}”를 물어보세요.`];
+      }).slice(0, 3)
+    : active.slice(0, 3).map(quest => `${quest.titleKo} · ${quest.perspectiveHostIds?.length ?? 0}/${quest.requiredPerspectiveCount ?? 2} 관점 · ${eligibleFor(quest).join(' · ')} 중 두 사람에게 같은 쟁점을 물어보세요.`);
+  return {
+    progressKo: `견해 임무 · ${completedCount} / ${(quests ?? []).length} 완료`,
+    guidanceKo: hostId
+      ? '아래 질문을 고르고, 같은 쟁점을 다른 인물에게도 물어 두 관점을 비교하세요.'
+      : '먼저 인물에게 빙의해 가까이 다가가 말을 거세요. 같은 쟁점을 두 사람에게 물으면 견해 메모가 남습니다.',
+    rows,
+    visible: active.length > 0,
+  };
+}

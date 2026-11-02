@@ -13,6 +13,7 @@
     "detentionArrival": { "x": 3, "y": 4 },
     "date": "1847-06-01",
     "mapClass": "FICTIONAL_CIVIC_RECONSTRUCTION",
+    "districtId": "NEVSKY_COMMERCIAL",
     "geography": "fictional police reception room; not a surveyed historic station",
     "sourceIds": [],
     "note": "이 접수실과 체포·진술 선택은 허구의 게임 장치이며 러시아 제국의 실제 경찰 절차를 재현하지 않는다."

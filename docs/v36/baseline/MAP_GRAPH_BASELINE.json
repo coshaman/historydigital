@@ -1,0 +1,226 @@
+{
+  "baselineCommit": "7974392eb6e30a19607ff306972159fe5cd47b2e",
+  "generatedAt": "2026-11-02T08:55:05.174Z",
+  "summary": {
+    "totalMaps": 7,
+    "cityAndReconstructionMaps": 5,
+    "literaryMapsSeparate": 2,
+    "knownInteriorCandidatesByMetadata": [
+      "chancery",
+      "police-station",
+      "printshop"
+    ],
+    "totalMapExitObjects": 8,
+    "missingTargets": []
+  },
+  "maps": [
+    {
+      "mapId": "chancery",
+      "nameKo": "관청 접수실",
+      "mapClass": "REAL_WORLD_RECONSTRUCTION",
+      "width": 24,
+      "height": 18,
+      "geography": "fictional office interior; no specific historical institution or room is claimed",
+      "date": "1847-06-01",
+      "sourceIds": [
+        "OBJ-PETERSBURG-PLAN-1840"
+      ],
+      "interactionObjects": 8,
+      "mapExits": [
+        {
+          "objectId": 42,
+          "label": "네프스키로 나가는 문",
+          "targetMapId": "nevsky",
+          "exitId": "chancery-nevsky-door",
+          "arrival": {
+            "x": 4,
+            "y": 9
+          },
+          "requiredHostId": null,
+          "publicAccess": true,
+          "targetExists": true
+        }
+      ]
+    },
+    {
+      "mapId": "courtyard",
+      "nameKo": "하숙집 안뜰",
+      "mapClass": "REAL_WORLD_RECONSTRUCTION",
+      "width": 24,
+      "height": 18,
+      "geography": "fictional lodging courtyard; not a documented named address",
+      "date": "1847-06-01",
+      "sourceIds": [
+        "OBJ-PETERSBURG-PLAN-1840",
+        "OBJ-SADOVNIKOV-1835"
+      ],
+      "interactionObjects": 3,
+      "mapExits": [
+        {
+          "objectId": 62,
+          "label": "거리로 나가는 안뜰 문",
+          "targetMapId": "nevsky",
+          "exitId": "courtyard-nevsky-gate",
+          "arrival": {
+            "x": 16,
+            "y": 9
+          },
+          "requiredHostId": null,
+          "publicAccess": true,
+          "targetExists": true
+        }
+      ]
+    },
+    {
+      "mapId": "dead-souls",
+      "nameKo": "《죽은 혼》의 도청 소재지 여관",
+      "mapClass": "LITERARY_REALM",
+      "width": 24,
+      "height": 18,
+      "geography": "A literary provincial town and inn from chapter one of Gogol’s 1842 novel; no real Russian town is claimed.",
+      "date": "1842-01-01",
+      "sourceIds": [
+        "LIT-GOGOL-DEAD-SOULS-1842"
+      ],
+      "interactionObjects": 3,
+      "mapExits": []
+    },
+    {
+      "mapId": "nevsky",
+      "nameKo": "네프스키 거리",
+      "mapClass": "REAL_WORLD_RECONSTRUCTION",
+      "width": 30,
+      "height": 20,
+      "geography": "stylized, not georeferenced",
+      "date": "1847-06-01",
+      "sourceIds": [
+        "OBJ-PETERSBURG-PLAN-1840",
+        "OBJ-SADOVNIKOV-1835"
+      ],
+      "interactionObjects": 9,
+      "mapExits": [
+        {
+          "objectId": 3,
+          "label": "인쇄소 문",
+          "targetMapId": "printshop",
+          "exitId": "nevsky-printshop-door",
+          "arrival": {
+            "x": 12,
+            "y": 14
+          },
+          "requiredHostId": null,
+          "publicAccess": true,
+          "targetExists": true
+        },
+        {
+          "objectId": 5,
+          "label": "관청 쪽 출입문",
+          "targetMapId": "chancery",
+          "exitId": "nevsky-chancery-door",
+          "arrival": {
+            "x": 12,
+            "y": 14
+          },
+          "requiredHostId": null,
+          "publicAccess": true,
+          "targetExists": true
+        },
+        {
+          "objectId": 6,
+          "label": "안뜰로 드는 문",
+          "targetMapId": "courtyard",
+          "exitId": "nevsky-courtyard-gate",
+          "arrival": {
+            "x": 11,
+            "y": 13
+          },
+          "requiredHostId": null,
+          "publicAccess": true,
+          "targetExists": true
+        },
+        {
+          "objectId": 9,
+          "label": "경찰 접수실 문",
+          "targetMapId": "police-station",
+          "exitId": "nevsky-police-door",
+          "arrival": {
+            "x": 4,
+            "y": 6
+          },
+          "requiredHostId": null,
+          "publicAccess": true,
+          "targetExists": true
+        }
+      ]
+    },
+    {
+      "mapId": "overcoat",
+      "nameKo": "《외투》 속 재단사의 방",
+      "mapClass": "LITERARY_REALM",
+      "width": 24,
+      "height": 18,
+      "geography": "A fictional Petersburg room and black staircase in Gogol’s The Overcoat; not a surveyed historical location.",
+      "date": "1842-01-01",
+      "sourceIds": [
+        "LIT-GOGOL-OVERCOAT-1842"
+      ],
+      "interactionObjects": 3,
+      "mapExits": []
+    },
+    {
+      "mapId": "police-station",
+      "nameKo": "경찰 접수실",
+      "mapClass": "FICTIONAL_CIVIC_RECONSTRUCTION",
+      "width": 10,
+      "height": 8,
+      "geography": "fictional police reception room; not a surveyed historic station",
+      "date": "1847-06-01",
+      "sourceIds": [],
+      "interactionObjects": 3,
+      "mapExits": [
+        {
+          "objectId": 2,
+          "label": "네프스키 거리로 나가는 문",
+          "targetMapId": "nevsky",
+          "exitId": "police-station-nevsky-door",
+          "arrival": {
+            "x": 7,
+            "y": 10
+          },
+          "requiredHostId": null,
+          "publicAccess": true,
+          "targetExists": true
+        }
+      ]
+    },
+    {
+      "mapId": "printshop",
+      "nameKo": "네프스키 인쇄소",
+      "mapClass": "REAL_WORLD_RECONSTRUCTION",
+      "width": 24,
+      "height": 18,
+      "geography": "fictional shop interior, not a documented named address",
+      "date": "1847-06-01",
+      "sourceIds": [
+        "OBJ-SOV-1847",
+        "OBJ-PETERSBURG-PLAN-1840"
+      ],
+      "interactionObjects": 11,
+      "mapExits": [
+        {
+          "objectId": 23,
+          "label": "네프스키로 나가는 문",
+          "targetMapId": "nevsky",
+          "exitId": "printshop-nevsky-door",
+          "arrival": {
+            "x": 22,
+            "y": 9
+          },
+          "requiredHostId": null,
+          "publicAccess": true,
+          "targetExists": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "baselineCommit": "7974392eb6e30a19607ff306972159fe5cd47b2e",
+  "branch": "codex/master-dialogue-opinions",
+  "generatedAt": "2026-11-02T08:55:05.174Z",
+  "workingTreeStatus": "M package.json\n?? docs/v36/\n?? scripts/v36-baseline-inventory.mjs",
+  "counts": {
+    "characterRecords": 14,
+    "fictionalCityCitizens": 10,
+    "literaryCharacters": 3,
+    "historicalReconstructions": 1,
+    "mapRecords": 7,
+    "cityAndReconstructionMaps": 5,
+    "questRecords": 20,
+    "personalOrCaseQuestFiles": 7,
+    "opinionQuestRecords": 13,
+    "assetFiles": 28
+  },
+  "knownConstraints": [
+    "NPC schedules currently mostly move on a 5-minute simulation tick using tile paths; no 36-agent roster is present.",
+    "Character records mix fictional city residents, literary-world characters, and a historical reconstruction; these must not be counted as the same population.",
+    "Maps are stylized and not georeferenced; map citations provide context, not survey-grade in-game coordinates.",
+    "Possession availability is runtime- and reachability-dependent; catalogue presence is not proof of 30 playable residents."
+  ]
+}

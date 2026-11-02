@@ -3,7 +3,7 @@ import { objectIsPresent } from './engine/world-presentation.mjs';
 import { questChoices, continuationQuest } from './engine/quest-presentation.mjs';
 import { resolveQuestGuidance } from './engine/quest-guidance.mjs';
 import { ownsKeyboardInput, observationText } from './engine/player-presentation.mjs';
-import { availableDiscussionQuests, discussionPromptsForHost, discussionReflectionPromptsForHost } from './engine/discussion-quests.mjs';
+import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHost, discussionReflectionPromptsForHost } from './engine/discussion-quests.mjs';
 import { dialogueSessionNeedsReconnect, selectDialogueTurn } from './engine/dialogue-response.mjs';
 import { appendApiDiagnostic, clearApiDiagnostics, readApiDiagnostics } from './engine/api-diagnostics.mjs';
 import { CITY_PRODUCTS, NEWSPAPER_STORIES, newspaperAssignment, purchaseCityProduct, publishNewspaperIssue, shareSourceWithEditor, readNewspaperIssue, circulateNewspaperIssue, commitSuspiciousAct, resolvePoliceCustody, publishedIssueLabel } from './engine/civic-life.mjs';
@@ -14,7 +14,7 @@ const { createInitialState, moveActor, possessHost, releaseHost, transitionMap, 
 
 const readJson = async path => (await fetch(path)).json();
 const [street, shop, chancery, courtyard, literaryMap, overcoatMap, policeMap, firstQuest, source, firstIssue, historicalSources, literarySource, overcoatSource, campaign, publicQuest, circleQuest, letterQuest, literaryQuest, overcoatQuest, sceneObservations, aiScenes, learningExam, learningSourceData, lifeTemplates, historicalComparisons] = await Promise.all([readJson('./rpg/maps/nevsky.json'), readJson('./rpg/maps/printshop.json'), readJson('./rpg/maps/chancery.json'), readJson('./rpg/maps/courtyard.json'), readJson('./rpg/maps/dead-souls.json'), readJson('./rpg/maps/overcoat.json'), readJson('./rpg/maps/police-station.json'), readJson('./rpg/quests/printshop-article.json'), readJson('./rpg/data/khor-kalynych-source.json'), readJson('./rpg/data/sovremennik-1847-issue.json'), readJson('./rpg/data/historical-source-packets.json'), readJson('./rpg/data/dead-souls-source.json'), readJson('./rpg/data/overcoat-source.json'), readJson('./rpg/quests/campaign.json'), readJson('./rpg/quests/public-discourse-1848.json'), readJson('./rpg/quests/circle-investigation-1849.json'), readJson('./rpg/quests/circle-letter-1849-may.json'), readJson('./rpg/quests/literary-dead-souls.json'), readJson('./rpg/quests/literary-overcoat.json'), readJson('./rpg/data/scene-observations.json'), readJson('./rpg/ai/scenes.json'), readJson('./rpg/data/learning-exam.json'), readJson('./rpg/data/learning-sources.json'), readJson('./rpg/data/life-simulation.json'), readJson('./rpg/data/historical-comparisons.json')]);
-const [sourceReaderIndex, caseContextData, discussionQuestData] = await Promise.all([readJson('./rpg/data/source-reader-index.json'), readJson('./rpg/data/case-contexts.json'), readJson('./rpg/data/discussion-quests.json')]);
+const [sourceReaderIndex, caseContextData, discussionQuestData, districtRegistry] = await Promise.all([readJson('./rpg/data/source-reader-index.json'), readJson('./rpg/data/case-contexts.json'), readJson('./rpg/data/discussion-quests.json'), readJson('./rpg/data/city-districts-v36.json')]);
 const cards = await Promise.all(['clerk_alexei','printer_ekaterina','courier_pavel','seamstress_anna','tenant_mikhail','bookseller_lev','senior_clerk_konstantin','reader_darya','editor_sofia','police_sergeant_ivan','nekrasov_reconstruction','literary_chichikov','literary_akaky','literary_petrovich'].map(id => readJson(`./rpg/characters/${id}.json`)));
 const maps = { nevsky: street, printshop: shop, chancery, courtyard, 'dead-souls': literaryMap, overcoat: overcoatMap, 'police-station': policeMap }, hostCards = cards;
 const questList = [firstQuest, publicQuest, circleQuest, letterQuest, literaryQuest, overcoatQuest];
@@ -40,6 +40,7 @@ const sourceRecords = new Map([source, firstIssue, ...historicalSources.records,
 const sourceReaderRecords = new Map(sourceReaderIndex.records.map(record => [record.sourceId, record]));
 const caseContextsByQuest = new Map(caseContextData.cases.map(item => [item.questId, item]));
 const discussionQuestById = new Map(discussionQuestData.quests.map(item => [item.id, item]));
+const districtById = new Map(districtRegistry.districts.map(item => [item.id, item]));
 const currentDiscussionQuests = () => availableDiscussionQuests(state, discussionQuestData);
 const initial = () => createInitialState({ maps, hostCards, quests: questList });
 let state;
@@ -362,7 +363,7 @@ function nearbyConversationPartner() {
 }
 function updateHud() {
   const map = currentMap(), host = state.player.embodiment ? cards.find(card => card.id === state.player.embodiment) : null;
-  $('#place').textContent = map.metadata.displayNameKo; $('#mapname').textContent = map.metadata.displayNameKo;
+  $('#place').textContent = districtById.get(map.metadata.districtId)?.nameKo ?? map.metadata.displayNameKo; $('#mapname').textContent = map.metadata.displayNameKo;
   document.body.classList.toggle('literary-world', Boolean(state.world.activeRealm));
   const [year, month, day] = state.world.date.split('-').map(Number);
   $('#world-date').textContent = state.world.activeRealm ? '문학 속 1842년' : `${year}년 ${month}월`;
@@ -400,23 +401,16 @@ function updateHud() {
   }
   const caseContext = host ? caseContextsByQuest.get(missionGuidance.questId) : null;
   caseContextButton.hidden = !caseContext?.roles?.[host.id] || Boolean(state.endingId);
-  const discussionQuests = currentDiscussionQuests(), activeDiscussionCount = discussionQuests.filter(item => !item.completed).length;
+  const discussionQuests = currentDiscussionQuests();
   const discussionBoard = $('#discussion-quest-board');
   const discussionHost = conversationPartner;
-  const currentPrompts = discussionHost ? discussionPromptsForHost(discussionHost.id, discussionQuests) : [];
   const reflectionPrompts = discussionHost ? discussionReflectionPromptsForHost(discussionHost.id, state, discussionQuests) : [];
-  discussionBoard.hidden = !host || (!activeDiscussionCount && !reflectionPrompts.length) || Boolean(state.endingId);
-  $('#discussion-quest-progress').textContent = `견해 임무 · ${discussionQuests.filter(item => item.completed).length} / ${discussionQuests.length} 완료`;
-  $('#discussion-quest-guidance').textContent = discussionHost && currentPrompts.length
-    ? `${discussionHost.displayNameKo}에게 아래 질문을 고르고, 같은 주제로 다른 인물의 생각도 들어보세요.`
-    : '대화에서 사상·이념·사건 질문을 골라 서로 다른 두 인물의 생각을 비교하세요. 아래 목록에서 지금 물을 사람을 확인할 수 있습니다.';
-  const inquiryRows = currentPrompts.length
-    ? currentPrompts.slice(0, 3).map(prompt => `지금 할 일 · ${discussionHost.displayNameKo}에게 말을 걸고 이 질문을 고르세요: “${prompt.promptKo}” · ${prompt.questTitleKo} (${prompt.progressKo})`)
-    : discussionQuests.filter(quest => !quest.completed)
-      .slice(0, 3).map(quest => {
-        const availablePeople = Object.keys(quest.hosts).filter(id => !quest.perspectiveHostIds.includes(id)).map(id => cards.find(card => card.id === id)?.displayNameKo).filter(Boolean).join(' · ');
-        return `지금 할 일 · ${quest.titleKo} (${quest.perspectiveHostIds.length}/${quest.requiredPerspectiveCount}) · ${availablePeople} 중 한 명에게 가까이 가서 말을 걸고 질문을 고르세요.`;
-      });
+  const discussionView = discussionBoardView(discussionQuests, discussionHost?.id ?? null,
+    Object.fromEntries(cards.map(card => [card.id, card.displayNameKo])));
+  discussionBoard.hidden = (!discussionView.visible && !reflectionPrompts.length) || Boolean(state.endingId);
+  $('#discussion-quest-progress').textContent = discussionView.progressKo;
+  $('#discussion-quest-guidance').textContent = discussionView.guidanceKo;
+  const inquiryRows = discussionView.rows;
   const followUpRows = reflectionPrompts.slice(0, 2).map(prompt => `비교 메모 후속 대화 · ${discussionHost.displayNameKo}에게: “${prompt.promptKo}”`);
   $('#discussion-quest-items').replaceChildren(...(inquiryRows.length || followUpRows.length
     ? [...inquiryRows, ...followUpRows].map(text => Object.assign(document.createElement('li'), { textContent: text }))

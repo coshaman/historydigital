@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { availableDiscussionQuests, discussionPromptsForHost, discussionReflectionPromptsForHost } from '../rpg/engine/discussion-quests.mjs';
+import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHost, discussionReflectionPromptsForHost } from '../rpg/engine/discussion-quests.mjs';
 import definitions from '../rpg/data/discussion-quests.json' with { type: 'json' };
 
 test('discussion quests unlock by campaign date and preserve fictional viewpoint boundaries', () => {
@@ -63,4 +63,17 @@ test('new philosophy and event inquiries have actionable questions for distinct 
   assert.match(witness.stakesKo, /직접 본 일|전해 들은 말/);
   assert.ok(witness.hosts.courier_pavel && witness.hosts.clerk_alexei && witness.hosts.printer_ekaterina);
   assert.equal(witness.sourceIds.every(sourceId => typeof sourceId === 'string'), true);
+});
+
+test('the opening opinion quests tell a first-time player what to do before possession', () => {
+  const quests = availableDiscussionQuests({ world: { date: '1847-06-01' }, ledger: [] }, definitions);
+  const board = discussionBoardView(quests, null, { clerk_alexei: '알렉세이', senior_clerk_konstantin: '콘스탄틴' });
+  assert.equal(board.visible, true);
+  assert.match(board.guidanceKo, /빙의해.*말을 거세요/);
+  assert.match(board.rows[0], /두 사람에게 같은 쟁점을 물어보세요/);
+  assert.match(board.rows.join(' '), /알렉세이|콘스탄틴/);
+  const active = quests.find(item => item.id === 'INQUIRY_OFFICIAL_DUTY_AND_MORALITY');
+  const inConversation = discussionBoardView([active], 'clerk_alexei', { clerk_alexei: '알렉세이' });
+  assert.match(inConversation.rows[0], /이 인물에게/);
+  assert.match(inConversation.rows[0], /결재선/);
 });

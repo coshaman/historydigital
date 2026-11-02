@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "V36_DISTRICT_PROTOTYPES_V1",
+  "reconstructionPolicy": "These are player-facing gameplay districts, not claims about surveyed historical administrative boundaries. Exact street geometry and addresses remain UNVERIFIED_RECONSTRUCTION unless tied to a checked map sheet and locator.",
+  "districts": [
+    {
+      "id": "NEVSKY_COMMERCIAL",
+      "nameKo": "네프스키의 일터 거리",
+      "prototypeStatus": "PHASE_1_PLAYABLE_PROTOTYPE",
+      "districtType": "COMMERCIAL_AND_WORKPLACE_RECONSTRUCTION",
+      "mapIds": ["nevsky", "printshop", "chancery", "police-station"],
+      "entryMapId": "nevsky",
+      "interiorMapIds": ["printshop", "chancery", "police-station"],
+      "residentIds": ["clerk_alexei", "printer_ekaterina", "courier_pavel", "seamstress_anna", "bookseller_lev", "senior_clerk_konstantin", "reader_darya", "editor_sofia", "police_sergeant_ivan"],
+      "connections": [
+        { "fromMapId": "nevsky", "exitId": "nevsky-printshop-door", "toMapId": "printshop" },
+        { "fromMapId": "nevsky", "exitId": "nevsky-chancery-door", "toMapId": "chancery" },
+        { "fromMapId": "nevsky", "exitId": "nevsky-police-door", "toMapId": "police-station" },
+        { "fromMapId": "nevsky", "exitId": "nevsky-courtyard-gate", "toMapId": "courtyard", "districtTransition": true }
+      ],
+      "sourceEvidence": [
+        { "sourceId": "OBJ-PETERSBURG-PLAN-1840", "sourceType": "PERIOD_MAP", "use": "Broad city street context only; the in-game geometry is stylized and not georeferenced." },
+        { "sourceId": "OBJ-SOV-1847", "sourceType": "PERIOD_TEXT", "use": "Printshop and periodical work context; not evidence for this fictional shop address." },
+        { "sourceId": "V36-GUIDE-PUSHKAREV-1843", "sourceType": "PERIOD_TEXT", "use": "Name and facility investigation; individual entries remain unchecked before address-level claims." }
+      ],
+      "gameTransformation": "Existing Nevsky street plus fictional workplace interiors; specific office/station rooms are reconstructed, not historical rooms."
+    },
+    {
+      "id": "COURTYARD_HOUSEHOLD",
+      "nameKo": "하숙집 안뜰과 셋방",
+      "prototypeStatus": "PHASE_1_PLAYABLE_PROTOTYPE",
+      "districtType": "HOUSEHOLD_AND_SHARED_COURTYARD_RECONSTRUCTION",
+      "mapIds": ["courtyard"],
+      "entryMapId": "courtyard",
+      "interiorMapIds": [],
+      "residentIds": ["tenant_mikhail", "courier_pavel", "seamstress_anna"],
+      "connections": [
+        { "fromMapId": "courtyard", "exitId": "courtyard-nevsky-gate", "toMapId": "nevsky", "districtTransition": true }
+      ],
+      "sourceEvidence": [
+        { "sourceId": "OBJ-PETERSBURG-PLAN-1840", "sourceType": "PERIOD_MAP", "use": "Street and block context only; the named household and address are fictional." },
+        { "sourceId": "OBJ-SADOVNIKOV-1835", "sourceType": "PERIOD_PAINTING", "use": "Street-scene visual context; not proof of this specific courtyard." },
+        { "sourceId": "V36-PHYSIOLOGY-PETERSBURG-1845", "sourceType": "PERIOD_TEXT", "use": "Literary urban-life comparison after checking individual relevant pages; not a representative statistic." }
+      ],
+      "gameTransformation": "Fictional shared courtyard and rented rooms; no specific named address, household, or rent amount is claimed as historical fact."
+    }
+  ]
+}
