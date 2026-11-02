@@ -166,10 +166,17 @@
       "atMinute": 1020,
       "mapId": "market-quay",
       "position": {
-        "x": 18,
+        "x": 14,
         "y": 12
       },
-      "activityKo": "오늘 장부와 남은 일을 정리한다"
+      "activityKo": "저녁 식사를 하고 장부를 덮는다",
+      "task": {
+        "type": "CONSUME",
+        "id": "NADEZHDA_EVENING_BREAD_1847",
+        "itemKo": "빵 한 묶음",
+        "minimumHunger": 45,
+        "hungerRelief": 32
+      }
     }
   ],
   "portrait": {

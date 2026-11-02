@@ -17,6 +17,12 @@ function clone(value) { return structuredClone(value); }
 function initialLearningState() {
   return { phase: 'circle-choice', circleLearning: null, lessonIndex: 0, examAnswers: {}, examOutcome: 'unset', examCorrectCount: null, promotionStatus: 'pending', timelineIndex: 0 };
 }
+function initialNpcNeeds(card, clockMinutes = 540) {
+  const manualWork = /노동|운반|세탁|마부|제빵|활자|판매|장사|하인|수선|수위|짐|마차|시장/.test(card.occupation ?? '');
+  const scarcity = ['poor', 'modest'].includes(card.wealthBracket);
+  return { hunger: scarcity ? 38 : 28, fatigue: manualWork ? 24 : 14, hungerPerMinute: 0.035, workFatiguePerMinute: manualWork ? 0.028 : 0.018,
+    restFatigueReliefPerMinute: 0.06, lastMealAtMinute: clockMinutes };
+}
 
 function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky' }) {
   if (!maps?.[startMapId] || !Array.isArray(hostCards) || hostCards.length < 1) throw new Error('A known start map and host cards are required');
@@ -31,6 +37,7 @@ function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky
     scheduleId: null,
     currentActivityKo: '',
     routineState: { state: 'IDLE', activityKo: '', targetMapId: card.start.mapId, targetPosition: { x: card.start.x, y: card.start.y }, changedAtMinute: 540, minutesInState: 0 },
+    needs: initialNpcNeeds(card),
     situationNotes: [],
     facing: 'down',
     historicalAliveAndPresent: true,
@@ -190,7 +197,7 @@ function nextNpcStep(state, host, slot, maps, reservedTiles) {
 function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stateChanges) {
   const embodiedId = state.player.embodiment, paused = new Set(options.pausedHostIds ?? []), reservedTiles = [...(options.reservedTiles ?? [])];
   if (!state.player.embodiment) reservedTiles.push({ mapId: state.world.currentMapId, position: state.player.position });
-  const moveRows = [], deliveryRows = [], exchangeRows = [];
+  const moveRows = [], deliveryRows = [], exchangeRows = [], mealRows = [];
   const hosts = Object.values(state.hosts).sort((a, b) => a.id.localeCompare(b.id));
   for (const host of hosts) {
     const slot = scheduleEntry(host, state.world.clockMinutes);
@@ -209,6 +216,9 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
     const atWorkplace = host.mapId === slot.mapId && nearTile(host.position, slot.position, 1);
     const routine = atWorkplace ? routineActivityState(host.currentActivityKo, slot.task) : 'TRAVELLING';
     setRoutineState(host, routine, host.currentActivityKo, slot.mapId, slot.position, state.world.clockMinutes, stateChanges, minuteOffset);
+    host.needs ??= initialNpcNeeds(host, state.world.clockMinutes);
+    host.needs.hunger = Math.min(100, host.needs.hunger + host.needs.hungerPerMinute);
+    host.needs.fatigue = Math.max(0, Math.min(100, host.needs.fatigue + (routine === 'RESTING' ? -host.needs.restFatigueReliefPerMinute : routine === 'TRAVELLING' ? 0.01 : host.needs.workFatiguePerMinute)));
     if (state.world.clockMinutes % 5 !== 0) continue;
     const before = { mapId: host.mapId, position: { ...host.position } };
     const step = nextNpcStep(state, host, slot, maps, reservedTiles);
@@ -245,22 +255,36 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
     host.routineTaskCompletedId = task.id;
     exchangeRows.push({ hostId: host.id, recipientHostId: recipient.id, itemKo: task.itemKo, moneyAmount, taskId: task.id, mapId: host.mapId, minute: minuteOffset });
   }
-  return { moveRows, deliveryRows, exchangeRows };
+  for (const host of hosts) {
+    const slot = scheduleEntry(host, state.world.clockMinutes), task = slot?.task;
+    if (task?.type !== 'CONSUME' || host.routineTaskCompletedId === task.id || host.id === embodiedId || paused.has(host.id) || host.historicalAliveAndPresent === false) continue;
+    host.needs ??= initialNpcNeeds(host, state.world.clockMinutes);
+    const minimumHunger = Number.isFinite(task.minimumHunger) ? task.minimumHunger : 40;
+    if (host.mapId !== slot.mapId || !nearTile(host.position, slot.position, 1) || host.needs.hunger < minimumHunger || !host.inventory.includes(task.itemKo)) continue;
+    host.inventory.splice(host.inventory.indexOf(task.itemKo), 1);
+    const hungerBefore = host.needs.hunger;
+    host.needs.hunger = Math.max(0, hungerBefore - (Number.isFinite(task.hungerRelief) ? task.hungerRelief : 32));
+    host.needs.lastMealAtMinute = state.world.clockMinutes;
+    host.routineTaskCompletedId = task.id;
+    mealRows.push({ hostId: host.id, itemKo: task.itemKo, hungerBefore, hungerAfter: host.needs.hunger, taskId: task.id, mapId: host.mapId, minute: minuteOffset });
+  }
+  return { moveRows, deliveryRows, exchangeRows, mealRows };
 }
 
 function advanceNpcWorld(state, elapsedMinutes, maps, options = {}) {
   if (!Number.isFinite(elapsedMinutes) || elapsedMinutes <= 0) return state;
   const next = clone(state);
   const tickCount = Math.min(10080, Math.max(1, Math.floor(elapsedMinutes))), movementLog = [], deliveryLog = [];
-  const startClock = next.world.clockMinutes ?? 540, stateChanges = [], exchangeLog = [];
+  const startClock = next.world.clockMinutes ?? 540, stateChanges = [], exchangeLog = [], mealLog = [];
   for (let tick = 1; tick <= tickCount; tick += 1) {
     next.world.clockMinutes = startClock + tick;
     const result = simulateNpcMinute(next, maps, options, tick, movementLog, stateChanges);
     deliveryLog.push(...result.deliveryRows);
     exchangeLog.push(...result.exchangeRows);
+    mealLog.push(...result.mealRows);
   }
-  if (movementLog.length || deliveryLog.length || stateChanges.length || exchangeLog.length) {
-    const entry = { eventId: `NPC_SIM_${next.ledger.length + 1}`, eventType: 'NPC_SIMULATION', date: next.world.date, mapId: next.world.currentMapId, startClockMinutes: startClock, endClockMinutes: next.world.clockMinutes, simulatedMinutes: tickCount, moves: movementLog, deliveries: deliveryLog, exchanges: exchangeLog, stateChanges, priorStateHash: stateHash(state), nextStateHash: null };
+  if (movementLog.length || deliveryLog.length || stateChanges.length || exchangeLog.length || mealLog.length) {
+    const entry = { eventId: `NPC_SIM_${next.ledger.length + 1}`, eventType: 'NPC_SIMULATION', date: next.world.date, mapId: next.world.currentMapId, startClockMinutes: startClock, endClockMinutes: next.world.clockMinutes, simulatedMinutes: tickCount, moves: movementLog, deliveries: deliveryLog, exchanges: exchangeLog, meals: mealLog, stateChanges, priorStateHash: stateHash(state), nextStateHash: null };
     next.ledger.push(entry);
     entry.nextStateHash = stateHash(next);
   }
@@ -668,6 +692,7 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
     if (host) {
       host.schedule ??= clone(card.schedule ?? []);
       host.situationNotes ??= [];
+      host.needs ??= initialNpcNeeds(card, state.world.clockMinutes);
       const slot = scheduleEntry(host, state.world.clockMinutes);
       host.scheduleId ??= slot ? `${slot.mapId}:${slot.atMinute}` : null;
       host.currentActivityKo ??= slot?.activityKo ?? '';
