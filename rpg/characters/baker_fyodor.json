@@ -117,7 +117,8 @@
   "wealthBracketStatus": "designedEstimate",
   "inventory": [
     "밀가루 자루",
-    "나무 주걱"
+    "나무 주걱",
+    "빵 한 묶음"
   ],
   "sourceIds": [],
   "canonConstraint": "fictional citizen; never treated as an attested historical individual or witness",
@@ -142,7 +143,17 @@
         "x": 13,
         "y": 12
       },
-      "activityKo": "남은 밀가루와 주문 수량을 비교한다"
+      "activityKo": "시장 상인에게 빵을 넘기고 재료값을 받는다",
+      "task": {
+        "type": "EXCHANGE",
+        "id": "BAKER_MARKET_EXCHANGE_1847",
+        "recipientHostId": "market_nadezhda",
+        "notBeforeMinute": 600,
+        "itemKo": "빵 한 묶음",
+        "moneyAmount": 3,
+        "relationshipKo": "빵값을 치른 거래 이웃",
+        "recipientRelationshipKo": "빵을 산 거래 이웃"
+      }
     },
     {
       "atMinute": 660,

@@ -28,6 +28,8 @@ for (const quest of questList) for (const action of quest.actions ?? []) {
 }
 relationHintValues.set('reading_circle', new Set(['초대에 응해 독서 모임에 다녀왔다.', '모임에 참석해 책 제목만 수첩에 남겼다.', '독서 모임 초대를 사양했다.']));
 relationHintValues.set('examPreparation', new Set(['시험 대신 함께 공부했다']));
+relationHintValues.set('market_nadezhda', new Set(['빵값을 치른 거래 이웃']));
+relationHintValues.set('baker_fyodor', new Set(['빵을 산 거래 이웃']));
 function relationshipHintsFor(hostId) {
   const relations = state.hosts[hostId]?.relations ?? {};
   return Object.fromEntries(Object.entries(relations).filter(([group, value]) => relationHintValues.get(group)?.has(value)));
@@ -307,7 +309,7 @@ function classifyTypedResponse(input) {
   return 'GENERAL_CONVERSATION';
 }
 
-const relationLabels = { editorial_office: '편집부', workshop: '작업장 동료', source_readers: '출처를 확인하는 독자', postal_route: '우편 경로', local_readers: '가게의 독자들', office_supervisor: '상급자', archive_keeper: '문서 담당자' };
+const relationLabels = { editorial_office: '편집부', workshop: '작업장 동료', source_readers: '출처를 확인하는 독자', postal_route: '우편 경로', local_readers: '가게의 독자들', office_supervisor: '상급자', archive_keeper: '문서 담당자', market_nadezhda: '나데즈다와', baker_fyodor: '표도르와' };
 function render(now) {
   renderFrame = null;
   const map = currentMap();

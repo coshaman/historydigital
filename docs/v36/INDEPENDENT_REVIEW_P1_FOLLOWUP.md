@@ -26,3 +26,10 @@ Reviewer: one independent subagent, read-only critique, 2026-11-02. This is a sc
 - The 36-resident 24-hour replay is deterministic movement coverage, not proof of goal-driven simulation.
 - Personal three-stage quests, social chains, 70 meaningful interactions, 60 distinct environment asset types, and 12 visible world changes are not yet at V36 target counts.
 - This review does not cover complete endings, GPU performance, all viewport/story routes, or human playtesting. Human playtest remains pending.
+
+## Additional implemented behavior (2026-11-02)
+
+- A scheduled bakery-to-market transaction now transfers one bread bundle for 3 kopeks at its set market hour, only when the baker and seller are physically adjacent on the same map. The transaction updates both inventories, both balances, reciprocal relationship notes, and the NPC simulation ledger.
+- Possessing either participant pauses the exchange; it can occur after the resident resumes their routine. Save/load preserves the resulting goods, funds, and relationship state.
+- Validation: `npm run v36-social-exchange-test` passes. The full 36-resident 24-hour deterministic replay records the exchange in both runs, with 1,535 one-tile moves, 288 occupancy checks, and save/load parity.
+- Scope limit: this is one authored schedule transaction, not a generalized needs-driven trade economy or ten completed resident social-action chains. The 36-agent routine planner remains schedule-led, and more needs, relationships, business hours, deliveries, and consequences remain to be implemented and verified.

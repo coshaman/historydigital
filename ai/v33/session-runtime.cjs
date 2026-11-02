@@ -108,6 +108,8 @@ for (const quest of relationshipQuests) for (const action of quest.actions ?? []
 }
 relationshipHintValues.set('reading_circle', new Set(['초대에 응해 독서 모임에 다녀왔다.', '모임에 참석해 책 제목만 수첩에 남겼다.', '독서 모임 초대를 사양했다.']));
 relationshipHintValues.set('examPreparation', new Set(['시험 대신 함께 공부했다']));
+relationshipHintValues.set('market_nadezhda', new Set(['빵값을 치른 거래 이웃']));
+relationshipHintValues.set('baker_fyodor', new Set(['빵을 산 거래 이웃']));
 const TURN_SCHEMA_VERSION = 'V33_RPG_DIALOGUE_V2';
 const SESSION_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 const MAX_TURNS = 80;

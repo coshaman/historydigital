@@ -190,7 +190,7 @@ function nextNpcStep(state, host, slot, maps, reservedTiles) {
 function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stateChanges) {
   const embodiedId = state.player.embodiment, paused = new Set(options.pausedHostIds ?? []), reservedTiles = [...(options.reservedTiles ?? [])];
   if (!state.player.embodiment) reservedTiles.push({ mapId: state.world.currentMapId, position: state.player.position });
-  const moveRows = [], deliveryRows = [];
+  const moveRows = [], deliveryRows = [], exchangeRows = [];
   const hosts = Object.values(state.hosts).sort((a, b) => a.id.localeCompare(b.id));
   for (const host of hosts) {
     const slot = scheduleEntry(host, state.world.clockMinutes);
@@ -228,21 +228,39 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
     host.routineTaskCompletedId = task.id;
     deliveryRows.push({ hostId: host.id, recipientHostId: recipient.id, itemKo: task.itemKo, taskId: task.id, mapId: host.mapId, minute: minuteOffset });
   }
-  return { moveRows, deliveryRows };
+  for (const host of hosts) {
+    const slot = scheduleEntry(host, state.world.clockMinutes), task = slot?.task;
+    if (task?.type !== 'EXCHANGE' || host.routineTaskCompletedId === task.id || host.id === embodiedId || paused.has(host.id) || host.historicalAliveAndPresent === false) continue;
+    const localMinute = ((state.world.clockMinutes % 1440) + 1440) % 1440;
+    if (Number.isInteger(task.notBeforeMinute) && localMinute < task.notBeforeMinute) continue;
+    const recipient = state.hosts[task.recipientHostId], moneyAmount = task.moneyAmount;
+    if (!recipient || recipient.id === embodiedId || recipient.historicalAliveAndPresent === false || recipient.mapId !== host.mapId || !nearTile(recipient.position, host.position, 1)) continue;
+    if (typeof task.itemKo !== 'string' || !host.inventory.includes(task.itemKo) || !Number.isInteger(moneyAmount) || moneyAmount <= 0 || !Number.isFinite(host.money?.amount) || !Number.isFinite(recipient.money?.amount) || recipient.money.amount < moneyAmount) continue;
+    host.inventory.splice(host.inventory.indexOf(task.itemKo), 1);
+    if (!recipient.inventory.includes(task.itemKo)) recipient.inventory.push(task.itemKo);
+    host.money.amount += moneyAmount;
+    recipient.money.amount -= moneyAmount;
+    host.relations[recipient.id] = task.relationshipKo ?? '거래를 마친 이웃';
+    recipient.relations[host.id] = task.recipientRelationshipKo ?? '거래를 마친 이웃';
+    host.routineTaskCompletedId = task.id;
+    exchangeRows.push({ hostId: host.id, recipientHostId: recipient.id, itemKo: task.itemKo, moneyAmount, taskId: task.id, mapId: host.mapId, minute: minuteOffset });
+  }
+  return { moveRows, deliveryRows, exchangeRows };
 }
 
 function advanceNpcWorld(state, elapsedMinutes, maps, options = {}) {
   if (!Number.isFinite(elapsedMinutes) || elapsedMinutes <= 0) return state;
   const next = clone(state);
   const tickCount = Math.min(10080, Math.max(1, Math.floor(elapsedMinutes))), movementLog = [], deliveryLog = [];
-  const startClock = next.world.clockMinutes ?? 540, stateChanges = [];
+  const startClock = next.world.clockMinutes ?? 540, stateChanges = [], exchangeLog = [];
   for (let tick = 1; tick <= tickCount; tick += 1) {
     next.world.clockMinutes = startClock + tick;
     const result = simulateNpcMinute(next, maps, options, tick, movementLog, stateChanges);
     deliveryLog.push(...result.deliveryRows);
+    exchangeLog.push(...result.exchangeRows);
   }
-  if (movementLog.length || deliveryLog.length || stateChanges.length) {
-    const entry = { eventId: `NPC_SIM_${next.ledger.length + 1}`, eventType: 'NPC_SIMULATION', date: next.world.date, mapId: next.world.currentMapId, startClockMinutes: startClock, endClockMinutes: next.world.clockMinutes, simulatedMinutes: tickCount, moves: movementLog, deliveries: deliveryLog, stateChanges, priorStateHash: stateHash(state), nextStateHash: null };
+  if (movementLog.length || deliveryLog.length || stateChanges.length || exchangeLog.length) {
+    const entry = { eventId: `NPC_SIM_${next.ledger.length + 1}`, eventType: 'NPC_SIMULATION', date: next.world.date, mapId: next.world.currentMapId, startClockMinutes: startClock, endClockMinutes: next.world.clockMinutes, simulatedMinutes: tickCount, moves: movementLog, deliveries: deliveryLog, exchanges: exchangeLog, stateChanges, priorStateHash: stateHash(state), nextStateHash: null };
     next.ledger.push(entry);
     entry.nextStateHash = stateHash(next);
   }

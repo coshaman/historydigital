@@ -111,7 +111,7 @@
   ],
   "start": {
     "mapId": "market-quay",
-    "x": 18,
+    "x": 14,
     "y": 12
   },
   "wealthBracketStatus": "designedEstimate",
@@ -139,7 +139,7 @@
       "atMinute": 480,
       "mapId": "market-quay",
       "position": {
-        "x": 18,
+        "x": 14,
         "y": 12
       },
       "activityKo": "시장 저울과 젖은 채소 가격표를 확인한다"
