@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" shape-rendering="crispEdges">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" shape-rendering="crispEdges" width="64" height="64">
   <rect width="64" height="64" fill="#283633"/><rect y="44" width="64" height="20" fill="#202725"/>
   <path d="M9 64v-8l8-9 9-4 2-7h12l2 7 9 4 7 9v8" fill="#314247"/>
   <path d="M20 24V14l7-8h14l8 9v13l-6 9-8 4-8-4z" fill="#e0bd99"/>
@@ -7,4 +7,4 @@
   <path d="M25 43h15l-4 6h-7z" fill="#c6a77c"/><path d="M31 48h3v16h-3z" fill="#bd9e74"/>
   <path d="M7 51h17v8H7zm33 0h17v8H40z" fill="#9a7348"/><path d="M9 53h13v1H9zm33 0h13v1H42z" fill="#ead8b6"/>
   <rect x="8" y="8" width="48" height="48" fill="none" stroke="#b48b53"/>
-</svg>
+<g aria-label="귀족 가정의 가정교사·번역 필사자"><path d="M7 50h11v9H7z" fill="#55443b" stroke="#b18a57" stroke-width="1"/><rect x="8" y="54" width="2" height="2" fill="#b18a57"/><rect x="11" y="54" width="2" height="2" fill="#b18a57"/></g></svg>

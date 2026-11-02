@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "V36-HISTORICAL-REGRESSION-1",
+  "status": "PASS",
+  "sceneOrder": [
+    "C03",
+    "C06",
+    "C07",
+    "E02",
+    "E07"
+  ],
+  "years": [
+    1837,
+    1841,
+    1842,
+    1847,
+    1849
+  ],
+  "sourceWitnesses": 13,
+  "endings": [
+    "UVAROV",
+    "BELINSKY",
+    "HERZEN",
+    "KHOMYAKOV",
+    "DOSTOEVSKY_PETRASHEVSKY"
+  ],
+  "failures": []
+}

@@ -4,8 +4,8 @@ import crypto from 'node:crypto';
 
 const root = process.cwd();
 const dist = path.join(root, 'dist');
-const files = ['index.html', 'styles.css', 'app.js', 'gold-runtime.js', 'three-desk.js', 'three-walk.js', 'window-view-controller.js', 'main20-branch-graph.js', 'main20-exam.js', 'main20-life-simulation.js', 'main20-runtime.js', 'server.mjs'];
-const dirs = ['data', 'assets', 'narrative'];
+const files = ['index.html', 'styles.css', 'app.js', 'gold-runtime.js', 'three-desk.js', 'three-walk.js', 'window-view-controller.js', 'main20-branch-graph.js', 'main20-exam.js', 'main20-life-simulation.js', 'main20-runtime.js', 'server.mjs', 'server-mime.mjs'];
+const dirs = ['data', 'assets', 'narrative', 'rpg'];
 await fs.rm(dist, { recursive: true, force: true });
 await fs.mkdir(dist, { recursive: true });
 for (const file of files) await fs.copyFile(path.join(root, file), path.join(dist, file));

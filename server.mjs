@@ -9,9 +9,10 @@ const root = fileURLToPath(new URL('.', import.meta.url));
 const staticRoot = resolve(process.env.CHANCERY_STATIC_ROOT || root);
 const port = Number(process.env.CHANCERY_PORT || 4173);
 const require = createRequire(import.meta.url);
-const apiHandler = require('./api/rpg/[...path].js');
+const apiHandler = process.env.CHANCERY_STATIC_ONLY === '1' ? null : require('./api/rpg/[...path].js');
 createServer(async (req, res) => {
   if (req.url.startsWith('/api/rpg/')) {
+    if (!apiHandler) { res.writeHead(503); return res.end('API routes are provided by the deployment platform.'); }
     const chunks = [];
     let bytes = 0;
     for await (const chunk of req) {

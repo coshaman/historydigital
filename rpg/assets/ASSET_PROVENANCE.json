@@ -4,29 +4,35 @@
     {
       "id": "petersburg-tiles",
       "path": "rpg/assets/petersburg-tiles.png",
-      "type": "ORIGINAL_PIXEL_ART",
-      "generatedBy": "scripts/v33-generate-rpg-content.mjs",
+      "type": "ORIGINAL_PIXEL_TILE_ATLAS",
+      "generatedBy": "scripts/v33-generate-rpg-content.mjs --v36-tiles-only",
       "license": "original project-authored pixels",
-      "historicalConfidence": "RECONSTRUCTED",
+      "historicalConfidence": "CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE",
       "intendedScene": [
         "nevsky",
         "printshop"
       ],
       "sourceIds": [
-        "OBJ-PETERSBURG-PLAN-1840",
-        "OBJ-SADOVNIKOV-1835"
+        "V36-MAP-NLR-19C-PLANS",
+        "V36-GUIDE-PUSHKAREV-1843",
+        "V36-MAP-TSYLOV-1849",
+        "V36-ART-RUSSIAN-MUSEUM-COLLMANN-1840S",
+        "V36-PHYSIOLOGY-PETERSBURG-1845"
       ],
       "sourceUrls": [
-        "https://expositions.nlr.ru/ex_map/mozaika_Saint-Petersburg/historic_plans.php",
-        "https://rusmuseumvrm.ru/data/collections/engraving/gr.-1929_15/index.php?lang=ru"
+        "https://expositions.nlr.ru/eng/ex_map/mozaika_Saint-Petersburg/plans_19_century.php",
+        "https://www.prlib.ru/item/441202",
+        "https://rusneb.ru/catalog/000200_000018_v19_rc_1287364/",
+        "https://rusmuseumvrm.ru/online_resources/art_gallery/spb._gorod_i_gorozhane/index.php?lang=en&p=0&page=3&ps=60&show=desc&t=830",
+        "https://www.prlib.ru/section/1327906"
       ],
-      "notes": "The panorama informs continuous facade rhythm and an active main-street scene. Paving, curb widths, and exact shop positions are stylized reconstructions, not surveyed details."
+      "notes": "Original project pixel art. 1843 guide and 1840s genre watercolours inform street activity, clothing silhouettes, market and transport props; 1849 atlas is a later comparative map, not direct proof of 1847 paving. Exact blocks, paving, quay layout, and merchants are fictional reconstruction; no scanned source image is embedded."
     },
     {
       "id": "sprite-clerk_alexei",
       "path": "rpg/assets/alexei.png",
       "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
-      "generatedBy": "scripts/v33-generate-rpg-content.mjs",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": [
@@ -35,13 +41,13 @@
         "chancery"
       ],
       "sourceIds": [],
-      "notes": "허구 인물이며 직무 범위와 경제 수치는 플레이용 재구성이다."
+      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen clerk_alexei; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "sprite-printer_ekaterina",
       "path": "rpg/assets/ekaterina.png",
       "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
-      "generatedBy": "scripts/v33-generate-rpg-content.mjs",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": [
@@ -52,13 +58,13 @@
       "sourceIds": [
         "OBJ-SOV-1847"
       ],
-      "notes": "허구 인물이다. 장면의 교정쇄와 작업장은 역사적 사례를 바탕으로 한 재구성이다."
+      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen printer_ekaterina; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "sprite-courier_pavel",
       "path": "rpg/assets/pavel.png",
       "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
-      "generatedBy": "scripts/v33-generate-rpg-content.mjs",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": [
@@ -67,13 +73,13 @@
         "courtyard"
       ],
       "sourceIds": [],
-      "notes": "허구 인물이다. 이동 시간과 품삯은 시스템을 위한 추정치다."
+      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen courier_pavel; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "sprite-seamstress_anna",
       "path": "rpg/assets/anna.png",
       "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
-      "generatedBy": "scripts/v33-generate-rpg-content.mjs",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": [
@@ -81,13 +87,13 @@
         "courtyard"
       ],
       "sourceIds": [],
-      "notes": "허구 인물이다. 품삯·재산은 재구성용 설계 수치다."
+      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen seamstress_anna; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "sprite-tenant_mikhail",
       "path": "rpg/assets/mikhail.png",
       "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
-      "generatedBy": "scripts/v33-generate-rpg-content.mjs",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": [
@@ -95,13 +101,13 @@
         "courtyard"
       ],
       "sourceIds": [],
-      "notes": "허구 주민이며 수입과 방세는 플레이용으로 만든 수치다."
+      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen tenant_mikhail; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "sprite-bookseller_lev",
       "path": "rpg/assets/lev.png",
       "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
-      "generatedBy": "scripts/v33-generate-rpg-content.mjs",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": [
@@ -112,7 +118,7 @@
       "sourceIds": [
         "OBJ-SOV-1847"
       ],
-      "notes": "허구 인물이며 재고·수입은 이 장면을 위한 설계 수치다."
+      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen bookseller_lev; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "sprite-literary_chichikov",
@@ -453,7 +459,7 @@
       "id": "sprite-yardkeeper_semyon",
       "path": "rpg/assets/yardkeeper_semyon.png",
       "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
-      "generatedBy": "scripts/v36-add-market-cohort.mjs",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": [
@@ -462,7 +468,7 @@
         "courtyard"
       ],
       "sourceIds": [],
-      "notes": "Original pixel design for the fictional 하숙집 안뜰 관리인; not a documented likeness or period artifact."
+      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen yardkeeper_semyon; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-yardkeeper_semyon",
@@ -481,7 +487,7 @@
       "id": "sprite-laundress_mariya",
       "path": "rpg/assets/laundress_mariya.png",
       "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
-      "generatedBy": "scripts/v36-add-market-cohort.mjs",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": [
@@ -490,7 +496,7 @@
         "courtyard"
       ],
       "sourceIds": [],
-      "notes": "Original pixel design for the fictional 세탁과 다림질을 맡는 품팔이 노동자; not a documented likeness or period artifact."
+      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen laundress_mariya; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-laundress_mariya",
@@ -509,7 +515,7 @@
       "id": "sprite-baker_fyodor",
       "path": "rpg/assets/baker_fyodor.png",
       "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
-      "generatedBy": "scripts/v36-add-market-cohort.mjs",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": [
@@ -518,7 +524,7 @@
         "courtyard"
       ],
       "sourceIds": [],
-      "notes": "Original pixel design for the fictional 새벽부터 반죽과 화덕을 맡는 제빵공; not a documented likeness or period artifact."
+      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen baker_fyodor; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-baker_fyodor",
@@ -537,7 +543,7 @@
       "id": "sprite-market_nadezhda",
       "path": "rpg/assets/market_nadezhda.png",
       "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
-      "generatedBy": "scripts/v36-add-market-cohort.mjs",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": [
@@ -546,7 +552,7 @@
         "courtyard"
       ],
       "sourceIds": [],
-      "notes": "Original pixel design for the fictional 시장 좌판을 꾸리는 식료품 판매상; not a documented likeness or period artifact."
+      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen market_nadezhda; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-market_nadezhda",
@@ -565,7 +571,7 @@
       "id": "sprite-porter_gavrila",
       "path": "rpg/assets/porter_gavrila.png",
       "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
-      "generatedBy": "scripts/v36-add-market-cohort.mjs",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": [
@@ -574,7 +580,7 @@
         "courtyard"
       ],
       "sourceIds": [],
-      "notes": "Original pixel design for the fictional 부두와 시장 사이에서 짐을 나르는 인부; not a documented likeness or period artifact."
+      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen porter_gavrila; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-porter_gavrila",
@@ -593,7 +599,7 @@
       "id": "sprite-coachman_timofey",
       "path": "rpg/assets/coachman_timofey.png",
       "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
-      "generatedBy": "scripts/v36-add-market-cohort.mjs",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": [
@@ -602,7 +608,7 @@
         "courtyard"
       ],
       "sourceIds": [],
-      "notes": "Original pixel design for the fictional 도심 손님과 짐을 나르는 마부; not a documented likeness or period artifact."
+      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen coachman_timofey; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-coachman_timofey",
@@ -621,12 +627,12 @@
       "id": "sprite-housemaid_olga",
       "path": "rpg/assets/housemaid_olga.png",
       "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "courtyard",
       "sourceIds": [],
-      "notes": "Derived from the project pixel-sprite template for a fictional resident; not a documented likeness."
+      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen housemaid_olga; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-housemaid_olga",
@@ -643,12 +649,12 @@
       "id": "sprite-midwife_avdotya",
       "path": "rpg/assets/midwife_avdotya.png",
       "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "courtyard",
       "sourceIds": [],
-      "notes": "Derived from the project pixel-sprite template for a fictional resident; not a documented likeness."
+      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen midwife_avdotya; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-midwife_avdotya",
@@ -665,12 +671,12 @@
       "id": "sprite-apothecary_yakov",
       "path": "rpg/assets/apothecary_yakov.png",
       "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "market-quay",
       "sourceIds": [],
-      "notes": "Derived from the project pixel-sprite template for a fictional resident; not a documented likeness."
+      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen apothecary_yakov; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-apothecary_yakov",
@@ -687,12 +693,12 @@
       "id": "sprite-print_apprentice_stepan",
       "path": "rpg/assets/print_apprentice_stepan.png",
       "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "printshop",
       "sourceIds": [],
-      "notes": "Derived from the project pixel-sprite template for a fictional resident; not a documented likeness."
+      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen print_apprentice_stepan; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-print_apprentice_stepan",
@@ -709,12 +715,12 @@
       "id": "sprite-bookbinder_elizaveta",
       "path": "rpg/assets/bookbinder_elizaveta.png",
       "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "printshop",
       "sourceIds": [],
-      "notes": "Derived from the project pixel-sprite template for a fictional resident; not a documented likeness."
+      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen bookbinder_elizaveta; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-bookbinder_elizaveta",
@@ -731,12 +737,12 @@
       "id": "sprite-scribal_yuri",
       "path": "rpg/assets/scribal_yuri.png",
       "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "chancery",
       "sourceIds": [],
-      "notes": "Derived from the project pixel-sprite template for a fictional resident; not a documented likeness."
+      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen scribal_yuri; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-scribal_yuri",
@@ -753,12 +759,12 @@
       "id": "sprite-innkeeper_irina",
       "path": "rpg/assets/innkeeper_irina.png",
       "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "courtyard",
       "sourceIds": [],
-      "notes": "Derived from the project pixel-sprite template for a fictional resident; not a documented likeness."
+      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen innkeeper_irina; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-innkeeper_irina",
@@ -775,12 +781,12 @@
       "id": "sprite-student_vasily",
       "path": "rpg/assets/student_vasily.png",
       "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "nevsky",
       "sourceIds": [],
-      "notes": "Derived from the project pixel-sprite template for a fictional resident; not a documented likeness."
+      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen student_vasily; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-student_vasily",
@@ -797,12 +803,12 @@
       "id": "sprite-teacher_lyubov",
       "path": "rpg/assets/teacher_lyubov.png",
       "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "courtyard",
       "sourceIds": [],
-      "notes": "Derived from the project pixel-sprite template for a fictional resident; not a documented likeness."
+      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen teacher_lyubov; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-teacher_lyubov",
@@ -819,12 +825,12 @@
       "id": "sprite-minor_noble_andrei",
       "path": "rpg/assets/minor_noble_andrei.png",
       "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "chancery",
       "sourceIds": [],
-      "notes": "Derived from the project pixel-sprite template for a fictional resident; not a documented likeness."
+      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen minor_noble_andrei; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-minor_noble_andrei",
@@ -841,12 +847,12 @@
       "id": "sprite-landlady_polina",
       "path": "rpg/assets/landlady_polina.png",
       "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "courtyard",
       "sourceIds": [],
-      "notes": "Derived from the project pixel-sprite template for a fictional resident; not a documented likeness."
+      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen landlady_polina; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-landlady_polina",
@@ -863,12 +869,12 @@
       "id": "sprite-watercarrier_luka",
       "path": "rpg/assets/watercarrier_luka.png",
       "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "courtyard",
       "sourceIds": [],
-      "notes": "Derived from the project pixel-sprite template for a fictional resident; not a documented likeness."
+      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen watercarrier_luka; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-watercarrier_luka",
@@ -885,12 +891,12 @@
       "id": "sprite-fishseller_klavdiya",
       "path": "rpg/assets/fishseller_klavdiya.png",
       "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "market-quay",
       "sourceIds": [],
-      "notes": "Derived from the project pixel-sprite template for a fictional resident; not a documented likeness."
+      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen fishseller_klavdiya; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-fishseller_klavdiya",
@@ -907,12 +913,12 @@
       "id": "sprite-warehouse_pyotr",
       "path": "rpg/assets/warehouse_pyotr.png",
       "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "market-quay",
       "sourceIds": [],
-      "notes": "Derived from the project pixel-sprite template for a fictional resident; not a documented likeness."
+      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen warehouse_pyotr; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-warehouse_pyotr",
@@ -929,12 +935,12 @@
       "id": "sprite-servant_varvara",
       "path": "rpg/assets/servant_varvara.png",
       "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "courtyard",
       "sourceIds": [],
-      "notes": "Derived from the project pixel-sprite template for a fictional resident; not a documented likeness."
+      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen servant_varvara; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-servant_varvara",
@@ -951,12 +957,12 @@
       "id": "sprite-junior_guard_sergey",
       "path": "rpg/assets/junior_guard_sergey.png",
       "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "chancery",
       "sourceIds": [],
-      "notes": "Derived from the project pixel-sprite template for a fictional resident; not a documented likeness."
+      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen junior_guard_sergey; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-junior_guard_sergey",
@@ -973,12 +979,12 @@
       "id": "sprite-carter_roman",
       "path": "rpg/assets/carter_roman.png",
       "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "market-quay",
       "sourceIds": [],
-      "notes": "Derived from the project pixel-sprite template for a fictional resident; not a documented likeness."
+      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen carter_roman; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-carter_roman",
@@ -995,12 +1001,12 @@
       "id": "sprite-street_vendor_matryona",
       "path": "rpg/assets/street_vendor_matryona.png",
       "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "nevsky",
       "sourceIds": [],
-      "notes": "Derived from the project pixel-sprite template for a fictional resident; not a documented likeness."
+      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen street_vendor_matryona; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-street_vendor_matryona",
@@ -1017,12 +1023,12 @@
       "id": "sprite-typesetter_nikita",
       "path": "rpg/assets/typesetter_nikita.png",
       "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "printshop",
       "sourceIds": [],
-      "notes": "Derived from the project pixel-sprite template for a fictional resident; not a documented likeness."
+      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen typesetter_nikita; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-typesetter_nikita",
@@ -1039,12 +1045,12 @@
       "id": "sprite-lodging_tatyana",
       "path": "rpg/assets/lodging_tatyana.png",
       "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "courtyard",
       "sourceIds": [],
-      "notes": "Derived from the project pixel-sprite template for a fictional resident; not a documented likeness."
+      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen lodging_tatyana; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-lodging_tatyana",

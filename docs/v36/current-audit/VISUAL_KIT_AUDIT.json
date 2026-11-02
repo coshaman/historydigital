@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "V36_VISUAL_KIT_AUDIT_1",
+  "status": "PASS",
+  "atlas": {
+    "width": 256,
+    "height": 160,
+    "declaredTiles": 60,
+    "uniquePixelTiles": 60,
+    "duplicateGroups": []
+  },
+  "tileUsageByDistrict": {
+    "nevsky": [
+      46,
+      47,
+      48,
+      49
+    ],
+    "marketQuay": [
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60
+    ],
+    "printshop": [
+      58,
+      59,
+      60
+    ],
+    "courtyard": [
+      54,
+      55,
+      56,
+      57
+    ]
+  },
+  "mapsWithUpdatedAtlasCount": 8,
+  "assetUsageLedgerRows": 60,
+  "sourceIdsResolve": true,
+  "residentArt": {
+    "residents": 36,
+    "uniqueWalkSprites": 36,
+    "uniquePortraits": 36,
+    "frameGrid": "3×4 at 16×24 px",
+    "portraitSize": "64×64 px"
+  },
+  "screenshotEvidence": [
+    "screenshots/nevsky-12-resident-neighborhood.png",
+    "screenshots/market-quay-12-resident-neighborhood.png"
+  ]
+}

@@ -194,6 +194,7 @@
     "v36-goal-driven-six": "node scripts/v36-goal-driven-six-test.mjs",
     "v36-goal-driven-twelve": "node scripts/v36-goal-driven-twelve-test.mjs",
     "v36-two-neighborhood-capture": "node scripts/v36-two-neighborhood-browser-capture.mjs",
+      "v36-visual-kit": "node scripts/v36-visual-kit-test.mjs",
     "v36-voice-audit": "node scripts/v36-voice-audit.mjs",
     "v36-ending-semantic-exhaustive": "node scripts/v36-ending-semantic-exhaustive.mjs",
     "v36-actor-audit": "node scripts/v36-actor-visibility-audit.mjs",

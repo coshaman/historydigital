@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 const data = JSON.parse(fs.readFileSync('narrative/MAIN_20MIN_DIALOGUE.json', 'utf8'));
 const failures = [];
-if (data.schemaVersion !== 'MAIN-20MIN-DIALOGUE-V35') failures.push('schema');
+if (data.schemaVersion !== 'MAIN-20MIN-DIALOGUE-V36') failures.push('schema');
 const years = data.scenes.map((scene) => Number(scene.date.slice(0, 4)));
 if (data.scenes.map((scene) => scene.id).join(',') !== 'C03,C06,C07,E02,E07') failures.push('scene order');
 if (years.join(',') !== '1837,1841,1842,1847,1849') failures.push('chronology');
