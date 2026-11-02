@@ -55,6 +55,11 @@ body.learning-active{overflow:hidden}body.learning-active .game-shell{visibility
 .mission-tracker p{font-size:16px;line-height:1.45;max-width:100%;overflow-wrap:anywhere}
 .mission-tracker #mission-action{margin:0;font-weight:600;color:#fff0cc}
 .mission-tracker .mission-secondary{margin:0;color:#ddceb0}
+.discussion-quest-board{margin:4px 0;padding:7px 9px;border-left:2px solid #b88d52;background:#281f19;color:#e7d5b1;font-size:12px;line-height:1.5}
+.discussion-quest-board strong{display:block;color:#d1ac6d;font-weight:600}
+.discussion-quest-board ul{display:grid;gap:3px;margin:3px 0 0;padding-left:17px}
+.discussion-quest-board li{padding:0}
+.discussion-quest-board[hidden]{display:none!important}
 .mission-controls button,.tutorial-card button,.quest-journal button{min-height:44px;border:1px solid #94754a;background:#3a2a1e;color:#f0dfbd;padding:8px 12px;font:14px 'Noto Serif KR',serif;cursor:pointer}
 .mission-controls button[aria-pressed="true"],.journal-done{border-color:#c49c62;color:#ffdf9b}
 kbd{font:11px 'IBM Plex Mono',monospace;color:#d8c59f}

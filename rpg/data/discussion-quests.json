@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "V35_DISCUSSION_QUESTS_V1",
+  "historicalBoundaryKo": "아래 질문과 답은 허구 인물의 관점 탐색이다. 역사 인물의 실제 발언이나 당시 단체의 공동 입장으로 기록하지 않는다.",
+  "quests": [
+    {
+      "id": "INQUIRY_LITERATURE_AND_SERFDOM",
+      "date": "1847-06-01",
+      "titleKo": "소설은 농촌의 삶을 어디까지 말할 수 있을까",
+      "topicId": "serfdom",
+      "sourceIds": ["LIT-TURGENEV-KHOR-KALYNYCH-1847"],
+      "hosts": {
+        "seamstress_anna": { "promptKo": "소설이 농노의 삶을 그릴 때, 그 사람들 대신 말한다고 여겨도 될까요?" },
+        "printer_ekaterina": { "promptKo": "이 문장이 농노의 삶을 보여준다면, 작가와 인쇄 노동자는 각각 어디까지 책임져야 할까요?" }
+      }
+    },
+    {
+      "id": "INQUIRY_CENSORSHIP_AND_LABOR",
+      "date": "1847-06-01",
+      "titleKo": "인쇄 노동자는 문장의 뜻까지 책임져야 할까",
+      "topicId": "censorship",
+      "sourceIds": ["OBJ-SOV-1847", "LIT-TURGENEV-KHOR-KALYNYCH-1847"],
+      "hosts": {
+        "printer_ekaterina": { "promptKo": "검열 뒤에 돌아온 교정쇄라면, 작업자는 고친 글자만 책임지면 될까요?" },
+        "clerk_alexei": { "promptKo": "문서에 적힌 주장과 확인한 사실을 나누는 일은 누구의 책임이라고 보세요?" }
+      }
+    },
+    {
+      "id": "INQUIRY_BOOKS_AND_CLASS",
+      "date": "1848-01-01",
+      "titleKo": "책값과 읽을 권리 사이에서",
+      "topicId": "poverty_and_class",
+      "sourceIds": ["OBJ-WS-NEKRASOV-EDITORIAL-1848"],
+      "hosts": {
+        "bookseller_lev": { "promptKo": "책을 팔아야 하는 사람과 돈이 없어 못 읽는 사람 사이에서, 값은 어떻게 정하는 게 공정하오?" },
+        "tenant_mikhail": { "promptKo": "방세와 책값이 맞붙으면, 읽고 싶은 마음은 어디에 둘 수 있을까요?" },
+        "courier_pavel": { "promptKo": "배달값 때문에 읽을거리가 덜 닿는다면, 그 손해는 누가 먼저 감당하나요?" }
+      }
+    },
+    {
+      "id": "INQUIRY_SLAVOPHILE_AND_WESTERNER",
+      "date": "1848-01-01",
+      "titleKo": "서로 다른 생각은 누구의 하루를 바꾸나",
+      "topicId": "slavophilism_and_westernism",
+      "sourceIds": ["OBJ-WS-NEKRASOV-EDITORIAL-1848"],
+      "hosts": {
+        "seamstress_anna": { "promptKo": "사람들이 말하는 큰 사상은 일하는 사람의 하루를 실제로 어떻게 바꾼다고 생각해요?" },
+        "bookseller_lev": { "promptKo": "서로 다른 주장을 담은 책이 팔릴 때, 장사꾼은 어느 편을 들어야 하오?" },
+        "printer_ekaterina": { "promptKo": "새로운 사상 논쟁에서 인쇄 노동자는 문장과 판단을 어떻게 구분해야 할까요?" }
+      }
+    },
+    {
+      "id": "INQUIRY_RECORD_AND_RUMOR",
+      "date": "1849-04-22",
+      "titleKo": "이름을 적기 전에 무엇을 확인할까",
+      "topicId": "official_record_and_rumor",
+      "sourceIds": ["OBJ-WS-PETRASHEVSKY-REPORT-1849", "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"],
+      "hosts": {
+        "clerk_alexei": { "promptKo": "상급자의 지시와 확인된 사실이 다르면, 서기는 장부에 어떻게 나눠 적어야 할까요?" },
+        "courier_pavel": { "promptKo": "봉투 내용은 모른 채 전달한 사람이라면, 장부에 무엇까지 책임지고 말할 수 있을까요?" },
+        "printer_ekaterina": { "promptKo": "이름이 인쇄된 뒤 생길 일을 모른다면, 문장을 옮기는 사람은 어디서 멈춰야 할까요?" }
+      }
+    }
+  ]
+}

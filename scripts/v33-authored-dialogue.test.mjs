@@ -57,6 +57,23 @@ test('distinctive authored voices avoid repeated document directions and mixed P
   assert.doesNotMatch(conversations.seamstress_anna.opening, /수선 맡기러 왔어요/);
 });
 
+test('every historical-life character has a distinct authored fallback for viewpoint questions', () => {
+  const samples = {
+    clerk_alexei: '상급자 지시와 확인한 사실이 다르면 장부에는 어떻게 적어야 합니까?',
+    printer_ekaterina: '검열 뒤에 돌아온 문장은 작업자도 책임져야 할까요?',
+    courier_pavel: '봉투 안을 모른 채 전했다면, 전달한 사람은 어디까지 책임져야 합니까?',
+    seamstress_anna: '큰 사상 논쟁이 일하는 사람의 하루도 바꿀까요?',
+    tenant_mikhail: '가난은 게으른 탓이라고 생각하세요?',
+    bookseller_lev: '책값 때문에 못 읽는 사람이 있다면 값을 낮춰야 하오?',
+  };
+  const answers = Object.entries(samples).map(([host, question]) => authoredReply(host, question).text);
+  assert.equal(new Set(answers).size, answers.length);
+  assert.match(answers[0], /지시는 누가|확인한 사실/);
+  assert.match(answers[3], /품삯|일한 만큼/);
+  assert.match(answers[4], /잘 모르겠어요/);
+  assert.match(answers[5], /인쇄비|종이값/);
+});
+
 test('contextual openings do not presume the player is a customer and remain distinct by host', () => {
   const openings = Object.keys(scenes).map(host => contextualOpening(host, 'courier_pavel'));
   assert.equal(new Set(openings).size, openings.length);

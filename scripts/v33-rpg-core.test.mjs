@@ -490,6 +490,10 @@ test('dialogue can be ledgered only for the embodied host and never mutates a qu
   assert.equal(recorded.state.ledger.at(-1).intentClass, 'SOURCE_REQUEST');
   assert.equal(recorded.state.ledger.at(-1).hostId, 'printer_ekaterina');
   assert.equal(recorded.state.ledger.at(-1).interlocutorHostId, 'courier_pavel');
+  const opinion = recordDialogueTurn(state, { hostId: 'printer_ekaterina', actorHostId: 'courier_pavel', sceneId: 'V33_TALK_PRINTER_EKATERINA', discussionId: 'INQUIRY_CENSORSHIP_AND_LABOR' }, maps);
+  assert.equal(opinion.ok, true);
+  assert.equal(opinion.state.ledger.at(-1).discussionId, 'INQUIRY_CENSORSHIP_AND_LABOR');
+  assert.equal(recordDialogueTurn(state, { hostId: 'printer_ekaterina', actorHostId: 'courier_pavel', sceneId: 'V33_TALK_PRINTER_EKATERINA', discussionId: 'FAKE_QUEST' }, maps).reason, 'invalid_discussion_id');
   assert.equal(recordDialogueTurn(state, { hostId: 'courier_pavel', actorHostId: 'courier_pavel', sceneId: 'V33_TALK_COURIER_PAVEL' }, maps).reason, 'dialogue_partner_unavailable');
   assert.equal(recordDialogueTurn(state, { hostId: 'printer_ekaterina', actorHostId: 'courier_pavel', sceneId: 'V33_TALK_PRINTER_EKATERINA', intentClass: 'CHANGE_ENDING' }, maps).reason, 'invalid_intent_class');
   assert.deepEqual(recorded.state.quests, state.quests);

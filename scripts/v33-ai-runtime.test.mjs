@@ -428,7 +428,8 @@ test('provider response rejection reports a safe validation category for local d
     assert.equal(result.status, 200);
     assert.equal(result.body.fallback, true);
     assert.equal(provider.lastFailureCode, expectedCode);
-    assert.doesNotMatch(JSON.stringify(result.body), /Достоевский|2001|response_schema_invalid/);
+    assert.equal(result.body.providerErrorCode, expectedCode);
+    assert.doesNotMatch(JSON.stringify(result.body), /Достоевский|2001/);
   });
   await t.test('undisclosed private context', async () => {
     const anna = require('../rpg/characters/seamstress_anna.json');
@@ -453,6 +454,7 @@ test('429, 500, and timeout from the provider use authored fallback without expo
       assert.equal(result.status, 200);
       assert.equal(result.body.fallback, true);
       assert.equal(result.body.mode, 'FALLBACK_PROVIDER');
+      assert.equal(result.body.providerErrorCode, 'provider_response_validation');
       assert.equal(JSON.stringify(result.body).includes(failure), false);
       assert.equal(result.body.turn.suggestedReplies.length, 3);
     });

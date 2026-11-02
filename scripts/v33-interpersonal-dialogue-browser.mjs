@@ -19,6 +19,7 @@ const report = { status: 'PASS', viewports: [] };
 const sessionStarts = [], dialogueRequests = [];
 let sessionTokenNumber = 0;
 let releaseSlowDialogue = null;
+let fallbackNextDialogue = false;
 
 try {
   for (const viewport of [{ width: 1440, height: 900 }, { width: 1366, height: 768 }, { width: 390, height: 844 }, { width: 360, height: 800 }]) {
@@ -34,6 +35,11 @@ try {
     await page.route('**/api/rpg/dialogue', async route => {
       const body = JSON.parse(route.request().postData()); dialogueRequests.push(body);
       if (body.playerInput === '응답이 늦게 도착합니다.') await new Promise(resolve => { releaseSlowDialogue = resolve; });
+      if (fallbackNextDialogue) {
+        fallbackNextDialogue = false;
+        await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ fallback: true, mode: 'FALLBACK_PROVIDER', providerErrorCode: 'response_schema_invalid', turn: { sceneId: 'V33_TALK_PRINTER_EKATERINA', beats: [{ speakerId: 'printer_ekaterina', textKo: '형식 검증 실패 대사', emotion: 'focused' }], suggestedReplies: [{ id: 'R1', textKo: '다시 물어볼게요.', tone: 'curious' }, { id: 'R2', textKo: '천천히 확인해요.', tone: 'direct' }] } }) });
+        return;
+      }
       const line = body.playerInput === '응답이 늦게 도착합니다.' ? 'stale response must not appear' : 'mocked ai line';
       await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ fallback: false, mode: 'AI', turn: { schemaVersion: 'V33_RPG_DIALOGUE_V1', sceneId: 'V33_TALK_PRINTER_EKATERINA', beats: [{ speakerId: 'printer_ekaterina', textKo: line, emotion: 'focused' }], suggestedReplies: [{ id: 'R1', textKo: '문제 된 줄을 함께 봐요.', tone: 'curious' }, { id: 'R2', textKo: '인쇄비부터 다시 따져봐요.', tone: 'direct' }, { id: 'R3', textKo: '오늘은 조금 더 생각해 봐요.', tone: 'reflective' }] } }) });
     });
@@ -58,6 +64,21 @@ try {
     await page.reload({ waitUntil: 'domcontentloaded', timeout: 15000 });
     await page.waitForFunction(() => document.querySelector('#bodyname')?.textContent.includes('안나'), undefined, { timeout: 15000 });
     assert.equal(await page.locator('#dialogue-speaker').isVisible(), false, `dialogue portrait should stay hidden before a conversation at ${viewport.width}`);
+    if (viewport.width === 1440) {
+      const opinionPrompt = '이 문장이 농노의 삶을 보여준다면, 작가와 인쇄 노동자는 각각 어디까지 책임져야 할까요?';
+      fallbackNextDialogue = true;
+      await page.locator('#talk').click();
+      await page.getByRole('button', { name: opinionPrompt }).click();
+      await page.getByRole('button', { name: 'AI 다시 연결' }).waitFor();
+      assert.match(await page.locator('#record').textContent(), /AI 응답 생성 실패.*모델 응답 형식 검증 실패/);
+      await page.locator('#save').click();
+      const failedEvent = await page.evaluate(() => JSON.parse(localStorage.getItem('v33-rpg-save')).state.ledger.findLast(event => event.eventType === 'DIALOGUE_TURN'));
+      assert.equal(failedEvent.discussionId, undefined, 'provider fallback must not complete an opinion mission');
+      await page.getByRole('button', { name: 'AI 다시 연결' }).click();
+      await page.getByRole('button', { name: opinionPrompt }).click();
+      await page.locator('#journal-text').getByText('mocked ai line', { exact: true }).waitFor();
+      await page.getByRole('button', { name: '대화 마치기' }).click();
+    }
     await page.locator('#talk').click();
     await page.getByLabel('대사 입력').fill('교정쇄를 원문과 대조하고 싶어요.');
     await page.getByRole('button', { name: '말하기' }).click();
@@ -88,6 +109,7 @@ try {
     assert.equal(event.hostId, 'printer_ekaterina');
     assert.equal(event.interlocutorHostId, 'seamstress_anna');
     assert.equal(state.quests.PRINTSHOP_PROOF_1847.status, 'resolved');
+    if (viewport.width === 1440) assert.equal(state.ledger.findLast(event => event.eventType === 'DIALOGUE_TURN' && event.discussionId)?.discussionId, 'INQUIRY_LITERATURE_AND_SERFDOM');
     assert.equal(errors.length, 0, errors.join('\n'));
     report.viewports.push({ viewport, embodiedHost: 'seamstress_anna', speaker: 'printer_ekaterina', portrait, response: 'mocked AI provider response', questChangedByConversation: false, ...layout, pageErrors: errors });
     if (viewport.width === 1440) {

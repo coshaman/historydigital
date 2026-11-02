@@ -3,6 +3,7 @@ import { objectIsPresent } from './engine/world-presentation.mjs';
 import { questChoices, continuationQuest } from './engine/quest-presentation.mjs';
 import { resolveQuestGuidance } from './engine/quest-guidance.mjs';
 import { ownsKeyboardInput, observationText } from './engine/player-presentation.mjs';
+import { availableDiscussionQuests, discussionPromptsForHost } from './engine/discussion-quests.mjs';
 import { conversations, availableTopics, authoredReply, contextualOpening } from './ai/authored-dialogue.mjs';
 import { advanceStudy, beginExam, buildLifeTimeline, chooseCirclePath, completeLearning, getExamQuestions, selectExamAnswer, submitExam } from './engine/learning-life.mjs';
 import './engine/game-state.js';
@@ -10,7 +11,7 @@ const { createInitialState, moveActor, possessHost, releaseHost, transitionMap, 
 
 const readJson = async path => (await fetch(path)).json();
 const [street, shop, chancery, courtyard, literaryMap, overcoatMap, firstQuest, source, firstIssue, historicalSources, literarySource, overcoatSource, campaign, publicQuest, circleQuest, letterQuest, literaryQuest, overcoatQuest, sceneObservations, aiScenes, learningExam, learningSourceData, lifeTemplates, historicalComparisons] = await Promise.all([readJson('./rpg/maps/nevsky.json'), readJson('./rpg/maps/printshop.json'), readJson('./rpg/maps/chancery.json'), readJson('./rpg/maps/courtyard.json'), readJson('./rpg/maps/dead-souls.json'), readJson('./rpg/maps/overcoat.json'), readJson('./rpg/quests/printshop-article.json'), readJson('./rpg/data/khor-kalynych-source.json'), readJson('./rpg/data/sovremennik-1847-issue.json'), readJson('./rpg/data/historical-source-packets.json'), readJson('./rpg/data/dead-souls-source.json'), readJson('./rpg/data/overcoat-source.json'), readJson('./rpg/quests/campaign.json'), readJson('./rpg/quests/public-discourse-1848.json'), readJson('./rpg/quests/circle-investigation-1849.json'), readJson('./rpg/quests/circle-letter-1849-may.json'), readJson('./rpg/quests/literary-dead-souls.json'), readJson('./rpg/quests/literary-overcoat.json'), readJson('./rpg/data/scene-observations.json'), readJson('./rpg/ai/scenes.json'), readJson('./rpg/data/learning-exam.json'), readJson('./rpg/data/learning-sources.json'), readJson('./rpg/data/life-simulation.json'), readJson('./rpg/data/historical-comparisons.json')]);
-const [sourceReaderIndex, caseContextData] = await Promise.all([readJson('./rpg/data/source-reader-index.json'), readJson('./rpg/data/case-contexts.json')]);
+const [sourceReaderIndex, caseContextData, discussionQuestData] = await Promise.all([readJson('./rpg/data/source-reader-index.json'), readJson('./rpg/data/case-contexts.json'), readJson('./rpg/data/discussion-quests.json')]);
 const cards = await Promise.all(['clerk_alexei','printer_ekaterina','courier_pavel','seamstress_anna','tenant_mikhail','bookseller_lev','nekrasov_reconstruction','literary_chichikov','literary_akaky','literary_petrovich'].map(id => readJson(`./rpg/characters/${id}.json`)));
 const maps = { nevsky: street, printshop: shop, chancery, courtyard, 'dead-souls': literaryMap, overcoat: overcoatMap }, hostCards = cards;
 const questList = [firstQuest, publicQuest, circleQuest, letterQuest, literaryQuest, overcoatQuest];
@@ -35,6 +36,8 @@ function playerActionHintsFor(hostId) {
 const sourceRecords = new Map([source, firstIssue, ...historicalSources.records, literarySource, overcoatSource].map(record => [record.sourceId, record]));
 const sourceReaderRecords = new Map(sourceReaderIndex.records.map(record => [record.sourceId, record]));
 const caseContextsByQuest = new Map(caseContextData.cases.map(item => [item.questId, item]));
+const discussionQuestById = new Map(discussionQuestData.quests.map(item => [item.id, item]));
+const currentDiscussionQuests = () => availableDiscussionQuests(state, discussionQuestData);
 const initial = () => createInitialState({ maps, hostCards, quests: questList });
 let state;
 try { state = localStorage.getItem('v33-rpg-save') ? loadGame(localStorage.getItem('v33-rpg-save'), { maps, hostCards, quests: questList, learningExam }) : initial(); }
@@ -68,6 +71,40 @@ const hasLiveDialogue = key => dialogueSessions.get(key)?.token && !['BLOCKED_NO
 const dialogueKey = (actorHostId, speakerHostId) => `${actorHostId}::${speakerHostId}`;
 const dialogueStorageKey = key => `v33-rpg-session:${key}`;
 const aiBaseUrl = '';
+function dialogueApiFailure(error) {
+  if (error?.apiCode === 'BLOCKED_NO_KEY') return 'Vercel에 OPENAI_API_KEY가 설정되지 않았습니다.';
+  if (error?.status === 404) return '이 배포에는 대화 API가 없습니다. Vercel master 최신 배포를 열어 주세요.';
+  if (error?.status === 403) return '게임 주소와 API 주소가 다릅니다. 같은 Vercel 도메인에서 열어 주세요.';
+  if (error?.status === 401) return '대화 세션이 만료되었습니다. 새 연결로 다시 시도합니다.';
+  if (error?.status === 429) return '대화 요청 한도에 도달했습니다. 잠시 뒤 다시 시도해 주세요.';
+  if (error?.status === 503) return 'Vercel 대화 기능이 준비되지 않았습니다. 환경 변수와 Function 로그를 확인해 주세요.';
+  if (error?.status === 500) return 'Vercel 대화 Function 내부 오류입니다. Function 로그를 확인해 주세요.';
+  if (error?.status) return `대화 세션을 열지 못했습니다 · HTTP ${error.status}${error.apiCode ? ` (${error.apiCode})` : ''}`;
+  return '대화 API에 연결하지 못했습니다. Vercel 배포 주소와 네트워크를 확인해 주세요.';
+}
+function providerFailureLabel(code) {
+  const known = {
+    network_error: 'OpenAI 연결 실패', timeout: 'OpenAI 응답 시간 초과', http_401: 'OpenAI API 키 인증 실패',
+    http_403: 'OpenAI 키 권한 또는 프로젝트 접근 거부', http_429: 'OpenAI 사용량 한도 또는 속도 제한',
+    http_500: 'OpenAI 서버 오류', http_502: 'OpenAI 게이트웨이 오류', http_503: 'OpenAI 일시 중단',
+    incomplete_response: '모델 응답 미완료', missing_output: '모델 응답 본문 없음', malformed_json: '모델 구조화 응답 해석 실패',
+    response_schema_invalid: '모델 응답 형식 검증 실패', unsupported_historical_year: '역사 연도 근거 검증 실패',
+    uncited_historical_person: '인물 근거 검증 실패', undisclosed_player_context: '비공개 맥락 보호 검증 실패',
+    provider_response_validation: '모델 응답 검증 실패',
+  };
+  return known[code] ?? `응답 생성 실패 (${String(code || 'unknown').slice(0, 40)})`;
+}
+async function openDialogueSession(card, actorCard, signal) {
+  const response = await fetch(`${aiBaseUrl}/api/rpg/session/start`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ hostId: card.id, actorHostId: actorCard.id }), signal });
+  if (!response.ok) {
+    const body = await response.json().catch(() => ({}));
+    throw Object.assign(new Error('dialogue_session_unavailable'), { status: response.status, apiCode: body.error });
+  }
+  const result = await response.json();
+  if (result.mode === 'BLOCKED_NO_KEY') throw Object.assign(new Error('dialogue_provider_not_configured'), { apiCode: 'BLOCKED_NO_KEY' });
+  if (!result.sessionToken || result.mode !== 'AI') throw Object.assign(new Error('dialogue_session_invalid'), { apiCode: result.mode || 'invalid_session' });
+  return { token: result.sessionToken, mode: 'AI' };
+}
 let missionGuidance = null, destinationPinned = false, journalReturnFocus = null;
 const tutorialStorageKey = 'v34-tutorial-stage';
 let tutorialStage = localStorage.getItem(tutorialStorageKey) ?? '0';
@@ -332,6 +369,15 @@ function updateHud() {
   $('#mission-method').textContent = missionGuidance.blocked ? `막힘 · ${missionGuidance.blockedReasonKo ?? '조건을 확인하세요.'}` : missionGuidance.howKo ?? '';
   const caseContext = host ? caseContextsByQuest.get(missionGuidance.questId) : null;
   caseContextButton.hidden = !caseContext?.roles?.[host.id] || Boolean(state.endingId);
+  const discussionQuests = currentDiscussionQuests(), activeDiscussionCount = discussionQuests.filter(item => !item.completed).length;
+  const discussionBoard = $('#discussion-quest-board');
+  const discussionHost = conversationPartner;
+  const currentPrompts = discussionHost ? discussionPromptsForHost(discussionHost.id, discussionQuests) : [];
+  discussionBoard.hidden = !host || !activeDiscussionCount || Boolean(state.endingId);
+  $('#discussion-quest-progress').textContent = `생각을 묻는 선택형 임무 · ${discussionQuests.filter(item => item.completed).length} / ${discussionQuests.length} 완료`;
+  $('#discussion-quest-items').replaceChildren(...(currentPrompts.length
+    ? currentPrompts.slice(0, 2).map(prompt => { const li = document.createElement('li'); li.textContent = `${prompt.questTitleKo} · ${discussionHost.displayNameKo}에게: “${prompt.promptKo}”`; return li; })
+    : [Object.assign(document.createElement('li'), { textContent: '가까운 사람에게 말을 걸면 그 인물에게 맞는 사상·생활 질문이 대화 선택지에 나타납니다.' })]));
   $('#mission-progress').textContent = missionGuidance.progress?.totalSteps ? `${missionGuidance.progress.completedSteps} / ${missionGuidance.progress.totalSteps}` : '';
   $('#mission-pin').disabled = !missionGuidance.target;
   $('#mission-pin').setAttribute('aria-pressed', String(destinationPinned && Boolean(missionGuidance.target)));
@@ -369,7 +415,7 @@ function updateHud() {
     fill('#journal-sources', known.length ? known : ['이 몸으로 확인한 자료와 단서가 없습니다.']);
   }
   const logs = state.ledger.slice(-12).reverse().map(entry => {
-    if (entry.eventType === 'DIALOGUE_TURN') return `${entry.date} · ${cards.find(item=>item.id===entry.hostId)?.displayNameKo ?? '대화'}와 이야기함`;
+    if (entry.eventType === 'DIALOGUE_TURN') return `${entry.date} · ${entry.discussionId ? `견해 질문 · ${discussionQuestById.get(entry.discussionId)?.titleKo ?? '주제 대화'}` : `${cards.find(item=>item.id===entry.hostId)?.displayNameKo ?? '대화'}와 이야기함`}`;
     if (entry.eventType === 'HISTORICAL_ACTION' || entry.eventType === 'LITERARY_ACTION') { const q=questsById.get(entry.questId), a=q?.actions.find(item=>item.id===entry.actionId); return `${entry.date} · ${a?.labelKo ?? '문서에 선택을 남김'}`; }
     if (entry.eventType === 'READ_SOURCE') return `${entry.date} · 자료를 읽음`;
     if (entry.eventType === 'OBSERVE_EVIDENCE') return `${entry.date} · 현장의 흔적을 살펴봄`;
@@ -770,6 +816,16 @@ function showConversation(card, promptText, replies, statusText = '') {
   form.append(input, counter, submit); form.addEventListener('submit', event => { event.preventDefault(); const value = input.value.trim(); if (value && !event.isComposing) sendConversation(card, value); });
   $('#actions').append(form);
   }
+  if (statusText.startsWith('AI 연결 실패') || statusText.startsWith('AI 응답 생성 실패')) {
+    const retry = document.createElement('button'); retry.type = 'button'; retry.textContent = 'AI 다시 연결';
+    retry.addEventListener('click', () => {
+      const key = activeDialogueKey;
+      if (key) { dialogueSessions.delete(key); sessionStorage.removeItem(dialogueStorageKey(key)); }
+      finishConversation(card.id);
+      startConversation(card);
+    });
+    $('#actions').append(retry);
+  }
   $('.journal').scrollTop = 0;
   sayRecord(statusText || (hasLiveDialogue(activeDialogueKey) ? '직접 말하거나 준비된 대답을 고르세요.' : '오프라인 · 입력은 기록되지만, 자유 대화 대신 확인된 짧은 대답과 준비된 선택지를 사용합니다.'));
 }
@@ -781,8 +837,8 @@ async function startConversation(card) {
   dialogueRequestPending = false;
   activeDialogueHost = card.id; activeDialogueKey = key; updateHud();
   tutorialAdvance('talk');
-  let session = dialogueSessions.get(key);
-  const authored = conversations[card.id], remaining = availableTopics(card.id, heardTopics.get(key));
+  let session = dialogueSessions.get(key), sessionFailure = '';
+  const remaining = availableTopics(card.id, heardTopics.get(key));
   dialogueCurrentLines.set(key, contextualOpening(card.id, actorCard.id));
   showConversation(card, dialogueCurrentLines.get(key), remaining, '선택지는 빠른 대답입니다. 직접 입력해도 됩니다.');
   if (!session) {
@@ -790,23 +846,22 @@ async function startConversation(card) {
     const timer = setTimeout(() => controller.abort(), 8000);
     try {
       const saved = sessionStorage.getItem(dialogueStorageKey(key));
-      if (saved) session = { token: saved };
+      if (saved) session = { token: saved, mode: 'AI' };
       else {
-        const response = await fetch(`${aiBaseUrl}/api/rpg/session/start`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ hostId: card.id, actorHostId: actorCard.id }), signal: controller.signal });
-        if (!response.ok) throw new Error('session unavailable');
-        const result = await response.json(); session = { token: result.sessionToken, mode: result.mode };
-        if (!session.token) throw new Error('session token missing');
+        session = await openDialogueSession(card, actorCard, controller.signal);
         sessionStorage.setItem(dialogueStorageKey(key), session.token);
       }
       if (dialogueGeneration !== generation || activeDialogueKey !== key) return;
       dialogueSessions.set(key, session);
-    } catch { session = null; }
+    } catch (error) { session = null; sessionFailure = dialogueApiFailure(error); }
     finally { clearTimeout(timer); if (activeDialogueController === controller) activeDialogueController = null; }
     if (activeDialogueHost !== card.id || activeDialogueKey !== key || dialogueGeneration !== generation) return;
   }
 
-  showConversation(card, dialogueCurrentLines.get(key), hasLiveDialogue(key) ? aiScenes.sessions[card.id].fallbackReplies : remaining,
-    hasLiveDialogue(key) ? '온라인 · 직접 입력과 준비된 대답을 모두 쓸 수 있습니다.' : '오프라인 · 입력은 기록되며, 준비된 대답도 고를 수 있습니다.');
+  const topicalQuestions = discussionPromptsForHost(card.id, currentDiscussionQuests()).map(item => item.promptKo);
+  const starterReplies = [...new Set([...topicalQuestions, ...remaining])].slice(0, 3);
+  showConversation(card, dialogueCurrentLines.get(key), starterReplies,
+    sessionFailure ? `AI 연결 실패 · ${sessionFailure}` : hasLiveDialogue(key) ? 'AI 연결됨 · 직접 입력하거나 생각을 묻는 질문을 고르세요.' : '오프라인 대사 · AI 연결이 확인되지 않았습니다.');
 }
 async function sendConversation(card, playerText, replyId = null) {
   const key = activeDialogueKey;
@@ -814,6 +869,7 @@ async function sendConversation(card, playerText, replyId = null) {
   if (activeDialogueHost !== card.id || !key || dialogueRequestPending || state.player.embodiment === card.id || nearbyConversationPartner()?.id !== card.id) return;
   const intentClass = classifyTypedResponse(playerText);
   const actorCard = cards.find(item => item.id === state.player.embodiment);
+  const discussionPrompt = discussionPromptsForHost(card.id, currentDiscussionQuests()).find(item => item.promptKo === playerText);
   const lines = dialogueTranscripts.get(key) ?? []; lines.push({ speaker: actorCard.displayNameKo, text: playerText });
   dialogueTranscripts.set(key, lines.slice(-24));
   let session = dialogueSessions.get(key); let turn = null, fallbackReason = '';
@@ -821,32 +877,33 @@ async function sendConversation(card, playerText, replyId = null) {
     const controller = new AbortController(); activeDialogueController = controller;
     const timer = setTimeout(() => controller.abort(), 7000);
     try {
-      const response = await fetch(`${aiBaseUrl}/api/rpg/session/start`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ hostId: card.id, actorHostId: actorCard.id }), signal: controller.signal });
-      if (response.ok) {
-        const result = await response.json();
-        if (result.sessionToken && result.mode !== 'AUTHORED' && result.mode !== 'BLOCKED_NO_KEY') {
-          session = { token: result.sessionToken, mode: result.mode }; dialogueSessions.set(key, session); sessionStorage.setItem(dialogueStorageKey(key), session.token);
-        } else fallbackReason = '오프라인 · 서버 대화를 사용할 수 없어 준비된 대답으로 답합니다.';
-      } else fallbackReason = '연결을 다시 확인했지만 오프라인 대답으로 이어갑니다.';
-    } catch { fallbackReason = '연결이 끊겨 오프라인 대답으로 이어갑니다.'; }
+      session = await openDialogueSession(card, actorCard, controller.signal);
+      dialogueSessions.set(key, session); sessionStorage.setItem(dialogueStorageKey(key), session.token);
+    } catch (error) { fallbackReason = `AI 연결 실패 · ${dialogueApiFailure(error)}`; }
     finally { clearTimeout(timer); if (activeDialogueController === controller) activeDialogueController = null; }
     if (activeDialogueHost !== card.id || activeDialogueKey !== key || dialogueGeneration !== generation) return;
   }
   if (hasLiveDialogue(key)) {
     dialogueRequestPending = true;
+    const sessionStorageKey = dialogueStorageKey(key);
     const controller = new AbortController(); activeDialogueController = controller;
     const timer = setTimeout(() => controller.abort(), 20000);
     dialogueCurrentLines.set(key, '말을 들었어요. 잠시 생각하고 있어요.');
     showConversation(card, dialogueCurrentLines.get(key), [], '답변을 기다리는 중 · Esc로 대화를 마칠 수 있습니다.');
     try {
-      const response = await fetch(`${aiBaseUrl}/api/rpg/dialogue`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ sessionToken: session.token, requestId: crypto.randomUUID(), playerInput: playerText, actorRelations: relationshipHintsFor(actorCard.id), actorActions: playerActionHintsFor(actorCard.id), sceneContext: { date: state.world.date, mapId: state.world.currentMapId, questId: missionGuidance?.questId ?? null } }), signal: controller.signal });
+      const requestDialogue = currentSession => fetch(`${aiBaseUrl}/api/rpg/dialogue`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ sessionToken: currentSession.token, requestId: crypto.randomUUID(), playerInput: playerText, actorRelations: relationshipHintsFor(actorCard.id), actorActions: playerActionHintsFor(actorCard.id), sceneContext: { date: state.world.date, mapId: state.world.currentMapId, questId: missionGuidance?.questId ?? null } }), signal: controller.signal });
+      let response = await requestDialogue(session);
+      if (response.status === 401) {
+        sessionStorage.removeItem(sessionStorageKey); dialogueSessions.delete(key);
+        session = await openDialogueSession(card, actorCard, controller.signal);
+        dialogueSessions.set(key, session); sessionStorage.setItem(sessionStorageKey, session.token);
+        response = await requestDialogue(session);
+      }
       if (!response.ok) {
         if (response.status === 429) {
           session.mode = 'BLOCKED_LIMIT'; dialogueSessions.set(key, session); sessionStorage.removeItem(dialogueStorageKey(key));
-          fallbackReason = '대화 요청 한도에 도달해 오프라인 대사로 이어간다';
-        } else if (response.status === 401) fallbackReason = '대화 연결이 끝났어요. 다시 말을 걸어 주세요.';
-        else fallbackReason = '서버가 대화를 처리하지 못해 준비된 대사로 이어갑니다.';
-        throw new Error('dialogue unavailable');
+        }
+        throw Object.assign(new Error('dialogue_unavailable'), { status: response.status });
       }
       const data = await response.json(), candidate = data.turn;
       if (candidate?.sceneId !== aiScenes.sessions[card.id].sceneId || !Array.isArray(candidate.beats) || candidate.beats.length < 1 || candidate.beats.length > 2 || !candidate.beats.every(beat => beat && [card.id, 'NARRATION'].includes(beat.speakerId) && typeof beat.textKo === 'string' && beat.textKo.length <= 420) || !Array.isArray(candidate.suggestedReplies) || candidate.suggestedReplies.length < 2 || candidate.suggestedReplies.length > 3 || !candidate.suggestedReplies.every(reply => reply && typeof reply.textKo === 'string' && reply.textKo.length <= 80)) throw new Error('invalid dialogue response');
@@ -855,8 +912,8 @@ async function sendConversation(card, playerText, replyId = null) {
         sessionStorage.setItem(dialogueStorageKey(key), session.token);
       }
       turn = data.fallback ? null : candidate;
-      fallbackReason = data.fallback ? 'AI 대화가 응답을 마무리하지 못해 준비된 대사로 이어갑니다.' : '';
-    } catch { fallbackReason ||= '연결이 늦어 오프라인 대사로 이어갑니다.'; }
+      fallbackReason = data.fallback ? `AI 응답 생성 실패 · ${providerFailureLabel(data.providerErrorCode || response.headers.get('x-v33-provider-result'))}. 준비된 대사로 이어갑니다. ‘AI 다시 연결’로 재시도할 수 있습니다.` : '';
+    } catch (error) { fallbackReason ||= `AI 연결 실패 · ${dialogueApiFailure(error)}`; }
     finally {
       clearTimeout(timer);
       if (activeDialogueController === controller) activeDialogueController = null;
@@ -865,6 +922,7 @@ async function sendConversation(card, playerText, replyId = null) {
     if (activeDialogueHost !== card.id || activeDialogueKey !== key || dialogueGeneration !== generation) return;
   }
   const local = aiScenes.sessions[card.id];
+  const aiGenerated = Boolean(turn);
   if (!turn) {
     const reply = authoredReply(card.id, playerText, heardTopics.get(key));
     heardTopics.set(key, reply.heard);
@@ -875,10 +933,10 @@ async function sendConversation(card, playerText, replyId = null) {
   for (const beat of turn.beats) lines.push({ speaker: beat.speakerId === 'NARRATION' ? card.displayNameKo : card.displayNameKo, text: beat.textKo });
   dialogueTranscripts.set(key, lines.slice(-24));
   dialogueCurrentLines.set(key, turn.beats.map(beat => beat.textKo).join('\n'));
-  const recorded = recordDialogueTurn(state, { hostId: card.id, actorHostId: actorCard.id, sceneId: local.sceneId, intentClass }, maps);
+  const recorded = recordDialogueTurn(state, { hostId: card.id, actorHostId: actorCard.id, sceneId: local.sceneId, intentClass, discussionId: aiGenerated ? discussionPrompt?.discussionId : null }, maps);
   if (recorded.ok) setState(recorded.state);
   const replies = (turn.suggestedReplies ?? []).slice(0, 3);
-  showConversation(card, dialogueCurrentLines.get(key), replies.map(reply => reply.textKo), fallbackReason || (hasLiveDialogue(key) ? '온라인 · 준비된 대답 또는 직접 입력' : '오프라인 · 준비된 대답 또는 직접 입력'));
+  showConversation(card, dialogueCurrentLines.get(key), replies.map(reply => reply.textKo), fallbackReason || (aiGenerated ? 'AI 답변 · 인물의 처지와 견해가 반영되었습니다.' : '오프라인 대사 · AI 답변은 생성되지 않았습니다.'));
   $('.journal').scrollTop = $('.journal').scrollHeight;
 }
 document.addEventListener('keydown', event => {

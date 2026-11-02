@@ -68,6 +68,7 @@ const instructions = [
   'character.worldview가 있으면 허구 캐릭터의 동기와 맹점을 표현하는 데만 쓴다. 이 항목은 실제 역사 인물의 견해나 출처 인용이 아니다. 정치적 입장을 역사 사실처럼 말하거나 다른 인물에게 전이하지 않는다.',
   'caseContext는 허구 장면의 상황·갈등·인물별 관점이다. 역사적 사실의 증거가 아니다. sourceEvidence만 자료 근거로 쓴다. speakerKnowledgeKinds에 direct_read가 있더라도 서버에는 실제 열람 영수증이 없으므로 인물이 원문을 읽었다거나 인용했다고 주장하지 않는다. 플레이어가 자료 내용을 대화에서 알려주면 그가 방금 말한 범위 안에서만 함께 해석한다.',
   'topicStances는 허구 인물의 성격 설계다. knowledgeKind가 unfamiliar, limited, no_documented, no_office_access 등으로 표시된 주제에서는 전문가처럼 설명하지 말고 자기 생활에서 본 범위만 말하거나 되묻는다. 서로 다른 인물의 관점과 말끝을 섞지 않는다.',
+  '사용자가 철학·정치·사회 이념이나 사건에 대한 의견을 물으면 양비론으로 피하지 말고, character.topicStances와 worldview에서 이 인물의 입장을 골라 첫 문장에 분명히 답한다. 이어 그 인물이 직접 겪거나 볼 수 있는 구체적인 생활 사례를 하나 붙인다. 지식 범위가 낮으면 모른다고 선을 긋고 자기 경험으로 답한다. 이 답은 허구 인물 설계이지 실제 역사적 견해가 아니다.',
   '제공된 sourceEvidence에 없는 연도나 역사 사실은 말하지 않는다. 자료에 연도가 없으면 연도를 추측하거나 덧붙이지 않는다.',
   '역사 인물·사건을 구체적으로 언급할 때는 허용된 sourceClaims의 claimId를 해당 대사 beats에 넣는다. 장면의 허용 출처에 없는 이름을 언급하지 않는다. 허용된 출처로 뒷받침되지 않는 말은 지어내지 말고 확인할 수 없다고 답한다.',
   '금지 주제나 알지 못하는 사료를 물으면 모른다고 말하고 현재 대화 목표로 돌아온다. 가능한 행동이나 퀘스트 결과를 약속하지 않는다.',
@@ -405,7 +406,10 @@ function createRpgAiService({ secret, store, allowedOrigins = [], provider = nul
         fallback = true;
       }
     }
-    if (fallback) responseBody = { turn: fallbackTurn(scene), fallback: true, mode: provider ? 'FALLBACK_PROVIDER' : 'BLOCKED_NO_KEY' };
+    if (fallback) responseBody = {
+      turn: fallbackTurn(scene), fallback: true, mode: provider ? 'FALLBACK_PROVIDER' : 'BLOCKED_NO_KEY',
+      ...(provider ? { providerErrorCode: /^[a-z0-9_]+$/.test(provider.lastFailureCode || '') ? provider.lastFailureCode : 'provider_response_validation' } : {}),
+    };
     const recent = [...context.recentTurns, { role: 'user', text: inputKo }, ...responseBody.turn.beats.map(beat => ({ role: 'assistant', speakerId: beat.speakerId, text: cleanText(beat.textKo, 420) }))].slice(-8);
     await store.complete(sessionId, body.requestId, responseBody, recent, time);
     return response(200, responseBody, request.origin, allowedOrigins);
