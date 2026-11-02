@@ -1212,12 +1212,14 @@ async function sendConversation(card, playerText, replyId = null) {
   for (const beat of turn.beats) lines.push({ speaker: beat.speakerId === 'NARRATION' ? card.displayNameKo : card.displayNameKo, text: beat.textKo });
   dialogueTranscripts.set(key, lines.slice(-24));
   dialogueCurrentLines.set(key, turn.beats.map(beat => beat.textKo).join('\n'));
-  const recorded = recordDialogueTurn(state, { hostId: card.id, actorHostId: actorCard.id, sceneId: local.sceneId, intentClass, discussionId: aiGenerated ? discussionPrompt?.discussionId : null, discussionTitleKo: discussionPrompt?.questTitleKo, reflectionId: aiGenerated ? reflectionPrompt?.reflectionId : null, aiGenerated }, maps);
+  const recorded = recordDialogueTurn(state, { hostId: card.id, actorHostId: actorCard.id, sceneId: local.sceneId, intentClass, discussionId: discussionPrompt?.discussionId ?? null, discussionTitleKo: discussionPrompt?.questTitleKo, reflectionId: reflectionPrompt?.reflectionId ?? null, aiGenerated }, maps);
   if (recorded.ok) setState(recorded.state);
   const replies = (turn.suggestedReplies ?? []).slice(0, 3);
   const reward = recorded.ok ? recorded.state.ledger.at(-1)?.dialogueReward : null;
   const rewardStatus = reward === 'COMPARISON_NOTE' ? ' · 관점 대조 메모 획득 · 다른 인물에게 후속 질문 가능' : reward === 'PERSPECTIVE_NOTE' ? ' · 관점 메모와 통찰 +1' : '';
-  showConversation(card, dialogueCurrentLines.get(key), replies.map(reply => reply.textKo), fallbackReason || (aiGenerated ? `AI 답변 · 인물의 처지와 견해가 반영되었습니다.${rewardStatus}` : '오프라인 대사 · AI 답변은 생성되지 않았습니다.'));
+  const recordFailure = recorded.ok ? '' : `대화 기록 실패 · ${recorded.reason}`;
+  const conversationStatus = [fallbackReason, recordFailure].filter(Boolean).join(' · ') || (aiGenerated ? `AI 답변 · 인물의 처지와 견해가 반영되었습니다.${rewardStatus}` : `오프라인 대사 · AI 답변은 생성되지 않았습니다.${rewardStatus}`);
+  showConversation(card, dialogueCurrentLines.get(key), replies.map(reply => reply.textKo), conversationStatus);
   $('.journal').scrollTop = $('.journal').scrollHeight;
 }
 document.addEventListener('keydown', event => {

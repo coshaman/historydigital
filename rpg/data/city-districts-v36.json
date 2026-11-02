@@ -18,8 +18,8 @@
         { "fromMapId": "nevsky", "exitId": "nevsky-courtyard-gate", "toMapId": "courtyard", "districtTransition": true }
       ],
       "sourceEvidence": [
-        { "sourceId": "OBJ-PETERSBURG-PLAN-1840", "sourceType": "PERIOD_MAP", "use": "Broad city street context only; the in-game geometry is stylized and not georeferenced." },
-        { "sourceId": "OBJ-SOV-1847", "sourceType": "PERIOD_TEXT", "use": "Printshop and periodical work context; not evidence for this fictional shop address." },
+        { "sourceId": "V36-MAP-NLR-19C-PLANS", "sourceType": "PERIOD_MAP", "use": "Broad street and waterway context only; no exact in-game locator is asserted." },
+        { "sourceId": "V36-ART-SADOVNIKOV-NEVSKY-PANORAMA", "sourceType": "PERIOD_PRINT", "use": "Nevsky facade rhythm and street activity reference; no exact shop occupant or game coordinate is inferred." },
         { "sourceId": "V36-GUIDE-PUSHKAREV-1843", "sourceType": "PERIOD_TEXT", "use": "Name and facility investigation; individual entries remain unchecked before address-level claims." }
       ],
       "gameTransformation": "Existing Nevsky street plus fictional workplace interiors; specific office/station rooms are reconstructed, not historical rooms."
@@ -37,8 +37,8 @@
         { "fromMapId": "courtyard", "exitId": "courtyard-nevsky-gate", "toMapId": "nevsky", "districtTransition": true }
       ],
       "sourceEvidence": [
-        { "sourceId": "OBJ-PETERSBURG-PLAN-1840", "sourceType": "PERIOD_MAP", "use": "Street and block context only; the named household and address are fictional." },
-        { "sourceId": "OBJ-SADOVNIKOV-1835", "sourceType": "PERIOD_PAINTING", "use": "Street-scene visual context; not proof of this specific courtyard." },
+        { "sourceId": "V36-MAP-NLR-19C-PLANS", "sourceType": "PERIOD_MAP", "use": "Street and block context only; the named household and address are fictional." },
+        { "sourceId": "V36-ART-SADOVNIKOV-NEVSKY-PANORAMA", "sourceType": "PERIOD_PRINT", "use": "Nevsky street-scene context only; not evidence for this specific courtyard." },
         { "sourceId": "V36-PHYSIOLOGY-PETERSBURG-1845", "sourceType": "PERIOD_TEXT", "use": "Literary urban-life comparison after checking individual relevant pages; not a representative statistic." }
       ],
       "gameTransformation": "Fictional shared courtyard and rented rooms; no specific named address, household, or rent amount is claimed as historical fact."

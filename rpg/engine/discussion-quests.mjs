@@ -43,23 +43,29 @@ export function discussionReflectionPromptsForHost(hostId, state, quests) {
 }
 
 export function discussionBoardView(quests, hostId = null, hostNames = {}) {
-  const active = (quests ?? []).filter(quest => !quest.completed);
+  const active = (quests ?? []).filter(quest => !quest.completed)
+    .sort((a, b) => (b.perspectiveHostIds?.length ?? 0) - (a.perspectiveHostIds?.length ?? 0));
   const completedCount = (quests ?? []).length - active.length;
   const eligibleFor = quest => Object.keys(quest.hosts ?? {})
-    .filter(id => !quest.perspectiveHostIds?.includes(id))
-    .map(id => hostNames[id] ?? id);
+    .filter(id => !quest.perspectiveHostIds?.includes(id));
   const rows = hostId
     ? active.flatMap(quest => {
+        const count = quest.perspectiveHostIds?.length ?? 0;
         const prompt = quest.hosts?.[hostId];
-        if (!prompt || quest.perspectiveHostIds?.includes(hostId)) return [];
-        return [`${quest.titleKo} · ${quest.perspectiveHostIds?.length ?? 0}/${quest.requiredPerspectiveCount ?? 2} 관점 · 이 인물에게 “${prompt.promptKo}”를 물어보세요.`];
+        if (prompt && !quest.perspectiveHostIds?.includes(hostId)) return [`${quest.titleKo} · ${count}/${quest.requiredPerspectiveCount ?? 2} 관점 · 지금 대화 중인 ${hostNames[hostId] ?? '인물'}에게 “${prompt.promptKo}”를 물어보세요.`];
+        if (count > 0) {
+          const nextHosts = eligibleFor(quest);
+          const nextNames = nextHosts.map(id => hostNames[id] ?? id);
+          return [`${quest.titleKo} · ${count}/${quest.requiredPerspectiveCount ?? 2} 관점 · 다음에는 ${nextNames.join(' · ')}에게 같은 쟁점을 물어보세요. 질문: “${quest.hosts?.[nextHosts[0]]?.promptKo ?? quest.reflectionPromptKo ?? quest.titleKo}”`];
+        }
+        return [];
       }).slice(0, 3)
-    : active.slice(0, 3).map(quest => `${quest.titleKo} · ${quest.perspectiveHostIds?.length ?? 0}/${quest.requiredPerspectiveCount ?? 2} 관점 · ${eligibleFor(quest).join(' · ')} 중 두 사람에게 같은 쟁점을 물어보세요.`);
+    : active.slice(0, 3).map(quest => `${quest.titleKo} · ${quest.perspectiveHostIds?.length ?? 0}/${quest.requiredPerspectiveCount ?? 2} 관점 · 질문을 받을 사람: ${eligibleFor(quest).map(id => hostNames[id] ?? id).join(' · ')}. 두 사람에게 같은 쟁점을 물어보세요.`);
   return {
     progressKo: `견해 임무 · ${completedCount} / ${(quests ?? []).length} 완료`,
     guidanceKo: hostId
-      ? '아래 질문을 고르고, 같은 쟁점을 다른 인물에게도 물어 두 관점을 비교하세요.'
-      : '먼저 인물에게 빙의해 가까이 다가가 말을 거세요. 같은 쟁점을 두 사람에게 물으면 견해 메모가 남습니다.',
+      ? '질문을 받은 인물의 관점이 기록됩니다. 다음 질문 대상이 지금 빌린 몸이라면 다른 인물의 몸으로 바꾼 뒤 말을 거세요.'
+      : '질문을 받을 인물을 찾아 대화하세요. 직접 그 인물에게 말을 걸 수는 없으니, 다른 인물의 몸을 빌려 같은 쟁점을 두 사람에게 물어보세요.',
     rows,
     visible: active.length > 0,
   };

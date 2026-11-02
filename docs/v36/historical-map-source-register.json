@@ -6,6 +6,7 @@
   "sources": [
     {
       "sourceId": "V36-MAP-NLR-19C-PLANS",
+      "legacySourceIds": ["OBJ-PETERSBURG-PLAN-1840"],
       "title": "19th-century plans of Saint Petersburg; Russian National Library Mosaic of Petersburg",
       "sourceType": "PERIOD_MAP",
       "sourceUrl": "https://expositions.nlr.ru/eng/ex_map/mozaika_Saint-Petersburg/plans_19_century.php",
@@ -35,6 +36,22 @@
       "rights": "Catalog metadata reviewed; scan and reproduction rights not reviewed. No image reused.",
       "creditedArtist": "Compiled by N. I. Tsylov; individual engraving credits require sheet-level review.",
       "gameTransformation": "Comparison only. Never cite the 1849 atlas by itself as proof that a detail existed in 1847."
+    },
+    {
+      "sourceId": "V36-ART-SADOVNIKOV-NEVSKY-PANORAMA",
+      "legacySourceIds": ["OBJ-SADOVNIKOV-1835"],
+      "title": "P. S. Ivanov after V. S. Sadovnikov, Panorama of Nevsky Prospect, sunny side, fragment 8",
+      "sourceType": "PERIOD_PRINT",
+      "sourceUrl": "https://rusmuseumvrm.ru/data/collections/engraving/gr.-1929_8/index.php",
+      "verifiedMetadata": "The State Russian Museum catalog identifies a hand-colored lithograph after Sadovnikov watercolors, published by A. M. Prevost in 1835, inventory GR-1929. The museum describes the panorama as a Nevsky street view from the Admiralty to the Fontanka and cautions that some building details came from project drawings for structures not yet completed.",
+      "eraRange": "1830–1835 views; fragment 8 issued 1835",
+      "locale": "Nevsky Prospect, Saint Petersburg",
+      "pageOrFolio": "Museum catalog object GR-1929, fragment 8; catalog display accessed 2026-11-02.",
+      "visualFeature": "Facade sequence, carriage traffic, pedestrians, and street-scale visual rhythm for the represented Nevsky frontage only.",
+      "confidence": "HIGH for the catalog and publication metadata; MEDIUM for interpreting individual architectural details; not direct evidence of 1847 shop occupants or exact game coordinates.",
+      "rights": "Museum catalog reviewed; image reproduction rights not cleared. No museum image is copied or redistributed.",
+      "creditedArtist": "P. S. Ivanov, lithographer; after watercolor originals by V. S. Sadovnikov; published by A. M. Prevost.",
+      "gameTransformation": "Reference only for broad facade rhythm and period street activity. The in-game map stays stylized and non-georeferenced; proposed/unbuilt structures and exact storefront locations are not inferred from this fragment."
     },
     {
       "sourceId": "V36-GUIDE-PUSHKAREV-1843",

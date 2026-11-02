@@ -522,7 +522,9 @@ function recordDialogueTurn(state, { hostId, actorHostId, sceneId, intentClass =
   if (aiGenerated) next.player.dialogueGrowth.aiReplies += 1;
   const alreadyHeardPerspective = discussionId && next.player.dialogueGrowth.perspectiveNotes.some(note => note.discussionId === discussionId && note.hostId === hostId);
   const priorPerspectiveCount = discussionId ? new Set(next.player.dialogueGrowth.perspectiveNotes.filter(note => note.discussionId === discussionId).map(note => note.hostId)).size : 0;
-  const earnsInsight = aiGenerated && Boolean(discussionId) && !alreadyHeardPerspective;
+  // The player earns a perspective by asking the authored question and receiving
+  // a response. AI generation is tracked separately and must not gate quest progress.
+  const earnsInsight = Boolean(discussionId) && !alreadyHeardPerspective;
   let dialogueReward = null;
   if (earnsInsight) {
     next.player.dialogueGrowth.insight += 1;
@@ -535,8 +537,8 @@ function recordDialogueTurn(state, { hostId, actorHostId, sceneId, intentClass =
     }
   }
   const reflectionKey = reflectionId ? `${reflectionId}::${hostId}` : null;
-  if (aiGenerated && reflectionKey && !next.player.dialogueGrowth.reflectionIds.includes(reflectionKey)) next.player.dialogueGrowth.reflectionIds.push(reflectionKey);
-  const event = { eventId: `DIALOGUE_${next.ledger.length + 1}`, eventType: 'DIALOGUE_TURN', date: next.world.date, clockMinutes: next.world.clockMinutes, mapId: next.world.currentMapId, hostId, interlocutorHostId: actorHostId, sceneId, intentClass, ...(aiGenerated ? { aiGenerated: true } : {}), ...(earnsInsight ? { discussionId, dialogueReward } : {}), ...(aiGenerated && reflectionKey ? { reflectionId } : {}), priorStateHash: stateHash(timed), nextStateHash: null };
+  if (reflectionKey && !next.player.dialogueGrowth.reflectionIds.includes(reflectionKey)) next.player.dialogueGrowth.reflectionIds.push(reflectionKey);
+  const event = { eventId: `DIALOGUE_${next.ledger.length + 1}`, eventType: 'DIALOGUE_TURN', date: next.world.date, clockMinutes: next.world.clockMinutes, mapId: next.world.currentMapId, hostId, interlocutorHostId: actorHostId, sceneId, intentClass, ...(aiGenerated ? { aiGenerated: true } : {}), ...(discussionId ? { discussionId, ...(earnsInsight ? { dialogueReward } : {}) } : {}), ...(reflectionKey ? { reflectionId } : {}), priorStateHash: stateHash(timed), nextStateHash: null };
   next.ledger.push(event);
   event.nextStateHash = stateHash(next);
   return { ok: true, state: next };
