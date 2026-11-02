@@ -47,7 +47,7 @@
   "canonConstraint": "fictional character; never speaks for a real censor or makes an immutable historical decision",
   "reconstructionDisclaimer": "허구 인물 설계이며 실제 관료의 생애나 발언을 재현하지 않는다.",
   "sprite": { "file": "assets/alexei.png", "frameWidth": 16, "frameHeight": 24, "style": "original pixel interpretation; reused neutral office atlas" },
-  "schedule": [{ "atMinute": 540, "mapId": "chancery", "position": { "x": 8, "y": 10 }, "activityKo": "검토 메모와 결재 문서를 나눈다" }, { "atMinute": 720, "mapId": "nevsky", "position": { "x": 17, "y": 12 }, "activityKo": "점심 뒤 관청으로 돌아갈 길을 걷는다" }],
+  "schedule": [{ "atMinute": 540, "mapId": "chancery", "position": { "x": 8, "y": 10 }, "activityKo": "검토 메모와 결재 문서를 나눈다" }, { "atMinute": 720, "mapId": "nevsky", "position": { "x": 17, "y": 12 }, "activityKo": "점심 뒤 관청으로 돌아갈 길을 걷는다" }, { "atMinute": 840, "mapId": "chancery", "position": { "x": 8, "y": 10 }, "activityKo": "서명란과 검토자 이름이 맞는지 대조한다" }, { "atMinute": 1020, "mapId": "nevsky", "position": { "x": 17, "y": 12 }, "activityKo": "퇴청 전에 맡은 문서의 반납 순서를 확인한다" }],
   "portrait": { "file": "assets/portrait-senior-clerk-konstantin.svg", "width": 64, "height": 64, "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION" },
   "spriteAtlas": { "file": "assets/alexei.png", "frameWidth": 16, "frameHeight": 24, "directions": 4, "framesPerDirection": 3, "directionRows": { "down": 0, "up": 1, "left": 2, "right": 3 } }
 }

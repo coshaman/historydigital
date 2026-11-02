@@ -1,8 +1,8 @@
 {
-  "auditedHead": "e8d728028881831fdcfdf7e9bff03c4975e31f40",
+  "auditedHead": "bcdb5bac8a4b7c48136cd785dafd4be14be68619",
   "branch": "codex/master-dialogue-opinions",
-  "generatedAt": "2026-11-02T14:54:29.148Z",
-  "workingTreeStatus": "M ai/v33/session-runtime.cjs\n M artifacts/v33/INTERPERSONAL_DIALOGUE/anna-speaks-with-ekaterina-1366.png\n M artifacts/v33/INTERPERSONAL_DIALOGUE/anna-speaks-with-ekaterina-1440.png\n M artifacts/v33/INTERPERSONAL_DIALOGUE/anna-speaks-with-ekaterina-360.png\n M artifacts/v33/INTERPERSONAL_DIALOGUE/anna-speaks-with-ekaterina-390.png\n M artifacts/v33/OVERCOAT_REALM/BROWSER_SMOKE.json\n M artifacts/v33/OVERCOAT_REALM/akaky-record-1440x900.png\n M artifacts/v33/V33_RPG_PHASE1/BROWSER_SMOKE.json\n M artifacts/v33/V33_RPG_PHASE1/clue-1111x720.png\n M artifacts/v33/V33_RPG_PHASE1/clue-1366x768.png\n M artifacts/v33/V33_RPG_PHASE1/clue-1440x900.png\n M artifacts/v33/V33_RPG_PHASE1/clue-360x800.png\n M artifacts/v33/V33_RPG_PHASE1/clue-390x844.png\n M artifacts/v33/V33_RPG_PHASE1/courtyard-rent-1440x900.png\n M artifacts/v33/V33_RPG_PHASE1/printshop-source-choice-1440x900.png\n M docs/v35/screenshots/source-reader-overcoat-1366x768.png\n M docs/v35/screenshots/source-reader-overcoat-1440x900.png\n M docs/v35/screenshots/source-reader-overcoat-360x800.png\n M docs/v35/screenshots/source-reader-overcoat-390x844.png\n M docs/v36/baseline/API_REGRESSION.md\n M docs/v36/baseline/ASSET_BASELINE.csv\n M docs/v36/baseline/BASELINE_HEAD_AND_DIFF.md\n M docs/v36/baseline/CURRENT_HEAD_BASELINE.json\n M docs/v36/baseline/MAP_GRAPH_BASELINE.json\n M docs/v36/baseline/NPC_EXISTING_INVENTORY.csv\n M docs/v36/baseline/QUEST_BASELINE.csv\n M package.json\n M rpg/engine/discussion-quests.mjs\n M rpg/engine/game-state.js\n M rpg/main.js\n M scripts/v33-learning-life.test.mjs\n M scripts/v35-discussion-quests.test.mjs\n M scripts/v36-baseline-inventory.mjs\n M scripts/v36-market-cohort-simulation.mjs\n M scripts/v36-save-migration.mjs\n M scripts/v36-social-exchange-test.mjs\n?? docs/v36/SAVE_MIGRATION.json\n?? docs/v36/current-audit/",
+  "generatedAt": "2026-11-02T17:58:52.863Z",
+  "workingTreeStatus": "M docs/v36/current-audit/API_AUDIT.md\n M docs/v36/current-audit/HEAD_AUDIT.json\n M docs/v36/current-audit/MAP_GRAPH_AUDIT.json\n M docs/v36/current-audit/NPC_ROSTER_AUDIT.csv\n M rpg/characters/editor_sofia.json\n M rpg/characters/police_sergeant_ivan.json\n M rpg/characters/reader_darya.json\n M rpg/characters/senior_clerk_konstantin.json",
   "counts": {
     "characterRecords": 40,
     "fictionalCityCitizens": 36,
@@ -20,12 +20,7 @@
     "distinctProvenanceAssetTypes": 7
   },
   "rosterGaps": {
-    "scheduleUnderFour": [
-      "editor_sofia",
-      "police_sergeant_ivan",
-      "reader_darya",
-      "senior_clerk_konstantin"
-    ],
+    "scheduleUnderFour": [],
     "residentsWithTwoAuthoredActorRelations": 0,
     "residentsWithExplicitNeedsProfile": 0,
     "residentsWithFourExplicitTodayGoals": 0,

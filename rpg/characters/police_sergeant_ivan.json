@@ -165,6 +165,24 @@
         "y": 3
       },
       "activityKo": "진술서와 압수 목록을 정리한다"
+    },
+    {
+      "atMinute": 840,
+      "mapId": "nevsky",
+      "position": {
+        "x": 17,
+        "y": 13
+      },
+      "activityKo": "신고가 접수된 거리와 목격 위치를 다시 살핀다"
+    },
+    {
+      "atMinute": 1020,
+      "mapId": "police-station",
+      "position": {
+        "x": 7,
+        "y": 3
+      },
+      "activityKo": "미확인 진술은 별도 묶음에 남긴다"
     }
   ]
 }

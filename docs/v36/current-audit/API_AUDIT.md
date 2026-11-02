@@ -1,6 +1,6 @@
 # API audit — current V36 checkpoint
 
-Audited HEAD: `e8d728028881831fdcfdf7e9bff03c4975e31f40` (codex/master-dialogue-opinions)
+Audited HEAD: `bcdb5bac8a4b7c48136cd785dafd4be14be68619` (codex/master-dialogue-opinions)
 
 - Deployment contract: Vercel same-origin functions; no Cloudflare worker or external client-side key.
 - Runtime routes: `/api/rpg/health`, `/api/rpg/session/start`, `/api/rpg/dialogue`.

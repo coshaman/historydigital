@@ -172,6 +172,24 @@
         "y": 12
       },
       "activityKo": "다음 호의 교정쇄를 확인한다"
+    },
+    {
+      "atMinute": 840,
+      "mapId": "nevsky",
+      "position": {
+        "x": 20,
+        "y": 13
+      },
+      "activityKo": "가판대에 남은 호수와 독자 반응을 적는다"
+    },
+    {
+      "atMinute": 1020,
+      "mapId": "printshop",
+      "position": {
+        "x": 14,
+        "y": 12
+      },
+      "activityKo": "인쇄를 마친 뒤 출처 메모를 서랍에 넣는다"
     }
   ]
 }

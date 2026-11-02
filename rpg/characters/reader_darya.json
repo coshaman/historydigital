@@ -47,7 +47,7 @@
   "canonConstraint": "fictional character; do not present her salon, words, or beliefs as historical evidence",
   "reconstructionDisclaimer": "허구 인물 설계이며 실존 여성의 생애나 사적 모임을 재현하지 않는다.",
   "sprite": { "file": "assets/anna.png", "frameWidth": 16, "frameHeight": 24, "style": "original pixel interpretation; reused neutral civilian atlas" },
-  "schedule": [{ "atMinute": 540, "mapId": "nevsky", "position": { "x": 15, "y": 12 }, "activityKo": "서점에서 새로 나온 글을 살핀다" }, { "atMinute": 660, "mapId": "printshop", "position": { "x": 12, "y": 11 }, "activityKo": "인쇄소의 교정쇄를 확인한다" }],
+  "schedule": [{ "atMinute": 540, "mapId": "nevsky", "position": { "x": 15, "y": 12 }, "activityKo": "서점에서 새로 나온 글을 살핀다" }, { "atMinute": 660, "mapId": "printshop", "position": { "x": 12, "y": 11 }, "activityKo": "인쇄소의 교정쇄를 확인한다" }, { "atMinute": 840, "mapId": "nevsky", "position": { "x": 15, "y": 12 }, "activityKo": "읽은 문장과 거리의 사정을 노트에 대조한다" }, { "atMinute": 1020, "mapId": "printshop", "position": { "x": 12, "y": 11 }, "activityKo": "빌린 교정쇄를 돌려주고 다음 읽을 쪽을 묻는다" }],
   "portrait": { "file": "assets/portrait-reader-darya.svg", "width": 64, "height": 64, "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION" },
   "spriteAtlas": { "file": "assets/anna.png", "frameWidth": 16, "frameHeight": 24, "directions": 4, "framesPerDirection": 3, "directionRows": { "down": 0, "up": 1, "left": 2, "right": 3 } }
 }
