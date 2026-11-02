@@ -27,7 +27,10 @@
     "workshop": "reliable"
   },
   "risk": "인쇄물에 남는 이름과 인쇄 비용을 함께 계산",
-  "relations": {},
+  "relations": {
+    "print_apprentice_stepan": "급한 인쇄물을 묶을 때 도움을 주는 견습공이다",
+    "senior_clerk_konstantin": "관청의 장부와 묶음 문서를 주문받는다"
+  },
   "secretKnowledge": [
     {
       "id": "BOOKBINDER_ELIZAVETA_PRIVATE_NOTE",
@@ -193,5 +196,6 @@
       "right": 3
     }
   },
-  "speechStatus": "FICTIONAL_DESIGN"
+  "speechStatus": "FICTIONAL_DESIGN",
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
 }

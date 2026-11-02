@@ -27,7 +27,10 @@
     "neighbors": "known_by_daily_work"
   },
   "risk": "일감을 잃거나 이웃의 신뢰를 잃을 가능성을 함께 계산한다.",
-  "relations": {},
+  "relations": {
+    "landlady_polina": "물값과 공동 사용 순서를 정하는 집주인이다",
+    "housemaid_olga": "물동이를 어느 집 문 앞에 둘지 알려주는 하녀다"
+  },
   "secretKnowledge": [
     {
       "id": "WATERCARRIER_LUKA_PRIVATE_NOTE",
@@ -192,5 +195,6 @@
       "left": 2,
       "right": 3
     }
-  }
+  },
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
 }

@@ -27,7 +27,10 @@
     "neighbors": "known_by_daily_work"
   },
   "risk": "일감을 잃거나 이웃의 신뢰를 잃을 가능성을 함께 계산한다.",
-  "relations": {},
+  "relations": {
+    "lodging_tatyana": "셋방 계약과 안뜰 규칙을 확인하러 오는 세입자다",
+    "laundress_mariya": "세탁할 물과 마당 사용 시간을 조율한다"
+  },
   "secretKnowledge": [
     {
       "id": "YARDKEEPER_SEMYON_PRIVATE_NOTE",
@@ -233,5 +236,6 @@
     "restThreshold": 42,
     "workFatiguePerMinute": 0.04,
     "restFatigueReliefPerMinute": 0.15
-  }
+  },
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
 }

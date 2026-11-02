@@ -2120,6 +2120,57 @@
               "value": "TENANT_RENT_AND_FIREWOOD_1847"
             }
           ]
+        },
+        {
+          "id": 1021,
+          "name": "배달 순서 메모",
+          "type": "quest-object",
+          "x": 176,
+          "y": 144,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "PAVEL_PROOF_DELIVERY_1847_STAGE_1"
+            }
+          ]
+        },
+        {
+          "id": 1022,
+          "name": "수선 주문과 치수 메모",
+          "type": "quest-object",
+          "x": 288,
+          "y": 208,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "ANNA_COAT_REPAIR_1847_STAGE_1"
+            }
+          ]
+        },
+        {
+          "id": 1023,
+          "name": "수선 완료와 품삯 기록",
+          "type": "quest-object",
+          "x": 304,
+          "y": 208,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "ANNA_COAT_REPAIR_1847_STAGE_3"
+            }
+          ]
         }
       ]
     },

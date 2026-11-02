@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "V36_RESIDENT_BATCH_ACCEPTANCE_1",
+  "status": "PASS",
+  "batch": 1,
+  "residents": [
+    "clerk_alexei",
+    "printer_ekaterina",
+    "courier_pavel",
+    "seamstress_anna",
+    "tenant_mikhail",
+    "bookseller_lev"
+  ],
+  "relationships": [
+    {
+      "id": "clerk_alexei",
+      "reciprocalLinks": 2
+    },
+    {
+      "id": "printer_ekaterina",
+      "reciprocalLinks": 2
+    },
+    {
+      "id": "courier_pavel",
+      "reciprocalLinks": 2
+    },
+    {
+      "id": "seamstress_anna",
+      "reciprocalLinks": 2
+    },
+    {
+      "id": "tenant_mikhail",
+      "reciprocalLinks": 2
+    },
+    {
+      "id": "bookseller_lev",
+      "reciprocalLinks": 2
+    }
+  ],
+  "scheduleTargetsChecked": 30,
+  "oneHourWorldReplay": true,
+  "collisionSnapshots": 12,
+  "questCompletions": 6,
+  "questStagesResolved": 14,
+  "possessionChecks": 6,
+  "legacySaveRelationMigrationPreservedDynamicLinks": true,
+  "movementEvents": 68,
+  "finalStateHash": "fe364bef"
+}

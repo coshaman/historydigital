@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "V36_FIRST_BATCH_QUEST_BROWSER_1",
+  "status": "PASS",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "resident": "clerk_alexei",
+  "chainId": "ALEXEI_ENVELOPE_REGISTER_1847",
+  "stages": [
+    {
+      "questId": "ALEXEI_ENVELOPE_REGISTER_1847_STAGE_1",
+      "stage": 1,
+      "actionId": "ALEXEI_ENVELOPE_REGISTER_1847_STAGE_1_CHOICE_1",
+      "nextMission": "접수 순서가 어긋난 봉투 · 2/3 — 접수 순서가 어긋난 봉투"
+    },
+    {
+      "questId": "ALEXEI_ENVELOPE_REGISTER_1847_STAGE_2",
+      "stage": 2,
+      "actionId": "ALEXEI_ENVELOPE_REGISTER_1847_STAGE_2_CHOICE_1",
+      "nextMission": "접수 순서가 어긋난 봉투 · 3/3 — 접수 순서가 어긋난 봉투"
+    },
+    {
+      "questId": "ALEXEI_ENVELOPE_REGISTER_1847_STAGE_3",
+      "stage": 3,
+      "actionId": "ALEXEI_ENVELOPE_REGISTER_1847_STAGE_3_CHOICE_1",
+      "nextMission": "교정쇄의 행선지"
+    }
+  ],
+  "firstStageChoiceLayout": {
+    "choice": {
+      "top": 1129,
+      "bottom": 1200,
+      "height": 71,
+      "overflowY": "visible",
+      "scrollHeight": 69,
+      "clientHeight": 69
+    },
+    "journal": {
+      "top": 499,
+      "bottom": 834,
+      "height": 335,
+      "overflowY": "auto",
+      "scrollHeight": 774,
+      "clientHeight": 335
+    },
+    "lower": {
+      "top": 486,
+      "bottom": 846,
+      "height": 360,
+      "overflowY": "hidden",
+      "scrollHeight": 359,
+      "clientHeight": 359
+    },
+    "choices": [
+      "도착 시각과 봉인 상태만 적는다접수 담당자와 배달원이 압니다 · 확인 메모에 시각만 남습니다 · 처리 순서가 늦어질 수 있습니다",
+      "번호를 고쳐 공식 접수부에 먼저 올린다관청 접수실이 봅니다 · 공식 접수부에 수정 번호가 남습니다 · 잘못 고치면 결재 책임을 질 수 있습니다",
+      "배달원에게 전달 경로를 다시 묻는다알렉세이와 배달원이 압니다 · 비공식 확인 쪽지에 남습니다 · 배달이 더 지연될 수 있습니다"
+    ]
+  },
+  "walkedBetweenPhysicalObjects": true,
+  "allStagesRecorded": true,
+  "pageErrors": [],
+  "screenshots": [
+    "alexei-envelope-stage-1-choices.png",
+    "alexei-envelope-chain-complete.png"
+  ]
+}

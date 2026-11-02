@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "V36_RESIDENT_BATCH_ACCEPTANCE_1",
+  "status": "PASS",
+  "batch": 2,
+  "residents": [
+    "senior_clerk_konstantin",
+    "reader_darya",
+    "editor_sofia",
+    "police_sergeant_ivan",
+    "print_apprentice_stepan",
+    "bookbinder_elizaveta"
+  ],
+  "relationships": [
+    {
+      "id": "senior_clerk_konstantin",
+      "reciprocalLinks": 2
+    },
+    {
+      "id": "reader_darya",
+      "reciprocalLinks": 2
+    },
+    {
+      "id": "editor_sofia",
+      "reciprocalLinks": 2
+    },
+    {
+      "id": "police_sergeant_ivan",
+      "reciprocalLinks": 2
+    },
+    {
+      "id": "print_apprentice_stepan",
+      "reciprocalLinks": 2
+    },
+    {
+      "id": "bookbinder_elizaveta",
+      "reciprocalLinks": 2
+    }
+  ],
+  "scheduleTargetsChecked": 30,
+  "oneHourWorldReplay": true,
+  "collisionSnapshots": 12,
+  "questCompletions": 6,
+  "questStagesResolved": 6,
+  "possessionChecks": 6,
+  "legacySaveRelationMigrationPreservedDynamicLinks": true,
+  "movementEvents": 68,
+  "finalStateHash": "fe364bef"
+}

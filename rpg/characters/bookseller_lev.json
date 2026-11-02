@@ -27,7 +27,10 @@
     "trade": "careful"
   },
   "risk": "팔리지 않은 재고와 외상값이 다음 발주를 막을 수 있다",
-  "relations": {},
+  "relations": {
+    "tenant_mikhail": "값을 미루기도 하지만 책을 조심히 돌려주는 이웃 손님이다",
+    "clerk_alexei": "관청 문서와 서식을 찾으러 오는 단골 서기다"
+  },
   "secretKnowledge": [
     {
       "id": "LEV_STOCK_NOTE",
@@ -45,16 +48,52 @@
     "구매자가 보지 못한 문장을 읽었다고 말하지 않는다"
   ],
   "speechRhythm": "가격과 반품 기한을 먼저 말하고 상대 반응을 살핀다",
-  "worldview": {"status":"fictional_character_design","stanceKo":"책과 잡지는 읽는 사람에게 닿아야 가치가 생기지만, 팔리지 않은 묶음의 대금도 누군가는 감당해야 한다고 본다.","tensionKo":"사람들이 찾는 책을 내놓고 싶은 마음과, 외상과 반품 손실을 피해야 하는 장사 사이에서 계산한다.","blindSpotKo":"독자가 왜 어떤 문장을 찾는지보다 유통과 가격을 먼저 따져, 읽을 기회를 좁힐 수 있다.","designBasisKo":"허구 서적상 캐릭터 설계이며 실제 역사 인물의 견해나 발언이 아니다.","sceneAnchorIds":["PRINTSHOP_PROOF_1847","PUBLIC_DISCOURSE_1848"]},
-  "topicStances": {
-    "serfdom": {"knowledgeKind":"public_print_scope","positionKo":"책에 적힌 말과 실제 농촌 사람의 경험을 구분한다. 읽을거리의 가격이 누구에게 장벽이 되는지 본다."},
-    "censorship": {"knowledgeKind":"fictional_trade_risk","positionKo":"검열 결정은 알지 못한다. 판매할 수 없는 재고와 거래처 손실을 걱정한다."},
-    "literature": {"knowledgeKind":"bookseller_public_catalogue","positionKo":"누가 어떤 책을 찾는지 관찰하지만 독자의 속내나 작가의 의도를 지어내지 않는다."},
-    "poverty_and_class": {"knowledgeKind":"fictional_market_observation","positionKo":"외상과 책값이 독자의 접근을 가른다. 장사꾼도 재고 위험을 혼자 떠안을 수 있다고 본다."},
-    "slavophilism_and_westernism": {"knowledgeKind":"public_titles_only","positionKo":"서로 다른 견해가 책 제목과 손님 수요로 보일 수는 있어도 자신을 어느 진영의 해설자로 여기지 않는다."}
+  "worldview": {
+    "status": "fictional_character_design",
+    "stanceKo": "책과 잡지는 읽는 사람에게 닿아야 가치가 생기지만, 팔리지 않은 묶음의 대금도 누군가는 감당해야 한다고 본다.",
+    "tensionKo": "사람들이 찾는 책을 내놓고 싶은 마음과, 외상과 반품 손실을 피해야 하는 장사 사이에서 계산한다.",
+    "blindSpotKo": "독자가 왜 어떤 문장을 찾는지보다 유통과 가격을 먼저 따져, 읽을 기회를 좁힐 수 있다.",
+    "designBasisKo": "허구 서적상 캐릭터 설계이며 실제 역사 인물의 견해나 발언이 아니다.",
+    "sceneAnchorIds": [
+      "PRINTSHOP_PROOF_1847",
+      "PUBLIC_DISCOURSE_1848"
+    ]
   },
-  "speechRegister": {"firstMeeting":"손님에게 예의를 갖추고 가격과 용건을 먼저 확인","colleague":"거래처와 실무 반말, 단가를 짧게 주고받는다","private":"장사가 안 될 때만 속내를 한 문장 보인다","conflict":"장부와 기한을 펼쳐 놓고 차분하게 따진다","intimacy":"익숙한 손님에게 호칭을 낮추고 농담을 섞는다","formal":"계약 상대에게 정확한 존댓말과 조건을 사용"},
-  "voiceSamples": ["외상은 금요일까지요. 반품 기한도 그날 끝납니다.","책을 찾는 손님은 늘어요. 값을 먼저 물으면 돌아가지만.","묶음 두 부만 내려놔요. 더는 장부가 못 버텨요."],
+  "topicStances": {
+    "serfdom": {
+      "knowledgeKind": "public_print_scope",
+      "positionKo": "책에 적힌 말과 실제 농촌 사람의 경험을 구분한다. 읽을거리의 가격이 누구에게 장벽이 되는지 본다."
+    },
+    "censorship": {
+      "knowledgeKind": "fictional_trade_risk",
+      "positionKo": "검열 결정은 알지 못한다. 판매할 수 없는 재고와 거래처 손실을 걱정한다."
+    },
+    "literature": {
+      "knowledgeKind": "bookseller_public_catalogue",
+      "positionKo": "누가 어떤 책을 찾는지 관찰하지만 독자의 속내나 작가의 의도를 지어내지 않는다."
+    },
+    "poverty_and_class": {
+      "knowledgeKind": "fictional_market_observation",
+      "positionKo": "외상과 책값이 독자의 접근을 가른다. 장사꾼도 재고 위험을 혼자 떠안을 수 있다고 본다."
+    },
+    "slavophilism_and_westernism": {
+      "knowledgeKind": "public_titles_only",
+      "positionKo": "서로 다른 견해가 책 제목과 손님 수요로 보일 수는 있어도 자신을 어느 진영의 해설자로 여기지 않는다."
+    }
+  },
+  "speechRegister": {
+    "firstMeeting": "손님에게 예의를 갖추고 가격과 용건을 먼저 확인",
+    "colleague": "거래처와 실무 반말, 단가를 짧게 주고받는다",
+    "private": "장사가 안 될 때만 속내를 한 문장 보인다",
+    "conflict": "장부와 기한을 펼쳐 놓고 차분하게 따진다",
+    "intimacy": "익숙한 손님에게 호칭을 낮추고 농담을 섞는다",
+    "formal": "계약 상대에게 정확한 존댓말과 조건을 사용"
+  },
+  "voiceSamples": [
+    "외상은 금요일까지요. 반품 기한도 그날 끝납니다.",
+    "책을 찾는 손님은 늘어요. 값을 먼저 물으면 돌아가지만.",
+    "묶음 두 부만 내려놔요. 더는 장부가 못 버텨요."
+  ],
   "lexicon": [
     "외상",
     "묶음",
@@ -66,7 +105,15 @@
     "완곡한 경계"
   ],
   "personalObjective": "신문 가판의 재고와 반품 기한을 확인한다",
-  "needs": { "income": 48, "fatigue": 24, "safety": 35, "socialBelonging": 26, "restThreshold": 34, "workFatiguePerMinute": 0.035, "restFatigueReliefPerMinute": 0.12 },
+  "needs": {
+    "income": 48,
+    "fatigue": 24,
+    "safety": 35,
+    "socialBelonging": 26,
+    "restThreshold": 34,
+    "workFatiguePerMinute": 0.035,
+    "restFatigueReliefPerMinute": 0.12
+  },
   "objectiveByChapter": {
     "1847": "읽을거리의 값과 유통 경로를 확인한다"
   },
@@ -142,7 +189,10 @@
     {
       "atMinute": 900,
       "mapId": "courtyard",
-      "position": { "x": 12, "y": 14 },
+      "position": {
+        "x": 12,
+        "y": 14
+      },
       "activityKo": "가판을 닫고 방에서 잠시 쉰다"
     }
   ],
@@ -164,5 +214,6 @@
       "left": 2,
       "right": 3
     }
-  }
+  },
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
 }

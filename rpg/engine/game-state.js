@@ -815,6 +815,8 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
   for (const card of hostCards) {
     const host = state.hosts?.[card.id];
     if (host) {
+      host.relations ??= {};
+      for (const [otherId, description] of Object.entries(card.relations ?? {})) host.relations[otherId] ??= description;
       host.schedule ??= clone(card.schedule ?? []);
       host.situationNotes ??= [];
       host.activeGoal ??= null;

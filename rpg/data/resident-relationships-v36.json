@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "V36_FICTIONAL_RESIDENT_NETWORK_1",
+  "status": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "noteKo": "아래 관계는 게임을 위해 만든 허구 주민들의 생활 관계이며, 실존 인물이나 확인된 1847년 개인 관계를 주장하지 않는다.",
+  "batchSize": 6,
+  "batches": [
+    {
+      "id": 1,
+      "residentIds": ["clerk_alexei", "printer_ekaterina", "courier_pavel", "seamstress_anna", "tenant_mikhail", "bookseller_lev"],
+      "edges": [
+        {"a":"clerk_alexei","b":"printer_ekaterina","aToB":"인쇄소 교정쇄의 접수와 반환을 맡긴다","bToA":"교정쇄를 관청으로 보내고 돌려받을 때 찾는 서기다"},
+        {"a":"printer_ekaterina","b":"courier_pavel","aToB":"급한 교정쇄와 인쇄 지시를 맡기는 배달원이다","bToA":"인쇄소에서 봉투와 교정쇄를 받는 책임자다"},
+        {"a":"courier_pavel","b":"seamstress_anna","aToB":"안뜰의 세입자에게 배달물을 건넬 때 길을 알려준다","bToA":"가끔 안뜰까지 문서와 물건을 가져오는 배달원이다"},
+        {"a":"seamstress_anna","b":"tenant_mikhail","aToB":"장작과 물을 나누는 안뜰 이웃이다","bToA":"바느질 일을 하는 같은 안뜰의 세입자다"},
+        {"a":"tenant_mikhail","b":"bookseller_lev","aToB":"방세를 치른 뒤 형편이 될 때 책을 빌려 본다","bToA":"값을 미루기도 하지만 책을 조심히 돌려주는 이웃 손님이다"},
+        {"a":"bookseller_lev","b":"clerk_alexei","aToB":"관청 문서와 서식을 찾으러 오는 단골 서기다","bToA":"가게에서 업무용 책과 종이를 사는 서점 주인이다"}
+      ]
+    },
+    {
+      "id": 2,
+      "residentIds": ["senior_clerk_konstantin", "reader_darya", "editor_sofia", "police_sergeant_ivan", "print_apprentice_stepan", "bookbinder_elizaveta"],
+      "edges": [
+        {"a":"senior_clerk_konstantin","b":"reader_darya","aToB":"책과 문서의 출처를 확인하러 오는 동네 독자다","bToA":"공문서의 표현을 쉽게 풀이해 준 관청 선배다"},
+        {"a":"reader_darya","b":"editor_sofia","aToB":"새 호의 교정쇄를 읽고 모르는 대목을 묻는다","bToA":"독자의 질문을 받아 원고의 뜻을 다시 살핀다"},
+        {"a":"editor_sofia","b":"police_sergeant_ivan","aToB":"인쇄물 접수 절차와 반송 사유를 확인한다","bToA":"출판물 관련 문의를 가져오는 편집자다"},
+        {"a":"police_sergeant_ivan","b":"print_apprentice_stepan","aToB":"인쇄소 방문 때 작업장 출입 규칙을 알려준다","bToA":"인쇄물 운반과 출입 확인을 맡는 경찰 하사다"},
+        {"a":"print_apprentice_stepan","b":"bookbinder_elizaveta","aToB":"인쇄가 끝난 낱장을 제본소에 가져간다","bToA":"급한 인쇄물을 묶을 때 도움을 주는 견습공이다"},
+        {"a":"bookbinder_elizaveta","b":"senior_clerk_konstantin","aToB":"관청의 장부와 묶음 문서를 주문받는다","bToA":"서류철의 낡은 표지를 손봐 주는 제본업자다"}
+      ]
+    },
+    {
+      "id": 3,
+      "residentIds": ["scribal_yuri", "student_vasily", "minor_noble_andrei", "junior_guard_sergey", "street_vendor_matryona", "typesetter_nikita"],
+      "edges": [
+        {"a":"scribal_yuri","b":"student_vasily","aToB":"필요한 글을 베껴 주고 읽기 어려운 구절을 짚어 준다","bToA":"수업 자료를 구하러 찾아오는 학생이다"},
+        {"a":"student_vasily","b":"minor_noble_andrei","aToB":"강의에서 들은 주장을 두고 가끔 의견을 나눈다","bToA":"학교 공부와 책 이야기를 주고받는 동료 학생이다"},
+        {"a":"minor_noble_andrei","b":"junior_guard_sergey","aToB":"관청 출입 때 신분 확인을 받는 젊은 경비다","bToA":"출입 명단을 점검하러 오는 귀족가의 청년이다"},
+        {"a":"junior_guard_sergey","b":"street_vendor_matryona","aToB":"초소 근처에서 간단한 끼니를 사는 행상인이다","bToA":"근무 중 빵과 차를 사 가는 경비다"},
+        {"a":"street_vendor_matryona","b":"typesetter_nikita","aToB":"시장 소식과 인쇄소의 새 종이를 자주 묻는다","bToA":"작업 교대 뒤 시장에서 먹을 것을 사는 조판공이다"},
+        {"a":"typesetter_nikita","b":"scribal_yuri","aToB":"활자와 원고의 글자를 대조할 때 의견을 구한다","bToA":"인쇄할 문장의 베껴 쓰기를 도와주는 필사원이다"}
+      ]
+    },
+    {
+      "id": 4,
+      "residentIds": ["housemaid_olga", "midwife_avdotya", "innkeeper_irina", "teacher_lyubov", "landlady_polina", "watercarrier_luka"],
+      "edges": [
+        {"a":"housemaid_olga","b":"midwife_avdotya","aToB":"집안에 아픈 사람이 있으면 먼저 찾아가는 산파다","bToA":"물을 데우고 방을 치우는 일을 거드는 하녀다"},
+        {"a":"midwife_avdotya","b":"innkeeper_irina","aToB":"셋방의 산모와 아이 상태를 살피러 온다","bToA":"도움이 필요할 때 찾아오는 동네 산파다"},
+        {"a":"innkeeper_irina","b":"teacher_lyubov","aToB":"방을 빌려 지내며 아이들 글공부를 맡는다","bToA":"하숙집에 방을 내주고 밀린 방세 사정을 듣는다"},
+        {"a":"teacher_lyubov","b":"landlady_polina","aToB":"셋방과 수업 장소를 함께 마련해 준 집주인이다","bToA":"방세를 내면서 아이들을 가르치는 세입자다"},
+        {"a":"landlady_polina","b":"watercarrier_luka","aToB":"안뜰의 물통을 채우는 삯꾼이다","bToA":"물값과 공동 사용 순서를 정하는 집주인이다"},
+        {"a":"watercarrier_luka","b":"housemaid_olga","aToB":"물동이를 어느 집 문 앞에 둘지 알려주는 하녀다","bToA":"집안의 물을 받아 세탁과 청소에 쓰는 일꾼이다"}
+      ]
+    },
+    {
+      "id": 5,
+      "residentIds": ["servant_varvara", "lodging_tatyana", "yardkeeper_semyon", "laundress_mariya", "baker_fyodor", "market_nadezhda"],
+      "edges": [
+        {"a":"servant_varvara","b":"lodging_tatyana","aToB":"같은 집안의 살림과 세탁 일정을 나눈다","bToA":"일감이 몰릴 때 서로 손을 보태는 하녀다"},
+        {"a":"lodging_tatyana","b":"yardkeeper_semyon","aToB":"방세와 공용 장작 문제를 관리인에게 묻는다","bToA":"셋방 계약과 안뜰 규칙을 확인하러 오는 세입자다"},
+        {"a":"yardkeeper_semyon","b":"laundress_mariya","aToB":"세탁할 물과 마당 사용 시간을 조율한다","bToA":"세탁물을 널 곳을 두고 상의하는 안뜰 관리인이다"},
+        {"a":"laundress_mariya","b":"baker_fyodor","aToB":"빵집 앞에서 세탁물 배달과 품삯 이야기를 나눈다","bToA":"일손이 바쁠 때 앞치마와 행주를 맡기는 세탁부다"},
+        {"a":"baker_fyodor","b":"market_nadezhda","aToB":"밀가루와 채소 값을 서로 맞춰 본다","bToA":"빵집의 재료값을 묻고 소량씩 거래하는 제빵사다"},
+        {"a":"market_nadezhda","b":"servant_varvara","aToB":"주인집 장을 보며 가격과 품질을 꼼꼼히 따진다","bToA":"집안 살림거리를 사러 오는 단골 심부름꾼이다"}
+      ]
+    },
+    {
+      "id": 6,
+      "residentIds": ["porter_gavrila", "coachman_timofey", "apothecary_yakov", "fishseller_klavdiya", "warehouse_pyotr", "carter_roman"],
+      "edges": [
+        {"a":"porter_gavrila","b":"coachman_timofey","aToB":"짐을 수레에 싣고 내릴 때 서로 품삯을 나눈다","bToA":"정거장과 창고 사이 짐 운반을 함께 맡는 인부다"},
+        {"a":"coachman_timofey","b":"apothecary_yakov","aToB":"급한 약 꾸러미를 손님에게 전해 준다","bToA":"약과 유리병을 조심히 실어 주는 마부다"},
+        {"a":"apothecary_yakov","b":"fishseller_klavdiya","aToB":"생선 보관 상태와 소금값을 물어본다","bToA":"상처약이나 소독용 술을 사러 오는 약제상이다"},
+        {"a":"fishseller_klavdiya","b":"warehouse_pyotr","aToB":"상자와 얼음 보관 자리를 두고 거래한다","bToA":"생선 상자를 맡기고 수량을 확인하는 상인이다"},
+        {"a":"warehouse_pyotr","b":"carter_roman","aToB":"부두에서 시장까지 짐을 옮기는 일을 부탁한다","bToA":"수레에 실을 물건과 운반 순서를 정하는 창고 일꾼이다"},
+        {"a":"carter_roman","b":"porter_gavrila","aToB":"무거운 짐의 하역을 서로 거든다","bToA":"창고와 수레 사이에서 함께 일하는 짐꾼이다"}
+      ]
+    }
+  ]
+}

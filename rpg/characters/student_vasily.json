@@ -28,7 +28,10 @@
     "readers": "careful_reader"
   },
   "risk": "자신이 읽은 문장과 남이 전한 소문을 분리한다",
-  "relations": {},
+  "relations": {
+    "scribal_yuri": "수업 자료를 구하러 찾아오는 학생이다",
+    "minor_noble_andrei": "강의에서 들은 주장을 두고 가끔 의견을 나눈다"
+  },
   "secretKnowledge": [
     {
       "id": "STUDENT_VASILY_PRIVATE_NOTE",
@@ -189,5 +192,6 @@
       "right": 3
     }
   },
-  "speechStatus": "FICTIONAL_DESIGN"
+  "speechStatus": "FICTIONAL_DESIGN",
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
 }

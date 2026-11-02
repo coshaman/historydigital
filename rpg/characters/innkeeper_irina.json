@@ -27,7 +27,10 @@
     "trade": "careful"
   },
   "risk": "팔리지 않은 재고와 외상값이 다음 발주를 막을 수 있다",
-  "relations": {},
+  "relations": {
+    "midwife_avdotya": "도움이 필요할 때 찾아오는 동네 산파다",
+    "teacher_lyubov": "방을 빌려 지내며 아이들 글공부를 맡는다"
+  },
   "secretKnowledge": [
     {
       "id": "INNKEEPER_IRINA_PRIVATE_NOTE",
@@ -192,5 +195,6 @@
       "right": 3
     }
   },
-  "speechStatus": "FICTIONAL_DESIGN"
+  "speechStatus": "FICTIONAL_DESIGN",
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
 }

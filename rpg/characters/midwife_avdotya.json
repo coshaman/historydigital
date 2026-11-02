@@ -27,7 +27,10 @@
     "courtyard": "steady_worker"
   },
   "risk": "오늘 일감을 놓치면 방세 납부가 늦어진다",
-  "relations": {},
+  "relations": {
+    "housemaid_olga": "물을 데우고 방을 치우는 일을 거드는 하녀다",
+    "innkeeper_irina": "셋방의 산모와 아이 상태를 살피러 온다"
+  },
   "secretKnowledge": [
     {
       "id": "MIDWIFE_AVDOTYA_PRIVATE_NOTE",
@@ -193,5 +196,6 @@
       "right": 3
     }
   },
-  "speechStatus": "FICTIONAL_DESIGN"
+  "speechStatus": "FICTIONAL_DESIGN",
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
 }

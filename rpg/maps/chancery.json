@@ -2138,6 +2138,57 @@
               "value": "SENIOR_CLERK_REVIEW_AND_SIGNATURE_1847"
             }
           ]
+        },
+        {
+          "id": 1021,
+          "name": "도착 시각과 접수 번호 메모",
+          "type": "quest-object",
+          "x": 144,
+          "y": 96,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "ALEXEI_ENVELOPE_REGISTER_1847_STAGE_1"
+            }
+          ]
+        },
+        {
+          "id": 1022,
+          "name": "서명과 사본 대조표",
+          "type": "quest-object",
+          "x": 256,
+          "y": 112,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "ALEXEI_ENVELOPE_REGISTER_1847_STAGE_2"
+            }
+          ]
+        },
+        {
+          "id": 1023,
+          "name": "봉투 처리 결과 기록",
+          "type": "quest-object",
+          "x": 288,
+          "y": 160,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "ALEXEI_ENVELOPE_REGISTER_1847_STAGE_3"
+            }
+          ]
         }
       ]
     },

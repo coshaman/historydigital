@@ -27,7 +27,10 @@
     "workshop": "precise"
   },
   "risk": "출처를 잘못 붙인 한 문장이 편집실과 배달 노동자에게 책임으로 돌아올 수 있다",
-  "relations": {},
+  "relations": {
+    "reader_darya": "독자의 질문을 받아 원고의 뜻을 다시 살핀다",
+    "police_sergeant_ivan": "인쇄물 접수 절차와 반송 사유를 확인한다"
+  },
   "secretKnowledge": [],
   "knownEvidence": [],
   "privateKnowledgeIds": [],
@@ -193,7 +196,7 @@
       "atMinute": 900,
       "mapId": "printshop",
       "position": {
-        "x": 14,
+        "x": 15,
         "y": 12
       },
       "activityKo": "교정 도구를 내려놓고 잠시 쉰다"
@@ -216,5 +219,6 @@
     "restThreshold": 35,
     "workFatiguePerMinute": 0.045,
     "restFatigueReliefPerMinute": 0.16
-  }
+  },
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
 }

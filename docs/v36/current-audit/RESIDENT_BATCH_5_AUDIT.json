@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "V36_RESIDENT_BATCH_ACCEPTANCE_1",
+  "status": "PASS",
+  "batch": 5,
+  "residents": [
+    "servant_varvara",
+    "lodging_tatyana",
+    "yardkeeper_semyon",
+    "laundress_mariya",
+    "baker_fyodor",
+    "market_nadezhda"
+  ],
+  "relationships": [
+    {
+      "id": "servant_varvara",
+      "reciprocalLinks": 2
+    },
+    {
+      "id": "lodging_tatyana",
+      "reciprocalLinks": 2
+    },
+    {
+      "id": "yardkeeper_semyon",
+      "reciprocalLinks": 2
+    },
+    {
+      "id": "laundress_mariya",
+      "reciprocalLinks": 2
+    },
+    {
+      "id": "baker_fyodor",
+      "reciprocalLinks": 2
+    },
+    {
+      "id": "market_nadezhda",
+      "reciprocalLinks": 2
+    }
+  ],
+  "scheduleTargetsChecked": 29,
+  "oneHourWorldReplay": true,
+  "collisionSnapshots": 12,
+  "questCompletions": 6,
+  "questStagesResolved": 16,
+  "possessionChecks": 6,
+  "legacySaveRelationMigrationPreservedDynamicLinks": true,
+  "movementEvents": 68,
+  "finalStateHash": "fe364bef"
+}

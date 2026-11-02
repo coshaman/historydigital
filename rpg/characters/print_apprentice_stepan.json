@@ -27,7 +27,10 @@
     "street": "knows_the_routes"
   },
   "risk": "지각하면 품삯과 다음 일감을 잃을 수 있음",
-  "relations": {},
+  "relations": {
+    "police_sergeant_ivan": "인쇄물 운반과 출입 확인을 맡는 경찰 하사다",
+    "bookbinder_elizaveta": "인쇄가 끝난 낱장을 제본소에 가져간다"
+  },
   "secretKnowledge": [
     {
       "id": "PRINT_APPRENTICE_STEPAN_PRIVATE_NOTE",
@@ -192,5 +195,6 @@
       "right": 3
     }
   },
-  "speechStatus": "FICTIONAL_DESIGN"
+  "speechStatus": "FICTIONAL_DESIGN",
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
 }

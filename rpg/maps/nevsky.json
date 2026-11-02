@@ -2919,6 +2919,74 @@
               "value": "READER_SOURCE_AND_RUMOR_1847"
             }
           ]
+        },
+        {
+          "id": 1021,
+          "name": "거리의 수취 확인",
+          "type": "quest-object",
+          "x": 224,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "PAVEL_PROOF_DELIVERY_1847_STAGE_2"
+            }
+          ]
+        },
+        {
+          "id": 1022,
+          "name": "천과 실의 구입 쪽지",
+          "type": "quest-object",
+          "x": 352,
+          "y": 224,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "ANNA_COAT_REPAIR_1847_STAGE_2"
+            }
+          ]
+        },
+        {
+          "id": 1023,
+          "name": "책 대여와 선금 장부",
+          "type": "quest-object",
+          "x": 320,
+          "y": 224,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "LEV_BOOK_RESERVATION_1847_STAGE_1"
+            }
+          ]
+        },
+        {
+          "id": 1024,
+          "name": "예약자와 반납 기한 정리",
+          "type": "quest-object",
+          "x": 368,
+          "y": 224,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "LEV_BOOK_RESERVATION_1847_STAGE_3"
+            }
+          ]
         }
       ]
     },

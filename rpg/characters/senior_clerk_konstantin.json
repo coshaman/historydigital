@@ -28,7 +28,10 @@
     "office": "exacting"
   },
   "risk": "명령의 책임자와 실제 집행자를 분리해 기록하려 한다",
-  "relations": {},
+  "relations": {
+    "reader_darya": "책과 문서의 출처를 확인하러 오는 동네 독자다",
+    "bookbinder_elizaveta": "서류철의 낡은 표지를 손봐 주는 제본업자다"
+  },
   "secretKnowledge": [
     {
       "id": "KONSTANTIN_ROUTING",
@@ -171,7 +174,7 @@
       "atMinute": 900,
       "mapId": "chancery",
       "position": {
-        "x": 8,
+        "x": 9,
         "y": 10
       },
       "activityKo": "검토를 멈추고 잠시 의자에 앉아 쉰다"
@@ -213,5 +216,6 @@
     "restThreshold": 34,
     "workFatiguePerMinute": 0.032,
     "restFatigueReliefPerMinute": 0.12
-  }
+  },
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
 }

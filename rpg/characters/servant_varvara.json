@@ -27,7 +27,10 @@
     "neighbors": "known_by_daily_work"
   },
   "risk": "일감을 잃거나 이웃의 신뢰를 잃을 가능성을 함께 계산한다.",
-  "relations": {},
+  "relations": {
+    "lodging_tatyana": "같은 집안의 살림과 세탁 일정을 나눈다",
+    "market_nadezhda": "집안 살림거리를 사러 오는 단골 심부름꾼이다"
+  },
   "secretKnowledge": [
     {
       "id": "SERVANT_VARVARA_PRIVATE_NOTE",
@@ -192,5 +195,6 @@
       "left": 2,
       "right": 3
     }
-  }
+  },
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
 }

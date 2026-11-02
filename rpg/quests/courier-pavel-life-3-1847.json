@@ -1,0 +1,100 @@
+{
+  "id": "PAVEL_PROOF_DELIVERY_1847_STAGE_3",
+  "titleKo": "늦은 교정쇄의 전달",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "수취인이 봉투를 받았다. 전달이 끝났다고 적기 전에 봉인이 온전했는지와 수령 시각을 함께 남겨야 한다.",
+  "historicalOutcome": {
+    "id": "PAVEL_PROOF_DELIVERY_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "printshop",
+    "objectId": 1021,
+    "requiredHostId": "courier_pavel"
+  },
+  "actions": [
+    {
+      "id": "PAVEL_PROOF_DELIVERY_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "courier_pavel"
+      ],
+      "labelKo": "봉인 상태와 수령 시각을 함께 서명받는다",
+      "subcopyKo": "파벨과 수취인이 압니다 · 전달 대장에 두 항목이 남습니다 · 서명을 거부하면 마무리가 늦습니다",
+      "resultKo": "봉인 상태와 시각을 함께 적고 수취 서명을 받았다. 무엇을 확인했는지 서로 같은 기록을 갖는다.",
+      "resultFlag": "signedReceipt",
+      "followupTitleKo": "수취 서명과 전달 대장",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "봉인 상태와 시각을 함께 적고 수취 서명을 받았다. 무엇을 확인했는지 서로 같은 기록을 갖는다.",
+        "relations": {
+          "printer_ekaterina": "오늘 함께 확인한 일: 수취 서명과 전달 대장"
+        },
+        "lifeChainDelta": {
+          "safeDelivery": 2,
+          "delay": 0
+        }
+      }
+    },
+    {
+      "id": "PAVEL_PROOF_DELIVERY_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "courier_pavel"
+      ],
+      "labelKo": "수령인 이름만 적고 바로 다음 배달로 간다",
+      "subcopyKo": "인쇄소 접수 담당이 봅니다 · 이름만 배달부에 남습니다 · 봉투 상태를 두고 다툴 수 있습니다",
+      "resultKo": "이름만 적고 출발했다. 빠르게 움직였지만 봉투가 온전했는지는 기록되지 않았다.",
+      "resultFlag": "nameOnlyReceipt",
+      "followupTitleKo": "수취 서명과 전달 대장",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "이름만 적고 출발했다. 빠르게 움직였지만 봉투가 온전했는지는 기록되지 않았다.",
+        "relations": {
+          "printer_ekaterina": "오늘 함께 확인한 일: 수취 서명과 전달 대장"
+        },
+        "lifeChainDelta": {
+          "safeDelivery": 0,
+          "delay": 0
+        }
+      }
+    },
+    {
+      "id": "PAVEL_PROOF_DELIVERY_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "courier_pavel"
+      ],
+      "labelKo": "봉인에 흠이 있어 수취를 보류하고 함께 확인한다",
+      "subcopyKo": "수취인과 인쇄소 책임자가 봅니다 · 보류 사유가 전달 기록에 남습니다 · 작업 일정이 멈출 수 있습니다",
+      "resultKo": "봉투를 열기 전에 흠집을 같이 확인하기로 했다. 늦어지더라도 전달 전 상태를 숨기지 않았다.",
+      "resultFlag": "sealHeld",
+      "followupTitleKo": "수취 서명과 전달 대장",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "봉투를 열기 전에 흠집을 같이 확인하기로 했다. 늦어지더라도 전달 전 상태를 숨기지 않았다.",
+        "relations": {
+          "printer_ekaterina": "오늘 함께 확인한 일: 수취 서명과 전달 대장"
+        },
+        "lifeChainDelta": {
+          "safeDelivery": 2,
+          "delay": 2
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "PAVEL_PROOF_DELIVERY_1847",
+    "titleKo": "늦은 교정쇄의 전달",
+    "stage": 3,
+    "stageCount": 3,
+    "previousQuestId": "PAVEL_PROOF_DELIVERY_1847_STAGE_2",
+    "metricsKo": {
+      "safeDelivery": "안전한 전달",
+      "delay": "지연"
+    }
+  },
+  "prerequisiteQuestIds": [
+    "PAVEL_PROOF_DELIVERY_1847_STAGE_2"
+  ]
+}

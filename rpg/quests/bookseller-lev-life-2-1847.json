@@ -1,0 +1,100 @@
+{
+  "id": "LEV_BOOK_RESERVATION_1847_STAGE_2",
+  "titleKo": "돌아오지 않은 책 한 권",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "책을 다시 구하려면 인쇄소에 남은 종이와 활자 작업 시간을 확인해야 한다. 수량이 모자랄 수 있다.",
+  "historicalOutcome": {
+    "id": "LEV_BOOK_RESERVATION_1847_STAGE_2_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "printshop",
+    "objectId": 1022,
+    "requiredHostId": "bookseller_lev"
+  },
+  "actions": [
+    {
+      "id": "LEV_BOOK_RESERVATION_1847_STAGE_2_CHOICE_1",
+      "hostIds": [
+        "bookseller_lev"
+      ],
+      "labelKo": "인쇄소에 남은 종이 수량부터 확인한다",
+      "subcopyKo": "레프와 인쇄소 작업자가 압니다 · 재고 쪽지에 수량이 남습니다 · 오늘 인쇄가 시작되지 않을 수 있습니다",
+      "resultKo": "남은 종이 수량부터 확인했다. 재인쇄는 미뤄질 수 있어도 없는 재고를 약속하지 않는다.",
+      "resultFlag": "checkedPaper",
+      "followupTitleKo": "책의 다음 인쇄와 종이 값",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "남은 종이 수량부터 확인했다. 재인쇄는 미뤄질 수 있어도 없는 재고를 약속하지 않는다.",
+        "relations": {
+          "reader_darya": "오늘 함께 확인한 일: 책의 다음 인쇄와 종이 값"
+        },
+        "lifeChainDelta": {
+          "bookAccess": 2,
+          "creditRisk": 0
+        }
+      }
+    },
+    {
+      "id": "LEV_BOOK_RESERVATION_1847_STAGE_2_CHOICE_2",
+      "hostIds": [
+        "bookseller_lev"
+      ],
+      "labelKo": "작은 분량만 먼저 찍어 달라고 부탁한다",
+      "subcopyKo": "레프와 인쇄소 책임자가 압니다 · 소량 주문 메모에 남습니다 · 권당 값이 더 비쌀 수 있습니다",
+      "resultKo": "소량 인쇄를 부탁했다. 독자는 빨리 책을 보지만 한 권마다 드는 비용은 커진다.",
+      "resultFlag": "smallRun",
+      "followupTitleKo": "책의 다음 인쇄와 종이 값",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "소량 인쇄를 부탁했다. 독자는 빨리 책을 보지만 한 권마다 드는 비용은 커진다.",
+        "relations": {
+          "reader_darya": "오늘 함께 확인한 일: 책의 다음 인쇄와 종이 값"
+        },
+        "lifeChainDelta": {
+          "bookAccess": 2,
+          "creditRisk": 1
+        }
+      }
+    },
+    {
+      "id": "LEV_BOOK_RESERVATION_1847_STAGE_2_CHOICE_3",
+      "hostIds": [
+        "bookseller_lev"
+      ],
+      "labelKo": "외상으로 종이를 받아 큰 분량을 약속한다",
+      "subcopyKo": "레프와 인쇄소 책임자가 압니다 · 외상 장부와 주문표에 남습니다 · 팔리지 않으면 빚을 질 수 있습니다",
+      "resultKo": "종이를 외상으로 받아 인쇄를 약속했다. 책은 더 많이 나오지만 팔리지 않은 몫은 빚으로 남는다.",
+      "resultFlag": "creditPrint",
+      "followupTitleKo": "책의 다음 인쇄와 종이 값",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "종이를 외상으로 받아 인쇄를 약속했다. 책은 더 많이 나오지만 팔리지 않은 몫은 빚으로 남는다.",
+        "relations": {
+          "reader_darya": "오늘 함께 확인한 일: 책의 다음 인쇄와 종이 값"
+        },
+        "lifeChainDelta": {
+          "bookAccess": 2,
+          "creditRisk": 2
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "LEV_BOOK_RESERVATION_1847",
+    "titleKo": "돌아오지 않은 책 한 권",
+    "stage": 2,
+    "stageCount": 3,
+    "previousQuestId": "LEV_BOOK_RESERVATION_1847_STAGE_1",
+    "metricsKo": {
+      "bookAccess": "책을 빌릴 수 있는 정도",
+      "creditRisk": "외상 위험"
+    }
+  },
+  "prerequisiteQuestIds": [
+    "LEV_BOOK_RESERVATION_1847_STAGE_1"
+  ]
+}

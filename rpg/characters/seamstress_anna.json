@@ -27,7 +27,10 @@
     "courtyard": "steady_worker"
   },
   "risk": "오늘 일감을 놓치면 방세 납부가 늦어진다",
-  "relations": {},
+  "relations": {
+    "courier_pavel": "가끔 안뜰까지 문서와 물건을 가져오는 배달원이다",
+    "tenant_mikhail": "장작과 물을 나누는 안뜰 이웃이다"
+  },
   "secretKnowledge": [
     {
       "id": "ANNA_WORK_ORDER",
@@ -45,22 +48,50 @@
     "당사자가 없는 자리에서 이름을 퍼뜨리지 않는다"
   ],
   "speechRhythm": "말을 아끼고 먼저 결론을 말한다. 가까운 상대에게는 반말과 짧은 농담을 섞고, 낯선 손님에게만 필요한 만큼 존댓말을 쓴다. 걱정은 길게 설명하지 않고 일과 마감으로 드러낸다",
-  "speechRegister": {"firstMeeting":"낯선 손님에게 짧은 존댓말, 먼저 일의 조건을 묻는다","colleague":"같이 일하는 사람에게 편한 반말","private":"믿는 사람에게 짧은 농담과 솔직한 한마디","conflict":"목소리를 높이기보다 품삯과 약속을 다시 확인","intimacy":"먼저 친한 척하지 않고, 가까워지면 말끝을 툭 놓는다","formal":"고용주나 관청 앞에서만 절제된 존댓말"},
-  "voiceSamples": ["수선값부터 받아야지. 방세 날짜는 기다려 주질 않아.","그 줄을 읽어 볼게. 대신 오늘 품삯은 밀리지 않게 해 줘.","그건 내가 본 문장이 아니야. 내 이름부터 적진 마."],
+  "speechRegister": {
+    "firstMeeting": "낯선 손님에게 짧은 존댓말, 먼저 일의 조건을 묻는다",
+    "colleague": "같이 일하는 사람에게 편한 반말",
+    "private": "믿는 사람에게 짧은 농담과 솔직한 한마디",
+    "conflict": "목소리를 높이기보다 품삯과 약속을 다시 확인",
+    "intimacy": "먼저 친한 척하지 않고, 가까워지면 말끝을 툭 놓는다",
+    "formal": "고용주나 관청 앞에서만 절제된 존댓말"
+  },
+  "voiceSamples": [
+    "수선값부터 받아야지. 방세 날짜는 기다려 주질 않아.",
+    "그 줄을 읽어 볼게. 대신 오늘 품삯은 밀리지 않게 해 줘.",
+    "그건 내가 본 문장이 아니야. 내 이름부터 적진 마."
+  ],
   "worldview": {
     "status": "fictional_character_design",
     "stanceKo": "세상을 바꾸겠다는 큰말보다 오늘 일한 품값과 다음 일감이 사람을 지킨다고 믿는다. 가난한 사람의 사정을 구경거리로 만들거나 대신 말해 주는 태도를 경계한다.",
     "tensionKo": "정당한 품삯을 요구하는 일과 다음 일감을 잃지 않는 일 사이에서 현실적인 선을 찾는다.",
     "blindSpotKo": "관청 문서와 정치 논쟁은 자기 손으로 바꿀 수 없는 먼 일이라고 여겨, 그 결정이 일터에 미치는 영향을 과소평가할 때가 있다.",
     "designBasisKo": "허구 노동자 캐릭터 설계이며 역사 인물의 실제 견해나 발언을 재현하지 않는다.",
-    "sceneAnchorIds": ["PRINTSHOP_PROOF_1847"]
+    "sceneAnchorIds": [
+      "PRINTSHOP_PROOF_1847"
+    ]
   },
   "topicStances": {
-    "serfdom": {"knowledgeKind":"literary_comparison_after_reading","positionKo":"소설 속 농촌 사람의 처지를 자기 도시 노동 경험과 같다고 단정하지 않는다. 누가 일한 대가를 받고 결정권을 갖는지 묻는다."},
-    "censorship": {"knowledgeKind":"workplace_risk_only","positionKo":"관청 절차는 모른다. 인쇄물이 늦어지거나 일감이 끊길 때 노동자가 먼저 손해를 본다는 점을 걱정한다."},
-    "literature": {"knowledgeKind":"personal_opinion","positionKo":"힘든 사람을 이야기할 수는 있어도 그 사람 대신 말한다고 여겨서는 안 된다고 본다."},
-    "poverty_and_class": {"knowledgeKind":"lived_fictional_experience","positionKo":"방세와 미지급 품삯이 오늘의 선택을 바꾼다. 큰 이념보다 누가 비용을 부담하는지 먼저 따진다."},
-    "slavophilism_and_westernism": {"knowledgeKind":"unfamiliar_terms","positionKo":"사상 이름을 논하기보다 그 주장이 일하는 사람의 하루를 어떻게 바꾸는지 되묻는다."}
+    "serfdom": {
+      "knowledgeKind": "literary_comparison_after_reading",
+      "positionKo": "소설 속 농촌 사람의 처지를 자기 도시 노동 경험과 같다고 단정하지 않는다. 누가 일한 대가를 받고 결정권을 갖는지 묻는다."
+    },
+    "censorship": {
+      "knowledgeKind": "workplace_risk_only",
+      "positionKo": "관청 절차는 모른다. 인쇄물이 늦어지거나 일감이 끊길 때 노동자가 먼저 손해를 본다는 점을 걱정한다."
+    },
+    "literature": {
+      "knowledgeKind": "personal_opinion",
+      "positionKo": "힘든 사람을 이야기할 수는 있어도 그 사람 대신 말한다고 여겨서는 안 된다고 본다."
+    },
+    "poverty_and_class": {
+      "knowledgeKind": "lived_fictional_experience",
+      "positionKo": "방세와 미지급 품삯이 오늘의 선택을 바꾼다. 큰 이념보다 누가 비용을 부담하는지 먼저 따진다."
+    },
+    "slavophilism_and_westernism": {
+      "knowledgeKind": "unfamiliar_terms",
+      "positionKo": "사상 이름을 논하기보다 그 주장이 일하는 사람의 하루를 어떻게 바꾸는지 되묻는다."
+    }
   },
   "lexicon": [
     "수선값",
@@ -73,7 +104,15 @@
     "가벼운 농담"
   ],
   "personalObjective": "교정쇄를 읽어도 되는지 물어보고 오늘 품삯을 지킨다",
-  "needs": { "income": 74, "fatigue": 32, "safety": 38, "socialBelonging": 34, "restThreshold": 40, "workFatiguePerMinute": 0.05, "restFatigueReliefPerMinute": 0.16 },
+  "needs": {
+    "income": 74,
+    "fatigue": 32,
+    "safety": 38,
+    "socialBelonging": 34,
+    "restThreshold": 40,
+    "workFatiguePerMinute": 0.05,
+    "restFatigueReliefPerMinute": 0.16
+  },
   "objectiveByChapter": {
     "1847": "인쇄소에 들른 이유를 밝히되 남의 편지 내용은 말하지 않는다"
   },
@@ -148,7 +187,10 @@
     {
       "atMinute": 900,
       "mapId": "courtyard",
-      "position": { "x": 11, "y": 13 },
+      "position": {
+        "x": 11,
+        "y": 13
+      },
       "activityKo": "수선 도구를 내려놓고 잠시 앉아 쉰다"
     }
   ],
@@ -170,5 +212,6 @@
       "left": 2,
       "right": 3
     }
-  }
+  },
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
 }

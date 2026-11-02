@@ -28,7 +28,10 @@
     "readers": "careful_reader"
   },
   "risk": "자신이 읽은 문장과 남이 전한 소문을 분리한다",
-  "relations": {},
+  "relations": {
+    "senior_clerk_konstantin": "공문서의 표현을 쉽게 풀이해 준 관청 선배다",
+    "editor_sofia": "새 호의 교정쇄를 읽고 모르는 대목을 묻는다"
+  },
   "secretKnowledge": [
     {
       "id": "DARYA_PRIVATE_MARGIN",
@@ -165,7 +168,7 @@
       "atMinute": 900,
       "mapId": "nevsky",
       "position": {
-        "x": 15,
+        "x": 16,
         "y": 12
       },
       "activityKo": "잠시 쉰다"
@@ -207,5 +210,6 @@
     "restThreshold": 27,
     "workFatiguePerMinute": 0.028,
     "restFatigueReliefPerMinute": 0.13
-  }
+  },
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
 }

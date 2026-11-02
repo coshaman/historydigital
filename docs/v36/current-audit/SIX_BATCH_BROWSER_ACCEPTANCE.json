@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "V36_SIX_BATCH_BROWSER_ACCEPTANCE_1",
+  "status": "PASS",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "batches": [
+    {
+      "batch": 1,
+      "hostId": "clerk_alexei",
+      "questId": "ALEXEI_ENVELOPE_REGISTER_1847_STAGE_1",
+      "firstChoice": "ALEXEI_ENVELOPE_REGISTER_1847_STAGE_1_CHOICE_1",
+      "choiceCount": 3,
+      "resolved": true,
+      "pageErrors": [],
+      "screenshot": "resident-batch-1-quest-choices.png"
+    },
+    {
+      "batch": 2,
+      "hostId": "senior_clerk_konstantin",
+      "questId": "SENIOR_CLERK_REVIEW_AND_SIGNATURE_1847",
+      "firstChoice": "SENIOR_CLERK_REVIEW_AND_SIGNATURE_1847_SEPARATE",
+      "choiceCount": 3,
+      "resolved": true,
+      "pageErrors": [],
+      "screenshot": "resident-batch-2-quest-choices.png"
+    },
+    {
+      "batch": 3,
+      "hostId": "scribal_yuri",
+      "questId": "SCRIBAL_COPY_1847",
+      "firstChoice": "SCRIBAL_YURI_CHOICE_1",
+      "choiceCount": 3,
+      "resolved": true,
+      "pageErrors": [],
+      "screenshot": "resident-batch-3-quest-choices.png"
+    },
+    {
+      "batch": 4,
+      "hostId": "housemaid_olga",
+      "questId": "HOUSEHOLD_PRIVACY_1847",
+      "firstChoice": "HOUSEMAID_OLGA_CHOICE_1",
+      "choiceCount": 3,
+      "resolved": true,
+      "pageErrors": [],
+      "screenshot": "resident-batch-4-quest-choices.png"
+    },
+    {
+      "batch": 5,
+      "hostId": "servant_varvara",
+      "questId": "SERVANT_PRIVATE_WARNING_1847",
+      "firstChoice": "SERVANT_VARVARA_CHOICE_1",
+      "choiceCount": 3,
+      "resolved": true,
+      "pageErrors": [],
+      "screenshot": "resident-batch-5-quest-choices.png"
+    },
+    {
+      "batch": 6,
+      "hostId": "coachman_timofey",
+      "questId": "COACH_FARE_1847",
+      "firstChoice": "COACHMAN_TIMOFEY_CHOICE_1",
+      "choiceCount": 3,
+      "resolved": true,
+      "pageErrors": [],
+      "screenshot": "resident-batch-6-quest-choices.png"
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "id": "ANNA_COAT_REPAIR_1847_STAGE_1",
+  "titleKo": "기한이 다른 두 벌의 옷",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "두 이웃이 외투 수선을 부탁했지만 한 벌은 내일 필요하고 다른 한 벌은 품삯을 미룬다. 안나는 먼저 할 일을 고른다.",
+  "historicalOutcome": {
+    "id": "ANNA_COAT_REPAIR_1847_STAGE_1_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "courtyard",
+    "objectId": 1022,
+    "requiredHostId": "seamstress_anna"
+  },
+  "actions": [
+    {
+      "id": "ANNA_COAT_REPAIR_1847_STAGE_1_CHOICE_1",
+      "hostIds": [
+        "seamstress_anna"
+      ],
+      "labelKo": "급한 외투의 찢어진 곳과 치수를 먼저 잰다",
+      "subcopyKo": "손님과 안나가 압니다 · 수선 주문 메모에 치수가 남습니다 · 다른 주문이 늦어질 수 있습니다",
+      "resultKo": "급한 외투의 찢어진 곳부터 재고 치수를 적었다. 새 천을 사기 전 필요한 양을 알 수 있다.",
+      "resultFlag": "urgentMeasured",
+      "followupTitleKo": "수선 주문과 치수 메모",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "급한 외투의 찢어진 곳부터 재고 치수를 적었다. 새 천을 사기 전 필요한 양을 알 수 있다.",
+        "relations": {
+          "tenant_mikhail": "오늘 함께 확인한 일: 수선 주문과 치수 메모"
+        },
+        "lifeChainDelta": {
+          "workQuality": 2,
+          "neighborTrust": 1
+        }
+      }
+    },
+    {
+      "id": "ANNA_COAT_REPAIR_1847_STAGE_1_CHOICE_2",
+      "hostIds": [
+        "seamstress_anna"
+      ],
+      "labelKo": "두 손님에게 가능한 완성 시각을 각각 알린다",
+      "subcopyKo": "두 손님과 안나가 압니다 · 주문 쪽지에 기한이 남습니다 · 둘 다 기다리게 될 수 있습니다",
+      "resultKo": "두 손님에게 가능한 시각을 따로 말했다. 약속을 낮춰 잡았지만 작업 순서는 분명해졌다.",
+      "resultFlag": "bothNotified",
+      "followupTitleKo": "수선 주문과 치수 메모",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "두 손님에게 가능한 시각을 따로 말했다. 약속을 낮춰 잡았지만 작업 순서는 분명해졌다.",
+        "relations": {
+          "tenant_mikhail": "오늘 함께 확인한 일: 수선 주문과 치수 메모"
+        },
+        "lifeChainDelta": {
+          "workQuality": 1,
+          "neighborTrust": 2
+        }
+      }
+    },
+    {
+      "id": "ANNA_COAT_REPAIR_1847_STAGE_1_CHOICE_3",
+      "hostIds": [
+        "seamstress_anna"
+      ],
+      "labelKo": "품삯을 먼저 받은 주문부터 시작한다",
+      "subcopyKo": "먼저 낸 손님이 압니다 · 선금과 순서가 주문 장부에 남습니다 · 급한 손님이 옷을 못 받을 수 있습니다",
+      "resultKo": "선금을 받은 주문부터 시작했다. 일한 값은 보장되지만 급한 사정은 뒤로 밀렸다.",
+      "resultFlag": "depositFirst",
+      "followupTitleKo": "수선 주문과 치수 메모",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "선금을 받은 주문부터 시작했다. 일한 값은 보장되지만 급한 사정은 뒤로 밀렸다.",
+        "relations": {
+          "tenant_mikhail": "오늘 함께 확인한 일: 수선 주문과 치수 메모"
+        },
+        "lifeChainDelta": {
+          "workQuality": 1,
+          "neighborTrust": -1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "ANNA_COAT_REPAIR_1847",
+    "titleKo": "기한이 다른 두 벌의 옷",
+    "stage": 1,
+    "stageCount": 3,
+    "metricsKo": {
+      "workQuality": "수선 품질",
+      "neighborTrust": "이웃 신뢰"
+    }
+  }
+}

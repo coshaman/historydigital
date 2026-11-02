@@ -2195,6 +2195,40 @@
               "value": "EDITOR_PUBLICATION_RECORD_1847"
             }
           ]
+        },
+        {
+          "id": 1021,
+          "name": "수취 서명과 전달 대장",
+          "type": "quest-object",
+          "x": 192,
+          "y": 160,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "PAVEL_PROOF_DELIVERY_1847_STAGE_3"
+            }
+          ]
+        },
+        {
+          "id": 1022,
+          "name": "책의 다음 인쇄와 종이 값",
+          "type": "quest-object",
+          "x": 272,
+          "y": 160,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "LEV_BOOK_RESERVATION_1847_STAGE_2"
+            }
+          ]
         }
       ]
     },

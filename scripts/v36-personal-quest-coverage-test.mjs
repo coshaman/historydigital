@@ -18,11 +18,24 @@ const quests = (await Promise.all((await readdir(new URL('../rpg/quests/', impor
 const residents = cards.filter(card => card.kind === 'FICTIONAL' && !card.id.startsWith('literary_'));
 const coveredHosts = new Set(quests.flatMap(quest => quest.actions.flatMap(action => action.hostIds ?? [])));
 const threeChoicePersonalQuests = quests.filter(quest => quest.entry?.requiredHostId && quest.actions.length === 3
-  && new Set(quest.actions.flatMap(action => action.hostIds)).size === 1);
+  && quest.actions.every(action => action.hostIds?.includes(quest.entry.requiredHostId)));
+const dedicatedQuestHosts = new Set(threeChoicePersonalQuests.map(quest => quest.entry.requiredHostId));
+const residentChains = new Map();
+for (const quest of quests.filter(item => item.lifeChain?.stageCount >= 3 && item.entry?.requiredHostId)) {
+  const stages = residentChains.get(quest.lifeChain.id) ?? [];
+  stages.push(quest); residentChains.set(quest.lifeChain.id, stages);
+}
 assert.ok(quests.length >= 37, 'personal and authored campaign story quests should remain available as structured data');
 assert.ok(threeChoicePersonalQuests.length >= 30, 'at least 30 complete personal quests need three consequential choices');
 assert.equal(residents.length, 36, 'the city roster should contain 36 fictional residents');
 assert.deepEqual(residents.filter(person => !coveredHosts.has(person.id)).map(person => person.id), [], 'every resident needs at least one personal quest action');
+assert.deepEqual(residents.filter(person => !dedicatedQuestHosts.has(person.id)).map(person => person.id), [], 'every resident needs a complete personally assigned three-choice life quest');
+for (const [chainId, stages] of residentChains) {
+  assert.equal(stages.length, stages[0].lifeChain.stageCount, `${chainId} must include every authored stage`);
+  assert.deepEqual(stages.map(stage => stage.lifeChain.stage).sort((a,b) => a-b), Array.from({length:stages.length},(_,i)=>i+1), `${chainId} stages must be sequential`);
+  for (const stage of stages) assert.ok(stage.actions.every(action => action.hostIds?.includes(stage.entry.requiredHostId)), `${stage.id} must remain playable by its assigned resident`);
+  for (const stage of stages.slice(1)) assert.ok(stage.prerequisiteQuestIds?.includes(stages.find(previous => previous.lifeChain.stage === stage.lifeChain.stage - 1)?.id), `${stage.id} must require its prior physical choice`);
+}
 
 const newQuests = ['EDITOR_PUBLICATION_RECORD_1847','POLICE_TESTIMONY_RECORD_1849','READER_SOURCE_AND_RUMOR_1847',
   'SENIOR_CLERK_REVIEW_AND_SIGNATURE_1847','TENANT_RENT_AND_FIREWOOD_1847'];
@@ -55,4 +68,5 @@ for (const id of newQuests) {
   results.push({ questId: id, hostId, choiceCount: quest.actions.length, guidanceTarget: guidance.target, outcomeRecorded: true });
 }
 console.log(JSON.stringify({ status: 'PASS', fictionalResidents: residents.length, quests: quests.length,
-  threeChoicePersonalQuests: threeChoicePersonalQuests.length, residentsWithoutQuest: 0, newQuestFlows: results }, null, 2));
+  threeChoicePersonalQuests: threeChoicePersonalQuests.length, dedicatedQuestHosts: dedicatedQuestHosts.size,
+  completeMultiStageLifeChains: residentChains.size, residentsWithoutQuest: 0, newQuestFlows: results }, null, 2));

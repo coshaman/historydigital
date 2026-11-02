@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "V36_RESIDENT_BATCH_ACCEPTANCE_1",
+  "status": "PASS",
+  "batch": 6,
+  "residents": [
+    "porter_gavrila",
+    "coachman_timofey",
+    "apothecary_yakov",
+    "fishseller_klavdiya",
+    "warehouse_pyotr",
+    "carter_roman"
+  ],
+  "relationships": [
+    {
+      "id": "porter_gavrila",
+      "reciprocalLinks": 2
+    },
+    {
+      "id": "coachman_timofey",
+      "reciprocalLinks": 2
+    },
+    {
+      "id": "apothecary_yakov",
+      "reciprocalLinks": 2
+    },
+    {
+      "id": "fishseller_klavdiya",
+      "reciprocalLinks": 2
+    },
+    {
+      "id": "warehouse_pyotr",
+      "reciprocalLinks": 2
+    },
+    {
+      "id": "carter_roman",
+      "reciprocalLinks": 2
+    }
+  ],
+  "scheduleTargetsChecked": 24,
+  "oneHourWorldReplay": true,
+  "collisionSnapshots": 12,
+  "questCompletions": 6,
+  "questStagesResolved": 21,
+  "possessionChecks": 6,
+  "legacySaveRelationMigrationPreservedDynamicLinks": true,
+  "movementEvents": 68,
+  "finalStateHash": "fe364bef"
+}

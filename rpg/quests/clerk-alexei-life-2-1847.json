@@ -1,0 +1,100 @@
+{
+  "id": "ALEXEI_ENVELOPE_REGISTER_1847_STAGE_2",
+  "titleKo": "접수 순서가 어긋난 봉투",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "접수 순서는 확인했지만 봉투 안의 사본에는 서명 한 곳이 빠져 있다. 원본을 보지 못한 채 다음 단계로 넘길 수는 없다.",
+  "historicalOutcome": {
+    "id": "ALEXEI_ENVELOPE_REGISTER_1847_STAGE_2_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "chancery",
+    "objectId": 1022,
+    "requiredHostId": "clerk_alexei"
+  },
+  "actions": [
+    {
+      "id": "ALEXEI_ENVELOPE_REGISTER_1847_STAGE_2_CHOICE_1",
+      "hostIds": [
+        "clerk_alexei"
+      ],
+      "labelKo": "원본과 사본의 서명 위치를 나란히 적는다",
+      "subcopyKo": "검토 담당자와 작성자가 봅니다 · 대조표에 차이가 남습니다 · 결재가 하루 늦어질 수 있습니다",
+      "resultKo": "두 문서의 서명 위치를 대조표에 나눠 적었다. 차이와 책임자를 한 줄로 뭉개지 않았다.",
+      "resultFlag": "copiesCompared",
+      "followupTitleKo": "서명과 사본 대조표",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "두 문서의 서명 위치를 대조표에 나눠 적었다. 차이와 책임자를 한 줄로 뭉개지 않았다.",
+        "relations": {
+          "printer_ekaterina": "오늘 함께 확인한 일: 서명과 사본 대조표"
+        },
+        "lifeChainDelta": {
+          "verifiedSequence": 2,
+          "publicExposure": 0
+        }
+      }
+    },
+    {
+      "id": "ALEXEI_ENVELOPE_REGISTER_1847_STAGE_2_CHOICE_2",
+      "hostIds": [
+        "clerk_alexei"
+      ],
+      "labelKo": "누락된 서명을 보충해 달라고 돌려보낸다",
+      "subcopyKo": "문서 작성자와 배달원이 압니다 · 반송 기록에 사유가 남습니다 · 기한을 놓칠 위험이 있습니다",
+      "resultKo": "서명 보충을 요청하며 봉투를 돌려보냈다. 기한이 지켜질지는 아직 알 수 없다.",
+      "resultFlag": "signatureReturned",
+      "followupTitleKo": "서명과 사본 대조표",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "서명 보충을 요청하며 봉투를 돌려보냈다. 기한이 지켜질지는 아직 알 수 없다.",
+        "relations": {
+          "printer_ekaterina": "오늘 함께 확인한 일: 서명과 사본 대조표"
+        },
+        "lifeChainDelta": {
+          "verifiedSequence": 1,
+          "publicExposure": 1
+        }
+      }
+    },
+    {
+      "id": "ALEXEI_ENVELOPE_REGISTER_1847_STAGE_2_CHOICE_3",
+      "hostIds": [
+        "clerk_alexei"
+      ],
+      "labelKo": "상급자에게 현재 자료만으로 판단해 달라고 한다",
+      "subcopyKo": "상급 검토자가 봅니다 · 상신 메모와 결재 기록에 남습니다 · 판단 책임이 위로 넘어갈 수 있습니다",
+      "resultKo": "확인한 사실과 모르는 부분을 나눠 상급자에게 올렸다. 서기의 검토 범위는 기록으로 남는다.",
+      "resultFlag": "reviewEscalated",
+      "followupTitleKo": "서명과 사본 대조표",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "확인한 사실과 모르는 부분을 나눠 상급자에게 올렸다. 서기의 검토 범위는 기록으로 남는다.",
+        "relations": {
+          "printer_ekaterina": "오늘 함께 확인한 일: 서명과 사본 대조표"
+        },
+        "lifeChainDelta": {
+          "verifiedSequence": 1,
+          "publicExposure": 2
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "ALEXEI_ENVELOPE_REGISTER_1847",
+    "titleKo": "접수 순서가 어긋난 봉투",
+    "stage": 2,
+    "stageCount": 3,
+    "previousQuestId": "ALEXEI_ENVELOPE_REGISTER_1847_STAGE_1",
+    "metricsKo": {
+      "verifiedSequence": "확인한 순서",
+      "publicExposure": "공식 기록에 드러난 범위"
+    }
+  },
+  "prerequisiteQuestIds": [
+    "ALEXEI_ENVELOPE_REGISTER_1847_STAGE_1"
+  ]
+}

@@ -27,7 +27,10 @@
     "neighbors": "known_by_daily_work"
   },
   "risk": "일감을 잃거나 이웃의 신뢰를 잃을 가능성을 함께 계산한다.",
-  "relations": {},
+  "relations": {
+    "yardkeeper_semyon": "세탁물을 널 곳을 두고 상의하는 안뜰 관리인이다",
+    "baker_fyodor": "빵집 앞에서 세탁물 배달과 품삯 이야기를 나눈다"
+  },
   "secretKnowledge": [
     {
       "id": "LAUNDRESS_MARIYA_PRIVATE_NOTE",
@@ -226,5 +229,6 @@
     "restThreshold": 47,
     "workFatiguePerMinute": 0.052,
     "restFatigueReliefPerMinute": 0.18
-  }
+  },
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
 }

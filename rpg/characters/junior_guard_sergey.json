@@ -27,7 +27,10 @@
     "office": "careful"
   },
   "risk": "공식 장부에 남는 행위에 신중",
-  "relations": {},
+  "relations": {
+    "minor_noble_andrei": "출입 명단을 점검하러 오는 귀족가의 청년이다",
+    "street_vendor_matryona": "초소 근처에서 간단한 끼니를 사는 행상인이다"
+  },
   "secretKnowledge": [
     {
       "id": "JUNIOR_GUARD_SERGEY_PRIVATE_NOTE",
@@ -192,5 +195,6 @@
       "right": 3
     }
   },
-  "speechStatus": "FICTIONAL_DESIGN"
+  "speechStatus": "FICTIONAL_DESIGN",
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
 }

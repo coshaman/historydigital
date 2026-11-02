@@ -27,7 +27,10 @@
     "public": "formal"
   },
   "risk": "소문만으로 사람을 붙잡으면 접수 기록 자체가 부당해질 수 있다",
-  "relations": {},
+  "relations": {
+    "editor_sofia": "출판물 관련 문의를 가져오는 편집자다",
+    "print_apprentice_stepan": "인쇄소 방문 때 작업장 출입 규칙을 알려준다"
+  },
   "secretKnowledge": [],
   "knownEvidence": [],
   "privateKnowledgeIds": [],
@@ -179,7 +182,7 @@
       "atMinute": 900,
       "mapId": "police-station",
       "position": {
-        "x": 7,
+        "x": 8,
         "y": 3
       },
       "activityKo": "순찰 장부를 덮고 잠시 쉰다"
@@ -202,5 +205,6 @@
     "restThreshold": 34,
     "workFatiguePerMinute": 0.038,
     "restFatigueReliefPerMinute": 0.14
-  }
+  },
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
 }

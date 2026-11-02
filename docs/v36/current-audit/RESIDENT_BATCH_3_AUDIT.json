@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "V36_RESIDENT_BATCH_ACCEPTANCE_1",
+  "status": "PASS",
+  "batch": 3,
+  "residents": [
+    "scribal_yuri",
+    "student_vasily",
+    "minor_noble_andrei",
+    "junior_guard_sergey",
+    "street_vendor_matryona",
+    "typesetter_nikita"
+  ],
+  "relationships": [
+    {
+      "id": "scribal_yuri",
+      "reciprocalLinks": 2
+    },
+    {
+      "id": "student_vasily",
+      "reciprocalLinks": 2
+    },
+    {
+      "id": "minor_noble_andrei",
+      "reciprocalLinks": 2
+    },
+    {
+      "id": "junior_guard_sergey",
+      "reciprocalLinks": 2
+    },
+    {
+      "id": "street_vendor_matryona",
+      "reciprocalLinks": 2
+    },
+    {
+      "id": "typesetter_nikita",
+      "reciprocalLinks": 2
+    }
+  ],
+  "scheduleTargetsChecked": 24,
+  "oneHourWorldReplay": true,
+  "collisionSnapshots": 12,
+  "questCompletions": 6,
+  "questStagesResolved": 6,
+  "possessionChecks": 6,
+  "legacySaveRelationMigrationPreservedDynamicLinks": true,
+  "movementEvents": 68,
+  "finalStateHash": "fe364bef"
+}

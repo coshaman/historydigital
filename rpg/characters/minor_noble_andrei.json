@@ -27,7 +27,10 @@
     "office": "careful"
   },
   "risk": "공식 장부에 남는 행위에 신중",
-  "relations": {},
+  "relations": {
+    "student_vasily": "학교 공부와 책 이야기를 주고받는 동료 학생이다",
+    "junior_guard_sergey": "관청 출입 때 신분 확인을 받는 젊은 경비다"
+  },
   "secretKnowledge": [
     {
       "id": "MINOR_NOBLE_ANDREI_PRIVATE_NOTE",
@@ -192,5 +195,6 @@
       "right": 3
     }
   },
-  "speechStatus": "FICTIONAL_DESIGN"
+  "speechStatus": "FICTIONAL_DESIGN",
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
 }

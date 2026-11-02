@@ -27,7 +27,10 @@
     "neighbors": "known_by_daily_work"
   },
   "risk": "일감을 잃거나 이웃의 신뢰를 잃을 가능성을 함께 계산한다.",
-  "relations": {},
+  "relations": {
+    "junior_guard_sergey": "근무 중 빵과 차를 사 가는 경비다",
+    "typesetter_nikita": "시장 소식과 인쇄소의 새 종이를 자주 묻는다"
+  },
   "secretKnowledge": [
     {
       "id": "STREET_VENDOR_MATRYONA_PRIVATE_NOTE",
@@ -192,5 +195,6 @@
       "left": 2,
       "right": 3
     }
-  }
+  },
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
 }

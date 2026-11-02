@@ -27,7 +27,10 @@
     "neighbors": "known_by_daily_work"
   },
   "risk": "일감을 잃거나 이웃의 신뢰를 잃을 가능성을 함께 계산한다.",
-  "relations": {},
+  "relations": {
+    "laundress_mariya": "일손이 바쁠 때 앞치마와 행주를 맡기는 세탁부다",
+    "market_nadezhda": "밀가루와 채소 값을 서로 맞춰 본다"
+  },
   "secretKnowledge": [
     {
       "id": "BAKER_FYODOR_PRIVATE_NOTE",
@@ -201,5 +204,6 @@
       "left": 2,
       "right": 3
     }
-  }
+  },
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
 }

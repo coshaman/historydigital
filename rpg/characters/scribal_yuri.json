@@ -27,7 +27,10 @@
     "office": "careful"
   },
   "risk": "공식 장부에 남는 행위에 신중",
-  "relations": {},
+  "relations": {
+    "student_vasily": "필요한 글을 베껴 주고 읽기 어려운 구절을 짚어 준다",
+    "typesetter_nikita": "인쇄할 문장의 베껴 쓰기를 도와주는 필사원이다"
+  },
   "secretKnowledge": [
     {
       "id": "SCRIBAL_YURI_PRIVATE_NOTE",
@@ -141,7 +144,7 @@
       "mapId": "chancery",
       "position": {
         "x": 12,
-        "y": 12
+        "y": 11
       },
       "activityKo": "원본과 베낄 종이를 정리한다"
     },
@@ -168,7 +171,7 @@
       "mapId": "chancery",
       "position": {
         "x": 12,
-        "y": 12
+        "y": 11
       },
       "activityKo": "원본과 사본의 차이를 대조한다"
     }
@@ -192,5 +195,6 @@
       "right": 3
     }
   },
-  "speechStatus": "FICTIONAL_DESIGN"
+  "speechStatus": "FICTIONAL_DESIGN",
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
 }

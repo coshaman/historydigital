@@ -27,7 +27,10 @@
     "neighbors": "known_by_daily_work"
   },
   "risk": "일감을 잃거나 이웃의 신뢰를 잃을 가능성을 함께 계산한다.",
-  "relations": {},
+  "relations": {
+    "warehouse_pyotr": "수레에 실을 물건과 운반 순서를 정하는 창고 일꾼이다",
+    "porter_gavrila": "무거운 짐의 하역을 서로 거든다"
+  },
   "secretKnowledge": [
     {
       "id": "CARTER_ROMAN_PRIVATE_NOTE",
@@ -192,5 +195,6 @@
       "left": 2,
       "right": 3
     }
-  }
+  },
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
 }

@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "V36_RESIDENT_BATCH_ACCEPTANCE_1",
+  "status": "PASS",
+  "batch": 4,
+  "residents": [
+    "housemaid_olga",
+    "midwife_avdotya",
+    "innkeeper_irina",
+    "teacher_lyubov",
+    "landlady_polina",
+    "watercarrier_luka"
+  ],
+  "relationships": [
+    {
+      "id": "housemaid_olga",
+      "reciprocalLinks": 2
+    },
+    {
+      "id": "midwife_avdotya",
+      "reciprocalLinks": 2
+    },
+    {
+      "id": "innkeeper_irina",
+      "reciprocalLinks": 2
+    },
+    {
+      "id": "teacher_lyubov",
+      "reciprocalLinks": 2
+    },
+    {
+      "id": "landlady_polina",
+      "reciprocalLinks": 2
+    },
+    {
+      "id": "watercarrier_luka",
+      "reciprocalLinks": 2
+    }
+  ],
+  "scheduleTargetsChecked": 24,
+  "oneHourWorldReplay": true,
+  "collisionSnapshots": 12,
+  "questCompletions": 6,
+  "questStagesResolved": 11,
+  "possessionChecks": 6,
+  "legacySaveRelationMigrationPreservedDynamicLinks": true,
+  "movementEvents": 68,
+  "finalStateHash": "fe364bef"
+}

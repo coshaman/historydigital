@@ -27,7 +27,10 @@
     "neighbors": "known_by_daily_work"
   },
   "risk": "일감을 잃거나 이웃의 신뢰를 잃을 가능성을 함께 계산한다.",
-  "relations": {},
+  "relations": {
+    "midwife_avdotya": "집안에 아픈 사람이 있으면 먼저 찾아가는 산파다",
+    "watercarrier_luka": "집안의 물을 받아 세탁과 청소에 쓰는 일꾼이다"
+  },
   "secretKnowledge": [
     {
       "id": "HOUSEMAID_OLGA_PRIVATE_NOTE",
@@ -192,5 +195,6 @@
       "left": 2,
       "right": 3
     }
-  }
+  },
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
 }

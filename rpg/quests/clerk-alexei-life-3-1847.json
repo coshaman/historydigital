@@ -1,0 +1,100 @@
+{
+  "id": "ALEXEI_ENVELOPE_REGISTER_1847_STAGE_3",
+  "titleKo": "접수 순서가 어긋난 봉투",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "접수표와 두 사본을 확인했다. 이제 이 봉투를 어떤 기록으로 마무리할지 정해야 한다.",
+  "historicalOutcome": {
+    "id": "ALEXEI_ENVELOPE_REGISTER_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "chancery",
+    "objectId": 1023,
+    "requiredHostId": "clerk_alexei"
+  },
+  "actions": [
+    {
+      "id": "ALEXEI_ENVELOPE_REGISTER_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "clerk_alexei"
+      ],
+      "labelKo": "확인된 부분만 적고 결재를 기다린다",
+      "subcopyKo": "검토자와 접수실이 봅니다 · 보류 사유가 공식 기록에 남습니다 · 오늘 처리가 끝나지 않을 수 있습니다",
+      "resultKo": "확인된 시각과 서명 차이만 적고 결재를 기다리기로 했다. 빠르진 않지만 추측은 사실처럼 쓰지 않았다.",
+      "resultFlag": "heldForReview",
+      "followupTitleKo": "봉투 처리 결과 기록",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "확인된 시각과 서명 차이만 적고 결재를 기다리기로 했다. 빠르진 않지만 추측은 사실처럼 쓰지 않았다.",
+        "relations": {
+          "printer_ekaterina": "오늘 함께 확인한 일: 봉투 처리 결과 기록"
+        },
+        "lifeChainDelta": {
+          "verifiedSequence": 2,
+          "publicExposure": 1
+        }
+      }
+    },
+    {
+      "id": "ALEXEI_ENVELOPE_REGISTER_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "clerk_alexei"
+      ],
+      "labelKo": "수정 경위까지 접수부에 공개한다",
+      "subcopyKo": "관청의 다음 담당자들이 봅니다 · 공식 접수부에 수정 경위가 남습니다 · 본인과 배달원의 책임이 함께 검토될 수 있습니다",
+      "resultKo": "번호와 전달 경위를 공식 접수부에 적었다. 누가 고쳤는지도 함께 확인할 수 있게 했다.",
+      "resultFlag": "fullRecord",
+      "followupTitleKo": "봉투 처리 결과 기록",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "번호와 전달 경위를 공식 접수부에 적었다. 누가 고쳤는지도 함께 확인할 수 있게 했다.",
+        "relations": {
+          "printer_ekaterina": "오늘 함께 확인한 일: 봉투 처리 결과 기록"
+        },
+        "lifeChainDelta": {
+          "verifiedSequence": 2,
+          "publicExposure": 2
+        }
+      }
+    },
+    {
+      "id": "ALEXEI_ENVELOPE_REGISTER_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "clerk_alexei"
+      ],
+      "labelKo": "배달 경로를 확인한 뒤 사본을 다시 보낸다",
+      "subcopyKo": "작성자와 인쇄소가 봅니다 · 재발송 메모에 경로가 남습니다 · 도착이 다시 늦어질 수 있습니다",
+      "resultKo": "봉투를 다시 보냈고, 접수 번호는 확인 전 상태로 남겼다.",
+      "resultFlag": "resentAfterCheck",
+      "followupTitleKo": "봉투 처리 결과 기록",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "봉투를 다시 보냈고, 접수 번호는 확인 전 상태로 남겼다.",
+        "relations": {
+          "printer_ekaterina": "오늘 함께 확인한 일: 봉투 처리 결과 기록"
+        },
+        "lifeChainDelta": {
+          "verifiedSequence": 2,
+          "publicExposure": 0
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "ALEXEI_ENVELOPE_REGISTER_1847",
+    "titleKo": "접수 순서가 어긋난 봉투",
+    "stage": 3,
+    "stageCount": 3,
+    "previousQuestId": "ALEXEI_ENVELOPE_REGISTER_1847_STAGE_2",
+    "metricsKo": {
+      "verifiedSequence": "확인한 순서",
+      "publicExposure": "공식 기록에 드러난 범위"
+    }
+  },
+  "prerequisiteQuestIds": [
+    "ALEXEI_ENVELOPE_REGISTER_1847_STAGE_2"
+  ]
+}

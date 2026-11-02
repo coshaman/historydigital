@@ -27,7 +27,10 @@
     "neighbors": "known_by_daily_work"
   },
   "risk": "일감을 잃거나 이웃의 신뢰를 잃을 가능성을 함께 계산한다.",
-  "relations": {},
+  "relations": {
+    "baker_fyodor": "빵집의 재료값을 묻고 소량씩 거래하는 제빵사다",
+    "servant_varvara": "주인집 장을 보며 가격과 품질을 꼼꼼히 따진다"
+  },
   "secretKnowledge": [
     {
       "id": "MARKET_NADEZHDA_PRIVATE_NOTE",
@@ -197,5 +200,6 @@
       "left": 2,
       "right": 3
     }
-  }
+  },
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
 }

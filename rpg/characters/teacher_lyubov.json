@@ -27,7 +27,10 @@
     "courtyard": "steady_worker"
   },
   "risk": "오늘 일감을 놓치면 방세 납부가 늦어진다",
-  "relations": {},
+  "relations": {
+    "innkeeper_irina": "하숙집에 방을 내주고 밀린 방세 사정을 듣는다",
+    "landlady_polina": "셋방과 수업 장소를 함께 마련해 준 집주인이다"
+  },
   "secretKnowledge": [
     {
       "id": "TEACHER_LYUBOV_PRIVATE_NOTE",
@@ -193,5 +196,6 @@
       "right": 3
     }
   },
-  "speechStatus": "FICTIONAL_DESIGN"
+  "speechStatus": "FICTIONAL_DESIGN",
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
 }

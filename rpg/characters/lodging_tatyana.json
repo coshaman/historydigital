@@ -27,7 +27,10 @@
     "courtyard": "steady_worker"
   },
   "risk": "오늘 일감을 놓치면 방세 납부가 늦어진다",
-  "relations": {},
+  "relations": {
+    "servant_varvara": "일감이 몰릴 때 서로 손을 보태는 하녀다",
+    "yardkeeper_semyon": "방세와 공용 장작 문제를 관리인에게 묻는다"
+  },
   "secretKnowledge": [
     {
       "id": "LODGING_TATYANA_PRIVATE_NOTE",
@@ -168,8 +171,8 @@
       "atMinute": 960,
       "mapId": "courtyard",
       "position": {
-        "x": 22,
-        "y": 10
+        "x": 21,
+        "y": 11
       },
       "activityKo": "완성한 재봉물을 건네고 품삯을 받는다"
     }
@@ -193,5 +196,6 @@
       "right": 3
     }
   },
-  "speechStatus": "FICTIONAL_DESIGN"
+  "speechStatus": "FICTIONAL_DESIGN",
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
 }

@@ -27,7 +27,10 @@
     "street": "knows_the_routes"
   },
   "risk": "지각하면 품삯과 다음 일감을 잃을 수 있음",
-  "relations": {},
+  "relations": {
+    "street_vendor_matryona": "작업 교대 뒤 시장에서 먹을 것을 사는 조판공이다",
+    "scribal_yuri": "활자와 원고의 글자를 대조할 때 의견을 구한다"
+  },
   "secretKnowledge": [
     {
       "id": "TYPESETTER_NIKITA_PRIVATE_NOTE",
@@ -192,5 +195,6 @@
       "right": 3
     }
   },
-  "speechStatus": "FICTIONAL_DESIGN"
+  "speechStatus": "FICTIONAL_DESIGN",
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
 }

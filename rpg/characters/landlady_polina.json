@@ -27,7 +27,10 @@
     "lodging": "keeps_to_himself"
   },
   "risk": "하루 일감이 끊기면 방세와 식비가 함께 밀린다",
-  "relations": {},
+  "relations": {
+    "teacher_lyubov": "방세를 내면서 아이들을 가르치는 세입자다",
+    "watercarrier_luka": "안뜰의 물통을 채우는 삯꾼이다"
+  },
   "secretKnowledge": [
     {
       "id": "LANDLADY_POLINA_PRIVATE_NOTE",
@@ -192,5 +195,6 @@
       "right": 3
     }
   },
-  "speechStatus": "FICTIONAL_DESIGN"
+  "speechStatus": "FICTIONAL_DESIGN",
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
 }
