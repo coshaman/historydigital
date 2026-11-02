@@ -1,0 +1,181 @@
+{
+  "id": "porter_gavrila",
+  "kind": "FICTIONAL",
+  "displayNameKo": "가브릴라",
+  "displayNameRu": "Гаврила Орлов",
+  "ageAtDate": {
+    "value": 47,
+    "status": "fictional_character_design"
+  },
+  "socialEstate": "urban_laborer",
+  "occupation": "부두와 시장 사이에서 짐을 나르는 인부",
+  "rank": {
+    "value": null,
+    "ru": null,
+    "status": "not_applicable"
+  },
+  "legalMobility": "시장과 공개 거리, 안뜰 통로만 이용하는 허구 인물; 고용·가격·관청 결정 권한은 맡지 않는다.",
+  "wealthBracket": "poor",
+  "money": {
+    "amount": 16,
+    "unit": "kopeks",
+    "status": "designedEstimate"
+  },
+  "literacy": "자기 일과 관련된 표식·계산표를 읽는다. 문해력 범위는 허구 인물 설정이다.",
+  "health": "working",
+  "reputationByGroup": {
+    "neighbors": "known_by_daily_work"
+  },
+  "risk": "일감을 잃거나 이웃의 신뢰를 잃을 가능성을 함께 계산한다.",
+  "relations": {},
+  "secretKnowledge": [
+    {
+      "id": "PORTER_GAVRILA_PRIVATE_NOTE",
+      "summaryKo": "며칠 전부터 어깨 통증이 있지만 일거리를 잃을까 숨기고 있다."
+    }
+  ],
+  "knownEvidence": [],
+  "privateKnowledgeIds": [
+    "PORTER_GAVRILA_PRIVATE_NOTE"
+  ],
+  "knownEvidenceIds": [],
+  "desires": "오늘 짐을 혼자 들지, 나눠 들지, 거절할지 정한다",
+  "fears": "어깨가 아픈데도 오늘 짐을 거절하면 다음 고용 순서에서 밀릴 수 있다.",
+  "taboos": [
+    "확인하지 않은 사람의 사정을 대신 단정하지 않는다."
+  ],
+  "speechRhythm": "무게와 남은 거리를 짚는다. 말이 짧고 농담은 몸이 아픈 걸 감출 때만 나온다.",
+  "speechRegister": {
+    "firstMeeting": "낯선 사람에게 용건과 일터 규칙부터 짧게 말한다.",
+    "colleague": "같은 일터 사람에게는 빠른 반말과 구체적인 작업 어휘를 쓴다.",
+    "private": "사적인 자리에서는 손해와 걱정을 더 솔직히 말한다.",
+    "conflict": "목격한 일과 소문을 구분하고, 상대에게 선택의 비용을 되묻는다.",
+    "intimacy": "가까운 사람과는 말끝이 풀리고 짧은 농담을 섞는다.",
+    "formal": "고용주·거래처에는 정중하지만 수량과 약속을 분명히 한다."
+  },
+  "voiceSamples": [
+    "수레 옆에 서 있으면 길을 막소. 짐을 들 거면 손잡이부터 확인하시오.",
+    "어깨가 성치 않은데 오늘 짐이 무겁소. 거절하면 다음 차례에서 빠질까 걱정이고, 들면 내일 일을 못 할 수도 있소.",
+    "말하면 일감을 다른 사람에게 줄까 봐 숨겼소. 그렇다고 계속 숨기면 결국 더 오래 일을 못 할 수도 있겠지."
+  ],
+  "worldview": {
+    "status": "fictional_character_design",
+    "stanceKo": "일할 기회는 중요하지만 다친 몸으로 무리하면 다음 품삯도 잃는다고 본다.",
+    "tensionKo": "어깨가 아픈데도 오늘 짐을 거절하면 다음 고용 순서에서 밀릴 수 있다.",
+    "blindSpotKo": "당장의 품삯과 이웃 관계에 집중해 다른 사람의 사정을 놓칠 수 있다.",
+    "designBasisKo": "시드 CSV에서 출발한 완전한 허구 인물 설정이며 실제 개인·발언·주소의 기록이 아니다.",
+    "sceneAnchorIds": [
+      "PORTER_LOAD_1847"
+    ]
+  },
+  "topicStances": {
+    "serfdom": {
+      "knowledgeKind": "no_documented_stance",
+      "positionKo": "농촌 제도를 직접 알지 못한다. 자기 일터에서 본 대우만 말한다."
+    },
+    "censorship": {
+      "knowledgeKind": "street_limited",
+      "positionKo": "검열 절차를 알지 못한다. 장터와 일터에서 실제로 오간 말과 비용만 말한다."
+    },
+    "literature": {
+      "knowledgeKind": "reader_limited",
+      "positionKo": "작가의 뜻을 대신 판단하지 않는다. 글을 읽었는지, 누구와 이야기했는지 구분한다."
+    },
+    "poverty_and_class": {
+      "knowledgeKind": "fictional_lived_experience",
+      "positionKo": "일할 기회는 중요하지만 다친 몸으로 무리하면 다음 품삯도 잃는다고 본다."
+    },
+    "slavophilism_and_westernism": {
+      "knowledgeKind": "unfamiliar_terms",
+      "positionKo": "진영을 대변하지 않는다. 논쟁이 자신의 일과 이웃에게 어떤 비용을 만드는지 묻는다."
+    }
+  },
+  "lexicon": [
+    "짐",
+    "무게",
+    "품삯"
+  ],
+  "emotions": [
+    "경계",
+    "걱정",
+    "마른 농담"
+  ],
+  "personalObjective": "오늘 짐을 혼자 들지, 나눠 들지, 거절할지 정한다",
+  "objectiveByChapter": {
+    "1847": "오늘 짐을 혼자 들지, 나눠 들지, 거절할지 정한다"
+  },
+  "allowedMaps": [
+    "market-quay",
+    "nevsky",
+    "courtyard"
+  ],
+  "start": {
+    "mapId": "market-quay",
+    "x": 22,
+    "y": 12
+  },
+  "wealthBracketStatus": "designedEstimate",
+  "inventory": [
+    "낡은 어깨끈",
+    "작업 장갑"
+  ],
+  "sourceIds": [],
+  "canonConstraint": "fictional citizen; never treated as an attested historical individual or witness",
+  "reconstructionDisclaimer": "시민과 일상 갈등은 게임을 위해 만든 허구 설정이다.",
+  "sprite": {
+    "file": "assets/porter_gavrila.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "scarf",
+    "palette": {
+      "cloth": "#484b48",
+      "trim": "#ad794b",
+      "headwear": "#3c352e"
+    }
+  },
+  "speechStatus": "FICTIONAL_DESIGN",
+  "schedule": [
+    {
+      "atMinute": 480,
+      "mapId": "market-quay",
+      "position": {
+        "x": 22,
+        "y": 12
+      },
+      "activityKo": "오늘 맡은 짐의 무게와 품삯을 적은 표를 본다"
+    },
+    {
+      "atMinute": 660,
+      "mapId": "nevsky",
+      "position": {
+        "x": 14,
+        "y": 12
+      },
+      "activityKo": "네프스키 쪽 거래와 일감을 확인한다"
+    },
+    {
+      "atMinute": 780,
+      "mapId": "market-quay",
+      "position": {
+        "x": 24,
+        "y": 13
+      },
+      "activityKo": "오늘 맡은 짐의 무게와 품삯을 적은 표를 본다"
+    },
+    {
+      "atMinute": 1020,
+      "mapId": "market-quay",
+      "position": {
+        "x": 22,
+        "y": 12
+      },
+      "activityKo": "오늘 장부와 남은 일을 정리한다"
+    }
+  ],
+  "portrait": {
+    "file": "assets/portrait-porter_gavrila.png",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+  }
+}

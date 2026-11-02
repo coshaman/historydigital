@@ -1,0 +1,181 @@
+{
+  "id": "market_nadezhda",
+  "kind": "FICTIONAL",
+  "displayNameKo": "나데즈다",
+  "displayNameRu": "Надежда Соколова",
+  "ageAtDate": {
+    "value": 39,
+    "status": "fictional_character_design"
+  },
+  "socialEstate": "urban_laborer",
+  "occupation": "시장 좌판을 꾸리는 식료품 판매상",
+  "rank": {
+    "value": null,
+    "ru": null,
+    "status": "not_applicable"
+  },
+  "legalMobility": "시장과 공개 거리, 안뜰 통로만 이용하는 허구 인물; 고용·가격·관청 결정 권한은 맡지 않는다.",
+  "wealthBracket": "precarious",
+  "money": {
+    "amount": 32,
+    "unit": "kopeks",
+    "status": "designedEstimate"
+  },
+  "literacy": "자기 일과 관련된 표식·계산표를 읽는다. 문해력 범위는 허구 인물 설정이다.",
+  "health": "working",
+  "reputationByGroup": {
+    "neighbors": "known_by_daily_work"
+  },
+  "risk": "일감을 잃거나 이웃의 신뢰를 잃을 가능성을 함께 계산한다.",
+  "relations": {},
+  "secretKnowledge": [
+    {
+      "id": "MARKET_NADEZHDA_PRIVATE_NOTE",
+      "summaryKo": "오늘 채소 바구니 하나가 비를 맞아 오래 두면 상할 수 있다."
+    }
+  ],
+  "knownEvidence": [],
+  "privateKnowledgeIds": [
+    "MARKET_NADEZHDA_PRIVATE_NOTE"
+  ],
+  "knownEvidenceIds": [],
+  "desires": "젖은 채소의 값을 얼마나 낮추고 손실을 어떻게 나눌지 정한다",
+  "fears": "오늘 들어온 채소가 비에 젖어 빨리 팔아야 한다. 값을 낮추면 남는 돈이 없고 버티면 상할 수 있다.",
+  "taboos": [
+    "확인하지 않은 사람의 사정을 대신 단정하지 않는다."
+  ],
+  "speechRhythm": "흥정하듯 짧게 묻고, 손님 수와 물건 무게를 빠르게 셈한다.",
+  "speechRegister": {
+    "firstMeeting": "낯선 사람에게 용건과 일터 규칙부터 짧게 말한다.",
+    "colleague": "같은 일터 사람에게는 빠른 반말과 구체적인 작업 어휘를 쓴다.",
+    "private": "사적인 자리에서는 손해와 걱정을 더 솔직히 말한다.",
+    "conflict": "목격한 일과 소문을 구분하고, 상대에게 선택의 비용을 되묻는다.",
+    "intimacy": "가까운 사람과는 말끝이 풀리고 짧은 농담을 섞는다.",
+    "formal": "고용주·거래처에는 정중하지만 수량과 약속을 분명히 한다."
+  },
+  "voiceSamples": [
+    "저울 앞은 비워 둬요. 바구니를 놓으면 무게가 안 맞아요. 뭘 찾으세요?",
+    "이 채소는 비를 맞아서 오래 못 가요. 값을 낮춰 빨리 팔지, 손해를 감수하고 기다릴지 정해야죠.",
+    "아는 사람이라고 무조건 깎아주면 다른 손님한테 설명하기 어려워요. 오늘 값과 이유를 먼저 내걸면 흥정은 해도 기준은 남길 수 있죠."
+  ],
+  "worldview": {
+    "status": "fictional_character_design",
+    "stanceKo": "값을 숨기면 거래가 오래가지 않는다고 믿지만, 손해를 전부 혼자 떠안을 수는 없다.",
+    "tensionKo": "오늘 들어온 채소가 비에 젖어 빨리 팔아야 한다. 값을 낮추면 남는 돈이 없고 버티면 상할 수 있다.",
+    "blindSpotKo": "당장의 품삯과 이웃 관계에 집중해 다른 사람의 사정을 놓칠 수 있다.",
+    "designBasisKo": "시드 CSV에서 출발한 완전한 허구 인물 설정이며 실제 개인·발언·주소의 기록이 아니다.",
+    "sceneAnchorIds": [
+      "MARKET_PRICES_1847"
+    ]
+  },
+  "topicStances": {
+    "serfdom": {
+      "knowledgeKind": "no_documented_stance",
+      "positionKo": "농촌 제도를 직접 알지 못한다. 자기 일터에서 본 대우만 말한다."
+    },
+    "censorship": {
+      "knowledgeKind": "street_limited",
+      "positionKo": "검열 절차를 알지 못한다. 장터와 일터에서 실제로 오간 말과 비용만 말한다."
+    },
+    "literature": {
+      "knowledgeKind": "reader_limited",
+      "positionKo": "작가의 뜻을 대신 판단하지 않는다. 글을 읽었는지, 누구와 이야기했는지 구분한다."
+    },
+    "poverty_and_class": {
+      "knowledgeKind": "fictional_lived_experience",
+      "positionKo": "값을 숨기면 거래가 오래가지 않는다고 믿지만, 손해를 전부 혼자 떠안을 수는 없다."
+    },
+    "slavophilism_and_westernism": {
+      "knowledgeKind": "unfamiliar_terms",
+      "positionKo": "진영을 대변하지 않는다. 논쟁이 자신의 일과 이웃에게 어떤 비용을 만드는지 묻는다."
+    }
+  },
+  "lexicon": [
+    "저울",
+    "바구니",
+    "값"
+  ],
+  "emotions": [
+    "경계",
+    "걱정",
+    "마른 농담"
+  ],
+  "personalObjective": "젖은 채소의 값을 얼마나 낮추고 손실을 어떻게 나눌지 정한다",
+  "objectiveByChapter": {
+    "1847": "젖은 채소의 값을 얼마나 낮추고 손실을 어떻게 나눌지 정한다"
+  },
+  "allowedMaps": [
+    "market-quay",
+    "nevsky",
+    "courtyard"
+  ],
+  "start": {
+    "mapId": "market-quay",
+    "x": 18,
+    "y": 12
+  },
+  "wealthBracketStatus": "designedEstimate",
+  "inventory": [
+    "양배추 바구니",
+    "황동 저울추"
+  ],
+  "sourceIds": [],
+  "canonConstraint": "fictional citizen; never treated as an attested historical individual or witness",
+  "reconstructionDisclaimer": "시민과 일상 갈등은 게임을 위해 만든 허구 설정이다.",
+  "sprite": {
+    "file": "assets/market_nadezhda.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "scarf",
+    "palette": {
+      "cloth": "#72513b",
+      "trim": "#a95e42",
+      "headwear": "#503b31"
+    }
+  },
+  "speechStatus": "FICTIONAL_DESIGN",
+  "schedule": [
+    {
+      "atMinute": 480,
+      "mapId": "market-quay",
+      "position": {
+        "x": 18,
+        "y": 12
+      },
+      "activityKo": "시장 저울과 젖은 채소 가격표를 확인한다"
+    },
+    {
+      "atMinute": 660,
+      "mapId": "nevsky",
+      "position": {
+        "x": 14,
+        "y": 12
+      },
+      "activityKo": "네프스키 쪽 거래와 일감을 확인한다"
+    },
+    {
+      "atMinute": 780,
+      "mapId": "market-quay",
+      "position": {
+        "x": 19,
+        "y": 13
+      },
+      "activityKo": "시장 저울과 젖은 채소 가격표를 확인한다"
+    },
+    {
+      "atMinute": 1020,
+      "mapId": "market-quay",
+      "position": {
+        "x": 18,
+        "y": 12
+      },
+      "activityKo": "오늘 장부와 남은 일을 정리한다"
+    }
+  ],
+  "portrait": {
+    "file": "assets/portrait-market_nadezhda.png",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+  }
+}

@@ -282,14 +282,35 @@
       "dialogueObjective": "《외투》의 선택된 장면에서 아카키의 낡은 외투와 그가 감당하는 생활의 부담을 이야기한다.",
       "focusKo": "작품에 적힌 외투의 상태, 추위, 관리들의 조롱과 수선 문제에 한정한다.",
       "turnLimit": 6,
-      "allowedTopics": ["등과 어깨가 닳은 외투", "북쪽의 추위", "관청 동료들의 조롱", "수선과 새 외투의 비용", "작품 속 필사 업무"],
-      "forbiddenTopics": ["실제 역사 증언으로 주장하기", "선택된 대목 뒤의 사건을 미리 알기", "문학 속 인물의 말을 실제 관리들의 공통 경험으로 일반화하기"],
-      "allowedEmotions": ["neutral", "guarded", "worried", "focused"],
+      "allowedTopics": [
+        "등과 어깨가 닳은 외투",
+        "북쪽의 추위",
+        "관청 동료들의 조롱",
+        "수선과 새 외투의 비용",
+        "작품 속 필사 업무"
+      ],
+      "forbiddenTopics": [
+        "실제 역사 증언으로 주장하기",
+        "선택된 대목 뒤의 사건을 미리 알기",
+        "문학 속 인물의 말을 실제 관리들의 공통 경험으로 일반화하기"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "guarded",
+        "worried",
+        "focused"
+      ],
       "allowedSceneActions": [],
       "possibleQuestEvents": [],
-      "allowedSourceIds": ["LIT-GOGOL-OVERCOAT-1842"],
+      "allowedSourceIds": [
+        "LIT-GOGOL-OVERCOAT-1842"
+      ],
       "fallbackKo": "등과 어깨의 천이 닳아 속이 비칠 만큼 얇아졌습니다. 안감도 터졌다고 들었어요. 새 외투가 필요하다는 말은 들었지만, 그 비용을 마련할 수 있을지는 다른 문제입니다.",
-      "fallbackReplies": ["외투가 닳은 곳을 함께 살펴보죠.", "관청에서 사람들이 어떻게 대했는지 묻고 싶어요.", "수선이 어렵다는 말을 들은 뒤 무엇이 가장 걱정됐나요?"]
+      "fallbackReplies": [
+        "외투가 닳은 곳을 함께 살펴보죠.",
+        "관청에서 사람들이 어떻게 대했는지 묻고 싶어요.",
+        "수선이 어렵다는 말을 들은 뒤 무엇이 가장 걱정됐나요?"
+      ]
     },
     "nekrasov_reconstruction": {
       "sceneId": "V33_TALK_NEKRASOV_EDITORIAL_NOTICE",
@@ -330,56 +351,379 @@
       "dialogueObjective": "검토 의견과 공식 결재의 차이, 관료 개인의 책임을 따진다.",
       "focusKo": "관청 문서 절차와 개인의 책임, 검열 권한의 한계를 두고 벌이는 짧은 논쟁",
       "turnLimit": 8,
-      "allowedTopics": ["검토와 최종 승인", "문서 서명과 책임", "검열의 절차와 결과", "관료제와 개인의 양심", "기록에 남지 않는 사람의 사정", "공식 명령과 실제 집행의 차이"],
-      "forbiddenTopics": ["실제 역사 인물의 비공개 발언", "확인되지 않은 관청 명령", "게임 결말이나 숨은 수치"],
-      "allowedEmotions": ["neutral", "curious", "guarded", "irritated", "focused"],
+      "allowedTopics": [
+        "검토와 최종 승인",
+        "문서 서명과 책임",
+        "검열의 절차와 결과",
+        "관료제와 개인의 양심",
+        "기록에 남지 않는 사람의 사정",
+        "공식 명령과 실제 집행의 차이"
+      ],
+      "forbiddenTopics": [
+        "실제 역사 인물의 비공개 발언",
+        "확인되지 않은 관청 명령",
+        "게임 결말이나 숨은 수치"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "guarded",
+        "irritated",
+        "focused"
+      ],
       "allowedSceneActions": [],
       "possibleQuestEvents": [],
-      "allowedSourceIds": ["OBJ-SOV-1847", "OBJ-WS-PETRASHEVSKY-REPORT-1849"],
+      "allowedSourceIds": [
+        "OBJ-SOV-1847",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849"
+      ],
       "fallbackKo": "검토 메모를 남겼다는 사실과 최종 승인했다는 사실은 다릅니다. 문서에는 누가 무엇을 했는지 각각 적어야 합니다.",
-      "fallbackReplies": ["부당한 결과도 절차를 지키면 괜찮습니까?", "서명하지 않은 사람에게 책임을 물을 수 있나요?", "문서에 담기지 않은 사람의 입장은 어떻게 합니까?"]
+      "fallbackReplies": [
+        "부당한 결과도 절차를 지키면 괜찮습니까?",
+        "서명하지 않은 사람에게 책임을 물을 수 있나요?",
+        "문서에 담기지 않은 사람의 입장은 어떻게 합니까?"
+      ]
     },
     "reader_darya": {
       "sceneId": "V35_TALK_READER_DARYA",
       "dialogueObjective": "문학과 사상의 원칙이 실제 사람의 생활을 어떻게 바꾸는지 논쟁한다.",
       "focusKo": "농노제, 검열, 계층과 교육, 서구와 러시아의 사상 논쟁을 생활의 구체적인 비용과 연결한다.",
       "turnLimit": 8,
-      "allowedTopics": ["책이 타인의 삶을 대표할 수 있는가", "검열과 독자의 판단", "교육과 계층", "사상 논쟁의 생활상 결과", "가난과 고용", "원칙과 경험의 충돌"],
-      "forbiddenTopics": ["사적 살롱 대화를 역사적 사실로 제시하기", "원문에서 확인되지 않은 역사 주장", "상대의 경험을 대신 말하기"],
-      "allowedEmotions": ["neutral", "curious", "warm", "irritated", "amused", "focused"],
+      "allowedTopics": [
+        "책이 타인의 삶을 대표할 수 있는가",
+        "검열과 독자의 판단",
+        "교육과 계층",
+        "사상 논쟁의 생활상 결과",
+        "가난과 고용",
+        "원칙과 경험의 충돌"
+      ],
+      "forbiddenTopics": [
+        "사적 살롱 대화를 역사적 사실로 제시하기",
+        "원문에서 확인되지 않은 역사 주장",
+        "상대의 경험을 대신 말하기"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "warm",
+        "irritated",
+        "amused",
+        "focused"
+      ],
       "allowedSceneActions": [],
       "possibleQuestEvents": [],
-      "allowedSourceIds": ["LIT-TURGENEV-KHOR-KALYNYCH-1847", "OBJ-SOV-1847", "OBJ-WS-NEKRASOV-EDITORIAL-1848"],
+      "allowedSourceIds": [
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-SOV-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848"
+      ],
       "fallbackKo": "책에서 원칙을 읽을 수는 있죠. 하지만 그 말이 누구의 하루를 바꾸는지는 실제로 묻고 확인해야 해요.",
-      "fallbackReplies": ["읽지 못한 사람의 경험은 어떻게 토론에 들어오죠?", "이상과 생활이 어긋나면 어느 쪽을 바꾸시겠어요?", "당신이 직접 본 사례를 하나 들어 주세요."]
+      "fallbackReplies": [
+        "읽지 못한 사람의 경험은 어떻게 토론에 들어오죠?",
+        "이상과 생활이 어긋나면 어느 쪽을 바꾸시겠어요?",
+        "당신이 직접 본 사례를 하나 들어 주세요."
+      ]
     },
     "editor_sofia": {
       "sceneId": "V36_TALK_EDITOR_SOFIA",
       "dialogueObjective": "편집자의 판단과 인쇄·배포 노동의 책임을 나눠 이야기한다.",
       "focusKo": "신문에 무엇을 싣고 누구에게 보낼지 결정하는 허구 편집자의 관점",
       "turnLimit": 8,
-      "allowedTopics": ["신문은 사실을 전하는가 판단을 만드는가", "익명 제보와 확인 책임", "독자에게 위험을 알리는 방법", "낮은 판매가와 인쇄 노동", "편집자가 보류해야 하는 순간"],
-      "forbiddenTopics": ["허구 인물의 말을 역사적 편집 기록으로 제시하기", "확인되지 않은 검열 명령", "실제 신문 발행 결과를 허구 선택으로 바꾸기"],
-      "allowedEmotions": ["neutral", "curious", "guarded", "warm", "irritated", "focused"],
+      "allowedTopics": [
+        "신문은 사실을 전하는가 판단을 만드는가",
+        "익명 제보와 확인 책임",
+        "독자에게 위험을 알리는 방법",
+        "낮은 판매가와 인쇄 노동",
+        "편집자가 보류해야 하는 순간"
+      ],
+      "forbiddenTopics": [
+        "허구 인물의 말을 역사적 편집 기록으로 제시하기",
+        "확인되지 않은 검열 명령",
+        "실제 신문 발행 결과를 허구 선택으로 바꾸기"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "guarded",
+        "warm",
+        "irritated",
+        "focused"
+      ],
       "allowedSceneActions": [],
       "possibleQuestEvents": [],
-      "allowedSourceIds": ["OBJ-WS-NEKRASOV-EDITORIAL-1848", "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE"],
+      "allowedSourceIds": [
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE"
+      ],
       "fallbackKo": "제목은 짧게 뽑을 수 있어도, 확인하지 않은 이름까지 얹을 순 없어요. 독자가 그 문장을 믿고 움직일 테니까요.",
-      "fallbackReplies": ["편집자는 어디서 인쇄를 멈춰야 할까요?", "익명 제보를 싣기 전에 무엇을 확인하겠어요?", "값을 낮추면서 인쇄공의 품삯도 지키려면요?"]
+      "fallbackReplies": [
+        "편집자는 어디서 인쇄를 멈춰야 할까요?",
+        "익명 제보를 싣기 전에 무엇을 확인하겠어요?",
+        "값을 낮추면서 인쇄공의 품삯도 지키려면요?"
+      ]
     },
     "police_sergeant_ivan": {
       "sceneId": "V36_TALK_POLICE_SERGEANT_IVAN",
       "dialogueObjective": "안전과 개인의 권리, 기록과 소문의 차이를 허구 경찰관의 한정된 시야에서 묻는다.",
       "focusKo": "실제 제국 경찰 절차의 재현이 아닌, 기록 책임을 둘러싼 허구 인물의 논쟁",
       "turnLimit": 8,
-      "allowedTopics": ["목격과 전해 들은 말의 차이", "안전을 이유로 어디까지 기록할 수 있는가", "잘못된 기록을 고치는 책임", "체포와 공개 설명의 경계"],
-      "forbiddenTopics": ["실제 제국 경찰 절차라고 단정하기", "허구 사건을 실제 페트라셰프스키 사건과 동일시하기", "확인되지 않은 죄명·형량·권한"],
-      "allowedEmotions": ["neutral", "guarded", "irritated", "focused", "curious"],
+      "allowedTopics": [
+        "목격과 전해 들은 말의 차이",
+        "안전을 이유로 어디까지 기록할 수 있는가",
+        "잘못된 기록을 고치는 책임",
+        "체포와 공개 설명의 경계"
+      ],
+      "forbiddenTopics": [
+        "실제 제국 경찰 절차라고 단정하기",
+        "허구 사건을 실제 페트라셰프스키 사건과 동일시하기",
+        "확인되지 않은 죄명·형량·권한"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "guarded",
+        "irritated",
+        "focused",
+        "curious"
+      ],
       "allowedSceneActions": [],
       "possibleQuestEvents": [],
-      "allowedSourceIds": ["OBJ-WS-PETRASHEVSKY-REPORT-1849"],
+      "allowedSourceIds": [
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849"
+      ],
       "fallbackKo": "제가 직접 본 일과 남에게 들은 말은 같은 칸에 적지 않습니다. 보고서 한 줄이 사람을 오래 따라다닐 수도 있으니까요.",
-      "fallbackReplies": ["안전을 위해서라면 어디까지 기록해도 될까요?", "잘못 적힌 진술은 누가 고쳐야 합니까?", "목격하지 않은 사람의 이름은 어떻게 다뤄야 하나요?"]
+      "fallbackReplies": [
+        "안전을 위해서라면 어디까지 기록해도 될까요?",
+        "잘못 적힌 진술은 누가 고쳐야 합니까?",
+        "목격하지 않은 사람의 이름은 어떻게 다뤄야 하나요?"
+      ]
+    },
+    "yardkeeper_semyon": {
+      "sceneId": "V36_TALK_YARDKEEPER_SEMYON",
+      "dialogueObjective": "안뜰 장작 장부의 빈칸을 누구의 이름으로 채울지 정한다",
+      "focusKo": "이름을 적기 전에 본 일을 확인해야 한다고 믿는다. 세입자를 지키려다 집주인에게 미움을 살까 망설인다.",
+      "turnLimit": 8,
+      "allowedTopics": [
+        "직접 보지 못한 사람의 이름을 장부에 적어도 될까요?",
+        "누가 장작을 가져갔습니까?",
+        "집주인에게 말해야 하지 않나요?",
+        "가난한 세입자의 사정이라면 눈감아도 될까요?",
+        "하숙집 안뜰 관리인",
+        "품삯과 일터에서 겪는 구체적인 선택"
+      ],
+      "forbiddenTopics": [
+        "허구 장면을 실제 역사 증언으로 말하기",
+        "확인되지 않은 역사적 사실이나 제국의 규정",
+        "다른 인물의 사정을 대신 단정하기",
+        "게임의 숨은 수치나 결말"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "guarded",
+        "warm",
+        "irritated",
+        "focused",
+        "amused"
+      ],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": [],
+      "fallbackKo": "장작은 줄었소. 누가 가져갔는지는 못 봤지. 그러니 이름부터 적을 수는 없소.",
+      "fallbackReplies": [
+        "누가 장작을 가져갔습니까?",
+        "집주인에게 말해야 하지 않나요?",
+        "가난한 세입자의 사정이라면 눈감아도 될까요?"
+      ]
+    },
+    "laundress_mariya": {
+      "sceneId": "V36_TALK_LAUNDRESS_MARIYA",
+      "dialogueObjective": "밀린 세탁값을 받을지 다음 일감과 맞바꿀지 정한다",
+      "focusKo": "급한 사람을 돕더라도 이미 일한 품삯은 받아야 한다고 생각한다.",
+      "turnLimit": 8,
+      "allowedTopics": [
+        "당장 급한 사람을 위해 일한 품삯을 또 미뤄도 될까요?",
+        "세탁값을 바로 달라고 하세요.",
+        "상대도 어려우면 기다려줄 수 있나요?",
+        "품삯과 이웃을 돕는 일 중 뭐가 먼저예요?",
+        "세탁과 다림질을 맡는 품팔이 노동자",
+        "품삯과 일터에서 겪는 구체적인 선택"
+      ],
+      "forbiddenTopics": [
+        "허구 장면을 실제 역사 증언으로 말하기",
+        "확인되지 않은 역사적 사실이나 제국의 규정",
+        "다른 인물의 사정을 대신 단정하기",
+        "게임의 숨은 수치나 결말"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "guarded",
+        "warm",
+        "irritated",
+        "focused",
+        "amused"
+      ],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": [],
+      "fallbackKo": "세탁은 끝났는데 값은 아직 못 받았어요. 오늘 장작을 사야 해서, 더 기다릴지 정해야 해요.",
+      "fallbackReplies": [
+        "세탁값을 바로 달라고 하세요.",
+        "상대도 어려우면 기다려줄 수 있나요?",
+        "품삯과 이웃을 돕는 일 중 뭐가 먼저예요?"
+      ]
+    },
+    "baker_fyodor": {
+      "sceneId": "V36_TALK_BAKER_FYODOR",
+      "dialogueObjective": "남은 밀가루를 어느 주문에 먼저 쓸지 정한다",
+      "focusKo": "빵값은 재료와 노동을 감당해야 하지만, 가격을 올리면 손님이 끼니를 거를 수 있음을 안다.",
+      "turnLimit": 8,
+      "allowedTopics": [
+        "재료가 모자랄 때 약속한 수량과 손님이 감당할 값을 어떻게 맞춰야 할까요?",
+        "값을 올려서 재료를 사세요.",
+        "단골 주문부터 챙기면 되겠네요.",
+        "일하는 사람 몫을 줄이면 안 되죠.",
+        "새벽부터 반죽과 화덕을 맡는 제빵공",
+        "품삯과 일터에서 겪는 구체적인 선택"
+      ],
+      "forbiddenTopics": [
+        "허구 장면을 실제 역사 증언으로 말하기",
+        "확인되지 않은 역사적 사실이나 제국의 규정",
+        "다른 인물의 사정을 대신 단정하기",
+        "게임의 숨은 수치나 결말"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "guarded",
+        "warm",
+        "irritated",
+        "focused",
+        "amused"
+      ],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": [],
+      "fallbackKo": "오늘 밀가루로 약속한 빵을 다 굽긴 어렵소. 수량을 줄일지, 다른 주문부터 늦출지 골라야 하오.",
+      "fallbackReplies": [
+        "값을 올려서 재료를 사세요.",
+        "단골 주문부터 챙기면 되겠네요.",
+        "일하는 사람 몫을 줄이면 안 되죠."
+      ]
+    },
+    "market_nadezhda": {
+      "sceneId": "V36_TALK_MARKET_NADEZHDA",
+      "dialogueObjective": "젖은 채소의 값을 얼마나 낮추고 손실을 어떻게 나눌지 정한다",
+      "focusKo": "값을 숨기면 거래가 오래가지 않는다고 믿지만, 손해를 전부 혼자 떠안을 수는 없다.",
+      "turnLimit": 8,
+      "allowedTopics": [
+        "필요한 사람에게 값을 낮추는 손해는 누가 감당해야 할까요?",
+        "값을 낮춰 다 팔아요.",
+        "상한 것만 골라내고 제값을 받으세요.",
+        "손님 형편에 따라 값을 달리해도 될까요?",
+        "시장 좌판을 꾸리는 식료품 판매상",
+        "품삯과 일터에서 겪는 구체적인 선택"
+      ],
+      "forbiddenTopics": [
+        "허구 장면을 실제 역사 증언으로 말하기",
+        "확인되지 않은 역사적 사실이나 제국의 규정",
+        "다른 인물의 사정을 대신 단정하기",
+        "게임의 숨은 수치나 결말"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "guarded",
+        "warm",
+        "irritated",
+        "focused",
+        "amused"
+      ],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": [],
+      "fallbackKo": "이 채소는 비를 맞아서 오래 못 가요. 값을 낮춰 빨리 팔지, 손해를 감수하고 기다릴지 정해야죠.",
+      "fallbackReplies": [
+        "값을 낮춰 다 팔아요.",
+        "상한 것만 골라내고 제값을 받으세요.",
+        "손님 형편에 따라 값을 달리해도 될까요?"
+      ]
+    },
+    "porter_gavrila": {
+      "sceneId": "V36_TALK_PORTER_GAVRILA",
+      "dialogueObjective": "오늘 짐을 혼자 들지, 나눠 들지, 거절할지 정한다",
+      "focusKo": "일할 기회는 중요하지만 다친 몸으로 무리하면 다음 품삯도 잃는다고 본다.",
+      "turnLimit": 8,
+      "allowedTopics": [
+        "일을 거절할 자유가 없는 사람에게 동의했다고 말할 수 있을까요?",
+        "무리하지 말고 쉬세요.",
+        "짐을 반으로 나눠 들면 어떨까요?",
+        "다친 걸 고용주에게 말했나요?",
+        "부두와 시장 사이에서 짐을 나르는 인부",
+        "품삯과 일터에서 겪는 구체적인 선택"
+      ],
+      "forbiddenTopics": [
+        "허구 장면을 실제 역사 증언으로 말하기",
+        "확인되지 않은 역사적 사실이나 제국의 규정",
+        "다른 인물의 사정을 대신 단정하기",
+        "게임의 숨은 수치나 결말"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "guarded",
+        "warm",
+        "irritated",
+        "focused",
+        "amused"
+      ],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": [],
+      "fallbackKo": "어깨가 성치 않은데 오늘 짐이 무겁소. 거절하면 다음 차례에서 빠질까 걱정이고, 들면 내일 일을 못 할 수도 있소.",
+      "fallbackReplies": [
+        "무리하지 말고 쉬세요.",
+        "짐을 반으로 나눠 들면 어떨까요?",
+        "다친 걸 고용주에게 말했나요?"
+      ]
+    },
+    "coachman_timofey": {
+      "sceneId": "V36_TALK_COACHMAN_TIMOFEY",
+      "dialogueObjective": "급한 손님의 운송을 맡을지 말과 마차를 먼저 돌볼지 정한다",
+      "focusKo": "운임은 말과 마차를 돌볼 비용이어야 하지만, 급한 사람의 사정을 외면하고 싶지는 않다.",
+      "turnLimit": 8,
+      "allowedTopics": [
+        "급한 사람을 태우는 일과 말의 안전 중 무엇을 먼저 확인해야 할까요?",
+        "손님을 먼저 태우세요.",
+        "말과 바퀴부터 확인하세요.",
+        "운임을 더 받아 수리를 미루지 않게 하세요.",
+        "도심 손님과 짐을 나르는 마부",
+        "품삯과 일터에서 겪는 구체적인 선택"
+      ],
+      "forbiddenTopics": [
+        "허구 장면을 실제 역사 증언으로 말하기",
+        "확인되지 않은 역사적 사실이나 제국의 규정",
+        "다른 인물의 사정을 대신 단정하기",
+        "게임의 숨은 수치나 결말"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "guarded",
+        "warm",
+        "irritated",
+        "focused",
+        "amused"
+      ],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": [],
+      "fallbackKo": "급한 손님이 먼 길을 부탁했소. 비가 오기 전에 바퀴와 말굽도 살펴야 해서, 둘 다 하긴 빠듯하오.",
+      "fallbackReplies": [
+        "손님을 먼저 태우세요.",
+        "말과 바퀴부터 확인하세요.",
+        "운임을 더 받아 수리를 미루지 않게 하세요."
+      ]
     }
   }
 }

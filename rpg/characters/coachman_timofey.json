@@ -1,0 +1,181 @@
+{
+  "id": "coachman_timofey",
+  "kind": "FICTIONAL",
+  "displayNameKo": "티모페이",
+  "displayNameRu": "Тимофей Смирнов",
+  "ageAtDate": {
+    "value": 45,
+    "status": "fictional_character_design"
+  },
+  "socialEstate": "urban_laborer",
+  "occupation": "도심 손님과 짐을 나르는 마부",
+  "rank": {
+    "value": null,
+    "ru": null,
+    "status": "not_applicable"
+  },
+  "legalMobility": "시장과 공개 거리, 안뜰 통로만 이용하는 허구 인물; 고용·가격·관청 결정 권한은 맡지 않는다.",
+  "wealthBracket": "modest",
+  "money": {
+    "amount": 28,
+    "unit": "kopeks",
+    "status": "designedEstimate"
+  },
+  "literacy": "자기 일과 관련된 표식·계산표를 읽는다. 문해력 범위는 허구 인물 설정이다.",
+  "health": "working",
+  "reputationByGroup": {
+    "neighbors": "known_by_daily_work"
+  },
+  "risk": "일감을 잃거나 이웃의 신뢰를 잃을 가능성을 함께 계산한다.",
+  "relations": {},
+  "secretKnowledge": [
+    {
+      "id": "COACHMAN_TIMOFEY_PRIVATE_NOTE",
+      "summaryKo": "오늘 비가 더 오기 전에 말굽과 바퀴를 손봐야 한다."
+    }
+  ],
+  "knownEvidence": [],
+  "privateKnowledgeIds": [
+    "COACHMAN_TIMOFEY_PRIVATE_NOTE"
+  ],
+  "knownEvidenceIds": [],
+  "desires": "급한 손님의 운송을 맡을지 말과 마차를 먼저 돌볼지 정한다",
+  "fears": "비가 오기 전에 먼 길 운송을 맡으면 손님을 도울 수 있지만 말과 마차가 상할 수 있다.",
+  "taboos": [
+    "확인하지 않은 사람의 사정을 대신 단정하지 않는다."
+  ],
+  "speechRhythm": "거리와 날씨, 말을 돌볼 시간을 먼저 본다. 손님에게는 공손하지만 서두르면 말이 짧아진다.",
+  "speechRegister": {
+    "firstMeeting": "낯선 사람에게 용건과 일터 규칙부터 짧게 말한다.",
+    "colleague": "같은 일터 사람에게는 빠른 반말과 구체적인 작업 어휘를 쓴다.",
+    "private": "사적인 자리에서는 손해와 걱정을 더 솔직히 말한다.",
+    "conflict": "목격한 일과 소문을 구분하고, 상대에게 선택의 비용을 되묻는다.",
+    "intimacy": "가까운 사람과는 말끝이 풀리고 짧은 농담을 섞는다.",
+    "formal": "고용주·거래처에는 정중하지만 수량과 약속을 분명히 한다."
+  },
+  "voiceSamples": [
+    "말 뒤로는 돌지 마시오. 오늘은 비가 올 것 같소. 어디까지 가려 하오?",
+    "급한 손님이 먼 길을 부탁했소. 비가 오기 전에 바퀴와 말굽도 살펴야 해서, 둘 다 하긴 빠듯하오.",
+    "운임에 이유가 있어야지. 비와 길 상태를 먼저 말하고 손님이 고르게 해야 하오. 급하다고 모르는 값을 얹을 순 없소."
+  ],
+  "worldview": {
+    "status": "fictional_character_design",
+    "stanceKo": "운임은 말과 마차를 돌볼 비용이어야 하지만, 급한 사람의 사정을 외면하고 싶지는 않다.",
+    "tensionKo": "비가 오기 전에 먼 길 운송을 맡으면 손님을 도울 수 있지만 말과 마차가 상할 수 있다.",
+    "blindSpotKo": "당장의 품삯과 이웃 관계에 집중해 다른 사람의 사정을 놓칠 수 있다.",
+    "designBasisKo": "시드 CSV에서 출발한 완전한 허구 인물 설정이며 실제 개인·발언·주소의 기록이 아니다.",
+    "sceneAnchorIds": [
+      "COACH_FARE_1847"
+    ]
+  },
+  "topicStances": {
+    "serfdom": {
+      "knowledgeKind": "no_documented_stance",
+      "positionKo": "농촌 제도를 직접 알지 못한다. 자기 일터에서 본 대우만 말한다."
+    },
+    "censorship": {
+      "knowledgeKind": "street_limited",
+      "positionKo": "검열 절차를 알지 못한다. 장터와 일터에서 실제로 오간 말과 비용만 말한다."
+    },
+    "literature": {
+      "knowledgeKind": "reader_limited",
+      "positionKo": "작가의 뜻을 대신 판단하지 않는다. 글을 읽었는지, 누구와 이야기했는지 구분한다."
+    },
+    "poverty_and_class": {
+      "knowledgeKind": "fictional_lived_experience",
+      "positionKo": "운임은 말과 마차를 돌볼 비용이어야 하지만, 급한 사람의 사정을 외면하고 싶지는 않다."
+    },
+    "slavophilism_and_westernism": {
+      "knowledgeKind": "unfamiliar_terms",
+      "positionKo": "진영을 대변하지 않는다. 논쟁이 자신의 일과 이웃에게 어떤 비용을 만드는지 묻는다."
+    }
+  },
+  "lexicon": [
+    "고삐",
+    "말굽",
+    "운임"
+  ],
+  "emotions": [
+    "경계",
+    "걱정",
+    "마른 농담"
+  ],
+  "personalObjective": "급한 손님의 운송을 맡을지 말과 마차를 먼저 돌볼지 정한다",
+  "objectiveByChapter": {
+    "1847": "급한 손님의 운송을 맡을지 말과 마차를 먼저 돌볼지 정한다"
+  },
+  "allowedMaps": [
+    "market-quay",
+    "nevsky",
+    "courtyard"
+  ],
+  "start": {
+    "mapId": "market-quay",
+    "x": 25,
+    "y": 13
+  },
+  "wealthBracketStatus": "designedEstimate",
+  "inventory": [
+    "마차 고삐",
+    "말 먹이 주머니"
+  ],
+  "sourceIds": [],
+  "canonConstraint": "fictional citizen; never treated as an attested historical individual or witness",
+  "reconstructionDisclaimer": "시민과 일상 갈등은 게임을 위해 만든 허구 설정이다.",
+  "sprite": {
+    "file": "assets/coachman_timofey.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "cap",
+    "palette": {
+      "cloth": "#394a55",
+      "trim": "#c39a5c",
+      "headwear": "#514233"
+    }
+  },
+  "speechStatus": "FICTIONAL_DESIGN",
+  "schedule": [
+    {
+      "atMinute": 480,
+      "mapId": "market-quay",
+      "position": {
+        "x": 25,
+        "y": 13
+      },
+      "activityKo": "비 예보 전 운임과 마차 점검을 적은 표를 살펴본다"
+    },
+    {
+      "atMinute": 660,
+      "mapId": "nevsky",
+      "position": {
+        "x": 24,
+        "y": 12
+      },
+      "activityKo": "네프스키 쪽 거래와 일감을 확인한다"
+    },
+    {
+      "atMinute": 780,
+      "mapId": "market-quay",
+      "position": {
+        "x": 26,
+        "y": 14
+      },
+      "activityKo": "비 예보 전 운임과 마차 점검을 적은 표를 살펴본다"
+    },
+    {
+      "atMinute": 1020,
+      "mapId": "market-quay",
+      "position": {
+        "x": 25,
+        "y": 12
+      },
+      "activityKo": "오늘 장부와 남은 일을 정리한다"
+    }
+  ],
+  "portrait": {
+    "file": "assets/portrait-coachman_timofey.png",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+  }
+}

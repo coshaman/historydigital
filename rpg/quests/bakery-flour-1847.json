@@ -1,0 +1,74 @@
+{
+  "id": "BAKERY_FLOUR_1847",
+  "titleKo": "모자란 밀가루",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "오늘 들어온 밀가루가 약속한 빵 수량보다 적다. 제빵공 표도르는 누구의 주문과 어떤 비용을 먼저 감당할지 정한다.",
+  "historicalOutcome": {
+    "id": "BAKERY_FLOUR_1847_FICTIONAL_OUTCOME",
+    "value": "fictional household and work choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "market-quay",
+    "objectId": 112,
+    "requiredHostId": "baker_fyodor"
+  },
+  "actions": [
+    {
+      "id": "BAKER_FYODOR_CHOICE_1",
+      "hostIds": [
+        "baker_fyodor"
+      ],
+      "labelKo": "주문 수량을 줄이고 같은 값을 받는다",
+      "subcopyKo": "빵집 장부를 보는 사람에게 알려집니다 · 주문 장부에 남습니다 · 손님이 다른 가게로 갈 위험이 있습니다",
+      "resultKo": "주문 수량을 줄였다. 재료는 아꼈지만 약속한 빵을 기다리던 손님은 덜 받게 된다.",
+      "resultFlag": "fyodorReduced",
+      "followupTitleKo": "모자란 밀가루",
+      "followupKo": "이 선택은 이 허구 인물의 오늘과 이웃과의 관계에만 남는다.",
+      "effects": {
+        "situationKo": "밀가루에 맞춰 빵 수량을 줄였다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 직접 확인했다"
+        }
+      }
+    },
+    {
+      "id": "BAKER_FYODOR_CHOICE_2",
+      "hostIds": [
+        "baker_fyodor"
+      ],
+      "labelKo": "값을 조금 올려 재료를 더 산다",
+      "subcopyKo": "빵을 사는 손님에게 보입니다 · 가격표와 장부에 남습니다 · 값이 부담돼 손님이 줄 수 있습니다",
+      "resultKo": "값을 올려 밀가루를 더 사기로 했다. 주문은 지킬 수 있지만, 손님이 새 값을 감당할지는 모른다.",
+      "resultFlag": "fyodorRaised",
+      "followupTitleKo": "모자란 밀가루",
+      "followupKo": "이 선택은 이 허구 인물의 오늘과 이웃과의 관계에만 남는다.",
+      "effects": {
+        "situationKo": "밀가루를 더 사기 위해 빵값을 올렸다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 직접 확인했다"
+        }
+      }
+    },
+    {
+      "id": "BAKER_FYODOR_CHOICE_3",
+      "hostIds": [
+        "baker_fyodor"
+      ],
+      "labelKo": "먼저 온 주문부터 굽고 남은 주문은 알린다",
+      "subcopyKo": "주문한 손님과 제빵공이 압니다 · 작업 메모에 남습니다 · 늦은 주문이 취소될 수 있습니다",
+      "resultKo": "먼저 받은 주문부터 굽고 나머지 손님에게 지연을 알리기로 했다. 기준은 분명해졌지만 모두가 만족하진 않을 것이다.",
+      "resultFlag": "fyodorQueued",
+      "followupTitleKo": "모자란 밀가루",
+      "followupKo": "이 선택은 이 허구 인물의 오늘과 이웃과의 관계에만 남는다.",
+      "effects": {
+        "situationKo": "주문을 받은 순서대로 굽고 지연을 알리기로 했다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 직접 확인했다"
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named market work object"
+}

@@ -14,7 +14,7 @@ const goExit = async (page, destination) => {
   await page.keyboard.press('e');
   const exitChoice = page.locator('#actions button').filter({ hasText: `문을 지나 ${destination}로` });
   if (await exitChoice.count()) await exitChoice.first().click();
-  await page.waitForFunction(expected => document.querySelector('#place').textContent === expected, destination);
+  await page.waitForFunction(expected => document.querySelector('#mapname')?.textContent === expected, destination);
 };
 
 for (const viewport of (quickMode ? [{ width: 1440, height: 900 }] : [{ width: 1440, height: 900 }, { width: 1366, height: 768 }, { width: 1111, height: 720 }, { width: 390, height: 844 }, { width: 360, height: 800 }])) {

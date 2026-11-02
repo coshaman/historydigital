@@ -1,0 +1,190 @@
+{
+  "id": "laundress_mariya",
+  "kind": "FICTIONAL",
+  "displayNameKo": "마리야",
+  "displayNameRu": "Мария Фёдорова",
+  "ageAtDate": {
+    "value": 36,
+    "status": "fictional_character_design"
+  },
+  "socialEstate": "urban_laborer",
+  "occupation": "세탁과 다림질을 맡는 품팔이 노동자",
+  "rank": {
+    "value": null,
+    "ru": null,
+    "status": "not_applicable"
+  },
+  "legalMobility": "시장과 공개 거리, 안뜰 통로만 이용하는 허구 인물; 고용·가격·관청 결정 권한은 맡지 않는다.",
+  "wealthBracket": "precarious",
+  "money": {
+    "amount": 14,
+    "unit": "kopeks",
+    "status": "designedEstimate"
+  },
+  "literacy": "자기 일과 관련된 표식·계산표를 읽는다. 문해력 범위는 허구 인물 설정이다.",
+  "health": "working",
+  "reputationByGroup": {
+    "neighbors": "known_by_daily_work"
+  },
+  "risk": "일감을 잃거나 이웃의 신뢰를 잃을 가능성을 함께 계산한다.",
+  "relations": {},
+  "secretKnowledge": [
+    {
+      "id": "LAUNDRESS_MARIYA_PRIVATE_NOTE",
+      "summaryKo": "두 차례 세탁값을 받지 못해 이번 주 장작값이 부족하다."
+    }
+  ],
+  "knownEvidence": [],
+  "privateKnowledgeIds": [
+    "LAUNDRESS_MARIYA_PRIVATE_NOTE"
+  ],
+  "knownEvidenceIds": [],
+  "desires": "밀린 세탁값을 받을지 다음 일감과 맞바꿀지 정한다",
+  "fears": "세탁값을 받으러 가면 단골 집과 관계가 나빠질 수 있고, 미루면 자기 집 연료를 살 돈이 모자란다.",
+  "taboos": [
+    "확인하지 않은 사람의 사정을 대신 단정하지 않는다."
+  ],
+  "speechRhythm": "빨래감과 품삯, 남은 시간을 셈하며 말한다. 부탁은 조심스럽고 계산은 정확하다.",
+  "speechRegister": {
+    "firstMeeting": "낯선 사람에게 용건과 일터 규칙부터 짧게 말한다.",
+    "colleague": "같은 일터 사람에게는 빠른 반말과 구체적인 작업 어휘를 쓴다.",
+    "private": "사적인 자리에서는 손해와 걱정을 더 솔직히 말한다.",
+    "conflict": "목격한 일과 소문을 구분하고, 상대에게 선택의 비용을 되묻는다.",
+    "intimacy": "가까운 사람과는 말끝이 풀리고 짧은 농담을 섞는다.",
+    "formal": "고용주·거래처에는 정중하지만 수량과 약속을 분명히 한다."
+  },
+  "voiceSamples": [
+    "린넨은 저쪽 바구니에 두세요. 젖은 채로 오래 있으면 냄새가 배요. 무슨 일이지요?",
+    "세탁은 끝났는데 값은 아직 못 받았어요. 오늘 장작을 사야 해서, 더 기다릴지 정해야 해요.",
+    "이미 한 일의 값은 받아야 해요. 그래도 사정이 급한 사람을 모른 척하긴 어렵죠. 내가 미룰 수 있는 만큼과 계속 손해 보는 건 구분해야 해요."
+  ],
+  "worldview": {
+    "status": "fictional_character_design",
+    "stanceKo": "급한 사람을 돕더라도 이미 일한 품삯은 받아야 한다고 생각한다.",
+    "tensionKo": "세탁값을 받으러 가면 단골 집과 관계가 나빠질 수 있고, 미루면 자기 집 연료를 살 돈이 모자란다.",
+    "blindSpotKo": "당장의 품삯과 이웃 관계에 집중해 다른 사람의 사정을 놓칠 수 있다.",
+    "designBasisKo": "시드 CSV에서 출발한 완전한 허구 인물 설정이며 실제 개인·발언·주소의 기록이 아니다.",
+    "sceneAnchorIds": [
+      "LAUNDRY_WAGES_1847"
+    ]
+  },
+  "topicStances": {
+    "serfdom": {
+      "knowledgeKind": "no_documented_stance",
+      "positionKo": "농촌 제도를 직접 알지 못한다. 자기 일터에서 본 대우만 말한다."
+    },
+    "censorship": {
+      "knowledgeKind": "street_limited",
+      "positionKo": "검열 절차를 알지 못한다. 장터와 일터에서 실제로 오간 말과 비용만 말한다."
+    },
+    "literature": {
+      "knowledgeKind": "reader_limited",
+      "positionKo": "작가의 뜻을 대신 판단하지 않는다. 글을 읽었는지, 누구와 이야기했는지 구분한다."
+    },
+    "poverty_and_class": {
+      "knowledgeKind": "fictional_lived_experience",
+      "positionKo": "급한 사람을 돕더라도 이미 일한 품삯은 받아야 한다고 생각한다."
+    },
+    "slavophilism_and_westernism": {
+      "knowledgeKind": "unfamiliar_terms",
+      "positionKo": "진영을 대변하지 않는다. 논쟁이 자신의 일과 이웃에게 어떤 비용을 만드는지 묻는다."
+    }
+  },
+  "lexicon": [
+    "린넨",
+    "품삯",
+    "장작"
+  ],
+  "emotions": [
+    "경계",
+    "걱정",
+    "마른 농담"
+  ],
+  "personalObjective": "밀린 세탁값을 받을지 다음 일감과 맞바꿀지 정한다",
+  "objectiveByChapter": {
+    "1847": "밀린 세탁값을 받을지 다음 일감과 맞바꿀지 정한다"
+  },
+  "allowedMaps": [
+    "market-quay",
+    "nevsky",
+    "courtyard"
+  ],
+  "start": {
+    "mapId": "market-quay",
+    "x": 10,
+    "y": 12
+  },
+  "wealthBracketStatus": "designedEstimate",
+  "inventory": [
+    "접은 린넨",
+    "세탁 비누"
+  ],
+  "sourceIds": [],
+  "canonConstraint": "fictional citizen; never treated as an attested historical individual or witness",
+  "reconstructionDisclaimer": "시민과 일상 갈등은 게임을 위해 만든 허구 설정이다.",
+  "sprite": {
+    "file": "assets/laundress_mariya.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "scarf",
+    "palette": {
+      "cloth": "#56625a",
+      "trim": "#c2a16a",
+      "headwear": "#554338"
+    }
+  },
+  "speechStatus": "FICTIONAL_DESIGN",
+  "schedule": [
+    {
+      "atMinute": 420,
+      "mapId": "courtyard",
+      "position": {
+        "x": 10,
+        "y": 12
+      },
+      "activityKo": "린넨을 물에 담그고 비누를 아껴 쓴다"
+    },
+    {
+      "atMinute": 540,
+      "mapId": "market-quay",
+      "position": {
+        "x": 10,
+        "y": 12
+      },
+      "activityKo": "손님에게 세탁값을 확인한다"
+    },
+    {
+      "atMinute": 660,
+      "mapId": "nevsky",
+      "position": {
+        "x": 12,
+        "y": 12
+      },
+      "activityKo": "세탁한 옷을 거래처에 건넨다"
+    },
+    {
+      "atMinute": 780,
+      "mapId": "market-quay",
+      "position": {
+        "x": 10,
+        "y": 12
+      },
+      "activityKo": "받은 돈과 밀린 값을 계산한다"
+    },
+    {
+      "atMinute": 1020,
+      "mapId": "courtyard",
+      "position": {
+        "x": 10,
+        "y": 12
+      },
+      "activityKo": "다음 날 세탁물을 정리한다"
+    }
+  ],
+  "portrait": {
+    "file": "assets/portrait-laundress_mariya.png",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+  }
+}

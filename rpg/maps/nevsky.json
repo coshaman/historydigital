@@ -29,7 +29,7 @@
   "tileheight": 16,
   "infinite": false,
   "nextlayerid": 7,
-  "nextobjectid": 17,
+  "nextobjectid": 21,
   "properties": [
     {
       "name": "mapId",
@@ -2760,7 +2760,13 @@
           "width": 16,
           "height": 16,
           "visible": true,
-          "properties": [{ "name": "serviceId", "type": "string", "value": "bookseller-counter" }]
+          "properties": [
+            {
+              "name": "serviceId",
+              "type": "string",
+              "value": "bookseller-counter"
+            }
+          ]
         },
         {
           "id": 8,
@@ -2771,7 +2777,13 @@
           "width": 16,
           "height": 16,
           "visible": true,
-          "properties": [{ "name": "serviceId", "type": "string", "value": "newsstand" }]
+          "properties": [
+            {
+              "name": "serviceId",
+              "type": "string",
+              "value": "newsstand"
+            }
+          ]
         },
         {
           "id": 9,
@@ -2783,12 +2795,78 @@
           "height": 16,
           "visible": true,
           "properties": [
-            { "name": "exitId", "type": "string", "value": "nevsky-police-door" },
-            { "name": "targetMapId", "type": "string", "value": "police-station" },
-            { "name": "arrivalX", "type": "int", "value": 4 },
-            { "name": "arrivalY", "type": "int", "value": 6 },
-            { "name": "returnExitId", "type": "string", "value": "police-station-nevsky-door" },
-            { "name": "publicAccess", "type": "string", "value": true }
+            {
+              "name": "exitId",
+              "type": "string",
+              "value": "nevsky-police-door"
+            },
+            {
+              "name": "targetMapId",
+              "type": "string",
+              "value": "police-station"
+            },
+            {
+              "name": "arrivalX",
+              "type": "int",
+              "value": 4
+            },
+            {
+              "name": "arrivalY",
+              "type": "int",
+              "value": 6
+            },
+            {
+              "name": "returnExitId",
+              "type": "string",
+              "value": "police-station-nevsky-door"
+            },
+            {
+              "name": "publicAccess",
+              "type": "string",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": 20,
+          "name": "강변 장터 입구",
+          "type": "map-exit",
+          "x": 448,
+          "y": 160,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "exitId",
+              "type": "string",
+              "value": "nevsky-market-gate"
+            },
+            {
+              "name": "targetMapId",
+              "type": "string",
+              "value": "market-quay"
+            },
+            {
+              "name": "arrivalX",
+              "type": "int",
+              "value": 2
+            },
+            {
+              "name": "arrivalY",
+              "type": "int",
+              "value": 10
+            },
+            {
+              "name": "returnExitId",
+              "type": "string",
+              "value": "market-nevsky-gate"
+            },
+            {
+              "name": "publicAccess",
+              "type": "string",
+              "value": true
+            }
           ]
         }
       ]
@@ -2911,7 +2989,113 @@
           "height": 16,
           "visible": true,
           "properties": [
-            { "name": "hostId", "type": "string", "value": "reader_darya" }
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "reader_darya"
+            }
+          ]
+        },
+        {
+          "id": "yardkeeper_semyon",
+          "name": "세묜",
+          "type": "npc",
+          "x": 112,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "yardkeeper_semyon"
+            }
+          ]
+        },
+        {
+          "id": "laundress_mariya",
+          "name": "마리야",
+          "type": "npc",
+          "x": 160,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "laundress_mariya"
+            }
+          ]
+        },
+        {
+          "id": "baker_fyodor",
+          "name": "표도르",
+          "type": "npc",
+          "x": 352,
+          "y": 240,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "baker_fyodor"
+            }
+          ]
+        },
+        {
+          "id": "market_nadezhda",
+          "name": "나데즈다",
+          "type": "npc",
+          "x": 352,
+          "y": 240,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "market_nadezhda"
+            }
+          ]
+        },
+        {
+          "id": "porter_gavrila",
+          "name": "가브릴라",
+          "type": "npc",
+          "x": 352,
+          "y": 240,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "porter_gavrila"
+            }
+          ]
+        },
+        {
+          "id": "coachman_timofey",
+          "name": "티모페이",
+          "type": "npc",
+          "x": 352,
+          "y": 240,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "coachman_timofey"
+            }
           ]
         }
       ]

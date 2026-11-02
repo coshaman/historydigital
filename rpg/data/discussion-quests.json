@@ -10,10 +10,16 @@
       "stakesKo": "절차를 지켰다는 사실과 부당한 결과에 책임지는 일을 따로 살핍니다.",
       "reflectionPromptKo": "알렉세이와 콘스탄틴에게 같은 책임 문제를 물었어요. 절차를 지키는 일과 부당한 결과를 막는 일 중 무엇을 먼저 따져야 할까요?",
       "topicId": "bureaucratic_responsibility",
-      "sourceIds": ["OBJ-SOV-1847"],
+      "sourceIds": [
+        "OBJ-SOV-1847"
+      ],
       "hosts": {
-        "senior_clerk_konstantin": { "promptKo": "명령이 절차에 맞더라도 결과가 부당하다면, 문서 담당자는 어디까지 책임져야 할까요?" },
-        "clerk_alexei": { "promptKo": "결재선이 분명하면 책임도 공정하게 나뉜다고 보십니까?" }
+        "senior_clerk_konstantin": {
+          "promptKo": "명령이 절차에 맞더라도 결과가 부당하다면, 문서 담당자는 어디까지 책임져야 할까요?"
+        },
+        "clerk_alexei": {
+          "promptKo": "결재선이 분명하면 책임도 공정하게 나뉜다고 보십니까?"
+        }
       }
     },
     {
@@ -24,11 +30,20 @@
       "stakesKo": "보편 원칙의 말과 품삯·방세·교육 같은 생활 조건을 맞대어 봅니다.",
       "reflectionPromptKo": "안나와 다리야는 책의 원칙을 서로 다른 생활에서 바라봤어요. 누가 그 원칙의 비용을 치르는지 묻는다면 결론도 달라질까요?",
       "topicId": "ideas_and_lived_experience",
-      "sourceIds": ["LIT-TURGENEV-KHOR-KALYNYCH-1847", "OBJ-SOV-1847"],
+      "sourceIds": [
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-SOV-1847"
+      ],
       "hosts": {
-        "reader_darya": { "promptKo": "책에서 배운 원칙이 누군가의 삶과 어긋나면, 원칙을 바꿔야 할까요 아니면 현실을 바꿔야 할까요?" },
-        "seamstress_anna": { "promptKo": "책에서 말하는 정의가 오늘 일한 사람의 품삯까지 바꾸지 못한다면, 그 생각은 무슨 쓸모가 있을까요?" },
-        "bookseller_lev": { "promptKo": "좋은 생각을 담은 책이 비싸서 못 읽힌다면, 그 생각은 누구의 것이오?" }
+        "reader_darya": {
+          "promptKo": "책에서 배운 원칙이 누군가의 삶과 어긋나면, 원칙을 바꿔야 할까요 아니면 현실을 바꿔야 할까요?"
+        },
+        "seamstress_anna": {
+          "promptKo": "책에서 말하는 정의가 오늘 일한 사람의 품삯까지 바꾸지 못한다면, 그 생각은 무슨 쓸모가 있을까요?"
+        },
+        "bookseller_lev": {
+          "promptKo": "좋은 생각을 담은 책이 비싸서 못 읽힌다면, 그 생각은 누구의 것이오?"
+        }
       }
     },
     {
@@ -39,10 +54,16 @@
       "stakesKo": "작품이 농촌을 보여주는 일과 당사자의 목소리를 대신하는 일을 구분합니다.",
       "reflectionPromptKo": "작품이 농촌을 그리는 일과 농촌 사람의 목소리를 대신하는 일은 어디서 갈라질까요?",
       "topicId": "serfdom",
-      "sourceIds": ["LIT-TURGENEV-KHOR-KALYNYCH-1847"],
+      "sourceIds": [
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847"
+      ],
       "hosts": {
-        "seamstress_anna": { "promptKo": "소설이 농노의 삶을 그릴 때, 그 사람들 대신 말한다고 여겨도 될까요?" },
-        "printer_ekaterina": { "promptKo": "이 문장이 농노의 삶을 보여준다면, 작가와 인쇄 노동자는 각각 어디까지 책임져야 할까요?" }
+        "seamstress_anna": {
+          "promptKo": "소설이 농노의 삶을 그릴 때, 그 사람들 대신 말한다고 여겨도 될까요?"
+        },
+        "printer_ekaterina": {
+          "promptKo": "이 문장이 농노의 삶을 보여준다면, 작가와 인쇄 노동자는 각각 어디까지 책임져야 할까요?"
+        }
       }
     },
     {
@@ -53,10 +74,17 @@
       "stakesKo": "교정쇄의 수정, 인쇄 노동, 검토와 결재의 책임을 나눠 봅니다.",
       "reflectionPromptKo": "글자를 고친 사람과 결재한 사람이 다르다면 결과에 대한 책임은 어떻게 나뉘어야 할까요?",
       "topicId": "censorship",
-      "sourceIds": ["OBJ-SOV-1847", "LIT-TURGENEV-KHOR-KALYNYCH-1847"],
+      "sourceIds": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847"
+      ],
       "hosts": {
-        "printer_ekaterina": { "promptKo": "검열 뒤에 돌아온 교정쇄라면, 작업자는 고친 글자만 책임지면 될까요?" },
-        "clerk_alexei": { "promptKo": "문서에 적힌 주장과 확인한 사실을 나누는 일은 누구의 책임이라고 보세요?" }
+        "printer_ekaterina": {
+          "promptKo": "검열 뒤에 돌아온 교정쇄라면, 작업자는 고친 글자만 책임지면 될까요?"
+        },
+        "clerk_alexei": {
+          "promptKo": "문서에 적힌 주장과 확인한 사실을 나누는 일은 누구의 책임이라고 보세요?"
+        }
       }
     },
     {
@@ -67,12 +95,23 @@
       "stakesKo": "남은 문장만으로 작가의 뜻을 단정할 수 있는지, 제한의 기준과 책임은 누가 져야 하는지 따져 봅니다.",
       "reflectionPromptKo": "남은 문장과 빠진 문장 중 무엇을 근거로 삼아야 할까요? 안전을 말하는 쪽과 자유를 말하는 쪽에 같은 증명을 요구할 수 있을까요?",
       "topicId": "censorship_and_public_order",
-      "sourceIds": ["OBJ-SOV-1847", "LIT-TURGENEV-KHOR-KALYNYCH-1847"],
+      "sourceIds": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847"
+      ],
       "hosts": {
-        "reader_darya": { "promptKo": "검열로 빠진 문장이 있다면, 독자는 남은 글만으로 작가의 뜻을 판단해도 될까요?" },
-        "senior_clerk_konstantin": { "promptKo": "공공의 질서를 이유로 문장을 막을 때, 그 기준과 책임은 누가 기록해야 합니까?" },
-        "printer_ekaterina": { "promptKo": "검열 뒤 바뀐 문장을 인쇄하는 사람에게는 어디까지 거절할 권리가 있을까요?" },
-        "clerk_alexei": { "promptKo": "공식 기록에 남지 않은 문장도 사실을 판단하는 근거가 될 수 있을까요?" }
+        "reader_darya": {
+          "promptKo": "검열로 빠진 문장이 있다면, 독자는 남은 글만으로 작가의 뜻을 판단해도 될까요?"
+        },
+        "senior_clerk_konstantin": {
+          "promptKo": "공공의 질서를 이유로 문장을 막을 때, 그 기준과 책임은 누가 기록해야 합니까?"
+        },
+        "printer_ekaterina": {
+          "promptKo": "검열 뒤 바뀐 문장을 인쇄하는 사람에게는 어디까지 거절할 권리가 있을까요?"
+        },
+        "clerk_alexei": {
+          "promptKo": "공식 기록에 남지 않은 문장도 사실을 판단하는 근거가 될 수 있을까요?"
+        }
       }
     },
     {
@@ -83,11 +122,20 @@
       "stakesKo": "개혁의 이상과 품삯·책값·배움의 기회처럼 사람마다 다르게 닿는 현실을 맞대어 봅니다.",
       "reflectionPromptKo": "변화가 필요하다는 말에 동의해도, 당장 생계를 잃는 사람이 있다면 무엇부터 바꿔야 할까요?",
       "topicId": "reform_and_lived_cost",
-      "sourceIds": ["LIT-TURGENEV-KHOR-KALYNYCH-1847", "OBJ-SOV-1847"],
+      "sourceIds": [
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-SOV-1847"
+      ],
       "hosts": {
-        "seamstress_anna": { "promptKo": "세상이 나아진다는 말은 들어요. 그런데 이번 주 품삯이 줄어든다면 그 변화는 누구에게 좋은 걸까요?" },
-        "bookseller_lev": { "promptKo": "새 제도가 책을 더 많이 읽게 만든다 해도, 종이값과 인쇄공의 품삯은 누가 책임져야 하오?" },
-        "reader_darya": { "promptKo": "배움의 기회를 넓히려는 변화가 누군가의 생계를 흔든다면, 그 비용도 함께 나눠야 하지 않을까요?" }
+        "seamstress_anna": {
+          "promptKo": "세상이 나아진다는 말은 들어요. 그런데 이번 주 품삯이 줄어든다면 그 변화는 누구에게 좋은 걸까요?"
+        },
+        "bookseller_lev": {
+          "promptKo": "새 제도가 책을 더 많이 읽게 만든다 해도, 종이값과 인쇄공의 품삯은 누가 책임져야 하오?"
+        },
+        "reader_darya": {
+          "promptKo": "배움의 기회를 넓히려는 변화가 누군가의 생계를 흔든다면, 그 비용도 함께 나눠야 하지 않을까요?"
+        }
       }
     },
     {
@@ -98,11 +146,20 @@
       "stakesKo": "안전을 이유로 표현이나 모임을 제한할 때, 제한을 주장하는 쪽에도 근거와 책임을 요구할 수 있는지 살핍니다.",
       "reflectionPromptKo": "위험을 막기 위한 제한이 필요하더라도, 누가 그 위험을 증명하고 제한을 끝낼 시점을 정해야 할까요?",
       "topicId": "public_order_and_liberty",
-      "sourceIds": ["OBJ-WS-NEKRASOV-EDITORIAL-1848", "OBJ-SOV-1847"],
+      "sourceIds": [
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-SOV-1847"
+      ],
       "hosts": {
-        "police_sergeant_ivan": { "promptKo": "위험을 막으려는 조치가 사람의 말을 막게 되면, 어디서 멈춰야 한다고 보십니까?" },
-        "clerk_alexei": { "promptKo": "안전을 이유로 내린 제한을 기록한다면, 명령과 확인된 위험을 같은 문장에 적어도 될까요?" },
-        "printer_ekaterina": { "promptKo": "인쇄를 멈추라는 지시가 오면, 작업자는 근거를 물을 수 있어야 하지 않을까요?" }
+        "police_sergeant_ivan": {
+          "promptKo": "위험을 막으려는 조치가 사람의 말을 막게 되면, 어디서 멈춰야 한다고 보십니까?"
+        },
+        "clerk_alexei": {
+          "promptKo": "안전을 이유로 내린 제한을 기록한다면, 명령과 확인된 위험을 같은 문장에 적어도 될까요?"
+        },
+        "printer_ekaterina": {
+          "promptKo": "인쇄를 멈추라는 지시가 오면, 작업자는 근거를 물을 수 있어야 하지 않을까요?"
+        }
       }
     },
     {
@@ -113,11 +170,19 @@
       "stakesKo": "독자의 접근성뿐 아니라 종이값·인쇄 노동·외상 부담도 함께 따집니다.",
       "reflectionPromptKo": "책값을 낮추는 결정이 인쇄 노동자의 몫과 읽을 기회를 함께 바꾼다면, 어떤 비용부터 공개해야 할까요?",
       "topicId": "poverty_and_class",
-      "sourceIds": ["OBJ-WS-NEKRASOV-EDITORIAL-1848"],
+      "sourceIds": [
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848"
+      ],
       "hosts": {
-        "bookseller_lev": { "promptKo": "책을 팔아야 하는 사람과 돈이 없어 못 읽는 사람 사이에서, 값은 어떻게 정하는 게 공정하오?" },
-        "tenant_mikhail": { "promptKo": "방세와 책값이 맞붙으면, 읽고 싶은 마음은 어디에 둘 수 있을까요?" },
-        "courier_pavel": { "promptKo": "배달값 때문에 읽을거리가 덜 닿는다면, 그 손해는 누가 먼저 감당하나요?" }
+        "bookseller_lev": {
+          "promptKo": "책을 팔아야 하는 사람과 돈이 없어 못 읽는 사람 사이에서, 값은 어떻게 정하는 게 공정하오?"
+        },
+        "tenant_mikhail": {
+          "promptKo": "방세와 책값이 맞붙으면, 읽고 싶은 마음은 어디에 둘 수 있을까요?"
+        },
+        "courier_pavel": {
+          "promptKo": "배달값 때문에 읽을거리가 덜 닿는다면, 그 손해는 누가 먼저 감당하나요?"
+        }
       }
     },
     {
@@ -128,11 +193,19 @@
       "stakesKo": "사상 진영의 이름보다 교육·일자리·인쇄 현장에서 달라지는 조건을 묻습니다.",
       "reflectionPromptKo": "전통을 지키는 일과 제도를 바꾸는 일을 놓고, 구호 말고 실제로 달라져야 할 한 가지를 꼽는다면 무엇일까요?",
       "topicId": "slavophilism_and_westernism",
-      "sourceIds": ["OBJ-WS-NEKRASOV-EDITORIAL-1848"],
+      "sourceIds": [
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848"
+      ],
       "hosts": {
-        "seamstress_anna": { "promptKo": "사람들이 말하는 큰 사상은 일하는 사람의 하루를 실제로 어떻게 바꾼다고 생각해요?" },
-        "bookseller_lev": { "promptKo": "서로 다른 주장을 담은 책이 팔릴 때, 장사꾼은 어느 편을 들어야 하오?" },
-        "printer_ekaterina": { "promptKo": "새로운 사상 논쟁에서 인쇄 노동자는 문장과 판단을 어떻게 구분해야 할까요?" }
+        "seamstress_anna": {
+          "promptKo": "사람들이 말하는 큰 사상은 일하는 사람의 하루를 실제로 어떻게 바꾼다고 생각해요?"
+        },
+        "bookseller_lev": {
+          "promptKo": "서로 다른 주장을 담은 책이 팔릴 때, 장사꾼은 어느 편을 들어야 하오?"
+        },
+        "printer_ekaterina": {
+          "promptKo": "새로운 사상 논쟁에서 인쇄 노동자는 문장과 판단을 어떻게 구분해야 할까요?"
+        }
       }
     },
     {
@@ -143,11 +216,20 @@
       "stakesKo": "소문·목격·전달·공식 기록이 사람의 이름과 책임으로 바뀌는 순간을 살핍니다.",
       "reflectionPromptKo": "소문이 공식 문서로 옮겨지는 순간 확인 책임은 누가 져야 할까요? 들은 사람과 적은 사람의 책임은 어떻게 다를까요?",
       "topicId": "official_record_and_rumor",
-      "sourceIds": ["OBJ-WS-PETRASHEVSKY-REPORT-1849", "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"],
+      "sourceIds": [
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
       "hosts": {
-        "clerk_alexei": { "promptKo": "상급자의 지시와 확인된 사실이 다르면, 서기는 장부에 어떻게 나눠 적어야 할까요?" },
-        "courier_pavel": { "promptKo": "봉투 내용은 모른 채 전달한 사람이라면, 장부에 무엇까지 책임지고 말할 수 있을까요?" },
-        "printer_ekaterina": { "promptKo": "이름이 인쇄된 뒤 생길 일을 모른다면, 문장을 옮기는 사람은 어디서 멈춰야 할까요?" }
+        "clerk_alexei": {
+          "promptKo": "상급자의 지시와 확인된 사실이 다르면, 서기는 장부에 어떻게 나눠 적어야 할까요?"
+        },
+        "courier_pavel": {
+          "promptKo": "봉투 내용은 모른 채 전달한 사람이라면, 장부에 무엇까지 책임지고 말할 수 있을까요?"
+        },
+        "printer_ekaterina": {
+          "promptKo": "이름이 인쇄된 뒤 생길 일을 모른다면, 문장을 옮기는 사람은 어디서 멈춰야 할까요?"
+        }
       }
     },
     {
@@ -158,11 +240,19 @@
       "stakesKo": "기사의 선택과 제목, 독자의 접근성, 인쇄 노동이 공론에 미치는 영향을 나눠 봅니다.",
       "reflectionPromptKo": "사실을 알리는 기사도 독자의 판단을 이끌 수 있어요. 무엇을 공개하고 무엇을 보류할지 누가 설명해야 할까요?",
       "topicId": "press_and_public_truth",
-      "sourceIds": ["OBJ-WS-NEKRASOV-EDITORIAL-1848"],
+      "sourceIds": [
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848"
+      ],
       "hosts": {
-        "editor_sofia": { "promptKo": "신문은 사실을 전하는가요, 아니면 무엇을 중요하게 볼지 독자에게 가르치기도 하나요?" },
-        "bookseller_lev": { "promptKo": "잘 팔릴 이야기와 꼭 알려야 할 이야기가 다르면, 장사하는 사람은 뭘 먼저 택해야 하오?" },
-        "reader_darya": { "promptKo": "기자가 사실만 썼다고 해도 제목과 선택이 독자의 판단을 바꿀 수 있지 않을까요?" }
+        "editor_sofia": {
+          "promptKo": "신문은 사실을 전하는가요, 아니면 무엇을 중요하게 볼지 독자에게 가르치기도 하나요?"
+        },
+        "bookseller_lev": {
+          "promptKo": "잘 팔릴 이야기와 꼭 알려야 할 이야기가 다르면, 장사하는 사람은 뭘 먼저 택해야 하오?"
+        },
+        "reader_darya": {
+          "promptKo": "기자가 사실만 썼다고 해도 제목과 선택이 독자의 판단을 바꿀 수 있지 않을까요?"
+        }
       }
     },
     {
@@ -173,11 +263,19 @@
       "stakesKo": "실제 보고서의 주장과 확인 사실을 구분하면서, 안전을 위한 기록이 개인의 권리를 침해할 때 책임을 묻습니다.",
       "reflectionPromptKo": "안전을 이유로 이름을 기록할 때, 누가 필요성을 증명하고 잘못된 기록을 고쳐야 할까요?",
       "topicId": "safety_surveillance_and_rights",
-      "sourceIds": ["OBJ-WS-PETRASHEVSKY-REPORT-1849"],
+      "sourceIds": [
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849"
+      ],
       "hosts": {
-        "police_sergeant_ivan": { "promptKo": "안전을 위해 사람의 이름과 움직임을 기록한다면, 어디서 멈춰야 한다고 보십니까?" },
-        "senior_clerk_konstantin": { "promptKo": "관청이 안전을 내세워 기록을 모을 때, 기준과 수정 책임은 누가 져야 합니까?" },
-        "reader_darya": { "promptKo": "안전 때문에 누군가의 이름이 기록된다면, 그 사람에게 기록을 확인하고 고칠 기회도 있어야 할까요?" }
+        "police_sergeant_ivan": {
+          "promptKo": "안전을 위해 사람의 이름과 움직임을 기록한다면, 어디서 멈춰야 한다고 보십니까?"
+        },
+        "senior_clerk_konstantin": {
+          "promptKo": "관청이 안전을 내세워 기록을 모을 때, 기준과 수정 책임은 누가 져야 합니까?"
+        },
+        "reader_darya": {
+          "promptKo": "안전 때문에 누군가의 이름이 기록된다면, 그 사람에게 기록을 확인하고 고칠 기회도 있어야 할까요?"
+        }
       }
     },
     {
@@ -188,12 +286,86 @@
       "stakesKo": "직접 본 일, 전해 들은 말, 공식 문서의 주장을 나누고 잘못된 판단을 바로잡을 책임을 묻습니다.",
       "reflectionPromptKo": "서로 다른 진술이 남았을 때, 먼저 확인할 자료와 잘못된 기록을 고칠 책임자는 누구일까요?",
       "topicId": "witness_and_judgment",
-      "sourceIds": ["OBJ-WS-PETRASHEVSKY-REPORT-1849", "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"],
+      "sourceIds": [
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
       "hosts": {
-        "courier_pavel": { "promptKo": "봉투를 전한 것만 본 사람에게 사건 전체를 묻는다면, 어디까지 답하는 게 정직할까요?" },
-        "clerk_alexei": { "promptKo": "상급자 보고와 직접 확인한 사실이 다르면, 어느 쪽을 먼저 장부에 남겨야 합니까?" },
-        "police_sergeant_ivan": { "promptKo": "목격과 전언이 뒤섞인 진술로 누군가를 의심하게 됐다면, 무엇부터 다시 확인하시겠습니까?" },
-        "printer_ekaterina": { "promptKo": "확인되지 않은 이름이 인쇄될 판이라면, 작업자는 어디서 멈춰야 할까요?" }
+        "courier_pavel": {
+          "promptKo": "봉투를 전한 것만 본 사람에게 사건 전체를 묻는다면, 어디까지 답하는 게 정직할까요?"
+        },
+        "clerk_alexei": {
+          "promptKo": "상급자 보고와 직접 확인한 사실이 다르면, 어느 쪽을 먼저 장부에 남겨야 합니까?"
+        },
+        "police_sergeant_ivan": {
+          "promptKo": "목격과 전언이 뒤섞인 진술로 누군가를 의심하게 됐다면, 무엇부터 다시 확인하시겠습니까?"
+        },
+        "printer_ekaterina": {
+          "promptKo": "확인되지 않은 이름이 인쇄될 판이라면, 작업자는 어디서 멈춰야 할까요?"
+        }
+      }
+    },
+    {
+      "id": "INQUIRY_WAGES_AND_NEIGHBORHOOD_1847",
+      "date": "1847-06-01",
+      "titleKo": "품삯을 미루는 일과 이웃을 돕는 일",
+      "requiredPerspectiveCount": 2,
+      "stakesKo": "밀린 세탁값과 안뜰의 공동 자원처럼 생계와 이웃 관계가 맞부딪히는 상황을 묻습니다.",
+      "reflectionPromptKo": "이웃을 돕는 일이 한 사람의 품삯과 반복해서 부딪힐 때, 어디까지 기다리는 게 공정할까요?",
+      "topicId": "wages_and_mutual_aid",
+      "sourceIds": [],
+      "hosts": {
+        "laundress_mariya": {
+          "promptKo": "단골의 사정이 어렵다면 이미 한 세탁의 품삯을 더 기다려줘야 할까요?"
+        },
+        "seamstress_anna": {
+          "promptKo": "급한 이웃을 돕느라 내 품삯이 계속 밀려도 감당해야 할까요?"
+        },
+        "yardkeeper_semyon": {
+          "promptKo": "안뜰의 공동 장작이 모자랄 때 사정을 먼저 듣고 기록은 미뤄야 할까요?"
+        }
+      }
+    },
+    {
+      "id": "INQUIRY_PRICE_AND_WORK_1847",
+      "date": "1847-06-01",
+      "titleKo": "값을 낮추는 선의와 일한 사람의 몫",
+      "requiredPerspectiveCount": 2,
+      "stakesKo": "빵·채소·운송의 가격을 정할 때 손님, 판매자, 노동자가 나누는 비용을 살핍니다.",
+      "reflectionPromptKo": "값을 낮춰 누군가를 돕는다면 재료비와 일한 사람의 몫은 누가 부담해야 할까요?",
+      "topicId": "prices_and_work",
+      "sourceIds": [],
+      "hosts": {
+        "baker_fyodor": {
+          "promptKo": "재료가 모자라 빵값을 올리면 손님이 끼니를 거를 수 있습니다. 어느 비용부터 지켜야 할까요?"
+        },
+        "market_nadezhda": {
+          "promptKo": "값을 낮춰야 할 때 판매자가 손해를 모두 떠안는 게 공정할까요?"
+        },
+        "bookseller_lev": {
+          "promptKo": "읽을 기회를 넓히기 위해 값을 낮춘다면 종이와 인쇄 노동의 비용은 누가 내야 하오?"
+        }
+      }
+    },
+    {
+      "id": "INQUIRY_RISK_AND_CHOICE_1847",
+      "date": "1847-06-01",
+      "titleKo": "생계를 잃을 위험 앞에서 동의할 수 있을까",
+      "requiredPerspectiveCount": 2,
+      "stakesKo": "짐을 거절하면 다음 일감이 끊길 수 있는 사람과, 안전을 책임져야 하는 사람의 시야를 비교합니다.",
+      "reflectionPromptKo": "거절하면 생계를 잃을 수 있는 선택을 두고 동의했다고 말하려면 무엇이 보장되어야 할까요?",
+      "topicId": "labor_risk_and_consent",
+      "sourceIds": [],
+      "hosts": {
+        "porter_gavrila": {
+          "promptKo": "짐을 거절하면 다음 일감에서 빠질 수 있다면, 다친 몸으로 들겠다는 선택을 동의라고 할 수 있을까요?"
+        },
+        "coachman_timofey": {
+          "promptKo": "급한 손님을 태우면 말과 승객이 위험해질 때, 운송을 거절할 권리는 누가 지켜야 할까요?"
+        },
+        "clerk_alexei": {
+          "promptKo": "일을 거절하면 생계를 잃는 사람의 동의를 문서에 어떻게 남겨야 합니까?"
+        }
       }
     }
   ]

@@ -1,0 +1,190 @@
+{
+  "id": "yardkeeper_semyon",
+  "kind": "FICTIONAL",
+  "displayNameKo": "세묜",
+  "displayNameRu": "Семён Кузьмин",
+  "ageAtDate": {
+    "value": 52,
+    "status": "fictional_character_design"
+  },
+  "socialEstate": "urban_laborer",
+  "occupation": "하숙집 안뜰 관리인",
+  "rank": {
+    "value": null,
+    "ru": null,
+    "status": "not_applicable"
+  },
+  "legalMobility": "시장과 공개 거리, 안뜰 통로만 이용하는 허구 인물; 고용·가격·관청 결정 권한은 맡지 않는다.",
+  "wealthBracket": "poor",
+  "money": {
+    "amount": 19,
+    "unit": "kopeks",
+    "status": "designedEstimate"
+  },
+  "literacy": "자기 일과 관련된 표식·계산표를 읽는다. 문해력 범위는 허구 인물 설정이다.",
+  "health": "working",
+  "reputationByGroup": {
+    "neighbors": "known_by_daily_work"
+  },
+  "risk": "일감을 잃거나 이웃의 신뢰를 잃을 가능성을 함께 계산한다.",
+  "relations": {},
+  "secretKnowledge": [
+    {
+      "id": "YARDKEEPER_SEMYON_PRIVATE_NOTE",
+      "summaryKo": "밤에 장작 더미가 줄어든 것을 보았지만 가져간 사람은 직접 보지 못했다."
+    }
+  ],
+  "knownEvidence": [],
+  "privateKnowledgeIds": [
+    "YARDKEEPER_SEMYON_PRIVATE_NOTE"
+  ],
+  "knownEvidenceIds": [],
+  "desires": "안뜰 장작 장부의 빈칸을 누구의 이름으로 채울지 정한다",
+  "fears": "안뜰에서 밤마다 사라지는 장작을 누가 가져갔는지 알지만, 이름을 적으면 그 집의 방세와 일자리까지 흔들릴 수 있다.",
+  "taboos": [
+    "확인하지 않은 사람의 사정을 대신 단정하지 않는다."
+  ],
+  "speechRhythm": "문을 누가 썼는지, 무엇을 직접 보았는지부터 따진다. 말수가 적고 소문을 경계한다.",
+  "speechRegister": {
+    "firstMeeting": "낯선 사람에게 용건과 일터 규칙부터 짧게 말한다.",
+    "colleague": "같은 일터 사람에게는 빠른 반말과 구체적인 작업 어휘를 쓴다.",
+    "private": "사적인 자리에서는 손해와 걱정을 더 솔직히 말한다.",
+    "conflict": "목격한 일과 소문을 구분하고, 상대에게 선택의 비용을 되묻는다.",
+    "intimacy": "가까운 사람과는 말끝이 풀리고 짧은 농담을 섞는다.",
+    "formal": "고용주·거래처에는 정중하지만 수량과 약속을 분명히 한다."
+  },
+  "voiceSamples": [
+    "문 앞은 비워 두시오. 빗자루가 지나가야 하오. 무슨 일인지 짧게 말해 보시오.",
+    "장작은 줄었소. 누가 가져갔는지는 못 봤지. 그러니 이름부터 적을 수는 없소.",
+    "눈감는 것과 이름을 함부로 쓰지 않는 건 다른 일이오. 장작이 필요한 사정도, 남의 몫이 사라진 일도 확인해야지."
+  ],
+  "worldview": {
+    "status": "fictional_character_design",
+    "stanceKo": "이름을 적기 전에 본 일을 확인해야 한다고 믿는다. 세입자를 지키려다 집주인에게 미움을 살까 망설인다.",
+    "tensionKo": "안뜰에서 밤마다 사라지는 장작을 누가 가져갔는지 알지만, 이름을 적으면 그 집의 방세와 일자리까지 흔들릴 수 있다.",
+    "blindSpotKo": "당장의 품삯과 이웃 관계에 집중해 다른 사람의 사정을 놓칠 수 있다.",
+    "designBasisKo": "시드 CSV에서 출발한 완전한 허구 인물 설정이며 실제 개인·발언·주소의 기록이 아니다.",
+    "sceneAnchorIds": [
+      "YARD_LEDGER_1847"
+    ]
+  },
+  "topicStances": {
+    "serfdom": {
+      "knowledgeKind": "no_documented_stance",
+      "positionKo": "농촌 제도를 직접 알지 못한다. 자기 일터에서 본 대우만 말한다."
+    },
+    "censorship": {
+      "knowledgeKind": "street_limited",
+      "positionKo": "검열 절차를 알지 못한다. 장터와 일터에서 실제로 오간 말과 비용만 말한다."
+    },
+    "literature": {
+      "knowledgeKind": "reader_limited",
+      "positionKo": "작가의 뜻을 대신 판단하지 않는다. 글을 읽었는지, 누구와 이야기했는지 구분한다."
+    },
+    "poverty_and_class": {
+      "knowledgeKind": "fictional_lived_experience",
+      "positionKo": "이름을 적기 전에 본 일을 확인해야 한다고 믿는다. 세입자를 지키려다 집주인에게 미움을 살까 망설인다."
+    },
+    "slavophilism_and_westernism": {
+      "knowledgeKind": "unfamiliar_terms",
+      "positionKo": "진영을 대변하지 않는다. 논쟁이 자신의 일과 이웃에게 어떤 비용을 만드는지 묻는다."
+    }
+  },
+  "lexicon": [
+    "열쇠",
+    "안뜰",
+    "장부"
+  ],
+  "emotions": [
+    "경계",
+    "걱정",
+    "마른 농담"
+  ],
+  "personalObjective": "안뜰 장작 장부의 빈칸을 누구의 이름으로 채울지 정한다",
+  "objectiveByChapter": {
+    "1847": "안뜰 장작 장부의 빈칸을 누구의 이름으로 채울지 정한다"
+  },
+  "allowedMaps": [
+    "market-quay",
+    "nevsky",
+    "courtyard"
+  ],
+  "start": {
+    "mapId": "market-quay",
+    "x": 7,
+    "y": 12
+  },
+  "wealthBracketStatus": "designedEstimate",
+  "inventory": [
+    "큰 열쇠 꾸러미",
+    "짧은 빗자루"
+  ],
+  "sourceIds": [],
+  "canonConstraint": "fictional citizen; never treated as an attested historical individual or witness",
+  "reconstructionDisclaimer": "시민과 일상 갈등은 게임을 위해 만든 허구 설정이다.",
+  "sprite": {
+    "file": "assets/yardkeeper_semyon.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "cap",
+    "palette": {
+      "cloth": "#51463a",
+      "trim": "#b18a57",
+      "headwear": "#40362e"
+    }
+  },
+  "speechStatus": "FICTIONAL_DESIGN",
+  "schedule": [
+    {
+      "atMinute": 480,
+      "mapId": "courtyard",
+      "position": {
+        "x": 7,
+        "y": 12
+      },
+      "activityKo": "안뜰 문을 열고 장작을 센다"
+    },
+    {
+      "atMinute": 600,
+      "mapId": "courtyard",
+      "position": {
+        "x": 9,
+        "y": 12
+      },
+      "activityKo": "계단과 장작 더미를 확인한다"
+    },
+    {
+      "atMinute": 720,
+      "mapId": "nevsky",
+      "position": {
+        "x": 6,
+        "y": 12
+      },
+      "activityKo": "안뜰에 필요한 자물쇠를 사러 간다"
+    },
+    {
+      "atMinute": 840,
+      "mapId": "courtyard",
+      "position": {
+        "x": 7,
+        "y": 12
+      },
+      "activityKo": "세입자에게 안뜰 규칙을 알린다"
+    },
+    {
+      "atMinute": 1020,
+      "mapId": "courtyard",
+      "position": {
+        "x": 9,
+        "y": 12
+      },
+      "activityKo": "장작 수량과 마지막 확인 시각을 적는다"
+    }
+  ],
+  "portrait": {
+    "file": "assets/portrait-yardkeeper_semyon.png",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+  }
+}

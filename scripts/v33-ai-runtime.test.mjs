@@ -113,7 +113,7 @@ test('AI dialogue receives the embodied public character context and keeps each 
   }
 });
 
-test('new editor and police characters receive their own validated live dialogue scenes', async () => {
+test('new editor, police, and market cohort characters receive their own validated live dialogue scenes', async () => {
   const observed = [], store = new MemorySessionStore();
   const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store, allowedOrigins: ['https://game.example'], provider: { generate: async request => {
     observed.push(request.input);
@@ -122,6 +122,12 @@ test('new editor and police characters receive their own validated live dialogue
   for (const [hostId, actorHostId, mapId, date, requestId] of [
     ['editor_sofia', 'printer_ekaterina', 'printshop', '1848-01-01', 'sofia-session-0001'],
     ['police_sergeant_ivan', 'clerk_alexei', 'police-station', '1849-04-22', 'ivan-session-00001'],
+    ['yardkeeper_semyon', 'laundress_mariya', 'market-quay', '1847-06-01', 'semyon-session-0001'],
+    ['laundress_mariya', 'baker_fyodor', 'market-quay', '1847-06-01', 'mariya-session-0001'],
+    ['baker_fyodor', 'market_nadezhda', 'market-quay', '1847-06-01', 'fyodor-session-0001'],
+    ['market_nadezhda', 'porter_gavrila', 'market-quay', '1847-06-01', 'nadezhda-session-0001'],
+    ['porter_gavrila', 'coachman_timofey', 'market-quay', '1847-06-01', 'gavrila-session-0001'],
+    ['coachman_timofey', 'yardkeeper_semyon', 'market-quay', '1847-06-01', 'timofey-session-0001'],
   ]) {
     const session = await service.handle(request('POST', '/api/rpg/session/start', { hostId, actorHostId }));
     assert.equal(session.status, 201, `${hostId} session should start`);
@@ -133,7 +139,8 @@ test('new editor and police characters receive their own validated live dialogue
     assert.equal(reply.body.fallback, false);
     assert.equal(reply.body.turn.beats[0].speakerId, hostId);
   }
-  assert.deepEqual(observed.map(item => item.character.id), ['editor_sofia', 'police_sergeant_ivan']);
+  assert.deepEqual(observed.map(item => item.character.id), ['editor_sofia', 'police_sergeant_ivan', 'yardkeeper_semyon', 'laundress_mariya', 'baker_fyodor', 'market_nadezhda', 'porter_gavrila', 'coachman_timofey']);
+  for (const item of observed.slice(2)) assert.ok(item.character.speechRhythm && item.character.worldview.stanceKo, `${item.character.id} context must carry a voice and point of view`);
   assert.match(observed[0].character.speechRhythm, /출처|편집/);
   assert.match(observed[1].character.worldview.designBasisKo, /실제.*재현하지 않는다/);
 });

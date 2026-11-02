@@ -1,6 +1,6 @@
 {
   "schemaVersion": "V33_RPG_BROWSER_SMOKE_V1",
-  "base": "http://127.0.0.1:52554/",
+  "base": "http://127.0.0.1:4173/",
   "viewports": [
     {
       "viewport": {
@@ -308,7 +308,7 @@
       "canvas": {
         "width": 1065,
         "height": 278,
-        "sampledColors": 14,
+        "sampledColors": 16,
         "mapCoverage": 0.8816901408450705,
         "cssTileScale": 2.21875
       },
@@ -445,82 +445,82 @@
       },
       "field": {
         "x": 10,
-        "y": 106,
+        "y": 135.015625,
         "width": 340,
-        "height": 355.78125,
+        "height": 340.515625,
         "right": 350,
-        "bottom": 461.78125
+        "bottom": 475.53125
       },
       "lower": {
         "x": 10,
-        "y": 469.78125,
+        "y": 483.53125,
         "width": 340,
-        "height": 320,
+        "height": 306.46875,
         "right": 350,
-        "bottom": 789.78125
+        "bottom": 790
       },
       "pad": {
         "x": 20,
-        "y": 693.78125,
+        "y": 694,
         "width": 320,
         "height": 88,
         "right": 340,
-        "bottom": 781.78125
+        "bottom": 782
       },
       "buttons": [
         {
           "label": "↑",
           "x": 84.796875,
-          "y": 693.78125,
+          "y": 694,
           "right": 145.59375,
-          "bottom": 735.78125,
+          "bottom": 736,
           "visible": true
         },
         {
           "label": "←",
           "x": 20,
-          "y": 739.78125,
+          "y": 740,
           "right": 80.796875,
-          "bottom": 781.78125,
+          "bottom": 782,
           "visible": true
         },
         {
           "label": "↓",
           "x": 84.796875,
-          "y": 739.78125,
+          "y": 740,
           "right": 145.59375,
-          "bottom": 781.78125,
+          "bottom": 782,
           "visible": true
         },
         {
           "label": "→",
           "x": 149.59375,
-          "y": 739.78125,
+          "y": 740,
           "right": 210.390625,
-          "bottom": 781.78125,
+          "bottom": 782,
           "visible": true
         },
         {
           "label": "살펴보기",
           "x": 214.390625,
-          "y": 693.78125,
+          "y": 694,
           "right": 275.1875,
-          "bottom": 781.78125,
+          "bottom": 782,
           "visible": true
         },
         {
           "label": "놓아주기",
           "x": 279.1875,
-          "y": 693.78125,
+          "y": 694,
           "right": 339.984375,
-          "bottom": 781.78125,
+          "bottom": 782,
           "visible": true
         }
       ],
       "canvas": {
         "width": 338,
-        "height": 354,
-        "sampledColors": 24,
+        "height": 339,
+        "sampledColors": 31,
         "mapCoverage": 1,
         "cssTileScale": 0.7041666666666667
       },
@@ -544,7 +544,7 @@
     "clueInspected": "PRINTSHOP_ROUTING_NOTE",
     "sourceRead": true,
     "sourceReaderScroll": {
-      "scrollHeight": 570,
+      "scrollHeight": 766,
       "clientHeight": 335
     },
     "choiceResolved": true,

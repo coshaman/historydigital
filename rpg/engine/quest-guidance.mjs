@@ -90,7 +90,8 @@ export function resolveQuestGuidance({ state, quests, maps, hostCards }) {
   const embodied = state.player.embodiment ? state.hosts[state.player.embodiment] : null;
   const host = embodied ? hostCards.find(card => card.id === embodied.id) : null;
   if (!host) {
-    const observerQuest = quests.filter(item => item.chapterId === state.world.chapterId && (!item.date || item.date <= state.world.date) && state.quests[item.id]?.status !== 'resolved').sort((a,b)=>(a.date??'').localeCompare(b.date??''))[0];
+    const availableQuests = quests.filter(item => item.chapterId === state.world.chapterId && (!item.date || item.date <= state.world.date) && state.quests[item.id]?.status !== 'resolved').sort((a,b)=>(a.date??'').localeCompare(b.date??''));
+    const observerQuest = availableQuests.find(item => item.entry?.mapId === mapId) ?? availableQuests[0];
     const eligibleIds = observerQuest ? new Set(observerQuest.actions.flatMap(action => action.hostIds)) : null;
     const candidates = Object.values(state.hosts).filter(person => person.historicalAliveAndPresent && (!eligibleIds || eligibleIds.has(person.id)))
       .map(person => {
@@ -117,7 +118,10 @@ export function resolveQuestGuidance({ state, quests, maps, hostCards }) {
     ? state.world.activeRealm?.id === (quest.realmId ?? quest.chapterId)
     : quest.chapterId === state.world.chapterId)
     .sort((a, b) => (a.date ?? '').localeCompare(b.date ?? ''));
-  const quest = candidates.find(item => (!item.date || item.date <= state.world.date) && state.quests[item.id]?.status !== 'resolved');
+  const playableCandidates = candidates.filter(item => (!item.date || item.date <= state.world.date) && state.quests[item.id]?.status !== 'resolved');
+  const canHostQuest = item => item.actions?.some(action => action.hostIds.includes(host.id));
+  const quest = playableCandidates.find(item => item.entry?.mapId === mapId && canHostQuest(item))
+    ?? playableCandidates.find(canHostQuest) ?? playableCandidates[0];
   if (!quest) {
     const nextDateQuest = candidates.find(item => item.date > state.world.date && state.quests[item.id]?.status !== 'resolved');
     return { questId: null, hostId: host.id, questTitleKo: '오늘 맡은 일', taskType: nextDateQuest ? 'WAIT' : 'COMPLETE',

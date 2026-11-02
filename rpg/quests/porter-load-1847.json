@@ -1,0 +1,74 @@
+{
+  "id": "PORTER_LOAD_1847",
+  "titleKo": "무거운 짐 한 묶음",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "짐꾼 가브릴라는 어깨를 다친 상태지만 일을 거절하면 다음 고용 순서에서 밀릴까 걱정한다. 몸과 당장 품삯 중 무엇을 감당할지 정한다.",
+  "historicalOutcome": {
+    "id": "PORTER_LOAD_1847_FICTIONAL_OUTCOME",
+    "value": "fictional household and work choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "market-quay",
+    "objectId": 114,
+    "requiredHostId": "porter_gavrila"
+  },
+  "actions": [
+    {
+      "id": "PORTER_GAVRILA_CHOICE_1",
+      "hostIds": [
+        "porter_gavrila"
+      ],
+      "labelKo": "짐을 거절하고 통증을 알린다",
+      "subcopyKo": "고용 담당자와 주변 인부가 압니다 · 작업표에 거절 이유가 남습니다 · 오늘 품삯과 다음 일감이 줄 수 있습니다",
+      "resultKo": "짐을 거절하고 어깨 통증을 알렸다. 오늘 품삯은 놓칠 수 있지만 다친 사실은 작업표에 남았다.",
+      "resultFlag": "gavrilaRefused",
+      "followupTitleKo": "무거운 짐 한 묶음",
+      "followupKo": "이 선택은 이 허구 인물의 오늘과 이웃과의 관계에만 남는다.",
+      "effects": {
+        "situationKo": "어깨 통증을 알리고 오늘 짐을 거절했다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 직접 확인했다"
+        }
+      }
+    },
+    {
+      "id": "PORTER_GAVRILA_CHOICE_2",
+      "hostIds": [
+        "porter_gavrila"
+      ],
+      "labelKo": "동료와 짐을 나눠 든다",
+      "subcopyKo": "함께 나르는 동료와 고용 담당자가 압니다 · 작업표에 분담이 남습니다 · 품삯을 나눌 수 있습니다",
+      "resultKo": "동료와 짐을 나눠 들기로 했다. 몸에 걸리는 무게는 줄지만 품삯도 나눠야 한다.",
+      "resultFlag": "gavrilaShared",
+      "followupTitleKo": "무거운 짐 한 묶음",
+      "followupKo": "이 선택은 이 허구 인물의 오늘과 이웃과의 관계에만 남는다.",
+      "effects": {
+        "situationKo": "동료와 짐을 나눠 들고 품삯을 나누기로 했다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 직접 확인했다"
+        }
+      }
+    },
+    {
+      "id": "PORTER_GAVRILA_CHOICE_3",
+      "hostIds": [
+        "porter_gavrila"
+      ],
+      "labelKo": "혼자 들고 통증을 기록한다",
+      "subcopyKo": "고용 담당자와 본인이 압니다 · 작업표에 남습니다 · 통증이 심해져 다음 일을 못 할 위험이 있습니다",
+      "resultKo": "혼자 짐을 들기로 했다. 오늘 품삯은 지킬 수 있지만, 통증이 심해지면 다음 일감은 더 어려워질 수 있다.",
+      "resultFlag": "gavrilaCarried",
+      "followupTitleKo": "무거운 짐 한 묶음",
+      "followupKo": "이 선택은 이 허구 인물의 오늘과 이웃과의 관계에만 남는다.",
+      "effects": {
+        "situationKo": "무거운 짐을 혼자 들고 통증을 작업표에 적었다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 직접 확인했다"
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named market work object"
+}

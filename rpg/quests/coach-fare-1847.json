@@ -1,0 +1,74 @@
+{
+  "id": "COACH_FARE_1847",
+  "titleKo": "비 오기 전의 마차",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "마부 티모페이는 비가 오기 전에 말굽과 바퀴를 살펴야 하지만, 급한 손님은 먼 길을 부탁했다. 운송을 맡을 조건을 정한다.",
+  "historicalOutcome": {
+    "id": "COACH_FARE_1847_FICTIONAL_OUTCOME",
+    "value": "fictional household and work choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "market-quay",
+    "objectId": 115,
+    "requiredHostId": "coachman_timofey"
+  },
+  "actions": [
+    {
+      "id": "COACHMAN_TIMOFEY_CHOICE_1",
+      "hostIds": [
+        "coachman_timofey"
+      ],
+      "labelKo": "점검을 마친 뒤 가능한 거리만 태운다",
+      "subcopyKo": "손님과 마부가 압니다 · 운임표에 거리와 점검 시각이 남습니다 · 손님이 다른 마차를 찾을 수 있습니다",
+      "resultKo": "먼저 말굽과 바퀴를 점검하고 가능한 거리만 운행하기로 했다. 손님의 도착은 늦어질 수 있지만 위험을 숨기지는 않았다.",
+      "resultFlag": "timofeyChecked",
+      "followupTitleKo": "비 오기 전의 마차",
+      "followupKo": "이 선택은 이 허구 인물의 오늘과 이웃과의 관계에만 남는다.",
+      "effects": {
+        "situationKo": "점검 뒤 운행 가능한 거리와 시간을 손님에게 알렸다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 직접 확인했다"
+        }
+      }
+    },
+    {
+      "id": "COACHMAN_TIMOFEY_CHOICE_2",
+      "hostIds": [
+        "coachman_timofey"
+      ],
+      "labelKo": "손님에게 길 상태를 알리고 먼 길을 맡는다",
+      "subcopyKo": "손님과 마부가 압니다 · 운임표에 위험 설명과 약속이 남습니다 · 비로 지연되거나 마차가 상할 수 있습니다",
+      "resultKo": "길 상태와 지연 가능성을 말한 뒤 운송을 맡았다. 손님은 사정을 알고 고를 수 있지만, 말과 마차가 무사할지는 장담할 수 없다.",
+      "resultFlag": "timofeyDeparted",
+      "followupTitleKo": "비 오기 전의 마차",
+      "followupKo": "이 선택은 이 허구 인물의 오늘과 이웃과의 관계에만 남는다.",
+      "effects": {
+        "situationKo": "길 상태를 알리고 먼 길 운송을 맡았다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 직접 확인했다"
+        }
+      }
+    },
+    {
+      "id": "COACHMAN_TIMOFEY_CHOICE_3",
+      "hostIds": [
+        "coachman_timofey"
+      ],
+      "labelKo": "운행을 미루고 말과 마차를 고친다",
+      "subcopyKo": "마구간과 기다리던 손님이 압니다 · 점검표에 남습니다 · 오늘 운임을 놓칠 수 있습니다",
+      "resultKo": "운행을 미루고 말과 마차를 손봤다. 오늘 운임은 포기했지만 손님에게는 기다리게 된 이유를 알렸다.",
+      "resultFlag": "timofeyDelayed",
+      "followupTitleKo": "비 오기 전의 마차",
+      "followupKo": "이 선택은 이 허구 인물의 오늘과 이웃과의 관계에만 남는다.",
+      "effects": {
+        "situationKo": "마차 점검을 위해 운행을 미루고 손님에게 알렸다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 직접 확인했다"
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named market work object"
+}

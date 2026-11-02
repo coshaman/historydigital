@@ -8,8 +8,8 @@ const sourceRecords = new Map([...historicalSources, ...literarySources].map(sou
 const caseContexts = require('../../rpg/data/case-contexts.json').cases;
 const historicalClaims = require('../../rpg/data/historical-claim-ledger.json').claims;
 const historicalPeople = require('../../rpg/data/historical-comparisons.json').comparisons;
-const mapRecords = new Map(['nevsky','printshop','chancery','courtyard','dead-souls','overcoat','police-station'].map(id => [id, require(`../../rpg/maps/${id}.json`)]));
-const questRecords = new Map(['printshop-article','public-discourse-1848','circle-investigation-1849','circle-letter-1849-may','literary-dead-souls','literary-overcoat'].map(id => { const quest = require(`../../rpg/quests/${id}.json`); return [quest.id, quest]; }));
+const mapRecords = new Map(['nevsky','printshop','chancery','courtyard','market-quay','dead-souls','overcoat','police-station'].map(id => [id, require(`../../rpg/maps/${id}.json`)]));
+const questRecords = new Map(['printshop-article','public-discourse-1848','circle-investigation-1849','circle-letter-1849-may','yard-ledger-1847','laundry-wages-1847','bakery-flour-1847','market-prices-1847','porter-load-1847','coach-fare-1847','literary-dead-souls','literary-overcoat'].map(id => { const quest = require(`../../rpg/quests/${id}.json`); return [quest.id, quest]; }));
 const historicalNameVariants = [...new Set([
   ...historicalPeople.flatMap(person => person.personKo.split(/[와,·]/).flatMap(part => {
     const words = part.replace(/^(젊은|청년)\s+/, '').replace(/\s*(모임|사상가|비평가).*$/, '').trim().split(/\s+/).filter(Boolean);
@@ -31,6 +31,12 @@ const cards = new Map([
   require('../../rpg/characters/reader_darya.json'),
   require('../../rpg/characters/editor_sofia.json'),
   require('../../rpg/characters/police_sergeant_ivan.json'),
+  require('../../rpg/characters/yardkeeper_semyon.json'),
+  require('../../rpg/characters/laundress_mariya.json'),
+  require('../../rpg/characters/baker_fyodor.json'),
+  require('../../rpg/characters/market_nadezhda.json'),
+  require('../../rpg/characters/porter_gavrila.json'),
+  require('../../rpg/characters/coachman_timofey.json'),
   require('../../rpg/characters/nekrasov_reconstruction.json'),
   require('../../rpg/characters/literary_chichikov.json'),
   require('../../rpg/characters/literary_akaky.json'),
@@ -41,6 +47,12 @@ const relationshipQuests = [
   require('../../rpg/quests/public-discourse-1848.json'),
   require('../../rpg/quests/circle-investigation-1849.json'),
   require('../../rpg/quests/circle-letter-1849-may.json'),
+  require('../../rpg/quests/yard-ledger-1847.json'),
+  require('../../rpg/quests/laundry-wages-1847.json'),
+  require('../../rpg/quests/bakery-flour-1847.json'),
+  require('../../rpg/quests/market-prices-1847.json'),
+  require('../../rpg/quests/porter-load-1847.json'),
+  require('../../rpg/quests/coach-fare-1847.json'),
 ];
 const dialogueQuests = [...relationshipQuests, require('../../rpg/quests/literary-dead-souls.json'), require('../../rpg/quests/literary-overcoat.json')];
 const actorActionRecords = new Map();

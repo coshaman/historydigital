@@ -353,8 +353,14 @@
       "generatedBy": "hand-authored project SVG",
       "license": "original project-authored vector artwork",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
-      "intendedScene": ["chancery", "nevsky"],
-      "sourceIds": ["OBJ-SOV-1847", "OBJ-WS-PETRASHEVSKY-REPORT-1849"],
+      "intendedScene": [
+        "chancery",
+        "nevsky"
+      ],
+      "sourceIds": [
+        "OBJ-SOV-1847",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849"
+      ],
       "sourceUrls": [],
       "notes": "Original stylized portrait of a fictional senior clerk; no historical likeness is claimed."
     },
@@ -365,8 +371,15 @@
       "generatedBy": "hand-authored project SVG",
       "license": "original project-authored vector artwork",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
-      "intendedScene": ["nevsky", "printshop"],
-      "sourceIds": ["LIT-TURGENEV-KHOR-KALYNYCH-1847", "OBJ-SOV-1847", "OBJ-WS-NEKRASOV-EDITORIAL-1848"],
+      "intendedScene": [
+        "nevsky",
+        "printshop"
+      ],
+      "sourceIds": [
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-SOV-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848"
+      ],
       "sourceUrls": [],
       "notes": "Original stylized portrait of a fictional reader; no historical likeness is claimed."
     },
@@ -377,8 +390,14 @@
       "generatedBy": "hand-authored project SVG",
       "license": "original project-authored vector artwork",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
-      "intendedScene": ["printshop", "nevsky"],
-      "sourceIds": ["LIT-TURGENEV-KHOR-KALYNYCH-1847", "OBJ-WS-NEKRASOV-EDITORIAL-1848"],
+      "intendedScene": [
+        "printshop",
+        "nevsky"
+      ],
+      "sourceIds": [
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848"
+      ],
       "sourceUrls": [],
       "notes": "Original vector walk-cycle for fictional editor Sofia; no historical likeness is claimed."
     },
@@ -389,8 +408,14 @@
       "generatedBy": "hand-authored project SVG",
       "license": "original project-authored vector artwork",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
-      "intendedScene": ["printshop", "nevsky"],
-      "sourceIds": ["LIT-TURGENEV-KHOR-KALYNYCH-1847", "OBJ-WS-NEKRASOV-EDITORIAL-1848"],
+      "intendedScene": [
+        "printshop",
+        "nevsky"
+      ],
+      "sourceIds": [
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848"
+      ],
       "sourceUrls": [],
       "notes": "Original stylized portrait of fictional editor Sofia; no historical likeness is claimed."
     },
@@ -401,7 +426,10 @@
       "generatedBy": "hand-authored project SVG",
       "license": "original project-authored vector artwork",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
-      "intendedScene": ["police-station", "nevsky"],
+      "intendedScene": [
+        "police-station",
+        "nevsky"
+      ],
       "sourceIds": [],
       "sourceUrls": [],
       "notes": "Original vector walk-cycle for fictional police sergeant Ivan; not a reconstruction of an actual officer."
@@ -413,10 +441,181 @@
       "generatedBy": "hand-authored project SVG",
       "license": "original project-authored vector artwork",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
-      "intendedScene": ["police-station", "nevsky"],
+      "intendedScene": [
+        "police-station",
+        "nevsky"
+      ],
       "sourceIds": [],
       "sourceUrls": [],
       "notes": "Original stylized portrait of fictional police sergeant Ivan; no historical likeness is claimed."
+    },
+    {
+      "id": "sprite-yardkeeper_semyon",
+      "path": "rpg/assets/yardkeeper_semyon.png",
+      "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
+      "generatedBy": "scripts/v36-add-market-cohort.mjs",
+      "license": "original project-authored pixels",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": [
+        "market-quay",
+        "nevsky",
+        "courtyard"
+      ],
+      "sourceIds": [],
+      "notes": "Original pixel design for the fictional 하숙집 안뜰 관리인; not a documented likeness or period artifact."
+    },
+    {
+      "id": "portrait-yardkeeper_semyon",
+      "path": "rpg/assets/portrait-yardkeeper_semyon.png",
+      "type": "ORIGINAL_PIXEL_FACE_PORTRAIT",
+      "generatedBy": "scripts/v36-add-market-cohort.mjs",
+      "license": "original project-authored pixels",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": [
+        "market-quay"
+      ],
+      "sourceIds": [],
+      "notes": "Original pixel design for the fictional 하숙집 안뜰 관리인; not a documented likeness or period artifact."
+    },
+    {
+      "id": "sprite-laundress_mariya",
+      "path": "rpg/assets/laundress_mariya.png",
+      "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
+      "generatedBy": "scripts/v36-add-market-cohort.mjs",
+      "license": "original project-authored pixels",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": [
+        "market-quay",
+        "nevsky",
+        "courtyard"
+      ],
+      "sourceIds": [],
+      "notes": "Original pixel design for the fictional 세탁과 다림질을 맡는 품팔이 노동자; not a documented likeness or period artifact."
+    },
+    {
+      "id": "portrait-laundress_mariya",
+      "path": "rpg/assets/portrait-laundress_mariya.png",
+      "type": "ORIGINAL_PIXEL_FACE_PORTRAIT",
+      "generatedBy": "scripts/v36-add-market-cohort.mjs",
+      "license": "original project-authored pixels",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": [
+        "market-quay"
+      ],
+      "sourceIds": [],
+      "notes": "Original pixel design for the fictional 세탁과 다림질을 맡는 품팔이 노동자; not a documented likeness or period artifact."
+    },
+    {
+      "id": "sprite-baker_fyodor",
+      "path": "rpg/assets/baker_fyodor.png",
+      "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
+      "generatedBy": "scripts/v36-add-market-cohort.mjs",
+      "license": "original project-authored pixels",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": [
+        "market-quay",
+        "nevsky",
+        "courtyard"
+      ],
+      "sourceIds": [],
+      "notes": "Original pixel design for the fictional 새벽부터 반죽과 화덕을 맡는 제빵공; not a documented likeness or period artifact."
+    },
+    {
+      "id": "portrait-baker_fyodor",
+      "path": "rpg/assets/portrait-baker_fyodor.png",
+      "type": "ORIGINAL_PIXEL_FACE_PORTRAIT",
+      "generatedBy": "scripts/v36-add-market-cohort.mjs",
+      "license": "original project-authored pixels",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": [
+        "market-quay"
+      ],
+      "sourceIds": [],
+      "notes": "Original pixel design for the fictional 새벽부터 반죽과 화덕을 맡는 제빵공; not a documented likeness or period artifact."
+    },
+    {
+      "id": "sprite-market_nadezhda",
+      "path": "rpg/assets/market_nadezhda.png",
+      "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
+      "generatedBy": "scripts/v36-add-market-cohort.mjs",
+      "license": "original project-authored pixels",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": [
+        "market-quay",
+        "nevsky",
+        "courtyard"
+      ],
+      "sourceIds": [],
+      "notes": "Original pixel design for the fictional 시장 좌판을 꾸리는 식료품 판매상; not a documented likeness or period artifact."
+    },
+    {
+      "id": "portrait-market_nadezhda",
+      "path": "rpg/assets/portrait-market_nadezhda.png",
+      "type": "ORIGINAL_PIXEL_FACE_PORTRAIT",
+      "generatedBy": "scripts/v36-add-market-cohort.mjs",
+      "license": "original project-authored pixels",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": [
+        "market-quay"
+      ],
+      "sourceIds": [],
+      "notes": "Original pixel design for the fictional 시장 좌판을 꾸리는 식료품 판매상; not a documented likeness or period artifact."
+    },
+    {
+      "id": "sprite-porter_gavrila",
+      "path": "rpg/assets/porter_gavrila.png",
+      "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
+      "generatedBy": "scripts/v36-add-market-cohort.mjs",
+      "license": "original project-authored pixels",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": [
+        "market-quay",
+        "nevsky",
+        "courtyard"
+      ],
+      "sourceIds": [],
+      "notes": "Original pixel design for the fictional 부두와 시장 사이에서 짐을 나르는 인부; not a documented likeness or period artifact."
+    },
+    {
+      "id": "portrait-porter_gavrila",
+      "path": "rpg/assets/portrait-porter_gavrila.png",
+      "type": "ORIGINAL_PIXEL_FACE_PORTRAIT",
+      "generatedBy": "scripts/v36-add-market-cohort.mjs",
+      "license": "original project-authored pixels",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": [
+        "market-quay"
+      ],
+      "sourceIds": [],
+      "notes": "Original pixel design for the fictional 부두와 시장 사이에서 짐을 나르는 인부; not a documented likeness or period artifact."
+    },
+    {
+      "id": "sprite-coachman_timofey",
+      "path": "rpg/assets/coachman_timofey.png",
+      "type": "ORIGINAL_PIXEL_SPRITE_SHEET",
+      "generatedBy": "scripts/v36-add-market-cohort.mjs",
+      "license": "original project-authored pixels",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": [
+        "market-quay",
+        "nevsky",
+        "courtyard"
+      ],
+      "sourceIds": [],
+      "notes": "Original pixel design for the fictional 도심 손님과 짐을 나르는 마부; not a documented likeness or period artifact."
+    },
+    {
+      "id": "portrait-coachman_timofey",
+      "path": "rpg/assets/portrait-coachman_timofey.png",
+      "type": "ORIGINAL_PIXEL_FACE_PORTRAIT",
+      "generatedBy": "scripts/v36-add-market-cohort.mjs",
+      "license": "original project-authored pixels",
+      "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
+      "intendedScene": [
+        "market-quay"
+      ],
+      "sourceIds": [],
+      "notes": "Original pixel design for the fictional 도심 손님과 짐을 나르는 마부; not a documented likeness or period artifact."
     }
   ]
 }

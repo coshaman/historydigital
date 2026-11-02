@@ -7,20 +7,74 @@
       "nameKo": "네프스키의 일터 거리",
       "prototypeStatus": "PHASE_1_PLAYABLE_PROTOTYPE",
       "districtType": "COMMERCIAL_AND_WORKPLACE_RECONSTRUCTION",
-      "mapIds": ["nevsky", "printshop", "chancery", "police-station"],
+      "mapIds": [
+        "nevsky",
+        "printshop",
+        "chancery",
+        "police-station"
+      ],
       "entryMapId": "nevsky",
-      "interiorMapIds": ["printshop", "chancery", "police-station"],
-      "residentIds": ["clerk_alexei", "printer_ekaterina", "courier_pavel", "seamstress_anna", "bookseller_lev", "senior_clerk_konstantin", "reader_darya", "editor_sofia", "police_sergeant_ivan"],
+      "interiorMapIds": [
+        "printshop",
+        "chancery",
+        "police-station"
+      ],
+      "residentIds": [
+        "clerk_alexei",
+        "printer_ekaterina",
+        "courier_pavel",
+        "seamstress_anna",
+        "bookseller_lev",
+        "senior_clerk_konstantin",
+        "reader_darya",
+        "editor_sofia",
+        "police_sergeant_ivan"
+      ],
       "connections": [
-        { "fromMapId": "nevsky", "exitId": "nevsky-printshop-door", "toMapId": "printshop" },
-        { "fromMapId": "nevsky", "exitId": "nevsky-chancery-door", "toMapId": "chancery" },
-        { "fromMapId": "nevsky", "exitId": "nevsky-police-door", "toMapId": "police-station" },
-        { "fromMapId": "nevsky", "exitId": "nevsky-courtyard-gate", "toMapId": "courtyard", "districtTransition": true }
+        {
+          "fromMapId": "nevsky",
+          "exitId": "nevsky-printshop-door",
+          "toMapId": "printshop"
+        },
+        {
+          "fromMapId": "nevsky",
+          "exitId": "nevsky-chancery-door",
+          "toMapId": "chancery"
+        },
+        {
+          "fromMapId": "nevsky",
+          "exitId": "nevsky-police-door",
+          "toMapId": "police-station"
+        },
+        {
+          "fromMapId": "nevsky",
+          "exitId": "nevsky-courtyard-gate",
+          "toMapId": "courtyard",
+          "districtTransition": true
+        },
+        {
+          "fromMapId": "nevsky",
+          "exitId": "nevsky-market-gate",
+          "toMapId": "market-quay",
+          "districtTransition": true
+        }
       ],
       "sourceEvidence": [
-        { "sourceId": "V36-MAP-NLR-19C-PLANS", "sourceType": "PERIOD_MAP", "use": "Broad street and waterway context only; no exact in-game locator is asserted." },
-        { "sourceId": "V36-ART-SADOVNIKOV-NEVSKY-PANORAMA", "sourceType": "PERIOD_PRINT", "use": "Nevsky facade rhythm and street activity reference; no exact shop occupant or game coordinate is inferred." },
-        { "sourceId": "V36-GUIDE-PUSHKAREV-1843", "sourceType": "PERIOD_TEXT", "use": "Name and facility investigation; individual entries remain unchecked before address-level claims." }
+        {
+          "sourceId": "V36-MAP-NLR-19C-PLANS",
+          "sourceType": "PERIOD_MAP",
+          "use": "Broad street and waterway context only; no exact in-game locator is asserted."
+        },
+        {
+          "sourceId": "V36-ART-SADOVNIKOV-NEVSKY-PANORAMA",
+          "sourceType": "PERIOD_PRINT",
+          "use": "Nevsky facade rhythm and street activity reference; no exact shop occupant or game coordinate is inferred."
+        },
+        {
+          "sourceId": "V36-GUIDE-PUSHKAREV-1843",
+          "sourceType": "PERIOD_TEXT",
+          "use": "Name and facility investigation; individual entries remain unchecked before address-level claims."
+        }
       ],
       "gameTransformation": "Existing Nevsky street plus fictional workplace interiors; specific office/station rooms are reconstructed, not historical rooms."
     },
@@ -29,19 +83,87 @@
       "nameKo": "하숙집 안뜰과 셋방",
       "prototypeStatus": "PHASE_1_PLAYABLE_PROTOTYPE",
       "districtType": "HOUSEHOLD_AND_SHARED_COURTYARD_RECONSTRUCTION",
-      "mapIds": ["courtyard"],
+      "mapIds": [
+        "courtyard"
+      ],
       "entryMapId": "courtyard",
       "interiorMapIds": [],
-      "residentIds": ["tenant_mikhail", "courier_pavel", "seamstress_anna"],
+      "residentIds": [
+        "tenant_mikhail",
+        "courier_pavel",
+        "seamstress_anna"
+      ],
       "connections": [
-        { "fromMapId": "courtyard", "exitId": "courtyard-nevsky-gate", "toMapId": "nevsky", "districtTransition": true }
+        {
+          "fromMapId": "courtyard",
+          "exitId": "courtyard-nevsky-gate",
+          "toMapId": "nevsky",
+          "districtTransition": true
+        }
       ],
       "sourceEvidence": [
-        { "sourceId": "V36-MAP-NLR-19C-PLANS", "sourceType": "PERIOD_MAP", "use": "Street and block context only; the named household and address are fictional." },
-        { "sourceId": "V36-ART-SADOVNIKOV-NEVSKY-PANORAMA", "sourceType": "PERIOD_PRINT", "use": "Nevsky street-scene context only; not evidence for this specific courtyard." },
-        { "sourceId": "V36-PHYSIOLOGY-PETERSBURG-1845", "sourceType": "PERIOD_TEXT", "use": "Literary urban-life comparison after checking individual relevant pages; not a representative statistic." }
+        {
+          "sourceId": "V36-MAP-NLR-19C-PLANS",
+          "sourceType": "PERIOD_MAP",
+          "use": "Street and block context only; the named household and address are fictional."
+        },
+        {
+          "sourceId": "V36-ART-SADOVNIKOV-NEVSKY-PANORAMA",
+          "sourceType": "PERIOD_PRINT",
+          "use": "Nevsky street-scene context only; not evidence for this specific courtyard."
+        },
+        {
+          "sourceId": "V36-PHYSIOLOGY-PETERSBURG-1845",
+          "sourceType": "PERIOD_TEXT",
+          "use": "Literary urban-life comparison after checking individual relevant pages; not a representative statistic."
+        }
       ],
       "gameTransformation": "Fictional shared courtyard and rented rooms; no specific named address, household, or rent amount is claimed as historical fact."
+    },
+    {
+      "id": "MARKET_QUAY",
+      "nameKo": "장터와 강변의 일터",
+      "prototypeStatus": "PHASE_1_PLAYABLE_PROTOTYPE",
+      "districtType": "MARKET_AND_WATERFRONT_RECONSTRUCTION",
+      "mapIds": [
+        "market-quay"
+      ],
+      "entryMapId": "market-quay",
+      "interiorMapIds": [],
+      "residentIds": [
+        "yardkeeper_semyon",
+        "laundress_mariya",
+        "baker_fyodor",
+        "market_nadezhda",
+        "porter_gavrila",
+        "coachman_timofey"
+      ],
+      "connections": [
+        {
+          "fromMapId": "market-quay",
+          "exitId": "market-nevsky-gate",
+          "toMapId": "nevsky",
+          "districtTransition": true
+        }
+      ],
+      "sourceEvidence": [
+        {
+          "sourceId": "V36-MAP-NLR-19C-PLANS",
+          "sourceType": "PERIOD_MAP",
+          "use": "Broad city and waterway context; not a locator for this invented market."
+        },
+        {
+          "sourceId": "V36-ART-RUSSIAN-MUSEUM-COLLMANN-1840S",
+          "sourceType": "PERIOD_PAINTING",
+          "use": "Visual reference for generic cab and street-commerce activity only."
+        },
+        {
+          "sourceId": "V36-PHYSIOLOGY-PETERSBURG-1845",
+          "sourceType": "PERIOD_TEXT",
+          "use": "Literary urban occupations as context, not a representative census."
+        }
+      ],
+      "gameTransformation": "A fictional, non-georeferenced market-and-landing scene. Stallholders and work conflicts are invented characters and do not assert a named 1847 address."
     }
   ]
 }

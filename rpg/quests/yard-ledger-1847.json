@@ -1,0 +1,74 @@
+{
+  "id": "YARD_LEDGER_1847",
+  "titleKo": "장작 장부의 빈칸",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "장작 더미가 줄었지만 목격자는 없다. 안뜰 관리인 세묜은 세입자의 이름을 적기 전에 장부에 무엇을 남길지 정해야 한다.",
+  "historicalOutcome": {
+    "id": "YARD_LEDGER_1847_FICTIONAL_OUTCOME",
+    "value": "fictional household and work choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "market-quay",
+    "objectId": 110,
+    "requiredHostId": "yardkeeper_semyon"
+  },
+  "actions": [
+    {
+      "id": "YARDKEEPER_SEMYON_CHOICE_1",
+      "hostIds": [
+        "yardkeeper_semyon"
+      ],
+      "labelKo": "기록을 보류하고 수량과 시각만 적는다",
+      "subcopyKo": "집주인과 관리인만 봅니다 · 이름 없는 안뜰 장부에 남습니다 · 확인이 늦어질 수 있습니다",
+      "resultKo": "수량과 마지막 확인 시각만 적었다. 이름을 적을 근거가 생길 때까지 판단은 미뤘다.",
+      "resultFlag": "semyonMeasured",
+      "followupTitleKo": "장작 장부의 빈칸",
+      "followupKo": "이 선택은 이 허구 인물의 오늘과 이웃과의 관계에만 남는다.",
+      "effects": {
+        "situationKo": "세입자의 이름 없이 수량과 시각을 기록했다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 직접 확인했다"
+        }
+      }
+    },
+    {
+      "id": "YARDKEEPER_SEMYON_CHOICE_2",
+      "hostIds": [
+        "yardkeeper_semyon"
+      ],
+      "labelKo": "집주인에게 의심받는 집의 이름을 알린다",
+      "subcopyKo": "집주인이 읽습니다 · 안뜰 장부에 이름이 남습니다 · 세입자와의 갈등 위험을 감수합니다",
+      "resultKo": "확인되지 않은 의심을 이름과 함께 알렸다. 집주인은 조사할 수 있지만, 그 집 사람에게도 소문이 닿을 수 있다.",
+      "resultFlag": "semyonNamed",
+      "followupTitleKo": "장작 장부의 빈칸",
+      "followupKo": "이 선택은 이 허구 인물의 오늘과 이웃과의 관계에만 남는다.",
+      "effects": {
+        "situationKo": "확인되지 않은 이름을 안뜰 장부에 적었다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 직접 확인했다"
+        }
+      }
+    },
+    {
+      "id": "YARDKEEPER_SEMYON_CHOICE_3",
+      "hostIds": [
+        "yardkeeper_semyon"
+      ],
+      "labelKo": "장부를 잠그고 당사자에게 먼저 묻는다",
+      "subcopyKo": "관리인과 해당 세입자만 봅니다 · 공식 장부에는 남지 않습니다 · 확인이 더 늦어질 수 있습니다",
+      "resultKo": "장부는 잠가 두고 해당 세입자에게 먼저 물어보기로 했다. 당장은 이름이 퍼지지 않지만 장작은 아직 찾지 못했다.",
+      "resultFlag": "semyonAsked",
+      "followupTitleKo": "장작 장부의 빈칸",
+      "followupKo": "이 선택은 이 허구 인물의 오늘과 이웃과의 관계에만 남는다.",
+      "effects": {
+        "situationKo": "장부를 잠그고 당사자에게 먼저 확인하기로 했다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 직접 확인했다"
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named market work object"
+}

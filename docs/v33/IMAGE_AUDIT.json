@@ -1,7 +1,7 @@
 {
   "schemaVersion": "V33-IMAGE-AUDIT-3",
   "status": "PASS",
-  "pngCount": 21,
+  "pngCount": 33,
   "svgCount": 6,
   "assets": [
     {
@@ -32,6 +32,15 @@
       "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
     },
     {
+      "path": "rpg/assets/baker_fyodor.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 504,
+      "sha256": "3fcf8f173b9721cf2676aea04700e7f07a987581250357bb0a41fb6b764b7080",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
       "path": "rpg/assets/chichikov.png",
       "width": 48,
       "height": 96,
@@ -39,6 +48,15 @@
       "sha256": "1411553f6aaba42d9b4e745bbd476e9a818e3a25da1ca95baa149a1266c3b6e4",
       "license": "original project-authored pixels",
       "confidence": "LITERARY_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/coachman_timofey.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 490,
+      "sha256": "7cc50d710105bcfa9d5956d5293f68d125fce3dc8df8488ef88cacccd4e02e08",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
     },
     {
       "path": "rpg/assets/ekaterina.png",
@@ -50,11 +68,29 @@
       "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
     },
     {
+      "path": "rpg/assets/laundress_mariya.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 508,
+      "sha256": "7ceb833fd2a8b2437a378098f51d22119424f3d0f7a9e3223c2094bc02640154",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
       "path": "rpg/assets/lev.png",
       "width": 48,
       "height": 96,
       "bytes": 516,
       "sha256": "a02de10f577ff016f7fb3c8db40e961d9a4e70628f0aec0093c0d68b534f55d6",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/market_nadezhda.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 507,
+      "sha256": "b4310e843e96661dcaad6d10d34d4bbce1b36801f6072e216c81a438b54a01b0",
       "license": "original project-authored pixels",
       "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
     },
@@ -104,6 +140,24 @@
       "confidence": "LITERARY_CHARACTER_RECONSTRUCTION"
     },
     {
+      "path": "rpg/assets/porter_gavrila.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 503,
+      "sha256": "b13c726fc100c0e003fe29f0b0ece3f1dc6fe3ad27d27e69722a8c54d854e231",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-baker_fyodor.png",
+      "width": 64,
+      "height": 64,
+      "bytes": 562,
+      "sha256": "a1ad03528083d68378863c6902b3ea50f5ad340962129fd11dd2d79767fa08e5",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
       "path": "rpg/assets/portrait-bookseller_lev.png",
       "width": 64,
       "height": 64,
@@ -122,12 +176,30 @@
       "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
     },
     {
+      "path": "rpg/assets/portrait-coachman_timofey.png",
+      "width": 64,
+      "height": 64,
+      "bytes": 542,
+      "sha256": "205530e2febf890ab65a43be84267158d156da306050833f501b80cfbdeaadc9",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
       "path": "rpg/assets/portrait-courier_pavel.png",
       "width": 64,
       "height": 64,
       "bytes": 10135,
       "sha256": "c9b35c2052687879bb5096382ea82960499d08291d342af018c8646114a40f40",
       "license": "original project-generated illustrative artwork",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-laundress_mariya.png",
+      "width": 64,
+      "height": 64,
+      "bytes": 559,
+      "sha256": "ba846d7afdc3367e88bbe535076906b9ebceb512f01c269bfde6faca125149d9",
+      "license": "original project-authored pixels",
       "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
     },
     {
@@ -158,6 +230,15 @@
       "confidence": "LITERARY_CHARACTER_RECONSTRUCTION"
     },
     {
+      "path": "rpg/assets/portrait-market_nadezhda.png",
+      "width": 64,
+      "height": 64,
+      "bytes": 551,
+      "sha256": "255b14923e566ea2d05423990aeb411f8231b088ddaf2cb977c2bd85e91cbf98",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
       "path": "rpg/assets/portrait-nekrasov_reconstruction.png",
       "width": 64,
       "height": 64,
@@ -165,6 +246,15 @@
       "sha256": "f83131a9005ce67dad8adeaeeab9c3a6853e5682ae139fd6c72090cacc4a5566",
       "license": "original project-generated illustrative artwork",
       "confidence": "SOURCE_CONSTRAINED_HISTORICAL_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-porter_gavrila.png",
+      "width": 64,
+      "height": 64,
+      "bytes": 557,
+      "sha256": "5c51a9b246209ca255489c55b2922884823f2b6f6dece055dba352ac04477f63",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
     },
     {
       "path": "rpg/assets/portrait-printer_ekaterina.png",
@@ -191,6 +281,24 @@
       "bytes": 10414,
       "sha256": "0cbbe490219e3b953d83267b4326d47abc0b2a9f4b428b42ea3ecf0629c99401",
       "license": "original project-generated illustrative artwork",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-yardkeeper_semyon.png",
+      "width": 64,
+      "height": 64,
+      "bytes": 538,
+      "sha256": "8d260860a4242e8711e698acbe5e7625c2060efa5d52ee965aa30cc28aca9dfb",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/yardkeeper_semyon.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 480,
+      "sha256": "ae053e72dc4785cb1ff38ac6d18efd0b885aab526ea494f3285da827eabc9f06",
+      "license": "original project-authored pixels",
       "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
     },
     {
