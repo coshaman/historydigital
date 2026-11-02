@@ -4,7 +4,7 @@ import { questChoices, continuationQuest } from './engine/quest-presentation.mjs
 import { resolveQuestGuidance } from './engine/quest-guidance.mjs';
 import { ownsKeyboardInput, observationText } from './engine/player-presentation.mjs';
 import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHost, discussionReflectionPromptsForHost } from './engine/discussion-quests.mjs';
-import { dialogueSessionNeedsReconnect, selectDialogueTurn } from './engine/dialogue-response.mjs';
+import { dialogueSessionNeedsReconnect, selectDialogueTurn, shouldUseAuthoredOfflineReply } from './engine/dialogue-response.mjs';
 import { appendApiDiagnostic, clearApiDiagnostics, readApiDiagnostics } from './engine/api-diagnostics.mjs';
 import { CITY_PRODUCTS, NEWSPAPER_STORIES, newspaperAssignment, purchaseCityProduct, publishNewspaperIssue, shareSourceWithEditor, readNewspaperIssue, circulateNewspaperIssue, commitSuspiciousAct, resolvePoliceCustody, publishedIssueLabel } from './engine/civic-life.mjs';
 import { conversations, availableTopics, authoredReply, contextualOpening } from './ai/authored-dialogue.mjs';
@@ -70,6 +70,7 @@ $('.mission-controls').append(caseContextButton);
 let lastMoveAt = 0, renderFrame = null, renderTimer = null, activeDialogueHost = null, activeDialogueKey = null, activeDialogueController = null, dialogueGeneration = 0, dialogueRequestPending = false;
 const dialogueSessions = new Map(), dialogueTranscripts = new Map();
 const dialogueCurrentLines = new Map();
+const dialogueFailedQuestions = new Map();
 const heardTopics = new Map();
 const hasLiveDialogue = key => !dialogueSessionNeedsReconnect(dialogueSessions.get(key));
 const dialogueKey = (actorHostId, speakerHostId) => `${actorHostId}::${speakerHostId}`;
@@ -1077,7 +1078,7 @@ function showConversation(card, promptText, replies, statusText = '') {
     const retry = document.createElement('button'); retry.type = 'button'; retry.textContent = 'AI 다시 연결';
     retry.addEventListener('click', async () => {
       const key = activeDialogueKey;
-      const retryText = statusText.startsWith('AI 응답 생성 실패') ? (dialogueTranscripts.get(key) ?? []).at(-1)?.text : null;
+      const retryText = dialogueFailedQuestions.get(key) ?? null;
       if (key) { dialogueSessions.delete(key); sessionStorage.removeItem(dialogueStorageKey(key)); }
       finishConversation(card.id);
       await startConversation(card);
@@ -1138,16 +1139,18 @@ async function sendConversation(card, playerText, replyId = null) {
   const liveDiscussionQuests = currentDiscussionQuests();
   const discussionPrompt = discussionPromptsForHost(card.id, liveDiscussionQuests).find(item => item.promptKo === playerText);
   const reflectionPrompt = discussionReflectionPromptsForHost(card.id, state, liveDiscussionQuests).find(item => item.promptKo === playerText);
-  const lines = dialogueTranscripts.get(key) ?? []; lines.push({ speaker: actorCard.displayNameKo, text: playerText });
+  const lines = dialogueTranscripts.get(key) ?? [];
+  if (lines.at(-1)?.speaker !== actorCard.displayNameKo || lines.at(-1)?.text !== playerText) lines.push({ speaker: actorCard.displayNameKo, text: playerText });
+  dialogueFailedQuestions.set(key, playerText);
   dialogueTranscripts.set(key, lines.slice(-24));
-  let session = dialogueSessions.get(key); let turn = null, fallbackReason = '';
+  let session = dialogueSessions.get(key); let turn = null, fallbackReason = '', allowAuthoredOffline = false;
   if (!hasLiveDialogue(key)) {
     const controller = new AbortController(); activeDialogueController = controller;
     const timer = setTimeout(() => controller.abort(), 7000);
     try {
       session = await openDialogueSession(card, actorCard, controller.signal);
       dialogueSessions.set(key, session); sessionStorage.setItem(dialogueStorageKey(key), session.token);
-    } catch (error) { recordApiFailure('/api/rpg/session/start', error); fallbackReason = `AI 연결 실패 · ${dialogueApiFailure(error)}`; }
+    } catch (error) { recordApiFailure('/api/rpg/session/start', error); allowAuthoredOffline = shouldUseAuthoredOfflineReply({ apiFailureCode: error?.apiCode }); fallbackReason = `AI 연결 실패 · ${dialogueApiFailure(error)}`; }
     finally { clearTimeout(timer); if (activeDialogueController === controller) activeDialogueController = null; }
     if (activeDialogueHost !== card.id || activeDialogueKey !== key || dialogueGeneration !== generation) return;
   }
@@ -1196,8 +1199,8 @@ async function sendConversation(card, playerText, replyId = null) {
     if (activeDialogueHost !== card.id || activeDialogueKey !== key || dialogueGeneration !== generation) return;
   }
   const local = aiScenes.sessions[card.id];
-  if (!turn && fallbackReason.startsWith('AI 응답 생성 실패')) {
-    dialogueCurrentLines.set(key, '이번 질문의 생성 답변을 받지 못했습니다. 준비된 대사로 대신하지 않았어요.');
+  if (!turn && fallbackReason && !allowAuthoredOffline) {
+    dialogueCurrentLines.set(key, '이번 질문에 대한 생성 답변을 받지 못했습니다. 연결을 확인한 뒤 같은 질문을 다시 보낼 수 있습니다.');
     showConversation(card, dialogueCurrentLines.get(key), [], fallbackReason);
     $('.journal').scrollTop = $('.journal').scrollHeight;
     return;
@@ -1209,6 +1212,7 @@ async function sendConversation(card, playerText, replyId = null) {
     turn = { beats: [{ speakerId: reply.speakerId, textKo: reply.text, emotion: 'neutral' }], suggestedReplies: reply.replies.map(textKo => ({ textKo })) };
     if (reply.complete && reply.text !== conversations[card.id].closing) turn.beats.push({ speakerId: card.id, textKo: conversations[card.id].closing });
   }
+  dialogueFailedQuestions.delete(key);
   for (const beat of turn.beats) lines.push({ speaker: beat.speakerId === 'NARRATION' ? card.displayNameKo : card.displayNameKo, text: beat.textKo });
   dialogueTranscripts.set(key, lines.slice(-24));
   dialogueCurrentLines.set(key, turn.beats.map(beat => beat.textKo).join('\n'));

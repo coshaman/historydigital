@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { dialogueSessionNeedsReconnect, selectDialogueTurn } from '../rpg/engine/dialogue-response.mjs';
+import { dialogueSessionNeedsReconnect, selectDialogueTurn, shouldUseAuthoredOfflineReply } from '../rpg/engine/dialogue-response.mjs';
 
 test('a validated AI-mode response is the turn shown and recorded by the game', () => {
   const turn = { sceneId: 'SCENE_A', beats: [{ speakerId: 'editor_sofia', textKo: '원문을 먼저 볼게요.' }], suggestedReplies: [] };
@@ -23,4 +23,12 @@ test('a transient authored fallback session must reconnect instead of pinning la
   assert.equal(dialogueSessionNeedsReconnect({ token: 'signed-session', mode: 'AUTHORED' }), true);
   assert.equal(dialogueSessionNeedsReconnect({ token: 'signed-session', mode: 'AI' }), false);
   assert.equal(dialogueSessionNeedsReconnect(null), true);
+});
+
+test('only an explicit missing API key enables authored offline answers', () => {
+  assert.equal(shouldUseAuthoredOfflineReply({ apiFailureCode: 'BLOCKED_NO_KEY' }), true);
+  for (const apiFailureCode of ['network_error', 'http_500', 'timeout', 'response_schema_invalid', '']) {
+    assert.equal(shouldUseAuthoredOfflineReply({ apiFailureCode }), false, apiFailureCode || 'unknown failure');
+  }
+  assert.equal(shouldUseAuthoredOfflineReply({ apiFailureCode: 'BLOCKED_NO_KEY', sessionWasLive: true }), false);
 });

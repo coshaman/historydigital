@@ -73,10 +73,12 @@ test('the opening opinion quests tell a first-time player what to do before poss
   const quests = availableDiscussionQuests({ world: { date: '1847-06-01' }, ledger: [] }, definitions);
   const board = discussionBoardView(quests, null, { clerk_alexei: '알렉세이', senior_clerk_konstantin: '콘스탄틴' });
   assert.equal(board.visible, true);
-  assert.match(board.guidanceKo, /다른 인물의 몸을 빌려.*두 사람에게/);
-  assert.match(board.rows[0], /두 사람에게 같은 쟁점을 물어보세요/);
-  assert.match(board.rows[0], /질문을 받을 사람/);
+  assert.match(board.progressKo, /사건·사상 견해 조사/);
+  assert.match(board.guidanceKo, /빙의해 대화하고.*같은 쟁점을 한 번 더/);
+  assert.match(board.rows[0], /먼저 묻기/);
+  assert.match(board.rows[0], /명령이 절차에 맞더라도 결과가 부당/);
   assert.match(board.rows.join(' '), /알렉세이|콘스탄틴/);
+  assert.equal(board.rows.length, quests.length, 'the board exposes every currently available inquiry, not only the first three');
   const active = quests.find(item => item.id === 'INQUIRY_OFFICIAL_DUTY_AND_MORALITY');
   const inConversation = discussionBoardView([active], 'clerk_alexei', { clerk_alexei: '알렉세이' });
   assert.match(inConversation.rows[0], /지금 대화 중인 알렉세이에게/);

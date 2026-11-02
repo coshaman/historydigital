@@ -20,6 +20,7 @@ const sessionStarts = [], dialogueRequests = [];
 let sessionTokenNumber = 0;
 let releaseSlowDialogue = null;
 let fallbackNextDialogue = false;
+let networkFailureNextDialogue = false;
 
 try {
   for (const viewport of [{ width: 1440, height: 900 }, { width: 1366, height: 768 }, { width: 390, height: 844 }, { width: 360, height: 800 }]) {
@@ -35,6 +36,7 @@ try {
     await page.route('**/api/rpg/health', async route => route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ status: 'ok', ai: 'configured' }) }));
     await page.route('**/api/rpg/dialogue', async route => {
       const body = JSON.parse(route.request().postData()); dialogueRequests.push(body);
+      if (networkFailureNextDialogue) { networkFailureNextDialogue = false; await route.abort(); return; }
       if (body.playerInput === '응답이 늦게 도착합니다.') await new Promise(resolve => { releaseSlowDialogue = resolve; });
       if (fallbackNextDialogue) {
         fallbackNextDialogue = false;
@@ -71,9 +73,9 @@ try {
     const settingsLayout = await page.locator('#api-settings').evaluate(element => { const rect=element.getBoundingClientRect(); return { width:rect.width,height:rect.height,right:rect.right,bottom:rect.bottom }; });
     assert.ok(settingsLayout.width <= viewport.width && settingsLayout.height <= viewport.height, `API settings dialog fits viewport ${viewport.width}`);
     const initialInquiryBoard = await page.locator('#discussion-quest-board').innerText();
-    assert.match(initialInquiryBoard, /관점 임무/);
-    assert.match(initialInquiryBoard, /두 인물과 이야기하면 마무리/);
-    assert.match(initialInquiryBoard, /관점 0\/2/);
+    assert.match(initialInquiryBoard, /사건·사상 견해 조사/);
+    assert.match(initialInquiryBoard, /다른 인물의 몸으로 바꿔 같은 쟁점/);
+    assert.match(initialInquiryBoard, /0\/2 관점/);
     assert.match(initialInquiryBoard, /검열|책에서|명령/);
     assert.equal(dialogueRequests.length, dialogueCountBeforeHealth, 'health probe does not create an AI dialogue');
     assert.equal(sessionStarts.length, sessionCountBeforeHealth, 'health probe does not create an AI session');
@@ -109,6 +111,25 @@ try {
     assert.deepEqual(dialogueRequests.at(-1).actorRelations, { source_readers: '출처 확인을 먼저 요청했다', workshop: '재확인 요청을 함께 맡았다' });
     assert.deepEqual(dialogueRequests.at(-1).actorActions, [{ questId: 'PRINTSHOP_PROOF_1847', actionId: 'ASK_FOR_SOURCE' }]);
     assert.equal(dialogueRequests.at(-1).sessionToken, `mock-session-${sessionTokenNumber}`);
+    if (viewport.width === 1440) {
+      const failedText = '생성 답변을 다시 요청합니다.';
+      const beforeFailure = dialogueRequests.length;
+      await page.locator('#save').click();
+      const ledgerBeforeFailure = await page.evaluate(() => JSON.parse(localStorage.getItem('v33-rpg-save')).state.ledger.filter(entry => entry.eventType === 'DIALOGUE_TURN').length);
+      networkFailureNextDialogue = true;
+      await page.getByLabel('대사 입력').fill(failedText);
+      await page.getByRole('button', { name: '말하기' }).click();
+      await page.getByRole('button', { name: 'AI 다시 연결' }).waitFor();
+      assert.match(await page.locator('#record').textContent(), /AI 연결 실패/);
+      assert.match(await page.locator('#journal-text').textContent(), /생성 답변을 받지 못했습니다/);
+      await page.locator('#save').click();
+      const ledgerAfterFailure = await page.evaluate(() => JSON.parse(localStorage.getItem('v33-rpg-save')).state.ledger);
+      assert.equal(ledgerAfterFailure.filter(entry => entry.eventType === 'DIALOGUE_TURN').length, ledgerBeforeFailure, 'a lost provider response is not turned into an authored offline reply');
+      await page.getByRole('button', { name: 'AI 다시 연결' }).click();
+      await page.locator('#journal-text').getByText('mocked ai line', { exact: true }).waitFor();
+      assert.equal(dialogueRequests.length, beforeFailure + 2, 'retry opens a fresh session and resends the unanswered question');
+      assert.equal(dialogueRequests.at(-1).playerInput, failedText);
+    }
     const portrait = await page.locator('#dialogue-portrait').evaluate(image => ({ src: image.getAttribute('src'), alt: image.alt, width: image.naturalWidth, height: image.naturalHeight, visible: image.getBoundingClientRect().width > 0 }));
     assert.match(portrait.src, /portrait-printer_ekaterina\.png$/);
     assert.equal(portrait.width, 64);

@@ -59,13 +59,18 @@ export function discussionBoardView(quests, hostId = null, hostNames = {}) {
           return [`${quest.titleKo} · ${count}/${quest.requiredPerspectiveCount ?? 2} 관점 · 다음에는 ${nextNames.join(' · ')}에게 같은 쟁점을 물어보세요. 질문: “${quest.hosts?.[nextHosts[0]]?.promptKo ?? quest.reflectionPromptKo ?? quest.titleKo}”`];
         }
         return [];
-      }).slice(0, 3)
-    : active.slice(0, 3).map(quest => `${quest.titleKo} · ${quest.perspectiveHostIds?.length ?? 0}/${quest.requiredPerspectiveCount ?? 2} 관점 · 질문을 받을 사람: ${eligibleFor(quest).map(id => hostNames[id] ?? id).join(' · ')}. 두 사람에게 같은 쟁점을 물어보세요.`);
+      })
+    : active.map(quest => {
+      const firstHost = eligibleFor(quest)[0];
+      const firstName = hostNames[firstHost] ?? firstHost ?? '가까운 인물';
+      const firstQuestion = quest.hosts?.[firstHost]?.promptKo ?? quest.reflectionPromptKo ?? quest.titleKo;
+      return `${quest.titleKo} · ${quest.perspectiveHostIds?.length ?? 0}/${quest.requiredPerspectiveCount ?? 2} 관점 · ${firstName}에게 먼저 묻기: “${firstQuestion}”`;
+    });
   return {
-    progressKo: `견해 임무 · ${completedCount} / ${(quests ?? []).length} 완료`,
+    progressKo: `사건·사상 견해 조사 · ${completedCount} / ${(quests ?? []).length} 완료`,
     guidanceKo: hostId
-      ? '질문을 받은 인물의 관점이 기록됩니다. 다음 질문 대상이 지금 빌린 몸이라면 다른 인물의 몸으로 바꾼 뒤 말을 거세요.'
-      : '질문을 받을 인물을 찾아 대화하세요. 직접 그 인물에게 말을 걸 수는 없으니, 다른 인물의 몸을 빌려 같은 쟁점을 두 사람에게 물어보세요.',
+      ? '아래 질문을 골라 첫 관점을 기록하세요. 이어서 다른 인물의 몸으로 바꿔 같은 쟁점을 물으면 2/2로 마무리됩니다.'
+      : '진행 방법 · 가까운 사람에게 빙의해 대화하고, 아래 첫 질문을 고르세요. 다른 인물의 몸으로 바꿔 같은 쟁점을 한 번 더 물으면 두 관점이 기록됩니다.',
     rows,
     visible: active.length > 0,
   };

@@ -58,7 +58,7 @@ body.learning-active{overflow:hidden}body.learning-active .game-shell{visibility
 .discussion-quest-board{margin:4px 0;padding:7px 9px;border-left:2px solid #b88d52;background:#281f19;color:#e7d5b1;font-size:12px;line-height:1.5}
 .discussion-quest-board strong{display:block;color:#d1ac6d;font-weight:600}
 .discussion-quest-board p{margin:3px 0;color:#fff0cc}
-.discussion-quest-board ul{display:grid;gap:4px;margin:4px 0 0;padding-left:17px;max-height:7.5em;overflow:auto;overscroll-behavior:contain}
+.discussion-quest-board ul{display:grid;gap:4px;margin:4px 0 0;padding-left:17px;max-height:10em;overflow:auto;overscroll-behavior:contain}
 .discussion-quest-board li{padding:0}
 .discussion-quest-board[hidden]{display:none!important}
 .api-settings{width:min(700px,calc(100vw - 24px));max-height:min(88dvh,820px);overflow:auto;padding:clamp(16px,3vw,28px);color:#33271d;background:#e9dcbd;border:2px solid #9b774e;box-shadow:0 0 0 5px #382820,0 18px 70px #000b;overscroll-behavior:contain}
