@@ -2705,6 +2705,57 @@
               "value": "APOTHECARY_LIMITS_1847"
             }
           ]
+        },
+        {
+          "id": 1012,
+          "name": "생선 입고와 판매 시각표",
+          "type": "quest-object",
+          "x": 416,
+          "y": 272,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "FISH_STORAGE_TIME_1847"
+            }
+          ]
+        },
+        {
+          "id": 1013,
+          "name": "창고 반출과 분실 대장",
+          "type": "quest-object",
+          "x": 80,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "WAREHOUSE_LOSS_RECORD_1847"
+            }
+          ]
+        },
+        {
+          "id": 1016,
+          "name": "짐 인수와 배달 지연표",
+          "type": "quest-object",
+          "x": 288,
+          "y": 224,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "CARTER_DELIVERY_DELAY_1847"
+            }
+          ]
         }
       ]
     },
@@ -3017,6 +3068,142 @@
               "name": "hostId",
               "type": "string",
               "value": "watercarrier_luka"
+            }
+          ]
+        },
+        {
+          "id": 912,
+          "name": "클라브디야",
+          "type": "npc",
+          "x": 416,
+          "y": 224,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "fishseller_klavdiya"
+            }
+          ]
+        },
+        {
+          "id": 913,
+          "name": "표트르",
+          "type": "npc",
+          "x": 64,
+          "y": 160,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "warehouse_pyotr"
+            }
+          ]
+        },
+        {
+          "id": 914,
+          "name": "바르바라",
+          "type": "npc",
+          "x": 192,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "servant_varvara"
+            }
+          ]
+        },
+        {
+          "id": 915,
+          "name": "세르게이",
+          "type": "npc",
+          "x": 192,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "junior_guard_sergey"
+            }
+          ]
+        },
+        {
+          "id": 916,
+          "name": "로만",
+          "type": "npc",
+          "x": 272,
+          "y": 176,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "carter_roman"
+            }
+          ]
+        },
+        {
+          "id": 917,
+          "name": "마트료나",
+          "type": "npc",
+          "x": 192,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "street_vendor_matryona"
+            }
+          ]
+        },
+        {
+          "id": 918,
+          "name": "니키타",
+          "type": "npc",
+          "x": 192,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "typesetter_nikita"
+            }
+          ]
+        },
+        {
+          "id": 919,
+          "name": "타티야나",
+          "type": "npc",
+          "x": 192,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "lodging_tatyana"
             }
           ]
         }

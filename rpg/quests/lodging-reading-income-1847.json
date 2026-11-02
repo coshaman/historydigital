@@ -1,0 +1,74 @@
+{
+  "id": "LODGING_READING_INCOME_1847",
+  "titleKo": "책 읽는 시간과 재봉 품삯",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "타티야나는 책을 빌려 읽을 시간을 내면 재봉 일감이 늦고, 일을 먼저 하면 책을 돌려줄 날이 다가온다.",
+  "historicalOutcome": {
+    "id": "LODGING_READING_INCOME_1847_FICTIONAL_OUTCOME",
+    "value": "fictional work and household choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "courtyard",
+    "objectId": 1019,
+    "requiredHostId": "lodging_tatyana"
+  },
+  "actions": [
+    {
+      "id": "LODGING_TATYANA_CHOICE_1",
+      "hostIds": [
+        "lodging_tatyana"
+      ],
+      "labelKo": "재봉 일정을 나눠 책 읽을 시간을 수첩에 남긴다",
+      "subcopyKo": "타티야나와 주문자가 봅니다 · 개인 수첩에 남습니다 · 납기가 늦어질 수 있습니다",
+      "resultKo": "하루의 일부를 읽는 데 쓰기로 했다. 책은 읽지만 주문이 늦어질 가능성이 있다.",
+      "resultFlag": "tatyanaScheduled",
+      "followupTitleKo": "책 읽는 시간과 재봉 품삯",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "책 읽는 시간과 재봉 시간을 나눠 적었다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    },
+    {
+      "id": "LODGING_TATYANA_CHOICE_2",
+      "hostIds": [
+        "lodging_tatyana"
+      ],
+      "labelKo": "책을 먼저 반납하고 재봉 일감을 끝낸다",
+      "subcopyKo": "타티야나와 책을 빌려준 사람이 압니다 · 대여표에 남습니다 · 다음에 책을 빌리기 어려울 수 있습니다",
+      "resultKo": "책을 돌려주고 품삯 일을 먼저 끝냈다. 납기는 지킬 수 있지만 읽기는 멈췄다.",
+      "resultFlag": "tatyanaReturned",
+      "followupTitleKo": "책 읽는 시간과 재봉 품삯",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "빌린 책을 반납하고 재봉 일을 마치기로 했다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    },
+    {
+      "id": "LODGING_TATYANA_CHOICE_3",
+      "hostIds": [
+        "lodging_tatyana"
+      ],
+      "labelKo": "독서 모임과 주문자에게 시간을 나눌 방법을 함께 묻는다",
+      "subcopyKo": "타티야나·모임 사람·주문자가 압니다 · 일정 메모에 남습니다 · 어느 쪽도 시간을 내주지 않을 수 있습니다",
+      "resultKo": "읽기와 납기 시간을 함께 조정해 달라고 물었다. 서로 도울 수 있지만 답은 보장되지 않는다.",
+      "resultFlag": "tatyanaAsked",
+      "followupTitleKo": "책 읽는 시간과 재봉 품삯",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "독서 모임과 주문자에게 일정 조정을 요청했다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named work record"
+}

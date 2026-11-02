@@ -96,7 +96,7 @@
       "canvas": {
         "width": 1382,
         "height": 355,
-        "sampledColors": 17,
+        "sampledColors": 18,
         "mapCoverage": 0.8668596237337193,
         "cssTileScale": 2.879166666666667
       },
@@ -414,7 +414,7 @@
       "canvas": {
         "width": 368,
         "height": 377,
-        "sampledColors": 26,
+        "sampledColors": 23,
         "mapCoverage": 1,
         "cssTileScale": 0.7666666666666667
       },

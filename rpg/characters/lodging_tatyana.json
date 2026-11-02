@@ -1,0 +1,197 @@
+{
+  "id": "lodging_tatyana",
+  "kind": "FICTIONAL",
+  "displayNameKo": "타티야나",
+  "displayNameRu": "Татьяна Орлова",
+  "ageAtDate": {
+    "value": 25,
+    "status": "fictional_character_design"
+  },
+  "socialEstate": "urban_laborer",
+  "occupation": "셋방에서 재봉 일감을 받고 빌린 책을 읽는 세입자",
+  "rank": {
+    "value": null,
+    "ru": null,
+    "status": "not_applicable"
+  },
+  "legalMobility": "하숙집·공개 거리와 수선 주문을 맡은 인쇄소 작업장 이용; 관청과 살롱 출입은 소개/고용 없이 불가",
+  "wealthBracket": "precarious",
+  "money": {
+    "amount": 18,
+    "unit": "kopeks",
+    "status": "designedEstimate"
+  },
+  "literacy": "짧은 인쇄 문장을 읽을 수 있음",
+  "health": "working",
+  "reputationByGroup": {
+    "courtyard": "steady_worker"
+  },
+  "risk": "오늘 일감을 놓치면 방세 납부가 늦어진다",
+  "relations": {},
+  "secretKnowledge": [
+    {
+      "id": "LODGING_TATYANA_PRIVATE_NOTE",
+      "summaryKo": "빌린 책을 반납하기 전까지 남은 이틀 동안 재봉 주문 두 벌을 끝내야 한다."
+    }
+  ],
+  "knownEvidence": [],
+  "privateKnowledgeIds": [
+    "LODGING_TATYANA_PRIVATE_NOTE"
+  ],
+  "knownEvidenceIds": [],
+  "desires": "배움의 시간을 얻기 위해 생계 수입을 포기해야 한다면 그 기회는 누구의 것일까요?",
+  "fears": "타티야나는 책을 빌려 읽을 시간을 내면 재봉 일감이 늦고, 일을 먼저 하면 책을 돌려줄 날이 다가온다.",
+  "taboos": [
+    "당사자가 없는 자리에서 이름을 퍼뜨리지 않는다"
+  ],
+  "speechRhythm": "처음엔 조용히 책과 바느질 얘기를 한다. 시간을 빼앗긴다는 말이 나오면 현실적인 계산을 들고 반박한다.",
+  "speechRegister": {
+    "firstMeeting": "처음 온 이에게 빌린 책과 재봉 일정을 먼저 설명한다.",
+    "colleague": "셋방 이웃과는 책 돌려줄 날과 바느질 품을 나눈다.",
+    "private": "사적으로는 배우고 싶은 마음과 수입 걱정을 함께 털어놓는다.",
+    "conflict": "배움을 공짜로 얻으라는 말엔 필요한 시간과 품삯을 따진다.",
+    "intimacy": "친한 독서 동료에게는 가벼운 농담과 질문을 섞는다.",
+    "formal": "집주인과 거래처에게는 예의를 지키며 대여일과 납기를 분명히 한다."
+  },
+  "voiceSamples": [
+    "책은 빌려온 거라 오래 비워둘 수 없어요. 재봉도 오늘 안에 마쳐야 하고요.",
+    "읽고 싶은 마음은 있는데 품삯도 필요해요. 시간을 어디서 낼지 정해야 해요.",
+    "읽고 배우는 일은 자기 형편을 설명하고 바꿀 말을 준다고 믿는다. 다만 수입을 포기하라고 쉽게 말하는 사람에게는 노동 비용을 되묻는다."
+  ],
+  "worldview": {
+    "status": "fictional_character_design",
+    "stanceKo": "읽고 배우는 일은 자기 형편을 설명하고 바꿀 말을 준다고 믿는다. 다만 수입을 포기하라고 쉽게 말하는 사람에게는 노동 비용을 되묻는다.",
+    "tensionKo": "타티야나는 책을 빌려 읽을 시간을 내면 재봉 일감이 늦고, 일을 먼저 하면 책을 돌려줄 날이 다가온다.",
+    "blindSpotKo": "자기 일이 급할 때 상대가 감당할 비용을 충분히 보지 못할 수 있다.",
+    "designBasisKo": "허구 시민 설정으로 실제 개인의 증언이나 사건을 나타내지 않는다.",
+    "sceneAnchorIds": [
+      "LODGING_READING_INCOME_1847"
+    ]
+  },
+  "topicStances": {
+    "serfdom": {
+      "knowledgeKind": "no_documented_stance",
+      "positionKo": "이 허구 인물은 농촌 제도의 직접 경험이나 확인된 정보를 가진 것으로 설정하지 않는다."
+    },
+    "censorship": {
+      "knowledgeKind": "fictional_workplace_context_only",
+      "positionKo": "문서의 전달·교정에서 자신이 직접 맡은 일만 말하고 실제 검열 규정을 대신 설명하지 않는다."
+    },
+    "literature": {
+      "knowledgeKind": "reader_limited",
+      "positionKo": "작가의 뜻을 대변하지 않고 자신이 읽거나 들은 범위만 말한다."
+    },
+    "poverty_and_class": {
+      "knowledgeKind": "fictional_lived_experience",
+      "positionKo": "읽고 배우는 일은 자기 형편을 설명하고 바꿀 말을 준다고 믿는다. 다만 수입을 포기하라고 쉽게 말하는 사람에게는 노동 비용을 되묻는다."
+    },
+    "slavophilism_and_westernism": {
+      "knowledgeKind": "unfamiliar_terms",
+      "positionKo": "사상 진영을 대변하지 않는다. 일과 이웃에게 생기는 비용을 중심으로 말한다."
+    }
+  },
+  "lexicon": [
+    "수선값",
+    "방세",
+    "마감"
+  ],
+  "emotions": [
+    "피로",
+    "단단함",
+    "가벼운 농담"
+  ],
+  "personalObjective": "배움의 시간을 얻기 위해 생계 수입을 포기해야 한다면 그 기회는 누구의 것일까요?",
+  "objectiveByChapter": {
+    "1847": "배움의 시간을 얻기 위해 생계 수입을 포기해야 한다면 그 기회는 누구의 것일까요?"
+  },
+  "allowedMaps": [
+    "nevsky",
+    "courtyard",
+    "market-quay",
+    "printshop",
+    "chancery"
+  ],
+  "start": {
+    "mapId": "courtyard",
+    "x": 22,
+    "y": 10
+  },
+  "wealthBracketStatus": "designedEstimate",
+  "inventory": [
+    "바늘통",
+    "남색 실",
+    "수선 맡은 소매"
+  ],
+  "sourceIds": [],
+  "canonConstraint": "fictional citizen; never treated as an attested historical individual or witness",
+  "reconstructionDisclaimer": "허구 인물의 일과 선택만 다룬다.",
+  "sprite": {
+    "file": "assets/lodging_tatyana.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "scarf",
+    "palette": {
+      "cloth": "#5d4436",
+      "trim": "#9d7449",
+      "headwear": "#765c4b"
+    }
+  },
+  "schedule": [
+    {
+      "atMinute": 420,
+      "mapId": "courtyard",
+      "position": {
+        "x": 22,
+        "y": 10
+      },
+      "activityKo": "셋방에서 재봉 일감을 시작한다"
+    },
+    {
+      "atMinute": 600,
+      "mapId": "nevsky",
+      "position": {
+        "x": 23,
+        "y": 14
+      },
+      "activityKo": "책을 빌리고 반납 날짜를 확인한다"
+    },
+    {
+      "atMinute": 780,
+      "mapId": "courtyard",
+      "position": {
+        "x": 22,
+        "y": 10
+      },
+      "activityKo": "독서 시간과 납기를 나눠 적는다"
+    },
+    {
+      "atMinute": 960,
+      "mapId": "courtyard",
+      "position": {
+        "x": 22,
+        "y": 10
+      },
+      "activityKo": "완성한 재봉물을 건네고 품삯을 받는다"
+    }
+  ],
+  "portrait": {
+    "file": "assets/portrait-lodging_tatyana.svg",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+  },
+  "spriteAtlas": {
+    "file": "assets/anna.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "directions": 4,
+    "framesPerDirection": 3,
+    "directionRows": {
+      "down": 0,
+      "up": 1,
+      "left": 2,
+      "right": 3
+    }
+  },
+  "speechStatus": "FICTIONAL_DESIGN"
+}

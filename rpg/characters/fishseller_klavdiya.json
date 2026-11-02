@@ -1,0 +1,183 @@
+{
+  "id": "fishseller_klavdiya",
+  "kind": "FICTIONAL",
+  "displayNameKo": "클라브디야",
+  "displayNameRu": "Клавдия Белова",
+  "ageAtDate": {
+    "value": 38,
+    "status": "fictional_character_design"
+  },
+  "socialEstate": "urban_laborer",
+  "occupation": "강변에서 생선을 받아 시장 좌판에 파는 상인",
+  "rank": {
+    "value": null,
+    "ru": null,
+    "status": "not_applicable"
+  },
+  "legalMobility": "시장과 공개 거리, 안뜰 통로만 이용하는 허구 인물; 고용·가격·관청 결정 권한은 맡지 않는다.",
+  "wealthBracket": "precarious",
+  "money": {
+    "amount": 32,
+    "unit": "kopeks",
+    "status": "designedEstimate"
+  },
+  "literacy": "자기 일과 관련된 표식·계산표를 읽는다. 문해력 범위는 허구 인물 설정이다.",
+  "health": "working",
+  "reputationByGroup": {
+    "neighbors": "known_by_daily_work"
+  },
+  "risk": "일감을 잃거나 이웃의 신뢰를 잃을 가능성을 함께 계산한다.",
+  "relations": {},
+  "secretKnowledge": [
+    {
+      "id": "FISHSELLER_KLAVDIYA_PRIVATE_NOTE",
+      "summaryKo": "오늘 들어온 생선 일부가 예상보다 늦게 도착해 보관 시간이 줄었다."
+    }
+  ],
+  "knownEvidence": [],
+  "privateKnowledgeIds": [
+    "FISHSELLER_KLAVDIYA_PRIVATE_NOTE"
+  ],
+  "knownEvidenceIds": [],
+  "desires": "상하기 쉬운 물건의 위험은 상인과 손님이 어떻게 나눠야 할까요?",
+  "fears": "클라브디야는 더운 날 상하기 전 값을 낮춰 팔지, 손해를 감수하고 더 좋은 값을 기다릴지 정해야 한다.",
+  "taboos": [
+    "확인하지 않은 사람의 사정을 대신 단정하지 않는다."
+  ],
+  "speechRhythm": "시간과 물량을 먼저 말하며 흥정은 빠르게 한다. 손해가 커지면 말끝이 짧아지고 이유를 숨기지 않는다.",
+  "speechRegister": {
+    "firstMeeting": "손님에게 오늘 들어온 시각과 물량부터 빠르게 알린다.",
+    "colleague": "시장 상인과는 짧게 흥정하며 가격표를 맞춘다.",
+    "private": "단골에게는 손실 걱정을 솔직히 말한다.",
+    "conflict": "상할 위험을 숨기라고 하면 단호하게 보관 시간을 밝힌다.",
+    "intimacy": "가까운 상인과는 빠른 농담 뒤에 바로 수량을 확인한다.",
+    "formal": "시장 관리인에게는 정중하고 정확하게 입고 시간을 설명한다."
+  },
+  "voiceSamples": [
+    "몇 마리를 찾으세요? 오늘 물건은 오래 두기 어려워요. 값을 먼저 맞춥시다.",
+    "기다리면 더 받을 수도 있어요. 하지만 상하면 값이 아니라 손실만 남죠.",
+    "가격은 물량과 보관 시간에 달렸다고 본다. 손님에게 상할 위험을 숨기지는 않지만, 손해를 혼자 떠안는 것도 공정하지 않다."
+  ],
+  "worldview": {
+    "status": "fictional_character_design",
+    "stanceKo": "가격은 물량과 보관 시간에 달렸다고 본다. 손님에게 상할 위험을 숨기지는 않지만, 손해를 혼자 떠안는 것도 공정하지 않다.",
+    "tensionKo": "클라브디야는 더운 날 상하기 전 값을 낮춰 팔지, 손해를 감수하고 더 좋은 값을 기다릴지 정해야 한다.",
+    "blindSpotKo": "자기 일이 급할 때 상대가 감당할 비용을 충분히 보지 못할 수 있다.",
+    "designBasisKo": "허구 시민 설정으로 실제 개인의 증언이나 사건을 나타내지 않는다.",
+    "sceneAnchorIds": [
+      "FISH_STORAGE_TIME_1847"
+    ]
+  },
+  "topicStances": {
+    "serfdom": {
+      "knowledgeKind": "no_documented_stance",
+      "positionKo": "이 허구 인물은 농촌 제도의 직접 경험이나 확인된 정보를 가진 것으로 설정하지 않는다."
+    },
+    "censorship": {
+      "knowledgeKind": "fictional_workplace_context_only",
+      "positionKo": "문서의 전달·교정에서 자신이 직접 맡은 일만 말하고 실제 검열 규정을 대신 설명하지 않는다."
+    },
+    "literature": {
+      "knowledgeKind": "reader_limited",
+      "positionKo": "작가의 뜻을 대변하지 않고 자신이 읽거나 들은 범위만 말한다."
+    },
+    "poverty_and_class": {
+      "knowledgeKind": "fictional_lived_experience",
+      "positionKo": "가격은 물량과 보관 시간에 달렸다고 본다. 손님에게 상할 위험을 숨기지는 않지만, 손해를 혼자 떠안는 것도 공정하지 않다."
+    },
+    "slavophilism_and_westernism": {
+      "knowledgeKind": "unfamiliar_terms",
+      "positionKo": "사상 진영을 대변하지 않는다. 일과 이웃에게 생기는 비용을 중심으로 말한다."
+    }
+  },
+  "lexicon": [
+    "저울",
+    "바구니",
+    "값"
+  ],
+  "emotions": [
+    "경계",
+    "걱정",
+    "마른 농담"
+  ],
+  "personalObjective": "상하기 쉬운 물건의 위험은 상인과 손님이 어떻게 나눠야 할까요?",
+  "objectiveByChapter": {
+    "1847": "상하기 쉬운 물건의 위험은 상인과 손님이 어떻게 나눠야 할까요?"
+  },
+  "allowedMaps": [
+    "nevsky",
+    "courtyard",
+    "market-quay",
+    "printshop",
+    "chancery"
+  ],
+  "start": {
+    "mapId": "market-quay",
+    "x": 26,
+    "y": 14
+  },
+  "wealthBracketStatus": "designedEstimate",
+  "inventory": [
+    "양배추 바구니",
+    "황동 저울추"
+  ],
+  "sourceIds": [],
+  "canonConstraint": "fictional citizen; never treated as an attested historical individual or witness",
+  "reconstructionDisclaimer": "허구 인물의 일과 선택만 다룬다.",
+  "sprite": {
+    "file": "assets/fishseller_klavdiya.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "scarf",
+    "palette": {
+      "cloth": "#72513b",
+      "trim": "#a95e42",
+      "headwear": "#503b31"
+    }
+  },
+  "speechStatus": "FICTIONAL_DESIGN",
+  "schedule": [
+    {
+      "atMinute": 420,
+      "mapId": "market-quay",
+      "position": {
+        "x": 26,
+        "y": 14
+      },
+      "activityKo": "강변에서 들어온 생선 수량을 확인한다"
+    },
+    {
+      "atMinute": 600,
+      "mapId": "nevsky",
+      "position": {
+        "x": 24,
+        "y": 14
+      },
+      "activityKo": "좌판에 남은 물량과 값을 알린다"
+    },
+    {
+      "atMinute": 780,
+      "mapId": "market-quay",
+      "position": {
+        "x": 26,
+        "y": 14
+      },
+      "activityKo": "보관 시간과 판매량을 대조한다"
+    },
+    {
+      "atMinute": 960,
+      "mapId": "courtyard",
+      "position": {
+        "x": 13,
+        "y": 14
+      },
+      "activityKo": "남은 재고와 손실을 적는다"
+    }
+  ],
+  "portrait": {
+    "file": "assets/portrait-fishseller_klavdiya.svg",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+  }
+}

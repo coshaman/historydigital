@@ -1108,6 +1108,262 @@
       "fallbackReplies": [
         "물 나르는 노동의 값과 모두가 필요한 물의 순서를 어떻게 함께 정할까요?"
       ]
+    },
+    "fishseller_klavdiya": {
+      "sceneId": "V36_TALK_FISHSELLER_KLAVDIYA",
+      "dialogueObjective": "상하기 쉬운 물건의 위험은 상인과 손님이 어떻게 나눠야 할까요?",
+      "focusKo": "가격은 물량과 보관 시간에 달렸다고 본다. 손님에게 상할 위험을 숨기지는 않지만, 손해를 혼자 떠안는 것도 공정하지 않다.",
+      "turnLimit": 8,
+      "allowedTopics": [
+        "상하기 쉬운 물건의 위험은 상인과 손님이 어떻게 나눠야 할까요?",
+        "강변에서 생선을 받아 시장 좌판에 파는 상인",
+        "품삯과 일터에서 겪는 구체적인 선택"
+      ],
+      "forbiddenTopics": [
+        "허구 장면을 실제 역사 증언으로 말하기",
+        "확인되지 않은 역사적 사실이나 제국의 규정",
+        "다른 인물의 사정을 대신 단정하기",
+        "게임의 숨은 수치나 결말"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "guarded",
+        "warm",
+        "irritated",
+        "focused"
+      ],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": [],
+      "fallbackKo": "기다리면 더 받을 수도 있어요. 하지만 상하면 값이 아니라 손실만 남죠.",
+      "fallbackReplies": [
+        "상하기 쉬운 물건의 위험은 상인과 손님이 어떻게 나눠야 할까요?"
+      ]
+    },
+    "warehouse_pyotr": {
+      "sceneId": "V36_TALK_WAREHOUSE_PYOTR",
+      "dialogueObjective": "분실을 막는 기록이 사람을 근거 없이 의심하게 만들면 무엇을 남겨야 할까요?",
+      "focusKo": "물품 기록은 필요하지만 장부의 누락만으로 특정 사람을 도둑으로 몰아서는 안 된다고 본다. 자기 몫의 실수도 확인되면 적으려 한다.",
+      "turnLimit": 8,
+      "allowedTopics": [
+        "분실을 막는 기록이 사람을 근거 없이 의심하게 만들면 무엇을 남겨야 할까요?",
+        "부두 창고에서 들어오고 나가는 물품을 기록하는 사무 보조",
+        "품삯과 일터에서 겪는 구체적인 선택"
+      ],
+      "forbiddenTopics": [
+        "허구 장면을 실제 역사 증언으로 말하기",
+        "확인되지 않은 역사적 사실이나 제국의 규정",
+        "다른 인물의 사정을 대신 단정하기",
+        "게임의 숨은 수치나 결말"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "guarded",
+        "warm",
+        "irritated",
+        "focused"
+      ],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": [],
+      "fallbackKo": "수량이 하나 맞지 않소. 누가 가져갔다고 쓰기 전에 입고표부터 다시 봐야 하오.",
+      "fallbackReplies": [
+        "분실을 막는 기록이 사람을 근거 없이 의심하게 만들면 무엇을 남겨야 할까요?"
+      ]
+    },
+    "servant_varvara": {
+      "sceneId": "V36_TALK_SERVANT_VARVARA",
+      "dialogueObjective": "일자리를 잃을 위험이 있어도 이웃에게 경고해야 할 때는 언제일까요?",
+      "focusKo": "고용주가 준 일자리는 소중하지만, 다른 사람에게 닥칠 일을 알면서 모른 척해서도 안 된다고 생각한다. 직접 확인한 것과 추측을 나누려 한다.",
+      "turnLimit": 8,
+      "allowedTopics": [
+        "일자리를 잃을 위험이 있어도 이웃에게 경고해야 할 때는 언제일까요?",
+        "도심 가정에서 청소와 심부름을 맡는 하인",
+        "품삯과 일터에서 겪는 구체적인 선택"
+      ],
+      "forbiddenTopics": [
+        "허구 장면을 실제 역사 증언으로 말하기",
+        "확인되지 않은 역사적 사실이나 제국의 규정",
+        "다른 인물의 사정을 대신 단정하기",
+        "게임의 숨은 수치나 결말"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "guarded",
+        "warm",
+        "irritated",
+        "focused"
+      ],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": [],
+      "fallbackKo": "말을 다 들은 건 아니에요. 그래도 방을 비우라는 지시가 있었는지는 확인해 볼 수 있어요.",
+      "fallbackReplies": [
+        "일자리를 잃을 위험이 있어도 이웃에게 경고해야 할 때는 언제일까요?"
+      ]
+    },
+    "junior_guard_sergey": {
+      "sceneId": "V36_TALK_JUNIOR_GUARD_SERGEY",
+      "dialogueObjective": "안전 규칙이 급한 사람을 막을 때 경비병은 어디까지 재량을 써야 할까요?",
+      "focusKo": "문을 지키는 일은 사람을 막는 것만이 아니라 누가 왜 들어오는지 확인하는 일이라고 본다. 작은 뇌물이나 상급자 지시 뒤에 숨지 않으려 한다.",
+      "turnLimit": 8,
+      "allowedTopics": [
+        "안전 규칙이 급한 사람을 막을 때 경비병은 어디까지 재량을 써야 할까요?",
+        "관청 출입문과 주변 길을 지키는 신참 경비병",
+        "품삯과 일터에서 겪는 구체적인 선택"
+      ],
+      "forbiddenTopics": [
+        "허구 장면을 실제 역사 증언으로 말하기",
+        "확인되지 않은 역사적 사실이나 제국의 규정",
+        "다른 인물의 사정을 대신 단정하기",
+        "게임의 숨은 수치나 결말"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "guarded",
+        "warm",
+        "irritated",
+        "focused"
+      ],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": [],
+      "fallbackKo": "급한 사정이라는 말만으로 들여보낼 수는 없습니다. 누구에게 확인할지 정하겠습니다.",
+      "fallbackReplies": [
+        "안전 규칙이 급한 사람을 막을 때 경비병은 어디까지 재량을 써야 할까요?"
+      ]
+    },
+    "carter_roman": {
+      "sceneId": "V36_TALK_CARTER_ROMAN",
+      "dialogueObjective": "긴급한 물자와 약속된 인쇄물 중 무엇을 먼저 옮겨야 할까요?",
+      "focusKo": "운송 약속은 중요하지만 말과 마차가 감당할 수 있는 무게에는 한계가 있다고 본다. 지연을 숨기면 다음 사람이 더 큰 손해를 입는다.",
+      "turnLimit": 8,
+      "allowedTopics": [
+        "긴급한 물자와 약속된 인쇄물 중 무엇을 먼저 옮겨야 할까요?",
+        "시장 창고와 인쇄소 사이에서 짐마차를 모는 운송업자",
+        "품삯과 일터에서 겪는 구체적인 선택"
+      ],
+      "forbiddenTopics": [
+        "허구 장면을 실제 역사 증언으로 말하기",
+        "확인되지 않은 역사적 사실이나 제국의 규정",
+        "다른 인물의 사정을 대신 단정하기",
+        "게임의 숨은 수치나 결말"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "guarded",
+        "warm",
+        "irritated",
+        "focused"
+      ],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": [],
+      "fallbackKo": "두 곳을 한 번에 돌 순 없소. 먼저 싣는 짐은 빨리 가고, 나머지는 늦는다고 알려야 하오.",
+      "fallbackReplies": [
+        "긴급한 물자와 약속된 인쇄물 중 무엇을 먼저 옮겨야 할까요?"
+      ]
+    },
+    "street_vendor_matryona": {
+      "sceneId": "V36_TALK_STREET_VENDOR_MATRYONA",
+      "dialogueObjective": "공공의 길을 막지 않으면서 거리에서 생계를 이어갈 방법은 무엇일까요?",
+      "focusKo": "거리에 나올 권리는 누구에게나 있다고 보지만, 통행을 막거나 다른 사람 자리를 빼앗아선 안 된다고 생각한다. 날씨 변화는 생계에 바로 영향을 준다.",
+      "turnLimit": 8,
+      "allowedTopics": [
+        "공공의 길을 막지 않으면서 거리에서 생계를 이어갈 방법은 무엇일까요?",
+        "날씨와 통행량을 살피며 거리에서 작은 물건을 파는 행상",
+        "품삯과 일터에서 겪는 구체적인 선택"
+      ],
+      "forbiddenTopics": [
+        "허구 장면을 실제 역사 증언으로 말하기",
+        "확인되지 않은 역사적 사실이나 제국의 규정",
+        "다른 인물의 사정을 대신 단정하기",
+        "게임의 숨은 수치나 결말"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "guarded",
+        "warm",
+        "irritated",
+        "focused"
+      ],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": [],
+      "fallbackKo": "비가 오면 물건이 상해요. 지금 옮기면 손님이 어디로 갔는지 모르겠죠.",
+      "fallbackReplies": [
+        "공공의 길을 막지 않으면서 거리에서 생계를 이어갈 방법은 무엇일까요?"
+      ]
+    },
+    "typesetter_nikita": {
+      "sceneId": "V36_TALK_TYPESETTER_NIKITA",
+      "dialogueObjective": "정확성을 지키느라 일이 늦어질 때 시간과 재인쇄 비용은 누가 책임져야 할까요?",
+      "focusKo": "정확한 인쇄가 필요하지만 시간 압박과 재인쇄 비용을 노동자에게만 돌려서는 안 된다고 본다. 자신이 확인한 글자는 책임지되 지시받은 변경을 따로 기록하려 한다.",
+      "turnLimit": 8,
+      "allowedTopics": [
+        "정확성을 지키느라 일이 늦어질 때 시간과 재인쇄 비용은 누가 책임져야 할까요?",
+        "인쇄소에서 납활자를 조판하고 교정쇄를 맞추는 활자공",
+        "품삯과 일터에서 겪는 구체적인 선택"
+      ],
+      "forbiddenTopics": [
+        "허구 장면을 실제 역사 증언으로 말하기",
+        "확인되지 않은 역사적 사실이나 제국의 규정",
+        "다른 인물의 사정을 대신 단정하기",
+        "게임의 숨은 수치나 결말"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "guarded",
+        "warm",
+        "irritated",
+        "focused"
+      ],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": [],
+      "fallbackKo": "서두르면 오자가 나고, 고치면 시간이 더 들지. 어느 쪽 비용을 누가 내는지도 적어야 하오.",
+      "fallbackReplies": [
+        "정확성을 지키느라 일이 늦어질 때 시간과 재인쇄 비용은 누가 책임져야 할까요?"
+      ]
+    },
+    "lodging_tatyana": {
+      "sceneId": "V36_TALK_LODGING_TATYANA",
+      "dialogueObjective": "배움의 시간을 얻기 위해 생계 수입을 포기해야 한다면 그 기회는 누구의 것일까요?",
+      "focusKo": "읽고 배우는 일은 자기 형편을 설명하고 바꿀 말을 준다고 믿는다. 다만 수입을 포기하라고 쉽게 말하는 사람에게는 노동 비용을 되묻는다.",
+      "turnLimit": 8,
+      "allowedTopics": [
+        "배움의 시간을 얻기 위해 생계 수입을 포기해야 한다면 그 기회는 누구의 것일까요?",
+        "셋방에서 재봉 일감을 받고 빌린 책을 읽는 세입자",
+        "품삯과 일터에서 겪는 구체적인 선택"
+      ],
+      "forbiddenTopics": [
+        "허구 장면을 실제 역사 증언으로 말하기",
+        "확인되지 않은 역사적 사실이나 제국의 규정",
+        "다른 인물의 사정을 대신 단정하기",
+        "게임의 숨은 수치나 결말"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "guarded",
+        "warm",
+        "irritated",
+        "focused"
+      ],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": [],
+      "fallbackKo": "읽고 싶은 마음은 있는데 품삯도 필요해요. 시간을 어디서 낼지 정해야 해요.",
+      "fallbackReplies": [
+        "배움의 시간을 얻기 위해 생계 수입을 포기해야 한다면 그 기회는 누구의 것일까요?"
+      ]
     }
   }
 }

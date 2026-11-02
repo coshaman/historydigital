@@ -1,8 +1,8 @@
 {
   "schemaVersion": "V33-IMAGE-AUDIT-3",
   "status": "PASS",
-  "pngCount": 45,
-  "svgCount": 18,
+  "pngCount": 53,
+  "svgCount": 26,
   "assets": [
     {
       "path": "rpg/assets/akaky.png",
@@ -59,6 +59,15 @@
       "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
     },
     {
+      "path": "rpg/assets/carter_roman.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 490,
+      "sha256": "7cc50d710105bcfa9d5956d5293f68d125fce3dc8df8488ef88cacccd4e02e08",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
       "path": "rpg/assets/chichikov.png",
       "width": 48,
       "height": 96,
@@ -86,6 +95,15 @@
       "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
     },
     {
+      "path": "rpg/assets/fishseller_klavdiya.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 507,
+      "sha256": "b4310e843e96661dcaad6d10d34d4bbce1b36801f6072e216c81a438b54a01b0",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
       "path": "rpg/assets/housemaid_olga.png",
       "width": 48,
       "height": 96,
@@ -100,6 +118,15 @@
       "height": 96,
       "bytes": 516,
       "sha256": "a02de10f577ff016f7fb3c8db40e961d9a4e70628f0aec0093c0d68b534f55d6",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/junior_guard_sergey.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 516,
+      "sha256": "89c7481852a1efaffe8b86777fa6afcc4be8c1811d24e4bcf51d56e52fe98a5a",
       "license": "original project-authored pixels",
       "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
     },
@@ -127,6 +154,15 @@
       "height": 96,
       "bytes": 516,
       "sha256": "a02de10f577ff016f7fb3c8db40e961d9a4e70628f0aec0093c0d68b534f55d6",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/lodging_tatyana.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 534,
+      "sha256": "fa472be2c96a43424ccdeb94f5ed132193102ad1f74da74fba57d2c7563863b6",
       "license": "original project-authored pixels",
       "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
     },
@@ -374,6 +410,24 @@
       "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
     },
     {
+      "path": "rpg/assets/servant_varvara.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 508,
+      "sha256": "7ceb833fd2a8b2437a378098f51d22119424f3d0f7a9e3223c2094bc02640154",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/street_vendor_matryona.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 507,
+      "sha256": "b4310e843e96661dcaad6d10d34d4bbce1b36801f6072e216c81a438b54a01b0",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
       "path": "rpg/assets/student_vasily.png",
       "width": 48,
       "height": 96,
@@ -388,6 +442,24 @@
       "height": 96,
       "bytes": 534,
       "sha256": "fa472be2c96a43424ccdeb94f5ed132193102ad1f74da74fba57d2c7563863b6",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/typesetter_nikita.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 557,
+      "sha256": "ad68882edc891127891d4aaacd71c74f34516ade19e8aacdc322c9d0c06c9ff3",
+      "license": "original project-authored pixels",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/warehouse_pyotr.png",
+      "width": 48,
+      "height": 96,
+      "bytes": 516,
+      "sha256": "89c7481852a1efaffe8b86777fa6afcc4be8c1811d24e4bcf51d56e52fe98a5a",
       "license": "original project-authored pixels",
       "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
     },
@@ -437,6 +509,24 @@
       "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
     },
     {
+      "path": "rpg/assets/portrait-carter_roman.svg",
+      "width": 64,
+      "height": 64,
+      "bytes": 520,
+      "sha256": "70778b0660f399a8489b32acc9f6d97b36c69cb502f1029c36cb47bb341631c3",
+      "license": "original project-authored vector artwork",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-fishseller_klavdiya.svg",
+      "width": 64,
+      "height": 64,
+      "bytes": 520,
+      "sha256": "70778b0660f399a8489b32acc9f6d97b36c69cb502f1029c36cb47bb341631c3",
+      "license": "original project-authored vector artwork",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
       "path": "rpg/assets/portrait-housemaid_olga.svg",
       "width": 64,
       "height": 64,
@@ -464,7 +554,25 @@
       "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
     },
     {
+      "path": "rpg/assets/portrait-junior_guard_sergey.svg",
+      "width": 64,
+      "height": 64,
+      "bytes": 520,
+      "sha256": "f9f357300fcfdb228d1c1c16ed7393385bd369d52462737ddc986f7f2db8faba",
+      "license": "original project-authored vector artwork",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
       "path": "rpg/assets/portrait-landlady_polina.svg",
+      "width": 64,
+      "height": 64,
+      "bytes": 520,
+      "sha256": "70778b0660f399a8489b32acc9f6d97b36c69cb502f1029c36cb47bb341631c3",
+      "license": "original project-authored vector artwork",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-lodging_tatyana.svg",
       "width": 64,
       "height": 64,
       "bytes": 520,
@@ -527,11 +635,29 @@
       "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
     },
     {
+      "path": "rpg/assets/portrait-servant_varvara.svg",
+      "width": 64,
+      "height": 64,
+      "bytes": 520,
+      "sha256": "70778b0660f399a8489b32acc9f6d97b36c69cb502f1029c36cb47bb341631c3",
+      "license": "original project-authored vector artwork",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
       "path": "rpg/assets/portrait-sofia.svg",
       "width": 64,
       "height": 64,
       "bytes": 742,
       "sha256": "a4b517cb3059f8f677aa4685bd1dca757d513c31480a152ea45dbfbebe456507",
+      "license": "original project-authored vector artwork",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-street_vendor_matryona.svg",
+      "width": 64,
+      "height": 64,
+      "bytes": 520,
+      "sha256": "70778b0660f399a8489b32acc9f6d97b36c69cb502f1029c36cb47bb341631c3",
       "license": "original project-authored vector artwork",
       "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
     },
@@ -550,6 +676,24 @@
       "height": 64,
       "bytes": 520,
       "sha256": "70778b0660f399a8489b32acc9f6d97b36c69cb502f1029c36cb47bb341631c3",
+      "license": "original project-authored vector artwork",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-typesetter_nikita.svg",
+      "width": 64,
+      "height": 64,
+      "bytes": 520,
+      "sha256": "70778b0660f399a8489b32acc9f6d97b36c69cb502f1029c36cb47bb341631c3",
+      "license": "original project-authored vector artwork",
+      "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+    },
+    {
+      "path": "rpg/assets/portrait-warehouse_pyotr.svg",
+      "width": 64,
+      "height": 64,
+      "bytes": 520,
+      "sha256": "f9f357300fcfdb228d1c1c16ed7393385bd369d52462737ddc986f7f2db8faba",
       "license": "original project-authored vector artwork",
       "confidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
     },

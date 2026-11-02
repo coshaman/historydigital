@@ -1,0 +1,196 @@
+{
+  "id": "junior_guard_sergey",
+  "kind": "FICTIONAL",
+  "displayNameKo": "세르게이",
+  "displayNameRu": "Сергей Михайлов",
+  "ageAtDate": {
+    "value": 22,
+    "status": "fictional_character_design"
+  },
+  "socialEstate": "service_class",
+  "occupation": "관청 출입문과 주변 길을 지키는 신참 경비병",
+  "rank": {
+    "value": "10등급 콜레기스키 세크레타리",
+    "ru": "коллежский секретарь",
+    "status": "fictional_design"
+  },
+  "legalMobility": "공무 문서가 있는 기관과 공개 거리만 이용; 인쇄·최종 검열 권한 없음",
+  "wealthBracket": "modest",
+  "money": {
+    "amount": 64,
+    "unit": "kopeks",
+    "status": "designedEstimate"
+  },
+  "literacy": "러시아어 행정 문서에 능숙",
+  "health": "working",
+  "reputationByGroup": {
+    "office": "careful"
+  },
+  "risk": "공식 장부에 남는 행위에 신중",
+  "relations": {},
+  "secretKnowledge": [
+    {
+      "id": "JUNIOR_GUARD_SERGEY_PRIVATE_NOTE",
+      "summaryKo": "방문객이 소액을 건네며 문을 열어 달라고 했으나 담당자 이름을 밝히지 않았다."
+    }
+  ],
+  "knownEvidence": [],
+  "privateKnowledgeIds": [
+    "JUNIOR_GUARD_SERGEY_PRIVATE_NOTE"
+  ],
+  "knownEvidenceIds": [],
+  "desires": "안전 규칙이 급한 사람을 막을 때 경비병은 어디까지 재량을 써야 할까요?",
+  "fears": "세르게이는 서류가 없는 방문객을 들일지, 상급자에게 확인을 요청할지 정해야 한다. 방문객은 급한 사정이라고 하지만 확인된 내용은 없다.",
+  "taboos": [
+    "상급자의 결재를 대신하지 않는다"
+  ],
+  "speechRhythm": "먼저 허가증과 용건을 묻는다. 긴장하면 말이 빨라지지만 확인 순서를 놓치지 않으려 한다.",
+  "speechRegister": {
+    "firstMeeting": "방문객에게 허가증과 담당자를 먼저 요구한다.",
+    "colleague": "교대 경비와는 순찰 위치와 시간을 짧게 주고받는다.",
+    "private": "사적으로는 실수해 자리를 잃을까 걱정한다고 말한다.",
+    "conflict": "뇌물이나 모호한 지시에는 확인 절차를 분명히 요구한다.",
+    "intimacy": "친한 동료 앞에서 긴장을 농담으로 감추지만 규칙은 지킨다.",
+    "formal": "상급자에게는 정중하게 사건과 목격 범위를 구분해 보고한다."
+  },
+  "voiceSamples": [
+    "허가증을 보여 주십시오. 방문 목적과 만나려는 담당자도 말씀해 주십시오.",
+    "급한 사정이라는 말만으로 들여보낼 수는 없습니다. 누구에게 확인할지 정하겠습니다.",
+    "문을 지키는 일은 사람을 막는 것만이 아니라 누가 왜 들어오는지 확인하는 일이라고 본다. 작은 뇌물이나 상급자 지시 뒤에 숨지 않으려 한다."
+  ],
+  "worldview": {
+    "status": "fictional_character_design",
+    "stanceKo": "문을 지키는 일은 사람을 막는 것만이 아니라 누가 왜 들어오는지 확인하는 일이라고 본다. 작은 뇌물이나 상급자 지시 뒤에 숨지 않으려 한다.",
+    "tensionKo": "세르게이는 서류가 없는 방문객을 들일지, 상급자에게 확인을 요청할지 정해야 한다. 방문객은 급한 사정이라고 하지만 확인된 내용은 없다.",
+    "blindSpotKo": "자기 일이 급할 때 상대가 감당할 비용을 충분히 보지 못할 수 있다.",
+    "designBasisKo": "허구 시민 설정으로 실제 개인의 증언이나 사건을 나타내지 않는다.",
+    "sceneAnchorIds": [
+      "GUARD_ENTRY_BRIBE_1847"
+    ]
+  },
+  "topicStances": {
+    "serfdom": {
+      "knowledgeKind": "no_documented_stance",
+      "positionKo": "이 허구 인물은 농촌 제도의 직접 경험이나 확인된 정보를 가진 것으로 설정하지 않는다."
+    },
+    "censorship": {
+      "knowledgeKind": "fictional_workplace_context_only",
+      "positionKo": "문서의 전달·교정에서 자신이 직접 맡은 일만 말하고 실제 검열 규정을 대신 설명하지 않는다."
+    },
+    "literature": {
+      "knowledgeKind": "reader_limited",
+      "positionKo": "작가의 뜻을 대변하지 않고 자신이 읽거나 들은 범위만 말한다."
+    },
+    "poverty_and_class": {
+      "knowledgeKind": "fictional_lived_experience",
+      "positionKo": "문을 지키는 일은 사람을 막는 것만이 아니라 누가 왜 들어오는지 확인하는 일이라고 본다. 작은 뇌물이나 상급자 지시 뒤에 숨지 않으려 한다."
+    },
+    "slavophilism_and_westernism": {
+      "knowledgeKind": "unfamiliar_terms",
+      "positionKo": "사상 진영을 대변하지 않는다. 일과 이웃에게 생기는 비용을 중심으로 말한다."
+    }
+  },
+  "lexicon": [
+    "접수",
+    "원본",
+    "상신"
+  ],
+  "emotions": [
+    "절제",
+    "걱정",
+    "마른 농담"
+  ],
+  "personalObjective": "안전 규칙이 급한 사람을 막을 때 경비병은 어디까지 재량을 써야 할까요?",
+  "objectiveByChapter": {
+    "1847": "안전 규칙이 급한 사람을 막을 때 경비병은 어디까지 재량을 써야 할까요?"
+  },
+  "allowedMaps": [
+    "nevsky",
+    "courtyard",
+    "market-quay",
+    "printshop",
+    "chancery"
+  ],
+  "start": {
+    "mapId": "chancery",
+    "x": 5,
+    "y": 11
+  },
+  "wealthBracketStatus": "designedEstimate",
+  "inventory": [
+    "작은 수첩",
+    "연필"
+  ],
+  "sourceIds": [],
+  "canonConstraint": "fictional citizen; never treated as an attested historical individual or witness",
+  "reconstructionDisclaimer": "허구 인물의 일과 선택만 다룬다.",
+  "sprite": {
+    "file": "assets/junior_guard_sergey.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "coat",
+    "palette": {
+      "cloth": "#3b4144",
+      "trim": "#874333",
+      "headwear": "#51473b"
+    }
+  },
+  "schedule": [
+    {
+      "atMinute": 420,
+      "mapId": "chancery",
+      "position": {
+        "x": 5,
+        "y": 11
+      },
+      "activityKo": "관청 출입증과 방문 목적을 확인한다"
+    },
+    {
+      "atMinute": 600,
+      "mapId": "nevsky",
+      "position": {
+        "x": 6,
+        "y": 12
+      },
+      "activityKo": "관청 바깥 길을 순찰한다"
+    },
+    {
+      "atMinute": 780,
+      "mapId": "chancery",
+      "position": {
+        "x": 8,
+        "y": 12
+      },
+      "activityKo": "교대 경비에게 출입 기록을 넘긴다"
+    },
+    {
+      "atMinute": 960,
+      "mapId": "chancery",
+      "position": {
+        "x": 5,
+        "y": 11
+      },
+      "activityKo": "허가된 방문과 대기 인원을 대조한다"
+    }
+  ],
+  "portrait": {
+    "file": "assets/portrait-junior_guard_sergey.svg",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+  },
+  "spriteAtlas": {
+    "file": "assets/alexei.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "directions": 4,
+    "framesPerDirection": 3,
+    "directionRows": {
+      "down": 0,
+      "up": 1,
+      "left": 2,
+      "right": 3
+    }
+  },
+  "speechStatus": "FICTIONAL_DESIGN"
+}

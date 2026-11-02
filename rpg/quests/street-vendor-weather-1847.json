@@ -1,0 +1,74 @@
+{
+  "id": "STREET_VENDOR_WEATHER_1847",
+  "titleKo": "비를 맞을 자리와 하루 벌이",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "비가 오기 전 좌판을 옮기면 손님을 놓칠 수 있고, 그대로 두면 물건이 젖을 수 있다. 마트료나는 이동과 매상 중 하나를 감수해야 한다.",
+  "historicalOutcome": {
+    "id": "STREET_VENDOR_WEATHER_1847_FICTIONAL_OUTCOME",
+    "value": "fictional work and household choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "nevsky",
+    "objectId": 1017,
+    "requiredHostId": "street_vendor_matryona"
+  },
+  "actions": [
+    {
+      "id": "STREET_VENDOR_MATRYONA_CHOICE_1",
+      "hostIds": [
+        "street_vendor_matryona"
+      ],
+      "labelKo": "좌판을 줄여 통행을 열고 남은 물건을 덮는다",
+      "subcopyKo": "마트료나와 보행자가 봅니다 · 좌판 기록에 남습니다 · 판매 공간이 줄어듭니다",
+      "resultKo": "통행할 자리를 남기고 물건을 덮었다. 길은 열렸지만 진열과 판매량이 줄었다.",
+      "resultFlag": "matryonaCleared",
+      "followupTitleKo": "비를 맞을 자리와 하루 벌이",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "좌판을 줄여 길을 비우고 물건을 덮었다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    },
+    {
+      "id": "STREET_VENDOR_MATRYONA_CHOICE_2",
+      "hostIds": [
+        "street_vendor_matryona"
+      ],
+      "labelKo": "비가 오기 전에 골목 안쪽으로 옮긴다",
+      "subcopyKo": "마트료나와 골목 상인들이 봅니다 · 자리 변경 메모에 남습니다 · 다른 상인의 자리를 침범할 수 있습니다",
+      "resultKo": "좌판을 안쪽으로 옮겼다. 물건은 보호되지만 이미 쓰는 자리와 갈등할 수 있다.",
+      "resultFlag": "matryonaMoved",
+      "followupTitleKo": "비를 맞을 자리와 하루 벌이",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "좌판을 골목 안쪽으로 옮겼다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    },
+    {
+      "id": "STREET_VENDOR_MATRYONA_CHOICE_3",
+      "hostIds": [
+        "street_vendor_matryona"
+      ],
+      "labelKo": "좌판은 두고 물건 일부를 먼저 회수한다",
+      "subcopyKo": "마트료나와 가까운 손님이 압니다 · 재고표에 남습니다 · 남은 물건이 젖거나 팔리지 않을 수 있습니다",
+      "resultKo": "물건 일부를 거둬들였다. 이동하지 않아도 되지만 남은 재고는 날씨에 노출된다.",
+      "resultFlag": "matryonaStored",
+      "followupTitleKo": "비를 맞을 자리와 하루 벌이",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "물건 일부를 먼저 거둬들였다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named work record"
+}

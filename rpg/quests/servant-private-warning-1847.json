@@ -1,0 +1,74 @@
+{
+  "id": "SERVANT_PRIVATE_WARNING_1847",
+  "titleKo": "들은 말과 해야 할 경고",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "바르바라는 고용주 집의 지시가 이웃의 방에 영향을 줄 수 있음을 눈치챘다. 확실하지 않은 말을 옮기지 않으면서 위험을 알려야 한다.",
+  "historicalOutcome": {
+    "id": "SERVANT_PRIVATE_WARNING_1847_FICTIONAL_OUTCOME",
+    "value": "fictional work and household choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "courtyard",
+    "objectId": 1014,
+    "requiredHostId": "servant_varvara"
+  },
+  "actions": [
+    {
+      "id": "SERVANT_VARVARA_CHOICE_1",
+      "hostIds": [
+        "servant_varvara"
+      ],
+      "labelKo": "직접 본 짐 이동만 날짜와 함께 적는다",
+      "subcopyKo": "바르바라와 안뜰 관리인이 봅니다 · 개인 메모에 남습니다 · 경고가 늦을 수 있습니다",
+      "resultKo": "짐이 옮겨진 시각만 적었다. 추측은 퍼뜨리지 않았지만 이웃은 아직 모른다.",
+      "resultFlag": "varvaraObserved",
+      "followupTitleKo": "들은 말과 해야 할 경고",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "직접 본 짐 이동과 시각만 적었다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    },
+    {
+      "id": "SERVANT_VARVARA_CHOICE_2",
+      "hostIds": [
+        "servant_varvara"
+      ],
+      "labelKo": "이웃에게 들은 지시를 그대로 전한다",
+      "subcopyKo": "바르바라와 해당 이웃이 압니다 · 공식 기록은 없습니다 · 고용주와 신뢰가 깨질 수 있습니다",
+      "resultKo": "들은 말을 이웃에게 전했다. 대비할 시간은 생기지만 잘못 전했을 가능성도 있다.",
+      "resultFlag": "varvaraWarned",
+      "followupTitleKo": "들은 말과 해야 할 경고",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "확인되지 않은 지시를 이웃에게 알렸다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    },
+    {
+      "id": "SERVANT_VARVARA_CHOICE_3",
+      "hostIds": [
+        "servant_varvara"
+      ],
+      "labelKo": "고용주에게 어느 방을 뜻했는지 확인한다",
+      "subcopyKo": "바르바라와 고용주가 압니다 · 심부름 기록에 질문이 남습니다 · 다음 일감을 잃을 수 있습니다",
+      "resultKo": "뜻을 직접 확인하기로 했다. 소문을 피하지만 답을 기다리는 동안 불안은 남는다.",
+      "resultFlag": "varvaraAsked",
+      "followupTitleKo": "들은 말과 해야 할 경고",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "방을 비우라는 지시의 대상을 고용주에게 확인했다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named work record"
+}

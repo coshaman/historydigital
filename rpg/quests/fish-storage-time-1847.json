@@ -1,0 +1,74 @@
+{
+  "id": "FISH_STORAGE_TIME_1847",
+  "titleKo": "값을 낮출 때와 기다릴 때",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "클라브디야는 더운 날 상하기 전 값을 낮춰 팔지, 손해를 감수하고 더 좋은 값을 기다릴지 정해야 한다.",
+  "historicalOutcome": {
+    "id": "FISH_STORAGE_TIME_1847_FICTIONAL_OUTCOME",
+    "value": "fictional work and household choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "market-quay",
+    "objectId": 1012,
+    "requiredHostId": "fishseller_klavdiya"
+  },
+  "actions": [
+    {
+      "id": "FISHSELLER_KLAVDIYA_CHOICE_1",
+      "hostIds": [
+        "fishseller_klavdiya"
+      ],
+      "labelKo": "보관 시각과 남은 물량을 적고 값을 낮춘다",
+      "subcopyKo": "상인과 시장 손님이 봅니다 · 가격표에 남습니다 · 예상보다 적은 수입을 감수합니다",
+      "resultKo": "남은 물량과 시간을 알리고 값을 낮췄다. 손님은 위험을 알고 고르지만 수입은 줄 수 있다.",
+      "resultFlag": "klavdiyaMarked",
+      "followupTitleKo": "값을 낮출 때와 기다릴 때",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "보관 시간과 남은 수량을 가격표에 적었다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    },
+    {
+      "id": "FISHSELLER_KLAVDIYA_CHOICE_2",
+      "hostIds": [
+        "fishseller_klavdiya"
+      ],
+      "labelKo": "값을 유지하고 손님에게 보관 시간을 알린다",
+      "subcopyKo": "상인과 구매자가 압니다 · 판매 장부에 남습니다 · 팔리지 않으면 손실이 커집니다",
+      "resultKo": "값을 유지하되 보관 시간을 알렸다. 제값을 받을 기회는 있지만 물건이 남을 수 있다.",
+      "resultFlag": "klavdiyaHeld",
+      "followupTitleKo": "값을 낮출 때와 기다릴 때",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "가격을 유지하면서 보관 시간을 알렸다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    },
+    {
+      "id": "FISHSELLER_KLAVDIYA_CHOICE_3",
+      "hostIds": [
+        "fishseller_klavdiya"
+      ],
+      "labelKo": "상한 징후가 있는 물량을 따로 빼고 공동 확인을 요청한다",
+      "subcopyKo": "상인과 시장 관리인이 봅니다 · 확인표에 남습니다 · 판매가 늦어집니다",
+      "resultKo": "의심되는 물량을 분리했다. 손님을 보호하지만 확인 전까지 판매량이 줄었다.",
+      "resultFlag": "klavdiyaSeparated",
+      "followupTitleKo": "값을 낮출 때와 기다릴 때",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "상할 우려가 있는 물량을 따로 분리했다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named work record"
+}

@@ -33,7 +33,10 @@
         "bookbinder_elizaveta",
         "scribal_yuri",
         "student_vasily",
-        "minor_noble_andrei"
+        "minor_noble_andrei",
+        "junior_guard_sergey",
+        "street_vendor_matryona",
+        "typesetter_nikita"
       ],
       "connections": [
         {
@@ -102,7 +105,9 @@
         "innkeeper_irina",
         "teacher_lyubov",
         "landlady_polina",
-        "watercarrier_luka"
+        "watercarrier_luka",
+        "servant_varvara",
+        "lodging_tatyana"
       ],
       "connections": [
         {
@@ -148,7 +153,10 @@
         "market_nadezhda",
         "porter_gavrila",
         "coachman_timofey",
-        "apothecary_yakov"
+        "apothecary_yakov",
+        "fishseller_klavdiya",
+        "warehouse_pyotr",
+        "carter_roman"
       ],
       "connections": [
         {

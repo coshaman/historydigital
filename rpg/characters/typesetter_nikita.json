@@ -1,0 +1,196 @@
+{
+  "id": "typesetter_nikita",
+  "kind": "FICTIONAL",
+  "displayNameKo": "니키타",
+  "displayNameRu": "Никита Соколов",
+  "ageAtDate": {
+    "value": 30,
+    "status": "fictional_character_design"
+  },
+  "socialEstate": "urban_laborer",
+  "occupation": "인쇄소에서 납활자를 조판하고 교정쇄를 맞추는 활자공",
+  "rank": {
+    "value": null,
+    "ru": null,
+    "status": "not_applicable"
+  },
+  "legalMobility": "배달 경로와 공개 거리 이용; 봉투를 열 권한이나 관청 출입 권한 없음",
+  "wealthBracket": "precarious",
+  "money": {
+    "amount": 11,
+    "unit": "kopeks",
+    "status": "designedEstimate"
+  },
+  "literacy": "주소와 배달 표식을 판독함; 봉투 안의 내용은 알지 못함",
+  "health": "working",
+  "reputationByGroup": {
+    "street": "knows_the_routes"
+  },
+  "risk": "지각하면 품삯과 다음 일감을 잃을 수 있음",
+  "relations": {},
+  "secretKnowledge": [
+    {
+      "id": "TYPESETTER_NIKITA_PRIVATE_NOTE",
+      "summaryKo": "니키타는 한 줄의 활자를 고쳤지만, 수정 지시가 누구에게서 왔는지는 작업표에 남지 않았다."
+    }
+  ],
+  "knownEvidence": [],
+  "privateKnowledgeIds": [
+    "TYPESETTER_NIKITA_PRIVATE_NOTE"
+  ],
+  "knownEvidenceIds": [],
+  "desires": "정확성을 지키느라 일이 늦어질 때 시간과 재인쇄 비용은 누가 책임져야 할까요?",
+  "fears": "니키타는 오탈자를 고치느라 인쇄를 늦추면 품삯이 줄고, 서둘러 넘기면 검열 뒤 문장을 다시 찍어야 할 수 있다.",
+  "taboos": [
+    "밀봉된 편지를 읽지 않는다"
+  ],
+  "speechRhythm": "활자 줄과 교정 시각을 꼼꼼히 짚는다. 피곤할수록 짧게 말하고, 임금 이야기가 나오면 더 직접적이다.",
+  "worldview": {
+    "status": "fictional_character_design",
+    "stanceKo": "정확한 인쇄가 필요하지만 시간 압박과 재인쇄 비용을 노동자에게만 돌려서는 안 된다고 본다. 자신이 확인한 글자는 책임지되 지시받은 변경을 따로 기록하려 한다.",
+    "tensionKo": "니키타는 오탈자를 고치느라 인쇄를 늦추면 품삯이 줄고, 서둘러 넘기면 검열 뒤 문장을 다시 찍어야 할 수 있다.",
+    "blindSpotKo": "자기 일이 급할 때 상대가 감당할 비용을 충분히 보지 못할 수 있다.",
+    "designBasisKo": "허구 시민 설정으로 실제 개인의 증언이나 사건을 나타내지 않는다.",
+    "sceneAnchorIds": [
+      "TYPESETTER_SPEED_CENSORSHIP_1847"
+    ]
+  },
+  "topicStances": {
+    "serfdom": {
+      "knowledgeKind": "no_documented_stance",
+      "positionKo": "이 허구 인물은 농촌 제도의 직접 경험이나 확인된 정보를 가진 것으로 설정하지 않는다."
+    },
+    "censorship": {
+      "knowledgeKind": "fictional_workplace_context_only",
+      "positionKo": "문서의 전달·교정에서 자신이 직접 맡은 일만 말하고 실제 검열 규정을 대신 설명하지 않는다."
+    },
+    "literature": {
+      "knowledgeKind": "reader_limited",
+      "positionKo": "작가의 뜻을 대변하지 않고 자신이 읽거나 들은 범위만 말한다."
+    },
+    "poverty_and_class": {
+      "knowledgeKind": "fictional_lived_experience",
+      "positionKo": "정확한 인쇄가 필요하지만 시간 압박과 재인쇄 비용을 노동자에게만 돌려서는 안 된다고 본다. 자신이 확인한 글자는 책임지되 지시받은 변경을 따로 기록하려 한다."
+    },
+    "slavophilism_and_westernism": {
+      "knowledgeKind": "unfamiliar_terms",
+      "positionKo": "사상 진영을 대변하지 않는다. 일과 이웃에게 생기는 비용을 중심으로 말한다."
+    }
+  },
+  "speechRegister": {
+    "firstMeeting": "교정쇄가 마를 때까지 줄과 작업 상태를 설명한다.",
+    "colleague": "활자공 동료와는 줄 번호와 고칠 글자를 빠르게 확인한다.",
+    "private": "사적으로는 피로와 재인쇄로 줄어든 품삯을 숨기지 않는다.",
+    "conflict": "서두르라는 압박엔 오자와 재인쇄 시간을 따져 말한다.",
+    "intimacy": "가까운 동료와는 짧은 농담 뒤에 교정 줄을 다시 센다.",
+    "formal": "인쇄 책임자에게는 존대하며 지시와 직접 고친 글자를 구별한다."
+  },
+  "voiceSamples": [
+    "교정쇄를 거꾸로 놓지 마시오. 줄이 바뀌면 다시 맞춰야 하오.",
+    "서두르면 오자가 나고, 고치면 시간이 더 들지. 어느 쪽 비용을 누가 내는지도 적어야 하오.",
+    "정확한 인쇄가 필요하지만 시간 압박과 재인쇄 비용을 노동자에게만 돌려서는 안 된다고 본다. 자신이 확인한 글자는 책임지되 지시받은 변경을 따로 기록하려 한다."
+  ],
+  "lexicon": [
+    "골목",
+    "빗물",
+    "마감"
+  ],
+  "emotions": [
+    "초조",
+    "유머",
+    "경계"
+  ],
+  "personalObjective": "정확성을 지키느라 일이 늦어질 때 시간과 재인쇄 비용은 누가 책임져야 할까요?",
+  "objectiveByChapter": {
+    "1847": "정확성을 지키느라 일이 늦어질 때 시간과 재인쇄 비용은 누가 책임져야 할까요?"
+  },
+  "allowedMaps": [
+    "nevsky",
+    "courtyard",
+    "market-quay",
+    "printshop",
+    "chancery"
+  ],
+  "start": {
+    "mapId": "printshop",
+    "x": 16,
+    "y": 10
+  },
+  "wealthBracketStatus": "designedEstimate",
+  "inventory": [
+    "밀봉 봉투",
+    "끈 달린 가방"
+  ],
+  "sourceIds": [],
+  "canonConstraint": "fictional citizen; never treated as an attested historical individual or witness",
+  "reconstructionDisclaimer": "허구 인물의 일과 선택만 다룬다.",
+  "sprite": {
+    "file": "assets/typesetter_nikita.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "cap",
+    "palette": {
+      "cloth": "#713e31",
+      "trim": "#bd9b64",
+      "headwear": "#44342d"
+    }
+  },
+  "schedule": [
+    {
+      "atMinute": 420,
+      "mapId": "printshop",
+      "position": {
+        "x": 16,
+        "y": 10
+      },
+      "activityKo": "활자함에서 인쇄할 줄을 맞춘다"
+    },
+    {
+      "atMinute": 600,
+      "mapId": "printshop",
+      "position": {
+        "x": 17,
+        "y": 12
+      },
+      "activityKo": "교정쇄의 오자를 확인한다"
+    },
+    {
+      "atMinute": 780,
+      "mapId": "nevsky",
+      "position": {
+        "x": 16,
+        "y": 12
+      },
+      "activityKo": "종이와 인쇄 일정 변경을 알린다"
+    },
+    {
+      "atMinute": 960,
+      "mapId": "printshop",
+      "position": {
+        "x": 16,
+        "y": 10
+      },
+      "activityKo": "재인쇄 시간과 작업표를 정리한다"
+    }
+  ],
+  "portrait": {
+    "file": "assets/portrait-typesetter_nikita.svg",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+  },
+  "spriteAtlas": {
+    "file": "assets/pavel.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "directions": 4,
+    "framesPerDirection": 3,
+    "directionRows": {
+      "down": 0,
+      "up": 1,
+      "left": 2,
+      "right": 3
+    }
+  },
+  "speechStatus": "FICTIONAL_DESIGN"
+}

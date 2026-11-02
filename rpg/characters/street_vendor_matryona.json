@@ -1,0 +1,183 @@
+{
+  "id": "street_vendor_matryona",
+  "kind": "FICTIONAL",
+  "displayNameKo": "마트료나",
+  "displayNameRu": "Матрёна Павлова",
+  "ageAtDate": {
+    "value": 43,
+    "status": "fictional_character_design"
+  },
+  "socialEstate": "urban_laborer",
+  "occupation": "날씨와 통행량을 살피며 거리에서 작은 물건을 파는 행상",
+  "rank": {
+    "value": null,
+    "ru": null,
+    "status": "not_applicable"
+  },
+  "legalMobility": "시장과 공개 거리, 안뜰 통로만 이용하는 허구 인물; 고용·가격·관청 결정 권한은 맡지 않는다.",
+  "wealthBracket": "precarious",
+  "money": {
+    "amount": 32,
+    "unit": "kopeks",
+    "status": "designedEstimate"
+  },
+  "literacy": "자기 일과 관련된 표식·계산표를 읽는다. 문해력 범위는 허구 인물 설정이다.",
+  "health": "working",
+  "reputationByGroup": {
+    "neighbors": "known_by_daily_work"
+  },
+  "risk": "일감을 잃거나 이웃의 신뢰를 잃을 가능성을 함께 계산한다.",
+  "relations": {},
+  "secretKnowledge": [
+    {
+      "id": "STREET_VENDOR_MATRYONA_PRIVATE_NOTE",
+      "summaryKo": "비구름이 다가오지만 골목 안쪽 좌판 자리는 이미 다른 상인이 쓰고 있다."
+    }
+  ],
+  "knownEvidence": [],
+  "privateKnowledgeIds": [
+    "STREET_VENDOR_MATRYONA_PRIVATE_NOTE"
+  ],
+  "knownEvidenceIds": [],
+  "desires": "공공의 길을 막지 않으면서 거리에서 생계를 이어갈 방법은 무엇일까요?",
+  "fears": "비가 오기 전 좌판을 옮기면 손님을 놓칠 수 있고, 그대로 두면 물건이 젖을 수 있다. 마트료나는 이동과 매상 중 하나를 감수해야 한다.",
+  "taboos": [
+    "확인하지 않은 사람의 사정을 대신 단정하지 않는다."
+  ],
+  "speechRhythm": "하늘과 사람 흐름을 계속 보며 말을 바꾼다. 흥정은 재빠르지만 통행을 막는 일에는 민감하다.",
+  "speechRegister": {
+    "firstMeeting": "보행자에게 길을 비켜 달라고 먼저 말한다.",
+    "colleague": "행상 동료와는 날씨와 사람 흐름을 재빨리 맞춘다.",
+    "private": "친한 손님에게 오늘 매상과 젖은 물건 걱정을 말한다.",
+    "conflict": "자리를 침범한다는 지적엔 통행과 먼저 쓴 자리를 함께 따진다.",
+    "intimacy": "가까운 상인과는 날씨 농담을 하고 바로 좌판을 옮긴다.",
+    "formal": "관리인에게는 정중히 자리와 통행 공간을 설명한다."
+  },
+  "voiceSamples": [
+    "지나가실 거면 길을 비켜 주세요. 좌판은 곧 옮길 수도 있어요.",
+    "비가 오면 물건이 상해요. 지금 옮기면 손님이 어디로 갔는지 모르겠죠.",
+    "거리에 나올 권리는 누구에게나 있다고 보지만, 통행을 막거나 다른 사람 자리를 빼앗아선 안 된다고 생각한다. 날씨 변화는 생계에 바로 영향을 준다."
+  ],
+  "worldview": {
+    "status": "fictional_character_design",
+    "stanceKo": "거리에 나올 권리는 누구에게나 있다고 보지만, 통행을 막거나 다른 사람 자리를 빼앗아선 안 된다고 생각한다. 날씨 변화는 생계에 바로 영향을 준다.",
+    "tensionKo": "비가 오기 전 좌판을 옮기면 손님을 놓칠 수 있고, 그대로 두면 물건이 젖을 수 있다. 마트료나는 이동과 매상 중 하나를 감수해야 한다.",
+    "blindSpotKo": "자기 일이 급할 때 상대가 감당할 비용을 충분히 보지 못할 수 있다.",
+    "designBasisKo": "허구 시민 설정으로 실제 개인의 증언이나 사건을 나타내지 않는다.",
+    "sceneAnchorIds": [
+      "STREET_VENDOR_WEATHER_1847"
+    ]
+  },
+  "topicStances": {
+    "serfdom": {
+      "knowledgeKind": "no_documented_stance",
+      "positionKo": "이 허구 인물은 농촌 제도의 직접 경험이나 확인된 정보를 가진 것으로 설정하지 않는다."
+    },
+    "censorship": {
+      "knowledgeKind": "fictional_workplace_context_only",
+      "positionKo": "문서의 전달·교정에서 자신이 직접 맡은 일만 말하고 실제 검열 규정을 대신 설명하지 않는다."
+    },
+    "literature": {
+      "knowledgeKind": "reader_limited",
+      "positionKo": "작가의 뜻을 대변하지 않고 자신이 읽거나 들은 범위만 말한다."
+    },
+    "poverty_and_class": {
+      "knowledgeKind": "fictional_lived_experience",
+      "positionKo": "거리에 나올 권리는 누구에게나 있다고 보지만, 통행을 막거나 다른 사람 자리를 빼앗아선 안 된다고 생각한다. 날씨 변화는 생계에 바로 영향을 준다."
+    },
+    "slavophilism_and_westernism": {
+      "knowledgeKind": "unfamiliar_terms",
+      "positionKo": "사상 진영을 대변하지 않는다. 일과 이웃에게 생기는 비용을 중심으로 말한다."
+    }
+  },
+  "lexicon": [
+    "저울",
+    "바구니",
+    "값"
+  ],
+  "emotions": [
+    "경계",
+    "걱정",
+    "마른 농담"
+  ],
+  "personalObjective": "공공의 길을 막지 않으면서 거리에서 생계를 이어갈 방법은 무엇일까요?",
+  "objectiveByChapter": {
+    "1847": "공공의 길을 막지 않으면서 거리에서 생계를 이어갈 방법은 무엇일까요?"
+  },
+  "allowedMaps": [
+    "nevsky",
+    "courtyard",
+    "market-quay",
+    "printshop",
+    "chancery"
+  ],
+  "start": {
+    "mapId": "nevsky",
+    "x": 24,
+    "y": 14
+  },
+  "wealthBracketStatus": "designedEstimate",
+  "inventory": [
+    "양배추 바구니",
+    "황동 저울추"
+  ],
+  "sourceIds": [],
+  "canonConstraint": "fictional citizen; never treated as an attested historical individual or witness",
+  "reconstructionDisclaimer": "허구 인물의 일과 선택만 다룬다.",
+  "sprite": {
+    "file": "assets/street_vendor_matryona.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "scarf",
+    "palette": {
+      "cloth": "#72513b",
+      "trim": "#a95e42",
+      "headwear": "#503b31"
+    }
+  },
+  "speechStatus": "FICTIONAL_DESIGN",
+  "schedule": [
+    {
+      "atMinute": 420,
+      "mapId": "nevsky",
+      "position": {
+        "x": 24,
+        "y": 14
+      },
+      "activityKo": "날씨와 통행량을 보고 좌판을 편다"
+    },
+    {
+      "atMinute": 600,
+      "mapId": "market-quay",
+      "position": {
+        "x": 22,
+        "y": 14
+      },
+      "activityKo": "시장 손님에게 남은 물건을 판다"
+    },
+    {
+      "atMinute": 780,
+      "mapId": "nevsky",
+      "position": {
+        "x": 24,
+        "y": 14
+      },
+      "activityKo": "비 오기 전 물건을 덮거나 옮긴다"
+    },
+    {
+      "atMinute": 960,
+      "mapId": "courtyard",
+      "position": {
+        "x": 13,
+        "y": 14
+      },
+      "activityKo": "하루 매상과 젖은 재고를 적는다"
+    }
+  ],
+  "portrait": {
+    "file": "assets/portrait-street_vendor_matryona.svg",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+  }
+}

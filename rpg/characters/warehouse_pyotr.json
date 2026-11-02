@@ -1,0 +1,196 @@
+{
+  "id": "warehouse_pyotr",
+  "kind": "FICTIONAL",
+  "displayNameKo": "표트르",
+  "displayNameRu": "Пётр Иванов",
+  "ageAtDate": {
+    "value": 32,
+    "status": "fictional_character_design"
+  },
+  "socialEstate": "service_class",
+  "occupation": "부두 창고에서 들어오고 나가는 물품을 기록하는 사무 보조",
+  "rank": {
+    "value": "10등급 콜레기스키 세크레타리",
+    "ru": "коллежский секретарь",
+    "status": "fictional_design"
+  },
+  "legalMobility": "공무 문서가 있는 기관과 공개 거리만 이용; 인쇄·최종 검열 권한 없음",
+  "wealthBracket": "modest",
+  "money": {
+    "amount": 64,
+    "unit": "kopeks",
+    "status": "designedEstimate"
+  },
+  "literacy": "러시아어 행정 문서에 능숙",
+  "health": "working",
+  "reputationByGroup": {
+    "office": "careful"
+  },
+  "risk": "공식 장부에 남는 행위에 신중",
+  "relations": {},
+  "secretKnowledge": [
+    {
+      "id": "WAREHOUSE_PYOTR_PRIVATE_NOTE",
+      "summaryKo": "한 상자의 인수 확인란이 비어 있고, 표트르는 마지막 운반자를 보지 못했다."
+    }
+  ],
+  "knownEvidence": [],
+  "privateKnowledgeIds": [
+    "WAREHOUSE_PYOTR_PRIVATE_NOTE"
+  ],
+  "knownEvidenceIds": [],
+  "desires": "분실을 막는 기록이 사람을 근거 없이 의심하게 만들면 무엇을 남겨야 할까요?",
+  "fears": "창고 물품 하나가 수량표와 맞지 않는다. 표트르는 이름을 먼저 적을지, 입출고를 다시 세고 빈칸을 남길지 골라야 한다.",
+  "taboos": [
+    "상급자의 결재를 대신하지 않는다"
+  ],
+  "speechRhythm": "번호와 수량을 확인하고 말한다. 의심을 받으면 변명보다 장부를 다시 펼쳐 보인다.",
+  "speechRegister": {
+    "firstMeeting": "물건 이름보다 번호와 수량을 먼저 묻는다.",
+    "colleague": "창고 동료와는 입고·반출 숫자를 간결하게 대조한다.",
+    "private": "사적으로는 자기 기록 실수를 인정하되 남의 책임을 대신 쓰지 않는다.",
+    "conflict": "도둑으로 몰리면 변명보다 장부와 표를 다시 펼친다.",
+    "intimacy": "믿는 동료에게만 누락을 혼자 책임질까 걱정된다고 말한다.",
+    "formal": "상급자에게는 문서 순서와 인수 시각을 정확히 보고한다."
+  },
+  "voiceSamples": [
+    "인수 번호가 있습니까? 물건 이름보다 번호와 수량부터 대조하겠소.",
+    "수량이 하나 맞지 않소. 누가 가져갔다고 쓰기 전에 입고표부터 다시 봐야 하오.",
+    "물품 기록은 필요하지만 장부의 누락만으로 특정 사람을 도둑으로 몰아서는 안 된다고 본다. 자기 몫의 실수도 확인되면 적으려 한다."
+  ],
+  "worldview": {
+    "status": "fictional_character_design",
+    "stanceKo": "물품 기록은 필요하지만 장부의 누락만으로 특정 사람을 도둑으로 몰아서는 안 된다고 본다. 자기 몫의 실수도 확인되면 적으려 한다.",
+    "tensionKo": "창고 물품 하나가 수량표와 맞지 않는다. 표트르는 이름을 먼저 적을지, 입출고를 다시 세고 빈칸을 남길지 골라야 한다.",
+    "blindSpotKo": "자기 일이 급할 때 상대가 감당할 비용을 충분히 보지 못할 수 있다.",
+    "designBasisKo": "허구 시민 설정으로 실제 개인의 증언이나 사건을 나타내지 않는다.",
+    "sceneAnchorIds": [
+      "WAREHOUSE_LOSS_RECORD_1847"
+    ]
+  },
+  "topicStances": {
+    "serfdom": {
+      "knowledgeKind": "no_documented_stance",
+      "positionKo": "이 허구 인물은 농촌 제도의 직접 경험이나 확인된 정보를 가진 것으로 설정하지 않는다."
+    },
+    "censorship": {
+      "knowledgeKind": "fictional_workplace_context_only",
+      "positionKo": "문서의 전달·교정에서 자신이 직접 맡은 일만 말하고 실제 검열 규정을 대신 설명하지 않는다."
+    },
+    "literature": {
+      "knowledgeKind": "reader_limited",
+      "positionKo": "작가의 뜻을 대변하지 않고 자신이 읽거나 들은 범위만 말한다."
+    },
+    "poverty_and_class": {
+      "knowledgeKind": "fictional_lived_experience",
+      "positionKo": "물품 기록은 필요하지만 장부의 누락만으로 특정 사람을 도둑으로 몰아서는 안 된다고 본다. 자기 몫의 실수도 확인되면 적으려 한다."
+    },
+    "slavophilism_and_westernism": {
+      "knowledgeKind": "unfamiliar_terms",
+      "positionKo": "사상 진영을 대변하지 않는다. 일과 이웃에게 생기는 비용을 중심으로 말한다."
+    }
+  },
+  "lexicon": [
+    "접수",
+    "원본",
+    "상신"
+  ],
+  "emotions": [
+    "절제",
+    "걱정",
+    "마른 농담"
+  ],
+  "personalObjective": "분실을 막는 기록이 사람을 근거 없이 의심하게 만들면 무엇을 남겨야 할까요?",
+  "objectiveByChapter": {
+    "1847": "분실을 막는 기록이 사람을 근거 없이 의심하게 만들면 무엇을 남겨야 할까요?"
+  },
+  "allowedMaps": [
+    "nevsky",
+    "courtyard",
+    "market-quay",
+    "printshop",
+    "chancery"
+  ],
+  "start": {
+    "mapId": "market-quay",
+    "x": 4,
+    "y": 10
+  },
+  "wealthBracketStatus": "designedEstimate",
+  "inventory": [
+    "작은 수첩",
+    "연필"
+  ],
+  "sourceIds": [],
+  "canonConstraint": "fictional citizen; never treated as an attested historical individual or witness",
+  "reconstructionDisclaimer": "허구 인물의 일과 선택만 다룬다.",
+  "sprite": {
+    "file": "assets/warehouse_pyotr.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "coat",
+    "palette": {
+      "cloth": "#3b4144",
+      "trim": "#874333",
+      "headwear": "#51473b"
+    }
+  },
+  "schedule": [
+    {
+      "atMinute": 420,
+      "mapId": "market-quay",
+      "position": {
+        "x": 4,
+        "y": 10
+      },
+      "activityKo": "창고 입고표와 물품 번호를 맞춘다"
+    },
+    {
+      "atMinute": 600,
+      "mapId": "chancery",
+      "position": {
+        "x": 12,
+        "y": 12
+      },
+      "activityKo": "반출 승인 문서를 전달한다"
+    },
+    {
+      "atMinute": 780,
+      "mapId": "nevsky",
+      "position": {
+        "x": 19,
+        "y": 12
+      },
+      "activityKo": "운반표의 수량과 인수 시각을 확인한다"
+    },
+    {
+      "atMinute": 960,
+      "mapId": "market-quay",
+      "position": {
+        "x": 4,
+        "y": 10
+      },
+      "activityKo": "남은 물량과 빈칸을 다시 센다"
+    }
+  ],
+  "portrait": {
+    "file": "assets/portrait-warehouse_pyotr.svg",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+  },
+  "spriteAtlas": {
+    "file": "assets/alexei.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "directions": 4,
+    "framesPerDirection": 3,
+    "directionRows": {
+      "down": 0,
+      "up": 1,
+      "left": 2,
+      "right": 3
+    }
+  },
+  "speechStatus": "FICTIONAL_DESIGN"
+}

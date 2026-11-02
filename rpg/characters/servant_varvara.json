@@ -1,0 +1,183 @@
+{
+  "id": "servant_varvara",
+  "kind": "FICTIONAL",
+  "displayNameKo": "바르바라",
+  "displayNameRu": "Варвара Николаева",
+  "ageAtDate": {
+    "value": 27,
+    "status": "fictional_character_design"
+  },
+  "socialEstate": "urban_laborer",
+  "occupation": "도심 가정에서 청소와 심부름을 맡는 하인",
+  "rank": {
+    "value": null,
+    "ru": null,
+    "status": "not_applicable"
+  },
+  "legalMobility": "시장과 공개 거리, 안뜰 통로만 이용하는 허구 인물; 고용·가격·관청 결정 권한은 맡지 않는다.",
+  "wealthBracket": "precarious",
+  "money": {
+    "amount": 14,
+    "unit": "kopeks",
+    "status": "designedEstimate"
+  },
+  "literacy": "자기 일과 관련된 표식·계산표를 읽는다. 문해력 범위는 허구 인물 설정이다.",
+  "health": "working",
+  "reputationByGroup": {
+    "neighbors": "known_by_daily_work"
+  },
+  "risk": "일감을 잃거나 이웃의 신뢰를 잃을 가능성을 함께 계산한다.",
+  "relations": {},
+  "secretKnowledge": [
+    {
+      "id": "SERVANT_VARVARA_PRIVATE_NOTE",
+      "summaryKo": "바르바라는 짐을 옮기라는 지시를 들었지만 어느 방인지 확실히 듣지 못했다."
+    }
+  ],
+  "knownEvidence": [],
+  "privateKnowledgeIds": [
+    "SERVANT_VARVARA_PRIVATE_NOTE"
+  ],
+  "knownEvidenceIds": [],
+  "desires": "일자리를 잃을 위험이 있어도 이웃에게 경고해야 할 때는 언제일까요?",
+  "fears": "바르바라는 고용주 집의 지시가 이웃의 방에 영향을 줄 수 있음을 눈치챘다. 확실하지 않은 말을 옮기지 않으면서 위험을 알려야 한다.",
+  "taboos": [
+    "확인하지 않은 사람의 사정을 대신 단정하지 않는다."
+  ],
+  "speechRhythm": "상대 표정을 먼저 살피고 조심스럽게 말한다. 위험을 직접 묻는 순간 짧고 또렷해진다.",
+  "speechRegister": {
+    "firstMeeting": "낯선 이에게 용건과 전할 사람을 조심스럽게 묻는다.",
+    "colleague": "심부름 동료와는 짧게 목적지와 물건을 확인한다.",
+    "private": "친한 이웃에게 들은 말과 본 일을 나눠 털어놓는다.",
+    "conflict": "소문을 옮겼다는 지적엔 어떤 말을 직접 들었는지 따진다.",
+    "intimacy": "가까운 사람에게 짧은 농담으로 긴장을 풀고 걱정을 말한다.",
+    "formal": "고용주 앞에서는 존대를 지키면서 지시의 대상을 확인한다."
+  },
+  "voiceSamples": [
+    "심부름 가는 길이에요. 무슨 말을 전할지 먼저 알려 주세요.",
+    "말을 다 들은 건 아니에요. 그래도 방을 비우라는 지시가 있었는지는 확인해 볼 수 있어요.",
+    "고용주가 준 일자리는 소중하지만, 다른 사람에게 닥칠 일을 알면서 모른 척해서도 안 된다고 생각한다. 직접 확인한 것과 추측을 나누려 한다."
+  ],
+  "worldview": {
+    "status": "fictional_character_design",
+    "stanceKo": "고용주가 준 일자리는 소중하지만, 다른 사람에게 닥칠 일을 알면서 모른 척해서도 안 된다고 생각한다. 직접 확인한 것과 추측을 나누려 한다.",
+    "tensionKo": "바르바라는 고용주 집의 지시가 이웃의 방에 영향을 줄 수 있음을 눈치챘다. 확실하지 않은 말을 옮기지 않으면서 위험을 알려야 한다.",
+    "blindSpotKo": "자기 일이 급할 때 상대가 감당할 비용을 충분히 보지 못할 수 있다.",
+    "designBasisKo": "허구 시민 설정으로 실제 개인의 증언이나 사건을 나타내지 않는다.",
+    "sceneAnchorIds": [
+      "SERVANT_PRIVATE_WARNING_1847"
+    ]
+  },
+  "topicStances": {
+    "serfdom": {
+      "knowledgeKind": "no_documented_stance",
+      "positionKo": "이 허구 인물은 농촌 제도의 직접 경험이나 확인된 정보를 가진 것으로 설정하지 않는다."
+    },
+    "censorship": {
+      "knowledgeKind": "fictional_workplace_context_only",
+      "positionKo": "문서의 전달·교정에서 자신이 직접 맡은 일만 말하고 실제 검열 규정을 대신 설명하지 않는다."
+    },
+    "literature": {
+      "knowledgeKind": "reader_limited",
+      "positionKo": "작가의 뜻을 대변하지 않고 자신이 읽거나 들은 범위만 말한다."
+    },
+    "poverty_and_class": {
+      "knowledgeKind": "fictional_lived_experience",
+      "positionKo": "고용주가 준 일자리는 소중하지만, 다른 사람에게 닥칠 일을 알면서 모른 척해서도 안 된다고 생각한다. 직접 확인한 것과 추측을 나누려 한다."
+    },
+    "slavophilism_and_westernism": {
+      "knowledgeKind": "unfamiliar_terms",
+      "positionKo": "사상 진영을 대변하지 않는다. 일과 이웃에게 생기는 비용을 중심으로 말한다."
+    }
+  },
+  "lexicon": [
+    "린넨",
+    "품삯",
+    "장작"
+  ],
+  "emotions": [
+    "경계",
+    "걱정",
+    "마른 농담"
+  ],
+  "personalObjective": "일자리를 잃을 위험이 있어도 이웃에게 경고해야 할 때는 언제일까요?",
+  "objectiveByChapter": {
+    "1847": "일자리를 잃을 위험이 있어도 이웃에게 경고해야 할 때는 언제일까요?"
+  },
+  "allowedMaps": [
+    "nevsky",
+    "courtyard",
+    "market-quay",
+    "printshop",
+    "chancery"
+  ],
+  "start": {
+    "mapId": "courtyard",
+    "x": 3,
+    "y": 10
+  },
+  "wealthBracketStatus": "designedEstimate",
+  "inventory": [
+    "접은 린넨",
+    "세탁 비누"
+  ],
+  "sourceIds": [],
+  "canonConstraint": "fictional citizen; never treated as an attested historical individual or witness",
+  "reconstructionDisclaimer": "허구 인물의 일과 선택만 다룬다.",
+  "sprite": {
+    "file": "assets/servant_varvara.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "scarf",
+    "palette": {
+      "cloth": "#56625a",
+      "trim": "#c2a16a",
+      "headwear": "#554338"
+    }
+  },
+  "speechStatus": "FICTIONAL_DESIGN",
+  "schedule": [
+    {
+      "atMinute": 420,
+      "mapId": "courtyard",
+      "position": {
+        "x": 3,
+        "y": 10
+      },
+      "activityKo": "고용주 집의 청소와 심부름을 시작한다"
+    },
+    {
+      "atMinute": 600,
+      "mapId": "nevsky",
+      "position": {
+        "x": 9,
+        "y": 12
+      },
+      "activityKo": "집안 지시를 필요한 곳에 전달한다"
+    },
+    {
+      "atMinute": 780,
+      "mapId": "market-quay",
+      "position": {
+        "x": 5,
+        "y": 14
+      },
+      "activityKo": "집에 필요한 물건을 산다"
+    },
+    {
+      "atMinute": 960,
+      "mapId": "courtyard",
+      "position": {
+        "x": 3,
+        "y": 10
+      },
+      "activityKo": "전달한 말과 남은 일을 정리한다"
+    }
+  ],
+  "portrait": {
+    "file": "assets/portrait-servant_varvara.svg",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+  }
+}

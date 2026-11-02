@@ -430,6 +430,90 @@
           "promptKo": "인쇄 노동자는 활자만 책임지면 될까요, 문장의 뜻도 살펴야 할까요?"
         }
       }
+    },
+    {
+      "id": "INQUIRY_SCARCITY_AND_PUBLIC_SPACE_1847",
+      "date": "1847-06-01",
+      "titleKo": "부족한 물자와 거리의 자리",
+      "requiredPerspectiveCount": 2,
+      "stakesKo": "물가와 보관 위험, 운송 순서, 행상의 통행 공간을 비교합니다.",
+      "reflectionPromptKo": "부족한 자원과 공공의 길을 나눌 기준은 누가 정해야 할까요?",
+      "topicId": "scarcity_and_public_space",
+      "sourceIds": [],
+      "hosts": {
+        "fishseller_klavdiya": {
+          "promptKo": "상하기 전 값을 낮출 때 손실은 누구와 나눠야 할까요?"
+        },
+        "carter_roman": {
+          "promptKo": "급한 물자와 약속된 짐이 겹치면 어떤 순서가 공정할까요?"
+        },
+        "street_vendor_matryona": {
+          "promptKo": "거리에서 생계와 통행 공간을 어떻게 함께 지킬까요?"
+        }
+      }
+    },
+    {
+      "id": "INQUIRY_RECORD_AND_AUTHORITY_1847",
+      "date": "1847-06-01",
+      "titleKo": "기록이 책임을 묻는 방식",
+      "requiredPerspectiveCount": 2,
+      "stakesKo": "창고 장부의 빈칸과 출입 규칙, 확인되지 않은 책임을 살펴봅니다.",
+      "reflectionPromptKo": "기록은 어떻게 누락을 막으면서 근거 없는 비난을 피할 수 있을까요?",
+      "topicId": "record_and_authority",
+      "sourceIds": [],
+      "hosts": {
+        "warehouse_pyotr": {
+          "promptKo": "수량표가 비었을 때 마지막 기록자 이름부터 적어도 될까요?"
+        },
+        "junior_guard_sergey": {
+          "promptKo": "안전 규칙이 급한 방문객을 막을 때 경비병은 어디까지 판단할 수 있을까요?"
+        },
+        "clerk_alexei": {
+          "promptKo": "지시와 직접 확인한 사실은 장부에서 어떻게 나눠야 할까요?"
+        }
+      }
+    },
+    {
+      "id": "INQUIRY_PRINT_LABOR_AND_TRUTH_1847",
+      "date": "1847-06-01",
+      "titleKo": "인쇄 속도와 문장의 책임",
+      "requiredPerspectiveCount": 2,
+      "stakesKo": "교정 노동, 검열 뒤 재인쇄, 배달 지연의 책임을 나눠 봅니다.",
+      "reflectionPromptKo": "문장이 바뀌고 인쇄가 늦어질 때 누가 어떤 책임을 져야 할까요?",
+      "topicId": "print_labor_and_truth",
+      "sourceIds": [],
+      "hosts": {
+        "typesetter_nikita": {
+          "promptKo": "교정과 재인쇄로 늘어난 시간과 비용은 누가 부담해야 할까요?"
+        },
+        "printer_ekaterina": {
+          "promptKo": "문장을 찍은 사람과 바꾼 사람의 책임을 어떻게 구분해야 할까요?"
+        },
+        "courier_pavel": {
+          "promptKo": "배달이 늦어질 때 전달자는 어디까지 설명해야 할까요?"
+        }
+      }
+    },
+    {
+      "id": "INQUIRY_LEARNING_AND_LIVELIHOOD_1847",
+      "date": "1847-06-01",
+      "titleKo": "배울 시간과 생계의 값",
+      "requiredPerspectiveCount": 2,
+      "stakesKo": "재봉 품삯, 수업 재료, 독서 모임 비용을 비교합니다.",
+      "reflectionPromptKo": "배움을 넓히려면 학습자와 가르치는 사람의 비용을 어떻게 나눠야 할까요?",
+      "topicId": "learning_and_livelihood",
+      "sourceIds": [],
+      "hosts": {
+        "lodging_tatyana": {
+          "promptKo": "책을 읽는 시간이 품삯과 방세를 위협하면 무엇을 먼저 지켜야 할까요?"
+        },
+        "teacher_lyubov": {
+          "promptKo": "수업료가 밀려도 배울 기회를 이어가려면 비용을 어떻게 나눠야 할까요?"
+        },
+        "student_vasily": {
+          "promptKo": "책과 모임을 누구나 이용하게 하면서 만든 사람의 수고도 어떻게 보상할까요?"
+        }
+      }
     }
   ]
 }

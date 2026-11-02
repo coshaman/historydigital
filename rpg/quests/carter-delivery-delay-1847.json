@@ -1,0 +1,74 @@
+{
+  "id": "CARTER_DELIVERY_DELAY_1847",
+  "titleKo": "먼저 실을 짐과 늦어질 물량",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "로만은 인쇄소 종이와 시장 식량을 한 번에 옮길 수 없다. 어느 쪽을 먼저 싣고, 지연을 누구에게 알릴지 정해야 한다.",
+  "historicalOutcome": {
+    "id": "CARTER_DELIVERY_DELAY_1847_FICTIONAL_OUTCOME",
+    "value": "fictional work and household choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "market-quay",
+    "objectId": 1016,
+    "requiredHostId": "carter_roman"
+  },
+  "actions": [
+    {
+      "id": "CARTER_ROMAN_CHOICE_1",
+      "hostIds": [
+        "carter_roman"
+      ],
+      "labelKo": "무게를 재고 먼저 실을 물량과 지연을 양쪽에 알린다",
+      "subcopyKo": "시장 창고와 인쇄소가 압니다 · 배달표에 남습니다 · 두 곳 모두 불만을 가질 수 있습니다",
+      "resultKo": "적재량과 순서를 알렸다. 어느 쪽이 늦는지 숨기지 않았지만 불만은 남는다.",
+      "resultFlag": "romanNotified",
+      "followupTitleKo": "먼저 실을 짐과 늦어질 물량",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "적재량과 배달 순서를 양쪽에 알렸다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    },
+    {
+      "id": "CARTER_ROMAN_CHOICE_2",
+      "hostIds": [
+        "carter_roman"
+      ],
+      "labelKo": "값을 더 주는 주문을 먼저 싣는다",
+      "subcopyKo": "로만과 우선 주문자가 압니다 · 운임 장부에 남습니다 · 다른 거래처를 잃을 수 있습니다",
+      "resultKo": "운임이 높은 짐을 먼저 실었다. 오늘 수입은 늘지만 다른 약속이 늦어진다.",
+      "resultFlag": "romanPaid",
+      "followupTitleKo": "먼저 실을 짐과 늦어질 물량",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "운임이 높은 주문을 먼저 배달하기로 했다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    },
+    {
+      "id": "CARTER_ROMAN_CHOICE_3",
+      "hostIds": [
+        "carter_roman"
+      ],
+      "labelKo": "마차를 점검할 때까지 출발을 보류한다",
+      "subcopyKo": "로만과 두 거래처가 압니다 · 점검표에 남습니다 · 전체 배달이 늦어집니다",
+      "resultKo": "축을 확인하기 전 출발하지 않았다. 파손 위험은 줄지만 두 주문 모두 지연된다.",
+      "resultFlag": "romanInspected",
+      "followupTitleKo": "먼저 실을 짐과 늦어질 물량",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "마차 축을 점검한 뒤 출발하기로 했다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named work record"
+}

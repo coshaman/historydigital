@@ -1,0 +1,74 @@
+{
+  "id": "TYPESETTER_SPEED_CENSORSHIP_1847",
+  "titleKo": "속도 압박과 다시 찍을 책임",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "니키타는 오탈자를 고치느라 인쇄를 늦추면 품삯이 줄고, 서둘러 넘기면 검열 뒤 문장을 다시 찍어야 할 수 있다.",
+  "historicalOutcome": {
+    "id": "TYPESETTER_SPEED_CENSORSHIP_1847_FICTIONAL_OUTCOME",
+    "value": "fictional work and household choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "printshop",
+    "objectId": 1018,
+    "requiredHostId": "typesetter_nikita"
+  },
+  "actions": [
+    {
+      "id": "TYPESETTER_NIKITA_CHOICE_1",
+      "hostIds": [
+        "typesetter_nikita"
+      ],
+      "labelKo": "수정 시각과 교정한 줄을 작업표에 적는다",
+      "subcopyKo": "조판공과 인쇄 책임자가 봅니다 · 작업표에 남습니다 · 작업 시간이 드러나 품삯 협상이 어려울 수 있습니다",
+      "resultKo": "교정한 줄과 시간을 기록했다. 변경은 추적되지만 작업 지연 책임도 보인다.",
+      "resultFlag": "nikitaRecorded",
+      "followupTitleKo": "속도 압박과 다시 찍을 책임",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "교정 줄과 작업 시각을 기록했다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    },
+    {
+      "id": "TYPESETTER_NIKITA_CHOICE_2",
+      "hostIds": [
+        "typesetter_nikita"
+      ],
+      "labelKo": "오자를 고치지 않고 인쇄를 먼저 진행한다",
+      "subcopyKo": "인쇄 책임자와 주문자가 압니다 · 완료표에 남습니다 · 오자가 배포되면 재인쇄를 맡을 수 있습니다",
+      "resultKo": "인쇄를 먼저 진행했다. 납기는 맞췄지만 오류가 나면 다시 찍어야 한다.",
+      "resultFlag": "nikitaPrinted",
+      "followupTitleKo": "속도 압박과 다시 찍을 책임",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "교정을 미루고 먼저 인쇄했다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    },
+    {
+      "id": "TYPESETTER_NIKITA_CHOICE_3",
+      "hostIds": [
+        "typesetter_nikita"
+      ],
+      "labelKo": "수정 지시를 확인할 때까지 해당 면 인쇄를 멈춘다",
+      "subcopyKo": "니키타와 지시자, 인쇄 책임자가 압니다 · 보류 메모에 남습니다 · 납기와 품삯이 줄 수 있습니다",
+      "resultKo": "지시와 원문을 확인하려고 해당 면을 멈췄다. 잘못된 수정은 막지만 일정은 늦어진다.",
+      "resultFlag": "nikitaPaused",
+      "followupTitleKo": "속도 압박과 다시 찍을 책임",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "수정 지시를 확인할 때까지 인쇄를 보류했다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named work record"
+}

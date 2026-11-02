@@ -11,18 +11,18 @@ Reviewer: one independent subagent, read-only critique, 2026-11-02. This is a sc
 
 ## Cohort progress (2026-11-02)
 
-- 28 of 36 fictional city residents now have daily schedules, separate authored voices, live AI scene records, and authored work choices.
+- All 36 fictional city residents now have daily schedules, separate authored voices, live AI scene records, and authored work choices.
 - Three of six target districts are connected: Nevsky/workplaces, courtyard/household, and the fictional market/quay. Three of eight target interiors are available.
-- The inquiry board now defines 19 multi-perspective questions across the campaign; 12 are open at the initial date. Topics include responsibility, class, censorship, care, privacy, authorship, debt, education access, public speech, and shared costs.
-- A deterministic 24-hour simulation of all 28 residents passed twice: 1,163 movements, no tile collisions or unauthorized map jumps, and save/load parity.
-- Eighteen cohort work quests are playable as one consequential choice with three alternatives each. They are not yet the required 30 three-stage personal quest chains.
-- Six additional residents now have distinct speech-register matrices, authored dialogue, and viewpoint prompts: a lodging-house keeper, student, teacher, cash-poor noble, landlady, and water carrier.
+- The inquiry board now defines 23 multi-perspective questions across the campaign; 16 are open at the initial date. Topics include responsibility, class, censorship, care, privacy, authorship, debt, education access, public speech, shared costs, records, labor, and public space.
+- A deterministic 24-hour simulation of all 36 residents passed twice: 1,529 movements, no tile collisions or unauthorized map jumps, and save/load parity.
+- Twenty-six cohort work quests are playable as one consequential choice with three alternatives each. They are not yet the required 30 three-stage personal quest chains.
+- The last eight residents add fish and street sellers, a warehouse clerk, household servant, junior guard, carter, typesetter, and lodging-house reader. Their dialogue and personal stakes focus on scarcity, access, labor, authority, and learning.
 - The local live-provider smoke passed one real generation with non-empty AI text and no authored fallback. This verifies local credentials and response handling only; Vercel production configuration must be checked at its deployed `/api/rpg/health` endpoint.
 
 ## Remaining P1 scope
 
-- V36 still requires 8 more active residents, 3 more districts, and 5 more usable interiors.
+- V36 still requires 3 more districts and 5 more usable interiors.
 - `city-districts-v36.json` currently improves display and provides validated prototype metadata. The whole runtime's access, spawning, social graph, and routines are not yet driven by that registry.
-- The 28-resident 24-hour replay is deterministic movement coverage, not proof of goal-driven 36-resident simulation.
+- The 36-resident 24-hour replay is deterministic movement coverage, not proof of goal-driven simulation.
 - Personal three-stage quests, social chains, 70 meaningful interactions, 60 distinct environment asset types, and 12 visible world changes are not yet at V36 target counts.
 - This review does not cover complete endings, GPU performance, all viewport/story routes, or human playtesting. Human playtest remains pending.

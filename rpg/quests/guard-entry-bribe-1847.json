@@ -1,0 +1,74 @@
+{
+  "id": "GUARD_ENTRY_BRIBE_1847",
+  "titleKo": "출입 허가와 급한 부탁",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "세르게이는 서류가 없는 방문객을 들일지, 상급자에게 확인을 요청할지 정해야 한다. 방문객은 급한 사정이라고 하지만 확인된 내용은 없다.",
+  "historicalOutcome": {
+    "id": "GUARD_ENTRY_BRIBE_1847_FICTIONAL_OUTCOME",
+    "value": "fictional work and household choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "chancery",
+    "objectId": 1015,
+    "requiredHostId": "junior_guard_sergey"
+  },
+  "actions": [
+    {
+      "id": "JUNIOR_GUARD_SERGEY_CHOICE_1",
+      "hostIds": [
+        "junior_guard_sergey"
+      ],
+      "labelKo": "허가증과 담당자를 확인하고 대기시킨다",
+      "subcopyKo": "세르게이와 방문객이 압니다 · 출입 대장에 남습니다 · 방문이 늦어질 수 있습니다",
+      "resultKo": "담당자를 확인할 때까지 문 앞에서 기다리게 했다. 기록은 분명하지만 급한 용무는 늦어진다.",
+      "resultFlag": "sergeyChecked",
+      "followupTitleKo": "출입 허가와 급한 부탁",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "허가와 담당자를 확인한 뒤 출입을 정하기로 했다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    },
+    {
+      "id": "JUNIOR_GUARD_SERGEY_CHOICE_2",
+      "hostIds": [
+        "junior_guard_sergey"
+      ],
+      "labelKo": "돈을 받고 방문객을 안으로 들인다",
+      "subcopyKo": "세르게이와 방문객이 압니다 · 출입 기록에는 남지 않습니다 · 발각되면 근무를 잃을 위험이 있습니다",
+      "resultKo": "돈을 받고 문을 열었다. 방문은 빨라졌지만 허가 여부는 확인되지 않았다.",
+      "resultFlag": "sergeyBribed",
+      "followupTitleKo": "출입 허가와 급한 부탁",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "허가 확인 없이 돈을 받고 출입을 허용했다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    },
+    {
+      "id": "JUNIOR_GUARD_SERGEY_CHOICE_3",
+      "hostIds": [
+        "junior_guard_sergey"
+      ],
+      "labelKo": "상급자에게 확인을 요청하고 방문객에게 기다릴 이유를 알린다",
+      "subcopyKo": "세르게이·방문객·상급자가 압니다 · 교대 기록에 남습니다 · 상급자가 답하지 않을 수 있습니다",
+      "resultKo": "확인을 요청하고 대기 이유를 설명했다. 책임을 숨기지 않았지만 결정은 늦어질 수 있다.",
+      "resultFlag": "sergeyEscalated",
+      "followupTitleKo": "출입 허가와 급한 부탁",
+      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
+      "effects": {
+        "situationKo": "상급자에게 출입 여부를 확인했다.",
+        "relations": {
+          "work_or_household": "선택한 문제를 함께 확인했다"
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named work record"
+}

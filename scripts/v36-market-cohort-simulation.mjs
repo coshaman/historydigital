@@ -11,7 +11,7 @@ const maps = Object.fromEntries(await Promise.all(mapIds.map(async id => [id, aw
 const allCards = await Promise.all((await readdir(new URL('../rpg/characters/', import.meta.url)))
   .filter(file => file.endsWith('.json')).map(file => json(`../rpg/characters/${file}`)));
 const cards = allCards.filter(card => card.kind === 'FICTIONAL');
-const questFiles = ['printshop-article','public-discourse-1848','circle-investigation-1849','circle-letter-1849-may','yard-ledger-1847','laundry-wages-1847','bakery-flour-1847','market-prices-1847','porter-load-1847','coach-fare-1847','household-privacy-1847','midwife-care-cost-1847','apothecary-limits-1847','apprentice-authorship-1847','bookbinder-damage-1847','scribal-copy-1847','inn-debt-rumor-1847','student-circle-risk-1847','teacher-access-cost-1847','noble-status-debt-1847','landlady-rent-commons-1847','water-access-queue-1847','literary-dead-souls','literary-overcoat'];
+const questFiles = ['printshop-article','public-discourse-1848','circle-investigation-1849','circle-letter-1849-may','yard-ledger-1847','laundry-wages-1847','bakery-flour-1847','market-prices-1847','porter-load-1847','coach-fare-1847','household-privacy-1847','midwife-care-cost-1847','apothecary-limits-1847','apprentice-authorship-1847','bookbinder-damage-1847','scribal-copy-1847','inn-debt-rumor-1847','student-circle-risk-1847','teacher-access-cost-1847','noble-status-debt-1847','landlady-rent-commons-1847','water-access-queue-1847','fish-storage-time-1847','warehouse-loss-record-1847','servant-private-warning-1847','guard-entry-bribe-1847','carter-delivery-delay-1847','street-vendor-weather-1847','typesetter-speed-censorship-1847','lodging-reading-income-1847','literary-dead-souls','literary-overcoat'];
 const quests = await Promise.all(questFiles.map(id => json(`../rpg/quests/${id}.json`)));
 
 function simulate() {
@@ -44,7 +44,7 @@ function simulate() {
 
 const a = simulate(), b = simulate();
 assert.deepEqual(a, b, '24-hour replay was not deterministic');
-assert.equal(cards.length, 28, 'expected three six-person cohorts on top of the initial ten');
-const cohortIds=['yardkeeper_semyon','laundress_mariya','baker_fyodor','market_nadezhda','porter_gavrila','coachman_timofey','housemaid_olga','midwife_avdotya','apothecary_yakov','print_apprentice_stepan','bookbinder_elizaveta','scribal_yuri','innkeeper_irina','student_vasily','teacher_lyubov','minor_noble_andrei','landlady_polina','watercarrier_luka'];
+assert.equal(cards.length, 36, 'expected 36 active fictional city residents');
+const cohortIds=['yardkeeper_semyon','laundress_mariya','baker_fyodor','market_nadezhda','porter_gavrila','coachman_timofey','housemaid_olga','midwife_avdotya','apothecary_yakov','print_apprentice_stepan','bookbinder_elizaveta','scribal_yuri','innkeeper_irina','student_vasily','teacher_lyubov','minor_noble_andrei','landlady_polina','watercarrier_luka','fishseller_klavdiya','warehouse_pyotr','servant_varvara','junior_guard_sergey','carter_roman','street_vendor_matryona','typesetter_nikita','lodging_tatyana'];
 for (const id of cohortIds) assert.ok(a.moved.includes(id), `${id} did not move during the day`);
 console.log(JSON.stringify({ status: 'PASS', residents: cards.length, durationMinutes: 1440, deterministicReplays: 2, saveReloadParity: true, occupancyChecks: a.checks, movementCount: a.moves, newResidentsMoved: a.moved.filter(id => cohortIds.includes(id)) }, null, 2));

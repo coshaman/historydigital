@@ -9,7 +9,7 @@ const caseContexts = require('../../rpg/data/case-contexts.json').cases;
 const historicalClaims = require('../../rpg/data/historical-claim-ledger.json').claims;
 const historicalPeople = require('../../rpg/data/historical-comparisons.json').comparisons;
 const mapRecords = new Map(['nevsky','printshop','chancery','courtyard','market-quay','dead-souls','overcoat','police-station'].map(id => [id, require(`../../rpg/maps/${id}.json`)]));
-const questRecords = new Map(['printshop-article','public-discourse-1848','circle-investigation-1849','circle-letter-1849-may','yard-ledger-1847','laundry-wages-1847','bakery-flour-1847','market-prices-1847','porter-load-1847','coach-fare-1847','household-privacy-1847','midwife-care-cost-1847','apothecary-limits-1847','apprentice-authorship-1847','bookbinder-damage-1847','scribal-copy-1847','inn-debt-rumor-1847','student-circle-risk-1847','teacher-access-cost-1847','noble-status-debt-1847','landlady-rent-commons-1847','water-access-queue-1847','literary-dead-souls','literary-overcoat'].map(id => { const quest = require(`../../rpg/quests/${id}.json`); return [quest.id, quest]; }));
+const questRecords = new Map(['printshop-article','public-discourse-1848','circle-investigation-1849','circle-letter-1849-may','yard-ledger-1847','laundry-wages-1847','bakery-flour-1847','market-prices-1847','porter-load-1847','coach-fare-1847','household-privacy-1847','midwife-care-cost-1847','apothecary-limits-1847','apprentice-authorship-1847','bookbinder-damage-1847','scribal-copy-1847','inn-debt-rumor-1847','student-circle-risk-1847','teacher-access-cost-1847','noble-status-debt-1847','landlady-rent-commons-1847','water-access-queue-1847','fish-storage-time-1847','warehouse-loss-record-1847','servant-private-warning-1847','guard-entry-bribe-1847','carter-delivery-delay-1847','street-vendor-weather-1847','typesetter-speed-censorship-1847','lodging-reading-income-1847','literary-dead-souls','literary-overcoat'].map(id => { const quest = require(`../../rpg/quests/${id}.json`); return [quest.id, quest]; }));
 const historicalNameVariants = [...new Set([
   ...historicalPeople.flatMap(person => person.personKo.split(/[와,·]/).flatMap(part => {
     const words = part.replace(/^(젊은|청년)\s+/, '').replace(/\s*(모임|사상가|비평가).*$/, '').trim().split(/\s+/).filter(Boolean);
@@ -49,6 +49,14 @@ const cards = new Map([
   require('../../rpg/characters/minor_noble_andrei.json'),
   require('../../rpg/characters/landlady_polina.json'),
   require('../../rpg/characters/watercarrier_luka.json'),
+  require('../../rpg/characters/fishseller_klavdiya.json'),
+  require('../../rpg/characters/warehouse_pyotr.json'),
+  require('../../rpg/characters/servant_varvara.json'),
+  require('../../rpg/characters/junior_guard_sergey.json'),
+  require('../../rpg/characters/carter_roman.json'),
+  require('../../rpg/characters/street_vendor_matryona.json'),
+  require('../../rpg/characters/typesetter_nikita.json'),
+  require('../../rpg/characters/lodging_tatyana.json'),
   require('../../rpg/characters/nekrasov_reconstruction.json'),
   require('../../rpg/characters/literary_chichikov.json'),
   require('../../rpg/characters/literary_akaky.json'),
@@ -77,6 +85,14 @@ const relationshipQuests = [
   require('../../rpg/quests/noble-status-debt-1847.json'),
   require('../../rpg/quests/landlady-rent-commons-1847.json'),
   require('../../rpg/quests/water-access-queue-1847.json'),
+  require('../../rpg/quests/fish-storage-time-1847.json'),
+  require('../../rpg/quests/warehouse-loss-record-1847.json'),
+  require('../../rpg/quests/servant-private-warning-1847.json'),
+  require('../../rpg/quests/guard-entry-bribe-1847.json'),
+  require('../../rpg/quests/carter-delivery-delay-1847.json'),
+  require('../../rpg/quests/street-vendor-weather-1847.json'),
+  require('../../rpg/quests/typesetter-speed-censorship-1847.json'),
+  require('../../rpg/quests/lodging-reading-income-1847.json'),
 ];
 const dialogueQuests = [...relationshipQuests, require('../../rpg/quests/literary-dead-souls.json'), require('../../rpg/quests/literary-overcoat.json')];
 const actorActionRecords = new Map();

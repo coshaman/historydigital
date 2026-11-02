@@ -1,0 +1,183 @@
+{
+  "id": "carter_roman",
+  "kind": "FICTIONAL",
+  "displayNameKo": "로만",
+  "displayNameRu": "Роман Егоров",
+  "ageAtDate": {
+    "value": 36,
+    "status": "fictional_character_design"
+  },
+  "socialEstate": "urban_laborer",
+  "occupation": "시장 창고와 인쇄소 사이에서 짐마차를 모는 운송업자",
+  "rank": {
+    "value": null,
+    "ru": null,
+    "status": "not_applicable"
+  },
+  "legalMobility": "시장과 공개 거리, 안뜰 통로만 이용하는 허구 인물; 고용·가격·관청 결정 권한은 맡지 않는다.",
+  "wealthBracket": "modest",
+  "money": {
+    "amount": 28,
+    "unit": "kopeks",
+    "status": "designedEstimate"
+  },
+  "literacy": "자기 일과 관련된 표식·계산표를 읽는다. 문해력 범위는 허구 인물 설정이다.",
+  "health": "working",
+  "reputationByGroup": {
+    "neighbors": "known_by_daily_work"
+  },
+  "risk": "일감을 잃거나 이웃의 신뢰를 잃을 가능성을 함께 계산한다.",
+  "relations": {},
+  "secretKnowledge": [
+    {
+      "id": "CARTER_ROMAN_PRIVATE_NOTE",
+      "summaryKo": "마차 한 대의 축이 약해져 계획한 양을 모두 싣기 어렵다."
+    }
+  ],
+  "knownEvidence": [],
+  "privateKnowledgeIds": [
+    "CARTER_ROMAN_PRIVATE_NOTE"
+  ],
+  "knownEvidenceIds": [],
+  "desires": "긴급한 물자와 약속된 인쇄물 중 무엇을 먼저 옮겨야 할까요?",
+  "fears": "로만은 인쇄소 종이와 시장 식량을 한 번에 옮길 수 없다. 어느 쪽을 먼저 싣고, 지연을 누구에게 알릴지 정해야 한다.",
+  "taboos": [
+    "확인하지 않은 사람의 사정을 대신 단정하지 않는다."
+  ],
+  "speechRhythm": "거리와 무게, 시간을 짚어 실용적으로 말한다. 손님이 재촉해도 적재량을 넘기지는 않는다.",
+  "speechRegister": {
+    "firstMeeting": "짐 무게와 내릴 곳부터 확인하고 운임을 말한다.",
+    "colleague": "다른 운송업자와는 마차 상태와 배달 순서를 짧게 맞춘다.",
+    "private": "사적으로는 납기와 수리비 부담을 숨기지 않는다.",
+    "conflict": "과적을 요구받으면 마차가 감당할 한계를 단호하게 말한다.",
+    "intimacy": "단골과는 지연 농담을 나누고 새 도착 시각을 정한다.",
+    "formal": "거래처에는 존중을 지키되 지연 원인과 순서를 정확히 알린다."
+  },
+  "voiceSamples": [
+    "짐은 몇 묶음입니까? 무게와 내릴 곳을 알아야 순서를 정할 수 있소.",
+    "두 곳을 한 번에 돌 순 없소. 먼저 싣는 짐은 빨리 가고, 나머지는 늦는다고 알려야 하오.",
+    "운송 약속은 중요하지만 말과 마차가 감당할 수 있는 무게에는 한계가 있다고 본다. 지연을 숨기면 다음 사람이 더 큰 손해를 입는다."
+  ],
+  "worldview": {
+    "status": "fictional_character_design",
+    "stanceKo": "운송 약속은 중요하지만 말과 마차가 감당할 수 있는 무게에는 한계가 있다고 본다. 지연을 숨기면 다음 사람이 더 큰 손해를 입는다.",
+    "tensionKo": "로만은 인쇄소 종이와 시장 식량을 한 번에 옮길 수 없다. 어느 쪽을 먼저 싣고, 지연을 누구에게 알릴지 정해야 한다.",
+    "blindSpotKo": "자기 일이 급할 때 상대가 감당할 비용을 충분히 보지 못할 수 있다.",
+    "designBasisKo": "허구 시민 설정으로 실제 개인의 증언이나 사건을 나타내지 않는다.",
+    "sceneAnchorIds": [
+      "CARTER_DELIVERY_DELAY_1847"
+    ]
+  },
+  "topicStances": {
+    "serfdom": {
+      "knowledgeKind": "no_documented_stance",
+      "positionKo": "이 허구 인물은 농촌 제도의 직접 경험이나 확인된 정보를 가진 것으로 설정하지 않는다."
+    },
+    "censorship": {
+      "knowledgeKind": "fictional_workplace_context_only",
+      "positionKo": "문서의 전달·교정에서 자신이 직접 맡은 일만 말하고 실제 검열 규정을 대신 설명하지 않는다."
+    },
+    "literature": {
+      "knowledgeKind": "reader_limited",
+      "positionKo": "작가의 뜻을 대변하지 않고 자신이 읽거나 들은 범위만 말한다."
+    },
+    "poverty_and_class": {
+      "knowledgeKind": "fictional_lived_experience",
+      "positionKo": "운송 약속은 중요하지만 말과 마차가 감당할 수 있는 무게에는 한계가 있다고 본다. 지연을 숨기면 다음 사람이 더 큰 손해를 입는다."
+    },
+    "slavophilism_and_westernism": {
+      "knowledgeKind": "unfamiliar_terms",
+      "positionKo": "사상 진영을 대변하지 않는다. 일과 이웃에게 생기는 비용을 중심으로 말한다."
+    }
+  },
+  "lexicon": [
+    "고삐",
+    "말굽",
+    "운임"
+  ],
+  "emotions": [
+    "경계",
+    "걱정",
+    "마른 농담"
+  ],
+  "personalObjective": "긴급한 물자와 약속된 인쇄물 중 무엇을 먼저 옮겨야 할까요?",
+  "objectiveByChapter": {
+    "1847": "긴급한 물자와 약속된 인쇄물 중 무엇을 먼저 옮겨야 할까요?"
+  },
+  "allowedMaps": [
+    "nevsky",
+    "courtyard",
+    "market-quay",
+    "printshop",
+    "chancery"
+  ],
+  "start": {
+    "mapId": "market-quay",
+    "x": 17,
+    "y": 11
+  },
+  "wealthBracketStatus": "designedEstimate",
+  "inventory": [
+    "마차 고삐",
+    "말 먹이 주머니"
+  ],
+  "sourceIds": [],
+  "canonConstraint": "fictional citizen; never treated as an attested historical individual or witness",
+  "reconstructionDisclaimer": "허구 인물의 일과 선택만 다룬다.",
+  "sprite": {
+    "file": "assets/carter_roman.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "cap",
+    "palette": {
+      "cloth": "#394a55",
+      "trim": "#c39a5c",
+      "headwear": "#514233"
+    }
+  },
+  "speechStatus": "FICTIONAL_DESIGN",
+  "schedule": [
+    {
+      "atMinute": 420,
+      "mapId": "market-quay",
+      "position": {
+        "x": 17,
+        "y": 11
+      },
+      "activityKo": "시장 창고에서 적재량을 확인한다"
+    },
+    {
+      "atMinute": 600,
+      "mapId": "printshop",
+      "position": {
+        "x": 16,
+        "y": 10
+      },
+      "activityKo": "인쇄소에 종이 묶음을 전달한다"
+    },
+    {
+      "atMinute": 780,
+      "mapId": "market-quay",
+      "position": {
+        "x": 18,
+        "y": 14
+      },
+      "activityKo": "부두 물량과 운임을 맞춘다"
+    },
+    {
+      "atMinute": 960,
+      "mapId": "courtyard",
+      "position": {
+        "x": 13,
+        "y": 14
+      },
+      "activityKo": "마차 축과 다음 운송 약속을 확인한다"
+    }
+  ],
+  "portrait": {
+    "file": "assets/portrait-carter_roman.svg",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"
+  }
+}

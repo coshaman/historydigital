@@ -2885,6 +2885,23 @@
               "value": "STUDENT_CIRCLE_RISK_1847"
             }
           ]
+        },
+        {
+          "id": 1017,
+          "name": "날씨별 좌판과 매상 기록",
+          "type": "quest-object",
+          "x": 384,
+          "y": 272,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "STREET_VENDOR_WEATHER_1847"
+            }
+          ]
         }
       ]
     },
@@ -3316,6 +3333,142 @@
               "name": "hostId",
               "type": "string",
               "value": "watercarrier_luka"
+            }
+          ]
+        },
+        {
+          "id": 912,
+          "name": "클라브디야",
+          "type": "npc",
+          "x": 192,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "fishseller_klavdiya"
+            }
+          ]
+        },
+        {
+          "id": 913,
+          "name": "표트르",
+          "type": "npc",
+          "x": 192,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "warehouse_pyotr"
+            }
+          ]
+        },
+        {
+          "id": 914,
+          "name": "바르바라",
+          "type": "npc",
+          "x": 192,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "servant_varvara"
+            }
+          ]
+        },
+        {
+          "id": 915,
+          "name": "세르게이",
+          "type": "npc",
+          "x": 192,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "junior_guard_sergey"
+            }
+          ]
+        },
+        {
+          "id": 916,
+          "name": "로만",
+          "type": "npc",
+          "x": 192,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "carter_roman"
+            }
+          ]
+        },
+        {
+          "id": 917,
+          "name": "마트료나",
+          "type": "npc",
+          "x": 384,
+          "y": 224,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "street_vendor_matryona"
+            }
+          ]
+        },
+        {
+          "id": 918,
+          "name": "니키타",
+          "type": "npc",
+          "x": 192,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "typesetter_nikita"
+            }
+          ]
+        },
+        {
+          "id": 919,
+          "name": "타티야나",
+          "type": "npc",
+          "x": 192,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "lodging_tatyana"
             }
           ]
         }
