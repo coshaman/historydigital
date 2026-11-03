@@ -3038,6 +3038,57 @@
               "value": "DARYA_READING_CIRCLE_1847_STAGE_3"
             }
           ]
+        },
+        {
+          "id": 1152,
+          "name": "값을 기억하는 단골 메모",
+          "type": "quest-object",
+          "x": 128,
+          "y": 128,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "NADEZHDA_STALL_WEATHER_1847_STAGE_2"
+            }
+          ]
+        },
+        {
+          "id": 1161,
+          "name": "손님에게 보낼 굽기 시각 쪽지",
+          "type": "quest-object",
+          "x": 304,
+          "y": 144,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "FYODOR_OVEN_ORDER_1847_STAGE_2"
+            }
+          ]
+        },
+        {
+          "id": 1167,
+          "name": "길이 막힌 곳과 새 도착 시각",
+          "type": "quest-object",
+          "x": 320,
+          "y": 144,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "ROMAN_ROUTE_PRIORITY_1847_STAGE_2"
+            }
+          ]
         }
       ]
     },

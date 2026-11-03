@@ -1,6 +1,8 @@
 export function availableDiscussionQuests(state, definitions) {
   if (!state?.world?.date || !Array.isArray(definitions?.quests)) return [];
   const perspectivesByQuest = new Map();
+  const comparisonByQuest = new Map((state.player?.dialogueGrowth?.comparisonNotes ?? []).map(note => [note.discussionId, note]));
+  const positionByQuest = new Map((state.player?.dialogueGrowth?.playerPositions ?? []).map(note => [note.discussionId, note]));
   for (const entry of state.ledger ?? []) {
     if (entry.eventType !== 'DIALOGUE_TURN' || !entry.discussionId || !entry.hostId) continue;
     const perspectives = perspectivesByQuest.get(entry.discussionId) ?? new Set();
@@ -10,11 +12,16 @@ export function availableDiscussionQuests(state, definitions) {
   return definitions.quests.filter(quest => quest.date <= state.world.date).map(quest => {
     const perspectiveHostIds = [...(perspectivesByQuest.get(quest.id) ?? [])];
     const requiredPerspectiveCount = Math.min(quest.requiredPerspectiveCount ?? 2, Object.keys(quest.hosts ?? {}).length);
+    const comparisonNote = comparisonByQuest.get(quest.id) ?? null;
     return {
       ...quest,
       perspectiveHostIds,
       requiredPerspectiveCount,
       completed: perspectiveHostIds.length >= requiredPerspectiveCount,
+      comparisonNote,
+      playerPosition: positionByQuest.get(quest.id) ?? null,
+      positionPending: Boolean(comparisonNote && !positionByQuest.has(quest.id) && definitions.playerPositionChoices?.length),
+      playerPositionChoices: definitions.playerPositionChoices ?? [],
     };
   });
 }
@@ -46,6 +53,7 @@ export function discussionBoardView(quests, hostId = null, hostNames = {}, total
   const active = (quests ?? []).filter(quest => !quest.completed)
     .sort((a, b) => (b.perspectiveHostIds?.length ?? 0) - (a.perspectiveHostIds?.length ?? 0));
   const completedCount = (quests ?? []).length - active.length;
+  const positionPrompts = (quests ?? []).filter(quest => quest.positionPending);
   const eligibleFor = quest => Object.keys(quest.hosts ?? {})
     .filter(id => !quest.perspectiveHostIds?.includes(id));
   const rows = hostId
@@ -88,14 +96,21 @@ export function discussionBoardView(quests, hostId = null, hostNames = {}, total
     };
   }).filter(Boolean);
   return {
-    progressKo: `사건·철학·이념 임무 · ${completedCount} / ${(quests ?? []).length} 완료 · 지금 ${(quests ?? []).length}개 / 전체 ${totalQuestCount}개`,
-    guidanceKo: nextComparison
+    progressKo: `사건·철학·이념 임무 · ${completedCount} / ${(quests ?? []).length} 관점 대조 · 지금 ${(quests ?? []).length}개 / 전체 ${totalQuestCount}개${positionPrompts.length ? ` · 내 입장 기록 ${positionPrompts.length}개 남음` : ''}`,
+    guidanceKo: positionPrompts.length
+      ? `두 사람의 관점을 모았습니다. 아래에서 이 사건을 볼 때 당신이 먼저 따질 기준을 골라 수첩에 남기세요.`
+      : nextComparison
       ? `사건·이념 임무 · 첫 관점 기록됨. 다음은 ${nextComparisonName}에게 같은 쟁점 묻기: “${nextComparisonQuestion}” 질문할 인물과 다른 주민의 몸을 빌린 뒤, 표시된 상대에게 가까이 가서 말 걸기를 누르세요. 두 관점을 모으면 수첩에 비교 메모가 남습니다.`
       : hostId
         ? '사건·이념 임무 · 질문을 하나 담고 표시된 인물에게 말 걸기. 그 인물과 다른 주민의 몸을 빌려 대화하세요. 다음에는 다른 직업의 사람에게 같은 쟁점을 물으면 관점 비교 메모가 남습니다.'
         : '사건·이념 임무 · ① 질문 담기 ② 질문할 인물과 다른 주민의 몸 빌리기 ③ 표시된 상대에게 다가가 말 걸기. 다음에는 다른 직업의 사람에게 같은 쟁점을 물으면 관점 비교 메모가 남습니다.',
     rows,
     recommendations,
-    visible: active.length > 0,
+    positionPrompts: positionPrompts.map(quest => ({
+      questId: quest.id,
+      titleKo: quest.titleKo,
+      choices: quest.playerPositionChoices,
+    })),
+    visible: active.length > 0 || positionPrompts.length > 0,
   };
 }

@@ -1,0 +1,97 @@
+{
+  "id": "NADEZHDA_STALL_WEATHER_1847_STAGE_3",
+  "titleKo": "비 맞은 좌판의 하루",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "장터를 접을 시간이 다가온다. 남은 채소와 오늘의 거래를 어떤 기록으로 남길지 고른다.",
+  "historicalOutcome": {
+    "id": "NADEZHDA_STALL_WEATHER_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "market-quay",
+    "objectId": 1153,
+    "requiredHostId": "market_nadezhda"
+  },
+  "actions": [
+    {
+      "id": "NADEZHDA_STALL_WEATHER_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "market_nadezhda"
+      ],
+      "labelKo": "팔린 양과 버린 양을 따로 적는다",
+      "subcopyKo": "나데즈다와 빵집 주인이 압니다 · 마감 장부에 수량이 남습니다 · 손실이 또렷하게 드러납니다",
+      "resultKo": "팔린 것과 버린 것을 나눠 적었다. 오늘 손해는 감출 수 없지만 내일 주문량은 다시 맞출 수 있다.",
+      "resultFlag": "NADEZHDA_STALL_WEATHER_1847_3_1",
+      "followupTitleKo": "좌판 마감과 남은 바구니",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "팔린 것과 버린 것을 나눠 적었다. 오늘 손해는 감출 수 없지만 내일 주문량은 다시 맞출 수 있다.",
+        "relations": {
+          "baker_fyodor": "함께 확인한 일: 좌판 마감과 남은 바구니"
+        },
+        "lifeChainDelta": {
+          "stockLoss": 2,
+          "trust": 1
+        }
+      }
+    },
+    {
+      "id": "NADEZHDA_STALL_WEATHER_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "market_nadezhda"
+      ],
+      "labelKo": "남은 물건을 이웃과 나눠 가져간다",
+      "subcopyKo": "나데즈다와 이웃 상인이 압니다 · 나눔 쪽지에 받는 사람이 남습니다 · 다음 거래 몫이 줄 수 있습니다",
+      "resultKo": "남은 물건 일부를 이웃에게 건넸다. 버리는 양은 줄었고 다음 거래를 부탁하기가 편해졌다.",
+      "resultFlag": "NADEZHDA_STALL_WEATHER_1847_3_2",
+      "followupTitleKo": "좌판 마감과 남은 바구니",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "남은 물건 일부를 이웃에게 건넸다. 버리는 양은 줄었고 다음 거래를 부탁하기가 편해졌다.",
+        "relations": {
+          "baker_fyodor": "함께 확인한 일: 좌판 마감과 남은 바구니"
+        },
+        "lifeChainDelta": {
+          "stockLoss": 1,
+          "trust": 2
+        }
+      }
+    },
+    {
+      "id": "NADEZHDA_STALL_WEATHER_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "market_nadezhda"
+      ],
+      "labelKo": "상태가 괜찮은 것만 내일 몫으로 남긴다",
+      "subcopyKo": "나데즈다만 압니다 · 개인 재고 메모에 남습니다 · 내일 팔 수 있다는 보장은 없습니다",
+      "resultKo": "괜찮은 것만 남겨 두었다. 오늘은 덜 팔았지만 상태를 확인하지 않은 물건을 손님에게 넘기지 않았다.",
+      "resultFlag": "NADEZHDA_STALL_WEATHER_1847_3_3",
+      "followupTitleKo": "좌판 마감과 남은 바구니",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "괜찮은 것만 남겨 두었다. 오늘은 덜 팔았지만 상태를 확인하지 않은 물건을 손님에게 넘기지 않았다.",
+        "relations": {
+          "baker_fyodor": "함께 확인한 일: 좌판 마감과 남은 바구니"
+        },
+        "lifeChainDelta": {
+          "stockLoss": 0,
+          "trust": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "NADEZHDA_STALL_WEATHER_1847",
+    "titleKo": "비 맞은 좌판의 하루",
+    "stage": 3,
+    "stageCount": 3,
+    "metricKo": "상한 물건 손실과 손님 신뢰",
+    "previousQuestId": "NADEZHDA_STALL_WEATHER_1847_STAGE_2"
+  },
+  "prerequisiteQuestIds": [
+    "NADEZHDA_STALL_WEATHER_1847_STAGE_2"
+  ]
+}

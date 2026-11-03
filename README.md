@@ -82,7 +82,7 @@ npm run v35-browser-acceptance
 
 The Vercel deployment remains a static build plus same-origin Node Functions; no Cloudflare service or client-side key is used. For local private input, put `OPENAI_API_KEY` in the ignored `.env.local` file and run `npm start`. For Vercel, add the same variable under **Project → Settings → Environment Variables**, mark it Sensitive, choose Production and any Preview environments you use, then redeploy. Never use a `NEXT_PUBLIC_` variable for the key.
 
-The quest tracker is derived from checked-in quest actions, host permissions, current chapter/date, map exits, and each body's own known evidence. It is recalculated after movement, possession, save/load, and quest changes. Offline typed dialogue remains visible and records the player's line; local replies use checked-in character facts, and unsupported topics are identified as offline rather than presented as generated AI.
+The quest tracker is derived from checked-in quest actions, host permissions, current chapter/date, map exits, and each body's own known evidence. It is recalculated after movement, possession, save/load, and quest changes. Character conversation openings and suggested questions are authored locally; the answer to a submitted question comes from the Vercel AI endpoint. If generation fails, the game shows an actionable error and does not substitute a locally authored answer.
 
 Run the focused quest selector and browser evidence checks with:
 

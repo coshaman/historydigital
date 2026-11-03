@@ -1,0 +1,97 @@
+{
+  "id": "PYOTR_MISSING_CRATE_AUDIT_1847_STAGE_2",
+  "titleKo": "장부에서 빠진 상자",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "운송 쪽지에는 상자 수량이 적혀 있지만 창고 장부와 다르다. 두 기록의 차이를 어떻게 처리할지 결정한다.",
+  "historicalOutcome": {
+    "id": "PYOTR_MISSING_CRATE_AUDIT_1847_STAGE_2_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "printshop",
+    "objectId": 1158,
+    "requiredHostId": "warehouse_pyotr"
+  },
+  "actions": [
+    {
+      "id": "PYOTR_MISSING_CRATE_AUDIT_1847_STAGE_2_CHOICE_1",
+      "hostIds": [
+        "warehouse_pyotr"
+      ],
+      "labelKo": "두 기록의 작성 시각과 수량을 나란히 적는다",
+      "subcopyKo": "창고와 인쇄소 담당자가 봅니다 · 대조 메모에 차이가 남습니다 · 인쇄소의 인수도 늦어질 수 있습니다",
+      "resultKo": "두 기록의 시각과 수량을 나눠 적었다. 어느 쪽을 고칠지는 확인 뒤로 미뤘다.",
+      "resultFlag": "PYOTR_MISSING_CRATE_AUDIT_1847_2_1",
+      "followupTitleKo": "인수 쪽지와 운송 기록 비교",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "두 기록의 시각과 수량을 나눠 적었다. 어느 쪽을 고칠지는 확인 뒤로 미뤘다.",
+        "relations": {
+          "carter_roman": "함께 확인한 일: 인수 쪽지와 운송 기록 비교"
+        },
+        "lifeChainDelta": {
+          "verifiedStock": 2,
+          "delay": 2
+        }
+      }
+    },
+    {
+      "id": "PYOTR_MISSING_CRATE_AUDIT_1847_STAGE_2_CHOICE_2",
+      "hostIds": [
+        "warehouse_pyotr"
+      ],
+      "labelKo": "확인된 상자만 먼저 인계한다",
+      "subcopyKo": "창고와 인쇄소 담당자가 압니다 · 부분 인수증에 수량이 남습니다 · 나머지 물량이 따로 보관됩니다",
+      "resultKo": "확인한 상자만 넘겼다. 작업은 일부 이어지고 남은 수량은 찾을 때까지 따로 남는다.",
+      "resultFlag": "PYOTR_MISSING_CRATE_AUDIT_1847_2_2",
+      "followupTitleKo": "인수 쪽지와 운송 기록 비교",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "확인한 상자만 넘겼다. 작업은 일부 이어지고 남은 수량은 찾을 때까지 따로 남는다.",
+        "relations": {
+          "carter_roman": "함께 확인한 일: 인수 쪽지와 운송 기록 비교"
+        },
+        "lifeChainDelta": {
+          "verifiedStock": 2,
+          "delay": 1
+        }
+      }
+    },
+    {
+      "id": "PYOTR_MISSING_CRATE_AUDIT_1847_STAGE_2_CHOICE_3",
+      "hostIds": [
+        "warehouse_pyotr"
+      ],
+      "labelKo": "운송인에게 전체 수량을 다시 서명해 달라 한다",
+      "subcopyKo": "운송인과 창고 담당자가 압니다 · 수정 인수증에 서명이 남습니다 · 운송인이 서명을 거부할 수 있습니다",
+      "resultKo": "다시 서명해 달라고 요청했다. 기록은 정리될 수 있지만 상대의 확인을 기다려야 한다.",
+      "resultFlag": "PYOTR_MISSING_CRATE_AUDIT_1847_2_3",
+      "followupTitleKo": "인수 쪽지와 운송 기록 비교",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "다시 서명해 달라고 요청했다. 기록은 정리될 수 있지만 상대의 확인을 기다려야 한다.",
+        "relations": {
+          "carter_roman": "함께 확인한 일: 인수 쪽지와 운송 기록 비교"
+        },
+        "lifeChainDelta": {
+          "verifiedStock": 1,
+          "delay": 2
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "PYOTR_MISSING_CRATE_AUDIT_1847",
+    "titleKo": "장부에서 빠진 상자",
+    "stage": 2,
+    "stageCount": 3,
+    "metricKo": "재고의 확실성과 운송 책임",
+    "previousQuestId": "PYOTR_MISSING_CRATE_AUDIT_1847_STAGE_1"
+  },
+  "prerequisiteQuestIds": [
+    "PYOTR_MISSING_CRATE_AUDIT_1847_STAGE_1"
+  ]
+}

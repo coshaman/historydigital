@@ -2756,6 +2756,176 @@
               "value": "CARTER_DELIVERY_DELAY_1847"
             }
           ]
+        },
+        {
+          "id": 1151,
+          "name": "젖은 채소와 오늘의 값",
+          "type": "quest-object",
+          "x": 112,
+          "y": 128,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "NADEZHDA_STALL_WEATHER_1847_STAGE_1"
+            }
+          ]
+        },
+        {
+          "id": 1153,
+          "name": "좌판 마감과 남은 바구니",
+          "type": "quest-object",
+          "x": 400,
+          "y": 128,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "NADEZHDA_STALL_WEATHER_1847_STAGE_3"
+            }
+          ]
+        },
+        {
+          "id": 1154,
+          "name": "들기 전 짐 무게 확인",
+          "type": "quest-object",
+          "x": 208,
+          "y": 128,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "GAVRILA_LOAD_AND_REST_1847_STAGE_1"
+            }
+          ]
+        },
+        {
+          "id": 1156,
+          "name": "오늘의 품삯과 남은 일",
+          "type": "quest-object",
+          "x": 304,
+          "y": 128,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "GAVRILA_LOAD_AND_REST_1847_STAGE_3"
+            }
+          ]
+        },
+        {
+          "id": 1157,
+          "name": "들어온 상자와 인장 대조",
+          "type": "quest-object",
+          "x": 400,
+          "y": 144,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "PYOTR_MISSING_CRATE_AUDIT_1847_STAGE_1"
+            }
+          ]
+        },
+        {
+          "id": 1159,
+          "name": "누락 수량과 책임자 기록",
+          "type": "quest-object",
+          "x": 416,
+          "y": 144,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "PYOTR_MISSING_CRATE_AUDIT_1847_STAGE_3"
+            }
+          ]
+        },
+        {
+          "id": 1160,
+          "name": "밀가루 자루와 주문 수량",
+          "type": "quest-object",
+          "x": 144,
+          "y": 144,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "FYODOR_OVEN_ORDER_1847_STAGE_1"
+            }
+          ]
+        },
+        {
+          "id": 1162,
+          "name": "화덕을 끄기 전 주문 마감",
+          "type": "quest-object",
+          "x": 160,
+          "y": 144,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "FYODOR_OVEN_ORDER_1847_STAGE_3"
+            }
+          ]
+        },
+        {
+          "id": 1164,
+          "name": "공동 비용과 방세 납부 쪽지",
+          "type": "quest-object",
+          "x": 320,
+          "y": 144,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "POLINA_COMMON_FIREWOOD_1847_STAGE_2"
+            }
+          ]
+        },
+        {
+          "id": 1166,
+          "name": "마차에 실을 짐의 순서",
+          "type": "quest-object",
+          "x": 416,
+          "y": 160,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "ROMAN_ROUTE_PRIORITY_1847_STAGE_1"
+            }
+          ]
         }
       ]
     },

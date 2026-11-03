@@ -1,0 +1,93 @@
+{
+  "id": "NADEZHDA_STALL_WEATHER_1847_STAGE_1",
+  "titleKo": "비 맞은 좌판의 하루",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "밤비 뒤 채소 바구니가 축축해졌다. 오늘 안에 팔지 못하면 손해가 커지지만, 값부터 낮추면 다른 좌판의 시세도 흔들릴 수 있다.",
+  "historicalOutcome": {
+    "id": "NADEZHDA_STALL_WEATHER_1847_STAGE_1_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "market-quay",
+    "objectId": 1151,
+    "requiredHostId": "market_nadezhda"
+  },
+  "actions": [
+    {
+      "id": "NADEZHDA_STALL_WEATHER_1847_STAGE_1_CHOICE_1",
+      "hostIds": [
+        "market_nadezhda"
+      ],
+      "labelKo": "상한 곳을 골라내고 남은 양을 잰다",
+      "subcopyKo": "나데즈다와 도우미가 압니다 · 재고 메모에 양이 남습니다 · 손님을 받는 시간이 늦어집니다",
+      "resultKo": "상한 부분을 먼저 골라냈다. 얼마를 팔 수 있는지 확인한 뒤 값을 정하기로 했다.",
+      "resultFlag": "NADEZHDA_STALL_WEATHER_1847_1_1",
+      "followupTitleKo": "젖은 채소와 오늘의 값",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "상한 부분을 먼저 골라냈다. 얼마를 팔 수 있는지 확인한 뒤 값을 정하기로 했다.",
+        "relations": {
+          "baker_fyodor": "함께 확인한 일: 젖은 채소와 오늘의 값"
+        },
+        "lifeChainDelta": {
+          "stockLoss": 1,
+          "trust": 1
+        }
+      }
+    },
+    {
+      "id": "NADEZHDA_STALL_WEATHER_1847_STAGE_1_CHOICE_2",
+      "hostIds": [
+        "market_nadezhda"
+      ],
+      "labelKo": "오늘 안에 팔 수 있게 값을 낮춘다",
+      "subcopyKo": "좌판 손님들이 봅니다 · 가격표와 남은 수량이 보입니다 · 이웃 상인이 값을 따라 낮출 수 있습니다",
+      "resultKo": "값을 낮춰 바구니를 비웠다. 물건은 덜 남았지만 평소 값을 믿고 온 손님에게 설명해야 한다.",
+      "resultFlag": "NADEZHDA_STALL_WEATHER_1847_1_2",
+      "followupTitleKo": "젖은 채소와 오늘의 값",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "값을 낮춰 바구니를 비웠다. 물건은 덜 남았지만 평소 값을 믿고 온 손님에게 설명해야 한다.",
+        "relations": {
+          "baker_fyodor": "함께 확인한 일: 젖은 채소와 오늘의 값"
+        },
+        "lifeChainDelta": {
+          "stockLoss": 2,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "NADEZHDA_STALL_WEATHER_1847_STAGE_1_CHOICE_3",
+      "hostIds": [
+        "market_nadezhda"
+      ],
+      "labelKo": "가까운 좌판에 덮개를 빌릴 수 있는지 묻는다",
+      "subcopyKo": "나데즈다와 이웃 상인이 압니다 · 빌린 물건 쪽지에 남습니다 · 상대 좌판의 준비가 늦을 수 있습니다",
+      "resultKo": "덮개를 나눠 쓰기로 했다. 판매는 늦어져도 물건을 급히 헐값에 내놓지는 않았다.",
+      "resultFlag": "NADEZHDA_STALL_WEATHER_1847_1_3",
+      "followupTitleKo": "젖은 채소와 오늘의 값",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "덮개를 나눠 쓰기로 했다. 판매는 늦어져도 물건을 급히 헐값에 내놓지는 않았다.",
+        "relations": {
+          "baker_fyodor": "함께 확인한 일: 젖은 채소와 오늘의 값"
+        },
+        "lifeChainDelta": {
+          "stockLoss": 0,
+          "trust": 2
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "NADEZHDA_STALL_WEATHER_1847",
+    "titleKo": "비 맞은 좌판의 하루",
+    "stage": 1,
+    "stageCount": 3,
+    "metricKo": "상한 물건 손실과 손님 신뢰"
+  }
+}

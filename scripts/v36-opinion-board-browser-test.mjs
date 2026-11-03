@@ -77,8 +77,10 @@ try {
     const request = route.request().postDataJSON();
     await route.fulfill({ status: 201, contentType: 'application/json', body: JSON.stringify({ mode: 'AI', sessionToken: `mock-session:${request.hostId}` }) });
   });
+  const dialogueSceneContexts = [];
   await page.route('**/api/rpg/dialogue', async route => {
     const request = route.request().postDataJSON();
+    dialogueSceneContexts.push(request.sceneContext);
     const hostId = request.sessionToken.split(':').at(-1);
     const sceneId = ({ clerk_alexei: 'V33_TALK_CLERK_ALEXEI', printer_ekaterina: 'V33_TALK_PRINTER_EKATERINA' })[hostId];
     await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
@@ -114,6 +116,9 @@ try {
   if (firstResult.aiGenerated !== true || firstResult.discussionId !== 'INQUIRY_CENSORSHIP_AND_LABOR' || firstResult.perspectiveCount !== 1 || firstResult.aiReplyCount !== 1 || !firstResult.boardRows.some(row => /1\/2 관점/.test(row)) || !/첫 관점 기록됨.*알렉세이 오를로프에게 같은 쟁점 묻기/.test(firstResult.boardGuidance) || !firstResult.answerText.includes('그 줄을 찍은 손') || errors.length) {
     throw new Error(`ai_opinion_turn_did_not_progress:${JSON.stringify({ firstResult, conversationProbe, errors })}`);
   }
+  if (dialogueSceneContexts.length !== 1 || dialogueSceneContexts[0]?.questId !== null) {
+    throw new Error(`discussion_inquiry_id_must_not_be_sent_as_historical_quest:${JSON.stringify(dialogueSceneContexts)}`);
+  }
   await page.getByRole('button', { name: '대화 마치기' }).click();
   await page.locator('#release').click();
   await page.locator('#use').click();
@@ -132,12 +137,28 @@ try {
     const note = state.player.dialogueGrowth.comparisonNotes.find(item => item.discussionId === 'INQUIRY_CENSORSHIP_AND_LABOR');
     return { hostIds: [...new Set(turns.map(turn => turn.hostId))].sort(), aiGeneratedTurns: turns.filter(turn => turn.aiGenerated).length, aiReplies: state.player.dialogueGrowth.aiReplies, comparisonNoteHostIds: note?.hostIds?.sort(), boardProgress: document.querySelector('#discussion-quest-progress')?.textContent };
   });
-  if (completedPair.hostIds.join(',') !== 'clerk_alexei,printer_ekaterina' || completedPair.aiGeneratedTurns !== 2 || completedPair.aiReplies !== 2 || completedPair.comparisonNoteHostIds?.join(',') !== 'clerk_alexei,printer_ekaterina' || !completedPair.boardProgress?.includes('1 / 16 완료') || errors.length) {
-    throw new Error(`two_person_offline_inquiry_did_not_complete:${JSON.stringify({ completedPair, errors })}`);
+  if (completedPair.hostIds.join(',') !== 'clerk_alexei,printer_ekaterina' || completedPair.aiGeneratedTurns !== 2 || completedPair.aiReplies !== 2 || completedPair.comparisonNoteHostIds?.join(',') !== 'clerk_alexei,printer_ekaterina' || !completedPair.boardProgress?.includes('1 / 16 관점 대조') || errors.length) {
+    throw new Error(`two_person_ai_inquiry_did_not_complete:${JSON.stringify({ completedPair, errors })}`);
   }
-  checks.push({ aiGeneratedFirstPerspective: firstResult, completedTwoPerspectiveInquiry: completedPair, pageErrors: errors });
+  if (dialogueSceneContexts.length !== 2 || dialogueSceneContexts.some(context => context?.questId !== null)) {
+    throw new Error(`discussion_inquiry_id_must_not_be_sent_as_historical_quest:${JSON.stringify(dialogueSceneContexts)}`);
+  }
+  const positionButtons = page.locator('.discussion-position-select');
+  if (await positionButtons.count() !== 3) throw new Error(`player_should_get_three_stance_choices_after_both_views:${await positionButtons.count()}`);
+  const stanceLabels = await page.locator('#discussion-quest-items li').filter({ has: positionButtons }).allTextContents();
+  if (!stanceLabels.some(label => /당사자의 말을 기록 밖으로/.test(label))) throw new Error(`player_stance_choice_not_visible:${JSON.stringify(stanceLabels)}`);
+  await positionButtons.nth(1).click();
+  await page.locator('#save').click();
+  const playerPosition = await page.evaluate(() => {
+    const state = JSON.parse(localStorage.getItem('v33-rpg-save')).state;
+    return { choices: state.player.dialogueGrowth.playerPositions, events: state.ledger.filter(event => event.eventType === 'PLAYER_DISCUSSION_POSITION'), progress: document.querySelector('#discussion-quest-progress')?.textContent };
+  });
+  if (playerPosition.choices.length !== 1 || playerPosition.choices[0].discussionId !== 'INQUIRY_CENSORSHIP_AND_LABOR' || playerPosition.events.length !== 1 || /내 입장 기록 \d+개 남음/.test(playerPosition.progress ?? '') || errors.length) {
+    throw new Error(`player_viewpoint_choice_not_saved:${JSON.stringify({ playerPosition, errors })}`);
+  }
+  checks.push({ aiGeneratedFirstPerspective: firstResult, completedTwoPerspectiveInquiry: completedPair, playerPositionSaved: playerPosition, pageErrors: errors });
   await context.close();
-  console.log(JSON.stringify({ status: 'PASS', possessionNotRequiredToSeeOpinionGoals: true, twoAiGeneratedPerspectivesCreateComparisonNote: true, progressPersistsAfterSave: true, checks }, null, 2));
+  console.log(JSON.stringify({ status: 'PASS', possessionNotRequiredToSeeOpinionGoals: true, twoAiGeneratedPerspectivesCreateComparisonNote: true, playerChoosesAndSavesOwnPosition: true, progressPersistsAfterSave: true, checks }, null, 2));
 } finally {
   await browser.close();
   server.kill();

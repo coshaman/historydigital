@@ -1,0 +1,97 @@
+{
+  "id": "FYODOR_OVEN_ORDER_1847_STAGE_3",
+  "titleKo": "화덕 앞에 선 주문들",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "마지막 빵이 나왔다. 남은 밀가루와 실제 인도한 수량을 정리하고 다음 주문에 어떤 약속을 남길지 고른다.",
+  "historicalOutcome": {
+    "id": "FYODOR_OVEN_ORDER_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "market-quay",
+    "objectId": 1162,
+    "requiredHostId": "baker_fyodor"
+  },
+  "actions": [
+    {
+      "id": "FYODOR_OVEN_ORDER_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "baker_fyodor"
+      ],
+      "labelKo": "만든 양과 건넨 양을 따로 적는다",
+      "subcopyKo": "표도르와 시장 상인이 봅니다 · 마감 장부에 수량이 남습니다 · 약속을 못 채운 부분이 드러납니다",
+      "resultKo": "만든 양과 건넨 양을 나눠 적었다. 다음 주문은 남은 재료에 맞춰 잡을 수 있다.",
+      "resultFlag": "FYODOR_OVEN_ORDER_1847_3_1",
+      "followupTitleKo": "화덕을 끄기 전 주문 마감",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "만든 양과 건넨 양을 나눠 적었다. 다음 주문은 남은 재료에 맞춰 잡을 수 있다.",
+        "relations": {
+          "market_nadezhda": "함께 확인한 일: 화덕을 끄기 전 주문 마감"
+        },
+        "lifeChainDelta": {
+          "waste": 1,
+          "promise": 2
+        }
+      }
+    },
+    {
+      "id": "FYODOR_OVEN_ORDER_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "baker_fyodor"
+      ],
+      "labelKo": "남은 재료를 내일 몫으로 따로 둔다",
+      "subcopyKo": "표도르만 압니다 · 개인 재고 쪽지에 남습니다 · 내일 재료가 들어온다는 보장은 없습니다",
+      "resultKo": "남은 밀가루를 따로 두었다. 오늘 더 팔지는 못하지만 재료가 있는 것처럼 약속하지 않았다.",
+      "resultFlag": "FYODOR_OVEN_ORDER_1847_3_2",
+      "followupTitleKo": "화덕을 끄기 전 주문 마감",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "남은 밀가루를 따로 두었다. 오늘 더 팔지는 못하지만 재료가 있는 것처럼 약속하지 않았다.",
+        "relations": {
+          "market_nadezhda": "함께 확인한 일: 화덕을 끄기 전 주문 마감"
+        },
+        "lifeChainDelta": {
+          "waste": 0,
+          "promise": 1
+        }
+      }
+    },
+    {
+      "id": "FYODOR_OVEN_ORDER_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "baker_fyodor"
+      ],
+      "labelKo": "늦어진 손님에게 다음 굽기 때 먼저 주겠다고 한다",
+      "subcopyKo": "손님과 표도르가 압니다 · 다음 주문 메모에 약속이 남습니다 · 다음에도 재료가 모자라면 약속이 겹칩니다",
+      "resultKo": "다음 굽기에 먼저 주겠다고 말했다. 오늘 문제는 남았고 새 약속도 지켜야 한다.",
+      "resultFlag": "FYODOR_OVEN_ORDER_1847_3_3",
+      "followupTitleKo": "화덕을 끄기 전 주문 마감",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "다음 굽기에 먼저 주겠다고 말했다. 오늘 문제는 남았고 새 약속도 지켜야 한다.",
+        "relations": {
+          "market_nadezhda": "함께 확인한 일: 화덕을 끄기 전 주문 마감"
+        },
+        "lifeChainDelta": {
+          "waste": 0,
+          "promise": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "FYODOR_OVEN_ORDER_1847",
+    "titleKo": "화덕 앞에 선 주문들",
+    "stage": 3,
+    "stageCount": 3,
+    "metricKo": "약속한 빵과 재료의 여유",
+    "previousQuestId": "FYODOR_OVEN_ORDER_1847_STAGE_2"
+  },
+  "prerequisiteQuestIds": [
+    "FYODOR_OVEN_ORDER_1847_STAGE_2"
+  ]
+}

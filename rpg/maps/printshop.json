@@ -2280,6 +2280,40 @@
               "value": "SOFIA_MISSING_RECEIPTS_1847_STAGE_3"
             }
           ]
+        },
+        {
+          "id": 1158,
+          "name": "인수 쪽지와 운송 기록 비교",
+          "type": "quest-object",
+          "x": 80,
+          "y": 64,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "PYOTR_MISSING_CRATE_AUDIT_1847_STAGE_2"
+            }
+          ]
+        },
+        {
+          "id": 1168,
+          "name": "도착한 짐과 수취 확인",
+          "type": "quest-object",
+          "x": 336,
+          "y": 80,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "ROMAN_ROUTE_PRIORITY_1847_STAGE_3"
+            }
+          ]
         }
       ]
     },

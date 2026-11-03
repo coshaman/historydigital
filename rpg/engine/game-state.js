@@ -83,7 +83,7 @@ function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky
       possessionHistory: [],
       completedChapterIds: [],
     },
-    player: { position: { x: spawn.x, y: spawn.y }, facing: 'down', embodiment: null, currentGoals: [], observedEvidenceIds: [], crossPerspectiveNotes: [], civic: { suspicion: 0, custody: null, publishedIssues: [], readIssueIds: [], circulatedIssues: [] }, dialogueGrowth: { insight: 0, aiReplies: 0, perspectiveNotes: [], comparisonNotes: [], reflectionIds: [] }, gameSaveVersion: SAVE_VERSION },
+    player: { position: { x: spawn.x, y: spawn.y }, facing: 'down', embodiment: null, currentGoals: [], observedEvidenceIds: [], crossPerspectiveNotes: [], civic: { suspicion: 0, custody: null, publishedIssues: [], readIssueIds: [], circulatedIssues: [] }, dialogueGrowth: { insight: 0, aiReplies: 0, perspectiveNotes: [], comparisonNotes: [], reflectionIds: [], playerPositions: [] }, gameSaveVersion: SAVE_VERSION },
     hosts,
     quests: Object.fromEntries(quests.map(quest => [quest.id, { status: 'open', result: null }])),
     learning: initialLearningState(),
@@ -752,6 +752,22 @@ function recordDialogueTurn(state, { hostId, actorHostId, sceneId, intentClass =
   return { ok: true, state: next };
 }
 
+function recordDiscussionPosition(state, { discussionId, positionId } = {}, definitions = {}) {
+  const quest = definitions?.quests?.find(item => item.id === discussionId);
+  const choice = definitions?.playerPositionChoices?.find(item => item.id === positionId);
+  const growth = state?.player?.dialogueGrowth;
+  if (!quest || !choice || !growth?.comparisonNotes?.some(note => note.discussionId === discussionId)) return { ok: false, reason: 'comparison_required', state };
+  if ((growth.playerPositions ?? []).some(note => note.discussionId === discussionId)) return { ok: false, reason: 'position_already_recorded', state };
+  const next = clone(state);
+  next.player.dialogueGrowth.playerPositions ??= [];
+  const record = { discussionId, positionId, titleKo: quest.titleKo, labelKo: choice.labelKo, stanceKo: choice.stanceKo, date: next.world.date };
+  next.player.dialogueGrowth.playerPositions.push(record);
+  const event = { eventId: `POSITION_${next.ledger.length + 1}`, eventType: 'PLAYER_DISCUSSION_POSITION', date: next.world.date, discussionId, positionId, labelKo: choice.labelKo, priorStateHash: stateHash(state), nextStateHash: null };
+  next.ledger.push(event);
+  event.nextStateHash = stateHash(next);
+  return { ok: true, state: next, record };
+}
+
 function stateHash(value) {
   const text = JSON.stringify(value);
   let hash = 0x811c9dc5;
@@ -778,6 +794,7 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
   state.player.dialogueGrowth.perspectiveNotes ??= [];
   state.player.dialogueGrowth.comparisonNotes ??= [];
   state.player.dialogueGrowth.reflectionIds ??= [];
+  state.player.dialogueGrowth.playerPositions ??= [];
   state.player.civic ??= { suspicion: 0, custody: null, publishedIssues: [], readIssueIds: [], circulatedIssues: [] };
   state.player.civic.suspicion ??= 0;
   state.player.civic.publishedIssues ??= [];
@@ -865,6 +882,6 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
   return state;
 }
 
-const V33GameState = { describeHostMoney, createInitialState, moveActor, possessHost, enterLiteraryRealm, leaveLiteraryRealm, releaseHost, transitionMap, performQuestAction, knowledgeForHost, recordSourceRead, recordEvidenceRead, recordDialogueTurn, advanceNpcWorld, advanceWorldTime, advanceChapter, advanceCampaignDate, resolveEnding, saveGame, loadGame, stateHash, canOccupy, nearTile };
+const V33GameState = { describeHostMoney, createInitialState, moveActor, possessHost, enterLiteraryRealm, leaveLiteraryRealm, releaseHost, transitionMap, performQuestAction, knowledgeForHost, recordSourceRead, recordEvidenceRead, recordDialogueTurn, recordDiscussionPosition, advanceNpcWorld, advanceWorldTime, advanceChapter, advanceCampaignDate, resolveEnding, saveGame, loadGame, stateHash, canOccupy, nearTile };
 if (typeof module !== 'undefined' && module.exports) module.exports = V33GameState;
 if (typeof globalThis !== 'undefined') globalThis.V33GameState = V33GameState;

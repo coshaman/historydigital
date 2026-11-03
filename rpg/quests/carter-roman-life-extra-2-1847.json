@@ -1,0 +1,97 @@
+{
+  "id": "ROMAN_ROUTE_PRIORITY_1847_STAGE_2",
+  "titleKo": "먼저 실을 짐, 먼저 도착할 약속",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "바퀴가 진창에 걸려 예정한 길보다 늦어졌다. 기다리는 사람에게 새 시각을 알릴지, 우회할지 정한다.",
+  "historicalOutcome": {
+    "id": "ROMAN_ROUTE_PRIORITY_1847_STAGE_2_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "nevsky",
+    "objectId": 1167,
+    "requiredHostId": "carter_roman"
+  },
+  "actions": [
+    {
+      "id": "ROMAN_ROUTE_PRIORITY_1847_STAGE_2_CHOICE_1",
+      "hostIds": [
+        "carter_roman"
+      ],
+      "labelKo": "수취인에게 늦어질 시각을 먼저 알린다",
+      "subcopyKo": "로만과 수취인이 압니다 · 지연 쪽지에 새 시각이 남습니다 · 다음 운행의 손님이 바뀔 수 있습니다",
+      "resultKo": "늦어질 시각을 알려 기다리는 사람이 헛걸음하지 않게 했다. 다른 짐의 약속은 다시 맞춰야 한다.",
+      "resultFlag": "ROMAN_ROUTE_PRIORITY_1847_2_1",
+      "followupTitleKo": "길이 막힌 곳과 새 도착 시각",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "늦어질 시각을 알려 기다리는 사람이 헛걸음하지 않게 했다. 다른 짐의 약속은 다시 맞춰야 한다.",
+        "relations": {
+          "courier_pavel": "함께 확인한 일: 길이 막힌 곳과 새 도착 시각"
+        },
+        "lifeChainDelta": {
+          "deliveryCare": 2,
+          "delay": 1
+        }
+      }
+    },
+    {
+      "id": "ROMAN_ROUTE_PRIORITY_1847_STAGE_2_CHOICE_2",
+      "hostIds": [
+        "carter_roman"
+      ],
+      "labelKo": "돌아가더라도 넓은 길로 우회한다",
+      "subcopyKo": "로만만 압니다 · 운행 메모에 우회 경로가 남습니다 · 도착은 더 늦어집니다",
+      "resultKo": "넓은 길로 돌았다. 마차는 덜 흔들렸지만 약속한 시각을 맞추지는 못했다.",
+      "resultFlag": "ROMAN_ROUTE_PRIORITY_1847_2_2",
+      "followupTitleKo": "길이 막힌 곳과 새 도착 시각",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "넓은 길로 돌았다. 마차는 덜 흔들렸지만 약속한 시각을 맞추지는 못했다.",
+        "relations": {
+          "courier_pavel": "함께 확인한 일: 길이 막힌 곳과 새 도착 시각"
+        },
+        "lifeChainDelta": {
+          "deliveryCare": 2,
+          "delay": 2
+        }
+      }
+    },
+    {
+      "id": "ROMAN_ROUTE_PRIORITY_1847_STAGE_2_CHOICE_3",
+      "hostIds": [
+        "carter_roman"
+      ],
+      "labelKo": "짐을 내려 가까운 사람에게 나눠 옮겨 달라 한다",
+      "subcopyKo": "로만과 돕는 사람이 압니다 · 임시 인계 쪽지에 짐이 남습니다 · 물건이 여러 손을 거칠 수 있습니다",
+      "resultKo": "가까운 사람과 짐을 나눠 들었다. 이동은 빨라졌고 인계한 물건을 다시 확인해야 한다.",
+      "resultFlag": "ROMAN_ROUTE_PRIORITY_1847_2_3",
+      "followupTitleKo": "길이 막힌 곳과 새 도착 시각",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "가까운 사람과 짐을 나눠 들었다. 이동은 빨라졌고 인계한 물건을 다시 확인해야 한다.",
+        "relations": {
+          "courier_pavel": "함께 확인한 일: 길이 막힌 곳과 새 도착 시각"
+        },
+        "lifeChainDelta": {
+          "deliveryCare": 1,
+          "delay": 0
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "ROMAN_ROUTE_PRIORITY_1847",
+    "titleKo": "먼저 실을 짐, 먼저 도착할 약속",
+    "stage": 2,
+    "stageCount": 3,
+    "metricKo": "배달의 정확성과 운송 지연",
+    "previousQuestId": "ROMAN_ROUTE_PRIORITY_1847_STAGE_1"
+  },
+  "prerequisiteQuestIds": [
+    "ROMAN_ROUTE_PRIORITY_1847_STAGE_1"
+  ]
+}

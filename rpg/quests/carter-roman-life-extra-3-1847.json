@@ -1,0 +1,97 @@
+{
+  "id": "ROMAN_ROUTE_PRIORITY_1847_STAGE_3",
+  "titleKo": "먼저 실을 짐, 먼저 도착할 약속",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "짐을 건넸다. 무엇이 도착했고 무엇이 늦었는지 수취인과 함께 확인한 뒤 다음 운행을 정한다.",
+  "historicalOutcome": {
+    "id": "ROMAN_ROUTE_PRIORITY_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "printshop",
+    "objectId": 1168,
+    "requiredHostId": "carter_roman"
+  },
+  "actions": [
+    {
+      "id": "ROMAN_ROUTE_PRIORITY_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "carter_roman"
+      ],
+      "labelKo": "짐 상태와 도착 시각을 함께 적는다",
+      "subcopyKo": "로만과 수취인이 압니다 · 인수표에 상태와 시각이 남습니다 · 확인하는 데 시간이 더 듭니다",
+      "resultKo": "짐 상태와 시각을 같이 적었다. 다음에 문제가 생기면 인계 전후를 구분할 수 있다.",
+      "resultFlag": "ROMAN_ROUTE_PRIORITY_1847_3_1",
+      "followupTitleKo": "도착한 짐과 수취 확인",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "짐 상태와 시각을 같이 적었다. 다음에 문제가 생기면 인계 전후를 구분할 수 있다.",
+        "relations": {
+          "courier_pavel": "함께 확인한 일: 도착한 짐과 수취 확인"
+        },
+        "lifeChainDelta": {
+          "deliveryCare": 2,
+          "delay": 1
+        }
+      }
+    },
+    {
+      "id": "ROMAN_ROUTE_PRIORITY_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "carter_roman"
+      ],
+      "labelKo": "받은 사람에게 수량만 확인받고 출발한다",
+      "subcopyKo": "로만과 수취인이 압니다 · 인수표에 수량이 남습니다 · 손상 여부는 나중에 다툴 수 있습니다",
+      "resultKo": "수량만 확인하고 출발했다. 다음 운행은 시작했지만 짐 상태는 서로 확인하지 못했다.",
+      "resultFlag": "ROMAN_ROUTE_PRIORITY_1847_3_2",
+      "followupTitleKo": "도착한 짐과 수취 확인",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "수량만 확인하고 출발했다. 다음 운행은 시작했지만 짐 상태는 서로 확인하지 못했다.",
+        "relations": {
+          "courier_pavel": "함께 확인한 일: 도착한 짐과 수취 확인"
+        },
+        "lifeChainDelta": {
+          "deliveryCare": 1,
+          "delay": 0
+        }
+      }
+    },
+    {
+      "id": "ROMAN_ROUTE_PRIORITY_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "carter_roman"
+      ],
+      "labelKo": "수취인이 자리에 없으면 짐을 싣고 돌아간다",
+      "subcopyKo": "로만과 인쇄소가 압니다 · 미수령 기록에 남습니다 · 다시 오는 비용과 시간이 듭니다",
+      "resultKo": "수취인이 없어 짐을 가져왔다. 잘못된 사람에게 넘기지는 않았고 재방문이 필요하다.",
+      "resultFlag": "ROMAN_ROUTE_PRIORITY_1847_3_3",
+      "followupTitleKo": "도착한 짐과 수취 확인",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "수취인이 없어 짐을 가져왔다. 잘못된 사람에게 넘기지는 않았고 재방문이 필요하다.",
+        "relations": {
+          "courier_pavel": "함께 확인한 일: 도착한 짐과 수취 확인"
+        },
+        "lifeChainDelta": {
+          "deliveryCare": 2,
+          "delay": 2
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "ROMAN_ROUTE_PRIORITY_1847",
+    "titleKo": "먼저 실을 짐, 먼저 도착할 약속",
+    "stage": 3,
+    "stageCount": 3,
+    "metricKo": "배달의 정확성과 운송 지연",
+    "previousQuestId": "ROMAN_ROUTE_PRIORITY_1847_STAGE_2"
+  },
+  "prerequisiteQuestIds": [
+    "ROMAN_ROUTE_PRIORITY_1847_STAGE_2"
+  ]
+}

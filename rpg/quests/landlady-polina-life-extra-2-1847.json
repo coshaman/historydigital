@@ -1,0 +1,97 @@
+{
+  "id": "POLINA_COMMON_FIREWOOD_1847_STAGE_2",
+  "titleKo": "장작값과 방세 사이",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "세입자 한 명은 방세를 하루 미루고 싶어 한다. 공동 장작값도 받아야 해서 기다려 주는 일을 어떻게 기록할지 선택한다.",
+  "historicalOutcome": {
+    "id": "POLINA_COMMON_FIREWOOD_1847_STAGE_2_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "market-quay",
+    "objectId": 1164,
+    "requiredHostId": "landlady_polina"
+  },
+  "actions": [
+    {
+      "id": "POLINA_COMMON_FIREWOOD_1847_STAGE_2_CHOICE_1",
+      "hostIds": [
+        "landlady_polina"
+      ],
+      "labelKo": "방세와 장작 몫을 나눠 하루 유예를 적는다",
+      "subcopyKo": "폴리나와 해당 세입자가 압니다 · 유예 쪽지에 날짜가 남습니다 · 다른 세입자가 기준을 물을 수 있습니다",
+      "resultKo": "방세와 장작 몫을 따로 적고 하루를 기다리기로 했다. 공용 비용은 사라지지 않아 다시 확인해야 한다.",
+      "resultFlag": "POLINA_COMMON_FIREWOOD_1847_2_1",
+      "followupTitleKo": "공동 비용과 방세 납부 쪽지",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "방세와 장작 몫을 따로 적고 하루를 기다리기로 했다. 공용 비용은 사라지지 않아 다시 확인해야 한다.",
+        "relations": {
+          "tenant_mikhail": "함께 확인한 일: 공동 비용과 방세 납부 쪽지"
+        },
+        "lifeChainDelta": {
+          "fairShare": 2,
+          "tenantTrust": 2
+        }
+      }
+    },
+    {
+      "id": "POLINA_COMMON_FIREWOOD_1847_STAGE_2_CHOICE_2",
+      "hostIds": [
+        "landlady_polina"
+      ],
+      "labelKo": "공동 장작 몫만 먼저 받고 방세는 다시 논의한다",
+      "subcopyKo": "폴리나와 세입자가 압니다 · 납부 메모에 두 항목이 분리됩니다 · 방세 수입은 늦어집니다",
+      "resultKo": "장작 몫부터 받고 방세는 남겨 두었다. 공동 비용은 마련됐고 방세 문제는 그대로 남았다.",
+      "resultFlag": "POLINA_COMMON_FIREWOOD_1847_2_2",
+      "followupTitleKo": "공동 비용과 방세 납부 쪽지",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "장작 몫부터 받고 방세는 남겨 두었다. 공동 비용은 마련됐고 방세 문제는 그대로 남았다.",
+        "relations": {
+          "tenant_mikhail": "함께 확인한 일: 공동 비용과 방세 납부 쪽지"
+        },
+        "lifeChainDelta": {
+          "fairShare": 2,
+          "tenantTrust": 1
+        }
+      }
+    },
+    {
+      "id": "POLINA_COMMON_FIREWOOD_1847_STAGE_2_CHOICE_3",
+      "hostIds": [
+        "landlady_polina"
+      ],
+      "labelKo": "유예 없이 모든 비용을 오늘 요구한다",
+      "subcopyKo": "폴리나와 세입자들이 압니다 · 독촉 장부에 전액이 남습니다 · 세입자가 방을 비울 수 있습니다",
+      "resultKo": "전액을 요구했다. 기준은 한결같지만 돈을 마련하지 못한 세입자의 선택이 좁아졌다.",
+      "resultFlag": "POLINA_COMMON_FIREWOOD_1847_2_3",
+      "followupTitleKo": "공동 비용과 방세 납부 쪽지",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "전액을 요구했다. 기준은 한결같지만 돈을 마련하지 못한 세입자의 선택이 좁아졌다.",
+        "relations": {
+          "tenant_mikhail": "함께 확인한 일: 공동 비용과 방세 납부 쪽지"
+        },
+        "lifeChainDelta": {
+          "fairShare": 1,
+          "tenantTrust": -1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "POLINA_COMMON_FIREWOOD_1847",
+    "titleKo": "장작값과 방세 사이",
+    "stage": 2,
+    "stageCount": 3,
+    "metricKo": "공동 살림의 부담과 세입자 신뢰",
+    "previousQuestId": "POLINA_COMMON_FIREWOOD_1847_STAGE_1"
+  },
+  "prerequisiteQuestIds": [
+    "POLINA_COMMON_FIREWOOD_1847_STAGE_1"
+  ]
+}

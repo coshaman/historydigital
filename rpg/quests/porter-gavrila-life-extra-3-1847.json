@@ -1,0 +1,97 @@
+{
+  "id": "GAVRILA_LOAD_AND_REST_1847_STAGE_3",
+  "titleKo": "짐 무게와 다음 품삯",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "마지막 짐을 옮겼다. 맡은 일과 실제 받은 품삯이 맞는지 확인하고 다음 날의 몸 상태도 생각해야 한다.",
+  "historicalOutcome": {
+    "id": "GAVRILA_LOAD_AND_REST_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "market-quay",
+    "objectId": 1156,
+    "requiredHostId": "porter_gavrila"
+  },
+  "actions": [
+    {
+      "id": "GAVRILA_LOAD_AND_REST_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "porter_gavrila"
+      ],
+      "labelKo": "맡은 무게와 받은 품삯을 같이 적는다",
+      "subcopyKo": "가브릴라와 고용인이 압니다 · 품삯 메모에 작업량이 남습니다 · 차이가 있으면 다시 따져야 합니다",
+      "resultKo": "오늘 옮긴 양과 받은 품삯을 함께 적었다. 계산이 맞는지 내일 다시 확인할 수 있다.",
+      "resultFlag": "GAVRILA_LOAD_AND_REST_1847_3_1",
+      "followupTitleKo": "오늘의 품삯과 남은 일",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "오늘 옮긴 양과 받은 품삯을 함께 적었다. 계산이 맞는지 내일 다시 확인할 수 있다.",
+        "relations": {
+          "warehouse_pyotr": "함께 확인한 일: 오늘의 품삯과 남은 일"
+        },
+        "lifeChainDelta": {
+          "bodyRisk": 0,
+          "workTrust": 2
+        }
+      }
+    },
+    {
+      "id": "GAVRILA_LOAD_AND_REST_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "porter_gavrila"
+      ],
+      "labelKo": "오늘은 돈을 받고 다음 일은 쉬겠다고 말한다",
+      "subcopyKo": "가브릴라와 고용인이 압니다 · 다음 차례 쪽지에 휴식이 남습니다 · 그날 품삯은 줄어듭니다",
+      "resultKo": "오늘 일은 정산하고 다음 차례는 쉬기로 했다. 수입은 줄어도 몸을 회복할 시간을 마련했다.",
+      "resultFlag": "GAVRILA_LOAD_AND_REST_1847_3_2",
+      "followupTitleKo": "오늘의 품삯과 남은 일",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "오늘 일은 정산하고 다음 차례는 쉬기로 했다. 수입은 줄어도 몸을 회복할 시간을 마련했다.",
+        "relations": {
+          "warehouse_pyotr": "함께 확인한 일: 오늘의 품삯과 남은 일"
+        },
+        "lifeChainDelta": {
+          "bodyRisk": 0,
+          "workTrust": 1
+        }
+      }
+    },
+    {
+      "id": "GAVRILA_LOAD_AND_REST_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "porter_gavrila"
+      ],
+      "labelKo": "몸 상태를 숨기고 다음 짐도 맡는다",
+      "subcopyKo": "고용인만 압니다 · 작업 장부에는 다음 짐만 남습니다 · 부상이 심해지면 더 오래 일하지 못할 수 있습니다",
+      "resultKo": "다음 짐까지 맡았다. 당장은 일감이 이어지지만 몸이 버틸지는 알 수 없다.",
+      "resultFlag": "GAVRILA_LOAD_AND_REST_1847_3_3",
+      "followupTitleKo": "오늘의 품삯과 남은 일",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "다음 짐까지 맡았다. 당장은 일감이 이어지지만 몸이 버틸지는 알 수 없다.",
+        "relations": {
+          "warehouse_pyotr": "함께 확인한 일: 오늘의 품삯과 남은 일"
+        },
+        "lifeChainDelta": {
+          "bodyRisk": 2,
+          "workTrust": 0
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "GAVRILA_LOAD_AND_REST_1847",
+    "titleKo": "짐 무게와 다음 품삯",
+    "stage": 3,
+    "stageCount": 3,
+    "metricKo": "몸의 부담과 다음 일감의 신뢰",
+    "previousQuestId": "GAVRILA_LOAD_AND_REST_1847_STAGE_2"
+  },
+  "prerequisiteQuestIds": [
+    "GAVRILA_LOAD_AND_REST_1847_STAGE_2"
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "id": "PYOTR_MISSING_CRATE_AUDIT_1847_STAGE_3",
+  "titleKo": "장부에서 빠진 상자",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "확인 절차를 마쳤다. 상자가 어디 있는지 끝내 찾지 못했더라도 장부에 사실과 추정을 섞지 않도록 마무리한다.",
+  "historicalOutcome": {
+    "id": "PYOTR_MISSING_CRATE_AUDIT_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "market-quay",
+    "objectId": 1159,
+    "requiredHostId": "warehouse_pyotr"
+  },
+  "actions": [
+    {
+      "id": "PYOTR_MISSING_CRATE_AUDIT_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "warehouse_pyotr"
+      ],
+      "labelKo": "확인한 수량과 미확인 한 개를 나눠 기록한다",
+      "subcopyKo": "창고 책임자가 봅니다 · 재고부에 미확인 수량이 남습니다 · 장부 검토가 계속됩니다",
+      "resultKo": "찾은 수량과 찾지 못한 수량을 나눠 남겼다. 손실을 확정하지 않아 다음 확인이 이어질 수 있다.",
+      "resultFlag": "PYOTR_MISSING_CRATE_AUDIT_1847_3_1",
+      "followupTitleKo": "누락 수량과 책임자 기록",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "찾은 수량과 찾지 못한 수량을 나눠 남겼다. 손실을 확정하지 않아 다음 확인이 이어질 수 있다.",
+        "relations": {
+          "carter_roman": "함께 확인한 일: 누락 수량과 책임자 기록"
+        },
+        "lifeChainDelta": {
+          "verifiedStock": 2,
+          "delay": 1
+        }
+      }
+    },
+    {
+      "id": "PYOTR_MISSING_CRATE_AUDIT_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "warehouse_pyotr"
+      ],
+      "labelKo": "운송 기록과 함께 상급자에게 보고한다",
+      "subcopyKo": "상급자와 운송 담당자가 봅니다 · 공식 보고에 책임 경로가 남습니다 · 조사 대상이 넓어질 수 있습니다",
+      "resultKo": "차이를 공식 보고로 올렸다. 책임을 정하지는 않았고 추가 확인을 맡겼다.",
+      "resultFlag": "PYOTR_MISSING_CRATE_AUDIT_1847_3_2",
+      "followupTitleKo": "누락 수량과 책임자 기록",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "차이를 공식 보고로 올렸다. 책임을 정하지는 않았고 추가 확인을 맡겼다.",
+        "relations": {
+          "carter_roman": "함께 확인한 일: 누락 수량과 책임자 기록"
+        },
+        "lifeChainDelta": {
+          "verifiedStock": 1,
+          "delay": 2
+        }
+      }
+    },
+    {
+      "id": "PYOTR_MISSING_CRATE_AUDIT_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "warehouse_pyotr"
+      ],
+      "labelKo": "미확인 수량을 손실로 처리하고 장부를 닫는다",
+      "subcopyKo": "창고 장부를 보는 사람이 압니다 · 손실 처리 기록이 남습니다 · 나중에 상자를 찾으면 다시 정정해야 합니다",
+      "resultKo": "미확인 상자를 손실로 닫았다. 오늘 장부는 끝났지만 그 결론을 되돌릴 가능성도 남았다.",
+      "resultFlag": "PYOTR_MISSING_CRATE_AUDIT_1847_3_3",
+      "followupTitleKo": "누락 수량과 책임자 기록",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "미확인 상자를 손실로 닫았다. 오늘 장부는 끝났지만 그 결론을 되돌릴 가능성도 남았다.",
+        "relations": {
+          "carter_roman": "함께 확인한 일: 누락 수량과 책임자 기록"
+        },
+        "lifeChainDelta": {
+          "verifiedStock": 0,
+          "delay": 0
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "PYOTR_MISSING_CRATE_AUDIT_1847",
+    "titleKo": "장부에서 빠진 상자",
+    "stage": 3,
+    "stageCount": 3,
+    "metricKo": "재고의 확실성과 운송 책임",
+    "previousQuestId": "PYOTR_MISSING_CRATE_AUDIT_1847_STAGE_2"
+  },
+  "prerequisiteQuestIds": [
+    "PYOTR_MISSING_CRATE_AUDIT_1847_STAGE_2"
+  ]
+}

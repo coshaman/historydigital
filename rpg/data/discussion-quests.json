@@ -1,6 +1,26 @@
 {
   "schemaVersion": "V35_DISCUSSION_QUESTS_V1",
   "historicalBoundaryKo": "아래 질문과 답은 허구 인물의 관점 탐색이다. 역사 인물의 실제 발언이나 당시 단체의 공동 입장으로 기록하지 않는다.",
+  "playerPositionChoices": [
+    {
+      "id": "VERIFY_AND_ASSIGN_RESPONSIBILITY",
+      "labelKo": "확인한 사실과 책임선을 먼저 남긴다",
+      "stanceKo": "나는 결론을 서두르기보다 확인한 사실과 각자의 책임을 구분해 남기는 편을 택했다.",
+      "consequenceKo": "수첩에 내 판단을 기록합니다. 사실 확인과 책임 구분을 우선하는 입장입니다."
+    },
+    {
+      "id": "KEEP_AFFECTED_VOICES_VISIBLE",
+      "labelKo": "당사자의 말을 기록 밖으로 밀어내지 않는다",
+      "stanceKo": "나는 정식 문서에 담기지 않은 당사자의 말도 판단 과정에서 지워지지 않게 해야 한다고 보았다.",
+      "consequenceKo": "수첩에 내 판단을 기록합니다. 기록에서 빠지기 쉬운 사람의 목소리를 우선하는 입장입니다."
+    },
+    {
+      "id": "LIMIT_RISK_AND_IMMEDIATE_HARM",
+      "labelKo": "먼저 누가 위험과 손해를 떠안는지 살핀다",
+      "stanceKo": "나는 공개나 신속한 처리에 앞서 그 선택의 위험과 당장 생기는 손해가 누구에게 가는지 살펴야 한다고 보았다.",
+      "consequenceKo": "수첩에 내 판단을 기록합니다. 결정의 위험과 생활상 손해를 먼저 따지는 입장입니다."
+    }
+  ],
   "quests": [
     {
       "id": "INQUIRY_OFFICIAL_DUTY_AND_MORALITY",

@@ -188,6 +188,7 @@
     "v36-social-exchange-test": "node scripts/v36-social-exchange-test.mjs",
     "v36-opinion-board-browser": "node scripts/v36-opinion-board-browser-test.mjs",
     "v36-api-generation-probe-browser": "node scripts/v36-api-generation-probe-browser-test.mjs",
+    "v36-live-ai-browser": "node --env-file-if-exists=.env.local scripts/v36-live-ai-browser-smoke.mjs",
     "v36-opinion-routing": "node --test scripts/v36-opinion-routing.test.mjs",
     "v36-personal-quest-coverage": "node scripts/v36-personal-quest-coverage-test.mjs",
     "v36-personal-quest-browser": "node scripts/v36-personal-quest-browser-test.mjs",

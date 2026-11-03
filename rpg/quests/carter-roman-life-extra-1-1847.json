@@ -1,0 +1,93 @@
+{
+  "id": "ROMAN_ROUTE_PRIORITY_1847_STAGE_1",
+  "titleKo": "먼저 실을 짐, 먼저 도착할 약속",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "시장 물건과 인쇄소 봉투를 한 번에 실을 수 없다. 길이 막히기 전에 무엇을 먼저 옮길지 고른다.",
+  "historicalOutcome": {
+    "id": "ROMAN_ROUTE_PRIORITY_1847_STAGE_1_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "market-quay",
+    "objectId": 1166,
+    "requiredHostId": "carter_roman"
+  },
+  "actions": [
+    {
+      "id": "ROMAN_ROUTE_PRIORITY_1847_STAGE_1_CHOICE_1",
+      "hostIds": [
+        "carter_roman"
+      ],
+      "labelKo": "봉투를 젖지 않게 싸고 인쇄소로 간다",
+      "subcopyKo": "로만과 인쇄소가 압니다 · 봉투 인수 메모에 남습니다 · 시장 물건은 다음 운행까지 기다립니다",
+      "resultKo": "봉투를 감싸 먼저 실었다. 글은 제때 갈 수 있지만 시장 쪽 물량이 늦어진다.",
+      "resultFlag": "ROMAN_ROUTE_PRIORITY_1847_1_1",
+      "followupTitleKo": "마차에 실을 짐의 순서",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "봉투를 감싸 먼저 실었다. 글은 제때 갈 수 있지만 시장 쪽 물량이 늦어진다.",
+        "relations": {
+          "courier_pavel": "함께 확인한 일: 마차에 실을 짐의 순서"
+        },
+        "lifeChainDelta": {
+          "deliveryCare": 2,
+          "delay": 1
+        }
+      }
+    },
+    {
+      "id": "ROMAN_ROUTE_PRIORITY_1847_STAGE_1_CHOICE_2",
+      "hostIds": [
+        "carter_roman"
+      ],
+      "labelKo": "상하기 쉬운 시장 물건을 먼저 옮긴다",
+      "subcopyKo": "로만과 시장 상인이 압니다 · 인도 수량표에 남습니다 · 인쇄소 약속이 늦어집니다",
+      "resultKo": "시장 물건을 먼저 옮겼다. 상할 위험은 줄었고 봉투는 다음 길을 기다린다.",
+      "resultFlag": "ROMAN_ROUTE_PRIORITY_1847_1_2",
+      "followupTitleKo": "마차에 실을 짐의 순서",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "시장 물건을 먼저 옮겼다. 상할 위험은 줄었고 봉투는 다음 길을 기다린다.",
+        "relations": {
+          "courier_pavel": "함께 확인한 일: 마차에 실을 짐의 순서"
+        },
+        "lifeChainDelta": {
+          "deliveryCare": 1,
+          "delay": 1
+        }
+      }
+    },
+    {
+      "id": "ROMAN_ROUTE_PRIORITY_1847_STAGE_1_CHOICE_3",
+      "hostIds": [
+        "carter_roman"
+      ],
+      "labelKo": "두 짐의 수취인에게 순서를 묻는다",
+      "subcopyKo": "두 수취인과 로만이 압니다 · 답변 쪽지에 우선순위가 남습니다 · 출발이 늦어질 수 있습니다",
+      "resultKo": "수취인의 사정을 먼저 물었다. 출발은 늦었지만 누구에게 왜 기다려 달라 했는지 남겼다.",
+      "resultFlag": "ROMAN_ROUTE_PRIORITY_1847_1_3",
+      "followupTitleKo": "마차에 실을 짐의 순서",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "수취인의 사정을 먼저 물었다. 출발은 늦었지만 누구에게 왜 기다려 달라 했는지 남겼다.",
+        "relations": {
+          "courier_pavel": "함께 확인한 일: 마차에 실을 짐의 순서"
+        },
+        "lifeChainDelta": {
+          "deliveryCare": 2,
+          "delay": 2
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "ROMAN_ROUTE_PRIORITY_1847",
+    "titleKo": "먼저 실을 짐, 먼저 도착할 약속",
+    "stage": 1,
+    "stageCount": 3,
+    "metricKo": "배달의 정확성과 운송 지연"
+  }
+}

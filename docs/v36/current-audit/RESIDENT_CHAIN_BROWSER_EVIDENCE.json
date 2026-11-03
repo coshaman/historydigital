@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "questId": "NADEZHDA_STALL_WEATHER_1847_STAGE_1",
+  "hostId": "market_nadezhda",
+  "choiceCount": 3,
+  "questStatus": "resolved",
+  "actionId": "NADEZHDA_STALL_WEATHER_1847_STAGE_1_CHOICE_1",
+  "nextStageStatus": "open",
+  "pageErrorCount": 0,
+  "pageErrors": []
+}

@@ -71,8 +71,37 @@ try {
   await page.screenshot({ path: path.join(output, 'reader-opinion-quest-click.png'), fullPage: true });
   await writeFile(path.join(output, 'PERSONAL_QUEST_BROWSER_EVIDENCE.json'), JSON.stringify({ status: 'PASS', viewport: { width: 1440, height: 900 }, questId: quest.id,
     hostId, choiceCount: quest.actions.length, chosenAction: result.chosenAction, resolved: true, pageErrors: errors }, null, 2) + '\n', 'utf8');
+  const residentQuest = quests.find(item => item.id === 'NADEZHDA_STALL_WEATHER_1847_STAGE_1');
+  const residentHost = residentQuest.entry.requiredHostId;
+  const residentMap = maps[residentQuest.entry.mapId];
+  const residentObject = residentMap.layers.find(layer => layer.name === 'Interactions').objects.find(item => item.id === residentQuest.entry.objectId);
+  let residentState = game.createInitialState({ maps, hostCards, quests, startMapId: residentQuest.entry.mapId });
+  residentState.world.chapterId = residentQuest.chapterId;
+  residentState.world.date = residentQuest.date;
+  residentState.player.embodiment = residentHost;
+  residentState.hosts[residentHost].mapId = residentQuest.entry.mapId;
+  residentState.hosts[residentHost].position = { x: Math.floor(residentObject.x / 16), y: Math.floor(residentObject.y / 16) };
+  residentState.player.position = { ...residentState.hosts[residentHost].position };
+  await page.evaluate(value => localStorage.setItem('v33-rpg-save', value), game.saveGame(residentState));
+  await page.reload({ waitUntil: 'networkidle' });
+  await page.locator('#use').click();
+  const residentChoice = page.getByRole('button', { name: /상한 곳을 골라내고 남은 양을 잰다/ });
+  await residentChoice.waitFor({ state: 'visible', timeout: 4000 });
+  await residentChoice.click();
+  await page.locator('#save').click();
+  const residentResult = await page.evaluate(() => {
+    const state = JSON.parse(localStorage.getItem('v33-rpg-save')).state;
+    return { questStatus: state.quests.NADEZHDA_STALL_WEATHER_1847_STAGE_1?.status, actionId: state.ledger.at(-1)?.actionId,
+      nextStageStatus: state.quests.NADEZHDA_STALL_WEATHER_1847_STAGE_2?.status, pageErrorCount: 0 };
+  });
+  assert.equal(residentResult.questStatus, 'resolved');
+  assert.equal(residentResult.actionId, 'NADEZHDA_STALL_WEATHER_1847_STAGE_1_CHOICE_1');
+  assert.equal(residentResult.nextStageStatus, 'open');
+  assert.equal(errors.length, 0, errors.join('; '));
+  await writeFile(path.join(output, 'RESIDENT_CHAIN_BROWSER_EVIDENCE.json'), JSON.stringify({ status: 'PASS', viewport: { width: 1440, height: 900 },
+    questId: residentQuest.id, hostId: residentHost, choiceCount: residentQuest.actions.length, ...residentResult, pageErrors: errors }, null, 2) + '\n', 'utf8');
   console.log(JSON.stringify({ status: 'PASS', questId: quest.id, hostId, choiceCount: quest.actions.length,
-    chosenAction: result.chosenAction, questResolved: true, pageErrors: errors.length }, null, 2));
+    chosenAction: result.chosenAction, questResolved: true, additionalQuestId: residentQuest.id, residentQuestResolved: true, nextStageUnlocked: true, pageErrors: errors.length }, null, 2));
   await context.close();
 } finally {
   await browser.close();

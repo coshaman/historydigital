@@ -8,13 +8,19 @@ const residents = cards.filter(card => card.kind === 'FICTIONAL' && !card.id.sta
 assert.equal(residents.length, 36, 'the audit covers all 36 fictional city residents');
 
 const registerSituations = ['firstMeeting', 'colleague', 'private', 'conflict', 'intimacy', 'formal'];
+const registerSignatures = new Map();
 for (const card of residents) {
   assert.ok(card.speechRhythm?.trim(), `${card.id} needs an authored sentence rhythm`);
   for (const situation of registerSituations) assert.ok(card.speechRegister?.[situation]?.trim(), `${card.id} needs a ${situation} register`);
   assert.equal(new Set(card.voiceSamples ?? []).size, 3, `${card.id} needs three distinct voice samples`);
   assert.ok(card.worldview?.blindSpotKo?.trim(), `${card.id} needs a concrete worldview limitation`);
+  assert.ok(!/(라고 본다|라고 믿는다|라고 여긴다|해야 한다\.)/.test(card.voiceSamples[2]), `${card.id} third voice sample must sound spoken, not like a character-card summary`);
+  const registerSignature = JSON.stringify(Object.fromEntries(registerSituations.map(key => [key, card.speechRegister[key]])));
+  registerSignatures.set(registerSignature, [...(registerSignatures.get(registerSignature) ?? []), card.id]);
 }
 assert.equal(new Set(residents.map(card => card.worldview.blindSpotKo)).size, residents.length, 'resident blind spots must be individually authored');
+const duplicateRegisterGroups = [...registerSignatures.values()].filter(group => group.length > 1);
+assert.deepEqual(duplicateRegisterGroups, [], 'relationship registers must not be copied wholesale across residents');
 
 const endings = ['겠습니다', '합니다', '했어요', '거든요', '잖아요', '겠어요', '하오', '구려', '습니다', '어요', '아요', '해요', '죠', '요', '소', '오', '다', '지'];
 const voiceSignature = card => {
@@ -28,7 +34,7 @@ for (const card of residents) signatures.set(voiceSignature(card), [...(signatur
 const indistinct = [...signatures.values()].filter(group => group.length > 1);
 assert.deepEqual(indistinct, [], 'voice samples must differ by sentence endings and rhythm, not only by topic');
 
-const report = { schemaVersion: 'V36_VOICE_AUDIT_V1', status: 'PASS', residents: residents.length, uniqueBlindSpots: residents.length, distinctEndingAndRhythmSignatures: signatures.size, registerSituations: registerSituations.length, duplicateBlindSpotGroups: [], indistinctVoiceGroups: [] };
+const report = { schemaVersion: 'V36_VOICE_AUDIT_V1', status: 'PASS', residents: residents.length, uniqueBlindSpots: residents.length, distinctEndingAndRhythmSignatures: signatures.size, uniqueRelationshipRegisterMatrices: registerSignatures.size, conversationalThirdSamples: residents.length, registerSituations: registerSituations.length, duplicateRegisterGroups: [], duplicateBlindSpotGroups: [], indistinctVoiceGroups: [] };
 const reportDirectory = path.join(process.cwd(), 'docs', 'v36', 'current-audit');
 await mkdir(reportDirectory, { recursive: true });
 await writeFile(path.join(reportDirectory, 'VOICE_AUDIT.json'), `${JSON.stringify(report, null, 2)}\n`, 'utf8');
