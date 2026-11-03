@@ -5,23 +5,23 @@
   "deterministicReplays": 3,
   "simulatedMinutes": 1440,
   "replayHashes": [
-    "d1a333a0",
-    "d1a333a0",
-    "d1a333a0"
+    "ee55a307",
+    "ee55a307",
+    "ee55a307"
   ],
   "collisionSnapshotsPerReplay": 288,
   "totalCollisionSnapshots": 864,
   "firstReplay": {
-    "movementSteps": 3558,
-    "districtTransitions": 195,
-    "goalEvents": 370,
+    "movementSteps": 3522,
+    "districtTransitions": 196,
+    "goalEvents": 376,
     "deliveries": 4,
     "exchanges": 2,
     "personalContacts": 15,
     "distinctPersonalContactResidents": 15,
-    "personalLifeGoalVisits": 15,
-    "residentsWithPhysicalLifeGoalVisits": 10,
-    "current12LifeGoalQuestIds": {
+    "personalLifeGoalVisits": 21,
+    "residentsWithPhysicalLifeGoalVisits": 16,
+    "actionableLifeGoalQuestIds": {
       "clerk_alexei": "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_1",
       "printer_ekaterina": "EKATERINA_INK_SHORTAGE_1847_STAGE_1",
       "courier_pavel": "PAVEL_PROOF_DELIVERY_1847_STAGE_1",
@@ -31,7 +31,13 @@
       "editor_sofia": "SOFIA_UNNAMED_NOTICE_1847_STAGE_1",
       "senior_clerk_konstantin": "KONSTANTIN_UNSIGNED_REVIEW_1847_STAGE_1",
       "yardkeeper_semyon": "SEMYON_FIREWOOD_LEDGER_1847_STAGE_1",
-      "laundress_mariya": "MARIYA_WASHING_WAGES_1847_STAGE_1"
+      "laundress_mariya": "MARIYA_WASHING_WAGES_1847_STAGE_1",
+      "apothecary_yakov": "YAKOV_REMEDY_LIMITS_1847_STAGE_1",
+      "baker_fyodor": "FYODOR_FLOUR_AND_ORDERS_1847_STAGE_1",
+      "bookbinder_elizaveta": "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_1",
+      "carter_roman": "ROMAN_WHEEL_AND_FARE_1847_STAGE_1",
+      "coachman_timofey": "TIMofey_SHARED_LOAD_1847_STAGE_1",
+      "fishseller_klavdiya": "KLAVDIYA_FISH_STORAGE_1847_STAGE_1"
     },
     "residentsWithDistinctAuthoredObjectives": 36,
     "finalActivityCount": 33,
@@ -64,11 +70,11 @@
       "senior_clerk_konstantin": {
         "mapId": "chancery",
         "x": 10,
-        "y": 12
+        "y": 11
       },
       "reader_darya": {
         "mapId": "nevsky",
-        "x": 16,
+        "x": 15,
         "y": 12
       },
       "editor_sofia": {
@@ -83,8 +89,8 @@
       },
       "print_apprentice_stepan": {
         "mapId": "nevsky",
-        "x": 17,
-        "y": 12
+        "x": 16,
+        "y": 13
       },
       "bookbinder_elizaveta": {
         "mapId": "market-quay",
@@ -133,8 +139,8 @@
       },
       "midwife_avdotya": {
         "mapId": "market-quay",
-        "x": 8,
-        "y": 10
+        "x": 5,
+        "y": 9
       },
       "innkeeper_irina": {
         "mapId": "market-quay",
@@ -143,18 +149,18 @@
       },
       "teacher_lyubov": {
         "mapId": "nevsky",
-        "x": 18,
-        "y": 13
+        "x": 17,
+        "y": 12
       },
       "landlady_polina": {
         "mapId": "nevsky",
-        "x": 26,
-        "y": 10
+        "x": 25,
+        "y": 11
       },
       "watercarrier_luka": {
         "mapId": "market-quay",
-        "x": 5,
-        "y": 10
+        "x": 8,
+        "y": 9
       },
       "servant_varvara": {
         "mapId": "nevsky",
@@ -163,8 +169,8 @@
       },
       "lodging_tatyana": {
         "mapId": "nevsky",
-        "x": 24,
-        "y": 11
+        "x": 23,
+        "y": 12
       },
       "yardkeeper_semyon": {
         "mapId": "courtyard",
@@ -173,12 +179,12 @@
       },
       "laundress_mariya": {
         "mapId": "nevsky",
-        "x": 28,
+        "x": 26,
         "y": 9
       },
       "baker_fyodor": {
         "mapId": "market-quay",
-        "x": 6,
+        "x": 4,
         "y": 10
       },
       "market_nadezhda": {
@@ -199,7 +205,7 @@
       "apothecary_yakov": {
         "mapId": "nevsky",
         "x": 23,
-        "y": 12
+        "y": 14
       },
       "fishseller_klavdiya": {
         "mapId": "market-quay",
@@ -208,17 +214,17 @@
       },
       "warehouse_pyotr": {
         "mapId": "nevsky",
-        "x": 15,
-        "y": 13
+        "x": 14,
+        "y": 14
       },
       "carter_roman": {
-        "mapId": "nevsky",
-        "x": 21,
-        "y": 10
+        "mapId": "printshop",
+        "x": 13,
+        "y": 13
       }
     }
   },
-  "fullDaySaveReloadStateHash": "d1a333a0",
+  "fullDaySaveReloadStateHash": "ee55a307",
   "autoCompletedPlayerQuests": 0,
-  "runtimeMilliseconds": 26669
+  "runtimeMilliseconds": 25349
 }

@@ -19,9 +19,13 @@ assert.equal(ids.length, 36);
 function runFullDay() {
   let state = game.createInitialState({ maps, hostCards: cards, quests, startMapId: 'nevsky' });
   const initialPositions = Object.fromEntries(ids.map(id => [id, { mapId: state.hosts[id].mapId, ...state.hosts[id].position }]));
+  const observedPersonalGoalVisits = [];
   let collisionSnapshots = 0;
   for (let interval = 0; interval < 288; interval += 1) {
+    const priorLedgerLength = state.ledger.length;
     state = game.advanceNpcWorld(state, 5, maps);
+    const addedEvents = state.ledger.length >= priorLedgerLength ? state.ledger.slice(priorLedgerLength) : state.ledger;
+    observedPersonalGoalVisits.push(...addedEvents.flatMap(event => event.personalGoalVisits ?? []));
     const occupied = new Map();
     for (const id of ids) {
       const host = state.hosts[id], key = `${host.mapId}:${host.position.x},${host.position.y}`;
@@ -49,7 +53,7 @@ function runFullDay() {
     assert.ok(host.currentActivityKo?.length > 0, `${id} needs a current activity after the full-day replay`);
   }
   assert.deepEqual(state.quests, Object.fromEntries(quests.map(quest => [quest.id, { status:'open', result:null }])), 'NPC autonomy cannot complete player quests');
-  return { state, initialPositions, moves, collisionSnapshots };
+  return { state, initialPositions, moves, collisionSnapshots, observedPersonalGoalVisits };
 }
 
 const startedAt = performance.now();
@@ -68,9 +72,10 @@ const goals = first.state.ledger.flatMap(event => event.goals ?? []);
 const deliveries = first.state.ledger.flatMap(event => event.deliveries ?? []);
 const exchanges = first.state.ledger.flatMap(event => event.exchanges ?? []);
 const personalContacts = first.state.ledger.flatMap(event => event.personalContacts ?? []);
-const personalGoalVisits = first.state.ledger.flatMap(event => event.personalGoalVisits ?? []);
-const current12LifeGoalHosts = ['clerk_alexei', 'printer_ekaterina', 'courier_pavel', 'seamstress_anna', 'tenant_mikhail', 'bookseller_lev',
-  'editor_sofia', 'senior_clerk_konstantin', 'yardkeeper_semyon', 'laundress_mariya'];
+const personalGoalVisits = first.observedPersonalGoalVisits;
+const actionableLifeGoalHosts = ['clerk_alexei', 'printer_ekaterina', 'courier_pavel', 'seamstress_anna', 'tenant_mikhail', 'bookseller_lev',
+  'editor_sofia', 'senior_clerk_konstantin', 'yardkeeper_semyon', 'laundress_mariya', 'apothecary_yakov', 'baker_fyodor',
+  'bookbinder_elizaveta', 'carter_roman', 'coachman_timofey', 'fishseller_klavdiya'];
 const mapTransitions = first.moves.filter(move => move.viaExit);
 assert.ok(first.moves.length > 0, 'residents should walk throughout the day');
 assert.ok(mapTransitions.length > 0, 'residents should cross real district exits');
@@ -78,7 +83,7 @@ assert.ok(goals.length > 0, 'daily needs and schedules should create observable 
 assert.ok(deliveries.length > 0, 'at least one scheduled item handoff should complete');
 assert.ok(exchanges.length > 0, 'at least one scheduled exchange should complete');
 assert.ok(personalContacts.length > 0, 'active personal relationship goals should lead residents to meet their named neighbors');
-for (const hostId of current12LifeGoalHosts) assert.ok(personalGoalVisits.some(visit => visit.hostId === hostId), `${hostId} must pursue the current physical life-arc stage during the 24-hour replay`);
+for (const hostId of actionableLifeGoalHosts) assert.ok(personalGoalVisits.some(visit => visit.hostId === hostId), `${hostId} must pursue the current physical life-arc stage during the 24-hour replay`);
 assert.ok(personalContacts.every(contact => contact.hostId !== contact.partnerHostId && contact.effect === 'social_need_relieved'), 'autonomous personal contacts should create a reciprocal, visible social-need change');
 const distinctPersonalContactResidents = new Set(personalContacts.map(contact => contact.hostId)).size;
 assert.ok(distinctPersonalContactResidents >= 10,
@@ -89,7 +94,7 @@ const report = { schemaVersion:'V36_FULL_DAY_36_RESIDENT_REPLAY_1', status:'PASS
   firstReplay:{ movementSteps:first.moves.length, districtTransitions:mapTransitions.length, goalEvents:goals.length,
     deliveries:deliveries.length, exchanges:exchanges.length, personalContacts:personalContacts.length, distinctPersonalContactResidents,
     personalLifeGoalVisits:personalGoalVisits.length, residentsWithPhysicalLifeGoalVisits:new Set(personalGoalVisits.map(visit=>visit.hostId)).size,
-    current12LifeGoalQuestIds:Object.fromEntries(current12LifeGoalHosts.map(id=>[id,personalGoalVisits.find(visit=>visit.hostId===id)?.questId??null])),
+    actionableLifeGoalQuestIds:Object.fromEntries(actionableLifeGoalHosts.map(id=>[id,personalGoalVisits.find(visit=>visit.hostId===id)?.questId??null])),
     residentsWithDistinctAuthoredObjectives:new Set(cards.map(card=>card.personalObjective)).size,
     finalActivityCount:new Set(ids.map(id=>first.state.hosts[id].currentActivityKo)).size,
     finalPositions:Object.fromEntries(ids.map(id=>[id,{mapId:first.state.hosts[id].mapId,...first.state.hosts[id].position}])) },

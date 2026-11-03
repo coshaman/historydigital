@@ -8,8 +8,9 @@ const game = globalThis.V33GameState;
 const readJson = async file => JSON.parse(await readFile(new URL(file, import.meta.url), 'utf8'));
 const firstSix = ['clerk_alexei', 'printer_ekaterina', 'courier_pavel', 'seamstress_anna', 'tenant_mikhail', 'bookseller_lev'];
 const secondSix = ['editor_sofia', 'police_sergeant_ivan', 'reader_darya', 'senior_clerk_konstantin', 'yardkeeper_semyon', 'laundress_mariya'];
-const batchTwo = process.argv.includes('--batch-two');
-const pilotIds = batchTwo ? secondSix : firstSix;
+const thirdSix = ['apothecary_yakov', 'baker_fyodor', 'bookbinder_elizaveta', 'carter_roman', 'coachman_timofey', 'fishseller_klavdiya'];
+const batch = process.argv.includes('--batch-three') ? 3 : process.argv.includes('--batch-two') ? 2 : 1;
+const pilotIds = batch === 3 ? thirdSix : batch === 2 ? secondSix : firstSix;
 const mapFiles = (await readdir(new URL('../rpg/maps/', import.meta.url))).filter(file => file.endsWith('.json'));
 const maps = Object.fromEntries(await Promise.all(mapFiles.map(async file => {
   const map = await readJson(`../rpg/maps/${file}`);
@@ -35,7 +36,8 @@ for (const hostId of pilotIds) {
 
 function replay() {
   const initial = game.createInitialState({ maps, hostCards, quests, startMapId: 'nevsky' });
-  const final = game.advanceNpcWorld(initial, 600, maps);
+  let final = initial;
+  final = game.advanceNpcWorld(initial, 600, maps);
   return { initial, final };
 }
 const first = replay(), second = replay();
@@ -43,7 +45,7 @@ assert.equal(game.stateHash(first.final), game.stateHash(second.final), 'first-s
 const visits = first.final.ledger.flatMap(entry => entry.personalGoalVisits ?? []);
 const pilotVisits = visits.filter(visit => pilotIds.includes(visit.hostId));
 const byHost = new Map(pilotIds.map(hostId => [hostId, visits.filter(visit => visit.hostId === hostId)]));
-const deferred = batchTwo ? new Set(['police_sergeant_ivan', 'reader_darya']) : new Set();
+const deferred = batch === 2 ? new Set(['police_sergeant_ivan', 'reader_darya']) : new Set();
 for (const [hostId, hostVisits] of byHost) {
   if (deferred.has(hostId)) {
     assert.equal(hostVisits.length, 0, `${hostId} life arc is not yet historically/prerequisite available`);
@@ -74,7 +76,7 @@ assert.ok(secondStageState.ledger.flatMap(entry => entry.personalGoalVisits ?? [
 const audit = await readFile(new URL('../rpg/main.js', import.meta.url), 'utf8');
 assert.match(audit, /personalGoalVisits \?\? \[\]\)\.filter\(visit => visit\.witnessedByPlayer\)/,
   'the journal must disclose autonomous life-goal work only when the player witnessed it');
-const report = { schemaVersion: batchTwo ? 'V36_SECOND_SIX_PERSONAL_GOAL_AUTONOMY_1' : 'V36_FIRST_SIX_PERSONAL_GOAL_AUTONOMY_1', status: 'PASS', pilotResidents: pilotIds.length,
+const report = { schemaVersion: `V36_${['', 'FIRST', 'SECOND', 'THIRD'][batch]}_SIX_PERSONAL_GOAL_AUTONOMY_1`, status: 'PASS', pilotResidents: pilotIds.length,
   authoredLifeStagesPerResident: 3, dailyVisits: pilotVisits.length,
   deterministicReplay: true, stageProgressRetargets: true, questAutoCompletion: false, saveLoadParity: true,
   deferredUntilHistoricallyAvailable: [...deferred],
@@ -82,5 +84,5 @@ const report = { schemaVersion: batchTwo ? 'V36_SECOND_SIX_PERSONAL_GOAL_AUTONOM
     mapId: rows[0]?.mapId, position: rows[0]?.position, minute: rows[0]?.minute, activityKo: rows[0]?.activityKo,
     witnessedByPlayer: rows[0]?.witnessedByPlayer })) };
 await mkdir(new URL('../docs/v36/current-audit/', import.meta.url), { recursive: true });
-await writeFile(new URL(`../docs/v36/current-audit/${batchTwo ? 'SECOND' : 'FIRST'}_SIX_PERSONAL_GOAL_AUTONOMY.json`, import.meta.url), `${JSON.stringify(report, null, 2)}\n`, 'utf8');
+await writeFile(new URL(`../docs/v36/current-audit/${['', 'FIRST', 'SECOND', 'THIRD'][batch]}_SIX_PERSONAL_GOAL_AUTONOMY.json`, import.meta.url), `${JSON.stringify(report, null, 2)}\n`, 'utf8');
 console.log(JSON.stringify(report, null, 2));
