@@ -1,0 +1,96 @@
+{
+  "id": "SERGEY_ENTRY_AND_FAVOR_1847_STAGE_2",
+  "titleKo": "출입 허가와 부탁",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "담당자가 바로 오지 않아 방문자는 기다린다. 교대가 다가오고 열쇠를 누구에게 맡길지 정해야 한다.",
+  "historicalOutcome": {
+    "id": "SERGEY_ENTRY_AND_FAVOR_1847_STAGE_2_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "chancery",
+    "objectId": 1151,
+    "requiredHostId": "junior_guard_sergey"
+  },
+  "actions": [
+    {
+      "id": "SERGEY_ENTRY_AND_FAVOR_1847_STAGE_2_CHOICE_1",
+      "hostIds": [
+        "junior_guard_sergey"
+      ],
+      "labelKo": "교대 담당자에게 현재 상황을 직접 인계한다",
+      "subcopyKo": "두 근무자가 압니다 · 교대 장부에 대기자와 열쇠 인계 시각이 남습니다 · 처리가 늦어질 수 있습니다",
+      "resultKo": "대기 상황과 열쇠를 다음 근무자에게 직접 넘겼다. 대기자는 더 기다리지만 기록은 이어진다.",
+      "resultFlag": "writtenHandoff",
+      "followupTitleKo": "교대 시간과 열쇠 인계",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "대기 상황과 열쇠를 다음 근무자에게 직접 넘겼다. 대기자는 더 기다리지만 기록은 이어진다.",
+        "relations": {
+          "senior_clerk_konstantin": "오늘 함께 확인한 일: 교대 시간과 열쇠 인계"
+        },
+        "lifeChainDelta": {
+          "fairAccess": 2
+        }
+      }
+    },
+    {
+      "id": "SERGEY_ENTRY_AND_FAVOR_1847_STAGE_2_CHOICE_2",
+      "hostIds": [
+        "junior_guard_sergey"
+      ],
+      "labelKo": "상급자가 올 때까지 열쇠를 보관한다",
+      "subcopyKo": "세르게이와 방문자가 압니다 · 보관 메모에 열쇠 인수만 남습니다 · 다른 업무가 밀릴 수 있습니다",
+      "resultKo": "상급자가 올 때까지 열쇠를 보관했다. 출입은 보류했지만 다른 업무가 늦어질 수 있다.",
+      "resultFlag": "holdKey",
+      "followupTitleKo": "교대 시간과 열쇠 인계",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "상급자가 올 때까지 열쇠를 보관했다. 출입은 보류했지만 다른 업무가 늦어질 수 있다.",
+        "relations": {
+          "senior_clerk_konstantin": "오늘 함께 확인한 일: 교대 시간과 열쇠 인계"
+        },
+        "lifeChainDelta": {
+          "fairAccess": 1
+        }
+      }
+    },
+    {
+      "id": "SERGEY_ENTRY_AND_FAVOR_1847_STAGE_2_CHOICE_3",
+      "hostIds": [
+        "junior_guard_sergey"
+      ],
+      "labelKo": "담당자 자리를 비운 틈에 봉투를 안쪽에 둔다",
+      "subcopyKo": "세르게이와 담당 서기가 알 수 있습니다 · 공식 인수 서명이 없습니다 · 분실이나 오해가 생기면 경위를 밝히기 어렵습니다",
+      "resultKo": "담당자 책상에 봉투를 두었다. 전달은 빨라져도 누가 인수했는지는 비어 있다.",
+      "resultFlag": "unloggedDrop",
+      "followupTitleKo": "교대 시간과 열쇠 인계",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "담당자 책상에 봉투를 두었다. 전달은 빨라져도 누가 인수했는지는 비어 있다.",
+        "relations": {
+          "senior_clerk_konstantin": "오늘 함께 확인한 일: 교대 시간과 열쇠 인계"
+        },
+        "lifeChainDelta": {
+          "fairAccess": 0
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "SERGEY_ENTRY_AND_FAVOR_1847",
+    "titleKo": "출입 허가와 부탁",
+    "stage": 2,
+    "stageCount": 3,
+    "metricsKo": {
+      "fairAccess": "이 문제를 처리하며 남긴 결과"
+    },
+    "previousQuestId": "SERGEY_ENTRY_AND_FAVOR_1847_STAGE_1"
+  },
+  "prerequisiteQuestIds": [
+    "SERGEY_ENTRY_AND_FAVOR_1847_STAGE_1"
+  ]
+}

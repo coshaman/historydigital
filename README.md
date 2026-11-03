@@ -1,6 +1,6 @@
 # Chancery of Ink — Russian Lives: Act III
 
-Russian Lives: Act III is a browser RPG deployed as a static game plus same-origin Vercel Node Functions. AI dialogue is optional; without a key, authored dialogue remains playable.
+Russian Lives: Act III is a browser RPG deployed as a static game plus same-origin Vercel Node Functions. Free-form character conversation requires an OpenAI key on Vercel; when generation is unavailable, the game reports the error and offers a retry instead of inventing an offline answer.
 
 ## Play loop additions
 
@@ -45,14 +45,14 @@ To validate a real provider response, start the local server with `.env.local` l
 npm run v33-live-ai-smoke
 ```
 
-The smoke makes one short dialogue-generation request, prints only pass/fail and a safe error category, and never prints the key or dialogue. It fails if the API falls back to authored text. The previous generic `provider_response_validation` code did not distinguish a network failure from a response rejected by the game's schema or historical/context safeguards, so that run cannot identify the exact cause. The local smoke now reports safe categories such as `network_error`, `http_401`, `response_schema_invalid`, `unsupported_historical_year`, `uncited_historical_person`, or `undisclosed_player_context`; it never prints prompt or response text. In Vercel, inspect the Function runtime logs for the `rpg_provider_fallback` event and its code.
+The smoke makes one short dialogue-generation request, prints only pass/fail and a safe error category, and never prints the key or dialogue. It fails unless the response contains a genuine AI turn with `fallback: false`. Safe categories include `network_error`, `http_401`, `http_429`, `response_schema_invalid`, `unsupported_historical_year`, `uncited_historical_person`, and `undisclosed_player_context`; the smoke never prints prompt or response text. In Vercel, inspect Function runtime logs for the `rpg_provider_error` event and its code.
 
-### If AI dialogue falls back on the deployed site
+### If AI dialogue cannot be generated on the deployed site
 
 - Test `https://<your-vercel-domain>/api/rpg/health`. A working deployment returns JSON with `status: "ok"` and `ai: "configured"`.
 - If that URL shows a 404 or a static page, the game is being opened on a static host such as GitHub Pages. GitHub Pages cannot run this repository's `/api/rpg/*` Node Functions; use the Vercel deployment URL.
 - If health returns `ai: "BLOCKED_NO_KEY"`, set `OPENAI_API_KEY` for the Vercel Production environment (and Preview if needed), then redeploy. Environment changes do not update an already-built deployment.
-- If health is configured but dialogue still falls back, open Vercel → Project → Logs → Functions and inspect the `rpg_provider_fallback` event's safe `code`. `http_401` means the provider rejected the credential; `http_429` means the project or rate limit refused the request; `network_error`/`timeout` means the function could not complete the request; `response_schema_invalid`, `unsupported_historical_year`, `uncited_historical_person`, and `undisclosed_player_context` mean the game's validation intentionally selected authored dialogue.
+- If health is configured but dialogue fails, open Vercel → Project → Logs → Functions and inspect the `rpg_provider_error` event's safe `code`. `http_401` means the provider rejected the credential; `http_429` means the project or rate limit refused the request; `network_error`/`timeout` means the function could not complete the request; validation categories mean the generated turn was rejected without displaying a replacement answer.
 - In-game **설정 · API 상태** checks the health route without generating a model reply, shows redacted errors recorded by this browser, and links to the Vercel dashboard. Server Function logs are not readable by the browser; inspect them in Vercel Logs. The browser stores only time, endpoint, HTTP status, and safe error code (up to 40 entries), never dialogue, prompts, keys, or session tokens.
 
 ## Runtime notes
@@ -60,7 +60,7 @@ The smoke makes one short dialogue-generation request, prints only pass/fail and
 - The browser calls `/api/rpg/session/start` and `/api/rpg/dialogue` on its own origin. There is no separate AI host to configure.
 - Session continuity is held in a compressed, HMAC-signed token stored in the browser's session storage. The signing secret is derived on the server from the provider key; no database or third-party runtime is required.
 - Since sessions are stateless, a user can replay an older signed token to fork their own conversation. AI prose never directly changes game state; only a successfully generated reply to a player-selected viewpoint question records one visible perspective note and one insight point. These notes do not alter relationships, campaign outcomes, or endings. Configure Vercel Firewall rate limits and OpenAI project spending limits for production traffic.
-- Each generation disables model reasoning and caps the response at 420 output tokens. Provider failures use authored offline dialogue.
+- Each generation disables model reasoning and caps the response at 420 output tokens. A provider or validation failure returns a safe error without generated dialogue; the unanswered prompt is not written to the game record.
 
 ## V35 contextual play and evidence
 

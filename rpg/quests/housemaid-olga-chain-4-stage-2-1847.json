@@ -1,0 +1,96 @@
+{
+  "id": "OLGA_WARNING_AND_RUMOR_1847_STAGE_2",
+  "titleKo": "들어 들은 말과 확인할 일",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "지시는 확인되지 않았지만 몇몇 세입자는 걱정한다. 올가는 필요한 대비를 어디까지 알릴지 정해야 한다.",
+  "historicalOutcome": {
+    "id": "OLGA_WARNING_AND_RUMOR_1847_STAGE_2_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "courtyard",
+    "objectId": 1131,
+    "requiredHostId": "housemaid_olga"
+  },
+  "actions": [
+    {
+      "id": "OLGA_WARNING_AND_RUMOR_1847_STAGE_2_CHOICE_1",
+      "hostIds": [
+        "housemaid_olga"
+      ],
+      "labelKo": "해당 방 사람에게만 준비할 시간을 준다",
+      "subcopyKo": "당사자와 올가가 압니다 · 개인 심부름 메모에 전달 시각이 남습니다 · 다른 세입자는 소식을 늦게 들을 수 있습니다",
+      "resultKo": "해당 방 사람에게만 준비 시간을 알렸다. 불안을 넓히진 않았지만 다른 사람은 모른다.",
+      "resultFlag": "privateNotice",
+      "followupTitleKo": "대비할 사람과 물건",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "해당 방 사람에게만 준비 시간을 알렸다. 불안을 넓히진 않았지만 다른 사람은 모른다.",
+        "relations": {
+          "servant_varvara": "오늘 함께 확인한 일: 대비할 사람과 물건"
+        },
+        "lifeChainDelta": {
+          "verifiedWarnings": 2
+        }
+      }
+    },
+    {
+      "id": "OLGA_WARNING_AND_RUMOR_1847_STAGE_2_CHOICE_2",
+      "hostIds": [
+        "housemaid_olga"
+      ],
+      "labelKo": "공용 물건과 보관 장소를 점검한다",
+      "subcopyKo": "올가와 안뜰 관리인이 압니다 · 공동 물품 점검표에 수량이 남습니다 · 지시가 없는데 일을 키운다는 말을 들을 수 있습니다",
+      "resultKo": "공용 물건과 보관 장소를 확인했다. 피난을 단정하지 않아도 필요한 물건은 찾을 수 있다.",
+      "resultFlag": "inventoryCheck",
+      "followupTitleKo": "대비할 사람과 물건",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "공용 물건과 보관 장소를 확인했다. 피난을 단정하지 않아도 필요한 물건은 찾을 수 있다.",
+        "relations": {
+          "servant_varvara": "오늘 함께 확인한 일: 대비할 사람과 물건"
+        },
+        "lifeChainDelta": {
+          "verifiedWarnings": 1
+        }
+      }
+    },
+    {
+      "id": "OLGA_WARNING_AND_RUMOR_1847_STAGE_2_CHOICE_3",
+      "hostIds": [
+        "housemaid_olga"
+      ],
+      "labelKo": "아직 확인이 안 됐다고 안뜰 게시판에 쓴다",
+      "subcopyKo": "안뜰 주민이 봅니다 · 게시 메모에 미확인 표시가 남습니다 · 걱정을 키울 수 있습니다",
+      "resultKo": "확인되지 않았다고 게시했다. 소문과 사실은 나뉘지만 불안한 사람은 더 늘 수 있다.",
+      "resultFlag": "uncertaintyPosted",
+      "followupTitleKo": "대비할 사람과 물건",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "확인되지 않았다고 게시했다. 소문과 사실은 나뉘지만 불안한 사람은 더 늘 수 있다.",
+        "relations": {
+          "servant_varvara": "오늘 함께 확인한 일: 대비할 사람과 물건"
+        },
+        "lifeChainDelta": {
+          "verifiedWarnings": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "OLGA_WARNING_AND_RUMOR_1847",
+    "titleKo": "들어 들은 말과 확인할 일",
+    "stage": 2,
+    "stageCount": 3,
+    "metricsKo": {
+      "verifiedWarnings": "이 문제를 처리하며 남긴 결과"
+    },
+    "previousQuestId": "OLGA_WARNING_AND_RUMOR_1847_STAGE_1"
+  },
+  "prerequisiteQuestIds": [
+    "OLGA_WARNING_AND_RUMOR_1847_STAGE_1"
+  ]
+}

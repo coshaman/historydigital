@@ -1,0 +1,96 @@
+{
+  "id": "SOFIA_MISSING_RECEIPTS_1847_STAGE_2",
+  "titleKo": "도착하지 않은 신문 묶음",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "인쇄 시각과 배달 경로를 확인했다. 소피아는 독자에게 어디까지 알릴지 정해야 한다.",
+  "historicalOutcome": {
+    "id": "SOFIA_MISSING_RECEIPTS_1847_STAGE_2_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "printshop",
+    "objectId": 1101,
+    "requiredHostId": "editor_sofia"
+  },
+  "actions": [
+    {
+      "id": "SOFIA_MISSING_RECEIPTS_1847_STAGE_2_CHOICE_1",
+      "hostIds": [
+        "editor_sofia"
+      ],
+      "labelKo": "확인된 도착 시각과 미수령 지역만 알린다",
+      "subcopyKo": "해당 가판대와 구독자가 봅니다 · 정정 안내에 확인 범위가 남습니다 · 원인 설명은 뒤로 미뤄집니다",
+      "resultKo": "도착 시각과 확인된 미수령 지역만 알렸다. 독자가 기다릴 정보는 주고 원인은 보태지 않았다.",
+      "resultFlag": "limitedNotice",
+      "followupTitleKo": "독자에게 보낼 정정 안내",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "도착 시각과 확인된 미수령 지역만 알렸다. 독자가 기다릴 정보는 주고 원인은 보태지 않았다.",
+        "relations": {
+          "courier_pavel": "오늘 함께 확인한 일: 독자에게 보낼 정정 안내"
+        },
+        "lifeChainDelta": {
+          "distributionTrust": 2
+        }
+      }
+    },
+    {
+      "id": "SOFIA_MISSING_RECEIPTS_1847_STAGE_2_CHOICE_2",
+      "hostIds": [
+        "editor_sofia"
+      ],
+      "labelKo": "배달 지연 가능성을 편집부 책임으로 공지한다",
+      "subcopyKo": "편집부와 독자가 봅니다 · 공식 안내에 책임 범위가 남습니다 · 사실과 다르면 소피아가 설명해야 합니다",
+      "resultKo": "편집부가 확인을 맡겠다고 공지했다. 독자에게 답할 창구는 생겼지만 원인이 확정된 것은 아니다.",
+      "resultFlag": "editorTakesCharge",
+      "followupTitleKo": "독자에게 보낼 정정 안내",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "편집부가 확인을 맡겠다고 공지했다. 독자에게 답할 창구는 생겼지만 원인이 확정된 것은 아니다.",
+        "relations": {
+          "courier_pavel": "오늘 함께 확인한 일: 독자에게 보낼 정정 안내"
+        },
+        "lifeChainDelta": {
+          "distributionTrust": 1
+        }
+      }
+    },
+    {
+      "id": "SOFIA_MISSING_RECEIPTS_1847_STAGE_2_CHOICE_3",
+      "hostIds": [
+        "editor_sofia"
+      ],
+      "labelKo": "원인을 밝힐 때까지 공지를 보류한다",
+      "subcopyKo": "편집부만 압니다 · 내부 확인 메모에 보류가 남습니다 · 독자가 재발송 일정을 알지 못합니다",
+      "resultKo": "원인을 확인할 때까지 공지를 미뤘다. 추측은 줄었지만 독자는 기다릴 수밖에 없다.",
+      "resultFlag": "holdNotice",
+      "followupTitleKo": "독자에게 보낼 정정 안내",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "원인을 확인할 때까지 공지를 미뤘다. 추측은 줄었지만 독자는 기다릴 수밖에 없다.",
+        "relations": {
+          "courier_pavel": "오늘 함께 확인한 일: 독자에게 보낼 정정 안내"
+        },
+        "lifeChainDelta": {
+          "distributionTrust": 0
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "SOFIA_MISSING_RECEIPTS_1847",
+    "titleKo": "도착하지 않은 신문 묶음",
+    "stage": 2,
+    "stageCount": 3,
+    "metricsKo": {
+      "distributionTrust": "이 문제를 처리하며 남긴 결과"
+    },
+    "previousQuestId": "SOFIA_MISSING_RECEIPTS_1847_STAGE_1"
+  },
+  "prerequisiteQuestIds": [
+    "SOFIA_MISSING_RECEIPTS_1847_STAGE_1"
+  ]
+}

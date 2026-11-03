@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "V36-RENDERED-MEMORY-EVIDENCE-1",
+  "status": "PASS",
+  "evidence": [
+    {
+      "character": "ekaterina",
+      "sceneId": "E07",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "rendered": [
+        {
+          "character": "ekaterina",
+          "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+        }
+      ],
+      "screenshot": "current-audit/screenshots/full-route/canonical-BELINSKY-E07-memory-1440.png"
+    },
+    {
+      "character": "alexei",
+      "sceneId": "E07",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rendered": [
+        {
+          "character": "alexei",
+          "line": "이전 자료에서 확인된 사실과 해석을 나눠 적었지요. 이제 그 구분을 사람의 말에도 적용해야 합니다."
+        }
+      ],
+      "screenshot": "current-audit/screenshots/full-route/tie-support-strength-2-E07-memory-390.png"
+    },
+    {
+      "character": "pavel",
+      "sceneId": "E07",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "rendered": [
+        {
+          "character": "pavel",
+          "line": "당신은 계속 전달의 길을 물었죠. 이제 그 길 끝에 사람이 있다는 사실을 외면할 수 없어요."
+        }
+      ],
+      "screenshot": "current-audit/screenshots/full-route/random-01-E07-memory-1440.png"
+    }
+  ],
+  "distinctSpeakers": [
+    "alexei",
+    "ekaterina",
+    "pavel"
+  ]
+}

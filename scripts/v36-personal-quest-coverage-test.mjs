@@ -37,6 +37,44 @@ for (const [chainId, stages] of residentChains) {
   for (const stage of stages.slice(1)) assert.ok(stage.prerequisiteQuestIds?.includes(stages.find(previous => previous.lifeChain.stage === stage.lifeChain.stage - 1)?.id), `${stage.id} must require its prior physical choice`);
 }
 
+const followupChains = [];
+for (const stages of residentChains.values()) {
+  const first = stages.find(stage => stage.lifeChain.stage === 1);
+  const prerequisiteId = first.prerequisiteQuestIds?.[0];
+  if (!prerequisiteId) continue;
+  const prerequisite = quests.find(item => item.id === prerequisiteId);
+  assert.ok(prerequisite, `${first.id} must wait for an existing personal task`);
+  let state = game.createInitialState({ maps, hostCards: cards, quests, startMapId: first.entry.mapId });
+  state.world.date = prerequisite.date;
+  state.world.chapterId = prerequisite.chapterId;
+  state.world.currentMapId = prerequisite.entry.mapId;
+  state.player.embodiment = prerequisite.entry.requiredHostId;
+  const hostId = prerequisite.entry.requiredHostId;
+  const object = maps[prerequisite.entry.mapId].layers.find(layer => layer.name === 'Interactions').objects.find(item => item.id === prerequisite.entry.objectId);
+  state.player.position = { x: Math.floor(object.x / 16), y: Math.floor(object.y / 16) };
+  state.hosts[hostId].mapId = prerequisite.entry.mapId;
+  state.hosts[hostId].position = { ...state.player.position };
+  let guidance = resolveQuestGuidance({ state, quests, maps, hostCards: cards });
+  assert.equal(guidance.questId, prerequisite.id, `${first.id} must not hide the resident's current personal task`);
+  let result = game.performQuestAction(state, { questId: prerequisite.id, hostId, actionId: prerequisite.actions[0].id, objectId: object.id }, { quests, maps });
+  assert.equal(result.ok, true, `${prerequisite.id} unlock choice should execute: ${result.reason}`);
+  state = result.state;
+  guidance = resolveQuestGuidance({ state, quests, maps, hostCards: cards });
+  assert.equal(guidance.questId, first.id, `${first.id} should appear immediately after its prerequisite`);
+  for (const stage of stages.sort((a,b) => a.lifeChain.stage - b.lifeChain.stage)) {
+    state.world.currentMapId = stage.entry.mapId;
+    state.player.embodiment = stage.entry.requiredHostId;
+    const stageObject = maps[stage.entry.mapId].layers.find(layer => layer.name === 'Interactions').objects.find(item => item.id === stage.entry.objectId);
+    state.player.position = { x: Math.floor(stageObject.x / 16), y: Math.floor(stageObject.y / 16) };
+    state.hosts[stage.entry.requiredHostId].mapId = stage.entry.mapId;
+    state.hosts[stage.entry.requiredHostId].position = { ...state.player.position };
+    result = game.performQuestAction(state, { questId: stage.id, hostId: stage.entry.requiredHostId, actionId: stage.actions[0].id, objectId: stageObject.id }, { quests, maps });
+    assert.equal(result.ok, true, `${stage.id} should advance: ${result.reason}`);
+    state = result.state;
+  }
+  followupChains.push(first.lifeChain.id);
+}
+
 const newQuests = ['EDITOR_PUBLICATION_RECORD_1847','POLICE_TESTIMONY_RECORD_1849','READER_SOURCE_AND_RUMOR_1847',
   'SENIOR_CLERK_REVIEW_AND_SIGNATURE_1847','TENANT_RENT_AND_FIREWOOD_1847'];
 const results = [];
@@ -69,4 +107,5 @@ for (const id of newQuests) {
 }
 console.log(JSON.stringify({ status: 'PASS', fictionalResidents: residents.length, quests: quests.length,
   threeChoicePersonalQuests: threeChoicePersonalQuests.length, dedicatedQuestHosts: dedicatedQuestHosts.size,
-  completeMultiStageLifeChains: residentChains.size, residentsWithoutQuest: 0, newQuestFlows: results }, null, 2));
+  completeMultiStageLifeChains: residentChains.size, newlyUnlockedFollowupChains: followupChains.length, followupChainIds: followupChains,
+  residentsWithoutQuest: 0, newQuestFlows: results }, null, 2));

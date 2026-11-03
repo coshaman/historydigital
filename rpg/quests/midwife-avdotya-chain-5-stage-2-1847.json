@@ -1,0 +1,96 @@
+{
+  "id": "AVDOTYA_CARE_COSTS_1847_STAGE_2",
+  "titleKo": "돌봄의 비용과 차례",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "방문 순서를 정했지만 약품과 이동에 드는 돈이 부담이다. 비용을 누가 나눌지 결정해야 한다.",
+  "historicalOutcome": {
+    "id": "AVDOTYA_CARE_COSTS_1847_STAGE_2_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "courtyard",
+    "objectId": 1141,
+    "requiredHostId": "midwife_avdotya"
+  },
+  "actions": [
+    {
+      "id": "AVDOTYA_CARE_COSTS_1847_STAGE_2_CHOICE_1",
+      "hostIds": [
+        "midwife_avdotya"
+      ],
+      "labelKo": "필요한 물품과 실제 비용만 적는다",
+      "subcopyKo": "아브도티야와 당사자가 압니다 · 개인 비용표에 지출만 남습니다 · 당장 비용을 마련하지 못할 수 있습니다",
+      "resultKo": "필요한 물품과 실제 비용만 적었다. 치료 효과를 장담하거나 쓸데없는 물건을 더하진 않았다.",
+      "resultFlag": "actualCosts",
+      "followupTitleKo": "약품과 교통비 내역",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "필요한 물품과 실제 비용만 적었다. 치료 효과를 장담하거나 쓸데없는 물건을 더하진 않았다.",
+        "relations": {
+          "landlady_polina": "오늘 함께 확인한 일: 약품과 교통비 내역"
+        },
+        "lifeChainDelta": {
+          "careAccess": 2
+        }
+      }
+    },
+    {
+      "id": "AVDOTYA_CARE_COSTS_1847_STAGE_2_CHOICE_2",
+      "hostIds": [
+        "midwife_avdotya"
+      ],
+      "labelKo": "형편에 따라 낼 수 있는 만큼을 따로 묻는다",
+      "subcopyKo": "당사자와 아브도티야가 압니다 · 비공개 분담 메모에 합의액이 남습니다 · 다른 집이 불공정하다고 느낄 수 있습니다",
+      "resultKo": "각 집에 감당할 수 있는 몫을 따로 물었다. 사정은 지키지만 기준을 설명하기 어려울 수 있다.",
+      "resultFlag": "meansTest",
+      "followupTitleKo": "약품과 교통비 내역",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "각 집에 감당할 수 있는 몫을 따로 물었다. 사정은 지키지만 기준을 설명하기 어려울 수 있다.",
+        "relations": {
+          "landlady_polina": "오늘 함께 확인한 일: 약품과 교통비 내역"
+        },
+        "lifeChainDelta": {
+          "careAccess": 1
+        }
+      }
+    },
+    {
+      "id": "AVDOTYA_CARE_COSTS_1847_STAGE_2_CHOICE_3",
+      "hostIds": [
+        "midwife_avdotya"
+      ],
+      "labelKo": "두 집의 부담을 똑같이 나눈다",
+      "subcopyKo": "두 집과 조산원이 압니다 · 공동 비용표에 같은 몫이 남습니다 · 형편이 더 어려운 집엔 무거울 수 있습니다",
+      "resultKo": "비용을 반씩 나눴다. 기준은 간단하지만 같은 액수가 모두에게 같은 부담은 아니다.",
+      "resultFlag": "equalSplit",
+      "followupTitleKo": "약품과 교통비 내역",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "비용을 반씩 나눴다. 기준은 간단하지만 같은 액수가 모두에게 같은 부담은 아니다.",
+        "relations": {
+          "landlady_polina": "오늘 함께 확인한 일: 약품과 교통비 내역"
+        },
+        "lifeChainDelta": {
+          "careAccess": 0
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "AVDOTYA_CARE_COSTS_1847",
+    "titleKo": "돌봄의 비용과 차례",
+    "stage": 2,
+    "stageCount": 3,
+    "metricsKo": {
+      "careAccess": "이 문제를 처리하며 남긴 결과"
+    },
+    "previousQuestId": "AVDOTYA_CARE_COSTS_1847_STAGE_1"
+  },
+  "prerequisiteQuestIds": [
+    "AVDOTYA_CARE_COSTS_1847_STAGE_1"
+  ]
+}

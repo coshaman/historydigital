@@ -1,0 +1,96 @@
+{
+  "id": "SERGEY_ENTRY_AND_FAVOR_1847_STAGE_3",
+  "titleKo": "출입 허가와 부탁",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "담당 서기는 돌아왔고 봉투는 도착했다. 세르게이는 방문자 처리와 자기 근무 기록을 마무리해야 한다.",
+  "historicalOutcome": {
+    "id": "SERGEY_ENTRY_AND_FAVOR_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "chancery",
+    "objectId": 1152,
+    "requiredHostId": "junior_guard_sergey"
+  },
+  "actions": [
+    {
+      "id": "SERGEY_ENTRY_AND_FAVOR_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "junior_guard_sergey"
+      ],
+      "labelKo": "확인된 허가 범위만 적고 서명을 받는다",
+      "subcopyKo": "방문자와 담당 서기가 압니다 · 출입 장부에 확인 범위와 서명이 남습니다 · 허가가 부족하면 다시 방문해야 합니다",
+      "resultKo": "확인된 범위와 서명을 장부에 남겼다. 한 번에 끝나진 않아도 누구의 판단인지 분명하다.",
+      "resultFlag": "signedEntry",
+      "followupTitleKo": "출입 결정과 책임 기록",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "확인된 범위와 서명을 장부에 남겼다. 한 번에 끝나진 않아도 누구의 판단인지 분명하다.",
+        "relations": {
+          "senior_clerk_konstantin": "오늘 함께 확인한 일: 출입 결정과 책임 기록"
+        },
+        "lifeChainDelta": {
+          "fairAccess": 2
+        }
+      }
+    },
+    {
+      "id": "SERGEY_ENTRY_AND_FAVOR_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "junior_guard_sergey"
+      ],
+      "labelKo": "거절 사유와 다시 올 방법을 알려준다",
+      "subcopyKo": "방문자와 담당 서기가 압니다 · 거절 메모에 사유와 재방문 방법이 남습니다 · 급한 서류가 늦어집니다",
+      "resultKo": "오늘은 들이지 않고 재방문 방법을 알려줬다. 기준은 지켰지만 서류는 제때 전달되지 않을 수 있다.",
+      "resultFlag": "clearRefusal",
+      "followupTitleKo": "출입 결정과 책임 기록",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "오늘은 들이지 않고 재방문 방법을 알려줬다. 기준은 지켰지만 서류는 제때 전달되지 않을 수 있다.",
+        "relations": {
+          "senior_clerk_konstantin": "오늘 함께 확인한 일: 출입 결정과 책임 기록"
+        },
+        "lifeChainDelta": {
+          "fairAccess": 1
+        }
+      }
+    },
+    {
+      "id": "SERGEY_ENTRY_AND_FAVOR_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "junior_guard_sergey"
+      ],
+      "labelKo": "부탁을 들어준 사실을 교대 장부에 뒤늦게 적는다",
+      "subcopyKo": "교대 근무자와 상급자가 봅니다 · 사후 기록에 세르게이의 판단이 남습니다 · 절차 위반을 조사받을 수 있습니다",
+      "resultKo": "뒤늦게 부탁을 들어준 일을 적었다. 출입 절차는 어겼지만 기록에서 감추지는 않았다.",
+      "resultFlag": "lateDisclosure",
+      "followupTitleKo": "출입 결정과 책임 기록",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "뒤늦게 부탁을 들어준 일을 적었다. 출입 절차는 어겼지만 기록에서 감추지는 않았다.",
+        "relations": {
+          "senior_clerk_konstantin": "오늘 함께 확인한 일: 출입 결정과 책임 기록"
+        },
+        "lifeChainDelta": {
+          "fairAccess": 0
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "SERGEY_ENTRY_AND_FAVOR_1847",
+    "titleKo": "출입 허가와 부탁",
+    "stage": 3,
+    "stageCount": 3,
+    "metricsKo": {
+      "fairAccess": "이 문제를 처리하며 남긴 결과"
+    },
+    "previousQuestId": "SERGEY_ENTRY_AND_FAVOR_1847_STAGE_2"
+  },
+  "prerequisiteQuestIds": [
+    "SERGEY_ENTRY_AND_FAVOR_1847_STAGE_2"
+  ]
+}

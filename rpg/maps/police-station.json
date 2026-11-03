@@ -422,6 +422,57 @@
               "value": "POLICE_TESTIMONY_RECORD_1849"
             }
           ]
+        },
+        {
+          "id": 1110,
+          "name": "진술의 출처 구분표",
+          "type": "quest-object",
+          "x": 112,
+          "y": 16,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "IVAN_WITNESS_ACCOUNT_1847_STAGE_1"
+            }
+          ]
+        },
+        {
+          "id": 1111,
+          "name": "추가 확인 요청서",
+          "type": "quest-object",
+          "x": 96,
+          "y": 32,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "IVAN_WITNESS_ACCOUNT_1847_STAGE_2"
+            }
+          ]
+        },
+        {
+          "id": 1112,
+          "name": "접수 결과와 보관 범위",
+          "type": "quest-object",
+          "x": 128,
+          "y": 32,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "IVAN_WITNESS_ACCOUNT_1847_STAGE_3"
+            }
+          ]
         }
       ]
     },

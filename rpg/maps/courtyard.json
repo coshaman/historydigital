@@ -2171,6 +2171,108 @@
               "value": "ANNA_COAT_REPAIR_1847_STAGE_3"
             }
           ]
+        },
+        {
+          "id": 1130,
+          "name": "집안 경고 쪽지",
+          "type": "quest-object",
+          "x": 80,
+          "y": 208,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "OLGA_WARNING_AND_RUMOR_1847_STAGE_1"
+            }
+          ]
+        },
+        {
+          "id": 1131,
+          "name": "대비할 사람과 물건",
+          "type": "quest-object",
+          "x": 80,
+          "y": 176,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "OLGA_WARNING_AND_RUMOR_1847_STAGE_2"
+            }
+          ]
+        },
+        {
+          "id": 1132,
+          "name": "확인 결과와 전달 범위",
+          "type": "quest-object",
+          "x": 64,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "OLGA_WARNING_AND_RUMOR_1847_STAGE_3"
+            }
+          ]
+        },
+        {
+          "id": 1140,
+          "name": "방문 순서와 비용표",
+          "type": "quest-object",
+          "x": 160,
+          "y": 224,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "AVDOTYA_CARE_COSTS_1847_STAGE_1"
+            }
+          ]
+        },
+        {
+          "id": 1141,
+          "name": "약품과 교통비 내역",
+          "type": "quest-object",
+          "x": 160,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "AVDOTYA_CARE_COSTS_1847_STAGE_2"
+            }
+          ]
+        },
+        {
+          "id": 1142,
+          "name": "다음 방문과 미납 기록",
+          "type": "quest-object",
+          "x": 144,
+          "y": 208,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "AVDOTYA_CARE_COSTS_1847_STAGE_3"
+            }
+          ]
         }
       ]
     },

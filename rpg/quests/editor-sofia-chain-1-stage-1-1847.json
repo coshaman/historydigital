@@ -1,0 +1,95 @@
+{
+  "id": "SOFIA_MISSING_RECEIPTS_1847_STAGE_1",
+  "titleKo": "도착하지 않은 신문 묶음",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "가판대에 약속한 신문이 오지 않았다. 소피아는 인쇄가 늦었는지 전달 중 문제가 생겼는지 먼저 가려야 한다.",
+  "historicalOutcome": {
+    "id": "SOFIA_MISSING_RECEIPTS_1847_STAGE_1_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "printshop",
+    "objectId": 1100,
+    "requiredHostId": "editor_sofia"
+  },
+  "actions": [
+    {
+      "id": "SOFIA_MISSING_RECEIPTS_1847_STAGE_1_CHOICE_1",
+      "hostIds": [
+        "editor_sofia"
+      ],
+      "labelKo": "인쇄 완료 시각부터 확인한다",
+      "subcopyKo": "편집부와 인쇄소가 압니다 · 작업 시각표에 확인 시각이 남습니다 · 배달 지연 여부는 더 늦게 알 수 있습니다",
+      "resultKo": "인쇄가 끝난 시각부터 확인하기로 했다. 도착이 늦었다고 인쇄소에 바로 책임을 돌리진 않았다.",
+      "resultFlag": "pressTime",
+      "followupTitleKo": "반송된 신문 묶음 메모",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "인쇄가 끝난 시각부터 확인하기로 했다. 도착이 늦었다고 인쇄소에 바로 책임을 돌리진 않았다.",
+        "relations": {
+          "courier_pavel": "오늘 함께 확인한 일: 반송된 신문 묶음 메모"
+        },
+        "lifeChainDelta": {
+          "distributionTrust": 1
+        }
+      }
+    },
+    {
+      "id": "SOFIA_MISSING_RECEIPTS_1847_STAGE_1_CHOICE_2",
+      "hostIds": [
+        "editor_sofia"
+      ],
+      "labelKo": "배달원이 확인한 경로를 묻는다",
+      "subcopyKo": "소피아와 배달원이 압니다 · 개인 확인 쪽지에 남습니다 · 오늘 호의 배포가 더 늦어질 수 있습니다",
+      "resultKo": "배달원이 직접 확인한 구간부터 물었다. 길에서 보지 못한 일은 단정하지 않기로 했다.",
+      "resultFlag": "routeAsked",
+      "followupTitleKo": "반송된 신문 묶음 메모",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "배달원이 직접 확인한 구간부터 물었다. 길에서 보지 못한 일은 단정하지 않기로 했다.",
+        "relations": {
+          "courier_pavel": "오늘 함께 확인한 일: 반송된 신문 묶음 메모"
+        },
+        "lifeChainDelta": {
+          "distributionTrust": 2
+        }
+      }
+    },
+    {
+      "id": "SOFIA_MISSING_RECEIPTS_1847_STAGE_1_CHOICE_3",
+      "hostIds": [
+        "editor_sofia"
+      ],
+      "labelKo": "누락 호수를 편집부 공고에 적는다",
+      "subcopyKo": "편집부와 구독자가 봅니다 · 배포 공고에 누락 호수가 남습니다 · 확인 전에 인쇄소가 비난받을 수 있습니다",
+      "resultKo": "누락된 호수를 공고에 알렸다. 독자에게는 상황이 보이지만 원인은 아직 확인되지 않았다.",
+      "resultFlag": "publicNotice",
+      "followupTitleKo": "반송된 신문 묶음 메모",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "누락된 호수를 공고에 알렸다. 독자에게는 상황이 보이지만 원인은 아직 확인되지 않았다.",
+        "relations": {
+          "courier_pavel": "오늘 함께 확인한 일: 반송된 신문 묶음 메모"
+        },
+        "lifeChainDelta": {
+          "distributionTrust": 0
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "SOFIA_MISSING_RECEIPTS_1847",
+    "titleKo": "도착하지 않은 신문 묶음",
+    "stage": 1,
+    "stageCount": 3,
+    "metricsKo": {
+      "distributionTrust": "이 문제를 처리하며 남긴 결과"
+    }
+  },
+  "prerequisiteQuestIds": [
+    "EDITOR_PUBLICATION_RECORD_1847"
+  ]
+}

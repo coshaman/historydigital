@@ -1,0 +1,96 @@
+{
+  "id": "IVAN_WITNESS_ACCOUNT_1849_STAGE_2",
+  "titleKo": "목격과 전언 사이",
+  "chapterId": "V33_1849_CIRCLE",
+  "date": "1849-04-22",
+  "premiseKo": "출처를 나누자 진술 사이에 시간이 맞지 않는 부분이 보인다. 누가 직접 확인할 수 있는지 정해야 한다.",
+  "historicalOutcome": {
+    "id": "IVAN_WITNESS_ACCOUNT_1849_STAGE_2_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "police-station",
+    "objectId": 1111,
+    "requiredHostId": "police_sergeant_ivan"
+  },
+  "actions": [
+    {
+      "id": "IVAN_WITNESS_ACCOUNT_1849_STAGE_2_CHOICE_1",
+      "hostIds": [
+        "police_sergeant_ivan"
+      ],
+      "labelKo": "각 진술자에게 시각을 따로 묻는다",
+      "subcopyKo": "진술자와 기록 담당자가 압니다 · 개별 확인표에 답변 시각이 남습니다 · 접수 처리가 늦어질 수 있습니다",
+      "resultKo": "각자 기억하는 시각을 따로 확인하기로 했다. 서로의 말을 맞추기 전에 차이를 보존한다.",
+      "resultFlag": "separateTimes",
+      "followupTitleKo": "추가 확인 요청서",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "각자 기억하는 시각을 따로 확인하기로 했다. 서로의 말을 맞추기 전에 차이를 보존한다.",
+        "relations": {
+          "junior_guard_sergey": "오늘 함께 확인한 일: 추가 확인 요청서"
+        },
+        "lifeChainDelta": {
+          "verifiedAccounts": 2
+        }
+      }
+    },
+    {
+      "id": "IVAN_WITNESS_ACCOUNT_1849_STAGE_2_CHOICE_2",
+      "hostIds": [
+        "police_sergeant_ivan"
+      ],
+      "labelKo": "거리 순찰 기록과 대조한다",
+      "subcopyKo": "접수실과 순찰 담당자가 압니다 · 대조 요청서와 회신이 남습니다 · 기록이 없으면 결론을 못 낼 수 있습니다",
+      "resultKo": "순찰 기록에 확인을 요청했다. 자료가 없으면 빈칸을 그대로 둘 생각이다.",
+      "resultFlag": "patrolCheck",
+      "followupTitleKo": "추가 확인 요청서",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "순찰 기록에 확인을 요청했다. 자료가 없으면 빈칸을 그대로 둘 생각이다.",
+        "relations": {
+          "junior_guard_sergey": "오늘 함께 확인한 일: 추가 확인 요청서"
+        },
+        "lifeChainDelta": {
+          "verifiedAccounts": 1
+        }
+      }
+    },
+    {
+      "id": "IVAN_WITNESS_ACCOUNT_1849_STAGE_2_CHOICE_3",
+      "hostIds": [
+        "police_sergeant_ivan"
+      ],
+      "labelKo": "상급자에게 현재 진술만 올린다",
+      "subcopyKo": "상급자가 봅니다 · 검토 상신서에 미확인 부분이 남습니다 · 성급한 판단을 막지만 결정이 늦어집니다",
+      "resultKo": "확인하지 못한 시각을 표시해 상급자에게 올렸다. 판단은 넘어가지만 모르는 부분은 숨기지 않았다.",
+      "resultFlag": "escalateUnclear",
+      "followupTitleKo": "추가 확인 요청서",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "확인하지 못한 시각을 표시해 상급자에게 올렸다. 판단은 넘어가지만 모르는 부분은 숨기지 않았다.",
+        "relations": {
+          "junior_guard_sergey": "오늘 함께 확인한 일: 추가 확인 요청서"
+        },
+        "lifeChainDelta": {
+          "verifiedAccounts": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "IVAN_WITNESS_ACCOUNT_1849",
+    "titleKo": "목격과 전언 사이",
+    "stage": 2,
+    "stageCount": 3,
+    "metricsKo": {
+      "verifiedAccounts": "이 문제를 처리하며 남긴 결과"
+    },
+    "previousQuestId": "IVAN_WITNESS_ACCOUNT_1849_STAGE_1"
+  },
+  "prerequisiteQuestIds": [
+    "IVAN_WITNESS_ACCOUNT_1849_STAGE_1"
+  ]
+}

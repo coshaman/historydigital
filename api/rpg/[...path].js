@@ -92,7 +92,7 @@ async function handle(req, res, routeOverride = null) {
     // Safe, fixed-category diagnostic for the same-origin game client.
     // Never include provider text, prompts, credentials, or generated content.
     result.headers['x-v33-provider-result'] = provider.lastFailureCode;
-    if (process.env.VERCEL === '1') console.warn(JSON.stringify({ event: 'rpg_provider_fallback', code: provider.lastFailureCode }));
+    if (process.env.VERCEL === '1') console.warn(JSON.stringify({ event: 'rpg_provider_error', code: provider.lastFailureCode }));
   }
   if (result.status === 200 || result.status === 201) {
     const innerToken = isDialogue ? sessionIdToken : result.body.sessionToken;

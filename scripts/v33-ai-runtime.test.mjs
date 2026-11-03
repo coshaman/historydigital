@@ -279,7 +279,7 @@ test('derived starting resources stay character-specific and preserve unknown hi
   assert.equal(observed.find(input => input.conversation.embodiedPlayer.id === 'literary_chichikov').conversation.playerResources.money.amount, null, 'literary reconstruction must not invent a balance');
 });
 
-test('NPC output falls back when it discloses undisclosed player-only facts or resources', async () => {
+test('NPC output is rejected when it discloses undisclosed player-only facts or resources', async () => {
   const store = new MemorySessionStore();
   const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store, allowedOrigins: ['https://game.example'], provider: { generate: async request => {
     const fact = request.input.conversation.embodiedPlayer.playerKnownFacts[0];
@@ -291,10 +291,10 @@ test('NPC output falls back when it discloses undisclosed player-only facts or r
   } } });
   const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'printer_ekaterina', actorHostId: 'seamstress_anna' }));
   const hidden = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken, requestId: 'private-leak-check-01', playerInput: '오늘 일감은 있나요?' }));
-  assert.equal(hidden.body.fallback, true, 'NPC must not expose private role facts, exact funds, or held inventory');
-  assert.doesNotMatch(hidden.body.turn.beats[0].textKo, /18코페이카|수선 맡은 소매|수선 맡긴 옷의 주인은 아직 값을 치르지 않았다/);
+  assert.equal(hidden.status, 502, 'unsafe generated answers are rejected instead of replaced by authored dialogue');
+  assert.equal(hidden.body.providerErrorCode, 'undisclosed_player_context');
   const punctuationLeak = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken, requestId: 'private-leak-check-03', playerInput: '다른 표기로 돈을 알려주세요.' }));
-  assert.equal(punctuationLeak.body.fallback, true, 'punctuation inside a balance must not evade the privacy check');
+  assert.equal(punctuationLeak.status, 502, 'punctuation inside a balance must not evade the privacy check');
 
   const disclosed = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken, requestId: 'private-leak-check-02', playerInput: '수선 맡긴 옷의 주인은 아직 값을 치르지 않았다. 제 수선 맡은 소매와 18코페이카 이야기도 제가 먼저 꺼냈어요.' }));
   assert.equal(disclosed.body.fallback, false, 'player-disclosed facts may be discussed by the NPC');
@@ -322,7 +322,7 @@ test('dialogue requests within one session serialize so a later turn cannot over
   assert.match(JSON.stringify(observedInputs[1].recentTurns), /첫 번째 질문입니다/);
 });
 
-test('signed opaque sessions reject forgery and foreign origins, while missing AI credentials remain explicitly fallback-only', async () => {
+test('signed opaque sessions reject forgery and foreign origins, while missing AI credentials block dialogue', async () => {
   const store = new MemorySessionStore();
   const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store, allowedOrigins: ['https://game.example'], provider: null });
   const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'courier_pavel' }));
@@ -334,17 +334,16 @@ test('signed opaque sessions reject forgery and foreign origins, while missing A
   assert.equal((await weakSecret.handle(request('POST', '/api/rpg/session/start', { hostId: 'courier_pavel' }))).body.error, 'BLOCKED_SESSION_SECRET');
 });
 
-test('historical reconstruction and literary host have bounded scene IDs and offline sessions', async () => {
+test('historical reconstruction and literary hosts have bounded scene IDs and no-key dialogue is blocked', async () => {
   const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store: new MemorySessionStore(), allowedOrigins: ['https://game.example'], provider: null });
   for (const hostId of ['nekrasov_reconstruction', 'literary_chichikov', 'literary_akaky']) {
     const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId }));
     assert.equal(opened.status, 201);
     assert.equal(opened.body.mode, 'BLOCKED_NO_KEY');
     const turn = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken, requestId: `offline-${hostId}-0001`, playerInput: '이 장면의 자료를 설명해 주세요.' }));
-    assert.equal(turn.status, 200);
-    assert.equal(turn.body.turn.sceneId.length > 0, true);
-    assert.equal(turn.body.turn.beats[0].speakerId, hostId);
-    assert.equal(turn.body.fallback, true);
+    assert.equal(turn.status, 503);
+    assert.equal(turn.body.error, 'ai_not_configured');
+    assert.equal('turn' in turn.body, false);
     if (hostId === 'literary_akaky') assert.deepEqual(require('../rpg/ai/scenes.json').sessions[hostId].allowedSourceIds, ['LIT-GOGOL-OVERCOAT-1842']);
   }
 });
@@ -418,43 +417,41 @@ test('incomplete Responses API output reports the specific token limit cause wit
   assert.equal(provider.lastFailureCode, 'incomplete_max_output_tokens');
 });
 
-test('schema-invalid model output falls back to bounded authored character dialogue', async () => {
+test('schema-invalid model output is rejected without authored dialogue', async () => {
   const store = new MemorySessionStore();
   const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store, allowedOrigins: ['https://game.example'], provider: { generate: async () => ({ schemaVersion: 'V33_RPG_DIALOGUE_V1', endingId: 'DOSTOEVSKY_PETRASHEVSKY', beats: [] }) } });
   const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'courier_pavel' }));
   const result = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken, requestId: 'schema-fail-0001', playerInput: '봉투를 안전하게 옮기고 싶어요.' }));
-  assert.equal(result.status, 200);
-  assert.equal(result.body.fallback, true);
-  assert.equal(result.body.turn.endingId, undefined);
-  assert.match(result.body.turn.beats[0].textKo, /봉투|길|배달/);
-  assert.equal(result.body.turn.suggestedReplies.length, 3);
+  assert.equal(result.status, 502);
+  assert.equal(result.body.providerErrorCode, 'response_schema_invalid');
+  assert.equal('turn' in result.body, false);
 });
 
-test('historical AI dialogue falls back when it introduces a year absent from its authorized source packet', async () => {
+test('historical AI dialogue is rejected when it introduces a year absent from its authorized source packet', async () => {
   const store = new MemorySessionStore(); let modelInput;
   const unsupported = validTurn('V33_TALK_NEKRASOV_EDITORIAL_NOTICE', 'nekrasov_reconstruction');
   unsupported.beats[0].textKo = '1849년 행사는 취소됐고, 벨린스키는 1850년에도 살아 있었다고 들었습니다.';
   const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store, allowedOrigins: ['https://game.example'], provider: { generate: async request => { modelInput = request.input; return unsupported; } } });
   const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'nekrasov_reconstruction' }));
   const result = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken, requestId: 'unsupported-fact-0001', playerInput: '공고에 나온 일을 알려 주세요.' }));
-  assert.equal(result.status, 200);
-  assert.equal(result.body.fallback, true);
-  assert.equal(result.body.mode, 'FALLBACK_PROVIDER');
+  assert.equal(result.status, 502);
+  assert.equal(result.body.error, 'ai_generation_failed');
+  assert.equal(result.body.providerErrorCode, 'unsupported_historical_year');
   assert.deepEqual(modelInput.sourceEvidence.map(source => source.sourceId), ['OBJ-WS-NEKRASOV-EDITORIAL-1848', 'OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE']);
   assert.ok(modelInput.sourceEvidence.every(source => source.paragraphs?.length > 0 && source.paragraphs.every(paragraph => paragraph.ru && paragraph.ko)));
-  assert.equal(result.body.turn.beats[0].textKo, '공고에는 발송이 늦어진 이유와 수령 확인 방법을 적었습니다. 못 받은 호가 있다면 편집부가 조사하겠다고도 밝혔고요. 여기 적히지 않은 사적인 말까지 제 말처럼 보태지는 않겠습니다.');
+  assert.equal('turn' in result.body, false);
 });
 
-test('historical AI dialogue falls back when it invents a real-person claim without a year or source claim ID', async () => {
+test('historical AI dialogue is rejected when it invents a real-person claim without a year or source claim ID', async () => {
   const unsupported = validTurn('V33_TALK_NEKRASOV_EDITORIAL_NOTICE', 'nekrasov_reconstruction');
   unsupported.beats[0].textKo = '벨린스키는 편집부 회의에 참석해 이 글을 승인했다고 들었습니다.';
   const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store: new MemorySessionStore(), allowedOrigins: ['https://game.example'], provider: { generate: async () => unsupported } });
   const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'nekrasov_reconstruction' }));
   const result = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken, requestId: 'unsupported-person-0001', playerInput: '편집부에서 무슨 일이 있었는지 알려 주세요.' }));
 
-  assert.equal(result.status, 200);
-  assert.equal(result.body.fallback, true);
-  assert.equal(result.body.turn.beats[0].textKo, '공고에는 발송이 늦어진 이유와 수령 확인 방법을 적었습니다. 못 받은 호가 있다면 편집부가 조사하겠다고도 밝혔고요. 여기 적히지 않은 사적인 말까지 제 말처럼 보태지는 않겠습니다.');
+  assert.equal(result.status, 502);
+  assert.equal(result.body.providerErrorCode, 'uncited_historical_person');
+  assert.equal('turn' in result.body, false);
 });
 
 test('historical AI dialogue retains claims whose dates are present in the authorized source packet', async () => {
@@ -478,8 +475,8 @@ test('historical AI dialogue rejects claim IDs outside the scene source allowlis
   const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'nekrasov_reconstruction' }));
   const result = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken, requestId: 'forged-claim-id-0001', playerInput: '공고를 설명해 주세요.' }));
 
-  assert.equal(result.status, 200);
-  assert.equal(result.body.fallback, true);
+  assert.equal(result.status, 502);
+  assert.equal(result.body.providerErrorCode, 'response_schema_invalid');
 });
 
 test('provider response rejection reports a safe validation category for local diagnosis', async t => {
@@ -493,8 +490,8 @@ test('provider response rejection reports a safe validation category for local d
     const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store: new MemorySessionStore(), allowedOrigins: ['https://game.example'], provider });
     const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'printer_ekaterina' }));
     const result = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken, requestId: `diag-${name.replace(/\s/g, '-')}-0001`, playerInput: '그 대목을 확인하고 싶어요.' }));
-    assert.equal(result.status, 200);
-    assert.equal(result.body.fallback, true);
+    assert.equal(result.status, 502);
+    assert.equal(result.body.error, 'ai_generation_failed');
     assert.equal(provider.lastFailureCode, expectedCode);
     assert.equal(result.body.providerErrorCode, expectedCode);
     assert.doesNotMatch(JSON.stringify(result.body), /Достоевский|2001/);
@@ -506,27 +503,44 @@ test('provider response rejection reports a safe validation category for local d
     const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store: new MemorySessionStore(), allowedOrigins: ['https://game.example'], provider });
     const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'printer_ekaterina', actorHostId: 'seamstress_anna' }));
     const result = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken, requestId: 'diag-private-context-01', playerInput: '그 대목을 확인하고 싶어요.' }));
-    assert.equal(result.status, 200);
-    assert.equal(result.body.fallback, true);
+    assert.equal(result.status, 502);
+    assert.equal(result.body.error, 'ai_generation_failed');
     assert.equal(provider.lastFailureCode, 'undisclosed_player_context');
   });
 });
 
-test('429, 500, and timeout from the provider use authored fallback without exposing provider errors', async t => {
+test('429, 500, and timeout from the provider return safe errors without authored dialogue', async t => {
   for (const [name, failure] of [['429', 'provider request failed (429)'], ['500', 'provider request failed (500)'], ['timeout', 'provider request timed out']]) {
     await t.test(name, async () => {
       const store = new MemorySessionStore();
       const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store, allowedOrigins: ['https://game.example'], provider: { generate: async () => { throw new Error(failure); } } });
       const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'courier_pavel' }));
       const result = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken, requestId: 'provider-' + name + '-0001', playerInput: '봉투를 어떻게 전할까요?' }));
-      assert.equal(result.status, 200);
-      assert.equal(result.body.fallback, true);
-      assert.equal(result.body.mode, 'FALLBACK_PROVIDER');
+      assert.equal(result.status, 502);
+      assert.equal(result.body.error, 'ai_generation_failed');
+      assert.equal(result.body.mode, 'AI_ERROR');
       assert.equal(result.body.providerErrorCode, 'provider_response_validation');
       assert.equal(JSON.stringify(result.body).includes(failure), false);
-      assert.equal(result.body.turn.suggestedReplies.length, 3);
+      assert.equal('turn' in result.body, false);
     });
   }
+});
+
+test('failed generation releases its turn claim so the player can retry and receive the real AI turn', async () => {
+  let fail = true;
+  const provider = { lastFailureCode: '', generate: async input => { if (fail) throw new Error('temporary transport failure'); return validTurn(input.input.scene.id, input.input.character.id); } };
+  const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store: new MemorySessionStore(), allowedOrigins: ['https://game.example'], provider });
+  const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'courier_pavel' }));
+  const body = { sessionToken: opened.body.sessionToken, requestId: 'retry-after-generation-failure-01', playerInput: '봉투를 어디로 전달할까요?' };
+  const failed = await service.handle(request('POST', '/api/rpg/dialogue', body));
+  assert.equal(failed.status, 502);
+  assert.equal('turn' in failed.body, false);
+  fail = false;
+  const retried = await service.handle(request('POST', '/api/rpg/dialogue', body));
+  assert.equal(retried.status, 200);
+  assert.equal(retried.body.mode, 'AI');
+  assert.equal(retried.body.fallback, false);
+  assert.equal(provider.lastFailureCode, '');
 });
 
 test('Responses provider classifies transport failures without exposing the thrown error', async () => {

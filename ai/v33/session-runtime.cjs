@@ -9,7 +9,7 @@ const caseContexts = require('../../rpg/data/case-contexts.json').cases;
 const historicalClaims = require('../../rpg/data/historical-claim-ledger.json').claims;
 const historicalPeople = require('../../rpg/data/historical-comparisons.json').comparisons;
 const mapRecords = new Map(['nevsky','printshop','chancery','courtyard','market-quay','dead-souls','overcoat','police-station'].map(id => [id, require(`../../rpg/maps/${id}.json`)]));
-const questRecords = new Map(['printshop-article','public-discourse-1848','circle-investigation-1849','circle-letter-1849-may','yard-ledger-1847','laundry-wages-1847','bakery-flour-1847','market-prices-1847','porter-load-1847','coach-fare-1847','household-privacy-1847','midwife-care-cost-1847','apothecary-limits-1847','apprentice-authorship-1847','bookbinder-damage-1847','scribal-copy-1847','inn-debt-rumor-1847','student-circle-risk-1847','teacher-access-cost-1847','noble-status-debt-1847','landlady-rent-commons-1847','water-access-queue-1847','fish-storage-time-1847','warehouse-loss-record-1847','servant-private-warning-1847','guard-entry-bribe-1847','carter-delivery-delay-1847','street-vendor-weather-1847','typesetter-speed-censorship-1847','lodging-reading-income-1847','literary-dead-souls','literary-overcoat'].map(id => { const quest = require(`../../rpg/quests/${id}.json`); return [quest.id, quest]; }));
+const questRecords = new Map(['printshop-article','public-discourse-1848','circle-investigation-1849','circle-letter-1849-may','yard-ledger-1847','laundry-wages-1847','bakery-flour-1847','market-prices-1847','porter-load-1847','coach-fare-1847','household-privacy-1847','midwife-care-cost-1847','apothecary-limits-1847','apprentice-authorship-1847','bookbinder-damage-1847','scribal-copy-1847','inn-debt-rumor-1847','student-circle-risk-1847','teacher-access-cost-1847','noble-status-debt-1847','landlady-rent-commons-1847','water-access-queue-1847','fish-storage-time-1847','warehouse-loss-record-1847','servant-private-warning-1847','guard-entry-bribe-1847','carter-delivery-delay-1847','street-vendor-weather-1847','typesetter-speed-censorship-1847','lodging-reading-income-1847','editor-sofia-chain-1-stage-1-1847','editor-sofia-chain-1-stage-2-1847','editor-sofia-chain-1-stage-3-1847','police-sergeant-ivan-chain-2-stage-1-1847','police-sergeant-ivan-chain-2-stage-2-1847','police-sergeant-ivan-chain-2-stage-3-1847','reader-darya-chain-3-stage-1-1847','reader-darya-chain-3-stage-2-1847','reader-darya-chain-3-stage-3-1847','housemaid-olga-chain-4-stage-1-1847','housemaid-olga-chain-4-stage-2-1847','housemaid-olga-chain-4-stage-3-1847','midwife-avdotya-chain-5-stage-1-1847','midwife-avdotya-chain-5-stage-2-1847','midwife-avdotya-chain-5-stage-3-1847','junior-guard-sergey-chain-6-stage-1-1847','junior-guard-sergey-chain-6-stage-2-1847','junior-guard-sergey-chain-6-stage-3-1847','literary-dead-souls','literary-overcoat'].map(id => { const quest = require(`../../rpg/quests/${id}.json`); return [quest.id, quest]; }));
 const historicalNameVariants = [...new Set([
   ...historicalPeople.flatMap(person => person.personKo.split(/[와,·]/).flatMap(part => {
     const words = part.replace(/^(젊은|청년)\s+/, '').replace(/\s*(모임|사상가|비평가).*$/, '').trim().split(/\s+/).filter(Boolean);
@@ -93,6 +93,7 @@ const relationshipQuests = [
   require('../../rpg/quests/street-vendor-weather-1847.json'),
   require('../../rpg/quests/typesetter-speed-censorship-1847.json'),
   require('../../rpg/quests/lodging-reading-income-1847.json'),
+  ...['editor-sofia-chain-1-stage-1-1847','editor-sofia-chain-1-stage-2-1847','editor-sofia-chain-1-stage-3-1847','police-sergeant-ivan-chain-2-stage-1-1847','police-sergeant-ivan-chain-2-stage-2-1847','police-sergeant-ivan-chain-2-stage-3-1847','reader-darya-chain-3-stage-1-1847','reader-darya-chain-3-stage-2-1847','reader-darya-chain-3-stage-3-1847','housemaid-olga-chain-4-stage-1-1847','housemaid-olga-chain-4-stage-2-1847','housemaid-olga-chain-4-stage-3-1847','midwife-avdotya-chain-5-stage-1-1847','midwife-avdotya-chain-5-stage-2-1847','midwife-avdotya-chain-5-stage-3-1847','junior-guard-sergey-chain-6-stage-1-1847','junior-guard-sergey-chain-6-stage-2-1847','junior-guard-sergey-chain-6-stage-3-1847'].map(file => require(`../../rpg/quests/${file}.json`)),
 ];
 const dialogueQuests = [...relationshipQuests, require('../../rpg/quests/literary-dead-souls.json'), require('../../rpg/quests/literary-overcoat.json')];
 const actorActionRecords = new Map();
@@ -248,9 +249,6 @@ function hasUndisclosedPlayerContext(turn, input) {
   const balanceForms = currencies.map(currency => `${money.amount}${currency}`);
   const containsBalance = text => balanceForms.some(form => normalize(text).includes(normalize(form)));
   return containsBalance(spokenBalance) && !containsBalance(playerDisclosure);
-}
-function fallbackTurn(scene) {
-  return { schemaVersion: TURN_SCHEMA_VERSION, sceneId: scene.sceneId, beats: [{ speakerId: scene.hostId, textKo: scene.fallbackKo, emotion: 'neutral', claimIds: [] }], suggestedReplies: scene.fallbackReplies.slice(0, 3).map((textKo, index) => ({ id: `R${index + 1}`, textKo, tone: ['curious','direct','reflective'][index] })) };
 }
 function safeProfile(card) {
   const worldview = card.worldview ? {
@@ -452,24 +450,22 @@ function createRpgAiService({ secret, store, allowedOrigins = [], provider = nul
     scene.allowedSourceIds = sourceEvidence.map(source => source.sourceId);
     const sourceClaims = claimsForScene(scene).map(({ claimId, sourceId, paragraphIndex, claimKo }) => ({ claimId, sourceId, paragraphIndex, claimKo }));
     const input = { scene: { id: scene.sceneId, objective: scene.dialogueObjective, focusKo: scene.focusKo, allowedTopics: scene.allowedTopics, forbiddenTopics: scene.forbiddenTopics, allowedSourceIds: scene.allowedSourceIds, knownFactIds: scene.allowedSourceIds }, caseContext: dialogueCase, conversation: { embodiedPlayer: context.actorHostId ? safeEmbodiedProfile(cards.get(context.actorHostId)) : null, sceneContext, playerResources, relationshipHints: context.actorHostId ? actorRelations : {}, playerActions: context.actorHostId ? actorActions : [] }, sourceEvidence, sourceClaims, character: safeProfile(card), recentTurns: context.recentTurns.slice(-8), playerInput: inputKo };
-    let responseBody, fallback = !provider;
-    if (provider) {
-      try {
-        const output = await provider.generate({ input, instructions, format: responseFormat(scene), model: dialogueModel, maxOutputTokens: 700 });
-        if (!validateTurn(output, scene)) { provider.lastFailureCode = 'response_schema_invalid'; throw new Error('invalid provider response schema'); }
-        if (hasUnsupportedHistoricalYear(output, scene)) { provider.lastFailureCode = 'unsupported_historical_year'; throw new Error('unsupported historical year'); }
-        if (hasUncitedHistoricalPerson(output, scene)) { provider.lastFailureCode = 'uncited_historical_person'; throw new Error('uncited historical person'); }
-        if (hasUndisclosedPlayerContext(output, input)) { provider.lastFailureCode = 'undisclosed_player_context'; throw new Error('undisclosed player context'); }
-        responseBody = { turn: output, fallback: false, mode: 'AI' };
-      } catch {
-        if (!provider.lastFailureCode) provider.lastFailureCode = 'provider_response_validation';
-        fallback = true;
-      }
+    if (!provider) { await store.release(sessionId, body.requestId, time); return response(503, { error: 'ai_not_configured', mode: 'BLOCKED_NO_KEY' }, request.origin, allowedOrigins); }
+    provider.lastFailureCode = '';
+    let responseBody;
+    try {
+      const output = await provider.generate({ input, instructions, format: responseFormat(scene), model: dialogueModel, maxOutputTokens: 700 });
+      if (!validateTurn(output, scene)) { provider.lastFailureCode = 'response_schema_invalid'; throw new Error('invalid provider response schema'); }
+      if (hasUnsupportedHistoricalYear(output, scene)) { provider.lastFailureCode = 'unsupported_historical_year'; throw new Error('unsupported historical year'); }
+      if (hasUncitedHistoricalPerson(output, scene)) { provider.lastFailureCode = 'uncited_historical_person'; throw new Error('uncited historical person'); }
+      if (hasUndisclosedPlayerContext(output, input)) { provider.lastFailureCode = 'undisclosed_player_context'; throw new Error('undisclosed player context'); }
+      responseBody = { turn: output, fallback: false, mode: 'AI' };
+    } catch {
+      if (!provider.lastFailureCode) provider.lastFailureCode = 'provider_response_validation';
+      const providerErrorCode = /^[a-z0-9_]+$/.test(provider.lastFailureCode || '') ? provider.lastFailureCode : 'provider_response_validation';
+      await store.release(sessionId, body.requestId, time);
+      return response(502, { error: 'ai_generation_failed', mode: 'AI_ERROR', providerErrorCode }, request.origin, allowedOrigins);
     }
-    if (fallback) responseBody = {
-      turn: fallbackTurn(scene), fallback: true, mode: provider ? 'FALLBACK_PROVIDER' : 'BLOCKED_NO_KEY',
-      ...(provider ? { providerErrorCode: /^[a-z0-9_]+$/.test(provider.lastFailureCode || '') ? provider.lastFailureCode : 'provider_response_validation' } : {}),
-    };
     const recent = [...context.recentTurns, { role: 'user', text: inputKo }, ...responseBody.turn.beats.map(beat => ({ role: 'assistant', speakerId: beat.speakerId, text: cleanText(beat.textKo, 420) }))].slice(-8);
     await store.complete(sessionId, body.requestId, responseBody, recent, time);
     return response(200, responseBody, request.origin, allowedOrigins);
@@ -487,4 +483,4 @@ function createRpgAiService({ secret, store, allowedOrigins = [], provider = nul
 }
 
 function isSupportedHostId(hostId) { return typeof hostId === 'string' && cards.has(hostId) && Boolean(scenes[hostId]); }
-module.exports = { createRpgAiService, MemorySessionStore, validateTurn, fallbackTurn, responseFormat, issueToken, readToken, isSupportedHostId, SESSION_TTL_MS, MAX_TURNS, MAX_PER_MINUTE };
+module.exports = { createRpgAiService, MemorySessionStore, validateTurn, responseFormat, issueToken, readToken, isSupportedHostId, SESSION_TTL_MS, MAX_TURNS, MAX_PER_MINUTE };

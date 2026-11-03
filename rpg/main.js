@@ -4,10 +4,10 @@ import { questChoices, continuationQuest } from './engine/quest-presentation.mjs
 import { guideToResident, resolveQuestGuidance } from './engine/quest-guidance.mjs';
 import { ownsKeyboardInput, observationText } from './engine/player-presentation.mjs';
 import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHost, discussionReflectionPromptsForHost } from './engine/discussion-quests.mjs';
-import { dialogueSessionNeedsReconnect, selectDialogueTurn, shouldUseAuthoredOfflineReply } from './engine/dialogue-response.mjs';
+import { dialogueSessionNeedsReconnect, selectDialogueTurn } from './engine/dialogue-response.mjs';
 import { appendApiDiagnostic, clearApiDiagnostics, readApiDiagnostics } from './engine/api-diagnostics.mjs';
 import { CITY_PRODUCTS, NEWSPAPER_STORIES, newspaperAssignment, purchaseCityProduct, publishNewspaperIssue, shareSourceWithEditor, readNewspaperIssue, circulateNewspaperIssue, commitSuspiciousAct, resolvePoliceCustody, publishedIssueLabel } from './engine/civic-life.mjs';
-import { conversations, availableTopics, authoredReply, contextualOpening } from './ai/authored-dialogue.mjs';
+import { availableTopics, contextualOpening } from './ai/authored-dialogue.mjs';
 import { advanceStudy, beginExam, buildLifeTimeline, chooseCirclePath, completeLearning, getExamQuestions, selectExamAnswer, submitExam } from './engine/learning-life.mjs';
 import './engine/game-state.js';
 const { createInitialState, moveActor, possessHost, releaseHost, transitionMap, performQuestAction, saveGame, loadGame, nearTile, knowledgeForHost, recordSourceRead, recordEvidenceRead, recordDialogueTurn, enterLiteraryRealm, leaveLiteraryRealm, advanceChapter, advanceCampaignDate, resolveEnding, describeHostMoney } = globalThis.V33GameState;
@@ -17,7 +17,13 @@ const [street, shop, chancery, courtyard, marketMap, literaryMap, overcoatMap, p
 const [sourceReaderIndex, caseContextData, discussionQuestData, districtRegistry] = await Promise.all([readJson('./rpg/data/source-reader-index.json'), readJson('./rpg/data/case-contexts.json'), readJson('./rpg/data/discussion-quests.json'), readJson('./rpg/data/city-districts-v36.json')]);
 const cards = await Promise.all(['clerk_alexei','printer_ekaterina','courier_pavel','seamstress_anna','tenant_mikhail','bookseller_lev','senior_clerk_konstantin','reader_darya','editor_sofia','police_sergeant_ivan','yardkeeper_semyon','laundress_mariya','baker_fyodor','market_nadezhda','porter_gavrila','coachman_timofey','housemaid_olga','midwife_avdotya','apothecary_yakov','print_apprentice_stepan','bookbinder_elizaveta','scribal_yuri','innkeeper_irina','student_vasily','teacher_lyubov','minor_noble_andrei','landlady_polina','watercarrier_luka','fishseller_klavdiya','warehouse_pyotr','servant_varvara','junior_guard_sergey','carter_roman','street_vendor_matryona','typesetter_nikita','lodging_tatyana','nekrasov_reconstruction','literary_chichikov','literary_akaky','literary_petrovich'].map(id => readJson(`./rpg/characters/${id}.json`)));
 const maps = { nevsky: street, printshop: shop, chancery, courtyard, 'market-quay': marketMap, 'dead-souls': literaryMap, overcoat: overcoatMap, 'police-station': policeMap }, hostCards = cards;
-const addedPersonalQuests = await Promise.all(['editor-publication-record-1847','police-testimony-record-1849','reader-source-and-rumor-1847','senior-clerk-review-and-signature-1847','tenant-rent-and-firewood-1847'].map(id => readJson(`./rpg/quests/${id}.json`)));
+const addedPersonalQuests = await Promise.all(['editor-publication-record-1847','police-testimony-record-1849','reader-source-and-rumor-1847','senior-clerk-review-and-signature-1847','tenant-rent-and-firewood-1847',
+  'editor-sofia-chain-1-stage-1-1847','editor-sofia-chain-1-stage-2-1847','editor-sofia-chain-1-stage-3-1847',
+  'police-sergeant-ivan-chain-2-stage-1-1847','police-sergeant-ivan-chain-2-stage-2-1847','police-sergeant-ivan-chain-2-stage-3-1847',
+  'reader-darya-chain-3-stage-1-1847','reader-darya-chain-3-stage-2-1847','reader-darya-chain-3-stage-3-1847',
+  'housemaid-olga-chain-4-stage-1-1847','housemaid-olga-chain-4-stage-2-1847','housemaid-olga-chain-4-stage-3-1847',
+  'midwife-avdotya-chain-5-stage-1-1847','midwife-avdotya-chain-5-stage-2-1847','midwife-avdotya-chain-5-stage-3-1847',
+  'junior-guard-sergey-chain-6-stage-1-1847','junior-guard-sergey-chain-6-stage-2-1847','junior-guard-sergey-chain-6-stage-3-1847'].map(id => readJson(`./rpg/quests/${id}.json`)));
 const questList = [firstQuest, publicQuest, circleQuest, letterQuest, literaryQuest, overcoatQuest, ...marketPersonalQuests, ...addedPersonalQuests];
 const questsById = new Map(questList.map(item => [item.id, item]));
 const relationHintValues = new Map();
@@ -74,7 +80,6 @@ let lastMoveAt = 0, renderFrame = null, renderTimer = null, activeDialogueHost =
 const dialogueSessions = new Map(), dialogueTranscripts = new Map();
 const dialogueCurrentLines = new Map();
 const dialogueFailedQuestions = new Map();
-const heardTopics = new Map();
 const hasLiveDialogue = key => !dialogueSessionNeedsReconnect(dialogueSessions.get(key));
 const dialogueKey = (actorHostId, speakerHostId) => `${actorHostId}::${speakerHostId}`;
 const dialogueStorageKey = key => `v33-rpg-session:${key}`;
@@ -88,6 +93,8 @@ function dialogueApiFailure(error) {
   if (error?.apiCode === 'client_response_invalid') return 'API가 응답했지만 대화 형식 검증에 실패했습니다. 설정의 오류 기록과 Vercel Function 로그를 확인해 주세요.';
   if (error?.apiCode === 'invalid_response_json' || error?.name === 'SyntaxError') return 'API 응답을 JSON으로 읽지 못했습니다. 설정의 오류 기록과 Vercel Function 로그를 확인해 주세요.';
   if (error?.apiCode === 'BLOCKED_NO_KEY') return 'Vercel에 OPENAI_API_KEY가 설정되지 않았습니다.';
+  if (error?.apiCode === 'ai_not_configured') return 'Vercel에 OPENAI_API_KEY가 설정되지 않았습니다.';
+  if (error?.status === 502 && error?.apiCode) return `AI 답변 생성 실패 · ${providerFailureLabel(error.apiCode)}. 같은 질문을 다시 보낼 수 있습니다.`;
   if (error?.status === 404) return location.hostname.endsWith('.github.io')
     ? 'GitHub Pages에는 서버 API가 없습니다. Vercel에 배포된 같은 게임 주소를 열어야 AI 대화를 사용할 수 있습니다.'
     : '이 배포에는 대화 API가 없습니다. Vercel master 최신 배포를 열어 주세요.';
@@ -135,7 +142,7 @@ const tutorialCopy = [
   '해야 할 일을 읽었으면 수첩을 닫으세요. 필요할 때 목적지를 표시할 수 있습니다.',
   '표시된 곳에 가서 실제 문서나 물건을 살펴보세요. 조사와 선택이 기록되어야 다음 단계로 넘어갑니다.',
   '사람 가까이에서 말 걸기를 누르세요. 선택지는 빠른 대답이고, 직접 입력은 원하는 말입니다.',
-  '대화를 마치면 현장으로 돌아와 갱신된 목표를 확인하세요. 이제 길을 따라 계속할 수 있습니다.',
+  '대화를 마치면 목표를 확인하세요. 아래 사건·철학·이념 임무에서 질문을 담고 서로 다른 두 인물에게 같은 쟁점을 물으면, 관점 비교 메모를 얻을 수 있습니다.',
 ];
 function updateTutorial() {
   const card = $('#tutorial-card');
@@ -608,6 +615,42 @@ async function checkApiHealth() {
     stateText.textContent = 'API 확인 실패';
     detail.textContent = code === 'timeout' ? '8초 안에 응답하지 않았습니다. 네트워크 또는 Vercel Function 로그를 확인하세요.' : '네트워크에 연결하지 못했습니다. 배포 주소와 브라우저 연결을 확인하세요.';
     checked.textContent = `마지막 확인 · ${new Date().toLocaleString('ko-KR')}`;
+  } finally {
+    clearTimeout(timer); button.disabled = false; renderApiDiagnostics();
+  }
+}
+async function probeApiGeneration() {
+  const button = $('#api-generation-probe'), result = $('#api-generation-probe-result');
+  button.disabled = true;
+  result.textContent = '실제 AI 답변을 요청하는 중…';
+  const controller = new AbortController(), timer = setTimeout(() => controller.abort(), 26000);
+  try {
+    const headers = { 'content-type': 'application/json' };
+    const startResponse = await fetch('/api/rpg/session/start', { method: 'POST', headers, body: JSON.stringify({ hostId: 'printer_ekaterina', actorHostId: 'clerk_alexei' }), cache: 'no-store', signal: controller.signal });
+    const session = await startResponse.json().catch(() => ({}));
+    if (!startResponse.ok || !session.sessionToken || session.mode !== 'AI') {
+      const code = session.mode === 'BLOCKED_NO_KEY' ? 'BLOCKED_NO_KEY' : session.error || 'session_start_failed';
+      result.textContent = `AI 답변 시험 실패 · ${dialogueApiFailure({ apiCode: code, status: startResponse.status })}`;
+      saveApiError({ endpoint: '/api/rpg/session/start', kind: code === 'BLOCKED_NO_KEY' ? 'provider_not_configured' : 'client_error', status: code === 'BLOCKED_NO_KEY' ? null : startResponse.status, code: code.toLowerCase() });
+      return;
+    }
+    const response = await fetch('/api/rpg/dialogue', { method: 'POST', headers, cache: 'no-store', signal: controller.signal, body: JSON.stringify({
+      sessionToken: session.sessionToken, requestId: crypto.randomUUID(),
+      playerInput: '인쇄된 문장의 책임은 글을 쓴 사람과 활자를 다룬 사람에게 어떻게 나뉜다고 생각하나요?',
+    }) });
+    const data = await response.json().catch(() => ({}));
+    const selection = selectDialogueTurn(data);
+    if (!response.ok || selection.kind !== 'generated') {
+      const code = data.providerErrorCode || response.headers.get('x-v33-provider-result') || data.error || `http_${response.status}`;
+      result.textContent = `AI 답변 시험 실패 · ${providerFailureLabel(code)}`;
+      saveApiError({ endpoint: '/api/rpg/dialogue', kind: 'provider_error', status: response.status, code });
+      return;
+    }
+    result.textContent = `AI 생성 성공 · ${data.turn.beats.map(beat => beat.textKo).join(' ')}`;
+  } catch (error) {
+    const code = error?.name === 'AbortError' ? 'timeout' : 'network_error';
+    result.textContent = `AI 답변 시험 실패 · ${dialogueApiFailure({ apiCode: code })}`;
+    saveApiError({ endpoint: '/api/rpg/dialogue', kind: 'network_error', code });
   } finally {
     clearTimeout(timer); button.disabled = false; renderApiDiagnostics();
   }
@@ -1168,7 +1211,7 @@ function showConversation(card, promptText, replies, statusText = '') {
     $('#actions').append(retry);
   }
   $('.journal').scrollTop = 0;
-  sayRecord(statusText || (hasLiveDialogue(activeDialogueKey) ? '직접 말하거나 준비된 대답을 고르세요.' : '오프라인 · 입력은 기록되지만, 자유 대화 대신 확인된 짧은 대답과 준비된 선택지를 사용합니다.'));
+  sayRecord(statusText || (hasLiveDialogue(activeDialogueKey) ? '직접 말하거나 준비된 대답을 고르세요.' : 'AI 연결이 필요합니다. 설정에서 연결 상태를 확인하세요.'));
 }
 async function startConversation(card) {
   const actorCard = cards.find(item => item.id === state.player.embodiment), partner = nearbyConversationPartner();
@@ -1184,7 +1227,7 @@ async function startConversation(card) {
     sessionStorage.removeItem(dialogueStorageKey(key));
     session = null;
   }
-  const remaining = availableTopics(card.id, heardTopics.get(key));
+  const remaining = availableTopics(card.id);
   dialogueCurrentLines.set(key, contextualOpening(card.id, actorCard.id));
   showConversation(card, dialogueCurrentLines.get(key), remaining, '선택지는 빠른 대답입니다. 직접 입력해도 됩니다.');
   if (!session) {
@@ -1210,7 +1253,7 @@ async function startConversation(card) {
   const queuedQuestion = queuedDiscussionInquiry?.hostId === card.id ? queuedDiscussionInquiry.promptKo : null;
   const starterReplies = [...new Set([queuedQuestion, ...topicalQuestions, ...reflectionQuestions, ...remaining].filter(Boolean))].slice(0, 3);
   showConversation(card, dialogueCurrentLines.get(key), starterReplies,
-    sessionFailure ? `AI 연결 실패 · ${sessionFailure}` : hasLiveDialogue(key) ? 'AI 세션 준비됨 · 질문을 보내면 실제 생성 답변을 확인합니다.' : 'AI 생성 답변을 받지 못했습니다 · 이 설치는 준비된 짧은 대사만 제공합니다. 설정에서 API 주소와 오류 기록을 확인하세요.');
+    sessionFailure ? `AI 연결 실패 · ${sessionFailure}` : hasLiveDialogue(key) ? 'AI 세션 준비됨 · 질문을 보내면 실제 생성 답변을 요청합니다.' : 'AI 답변 대기 · 인물에게 질문을 보내면 서버에서 답변을 생성합니다.');
 }
 async function sendConversation(card, playerText, replyId = null) {
   const key = activeDialogueKey;
@@ -1225,14 +1268,14 @@ async function sendConversation(card, playerText, replyId = null) {
   if (lines.at(-1)?.speaker !== actorCard.displayNameKo || lines.at(-1)?.text !== playerText) lines.push({ speaker: actorCard.displayNameKo, text: playerText });
   dialogueFailedQuestions.set(key, playerText);
   dialogueTranscripts.set(key, lines.slice(-24));
-  let session = dialogueSessions.get(key); let turn = null, fallbackReason = '', allowAuthoredOffline = false;
+  let session = dialogueSessions.get(key); let turn = null, generationFailure = '';
   if (!hasLiveDialogue(key)) {
     const controller = new AbortController(); activeDialogueController = controller;
     const timer = setTimeout(() => controller.abort(), 7000);
     try {
       session = await openDialogueSession(card, actorCard, controller.signal);
       dialogueSessions.set(key, session); sessionStorage.setItem(dialogueStorageKey(key), session.token);
-    } catch (error) { recordApiFailure('/api/rpg/session/start', error); allowAuthoredOffline = shouldUseAuthoredOfflineReply({ apiFailureCode: error?.apiCode }); fallbackReason = `AI 연결 실패 · ${dialogueApiFailure(error)}`; }
+    } catch (error) { recordApiFailure('/api/rpg/session/start', error); generationFailure = `AI 연결 실패 · ${dialogueApiFailure(error)}`; }
     finally { clearTimeout(timer); if (activeDialogueController === controller) activeDialogueController = null; }
     if (activeDialogueHost !== card.id || activeDialogueKey !== key || dialogueGeneration !== generation) return;
   }
@@ -1256,8 +1299,10 @@ async function sendConversation(card, playerText, replyId = null) {
         if (response.status === 429) {
           session.mode = 'BLOCKED_LIMIT'; dialogueSessions.set(key, session); sessionStorage.removeItem(dialogueStorageKey(key));
         }
-        saveApiError({ endpoint: '/api/rpg/dialogue', kind: 'http_error', status: response.status, code: 'dialogue_request_failed' });
-        throw Object.assign(new Error('dialogue_unavailable'), { status: response.status });
+        const failure = await response.json().catch(() => ({}));
+        const code = failure.providerErrorCode || failure.error || 'dialogue_request_failed';
+        saveApiError({ endpoint: '/api/rpg/dialogue', kind: 'http_error', status: response.status, code });
+        throw Object.assign(new Error('dialogue_unavailable'), { status: response.status, apiCode: code });
       }
       const data = await response.json(), candidate = data.turn;
       if (candidate?.sceneId !== aiScenes.sessions[card.id].sceneId || !Array.isArray(candidate.beats) || candidate.beats.length < 1 || candidate.beats.length > 2 || !candidate.beats.every(beat => beat && [card.id, 'NARRATION'].includes(beat.speakerId) && typeof beat.textKo === 'string' && beat.textKo.length <= 420) || !Array.isArray(candidate.suggestedReplies) || candidate.suggestedReplies.length < 2 || candidate.suggestedReplies.length > 3 || !candidate.suggestedReplies.every(reply => reply && typeof reply.textKo === 'string' && reply.textKo.length <= 80)) throw Object.assign(new Error('invalid dialogue response'), { apiCode: 'client_response_invalid' });
@@ -1267,11 +1312,11 @@ async function sendConversation(card, playerText, replyId = null) {
       }
       const selection = selectDialogueTurn(data);
       turn = selection.kind === 'generated' ? selection.turn : null;
-      fallbackReason = selection.kind === 'unavailable' ? `AI 응답 생성 실패 · ${providerFailureLabel(selection.providerErrorCode || response.headers.get('x-v33-provider-result'))}. 생성된 답변이 없어 이번 질문은 기록하지 않았습니다. ‘AI 다시 연결’로 같은 질문을 재시도할 수 있습니다.` : '';
-      if (selection.kind === 'unavailable' && data.mode !== 'BLOCKED_NO_KEY') saveApiError({ endpoint: '/api/rpg/dialogue', kind: 'provider_fallback', status: response.status, code: selection.providerErrorCode || 'provider_response_validation' });
+      generationFailure = selection.kind === 'unavailable' ? `AI 응답 생성 실패 · ${providerFailureLabel(selection.providerErrorCode || response.headers.get('x-v33-provider-result'))}. 생성된 답변이 없어 이번 질문은 기록하지 않았습니다. ‘AI 다시 연결’로 같은 질문을 재시도할 수 있습니다.` : '';
+      if (selection.kind === 'unavailable' && data.mode !== 'BLOCKED_NO_KEY') saveApiError({ endpoint: '/api/rpg/dialogue', kind: 'provider_error', status: response.status, code: selection.providerErrorCode || 'provider_response_validation' });
     } catch (error) {
       recordApiFailure('/api/rpg/dialogue', error);
-      fallbackReason ||= `AI 연결 실패 · ${dialogueApiFailure(error)}`;
+      generationFailure ||= `AI 연결 실패 · ${dialogueApiFailure(error)}`;
     }
     finally {
       clearTimeout(timer);
@@ -1281,19 +1326,14 @@ async function sendConversation(card, playerText, replyId = null) {
     if (activeDialogueHost !== card.id || activeDialogueKey !== key || dialogueGeneration !== generation) return;
   }
   const local = aiScenes.sessions[card.id];
-  if (!turn && fallbackReason && !allowAuthoredOffline) {
+  if (!turn && generationFailure) {
     dialogueCurrentLines.set(key, '이번 질문에 대한 생성 답변을 받지 못했습니다. 연결을 확인한 뒤 같은 질문을 다시 보낼 수 있습니다.');
-    showConversation(card, dialogueCurrentLines.get(key), [], fallbackReason);
+    showConversation(card, dialogueCurrentLines.get(key), [], generationFailure);
     $('.journal').scrollTop = $('.journal').scrollHeight;
     return;
   }
   const aiGenerated = Boolean(turn);
-  if (!turn) {
-    const reply = authoredReply(card.id, playerText, heardTopics.get(key));
-    heardTopics.set(key, reply.heard);
-    turn = { beats: [{ speakerId: reply.speakerId, textKo: reply.text, emotion: 'neutral' }], suggestedReplies: reply.replies.map(textKo => ({ textKo })) };
-    if (reply.complete && reply.text !== conversations[card.id].closing) turn.beats.push({ speakerId: card.id, textKo: conversations[card.id].closing });
-  }
+  if (!turn) return;
   dialogueFailedQuestions.delete(key);
   for (const beat of turn.beats) lines.push({ speaker: beat.speakerId === 'NARRATION' ? card.displayNameKo : card.displayNameKo, text: beat.textKo });
   dialogueTranscripts.set(key, lines.slice(-24));
@@ -1305,7 +1345,7 @@ async function sendConversation(card, playerText, replyId = null) {
   const reward = recorded.ok ? recorded.state.ledger.at(-1)?.dialogueReward : null;
   const rewardStatus = reward === 'COMPARISON_NOTE' ? ' · 관점 대조 메모 획득 · 다른 인물에게 후속 질문 가능' : reward === 'PERSPECTIVE_NOTE' ? ' · 관점 메모와 통찰 +1' : '';
   const recordFailure = recorded.ok ? '' : `대화 기록 실패 · ${recorded.reason}`;
-  const conversationStatus = [fallbackReason, recordFailure].filter(Boolean).join(' · ') || (aiGenerated ? `AI 답변 · 인물의 처지와 견해가 반영되었습니다.${rewardStatus}` : `오프라인 대사 · AI 답변은 생성되지 않았습니다.${rewardStatus}`);
+  const conversationStatus = [generationFailure, recordFailure].filter(Boolean).join(' · ') || `AI 답변 · 인물의 처지와 견해가 반영되었습니다.${rewardStatus}`;
   showConversation(card, dialogueCurrentLines.get(key), replies.map(reply => reply.textKo), conversationStatus);
   $('.journal').scrollTop = $('.journal').scrollHeight;
 }
@@ -1378,6 +1418,7 @@ else if (state.learning.phase === 'complete') showEndingChoices();
 $('#settings-open').addEventListener('click', () => { renderApiDiagnostics(); $('#api-settings').showModal(); checkApiHealth(); });
 $('#api-settings-close').addEventListener('click', () => $('#api-settings').close());
 $('#api-health-refresh').addEventListener('click', checkApiHealth);
+$('#api-generation-probe').addEventListener('click', probeApiGeneration);
 $('#api-settings').addEventListener('click', event => { if (event.target === $('#api-settings')) $('#api-settings').close(); });
 $('#api-diagnostics-clear').addEventListener('click', () => { clearApiDiagnostics(localStorage); renderApiDiagnostics(); });
 $('#api-diagnostics-copy').addEventListener('click', async () => {

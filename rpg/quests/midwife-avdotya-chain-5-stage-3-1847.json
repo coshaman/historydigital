@@ -1,0 +1,96 @@
+{
+  "id": "AVDOTYA_CARE_COSTS_1847_STAGE_3",
+  "titleKo": "돌봄의 비용과 차례",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "오늘 방문을 마쳤다. 다음에 누가 언제 도움을 받고 미납 비용을 어떻게 다룰지 정한다.",
+  "historicalOutcome": {
+    "id": "AVDOTYA_CARE_COSTS_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "courtyard",
+    "objectId": 1142,
+    "requiredHostId": "midwife_avdotya"
+  },
+  "actions": [
+    {
+      "id": "AVDOTYA_CARE_COSTS_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "midwife_avdotya"
+      ],
+      "labelKo": "다음 방문 시간과 남은 비용을 각각 적는다",
+      "subcopyKo": "당사자와 아브도티야가 압니다 · 개인 방문표에 날짜와 미납액이 남습니다 · 기록을 지킬 시간이 더 듭니다",
+      "resultKo": "다음 방문과 남은 비용을 따로 적었다. 다시 확인하기 쉽지만 기록을 안전하게 보관해야 한다.",
+      "resultFlag": "nextVisit",
+      "followupTitleKo": "다음 방문과 미납 기록",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "다음 방문과 남은 비용을 따로 적었다. 다시 확인하기 쉽지만 기록을 안전하게 보관해야 한다.",
+        "relations": {
+          "landlady_polina": "오늘 함께 확인한 일: 다음 방문과 미납 기록"
+        },
+        "lifeChainDelta": {
+          "careAccess": 2
+        }
+      }
+    },
+    {
+      "id": "AVDOTYA_CARE_COSTS_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "midwife_avdotya"
+      ],
+      "labelKo": "공동 물품을 마련하고 사용량만 공개한다",
+      "subcopyKo": "두 집과 안뜰 관리인이 압니다 · 공동 물품 장부에 수량이 남습니다 · 필요한 물품이 제때 없을 수 있습니다",
+      "resultKo": "함께 쓰는 물품을 마련하기로 했다. 부담을 나눌 수 있지만 재고가 모자라면 기다려야 한다.",
+      "resultFlag": "sharedSupplies",
+      "followupTitleKo": "다음 방문과 미납 기록",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "함께 쓰는 물품을 마련하기로 했다. 부담을 나눌 수 있지만 재고가 모자라면 기다려야 한다.",
+        "relations": {
+          "landlady_polina": "오늘 함께 확인한 일: 다음 방문과 미납 기록"
+        },
+        "lifeChainDelta": {
+          "careAccess": 1
+        }
+      }
+    },
+    {
+      "id": "AVDOTYA_CARE_COSTS_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "midwife_avdotya"
+      ],
+      "labelKo": "미납은 다음 방문까지 미루고 우선 도움을 이어간다",
+      "subcopyKo": "당사자와 아브도티야가 압니다 · 비공개 미납 메모에 기한이 남습니다 · 조산원이 비용을 먼저 감당합니다",
+      "resultKo": "미납은 다음 방문 때 다시 확인하기로 했다. 도움은 이어지지만 당장은 조산원이 비용을 부담한다.",
+      "resultFlag": "deferFee",
+      "followupTitleKo": "다음 방문과 미납 기록",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "미납은 다음 방문 때 다시 확인하기로 했다. 도움은 이어지지만 당장은 조산원이 비용을 부담한다.",
+        "relations": {
+          "landlady_polina": "오늘 함께 확인한 일: 다음 방문과 미납 기록"
+        },
+        "lifeChainDelta": {
+          "careAccess": 0
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "AVDOTYA_CARE_COSTS_1847",
+    "titleKo": "돌봄의 비용과 차례",
+    "stage": 3,
+    "stageCount": 3,
+    "metricsKo": {
+      "careAccess": "이 문제를 처리하며 남긴 결과"
+    },
+    "previousQuestId": "AVDOTYA_CARE_COSTS_1847_STAGE_2"
+  },
+  "prerequisiteQuestIds": [
+    "AVDOTYA_CARE_COSTS_1847_STAGE_2"
+  ]
+}

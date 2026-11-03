@@ -17,13 +17,13 @@ function invoke(path, body, method = 'POST', { origin = 'https://game.example', 
   return handled.then(() => ({ status: res.statusCode, headers: res.headers, body: res.output ? JSON.parse(res.output) : {} }));
 }
 
-test('Vercel route signs state into the session token so a fresh function invocation can continue', async () => {
+test('Vercel route blocks dialogue without a key and never returns an authored offline answer', async () => {
   const started = await invoke('/api/rpg/session/start', { hostId: 'printer_ekaterina', actorHostId: 'seamstress_anna' });
   assert.equal(started.status, 201);
   const turned = await invoke('/api/rpg/dialogue', { sessionToken: started.body.sessionToken, requestId: 'vercel-turn-0001', playerInput: '문장에 어떤 문제가 있었나요?', actorRelations: {}, actorActions: [] });
-  assert.equal(turned.status, 200);
-  assert.equal(turned.body.fallback, true, 'without a key the authored offline dialogue remains available');
-  assert.ok(turned.body.sessionToken);
+  assert.equal(turned.status, 503);
+  assert.equal(turned.body.error, 'ai_not_configured');
+  assert.equal('turn' in turned.body, false);
   assert.notEqual(turned.body.sessionToken, started.body.sessionToken);
   assert.equal((await invoke('/api/rpg/dialogue', { sessionToken: `${started.body.sessionToken}x`, requestId: 'vercel-turn-0002', playerInput: '이전 선택지를 다시 물어요.' })).status, 401);
 });
@@ -50,6 +50,7 @@ test('explicit Vercel function routes dispatch health, session start, and dialog
   const started = await invoke('/api/rpg/session/start', { hostId: 'printer_ekaterina', actorHostId: 'seamstress_anna' }, 'POST', { routeOverride: '/api/rpg/session/start' });
   assert.equal(started.status, 201);
   const turned = await invoke('/api/rpg/dialogue', { sessionToken: started.body.sessionToken, requestId: 'explicit-route-0001', playerInput: '원칙과 생활이 다르면 무엇을 먼저 살펴봐야 하나요?', actorRelations: {}, actorActions: [] }, 'POST', { routeOverride: '/api/rpg/dialogue' });
-  assert.equal(turned.status, 200);
-  assert.equal(turned.body.fallback, true);
+  assert.equal(turned.status, 503);
+  assert.equal(turned.body.error, 'ai_not_configured');
+  assert.equal('turn' in turned.body, false);
 });

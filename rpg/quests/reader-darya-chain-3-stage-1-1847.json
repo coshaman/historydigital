@@ -1,0 +1,95 @@
+{
+  "id": "DARYA_READING_CIRCLE_1847_STAGE_1",
+  "titleKo": "읽을 권리와 책값",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "몇 사람이 같은 책을 원하지만 책은 한 권뿐이다. 다리야는 읽을 기회를 넓히면서 책을 지킬 방법을 찾아야 한다.",
+  "historicalOutcome": {
+    "id": "DARYA_READING_CIRCLE_1847_STAGE_1_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "nevsky",
+    "objectId": 1120,
+    "requiredHostId": "reader_darya"
+  },
+  "actions": [
+    {
+      "id": "DARYA_READING_CIRCLE_1847_STAGE_1_CHOICE_1",
+      "hostIds": [
+        "reader_darya"
+      ],
+      "labelKo": "돌려 읽을 순서와 기한을 정한다",
+      "subcopyKo": "읽는 사람과 다리야가 압니다 · 대여 쪽지에 순서와 날짜가 남습니다 · 차례가 늦은 사람은 기다려야 합니다",
+      "resultKo": "읽을 순서와 날짜를 적었다. 모두가 바로 읽지는 못하지만 누가 다음인지 보이게 했다.",
+      "resultFlag": "readingQueue",
+      "followupTitleKo": "빌려줄 책과 읽는 순서",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "읽을 순서와 날짜를 적었다. 모두가 바로 읽지는 못하지만 누가 다음인지 보이게 했다.",
+        "relations": {
+          "bookseller_lev": "오늘 함께 확인한 일: 빌려줄 책과 읽는 순서"
+        },
+        "lifeChainDelta": {
+          "sharedReading": 2
+        }
+      }
+    },
+    {
+      "id": "DARYA_READING_CIRCLE_1847_STAGE_1_CHOICE_2",
+      "hostIds": [
+        "reader_darya"
+      ],
+      "labelKo": "책의 일부를 읽어 서로 베껴 나눈다",
+      "subcopyKo": "모임 참석자가 압니다 · 필사 쪽지에 나눈 부분이 남습니다 · 옮기는 동안 문장이 달라질 수 있습니다",
+      "resultKo": "필요한 대목을 나눠 베끼기로 했다. 책은 돌려줄 수 있어도 베껴 쓴 문장은 다시 대조해야 한다.",
+      "resultFlag": "sharedCopy",
+      "followupTitleKo": "빌려줄 책과 읽는 순서",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "필요한 대목을 나눠 베끼기로 했다. 책은 돌려줄 수 있어도 베껴 쓴 문장은 다시 대조해야 한다.",
+        "relations": {
+          "bookseller_lev": "오늘 함께 확인한 일: 빌려줄 책과 읽는 순서"
+        },
+        "lifeChainDelta": {
+          "sharedReading": 1
+        }
+      }
+    },
+    {
+      "id": "DARYA_READING_CIRCLE_1847_STAGE_1_CHOICE_3",
+      "hostIds": [
+        "reader_darya"
+      ],
+      "labelKo": "대여 보증금을 받고 책을 내준다",
+      "subcopyKo": "다리야와 빌리는 사람이 압니다 · 대여 장부에 보증금이 남습니다 · 돈이 없는 독자는 읽기 어렵습니다",
+      "resultKo": "보증금을 받고 책을 내줬다. 책이 돌아올 가능성은 커졌지만 형편이 어려운 사람은 빠질 수 있다.",
+      "resultFlag": "deposit",
+      "followupTitleKo": "빌려줄 책과 읽는 순서",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "보증금을 받고 책을 내줬다. 책이 돌아올 가능성은 커졌지만 형편이 어려운 사람은 빠질 수 있다.",
+        "relations": {
+          "bookseller_lev": "오늘 함께 확인한 일: 빌려줄 책과 읽는 순서"
+        },
+        "lifeChainDelta": {
+          "sharedReading": 0
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "DARYA_READING_CIRCLE_1847",
+    "titleKo": "읽을 권리와 책값",
+    "stage": 1,
+    "stageCount": 3,
+    "metricsKo": {
+      "sharedReading": "이 문제를 처리하며 남긴 결과"
+    }
+  },
+  "prerequisiteQuestIds": [
+    "READER_SOURCE_AND_RUMOR_1847"
+  ]
+}

@@ -14,8 +14,8 @@ const mapFiles = (await readdir(path.join(root, 'rpg/maps'))).filter(name => nam
 const maps = Object.fromEntries(await Promise.all(mapFiles.map(async name => [name.slice(0, -5), await readJson(`rpg/maps/${name}`)])));
 const hostIds = ['clerk_alexei','printer_ekaterina','courier_pavel','seamstress_anna','tenant_mikhail','bookseller_lev','senior_clerk_konstantin','reader_darya','editor_sofia','police_sergeant_ivan','yardkeeper_semyon','laundress_mariya','baker_fyodor','market_nadezhda','porter_gavrila','coachman_timofey','housemaid_olga','midwife_avdotya','apothecary_yakov','print_apprentice_stepan','bookbinder_elizaveta','scribal_yuri','innkeeper_irina','student_vasily','teacher_lyubov','minor_noble_andrei','landlady_polina','watercarrier_luka','fishseller_klavdiya','warehouse_pyotr','servant_varvara','junior_guard_sergey','carter_roman','street_vendor_matryona','typesetter_nikita','lodging_tatyana','nekrasov_reconstruction','literary_chichikov','literary_akaky','literary_petrovich'];
 const hostCards = await Promise.all(hostIds.map(id => readJson(`rpg/characters/${id}.json`)));
-const questIds = ['printshop-article','public-discourse-1848','circle-investigation-1849','circle-letter-1849-may','yard-ledger-1847','laundry-wages-1847','bakery-flour-1847','market-prices-1847','porter-load-1847','coach-fare-1847','household-privacy-1847','midwife-care-cost-1847','apothecary-limits-1847','apprentice-authorship-1847','bookbinder-damage-1847','scribal-copy-1847','inn-debt-rumor-1847','student-circle-risk-1847','teacher-access-cost-1847','noble-status-debt-1847','landlady-rent-commons-1847','water-access-queue-1847','fish-storage-time-1847','warehouse-loss-record-1847','servant-private-warning-1847','guard-entry-bribe-1847','carter-delivery-delay-1847','street-vendor-weather-1847','typesetter-speed-censorship-1847','lodging-reading-income-1847','editor-publication-record-1847','police-testimony-record-1849','reader-source-and-rumor-1847','senior-clerk-review-and-signature-1847','tenant-rent-and-firewood-1847','clerk-alexei-life-1-1847','clerk-alexei-life-2-1847','clerk-alexei-life-3-1847','courier-pavel-life-1-1847','courier-pavel-life-2-1847','courier-pavel-life-3-1847','seamstress-anna-life-1-1847','seamstress-anna-life-2-1847','seamstress-anna-life-3-1847','bookseller-lev-life-1-1847','bookseller-lev-life-2-1847','bookseller-lev-life-3-1847','literary-dead-souls','literary-overcoat'];
-const quests = await Promise.all(questIds.map(id => readJson(`rpg/quests/${id}.json`)));
+const quests = (await Promise.all((await readdir(path.join(root, 'rpg/quests'))).filter(file => file.endsWith('.json')).map(file => readJson(`rpg/quests/${file}`))))
+  .filter(quest => Array.isArray(quest.actions) && quest.historicalOutcome?.id);
 const probe = createServer();
 await new Promise((resolve, reject) => { probe.once('error', reject); probe.listen(0, '127.0.0.1', resolve); });
 const port = probe.address().port;
@@ -73,6 +73,19 @@ try {
   const page = await context.newPage();
   const errors = [];
   page.on('pageerror', error => errors.push(String(error)));
+  await page.route('**/api/rpg/session/start', async route => {
+    const request = route.request().postDataJSON();
+    await route.fulfill({ status: 201, contentType: 'application/json', body: JSON.stringify({ mode: 'AI', sessionToken: `mock-session:${request.hostId}` }) });
+  });
+  await page.route('**/api/rpg/dialogue', async route => {
+    const request = route.request().postDataJSON();
+    const hostId = request.sessionToken.split(':').at(-1);
+    const sceneId = ({ clerk_alexei: 'V33_TALK_CLERK_ALEXEI', printer_ekaterina: 'V33_TALK_PRINTER_EKATERINA' })[hostId];
+    await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
+      mode: 'AI', fallback: false, sessionToken: request.sessionToken,
+      turn: { schemaVersion: 'V33_RPG_DIALOGUE_V2', sceneId, beats: [{ speakerId: hostId, textKo: hostId === 'clerk_alexei' ? '확인한 내용과 전해 들은 말은 장부에서 나눠 적어야 합니다.' : '그 줄을 찍은 손과 문장을 정한 사람은 같지 않아요.' , emotion: 'focused', claimIds: [] }], suggestedReplies: [{ id: 'R1', textKo: '그 차이를 기록에 어떻게 남기면 좋을까요?', tone: 'curious' }, { id: 'R2', textKo: '직접 확인할 수 있는 자료부터 찾아볼게요.', tone: 'direct' }] },
+    }) });
+  });
   await page.goto(url, { waitUntil: 'networkidle' });
   await page.evaluate(value => { localStorage.clear(); localStorage.setItem('v33-rpg-save', value); localStorage.setItem('v34-tutorial-stage', 'done'); }, saveGame(playState));
   await page.reload({ waitUntil: 'networkidle' });
@@ -93,13 +106,13 @@ try {
   await page.waitForTimeout(1200);
   await page.locator('#save').click();
   await page.waitForTimeout(100);
-  const offlineResult = await page.evaluate(() => {
+  const firstResult = await page.evaluate(() => {
     const state = JSON.parse(localStorage.getItem('v33-rpg-save')).state;
     const event = [...state.ledger].reverse().find(item => item.discussionId === 'INQUIRY_CENSORSHIP_AND_LABOR');
     return { aiGenerated: event?.aiGenerated === true, discussionId: event?.discussionId, perspectiveHostIds: state.ledger.filter(item => item.discussionId === event?.discussionId).map(item => item.hostId), lastLedgerEvent: state.ledger.at(-1), perspectiveCount: state.player.dialogueGrowth.perspectiveNotes.filter(note => note.discussionId === event?.discussionId).length, aiReplyCount: state.player.dialogueGrowth.aiReplies, boardRows: [...document.querySelectorAll('#discussion-quest-items li')].map(item => item.textContent), boardGuidance: document.querySelector('#discussion-quest-guidance')?.textContent, recordText: document.querySelector('#record')?.textContent, answerText: document.querySelector('#journal-text')?.textContent, dialogueHistory: document.querySelector('#dialogue-history-lines')?.textContent, remainingButtons: [...document.querySelectorAll('#actions button')].map(button => button.textContent) };
   });
-    if (offlineResult.aiGenerated || offlineResult.discussionId !== 'INQUIRY_CENSORSHIP_AND_LABOR' || offlineResult.perspectiveCount !== 1 || offlineResult.aiReplyCount !== 0 || !offlineResult.boardRows.some(row => /1\/2 관점/.test(row)) || !/첫 관점 기록됨.*알렉세이 오를로프에게 같은 쟁점 묻기/.test(offlineResult.boardGuidance) || errors.length) {
-    throw new Error(`offline_question_did_not_progress_honestly:${JSON.stringify({ offlineResult, conversationProbe, errors })}`);
+  if (firstResult.aiGenerated !== true || firstResult.discussionId !== 'INQUIRY_CENSORSHIP_AND_LABOR' || firstResult.perspectiveCount !== 1 || firstResult.aiReplyCount !== 1 || !firstResult.boardRows.some(row => /1\/2 관점/.test(row)) || !/첫 관점 기록됨.*알렉세이 오를로프에게 같은 쟁점 묻기/.test(firstResult.boardGuidance) || !firstResult.answerText.includes('그 줄을 찍은 손') || errors.length) {
+    throw new Error(`ai_opinion_turn_did_not_progress:${JSON.stringify({ firstResult, conversationProbe, errors })}`);
   }
   await page.getByRole('button', { name: '대화 마치기' }).click();
   await page.locator('#release').click();
@@ -119,12 +132,12 @@ try {
     const note = state.player.dialogueGrowth.comparisonNotes.find(item => item.discussionId === 'INQUIRY_CENSORSHIP_AND_LABOR');
     return { hostIds: [...new Set(turns.map(turn => turn.hostId))].sort(), aiGeneratedTurns: turns.filter(turn => turn.aiGenerated).length, aiReplies: state.player.dialogueGrowth.aiReplies, comparisonNoteHostIds: note?.hostIds?.sort(), boardProgress: document.querySelector('#discussion-quest-progress')?.textContent };
   });
-  if (completedPair.hostIds.join(',') !== 'clerk_alexei,printer_ekaterina' || completedPair.aiGeneratedTurns !== 0 || completedPair.aiReplies !== 0 || completedPair.comparisonNoteHostIds?.join(',') !== 'clerk_alexei,printer_ekaterina' || !completedPair.boardProgress?.includes('1 / 16 완료') || errors.length) {
+  if (completedPair.hostIds.join(',') !== 'clerk_alexei,printer_ekaterina' || completedPair.aiGeneratedTurns !== 2 || completedPair.aiReplies !== 2 || completedPair.comparisonNoteHostIds?.join(',') !== 'clerk_alexei,printer_ekaterina' || !completedPair.boardProgress?.includes('1 / 16 완료') || errors.length) {
     throw new Error(`two_person_offline_inquiry_did_not_complete:${JSON.stringify({ completedPair, errors })}`);
   }
-  checks.push({ offlineAuthoredAnswer: offlineResult, completedTwoPerspectiveInquiry: completedPair, pageErrors: errors });
+  checks.push({ aiGeneratedFirstPerspective: firstResult, completedTwoPerspectiveInquiry: completedPair, pageErrors: errors });
   await context.close();
-  console.log(JSON.stringify({ status: 'PASS', possessionNotRequiredToSeeOpinionGoals: true, offlineTwoPerspectiveInquiryCompletesWithoutPretendingAi: true, progressPersistsAfterSave: true, checks }, null, 2));
+  console.log(JSON.stringify({ status: 'PASS', possessionNotRequiredToSeeOpinionGoals: true, twoAiGeneratedPerspectivesCreateComparisonNote: true, progressPersistsAfterSave: true, checks }, null, 2));
 } finally {
   await browser.close();
   server.kill();

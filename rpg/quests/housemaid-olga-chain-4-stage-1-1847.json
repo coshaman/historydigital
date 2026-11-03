@@ -1,0 +1,95 @@
+{
+  "id": "OLGA_WARNING_AND_RUMOR_1847_STAGE_1",
+  "titleKo": "들어 들은 말과 확인할 일",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "안뜰에서 누군가 방을 비우라는 말을 들었다고 한다. 올가는 자신이 직접 들은 것과 전해 들은 것을 나눠야 한다.",
+  "historicalOutcome": {
+    "id": "OLGA_WARNING_AND_RUMOR_1847_STAGE_1_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "courtyard",
+    "objectId": 1130,
+    "requiredHostId": "housemaid_olga"
+  },
+  "actions": [
+    {
+      "id": "OLGA_WARNING_AND_RUMOR_1847_STAGE_1_CHOICE_1",
+      "hostIds": [
+        "housemaid_olga"
+      ],
+      "labelKo": "직접 들은 사람에게 말 그대로 확인한다",
+      "subcopyKo": "올가와 당사자가 압니다 · 비공개 확인 쪽지에 들은 문구만 남습니다 · 확인 전까지 대응이 늦어질 수 있습니다",
+      "resultKo": "직접 들은 사람에게 표현을 확인하기로 했다. 뜻을 부풀리지 않지만 기다리는 동안 불안은 남는다.",
+      "resultFlag": "quoteCheck",
+      "followupTitleKo": "집안 경고 쪽지",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "직접 들은 사람에게 표현을 확인하기로 했다. 뜻을 부풀리지 않지만 기다리는 동안 불안은 남는다.",
+        "relations": {
+          "servant_varvara": "오늘 함께 확인한 일: 집안 경고 쪽지"
+        },
+        "lifeChainDelta": {
+          "verifiedWarnings": 2
+        }
+      }
+    },
+    {
+      "id": "OLGA_WARNING_AND_RUMOR_1847_STAGE_1_CHOICE_2",
+      "hostIds": [
+        "housemaid_olga"
+      ],
+      "labelKo": "집주인에게 지시가 있었는지 묻는다",
+      "subcopyKo": "올가와 집주인이 압니다 · 개인 확인 메모에 답변이 남습니다 · 질문한 사람이 의심받을 수 있습니다",
+      "resultKo": "집주인에게 방을 비우라는 지시가 있었는지 물었다. 모호한 말을 확인하는 대신 눈에 띄는 위험을 감수한다.",
+      "resultFlag": "landladyAsk",
+      "followupTitleKo": "집안 경고 쪽지",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "집주인에게 방을 비우라는 지시가 있었는지 물었다. 모호한 말을 확인하는 대신 눈에 띄는 위험을 감수한다.",
+        "relations": {
+          "servant_varvara": "오늘 함께 확인한 일: 집안 경고 쪽지"
+        },
+        "lifeChainDelta": {
+          "verifiedWarnings": 1
+        }
+      }
+    },
+    {
+      "id": "OLGA_WARNING_AND_RUMOR_1847_STAGE_1_CHOICE_3",
+      "hostIds": [
+        "housemaid_olga"
+      ],
+      "labelKo": "안뜰 사람들에게 소문을 먼저 알린다",
+      "subcopyKo": "안뜰 주민들이 압니다 · 구두 전달이라 기록은 없습니다 · 잘못 전해지면 누군가를 곤란하게 할 수 있습니다",
+      "resultKo": "안뜰에 말을 전했다. 사람들이 대비할 수 있지만 소문이 더 커질 수도 있다.",
+      "resultFlag": "spreadWarning",
+      "followupTitleKo": "집안 경고 쪽지",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "안뜰에 말을 전했다. 사람들이 대비할 수 있지만 소문이 더 커질 수도 있다.",
+        "relations": {
+          "servant_varvara": "오늘 함께 확인한 일: 집안 경고 쪽지"
+        },
+        "lifeChainDelta": {
+          "verifiedWarnings": 0
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "OLGA_WARNING_AND_RUMOR_1847",
+    "titleKo": "들어 들은 말과 확인할 일",
+    "stage": 1,
+    "stageCount": 3,
+    "metricsKo": {
+      "verifiedWarnings": "이 문제를 처리하며 남긴 결과"
+    }
+  },
+  "prerequisiteQuestIds": [
+    "HOUSEHOLD_PRIVACY_1847"
+  ]
+}

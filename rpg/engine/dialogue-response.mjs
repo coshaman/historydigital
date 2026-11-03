@@ -10,7 +10,9 @@ export function dialogueSessionNeedsReconnect(session) {
 }
 
 export function shouldUseAuthoredOfflineReply({ apiFailureCode = '', sessionWasLive = false } = {}) {
-  // Authored fallback is for an explicitly unconfigured installation. Once an
-  // AI session exists, network/provider failures must not masquerade as replies.
-  return apiFailureCode === 'BLOCKED_NO_KEY' && !sessionWasLive;
+  // The game must never present authored text as an answer to a player question.
+  // Missing credentials and provider failures are shown as actionable errors.
+  void apiFailureCode;
+  void sessionWasLive;
+  return false;
 }

@@ -27,8 +27,9 @@
   </dialog>
   <dialog id="api-settings" class="api-settings" aria-labelledby="api-settings-title">
     <header><div><span class="journal-kicker">서비스 점검</span><h2 id="api-settings-title">API 상태와 오류 기록</h2></div><button id="api-settings-close" type="button">닫기 <kbd>Esc</kbd></button></header>
-    <section class="api-health-card" aria-live="polite"><strong id="api-health-state">아직 확인하지 않았습니다</strong><p id="api-health-detail">상태 확인은 모델 대화를 생성하거나 API 사용량을 소비하지 않습니다.</p><p id="api-health-checked"></p></section>
-    <div class="api-settings-actions"><button id="api-health-refresh" type="button">상태 다시 확인</button><button id="api-diagnostics-copy" type="button">오류 기록 복사</button><button id="api-diagnostics-clear" type="button">오류 기록 지우기</button></div>
+    <section class="api-health-card" aria-live="polite"><strong id="api-health-state">아직 확인하지 않았습니다</strong><p id="api-health-detail">상태 확인은 키 설정만 봅니다. 실제 생성 여부는 별도 시험이 필요합니다.</p><p id="api-health-checked"></p></section>
+    <div class="api-settings-actions"><button id="api-health-refresh" type="button">키 설정 확인</button><button id="api-generation-probe" type="button">실제 AI 답변 시험</button><button id="api-diagnostics-copy" type="button">오류 기록 복사</button><button id="api-diagnostics-clear" type="button">오류 기록 지우기</button></div>
+    <p id="api-generation-probe-result" class="api-generation-probe-result" aria-live="polite">답변 시험은 모델에 짧은 질문을 1회 보내며 API 사용량이 발생합니다.</p>
     <section><h3>이 브라우저의 최근 API 오류</h3><p class="api-log-note">대화 내용, API 키, 세션 토큰은 저장하지 않습니다. Vercel 서버 내부 로그는 아래 Vercel 대시보드에서 확인하세요.</p><ol id="api-diagnostics-list"></ol></section>
     <p class="api-vercel-note">health가 <code>configured</code>여도 모델 응답이 생성·검증됐다는 뜻은 아닙니다. 실제 대화 오류는 이 브라우저 기록과 Vercel Function 로그를 함께 확인하세요.</p>
     <a class="api-vercel-link" href="https://vercel.com/dashboard" target="_blank" rel="noopener noreferrer">Vercel 대시보드 · Function 로그 열기</a>

@@ -1,0 +1,95 @@
+{
+  "id": "IVAN_WITNESS_ACCOUNT_1849_STAGE_1",
+  "titleKo": "목격과 전언 사이",
+  "chapterId": "V33_1849_CIRCLE",
+  "date": "1849-04-22",
+  "premiseKo": "접수된 말에는 직접 본 내용과 다른 사람에게 들은 내용이 섞여 있다. 이반은 이름을 적기 전에 출처부터 나눠야 한다.",
+  "historicalOutcome": {
+    "id": "IVAN_WITNESS_ACCOUNT_1849_STAGE_1_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "police-station",
+    "objectId": 1110,
+    "requiredHostId": "police_sergeant_ivan"
+  },
+  "actions": [
+    {
+      "id": "IVAN_WITNESS_ACCOUNT_1849_STAGE_1_CHOICE_1",
+      "hostIds": [
+        "police_sergeant_ivan"
+      ],
+      "labelKo": "직접 본 사람의 말만 별도 기록한다",
+      "subcopyKo": "진술자와 접수 담당자가 압니다 · 진술서에 직접 목격 범위가 남습니다 · 다른 전언은 확인이 늦어집니다",
+      "resultKo": "직접 본 내용만 먼저 적었다. 전해 들은 말을 목격으로 바꾸진 않았다.",
+      "resultFlag": "directOnly",
+      "followupTitleKo": "진술의 출처 구분표",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "직접 본 내용만 먼저 적었다. 전해 들은 말을 목격으로 바꾸진 않았다.",
+        "relations": {
+          "junior_guard_sergey": "오늘 함께 확인한 일: 진술의 출처 구분표"
+        },
+        "lifeChainDelta": {
+          "verifiedAccounts": 2
+        }
+      }
+    },
+    {
+      "id": "IVAN_WITNESS_ACCOUNT_1849_STAGE_1_CHOICE_2",
+      "hostIds": [
+        "police_sergeant_ivan"
+      ],
+      "labelKo": "전해 들은 말은 이름 없이 첨부한다",
+      "subcopyKo": "접수 담당자와 검토자가 압니다 · 익명 참고 메모에 남습니다 · 확인할 사람이 부족할 수 있습니다",
+      "resultKo": "전언은 이름을 빼고 참고 메모에 붙였다. 단서는 남지만 사실로 확정하진 않았다.",
+      "resultFlag": "anonymousRumor",
+      "followupTitleKo": "진술의 출처 구분표",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "전언은 이름을 빼고 참고 메모에 붙였다. 단서는 남지만 사실로 확정하진 않았다.",
+        "relations": {
+          "junior_guard_sergey": "오늘 함께 확인한 일: 진술의 출처 구분표"
+        },
+        "lifeChainDelta": {
+          "verifiedAccounts": 1
+        }
+      }
+    },
+    {
+      "id": "IVAN_WITNESS_ACCOUNT_1849_STAGE_1_CHOICE_3",
+      "hostIds": [
+        "police_sergeant_ivan"
+      ],
+      "labelKo": "두 내용을 한 진술서에 함께 적는다",
+      "subcopyKo": "접수실과 상급자가 봅니다 · 단일 진술서에 직접 목격과 전언이 함께 남습니다 · 출처가 뒤섞여 책임이 흐려질 수 있습니다",
+      "resultKo": "두 종류의 말을 한 서류에 적되 출처를 표시하기로 했다. 읽는 사람이 구분하지 못하면 다시 확인해야 한다.",
+      "resultFlag": "combinedStatement",
+      "followupTitleKo": "진술의 출처 구분표",
+      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
+      "effects": {
+        "situationKo": "두 종류의 말을 한 서류에 적되 출처를 표시하기로 했다. 읽는 사람이 구분하지 못하면 다시 확인해야 한다.",
+        "relations": {
+          "junior_guard_sergey": "오늘 함께 확인한 일: 진술의 출처 구분표"
+        },
+        "lifeChainDelta": {
+          "verifiedAccounts": 0
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "IVAN_WITNESS_ACCOUNT_1849",
+    "titleKo": "목격과 전언 사이",
+    "stage": 1,
+    "stageCount": 3,
+    "metricsKo": {
+      "verifiedAccounts": "이 문제를 처리하며 남긴 결과"
+    }
+  },
+  "prerequisiteQuestIds": [
+    "POLICE_TESTIMONY_RECORD_1849"
+  ]
+}

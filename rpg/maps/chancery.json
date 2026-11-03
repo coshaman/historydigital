@@ -2189,6 +2189,57 @@
               "value": "ALEXEI_ENVELOPE_REGISTER_1847_STAGE_3"
             }
           ]
+        },
+        {
+          "id": 1150,
+          "name": "방문자 출입 메모",
+          "type": "quest-object",
+          "x": 80,
+          "y": 176,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "SERGEY_ENTRY_AND_FAVOR_1847_STAGE_1"
+            }
+          ]
+        },
+        {
+          "id": 1151,
+          "name": "교대 시간과 열쇠 인계",
+          "type": "quest-object",
+          "x": 80,
+          "y": 144,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "SERGEY_ENTRY_AND_FAVOR_1847_STAGE_2"
+            }
+          ]
+        },
+        {
+          "id": 1152,
+          "name": "출입 결정과 책임 기록",
+          "type": "quest-object",
+          "x": 64,
+          "y": 160,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "SERGEY_ENTRY_AND_FAVOR_1847_STAGE_3"
+            }
+          ]
         }
       ]
     },

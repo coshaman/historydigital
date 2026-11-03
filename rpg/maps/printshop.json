@@ -2229,6 +2229,57 @@
               "value": "LEV_BOOK_RESERVATION_1847_STAGE_2"
             }
           ]
+        },
+        {
+          "id": 1100,
+          "name": "반송된 신문 묶음 메모",
+          "type": "quest-object",
+          "x": 224,
+          "y": 160,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "SOFIA_MISSING_RECEIPTS_1847_STAGE_1"
+            }
+          ]
+        },
+        {
+          "id": 1101,
+          "name": "독자에게 보낼 정정 안내",
+          "type": "quest-object",
+          "x": 240,
+          "y": 176,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "SOFIA_MISSING_RECEIPTS_1847_STAGE_2"
+            }
+          ]
+        },
+        {
+          "id": 1102,
+          "name": "재발송과 비용 처리 기록",
+          "type": "quest-object",
+          "x": 256,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "SOFIA_MISSING_RECEIPTS_1847_STAGE_3"
+            }
+          ]
         }
       ]
     },

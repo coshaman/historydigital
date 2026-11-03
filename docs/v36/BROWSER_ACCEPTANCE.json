@@ -1,0 +1,2903 @@
+{
+  "schemaVersion": "V36-BROWSER-ACCEPTANCE-4",
+  "status": true,
+  "coverageKind": "FULL",
+  "routeCount": 28,
+  "plannedRouteCount": 28,
+  "results": [
+    {
+      "name": "canonical-BELINSKY",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "ending": "UVAROV",
+      "phase": "ending",
+      "scenes": [
+        {
+          "sceneId": "C07",
+          "readState": {
+            "sceneId": "C07",
+            "ids": [
+              "C07-R1",
+              "C07-R2"
+            ],
+            "required": 2
+          }
+        },
+        {
+          "sceneId": "E02",
+          "readState": {
+            "sceneId": "E02",
+            "ids": [
+              "E02-R1",
+              "E02-R2",
+              "E02-R3"
+            ],
+            "required": 3
+          }
+        },
+        {
+          "sceneId": "E04",
+          "readState": {
+            "sceneId": "E04",
+            "ids": [
+              "E04-R1"
+            ],
+            "required": 1
+          }
+        },
+        {
+          "sceneId": "E07",
+          "readState": {
+            "sceneId": "E07",
+            "ids": [
+              "E07-R1",
+              "E07-R2",
+              "E07-R3"
+            ],
+            "required": 3
+          }
+        }
+      ],
+      "renderedMemory": [
+        {
+          "name": "canonical-BELINSKY",
+          "sceneId": "E07",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "rendered": [
+            {
+              "character": "ekaterina",
+              "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+            }
+          ],
+          "screenshot": "canonical-BELINSKY-E07-memory-1440.png"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "canonical-UVAROV",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "ending": "UVAROV",
+      "phase": "ending",
+      "scenes": [
+        {
+          "sceneId": "C07",
+          "readState": {
+            "sceneId": "C07",
+            "ids": [
+              "C07-R1",
+              "C07-R2"
+            ],
+            "required": 2
+          }
+        },
+        {
+          "sceneId": "E02",
+          "readState": {
+            "sceneId": "E02",
+            "ids": [
+              "E02-R1",
+              "E02-R2",
+              "E02-R3"
+            ],
+            "required": 3
+          }
+        },
+        {
+          "sceneId": "E04",
+          "readState": {
+            "sceneId": "E04",
+            "ids": [
+              "E04-R1"
+            ],
+            "required": 1
+          }
+        },
+        {
+          "sceneId": "E07",
+          "readState": {
+            "sceneId": "E07",
+            "ids": [
+              "E07-R1",
+              "E07-R2",
+              "E07-R3"
+            ],
+            "required": 3
+          }
+        }
+      ],
+      "renderedMemory": [
+        {
+          "name": "canonical-UVAROV",
+          "sceneId": "E07",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "rendered": [
+            {
+              "character": "ekaterina",
+              "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+            }
+          ],
+          "screenshot": "canonical-UVAROV-E07-memory-1440.png"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "canonical-HERZEN",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "ending": "HERZEN",
+      "phase": "ending",
+      "scenes": [
+        {
+          "sceneId": "C07",
+          "readState": {
+            "sceneId": "C07",
+            "ids": [
+              "C07-R1",
+              "C07-R2"
+            ],
+            "required": 2
+          }
+        },
+        {
+          "sceneId": "E02",
+          "readState": {
+            "sceneId": "E02",
+            "ids": [
+              "E02-R1",
+              "E02-R2",
+              "E02-R3"
+            ],
+            "required": 3
+          }
+        },
+        {
+          "sceneId": "E04",
+          "readState": {
+            "sceneId": "E04",
+            "ids": [
+              "E04-R1"
+            ],
+            "required": 1
+          }
+        },
+        {
+          "sceneId": "E07",
+          "readState": {
+            "sceneId": "E07",
+            "ids": [
+              "E07-R1",
+              "E07-R2",
+              "E07-R3"
+            ],
+            "required": 3
+          }
+        }
+      ],
+      "renderedMemory": [
+        {
+          "name": "canonical-HERZEN",
+          "sceneId": "E07",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "rendered": [
+            {
+              "character": "ekaterina",
+              "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+            }
+          ],
+          "screenshot": "canonical-HERZEN-E07-memory-1440.png"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "canonical-DOSTOEVSKY_PETRASHEVSKY",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "ending": "DOSTOEVSKY_PETRASHEVSKY",
+      "phase": "ending",
+      "scenes": [
+        {
+          "sceneId": "C07",
+          "readState": {
+            "sceneId": "C07",
+            "ids": [
+              "C07-R1",
+              "C07-R2"
+            ],
+            "required": 2
+          }
+        },
+        {
+          "sceneId": "E02",
+          "readState": {
+            "sceneId": "E02",
+            "ids": [
+              "E02-R1",
+              "E02-R2",
+              "E02-R3"
+            ],
+            "required": 3
+          }
+        },
+        {
+          "sceneId": "E04",
+          "readState": {
+            "sceneId": "E04",
+            "ids": [
+              "E04-R1"
+            ],
+            "required": 1
+          }
+        },
+        {
+          "sceneId": "E07",
+          "readState": {
+            "sceneId": "E07",
+            "ids": [
+              "E07-R1",
+              "E07-R2",
+              "E07-R3"
+            ],
+            "required": 3
+          }
+        }
+      ],
+      "renderedMemory": [
+        {
+          "name": "canonical-DOSTOEVSKY_PETRASHEVSKY",
+          "sceneId": "E07",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "rendered": [
+            {
+              "character": "ekaterina",
+              "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+            }
+          ],
+          "screenshot": "canonical-DOSTOEVSKY_PETRASHEVSKY-E07-memory-1440.png"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "canonical-KHOMYAKOV",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "ending": "BELINSKY",
+      "phase": "ending",
+      "scenes": [
+        {
+          "sceneId": "C07",
+          "readState": {
+            "sceneId": "C07",
+            "ids": [
+              "C07-R1",
+              "C07-R2"
+            ],
+            "required": 2
+          }
+        },
+        {
+          "sceneId": "E02",
+          "readState": {
+            "sceneId": "E02",
+            "ids": [
+              "E02-R1",
+              "E02-R2",
+              "E02-R3"
+            ],
+            "required": 3
+          }
+        },
+        {
+          "sceneId": "E04",
+          "readState": {
+            "sceneId": "E04",
+            "ids": [
+              "E04-R1"
+            ],
+            "required": 1
+          }
+        },
+        {
+          "sceneId": "E07",
+          "readState": {
+            "sceneId": "E07",
+            "ids": [
+              "E07-R1",
+              "E07-R2",
+              "E07-R3"
+            ],
+            "required": 3
+          }
+        }
+      ],
+      "renderedMemory": [
+        {
+          "name": "canonical-KHOMYAKOV",
+          "sceneId": "E07",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "rendered": [
+            {
+              "character": "ekaterina",
+              "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+            }
+          ],
+          "screenshot": "canonical-KHOMYAKOV-E07-memory-1440.png"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "mixed-UVAROV",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "ending": "UVAROV",
+      "phase": "ending",
+      "scenes": [
+        {
+          "sceneId": "C07",
+          "readState": {
+            "sceneId": "C07",
+            "ids": [
+              "C07-R1",
+              "C07-R2"
+            ],
+            "required": 2
+          }
+        },
+        {
+          "sceneId": "E02",
+          "readState": {
+            "sceneId": "E02",
+            "ids": [
+              "E02-R1",
+              "E02-R2",
+              "E02-R3"
+            ],
+            "required": 3
+          }
+        },
+        {
+          "sceneId": "E04",
+          "readState": {
+            "sceneId": "E04",
+            "ids": [
+              "E04-R1"
+            ],
+            "required": 1
+          }
+        },
+        {
+          "sceneId": "E07",
+          "readState": {
+            "sceneId": "E07",
+            "ids": [
+              "E07-R1",
+              "E07-R2",
+              "E07-R3"
+            ],
+            "required": 3
+          }
+        }
+      ],
+      "renderedMemory": [
+        {
+          "name": "mixed-UVAROV",
+          "sceneId": "E07",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "rendered": [
+            {
+              "character": "ekaterina",
+              "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+            }
+          ],
+          "screenshot": "mixed-UVAROV-E07-memory-390.png"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "mixed-BELINSKY",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "ending": "BELINSKY",
+      "phase": "ending",
+      "scenes": [
+        {
+          "sceneId": "C07",
+          "readState": {
+            "sceneId": "C07",
+            "ids": [
+              "C07-R1",
+              "C07-R2"
+            ],
+            "required": 2
+          }
+        },
+        {
+          "sceneId": "E02",
+          "readState": {
+            "sceneId": "E02",
+            "ids": [
+              "E02-R1",
+              "E02-R2",
+              "E02-R3"
+            ],
+            "required": 3
+          }
+        },
+        {
+          "sceneId": "E04",
+          "readState": {
+            "sceneId": "E04",
+            "ids": [
+              "E04-R1"
+            ],
+            "required": 1
+          }
+        },
+        {
+          "sceneId": "E07",
+          "readState": {
+            "sceneId": "E07",
+            "ids": [
+              "E07-R1",
+              "E07-R2",
+              "E07-R3"
+            ],
+            "required": 3
+          }
+        }
+      ],
+      "renderedMemory": [
+        {
+          "name": "mixed-BELINSKY",
+          "sceneId": "E07",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "rendered": [
+            {
+              "character": "ekaterina",
+              "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+            }
+          ],
+          "screenshot": "mixed-BELINSKY-E07-memory-390.png"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "mixed-HERZEN",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "ending": "HERZEN",
+      "phase": "ending",
+      "scenes": [
+        {
+          "sceneId": "C07",
+          "readState": {
+            "sceneId": "C07",
+            "ids": [
+              "C07-R1",
+              "C07-R2"
+            ],
+            "required": 2
+          }
+        },
+        {
+          "sceneId": "E02",
+          "readState": {
+            "sceneId": "E02",
+            "ids": [
+              "E02-R1",
+              "E02-R2",
+              "E02-R3"
+            ],
+            "required": 3
+          }
+        },
+        {
+          "sceneId": "E04",
+          "readState": {
+            "sceneId": "E04",
+            "ids": [
+              "E04-R1"
+            ],
+            "required": 1
+          }
+        },
+        {
+          "sceneId": "E07",
+          "readState": {
+            "sceneId": "E07",
+            "ids": [
+              "E07-R1",
+              "E07-R2",
+              "E07-R3"
+            ],
+            "required": 3
+          }
+        }
+      ],
+      "renderedMemory": [
+        {
+          "name": "mixed-HERZEN",
+          "sceneId": "E07",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "rendered": [
+            {
+              "character": "ekaterina",
+              "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+            }
+          ],
+          "screenshot": "mixed-HERZEN-E07-memory-390.png"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "mixed-KHOMYAKOV",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "ending": "BELINSKY",
+      "phase": "ending",
+      "scenes": [
+        {
+          "sceneId": "C07",
+          "readState": {
+            "sceneId": "C07",
+            "ids": [
+              "C07-R1",
+              "C07-R2"
+            ],
+            "required": 2
+          }
+        },
+        {
+          "sceneId": "E02",
+          "readState": {
+            "sceneId": "E02",
+            "ids": [
+              "E02-R1",
+              "E02-R2",
+              "E02-R3"
+            ],
+            "required": 3
+          }
+        },
+        {
+          "sceneId": "E04",
+          "readState": {
+            "sceneId": "E04",
+            "ids": [
+              "E04-R1"
+            ],
+            "required": 1
+          }
+        },
+        {
+          "sceneId": "E07",
+          "readState": {
+            "sceneId": "E07",
+            "ids": [
+              "E07-R1",
+              "E07-R2",
+              "E07-R3"
+            ],
+            "required": 3
+          }
+        }
+      ],
+      "renderedMemory": [
+        {
+          "name": "mixed-KHOMYAKOV",
+          "sceneId": "E07",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "rendered": [
+            {
+              "character": "ekaterina",
+              "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+            }
+          ],
+          "screenshot": "mixed-KHOMYAKOV-E07-memory-390.png"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "mixed-DOSTOEVSKY_PETRASHEVSKY",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "ending": "DOSTOEVSKY_PETRASHEVSKY",
+      "phase": "ending",
+      "scenes": [
+        {
+          "sceneId": "C07",
+          "readState": {
+            "sceneId": "C07",
+            "ids": [
+              "C07-R1",
+              "C07-R2"
+            ],
+            "required": 2
+          }
+        },
+        {
+          "sceneId": "E02",
+          "readState": {
+            "sceneId": "E02",
+            "ids": [
+              "E02-R1",
+              "E02-R2",
+              "E02-R3"
+            ],
+            "required": 3
+          }
+        },
+        {
+          "sceneId": "E04",
+          "readState": {
+            "sceneId": "E04",
+            "ids": [
+              "E04-R1"
+            ],
+            "required": 1
+          }
+        },
+        {
+          "sceneId": "E07",
+          "readState": {
+            "sceneId": "E07",
+            "ids": [
+              "E07-R1",
+              "E07-R2",
+              "E07-R3"
+            ],
+            "required": 3
+          }
+        }
+      ],
+      "renderedMemory": [
+        {
+          "name": "mixed-DOSTOEVSKY_PETRASHEVSKY",
+          "sceneId": "E07",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "rendered": [
+            {
+              "character": "ekaterina",
+              "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+            }
+          ],
+          "screenshot": "mixed-DOSTOEVSKY_PETRASHEVSKY-E07-memory-390.png"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "tie-score-unique-1",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "ending": "UVAROV",
+      "phase": "ending",
+      "scenes": [
+        {
+          "sceneId": "C07",
+          "readState": {
+            "sceneId": "C07",
+            "ids": [
+              "C07-R1",
+              "C07-R2"
+            ],
+            "required": 2
+          }
+        },
+        {
+          "sceneId": "E02",
+          "readState": {
+            "sceneId": "E02",
+            "ids": [
+              "E02-R1",
+              "E02-R2",
+              "E02-R3"
+            ],
+            "required": 3
+          }
+        },
+        {
+          "sceneId": "E04",
+          "readState": {
+            "sceneId": "E04",
+            "ids": [
+              "E04-R1"
+            ],
+            "required": 1
+          }
+        },
+        {
+          "sceneId": "E07",
+          "readState": {
+            "sceneId": "E07",
+            "ids": [
+              "E07-R1",
+              "E07-R2",
+              "E07-R3"
+            ],
+            "required": 3
+          }
+        }
+      ],
+      "renderedMemory": [
+        {
+          "name": "tie-score-unique-1",
+          "sceneId": "E07",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "rendered": [
+            {
+              "character": "ekaterina",
+              "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+            }
+          ],
+          "screenshot": "tie-score-unique-1-E07-memory-390.png"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "tie-score-unique-2",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "ending": "UVAROV",
+      "phase": "ending",
+      "scenes": [
+        {
+          "sceneId": "C07",
+          "readState": {
+            "sceneId": "C07",
+            "ids": [
+              "C07-R1",
+              "C07-R2"
+            ],
+            "required": 2
+          }
+        },
+        {
+          "sceneId": "E02",
+          "readState": {
+            "sceneId": "E02",
+            "ids": [
+              "E02-R1",
+              "E02-R2",
+              "E02-R3"
+            ],
+            "required": 3
+          }
+        },
+        {
+          "sceneId": "E04",
+          "readState": {
+            "sceneId": "E04",
+            "ids": [
+              "E04-R1"
+            ],
+            "required": 1
+          }
+        },
+        {
+          "sceneId": "E07",
+          "readState": {
+            "sceneId": "E07",
+            "ids": [
+              "E07-R1",
+              "E07-R2",
+              "E07-R3"
+            ],
+            "required": 3
+          }
+        }
+      ],
+      "renderedMemory": [
+        {
+          "name": "tie-score-unique-2",
+          "sceneId": "E07",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "rendered": [
+            {
+              "character": "ekaterina",
+              "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+            }
+          ],
+          "screenshot": "tie-score-unique-2-E07-memory-390.png"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "tie-support-strength-1",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "ending": "HERZEN",
+      "phase": "ending",
+      "scenes": [
+        {
+          "sceneId": "C07",
+          "readState": {
+            "sceneId": "C07",
+            "ids": [
+              "C07-R1",
+              "C07-R2"
+            ],
+            "required": 2
+          }
+        },
+        {
+          "sceneId": "E02",
+          "readState": {
+            "sceneId": "E02",
+            "ids": [
+              "E02-R1",
+              "E02-R2",
+              "E02-R3"
+            ],
+            "required": 3
+          }
+        },
+        {
+          "sceneId": "E04",
+          "readState": {
+            "sceneId": "E04",
+            "ids": [
+              "E04-R1"
+            ],
+            "required": 1
+          }
+        },
+        {
+          "sceneId": "E07",
+          "readState": {
+            "sceneId": "E07",
+            "ids": [
+              "E07-R1",
+              "E07-R2",
+              "E07-R3"
+            ],
+            "required": 3
+          }
+        }
+      ],
+      "renderedMemory": [
+        {
+          "name": "tie-support-strength-1",
+          "sceneId": "E07",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "rendered": [
+            {
+              "character": "ekaterina",
+              "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+            }
+          ],
+          "screenshot": "tie-support-strength-1-E07-memory-390.png"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "tie-support-strength-2",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "ending": "HERZEN",
+      "phase": "ending",
+      "scenes": [
+        {
+          "sceneId": "C07",
+          "readState": {
+            "sceneId": "C07",
+            "ids": [
+              "C07-R1",
+              "C07-R2"
+            ],
+            "required": 2
+          }
+        },
+        {
+          "sceneId": "E02",
+          "readState": {
+            "sceneId": "E02",
+            "ids": [
+              "E02-R1",
+              "E02-R2",
+              "E02-R3"
+            ],
+            "required": 3
+          }
+        },
+        {
+          "sceneId": "E04",
+          "readState": {
+            "sceneId": "E04",
+            "ids": [
+              "E04-R1"
+            ],
+            "required": 1
+          }
+        },
+        {
+          "sceneId": "E07",
+          "readState": {
+            "sceneId": "E07",
+            "ids": [
+              "E07-R1",
+              "E07-R2",
+              "E07-R3"
+            ],
+            "required": 3
+          }
+        }
+      ],
+      "renderedMemory": [
+        {
+          "name": "tie-support-strength-2",
+          "sceneId": "E07",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "rendered": [
+            {
+              "character": "alexei",
+              "line": "이전 자료에서 확인된 사실과 해석을 나눠 적었지요. 이제 그 구분을 사람의 말에도 적용해야 합니다."
+            }
+          ],
+          "screenshot": "tie-support-strength-2-E07-memory-390.png"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "tie-support-count-1",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "ending": "UVAROV",
+      "phase": "ending",
+      "scenes": [
+        {
+          "sceneId": "C07",
+          "readState": {
+            "sceneId": "C07",
+            "ids": [
+              "C07-R1",
+              "C07-R2"
+            ],
+            "required": 2
+          }
+        },
+        {
+          "sceneId": "E02",
+          "readState": {
+            "sceneId": "E02",
+            "ids": [
+              "E02-R1",
+              "E02-R2",
+              "E02-R3"
+            ],
+            "required": 3
+          }
+        },
+        {
+          "sceneId": "E04",
+          "readState": {
+            "sceneId": "E04",
+            "ids": [
+              "E04-R1"
+            ],
+            "required": 1
+          }
+        },
+        {
+          "sceneId": "E07",
+          "readState": {
+            "sceneId": "E07",
+            "ids": [
+              "E07-R1",
+              "E07-R2",
+              "E07-R3"
+            ],
+            "required": 3
+          }
+        }
+      ],
+      "renderedMemory": [
+        {
+          "name": "tie-support-count-1",
+          "sceneId": "E07",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "rendered": [
+            {
+              "character": "ekaterina",
+              "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+            }
+          ],
+          "screenshot": "tie-support-count-1-E07-memory-390.png"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "tie-support-count-2",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "ending": "UVAROV",
+      "phase": "ending",
+      "scenes": [
+        {
+          "sceneId": "C07",
+          "readState": {
+            "sceneId": "C07",
+            "ids": [
+              "C07-R1",
+              "C07-R2"
+            ],
+            "required": 2
+          }
+        },
+        {
+          "sceneId": "E02",
+          "readState": {
+            "sceneId": "E02",
+            "ids": [
+              "E02-R1",
+              "E02-R2",
+              "E02-R3"
+            ],
+            "required": 3
+          }
+        },
+        {
+          "sceneId": "E04",
+          "readState": {
+            "sceneId": "E04",
+            "ids": [
+              "E04-R1"
+            ],
+            "required": 1
+          }
+        },
+        {
+          "sceneId": "E07",
+          "readState": {
+            "sceneId": "E07",
+            "ids": [
+              "E07-R1",
+              "E07-R2",
+              "E07-R3"
+            ],
+            "required": 3
+          }
+        }
+      ],
+      "renderedMemory": [
+        {
+          "name": "tie-support-count-2",
+          "sceneId": "E07",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "rendered": [
+            {
+              "character": "ekaterina",
+              "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+            }
+          ],
+          "screenshot": "tie-support-count-2-E07-memory-390.png"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "tie-recent-observable-action-1",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "ending": "BELINSKY",
+      "phase": "ending",
+      "scenes": [
+        {
+          "sceneId": "C07",
+          "readState": {
+            "sceneId": "C07",
+            "ids": [
+              "C07-R1",
+              "C07-R2"
+            ],
+            "required": 2
+          }
+        },
+        {
+          "sceneId": "E02",
+          "readState": {
+            "sceneId": "E02",
+            "ids": [
+              "E02-R1",
+              "E02-R2",
+              "E02-R3"
+            ],
+            "required": 3
+          }
+        },
+        {
+          "sceneId": "E04",
+          "readState": {
+            "sceneId": "E04",
+            "ids": [
+              "E04-R1"
+            ],
+            "required": 1
+          }
+        },
+        {
+          "sceneId": "E07",
+          "readState": {
+            "sceneId": "E07",
+            "ids": [
+              "E07-R1",
+              "E07-R2",
+              "E07-R3"
+            ],
+            "required": 3
+          }
+        }
+      ],
+      "renderedMemory": [
+        {
+          "name": "tie-recent-observable-action-1",
+          "sceneId": "E07",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "rendered": [
+            {
+              "character": "ekaterina",
+              "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+            }
+          ],
+          "screenshot": "tie-recent-observable-action-1-E07-memory-390.png"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "tie-recent-observable-action-2",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "ending": "BELINSKY",
+      "phase": "ending",
+      "scenes": [
+        {
+          "sceneId": "C07",
+          "readState": {
+            "sceneId": "C07",
+            "ids": [
+              "C07-R1",
+              "C07-R2"
+            ],
+            "required": 2
+          }
+        },
+        {
+          "sceneId": "E02",
+          "readState": {
+            "sceneId": "E02",
+            "ids": [
+              "E02-R1",
+              "E02-R2",
+              "E02-R3"
+            ],
+            "required": 3
+          }
+        },
+        {
+          "sceneId": "E04",
+          "readState": {
+            "sceneId": "E04",
+            "ids": [
+              "E04-R1"
+            ],
+            "required": 1
+          }
+        },
+        {
+          "sceneId": "E07",
+          "readState": {
+            "sceneId": "E07",
+            "ids": [
+              "E07-R1",
+              "E07-R2",
+              "E07-R3"
+            ],
+            "required": 3
+          }
+        }
+      ],
+      "renderedMemory": [
+        {
+          "name": "tie-recent-observable-action-2",
+          "sceneId": "E07",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "rendered": [
+            {
+              "character": "alexei",
+              "line": "이전 자료에서 확인된 사실과 해석을 나눠 적었지요. 이제 그 구분을 사람의 말에도 적용해야 합니다."
+            }
+          ],
+          "screenshot": "tie-recent-observable-action-2-E07-memory-390.png"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "tie-e07-affinity-1",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "ending": "BELINSKY",
+      "phase": "ending",
+      "scenes": [
+        {
+          "sceneId": "C07",
+          "readState": {
+            "sceneId": "C07",
+            "ids": [
+              "C07-R1",
+              "C07-R2"
+            ],
+            "required": 2
+          }
+        },
+        {
+          "sceneId": "E02",
+          "readState": {
+            "sceneId": "E02",
+            "ids": [
+              "E02-R1",
+              "E02-R2",
+              "E02-R3"
+            ],
+            "required": 3
+          }
+        },
+        {
+          "sceneId": "E04",
+          "readState": {
+            "sceneId": "E04",
+            "ids": [
+              "E04-R1"
+            ],
+            "required": 1
+          }
+        },
+        {
+          "sceneId": "E07",
+          "readState": {
+            "sceneId": "E07",
+            "ids": [
+              "E07-R1",
+              "E07-R2",
+              "E07-R3"
+            ],
+            "required": 3
+          }
+        }
+      ],
+      "renderedMemory": [
+        {
+          "name": "tie-e07-affinity-1",
+          "sceneId": "E07",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "rendered": [
+            {
+              "character": "ekaterina",
+              "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+            }
+          ],
+          "screenshot": "tie-e07-affinity-1-E07-memory-390.png"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "tie-e07-affinity-2",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "ending": "BELINSKY",
+      "phase": "ending",
+      "scenes": [
+        {
+          "sceneId": "C07",
+          "readState": {
+            "sceneId": "C07",
+            "ids": [
+              "C07-R1",
+              "C07-R2"
+            ],
+            "required": 2
+          }
+        },
+        {
+          "sceneId": "E02",
+          "readState": {
+            "sceneId": "E02",
+            "ids": [
+              "E02-R1",
+              "E02-R2",
+              "E02-R3"
+            ],
+            "required": 3
+          }
+        },
+        {
+          "sceneId": "E04",
+          "readState": {
+            "sceneId": "E04",
+            "ids": [
+              "E04-R1"
+            ],
+            "required": 1
+          }
+        },
+        {
+          "sceneId": "E07",
+          "readState": {
+            "sceneId": "E07",
+            "ids": [
+              "E07-R1",
+              "E07-R2",
+              "E07-R3"
+            ],
+            "required": 3
+          }
+        }
+      ],
+      "renderedMemory": [
+        {
+          "name": "tie-e07-affinity-2",
+          "sceneId": "E07",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "rendered": [
+            {
+              "character": "ekaterina",
+              "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+            }
+          ],
+          "screenshot": "tie-e07-affinity-2-E07-memory-390.png"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "random-01",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "ending": "DOSTOEVSKY_PETRASHEVSKY",
+      "phase": "ending",
+      "scenes": [
+        {
+          "sceneId": "C07",
+          "readState": {
+            "sceneId": "C07",
+            "ids": [
+              "C07-R1",
+              "C07-R2"
+            ],
+            "required": 2
+          }
+        },
+        {
+          "sceneId": "E02",
+          "readState": {
+            "sceneId": "E02",
+            "ids": [
+              "E02-R1",
+              "E02-R2",
+              "E02-R3"
+            ],
+            "required": 3
+          }
+        },
+        {
+          "sceneId": "E04",
+          "readState": {
+            "sceneId": "E04",
+            "ids": [
+              "E04-R1"
+            ],
+            "required": 1
+          }
+        },
+        {
+          "sceneId": "E07",
+          "readState": {
+            "sceneId": "E07",
+            "ids": [
+              "E07-R1",
+              "E07-R2",
+              "E07-R3"
+            ],
+            "required": 3
+          }
+        }
+      ],
+      "renderedMemory": [
+        {
+          "name": "random-01",
+          "sceneId": "E07",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "rendered": [
+            {
+              "character": "pavel",
+              "line": "당신은 계속 전달의 길을 물었죠. 이제 그 길 끝에 사람이 있다는 사실을 외면할 수 없어요."
+            }
+          ],
+          "screenshot": "random-01-E07-memory-1440.png"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "random-02",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "ending": "KHOMYAKOV",
+      "phase": "ending",
+      "scenes": [
+        {
+          "sceneId": "C07",
+          "readState": {
+            "sceneId": "C07",
+            "ids": [
+              "C07-R1",
+              "C07-R2"
+            ],
+            "required": 2
+          }
+        },
+        {
+          "sceneId": "E02",
+          "readState": {
+            "sceneId": "E02",
+            "ids": [
+              "E02-R1",
+              "E02-R2",
+              "E02-R3"
+            ],
+            "required": 3
+          }
+        },
+        {
+          "sceneId": "E04",
+          "readState": {
+            "sceneId": "E04",
+            "ids": [
+              "E04-R1"
+            ],
+            "required": 1
+          }
+        },
+        {
+          "sceneId": "E07",
+          "readState": {
+            "sceneId": "E07",
+            "ids": [
+              "E07-R1",
+              "E07-R2",
+              "E07-R3"
+            ],
+            "required": 3
+          }
+        }
+      ],
+      "renderedMemory": [
+        {
+          "name": "random-02",
+          "sceneId": "E07",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "rendered": [
+            {
+              "character": "ekaterina",
+              "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+            }
+          ],
+          "screenshot": "random-02-E07-memory-390.png"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "random-03",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "ending": "DOSTOEVSKY_PETRASHEVSKY",
+      "phase": "ending",
+      "scenes": [
+        {
+          "sceneId": "C07",
+          "readState": {
+            "sceneId": "C07",
+            "ids": [
+              "C07-R1",
+              "C07-R2"
+            ],
+            "required": 2
+          }
+        },
+        {
+          "sceneId": "E02",
+          "readState": {
+            "sceneId": "E02",
+            "ids": [
+              "E02-R1",
+              "E02-R2",
+              "E02-R3"
+            ],
+            "required": 3
+          }
+        },
+        {
+          "sceneId": "E04",
+          "readState": {
+            "sceneId": "E04",
+            "ids": [
+              "E04-R1"
+            ],
+            "required": 1
+          }
+        },
+        {
+          "sceneId": "E07",
+          "readState": {
+            "sceneId": "E07",
+            "ids": [
+              "E07-R1",
+              "E07-R2",
+              "E07-R3"
+            ],
+            "required": 3
+          }
+        }
+      ],
+      "renderedMemory": [
+        {
+          "name": "random-03",
+          "sceneId": "E07",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "rendered": [
+            {
+              "character": "pavel",
+              "line": "당신은 계속 전달의 길을 물었죠. 이제 그 길 끝에 사람이 있다는 사실을 외면할 수 없어요."
+            }
+          ],
+          "screenshot": "random-03-E07-memory-1440.png"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "random-04",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "ending": "DOSTOEVSKY_PETRASHEVSKY",
+      "phase": "ending",
+      "scenes": [
+        {
+          "sceneId": "C07",
+          "readState": {
+            "sceneId": "C07",
+            "ids": [
+              "C07-R1",
+              "C07-R2"
+            ],
+            "required": 2
+          }
+        },
+        {
+          "sceneId": "E02",
+          "readState": {
+            "sceneId": "E02",
+            "ids": [
+              "E02-R1",
+              "E02-R2",
+              "E02-R3"
+            ],
+            "required": 3
+          }
+        },
+        {
+          "sceneId": "E04",
+          "readState": {
+            "sceneId": "E04",
+            "ids": [
+              "E04-R1"
+            ],
+            "required": 1
+          }
+        },
+        {
+          "sceneId": "E07",
+          "readState": {
+            "sceneId": "E07",
+            "ids": [
+              "E07-R1",
+              "E07-R2",
+              "E07-R3"
+            ],
+            "required": 3
+          }
+        }
+      ],
+      "renderedMemory": [
+        {
+          "name": "random-04",
+          "sceneId": "E07",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "rendered": [
+            {
+              "character": "ekaterina",
+              "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+            }
+          ],
+          "screenshot": "random-04-E07-memory-390.png"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "random-05",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "ending": "BELINSKY",
+      "phase": "ending",
+      "scenes": [
+        {
+          "sceneId": "C07",
+          "readState": {
+            "sceneId": "C07",
+            "ids": [
+              "C07-R1",
+              "C07-R2"
+            ],
+            "required": 2
+          }
+        },
+        {
+          "sceneId": "E02",
+          "readState": {
+            "sceneId": "E02",
+            "ids": [
+              "E02-R1",
+              "E02-R2",
+              "E02-R3"
+            ],
+            "required": 3
+          }
+        },
+        {
+          "sceneId": "E04",
+          "readState": {
+            "sceneId": "E04",
+            "ids": [
+              "E04-R1"
+            ],
+            "required": 1
+          }
+        },
+        {
+          "sceneId": "E07",
+          "readState": {
+            "sceneId": "E07",
+            "ids": [
+              "E07-R1",
+              "E07-R2",
+              "E07-R3"
+            ],
+            "required": 3
+          }
+        }
+      ],
+      "renderedMemory": [
+        {
+          "name": "random-05",
+          "sceneId": "E07",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "rendered": [
+            {
+              "character": "ekaterina",
+              "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+            }
+          ],
+          "screenshot": "random-05-E07-memory-1440.png"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "random-06",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "ending": "BELINSKY",
+      "phase": "ending",
+      "scenes": [
+        {
+          "sceneId": "C07",
+          "readState": {
+            "sceneId": "C07",
+            "ids": [
+              "C07-R1",
+              "C07-R2"
+            ],
+            "required": 2
+          }
+        },
+        {
+          "sceneId": "E02",
+          "readState": {
+            "sceneId": "E02",
+            "ids": [
+              "E02-R1",
+              "E02-R2",
+              "E02-R3"
+            ],
+            "required": 3
+          }
+        },
+        {
+          "sceneId": "E04",
+          "readState": {
+            "sceneId": "E04",
+            "ids": [
+              "E04-R1"
+            ],
+            "required": 1
+          }
+        },
+        {
+          "sceneId": "E07",
+          "readState": {
+            "sceneId": "E07",
+            "ids": [
+              "E07-R1",
+              "E07-R2",
+              "E07-R3"
+            ],
+            "required": 3
+          }
+        }
+      ],
+      "renderedMemory": [
+        {
+          "name": "random-06",
+          "sceneId": "E07",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "rendered": [
+            {
+              "character": "ekaterina",
+              "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+            }
+          ],
+          "screenshot": "random-06-E07-memory-390.png"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "random-07",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "ending": "KHOMYAKOV",
+      "phase": "ending",
+      "scenes": [
+        {
+          "sceneId": "C07",
+          "readState": {
+            "sceneId": "C07",
+            "ids": [
+              "C07-R1",
+              "C07-R2"
+            ],
+            "required": 2
+          }
+        },
+        {
+          "sceneId": "E02",
+          "readState": {
+            "sceneId": "E02",
+            "ids": [
+              "E02-R1",
+              "E02-R2",
+              "E02-R3"
+            ],
+            "required": 3
+          }
+        },
+        {
+          "sceneId": "E04",
+          "readState": {
+            "sceneId": "E04",
+            "ids": [
+              "E04-R1"
+            ],
+            "required": 1
+          }
+        },
+        {
+          "sceneId": "E07",
+          "readState": {
+            "sceneId": "E07",
+            "ids": [
+              "E07-R1",
+              "E07-R2",
+              "E07-R3"
+            ],
+            "required": 3
+          }
+        }
+      ],
+      "renderedMemory": [
+        {
+          "name": "random-07",
+          "sceneId": "E07",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "rendered": [
+            {
+              "character": "ekaterina",
+              "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+            }
+          ],
+          "screenshot": "random-07-E07-memory-1440.png"
+        }
+      ],
+      "errors": []
+    },
+    {
+      "name": "random-08",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "ending": "BELINSKY",
+      "phase": "ending",
+      "scenes": [
+        {
+          "sceneId": "C07",
+          "readState": {
+            "sceneId": "C07",
+            "ids": [
+              "C07-R1",
+              "C07-R2"
+            ],
+            "required": 2
+          }
+        },
+        {
+          "sceneId": "E02",
+          "readState": {
+            "sceneId": "E02",
+            "ids": [
+              "E02-R1",
+              "E02-R2",
+              "E02-R3"
+            ],
+            "required": 3
+          }
+        },
+        {
+          "sceneId": "E04",
+          "readState": {
+            "sceneId": "E04",
+            "ids": [
+              "E04-R1"
+            ],
+            "required": 1
+          }
+        },
+        {
+          "sceneId": "E07",
+          "readState": {
+            "sceneId": "E07",
+            "ids": [
+              "E07-R1",
+              "E07-R2",
+              "E07-R3"
+            ],
+            "required": 3
+          }
+        }
+      ],
+      "renderedMemory": [
+        {
+          "name": "random-08",
+          "sceneId": "E07",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "rendered": [
+            {
+              "character": "ekaterina",
+              "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+            }
+          ],
+          "screenshot": "random-08-E07-memory-390.png"
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "canonical": {
+    "BELINSKY": {
+      "C07": [
+        0,
+        0
+      ],
+      "E02": [
+        0,
+        0
+      ],
+      "E04": [
+        0,
+        0
+      ],
+      "E07": [
+        0,
+        0
+      ]
+    },
+    "UVAROV": {
+      "C07": [
+        0,
+        0
+      ],
+      "E02": [
+        0,
+        0
+      ],
+      "E04": [
+        0,
+        0
+      ],
+      "E07": [
+        0,
+        1
+      ]
+    },
+    "HERZEN": {
+      "C07": [
+        0,
+        0
+      ],
+      "E02": [
+        0,
+        0
+      ],
+      "E04": [
+        0,
+        1
+      ],
+      "E07": [
+        2,
+        2
+      ]
+    },
+    "DOSTOEVSKY_PETRASHEVSKY": {
+      "C07": [
+        0,
+        0
+      ],
+      "E02": [
+        0,
+        0
+      ],
+      "E04": [
+        0,
+        2
+      ],
+      "E07": [
+        0,
+        2
+      ]
+    },
+    "KHOMYAKOV": {
+      "C07": [
+        0,
+        0
+      ],
+      "E02": [
+        0,
+        0
+      ],
+      "E04": [
+        2,
+        2
+      ],
+      "E07": [
+        3,
+        3
+      ]
+    }
+  },
+  "mixed": {
+    "UVAROV": {
+      "C07": [
+        0,
+        0
+      ],
+      "E02": [
+        0,
+        0
+      ],
+      "E04": [
+        0,
+        0
+      ],
+      "E07": [
+        0,
+        2
+      ]
+    },
+    "BELINSKY": {
+      "C07": [
+        0,
+        0
+      ],
+      "E02": [
+        0,
+        0
+      ],
+      "E04": [
+        0,
+        1
+      ],
+      "E07": [
+        0,
+        0
+      ]
+    },
+    "HERZEN": {
+      "C07": [
+        0,
+        0
+      ],
+      "E02": [
+        0,
+        0
+      ],
+      "E04": [
+        0,
+        2
+      ],
+      "E07": [
+        2,
+        2
+      ]
+    },
+    "KHOMYAKOV": {
+      "C07": [
+        0,
+        0
+      ],
+      "E02": [
+        0,
+        1
+      ],
+      "E04": [
+        1,
+        1
+      ],
+      "E07": [
+        0,
+        3
+      ]
+    },
+    "DOSTOEVSKY_PETRASHEVSKY": {
+      "C07": [
+        0,
+        0
+      ],
+      "E02": [
+        0,
+        0
+      ],
+      "E04": [
+        0,
+        2
+      ],
+      "E07": [
+        2,
+        0
+      ]
+    }
+  },
+  "tieRoutes": [
+    {
+      "name": "tie-score-unique-1",
+      "pattern": {
+        "C07": [
+          0,
+          0
+        ],
+        "E02": [
+          0,
+          0
+        ],
+        "E04": [
+          0,
+          0
+        ],
+        "E07": [
+          0,
+          0
+        ]
+      },
+      "reason": "score-unique"
+    },
+    {
+      "name": "tie-score-unique-2",
+      "pattern": {
+        "C07": [
+          0,
+          0
+        ],
+        "E02": [
+          0,
+          0
+        ],
+        "E04": [
+          0,
+          0
+        ],
+        "E07": [
+          0,
+          1
+        ]
+      },
+      "reason": "score-unique"
+    },
+    {
+      "name": "tie-support-strength-1",
+      "pattern": {
+        "C07": [
+          0,
+          0
+        ],
+        "E02": [
+          0,
+          0
+        ],
+        "E04": [
+          2,
+          2
+        ],
+        "E07": [
+          2,
+          3
+        ]
+      },
+      "reason": "support-strength"
+    },
+    {
+      "name": "tie-support-strength-2",
+      "pattern": {
+        "C07": [
+          0,
+          0
+        ],
+        "E02": [
+          2,
+          0
+        ],
+        "E04": [
+          0,
+          2
+        ],
+        "E07": [
+          0,
+          2
+        ]
+      },
+      "reason": "support-strength"
+    },
+    {
+      "name": "tie-support-count-1",
+      "pattern": {
+        "C07": [
+          0,
+          0
+        ],
+        "E02": [
+          0,
+          1
+        ],
+        "E04": [
+          1,
+          0
+        ],
+        "E07": [
+          0,
+          0
+        ]
+      },
+      "reason": "support-count"
+    },
+    {
+      "name": "tie-support-count-2",
+      "pattern": {
+        "C07": [
+          0,
+          0
+        ],
+        "E02": [
+          0,
+          1
+        ],
+        "E04": [
+          1,
+          1
+        ],
+        "E07": [
+          2,
+          3
+        ]
+      },
+      "reason": "support-count"
+    },
+    {
+      "name": "tie-recent-observable-action-1",
+      "pattern": {
+        "C07": [
+          0,
+          0
+        ],
+        "E02": [
+          0,
+          1
+        ],
+        "E04": [
+          1,
+          1
+        ],
+        "E07": [
+          3,
+          0
+        ]
+      },
+      "reason": "recent-observable-action"
+    },
+    {
+      "name": "tie-recent-observable-action-2",
+      "pattern": {
+        "C07": [
+          0,
+          0
+        ],
+        "E02": [
+          1,
+          0
+        ],
+        "E04": [
+          1,
+          1
+        ],
+        "E07": [
+          3,
+          0
+        ]
+      },
+      "reason": "recent-observable-action"
+    },
+    {
+      "name": "tie-e07-affinity-1",
+      "pattern": {
+        "C07": [
+          0,
+          1
+        ],
+        "E02": [
+          0,
+          0
+        ],
+        "E04": [
+          2,
+          2
+        ],
+        "E07": [
+          1,
+          1
+        ]
+      },
+      "reason": "e07-affinity"
+    },
+    {
+      "name": "tie-e07-affinity-2",
+      "pattern": {
+        "C07": [
+          0,
+          1
+        ],
+        "E02": [
+          0,
+          1
+        ],
+        "E04": [
+          1,
+          1
+        ],
+        "E07": [
+          1,
+          3
+        ]
+      },
+      "reason": "e07-affinity"
+    }
+  ],
+  "random": [
+    {
+      "C07": [
+        2,
+        1
+      ],
+      "E02": [
+        2,
+        2
+      ],
+      "E04": [
+        1,
+        2
+      ],
+      "E07": [
+        0,
+        3
+      ]
+    },
+    {
+      "C07": [
+        0,
+        2
+      ],
+      "E02": [
+        0,
+        1
+      ],
+      "E04": [
+        2,
+        1
+      ],
+      "E07": [
+        0,
+        3
+      ]
+    },
+    {
+      "C07": [
+        0,
+        0
+      ],
+      "E02": [
+        1,
+        2
+      ],
+      "E04": [
+        2,
+        1
+      ],
+      "E07": [
+        0,
+        3
+      ]
+    },
+    {
+      "C07": [
+        1,
+        0
+      ],
+      "E02": [
+        0,
+        2
+      ],
+      "E04": [
+        2,
+        1
+      ],
+      "E07": [
+        0,
+        3
+      ]
+    },
+    {
+      "C07": [
+        1,
+        2
+      ],
+      "E02": [
+        1,
+        0
+      ],
+      "E04": [
+        2,
+        2
+      ],
+      "E07": [
+        0,
+        3
+      ]
+    },
+    {
+      "C07": [
+        2,
+        2
+      ],
+      "E02": [
+        0,
+        0
+      ],
+      "E04": [
+        0,
+        0
+      ],
+      "E07": [
+        0,
+        3
+      ]
+    },
+    {
+      "C07": [
+        0,
+        2
+      ],
+      "E02": [
+        0,
+        1
+      ],
+      "E04": [
+        2,
+        2
+      ],
+      "E07": [
+        0,
+        3
+      ]
+    },
+    {
+      "C07": [
+        2,
+        0
+      ],
+      "E02": [
+        0,
+        0
+      ],
+      "E04": [
+        2,
+        0
+      ],
+      "E07": [
+        0,
+        3
+      ]
+    },
+    {
+      "C07": [
+        1,
+        2
+      ],
+      "E02": [
+        0,
+        0
+      ],
+      "E04": [
+        1,
+        1
+      ],
+      "E07": [
+        0,
+        3
+      ]
+    },
+    {
+      "C07": [
+        2,
+        0
+      ],
+      "E02": [
+        2,
+        1
+      ],
+      "E04": [
+        0,
+        1
+      ],
+      "E07": [
+        0,
+        3
+      ]
+    }
+  ],
+  "dialogueEvidence": [
+    {
+      "name": "canonical-BELINSKY",
+      "sceneId": "C07",
+      "kind": "C07-reaction",
+      "speaker": "서기관",
+      "dialogue": "알렉세이 말대로 절차부터 확인하죠. 다만 그 기록이 작가의 목소리를 대신하게 두지는 않겠습니다.",
+      "sequence": ""
+    },
+    {
+      "name": "canonical-UVAROV",
+      "sceneId": "C07",
+      "kind": "C07-reaction",
+      "speaker": "서기관",
+      "dialogue": "알렉세이 말대로 절차부터 확인하죠. 다만 그 기록이 작가의 목소리를 대신하게 두지는 않겠습니다.",
+      "sequence": ""
+    },
+    {
+      "name": "canonical-HERZEN",
+      "sceneId": "C07",
+      "kind": "C07-reaction",
+      "speaker": "서기관",
+      "dialogue": "알렉세이 말대로 절차부터 확인하죠. 다만 그 기록이 작가의 목소리를 대신하게 두지는 않겠습니다.",
+      "sequence": ""
+    },
+    {
+      "name": "canonical-DOSTOEVSKY_PETRASHEVSKY",
+      "sceneId": "C07",
+      "kind": "C07-reaction",
+      "speaker": "서기관",
+      "dialogue": "알렉세이 말대로 절차부터 확인하죠. 다만 그 기록이 작가의 목소리를 대신하게 두지는 않겠습니다.",
+      "sequence": ""
+    },
+    {
+      "name": "canonical-KHOMYAKOV",
+      "sceneId": "C07",
+      "kind": "C07-reaction",
+      "speaker": "서기관",
+      "dialogue": "알렉세이 말대로 절차부터 확인하죠. 다만 그 기록이 작가의 목소리를 대신하게 두지는 않겠습니다.",
+      "sequence": ""
+    },
+    {
+      "name": "mixed-UVAROV",
+      "sceneId": "C07",
+      "kind": "C07-reaction",
+      "speaker": "서기관",
+      "dialogue": "알렉세이 말대로 절차부터 확인하죠. 다만 그 기록이 작가의 목소리를 대신하게 두지는 않겠습니다.",
+      "sequence": ""
+    },
+    {
+      "name": "mixed-BELINSKY",
+      "sceneId": "C07",
+      "kind": "C07-reaction",
+      "speaker": "서기관",
+      "dialogue": "알렉세이 말대로 절차부터 확인하죠. 다만 그 기록이 작가의 목소리를 대신하게 두지는 않겠습니다.",
+      "sequence": ""
+    },
+    {
+      "name": "mixed-HERZEN",
+      "sceneId": "C07",
+      "kind": "C07-reaction",
+      "speaker": "서기관",
+      "dialogue": "알렉세이 말대로 절차부터 확인하죠. 다만 그 기록이 작가의 목소리를 대신하게 두지는 않겠습니다.",
+      "sequence": ""
+    },
+    {
+      "name": "mixed-KHOMYAKOV",
+      "sceneId": "C07",
+      "kind": "C07-reaction",
+      "speaker": "서기관",
+      "dialogue": "알렉세이 말대로 절차부터 확인하죠. 다만 그 기록이 작가의 목소리를 대신하게 두지는 않겠습니다.",
+      "sequence": ""
+    },
+    {
+      "name": "mixed-DOSTOEVSKY_PETRASHEVSKY",
+      "sceneId": "C07",
+      "kind": "C07-reaction",
+      "speaker": "서기관",
+      "dialogue": "알렉세이 말대로 절차부터 확인하죠. 다만 그 기록이 작가의 목소리를 대신하게 두지는 않겠습니다.",
+      "sequence": ""
+    },
+    {
+      "name": "tie-score-unique-1",
+      "sceneId": "C07",
+      "kind": "C07-reaction",
+      "speaker": "서기관",
+      "dialogue": "알렉세이 말대로 절차부터 확인하죠. 다만 그 기록이 작가의 목소리를 대신하게 두지는 않겠습니다.",
+      "sequence": ""
+    },
+    {
+      "name": "tie-score-unique-2",
+      "sceneId": "C07",
+      "kind": "C07-reaction",
+      "speaker": "서기관",
+      "dialogue": "알렉세이 말대로 절차부터 확인하죠. 다만 그 기록이 작가의 목소리를 대신하게 두지는 않겠습니다.",
+      "sequence": ""
+    },
+    {
+      "name": "tie-support-strength-1",
+      "sceneId": "C07",
+      "kind": "C07-reaction",
+      "speaker": "서기관",
+      "dialogue": "알렉세이 말대로 절차부터 확인하죠. 다만 그 기록이 작가의 목소리를 대신하게 두지는 않겠습니다.",
+      "sequence": ""
+    },
+    {
+      "name": "tie-support-strength-2",
+      "sceneId": "C07",
+      "kind": "C07-reaction",
+      "speaker": "서기관",
+      "dialogue": "알렉세이 말대로 절차부터 확인하죠. 다만 그 기록이 작가의 목소리를 대신하게 두지는 않겠습니다.",
+      "sequence": ""
+    },
+    {
+      "name": "tie-support-count-1",
+      "sceneId": "C07",
+      "kind": "C07-reaction",
+      "speaker": "서기관",
+      "dialogue": "알렉세이 말대로 절차부터 확인하죠. 다만 그 기록이 작가의 목소리를 대신하게 두지는 않겠습니다.",
+      "sequence": ""
+    },
+    {
+      "name": "tie-support-count-2",
+      "sceneId": "C07",
+      "kind": "C07-reaction",
+      "speaker": "서기관",
+      "dialogue": "알렉세이 말대로 절차부터 확인하죠. 다만 그 기록이 작가의 목소리를 대신하게 두지는 않겠습니다.",
+      "sequence": ""
+    },
+    {
+      "name": "tie-recent-observable-action-1",
+      "sceneId": "C07",
+      "kind": "C07-reaction",
+      "speaker": "서기관",
+      "dialogue": "알렉세이 말대로 절차부터 확인하죠. 다만 그 기록이 작가의 목소리를 대신하게 두지는 않겠습니다.",
+      "sequence": ""
+    },
+    {
+      "name": "tie-recent-observable-action-2",
+      "sceneId": "C07",
+      "kind": "C07-reaction",
+      "speaker": "서기관",
+      "dialogue": "알렉세이 말대로 절차부터 확인하죠. 다만 그 기록이 작가의 목소리를 대신하게 두지는 않겠습니다.",
+      "sequence": ""
+    },
+    {
+      "name": "tie-e07-affinity-1",
+      "sceneId": "C07",
+      "kind": "C07-reaction",
+      "speaker": "서기관",
+      "dialogue": "알렉세이 말대로 절차부터 확인하죠. 다만 그 기록이 작가의 목소리를 대신하게 두지는 않겠습니다.",
+      "sequence": ""
+    },
+    {
+      "name": "tie-e07-affinity-2",
+      "sceneId": "C07",
+      "kind": "C07-reaction",
+      "speaker": "서기관",
+      "dialogue": "알렉세이 말대로 절차부터 확인하죠. 다만 그 기록이 작가의 목소리를 대신하게 두지는 않겠습니다.",
+      "sequence": ""
+    },
+    {
+      "name": "random-01",
+      "sceneId": "C07",
+      "kind": "C07-reaction",
+      "speaker": "서기관",
+      "dialogue": "잠깐만요. 둘 다 결론을 늦추고, 원문과 날짜부터 같이 확인합시다.",
+      "sequence": ""
+    },
+    {
+      "name": "random-02",
+      "sceneId": "C07",
+      "kind": "C07-reaction",
+      "speaker": "서기관",
+      "dialogue": "알렉세이 말대로 절차부터 확인하죠. 다만 그 기록이 작가의 목소리를 대신하게 두지는 않겠습니다.",
+      "sequence": ""
+    },
+    {
+      "name": "random-03",
+      "sceneId": "C07",
+      "kind": "C07-reaction",
+      "speaker": "서기관",
+      "dialogue": "알렉세이 말대로 절차부터 확인하죠. 다만 그 기록이 작가의 목소리를 대신하게 두지는 않겠습니다.",
+      "sequence": ""
+    },
+    {
+      "name": "random-04",
+      "sceneId": "C07",
+      "kind": "C07-reaction",
+      "speaker": "서기관",
+      "dialogue": "예카테리나 말이 맞아요. 판정문부터 쓰기 전에 작가가 실제로 무엇을 항의했는지 남기죠.",
+      "sequence": ""
+    },
+    {
+      "name": "random-05",
+      "sceneId": "C07",
+      "kind": "C07-reaction",
+      "speaker": "서기관",
+      "dialogue": "예카테리나 말이 맞아요. 판정문부터 쓰기 전에 작가가 실제로 무엇을 항의했는지 남기죠.",
+      "sequence": ""
+    },
+    {
+      "name": "random-06",
+      "sceneId": "C07",
+      "kind": "C07-reaction",
+      "speaker": "서기관",
+      "dialogue": "잠깐만요. 둘 다 결론을 늦추고, 원문과 날짜부터 같이 확인합시다.",
+      "sequence": ""
+    },
+    {
+      "name": "random-07",
+      "sceneId": "C07",
+      "kind": "C07-reaction",
+      "speaker": "서기관",
+      "dialogue": "알렉세이 말대로 절차부터 확인하죠. 다만 그 기록이 작가의 목소리를 대신하게 두지는 않겠습니다.",
+      "sequence": ""
+    },
+    {
+      "name": "random-08",
+      "sceneId": "C07",
+      "kind": "C07-reaction",
+      "speaker": "서기관",
+      "dialogue": "잠깐만요. 둘 다 결론을 늦추고, 원문과 날짜부터 같이 확인합시다.",
+      "sequence": ""
+    }
+  ],
+  "endingsReached": [
+    "BELINSKY",
+    "DOSTOEVSKY_PETRASHEVSKY",
+    "HERZEN",
+    "KHOMYAKOV",
+    "UVAROV"
+  ],
+  "allFiveEndingsReached": true
+}

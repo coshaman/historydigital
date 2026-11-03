@@ -2987,6 +2987,57 @@
               "value": "LEV_BOOK_RESERVATION_1847_STAGE_3"
             }
           ]
+        },
+        {
+          "id": 1120,
+          "name": "빌려줄 책과 읽는 순서",
+          "type": "quest-object",
+          "x": 240,
+          "y": 176,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "DARYA_READING_CIRCLE_1847_STAGE_1"
+            }
+          ]
+        },
+        {
+          "id": 1121,
+          "name": "독서 모임의 질문 목록",
+          "type": "quest-object",
+          "x": 256,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "DARYA_READING_CIRCLE_1847_STAGE_2"
+            }
+          ]
+        },
+        {
+          "id": 1122,
+          "name": "책값과 접근 기록",
+          "type": "quest-object",
+          "x": 240,
+          "y": 208,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "DARYA_READING_CIRCLE_1847_STAGE_3"
+            }
+          ]
         }
       ]
     },

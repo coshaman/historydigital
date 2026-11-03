@@ -25,9 +25,8 @@ test('a transient authored fallback session must reconnect instead of pinning la
   assert.equal(dialogueSessionNeedsReconnect(null), true);
 });
 
-test('only an explicit missing API key enables authored offline answers', () => {
-  assert.equal(shouldUseAuthoredOfflineReply({ apiFailureCode: 'BLOCKED_NO_KEY' }), true);
-  for (const apiFailureCode of ['network_error', 'http_500', 'timeout', 'response_schema_invalid', '']) {
+test('missing credentials and provider failures never substitute authored offline answers', () => {
+  for (const apiFailureCode of ['BLOCKED_NO_KEY', 'network_error', 'http_500', 'timeout', 'response_schema_invalid', '']) {
     assert.equal(shouldUseAuthoredOfflineReply({ apiFailureCode }), false, apiFailureCode || 'unknown failure');
   }
   assert.equal(shouldUseAuthoredOfflineReply({ apiFailureCode: 'BLOCKED_NO_KEY', sessionWasLive: true }), false);
