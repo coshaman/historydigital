@@ -1,0 +1,98 @@
+{
+  "id": "YURI_COPYING_LEDGER_1847_STAGE_3",
+  "titleKo": "읽히는 사본과 빠진 줄 · 3막",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "다른 서기가 만든 사본과 한 줄이 다르다. 둘 중 어느 기록을 기준으로 할지 정해야 한다.",
+  "historicalOutcome": {
+    "id": "YURI_COPYING_LEDGER_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "chancery",
+    "objectId": 1005,
+    "requiredHostId": "scribal_yuri"
+  },
+  "previousQuestId": "YURI_COPYING_LEDGER_1847_STAGE_2",
+  "actions": [
+    {
+      "id": "YURI_COPYING_LEDGER_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "scribal_yuri"
+      ],
+      "labelKo": "두 사본과 원본을 한 줄씩 대조한다",
+      "subcopyKo": "두 서기와 장부 담당이 압니다 · 대조표가 남습니다 · 확인 전까지 결재가 늦어집니다",
+      "resultKo": "원본과 두 사본을 맞춰 보기로 했다. 차이는 찾을 수 있지만 결재가 늦어진다.",
+      "resultFlag": "YURI_COPYING_LEDGER_1847_STAGE_3_RESULT_1",
+      "followupTitleKo": "읽히는 사본과 빠진 줄",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "원본과 두 사본을 맞춰 보기로 했다. 차이는 찾을 수 있지만 결재가 늦어진다.",
+        "relations": {
+          "work_or_household": "두 번째 사본의 차이 · 두 사본과 원본을 한 줄씩 대조한다"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "YURI_COPYING_LEDGER_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "scribal_yuri"
+      ],
+      "labelKo": "차이가 난 줄을 별도 쪽지로 붙인다",
+      "subcopyKo": "결재 담당자만 압니다 · 보충 쪽지가 함께 보관됩니다 · 본문만 읽으면 차이를 놓칠 수 있습니다",
+      "resultKo": "차이를 보충 쪽지로 붙였다. 본문은 그대로 두었지만 쪽지를 함께 보아야 한다.",
+      "resultFlag": "YURI_COPYING_LEDGER_1847_STAGE_3_RESULT_2",
+      "followupTitleKo": "읽히는 사본과 빠진 줄",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "차이를 보충 쪽지로 붙였다. 본문은 그대로 두었지만 쪽지를 함께 보아야 한다.",
+        "relations": {
+          "work_or_household": "두 번째 사본의 차이 · 차이가 난 줄을 별도 쪽지로 붙인다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "YURI_COPYING_LEDGER_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "scribal_yuri"
+      ],
+      "labelKo": "담당 서기의 서명을 받고 한 사본을 채택한다",
+      "subcopyKo": "결재자와 두 서기가 압니다 · 채택한 사본에 서명이 남습니다 · 서명한 서기가 책임을 더 집니다",
+      "resultKo": "서명을 받고 한 사본을 기준으로 삼았다. 기준은 정해졌지만 서명한 사람이 책임을 진다.",
+      "resultFlag": "YURI_COPYING_LEDGER_1847_STAGE_3_RESULT_3",
+      "followupTitleKo": "읽히는 사본과 빠진 줄",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "서명을 받고 한 사본을 기준으로 삼았다. 기준은 정해졌지만 서명한 사람이 책임을 진다.",
+        "relations": {
+          "work_or_household": "두 번째 사본의 차이 · 담당 서기의 서명을 받고 한 사본을 채택한다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "trust": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "YURI_COPYING_LEDGER_1847",
+    "titleKo": "읽히는 사본과 빠진 줄",
+    "stage": 3,
+    "stageCount": 3,
+    "metricKo": "사본의 정확도와 열람 범위",
+    "previousQuestId": "YURI_COPYING_LEDGER_1847_STAGE_2"
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "id": "MATRYONA_STREET_STALL_1847_STAGE_3",
+  "titleKo": "비 그친 뒤의 좌판 자리 · 3막",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "마감 때 재고 무게가 아침 기록보다 적다. 손님이 더 가져갔는지, 젖은 물건을 버렸는지 알 수 없다.",
+  "historicalOutcome": {
+    "id": "MATRYONA_STREET_STALL_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "nevsky",
+    "objectId": 1017,
+    "requiredHostId": "street_vendor_matryona"
+  },
+  "previousQuestId": "MATRYONA_STREET_STALL_1847_STAGE_2",
+  "actions": [
+    {
+      "id": "MATRYONA_STREET_STALL_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "street_vendor_matryona"
+      ],
+      "labelKo": "아침과 마감의 물건을 다시 센다",
+      "subcopyKo": "좌판 주인과 이웃이 압니다 · 재고 차이가 쪽지에 남습니다 · 정리 시간이 늦어집니다",
+      "resultKo": "물건을 다시 세고 버린 몫을 따로 적었다. 차이는 보이지만 원인은 더 살펴야 한다.",
+      "resultFlag": "MATRYONA_STREET_STALL_1847_STAGE_3_RESULT_1",
+      "followupTitleKo": "비 그친 뒤의 좌판 자리",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "물건을 다시 세고 버린 몫을 따로 적었다. 차이는 보이지만 원인은 더 살펴야 한다.",
+        "relations": {
+          "work_or_household": "저울의 마지막 확인 · 아침과 마감의 물건을 다시 센다"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "MATRYONA_STREET_STALL_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "street_vendor_matryona"
+      ],
+      "labelKo": "모르는 차이는 손실로만 기록한다",
+      "subcopyKo": "가게 장부 담당만 압니다 · 손실 수량만 남습니다 · 손해는 좌판 주인이 떠안습니다",
+      "resultKo": "차이를 손실로 적었다. 누구도 탓하지 않지만 손해는 그대로 남는다.",
+      "resultFlag": "MATRYONA_STREET_STALL_1847_STAGE_3_RESULT_2",
+      "followupTitleKo": "비 그친 뒤의 좌판 자리",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "차이를 손실로 적었다. 누구도 탓하지 않지만 손해는 그대로 남는다.",
+        "relations": {
+          "work_or_household": "저울의 마지막 확인 · 모르는 차이는 손실로만 기록한다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "MATRYONA_STREET_STALL_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "street_vendor_matryona"
+      ],
+      "labelKo": "옆 좌판 사람에게 본 일을 묻는다",
+      "subcopyKo": "근처 상인들이 압니다 · 들은 말이 메모에 남습니다 · 확인되지 않은 소문이 번질 수 있습니다",
+      "resultKo": "옆 상인에게 본 것을 물었다. 단서는 얻을 수 있어도 전해 들은 말을 사실로 적을 수는 없다.",
+      "resultFlag": "MATRYONA_STREET_STALL_1847_STAGE_3_RESULT_3",
+      "followupTitleKo": "비 그친 뒤의 좌판 자리",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "옆 상인에게 본 것을 물었다. 단서는 얻을 수 있어도 전해 들은 말을 사실로 적을 수는 없다.",
+        "relations": {
+          "work_or_household": "저울의 마지막 확인 · 옆 좌판 사람에게 본 일을 묻는다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "trust": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "MATRYONA_STREET_STALL_1847",
+    "titleKo": "비 그친 뒤의 좌판 자리",
+    "stage": 3,
+    "stageCount": 3,
+    "metricKo": "장사할 자리와 상한 물건의 손실",
+    "previousQuestId": "MATRYONA_STREET_STALL_1847_STAGE_2"
+  }
+}

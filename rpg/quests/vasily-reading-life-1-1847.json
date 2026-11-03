@@ -1,0 +1,96 @@
+{
+  "id": "VASILY_READING_CIRCLE_1847_STAGE_1",
+  "titleKo": "읽을 모임과 들킬 위험 · 1막",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "학생 몇 명이 시와 잡지를 함께 읽자고 모인다. 누가 오는지 목록을 만들자는 말도 나온다.",
+  "historicalOutcome": {
+    "id": "VASILY_READING_CIRCLE_1847_STAGE_1_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "nevsky",
+    "objectId": 1007,
+    "requiredHostId": "student_vasily"
+  },
+  "actions": [
+    {
+      "id": "VASILY_READING_CIRCLE_1847_STAGE_1_CHOICE_1",
+      "hostIds": [
+        "student_vasily"
+      ],
+      "labelKo": "작품 제목과 읽을 날짜만 적는다",
+      "subcopyKo": "참석자와 주최자가 압니다 · 모임 쪽지에 책과 날짜만 남습니다 · 준비물 담당을 놓칠 수 있습니다",
+      "resultKo": "책 제목과 날짜만 적었다. 모임은 준비할 수 있지만 누가 왔는지는 기록하지 않는다.",
+      "resultFlag": "VASILY_READING_CIRCLE_1847_STAGE_1_RESULT_1",
+      "followupTitleKo": "읽을 모임과 들킬 위험",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "책 제목과 날짜만 적었다. 모임은 준비할 수 있지만 누가 왔는지는 기록하지 않는다.",
+        "relations": {
+          "work_or_household": "첫 모임의 초대장 · 작품 제목과 읽을 날짜만 적는다"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "VASILY_READING_CIRCLE_1847_STAGE_1_CHOICE_2",
+      "hostIds": [
+        "student_vasily"
+      ],
+      "labelKo": "참석자를 적고 각자 동의를 구한다",
+      "subcopyKo": "초대받은 사람과 주최자가 압니다 · 명단이 남습니다 · 명단을 본 사람이 참석자를 위험에 빠뜨릴 수 있습니다",
+      "resultKo": "동의를 받고 이름을 적었다. 연락은 편해지지만 참석 기록도 생긴다.",
+      "resultFlag": "VASILY_READING_CIRCLE_1847_STAGE_1_RESULT_2",
+      "followupTitleKo": "읽을 모임과 들킬 위험",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "동의를 받고 이름을 적었다. 연락은 편해지지만 참석 기록도 생긴다.",
+        "relations": {
+          "work_or_household": "첫 모임의 초대장 · 참석자를 적고 각자 동의를 구한다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "VASILY_READING_CIRCLE_1847_STAGE_1_CHOICE_3",
+      "hostIds": [
+        "student_vasily"
+      ],
+      "labelKo": "목록 없이 구두로만 알린다",
+      "subcopyKo": "초대받은 사람끼리만 압니다 · 기록은 없습니다 · 전달이 틀리거나 누군가 빠질 수 있습니다",
+      "resultKo": "말로만 초대했다. 명단은 없지만 소식이 제대로 닿았는지 알기 어렵다.",
+      "resultFlag": "VASILY_READING_CIRCLE_1847_STAGE_1_RESULT_3",
+      "followupTitleKo": "읽을 모임과 들킬 위험",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "말로만 초대했다. 명단은 없지만 소식이 제대로 닿았는지 알기 어렵다.",
+        "relations": {
+          "work_or_household": "첫 모임의 초대장 · 목록 없이 구두로만 알린다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "trust": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "VASILY_READING_CIRCLE_1847",
+    "titleKo": "읽을 모임과 들킬 위험",
+    "stage": 1,
+    "stageCount": 3,
+    "metricKo": "배움의 문턱과 참석자의 위험"
+  }
+}

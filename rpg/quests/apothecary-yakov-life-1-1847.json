@@ -1,0 +1,96 @@
+{
+  "id": "YAKOV_REMEDY_LIMITS_1847_STAGE_1",
+  "titleKo": "약재의 이름과 모르는 효능 · 1막",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "손님은 이 약재가 낫게 한다는 말을 들었다며, 오늘 바로 살 수 있는지 묻는다.",
+  "historicalOutcome": {
+    "id": "YAKOV_REMEDY_LIMITS_1847_STAGE_1_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "market-quay",
+    "objectId": 1002,
+    "requiredHostId": "apothecary_yakov"
+  },
+  "actions": [
+    {
+      "id": "YAKOV_REMEDY_LIMITS_1847_STAGE_1_CHOICE_1",
+      "hostIds": [
+        "apothecary_yakov"
+      ],
+      "labelKo": "확인한 재료와 모르는 점을 나눠 설명한다",
+      "subcopyKo": "손님과 약제사만 압니다 · 상담장에 확인 범위가 남습니다 · 답을 듣고 손님이 다른 곳을 찾을 수 있습니다",
+      "resultKo": "재료와 값은 확인해 주되 효능은 장담하지 않았다. 손님은 다른 의견을 더 들어볼 수 있다.",
+      "resultFlag": "YAKOV_REMEDY_LIMITS_1847_STAGE_1_RESULT_1",
+      "followupTitleKo": "약재의 이름과 모르는 효능",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "재료와 값은 확인해 주되 효능은 장담하지 않았다. 손님은 다른 의견을 더 들어볼 수 있다.",
+        "relations": {
+          "work_or_household": "출처가 적히지 않은 처방 · 확인한 재료와 모르는 점을 나눠 설명한다"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "YAKOV_REMEDY_LIMITS_1847_STAGE_1_CHOICE_2",
+      "hostIds": [
+        "apothecary_yakov"
+      ],
+      "labelKo": "처방을 그대로 팔고 설명은 짧게 한다",
+      "subcopyKo": "손님과 약방 장부에 남습니다 · 판매 기록이 남습니다 · 효과가 없으면 신뢰를 잃을 수 있습니다",
+      "resultKo": "처방대로 약재를 내주었다. 손님은 기다리지 않아도 되지만 결과까지 약속한 셈은 아니다.",
+      "resultFlag": "YAKOV_REMEDY_LIMITS_1847_STAGE_1_RESULT_2",
+      "followupTitleKo": "약재의 이름과 모르는 효능",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "처방대로 약재를 내주었다. 손님은 기다리지 않아도 되지만 결과까지 약속한 셈은 아니다.",
+        "relations": {
+          "work_or_household": "출처가 적히지 않은 처방 · 처방을 그대로 팔고 설명은 짧게 한다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "YAKOV_REMEDY_LIMITS_1847_STAGE_1_CHOICE_3",
+      "hostIds": [
+        "apothecary_yakov"
+      ],
+      "labelKo": "값싼 대체 약재를 먼저 보여준다",
+      "subcopyKo": "손님이 압니다 · 판매표에 대체품이 남습니다 · 효능 차이를 오해할 수 있습니다",
+      "resultKo": "값이 낮은 재료를 안내했다. 부담은 줄었지만 같은 효과라고 말하지는 않았다.",
+      "resultFlag": "YAKOV_REMEDY_LIMITS_1847_STAGE_1_RESULT_3",
+      "followupTitleKo": "약재의 이름과 모르는 효능",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "값이 낮은 재료를 안내했다. 부담은 줄었지만 같은 효과라고 말하지는 않았다.",
+        "relations": {
+          "work_or_household": "출처가 적히지 않은 처방 · 값싼 대체 약재를 먼저 보여준다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "trust": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "YAKOV_REMEDY_LIMITS_1847",
+    "titleKo": "약재의 이름과 모르는 효능",
+    "stage": 1,
+    "stageCount": 3,
+    "metricKo": "확인된 설명과 감당할 수 있는 비용"
+  }
+}

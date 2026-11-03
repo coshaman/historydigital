@@ -1,0 +1,98 @@
+{
+  "id": "YAKOV_REMEDY_LIMITS_1847_STAGE_3",
+  "titleKo": "약재의 이름과 모르는 효능 · 3막",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "새 손님은 급한 처방을 원하고, 앞선 손님은 약값을 나중에 내겠다고 부탁한다.",
+  "historicalOutcome": {
+    "id": "YAKOV_REMEDY_LIMITS_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "market-quay",
+    "objectId": 1002,
+    "requiredHostId": "apothecary_yakov"
+  },
+  "previousQuestId": "YAKOV_REMEDY_LIMITS_1847_STAGE_2",
+  "actions": [
+    {
+      "id": "YAKOV_REMEDY_LIMITS_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "apothecary_yakov"
+      ],
+      "labelKo": "외상 조건과 갚을 날짜를 함께 적는다",
+      "subcopyKo": "손님과 약방 장부 담당이 압니다 · 공개 장부에 금액과 날짜가 남습니다 · 사정이 다른 손님에게 알려질 수 있습니다",
+      "resultKo": "외상 금액과 날짜를 적었다. 약은 건넸지만 개인 사정도 기록에 남는다.",
+      "resultFlag": "YAKOV_REMEDY_LIMITS_1847_STAGE_3_RESULT_1",
+      "followupTitleKo": "약재의 이름과 모르는 효능",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "외상 금액과 날짜를 적었다. 약은 건넸지만 개인 사정도 기록에 남는다.",
+        "relations": {
+          "work_or_household": "약방 문을 닫기 전 · 외상 조건과 갚을 날짜를 함께 적는다"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "YAKOV_REMEDY_LIMITS_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "apothecary_yakov"
+      ],
+      "labelKo": "이름은 감추고 외상 총액만 적는다",
+      "subcopyKo": "약방 주인만 압니다 · 개인 장부에 합계만 남습니다 · 누가 갚지 않았는지 나중에 확인하기 어렵습니다",
+      "resultKo": "이름 대신 합계만 기록했다. 사정은 덜 드러나지만 셈을 맞추기 어렵다.",
+      "resultFlag": "YAKOV_REMEDY_LIMITS_1847_STAGE_3_RESULT_2",
+      "followupTitleKo": "약재의 이름과 모르는 효능",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "이름 대신 합계만 기록했다. 사정은 덜 드러나지만 셈을 맞추기 어렵다.",
+        "relations": {
+          "work_or_household": "약방 문을 닫기 전 · 이름은 감추고 외상 총액만 적는다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "YAKOV_REMEDY_LIMITS_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "apothecary_yakov"
+      ],
+      "labelKo": "외상은 거절하고 약값을 낮출 방법을 찾는다",
+      "subcopyKo": "손님과 약방이 압니다 · 판매 장부에 조정액이 남습니다 · 약방의 이익이 줄어듭니다",
+      "resultKo": "외상 대신 값을 조정했다. 손님은 빚지지 않았지만 약방 몫은 줄었다.",
+      "resultFlag": "YAKOV_REMEDY_LIMITS_1847_STAGE_3_RESULT_3",
+      "followupTitleKo": "약재의 이름과 모르는 효능",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "외상 대신 값을 조정했다. 손님은 빚지지 않았지만 약방 몫은 줄었다.",
+        "relations": {
+          "work_or_household": "약방 문을 닫기 전 · 외상은 거절하고 약값을 낮출 방법을 찾는다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "trust": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "YAKOV_REMEDY_LIMITS_1847",
+    "titleKo": "약재의 이름과 모르는 효능",
+    "stage": 3,
+    "stageCount": 3,
+    "metricKo": "확인된 설명과 감당할 수 있는 비용",
+    "previousQuestId": "YAKOV_REMEDY_LIMITS_1847_STAGE_2"
+  }
+}

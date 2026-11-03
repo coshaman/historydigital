@@ -1,0 +1,96 @@
+{
+  "id": "LUKA_WATER_QUEUE_1847_STAGE_1",
+  "titleKo": "물통 순서와 먼 길 · 1막",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "비가 오기 전 마지막 물 길어올 시간이 왔다. 안뜰에는 물통이 줄을 섰다.",
+  "historicalOutcome": {
+    "id": "LUKA_WATER_QUEUE_1847_STAGE_1_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "courtyard",
+    "objectId": 1011,
+    "requiredHostId": "watercarrier_luka"
+  },
+  "actions": [
+    {
+      "id": "LUKA_WATER_QUEUE_1847_STAGE_1_CHOICE_1",
+      "hostIds": [
+        "watercarrier_luka"
+      ],
+      "labelKo": "이름 대신 물통 수와 차례를 적는다",
+      "subcopyKo": "안뜰 사람들과 물지기가 압니다 · 차례표에 수량이 남습니다 · 물통을 잃어버린 사람은 찾기 어렵습니다",
+      "resultKo": "수량과 순서를 적었다. 차례는 보이지만 물통 주인은 따로 확인해야 한다.",
+      "resultFlag": "LUKA_WATER_QUEUE_1847_STAGE_1_RESULT_1",
+      "followupTitleKo": "물통 순서와 먼 길",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "수량과 순서를 적었다. 차례는 보이지만 물통 주인은 따로 확인해야 한다.",
+        "relations": {
+          "work_or_household": "한 개가 모자란 물통 · 이름 대신 물통 수와 차례를 적는다"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "LUKA_WATER_QUEUE_1847_STAGE_1_CHOICE_2",
+      "hostIds": [
+        "watercarrier_luka"
+      ],
+      "labelKo": "먼저 온 사람부터 채운다",
+      "subcopyKo": "줄 선 사람들이 압니다 · 공개된 차례가 유지됩니다 · 어린아이 있는 집도 더 기다릴 수 있습니다",
+      "resultKo": "먼저 온 순서를 지켰다. 규칙은 분명하지만 급한 사정은 반영되지 않는다.",
+      "resultFlag": "LUKA_WATER_QUEUE_1847_STAGE_1_RESULT_2",
+      "followupTitleKo": "물통 순서와 먼 길",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "먼저 온 순서를 지켰다. 규칙은 분명하지만 급한 사정은 반영되지 않는다.",
+        "relations": {
+          "work_or_household": "한 개가 모자란 물통 · 먼저 온 사람부터 채운다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "LUKA_WATER_QUEUE_1847_STAGE_1_CHOICE_3",
+      "hostIds": [
+        "watercarrier_luka"
+      ],
+      "labelKo": "급한 집에 한 통을 먼저 보낸다",
+      "subcopyKo": "물지기와 해당 집이 압니다 · 차례표에는 변경 표시가 남습니다 · 다른 집이 편들었다고 여길 수 있습니다",
+      "resultKo": "급한 집에 한 통을 먼저 보냈다. 필요한 곳에 닿았지만 순서를 바꾼 이유를 설명해야 한다.",
+      "resultFlag": "LUKA_WATER_QUEUE_1847_STAGE_1_RESULT_3",
+      "followupTitleKo": "물통 순서와 먼 길",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "급한 집에 한 통을 먼저 보냈다. 필요한 곳에 닿았지만 순서를 바꾼 이유를 설명해야 한다.",
+        "relations": {
+          "work_or_household": "한 개가 모자란 물통 · 급한 집에 한 통을 먼저 보낸다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "trust": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "LUKA_WATER_QUEUE_1847",
+    "titleKo": "물통 순서와 먼 길",
+    "stage": 1,
+    "stageCount": 3,
+    "metricKo": "공동 우물의 차례와 운반 노동"
+  }
+}

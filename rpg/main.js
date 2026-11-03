@@ -144,7 +144,7 @@ const tutorialCopy = [
   '해야 할 일을 읽었으면 수첩을 닫으세요. 필요할 때 목적지를 표시할 수 있습니다.',
   '표시된 곳에 가서 실제 문서나 물건을 살펴보세요. 조사와 선택이 기록되어야 다음 단계로 넘어갑니다.',
   '사람 가까이에서 말 걸기를 누르세요. 선택지는 빠른 대답이고, 직접 입력은 원하는 말입니다.',
-  '대화를 마치면 목표를 확인하세요. 아래 사건·철학·이념 임무에서 질문을 담고 서로 다른 두 인물에게 같은 쟁점을 물으면, 관점 비교 메모를 얻을 수 있습니다.',
+  '대화를 마치면 아래 ‘생각과 사건을 묻는 임무’에서 쟁점을 하나 고르세요. 질문을 담고 서로 다른 두 사람에게 같은 문제를 물은 뒤, 답을 비교하고 내 입장을 수첩에 기록하면 됩니다.',
 ];
 function updateTutorial() {
   const card = $('#tutorial-card');
@@ -423,7 +423,7 @@ function updateHud() {
       phaseId: 'opinion-inquiry',
       hostId: queuedDiscussionInquiry.hostId,
       taskType: host?.id === queuedDiscussionInquiry.hostId ? 'TALK' : host ? 'TRAVEL' : 'POSSESS',
-      questTitleKo: `사건·이념 임무 · ${queuedDiscussionInquiry.titleKo}`,
+      questTitleKo: `생각·사건 임무 · ${queuedDiscussionInquiry.titleKo}`,
       actionKo: `${queuedDiscussionInquiry.hostNameKo}에게 물어보기 · ${queuedDiscussionInquiry.progressKo}`,
       reasonKo: queuedDiscussionInquiry.stakesKo,
       howKo: `${nextAction}. ${targetGuide?.howKo ?? ''} 준비한 질문은 대화 선택지 맨 앞에 놓입니다.`,

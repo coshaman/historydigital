@@ -1,0 +1,98 @@
+{
+  "id": "IRINA_INN_PRIVACY_1847_STAGE_3",
+  "titleKo": "여관 장부와 손님의 사정 · 3막",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "손님은 방을 비우며 남은 값을 다 갚지 못했다고 한다. 다음 손님이 곧 도착한다.",
+  "historicalOutcome": {
+    "id": "IRINA_INN_PRIVACY_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "courtyard",
+    "objectId": 1006,
+    "requiredHostId": "innkeeper_irina"
+  },
+  "previousQuestId": "IRINA_INN_PRIVACY_1847_STAGE_2",
+  "actions": [
+    {
+      "id": "IRINA_INN_PRIVACY_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "innkeeper_irina"
+      ],
+      "labelKo": "미수금 쪽지를 봉해 따로 보관한다",
+      "subcopyKo": "여관 주인과 손님이 압니다 · 봉한 쪽지에 금액만 남습니다 · 다음 근무자가 확인하려면 봉투를 열어야 합니다",
+      "resultKo": "미수금 쪽지를 봉해 두었다. 금액은 남지만 사정은 공개 장부에서 빠졌다.",
+      "resultFlag": "IRINA_INN_PRIVACY_1847_STAGE_3_RESULT_1",
+      "followupTitleKo": "여관 장부와 손님의 사정",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "미수금 쪽지를 봉해 두었다. 금액은 남지만 사정은 공개 장부에서 빠졌다.",
+        "relations": {
+          "work_or_household": "퇴실 계산 · 미수금 쪽지를 봉해 따로 보관한다"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "IRINA_INN_PRIVACY_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "innkeeper_irina"
+      ],
+      "labelKo": "새 주소를 확인하고 계산서를 보낸다",
+      "subcopyKo": "손님과 여관이 압니다 · 발송 기록에 주소가 남습니다 · 주소가 노출되면 불편을 겪을 수 있습니다",
+      "resultKo": "손님 주소로 계산서를 보내기로 했다. 청구는 이어지지만 주소도 장부에 남는다.",
+      "resultFlag": "IRINA_INN_PRIVACY_1847_STAGE_3_RESULT_2",
+      "followupTitleKo": "여관 장부와 손님의 사정",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "손님 주소로 계산서를 보내기로 했다. 청구는 이어지지만 주소도 장부에 남는다.",
+        "relations": {
+          "work_or_household": "퇴실 계산 · 새 주소를 확인하고 계산서를 보낸다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "IRINA_INN_PRIVACY_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "innkeeper_irina"
+      ],
+      "labelKo": "남은 돈을 여관의 공동 손실로 처리한다",
+      "subcopyKo": "여관 동료가 압니다 · 공동 장부에 손실이 남습니다 · 다른 손님 비용으로 메울 수 있습니다",
+      "resultKo": "미수금을 공동 손실로 적었다. 손님은 떠났지만 다른 직원과 손님이 비용을 나눌 수 있다.",
+      "resultFlag": "IRINA_INN_PRIVACY_1847_STAGE_3_RESULT_3",
+      "followupTitleKo": "여관 장부와 손님의 사정",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "미수금을 공동 손실로 적었다. 손님은 떠났지만 다른 직원과 손님이 비용을 나눌 수 있다.",
+        "relations": {
+          "work_or_household": "퇴실 계산 · 남은 돈을 여관의 공동 손실로 처리한다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "trust": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "IRINA_INN_PRIVACY_1847",
+    "titleKo": "여관 장부와 손님의 사정",
+    "stage": 3,
+    "stageCount": 3,
+    "metricKo": "빚을 확인하는 일과 사생활 보호",
+    "previousQuestId": "IRINA_INN_PRIVACY_1847_STAGE_2"
+  }
+}

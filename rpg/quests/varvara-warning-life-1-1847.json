@@ -1,0 +1,96 @@
+{
+  "id": "VARVARA_PRIVATE_WARNING_1847_STAGE_1",
+  "titleKo": "들어버린 말과 전할 경고 · 1막",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "집안의 대화를 우연히 들었다. 누군가를 내보내겠다는 말 같지만 앞뒤는 듣지 못했다.",
+  "historicalOutcome": {
+    "id": "VARVARA_PRIVATE_WARNING_1847_STAGE_1_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "courtyard",
+    "objectId": 1014,
+    "requiredHostId": "servant_varvara"
+  },
+  "actions": [
+    {
+      "id": "VARVARA_PRIVATE_WARNING_1847_STAGE_1_CHOICE_1",
+      "hostIds": [
+        "servant_varvara"
+      ],
+      "labelKo": "들은 말과 못 들은 부분을 나눠 기억한다",
+      "subcopyKo": "들은 당사자만 압니다 · 개인 메모에는 불확실함이 남습니다 · 당장 돕는 사람은 없습니다",
+      "resultKo": "들은 말과 놓친 부분을 따로 적었다. 경고는 늦어져도 확실한 척하지 않는다.",
+      "resultFlag": "VARVARA_PRIVATE_WARNING_1847_STAGE_1_RESULT_1",
+      "followupTitleKo": "들어버린 말과 전할 경고",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "들은 말과 놓친 부분을 따로 적었다. 경고는 늦어져도 확실한 척하지 않는다.",
+        "relations": {
+          "work_or_household": "닫히지 않은 문 · 들은 말과 못 들은 부분을 나눠 기억한다"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "VARVARA_PRIVATE_WARNING_1847_STAGE_1_CHOICE_2",
+      "hostIds": [
+        "servant_varvara"
+      ],
+      "labelKo": "대상에게 확인된 위험만 조용히 알린다",
+      "subcopyKo": "당사자와 바르바라만 압니다 · 공개 기록은 남지 않습니다 · 잘못 들었다면 불안만 키웁니다",
+      "resultKo": "확실하지 않다는 말과 함께 조용히 알렸다. 위험을 살필 기회는 생기지만 오해일 수도 있다.",
+      "resultFlag": "VARVARA_PRIVATE_WARNING_1847_STAGE_1_RESULT_2",
+      "followupTitleKo": "들어버린 말과 전할 경고",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "확실하지 않다는 말과 함께 조용히 알렸다. 위험을 살필 기회는 생기지만 오해일 수도 있다.",
+        "relations": {
+          "work_or_household": "닫히지 않은 문 · 대상에게 확인된 위험만 조용히 알린다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "VARVARA_PRIVATE_WARNING_1847_STAGE_1_CHOICE_3",
+      "hostIds": [
+        "servant_varvara"
+      ],
+      "labelKo": "집안 책임자에게 누구 말인지 묻는다",
+      "subcopyKo": "집안 책임자와 압니다 · 질문이 근무 메모에 남을 수 있습니다 · 대화를 들었다는 이유로 추궁받을 수 있습니다",
+      "resultKo": "누가 내보내기로 했는지 물었다. 사실은 분명해질 수 있지만 질문한 사람이 의심받을 수 있다.",
+      "resultFlag": "VARVARA_PRIVATE_WARNING_1847_STAGE_1_RESULT_3",
+      "followupTitleKo": "들어버린 말과 전할 경고",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "누가 내보내기로 했는지 물었다. 사실은 분명해질 수 있지만 질문한 사람이 의심받을 수 있다.",
+        "relations": {
+          "work_or_household": "닫히지 않은 문 · 집안 책임자에게 누구 말인지 묻는다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "trust": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "VARVARA_PRIVATE_WARNING_1847",
+    "titleKo": "들어버린 말과 전할 경고",
+    "stage": 1,
+    "stageCount": 3,
+    "metricKo": "위험을 알리는 일과 사적인 말의 경계"
+  }
+}

@@ -40,9 +40,9 @@
   "oneHourWorldReplay": true,
   "collisionSnapshots": 12,
   "questCompletions": 6,
-  "questStagesResolved": 21,
+  "questStagesResolved": 18,
   "possessionChecks": 6,
   "legacySaveRelationMigrationPreservedDynamicLinks": true,
-  "movementEvents": 68,
-  "finalStateHash": "fe364bef"
+  "movementEvents": 63,
+  "finalStateHash": "e86eeb6a"
 }

@@ -1,0 +1,98 @@
+{
+  "id": "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_3",
+  "titleKo": "찢어진 장과 수리값 · 3막",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "수리는 끝났지만 손님은 원래와 달라진 부분을 받아들일지 아직 망설인다.",
+  "historicalOutcome": {
+    "id": "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "printshop",
+    "objectId": 1004,
+    "requiredHostId": "bookbinder_elizaveta"
+  },
+  "previousQuestId": "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_2",
+  "actions": [
+    {
+      "id": "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "bookbinder_elizaveta"
+      ],
+      "labelKo": "변한 부분을 하나씩 보여주며 돌려준다",
+      "subcopyKo": "손님이 압니다 · 인수 기록에 설명이 남습니다 · 돌려주는 시간이 늦어질 수 있습니다",
+      "resultKo": "바뀐 곳을 함께 확인하고 책을 건넸다. 손님은 수리 범위를 알고 가져간다.",
+      "resultFlag": "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_3_RESULT_1",
+      "followupTitleKo": "찢어진 장과 수리값",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "바뀐 곳을 함께 확인하고 책을 건넸다. 손님은 수리 범위를 알고 가져간다.",
+        "relations": {
+          "work_or_household": "책을 돌려주는 저녁 · 변한 부분을 하나씩 보여주며 돌려준다"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "bookbinder_elizaveta"
+      ],
+      "labelKo": "수리비를 낮추고 남은 흔적을 설명한다",
+      "subcopyKo": "손님과 책방이 압니다 · 할인액과 설명이 장부에 남습니다 · 제본공의 품삯이 줄어듭니다",
+      "resultKo": "수리비를 낮춰 돌려주었다. 손님 부담은 줄었지만 일한 값도 깎였다.",
+      "resultFlag": "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_3_RESULT_2",
+      "followupTitleKo": "찢어진 장과 수리값",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "수리비를 낮춰 돌려주었다. 손님 부담은 줄었지만 일한 값도 깎였다.",
+        "relations": {
+          "work_or_household": "책을 돌려주는 저녁 · 수리비를 낮추고 남은 흔적을 설명한다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "bookbinder_elizaveta"
+      ],
+      "labelKo": "손님이 볼 때까지 작업대에 보관한다",
+      "subcopyKo": "제본공과 손님이 압니다 · 보관표가 남습니다 · 다른 주문을 놓을 자리가 줄어듭니다",
+      "resultKo": "손님이 직접 올 때까지 책을 보관했다. 오해는 줄겠지만 작업대가 비워지지 않는다.",
+      "resultFlag": "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_3_RESULT_3",
+      "followupTitleKo": "찢어진 장과 수리값",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "손님이 직접 올 때까지 책을 보관했다. 오해는 줄겠지만 작업대가 비워지지 않는다.",
+        "relations": {
+          "work_or_household": "책을 돌려주는 저녁 · 손님이 볼 때까지 작업대에 보관한다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "trust": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "ELIZAVETA_DAMAGED_BOOK_1847",
+    "titleKo": "찢어진 장과 수리값",
+    "stage": 3,
+    "stageCount": 3,
+    "metricKo": "책의 원형과 수리비 부담",
+    "previousQuestId": "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_2"
+  }
+}

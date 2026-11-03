@@ -1,0 +1,9 @@
+{
+  "schemaVersion": "V36_PERSONAL_LIFE_CHAIN_TEST_1",
+  "status": "PASS",
+  "completeThreeStageChains": 30,
+  "additionalChainsPlayed": 14,
+  "physicalStagesCompleted": 42,
+  "choiceDirectionsAudited": true,
+  "skippedStageBlocked": true
+}

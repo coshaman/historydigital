@@ -1,0 +1,98 @@
+{
+  "id": "KLAVDIYA_FISH_STORAGE_1847_STAGE_2",
+  "titleKo": "상하기 전의 생선값 · 2막",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "한 손님은 상한 곳을 도려내면 먹을 수 있다며 값을 더 깎아 달라고 한다.",
+  "historicalOutcome": {
+    "id": "KLAVDIYA_FISH_STORAGE_1847_STAGE_2_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "market-quay",
+    "objectId": 1012,
+    "requiredHostId": "fishseller_klavdiya"
+  },
+  "previousQuestId": "KLAVDIYA_FISH_STORAGE_1847_STAGE_1",
+  "actions": [
+    {
+      "id": "KLAVDIYA_FISH_STORAGE_1847_STAGE_2_CHOICE_1",
+      "hostIds": [
+        "fishseller_klavdiya"
+      ],
+      "labelKo": "상태와 손질 범위를 설명한다",
+      "subcopyKo": "손님과 상인이 압니다 · 손질한 양과 값이 판매표에 남습니다 · 손님이 거래를 취소할 수 있습니다",
+      "resultKo": "손질할 부분과 남는 양을 설명했다. 값은 낮췄지만 손님이 원하지 않을 수 있다.",
+      "resultFlag": "KLAVDIYA_FISH_STORAGE_1847_STAGE_2_RESULT_1",
+      "followupTitleKo": "상하기 전의 생선값",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "손질할 부분과 남는 양을 설명했다. 값은 낮췄지만 손님이 원하지 않을 수 있다.",
+        "relations": {
+          "work_or_household": "낮은 값을 요구하는 손님 · 상태와 손질 범위를 설명한다"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "KLAVDIYA_FISH_STORAGE_1847_STAGE_2_CHOICE_2",
+      "hostIds": [
+        "fishseller_klavdiya"
+      ],
+      "labelKo": "손질을 손님에게 맡긴다",
+      "subcopyKo": "손님만 압니다 · 판매 기록에는 생선만 남습니다 · 손질 중 다치거나 더 많이 버릴 수 있습니다",
+      "resultKo": "손님이 직접 손질하기로 했다. 값은 낮아졌지만 버릴 양도 손님이 감당한다.",
+      "resultFlag": "KLAVDIYA_FISH_STORAGE_1847_STAGE_2_RESULT_2",
+      "followupTitleKo": "상하기 전의 생선값",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "손님이 직접 손질하기로 했다. 값은 낮아졌지만 버릴 양도 손님이 감당한다.",
+        "relations": {
+          "work_or_household": "낮은 값을 요구하는 손님 · 손질을 손님에게 맡긴다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "KLAVDIYA_FISH_STORAGE_1847_STAGE_2_CHOICE_3",
+      "hostIds": [
+        "fishseller_klavdiya"
+      ],
+      "labelKo": "판매하지 않고 공동 식사에 보탠다",
+      "subcopyKo": "가게 동료와 식사하는 이웃이 압니다 · 공동 몫으로 기록됩니다 · 오늘 수입을 포기해야 합니다",
+      "resultKo": "팔기 어려운 생선을 공동 식사에 보탰다. 버리는 양은 줄었지만 판매 대금은 없다.",
+      "resultFlag": "KLAVDIYA_FISH_STORAGE_1847_STAGE_2_RESULT_3",
+      "followupTitleKo": "상하기 전의 생선값",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "팔기 어려운 생선을 공동 식사에 보탰다. 버리는 양은 줄었지만 판매 대금은 없다.",
+        "relations": {
+          "work_or_household": "낮은 값을 요구하는 손님 · 판매하지 않고 공동 식사에 보탠다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "trust": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "KLAVDIYA_FISH_STORAGE_1847",
+    "titleKo": "상하기 전의 생선값",
+    "stage": 2,
+    "stageCount": 3,
+    "metricKo": "손실을 줄이는 값과 손님의 신뢰",
+    "previousQuestId": "KLAVDIYA_FISH_STORAGE_1847_STAGE_1"
+  }
+}

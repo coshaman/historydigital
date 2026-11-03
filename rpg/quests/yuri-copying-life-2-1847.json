@@ -1,0 +1,98 @@
+{
+  "id": "YURI_COPYING_LEDGER_1847_STAGE_2",
+  "titleKo": "읽히는 사본과 빠진 줄 · 2막",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "담당자는 장부 사본을 더 넓은 방에 돌리자고 한다. 일부 줄에는 개인 이름이 적혀 있다.",
+  "historicalOutcome": {
+    "id": "YURI_COPYING_LEDGER_1847_STAGE_2_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "chancery",
+    "objectId": 1005,
+    "requiredHostId": "scribal_yuri"
+  },
+  "previousQuestId": "YURI_COPYING_LEDGER_1847_STAGE_1",
+  "actions": [
+    {
+      "id": "YURI_COPYING_LEDGER_1847_STAGE_2_CHOICE_1",
+      "hostIds": [
+        "scribal_yuri"
+      ],
+      "labelKo": "이름을 가리고 필요한 수량만 옮긴다",
+      "subcopyKo": "장부 담당과 열람자가 압니다 · 편집한 사본이 남습니다 · 원문 대조가 어려워집니다",
+      "resultKo": "이름은 옮기지 않고 수량만 적었다. 사생활은 덜 드러나지만 원본 대조가 제한된다.",
+      "resultFlag": "YURI_COPYING_LEDGER_1847_STAGE_2_RESULT_1",
+      "followupTitleKo": "읽히는 사본과 빠진 줄",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "이름은 옮기지 않고 수량만 적었다. 사생활은 덜 드러나지만 원본 대조가 제한된다.",
+        "relations": {
+          "work_or_household": "사본을 누가 볼까 · 이름을 가리고 필요한 수량만 옮긴다"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "YURI_COPYING_LEDGER_1847_STAGE_2_CHOICE_2",
+      "hostIds": [
+        "scribal_yuri"
+      ],
+      "labelKo": "열람자를 적고 원문 사본을 돌린다",
+      "subcopyKo": "열람자와 서기가 압니다 · 배포 명단이 남습니다 · 명단 자체가 감시 기록이 될 수 있습니다",
+      "resultKo": "누가 읽는지 적고 사본을 돌렸다. 책임은 확인되지만 열람자 명단도 남는다.",
+      "resultFlag": "YURI_COPYING_LEDGER_1847_STAGE_2_RESULT_2",
+      "followupTitleKo": "읽히는 사본과 빠진 줄",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "누가 읽는지 적고 사본을 돌렸다. 책임은 확인되지만 열람자 명단도 남는다.",
+        "relations": {
+          "work_or_household": "사본을 누가 볼까 · 열람자를 적고 원문 사본을 돌린다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "YURI_COPYING_LEDGER_1847_STAGE_2_CHOICE_3",
+      "hostIds": [
+        "scribal_yuri"
+      ],
+      "labelKo": "필요한 담당자에게만 원본을 보여준다",
+      "subcopyKo": "장부 보관자와 담당자가 압니다 · 열람은 공개 장부에 남지 않습니다 · 다른 부서가 확인을 요구할 수 있습니다",
+      "resultKo": "원본은 필요한 사람에게만 보였다. 범위는 좁혔지만 독립된 대조가 어렵다.",
+      "resultFlag": "YURI_COPYING_LEDGER_1847_STAGE_2_RESULT_3",
+      "followupTitleKo": "읽히는 사본과 빠진 줄",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "원본은 필요한 사람에게만 보였다. 범위는 좁혔지만 독립된 대조가 어렵다.",
+        "relations": {
+          "work_or_household": "사본을 누가 볼까 · 필요한 담당자에게만 원본을 보여준다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "trust": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "YURI_COPYING_LEDGER_1847",
+    "titleKo": "읽히는 사본과 빠진 줄",
+    "stage": 2,
+    "stageCount": 3,
+    "metricKo": "사본의 정확도와 열람 범위",
+    "previousQuestId": "YURI_COPYING_LEDGER_1847_STAGE_1"
+  }
+}

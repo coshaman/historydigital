@@ -1,0 +1,98 @@
+{
+  "id": "ANDREI_DEBT_STATUS_1847_STAGE_3",
+  "titleKo": "가문의 이름과 어음 만기 · 3막",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "친척은 집안 이름으로 돈을 더 빌려 이번 달을 넘기라고 한다. 상환 계획은 아직 없다.",
+  "historicalOutcome": {
+    "id": "ANDREI_DEBT_STATUS_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "chancery",
+    "objectId": 1009,
+    "requiredHostId": "minor_noble_andrei"
+  },
+  "previousQuestId": "ANDREI_DEBT_STATUS_1847_STAGE_2",
+  "actions": [
+    {
+      "id": "ANDREI_DEBT_STATUS_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "minor_noble_andrei"
+      ],
+      "labelKo": "계획 없는 차입은 거절하고 지출표를 공개한다",
+      "subcopyKo": "가족과 회계 담당이 압니다 · 지출표가 공유됩니다 · 사적인 소비도 드러납니다",
+      "resultKo": "계획이 없는 차입은 거절했다. 대신 어디에 돈을 썼는지 가족에게 보여야 한다.",
+      "resultFlag": "ANDREI_DEBT_STATUS_1847_STAGE_3_RESULT_1",
+      "followupTitleKo": "가문의 이름과 어음 만기",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "계획이 없는 차입은 거절했다. 대신 어디에 돈을 썼는지 가족에게 보여야 한다.",
+        "relations": {
+          "work_or_household": "이름을 빌린 마지막 부탁 · 계획 없는 차입은 거절하고 지출표를 공개한다"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "ANDREI_DEBT_STATUS_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "minor_noble_andrei"
+      ],
+      "labelKo": "상환 날짜와 책임자를 정한 뒤 빌린다",
+      "subcopyKo": "친척과 채권자가 압니다 · 차용증에 날짜와 이름이 남습니다 · 한 번 늦으면 더 큰 빚이 됩니다",
+      "resultKo": "조건을 적고 빌리기로 했다. 책임은 분명하지만 만기를 넘기면 위험도 커진다.",
+      "resultFlag": "ANDREI_DEBT_STATUS_1847_STAGE_3_RESULT_2",
+      "followupTitleKo": "가문의 이름과 어음 만기",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "조건을 적고 빌리기로 했다. 책임은 분명하지만 만기를 넘기면 위험도 커진다.",
+        "relations": {
+          "work_or_household": "이름을 빌린 마지막 부탁 · 상환 날짜와 책임자를 정한 뒤 빌린다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "ANDREI_DEBT_STATUS_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "minor_noble_andrei"
+      ],
+      "labelKo": "물건을 팔고 빚을 정리한다",
+      "subcopyKo": "가족과 채권자가 압니다 · 매각과 상환 기록이 남습니다 · 가문의 체면을 잃을 수 있습니다",
+      "resultKo": "물건을 정리해 빚을 줄이기로 했다. 체면은 상할 수 있지만 새 빚은 피한다.",
+      "resultFlag": "ANDREI_DEBT_STATUS_1847_STAGE_3_RESULT_3",
+      "followupTitleKo": "가문의 이름과 어음 만기",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "물건을 정리해 빚을 줄이기로 했다. 체면은 상할 수 있지만 새 빚은 피한다.",
+        "relations": {
+          "work_or_household": "이름을 빌린 마지막 부탁 · 물건을 팔고 빚을 정리한다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "trust": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "ANDREI_DEBT_STATUS_1847",
+    "titleKo": "가문의 이름과 어음 만기",
+    "stage": 3,
+    "stageCount": 3,
+    "metricKo": "체면을 지키는 말과 실제 상환 계획",
+    "previousQuestId": "ANDREI_DEBT_STATUS_1847_STAGE_2"
+  }
+}

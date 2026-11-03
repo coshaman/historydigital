@@ -1,0 +1,98 @@
+{
+  "id": "VARVARA_PRIVATE_WARNING_1847_STAGE_2",
+  "titleKo": "들어버린 말과 전할 경고 · 2막",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "동료가 방을 비우라는 말을 들었다며, 다른 사람에게도 알려 달라고 부탁한다.",
+  "historicalOutcome": {
+    "id": "VARVARA_PRIVATE_WARNING_1847_STAGE_2_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "courtyard",
+    "objectId": 1014,
+    "requiredHostId": "servant_varvara"
+  },
+  "previousQuestId": "VARVARA_PRIVATE_WARNING_1847_STAGE_1",
+  "actions": [
+    {
+      "id": "VARVARA_PRIVATE_WARNING_1847_STAGE_2_CHOICE_1",
+      "hostIds": [
+        "servant_varvara"
+      ],
+      "labelKo": "동료와 함께 대상자에게 다시 확인한다",
+      "subcopyKo": "세 사람만 압니다 · 공개 장부에는 남지 않습니다 · 확인이 늦어질 수 있습니다",
+      "resultKo": "동료와 함께 직접 확인하기로 했다. 소문을 옮기기보다 당사자에게 물을 수 있다.",
+      "resultFlag": "VARVARA_PRIVATE_WARNING_1847_STAGE_2_RESULT_1",
+      "followupTitleKo": "들어버린 말과 전할 경고",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "동료와 함께 직접 확인하기로 했다. 소문을 옮기기보다 당사자에게 물을 수 있다.",
+        "relations": {
+          "work_or_household": "도움을 청한 동료 · 동료와 함께 대상자에게 다시 확인한다"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "VARVARA_PRIVATE_WARNING_1847_STAGE_2_CHOICE_2",
+      "hostIds": [
+        "servant_varvara"
+      ],
+      "labelKo": "믿을 수 있는 한 사람에게만 전달한다",
+      "subcopyKo": "대상과 한 명의 조력자가 압니다 · 비공식 전달은 기록에 남지 않습니다 · 비밀이 더 퍼질 수 있습니다",
+      "resultKo": "도울 사람 한 명에게만 알렸다. 도움은 받을 수 있지만 비밀이 하나 더 생겼다.",
+      "resultFlag": "VARVARA_PRIVATE_WARNING_1847_STAGE_2_RESULT_2",
+      "followupTitleKo": "들어버린 말과 전할 경고",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "도울 사람 한 명에게만 알렸다. 도움은 받을 수 있지만 비밀이 하나 더 생겼다.",
+        "relations": {
+          "work_or_household": "도움을 청한 동료 · 믿을 수 있는 한 사람에게만 전달한다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "VARVARA_PRIVATE_WARNING_1847_STAGE_2_CHOICE_3",
+      "hostIds": [
+        "servant_varvara"
+      ],
+      "labelKo": "이름을 빼고 관리인에게 상황을 알린다",
+      "subcopyKo": "관리인만 압니다 · 익명 보고가 메모에 남습니다 · 관리인이 단서를 보고 사람을 짐작할 수 있습니다",
+      "resultKo": "이름 없이 상황만 알렸다. 확인을 요청했지만 누군지 추측할 여지는 남는다.",
+      "resultFlag": "VARVARA_PRIVATE_WARNING_1847_STAGE_2_RESULT_3",
+      "followupTitleKo": "들어버린 말과 전할 경고",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "이름 없이 상황만 알렸다. 확인을 요청했지만 누군지 추측할 여지는 남는다.",
+        "relations": {
+          "work_or_household": "도움을 청한 동료 · 이름을 빼고 관리인에게 상황을 알린다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "trust": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "VARVARA_PRIVATE_WARNING_1847",
+    "titleKo": "들어버린 말과 전할 경고",
+    "stage": 2,
+    "stageCount": 3,
+    "metricKo": "위험을 알리는 일과 사적인 말의 경계",
+    "previousQuestId": "VARVARA_PRIVATE_WARNING_1847_STAGE_1"
+  }
+}

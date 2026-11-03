@@ -1,0 +1,98 @@
+{
+  "id": "MARIYA_WASHING_WAGES_1847_STAGE_2",
+  "titleKo": "밀린 빨래값과 다음 일감 · 2막",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "새 주문은 오늘 안에 끝내야 하고, 지난번 값을 미룬 의뢰인도 다시 찾아왔다.",
+  "historicalOutcome": {
+    "id": "MARIYA_WASHING_WAGES_1847_STAGE_2_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "market-quay",
+    "objectId": 111,
+    "requiredHostId": "laundress_mariya"
+  },
+  "previousQuestId": "MARIYA_WASHING_WAGES_1847_STAGE_1",
+  "actions": [
+    {
+      "id": "MARIYA_WASHING_WAGES_1847_STAGE_2_CHOICE_1",
+      "hostIds": [
+        "laundress_mariya"
+      ],
+      "labelKo": "새 주문은 받되 지난 값을 먼저 확인한다",
+      "subcopyKo": "새 의뢰인과 세탁소가 압니다 · 주문표와 미수금 장부에 각각 남습니다 · 두 일을 맞추느라 시간이 빠듯합니다",
+      "resultKo": "새 주문과 밀린 값을 따로 적었다. 일을 이어가면서도 지난 약속을 묻기로 했다.",
+      "resultFlag": "MARIYA_WASHING_WAGES_1847_STAGE_2_RESULT_1",
+      "followupTitleKo": "밀린 빨래값과 다음 일감",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "새 주문과 밀린 값을 따로 적었다. 일을 이어가면서도 지난 약속을 묻기로 했다.",
+        "relations": {
+          "work_or_household": "다른 집의 급한 세탁 · 새 주문은 받되 지난 값을 먼저 확인한다"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "MARIYA_WASHING_WAGES_1847_STAGE_2_CHOICE_2",
+      "hostIds": [
+        "laundress_mariya"
+      ],
+      "labelKo": "밀린 값을 낼 때까지 새 주문을 거절한다",
+      "subcopyKo": "지난 의뢰인과 세탁소가 압니다 · 거절 이유가 주문표에 남습니다 · 새 손님을 잃을 수 있습니다",
+      "resultKo": "값을 받기 전에는 새 일을 맡지 않기로 했다. 오늘 수입은 줄어도 미수금은 더 쌓이지 않는다.",
+      "resultFlag": "MARIYA_WASHING_WAGES_1847_STAGE_2_RESULT_2",
+      "followupTitleKo": "밀린 빨래값과 다음 일감",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "값을 받기 전에는 새 일을 맡지 않기로 했다. 오늘 수입은 줄어도 미수금은 더 쌓이지 않는다.",
+        "relations": {
+          "work_or_household": "다른 집의 급한 세탁 · 밀린 값을 낼 때까지 새 주문을 거절한다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "MARIYA_WASHING_WAGES_1847_STAGE_2_CHOICE_3",
+      "hostIds": [
+        "laundress_mariya"
+      ],
+      "labelKo": "세탁 일을 나누고 품삯도 나눈다",
+      "subcopyKo": "함께 일하는 사람과 두 의뢰인이 압니다 · 분담표에 남습니다 · 각자 받는 몫이 작아집니다",
+      "resultKo": "일을 나눠 마감은 맞췄다. 대신 품삯도 나눠 가져야 한다.",
+      "resultFlag": "MARIYA_WASHING_WAGES_1847_STAGE_2_RESULT_3",
+      "followupTitleKo": "밀린 빨래값과 다음 일감",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "일을 나눠 마감은 맞췄다. 대신 품삯도 나눠 가져야 한다.",
+        "relations": {
+          "work_or_household": "다른 집의 급한 세탁 · 세탁 일을 나누고 품삯도 나눈다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "trust": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "MARIYA_WASHING_WAGES_1847",
+    "titleKo": "밀린 빨래값과 다음 일감",
+    "stage": 2,
+    "stageCount": 3,
+    "metricKo": "품삯을 받는 시점과 일감의 신뢰",
+    "previousQuestId": "MARIYA_WASHING_WAGES_1847_STAGE_1"
+  }
+}

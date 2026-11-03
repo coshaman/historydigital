@@ -1,0 +1,96 @@
+{
+  "id": "IRINA_INN_PRIVACY_1847_STAGE_1",
+  "titleKo": "여관 장부와 손님의 사정 · 1막",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "손님은 내일 갚겠다고 하지만 장부에는 이미 하루치가 비어 있다.",
+  "historicalOutcome": {
+    "id": "IRINA_INN_PRIVACY_1847_STAGE_1_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "courtyard",
+    "objectId": 1006,
+    "requiredHostId": "innkeeper_irina"
+  },
+  "actions": [
+    {
+      "id": "IRINA_INN_PRIVACY_1847_STAGE_1_CHOICE_1",
+      "hostIds": [
+        "innkeeper_irina"
+      ],
+      "labelKo": "금액과 갚을 날짜만 장부에 쓴다",
+      "subcopyKo": "손님과 계산 담당이 압니다 · 장부에 빚과 날짜가 남습니다 · 사정은 기록되지 않습니다",
+      "resultKo": "금액과 날짜만 적었다. 갚을 약속은 확인할 수 있지만 이유는 모른다.",
+      "resultFlag": "IRINA_INN_PRIVACY_1847_STAGE_1_RESULT_1",
+      "followupTitleKo": "여관 장부와 손님의 사정",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "금액과 날짜만 적었다. 갚을 약속은 확인할 수 있지만 이유는 모른다.",
+        "relations": {
+          "work_or_household": "하룻밤 밀린 방값 · 금액과 갚을 날짜만 장부에 쓴다"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "IRINA_INN_PRIVACY_1847_STAGE_1_CHOICE_2",
+      "hostIds": [
+        "innkeeper_irina"
+      ],
+      "labelKo": "손님이 직접 갚을 날짜를 적게 한다",
+      "subcopyKo": "손님과 여관 주인만 압니다 · 손님 글씨로 약속이 남습니다 · 글을 쓰기 어려운 손님은 곤란합니다",
+      "resultKo": "손님이 갚을 날짜를 적었다. 약속은 분명해졌지만 글을 쓰지 못하면 선택하기 어렵다.",
+      "resultFlag": "IRINA_INN_PRIVACY_1847_STAGE_1_RESULT_2",
+      "followupTitleKo": "여관 장부와 손님의 사정",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "손님이 갚을 날짜를 적었다. 약속은 분명해졌지만 글을 쓰지 못하면 선택하기 어렵다.",
+        "relations": {
+          "work_or_household": "하룻밤 밀린 방값 · 손님이 직접 갚을 날짜를 적게 한다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "IRINA_INN_PRIVACY_1847_STAGE_1_CHOICE_3",
+      "hostIds": [
+        "innkeeper_irina"
+      ],
+      "labelKo": "하루 더 기다리고 장부는 비워 둔다",
+      "subcopyKo": "여관 주인만 압니다 · 공식 장부 기록은 없습니다 · 다음 근무자가 사정을 모를 수 있습니다",
+      "resultKo": "하루 더 기다리기로 했다. 손님 사정은 드러나지 않지만 장부와 계산이 맞지 않는다.",
+      "resultFlag": "IRINA_INN_PRIVACY_1847_STAGE_1_RESULT_3",
+      "followupTitleKo": "여관 장부와 손님의 사정",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "하루 더 기다리기로 했다. 손님 사정은 드러나지 않지만 장부와 계산이 맞지 않는다.",
+        "relations": {
+          "work_or_household": "하룻밤 밀린 방값 · 하루 더 기다리고 장부는 비워 둔다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "trust": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "IRINA_INN_PRIVACY_1847",
+    "titleKo": "여관 장부와 손님의 사정",
+    "stage": 1,
+    "stageCount": 3,
+    "metricKo": "빚을 확인하는 일과 사생활 보호"
+  }
+}

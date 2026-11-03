@@ -1,6 +1,6 @@
 {
-  "auditedHead": "49cee556bbdb1cf65324822913b1e0a2d975e8f6",
-  "generatedAt": "2026-11-02T18:59:31.430Z",
+  "auditedHead": "7e3d9710b0e722c4ab8904f1774604fff27dbbd4",
+  "generatedAt": "2026-11-03T05:57:44.036Z",
   "summary": {
     "totalMaps": 8,
     "cityAndReconstructionMaps": 6,
@@ -10,8 +10,8 @@
       "police-station",
       "printshop"
     ],
-    "totalInteractionObjects": 68,
-    "nonExitInteractionCandidates": 58,
+    "totalInteractionObjects": 121,
+    "nonExitInteractionCandidates": 111,
     "totalMapExitObjects": 10,
     "missingTargets": []
   },
@@ -27,7 +27,7 @@
       "sourceIds": [
         "OBJ-PETERSBURG-PLAN-1840"
       ],
-      "interactionObjects": 11,
+      "interactionObjects": 18,
       "mapExits": [
         {
           "objectId": 42,
@@ -56,7 +56,7 @@
         "OBJ-PETERSBURG-PLAN-1840",
         "OBJ-SADOVNIKOV-1835"
       ],
-      "interactionObjects": 11,
+      "interactionObjects": 24,
       "mapExits": [
         {
           "objectId": 62,
@@ -100,7 +100,7 @@
         "V36-ART-RUSSIAN-MUSEUM-COLLMANN-1840S",
         "V36-PHYSIOLOGY-PETERSBURG-1845"
       ],
-      "interactionObjects": 11,
+      "interactionObjects": 21,
       "mapExits": [
         {
           "objectId": 101,
@@ -129,7 +129,7 @@
         "OBJ-PETERSBURG-PLAN-1840",
         "OBJ-SADOVNIKOV-1835"
       ],
-      "interactionObjects": 12,
+      "interactionObjects": 23,
       "mapExits": [
         {
           "objectId": 3,
@@ -221,7 +221,7 @@
       "geography": "fictional police reception room; not a surveyed historic station",
       "date": "1847-06-01",
       "sourceIds": [],
-      "interactionObjects": 3,
+      "interactionObjects": 7,
       "mapExits": [
         {
           "objectId": 2,
@@ -250,7 +250,7 @@
         "OBJ-SOV-1847",
         "OBJ-PETERSBURG-PLAN-1840"
       ],
-      "interactionObjects": 14,
+      "interactionObjects": 22,
       "mapExits": [
         {
           "objectId": 23,

@@ -1,0 +1,96 @@
+{
+  "id": "KLAVDIYA_FISH_STORAGE_1847_STAGE_1",
+  "titleKo": "상하기 전의 생선값 · 1막",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "비가 그치지 않아 생선이 빨리 상할 수 있다. 손님은 어제와 같은 값을 부른다.",
+  "historicalOutcome": {
+    "id": "KLAVDIYA_FISH_STORAGE_1847_STAGE_1_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "market-quay",
+    "objectId": 1012,
+    "requiredHostId": "fishseller_klavdiya"
+  },
+  "actions": [
+    {
+      "id": "KLAVDIYA_FISH_STORAGE_1847_STAGE_1_CHOICE_1",
+      "hostIds": [
+        "fishseller_klavdiya"
+      ],
+      "labelKo": "상태를 보여주고 값을 다시 정한다",
+      "subcopyKo": "손님과 상인이 압니다 · 가격표를 고쳐 붙입니다 · 손님이 품질을 믿지 않을 수 있습니다",
+      "resultKo": "생선 상태를 보여 주고 값을 바꿨다. 숨기지는 않았지만 손님이 품질을 직접 판단해야 한다.",
+      "resultFlag": "KLAVDIYA_FISH_STORAGE_1847_STAGE_1_RESULT_1",
+      "followupTitleKo": "상하기 전의 생선값",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "생선 상태를 보여 주고 값을 바꿨다. 숨기지는 않았지만 손님이 품질을 직접 판단해야 한다.",
+        "relations": {
+          "work_or_household": "비 맞은 바구니 · 상태를 보여주고 값을 다시 정한다"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "KLAVDIYA_FISH_STORAGE_1847_STAGE_1_CHOICE_2",
+      "hostIds": [
+        "fishseller_klavdiya"
+      ],
+      "labelKo": "좋은 것과 먼저 팔 것을 나눈다",
+      "subcopyKo": "가게 손님이 압니다 · 바구니 표시에 구분이 남습니다 · 남은 생선은 더 빨리 상합니다",
+      "resultKo": "좋은 것과 먼저 팔 것을 나눴다. 선택은 쉬워졌지만 남은 몫을 빨리 처리해야 한다.",
+      "resultFlag": "KLAVDIYA_FISH_STORAGE_1847_STAGE_1_RESULT_2",
+      "followupTitleKo": "상하기 전의 생선값",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "좋은 것과 먼저 팔 것을 나눴다. 선택은 쉬워졌지만 남은 몫을 빨리 처리해야 한다.",
+        "relations": {
+          "work_or_household": "비 맞은 바구니 · 좋은 것과 먼저 팔 것을 나눈다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "KLAVDIYA_FISH_STORAGE_1847_STAGE_1_CHOICE_3",
+      "hostIds": [
+        "fishseller_klavdiya"
+      ],
+      "labelKo": "오늘 팔 양을 줄이고 일부를 보관한다",
+      "subcopyKo": "가게 동료가 압니다 · 보관 수량이 장부에 남습니다 · 보관 중 상하면 손실이 커집니다",
+      "resultKo": "팔 양을 줄여 일부를 보관했다. 값은 지켰지만 보관이 잘못되면 더 큰 손해가 난다.",
+      "resultFlag": "KLAVDIYA_FISH_STORAGE_1847_STAGE_1_RESULT_3",
+      "followupTitleKo": "상하기 전의 생선값",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "팔 양을 줄여 일부를 보관했다. 값은 지켰지만 보관이 잘못되면 더 큰 손해가 난다.",
+        "relations": {
+          "work_or_household": "비 맞은 바구니 · 오늘 팔 양을 줄이고 일부를 보관한다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "trust": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "KLAVDIYA_FISH_STORAGE_1847",
+    "titleKo": "상하기 전의 생선값",
+    "stage": 1,
+    "stageCount": 3,
+    "metricKo": "손실을 줄이는 값과 손님의 신뢰"
+  }
+}

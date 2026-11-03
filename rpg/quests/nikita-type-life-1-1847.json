@@ -1,0 +1,96 @@
+{
+  "id": "NIKITA_TYPESPEED_1847_STAGE_1",
+  "titleKo": "빠른 인쇄와 남은 교정 · 1막",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "편집부가 한 줄을 고쳐 달라고 보냈지만 교정쇄 확인 시간이 거의 없다.",
+  "historicalOutcome": {
+    "id": "NIKITA_TYPESPEED_1847_STAGE_1_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "printshop",
+    "objectId": 1018,
+    "requiredHostId": "typesetter_nikita"
+  },
+  "actions": [
+    {
+      "id": "NIKITA_TYPESPEED_1847_STAGE_1_CHOICE_1",
+      "hostIds": [
+        "typesetter_nikita"
+      ],
+      "labelKo": "수정한 줄만 두 사람이 확인한다",
+      "subcopyKo": "교정 담당과 조판공이 압니다 · 수정 표시가 작업표에 남습니다 · 전체 문맥을 놓칠 수 있습니다",
+      "resultKo": "바뀐 줄을 함께 확인했다. 수정은 맞췄지만 다른 오자는 남을 수 있다.",
+      "resultFlag": "NIKITA_TYPESPEED_1847_STAGE_1_RESULT_1",
+      "followupTitleKo": "빠른 인쇄와 남은 교정",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "바뀐 줄을 함께 확인했다. 수정은 맞췄지만 다른 오자는 남을 수 있다.",
+        "relations": {
+          "work_or_household": "마감 종이 울리다 · 수정한 줄만 두 사람이 확인한다"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "NIKITA_TYPESPEED_1847_STAGE_1_CHOICE_2",
+      "hostIds": [
+        "typesetter_nikita"
+      ],
+      "labelKo": "전체 면을 다시 읽고 인쇄를 늦춘다",
+      "subcopyKo": "작업자와 편집부가 압니다 · 새 교정 시간이 기록됩니다 · 배포가 늦어집니다",
+      "resultKo": "전체 면을 다시 읽기로 했다. 오류를 찾을 수 있지만 신문은 늦게 나간다.",
+      "resultFlag": "NIKITA_TYPESPEED_1847_STAGE_1_RESULT_2",
+      "followupTitleKo": "빠른 인쇄와 남은 교정",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "전체 면을 다시 읽기로 했다. 오류를 찾을 수 있지만 신문은 늦게 나간다.",
+        "relations": {
+          "work_or_household": "마감 종이 울리다 · 전체 면을 다시 읽고 인쇄를 늦춘다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "NIKITA_TYPESPEED_1847_STAGE_1_CHOICE_3",
+      "hostIds": [
+        "typesetter_nikita"
+      ],
+      "labelKo": "편집부의 서명을 받고 바로 찍는다",
+      "subcopyKo": "편집부와 인쇄소가 압니다 · 승인 서명이 남습니다 · 서명 전에는 결정 책임이 분명치 않습니다",
+      "resultKo": "서명을 받은 뒤 찍기로 했다. 승인 책임은 남지만 기다리는 시간은 필요하다.",
+      "resultFlag": "NIKITA_TYPESPEED_1847_STAGE_1_RESULT_3",
+      "followupTitleKo": "빠른 인쇄와 남은 교정",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "서명을 받은 뒤 찍기로 했다. 승인 책임은 남지만 기다리는 시간은 필요하다.",
+        "relations": {
+          "work_or_household": "마감 종이 울리다 · 편집부의 서명을 받고 바로 찍는다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "trust": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "NIKITA_TYPESPEED_1847",
+    "titleKo": "빠른 인쇄와 남은 교정",
+    "stage": 1,
+    "stageCount": 3,
+    "metricKo": "납기와 문장 확인의 책임"
+  }
+}

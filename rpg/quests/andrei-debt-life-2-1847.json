@@ -1,0 +1,98 @@
+{
+  "id": "ANDREI_DEBT_STATUS_1847_STAGE_2",
+  "titleKo": "가문의 이름과 어음 만기 · 2막",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "집안 하인은 임금이 밀렸다고 말하고, 채권자는 약속한 상환 날짜를 묻는다.",
+  "historicalOutcome": {
+    "id": "ANDREI_DEBT_STATUS_1847_STAGE_2_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "chancery",
+    "objectId": 1009,
+    "requiredHostId": "minor_noble_andrei"
+  },
+  "previousQuestId": "ANDREI_DEBT_STATUS_1847_STAGE_1",
+  "actions": [
+    {
+      "id": "ANDREI_DEBT_STATUS_1847_STAGE_2_CHOICE_1",
+      "hostIds": [
+        "minor_noble_andrei"
+      ],
+      "labelKo": "임금과 상환금을 나눠 지급한다",
+      "subcopyKo": "하인과 채권자가 압니다 · 분할 지급표에 금액이 남습니다 · 두 쪽 모두 기다려야 합니다",
+      "resultKo": "임금과 빚을 나눠 갚았다. 한쪽만 먼저 세우진 않았지만 둘 다 완전히 해결되지 않았다.",
+      "resultFlag": "ANDREI_DEBT_STATUS_1847_STAGE_2_RESULT_1",
+      "followupTitleKo": "가문의 이름과 어음 만기",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "임금과 빚을 나눠 갚았다. 한쪽만 먼저 세우진 않았지만 둘 다 완전히 해결되지 않았다.",
+        "relations": {
+          "work_or_household": "미뤄 둔 집안 비용 · 임금과 상환금을 나눠 지급한다"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "ANDREI_DEBT_STATUS_1847_STAGE_2_CHOICE_2",
+      "hostIds": [
+        "minor_noble_andrei"
+      ],
+      "labelKo": "먼저 일한 사람의 임금을 준다",
+      "subcopyKo": "하인과 회계 담당이 압니다 · 임금 지급 장부가 남습니다 · 채권자가 다시 압박할 수 있습니다",
+      "resultKo": "밀린 임금을 먼저 지급했다. 일한 몫은 돌아갔지만 어음 날짜는 지키기 어렵다.",
+      "resultFlag": "ANDREI_DEBT_STATUS_1847_STAGE_2_RESULT_2",
+      "followupTitleKo": "가문의 이름과 어음 만기",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "밀린 임금을 먼저 지급했다. 일한 몫은 돌아갔지만 어음 날짜는 지키기 어렵다.",
+        "relations": {
+          "work_or_household": "미뤄 둔 집안 비용 · 먼저 일한 사람의 임금을 준다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "ANDREI_DEBT_STATUS_1847_STAGE_2_CHOICE_3",
+      "hostIds": [
+        "minor_noble_andrei"
+      ],
+      "labelKo": "채권자와 새 기한을 협상한다",
+      "subcopyKo": "채권자와 보증인이 압니다 · 새 약정에 서명이 남습니다 · 조건이 더 불리해질 수 있습니다",
+      "resultKo": "새 기한을 부탁했다. 시간을 얻을 수 있지만 조건을 다시 확인해야 한다.",
+      "resultFlag": "ANDREI_DEBT_STATUS_1847_STAGE_2_RESULT_3",
+      "followupTitleKo": "가문의 이름과 어음 만기",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "새 기한을 부탁했다. 시간을 얻을 수 있지만 조건을 다시 확인해야 한다.",
+        "relations": {
+          "work_or_household": "미뤄 둔 집안 비용 · 채권자와 새 기한을 협상한다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "trust": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "ANDREI_DEBT_STATUS_1847",
+    "titleKo": "가문의 이름과 어음 만기",
+    "stage": 2,
+    "stageCount": 3,
+    "metricKo": "체면을 지키는 말과 실제 상환 계획",
+    "previousQuestId": "ANDREI_DEBT_STATUS_1847_STAGE_1"
+  }
+}

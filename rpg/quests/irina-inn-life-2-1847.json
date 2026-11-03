@@ -1,0 +1,98 @@
+{
+  "id": "IRINA_INN_PRIVACY_1847_STAGE_2",
+  "titleKo": "여관 장부와 손님의 사정 · 2막",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "숙박객이 옆방 손님의 빚과 방문객을 묻는다. 방을 배정하려는 이유라고 한다.",
+  "historicalOutcome": {
+    "id": "IRINA_INN_PRIVACY_1847_STAGE_2_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "courtyard",
+    "objectId": 1006,
+    "requiredHostId": "innkeeper_irina"
+  },
+  "previousQuestId": "IRINA_INN_PRIVACY_1847_STAGE_1",
+  "actions": [
+    {
+      "id": "IRINA_INN_PRIVACY_1847_STAGE_2_CHOICE_1",
+      "hostIds": [
+        "innkeeper_irina"
+      ],
+      "labelKo": "방 사정은 말하지 않고 빈방만 안내한다",
+      "subcopyKo": "질문한 손님만 압니다 · 장부에는 공개 메모가 남지 않습니다 · 의심을 살 수 있습니다",
+      "resultKo": "빈방만 알려 주고 다른 손님의 일은 말하지 않았다. 질문은 남았지만 사생활은 지켰다.",
+      "resultFlag": "IRINA_INN_PRIVACY_1847_STAGE_2_RESULT_1",
+      "followupTitleKo": "여관 장부와 손님의 사정",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "빈방만 알려 주고 다른 손님의 일은 말하지 않았다. 질문은 남았지만 사생활은 지켰다.",
+        "relations": {
+          "work_or_household": "다른 손님의 질문 · 방 사정은 말하지 않고 빈방만 안내한다"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "IRINA_INN_PRIVACY_1847_STAGE_2_CHOICE_2",
+      "hostIds": [
+        "innkeeper_irina"
+      ],
+      "labelKo": "필요한 방 배정 정보만 책임자에게 전한다",
+      "subcopyKo": "여관 책임자만 압니다 · 근무 쪽지에 필요 정보가 남습니다 · 쪽지가 다른 사람에게 보일 수 있습니다",
+      "resultKo": "방 배정에 필요한 내용만 책임자에게 알렸다. 정보는 제한했지만 메모가 남는다.",
+      "resultFlag": "IRINA_INN_PRIVACY_1847_STAGE_2_RESULT_2",
+      "followupTitleKo": "여관 장부와 손님의 사정",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "방 배정에 필요한 내용만 책임자에게 알렸다. 정보는 제한했지만 메모가 남는다.",
+        "relations": {
+          "work_or_household": "다른 손님의 질문 · 필요한 방 배정 정보만 책임자에게 전한다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "IRINA_INN_PRIVACY_1847_STAGE_2_CHOICE_3",
+      "hostIds": [
+        "innkeeper_irina"
+      ],
+      "labelKo": "방 번호와 빚을 함께 알려 준다",
+      "subcopyKo": "질문한 손님이 압니다 · 말로만 전해 기록은 없습니다 · 소문이 퍼질 수 있습니다",
+      "resultKo": "방 번호와 빚을 알려 주었다. 당장은 편하지만 그 사정이 다른 손님에게 번질 수 있다.",
+      "resultFlag": "IRINA_INN_PRIVACY_1847_STAGE_2_RESULT_3",
+      "followupTitleKo": "여관 장부와 손님의 사정",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "방 번호와 빚을 알려 주었다. 당장은 편하지만 그 사정이 다른 손님에게 번질 수 있다.",
+        "relations": {
+          "work_or_household": "다른 손님의 질문 · 방 번호와 빚을 함께 알려 준다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "trust": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "IRINA_INN_PRIVACY_1847",
+    "titleKo": "여관 장부와 손님의 사정",
+    "stage": 2,
+    "stageCount": 3,
+    "metricKo": "빚을 확인하는 일과 사생활 보호",
+    "previousQuestId": "IRINA_INN_PRIVACY_1847_STAGE_1"
+  }
+}

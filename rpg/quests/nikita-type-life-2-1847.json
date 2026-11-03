@@ -1,0 +1,98 @@
+{
+  "id": "NIKITA_TYPESPEED_1847_STAGE_2",
+  "titleKo": "빠른 인쇄와 남은 교정 · 2막",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "같은 문단에 수정표가 두 장 붙어 있다. 두 번째 지시가 첫 번째를 취소하는지는 적혀 있지 않다.",
+  "historicalOutcome": {
+    "id": "NIKITA_TYPESPEED_1847_STAGE_2_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "printshop",
+    "objectId": 1018,
+    "requiredHostId": "typesetter_nikita"
+  },
+  "previousQuestId": "NIKITA_TYPESPEED_1847_STAGE_1",
+  "actions": [
+    {
+      "id": "NIKITA_TYPESPEED_1847_STAGE_2_CHOICE_1",
+      "hostIds": [
+        "typesetter_nikita"
+      ],
+      "labelKo": "두 지시를 나란히 놓고 편집부에 묻는다",
+      "subcopyKo": "교정 담당과 편집부만 압니다 · 질의표에 두 문안이 남습니다 · 인쇄가 잠시 멈춥니다",
+      "resultKo": "두 문안을 함께 보내 확인을 요청했다. 어느 지시가 유효한지 답을 기다린다.",
+      "resultFlag": "NIKITA_TYPESPEED_1847_STAGE_2_RESULT_1",
+      "followupTitleKo": "빠른 인쇄와 남은 교정",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "두 문안을 함께 보내 확인을 요청했다. 어느 지시가 유효한지 답을 기다린다.",
+        "relations": {
+          "work_or_household": "헷갈리는 지시표 · 두 지시를 나란히 놓고 편집부에 묻는다"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "NIKITA_TYPESPEED_1847_STAGE_2_CHOICE_2",
+      "hostIds": [
+        "typesetter_nikita"
+      ],
+      "labelKo": "마지막으로 온 지시만 적용한다",
+      "subcopyKo": "조판공과 책임자가 압니다 · 최신 수정표에 표시가 남습니다 · 먼저 승인된 문장을 되돌릴 수 있습니다",
+      "resultKo": "마지막 지시를 적용했다. 빠르지만 앞선 승인을 무효로 만들 수 있다.",
+      "resultFlag": "NIKITA_TYPESPEED_1847_STAGE_2_RESULT_2",
+      "followupTitleKo": "빠른 인쇄와 남은 교정",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "마지막 지시를 적용했다. 빠르지만 앞선 승인을 무효로 만들 수 있다.",
+        "relations": {
+          "work_or_household": "헷갈리는 지시표 · 마지막으로 온 지시만 적용한다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "NIKITA_TYPESPEED_1847_STAGE_2_CHOICE_3",
+      "hostIds": [
+        "typesetter_nikita"
+      ],
+      "labelKo": "두 판본을 따로 찍어 편집부에 보여준다",
+      "subcopyKo": "편집부와 작업자가 압니다 · 비교용 교정쇄가 남습니다 · 종이와 작업 시간이 더 듭니다",
+      "resultKo": "두 판본을 만들어 편집부가 고르게 했다. 선택은 분명해지지만 자원이 더 든다.",
+      "resultFlag": "NIKITA_TYPESPEED_1847_STAGE_2_RESULT_3",
+      "followupTitleKo": "빠른 인쇄와 남은 교정",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "두 판본을 만들어 편집부가 고르게 했다. 선택은 분명해지지만 자원이 더 든다.",
+        "relations": {
+          "work_or_household": "헷갈리는 지시표 · 두 판본을 따로 찍어 편집부에 보여준다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "trust": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "NIKITA_TYPESPEED_1847",
+    "titleKo": "빠른 인쇄와 남은 교정",
+    "stage": 2,
+    "stageCount": 3,
+    "metricKo": "납기와 문장 확인의 책임",
+    "previousQuestId": "NIKITA_TYPESPEED_1847_STAGE_1"
+  }
+}

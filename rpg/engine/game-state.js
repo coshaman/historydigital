@@ -41,6 +41,8 @@ function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky
     position: { x: card.start.x, y: card.start.y },
     schedule: clone(card.schedule ?? []),
     scheduleId: null,
+    plannedPath: { key: null, tiles: [] },
+    mapRoutePlan: { key: null, route: null },
     currentActivityKo: '',
     routineState: { state: 'IDLE', activityKo: '', targetMapId: card.start.mapId, targetPosition: { x: card.start.x, y: card.start.y }, changedAtMinute: 540, minutesInState: 0 },
     activeGoal: null,
@@ -88,6 +90,8 @@ function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky
     quests: Object.fromEntries(quests.map(quest => [quest.id, { status: 'open', result: null }])),
     learning: initialLearningState(),
     ledger: [],
+    ledgerDigest: hashText('V36_LEDGER'),
+    ledgerDigestCount: 0,
     activeDialogue: null,
   };
 }
@@ -122,6 +126,9 @@ function tileKey(position) { return `${position.x},${position.y}`; }
 function isReserved(mapId, position, reservedTiles) {
   return reservedTiles.some(tile => tile.mapId === mapId && tile.position.x === position.x && tile.position.y === position.y);
 }
+const mapExitObjectCache = new WeakMap();
+const exitClearanceCache = new WeakMap();
+const mapRouteCache = new WeakMap();
 function npcCanOccupy(state, hostId, mapId, position, maps, reservedTiles) {
   const map = maps?.[mapId];
   if (!canOccupy(map, position.x, position.y, hostId, state.hosts) || isReserved(mapId, position, reservedTiles)) return false;
@@ -149,7 +156,12 @@ function findGridPath(map, start, goals, canStep) {
   return path.reverse();
 }
 function mapExitObjects(map) {
-  return (layer(map, 'Interactions')?.objects ?? []).filter(object => object.type === 'map-exit').map(object => ({ object, data: properties(object), tile: objectTile(object) }));
+  if (!map) return [];
+  const cached = mapExitObjectCache.get(map);
+  if (cached) return cached;
+  const exits = (layer(map, 'Interactions')?.objects ?? []).filter(object => object.type === 'map-exit').map(object => ({ object, data: properties(object), tile: objectTile(object) }));
+  mapExitObjectCache.set(map, exits);
+  return exits;
 }
 function npcMapRoute(startMapId, targetMapId, host, maps) {
   if (startMapId === targetMapId) return [];
@@ -178,6 +190,8 @@ function exitApproachTiles(map, exitTile) {
   return candidates.filter(tile => tileAt(layer(map, 'Collision'), tile.x, tile.y) === 0);
 }
 function exitClearanceTiles(map) {
+  const cached = exitClearanceCache.get(map);
+  if (cached) return cached;
   const tiles = [];
   for (const { tile } of mapExitObjects(map)) {
     for (let dy = -1; dy <= 1; dy += 1) for (let dx = -1; dx <= 1; dx += 1) {
@@ -185,26 +199,54 @@ function exitClearanceTiles(map) {
       if (Math.abs(dx) + Math.abs(dy) <= 1 && tileAt(layer(map, 'Collision'), candidate.x, candidate.y) === 0) tiles.push(candidate);
     }
   }
-  return new Set(tiles.map(tileKey));
+  const result = new Set(tiles.map(tileKey));
+  exitClearanceCache.set(map, result);
+  return result;
+}
+function plannedGridStep(state, host, map, goals, cacheKey, maps, reservedTiles, forbidden = new Set()) {
+  const canStep = tile => npcCanOccupy(state, host.id, map.mapId, tile, maps, reservedTiles) && !forbidden.has(tileKey(tile));
+  let path = host.plannedPath?.key === cacheKey && host.plannedPath.tiles?.length ? host.plannedPath.tiles : null;
+  if (!path?.length || Math.abs(path[0].x - host.position.x) + Math.abs(path[0].y - host.position.y) !== 1 || !canStep(path[0])) {
+    path = findGridPath(map, host.position, goals, canStep);
+  }
+  if (!path?.length) {
+    host.plannedPath = { key: cacheKey, tiles: [] };
+    return null;
+  }
+  const [next, ...remaining] = path;
+  host.plannedPath = { key: cacheKey, tiles: remaining };
+  return next;
+}
+function plannedMapRoute(host, targetMapId, maps) {
+  const key = `${host.mapId}>${targetMapId}:${host.allowedMaps.join('|')}`;
+  if (host.mapRoutePlan?.key === key && Array.isArray(host.mapRoutePlan.route)) {
+    return host.mapRoutePlan.route.map(step => {
+      const exit = mapExitObjects(maps[step.fromMapId]).find(item => item.data.exitId === step.exitId);
+      return exit ? { ...step, exit } : null;
+    }).filter(Boolean);
+  }
+  const route = npcMapRoute(host.mapId, targetMapId, host, maps);
+  host.mapRoutePlan = { key, route: route?.map(step => ({ fromMapId: step.fromMapId, toMapId: step.toMapId, exitId: step.exit.data.exitId })) ?? null };
+  return route;
 }
 function nextNpcStep(state, host, slot, maps, reservedTiles) {
   if (host.mapId !== slot.mapId) {
-    const route = npcMapRoute(host.mapId, slot.mapId, host, maps);
+    const route = plannedMapRoute(host, slot.mapId, maps);
     if (!route?.length) return null;
     const { exit, toMapId } = route[0], fromMap = maps[host.mapId], toMap = maps[toMapId];
-    const approach = findGridPath(fromMap, host.position, exitApproachTiles(fromMap, exit.tile), tile => npcCanOccupy(state, host.id, host.mapId, tile, maps, reservedTiles));
-    if (approach === null) return null;
-    // Cross before entering the narrow doorway approach. Leaving an NPC there
-    // can trap the player before another clock tick advances the resident.
-    if (approach.length <= 2) {
+    const approach = exitApproachTiles(fromMap, exit.tile);
+    if (nearTile(host.position, exit.tile, 1)) {
       const preferred = { x: Number(exit.data.arrivalX), y: Number(exit.data.arrivalY) };
       if (!Number.isInteger(preferred.x) || !Number.isInteger(preferred.y)) return null;
       const arrival = nearestNpcArrival(state, host.id, toMap, preferred, maps, reservedTiles);
       if (!arrival) return null;
+      host.plannedPath = { key: null, tiles: [] };
       return { mapId: toMapId, position: arrival, facing: host.facing, viaExit: exit.data.exitId };
     }
-    const next = approach[0], direction = NPC_STEPS.find(([dx, dy]) => host.position.x + dx === next.x && host.position.y + dy === next.y)?.[2];
-    return direction ? { mapId: host.mapId, position: next, facing: direction } : null;
+    const exitStep = plannedGridStep(state, host, fromMap, approach, `${fromMap.mapId}:EXIT:${exit.data.exitId}`, maps, reservedTiles);
+    if (!exitStep) return null;
+    const direction = NPC_STEPS.find(([dx, dy]) => host.position.x + dx === exitStep.x && host.position.y + dy === exitStep.y)?.[2];
+    return direction ? { mapId: host.mapId, position: exitStep, facing: direction } : null;
   }
   const map = maps?.[host.mapId], requested = slot.position;
   if (!map || !Number.isInteger(requested?.x) || !Number.isInteger(requested?.y)) return null;
@@ -221,9 +263,9 @@ function nextNpcStep(state, host, slot, maps, reservedTiles) {
       }
     }
   }
-  const path = findGridPath(map, host.position, goals, tile => npcCanOccupy(state, host.id, host.mapId, tile, maps, reservedTiles));
-  if (path === null || !path.length) return null;
-  const next = path[0], direction = NPC_STEPS.find(([dx, dy]) => host.position.x + dx === next.x && host.position.y + dy === next.y)?.[2];
+  const next = plannedGridStep(state, host, map, goals, `${map.mapId}:WORK:${requested.x},${requested.y}`, maps, reservedTiles, doorwayTiles);
+  if (!next) return null;
+  const direction = NPC_STEPS.find(([dx, dy]) => host.position.x + dx === next.x && host.position.y + dy === next.y)?.[2];
   return direction ? { mapId: host.mapId, position: next, facing: direction } : null;
 }
 function nearestNpcArrival(state, hostId, map, preferred, maps, reservedTiles) {
@@ -388,9 +430,8 @@ function advanceNpcWorld(state, elapsedMinutes, maps, options = {}) {
     goalLog.push(...result.goalRows);
   }
   if (movementLog.length || deliveryLog.length || stateChanges.length || exchangeLog.length || mealLog.length || goalLog.length) {
-    const entry = { eventId: `NPC_SIM_${next.ledger.length + 1}`, eventType: 'NPC_SIMULATION', date: next.world.date, mapId: next.world.currentMapId, startClockMinutes: startClock, endClockMinutes: next.world.clockMinutes, simulatedMinutes: tickCount, moves: movementLog, deliveries: deliveryLog, exchanges: exchangeLog, meals: mealLog, goals: goalLog, stateChanges, priorStateHash: stateHash(state), nextStateHash: null };
-    next.ledger.push(entry);
-    entry.nextStateHash = stateHash(next);
+    const entry = { eventId: `NPC_SIM_${next.ledger.length + 1}`, eventType: 'NPC_SIMULATION', date: next.world.date, mapId: next.world.currentMapId, startClockMinutes: startClock, endClockMinutes: next.world.clockMinutes, simulatedMinutes: tickCount, moves: movementLog, deliveries: deliveryLog, exchanges: exchangeLog, meals: mealLog, goals: goalLog, stateChanges };
+    appendLedgerEvent(next, entry, state);
   }
   return next;
 }
@@ -596,9 +637,8 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
     for (const [key, delta] of Object.entries(chainDelta)) metrics[key] = Math.max(-100, Math.min(100, (metrics[key] ?? 0) + delta));
     next.world.lifeChains[chain.id] = { stage: chain.stage, metrics, history: [...currentProgress.history, { stage: chain.stage, questId, hostId, actionId, resultFlag: action.resultFlag, date: next.world.date }] };
   }
-  const entry = { eventId: `ACTION_${next.ledger.length + 1}`, eventType: literaryQuest ? 'LITERARY_ACTION' : 'HISTORICAL_ACTION', ...(literaryQuest ? { realmId: state.world.activeRealm.id } : {}), ...(chain ? { lifeChainId: chain.id, lifeChainStage: chain.stage, lifeChainDelta: chainDelta } : {}), date: next.world.date, mapId: next.world.currentMapId, hostId, questId, actionId, objectId, witnesses: [], effectsApplied: { moneyDelta: effects.moneyDelta ?? 0, inventoryRemove, inventoryAdd, relations: relationEffects, situationKo: effects.situationKo ?? null }, sourceIds: action.requiredKnowledgeId ? [action.requiredKnowledgeId] : [], priorStateHash: stateHash(timed), nextStateHash: null };
-  next.ledger.push(entry);
-  entry.nextStateHash = stateHash(next);
+  const entry = { eventId: `ACTION_${next.ledger.length + 1}`, eventType: literaryQuest ? 'LITERARY_ACTION' : 'HISTORICAL_ACTION', ...(literaryQuest ? { realmId: state.world.activeRealm.id } : {}), ...(chain ? { lifeChainId: chain.id, lifeChainStage: chain.stage, lifeChainDelta: chainDelta } : {}), date: next.world.date, mapId: next.world.currentMapId, hostId, questId, actionId, objectId, witnesses: [], effectsApplied: { moneyDelta: effects.moneyDelta ?? 0, inventoryRemove, inventoryAdd, relations: relationEffects, situationKo: effects.situationKo ?? null }, sourceIds: action.requiredKnowledgeId ? [action.requiredKnowledgeId] : [] };
+  appendLedgerEvent(next, entry, timed);
   return { ok: true, state: next };
 }
 
@@ -693,8 +733,7 @@ function recordSourceRead(state, sourceId, maps, archiveSourceIds = [], readingM
     const host = next.hosts[next.player.embodiment];
     if (host && !host.knownEvidenceIds.includes(sourceId)) host.knownEvidenceIds.push(sourceId);
   }
-  next.ledger.push({ eventId: `READ_${next.ledger.length + 1}`, date: next.world.date, mapId: next.world.currentMapId, hostId: inPlace ? next.player.embodiment : null, sourceId, readingMode: inPlace ? 'PHYSICAL_COPY' : 'PLAYER_ARCHIVE', priorStateHash: stateHash(timed), nextStateHash: null });
-  next.ledger.at(-1).nextStateHash = stateHash(next);
+  appendLedgerEvent(next, { eventId: `READ_${next.ledger.length + 1}`, date: next.world.date, mapId: next.world.currentMapId, hostId: inPlace ? next.player.embodiment : null, sourceId, readingMode: inPlace ? 'PHYSICAL_COPY' : 'PLAYER_ARCHIVE' }, timed);
   return { ok: true, state: next };
 }
 
@@ -707,8 +746,8 @@ function recordEvidenceRead(state, evidenceId, maps) {
   const next = clone(timed), hostId = next.player.embodiment;
   if (!next.player.observedEvidenceIds.includes(evidenceId)) next.player.observedEvidenceIds.push(evidenceId);
   if (hostId && !next.hosts[hostId].knownEvidenceIds.includes(evidenceId)) next.hosts[hostId].knownEvidenceIds.push(evidenceId);
-  const entry = { eventId: `OBSERVE_${next.ledger.length + 1}`, date: next.world.date, mapId: next.world.currentMapId, hostId, evidenceId, priorStateHash: stateHash(timed), nextStateHash: null };
-  next.ledger.push(entry); entry.nextStateHash = stateHash(next);
+  const entry = { eventId: `OBSERVE_${next.ledger.length + 1}`, date: next.world.date, mapId: next.world.currentMapId, hostId, evidenceId };
+  appendLedgerEvent(next, entry, timed);
   return { ok: true, state: next };
 }
 
@@ -746,9 +785,8 @@ function recordDialogueTurn(state, { hostId, actorHostId, sceneId, intentClass =
   }
   const reflectionKey = reflectionId ? `${reflectionId}::${hostId}` : null;
   if (reflectionKey && !next.player.dialogueGrowth.reflectionIds.includes(reflectionKey)) next.player.dialogueGrowth.reflectionIds.push(reflectionKey);
-  const event = { eventId: `DIALOGUE_${next.ledger.length + 1}`, eventType: 'DIALOGUE_TURN', date: next.world.date, clockMinutes: next.world.clockMinutes, mapId: next.world.currentMapId, hostId, interlocutorHostId: actorHostId, sceneId, intentClass, ...(aiGenerated ? { aiGenerated: true } : {}), ...(discussionId ? { discussionId, ...(earnsInsight ? { dialogueReward } : {}) } : {}), ...(reflectionKey ? { reflectionId } : {}), priorStateHash: stateHash(timed), nextStateHash: null };
-  next.ledger.push(event);
-  event.nextStateHash = stateHash(next);
+  const event = { eventId: `DIALOGUE_${next.ledger.length + 1}`, eventType: 'DIALOGUE_TURN', date: next.world.date, clockMinutes: next.world.clockMinutes, mapId: next.world.currentMapId, hostId, interlocutorHostId: actorHostId, sceneId, intentClass, ...(aiGenerated ? { aiGenerated: true } : {}), ...(discussionId ? { discussionId, ...(earnsInsight ? { dialogueReward } : {}) } : {}), ...(reflectionKey ? { reflectionId } : {}) };
+  appendLedgerEvent(next, event, timed);
   return { ok: true, state: next };
 }
 
@@ -762,17 +800,50 @@ function recordDiscussionPosition(state, { discussionId, positionId } = {}, defi
   next.player.dialogueGrowth.playerPositions ??= [];
   const record = { discussionId, positionId, titleKo: quest.titleKo, labelKo: choice.labelKo, stanceKo: choice.stanceKo, date: next.world.date };
   next.player.dialogueGrowth.playerPositions.push(record);
-  const event = { eventId: `POSITION_${next.ledger.length + 1}`, eventType: 'PLAYER_DISCUSSION_POSITION', date: next.world.date, discussionId, positionId, labelKo: choice.labelKo, priorStateHash: stateHash(state), nextStateHash: null };
-  next.ledger.push(event);
-  event.nextStateHash = stateHash(next);
+  const event = { eventId: `POSITION_${next.ledger.length + 1}`, eventType: 'PLAYER_DISCUSSION_POSITION', date: next.world.date, discussionId, positionId, labelKo: choice.labelKo };
+  appendLedgerEvent(next, event, state);
   return { ok: true, state: next, record };
 }
 
-function stateHash(value) {
-  const text = JSON.stringify(value);
+function hashText(text) {
   let hash = 0x811c9dc5;
   for (let i = 0; i < text.length; i++) { hash ^= text.charCodeAt(i); hash = Math.imul(hash, 0x01000193); }
   return (hash >>> 0).toString(16).padStart(8, '0');
+}
+
+function stateHash(value) { return hashText(JSON.stringify(value)); }
+
+function nextLedgerDigest(previousDigest, entry) {
+  const { nextStateHash, ...payload } = entry;
+  return hashText(`${previousDigest}:${JSON.stringify(payload)}`);
+}
+
+function digestLedger(ledger) {
+  return (ledger ?? []).reduce((digest, entry) => nextLedgerDigest(digest, entry), hashText('V36_LEDGER'));
+}
+
+function ensureLedgerDigest(state) {
+  if (!Array.isArray(state.ledger)) state.ledger = [];
+  if (state.ledgerDigestCount !== state.ledger.length || typeof state.ledgerDigest !== 'string') {
+    state.ledgerDigest = digestLedger(state.ledger);
+    state.ledgerDigestCount = state.ledger.length;
+  }
+}
+
+function eventStateHash(state) {
+  ensureLedgerDigest(state);
+  const { ledger: ignoredLedger, ledgerDigest, ledgerDigestCount, ...core } = state;
+  return hashText(`${stateHash(core)}:${ledgerDigest}:${ledgerDigestCount}`);
+}
+
+function appendLedgerEvent(state, entry, priorState = state) {
+  ensureLedgerDigest(state);
+  entry.priorStateHash = eventStateHash(priorState);
+  entry.nextStateHash = null;
+  state.ledger.push(entry);
+  state.ledgerDigest = nextLedgerDigest(state.ledgerDigest, entry);
+  state.ledgerDigestCount = state.ledger.length;
+  entry.nextStateHash = eventStateHash(state);
 }
 
 function saveGame(state) {
@@ -783,6 +854,11 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
   const envelope = typeof raw === 'string' ? JSON.parse(raw) : raw;
   if (![1, 2, 3, SAVE_VERSION].includes(envelope?.saveVersion) || !envelope.state || envelope.checksum !== stateHash(envelope.state)) throw new Error('Invalid or corrupted V36 save');
   const state = clone(envelope.state);
+  state.ledger ??= [];
+  const verifiedLedgerDigest = digestLedger(state.ledger);
+  if (state.ledgerDigest && state.ledgerDigest !== verifiedLedgerDigest) throw new Error('Save contains an invalid event ledger digest');
+  state.ledgerDigest = verifiedLedgerDigest;
+  state.ledgerDigestCount = state.ledger.length;
   state.version = SAVE_VERSION;
   state.player.gameSaveVersion = SAVE_VERSION;
   if (!state.player.dialogueGrowth) {

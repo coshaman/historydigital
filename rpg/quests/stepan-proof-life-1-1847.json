@@ -1,0 +1,96 @@
+{
+  "id": "STEPAN_PROOF_AUTHorship_1847_STAGE_1",
+  "titleKo": "교정쇄에 남은 손자국 · 1막",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "교정쇄에서 어제와 다른 글자가 보인다. 누가 고쳤는지는 아직 알 수 없다.",
+  "historicalOutcome": {
+    "id": "STEPAN_PROOF_AUTHorship_1847_STAGE_1_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "printshop",
+    "objectId": 1003,
+    "requiredHostId": "print_apprentice_stepan"
+  },
+  "actions": [
+    {
+      "id": "STEPAN_PROOF_AUTHorship_1847_STAGE_1_CHOICE_1",
+      "hostIds": [
+        "print_apprentice_stepan"
+      ],
+      "labelKo": "글자와 발견 시각만 적는다",
+      "subcopyKo": "교정 담당과 인쇄공이 압니다 · 작업표에 사실만 남습니다 · 수정한 사람을 찾는 데 시간이 걸립니다",
+      "resultKo": "바뀐 글자와 시각을 적었다. 손댄 사람은 아직 밝혀지지 않았다.",
+      "resultFlag": "STEPAN_PROOF_AUTHorship_1847_STAGE_1_RESULT_1",
+      "followupTitleKo": "교정쇄에 남은 손자국",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "바뀐 글자와 시각을 적었다. 손댄 사람은 아직 밝혀지지 않았다.",
+        "relations": {
+          "work_or_household": "바뀐 글자 하나 · 글자와 발견 시각만 적는다"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "STEPAN_PROOF_AUTHorship_1847_STAGE_1_CHOICE_2",
+      "hostIds": [
+        "print_apprentice_stepan"
+      ],
+      "labelKo": "견습생들끼리 교정쇄를 대조한다",
+      "subcopyKo": "대조한 사람만 압니다 · 공식 기록은 생기지 않습니다 · 인쇄 시작이 늦어집니다",
+      "resultKo": "동료와 인쇄 전 교정쇄를 맞춰 보기로 했다. 오류를 막을 수 있지만 작업은 늦어진다.",
+      "resultFlag": "STEPAN_PROOF_AUTHorship_1847_STAGE_1_RESULT_2",
+      "followupTitleKo": "교정쇄에 남은 손자국",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "동료와 인쇄 전 교정쇄를 맞춰 보기로 했다. 오류를 막을 수 있지만 작업은 늦어진다.",
+        "relations": {
+          "work_or_household": "바뀐 글자 하나 · 견습생들끼리 교정쇄를 대조한다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "STEPAN_PROOF_AUTHorship_1847_STAGE_1_CHOICE_3",
+      "hostIds": [
+        "print_apprentice_stepan"
+      ],
+      "labelKo": "가장 가까이 있던 동료의 이름을 적는다",
+      "subcopyKo": "책임자와 지목된 동료가 압니다 · 작업표에 이름이 남습니다 · 추측이 틀리면 동료가 불이익을 받습니다",
+      "resultKo": "가장 가까이 있던 동료를 적었다. 조사는 빨라질 수 있지만 그가 고쳤다는 증거는 없다.",
+      "resultFlag": "STEPAN_PROOF_AUTHorship_1847_STAGE_1_RESULT_3",
+      "followupTitleKo": "교정쇄에 남은 손자국",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "가장 가까이 있던 동료를 적었다. 조사는 빨라질 수 있지만 그가 고쳤다는 증거는 없다.",
+        "relations": {
+          "work_or_household": "바뀐 글자 하나 · 가장 가까이 있던 동료의 이름을 적는다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "trust": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "STEPAN_PROOF_AUTHorship_1847",
+    "titleKo": "교정쇄에 남은 손자국",
+    "stage": 1,
+    "stageCount": 3,
+    "metricKo": "확인한 수정과 동료의 이름"
+  }
+}

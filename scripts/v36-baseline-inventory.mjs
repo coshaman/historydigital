@@ -127,14 +127,30 @@ const baseline = { auditedHead: commit, branch, generatedAt, workingTreeStatus: 
   questGaps: { threeStagePersonalQuestRecords: quests.filter(quest => quest.lifeChain?.stageCount >= 3).length,
     uniqueAuthoredLifeChains: new Set(quests.map(quest => quest.lifeChain?.id).filter(Boolean)).size,
     threeStagePersonalQuestChains: new Set(quests.filter(quest => quest.lifeChain?.stageCount >= 3).map(quest => quest.lifeChain.id)).size },
-  knownConstraints: ['The 36 fictional city residents exist as active cards, but route-specific possession is not proven by the roster count.',
-    'NPC movement is schedule-led with an initial needs-driven layer: hunger meals and fatigue-triggered rest for the first six residents, plus authored delivery/trade target tracking. Income, safety, social goals, and competing-goal planning remain incomplete.',
-    'The current city prototype connects three gameplay districts and has three usable interiors, below the V36 targets of six and eight.',
-    'The cohort has 26 primarily single-choice work quests and one six-stage life chain; it does not meet the 30 three-stage personal quest or 10 social-chain targets.',
-    'Maps are stylized and not georeferenced; cited records contextualize them but do not prove survey-grade in-game coordinates.',
-    'Local live-provider smoke exercises the same Vercel handler but does not verify the deployed production environment or its environment variables.'] };
+  knownConstraints: [
+    `${npcRows.filter(row => row[1] === 'FICTIONAL_CITY_CITIZEN').length} fictional city residents are catalogued; possession must be evidenced by the six route-specific batch tests, not inferred from file count.`,
+    `${(districts.districts ?? []).filter(district => district.prototypeStatus === 'PHASE_1_PLAYABLE_PROTOTYPE').length} playable districts are registered; the V36 target is 6.`,
+    `${interiorCandidates.length} maps are marked as interior candidates by geography metadata; the V36 target is 8 actually enterable interiors.`,
+    `${cityMaps.reduce((sum, map) => sum + map.interactionObjects - map.mapExits.length, 0)} non-exit interaction objects are present; the V36 target is 70 meaningful interactions, requiring effect-level review.`,
+    `${new Set(quests.filter(quest => quest.lifeChain?.stageCount >= 3).map(quest => quest.lifeChain.id)).size} unique authored life-chain IDs exist; the V36 target is 30 complete three-stage personal chains, and 10 social chains are separately required.`,
+    `${new Set((provenance.assets ?? []).map(asset => asset.type)).size} provenance asset types are registered; the V36 target is 60 distinct environmental asset types with actual in-game use.`,
+    'Map geography remains stylized and not georeferenced; cited records contextualize scenes but do not prove survey-grade in-game coordinates.',
+    'Local live-provider smoke does not verify the deployed Vercel production environment or its environment variables.',
+  ] };
 await writeFile(path.join(out, 'HEAD_AUDIT.json'), JSON.stringify(baseline, null, 2) + '\n', 'utf8');
 
-await writeFile(path.join(out, 'API_AUDIT.md'), `# API audit — current V36 checkpoint\n\nAudited HEAD: \`${commit}\` (${branch})\n\n- Deployment contract: Vercel same-origin functions; no Cloudflare worker or external client-side key.\n- Runtime routes: \`/api/rpg/health\`, \`/api/rpg/session/start\`, \`/api/rpg/dialogue\`.\n- Secret configuration name: \`OPENAI_API_KEY\` (value intentionally not recorded); optional \`OPENAI_DIALOGUE_MODEL\`.\n- Dialogue uses a server-created, signed session and validated model response. NPC simulation must not call the LLM.\n- Regression coverage includes generated turns, missing-key fallback, provider 429/5xx/timeout, incomplete-output cause, invalid response rejection, session recovery, and authoritative-state protection.\n- On 2026-11-03, the actual Vercel function handler was exercised locally with the private `.env.local` key: session creation returned `AI`; the Responses API returned two generated beats with `fallback: false` at a 700-token ceiling. No key or generated text is recorded.\n- Vercel production deployment and environment settings remain unverified; health confirms key presence only, while a successful dialogue request is the generation check.\n`, 'utf8');
+const apiAudit = [
+  '# API audit — current V36 checkpoint', '',
+  `Audited HEAD: ${commit} (${branch})`, '',
+  '- Deployment contract: Vercel same-origin functions; no Cloudflare worker or external client-side key.',
+  '- Runtime routes: /api/rpg/health, /api/rpg/session/start, and /api/rpg/dialogue.',
+  '- Secret configuration name: OPENAI_API_KEY (value intentionally not recorded); optional OPENAI_DIALOGUE_MODEL.',
+  '- Dialogue uses a server-created, signed session and validated model response. NPC simulation must not call the LLM.',
+  '- Regression coverage includes generated turns, missing-key fallback, provider 429/5xx/timeout, incomplete-output cause, invalid response rejection, session recovery, and authoritative-state protection.',
+  '- Real in-game API acceptance is recorded separately in REAL_AI_IN_GAME_ACCEPTANCE.json; generated dialogue text and credentials are excluded from that evidence.',
+  '- Vercel production deployment and environment settings remain unverified; health confirms key presence only, while a successful dialogue request is the generation check.',
+  '',
+].join('\n');
+await writeFile(path.join(out, 'API_AUDIT.md'), apiAudit, 'utf8');
 
 console.log(JSON.stringify({ status: 'AUDITED', auditedHead: commit, output: path.relative(root, out).replaceAll('\\', '/'), counts: baseline.counts, constraints: baseline.knownConstraints }, null, 2));

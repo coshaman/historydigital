@@ -1,0 +1,96 @@
+{
+  "id": "MATRYONA_STREET_STALL_1847_STAGE_1",
+  "titleKo": "비 그친 뒤의 좌판 자리 · 1막",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "비에 젖은 좌판 천을 걷자 팔 수 있는 물건과 망가진 물건이 섞여 있다.",
+  "historicalOutcome": {
+    "id": "MATRYONA_STREET_STALL_1847_STAGE_1_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "nevsky",
+    "objectId": 1017,
+    "requiredHostId": "street_vendor_matryona"
+  },
+  "actions": [
+    {
+      "id": "MATRYONA_STREET_STALL_1847_STAGE_1_CHOICE_1",
+      "hostIds": [
+        "street_vendor_matryona"
+      ],
+      "labelKo": "상태를 나눠 값표를 다시 붙인다",
+      "subcopyKo": "손님과 이웃 상인이 압니다 · 값표에 상태가 표시됩니다 · 손님이 사기를 꺼릴 수 있습니다",
+      "resultKo": "물건 상태에 맞춰 값을 다시 붙였다. 손님은 고를 수 있지만 값은 낮아진다.",
+      "resultFlag": "MATRYONA_STREET_STALL_1847_STAGE_1_RESULT_1",
+      "followupTitleKo": "비 그친 뒤의 좌판 자리",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "물건 상태에 맞춰 값을 다시 붙였다. 손님은 고를 수 있지만 값은 낮아진다.",
+        "relations": {
+          "work_or_household": "젖은 천 아래의 물건 · 상태를 나눠 값표를 다시 붙인다"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "MATRYONA_STREET_STALL_1847_STAGE_1_CHOICE_2",
+      "hostIds": [
+        "street_vendor_matryona"
+      ],
+      "labelKo": "괜찮은 물건만 팔고 나머지는 말린다",
+      "subcopyKo": "좌판 주인만 압니다 · 재고표에 보류 수량이 남습니다 · 오늘 수입이 줄어듭니다",
+      "resultKo": "괜찮은 것만 내놓고 나머지는 말리기로 했다. 손해를 줄일 수 있지만 오늘 벌이는 적다.",
+      "resultFlag": "MATRYONA_STREET_STALL_1847_STAGE_1_RESULT_2",
+      "followupTitleKo": "비 그친 뒤의 좌판 자리",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "괜찮은 것만 내놓고 나머지는 말리기로 했다. 손해를 줄일 수 있지만 오늘 벌이는 적다.",
+        "relations": {
+          "work_or_household": "젖은 천 아래의 물건 · 괜찮은 물건만 팔고 나머지는 말린다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "MATRYONA_STREET_STALL_1847_STAGE_1_CHOICE_3",
+      "hostIds": [
+        "street_vendor_matryona"
+      ],
+      "labelKo": "이웃 좌판과 마른 천을 함께 쓴다",
+      "subcopyKo": "이웃 상인과 압니다 · 천을 나눈 일이 쪽지에 남습니다 · 내 좌판 자리가 좁아집니다",
+      "resultKo": "이웃과 마른 천을 나눠 썼다. 물건은 지켰지만 좌판 공간도 나눠야 한다.",
+      "resultFlag": "MATRYONA_STREET_STALL_1847_STAGE_1_RESULT_3",
+      "followupTitleKo": "비 그친 뒤의 좌판 자리",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "이웃과 마른 천을 나눠 썼다. 물건은 지켰지만 좌판 공간도 나눠야 한다.",
+        "relations": {
+          "work_or_household": "젖은 천 아래의 물건 · 이웃 좌판과 마른 천을 함께 쓴다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "trust": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "MATRYONA_STREET_STALL_1847",
+    "titleKo": "비 그친 뒤의 좌판 자리",
+    "stage": 1,
+    "stageCount": 3,
+    "metricKo": "장사할 자리와 상한 물건의 손실"
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "id": "KLAVDIYA_FISH_STORAGE_1847_STAGE_3",
+  "titleKo": "상하기 전의 생선값 · 3막",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "남은 생선의 양이 장부와 맞지 않는다. 누군가 가져갔는지, 무게를 잘못 쟀는지는 모른다.",
+  "historicalOutcome": {
+    "id": "KLAVDIYA_FISH_STORAGE_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "market-quay",
+    "objectId": 1012,
+    "requiredHostId": "fishseller_klavdiya"
+  },
+  "previousQuestId": "KLAVDIYA_FISH_STORAGE_1847_STAGE_2",
+  "actions": [
+    {
+      "id": "KLAVDIYA_FISH_STORAGE_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "fishseller_klavdiya"
+      ],
+      "labelKo": "저울을 다시 맞추고 수량을 센다",
+      "subcopyKo": "상인과 시장 관리인이 압니다 · 재검표가 장부에 남습니다 · 마감이 늦어집니다",
+      "resultKo": "저울과 수량을 다시 확인했다. 원인을 찾기 전에는 누구 이름도 적지 않았다.",
+      "resultFlag": "KLAVDIYA_FISH_STORAGE_1847_STAGE_3_RESULT_1",
+      "followupTitleKo": "상하기 전의 생선값",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "저울과 수량을 다시 확인했다. 원인을 찾기 전에는 누구 이름도 적지 않았다.",
+        "relations": {
+          "work_or_household": "시장 마감 전의 장부 · 저울을 다시 맞추고 수량을 센다"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "KLAVDIYA_FISH_STORAGE_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "fishseller_klavdiya"
+      ],
+      "labelKo": "확인된 차이만 손실로 기록한다",
+      "subcopyKo": "상인과 장부 담당이 압니다 · 손실 수량이 기록됩니다 · 손실 비용을 가게가 떠안습니다",
+      "resultKo": "차이 난 양만 손실로 적었다. 사람을 지목하진 않았지만 가게 수입은 줄었다.",
+      "resultFlag": "KLAVDIYA_FISH_STORAGE_1847_STAGE_3_RESULT_2",
+      "followupTitleKo": "상하기 전의 생선값",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "차이 난 양만 손실로 적었다. 사람을 지목하진 않았지만 가게 수입은 줄었다.",
+        "relations": {
+          "work_or_household": "시장 마감 전의 장부 · 확인된 차이만 손실로 기록한다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "KLAVDIYA_FISH_STORAGE_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "fishseller_klavdiya"
+      ],
+      "labelKo": "주변 상인에게 본 것을 묻는다",
+      "subcopyKo": "근처 상인들이 압니다 · 확인한 진술이 메모에 남습니다 · 소문이 용의자 지목으로 번질 수 있습니다",
+      "resultKo": "주변 상인에게 본 일을 물었다. 단서를 얻을 수 있지만 추측을 사실처럼 적지 않아야 한다.",
+      "resultFlag": "KLAVDIYA_FISH_STORAGE_1847_STAGE_3_RESULT_3",
+      "followupTitleKo": "상하기 전의 생선값",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "주변 상인에게 본 일을 물었다. 단서를 얻을 수 있지만 추측을 사실처럼 적지 않아야 한다.",
+        "relations": {
+          "work_or_household": "시장 마감 전의 장부 · 주변 상인에게 본 것을 묻는다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "trust": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "KLAVDIYA_FISH_STORAGE_1847",
+    "titleKo": "상하기 전의 생선값",
+    "stage": 3,
+    "stageCount": 3,
+    "metricKo": "손실을 줄이는 값과 손님의 신뢰",
+    "previousQuestId": "KLAVDIYA_FISH_STORAGE_1847_STAGE_2"
+  }
+}

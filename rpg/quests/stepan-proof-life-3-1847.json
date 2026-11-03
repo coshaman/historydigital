@@ -1,0 +1,98 @@
+{
+  "id": "STEPAN_PROOF_AUTHorship_1847_STAGE_3",
+  "titleKo": "교정쇄에 남은 손자국 · 3막",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "작업장이 바빠져 다음 호를 급히 찍어야 한다. 이번에도 검토 없이 인쇄를 시작할지 결정해야 한다.",
+  "historicalOutcome": {
+    "id": "STEPAN_PROOF_AUTHorship_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "printshop",
+    "objectId": 1003,
+    "requiredHostId": "print_apprentice_stepan"
+  },
+  "previousQuestId": "STEPAN_PROOF_AUTHorship_1847_STAGE_2",
+  "actions": [
+    {
+      "id": "STEPAN_PROOF_AUTHorship_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "print_apprentice_stepan"
+      ],
+      "labelKo": "인쇄 전 두 사람이 교정표를 읽는다",
+      "subcopyKo": "교정 담당과 인쇄공이 압니다 · 서명된 확인표가 남습니다 · 작업이 늦고 담당자 둘 다 책임을 집니다",
+      "resultKo": "두 사람이 교정표를 읽은 뒤 찍기로 했다. 실수를 줄이는 대신 확인 책임을 나눠 진다.",
+      "resultFlag": "STEPAN_PROOF_AUTHorship_1847_STAGE_3_RESULT_1",
+      "followupTitleKo": "교정쇄에 남은 손자국",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "두 사람이 교정표를 읽은 뒤 찍기로 했다. 실수를 줄이는 대신 확인 책임을 나눠 진다.",
+        "relations": {
+          "work_or_household": "견습 기간의 마지막 주 · 인쇄 전 두 사람이 교정표를 읽는다"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "STEPAN_PROOF_AUTHorship_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "print_apprentice_stepan"
+      ],
+      "labelKo": "확인된 줄만 먼저 찍는다",
+      "subcopyKo": "작업장 직원이 압니다 · 인쇄 순서표에 구분이 남습니다 · 나머지 면은 늦게 배포됩니다",
+      "resultKo": "확인된 면부터 찍었다. 일부는 제때 나가지만 한 호를 나눠 배포해야 한다.",
+      "resultFlag": "STEPAN_PROOF_AUTHorship_1847_STAGE_3_RESULT_2",
+      "followupTitleKo": "교정쇄에 남은 손자국",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "확인된 면부터 찍었다. 일부는 제때 나가지만 한 호를 나눠 배포해야 한다.",
+        "relations": {
+          "work_or_household": "견습 기간의 마지막 주 · 확인된 줄만 먼저 찍는다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "STEPAN_PROOF_AUTHorship_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "print_apprentice_stepan"
+      ],
+      "labelKo": "책임자 서명을 받은 뒤 전체를 찍는다",
+      "subcopyKo": "책임자와 작업자가 압니다 · 서명된 교정쇄가 남습니다 · 서명을 기다리는 동안 납기가 밀립니다",
+      "resultKo": "서명을 받은 뒤 인쇄하기로 했다. 결정권은 분명해졌지만 기다리는 시간은 견습생도 감당한다.",
+      "resultFlag": "STEPAN_PROOF_AUTHorship_1847_STAGE_3_RESULT_3",
+      "followupTitleKo": "교정쇄에 남은 손자국",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "서명을 받은 뒤 인쇄하기로 했다. 결정권은 분명해졌지만 기다리는 시간은 견습생도 감당한다.",
+        "relations": {
+          "work_or_household": "견습 기간의 마지막 주 · 책임자 서명을 받은 뒤 전체를 찍는다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "trust": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "STEPAN_PROOF_AUTHorship_1847",
+    "titleKo": "교정쇄에 남은 손자국",
+    "stage": 3,
+    "stageCount": 3,
+    "metricKo": "확인한 수정과 동료의 이름",
+    "previousQuestId": "STEPAN_PROOF_AUTHorship_1847_STAGE_2"
+  }
+}

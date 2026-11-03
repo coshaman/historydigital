@@ -1,0 +1,98 @@
+{
+  "id": "LYUBOV_LESSON_ACCESS_1847_STAGE_3",
+  "titleKo": "수업을 열 시간과 비용 · 3막",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "학생의 사정이 달라져 약속한 비용을 내기 어렵다. 교사도 방값을 마련해야 한다.",
+  "historicalOutcome": {
+    "id": "LYUBOV_LESSON_ACCESS_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "courtyard",
+    "objectId": 1008,
+    "requiredHostId": "teacher_lyubov"
+  },
+  "previousQuestId": "LYUBOV_LESSON_ACCESS_1847_STAGE_2",
+  "actions": [
+    {
+      "id": "LYUBOV_LESSON_ACCESS_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "teacher_lyubov"
+      ],
+      "labelKo": "수업료를 줄이고 다음 달 수업을 조정한다",
+      "subcopyKo": "학생과 교사가 압니다 · 새 금액이 장부에 남습니다 · 교사의 수입이 줄어듭니다",
+      "resultKo": "수업료를 낮췄다. 학생은 배움을 이어가지만 교사도 생활비를 다시 계산해야 한다.",
+      "resultFlag": "LYUBOV_LESSON_ACCESS_1847_STAGE_3_RESULT_1",
+      "followupTitleKo": "수업을 열 시간과 비용",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "수업료를 낮췄다. 학생은 배움을 이어가지만 교사도 생활비를 다시 계산해야 한다.",
+        "relations": {
+          "work_or_household": "수업료를 낼 날 · 수업료를 줄이고 다음 달 수업을 조정한다"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "LYUBOV_LESSON_ACCESS_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "teacher_lyubov"
+      ],
+      "labelKo": "이번 수업은 쉬고 공개 자료를 건넨다",
+      "subcopyKo": "학생만 압니다 · 개인 장부에는 수업료가 남지 않습니다 · 혼자 공부하기 어려울 수 있습니다",
+      "resultKo": "수업은 쉬고 읽을 자료를 건넸다. 비용은 들지 않지만 학생이 혼자 따라가야 한다.",
+      "resultFlag": "LYUBOV_LESSON_ACCESS_1847_STAGE_3_RESULT_2",
+      "followupTitleKo": "수업을 열 시간과 비용",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "수업은 쉬고 읽을 자료를 건넸다. 비용은 들지 않지만 학생이 혼자 따라가야 한다.",
+        "relations": {
+          "work_or_household": "수업료를 낼 날 · 이번 수업은 쉬고 공개 자료를 건넨다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "LYUBOV_LESSON_ACCESS_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "teacher_lyubov"
+      ],
+      "labelKo": "다음 수업을 먼저 하고 갚을 날짜를 정한다",
+      "subcopyKo": "학생과 교사가 압니다 · 외상 날짜가 장부에 남습니다 · 갚지 못하면 관계가 틀어질 수 있습니다",
+      "resultKo": "먼저 수업하고 날짜를 정했다. 학습은 끊기지 않지만 빚이 생겼다.",
+      "resultFlag": "LYUBOV_LESSON_ACCESS_1847_STAGE_3_RESULT_3",
+      "followupTitleKo": "수업을 열 시간과 비용",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "먼저 수업하고 날짜를 정했다. 학습은 끊기지 않지만 빚이 생겼다.",
+        "relations": {
+          "work_or_household": "수업료를 낼 날 · 다음 수업을 먼저 하고 갚을 날짜를 정한다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "trust": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "LYUBOV_LESSON_ACCESS_1847",
+    "titleKo": "수업을 열 시간과 비용",
+    "stage": 3,
+    "stageCount": 3,
+    "metricKo": "배움의 문을 넓히는 일과 가르치는 노동",
+    "previousQuestId": "LYUBOV_LESSON_ACCESS_1847_STAGE_2"
+  }
+}

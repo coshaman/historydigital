@@ -1,0 +1,98 @@
+{
+  "id": "LUKA_WATER_QUEUE_1847_STAGE_2",
+  "titleKo": "물통 순서와 먼 길 · 2막",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "한 통이 새고 있어 다시 길어야 한다. 높은 층 사람들은 운반을 도와주겠다고 한다.",
+  "historicalOutcome": {
+    "id": "LUKA_WATER_QUEUE_1847_STAGE_2_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "courtyard",
+    "objectId": 1011,
+    "requiredHostId": "watercarrier_luka"
+  },
+  "previousQuestId": "LUKA_WATER_QUEUE_1847_STAGE_1",
+  "actions": [
+    {
+      "id": "LUKA_WATER_QUEUE_1847_STAGE_2_CHOICE_1",
+      "hostIds": [
+        "watercarrier_luka"
+      ],
+      "labelKo": "새는 곳을 고쳐 함께 나른다",
+      "subcopyKo": "도운 이웃들이 압니다 · 수리와 분담이 쪽지에 남습니다 · 물을 채우는 시간이 늦어집니다",
+      "resultKo": "통을 먼저 고치고 함께 날랐다. 다음 운반은 줄겠지만 오늘 물이 늦게 도착한다.",
+      "resultFlag": "LUKA_WATER_QUEUE_1847_STAGE_2_RESULT_1",
+      "followupTitleKo": "물통 순서와 먼 길",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "통을 먼저 고치고 함께 날랐다. 다음 운반은 줄겠지만 오늘 물이 늦게 도착한다.",
+        "relations": {
+          "work_or_household": "새는 통과 먼 계단 · 새는 곳을 고쳐 함께 나른다"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "LUKA_WATER_QUEUE_1847_STAGE_2_CHOICE_2",
+      "hostIds": [
+        "watercarrier_luka"
+      ],
+      "labelKo": "새 통을 빌려 바로 배달한다",
+      "subcopyKo": "통 주인과 받는 집이 압니다 · 대여 쪽지에 이름이 남습니다 · 빌린 통을 돌려받지 못할 수 있습니다",
+      "resultKo": "새 통을 빌려 물을 날랐다. 오늘은 해결했지만 통을 돌려줘야 한다.",
+      "resultFlag": "LUKA_WATER_QUEUE_1847_STAGE_2_RESULT_2",
+      "followupTitleKo": "물통 순서와 먼 길",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "새 통을 빌려 물을 날랐다. 오늘은 해결했지만 통을 돌려줘야 한다.",
+        "relations": {
+          "work_or_household": "새는 통과 먼 계단 · 새 통을 빌려 바로 배달한다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "LUKA_WATER_QUEUE_1847_STAGE_2_CHOICE_3",
+      "hostIds": [
+        "watercarrier_luka"
+      ],
+      "labelKo": "높은 층 집이 아래까지 내려오게 한다",
+      "subcopyKo": "해당 집이 압니다 · 배달 순서에는 기록하지 않습니다 · 아픈 사람은 물을 받기 어렵습니다",
+      "resultKo": "아래에서 받도록 부탁했다. 운반은 줄었지만 내려오기 힘든 사람은 불편해졌다.",
+      "resultFlag": "LUKA_WATER_QUEUE_1847_STAGE_2_RESULT_3",
+      "followupTitleKo": "물통 순서와 먼 길",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "아래에서 받도록 부탁했다. 운반은 줄었지만 내려오기 힘든 사람은 불편해졌다.",
+        "relations": {
+          "work_or_household": "새는 통과 먼 계단 · 높은 층 집이 아래까지 내려오게 한다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "trust": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "LUKA_WATER_QUEUE_1847",
+    "titleKo": "물통 순서와 먼 길",
+    "stage": 2,
+    "stageCount": 3,
+    "metricKo": "공동 우물의 차례와 운반 노동",
+    "previousQuestId": "LUKA_WATER_QUEUE_1847_STAGE_1"
+  }
+}

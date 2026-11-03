@@ -1,0 +1,335 @@
+{
+  "schemaVersion": "V36_ALL_SIX_RESIDENT_BATCHES_1",
+  "status": "PASS",
+  "activeResidents": [
+    "clerk_alexei",
+    "printer_ekaterina",
+    "courier_pavel",
+    "seamstress_anna",
+    "tenant_mikhail",
+    "bookseller_lev",
+    "senior_clerk_konstantin",
+    "reader_darya",
+    "editor_sofia",
+    "police_sergeant_ivan",
+    "print_apprentice_stepan",
+    "bookbinder_elizaveta",
+    "scribal_yuri",
+    "student_vasily",
+    "minor_noble_andrei",
+    "junior_guard_sergey",
+    "street_vendor_matryona",
+    "typesetter_nikita",
+    "housemaid_olga",
+    "midwife_avdotya",
+    "innkeeper_irina",
+    "teacher_lyubov",
+    "landlady_polina",
+    "watercarrier_luka",
+    "servant_varvara",
+    "lodging_tatyana",
+    "yardkeeper_semyon",
+    "laundress_mariya",
+    "baker_fyodor",
+    "market_nadezhda",
+    "porter_gavrila",
+    "coachman_timofey",
+    "apothecary_yakov",
+    "fishseller_klavdiya",
+    "warehouse_pyotr",
+    "carter_roman"
+  ],
+  "residentCount": 36,
+  "questCompletions": 36,
+  "questStagesResolved": 80,
+  "batches": [
+    {
+      "schemaVersion": "V36_RESIDENT_BATCH_ACCEPTANCE_1",
+      "status": "PASS",
+      "batch": 1,
+      "residents": [
+        "clerk_alexei",
+        "printer_ekaterina",
+        "courier_pavel",
+        "seamstress_anna",
+        "tenant_mikhail",
+        "bookseller_lev"
+      ],
+      "relationships": [
+        {
+          "id": "clerk_alexei",
+          "reciprocalLinks": 2
+        },
+        {
+          "id": "printer_ekaterina",
+          "reciprocalLinks": 2
+        },
+        {
+          "id": "courier_pavel",
+          "reciprocalLinks": 2
+        },
+        {
+          "id": "seamstress_anna",
+          "reciprocalLinks": 2
+        },
+        {
+          "id": "tenant_mikhail",
+          "reciprocalLinks": 2
+        },
+        {
+          "id": "bookseller_lev",
+          "reciprocalLinks": 2
+        }
+      ],
+      "scheduleTargetsChecked": 30,
+      "oneHourWorldReplay": true,
+      "collisionSnapshots": 12,
+      "questCompletions": 6,
+      "questStagesResolved": 14,
+      "possessionChecks": 6,
+      "legacySaveRelationMigrationPreservedDynamicLinks": true,
+      "movementEvents": 63,
+      "finalStateHash": "e86eeb6a"
+    },
+    {
+      "schemaVersion": "V36_RESIDENT_BATCH_ACCEPTANCE_1",
+      "status": "PASS",
+      "batch": 2,
+      "residents": [
+        "senior_clerk_konstantin",
+        "reader_darya",
+        "editor_sofia",
+        "police_sergeant_ivan",
+        "print_apprentice_stepan",
+        "bookbinder_elizaveta"
+      ],
+      "relationships": [
+        {
+          "id": "senior_clerk_konstantin",
+          "reciprocalLinks": 2
+        },
+        {
+          "id": "reader_darya",
+          "reciprocalLinks": 2
+        },
+        {
+          "id": "editor_sofia",
+          "reciprocalLinks": 2
+        },
+        {
+          "id": "police_sergeant_ivan",
+          "reciprocalLinks": 2
+        },
+        {
+          "id": "print_apprentice_stepan",
+          "reciprocalLinks": 2
+        },
+        {
+          "id": "bookbinder_elizaveta",
+          "reciprocalLinks": 2
+        }
+      ],
+      "scheduleTargetsChecked": 30,
+      "oneHourWorldReplay": true,
+      "collisionSnapshots": 12,
+      "questCompletions": 6,
+      "questStagesResolved": 10,
+      "possessionChecks": 6,
+      "legacySaveRelationMigrationPreservedDynamicLinks": true,
+      "movementEvents": 63,
+      "finalStateHash": "e86eeb6a"
+    },
+    {
+      "schemaVersion": "V36_RESIDENT_BATCH_ACCEPTANCE_1",
+      "status": "PASS",
+      "batch": 3,
+      "residents": [
+        "scribal_yuri",
+        "student_vasily",
+        "minor_noble_andrei",
+        "junior_guard_sergey",
+        "street_vendor_matryona",
+        "typesetter_nikita"
+      ],
+      "relationships": [
+        {
+          "id": "scribal_yuri",
+          "reciprocalLinks": 2
+        },
+        {
+          "id": "student_vasily",
+          "reciprocalLinks": 2
+        },
+        {
+          "id": "minor_noble_andrei",
+          "reciprocalLinks": 2
+        },
+        {
+          "id": "junior_guard_sergey",
+          "reciprocalLinks": 2
+        },
+        {
+          "id": "street_vendor_matryona",
+          "reciprocalLinks": 2
+        },
+        {
+          "id": "typesetter_nikita",
+          "reciprocalLinks": 2
+        }
+      ],
+      "scheduleTargetsChecked": 24,
+      "oneHourWorldReplay": true,
+      "collisionSnapshots": 12,
+      "questCompletions": 6,
+      "questStagesResolved": 12,
+      "possessionChecks": 6,
+      "legacySaveRelationMigrationPreservedDynamicLinks": true,
+      "movementEvents": 63,
+      "finalStateHash": "e86eeb6a"
+    },
+    {
+      "schemaVersion": "V36_RESIDENT_BATCH_ACCEPTANCE_1",
+      "status": "PASS",
+      "batch": 4,
+      "residents": [
+        "housemaid_olga",
+        "midwife_avdotya",
+        "innkeeper_irina",
+        "teacher_lyubov",
+        "landlady_polina",
+        "watercarrier_luka"
+      ],
+      "relationships": [
+        {
+          "id": "housemaid_olga",
+          "reciprocalLinks": 2
+        },
+        {
+          "id": "midwife_avdotya",
+          "reciprocalLinks": 2
+        },
+        {
+          "id": "innkeeper_irina",
+          "reciprocalLinks": 2
+        },
+        {
+          "id": "teacher_lyubov",
+          "reciprocalLinks": 2
+        },
+        {
+          "id": "landlady_polina",
+          "reciprocalLinks": 2
+        },
+        {
+          "id": "watercarrier_luka",
+          "reciprocalLinks": 2
+        }
+      ],
+      "scheduleTargetsChecked": 24,
+      "oneHourWorldReplay": true,
+      "collisionSnapshots": 12,
+      "questCompletions": 6,
+      "questStagesResolved": 14,
+      "possessionChecks": 6,
+      "legacySaveRelationMigrationPreservedDynamicLinks": true,
+      "movementEvents": 63,
+      "finalStateHash": "e86eeb6a"
+    },
+    {
+      "schemaVersion": "V36_RESIDENT_BATCH_ACCEPTANCE_1",
+      "status": "PASS",
+      "batch": 5,
+      "residents": [
+        "servant_varvara",
+        "lodging_tatyana",
+        "yardkeeper_semyon",
+        "laundress_mariya",
+        "baker_fyodor",
+        "market_nadezhda"
+      ],
+      "relationships": [
+        {
+          "id": "servant_varvara",
+          "reciprocalLinks": 2
+        },
+        {
+          "id": "lodging_tatyana",
+          "reciprocalLinks": 2
+        },
+        {
+          "id": "yardkeeper_semyon",
+          "reciprocalLinks": 2
+        },
+        {
+          "id": "laundress_mariya",
+          "reciprocalLinks": 2
+        },
+        {
+          "id": "baker_fyodor",
+          "reciprocalLinks": 2
+        },
+        {
+          "id": "market_nadezhda",
+          "reciprocalLinks": 2
+        }
+      ],
+      "scheduleTargetsChecked": 29,
+      "oneHourWorldReplay": true,
+      "collisionSnapshots": 12,
+      "questCompletions": 6,
+      "questStagesResolved": 12,
+      "possessionChecks": 6,
+      "legacySaveRelationMigrationPreservedDynamicLinks": true,
+      "movementEvents": 63,
+      "finalStateHash": "e86eeb6a"
+    },
+    {
+      "schemaVersion": "V36_RESIDENT_BATCH_ACCEPTANCE_1",
+      "status": "PASS",
+      "batch": 6,
+      "residents": [
+        "porter_gavrila",
+        "coachman_timofey",
+        "apothecary_yakov",
+        "fishseller_klavdiya",
+        "warehouse_pyotr",
+        "carter_roman"
+      ],
+      "relationships": [
+        {
+          "id": "porter_gavrila",
+          "reciprocalLinks": 2
+        },
+        {
+          "id": "coachman_timofey",
+          "reciprocalLinks": 2
+        },
+        {
+          "id": "apothecary_yakov",
+          "reciprocalLinks": 2
+        },
+        {
+          "id": "fishseller_klavdiya",
+          "reciprocalLinks": 2
+        },
+        {
+          "id": "warehouse_pyotr",
+          "reciprocalLinks": 2
+        },
+        {
+          "id": "carter_roman",
+          "reciprocalLinks": 2
+        }
+      ],
+      "scheduleTargetsChecked": 24,
+      "oneHourWorldReplay": true,
+      "collisionSnapshots": 12,
+      "questCompletions": 6,
+      "questStagesResolved": 18,
+      "possessionChecks": 6,
+      "legacySaveRelationMigrationPreservedDynamicLinks": true,
+      "movementEvents": 63,
+      "finalStateHash": "e86eeb6a"
+    }
+  ]
+}

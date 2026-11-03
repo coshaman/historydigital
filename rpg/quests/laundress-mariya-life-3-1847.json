@@ -1,0 +1,98 @@
+{
+  "id": "MARIYA_WASHING_WAGES_1847_STAGE_3",
+  "titleKo": "밀린 빨래값과 다음 일감 · 3막",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "밀린 돈 일부가 들어왔다. 장작을 사면 다음 주 빨래 삶을 여유가 줄어든다.",
+  "historicalOutcome": {
+    "id": "MARIYA_WASHING_WAGES_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "market-quay",
+    "objectId": 111,
+    "requiredHostId": "laundress_mariya"
+  },
+  "previousQuestId": "MARIYA_WASHING_WAGES_1847_STAGE_2",
+  "actions": [
+    {
+      "id": "MARIYA_WASHING_WAGES_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "laundress_mariya"
+      ],
+      "labelKo": "장작값과 다음 주 몫을 먼저 떼어 둔다",
+      "subcopyKo": "가계 장부에만 남습니다 · 돈은 쓸 항목별로 나뉩니다 · 당장 쓸 수 있는 잔돈이 적습니다",
+      "resultKo": "장작값과 다음 일감 준비금을 따로 두었다. 급한 지출은 막았지만 여유는 거의 남지 않았다.",
+      "resultFlag": "MARIYA_WASHING_WAGES_1847_STAGE_3_RESULT_1",
+      "followupTitleKo": "밀린 빨래값과 다음 일감",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "장작값과 다음 일감 준비금을 따로 두었다. 급한 지출은 막았지만 여유는 거의 남지 않았다.",
+        "relations": {
+          "work_or_household": "장작값을 치르는 날 · 장작값과 다음 주 몫을 먼저 떼어 둔다"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "MARIYA_WASHING_WAGES_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "laundress_mariya"
+      ],
+      "labelKo": "받은 돈으로 밀린 품삯부터 갚는다",
+      "subcopyKo": "돈을 빌려준 이웃이 압니다 · 갚은 금액이 쪽지에 남습니다 · 집에 쓸 장작이 모자랄 수 있습니다",
+      "resultKo": "먼저 빌린 돈을 갚았다. 약속은 지켰지만 장작은 다시 구해야 한다.",
+      "resultFlag": "MARIYA_WASHING_WAGES_1847_STAGE_3_RESULT_2",
+      "followupTitleKo": "밀린 빨래값과 다음 일감",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "먼저 빌린 돈을 갚았다. 약속은 지켰지만 장작은 다시 구해야 한다.",
+        "relations": {
+          "work_or_household": "장작값을 치르는 날 · 받은 돈으로 밀린 품삯부터 갚는다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "MARIYA_WASHING_WAGES_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "laundress_mariya"
+      ],
+      "labelKo": "일감을 하나 더 잡아 장작값을 마련한다",
+      "subcopyKo": "새 의뢰인과 세탁소가 압니다 · 추가 주문이 장부에 남습니다 · 쉬는 시간이 줄어듭니다",
+      "resultKo": "일을 하나 더 맡았다. 장작값은 마련하겠지만 몸을 돌볼 틈은 줄었다.",
+      "resultFlag": "MARIYA_WASHING_WAGES_1847_STAGE_3_RESULT_3",
+      "followupTitleKo": "밀린 빨래값과 다음 일감",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "일을 하나 더 맡았다. 장작값은 마련하겠지만 몸을 돌볼 틈은 줄었다.",
+        "relations": {
+          "work_or_household": "장작값을 치르는 날 · 일감을 하나 더 잡아 장작값을 마련한다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "trust": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "MARIYA_WASHING_WAGES_1847",
+    "titleKo": "밀린 빨래값과 다음 일감",
+    "stage": 3,
+    "stageCount": 3,
+    "metricKo": "품삯을 받는 시점과 일감의 신뢰",
+    "previousQuestId": "MARIYA_WASHING_WAGES_1847_STAGE_2"
+  }
+}

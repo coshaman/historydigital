@@ -47,7 +47,7 @@ try {
       rows: [...document.querySelectorAll('#discussion-quest-items li')].map(item => item.textContent),
       overflowX: document.documentElement.scrollWidth > innerWidth,
     }));
-    if (!result.boardVisible || !result.missionVisible || !/다른 주민의 몸/.test(result.guidance) || !/다음에는 다른 직업/.test(result.guidance) || result.rows.length !== 4 || result.overflowX || errors.length) {
+    if (!result.boardVisible || !result.missionVisible || !/몸을 빌린 뒤/.test(result.guidance) || !/다른 주민에게 같은 쟁점/.test(result.guidance) || !/④ 두 답을 읽고 내 입장 기록/.test(result.guidance) || result.rows.length !== 4 || result.overflowX || errors.length) {
       throw new Error(`opinion_board_not_actionable:${JSON.stringify({ result, errors })}`);
     }
     await page.locator('#discussion-quest-more').click();
@@ -113,7 +113,7 @@ try {
     const event = [...state.ledger].reverse().find(item => item.discussionId === 'INQUIRY_CENSORSHIP_AND_LABOR');
     return { aiGenerated: event?.aiGenerated === true, discussionId: event?.discussionId, perspectiveHostIds: state.ledger.filter(item => item.discussionId === event?.discussionId).map(item => item.hostId), lastLedgerEvent: state.ledger.at(-1), perspectiveCount: state.player.dialogueGrowth.perspectiveNotes.filter(note => note.discussionId === event?.discussionId).length, aiReplyCount: state.player.dialogueGrowth.aiReplies, boardRows: [...document.querySelectorAll('#discussion-quest-items li')].map(item => item.textContent), boardGuidance: document.querySelector('#discussion-quest-guidance')?.textContent, recordText: document.querySelector('#record')?.textContent, answerText: document.querySelector('#journal-text')?.textContent, dialogueHistory: document.querySelector('#dialogue-history-lines')?.textContent, remainingButtons: [...document.querySelectorAll('#actions button')].map(button => button.textContent) };
   });
-  if (firstResult.aiGenerated !== true || firstResult.discussionId !== 'INQUIRY_CENSORSHIP_AND_LABOR' || firstResult.perspectiveCount !== 1 || firstResult.aiReplyCount !== 1 || !firstResult.boardRows.some(row => /1\/2 관점/.test(row)) || !/첫 관점 기록됨.*알렉세이 오를로프에게 같은 쟁점 묻기/.test(firstResult.boardGuidance) || !firstResult.answerText.includes('그 줄을 찍은 손') || errors.length) {
+  if (firstResult.aiGenerated !== true || firstResult.discussionId !== 'INQUIRY_CENSORSHIP_AND_LABOR' || firstResult.perspectiveCount !== 1 || firstResult.aiReplyCount !== 1 || !firstResult.boardRows.some(row => /1\/2 관점/.test(row)) || !/첫 관점을 기록했습니다.*알렉세이 오를로프에게 같은 쟁점을 물어보세요/.test(firstResult.boardGuidance) || !firstResult.answerText.includes('그 줄을 찍은 손') || errors.length) {
     throw new Error(`ai_opinion_turn_did_not_progress:${JSON.stringify({ firstResult, conversationProbe, errors })}`);
   }
   if (dialogueSceneContexts.length !== 1 || dialogueSceneContexts[0]?.questId !== null) {
@@ -137,7 +137,7 @@ try {
     const note = state.player.dialogueGrowth.comparisonNotes.find(item => item.discussionId === 'INQUIRY_CENSORSHIP_AND_LABOR');
     return { hostIds: [...new Set(turns.map(turn => turn.hostId))].sort(), aiGeneratedTurns: turns.filter(turn => turn.aiGenerated).length, aiReplies: state.player.dialogueGrowth.aiReplies, comparisonNoteHostIds: note?.hostIds?.sort(), boardProgress: document.querySelector('#discussion-quest-progress')?.textContent };
   });
-  if (completedPair.hostIds.join(',') !== 'clerk_alexei,printer_ekaterina' || completedPair.aiGeneratedTurns !== 2 || completedPair.aiReplies !== 2 || completedPair.comparisonNoteHostIds?.join(',') !== 'clerk_alexei,printer_ekaterina' || !completedPair.boardProgress?.includes('1 / 16 관점 대조') || errors.length) {
+  if (completedPair.hostIds.join(',') !== 'clerk_alexei,printer_ekaterina' || completedPair.aiGeneratedTurns !== 2 || completedPair.aiReplies !== 2 || completedPair.comparisonNoteHostIds?.join(',') !== 'clerk_alexei,printer_ekaterina' || !completedPair.boardProgress?.includes('1 / 16개 관점 대조') || errors.length) {
     throw new Error(`two_person_ai_inquiry_did_not_complete:${JSON.stringify({ completedPair, errors })}`);
   }
   if (dialogueSceneContexts.length !== 2 || dialogueSceneContexts.some(context => context?.questId !== null)) {

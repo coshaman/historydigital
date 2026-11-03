@@ -5,16 +5,16 @@
   "deterministicReplays": 3,
   "simulatedMinutes": 1440,
   "replayHashes": [
-    "83898258",
-    "83898258",
-    "83898258"
+    "89f382e2",
+    "89f382e2",
+    "89f382e2"
   ],
   "collisionSnapshotsPerReplay": 288,
   "totalCollisionSnapshots": 864,
   "firstReplay": {
-    "movementSteps": 2315,
-    "districtTransitions": 116,
-    "goalEvents": 172,
+    "movementSteps": 2421,
+    "districtTransitions": 118,
+    "goalEvents": 170,
     "deliveries": 4,
     "exchanges": 2,
     "residentsWithDistinctAuthoredObjectives": 36,
@@ -132,8 +132,8 @@
       },
       "landlady_polina": {
         "mapId": "courtyard",
-        "x": 19,
-        "y": 13
+        "x": 20,
+        "y": 12
       },
       "watercarrier_luka": {
         "mapId": "courtyard",
@@ -162,8 +162,8 @@
       },
       "baker_fyodor": {
         "mapId": "market-quay",
-        "x": 14,
-        "y": 12
+        "x": 13,
+        "y": 11
       },
       "market_nadezhda": {
         "mapId": "market-quay",
@@ -203,5 +203,5 @@
     }
   },
   "autoCompletedPlayerQuests": 0,
-  "runtimeMilliseconds": 61055
+  "runtimeMilliseconds": 27484
 }

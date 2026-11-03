@@ -1,0 +1,98 @@
+{
+  "id": "NIKITA_TYPESPEED_1847_STAGE_3",
+  "titleKo": "빠른 인쇄와 남은 교정 · 3막",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "편집부는 책임자를 찾을 수 없으니 작업자가 알아서 하라고 한다. 배포 마차는 곧 떠난다.",
+  "historicalOutcome": {
+    "id": "NIKITA_TYPESPEED_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "printshop",
+    "objectId": 1018,
+    "requiredHostId": "typesetter_nikita"
+  },
+  "previousQuestId": "NIKITA_TYPESPEED_1847_STAGE_2",
+  "actions": [
+    {
+      "id": "NIKITA_TYPESPEED_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "typesetter_nikita"
+      ],
+      "labelKo": "승인된 문장만 찍고 나머지는 빈칸으로 둔다",
+      "subcopyKo": "독자와 편집부가 압니다 · 빈칸과 승인 범위가 남습니다 · 문장이 불완전하게 보입니다",
+      "resultKo": "승인된 부분만 찍었다. 빈칸은 남았지만 확인되지 않은 말을 보태진 않았다.",
+      "resultFlag": "NIKITA_TYPESPEED_1847_STAGE_3_RESULT_1",
+      "followupTitleKo": "빠른 인쇄와 남은 교정",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "승인된 부분만 찍었다. 빈칸은 남았지만 확인되지 않은 말을 보태진 않았다.",
+        "relations": {
+          "work_or_household": "인쇄소의 마지막 결정 · 승인된 문장만 찍고 나머지는 빈칸으로 둔다"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "NIKITA_TYPESPEED_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "typesetter_nikita"
+      ],
+      "labelKo": "책임자를 기다려 이번 호를 늦춘다",
+      "subcopyKo": "편집부와 배달원이 압니다 · 지연 시각이 발송표에 남습니다 · 신문 묶음이 제때 도착하지 않습니다",
+      "resultKo": "책임자를 기다렸다. 문장은 확인할 수 있지만 이번 배달은 늦어진다.",
+      "resultFlag": "NIKITA_TYPESPEED_1847_STAGE_3_RESULT_2",
+      "followupTitleKo": "빠른 인쇄와 남은 교정",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "책임자를 기다렸다. 문장은 확인할 수 있지만 이번 배달은 늦어진다.",
+        "relations": {
+          "work_or_household": "인쇄소의 마지막 결정 · 책임자를 기다려 이번 호를 늦춘다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "NIKITA_TYPESPEED_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "typesetter_nikita"
+      ],
+      "labelKo": "작업자가 수정 여부를 결정하고 이름을 적는다",
+      "subcopyKo": "작업자와 편집부가 압니다 · 결정자 이름이 교정표에 남습니다 · 문장 결과의 책임을 떠안습니다",
+      "resultKo": "작업자가 결정하고 이름을 남겼다. 배포는 이어지지만 책임도 작업자에게 돌아온다.",
+      "resultFlag": "NIKITA_TYPESPEED_1847_STAGE_3_RESULT_3",
+      "followupTitleKo": "빠른 인쇄와 남은 교정",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "작업자가 결정하고 이름을 남겼다. 배포는 이어지지만 책임도 작업자에게 돌아온다.",
+        "relations": {
+          "work_or_household": "인쇄소의 마지막 결정 · 작업자가 수정 여부를 결정하고 이름을 적는다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "trust": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "NIKITA_TYPESPEED_1847",
+    "titleKo": "빠른 인쇄와 남은 교정",
+    "stage": 3,
+    "stageCount": 3,
+    "metricKo": "납기와 문장 확인의 책임",
+    "previousQuestId": "NIKITA_TYPESPEED_1847_STAGE_2"
+  }
+}

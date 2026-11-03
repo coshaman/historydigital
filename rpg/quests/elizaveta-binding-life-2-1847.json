@@ -1,0 +1,98 @@
+{
+  "id": "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_2",
+  "titleKo": "찢어진 장과 수리값 · 2막",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "새 종이를 대면 책은 단단해지지만, 덧댄 자국이 남고 수리비도 오른다.",
+  "historicalOutcome": {
+    "id": "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_2_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "printshop",
+    "objectId": 1004,
+    "requiredHostId": "bookbinder_elizaveta"
+  },
+  "previousQuestId": "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_1",
+  "actions": [
+    {
+      "id": "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_2_CHOICE_1",
+      "hostIds": [
+        "bookbinder_elizaveta"
+      ],
+      "labelKo": "덧댄 부분과 들어간 재료를 기록한다",
+      "subcopyKo": "손님과 제본공이 압니다 · 수리표에 재료가 남습니다 · 기록 때문에 손상이 더 눈에 띌 수 있습니다",
+      "resultKo": "쓴 종이와 덧댄 자리를 적었다. 다음 수리자는 무엇을 했는지 알 수 있다.",
+      "resultFlag": "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_2_RESULT_1",
+      "followupTitleKo": "찢어진 장과 수리값",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "쓴 종이와 덧댄 자리를 적었다. 다음 수리자는 무엇을 했는지 알 수 있다.",
+        "relations": {
+          "work_or_household": "수리 흔적을 남길까 · 덧댄 부분과 들어간 재료를 기록한다"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_2_CHOICE_2",
+      "hostIds": [
+        "bookbinder_elizaveta"
+      ],
+      "labelKo": "겉에서 보이는 자국을 줄인다",
+      "subcopyKo": "손님만 압니다 · 공개 기록은 없습니다 · 오래된 종이와 새 풀의 차이를 감추면 오해가 생길 수 있습니다",
+      "resultKo": "겉모양을 먼저 다듬었다. 책은 깔끔해졌지만 수리 흔적은 덜 보인다.",
+      "resultFlag": "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_2_RESULT_2",
+      "followupTitleKo": "찢어진 장과 수리값",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "겉모양을 먼저 다듬었다. 책은 깔끔해졌지만 수리 흔적은 덜 보인다.",
+        "relations": {
+          "work_or_household": "수리 흔적을 남길까 · 겉에서 보이는 자국을 줄인다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_2_CHOICE_3",
+      "hostIds": [
+        "bookbinder_elizaveta"
+      ],
+      "labelKo": "손님에게 보존과 외관 중 먼저 고르게 한다",
+      "subcopyKo": "손님과 제본공이 압니다 · 선택 메모가 남습니다 · 손님이 어려운 결정을 떠안습니다",
+      "resultKo": "손님이 보존과 외관 가운데 우선순위를 정했다. 결정은 분명하지만 선택 부담도 손님에게 갔다.",
+      "resultFlag": "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_2_RESULT_3",
+      "followupTitleKo": "찢어진 장과 수리값",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "손님이 보존과 외관 가운데 우선순위를 정했다. 결정은 분명하지만 선택 부담도 손님에게 갔다.",
+        "relations": {
+          "work_or_household": "수리 흔적을 남길까 · 손님에게 보존과 외관 중 먼저 고르게 한다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "trust": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "ELIZAVETA_DAMAGED_BOOK_1847",
+    "titleKo": "찢어진 장과 수리값",
+    "stage": 2,
+    "stageCount": 3,
+    "metricKo": "책의 원형과 수리비 부담",
+    "previousQuestId": "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_1"
+  }
+}

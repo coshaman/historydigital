@@ -1,0 +1,98 @@
+{
+  "id": "VASILY_READING_CIRCLE_1847_STAGE_3",
+  "titleKo": "읽을 모임과 들킬 위험 · 3막",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "한 참석자가 작품을 빌려 사회의 현실을 비판했다. 다른 사람은 이름을 적어 남기자고 한다.",
+  "historicalOutcome": {
+    "id": "VASILY_READING_CIRCLE_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "nevsky",
+    "objectId": 1007,
+    "requiredHostId": "student_vasily"
+  },
+  "previousQuestId": "VASILY_READING_CIRCLE_1847_STAGE_2",
+  "actions": [
+    {
+      "id": "VASILY_READING_CIRCLE_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "student_vasily"
+      ],
+      "labelKo": "작품 속 문장과 참석자의 해석을 나눠 적는다",
+      "subcopyKo": "참석자와 필사자가 압니다 · 모임 기록에 구분이 남습니다 · 기록 자체가 사상 고백처럼 읽힐 수 있습니다",
+      "resultKo": "작품의 말과 참석자의 해석을 따로 적었다. 뜻은 분명해지지만 기록이 남는다.",
+      "resultFlag": "VASILY_READING_CIRCLE_1847_STAGE_3_RESULT_1",
+      "followupTitleKo": "읽을 모임과 들킬 위험",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "작품의 말과 참석자의 해석을 따로 적었다. 뜻은 분명해지지만 기록이 남는다.",
+        "relations": {
+          "work_or_household": "읽은 뒤의 말 · 작품 속 문장과 참석자의 해석을 나눠 적는다"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "VASILY_READING_CIRCLE_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "student_vasily"
+      ],
+      "labelKo": "이름 없이 질문만 모은다",
+      "subcopyKo": "참석자들이 압니다 · 익명 질문지가 남습니다 · 필체로 작성자를 짐작할 수 있습니다",
+      "resultKo": "이름 없이 질문을 모았다. 발언자의 이름은 빠졌지만 필체는 남아 있다.",
+      "resultFlag": "VASILY_READING_CIRCLE_1847_STAGE_3_RESULT_2",
+      "followupTitleKo": "읽을 모임과 들킬 위험",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "이름 없이 질문을 모았다. 발언자의 이름은 빠졌지만 필체는 남아 있다.",
+        "relations": {
+          "work_or_household": "읽은 뒤의 말 · 이름 없이 질문만 모은다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "VASILY_READING_CIRCLE_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "student_vasily"
+      ],
+      "labelKo": "논쟁은 기록하지 않고 책만 돌려준다",
+      "subcopyKo": "책을 빌린 사람만 압니다 · 모임에는 기록이 없습니다 · 의견이 다음 대화로 이어지지 않습니다",
+      "resultKo": "책만 돌려주고 논쟁은 적지 않았다. 참석자를 보호할 수 있지만 생각도 함께 사라진다.",
+      "resultFlag": "VASILY_READING_CIRCLE_1847_STAGE_3_RESULT_3",
+      "followupTitleKo": "읽을 모임과 들킬 위험",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "책만 돌려주고 논쟁은 적지 않았다. 참석자를 보호할 수 있지만 생각도 함께 사라진다.",
+        "relations": {
+          "work_or_household": "읽은 뒤의 말 · 논쟁은 기록하지 않고 책만 돌려준다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "trust": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "VASILY_READING_CIRCLE_1847",
+    "titleKo": "읽을 모임과 들킬 위험",
+    "stage": 3,
+    "stageCount": 3,
+    "metricKo": "배움의 문턱과 참석자의 위험",
+    "previousQuestId": "VASILY_READING_CIRCLE_1847_STAGE_2"
+  }
+}

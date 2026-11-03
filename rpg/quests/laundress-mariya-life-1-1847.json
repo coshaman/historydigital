@@ -1,0 +1,96 @@
+{
+  "id": "MARIYA_WASHING_WAGES_1847_STAGE_1",
+  "titleKo": "밀린 빨래값과 다음 일감 · 1막",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "세탁은 끝났지만 돈은 아직 오지 않았다. 장작 살 돈을 마련하려면 오늘 수입이 필요하다.",
+  "historicalOutcome": {
+    "id": "MARIYA_WASHING_WAGES_1847_STAGE_1_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "market-quay",
+    "objectId": 111,
+    "requiredHostId": "laundress_mariya"
+  },
+  "actions": [
+    {
+      "id": "MARIYA_WASHING_WAGES_1847_STAGE_1_CHOICE_1",
+      "hostIds": [
+        "laundress_mariya"
+      ],
+      "labelKo": "받을 날짜를 적은 영수증을 건넨다",
+      "subcopyKo": "의뢰인과 세탁소 주인만 압니다 · 날짜가 장부에 남습니다 · 지급을 재촉하는 말이 오갈 수 있습니다",
+      "resultKo": "받을 날짜를 적어 두었다. 약속이 흐려지진 않겠지만, 의뢰인도 날짜를 지켜야 한다.",
+      "resultFlag": "MARIYA_WASHING_WAGES_1847_STAGE_1_RESULT_1",
+      "followupTitleKo": "밀린 빨래값과 다음 일감",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "받을 날짜를 적어 두었다. 약속이 흐려지진 않겠지만, 의뢰인도 날짜를 지켜야 한다.",
+        "relations": {
+          "work_or_household": "젖은 옷감과 약속한 날짜 · 받을 날짜를 적은 영수증을 건넨다"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "MARIYA_WASHING_WAGES_1847_STAGE_1_CHOICE_2",
+      "hostIds": [
+        "laundress_mariya"
+      ],
+      "labelKo": "다음 세탁값에서 일부를 빼기로 한다",
+      "subcopyKo": "두 사람이 압니다 · 다음 일감의 계산표에 남습니다 · 오늘 쓸 돈은 여전히 부족합니다",
+      "resultKo": "다음 일감에서 일부를 받기로 했다. 관계는 이어지지만 오늘 필요한 돈은 마련되지 않았다.",
+      "resultFlag": "MARIYA_WASHING_WAGES_1847_STAGE_1_RESULT_2",
+      "followupTitleKo": "밀린 빨래값과 다음 일감",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "다음 일감에서 일부를 받기로 했다. 관계는 이어지지만 오늘 필요한 돈은 마련되지 않았다.",
+        "relations": {
+          "work_or_household": "젖은 옷감과 약속한 날짜 · 다음 세탁값에서 일부를 빼기로 한다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "MARIYA_WASHING_WAGES_1847_STAGE_1_CHOICE_3",
+      "hostIds": [
+        "laundress_mariya"
+      ],
+      "labelKo": "돈을 받을 때까지 새 일을 맡지 않는다",
+      "subcopyKo": "세탁소와 의뢰인이 압니다 · 새 주문 장부에는 보류로 남습니다 · 다음 일감을 놓칠 수 있습니다",
+      "resultKo": "새 일감을 잠시 받지 않기로 했다. 빚을 더 늘리지 않는 대신 수입도 끊길 수 있다.",
+      "resultFlag": "MARIYA_WASHING_WAGES_1847_STAGE_1_RESULT_3",
+      "followupTitleKo": "밀린 빨래값과 다음 일감",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "새 일감을 잠시 받지 않기로 했다. 빚을 더 늘리지 않는 대신 수입도 끊길 수 있다.",
+        "relations": {
+          "work_or_household": "젖은 옷감과 약속한 날짜 · 돈을 받을 때까지 새 일을 맡지 않는다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "trust": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "MARIYA_WASHING_WAGES_1847",
+    "titleKo": "밀린 빨래값과 다음 일감",
+    "stage": 1,
+    "stageCount": 3,
+    "metricKo": "품삯을 받는 시점과 일감의 신뢰"
+  }
+}

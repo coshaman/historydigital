@@ -1,0 +1,96 @@
+{
+  "id": "ANDREI_DEBT_STATUS_1847_STAGE_1",
+  "titleKo": "가문의 이름과 어음 만기 · 1막",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "집안 이름을 내세우면 시간을 벌 수 있지만, 어음 만기일은 다가온다.",
+  "historicalOutcome": {
+    "id": "ANDREI_DEBT_STATUS_1847_STAGE_1_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life choice only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "chancery",
+    "objectId": 1009,
+    "requiredHostId": "minor_noble_andrei"
+  },
+  "actions": [
+    {
+      "id": "ANDREI_DEBT_STATUS_1847_STAGE_1_CHOICE_1",
+      "hostIds": [
+        "minor_noble_andrei"
+      ],
+      "labelKo": "수입과 지출을 날짜별로 적는다",
+      "subcopyKo": "채권자와 회계 담당이 압니다 · 개인 계산표에 남습니다 · 체면보다 빚의 크기가 먼저 드러납니다",
+      "resultKo": "날짜별로 수입과 지출을 적었다. 막연한 약속 대신 부족한 금액이 보인다.",
+      "resultFlag": "ANDREI_DEBT_STATUS_1847_STAGE_1_RESULT_1",
+      "followupTitleKo": "가문의 이름과 어음 만기",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "날짜별로 수입과 지출을 적었다. 막연한 약속 대신 부족한 금액이 보인다.",
+        "relations": {
+          "work_or_household": "만기가 적힌 어음 · 수입과 지출을 날짜별로 적는다"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "ANDREI_DEBT_STATUS_1847_STAGE_1_CHOICE_2",
+      "hostIds": [
+        "minor_noble_andrei"
+      ],
+      "labelKo": "가문 보증을 요청한다",
+      "subcopyKo": "가족과 채권자가 압니다 · 보증 서류에 이름이 남습니다 · 가족의 재산도 위험해집니다",
+      "resultKo": "가문 보증을 부탁했다. 시간을 벌 수 있지만 책임이 가족에게도 간다.",
+      "resultFlag": "ANDREI_DEBT_STATUS_1847_STAGE_1_RESULT_2",
+      "followupTitleKo": "가문의 이름과 어음 만기",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "가문 보증을 부탁했다. 시간을 벌 수 있지만 책임이 가족에게도 간다.",
+        "relations": {
+          "work_or_household": "만기가 적힌 어음 · 가문 보증을 요청한다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "trust": 0
+        }
+      }
+    },
+    {
+      "id": "ANDREI_DEBT_STATUS_1847_STAGE_1_CHOICE_3",
+      "hostIds": [
+        "minor_noble_andrei"
+      ],
+      "labelKo": "값이 나가는 물건을 팔아 일부를 갚는다",
+      "subcopyKo": "경매인과 채권자가 압니다 · 매각표에 물건이 남습니다 · 생활에 필요한 물건까지 잃을 수 있습니다",
+      "resultKo": "물건을 팔아 일부를 갚았다. 빚은 줄었지만 무엇을 내놓을지 더 골라야 한다.",
+      "resultFlag": "ANDREI_DEBT_STATUS_1847_STAGE_1_RESULT_3",
+      "followupTitleKo": "가문의 이름과 어음 만기",
+      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "물건을 팔아 일부를 갚았다. 빚은 줄었지만 무엇을 내놓을지 더 골라야 한다.",
+        "relations": {
+          "work_or_household": "만기가 적힌 어음 · 값이 나가는 물건을 팔아 일부를 갚는다"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "trust": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the named physical work object",
+  "lifeChain": {
+    "id": "ANDREI_DEBT_STATUS_1847",
+    "titleKo": "가문의 이름과 어음 만기",
+    "stage": 1,
+    "stageCount": 3,
+    "metricKo": "체면을 지키는 말과 실제 상환 계획"
+  }
+}

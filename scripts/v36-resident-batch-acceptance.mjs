@@ -24,6 +24,32 @@ const cards = await Promise.all(allIds.map(id => readJson(`rpg/characters/${id}.
 const cardById = new Map(cards.map(card => [card.id, card]));
 const quests = (await Promise.all((await readdir(new URL('../rpg/quests/', import.meta.url))).filter(file => file.endsWith('.json'))
   .map(file => readJson(`rpg/quests/${file}`)))).filter(quest => Array.isArray(quest.actions) && quest.historicalOutcome?.id);
+const questsById = new Map(quests.map(quest => [quest.id, quest]));
+function resolveQuestPrerequisites(state, quest, visited = new Set()) {
+  for (const prerequisiteId of quest.prerequisiteQuestIds ?? []) {
+    if (state.quests[prerequisiteId]?.status === 'resolved') continue;
+    assert.ok(!visited.has(prerequisiteId), `quest prerequisite cycle at ${prerequisiteId}`);
+    const prerequisite = questsById.get(prerequisiteId);
+    assert.ok(prerequisite, `${quest.id} references missing prerequisite ${prerequisiteId}`);
+    visited.add(prerequisiteId);
+    state = resolveQuestPrerequisites(state, prerequisite, visited);
+    visited.delete(prerequisiteId);
+    const hostId = prerequisite.entry?.requiredHostId ?? prerequisite.actions[0]?.hostIds?.[0];
+    const object = maps[prerequisite.entry?.mapId]?.layers.find(layer => layer.name === 'Interactions')?.objects.find(item => item.id === prerequisite.entry?.objectId);
+    assert.ok(hostId && object, `${prerequisite.id} needs a playable host and physical interaction object`);
+    state.world.chapterId = prerequisite.chapterId;
+    state.world.date = prerequisite.date;
+    state.world.currentMapId = prerequisite.entry.mapId;
+    state.player.embodiment = hostId;
+    state.hosts[hostId].mapId = prerequisite.entry.mapId;
+    state.hosts[hostId].position = { x: Math.floor(object.x / 16), y: Math.floor(object.y / 16) };
+    state.player.position = { ...state.hosts[hostId].position };
+    const result = game.performQuestAction(state, { questId: prerequisite.id, hostId, actionId: prerequisite.actions[0].id, objectId: object.id }, { quests, maps });
+    assert.equal(result.ok, true, `${prerequisite.id} must be completed before its follow-up: ${result.reason}`);
+    state = result.state;
+  }
+  return state;
+}
 let questStagesResolved = 0;
 
 for (const id of ids) {
@@ -52,6 +78,7 @@ for (const id of ids) {
   const chainQuests = quest.lifeChain ? quests.filter(item => item.lifeChain?.id === quest.lifeChain.id).sort((a,b) => a.lifeChain.stage - b.lifeChain.stage) : [quest];
   assert.equal(chainQuests.length, quest.lifeChain?.stageCount ?? 1, `${id} life chain must have all authored stages`);
   let questState = game.createInitialState({ maps, hostCards: cards, quests, startMapId: quest.entry.mapId });
+  questState = resolveQuestPrerequisites(questState, chainQuests[0]);
   for (const stage of chainQuests) {
     const stageHostId = stage.entry.requiredHostId ?? stage.actions[0].hostIds[0];
     const object = maps[stage.entry.mapId]?.layers.find(layer => layer.name === 'Interactions')?.objects.find(item => item.id === stage.entry.objectId);
