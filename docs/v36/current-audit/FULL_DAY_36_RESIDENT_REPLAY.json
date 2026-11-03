@@ -5,29 +5,33 @@
   "deterministicReplays": 3,
   "simulatedMinutes": 1440,
   "replayHashes": [
-    "d1a59ccf",
-    "d1a59ccf",
-    "d1a59ccf"
+    "d1a333a0",
+    "d1a333a0",
+    "d1a333a0"
   ],
   "collisionSnapshotsPerReplay": 288,
   "totalCollisionSnapshots": 864,
   "firstReplay": {
-    "movementSteps": 3520,
+    "movementSteps": 3558,
     "districtTransitions": 195,
-    "goalEvents": 362,
+    "goalEvents": 370,
     "deliveries": 4,
     "exchanges": 2,
     "personalContacts": 15,
     "distinctPersonalContactResidents": 15,
-    "personalLifeGoalVisits": 8,
-    "residentsWithPhysicalLifeGoalVisits": 6,
-    "firstSixLifeGoalQuestIds": {
+    "personalLifeGoalVisits": 15,
+    "residentsWithPhysicalLifeGoalVisits": 10,
+    "current12LifeGoalQuestIds": {
       "clerk_alexei": "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_1",
       "printer_ekaterina": "EKATERINA_INK_SHORTAGE_1847_STAGE_1",
       "courier_pavel": "PAVEL_PROOF_DELIVERY_1847_STAGE_1",
       "seamstress_anna": "ANNA_COAT_REPAIR_1847_STAGE_1",
       "tenant_mikhail": "MIKHAIL_WAGE_AND_RENT_1847_STAGE_1",
-      "bookseller_lev": "LEV_RETURNED_SHEETS_1847_STAGE_1"
+      "bookseller_lev": "LEV_RETURNED_SHEETS_1847_STAGE_1",
+      "editor_sofia": "SOFIA_UNNAMED_NOTICE_1847_STAGE_1",
+      "senior_clerk_konstantin": "KONSTANTIN_UNSIGNED_REVIEW_1847_STAGE_1",
+      "yardkeeper_semyon": "SEMYON_FIREWOOD_LEDGER_1847_STAGE_1",
+      "laundress_mariya": "MARIYA_WASHING_WAGES_1847_STAGE_1"
     },
     "residentsWithDistinctAuthoredObjectives": 36,
     "finalActivityCount": 33,
@@ -59,8 +63,8 @@
       },
       "senior_clerk_konstantin": {
         "mapId": "chancery",
-        "x": 9,
-        "y": 10
+        "x": 10,
+        "y": 12
       },
       "reader_darya": {
         "mapId": "nevsky",
@@ -164,7 +168,7 @@
       },
       "yardkeeper_semyon": {
         "mapId": "courtyard",
-        "x": 8,
+        "x": 9,
         "y": 12
       },
       "laundress_mariya": {
@@ -214,7 +218,7 @@
       }
     }
   },
-  "fullDaySaveReloadStateHash": "d1a59ccf",
+  "fullDaySaveReloadStateHash": "d1a333a0",
   "autoCompletedPlayerQuests": 0,
-  "runtimeMilliseconds": 26420
+  "runtimeMilliseconds": 26669
 }

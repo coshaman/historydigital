@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "V36_SECOND_SIX_PERSONAL_GOAL_AUTONOMY_1",
+  "status": "PASS",
+  "pilotResidents": 6,
+  "authoredLifeStagesPerResident": 3,
+  "dailyVisits": 4,
+  "deterministicReplay": true,
+  "stageProgressRetargets": true,
+  "questAutoCompletion": false,
+  "saveLoadParity": true,
+  "deferredUntilHistoricallyAvailable": [
+    "police_sergeant_ivan",
+    "reader_darya"
+  ],
+  "playerWitnessRequired": true,
+  "residentOutcomes": [
+    {
+      "id": "editor_sofia",
+      "questId": "SOFIA_UNNAMED_NOTICE_1847_STAGE_1",
+      "stage": 1,
+      "mapId": "printshop",
+      "position": {
+        "x": 11,
+        "y": 14
+      },
+      "minute": 331,
+      "activityKo": "생활 문제 · 이름이 지워진 제보 · 1/3",
+      "witnessedByPlayer": false
+    },
+    {
+      "id": "police_sergeant_ivan"
+    },
+    {
+      "id": "reader_darya"
+    },
+    {
+      "id": "senior_clerk_konstantin",
+      "questId": "KONSTANTIN_UNSIGNED_REVIEW_1847_STAGE_1",
+      "stage": 1,
+      "mapId": "chancery",
+      "position": {
+        "x": 12,
+        "y": 14
+      },
+      "minute": 41,
+      "activityKo": "생활 문제 · 서명이 빠진 검토표 · 1/3",
+      "witnessedByPlayer": false
+    },
+    {
+      "id": "yardkeeper_semyon",
+      "questId": "SEMYON_FIREWOOD_LEDGER_1847_STAGE_1",
+      "stage": 1,
+      "mapId": "courtyard",
+      "position": {
+        "x": 12,
+        "y": 11
+      },
+      "minute": 481,
+      "activityKo": "생활 문제 · 장작 장부의 빈칸 · 1/3",
+      "witnessedByPlayer": false
+    },
+    {
+      "id": "laundress_mariya",
+      "questId": "MARIYA_WASHING_WAGES_1847_STAGE_1",
+      "stage": 1,
+      "mapId": "market-quay",
+      "position": {
+        "x": 11,
+        "y": 13
+      },
+      "minute": 51,
+      "activityKo": "생활 문제 · 밀린 빨래값과 다음 일감 · 1막",
+      "witnessedByPlayer": false
+    }
+  ]
+}

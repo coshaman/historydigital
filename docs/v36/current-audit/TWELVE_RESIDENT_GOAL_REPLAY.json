@@ -23,7 +23,7 @@
         "status": "fictional_character_simulation_profile"
       },
       "initialFatigue": 22,
-      "finalFatigue": 8.025000000000253,
+      "finalFatigue": 9.325000000000259,
       "finalMapId": "chancery",
       "activeGoal": {
         "type": "SCHEDULE",
@@ -209,7 +209,7 @@
         "status": "fictional_character_simulation_profile"
       },
       "initialFatigue": 31,
-      "finalFatigue": 38.17500000000066,
+      "finalFatigue": 36.70500000000065,
       "finalMapId": "printshop",
       "activeGoal": {
         "type": "SCHEDULE",
@@ -224,6 +224,7 @@
         "SCHEDULE",
         "FOLLOW_RECIPIENT",
         "NEED_REST",
+        "PERSONAL_LIFE_FOCUS",
         "NEED_INCOME"
       ]
     },
@@ -302,7 +303,7 @@
         "status": "fictional_character_simulation_profile"
       },
       "initialFatigue": 30,
-      "finalFatigue": 21.470000000000184,
+      "finalFatigue": 20.744000000000227,
       "finalMapId": "nevsky",
       "activeGoal": {
         "type": "SCHEDULE",
@@ -315,6 +316,7 @@
       "activity": "퇴청 전에 맡은 문서의 반납 순서를 확인한다",
       "goalTypes": [
         "FOLLOW_RECIPIENT",
+        "PERSONAL_LIFE_FOCUS",
         "SCHEDULE",
         "NEED_REST"
       ]
@@ -333,7 +335,7 @@
         "status": "fictional_character_simulation_profile"
       },
       "initialFatigue": 37,
-      "finalFatigue": 43.479999999999194,
+      "finalFatigue": 42.63999999999916,
       "finalMapId": "courtyard",
       "activeGoal": {
         "type": "SCHEDULE",
@@ -341,11 +343,11 @@
         "targetHostId": null,
         "targetMapId": "courtyard",
         "reason": "authored_daily_schedule",
-        "selectedAtMinute": 1021
+        "selectedAtMinute": 1053
       },
       "activity": "장작 수량과 마지막 확인 시각을 적는다",
       "goalTypes": [
-        "NEED_INCOME",
+        "PERSONAL_LIFE_FOCUS",
         "SCHEDULE",
         "FOLLOW_RECIPIENT"
       ]
@@ -364,7 +366,7 @@
         "status": "fictional_character_simulation_profile"
       },
       "initialFatigue": 42,
-      "finalFatigue": 39.87799999999925,
+      "finalFatigue": 40.00599999999923,
       "finalMapId": "courtyard",
       "activeGoal": {
         "type": "SCHEDULE",
@@ -372,11 +374,12 @@
         "targetHostId": null,
         "targetMapId": "courtyard",
         "reason": "authored_daily_schedule",
-        "selectedAtMinute": 1085
+        "selectedAtMinute": 1083
       },
       "activity": "다음 날 세탁물을 정리한다",
       "goalTypes": [
         "FOLLOW_TRADE_PARTNER",
+        "PERSONAL_LIFE_FOCUS",
         "NEED_INCOME",
         "SCHEDULE",
         "NEED_REST"
@@ -468,7 +471,7 @@
       "hostId": "yardkeeper_semyon",
       "minute": 40,
       "scheduleId": "courtyard:480",
-      "activityKo": "계단과 장작 더미를 확인한다",
+      "activityKo": "생활 문제 · 장작 장부의 빈칸 · 1/3",
       "fromMapId": "market-quay",
       "from": {
         "x": 2,
@@ -941,23 +944,6 @@
       "viaExit": "nevsky-market-gate"
     },
     {
-      "hostId": "senior_clerk_konstantin",
-      "minute": 285,
-      "scheduleId": "nevsky:720",
-      "activityKo": "점심 뒤 관청으로 돌아갈 길을 걷는다",
-      "fromMapId": "chancery",
-      "from": {
-        "x": 12,
-        "y": 15
-      },
-      "toMapId": "nevsky",
-      "to": {
-        "x": 3,
-        "y": 9
-      },
-      "viaExit": "chancery-nevsky-door"
-    },
-    {
       "hostId": "laundress_mariya",
       "minute": 295,
       "scheduleId": "market-quay:780",
@@ -993,20 +979,20 @@
     },
     {
       "hostId": "senior_clerk_konstantin",
-      "minute": 315,
+      "minute": 310,
       "scheduleId": "police-station:840",
       "activityKo": "다른 생활권에서 맡은 일을 확인한다",
-      "fromMapId": "nevsky",
+      "fromMapId": "chancery",
       "from": {
-        "x": 6,
+        "x": 12,
+        "y": 15
+      },
+      "toMapId": "nevsky",
+      "to": {
+        "x": 3,
         "y": 9
       },
-      "toMapId": "police-station",
-      "to": {
-        "x": 4,
-        "y": 5
-      },
-      "viaExit": "nevsky-police-door"
+      "viaExit": "chancery-nevsky-door"
     },
     {
       "hostId": "police_sergeant_ivan",
@@ -1024,6 +1010,23 @@
         "y": 10
       },
       "viaExit": "police-station-nevsky-door"
+    },
+    {
+      "hostId": "senior_clerk_konstantin",
+      "minute": 340,
+      "scheduleId": "police-station:840",
+      "activityKo": "다른 생활권에서 맡은 일을 확인한다",
+      "fromMapId": "nevsky",
+      "from": {
+        "x": 6,
+        "y": 9
+      },
+      "toMapId": "police-station",
+      "to": {
+        "x": 4,
+        "y": 5
+      },
+      "viaExit": "nevsky-police-door"
     },
     {
       "hostId": "printer_ekaterina",
@@ -1094,23 +1097,6 @@
       "viaExit": "nevsky-chancery-door"
     },
     {
-      "hostId": "clerk_alexei",
-      "minute": 405,
-      "scheduleId": "chancery:900",
-      "activityKo": "늦은 접수를 마치고 잠시 앉아 쉰다",
-      "fromMapId": "nevsky",
-      "from": {
-        "x": 4,
-        "y": 9
-      },
-      "toMapId": "chancery",
-      "to": {
-        "x": 12,
-        "y": 14
-      },
-      "viaExit": "nevsky-chancery-door"
-    },
-    {
       "hostId": "laundress_mariya",
       "minute": 405,
       "scheduleId": "courtyard:900",
@@ -1143,6 +1129,23 @@
         "y": 5
       },
       "viaExit": "nevsky-police-door"
+    },
+    {
+      "hostId": "clerk_alexei",
+      "minute": 415,
+      "scheduleId": "chancery:900",
+      "activityKo": "늦은 접수를 마치고 잠시 앉아 쉰다",
+      "fromMapId": "nevsky",
+      "from": {
+        "x": 4,
+        "y": 9
+      },
+      "toMapId": "chancery",
+      "to": {
+        "x": 12,
+        "y": 14
+      },
+      "viaExit": "nevsky-chancery-door"
     },
     {
       "hostId": "courier_pavel",
@@ -1233,7 +1236,7 @@
       "hostId": "yardkeeper_semyon",
       "minute": 470,
       "scheduleId": "courtyard:960",
-      "activityKo": "장작 수량과 마지막 확인 시각을 적는다",
+      "activityKo": "생활 문제 · 장작 장부의 빈칸 · 1/3",
       "fromMapId": "nevsky",
       "from": {
         "x": 16,
@@ -1301,7 +1304,7 @@
   "collisionSnapshots": 120,
   "duplicateResidentTiles": 0,
   "observedReplayMatchesBulkWorldState": true,
-  "movementCount": 675,
+  "movementCount": 700,
   "questsResolved": 0,
-  "finalStateHash": "cc47fa80"
+  "finalStateHash": "73310527"
 }

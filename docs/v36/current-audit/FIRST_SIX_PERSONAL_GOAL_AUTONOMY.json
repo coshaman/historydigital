@@ -8,6 +8,7 @@
   "stageProgressRetargets": true,
   "questAutoCompletion": false,
   "saveLoadParity": true,
+  "deferredUntilHistoricallyAvailable": [],
   "playerWitnessRequired": true,
   "residentOutcomes": [
     {

@@ -6,7 +6,10 @@ const require = createRequire(import.meta.url);
 require('../rpg/engine/game-state.js');
 const game = globalThis.V33GameState;
 const readJson = async file => JSON.parse(await readFile(new URL(file, import.meta.url), 'utf8'));
-const pilotIds = ['clerk_alexei', 'printer_ekaterina', 'courier_pavel', 'seamstress_anna', 'tenant_mikhail', 'bookseller_lev'];
+const firstSix = ['clerk_alexei', 'printer_ekaterina', 'courier_pavel', 'seamstress_anna', 'tenant_mikhail', 'bookseller_lev'];
+const secondSix = ['editor_sofia', 'police_sergeant_ivan', 'reader_darya', 'senior_clerk_konstantin', 'yardkeeper_semyon', 'laundress_mariya'];
+const batchTwo = process.argv.includes('--batch-two');
+const pilotIds = batchTwo ? secondSix : firstSix;
 const mapFiles = (await readdir(new URL('../rpg/maps/', import.meta.url))).filter(file => file.endsWith('.json'));
 const maps = Object.fromEntries(await Promise.all(mapFiles.map(async file => {
   const map = await readJson(`../rpg/maps/${file}`);
@@ -38,8 +41,14 @@ function replay() {
 const first = replay(), second = replay();
 assert.equal(game.stateHash(first.final), game.stateHash(second.final), 'first-six life-focus routes must replay deterministically');
 const visits = first.final.ledger.flatMap(entry => entry.personalGoalVisits ?? []);
+const pilotVisits = visits.filter(visit => pilotIds.includes(visit.hostId));
 const byHost = new Map(pilotIds.map(hostId => [hostId, visits.filter(visit => visit.hostId === hostId)]));
+const deferred = batchTwo ? new Set(['police_sergeant_ivan', 'reader_darya']) : new Set();
 for (const [hostId, hostVisits] of byHost) {
+  if (deferred.has(hostId)) {
+    assert.equal(hostVisits.length, 0, `${hostId} life arc is not yet historically/prerequisite available`);
+    continue;
+  }
   assert.ok(hostVisits.length >= 1, `${hostId} should physically reach their active life-arc task during the pilot day`);
   assert.equal(new Set(hostVisits.map(visit => visit.questId)).size, 1, `${hostId} must focus one current stage, not teleport between tasks`);
   assert.ok(hostVisits.every(visit => maps[visit.mapId] && Number.isInteger(visit.position.x) && Number.isInteger(visit.position.y)));
@@ -65,12 +74,13 @@ assert.ok(secondStageState.ledger.flatMap(entry => entry.personalGoalVisits ?? [
 const audit = await readFile(new URL('../rpg/main.js', import.meta.url), 'utf8');
 assert.match(audit, /personalGoalVisits \?\? \[\]\)\.filter\(visit => visit\.witnessedByPlayer\)/,
   'the journal must disclose autonomous life-goal work only when the player witnessed it');
-const report = { schemaVersion: 'V36_FIRST_SIX_PERSONAL_GOAL_AUTONOMY_1', status: 'PASS', pilotResidents: pilotIds.length,
-  authoredLifeStagesPerResident: 3, dailyVisits: visits.length,
+const report = { schemaVersion: batchTwo ? 'V36_SECOND_SIX_PERSONAL_GOAL_AUTONOMY_1' : 'V36_FIRST_SIX_PERSONAL_GOAL_AUTONOMY_1', status: 'PASS', pilotResidents: pilotIds.length,
+  authoredLifeStagesPerResident: 3, dailyVisits: pilotVisits.length,
   deterministicReplay: true, stageProgressRetargets: true, questAutoCompletion: false, saveLoadParity: true,
+  deferredUntilHistoricallyAvailable: [...deferred],
   playerWitnessRequired: true, residentOutcomes: [...byHost].map(([id, rows]) => ({ id, questId: rows[0]?.questId, stage: rows[0]?.stage,
     mapId: rows[0]?.mapId, position: rows[0]?.position, minute: rows[0]?.minute, activityKo: rows[0]?.activityKo,
     witnessedByPlayer: rows[0]?.witnessedByPlayer })) };
 await mkdir(new URL('../docs/v36/current-audit/', import.meta.url), { recursive: true });
-await writeFile(new URL('../docs/v36/current-audit/FIRST_SIX_PERSONAL_GOAL_AUTONOMY.json', import.meta.url), `${JSON.stringify(report, null, 2)}\n`, 'utf8');
+await writeFile(new URL(`../docs/v36/current-audit/${batchTwo ? 'SECOND' : 'FIRST'}_SIX_PERSONAL_GOAL_AUTONOMY.json`, import.meta.url), `${JSON.stringify(report, null, 2)}\n`, 'utf8');
 console.log(JSON.stringify(report, null, 2));
