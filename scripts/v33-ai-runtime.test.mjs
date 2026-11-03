@@ -89,14 +89,13 @@ test('AI dialogue receives the embodied public character context and keeps each 
   assert.deepEqual(observed[0].character.knownPrivateFacts, ['오늘 교정쇄는 배달되기 전까지 작업대 위에 있다.']);
   assert.equal(observed[0].conversation.embodiedPlayer.money, undefined);
   assert.match(observedInstructions[0], /playerKnownFacts[\s\S]*NPC 대사에서 누설하지 않는다/);
-  assert.match(observedInstructions[0], /인물마다 말버릇을 한두 개만 살리고 직업 설명을 대사마다 반복하지 않는다/);
-  assert.match(observedInstructions[0], /인물의 목소리는 주장만 바꾸는 것으로 구분되지 않는다/);
-  assert.match(observedInstructions[0], /알렉세이는 지시와 확인 사실을 나눠 적는 서기답게/);
-  assert.match(observedInstructions[0], /예카테리나는 인쇄와 교정의 손에 잡히는 문제/);
-  assert.match(observedInstructions[0], /파벨은 길·날씨·시각·봉인/);
-  assert.match(observedInstructions[0], /안나는 품삯·방세·마감/);
-  assert.match(observedInstructions[0], /관계와 상황에 따라 존대·반말의 거리를 자연스럽게 조절/);
-  assert.match(observedInstructions[0], /인물 카드의 두려움이나 목표를 그대로 되풀이하지 말고/);
+  assert.match(observedInstructions[0], /목소리는 직업을 설명하는 문장으로 만들지 않는다/);
+  assert.match(observedInstructions[0], /알렉세이는 접수 순서와 확인 범위를 가르고/);
+  assert.match(observedInstructions[0], /예카테리나는 눈앞의 글자와 작업 손을 짚고/);
+  assert.match(observedInstructions[0], /파벨은 직접 본 경로와 시각을 말하며/);
+  assert.match(observedInstructions[0], /안나는 품삯이나 마감부터 꺼낸다/);
+  assert.match(observedInstructions[0], /speechSituation에 해당하는 speechRegister/);
+  assert.match(observedInstructions[0], /목표·두려움을 설명문처럼 읊지 않는다/);
   assert.deepEqual(observed[0].recentTurns, []);
   assert.match(JSON.stringify(observed[1].recentTurns), /안나로서 물어볼게요/);
   assert.deepEqual(observed[2].recentTurns, [], "Ekaterina's session with Alexei cannot inherit her Anna conversation");
@@ -220,7 +219,8 @@ test('V35 runs three contextual mock turns for each of eight fictional character
     assert.equal(rows[0].scene.allowedTopics.length >= 5, true, hostId);
   }
   assert.equal(new Set(observed.filter((_, index) => index % 3 === 0).map(input => input.character.speechRhythm)).size, cases.length, 'character voices must not collapse to a shared rhythm');
-  assert.ok(observedInstructions.every(text => text.includes('모든 답을 같은 틀에 넣지 않는다')));
+  assert.ok(observedInstructions.every(text => text.includes('매번 양쪽을 정리하거나 교훈으로 봉합하지 않는다')));
+  assert.ok(observedInstructions.every(text => text.includes('대화는 발표문이나 상담 요약이 아니다')));
   assert.equal(observed.find(input => input.character.id === 'printer_ekaterina').caseContext.questId, 'PRINTSHOP_PROOF_1847');
   assert.ok(observed.find(input => input.character.id === 'printer_ekaterina').sourceEvidence.some(source => source.sourceId === 'LIT-TURGENEV-KHOR-KALYNYCH-1847'));
   assert.equal(observed.find(input => input.character.id === 'clerk_alexei').caseContext.questId, 'CIRCLE_INVESTIGATION_1849');

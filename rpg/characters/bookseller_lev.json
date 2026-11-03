@@ -107,14 +107,16 @@
   "personalObjective": "신문 가판의 재고와 반품 기한을 확인한다",
   "needs": {
     "hunger": 38,
-    "fatigue": 24,
+    "fatigue": 17,
     "income": 48,
     "safety": 35,
     "socialBelonging": 26,
-    "restThreshold": 34,
-    "workFatiguePerMinute": 0.035,
-    "restFatigueReliefPerMinute": 0.12,
-    "status": "fictional_character_simulation_profile"
+    "restThreshold": 36,
+    "workFatiguePerMinute": 0.025,
+    "restFatigueReliefPerMinute": 0.16,
+    "status": "fictional_character_simulation_profile",
+    "hungerPerMinute": 0.032,
+    "incomeReliefPerMinute": 0.0022
   },
   "objectiveByChapter": {
     "1847": "읽을거리의 값과 유통 경로를 확인한다"
@@ -327,5 +329,15 @@
       },
       "fallbackKo": "상대가 다른 생활권에 있거나 만날 수 없으면 추측을 퍼뜨리지 말고, 다시 만날 수 있는 장소와 시간을 살핀다."
     }
-  ]
+  ],
+  "needsProfileStatus": "FICTIONAL_GAMEPLAY_BALANCE",
+  "needsProfileBasisKo": "거래 위험은 낮추고 점포 운영을 중시하는 허구 서점상 밸런스.",
+  "plannerPolicy": {
+    "riskTolerance": 0.19,
+    "workPriority": 0.63,
+    "socialPriority": 0.27,
+    "deterministicSeed": 2623362571
+  },
+  "plannerPolicyStatus": "FICTIONAL_GAMEPLAY_BALANCE",
+  "plannerPolicyBasisKo": "레프의 경계심·생계 우선도·관계 필요를 반영한 결정론적 게임 성향."
 }

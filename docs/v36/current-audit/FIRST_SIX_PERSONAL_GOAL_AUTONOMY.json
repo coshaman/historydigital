@@ -46,7 +46,7 @@
         "x": 11,
         "y": 10
       },
-      "minute": 176,
+      "minute": 191,
       "activityKo": "생활 문제 · 늦은 교정쇄의 전달",
       "witnessedByPlayer": false
     },
@@ -56,10 +56,10 @@
       "stage": 1,
       "mapId": "courtyard",
       "position": {
-        "x": 18,
-        "y": 12
+        "x": 17,
+        "y": 13
       },
-      "minute": 116,
+      "minute": 106,
       "activityKo": "생활 문제 · 기한이 다른 두 벌의 옷",
       "witnessedByPlayer": false
     },

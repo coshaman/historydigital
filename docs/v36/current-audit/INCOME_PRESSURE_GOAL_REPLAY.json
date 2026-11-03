@@ -4,10 +4,11 @@
   "activeResidents": 36,
   "highPressure": {
     "incomePressure": 95,
-    "residentsChoosingLivelihoodGoal": 27,
-    "explicitIncomeGoals": 24,
-    "residentsDeferredToPreserveHigherPriorityPersonalOrScheduledGoals": 9,
+    "residentsChoosingLivelihoodGoal": 26,
+    "explicitIncomeGoals": 23,
+    "residentsDeferredToPreserveHigherPriorityPersonalOrScheduledGoals": 10,
     "residentsChoosingPersonalLifeArc": 3,
+    "residentsPreparingPersonalLifeArc": 1,
     "goals": {
       "senior_clerk_konstantin": {
         "goalType": "FOLLOW_RECIPIENT",
@@ -57,7 +58,7 @@
       "typesetter_nikita": {
         "goalType": "NEED_INCOME",
         "targetMapId": "bookshop-lane",
-        "activityKo": "다른 생활권에서 맡은 일을 확인한다"
+        "activityKo": "책방에 놓인 교정쇄 견본에서 활자 빠짐을 찾아 표시한다"
       },
       "housemaid_olga": {
         "goalType": "NEED_INCOME",
@@ -77,7 +78,7 @@
       "teacher_lyubov": {
         "goalType": "NEED_INCOME",
         "targetMapId": "bookshop-interior",
-        "activityKo": "새 생활권에서 맡은 일을 이어간다"
+        "activityKo": "수업에 빌릴 책을 고르고 돌려줄 날짜를 장부에 적는다"
       },
       "landlady_polina": {
         "goalType": "NEED_INCOME",
@@ -97,12 +98,7 @@
       "lodging_tatyana": {
         "goalType": "NEED_INCOME",
         "targetMapId": "inn-interior",
-        "activityKo": "다른 생활권에서 맡은 일을 확인한다"
-      },
-      "yardkeeper_semyon": {
-        "goalType": "NEED_INCOME",
-        "targetMapId": "courtyard",
-        "activityKo": "계단과 장작 더미를 확인한다"
+        "activityKo": "여관에서 빌린 책을 돌려주고 수선방에 쓸 도구를 찾는다"
       },
       "laundress_mariya": {
         "goalType": "FOLLOW_TRADE_PARTNER",
@@ -149,6 +145,48 @@
   "lowPressure": {
     "incomePressure": 0,
     "residentsChoosingLivelihoodGoal": 0
+  },
+  "individualizedPressure": {
+    "incomePressure": 56,
+    "residentsChoosingLivelihoodGoal": 7,
+    "residentsDeferredToOtherGoal": 25,
+    "selectedThresholds": {
+      "print_apprentice_stepan": {
+        "need": 56,
+        "threshold": 56,
+        "workPriority": 0.88
+      },
+      "street_vendor_matryona": {
+        "need": 56,
+        "threshold": 54,
+        "workPriority": 0.94
+      },
+      "typesetter_nikita": {
+        "need": 56,
+        "threshold": 54,
+        "workPriority": 0.93
+      },
+      "watercarrier_luka": {
+        "need": 56,
+        "threshold": 54,
+        "workPriority": 0.92
+      },
+      "servant_varvara": {
+        "need": 56,
+        "threshold": 56,
+        "workPriority": 0.86
+      },
+      "porter_gavrila": {
+        "need": 56,
+        "threshold": 53,
+        "workPriority": 0.96
+      },
+      "carter_roman": {
+        "need": 56,
+        "threshold": 56,
+        "workPriority": 0.88
+      }
+    }
   },
   "autonomousQuestCompletions": 0,
   "cashCreationOrLoss": false,

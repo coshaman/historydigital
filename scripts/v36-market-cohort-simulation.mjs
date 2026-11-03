@@ -48,11 +48,20 @@ function simulate() {
 
 const a = simulate(), b = simulate();
 assert.deepEqual(a, b, '24-hour replay was not deterministic');
-assert.deepEqual(a.exchanges, [{ hostId: 'baker_fyodor', recipientHostId: 'market_nadezhda', itemKo: '빵 한 묶음', moneyAmount: 3, taskId: 'BAKER_MARKET_EXCHANGE_1847', mapId: 'market-quay', minute: 5, occurredAt: 600 }], 'a witnessed physical market exchange should occur in the cohort simulation');
+assert.deepEqual(a.exchanges.map(({ hostId, recipientHostId, itemKo, moneyAmount, taskId, mapId, minute, occurredAt }) =>
+  ({ hostId, recipientHostId, itemKo, moneyAmount, taskId, mapId, minute, occurredAt })), [
+  { hostId: 'laundress_mariya', recipientHostId: 'market_nadezhda', itemKo: '접은 린넨', moneyAmount: 2,
+    taskId: 'MARIYA_LINEN_SALE_TO_NADEZHDA_1847', mapId: 'market-quay', minute: 5, occurredAt: 565 },
+  { hostId: 'baker_fyodor', recipientHostId: 'market_nadezhda', itemKo: '빵 한 묶음', moneyAmount: 3,
+    taskId: 'BAKER_MARKET_EXCHANGE_1847', mapId: 'market-quay', minute: 5, occurredAt: 600 },
+], 'both authored sellers should complete their physical market trades in deterministic schedule order');
 assert.equal(a.meals.length, 1, 'the traded food should be used once during the 24-hour replay');
 assert.equal(a.meals[0].hostId, 'market_nadezhda');
 assert.equal(a.meals[0].itemKo, '빵 한 묶음');
-assert.equal(a.meals[0].occurredAt, 1045, 'the resident eats after physically reaching the scheduled meal location');
+assert.ok(a.meals[0].occurredAt >= 1020, 'the meal cannot occur before its authored schedule time');
+assert.equal(a.meals[0].mapId, 'market-quay');
+assert.ok(Math.abs(a.meals[0].position.x - 14) + Math.abs(a.meals[0].position.y - 12) <= 1,
+  'the meal must be consumed at the scheduled market location after tile traversal');
 assert.ok(a.meals[0].hungerAfter < a.meals[0].hungerBefore, 'the resident need should trigger and benefit from the meal');
 assert.ok(a.goals.some(goal => goal.hostId === 'baker_fyodor' && goal.type === 'FOLLOW_TRADE_PARTNER' && goal.targetHostId === 'market_nadezhda'));
 assert.ok(a.goals.some(goal => goal.hostId === 'market_nadezhda' && goal.type === 'NEED_MEAL' && goal.taskId === 'NADEZHDA_EVENING_BREAD_1847'));

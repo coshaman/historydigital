@@ -25,5 +25,22 @@ for (const [id, card] of cards) {
   ];
   await writeFile(path.join(root, 'rpg/characters', `${id}.json`), `${JSON.stringify(card, null, 2)}\n`, 'utf8');
 }
+const plannerFields = ['riskTolerance', 'workPriority', 'socialPriority', 'deterministicSeed'];
+const needFields = ['hunger', 'fatigue', 'income', 'safety', 'socialBelonging', 'restThreshold', 'hungerPerMinute', 'workFatiguePerMinute', 'restFatigueReliefPerMinute', 'incomeReliefPerMinute'];
+for (const [id, card] of cards) {
+  if (card.needsProfileStatus !== 'FICTIONAL_GAMEPLAY_BALANCE' || !card.needsProfileBasisKo?.trim()) throw new Error(`${id} needs an explicitly fictional, role-specific need-profile basis`);
+  if (needFields.some(key => !Number.isFinite(card.needs[key]))) throw new Error(`${id} is missing a numeric NPC need profile field`);
+  if (plannerFields.some(key => !Number.isFinite(card.plannerPolicy?.[key]))) throw new Error(`${id} is missing a deterministic planner-policy field`);
+  if (card.plannerPolicyStatus !== 'FICTIONAL_GAMEPLAY_BALANCE' || !card.plannerPolicyBasisKo?.trim()) throw new Error(`${id} needs an explicitly fictional planner-policy basis`);
+  for (const key of ['hunger', 'fatigue', 'income', 'safety', 'socialBelonging', 'restThreshold']) {
+    if (card.needs[key] < 0 || card.needs[key] > 100) throw new Error(`${id}.needs.${key} must remain within 0–100`);
+  }
+  for (const key of ['riskTolerance', 'workPriority', 'socialPriority']) {
+    if (card.plannerPolicy[key] < 0 || card.plannerPolicy[key] > 1) throw new Error(`${id}.plannerPolicy.${key} must remain within 0–1`);
+  }
+}
+const distinctNeedProfiles = new Set([...cards.values()].map(card => JSON.stringify(needFields.map(key => card.needs[key])))).size;
+const distinctPlannerPolicies = new Set([...cards.values()].map(card => JSON.stringify(plannerFields.map(key => card.plannerPolicy[key])))).size;
+if (distinctNeedProfiles !== ids.length || distinctPlannerPolicies !== ids.length) throw new Error(`Every city resident needs an individually authored profile; got ${distinctNeedProfiles} needs and ${distinctPlannerPolicies} policies for ${ids.length} residents.`);
 console.log(JSON.stringify({ residents: cards.size, needsProfiles: [...cards.values()].filter(card => card.needs).length,
-  residentsWithFourTodayGoals: [...cards.values()].filter(card => card.todayGoals?.length >= 4).length }, null, 2));
+  distinctNeedProfiles, distinctPlannerPolicies, residentsWithFourTodayGoals: [...cards.values()].filter(card => card.todayGoals?.length >= 4).length }, null, 2));

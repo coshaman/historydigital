@@ -7,18 +7,20 @@
     {
       "id": "clerk_alexei",
       "authoredNeeds": {
-        "hunger": 38,
-        "fatigue": 22,
+        "hunger": 32,
+        "fatigue": 39,
         "income": 36,
         "safety": 42,
         "socialBelonging": 24,
-        "restThreshold": 32,
-        "workFatiguePerMinute": 0.035,
-        "restFatigueReliefPerMinute": 0.12,
-        "status": "fictional_character_simulation_profile"
+        "restThreshold": 40,
+        "workFatiguePerMinute": 0.024,
+        "restFatigueReliefPerMinute": 0.15,
+        "status": "fictional_character_simulation_profile",
+        "hungerPerMinute": 0.031,
+        "incomeReliefPerMinute": 0.0024
       },
-      "initialFatigue": 37,
-      "finalFatigue": 9.060000000000027,
+      "initialFatigue": 45,
+      "finalFatigue": 18.080000000000354,
       "finalMapId": "chancery",
       "activeGoal": {
         "type": "SCHEDULE",
@@ -34,17 +36,19 @@
       "id": "printer_ekaterina",
       "authoredNeeds": {
         "hunger": 38,
-        "fatigue": 26,
+        "fatigue": 21,
         "income": 58,
         "safety": 48,
         "socialBelonging": 38,
-        "restThreshold": 35,
-        "workFatiguePerMinute": 0.04,
-        "restFatigueReliefPerMinute": 0.14,
-        "status": "fictional_character_simulation_profile"
+        "restThreshold": 42,
+        "workFatiguePerMinute": 0.032,
+        "restFatigueReliefPerMinute": 0.13,
+        "status": "fictional_character_simulation_profile",
+        "hungerPerMinute": 0.036,
+        "incomeReliefPerMinute": 0.0021
       },
-      "initialFatigue": 40,
-      "finalFatigue": 9.84999999999982,
+      "initialFatigue": 47,
+      "finalFatigue": 17.799999999999663,
       "finalMapId": "courtyard",
       "activeGoal": {
         "type": "SCHEDULE",
@@ -52,25 +56,27 @@
         "targetHostId": null,
         "targetMapId": "courtyard",
         "reason": "authored_daily_schedule",
-        "selectedAtMinute": 900
+        "selectedAtMinute": 912
       },
       "currentActivityKo": "일을 접고 안뜰 방에서 잠시 쉰다"
     },
     {
       "id": "courier_pavel",
       "authoredNeeds": {
-        "hunger": 38,
-        "fatigue": 32,
+        "hunger": 44,
+        "fatigue": 27,
         "income": 66,
         "safety": 55,
         "socialBelonging": 28,
-        "restThreshold": 43,
-        "workFatiguePerMinute": 0.045,
-        "restFatigueReliefPerMinute": 0.16,
-        "status": "fictional_character_simulation_profile"
+        "restThreshold": 45,
+        "workFatiguePerMinute": 0.04,
+        "restFatigueReliefPerMinute": 0.12,
+        "status": "fictional_character_simulation_profile",
+        "hungerPerMinute": 0.043,
+        "incomeReliefPerMinute": 0.0018
       },
-      "initialFatigue": 33.97499999999966,
-      "finalFatigue": 39.66999999999935,
+      "initialFatigue": 28.95000000000027,
+      "finalFatigue": 34.56000000000053,
       "finalMapId": "market-quay",
       "activeGoal": {
         "type": "SCHEDULE",
@@ -80,23 +86,25 @@
         "reason": "authored_daily_schedule",
         "selectedAtMinute": 901
       },
-      "currentActivityKo": "새 생활권에서 맡은 일을 이어간다"
+      "currentActivityKo": "시장 수령인에게 맡은 봉투를 건네고 도착을 확인한다"
     },
     {
       "id": "seamstress_anna",
       "authoredNeeds": {
         "hunger": 38,
-        "fatigue": 32,
+        "fatigue": 25,
         "income": 74,
         "safety": 38,
         "socialBelonging": 34,
-        "restThreshold": 40,
-        "workFatiguePerMinute": 0.05,
-        "restFatigueReliefPerMinute": 0.16,
-        "status": "fictional_character_simulation_profile"
+        "restThreshold": 43,
+        "workFatiguePerMinute": 0.045,
+        "restFatigueReliefPerMinute": 0.14,
+        "status": "fictional_character_simulation_profile",
+        "hungerPerMinute": 0.038,
+        "incomeReliefPerMinute": 0.0015
       },
-      "initialFatigue": 45,
-      "finalFatigue": 14.850000000000207,
+      "initialFatigue": 48,
+      "finalFatigue": 19.13499999999999,
       "finalMapId": "courtyard",
       "activeGoal": {
         "type": "SCHEDULE",
@@ -104,25 +112,27 @@
         "targetHostId": null,
         "targetMapId": "courtyard",
         "reason": "authored_daily_schedule",
-        "selectedAtMinute": 815
+        "selectedAtMinute": 829
       },
       "currentActivityKo": "일을 접고 수선방에서 잠시 쉰다"
     },
     {
       "id": "tenant_mikhail",
       "authoredNeeds": {
-        "hunger": 38,
-        "fatigue": 30,
+        "hunger": 48,
+        "fatigue": 24,
         "income": 88,
         "safety": 58,
         "socialBelonging": 62,
-        "restThreshold": 38,
-        "workFatiguePerMinute": 0.04,
-        "restFatigueReliefPerMinute": 0.15,
-        "status": "fictional_character_simulation_profile"
+        "restThreshold": 42,
+        "workFatiguePerMinute": 0.042,
+        "restFatigueReliefPerMinute": 0.12,
+        "status": "fictional_character_simulation_profile",
+        "hungerPerMinute": 0.047,
+        "incomeReliefPerMinute": 0.0012
       },
-      "initialFatigue": 33.0599999999998,
-      "finalFatigue": 40.40999999999937,
+      "initialFatigue": 27.144000000000283,
+      "finalFatigue": 35.42400000000075,
       "finalMapId": "market-quay",
       "activeGoal": {
         "type": "SCHEDULE",
@@ -132,23 +142,25 @@
         "reason": "authored_daily_schedule",
         "selectedAtMinute": 841
       },
-      "currentActivityKo": "새 생활권에서 맡은 일을 이어간다"
+      "currentActivityKo": "강변 장터에서 오늘 맡을 짐일을 알아보고 귀가비를 남긴다"
     },
     {
       "id": "bookseller_lev",
       "authoredNeeds": {
         "hunger": 38,
-        "fatigue": 24,
+        "fatigue": 17,
         "income": 48,
         "safety": 35,
         "socialBelonging": 26,
-        "restThreshold": 34,
-        "workFatiguePerMinute": 0.035,
-        "restFatigueReliefPerMinute": 0.12,
-        "status": "fictional_character_simulation_profile"
+        "restThreshold": 36,
+        "workFatiguePerMinute": 0.025,
+        "restFatigueReliefPerMinute": 0.16,
+        "status": "fictional_character_simulation_profile",
+        "hungerPerMinute": 0.032,
+        "incomeReliefPerMinute": 0.0022
       },
-      "initialFatigue": 26.100000000000264,
-      "finalFatigue": 25.87500000000052,
+      "initialFatigue": 18.980000000000246,
+      "finalFatigue": 16.36500000000041,
       "finalMapId": "courtyard",
       "activeGoal": {
         "type": "SCHEDULE",
@@ -168,6 +180,16 @@
     "seamstress_anna"
   ],
   "needGoalEvents": [
+    {
+      "hostId": "clerk_alexei",
+      "minute": 43,
+      "type": "NEED_REST",
+      "taskId": "REST:clerk_alexei:900",
+      "targetHostId": null,
+      "targetMapId": "chancery",
+      "reason": "fatigue_threshold_before_authored_rest_window",
+      "selectedAtMinute": 583
+    },
     {
       "hostId": "clerk_alexei",
       "minute": 1,
@@ -219,5 +241,5 @@
   "saveReloadParity": true,
   "legacyNeedMigration": true,
   "autonomousQuestCompletions": 0,
-  "finalStateHash": "da9e9e25"
+  "finalStateHash": "d48b7149"
 }

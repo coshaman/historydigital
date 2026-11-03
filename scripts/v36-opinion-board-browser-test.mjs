@@ -48,9 +48,10 @@ try {
       inquiryTitles: document.querySelectorAll('.discussion-inquiry-title').length,
       inquiryTargets: document.querySelectorAll('.discussion-inquiry-target').length,
       inquiryQuestions: document.querySelectorAll('.discussion-inquiry-question').length,
+      questSteps: [...document.querySelectorAll('.discussion-quest-steps li')].map(item => item.textContent.trim()),
       overflowX: document.documentElement.scrollWidth > innerWidth,
     }));
-    if (!result.boardVisible || !result.missionVisible || !/쟁점 비교 0\/16/.test(result.progress) || !/지금 할 수 있는 임무 16개/.test(result.progress) || !/다른 주민의 몸을 빌려/.test(result.guidance) || !/같은 질문/.test(result.guidance) || !/답을 비교한 뒤.*내 판단/.test(result.guidance) || result.rows.length !== 8 || result.inquiryTitles !== 8 || result.inquiryTargets !== 8 || result.inquiryQuestions !== 8 || result.overflowX || errors.length) {
+    if (!result.boardVisible || !result.missionVisible || !/쟁점 비교 0\/16/.test(result.progress) || !/지금 할 수 있는 임무 16개/.test(result.progress) || !/다른 주민의 몸을 빌려/.test(result.guidance) || !/같은 질문/.test(result.guidance) || !/답을 비교한 뒤.*내 판단/.test(result.guidance) || result.questSteps.length !== 3 || !/질문을 담고/.test(result.questSteps[0]) || !/같은 쟁점/.test(result.questSteps[1]) || !/내 입장을/.test(result.questSteps[2]) || result.rows.length !== 8 || result.inquiryTitles !== 8 || result.inquiryTargets !== 8 || result.inquiryQuestions !== 8 || result.overflowX || errors.length) {
       throw new Error(`opinion_board_not_actionable:${JSON.stringify({ result, errors })}`);
     }
     await page.locator('#discussion-quest-more').click();

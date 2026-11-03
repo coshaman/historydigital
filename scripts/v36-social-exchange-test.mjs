@@ -60,7 +60,11 @@ assert.equal(state.hosts.market_nadezhda.relations.baker_fyodor, '빵을 산 거
 assert.equal(meals.length, 1, 'the seller should use the purchased bread for the scheduled evening meal');
 assert.equal(meals[0].hostId, 'market_nadezhda');
 assert.equal(meals[0].itemKo, '빵 한 묶음');
-assert.ok(meals[0].occurredAt >= 1045, 'consumption waits until the seller physically reaches the meal location; travel can delay the planned minute');
+const mealSlot = cards.find(card => card.id === 'market_nadezhda').schedule.find(slot => slot.task?.id === 'NADEZHDA_EVENING_BREAD_1847');
+assert.ok(meals[0].occurredAt >= mealSlot.atMinute, 'consumption cannot precede the authored meal time');
+assert.equal(meals[0].mapId, mealSlot.mapId, 'the meal must be consumed at the authored physical location');
+assert.ok(Math.abs(meals[0].position.x - mealSlot.position.x) + Math.abs(meals[0].position.y - mealSlot.position.y) <= 1,
+  'the meal event must record the seller physically reaching the meal location');
 assert.ok(meals[0].hungerAfter < meals[0].hungerBefore, 'the meal should relieve the resident hunger need');
 assert.equal(state.hosts.market_nadezhda.inventory.includes('빵 한 묶음'), false);
 assert.equal(state.hosts.market_nadezhda.needs.lastMealAtMinute, meals[0].occurredAt, 'meal state records the physical arrival time');

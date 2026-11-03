@@ -207,15 +207,17 @@
   },
   "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
   "needs": {
-    "hunger": 38,
-    "fatigue": 24,
-    "income": 62,
-    "safety": 25,
-    "socialBelonging": 30,
-    "restThreshold": 72,
-    "workFatiguePerMinute": 0.028,
-    "restFatigueReliefPerMinute": 0.06,
-    "status": "fictional_character_simulation_profile"
+    "hunger": 47,
+    "fatigue": 32,
+    "income": 87,
+    "safety": 57,
+    "socialBelonging": 43,
+    "restThreshold": 50,
+    "workFatiguePerMinute": 0.052,
+    "restFatigueReliefPerMinute": 0.2,
+    "status": "fictional_character_simulation_profile",
+    "hungerPerMinute": 0.048,
+    "incomeReliefPerMinute": 0.0011
   },
   "todayGoals": [
     {
@@ -324,5 +326,15 @@
     "porter_gavrila-v36-life-stage-1-1847",
     "porter_gavrila-v36-life-stage-2-1847",
     "porter_gavrila-v36-life-stage-3-1847"
-  ]
+  ],
+  "needsProfileStatus": "FICTIONAL_GAMEPLAY_BALANCE",
+  "needsProfileBasisKo": "부두와 시장 사이에서 짐을 나르는 인부의 업무 부담, 소득 불안, 관계 성향을 플레이용으로 추상화한 허구 프로필이며 역사 통계가 아니다.",
+  "plannerPolicy": {
+    "riskTolerance": 0.37,
+    "workPriority": 0.96,
+    "socialPriority": 0.46,
+    "deterministicSeed": 529673596
+  },
+  "plannerPolicyStatus": "FICTIONAL_GAMEPLAY_BALANCE",
+  "plannerPolicyBasisKo": "가브릴라의 경계심·생계 우선도·관계 필요를 반영한 결정론적 게임 성향."
 }
