@@ -19,6 +19,8 @@ This package contains the V36 playable source, 36 resident records and art, conn
 
 ```powershell
 npm run check
+npm run perf
+npm run mobile
 npm run v36-browser-acceptance
 npm run acceptance:v33
 npm run v36-personal-quest-coverage

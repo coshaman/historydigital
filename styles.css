@@ -41,6 +41,7 @@
 @media(max-width:500px){.paper-tools{position:relative;bottom:auto;justify-content:center;flex-wrap:wrap;margin-top:8px}}
 @media(max-width:600px){.walk-performance{top:12px;left:12px}.walk-route-meter{top:48px;left:12px}.walk-controls{top:84px;left:12px}.walk-sound{top:12px;right:12px}.walk-copy{left:6%;right:6%;bottom:8%;padding:14px 16px}.walk-copy h2{font-size:32px}.walk-copy>p:not(.kicker){font-size:14px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+@media(prefers-reduced-motion:reduce){.walk-scene.three-ready>#threeWalkCanvas{display:none!important}.walk-scene.three-ready>.sky,.walk-scene.three-ready>.facade,.walk-scene.three-ready>.street{opacity:1!important}}
 
 /* V30 portraits remain readable when the dialogue rail collapses on phones. */
 @media(max-width:700px){.v28-portrait{width:48px!important;height:68px!important}.v28-runtime .dialogue-strip>p{padding-left:58px!important}}

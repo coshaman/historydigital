@@ -12,6 +12,7 @@ This report records evidence from the current workspace. It distinguishes local 
 ## Verification evidence
 
 - `npm run check`, `npm run build:v33`, `npm test`, and `npm run v33-vercel-api-test` pass.
+- `npm run perf` and `npm run mobile` pass, including the reduced-motion static fallback for the courier scene.
 - `v36-city-map-acceptance`: six districts, 14 maps, eight enterable interiors, 175 meaningful interactions, reciprocal exits, and source evidence.
 - `v36-resident-batch`: all six batches pass; 36 residents, 36 personal quest completions, and 82 quest stages.
 - `v36-personal-quest-browser`: a first-time player completed a three-choice resident quest in the browser, saw the next chain stage unlock, and had zero page errors.
