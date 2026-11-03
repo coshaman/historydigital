@@ -106,7 +106,7 @@ test('the opening opinion quests tell a first-time player what to do before poss
   const nextPerspective = discussionBoardView([firstPerspective], 'clerk_alexei', { clerk_alexei: '알렉세이', senior_clerk_konstantin: '콘스탄틴' });
   assert.match(nextPerspective.rows[0], /1\/2 관점/);
   assert.match(nextPerspective.rows[0], /콘스탄틴에게 같은 쟁점을 물어보세요/);
-  assert.match(nextPerspective.guidanceKo, /첫 관점 기록됨.*콘스탄틴에게.*같은 쟁점 묻기/);
+  assert.match(nextPerspective.guidanceKo, /첫 관점을 기록했습니다.*콘스탄틴에게 같은 쟁점을 물어보세요/);
   assert.match(nextPerspective.guidanceKo, /질문할 인물과 다른 주민의 몸/);
 });
 

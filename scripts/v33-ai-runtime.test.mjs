@@ -3,7 +3,7 @@ import test from 'node:test';
 import { createRequire } from 'node:module';
 
 const require = createRequire(import.meta.url);
-const { createRpgAiService, MemorySessionStore } = require('../ai/v33/session-runtime.cjs');
+const { createRpgAiService, MemorySessionStore, speechSituationFor } = require('../ai/v33/session-runtime.cjs');
 const { createResponsesProvider } = require('../ai/v33/openai-provider.cjs');
 
 function validTurn(sceneId, speakerId = 'printer_ekaterina') {
@@ -23,6 +23,7 @@ test('session is server-bound to one host; client cannot choose scene, inject me
   const turn = await service.handle(request('POST', '/api/rpg/dialogue', body));
   assert.equal(turn.status, 200);
   assert.equal(turn.body.fallback, false);
+  assert.equal(turn.body.aiGenerated, true, 'the client can distinguish a real model answer from any authored text');
   assert.equal(turn.body.turn.suggestedReplies.length, 2);
   assert.equal(providerInput.character.id, 'printer_ekaterina');
   assert.equal(providerInput.character.worldview.status, 'fictional_character_design');
@@ -37,6 +38,17 @@ test('session is server-bound to one host; client cannot choose scene, inject me
     assert.equal((await service.handle(request('POST', '/api/rpg/dialogue', { ...body, requestId: `request-${Math.random()}`, ...extra }))).status, 400);
   }
   assert.equal((await service.handle(request('POST', '/api/rpg/dialogue', { ...body, requestId: 'request-invalid-scene', sceneContext: { date: '2001-01-01', mapId: 'chancery', questId: 'CIRCLE_INVESTIGATION_1849' } }))).body.error, 'invalid_scene_context');
+});
+
+test('dialogue register is selected from the relationship, privacy, conflict, and institutional scene', () => {
+  const character = { id: 'printer_ekaterina', relations: { clerk_alexei: 'work colleague' } };
+  const actor = { id: 'clerk_alexei', occupation: '관청 서기', relations: {} };
+  assert.equal(speechSituationFor({ character: { id: 'printer_ekaterina', relations: {} }, actor, actorRelations: {}, sceneContext: { mapId: 'nevsky' }, recentTurns: [], playerInput: '교정쇄를 봐요.' }), 'formal');
+  assert.equal(speechSituationFor({ character, actor: { id: 'seamstress_anna', occupation: '재봉사' }, actorRelations: {}, sceneContext: { mapId: 'nevsky' }, recentTurns: [], playerInput: '이 글자 맞아요?' }), 'firstMeeting');
+  assert.equal(speechSituationFor({ character, actor: { id: 'clerk_alexei', occupation: '서기' }, actorRelations: {}, sceneContext: { mapId: 'printshop' }, recentTurns: [], playerInput: '이 글자 맞아요?' }), 'colleague');
+  assert.equal(speechSituationFor({ character, actor: { id: 'seamstress_anna', occupation: '재봉사' }, actorRelations: {}, sceneContext: { mapId: 'courtyard' }, recentTurns: [], playerInput: '잠깐 이야기해요.' }), 'private');
+  assert.equal(speechSituationFor({ character, actor: { id: 'seamstress_anna', occupation: '재봉사' }, actorRelations: { workshop: '친구가 되어 함께 일했다' }, sceneContext: { mapId: 'nevsky' }, recentTurns: [{ role: 'user' }, { role: 'assistant' }, { role: 'user' }, { role: 'assistant' }], playerInput: '요즘 어때?' }), 'intimacy');
+  assert.equal(speechSituationFor({ character, actor: { id: 'seamstress_anna', occupation: '재봉사' }, actorRelations: {}, sceneContext: { mapId: 'nevsky' }, recentTurns: [], playerInput: '그건 틀렸어요.' }), 'conflict');
 });
 
 test('AI dialogue receives the embodied public character context and keeps each speaker-pair memory separate', async () => {

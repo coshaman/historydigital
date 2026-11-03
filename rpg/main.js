@@ -459,7 +459,7 @@ function updateHud() {
   const inquiryRows = discussionView.recommendations ?? [];
   const followUpRows = reflectionPrompts.slice(0, 2).map(prompt => `비교 메모 후속 대화 · ${discussionHost.displayNameKo}에게: “${prompt.promptKo}”`);
   const inquiryList = $('#discussion-quest-items');
-  const visibleInquiries = showAllDiscussionQuestions ? inquiryRows : inquiryRows.slice(0, 4);
+  const visibleInquiries = showAllDiscussionQuestions ? inquiryRows : inquiryRows.slice(0, 8);
   const positionRows = (discussionView.positionPrompts ?? []).flatMap(prompt => prompt.choices.map(choice => {
     const li = document.createElement('li');
     const detail = document.createElement('span');
@@ -508,8 +508,8 @@ function updateHud() {
     ]
     : positionRows.length ? positionRows : [Object.assign(document.createElement('li'), { textContent: discussionHost ? '이 인물에게 남은 관점 질문이 없습니다. 다른 사람에게 같은 쟁점을 묻거나 수첩의 관점 노트를 살펴보세요.' : '생각·이념·역사 사건을 살피려면 질문을 담고, 표시된 인물에게 다가가 말을 거세요.' })]));
   const moreQuestions = $('#discussion-quest-more');
-  moreQuestions.hidden = inquiryRows.length <= 4;
-  moreQuestions.textContent = showAllDiscussionQuestions ? '질문 접기' : `질문 더 보기 · ${inquiryRows.length - 4}개`;
+  moreQuestions.hidden = inquiryRows.length <= 8;
+  moreQuestions.textContent = showAllDiscussionQuestions ? '임무 목록 접기' : `다른 사건·이념 임무 보기 · ${inquiryRows.length - 8}개`;
   moreQuestions.onclick = () => { showAllDiscussionQuestions = !showAllDiscussionQuestions; updateHud(); };
   $('#mission-progress').textContent = missionGuidance.progress?.totalSteps ? `${missionGuidance.progress.completedSteps} / ${missionGuidance.progress.totalSteps}` : '';
   $('#mission-pin').disabled = !missionGuidance.target;
@@ -633,7 +633,7 @@ async function checkApiHealth() {
         : response.status === 404 ? '이 배포에서 /api/rpg/health 경로를 찾지 못했습니다. Vercel의 master Production 배포를 확인하세요.' : 'Vercel Function 응답과 배포 로그를 확인하세요.';
     } else if (body.ai === 'configured') {
       stateText.textContent = '서버 키 확인됨 · 모델 응답은 미검증';
-      detail.textContent = '이 확인은 Vercel Function과 OPENAI_API_KEY 존재 여부만 봅니다. 실제 모델 생성은 인물에게 질문을 보낼 때 요청되며, 실패하면 오프라인 대사로 바꾸지 않고 오류와 재시도 버튼을 표시합니다.';
+      detail.textContent = '여기서는 Vercel Function과 OPENAI_API_KEY 설정만 확인했습니다. 실제 모델 답변은 아래의 답변 시험이나 인물 대화로 확인하세요. 생성에 실패하면 고정 대사로 대신하지 않고 오류와 재시도 버튼을 표시합니다.';
     } else {
       stateText.textContent = '대화 API 응답 · 서버 키 미설정';
       detail.textContent = '대화 API 경로는 응답하지만 Vercel에 OPENAI_API_KEY가 설정되지 않아 실제 모델 대화는 생성할 수 없습니다.';
@@ -1374,7 +1374,7 @@ async function sendConversation(card, playerText, replyId = null) {
   const reward = recorded.ok ? recorded.state.ledger.at(-1)?.dialogueReward : null;
   const rewardStatus = reward === 'COMPARISON_NOTE' ? ' · 관점 대조 메모 획득 · 다른 인물에게 후속 질문 가능' : reward === 'PERSPECTIVE_NOTE' ? ' · 관점 메모와 통찰 +1' : '';
   const recordFailure = recorded.ok ? '' : `대화 기록 실패 · ${recorded.reason}`;
-  const conversationStatus = [generationFailure, recordFailure].filter(Boolean).join(' · ') || `AI 답변 · 인물의 처지와 견해가 반영되었습니다.${rewardStatus}`;
+  const conversationStatus = [generationFailure, recordFailure].filter(Boolean).join(' · ') || `AI 생성 답변 · ${card.displayNameKo}의 처지와 견해가 반영되었습니다.${rewardStatus}`;
   showConversation(card, dialogueCurrentLines.get(key), replies.map(reply => reply.textKo), conversationStatus);
   $('.journal').scrollTop = $('.journal').scrollHeight;
 }

@@ -47,7 +47,7 @@ try {
       rows: [...document.querySelectorAll('#discussion-quest-items li')].map(item => item.textContent),
       overflowX: document.documentElement.scrollWidth > innerWidth,
     }));
-    if (!result.boardVisible || !result.missionVisible || !/몸을 빌린 뒤/.test(result.guidance) || !/다른 주민에게 같은 쟁점/.test(result.guidance) || !/④ 두 답을 읽고 내 입장 기록/.test(result.guidance) || result.rows.length !== 4 || result.overflowX || errors.length) {
+    if (!result.boardVisible || !result.missionVisible || !/사건·철학·이념 임무/.test(result.progress) || !/몸을 빌린 뒤|몸을 빌리고/.test(result.guidance) || !/같은 쟁점.*다른 주민/.test(result.guidance) || !/두 답을 읽어.*내 입장을 기록/.test(result.guidance) || result.rows.length !== 8 || result.overflowX || errors.length) {
       throw new Error(`opinion_board_not_actionable:${JSON.stringify({ result, errors })}`);
     }
     await page.locator('#discussion-quest-more').click();
@@ -84,7 +84,7 @@ try {
     const hostId = request.sessionToken.split(':').at(-1);
     const sceneId = ({ clerk_alexei: 'V33_TALK_CLERK_ALEXEI', printer_ekaterina: 'V33_TALK_PRINTER_EKATERINA' })[hostId];
     await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
-      mode: 'AI', fallback: false, sessionToken: request.sessionToken,
+      mode: 'AI', fallback: false, aiGenerated: true, sessionToken: request.sessionToken,
       turn: { schemaVersion: 'V33_RPG_DIALOGUE_V2', sceneId, beats: [{ speakerId: hostId, textKo: hostId === 'clerk_alexei' ? '확인한 내용과 전해 들은 말은 장부에서 나눠 적어야 합니다.' : '그 줄을 찍은 손과 문장을 정한 사람은 같지 않아요.' , emotion: 'focused', claimIds: [] }], suggestedReplies: [{ id: 'R1', textKo: '그 차이를 기록에 어떻게 남기면 좋을까요?', tone: 'curious' }, { id: 'R2', textKo: '직접 확인할 수 있는 자료부터 찾아볼게요.', tone: 'direct' }] },
     }) });
   });

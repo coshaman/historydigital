@@ -4,12 +4,13 @@ import { dialogueSessionNeedsReconnect, selectDialogueTurn, shouldUseAuthoredOff
 
 test('a validated AI-mode response is the turn shown and recorded by the game', () => {
   const turn = { sceneId: 'SCENE_A', beats: [{ speakerId: 'editor_sofia', textKo: '원문을 먼저 볼게요.' }], suggestedReplies: [] };
-  assert.deepEqual(selectDialogueTurn({ mode: 'AI', fallback: false, turn }), { kind: 'generated', turn });
+  assert.deepEqual(selectDialogueTurn({ mode: 'AI', fallback: false, aiGenerated: true, turn }), { kind: 'generated', turn });
 });
 
 test('provider fallback and non-AI mode never pass authored fallback as generated dialogue', () => {
   for (const data of [
     { mode: 'AI', fallback: true, providerErrorCode: 'http_429', turn: { textKo: 'fallback' } },
+    { mode: 'AI', fallback: false, turn: { textKo: 'unverified' } },
     { mode: 'BLOCKED_NO_KEY', fallback: true, turn: { textKo: 'offline' } },
     { mode: 'AUTHORED', fallback: false, turn: { textKo: 'offline' } },
   ]) {

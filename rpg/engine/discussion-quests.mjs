@@ -96,14 +96,14 @@ export function discussionBoardView(quests, hostId = null, hostNames = {}, total
     };
   }).filter(Boolean);
   return {
-    progressKo: `생각과 사건을 묻는 임무 · ${completedCount} / ${(quests ?? []).length}개 관점 대조 · 전체 ${totalQuestCount}개${positionPrompts.length ? ` · 내 입장 기록 ${positionPrompts.length}개 남음` : ''}`,
+    progressKo: `사건·철학·이념 임무 · ${completedCount} / ${(quests ?? []).length}개 관점 대조 · 전체 ${totalQuestCount}개${positionPrompts.length ? ` · 내 입장 기록 ${positionPrompts.length}개 남음` : ''}`,
     guidanceKo: positionPrompts.length
       ? `두 사람의 관점을 모았습니다. 아래에서 이 사건을 볼 때 당신이 먼저 따질 기준을 골라 수첩에 남기세요.`
       : nextComparison
       ? `첫 관점을 기록했습니다. 다음은 ${nextComparisonName}에게 같은 쟁점을 물어보세요: “${nextComparisonQuestion}” 질문할 인물과 다른 주민의 몸을 빌린 뒤, 표시된 상대에게 가까이 가서 말 걸기를 누르세요. 두 관점을 모으면 수첩에 비교 메모가 남습니다.`
       : hostId
-        ? '질문 하나를 담고 표시된 사람에게 말을 거세요. 두 번째 관점은 다른 주민의 몸을 빌려 같은 쟁점을 물으면 됩니다. 두 사람의 답을 읽고, 내 입장도 골라 수첩에 남기세요.'
-        : '무엇을 할까요? ① 쟁점 하나를 골라 질문 담기 ② 표시된 사람에게 다가가 몸을 빌린 뒤 말 걸기 ③ 다른 주민에게 같은 쟁점 묻기 ④ 두 답을 읽고 내 입장 기록하기. 진행 상황과 다음 사람은 이 칸에 표시됩니다.',
+        ? '검열·책임·생계·교육 같은 쟁점에서 하나를 고르세요. 질문을 담고 표시된 사람에게 물은 뒤, 다른 주민에게도 같은 문제를 물어 답을 비교하세요. 마지막으로 내 입장을 골라 수첩에 기록하면 임무가 끝납니다.'
+        : '사건·철학·이념 임무입니다. 사건·이념 임무에서 검열·책임·계층·교육 중 하나를 골라 질문 담기를 누르세요. 질문할 인물과 다른 주민의 몸을 빌리고, 표시된 상대에게 먼저 물은 뒤 같은 쟁점을 다른 주민에게도 물어보세요. 두 답을 읽어 비교 메모를 남기고 내 입장을 기록하면 끝납니다. 다음 목적지와 진행 상황은 이 칸에 표시됩니다.',
     rows,
     recommendations,
     positionPrompts: positionPrompts.map(quest => ({

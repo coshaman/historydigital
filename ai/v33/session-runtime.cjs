@@ -132,6 +132,7 @@ const instructions = [
   '역사적 사실을 새로 만들거나 단정하지 않는다. 역사 인물 재구성의 대사는 실제 발언이나 인용으로 주장하지 않는다. 문학 인물은 문학 세계 밖의 역사 증언자로 말하지 않는다. 인물의 직업, 말투, 대화 목표와 허용 주제 안에서만 답한다.',
   'character.worldview가 있으면 허구 캐릭터의 동기와 맹점을 표현하는 데만 쓴다. 이 항목은 실제 역사 인물의 견해나 출처 인용이 아니다. 정치적 입장을 역사 사실처럼 말하거나 다른 인물에게 전이하지 않는다.',
   '상대와의 관계와 장면을 먼저 판단해 speechRegister의 firstMeeting, colleague, private, conflict, intimacy, formal 중 알맞은 하나를 고른다. 관계가 분명하지 않으면 firstMeeting으로 말한다. 모든 인물을 존댓말로 통일하지 말고, 편한 동료에게는 카드에 적힌 반말과 짧은 리듬을 쓴다. 그 말씨를 대화 내내 유지하되 모든 문장 끝을 한 어미로 통일하지 않는다. 낯선 사이의 격식과 친한 사이의 거리감을 섞지 않는다.',
+  'conversation.speechSituation은 서버가 고른 이 장면의 관계 말씨다. character.speechRegister에서 같은 이름의 항목을 찾아 종결어미와 문장 리듬에 실제로 반영하고, 습관적인 존댓말로 되돌아가지 않는다.',
   '인물의 목소리는 주장만 바꾸는 것으로 구분되지 않는다. character.speechRhythm, 선택한 speechRegister, lexicon을 문장 길이·첫마디·어휘·말끝에 실제로 반영한다. 알렉세이는 지시와 확인 사실을 나눠 적는 서기답게 단정하고 조심스럽게 말한다. 예카테리나는 인쇄와 교정의 손에 잡히는 문제를 먼저 짚고 동료에게는 편하게 말한다. 파벨은 길·날씨·시각·봉인처럼 직접 확인한 것만 짧게 말한다. 안나는 품삯·방세·마감부터 말하고 가까운 사람에게는 반말을 쓴다. 이 예시는 직업을 대사마다 설명하라는 뜻이 아니다. 카드가 정한 말씨를 우선하고, 존댓말 문장 끝을 모든 인물에게 복사하지 않는다.',
   'caseContext는 허구 장면의 상황·갈등·인물별 관점이다. 역사적 사실의 증거가 아니다. sourceEvidence만 자료 근거로 쓴다. speakerKnowledgeKinds에 direct_read가 있더라도 서버에는 실제 열람 영수증이 없으므로 인물이 원문을 읽었다거나 인용했다고 주장하지 않는다. 플레이어가 자료 내용을 대화에서 알려주면 그가 방금 말한 범위 안에서만 함께 해석한다.',
   'topicStances는 허구 인물의 성격 설계다. knowledgeKind가 unfamiliar, limited, no_documented, no_office_access 등으로 표시된 주제에서는 전문가처럼 설명하지 말고 자기 생활에서 본 범위만 말하거나 되묻는다. 서로 다른 인물의 관점과 말끝을 섞지 않는다.',
@@ -288,6 +289,17 @@ function safeEmbodiedProfile(card) {
     speechRhythm: card.speechRhythm,
     lexicon: (card.lexicon ?? []).slice(0, 8),
   };
+}
+function speechSituationFor({ character, actor, actorRelations, sceneContext, recentTurns, playerInput }) {
+  const words = String(playerInput ?? '').toLowerCase();
+  if (/(동의하지|틀렸|거짓|반대|말이 안 되|책임을 져야|부당하다고|비난)/.test(words)) return 'conflict';
+  const relationshipText = Object.values(actorRelations ?? {}).join(' ');
+  if ((recentTurns?.length ?? 0) >= 4 && /(친구|믿|함께|초대에 응|다녀왔)/.test(relationshipText)) return 'intimacy';
+  const mapId = sceneContext?.mapId ?? '';
+  if (/(courtyard|communal|lodging|inn|private)/i.test(mapId)) return 'private';
+  if (character.relations?.[actor?.id] || actor?.relations?.[character.id]) return 'colleague';
+  if (/(chancery|police)/i.test(mapId) || /서기|경비|관청|경찰/.test(actor?.occupation ?? '')) return 'formal';
+  return 'firstMeeting';
 }
 function normalizeRelationshipHints(value) {
   if (value === undefined) return {};
@@ -455,7 +467,9 @@ function createRpgAiService({ secret, store, allowedOrigins = [], provider = nul
     }).map(source => ({ sourceId: source.sourceId, titleKo: source.titleKo, titleRu: source.titleRu, documentDate: source.documentDate, contextKo: source.contextKo, paragraphs: (source.paragraphs ?? []).map(paragraph => ({ ru: paragraph.ru, ko: paragraph.ko })) }));
     scene.allowedSourceIds = sourceEvidence.map(source => source.sourceId);
     const sourceClaims = claimsForScene(scene).map(({ claimId, sourceId, paragraphIndex, claimKo }) => ({ claimId, sourceId, paragraphIndex, claimKo }));
-    const input = { scene: { id: scene.sceneId, objective: scene.dialogueObjective, focusKo: scene.focusKo, allowedTopics: scene.allowedTopics, forbiddenTopics: scene.forbiddenTopics, allowedSourceIds: scene.allowedSourceIds, knownFactIds: scene.allowedSourceIds }, caseContext: dialogueCase, conversation: { embodiedPlayer: context.actorHostId ? safeEmbodiedProfile(cards.get(context.actorHostId)) : null, sceneContext, playerResources, relationshipHints: context.actorHostId ? actorRelations : {}, playerActions: context.actorHostId ? actorActions : [] }, sourceEvidence, sourceClaims, character: safeProfile(card), recentTurns: context.recentTurns.slice(-8), playerInput: inputKo };
+    const actor = context.actorHostId ? cards.get(context.actorHostId) : null;
+    const speechSituation = speechSituationFor({ character: card, actor, actorRelations, sceneContext, recentTurns: context.recentTurns, playerInput: inputKo });
+    const input = { scene: { id: scene.sceneId, objective: scene.dialogueObjective, focusKo: scene.focusKo, allowedTopics: scene.allowedTopics, forbiddenTopics: scene.forbiddenTopics, allowedSourceIds: scene.allowedSourceIds, knownFactIds: scene.allowedSourceIds }, caseContext: dialogueCase, conversation: { embodiedPlayer: actor ? safeEmbodiedProfile(actor) : null, sceneContext, speechSituation, playerResources, relationshipHints: context.actorHostId ? actorRelations : {}, playerActions: context.actorHostId ? actorActions : [] }, sourceEvidence, sourceClaims, character: safeProfile(card), recentTurns: context.recentTurns.slice(-8), playerInput: inputKo };
     if (!provider) { await store.release(sessionId, body.requestId, time); return response(503, { error: 'ai_not_configured', mode: 'BLOCKED_NO_KEY' }, request.origin, allowedOrigins); }
     provider.lastFailureCode = '';
     let responseBody;
@@ -465,7 +479,7 @@ function createRpgAiService({ secret, store, allowedOrigins = [], provider = nul
       if (hasUnsupportedHistoricalYear(output, scene)) { provider.lastFailureCode = 'unsupported_historical_year'; throw new Error('unsupported historical year'); }
       if (hasUncitedHistoricalPerson(output, scene)) { provider.lastFailureCode = 'uncited_historical_person'; throw new Error('uncited historical person'); }
       if (hasUndisclosedPlayerContext(output, input)) { provider.lastFailureCode = 'undisclosed_player_context'; throw new Error('undisclosed player context'); }
-      responseBody = { turn: output, fallback: false, mode: 'AI' };
+      responseBody = { turn: output, fallback: false, mode: 'AI', aiGenerated: true };
     } catch {
       if (!provider.lastFailureCode) provider.lastFailureCode = 'provider_response_validation';
       const providerErrorCode = /^[a-z0-9_]+$/.test(provider.lastFailureCode || '') ? provider.lastFailureCode : 'provider_response_validation';
@@ -489,4 +503,4 @@ function createRpgAiService({ secret, store, allowedOrigins = [], provider = nul
 }
 
 function isSupportedHostId(hostId) { return typeof hostId === 'string' && cards.has(hostId) && Boolean(scenes[hostId]); }
-module.exports = { createRpgAiService, MemorySessionStore, validateTurn, responseFormat, issueToken, readToken, isSupportedHostId, SESSION_TTL_MS, MAX_TURNS, MAX_PER_MINUTE };
+module.exports = { createRpgAiService, MemorySessionStore, validateTurn, responseFormat, speechSituationFor, issueToken, readToken, isSupportedHostId, SESSION_TTL_MS, MAX_TURNS, MAX_PER_MINUTE };
