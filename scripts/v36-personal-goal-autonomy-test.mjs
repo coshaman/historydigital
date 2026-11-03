@@ -10,8 +10,9 @@ const firstSix = ['clerk_alexei', 'printer_ekaterina', 'courier_pavel', 'seamstr
 const secondSix = ['editor_sofia', 'police_sergeant_ivan', 'reader_darya', 'senior_clerk_konstantin', 'yardkeeper_semyon', 'laundress_mariya'];
 const thirdSix = ['apothecary_yakov', 'baker_fyodor', 'bookbinder_elizaveta', 'carter_roman', 'coachman_timofey', 'fishseller_klavdiya'];
 const fourthSix = ['housemaid_olga', 'innkeeper_irina', 'junior_guard_sergey', 'landlady_polina', 'lodging_tatyana', 'midwife_avdotya'];
-const batch = process.argv.includes('--batch-four') ? 4 : process.argv.includes('--batch-three') ? 3 : process.argv.includes('--batch-two') ? 2 : 1;
-const pilotIds = [firstSix, secondSix, thirdSix, fourthSix][batch - 1];
+const fifthSix = ['print_apprentice_stepan', 'scribal_yuri', 'student_vasily', 'minor_noble_andrei', 'street_vendor_matryona', 'typesetter_nikita'];
+const batch = process.argv.includes('--batch-five') ? 5 : process.argv.includes('--batch-four') ? 4 : process.argv.includes('--batch-three') ? 3 : process.argv.includes('--batch-two') ? 2 : 1;
+const pilotIds = [firstSix, secondSix, thirdSix, fourthSix, fifthSix][batch - 1];
 const mapFiles = (await readdir(new URL('../rpg/maps/', import.meta.url))).filter(file => file.endsWith('.json'));
 const maps = Object.fromEntries(await Promise.all(mapFiles.map(async file => {
   const map = await readJson(`../rpg/maps/${file}`);
@@ -77,7 +78,7 @@ assert.ok(secondStageState.ledger.flatMap(entry => entry.personalGoalVisits ?? [
 const audit = await readFile(new URL('../rpg/main.js', import.meta.url), 'utf8');
 assert.match(audit, /personalGoalVisits \?\? \[\]\)\.filter\(visit => visit\.witnessedByPlayer\)/,
   'the journal must disclose autonomous life-goal work only when the player witnessed it');
-const report = { schemaVersion: `V36_${['', 'FIRST', 'SECOND', 'THIRD', 'FOURTH'][batch]}_SIX_PERSONAL_GOAL_AUTONOMY_1`, status: 'PASS', pilotResidents: pilotIds.length,
+const report = { schemaVersion: `V36_${['', 'FIRST', 'SECOND', 'THIRD', 'FOURTH', 'FIFTH'][batch]}_SIX_PERSONAL_GOAL_AUTONOMY_1`, status: 'PASS', pilotResidents: pilotIds.length,
   authoredLifeStagesPerResident: 3, dailyVisits: pilotVisits.length,
   deterministicReplay: true, stageProgressRetargets: true, questAutoCompletion: false, saveLoadParity: true,
   deferredUntilHistoricallyAvailable: [...deferred],
@@ -85,5 +86,5 @@ const report = { schemaVersion: `V36_${['', 'FIRST', 'SECOND', 'THIRD', 'FOURTH'
     mapId: rows[0]?.mapId, position: rows[0]?.position, minute: rows[0]?.minute, activityKo: rows[0]?.activityKo,
     witnessedByPlayer: rows[0]?.witnessedByPlayer })) };
 await mkdir(new URL('../docs/v36/current-audit/', import.meta.url), { recursive: true });
-await writeFile(new URL(`../docs/v36/current-audit/${['', 'FIRST', 'SECOND', 'THIRD', 'FOURTH'][batch]}_SIX_PERSONAL_GOAL_AUTONOMY.json`, import.meta.url), `${JSON.stringify(report, null, 2)}\n`, 'utf8');
+await writeFile(new URL(`../docs/v36/current-audit/${['', 'FIRST', 'SECOND', 'THIRD', 'FOURTH', 'FIFTH'][batch]}_SIX_PERSONAL_GOAL_AUTONOMY.json`, import.meta.url), `${JSON.stringify(report, null, 2)}\n`, 'utf8');
 console.log(JSON.stringify(report, null, 2));

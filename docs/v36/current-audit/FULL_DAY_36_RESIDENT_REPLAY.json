@@ -5,22 +5,22 @@
   "deterministicReplays": 3,
   "simulatedMinutes": 1440,
   "replayHashes": [
-    "4fb562a5",
-    "4fb562a5",
-    "4fb562a5"
+    "b6c25e2a",
+    "b6c25e2a",
+    "b6c25e2a"
   ],
   "collisionSnapshotsPerReplay": 288,
   "totalCollisionSnapshots": 864,
   "firstReplay": {
-    "movementSteps": 3613,
+    "movementSteps": 3645,
     "districtTransitions": 199,
-    "goalEvents": 379,
+    "goalEvents": 380,
     "deliveries": 3,
     "exchanges": 2,
     "personalContacts": 17,
     "distinctPersonalContactResidents": 17,
-    "personalLifeGoalVisits": 26,
-    "residentsWithPhysicalLifeGoalVisits": 22,
+    "personalLifeGoalVisits": 32,
+    "residentsWithPhysicalLifeGoalVisits": 28,
     "actionableLifeGoalQuestIds": {
       "clerk_alexei": "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_1",
       "printer_ekaterina": "EKATERINA_INK_SHORTAGE_1847_STAGE_1",
@@ -43,7 +43,13 @@
       "junior_guard_sergey": "SERGEY_VISITOR_PASS_1847_STAGE_1",
       "landlady_polina": "POLINA_RENT_AND_REPAIRS_1847_STAGE_1",
       "lodging_tatyana": "TATYANA_READING_HOUR_1847_STAGE_1",
-      "midwife_avdotya": "AVDOTYA_NIGHT_CALLS_1847_STAGE_1"
+      "midwife_avdotya": "AVDOTYA_NIGHT_CALLS_1847_STAGE_1",
+      "print_apprentice_stepan": "STEPAN_PROOF_AUTHorship_1847_STAGE_1",
+      "scribal_yuri": "YURI_COPYING_LEDGER_1847_STAGE_1",
+      "student_vasily": "VASILY_READING_CIRCLE_1847_STAGE_1",
+      "minor_noble_andrei": "ANDREI_DEBT_STATUS_1847_STAGE_1",
+      "street_vendor_matryona": "MATRYONA_STREET_STALL_1847_STAGE_1",
+      "typesetter_nikita": "NIKITA_TYPESPEED_1847_STAGE_1"
     },
     "residentsWithDistinctAuthoredObjectives": 36,
     "finalActivityCount": 33,
@@ -230,7 +236,7 @@
       }
     }
   },
-  "fullDaySaveReloadStateHash": "4fb562a5",
+  "fullDaySaveReloadStateHash": "b6c25e2a",
   "autoCompletedPlayerQuests": 0,
-  "runtimeMilliseconds": 25130
+  "runtimeMilliseconds": 25608
 }

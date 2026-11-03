@@ -245,7 +245,54 @@
         "chainId": "YURI_COPYING_LEDGER_1847",
         "stageCount": 3
       },
-      "fallbackKo": "연쇄 임무가 지금 열리지 않으면 오늘의 일과를 이어가고, 다음 단계를 확인할 수 있을 때 다시 돌아온다."
+      "fallbackKo": "연쇄 임무가 지금 열리지 않으면 오늘의 일과를 이어가고, 다음 단계를 확인할 수 있을 때 다시 돌아온다.",
+      "autonomyStages": [
+        {
+          "stage": 1,
+          "questId": "YURI_COPYING_LEDGER_1847_STAGE_1",
+          "date": "1847-06-01",
+          "mapId": "chancery",
+          "position": {
+            "x": 12,
+            "y": 14
+          },
+          "activityKo": "생활 문제 · 읽히는 사본과 빠진 줄 · 1막",
+          "prerequisiteQuestIds": [],
+          "windowStartMinute": 900,
+          "windowEndMinute": 1140,
+          "focusMinutes": 12
+        },
+        {
+          "stage": 2,
+          "questId": "YURI_COPYING_LEDGER_1847_STAGE_2",
+          "date": "1847-06-01",
+          "mapId": "chancery",
+          "position": {
+            "x": 12,
+            "y": 14
+          },
+          "activityKo": "생활 문제 · 읽히는 사본과 빠진 줄 · 2막",
+          "prerequisiteQuestIds": [],
+          "windowStartMinute": 900,
+          "windowEndMinute": 1140,
+          "focusMinutes": 12
+        },
+        {
+          "stage": 3,
+          "questId": "YURI_COPYING_LEDGER_1847_STAGE_3",
+          "date": "1847-06-01",
+          "mapId": "chancery",
+          "position": {
+            "x": 12,
+            "y": 14
+          },
+          "activityKo": "생활 문제 · 읽히는 사본과 빠진 줄 · 3막",
+          "prerequisiteQuestIds": [],
+          "windowStartMinute": 900,
+          "windowEndMinute": 1140,
+          "focusMinutes": 12
+        }
+      ]
     },
     {
       "id": "scribal_yuri:relationship",

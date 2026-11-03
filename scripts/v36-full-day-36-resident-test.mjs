@@ -76,7 +76,8 @@ const personalGoalVisits = first.observedPersonalGoalVisits;
 const actionableLifeGoalHosts = ['clerk_alexei', 'printer_ekaterina', 'courier_pavel', 'seamstress_anna', 'tenant_mikhail', 'bookseller_lev',
   'editor_sofia', 'senior_clerk_konstantin', 'yardkeeper_semyon', 'laundress_mariya', 'apothecary_yakov', 'baker_fyodor',
   'bookbinder_elizaveta', 'carter_roman', 'coachman_timofey', 'fishseller_klavdiya', 'housemaid_olga', 'innkeeper_irina',
-  'junior_guard_sergey', 'landlady_polina', 'lodging_tatyana', 'midwife_avdotya'];
+  'junior_guard_sergey', 'landlady_polina', 'lodging_tatyana', 'midwife_avdotya', 'print_apprentice_stepan', 'scribal_yuri',
+  'student_vasily', 'minor_noble_andrei', 'street_vendor_matryona', 'typesetter_nikita'];
 const mapTransitions = first.moves.filter(move => move.viaExit);
 assert.ok(first.moves.length > 0, 'residents should walk throughout the day');
 assert.ok(mapTransitions.length > 0, 'residents should cross real district exits');

@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "V36_FIFTH_SIX_PERSONAL_GOAL_AUTONOMY_1",
+  "status": "PASS",
+  "pilotResidents": 6,
+  "authoredLifeStagesPerResident": 3,
+  "dailyVisits": 6,
+  "deterministicReplay": true,
+  "stageProgressRetargets": true,
+  "questAutoCompletion": false,
+  "saveLoadParity": true,
+  "deferredUntilHistoricallyAvailable": [],
+  "playerWitnessRequired": true,
+  "residentOutcomes": [
+    {
+      "id": "print_apprentice_stepan",
+      "questId": "STEPAN_PROOF_AUTHorship_1847_STAGE_1",
+      "stage": 1,
+      "mapId": "printshop",
+      "position": {
+        "x": 10,
+        "y": 12
+      },
+      "minute": 371,
+      "activityKo": "생활 문제 · 교정쇄에 남은 손자국 · 1막",
+      "witnessedByPlayer": false
+    },
+    {
+      "id": "scribal_yuri",
+      "questId": "YURI_COPYING_LEDGER_1847_STAGE_1",
+      "stage": 1,
+      "mapId": "chancery",
+      "position": {
+        "x": 12,
+        "y": 13
+      },
+      "minute": 381,
+      "activityKo": "생활 문제 · 읽히는 사본과 빠진 줄 · 1막",
+      "witnessedByPlayer": false
+    },
+    {
+      "id": "student_vasily",
+      "questId": "VASILY_READING_CIRCLE_1847_STAGE_1",
+      "stage": 1,
+      "mapId": "nevsky",
+      "position": {
+        "x": 25,
+        "y": 16
+      },
+      "minute": 426,
+      "activityKo": "생활 문제 · 읽을 모임과 들킬 위험 · 1막",
+      "witnessedByPlayer": false
+    },
+    {
+      "id": "minor_noble_andrei",
+      "questId": "ANDREI_DEBT_STATUS_1847_STAGE_1",
+      "stage": 1,
+      "mapId": "chancery",
+      "position": {
+        "x": 14,
+        "y": 14
+      },
+      "minute": 361,
+      "activityKo": "생활 문제 · 가문의 이름과 어음 만기 · 1막",
+      "witnessedByPlayer": false
+    },
+    {
+      "id": "street_vendor_matryona",
+      "questId": "MATRYONA_STREET_STALL_1847_STAGE_1",
+      "stage": 1,
+      "mapId": "nevsky",
+      "position": {
+        "x": 25,
+        "y": 17
+      },
+      "minute": 416,
+      "activityKo": "생활 문제 · 비 그친 뒤의 좌판 자리 · 1막",
+      "witnessedByPlayer": false
+    },
+    {
+      "id": "typesetter_nikita",
+      "questId": "NIKITA_TYPESPEED_1847_STAGE_1",
+      "stage": 1,
+      "mapId": "printshop",
+      "position": {
+        "x": 16,
+        "y": 13
+      },
+      "minute": 436,
+      "activityKo": "생활 문제 · 빠른 인쇄와 남은 교정 · 1막",
+      "witnessedByPlayer": false
+    }
+  ]
+}
