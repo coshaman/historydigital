@@ -121,7 +121,10 @@
   "allowedMaps": [
     "nevsky",
     "courtyard",
-    "police-station"
+    "police-station",
+    "inn-interior",
+    "communal-room",
+    "workyard"
   ],
   "start": {
     "mapId": "courtyard",

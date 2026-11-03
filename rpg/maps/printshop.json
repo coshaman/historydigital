@@ -21,7 +21,69 @@
       "OBJ-SOV-1847",
       "OBJ-PETERSBURG-PLAN-1840"
     ],
-    "note": "A reconstructed working printshop. No claim is made that this exact room or business is documented."
+    "note": "A reconstructed working printshop. No claim is made that this exact room or business is documented.",
+    "access": {
+      "doorId": "door-printshop",
+      "districtId": "NEVSKY_COMMERCIAL",
+      "subLocationId": "printshop",
+      "tileCoord": {
+        "x": 12,
+        "y": 16
+      },
+      "allowedEstates": [
+        "petty_bourgeois",
+        "urban_artisan",
+        "urban_laborer",
+        "service_class",
+        "urban_literate_worker",
+        "historical literary editor",
+        "gentry_household_tutor"
+      ],
+      "allowedCharacterIds": [
+        "apothecary_yakov",
+        "bookbinder_elizaveta",
+        "bookseller_lev",
+        "carter_roman",
+        "clerk_alexei",
+        "courier_pavel",
+        "editor_sofia",
+        "fishseller_klavdiya",
+        "housemaid_olga",
+        "innkeeper_irina",
+        "junior_guard_sergey",
+        "landlady_polina",
+        "lodging_tatyana",
+        "midwife_avdotya",
+        "minor_noble_andrei",
+        "nekrasov_reconstruction",
+        "printer_ekaterina",
+        "print_apprentice_stepan",
+        "reader_darya",
+        "scribal_yuri",
+        "seamstress_anna",
+        "servant_varvara",
+        "street_vendor_matryona",
+        "student_vasily",
+        "teacher_lyubov",
+        "typesetter_nikita",
+        "warehouse_pyotr",
+        "watercarrier_luka"
+      ],
+      "opensMinute": 360,
+      "closesMinute": 1200,
+      "openHours": {
+        "opensMinute": 360,
+        "closesMinute": 1200
+      },
+      "openingHoursBasis": "게임 시뮬레이션 가정; 특정 1840년대 기관이나 업소의 영업시간을 주장하지 않음.",
+      "sourceEvidenceIds": [
+        "V36-MAP-NLR-19C-PLANS"
+      ],
+      "ambientSoundId": "workroom",
+      "validFrom": "1847-06-01",
+      "validTo": "1849-05-31",
+      "reconstructionBasis": "A reconstructed working printshop. No claim is made that this exact room or business is documented."
+    }
   },
   "width": 24,
   "height": 18,

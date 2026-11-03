@@ -16,7 +16,9 @@ const readJson = async path => (await fetch(path)).json();
 const [street, shop, chancery, courtyard, marketMap, literaryMap, overcoatMap, policeMap, firstQuest, marketPersonalQuests, source, firstIssue, historicalSources, literarySource, overcoatSource, campaign, publicQuest, circleQuest, letterQuest, literaryQuest, overcoatQuest, sceneObservations, aiScenes, learningExam, learningSourceData, lifeTemplates, historicalComparisons] = await Promise.all([readJson('./rpg/maps/nevsky.json'), readJson('./rpg/maps/printshop.json'), readJson('./rpg/maps/chancery.json'), readJson('./rpg/maps/courtyard.json'), readJson('./rpg/maps/market-quay.json'), readJson('./rpg/maps/dead-souls.json'), readJson('./rpg/maps/overcoat.json'), readJson('./rpg/maps/police-station.json'), readJson('./rpg/quests/printshop-article.json'), Promise.all(['yard-ledger-1847','laundry-wages-1847','bakery-flour-1847','market-prices-1847','porter-load-1847','coach-fare-1847','household-privacy-1847','midwife-care-cost-1847','apothecary-limits-1847','apprentice-authorship-1847','bookbinder-damage-1847','scribal-copy-1847','inn-debt-rumor-1847','student-circle-risk-1847','teacher-access-cost-1847','noble-status-debt-1847','landlady-rent-commons-1847','water-access-queue-1847','fish-storage-time-1847','warehouse-loss-record-1847','servant-private-warning-1847','guard-entry-bribe-1847','carter-delivery-delay-1847','street-vendor-weather-1847','typesetter-speed-censorship-1847','lodging-reading-income-1847','clerk-alexei-life-1-1847','clerk-alexei-life-2-1847','clerk-alexei-life-3-1847','courier-pavel-life-1-1847','courier-pavel-life-2-1847','courier-pavel-life-3-1847','seamstress-anna-life-1-1847','seamstress-anna-life-2-1847','seamstress-anna-life-3-1847','bookseller-lev-life-1-1847','bookseller-lev-life-2-1847','bookseller-lev-life-3-1847'].map(id => readJson(`./rpg/quests/${id}.json`))), readJson('./rpg/data/khor-kalynych-source.json'), readJson('./rpg/data/sovremennik-1847-issue.json'), readJson('./rpg/data/historical-source-packets.json'), readJson('./rpg/data/dead-souls-source.json'), readJson('./rpg/data/overcoat-source.json'), readJson('./rpg/quests/campaign.json'), readJson('./rpg/quests/public-discourse-1848.json'), readJson('./rpg/quests/circle-investigation-1849.json'), readJson('./rpg/quests/circle-letter-1849-may.json'), readJson('./rpg/quests/literary-dead-souls.json'), readJson('./rpg/quests/literary-overcoat.json'), readJson('./rpg/data/scene-observations.json'), readJson('./rpg/ai/scenes.json'), readJson('./rpg/data/learning-exam.json'), readJson('./rpg/data/learning-sources.json'), readJson('./rpg/data/life-simulation.json'), readJson('./rpg/data/historical-comparisons.json')]);
 const [sourceReaderIndex, caseContextData, discussionQuestData, districtRegistry] = await Promise.all([readJson('./rpg/data/source-reader-index.json'), readJson('./rpg/data/case-contexts.json'), readJson('./rpg/data/discussion-quests.json'), readJson('./rpg/data/city-districts-v36.json')]);
 const cards = await Promise.all(['clerk_alexei','printer_ekaterina','courier_pavel','seamstress_anna','tenant_mikhail','bookseller_lev','senior_clerk_konstantin','reader_darya','editor_sofia','police_sergeant_ivan','yardkeeper_semyon','laundress_mariya','baker_fyodor','market_nadezhda','porter_gavrila','coachman_timofey','housemaid_olga','midwife_avdotya','apothecary_yakov','print_apprentice_stepan','bookbinder_elizaveta','scribal_yuri','innkeeper_irina','student_vasily','teacher_lyubov','minor_noble_andrei','landlady_polina','watercarrier_luka','fishseller_klavdiya','warehouse_pyotr','servant_varvara','junior_guard_sergey','carter_roman','street_vendor_matryona','typesetter_nikita','lodging_tatyana','nekrasov_reconstruction','literary_chichikov','literary_akaky','literary_petrovich'].map(id => readJson(`./rpg/characters/${id}.json`)));
-const maps = { nevsky: street, printshop: shop, chancery, courtyard, 'market-quay': marketMap, 'dead-souls': literaryMap, overcoat: overcoatMap, 'police-station': policeMap }, hostCards = cards;
+const expansionMapIds = ['bookshop-lane','canal-road','workyard','bookshop-interior','bakery-interior','inn-interior','sewing-room','communal-room'];
+const expansionMaps = Object.fromEntries(await Promise.all(expansionMapIds.map(async id => [id, await readJson(`./rpg/maps/${id}.json`)])));
+const maps = { nevsky: street, printshop: shop, chancery, courtyard, 'market-quay': marketMap, 'dead-souls': literaryMap, overcoat: overcoatMap, 'police-station': policeMap, ...expansionMaps }, hostCards = cards;
 const residentQuestBatchTwo = ['market-nadezhda-life-extra-1-1847','market-nadezhda-life-extra-2-1847','market-nadezhda-life-extra-3-1847','porter-gavrila-life-extra-1-1847','porter-gavrila-life-extra-2-1847','porter-gavrila-life-extra-3-1847','warehouse-pyotr-life-extra-1-1847','warehouse-pyotr-life-extra-2-1847','warehouse-pyotr-life-extra-3-1847','baker-fyodor-life-extra-1-1847','baker-fyodor-life-extra-2-1847','baker-fyodor-life-extra-3-1847','landlady-polina-life-extra-1-1847','landlady-polina-life-extra-2-1847','landlady-polina-life-extra-3-1847','carter-roman-life-extra-1-1847','carter-roman-life-extra-2-1847','carter-roman-life-extra-3-1847'];
 const addedPersonalQuests = await Promise.all(['editor-publication-record-1847','police-testimony-record-1849','reader-source-and-rumor-1847','senior-clerk-review-and-signature-1847','tenant-rent-and-firewood-1847',
   'editor-sofia-chain-1-stage-1-1847','editor-sofia-chain-1-stage-2-1847','editor-sofia-chain-1-stage-3-1847',
@@ -995,6 +997,7 @@ function inspect(object) {
     const result = transitionMap(state, props.exitId, maps);
     if (result.ok) { setState(result.state); say('문을 나서다', `${currentMap().metadata.displayNameKo}의 공기와 소리가 바뀐다. 다른 사람들은 각자 있던 자리에 남아 있다.`, []); sayRecord('직접 문을 지나 장소를 옮겼다.'); }
     else if (result.reason === 'host_lacks_access') { say('이 몸으로는 들어갈 수 없다', '맡은 일과 신분에 따라 드나들 수 있는 곳이 다르다. 다른 공개 길을 찾아보자.', []); sayRecord('현재 인물에게 이 장소의 출입 권한이 없다.'); }
+    else if (result.reason === 'closed_hours') { say('문이 잠겨 있다', '이곳은 문을 여는 시간에만 들어갈 수 있다. 지금은 거리에서 다른 일을 찾아보자.', []); sayRecord('이 장소의 영업 시간이 끝났다.'); }
     else if (result.reason === 'person_required') { say('사람을 통해서만 들어갈 수 있다', '이 문은 관찰자 혼자 통과할 수 없다. 이곳을 오갈 수 있는 사람을 찾아보자.', []); sayRecord('이 출입문은 특정 인물의 권한이 필요하다.'); }
     else { say('문까지 아직 남았다', '문이 보이지만 가까이 가야 한다. 길을 따라 걸어가 보자.', []); sayRecord('출구와 한 타일 거리까지 이동해야 한다.'); }
   } else if (object.type === 'source') sourceRead(props.sourceId);
@@ -1007,6 +1010,7 @@ function inspect(object) {
     say(clue.titleKo, observationText(clue, state.player.embodiment), []);
     sayRecord(`허구 소품 조사 · ${clue.titleKo} · ${state.player.embodiment ? '현재 몸의 수첩에 기록' : '관찰 기록에만 저장'}`);
   }
+  else if (props.storyTextKo) { say(item.name || '주변의 물건', props.storyTextKo, []); sayRecord(`허구의 현장 소품을 살펴봤다 · ${item.name || '주변의 물건'}`); }
   else if (props.questId) {
     const activeQuest = questsById.get(props.questId);
     if (!questIsAvailable(activeQuest)) { say('아직 시작할 때가 아니다', '이 장의 사건이 열리면 여기서 이어진다.', []); return; }
@@ -1144,7 +1148,7 @@ function interact() {
   if (!near.length) { say('아직 손이 닿지 않는다', '주변을 조금 더 걸어 가까이 가 보자. 사람에게 다가가면 그 사람의 자리에서 도시를 볼 수 있다.', []); return; }
   const civicService = near.find(item => mapObjectProperties(item).serviceId);
   const nearbyPeople = near.filter(item => item.type === 'npc');
-  if (!state.player.embodiment && nearbyPeople.length > 0 && (nearbyPeople.length > 1 || Boolean(civicService) || near.some(item => ['source', 'map-exit', 'quest-object'].includes(item.type)))) {
+  if (!state.player.embodiment && nearbyPeople.length > 0 && (nearbyPeople.length > 1 || Boolean(civicService) || near.some(item => ['source', 'map-exit', 'quest-object','inspectable'].includes(item.type)))) {
     const peopleChoices = nearbyPeople.map(item => {
       const hostId = mapObjectProperties(item).hostId, card = cards.find(character => character.id === hostId), person = state.hosts[hostId];
       const routineStateKo = ({ TRAVELLING: '이동 중', WORKING: '일하는 중', TRADING: '거래 중', RESTING: '쉬는 중', SOCIALIZING: '사람들과 이야기하는 중', DELIVERING: '물건을 전하는 중', POSSESSED: '다른 이의 시야에 들어와 있음' })[person.routineState?.state] ?? '자기 일과를 보내는 중';
@@ -1152,9 +1156,10 @@ function interact() {
       const hungerKo = (person.needs?.hunger ?? 0) >= 65 ? '끼니가 급함' : (person.needs?.hunger ?? 0) >= 45 ? '허기를 느끼는 중' : '허기 낮음';
       return { label: `${card.displayNameKo} 살펴보기`, subcopy: `${card.occupation} · ${routineStateKo} · ${goalKo} · ${hungerKo}`, run: () => inspect(item) };
     });
-    const nearbyObjects = near.filter(item => ['source', 'map-exit', 'quest-object'].includes(item.type) || Boolean(mapObjectProperties(item).serviceId)).map(item => {
+    const nearbyObjects = near.filter(item => ['source', 'map-exit', 'quest-object','inspectable'].includes(item.type) || Boolean(mapObjectProperties(item).serviceId)).map(item => {
       const props = mapObjectProperties(item);
       if (props.serviceId) return { label: `${item.name} 이용`, subcopy: '이 장소의 물건이나 기록을 살펴봅니다.', run: () => inspect(item) };
+      if (item.type === 'inspectable') return { label: `살펴보기 · ${item.name}`, subcopy: props.storyTextKo ?? '허구 장면을 위한 생활 소품입니다.', run: () => inspect(item) };
       if (item.type === 'source') {
         const record = sourceRecords.get(props.sourceId);
         return { label: `자료 읽기 · ${record?.titleKo ?? '문서'}`, subcopy: record?.range ?? record?.witness?.range ?? '가까이에 놓인 자료', run: () => inspect(item) };
@@ -1183,6 +1188,7 @@ function interact() {
     ?? (state.player.embodiment ? near.find(item => item.type === 'map-exit') : null)
     ?? near.find(item => item.type === 'npc' && mapObjectProperties(item).hostId !== state.player.embodiment)
     ?? near.find(item => item.type === 'map-exit')
+    ?? near.find(item => item.type === 'inspectable')
     ?? near.find(item => item.type === 'quest-object' && questIsAvailable(questsById.get(mapObjectProperties(item).questId)))
     ?? near[0];
   inspect(object);

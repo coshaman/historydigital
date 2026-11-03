@@ -115,7 +115,9 @@
     "courtyard",
     "market-quay",
     "printshop",
-    "chancery"
+    "chancery",
+    "bookshop-lane",
+    "bookshop-interior"
   ],
   "start": {
     "mapId": "nevsky",

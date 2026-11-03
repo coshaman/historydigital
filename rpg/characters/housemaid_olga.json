@@ -112,7 +112,10 @@
     "courtyard",
     "market-quay",
     "printshop",
-    "chancery"
+    "chancery",
+    "workyard",
+    "sewing-room",
+    "communal-room"
   ],
   "start": {
     "mapId": "courtyard",

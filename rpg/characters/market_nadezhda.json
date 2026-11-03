@@ -110,7 +110,8 @@
   "allowedMaps": [
     "market-quay",
     "nevsky",
-    "courtyard"
+    "courtyard",
+    "bakery-interior"
   ],
   "start": {
     "mapId": "market-quay",
@@ -158,12 +159,12 @@
     },
     {
       "atMinute": 780,
-      "mapId": "market-quay",
+      "mapId": "bakery-interior",
       "position": {
-        "x": 19,
-        "y": 13
+        "x": 11,
+        "y": 14
       },
-      "activityKo": "시장 저울과 젖은 채소 가격표를 확인한다"
+      "activityKo": "새 생활권에서 맡은 일을 이어간다"
     },
     {
       "atMinute": 1020,

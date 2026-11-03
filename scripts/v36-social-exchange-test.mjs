@@ -6,12 +6,12 @@ const require = createRequire(import.meta.url);
 require('../rpg/engine/game-state.js');
 const game = globalThis.V33GameState;
 const json = async file => JSON.parse(await readFile(new URL(file, import.meta.url), 'utf8'));
-const mapIds = ['nevsky','printshop','chancery','courtyard','market-quay','police-station'];
-const characterFiles = (await (await import('node:fs/promises')).readdir(new URL('../rpg/characters/', import.meta.url)))
-  .filter(file => file.endsWith('.json'));
+const mapFiles = (await (await import('node:fs/promises')).readdir(new URL('../rpg/maps/', import.meta.url))).filter(file => file.endsWith('.json'));
+const characterFiles = (await (await import('node:fs/promises')).readdir(new URL('../rpg/characters/', import.meta.url))).filter(file => file.endsWith('.json'));
+const mapIds = (await Promise.all(mapFiles.map(async file => json(`../rpg/maps/${file}`)))).filter(map => map.metadata.mapClass !== 'LITERARY_REALM').map(map => map.mapId);
 const [maps, cards] = await Promise.all([
   Promise.all(mapIds.map(async id => [id, await json(`../rpg/maps/${id}.json`)])),
-  Promise.all(characterFiles.map(file => json(`../rpg/characters/${file}`))).then(records => records.filter(card => mapIds.includes(card.start.mapId))),
+  Promise.all(characterFiles.map(file => json(`../rpg/characters/${file}`))).then(records => records.filter(card => card.kind === 'FICTIONAL' && mapIds.includes(card.start.mapId))),
 ]);
 const mapTable = Object.fromEntries(maps);
 
@@ -60,10 +60,10 @@ assert.equal(state.hosts.market_nadezhda.relations.baker_fyodor, '빵을 산 거
 assert.equal(meals.length, 1, 'the seller should use the purchased bread for the scheduled evening meal');
 assert.equal(meals[0].hostId, 'market_nadezhda');
 assert.equal(meals[0].itemKo, '빵 한 묶음');
-assert.equal(meals[0].occurredAt, 1045, 'consumption happens after the seller physically reaches the meal location');
+assert.ok(meals[0].occurredAt >= 1045, 'consumption waits until the seller physically reaches the meal location; travel can delay the planned minute');
 assert.ok(meals[0].hungerAfter < meals[0].hungerBefore, 'the meal should relieve the resident hunger need');
 assert.equal(state.hosts.market_nadezhda.inventory.includes('빵 한 묶음'), false);
-assert.equal(state.hosts.market_nadezhda.needs.lastMealAtMinute, 1045);
+assert.equal(state.hosts.market_nadezhda.needs.lastMealAtMinute, meals[0].occurredAt, 'meal state records the physical arrival time');
 assert.ok(goals.some(goal => goal.hostId === 'baker_fyodor' && goal.type === 'FOLLOW_TRADE_PARTNER' && goal.targetHostId === 'market_nadezhda'), 'the baker should select and track the seller as a social trade goal');
 assert.ok(goals.some(goal => goal.hostId === 'market_nadezhda' && goal.type === 'NEED_MEAL' && goal.taskId === 'NADEZHDA_EVENING_BREAD_1847'), `the seller should select the meal location as a hunger-driven goal before eating; goals=${JSON.stringify(goals.filter(goal => goal.hostId === 'market_nadezhda'))}`);
 const loaded = game.loadGame(game.saveGame(state), { maps: mapTable, hostCards: cards });

@@ -65,6 +65,12 @@
           "exitId": "nevsky-market-gate",
           "toMapId": "market-quay",
           "districtTransition": true
+        },
+        {
+          "fromMapId": "nevsky",
+          "exitId": "nevsky-bookshop-lane",
+          "toMapId": "bookshop-lane",
+          "districtTransition": true
         }
       ],
       "sourceEvidence": [
@@ -92,10 +98,13 @@
       "prototypeStatus": "PHASE_1_PLAYABLE_PROTOTYPE",
       "districtType": "HOUSEHOLD_AND_SHARED_COURTYARD_RECONSTRUCTION",
       "mapIds": [
-        "courtyard"
+        "courtyard",
+        "inn-interior"
       ],
       "entryMapId": "courtyard",
-      "interiorMapIds": [],
+      "interiorMapIds": [
+        "inn-interior"
+      ],
       "residentIds": [
         "tenant_mikhail",
         "courier_pavel",
@@ -115,6 +124,18 @@
           "exitId": "courtyard-nevsky-gate",
           "toMapId": "nevsky",
           "districtTransition": true
+        },
+        {
+          "fromMapId": "courtyard",
+          "exitId": "courtyard-workyard",
+          "toMapId": "workyard",
+          "districtTransition": true
+        },
+        {
+          "fromMapId": "courtyard",
+          "exitId": "courtyard-inn",
+          "toMapId": "inn-interior",
+          "districtTransition": false
         }
       ],
       "sourceEvidence": [
@@ -142,10 +163,13 @@
       "prototypeStatus": "PHASE_1_PLAYABLE_PROTOTYPE",
       "districtType": "MARKET_AND_WATERFRONT_RECONSTRUCTION",
       "mapIds": [
-        "market-quay"
+        "market-quay",
+        "bakery-interior"
       ],
       "entryMapId": "market-quay",
-      "interiorMapIds": [],
+      "interiorMapIds": [
+        "bakery-interior"
+      ],
       "residentIds": [
         "yardkeeper_semyon",
         "laundress_mariya",
@@ -164,6 +188,18 @@
           "exitId": "market-nevsky-gate",
           "toMapId": "nevsky",
           "districtTransition": true
+        },
+        {
+          "fromMapId": "market-quay",
+          "exitId": "market-canal-road",
+          "toMapId": "canal-road",
+          "districtTransition": true
+        },
+        {
+          "fromMapId": "market-quay",
+          "exitId": "market-bakery",
+          "toMapId": "bakery-interior",
+          "districtTransition": false
         }
       ],
       "sourceEvidence": [
@@ -184,6 +220,156 @@
         }
       ],
       "gameTransformation": "A fictional, non-georeferenced market-and-landing scene. Stallholders and work conflicts are invented characters and do not assert a named 1847 address."
+    },
+    {
+      "id": "BOOKS_AND_READING",
+      "nameKo": "책방과 읽을거리 골목",
+      "mapIds": [
+        "bookshop-lane",
+        "bookshop-interior"
+      ],
+      "entryMapId": "bookshop-lane",
+      "interiorMapIds": [
+        "bookshop-interior"
+      ],
+      "residentIds": [
+        "bookseller_lev",
+        "reader_darya",
+        "student_vasily",
+        "teacher_lyubov"
+      ],
+      "sourceEvidence": [
+        {
+          "sourceId": "V36-GUIDE-PUSHKAREV-1843",
+          "sourceType": "PERIOD_TEXT",
+          "use": "도시의 시설과 상업을 조사하는 동시대 안내서. 개별 가게 주소는 검증 전까지 주장하지 않음."
+        },
+        {
+          "sourceId": "V36-PHYSIOLOGY-PETERSBURG-1845",
+          "sourceType": "PERIOD_TEXT",
+          "use": "독서·거리 생활의 문학적 참고 자료이며 대표 통계로 사용하지 않음."
+        }
+      ],
+      "gameTransformation": "가상 책방 골목과 점포 내부. 지도상 위치·주소와 개별 상인은 창작 재구성.",
+      "connections": [
+        {
+          "fromMapId": "bookshop-lane",
+          "exitId": "bookshop-lane-nevsky",
+          "toMapId": "nevsky",
+          "districtTransition": true
+        },
+        {
+          "fromMapId": "bookshop-lane",
+          "exitId": "bookshop-lane-bookshop",
+          "toMapId": "bookshop-interior"
+        }
+      ],
+      "prototypeStatus": "PHASE_2_PLAYABLE_DISTRICT"
+    },
+    {
+      "id": "CANAL_TRANSPORT",
+      "nameKo": "운하와 하역 길",
+      "mapIds": [
+        "canal-road"
+      ],
+      "entryMapId": "canal-road",
+      "interiorMapIds": [],
+      "residentIds": [
+        "carter_roman",
+        "coachman_timofey",
+        "porter_gavrila",
+        "warehouse_pyotr",
+        "fishseller_klavdiya",
+        "watercarrier_luka"
+      ],
+      "sourceEvidence": [
+        {
+          "sourceId": "V36-MAP-NLR-19C-PLANS",
+          "sourceType": "PERIOD_MAP",
+          "use": "수로와 도시의 넓은 맥락만 참고. 정확한 인게임 지점은 주장하지 않음."
+        },
+        {
+          "sourceId": "V36-ART-RUSSIAN-MUSEUM-COLLMANN-1840S",
+          "sourceType": "PERIOD_PAINTING",
+          "use": "운송·거리 활동의 시각 참고이며 개별 장면의 고증으로 제시하지 않음."
+        },
+        {
+          "sourceId": "V36-GUIDE-PUSHKAREV-1843",
+          "sourceType": "PERIOD_TEXT",
+          "use": "시설과 이동 수단 조사 범주 참고."
+        }
+      ],
+      "gameTransformation": "비지리 고정 가상 운송 지구. 특정 운하 구간·부두의 정확한 복원이 아님.",
+      "connections": [
+        {
+          "fromMapId": "canal-road",
+          "exitId": "canal-road-market",
+          "toMapId": "market-quay",
+          "districtTransition": true
+        }
+      ],
+      "prototypeStatus": "PHASE_2_PLAYABLE_DISTRICT"
+    },
+    {
+      "id": "HOUSEHOLD_WORKYARD",
+      "nameKo": "공동 뒤뜰의 일터",
+      "mapIds": [
+        "workyard",
+        "sewing-room",
+        "communal-room"
+      ],
+      "entryMapId": "workyard",
+      "interiorMapIds": [
+        "sewing-room",
+        "communal-room"
+      ],
+      "residentIds": [
+        "seamstress_anna",
+        "laundress_mariya",
+        "housemaid_olga",
+        "servant_varvara",
+        "yardkeeper_semyon",
+        "tenant_mikhail",
+        "landlady_polina",
+        "midwife_avdotya"
+      ],
+      "sourceEvidence": [
+        {
+          "sourceId": "V36-PHYSIOLOGY-PETERSBURG-1845",
+          "sourceType": "PERIOD_TEXT",
+          "use": "도시 주거·일상의 문학적 관찰이며 대표 통계가 아님."
+        },
+        {
+          "sourceId": "V36-GUIDE-PUSHKAREV-1843",
+          "sourceType": "PERIOD_TEXT",
+          "use": "도시 시설의 동시대 안내서. 특정 가구의 실내 배치를 입증하지 않음."
+        },
+        {
+          "sourceId": "V36-MAP-NLR-19C-PLANS",
+          "sourceType": "PERIOD_MAP",
+          "use": "도시 블록의 넓은 맥락만 참고하고 주소·건물은 창작함."
+        }
+      ],
+      "gameTransformation": "가상 뒤뜰과 공동 작업 공간. 이름 있는 실제 건물이나 세입자 구성의 복원이라는 주장은 없음.",
+      "connections": [
+        {
+          "fromMapId": "workyard",
+          "exitId": "workyard-courtyard",
+          "toMapId": "courtyard",
+          "districtTransition": true
+        },
+        {
+          "fromMapId": "workyard",
+          "exitId": "workyard-sewing",
+          "toMapId": "sewing-room"
+        },
+        {
+          "fromMapId": "workyard",
+          "exitId": "workyard-communal",
+          "toMapId": "communal-room"
+        }
+      ],
+      "prototypeStatus": "PHASE_2_PLAYABLE_DISTRICT"
     }
   ]
 }

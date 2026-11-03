@@ -122,7 +122,9 @@
     "nevsky",
     "courtyard",
     "printshop",
-    "police-station"
+    "police-station",
+    "workyard",
+    "sewing-room"
   ],
   "start": {
     "mapId": "nevsky",
@@ -188,12 +190,12 @@
     },
     {
       "atMinute": 900,
-      "mapId": "courtyard",
+      "mapId": "sewing-room",
       "position": {
         "x": 11,
-        "y": 13
+        "y": 14
       },
-      "activityKo": "수선 도구를 내려놓고 잠시 앉아 쉰다"
+      "activityKo": "새 생활권에서 맡은 일을 이어간다"
     }
   ],
   "portrait": {

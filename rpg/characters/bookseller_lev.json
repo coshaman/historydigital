@@ -123,7 +123,9 @@
     "nevsky",
     "printshop",
     "courtyard",
-    "police-station"
+    "police-station",
+    "bookshop-lane",
+    "bookshop-interior"
   ],
   "start": {
     "mapId": "nevsky",
@@ -172,12 +174,12 @@
     },
     {
       "atMinute": 660,
-      "mapId": "printshop",
+      "mapId": "bookshop-interior",
       "position": {
-        "x": 8,
-        "y": 15
+        "x": 11,
+        "y": 14
       },
-      "activityKo": "팔리지 않은 묶음의 외상값을 맞춘다"
+      "activityKo": "새 생활권에서 맡은 일을 이어간다"
     },
     {
       "atMinute": 720,

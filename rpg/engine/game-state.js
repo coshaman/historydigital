@@ -14,6 +14,21 @@ function nearTile(position, tile, maxDistance = 1) {
 }
 function objectTile(object) { return { x: Math.floor(object.x / 16), y: Math.floor(object.y / 16) }; }
 function clone(value) { return structuredClone(value); }
+function mapAccessFailure(map, host, absoluteMinute) {
+  const access = map?.metadata?.access;
+  if (!access) return null;
+  if (!host) return 'person_required';
+  if (Array.isArray(access.allowedCharacterIds) && !access.allowedCharacterIds.includes(host.id)) return 'host_lacks_access';
+  if (Array.isArray(access.allowedEstates) && !access.allowedEstates.includes(host.socialEstate)) return 'host_lacks_access';
+  if (Number.isInteger(access.opensMinute) && Number.isInteger(access.closesMinute)) {
+    const minute = ((absoluteMinute % 1440) + 1440) % 1440;
+    const open = access.opensMinute <= access.closesMinute
+      ? minute >= access.opensMinute && minute < access.closesMinute
+      : minute >= access.opensMinute || minute < access.closesMinute;
+    if (!open) return 'closed_hours';
+  }
+  return null;
+}
 function initialLearningState() {
   return { phase: 'circle-choice', circleLearning: null, lessonIndex: 0, examAnswers: {}, examOutcome: 'unset', examCorrectCount: null, promotionStatus: 'pending', timelineIndex: 0 };
 }
@@ -37,6 +52,7 @@ function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky
   const hosts = Object.fromEntries(hostCards.map(card => [card.id, {
     id: card.id,
     kind: card.kind,
+    socialEstate: card.socialEstate,
     mapId: card.start.mapId,
     position: { x: card.start.x, y: card.start.y },
     schedule: clone(card.schedule ?? []),
@@ -163,7 +179,7 @@ function mapExitObjects(map) {
   mapExitObjectCache.set(map, exits);
   return exits;
 }
-function npcMapRoute(startMapId, targetMapId, host, maps) {
+function npcMapRoute(startMapId, targetMapId, host, maps, absoluteMinute = 540) {
   if (startMapId === targetMapId) return [];
   const queue = [startMapId], prior = new Map([[startMapId, null]]);
   for (let cursor = 0; cursor < queue.length; cursor += 1) {
@@ -172,6 +188,7 @@ function npcMapRoute(startMapId, targetMapId, host, maps) {
     for (const exit of mapExitObjects(map)) {
       const nextId = exit.data.targetMapId, nextMap = maps?.[nextId];
       if (!nextMap || prior.has(nextId) || !host.allowedMaps.includes(nextId)) continue;
+      if (mapAccessFailure(nextMap, host, absoluteMinute)) continue;
       const currentLiterary = map.metadata?.mapClass === 'LITERARY_REALM', nextLiterary = nextMap.metadata?.mapClass === 'LITERARY_REALM';
       if (currentLiterary !== nextLiterary || (currentLiterary && map.metadata.realmId !== nextMap.metadata.realmId)) continue;
       prior.set(nextId, { previous: mapId, exit });
@@ -217,21 +234,22 @@ function plannedGridStep(state, host, map, goals, cacheKey, maps, reservedTiles,
   host.plannedPath = { key: cacheKey, tiles: remaining };
   return next;
 }
-function plannedMapRoute(host, targetMapId, maps) {
-  const key = `${host.mapId}>${targetMapId}:${host.allowedMaps.join('|')}`;
+function plannedMapRoute(host, targetMapId, maps, absoluteMinute) {
+  const accessPhase = host.allowedMaps.filter(id => maps?.[id]?.metadata?.access).map(id => `${id}:${mapAccessFailure(maps[id], host, absoluteMinute) ?? 'open'}`).join(',');
+  const key = `${host.mapId}>${targetMapId}:${host.allowedMaps.join('|')}:${accessPhase}`;
   if (host.mapRoutePlan?.key === key && Array.isArray(host.mapRoutePlan.route)) {
     return host.mapRoutePlan.route.map(step => {
       const exit = mapExitObjects(maps[step.fromMapId]).find(item => item.data.exitId === step.exitId);
       return exit ? { ...step, exit } : null;
     }).filter(Boolean);
   }
-  const route = npcMapRoute(host.mapId, targetMapId, host, maps);
+  const route = npcMapRoute(host.mapId, targetMapId, host, maps, absoluteMinute);
   host.mapRoutePlan = { key, route: route?.map(step => ({ fromMapId: step.fromMapId, toMapId: step.toMapId, exitId: step.exit.data.exitId })) ?? null };
   return route;
 }
 function nextNpcStep(state, host, slot, maps, reservedTiles) {
   if (host.mapId !== slot.mapId) {
-    const route = plannedMapRoute(host, slot.mapId, maps);
+    const route = plannedMapRoute(host, slot.mapId, maps, state.world.clockMinutes);
     if (!route?.length) return null;
     const { exit, toMapId } = route[0], fromMap = maps[host.mapId], toMap = maps[toMapId];
     const approach = exitApproachTiles(fromMap, exit.tile);
@@ -289,7 +307,7 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
   if (scheduledTask && ['DELIVER', 'EXCHANGE'].includes(scheduledTask.type) && host.routineTaskCompletedId !== scheduledTask.id && host.inventory.includes(scheduledTask.itemKo)) {
     const recipient = state.hosts[scheduledTask.recipientHostId];
     const canPay = scheduledTask.type !== 'EXCHANGE' || (Number.isInteger(scheduledTask.moneyAmount) && scheduledTask.moneyAmount > 0 && Number.isFinite(recipient?.money?.amount) && recipient.money.amount >= scheduledTask.moneyAmount);
-    if (recipient && canPay && recipient.id !== state.player.embodiment && recipient.historicalAliveAndPresent !== false && host.allowedMaps.includes(recipient.mapId) && npcMapRoute(host.mapId, recipient.mapId, host, maps) !== null) {
+    if (recipient && canPay && recipient.id !== state.player.embodiment && recipient.historicalAliveAndPresent !== false && host.allowedMaps.includes(recipient.mapId) && npcMapRoute(host.mapId, recipient.mapId, host, maps, state.world.clockMinutes) !== null) {
       return { slot: { ...scheduledSlot, mapId: recipient.mapId, position: { ...recipient.position } }, goalType: scheduledTask.type === 'DELIVER' ? 'FOLLOW_RECIPIENT' : 'FOLLOW_TRADE_PARTNER', targetHostId: recipient.id, taskId: scheduledTask.id, reason: 'social_action_tracks_recipient' };
     }
   }
@@ -577,6 +595,8 @@ function transitionMap(state, exitId, maps) {
   const host = hostId ? state.hosts[hostId] : null;
   if (!data.publicAccess && !hostId) return { ok: false, reason: 'person_required', state };
   if (hostId && (!host || !host.allowedMaps.includes(data.targetMapId))) return { ok: false, reason: 'host_lacks_access', state };
+  const accessFailure = mapAccessFailure(targetMap, host, state.world.clockMinutes);
+  if (accessFailure) return { ok: false, reason: accessFailure, state };
   const preferredArrival = { x: Number(data.arrivalX), y: Number(data.arrivalY) };
   if (!Number.isInteger(preferredArrival.x) || !Number.isInteger(preferredArrival.y)) return { ok: false, reason: 'invalid_arrival', state };
   const arrival = nearestOpenArrival(targetMap, preferredArrival, hostId, state.hosts);
@@ -917,9 +937,12 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
   for (const card of hostCards) {
     const host = state.hosts?.[card.id];
     if (host) {
+      host.socialEstate ??= card.socialEstate;
+      host.allowedMaps = [...new Set([...(host.allowedMaps ?? []), ...(card.allowedMaps ?? [])])];
       host.relations ??= {};
       for (const [otherId, description] of Object.entries(card.relations ?? {})) host.relations[otherId] ??= description;
-      host.schedule ??= clone(card.schedule ?? []);
+      const authoredMinutes = new Set((card.schedule ?? []).map(slot => slot.atMinute));
+      host.schedule = [...(host.schedule ?? []).filter(slot => !authoredMinutes.has(slot.atMinute)), ...clone(card.schedule ?? [])].sort((a,b) => a.atMinute - b.atMinute);
       host.situationNotes ??= [];
       host.activeGoal ??= null;
       host.needs ??= initialNpcNeeds(card, state.world.clockMinutes);

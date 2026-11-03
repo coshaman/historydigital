@@ -30,7 +30,7 @@
   "tileheight": 16,
   "infinite": false,
   "nextlayerid": 7,
-  "nextobjectid": 1100,
+  "nextobjectid": null,
   "properties": [
     {
       "name": "displayNameKo",
@@ -2924,6 +2924,110 @@
               "name": "questId",
               "type": "string",
               "value": "ROMAN_ROUTE_PRIORITY_1847_STAGE_1"
+            }
+          ]
+        },
+        {
+          "id": null,
+          "name": "운하 하역 길",
+          "type": "map-exit",
+          "x": 352,
+          "y": 144,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "exitId",
+              "type": "string",
+              "value": "market-canal-road"
+            },
+            {
+              "name": "targetMapId",
+              "type": "string",
+              "value": "canal-road"
+            },
+            {
+              "name": "arrivalX",
+              "type": "int",
+              "value": 11
+            },
+            {
+              "name": "arrivalY",
+              "type": "int",
+              "value": 14
+            },
+            {
+              "name": "returnExitId",
+              "type": "string",
+              "value": "canal-road-market"
+            },
+            {
+              "name": "publicAccess",
+              "type": "bool",
+              "value": true
+            },
+            {
+              "name": "doorId",
+              "type": "string",
+              "value": "door-market-canal-road"
+            },
+            {
+              "name": "districtId",
+              "type": "string",
+              "value": "CANAL_TRANSPORT"
+            }
+          ]
+        },
+        {
+          "id": null,
+          "name": "작은 빵 굽는 방 출입문",
+          "type": "map-exit",
+          "x": 304,
+          "y": 160,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "exitId",
+              "type": "string",
+              "value": "market-bakery"
+            },
+            {
+              "name": "targetMapId",
+              "type": "string",
+              "value": "bakery-interior"
+            },
+            {
+              "name": "arrivalX",
+              "type": "int",
+              "value": 11
+            },
+            {
+              "name": "arrivalY",
+              "type": "int",
+              "value": 14
+            },
+            {
+              "name": "returnExitId",
+              "type": "string",
+              "value": "bakery-market"
+            },
+            {
+              "name": "publicAccess",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "doorId",
+              "type": "string",
+              "value": "door-bakery-interior"
+            },
+            {
+              "name": "districtId",
+              "type": "string",
+              "value": "MARKET_QUAY"
             }
           ]
         }

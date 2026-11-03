@@ -112,7 +112,9 @@
   "allowedMaps": [
     "nevsky",
     "printshop",
-    "police-station"
+    "police-station",
+    "bookshop-lane",
+    "bookshop-interior"
   ],
   "start": {
     "mapId": "nevsky",

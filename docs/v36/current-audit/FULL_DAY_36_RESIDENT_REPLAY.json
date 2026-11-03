@@ -5,16 +5,16 @@
   "deterministicReplays": 3,
   "simulatedMinutes": 1440,
   "replayHashes": [
-    "89f382e2",
-    "89f382e2",
-    "89f382e2"
+    "9fd359ef",
+    "9fd359ef",
+    "9fd359ef"
   ],
   "collisionSnapshotsPerReplay": 288,
   "totalCollisionSnapshots": 864,
   "firstReplay": {
-    "movementSteps": 2421,
-    "districtTransitions": 118,
-    "goalEvents": 170,
+    "movementSteps": 2571,
+    "districtTransitions": 132,
+    "goalEvents": 172,
     "deliveries": 4,
     "exchanges": 2,
     "residentsWithDistinctAuthoredObjectives": 36,
@@ -107,7 +107,7 @@
       },
       "tenant_mikhail": {
         "mapId": "courtyard",
-        "x": 11,
+        "x": 9,
         "y": 13
       },
       "housemaid_olga": {
@@ -132,13 +132,13 @@
       },
       "landlady_polina": {
         "mapId": "courtyard",
-        "x": 20,
-        "y": 12
+        "x": 19,
+        "y": 13
       },
       "watercarrier_luka": {
         "mapId": "courtyard",
         "x": 13,
-        "y": 13
+        "y": 15
       },
       "servant_varvara": {
         "mapId": "courtyard",
@@ -162,8 +162,8 @@
       },
       "baker_fyodor": {
         "mapId": "market-quay",
-        "x": 13,
-        "y": 11
+        "x": 14,
+        "y": 12
       },
       "market_nadezhda": {
         "mapId": "market-quay",
@@ -197,11 +197,11 @@
       },
       "carter_roman": {
         "mapId": "market-quay",
-        "x": 17,
-        "y": 10
+        "x": 16,
+        "y": 11
       }
     }
   },
   "autoCompletedPlayerQuests": 0,
-  "runtimeMilliseconds": 27484
+  "runtimeMilliseconds": 25742
 }

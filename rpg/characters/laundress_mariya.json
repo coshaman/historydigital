@@ -110,7 +110,10 @@
   "allowedMaps": [
     "market-quay",
     "nevsky",
-    "courtyard"
+    "courtyard",
+    "bakery-interior",
+    "workyard",
+    "sewing-room"
   ],
   "start": {
     "mapId": "market-quay",

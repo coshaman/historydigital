@@ -112,7 +112,8 @@
     "courtyard",
     "market-quay",
     "printshop",
-    "chancery"
+    "chancery",
+    "inn-interior"
   ],
   "start": {
     "mapId": "courtyard",
@@ -168,12 +169,12 @@
     },
     {
       "atMinute": 960,
-      "mapId": "courtyard",
+      "mapId": "inn-interior",
       "position": {
-        "x": 7,
-        "y": 10
+        "x": 11,
+        "y": 14
       },
-      "activityKo": "숙박 날짜와 외상을 정산한다"
+      "activityKo": "새 생활권에서 맡은 일을 이어간다"
     }
   ],
   "portrait": {

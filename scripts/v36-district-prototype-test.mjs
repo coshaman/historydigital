@@ -8,12 +8,13 @@ import { resolveQuestGuidance } from '../rpg/engine/quest-guidance.mjs';
 
 const root = process.cwd();
 const readJson = async file => JSON.parse(await readFile(path.join(root, file), 'utf8'));
-const [registry, sourceRegister, maps, characterFiles] = await Promise.all([
+const [registry, sourceRegister, mapFiles, characterFiles] = await Promise.all([
   readJson('rpg/data/city-districts-v36.json'),
   readJson('docs/v36/historical-map-source-register.json'),
-  Promise.all(['nevsky','printshop','chancery','police-station','courtyard','market-quay','dead-souls','overcoat'].map(async id => [id, await readJson(`rpg/maps/${id}.json`)])),
+  readdir(path.join(root, 'rpg/maps')),
   readdir(path.join(root, 'rpg/characters')),
 ]);
+const maps = await Promise.all(mapFiles.filter(file => file.endsWith('.json')).map(async file => { const map=await readJson(`rpg/maps/${file}`); return [map.mapId,map]; }));
 const mapById = new Map(maps);
 const sourceById = new Map(sourceRegister.sources.map(source => [source.sourceId, source]));
 const registeredLegacyIds = new Set(sourceRegister.sources.flatMap(source => source.legacySourceIds ?? []));
@@ -40,10 +41,10 @@ function walkTo(state, map, target) {
   return null;
 }
 
-test('the three city-life prototypes are connected and clearly distinct from literary maps', () => {
-  assert.equal(registry.districts.length, 3);
+test('the six city-life districts are connected and clearly distinct from literary maps', () => {
+  assert.equal(registry.districts.length, 6);
   const districtIds = new Set(registry.districts.map(district => district.id));
-  assert.deepEqual([...districtIds], ['NEVSKY_COMMERCIAL','COURTYARD_HOUSEHOLD','MARKET_QUAY']);
+  assert.deepEqual([...districtIds], ['NEVSKY_COMMERCIAL','COURTYARD_HOUSEHOLD','MARKET_QUAY','BOOKS_AND_READING','CANAL_TRANSPORT','HOUSEHOLD_WORKYARD']);
   for (const district of registry.districts) {
     assert.ok(district.mapIds.length > 0);
     assert.ok(district.residentIds.length > 0);
@@ -56,8 +57,11 @@ test('the three city-life prototypes are connected and clearly distinct from lit
   }
   const links = registry.districts.flatMap(district => district.connections.filter(link => link.districtTransition));
   assert.deepEqual(links.map(link => `${link.fromMapId}:${link.exitId}->${link.toMapId}`).sort(), [
-    'courtyard:courtyard-nevsky-gate->nevsky', 'market-quay:market-nevsky-gate->nevsky',
-    'nevsky:nevsky-courtyard-gate->courtyard', 'nevsky:nevsky-market-gate->market-quay',
+    'bookshop-lane:bookshop-lane-nevsky->nevsky','canal-road:canal-road-market->market-quay',
+    'courtyard:courtyard-nevsky-gate->nevsky','courtyard:courtyard-workyard->workyard',
+    'market-quay:market-canal-road->canal-road','market-quay:market-nevsky-gate->nevsky',
+    'nevsky:nevsky-bookshop-lane->bookshop-lane','nevsky:nevsky-courtyard-gate->courtyard','nevsky:nevsky-market-gate->market-quay',
+    'workyard:workyard-courtyard->courtyard',
   ]);
   for (const link of links) {
     const exit = mapById.get(link.fromMapId).layers.find(layer => layer.name === 'Interactions').objects
@@ -128,7 +132,7 @@ test('a player can physically traverse the declared district connection in both 
 
 test('every prototype source label names its evidence class and reconstruction limits', () => {
   for (const district of registry.districts) {
-    assert.match(district.gameTransformation, /fictional|stylized|reconstruct/i);
+    assert.match(district.gameTransformation, /fictional|stylized|reconstruct|가상|창작 재구성/i);
     assert.ok(district.sourceEvidence.length >= 2);
     for (const source of district.sourceEvidence) {
       assert.ok(['PERIOD_MAP','PERIOD_PAINTING','PERIOD_PRINT','PERIOD_TEXT','LATER_REFERENCE','MODERN_SCHOLARSHIP','CREATIVE_RECONSTRUCTION'].includes(source.sourceType));

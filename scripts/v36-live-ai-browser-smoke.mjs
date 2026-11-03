@@ -78,7 +78,7 @@ try {
   const reply = page.locator('#actions button').filter({ hasText: question }).first();
   await reply.waitFor({ state: 'visible', timeout: 6000 });
   await reply.click();
-  await page.waitForFunction(() => /AI 답변 ·|AI 응답 생성 실패|AI 연결 실패/.test(document.querySelector('#record')?.textContent ?? ''), null, { timeout: 30000 });
+  await page.waitForFunction(() => /AI 생성 답변 ·|AI 응답 생성 실패|AI 연결 실패/.test(document.querySelector('#record')?.textContent ?? ''), null, { timeout: 30000 });
   const visibleResult = await page.evaluate(() => ({
     status: document.querySelector('#record')?.textContent ?? '',
     answer: document.querySelector('#journal-text')?.textContent ?? '',
@@ -94,7 +94,7 @@ try {
     };
   });
   const result = { status: visibleResult.status, generatedAnswerVisible: Boolean(visibleResult.answer.trim()) && !/생성 답변을 받지 못했습니다/.test(visibleResult.answer), answerLength: visibleResult.answer.length, ...storedResult };
-  assert.match(result.status, /^AI 답변 ·/, `player question must display the generated model answer: ${JSON.stringify({ status: result.status, apiCalls })}`);
+  assert.match(result.status, /^AI 생성 답변 ·/, `player question must display the generated model answer: ${JSON.stringify({ status: result.status, apiCalls })}`);
   assert.equal(result.generatedAnswerVisible, true);
   assert.equal(result.aiGeneratedEvent, true, 'the displayed response must be recorded as generated');
   assert.equal(result.recordedHost, 'printer_ekaterina');

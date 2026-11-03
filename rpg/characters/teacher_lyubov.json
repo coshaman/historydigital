@@ -112,7 +112,10 @@
     "courtyard",
     "market-quay",
     "printshop",
-    "chancery"
+    "chancery",
+    "bookshop-lane",
+    "bookshop-interior",
+    "inn-interior"
   ],
   "start": {
     "mapId": "courtyard",
@@ -160,12 +163,12 @@
     },
     {
       "atMinute": 780,
-      "mapId": "market-quay",
+      "mapId": "bookshop-interior",
       "position": {
-        "x": 18,
+        "x": 11,
         "y": 14
       },
-      "activityKo": "종이값과 다음 수업 시간을 맞춘다"
+      "activityKo": "새 생활권에서 맡은 일을 이어간다"
     },
     {
       "atMinute": 960,

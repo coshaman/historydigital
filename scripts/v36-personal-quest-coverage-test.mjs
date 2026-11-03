@@ -34,7 +34,10 @@ for (const [chainId, stages] of residentChains) {
   assert.equal(stages.length, stages[0].lifeChain.stageCount, `${chainId} must include every authored stage`);
   assert.deepEqual(stages.map(stage => stage.lifeChain.stage).sort((a,b) => a-b), Array.from({length:stages.length},(_,i)=>i+1), `${chainId} stages must be sequential`);
   for (const stage of stages) assert.ok(stage.actions.every(action => action.hostIds?.includes(stage.entry.requiredHostId)), `${stage.id} must remain playable by its assigned resident`);
-  for (const stage of stages.slice(1)) assert.ok(stage.prerequisiteQuestIds?.includes(stages.find(previous => previous.lifeChain.stage === stage.lifeChain.stage - 1)?.id), `${stage.id} must require its prior physical choice`);
+  for (const stage of stages.slice(1)) {
+    const previous = stages.find(item => item.lifeChain.stage === stage.lifeChain.stage - 1);
+    assert.equal(stage.lifeChain.previousQuestId, previous.id, `${stage.id} life-chain progression names its previous stage`);
+  }
 }
 
 const followupChains = [];
@@ -61,6 +64,11 @@ for (const stages of residentChains.values()) {
   state = result.state;
   guidance = resolveQuestGuidance({ state, quests, maps, hostCards: cards });
   assert.equal(guidance.questId, first.id, `${first.id} should appear immediately after its prerequisite`);
+  const secondStage = stages.find(stage => stage.lifeChain.stage === 2);
+  const secondObject = maps[secondStage.entry.mapId].layers.find(layer => layer.name === 'Interactions').objects.find(item => item.id === secondStage.entry.objectId);
+  const premature = game.performQuestAction(state, { questId: secondStage.id, hostId: secondStage.entry.requiredHostId, actionId: secondStage.actions[0].id, objectId: secondObject.id }, { quests, maps });
+  assert.equal(premature.ok, false, `${secondStage.id} cannot be selected before the prior stage choice`);
+  assert.equal(premature.reason, 'quest_chain_locked');
   for (const stage of stages.sort((a,b) => a.lifeChain.stage - b.lifeChain.stage)) {
     state.world.currentMapId = stage.entry.mapId;
     state.player.embodiment = stage.entry.requiredHostId;
