@@ -96,7 +96,7 @@
       "canvas": {
         "width": 1382,
         "height": 355,
-        "sampledColors": 20,
+        "sampledColors": 26,
         "mapCoverage": 0.8668596237337193,
         "cssTileScale": 2.879166666666667
       },
@@ -120,7 +120,7 @@
     "clueInspected": "PRINTSHOP_ROUTING_NOTE",
     "sourceRead": true,
     "sourceReaderScroll": {
-      "scrollHeight": 449,
+      "scrollHeight": 893,
       "clientHeight": 335
     },
     "choiceResolved": true,

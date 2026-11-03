@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { createRequire } from 'node:module';
 import { chromium } from 'playwright';
 import { summarizeExplorationCoverage } from './v33-exploration-coverage.mjs';
 
@@ -16,7 +17,10 @@ const goExit = async (page, destination) => {
   await page.keyboard.press('e');
   const exitChoice = page.locator('#actions button').filter({ hasText: `문을 지나 ${destination}로` });
   if (await exitChoice.count()) await exitChoice.first().click();
-  await page.waitForFunction(expected => document.querySelector('#mapname')?.textContent === expected, destination);
+  await page.locator('#save').click();
+  const targetMapId = { '관청 접수실': 'chancery', '네프스키 거리': 'nevsky', '하숙집 안뜰': 'courtyard', '네프스키 인쇄소': 'printshop' }[destination];
+  try { await page.waitForFunction(expected => JSON.parse(localStorage.getItem('v33-rpg-save') || 'null')?.state?.world?.currentMapId === expected, targetMapId, { timeout: 8000 }); }
+  catch { throw new Error(`Could not transition through ${destination}: ${JSON.stringify(await page.evaluate(() => { const saved=JSON.parse(localStorage.getItem('v33-rpg-save')||'null'); return {mapId:saved?.state?.world?.currentMapId,position:saved?.state?.player?.position,embodiment:saved?.state?.player?.embodiment,headline:document.querySelector('#headline')?.textContent,record:document.querySelector('#record')?.textContent,actions:[...document.querySelectorAll('#actions button')].map(button=>button.innerText)}; }))}`); }
 };
 const moveKey = async (page, key) => { await page.keyboard.press(key); await page.waitForTimeout(380); };
 
@@ -27,11 +31,20 @@ for (const viewport of (quickMode ? [{ width: 1440, height: 900 }] : [{ width: 1
   page.setDefaultTimeout(8000);
   const errors = [];
   page.on('pageerror', error => errors.push(String(error)));
-  await page.goto(base, { waitUntil: 'networkidle' });
+  await page.goto(base, { waitUntil: 'domcontentloaded' });
   await page.evaluate(() => localStorage.clear());
-  await page.reload({ waitUntil: 'networkidle' });
+  // The animated street deliberately keeps requestAnimationFrame active, so
+  // waiting for networkidle can time out despite a fully restored game.
+  await page.reload({ waitUntil: 'domcontentloaded' });
   await page.waitForSelector('#world');
-  await page.waitForFunction(() => document.querySelector('#source-drawer-open') && document.querySelector('#world').width > 300);
+  await page.waitForFunction(() => {
+    const canvas = document.querySelector('#world');
+    if (!document.querySelector('#source-drawer-open') || !canvas || canvas.width <= 300) return false;
+    const context = canvas.getContext('2d'), row = Math.floor(canvas.height / 2);
+    let scenePixels = 0;
+    for (let x = 0; x < canvas.width; x += 1) { const pixel = context.getImageData(x, row, 1, 1).data; if (pixel[0] !== 98 || pixel[1] !== 86 || pixel[2] !== 75) scenePixels += 1; }
+    return scenePixels / canvas.width >= 0.7;
+  });
   const initialCanvas = await page.evaluate(() => {
     const canvas = document.querySelector('#world'), ctx = canvas.getContext('2d'), colors = new Set();
     for (let y = 1; y <= 8; y++) for (let x = 1; x <= 8; x++) {
@@ -63,8 +76,9 @@ for (const viewport of (quickMode ? [{ width: 1440, height: 900 }] : [{ width: 1
   if (!clueText.includes('등불 둘') || !clueText.includes('뒤문')) throw new Error(`Pavel clue copy did not appear: ${clueText}`);
   await page.locator('#save').click();
   if (await page.locator('#load').isDisabled()) throw new Error(`Load control remained disabled immediately after saving at ${viewport.width}`);
-  await page.reload({ waitUntil: 'networkidle' });
+  await page.reload({ waitUntil: 'domcontentloaded' });
   await page.waitForSelector('#journal-text');
+  await page.locator('#journal-text').getByText('등불 둘', { exact: false }).waitFor({ timeout: 10000 });
   const restoredJournal = await page.locator('#journal-text').innerText();
   if (!restoredJournal.includes('등불 둘') || !restoredJournal.includes('뒤문')) {
     const diagnosis = await page.evaluate(() => ({ headline: document.querySelector('#headline').textContent, text: document.querySelector('#journal-text').textContent, record: document.querySelector('#record').textContent, hasSave: Boolean(localStorage.getItem('v33-rpg-save')), savedLedgerTail: JSON.parse(localStorage.getItem('v33-rpg-save') || 'null')?.state?.ledger?.slice(-3) }));
@@ -118,8 +132,8 @@ for (const viewport of (quickMode ? [{ width: 1440, height: 900 }] : [{ width: 1
       const current = await page.evaluate(() => JSON.parse(localStorage.getItem('v33-rpg-save')).state);
       const actor = current.player.embodiment ? current.hosts[current.player.embodiment] : current.player;
       const target = hostId ? current.hosts[hostId].position : targetPosition;
-      if (current.world.currentMapId !== targetMapId || (hostId && current.hosts[hostId].mapId !== targetMapId)) throw new Error(`Target left ${targetMapId}`);
-      const withinReach = position => Math.abs(actor.position.x-position.x)+Math.abs(actor.position.y-position.y) <= (hostId ? 2 : 1);
+      if (current.world.currentMapId !== targetMapId || (hostId && current.hosts[hostId].mapId !== targetMapId)) throw new Error(`Target left ${targetMapId}: currentMap=${current.world.currentMapId}, targetMap=${current.hosts[hostId]?.mapId}`);
+      const withinReach = position => Math.abs(actor.position.x-position.x)+Math.abs(actor.position.y-position.y) <= 1;
       if (withinReach(target)) return;
       const queue = [{ x: actor.position.x, y: actor.position.y, path: [] }], seen = new Set([`${actor.position.x},${actor.position.y}`]);
       let route = null;
@@ -159,9 +173,18 @@ for (const viewport of (quickMode ? [{ width: 1440, height: 900 }] : [{ width: 1
     explorationEvents.push({ type: 'possess', hostId });
   };
   page.on('pageerror', error => errors.push(String(error)));
-  await page.goto(base, { waitUntil: 'networkidle' });
+  await page.goto(base, { waitUntil: 'domcontentloaded' });
   await page.evaluate(() => localStorage.clear());
-  await page.reload({ waitUntil: 'networkidle' });
+  await page.reload({ waitUntil: 'domcontentloaded' });
+  await page.waitForFunction(() => {
+    const canvas = document.querySelector('#world');
+    if (!canvas || canvas.width < 300) return false;
+    const context = canvas.getContext('2d'), colors = new Set();
+    for (let i = 1; i <= 8; i += 1) colors.add([...context.getImageData(Math.floor(canvas.width * i / 9), Math.floor(canvas.height / 2), 1, 1).data].join(','));
+    let scenePixels = 0;
+    for (let x = 0; x < canvas.width; x += 1) { const pixel = context.getImageData(x, Math.floor(canvas.height / 2), 1, 1).data; if (pixel[0] !== 98 || pixel[1] !== 86 || pixel[2] !== 75) scenePixels += 1; }
+    return colors.size >= 4 && scenePixels / canvas.width >= 0.7;
+  });
   await move('ArrowDown');
   await move('ArrowLeft', 5);
   await move('ArrowUp', 4);
@@ -169,7 +192,7 @@ for (const viewport of (quickMode ? [{ width: 1440, height: 900 }] : [{ width: 1
   if (!(await page.locator('#source-reader').isVisible())) {
     const sourceOption = page.locator('#actions button').filter({ hasText: '자료 읽기' });
     if (!(await sourceOption.count())) {
-      const observed = await page.evaluate(() => ({ place: document.querySelector('#place').textContent, headline: document.querySelector('#headline').textContent, actions: [...document.querySelectorAll('#actions button')].map(button => button.innerText), record: document.querySelector('#record').textContent }));
+      const observed = await page.evaluate(() => ({ place: document.querySelector('#place').textContent, headline: document.querySelector('#headline').textContent, actions: [...document.querySelectorAll('#actions button')].map(button => button.innerText), record: document.querySelector('#record').textContent, player: JSON.parse(localStorage.getItem('v33-rpg-save') || 'null')?.state?.player }));
       throw new Error(`Expected the source or its readable menu option after the physical path: ${JSON.stringify(observed)}`);
     }
     await sourceOption.first().click();
@@ -196,15 +219,19 @@ for (const viewport of (quickMode ? [{ width: 1440, height: 900 }] : [{ width: 1
   await inspect();
   await page.getByRole('heading', { name: '돌 틈에 낀 쪽지' }).waitFor();
   explorationEvents.push({ type: 'inspect' });
-  await page.locator('#release').click();
+  // The printshop door is explicitly access-controlled by Pavel's courier role;
+  // keep his embodiment until the door transition, then switch to Ekaterina inside.
   await move('ArrowRight', 10);
   await move('ArrowUp', 8);
-  await inspect();
-  await page.getByText('네프스키 인쇄소', { exact: true }).first().waitFor();
+  await goExit(page, '네프스키 인쇄소');
   explorationEvents.push({ type: 'inspect' }, { type: 'map_transition' });
+  await page.locator('#release').click();
+  await page.locator('#save').click();
+  await approachTile(null, 'printshop', 'printer_ekaterina');
   await inspect();
   const ekaterinaChoice = page.locator('#actions button').filter({ hasText: '예카테리나 벨로바 살펴보기' });
-  if (await ekaterinaChoice.count()) await ekaterinaChoice.first().click();
+  if (!(await ekaterinaChoice.count())) throw new Error(`Ekaterina was not in interaction range: ${JSON.stringify(await page.evaluate(() => { const saved=JSON.parse(localStorage.getItem('v33-rpg-save')||'null'); return {mapId:saved?.state?.world?.currentMapId,player:saved?.state?.player?.position,embodiment:saved?.state?.player?.embodiment,host:saved?.state?.hosts?.printer_ekaterina,headline:document.querySelector('#headline')?.textContent,actions:[...document.querySelectorAll('#actions button')].map(button=>button.innerText)}; }))}`);
+  await ekaterinaChoice.first().click();
   await page.getByRole('button', { name: '몸을 빌린다' }).waitFor();
   explorationEvents.push({ type: 'inspect' });
   await possess('printer_ekaterina');
@@ -237,13 +264,25 @@ for (const viewport of (quickMode ? [{ width: 1440, height: 900 }] : [{ width: 1
   const page = await context.newPage();
   const errors = [];
   page.on('pageerror', error => errors.push(String(error)));
-  await page.goto(base, { waitUntil: 'networkidle' });
-  await page.evaluate(() => localStorage.clear());
-  await page.reload({ waitUntil: 'networkidle' });
-  await moveKey(page, 'ArrowDown');
-  for (let step = 0; step < 7; step++) await moveKey(page, 'ArrowLeft');
-  for (let step = 0; step < 8; step++) await moveKey(page, 'ArrowUp');
+  const require = createRequire(import.meta.url);
+  const engine = require('../rpg/engine/game-state.js');
+  const readData = relative => JSON.parse(fs.readFileSync(path.join(root, relative), 'utf8'));
+  const maps = Object.fromEntries(fs.readdirSync(path.join(root, 'rpg/maps')).filter(file => file.endsWith('.json')).map(file => [file.slice(0, -5), readData(`rpg/maps/${file}`)]));
+  const hostCards = fs.readdirSync(path.join(root, 'rpg/characters')).filter(file => file.endsWith('.json')).map(file => readData(`rpg/characters/${file}`));
+  const quests = fs.readdirSync(path.join(root, 'rpg/quests')).filter(file => file.endsWith('.json') && file !== 'campaign.json').map(file => readData(`rpg/quests/${file}`));
+  const prepared = engine.createInitialState({ maps, hostCards, quests });
+  prepared.player.position = { x: 5, y: 8 };
+  prepared.hosts.street_vendor_matryona.position = { x: 4, y: 8 };
+  const enteredAsVendor = engine.possessHost(prepared, 'street_vendor_matryona', maps.nevsky);
+  if (!enteredAsVendor.ok) throw new Error(`Could not prepare the authorized chancery-route fixture: ${enteredAsVendor.reason}`);
+  await page.goto(base, { waitUntil: 'domcontentloaded' });
+  const officeRouteSave = engine.saveGame(enteredAsVendor.state);
+  await page.evaluate(save => { localStorage.clear(); localStorage.setItem('v33-rpg-save', save); }, officeRouteSave);
+  await page.reload({ waitUntil: 'domcontentloaded' });
+  await page.waitForFunction(() => document.querySelector('#bodyname')?.textContent.includes('마트료나'));
   await goExit(page, '관청 접수실');
+  await page.locator('#release').click();
+  await page.locator('#save').click();
   await page.keyboard.press('e');
   await page.locator('#actions button').filter({ hasText: '알렉세이 오를로프 살펴보기' }).click();
   await page.getByRole('button', { name: '몸을 빌린다' }).click();

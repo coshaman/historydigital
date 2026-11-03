@@ -1315,7 +1315,9 @@ async function startConversation(card) {
 async function sendConversation(card, playerText, replyId = null) {
   const key = activeDialogueKey;
   const generation = dialogueGeneration;
-  if (activeDialogueHost !== card.id || !key || dialogueRequestPending || state.player.embodiment === card.id || nearbyConversationPartner()?.id !== card.id) return;
+  // Proximity is checked when the conversation opens. Keep the opened turn
+  // usable if a resident's ambient movement carries them a tile away.
+  if (activeDialogueHost !== card.id || !key || dialogueRequestPending || state.player.embodiment === card.id) return;
   const intentClass = classifyTypedResponse(playerText);
   const actorCard = cards.find(item => item.id === state.player.embodiment);
   const liveDiscussionQuests = currentDiscussionQuests();

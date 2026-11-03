@@ -14,10 +14,13 @@ test('API diagnostics persist only bounded, redacted endpoint error metadata', (
   assert.equal(Object.hasOwn(entries[0], 'playerInput'), false);
   appendApiDiagnostic(storage, { endpoint: '/api/rpg/dialogue', kind: 'http_error', status: 401, code: 'invalid_session' });
   appendApiDiagnostic(storage, { endpoint: '/api/rpg/dialogue', kind: 'client_error', code: 'client_response_invalid' });
+  appendApiDiagnostic(storage, { endpoint: '/api/rpg/dialogue', kind: 'provider_error', status: 200, code: 'response_schema_invalid' });
   const raw = storage.getItem(API_DIAGNOSTICS_KEY);
   assert.doesNotMatch(raw, /token|playerInput|secret|prompt/);
-  assert.equal(readApiDiagnostics(storage).length, 3);
-  assert.equal(readApiDiagnostics(storage)[0].kind, 'client_error');
+  assert.equal(readApiDiagnostics(storage).length, 4);
+  assert.equal(readApiDiagnostics(storage)[0].code, 'response_schema_invalid');
+  assert.equal(readApiDiagnostics(storage)[0].kind, 'provider_error');
+  assert.equal(readApiDiagnostics(storage)[1].kind, 'client_error');
   for (let i = 0; i < API_DIAGNOSTICS_LIMIT + 7; i += 1) appendApiDiagnostic(storage, { endpoint: '/api/rpg/health', kind: 'health_error', status: 503, code: 'health_unavailable' });
   assert.equal(readApiDiagnostics(storage).length, API_DIAGNOSTICS_LIMIT);
 });

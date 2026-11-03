@@ -69,8 +69,8 @@
       "questChangedByConversation": false,
       "documentWidth": 390,
       "input": {
-        "top": 599.953125,
-        "bottom": 653.953125,
+        "top": 581.34375,
+        "bottom": 635.34375,
         "visible": true
       },
       "inputOverlapsControls": false,
@@ -94,8 +94,8 @@
       "questChangedByConversation": false,
       "documentWidth": 360,
       "input": {
-        "top": 558.9375,
-        "bottom": 612.9375,
+        "top": 539.9375,
+        "bottom": 593.9375,
         "visible": true
       },
       "inputOverlapsControls": false,

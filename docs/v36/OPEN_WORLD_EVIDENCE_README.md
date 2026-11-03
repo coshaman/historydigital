@@ -18,6 +18,7 @@ This package contains the V36 playable source, 36 resident records and art, conn
 ## Reproduce the main checks
 
 ```powershell
+npm run acceptance:v36
 npm run check
 npm run perf
 npm run mobile
@@ -32,5 +33,7 @@ npm run v36-visual-kit
 npm run real-build-browser
 npm run v36-live-ai-browser
 ```
+
+`acceptance:v36` is the required integrated gate from `CODEX_V36_OPEN_WORLD_PETERSBURG_GOAL.md`. It rebuilds `dist-v33`, runs V35 regression and V36 roster/map/simulation/content/AI-safety/ending/browser checks, writes `docs/v36/ACCEPTANCE.json`, then regenerates the evidence ZIP. It temporarily serves the local app on `127.0.0.1:4173` for browser suites and clears `OPENAI_API_KEY` for the checks, so the gate never makes a billable provider request. A live AI generation check remains a separate, explicit command.
 
 The live AI check performs one real model generation using the ignored local `.env.local` file and records only status, length, and metadata. It never saves the reply or credential. The archive excludes `.env*` files (except `.env.example`), `node_modules`, build output, and Git data. For Vercel, add `OPENAI_API_KEY` as a Sensitive Production variable (and Preview if needed), then redeploy. The health endpoint verifies key configuration only; a successful dialogue request and the `AI 생성 답변` label confirm actual generation. On provider failure, the game shows an actionable error and retry; it does not substitute offline dialogue.

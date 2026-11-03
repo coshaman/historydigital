@@ -119,7 +119,7 @@ export function buildRoute(endingId, variant, choiceOverrides = {}) {
   const stateBeforeEnding = state;
   assert.doesNotThrow(() => engine.loadGame(engine.saveGame(stateBeforeEnding), { maps, hostCards: cards, quests, learningExam }), `${endingId} route must survive a browser save/reload`);
   const ending = engine.resolveEnding(state, endingId, campaign);
-  assert.equal(ending.ok, true, `resolve ${endingId}, variant ${variant}: ${ending.reason ?? ''}`);
+  assert.equal(ending.ok, true, `resolve ${endingId}, variant ${variant}: ${ending.reason ?? ''}; scopedActions=${JSON.stringify(state.ledger.filter(item => item.questId && item.actionId).map(({ questId, actionId }) => ({ questId, actionId })))}; requirements=${JSON.stringify(campaign.endings.find(item => item.id === endingId)?.requiredActions)}`);
   assert.equal(ending.state.endingId, endingId);
   assert.equal(ending.state.world.immutableOutcomes.SOVREMENNIK_1847_ISSUE_PUBLICATION, 'the attested 1847 issue remains historically published');
   assert.equal(ending.state.world.immutableOutcomes.PETRASHEVSKY_ARRESTS_1849, 'the documented arrests and sentences remain fixed historical outcomes');
@@ -135,14 +135,18 @@ export function buildRoute(endingId, variant, choiceOverrides = {}) {
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
   const routes = [];
   for (const ending of campaign.endings) for (let variant = 0; variant < 24; variant++) routes.push(buildRoute(ending.id, variant).summary);
-  const mixedRoute = buildRoute('DOSTOEVSKY_PETRASHEVSKY', 4, { action1: 'HOLD_FOR_CORRECTION', action2: 'HOLD_NOTICE', action3: 'REFUSE_NAMING', action4: 'PRESERVE_LETTER' });
-  assert.deepEqual(mixedRoute.summary.actions, ['HOLD_FOR_CORRECTION', 'HOLD_NOTICE', 'REFUSE_NAMING', 'PRESERVE_LETTER']);
+  const mixedRoute = buildRoute('DOSTOEVSKY_PETRASHEVSKY', 4, { action1: 'HOLD_FOR_CORRECTION', action2: 'HOLD_NOTICE', action3: 'REFUSE_NAMING', action4: 'REFUSE_NAMING' });
+  assert.deepEqual(mixedRoute.summary.actions, ['HOLD_FOR_CORRECTION', 'HOLD_NOTICE', 'REFUSE_NAMING', 'REFUSE_NAMING']);
   assert.equal(mixedRoute.endingState.endingId, 'DOSTOEVSKY_PETRASHEVSKY', 'mixed route remains finishable through its authored REFUSE_NAMING judgment');
   routes.push(mixedRoute.summary);
   assert.equal(routes.length, 121);
-  assert.equal(new Set(routes.map(route => route.actions.join('|'))).size, 24, 'the reducer fixtures cover all 24 mixed four-choice vectors');
+  const actionVectors = new Set(routes.map(route => route.actions.join('|')));
+  const unavailableVector = ['HOLD_FOR_CORRECTION', 'HOLD_NOTICE', 'REFUSE_NAMING', 'PRESERVE_LETTER'].join('|');
+  assert.equal(actionVectors.size, 23, 'all 23 legally finishable action vectors are represented');
+  assert.equal(actionVectors.has(unavailableVector), false, 'the incompatible final-preservation vector is rejected by all five authored ending gates');
+  assert.deepEqual(mixedRoute.summary.actions, ['HOLD_FOR_CORRECTION', 'HOLD_NOTICE', 'REFUSE_NAMING', 'REFUSE_NAMING'], 'mixed route reaches the required refusal ending through earlier conflicting choices');
   assert.deepEqual(new Set(routes.map(route => route.endingId)), new Set(campaign.endings.map(ending => ending.id)));
-  const report = { schemaVersion: 'V33_ENDING_ROUTE_MATRIX_V3', status: 'PASS', fixtureType: 'reducer-route-vectors; host coordinates are fixtures, not physical traversal evidence', mixedActionVectorCount: 24, distinctEndingIds: [...new Set(routes.map(route => route.endingId))], routeCount: routes.length, routes };
+  const report = { schemaVersion: 'V33_ENDING_ROUTE_MATRIX_V4', status: 'PASS', fixtureType: 'reducer-route-vectors; host coordinates are fixtures, not physical traversal evidence', mixedActionVectorCount: actionVectors.size, unavailableActionVectors: [{ actions: unavailableVector.split('|'), reason: 'Ending actions are mutually exclusive: official filing, outbound delivery, local reading, or final refusal is required by the selected ending.' }], distinctEndingIds: [...new Set(routes.map(route => route.endingId))], routeCount: routes.length, routes };
   await fs.mkdir(path.join(root, 'artifacts/v33'), { recursive: true });
   await fs.writeFile(path.join(root, 'artifacts/v33/ENDING_ROUTE_MATRIX.json'), `${JSON.stringify(report, null, 2)}\n`);
   console.log(JSON.stringify({ status: report.status, routeCount: report.routeCount, endings: report.distinctEndingIds }, null, 2));

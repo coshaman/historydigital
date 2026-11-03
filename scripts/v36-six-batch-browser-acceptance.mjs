@@ -31,15 +31,22 @@ try{
     const quest=quests.find(item=>item.id===questId);assert.ok(quest,`${questId} is in the loaded content`);assert.equal(quest.entry.requiredHostId,hostId);
     assert.ok(!quest.prerequisiteQuestIds?.length,'sample quest should be available without hidden previous steps');
     const map=maps[quest.entry.mapId],object=map.layers.find(layer=>layer.name==='Interactions').objects.find(item=>item.id===quest.entry.objectId);assert.ok(object);
-    let state=game.createInitialState({maps,hostCards,quests,startMapId:quest.entry.mapId});state.world.currentMapId=quest.entry.mapId;state.player.embodiment=hostId;
-    state.hosts[hostId].mapId=quest.entry.mapId;state.player.position={x:Math.floor(object.x/16)-1,y:Math.floor(object.y/16)};state.hosts[hostId].position={...state.player.position};
+    let state=game.createInitialState({maps,hostCards,quests,startMapId:quest.entry.mapId});state.world.currentMapId=quest.entry.mapId;
+    state.player.position={x:Math.floor(object.x/16)-2,y:Math.floor(object.y/16)};
+    state.hosts[hostId].mapId=quest.entry.mapId;state.hosts[hostId].position={x:Math.floor(object.x/16)-1,y:Math.floor(object.y/16)};
+    if(quest.socialChain){const partner=state.hosts[quest.socialChain.partnerHostId];assert.ok(partner,`${questId} social partner exists`);partner.mapId=quest.entry.mapId;partner.position={x:state.hosts[hostId].position.x,y:state.hosts[hostId].position.y+1};}
+    const possession=game.possessHost(state,hostId,maps[quest.entry.mapId]);assert.equal(possession.ok,true,`${hostId} should enter through the engine possession transition`);state=possession.state;
     const context=await browser.newContext({viewport:{width:1440,height:900}}),page=await context.newPage(),errors=[];page.on('pageerror',error=>errors.push(String(error)));
     await page.goto(base,{waitUntil:'networkidle'});await page.evaluate(value=>{localStorage.clear();localStorage.setItem('v33-rpg-save',value);localStorage.setItem('v34-tutorial-stage','done')},game.saveGame(state));await page.reload({waitUntil:'networkidle'});
     assert.match(await page.locator('#mission-title').textContent(),new RegExp(quest.titleKo.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')),`${hostId} should see their own current quest`);
     await page.locator('#use').click();const action=quest.actions[0],choice=page.locator('#actions button').filter({hasText:action.labelKo}).first();await choice.waitFor({state:'visible',timeout:5000});await choice.scrollIntoViewIfNeeded();
     const screenshot=`resident-batch-${index+1}-quest-choices.png`;await page.screenshot({path:path.join(output,screenshot),fullPage:true});
-    await choice.click();await page.locator('#save').click();const after=await page.evaluate(()=>JSON.parse(localStorage.getItem('v33-rpg-save')).state);
-    assert.equal(after.quests[quest.id].status,'resolved',`${questId} choice should record in the browser`);assert.equal(errors.length,0,errors.join('\n'));
+    await choice.click();await page.screenshot({path:path.join(output,`resident-batch-${index+1}-after-choice.png`),fullPage:true});await page.locator('#save').click();const after=await page.evaluate(()=>JSON.parse(localStorage.getItem('v33-rpg-save')).state);
+    const actionRecorded=after.ledger.findLast(entry=>entry.questId===quest.id&&entry.actionId===action.id);
+    assert.ok(actionRecorded,`${questId} choice should append its action to the ledger; status=${after.quests[quest.id].status}; record=${await page.locator('#record').textContent()}; headline=${await page.locator('#headline').textContent()}`);
+    if(quest.lifeChain)assert.equal(after.world.lifeChains[quest.lifeChain.id]?.stage,quest.lifeChain.stage,`${questId} should advance its life chain`);
+    else assert.equal(after.quests[quest.id].status,'resolved',`${questId} choice should resolve in the browser`);
+    assert.equal(errors.length,0,errors.join('\n'));
     rows.push({batch:index+1,hostId,questId,firstChoice:action.id,choiceCount:quest.actions.length,resolved:true,pageErrors:errors,screenshot});await context.close();
   }
   const report={schemaVersion:'V36_SIX_BATCH_BROWSER_ACCEPTANCE_1',status:'PASS',viewport:{width:1440,height:900},batches:rows};

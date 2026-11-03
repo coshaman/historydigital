@@ -1,8 +1,19 @@
 {
-  "schemaVersion": "V33_ENDING_ROUTE_MATRIX_V3",
+  "schemaVersion": "V33_ENDING_ROUTE_MATRIX_V4",
   "status": "PASS",
   "fixtureType": "reducer-route-vectors; host coordinates are fixtures, not physical traversal evidence",
-  "mixedActionVectorCount": 24,
+  "mixedActionVectorCount": 23,
+  "unavailableActionVectors": [
+    {
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "HOLD_NOTICE",
+        "REFUSE_NAMING",
+        "PRESERVE_LETTER"
+      ],
+      "reason": "Ending actions are mutually exclusive: official filing, outbound delivery, local reading, or final refusal is required by the selected ending."
+    }
+  ],
   "distinctEndingIds": [
     "UVAROV",
     "BELINSKY",
@@ -3527,7 +3538,7 @@
         "HOLD_FOR_CORRECTION",
         "HOLD_NOTICE",
         "REFUSE_NAMING",
-        "PRESERVE_LETTER"
+        "REFUSE_NAMING"
       ],
       "sourcesRead": [
         "OBJ-SOV-1847",

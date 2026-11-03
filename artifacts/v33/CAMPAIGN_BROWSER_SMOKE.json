@@ -15,9 +15,9 @@
       ],
       "hosts": [
         "seamstress_anna",
+        "courier_pavel",
         "printer_ekaterina",
         "nekrasov_reconstruction",
-        "courier_pavel",
         "clerk_alexei"
       ],
       "sources": [
@@ -41,9 +41,9 @@
       ],
       "hosts": [
         "seamstress_anna",
+        "courier_pavel",
         "printer_ekaterina",
         "nekrasov_reconstruction",
-        "courier_pavel",
         "clerk_alexei"
       ],
       "sources": [
@@ -67,8 +67,9 @@
       ],
       "hosts": [
         "seamstress_anna",
-        "nekrasov_reconstruction",
         "courier_pavel",
+        "printer_ekaterina",
+        "nekrasov_reconstruction",
         "clerk_alexei"
       ],
       "sources": [
@@ -92,9 +93,9 @@
       ],
       "hosts": [
         "seamstress_anna",
+        "courier_pavel",
         "printer_ekaterina",
         "nekrasov_reconstruction",
-        "courier_pavel",
         "clerk_alexei"
       ],
       "sources": [
@@ -118,9 +119,9 @@
       ],
       "hosts": [
         "seamstress_anna",
+        "courier_pavel",
         "printer_ekaterina",
         "nekrasov_reconstruction",
-        "courier_pavel",
         "clerk_alexei"
       ],
       "sources": [

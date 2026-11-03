@@ -44,7 +44,7 @@ try {
         return;
       }
       const line = body.playerInput === '응답이 늦게 도착합니다.' ? 'stale response must not appear' : 'mocked ai line';
-      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ fallback: false, mode: 'AI', turn: { schemaVersion: 'V33_RPG_DIALOGUE_V1', sceneId: 'V33_TALK_PRINTER_EKATERINA', beats: [{ speakerId: 'printer_ekaterina', textKo: line, emotion: 'focused' }], suggestedReplies: [{ id: 'R1', textKo: '문제 된 줄을 함께 봐요.', tone: 'curious' }, { id: 'R2', textKo: '인쇄비부터 다시 따져봐요.', tone: 'direct' }, { id: 'R3', textKo: '오늘은 조금 더 생각해 봐요.', tone: 'reflective' }] } }) });
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ aiGenerated: true, fallback: false, mode: 'AI', turn: { schemaVersion: 'V33_RPG_DIALOGUE_V1', sceneId: 'V33_TALK_PRINTER_EKATERINA', beats: [{ speakerId: 'printer_ekaterina', textKo: line, emotion: 'focused' }], suggestedReplies: [{ id: 'R1', textKo: '문제 된 줄을 함께 봐요.', tone: 'curious' }, { id: 'R2', textKo: '인쇄비부터 다시 따져봐요.', tone: 'direct' }, { id: 'R3', textKo: '오늘은 조금 더 생각해 봐요.', tone: 'reflective' }] } }) });
     });
     const start = engine.createInitialState({ maps, hostCards: cards, quests });
     start.world.currentMapId = 'printshop';
@@ -74,7 +74,7 @@ try {
     assert.ok(settingsLayout.width <= viewport.width && settingsLayout.height <= viewport.height, `API settings dialog fits viewport ${viewport.width}`);
     const initialInquiryBoard = await page.locator('#discussion-quest-board').innerText();
     assert.match(initialInquiryBoard, /사건·철학·이념 임무/);
-    assert.match(initialInquiryBoard, /다른 직업의 사람에게 같은 쟁점/);
+    assert.match(initialInquiryBoard, /직업이 다른 사람에게도 같은 쟁점/);
     assert.match(initialInquiryBoard, /0\/2 관점/);
     assert.match(initialInquiryBoard, /검열|책에서|명령/);
     assert.equal(dialogueRequests.length, dialogueCountBeforeHealth, 'health probe does not create an AI dialogue');
@@ -96,7 +96,11 @@ try {
       assert.equal(await page.locator('#api-diagnostics-list').innerText().then(text => text.includes('response_schema_invalid')), true, 'diagnostics panel displays safe local provider error codes');
       await page.locator('#api-settings-close').click();
       await page.getByRole('button', { name: 'AI 다시 연결' }).click();
-      await page.locator('#journal-text').getByText('mocked ai line', { exact: true }).waitFor();
+      try {
+        await page.locator('#journal-text').getByText('mocked ai line', { exact: true }).waitFor();
+      } catch {
+        throw new Error(`AI retry did not render: requests=${dialogueRequests.length}, starts=${sessionStarts.length}, status=${await page.locator('#record').textContent()}, dialogue=${await page.locator('#journal-text').textContent()}, buttons=${await page.locator('#actions').innerText()}, pageErrors=${errors.join(' | ')}`);
+      }
       await page.getByRole('button', { name: '대화 마치기' }).click();
     }
     await page.locator('#talk').click();
@@ -130,6 +134,8 @@ try {
       assert.equal(dialogueRequests.length, beforeFailure + 2, 'retry opens a fresh session and resends the unanswered question');
       assert.equal(dialogueRequests.at(-1).playerInput, failedText);
     }
+    try { await page.waitForFunction(() => { const image = document.querySelector('#dialogue-portrait'); return image?.complete && image.naturalWidth > 0; }, undefined, { timeout: 5000 }); }
+    catch { throw new Error(`dialogue portrait asset failed to load at ${viewport.width}: ${JSON.stringify(await page.locator('#dialogue-portrait').evaluate(image => ({ src:image.src, complete:image.complete, naturalWidth:image.naturalWidth, naturalHeight:image.naturalHeight })))}`); }
     const portrait = await page.locator('#dialogue-portrait').evaluate(image => ({ src: image.getAttribute('src'), alt: image.alt, width: image.naturalWidth, height: image.naturalHeight, visible: image.getBoundingClientRect().width > 0 }));
     assert.match(portrait.src, /portrait-printer_ekaterina\.png$/);
     assert.equal(portrait.width, 64);
@@ -179,13 +185,18 @@ try {
       assert.equal(pairSessions.length, 2);
       assert.equal(new Set(pairSessions.map(([, token]) => token)).size, 2);
       assert.deepEqual(new Set(dialogueRequests.slice(-2).map(request => request.sessionToken)), new Set(pairSessions.map(([, token]) => token)));
+      const requestsBeforeSlowTurn = dialogueRequests.length;
       await page.getByLabel('대사 입력').fill('응답이 늦게 도착합니다.');
       await page.locator('.dialogue-input button').click();
       await page.getByRole('button', { name: '답을 기다리는 중' }).waitFor();
       assert.equal(await page.locator('.dialogue-input button').isDisabled(), true, 'submitting is locked while an AI turn is pending');
+      await page.waitForFunction(() => true);
+      const requestDeadline = Date.now() + 2000;
+      while (dialogueRequests.length === requestsBeforeSlowTurn && Date.now() < requestDeadline) await new Promise(resolve => setTimeout(resolve, 10));
+      assert.equal(dialogueRequests.length, requestsBeforeSlowTurn + 1, 'pending turn has reached the mock endpoint exactly once');
       const requestCount = dialogueRequests.length;
       await page.locator('.dialogue-input button').evaluate(button => button.click());
-      await page.waitForTimeout(50);
+      await page.waitForTimeout(100);
       assert.equal(dialogueRequests.length, requestCount, 'a pending turn cannot be submitted twice');
       await page.getByRole('button', { name: '대화 마치기' }).click();
       await page.locator('#talk').click();

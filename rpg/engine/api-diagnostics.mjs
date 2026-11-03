@@ -1,7 +1,7 @@
 export const API_DIAGNOSTICS_KEY = 'chancery-api-diagnostics-v1';
 export const API_DIAGNOSTICS_LIMIT = 40;
 const ENDPOINTS = new Set(['/api/rpg/health', '/api/rpg/session/start', '/api/rpg/dialogue']);
-const KINDS = new Set(['health_error', 'http_error', 'network_error', 'client_error', 'provider_fallback', 'provider_not_configured']);
+const KINDS = new Set(['health_error', 'http_error', 'network_error', 'client_error', 'provider_error', 'provider_fallback', 'provider_not_configured']);
 
 export function readApiDiagnostics(storage) {
   try {

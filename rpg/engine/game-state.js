@@ -608,7 +608,7 @@ function enterLiteraryRealm(state, map, card) {
   next.player.position = { ...(map.metadata.observerStart ?? card.start) };
   next.hosts[card.id].mapId = map.mapId;
   next.hosts[card.id].position = { ...card.start };
-  next.ledger.push({ eventId: `REALM_${next.ledger.length + 1}`, eventType: 'ENTER_LITERARY_REALM', realmId: map.metadata.realmId, sourceIds: [...(map.metadata.sourceIds ?? [])], date: next.world.date });
+   appendLedgerEvent(next, { eventId: `REALM_${next.ledger.length + 1}`, eventType: 'ENTER_LITERARY_REALM', realmId: map.metadata.realmId, sourceIds: [...(map.metadata.sourceIds ?? [])], date: next.world.date }, state);
   return { ok: true, state: next };
 }
 
@@ -621,7 +621,7 @@ function leaveLiteraryRealm(state, maps = {}) {
   next.player.position = { ...location.position };
   next.world.activeRealm = null;
   delete next.world.returnLocation;
-  next.ledger.push({ eventId: `REALM_${next.ledger.length + 1}`, eventType: 'LEAVE_LITERARY_REALM', date: next.world.date });
+   appendLedgerEvent(next, { eventId: `REALM_${next.ledger.length + 1}`, eventType: 'LEAVE_LITERARY_REALM', date: next.world.date }, state);
   return { ok: true, state: next };
 }
 
@@ -940,6 +940,7 @@ function appendLedgerEvent(state, entry, priorState = state) {
 }
 
 function saveGame(state) {
+  ensureLedgerDigest(state);
   return JSON.stringify({ saveVersion: SAVE_VERSION, checksum: stateHash(state), state });
 }
 

@@ -171,27 +171,33 @@ test('crossing a map boundary requires the nearby physical exit and preserves th
   const maps = await loadMaps();
   const cards = await Promise.all((await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)));
   let state = createInitialState({ maps, hostCards: cards });
+  state = possessHost(state, 'courier_pavel', maps.nevsky).state;
+  state.hosts.courier_pavel.position = { x: 2, y: 16 };
   state.player.position = { x: 2, y: 16 };
   const far = transitionMap(state, 'nevsky-printshop-door', maps);
   assert.equal(far.ok, false);
   state = createInitialState({ maps, hostCards: cards });
+  state = possessHost(state, 'courier_pavel', maps.nevsky).state;
   state.player.position = { x: 22, y: 9 };
+  state.hosts.courier_pavel.position = { ...state.player.position };
   const crossed = transitionMap(state, 'nevsky-printshop-door', maps);
   assert.equal(crossed.ok, true);
   assert.equal(crossed.state.world.currentMapId, 'printshop');
-  assert.equal(crossed.state.player.embodiment, null);
+  assert.equal(crossed.state.player.embodiment, 'courier_pavel');
   assert.equal(crossed.state.hosts.printer_ekaterina.mapId, 'printshop');
-  assert.equal(crossed.state.hosts.courier_pavel.mapId, 'nevsky');
+  assert.equal(crossed.state.hosts.courier_pavel.mapId, 'printshop');
 });
 
 test('map entry finds a nearby free tile when a resident occupies the configured arrival point', async () => {
   const maps = await loadMaps();
   const cards = await Promise.all((await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)));
   const state = createInitialState({ maps, hostCards: cards });
-  state.player.position = { x: 22, y: 9 };
-  state.hosts.seamstress_anna.mapId = 'printshop';
-  state.hosts.seamstress_anna.position = { x: 12, y: 14 };
-  const crossed = transitionMap(state, 'nevsky-printshop-door', maps);
+  let occupiedState = possessHost(state, 'courier_pavel', maps.nevsky).state;
+  occupiedState.player.position = { x: 22, y: 9 };
+  occupiedState.hosts.courier_pavel.position = { ...occupiedState.player.position };
+  occupiedState.hosts.seamstress_anna.mapId = 'printshop';
+  occupiedState.hosts.seamstress_anna.position = { x: 12, y: 14 };
+  const crossed = transitionMap(occupiedState, 'nevsky-printshop-door', maps);
   assert.equal(crossed.ok, true);
   assert.notDeepEqual(crossed.state.hosts.courier_pavel.position, { x: 12, y: 14 });
   assert.notDeepEqual(crossed.state.hosts.seamstress_anna.position, crossed.state.hosts.courier_pavel.position);
@@ -374,7 +380,7 @@ test('save/load preserves split world, player, host knowledge and rejects malfor
 test('Chancery and courtyard are door-connected maps with access tied to the embodied host', async () => {
   const maps = await loadMaps();
   const cards = await Promise.all((await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)));
-  assert.deepEqual(Object.keys(maps).sort(), ['chancery', 'courtyard', 'dead-souls', 'market-quay', 'nevsky', 'overcoat', 'police-station', 'printshop']);
+  for (const id of ['chancery', 'courtyard', 'dead-souls', 'market-quay', 'nevsky', 'overcoat', 'police-station', 'printshop']) assert.ok(maps[id], `core map ${id} remains available alongside V36 districts`);
   const doors = Object.values(maps).flatMap(map => map.layers.find(layer => layer.name === 'Interactions').objects.filter(object => object.type === 'map-exit').map(object => ({ map, object, props: Object.fromEntries(object.properties.map(property => [property.name, property.value])) })));
   assert.ok(doors.length >= 6);
   assert.ok(doors.every(door => maps[door.props.targetMapId]));
@@ -403,10 +409,14 @@ test('one literary source can be read by two hosts without sharing their knowled
   state = recordSourceRead(state, 'LIT-TURGENEV-KHOR-KALYNYCH-1847', maps).state;
   assert.ok(knowledgeForHost(state, 'courier_pavel').includes('LIT-TURGENEV-KHOR-KALYNYCH-1847'));
   assert.ok(!knowledgeForHost(state, 'printer_ekaterina').includes('LIT-TURGENEV-KHOR-KALYNYCH-1847'));
-  state.player.embodiment = null;
   state.player.position = { x: 22, y: 9 };
-  state = transitionMap(state, 'nevsky-printshop-door', maps).state;
-  state = possessHost(state, 'printer_ekaterina', maps.printshop).state;
+  state.hosts.courier_pavel.position = { ...state.player.position };
+  const crossed = transitionMap(state, 'nevsky-printshop-door', maps);
+  assert.equal(crossed.ok, true);
+  state = releaseHost(crossed.state, maps.printshop).state;
+  const secondHost = possessHost(state, 'printer_ekaterina', maps.printshop);
+  assert.equal(secondHost.ok, true);
+  state = secondHost.state;
   state = recordSourceRead(state, 'LIT-TURGENEV-KHOR-KALYNYCH-1847', maps).state;
   assert.ok(knowledgeForHost(state, 'printer_ekaterina').includes('LIT-TURGENEV-KHOR-KALYNYCH-1847'));
   assert.ok(!knowledgeForHost(state, 'clerk_alexei').includes('LIT-TURGENEV-KHOR-KALYNYCH-1847'));
@@ -453,7 +463,7 @@ test('an NPC leaves a map exit when its configured arrival tile is occupied', as
   let state = createInitialState({ maps, hostCards: cards });
   state.world.clockMinutes = 599;
   state.hosts.print_apprentice_stepan.mapId = 'printshop';
-  state.hosts.print_apprentice_stepan.position = { x: 12, y: 13 };
+  state.hosts.print_apprentice_stepan.position = { x: 12, y: 15 };
   state.hosts.print_apprentice_stepan.schedule = [{ atMinute: 600, mapId: 'nevsky', position: { x: 16, y: 12 }, activityKo: '인쇄물을 옮긴다' }];
   state.hosts.courier_pavel.mapId = 'nevsky';
   state.hosts.courier_pavel.position = { x: 22, y: 9 };
@@ -509,7 +519,7 @@ test('NPC routines pause during dialogue time while the in-world clock still adv
 test('courier autonomously delivers the sealed envelope only when the recipient is physically reachable', async () => {
   const maps = await loadMaps();
   const cards = await Promise.all((await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)));
-  const state = createInitialState({ maps, hostCards: cards }), next = advanceWorldTime(state, 110, maps);
+  const state = createInitialState({ maps, hostCards: cards }), next = advanceWorldTime(state, 120, maps);
   const event = next.ledger.find(item => item.eventType === 'NPC_SIMULATION');
   assert.ok(event.deliveries.some(delivery => delivery.hostId === 'courier_pavel' && delivery.recipientHostId === 'printer_ekaterina' && delivery.itemKo === '밀봉 봉투'));
   assert.ok(!next.hosts.courier_pavel.inventory.includes('밀봉 봉투'));
@@ -530,7 +540,7 @@ test('V35 expands old saves with the new intellectual cast without losing the ex
   assert.ok(loaded.hosts.senior_clerk_konstantin);
   assert.ok(loaded.hosts.reader_darya);
   assert.deepEqual(loaded.hosts.courier_pavel.inventory, ['밀봉 봉투', '끈 달린 가방', '오래된 편지']);
-  assert.deepEqual(loaded.player.dialogueGrowth, { insight: 0, aiReplies: 0, perspectiveNotes: [], comparisonNotes: [], reflectionIds: [] });
+  assert.deepEqual(loaded.player.dialogueGrowth, { insight: 0, aiReplies: 0, perspectiveNotes: [], comparisonNotes: [], reflectionIds: [], playerPositions: [] });
 });
 
 test('old V36 saves migrate newly added quest states and immutable outcomes without resetting existing progress', async () => {
@@ -799,7 +809,8 @@ test('chapter and ending reducer preserve fixed historical outcomes and resolve 
   state.ledger.push({ questId: 'PUBLIC_DISCOURSE_1848', sourceIds: ['OBJ-WS-NEKRASOV-EDITORIAL-1848', 'OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE', 'OBJ-WS-PETRASHEVSKY-REPORT-1849'] });
   for (const ending of campaign.endings) {
     const candidate = structuredClone(state);
-    candidate.ledger.push({ actionId: ending.requiredActions[0] });
+    const requirement = ending.requiredActions[0];
+    candidate.ledger.push(typeof requirement === 'string' ? { actionId: requirement } : { actionId: requirement.actionId, questId: requirement.questId });
     const result = resolveEnding(candidate, ending.id, campaign);
     assert.equal(result.ok, true);
     assert.equal(result.state.endingId, ending.id);

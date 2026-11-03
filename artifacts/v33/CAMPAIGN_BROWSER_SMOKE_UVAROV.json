@@ -1,6 +1,6 @@
 {
   "schemaVersion": "V33_CAMPAIGN_BROWSER_SMOKE_V1",
-  "base": "http://127.0.0.1:53583/",
+  "base": "http://127.0.0.1:65112/",
   "endingId": "UVAROV",
   "status": "PASS",
   "steps": [
@@ -25,6 +25,15 @@
       "questId": "PRINTSHOP_PROOF_1847",
       "hostId": "seamstress_anna",
       "readRelatedSourceId": "LIT-TURGENEV-KHOR-KALYNYCH-1847"
+    },
+    {
+      "type": "possession",
+      "hostId": "courier_pavel",
+      "mapId": "nevsky",
+      "position": {
+        "x": 10,
+        "y": 11
+      }
     },
     {
       "type": "map-transition",
@@ -125,19 +134,19 @@
       }
     },
     {
+      "type": "possession",
+      "hostId": "courier_pavel",
+      "mapId": "nevsky",
+      "position": {
+        "x": 22,
+        "y": 10
+      }
+    },
+    {
       "type": "map-transition",
       "from": "nevsky",
       "to": "printshop",
       "exitId": "nevsky-printshop-door"
-    },
-    {
-      "type": "possession",
-      "hostId": "courier_pavel",
-      "mapId": "printshop",
-      "position": {
-        "x": 11,
-        "y": 13
-      }
     },
     {
       "type": "source-read",
@@ -256,9 +265,9 @@
     ],
     "hostIds": [
       "seamstress_anna",
+      "courier_pavel",
       "printer_ekaterina",
       "nekrasov_reconstruction",
-      "courier_pavel",
       "clerk_alexei"
     ],
     "sourceIds": [
@@ -331,7 +340,43 @@
       "POLICE_TESTIMONY_RECORD_1849_FICTIONAL_OUTCOME": "fictional record-handling choice only; immutable historical events remain unchanged",
       "READER_SOURCE_AND_RUMOR_1847_FICTIONAL_OUTCOME": "fictional reading and teaching choice only; no historical reader or author is represented",
       "SENIOR_CLERK_REVIEW_AND_SIGNATURE_1847_FICTIONAL_OUTCOME": "fictional office workflow choice only; no historical censor or decision is represented",
-      "TENANT_RENT_AND_FIREWOOD_1847_FICTIONAL_OUTCOME": "fictional lodging-house choice only; no real household or historical record is represented"
+      "TENANT_RENT_AND_FIREWOOD_1847_FICTIONAL_OUTCOME": "fictional lodging-house choice only; no real household or historical record is represented",
+      "SOFIA_MISSING_RECEIPTS_1847_STAGE_1_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "SOFIA_MISSING_RECEIPTS_1847_STAGE_2_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "SOFIA_MISSING_RECEIPTS_1847_STAGE_3_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "IVAN_WITNESS_ACCOUNT_1849_STAGE_1_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "IVAN_WITNESS_ACCOUNT_1849_STAGE_2_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "IVAN_WITNESS_ACCOUNT_1849_STAGE_3_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "DARYA_READING_CIRCLE_1847_STAGE_1_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "DARYA_READING_CIRCLE_1847_STAGE_2_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "DARYA_READING_CIRCLE_1847_STAGE_3_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "OLGA_WARNING_AND_RUMOR_1847_STAGE_1_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "OLGA_WARNING_AND_RUMOR_1847_STAGE_2_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "OLGA_WARNING_AND_RUMOR_1847_STAGE_3_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "AVDOTYA_CARE_COSTS_1847_STAGE_1_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "AVDOTYA_CARE_COSTS_1847_STAGE_2_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "AVDOTYA_CARE_COSTS_1847_STAGE_3_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "SERGEY_ENTRY_AND_FAVOR_1847_STAGE_1_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "SERGEY_ENTRY_AND_FAVOR_1847_STAGE_2_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "SERGEY_ENTRY_AND_FAVOR_1847_STAGE_3_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "NADEZHDA_STALL_WEATHER_1847_STAGE_1_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "NADEZHDA_STALL_WEATHER_1847_STAGE_2_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "NADEZHDA_STALL_WEATHER_1847_STAGE_3_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "GAVRILA_LOAD_AND_REST_1847_STAGE_1_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "GAVRILA_LOAD_AND_REST_1847_STAGE_2_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "GAVRILA_LOAD_AND_REST_1847_STAGE_3_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "PYOTR_MISSING_CRATE_AUDIT_1847_STAGE_1_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "PYOTR_MISSING_CRATE_AUDIT_1847_STAGE_2_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "PYOTR_MISSING_CRATE_AUDIT_1847_STAGE_3_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "FYODOR_OVEN_ORDER_1847_STAGE_1_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "FYODOR_OVEN_ORDER_1847_STAGE_2_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "FYODOR_OVEN_ORDER_1847_STAGE_3_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "POLINA_COMMON_FIREWOOD_1847_STAGE_1_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "POLINA_COMMON_FIREWOOD_1847_STAGE_2_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "POLINA_COMMON_FIREWOOD_1847_STAGE_3_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "ROMAN_ROUTE_PRIORITY_1847_STAGE_1_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "ROMAN_ROUTE_PRIORITY_1847_STAGE_2_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered",
+      "ROMAN_ROUTE_PRIORITY_1847_STAGE_3_FICTIONAL_OUTCOME": "fictional resident daily life choice only; no historical public record is altered"
     }
   },
   "screenshot": "artifacts/v33/campaign-full-run-uvarov-1440x900.png"

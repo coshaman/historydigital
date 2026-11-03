@@ -141,6 +141,8 @@ test('new game state carries a resumable learning arc; legacy version-one saves 
   assert.deepEqual(gameState.loadGame(progressSave, { maps, hostCards: cards, quests, learningExam: exam }).learning, studying, 'an interrupted lesson resumes at the saved unit');
   fresh.ledger.push({ eventId: 'OLD_RECORD', eventType: 'DIALOGUE_TURN', hostId: 'clerk_alexei' });
   delete fresh.learning;
+  delete fresh.ledgerDigest;
+  delete fresh.ledgerDigestCount;
   fresh.version = 1;
   const oldEnvelope = { saveVersion: 1, checksum: gameState.stateHash(fresh), state: fresh };
   const restored = gameState.loadGame(oldEnvelope, { maps, hostCards: cards, quests });

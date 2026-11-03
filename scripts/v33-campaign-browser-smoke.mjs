@@ -297,22 +297,26 @@ try {
   await page.evaluate(() => localStorage.clear());
   await page.reload({ waitUntil: 'networkidle' });
   await page.waitForSelector('#world');
+  const initialImmutableOutcomes = structuredClone((await snapshot()).world.immutableOutcomes);
 
   // 1847: Anna reads the case framing as herself; Ekaterina then checks the paper at work.
   await possess('seamstress_anna');
   await inspectCaseContext('PRINTSHOP_PROOF_1847', { readRelatedSourceId: 'LIT-TURGENEV-KHOR-KALYNYCH-1847' });
   let printAction;
+  // Pavel carries authorized work through the access-controlled printshop door.
+  // Switch to Ekaterina after entry before reading the workbench and resolving it.
+  await release();
+  await possess('courier_pavel');
+  await transitionTo('nevsky-printshop-door', 'printshop');
+  await release();
+  await possess('printer_ekaterina');
+  await inspectCaseContext('PRINTSHOP_PROOF_1847', { readRelatedSourceId: 'LIT-TURGENEV-KHOR-KALYNYCH-1847' });
   if (endingId === 'HERZEN') {
-    await transitionTo('nevsky-printshop-door', 'printshop');
     await readSource('printshop', 'OBJ-SOV-1847', 20);
     await readSource('printshop', 'LIT-TURGENEV-KHOR-KALYNYCH-1847', 20);
     printAction = 'ASK_FOR_SOURCE';
     await completeQuest('PRINTSHOP_PROOF_1847', printAction);
   } else {
-    await release();
-    await transitionTo('nevsky-printshop-door', 'printshop');
-    await possess('printer_ekaterina');
-    await inspectCaseContext('PRINTSHOP_PROOF_1847', { readRelatedSourceId: 'LIT-TURGENEV-KHOR-KALYNYCH-1847' });
     await readSource('printshop', 'OBJ-SOV-1847', 20);
     await readSource('printshop', 'LIT-TURGENEV-KHOR-KALYNYCH-1847', 20);
     printAction = endingId === 'BELINSKY' ? 'ASK_FOR_SOURCE' : endingId === 'UVAROV' ? 'RETURN_MANUSCRIPT' : 'HOLD_FOR_CORRECTION';
@@ -385,8 +389,7 @@ try {
   assert.deepEqual(resolvedQuests.sort(), campaign.arcs.flatMap(arc => arc.questIds).sort());
   assert.ok(distinctHosts.length >= 4, `four real-world host perspectives required: ${distinctHosts}`);
   assert.ok(sourceIds.length >= 3, `three or more source records required: ${sourceIds}`);
-  const expectedOutcomes = Object.fromEntries(runtimeQuests.filter(quest => quest.historicalOutcome && !quest.chapterId?.startsWith('LITERARY_')).map(quest => [quest.historicalOutcome.id, quest.historicalOutcome.value]));
-  assert.deepEqual(final.world.immutableOutcomes, expectedOutcomes);
+  assert.deepEqual(final.world.immutableOutcomes, initialImmutableOutcomes, 'the campaign never changes the historical outcome baseline loaded by the game');
   assert.equal(await page.locator('#ending-title').innerText(), ending.titleKo);
   assert.ok((await page.locator('#ending-comparison-text').innerText()).length > 40);
   assert.match(await page.locator('#ending-life-episode').innerText(), /가상의 서기/);
