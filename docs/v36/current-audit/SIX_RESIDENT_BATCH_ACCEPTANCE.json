@@ -41,7 +41,7 @@
   ],
   "residentCount": 36,
   "questCompletions": 36,
-  "questStagesResolved": 80,
+  "questStagesResolved": 82,
   "batches": [
     {
       "schemaVersion": "V36_RESIDENT_BATCH_ACCEPTANCE_1",
@@ -81,15 +81,15 @@
           "reciprocalLinks": 2
         }
       ],
-      "scheduleTargetsChecked": 33,
+      "scheduleTargetsChecked": 34,
       "oneHourWorldReplay": true,
       "collisionSnapshots": 12,
       "questCompletions": 6,
-      "questStagesResolved": 14,
+      "questStagesResolved": 16,
       "possessionChecks": 6,
       "legacySaveRelationMigrationPreservedDynamicLinks": true,
       "movementEvents": 68,
-      "finalStateHash": "93a97d41"
+      "finalStateHash": "af63c98b"
     },
     {
       "schemaVersion": "V36_RESIDENT_BATCH_ACCEPTANCE_1",
@@ -137,7 +137,7 @@
       "possessionChecks": 6,
       "legacySaveRelationMigrationPreservedDynamicLinks": true,
       "movementEvents": 68,
-      "finalStateHash": "93a97d41"
+      "finalStateHash": "af63c98b"
     },
     {
       "schemaVersion": "V36_RESIDENT_BATCH_ACCEPTANCE_1",
@@ -177,7 +177,7 @@
           "reciprocalLinks": 2
         }
       ],
-      "scheduleTargetsChecked": 24,
+      "scheduleTargetsChecked": 26,
       "oneHourWorldReplay": true,
       "collisionSnapshots": 12,
       "questCompletions": 6,
@@ -185,7 +185,7 @@
       "possessionChecks": 6,
       "legacySaveRelationMigrationPreservedDynamicLinks": true,
       "movementEvents": 68,
-      "finalStateHash": "93a97d41"
+      "finalStateHash": "af63c98b"
     },
     {
       "schemaVersion": "V36_RESIDENT_BATCH_ACCEPTANCE_1",
@@ -233,7 +233,7 @@
       "possessionChecks": 6,
       "legacySaveRelationMigrationPreservedDynamicLinks": true,
       "movementEvents": 68,
-      "finalStateHash": "93a97d41"
+      "finalStateHash": "af63c98b"
     },
     {
       "schemaVersion": "V36_RESIDENT_BATCH_ACCEPTANCE_1",
@@ -273,7 +273,7 @@
           "reciprocalLinks": 2
         }
       ],
-      "scheduleTargetsChecked": 29,
+      "scheduleTargetsChecked": 30,
       "oneHourWorldReplay": true,
       "collisionSnapshots": 12,
       "questCompletions": 6,
@@ -281,7 +281,7 @@
       "possessionChecks": 6,
       "legacySaveRelationMigrationPreservedDynamicLinks": true,
       "movementEvents": 68,
-      "finalStateHash": "93a97d41"
+      "finalStateHash": "af63c98b"
     },
     {
       "schemaVersion": "V36_RESIDENT_BATCH_ACCEPTANCE_1",
@@ -321,7 +321,7 @@
           "reciprocalLinks": 2
         }
       ],
-      "scheduleTargetsChecked": 25,
+      "scheduleTargetsChecked": 28,
       "oneHourWorldReplay": true,
       "collisionSnapshots": 12,
       "questCompletions": 6,
@@ -329,7 +329,7 @@
       "possessionChecks": 6,
       "legacySaveRelationMigrationPreservedDynamicLinks": true,
       "movementEvents": 68,
-      "finalStateHash": "93a97d41"
+      "finalStateHash": "af63c98b"
     }
   ]
 }

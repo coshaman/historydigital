@@ -1,0 +1,121 @@
+{
+  "id": "FYODOR_FLOUR_AND_ORDERS_1847_STAGE_2",
+  "titleKo": "누구의 빵을 먼저 구울까 · 2/3",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "밀가루가 부족해 모든 주문을 제때 구울 수 없다. 표도르는 오래 기다린 단골과 오늘 품삯을 내기로 한 일꾼 사이에서 순서를 정해야 한다.",
+  "historicalOutcome": {
+    "id": "FYODOR_FLOUR_AND_ORDERS_1847_STAGE_2_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life only; no historical event or public record changes",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "market-quay",
+    "objectId": 1169,
+    "requiredHostId": "baker_fyodor"
+  },
+  "actions": [
+    {
+      "id": "FYODOR_FLOUR_AND_ORDERS_1847_STAGE_2_CHOICE_1",
+      "hostIds": [
+        "baker_fyodor"
+      ],
+      "labelKo": "주문 시각대로 굽는다",
+      "subcopyKo": "주문을 맡긴 손님들이 압니다 · 화덕 순서표가 남습니다 · 늦게 온 이웃은 오늘 빵을 못 받을 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "주문을 맡긴 손님들이 압니다",
+        "recordKo": "화덕 순서표가 남습니다",
+        "riskKo": "늦게 온 이웃은 오늘 빵을 못 받을 수 있습니다"
+      },
+      "resultKo": "먼저 들어온 주문부터 화덕에 넣었다. 늦게 온 손님에게는 남은 수량을 바로 알렸다.",
+      "resultFlag": "FYODOR_FLOUR_AND_ORDERS_1847_STAGE_2_RESULT_1",
+      "followupTitleKo": "누구의 빵을 먼저 구울까",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "먼저 들어온 주문부터 화덕에 넣었다. 늦게 온 손님에게는 남은 수량을 바로 알렸다.",
+        "relations": {
+          "market_nadezhda": "누구의 빵을 먼저 구울까에서 표도르와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "FYODOR_FLOUR_AND_ORDERS_1847_STAGE_2_CHOICE_2",
+      "hostIds": [
+        "baker_fyodor"
+      ],
+      "labelKo": "일꾼용 빵을 따로 남긴다",
+      "subcopyKo": "표도르와 일꾼들이 압니다 · 품삯·식사용 수량 메모가 남습니다 · 판매 수입이 줄고 다른 손님이 기다립니다",
+      "practicalDisclosure": {
+        "audienceKo": "표도르와 일꾼들이 압니다",
+        "recordKo": "품삯·식사용 수량 메모가 남습니다",
+        "riskKo": "판매 수입이 줄고 다른 손님이 기다립니다"
+      },
+      "resultKo": "일한 사람 몫을 따로 챙겼다. 팔 수 있는 빵은 줄었지만 약속한 품삯을 빵으로 대신하지 않았다.",
+      "resultFlag": "FYODOR_FLOUR_AND_ORDERS_1847_STAGE_2_RESULT_2",
+      "followupTitleKo": "누구의 빵을 먼저 구울까",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "일한 사람 몫을 따로 챙겼다. 팔 수 있는 빵은 줄었지만 약속한 품삯을 빵으로 대신하지 않았다.",
+        "relations": {
+          "market_nadezhda": "누구의 빵을 먼저 구울까에서 표도르와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "FYODOR_FLOUR_AND_ORDERS_1847_STAGE_2_CHOICE_3",
+      "hostIds": [
+        "baker_fyodor"
+      ],
+      "labelKo": "반죽 크기를 줄이고 먼저 알린다",
+      "subcopyKo": "가게 손님들이 압니다 · 변경된 크기와 값이 주문판에 남습니다 · 손님이 같은 값을 내고 양이 줄었다고 항의할 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "가게 손님들이 압니다",
+        "recordKo": "변경된 크기와 값이 주문판에 남습니다",
+        "riskKo": "손님이 같은 값을 내고 양이 줄었다고 항의할 수 있습니다"
+      },
+      "resultKo": "작아진 크기를 먼저 보여주고 동의를 구했다. 동의하지 않은 주문은 굽지 않았다.",
+      "resultFlag": "FYODOR_FLOUR_AND_ORDERS_1847_STAGE_2_RESULT_3",
+      "followupTitleKo": "누구의 빵을 먼저 구울까",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "작아진 크기를 먼저 보여주고 동의를 구했다. 동의하지 않은 주문은 굽지 않았다.",
+        "relations": {
+          "market_nadezhda": "누구의 빵을 먼저 구울까에서 표도르와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "exposure": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the physically placed personal-work marker",
+  "lifeChain": {
+    "id": "FYODOR_FLOUR_AND_ORDERS_1847",
+    "titleKo": "FYODOR FLOUR AND ORDERS 1847",
+    "stage": 2,
+    "stageCount": 3,
+    "kind": "PERSONAL",
+    "source": "V36_DEDICATED_PERSONAL_ARC",
+    "previousQuestId": "FYODOR_FLOUR_AND_ORDERS_1847_STAGE_1",
+    "metricsKo": {
+      "care": "이웃과 생계를 다룬 결과",
+      "record": "남긴 기록의 범위",
+      "exposure": "공개한 정보의 범위"
+    }
+  },
+  "prerequisiteQuestIds": [
+    "FYODOR_FLOUR_AND_ORDERS_1847_STAGE_1"
+  ]
+}

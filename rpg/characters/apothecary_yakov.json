@@ -91,7 +91,7 @@
   "voiceSamples": [
     "무슨 물건인지 먼저 보여 주시오. 이름만 듣고 효능을 말할 수는 없소.",
     "그 처방이 낫게 한다는 근거는 내가 확인하지 못했소. 재고와 비용은 알려줄 수 있지만, 치료 결과를 약속할 수는 없소.",
-    "모르는 효능을 아는 척하지 않는 게 원칙이다. 다만 정확한 설명이 비싸고 늦어지면 손님은 다른 위험한 소문을 믿을 수도 있다."
+    "그 약이 듣는다는 건 내가 확인해야 말할 수 있소. 환자한테 값비싼 기대를 팔 순 없지."
   ],
   "lexicon": [
     "외상",
@@ -167,6 +167,15 @@
       "activityKo": "손님에게 확인된 가격을 알린다"
     },
     {
+      "atMinute": 840,
+      "mapId": "market-quay",
+      "position": {
+        "x": 22,
+        "y": 10
+      },
+      "activityKo": "다른 생활권에서 맡은 일을 확인한다"
+    },
+    {
       "atMinute": 960,
       "mapId": "market-quay",
       "position": {
@@ -232,6 +241,32 @@
       "kind": "social",
       "titleKo": "오늘 엮인 사람 · 티모페이",
       "textKo": "약과 유리병을 조심히 실어 주는 마부다"
+    }
+  ],
+  "persistentPersonalGoals": [
+    {
+      "id": "apothecary_yakov:life-arc",
+      "kind": "LIFE",
+      "titleKo": "이어 가는 생활 문제",
+      "descriptionKo": "비싼 확인 절차를 거치지 못하는 사람에게 어디까지 설명해야 할까요?",
+      "successCondition": {
+        "type": "LIFE_CHAIN_COMPLETED",
+        "chainId": "YAKOV_REMEDY_LIMITS_1847",
+        "stageCount": 3
+      },
+      "fallbackKo": "연쇄 임무가 지금 열리지 않으면 오늘의 일과를 이어가고, 다음 단계를 확인할 수 있을 때 다시 돌아온다."
+    },
+    {
+      "id": "apothecary_yakov:relationship",
+      "kind": "RELATIONSHIP",
+      "titleKo": "티모페이와의 관계",
+      "descriptionKo": "비싼 확인 절차를 거치지 못하는 사람에게 어디까지 설명해야 할까요? · 티모페이와 얽힌 사정을 당사자에게 확인한다.",
+      "successCondition": {
+        "type": "RELATION_CHANGED",
+        "targetHostId": "coachman_timofey",
+        "baseline": "약과 유리병을 조심히 실어 주는 마부다"
+      },
+      "fallbackKo": "상대가 다른 생활권에 있거나 만날 수 없으면 추측을 퍼뜨리지 말고, 다시 만날 수 있는 장소와 시간을 살핀다."
     }
   ]
 }

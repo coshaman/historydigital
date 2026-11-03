@@ -1,0 +1,121 @@
+{
+  "id": "AVDOTYA_NIGHT_CALLS_1847_STAGE_3",
+  "titleKo": "다음 호출을 위한 메모 · 3/3",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "오늘의 요청이 끝난 뒤 다음에 같은 일이 생기지 않도록 연락 방법을 정해야 한다. 집안의 사정을 어디까지 기록할지도 결정해야 한다.",
+  "historicalOutcome": {
+    "id": "AVDOTYA_NIGHT_CALLS_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life only; no historical event or public record changes",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "workyard",
+    "objectId": 4007,
+    "requiredHostId": "midwife_avdotya"
+  },
+  "actions": [
+    {
+      "id": "AVDOTYA_NIGHT_CALLS_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "midwife_avdotya"
+      ],
+      "labelKo": "연락 가능한 시간만 남긴다",
+      "subcopyKo": "아브도티야와 해당 집이 압니다 · 시간 메모만 보관합니다 · 급한 연락의 세부 상황은 다시 확인해야 합니다",
+      "practicalDisclosure": {
+        "audienceKo": "아브도티야와 해당 집이 압니다",
+        "recordKo": "시간 메모만 보관합니다",
+        "riskKo": "급한 연락의 세부 상황은 다시 확인해야 합니다"
+      },
+      "resultKo": "연락 가능한 시간만 적었다. 사적인 사정과 비용은 기록에서 뺐다.",
+      "resultFlag": "AVDOTYA_NIGHT_CALLS_1847_STAGE_3_RESULT_1",
+      "followupTitleKo": "다음 호출을 위한 메모",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "연락 가능한 시간만 적었다. 사적인 사정과 비용은 기록에서 뺐다.",
+        "relations": {
+          "landlady_polina": "다음 호출을 위한 메모에서 아브도티야와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "AVDOTYA_NIGHT_CALLS_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "midwife_avdotya"
+      ],
+      "labelKo": "동의를 받아 필요한 물품 목록을 보관한다",
+      "subcopyKo": "아브도티야와 동의한 사람만 압니다 · 물품 목록이 개인 수첩에 남습니다 · 목록이 다른 사람에게 보이면 사정이 드러날 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "아브도티야와 동의한 사람만 압니다",
+        "recordKo": "물품 목록이 개인 수첩에 남습니다",
+        "riskKo": "목록이 다른 사람에게 보이면 사정이 드러날 수 있습니다"
+      },
+      "resultKo": "동의를 받은 뒤 필요한 물품만 적었다. 이름과 방문 내용은 남기지 않았다.",
+      "resultFlag": "AVDOTYA_NIGHT_CALLS_1847_STAGE_3_RESULT_2",
+      "followupTitleKo": "다음 호출을 위한 메모",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "동의를 받은 뒤 필요한 물품만 적었다. 이름과 방문 내용은 남기지 않았다.",
+        "relations": {
+          "landlady_polina": "다음 호출을 위한 메모에서 아브도티야와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "AVDOTYA_NIGHT_CALLS_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "midwife_avdotya"
+      ],
+      "labelKo": "다음에는 폴리나에게 연락 중계를 부탁한다",
+      "subcopyKo": "아브도티야와 폴리나가 압니다 · 중계 요청 기록이 남습니다 · 폴리나가 없으면 연락이 더 늦어질 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "아브도티야와 폴리나가 압니다",
+        "recordKo": "중계 요청 기록이 남습니다",
+        "riskKo": "폴리나가 없으면 연락이 더 늦어질 수 있습니다"
+      },
+      "resultKo": "폴리나는 중계할 수 있는 시간만 약속했다. 돌봄 내용은 전달하지 않기로 했다.",
+      "resultFlag": "AVDOTYA_NIGHT_CALLS_1847_STAGE_3_RESULT_3",
+      "followupTitleKo": "다음 호출을 위한 메모",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "폴리나는 중계할 수 있는 시간만 약속했다. 돌봄 내용은 전달하지 않기로 했다.",
+        "relations": {
+          "landlady_polina": "다음 호출을 위한 메모에서 아브도티야와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "exposure": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the physically placed personal-work marker",
+  "lifeChain": {
+    "id": "AVDOTYA_NIGHT_CALLS_1847",
+    "titleKo": "AVDOTYA NIGHT CALLS 1847",
+    "stage": 3,
+    "stageCount": 3,
+    "kind": "PERSONAL",
+    "source": "V36_DEDICATED_PERSONAL_ARC",
+    "previousQuestId": "AVDOTYA_NIGHT_CALLS_1847_STAGE_2",
+    "metricsKo": {
+      "care": "이웃과 생계를 다룬 결과",
+      "record": "남긴 기록의 범위",
+      "exposure": "공개한 정보의 범위"
+    }
+  },
+  "prerequisiteQuestIds": [
+    "AVDOTYA_NIGHT_CALLS_1847_STAGE_2"
+  ]
+}

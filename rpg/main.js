@@ -27,8 +27,9 @@ const addedPersonalQuests = await Promise.all(['editor-publication-record-1847',
   'housemaid-olga-chain-4-stage-1-1847','housemaid-olga-chain-4-stage-2-1847','housemaid-olga-chain-4-stage-3-1847',
   'midwife-avdotya-chain-5-stage-1-1847','midwife-avdotya-chain-5-stage-2-1847','midwife-avdotya-chain-5-stage-3-1847',
   'junior-guard-sergey-chain-6-stage-1-1847','junior-guard-sergey-chain-6-stage-2-1847','junior-guard-sergey-chain-6-stage-3-1847',...residentQuestBatchTwo].map(id => readJson(`./rpg/quests/${id}.json`)));
+const v36PersonalQuestFiles = ["bookseller_lev-v36-life-stage-1-1847","bookseller_lev-v36-life-stage-2-1847","bookseller_lev-v36-life-stage-3-1847","clerk_alexei-v36-life-stage-1-1847","clerk_alexei-v36-life-stage-2-1847","clerk_alexei-v36-life-stage-3-1847","coachman_timofey-v36-life-stage-1-1847","coachman_timofey-v36-life-stage-2-1847","coachman_timofey-v36-life-stage-3-1847","editor_sofia-v36-life-stage-1-1847","editor_sofia-v36-life-stage-2-1847","editor_sofia-v36-life-stage-3-1847","housemaid_olga-v36-life-stage-1-1847","housemaid_olga-v36-life-stage-2-1847","housemaid_olga-v36-life-stage-3-1847","junior_guard_sergey-v36-life-stage-1-1847","junior_guard_sergey-v36-life-stage-2-1847","junior_guard_sergey-v36-life-stage-3-1847","lodging_tatyana-v36-life-stage-1-1847","lodging_tatyana-v36-life-stage-2-1847","lodging_tatyana-v36-life-stage-3-1847","midwife_avdotya-v36-life-stage-1-1847","midwife_avdotya-v36-life-stage-2-1847","midwife_avdotya-v36-life-stage-3-1847","printer_ekaterina-v36-life-stage-1-1847","printer_ekaterina-v36-life-stage-2-1847","printer_ekaterina-v36-life-stage-3-1847","senior_clerk_konstantin-v36-life-stage-1-1847","senior_clerk_konstantin-v36-life-stage-2-1847","senior_clerk_konstantin-v36-life-stage-3-1847","tenant_mikhail-v36-life-stage-1-1847","tenant_mikhail-v36-life-stage-2-1847","tenant_mikhail-v36-life-stage-3-1847","yardkeeper_semyon-v36-life-stage-1-1847","yardkeeper_semyon-v36-life-stage-2-1847","yardkeeper_semyon-v36-life-stage-3-1847","baker_fyodor-v36-life-stage-1-1847","baker_fyodor-v36-life-stage-2-1847","baker_fyodor-v36-life-stage-3-1847","carter_roman-v36-life-stage-1-1847","carter_roman-v36-life-stage-2-1847","carter_roman-v36-life-stage-3-1847","landlady_polina-v36-life-stage-1-1847","landlady_polina-v36-life-stage-2-1847","landlady_polina-v36-life-stage-3-1847","porter_gavrila-v36-life-stage-1-1847","porter_gavrila-v36-life-stage-2-1847","porter_gavrila-v36-life-stage-3-1847"].map(id => readJson(`./rpg/quests/${id}.json`));
 const socialQuestFiles = ['baker-fyodor-life-extra-1-1847','baker-fyodor-life-extra-2-1847','baker-fyodor-life-extra-3-1847','bookseller-lev-life-1-1847','bookseller-lev-life-2-1847','bookseller-lev-life-3-1847','carter-roman-life-extra-1-1847','carter-roman-life-extra-2-1847','carter-roman-life-extra-3-1847','clerk-alexei-life-1-1847','clerk-alexei-life-2-1847','clerk-alexei-life-3-1847','editor-sofia-chain-1-stage-1-1847','editor-sofia-chain-1-stage-2-1847','editor-sofia-chain-1-stage-3-1847','housemaid-olga-chain-4-stage-1-1847','housemaid-olga-chain-4-stage-2-1847','housemaid-olga-chain-4-stage-3-1847','junior-guard-sergey-chain-6-stage-1-1847','junior-guard-sergey-chain-6-stage-2-1847','junior-guard-sergey-chain-6-stage-3-1847','landlady-polina-life-extra-1-1847','landlady-polina-life-extra-2-1847','landlady-polina-life-extra-3-1847','midwife-avdotya-chain-5-stage-1-1847','midwife-avdotya-chain-5-stage-2-1847','midwife-avdotya-chain-5-stage-3-1847','porter-gavrila-life-extra-1-1847','porter-gavrila-life-extra-2-1847','porter-gavrila-life-extra-3-1847'].map(id => readJson(`./rpg/quests/${id}.json`));
-const questList = [firstQuest, publicQuest, circleQuest, letterQuest, literaryQuest, overcoatQuest, ...marketPersonalQuests, ...addedPersonalQuests, ...socialQuestFiles];
+const questList = [firstQuest, publicQuest, circleQuest, letterQuest, literaryQuest, overcoatQuest, ...marketPersonalQuests, ...addedPersonalQuests, ...v36PersonalQuestFiles, ...socialQuestFiles];
 const questsById = new Map(questList.map(item => [item.id, item]));
 const relationHintValues = new Map();
 for (const quest of questList) for (const action of quest.actions ?? []) {
@@ -544,6 +545,12 @@ function updateHud() {
       const item = document.createElement('li'), title = document.createElement('strong'), body = document.createElement('span');
       title.textContent = `${goal.titleKo} · `; body.textContent = goal.textKo; item.append(title, body); goalList.append(item);
     }
+    for (const goal of live.personalGoals ?? []) {
+      const item=document.createElement('li'),title=document.createElement('strong'),body=document.createElement('span'),progress=live.personalGoalProgress?.[goal.id]?.status==='SATISFIED'?'확인됨':'이어가는 중';
+      title.textContent=`삶의 방향 · ${goal.titleKo} · ${progress} · `;body.textContent=goal.descriptionKo;item.append(title,body);
+      if(progress!=='확인됨'&&goal.fallbackKo){const fallback=document.createElement('small');fallback.textContent=` ${goal.fallbackKo}`;item.append(fallback);}
+      goalList.append(item);
+    }
     if (live.knownEvidenceIds.includes(source.sourceId)) known.push('투르게네프 「호리와 칼리니치」 원문');
     for (const record of historicalSources.records) if (live.knownEvidenceIds.includes(record.sourceId)) known.push(`${record.documentDate} · ${record.titleKo}`);
     for (const id of live.knownEvidenceIds) {
@@ -581,6 +588,7 @@ function updateHud() {
   for (const note of dialogueGrowth.playerPositions ?? []) reflectionRows.push(`${note.date} · 내 입장: ${note.titleKo} · ${note.labelKo}`);
   fill('#journal-perspective-notes', reflectionRows.length ? reflectionRows : ['사건이나 생각에 관한 질문을 AI와 나누면 이곳에 관점 메모와 통찰이 쌓입니다.']);
   const logs = state.ledger.slice(-12).reverse().map(entry => {
+    if (entry.eventType === 'NPC_SIMULATION') return null;
     if (entry.eventType === 'DIALOGUE_TURN') return `${entry.date} · ${entry.discussionId ? `견해 질문 · ${discussionQuestById.get(entry.discussionId)?.titleKo ?? '주제 대화'}` : `${cards.find(item=>item.id===entry.hostId)?.displayNameKo ?? '대화'}와 이야기함`}`;
     if (entry.eventType === 'HISTORICAL_ACTION' || entry.eventType === 'LITERARY_ACTION') { const q=questsById.get(entry.questId), a=q?.actions.find(item=>item.id===entry.actionId); return `${entry.date} · ${a?.labelKo ?? '문서에 선택을 남김'}`; }
     if (entry.eventType === 'READ_SOURCE') return `${entry.date} · 자료를 읽음`;
@@ -591,6 +599,12 @@ function updateHud() {
     if (entry.eventType === 'SUSPICIOUS_ACT' || entry.eventType === 'POLICE_CUSTODY' || entry.eventType === 'POLICE_RELEASE') return `${entry.date} · ${entry.eventType === 'SUSPICIOUS_ACT' ? '수상한 행동 기록' : entry.eventType === 'POLICE_CUSTODY' ? '경찰 접수·연행' : '경찰 접수실 석방'}`;
     return null;
   }).filter(Boolean);
+  const cityReactions = state.ledger.filter(entry => entry.eventType === 'NPC_SIMULATION').flatMap(entry => [
+    ...(entry.personalContacts ?? []).map(contact => `${entry.date} · 도시 생활: ${cards.find(item=>item.id===contact.hostId)?.displayNameKo ?? '주민'}가 ${cards.find(item=>item.id===contact.partnerHostId)?.displayNameKo ?? '이웃'}를 찾아가 이야기를 나눔`),
+    ...(entry.deliveries ?? []).map(delivery => `${entry.date} · 도시 생활: ${cards.find(item=>item.id===delivery.hostId)?.displayNameKo ?? '주민'}가 ${cards.find(item=>item.id===delivery.recipientHostId)?.displayNameKo ?? '이웃'}에게 ${delivery.itemKo} 전달`),
+    ...(entry.exchanges ?? []).map(exchange => `${entry.date} · 도시 생활: ${cards.find(item=>item.id===exchange.hostId)?.displayNameKo ?? '주민'}와 ${cards.find(item=>item.id===exchange.recipientHostId)?.displayNameKo ?? '이웃'}가 ${exchange.itemKo} 거래`),
+  ]).slice(-12).reverse();
+  logs.unshift(...cityReactions);
   fill('#journal-history', logs.length ? logs : ['아직 남긴 기록이 없습니다.'], 'li');
   updateTutorial();
 }
@@ -1022,7 +1036,7 @@ function inspect(object) {
     const choiceStates = questChoices(activeQuest, state.player.embodiment, knowledgeForHost(state, state.player.embodiment), state);
     const opts = choiceStates.map(({ action, missingSourceId }) => ({ label: action.labelKo, disabled: Boolean(missingSourceId), subcopy: `${missingSourceId ? `먼저 이 몸으로 「${sourceRecords.get(missingSourceId)?.titleKo ?? '관련 자료'}」을 현장에서 읽어야 합니다.\n` : ''}${action.subcopyKo}`, run: () => {
       const result = performQuestAction(state, { questId: activeQuest.id, hostId: state.player.embodiment, actionId: action.id, objectId: object.id }, { quests: questList, maps });
-      if (!result.ok) { sayRecord(`처리할 수 없음 · ${result.reason}`); return; }
+      if (!result.ok) { sayRecord(result.reason === 'social_partner_not_present' ? '이 일은 상대와 직접 만나야 합니다. 같은 장소에서 곁에 있는 시간에 다시 이야기해 보세요.' : `처리할 수 없음 · ${result.reason}`); return; }
       setState(result.state);
       tutorialAdvance('target');
       const actions = continuationFor(activeQuest);
@@ -1153,7 +1167,7 @@ function interact() {
     const peopleChoices = nearbyPeople.map(item => {
       const hostId = mapObjectProperties(item).hostId, card = cards.find(character => character.id === hostId), person = state.hosts[hostId];
       const routineStateKo = ({ TRAVELLING: '이동 중', WORKING: '일하는 중', TRADING: '거래 중', RESTING: '쉬는 중', SOCIALIZING: '사람들과 이야기하는 중', DELIVERING: '물건을 전하는 중', POSSESSED: '다른 이의 시야에 들어와 있음' })[person.routineState?.state] ?? '자기 일과를 보내는 중';
-      const goalKo = ({ FOLLOW_RECIPIENT: '받을 사람을 찾아가는 중', FOLLOW_TRADE_PARTNER: '거래 상대를 찾아가는 중', NEED_MEAL: '허기를 채우러 가는 중', NEED_REST: '피로를 풀 곳으로 가는 중' })[person.activeGoal?.type] ?? person.currentActivityKo ?? card.personalObjective;
+      const goalKo = ({ FOLLOW_RECIPIENT: '받을 사람을 찾아가는 중', FOLLOW_TRADE_PARTNER: '거래 상대를 찾아가는 중', PERSONAL_RELATIONSHIP: `${cards.find(item=>item.id===person.activeGoal?.targetHostId)?.displayNameKo ?? '이웃'}를 만나러 가는 중`, NEED_MEAL: '허기를 채우러 가는 중', NEED_REST: '피로를 풀 곳으로 가는 중' })[person.activeGoal?.type] ?? person.currentActivityKo ?? card.personalObjective;
       const hungerKo = (person.needs?.hunger ?? 0) >= 65 ? '끼니가 급함' : (person.needs?.hunger ?? 0) >= 45 ? '허기를 느끼는 중' : '허기 낮음';
       return { label: `${card.displayNameKo} 살펴보기`, subcopy: `${card.occupation} · ${routineStateKo} · ${goalKo} · ${hungerKo}`, run: () => inspect(item) };
     });
@@ -1170,7 +1184,9 @@ function interact() {
         return { label: `문을 지나 ${destination}로`, subcopy: '실제 출입문을 통해 장소를 옮깁니다.', run: () => inspect(item) };
       }
       const quest = questsById.get(props.questId);
-      return { label: `사건 살펴보기 · ${quest?.titleKo ?? '현장 기록'}`, subcopy: quest?.premiseKo ?? '', run: () => inspect(item) };
+      const partner = quest?.socialChain ? cards.find(person => person.id === quest.socialChain.partnerHostId)?.displayNameKo : '';
+      const partnerNote = partner ? ` · ${partner}가 같은 장소 가까이에 있을 때 진행할 수 있습니다.` : '';
+      return { label: `사건 살펴보기 · ${quest?.titleKo ?? '현장 기록'}`, subcopy: `${quest?.premiseKo ?? ''}${partnerNote}`, run: () => inspect(item) };
     });
     say('가까이에 사람과 문서가 있다', '살펴볼 사람이나 주변의 문서·출입문을 고르세요.', [...peopleChoices, ...nearbyObjects]);
     return;

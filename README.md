@@ -4,7 +4,7 @@ Russian Lives: Act III is a browser RPG deployed as a static game plus same-orig
 
 ## Play loop additions
 
-The 1847–1849 city now connects buying a periodical and printing supplies to reading a cited source, editing a one-page street issue, then handing it out or mailing it. As press staff, the mission tracker guides this loop through three dated issues; a copy left at the street stand can be read by other characters, adding its cited source to their own knowledge. The fictional police intake room follows witnessed tampering or repeated suspicious acts; statement and fine outcomes are recorded in the save. Ten viewpoint inquiries ask players to compare what different characters think about class, censorship, public reporting, safety, and responsibility. A successfully generated model reply is the text shown in play; if provider validation fails, the game reports the reason and offers a retry instead of silently substituting authored dialogue.
+The 1847–1849 city now connects buying a periodical and printing supplies to reading a cited source, editing a one-page street issue, then handing it out or mailing it. As press staff, the mission tracker guides this loop through three dated issues; a copy left at the street stand can be read by other characters, adding its cited source to their own knowledge. The fictional police intake room follows witnessed tampering or repeated suspicious acts; statement and fine outcomes are recorded in the save. The opinion board has 23 inquiries about class, censorship, public reporting, safety, responsibility, education, and related disputes. Choose a question, ask two residents, compare their generated answers, and record your own position. A successfully generated model reply is the text shown in play; if provider validation fails, the game reports the reason and offers a retry instead of silently substituting authored dialogue.
 
 For AI dialogue, use the Vercel deployment URL. GitHub Pages serves the static game but cannot run `/api/rpg/*`; its API status panel now names this hosting limit directly.
 
@@ -64,7 +64,9 @@ The smoke makes one short dialogue-generation request, prints only pass/fail and
 
 ## V35 contextual play and evidence
 
-The printshop, 1848 distribution notice, 1849 investigation report, and May letter each have a checked-in case context that connects the document to a character's situation, practical stakes, and authorized quest actions. `rpg/data/source-reader-index.json` supplies the reader layout, exact excerpt ID/range, date facets, and Korean context. Historical text stays separate from fictional character positions and dialogue.
+The city mission board names a first step and next destination. Follow the current personal or neighborhood quest, meet the named resident in person, and use the indicated map exit; three-stage personal stories keep their progress in the journal. The separate **사건·철학·이념 임무** board starts with 16 of 23 viewpoint inquiries available. Choose a question, ask the named resident, ask another resident about the same issue, compare their generated answers, then record your own position. The game saves the comparison and position as a visible journal entry.
+
+The printshop, 1848 distribution notice, 1849 investigation report, and May letter each have a checked-in case context that connects the document to a character's situation, practical stakes, and authorized quest actions. `rpg/data/source-reader-index.json` supplies the reader layout, exact excerpt ID/range, date facets, and Korean context. Historical text stays separate from fictional character positions and dialogue. The 36-resident voice audit checks distinct rhythm, blind spots, relationship registers, and six situations; AI dialogue receives those per-character details and must follow the current relationship register.
 
 Run the V35 evidence checks with:
 

@@ -3141,6 +3141,204 @@
               "value": "BOOKS_AND_READING"
             }
           ]
+        },
+        {
+          "id": 1168,
+          "name": "돌려줄 책의 다음 자리",
+          "type": "quest-object",
+          "x": 160,
+          "y": 256,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "LEV_RETURNED_SHEETS_1847_STAGE_3"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": 1169,
+          "name": "누가 마지막으로 서명할까",
+          "type": "quest-object",
+          "x": 176,
+          "y": 272,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_3"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": 1170,
+          "name": "마지막 운송표의 빈칸",
+          "type": "quest-object",
+          "x": 176,
+          "y": 224,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "TIMofey_SHARED_LOAD_1847_STAGE_3"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": 1171,
+          "name": "누구의 이름으로 내보낼까",
+          "type": "quest-object",
+          "x": 160,
+          "y": 240,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "SOFIA_UNNAMED_NOTICE_1847_STAGE_3"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": 1172,
+          "name": "통과 기록의 책임",
+          "type": "quest-object",
+          "x": 192,
+          "y": 240,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "SERGEY_VISITOR_PASS_1847_STAGE_3"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": 1173,
+          "name": "수선대 옆의 독서 시간",
+          "type": "quest-object",
+          "x": 144,
+          "y": 256,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "TATYANA_READING_HOUR_1847_STAGE_3"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": 1174,
+          "name": "오늘 찍을 분량",
+          "type": "quest-object",
+          "x": 208,
+          "y": 256,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "EKATERINA_INK_SHORTAGE_1847_STAGE_3"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": 1175,
+          "name": "책임을 남기는 결재 경로",
+          "type": "quest-object",
+          "x": 160,
+          "y": 272,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "KONSTANTIN_UNSIGNED_REVIEW_1847_STAGE_3"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": 1176,
+          "name": "빌린 공구를 돌려주는 날",
+          "type": "quest-object",
+          "x": 176,
+          "y": 288,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "ROMAN_WHEEL_AND_FARE_1847_STAGE_3"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
         }
       ]
     },

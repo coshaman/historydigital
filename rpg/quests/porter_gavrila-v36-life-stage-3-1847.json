@@ -1,0 +1,121 @@
+{
+  "id": "GAVRILA_CARRYING_TALLY_1847_STAGE_3",
+  "titleKo": "받았다는 표시 · 3/3",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "짐은 목적지에 도착했지만 받는 사람은 자리에 없다. 가브릴라는 문 앞에 두고 갈지, 기다릴지, 보관소로 돌릴지 선택한다.",
+  "historicalOutcome": {
+    "id": "GAVRILA_CARRYING_TALLY_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life only; no historical event or public record changes",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "bakery-interior",
+    "objectId": 4007,
+    "requiredHostId": "porter_gavrila"
+  },
+  "actions": [
+    {
+      "id": "GAVRILA_CARRYING_TALLY_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "porter_gavrila"
+      ],
+      "labelKo": "수취인이 올 때까지 기다린다",
+      "subcopyKo": "가브릴라와 수취인이 압니다 · 대기 시각이 인수표에 남습니다 · 다음 일감이 늦어질 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "가브릴라와 수취인이 압니다",
+        "recordKo": "대기 시각이 인수표에 남습니다",
+        "riskKo": "다음 일감이 늦어질 수 있습니다"
+      },
+      "resultKo": "수취인이 와서 수량을 확인했다. 기다린 시간도 운송표에 적었다.",
+      "resultFlag": "GAVRILA_CARRYING_TALLY_1847_STAGE_3_RESULT_1",
+      "followupTitleKo": "받았다는 표시",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "수취인이 와서 수량을 확인했다. 기다린 시간도 운송표에 적었다.",
+        "relations": {
+          "coachman_timofey": "받았다는 표시에서 가브릴라와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "GAVRILA_CARRYING_TALLY_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "porter_gavrila"
+      ],
+      "labelKo": "보관소로 되돌려 확인을 요청한다",
+      "subcopyKo": "가브릴라와 보관 담당이 압니다 · 반송과 보관 기록이 남습니다 · 왕복 운반 삯을 다시 협의해야 합니다",
+      "practicalDisclosure": {
+        "audienceKo": "가브릴라와 보관 담당이 압니다",
+        "recordKo": "반송과 보관 기록이 남습니다",
+        "riskKo": "왕복 운반 삯을 다시 협의해야 합니다"
+      },
+      "resultKo": "짐을 보관소로 돌렸다. 수취인이 직접 확인할 때까지 인도 완료로 쓰지 않았다.",
+      "resultFlag": "GAVRILA_CARRYING_TALLY_1847_STAGE_3_RESULT_2",
+      "followupTitleKo": "받았다는 표시",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "짐을 보관소로 돌렸다. 수취인이 직접 확인할 때까지 인도 완료로 쓰지 않았다.",
+        "relations": {
+          "coachman_timofey": "받았다는 표시에서 가브릴라와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "GAVRILA_CARRYING_TALLY_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "porter_gavrila"
+      ],
+      "labelKo": "문 앞에 두고 수취인에게 쪽지를 남긴다",
+      "subcopyKo": "가브릴라와 쪽지를 읽는 사람이 압니다 · 전달 쪽지가 남습니다 · 분실이나 파손이 생기면 책임을 둘러싼 다툼이 납니다",
+      "practicalDisclosure": {
+        "audienceKo": "가브릴라와 쪽지를 읽는 사람이 압니다",
+        "recordKo": "전달 쪽지가 남습니다",
+        "riskKo": "분실이나 파손이 생기면 책임을 둘러싼 다툼이 납니다"
+      },
+      "resultKo": "문 앞에 두는 데 동의를 받고 쪽지를 남겼다. 동의가 없었다면 짐을 두고 가지 않았을 것이다.",
+      "resultFlag": "GAVRILA_CARRYING_TALLY_1847_STAGE_3_RESULT_3",
+      "followupTitleKo": "받았다는 표시",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "문 앞에 두는 데 동의를 받고 쪽지를 남겼다. 동의가 없었다면 짐을 두고 가지 않았을 것이다.",
+        "relations": {
+          "coachman_timofey": "받았다는 표시에서 가브릴라와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "exposure": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the physically placed personal-work marker",
+  "lifeChain": {
+    "id": "GAVRILA_CARRYING_TALLY_1847",
+    "titleKo": "GAVRILA CARRYING TALLY 1847",
+    "stage": 3,
+    "stageCount": 3,
+    "kind": "PERSONAL",
+    "source": "V36_DEDICATED_PERSONAL_ARC",
+    "previousQuestId": "GAVRILA_CARRYING_TALLY_1847_STAGE_2",
+    "metricsKo": {
+      "care": "이웃과 생계를 다룬 결과",
+      "record": "남긴 기록의 범위",
+      "exposure": "공개한 정보의 범위"
+    }
+  },
+  "prerequisiteQuestIds": [
+    "GAVRILA_CARRYING_TALLY_1847_STAGE_2"
+  ]
+}

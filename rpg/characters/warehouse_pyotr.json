@@ -59,7 +59,7 @@
   "voiceSamples": [
     "인수 번호가 있습니까? 물건 이름보다 번호와 수량부터 대조하겠소.",
     "수량이 하나 맞지 않소. 누가 가져갔다고 쓰기 전에 입고표부터 다시 봐야 하오.",
-    "물품 기록은 필요하지만 장부의 누락만으로 특정 사람을 도둑으로 몰아서는 안 된다고 본다. 자기 몫의 실수도 확인되면 적으려 한다."
+    "장부에 한 줄 빠졌다고 누굴 도둑이라 부르진 마시오. 입고표부터 다시 대조해 봅시다."
   ],
   "worldview": {
     "status": "fictional_character_design",
@@ -242,6 +242,32 @@
       "kind": "social",
       "titleKo": "오늘 엮인 사람 · 클라브디야",
       "textKo": "생선 상자를 맡기고 수량을 확인하는 상인이다"
+    }
+  ],
+  "persistentPersonalGoals": [
+    {
+      "id": "warehouse_pyotr:life-arc",
+      "kind": "LIFE",
+      "titleKo": "이어 가는 생활 문제",
+      "descriptionKo": "분실을 막는 기록이 사람을 근거 없이 의심하게 만들면 무엇을 남겨야 할까요?",
+      "successCondition": {
+        "type": "LIFE_CHAIN_COMPLETED",
+        "chainId": "MARKET_MEAL_ROUTE_1847",
+        "stageCount": 6
+      },
+      "fallbackKo": "연쇄 임무가 지금 열리지 않으면 오늘의 일과를 이어가고, 다음 단계를 확인할 수 있을 때 다시 돌아온다."
+    },
+    {
+      "id": "warehouse_pyotr:relationship",
+      "kind": "RELATIONSHIP",
+      "titleKo": "클라브디야와의 관계",
+      "descriptionKo": "분실을 막는 기록이 사람을 근거 없이 의심하게 만들면 무엇을 남겨야 할까요? · 클라브디야와 얽힌 사정을 당사자에게 확인한다.",
+      "successCondition": {
+        "type": "RELATION_CHANGED",
+        "targetHostId": "fishseller_klavdiya",
+        "baseline": "생선 상자를 맡기고 수량을 확인하는 상인이다"
+      },
+      "fallbackKo": "상대가 다른 생활권에 있거나 만날 수 없으면 추측을 퍼뜨리지 말고, 다시 만날 수 있는 장소와 시간을 살핀다."
     }
   ]
 }

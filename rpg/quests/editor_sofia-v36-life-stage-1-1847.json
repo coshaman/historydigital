@@ -1,0 +1,117 @@
+{
+  "id": "SOFIA_UNNAMED_NOTICE_1847_STAGE_1",
+  "titleKo": "이름이 지워진 제보 · 1/3",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "짧은 독자 편지에는 장터의 값과 한 상인의 이름이 함께 적혀 있다. 소피야는 확인되지 않은 비난을 그대로 인쇄할 수 없다.",
+  "historicalOutcome": {
+    "id": "SOFIA_UNNAMED_NOTICE_1847_STAGE_1_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life only; no historical event or public record changes",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "printshop",
+    "objectId": 1170,
+    "requiredHostId": "editor_sofia"
+  },
+  "actions": [
+    {
+      "id": "SOFIA_UNNAMED_NOTICE_1847_STAGE_1_CHOICE_1",
+      "hostIds": [
+        "editor_sofia"
+      ],
+      "labelKo": "가격 주장과 개인 이름을 분리한다",
+      "subcopyKo": "소피야와 편집부가 압니다 · 편집 원고에 분리 표시가 남습니다 · 핵심 주장이 약해졌다고 제보자가 항의할 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "소피야와 편집부가 압니다",
+        "recordKo": "편집 원고에 분리 표시가 남습니다",
+        "riskKo": "핵심 주장이 약해졌다고 제보자가 항의할 수 있습니다"
+      },
+      "resultKo": "가격 주장만 남기고 이름은 보류했다. 확인되지 않은 개인 비난을 독자에게 넘기지 않았다.",
+      "resultFlag": "SOFIA_UNNAMED_NOTICE_1847_STAGE_1_RESULT_1",
+      "followupTitleKo": "이름이 지워진 제보",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "가격 주장만 남기고 이름은 보류했다. 확인되지 않은 개인 비난을 독자에게 넘기지 않았다.",
+        "relations": {
+          "printer_ekaterina": "이름이 지워진 제보에서 소피야 미하일로바와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "SOFIA_UNNAMED_NOTICE_1847_STAGE_1_CHOICE_2",
+      "hostIds": [
+        "editor_sofia"
+      ],
+      "labelKo": "기록 출처를 다시 요청한다",
+      "subcopyKo": "소피야와 제보자가 압니다 · 비공개 확인 요청이 남습니다 · 회신을 기다리는 동안 지면을 비워야 합니다",
+      "practicalDisclosure": {
+        "audienceKo": "소피야와 제보자가 압니다",
+        "recordKo": "비공개 확인 요청이 남습니다",
+        "riskKo": "회신을 기다리는 동안 지면을 비워야 합니다"
+      },
+      "resultKo": "제보자에게 날짜와 직접 본 자료를 물었다. 답을 받기 전까지 인쇄를 미뤘다.",
+      "resultFlag": "SOFIA_UNNAMED_NOTICE_1847_STAGE_1_RESULT_2",
+      "followupTitleKo": "이름이 지워진 제보",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "제보자에게 날짜와 직접 본 자료를 물었다. 답을 받기 전까지 인쇄를 미뤘다.",
+        "relations": {
+          "printer_ekaterina": "이름이 지워진 제보에서 소피야 미하일로바와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "SOFIA_UNNAMED_NOTICE_1847_STAGE_1_CHOICE_3",
+      "hostIds": [
+        "editor_sofia"
+      ],
+      "labelKo": "확인되지 않았음을 표시해 싣는다",
+      "subcopyKo": "신문 독자들이 봅니다 · 정정 가능한 편집 메모가 남습니다 · 독자가 이름을 추측하거나 소문을 퍼뜨릴 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "신문 독자들이 봅니다",
+        "recordKo": "정정 가능한 편집 메모가 남습니다",
+        "riskKo": "독자가 이름을 추측하거나 소문을 퍼뜨릴 수 있습니다"
+      },
+      "resultKo": "확인되지 않은 제보라고 밝혀 실었다. 이름은 싣지 않아도 독자가 주변을 추측할 위험은 남았다.",
+      "resultFlag": "SOFIA_UNNAMED_NOTICE_1847_STAGE_1_RESULT_3",
+      "followupTitleKo": "이름이 지워진 제보",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "확인되지 않은 제보라고 밝혀 실었다. 이름은 싣지 않아도 독자가 주변을 추측할 위험은 남았다.",
+        "relations": {
+          "printer_ekaterina": "이름이 지워진 제보에서 소피야 미하일로바와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "exposure": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the physically placed personal-work marker",
+  "lifeChain": {
+    "id": "SOFIA_UNNAMED_NOTICE_1847",
+    "titleKo": "SOFIA UNNAMED NOTICE 1847",
+    "stage": 1,
+    "stageCount": 3,
+    "kind": "PERSONAL",
+    "source": "V36_DEDICATED_PERSONAL_ARC",
+    "metricsKo": {
+      "care": "이웃과 생계를 다룬 결과",
+      "record": "남긴 기록의 범위",
+      "exposure": "공개한 정보의 범위"
+    }
+  }
+}

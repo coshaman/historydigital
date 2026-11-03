@@ -1,0 +1,37 @@
+﻿number,proposed_id,name_ko,fictional_role_and_personality,daily_route,personal_conflict,historical_validation_status
+1,clerk_alexei,알렉세이,"신중한 하급 서기, 오류를 두려워함",셋방 → 관청 접수실 → 상관 책상 → 우편 창구,"장부의 누락을 고칠지, 남의 이름을 보호할지",PLANNED_NOT_HISTORICALLY_VERIFIED
+2,printer_ekaterina,예카테리나,"실무적 인쇄 관계자, 검열에 회의적",집/작업장 → 조판대 → 책방 → 편집 연락,교정과 생계·출판 책임 사이의 갈등,PLANNED_NOT_HISTORICALLY_VERIFIED
+3,courier_pavel,파벨,"우편 연락원, 경로와 약속을 중시",우편집하 → 거리/다리 → 상점·인쇄소 → 반송,누가 어떤 내용의 문서를 받는가,PLANNED_NOT_HISTORICALLY_VERIFIED
+4,seamstress_anna,안나,"생계 우선 수선공, 일에는 자부심",셋방 → 주문집 → 수선대 → 대금 수금,"품삯·방세, 신문을 읽을 시간의 비용",PLANNED_NOT_HISTORICALLY_VERIFIED
+5,tenant_mikhail,미하일,일거리가 일정치 않은 세입자,셋방 → 시장 고용 문의 → 부두 → 귀가,"하루 품삯과 밀린 방세, 소문에 휘둘림",PLANNED_NOT_HISTORICALLY_VERIFIED
+6,bookseller_lev,레프,"장부 정확한 서점상, 신중한 거래",집 → 서점 진열 → 책 배달 → 장부 정리,금지·반품·외상·독서 선택,PLANNED_NOT_HISTORICALLY_VERIFIED
+7,editor_sofia,소피야,"문학/편집 네트워크 인물, 계산적",응접실 → 인쇄소 → 책방 → 사적 서신,글의 가치를 인정하면서 위험을 돌림,PLANNED_NOT_HISTORICALLY_VERIFIED
+8,police_sergeant_ivan,이반,"현장 경관, 규율·평판 중시",경찰서 → 시장 순찰 → 사건 보고 → 귀소,법 집행과 개인적 사정의 충돌,PLANNED_NOT_HISTORICALLY_VERIFIED
+9,reader_darya,다리야,"서적을 읽는 도시 주민, 사회적 관심",집 → 책방 → 독서 모임/거리 → 귀가,문학 해석과 자신이 처한 위치의 차이,PLANNED_NOT_HISTORICALLY_VERIFIED
+10,senior_clerk_konstantin,콘스탄틴,"승진 지향 상급 서기, 권한에 민감",관청 → 접수 감사 → 동료 면담 → 퇴근,기록의 올바름과 조직의 편의,PLANNED_NOT_HISTORICALLY_VERIFIED
+11,yardkeeper_semyon,세묜,"안뜰 관리인, 관찰력·입단속",안뜰 문 → 계단 → 우물/장작 → 세입자 확인,세입자의 비밀을 드러낼지 말지,PLANNED_NOT_HISTORICALLY_VERIFIED
+12,laundress_mariya,마리야,"세탁 노동자, 집안 돈을 책임짐",공동 방 → 세탁장 → 손님 집 → 장터,세탁 품삯과 신분별 대우,PLANNED_NOT_HISTORICALLY_VERIFIED
+13,baker_fyodor,표도르,새벽 일찍 일하는 제빵공,새벽 작업장 → 빵집 → 시장 납품 → 휴식,"가격, 재료 부족, 상인과 거래",PLANNED_NOT_HISTORICALLY_VERIFIED
+14,market_nadezhda,나데즈다,"시장 좌판상, 흥정에 능숙",물품 수령 → 시장 좌판 → 납품처 → 귀가,"물가·세금·생계, 고객들의 다른 정보",PLANNED_NOT_HISTORICALLY_VERIFIED
+15,porter_gavrila,가브릴라,"강변 짐꾼, 육체 노동자",부두 → 창고 → 시장 → 주점,"고용과 허리 부상, 상인의 권력",PLANNED_NOT_HISTORICALLY_VERIFIED
+16,coachman_timofey,티모페이,"마부/운송인, 길·날씨에 밝음",마차 대기 → 도심 운송 → 정차/말 관리,돈을 받으면 누구를 먼저 태우나,PLANNED_NOT_HISTORICALLY_VERIFIED
+17,housemaid_olga,올가,"가사 노동자, 집안 내부를 봄",하숙/안뜰 → 고용주 집 → 시장 → 귀가,주인의 비밀과 일자리 안전,PLANNED_NOT_HISTORICALLY_VERIFIED
+18,midwife_avdotya,아브도티야,"산파, 동네의 신뢰를 얻음",집 → 호출받은 셋방 → 약방 → 집,의료 비용과 계층별 돌봄 접근,PLANNED_NOT_HISTORICALLY_VERIFIED
+19,apothecary_yakov,야코프,"약방 보조/조제 담당, 원칙적",약방 → 공급 창고 → 고객 방문 → 계산,의약 정보의 한계·값의 부담,PLANNED_NOT_HISTORICALLY_VERIFIED
+20,print_apprentice_stepan,스테판,"인쇄 견습공, 호기심 많음",숙소 → 활자함 → 종이 적재 → 인쇄기,어떤 글을 찍고 누구 이름으로 남기나,PLANNED_NOT_HISTORICALLY_VERIFIED
+21,bookbinder_elizaveta,엘리자베타,"제본 노동자, 손재주와 자부심",집 → 제본소 → 책방 수령 → 귀가,장정·훼손·물품 책임·재고,PLANNED_NOT_HISTORICALLY_VERIFIED
+22,scribal_yuri,유리,"필경사, 글을 아는 것에 자존심",거리 광고 → 필사실 → 관청 납품 → 숙소,검열된 문서의 사본을 남기는 문제,PLANNED_NOT_HISTORICALLY_VERIFIED
+23,innkeeper_irina,이리나,"여관주인, 정보와 돈에 민감",여관 접수 → 시장 구매 → 식당 → 손님 관리,신분증/외상·여관의 소문,PLANNED_NOT_HISTORICALLY_VERIFIED
+24,student_vasily,바실리,학업·사상에 흔들리는 학생,숙소 → 서점 → 독서 모임 → 귀가,서구주의/슬라브주의 논쟁의 실제 위험,PLANNED_NOT_HISTORICALLY_VERIFIED
+25,teacher_lyubov,류보프,"글을 가르치는 교사, 분별력",학교/가정 수업 → 책방 → 학생집,"누가 배울 수 있는가, 교육의 비용",PLANNED_NOT_HISTORICALLY_VERIFIED
+26,minor_noble_andrei,안드레이,"자금 부족 귀족 청년, 체면 중시",자택 → 관청 면담 → 모임/여관,신분은 높지만 돈이 없을 때의 선택,PLANNED_NOT_HISTORICALLY_VERIFIED
+27,landlady_polina,폴리나,"셋방 임대인, 이해득실 명료",임대집 → 상점 → 밀린 방세 방문,방세 독촉과 공동체의 부채,PLANNED_NOT_HISTORICALLY_VERIFIED
+28,watercarrier_luka,루카,"물 공급 노동자, 소문을 많이 들음",급수/운하 → 안뜰 → 가정집 → 급수지,누가 물을 살 수 있고 누가 직접 길어야 하나,PLANNED_NOT_HISTORICALLY_VERIFIED
+29,fishseller_klavdiya,클라브디야,"생선 판매상, 빠른 판단",강변 물량 수령 → 시장 → 정산 → 귀가,가격 변동과 보관 시간,PLANNED_NOT_HISTORICALLY_VERIFIED
+30,warehouse_pyotr,표트르,"창고 사무 보조, 일감에 민감",강변 창고 → 장부실 → 관청 전달 → 창고,"물품 기록, 분실 책임, 차용",PLANNED_NOT_HISTORICALLY_VERIFIED
+31,servant_varvara,바르바라,"도심 가정의 하인, 눈치 빠름",주인집 → 세탁/시장 → 지시 전달 → 귀가,아래 사람만 알고 있는 집안 사정,PLANNED_NOT_HISTORICALLY_VERIFIED
+32,junior_guard_sergey,세르게이,"젊은 경비병, 불안·성실",관청 출입문 → 외곽 순찰 → 교대,출입 허가와 뇌물·책임,PLANNED_NOT_HISTORICALLY_VERIFIED
+33,carter_roman,로만,"짐마차 운송업자, 실용적",시장 창고 → 인쇄소 → 부두 → 마구간,인쇄물 이동 및 물자 지연,PLANNED_NOT_HISTORICALLY_VERIFIED
+34,street_vendor_matryona,마트료나,"행상, 날씨·통행에 민감",아침 도로 → 상점 앞 → 시장 → 귀가,비/눈에 따라 매상과 이동을 바꿈,PLANNED_NOT_HISTORICALLY_VERIFIED
+35,typesetter_nikita,니키타,"활자공, 피로와 속도 압박",활자함 → 교정대 → 인쇄기 → 주점/숙소,오탈자·검열 재인쇄·노동시간,PLANNED_NOT_HISTORICALLY_VERIFIED
+36,lodging_tatyana,타티야나,셋방의 독서·재봉을 병행하는 여성,셋방 → 책 대여 → 수선 도구 대여 → 모임,문해력과 수입을 동시에 얻는 길,PLANNED_NOT_HISTORICALLY_VERIFIED

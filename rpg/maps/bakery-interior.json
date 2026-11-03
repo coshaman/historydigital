@@ -2097,6 +2097,50 @@
               "value": "MARKET_QUAY"
             }
           ]
+        },
+        {
+          "id": 4006,
+          "name": "밀가루 자루의 무게",
+          "type": "quest-object",
+          "x": 176,
+          "y": 208,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "FYODOR_FLOUR_AND_ORDERS_1847_STAGE_1"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": 4007,
+          "name": "받았다는 표시",
+          "type": "quest-object",
+          "x": 160,
+          "y": 224,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "GAVRILA_CARRYING_TALLY_1847_STAGE_3"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
         }
       ]
     },

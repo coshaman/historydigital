@@ -1,0 +1,121 @@
+{
+  "id": "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_3",
+  "titleKo": "누가 마지막으로 서명할까 · 3/3",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "번호를 바로잡을 수 있는 자료가 모였다. 그래도 알렉세이는 자기 권한과 상급자의 결재를 대신하지 않으려 한다.",
+  "historicalOutcome": {
+    "id": "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life only; no historical event or public record changes",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "nevsky",
+    "objectId": 1169,
+    "requiredHostId": "clerk_alexei"
+  },
+  "actions": [
+    {
+      "id": "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "clerk_alexei"
+      ],
+      "labelKo": "확인한 사실만 첨부해 결재를 청한다",
+      "subcopyKo": "상급자와 접수 담당이 봅니다 · 공식 검토 메모가 남습니다 · 추가 확인이 필요하면 다시 돌려받습니다",
+      "practicalDisclosure": {
+        "audienceKo": "상급자와 접수 담당이 봅니다",
+        "recordKo": "공식 검토 메모가 남습니다",
+        "riskKo": "추가 확인이 필요하면 다시 돌려받습니다"
+      },
+      "resultKo": "확인된 두 시각과 미확인 경로를 나눠 결재를 올렸다. 최종 수정 책임은 결재자에게 남는다.",
+      "resultFlag": "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_3_RESULT_1",
+      "followupTitleKo": "누가 마지막으로 서명할까",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "확인된 두 시각과 미확인 경로를 나눠 결재를 올렸다. 최종 수정 책임은 결재자에게 남는다.",
+        "relations": {
+          "printer_ekaterina": "누가 마지막으로 서명할까에서 알렉세이 오를로프와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "clerk_alexei"
+      ],
+      "labelKo": "접수부에 정정선을 긋고 이유를 적는다",
+      "subcopyKo": "관청 기록 담당이 봅니다 · 정정 이력과 작성자 이름이 남습니다 · 잘못 고치면 본인이 설명해야 합니다",
+      "practicalDisclosure": {
+        "audienceKo": "관청 기록 담당이 봅니다",
+        "recordKo": "정정 이력과 작성자 이름이 남습니다",
+        "riskKo": "잘못 고치면 본인이 설명해야 합니다"
+      },
+      "resultKo": "정정 이유를 함께 적었다. 번호는 고쳤지만 원본의 흔적은 지우지 않았다.",
+      "resultFlag": "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_3_RESULT_2",
+      "followupTitleKo": "누가 마지막으로 서명할까",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "정정 이유를 함께 적었다. 번호는 고쳤지만 원본의 흔적은 지우지 않았다.",
+        "relations": {
+          "printer_ekaterina": "누가 마지막으로 서명할까에서 알렉세이 오를로프와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "clerk_alexei"
+      ],
+      "labelKo": "기록을 보류하고 원본 반환을 요청한다",
+      "subcopyKo": "관청과 인쇄소가 압니다 · 보류·반환 대장이 남습니다 · 당일 문서 처리가 늦어질 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "관청과 인쇄소가 압니다",
+        "recordKo": "보류·반환 대장이 남습니다",
+        "riskKo": "당일 문서 처리가 늦어질 수 있습니다"
+      },
+      "resultKo": "원본이 돌아올 때까지 접수 상태를 보류했다. 모르는 부분을 임의로 채우지 않았다.",
+      "resultFlag": "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_3_RESULT_3",
+      "followupTitleKo": "누가 마지막으로 서명할까",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "원본이 돌아올 때까지 접수 상태를 보류했다. 모르는 부분을 임의로 채우지 않았다.",
+        "relations": {
+          "printer_ekaterina": "누가 마지막으로 서명할까에서 알렉세이 오를로프와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "exposure": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the physically placed personal-work marker",
+  "lifeChain": {
+    "id": "ALEXEI_DUPLICATE_RECEIPT_1847",
+    "titleKo": "ALEXEI DUPLICATE RECEIPT 1847",
+    "stage": 3,
+    "stageCount": 3,
+    "kind": "PERSONAL",
+    "source": "V36_DEDICATED_PERSONAL_ARC",
+    "previousQuestId": "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_2",
+    "metricsKo": {
+      "care": "이웃과 생계를 다룬 결과",
+      "record": "남긴 기록의 범위",
+      "exposure": "공개한 정보의 범위"
+    }
+  },
+  "prerequisiteQuestIds": [
+    "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_2"
+  ]
+}

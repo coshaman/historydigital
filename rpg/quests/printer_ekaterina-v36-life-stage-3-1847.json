@@ -1,0 +1,121 @@
+{
+  "id": "EKATERINA_INK_SHORTAGE_1847_STAGE_3",
+  "titleKo": "오늘 찍을 분량 · 3/3",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "수정 승인이 도착했지만 오늘 쓸 수 있는 잉크와 종이는 한정돼 있다. 발송량을 줄이거나 더 기다리거나, 확인된 분량부터 시작할 수 있다.",
+  "historicalOutcome": {
+    "id": "EKATERINA_INK_SHORTAGE_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life only; no historical event or public record changes",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "nevsky",
+    "objectId": 1174,
+    "requiredHostId": "printer_ekaterina"
+  },
+  "actions": [
+    {
+      "id": "EKATERINA_INK_SHORTAGE_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "printer_ekaterina"
+      ],
+      "labelKo": "확인된 절반 분량부터 인쇄한다",
+      "subcopyKo": "예카테리나와 편집부가 압니다 · 실제 인쇄량이 작업대장에 남습니다 · 남은 독자에게 신문이 도착하지 않을 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "예카테리나와 편집부가 압니다",
+        "recordKo": "실제 인쇄량이 작업대장에 남습니다",
+        "riskKo": "남은 독자에게 신문이 도착하지 않을 수 있습니다"
+      },
+      "resultKo": "확인된 분량부터 찍었다. 나머지는 재료가 도착한 뒤 이어가기로 했다.",
+      "resultFlag": "EKATERINA_INK_SHORTAGE_1847_STAGE_3_RESULT_1",
+      "followupTitleKo": "오늘 찍을 분량",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "확인된 분량부터 찍었다. 나머지는 재료가 도착한 뒤 이어가기로 했다.",
+        "relations": {
+          "print_apprentice_stepan": "오늘 찍을 분량에서 예카테리나 벨로바와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "EKATERINA_INK_SHORTAGE_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "printer_ekaterina"
+      ],
+      "labelKo": "재료가 올 때까지 인쇄를 미룬다",
+      "subcopyKo": "인쇄소와 편집부가 압니다 · 보류 시각과 사유가 남습니다 · 발행 기회를 놓칠 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "인쇄소와 편집부가 압니다",
+        "recordKo": "보류 시각과 사유가 남습니다",
+        "riskKo": "발행 기회를 놓칠 수 있습니다"
+      },
+      "resultKo": "잉크가 도착할 때까지 인쇄를 보류했다. 정확한 분량을 약속하지 않았다.",
+      "resultFlag": "EKATERINA_INK_SHORTAGE_1847_STAGE_3_RESULT_2",
+      "followupTitleKo": "오늘 찍을 분량",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "잉크가 도착할 때까지 인쇄를 보류했다. 정확한 분량을 약속하지 않았다.",
+        "relations": {
+          "print_apprentice_stepan": "오늘 찍을 분량에서 예카테리나 벨로바와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "EKATERINA_INK_SHORTAGE_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "printer_ekaterina"
+      ],
+      "labelKo": "편집부와 배포 순서를 다시 정한다",
+      "subcopyKo": "편집부와 배달원이 압니다 · 변경된 배포표가 남습니다 · 먼 지역의 독자가 더 늦게 받을 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "편집부와 배달원이 압니다",
+        "recordKo": "변경된 배포표가 남습니다",
+        "riskKo": "먼 지역의 독자가 더 늦게 받을 수 있습니다"
+      },
+      "resultKo": "배포 순서를 다시 나눴다. 먼저 도착하는 구역과 기다려야 하는 구역을 알렸다.",
+      "resultFlag": "EKATERINA_INK_SHORTAGE_1847_STAGE_3_RESULT_3",
+      "followupTitleKo": "오늘 찍을 분량",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "배포 순서를 다시 나눴다. 먼저 도착하는 구역과 기다려야 하는 구역을 알렸다.",
+        "relations": {
+          "print_apprentice_stepan": "오늘 찍을 분량에서 예카테리나 벨로바와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "exposure": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the physically placed personal-work marker",
+  "lifeChain": {
+    "id": "EKATERINA_INK_SHORTAGE_1847",
+    "titleKo": "EKATERINA INK SHORTAGE 1847",
+    "stage": 3,
+    "stageCount": 3,
+    "kind": "PERSONAL",
+    "source": "V36_DEDICATED_PERSONAL_ARC",
+    "previousQuestId": "EKATERINA_INK_SHORTAGE_1847_STAGE_2",
+    "metricsKo": {
+      "care": "이웃과 생계를 다룬 결과",
+      "record": "남긴 기록의 범위",
+      "exposure": "공개한 정보의 범위"
+    }
+  },
+  "prerequisiteQuestIds": [
+    "EKATERINA_INK_SHORTAGE_1847_STAGE_2"
+  ]
+}

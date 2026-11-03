@@ -1,0 +1,117 @@
+{
+  "id": "KONSTANTIN_UNSIGNED_REVIEW_1847_STAGE_1",
+  "titleKo": "서명이 빠진 검토표 · 1/3",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "상신 문서에는 검토 메모가 붙어 있지만 결재 서명 칸은 비어 있다. 콘스탄틴은 메모와 허가를 같은 것으로 취급할 수 없다.",
+  "historicalOutcome": {
+    "id": "KONSTANTIN_UNSIGNED_REVIEW_1847_STAGE_1_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life only; no historical event or public record changes",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "chancery",
+    "objectId": 1156,
+    "requiredHostId": "senior_clerk_konstantin"
+  },
+  "actions": [
+    {
+      "id": "KONSTANTIN_UNSIGNED_REVIEW_1847_STAGE_1_CHOICE_1",
+      "hostIds": [
+        "senior_clerk_konstantin"
+      ],
+      "labelKo": "메모 작성자와 결재자를 구분한다",
+      "subcopyKo": "콘스탄틴과 접수 서기가 압니다 · 검토표에 역할 구분이 남습니다 · 문서를 다시 돌려 보내 처리가 늦어집니다",
+      "practicalDisclosure": {
+        "audienceKo": "콘스탄틴과 접수 서기가 압니다",
+        "recordKo": "검토표에 역할 구분이 남습니다",
+        "riskKo": "문서를 다시 돌려 보내 처리가 늦어집니다"
+      },
+      "resultKo": "검토 메모는 남기고 결재란은 비워 두었다. 누가 다음 책임자인지 확인을 요청했다.",
+      "resultFlag": "KONSTANTIN_UNSIGNED_REVIEW_1847_STAGE_1_RESULT_1",
+      "followupTitleKo": "서명이 빠진 검토표",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "검토 메모는 남기고 결재란은 비워 두었다. 누가 다음 책임자인지 확인을 요청했다.",
+        "relations": {
+          "clerk_alexei": "서명이 빠진 검토표에서 콘스탄틴 바라노프와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "KONSTANTIN_UNSIGNED_REVIEW_1847_STAGE_1_CHOICE_2",
+      "hostIds": [
+        "senior_clerk_konstantin"
+      ],
+      "labelKo": "알렉세이에게 접수 경로를 묻는다",
+      "subcopyKo": "콘스탄틴과 알렉세이가 압니다 · 내부 확인 쪽지가 남습니다 · 하급 서기가 결재 압박을 느낄 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "콘스탄틴과 알렉세이가 압니다",
+        "recordKo": "내부 확인 쪽지가 남습니다",
+        "riskKo": "하급 서기가 결재 압박을 느낄 수 있습니다"
+      },
+      "resultKo": "알렉세이는 접수 순서를 보여줬다. 자신이 결재를 받았다고 말하지 않았다.",
+      "resultFlag": "KONSTANTIN_UNSIGNED_REVIEW_1847_STAGE_1_RESULT_2",
+      "followupTitleKo": "서명이 빠진 검토표",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "알렉세이는 접수 순서를 보여줬다. 자신이 결재를 받았다고 말하지 않았다.",
+        "relations": {
+          "clerk_alexei": "서명이 빠진 검토표에서 콘스탄틴 바라노프와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "KONSTANTIN_UNSIGNED_REVIEW_1847_STAGE_1_CHOICE_3",
+      "hostIds": [
+        "senior_clerk_konstantin"
+      ],
+      "labelKo": "미결 문서함으로 옮긴다",
+      "subcopyKo": "관청 기록 담당이 압니다 · 미결 목록에 날짜가 남습니다 · 상급자가 즉시 처리하지 않았다고 지적할 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "관청 기록 담당이 압니다",
+        "recordKo": "미결 목록에 날짜가 남습니다",
+        "riskKo": "상급자가 즉시 처리하지 않았다고 지적할 수 있습니다"
+      },
+      "resultKo": "문서를 미결함에 넣고 서명 대기라고 표시했다. 검토 메모는 함께 보관했다.",
+      "resultFlag": "KONSTANTIN_UNSIGNED_REVIEW_1847_STAGE_1_RESULT_3",
+      "followupTitleKo": "서명이 빠진 검토표",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "문서를 미결함에 넣고 서명 대기라고 표시했다. 검토 메모는 함께 보관했다.",
+        "relations": {
+          "clerk_alexei": "서명이 빠진 검토표에서 콘스탄틴 바라노프와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "exposure": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the physically placed personal-work marker",
+  "lifeChain": {
+    "id": "KONSTANTIN_UNSIGNED_REVIEW_1847",
+    "titleKo": "KONSTANTIN UNSIGNED REVIEW 1847",
+    "stage": 1,
+    "stageCount": 3,
+    "kind": "PERSONAL",
+    "source": "V36_DEDICATED_PERSONAL_ARC",
+    "metricsKo": {
+      "care": "이웃과 생계를 다룬 결과",
+      "record": "남긴 기록의 범위",
+      "exposure": "공개한 정보의 범위"
+    }
+  }
+}

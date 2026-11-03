@@ -1,0 +1,121 @@
+{
+  "id": "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_2",
+  "titleKo": "교정쇄가 출발한 시각 · 2/3",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "인쇄소 쪽 기록에는 발송 시각이 있고, 관청 접수부에는 수령 시각이 있다. 두 문서 사이 이동 시간은 기록되지 않았다.",
+  "historicalOutcome": {
+    "id": "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_2_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life only; no historical event or public record changes",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "printshop",
+    "objectId": 1169,
+    "requiredHostId": "clerk_alexei"
+  },
+  "actions": [
+    {
+      "id": "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_2_CHOICE_1",
+      "hostIds": [
+        "clerk_alexei"
+      ],
+      "labelKo": "두 시각을 나란히 대조한다",
+      "subcopyKo": "알렉세이와 접수 담당이 압니다 · 수령·발송 대조표가 남습니다 · 중간 경로가 빠져 책임을 확정할 수 없습니다",
+      "practicalDisclosure": {
+        "audienceKo": "알렉세이와 접수 담당이 압니다",
+        "recordKo": "수령·발송 대조표가 남습니다",
+        "riskKo": "중간 경로가 빠져 책임을 확정할 수 없습니다"
+      },
+      "resultKo": "시각 차이를 적고 이동 경로는 미확인으로 남겼다. 시간 간격을 곧바로 지연 책임으로 바꾸지 않았다.",
+      "resultFlag": "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_2_RESULT_1",
+      "followupTitleKo": "교정쇄가 출발한 시각",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "시각 차이를 적고 이동 경로는 미확인으로 남겼다. 시간 간격을 곧바로 지연 책임으로 바꾸지 않았다.",
+        "relations": {
+          "printer_ekaterina": "교정쇄가 출발한 시각에서 알렉세이 오를로프와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_2_CHOICE_2",
+      "hostIds": [
+        "clerk_alexei"
+      ],
+      "labelKo": "배달원에게 봉투 상태만 확인한다",
+      "subcopyKo": "알렉세이와 배달원이 압니다 · 봉인 확인 메모가 남습니다 · 배달원이 문서 내용까지 물었다고 오해할 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "알렉세이와 배달원이 압니다",
+        "recordKo": "봉인 확인 메모가 남습니다",
+        "riskKo": "배달원이 문서 내용까지 물었다고 오해할 수 있습니다"
+      },
+      "resultKo": "봉투는 닫힌 채 전달됐다는 답을 들었다. 안의 문서가 무엇이었는지는 묻지 않았다.",
+      "resultFlag": "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_2_RESULT_2",
+      "followupTitleKo": "교정쇄가 출발한 시각",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "봉투는 닫힌 채 전달됐다는 답을 들었다. 안의 문서가 무엇이었는지는 묻지 않았다.",
+        "relations": {
+          "printer_ekaterina": "교정쇄가 출발한 시각에서 알렉세이 오를로프와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_2_CHOICE_3",
+      "hostIds": [
+        "clerk_alexei"
+      ],
+      "labelKo": "수정 요청을 인쇄소로 돌려보낸다",
+      "subcopyKo": "인쇄소와 관청이 압니다 · 반송 대장에 확인 요청이 남습니다 · 다시 받을 때까지 접수 처리가 멈춥니다",
+      "practicalDisclosure": {
+        "audienceKo": "인쇄소와 관청이 압니다",
+        "recordKo": "반송 대장에 확인 요청이 남습니다",
+        "riskKo": "다시 받을 때까지 접수 처리가 멈춥니다"
+      },
+      "resultKo": "번호 수정 근거를 요청했다. 인쇄소는 근거가 오기 전까지 새 표지를 붙이지 않기로 했다.",
+      "resultFlag": "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_2_RESULT_3",
+      "followupTitleKo": "교정쇄가 출발한 시각",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "번호 수정 근거를 요청했다. 인쇄소는 근거가 오기 전까지 새 표지를 붙이지 않기로 했다.",
+        "relations": {
+          "printer_ekaterina": "교정쇄가 출발한 시각에서 알렉세이 오를로프와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "exposure": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the physically placed personal-work marker",
+  "lifeChain": {
+    "id": "ALEXEI_DUPLICATE_RECEIPT_1847",
+    "titleKo": "ALEXEI DUPLICATE RECEIPT 1847",
+    "stage": 2,
+    "stageCount": 3,
+    "kind": "PERSONAL",
+    "source": "V36_DEDICATED_PERSONAL_ARC",
+    "previousQuestId": "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_1",
+    "metricsKo": {
+      "care": "이웃과 생계를 다룬 결과",
+      "record": "남긴 기록의 범위",
+      "exposure": "공개한 정보의 범위"
+    }
+  },
+  "prerequisiteQuestIds": [
+    "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_1"
+  ]
+}

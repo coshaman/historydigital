@@ -2376,6 +2376,72 @@
               "value": "ROMAN_ROUTE_PRIORITY_1847_STAGE_3"
             }
           ]
+        },
+        {
+          "id": 1169,
+          "name": "교정쇄가 출발한 시각",
+          "type": "quest-object",
+          "x": 176,
+          "y": 208,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_2"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": 1170,
+          "name": "이름이 지워진 제보",
+          "type": "quest-object",
+          "x": 160,
+          "y": 224,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "SOFIA_UNNAMED_NOTICE_1847_STAGE_1"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": 1171,
+          "name": "모자란 잉크와 교정쇄",
+          "type": "quest-object",
+          "x": 192,
+          "y": 224,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "EKATERINA_INK_SHORTAGE_1847_STAGE_1"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
         }
       ]
     },

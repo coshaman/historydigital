@@ -4,6 +4,14 @@
   "coverageKind": "FULL",
   "routeCount": 28,
   "plannedRouteCount": 28,
+  "endingsReached": [
+    "BELINSKY",
+    "DOSTOEVSKY_PETRASHEVSKY",
+    "HERZEN",
+    "KHOMYAKOV",
+    "UVAROV"
+  ],
+  "allFiveEndingsReached": true,
   "results": [
     {
       "name": "canonical-BELINSKY",
@@ -2891,13 +2899,5 @@
       "dialogue": "잠깐만요. 둘 다 결론을 늦추고, 원문과 날짜부터 같이 확인합시다.",
       "sequence": ""
     }
-  ],
-  "endingsReached": [
-    "BELINSKY",
-    "DOSTOEVSKY_PETRASHEVSKY",
-    "HERZEN",
-    "KHOMYAKOV",
-    "UVAROV"
-  ],
-  "allFiveEndingsReached": true
+  ]
 }

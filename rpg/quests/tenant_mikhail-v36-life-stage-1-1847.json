@@ -1,0 +1,117 @@
+{
+  "id": "MIKHAIL_WAGE_AND_RENT_1847_STAGE_1",
+  "titleKo": "하루 품삯의 약속 · 1/3",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "미하일은 시장에서 짐을 나르면 품삯을 받기로 했지만, 작업 시간과 금액을 아직 확인하지 못했다. 방세 날짜도 다가온다.",
+  "historicalOutcome": {
+    "id": "MIKHAIL_WAGE_AND_RENT_1847_STAGE_1_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life only; no historical event or public record changes",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "courtyard",
+    "objectId": 1169,
+    "requiredHostId": "tenant_mikhail"
+  },
+  "actions": [
+    {
+      "id": "MIKHAIL_WAGE_AND_RENT_1847_STAGE_1_CHOICE_1",
+      "hostIds": [
+        "tenant_mikhail"
+      ],
+      "labelKo": "일감의 끝나는 시각을 먼저 묻는다",
+      "subcopyKo": "미하일과 고용인이 압니다 · 구두 약속을 메모합니다 · 일이 길어지면 저녁 일감을 놓칩니다",
+      "practicalDisclosure": {
+        "audienceKo": "미하일과 고용인이 압니다",
+        "recordKo": "구두 약속을 메모합니다",
+        "riskKo": "일이 길어지면 저녁 일감을 놓칩니다"
+      },
+      "resultKo": "작업이 끝날 시각부터 물었다. 금액은 짐 수를 확인한 뒤 정하기로 했다.",
+      "resultFlag": "MIKHAIL_WAGE_AND_RENT_1847_STAGE_1_RESULT_1",
+      "followupTitleKo": "하루 품삯의 약속",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "작업이 끝날 시각부터 물었다. 금액은 짐 수를 확인한 뒤 정하기로 했다.",
+        "relations": {
+          "landlady_polina": "하루 품삯의 약속에서 미하일와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "MIKHAIL_WAGE_AND_RENT_1847_STAGE_1_CHOICE_2",
+      "hostIds": [
+        "tenant_mikhail"
+      ],
+      "labelKo": "품삯과 방세를 종이에 나눠 적는다",
+      "subcopyKo": "미하일과 폴리나가 압니다 · 개인 계산표가 남습니다 · 부족한 돈이 바로 드러납니다",
+      "practicalDisclosure": {
+        "audienceKo": "미하일과 폴리나가 압니다",
+        "recordKo": "개인 계산표가 남습니다",
+        "riskKo": "부족한 돈이 바로 드러납니다"
+      },
+      "resultKo": "예상 품삯과 방세 날짜를 나눠 적었다. 차액이 있어도 아직 빌려 달라고 하진 않았다.",
+      "resultFlag": "MIKHAIL_WAGE_AND_RENT_1847_STAGE_1_RESULT_2",
+      "followupTitleKo": "하루 품삯의 약속",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "예상 품삯과 방세 날짜를 나눠 적었다. 차액이 있어도 아직 빌려 달라고 하진 않았다.",
+        "relations": {
+          "landlady_polina": "하루 품삯의 약속에서 미하일와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "MIKHAIL_WAGE_AND_RENT_1847_STAGE_1_CHOICE_3",
+      "hostIds": [
+        "tenant_mikhail"
+      ],
+      "labelKo": "선금을 요청한다",
+      "subcopyKo": "미하일과 고용인이 압니다 · 선금 요청 메모가 남습니다 · 거절되면 다음 일감을 받기 어려울 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "미하일과 고용인이 압니다",
+        "recordKo": "선금 요청 메모가 남습니다",
+        "riskKo": "거절되면 다음 일감을 받기 어려울 수 있습니다"
+      },
+      "resultKo": "선금을 요청했지만 고용인은 일을 마친 뒤 지급하겠다고 했다. 다른 일감도 찾아야 한다.",
+      "resultFlag": "MIKHAIL_WAGE_AND_RENT_1847_STAGE_1_RESULT_3",
+      "followupTitleKo": "하루 품삯의 약속",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "선금을 요청했지만 고용인은 일을 마친 뒤 지급하겠다고 했다. 다른 일감도 찾아야 한다.",
+        "relations": {
+          "landlady_polina": "하루 품삯의 약속에서 미하일와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "exposure": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the physically placed personal-work marker",
+  "lifeChain": {
+    "id": "MIKHAIL_WAGE_AND_RENT_1847",
+    "titleKo": "MIKHAIL WAGE AND RENT 1847",
+    "stage": 1,
+    "stageCount": 3,
+    "kind": "PERSONAL",
+    "source": "V36_DEDICATED_PERSONAL_ARC",
+    "metricsKo": {
+      "care": "이웃과 생계를 다룬 결과",
+      "record": "남긴 기록의 범위",
+      "exposure": "공개한 정보의 범위"
+    }
+  }
+}

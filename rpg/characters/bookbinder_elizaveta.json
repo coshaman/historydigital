@@ -234,5 +234,31 @@
       "titleKo": "오늘 엮인 사람 · 스테판",
       "textKo": "급한 인쇄물을 묶을 때 도움을 주는 견습공이다"
     }
+  ],
+  "persistentPersonalGoals": [
+    {
+      "id": "bookbinder_elizaveta:life-arc",
+      "kind": "LIFE",
+      "titleKo": "이어 가는 생활 문제",
+      "descriptionKo": "손상의 원인을 모를 때 수리 비용은 누가 먼저 부담해야 할까요?",
+      "successCondition": {
+        "type": "LIFE_CHAIN_COMPLETED",
+        "chainId": "ELIZAVETA_DAMAGED_BOOK_1847",
+        "stageCount": 3
+      },
+      "fallbackKo": "연쇄 임무가 지금 열리지 않으면 오늘의 일과를 이어가고, 다음 단계를 확인할 수 있을 때 다시 돌아온다."
+    },
+    {
+      "id": "bookbinder_elizaveta:relationship",
+      "kind": "RELATIONSHIP",
+      "titleKo": "스테판와의 관계",
+      "descriptionKo": "손상의 원인을 모를 때 수리 비용은 누가 먼저 부담해야 할까요? · 스테판와 얽힌 사정을 당사자에게 확인한다.",
+      "successCondition": {
+        "type": "RELATION_CHANGED",
+        "targetHostId": "print_apprentice_stepan",
+        "baseline": "급한 인쇄물을 묶을 때 도움을 주는 견습공이다"
+      },
+      "fallbackKo": "상대가 다른 생활권에 있거나 만날 수 없으면 추측을 퍼뜨리지 말고, 다시 만날 수 있는 장소와 시간을 살핀다."
+    }
   ]
 }

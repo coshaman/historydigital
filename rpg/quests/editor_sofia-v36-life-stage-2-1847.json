@@ -1,0 +1,121 @@
+{
+  "id": "SOFIA_UNNAMED_NOTICE_1847_STAGE_2",
+  "titleKo": "교정대의 두 문장 · 2/3",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "원고의 한 문장은 가격을, 다른 문장은 상인의 의도를 단정한다. 예카테리나는 활자에 올리기 전에 둘을 나눠 보자고 한다.",
+  "historicalOutcome": {
+    "id": "SOFIA_UNNAMED_NOTICE_1847_STAGE_2_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life only; no historical event or public record changes",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "bookshop-lane",
+    "objectId": 4006,
+    "requiredHostId": "editor_sofia"
+  },
+  "actions": [
+    {
+      "id": "SOFIA_UNNAMED_NOTICE_1847_STAGE_2_CHOICE_1",
+      "hostIds": [
+        "editor_sofia"
+      ],
+      "labelKo": "가격은 출처와 함께 남긴다",
+      "subcopyKo": "소피야와 예카테리나가 압니다 · 교정쇄에 출처 표기가 남습니다 · 출처가 불완전하면 인쇄를 다시 해야 합니다",
+      "practicalDisclosure": {
+        "audienceKo": "소피야와 예카테리나가 압니다",
+        "recordKo": "교정쇄에 출처 표기가 남습니다",
+        "riskKo": "출처가 불완전하면 인쇄를 다시 해야 합니다"
+      },
+      "resultKo": "가격을 본 자료와 함께 적고 의도에 대한 단정은 뺐다. 두 문장의 근거 수준을 구분했다.",
+      "resultFlag": "SOFIA_UNNAMED_NOTICE_1847_STAGE_2_RESULT_1",
+      "followupTitleKo": "교정대의 두 문장",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "가격을 본 자료와 함께 적고 의도에 대한 단정은 뺐다. 두 문장의 근거 수준을 구분했다.",
+        "relations": {
+          "printer_ekaterina": "교정대의 두 문장에서 소피야 미하일로바와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "SOFIA_UNNAMED_NOTICE_1847_STAGE_2_CHOICE_2",
+      "hostIds": [
+        "editor_sofia"
+      ],
+      "labelKo": "상인의 설명을 듣고 수정한다",
+      "subcopyKo": "소피야와 해당 상인이 압니다 · 수정 전후 원고가 편집부에 남습니다 · 상인이 인쇄를 막으려 한다는 오해가 생길 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "소피야와 해당 상인이 압니다",
+        "recordKo": "수정 전후 원고가 편집부에 남습니다",
+        "riskKo": "상인이 인쇄를 막으려 한다는 오해가 생길 수 있습니다"
+      },
+      "resultKo": "상인은 물건이 늦게 들어왔다고 설명했다. 그 말을 확인된 자료와 같은 자리에 두지 않았다.",
+      "resultFlag": "SOFIA_UNNAMED_NOTICE_1847_STAGE_2_RESULT_2",
+      "followupTitleKo": "교정대의 두 문장",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "상인은 물건이 늦게 들어왔다고 설명했다. 그 말을 확인된 자료와 같은 자리에 두지 않았다.",
+        "relations": {
+          "printer_ekaterina": "교정대의 두 문장에서 소피야 미하일로바와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "SOFIA_UNNAMED_NOTICE_1847_STAGE_2_CHOICE_3",
+      "hostIds": [
+        "editor_sofia"
+      ],
+      "labelKo": "짧은 공지로 바꾸고 논평을 뺀다",
+      "subcopyKo": "신문 독자들이 봅니다 · 새 판의 교정 기록이 남습니다 · 논쟁의 핵심이 충분히 전달되지 않을 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "신문 독자들이 봅니다",
+        "recordKo": "새 판의 교정 기록이 남습니다",
+        "riskKo": "논쟁의 핵심이 충분히 전달되지 않을 수 있습니다"
+      },
+      "resultKo": "날짜와 가격 변동만 적은 짧은 공지로 고쳤다. 의도에 관한 주장은 다음 호로 미뤘다.",
+      "resultFlag": "SOFIA_UNNAMED_NOTICE_1847_STAGE_2_RESULT_3",
+      "followupTitleKo": "교정대의 두 문장",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "날짜와 가격 변동만 적은 짧은 공지로 고쳤다. 의도에 관한 주장은 다음 호로 미뤘다.",
+        "relations": {
+          "printer_ekaterina": "교정대의 두 문장에서 소피야 미하일로바와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "exposure": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the physically placed personal-work marker",
+  "lifeChain": {
+    "id": "SOFIA_UNNAMED_NOTICE_1847",
+    "titleKo": "SOFIA UNNAMED NOTICE 1847",
+    "stage": 2,
+    "stageCount": 3,
+    "kind": "PERSONAL",
+    "source": "V36_DEDICATED_PERSONAL_ARC",
+    "previousQuestId": "SOFIA_UNNAMED_NOTICE_1847_STAGE_1",
+    "metricsKo": {
+      "care": "이웃과 생계를 다룬 결과",
+      "record": "남긴 기록의 범위",
+      "exposure": "공개한 정보의 범위"
+    }
+  },
+  "prerequisiteQuestIds": [
+    "SOFIA_UNNAMED_NOTICE_1847_STAGE_1"
+  ]
+}

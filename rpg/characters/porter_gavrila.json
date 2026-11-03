@@ -168,6 +168,15 @@
       "activityKo": "오늘 맡은 짐의 무게와 품삯을 적은 표를 본다"
     },
     {
+      "atMinute": 840,
+      "mapId": "bakery-interior",
+      "position": {
+        "x": 11,
+        "y": 14
+      },
+      "activityKo": "다른 생활권에서 맡은 일을 확인한다"
+    },
+    {
       "atMinute": 1020,
       "mapId": "market-quay",
       "position": {
@@ -233,5 +242,36 @@
       "titleKo": "오늘 엮인 사람 · 티모페이",
       "textKo": "짐을 수레에 싣고 내릴 때 서로 품삯을 나눈다"
     }
+  ],
+  "persistentPersonalGoals": [
+    {
+      "id": "porter_gavrila:life-arc",
+      "kind": "LIFE",
+      "titleKo": "이어 가는 생활 문제",
+      "descriptionKo": "오늘 짐을 혼자 들지, 나눠 들지, 거절할지 정한다",
+      "successCondition": {
+        "type": "LIFE_CHAIN_COMPLETED",
+        "chainId": "GAVRILA_CARRYING_TALLY_1847",
+        "stageCount": 3
+      },
+      "fallbackKo": "연쇄 임무가 지금 열리지 않으면 오늘의 일과를 이어가고, 다음 단계를 확인할 수 있을 때 다시 돌아온다."
+    },
+    {
+      "id": "porter_gavrila:relationship",
+      "kind": "RELATIONSHIP",
+      "titleKo": "티모페이와의 관계",
+      "descriptionKo": "오늘 짐을 혼자 들지, 나눠 들지, 거절할지 정한다 · 티모페이와 얽힌 사정을 당사자에게 확인한다.",
+      "successCondition": {
+        "type": "RELATION_CHANGED",
+        "targetHostId": "coachman_timofey",
+        "baseline": "짐을 수레에 싣고 내릴 때 서로 품삯을 나눈다"
+      },
+      "fallbackKo": "상대가 다른 생활권에 있거나 만날 수 없으면 추측을 퍼뜨리지 말고, 다시 만날 수 있는 장소와 시간을 살핀다."
+    }
+  ],
+  "questIds": [
+    "porter_gavrila-v36-life-stage-1-1847",
+    "porter_gavrila-v36-life-stage-2-1847",
+    "porter_gavrila-v36-life-stage-3-1847"
   ]
 }

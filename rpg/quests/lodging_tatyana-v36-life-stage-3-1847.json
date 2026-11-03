@@ -1,0 +1,121 @@
+{
+  "id": "TATYANA_READING_HOUR_1847_STAGE_3",
+  "titleKo": "수선대 옆의 독서 시간 · 3/3",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "주문은 마쳤지만 시간이 짧다. 타티야나는 혼자 읽거나, 류보프와 한 구절을 나누거나, 다음 날로 미룰 수 있다.",
+  "historicalOutcome": {
+    "id": "TATYANA_READING_HOUR_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life only; no historical event or public record changes",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "nevsky",
+    "objectId": 1173,
+    "requiredHostId": "lodging_tatyana"
+  },
+  "actions": [
+    {
+      "id": "TATYANA_READING_HOUR_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "lodging_tatyana"
+      ],
+      "labelKo": "정해 둔 시간만 혼자 읽는다",
+      "subcopyKo": "타티야나만 압니다 · 대여 일정에 읽은 시간이 남습니다 · 책을 다 읽지 못하고 돌려줄 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "타티야나만 압니다",
+        "recordKo": "대여 일정에 읽은 시간이 남습니다",
+        "riskKo": "책을 다 읽지 못하고 돌려줄 수 있습니다"
+      },
+      "resultKo": "정해 둔 만큼만 읽었다. 남은 쪽은 다음 기회로 넘겼다.",
+      "resultFlag": "TATYANA_READING_HOUR_1847_STAGE_3_RESULT_1",
+      "followupTitleKo": "수선대 옆의 독서 시간",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "정해 둔 만큼만 읽었다. 남은 쪽은 다음 기회로 넘겼다.",
+        "relations": {
+          "teacher_lyubov": "수선대 옆의 독서 시간에서 타티야나와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "TATYANA_READING_HOUR_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "lodging_tatyana"
+      ],
+      "labelKo": "류보프와 모르는 표현을 확인한다",
+      "subcopyKo": "타티야나와 류보프가 압니다 · 확인한 표현이 독서 메모에 남습니다 · 사적인 생각까지 묻는 대화가 될 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "타티야나와 류보프가 압니다",
+        "recordKo": "확인한 표현이 독서 메모에 남습니다",
+        "riskKo": "사적인 생각까지 묻는 대화가 될 수 있습니다"
+      },
+      "resultKo": "표현의 뜻만 물었다. 자신의 형편을 작품의 뜻으로 대신 설명하지 않았다.",
+      "resultFlag": "TATYANA_READING_HOUR_1847_STAGE_3_RESULT_2",
+      "followupTitleKo": "수선대 옆의 독서 시간",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "표현의 뜻만 물었다. 자신의 형편을 작품의 뜻으로 대신 설명하지 않았다.",
+        "relations": {
+          "teacher_lyubov": "수선대 옆의 독서 시간에서 타티야나와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "TATYANA_READING_HOUR_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "lodging_tatyana"
+      ],
+      "labelKo": "책을 돌려주고 바느질 시간을 지킨다",
+      "subcopyKo": "타티야나와 서점상이 압니다 · 반납 표식이 장부에 남습니다 · 독서 모임을 놓칠 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "타티야나와 서점상이 압니다",
+        "recordKo": "반납 표식이 장부에 남습니다",
+        "riskKo": "독서 모임을 놓칠 수 있습니다"
+      },
+      "resultKo": "기한을 지켜 책을 돌려줬다. 모임은 놓쳤지만 다음 사람이 책을 빌릴 수 있다.",
+      "resultFlag": "TATYANA_READING_HOUR_1847_STAGE_3_RESULT_3",
+      "followupTitleKo": "수선대 옆의 독서 시간",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "기한을 지켜 책을 돌려줬다. 모임은 놓쳤지만 다음 사람이 책을 빌릴 수 있다.",
+        "relations": {
+          "teacher_lyubov": "수선대 옆의 독서 시간에서 타티야나와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "exposure": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the physically placed personal-work marker",
+  "lifeChain": {
+    "id": "TATYANA_READING_HOUR_1847",
+    "titleKo": "TATYANA READING HOUR 1847",
+    "stage": 3,
+    "stageCount": 3,
+    "kind": "PERSONAL",
+    "source": "V36_DEDICATED_PERSONAL_ARC",
+    "previousQuestId": "TATYANA_READING_HOUR_1847_STAGE_2",
+    "metricsKo": {
+      "care": "이웃과 생계를 다룬 결과",
+      "record": "남긴 기록의 범위",
+      "exposure": "공개한 정보의 범위"
+    }
+  },
+  "prerequisiteQuestIds": [
+    "TATYANA_READING_HOUR_1847_STAGE_2"
+  ]
+}

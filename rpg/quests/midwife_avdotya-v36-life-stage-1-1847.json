@@ -1,0 +1,117 @@
+{
+  "id": "AVDOTYA_NIGHT_CALLS_1847_STAGE_1",
+  "titleKo": "두 집에서 온 부탁 · 1/3",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "아브도티야에게 같은 시간대의 두 집에서 도움을 청하는 말이 왔다. 어느 쪽도 자세한 사정을 다른 이에게 알리고 싶어 하지 않는다.",
+  "historicalOutcome": {
+    "id": "AVDOTYA_NIGHT_CALLS_1847_STAGE_1_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life only; no historical event or public record changes",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "courtyard",
+    "objectId": 1168,
+    "requiredHostId": "midwife_avdotya"
+  },
+  "actions": [
+    {
+      "id": "AVDOTYA_NIGHT_CALLS_1847_STAGE_1_CHOICE_1",
+      "hostIds": [
+        "midwife_avdotya"
+      ],
+      "labelKo": "두 집에 도착 순서와 이동 시간을 알린다",
+      "subcopyKo": "아브도티야와 두 집이 압니다 · 연락 시각과 방문 순서만 남습니다 · 먼저 도착한 집이 불공평하다고 느낄 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "아브도티야와 두 집이 압니다",
+        "recordKo": "연락 시각과 방문 순서만 남습니다",
+        "riskKo": "먼저 도착한 집이 불공평하다고 느낄 수 있습니다"
+      },
+      "resultKo": "두 요청을 받은 시각과 거리를 따로 확인했다. 첫 도착 순서를 알리고 다른 집에 답을 기다려 달라 했다.",
+      "resultFlag": "AVDOTYA_NIGHT_CALLS_1847_STAGE_1_RESULT_1",
+      "followupTitleKo": "두 집에서 온 부탁",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "두 요청을 받은 시각과 거리를 따로 확인했다. 첫 도착 순서를 알리고 다른 집에 답을 기다려 달라 했다.",
+        "relations": {
+          "landlady_polina": "두 집에서 온 부탁에서 아브도티야와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "AVDOTYA_NIGHT_CALLS_1847_STAGE_1_CHOICE_2",
+      "hostIds": [
+        "midwife_avdotya"
+      ],
+      "labelKo": "폴리나에게 가까운 집까지 동행을 부탁한다",
+      "subcopyKo": "아브도티야와 폴리나가 압니다 · 동행 요청 메모가 남습니다 · 집안 사정이 폴리나에게 알려질 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "아브도티야와 폴리나가 압니다",
+        "recordKo": "동행 요청 메모가 남습니다",
+        "riskKo": "집안 사정이 폴리나에게 알려질 수 있습니다"
+      },
+      "resultKo": "폴리나는 길까지 동행하기로 했다. 집 안에서 오간 이야기는 묻지 않기로 했다.",
+      "resultFlag": "AVDOTYA_NIGHT_CALLS_1847_STAGE_1_RESULT_2",
+      "followupTitleKo": "두 집에서 온 부탁",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "폴리나는 길까지 동행하기로 했다. 집 안에서 오간 이야기는 묻지 않기로 했다.",
+        "relations": {
+          "landlady_polina": "두 집에서 온 부탁에서 아브도티야와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "AVDOTYA_NIGHT_CALLS_1847_STAGE_1_CHOICE_3",
+      "hostIds": [
+        "midwife_avdotya"
+      ],
+      "labelKo": "사정을 말하지 않고 한 집에 먼저 답한다",
+      "subcopyKo": "아브도티야와 먼저 답을 받은 집이 압니다 · 방문 시각만 남습니다 · 다른 집의 답이 늦어질 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "아브도티야와 먼저 답을 받은 집이 압니다",
+        "recordKo": "방문 시각만 남습니다",
+        "riskKo": "다른 집의 답이 늦어질 수 있습니다"
+      },
+      "resultKo": "먼저 연락한 집에 도착 예정 시각을 전했다. 다른 집에는 사정이 공개되지 않도록 짧게 회신했다.",
+      "resultFlag": "AVDOTYA_NIGHT_CALLS_1847_STAGE_1_RESULT_3",
+      "followupTitleKo": "두 집에서 온 부탁",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "먼저 연락한 집에 도착 예정 시각을 전했다. 다른 집에는 사정이 공개되지 않도록 짧게 회신했다.",
+        "relations": {
+          "landlady_polina": "두 집에서 온 부탁에서 아브도티야와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "exposure": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the physically placed personal-work marker",
+  "lifeChain": {
+    "id": "AVDOTYA_NIGHT_CALLS_1847",
+    "titleKo": "AVDOTYA NIGHT CALLS 1847",
+    "stage": 1,
+    "stageCount": 3,
+    "kind": "PERSONAL",
+    "source": "V36_DEDICATED_PERSONAL_ARC",
+    "metricsKo": {
+      "care": "이웃과 생계를 다룬 결과",
+      "record": "남긴 기록의 범위",
+      "exposure": "공개한 정보의 범위"
+    }
+  }
+}

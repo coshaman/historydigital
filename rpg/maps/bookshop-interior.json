@@ -2151,6 +2151,28 @@
               "value": "BOOKS_AND_READING"
             }
           ]
+        },
+        {
+          "id": 4008,
+          "name": "반품 장부에 빠진 책",
+          "type": "quest-object",
+          "x": 176,
+          "y": 208,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "LEV_RETURNED_SHEETS_1847_STAGE_1"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
         }
       ]
     },

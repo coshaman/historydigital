@@ -1,0 +1,121 @@
+{
+  "id": "SERGEY_VISITOR_PASS_1847_STAGE_3",
+  "titleKo": "통과 기록의 책임 · 3/3",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "담당자가 도착해 방문자를 부른다. 세르게이는 누가 출입을 허가했는지 기록에 남겨야 한다.",
+  "historicalOutcome": {
+    "id": "SERGEY_VISITOR_PASS_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life only; no historical event or public record changes",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "nevsky",
+    "objectId": 1172,
+    "requiredHostId": "junior_guard_sergey"
+  },
+  "actions": [
+    {
+      "id": "SERGEY_VISITOR_PASS_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "junior_guard_sergey"
+      ],
+      "labelKo": "담당자 확인과 시각을 함께 적는다",
+      "subcopyKo": "세르게이와 접수 담당이 압니다 · 공식 방문 대장에 확인자가 남습니다 · 기록이 빠지면 세르게이가 설명해야 합니다",
+      "practicalDisclosure": {
+        "audienceKo": "세르게이와 접수 담당이 압니다",
+        "recordKo": "공식 방문 대장에 확인자가 남습니다",
+        "riskKo": "기록이 빠지면 세르게이가 설명해야 합니다"
+      },
+      "resultKo": "담당자와 시간을 적고 통과시켰다. 허가를 내린 사람과 문을 연 사람을 구분했다.",
+      "resultFlag": "SERGEY_VISITOR_PASS_1847_STAGE_3_RESULT_1",
+      "followupTitleKo": "통과 기록의 책임",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "담당자와 시간을 적고 통과시켰다. 허가를 내린 사람과 문을 연 사람을 구분했다.",
+        "relations": {
+          "senior_clerk_konstantin": "통과 기록의 책임에서 세르게이와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "SERGEY_VISITOR_PASS_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "junior_guard_sergey"
+      ],
+      "labelKo": "방문표를 돌려주고 담당자와 함께 통과시킨다",
+      "subcopyKo": "세르게이와 방문자가 압니다 · 담당자의 동행이 대장에 남습니다 · 담당자가 자리를 비우면 다시 기다려야 합니다",
+      "practicalDisclosure": {
+        "audienceKo": "세르게이와 방문자가 압니다",
+        "recordKo": "담당자의 동행이 대장에 남습니다",
+        "riskKo": "담당자가 자리를 비우면 다시 기다려야 합니다"
+      },
+      "resultKo": "담당자와 함께 문을 열었다. 표는 방문자에게 돌려주어 본인이 보관하게 했다.",
+      "resultFlag": "SERGEY_VISITOR_PASS_1847_STAGE_3_RESULT_2",
+      "followupTitleKo": "통과 기록의 책임",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "담당자와 함께 문을 열었다. 표는 방문자에게 돌려주어 본인이 보관하게 했다.",
+        "relations": {
+          "senior_clerk_konstantin": "통과 기록의 책임에서 세르게이와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "SERGEY_VISITOR_PASS_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "junior_guard_sergey"
+      ],
+      "labelKo": "오늘은 허가가 늦었다는 사실만 보고한다",
+      "subcopyKo": "상급자와 접수실이 봅니다 · 근무 일지에 지연 사유가 남습니다 · 출입 통제를 제대로 못 했다는 지적을 받을 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "상급자와 접수실이 봅니다",
+        "recordKo": "근무 일지에 지연 사유가 남습니다",
+        "riskKo": "출입 통제를 제대로 못 했다는 지적을 받을 수 있습니다"
+      },
+      "resultKo": "대기 시간과 확인 지연만 보고했다. 개인 판단으로 방문자를 들이지 않았다는 사실도 덧붙였다.",
+      "resultFlag": "SERGEY_VISITOR_PASS_1847_STAGE_3_RESULT_3",
+      "followupTitleKo": "통과 기록의 책임",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "대기 시간과 확인 지연만 보고했다. 개인 판단으로 방문자를 들이지 않았다는 사실도 덧붙였다.",
+        "relations": {
+          "senior_clerk_konstantin": "통과 기록의 책임에서 세르게이와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "exposure": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the physically placed personal-work marker",
+  "lifeChain": {
+    "id": "SERGEY_VISITOR_PASS_1847",
+    "titleKo": "SERGEY VISITOR PASS 1847",
+    "stage": 3,
+    "stageCount": 3,
+    "kind": "PERSONAL",
+    "source": "V36_DEDICATED_PERSONAL_ARC",
+    "previousQuestId": "SERGEY_VISITOR_PASS_1847_STAGE_2",
+    "metricsKo": {
+      "care": "이웃과 생계를 다룬 결과",
+      "record": "남긴 기록의 범위",
+      "exposure": "공개한 정보의 범위"
+    }
+  },
+  "prerequisiteQuestIds": [
+    "SERGEY_VISITOR_PASS_1847_STAGE_2"
+  ]
+}

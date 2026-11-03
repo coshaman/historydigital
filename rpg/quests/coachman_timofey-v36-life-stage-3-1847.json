@@ -1,0 +1,121 @@
+{
+  "id": "TIMofey_SHARED_LOAD_1847_STAGE_3",
+  "titleKo": "마지막 운송표의 빈칸 · 3/3",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "하루 운송을 마치려는데 전달 완료 표시가 비어 있다. 짐은 목적지에 도착했지만 받는 사람이 직접 확인하지 않았다.",
+  "historicalOutcome": {
+    "id": "TIMofey_SHARED_LOAD_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life only; no historical event or public record changes",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "nevsky",
+    "objectId": 1170,
+    "requiredHostId": "coachman_timofey"
+  },
+  "actions": [
+    {
+      "id": "TIMofey_SHARED_LOAD_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "coachman_timofey"
+      ],
+      "labelKo": "받는 사람의 수령 확인을 기다린다",
+      "subcopyKo": "티모페이와 수령인이 압니다 · 인수 확인표가 남습니다 · 귀가가 늦어질 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "티모페이와 수령인이 압니다",
+        "recordKo": "인수 확인표가 남습니다",
+        "riskKo": "귀가가 늦어질 수 있습니다"
+      },
+      "resultKo": "수령인이 짐 수를 확인한 뒤 표시했다. 맞지 않는 자루 하나는 운송표에 남겨 두었다.",
+      "resultFlag": "TIMofey_SHARED_LOAD_1847_STAGE_3_RESULT_1",
+      "followupTitleKo": "마지막 운송표의 빈칸",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "수령인이 짐 수를 확인한 뒤 표시했다. 맞지 않는 자루 하나는 운송표에 남겨 두었다.",
+        "relations": {
+          "carter_roman": "마지막 운송표의 빈칸에서 티모페이와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "TIMofey_SHARED_LOAD_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "coachman_timofey"
+      ],
+      "labelKo": "로만의 적재 기록과 대조한다",
+      "subcopyKo": "티모페이와 로만이 압니다 · 두 운송 기록의 대조가 남습니다 · 기록 차이가 나면 동료와 다시 확인해야 합니다",
+      "practicalDisclosure": {
+        "audienceKo": "티모페이와 로만이 압니다",
+        "recordKo": "두 운송 기록의 대조가 남습니다",
+        "riskKo": "기록 차이가 나면 동료와 다시 확인해야 합니다"
+      },
+      "resultKo": "로만의 기록과 수량이 맞았다. 받는 사람 확인은 아직 없어 완료로 처리하지 않았다.",
+      "resultFlag": "TIMofey_SHARED_LOAD_1847_STAGE_3_RESULT_2",
+      "followupTitleKo": "마지막 운송표의 빈칸",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "로만의 기록과 수량이 맞았다. 받는 사람 확인은 아직 없어 완료로 처리하지 않았다.",
+        "relations": {
+          "carter_roman": "마지막 운송표의 빈칸에서 티모페이와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "TIMofey_SHARED_LOAD_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "coachman_timofey"
+      ],
+      "labelKo": "미확인 상태로 장부를 닫는다",
+      "subcopyKo": "운송 장부를 보는 의뢰인이 압니다 · 미확인 표시가 남습니다 · 다음 일감에서 설명을 요구받을 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "운송 장부를 보는 의뢰인이 압니다",
+        "recordKo": "미확인 표시가 남습니다",
+        "riskKo": "다음 일감에서 설명을 요구받을 수 있습니다"
+      },
+      "resultKo": "도착과 인수를 구분해 미확인으로 적었다. 다음 날 확인할 일을 남겼다.",
+      "resultFlag": "TIMofey_SHARED_LOAD_1847_STAGE_3_RESULT_3",
+      "followupTitleKo": "마지막 운송표의 빈칸",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "도착과 인수를 구분해 미확인으로 적었다. 다음 날 확인할 일을 남겼다.",
+        "relations": {
+          "carter_roman": "마지막 운송표의 빈칸에서 티모페이와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "exposure": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the physically placed personal-work marker",
+  "lifeChain": {
+    "id": "TIMofey_SHARED_LOAD_1847",
+    "titleKo": "TIMofey SHARED LOAD 1847",
+    "stage": 3,
+    "stageCount": 3,
+    "kind": "PERSONAL",
+    "source": "V36_DEDICATED_PERSONAL_ARC",
+    "previousQuestId": "TIMofey_SHARED_LOAD_1847_STAGE_2",
+    "metricsKo": {
+      "care": "이웃과 생계를 다룬 결과",
+      "record": "남긴 기록의 범위",
+      "exposure": "공개한 정보의 범위"
+    }
+  },
+  "prerequisiteQuestIds": [
+    "TIMofey_SHARED_LOAD_1847_STAGE_2"
+  ]
+}

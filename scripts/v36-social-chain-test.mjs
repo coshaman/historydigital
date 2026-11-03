@@ -51,11 +51,16 @@ for(const [id,stages] of chains){
     const actorId=quest.entry.requiredHostId,map=maps[quest.entry.mapId],object=map.layers.find(layer=>layer.name==='Interactions').objects.find(item=>item.id===quest.entry.objectId);
     state.world.currentMapId=map.mapId;state.player.embodiment=actorId;state.player.position={x:Math.floor(object.x/16),y:Math.floor(object.y/16)};
     state.hosts[actorId].mapId=map.mapId;state.hosts[actorId].position={...state.player.position};
+    const partnerState=state.hosts[partner],priorPartnerMap=partnerState.mapId,priorPartnerPosition={...partnerState.position};
+    partnerState.mapId=map.mapId;partnerState.position={x:state.player.position.x+1,y:state.player.position.y};
+    const absentState=structuredClone(state);absentState.hosts[partner].position={x:-100,y:-100};
+    const absent=game.performQuestAction(absentState,{questId:quest.id,hostId:actorId,actionId:quest.actions[0].id,objectId:object.id},{quests,maps});
+    assert.equal(absent.reason,'social_partner_not_present',`${quest.id} must wait for its named partner to be physically present`);
     const action=quest.actions[0],result=game.performQuestAction(state,{questId:quest.id,hostId:actorId,actionId:action.id,objectId:object.id},{quests,maps});
     assert.equal(result.ok,true,`${quest.id} advances from its real marker: ${result.reason}`);
     assert.equal(result.state.hosts[partner].relations[actorId],action.effects.partnerRelationKo,`${quest.id} records the counterpart's reciprocal relationship`);
     assert.equal(result.state.ledger.at(-1).socialChainId,id);
-    state=result.state;completedStages++;reciprocalUpdates++;
+    state=result.state;state.hosts[partner].mapId=priorPartnerMap;state.hosts[partner].position=priorPartnerPosition;completedStages++;reciprocalUpdates++;
   }
 }
 const main=await readFile(path.join(root,'rpg/main.js'),'utf8');

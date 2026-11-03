@@ -1,6 +1,6 @@
 {
-  "auditedHead": "bfbd6efcd267df4ae721842d765d97af2ddf2554",
-  "generatedAt": "2026-11-03T09:19:11.468Z",
+  "auditedHead": "e071ea693d4911de0b0e35d2d67f72e86a79cd1c",
+  "generatedAt": "2026-11-03T10:30:01.569Z",
   "summary": {
     "totalMaps": 16,
     "cityAndReconstructionMaps": 14,
@@ -15,8 +15,8 @@
       "printshop",
       "sewing-room"
     ],
-    "totalInteractionObjects": 168,
-    "nonExitInteractionCandidates": 142,
+    "totalInteractionObjects": 216,
+    "nonExitInteractionCandidates": 190,
     "totalMapExitObjects": 26,
     "missingTargets": []
   },
@@ -33,7 +33,7 @@
         "V36-ART-RUSSIAN-MUSEUM-COLLMANN-1840S",
         "V36-GUIDE-PUSHKAREV-1843"
       ],
-      "interactionObjects": 6,
+      "interactionObjects": 8,
       "mapExits": [
         {
           "objectId": 4005,
@@ -62,7 +62,7 @@
         "V36-PHYSIOLOGY-PETERSBURG-1845",
         "V36-GUIDE-PUSHKAREV-1843"
       ],
-      "interactionObjects": 8,
+      "interactionObjects": 9,
       "mapExits": [
         {
           "objectId": 4007,
@@ -91,7 +91,7 @@
         "V36-PHYSIOLOGY-PETERSBURG-1845",
         "V36-GUIDE-PUSHKAREV-1843"
       ],
-      "interactionObjects": 5,
+      "interactionObjects": 7,
       "mapExits": [
         {
           "objectId": 4003,
@@ -133,7 +133,7 @@
         "V36-PHYSIOLOGY-PETERSBURG-1845",
         "V36-GUIDE-PUSHKAREV-1843"
       ],
-      "interactionObjects": 4,
+      "interactionObjects": 7,
       "mapExits": [
         {
           "objectId": 4003,
@@ -161,7 +161,7 @@
       "sourceIds": [
         "OBJ-PETERSBURG-PLAN-1840"
       ],
-      "interactionObjects": 18,
+      "interactionObjects": 22,
       "mapExits": [
         {
           "objectId": 42,
@@ -190,7 +190,7 @@
         "V36-PHYSIOLOGY-PETERSBURG-1845",
         "V36-GUIDE-PUSHKAREV-1843"
       ],
-      "interactionObjects": 5,
+      "interactionObjects": 9,
       "mapExits": [
         {
           "objectId": 4004,
@@ -219,7 +219,7 @@
         "OBJ-PETERSBURG-PLAN-1840",
         "OBJ-SADOVNIKOV-1835"
       ],
-      "interactionObjects": 26,
+      "interactionObjects": 33,
       "mapExits": [
         {
           "objectId": 62,
@@ -288,7 +288,7 @@
         "V36-PHYSIOLOGY-PETERSBURG-1845",
         "V36-GUIDE-PUSHKAREV-1843"
       ],
-      "interactionObjects": 4,
+      "interactionObjects": 5,
       "mapExits": [
         {
           "objectId": 4003,
@@ -318,7 +318,7 @@
         "V36-ART-RUSSIAN-MUSEUM-COLLMANN-1840S",
         "V36-PHYSIOLOGY-PETERSBURG-1845"
       ],
-      "interactionObjects": 23,
+      "interactionObjects": 28,
       "mapExits": [
         {
           "objectId": 101,
@@ -373,7 +373,7 @@
         "OBJ-PETERSBURG-PLAN-1840",
         "OBJ-SADOVNIKOV-1835"
       ],
-      "interactionObjects": 24,
+      "interactionObjects": 33,
       "mapExits": [
         {
           "objectId": 3,
@@ -478,7 +478,7 @@
       "geography": "fictional police reception room; not a surveyed historic station",
       "date": "1847-06-01",
       "sourceIds": [],
-      "interactionObjects": 7,
+      "interactionObjects": 9,
       "mapExits": [
         {
           "objectId": 2,
@@ -507,7 +507,7 @@
         "OBJ-SOV-1847",
         "OBJ-PETERSBURG-PLAN-1840"
       ],
-      "interactionObjects": 22,
+      "interactionObjects": 25,
       "mapExits": [
         {
           "objectId": 23,
@@ -565,7 +565,7 @@
         "V36-PHYSIOLOGY-PETERSBURG-1845",
         "V36-GUIDE-PUSHKAREV-1843"
       ],
-      "interactionObjects": 6,
+      "interactionObjects": 11,
       "mapExits": [
         {
           "objectId": 4003,

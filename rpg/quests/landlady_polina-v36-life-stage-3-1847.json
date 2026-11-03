@@ -1,0 +1,121 @@
+{
+  "id": "POLINA_RENT_AND_REPAIRS_1847_STAGE_3",
+  "titleKo": "밀린 집세를 어떻게 남길까 · 3/3",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "월말이 왔지만 집세 일부가 비어 있다. 폴리나는 약속과 미납 사실을 남기면서도 공개 망신을 주지 않을 수 있다.",
+  "historicalOutcome": {
+    "id": "POLINA_RENT_AND_REPAIRS_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life only; no historical event or public record changes",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "workyard",
+    "objectId": 4010,
+    "requiredHostId": "landlady_polina"
+  },
+  "actions": [
+    {
+      "id": "POLINA_RENT_AND_REPAIRS_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "landlady_polina"
+      ],
+      "labelKo": "개인 면담으로 새 날짜를 합의한다",
+      "subcopyKo": "폴리나와 해당 세입자가 압니다 · 비공개 납부 메모가 남습니다 · 다시 늦어지면 폴리나가 비용을 감당해야 합니다",
+      "practicalDisclosure": {
+        "audienceKo": "폴리나와 해당 세입자가 압니다",
+        "recordKo": "비공개 납부 메모가 남습니다",
+        "riskKo": "다시 늦어지면 폴리나가 비용을 감당해야 합니다"
+      },
+      "resultKo": "둘이 날짜를 다시 정했다. 다른 세입자의 장부에는 이름이나 사정을 적지 않았다.",
+      "resultFlag": "POLINA_RENT_AND_REPAIRS_1847_STAGE_3_RESULT_1",
+      "followupTitleKo": "밀린 집세를 어떻게 남길까",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "둘이 날짜를 다시 정했다. 다른 세입자의 장부에는 이름이나 사정을 적지 않았다.",
+        "relations": {
+          "tenant_mikhail": "밀린 집세를 어떻게 남길까에서 폴리나와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "POLINA_RENT_AND_REPAIRS_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "landlady_polina"
+      ],
+      "labelKo": "집세 장부에 미납액만 표시한다",
+      "subcopyKo": "장부를 맡은 사람만 봅니다 · 미납액과 날짜가 공식 장부에 남습니다 · 세입자가 기록을 보고 압박을 느낄 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "장부를 맡은 사람만 봅니다",
+        "recordKo": "미납액과 날짜가 공식 장부에 남습니다",
+        "riskKo": "세입자가 기록을 보고 압박을 느낄 수 있습니다"
+      },
+      "resultKo": "금액과 날짜만 장부에 적었다. 사정은 확인되지 않아 덧붙이지 않았다.",
+      "resultFlag": "POLINA_RENT_AND_REPAIRS_1847_STAGE_3_RESULT_2",
+      "followupTitleKo": "밀린 집세를 어떻게 남길까",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "금액과 날짜만 장부에 적었다. 사정은 확인되지 않아 덧붙이지 않았다.",
+        "relations": {
+          "tenant_mikhail": "밀린 집세를 어떻게 남길까에서 폴리나와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "POLINA_RENT_AND_REPAIRS_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "landlady_polina"
+      ],
+      "labelKo": "공동 비용을 줄이고 다음 달에 다시 계산한다",
+      "subcopyKo": "공동 방을 쓰는 세입자들이 압니다 · 변경된 비용표가 남습니다 · 난방이나 수리가 늦어질 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "공동 방을 쓰는 세입자들이 압니다",
+        "recordKo": "변경된 비용표가 남습니다",
+        "riskKo": "난방이나 수리가 늦어질 수 있습니다"
+      },
+      "resultKo": "당장 가능한 지출만 남겼다. 불편이 생긴 구역과 미룬 수리 항목을 함께 알렸다.",
+      "resultFlag": "POLINA_RENT_AND_REPAIRS_1847_STAGE_3_RESULT_3",
+      "followupTitleKo": "밀린 집세를 어떻게 남길까",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "당장 가능한 지출만 남겼다. 불편이 생긴 구역과 미룬 수리 항목을 함께 알렸다.",
+        "relations": {
+          "tenant_mikhail": "밀린 집세를 어떻게 남길까에서 폴리나와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "exposure": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the physically placed personal-work marker",
+  "lifeChain": {
+    "id": "POLINA_RENT_AND_REPAIRS_1847",
+    "titleKo": "POLINA RENT AND REPAIRS 1847",
+    "stage": 3,
+    "stageCount": 3,
+    "kind": "PERSONAL",
+    "source": "V36_DEDICATED_PERSONAL_ARC",
+    "previousQuestId": "POLINA_RENT_AND_REPAIRS_1847_STAGE_2",
+    "metricsKo": {
+      "care": "이웃과 생계를 다룬 결과",
+      "record": "남긴 기록의 범위",
+      "exposure": "공개한 정보의 범위"
+    }
+  },
+  "prerequisiteQuestIds": [
+    "POLINA_RENT_AND_REPAIRS_1847_STAGE_2"
+  ]
+}

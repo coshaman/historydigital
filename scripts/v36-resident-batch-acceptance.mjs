@@ -92,6 +92,23 @@ for (const id of ids) {
     questState.hosts[stageHostId].mapId = stage.entry.mapId;
     questState.player.position = { x: Math.max(0, Math.floor(object.x / 16) - 1), y: Math.floor(object.y / 16) };
     questState.hosts[stageHostId].position = { ...questState.player.position };
+    if (stage.socialChain?.partnerHostId) {
+      const partnerId = stage.socialChain.partnerHostId;
+      const partnerCard = cardById.get(partnerId);
+      assert.ok(partnerCard?.allowedMaps.includes(stage.entry.mapId), `${stage.id} partner ${partnerId} must be allowed in the quest map`);
+      const map = maps[stage.entry.mapId];
+      const collision = map.layers.find(layer => layer.name === 'Collision')?.data;
+      const partnerTile = [
+        { x: questState.player.position.x + 1, y: questState.player.position.y },
+        { x: questState.player.position.x - 1, y: questState.player.position.y },
+        { x: questState.player.position.x, y: questState.player.position.y + 1 },
+        { x: questState.player.position.x, y: questState.player.position.y - 1 },
+      ].find(tile => tile.x >= 0 && tile.y >= 0 && tile.x < map.width && tile.y < map.height
+        && collision[tile.y * map.width + tile.x] === 0);
+      assert.ok(partnerTile, `${stage.id} needs a walkable adjacent tile for its present partner`);
+      questState.hosts[partnerId].mapId = stage.entry.mapId;
+      questState.hosts[partnerId].position = partnerTile;
+    }
     const resolved = game.performQuestAction(questState, { questId: stage.id, hostId: stageHostId, actionId: stage.actions[0].id, objectId: stage.entry.objectId }, { quests, maps });
     assert.equal(resolved.ok, true, `${stage.id} must resolve in the actual engine: ${resolved.reason}`);
     assert.equal(resolved.state.quests[stage.id].status, 'resolved');

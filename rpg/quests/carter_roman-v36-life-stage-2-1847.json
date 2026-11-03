@@ -1,0 +1,121 @@
+{
+  "id": "ROMAN_WHEEL_AND_FARE_1847_STAGE_2",
+  "titleKo": "늦은 운임을 누가 감당하나 · 2/3",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "수리를 기다린 사이 운송 시각이 밀렸다. 의뢰인은 약속한 값을 깎겠다고 하고, 로만은 지연 사유를 숨기지 않으려 한다.",
+  "historicalOutcome": {
+    "id": "ROMAN_WHEEL_AND_FARE_1847_STAGE_2_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life only; no historical event or public record changes",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "canal-road",
+    "objectId": 4005,
+    "requiredHostId": "carter_roman"
+  },
+  "actions": [
+    {
+      "id": "ROMAN_WHEEL_AND_FARE_1847_STAGE_2_CHOICE_1",
+      "hostIds": [
+        "carter_roman"
+      ],
+      "labelKo": "지연 시각과 원인을 그대로 설명한다",
+      "subcopyKo": "로만과 의뢰인이 압니다 · 운송표에 지연 사유가 남습니다 · 의뢰인이 일감을 취소할 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "로만과 의뢰인이 압니다",
+        "recordKo": "운송표에 지연 사유가 남습니다",
+        "riskKo": "의뢰인이 일감을 취소할 수 있습니다"
+      },
+      "resultKo": "바퀴를 점검하느라 늦었다고 알렸다. 의뢰인은 오늘 운송을 취소하고 다른 마차를 찾았다.",
+      "resultFlag": "ROMAN_WHEEL_AND_FARE_1847_STAGE_2_RESULT_1",
+      "followupTitleKo": "늦은 운임을 누가 감당하나",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "바퀴를 점검하느라 늦었다고 알렸다. 의뢰인은 오늘 운송을 취소하고 다른 마차를 찾았다.",
+        "relations": {
+          "coachman_timofey": "늦은 운임을 누가 감당하나에서 로만와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "ROMAN_WHEEL_AND_FARE_1847_STAGE_2_CHOICE_2",
+      "hostIds": [
+        "carter_roman"
+      ],
+      "labelKo": "실제 이동 거리만 다시 계산한다",
+      "subcopyKo": "로만과 의뢰인이 압니다 · 운임 계산표가 남습니다 · 추가 대기 비용은 받지 못할 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "로만과 의뢰인이 압니다",
+        "recordKo": "운임 계산표가 남습니다",
+        "riskKo": "추가 대기 비용은 받지 못할 수 있습니다"
+      },
+      "resultKo": "이동하지 않은 거리는 운임에서 빼고 대기 시간은 따로 합의했다. 양쪽 계산을 적어 두었다.",
+      "resultFlag": "ROMAN_WHEEL_AND_FARE_1847_STAGE_2_RESULT_2",
+      "followupTitleKo": "늦은 운임을 누가 감당하나",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "이동하지 않은 거리는 운임에서 빼고 대기 시간은 따로 합의했다. 양쪽 계산을 적어 두었다.",
+        "relations": {
+          "coachman_timofey": "늦은 운임을 누가 감당하나에서 로만와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "ROMAN_WHEEL_AND_FARE_1847_STAGE_2_CHOICE_3",
+      "hostIds": [
+        "carter_roman"
+      ],
+      "labelKo": "티모페이와 짐을 나눠 배송한다",
+      "subcopyKo": "로만과 티모페이, 의뢰인이 압니다 · 공동 운송표가 남습니다 · 동료가 늦어지면 두 약속이 함께 흔들립니다",
+      "practicalDisclosure": {
+        "audienceKo": "로만과 티모페이, 의뢰인이 압니다",
+        "recordKo": "공동 운송표가 남습니다",
+        "riskKo": "동료가 늦어지면 두 약속이 함께 흔들립니다"
+      },
+      "resultKo": "티모페이와 짐을 나눠 실었다. 각자 맡은 목적지와 도착 시각을 의뢰인에게 알렸다.",
+      "resultFlag": "ROMAN_WHEEL_AND_FARE_1847_STAGE_2_RESULT_3",
+      "followupTitleKo": "늦은 운임을 누가 감당하나",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "티모페이와 짐을 나눠 실었다. 각자 맡은 목적지와 도착 시각을 의뢰인에게 알렸다.",
+        "relations": {
+          "coachman_timofey": "늦은 운임을 누가 감당하나에서 로만와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "exposure": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the physically placed personal-work marker",
+  "lifeChain": {
+    "id": "ROMAN_WHEEL_AND_FARE_1847",
+    "titleKo": "ROMAN WHEEL AND FARE 1847",
+    "stage": 2,
+    "stageCount": 3,
+    "kind": "PERSONAL",
+    "source": "V36_DEDICATED_PERSONAL_ARC",
+    "previousQuestId": "ROMAN_WHEEL_AND_FARE_1847_STAGE_1",
+    "metricsKo": {
+      "care": "이웃과 생계를 다룬 결과",
+      "record": "남긴 기록의 범위",
+      "exposure": "공개한 정보의 범위"
+    }
+  },
+  "prerequisiteQuestIds": [
+    "ROMAN_WHEEL_AND_FARE_1847_STAGE_1"
+  ]
+}

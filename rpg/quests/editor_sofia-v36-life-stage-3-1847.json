@@ -1,0 +1,121 @@
+{
+  "id": "SOFIA_UNNAMED_NOTICE_1847_STAGE_3",
+  "titleKo": "누구의 이름으로 내보낼까 · 3/3",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "원고는 인쇄할 수 있지만 제보자의 동의는 없다. 편집부는 익명, 편집자 이름, 보류 중 하나를 골라야 한다.",
+  "historicalOutcome": {
+    "id": "SOFIA_UNNAMED_NOTICE_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life only; no historical event or public record changes",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "nevsky",
+    "objectId": 1171,
+    "requiredHostId": "editor_sofia"
+  },
+  "actions": [
+    {
+      "id": "SOFIA_UNNAMED_NOTICE_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "editor_sofia"
+      ],
+      "labelKo": "이름을 빼고 확인된 문장만 싣는다",
+      "subcopyKo": "신문 독자와 편집부가 봅니다 · 익명 교정 이력이 남습니다 · 제보자가 자기 말이 바뀌었다고 항의할 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "신문 독자와 편집부가 봅니다",
+        "recordKo": "익명 교정 이력이 남습니다",
+        "riskKo": "제보자가 자기 말이 바뀌었다고 항의할 수 있습니다"
+      },
+      "resultKo": "사람 이름은 빼고 확인된 가격만 실었다. 바뀐 문장과 이유를 교정 기록에 남겼다.",
+      "resultFlag": "SOFIA_UNNAMED_NOTICE_1847_STAGE_3_RESULT_1",
+      "followupTitleKo": "누구의 이름으로 내보낼까",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "사람 이름은 빼고 확인된 가격만 실었다. 바뀐 문장과 이유를 교정 기록에 남겼다.",
+        "relations": {
+          "printer_ekaterina": "누구의 이름으로 내보낼까에서 소피야 미하일로바와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "SOFIA_UNNAMED_NOTICE_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "editor_sofia"
+      ],
+      "labelKo": "편집부 이름으로 책임지고 낸다",
+      "subcopyKo": "독자와 인쇄소가 봅니다 · 발행 책임자 이름이 남습니다 · 논쟁과 정정 요구가 편집부로 향합니다",
+      "practicalDisclosure": {
+        "audienceKo": "독자와 인쇄소가 봅니다",
+        "recordKo": "발행 책임자 이름이 남습니다",
+        "riskKo": "논쟁과 정정 요구가 편집부로 향합니다"
+      },
+      "resultKo": "편집부 이름으로 발행했다. 제보의 한계를 본문에 밝혀 책임이 어디에 있는지 보였다.",
+      "resultFlag": "SOFIA_UNNAMED_NOTICE_1847_STAGE_3_RESULT_2",
+      "followupTitleKo": "누구의 이름으로 내보낼까",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "편집부 이름으로 발행했다. 제보의 한계를 본문에 밝혀 책임이 어디에 있는지 보였다.",
+        "relations": {
+          "printer_ekaterina": "누구의 이름으로 내보낼까에서 소피야 미하일로바와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "SOFIA_UNNAMED_NOTICE_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "editor_sofia"
+      ],
+      "labelKo": "동의를 받을 때까지 보류한다",
+      "subcopyKo": "편집부와 인쇄소가 압니다 · 보류 원고 봉투에 사유가 남습니다 · 이번 호에 실릴 기회를 놓칩니다",
+      "practicalDisclosure": {
+        "audienceKo": "편집부와 인쇄소가 압니다",
+        "recordKo": "보류 원고 봉투에 사유가 남습니다",
+        "riskKo": "이번 호에 실릴 기회를 놓칩니다"
+      },
+      "resultKo": "발행을 미루고 동의를 기다리기로 했다. 이번 호는 비었지만 제보자의 이름은 보호됐다.",
+      "resultFlag": "SOFIA_UNNAMED_NOTICE_1847_STAGE_3_RESULT_3",
+      "followupTitleKo": "누구의 이름으로 내보낼까",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "발행을 미루고 동의를 기다리기로 했다. 이번 호는 비었지만 제보자의 이름은 보호됐다.",
+        "relations": {
+          "printer_ekaterina": "누구의 이름으로 내보낼까에서 소피야 미하일로바와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "exposure": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the physically placed personal-work marker",
+  "lifeChain": {
+    "id": "SOFIA_UNNAMED_NOTICE_1847",
+    "titleKo": "SOFIA UNNAMED NOTICE 1847",
+    "stage": 3,
+    "stageCount": 3,
+    "kind": "PERSONAL",
+    "source": "V36_DEDICATED_PERSONAL_ARC",
+    "previousQuestId": "SOFIA_UNNAMED_NOTICE_1847_STAGE_2",
+    "metricsKo": {
+      "care": "이웃과 생계를 다룬 결과",
+      "record": "남긴 기록의 범위",
+      "exposure": "공개한 정보의 범위"
+    }
+  },
+  "prerequisiteQuestIds": [
+    "SOFIA_UNNAMED_NOTICE_1847_STAGE_2"
+  ]
+}

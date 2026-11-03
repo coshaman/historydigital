@@ -6,6 +6,7 @@
   "distinctEndingAndRhythmSignatures": 36,
   "uniqueRelationshipRegisterMatrices": 36,
   "conversationalThirdSamples": 36,
+  "rejectedNarrativeSummarySamples": true,
   "registerSituations": 6,
   "duplicateRegisterGroups": [],
   "duplicateBlindSpotGroups": [],

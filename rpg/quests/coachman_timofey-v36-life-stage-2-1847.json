@@ -1,0 +1,121 @@
+{
+  "id": "TIMofey_SHARED_LOAD_1847_STAGE_2",
+  "titleKo": "운하 길이 막힌 오후 · 2/3",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "운하 쪽 길에 짐수레가 늘어 이동이 느려졌다. 우회하면 시간이 더 들고, 그대로 기다리면 다음 예약을 놓칠 수 있다.",
+  "historicalOutcome": {
+    "id": "TIMofey_SHARED_LOAD_1847_STAGE_2_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life only; no historical event or public record changes",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "canal-road",
+    "objectId": 4004,
+    "requiredHostId": "coachman_timofey"
+  },
+  "actions": [
+    {
+      "id": "TIMofey_SHARED_LOAD_1847_STAGE_2_CHOICE_1",
+      "hostIds": [
+        "coachman_timofey"
+      ],
+      "labelKo": "막힌 구간이 풀릴 때까지 기다린다",
+      "subcopyKo": "티모페이와 승객이 압니다 · 대기 시각이 운송표에 남습니다 · 다음 예약을 놓칠 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "티모페이와 승객이 압니다",
+        "recordKo": "대기 시각이 운송표에 남습니다",
+        "riskKo": "다음 예약을 놓칠 수 있습니다"
+      },
+      "resultKo": "길이 움직이기 시작할 때까지 기다렸다. 늦어진 시각을 손님에게 먼저 알렸다.",
+      "resultFlag": "TIMofey_SHARED_LOAD_1847_STAGE_2_RESULT_1",
+      "followupTitleKo": "운하 길이 막힌 오후",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "길이 움직이기 시작할 때까지 기다렸다. 늦어진 시각을 손님에게 먼저 알렸다.",
+        "relations": {
+          "carter_roman": "운하 길이 막힌 오후에서 티모페이와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "TIMofey_SHARED_LOAD_1847_STAGE_2_CHOICE_2",
+      "hostIds": [
+        "coachman_timofey"
+      ],
+      "labelKo": "로만에게 다른 길의 통행을 확인한다",
+      "subcopyKo": "티모페이와 로만이 압니다 · 우회 경로 쪽지가 남습니다 · 확인되지 않은 길을 택하면 더 늦어집니다",
+      "practicalDisclosure": {
+        "audienceKo": "티모페이와 로만이 압니다",
+        "recordKo": "우회 경로 쪽지가 남습니다",
+        "riskKo": "확인되지 않은 길을 택하면 더 늦어집니다"
+      },
+      "resultKo": "로만이 돌아갈 수 있는 길을 알려줬다. 실제 통행이 가능한지 눈으로 확인한 뒤 출발했다.",
+      "resultFlag": "TIMofey_SHARED_LOAD_1847_STAGE_2_RESULT_2",
+      "followupTitleKo": "운하 길이 막힌 오후",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "로만이 돌아갈 수 있는 길을 알려줬다. 실제 통행이 가능한지 눈으로 확인한 뒤 출발했다.",
+        "relations": {
+          "carter_roman": "운하 길이 막힌 오후에서 티모페이와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "TIMofey_SHARED_LOAD_1847_STAGE_2_CHOICE_3",
+      "hostIds": [
+        "coachman_timofey"
+      ],
+      "labelKo": "예약 손님에게 순서를 다시 묻는다",
+      "subcopyKo": "티모페이와 예약 손님이 압니다 · 예약 변경 메모가 남습니다 · 손님이 예약을 취소할 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "티모페이와 예약 손님이 압니다",
+        "recordKo": "예약 변경 메모가 남습니다",
+        "riskKo": "손님이 예약을 취소할 수 있습니다"
+      },
+      "resultKo": "손님은 가까운 목적지부터 보내 달라고 했다. 먼 길의 짐은 다음 운송으로 미뤄졌다.",
+      "resultFlag": "TIMofey_SHARED_LOAD_1847_STAGE_2_RESULT_3",
+      "followupTitleKo": "운하 길이 막힌 오후",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "손님은 가까운 목적지부터 보내 달라고 했다. 먼 길의 짐은 다음 운송으로 미뤄졌다.",
+        "relations": {
+          "carter_roman": "운하 길이 막힌 오후에서 티모페이와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "exposure": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the physically placed personal-work marker",
+  "lifeChain": {
+    "id": "TIMofey_SHARED_LOAD_1847",
+    "titleKo": "TIMofey SHARED LOAD 1847",
+    "stage": 2,
+    "stageCount": 3,
+    "kind": "PERSONAL",
+    "source": "V36_DEDICATED_PERSONAL_ARC",
+    "previousQuestId": "TIMofey_SHARED_LOAD_1847_STAGE_1",
+    "metricsKo": {
+      "care": "이웃과 생계를 다룬 결과",
+      "record": "남긴 기록의 범위",
+      "exposure": "공개한 정보의 범위"
+    }
+  },
+  "prerequisiteQuestIds": [
+    "TIMofey_SHARED_LOAD_1847_STAGE_1"
+  ]
+}

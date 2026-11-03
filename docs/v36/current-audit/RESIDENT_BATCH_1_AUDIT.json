@@ -36,13 +36,13 @@
       "reciprocalLinks": 2
     }
   ],
-  "scheduleTargetsChecked": 33,
+  "scheduleTargetsChecked": 34,
   "oneHourWorldReplay": true,
   "collisionSnapshots": 12,
   "questCompletions": 6,
-  "questStagesResolved": 14,
+  "questStagesResolved": 16,
   "possessionChecks": 6,
   "legacySaveRelationMigrationPreservedDynamicLinks": true,
   "movementEvents": 68,
-  "finalStateHash": "93a97d41"
+  "finalStateHash": "af63c98b"
 }

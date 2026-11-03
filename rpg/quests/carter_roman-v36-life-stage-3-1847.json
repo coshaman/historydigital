@@ -1,0 +1,121 @@
+{
+  "id": "ROMAN_WHEEL_AND_FARE_1847_STAGE_3",
+  "titleKo": "빌린 공구를 돌려주는 날 · 3/3",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "수레를 고친 뒤 빌린 공구가 돌아왔다. 하나는 손잡이가 헐겁다. 로만은 누구의 손에서 그랬는지 보지 못했다.",
+  "historicalOutcome": {
+    "id": "ROMAN_WHEEL_AND_FARE_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life only; no historical event or public record changes",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "nevsky",
+    "objectId": 1176,
+    "requiredHostId": "carter_roman"
+  },
+  "actions": [
+    {
+      "id": "ROMAN_WHEEL_AND_FARE_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "carter_roman"
+      ],
+      "labelKo": "공구를 빌리기 전 상태와 대조한다",
+      "subcopyKo": "로만과 공구 주인이 압니다 · 대여 메모에 상태가 남습니다 · 기록이 불충분하면 수리비를 두고 다툴 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "로만과 공구 주인이 압니다",
+        "recordKo": "대여 메모에 상태가 남습니다",
+        "riskKo": "기록이 불충분하면 수리비를 두고 다툴 수 있습니다"
+      },
+      "resultKo": "빌리기 전 메모에는 손잡이 상태가 없었다. 손상을 누구 책임이라고 단정하지 않았다.",
+      "resultFlag": "ROMAN_WHEEL_AND_FARE_1847_STAGE_3_RESULT_1",
+      "followupTitleKo": "빌린 공구를 돌려주는 날",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "빌리기 전 메모에는 손잡이 상태가 없었다. 손상을 누구 책임이라고 단정하지 않았다.",
+        "relations": {
+          "coachman_timofey": "빌린 공구를 돌려주는 날에서 로만와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "ROMAN_WHEEL_AND_FARE_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "carter_roman"
+      ],
+      "labelKo": "손잡이를 고쳐 함께 비용을 낸다",
+      "subcopyKo": "로만과 공구 주인이 압니다 · 수리 비용 분담이 적힙니다 · 로만이 자기 몫을 먼저 부담합니다",
+      "practicalDisclosure": {
+        "audienceKo": "로만과 공구 주인이 압니다",
+        "recordKo": "수리 비용 분담이 적힙니다",
+        "riskKo": "로만이 자기 몫을 먼저 부담합니다"
+      },
+      "resultKo": "둘이 수리비를 나눴다. 다음 대여부터는 상태를 함께 확인하기로 했다.",
+      "resultFlag": "ROMAN_WHEEL_AND_FARE_1847_STAGE_3_RESULT_2",
+      "followupTitleKo": "빌린 공구를 돌려주는 날",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "둘이 수리비를 나눴다. 다음 대여부터는 상태를 함께 확인하기로 했다.",
+        "relations": {
+          "coachman_timofey": "빌린 공구를 돌려주는 날에서 로만와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "ROMAN_WHEEL_AND_FARE_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "carter_roman"
+      ],
+      "labelKo": "공구를 따로 두고 주인에게 알린다",
+      "subcopyKo": "로만과 작업장 주인들이 압니다 · 사용 보류 표식이 남습니다 · 공구가 부족해 다른 수리가 늦어집니다",
+      "practicalDisclosure": {
+        "audienceKo": "로만과 작업장 주인들이 압니다",
+        "recordKo": "사용 보류 표식이 남습니다",
+        "riskKo": "공구가 부족해 다른 수리가 늦어집니다"
+      },
+      "resultKo": "헐거운 공구를 사용하지 않도록 따로 두었다. 주인에게 알리고 수리 전에는 빌리지 않기로 했다.",
+      "resultFlag": "ROMAN_WHEEL_AND_FARE_1847_STAGE_3_RESULT_3",
+      "followupTitleKo": "빌린 공구를 돌려주는 날",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "헐거운 공구를 사용하지 않도록 따로 두었다. 주인에게 알리고 수리 전에는 빌리지 않기로 했다.",
+        "relations": {
+          "coachman_timofey": "빌린 공구를 돌려주는 날에서 로만와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "exposure": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the physically placed personal-work marker",
+  "lifeChain": {
+    "id": "ROMAN_WHEEL_AND_FARE_1847",
+    "titleKo": "ROMAN WHEEL AND FARE 1847",
+    "stage": 3,
+    "stageCount": 3,
+    "kind": "PERSONAL",
+    "source": "V36_DEDICATED_PERSONAL_ARC",
+    "previousQuestId": "ROMAN_WHEEL_AND_FARE_1847_STAGE_2",
+    "metricsKo": {
+      "care": "이웃과 생계를 다룬 결과",
+      "record": "남긴 기록의 범위",
+      "exposure": "공개한 정보의 범위"
+    }
+  },
+  "prerequisiteQuestIds": [
+    "ROMAN_WHEEL_AND_FARE_1847_STAGE_2"
+  ]
+}

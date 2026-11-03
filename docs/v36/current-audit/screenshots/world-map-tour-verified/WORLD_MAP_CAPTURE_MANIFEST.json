@@ -1,16 +1,34 @@
 {
-  "schemaVersion": "V36_WORLD_MAP_BROWSER_CAPTURE_1",
+  "schemaVersion": "V36_WORLD_MAP_BROWSER_CAPTURE_2",
   "status": "PASS",
-  "generatedAt": "2026-11-03T09:30:12.295Z",
+  "generatedAt": "2026-11-03T11:02:28.046Z",
   "districts": 6,
   "cityMapCount": 14,
   "viewports": [
-    "desktop",
-    "mobile"
+    {
+      "name": "desktop-1440x900",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "name": "laptop-1366x768",
+      "width": 1366,
+      "height": 768
+    },
+    {
+      "name": "mobile-390x844",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "name": "mobile-360x800",
+      "width": 360,
+      "height": 800
+    }
   ],
   "captures": [
     {
-      "viewport": "desktop",
+      "viewport": "desktop-1440x900",
       "documentWidth": 1440,
       "documentHeight": 900,
       "mapId": "nevsky",
@@ -23,11 +41,11 @@
       },
       "opinionBoardVisible": true,
       "hostId": "clerk_alexei",
-      "screenshot": "desktop-nevsky.png",
+      "screenshot": "desktop-1440x900-nevsky.png",
       "pageErrors": []
     },
     {
-      "viewport": "desktop",
+      "viewport": "desktop-1440x900",
       "documentWidth": 1440,
       "documentHeight": 900,
       "mapId": "courtyard",
@@ -40,11 +58,11 @@
       },
       "opinionBoardVisible": true,
       "hostId": "tenant_mikhail",
-      "screenshot": "desktop-courtyard.png",
+      "screenshot": "desktop-1440x900-courtyard.png",
       "pageErrors": []
     },
     {
-      "viewport": "desktop",
+      "viewport": "desktop-1440x900",
       "documentWidth": 1440,
       "documentHeight": 900,
       "mapId": "market-quay",
@@ -57,11 +75,11 @@
       },
       "opinionBoardVisible": true,
       "hostId": "yardkeeper_semyon",
-      "screenshot": "desktop-market-quay.png",
+      "screenshot": "desktop-1440x900-market-quay.png",
       "pageErrors": []
     },
     {
-      "viewport": "desktop",
+      "viewport": "desktop-1440x900",
       "documentWidth": 1440,
       "documentHeight": 900,
       "mapId": "bookshop-lane",
@@ -74,11 +92,11 @@
       },
       "opinionBoardVisible": true,
       "hostId": "bookseller_lev",
-      "screenshot": "desktop-bookshop-lane.png",
+      "screenshot": "desktop-1440x900-bookshop-lane.png",
       "pageErrors": []
     },
     {
-      "viewport": "desktop",
+      "viewport": "desktop-1440x900",
       "documentWidth": 1440,
       "documentHeight": 900,
       "mapId": "canal-road",
@@ -91,11 +109,11 @@
       },
       "opinionBoardVisible": true,
       "hostId": "carter_roman",
-      "screenshot": "desktop-canal-road.png",
+      "screenshot": "desktop-1440x900-canal-road.png",
       "pageErrors": []
     },
     {
-      "viewport": "desktop",
+      "viewport": "desktop-1440x900",
       "documentWidth": 1440,
       "documentHeight": 900,
       "mapId": "workyard",
@@ -108,11 +126,11 @@
       },
       "opinionBoardVisible": true,
       "hostId": "seamstress_anna",
-      "screenshot": "desktop-workyard.png",
+      "screenshot": "desktop-1440x900-workyard.png",
       "pageErrors": []
     },
     {
-      "viewport": "desktop",
+      "viewport": "desktop-1440x900",
       "documentWidth": 1440,
       "documentHeight": 900,
       "mapId": "printshop",
@@ -125,11 +143,11 @@
       },
       "opinionBoardVisible": true,
       "hostId": "apothecary_yakov",
-      "screenshot": "desktop-printshop.png",
+      "screenshot": "desktop-1440x900-printshop.png",
       "pageErrors": []
     },
     {
-      "viewport": "desktop",
+      "viewport": "desktop-1440x900",
       "documentWidth": 1440,
       "documentHeight": 900,
       "mapId": "chancery",
@@ -142,11 +160,11 @@
       },
       "opinionBoardVisible": true,
       "hostId": "apothecary_yakov",
-      "screenshot": "desktop-chancery.png",
+      "screenshot": "desktop-1440x900-chancery.png",
       "pageErrors": []
     },
     {
-      "viewport": "desktop",
+      "viewport": "desktop-1440x900",
       "documentWidth": 1440,
       "documentHeight": 900,
       "mapId": "police-station",
@@ -159,11 +177,11 @@
       },
       "opinionBoardVisible": true,
       "hostId": "bookseller_lev",
-      "screenshot": "desktop-police-station.png",
+      "screenshot": "desktop-1440x900-police-station.png",
       "pageErrors": []
     },
     {
-      "viewport": "desktop",
+      "viewport": "desktop-1440x900",
       "documentWidth": 1440,
       "documentHeight": 900,
       "mapId": "inn-interior",
@@ -176,11 +194,11 @@
       },
       "opinionBoardVisible": true,
       "hostId": "innkeeper_irina",
-      "screenshot": "desktop-inn-interior.png",
+      "screenshot": "desktop-1440x900-inn-interior.png",
       "pageErrors": []
     },
     {
-      "viewport": "desktop",
+      "viewport": "desktop-1440x900",
       "documentWidth": 1440,
       "documentHeight": 900,
       "mapId": "bakery-interior",
@@ -193,11 +211,11 @@
       },
       "opinionBoardVisible": true,
       "hostId": "baker_fyodor",
-      "screenshot": "desktop-bakery-interior.png",
+      "screenshot": "desktop-1440x900-bakery-interior.png",
       "pageErrors": []
     },
     {
-      "viewport": "desktop",
+      "viewport": "desktop-1440x900",
       "documentWidth": 1440,
       "documentHeight": 900,
       "mapId": "bookshop-interior",
@@ -210,11 +228,11 @@
       },
       "opinionBoardVisible": true,
       "hostId": "bookseller_lev",
-      "screenshot": "desktop-bookshop-interior.png",
+      "screenshot": "desktop-1440x900-bookshop-interior.png",
       "pageErrors": []
     },
     {
-      "viewport": "desktop",
+      "viewport": "desktop-1440x900",
       "documentWidth": 1440,
       "documentHeight": 900,
       "mapId": "sewing-room",
@@ -227,11 +245,11 @@
       },
       "opinionBoardVisible": true,
       "hostId": "seamstress_anna",
-      "screenshot": "desktop-sewing-room.png",
+      "screenshot": "desktop-1440x900-sewing-room.png",
       "pageErrors": []
     },
     {
-      "viewport": "desktop",
+      "viewport": "desktop-1440x900",
       "documentWidth": 1440,
       "documentHeight": 900,
       "mapId": "communal-room",
@@ -244,11 +262,249 @@
       },
       "opinionBoardVisible": true,
       "hostId": "yardkeeper_semyon",
-      "screenshot": "desktop-communal-room.png",
+      "screenshot": "desktop-1440x900-communal-room.png",
       "pageErrors": []
     },
     {
-      "viewport": "mobile",
+      "viewport": "laptop-1366x768",
+      "documentWidth": 1366,
+      "documentHeight": 768,
+      "mapId": "nevsky",
+      "mapName": "네프스키 거리",
+      "district": "네프스키의 일터 거리",
+      "canvas": {
+        "width": 1309,
+        "height": 279,
+        "nonTransparentPixels": 1024
+      },
+      "opinionBoardVisible": true,
+      "hostId": "clerk_alexei",
+      "screenshot": "laptop-1366x768-nevsky.png",
+      "pageErrors": []
+    },
+    {
+      "viewport": "laptop-1366x768",
+      "documentWidth": 1366,
+      "documentHeight": 768,
+      "mapId": "courtyard",
+      "mapName": "하숙집 안뜰",
+      "district": "하숙집 안뜰과 셋방",
+      "canvas": {
+        "width": 1309,
+        "height": 279,
+        "nonTransparentPixels": 1024
+      },
+      "opinionBoardVisible": true,
+      "hostId": "tenant_mikhail",
+      "screenshot": "laptop-1366x768-courtyard.png",
+      "pageErrors": []
+    },
+    {
+      "viewport": "laptop-1366x768",
+      "documentWidth": 1366,
+      "documentHeight": 768,
+      "mapId": "market-quay",
+      "mapName": "강변 장터",
+      "district": "장터와 강변의 일터",
+      "canvas": {
+        "width": 1309,
+        "height": 279,
+        "nonTransparentPixels": 1024
+      },
+      "opinionBoardVisible": true,
+      "hostId": "yardkeeper_semyon",
+      "screenshot": "laptop-1366x768-market-quay.png",
+      "pageErrors": []
+    },
+    {
+      "viewport": "laptop-1366x768",
+      "documentWidth": 1366,
+      "documentHeight": 768,
+      "mapId": "bookshop-lane",
+      "mapName": "책방 골목",
+      "district": "책방과 읽을거리 골목",
+      "canvas": {
+        "width": 1309,
+        "height": 279,
+        "nonTransparentPixels": 1024
+      },
+      "opinionBoardVisible": true,
+      "hostId": "bookseller_lev",
+      "screenshot": "laptop-1366x768-bookshop-lane.png",
+      "pageErrors": []
+    },
+    {
+      "viewport": "laptop-1366x768",
+      "documentWidth": 1366,
+      "documentHeight": 768,
+      "mapId": "canal-road",
+      "mapName": "운하와 하역 길",
+      "district": "운하와 하역 길",
+      "canvas": {
+        "width": 1309,
+        "height": 279,
+        "nonTransparentPixels": 1024
+      },
+      "opinionBoardVisible": true,
+      "hostId": "carter_roman",
+      "screenshot": "laptop-1366x768-canal-road.png",
+      "pageErrors": []
+    },
+    {
+      "viewport": "laptop-1366x768",
+      "documentWidth": 1366,
+      "documentHeight": 768,
+      "mapId": "workyard",
+      "mapName": "공동 뒤뜰 작업장",
+      "district": "공동 뒤뜰의 일터",
+      "canvas": {
+        "width": 1309,
+        "height": 279,
+        "nonTransparentPixels": 1024
+      },
+      "opinionBoardVisible": true,
+      "hostId": "seamstress_anna",
+      "screenshot": "laptop-1366x768-workyard.png",
+      "pageErrors": []
+    },
+    {
+      "viewport": "laptop-1366x768",
+      "documentWidth": 1366,
+      "documentHeight": 768,
+      "mapId": "printshop",
+      "mapName": "네프스키 인쇄소",
+      "district": "네프스키의 일터 거리",
+      "canvas": {
+        "width": 1309,
+        "height": 279,
+        "nonTransparentPixels": 1024
+      },
+      "opinionBoardVisible": true,
+      "hostId": "apothecary_yakov",
+      "screenshot": "laptop-1366x768-printshop.png",
+      "pageErrors": []
+    },
+    {
+      "viewport": "laptop-1366x768",
+      "documentWidth": 1366,
+      "documentHeight": 768,
+      "mapId": "chancery",
+      "mapName": "관청 접수실",
+      "district": "네프스키의 일터 거리",
+      "canvas": {
+        "width": 1309,
+        "height": 279,
+        "nonTransparentPixels": 1024
+      },
+      "opinionBoardVisible": true,
+      "hostId": "apothecary_yakov",
+      "screenshot": "laptop-1366x768-chancery.png",
+      "pageErrors": []
+    },
+    {
+      "viewport": "laptop-1366x768",
+      "documentWidth": 1366,
+      "documentHeight": 768,
+      "mapId": "police-station",
+      "mapName": "경찰 접수실",
+      "district": "네프스키의 일터 거리",
+      "canvas": {
+        "width": 1309,
+        "height": 279,
+        "nonTransparentPixels": 1024
+      },
+      "opinionBoardVisible": true,
+      "hostId": "bookseller_lev",
+      "screenshot": "laptop-1366x768-police-station.png",
+      "pageErrors": []
+    },
+    {
+      "viewport": "laptop-1366x768",
+      "documentWidth": 1366,
+      "documentHeight": 768,
+      "mapId": "inn-interior",
+      "mapName": "하숙집 공동방",
+      "district": "하숙집 안뜰과 셋방",
+      "canvas": {
+        "width": 1309,
+        "height": 279,
+        "nonTransparentPixels": 1024
+      },
+      "opinionBoardVisible": true,
+      "hostId": "innkeeper_irina",
+      "screenshot": "laptop-1366x768-inn-interior.png",
+      "pageErrors": []
+    },
+    {
+      "viewport": "laptop-1366x768",
+      "documentWidth": 1366,
+      "documentHeight": 768,
+      "mapId": "bakery-interior",
+      "mapName": "작은 빵 굽는 방",
+      "district": "장터와 강변의 일터",
+      "canvas": {
+        "width": 1309,
+        "height": 279,
+        "nonTransparentPixels": 1024
+      },
+      "opinionBoardVisible": true,
+      "hostId": "baker_fyodor",
+      "screenshot": "laptop-1366x768-bakery-interior.png",
+      "pageErrors": []
+    },
+    {
+      "viewport": "laptop-1366x768",
+      "documentWidth": 1366,
+      "documentHeight": 768,
+      "mapId": "bookshop-interior",
+      "mapName": "책방 안쪽",
+      "district": "책방과 읽을거리 골목",
+      "canvas": {
+        "width": 1309,
+        "height": 279,
+        "nonTransparentPixels": 1024
+      },
+      "opinionBoardVisible": true,
+      "hostId": "bookseller_lev",
+      "screenshot": "laptop-1366x768-bookshop-interior.png",
+      "pageErrors": []
+    },
+    {
+      "viewport": "laptop-1366x768",
+      "documentWidth": 1366,
+      "documentHeight": 768,
+      "mapId": "sewing-room",
+      "mapName": "바느질 셋방",
+      "district": "공동 뒤뜰의 일터",
+      "canvas": {
+        "width": 1309,
+        "height": 279,
+        "nonTransparentPixels": 1024
+      },
+      "opinionBoardVisible": true,
+      "hostId": "seamstress_anna",
+      "screenshot": "laptop-1366x768-sewing-room.png",
+      "pageErrors": []
+    },
+    {
+      "viewport": "laptop-1366x768",
+      "documentWidth": 1366,
+      "documentHeight": 768,
+      "mapId": "communal-room",
+      "mapName": "안뜰 공동 부엌",
+      "district": "공동 뒤뜰의 일터",
+      "canvas": {
+        "width": 1309,
+        "height": 279,
+        "nonTransparentPixels": 1024
+      },
+      "opinionBoardVisible": true,
+      "hostId": "yardkeeper_semyon",
+      "screenshot": "laptop-1366x768-communal-room.png",
+      "pageErrors": []
+    },
+    {
+      "viewport": "mobile-390x844",
       "documentWidth": 390,
       "documentHeight": 844,
       "mapId": "nevsky",
@@ -261,11 +517,11 @@
       },
       "opinionBoardVisible": true,
       "hostId": "clerk_alexei",
-      "screenshot": "mobile-nevsky.png",
+      "screenshot": "mobile-390x844-nevsky.png",
       "pageErrors": []
     },
     {
-      "viewport": "mobile",
+      "viewport": "mobile-390x844",
       "documentWidth": 390,
       "documentHeight": 844,
       "mapId": "courtyard",
@@ -278,11 +534,11 @@
       },
       "opinionBoardVisible": true,
       "hostId": "tenant_mikhail",
-      "screenshot": "mobile-courtyard.png",
+      "screenshot": "mobile-390x844-courtyard.png",
       "pageErrors": []
     },
     {
-      "viewport": "mobile",
+      "viewport": "mobile-390x844",
       "documentWidth": 390,
       "documentHeight": 844,
       "mapId": "market-quay",
@@ -295,11 +551,11 @@
       },
       "opinionBoardVisible": true,
       "hostId": "yardkeeper_semyon",
-      "screenshot": "mobile-market-quay.png",
+      "screenshot": "mobile-390x844-market-quay.png",
       "pageErrors": []
     },
     {
-      "viewport": "mobile",
+      "viewport": "mobile-390x844",
       "documentWidth": 390,
       "documentHeight": 844,
       "mapId": "bookshop-lane",
@@ -312,11 +568,11 @@
       },
       "opinionBoardVisible": true,
       "hostId": "bookseller_lev",
-      "screenshot": "mobile-bookshop-lane.png",
+      "screenshot": "mobile-390x844-bookshop-lane.png",
       "pageErrors": []
     },
     {
-      "viewport": "mobile",
+      "viewport": "mobile-390x844",
       "documentWidth": 390,
       "documentHeight": 844,
       "mapId": "canal-road",
@@ -329,11 +585,11 @@
       },
       "opinionBoardVisible": true,
       "hostId": "carter_roman",
-      "screenshot": "mobile-canal-road.png",
+      "screenshot": "mobile-390x844-canal-road.png",
       "pageErrors": []
     },
     {
-      "viewport": "mobile",
+      "viewport": "mobile-390x844",
       "documentWidth": 390,
       "documentHeight": 844,
       "mapId": "workyard",
@@ -346,11 +602,11 @@
       },
       "opinionBoardVisible": true,
       "hostId": "seamstress_anna",
-      "screenshot": "mobile-workyard.png",
+      "screenshot": "mobile-390x844-workyard.png",
       "pageErrors": []
     },
     {
-      "viewport": "mobile",
+      "viewport": "mobile-390x844",
       "documentWidth": 390,
       "documentHeight": 844,
       "mapId": "printshop",
@@ -363,11 +619,11 @@
       },
       "opinionBoardVisible": true,
       "hostId": "apothecary_yakov",
-      "screenshot": "mobile-printshop.png",
+      "screenshot": "mobile-390x844-printshop.png",
       "pageErrors": []
     },
     {
-      "viewport": "mobile",
+      "viewport": "mobile-390x844",
       "documentWidth": 390,
       "documentHeight": 844,
       "mapId": "chancery",
@@ -380,11 +636,11 @@
       },
       "opinionBoardVisible": true,
       "hostId": "apothecary_yakov",
-      "screenshot": "mobile-chancery.png",
+      "screenshot": "mobile-390x844-chancery.png",
       "pageErrors": []
     },
     {
-      "viewport": "mobile",
+      "viewport": "mobile-390x844",
       "documentWidth": 390,
       "documentHeight": 844,
       "mapId": "police-station",
@@ -397,11 +653,11 @@
       },
       "opinionBoardVisible": true,
       "hostId": "bookseller_lev",
-      "screenshot": "mobile-police-station.png",
+      "screenshot": "mobile-390x844-police-station.png",
       "pageErrors": []
     },
     {
-      "viewport": "mobile",
+      "viewport": "mobile-390x844",
       "documentWidth": 390,
       "documentHeight": 844,
       "mapId": "inn-interior",
@@ -414,11 +670,11 @@
       },
       "opinionBoardVisible": true,
       "hostId": "innkeeper_irina",
-      "screenshot": "mobile-inn-interior.png",
+      "screenshot": "mobile-390x844-inn-interior.png",
       "pageErrors": []
     },
     {
-      "viewport": "mobile",
+      "viewport": "mobile-390x844",
       "documentWidth": 390,
       "documentHeight": 844,
       "mapId": "bakery-interior",
@@ -431,11 +687,11 @@
       },
       "opinionBoardVisible": true,
       "hostId": "baker_fyodor",
-      "screenshot": "mobile-bakery-interior.png",
+      "screenshot": "mobile-390x844-bakery-interior.png",
       "pageErrors": []
     },
     {
-      "viewport": "mobile",
+      "viewport": "mobile-390x844",
       "documentWidth": 390,
       "documentHeight": 844,
       "mapId": "bookshop-interior",
@@ -448,11 +704,11 @@
       },
       "opinionBoardVisible": true,
       "hostId": "bookseller_lev",
-      "screenshot": "mobile-bookshop-interior.png",
+      "screenshot": "mobile-390x844-bookshop-interior.png",
       "pageErrors": []
     },
     {
-      "viewport": "mobile",
+      "viewport": "mobile-390x844",
       "documentWidth": 390,
       "documentHeight": 844,
       "mapId": "sewing-room",
@@ -465,11 +721,11 @@
       },
       "opinionBoardVisible": true,
       "hostId": "seamstress_anna",
-      "screenshot": "mobile-sewing-room.png",
+      "screenshot": "mobile-390x844-sewing-room.png",
       "pageErrors": []
     },
     {
-      "viewport": "mobile",
+      "viewport": "mobile-390x844",
       "documentWidth": 390,
       "documentHeight": 844,
       "mapId": "communal-room",
@@ -482,7 +738,245 @@
       },
       "opinionBoardVisible": true,
       "hostId": "yardkeeper_semyon",
-      "screenshot": "mobile-communal-room.png",
+      "screenshot": "mobile-390x844-communal-room.png",
+      "pageErrors": []
+    },
+    {
+      "viewport": "mobile-360x800",
+      "documentWidth": 360,
+      "documentHeight": 800,
+      "mapId": "nevsky",
+      "mapName": "네프스키 거리",
+      "district": "네프스키의 일터 거리",
+      "canvas": {
+        "width": 338,
+        "height": 339,
+        "nonTransparentPixels": 1024
+      },
+      "opinionBoardVisible": true,
+      "hostId": "clerk_alexei",
+      "screenshot": "mobile-360x800-nevsky.png",
+      "pageErrors": []
+    },
+    {
+      "viewport": "mobile-360x800",
+      "documentWidth": 360,
+      "documentHeight": 800,
+      "mapId": "courtyard",
+      "mapName": "하숙집 안뜰",
+      "district": "하숙집 안뜰과 셋방",
+      "canvas": {
+        "width": 338,
+        "height": 339,
+        "nonTransparentPixels": 1024
+      },
+      "opinionBoardVisible": true,
+      "hostId": "tenant_mikhail",
+      "screenshot": "mobile-360x800-courtyard.png",
+      "pageErrors": []
+    },
+    {
+      "viewport": "mobile-360x800",
+      "documentWidth": 360,
+      "documentHeight": 800,
+      "mapId": "market-quay",
+      "mapName": "강변 장터",
+      "district": "장터와 강변의 일터",
+      "canvas": {
+        "width": 338,
+        "height": 339,
+        "nonTransparentPixels": 1024
+      },
+      "opinionBoardVisible": true,
+      "hostId": "yardkeeper_semyon",
+      "screenshot": "mobile-360x800-market-quay.png",
+      "pageErrors": []
+    },
+    {
+      "viewport": "mobile-360x800",
+      "documentWidth": 360,
+      "documentHeight": 800,
+      "mapId": "bookshop-lane",
+      "mapName": "책방 골목",
+      "district": "책방과 읽을거리 골목",
+      "canvas": {
+        "width": 338,
+        "height": 339,
+        "nonTransparentPixels": 1024
+      },
+      "opinionBoardVisible": true,
+      "hostId": "bookseller_lev",
+      "screenshot": "mobile-360x800-bookshop-lane.png",
+      "pageErrors": []
+    },
+    {
+      "viewport": "mobile-360x800",
+      "documentWidth": 360,
+      "documentHeight": 800,
+      "mapId": "canal-road",
+      "mapName": "운하와 하역 길",
+      "district": "운하와 하역 길",
+      "canvas": {
+        "width": 338,
+        "height": 339,
+        "nonTransparentPixels": 1024
+      },
+      "opinionBoardVisible": true,
+      "hostId": "carter_roman",
+      "screenshot": "mobile-360x800-canal-road.png",
+      "pageErrors": []
+    },
+    {
+      "viewport": "mobile-360x800",
+      "documentWidth": 360,
+      "documentHeight": 800,
+      "mapId": "workyard",
+      "mapName": "공동 뒤뜰 작업장",
+      "district": "공동 뒤뜰의 일터",
+      "canvas": {
+        "width": 338,
+        "height": 339,
+        "nonTransparentPixels": 1024
+      },
+      "opinionBoardVisible": true,
+      "hostId": "seamstress_anna",
+      "screenshot": "mobile-360x800-workyard.png",
+      "pageErrors": []
+    },
+    {
+      "viewport": "mobile-360x800",
+      "documentWidth": 360,
+      "documentHeight": 800,
+      "mapId": "printshop",
+      "mapName": "네프스키 인쇄소",
+      "district": "네프스키의 일터 거리",
+      "canvas": {
+        "width": 338,
+        "height": 339,
+        "nonTransparentPixels": 1024
+      },
+      "opinionBoardVisible": true,
+      "hostId": "apothecary_yakov",
+      "screenshot": "mobile-360x800-printshop.png",
+      "pageErrors": []
+    },
+    {
+      "viewport": "mobile-360x800",
+      "documentWidth": 360,
+      "documentHeight": 800,
+      "mapId": "chancery",
+      "mapName": "관청 접수실",
+      "district": "네프스키의 일터 거리",
+      "canvas": {
+        "width": 338,
+        "height": 339,
+        "nonTransparentPixels": 1024
+      },
+      "opinionBoardVisible": true,
+      "hostId": "apothecary_yakov",
+      "screenshot": "mobile-360x800-chancery.png",
+      "pageErrors": []
+    },
+    {
+      "viewport": "mobile-360x800",
+      "documentWidth": 360,
+      "documentHeight": 800,
+      "mapId": "police-station",
+      "mapName": "경찰 접수실",
+      "district": "네프스키의 일터 거리",
+      "canvas": {
+        "width": 338,
+        "height": 339,
+        "nonTransparentPixels": 1024
+      },
+      "opinionBoardVisible": true,
+      "hostId": "bookseller_lev",
+      "screenshot": "mobile-360x800-police-station.png",
+      "pageErrors": []
+    },
+    {
+      "viewport": "mobile-360x800",
+      "documentWidth": 360,
+      "documentHeight": 800,
+      "mapId": "inn-interior",
+      "mapName": "하숙집 공동방",
+      "district": "하숙집 안뜰과 셋방",
+      "canvas": {
+        "width": 338,
+        "height": 339,
+        "nonTransparentPixels": 1024
+      },
+      "opinionBoardVisible": true,
+      "hostId": "innkeeper_irina",
+      "screenshot": "mobile-360x800-inn-interior.png",
+      "pageErrors": []
+    },
+    {
+      "viewport": "mobile-360x800",
+      "documentWidth": 360,
+      "documentHeight": 800,
+      "mapId": "bakery-interior",
+      "mapName": "작은 빵 굽는 방",
+      "district": "장터와 강변의 일터",
+      "canvas": {
+        "width": 338,
+        "height": 339,
+        "nonTransparentPixels": 1024
+      },
+      "opinionBoardVisible": true,
+      "hostId": "baker_fyodor",
+      "screenshot": "mobile-360x800-bakery-interior.png",
+      "pageErrors": []
+    },
+    {
+      "viewport": "mobile-360x800",
+      "documentWidth": 360,
+      "documentHeight": 800,
+      "mapId": "bookshop-interior",
+      "mapName": "책방 안쪽",
+      "district": "책방과 읽을거리 골목",
+      "canvas": {
+        "width": 338,
+        "height": 339,
+        "nonTransparentPixels": 1024
+      },
+      "opinionBoardVisible": true,
+      "hostId": "bookseller_lev",
+      "screenshot": "mobile-360x800-bookshop-interior.png",
+      "pageErrors": []
+    },
+    {
+      "viewport": "mobile-360x800",
+      "documentWidth": 360,
+      "documentHeight": 800,
+      "mapId": "sewing-room",
+      "mapName": "바느질 셋방",
+      "district": "공동 뒤뜰의 일터",
+      "canvas": {
+        "width": 338,
+        "height": 339,
+        "nonTransparentPixels": 1024
+      },
+      "opinionBoardVisible": true,
+      "hostId": "seamstress_anna",
+      "screenshot": "mobile-360x800-sewing-room.png",
+      "pageErrors": []
+    },
+    {
+      "viewport": "mobile-360x800",
+      "documentWidth": 360,
+      "documentHeight": 800,
+      "mapId": "communal-room",
+      "mapName": "안뜰 공동 부엌",
+      "district": "공동 뒤뜰의 일터",
+      "canvas": {
+        "width": 338,
+        "height": 339,
+        "nonTransparentPixels": 1024
+      },
+      "opinionBoardVisible": true,
+      "hostId": "yardkeeper_semyon",
+      "screenshot": "mobile-360x800-communal-room.png",
       "pageErrors": []
     }
   ]

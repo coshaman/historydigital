@@ -2045,6 +2045,28 @@
               "value": "COURTYARD_HOUSEHOLD"
             }
           ]
+        },
+        {
+          "id": 4004,
+          "name": "책방에서 빌릴 다음 책",
+          "type": "quest-object",
+          "x": 176,
+          "y": 208,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "TATYANA_READING_HOUR_1847_STAGE_2"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
         }
       ]
     },

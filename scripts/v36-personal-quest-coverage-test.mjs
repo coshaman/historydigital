@@ -76,6 +76,21 @@ for (const stages of residentChains.values()) {
     state.player.position = { x: Math.floor(stageObject.x / 16), y: Math.floor(stageObject.y / 16) };
     state.hosts[stage.entry.requiredHostId].mapId = stage.entry.mapId;
     state.hosts[stage.entry.requiredHostId].position = { ...state.player.position };
+    if (stage.socialChain?.partnerHostId) {
+      const partnerId = stage.socialChain.partnerHostId;
+      const map = maps[stage.entry.mapId];
+      const collision = map.layers.find(layer => layer.name === 'Collision')?.data;
+      const partnerTile = [
+        { x: state.player.position.x + 1, y: state.player.position.y },
+        { x: state.player.position.x - 1, y: state.player.position.y },
+        { x: state.player.position.x, y: state.player.position.y + 1 },
+        { x: state.player.position.x, y: state.player.position.y - 1 },
+      ].find(tile => tile.x >= 0 && tile.y >= 0 && tile.x < map.width && tile.y < map.height
+        && collision[tile.y * map.width + tile.x] === 0);
+      assert.ok(partnerTile, `${stage.id} needs an adjacent walkable partner position`);
+      state.hosts[partnerId].mapId = stage.entry.mapId;
+      state.hosts[partnerId].position = partnerTile;
+    }
     result = game.performQuestAction(state, { questId: stage.id, hostId: stage.entry.requiredHostId, actionId: stage.actions[0].id, objectId: stageObject.id }, { quests, maps });
     assert.equal(result.ok, true, `${stage.id} should advance: ${result.reason}`);
     state = result.state;

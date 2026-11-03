@@ -1,0 +1,121 @@
+{
+  "id": "TATYANA_READING_HOUR_1847_STAGE_2",
+  "titleKo": "책방에서 빌릴 다음 책 · 2/3",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "책을 돌려주러 가니 새로 들어온 책이 눈에 띈다. 타티야나는 대여 기간과 수선 일정을 함께 맞출 수 있을지 살핀다.",
+  "historicalOutcome": {
+    "id": "TATYANA_READING_HOUR_1847_STAGE_2_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life only; no historical event or public record changes",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "inn-interior",
+    "objectId": 4004,
+    "requiredHostId": "lodging_tatyana"
+  },
+  "actions": [
+    {
+      "id": "TATYANA_READING_HOUR_1847_STAGE_2_CHOICE_1",
+      "hostIds": [
+        "lodging_tatyana"
+      ],
+      "labelKo": "짧은 대여가 가능한지 묻는다",
+      "subcopyKo": "타티야나와 서점상이 압니다 · 대여 기간이 장부에 남습니다 · 짧은 기간에 다 읽지 못할 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "타티야나와 서점상이 압니다",
+        "recordKo": "대여 기간이 장부에 남습니다",
+        "riskKo": "짧은 기간에 다 읽지 못할 수 있습니다"
+      },
+      "resultKo": "서점상은 며칠 안에 돌려달라고 했다. 타티야나는 그날을 작업 일정 옆에 표시했다.",
+      "resultFlag": "TATYANA_READING_HOUR_1847_STAGE_2_RESULT_1",
+      "followupTitleKo": "책방에서 빌릴 다음 책",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "서점상은 며칠 안에 돌려달라고 했다. 타티야나는 그날을 작업 일정 옆에 표시했다.",
+        "relations": {
+          "teacher_lyubov": "책방에서 빌릴 다음 책에서 타티야나와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "TATYANA_READING_HOUR_1847_STAGE_2_CHOICE_2",
+      "hostIds": [
+        "lodging_tatyana"
+      ],
+      "labelKo": "류보프에게 공개 교재를 빌린다",
+      "subcopyKo": "타티야나와 교사가 압니다 · 교재 대여 메모가 남습니다 · 수업에 필요한 사람이 먼저 빌릴 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "타티야나와 교사가 압니다",
+        "recordKo": "교재 대여 메모가 남습니다",
+        "riskKo": "수업에 필요한 사람이 먼저 빌릴 수 있습니다"
+      },
+      "resultKo": "류보프는 수업용 책을 잠시 빌려줬다. 수업 전에 돌려주기로 정했다.",
+      "resultFlag": "TATYANA_READING_HOUR_1847_STAGE_2_RESULT_2",
+      "followupTitleKo": "책방에서 빌릴 다음 책",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "류보프는 수업용 책을 잠시 빌려줬다. 수업 전에 돌려주기로 정했다.",
+        "relations": {
+          "teacher_lyubov": "책방에서 빌릴 다음 책에서 타티야나와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "TATYANA_READING_HOUR_1847_STAGE_2_CHOICE_3",
+      "hostIds": [
+        "lodging_tatyana"
+      ],
+      "labelKo": "책 제목만 적고 빌리지는 않는다",
+      "subcopyKo": "타티야나만 압니다 · 개인 독서 목록에 남습니다 · 다시 방문해야 하고 시간 여유가 필요합니다",
+      "practicalDisclosure": {
+        "audienceKo": "타티야나만 압니다",
+        "recordKo": "개인 독서 목록에 남습니다",
+        "riskKo": "다시 방문해야 하고 시간 여유가 필요합니다"
+      },
+      "resultKo": "책 제목을 수첩에 적었다. 지금은 주문을 마치는 편이 낫다고 판단했다.",
+      "resultFlag": "TATYANA_READING_HOUR_1847_STAGE_2_RESULT_3",
+      "followupTitleKo": "책방에서 빌릴 다음 책",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "책 제목을 수첩에 적었다. 지금은 주문을 마치는 편이 낫다고 판단했다.",
+        "relations": {
+          "teacher_lyubov": "책방에서 빌릴 다음 책에서 타티야나와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "exposure": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the physically placed personal-work marker",
+  "lifeChain": {
+    "id": "TATYANA_READING_HOUR_1847",
+    "titleKo": "TATYANA READING HOUR 1847",
+    "stage": 2,
+    "stageCount": 3,
+    "kind": "PERSONAL",
+    "source": "V36_DEDICATED_PERSONAL_ARC",
+    "previousQuestId": "TATYANA_READING_HOUR_1847_STAGE_1",
+    "metricsKo": {
+      "care": "이웃과 생계를 다룬 결과",
+      "record": "남긴 기록의 범위",
+      "exposure": "공개한 정보의 범위"
+    }
+  },
+  "prerequisiteQuestIds": [
+    "TATYANA_READING_HOUR_1847_STAGE_1"
+  ]
+}

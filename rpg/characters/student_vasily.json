@@ -232,5 +232,31 @@
       "titleKo": "오늘 엮인 사람 · 유리",
       "textKo": "수업 자료를 구하러 찾아오는 학생이다"
     }
+  ],
+  "persistentPersonalGoals": [
+    {
+      "id": "student_vasily:life-arc",
+      "kind": "LIFE",
+      "titleKo": "이어 가는 생활 문제",
+      "descriptionKo": "생각을 말할 자유와 그 말을 한 사람이 감당할 위험을 어떻게 함께 볼까요?",
+      "successCondition": {
+        "type": "LIFE_CHAIN_COMPLETED",
+        "chainId": "VASILY_READING_CIRCLE_1847",
+        "stageCount": 3
+      },
+      "fallbackKo": "연쇄 임무가 지금 열리지 않으면 오늘의 일과를 이어가고, 다음 단계를 확인할 수 있을 때 다시 돌아온다."
+    },
+    {
+      "id": "student_vasily:relationship",
+      "kind": "RELATIONSHIP",
+      "titleKo": "유리와의 관계",
+      "descriptionKo": "생각을 말할 자유와 그 말을 한 사람이 감당할 위험을 어떻게 함께 볼까요? · 유리와 얽힌 사정을 당사자에게 확인한다.",
+      "successCondition": {
+        "type": "RELATION_CHANGED",
+        "targetHostId": "scribal_yuri",
+        "baseline": "수업 자료를 구하러 찾아오는 학생이다"
+      },
+      "fallbackKo": "상대가 다른 생활권에 있거나 만날 수 없으면 추측을 퍼뜨리지 말고, 다시 만날 수 있는 장소와 시간을 살핀다."
+    }
   ]
 }

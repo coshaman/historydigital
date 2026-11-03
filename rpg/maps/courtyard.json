@@ -2428,6 +2428,160 @@
               "value": "COURTYARD_HOUSEHOLD"
             }
           ]
+        },
+        {
+          "id": 1166,
+          "name": "닫히지 않은 방문 앞",
+          "type": "quest-object",
+          "x": 176,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "OLGA_PRIVATE_WORDS_1847_STAGE_1"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": 1167,
+          "name": "빌린 책과 미뤄 둔 바느질",
+          "type": "quest-object",
+          "x": 160,
+          "y": 208,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "TATYANA_READING_HOUR_1847_STAGE_1"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": 1168,
+          "name": "두 집에서 온 부탁",
+          "type": "quest-object",
+          "x": 192,
+          "y": 208,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "AVDOTYA_NIGHT_CALLS_1847_STAGE_1"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": 1169,
+          "name": "하루 품삯의 약속",
+          "type": "quest-object",
+          "x": 176,
+          "y": 224,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "MIKHAIL_WAGE_AND_RENT_1847_STAGE_1"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": 1170,
+          "name": "장작 장부의 빈칸",
+          "type": "quest-object",
+          "x": 176,
+          "y": 176,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "SEMYON_FIREWOOD_LEDGER_1847_STAGE_1"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": 1171,
+          "name": "다음 장날의 약속",
+          "type": "quest-object",
+          "x": 192,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "FYODOR_FLOUR_AND_ORDERS_1847_STAGE_3"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": 1172,
+          "name": "비가 스미는 천장",
+          "type": "quest-object",
+          "x": 208,
+          "y": 208,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "POLINA_RENT_AND_REPAIRS_1847_STAGE_1"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
         }
       ]
     },

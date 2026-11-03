@@ -46,10 +46,11 @@ for (let interval = 0; interval < 96; interval += 1) {
     occupied.set(key, id);
   }
 }
-const stripLedger = state => { const snapshot = structuredClone(state); snapshot.ledger = []; return snapshot; };
+const stripLedger = state => { const snapshot = structuredClone(state); snapshot.ledger = []; snapshot.ledgerDigest = ''; snapshot.ledgerDigestCount = 0; return snapshot; };
 assert.deepEqual(stripLedger(collisionState), stripLedger(first.state), '5-minute collision-observed replay must match bulk world state');
 const goals = first.events.flatMap(event => event.goals ?? []);
 const restGoals = goals.filter(goal => goal.type === 'NEED_REST');
+const restRecoveries = first.events.flatMap(event => event.restRecoveries ?? []);
 const goalTypesByResident = Object.fromEntries(ids.map(id => [id, [...new Set(goals.filter(goal => goal.hostId === id).map(goal => goal.type))]]));
 const deliveries = first.events.flatMap(event => event.deliveries ?? []);
 const exchanges = first.events.flatMap(event => event.exchanges ?? []);
@@ -62,8 +63,7 @@ const expectedDeliveries = ['KONSTANTIN_MEMO_TO_ALEXEI_1847', 'PAVEL_DELIVER_SEA
   'SOFIA_SOURCE_NOTE_TO_DARYA_1847', 'SEMYON_WOOD_COUNT_TO_MARIYA_1847'];
 assert.ok(restGoals.length > 0, 'the needs system should select at least one real rest goal');
 for (const id of new Set(restGoals.map(goal => goal.hostId))) {
-  const host = first.state.hosts[id];
-  assert.ok(host.needs.fatigue < first.initialFatigue[id], `${id} rest did not lower fatigue`);
+  assert.ok(restRecoveries.some(row => row.hostId === id && row.fatigueAfter < row.fatigueBefore), `${id} entered rest without recording fatigue recovery`);
 }
 for (const taskId of expectedDeliveries) {
   const completed = deliveries.filter(item => item.taskId === taskId);
@@ -101,7 +101,7 @@ const report = { schemaVersion: 'V36_TWELVE_RESIDENT_GOAL_REPLAY_1', status: 'PA
   residents: ids.map(id => ({ id, authoredNeeds: coreCards.find(card => card.id === id).needs, initialFatigue: first.initialFatigue[id],
     finalFatigue: first.state.hosts[id].needs.fatigue, finalMapId: first.state.hosts[id].mapId, activeGoal: first.state.hosts[id].activeGoal,
     activity: first.state.hosts[id].currentActivityKo, goalTypes: goalTypesByResident[id] })),
-  needDrivenRestResidents: [...new Set(restGoals.map(goal => goal.hostId))].sort(), deliveries, exchanges, mapTransitions,
+  needDrivenRestResidents: [...new Set(restGoals.map(goal => goal.hostId))].sort(), restRecoveryEvents: restRecoveries.length, deliveries, exchanges, mapTransitions,
   collisionSnapshots: 96, duplicateResidentTiles: 0, observedReplayMatchesBulkWorldState: true,
   movementCount: moves.length, questsResolved: Object.values(first.state.quests).filter(quest => quest.status === 'resolved').length,
   finalStateHash: game.stateHash(first.state) };

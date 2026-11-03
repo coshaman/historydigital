@@ -1,9 +1,14 @@
 {
   "schemaVersion": "V36-RENDERED-MEMORY-EVIDENCE-1",
   "status": "PASS",
+  "distinctSpeakers": [
+    "alexei",
+    "ekaterina",
+    "pavel"
+  ],
   "evidence": [
     {
-      "character": "ekaterina",
+      "name": "canonical-BELINSKY",
       "sceneId": "E07",
       "viewport": {
         "width": 1440,
@@ -15,10 +20,190 @@
           "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
         }
       ],
-      "screenshot": "current-audit/screenshots/full-route/canonical-BELINSKY-E07-memory-1440.png"
+      "screenshot": "canonical-BELINSKY-E07-memory-1440.png"
     },
     {
-      "character": "alexei",
+      "name": "canonical-UVAROV",
+      "sceneId": "E07",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "rendered": [
+        {
+          "character": "ekaterina",
+          "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+        }
+      ],
+      "screenshot": "canonical-UVAROV-E07-memory-1440.png"
+    },
+    {
+      "name": "canonical-HERZEN",
+      "sceneId": "E07",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "rendered": [
+        {
+          "character": "ekaterina",
+          "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+        }
+      ],
+      "screenshot": "canonical-HERZEN-E07-memory-1440.png"
+    },
+    {
+      "name": "canonical-DOSTOEVSKY_PETRASHEVSKY",
+      "sceneId": "E07",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "rendered": [
+        {
+          "character": "ekaterina",
+          "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+        }
+      ],
+      "screenshot": "canonical-DOSTOEVSKY_PETRASHEVSKY-E07-memory-1440.png"
+    },
+    {
+      "name": "canonical-KHOMYAKOV",
+      "sceneId": "E07",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "rendered": [
+        {
+          "character": "ekaterina",
+          "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+        }
+      ],
+      "screenshot": "canonical-KHOMYAKOV-E07-memory-1440.png"
+    },
+    {
+      "name": "mixed-UVAROV",
+      "sceneId": "E07",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rendered": [
+        {
+          "character": "ekaterina",
+          "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+        }
+      ],
+      "screenshot": "mixed-UVAROV-E07-memory-390.png"
+    },
+    {
+      "name": "mixed-BELINSKY",
+      "sceneId": "E07",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rendered": [
+        {
+          "character": "ekaterina",
+          "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+        }
+      ],
+      "screenshot": "mixed-BELINSKY-E07-memory-390.png"
+    },
+    {
+      "name": "mixed-HERZEN",
+      "sceneId": "E07",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rendered": [
+        {
+          "character": "ekaterina",
+          "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+        }
+      ],
+      "screenshot": "mixed-HERZEN-E07-memory-390.png"
+    },
+    {
+      "name": "mixed-KHOMYAKOV",
+      "sceneId": "E07",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rendered": [
+        {
+          "character": "ekaterina",
+          "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+        }
+      ],
+      "screenshot": "mixed-KHOMYAKOV-E07-memory-390.png"
+    },
+    {
+      "name": "mixed-DOSTOEVSKY_PETRASHEVSKY",
+      "sceneId": "E07",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rendered": [
+        {
+          "character": "ekaterina",
+          "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+        }
+      ],
+      "screenshot": "mixed-DOSTOEVSKY_PETRASHEVSKY-E07-memory-390.png"
+    },
+    {
+      "name": "tie-score-unique-1",
+      "sceneId": "E07",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rendered": [
+        {
+          "character": "ekaterina",
+          "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+        }
+      ],
+      "screenshot": "tie-score-unique-1-E07-memory-390.png"
+    },
+    {
+      "name": "tie-score-unique-2",
+      "sceneId": "E07",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rendered": [
+        {
+          "character": "ekaterina",
+          "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+        }
+      ],
+      "screenshot": "tie-score-unique-2-E07-memory-390.png"
+    },
+    {
+      "name": "tie-support-strength-1",
+      "sceneId": "E07",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rendered": [
+        {
+          "character": "ekaterina",
+          "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+        }
+      ],
+      "screenshot": "tie-support-strength-1-E07-memory-390.png"
+    },
+    {
+      "name": "tie-support-strength-2",
       "sceneId": "E07",
       "viewport": {
         "width": 390,
@@ -30,10 +215,100 @@
           "line": "이전 자료에서 확인된 사실과 해석을 나눠 적었지요. 이제 그 구분을 사람의 말에도 적용해야 합니다."
         }
       ],
-      "screenshot": "current-audit/screenshots/full-route/tie-support-strength-2-E07-memory-390.png"
+      "screenshot": "tie-support-strength-2-E07-memory-390.png"
     },
     {
-      "character": "pavel",
+      "name": "tie-support-count-1",
+      "sceneId": "E07",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rendered": [
+        {
+          "character": "ekaterina",
+          "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+        }
+      ],
+      "screenshot": "tie-support-count-1-E07-memory-390.png"
+    },
+    {
+      "name": "tie-support-count-2",
+      "sceneId": "E07",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rendered": [
+        {
+          "character": "ekaterina",
+          "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+        }
+      ],
+      "screenshot": "tie-support-count-2-E07-memory-390.png"
+    },
+    {
+      "name": "tie-recent-observable-action-1",
+      "sceneId": "E07",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rendered": [
+        {
+          "character": "ekaterina",
+          "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+        }
+      ],
+      "screenshot": "tie-recent-observable-action-1-E07-memory-390.png"
+    },
+    {
+      "name": "tie-recent-observable-action-2",
+      "sceneId": "E07",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rendered": [
+        {
+          "character": "alexei",
+          "line": "이전 자료에서 확인된 사실과 해석을 나눠 적었지요. 이제 그 구분을 사람의 말에도 적용해야 합니다."
+        }
+      ],
+      "screenshot": "tie-recent-observable-action-2-E07-memory-390.png"
+    },
+    {
+      "name": "tie-e07-affinity-1",
+      "sceneId": "E07",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rendered": [
+        {
+          "character": "ekaterina",
+          "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+        }
+      ],
+      "screenshot": "tie-e07-affinity-1-E07-memory-390.png"
+    },
+    {
+      "name": "tie-e07-affinity-2",
+      "sceneId": "E07",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rendered": [
+        {
+          "character": "ekaterina",
+          "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+        }
+      ],
+      "screenshot": "tie-e07-affinity-2-E07-memory-390.png"
+    },
+    {
+      "name": "random-01",
       "sceneId": "E07",
       "viewport": {
         "width": 1440,
@@ -45,12 +320,112 @@
           "line": "당신은 계속 전달의 길을 물었죠. 이제 그 길 끝에 사람이 있다는 사실을 외면할 수 없어요."
         }
       ],
-      "screenshot": "current-audit/screenshots/full-route/random-01-E07-memory-1440.png"
+      "screenshot": "random-01-E07-memory-1440.png"
+    },
+    {
+      "name": "random-02",
+      "sceneId": "E07",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rendered": [
+        {
+          "character": "ekaterina",
+          "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+        }
+      ],
+      "screenshot": "random-02-E07-memory-390.png"
+    },
+    {
+      "name": "random-03",
+      "sceneId": "E07",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "rendered": [
+        {
+          "character": "pavel",
+          "line": "당신은 계속 전달의 길을 물었죠. 이제 그 길 끝에 사람이 있다는 사실을 외면할 수 없어요."
+        }
+      ],
+      "screenshot": "random-03-E07-memory-1440.png"
+    },
+    {
+      "name": "random-04",
+      "sceneId": "E07",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rendered": [
+        {
+          "character": "ekaterina",
+          "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+        }
+      ],
+      "screenshot": "random-04-E07-memory-390.png"
+    },
+    {
+      "name": "random-05",
+      "sceneId": "E07",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "rendered": [
+        {
+          "character": "ekaterina",
+          "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+        }
+      ],
+      "screenshot": "random-05-E07-memory-1440.png"
+    },
+    {
+      "name": "random-06",
+      "sceneId": "E07",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rendered": [
+        {
+          "character": "ekaterina",
+          "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+        }
+      ],
+      "screenshot": "random-06-E07-memory-390.png"
+    },
+    {
+      "name": "random-07",
+      "sceneId": "E07",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "rendered": [
+        {
+          "character": "ekaterina",
+          "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+        }
+      ],
+      "screenshot": "random-07-E07-memory-1440.png"
+    },
+    {
+      "name": "random-08",
+      "sceneId": "E07",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rendered": [
+        {
+          "character": "ekaterina",
+          "line": "목소리를 보존하자고 했던 네 선택을 기억해요. 이번엔 그 원칙이 누군가를 위험에 빠뜨리지 않는지도 말해요."
+        }
+      ],
+      "screenshot": "random-08-E07-memory-390.png"
     }
-  ],
-  "distinctSpeakers": [
-    "alexei",
-    "ekaterina",
-    "pavel"
   ]
 }

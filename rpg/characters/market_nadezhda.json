@@ -59,7 +59,7 @@
   "voiceSamples": [
     "저울 앞은 비워 둬요. 바구니를 놓으면 무게가 안 맞아요. 뭘 찾으세요?",
     "이 채소는 비를 맞아서 오래 못 가요. 값을 낮춰 빨리 팔지, 손해를 감수하고 기다릴지 정해야죠.",
-    "아는 사람이라고 무조건 깎아주면 다른 손님한테 설명하기 어려워요. 오늘 값과 이유를 먼저 내걸면 흥정은 해도 기준은 남길 수 있죠."
+    "아는 사이라도 값은 적어 둬야 해요. 그래야 다른 손님한테도 같은 값이라고 말할 수 있죠."
   ],
   "worldview": {
     "status": "fictional_character_design",
@@ -238,6 +238,32 @@
       "kind": "social",
       "titleKo": "오늘 엮인 사람 · 표도르",
       "textKo": "빵집의 재료값을 묻고 소량씩 거래하는 제빵사다"
+    }
+  ],
+  "persistentPersonalGoals": [
+    {
+      "id": "market_nadezhda:life-arc",
+      "kind": "LIFE",
+      "titleKo": "이어 가는 생활 문제",
+      "descriptionKo": "젖은 채소의 값을 얼마나 낮추고 손실을 어떻게 나눌지 정한다",
+      "successCondition": {
+        "type": "LIFE_CHAIN_COMPLETED",
+        "chainId": "MARKET_MEAL_ROUTE_1847",
+        "stageCount": 6
+      },
+      "fallbackKo": "연쇄 임무가 지금 열리지 않으면 오늘의 일과를 이어가고, 다음 단계를 확인할 수 있을 때 다시 돌아온다."
+    },
+    {
+      "id": "market_nadezhda:relationship",
+      "kind": "RELATIONSHIP",
+      "titleKo": "표도르와의 관계",
+      "descriptionKo": "젖은 채소의 값을 얼마나 낮추고 손실을 어떻게 나눌지 정한다 · 표도르와 얽힌 사정을 당사자에게 확인한다.",
+      "successCondition": {
+        "type": "RELATION_CHANGED",
+        "targetHostId": "baker_fyodor",
+        "baseline": "빵집의 재료값을 묻고 소량씩 거래하는 제빵사다"
+      },
+      "fallbackKo": "상대가 다른 생활권에 있거나 만날 수 없으면 추측을 퍼뜨리지 말고, 다시 만날 수 있는 장소와 시간을 살핀다."
     }
   ]
 }

@@ -1,0 +1,121 @@
+{
+  "id": "MIKHAIL_WAGE_AND_RENT_1847_STAGE_3",
+  "titleKo": "방세를 두고 나누는 말 · 3/3",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "품삯을 받았지만 전액을 방세로 내면 다음 날 일터까지 갈 돈이 모자랄 수 있다. 미하일은 무엇을 설명하고 약속할지 정한다.",
+  "historicalOutcome": {
+    "id": "MIKHAIL_WAGE_AND_RENT_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life only; no historical event or public record changes",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "workyard",
+    "objectId": 4008,
+    "requiredHostId": "tenant_mikhail"
+  },
+  "actions": [
+    {
+      "id": "MIKHAIL_WAGE_AND_RENT_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "tenant_mikhail"
+      ],
+      "labelKo": "낼 수 있는 액수와 날짜를 함께 제안한다",
+      "subcopyKo": "미하일과 폴리나가 압니다 · 분납 약속이 개인 장부에 남습니다 · 수입이 늦으면 약속을 지키지 못할 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "미하일과 폴리나가 압니다",
+        "recordKo": "분납 약속이 개인 장부에 남습니다",
+        "riskKo": "수입이 늦으면 약속을 지키지 못할 수 있습니다"
+      },
+      "resultKo": "지금 낼 수 있는 몫과 나머지 날짜를 제안했다. 폴리나는 동의 여부를 다음 날 알려주기로 했다.",
+      "resultFlag": "MIKHAIL_WAGE_AND_RENT_1847_STAGE_3_RESULT_1",
+      "followupTitleKo": "방세를 두고 나누는 말",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "지금 낼 수 있는 몫과 나머지 날짜를 제안했다. 폴리나는 동의 여부를 다음 날 알려주기로 했다.",
+        "relations": {
+          "landlady_polina": "방세를 두고 나누는 말에서 미하일와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "MIKHAIL_WAGE_AND_RENT_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "tenant_mikhail"
+      ],
+      "labelKo": "전액을 내고 다음 일감을 찾아본다",
+      "subcopyKo": "미하일과 폴리나가 압니다 · 방세 영수 표식이 남습니다 · 내일 이동과 식사 비용이 빠듯합니다",
+      "practicalDisclosure": {
+        "audienceKo": "미하일과 폴리나가 압니다",
+        "recordKo": "방세 영수 표식이 남습니다",
+        "riskKo": "내일 이동과 식사 비용이 빠듯합니다"
+      },
+      "resultKo": "전액을 건넸다. 방을 지켰지만 다음 날 일감을 더 일찍 찾아야 한다.",
+      "resultFlag": "MIKHAIL_WAGE_AND_RENT_1847_STAGE_3_RESULT_2",
+      "followupTitleKo": "방세를 두고 나누는 말",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "전액을 건넸다. 방을 지켰지만 다음 날 일감을 더 일찍 찾아야 한다.",
+        "relations": {
+          "landlady_polina": "방세를 두고 나누는 말에서 미하일와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "MIKHAIL_WAGE_AND_RENT_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "tenant_mikhail"
+      ],
+      "labelKo": "사정을 적은 쪽지를 두고 직접 이야기한다",
+      "subcopyKo": "미하일과 폴리나가 압니다 · 개인 쪽지에 사정이 남습니다 · 쪽지가 다른 사람에게 보일 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "미하일과 폴리나가 압니다",
+        "recordKo": "개인 쪽지에 사정이 남습니다",
+        "riskKo": "쪽지가 다른 사람에게 보일 수 있습니다"
+      },
+      "resultKo": "액수와 날짜를 적어 직접 건넸다. 폴리나가 읽을 수 있게 했지만 안뜰에 공개하지 않았다.",
+      "resultFlag": "MIKHAIL_WAGE_AND_RENT_1847_STAGE_3_RESULT_3",
+      "followupTitleKo": "방세를 두고 나누는 말",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "액수와 날짜를 적어 직접 건넸다. 폴리나가 읽을 수 있게 했지만 안뜰에 공개하지 않았다.",
+        "relations": {
+          "landlady_polina": "방세를 두고 나누는 말에서 미하일와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "exposure": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the physically placed personal-work marker",
+  "lifeChain": {
+    "id": "MIKHAIL_WAGE_AND_RENT_1847",
+    "titleKo": "MIKHAIL WAGE AND RENT 1847",
+    "stage": 3,
+    "stageCount": 3,
+    "kind": "PERSONAL",
+    "source": "V36_DEDICATED_PERSONAL_ARC",
+    "previousQuestId": "MIKHAIL_WAGE_AND_RENT_1847_STAGE_2",
+    "metricsKo": {
+      "care": "이웃과 생계를 다룬 결과",
+      "record": "남긴 기록의 범위",
+      "exposure": "공개한 정보의 범위"
+    }
+  },
+  "prerequisiteQuestIds": [
+    "MIKHAIL_WAGE_AND_RENT_1847_STAGE_2"
+  ]
+}

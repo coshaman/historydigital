@@ -1,0 +1,121 @@
+{
+  "id": "SEMYON_FIREWOOD_LEDGER_1847_STAGE_2",
+  "titleKo": "누구에게 먼저 나눌까 · 2/3",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "날이 차가워져 장작을 찾는 집이 늘었다. 세묜은 필요를 모두 알지 못하며, 장부에 적힌 수량만 보고 배분하기도 어렵다.",
+  "historicalOutcome": {
+    "id": "SEMYON_FIREWOOD_LEDGER_1847_STAGE_2_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life only; no historical event or public record changes",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "workyard",
+    "objectId": 4009,
+    "requiredHostId": "yardkeeper_semyon"
+  },
+  "actions": [
+    {
+      "id": "SEMYON_FIREWOOD_LEDGER_1847_STAGE_2_CHOICE_1",
+      "hostIds": [
+        "yardkeeper_semyon"
+      ],
+      "labelKo": "요청 시각 순서대로 나눈다",
+      "subcopyKo": "요청한 세입자들이 압니다 · 배분 순서가 장부에 남습니다 · 늦게 온 집은 오늘 덜 받을 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "요청한 세입자들이 압니다",
+        "recordKo": "배분 순서가 장부에 남습니다",
+        "riskKo": "늦게 온 집은 오늘 덜 받을 수 있습니다"
+      },
+      "resultKo": "요청한 순서대로 나눴다. 늦게 온 집에는 다음 반입 시각을 알려줬다.",
+      "resultFlag": "SEMYON_FIREWOOD_LEDGER_1847_STAGE_2_RESULT_1",
+      "followupTitleKo": "누구에게 먼저 나눌까",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "요청한 순서대로 나눴다. 늦게 온 집에는 다음 반입 시각을 알려줬다.",
+        "relations": {
+          "tenant_mikhail": "누구에게 먼저 나눌까에서 세묜와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "SEMYON_FIREWOOD_LEDGER_1847_STAGE_2_CHOICE_2",
+      "hostIds": [
+        "yardkeeper_semyon"
+      ],
+      "labelKo": "남은 수량을 공동 부엌에 두고 함께 정한다",
+      "subcopyKo": "공동 부엌에 있는 세입자들이 압니다 · 공동 합의 수량이 남습니다 · 말을 못 하는 세입자의 필요가 빠질 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "공동 부엌에 있는 세입자들이 압니다",
+        "recordKo": "공동 합의 수량이 남습니다",
+        "riskKo": "말을 못 하는 세입자의 필요가 빠질 수 있습니다"
+      },
+      "resultKo": "함께 정한 수량으로 나눴다. 자리에 없던 세입자는 별도로 확인하기로 했다.",
+      "resultFlag": "SEMYON_FIREWOOD_LEDGER_1847_STAGE_2_RESULT_2",
+      "followupTitleKo": "누구에게 먼저 나눌까",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "함께 정한 수량으로 나눴다. 자리에 없던 세입자는 별도로 확인하기로 했다.",
+        "relations": {
+          "tenant_mikhail": "누구에게 먼저 나눌까에서 세묜와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "SEMYON_FIREWOOD_LEDGER_1847_STAGE_2_CHOICE_3",
+      "hostIds": [
+        "yardkeeper_semyon"
+      ],
+      "labelKo": "각 집에 같은 몫을 주고 이의를 받는다",
+      "subcopyKo": "안뜰 세입자들이 봅니다 · 공개 배분표가 남습니다 · 집마다 필요한 양이 다른데도 같게 배분됩니다",
+      "practicalDisclosure": {
+        "audienceKo": "안뜰 세입자들이 봅니다",
+        "recordKo": "공개 배분표가 남습니다",
+        "riskKo": "집마다 필요한 양이 다른데도 같게 배분됩니다"
+      },
+      "resultKo": "같은 몫을 먼저 줬다. 필요한 양이 다르다는 이의가 나와 다음 배분 전에 다시 살피기로 했다.",
+      "resultFlag": "SEMYON_FIREWOOD_LEDGER_1847_STAGE_2_RESULT_3",
+      "followupTitleKo": "누구에게 먼저 나눌까",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "같은 몫을 먼저 줬다. 필요한 양이 다르다는 이의가 나와 다음 배분 전에 다시 살피기로 했다.",
+        "relations": {
+          "tenant_mikhail": "누구에게 먼저 나눌까에서 세묜와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "exposure": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the physically placed personal-work marker",
+  "lifeChain": {
+    "id": "SEMYON_FIREWOOD_LEDGER_1847",
+    "titleKo": "SEMYON FIREWOOD LEDGER 1847",
+    "stage": 2,
+    "stageCount": 3,
+    "kind": "PERSONAL",
+    "source": "V36_DEDICATED_PERSONAL_ARC",
+    "previousQuestId": "SEMYON_FIREWOOD_LEDGER_1847_STAGE_1",
+    "metricsKo": {
+      "care": "이웃과 생계를 다룬 결과",
+      "record": "남긴 기록의 범위",
+      "exposure": "공개한 정보의 범위"
+    }
+  },
+  "prerequisiteQuestIds": [
+    "SEMYON_FIREWOOD_LEDGER_1847_STAGE_1"
+  ]
+}

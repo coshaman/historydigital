@@ -1,0 +1,121 @@
+{
+  "id": "FYODOR_FLOUR_AND_ORDERS_1847_STAGE_3",
+  "titleKo": "다음 장날의 약속 · 3/3",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "다음 밀가루가 들어오는 날은 확정되지 않았다. 표도르는 주문을 받을지, 보류할지, 이웃 가게와 나눌지 결정해야 한다.",
+  "historicalOutcome": {
+    "id": "FYODOR_FLOUR_AND_ORDERS_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life only; no historical event or public record changes",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "courtyard",
+    "objectId": 1171,
+    "requiredHostId": "baker_fyodor"
+  },
+  "actions": [
+    {
+      "id": "FYODOR_FLOUR_AND_ORDERS_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "baker_fyodor"
+      ],
+      "labelKo": "확인된 수량만 예약받는다",
+      "subcopyKo": "표도르와 예약 손님이 압니다 · 예약 쪽지에 수량이 남습니다 · 수량이 적어 손님을 돌려보낼 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "표도르와 예약 손님이 압니다",
+        "recordKo": "예약 쪽지에 수량이 남습니다",
+        "riskKo": "수량이 적어 손님을 돌려보낼 수 있습니다"
+      },
+      "resultKo": "도착이 확인된 자루에 한해 예약을 받았다. 아직 오지 않은 밀가루를 약속에 넣지 않았다.",
+      "resultFlag": "FYODOR_FLOUR_AND_ORDERS_1847_STAGE_3_RESULT_1",
+      "followupTitleKo": "다음 장날의 약속",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "도착이 확인된 자루에 한해 예약을 받았다. 아직 오지 않은 밀가루를 약속에 넣지 않았다.",
+        "relations": {
+          "market_nadezhda": "다음 장날의 약속에서 표도르와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "FYODOR_FLOUR_AND_ORDERS_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "baker_fyodor"
+      ],
+      "labelKo": "나데즈다와 공동 구매를 의논한다",
+      "subcopyKo": "표도르와 나데즈다가 압니다 · 공동 구매 메모가 남습니다 · 비용과 수량을 나누는 데 의견이 갈릴 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "표도르와 나데즈다가 압니다",
+        "recordKo": "공동 구매 메모가 남습니다",
+        "riskKo": "비용과 수량을 나누는 데 의견이 갈릴 수 있습니다"
+      },
+      "resultKo": "필요량을 나누어 주문하기로 했다. 운송비와 손실도 함께 계산해야 한다.",
+      "resultFlag": "FYODOR_FLOUR_AND_ORDERS_1847_STAGE_3_RESULT_2",
+      "followupTitleKo": "다음 장날의 약속",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "필요량을 나누어 주문하기로 했다. 운송비와 손실도 함께 계산해야 한다.",
+        "relations": {
+          "market_nadezhda": "다음 장날의 약속에서 표도르와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "FYODOR_FLOUR_AND_ORDERS_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "baker_fyodor"
+      ],
+      "labelKo": "새 자루가 올 때까지 주문을 닫는다",
+      "subcopyKo": "가게를 찾는 손님들이 압니다 · 임시 휴업 안내가 붙습니다 · 오늘 수입을 놓치고 단골이 다른 곳으로 갈 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "가게를 찾는 손님들이 압니다",
+        "recordKo": "임시 휴업 안내가 붙습니다",
+        "riskKo": "오늘 수입을 놓치고 단골이 다른 곳으로 갈 수 있습니다"
+      },
+      "resultKo": "새 재료가 올 때까지 주문을 받지 않았다. 기다리는 손님에게 다시 여는 시각은 약속하지 않았다.",
+      "resultFlag": "FYODOR_FLOUR_AND_ORDERS_1847_STAGE_3_RESULT_3",
+      "followupTitleKo": "다음 장날의 약속",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "새 재료가 올 때까지 주문을 받지 않았다. 기다리는 손님에게 다시 여는 시각은 약속하지 않았다.",
+        "relations": {
+          "market_nadezhda": "다음 장날의 약속에서 표도르와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "exposure": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the physically placed personal-work marker",
+  "lifeChain": {
+    "id": "FYODOR_FLOUR_AND_ORDERS_1847",
+    "titleKo": "FYODOR FLOUR AND ORDERS 1847",
+    "stage": 3,
+    "stageCount": 3,
+    "kind": "PERSONAL",
+    "source": "V36_DEDICATED_PERSONAL_ARC",
+    "previousQuestId": "FYODOR_FLOUR_AND_ORDERS_1847_STAGE_2",
+    "metricsKo": {
+      "care": "이웃과 생계를 다룬 결과",
+      "record": "남긴 기록의 범위",
+      "exposure": "공개한 정보의 범위"
+    }
+  },
+  "prerequisiteQuestIds": [
+    "FYODOR_FLOUR_AND_ORDERS_1847_STAGE_2"
+  ]
+}

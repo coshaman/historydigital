@@ -3030,6 +3030,116 @@
               "value": "MARKET_QUAY"
             }
           ]
+        },
+        {
+          "id": 1167,
+          "name": "한 번에 실을 수 없는 짐",
+          "type": "quest-object",
+          "x": 336,
+          "y": 160,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "TIMofey_SHARED_LOAD_1847_STAGE_1"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": 1168,
+          "name": "일감과 장작값",
+          "type": "quest-object",
+          "x": 368,
+          "y": 160,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "MIKHAIL_WAGE_AND_RENT_1847_STAGE_2"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": 1169,
+          "name": "누구의 빵을 먼저 구울까",
+          "type": "quest-object",
+          "x": 352,
+          "y": 176,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "FYODOR_FLOUR_AND_ORDERS_1847_STAGE_2"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": 1170,
+          "name": "금 간 바퀴살",
+          "type": "quest-object",
+          "x": 352,
+          "y": 128,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "ROMAN_WHEEL_AND_FARE_1847_STAGE_1"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": 1171,
+          "name": "표가 없는 꾸러미",
+          "type": "quest-object",
+          "x": 336,
+          "y": 144,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "GAVRILA_CARRYING_TALLY_1847_STAGE_1"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
         }
       ]
     },

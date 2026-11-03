@@ -2730,6 +2730,50 @@
               "value": "BOOKS_AND_READING"
             }
           ]
+        },
+        {
+          "id": 4005,
+          "name": "서점 골목의 두 장부",
+          "type": "quest-object",
+          "x": 176,
+          "y": 208,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "LEV_RETURNED_SHEETS_1847_STAGE_2"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": 4006,
+          "name": "교정대의 두 문장",
+          "type": "quest-object",
+          "x": 160,
+          "y": 224,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "SOFIA_UNNAMED_NOTICE_1847_STAGE_2"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
         }
       ]
     },

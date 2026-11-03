@@ -1,0 +1,121 @@
+{
+  "id": "LEV_RETURNED_SHEETS_1847_STAGE_3",
+  "titleKo": "돌려줄 책의 다음 자리 · 3/3",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "책 상태는 확인됐지만 기록의 빈칸은 남아 있다. 레프는 누구의 말을 장부에 남길지, 책을 어디에 둘지 정해야 한다.",
+  "historicalOutcome": {
+    "id": "LEV_RETURNED_SHEETS_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life only; no historical event or public record changes",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "nevsky",
+    "objectId": 1168,
+    "requiredHostId": "bookseller_lev"
+  },
+  "actions": [
+    {
+      "id": "LEV_RETURNED_SHEETS_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "bookseller_lev"
+      ],
+      "labelKo": "상태만 적고 다시 대여한다",
+      "subcopyKo": "레프와 다음 독자가 압니다 · 재고 장부에 상태만 남습니다 · 기록이 부족해 다음 반품도 늦어질 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "레프와 다음 독자가 압니다",
+        "recordKo": "재고 장부에 상태만 남습니다",
+        "riskKo": "기록이 부족해 다음 반품도 늦어질 수 있습니다"
+      },
+      "resultKo": "사람 이름 대신 책의 상태만 적었다. 다음 독자는 책등이 느슨하다는 것을 알고 빌린다.",
+      "resultFlag": "LEV_RETURNED_SHEETS_1847_STAGE_3_RESULT_1",
+      "followupTitleKo": "돌려줄 책의 다음 자리",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "사람 이름 대신 책의 상태만 적었다. 다음 독자는 책등이 느슨하다는 것을 알고 빌린다.",
+        "relations": {
+          "reader_darya": "돌려줄 책의 다음 자리에서 레프와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "LEV_RETURNED_SHEETS_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "bookseller_lev"
+      ],
+      "labelKo": "다리야의 확인을 참고 기록으로 남긴다",
+      "subcopyKo": "레프와 다리야가 압니다 · 비공식 대여 메모가 남습니다 · 다리야가 사실과 다르게 기억했다면 설명을 요구받을 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "레프와 다리야가 압니다",
+        "recordKo": "비공식 대여 메모가 남습니다",
+        "riskKo": "다리야가 사실과 다르게 기억했다면 설명을 요구받을 수 있습니다"
+      },
+      "resultKo": "다리야의 말은 확인된 기록과 구분해 덧붙였다. 빈칸을 확정 사실처럼 메우지는 않았다.",
+      "resultFlag": "LEV_RETURNED_SHEETS_1847_STAGE_3_RESULT_2",
+      "followupTitleKo": "돌려줄 책의 다음 자리",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "다리야의 말은 확인된 기록과 구분해 덧붙였다. 빈칸을 확정 사실처럼 메우지는 않았다.",
+        "relations": {
+          "reader_darya": "돌려줄 책의 다음 자리에서 레프와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "LEV_RETURNED_SHEETS_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "bookseller_lev"
+      ],
+      "labelKo": "반품 책임을 정하지 않고 수선을 맡긴다",
+      "subcopyKo": "레프와 제본공이 압니다 · 수선 접수표에 책 상태가 남습니다 · 수선 비용을 서점이 먼저 부담합니다",
+      "practicalDisclosure": {
+        "audienceKo": "레프와 제본공이 압니다",
+        "recordKo": "수선 접수표에 책 상태가 남습니다",
+        "riskKo": "수선 비용을 서점이 먼저 부담합니다"
+      },
+      "resultKo": "책은 제본공에게 넘어갔다. 누가 손상시켰는지는 알 수 없어 책임을 적지 않았다.",
+      "resultFlag": "LEV_RETURNED_SHEETS_1847_STAGE_3_RESULT_3",
+      "followupTitleKo": "돌려줄 책의 다음 자리",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "책은 제본공에게 넘어갔다. 누가 손상시켰는지는 알 수 없어 책임을 적지 않았다.",
+        "relations": {
+          "reader_darya": "돌려줄 책의 다음 자리에서 레프와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "exposure": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the physically placed personal-work marker",
+  "lifeChain": {
+    "id": "LEV_RETURNED_SHEETS_1847",
+    "titleKo": "LEV RETURNED SHEETS 1847",
+    "stage": 3,
+    "stageCount": 3,
+    "kind": "PERSONAL",
+    "source": "V36_DEDICATED_PERSONAL_ARC",
+    "previousQuestId": "LEV_RETURNED_SHEETS_1847_STAGE_2",
+    "metricsKo": {
+      "care": "이웃과 생계를 다룬 결과",
+      "record": "남긴 기록의 범위",
+      "exposure": "공개한 정보의 범위"
+    }
+  },
+  "prerequisiteQuestIds": [
+    "LEV_RETURNED_SHEETS_1847_STAGE_2"
+  ]
+}

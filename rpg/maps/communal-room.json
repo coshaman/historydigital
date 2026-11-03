@@ -2071,6 +2071,94 @@
               "value": "HOUSEHOLD_WORKYARD"
             }
           ]
+        },
+        {
+          "id": 4005,
+          "name": "전달해도 되는 한 문장",
+          "type": "quest-object",
+          "x": 176,
+          "y": 208,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "OLGA_PRIVATE_WORDS_1847_STAGE_3"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": 4006,
+          "name": "돌봄 비용을 누가 묻나",
+          "type": "quest-object",
+          "x": 160,
+          "y": 224,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "AVDOTYA_NIGHT_CALLS_1847_STAGE_2"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": 4007,
+          "name": "빈칸을 어떤 이름으로 남길까",
+          "type": "quest-object",
+          "x": 192,
+          "y": 224,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "SEMYON_FIREWOOD_LEDGER_1847_STAGE_3"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": 4008,
+          "name": "집세 날짜와 수리비",
+          "type": "quest-object",
+          "x": 176,
+          "y": 240,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "POLINA_RENT_AND_REPAIRS_1847_STAGE_2"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
         }
       ]
     },

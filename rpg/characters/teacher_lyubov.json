@@ -59,7 +59,7 @@
   "voiceSamples": [
     "책을 펴고 어디까지 읽었는지 보여 주세요. 수업은 그 다음부터 시작해요.",
     "배움은 열어두고 싶어요. 하지만 종이도 수업 시간도 저절로 생기진 않으니, 누구와 나눌지 정해야 해요.",
-    "배울 기회는 돈 있는 집에만 묶여서는 안 되지만, 교사와 종이값을 늘 한 사람이 대신 감당할 수도 없다고 본다."
+    "돈 있는 집 아이들만 배워선 안 됩니다. 다만 종이값과 수업료를 늘 제 주머니에서 낼 수는 없어요."
   ],
   "worldview": {
     "status": "fictional_character_design",
@@ -236,6 +236,32 @@
       "kind": "social",
       "titleKo": "오늘 엮인 사람 · 이리나",
       "textKo": "하숙집에 방을 내주고 밀린 방세 사정을 듣는다"
+    }
+  ],
+  "persistentPersonalGoals": [
+    {
+      "id": "teacher_lyubov:life-arc",
+      "kind": "LIFE",
+      "titleKo": "이어 가는 생활 문제",
+      "descriptionKo": "모두에게 배울 기회를 주려면 수업과 재료의 비용을 누가 나눠야 할까요?",
+      "successCondition": {
+        "type": "LIFE_CHAIN_COMPLETED",
+        "chainId": "LYUBOV_LESSON_ACCESS_1847",
+        "stageCount": 3
+      },
+      "fallbackKo": "연쇄 임무가 지금 열리지 않으면 오늘의 일과를 이어가고, 다음 단계를 확인할 수 있을 때 다시 돌아온다."
+    },
+    {
+      "id": "teacher_lyubov:relationship",
+      "kind": "RELATIONSHIP",
+      "titleKo": "이리나와의 관계",
+      "descriptionKo": "모두에게 배울 기회를 주려면 수업과 재료의 비용을 누가 나눠야 할까요? · 이리나와 얽힌 사정을 당사자에게 확인한다.",
+      "successCondition": {
+        "type": "RELATION_CHANGED",
+        "targetHostId": "innkeeper_irina",
+        "baseline": "하숙집에 방을 내주고 밀린 방세 사정을 듣는다"
+      },
+      "fallbackKo": "상대가 다른 생활권에 있거나 만날 수 없으면 추측을 퍼뜨리지 말고, 다시 만날 수 있는 장소와 시간을 살핀다."
     }
   ]
 }

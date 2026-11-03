@@ -1,0 +1,117 @@
+{
+  "id": "TATYANA_READING_HOUR_1847_STAGE_1",
+  "titleKo": "빌린 책과 미뤄 둔 바느질 · 1/3",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "타티야나는 빌린 책을 오늘 돌려줘야 하고, 주문받은 수선도 마쳐야 한다. 둘 다 미루면 이웃의 신뢰와 수입에 영향이 간다.",
+  "historicalOutcome": {
+    "id": "TATYANA_READING_HOUR_1847_STAGE_1_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life only; no historical event or public record changes",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "courtyard",
+    "objectId": 1167,
+    "requiredHostId": "lodging_tatyana"
+  },
+  "actions": [
+    {
+      "id": "TATYANA_READING_HOUR_1847_STAGE_1_CHOICE_1",
+      "hostIds": [
+        "lodging_tatyana"
+      ],
+      "labelKo": "수선할 옷의 약속 시각부터 확인한다",
+      "subcopyKo": "타티야나와 주문한 이웃이 압니다 · 주문 쪽지에 마감이 남습니다 · 책 반납이 늦어질 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "타티야나와 주문한 이웃이 압니다",
+        "recordKo": "주문 쪽지에 마감이 남습니다",
+        "riskKo": "책 반납이 늦어질 수 있습니다"
+      },
+      "resultKo": "수선 주문은 저녁까지였다. 남은 시간을 확인하고 바느질을 먼저 하기로 했다.",
+      "resultFlag": "TATYANA_READING_HOUR_1847_STAGE_1_RESULT_1",
+      "followupTitleKo": "빌린 책과 미뤄 둔 바느질",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "수선 주문은 저녁까지였다. 남은 시간을 확인하고 바느질을 먼저 하기로 했다.",
+        "relations": {
+          "teacher_lyubov": "빌린 책과 미뤄 둔 바느질에서 타티야나와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "TATYANA_READING_HOUR_1847_STAGE_1_CHOICE_2",
+      "hostIds": [
+        "lodging_tatyana"
+      ],
+      "labelKo": "류보프에게 책을 하루 더 빌릴 수 있는지 묻는다",
+      "subcopyKo": "타티야나와 류보프가 압니다 · 대여 연장 메모가 남습니다 · 다른 독자가 책을 기다릴 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "타티야나와 류보프가 압니다",
+        "recordKo": "대여 연장 메모가 남습니다",
+        "riskKo": "다른 독자가 책을 기다릴 수 있습니다"
+      },
+      "resultKo": "류보프는 다음 예약이 없다고 확인해 하루 연장을 허락했다. 타티야나는 반납 날짜를 적었다.",
+      "resultFlag": "TATYANA_READING_HOUR_1847_STAGE_1_RESULT_2",
+      "followupTitleKo": "빌린 책과 미뤄 둔 바느질",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "류보프는 다음 예약이 없다고 확인해 하루 연장을 허락했다. 타티야나는 반납 날짜를 적었다.",
+        "relations": {
+          "teacher_lyubov": "빌린 책과 미뤄 둔 바느질에서 타티야나와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "TATYANA_READING_HOUR_1847_STAGE_1_CHOICE_3",
+      "hostIds": [
+        "lodging_tatyana"
+      ],
+      "labelKo": "수선 주문을 다른 사람에게 넘길지 의논한다",
+      "subcopyKo": "타티야나와 주문자, 수선공이 압니다 · 주문 인계 쪽지가 남습니다 · 인계받는 사람이 일을 거절할 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "타티야나와 주문자, 수선공이 압니다",
+        "recordKo": "주문 인계 쪽지가 남습니다",
+        "riskKo": "인계받는 사람이 일을 거절할 수 있습니다"
+      },
+      "resultKo": "주문자는 인계를 원하지 않았다. 타티야나는 먼저 책을 돌려주고 수선을 이어가기로 했다.",
+      "resultFlag": "TATYANA_READING_HOUR_1847_STAGE_1_RESULT_3",
+      "followupTitleKo": "빌린 책과 미뤄 둔 바느질",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "주문자는 인계를 원하지 않았다. 타티야나는 먼저 책을 돌려주고 수선을 이어가기로 했다.",
+        "relations": {
+          "teacher_lyubov": "빌린 책과 미뤄 둔 바느질에서 타티야나와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "exposure": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the physically placed personal-work marker",
+  "lifeChain": {
+    "id": "TATYANA_READING_HOUR_1847",
+    "titleKo": "TATYANA READING HOUR 1847",
+    "stage": 1,
+    "stageCount": 3,
+    "kind": "PERSONAL",
+    "source": "V36_DEDICATED_PERSONAL_ARC",
+    "metricsKo": {
+      "care": "이웃과 생계를 다룬 결과",
+      "record": "남긴 기록의 범위",
+      "exposure": "공개한 정보의 범위"
+    }
+  }
+}

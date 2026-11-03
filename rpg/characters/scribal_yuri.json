@@ -59,7 +59,7 @@
   "voiceSamples": [
     "종이 가장자리는 잡지 마시오. 잉크가 아직 번질 수 있소. 원본이오, 사본이오?",
     "사본을 남기면 바뀐 대목은 보존되오. 하지만 누가 가져갔는지까지 적는 순간 그 사람도 기록 속에 남겠지.",
-    "정확한 사본은 기록의 차이를 보여주지만, 누가 가졌는지 함께 남기면 그 사람을 위험에 빠뜨릴 수 있다고 본다."
+    "사본에 바뀐 획은 표시해 둘게요. 들고 있던 사람 이름까지 적을 필요가 있나요?"
   ],
   "worldview": {
     "status": "fictional_character_design",
@@ -232,6 +232,32 @@
       "kind": "social",
       "titleKo": "오늘 엮인 사람 · 바실리",
       "textKo": "필요한 글을 베껴 주고 읽기 어려운 구절을 짚어 준다"
+    }
+  ],
+  "persistentPersonalGoals": [
+    {
+      "id": "scribal_yuri:life-arc",
+      "kind": "LIFE",
+      "titleKo": "이어 가는 생활 문제",
+      "descriptionKo": "검열된 문서의 사본을 보존하면서 소지자의 안전도 지킬 수 있을까요?",
+      "successCondition": {
+        "type": "LIFE_CHAIN_COMPLETED",
+        "chainId": "YURI_COPYING_LEDGER_1847",
+        "stageCount": 3
+      },
+      "fallbackKo": "연쇄 임무가 지금 열리지 않으면 오늘의 일과를 이어가고, 다음 단계를 확인할 수 있을 때 다시 돌아온다."
+    },
+    {
+      "id": "scribal_yuri:relationship",
+      "kind": "RELATIONSHIP",
+      "titleKo": "바실리와의 관계",
+      "descriptionKo": "검열된 문서의 사본을 보존하면서 소지자의 안전도 지킬 수 있을까요? · 바실리와 얽힌 사정을 당사자에게 확인한다.",
+      "successCondition": {
+        "type": "RELATION_CHANGED",
+        "targetHostId": "student_vasily",
+        "baseline": "필요한 글을 베껴 주고 읽기 어려운 구절을 짚어 준다"
+      },
+      "fallbackKo": "상대가 다른 생활권에 있거나 만날 수 없으면 추측을 퍼뜨리지 말고, 다시 만날 수 있는 장소와 시간을 살핀다."
     }
   ]
 }

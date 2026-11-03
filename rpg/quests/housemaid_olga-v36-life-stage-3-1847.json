@@ -1,0 +1,121 @@
+{
+  "id": "OLGA_PRIVATE_WORDS_1847_STAGE_3",
+  "titleKo": "전달해도 되는 한 문장 · 3/3",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "세입자는 집주인에게 자신의 요청을 전해 달라고 했다. 올가는 요청한 문장만 전달할지, 들은 사정을 더할지 고른다.",
+  "historicalOutcome": {
+    "id": "OLGA_PRIVATE_WORDS_1847_STAGE_3_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life only; no historical event or public record changes",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "communal-room",
+    "objectId": 4005,
+    "requiredHostId": "housemaid_olga"
+  },
+  "actions": [
+    {
+      "id": "OLGA_PRIVATE_WORDS_1847_STAGE_3_CHOICE_1",
+      "hostIds": [
+        "housemaid_olga"
+      ],
+      "labelKo": "세입자가 부탁한 말만 그대로 전한다",
+      "subcopyKo": "올가와 집주인이 압니다 · 전달한 문장만 개인 쪽지에 남습니다 · 맥락이 부족해 집주인이 뜻을 오해할 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "올가와 집주인이 압니다",
+        "recordKo": "전달한 문장만 개인 쪽지에 남습니다",
+        "riskKo": "맥락이 부족해 집주인이 뜻을 오해할 수 있습니다"
+      },
+      "resultKo": "부탁받은 문장만 전했다. 세입자의 설명을 대신 만들어 붙이지 않았다.",
+      "resultFlag": "OLGA_PRIVATE_WORDS_1847_STAGE_3_RESULT_1",
+      "followupTitleKo": "전달해도 되는 한 문장",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "부탁받은 문장만 전했다. 세입자의 설명을 대신 만들어 붙이지 않았다.",
+        "relations": {
+          "servant_varvara": "전달해도 되는 한 문장에서 올가와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "OLGA_PRIVATE_WORDS_1847_STAGE_3_CHOICE_2",
+      "hostIds": [
+        "housemaid_olga"
+      ],
+      "labelKo": "당사자 둘이 직접 이야기할 자리를 만든다",
+      "subcopyKo": "올가와 두 당사자가 압니다 · 만남 시각만 메모에 남습니다 · 대화가 다시 다툼으로 번질 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "올가와 두 당사자가 압니다",
+        "recordKo": "만남 시각만 메모에 남습니다",
+        "riskKo": "대화가 다시 다툼으로 번질 수 있습니다"
+      },
+      "resultKo": "둘이 함께 장부를 볼 시간을 잡았다. 올가는 자리를 마련한 뒤 물러났다.",
+      "resultFlag": "OLGA_PRIVATE_WORDS_1847_STAGE_3_RESULT_2",
+      "followupTitleKo": "전달해도 되는 한 문장",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "둘이 함께 장부를 볼 시간을 잡았다. 올가는 자리를 마련한 뒤 물러났다.",
+        "relations": {
+          "servant_varvara": "전달해도 되는 한 문장에서 올가와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "OLGA_PRIVATE_WORDS_1847_STAGE_3_CHOICE_3",
+      "hostIds": [
+        "housemaid_olga"
+      ],
+      "labelKo": "전달을 보류하고 다시 허락을 구한다",
+      "subcopyKo": "올가와 세입자가 압니다 · 보류 이유가 개인 기록에 남습니다 · 요청을 늦췄다고 비난받을 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "올가와 세입자가 압니다",
+        "recordKo": "보류 이유가 개인 기록에 남습니다",
+        "riskKo": "요청을 늦췄다고 비난받을 수 있습니다"
+      },
+      "resultKo": "전달할 말을 다시 확인하기로 했다. 세입자가 원하지 않은 사정은 옮기지 않았다.",
+      "resultFlag": "OLGA_PRIVATE_WORDS_1847_STAGE_3_RESULT_3",
+      "followupTitleKo": "전달해도 되는 한 문장",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "전달할 말을 다시 확인하기로 했다. 세입자가 원하지 않은 사정은 옮기지 않았다.",
+        "relations": {
+          "servant_varvara": "전달해도 되는 한 문장에서 올가와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "exposure": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the physically placed personal-work marker",
+  "lifeChain": {
+    "id": "OLGA_PRIVATE_WORDS_1847",
+    "titleKo": "OLGA PRIVATE WORDS 1847",
+    "stage": 3,
+    "stageCount": 3,
+    "kind": "PERSONAL",
+    "source": "V36_DEDICATED_PERSONAL_ARC",
+    "previousQuestId": "OLGA_PRIVATE_WORDS_1847_STAGE_2",
+    "metricsKo": {
+      "care": "이웃과 생계를 다룬 결과",
+      "record": "남긴 기록의 범위",
+      "exposure": "공개한 정보의 범위"
+    }
+  },
+  "prerequisiteQuestIds": [
+    "OLGA_PRIVATE_WORDS_1847_STAGE_2"
+  ]
+}

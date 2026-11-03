@@ -28,7 +28,8 @@ try{
   const base=`http://127.0.0.1:${port}/`;let ready=false;
   for(let attempt=0;attempt<60;attempt++){try{if((await fetch(base)).ok){ready=true;break}}catch{}await new Promise(resolve=>setTimeout(resolve,150))}
   assert.ok(ready,'local Vercel-compatible runtime must start');
-  for(const viewport of [{name:'desktop',width:1440,height:900},{name:'mobile',width:390,height:844}]){
+  const viewports=[{name:'desktop-1440x900',width:1440,height:900},{name:'laptop-1366x768',width:1366,height:768},{name:'mobile-390x844',width:390,height:844},{name:'mobile-360x800',width:360,height:800}];
+  for(const viewport of viewports){
     for(const mapId of mapIds){
       const map=maps[mapId],district=mapDistrict.get(mapId),hostId=map.metadata.access?.allowedCharacterIds?.[0]??district?.residentIds.find(id=>cards.find(card=>card.id===id)?.allowedMaps.includes(mapId))??null;
       let state=game.createInitialState({maps,hostCards:cards,quests,startMapId:mapId});
@@ -62,7 +63,7 @@ try{
       rows.push({...view,viewport:viewport.name,hostId,screenshot,pageErrors:errors});await context.close();
     }
   }
-  const report={schemaVersion:'V36_WORLD_MAP_BROWSER_CAPTURE_1',status:'PASS',generatedAt:new Date().toISOString(),districts:registry.districts.length,cityMapCount:mapIds.length,viewports:['desktop','mobile'],captures:rows};
+      const report={schemaVersion:'V36_WORLD_MAP_BROWSER_CAPTURE_2',status:'PASS',generatedAt:new Date().toISOString(),districts:registry.districts.length,cityMapCount:mapIds.length,viewports:viewports.map(({name,width,height})=>({name,width,height})),captures:rows};
   await writeFile(path.join(output,'WORLD_MAP_CAPTURE_MANIFEST.json'),`${JSON.stringify(report,null,2)}\n`);
   console.log(JSON.stringify({status:report.status,districts:report.districts,cityMapCount:report.cityMapCount,captures:rows.length,horizontalOverflow:rows.filter(row=>row.documentWidth>row.viewport.width).length,pageErrors:rows.flatMap(row=>row.pageErrors)},null,2));
 }finally{await browser.close();server.kill();}

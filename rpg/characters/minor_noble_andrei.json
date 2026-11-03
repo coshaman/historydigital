@@ -59,7 +59,7 @@
   "voiceSamples": [
     "용건을 말씀해 주십시오. 관청 면담 시간이 길지는 않습니다.",
     "가문의 이름으로 시간을 벌 수는 있겠죠. 하지만 어음을 갚는 날짜까지 대신 정해 주진 않으니 지출을 다시 봐야 합니다.",
-    "가문의 이름이 문을 열어줄 때가 있다고 믿지만, 이름만으로 빚이 사라지진 않는다는 걸 안다. 체면을 위해 다른 사람에게 비용을 넘기고 싶진 않다."
+    "이름을 대면 문이 열릴 때가 있지요. 그렇다고 빚까지 사라지는 건 아니니, 다른 사람에게 넘기진 않겠습니다."
   ],
   "worldview": {
     "status": "fictional_character_design",
@@ -232,6 +232,32 @@
       "kind": "social",
       "titleKo": "오늘 엮인 사람 · 바실리",
       "textKo": "학교 공부와 책 이야기를 주고받는 동료 학생이다"
+    }
+  ],
+  "persistentPersonalGoals": [
+    {
+      "id": "minor_noble_andrei:life-arc",
+      "kind": "LIFE",
+      "titleKo": "이어 가는 생활 문제",
+      "descriptionKo": "신분의 체면을 지키느라 빚을 숨기면 누구에게 비용이 돌아갈까요?",
+      "successCondition": {
+        "type": "LIFE_CHAIN_COMPLETED",
+        "chainId": "ANDREI_DEBT_STATUS_1847",
+        "stageCount": 3
+      },
+      "fallbackKo": "연쇄 임무가 지금 열리지 않으면 오늘의 일과를 이어가고, 다음 단계를 확인할 수 있을 때 다시 돌아온다."
+    },
+    {
+      "id": "minor_noble_andrei:relationship",
+      "kind": "RELATIONSHIP",
+      "titleKo": "바실리와의 관계",
+      "descriptionKo": "신분의 체면을 지키느라 빚을 숨기면 누구에게 비용이 돌아갈까요? · 바실리와 얽힌 사정을 당사자에게 확인한다.",
+      "successCondition": {
+        "type": "RELATION_CHANGED",
+        "targetHostId": "student_vasily",
+        "baseline": "학교 공부와 책 이야기를 주고받는 동료 학생이다"
+      },
+      "fallbackKo": "상대가 다른 생활권에 있거나 만날 수 없으면 추측을 퍼뜨리지 말고, 다시 만날 수 있는 장소와 시간을 살핀다."
     }
   ]
 }

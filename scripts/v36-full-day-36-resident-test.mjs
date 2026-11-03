@@ -57,23 +57,36 @@ const replays = [runFullDay(), runFullDay(), runFullDay()];
 const hashes = replays.map(run => game.stateHash(run.state));
 assert.equal(new Set(hashes).size, 1, 'three canonical full-day replays must produce identical saved state');
 const first = replays[0];
+const restored = game.loadGame(game.saveGame(first.state), { maps, hostCards: cards, quests });
+const saveReloadDifferences = Object.keys(first.state).filter(key => JSON.stringify(first.state[key]) !== JSON.stringify(restored[key]));
+const changedHostFields = Object.fromEntries(ids.flatMap(id => {
+  const before=first.state.hosts[id],after=restored.hosts[id],keys=[...new Set([...Object.keys(before),...Object.keys(after)])].filter(key=>JSON.stringify(before[key])!==JSON.stringify(after[key]));
+  return keys.length?[[id,keys]]:[];
+}));
+assert.equal(game.stateHash(restored), hashes[0], `the complete 24-hour NPC and social-goal state must survive save/reload; changed fields: ${JSON.stringify({saveReloadDifferences,changedHostFields})}`);
 const goals = first.state.ledger.flatMap(event => event.goals ?? []);
 const deliveries = first.state.ledger.flatMap(event => event.deliveries ?? []);
 const exchanges = first.state.ledger.flatMap(event => event.exchanges ?? []);
+const personalContacts = first.state.ledger.flatMap(event => event.personalContacts ?? []);
 const mapTransitions = first.moves.filter(move => move.viaExit);
 assert.ok(first.moves.length > 0, 'residents should walk throughout the day');
 assert.ok(mapTransitions.length > 0, 'residents should cross real district exits');
 assert.ok(goals.length > 0, 'daily needs and schedules should create observable goals');
 assert.ok(deliveries.length > 0, 'at least one scheduled item handoff should complete');
 assert.ok(exchanges.length > 0, 'at least one scheduled exchange should complete');
+assert.ok(personalContacts.length > 0, 'active personal relationship goals should lead residents to meet their named neighbors');
+assert.ok(personalContacts.every(contact => contact.hostId !== contact.partnerHostId && contact.effect === 'social_need_relieved'), 'autonomous personal contacts should create a reciprocal, visible social-need change');
+const distinctPersonalContactResidents = new Set(personalContacts.map(contact => contact.hostId)).size;
+assert.ok(distinctPersonalContactResidents >= 10,
+  `personal goal behavior should affect at least 10 residents (over a quarter of the city) in one day; got ${distinctPersonalContactResidents}/${ids.length}: ${JSON.stringify([...new Set(personalContacts.map(contact => contact.hostId))])}`);
 const report = { schemaVersion:'V36_FULL_DAY_36_RESIDENT_REPLAY_1', status:'PASS', activeCityResidents:ids.length,
   deterministicReplays:3, simulatedMinutes:1440, replayHashes:hashes,
   collisionSnapshotsPerReplay:first.collisionSnapshots, totalCollisionSnapshots:replays.reduce((sum,run)=>sum+run.collisionSnapshots,0),
   firstReplay:{ movementSteps:first.moves.length, districtTransitions:mapTransitions.length, goalEvents:goals.length,
-    deliveries:deliveries.length, exchanges:exchanges.length, residentsWithDistinctAuthoredObjectives:new Set(cards.map(card=>card.personalObjective)).size,
+    deliveries:deliveries.length, exchanges:exchanges.length, personalContacts:personalContacts.length, distinctPersonalContactResidents, residentsWithDistinctAuthoredObjectives:new Set(cards.map(card=>card.personalObjective)).size,
     finalActivityCount:new Set(ids.map(id=>first.state.hosts[id].currentActivityKo)).size,
     finalPositions:Object.fromEntries(ids.map(id=>[id,{mapId:first.state.hosts[id].mapId,...first.state.hosts[id].position}])) },
-  autoCompletedPlayerQuests:0, runtimeMilliseconds:Math.round(performance.now()-startedAt) };
+  fullDaySaveReloadStateHash:game.stateHash(restored), autoCompletedPlayerQuests:0, runtimeMilliseconds:Math.round(performance.now()-startedAt) };
 const auditDir = new URL('../docs/v36/current-audit/', import.meta.url);
 await mkdir(auditDir,{recursive:true});
 await writeFile(new URL('FULL_DAY_36_RESIDENT_REPLAY.json',auditDir),`${JSON.stringify(report,null,2)}\n`);

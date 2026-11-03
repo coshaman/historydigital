@@ -1,0 +1,117 @@
+{
+  "id": "GAVRILA_CARRYING_TALLY_1847_STAGE_1",
+  "titleKo": "표가 없는 꾸러미 · 1/3",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "시장에 맡겨진 꾸러미 하나에는 받을 사람 이름이 없다. 가브릴라는 물건을 열어보지 않고 주인을 찾아야 한다.",
+  "historicalOutcome": {
+    "id": "GAVRILA_CARRYING_TALLY_1847_STAGE_1_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life only; no historical event or public record changes",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "market-quay",
+    "objectId": 1171,
+    "requiredHostId": "porter_gavrila"
+  },
+  "actions": [
+    {
+      "id": "GAVRILA_CARRYING_TALLY_1847_STAGE_1_CHOICE_1",
+      "hostIds": [
+        "porter_gavrila"
+      ],
+      "labelKo": "끈과 표식만 적어 둔다",
+      "subcopyKo": "가브릴라와 보관 담당이 압니다 · 보관표에 겉모양이 남습니다 · 주인이 늦으면 보관 자리를 차지합니다",
+      "practicalDisclosure": {
+        "audienceKo": "가브릴라와 보관 담당이 압니다",
+        "recordKo": "보관표에 겉모양이 남습니다",
+        "riskKo": "주인이 늦으면 보관 자리를 차지합니다"
+      },
+      "resultKo": "겉의 끈 색과 매듭만 적었다. 안의 물건을 추측해 기록하지 않았다.",
+      "resultFlag": "GAVRILA_CARRYING_TALLY_1847_STAGE_1_RESULT_1",
+      "followupTitleKo": "표가 없는 꾸러미",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "겉의 끈 색과 매듭만 적었다. 안의 물건을 추측해 기록하지 않았다.",
+        "relations": {
+          "coachman_timofey": "표가 없는 꾸러미에서 가브릴라와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "GAVRILA_CARRYING_TALLY_1847_STAGE_1_CHOICE_2",
+      "hostIds": [
+        "porter_gavrila"
+      ],
+      "labelKo": "티모페이에게 운송표를 확인한다",
+      "subcopyKo": "가브릴라와 티모페이가 압니다 · 운송표 대조 메모가 남습니다 · 동료가 자기 짐을 찾느라 늦어질 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "가브릴라와 티모페이가 압니다",
+        "recordKo": "운송표 대조 메모가 남습니다",
+        "riskKo": "동료가 자기 짐을 찾느라 늦어질 수 있습니다"
+      },
+      "resultKo": "티모페이의 표에는 같은 매듭 표시가 없었다. 다른 운송인의 기록도 확인하기로 했다.",
+      "resultFlag": "GAVRILA_CARRYING_TALLY_1847_STAGE_1_RESULT_2",
+      "followupTitleKo": "표가 없는 꾸러미",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "티모페이의 표에는 같은 매듭 표시가 없었다. 다른 운송인의 기록도 확인하기로 했다.",
+        "relations": {
+          "coachman_timofey": "표가 없는 꾸러미에서 가브릴라와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "GAVRILA_CARRYING_TALLY_1847_STAGE_1_CHOICE_3",
+      "hostIds": [
+        "porter_gavrila"
+      ],
+      "labelKo": "시장 보관소에 공개 문의를 붙인다",
+      "subcopyKo": "시장 운송꾼들이 봅니다 · 주인 찾기 공지가 남습니다 · 공지를 본 사람이 거짓 소유를 주장할 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "시장 운송꾼들이 봅니다",
+        "recordKo": "주인 찾기 공지가 남습니다",
+        "riskKo": "공지를 본 사람이 거짓 소유를 주장할 수 있습니다"
+      },
+      "resultKo": "겉모양만 적어 문의를 붙였다. 내용물을 아는 사람만 확인할 수 있게 하지는 않았다.",
+      "resultFlag": "GAVRILA_CARRYING_TALLY_1847_STAGE_1_RESULT_3",
+      "followupTitleKo": "표가 없는 꾸러미",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "겉모양만 적어 문의를 붙였다. 내용물을 아는 사람만 확인할 수 있게 하지는 않았다.",
+        "relations": {
+          "coachman_timofey": "표가 없는 꾸러미에서 가브릴라와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "exposure": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the physically placed personal-work marker",
+  "lifeChain": {
+    "id": "GAVRILA_CARRYING_TALLY_1847",
+    "titleKo": "GAVRILA CARRYING TALLY 1847",
+    "stage": 1,
+    "stageCount": 3,
+    "kind": "PERSONAL",
+    "source": "V36_DEDICATED_PERSONAL_ARC",
+    "metricsKo": {
+      "care": "이웃과 생계를 다룬 결과",
+      "record": "남긴 기록의 범위",
+      "exposure": "공개한 정보의 범위"
+    }
+  }
+}

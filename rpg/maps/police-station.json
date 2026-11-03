@@ -52,7 +52,8 @@
         "reader_darya",
         "seamstress_anna",
         "senior_clerk_konstantin",
-        "tenant_mikhail"
+        "tenant_mikhail",
+        "junior_guard_sergey"
       ],
       "opensMinute": 360,
       "closesMinute": 1200,
@@ -515,6 +516,50 @@
               "name": "questId",
               "type": "string",
               "value": "IVAN_WITNESS_ACCOUNT_1849_STAGE_3"
+            }
+          ]
+        },
+        {
+          "id": 1113,
+          "name": "대기 명단이 길어진 오후",
+          "type": "quest-object",
+          "x": 48,
+          "y": 48,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "SERGEY_VISITOR_PASS_1847_STAGE_2"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
+            }
+          ]
+        },
+        {
+          "id": 1114,
+          "name": "대장과 보고서의 차이",
+          "type": "quest-object",
+          "x": 32,
+          "y": 64,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "KONSTANTIN_UNSIGNED_REVIEW_1847_STAGE_2"
+            },
+            {
+              "name": "personalLifeQuest",
+              "type": "bool",
+              "value": true
             }
           ]
         }

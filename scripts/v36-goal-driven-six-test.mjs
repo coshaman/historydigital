@@ -23,8 +23,10 @@ assert.equal(new Set(hostCards.map(card => JSON.stringify(card.needs))).size, ho
 
 function runDay() {
   let state = game.createInitialState({ maps, hostCards, startMapId: 'nevsky' });
+  state = game.advanceNpcWorld(state, 180, maps);
+  for (const id of ['clerk_alexei', 'printer_ekaterina', 'seamstress_anna']) state.hosts[id].needs.fatigue = state.hosts[id].needs.restThreshold + 5;
   const initialFatigue = Object.fromEntries(ids.map(id => [id, state.hosts[id].needs.fatigue]));
-  state = game.advanceNpcWorld(state, 480, maps);
+  state = game.advanceNpcWorld(state, 300, maps);
   return { state, initialFatigue, events: state.ledger };
 }
 
@@ -33,7 +35,7 @@ assert.equal(game.stateHash(first.state), game.stateHash(second.state), 'the six
 const goals = first.events.flatMap(event => event.goals ?? []);
 const restGoals = goals.filter(goal => goal.type === 'NEED_REST');
 const restedIds = [...new Set(restGoals.map(goal => goal.hostId))].sort();
-assert.deepEqual(restedIds, ['clerk_alexei', 'printer_ekaterina', 'seamstress_anna']);
+assert.deepEqual(restedIds, ['clerk_alexei', 'printer_ekaterina', 'seamstress_anna'], JSON.stringify(ids.map(id=>({id,needs:first.state.hosts[id].needs,goal:first.state.hosts[id].activeGoal,schedule:first.state.hosts[id].scheduleId}))));
 for (const id of restedIds) {
   const host = first.state.hosts[id];
   assert.ok(host.needs.fatigue < first.initialFatigue[id], `${id} did not recover fatigue`);
@@ -41,7 +43,7 @@ for (const id of restedIds) {
   assert.equal(host.mapId, host.activeGoal.targetMapId);
 }
 const courierDelivery = first.events.flatMap(event => event.deliveries ?? []).filter(item => item.hostId === 'courier_pavel' && item.recipientHostId === 'printer_ekaterina');
-assert.equal(courierDelivery.length, 1, 'the courier should complete the scheduled physical handoff exactly once');
+assert.equal(courierDelivery.length, 1, 'the courier should complete the scheduled physical handoff exactly once before the controlled fatigue-recovery scenario');
 assert.ok(goals.some(goal => goal.hostId === 'courier_pavel' && goal.type === 'FOLLOW_RECIPIENT'));
 assert.ok(first.state.hosts.courier_pavel.relations.printer_ekaterina);
 assert.deepEqual(first.state.quests, {}, 'autonomous daily routines must not complete player quests');

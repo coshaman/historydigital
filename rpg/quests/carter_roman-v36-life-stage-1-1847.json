@@ -1,0 +1,117 @@
+{
+  "id": "ROMAN_WHEEL_AND_FARE_1847_STAGE_1",
+  "titleKo": "금 간 바퀴살 · 1/3",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "로만의 마차 바퀴에서 금이 간 살 하나가 보인다. 오늘 운송을 이어갈 수는 있지만, 무거운 짐을 싣고 운하 길로 가도 되는지는 불확실하다.",
+  "historicalOutcome": {
+    "id": "ROMAN_WHEEL_AND_FARE_1847_STAGE_1_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life only; no historical event or public record changes",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "market-quay",
+    "objectId": 1170,
+    "requiredHostId": "carter_roman"
+  },
+  "actions": [
+    {
+      "id": "ROMAN_WHEEL_AND_FARE_1847_STAGE_1_CHOICE_1",
+      "hostIds": [
+        "carter_roman"
+      ],
+      "labelKo": "짐을 내리고 바퀴를 살핀다",
+      "subcopyKo": "로만과 기다리는 의뢰인이 압니다 · 점검 메모가 남습니다 · 수리하는 동안 운송 약속을 놓칩니다",
+      "practicalDisclosure": {
+        "audienceKo": "로만과 기다리는 의뢰인이 압니다",
+        "recordKo": "점검 메모가 남습니다",
+        "riskKo": "수리하는 동안 운송 약속을 놓칩니다"
+      },
+      "resultKo": "짐을 내리자 금이 더 깊은 것을 확인했다. 무거운 꾸러미는 싣지 않기로 했다.",
+      "resultFlag": "ROMAN_WHEEL_AND_FARE_1847_STAGE_1_RESULT_1",
+      "followupTitleKo": "금 간 바퀴살",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "짐을 내리자 금이 더 깊은 것을 확인했다. 무거운 꾸러미는 싣지 않기로 했다.",
+        "relations": {
+          "coachman_timofey": "금 간 바퀴살에서 로만와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "ROMAN_WHEEL_AND_FARE_1847_STAGE_1_CHOICE_2",
+      "hostIds": [
+        "carter_roman"
+      ],
+      "labelKo": "티모페이에게 예비 바퀴를 묻는다",
+      "subcopyKo": "로만과 티모페이가 압니다 · 동료 간 부품 요청이 남습니다 · 티모페이의 자기 운송도 늦어질 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "로만과 티모페이가 압니다",
+        "recordKo": "동료 간 부품 요청이 남습니다",
+        "riskKo": "티모페이의 자기 운송도 늦어질 수 있습니다"
+      },
+      "resultKo": "예비 바퀴는 있었지만 축 크기가 맞지 않았다. 맞지 않는 부품을 억지로 끼우지 않았다.",
+      "resultFlag": "ROMAN_WHEEL_AND_FARE_1847_STAGE_1_RESULT_2",
+      "followupTitleKo": "금 간 바퀴살",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "예비 바퀴는 있었지만 축 크기가 맞지 않았다. 맞지 않는 부품을 억지로 끼우지 않았다.",
+        "relations": {
+          "coachman_timofey": "금 간 바퀴살에서 로만와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "ROMAN_WHEEL_AND_FARE_1847_STAGE_1_CHOICE_3",
+      "hostIds": [
+        "carter_roman"
+      ],
+      "labelKo": "가벼운 짐만 가까운 곳에 나른다",
+      "subcopyKo": "로만과 가까운 의뢰인이 압니다 · 운송 범위와 짐 무게가 기록됩니다 · 먼 목적지 의뢰는 취소될 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "로만과 가까운 의뢰인이 압니다",
+        "recordKo": "운송 범위와 짐 무게가 기록됩니다",
+        "riskKo": "먼 목적지 의뢰는 취소될 수 있습니다"
+      },
+      "resultKo": "가벼운 짐만 가까운 곳에 옮겼다. 먼 길의 물품은 수리 뒤로 미뤘다.",
+      "resultFlag": "ROMAN_WHEEL_AND_FARE_1847_STAGE_1_RESULT_3",
+      "followupTitleKo": "금 간 바퀴살",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "가벼운 짐만 가까운 곳에 옮겼다. 먼 길의 물품은 수리 뒤로 미뤘다.",
+        "relations": {
+          "coachman_timofey": "금 간 바퀴살에서 로만와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "exposure": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the physically placed personal-work marker",
+  "lifeChain": {
+    "id": "ROMAN_WHEEL_AND_FARE_1847",
+    "titleKo": "ROMAN WHEEL AND FARE 1847",
+    "stage": 1,
+    "stageCount": 3,
+    "kind": "PERSONAL",
+    "source": "V36_DEDICATED_PERSONAL_ARC",
+    "metricsKo": {
+      "care": "이웃과 생계를 다룬 결과",
+      "record": "남긴 기록의 범위",
+      "exposure": "공개한 정보의 범위"
+    }
+  }
+}

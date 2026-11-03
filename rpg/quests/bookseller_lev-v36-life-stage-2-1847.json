@@ -1,0 +1,121 @@
+{
+  "id": "LEV_RETURNED_SHEETS_1847_STAGE_2",
+  "titleKo": "서점 골목의 두 장부 · 2/3",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "premiseKo": "반품 메모와 대여 장부의 날짜가 하루 어긋난다. 같은 책이 두 사람 손을 거쳤는지, 한 번의 기록이 빠졌는지 확인해야 한다.",
+  "historicalOutcome": {
+    "id": "LEV_RETURNED_SHEETS_1847_STAGE_2_FICTIONAL_OUTCOME",
+    "value": "fictional resident daily life only; no historical event or public record changes",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "bookshop-lane",
+    "objectId": 4005,
+    "requiredHostId": "bookseller_lev"
+  },
+  "actions": [
+    {
+      "id": "LEV_RETURNED_SHEETS_1847_STAGE_2_CHOICE_1",
+      "hostIds": [
+        "bookseller_lev"
+      ],
+      "labelKo": "날짜와 반납 표시만 맞춰 본다",
+      "subcopyKo": "레프와 다리야가 압니다 · 대여 장부의 대조 표식이 남습니다 · 원인을 못 찾으면 반품을 더 미룰 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "레프와 다리야가 압니다",
+        "recordKo": "대여 장부의 대조 표식이 남습니다",
+        "riskKo": "원인을 못 찾으면 반품을 더 미룰 수 있습니다"
+      },
+      "resultKo": "두 장부의 날짜를 나란히 놓았다. 현재 기록만으로 독자를 특정할 수는 없었다.",
+      "resultFlag": "LEV_RETURNED_SHEETS_1847_STAGE_2_RESULT_1",
+      "followupTitleKo": "서점 골목의 두 장부",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "두 장부의 날짜를 나란히 놓았다. 현재 기록만으로 독자를 특정할 수는 없었다.",
+        "relations": {
+          "reader_darya": "서점 골목의 두 장부에서 레프와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 1,
+          "record": 0,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "LEV_RETURNED_SHEETS_1847_STAGE_2_CHOICE_2",
+      "hostIds": [
+        "bookseller_lev"
+      ],
+      "labelKo": "다리야에게 기억나는 독서 모임을 묻는다",
+      "subcopyKo": "레프와 다리야, 모임 참석자가 압니다 · 사적 확인 메모가 남습니다 · 대화가 다른 손님에게 전해질 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "레프와 다리야, 모임 참석자가 압니다",
+        "recordKo": "사적 확인 메모가 남습니다",
+        "riskKo": "대화가 다른 손님에게 전해질 수 있습니다"
+      },
+      "resultKo": "다리야는 모임에서 책을 돌려 읽었다고 했다. 누가 먼저 가져갔는지는 보지 못했다.",
+      "resultFlag": "LEV_RETURNED_SHEETS_1847_STAGE_2_RESULT_2",
+      "followupTitleKo": "서점 골목의 두 장부",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "다리야는 모임에서 책을 돌려 읽었다고 했다. 누가 먼저 가져갔는지는 보지 못했다.",
+        "relations": {
+          "reader_darya": "서점 골목의 두 장부에서 레프와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 1,
+          "exposure": 0
+        }
+      }
+    },
+    {
+      "id": "LEV_RETURNED_SHEETS_1847_STAGE_2_CHOICE_3",
+      "hostIds": [
+        "bookseller_lev"
+      ],
+      "labelKo": "책을 별도 선반에 두고 공지를 붙인다",
+      "subcopyKo": "가게를 찾는 독자들이 봅니다 · 반품 보류 표지가 남습니다 · 판매가 늦어지고 책을 기다린 손님이 불만을 낼 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "가게를 찾는 독자들이 봅니다",
+        "recordKo": "반품 보류 표지가 남습니다",
+        "riskKo": "판매가 늦어지고 책을 기다린 손님이 불만을 낼 수 있습니다"
+      },
+      "resultKo": "책을 확인 중이라고 알렸다. 빌려 간 사람을 지목하지 않으면서 판매는 잠시 멈췄다.",
+      "resultFlag": "LEV_RETURNED_SHEETS_1847_STAGE_2_RESULT_3",
+      "followupTitleKo": "서점 골목의 두 장부",
+      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
+      "effects": {
+        "situationKo": "책을 확인 중이라고 알렸다. 빌려 간 사람을 지목하지 않으면서 판매는 잠시 멈췄다.",
+        "relations": {
+          "reader_darya": "서점 골목의 두 장부에서 레프와 함께 선택한 일"
+        },
+        "lifeChainDelta": {
+          "care": 0,
+          "record": 0,
+          "exposure": 1
+        }
+      }
+    }
+  ],
+  "completion": "one authorized choice at the physically placed personal-work marker",
+  "lifeChain": {
+    "id": "LEV_RETURNED_SHEETS_1847",
+    "titleKo": "LEV RETURNED SHEETS 1847",
+    "stage": 2,
+    "stageCount": 3,
+    "kind": "PERSONAL",
+    "source": "V36_DEDICATED_PERSONAL_ARC",
+    "previousQuestId": "LEV_RETURNED_SHEETS_1847_STAGE_1",
+    "metricsKo": {
+      "care": "이웃과 생계를 다룬 결과",
+      "record": "남긴 기록의 범위",
+      "exposure": "공개한 정보의 범위"
+    }
+  },
+  "prerequisiteQuestIds": [
+    "LEV_RETURNED_SHEETS_1847_STAGE_1"
+  ]
+}
