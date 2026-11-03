@@ -45,9 +45,12 @@ try {
       progress: document.querySelector('#discussion-quest-progress')?.textContent,
       guidance: document.querySelector('#discussion-quest-guidance')?.textContent,
       rows: [...document.querySelectorAll('#discussion-quest-items li')].map(item => item.textContent),
+      inquiryTitles: document.querySelectorAll('.discussion-inquiry-title').length,
+      inquiryTargets: document.querySelectorAll('.discussion-inquiry-target').length,
+      inquiryQuestions: document.querySelectorAll('.discussion-inquiry-question').length,
       overflowX: document.documentElement.scrollWidth > innerWidth,
     }));
-    if (!result.boardVisible || !result.missionVisible || !/사건·철학·이념 임무/.test(result.progress) || !/몸을 빌린 뒤|몸을 빌리고/.test(result.guidance) || !/같은 쟁점.*다른 주민/.test(result.guidance) || !/두 답을 읽어.*내 입장을 기록/.test(result.guidance) || result.rows.length !== 8 || result.overflowX || errors.length) {
+    if (!result.boardVisible || !result.missionVisible || !/쟁점 비교 0\/16/.test(result.progress) || !/지금 할 수 있는 임무 16개/.test(result.progress) || !/다른 주민의 몸을 빌려/.test(result.guidance) || !/같은 질문/.test(result.guidance) || !/답을 비교한 뒤.*내 판단/.test(result.guidance) || result.rows.length !== 8 || result.inquiryTitles !== 8 || result.inquiryTargets !== 8 || result.inquiryQuestions !== 8 || result.overflowX || errors.length) {
       throw new Error(`opinion_board_not_actionable:${JSON.stringify({ result, errors })}`);
     }
     await page.locator('#discussion-quest-more').click();
@@ -137,7 +140,7 @@ try {
     const note = state.player.dialogueGrowth.comparisonNotes.find(item => item.discussionId === 'INQUIRY_CENSORSHIP_AND_LABOR');
     return { hostIds: [...new Set(turns.map(turn => turn.hostId))].sort(), aiGeneratedTurns: turns.filter(turn => turn.aiGenerated).length, aiReplies: state.player.dialogueGrowth.aiReplies, comparisonNoteHostIds: note?.hostIds?.sort(), boardProgress: document.querySelector('#discussion-quest-progress')?.textContent };
   });
-  if (completedPair.hostIds.join(',') !== 'clerk_alexei,printer_ekaterina' || completedPair.aiGeneratedTurns !== 2 || completedPair.aiReplies !== 2 || completedPair.comparisonNoteHostIds?.join(',') !== 'clerk_alexei,printer_ekaterina' || !completedPair.boardProgress?.includes('1 / 16개 관점 대조') || errors.length) {
+  if (completedPair.hostIds.join(',') !== 'clerk_alexei,printer_ekaterina' || completedPair.aiGeneratedTurns !== 2 || completedPair.aiReplies !== 2 || completedPair.comparisonNoteHostIds?.join(',') !== 'clerk_alexei,printer_ekaterina' || !completedPair.boardProgress?.includes('쟁점 비교 1/16') || errors.length) {
     throw new Error(`two_person_ai_inquiry_did_not_complete:${JSON.stringify({ completedPair, errors })}`);
   }
   if (dialogueSceneContexts.length !== 2 || dialogueSceneContexts.some(context => context?.questId !== null)) {

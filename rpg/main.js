@@ -488,11 +488,33 @@ function updateHud() {
     ? [
       ...visibleInquiries.map(item => {
         const li = document.createElement('li');
-        const detail = document.createElement('span');
+        const detail = document.createElement('div');
+        detail.className = 'discussion-inquiry-copy';
         const targetState = state.hosts[item.hostId];
         const targetPlaceKo = maps[targetState?.mapId]?.metadata.displayNameKo ?? '위치 확인 중';
         const evidenceTitles = (discussionQuestById.get(item.questId)?.sourceIds ?? []).map(id => sourceRecords.get(id)?.titleKo).filter(Boolean);
-        detail.textContent = `${item.titleKo} · ${item.progressKo} · ${item.hostNameKo} (${targetPlaceKo})에게: “${item.promptKo}”${item.stakesKo ? ` — ${item.stakesKo}` : ''}${evidenceTitles.length ? ` · 관련 자료: ${evidenceTitles.join(', ')}` : ''}`;
+        const title = document.createElement('strong');
+        title.className = 'discussion-inquiry-title';
+        title.textContent = `${item.titleKo} · ${item.progressKo}`;
+        const target = document.createElement('span');
+        target.className = 'discussion-inquiry-target';
+        target.textContent = `먼저 물을 사람 · ${item.hostNameKo} / ${targetPlaceKo}`;
+        const question = document.createElement('span');
+        question.className = 'discussion-inquiry-question';
+        question.textContent = `물어볼 것 · “${item.promptKo}”`;
+        detail.append(title, target, question);
+        if (item.stakesKo) {
+          const stakes = document.createElement('small');
+          stakes.className = 'discussion-inquiry-stakes';
+          stakes.textContent = item.stakesKo;
+          detail.append(stakes);
+        }
+        if (evidenceTitles.length) {
+          const evidence = document.createElement('small');
+          evidence.className = 'discussion-inquiry-evidence';
+          evidence.textContent = `관련 자료 · ${evidenceTitles.join(', ')}`;
+          detail.append(evidence);
+        }
         const choose = document.createElement('button');
         choose.type = 'button'; choose.className = 'discussion-inquiry-select';
         choose.textContent = queuedDiscussionInquiry?.questId === item.questId && queuedDiscussionInquiry?.hostId === item.hostId ? '선택됨' : '이 질문 담기';
@@ -514,7 +536,7 @@ function updateHud() {
     : positionRows.length ? positionRows : [Object.assign(document.createElement('li'), { textContent: discussionHost ? '이 인물에게 남은 관점 질문이 없습니다. 다른 사람에게 같은 쟁점을 묻거나 수첩의 관점 노트를 살펴보세요.' : '생각·이념·역사 사건을 살피려면 질문을 담고, 표시된 인물에게 다가가 말을 거세요.' })]));
   const moreQuestions = $('#discussion-quest-more');
   moreQuestions.hidden = inquiryRows.length <= 8;
-  moreQuestions.textContent = showAllDiscussionQuestions ? '임무 목록 접기' : `다른 사건·이념 임무 보기 · ${inquiryRows.length - 8}개`;
+  moreQuestions.textContent = showAllDiscussionQuestions ? '임무 목록 접기' : `남은 사건·이념 임무 ${inquiryRows.length - 8}개 보기`;
   moreQuestions.onclick = () => { showAllDiscussionQuestions = !showAllDiscussionQuestions; updateHud(); };
   $('#mission-progress').textContent = missionGuidance.progress?.totalSteps ? `${missionGuidance.progress.completedSteps} / ${missionGuidance.progress.totalSteps}` : '';
   $('#mission-pin').disabled = !missionGuidance.target;
@@ -1314,7 +1336,9 @@ async function startConversation(card) {
   const queuedQuestion = queuedDiscussionInquiry?.hostId === card.id ? queuedDiscussionInquiry.promptKo : null;
   const starterReplies = [...new Set([queuedQuestion, ...topicalQuestions, ...reflectionQuestions, ...remaining].filter(Boolean))].slice(0, 3);
   showConversation(card, dialogueCurrentLines.get(key), starterReplies,
-    sessionFailure ? `AI 연결 실패 · ${sessionFailure}` : hasLiveDialogue(key) ? 'AI 세션 준비됨 · 질문을 보내면 실제 생성 답변을 요청합니다.' : 'AI 답변 대기 · 인물에게 질문을 보내면 서버에서 답변을 생성합니다.');
+    sessionFailure ? `AI 연결 실패 · ${sessionFailure}` : hasLiveDialogue(key)
+      ? '첫마디는 장면용 대사입니다. 아래에서 질문을 고르거나 직접 말하면 AI 생성 답변을 표시합니다.'
+      : 'AI 답변 대기 · 인물에게 질문을 보내면 서버에서 답변을 생성합니다.');
 }
 async function sendConversation(card, playerText, replyId = null) {
   const key = activeDialogueKey;

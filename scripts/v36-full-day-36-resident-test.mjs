@@ -12,6 +12,7 @@ const ids = [...new Set(districtData.districts.flatMap(district => district.resi
 const maps = Object.fromEntries(await Promise.all((await readdir(new URL('../rpg/maps/', import.meta.url))).filter(file => file.endsWith('.json'))
   .map(async file => { const map = await readJson(`rpg/maps/${file}`); return [map.mapId, map]; })));
 const cards = await Promise.all(ids.map(id => readJson(`rpg/characters/${id}.json`)));
+const cardsById = new Map(cards.map(card => [card.id, card]));
 const quests = (await Promise.all((await readdir(new URL('../rpg/quests/', import.meta.url))).filter(file => file.endsWith('.json'))
   .map(file => readJson(`rpg/quests/${file}`)))).filter(quest => quest.historicalOutcome?.id);
 assert.equal(ids.length, 36);
@@ -49,6 +50,9 @@ function runFullDay() {
     const host = state.hosts[id];
     assert.deepEqual({ mapId: host.mapId, ...host.position }, previous, `${id} end position must match its movement trace`);
     assert.ok(host.schedule.length >= 4, `${id} needs a daily schedule`);
+    const authoredSchedule = cardsById.get(id).schedule ?? [];
+    assert.ok(authoredSchedule.every(slot => typeof slot.activityKo === 'string' && slot.activityKo.trim().length > 0), `${id} schedule entries need readable authored activities`);
+    assert.ok(authoredSchedule.every(slot => !/다른 생활권에서 맡은 일|새 생활권에서 맡은 일/.test(slot.activityKo)), `${id} must not show the generic schedule placeholder`);
     assert.ok(host.activeGoal, `${id} needs a live goal after the full-day replay`);
     assert.ok(host.currentActivityKo?.length > 0, `${id} needs a current activity after the full-day replay`);
   }

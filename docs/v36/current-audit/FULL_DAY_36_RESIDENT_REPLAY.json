@@ -5,9 +5,9 @@
   "deterministicReplays": 3,
   "simulatedMinutes": 1440,
   "replayHashes": [
-    "15e193f0",
-    "15e193f0",
-    "15e193f0"
+    "05cb48d6",
+    "05cb48d6",
+    "05cb48d6"
   ],
   "collisionSnapshotsPerReplay": 288,
   "totalCollisionSnapshots": 864,
@@ -242,7 +242,7 @@
       }
     }
   },
-  "fullDaySaveReloadStateHash": "15e193f0",
+  "fullDaySaveReloadStateHash": "05cb48d6",
   "autoCompletedPlayerQuests": 0,
-  "runtimeMilliseconds": 26942
+  "runtimeMilliseconds": 31536
 }
