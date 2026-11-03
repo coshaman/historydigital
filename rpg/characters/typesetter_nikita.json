@@ -196,5 +196,42 @@
     }
   },
   "speechStatus": "FICTIONAL_DESIGN",
-  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "needs": {
+    "hunger": 38,
+    "fatigue": 24,
+    "income": 62,
+    "safety": 25,
+    "socialBelonging": 30,
+    "restThreshold": 72,
+    "workFatiguePerMinute": 0.028,
+    "restFatigueReliefPerMinute": 0.06,
+    "status": "fictional_character_simulation_profile"
+  },
+  "todayGoals": [
+    {
+      "id": "typesetter_nikita:work",
+      "kind": "work",
+      "titleKo": "맡은 일",
+      "textKo": "정확성을 지키느라 일이 늦어질 때 시간과 재인쇄 비용은 누가 책임져야 할까요?"
+    },
+    {
+      "id": "typesetter_nikita:desire",
+      "kind": "personal",
+      "titleKo": "바라는 것",
+      "textKo": "정확성을 지키느라 일이 늦어질 때 시간과 재인쇄 비용은 누가 책임져야 할까요?"
+    },
+    {
+      "id": "typesetter_nikita:risk",
+      "kind": "care",
+      "titleKo": "마음에 걸리는 일",
+      "textKo": "니키타는 오탈자를 고치느라 인쇄를 늦추면 품삯이 줄고, 서둘러 넘기면 검열 뒤 문장을 다시 찍어야 할 수 있다."
+    },
+    {
+      "id": "typesetter_nikita:relation",
+      "kind": "social",
+      "titleKo": "오늘 엮인 사람 · 마트료나",
+      "textKo": "작업 교대 뒤 시장에서 먹을 것을 사는 조판공이다"
+    }
+  ]
 }

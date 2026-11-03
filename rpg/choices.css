@@ -93,6 +93,9 @@ kbd{font:11px 'IBM Plex Mono',monospace;color:#d8c59f}
 .journal-tab-panel p{margin:7px 0}
 .journal-tab-panel ul,.journal-tab-panel ol{display:grid;gap:8px;padding-left:23px}
 .journal-tab-panel li{font-size:16px;line-height:1.65}
+.journal-daily-heading{margin-top:24px!important;padding-top:16px;border-top:1px solid rgba(198,155,91,.35)}
+#journal-today-goals li strong{color:var(--brass,#c8a56a)}
+#journal-today-goals li span{display:inline}
 .journal-tab-panel[hidden]{display:none}
 .journal-done{padding:10px 0;border-top:1px solid #b39c70}
 .journal-done{color:#59442c}

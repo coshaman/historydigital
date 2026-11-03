@@ -43,6 +43,6 @@
   "questStagesResolved": 14,
   "possessionChecks": 6,
   "legacySaveRelationMigrationPreservedDynamicLinks": true,
-  "movementEvents": 63,
-  "finalStateHash": "e86eeb6a"
+  "movementEvents": 68,
+  "finalStateHash": "cca03b11"
 }

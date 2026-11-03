@@ -106,13 +106,15 @@
   ],
   "personalObjective": "인쇄소에서 올라온 교정쇄의 접수 경로를 확인한다",
   "needs": {
-    "income": 36,
+    "hunger": 38,
     "fatigue": 22,
+    "income": 36,
     "safety": 42,
     "socialBelonging": 24,
     "restThreshold": 32,
     "workFatiguePerMinute": 0.035,
-    "restFatigueReliefPerMinute": 0.12
+    "restFatigueReliefPerMinute": 0.12,
+    "status": "fictional_character_simulation_profile"
   },
   "objectiveByChapter": {
     "1847": "한 인쇄물의 접수와 전달 경로를 기록한다"
@@ -222,5 +224,31 @@
       "right": 3
     }
   },
-  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "todayGoals": [
+    {
+      "id": "clerk_alexei:work",
+      "kind": "work",
+      "titleKo": "맡은 일",
+      "textKo": "인쇄소에서 올라온 교정쇄의 접수 경로를 확인한다"
+    },
+    {
+      "id": "clerk_alexei:desire",
+      "kind": "personal",
+      "titleKo": "바라는 것",
+      "textKo": "접수 순서를 틀리지 않고 상급자 검토를 받는다"
+    },
+    {
+      "id": "clerk_alexei:risk",
+      "kind": "care",
+      "titleKo": "마음에 걸리는 일",
+      "textKo": "권한 밖 판단이 공식 서명으로 남는 것"
+    },
+    {
+      "id": "clerk_alexei:relation",
+      "kind": "social",
+      "titleKo": "오늘 엮인 사람 · 예카테리나 벨로바",
+      "textKo": "인쇄소 교정쇄의 접수와 반환을 맡긴다"
+    }
+  ]
 }

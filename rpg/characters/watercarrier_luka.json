@@ -196,5 +196,42 @@
       "right": 3
     }
   },
-  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "needs": {
+    "hunger": 38,
+    "fatigue": 24,
+    "income": 62,
+    "safety": 25,
+    "socialBelonging": 30,
+    "restThreshold": 72,
+    "workFatiguePerMinute": 0.028,
+    "restFatigueReliefPerMinute": 0.06,
+    "status": "fictional_character_simulation_profile"
+  },
+  "todayGoals": [
+    {
+      "id": "watercarrier_luka:work",
+      "kind": "work",
+      "titleKo": "맡은 일",
+      "textKo": "물 나르는 노동의 값과 모두가 필요한 물의 순서를 어떻게 함께 정할까요?"
+    },
+    {
+      "id": "watercarrier_luka:desire",
+      "kind": "personal",
+      "titleKo": "바라는 것",
+      "textKo": "물 나르는 노동의 값과 모두가 필요한 물의 순서를 어떻게 함께 정할까요?"
+    },
+    {
+      "id": "watercarrier_luka:risk",
+      "kind": "care",
+      "titleKo": "마음에 걸리는 일",
+      "textKo": "루카는 돈을 더 내겠다는 집에 먼저 물을 나를지, 안뜰의 순서대로 나눌지 정한다."
+    },
+    {
+      "id": "watercarrier_luka:relation",
+      "kind": "social",
+      "titleKo": "오늘 엮인 사람 · 폴리나",
+      "textKo": "물값과 공동 사용 순서를 정하는 집주인이다"
+    }
+  ]
 }

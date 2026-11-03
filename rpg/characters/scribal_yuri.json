@@ -196,5 +196,42 @@
     }
   },
   "speechStatus": "FICTIONAL_DESIGN",
-  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "needs": {
+    "hunger": 38,
+    "fatigue": 14,
+    "income": 62,
+    "safety": 25,
+    "socialBelonging": 30,
+    "restThreshold": 72,
+    "workFatiguePerMinute": 0.018,
+    "restFatigueReliefPerMinute": 0.06,
+    "status": "fictional_character_simulation_profile"
+  },
+  "todayGoals": [
+    {
+      "id": "scribal_yuri:work",
+      "kind": "work",
+      "titleKo": "맡은 일",
+      "textKo": "검열된 문서의 사본을 보존하면서 소지자의 안전도 지킬 수 있을까요?"
+    },
+    {
+      "id": "scribal_yuri:desire",
+      "kind": "personal",
+      "titleKo": "바라는 것",
+      "textKo": "검열된 문서의 사본을 보존하면서 소지자의 안전도 지킬 수 있을까요?"
+    },
+    {
+      "id": "scribal_yuri:risk",
+      "kind": "care",
+      "titleKo": "마음에 걸리는 일",
+      "textKo": "유리는 검열 표시가 돌아온 문서를 베껴 달라는 부탁을 받았다. 사본을 남기면 원문을 보존할 수 있지만, 전달 경로가 드러날 수 있다."
+    },
+    {
+      "id": "scribal_yuri:relation",
+      "kind": "social",
+      "titleKo": "오늘 엮인 사람 · 바실리",
+      "textKo": "필요한 글을 베껴 주고 읽기 어려운 구절을 짚어 준다"
+    }
+  ]
 }

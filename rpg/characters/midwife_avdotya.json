@@ -197,5 +197,42 @@
     }
   },
   "speechStatus": "FICTIONAL_DESIGN",
-  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "needs": {
+    "hunger": 38,
+    "fatigue": 14,
+    "income": 62,
+    "safety": 25,
+    "socialBelonging": 30,
+    "restThreshold": 72,
+    "workFatiguePerMinute": 0.018,
+    "restFatigueReliefPerMinute": 0.06,
+    "status": "fictional_character_simulation_profile"
+  },
+  "todayGoals": [
+    {
+      "id": "midwife_avdotya:work",
+      "kind": "work",
+      "titleKo": "맡은 일",
+      "textKo": "돌봄이 급한 사람과 비용을 낼 수 있는 사람 중 누구를 먼저 찾아가야 할까요?"
+    },
+    {
+      "id": "midwife_avdotya:desire",
+      "kind": "personal",
+      "titleKo": "바라는 것",
+      "textKo": "돌봄이 급한 사람과 비용을 낼 수 있는 사람 중 누구를 먼저 찾아가야 할까요?"
+    },
+    {
+      "id": "midwife_avdotya:risk",
+      "kind": "care",
+      "titleKo": "마음에 걸리는 일",
+      "textKo": "아브도티야는 멀리 사는 유복한 집의 유료 호출과 가까운 셋방의 긴급 부탁을 함께 받았다. 누구를 먼저 찾아갈지 정한다."
+    },
+    {
+      "id": "midwife_avdotya:relation",
+      "kind": "social",
+      "titleKo": "오늘 엮인 사람 · 올가",
+      "textKo": "물을 데우고 방을 치우는 일을 거드는 하녀다"
+    }
+  ]
 }

@@ -196,5 +196,42 @@
       "right": 3
     }
   },
-  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "needs": {
+    "hunger": 38,
+    "fatigue": 24,
+    "income": 62,
+    "safety": 25,
+    "socialBelonging": 30,
+    "restThreshold": 72,
+    "workFatiguePerMinute": 0.028,
+    "restFatigueReliefPerMinute": 0.06,
+    "status": "fictional_character_simulation_profile"
+  },
+  "todayGoals": [
+    {
+      "id": "servant_varvara:work",
+      "kind": "work",
+      "titleKo": "맡은 일",
+      "textKo": "일자리를 잃을 위험이 있어도 이웃에게 경고해야 할 때는 언제일까요?"
+    },
+    {
+      "id": "servant_varvara:desire",
+      "kind": "personal",
+      "titleKo": "바라는 것",
+      "textKo": "일자리를 잃을 위험이 있어도 이웃에게 경고해야 할 때는 언제일까요?"
+    },
+    {
+      "id": "servant_varvara:risk",
+      "kind": "care",
+      "titleKo": "마음에 걸리는 일",
+      "textKo": "바르바라는 고용주 집의 지시가 이웃의 방에 영향을 줄 수 있음을 눈치챘다. 확실하지 않은 말을 옮기지 않으면서 위험을 알려야 한다."
+    },
+    {
+      "id": "servant_varvara:relation",
+      "kind": "social",
+      "titleKo": "오늘 엮인 사람 · 타티야나",
+      "textKo": "같은 집안의 살림과 세탁 일정을 나눈다"
+    }
+  ]
 }

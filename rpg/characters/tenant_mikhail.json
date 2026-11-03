@@ -105,13 +105,15 @@
   ],
   "personalObjective": "방세 쪽지의 액수를 확인하고 오늘 일감을 구한다",
   "needs": {
-    "income": 88,
+    "hunger": 38,
     "fatigue": 30,
+    "income": 88,
     "safety": 58,
     "socialBelonging": 62,
     "restThreshold": 38,
     "workFatiguePerMinute": 0.04,
-    "restFatigueReliefPerMinute": 0.15
+    "restFatigueReliefPerMinute": 0.15,
+    "status": "fictional_character_simulation_profile"
   },
   "objectiveByChapter": {
     "1847": "하숙집 안뜰에서 방세와 일감 문제를 해결한다"
@@ -202,5 +204,31 @@
       "right": 3
     }
   },
-  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "todayGoals": [
+    {
+      "id": "tenant_mikhail:work",
+      "kind": "work",
+      "titleKo": "맡은 일",
+      "textKo": "방세 쪽지의 액수를 확인하고 오늘 일감을 구한다"
+    },
+    {
+      "id": "tenant_mikhail:desire",
+      "kind": "personal",
+      "titleKo": "바라는 것",
+      "textKo": "오늘 받을 품삯으로 방을 지키고 다음 일감을 얻는다"
+    },
+    {
+      "id": "tenant_mikhail:risk",
+      "kind": "care",
+      "titleKo": "마음에 걸리는 일",
+      "textKo": "밀린 방세 때문에 짐을 밖으로 내놓게 되는 것"
+    },
+    {
+      "id": "tenant_mikhail:relation",
+      "kind": "social",
+      "titleKo": "오늘 엮인 사람 · 안나",
+      "textKo": "바느질 일을 하는 같은 안뜰의 세입자다"
+    }
+  ]
 }

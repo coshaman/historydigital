@@ -196,5 +196,42 @@
     }
   },
   "speechStatus": "FICTIONAL_DESIGN",
-  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "needs": {
+    "hunger": 38,
+    "fatigue": 14,
+    "income": 62,
+    "safety": 25,
+    "socialBelonging": 30,
+    "restThreshold": 72,
+    "workFatiguePerMinute": 0.018,
+    "restFatigueReliefPerMinute": 0.06,
+    "status": "fictional_character_simulation_profile"
+  },
+  "todayGoals": [
+    {
+      "id": "apothecary_yakov:work",
+      "kind": "work",
+      "titleKo": "맡은 일",
+      "textKo": "비싼 확인 절차를 거치지 못하는 사람에게 어디까지 설명해야 할까요?"
+    },
+    {
+      "id": "apothecary_yakov:desire",
+      "kind": "personal",
+      "titleKo": "바라는 것",
+      "textKo": "비싼 확인 절차를 거치지 못하는 사람에게 어디까지 설명해야 할까요?"
+    },
+    {
+      "id": "apothecary_yakov:risk",
+      "kind": "care",
+      "titleKo": "마음에 걸리는 일",
+      "textKo": "야코프는 손님이 가져온 소문 속 처방을 확인해 달라는 부탁을 받았다. 확실하지 않은 효능을 말하지 않으면서 비용 걱정도 다뤄야 한다."
+    },
+    {
+      "id": "apothecary_yakov:relation",
+      "kind": "social",
+      "titleKo": "오늘 엮인 사람 · 티모페이",
+      "textKo": "약과 유리병을 조심히 실어 주는 마부다"
+    }
+  ]
 }

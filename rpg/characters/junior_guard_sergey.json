@@ -196,5 +196,42 @@
     }
   },
   "speechStatus": "FICTIONAL_DESIGN",
-  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "needs": {
+    "hunger": 38,
+    "fatigue": 14,
+    "income": 62,
+    "safety": 25,
+    "socialBelonging": 30,
+    "restThreshold": 72,
+    "workFatiguePerMinute": 0.018,
+    "restFatigueReliefPerMinute": 0.06,
+    "status": "fictional_character_simulation_profile"
+  },
+  "todayGoals": [
+    {
+      "id": "junior_guard_sergey:work",
+      "kind": "work",
+      "titleKo": "맡은 일",
+      "textKo": "안전 규칙이 급한 사람을 막을 때 경비병은 어디까지 재량을 써야 할까요?"
+    },
+    {
+      "id": "junior_guard_sergey:desire",
+      "kind": "personal",
+      "titleKo": "바라는 것",
+      "textKo": "안전 규칙이 급한 사람을 막을 때 경비병은 어디까지 재량을 써야 할까요?"
+    },
+    {
+      "id": "junior_guard_sergey:risk",
+      "kind": "care",
+      "titleKo": "마음에 걸리는 일",
+      "textKo": "세르게이는 서류가 없는 방문객을 들일지, 상급자에게 확인을 요청할지 정해야 한다. 방문객은 급한 사정이라고 하지만 확인된 내용은 없다."
+    },
+    {
+      "id": "junior_guard_sergey:relation",
+      "kind": "social",
+      "titleKo": "오늘 엮인 사람 · 안드레이",
+      "textKo": "출입 명단을 점검하러 오는 귀족가의 청년이다"
+    }
+  ]
 }

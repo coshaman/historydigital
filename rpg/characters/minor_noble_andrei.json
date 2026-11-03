@@ -196,5 +196,42 @@
     }
   },
   "speechStatus": "FICTIONAL_DESIGN",
-  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "needs": {
+    "hunger": 38,
+    "fatigue": 14,
+    "income": 62,
+    "safety": 25,
+    "socialBelonging": 30,
+    "restThreshold": 72,
+    "workFatiguePerMinute": 0.018,
+    "restFatigueReliefPerMinute": 0.06,
+    "status": "fictional_character_simulation_profile"
+  },
+  "todayGoals": [
+    {
+      "id": "minor_noble_andrei:work",
+      "kind": "work",
+      "titleKo": "맡은 일",
+      "textKo": "신분의 체면을 지키느라 빚을 숨기면 누구에게 비용이 돌아갈까요?"
+    },
+    {
+      "id": "minor_noble_andrei:desire",
+      "kind": "personal",
+      "titleKo": "바라는 것",
+      "textKo": "신분의 체면을 지키느라 빚을 숨기면 누구에게 비용이 돌아갈까요?"
+    },
+    {
+      "id": "minor_noble_andrei:risk",
+      "kind": "care",
+      "titleKo": "마음에 걸리는 일",
+      "textKo": "안드레이는 급료가 늦어진 동안 빚을 숨겨 체면을 지킬지, 지출을 줄이고 상환 날짜를 알릴지 고민한다."
+    },
+    {
+      "id": "minor_noble_andrei:relation",
+      "kind": "social",
+      "titleKo": "오늘 엮인 사람 · 바실리",
+      "textKo": "학교 공부와 책 이야기를 주고받는 동료 학생이다"
+    }
+  ]
 }

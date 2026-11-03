@@ -197,5 +197,42 @@
     }
   },
   "speechStatus": "FICTIONAL_DESIGN",
-  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "needs": {
+    "hunger": 38,
+    "fatigue": 24,
+    "income": 62,
+    "safety": 25,
+    "socialBelonging": 30,
+    "restThreshold": 72,
+    "workFatiguePerMinute": 0.028,
+    "restFatigueReliefPerMinute": 0.06,
+    "status": "fictional_character_simulation_profile"
+  },
+  "todayGoals": [
+    {
+      "id": "bookbinder_elizaveta:work",
+      "kind": "work",
+      "titleKo": "맡은 일",
+      "textKo": "손상의 원인을 모를 때 수리 비용은 누가 먼저 부담해야 할까요?"
+    },
+    {
+      "id": "bookbinder_elizaveta:desire",
+      "kind": "personal",
+      "titleKo": "바라는 것",
+      "textKo": "손상의 원인을 모를 때 수리 비용은 누가 먼저 부담해야 할까요?"
+    },
+    {
+      "id": "bookbinder_elizaveta:risk",
+      "kind": "care",
+      "titleKo": "마음에 걸리는 일",
+      "textKo": "제본을 마친 책 한 권에서 장이 찢어진 채 발견됐다. 엘리자베타는 인쇄소, 운반인, 자기 작업 중 누구의 책임인지 모른다."
+    },
+    {
+      "id": "bookbinder_elizaveta:relation",
+      "kind": "social",
+      "titleKo": "오늘 엮인 사람 · 스테판",
+      "textKo": "급한 인쇄물을 묶을 때 도움을 주는 견습공이다"
+    }
+  ]
 }

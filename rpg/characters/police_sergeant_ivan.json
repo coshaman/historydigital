@@ -198,13 +198,41 @@
     }
   ],
   "needs": {
-    "income": 32,
+    "hunger": 38,
     "fatigue": 30,
+    "income": 32,
     "safety": 54,
     "socialBelonging": 24,
     "restThreshold": 34,
     "workFatiguePerMinute": 0.038,
-    "restFatigueReliefPerMinute": 0.14
+    "restFatigueReliefPerMinute": 0.14,
+    "status": "fictional_character_simulation_profile"
   },
-  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "todayGoals": [
+    {
+      "id": "police_sergeant_ivan:work",
+      "kind": "work",
+      "titleKo": "맡은 일",
+      "textKo": "신고와 직접 확인한 사실을 구분해 접수 장부에 남긴다"
+    },
+    {
+      "id": "police_sergeant_ivan:desire",
+      "kind": "personal",
+      "titleKo": "바라는 것",
+      "textKo": "신고 내용과 직접 확인한 사실을 분리해 적고, 당사자가 진술할 기회를 남긴다"
+    },
+    {
+      "id": "police_sergeant_ivan:risk",
+      "kind": "care",
+      "titleKo": "마음에 걸리는 일",
+      "textKo": "윗사람이 요구한 결론을 증거처럼 장부에 옮기는 것"
+    },
+    {
+      "id": "police_sergeant_ivan:relation",
+      "kind": "social",
+      "titleKo": "오늘 엮인 사람 · 소피야 미하일로바",
+      "textKo": "출판물 관련 문의를 가져오는 편집자다"
+    }
+  ]
 }

@@ -222,13 +222,41 @@
     }
   },
   "needs": {
-    "income": 82,
+    "hunger": 38,
     "fatigue": 42,
+    "income": 82,
     "safety": 54,
     "socialBelonging": 38,
     "restThreshold": 47,
     "workFatiguePerMinute": 0.052,
-    "restFatigueReliefPerMinute": 0.18
+    "restFatigueReliefPerMinute": 0.18,
+    "status": "fictional_character_simulation_profile"
   },
-  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "todayGoals": [
+    {
+      "id": "laundress_mariya:work",
+      "kind": "work",
+      "titleKo": "맡은 일",
+      "textKo": "밀린 세탁값을 받을지 다음 일감과 맞바꿀지 정한다"
+    },
+    {
+      "id": "laundress_mariya:desire",
+      "kind": "personal",
+      "titleKo": "바라는 것",
+      "textKo": "밀린 세탁값을 받을지 다음 일감과 맞바꿀지 정한다"
+    },
+    {
+      "id": "laundress_mariya:risk",
+      "kind": "care",
+      "titleKo": "마음에 걸리는 일",
+      "textKo": "세탁값을 받으러 가면 단골 집과 관계가 나빠질 수 있고, 미루면 자기 집 연료를 살 돈이 모자란다."
+    },
+    {
+      "id": "laundress_mariya:relation",
+      "kind": "social",
+      "titleKo": "오늘 엮인 사람 · 세묜",
+      "textKo": "세탁물을 널 곳을 두고 상의하는 안뜰 관리인이다"
+    }
+  ]
 }

@@ -194,5 +194,42 @@
       "right": 3
     }
   },
-  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "needs": {
+    "hunger": 38,
+    "fatigue": 24,
+    "income": 62,
+    "safety": 25,
+    "socialBelonging": 30,
+    "restThreshold": 72,
+    "workFatiguePerMinute": 0.028,
+    "restFatigueReliefPerMinute": 0.06,
+    "status": "fictional_character_simulation_profile"
+  },
+  "todayGoals": [
+    {
+      "id": "porter_gavrila:work",
+      "kind": "work",
+      "titleKo": "맡은 일",
+      "textKo": "오늘 짐을 혼자 들지, 나눠 들지, 거절할지 정한다"
+    },
+    {
+      "id": "porter_gavrila:desire",
+      "kind": "personal",
+      "titleKo": "바라는 것",
+      "textKo": "오늘 짐을 혼자 들지, 나눠 들지, 거절할지 정한다"
+    },
+    {
+      "id": "porter_gavrila:risk",
+      "kind": "care",
+      "titleKo": "마음에 걸리는 일",
+      "textKo": "어깨가 아픈데도 오늘 짐을 거절하면 다음 고용 순서에서 밀릴 수 있다."
+    },
+    {
+      "id": "porter_gavrila:relation",
+      "kind": "social",
+      "titleKo": "오늘 엮인 사람 · 티모페이",
+      "textKo": "짐을 수레에 싣고 내릴 때 서로 품삯을 나눈다"
+    }
+  ]
 }

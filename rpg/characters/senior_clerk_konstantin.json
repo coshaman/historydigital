@@ -209,13 +209,41 @@
     }
   },
   "needs": {
-    "income": 24,
+    "hunger": 28,
     "fatigue": 30,
+    "income": 24,
     "safety": 26,
     "socialBelonging": 28,
     "restThreshold": 34,
     "workFatiguePerMinute": 0.032,
-    "restFatigueReliefPerMinute": 0.12
+    "restFatigueReliefPerMinute": 0.12,
+    "status": "fictional_character_simulation_profile"
   },
-  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "todayGoals": [
+    {
+      "id": "senior_clerk_konstantin:work",
+      "kind": "work",
+      "titleKo": "맡은 일",
+      "textKo": "검토 메모와 결재 문서를 구분해 보관한다"
+    },
+    {
+      "id": "senior_clerk_konstantin:desire",
+      "kind": "personal",
+      "titleKo": "바라는 것",
+      "textKo": "검토 의견과 최종 결재가 한 사람의 말처럼 섞이지 않도록 한다"
+    },
+    {
+      "id": "senior_clerk_konstantin:risk",
+      "kind": "care",
+      "titleKo": "마음에 걸리는 일",
+      "textKo": "편의를 위해 남긴 한 줄이 공식 명령으로 오해되는 것"
+    },
+    {
+      "id": "senior_clerk_konstantin:relation",
+      "kind": "social",
+      "titleKo": "오늘 엮인 사람 · 다리야 베레지나",
+      "textKo": "책과 문서의 출처를 확인하러 오는 동네 독자다"
+    }
+  ]
 }

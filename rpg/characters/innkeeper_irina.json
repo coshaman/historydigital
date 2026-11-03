@@ -196,5 +196,42 @@
     }
   },
   "speechStatus": "FICTIONAL_DESIGN",
-  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "needs": {
+    "hunger": 38,
+    "fatigue": 14,
+    "income": 62,
+    "safety": 25,
+    "socialBelonging": 30,
+    "restThreshold": 72,
+    "workFatiguePerMinute": 0.018,
+    "restFatigueReliefPerMinute": 0.06,
+    "status": "fictional_character_simulation_profile"
+  },
+  "todayGoals": [
+    {
+      "id": "innkeeper_irina:work",
+      "kind": "work",
+      "titleKo": "맡은 일",
+      "textKo": "빚을 기록하면서 손님의 사생활은 어떻게 지킬 수 있을까요?"
+    },
+    {
+      "id": "innkeeper_irina:desire",
+      "kind": "personal",
+      "titleKo": "바라는 것",
+      "textKo": "빚을 기록하면서 손님의 사생활은 어떻게 지킬 수 있을까요?"
+    },
+    {
+      "id": "innkeeper_irina:risk",
+      "kind": "care",
+      "titleKo": "마음에 걸리는 일",
+      "textKo": "이리나는 숙박비가 밀린 손님을 두고 장부에 신분과 빚을 자세히 적을지, 다른 손님에게 소문이 돌지 않게 할지 정해야 한다."
+    },
+    {
+      "id": "innkeeper_irina:relation",
+      "kind": "social",
+      "titleKo": "오늘 엮인 사람 · 아브도티야",
+      "textKo": "도움이 필요할 때 찾아오는 동네 산파다"
+    }
+  ]
 }

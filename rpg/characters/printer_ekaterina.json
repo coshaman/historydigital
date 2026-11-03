@@ -106,13 +106,15 @@
   ],
   "personalObjective": "교정쇄를 돌려보낼지, 보류할지, 검토용으로 묶을지 정한다",
   "needs": {
-    "income": 58,
+    "hunger": 38,
     "fatigue": 26,
+    "income": 58,
     "safety": 48,
     "socialBelonging": 38,
     "restThreshold": 35,
     "workFatiguePerMinute": 0.04,
-    "restFatigueReliefPerMinute": 0.14
+    "restFatigueReliefPerMinute": 0.14,
+    "status": "fictional_character_simulation_profile"
   },
   "objectiveByChapter": {
     "1847": "교정쇄의 실제 전달 경로를 정한다"
@@ -216,5 +218,31 @@
       "right": 3
     }
   },
-  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "todayGoals": [
+    {
+      "id": "printer_ekaterina:work",
+      "kind": "work",
+      "titleKo": "맡은 일",
+      "textKo": "교정쇄를 돌려보낼지, 보류할지, 검토용으로 묶을지 정한다"
+    },
+    {
+      "id": "printer_ekaterina:desire",
+      "kind": "personal",
+      "titleKo": "바라는 것",
+      "textKo": "작업한 교정쇄의 전달처와 책임자를 확인한다"
+    },
+    {
+      "id": "printer_ekaterina:risk",
+      "kind": "care",
+      "titleKo": "마음에 걸리는 일",
+      "textKo": "자신이 보지 못한 문장까지 자기 이름으로 책임지는 것"
+    },
+    {
+      "id": "printer_ekaterina:relation",
+      "kind": "social",
+      "titleKo": "오늘 엮인 사람 · 알렉세이 오를로프",
+      "textKo": "교정쇄를 관청으로 보내고 돌려받을 때 찾는 서기다"
+    }
+  ]
 }

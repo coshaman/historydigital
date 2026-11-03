@@ -196,5 +196,42 @@
       "right": 3
     }
   },
-  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "needs": {
+    "hunger": 38,
+    "fatigue": 24,
+    "income": 62,
+    "safety": 25,
+    "socialBelonging": 30,
+    "restThreshold": 72,
+    "workFatiguePerMinute": 0.028,
+    "restFatigueReliefPerMinute": 0.06,
+    "status": "fictional_character_simulation_profile"
+  },
+  "todayGoals": [
+    {
+      "id": "fishseller_klavdiya:work",
+      "kind": "work",
+      "titleKo": "맡은 일",
+      "textKo": "상하기 쉬운 물건의 위험은 상인과 손님이 어떻게 나눠야 할까요?"
+    },
+    {
+      "id": "fishseller_klavdiya:desire",
+      "kind": "personal",
+      "titleKo": "바라는 것",
+      "textKo": "상하기 쉬운 물건의 위험은 상인과 손님이 어떻게 나눠야 할까요?"
+    },
+    {
+      "id": "fishseller_klavdiya:risk",
+      "kind": "care",
+      "titleKo": "마음에 걸리는 일",
+      "textKo": "클라브디야는 더운 날 상하기 전 값을 낮춰 팔지, 손해를 감수하고 더 좋은 값을 기다릴지 정해야 한다."
+    },
+    {
+      "id": "fishseller_klavdiya:relation",
+      "kind": "social",
+      "titleKo": "오늘 엮인 사람 · 야코프",
+      "textKo": "상처약이나 소독용 술을 사러 오는 약제상이다"
+    }
+  ]
 }

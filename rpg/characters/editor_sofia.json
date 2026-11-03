@@ -212,13 +212,41 @@
     }
   ],
   "needs": {
-    "income": 56,
+    "hunger": 38,
     "fatigue": 31,
+    "income": 56,
     "safety": 42,
     "socialBelonging": 44,
     "restThreshold": 35,
     "workFatiguePerMinute": 0.045,
-    "restFatigueReliefPerMinute": 0.16
+    "restFatigueReliefPerMinute": 0.16,
+    "status": "fictional_character_simulation_profile"
   },
-  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "todayGoals": [
+    {
+      "id": "editor_sofia:work",
+      "kind": "work",
+      "titleKo": "맡은 일",
+      "textKo": "자료를 확인해 한 쪽짜리 거리 신문을 편집하고 독자에게 보낸다"
+    },
+    {
+      "id": "editor_sofia:desire",
+      "kind": "personal",
+      "titleKo": "바라는 것",
+      "textKo": "확인한 출처를 독자에게 닿는 문장으로 만들고, 교정과 배포 책임을 분명히 나눈다"
+    },
+    {
+      "id": "editor_sofia:risk",
+      "kind": "care",
+      "titleKo": "마음에 걸리는 일",
+      "textKo": "마감을 이유로 확인되지 않은 말을 사실처럼 찍는 것"
+    },
+    {
+      "id": "editor_sofia:relation",
+      "kind": "social",
+      "titleKo": "오늘 엮인 사람 · 다리야 베레지나",
+      "textKo": "독자의 질문을 받아 원고의 뜻을 다시 살핀다"
+    }
+  ]
 }

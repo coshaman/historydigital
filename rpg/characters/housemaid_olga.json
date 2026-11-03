@@ -196,5 +196,42 @@
       "right": 3
     }
   },
-  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "needs": {
+    "hunger": 38,
+    "fatigue": 24,
+    "income": 62,
+    "safety": 25,
+    "socialBelonging": 30,
+    "restThreshold": 72,
+    "workFatiguePerMinute": 0.028,
+    "restFatigueReliefPerMinute": 0.06,
+    "status": "fictional_character_simulation_profile"
+  },
+  "todayGoals": [
+    {
+      "id": "housemaid_olga:work",
+      "kind": "work",
+      "titleKo": "맡은 일",
+      "textKo": "남을 돕는다는 이유로 우연히 들은 사적인 말을 전해도 될까요?"
+    },
+    {
+      "id": "housemaid_olga:desire",
+      "kind": "personal",
+      "titleKo": "바라는 것",
+      "textKo": "남을 돕는다는 이유로 우연히 들은 사적인 말을 전해도 될까요?"
+    },
+    {
+      "id": "housemaid_olga:risk",
+      "kind": "care",
+      "titleKo": "마음에 걸리는 일",
+      "textKo": "올가는 고용주 집에서 들은 말을 세입자에게 전할지 고민한다. 직접 본 사실과 우연히 들은 사적인 말을 나눠야 한다."
+    },
+    {
+      "id": "housemaid_olga:relation",
+      "kind": "social",
+      "titleKo": "오늘 엮인 사람 · 아브도티야",
+      "textKo": "집안에 아픈 사람이 있으면 먼저 찾아가는 산파다"
+    }
+  ]
 }

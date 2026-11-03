@@ -201,5 +201,42 @@
       "right": 3
     }
   },
-  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "needs": {
+    "hunger": 38,
+    "fatigue": 24,
+    "income": 62,
+    "safety": 25,
+    "socialBelonging": 30,
+    "restThreshold": 72,
+    "workFatiguePerMinute": 0.028,
+    "restFatigueReliefPerMinute": 0.06,
+    "status": "fictional_character_simulation_profile"
+  },
+  "todayGoals": [
+    {
+      "id": "market_nadezhda:work",
+      "kind": "work",
+      "titleKo": "맡은 일",
+      "textKo": "젖은 채소의 값을 얼마나 낮추고 손실을 어떻게 나눌지 정한다"
+    },
+    {
+      "id": "market_nadezhda:desire",
+      "kind": "personal",
+      "titleKo": "바라는 것",
+      "textKo": "젖은 채소의 값을 얼마나 낮추고 손실을 어떻게 나눌지 정한다"
+    },
+    {
+      "id": "market_nadezhda:risk",
+      "kind": "care",
+      "titleKo": "마음에 걸리는 일",
+      "textKo": "오늘 들어온 채소가 비에 젖어 빨리 팔아야 한다. 값을 낮추면 남는 돈이 없고 버티면 상할 수 있다."
+    },
+    {
+      "id": "market_nadezhda:relation",
+      "kind": "social",
+      "titleKo": "오늘 엮인 사람 · 표도르",
+      "textKo": "빵집의 재료값을 묻고 소량씩 거래하는 제빵사다"
+    }
+  ]
 }

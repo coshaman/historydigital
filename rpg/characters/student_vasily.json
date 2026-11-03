@@ -193,5 +193,42 @@
     }
   },
   "speechStatus": "FICTIONAL_DESIGN",
-  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "needs": {
+    "hunger": 28,
+    "fatigue": 14,
+    "income": 28,
+    "safety": 25,
+    "socialBelonging": 30,
+    "restThreshold": 72,
+    "workFatiguePerMinute": 0.018,
+    "restFatigueReliefPerMinute": 0.06,
+    "status": "fictional_character_simulation_profile"
+  },
+  "todayGoals": [
+    {
+      "id": "student_vasily:work",
+      "kind": "work",
+      "titleKo": "맡은 일",
+      "textKo": "생각을 말할 자유와 그 말을 한 사람이 감당할 위험을 어떻게 함께 볼까요?"
+    },
+    {
+      "id": "student_vasily:desire",
+      "kind": "personal",
+      "titleKo": "바라는 것",
+      "textKo": "생각을 말할 자유와 그 말을 한 사람이 감당할 위험을 어떻게 함께 볼까요?"
+    },
+    {
+      "id": "student_vasily:risk",
+      "kind": "care",
+      "titleKo": "마음에 걸리는 일",
+      "textKo": "바실리는 독서 모임에서 제도와 변화에 관한 견해를 말해 달라는 요청을 받았다. 공개 발언과 조용히 듣는 일 사이에서 선택한다."
+    },
+    {
+      "id": "student_vasily:relation",
+      "kind": "social",
+      "titleKo": "오늘 엮인 사람 · 유리",
+      "textKo": "수업 자료를 구하러 찾아오는 학생이다"
+    }
+  ]
 }

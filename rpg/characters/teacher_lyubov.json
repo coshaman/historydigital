@@ -197,5 +197,42 @@
     }
   },
   "speechStatus": "FICTIONAL_DESIGN",
-  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "needs": {
+    "hunger": 38,
+    "fatigue": 14,
+    "income": 62,
+    "safety": 25,
+    "socialBelonging": 30,
+    "restThreshold": 72,
+    "workFatiguePerMinute": 0.018,
+    "restFatigueReliefPerMinute": 0.06,
+    "status": "fictional_character_simulation_profile"
+  },
+  "todayGoals": [
+    {
+      "id": "teacher_lyubov:work",
+      "kind": "work",
+      "titleKo": "맡은 일",
+      "textKo": "모두에게 배울 기회를 주려면 수업과 재료의 비용을 누가 나눠야 할까요?"
+    },
+    {
+      "id": "teacher_lyubov:desire",
+      "kind": "personal",
+      "titleKo": "바라는 것",
+      "textKo": "모두에게 배울 기회를 주려면 수업과 재료의 비용을 누가 나눠야 할까요?"
+    },
+    {
+      "id": "teacher_lyubov:risk",
+      "kind": "care",
+      "titleKo": "마음에 걸리는 일",
+      "textKo": "류보프는 수업료를 낼 수 없는 아이에게 수업을 계속할지, 남은 종이를 다른 학생과 나눌지 정해야 한다."
+    },
+    {
+      "id": "teacher_lyubov:relation",
+      "kind": "social",
+      "titleKo": "오늘 엮인 사람 · 이리나",
+      "textKo": "하숙집에 방을 내주고 밀린 방세 사정을 듣는다"
+    }
+  ]
 }

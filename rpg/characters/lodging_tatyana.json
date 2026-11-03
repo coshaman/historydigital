@@ -197,5 +197,42 @@
     }
   },
   "speechStatus": "FICTIONAL_DESIGN",
-  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "needs": {
+    "hunger": 38,
+    "fatigue": 14,
+    "income": 62,
+    "safety": 25,
+    "socialBelonging": 30,
+    "restThreshold": 72,
+    "workFatiguePerMinute": 0.018,
+    "restFatigueReliefPerMinute": 0.06,
+    "status": "fictional_character_simulation_profile"
+  },
+  "todayGoals": [
+    {
+      "id": "lodging_tatyana:work",
+      "kind": "work",
+      "titleKo": "맡은 일",
+      "textKo": "배움의 시간을 얻기 위해 생계 수입을 포기해야 한다면 그 기회는 누구의 것일까요?"
+    },
+    {
+      "id": "lodging_tatyana:desire",
+      "kind": "personal",
+      "titleKo": "바라는 것",
+      "textKo": "배움의 시간을 얻기 위해 생계 수입을 포기해야 한다면 그 기회는 누구의 것일까요?"
+    },
+    {
+      "id": "lodging_tatyana:risk",
+      "kind": "care",
+      "titleKo": "마음에 걸리는 일",
+      "textKo": "타티야나는 책을 빌려 읽을 시간을 내면 재봉 일감이 늦고, 일을 먼저 하면 책을 돌려줄 날이 다가온다."
+    },
+    {
+      "id": "lodging_tatyana:relation",
+      "kind": "social",
+      "titleKo": "오늘 엮인 사람 · 바르바라",
+      "textKo": "일감이 몰릴 때 서로 손을 보태는 하녀다"
+    }
+  ]
 }

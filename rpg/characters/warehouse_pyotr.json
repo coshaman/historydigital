@@ -196,5 +196,42 @@
     }
   },
   "speechStatus": "FICTIONAL_DESIGN",
-  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "needs": {
+    "hunger": 38,
+    "fatigue": 14,
+    "income": 62,
+    "safety": 25,
+    "socialBelonging": 30,
+    "restThreshold": 72,
+    "workFatiguePerMinute": 0.018,
+    "restFatigueReliefPerMinute": 0.06,
+    "status": "fictional_character_simulation_profile"
+  },
+  "todayGoals": [
+    {
+      "id": "warehouse_pyotr:work",
+      "kind": "work",
+      "titleKo": "맡은 일",
+      "textKo": "분실을 막는 기록이 사람을 근거 없이 의심하게 만들면 무엇을 남겨야 할까요?"
+    },
+    {
+      "id": "warehouse_pyotr:desire",
+      "kind": "personal",
+      "titleKo": "바라는 것",
+      "textKo": "분실을 막는 기록이 사람을 근거 없이 의심하게 만들면 무엇을 남겨야 할까요?"
+    },
+    {
+      "id": "warehouse_pyotr:risk",
+      "kind": "care",
+      "titleKo": "마음에 걸리는 일",
+      "textKo": "창고 물품 하나가 수량표와 맞지 않는다. 표트르는 이름을 먼저 적을지, 입출고를 다시 세고 빈칸을 남길지 골라야 한다."
+    },
+    {
+      "id": "warehouse_pyotr:relation",
+      "kind": "social",
+      "titleKo": "오늘 엮인 사람 · 클라브디야",
+      "textKo": "생선 상자를 맡기고 수량을 확인하는 상인이다"
+    }
+  ]
 }

@@ -196,5 +196,42 @@
     }
   },
   "speechStatus": "FICTIONAL_DESIGN",
-  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "needs": {
+    "hunger": 38,
+    "fatigue": 24,
+    "income": 62,
+    "safety": 25,
+    "socialBelonging": 30,
+    "restThreshold": 72,
+    "workFatiguePerMinute": 0.028,
+    "restFatigueReliefPerMinute": 0.06,
+    "status": "fictional_character_simulation_profile"
+  },
+  "todayGoals": [
+    {
+      "id": "print_apprentice_stepan:work",
+      "kind": "work",
+      "titleKo": "맡은 일",
+      "textKo": "문장을 인쇄한 사람은 누가 고친 문장까지 책임져야 할까요?"
+    },
+    {
+      "id": "print_apprentice_stepan:desire",
+      "kind": "personal",
+      "titleKo": "바라는 것",
+      "textKo": "문장을 인쇄한 사람은 누가 고친 문장까지 책임져야 할까요?"
+    },
+    {
+      "id": "print_apprentice_stepan:risk",
+      "kind": "care",
+      "titleKo": "마음에 걸리는 일",
+      "textKo": "스테판은 익명 전단의 교정쇄에서 문장이 바뀐 것을 알아챘다. 누가 고쳤는지 남기면 동료가 곤란해질 수 있다."
+    },
+    {
+      "id": "print_apprentice_stepan:relation",
+      "kind": "social",
+      "titleKo": "오늘 엮인 사람 · 이반 세묘노프",
+      "textKo": "인쇄물 운반과 출입 확인을 맡는 경찰 하사다"
+    }
+  ]
 }

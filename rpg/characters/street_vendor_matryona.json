@@ -196,5 +196,42 @@
       "right": 3
     }
   },
-  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "needs": {
+    "hunger": 38,
+    "fatigue": 14,
+    "income": 62,
+    "safety": 25,
+    "socialBelonging": 30,
+    "restThreshold": 72,
+    "workFatiguePerMinute": 0.018,
+    "restFatigueReliefPerMinute": 0.06,
+    "status": "fictional_character_simulation_profile"
+  },
+  "todayGoals": [
+    {
+      "id": "street_vendor_matryona:work",
+      "kind": "work",
+      "titleKo": "맡은 일",
+      "textKo": "공공의 길을 막지 않으면서 거리에서 생계를 이어갈 방법은 무엇일까요?"
+    },
+    {
+      "id": "street_vendor_matryona:desire",
+      "kind": "personal",
+      "titleKo": "바라는 것",
+      "textKo": "공공의 길을 막지 않으면서 거리에서 생계를 이어갈 방법은 무엇일까요?"
+    },
+    {
+      "id": "street_vendor_matryona:risk",
+      "kind": "care",
+      "titleKo": "마음에 걸리는 일",
+      "textKo": "비가 오기 전 좌판을 옮기면 손님을 놓칠 수 있고, 그대로 두면 물건이 젖을 수 있다. 마트료나는 이동과 매상 중 하나를 감수해야 한다."
+    },
+    {
+      "id": "street_vendor_matryona:relation",
+      "kind": "social",
+      "titleKo": "오늘 엮인 사람 · 세르게이",
+      "textKo": "근무 중 빵과 차를 사 가는 경비다"
+    }
+  ]
 }

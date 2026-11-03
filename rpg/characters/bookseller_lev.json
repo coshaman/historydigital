@@ -106,13 +106,15 @@
   ],
   "personalObjective": "신문 가판의 재고와 반품 기한을 확인한다",
   "needs": {
-    "income": 48,
+    "hunger": 38,
     "fatigue": 24,
+    "income": 48,
     "safety": 35,
     "socialBelonging": 26,
     "restThreshold": 34,
     "workFatiguePerMinute": 0.035,
-    "restFatigueReliefPerMinute": 0.12
+    "restFatigueReliefPerMinute": 0.12,
+    "status": "fictional_character_simulation_profile"
   },
   "objectiveByChapter": {
     "1847": "읽을거리의 값과 유통 경로를 확인한다"
@@ -215,5 +217,31 @@
       "right": 3
     }
   },
-  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "todayGoals": [
+    {
+      "id": "bookseller_lev:work",
+      "kind": "work",
+      "titleKo": "맡은 일",
+      "textKo": "신문 가판의 재고와 반품 기한을 확인한다"
+    },
+    {
+      "id": "bookseller_lev:desire",
+      "kind": "personal",
+      "titleKo": "바라는 것",
+      "textKo": "외상값을 회수하고 팔리지 않은 책의 손실을 줄인다"
+    },
+    {
+      "id": "bookseller_lev:risk",
+      "kind": "care",
+      "titleKo": "마음에 걸리는 일",
+      "textKo": "거래처가 값을 미루고 재고 책임을 자신에게 돌리는 것"
+    },
+    {
+      "id": "bookseller_lev:relation",
+      "kind": "social",
+      "titleKo": "오늘 엮인 사람 · 미하일",
+      "textKo": "값을 미루기도 하지만 책을 조심히 돌려주는 이웃 손님이다"
+    }
+  ]
 }

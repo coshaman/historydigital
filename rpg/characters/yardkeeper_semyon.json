@@ -229,13 +229,41 @@
     }
   },
   "needs": {
-    "income": 72,
+    "hunger": 38,
     "fatigue": 37,
+    "income": 72,
     "safety": 48,
     "socialBelonging": 52,
     "restThreshold": 42,
     "workFatiguePerMinute": 0.04,
-    "restFatigueReliefPerMinute": 0.15
+    "restFatigueReliefPerMinute": 0.15,
+    "status": "fictional_character_simulation_profile"
   },
-  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "todayGoals": [
+    {
+      "id": "yardkeeper_semyon:work",
+      "kind": "work",
+      "titleKo": "맡은 일",
+      "textKo": "안뜰 장작 장부의 빈칸을 누구의 이름으로 채울지 정한다"
+    },
+    {
+      "id": "yardkeeper_semyon:desire",
+      "kind": "personal",
+      "titleKo": "바라는 것",
+      "textKo": "안뜰 장작 장부의 빈칸을 누구의 이름으로 채울지 정한다"
+    },
+    {
+      "id": "yardkeeper_semyon:risk",
+      "kind": "care",
+      "titleKo": "마음에 걸리는 일",
+      "textKo": "안뜰에서 밤마다 사라지는 장작을 누가 가져갔는지 알지만, 이름을 적으면 그 집의 방세와 일자리까지 흔들릴 수 있다."
+    },
+    {
+      "id": "yardkeeper_semyon:relation",
+      "kind": "social",
+      "titleKo": "오늘 엮인 사람 · 타티야나",
+      "textKo": "셋방 계약과 안뜰 규칙을 확인하러 오는 세입자다"
+    }
+  ]
 }

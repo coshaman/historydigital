@@ -21,9 +21,12 @@ const startingFunds = { baker: baker.money.amount, seller: seller.money.amount }
 const possessed = structuredClone(state);
 possessed.player.embodiment = 'baker_fyodor';
 const paused = game.advanceNpcWorld(possessed, 90, mapTable);
-assert.equal(paused.ledger.flatMap(event => event.exchanges ?? []).length, 0, 'a possessed resident cannot autonomously trade');
+const possessedPeriodExchanges = paused.ledger.flatMap(event => event.exchanges ?? []);
+assert.equal(possessedPeriodExchanges.some(exchange => exchange.hostId === 'baker_fyodor' || exchange.recipientHostId === 'baker_fyodor'), false,
+  'a possessed resident cannot autonomously trade or receive an autonomous trade');
+assert.equal(paused.hosts.baker_fyodor.money.amount, baker.money.amount, 'possession must preserve the controlled resident money until the player acts');
 
-const exchanges = [], meals = [], goals = [];
+const exchanges = [], unrelatedExchanges = [], meals = [], goals = [];
 const movementTrace = [];
 for (let minute = 0; minute < 600; minute += 1) {
   const ledgerLength = state.ledger.length;
@@ -34,12 +37,14 @@ for (let minute = 0; minute < 600; minute += 1) {
     const sellerNow = state.hosts[exchange.recipientHostId], bakerNow = state.hosts[exchange.hostId];
     assert.equal(bakerNow.mapId, sellerNow.mapId, 'the exchange must happen on the same physical map');
     assert.ok(Math.abs(bakerNow.position.x - sellerNow.position.x) + Math.abs(bakerNow.position.y - sellerNow.position.y) <= 1, 'the residents must be adjacent at handoff');
-    exchanges.push({ ...exchange, occurredAt: event.startClockMinutes + exchange.minute });
+    const row = { ...exchange, occurredAt: event.startClockMinutes + exchange.minute };
+    if (exchange.hostId === 'baker_fyodor' || exchange.recipientHostId === 'baker_fyodor') exchanges.push(row);
+    else unrelatedExchanges.push(row);
   }
   meals.push(...(event?.meals ?? []).map(meal => ({ ...meal, occurredAt: event.startClockMinutes + meal.minute })));
   goals.push(...(event?.goals ?? []));
 }
-assert.equal(exchanges.length, 1, `the scheduled market exchange should occur once; nearby=${JSON.stringify({ baker: { mapId: state.hosts.baker_fyodor.mapId, position: state.hosts.baker_fyodor.position, taskId: state.hosts.baker_fyodor.routineTaskCompletedId }, seller: { mapId: state.hosts.market_nadezhda.mapId, position: state.hosts.market_nadezhda.position }, movementTrace })}`);
+assert.equal(exchanges.length, 1, `the baker's scheduled exchange should occur once; nearby=${JSON.stringify({ baker: { mapId: state.hosts.baker_fyodor.mapId, position: state.hosts.baker_fyodor.position, taskId: state.hosts.baker_fyodor.routineTaskCompletedId }, seller: { mapId: state.hosts.market_nadezhda.mapId, position: state.hosts.market_nadezhda.position }, movementTrace })}`);
 assert.equal(exchanges[0].hostId, 'baker_fyodor');
 assert.equal(exchanges[0].recipientHostId, 'market_nadezhda');
 assert.equal(exchanges[0].itemKo, '빵 한 묶음');
@@ -48,7 +53,8 @@ assert.equal(exchanges[0].occurredAt, 600, 'the pair waits until the scheduled m
 assert.equal(state.hosts.baker_fyodor.inventory.includes('빵 한 묶음'), false);
 assert.equal(state.hosts.market_nadezhda.inventory.includes('빵 한 묶음'), false, 'the seller should consume the purchased bread at the evening meal');
 assert.equal(state.hosts.baker_fyodor.money.amount, startingFunds.baker + 3);
-assert.equal(state.hosts.market_nadezhda.money.amount, startingFunds.seller - 3);
+const sellerNet = unrelatedExchanges.reduce((delta, exchange) => delta + (exchange.hostId === 'market_nadezhda' ? exchange.moneyAmount : 0) - (exchange.recipientHostId === 'market_nadezhda' ? exchange.moneyAmount : 0), 0);
+assert.equal(state.hosts.market_nadezhda.money.amount, startingFunds.seller - 3 + sellerNet);
 assert.equal(state.hosts.baker_fyodor.relations.market_nadezhda, '빵값을 치른 거래 이웃');
 assert.equal(state.hosts.market_nadezhda.relations.baker_fyodor, '빵을 산 거래 이웃');
 assert.equal(meals.length, 1, 'the seller should use the purchased bread for the scheduled evening meal');

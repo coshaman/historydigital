@@ -205,5 +205,42 @@
       "right": 3
     }
   },
-  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "needs": {
+    "hunger": 38,
+    "fatigue": 24,
+    "income": 62,
+    "safety": 25,
+    "socialBelonging": 30,
+    "restThreshold": 72,
+    "workFatiguePerMinute": 0.028,
+    "restFatigueReliefPerMinute": 0.06,
+    "status": "fictional_character_simulation_profile"
+  },
+  "todayGoals": [
+    {
+      "id": "baker_fyodor:work",
+      "kind": "work",
+      "titleKo": "맡은 일",
+      "textKo": "남은 밀가루를 어느 주문에 먼저 쓸지 정한다"
+    },
+    {
+      "id": "baker_fyodor:desire",
+      "kind": "personal",
+      "titleKo": "바라는 것",
+      "textKo": "남은 밀가루를 어느 주문에 먼저 쓸지 정한다"
+    },
+    {
+      "id": "baker_fyodor:risk",
+      "kind": "care",
+      "titleKo": "마음에 걸리는 일",
+      "textKo": "밀가루가 모자라 주문을 줄이거나 품질을 낮춰야 한다. 어느 쪽이든 단골과 동료가 손해를 본다."
+    },
+    {
+      "id": "baker_fyodor:relation",
+      "kind": "social",
+      "titleKo": "오늘 엮인 사람 · 마리야",
+      "textKo": "일손이 바쁠 때 앞치마와 행주를 맡기는 세탁부다"
+    }
+  ]
 }

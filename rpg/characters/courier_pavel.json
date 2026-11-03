@@ -106,13 +106,15 @@
   ],
   "personalObjective": "봉투를 열지 않고 수취인에게 전달한다",
   "needs": {
-    "income": 66,
+    "hunger": 38,
     "fatigue": 32,
+    "income": 66,
     "safety": 55,
     "socialBelonging": 28,
     "restThreshold": 43,
     "workFatiguePerMinute": 0.045,
-    "restFatigueReliefPerMinute": 0.16
+    "restFatigueReliefPerMinute": 0.16,
+    "status": "fictional_character_simulation_profile"
   },
   "objectiveByChapter": {
     "1847": "배달 경로를 지키며 인쇄소에 들른다"
@@ -219,5 +221,31 @@
       "right": 3
     }
   },
-  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "todayGoals": [
+    {
+      "id": "courier_pavel:work",
+      "kind": "work",
+      "titleKo": "맡은 일",
+      "textKo": "봉투를 열지 않고 수취인에게 전달한다"
+    },
+    {
+      "id": "courier_pavel:desire",
+      "kind": "personal",
+      "titleKo": "바라는 것",
+      "textKo": "정해진 시각에 봉투를 온전하게 건넨다"
+    },
+    {
+      "id": "courier_pavel:risk",
+      "kind": "care",
+      "titleKo": "마음에 걸리는 일",
+      "textKo": "봉투가 훼손됐다는 누명을 쓰는 것"
+    },
+    {
+      "id": "courier_pavel:relation",
+      "kind": "social",
+      "titleKo": "오늘 엮인 사람 · 예카테리나 벨로바",
+      "textKo": "인쇄소에서 봉투와 교정쇄를 받는 책임자다"
+    }
+  ]
 }

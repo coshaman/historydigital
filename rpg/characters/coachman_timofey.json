@@ -194,5 +194,42 @@
       "right": 3
     }
   },
-  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "needs": {
+    "hunger": 38,
+    "fatigue": 24,
+    "income": 62,
+    "safety": 25,
+    "socialBelonging": 30,
+    "restThreshold": 72,
+    "workFatiguePerMinute": 0.028,
+    "restFatigueReliefPerMinute": 0.06,
+    "status": "fictional_character_simulation_profile"
+  },
+  "todayGoals": [
+    {
+      "id": "coachman_timofey:work",
+      "kind": "work",
+      "titleKo": "맡은 일",
+      "textKo": "급한 손님의 운송을 맡을지 말과 마차를 먼저 돌볼지 정한다"
+    },
+    {
+      "id": "coachman_timofey:desire",
+      "kind": "personal",
+      "titleKo": "바라는 것",
+      "textKo": "급한 손님의 운송을 맡을지 말과 마차를 먼저 돌볼지 정한다"
+    },
+    {
+      "id": "coachman_timofey:risk",
+      "kind": "care",
+      "titleKo": "마음에 걸리는 일",
+      "textKo": "비가 오기 전에 먼 길 운송을 맡으면 손님을 도울 수 있지만 말과 마차가 상할 수 있다."
+    },
+    {
+      "id": "coachman_timofey:relation",
+      "kind": "social",
+      "titleKo": "오늘 엮인 사람 · 가브릴라",
+      "textKo": "정거장과 창고 사이 짐 운반을 함께 맡는 인부다"
+    }
+  ]
 }

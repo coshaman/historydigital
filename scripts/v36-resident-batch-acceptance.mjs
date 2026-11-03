@@ -57,6 +57,9 @@ for (const id of ids) {
   assert.equal(card.kind, 'FICTIONAL');
   assert.equal(card.relationsStatus, relationRegistry.status, `${id} must label its authored relationship provenance`);
   assert.ok(Object.keys(card.relations ?? {}).length >= 2, `${id} needs at least two relationship contexts`);
+  assert.ok(card.todayGoals?.length >= 4, `${id} needs four explicit daily goals`);
+  assert.ok(card.todayGoals.every(goal => goal.titleKo && goal.textKo?.length >= 12), `${id} daily goals must be specific and readable`);
+  assert.ok(card.needs && Number.isFinite(card.needs.hunger) && Number.isFinite(card.needs.fatigue), `${id} needs a simulation needs profile`);
   for (const [otherId, description] of Object.entries(card.relations)) {
     assert.ok(allIds.includes(otherId), `${id} relation target ${otherId} must be an active city resident`);
     assert.ok(description.length >= 12, `${id} relationship needs a meaningful description`);

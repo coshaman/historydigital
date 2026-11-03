@@ -196,5 +196,42 @@
     }
   },
   "speechStatus": "FICTIONAL_DESIGN",
-  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "needs": {
+    "hunger": 38,
+    "fatigue": 14,
+    "income": 62,
+    "safety": 25,
+    "socialBelonging": 30,
+    "restThreshold": 72,
+    "workFatiguePerMinute": 0.018,
+    "restFatigueReliefPerMinute": 0.06,
+    "status": "fictional_character_simulation_profile"
+  },
+  "todayGoals": [
+    {
+      "id": "landlady_polina:work",
+      "kind": "work",
+      "titleKo": "맡은 일",
+      "textKo": "한 세입자의 방세를 기다려주면서 공동 비용은 어떻게 공평하게 나눌까요?"
+    },
+    {
+      "id": "landlady_polina:desire",
+      "kind": "personal",
+      "titleKo": "바라는 것",
+      "textKo": "한 세입자의 방세를 기다려주면서 공동 비용은 어떻게 공평하게 나눌까요?"
+    },
+    {
+      "id": "landlady_polina:risk",
+      "kind": "care",
+      "titleKo": "마음에 걸리는 일",
+      "textKo": "폴리나는 방세가 밀린 세입자를 재촉해야 하지만, 안뜰 장작과 물값도 함께 마련해야 한다."
+    },
+    {
+      "id": "landlady_polina:relation",
+      "kind": "social",
+      "titleKo": "오늘 엮인 사람 · 류보프",
+      "textKo": "방세를 내면서 아이들을 가르치는 세입자다"
+    }
+  ]
 }

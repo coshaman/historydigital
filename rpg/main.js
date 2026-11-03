@@ -533,9 +533,14 @@ function updateHud() {
   $('#journal-pin').disabled = !missionGuidance.target;
   $('#journal-pin').textContent = destinationPinned ? '목적지 표시 중' : '목적지 표시';
   const fill = (selector, rows, tag = 'li') => { const list = $(selector); list.replaceChildren(...rows.map(value => { const item = document.createElement(tag); item.textContent = value; return item; })); };
-  for (const selector of ['#journal-inventory','#journal-relations','#journal-sources','#journal-history','#journal-perspective-notes']) $(selector).replaceChildren();
+  for (const selector of ['#journal-inventory','#journal-relations','#journal-sources','#journal-history','#journal-perspective-notes','#journal-today-goals']) $(selector).replaceChildren();
   if (host) {
     const live = state.hosts[host.id], known = host.secretKnowledge.filter(item => live.privateKnowledgeIds.includes(item.id)).map(item => item.summaryKo);
+    const goalList = $('#journal-today-goals');
+    for (const goal of host.todayGoals ?? []) {
+      const item = document.createElement('li'), title = document.createElement('strong'), body = document.createElement('span');
+      title.textContent = `${goal.titleKo} · `; body.textContent = goal.textKo; item.append(title, body); goalList.append(item);
+    }
     if (live.knownEvidenceIds.includes(source.sourceId)) known.push('투르게네프 「호리와 칼리니치」 원문');
     for (const record of historicalSources.records) if (live.knownEvidenceIds.includes(record.sourceId)) known.push(`${record.documentDate} · ${record.titleKo}`);
     for (const id of live.knownEvidenceIds) {

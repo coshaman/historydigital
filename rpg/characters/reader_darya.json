@@ -203,13 +203,41 @@
     }
   },
   "needs": {
-    "income": 48,
+    "hunger": 28,
     "fatigue": 23,
+    "income": 48,
     "safety": 32,
     "socialBelonging": 64,
     "restThreshold": 27,
     "workFatiguePerMinute": 0.028,
-    "restFatigueReliefPerMinute": 0.13
+    "restFatigueReliefPerMinute": 0.13,
+    "status": "fictional_character_simulation_profile"
   },
-  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION"
+  "relationsStatus": "FICTIONAL_GAMEPLAY_RECONSTRUCTION",
+  "todayGoals": [
+    {
+      "id": "reader_darya:work",
+      "kind": "work",
+      "titleKo": "맡은 일",
+      "textKo": "책에서 배운 원칙을 도시 사람의 생활과 대조한다"
+    },
+    {
+      "id": "reader_darya:desire",
+      "kind": "personal",
+      "titleKo": "바라는 것",
+      "textKo": "읽은 사상을 생활의 문제와 연결해 토론한다"
+    },
+    {
+      "id": "reader_darya:risk",
+      "kind": "care",
+      "titleKo": "마음에 걸리는 일",
+      "textKo": "남의 글을 빌려 자기 경험을 지워 버리는 것"
+    },
+    {
+      "id": "reader_darya:relation",
+      "kind": "social",
+      "titleKo": "오늘 엮인 사람 · 콘스탄틴 바라노프",
+      "textKo": "공문서의 표현을 쉽게 풀이해 준 관청 선배다"
+    }
+  ]
 }
