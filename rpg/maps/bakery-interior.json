@@ -68,7 +68,7 @@
   "tileheight": 16,
   "infinite": false,
   "nextlayerid": 7,
-  "nextobjectid": 4004,
+  "nextobjectid": 4006,
   "properties": [
     {
       "name": "mapId",
@@ -1286,7 +1286,7 @@
         0,
         0,
         0,
-        0,
+        1,
         0,
         0,
         1,
@@ -1994,6 +1994,60 @@
         },
         {
           "id": 4003,
+          "name": "작업실 유리창",
+          "type": "inspectable",
+          "x": 32,
+          "y": 0,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 30
+            },
+            {
+              "name": "scope",
+              "type": "string",
+              "value": "fictional_scene_prop"
+            },
+            {
+              "name": "storyTextKo",
+              "type": "string",
+              "value": "창가에 김이 맺혀 바깥 날씨를 가늠하기 어렵다. 이 실내 장면을 위한 소품이다."
+            }
+          ]
+        },
+        {
+          "id": 4004,
+          "name": "주문 쪽지",
+          "type": "inspectable",
+          "x": 320,
+          "y": 160,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 29
+            },
+            {
+              "name": "scope",
+              "type": "string",
+              "value": "fictional_scene_prop"
+            },
+            {
+              "name": "storyTextKo",
+              "type": "string",
+              "value": "오늘 받을 빵의 수량을 적은 허구의 주문 쪽지다. 밀가루 재고와 맞춰 봐야 한다."
+            }
+          ]
+        },
+        {
+          "id": 4005,
           "name": "거리로 나가는 문",
           "type": "map-exit",
           "x": 176,

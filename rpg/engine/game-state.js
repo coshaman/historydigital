@@ -83,8 +83,9 @@ function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky
     if (slot) { host.scheduleId = `${slot.mapId}:${slot.atMinute}`; host.currentActivityKo = slot.activityKo ?? ''; }
   }
   const isLiteraryQuest = quest => Boolean(quest.realmId) || quest.chapterId?.startsWith('LITERARY_');
-  const immutableOutcomes = Object.fromEntries(quests.filter(quest => !isLiteraryQuest(quest)).map(quest => [quest.historicalOutcome.id, quest.historicalOutcome.value]));
-  const literaryOutcomes = Object.fromEntries(quests.filter(isLiteraryQuest).map(quest => [quest.historicalOutcome.id, quest.historicalOutcome.value]));
+  const questsWithOutcome = quests.filter(quest => quest.historicalOutcome?.id);
+  const immutableOutcomes = Object.fromEntries(questsWithOutcome.filter(quest => !isLiteraryQuest(quest)).map(quest => [quest.historicalOutcome.id, quest.historicalOutcome.value]));
+  const literaryOutcomes = Object.fromEntries(questsWithOutcome.filter(isLiteraryQuest).map(quest => [quest.historicalOutcome.id, quest.historicalOutcome.value]));
   return {
     version: SAVE_VERSION,
     world: {
@@ -635,7 +636,9 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
   const chainDelta = effects.lifeChainDelta ?? {};
   if (Object.entries(chainDelta).some(([key, value]) => !/^[a-z][a-zA-Z0-9]{0,39}$/.test(key) || !Number.isInteger(value) || Math.abs(value) > 20)) return { ok: false, reason: 'invalid_life_chain_effect', state };
   if (effects.moneyDelta !== undefined && (!Number.isInteger(effects.moneyDelta) || Math.abs(effects.moneyDelta) > 10000 || !Number.isFinite(host.money?.amount) || host.money.amount + effects.moneyDelta < 0)) return { ok: false, reason: 'invalid_or_unaffordable_effect', state };
-  if (Object.values(relationEffects).some(value => typeof value !== 'string' || value.length > 160) || (effects.situationKo !== undefined && (typeof effects.situationKo !== 'string' || effects.situationKo.length > 220))) return { ok: false, reason: 'invalid_action_effect', state };
+  if (Object.values(relationEffects).some(value => typeof value !== 'string' || value.length > 160)
+    || (effects.partnerRelationKo !== undefined && (typeof effects.partnerRelationKo !== 'string' || effects.partnerRelationKo.length > 160))
+    || (effects.situationKo !== undefined && (typeof effects.situationKo !== 'string' || effects.situationKo.length > 220))) return { ok: false, reason: 'invalid_action_effect', state };
   if (!Array.isArray(inventoryRemove) || !Array.isArray(inventoryAdd) || inventoryRemove.some(item => typeof item !== 'string' || !host.inventory.includes(item)) || inventoryAdd.some(item => typeof item !== 'string' || item.length > 80)) return { ok: false, reason: 'required_item_missing', state };
   const timed = advanceWorldTime(state, 5, maps);
   const next = clone(timed);
@@ -645,6 +648,12 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
   for (const item of inventoryRemove) next.hosts[hostId].inventory.splice(next.hosts[hostId].inventory.indexOf(item), 1);
   next.hosts[hostId].inventory.push(...inventoryAdd);
   Object.assign(next.hosts[hostId].relations, relationEffects);
+  const socialPartnerId = quest.socialChain?.partnerHostId;
+  if (socialPartnerId) {
+    const partner = next.hosts[socialPartnerId];
+    if (!partner || socialPartnerId === hostId) return { ok: false, reason: 'invalid_social_partner', state };
+    partner.relations[hostId] = effects.partnerRelationKo ?? relationEffects[hostId] ?? `${quest.socialChain.partnerNameKo ?? '이웃'}과 함께한 일`;
+  }
   if (effects.situationKo && !next.hosts[hostId].situationNotes.includes(effects.situationKo)) next.hosts[hostId].situationNotes.push(effects.situationKo);
   if (literaryQuest) {
     next.world.literaryOutcomes ??= {};
@@ -657,7 +666,7 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
     for (const [key, delta] of Object.entries(chainDelta)) metrics[key] = Math.max(-100, Math.min(100, (metrics[key] ?? 0) + delta));
     next.world.lifeChains[chain.id] = { stage: chain.stage, metrics, history: [...currentProgress.history, { stage: chain.stage, questId, hostId, actionId, resultFlag: action.resultFlag, date: next.world.date }] };
   }
-  const entry = { eventId: `ACTION_${next.ledger.length + 1}`, eventType: literaryQuest ? 'LITERARY_ACTION' : 'HISTORICAL_ACTION', ...(literaryQuest ? { realmId: state.world.activeRealm.id } : {}), ...(chain ? { lifeChainId: chain.id, lifeChainStage: chain.stage, lifeChainDelta: chainDelta } : {}), date: next.world.date, mapId: next.world.currentMapId, hostId, questId, actionId, objectId, witnesses: [], effectsApplied: { moneyDelta: effects.moneyDelta ?? 0, inventoryRemove, inventoryAdd, relations: relationEffects, situationKo: effects.situationKo ?? null }, sourceIds: action.requiredKnowledgeId ? [action.requiredKnowledgeId] : [] };
+  const entry = { eventId: `ACTION_${next.ledger.length + 1}`, eventType: literaryQuest ? 'LITERARY_ACTION' : 'HISTORICAL_ACTION', ...(literaryQuest ? { realmId: state.world.activeRealm.id } : {}), ...(chain ? { lifeChainId: chain.id, lifeChainStage: chain.stage, lifeChainDelta: chainDelta } : {}), ...(quest.socialChain ? { socialChainId: quest.socialChain.id, socialPartnerHostId: socialPartnerId } : {}), date: next.world.date, mapId: next.world.currentMapId, hostId, questId, actionId, objectId, witnesses: [], effectsApplied: { moneyDelta: effects.moneyDelta ?? 0, inventoryRemove, inventoryAdd, relations: relationEffects, ...(quest.socialChain ? { reciprocalPartnerRelationKo: effects.partnerRelationKo ?? null } : {}), situationKo: effects.situationKo ?? null }, sourceIds: action.requiredKnowledgeId ? [action.requiredKnowledgeId] : [] };
   appendLedgerEvent(next, entry, timed);
   return { ok: true, state: next };
 }
@@ -926,9 +935,11 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
   state.world.literaryOutcomes ??= {};
   state.quests ??= {};
   for (const quest of quests) {
-    const literary = Boolean(quest.realmId) || quest.chapterId?.startsWith('LITERARY_');
-    const outcomeStore = literary ? state.world.literaryOutcomes : state.world.immutableOutcomes;
-    if (!Object.hasOwn(outcomeStore, quest.historicalOutcome.id)) outcomeStore[quest.historicalOutcome.id] = quest.historicalOutcome.value;
+    if (quest.historicalOutcome?.id) {
+      const literary = Boolean(quest.realmId) || quest.chapterId?.startsWith('LITERARY_');
+      const outcomeStore = literary ? state.world.literaryOutcomes : state.world.immutableOutcomes;
+      if (!Object.hasOwn(outcomeStore, quest.historicalOutcome.id)) outcomeStore[quest.historicalOutcome.id] = quest.historicalOutcome.value;
+    }
     state.quests[quest.id] ??= { status: 'open', result: null };
   }
   const seededHosts = createInitialState({ maps, hostCards, quests }).hosts;
@@ -975,6 +986,7 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
   }
   if (!Number.isInteger(state.player.position?.x) || !Number.isInteger(state.player.position?.y) || state.player.position.x < 0 || state.player.position.y < 0 || state.player.position.x >= maps[state.world.currentMapId].width || state.player.position.y >= maps[state.world.currentMapId].height) throw new Error('Save contains an invalid player position');
   for (const quest of quests) {
+    if (!quest.historicalOutcome?.id) continue;
     const outcomeStore = (Boolean(quest.realmId) || quest.chapterId?.startsWith('LITERARY_')) ? state.world.literaryOutcomes : state.world.immutableOutcomes;
     if (outcomeStore?.[quest.historicalOutcome.id] !== quest.historicalOutcome.value) throw new Error('Save modified an immutable historical or literary outcome');
   }

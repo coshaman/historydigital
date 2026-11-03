@@ -29,11 +29,12 @@
       "effects": {
         "situationKo": "이름과 용무를 적고 담당자에게 확인하기로 했다. 절차는 늦어져도 방문자를 몰래 들이진 않는다.",
         "relations": {
-          "senior_clerk_konstantin": "오늘 함께 확인한 일: 방문자 출입 메모"
+          "senior_clerk_konstantin": "출입 허가와 부탁에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "fairAccess": 2
-        }
+        },
+        "partnerRelationKo": "세르게이와 함께 이름과 용무를 기록하고 담당자에게 확인한다를 정했다."
       }
     },
     {
@@ -50,11 +51,12 @@
       "effects": {
         "situationKo": "문 앞에서 봉투만 받고 담당자에게 전달하기로 했다. 안으로 들이진 않지만 전달 경로를 기록해야 한다.",
         "relations": {
-          "senior_clerk_konstantin": "오늘 함께 확인한 일: 방문자 출입 메모"
+          "senior_clerk_konstantin": "출입 허가와 부탁에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "fairAccess": 1
-        }
+        },
+        "partnerRelationKo": "세르게이와 함께 문 앞에서 서류만 받아 담당자에게 전달한다를 정했다."
       }
     },
     {
@@ -71,11 +73,12 @@
       "effects": {
         "situationKo": "아는 사람을 먼저 들였다. 급한 일은 진행되지만 출입 기록을 남기지 않은 책임이 생긴다.",
         "relations": {
-          "senior_clerk_konstantin": "오늘 함께 확인한 일: 방문자 출입 메모"
+          "senior_clerk_konstantin": "출입 허가와 부탁에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "fairAccess": 0
-        }
+        },
+        "partnerRelationKo": "세르게이와 함께 아는 사람의 부탁이라 먼저 들여보낸다를 정했다."
       }
     }
   ],
@@ -87,9 +90,18 @@
     "stageCount": 3,
     "metricsKo": {
       "fairAccess": "이 문제를 처리하며 남긴 결과"
-    }
+    },
+    "kind": "SOCIAL",
+    "partnerHostId": "senior_clerk_konstantin"
   },
   "prerequisiteQuestIds": [
     "GUARD_ENTRY_BRIBE_1847"
-  ]
+  ],
+  "socialChain": {
+    "id": "SOCIAL_SERGEY_ENTRY_AND_FAVOR_1847",
+    "partnerHostId": "senior_clerk_konstantin",
+    "partnerNameKo": "콘스탄틴 바라노프",
+    "progressStage": 1,
+    "stageCount": 3
+  }
 }

@@ -110,6 +110,15 @@ for(const [outsideId,exitId,hostId] of doorCases){
   assert.equal(exited.ok,true,`${inside.mapId} exit: ${exited.reason}`); assert.equal(exited.state.world.currentMapId,outsideId); physicallyExited++;
 }
 
+const meaningfulInteractions=cityMaps.flatMap(map=>objects(map).filter(object=>{
+  if(object.type==='quest-object') return questIds.has(props(object).questId);
+  if(object.type==='inspectable') return typeof props(object).storyTextKo==='string'&&props(object).storyTextKo.trim().length>=24;
+  if(object.type==='source') return typeof props(object).sourceId==='string'&&props(object).sourceId.length>0;
+  if(object.type==='clue') return typeof props(object).evidenceId==='string'&&props(object).evidenceId.length>0;
+  return Boolean(props(object).serviceId||props(object).interactionId);
+}));
+assert.ok(meaningfulInteractions.length>=70,`at least 70 city interactions need a resolvable quest, cited source, clue, service, or authored inspection; found ${meaningfulInteractions.length}`);
+
 const roomDoor=objects(maps['bookshop-lane']).find(item=>item.type==='map-exit'&&props(item).targetMapId==='bookshop-interior');
 const denied=game.createInitialState({maps,hostCards:cards,startMapId:'bookshop-lane'});
 denied.player.position={x:Math.floor(roomDoor.x/16),y:Math.floor(roomDoor.y/16)}; denied.player.embodiment='clerk_alexei';
@@ -119,4 +128,4 @@ const afterHours=game.createInitialState({maps,hostCards:cards,startMapId:'books
 afterHours.player.position={x:Math.floor(roomDoor.x/16),y:Math.floor(roomDoor.y/16)}; afterHours.player.embodiment='bookseller_lev';
 afterHours.hosts.bookseller_lev.mapId='bookshop-lane'; afterHours.hosts.bookseller_lev.position={...afterHours.player.position}; afterHours.world.clockMinutes=1200;
 assert.equal(game.transitionMap(afterHours,props(roomDoor).exitId,maps).reason,'closed_hours','shop entrance closes at the authored closing time');
-console.log(JSON.stringify({status:'PASS',districts:registry.districts.length,cityMaps:districtMapIds.size,allCityMapExitsReciprocal:true,questMarkersResolve:true,enterableInteriors:interiorIds.size,physicalEntries:physicallyEntered,physicalReturns:physicallyExited,roleAccessDenial:true,closedHourDenial:true,sourceEvidenceVerified:true},null,2));
+console.log(JSON.stringify({status:'PASS',districts:registry.districts.length,cityMaps:districtMapIds.size,allCityMapExitsReciprocal:true,questMarkersResolve:true,enterableInteriors:interiorIds.size,physicalEntries:physicallyEntered,physicalReturns:physicallyExited,meaningfulInteractions:meaningfulInteractions.length,roleAccessDenial:true,closedHourDenial:true,sourceEvidenceVerified:true},null,2));

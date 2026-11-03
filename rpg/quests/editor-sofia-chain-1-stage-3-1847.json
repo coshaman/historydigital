@@ -29,11 +29,12 @@
       "effects": {
         "situationKo": "필요한 수량만 확인해 다시 보냈다. 모든 가판대를 채우진 못해도 부족분을 숨기지 않았다.",
         "relations": {
-          "courier_pavel": "오늘 함께 확인한 일: 재발송과 비용 처리 기록"
+          "courier_pavel": "도착하지 않은 신문 묶음에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "distributionTrust": 2
-        }
+        },
+        "partnerRelationKo": "소피야 미하일로바와 함께 남은 호수를 확인해 필요한 수량만 다시 보낸다를 정했다."
       }
     },
     {
@@ -50,11 +51,12 @@
       "effects": {
         "situationKo": "원인이 확인된 부분부터 비용을 나눠 보기로 했다. 결론은 늦지만 한 사람에게 손실을 먼저 떠넘기지 않는다.",
         "relations": {
-          "courier_pavel": "오늘 함께 확인한 일: 재발송과 비용 처리 기록"
+          "courier_pavel": "도착하지 않은 신문 묶음에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "distributionTrust": 1
-        }
+        },
+        "partnerRelationKo": "소피야 미하일로바와 함께 인쇄소와 배달원에게 비용을 나눠 확인한다를 정했다."
       }
     },
     {
@@ -71,11 +73,12 @@
       "effects": {
         "situationKo": "이번 손실은 예비금으로 메웠다. 배포는 회복되지만 다음 호 예산은 줄어든다.",
         "relations": {
-          "courier_pavel": "오늘 함께 확인한 일: 재발송과 비용 처리 기록"
+          "courier_pavel": "도착하지 않은 신문 묶음에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "distributionTrust": 0
-        }
+        },
+        "partnerRelationKo": "소피야 미하일로바와 함께 이번 호 손실은 편집부 예비금으로 처리한다를 정했다."
       }
     }
   ],
@@ -88,9 +91,18 @@
     "metricsKo": {
       "distributionTrust": "이 문제를 처리하며 남긴 결과"
     },
-    "previousQuestId": "SOFIA_MISSING_RECEIPTS_1847_STAGE_2"
+    "previousQuestId": "SOFIA_MISSING_RECEIPTS_1847_STAGE_2",
+    "kind": "SOCIAL",
+    "partnerHostId": "courier_pavel"
   },
   "prerequisiteQuestIds": [
     "SOFIA_MISSING_RECEIPTS_1847_STAGE_2"
-  ]
+  ],
+  "socialChain": {
+    "id": "SOCIAL_SOFIA_MISSING_RECEIPTS_1847",
+    "partnerHostId": "courier_pavel",
+    "partnerNameKo": "파벨 안토노프",
+    "progressStage": 3,
+    "stageCount": 3
+  }
 }

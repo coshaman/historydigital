@@ -29,11 +29,12 @@
       "effects": {
         "situationKo": "인쇄가 끝난 시각부터 확인하기로 했다. 도착이 늦었다고 인쇄소에 바로 책임을 돌리진 않았다.",
         "relations": {
-          "courier_pavel": "오늘 함께 확인한 일: 반송된 신문 묶음 메모"
+          "courier_pavel": "도착하지 않은 신문 묶음에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "distributionTrust": 1
-        }
+        },
+        "partnerRelationKo": "소피야 미하일로바와 함께 인쇄 완료 시각부터 확인한다를 정했다."
       }
     },
     {
@@ -50,11 +51,12 @@
       "effects": {
         "situationKo": "배달원이 직접 확인한 구간부터 물었다. 길에서 보지 못한 일은 단정하지 않기로 했다.",
         "relations": {
-          "courier_pavel": "오늘 함께 확인한 일: 반송된 신문 묶음 메모"
+          "courier_pavel": "도착하지 않은 신문 묶음에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "distributionTrust": 2
-        }
+        },
+        "partnerRelationKo": "소피야 미하일로바와 함께 배달원이 확인한 경로를 묻는다를 정했다."
       }
     },
     {
@@ -71,11 +73,12 @@
       "effects": {
         "situationKo": "누락된 호수를 공고에 알렸다. 독자에게는 상황이 보이지만 원인은 아직 확인되지 않았다.",
         "relations": {
-          "courier_pavel": "오늘 함께 확인한 일: 반송된 신문 묶음 메모"
+          "courier_pavel": "도착하지 않은 신문 묶음에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "distributionTrust": 0
-        }
+        },
+        "partnerRelationKo": "소피야 미하일로바와 함께 누락 호수를 편집부 공고에 적는다를 정했다."
       }
     }
   ],
@@ -87,9 +90,18 @@
     "stageCount": 3,
     "metricsKo": {
       "distributionTrust": "이 문제를 처리하며 남긴 결과"
-    }
+    },
+    "kind": "SOCIAL",
+    "partnerHostId": "courier_pavel"
   },
   "prerequisiteQuestIds": [
     "EDITOR_PUBLICATION_RECORD_1847"
-  ]
+  ],
+  "socialChain": {
+    "id": "SOCIAL_SOFIA_MISSING_RECEIPTS_1847",
+    "partnerHostId": "courier_pavel",
+    "partnerNameKo": "파벨 안토노프",
+    "progressStage": 1,
+    "stageCount": 3
+  }
 }

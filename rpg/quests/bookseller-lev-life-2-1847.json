@@ -29,12 +29,13 @@
       "effects": {
         "situationKo": "남은 종이 수량부터 확인했다. 재인쇄는 미뤄질 수 있어도 없는 재고를 약속하지 않는다.",
         "relations": {
-          "reader_darya": "오늘 함께 확인한 일: 책의 다음 인쇄와 종이 값"
+          "reader_darya": "돌아오지 않은 책 한 권에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "bookAccess": 2,
           "creditRisk": 0
-        }
+        },
+        "partnerRelationKo": "레프와 함께 인쇄소에 남은 종이 수량부터 확인한다를 정했다."
       }
     },
     {
@@ -51,12 +52,13 @@
       "effects": {
         "situationKo": "소량 인쇄를 부탁했다. 독자는 빨리 책을 보지만 한 권마다 드는 비용은 커진다.",
         "relations": {
-          "reader_darya": "오늘 함께 확인한 일: 책의 다음 인쇄와 종이 값"
+          "reader_darya": "돌아오지 않은 책 한 권에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "bookAccess": 2,
           "creditRisk": 1
-        }
+        },
+        "partnerRelationKo": "레프와 함께 작은 분량만 먼저 찍어 달라고 부탁한다를 정했다."
       }
     },
     {
@@ -73,12 +75,13 @@
       "effects": {
         "situationKo": "종이를 외상으로 받아 인쇄를 약속했다. 책은 더 많이 나오지만 팔리지 않은 몫은 빚으로 남는다.",
         "relations": {
-          "reader_darya": "오늘 함께 확인한 일: 책의 다음 인쇄와 종이 값"
+          "reader_darya": "돌아오지 않은 책 한 권에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "bookAccess": 2,
           "creditRisk": 2
-        }
+        },
+        "partnerRelationKo": "레프와 함께 외상으로 종이를 받아 큰 분량을 약속한다를 정했다."
       }
     }
   ],
@@ -92,9 +95,18 @@
     "metricsKo": {
       "bookAccess": "책을 빌릴 수 있는 정도",
       "creditRisk": "외상 위험"
-    }
+    },
+    "kind": "SOCIAL",
+    "partnerHostId": "reader_darya"
   },
   "prerequisiteQuestIds": [
     "LEV_BOOK_RESERVATION_1847_STAGE_1"
-  ]
+  ],
+  "socialChain": {
+    "id": "SOCIAL_LEV_BOOK_RESERVATION_1847",
+    "partnerHostId": "reader_darya",
+    "partnerNameKo": "다리야 베레지나",
+    "progressStage": 2,
+    "stageCount": 3
+  }
 }

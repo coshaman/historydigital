@@ -27,7 +27,8 @@ const addedPersonalQuests = await Promise.all(['editor-publication-record-1847',
   'housemaid-olga-chain-4-stage-1-1847','housemaid-olga-chain-4-stage-2-1847','housemaid-olga-chain-4-stage-3-1847',
   'midwife-avdotya-chain-5-stage-1-1847','midwife-avdotya-chain-5-stage-2-1847','midwife-avdotya-chain-5-stage-3-1847',
   'junior-guard-sergey-chain-6-stage-1-1847','junior-guard-sergey-chain-6-stage-2-1847','junior-guard-sergey-chain-6-stage-3-1847',...residentQuestBatchTwo].map(id => readJson(`./rpg/quests/${id}.json`)));
-const questList = [firstQuest, publicQuest, circleQuest, letterQuest, literaryQuest, overcoatQuest, ...marketPersonalQuests, ...addedPersonalQuests];
+const socialQuestFiles = ['baker-fyodor-life-extra-1-1847','baker-fyodor-life-extra-2-1847','baker-fyodor-life-extra-3-1847','bookseller-lev-life-1-1847','bookseller-lev-life-2-1847','bookseller-lev-life-3-1847','carter-roman-life-extra-1-1847','carter-roman-life-extra-2-1847','carter-roman-life-extra-3-1847','clerk-alexei-life-1-1847','clerk-alexei-life-2-1847','clerk-alexei-life-3-1847','editor-sofia-chain-1-stage-1-1847','editor-sofia-chain-1-stage-2-1847','editor-sofia-chain-1-stage-3-1847','housemaid-olga-chain-4-stage-1-1847','housemaid-olga-chain-4-stage-2-1847','housemaid-olga-chain-4-stage-3-1847','junior-guard-sergey-chain-6-stage-1-1847','junior-guard-sergey-chain-6-stage-2-1847','junior-guard-sergey-chain-6-stage-3-1847','landlady-polina-life-extra-1-1847','landlady-polina-life-extra-2-1847','landlady-polina-life-extra-3-1847','midwife-avdotya-chain-5-stage-1-1847','midwife-avdotya-chain-5-stage-2-1847','midwife-avdotya-chain-5-stage-3-1847','porter-gavrila-life-extra-1-1847','porter-gavrila-life-extra-2-1847','porter-gavrila-life-extra-3-1847'].map(id => readJson(`./rpg/quests/${id}.json`));
+const questList = [firstQuest, publicQuest, circleQuest, letterQuest, literaryQuest, overcoatQuest, ...marketPersonalQuests, ...addedPersonalQuests, ...socialQuestFiles];
 const questsById = new Map(questList.map(item => [item.id, item]));
 const relationHintValues = new Map();
 for (const quest of questList) for (const action of quest.actions ?? []) {
@@ -57,7 +58,7 @@ const currentDiscussionQuests = () => availableDiscussionQuests(state, discussio
 const initial = () => createInitialState({ maps, hostCards, quests: questList });
 let state;
 try { state = localStorage.getItem('v33-rpg-save') ? loadGame(localStorage.getItem('v33-rpg-save'), { maps, hostCards, quests: questList, learningExam }) : initial(); }
-catch { state = initial(); }
+catch (error) { console.warn('저장 기록을 불러오지 못했습니다.', error); state = initial(); }
 const canvas = document.querySelector('#world'), renderer = createRenderer(canvas, { hostCards, quests: questList });
 const $ = selector => document.querySelector(selector);
 const caseContextButton = document.createElement('button');

@@ -3,6 +3,7 @@ import { questPrerequisitesMet } from './world-presentation.mjs';
 const propsOf = object => Object.fromEntries((object?.properties ?? []).map(item => [item.name, item.value]));
 const tileOf = object => ({ x: Math.floor(object.x / 16), y: Math.floor(object.y / 16) });
 const distance = (a, b) => Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
+const questLabel = quest => quest?.socialChain ? `이웃 연쇄 · ${quest.titleKo}` : quest?.titleKo;
 const DIRECTIONS = [{ id: 'left', dx: -1, dy: 0, ko: '왼쪽' }, { id: 'right', dx: 1, dy: 0, ko: '오른쪽' }, { id: 'up', dx: 0, dy: -1, ko: '위' }, { id: 'down', dx: 0, dy: 1, ko: '아래' }];
 
 function walkPath(state, map, target, { radius = 1, targetHostId = null } = {}) {
@@ -123,7 +124,7 @@ export function resolveQuestGuidance({ state, quests, maps, hostCards }) {
     const walkDirections = next?.walkDirections ?? null;
     const targetPlace = traveling ? maps[next.person.mapId]?.metadata.displayNameKo : map.metadata.displayNameKo;
     return { questId: observerQuest?.id ?? null, phaseId: 'choose-host', hostId: next?.person.id ?? null, taskType: traveling ? 'TRAVEL' : next ? 'POSSESS' : 'TRAVEL',
-      questTitleKo: observerQuest?.titleKo ?? '먼저 한 사람의 시야로', actionKo: !next ? '가까운 사람을 찾아보세요' : traveling ? `${next.route[0].name}으로 가서 ${next.card.displayNameKo}를 만나세요` : `${next.card.displayNameKo}에게 다가가 살펴보세요`,
+      questTitleKo: questLabel(observerQuest) ?? '먼저 한 사람의 시야로', actionKo: !next ? '가까운 사람을 찾아보세요' : traveling ? `${next.route[0].name}으로 가서 ${next.card.displayNameKo}를 만나세요` : `${next.card.displayNameKo}에게 다가가 살펴보세요`,
       reasonKo: next ? observerQuest ? `${observerQuest.titleKo}은(는) ${next.card.displayNameKo}가 맡을 수 있습니다.` : `${next.card.displayNameKo}의 일과 아는 것을 직접 확인할 수 있습니다.` : '이 거리에서 만날 수 있는 사람을 찾고 있습니다.',
       howKo: traveling ? `${pathKo(walkDirections)} 관찰자는 공개된 길을 이용할 수 있습니다.` : pathKo(walkDirections),
       placeKo: targetPlace, target: immediate,
@@ -156,7 +157,7 @@ export function resolveQuestGuidance({ state, quests, maps, hostCards }) {
         const exit = route[0], exitMap = maps[exit.mapId];
         const directions = walkPath(state, exitMap, exit, { radius: 1 });
         if (directions) return { questId: nextStage.id, phaseId: 'life-chain-switch', hostId: owner.id,
-          questTitleKo: `${lockedChain.lifeChain.titleKo} · ${nextStage.lifeChain.stage}/${nextStage.lifeChain.stageCount}`,
+          questTitleKo: `${nextStage.socialChain ? '이웃 연쇄 · ' : ''}${lockedChain.lifeChain.titleKo} · ${nextStage.lifeChain.stage}/${nextStage.lifeChain.stageCount}`,
           taskType: 'TRAVEL', actionKo: `${ownerCard.displayNameKo}가 있는 ${maps[owner.mapId]?.metadata.displayNameKo}로 가세요`,
           reasonKo: `이 연속 퀘스트는 ${ownerCard.displayNameKo}의 선택에서 시작합니다. 앞 단계를 마치면 다음 사람의 일이 열립니다.`,
           howKo: `${pathKo(directions)} 현재 몸이 통과할 수 있는 길입니다.`, placeKo: `${maps[owner.mapId]?.metadata.displayNameKo}로 가는 길`,
@@ -165,7 +166,7 @@ export function resolveQuestGuidance({ state, quests, maps, hostCards }) {
       if (owner.mapId === mapId) {
         const directions = walkPath(state, map, owner.position, { radius: 2, targetHostId: owner.id });
         if (directions) return { questId: nextStage.id, phaseId: 'life-chain-switch', hostId: owner.id,
-          questTitleKo: `${lockedChain.lifeChain.titleKo} · ${nextStage.lifeChain.stage}/${nextStage.lifeChain.stageCount}`,
+          questTitleKo: `${nextStage.socialChain ? '이웃 연쇄 · ' : ''}${lockedChain.lifeChain.titleKo} · ${nextStage.lifeChain.stage}/${nextStage.lifeChain.stageCount}`,
           taskType: 'SWITCH', actionKo: `${ownerCard.displayNameKo}에게 몸을 맡기세요`,
           reasonKo: `이 연속 퀘스트는 ${ownerCard.displayNameKo}의 선택에서 시작합니다. 앞 단계를 마치면 다음 사람의 일이 열립니다.`,
           howKo: `${pathKo(directions)} 가까이서 E를 눌러 살펴보세요.`, placeKo: maps[mapId].metadata.displayNameKo,
@@ -192,7 +193,7 @@ export function resolveQuestGuidance({ state, quests, maps, hostCards }) {
   const completed = state.ledger.filter(entry => entry.questId === quest.id && ['HISTORICAL_ACTION','LITERARY_ACTION'].includes(entry.eventType)).length;
   const total = (quest.actions ?? []).length;
   const chain = quest.lifeChain;
-  const base = { questId: quest.id, phaseId: state.quests[quest.id]?.status ?? 'open', hostId: host.id, questTitleKo: chain ? `${chain.titleKo} · ${chain.stage}/${chain.stageCount} — ${quest.titleKo}` : quest.titleKo,
+  const base = { questId: quest.id, phaseId: state.quests[quest.id]?.status ?? 'open', hostId: host.id, questTitleKo: chain ? `${quest.socialChain ? '이웃 연쇄 · ' : ''}${chain.titleKo} · ${chain.stage}/${chain.stageCount} — ${quest.titleKo}` : questLabel(quest),
     progress: { completedSteps: Math.min(completed, total), totalSteps: Math.max(1,total) }, known: true };
 
   if (!allowed.length) {

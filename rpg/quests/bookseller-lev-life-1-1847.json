@@ -29,12 +29,13 @@
       "effects": {
         "situationKo": "반납 날짜와 사정을 먼저 물었다. 책이 어디 있는지 확인할 시간을 주되 다음 독자에게는 기다려 달라 해야 한다.",
         "relations": {
-          "reader_darya": "오늘 함께 확인한 일: 책 대여와 선금 장부"
+          "reader_darya": "돌아오지 않은 책 한 권에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "bookAccess": 2,
           "creditRisk": 1
-        }
+        },
+        "partnerRelationKo": "레프와 함께 반납 날짜와 현재 사정을 먼저 묻는다를 정했다."
       }
     },
     {
@@ -51,12 +52,13 @@
       "effects": {
         "situationKo": "새 책을 구하기 전까지 예약을 멈췄다. 약속은 줄었고 오늘의 수입도 줄 수 있다.",
         "relations": {
-          "reader_darya": "오늘 함께 확인한 일: 책 대여와 선금 장부"
+          "reader_darya": "돌아오지 않은 책 한 권에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "bookAccess": 1,
           "creditRisk": 0
-        }
+        },
+        "partnerRelationKo": "레프와 함께 새 책을 구할 때까지 다음 손님에게 예약을 받지 않는다를 정했다."
       }
     },
     {
@@ -73,12 +75,13 @@
       "effects": {
         "situationKo": "선금을 받고 다른 손님에게 책을 빌렸다. 한 사람의 기다림은 줄었지만 책을 돌려받을 책임이 늘었다.",
         "relations": {
-          "reader_darya": "오늘 함께 확인한 일: 책 대여와 선금 장부"
+          "reader_darya": "돌아오지 않은 책 한 권에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "bookAccess": 2,
           "creditRisk": 2
-        }
+        },
+        "partnerRelationKo": "레프와 함께 선금을 받고 다른 손님의 책을 빌려 준다를 정했다."
       }
     }
   ],
@@ -91,6 +94,15 @@
     "metricsKo": {
       "bookAccess": "책을 빌릴 수 있는 정도",
       "creditRisk": "외상 위험"
-    }
+    },
+    "kind": "SOCIAL",
+    "partnerHostId": "reader_darya"
+  },
+  "socialChain": {
+    "id": "SOCIAL_LEV_BOOK_RESERVATION_1847",
+    "partnerHostId": "reader_darya",
+    "partnerNameKo": "다리야 베레지나",
+    "progressStage": 1,
+    "stageCount": 3
   }
 }

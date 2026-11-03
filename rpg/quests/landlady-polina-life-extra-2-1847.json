@@ -29,12 +29,13 @@
       "effects": {
         "situationKo": "방세와 장작 몫을 따로 적고 하루를 기다리기로 했다. 공용 비용은 사라지지 않아 다시 확인해야 한다.",
         "relations": {
-          "tenant_mikhail": "함께 확인한 일: 공동 비용과 방세 납부 쪽지"
+          "tenant_mikhail": "장작값과 방세 사이에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "fairShare": 2,
           "tenantTrust": 2
-        }
+        },
+        "partnerRelationKo": "폴리나와 함께 방세와 장작 몫을 나눠 하루 유예를 적는다를 정했다."
       }
     },
     {
@@ -51,12 +52,13 @@
       "effects": {
         "situationKo": "장작 몫부터 받고 방세는 남겨 두었다. 공동 비용은 마련됐고 방세 문제는 그대로 남았다.",
         "relations": {
-          "tenant_mikhail": "함께 확인한 일: 공동 비용과 방세 납부 쪽지"
+          "tenant_mikhail": "장작값과 방세 사이에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "fairShare": 2,
           "tenantTrust": 1
-        }
+        },
+        "partnerRelationKo": "폴리나와 함께 공동 장작 몫만 먼저 받고 방세는 다시 논의한다를 정했다."
       }
     },
     {
@@ -73,12 +75,13 @@
       "effects": {
         "situationKo": "전액을 요구했다. 기준은 한결같지만 돈을 마련하지 못한 세입자의 선택이 좁아졌다.",
         "relations": {
-          "tenant_mikhail": "함께 확인한 일: 공동 비용과 방세 납부 쪽지"
+          "tenant_mikhail": "장작값과 방세 사이에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "fairShare": 1,
           "tenantTrust": -1
-        }
+        },
+        "partnerRelationKo": "폴리나와 함께 유예 없이 모든 비용을 오늘 요구한다를 정했다."
       }
     }
   ],
@@ -89,9 +92,18 @@
     "stage": 2,
     "stageCount": 3,
     "metricKo": "공동 살림의 부담과 세입자 신뢰",
-    "previousQuestId": "POLINA_COMMON_FIREWOOD_1847_STAGE_1"
+    "previousQuestId": "POLINA_COMMON_FIREWOOD_1847_STAGE_1",
+    "kind": "SOCIAL",
+    "partnerHostId": "tenant_mikhail"
   },
   "prerequisiteQuestIds": [
     "POLINA_COMMON_FIREWOOD_1847_STAGE_1"
-  ]
+  ],
+  "socialChain": {
+    "id": "SOCIAL_POLINA_COMMON_FIREWOOD_1847",
+    "partnerHostId": "tenant_mikhail",
+    "partnerNameKo": "미하일",
+    "progressStage": 2,
+    "stageCount": 3
+  }
 }

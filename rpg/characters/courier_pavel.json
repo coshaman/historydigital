@@ -124,7 +124,8 @@
     "printshop",
     "courtyard",
     "police-station",
-    "inn-interior"
+    "inn-interior",
+    "market-quay"
   ],
   "start": {
     "mapId": "nevsky",
@@ -201,6 +202,15 @@
         "y": 13
       },
       "activityKo": "처마 밑에서 빗물을 털고 잠시 쉰다"
+    },
+    {
+      "atMinute": 900,
+      "mapId": "market-quay",
+      "position": {
+        "x": 22,
+        "y": 10
+      },
+      "activityKo": "새 생활권에서 맡은 일을 이어간다"
     }
   ],
   "portrait": {

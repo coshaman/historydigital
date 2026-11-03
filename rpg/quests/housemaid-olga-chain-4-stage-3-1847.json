@@ -29,11 +29,12 @@
       "effects": {
         "situationKo": "명령을 확인하지 못했다는 사실만 당사자에게 전했다. 공포를 낮추되 확인하지 못한 일을 없었다고 말하진 않았다.",
         "relations": {
-          "servant_varvara": "오늘 함께 확인한 일: 확인 결과와 전달 범위"
+          "servant_varvara": "들어 들은 말과 확인할 일에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "verifiedWarnings": 2
-        }
+        },
+        "partnerRelationKo": "올가와 함께 명령이 확인되지 않았다는 결과만 비공개로 전한다를 정했다."
       }
     },
     {
@@ -50,11 +51,12 @@
       "effects": {
         "situationKo": "확인한 경로와 모르는 점을 장부에 나눠 적었다. 다음 사람이 다시 확인할 수 있지만 문의한 사람이 드러난다.",
         "relations": {
-          "servant_varvara": "오늘 함께 확인한 일: 확인 결과와 전달 범위"
+          "servant_varvara": "들어 들은 말과 확인할 일에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "verifiedWarnings": 1
-        }
+        },
+        "partnerRelationKo": "올가와 함께 확인 경로와 미확인 사항을 안뜰 기록에 적는다를 정했다."
       }
     },
     {
@@ -71,11 +73,12 @@
       "effects": {
         "situationKo": "이름을 빼고 결과를 전했다. 사생활은 지켰지만 말이 다시 옮겨지며 달라질 수 있다.",
         "relations": {
-          "servant_varvara": "오늘 함께 확인한 일: 확인 결과와 전달 범위"
+          "servant_varvara": "들어 들은 말과 확인할 일에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "verifiedWarnings": 0
-        }
+        },
+        "partnerRelationKo": "올가와 함께 개인 이름 없이 확인 결과를 구두로 전한다를 정했다."
       }
     }
   ],
@@ -88,9 +91,18 @@
     "metricsKo": {
       "verifiedWarnings": "이 문제를 처리하며 남긴 결과"
     },
-    "previousQuestId": "OLGA_WARNING_AND_RUMOR_1847_STAGE_2"
+    "previousQuestId": "OLGA_WARNING_AND_RUMOR_1847_STAGE_2",
+    "kind": "SOCIAL",
+    "partnerHostId": "servant_varvara"
   },
   "prerequisiteQuestIds": [
     "OLGA_WARNING_AND_RUMOR_1847_STAGE_2"
-  ]
+  ],
+  "socialChain": {
+    "id": "SOCIAL_OLGA_WARNING_AND_RUMOR_1847",
+    "partnerHostId": "servant_varvara",
+    "partnerNameKo": "바르바라",
+    "progressStage": 3,
+    "stageCount": 3
+  }
 }

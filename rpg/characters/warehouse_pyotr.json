@@ -168,6 +168,15 @@
       "activityKo": "운반표의 수량과 인수 시각을 확인한다"
     },
     {
+      "atMinute": 900,
+      "mapId": "courtyard",
+      "position": {
+        "x": 11,
+        "y": 13
+      },
+      "activityKo": "새 생활권에서 맡은 일을 이어간다"
+    },
+    {
       "atMinute": 960,
       "mapId": "market-quay",
       "position": {

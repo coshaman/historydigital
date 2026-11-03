@@ -55,10 +55,29 @@ const mapRows = maps.map(map => {
     width: map.width, height: map.height, geography: map.metadata?.geography ?? '', date: map.metadata?.date ?? null,
     sourceIds: map.metadata?.sourceIds ?? [], interactionObjects: interactions.length, mapExits: exits };
 });
+const districts = await json('rpg/data/city-districts-v36.json');
 const mapIdSet = new Set(mapRows.map(map => map.mapId));
 for (const map of mapRows) map.mapExits = map.mapExits.map(exit => ({ ...exit, targetExists: mapIdSet.has(exit.targetMapId) }));
 const cityMaps = mapRows.filter(map => map.mapClass !== 'LITERARY_REALM');
 const interiorCandidates = cityMaps.filter(map => /interior|room|office|shop|station|house/i.test(map.geography)).map(map => map.mapId);
+const districtMapIds = new Set((districts.districts ?? []).flatMap(district => district.mapIds ?? []));
+const playableDistricts = (districts.districts ?? []).filter(district => /PLAYABLE/.test(district.prototypeStatus ?? '')
+  && district.mapIds?.length && district.mapIds.every(id => mapIdSet.has(id))
+  && (district.connections ?? []).length > 0);
+const registeredInteriorIds = new Set((districts.districts ?? []).flatMap(district => district.interiorMapIds ?? []));
+const enterableInteriors = [...registeredInteriorIds].filter(id => {
+  const map = maps.find(item => item.mapId === id);
+  return Boolean(map?.metadata?.access && mapRows.find(row => row.mapId === id)?.mapExits.some(exit => exit.targetExists));
+});
+const usedAtlasGids = new Set();
+for (const map of maps.filter(item => item.metadata?.mapClass !== 'LITERARY_REALM')) {
+  for (const layer of map.layers?.filter(item => item.type === 'tilelayer') ?? []) for (const gid of layer.data ?? []) if (gid > 0 && gid <= 60) usedAtlasGids.add(gid);
+  for (const object of map.layers?.find(item => item.name === 'Interactions')?.objects ?? []) {
+    const gid = Number(props(object).assetTileId);
+    if (Number.isInteger(gid) && gid >= 1 && gid <= 60) usedAtlasGids.add(gid);
+  }
+}
+const assetUsageLines = (await readFile(path.join(root, 'rpg/assets/ASSET_USAGE_V36.csv'), 'utf8')).trim().split(/\r?\n/);
 await writeFile(path.join(out, 'MAP_GRAPH_AUDIT.json'), JSON.stringify({ auditedHead: commit, generatedAt,
   summary: { totalMaps: mapRows.length, cityAndReconstructionMaps: cityMaps.length,
     literaryMapsSeparate: mapRows.length - cityMaps.length, knownInteriorCandidatesByMetadata: interiorCandidates,
@@ -103,9 +122,16 @@ for (const quest of quests) questRows.push([quest.id, 'campaign_or_case', quest.
   quest.actions?.length ?? 0, [...new Set((quest.actions ?? []).flatMap(action => action.hostIds ?? []))].join('|'),
   [...new Set((quest.actions ?? []).flatMap(action => action.sourceIds ?? []))].join('|'), quest.historicalOutcome?.id ?? '', quest.historicalOutcome?.value ?? '']);
 const discussion = await json('rpg/data/discussion-quests.json');
-const districts = await json('rpg/data/city-districts-v36.json');
 for (const quest of discussion.quests ?? []) questRows.push([quest.id, 'opinion_or_perspective', '', quest.date ?? '', quest.titleKo ?? '',
   Object.keys(quest.hosts ?? {}).length, Object.keys(quest.hosts ?? {}).join('|'), (quest.sourceIds ?? []).join('|'), '', '']);
+const meaningfulCityInteractions = maps.filter(map => map.metadata?.mapClass !== 'LITERARY_REALM').reduce((count, map) => count + (map.layers?.find(layer => layer.name === 'Interactions')?.objects ?? []).filter(object => {
+  const properties = Object.fromEntries((object.properties ?? []).map(property => [property.name, property.value]));
+  if (object.type === 'quest-object') return quests.some(quest => quest.id === properties.questId);
+  if (object.type === 'inspectable') return typeof properties.storyTextKo === 'string' && properties.storyTextKo.trim().length >= 24;
+  if (object.type === 'source') return typeof properties.sourceId === 'string' && properties.sourceId.length > 0;
+  if (object.type === 'clue') return typeof properties.evidenceId === 'string' && properties.evidenceId.length > 0;
+  return Boolean(properties.serviceId || properties.interactionId);
+}).length, 0);
 await writeFile(path.join(out, 'QUEST_AUDIT.csv'), csv(
   ['quest_id','baseline_type','chapter_id','available_date','title_ko','action_or_host_count','host_ids','source_ids','immutable_outcome_id','historical_outcome'], questRows), 'utf8');
 
@@ -116,24 +142,33 @@ const baseline = { auditedHead: commit, branch, generatedAt, workingTreeStatus: 
     mapRecords: maps.length, cityAndReconstructionMaps: cityMaps.length, questRecords: questRows.length,
     personalOrCaseQuestFiles: quests.length, opinionQuestRecords: (discussion.quests ?? []).length, assetFiles: assetFiles.length,
     registeredGameplayDistricts: (districts.districts ?? []).length,
-    playableDistricts: (districts.districts ?? []).filter(district => district.prototypeStatus === 'PHASE_1_PLAYABLE_PROTOTYPE').length,
+    playableDistricts: playableDistricts.length,
+    registeredInteriors: registeredInteriorIds.size,
+    physicallyEnterableRegisteredInteriors: enterableInteriors.length,
+    environmentAtlasTilesDeclared: 60,
+    distinctEnvironmentAtlasTilesUsed: usedAtlasGids.size,
+    environmentTileUsageLedgerEntries: assetUsageLines.length - 1,
     currentCityNonExitInteractionObjects: cityMaps.reduce((sum, map) => sum + map.interactionObjects - map.mapExits.length, 0),
-    distinctProvenanceAssetTypes: new Set((provenance.assets ?? []).map(asset => asset.type)).size },
+    currentCityMeaningfulInteractions: meaningfulCityInteractions,
+    distinctProvenanceAssetTypes: new Set((provenance.assets ?? []).map(asset => asset.type)).size,
+    districtRegistryCoversAllCityMaps: [...districtMapIds].filter(id => mapIdSet.has(id)).length === cityMaps.length },
   rosterGaps: { scheduleUnderFour: characters.filter(person => person.kind === 'FICTIONAL' && !person.id.startsWith('literary_') && (person.schedule ?? []).length < 4).map(person => person.id),
     residentsWithTwoAuthoredActorRelations: characters.filter(person => person.kind === 'FICTIONAL' && !person.id.startsWith('literary_') && Object.keys(person.relations ?? {}).length >= 2).length,
     residentsWithExplicitNeedsProfile: characters.filter(person => person.kind === 'FICTIONAL' && !person.id.startsWith('literary_') && Boolean(person.needs)).length,
     residentsWithFourExplicitTodayGoals: characters.filter(person => person.kind === 'FICTIONAL' && !person.id.startsWith('literary_') && (person.todayGoals ?? []).length >= 4).length,
     residentsWithPersonalObjective: characters.filter(person => person.kind === 'FICTIONAL' && !person.id.startsWith('literary_') && Boolean(person.personalObjective)).length },
-  questGaps: { threeStagePersonalQuestRecords: quests.filter(quest => quest.lifeChain?.stageCount >= 3).length,
+  questGaps: { threeStagePersonalQuestRecords: quests.filter(quest => quest.lifeChain?.stageCount >= 3 && quest.lifeChain.kind !== 'SOCIAL').length,
     uniqueAuthoredLifeChains: new Set(quests.map(quest => quest.lifeChain?.id).filter(Boolean)).size,
-    threeStagePersonalQuestChains: new Set(quests.filter(quest => quest.lifeChain?.stageCount >= 3).map(quest => quest.lifeChain.id)).size },
+    threeStagePersonalQuestChains: new Set(quests.filter(quest => quest.lifeChain?.stageCount >= 3 && quest.lifeChain.kind !== 'SOCIAL').map(quest => quest.lifeChain.id)).size,
+    threeStageSocialQuestRecords: quests.filter(quest => quest.socialChain?.stageCount === 3).length,
+    uniqueThreeStageSocialChains: new Set(quests.filter(quest => quest.socialChain?.stageCount === 3).map(quest => quest.socialChain.id)).size },
   knownConstraints: [
     `${npcRows.filter(row => row[1] === 'FICTIONAL_CITY_CITIZEN').length} fictional city residents are catalogued; possession must be evidenced by the six route-specific batch tests, not inferred from file count.`,
-    `${(districts.districts ?? []).filter(district => district.prototypeStatus === 'PHASE_1_PLAYABLE_PROTOTYPE').length} playable districts are registered; the V36 target is 6.`,
-    `${interiorCandidates.length} maps are marked as interior candidates by geography metadata; the V36 target is 8 actually enterable interiors.`,
-    `${cityMaps.reduce((sum, map) => sum + map.interactionObjects - map.mapExits.length, 0)} non-exit interaction objects are present; the V36 target is 70 meaningful interactions, requiring effect-level review.`,
-    `${new Set(quests.filter(quest => quest.lifeChain?.stageCount >= 3).map(quest => quest.lifeChain.id)).size} unique authored life-chain IDs exist; the V36 target is 30 complete three-stage personal chains, and 10 social chains are separately required.`,
-    `${new Set((provenance.assets ?? []).map(asset => asset.type)).size} provenance asset types are registered; the V36 target is 60 distinct environmental asset types with actual in-game use.`,
+    `${playableDistricts.length} playable districts are registered and connected; the V36 target is 6.`,
+    `${enterableInteriors.length} registered interiors have access metadata and a physical exit; the V36 target is 8.`,
+    `${meaningfulCityInteractions} city interactions resolve to a quest, authored inspection, cited source, clue, or service; the V36 threshold is 70.`,
+    `${new Set(quests.filter(quest => quest.lifeChain?.stageCount >= 3).map(quest => quest.lifeChain.id)).size} complete resident life chains are registered, including ${new Set(quests.filter(quest => quest.socialChain?.stageCount === 3).map(quest => quest.socialChain.id)).size} three-stage social chains; targets are 30 life chains and 10 social chains.`,
+    `${usedAtlasGids.size}/60 unique environmental atlas tiles are used in city maps; the V36 target is 60, with ${assetUsageLines.length - 1} ledger entries.`,
     'Map geography remains stylized and not georeferenced; cited records contextualize scenes but do not prove survey-grade in-game coordinates.',
     'Local live-provider smoke does not verify the deployed Vercel production environment or its environment variables.',
   ] };

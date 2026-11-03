@@ -29,11 +29,12 @@
       "effects": {
         "situationKo": "확인된 범위와 서명을 장부에 남겼다. 한 번에 끝나진 않아도 누구의 판단인지 분명하다.",
         "relations": {
-          "senior_clerk_konstantin": "오늘 함께 확인한 일: 출입 결정과 책임 기록"
+          "senior_clerk_konstantin": "출입 허가와 부탁에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "fairAccess": 2
-        }
+        },
+        "partnerRelationKo": "세르게이와 함께 확인된 허가 범위만 적고 서명을 받는다를 정했다."
       }
     },
     {
@@ -50,11 +51,12 @@
       "effects": {
         "situationKo": "오늘은 들이지 않고 재방문 방법을 알려줬다. 기준은 지켰지만 서류는 제때 전달되지 않을 수 있다.",
         "relations": {
-          "senior_clerk_konstantin": "오늘 함께 확인한 일: 출입 결정과 책임 기록"
+          "senior_clerk_konstantin": "출입 허가와 부탁에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "fairAccess": 1
-        }
+        },
+        "partnerRelationKo": "세르게이와 함께 거절 사유와 다시 올 방법을 알려준다를 정했다."
       }
     },
     {
@@ -71,11 +73,12 @@
       "effects": {
         "situationKo": "뒤늦게 부탁을 들어준 일을 적었다. 출입 절차는 어겼지만 기록에서 감추지는 않았다.",
         "relations": {
-          "senior_clerk_konstantin": "오늘 함께 확인한 일: 출입 결정과 책임 기록"
+          "senior_clerk_konstantin": "출입 허가와 부탁에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "fairAccess": 0
-        }
+        },
+        "partnerRelationKo": "세르게이와 함께 부탁을 들어준 사실을 교대 장부에 뒤늦게 적는다를 정했다."
       }
     }
   ],
@@ -88,9 +91,18 @@
     "metricsKo": {
       "fairAccess": "이 문제를 처리하며 남긴 결과"
     },
-    "previousQuestId": "SERGEY_ENTRY_AND_FAVOR_1847_STAGE_2"
+    "previousQuestId": "SERGEY_ENTRY_AND_FAVOR_1847_STAGE_2",
+    "kind": "SOCIAL",
+    "partnerHostId": "senior_clerk_konstantin"
   },
   "prerequisiteQuestIds": [
     "SERGEY_ENTRY_AND_FAVOR_1847_STAGE_2"
-  ]
+  ],
+  "socialChain": {
+    "id": "SOCIAL_SERGEY_ENTRY_AND_FAVOR_1847",
+    "partnerHostId": "senior_clerk_konstantin",
+    "partnerNameKo": "콘스탄틴 바라노프",
+    "progressStage": 3,
+    "stageCount": 3
+  }
 }

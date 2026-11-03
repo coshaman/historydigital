@@ -20,17 +20,17 @@ const configs = [
   { id: 'communal-room', template: 'courtyard', title: '안뜰 공동 부엌', districtId: 'HOUSEHOLD_WORKYARD', type: 'interior', basis: '공동 주거와 물 사용을 다루는 허구의 부엌. 특정 1847년 건물·가구의 재현으로 주장하지 않음.', estates: ['urban_laborer','urban_service_worker','service_class','urban_artisan'], hostIds: ['yardkeeper_semyon','landlady_polina','watercarrier_luka','midwife_avdotya','housemaid_olga','tenant_mikhail'] },
 ];
 const propsByMap = {
-  'bookshop-lane': { floor:[43,44,46,47], objects:[['책을 내놓은 가판',27,6,8,'오늘 팔 책을 추려 놓았다. 값표가 없는 책은 주인에게 먼저 물어야 한다.'],['서점 간판',14,18,5,'간판은 가게의 이름만 알릴 뿐, 안쪽 장부까지 보여주지는 않는다.'],['배달 장부',21,22,10,'받은 책과 돌려보낼 책을 가르는 허구의 장부다.']] },
-  'canal-road': { floor:[49,50,51,52], objects:[['짐 상자',31,7,8,'상자 옆에 받는 곳이 적혀 있다. 안의 물건이 도착했는지는 아직 확인되지 않았다.'],['운반 장부판',21,16,11,'하역 순서와 품삯을 적는 허구의 표다.'],['수레 짐칸',35,24,7,'빈 수레가 다음 짐을 기다린다. 어느 쪽으로 갈지는 마부에게 물어야 한다.']] },
+  'bookshop-lane': { floor:[37,38,39,40,41,42,43,44,45,46,47], objects:[['책을 내놓은 가판',27,6,8,'오늘 팔 책을 추려 놓았다. 값표가 없는 책은 주인에게 먼저 물어야 한다.'],['서점 간판',14,18,5,'간판은 가게의 이름만 알릴 뿐, 안쪽 장부까지 보여주지는 않는다.'],['배달 장부',21,22,10,'받은 책과 돌려보낼 책을 가르는 허구의 장부다.']] },
+  'canal-road': { floor:[4,49,50,51,52], objects:[['짐 상자',31,7,8,'상자 옆에 받는 곳이 적혀 있다. 안의 물건이 도착했는지는 아직 확인되지 않았다.'],['운반 장부판',21,16,11,'하역 순서와 품삯을 적는 허구의 표다.'],['수레 짐칸',35,24,7,'빈 수레가 다음 짐을 기다린다. 어느 쪽으로 갈지는 마부에게 물어야 한다.']] },
   workyard: { floor:[54,55,56,57], objects:[['공용 물동이',34,5,5,'물을 함께 쓰는 자리가 비어 있다. 누가 먼저 길어 갈지는 정해져 있지 않다.'],['수선 작업대',22,15,5,'바느질감과 작은 공구가 놓이는 허구의 공동 작업대다.'],['뒷마당 관리함',27,18,11,'물과 장작을 나눠 쓴 표시가 남아 있다. 이름과 날짜는 적히지 않았다.']] },
-  'bookshop-interior': { floor:[58,59,60], objects:[['책 선반',20,5,5,'팔리지 않은 책이 안쪽 칸에 남아 있다. 재고와 독자의 형편은 장부에서 따로 확인해야 한다.'],['서가 표지',14,17,5,'책을 찾는 손님이 보도록 둔 표지다. 실제 점포의 간판을 복원한 것은 아니다.'],['입고 책 묶음',24,9,10,'새로 들어온 책 묶음이다. 외상인지 완납인지 이 물건만으로는 알 수 없다.']] },
-  'bakery-interior': { floor:[5,6], objects:[['빵 작업대',27,5,5,'반죽을 나누고 굽기 전 빵을 놓는 허구의 작업대다. 남은 밀가루는 장부와 함께 봐야 한다.'],['밀가루 자루',33,17,5,'자루의 무게와 품삯을 따로 적어 둔다. 표시된 수치는 게임을 위한 설정이다.'],['굽기 전 빵판',35,9,10,'오늘 구울 몫과 내일로 미룰 몫을 나누어 둔다.']] },
+  'bookshop-interior': { floor:[58,59,60], objects:[['책 선반',20,5,5,'팔리지 않은 책이 안쪽 칸에 남아 있다. 재고와 독자의 형편은 장부에서 따로 확인해야 한다.'],['서가 표지',14,17,5,'책을 찾는 손님이 보도록 둔 표지다. 실제 점포의 간판을 복원한 것은 아니다.'],['입고 책 묶음',24,9,10,'새로 들어온 책 묶음이다. 외상인지 완납인지 이 물건만으로는 알 수 없다.']], extraObjects:[['묶음 주문 쪽지',17,13,10,'주문이 겹친 책 제목만 적어 둔 허구의 쪽지다. 이름이 없어도 수량은 다시 확인해야 한다.'],['반품 봉투',29,20,10,'돌아온 책을 담는 봉투다. 반품 이유는 별도 장부에서 확인해야 한다.'],['안뜰 창문',26,2,0,'유리창 너머로 골목이 보인다. 이 창은 가상 점포 장면의 소품이다.'],['골목 쪽 문',28,12,0,'책방 골목으로 통하는 문이다. 출입은 표시된 문 출구를 이용한다.']] },
+  'bakery-interior': { floor:[5,6], objects:[['빵 작업대',27,5,5,'반죽을 나누고 굽기 전 빵을 놓는 허구의 작업대다. 남은 밀가루는 장부와 함께 봐야 한다.'],['밀가루 자루',33,17,5,'자루의 무게와 품삯을 따로 적어 둔다. 표시된 수치는 게임을 위한 설정이다.'],['굽기 전 빵판',35,9,10,'오늘 구울 몫과 내일로 미룰 몫을 나누어 둔다.']], extraObjects:[['작업실 유리창',30,2,0,'창가에 김이 맺혀 바깥 날씨를 가늠하기 어렵다. 이 실내 장면을 위한 소품이다.'],['주문 쪽지',29,20,10,'오늘 받을 빵의 수량을 적은 허구의 주문 쪽지다. 밀가루 재고와 맞춰 봐야 한다.']] },
   'inn-interior': { floor:[49,50,51,52], objects:[['공용 침상',18,5,5,'사람이 머무는 자리를 표시한 허구의 소품이다. 빈자리와 사용료는 주인에게 확인해야 한다.'],['작은 공동 식탁',22,17,5,'식사와 대화를 나누는 탁자다. 누가 앉을지는 정해져 있지 않다.'],['숙박 장부',21,9,10,'방세를 적는 게임 속 장부다. 인물별 비용과 날짜는 실제 기록이 아니다.']] },
   'sewing-room': { floor:[5,6], objects:[['바느질 틀',32,5,5,'천을 고정해 꿰매는 허구의 작업 도구다. 오늘 맡은 수선감이 옆에 놓여 있다.'],['옷감 작업대',22,17,5,'옷감과 바늘을 펼쳐 놓는 자리다. 주문과 품삯은 따로 기록해야 한다.'],['실·단추 함',34,9,10,'작은 재료를 분류해 둔 함이다. 빌린 물건은 돌려줄 때 표시한다.']] },
-  'communal-room': { floor:[54,55,56,57], objects:[['공용 식탁',22,5,5,'여럿이 함께 쓰는 탁자다. 자리를 차지하기 전에 다른 사람 몫을 살펴야 한다.'],['물통과 국자',34,17,5,'물을 받아 두는 허구의 공동 용기다. 남은 물과 길어 올 사람은 다르다.'],['공용 찬장',31,9,10,'그릇과 마른 식량을 나누어 두는 허구의 찬장이다.']] },
+  'communal-room': { floor:[54,55,56,57], objects:[['공용 식탁',22,5,5,'여럿이 함께 쓰는 탁자다. 자리를 차지하기 전에 다른 사람 몫을 살펴야 한다.'],['물통과 국자',34,17,5,'물을 받아 두는 허구의 공동 용기다. 남은 물과 길어 올 사람은 다르다.'],['공용 찬장',31,9,10,'그릇과 마른 식량을 나누어 두는 허구의 찬장이다.']], extraObjects:[['공용 걸상',36,20,5,'식탁 옆에 둔 낮은 걸상이다. 빈자리인지 누군가 쓰는 중인지는 먼저 살펴야 한다.']] },
 };
 
-const originals = Object.fromEntries(await Promise.all(['nevsky','market-quay','courtyard'].map(async id => [id, await read(id)])));
+const originals = Object.fromEntries(await Promise.all(['nevsky','market-quay','courtyard','chancery'].map(async id => [id, await read(id)])));
 const uniqueWalkable = (map, preferred, occupied = []) => {
   const collision = map.layers.find(layer => layer.name === 'Collision');
   const interaction = map.layers.find(layer => layer.name === 'Interactions');
@@ -72,7 +72,7 @@ const setTileObjectScene = (map, mapId) => {
   const layout=propsByMap[mapId], interaction=map.layers.find(layer=>layer.name==='Interactions'), collision=map.layers.find(layer=>layer.name==='Collision');
   if(!layout)return;
   interaction.objects=[];
-  for(const [index,[name,assetTileId,x,y,storyTextKo]] of layout.objects.entries()){
+  for(const [index,[name,assetTileId,x,y,storyTextKo]] of [...layout.objects,...(layout.extraObjects??[])].entries()){
     const cell=y*map.width+x;
     collision.data[cell]=1;
     interaction.objects.push({id:4000+index,name,type:'inspectable',x:x*16,y:y*16,width:16,height:16,visible:true,properties:[
@@ -91,7 +91,7 @@ const configureInterior = (map,mapId) => {
     if(edge)collision.data[index]=1;
   }
   map.metadata.observerStart={x:11,y:14};
-  const propCells=layout.objects.map(item=>({x:item[2],y:item[3]}));
+  const propCells=[...layout.objects,...(layout.extraObjects??[])].map(item=>({x:item[2],y:item[3]}));
   for(const point of propCells)collision.data[point.y*map.width+point.x]=1;
 };
 
@@ -188,17 +188,17 @@ await writeFile(registryPath, `${JSON.stringify(registry, null, 2)}\n`, 'utf8');
 
 const allowedUpdates = {
   bookseller_lev: ['bookshop-lane','bookshop-interior'], reader_darya: ['bookshop-lane','bookshop-interior'], student_vasily: ['bookshop-lane','bookshop-interior'], teacher_lyubov: ['bookshop-lane','bookshop-interior','inn-interior'],
-  carter_roman: ['canal-road'], coachman_timofey: ['canal-road'], porter_gavrila: ['canal-road'], warehouse_pyotr: ['canal-road'], fishseller_klavdiya: ['canal-road'], watercarrier_luka: ['canal-road'],
+  carter_roman: ['canal-road'], coachman_timofey: ['canal-road'], porter_gavrila: ['canal-road'], warehouse_pyotr: ['canal-road','courtyard'], fishseller_klavdiya: ['canal-road'], watercarrier_luka: ['canal-road'],
   baker_fyodor: ['bakery-interior'], market_nadezhda: ['bakery-interior'], porter_gavrila: ['canal-road','bakery-interior'], laundress_mariya: ['bakery-interior','workyard','sewing-room'],
-  innkeeper_irina: ['inn-interior'], courier_pavel: ['inn-interior'], lodging_tatyana: ['inn-interior'], tenant_mikhail: ['inn-interior','communal-room','workyard'],
+  innkeeper_irina: ['inn-interior'], courier_pavel: ['inn-interior','market-quay'], lodging_tatyana: ['inn-interior'], tenant_mikhail: ['inn-interior','communal-room','workyard','market-quay'], printer_ekaterina: ['chancery'],
   seamstress_anna: ['workyard','sewing-room'], housemaid_olga: ['workyard','sewing-room','communal-room'], servant_varvara: ['workyard','sewing-room'], yardkeeper_semyon: ['workyard','communal-room'], landlady_polina: ['workyard','communal-room'], midwife_avdotya: ['workyard','communal-room'],
 };
-const scheduleUpdates = { bookseller_lev: ['bookshop-interior',660], teacher_lyubov:['bookshop-interior',780], baker_fyodor:['bakery-interior',780], market_nadezhda:['bakery-interior',780], innkeeper_irina:['inn-interior',960], seamstress_anna:['sewing-room',900], yardkeeper_semyon:['workyard',840], watercarrier_luka:['canal-road',780] };
+const scheduleUpdates = { bookseller_lev: ['bookshop-interior',660], teacher_lyubov:['bookshop-interior',780], baker_fyodor:['bakery-interior',780], market_nadezhda:['bakery-interior',780], innkeeper_irina:['inn-interior',960], seamstress_anna:['sewing-room',900], yardkeeper_semyon:['workyard',840], watercarrier_luka:['canal-road',780], courier_pavel:['market-quay',900], printer_ekaterina:['chancery',780], tenant_mikhail:['market-quay',840], warehouse_pyotr:['courtyard',900] };
 for (const [id, additions] of Object.entries(allowedUpdates)) {
   const file = path.join(root, 'rpg/characters', `${id}.json`), card = JSON.parse(await readFile(file,'utf8'));
   card.allowedMaps = [...new Set([...card.allowedMaps, ...additions])];
   if (scheduleUpdates[id]) {
-    const [mapId, atMinute] = scheduleUpdates[id], map = newMaps[mapId];
+    const [mapId, atMinute] = scheduleUpdates[id], map = newMaps[mapId] ?? originals[mapId];
     card.schedule = card.schedule.filter(slot => slot.atMinute !== atMinute);
     card.schedule.push({ atMinute, mapId, position: { ...map.metadata.observerStart }, activityKo: `새 생활권에서 맡은 일을 이어간다` });
     card.schedule.sort((a,b) => a.atMinute - b.atMinute);

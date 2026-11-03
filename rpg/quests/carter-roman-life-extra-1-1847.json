@@ -29,12 +29,13 @@
       "effects": {
         "situationKo": "봉투를 감싸 먼저 실었다. 글은 제때 갈 수 있지만 시장 쪽 물량이 늦어진다.",
         "relations": {
-          "courier_pavel": "함께 확인한 일: 마차에 실을 짐의 순서"
+          "courier_pavel": "먼저 실을 짐, 먼저 도착할 약속에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "deliveryCare": 2,
           "delay": 1
-        }
+        },
+        "partnerRelationKo": "로만와 함께 봉투를 젖지 않게 싸고 인쇄소로 간다를 정했다."
       }
     },
     {
@@ -51,12 +52,13 @@
       "effects": {
         "situationKo": "시장 물건을 먼저 옮겼다. 상할 위험은 줄었고 봉투는 다음 길을 기다린다.",
         "relations": {
-          "courier_pavel": "함께 확인한 일: 마차에 실을 짐의 순서"
+          "courier_pavel": "먼저 실을 짐, 먼저 도착할 약속에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "deliveryCare": 1,
           "delay": 1
-        }
+        },
+        "partnerRelationKo": "로만와 함께 상하기 쉬운 시장 물건을 먼저 옮긴다를 정했다."
       }
     },
     {
@@ -73,12 +75,13 @@
       "effects": {
         "situationKo": "수취인의 사정을 먼저 물었다. 출발은 늦었지만 누구에게 왜 기다려 달라 했는지 남겼다.",
         "relations": {
-          "courier_pavel": "함께 확인한 일: 마차에 실을 짐의 순서"
+          "courier_pavel": "먼저 실을 짐, 먼저 도착할 약속에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "deliveryCare": 2,
           "delay": 2
-        }
+        },
+        "partnerRelationKo": "로만와 함께 두 짐의 수취인에게 순서를 묻는다를 정했다."
       }
     }
   ],
@@ -88,6 +91,15 @@
     "titleKo": "먼저 실을 짐, 먼저 도착할 약속",
     "stage": 1,
     "stageCount": 3,
-    "metricKo": "배달의 정확성과 운송 지연"
+    "metricKo": "배달의 정확성과 운송 지연",
+    "kind": "SOCIAL",
+    "partnerHostId": "courier_pavel"
+  },
+  "socialChain": {
+    "id": "SOCIAL_ROMAN_ROUTE_PRIORITY_1847",
+    "partnerHostId": "courier_pavel",
+    "partnerNameKo": "파벨 안토노프",
+    "progressStage": 1,
+    "stageCount": 3
   }
 }

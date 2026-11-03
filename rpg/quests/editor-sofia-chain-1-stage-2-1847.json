@@ -29,11 +29,12 @@
       "effects": {
         "situationKo": "도착 시각과 확인된 미수령 지역만 알렸다. 독자가 기다릴 정보는 주고 원인은 보태지 않았다.",
         "relations": {
-          "courier_pavel": "오늘 함께 확인한 일: 독자에게 보낼 정정 안내"
+          "courier_pavel": "도착하지 않은 신문 묶음에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "distributionTrust": 2
-        }
+        },
+        "partnerRelationKo": "소피야 미하일로바와 함께 확인된 도착 시각과 미수령 지역만 알린다를 정했다."
       }
     },
     {
@@ -50,11 +51,12 @@
       "effects": {
         "situationKo": "편집부가 확인을 맡겠다고 공지했다. 독자에게 답할 창구는 생겼지만 원인이 확정된 것은 아니다.",
         "relations": {
-          "courier_pavel": "오늘 함께 확인한 일: 독자에게 보낼 정정 안내"
+          "courier_pavel": "도착하지 않은 신문 묶음에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "distributionTrust": 1
-        }
+        },
+        "partnerRelationKo": "소피야 미하일로바와 함께 배달 지연 가능성을 편집부 책임으로 공지한다를 정했다."
       }
     },
     {
@@ -71,11 +73,12 @@
       "effects": {
         "situationKo": "원인을 확인할 때까지 공지를 미뤘다. 추측은 줄었지만 독자는 기다릴 수밖에 없다.",
         "relations": {
-          "courier_pavel": "오늘 함께 확인한 일: 독자에게 보낼 정정 안내"
+          "courier_pavel": "도착하지 않은 신문 묶음에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "distributionTrust": 0
-        }
+        },
+        "partnerRelationKo": "소피야 미하일로바와 함께 원인을 밝힐 때까지 공지를 보류한다를 정했다."
       }
     }
   ],
@@ -88,9 +91,18 @@
     "metricsKo": {
       "distributionTrust": "이 문제를 처리하며 남긴 결과"
     },
-    "previousQuestId": "SOFIA_MISSING_RECEIPTS_1847_STAGE_1"
+    "previousQuestId": "SOFIA_MISSING_RECEIPTS_1847_STAGE_1",
+    "kind": "SOCIAL",
+    "partnerHostId": "courier_pavel"
   },
   "prerequisiteQuestIds": [
     "SOFIA_MISSING_RECEIPTS_1847_STAGE_1"
-  ]
+  ],
+  "socialChain": {
+    "id": "SOCIAL_SOFIA_MISSING_RECEIPTS_1847",
+    "partnerHostId": "courier_pavel",
+    "partnerNameKo": "파벨 안토노프",
+    "progressStage": 2,
+    "stageCount": 3
+  }
 }

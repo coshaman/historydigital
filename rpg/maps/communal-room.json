@@ -69,7 +69,7 @@
   "tileheight": 16,
   "infinite": false,
   "nextlayerid": 7,
-  "nextobjectid": 4004,
+  "nextobjectid": 4005,
   "properties": [
     {
       "name": "mapId",
@@ -1167,7 +1167,7 @@
         1,
         0,
         0,
-        0,
+        1,
         0,
         0,
         1,
@@ -1995,6 +1995,33 @@
         },
         {
           "id": 4003,
+          "name": "공용 걸상",
+          "type": "inspectable",
+          "x": 320,
+          "y": 80,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 36
+            },
+            {
+              "name": "scope",
+              "type": "string",
+              "value": "fictional_scene_prop"
+            },
+            {
+              "name": "storyTextKo",
+              "type": "string",
+              "value": "식탁 옆에 둔 낮은 걸상이다. 빈자리인지 누군가 쓰는 중인지는 먼저 살펴야 한다."
+            }
+          ]
+        },
+        {
+          "id": 4004,
           "name": "거리로 나가는 문",
           "type": "map-exit",
           "x": 176,

@@ -29,12 +29,13 @@
       "effects": {
         "situationKo": "늦어질 시각을 알려 기다리는 사람이 헛걸음하지 않게 했다. 다른 짐의 약속은 다시 맞춰야 한다.",
         "relations": {
-          "courier_pavel": "함께 확인한 일: 길이 막힌 곳과 새 도착 시각"
+          "courier_pavel": "먼저 실을 짐, 먼저 도착할 약속에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "deliveryCare": 2,
           "delay": 1
-        }
+        },
+        "partnerRelationKo": "로만와 함께 수취인에게 늦어질 시각을 먼저 알린다를 정했다."
       }
     },
     {
@@ -51,12 +52,13 @@
       "effects": {
         "situationKo": "넓은 길로 돌았다. 마차는 덜 흔들렸지만 약속한 시각을 맞추지는 못했다.",
         "relations": {
-          "courier_pavel": "함께 확인한 일: 길이 막힌 곳과 새 도착 시각"
+          "courier_pavel": "먼저 실을 짐, 먼저 도착할 약속에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "deliveryCare": 2,
           "delay": 2
-        }
+        },
+        "partnerRelationKo": "로만와 함께 돌아가더라도 넓은 길로 우회한다를 정했다."
       }
     },
     {
@@ -73,12 +75,13 @@
       "effects": {
         "situationKo": "가까운 사람과 짐을 나눠 들었다. 이동은 빨라졌고 인계한 물건을 다시 확인해야 한다.",
         "relations": {
-          "courier_pavel": "함께 확인한 일: 길이 막힌 곳과 새 도착 시각"
+          "courier_pavel": "먼저 실을 짐, 먼저 도착할 약속에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "deliveryCare": 1,
           "delay": 0
-        }
+        },
+        "partnerRelationKo": "로만와 함께 짐을 내려 가까운 사람에게 나눠 옮겨 달라 한다를 정했다."
       }
     }
   ],
@@ -89,9 +92,18 @@
     "stage": 2,
     "stageCount": 3,
     "metricKo": "배달의 정확성과 운송 지연",
-    "previousQuestId": "ROMAN_ROUTE_PRIORITY_1847_STAGE_1"
+    "previousQuestId": "ROMAN_ROUTE_PRIORITY_1847_STAGE_1",
+    "kind": "SOCIAL",
+    "partnerHostId": "courier_pavel"
   },
   "prerequisiteQuestIds": [
     "ROMAN_ROUTE_PRIORITY_1847_STAGE_1"
-  ]
+  ],
+  "socialChain": {
+    "id": "SOCIAL_ROMAN_ROUTE_PRIORITY_1847",
+    "partnerHostId": "courier_pavel",
+    "partnerNameKo": "파벨 안토노프",
+    "progressStage": 2,
+    "stageCount": 3
+  }
 }

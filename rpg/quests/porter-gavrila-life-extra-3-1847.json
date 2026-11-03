@@ -29,12 +29,13 @@
       "effects": {
         "situationKo": "오늘 옮긴 양과 받은 품삯을 함께 적었다. 계산이 맞는지 내일 다시 확인할 수 있다.",
         "relations": {
-          "warehouse_pyotr": "함께 확인한 일: 오늘의 품삯과 남은 일"
+          "warehouse_pyotr": "짐 무게와 다음 품삯에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "bodyRisk": 0,
           "workTrust": 2
-        }
+        },
+        "partnerRelationKo": "가브릴라와 함께 맡은 무게와 받은 품삯을 같이 적는다를 정했다."
       }
     },
     {
@@ -51,12 +52,13 @@
       "effects": {
         "situationKo": "오늘 일은 정산하고 다음 차례는 쉬기로 했다. 수입은 줄어도 몸을 회복할 시간을 마련했다.",
         "relations": {
-          "warehouse_pyotr": "함께 확인한 일: 오늘의 품삯과 남은 일"
+          "warehouse_pyotr": "짐 무게와 다음 품삯에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "bodyRisk": 0,
           "workTrust": 1
-        }
+        },
+        "partnerRelationKo": "가브릴라와 함께 오늘은 돈을 받고 다음 일은 쉬겠다고 말한다를 정했다."
       }
     },
     {
@@ -73,12 +75,13 @@
       "effects": {
         "situationKo": "다음 짐까지 맡았다. 당장은 일감이 이어지지만 몸이 버틸지는 알 수 없다.",
         "relations": {
-          "warehouse_pyotr": "함께 확인한 일: 오늘의 품삯과 남은 일"
+          "warehouse_pyotr": "짐 무게와 다음 품삯에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "bodyRisk": 2,
           "workTrust": 0
-        }
+        },
+        "partnerRelationKo": "가브릴라와 함께 몸 상태를 숨기고 다음 짐도 맡는다를 정했다."
       }
     }
   ],
@@ -89,9 +92,18 @@
     "stage": 3,
     "stageCount": 3,
     "metricKo": "몸의 부담과 다음 일감의 신뢰",
-    "previousQuestId": "GAVRILA_LOAD_AND_REST_1847_STAGE_2"
+    "previousQuestId": "GAVRILA_LOAD_AND_REST_1847_STAGE_2",
+    "kind": "SOCIAL",
+    "partnerHostId": "warehouse_pyotr"
   },
   "prerequisiteQuestIds": [
     "GAVRILA_LOAD_AND_REST_1847_STAGE_2"
-  ]
+  ],
+  "socialChain": {
+    "id": "SOCIAL_GAVRILA_LOAD_AND_REST_1847",
+    "partnerHostId": "warehouse_pyotr",
+    "partnerNameKo": "표트르",
+    "progressStage": 3,
+    "stageCount": 3
+  }
 }

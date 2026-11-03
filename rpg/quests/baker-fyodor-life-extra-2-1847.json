@@ -29,12 +29,13 @@
       "effects": {
         "situationKo": "기다리는 손님에게 새 시각을 말했다. 그 사람은 헛걸음을 피하고 다른 주문은 따로 알려야 한다.",
         "relations": {
-          "market_nadezhda": "함께 확인한 일: 손님에게 보낼 굽기 시각 쪽지"
+          "market_nadezhda": "화덕 앞에 선 주문들에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "waste": 0,
           "promise": 2
-        }
+        },
+        "partnerRelationKo": "표도르와 함께 기다리는 손님에게 새 시각을 직접 알린다를 정했다."
       }
     },
     {
@@ -51,12 +52,13 @@
       "effects": {
         "situationKo": "순서를 문 앞에 붙였다. 누구나 확인할 수 있지만 사정이 공개되는 부담도 생겼다.",
         "relations": {
-          "market_nadezhda": "함께 확인한 일: 손님에게 보낼 굽기 시각 쪽지"
+          "market_nadezhda": "화덕 앞에 선 주문들에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "waste": 1,
           "promise": 1
-        }
+        },
+        "partnerRelationKo": "표도르와 함께 문 앞에 변경한 순서를 붙인다를 정했다."
       }
     },
     {
@@ -73,12 +75,13 @@
       "effects": {
         "situationKo": "따로 알리지 않았다. 일이 끝나면 건넬 수 있지만 손님은 언제 올지 모른다.",
         "relations": {
-          "market_nadezhda": "함께 확인한 일: 손님에게 보낼 굽기 시각 쪽지"
+          "market_nadezhda": "화덕 앞에 선 주문들에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "waste": 0,
           "promise": 0
-        }
+        },
+        "partnerRelationKo": "표도르와 함께 시간을 알리지 않고 준비되는 대로 건넨다를 정했다."
       }
     }
   ],
@@ -89,9 +92,18 @@
     "stage": 2,
     "stageCount": 3,
     "metricKo": "약속한 빵과 재료의 여유",
-    "previousQuestId": "FYODOR_OVEN_ORDER_1847_STAGE_1"
+    "previousQuestId": "FYODOR_OVEN_ORDER_1847_STAGE_1",
+    "kind": "SOCIAL",
+    "partnerHostId": "market_nadezhda"
   },
   "prerequisiteQuestIds": [
     "FYODOR_OVEN_ORDER_1847_STAGE_1"
-  ]
+  ],
+  "socialChain": {
+    "id": "SOCIAL_FYODOR_OVEN_ORDER_1847",
+    "partnerHostId": "market_nadezhda",
+    "partnerNameKo": "나데즈다",
+    "progressStage": 2,
+    "stageCount": 3
+  }
 }

@@ -36,7 +36,7 @@
       "reciprocalLinks": 2
     }
   ],
-  "scheduleTargetsChecked": 24,
+  "scheduleTargetsChecked": 25,
   "oneHourWorldReplay": true,
   "collisionSnapshots": 12,
   "questCompletions": 6,
@@ -44,5 +44,5 @@
   "possessionChecks": 6,
   "legacySaveRelationMigrationPreservedDynamicLinks": true,
   "movementEvents": 68,
-  "finalStateHash": "76a6a27a"
+  "finalStateHash": "93a97d41"
 }

@@ -29,12 +29,13 @@
       "effects": {
         "situationKo": "짐 상태와 시각을 같이 적었다. 다음에 문제가 생기면 인계 전후를 구분할 수 있다.",
         "relations": {
-          "courier_pavel": "함께 확인한 일: 도착한 짐과 수취 확인"
+          "courier_pavel": "먼저 실을 짐, 먼저 도착할 약속에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "deliveryCare": 2,
           "delay": 1
-        }
+        },
+        "partnerRelationKo": "로만와 함께 짐 상태와 도착 시각을 함께 적는다를 정했다."
       }
     },
     {
@@ -51,12 +52,13 @@
       "effects": {
         "situationKo": "수량만 확인하고 출발했다. 다음 운행은 시작했지만 짐 상태는 서로 확인하지 못했다.",
         "relations": {
-          "courier_pavel": "함께 확인한 일: 도착한 짐과 수취 확인"
+          "courier_pavel": "먼저 실을 짐, 먼저 도착할 약속에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "deliveryCare": 1,
           "delay": 0
-        }
+        },
+        "partnerRelationKo": "로만와 함께 받은 사람에게 수량만 확인받고 출발한다를 정했다."
       }
     },
     {
@@ -73,12 +75,13 @@
       "effects": {
         "situationKo": "수취인이 없어 짐을 가져왔다. 잘못된 사람에게 넘기지는 않았고 재방문이 필요하다.",
         "relations": {
-          "courier_pavel": "함께 확인한 일: 도착한 짐과 수취 확인"
+          "courier_pavel": "먼저 실을 짐, 먼저 도착할 약속에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "deliveryCare": 2,
           "delay": 2
-        }
+        },
+        "partnerRelationKo": "로만와 함께 수취인이 자리에 없으면 짐을 싣고 돌아간다를 정했다."
       }
     }
   ],
@@ -89,9 +92,18 @@
     "stage": 3,
     "stageCount": 3,
     "metricKo": "배달의 정확성과 운송 지연",
-    "previousQuestId": "ROMAN_ROUTE_PRIORITY_1847_STAGE_2"
+    "previousQuestId": "ROMAN_ROUTE_PRIORITY_1847_STAGE_2",
+    "kind": "SOCIAL",
+    "partnerHostId": "courier_pavel"
   },
   "prerequisiteQuestIds": [
     "ROMAN_ROUTE_PRIORITY_1847_STAGE_2"
-  ]
+  ],
+  "socialChain": {
+    "id": "SOCIAL_ROMAN_ROUTE_PRIORITY_1847",
+    "partnerHostId": "courier_pavel",
+    "partnerNameKo": "파벨 안토노프",
+    "progressStage": 3,
+    "stageCount": 3
+  }
 }

@@ -1,21 +1,155 @@
 {
-  "auditedHead": "554dbf969b3a93a3413bc1968b895354ae832e3d",
-  "generatedAt": "2026-11-03T06:00:36.391Z",
+  "auditedHead": "bfbd6efcd267df4ae721842d765d97af2ddf2554",
+  "generatedAt": "2026-11-03T09:19:11.468Z",
   "summary": {
-    "totalMaps": 8,
-    "cityAndReconstructionMaps": 6,
+    "totalMaps": 16,
+    "cityAndReconstructionMaps": 14,
     "literaryMapsSeparate": 2,
     "knownInteriorCandidatesByMetadata": [
+      "bakery-interior",
+      "bookshop-interior",
       "chancery",
+      "communal-room",
+      "inn-interior",
       "police-station",
-      "printshop"
+      "printshop",
+      "sewing-room"
     ],
-    "totalInteractionObjects": 121,
-    "nonExitInteractionCandidates": 111,
-    "totalMapExitObjects": 10,
+    "totalInteractionObjects": 168,
+    "nonExitInteractionCandidates": 142,
+    "totalMapExitObjects": 26,
     "missingTargets": []
   },
   "maps": [
+    {
+      "mapId": "bakery-interior",
+      "nameKo": "작은 빵 굽는 방",
+      "mapClass": "REAL_WORLD_RECONSTRUCTION",
+      "width": 24,
+      "height": 18,
+      "geography": "fictional 작은 빵 굽는 방 interior; no specific historical address or room is claimed",
+      "date": "1847-06-01",
+      "sourceIds": [
+        "V36-ART-RUSSIAN-MUSEUM-COLLMANN-1840S",
+        "V36-GUIDE-PUSHKAREV-1843"
+      ],
+      "interactionObjects": 6,
+      "mapExits": [
+        {
+          "objectId": 4005,
+          "label": "거리로 나가는 문",
+          "targetMapId": "market-quay",
+          "exitId": "bakery-market",
+          "arrival": {
+            "x": 19,
+            "y": 10
+          },
+          "requiredHostId": null,
+          "publicAccess": false,
+          "targetExists": true
+        }
+      ]
+    },
+    {
+      "mapId": "bookshop-interior",
+      "nameKo": "책방 안쪽",
+      "mapClass": "REAL_WORLD_RECONSTRUCTION",
+      "width": 24,
+      "height": 18,
+      "geography": "fictional 책방 안쪽 interior; no specific historical address or room is claimed",
+      "date": "1847-06-01",
+      "sourceIds": [
+        "V36-PHYSIOLOGY-PETERSBURG-1845",
+        "V36-GUIDE-PUSHKAREV-1843"
+      ],
+      "interactionObjects": 8,
+      "mapExits": [
+        {
+          "objectId": 4007,
+          "label": "거리로 나가는 문",
+          "targetMapId": "bookshop-lane",
+          "exitId": "bookshop-interior-lane",
+          "arrival": {
+            "x": 11,
+            "y": 10
+          },
+          "requiredHostId": null,
+          "publicAccess": false,
+          "targetExists": true
+        }
+      ]
+    },
+    {
+      "mapId": "bookshop-lane",
+      "nameKo": "책방 골목",
+      "mapClass": "REAL_WORLD_RECONSTRUCTION",
+      "width": 30,
+      "height": 20,
+      "geography": "fictional, non-georeferenced 책방 골목 street scene",
+      "date": "1847-06-01",
+      "sourceIds": [
+        "V36-PHYSIOLOGY-PETERSBURG-1845",
+        "V36-GUIDE-PUSHKAREV-1843"
+      ],
+      "interactionObjects": 5,
+      "mapExits": [
+        {
+          "objectId": 4003,
+          "label": "기존 거리로 돌아가기",
+          "targetMapId": "nevsky",
+          "exitId": "bookshop-lane-nevsky",
+          "arrival": {
+            "x": 12,
+            "y": 17
+          },
+          "requiredHostId": null,
+          "publicAccess": true,
+          "targetExists": true
+        },
+        {
+          "objectId": 4004,
+          "label": "책방 안쪽 출입문",
+          "targetMapId": "bookshop-interior",
+          "exitId": "bookshop-lane-bookshop",
+          "arrival": {
+            "x": 11,
+            "y": 14
+          },
+          "requiredHostId": null,
+          "publicAccess": false,
+          "targetExists": true
+        }
+      ]
+    },
+    {
+      "mapId": "canal-road",
+      "nameKo": "운하와 하역 길",
+      "mapClass": "REAL_WORLD_RECONSTRUCTION",
+      "width": 30,
+      "height": 20,
+      "geography": "fictional, non-georeferenced 운하와 하역 길 street scene",
+      "date": "1847-06-01",
+      "sourceIds": [
+        "V36-PHYSIOLOGY-PETERSBURG-1845",
+        "V36-GUIDE-PUSHKAREV-1843"
+      ],
+      "interactionObjects": 4,
+      "mapExits": [
+        {
+          "objectId": 4003,
+          "label": "기존 거리로 돌아가기",
+          "targetMapId": "market-quay",
+          "exitId": "canal-road-market",
+          "arrival": {
+            "x": 22,
+            "y": 9
+          },
+          "requiredHostId": null,
+          "publicAccess": true,
+          "targetExists": true
+        }
+      ]
+    },
     {
       "mapId": "chancery",
       "nameKo": "관청 접수실",
@@ -45,6 +179,35 @@
       ]
     },
     {
+      "mapId": "communal-room",
+      "nameKo": "안뜰 공동 부엌",
+      "mapClass": "REAL_WORLD_RECONSTRUCTION",
+      "width": 24,
+      "height": 18,
+      "geography": "fictional 안뜰 공동 부엌 interior; no specific historical address or room is claimed",
+      "date": "1847-06-01",
+      "sourceIds": [
+        "V36-PHYSIOLOGY-PETERSBURG-1845",
+        "V36-GUIDE-PUSHKAREV-1843"
+      ],
+      "interactionObjects": 5,
+      "mapExits": [
+        {
+          "objectId": 4004,
+          "label": "거리로 나가는 문",
+          "targetMapId": "workyard",
+          "exitId": "communal-workyard",
+          "arrival": {
+            "x": 9,
+            "y": 12
+          },
+          "requiredHostId": null,
+          "publicAccess": false,
+          "targetExists": true
+        }
+      ]
+    },
+    {
       "mapId": "courtyard",
       "nameKo": "하숙집 안뜰",
       "mapClass": "REAL_WORLD_RECONSTRUCTION",
@@ -56,7 +219,7 @@
         "OBJ-PETERSBURG-PLAN-1840",
         "OBJ-SADOVNIKOV-1835"
       ],
-      "interactionObjects": 24,
+      "interactionObjects": 26,
       "mapExits": [
         {
           "objectId": 62,
@@ -69,6 +232,32 @@
           },
           "requiredHostId": null,
           "publicAccess": true,
+          "targetExists": true
+        },
+        {
+          "objectId": null,
+          "label": "뒤뜰 작업장 문",
+          "targetMapId": "workyard",
+          "exitId": "courtyard-workyard",
+          "arrival": {
+            "x": 11,
+            "y": 14
+          },
+          "requiredHostId": null,
+          "publicAccess": true,
+          "targetExists": true
+        },
+        {
+          "objectId": null,
+          "label": "하숙집 공동방 출입문",
+          "targetMapId": "inn-interior",
+          "exitId": "courtyard-inn",
+          "arrival": {
+            "x": 11,
+            "y": 14
+          },
+          "requiredHostId": null,
+          "publicAccess": false,
           "targetExists": true
         }
       ]
@@ -88,6 +277,35 @@
       "mapExits": []
     },
     {
+      "mapId": "inn-interior",
+      "nameKo": "하숙집 공동방",
+      "mapClass": "REAL_WORLD_RECONSTRUCTION",
+      "width": 24,
+      "height": 18,
+      "geography": "fictional 하숙집 공동방 interior; no specific historical address or room is claimed",
+      "date": "1847-06-01",
+      "sourceIds": [
+        "V36-PHYSIOLOGY-PETERSBURG-1845",
+        "V36-GUIDE-PUSHKAREV-1843"
+      ],
+      "interactionObjects": 4,
+      "mapExits": [
+        {
+          "objectId": 4003,
+          "label": "거리로 나가는 문",
+          "targetMapId": "courtyard",
+          "exitId": "inn-courtyard",
+          "arrival": {
+            "x": 13,
+            "y": 10
+          },
+          "requiredHostId": null,
+          "publicAccess": false,
+          "targetExists": true
+        }
+      ]
+    },
+    {
       "mapId": "market-quay",
       "nameKo": "강변 장터",
       "mapClass": "REAL_WORLD_RECONSTRUCTION",
@@ -100,7 +318,7 @@
         "V36-ART-RUSSIAN-MUSEUM-COLLMANN-1840S",
         "V36-PHYSIOLOGY-PETERSBURG-1845"
       ],
-      "interactionObjects": 21,
+      "interactionObjects": 23,
       "mapExits": [
         {
           "objectId": 101,
@@ -113,6 +331,32 @@
           },
           "requiredHostId": null,
           "publicAccess": true,
+          "targetExists": true
+        },
+        {
+          "objectId": null,
+          "label": "운하 하역 길",
+          "targetMapId": "canal-road",
+          "exitId": "market-canal-road",
+          "arrival": {
+            "x": 11,
+            "y": 14
+          },
+          "requiredHostId": null,
+          "publicAccess": true,
+          "targetExists": true
+        },
+        {
+          "objectId": null,
+          "label": "작은 빵 굽는 방 출입문",
+          "targetMapId": "bakery-interior",
+          "exitId": "market-bakery",
+          "arrival": {
+            "x": 11,
+            "y": 14
+          },
+          "requiredHostId": null,
+          "publicAccess": false,
           "targetExists": true
         }
       ]
@@ -129,7 +373,7 @@
         "OBJ-PETERSBURG-PLAN-1840",
         "OBJ-SADOVNIKOV-1835"
       ],
-      "interactionObjects": 23,
+      "interactionObjects": 24,
       "mapExits": [
         {
           "objectId": 3,
@@ -191,6 +435,19 @@
           "arrival": {
             "x": 2,
             "y": 10
+          },
+          "requiredHostId": null,
+          "publicAccess": true,
+          "targetExists": true
+        },
+        {
+          "objectId": null,
+          "label": "책방 골목으로 가는 길",
+          "targetMapId": "bookshop-lane",
+          "exitId": "nevsky-bookshop-lane",
+          "arrival": {
+            "x": 11,
+            "y": 14
           },
           "requiredHostId": null,
           "publicAccess": true,
@@ -263,6 +520,90 @@
           },
           "requiredHostId": null,
           "publicAccess": true,
+          "targetExists": true
+        }
+      ]
+    },
+    {
+      "mapId": "sewing-room",
+      "nameKo": "바느질 셋방",
+      "mapClass": "REAL_WORLD_RECONSTRUCTION",
+      "width": 24,
+      "height": 18,
+      "geography": "fictional 바느질 셋방 interior; no specific historical address or room is claimed",
+      "date": "1847-06-01",
+      "sourceIds": [
+        "V36-PHYSIOLOGY-PETERSBURG-1845",
+        "V36-GUIDE-PUSHKAREV-1843"
+      ],
+      "interactionObjects": 4,
+      "mapExits": [
+        {
+          "objectId": 4003,
+          "label": "거리로 나가는 문",
+          "targetMapId": "workyard",
+          "exitId": "sewing-workyard",
+          "arrival": {
+            "x": 11,
+            "y": 10
+          },
+          "requiredHostId": null,
+          "publicAccess": false,
+          "targetExists": true
+        }
+      ]
+    },
+    {
+      "mapId": "workyard",
+      "nameKo": "공동 뒤뜰 작업장",
+      "mapClass": "REAL_WORLD_RECONSTRUCTION",
+      "width": 24,
+      "height": 18,
+      "geography": "fictional, non-georeferenced 공동 뒤뜰 작업장 street scene",
+      "date": "1847-06-01",
+      "sourceIds": [
+        "V36-PHYSIOLOGY-PETERSBURG-1845",
+        "V36-GUIDE-PUSHKAREV-1843"
+      ],
+      "interactionObjects": 6,
+      "mapExits": [
+        {
+          "objectId": 4003,
+          "label": "기존 거리로 돌아가기",
+          "targetMapId": "courtyard",
+          "exitId": "workyard-courtyard",
+          "arrival": {
+            "x": 11,
+            "y": 8
+          },
+          "requiredHostId": null,
+          "publicAccess": true,
+          "targetExists": true
+        },
+        {
+          "objectId": 4004,
+          "label": "바느질 셋방 출입문",
+          "targetMapId": "sewing-room",
+          "exitId": "workyard-sewing",
+          "arrival": {
+            "x": 11,
+            "y": 14
+          },
+          "requiredHostId": null,
+          "publicAccess": false,
+          "targetExists": true
+        },
+        {
+          "objectId": 4005,
+          "label": "안뜰 공동 부엌 출입문",
+          "targetMapId": "communal-room",
+          "exitId": "workyard-communal",
+          "arrival": {
+            "x": 11,
+            "y": 14
+          },
+          "requiredHostId": null,
+          "publicAccess": false,
           "targetExists": true
         }
       ]

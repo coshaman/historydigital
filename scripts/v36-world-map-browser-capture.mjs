@@ -6,7 +6,7 @@ import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { chromium } from 'playwright';
 
-const root=process.cwd(), output=path.join(root,'docs/v36/current-audit/screenshots/world-map-tour');
+const root=process.cwd(), output=path.join(root,'docs/v36/current-audit/screenshots/world-map-tour-verified');
 await mkdir(output,{recursive:true});
 const read=async file=>JSON.parse(await readFile(path.join(root,file),'utf8'));
 const require=createRequire(import.meta.url);require('../rpg/engine/game-state.js');const game=globalThis.V33GameState;
@@ -35,11 +35,17 @@ try{
       state.world.currentMapId=mapId;state.world.clockMinutes=600;state.world.date='1847-06-01';state.player.position={...map.metadata.observerStart};
       state.learning={...state.learning,phase:'complete',circleLearning:'attended',examOutcome:'passed',examCorrectCount:4,promotionStatus:'promoted',examAnswers:{},timelineIndex:0};
       if(hostId){state.player.embodiment=hostId;state.hosts[hostId].mapId=mapId;state.hosts[hostId].position={...map.metadata.observerStart};}
-      const save=game.saveGame(state),context=await browser.newContext({viewport:{width:viewport.width,height:viewport.height}}),page=await context.newPage(),errors=[];
-      page.on('pageerror',error=>errors.push(String(error)));
+      const save=game.saveGame(state);game.loadGame(save,{maps,hostCards:cards,quests});
+      const context=await browser.newContext({viewport:{width:viewport.width,height:viewport.height}}),page=await context.newPage(),errors=[];
+      page.on('pageerror',error=>errors.push(String(error.stack??error)));
+      page.on('console',message=>{if(message.type()==='warning'&&message.text().includes('저장 기록'))errors.push(message.text())});
       await page.goto(base,{waitUntil:'networkidle'});
       await page.evaluate(value=>{localStorage.clear();localStorage.setItem('v33-rpg-save',value);localStorage.setItem('v34-tutorial-stage','done')},save);
-      await page.reload({waitUntil:'networkidle'});await page.locator('#mission-tracker').waitFor({state:'visible'});await page.waitForTimeout(130);
+      await page.reload({waitUntil:'networkidle'});await page.locator('#world').waitFor({state:'visible'});
+      await page.waitForFunction(expected=>document.querySelector('#mapname')?.textContent===expected,map.metadata.displayNameKo,{timeout:8000});
+      await page.waitForTimeout(130);
+      const readyState=await page.evaluate(()=>({endingId:JSON.parse(localStorage.getItem('v33-rpg-save')??'{}').state?.endingId,missionHidden:document.querySelector('#mission-tracker')?.hidden,learningHidden:document.querySelector('#learning-screen')?.hidden,worldHidden:document.querySelector('#world')?.hidden}));
+      assert.equal(readyState.missionHidden,false,`${mapId} should show the world HUD after save restore: ${JSON.stringify({...readyState,pageErrors:errors})}`);
       const view=await page.evaluate(()=>{
         const canvas=document.querySelector('#world'),image=canvas?.getContext('2d')?.getImageData(0,0,Math.min(canvas.width,32),Math.min(canvas.height,32)).data??[];
         return {viewport:{width:innerWidth,height:innerHeight},documentWidth:document.documentElement.scrollWidth,documentHeight:document.documentElement.scrollHeight,

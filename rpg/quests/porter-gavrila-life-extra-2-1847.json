@@ -29,12 +29,13 @@
       "effects": {
         "situationKo": "잠깐 쉬고 돌아와 인계한 짐을 확인했다. 맡긴 양은 분명하고 다음 품삯도 협의할 수 있다.",
         "relations": {
-          "warehouse_pyotr": "함께 확인한 일: 쉬는 시간과 맡은 짐 메모"
+          "warehouse_pyotr": "짐 무게와 다음 품삯에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "bodyRisk": 0,
           "workTrust": 1
-        }
+        },
+        "partnerRelationKo": "가브릴라와 함께 쉬는 동안 동료가 맡은 짐을 세어 둔다를 정했다."
       }
     },
     {
@@ -51,12 +52,13 @@
       "effects": {
         "situationKo": "어깨 상태를 알렸다. 오늘은 작업이 늦어질 수 있지만 이유를 숨기지 않았다.",
         "relations": {
-          "warehouse_pyotr": "함께 확인한 일: 쉬는 시간과 맡은 짐 메모"
+          "warehouse_pyotr": "짐 무게와 다음 품삯에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "bodyRisk": 0,
           "workTrust": 2
-        }
+        },
+        "partnerRelationKo": "가브릴라와 함께 어깨가 아프다고 고용인에게 말한다를 정했다."
       }
     },
     {
@@ -73,12 +75,13 @@
       "effects": {
         "situationKo": "기록 없이 쉬었다. 몸은 잠깐 나아졌지만 누가 무엇을 맡았는지 다시 맞춰야 한다.",
         "relations": {
-          "warehouse_pyotr": "함께 확인한 일: 쉬는 시간과 맡은 짐 메모"
+          "warehouse_pyotr": "짐 무게와 다음 품삯에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "bodyRisk": 1,
           "workTrust": 0
-        }
+        },
+        "partnerRelationKo": "가브릴라와 함께 기록 없이 잠깐 자리를 비운다를 정했다."
       }
     }
   ],
@@ -89,9 +92,18 @@
     "stage": 2,
     "stageCount": 3,
     "metricKo": "몸의 부담과 다음 일감의 신뢰",
-    "previousQuestId": "GAVRILA_LOAD_AND_REST_1847_STAGE_1"
+    "previousQuestId": "GAVRILA_LOAD_AND_REST_1847_STAGE_1",
+    "kind": "SOCIAL",
+    "partnerHostId": "warehouse_pyotr"
   },
   "prerequisiteQuestIds": [
     "GAVRILA_LOAD_AND_REST_1847_STAGE_1"
-  ]
+  ],
+  "socialChain": {
+    "id": "SOCIAL_GAVRILA_LOAD_AND_REST_1847",
+    "partnerHostId": "warehouse_pyotr",
+    "partnerNameKo": "표트르",
+    "progressStage": 2,
+    "stageCount": 3
+  }
 }

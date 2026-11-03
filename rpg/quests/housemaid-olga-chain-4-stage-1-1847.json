@@ -29,11 +29,12 @@
       "effects": {
         "situationKo": "직접 들은 사람에게 표현을 확인하기로 했다. 뜻을 부풀리지 않지만 기다리는 동안 불안은 남는다.",
         "relations": {
-          "servant_varvara": "오늘 함께 확인한 일: 집안 경고 쪽지"
+          "servant_varvara": "들어 들은 말과 확인할 일에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "verifiedWarnings": 2
-        }
+        },
+        "partnerRelationKo": "올가와 함께 직접 들은 사람에게 말 그대로 확인한다를 정했다."
       }
     },
     {
@@ -50,11 +51,12 @@
       "effects": {
         "situationKo": "집주인에게 방을 비우라는 지시가 있었는지 물었다. 모호한 말을 확인하는 대신 눈에 띄는 위험을 감수한다.",
         "relations": {
-          "servant_varvara": "오늘 함께 확인한 일: 집안 경고 쪽지"
+          "servant_varvara": "들어 들은 말과 확인할 일에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "verifiedWarnings": 1
-        }
+        },
+        "partnerRelationKo": "올가와 함께 집주인에게 지시가 있었는지 묻는다를 정했다."
       }
     },
     {
@@ -71,11 +73,12 @@
       "effects": {
         "situationKo": "안뜰에 말을 전했다. 사람들이 대비할 수 있지만 소문이 더 커질 수도 있다.",
         "relations": {
-          "servant_varvara": "오늘 함께 확인한 일: 집안 경고 쪽지"
+          "servant_varvara": "들어 들은 말과 확인할 일에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "verifiedWarnings": 0
-        }
+        },
+        "partnerRelationKo": "올가와 함께 안뜰 사람들에게 소문을 먼저 알린다를 정했다."
       }
     }
   ],
@@ -87,9 +90,18 @@
     "stageCount": 3,
     "metricsKo": {
       "verifiedWarnings": "이 문제를 처리하며 남긴 결과"
-    }
+    },
+    "kind": "SOCIAL",
+    "partnerHostId": "servant_varvara"
   },
   "prerequisiteQuestIds": [
     "HOUSEHOLD_PRIVACY_1847"
-  ]
+  ],
+  "socialChain": {
+    "id": "SOCIAL_OLGA_WARNING_AND_RUMOR_1847",
+    "partnerHostId": "servant_varvara",
+    "partnerNameKo": "바르바라",
+    "progressStage": 1,
+    "stageCount": 3
+  }
 }

@@ -29,12 +29,13 @@
       "effects": {
         "situationKo": "만든 양과 건넨 양을 나눠 적었다. 다음 주문은 남은 재료에 맞춰 잡을 수 있다.",
         "relations": {
-          "market_nadezhda": "함께 확인한 일: 화덕을 끄기 전 주문 마감"
+          "market_nadezhda": "화덕 앞에 선 주문들에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "waste": 1,
           "promise": 2
-        }
+        },
+        "partnerRelationKo": "표도르와 함께 만든 양과 건넨 양을 따로 적는다를 정했다."
       }
     },
     {
@@ -51,12 +52,13 @@
       "effects": {
         "situationKo": "남은 밀가루를 따로 두었다. 오늘 더 팔지는 못하지만 재료가 있는 것처럼 약속하지 않았다.",
         "relations": {
-          "market_nadezhda": "함께 확인한 일: 화덕을 끄기 전 주문 마감"
+          "market_nadezhda": "화덕 앞에 선 주문들에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "waste": 0,
           "promise": 1
-        }
+        },
+        "partnerRelationKo": "표도르와 함께 남은 재료를 내일 몫으로 따로 둔다를 정했다."
       }
     },
     {
@@ -73,12 +75,13 @@
       "effects": {
         "situationKo": "다음 굽기에 먼저 주겠다고 말했다. 오늘 문제는 남았고 새 약속도 지켜야 한다.",
         "relations": {
-          "market_nadezhda": "함께 확인한 일: 화덕을 끄기 전 주문 마감"
+          "market_nadezhda": "화덕 앞에 선 주문들에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "waste": 0,
           "promise": 1
-        }
+        },
+        "partnerRelationKo": "표도르와 함께 늦어진 손님에게 다음 굽기 때 먼저 주겠다고 한다를 정했다."
       }
     }
   ],
@@ -89,9 +92,18 @@
     "stage": 3,
     "stageCount": 3,
     "metricKo": "약속한 빵과 재료의 여유",
-    "previousQuestId": "FYODOR_OVEN_ORDER_1847_STAGE_2"
+    "previousQuestId": "FYODOR_OVEN_ORDER_1847_STAGE_2",
+    "kind": "SOCIAL",
+    "partnerHostId": "market_nadezhda"
   },
   "prerequisiteQuestIds": [
     "FYODOR_OVEN_ORDER_1847_STAGE_2"
-  ]
+  ],
+  "socialChain": {
+    "id": "SOCIAL_FYODOR_OVEN_ORDER_1847",
+    "partnerHostId": "market_nadezhda",
+    "partnerNameKo": "나데즈다",
+    "progressStage": 3,
+    "stageCount": 3
+  }
 }

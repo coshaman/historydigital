@@ -29,12 +29,13 @@
       "effects": {
         "situationKo": "장작 수를 다시 세었다. 누가 가져갔는지는 적지 않고 다음 몫을 논의하기로 했다.",
         "relations": {
-          "tenant_mikhail": "함께 확인한 일: 공용 장작 더미와 몫 계산"
+          "tenant_mikhail": "장작값과 방세 사이에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "fairShare": 2,
           "tenantTrust": 1
-        }
+        },
+        "partnerRelationKo": "폴리나와 함께 남은 장작 수부터 다시 세고 공동 몫을 정한다를 정했다."
       }
     },
     {
@@ -51,12 +52,13 @@
       "effects": {
         "situationKo": "같은 몫을 정했다. 계산은 단순하지만 각 집의 사정은 반영하지 못했다.",
         "relations": {
-          "tenant_mikhail": "함께 확인한 일: 공용 장작 더미와 몫 계산"
+          "tenant_mikhail": "장작값과 방세 사이에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "fairShare": 1,
           "tenantTrust": 0
-        }
+        },
+        "partnerRelationKo": "폴리나와 함께 세입자마다 같은 몫을 걷는다를 정했다."
       }
     },
     {
@@ -73,12 +75,13 @@
       "effects": {
         "situationKo": "추측으로 한 집에 비용을 붙였다. 장부는 빨리 채워도 근거를 물으면 답할 수 없다.",
         "relations": {
-          "tenant_mikhail": "함께 확인한 일: 공용 장작 더미와 몫 계산"
+          "tenant_mikhail": "장작값과 방세 사이에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "fairShare": 0,
           "tenantTrust": -1
-        }
+        },
+        "partnerRelationKo": "폴리나와 함께 장작을 더 쓴 집을 추측해 비용을 붙인다를 정했다."
       }
     }
   ],
@@ -88,6 +91,15 @@
     "titleKo": "장작값과 방세 사이",
     "stage": 1,
     "stageCount": 3,
-    "metricKo": "공동 살림의 부담과 세입자 신뢰"
+    "metricKo": "공동 살림의 부담과 세입자 신뢰",
+    "kind": "SOCIAL",
+    "partnerHostId": "tenant_mikhail"
+  },
+  "socialChain": {
+    "id": "SOCIAL_POLINA_COMMON_FIREWOOD_1847",
+    "partnerHostId": "tenant_mikhail",
+    "partnerNameKo": "미하일",
+    "progressStage": 1,
+    "stageCount": 3
   }
 }

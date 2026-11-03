@@ -5,16 +5,16 @@
   "deterministicReplays": 3,
   "simulatedMinutes": 1440,
   "replayHashes": [
-    "9fd359ef",
-    "9fd359ef",
-    "9fd359ef"
+    "2280a2c5",
+    "2280a2c5",
+    "2280a2c5"
   ],
   "collisionSnapshotsPerReplay": 288,
   "totalCollisionSnapshots": 864,
   "firstReplay": {
-    "movementSteps": 2571,
-    "districtTransitions": 132,
-    "goalEvents": 172,
+    "movementSteps": 2668,
+    "districtTransitions": 144,
+    "goalEvents": 179,
     "deliveries": 4,
     "exchanges": 2,
     "residentsWithDistinctAuthoredObjectives": 36,
@@ -107,8 +107,8 @@
       },
       "tenant_mikhail": {
         "mapId": "courtyard",
-        "x": 9,
-        "y": 13
+        "x": 13,
+        "y": 14
       },
       "housemaid_olga": {
         "mapId": "courtyard",
@@ -203,5 +203,5 @@
     }
   },
   "autoCompletedPlayerQuests": 0,
-  "runtimeMilliseconds": 25742
+  "runtimeMilliseconds": 62075
 }

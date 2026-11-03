@@ -81,7 +81,7 @@
           "reciprocalLinks": 2
         }
       ],
-      "scheduleTargetsChecked": 30,
+      "scheduleTargetsChecked": 33,
       "oneHourWorldReplay": true,
       "collisionSnapshots": 12,
       "questCompletions": 6,
@@ -89,7 +89,7 @@
       "possessionChecks": 6,
       "legacySaveRelationMigrationPreservedDynamicLinks": true,
       "movementEvents": 68,
-      "finalStateHash": "76a6a27a"
+      "finalStateHash": "93a97d41"
     },
     {
       "schemaVersion": "V36_RESIDENT_BATCH_ACCEPTANCE_1",
@@ -137,7 +137,7 @@
       "possessionChecks": 6,
       "legacySaveRelationMigrationPreservedDynamicLinks": true,
       "movementEvents": 68,
-      "finalStateHash": "76a6a27a"
+      "finalStateHash": "93a97d41"
     },
     {
       "schemaVersion": "V36_RESIDENT_BATCH_ACCEPTANCE_1",
@@ -185,7 +185,7 @@
       "possessionChecks": 6,
       "legacySaveRelationMigrationPreservedDynamicLinks": true,
       "movementEvents": 68,
-      "finalStateHash": "76a6a27a"
+      "finalStateHash": "93a97d41"
     },
     {
       "schemaVersion": "V36_RESIDENT_BATCH_ACCEPTANCE_1",
@@ -233,7 +233,7 @@
       "possessionChecks": 6,
       "legacySaveRelationMigrationPreservedDynamicLinks": true,
       "movementEvents": 68,
-      "finalStateHash": "76a6a27a"
+      "finalStateHash": "93a97d41"
     },
     {
       "schemaVersion": "V36_RESIDENT_BATCH_ACCEPTANCE_1",
@@ -281,7 +281,7 @@
       "possessionChecks": 6,
       "legacySaveRelationMigrationPreservedDynamicLinks": true,
       "movementEvents": 68,
-      "finalStateHash": "76a6a27a"
+      "finalStateHash": "93a97d41"
     },
     {
       "schemaVersion": "V36_RESIDENT_BATCH_ACCEPTANCE_1",
@@ -321,7 +321,7 @@
           "reciprocalLinks": 2
         }
       ],
-      "scheduleTargetsChecked": 24,
+      "scheduleTargetsChecked": 25,
       "oneHourWorldReplay": true,
       "collisionSnapshots": 12,
       "questCompletions": 6,
@@ -329,7 +329,7 @@
       "possessionChecks": 6,
       "legacySaveRelationMigrationPreservedDynamicLinks": true,
       "movementEvents": 68,
-      "finalStateHash": "76a6a27a"
+      "finalStateHash": "93a97d41"
     }
   ]
 }

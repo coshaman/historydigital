@@ -29,11 +29,12 @@
       "effects": {
         "situationKo": "대기 상황과 열쇠를 다음 근무자에게 직접 넘겼다. 대기자는 더 기다리지만 기록은 이어진다.",
         "relations": {
-          "senior_clerk_konstantin": "오늘 함께 확인한 일: 교대 시간과 열쇠 인계"
+          "senior_clerk_konstantin": "출입 허가와 부탁에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "fairAccess": 2
-        }
+        },
+        "partnerRelationKo": "세르게이와 함께 교대 담당자에게 현재 상황을 직접 인계한다를 정했다."
       }
     },
     {
@@ -50,11 +51,12 @@
       "effects": {
         "situationKo": "상급자가 올 때까지 열쇠를 보관했다. 출입은 보류했지만 다른 업무가 늦어질 수 있다.",
         "relations": {
-          "senior_clerk_konstantin": "오늘 함께 확인한 일: 교대 시간과 열쇠 인계"
+          "senior_clerk_konstantin": "출입 허가와 부탁에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "fairAccess": 1
-        }
+        },
+        "partnerRelationKo": "세르게이와 함께 상급자가 올 때까지 열쇠를 보관한다를 정했다."
       }
     },
     {
@@ -71,11 +73,12 @@
       "effects": {
         "situationKo": "담당자 책상에 봉투를 두었다. 전달은 빨라져도 누가 인수했는지는 비어 있다.",
         "relations": {
-          "senior_clerk_konstantin": "오늘 함께 확인한 일: 교대 시간과 열쇠 인계"
+          "senior_clerk_konstantin": "출입 허가와 부탁에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "fairAccess": 0
-        }
+        },
+        "partnerRelationKo": "세르게이와 함께 담당자 자리를 비운 틈에 봉투를 안쪽에 둔다를 정했다."
       }
     }
   ],
@@ -88,9 +91,18 @@
     "metricsKo": {
       "fairAccess": "이 문제를 처리하며 남긴 결과"
     },
-    "previousQuestId": "SERGEY_ENTRY_AND_FAVOR_1847_STAGE_1"
+    "previousQuestId": "SERGEY_ENTRY_AND_FAVOR_1847_STAGE_1",
+    "kind": "SOCIAL",
+    "partnerHostId": "senior_clerk_konstantin"
   },
   "prerequisiteQuestIds": [
     "SERGEY_ENTRY_AND_FAVOR_1847_STAGE_1"
-  ]
+  ],
+  "socialChain": {
+    "id": "SOCIAL_SERGEY_ENTRY_AND_FAVOR_1847",
+    "partnerHostId": "senior_clerk_konstantin",
+    "partnerNameKo": "콘스탄틴 바라노프",
+    "progressStage": 2,
+    "stageCount": 3
+  }
 }

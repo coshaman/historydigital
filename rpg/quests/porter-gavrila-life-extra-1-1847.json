@@ -29,12 +29,13 @@
       "effects": {
         "situationKo": "짐을 둘로 나눠 들었다. 늦어졌지만 한 사람에게 무게를 몰아주지는 않았다.",
         "relations": {
-          "warehouse_pyotr": "함께 확인한 일: 들기 전 짐 무게 확인"
+          "warehouse_pyotr": "짐 무게와 다음 품삯에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "bodyRisk": 0,
           "workTrust": 2
-        }
+        },
+        "partnerRelationKo": "가브릴라와 함께 짐을 나눠 두 사람이 함께 든다를 정했다."
       }
     },
     {
@@ -51,12 +52,13 @@
       "effects": {
         "situationKo": "무게를 재고 가능한 양만 맡았다. 남은 몫은 그대로지만 누가 얼마나 들었는지는 분명해졌다.",
         "relations": {
-          "warehouse_pyotr": "함께 확인한 일: 들기 전 짐 무게 확인"
+          "warehouse_pyotr": "짐 무게와 다음 품삯에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "bodyRisk": 1,
           "workTrust": 2
-        }
+        },
+        "partnerRelationKo": "가브릴라와 함께 저울로 무게를 재고 맡을 양을 정한다를 정했다."
       }
     },
     {
@@ -73,12 +75,13 @@
       "effects": {
         "situationKo": "혼자 한 번에 들었다. 오늘 일은 빨리 끝났지만 몸이 더 나빠져도 고용인은 알기 어렵다.",
         "relations": {
-          "warehouse_pyotr": "함께 확인한 일: 들기 전 짐 무게 확인"
+          "warehouse_pyotr": "짐 무게와 다음 품삯에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "bodyRisk": 2,
           "workTrust": 0
-        }
+        },
+        "partnerRelationKo": "가브릴라와 함께 아무 말 없이 한 번에 옮긴다를 정했다."
       }
     }
   ],
@@ -88,6 +91,15 @@
     "titleKo": "짐 무게와 다음 품삯",
     "stage": 1,
     "stageCount": 3,
-    "metricKo": "몸의 부담과 다음 일감의 신뢰"
+    "metricKo": "몸의 부담과 다음 일감의 신뢰",
+    "kind": "SOCIAL",
+    "partnerHostId": "warehouse_pyotr"
+  },
+  "socialChain": {
+    "id": "SOCIAL_GAVRILA_LOAD_AND_REST_1847",
+    "partnerHostId": "warehouse_pyotr",
+    "partnerNameKo": "표트르",
+    "progressStage": 1,
+    "stageCount": 3
   }
 }

@@ -29,12 +29,13 @@
       "effects": {
         "situationKo": "밀가루를 다시 재고 만들 수량을 정했다. 약속을 바꾸기 전에 부족한 양을 확인했다.",
         "relations": {
-          "market_nadezhda": "함께 확인한 일: 밀가루 자루와 주문 수량"
+          "market_nadezhda": "화덕 앞에 선 주문들에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "waste": 0,
           "promise": 2
-        }
+        },
+        "partnerRelationKo": "표도르와 함께 자루를 다시 재고 만들 수량을 계산한다를 정했다."
       }
     },
     {
@@ -51,12 +52,13 @@
       "effects": {
         "situationKo": "급한 주문을 먼저 화덕에 넣었다. 필요한 사람에게는 맞췄지만 다른 손님에게 늦는 이유를 알려야 한다.",
         "relations": {
-          "market_nadezhda": "함께 확인한 일: 밀가루 자루와 주문 수량"
+          "market_nadezhda": "화덕 앞에 선 주문들에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "waste": 1,
           "promise": 1
-        }
+        },
+        "partnerRelationKo": "표도르와 함께 급한 주문부터 굽고 나머지는 늦춘다를 정했다."
       }
     },
     {
@@ -73,12 +75,13 @@
       "effects": {
         "situationKo": "모든 주문을 조금씩 줄였다. 한 사람에게만 부담을 넘기지 않았지만 누구도 약속한 양을 받지 못한다.",
         "relations": {
-          "market_nadezhda": "함께 확인한 일: 밀가루 자루와 주문 수량"
+          "market_nadezhda": "화덕 앞에 선 주문들에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "waste": 0,
           "promise": 0
-        }
+        },
+        "partnerRelationKo": "표도르와 함께 모든 주문의 수량을 조금씩 줄인다를 정했다."
       }
     }
   ],
@@ -88,6 +91,15 @@
     "titleKo": "화덕 앞에 선 주문들",
     "stage": 1,
     "stageCount": 3,
-    "metricKo": "약속한 빵과 재료의 여유"
+    "metricKo": "약속한 빵과 재료의 여유",
+    "kind": "SOCIAL",
+    "partnerHostId": "market_nadezhda"
+  },
+  "socialChain": {
+    "id": "SOCIAL_FYODOR_OVEN_ORDER_1847",
+    "partnerHostId": "market_nadezhda",
+    "partnerNameKo": "나데즈다",
+    "progressStage": 1,
+    "stageCount": 3
   }
 }

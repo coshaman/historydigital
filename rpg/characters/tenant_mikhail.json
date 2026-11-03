@@ -124,7 +124,8 @@
     "police-station",
     "inn-interior",
     "communal-room",
-    "workyard"
+    "workyard",
+    "market-quay"
   ],
   "start": {
     "mapId": "courtyard",
@@ -186,6 +187,15 @@
         "y": 15
       },
       "activityKo": "해 질 무렵 방으로 돌아가 잠시 쉰다"
+    },
+    {
+      "atMinute": 840,
+      "mapId": "market-quay",
+      "position": {
+        "x": 22,
+        "y": 10
+      },
+      "activityKo": "새 생활권에서 맡은 일을 이어간다"
     }
   ],
   "portrait": {

@@ -29,12 +29,13 @@
       "effects": {
         "situationKo": "두 문서의 서명 위치를 대조표에 나눠 적었다. 차이와 책임자를 한 줄로 뭉개지 않았다.",
         "relations": {
-          "printer_ekaterina": "오늘 함께 확인한 일: 서명과 사본 대조표"
+          "printer_ekaterina": "접수 순서가 어긋난 봉투에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "verifiedSequence": 2,
           "publicExposure": 0
-        }
+        },
+        "partnerRelationKo": "알렉세이 오를로프와 함께 원본과 사본의 서명 위치를 나란히 적는다를 정했다."
       }
     },
     {
@@ -51,12 +52,13 @@
       "effects": {
         "situationKo": "서명 보충을 요청하며 봉투를 돌려보냈다. 기한이 지켜질지는 아직 알 수 없다.",
         "relations": {
-          "printer_ekaterina": "오늘 함께 확인한 일: 서명과 사본 대조표"
+          "printer_ekaterina": "접수 순서가 어긋난 봉투에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "verifiedSequence": 1,
           "publicExposure": 1
-        }
+        },
+        "partnerRelationKo": "알렉세이 오를로프와 함께 누락된 서명을 보충해 달라고 돌려보낸다를 정했다."
       }
     },
     {
@@ -73,12 +75,13 @@
       "effects": {
         "situationKo": "확인한 사실과 모르는 부분을 나눠 상급자에게 올렸다. 서기의 검토 범위는 기록으로 남는다.",
         "relations": {
-          "printer_ekaterina": "오늘 함께 확인한 일: 서명과 사본 대조표"
+          "printer_ekaterina": "접수 순서가 어긋난 봉투에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "verifiedSequence": 1,
           "publicExposure": 2
-        }
+        },
+        "partnerRelationKo": "알렉세이 오를로프와 함께 상급자에게 현재 자료만으로 판단해 달라고 한다를 정했다."
       }
     }
   ],
@@ -92,9 +95,18 @@
     "metricsKo": {
       "verifiedSequence": "확인한 순서",
       "publicExposure": "공식 기록에 드러난 범위"
-    }
+    },
+    "kind": "SOCIAL",
+    "partnerHostId": "printer_ekaterina"
   },
   "prerequisiteQuestIds": [
     "ALEXEI_ENVELOPE_REGISTER_1847_STAGE_1"
-  ]
+  ],
+  "socialChain": {
+    "id": "SOCIAL_ALEXEI_ENVELOPE_REGISTER_1847",
+    "partnerHostId": "printer_ekaterina",
+    "partnerNameKo": "예카테리나 벨로바",
+    "progressStage": 2,
+    "stageCount": 3
+  }
 }

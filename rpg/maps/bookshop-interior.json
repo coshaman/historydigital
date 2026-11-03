@@ -68,7 +68,7 @@
   "tileheight": 16,
   "infinite": false,
   "nextlayerid": 7,
-  "nextobjectid": 4004,
+  "nextobjectid": 4008,
   "properties": [
     {
       "name": "mapId",
@@ -1279,14 +1279,14 @@
         0,
         0,
         0,
+        1,
         0,
         0,
         0,
         0,
         0,
         0,
-        0,
-        0,
+        1,
         0,
         0,
         1,
@@ -1994,6 +1994,114 @@
         },
         {
           "id": 4003,
+          "name": "묶음 주문 쪽지",
+          "type": "inspectable",
+          "x": 208,
+          "y": 160,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 17
+            },
+            {
+              "name": "scope",
+              "type": "string",
+              "value": "fictional_scene_prop"
+            },
+            {
+              "name": "storyTextKo",
+              "type": "string",
+              "value": "주문이 겹친 책 제목만 적어 둔 허구의 쪽지다. 이름이 없어도 수량은 다시 확인해야 한다."
+            }
+          ]
+        },
+        {
+          "id": 4004,
+          "name": "반품 봉투",
+          "type": "inspectable",
+          "x": 320,
+          "y": 160,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 29
+            },
+            {
+              "name": "scope",
+              "type": "string",
+              "value": "fictional_scene_prop"
+            },
+            {
+              "name": "storyTextKo",
+              "type": "string",
+              "value": "돌아온 책을 담는 봉투다. 반품 이유는 별도 장부에서 확인해야 한다."
+            }
+          ]
+        },
+        {
+          "id": 4005,
+          "name": "안뜰 창문",
+          "type": "inspectable",
+          "x": 32,
+          "y": 0,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 26
+            },
+            {
+              "name": "scope",
+              "type": "string",
+              "value": "fictional_scene_prop"
+            },
+            {
+              "name": "storyTextKo",
+              "type": "string",
+              "value": "유리창 너머로 골목이 보인다. 이 창은 가상 점포 장면의 소품이다."
+            }
+          ]
+        },
+        {
+          "id": 4006,
+          "name": "골목 쪽 문",
+          "type": "inspectable",
+          "x": 192,
+          "y": 0,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 28
+            },
+            {
+              "name": "scope",
+              "type": "string",
+              "value": "fictional_scene_prop"
+            },
+            {
+              "name": "storyTextKo",
+              "type": "string",
+              "value": "책방 골목으로 통하는 문이다. 출입은 표시된 문 출구를 이용한다."
+            }
+          ]
+        },
+        {
+          "id": 4007,
           "name": "거리로 나가는 문",
           "type": "map-exit",
           "x": 176,

@@ -29,12 +29,13 @@
       "effects": {
         "situationKo": "봉투의 도착 시각과 봉인 상태를 따로 적었다. 번호가 맞는지는 아직 단정하지 않았다.",
         "relations": {
-          "printer_ekaterina": "오늘 함께 확인한 일: 도착 시각과 접수 번호 메모"
+          "printer_ekaterina": "접수 순서가 어긋난 봉투에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "verifiedSequence": 1,
           "publicExposure": 0
-        }
+        },
+        "partnerRelationKo": "알렉세이 오를로프와 함께 도착 시각과 봉인 상태만 적는다를 정했다."
       }
     },
     {
@@ -51,12 +52,13 @@
       "effects": {
         "situationKo": "번호를 고쳐 접수부에 올렸다. 서류는 움직이지만 수정 이유를 설명해야 한다.",
         "relations": {
-          "printer_ekaterina": "오늘 함께 확인한 일: 도착 시각과 접수 번호 메모"
+          "printer_ekaterina": "접수 순서가 어긋난 봉투에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "verifiedSequence": 0,
           "publicExposure": 2
-        }
+        },
+        "partnerRelationKo": "알렉세이 오를로프와 함께 번호를 고쳐 공식 접수부에 먼저 올린다를 정했다."
       }
     },
     {
@@ -73,12 +75,13 @@
       "effects": {
         "situationKo": "접수 번호는 그대로 두고 배달 경로부터 확인하기로 했다.",
         "relations": {
-          "printer_ekaterina": "오늘 함께 확인한 일: 도착 시각과 접수 번호 메모"
+          "printer_ekaterina": "접수 순서가 어긋난 봉투에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "verifiedSequence": 2,
           "publicExposure": 0
-        }
+        },
+        "partnerRelationKo": "알렉세이 오를로프와 함께 배달원에게 전달 경로를 다시 묻는다를 정했다."
       }
     }
   ],
@@ -91,6 +94,15 @@
     "metricsKo": {
       "verifiedSequence": "확인한 순서",
       "publicExposure": "공식 기록에 드러난 범위"
-    }
+    },
+    "kind": "SOCIAL",
+    "partnerHostId": "printer_ekaterina"
+  },
+  "socialChain": {
+    "id": "SOCIAL_ALEXEI_ENVELOPE_REGISTER_1847",
+    "partnerHostId": "printer_ekaterina",
+    "partnerNameKo": "예카테리나 벨로바",
+    "progressStage": 1,
+    "stageCount": 3
   }
 }

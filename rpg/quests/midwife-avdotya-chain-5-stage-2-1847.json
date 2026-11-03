@@ -29,11 +29,12 @@
       "effects": {
         "situationKo": "필요한 물품과 실제 비용만 적었다. 치료 효과를 장담하거나 쓸데없는 물건을 더하진 않았다.",
         "relations": {
-          "landlady_polina": "오늘 함께 확인한 일: 약품과 교통비 내역"
+          "landlady_polina": "돌봄의 비용과 차례에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "careAccess": 2
-        }
+        },
+        "partnerRelationKo": "아브도티야와 함께 필요한 물품과 실제 비용만 적는다를 정했다."
       }
     },
     {
@@ -50,11 +51,12 @@
       "effects": {
         "situationKo": "각 집에 감당할 수 있는 몫을 따로 물었다. 사정은 지키지만 기준을 설명하기 어려울 수 있다.",
         "relations": {
-          "landlady_polina": "오늘 함께 확인한 일: 약품과 교통비 내역"
+          "landlady_polina": "돌봄의 비용과 차례에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "careAccess": 1
-        }
+        },
+        "partnerRelationKo": "아브도티야와 함께 형편에 따라 낼 수 있는 만큼을 따로 묻는다를 정했다."
       }
     },
     {
@@ -71,11 +73,12 @@
       "effects": {
         "situationKo": "비용을 반씩 나눴다. 기준은 간단하지만 같은 액수가 모두에게 같은 부담은 아니다.",
         "relations": {
-          "landlady_polina": "오늘 함께 확인한 일: 약품과 교통비 내역"
+          "landlady_polina": "돌봄의 비용과 차례에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "careAccess": 0
-        }
+        },
+        "partnerRelationKo": "아브도티야와 함께 두 집의 부담을 똑같이 나눈다를 정했다."
       }
     }
   ],
@@ -88,9 +91,18 @@
     "metricsKo": {
       "careAccess": "이 문제를 처리하며 남긴 결과"
     },
-    "previousQuestId": "AVDOTYA_CARE_COSTS_1847_STAGE_1"
+    "previousQuestId": "AVDOTYA_CARE_COSTS_1847_STAGE_1",
+    "kind": "SOCIAL",
+    "partnerHostId": "landlady_polina"
   },
   "prerequisiteQuestIds": [
     "AVDOTYA_CARE_COSTS_1847_STAGE_1"
-  ]
+  ],
+  "socialChain": {
+    "id": "SOCIAL_AVDOTYA_CARE_COSTS_1847",
+    "partnerHostId": "landlady_polina",
+    "partnerNameKo": "폴리나",
+    "progressStage": 2,
+    "stageCount": 3
+  }
 }

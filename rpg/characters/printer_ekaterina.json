@@ -123,7 +123,8 @@
     "nevsky",
     "printshop",
     "courtyard",
-    "police-station"
+    "police-station",
+    "chancery"
   ],
   "start": {
     "mapId": "printshop",
@@ -188,6 +189,15 @@
         "y": 12
       },
       "activityKo": "작업장을 나서 다음 주문을 확인한다"
+    },
+    {
+      "atMinute": 780,
+      "mapId": "chancery",
+      "position": {
+        "x": 12,
+        "y": 14
+      },
+      "activityKo": "새 생활권에서 맡은 일을 이어간다"
     },
     {
       "atMinute": 900,

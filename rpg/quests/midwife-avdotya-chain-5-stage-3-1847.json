@@ -29,11 +29,12 @@
       "effects": {
         "situationKo": "다음 방문과 남은 비용을 따로 적었다. 다시 확인하기 쉽지만 기록을 안전하게 보관해야 한다.",
         "relations": {
-          "landlady_polina": "오늘 함께 확인한 일: 다음 방문과 미납 기록"
+          "landlady_polina": "돌봄의 비용과 차례에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "careAccess": 2
-        }
+        },
+        "partnerRelationKo": "아브도티야와 함께 다음 방문 시간과 남은 비용을 각각 적는다를 정했다."
       }
     },
     {
@@ -50,11 +51,12 @@
       "effects": {
         "situationKo": "함께 쓰는 물품을 마련하기로 했다. 부담을 나눌 수 있지만 재고가 모자라면 기다려야 한다.",
         "relations": {
-          "landlady_polina": "오늘 함께 확인한 일: 다음 방문과 미납 기록"
+          "landlady_polina": "돌봄의 비용과 차례에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "careAccess": 1
-        }
+        },
+        "partnerRelationKo": "아브도티야와 함께 공동 물품을 마련하고 사용량만 공개한다를 정했다."
       }
     },
     {
@@ -71,11 +73,12 @@
       "effects": {
         "situationKo": "미납은 다음 방문 때 다시 확인하기로 했다. 도움은 이어지지만 당장은 조산원이 비용을 부담한다.",
         "relations": {
-          "landlady_polina": "오늘 함께 확인한 일: 다음 방문과 미납 기록"
+          "landlady_polina": "돌봄의 비용과 차례에서 함께 맡은 일을 확인했다"
         },
         "lifeChainDelta": {
           "careAccess": 0
-        }
+        },
+        "partnerRelationKo": "아브도티야와 함께 미납은 다음 방문까지 미루고 우선 도움을 이어간다를 정했다."
       }
     }
   ],
@@ -88,9 +91,18 @@
     "metricsKo": {
       "careAccess": "이 문제를 처리하며 남긴 결과"
     },
-    "previousQuestId": "AVDOTYA_CARE_COSTS_1847_STAGE_2"
+    "previousQuestId": "AVDOTYA_CARE_COSTS_1847_STAGE_2",
+    "kind": "SOCIAL",
+    "partnerHostId": "landlady_polina"
   },
   "prerequisiteQuestIds": [
     "AVDOTYA_CARE_COSTS_1847_STAGE_2"
-  ]
+  ],
+  "socialChain": {
+    "id": "SOCIAL_AVDOTYA_CARE_COSTS_1847",
+    "partnerHostId": "landlady_polina",
+    "partnerNameKo": "폴리나",
+    "progressStage": 3,
+    "stageCount": 3
+  }
 }

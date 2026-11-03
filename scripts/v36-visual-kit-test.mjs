@@ -33,7 +33,7 @@ const tileHashes = tilePixels.tiles.map(pixels => createHash('sha256').update(Bu
 const uniqueHashes = new Set(tileHashes);
 const duplicateGroups = [...new Set(tileHashes)].map(hash => ({ hash, gids: tileHashes.flatMap((value, index) => value === hash ? [index + 1] : []) })).filter(group => group.gids.length > 1);
 
-const mapIds = ['nevsky','market-quay','printshop','courtyard','chancery','police-station','dead-souls','overcoat'];
+const mapIds = (await fs.readdir(path.join(root,'rpg/maps'))).filter(file=>file.endsWith('.json')).map(file=>file.slice(0,-5)).sort();
 const maps = Object.fromEntries(await Promise.all(mapIds.map(async id => [id, JSON.parse(await fs.readFile(path.join(root, `rpg/maps/${id}.json`), 'utf8'))])));
 for (const [id, map] of Object.entries(maps)) {
   const tileset = map.tilesets.find(item => item.image?.endsWith('petersburg-tiles.png'));
@@ -50,11 +50,23 @@ assert.equal(used.nevsky.length, 4, 'Nevsky uses all four new street stones');
 assert.equal(used.marketQuay.length, 11, 'market and quay use all ground, stone and timber variants');
 assert.equal(used.printshop.length, 3, 'printshop uses the indoor timber floor variants');
 assert.equal(used.courtyard.length, 4, 'courtyard uses all worn stone variants');
+const usedAtlasGids = new Set();
+for (const map of Object.values(maps).filter(item=>item.metadata.mapClass!=='LITERARY_REALM')) {
+  for (const layer of map.layers.filter(item=>item.type==='tilelayer')) for (const gid of layer.data) if (gid>0&&gid<=60) usedAtlasGids.add(gid);
+  for (const object of map.layers.find(item=>item.name==='Interactions')?.objects??[]) {
+    const tile=Number(object.properties?.find(item=>item.name==='assetTileId')?.value);
+    if(Number.isInteger(tile)&&tile>=1&&tile<=60)usedAtlasGids.add(tile);
+  }
+}
+assert.equal(usedAtlasGids.size,60,`all 60 distinct atlas assets must appear in playable city maps; missing=${JSON.stringify([...Array(60)].map((_,index)=>index+1).filter(id=>!usedAtlasGids.has(id)))}`);
 
 const usageRows = (await fs.readFile(path.join(root, 'rpg/assets/ASSET_USAGE_V36.csv'), 'utf8')).trim().split(/\r?\n/);
 assert.equal(usageRows.length, 61, 'tile usage ledger has a header and one row per GID');
 const usageGids = usageRows.slice(1).map(line => Number(line.match(/^"(\d+)"/)?.[1]));
 assert.deepEqual(usageGids, Array.from({ length: 60 }, (_, index) => index + 1), 'ledger covers each atlas tile exactly once in order');
+const usageKeys = usageRows.slice(1).map(line => [...line.matchAll(/"((?:[^"]|"")*)"/g)][1]?.[1]);
+assert.equal(new Set(usageKeys).size,60,'all 60 ledger rows identify a distinct environmental tile asset');
+assert.ok(usageKeys.every(key=>key&&key!=='EXISTING_TILE'),'tile ledger entries must use distinct descriptive names');
 const provenance = JSON.parse(await fs.readFile(path.join(root, 'rpg/assets/ASSET_PROVENANCE.json'), 'utf8'));
 const atlasRecord = provenance.assets.find(asset => asset.id === 'petersburg-tiles');
 assert.equal(atlasRecord.historicalConfidence, 'CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE');
@@ -90,7 +102,8 @@ const report = {
   schemaVersion: 'V36_VISUAL_KIT_AUDIT_1',
   status: uniqueHashes.size === 60 ? 'PASS' : 'FAIL',
   atlas: { width: tilePixels.width, height: tilePixels.height, declaredTiles: 60, uniquePixelTiles: uniqueHashes.size, duplicateGroups },
-  tileUsageByDistrict: used,
+  tileUsageByDistrict: { ...used, cityMapCount: Object.values(maps).filter(item=>item.metadata.mapClass!=='LITERARY_REALM').length,
+    distinctAtlasGidsUsed: usedAtlasGids.size, atlasGids: [...usedAtlasGids].sort((a,b)=>a-b) },
   mapsWithUpdatedAtlasCount: Object.keys(maps).length,
   assetUsageLedgerRows: usageRows.length - 1,
   sourceIdsResolve: true,
