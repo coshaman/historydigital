@@ -37,10 +37,20 @@ try {
   for (let attempt = 0; attempt < 80; attempt += 1) { try { if ((await fetch(origin)).ok) { ready = true; break; } } catch {} await new Promise(resolve => setTimeout(resolve, 125)); }
   assert.ok(ready, 'local Vercel-compatible web app starts');
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } }), errors = [];
+  let arcBundleRequestCount = 0;
+  const arcBundleRequestsPerStartup = [];
   page.on('pageerror', error => errors.push(String(error)));
+  page.on('request', request => {
+    if (new URL(request.url()).pathname === '/rpg/quests/resident-arcs-v36.json') arcBundleRequestCount += 1;
+  });
   await page.goto(origin, { waitUntil: 'networkidle' });
+  assert.equal(arcBundleRequestCount, 1, 'initial game startup should request the complete resident arc bundle once');
+  arcBundleRequestsPerStartup.push(arcBundleRequestCount);
   await page.evaluate(value => { localStorage.clear(); localStorage.setItem('v33-rpg-save', value); localStorage.setItem('v34-tutorial-stage', 'done'); }, game.saveGame(state));
+  let previousArcBundleCount = arcBundleRequestCount;
   await page.reload({ waitUntil: 'networkidle' });
+  assert.equal(arcBundleRequestCount - previousArcBundleCount, 1, 'saved game reload should request the bundle once');
+  arcBundleRequestsPerStartup.push(arcBundleRequestCount - previousArcBundleCount);
   await page.locator('#use').click();
   const visible = await page.evaluate(() => ({ title: document.querySelector('#headline')?.textContent, actions: [...document.querySelectorAll('#actions button')].map(button => button.textContent) }));
   assert.match(visible.title, /말할 기회와 감당할 위험/, `the active quest object should beat the adjacent market counter: ${JSON.stringify(visible)}`);
@@ -55,7 +65,10 @@ try {
   stepanState.hosts.print_apprentice_stepan.position = { x: Math.floor(stepanObject.x / 16), y: Math.floor(stepanObject.y / 16) };
   stepanState.player.position = { ...stepanState.hosts.print_apprentice_stepan.position };
   await page.evaluate(value => localStorage.setItem('v33-rpg-save', value), game.saveGame(stepanState));
+  previousArcBundleCount = arcBundleRequestCount;
   await page.reload({ waitUntil: 'networkidle' });
+  assert.equal(arcBundleRequestCount - previousArcBundleCount, 1, 'resident quest scenario should request the bundle once');
+  arcBundleRequestsPerStartup.push(arcBundleRequestCount - previousArcBundleCount);
   await page.locator('#use').click();
   const bundledQuest = await page.evaluate(() => ({ title: document.querySelector('#headline')?.textContent, actions: [...document.querySelectorAll('#actions button')].map(button => button.textContent) }));
   assert.match(bundledQuest.title, /고친 글자와 찍은 손/, `the resident quest shipped only in the bundle must be available in-game: ${JSON.stringify(bundledQuest)}`);
@@ -64,7 +77,7 @@ try {
   assert.equal(bundledQuest.actions.length, 3, 'bundled personal quest presents its three consequential choices');
   assert.equal(errors.length, 0, errors.join('; '));
   const output = path.join(root, 'docs/v36/current-audit'); await mkdir(output, { recursive: true });
-  await writeFile(path.join(output, 'QUEST_TARGET_PRIORITY_BROWSER_EVIDENCE.json'), `${JSON.stringify({ status: 'PASS', scenarios: [{ scenario: 'Vasily quest object beside Lev market stand', mapId: 'nevsky', questId: quest.id, targetWon: true }, { scenario: 'quest loaded from one-request resident bundle', questId: stepanQuest.id, choicesVisible: bundledQuest.actions.length === 3 }], residentArcBundleFetchCount: 1, pageErrors: errors }, null, 2)}\n`);
+  await writeFile(path.join(output, 'QUEST_TARGET_PRIORITY_BROWSER_EVIDENCE.json'), `${JSON.stringify({ status: 'PASS', scenarios: [{ scenario: 'Vasily quest object beside Lev market stand', mapId: 'nevsky', questId: quest.id, targetWon: true }, { scenario: 'quest loaded from one-request resident bundle', questId: stepanQuest.id, choicesVisible: bundledQuest.actions.length === 3 }], residentArcBundleRequestsPerStartup: arcBundleRequestsPerStartup, pageErrors: errors }, null, 2)}\n`);
   await page.screenshot({ path: path.join(output, 'quest-target-priority.png'), fullPage: false });
-  console.log(JSON.stringify({ status: 'PASS', questTargetWon: true, bundledQuest: stepanQuest.id, bundledQuestChoices: bundledQuest.actions.length, residentArcBundleFetchCount: 1, pageErrors: errors.length }));
+  console.log(JSON.stringify({ status: 'PASS', questTargetWon: true, bundledQuest: stepanQuest.id, bundledQuestChoices: bundledQuest.actions.length, residentArcBundleRequestsPerStartup: arcBundleRequestsPerStartup, pageErrors: errors.length }));
 } finally { await browser.close(); server.kill(); }

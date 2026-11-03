@@ -13,6 +13,10 @@
       "choicesVisible": true
     }
   ],
-  "residentArcBundleFetchCount": 1,
+  "residentArcBundleRequestsPerStartup": [
+    1,
+    1,
+    1
+  ],
   "pageErrors": []
 }
