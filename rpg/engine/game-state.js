@@ -159,11 +159,12 @@ function routineActivityState(activityKo = '', task = null) {
   return 'IDLE';
 }
 
-function setRoutineState(host, state, activityKo, targetMapId, targetPosition, absoluteMinute, stateChanges, minuteOffset) {
+function setRoutineState(worldState, host, state, activityKo, targetMapId, targetPosition, absoluteMinute, stateChanges, minuteOffset) {
   const previous = host.routineState?.state ?? 'IDLE';
   if (previous !== state || host.routineState?.activityKo !== activityKo || host.routineState?.targetMapId !== targetMapId) {
     host.routineState = { state, activityKo, targetMapId, targetPosition: targetPosition ? { ...targetPosition } : null, changedAtMinute: absoluteMinute, minutesInState: 0 };
-    stateChanges.push({ hostId: host.id, minute: minuteOffset, from: previous, to: state, activityKo, mapId: host.mapId });
+    stateChanges.push({ hostId: host.id, minute: minuteOffset, from: previous, to: state, activityKo, mapId: host.mapId,
+      position: { ...host.position }, witnessedByPlayer: playerCanObserveWorldEvent(worldState, host.mapId, host.position) });
   } else {
     host.routineState.minutesInState = Math.min(10080, (host.routineState.minutesInState ?? 0) + 1);
   }
@@ -472,13 +473,14 @@ function selectPersonalLifeFocus(state, host, maps, localMinute, imminentSocialT
     reason: preparing ? 'preparing_route_for_approaching_personal_life_stage' : 'active_personal_life_arc_stage',
     lifeGoalId: goal.id, lifeQuestId: plan.questId, lifeStage: stageNumber, ...(preparing ? {} : { lifeFocusMinutes: plan.focusMinutes }) };
 }
-function recordNpcGoal(host, goal, absoluteMinute, minuteOffset, goalRows) {
+function recordNpcGoal(state, host, goal, absoluteMinute, minuteOffset, goalRows) {
   const next = { type: goal.goalType, taskId: goal.taskId, targetHostId: goal.targetHostId, targetMapId: goal.slot?.mapId ?? null,
     reason: goal.reason, ...(goal.selectionBasis ? { selectionBasis: clone(goal.selectionBasis) } : {}) };
   const previous = host.activeGoal;
   if (!previous || previous.type !== next.type || previous.taskId !== next.taskId || previous.targetHostId !== next.targetHostId || previous.targetMapId !== next.targetMapId) {
     host.activeGoal = { ...next, selectedAtMinute: absoluteMinute };
-    goalRows.push({ hostId: host.id, minute: minuteOffset, ...host.activeGoal });
+    goalRows.push({ hostId: host.id, minute: minuteOffset, ...host.activeGoal, mapId: host.mapId,
+      position: { ...host.position }, witnessedByPlayer: playerCanObserveWorldEvent(state, host.mapId, host.position) });
   }
 }
 function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stateChanges) {
@@ -496,20 +498,20 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
     const inActiveRealm = currentMap?.metadata?.mapClass === 'LITERARY_REALM';
     if (host.id === embodiedId) {
       if (host.activeGoal?.type !== 'POSSESSED') host.activeGoal = { type: 'POSSESSED', taskId: null, targetHostId: null, targetMapId: host.mapId, reason: 'player_controls_embodied_host', selectedAtMinute: state.world.clockMinutes };
-      setRoutineState(host, 'POSSESSED', host.currentActivityKo, host.mapId, host.position, state.world.clockMinutes, stateChanges, minuteOffset);
+      setRoutineState(state, host, 'POSSESSED', host.currentActivityKo, host.mapId, host.position, state.world.clockMinutes, stateChanges, minuteOffset);
       continue;
     }
     if (paused.has(host.id) || host.historicalAliveAndPresent === false || inActiveRealm !== Boolean(state.world.activeRealm)) continue;
     host.needs ??= initialNpcNeeds(host, state.world.clockMinutes);
     const goal = selectNpcRoutineGoal(state, host, scheduledSlot, maps), slot = goal.slot;
     if (!slot || !maps?.[slot.mapId]) continue;
-    recordNpcGoal(host, goal, state.world.clockMinutes, minuteOffset, goalRows);
+    recordNpcGoal(state, host, goal, state.world.clockMinutes, minuteOffset, goalRows);
     host.currentActivityKo = slot.activityKo ?? '';
     const atWorkplace = host.mapId === slot.mapId && nearTile(host.position, slot.position, 1);
     const routine = atWorkplace ? (goal.goalType === 'PERSONAL_LIFE_FOCUS' ? 'WORKING' : routineActivityState(host.currentActivityKo, slot.task)) : 'TRAVELLING';
     const previousRoutine = host.routineState?.state ?? 'IDLE';
     const fatigueBeforeRoutine = host.needs.fatigue;
-    setRoutineState(host, routine, host.currentActivityKo, slot.mapId, slot.position, state.world.clockMinutes, stateChanges, minuteOffset);
+    setRoutineState(state, host, routine, host.currentActivityKo, slot.mapId, slot.position, state.world.clockMinutes, stateChanges, minuteOffset);
     if (goal.goalType === 'PERSONAL_LIFE_FOCUS' && atWorkplace && host.personalGoalLastVisitKey !== goal.taskId) {
       host.personalGoalLastVisitKey = goal.taskId;
       host.personalGoalFocusUntilMinute = state.world.clockMinutes + goal.lifeFocusMinutes;
@@ -538,7 +540,8 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
     const step = nextNpcStep(state, host, slot, maps, reservedTiles);
     if (step) { host.mapId = step.mapId; host.position = step.position; host.facing = step.facing; }
     if (before.mapId !== host.mapId || before.position.x !== host.position.x || before.position.y !== host.position.y) {
-      const row = { hostId: host.id, minute: minuteOffset, scheduleId, activityKo: host.currentActivityKo, fromMapId: before.mapId, from: before.position, toMapId: host.mapId, to: { ...host.position }, viaExit: step?.viaExit ?? null };
+      const row = { hostId: host.id, minute: minuteOffset, scheduleId, activityKo: host.currentActivityKo, fromMapId: before.mapId, from: before.position, toMapId: host.mapId, to: { ...host.position }, viaExit: step?.viaExit ?? null,
+        witnessedByPlayer: playerCanObserveWorldEvent(state, host.mapId, host.position) };
       moveRows.push(row); movementLog.push(row);
     }
   }

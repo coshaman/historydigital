@@ -623,6 +623,9 @@ function updateHud() {
     return null;
   }).filter(Boolean);
   const cityReactions = state.ledger.filter(entry => entry.eventType === 'NPC_SIMULATION').flatMap(entry => [
+    ...(entry.stateChanges ?? []).filter(change => change.witnessedByPlayer).map(change => `${entry.date} · 일과 변화: ${cards.find(item=>item.id===change.hostId)?.displayNameKo ?? '주민'}이(가) ${change.from === 'IDLE' ? '일을 시작해' : '하던 일을 바꾸어'} ${change.activityKo || ({ TRAVELLING: '길을 나섬', WORKING: '일을 시작함', TRADING: '거래를 시작함', RESTING: '잠시 쉼', SOCIALIZING: '사람들과 어울림', DELIVERING: '물건을 전함' })[change.to] || '새 일과에 들어감'}`),
+    ...(entry.moves ?? []).filter(move => move.witnessedByPlayer).map(move => `${entry.date} · 길 위의 변화: ${cards.find(item=>item.id===move.hostId)?.displayNameKo ?? '주민'}이(가) ${move.viaExit ? '다른 구역으로 길을 건너' : '골목을 따라'} ${move.activityKo || '목적지'}로 향함`),
+    ...(entry.goals ?? []).filter(goal => goal.witnessedByPlayer).map(goal => `${entry.date} · 주민의 계획: ${cards.find(item=>item.id===goal.hostId)?.displayNameKo ?? '주민'}이(가) ${goal.activityKo || goal.reason || '오늘 할 일'}을(를) 택함`),
     ...(entry.personalGoalVisits ?? []).filter(visit => visit.witnessedByPlayer).map(visit => `${entry.date} · 목격한 생활 목표: ${cards.find(item=>item.id===visit.hostId)?.displayNameKo ?? '주민'}이(가) ${visit.activityKo} (${visit.stage}/3)`),
     ...(entry.personalContacts ?? []).filter(contact => contact.witnessedByPlayer).map(contact => `${entry.date} · 목격한 도시 생활: ${cards.find(item=>item.id===contact.hostId)?.displayNameKo ?? '주민'}가 ${cards.find(item=>item.id===contact.partnerHostId)?.displayNameKo ?? '이웃'}를 찾아가 이야기를 나눔`),
     ...(entry.deliveries ?? []).filter(delivery => delivery.witnessedByPlayer).map(delivery => `${entry.date} · 목격한 도시 생활: ${cards.find(item=>item.id===delivery.hostId)?.displayNameKo ?? '주민'}가 ${cards.find(item=>item.id===delivery.recipientHostId)?.displayNameKo ?? '이웃'}에게 ${delivery.itemKo} 전달`),

@@ -48,6 +48,22 @@ const unwitnessedDelivery = simulateDelivery('market-quay', { x: 11, y: 12 });
 assert.equal(witnessedDelivery?.witnessedByPlayer, true, 'nearby delivery records a player observation');
 assert.equal(unwitnessedDelivery?.witnessedByPlayer, false, 'the same delivery elsewhere stays unknown to the player');
 
+const routineWorld = game.createInitialState({ maps, hostCards, startMapId: 'nevsky' });
+const nearbyWorker = routineWorld.hosts.clerk_alexei;
+nearbyWorker.mapId = 'nevsky';
+nearbyWorker.position = { ...routineWorld.player.position };
+nearbyWorker.schedule = [{ atMinute: 540, mapId: 'nevsky', position: { ...nearbyWorker.position }, activityKo: '장부를 정리한다' }];
+const routineResult = game.advanceNpcWorld(routineWorld, 6, maps);
+const routineEntry = routineResult.ledger.find(entry => entry.eventType === 'NPC_SIMULATION');
+assert.ok(routineEntry?.stateChanges?.some(change => change.hostId === nearbyWorker.id && change.witnessedByPlayer),
+  'the player can witness and record an NPC beginning a routine');
+assert.ok(routineEntry?.goals?.some(goal => goal.hostId === nearbyWorker.id && goal.witnessedByPlayer),
+  'the player can witness the resident choosing a concrete daily plan');
+assert.match(await readFile(new URL('../rpg/main.js', import.meta.url), 'utf8'), /entry\.stateChanges \?\? \[\].*witnessedByPlayer/,
+  'observed routine changes are surfaced in the journal');
+assert.match(await readFile(new URL('../rpg/main.js', import.meta.url), 'utf8'), /entry\.goals \?\? \[\].*witnessedByPlayer/,
+  'observed plans are surfaced in the journal');
+
 const mainSource = await readFile(new URL('../rpg/main.js', import.meta.url), 'utf8');
 assert.match(mainSource, /personalGoalVisits \?\? \[\]\)\.filter\(visit => visit\.witnessedByPlayer\)/,
   'the journal must filter personal life-goal visits to player-witnessed events');
@@ -63,4 +79,5 @@ assert.match(mainSource, /restRecoveries \?\? \[\]\)\.filter\(rest => rest\.witn
   'the journal must filter rest to witnessed events');
 
 console.log(JSON.stringify({ status: 'PASS', currentDistrictAndRangeRequired: true,
-  embodiedPlayerPositionUsed: true, witnessedDelivery: true, remoteDeliveryWithheld: true, journalEventFamiliesFiltered: 6 }));
+  embodiedPlayerPositionUsed: true, witnessedDelivery: true, remoteDeliveryWithheld: true,
+  witnessedRoutineChange: true, witnessedDailyPlan: true, journalEventFamiliesFiltered: 9 }));
