@@ -397,7 +397,12 @@
       "itemKo": "검토 메모 사본",
       "taskId": "KONSTANTIN_MEMO_TO_ALEXEI_1847",
       "mapId": "chancery",
-      "minute": 25
+      "position": {
+        "x": 10,
+        "y": 13
+      },
+      "minute": 25,
+      "witnessedByPlayer": false
     },
     {
       "hostId": "courier_pavel",
@@ -405,7 +410,12 @@
       "itemKo": "밀봉 봉투",
       "taskId": "PAVEL_DELIVER_SEALED_ENVELOPE_01",
       "mapId": "printshop",
-      "minute": 110
+      "position": {
+        "x": 11,
+        "y": 13
+      },
+      "minute": 110,
+      "witnessedByPlayer": false
     },
     {
       "hostId": "editor_sofia",
@@ -413,7 +423,12 @@
       "itemKo": "교정쇄 출처 메모",
       "taskId": "SOFIA_SOURCE_NOTE_TO_DARYA_1847",
       "mapId": "printshop",
-      "minute": 210
+      "position": {
+        "x": 12,
+        "y": 13
+      },
+      "minute": 210,
+      "witnessedByPlayer": false
     },
     {
       "hostId": "yardkeeper_semyon",
@@ -421,7 +436,12 @@
       "itemKo": "장작 수량표",
       "taskId": "SEMYON_WOOD_COUNT_TO_MARIYA_1847",
       "mapId": "nevsky",
-      "minute": 470
+      "position": {
+        "x": 17,
+        "y": 10
+      },
+      "minute": 470,
+      "witnessedByPlayer": false
     }
   ],
   "exchanges": [
@@ -432,7 +452,12 @@
       "moneyAmount": 2,
       "taskId": "MARIYA_LINEN_SALE_TO_NADEZHDA_1847",
       "mapId": "market-quay",
-      "minute": 15
+      "position": {
+        "x": 13,
+        "y": 12
+      },
+      "minute": 15,
+      "witnessedByPlayer": false
     }
   ],
   "mapTransitions": [
@@ -1105,5 +1130,5 @@
   "observedReplayMatchesBulkWorldState": true,
   "movementCount": 636,
   "questsResolved": 0,
-  "finalStateHash": "cc5b39df"
+  "finalStateHash": "a750a540"
 }

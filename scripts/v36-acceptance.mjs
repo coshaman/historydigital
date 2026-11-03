@@ -38,6 +38,7 @@ const steps = [
   ['all-36-residents-complete-three-stage-life-arcs', 'v36-personal-life-chain-test'],
   ['resident-quest-bundle-and-target-priority-browser', 'v36-quest-target-priority-browser'],
   ['36-resident-income-pressure-selects-real-livelihood-route', 'v36-income-goal-test'],
+  ['world-journal-only-reveals-observed-events', 'v36-observed-world-events-test'],
 ];
 
 const probe = createServer();

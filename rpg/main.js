@@ -601,9 +601,11 @@ function updateHud() {
     return null;
   }).filter(Boolean);
   const cityReactions = state.ledger.filter(entry => entry.eventType === 'NPC_SIMULATION').flatMap(entry => [
-    ...(entry.personalContacts ?? []).map(contact => `${entry.date} · 도시 생활: ${cards.find(item=>item.id===contact.hostId)?.displayNameKo ?? '주민'}가 ${cards.find(item=>item.id===contact.partnerHostId)?.displayNameKo ?? '이웃'}를 찾아가 이야기를 나눔`),
-    ...(entry.deliveries ?? []).map(delivery => `${entry.date} · 도시 생활: ${cards.find(item=>item.id===delivery.hostId)?.displayNameKo ?? '주민'}가 ${cards.find(item=>item.id===delivery.recipientHostId)?.displayNameKo ?? '이웃'}에게 ${delivery.itemKo} 전달`),
-    ...(entry.exchanges ?? []).map(exchange => `${entry.date} · 도시 생활: ${cards.find(item=>item.id===exchange.hostId)?.displayNameKo ?? '주민'}와 ${cards.find(item=>item.id===exchange.recipientHostId)?.displayNameKo ?? '이웃'}가 ${exchange.itemKo} 거래`),
+    ...(entry.personalContacts ?? []).filter(contact => contact.witnessedByPlayer).map(contact => `${entry.date} · 목격한 도시 생활: ${cards.find(item=>item.id===contact.hostId)?.displayNameKo ?? '주민'}가 ${cards.find(item=>item.id===contact.partnerHostId)?.displayNameKo ?? '이웃'}를 찾아가 이야기를 나눔`),
+    ...(entry.deliveries ?? []).filter(delivery => delivery.witnessedByPlayer).map(delivery => `${entry.date} · 목격한 도시 생활: ${cards.find(item=>item.id===delivery.hostId)?.displayNameKo ?? '주민'}가 ${cards.find(item=>item.id===delivery.recipientHostId)?.displayNameKo ?? '이웃'}에게 ${delivery.itemKo} 전달`),
+    ...(entry.exchanges ?? []).filter(exchange => exchange.witnessedByPlayer).map(exchange => `${entry.date} · 목격한 도시 생활: ${cards.find(item=>item.id===exchange.hostId)?.displayNameKo ?? '주민'}와 ${cards.find(item=>item.id===exchange.recipientHostId)?.displayNameKo ?? '이웃'}가 ${exchange.itemKo} 거래`),
+    ...(entry.meals ?? []).filter(meal => meal.witnessedByPlayer).map(meal => `${entry.date} · 목격한 도시 생활: ${cards.find(item=>item.id===meal.hostId)?.displayNameKo ?? '주민'}가 ${meal.itemKo}로 끼니를 챙김`),
+    ...(entry.restRecoveries ?? []).filter(rest => rest.witnessedByPlayer).map(rest => `${entry.date} · 목격한 도시 생활: ${cards.find(item=>item.id===rest.hostId)?.displayNameKo ?? '주민'}가 일손을 멈추고 숨을 돌림`),
   ]).slice(-12).reverse();
   logs.unshift(...cityReactions);
   fill('#journal-history', logs.length ? logs : ['아직 남긴 기록이 없습니다.'], 'li');

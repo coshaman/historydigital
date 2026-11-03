@@ -12,6 +12,10 @@ function tileAt(dataLayer, x, y) {
 function nearTile(position, tile, maxDistance = 1) {
   return Math.abs(position.x - tile.x) + Math.abs(position.y - tile.y) <= maxDistance;
 }
+function playerCanObserveWorldEvent(state, mapId, position, maxDistance = 6) {
+  return Boolean(state?.world?.currentMapId === mapId && state?.player?.position
+    && position && nearTile(state.player.position, position, maxDistance));
+}
 function objectTile(object) { return { x: Math.floor(object.x / 16), y: Math.floor(object.y / 16) }; }
 function clone(value) { return structuredClone(value); }
 function mapAccessFailure(map, host, absoluteMinute) {
@@ -461,12 +465,12 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
         host.needs.socialNeed = Math.max(0, host.needs.socialNeed - 20);
         partner.needs ??= initialNpcNeeds(partner, state.world.clockMinutes);
         partner.needs.socialNeed = Math.max(0, partner.needs.socialNeed - 8);
-        personalContactRows.push({ hostId: host.id, partnerHostId: partner.id, goalId: goal.taskId, mapId: host.mapId, minute: minuteOffset, effect: 'social_need_relieved' });
+        personalContactRows.push({ hostId: host.id, partnerHostId: partner.id, goalId: goal.taskId, mapId: host.mapId, position: { ...host.position }, minute: minuteOffset, effect: 'social_need_relieved', witnessedByPlayer: playerCanObserveWorldEvent(state, host.mapId, host.position) });
       }
     }
     host.needs.hunger = Math.min(100, host.needs.hunger + host.needs.hungerPerMinute);
     host.needs.fatigue = Math.max(0, Math.min(100, host.needs.fatigue + (routine === 'RESTING' ? -host.needs.restFatigueReliefPerMinute : routine === 'TRAVELLING' ? 0.01 : host.needs.workFatiguePerMinute)));
-    if (routine === 'RESTING' && previousRoutine !== 'RESTING' && host.needs.fatigue < fatigueBeforeRoutine) restRecoveryRows.push({ hostId: host.id, minute: minuteOffset, mapId: host.mapId, fatigueBefore: fatigueBeforeRoutine, fatigueAfter: host.needs.fatigue });
+    if (routine === 'RESTING' && previousRoutine !== 'RESTING' && host.needs.fatigue < fatigueBeforeRoutine) restRecoveryRows.push({ hostId: host.id, minute: minuteOffset, mapId: host.mapId, position: { ...host.position }, fatigueBefore: fatigueBeforeRoutine, fatigueAfter: host.needs.fatigue, witnessedByPlayer: playerCanObserveWorldEvent(state, host.mapId, host.position) });
     if (routine === 'SOCIALIZING') host.needs.socialNeed = Math.max(0, (host.needs.socialNeed ?? 0) - 0.05);
     else host.needs.socialNeed = Math.min(100, (host.needs.socialNeed ?? 0) + 0.004);
     if (routine === 'WORKING' && host.needs.incomePressure > 0) host.needs.incomePressure = Math.max(0, host.needs.incomePressure - 0.002);
@@ -497,7 +501,7 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
     recipient.relations[host.id] ??= '봉투를 전한 배달원';
     syncPersistentPersonalGoals(state, host.id);
     syncPersistentPersonalGoals(state, recipient.id);
-    deliveryRows.push({ hostId: host.id, recipientHostId: recipient.id, itemKo: task.itemKo, taskId: task.id, mapId: host.mapId, minute: minuteOffset });
+    deliveryRows.push({ hostId: host.id, recipientHostId: recipient.id, itemKo: task.itemKo, taskId: task.id, mapId: host.mapId, position: { ...host.position }, minute: minuteOffset, witnessedByPlayer: playerCanObserveWorldEvent(state, host.mapId, host.position) });
   }
   for (const host of hosts) {
     const slot = scheduleEntry(host, state.world.clockMinutes), task = slot?.task;
@@ -524,7 +528,7 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
     host.routineTaskCompletedId = task.id;
     host.completedSocialTaskIds ??= [];
     if (!host.completedSocialTaskIds.includes(task.id)) host.completedSocialTaskIds.push(task.id);
-    exchangeRows.push({ hostId: host.id, recipientHostId: recipient.id, itemKo: task.itemKo, moneyAmount, taskId: task.id, mapId: host.mapId, minute: minuteOffset });
+    exchangeRows.push({ hostId: host.id, recipientHostId: recipient.id, itemKo: task.itemKo, moneyAmount, taskId: task.id, mapId: host.mapId, position: { ...host.position }, minute: minuteOffset, witnessedByPlayer: playerCanObserveWorldEvent(state, host.mapId, host.position) });
   }
   for (const host of hosts) {
     const slot = scheduleEntry(host, state.world.clockMinutes), task = slot?.task;
@@ -537,7 +541,7 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
     host.needs.hunger = Math.max(0, hungerBefore - (Number.isFinite(task.hungerRelief) ? task.hungerRelief : 32));
     host.needs.lastMealAtMinute = state.world.clockMinutes;
     host.routineTaskCompletedId = task.id;
-    mealRows.push({ hostId: host.id, itemKo: task.itemKo, hungerBefore, hungerAfter: host.needs.hunger, taskId: task.id, mapId: host.mapId, minute: minuteOffset });
+    mealRows.push({ hostId: host.id, itemKo: task.itemKo, hungerBefore, hungerAfter: host.needs.hunger, taskId: task.id, mapId: host.mapId, position: { ...host.position }, minute: minuteOffset, witnessedByPlayer: playerCanObserveWorldEvent(state, host.mapId, host.position) });
   }
   return { moveRows, deliveryRows, exchangeRows, mealRows, goalRows, personalContactRows, restRecoveryRows };
 }
@@ -1115,6 +1119,6 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
   return state;
 }
 
-const V33GameState = { describeHostMoney, createInitialState, moveActor, possessHost, enterLiteraryRealm, leaveLiteraryRealm, releaseHost, transitionMap, performQuestAction, knowledgeForHost, recordSourceRead, recordEvidenceRead, recordDialogueTurn, recordDiscussionPosition, advanceNpcWorld, advanceWorldTime, advanceChapter, advanceCampaignDate, resolveEnding, saveGame, loadGame, stateHash, canOccupy, nearTile };
+const V33GameState = { describeHostMoney, createInitialState, moveActor, possessHost, enterLiteraryRealm, leaveLiteraryRealm, releaseHost, transitionMap, performQuestAction, knowledgeForHost, recordSourceRead, recordEvidenceRead, recordDialogueTurn, recordDiscussionPosition, advanceNpcWorld, advanceWorldTime, advanceChapter, advanceCampaignDate, resolveEnding, saveGame, loadGame, stateHash, canOccupy, nearTile, playerCanObserveWorldEvent };
 if (typeof module !== 'undefined' && module.exports) module.exports = V33GameState;
 if (typeof globalThis !== 'undefined') globalThis.V33GameState = V33GameState;
