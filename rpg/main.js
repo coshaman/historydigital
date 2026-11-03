@@ -601,6 +601,7 @@ function updateHud() {
     return null;
   }).filter(Boolean);
   const cityReactions = state.ledger.filter(entry => entry.eventType === 'NPC_SIMULATION').flatMap(entry => [
+    ...(entry.personalGoalVisits ?? []).filter(visit => visit.witnessedByPlayer).map(visit => `${entry.date} · 목격한 생활 목표: ${cards.find(item=>item.id===visit.hostId)?.displayNameKo ?? '주민'}이(가) ${visit.activityKo} (${visit.stage}/3)`),
     ...(entry.personalContacts ?? []).filter(contact => contact.witnessedByPlayer).map(contact => `${entry.date} · 목격한 도시 생활: ${cards.find(item=>item.id===contact.hostId)?.displayNameKo ?? '주민'}가 ${cards.find(item=>item.id===contact.partnerHostId)?.displayNameKo ?? '이웃'}를 찾아가 이야기를 나눔`),
     ...(entry.deliveries ?? []).filter(delivery => delivery.witnessedByPlayer).map(delivery => `${entry.date} · 목격한 도시 생활: ${cards.find(item=>item.id===delivery.hostId)?.displayNameKo ?? '주민'}가 ${cards.find(item=>item.id===delivery.recipientHostId)?.displayNameKo ?? '이웃'}에게 ${delivery.itemKo} 전달`),
     ...(entry.exchanges ?? []).filter(exchange => exchange.witnessedByPlayer).map(exchange => `${entry.date} · 목격한 도시 생활: ${cards.find(item=>item.id===exchange.hostId)?.displayNameKo ?? '주민'}와 ${cards.find(item=>item.id===exchange.recipientHostId)?.displayNameKo ?? '이웃'}가 ${exchange.itemKo} 거래`),

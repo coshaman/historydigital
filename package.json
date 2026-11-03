@@ -204,6 +204,7 @@
     "v36-personal-quest-browser": "node scripts/v36-personal-quest-browser-test.mjs",
     "v36-first-slice": "npm run v36-district-prototype-test && npm run v36-first-slice-sim",
     "v36-goal-driven-six": "node scripts/v36-goal-driven-six-test.mjs",
+    "v36-personal-goal-autonomy-test": "node scripts/v36-personal-goal-autonomy-test.mjs",
     "v36-goal-driven-twelve": "node scripts/v36-goal-driven-twelve-test.mjs",
     "v36-two-neighborhood-capture": "node scripts/v36-two-neighborhood-browser-capture.mjs",
       "v36-visual-kit": "node scripts/v36-visual-kit-test.mjs",

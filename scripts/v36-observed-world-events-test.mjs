@@ -49,6 +49,8 @@ assert.equal(witnessedDelivery?.witnessedByPlayer, true, 'nearby delivery record
 assert.equal(unwitnessedDelivery?.witnessedByPlayer, false, 'the same delivery elsewhere stays unknown to the player');
 
 const mainSource = await readFile(new URL('../rpg/main.js', import.meta.url), 'utf8');
+assert.match(mainSource, /personalGoalVisits \?\? \[\]\)\.filter\(visit => visit\.witnessedByPlayer\)/,
+  'the journal must filter personal life-goal visits to player-witnessed events');
 assert.match(mainSource, /personalContacts \?\? \[\]\)\.filter\(contact => contact\.witnessedByPlayer\)/,
   'the journal must filter social reactions to witnessed contacts');
 assert.match(mainSource, /deliveries \?\? \[\]\)\.filter\(delivery => delivery\.witnessedByPlayer\)/,
@@ -61,4 +63,4 @@ assert.match(mainSource, /restRecoveries \?\? \[\]\)\.filter\(rest => rest\.witn
   'the journal must filter rest to witnessed events');
 
 console.log(JSON.stringify({ status: 'PASS', currentDistrictAndRangeRequired: true,
-  embodiedPlayerPositionUsed: true, witnessedDelivery: true, remoteDeliveryWithheld: true, journalEventFamiliesFiltered: 5 }));
+  embodiedPlayerPositionUsed: true, witnessedDelivery: true, remoteDeliveryWithheld: true, journalEventFamiliesFiltered: 6 }));

@@ -23,7 +23,7 @@
         "status": "fictional_character_simulation_profile"
       },
       "initialFatigue": 22,
-      "finalFatigue": 6.225000000000269,
+      "finalFatigue": 8.025000000000253,
       "finalMapId": "chancery",
       "activeGoal": {
         "type": "SCHEDULE",
@@ -35,7 +35,8 @@
       },
       "activity": "늦은 접수를 마치고 잠시 앉아 쉰다",
       "goalTypes": [
-        "SCHEDULE"
+        "SCHEDULE",
+        "PERSONAL_LIFE_FOCUS"
       ]
     },
     {
@@ -52,7 +53,7 @@
         "status": "fictional_character_simulation_profile"
       },
       "initialFatigue": 26,
-      "finalFatigue": 9.289999999999765,
+      "finalFatigue": 12.97999999999967,
       "finalMapId": "courtyard",
       "activeGoal": {
         "type": "SCHEDULE",
@@ -60,11 +61,12 @@
         "targetHostId": null,
         "targetMapId": "courtyard",
         "reason": "authored_daily_schedule",
-        "selectedAtMinute": 1029
+        "selectedAtMinute": 1056
       },
       "activity": "일을 접고 안뜰 방에서 잠시 쉰다",
       "goalTypes": [
         "SCHEDULE",
+        "PERSONAL_LIFE_FOCUS",
         "NEED_INCOME",
         "NEED_REST"
       ]
@@ -83,7 +85,7 @@
         "status": "fictional_character_simulation_profile"
       },
       "initialFatigue": 32,
-      "finalFatigue": 44.78999999999952,
+      "finalFatigue": 40.51999999999907,
       "finalMapId": "market-quay",
       "activeGoal": {
         "type": "SCHEDULE",
@@ -97,6 +99,7 @@
       "goalTypes": [
         "SCHEDULE",
         "FOLLOW_RECIPIENT",
+        "PERSONAL_LIFE_FOCUS",
         "NEED_INCOME"
       ]
     },
@@ -122,11 +125,11 @@
         "targetHostId": null,
         "targetMapId": "courtyard",
         "reason": "authored_daily_schedule",
-        "selectedAtMinute": 921
+        "selectedAtMinute": 903
       },
       "activity": "일을 접고 수선방에서 잠시 쉰다",
       "goalTypes": [
-        "NEED_INCOME",
+        "PERSONAL_LIFE_FOCUS",
         "SCHEDULE",
         "NEED_REST"
       ]
@@ -145,7 +148,7 @@
         "status": "fictional_character_simulation_profile"
       },
       "initialFatigue": 30,
-      "finalFatigue": 45.26999999999923,
+      "finalFatigue": 45.02999999999921,
       "finalMapId": "market-quay",
       "activeGoal": {
         "type": "SCHEDULE",
@@ -157,6 +160,7 @@
       },
       "activity": "새 생활권에서 맡은 일을 이어간다",
       "goalTypes": [
+        "PERSONAL_LIFE_FOCUS",
         "NEED_INCOME",
         "SCHEDULE"
       ]
@@ -175,7 +179,7 @@
         "status": "fictional_character_simulation_profile"
       },
       "initialFatigue": 24,
-      "finalFatigue": 19.399999999999743,
+      "finalFatigue": 13.425000000000477,
       "finalMapId": "courtyard",
       "activeGoal": {
         "type": "SCHEDULE",
@@ -183,12 +187,12 @@
         "targetHostId": null,
         "targetMapId": "courtyard",
         "reason": "authored_daily_schedule",
-        "selectedAtMinute": 1103
+        "selectedAtMinute": 900
       },
       "activity": "가판을 닫고 방에서 잠시 쉰다",
       "goalTypes": [
-        "SCHEDULE",
-        "NEED_REST"
+        "PERSONAL_LIFE_FOCUS",
+        "SCHEDULE"
       ]
     },
     {
@@ -205,7 +209,7 @@
         "status": "fictional_character_simulation_profile"
       },
       "initialFatigue": 31,
-      "finalFatigue": 38.20500000000064,
+      "finalFatigue": 38.17500000000066,
       "finalMapId": "printshop",
       "activeGoal": {
         "type": "SCHEDULE",
@@ -267,7 +271,7 @@
         "status": "fictional_character_simulation_profile"
       },
       "initialFatigue": 23,
-      "finalFatigue": 14.182000000000208,
+      "finalFatigue": 13.740000000000226,
       "finalMapId": "printshop",
       "activeGoal": {
         "type": "SCHEDULE",
@@ -329,7 +333,7 @@
         "status": "fictional_character_simulation_profile"
       },
       "initialFatigue": 37,
-      "finalFatigue": 42.04999999999919,
+      "finalFatigue": 43.479999999999194,
       "finalMapId": "courtyard",
       "activeGoal": {
         "type": "SCHEDULE",
@@ -360,7 +364,7 @@
         "status": "fictional_character_simulation_profile"
       },
       "initialFatigue": 42,
-      "finalFatigue": 39.015999999999224,
+      "finalFatigue": 39.87799999999925,
       "finalMapId": "courtyard",
       "activeGoal": {
         "type": "SCHEDULE",
@@ -368,7 +372,7 @@
         "targetHostId": null,
         "targetMapId": "courtyard",
         "reason": "authored_daily_schedule",
-        "selectedAtMinute": 1101
+        "selectedAtMinute": 1085
       },
       "activity": "다음 날 세탁물을 정리한다",
       "goalTypes": [
@@ -380,7 +384,6 @@
     }
   ],
   "needDrivenRestResidents": [
-    "bookseller_lev",
     "editor_sofia",
     "laundress_mariya",
     "police_sergeant_ivan",
@@ -437,10 +440,10 @@
       "taskId": "SEMYON_WOOD_COUNT_TO_MARIYA_1847",
       "mapId": "nevsky",
       "position": {
-        "x": 17,
-        "y": 10
+        "x": 15,
+        "y": 9
       },
-      "minute": 470,
+      "minute": 460,
       "witnessedByPlayer": false
     }
   ],
@@ -496,6 +499,74 @@
       "viaExit": "market-bakery"
     },
     {
+      "hostId": "bookseller_lev",
+      "minute": 70,
+      "scheduleId": "nevsky:600",
+      "activityKo": "생활 문제 · 반품 장부에 빠진 책 · 1/3",
+      "fromMapId": "nevsky",
+      "from": {
+        "x": 13,
+        "y": 17
+      },
+      "toMapId": "bookshop-lane",
+      "to": {
+        "x": 11,
+        "y": 12
+      },
+      "viaExit": "nevsky-bookshop-lane"
+    },
+    {
+      "hostId": "seamstress_anna",
+      "minute": 75,
+      "scheduleId": "nevsky:600",
+      "activityKo": "생활 문제 · 기한이 다른 두 벌의 옷",
+      "fromMapId": "nevsky",
+      "from": {
+        "x": 16,
+        "y": 9
+      },
+      "toMapId": "courtyard",
+      "to": {
+        "x": 11,
+        "y": 13
+      },
+      "viaExit": "nevsky-courtyard-gate"
+    },
+    {
+      "hostId": "bookseller_lev",
+      "minute": 80,
+      "scheduleId": "nevsky:600",
+      "activityKo": "생활 문제 · 반품 장부에 빠진 책 · 1/3",
+      "fromMapId": "bookshop-lane",
+      "from": {
+        "x": 11,
+        "y": 11
+      },
+      "toMapId": "bookshop-interior",
+      "to": {
+        "x": 11,
+        "y": 12
+      },
+      "viaExit": "bookshop-lane-bookshop"
+    },
+    {
+      "hostId": "bookseller_lev",
+      "minute": 100,
+      "scheduleId": "nevsky:600",
+      "activityKo": "가로등 쪽 손님을 살핀다",
+      "fromMapId": "bookshop-interior",
+      "from": {
+        "x": 11,
+        "y": 13
+      },
+      "toMapId": "bookshop-lane",
+      "to": {
+        "x": 11,
+        "y": 8
+      },
+      "viaExit": "bookshop-interior-lane"
+    },
+    {
       "hostId": "courier_pavel",
       "minute": 100,
       "scheduleId": "printshop:630",
@@ -530,27 +601,27 @@
       "viaExit": "nevsky-courtyard-gate"
     },
     {
-      "hostId": "courier_pavel",
-      "minute": 135,
-      "scheduleId": "nevsky:660",
-      "activityKo": "빈 가방을 메고 거리로 돌아간다",
-      "fromMapId": "printshop",
+      "hostId": "bookseller_lev",
+      "minute": 120,
+      "scheduleId": "bookshop-interior:660",
+      "activityKo": "새 생활권에서 맡은 일을 이어간다",
+      "fromMapId": "bookshop-lane",
       "from": {
-        "x": 12,
-        "y": 15
+        "x": 11,
+        "y": 11
       },
-      "toMapId": "nevsky",
+      "toMapId": "bookshop-interior",
       "to": {
-        "x": 21,
-        "y": 9
+        "x": 11,
+        "y": 12
       },
-      "viaExit": "printshop-nevsky-door"
+      "viaExit": "bookshop-lane-bookshop"
     },
     {
-      "hostId": "printer_ekaterina",
-      "minute": 140,
-      "scheduleId": "printshop:660",
-      "activityKo": "새 생활권에서 맡은 일을 이어간다",
+      "hostId": "courier_pavel",
+      "minute": 130,
+      "scheduleId": "nevsky:660",
+      "activityKo": "생활 문제 · 늦은 교정쇄의 전달",
       "fromMapId": "printshop",
       "from": {
         "x": 12,
@@ -582,7 +653,7 @@
     },
     {
       "hostId": "editor_sofia",
-      "minute": 150,
+      "minute": 145,
       "scheduleId": "nevsky:660",
       "activityKo": "가판대의 독자 반응을 듣는다",
       "fromMapId": "printshop",
@@ -598,21 +669,38 @@
       "viaExit": "printshop-nevsky-door"
     },
     {
-      "hostId": "reader_darya",
-      "minute": 170,
+      "hostId": "printer_ekaterina",
+      "minute": 150,
       "scheduleId": "printshop:660",
-      "activityKo": "인쇄소의 교정쇄를 확인한다",
-      "fromMapId": "nevsky",
+      "activityKo": "새 생활권에서 맡은 일을 이어간다",
+      "fromMapId": "printshop",
       "from": {
-        "x": 22,
+        "x": 12,
+        "y": 15
+      },
+      "toMapId": "nevsky",
+      "to": {
+        "x": 21,
         "y": 9
       },
-      "toMapId": "printshop",
-      "to": {
-        "x": 12,
-        "y": 14
+      "viaExit": "printshop-nevsky-door"
+    },
+    {
+      "hostId": "courier_pavel",
+      "minute": 160,
+      "scheduleId": "nevsky:660",
+      "activityKo": "생활 문제 · 늦은 교정쇄의 전달",
+      "fromMapId": "nevsky",
+      "from": {
+        "x": 16,
+        "y": 9
       },
-      "viaExit": "nevsky-printshop-door"
+      "toMapId": "courtyard",
+      "to": {
+        "x": 11,
+        "y": 13
+      },
+      "viaExit": "nevsky-courtyard-gate"
     },
     {
       "hostId": "laundress_mariya",
@@ -633,7 +721,58 @@
     },
     {
       "hostId": "seamstress_anna",
-      "minute": 195,
+      "minute": 175,
+      "scheduleId": "printshop:660",
+      "activityKo": "맡긴 소매의 수선값을 확인한다",
+      "fromMapId": "courtyard",
+      "from": {
+        "x": 13,
+        "y": 16
+      },
+      "toMapId": "nevsky",
+      "to": {
+        "x": 15,
+        "y": 9
+      },
+      "viaExit": "courtyard-nevsky-gate"
+    },
+    {
+      "hostId": "reader_darya",
+      "minute": 180,
+      "scheduleId": "printshop:660",
+      "activityKo": "인쇄소의 교정쇄를 확인한다",
+      "fromMapId": "nevsky",
+      "from": {
+        "x": 22,
+        "y": 9
+      },
+      "toMapId": "printshop",
+      "to": {
+        "x": 12,
+        "y": 14
+      },
+      "viaExit": "nevsky-printshop-door"
+    },
+    {
+      "hostId": "bookseller_lev",
+      "minute": 185,
+      "scheduleId": "nevsky:720",
+      "activityKo": "저녁 장사 전에 가판으로 돌아간다",
+      "fromMapId": "bookshop-interior",
+      "from": {
+        "x": 11,
+        "y": 13
+      },
+      "toMapId": "bookshop-lane",
+      "to": {
+        "x": 11,
+        "y": 8
+      },
+      "viaExit": "bookshop-interior-lane"
+    },
+    {
+      "hostId": "seamstress_anna",
+      "minute": 185,
       "scheduleId": "courtyard:720",
       "activityKo": "방세를 건네고 남은 일을 묻는다",
       "fromMapId": "nevsky",
@@ -647,23 +786,6 @@
         "y": 13
       },
       "viaExit": "nevsky-courtyard-gate"
-    },
-    {
-      "hostId": "courier_pavel",
-      "minute": 205,
-      "scheduleId": "courtyard:720",
-      "activityKo": "새 생활권에서 맡은 일을 이어간다",
-      "fromMapId": "nevsky",
-      "from": {
-        "x": 27,
-        "y": 10
-      },
-      "toMapId": "market-quay",
-      "to": {
-        "x": 2,
-        "y": 9
-      },
-      "viaExit": "nevsky-market-gate"
     },
     {
       "hostId": "editor_sofia",
@@ -700,6 +822,23 @@
       "viaExit": "courtyard-nevsky-gate"
     },
     {
+      "hostId": "bookseller_lev",
+      "minute": 215,
+      "scheduleId": "nevsky:720",
+      "activityKo": "저녁 장사 전에 가판으로 돌아간다",
+      "fromMapId": "bookshop-lane",
+      "from": {
+        "x": 11,
+        "y": 13
+      },
+      "toMapId": "nevsky",
+      "to": {
+        "x": 12,
+        "y": 15
+      },
+      "viaExit": "bookshop-lane-nevsky"
+    },
+    {
       "hostId": "clerk_alexei",
       "minute": 215,
       "scheduleId": "nevsky:720",
@@ -715,6 +854,23 @@
         "y": 9
       },
       "viaExit": "chancery-nevsky-door"
+    },
+    {
+      "hostId": "courier_pavel",
+      "minute": 230,
+      "scheduleId": "courtyard:720",
+      "activityKo": "새 생활권에서 맡은 일을 이어간다",
+      "fromMapId": "courtyard",
+      "from": {
+        "x": 13,
+        "y": 16
+      },
+      "toMapId": "nevsky",
+      "to": {
+        "x": 15,
+        "y": 9
+      },
+      "viaExit": "courtyard-nevsky-gate"
     },
     {
       "hostId": "reader_darya",
@@ -734,10 +890,10 @@
       "viaExit": "printshop-nevsky-door"
     },
     {
-      "hostId": "printer_ekaterina",
-      "minute": 240,
+      "hostId": "clerk_alexei",
+      "minute": 250,
       "scheduleId": "chancery:780",
-      "activityKo": "새 생활권에서 맡은 일을 이어간다",
+      "activityKo": "퇴근 전 접수 수를 다시 센다",
       "fromMapId": "nevsky",
       "from": {
         "x": 4,
@@ -751,10 +907,10 @@
       "viaExit": "nevsky-chancery-door"
     },
     {
-      "hostId": "clerk_alexei",
-      "minute": 255,
+      "hostId": "printer_ekaterina",
+      "minute": 260,
       "scheduleId": "chancery:780",
-      "activityKo": "퇴근 전 접수 수를 다시 센다",
+      "activityKo": "새 생활권에서 맡은 일을 이어간다",
       "fromMapId": "nevsky",
       "from": {
         "x": 4,
@@ -769,13 +925,13 @@
     },
     {
       "hostId": "tenant_mikhail",
-      "minute": 270,
+      "minute": 280,
       "scheduleId": "courtyard:720",
       "activityKo": "새 생활권에서 맡은 일을 이어간다",
       "fromMapId": "nevsky",
       "from": {
-        "x": 27,
-        "y": 10
+        "x": 28,
+        "y": 9
       },
       "toMapId": "market-quay",
       "to": {
@@ -871,7 +1027,7 @@
     },
     {
       "hostId": "printer_ekaterina",
-      "minute": 330,
+      "minute": 345,
       "scheduleId": "chancery:780",
       "activityKo": "일을 접고 안뜰 방에서 잠시 쉰다",
       "fromMapId": "chancery",
@@ -888,7 +1044,7 @@
     },
     {
       "hostId": "yardkeeper_semyon",
-      "minute": 360,
+      "minute": 365,
       "scheduleId": "courtyard:900",
       "activityKo": "장작을 세고 잠시 쉰다",
       "fromMapId": "nevsky",
@@ -921,10 +1077,10 @@
       "viaExit": "police-station-nevsky-door"
     },
     {
-      "hostId": "clerk_alexei",
+      "hostId": "senior_clerk_konstantin",
       "minute": 395,
       "scheduleId": "chancery:900",
-      "activityKo": "늦은 접수를 마치고 잠시 앉아 쉰다",
+      "activityKo": "검토를 멈추고 잠시 의자에 앉아 쉰다",
       "fromMapId": "nevsky",
       "from": {
         "x": 4,
@@ -938,10 +1094,10 @@
       "viaExit": "nevsky-chancery-door"
     },
     {
-      "hostId": "senior_clerk_konstantin",
-      "minute": 400,
+      "hostId": "clerk_alexei",
+      "minute": 405,
       "scheduleId": "chancery:900",
-      "activityKo": "검토를 멈추고 잠시 의자에 앉아 쉰다",
+      "activityKo": "늦은 접수를 마치고 잠시 앉아 쉰다",
       "fromMapId": "nevsky",
       "from": {
         "x": 4,
@@ -950,7 +1106,7 @@
       "toMapId": "chancery",
       "to": {
         "x": 12,
-        "y": 13
+        "y": 14
       },
       "viaExit": "nevsky-chancery-door"
     },
@@ -978,8 +1134,8 @@
       "activityKo": "순찰 장부를 덮고 잠시 쉰다",
       "fromMapId": "nevsky",
       "from": {
-        "x": 6,
-        "y": 9
+        "x": 7,
+        "y": 8
       },
       "toMapId": "police-station",
       "to": {
@@ -989,8 +1145,25 @@
       "viaExit": "nevsky-police-door"
     },
     {
+      "hostId": "courier_pavel",
+      "minute": 420,
+      "scheduleId": "market-quay:900",
+      "activityKo": "새 생활권에서 맡은 일을 이어간다",
+      "fromMapId": "nevsky",
+      "from": {
+        "x": 27,
+        "y": 10
+      },
+      "toMapId": "market-quay",
+      "to": {
+        "x": 2,
+        "y": 9
+      },
+      "viaExit": "nevsky-market-gate"
+    },
+    {
       "hostId": "printer_ekaterina",
-      "minute": 410,
+      "minute": 435,
       "scheduleId": "courtyard:900",
       "activityKo": "일을 접고 안뜰 방에서 잠시 쉰다",
       "fromMapId": "nevsky",
@@ -1000,14 +1173,14 @@
       },
       "toMapId": "courtyard",
       "to": {
-        "x": 11,
-        "y": 12
+        "x": 10,
+        "y": 13
       },
       "viaExit": "nevsky-courtyard-gate"
     },
     {
       "hostId": "bookseller_lev",
-      "minute": 440,
+      "minute": 445,
       "scheduleId": "courtyard:900",
       "activityKo": "가판을 닫고 방에서 잠시 쉰다",
       "fromMapId": "nevsky",
@@ -1017,8 +1190,8 @@
       },
       "toMapId": "courtyard",
       "to": {
-        "x": 10,
-        "y": 13
+        "x": 11,
+        "y": 12
       },
       "viaExit": "nevsky-courtyard-gate"
     },
@@ -1041,8 +1214,8 @@
     },
     {
       "hostId": "laundress_mariya",
-      "minute": 480,
-      "scheduleId": "courtyard:1020",
+      "minute": 465,
+      "scheduleId": "courtyard:900",
       "activityKo": "세탁물을 덮고 잠시 쉰다",
       "fromMapId": "nevsky",
       "from": {
@@ -1051,8 +1224,25 @@
       },
       "toMapId": "courtyard",
       "to": {
-        "x": 10,
-        "y": 13
+        "x": 11,
+        "y": 12
+      },
+      "viaExit": "nevsky-courtyard-gate"
+    },
+    {
+      "hostId": "yardkeeper_semyon",
+      "minute": 470,
+      "scheduleId": "courtyard:960",
+      "activityKo": "장작 수량과 마지막 확인 시각을 적는다",
+      "fromMapId": "nevsky",
+      "from": {
+        "x": 16,
+        "y": 9
+      },
+      "toMapId": "courtyard",
+      "to": {
+        "x": 11,
+        "y": 14
       },
       "viaExit": "nevsky-courtyard-gate"
     },
@@ -1072,23 +1262,6 @@
         "y": 8
       },
       "viaExit": "bakery-market"
-    },
-    {
-      "hostId": "yardkeeper_semyon",
-      "minute": 490,
-      "scheduleId": "courtyard:1020",
-      "activityKo": "장작 수량과 마지막 확인 시각을 적는다",
-      "fromMapId": "nevsky",
-      "from": {
-        "x": 16,
-        "y": 9
-      },
-      "toMapId": "courtyard",
-      "to": {
-        "x": 11,
-        "y": 14
-      },
-      "viaExit": "nevsky-courtyard-gate"
     },
     {
       "hostId": "senior_clerk_konstantin",
@@ -1128,7 +1301,7 @@
   "collisionSnapshots": 120,
   "duplicateResidentTiles": 0,
   "observedReplayMatchesBulkWorldState": true,
-  "movementCount": 636,
+  "movementCount": 675,
   "questsResolved": 0,
-  "finalStateHash": "a750a540"
+  "finalStateHash": "cc47fa80"
 }

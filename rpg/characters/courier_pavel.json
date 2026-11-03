@@ -270,7 +270,58 @@
         "chainId": "PAVEL_PROOF_DELIVERY_1847",
         "stageCount": 3
       },
-      "fallbackKo": "연쇄 임무가 지금 열리지 않으면 오늘의 일과를 이어가고, 다음 단계를 확인할 수 있을 때 다시 돌아온다."
+      "fallbackKo": "연쇄 임무가 지금 열리지 않으면 오늘의 일과를 이어가고, 다음 단계를 확인할 수 있을 때 다시 돌아온다.",
+      "autonomyStages": [
+        {
+          "stage": 1,
+          "questId": "PAVEL_PROOF_DELIVERY_1847_STAGE_1",
+          "date": "1847-06-01",
+          "mapId": "courtyard",
+          "position": {
+            "x": 11,
+            "y": 9
+          },
+          "activityKo": "생활 문제 · 늦은 교정쇄의 전달",
+          "prerequisiteQuestIds": [],
+          "windowStartMinute": 480,
+          "windowEndMinute": 1140,
+          "focusMinutes": 12
+        },
+        {
+          "stage": 2,
+          "questId": "PAVEL_PROOF_DELIVERY_1847_STAGE_2",
+          "date": "1847-06-01",
+          "mapId": "nevsky",
+          "position": {
+            "x": 14,
+            "y": 12
+          },
+          "activityKo": "생활 문제 · 늦은 교정쇄의 전달",
+          "prerequisiteQuestIds": [
+            "PAVEL_PROOF_DELIVERY_1847_STAGE_1"
+          ],
+          "windowStartMinute": 480,
+          "windowEndMinute": 1140,
+          "focusMinutes": 12
+        },
+        {
+          "stage": 3,
+          "questId": "PAVEL_PROOF_DELIVERY_1847_STAGE_3",
+          "date": "1847-06-01",
+          "mapId": "printshop",
+          "position": {
+            "x": 12,
+            "y": 10
+          },
+          "activityKo": "생활 문제 · 늦은 교정쇄의 전달",
+          "prerequisiteQuestIds": [
+            "PAVEL_PROOF_DELIVERY_1847_STAGE_2"
+          ],
+          "windowStartMinute": 480,
+          "windowEndMinute": 1140,
+          "focusMinutes": 12
+        }
+      ]
     },
     {
       "id": "courier_pavel:relationship",

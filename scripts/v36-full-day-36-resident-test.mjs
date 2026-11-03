@@ -68,6 +68,8 @@ const goals = first.state.ledger.flatMap(event => event.goals ?? []);
 const deliveries = first.state.ledger.flatMap(event => event.deliveries ?? []);
 const exchanges = first.state.ledger.flatMap(event => event.exchanges ?? []);
 const personalContacts = first.state.ledger.flatMap(event => event.personalContacts ?? []);
+const personalGoalVisits = first.state.ledger.flatMap(event => event.personalGoalVisits ?? []);
+const firstSixLifeGoalHosts = ['clerk_alexei', 'printer_ekaterina', 'courier_pavel', 'seamstress_anna', 'tenant_mikhail', 'bookseller_lev'];
 const mapTransitions = first.moves.filter(move => move.viaExit);
 assert.ok(first.moves.length > 0, 'residents should walk throughout the day');
 assert.ok(mapTransitions.length > 0, 'residents should cross real district exits');
@@ -75,6 +77,7 @@ assert.ok(goals.length > 0, 'daily needs and schedules should create observable 
 assert.ok(deliveries.length > 0, 'at least one scheduled item handoff should complete');
 assert.ok(exchanges.length > 0, 'at least one scheduled exchange should complete');
 assert.ok(personalContacts.length > 0, 'active personal relationship goals should lead residents to meet their named neighbors');
+for (const hostId of firstSixLifeGoalHosts) assert.ok(personalGoalVisits.some(visit => visit.hostId === hostId), `${hostId} must pursue the current physical life-arc stage during the 24-hour replay`);
 assert.ok(personalContacts.every(contact => contact.hostId !== contact.partnerHostId && contact.effect === 'social_need_relieved'), 'autonomous personal contacts should create a reciprocal, visible social-need change');
 const distinctPersonalContactResidents = new Set(personalContacts.map(contact => contact.hostId)).size;
 assert.ok(distinctPersonalContactResidents >= 10,
@@ -83,7 +86,10 @@ const report = { schemaVersion:'V36_FULL_DAY_36_RESIDENT_REPLAY_1', status:'PASS
   deterministicReplays:3, simulatedMinutes:1440, replayHashes:hashes,
   collisionSnapshotsPerReplay:first.collisionSnapshots, totalCollisionSnapshots:replays.reduce((sum,run)=>sum+run.collisionSnapshots,0),
   firstReplay:{ movementSteps:first.moves.length, districtTransitions:mapTransitions.length, goalEvents:goals.length,
-    deliveries:deliveries.length, exchanges:exchanges.length, personalContacts:personalContacts.length, distinctPersonalContactResidents, residentsWithDistinctAuthoredObjectives:new Set(cards.map(card=>card.personalObjective)).size,
+    deliveries:deliveries.length, exchanges:exchanges.length, personalContacts:personalContacts.length, distinctPersonalContactResidents,
+    personalLifeGoalVisits:personalGoalVisits.length, residentsWithPhysicalLifeGoalVisits:new Set(personalGoalVisits.map(visit=>visit.hostId)).size,
+    firstSixLifeGoalQuestIds:Object.fromEntries(firstSixLifeGoalHosts.map(id=>[id,personalGoalVisits.find(visit=>visit.hostId===id)?.questId??null])),
+    residentsWithDistinctAuthoredObjectives:new Set(cards.map(card=>card.personalObjective)).size,
     finalActivityCount:new Set(ids.map(id=>first.state.hosts[id].currentActivityKo)).size,
     finalPositions:Object.fromEntries(ids.map(id=>[id,{mapId:first.state.hosts[id].mapId,...first.state.hosts[id].position}])) },
   fullDaySaveReloadStateHash:game.stateHash(restored), autoCompletedPlayerQuests:0, runtimeMilliseconds:Math.round(performance.now()-startedAt) };

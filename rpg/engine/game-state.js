@@ -382,6 +382,8 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
     const meal = mealCandidates.filter(goal => host.needs.hunger >= (Number.isFinite(goal.slot.task.minimumHunger) ? goal.slot.task.minimumHunger : 40)).sort((a, b) => a.wait - b.wait)[0];
     if (meal) return { slot: meal.slot, goalType: 'NEED_MEAL', targetHostId: null, taskId: meal.slot.task.id, reason: 'hunger_threshold_before_meal_window' };
   }
+  const lifeFocus = selectPersonalLifeFocus(state, host, maps, localMinute, imminentSocialTask);
+  if (lifeFocus) return lifeFocus;
   if (host.needs?.incomePressure >= 55 && !imminentSocialTask) {
     const livelihoodSlots = (host.schedule ?? []).filter(slot => slot.activityKo
       && !/쉬|휴식|잠|식사|모임|책을 읽|독서 시간|잠시 쉰/.test(slot.activityKo)
@@ -421,6 +423,29 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
   }
   return { slot: scheduledSlot, goalType: 'SCHEDULE', targetHostId: null, taskId: scheduledTask?.id ?? null, reason: 'authored_daily_schedule' };
 }
+function selectPersonalLifeFocus(state, host, maps, localMinute, imminentSocialTask) {
+  if (imminentSocialTask) return null;
+  const goal = (host.personalGoals ?? []).find(item => item.kind === 'LIFE'
+    && host.personalGoalProgress?.[item.id]?.status !== 'SATISFIED' && Array.isArray(item.autonomyStages));
+  if (!goal) return null;
+  const chainId = goal.successCondition?.chainId;
+  const stageNumber = (state.world.lifeChains?.[chainId]?.stage ?? 0) + 1;
+  const plan = goal.autonomyStages.find(item => item.stage === stageNumber);
+  if (!plan || plan.date > state.world.date || !maps?.[plan.mapId]
+    || !host.allowedMaps.includes(plan.mapId)
+    || (plan.prerequisiteQuestIds ?? []).some(id => !state.ledger.some(entry => entry.questId === id))) return null;
+  const day = Math.floor((state.world.clockMinutes ?? 540) / 1440);
+  const taskId = `${goal.id}:STAGE_${stageNumber}:DAY_${day}`;
+  const visited = host.personalGoalLastVisitKey === taskId;
+  const holding = host.activeGoal?.type === 'PERSONAL_LIFE_FOCUS' && host.activeGoal.taskId === taskId
+    && (!visited || (host.personalGoalFocusUntilMinute ?? 0) > state.world.clockMinutes);
+  if (visited && !holding) return null;
+  if (!holding && (localMinute < plan.windowStartMinute || localMinute >= plan.windowEndMinute)) return null;
+  if (npcMapRoute(host.mapId, plan.mapId, host, maps, state.world.clockMinutes) === null) return null;
+  return { slot: { mapId: plan.mapId, position: { ...plan.position }, activityKo: plan.activityKo },
+    goalType: 'PERSONAL_LIFE_FOCUS', targetHostId: null, taskId, reason: 'active_personal_life_arc_stage',
+    lifeGoalId: goal.id, lifeQuestId: plan.questId, lifeStage: stageNumber, lifeFocusMinutes: plan.focusMinutes };
+}
 function recordNpcGoal(host, goal, absoluteMinute, minuteOffset, goalRows) {
   const next = { type: goal.goalType, taskId: goal.taskId, targetHostId: goal.targetHostId, targetMapId: goal.slot?.mapId ?? null, reason: goal.reason };
   const previous = host.activeGoal;
@@ -432,7 +457,7 @@ function recordNpcGoal(host, goal, absoluteMinute, minuteOffset, goalRows) {
 function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stateChanges) {
   const embodiedId = state.player.embodiment, paused = new Set(options.pausedHostIds ?? []), reservedTiles = [...(options.reservedTiles ?? [])];
   if (!state.player.embodiment) reservedTiles.push({ mapId: state.world.currentMapId, position: state.player.position });
-  const moveRows = [], deliveryRows = [], exchangeRows = [], mealRows = [], goalRows = [], personalContactRows = [], restRecoveryRows = [];
+  const moveRows = [], deliveryRows = [], exchangeRows = [], mealRows = [], goalRows = [], personalContactRows = [], restRecoveryRows = [], personalGoalRows = [];
   const hosts = Object.values(state.hosts).sort((a, b) => a.id.localeCompare(b.id));
   for (const host of hosts) {
     const scheduledSlot = scheduleEntry(host, state.world.clockMinutes);
@@ -454,10 +479,17 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
     recordNpcGoal(host, goal, state.world.clockMinutes, minuteOffset, goalRows);
     host.currentActivityKo = slot.activityKo ?? '';
     const atWorkplace = host.mapId === slot.mapId && nearTile(host.position, slot.position, 1);
-    const routine = atWorkplace ? routineActivityState(host.currentActivityKo, slot.task) : 'TRAVELLING';
+    const routine = atWorkplace ? (goal.goalType === 'PERSONAL_LIFE_FOCUS' ? 'WORKING' : routineActivityState(host.currentActivityKo, slot.task)) : 'TRAVELLING';
     const previousRoutine = host.routineState?.state ?? 'IDLE';
     const fatigueBeforeRoutine = host.needs.fatigue;
     setRoutineState(host, routine, host.currentActivityKo, slot.mapId, slot.position, state.world.clockMinutes, stateChanges, minuteOffset);
+    if (goal.goalType === 'PERSONAL_LIFE_FOCUS' && atWorkplace && host.personalGoalLastVisitKey !== goal.taskId) {
+      host.personalGoalLastVisitKey = goal.taskId;
+      host.personalGoalFocusUntilMinute = state.world.clockMinutes + goal.lifeFocusMinutes;
+      personalGoalRows.push({ hostId: host.id, goalId: goal.lifeGoalId, questId: goal.lifeQuestId, stage: goal.lifeStage,
+        mapId: host.mapId, position: { ...host.position }, minute: minuteOffset, activityKo: host.currentActivityKo,
+        witnessedByPlayer: playerCanObserveWorldEvent(state, host.mapId, host.position) });
+    }
     if (goal.goalType === 'PERSONAL_RELATIONSHIP' && atWorkplace && host.lastPersonalContactTaskId !== goal.taskId) {
       const partner = state.hosts[goal.targetHostId];
       if (partner && partner.historicalAliveAndPresent !== false && partner.mapId === host.mapId && nearTile(host.position, partner.position, 1)) {
@@ -543,14 +575,14 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
     host.routineTaskCompletedId = task.id;
     mealRows.push({ hostId: host.id, itemKo: task.itemKo, hungerBefore, hungerAfter: host.needs.hunger, taskId: task.id, mapId: host.mapId, position: { ...host.position }, minute: minuteOffset, witnessedByPlayer: playerCanObserveWorldEvent(state, host.mapId, host.position) });
   }
-  return { moveRows, deliveryRows, exchangeRows, mealRows, goalRows, personalContactRows, restRecoveryRows };
+  return { moveRows, deliveryRows, exchangeRows, mealRows, goalRows, personalContactRows, restRecoveryRows, personalGoalRows };
 }
 
 function advanceNpcWorld(state, elapsedMinutes, maps, options = {}) {
   if (!Number.isFinite(elapsedMinutes) || elapsedMinutes <= 0) return state;
   const next = clone(state);
   const tickCount = Math.min(10080, Math.max(1, Math.floor(elapsedMinutes))), movementLog = [], deliveryLog = [];
-  const startClock = next.world.clockMinutes ?? 540, stateChanges = [], exchangeLog = [], mealLog = [], goalLog = [], personalContactLog = [], restRecoveryLog = [];
+  const startClock = next.world.clockMinutes ?? 540, stateChanges = [], exchangeLog = [], mealLog = [], goalLog = [], personalContactLog = [], restRecoveryLog = [], personalGoalLog = [];
   for (let tick = 1; tick <= tickCount; tick += 1) {
     next.world.clockMinutes = startClock + tick;
     const result = simulateNpcMinute(next, maps, options, tick, movementLog, stateChanges);
@@ -560,9 +592,10 @@ function advanceNpcWorld(state, elapsedMinutes, maps, options = {}) {
     goalLog.push(...result.goalRows);
     personalContactLog.push(...result.personalContactRows);
     restRecoveryLog.push(...result.restRecoveryRows);
+    personalGoalLog.push(...result.personalGoalRows);
   }
-  if (movementLog.length || deliveryLog.length || stateChanges.length || exchangeLog.length || mealLog.length || goalLog.length || personalContactLog.length || restRecoveryLog.length) {
-    const entry = { eventId: `NPC_SIM_${next.ledger.length + 1}`, eventType: 'NPC_SIMULATION', date: next.world.date, mapId: next.world.currentMapId, startClockMinutes: startClock, endClockMinutes: next.world.clockMinutes, simulatedMinutes: tickCount, moves: movementLog, deliveries: deliveryLog, exchanges: exchangeLog, meals: mealLog, goals: goalLog, personalContacts: personalContactLog, restRecoveries: restRecoveryLog, stateChanges };
+  if (movementLog.length || deliveryLog.length || stateChanges.length || exchangeLog.length || mealLog.length || goalLog.length || personalContactLog.length || restRecoveryLog.length || personalGoalLog.length) {
+    const entry = { eventId: `NPC_SIM_${next.ledger.length + 1}`, eventType: 'NPC_SIMULATION', date: next.world.date, mapId: next.world.currentMapId, startClockMinutes: startClock, endClockMinutes: next.world.clockMinutes, simulatedMinutes: tickCount, moves: movementLog, deliveries: deliveryLog, exchanges: exchangeLog, meals: mealLog, goals: goalLog, personalContacts: personalContactLog, restRecoveries: restRecoveryLog, personalGoalVisits: personalGoalLog, stateChanges };
     appendLedgerEvent(next, entry, state);
   }
   return next;

@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "V36_FIRST_SIX_PERSONAL_GOAL_AUTONOMY_1",
+  "status": "PASS",
+  "pilotResidents": 6,
+  "authoredLifeStagesPerResident": 3,
+  "dailyVisits": 6,
+  "deterministicReplay": true,
+  "stageProgressRetargets": true,
+  "questAutoCompletion": false,
+  "saveLoadParity": true,
+  "playerWitnessRequired": true,
+  "residentOutcomes": [
+    {
+      "id": "clerk_alexei",
+      "questId": "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_1",
+      "stage": 1,
+      "mapId": "chancery",
+      "position": {
+        "x": 11,
+        "y": 13
+      },
+      "minute": 26,
+      "activityKo": "생활 문제 · 겹쳐 적힌 접수 번호 · 1/3",
+      "witnessedByPlayer": false
+    },
+    {
+      "id": "printer_ekaterina",
+      "questId": "EKATERINA_INK_SHORTAGE_1847_STAGE_1",
+      "stage": 1,
+      "mapId": "printshop",
+      "position": {
+        "x": 11,
+        "y": 14
+      },
+      "minute": 121,
+      "activityKo": "생활 문제 · 모자란 잉크와 교정쇄 · 1/3",
+      "witnessedByPlayer": false
+    },
+    {
+      "id": "courier_pavel",
+      "questId": "PAVEL_PROOF_DELIVERY_1847_STAGE_1",
+      "stage": 1,
+      "mapId": "courtyard",
+      "position": {
+        "x": 11,
+        "y": 10
+      },
+      "minute": 176,
+      "activityKo": "생활 문제 · 늦은 교정쇄의 전달",
+      "witnessedByPlayer": false
+    },
+    {
+      "id": "seamstress_anna",
+      "questId": "ANNA_COAT_REPAIR_1847_STAGE_1",
+      "stage": 1,
+      "mapId": "courtyard",
+      "position": {
+        "x": 18,
+        "y": 12
+      },
+      "minute": 116,
+      "activityKo": "생활 문제 · 기한이 다른 두 벌의 옷",
+      "witnessedByPlayer": false
+    },
+    {
+      "id": "tenant_mikhail",
+      "questId": "MIKHAIL_WAGE_AND_RENT_1847_STAGE_1",
+      "stage": 1,
+      "mapId": "courtyard",
+      "position": {
+        "x": 11,
+        "y": 13
+      },
+      "minute": 6,
+      "activityKo": "생활 문제 · 하루 품삯의 약속 · 1/3",
+      "witnessedByPlayer": false
+    },
+    {
+      "id": "bookseller_lev",
+      "questId": "LEV_RETURNED_SHEETS_1847_STAGE_1",
+      "stage": 1,
+      "mapId": "bookshop-interior",
+      "position": {
+        "x": 11,
+        "y": 12
+      },
+      "minute": 81,
+      "activityKo": "생활 문제 · 반품 장부에 빠진 책 · 1/3",
+      "witnessedByPlayer": false
+    }
+  ]
+}

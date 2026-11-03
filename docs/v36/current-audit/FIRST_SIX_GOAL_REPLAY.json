@@ -44,7 +44,7 @@
         "status": "fictional_character_simulation_profile"
       },
       "initialFatigue": 40,
-      "finalFatigue": 10.599999999999849,
+      "finalFatigue": 9.84999999999982,
       "finalMapId": "courtyard",
       "activeGoal": {
         "type": "SCHEDULE",
@@ -69,8 +69,8 @@
         "restFatigueReliefPerMinute": 0.16,
         "status": "fictional_character_simulation_profile"
       },
-      "initialFatigue": 33.79999999999964,
-      "finalFatigue": 43.44999999999975,
+      "initialFatigue": 33.97499999999966,
+      "finalFatigue": 39.66999999999935,
       "finalMapId": "market-quay",
       "activeGoal": {
         "type": "SCHEDULE",
@@ -121,8 +121,8 @@
         "restFatigueReliefPerMinute": 0.15,
         "status": "fictional_character_simulation_profile"
       },
-      "initialFatigue": 32.99999999999983,
-      "finalFatigue": 40.3499999999994,
+      "initialFatigue": 33.0599999999998,
+      "finalFatigue": 40.40999999999937,
       "finalMapId": "market-quay",
       "activeGoal": {
         "type": "SCHEDULE",
@@ -147,16 +147,16 @@
         "restFatigueReliefPerMinute": 0.12,
         "status": "fictional_character_simulation_profile"
       },
-      "initialFatigue": 28.62500000000012,
-      "finalFatigue": 30.54999999999988,
+      "initialFatigue": 26.100000000000264,
+      "finalFatigue": 25.87500000000052,
       "finalMapId": "courtyard",
       "activeGoal": {
-        "type": "NEED_REST",
-        "taskId": "REST:bookseller_lev:900",
+        "type": "SCHEDULE",
+        "taskId": null,
         "targetHostId": null,
         "targetMapId": "courtyard",
-        "reason": "fatigue_threshold_before_authored_rest_window",
-        "selectedAtMinute": 912
+        "reason": "authored_daily_schedule",
+        "selectedAtMinute": 900
       },
       "currentActivityKo": "가판을 닫고 방에서 잠시 쉰다"
     }
@@ -206,7 +206,12 @@
       "itemKo": "밀봉 봉투",
       "taskId": "PAVEL_DELIVER_SEALED_ENVELOPE_01",
       "mapId": "printshop",
-      "minute": 110
+      "position": {
+        "x": 11,
+        "y": 13
+      },
+      "minute": 110,
+      "witnessedByPlayer": false
     }
   ],
   "possessionPausedAutonomy": true,
@@ -214,5 +219,5 @@
   "saveReloadParity": true,
   "legacyNeedMigration": true,
   "autonomousQuestCompletions": 0,
-  "finalStateHash": "39e08fdb"
+  "finalStateHash": "da9e9e25"
 }

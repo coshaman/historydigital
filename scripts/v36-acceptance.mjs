@@ -39,6 +39,7 @@ const steps = [
   ['resident-quest-bundle-and-target-priority-browser', 'v36-quest-target-priority-browser'],
   ['36-resident-income-pressure-selects-real-livelihood-route', 'v36-income-goal-test'],
   ['world-journal-only-reveals-observed-events', 'v36-observed-world-events-test'],
+  ['first-six-personal-life-goals-drive-physical-daily-visits', 'v36-personal-goal-autonomy-test'],
 ];
 
 const probe = createServer();
