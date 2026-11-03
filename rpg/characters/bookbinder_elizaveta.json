@@ -260,7 +260,7 @@
           "activityKo": "생활 문제 · 찢어진 장과 수리값 · 1막",
           "prerequisiteQuestIds": [],
           "windowStartMinute": 720,
-          "windowEndMinute": 1140,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         },
         {
@@ -275,7 +275,7 @@
           "activityKo": "생활 문제 · 찢어진 장과 수리값 · 2막",
           "prerequisiteQuestIds": [],
           "windowStartMinute": 720,
-          "windowEndMinute": 1140,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         },
         {
@@ -290,7 +290,7 @@
           "activityKo": "생활 문제 · 찢어진 장과 수리값 · 3막",
           "prerequisiteQuestIds": [],
           "windowStartMinute": 720,
-          "windowEndMinute": 1140,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         }
       ]

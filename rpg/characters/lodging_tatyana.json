@@ -275,7 +275,7 @@
           "activityKo": "생활 문제 · 빌린 책과 미뤄 둔 바느질 · 1/3",
           "prerequisiteQuestIds": [],
           "windowStartMinute": 840,
-          "windowEndMinute": 1140,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         },
         {
@@ -292,7 +292,7 @@
             "TATYANA_READING_HOUR_1847_STAGE_1"
           ],
           "windowStartMinute": 840,
-          "windowEndMinute": 1140,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         },
         {
@@ -309,7 +309,7 @@
             "TATYANA_READING_HOUR_1847_STAGE_2"
           ],
           "windowStartMinute": 840,
-          "windowEndMinute": 1140,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         }
       ]

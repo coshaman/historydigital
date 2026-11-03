@@ -258,8 +258,8 @@
           },
           "activityKo": "생활 문제 · 비 그친 뒤의 좌판 자리 · 1막",
           "prerequisiteQuestIds": [],
-          "windowStartMinute": 900,
-          "windowEndMinute": 1140,
+          "windowStartMinute": 960,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         },
         {
@@ -273,8 +273,8 @@
           },
           "activityKo": "생활 문제 · 비 그친 뒤의 좌판 자리 · 2막",
           "prerequisiteQuestIds": [],
-          "windowStartMinute": 900,
-          "windowEndMinute": 1140,
+          "windowStartMinute": 960,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         },
         {
@@ -288,8 +288,8 @@
           },
           "activityKo": "생활 문제 · 비 그친 뒤의 좌판 자리 · 3막",
           "prerequisiteQuestIds": [],
-          "windowStartMinute": 900,
-          "windowEndMinute": 1140,
+          "windowStartMinute": 960,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         }
       ]

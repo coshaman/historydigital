@@ -268,8 +268,8 @@
           },
           "activityKo": "생활 문제 · 빠른 인쇄와 남은 교정 · 1막",
           "prerequisiteQuestIds": [],
-          "windowStartMinute": 900,
-          "windowEndMinute": 1140,
+          "windowStartMinute": 960,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         },
         {
@@ -283,8 +283,8 @@
           },
           "activityKo": "생활 문제 · 빠른 인쇄와 남은 교정 · 2막",
           "prerequisiteQuestIds": [],
-          "windowStartMinute": 900,
-          "windowEndMinute": 1140,
+          "windowStartMinute": 960,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         },
         {
@@ -298,8 +298,8 @@
           },
           "activityKo": "생활 문제 · 빠른 인쇄와 남은 교정 · 3막",
           "prerequisiteQuestIds": [],
-          "windowStartMinute": 900,
-          "windowEndMinute": 1140,
+          "windowStartMinute": 960,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         }
       ]

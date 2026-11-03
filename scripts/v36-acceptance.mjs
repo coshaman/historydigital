@@ -44,6 +44,7 @@ const steps = [
   ['third-six-personal-life-goals-drive-physical-daily-visits', 'v36-third-six-personal-goal-autonomy-test'],
   ['fourth-six-personal-life-goals-drive-physical-daily-visits', 'v36-fourth-six-personal-goal-autonomy-test'],
   ['fifth-six-personal-life-goals-drive-physical-daily-visits', 'v36-fifth-six-personal-goal-autonomy-test'],
+  ['sixth-six-personal-life-goals-drive-physical-daily-visits', 'v36-sixth-six-personal-goal-autonomy-test'],
 ];
 
 const probe = createServer();

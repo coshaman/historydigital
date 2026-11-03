@@ -262,8 +262,8 @@
           "prerequisiteQuestIds": [
             "POLICE_TESTIMONY_RECORD_1849"
           ],
-          "windowStartMinute": 480,
-          "windowEndMinute": 1140,
+          "windowStartMinute": 600,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         },
         {
@@ -279,8 +279,8 @@
           "prerequisiteQuestIds": [
             "IVAN_WITNESS_ACCOUNT_1849_STAGE_1"
           ],
-          "windowStartMinute": 480,
-          "windowEndMinute": 1140,
+          "windowStartMinute": 600,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         },
         {
@@ -296,8 +296,8 @@
           "prerequisiteQuestIds": [
             "IVAN_WITNESS_ACCOUNT_1849_STAGE_2"
           ],
-          "windowStartMinute": 480,
-          "windowEndMinute": 1140,
+          "windowStartMinute": 600,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         }
       ]

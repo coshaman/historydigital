@@ -297,8 +297,8 @@
           },
           "activityKo": "생활 문제 · 장작 장부의 빈칸 · 1/3",
           "prerequisiteQuestIds": [],
-          "windowStartMinute": 480,
-          "windowEndMinute": 1140,
+          "windowStartMinute": 600,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         },
         {
@@ -314,8 +314,8 @@
           "prerequisiteQuestIds": [
             "SEMYON_FIREWOOD_LEDGER_1847_STAGE_1"
           ],
-          "windowStartMinute": 480,
-          "windowEndMinute": 1140,
+          "windowStartMinute": 600,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         },
         {
@@ -331,8 +331,8 @@
           "prerequisiteQuestIds": [
             "SEMYON_FIREWOOD_LEDGER_1847_STAGE_2"
           ],
-          "windowStartMinute": 480,
-          "windowEndMinute": 1140,
+          "windowStartMinute": 600,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         }
       ]

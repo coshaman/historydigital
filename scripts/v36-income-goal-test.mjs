@@ -30,9 +30,11 @@ const initialMoneyTotal = Object.values(initialForLedger.hosts).reduce((sum, hos
 const urgent = replay(95), ordinary = replay(0);
 const urgentGoals = residentIds.filter(id => ['NEED_INCOME', 'FOLLOW_RECIPIENT', 'FOLLOW_TRADE_PARTNER'].includes(urgent.hosts[id].activeGoal?.type));
 const explicitIncomeGoals = residentIds.filter(id => urgent.hosts[id].activeGoal?.type === 'NEED_INCOME');
+const personalLifeGoals = residentIds.filter(id => urgent.hosts[id].activeGoal?.type === 'PERSONAL_LIFE_FOCUS');
 const ordinaryGoals = residentIds.filter(id => ordinary.hosts[id].activeGoal?.type === 'NEED_INCOME');
-assert.equal(urgentGoals.length, 30, `residents outside pending physical delivery/trade routes should select livelihood work; deferred=${residentIds.filter(id => !urgentGoals.includes(id)).join(',')}`);
-assert.equal(explicitIncomeGoals.length, 27, 'income pressure should select livelihood goals after preserving pending physical delivery/trade goals');
+assert.equal(urgentGoals.length, 27, `residents with no higher-priority personal-life or scheduled social goal should select livelihood work; deferred=${residentIds.filter(id => !urgentGoals.includes(id)).map(id => `${id}:${urgent.hosts[id].activeGoal?.type}:${urgent.hosts[id].activeGoal?.reason}`).join(',')}`);
+assert.equal(explicitIncomeGoals.length, 24, 'income pressure selects livelihood work after preserving personal-life and imminent social goals');
+assert.equal(personalLifeGoals.length, 3, 'active personal-life arcs retain priority over livelihood work when their next physical stage is available');
 assert.deepEqual(ordinaryGoals, [], 'low income pressure should leave livelihood choices to the authored schedule');
 assert.ok(explicitIncomeGoals.every(id => urgent.hosts[id].activeGoal.targetMapId && urgent.hosts[id].activeGoal.taskId.startsWith(`LIVELIHOOD:${id}:`)));
 assert.deepEqual(urgent.quests, ordinary.quests, 'autonomous livelihood planning cannot resolve player quests');
@@ -40,7 +42,8 @@ for (const state of [urgent, ordinary]) assert.equal(Object.values(state.hosts).
   'goal selection itself cannot mint or destroy money');
 const report = { schemaVersion: 'V36_INCOME_PRESSURE_GOAL_REPLAY_1', status: 'PASS', activeResidents: residentIds.length,
   highPressure: { incomePressure: 95, residentsChoosingLivelihoodGoal: urgentGoals.length, explicitIncomeGoals: explicitIncomeGoals.length,
-    residentsDeferredToPreserveImminentDeliveryOrTrade: residentIds.length - urgentGoals.length,
+    residentsDeferredToPreserveHigherPriorityPersonalOrScheduledGoals: residentIds.length - urgentGoals.length,
+    residentsChoosingPersonalLifeArc: personalLifeGoals.length,
     goals: Object.fromEntries(urgentGoals.map(id => [id, { goalType: urgent.hosts[id].activeGoal.type, targetMapId: urgent.hosts[id].activeGoal.targetMapId, activityKo: urgent.hosts[id].currentActivityKo }])) },
   lowPressure: { incomePressure: 0, residentsChoosingLivelihoodGoal: ordinaryGoals.length },
   autonomousQuestCompletions: 0, cashCreationOrLoss: false, elapsedMinutes: 5 };

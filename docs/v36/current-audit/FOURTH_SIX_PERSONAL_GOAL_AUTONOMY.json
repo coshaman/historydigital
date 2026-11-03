@@ -43,10 +43,10 @@
       "stage": 1,
       "mapId": "chancery",
       "position": {
-        "x": 12,
-        "y": 14
+        "x": 11,
+        "y": 15
       },
-      "minute": 306,
+      "minute": 300,
       "activityKo": "생활 문제 · 이름이 빠진 방문표 · 1/3",
       "witnessedByPlayer": false
     },
@@ -56,10 +56,10 @@
       "stage": 1,
       "mapId": "courtyard",
       "position": {
-        "x": 13,
-        "y": 12
+        "x": 14,
+        "y": 13
       },
-      "minute": 486,
+      "minute": 541,
       "activityKo": "생활 문제 · 비가 스미는 천장 · 1/3",
       "witnessedByPlayer": false
     },

@@ -269,7 +269,7 @@
           "activityKo": "생활 문제 · 기한이 다른 두 벌의 옷",
           "prerequisiteQuestIds": [],
           "windowStartMinute": 480,
-          "windowEndMinute": 1140,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         },
         {
@@ -286,7 +286,7 @@
             "ANNA_COAT_REPAIR_1847_STAGE_1"
           ],
           "windowStartMinute": 480,
-          "windowEndMinute": 1140,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         },
         {
@@ -303,7 +303,7 @@
             "ANNA_COAT_REPAIR_1847_STAGE_2"
           ],
           "windowStartMinute": 480,
-          "windowEndMinute": 1140,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         }
       ]

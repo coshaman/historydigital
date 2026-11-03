@@ -260,7 +260,7 @@
           "activityKo": "생활 문제 · 상하기 전의 생선값 · 1막",
           "prerequisiteQuestIds": [],
           "windowStartMinute": 720,
-          "windowEndMinute": 1140,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         },
         {
@@ -275,7 +275,7 @@
           "activityKo": "생활 문제 · 상하기 전의 생선값 · 2막",
           "prerequisiteQuestIds": [],
           "windowStartMinute": 720,
-          "windowEndMinute": 1140,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         },
         {
@@ -290,7 +290,7 @@
           "activityKo": "생활 문제 · 상하기 전의 생선값 · 3막",
           "prerequisiteQuestIds": [],
           "windowStartMinute": 720,
-          "windowEndMinute": 1140,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         }
       ]

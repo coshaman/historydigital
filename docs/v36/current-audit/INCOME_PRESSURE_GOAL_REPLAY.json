@@ -4,20 +4,11 @@
   "activeResidents": 36,
   "highPressure": {
     "incomePressure": 95,
-    "residentsChoosingLivelihoodGoal": 30,
-    "explicitIncomeGoals": 27,
-    "residentsDeferredToPreserveImminentDeliveryOrTrade": 6,
+    "residentsChoosingLivelihoodGoal": 27,
+    "explicitIncomeGoals": 24,
+    "residentsDeferredToPreserveHigherPriorityPersonalOrScheduledGoals": 9,
+    "residentsChoosingPersonalLifeArc": 3,
     "goals": {
-      "seamstress_anna": {
-        "goalType": "NEED_INCOME",
-        "targetMapId": "courtyard",
-        "activityKo": "방세를 건네고 남은 일을 묻는다"
-      },
-      "bookseller_lev": {
-        "goalType": "NEED_INCOME",
-        "targetMapId": "bookshop-interior",
-        "activityKo": "새 생활권에서 맡은 일을 이어간다"
-      },
       "senior_clerk_konstantin": {
         "goalType": "FOLLOW_RECIPIENT",
         "targetMapId": "chancery",
@@ -67,11 +58,6 @@
         "goalType": "NEED_INCOME",
         "targetMapId": "bookshop-lane",
         "activityKo": "다른 생활권에서 맡은 일을 확인한다"
-      },
-      "tenant_mikhail": {
-        "goalType": "NEED_INCOME",
-        "targetMapId": "courtyard",
-        "activityKo": "물을 길으러 우물가로 간다"
       },
       "housemaid_olga": {
         "goalType": "NEED_INCOME",

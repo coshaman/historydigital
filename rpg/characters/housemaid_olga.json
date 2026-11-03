@@ -267,7 +267,7 @@
           "activityKo": "생활 문제 · 닫히지 않은 방문 앞 · 1/3",
           "prerequisiteQuestIds": [],
           "windowStartMinute": 840,
-          "windowEndMinute": 1140,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         },
         {
@@ -284,7 +284,7 @@
             "OLGA_PRIVATE_WORDS_1847_STAGE_1"
           ],
           "windowStartMinute": 840,
-          "windowEndMinute": 1140,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         },
         {
@@ -301,7 +301,7 @@
             "OLGA_PRIVATE_WORDS_1847_STAGE_2"
           ],
           "windowStartMinute": 840,
-          "windowEndMinute": 1140,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         }
       ]

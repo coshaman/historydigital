@@ -25,7 +25,7 @@ for (const hostId of batchIds) {
     return { stage: quest.lifeChain.stage, questId: quest.id, date: quest.date, mapId: quest.entry.mapId,
       position: { x: Math.floor(marker.x / 16), y: Math.floor(marker.y / 16) },
       activityKo: `생활 문제 · ${quest.titleKo}`, prerequisiteQuestIds: quest.prerequisiteQuestIds ?? [],
-      windowStartMinute: 720, windowEndMinute: 1140, focusMinutes: 12 };
+      windowStartMinute: 720, windowEndMinute: 1380, focusMinutes: 12 };
   }));
   await writeFile(new URL(`rpg/characters/${hostId}.json`, root), `${JSON.stringify(card, null, 2)}\n`, 'utf8');
 }

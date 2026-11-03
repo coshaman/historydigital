@@ -274,7 +274,7 @@
           "activityKo": "생활 문제 · 하루 품삯의 약속 · 1/3",
           "prerequisiteQuestIds": [],
           "windowStartMinute": 480,
-          "windowEndMinute": 1140,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         },
         {
@@ -291,7 +291,7 @@
             "MIKHAIL_WAGE_AND_RENT_1847_STAGE_1"
           ],
           "windowStartMinute": 480,
-          "windowEndMinute": 1140,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         },
         {
@@ -308,7 +308,7 @@
             "MIKHAIL_WAGE_AND_RENT_1847_STAGE_2"
           ],
           "windowStartMinute": 480,
-          "windowEndMinute": 1140,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         }
       ]

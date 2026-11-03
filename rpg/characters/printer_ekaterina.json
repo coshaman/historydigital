@@ -285,7 +285,7 @@
           "activityKo": "생활 문제 · 모자란 잉크와 교정쇄 · 1/3",
           "prerequisiteQuestIds": [],
           "windowStartMinute": 480,
-          "windowEndMinute": 1140,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         },
         {
@@ -302,7 +302,7 @@
             "EKATERINA_INK_SHORTAGE_1847_STAGE_1"
           ],
           "windowStartMinute": 480,
-          "windowEndMinute": 1140,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         },
         {
@@ -319,7 +319,7 @@
             "EKATERINA_INK_SHORTAGE_1847_STAGE_2"
           ],
           "windowStartMinute": 480,
-          "windowEndMinute": 1140,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         }
       ]

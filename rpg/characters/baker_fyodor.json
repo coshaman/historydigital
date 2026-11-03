@@ -269,7 +269,7 @@
           "activityKo": "생활 문제 · 밀가루 자루의 무게 · 1/3",
           "prerequisiteQuestIds": [],
           "windowStartMinute": 720,
-          "windowEndMinute": 1140,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         },
         {
@@ -286,7 +286,7 @@
             "FYODOR_FLOUR_AND_ORDERS_1847_STAGE_1"
           ],
           "windowStartMinute": 720,
-          "windowEndMinute": 1140,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         },
         {
@@ -303,7 +303,7 @@
             "FYODOR_FLOUR_AND_ORDERS_1847_STAGE_2"
           ],
           "windowStartMinute": 720,
-          "windowEndMinute": 1140,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         }
       ]

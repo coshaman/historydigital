@@ -286,8 +286,8 @@
           },
           "activityKo": "생활 문제 · 밀린 빨래값과 다음 일감 · 1막",
           "prerequisiteQuestIds": [],
-          "windowStartMinute": 480,
-          "windowEndMinute": 1140,
+          "windowStartMinute": 600,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         },
         {
@@ -301,8 +301,8 @@
           },
           "activityKo": "생활 문제 · 밀린 빨래값과 다음 일감 · 2막",
           "prerequisiteQuestIds": [],
-          "windowStartMinute": 480,
-          "windowEndMinute": 1140,
+          "windowStartMinute": 600,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         },
         {
@@ -316,8 +316,8 @@
           },
           "activityKo": "생활 문제 · 밀린 빨래값과 다음 일감 · 3막",
           "prerequisiteQuestIds": [],
-          "windowStartMinute": 480,
-          "windowEndMinute": 1140,
+          "windowStartMinute": 600,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         }
       ]

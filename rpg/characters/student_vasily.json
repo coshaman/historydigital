@@ -257,8 +257,8 @@
           },
           "activityKo": "생활 문제 · 읽을 모임과 들킬 위험 · 1막",
           "prerequisiteQuestIds": [],
-          "windowStartMinute": 900,
-          "windowEndMinute": 1140,
+          "windowStartMinute": 960,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         },
         {
@@ -272,8 +272,8 @@
           },
           "activityKo": "생활 문제 · 읽을 모임과 들킬 위험 · 2막",
           "prerequisiteQuestIds": [],
-          "windowStartMinute": 900,
-          "windowEndMinute": 1140,
+          "windowStartMinute": 960,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         },
         {
@@ -287,8 +287,8 @@
           },
           "activityKo": "생활 문제 · 읽을 모임과 들킬 위험 · 3막",
           "prerequisiteQuestIds": [],
-          "windowStartMinute": 900,
-          "windowEndMinute": 1140,
+          "windowStartMinute": 960,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         }
       ]

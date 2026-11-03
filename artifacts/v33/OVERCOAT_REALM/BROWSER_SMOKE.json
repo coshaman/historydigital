@@ -9,7 +9,7 @@
     "width": 1382,
     "height": 355
   },
-  "base": "http://127.0.0.1:65112/",
+  "base": "http://127.0.0.1:59130/",
   "sourceGate": {
     "entryBlockedBeforeReading": true,
     "archiveExcerptReadBeforeEntry": true,

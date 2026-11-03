@@ -11,8 +11,9 @@ const secondSix = ['editor_sofia', 'police_sergeant_ivan', 'reader_darya', 'seni
 const thirdSix = ['apothecary_yakov', 'baker_fyodor', 'bookbinder_elizaveta', 'carter_roman', 'coachman_timofey', 'fishseller_klavdiya'];
 const fourthSix = ['housemaid_olga', 'innkeeper_irina', 'junior_guard_sergey', 'landlady_polina', 'lodging_tatyana', 'midwife_avdotya'];
 const fifthSix = ['print_apprentice_stepan', 'scribal_yuri', 'student_vasily', 'minor_noble_andrei', 'street_vendor_matryona', 'typesetter_nikita'];
-const batch = process.argv.includes('--batch-five') ? 5 : process.argv.includes('--batch-four') ? 4 : process.argv.includes('--batch-three') ? 3 : process.argv.includes('--batch-two') ? 2 : 1;
-const pilotIds = [firstSix, secondSix, thirdSix, fourthSix, fifthSix][batch - 1];
+const sixthSix = ['teacher_lyubov', 'watercarrier_luka', 'servant_varvara', 'porter_gavrila', 'market_nadezhda', 'warehouse_pyotr'];
+const batch = process.argv.includes('--batch-six') ? 6 : process.argv.includes('--batch-five') ? 5 : process.argv.includes('--batch-four') ? 4 : process.argv.includes('--batch-three') ? 3 : process.argv.includes('--batch-two') ? 2 : 1;
+const pilotIds = [firstSix, secondSix, thirdSix, fourthSix, fifthSix, sixthSix][batch - 1];
 const mapFiles = (await readdir(new URL('../rpg/maps/', import.meta.url))).filter(file => file.endsWith('.json'));
 const maps = Object.fromEntries(await Promise.all(mapFiles.map(async file => {
   const map = await readJson(`../rpg/maps/${file}`);
@@ -21,7 +22,9 @@ const maps = Object.fromEntries(await Promise.all(mapFiles.map(async file => {
 const cardFiles = (await readdir(new URL('../rpg/characters/', import.meta.url))).filter(file => file.endsWith('.json'));
 const hostCards = await Promise.all(cardFiles.map(file => readJson(`../rpg/characters/${file}`)));
 const questFiles = (await readdir(new URL('../rpg/quests/', import.meta.url))).filter(file => file.endsWith('.json'));
-const quests = await Promise.all(questFiles.map(file => readJson(`../rpg/quests/${file}`)));
+const individualQuests = await Promise.all(questFiles.map(file => readJson(`../rpg/quests/${file}`)));
+const residentArcBundle = await readJson('../rpg/quests/resident-arcs-v36.json');
+const quests = [...new Map([...individualQuests, ...residentArcBundle.quests].map(quest => [quest.id, quest])).values()];
 
 for (const hostId of pilotIds) {
   const card = hostCards.find(item => item.id === hostId);
@@ -39,7 +42,7 @@ for (const hostId of pilotIds) {
 function replay() {
   const initial = game.createInitialState({ maps, hostCards, quests, startMapId: 'nevsky' });
   let final = initial;
-  final = game.advanceNpcWorld(initial, 600, maps);
+  final = game.advanceNpcWorld(initial, 1440, maps);
   return { initial, final };
 }
 const first = replay(), second = replay();
@@ -78,7 +81,7 @@ assert.ok(secondStageState.ledger.flatMap(entry => entry.personalGoalVisits ?? [
 const audit = await readFile(new URL('../rpg/main.js', import.meta.url), 'utf8');
 assert.match(audit, /personalGoalVisits \?\? \[\]\)\.filter\(visit => visit\.witnessedByPlayer\)/,
   'the journal must disclose autonomous life-goal work only when the player witnessed it');
-const report = { schemaVersion: `V36_${['', 'FIRST', 'SECOND', 'THIRD', 'FOURTH', 'FIFTH'][batch]}_SIX_PERSONAL_GOAL_AUTONOMY_1`, status: 'PASS', pilotResidents: pilotIds.length,
+const report = { schemaVersion: `V36_${['', 'FIRST', 'SECOND', 'THIRD', 'FOURTH', 'FIFTH', 'SIXTH'][batch]}_SIX_PERSONAL_GOAL_AUTONOMY_1`, status: 'PASS', pilotResidents: pilotIds.length,
   authoredLifeStagesPerResident: 3, dailyVisits: pilotVisits.length,
   deterministicReplay: true, stageProgressRetargets: true, questAutoCompletion: false, saveLoadParity: true,
   deferredUntilHistoricallyAvailable: [...deferred],
@@ -86,5 +89,5 @@ const report = { schemaVersion: `V36_${['', 'FIRST', 'SECOND', 'THIRD', 'FOURTH'
     mapId: rows[0]?.mapId, position: rows[0]?.position, minute: rows[0]?.minute, activityKo: rows[0]?.activityKo,
     witnessedByPlayer: rows[0]?.witnessedByPlayer })) };
 await mkdir(new URL('../docs/v36/current-audit/', import.meta.url), { recursive: true });
-await writeFile(new URL(`../docs/v36/current-audit/${['', 'FIRST', 'SECOND', 'THIRD', 'FOURTH', 'FIFTH'][batch]}_SIX_PERSONAL_GOAL_AUTONOMY.json`, import.meta.url), `${JSON.stringify(report, null, 2)}\n`, 'utf8');
+await writeFile(new URL(`../docs/v36/current-audit/${['', 'FIRST', 'SECOND', 'THIRD', 'FOURTH', 'FIFTH', 'SIXTH'][batch]}_SIX_PERSONAL_GOAL_AUTONOMY.json`, import.meta.url), `${JSON.stringify(report, null, 2)}\n`, 'utf8');
 console.log(JSON.stringify(report, null, 2));

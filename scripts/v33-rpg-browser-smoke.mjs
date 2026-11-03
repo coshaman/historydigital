@@ -269,7 +269,7 @@ for (const viewport of (quickMode ? [{ width: 1440, height: 900 }] : [{ width: 1
   const readData = relative => JSON.parse(fs.readFileSync(path.join(root, relative), 'utf8'));
   const maps = Object.fromEntries(fs.readdirSync(path.join(root, 'rpg/maps')).filter(file => file.endsWith('.json')).map(file => [file.slice(0, -5), readData(`rpg/maps/${file}`)]));
   const hostCards = fs.readdirSync(path.join(root, 'rpg/characters')).filter(file => file.endsWith('.json')).map(file => readData(`rpg/characters/${file}`));
-  const quests = fs.readdirSync(path.join(root, 'rpg/quests')).filter(file => file.endsWith('.json') && file !== 'campaign.json').map(file => readData(`rpg/quests/${file}`));
+  const quests = fs.readdirSync(path.join(root, 'rpg/quests')).filter(file => file.endsWith('.json') && file !== 'campaign.json' && file !== 'resident-arcs-v36.json').map(file => readData(`rpg/quests/${file}`));
   const prepared = engine.createInitialState({ maps, hostCards, quests });
   prepared.player.position = { x: 5, y: 8 };
   prepared.hosts.street_vendor_matryona.position = { x: 4, y: 8 };
@@ -285,7 +285,8 @@ for (const viewport of (quickMode ? [{ width: 1440, height: 900 }] : [{ width: 1
   await page.locator('#save').click();
   await page.keyboard.press('e');
   await page.locator('#actions button').filter({ hasText: '알렉세이 오를로프 살펴보기' }).click();
-  await page.getByRole('button', { name: '몸을 빌린다' }).click();
+  try { await page.getByRole('button', { name: '몸을 빌린다' }).click(); }
+  catch { const diagnosis = await page.evaluate(() => { const saved=JSON.parse(localStorage.getItem('v33-rpg-save')||'null'); return {mapId:document.querySelector('#mapname')?.textContent,position:saved?.state?.player?.position,embodiment:saved?.state?.player?.embodiment,actions:document.querySelector('#actions')?.innerText,host:saved?.state?.hosts?.clerk_alexei&&{mapId:saved.state.hosts.clerk_alexei.mapId,position:saved.state.hosts.clerk_alexei.position}}; }); throw new Error(`Alexei possession option unavailable: ${JSON.stringify(diagnosis)}`); }
   await moveKey(page, 'ArrowRight');
   for (let step = 0; step < 3; step++) await moveKey(page, 'ArrowDown');
   await goExit(page, '네프스키 거리');
@@ -295,22 +296,26 @@ for (const viewport of (quickMode ? [{ width: 1440, height: 900 }] : [{ width: 1
   await page.getByText('이 몸으로는 들어갈 수 없다').waitFor();
   await page.locator('#release').click();
   await goExit(page, '하숙집 안뜰');
+  await moveKey(page, 'ArrowRight');
+  await moveKey(page, 'ArrowRight');
   await page.keyboard.press('e');
   const mikhailChoice = page.locator('#actions button').filter({ hasText: '미하일 살펴보기' });
   if (await mikhailChoice.count()) await mikhailChoice.first().click();
-  await page.getByRole('button', { name: '몸을 빌린다' }).click();
-  await moveKey(page, 'ArrowLeft');
-  await moveKey(page, 'ArrowLeft');
-  await moveKey(page, 'ArrowUp');
+  try { await page.getByRole('button', { name: '몸을 빌린다' }).click(); }
+  catch { const diagnosis = await page.evaluate(() => { const saved=JSON.parse(localStorage.getItem('v33-rpg-save')||'null'); const host=saved?.state?.hosts?.tenant_mikhail; return {mapId:document.querySelector('#mapname')?.textContent,position:saved?.state?.player?.position,embodiment:saved?.state?.player?.embodiment,actions:document.querySelector('#actions')?.innerText,host:host&&{mapId:host.mapId,position:host.position}}; }); throw new Error(`Mikhail possession option unavailable: ${JSON.stringify(diagnosis)}`); }
+  for (let step = 0; step < 4; step++) await moveKey(page, 'ArrowRight');
   await page.keyboard.press('e');
-  await page.getByRole('heading', { name: '방세 쪽지' }).waitFor({ timeout: 5000 }).catch(async () => {
+  await page.locator('#headline').filter({ hasText: '방세와 공동 장작' }).waitFor({ timeout: 5000 }).catch(async () => {
     const state = await page.evaluate(() => ({ map: document.querySelector('#mapname')?.textContent, clock: document.querySelector('#clock')?.textContent, headline: document.querySelector('#headline')?.textContent, record: document.querySelector('#record')?.textContent, actions: document.querySelector('#actions')?.innerText }));
     throw new Error(`Courtyard rent document did not appear: ${JSON.stringify(state)}`);
   });
-  await page.getByText(/내일까지라… 오늘은 꼭 일거리를 구해야 하는데/).waitFor();
+  const rentChoice = page.locator('#actions button').filter({ hasText: '세입자들과 장작값과 사용 순서를 함께 적는다' });
+  await rentChoice.waitFor();
+  await rentChoice.click();
+  await page.getByText(/미하일은 장작값과 사용 순서를 함께 적었다/).waitFor();
   await page.screenshot({ path: path.join(out, 'courtyard-rent-1440x900.png') });
-  for (let step = 0; step < 4; step++) await moveKey(page, 'ArrowRight');
-  for (let step = 0; step < 4; step++) await moveKey(page, 'ArrowDown');
+  for (let step = 0; step < 6; step++) await moveKey(page, 'ArrowLeft');
+  for (let step = 0; step < 3; step++) await moveKey(page, 'ArrowDown');
   await goExit(page, '네프스키 거리');
   if (errors.length) throw new Error(`Chancery/courtyard browser errors: ${errors.join('; ')}`);
   report.otherMaps = { chanceryVisit: true, clerkAccess: true, alexeiDeniedCourtyard: true, observerEnteredCourtyard: true, mikhailClueRead: true, mikhailReturnedToStreet: true, errors };

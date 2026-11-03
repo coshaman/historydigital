@@ -284,7 +284,7 @@
           "activityKo": "생활 문제 · 늦은 교정쇄의 전달",
           "prerequisiteQuestIds": [],
           "windowStartMinute": 480,
-          "windowEndMinute": 1140,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         },
         {
@@ -301,7 +301,7 @@
             "PAVEL_PROOF_DELIVERY_1847_STAGE_1"
           ],
           "windowStartMinute": 480,
-          "windowEndMinute": 1140,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         },
         {
@@ -318,7 +318,7 @@
             "PAVEL_PROOF_DELIVERY_1847_STAGE_2"
           ],
           "windowStartMinute": 480,
-          "windowEndMinute": 1140,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         }
       ]

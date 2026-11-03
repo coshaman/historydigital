@@ -88,8 +88,8 @@
       "questStagesResolved": 16,
       "possessionChecks": 6,
       "legacySaveRelationMigrationPreservedDynamicLinks": true,
-      "movementEvents": 68,
-      "finalStateHash": "af63c98b"
+      "movementEvents": 261,
+      "finalStateHash": "cce89216"
     },
     {
       "schemaVersion": "V36_RESIDENT_BATCH_ACCEPTANCE_1",
@@ -136,8 +136,8 @@
       "questStagesResolved": 10,
       "possessionChecks": 6,
       "legacySaveRelationMigrationPreservedDynamicLinks": true,
-      "movementEvents": 68,
-      "finalStateHash": "af63c98b"
+      "movementEvents": 261,
+      "finalStateHash": "cce89216"
     },
     {
       "schemaVersion": "V36_RESIDENT_BATCH_ACCEPTANCE_1",
@@ -184,8 +184,8 @@
       "questStagesResolved": 12,
       "possessionChecks": 6,
       "legacySaveRelationMigrationPreservedDynamicLinks": true,
-      "movementEvents": 68,
-      "finalStateHash": "af63c98b"
+      "movementEvents": 261,
+      "finalStateHash": "cce89216"
     },
     {
       "schemaVersion": "V36_RESIDENT_BATCH_ACCEPTANCE_1",
@@ -232,8 +232,8 @@
       "questStagesResolved": 14,
       "possessionChecks": 6,
       "legacySaveRelationMigrationPreservedDynamicLinks": true,
-      "movementEvents": 68,
-      "finalStateHash": "af63c98b"
+      "movementEvents": 261,
+      "finalStateHash": "cce89216"
     },
     {
       "schemaVersion": "V36_RESIDENT_BATCH_ACCEPTANCE_1",
@@ -280,8 +280,8 @@
       "questStagesResolved": 12,
       "possessionChecks": 6,
       "legacySaveRelationMigrationPreservedDynamicLinks": true,
-      "movementEvents": 68,
-      "finalStateHash": "af63c98b"
+      "movementEvents": 261,
+      "finalStateHash": "cce89216"
     },
     {
       "schemaVersion": "V36_RESIDENT_BATCH_ACCEPTANCE_1",
@@ -328,8 +328,8 @@
       "questStagesResolved": 18,
       "possessionChecks": 6,
       "legacySaveRelationMigrationPreservedDynamicLinks": true,
-      "movementEvents": 68,
-      "finalStateHash": "af63c98b"
+      "movementEvents": 261,
+      "finalStateHash": "cce89216"
     }
   ]
 }

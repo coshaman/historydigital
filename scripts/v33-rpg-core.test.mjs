@@ -546,7 +546,7 @@ test('V35 expands old saves with the new intellectual cast without losing the ex
 test('old V36 saves migrate newly added quest states and immutable outcomes without resetting existing progress', async () => {
   const maps = await loadMaps();
   const cards = await Promise.all((await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)));
-  const questFiles = (await readdir(path.join(root, 'rpg/quests'))).filter(file => file.endsWith('.json') && file !== 'campaign.json');
+  const questFiles = (await readdir(path.join(root, 'rpg/quests'))).filter(file => file.endsWith('.json') && file !== 'campaign.json' && file !== 'resident-arcs-v36.json');
   const quests = await Promise.all(questFiles.map(file => json(`rpg/quests/${file}`)));
   const newLifeChainPrefixes = ['ALEXEI_ENVELOPE_REGISTER_1847', 'PAVEL_PROOF_DELIVERY_1847', 'ANNA_COAT_REPAIR_1847', 'LEV_BOOK_RESERVATION_1847'];
   const legacyQuests = quests.filter(quest => !newLifeChainPrefixes.some(prefix => quest.id.startsWith(prefix)));

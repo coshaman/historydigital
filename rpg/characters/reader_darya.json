@@ -268,8 +268,8 @@
           "prerequisiteQuestIds": [
             "READER_SOURCE_AND_RUMOR_1847"
           ],
-          "windowStartMinute": 480,
-          "windowEndMinute": 1140,
+          "windowStartMinute": 600,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         },
         {
@@ -285,8 +285,8 @@
           "prerequisiteQuestIds": [
             "DARYA_READING_CIRCLE_1847_STAGE_1"
           ],
-          "windowStartMinute": 480,
-          "windowEndMinute": 1140,
+          "windowStartMinute": 600,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         },
         {
@@ -302,8 +302,8 @@
           "prerequisiteQuestIds": [
             "DARYA_READING_CIRCLE_1847_STAGE_2"
           ],
-          "windowStartMinute": 480,
-          "windowEndMinute": 1140,
+          "windowStartMinute": 600,
+          "windowEndMinute": 1380,
           "focusMinutes": 12
         }
       ]
