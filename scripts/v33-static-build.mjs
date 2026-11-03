@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 
 const root = process.cwd(), output = path.join(root, 'dist-v33');
+await import('./v36-build-resident-arc-bundle.mjs');
 const required = ['index.html', 'chancery.html', 'rpg/main.js', 'rpg/rpg.css', 'rpg/engine/game-state.js', 'rpg/engine/learning-life.mjs', 'rpg/engine/civic-life.mjs', 'rpg/engine/dialogue-response.mjs', 'rpg/data/learning-exam.json', 'rpg/data/learning-sources.json', 'rpg/data/life-simulation.json', 'rpg/data/historical-comparisons.json', 'rpg/maps/nevsky.json', 'rpg/maps/printshop.json', 'rpg/maps/chancery.json', 'rpg/maps/courtyard.json', 'rpg/maps/police-station.json', 'rpg/characters/editor_sofia.json', 'rpg/characters/police_sergeant_ivan.json', 'rpg/assets/petersburg-tiles.png', 'rpg/assets/chichikov.png', 'rpg/assets/nekrasov.png'];
 await fs.rm(output, { recursive: true, force: true });
 await fs.mkdir(output, { recursive: true });

@@ -1,16 +1,43 @@
-# Russian Lives: Act III — MAIN20 release candidate
+# Russian Lives: Act III — V36 open-world build and verification
 
-The production route is `http://127.0.0.1:4173/` (or `#main`). The preserved V28 archive is explicit at `#archive-v28`.
+This repository contains the Vercel-only web game. It keeps the V35/Act III campaign, document reader, possession system, literary realms, Vercel dialogue API, and five historical endings while adding the 1847 Petersburg resident simulation and connected city districts.
 
-```text
+## Run locally
+
+```powershell
 npm ci
+npm run build:v33
 npm run start
-npm run real-build
-npm run real-build-browser
-npm run check
-npm run lint
-npm run test
-npm run main20-final-acceptance
 ```
 
-`main20-final-acceptance` expects the local server at `http://127.0.0.1:4173` and writes fresh production-route evidence to `artifacts/final-main20/`. `node_modules` and package archives are not part of the release package.
+Open `http://127.0.0.1:4173/`. The local server serves the static build and same-origin `/api/rpg/*` functions. Without an API key, the game remains playable with its labeled offline dialogue path.
+
+## Verify
+
+```powershell
+npm run check
+npm run v36-personal-life-chain-test
+npm run v36-full-day-36
+npm run v36-city-map-acceptance
+npm run v36-six-batch-browser
+npm run v36-browser-acceptance
+npm run acceptance:v36
+```
+
+The integrated gate clears `OPENAI_API_KEY`, so it does not make a paid model request. The separate `npm run v36-live-ai-browser` command makes one real generation and requires a key in ignored `.env.local`.
+
+`docs/v36/ACCEPTANCE.json` records each gate and result. The release ZIP contains a root-level runnable source tree, `src/`, `config/`, `maps/`, `npc/`, `assets/`, `quests/`, `historical/`, `qa/`, and curated `screenshots/`. `manifest.sha256` covers the packaged files except itself and the compatibility copy `SHA256SUMS.txt`.
+
+## Deploy to Vercel
+
+- Use the repository root as the Vercel **Root Directory**.
+- Set the build command to `npm run build:v33` and the output directory to `dist-v33`.
+- Keep the checked-in `vercel.json` function routes; `/api/rpg/health`, `/api/rpg/session/start`, and `/api/rpg/dialogue` are same-origin Vercel Functions.
+- Add `OPENAI_API_KEY` as a Sensitive Environment Variable in Vercel Project Settings. Select Production and Preview as needed, then redeploy after changes. Never place the key in a `VITE_*`/browser variable or commit it.
+- No Cloudflare Worker, Pages project, or proxy is used.
+
+The health route reports whether a key is configured; it does not prove a model reply was generated. Confirm a successful `/api/rpg/dialogue` response and the in-game `AI 생성 답변` label. Provider failure remains distinguishable from generated text and the offline path remains available.
+
+## Historical and verification limits
+
+The named residents and household-level incidents are fictional gameplay reconstructions. Several outdoor scenes are intentionally stylized and not georeferenced. Period maps, prints, and texts are cited as contextual evidence with those limits stated; they do not prove a specific invented address or household. `V36_FINAL_STATUS.md` identifies the current unmet requirements and must not be read as a completion claim.

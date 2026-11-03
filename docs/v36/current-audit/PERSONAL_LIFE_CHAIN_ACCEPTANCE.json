@@ -1,9 +1,336 @@
 {
-  "schemaVersion": "V36_PERSONAL_LIFE_CHAIN_TEST_1",
+  "schemaVersion": "V36_PERSONAL_LIFE_CHAIN_TEST_2",
   "status": "PASS",
-  "completeThreeStageChains": 30,
-  "additionalChainsPlayed": 14,
-  "physicalStagesCompleted": 42,
+  "completeThreeStageChains": 46,
+  "residentsWithPlayableThreeStageArcs": 36,
+  "residentArcsPlayed": 36,
+  "physicalStagesCompleted": 108,
+  "playedResidentArcs": [
+    {
+      "hostId": "minor_noble_andrei",
+      "chainId": "ANDREI_DEBT_STATUS_1847",
+      "stageQuestIds": [
+        "ANDREI_DEBT_STATUS_1847_STAGE_1",
+        "ANDREI_DEBT_STATUS_1847_STAGE_2",
+        "ANDREI_DEBT_STATUS_1847_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "apothecary_yakov",
+      "chainId": "YAKOV_REMEDY_LIMITS_1847",
+      "stageQuestIds": [
+        "YAKOV_REMEDY_LIMITS_1847_STAGE_1",
+        "YAKOV_REMEDY_LIMITS_1847_STAGE_2",
+        "YAKOV_REMEDY_LIMITS_1847_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "baker_fyodor",
+      "chainId": "FYODOR_OVEN_ORDER_1847",
+      "stageQuestIds": [
+        "FYODOR_OVEN_ORDER_1847_STAGE_1",
+        "FYODOR_OVEN_ORDER_1847_STAGE_2",
+        "FYODOR_OVEN_ORDER_1847_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "bookseller_lev",
+      "chainId": "LEV_BOOK_RESERVATION_1847",
+      "stageQuestIds": [
+        "LEV_BOOK_RESERVATION_1847_STAGE_1",
+        "LEV_BOOK_RESERVATION_1847_STAGE_2",
+        "LEV_BOOK_RESERVATION_1847_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "carter_roman",
+      "chainId": "ROMAN_ROUTE_PRIORITY_1847",
+      "stageQuestIds": [
+        "ROMAN_ROUTE_PRIORITY_1847_STAGE_1",
+        "ROMAN_ROUTE_PRIORITY_1847_STAGE_2",
+        "ROMAN_ROUTE_PRIORITY_1847_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "clerk_alexei",
+      "chainId": "ALEXEI_ENVELOPE_REGISTER_1847",
+      "stageQuestIds": [
+        "ALEXEI_ENVELOPE_REGISTER_1847_STAGE_1",
+        "ALEXEI_ENVELOPE_REGISTER_1847_STAGE_2",
+        "ALEXEI_ENVELOPE_REGISTER_1847_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "coachman_timofey",
+      "chainId": "TIMofey_SHARED_LOAD_1847",
+      "stageQuestIds": [
+        "TIMofey_SHARED_LOAD_1847_STAGE_1",
+        "TIMofey_SHARED_LOAD_1847_STAGE_2",
+        "TIMofey_SHARED_LOAD_1847_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "courier_pavel",
+      "chainId": "PAVEL_PROOF_DELIVERY_1847",
+      "stageQuestIds": [
+        "PAVEL_PROOF_DELIVERY_1847_STAGE_1",
+        "PAVEL_PROOF_DELIVERY_1847_STAGE_2",
+        "PAVEL_PROOF_DELIVERY_1847_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "editor_sofia",
+      "chainId": "SOFIA_UNNAMED_NOTICE_1847",
+      "stageQuestIds": [
+        "SOFIA_UNNAMED_NOTICE_1847_STAGE_1",
+        "SOFIA_UNNAMED_NOTICE_1847_STAGE_2",
+        "SOFIA_UNNAMED_NOTICE_1847_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "bookbinder_elizaveta",
+      "chainId": "ELIZAVETA_DAMAGED_BOOK_1847",
+      "stageQuestIds": [
+        "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_1",
+        "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_2",
+        "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "housemaid_olga",
+      "chainId": "OLGA_PRIVATE_WORDS_1847",
+      "stageQuestIds": [
+        "OLGA_PRIVATE_WORDS_1847_STAGE_1",
+        "OLGA_PRIVATE_WORDS_1847_STAGE_2",
+        "OLGA_PRIVATE_WORDS_1847_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "innkeeper_irina",
+      "chainId": "IRINA_INN_PRIVACY_1847",
+      "stageQuestIds": [
+        "IRINA_INN_PRIVACY_1847_STAGE_1",
+        "IRINA_INN_PRIVACY_1847_STAGE_2",
+        "IRINA_INN_PRIVACY_1847_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "junior_guard_sergey",
+      "chainId": "SERGEY_VISITOR_PASS_1847",
+      "stageQuestIds": [
+        "SERGEY_VISITOR_PASS_1847_STAGE_1",
+        "SERGEY_VISITOR_PASS_1847_STAGE_2",
+        "SERGEY_VISITOR_PASS_1847_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "fishseller_klavdiya",
+      "chainId": "KLAVDIYA_FISH_STORAGE_1847",
+      "stageQuestIds": [
+        "KLAVDIYA_FISH_STORAGE_1847_STAGE_1",
+        "KLAVDIYA_FISH_STORAGE_1847_STAGE_2",
+        "KLAVDIYA_FISH_STORAGE_1847_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "landlady_polina",
+      "chainId": "POLINA_COMMON_FIREWOOD_1847",
+      "stageQuestIds": [
+        "POLINA_COMMON_FIREWOOD_1847_STAGE_1",
+        "POLINA_COMMON_FIREWOOD_1847_STAGE_2",
+        "POLINA_COMMON_FIREWOOD_1847_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "laundress_mariya",
+      "chainId": "MARIYA_WASHING_WAGES_1847",
+      "stageQuestIds": [
+        "MARIYA_WASHING_WAGES_1847_STAGE_1",
+        "MARIYA_WASHING_WAGES_1847_STAGE_2",
+        "MARIYA_WASHING_WAGES_1847_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "lodging_tatyana",
+      "chainId": "TATYANA_READING_HOUR_1847",
+      "stageQuestIds": [
+        "TATYANA_READING_HOUR_1847_STAGE_1",
+        "TATYANA_READING_HOUR_1847_STAGE_2",
+        "TATYANA_READING_HOUR_1847_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "watercarrier_luka",
+      "chainId": "LUKA_WATER_QUEUE_1847",
+      "stageQuestIds": [
+        "LUKA_WATER_QUEUE_1847_STAGE_1",
+        "LUKA_WATER_QUEUE_1847_STAGE_2",
+        "LUKA_WATER_QUEUE_1847_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "teacher_lyubov",
+      "chainId": "LYUBOV_LESSON_ACCESS_1847",
+      "stageQuestIds": [
+        "LYUBOV_LESSON_ACCESS_1847_STAGE_1",
+        "LYUBOV_LESSON_ACCESS_1847_STAGE_2",
+        "LYUBOV_LESSON_ACCESS_1847_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "market_nadezhda",
+      "chainId": "NADEZHDA_STALL_WEATHER_1847",
+      "stageQuestIds": [
+        "NADEZHDA_STALL_WEATHER_1847_STAGE_1",
+        "NADEZHDA_STALL_WEATHER_1847_STAGE_2",
+        "NADEZHDA_STALL_WEATHER_1847_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "street_vendor_matryona",
+      "chainId": "MATRYONA_STREET_STALL_1847",
+      "stageQuestIds": [
+        "MATRYONA_STREET_STALL_1847_STAGE_1",
+        "MATRYONA_STREET_STALL_1847_STAGE_2",
+        "MATRYONA_STREET_STALL_1847_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "midwife_avdotya",
+      "chainId": "AVDOTYA_NIGHT_CALLS_1847",
+      "stageQuestIds": [
+        "AVDOTYA_NIGHT_CALLS_1847_STAGE_1",
+        "AVDOTYA_NIGHT_CALLS_1847_STAGE_2",
+        "AVDOTYA_NIGHT_CALLS_1847_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "typesetter_nikita",
+      "chainId": "NIKITA_TYPESPEED_1847",
+      "stageQuestIds": [
+        "NIKITA_TYPESPEED_1847_STAGE_1",
+        "NIKITA_TYPESPEED_1847_STAGE_2",
+        "NIKITA_TYPESPEED_1847_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "police_sergeant_ivan",
+      "chainId": "IVAN_WITNESS_ACCOUNT_1849",
+      "stageQuestIds": [
+        "IVAN_WITNESS_ACCOUNT_1849_STAGE_1",
+        "IVAN_WITNESS_ACCOUNT_1849_STAGE_2",
+        "IVAN_WITNESS_ACCOUNT_1849_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "porter_gavrila",
+      "chainId": "GAVRILA_LOAD_AND_REST_1847",
+      "stageQuestIds": [
+        "GAVRILA_LOAD_AND_REST_1847_STAGE_1",
+        "GAVRILA_LOAD_AND_REST_1847_STAGE_2",
+        "GAVRILA_LOAD_AND_REST_1847_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "printer_ekaterina",
+      "chainId": "EKATERINA_INK_SHORTAGE_1847",
+      "stageQuestIds": [
+        "EKATERINA_INK_SHORTAGE_1847_STAGE_1",
+        "EKATERINA_INK_SHORTAGE_1847_STAGE_2",
+        "EKATERINA_INK_SHORTAGE_1847_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "reader_darya",
+      "chainId": "DARYA_READING_CIRCLE_1847",
+      "stageQuestIds": [
+        "DARYA_READING_CIRCLE_1847_STAGE_1",
+        "DARYA_READING_CIRCLE_1847_STAGE_2",
+        "DARYA_READING_CIRCLE_1847_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "seamstress_anna",
+      "chainId": "ANNA_COAT_REPAIR_1847",
+      "stageQuestIds": [
+        "ANNA_COAT_REPAIR_1847_STAGE_1",
+        "ANNA_COAT_REPAIR_1847_STAGE_2",
+        "ANNA_COAT_REPAIR_1847_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "senior_clerk_konstantin",
+      "chainId": "KONSTANTIN_UNSIGNED_REVIEW_1847",
+      "stageQuestIds": [
+        "KONSTANTIN_UNSIGNED_REVIEW_1847_STAGE_1",
+        "KONSTANTIN_UNSIGNED_REVIEW_1847_STAGE_2",
+        "KONSTANTIN_UNSIGNED_REVIEW_1847_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "print_apprentice_stepan",
+      "chainId": "STEPAN_PROOF_AUTHorship_1847",
+      "stageQuestIds": [
+        "STEPAN_PROOF_AUTHorship_1847_STAGE_1",
+        "STEPAN_PROOF_AUTHorship_1847_STAGE_2",
+        "STEPAN_PROOF_AUTHorship_1847_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "tenant_mikhail",
+      "chainId": "MIKHAIL_WAGE_AND_RENT_1847",
+      "stageQuestIds": [
+        "MIKHAIL_WAGE_AND_RENT_1847_STAGE_1",
+        "MIKHAIL_WAGE_AND_RENT_1847_STAGE_2",
+        "MIKHAIL_WAGE_AND_RENT_1847_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "servant_varvara",
+      "chainId": "VARVARA_PRIVATE_WARNING_1847",
+      "stageQuestIds": [
+        "VARVARA_PRIVATE_WARNING_1847_STAGE_1",
+        "VARVARA_PRIVATE_WARNING_1847_STAGE_2",
+        "VARVARA_PRIVATE_WARNING_1847_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "student_vasily",
+      "chainId": "VASILY_READING_CIRCLE_1847",
+      "stageQuestIds": [
+        "VASILY_READING_CIRCLE_1847_STAGE_1",
+        "VASILY_READING_CIRCLE_1847_STAGE_2",
+        "VASILY_READING_CIRCLE_1847_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "warehouse_pyotr",
+      "chainId": "PYOTR_MISSING_CRATE_AUDIT_1847",
+      "stageQuestIds": [
+        "PYOTR_MISSING_CRATE_AUDIT_1847_STAGE_1",
+        "PYOTR_MISSING_CRATE_AUDIT_1847_STAGE_2",
+        "PYOTR_MISSING_CRATE_AUDIT_1847_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "yardkeeper_semyon",
+      "chainId": "SEMYON_FIREWOOD_LEDGER_1847",
+      "stageQuestIds": [
+        "SEMYON_FIREWOOD_LEDGER_1847_STAGE_1",
+        "SEMYON_FIREWOOD_LEDGER_1847_STAGE_2",
+        "SEMYON_FIREWOOD_LEDGER_1847_STAGE_3"
+      ]
+    },
+    {
+      "hostId": "scribal_yuri",
+      "chainId": "YURI_COPYING_LEDGER_1847",
+      "stageQuestIds": [
+        "YURI_COPYING_LEDGER_1847_STAGE_1",
+        "YURI_COPYING_LEDGER_1847_STAGE_2",
+        "YURI_COPYING_LEDGER_1847_STAGE_3"
+      ]
+    }
+  ],
   "choiceDirectionsAudited": true,
   "skippedStageBlocked": true
 }

@@ -29,7 +29,8 @@ const addedPersonalQuests = await Promise.all(['editor-publication-record-1847',
   'junior-guard-sergey-chain-6-stage-1-1847','junior-guard-sergey-chain-6-stage-2-1847','junior-guard-sergey-chain-6-stage-3-1847',...residentQuestBatchTwo].map(id => readJson(`./rpg/quests/${id}.json`)));
 const v36PersonalQuestFiles = ["bookseller_lev-v36-life-stage-1-1847","bookseller_lev-v36-life-stage-2-1847","bookseller_lev-v36-life-stage-3-1847","clerk_alexei-v36-life-stage-1-1847","clerk_alexei-v36-life-stage-2-1847","clerk_alexei-v36-life-stage-3-1847","coachman_timofey-v36-life-stage-1-1847","coachman_timofey-v36-life-stage-2-1847","coachman_timofey-v36-life-stage-3-1847","editor_sofia-v36-life-stage-1-1847","editor_sofia-v36-life-stage-2-1847","editor_sofia-v36-life-stage-3-1847","housemaid_olga-v36-life-stage-1-1847","housemaid_olga-v36-life-stage-2-1847","housemaid_olga-v36-life-stage-3-1847","junior_guard_sergey-v36-life-stage-1-1847","junior_guard_sergey-v36-life-stage-2-1847","junior_guard_sergey-v36-life-stage-3-1847","lodging_tatyana-v36-life-stage-1-1847","lodging_tatyana-v36-life-stage-2-1847","lodging_tatyana-v36-life-stage-3-1847","midwife_avdotya-v36-life-stage-1-1847","midwife_avdotya-v36-life-stage-2-1847","midwife_avdotya-v36-life-stage-3-1847","printer_ekaterina-v36-life-stage-1-1847","printer_ekaterina-v36-life-stage-2-1847","printer_ekaterina-v36-life-stage-3-1847","senior_clerk_konstantin-v36-life-stage-1-1847","senior_clerk_konstantin-v36-life-stage-2-1847","senior_clerk_konstantin-v36-life-stage-3-1847","tenant_mikhail-v36-life-stage-1-1847","tenant_mikhail-v36-life-stage-2-1847","tenant_mikhail-v36-life-stage-3-1847","yardkeeper_semyon-v36-life-stage-1-1847","yardkeeper_semyon-v36-life-stage-2-1847","yardkeeper_semyon-v36-life-stage-3-1847","baker_fyodor-v36-life-stage-1-1847","baker_fyodor-v36-life-stage-2-1847","baker_fyodor-v36-life-stage-3-1847","carter_roman-v36-life-stage-1-1847","carter_roman-v36-life-stage-2-1847","carter_roman-v36-life-stage-3-1847","landlady_polina-v36-life-stage-1-1847","landlady_polina-v36-life-stage-2-1847","landlady_polina-v36-life-stage-3-1847","porter_gavrila-v36-life-stage-1-1847","porter_gavrila-v36-life-stage-2-1847","porter_gavrila-v36-life-stage-3-1847"].map(id => readJson(`./rpg/quests/${id}.json`));
 const socialQuestFiles = ['baker-fyodor-life-extra-1-1847','baker-fyodor-life-extra-2-1847','baker-fyodor-life-extra-3-1847','bookseller-lev-life-1-1847','bookseller-lev-life-2-1847','bookseller-lev-life-3-1847','carter-roman-life-extra-1-1847','carter-roman-life-extra-2-1847','carter-roman-life-extra-3-1847','clerk-alexei-life-1-1847','clerk-alexei-life-2-1847','clerk-alexei-life-3-1847','editor-sofia-chain-1-stage-1-1847','editor-sofia-chain-1-stage-2-1847','editor-sofia-chain-1-stage-3-1847','housemaid-olga-chain-4-stage-1-1847','housemaid-olga-chain-4-stage-2-1847','housemaid-olga-chain-4-stage-3-1847','junior-guard-sergey-chain-6-stage-1-1847','junior-guard-sergey-chain-6-stage-2-1847','junior-guard-sergey-chain-6-stage-3-1847','landlady-polina-life-extra-1-1847','landlady-polina-life-extra-2-1847','landlady-polina-life-extra-3-1847','midwife-avdotya-chain-5-stage-1-1847','midwife-avdotya-chain-5-stage-2-1847','midwife-avdotya-chain-5-stage-3-1847','porter-gavrila-life-extra-1-1847','porter-gavrila-life-extra-2-1847','porter-gavrila-life-extra-3-1847'].map(id => readJson(`./rpg/quests/${id}.json`));
-const questList = [firstQuest, publicQuest, circleQuest, letterQuest, literaryQuest, overcoatQuest, ...marketPersonalQuests, ...addedPersonalQuests, ...v36PersonalQuestFiles, ...socialQuestFiles];
+const residentArcBundle = await readJson('./rpg/quests/resident-arcs-v36.json');
+const questList = [...new Map([firstQuest, publicQuest, circleQuest, letterQuest, literaryQuest, overcoatQuest, ...marketPersonalQuests, ...addedPersonalQuests, ...v36PersonalQuestFiles, ...socialQuestFiles, ...residentArcBundle.quests].map(quest => [quest.id, quest])).values()];
 const questsById = new Map(questList.map(item => [item.id, item]));
 const relationHintValues = new Map();
 for (const quest of questList) for (const action of quest.actions ?? []) {
@@ -1191,8 +1192,6 @@ function interact() {
     say('가까이에 사람과 문서가 있다', '살펴볼 사람이나 주변의 문서·출입문을 고르세요.', [...peopleChoices, ...nearbyObjects]);
     return;
   }
-  if (state.player.embodiment && civicService) { inspect(civicService); return; }
-  if (!state.player.embodiment && civicService && !nearbyPeople.length) { inspect(civicService); return; }
   const activeQuestObject = near.find(item => {
       if (item.type !== 'quest-object') return false;
       const questId = Object.fromEntries((item.properties ?? []).map(property => [property.name, property.value])).questId;
@@ -1200,6 +1199,8 @@ function interact() {
       return questIsAvailable(quest) && state.quests[questId]?.status !== 'resolved'
         && (!state.player.embodiment || quest.actions.some(action => action.hostIds.includes(state.player.embodiment)));
     });
+  if (!activeQuestObject && state.player.embodiment && civicService) { inspect(civicService); return; }
+  if (!activeQuestObject && !state.player.embodiment && civicService && !nearbyPeople.length) { inspect(civicService); return; }
   const object = activeQuestObject
     ?? near.find(item => item.type === 'source')
     ?? (state.player.embodiment ? near.find(item => item.type === 'map-exit') : null)

@@ -35,6 +35,8 @@ const steps = [
   ['historical-opinion-board-and-save-load', 'v36-opinion-board-browser'],
   ['all-14-maps-at-four-viewport-sizes', 'v36-world-map-browser-capture'],
   ['five-endings-and-campaign-browser-routes', 'v36-browser-acceptance'],
+  ['all-36-residents-complete-three-stage-life-arcs', 'v36-personal-life-chain-test'],
+  ['resident-quest-bundle-and-target-priority-browser', 'v36-quest-target-priority-browser'],
 ];
 
 const probe = createServer();
@@ -58,15 +60,23 @@ let startIndex = 0;
 if (process.argv.includes('--resume') || process.env.V36_RESUME === '1') {
   const previous = JSON.parse(await readFile(path.join(root, 'docs/v36/ACCEPTANCE.json'), 'utf8'));
   assert.equal(previous.schemaVersion, 'V36_ACCEPTANCE_1', 'resume requires a V36 acceptance report');
-  const failedIndex = steps.findIndex(([id]) => id === previous.failedStep);
-  assert.ok(failedIndex >= 0, 'resume report must name a current V36 gate');
-  assert.equal(previous.results.length, failedIndex + 1, 'resume report must be a sequential run with exactly one failed last gate');
-  assert.ok(previous.results.slice(0, failedIndex).every(row => row.status === 'PASS'), 'all gates before the failed gate must have passed');
-  assert.equal(previous.results[failedIndex].status, 'FAIL', 'resume starts by rerunning the failed gate');
-  assert.equal(previous.results[failedIndex].script, steps[failedIndex][1], 'resume gate definition must match the failed report');
-  results.push(...previous.results.slice(0, failedIndex));
-  startIndex = failedIndex;
-  console.log(`[V36 ACCEPTANCE] RESUME from ${steps[startIndex][0]} after ${results.length} recorded passing gates`);
+  if (previous.status === 'PASS') {
+    assert.equal(previous.completedSteps, previous.results.length, 'append-only resume requires a complete prior PASS report');
+    assert.ok(previous.results.length <= steps.length, 'prior report cannot contain gates newer than this runner');
+    assert.ok(previous.results.every((row, index) => row.status === 'PASS' && row.id === steps[index][0] && row.script === steps[index][1]), 'prior PASS rows must be an exact ordered prefix of this runner');
+    results.push(...previous.results);
+    startIndex = previous.results.length;
+  } else {
+    const failedIndex = steps.findIndex(([id]) => id === previous.failedStep);
+    assert.ok(failedIndex >= 0, 'resume report must name a current V36 gate');
+    assert.equal(previous.results.length, failedIndex + 1, 'resume requires a sequential run with exactly one failed last gate');
+    assert.ok(previous.results.slice(0, failedIndex).every(row => row.status === 'PASS'), 'all gates before the failed gate must have passed');
+    assert.equal(previous.results[failedIndex].status, 'FAIL', 'resume starts by rerunning the failed gate');
+    assert.equal(previous.results[failedIndex].script, steps[failedIndex][1], 'resume gate definition must match the failed report');
+    results.push(...previous.results.slice(0, failedIndex));
+    startIndex = failedIndex;
+  }
+  console.log(`[V36 ACCEPTANCE] RESUME from ${steps[startIndex]?.[0] ?? 'evidence-packaging'} after ${results.length} recorded passing gates`);
 }
 
 try {

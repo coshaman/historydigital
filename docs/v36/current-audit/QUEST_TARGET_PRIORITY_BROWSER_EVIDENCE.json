@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "scenarios": [
+    {
+      "scenario": "Vasily quest object beside Lev market stand",
+      "mapId": "nevsky",
+      "questId": "STUDENT_CIRCLE_RISK_1847",
+      "targetWon": true
+    },
+    {
+      "scenario": "quest loaded from one-request resident bundle",
+      "questId": "STEPAN_PROOF_AUTHorship_1847_STAGE_1",
+      "choicesVisible": true
+    }
+  ],
+  "residentArcBundleFetchCount": 1,
+  "pageErrors": []
+}

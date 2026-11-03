@@ -1,8 +1,8 @@
 {
   "schemaVersion": "V36_ACCEPTANCE_1",
   "status": "PASS",
-  "generatedAt": "2026-11-03T15:55:34.048Z",
-  "completedSteps": 29,
+  "generatedAt": "2026-11-03T16:46:16.531Z",
+  "completedSteps": 31,
   "results": [
     {
       "id": "static-build",
@@ -235,6 +235,22 @@
       "exitCode": 0,
       "signal": null,
       "durationMs": 2343654
+    },
+    {
+      "id": "all-36-residents-complete-three-stage-life-arcs",
+      "script": "v36-personal-life-chain-test",
+      "status": "PASS",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 3540
+    },
+    {
+      "id": "resident-quest-bundle-and-target-priority-browser",
+      "script": "v36-quest-target-priority-browser",
+      "status": "PASS",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 10271
     }
   ]
 }

@@ -2,15 +2,17 @@
 
 ## What was verified
 
-- The local live smoke completed one real generation against `gpt-5.4-mini` using the ignored `.env.local` configuration. Result: `PASS`, `responseValidated: true`. The key and generated dialogue were not printed or written to the evidence bundle.
+- A real browser playthrough used the ignored `.env.local` configuration and completed one actual generation against `gpt-5.4-mini`. The game received HTTP 201 for session start and HTTP 200 for `/api/rpg/dialogue`, displayed the generated answer, and saved the turn with `aiGenerated: true`. Result: `PASS`; zero browser errors. The key and generated dialogue were not printed or written to the evidence bundle.
+- A separate direct smoke also completed one actual generation. Result: `PASS`.
+- Running either live check inside the default restricted shell initially returned `network_error`; running the same project scripts with authorized network access returned `PASS`. That difference is the shell's outbound-network restriction, not an API request-format failure.
 - The same-origin `/api/rpg/health`, session start, and dialogue request completed through the repository's local Node server.
 - The repository's API is a Vercel Node Function at `api/rpg/[...path].js`; the browser calls `/api/rpg/*` on the current origin.
 
 ## Most likely reason the earlier deployed call failed
 
-The previously opened production URL was the GitHub Pages address (`coshaman.github.io/historydigital`). GitHub Pages serves static files and does not execute this repository's Node Functions. On that host, `/api/rpg/health` and `/api/rpg/dialogue` cannot reach the application handler. This is a deployment/runtime mismatch, not an invalid local key: the local live call now succeeds.
+The previously opened production URL was the GitHub Pages address (`coshaman.github.io/historydigital`). GitHub Pages serves static files and does not execute this repository's Node Functions. On that host, `/api/rpg/health` and `/api/rpg/dialogue` cannot reach the application handler. This is a deployment/runtime mismatch, not an invalid local key: the local in-game live call now succeeds.
 
-If the failing URL was already the Vercel domain, the exact historical cause cannot be recovered from this checkout because its Vercel Function logs are not available. The next likely cause is `OPENAI_API_KEY` missing from the Vercel **Production** environment at deployment time, or the deployment predating the environment-variable change. A key configured only in Preview does not configure Production, and Vercel requires a redeploy after environment changes.
+If the failing URL was already the Vercel domain, the exact historical cause cannot be recovered from this checkout because its Vercel Function logs are not available. The current local test proves the browser-to-function-to-model path works with the configured key; it does not inspect Vercel's deployed environment. A configured health response only confirms that the variable exists. Check the actual dialogue response and Vercel Function logs if the deployed build still reports fallback.
 
 ## How to fix and distinguish the two cases
 

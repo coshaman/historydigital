@@ -83,10 +83,97 @@ async function copyProject(from, to, relative = '') {
 }
 
 await copyProject(root, stage);
+
+const stageCopy = async (source, target) => {
+  const targetPath = path.join(stage, target);
+  await mkdir(path.dirname(targetPath), { recursive: true });
+  await cp(path.join(root, source), targetPath, { recursive: true });
+};
+const readJsonAtRoot = async relative => JSON.parse(await readFile(path.join(root, relative), 'utf8'));
+const writeStage = async (relative, contents) => {
+  const target = path.join(stage, relative);
+  await mkdir(path.dirname(target), { recursive: true });
+  await writeFile(target, contents, 'utf8');
+};
+const csvCell = value => `"${String(value ?? '').replaceAll('"', '""')}"`;
+
+// Preserve the project-root source layout for a directly runnable extraction,
+// and also expose the requested reviewer-friendly evidence tree.
+await stageCopy('docs/v36/baseline/BASELINE_HEAD_AND_DIFF.md', 'BASELINE_HEAD_AND_DIFF.md');
+for (const [source, target] of [
+  ['rpg', 'src/rpg'],
+  ['api', 'src/api'],
+  ['server.mjs', 'src/server.mjs'],
+  ['package.json', 'config/package.json'],
+  ['package-lock.json', 'config/package-lock.json'],
+  ['vercel.json', 'config/vercel.json'],
+  ['.env.example', 'config/.env.example'],
+  ['rpg/maps', 'maps'],
+  ['rpg/characters', 'npc'],
+  ['rpg/assets', 'assets'],
+  ['rpg/quests', 'quests'],
+  ['rpg/data/historical-source-packets.json', 'historical/historical-source-packets.json'],
+  ['rpg/data/historical-claim-ledger.json', 'historical/historical-claim-ledger.json'],
+  ['rpg/data/historical-comparisons.json', 'historical/historical-comparisons.json'],
+  ['rpg/data/source-register.json', 'historical/source-register.json'],
+  ['rpg/data/city-districts-v36.json', 'historical/city-districts-v36.json'],
+  ['docs/v36/historical-map-source-register.json', 'historical/historical-map-source-register.json'],
+]) await stageCopy(source, target);
+
+const residentFiles = (await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json'));
+const residents = (await Promise.all(residentFiles.map(async file => readJsonAtRoot(`rpg/characters/${file}`))))
+  .filter(card => card.kind === 'FICTIONAL' && !card.id.startsWith('literary_'))
+  .sort((a, b) => a.id.localeCompare(b.id));
+const scheduleRows = [['resident_id', 'slot_minute', 'map_id', 'x', 'y', 'activity_ko', 'task_type', 'task_id', 'recipient_host_id']];
+for (const card of residents) for (const slot of card.schedule ?? []) scheduleRows.push([
+  card.id, slot.atMinute, slot.mapId, slot.position?.x, slot.position?.y, slot.activityKo,
+  slot.task?.type, slot.task?.id, slot.task?.recipientHostId,
+]);
+await writeStage('qa/36_NPC_DAILY_SCHEDULES.csv', `${scheduleRows.map(row => row.map(csvCell).join(',')).join('\n')}\n`);
+await stageCopy('docs/v36/current-audit/FULL_DAY_36_RESIDENT_REPLAY.json', 'qa/36_NPC_24H_REPLAY.json');
+await stageCopy('docs/v36/current-audit/MAP_GRAPH_AUDIT.json', 'qa/MAP_NAVIGATION_AND_ACCESS.json');
+await stageCopy('docs/v36/current-audit/ASSET_AUDIT.csv', 'qa/ASSET_REVIEW_MANIFEST.csv');
+await stageCopy('docs/v36/current-audit/PERSONAL_LIFE_CHAIN_ACCEPTANCE.json', 'qa/36_RESIDENT_LIFE_CHAIN_REPLAY.json');
+const questFiles = (await readdir(path.join(root, 'rpg/quests'))).filter(file => file.endsWith('.json'));
+const quests = (await Promise.all(questFiles.map(async file => readJsonAtRoot(`rpg/quests/${file}`))))
+  .filter(quest => Array.isArray(quest.actions) && quest.historicalOutcome?.id && quest.entry?.requiredHostId);
+const chainReplay = await readJsonAtRoot('docs/v36/current-audit/PERSONAL_LIFE_CHAIN_ACCEPTANCE.json');
+const replayedQuestIds = new Set((chainReplay.playedResidentArcs ?? []).flatMap(row => row.stageQuestIds ?? []));
+const questRows = [['resident_id', 'life_chain_id', 'stage', 'quest_id', 'map_id', 'object_id', 'choice_count', 'prerequisite_ids', 'social_partner_id', 'full_three_stage_arc_replayed']];
+for (const quest of quests.sort((a, b) => a.entry.requiredHostId.localeCompare(b.entry.requiredHostId) || String(a.lifeChain?.id ?? a.id).localeCompare(String(b.lifeChain?.id ?? b.id)) || (a.lifeChain?.stage ?? 0) - (b.lifeChain?.stage ?? 0))) {
+  questRows.push([quest.entry.requiredHostId, quest.lifeChain?.id, quest.lifeChain?.stage, quest.id, quest.entry.mapId,
+    quest.entry.objectId, quest.actions.length, (quest.prerequisiteQuestIds ?? []).join('|'), quest.socialChain?.partnerHostId,
+    replayedQuestIds.has(quest.id) ? 'YES' : 'NOT_IN_36_RESIDENT_ARC_REPLAY']);
+}
+await writeStage('qa/QUEST_COMPLETION_MATRIX.csv', `${questRows.map(row => row.map(csvCell).join(',')).join('\n')}\n`);
+
+for (const [source, target] of [
+  ['docs/v36/current-audit/screenshots/world-map-tour-verified/desktop-1440x900-nevsky.png', 'screenshots/desktop-1440x900-nevsky.png'],
+  ['docs/v36/current-audit/screenshots/world-map-tour-verified/laptop-1366x768-nevsky.png', 'screenshots/laptop-1366x768-nevsky.png'],
+  ['docs/v36/current-audit/screenshots/world-map-tour-verified/mobile-390x844-nevsky.png', 'screenshots/mobile-390x844-nevsky.png'],
+  ['docs/v36/current-audit/screenshots/world-map-tour-verified/mobile-360x800-nevsky.png', 'screenshots/mobile-360x800-nevsky.png'],
+  ['docs/v36/current-audit/reader-opinion-quest-click.png', 'screenshots/opinion-board-and-quest.png'],
+  ['docs/v36/current-audit/screenshots/resident-batch-1-quest-choices.png', 'screenshots/resident-batch-1-quest.png'],
+  ['docs/v36/current-audit/screenshots/resident-batch-2-quest-choices.png', 'screenshots/resident-batch-2-quest.png'],
+  ['docs/v36/current-audit/screenshots/resident-batch-3-quest-choices.png', 'screenshots/resident-batch-3-quest.png'],
+  ['docs/v36/current-audit/screenshots/resident-batch-4-quest-choices.png', 'screenshots/resident-batch-4-quest.png'],
+  ['docs/v36/current-audit/screenshots/resident-batch-5-quest-choices.png', 'screenshots/resident-batch-5-quest.png'],
+  ['docs/v36/current-audit/screenshots/resident-batch-6-quest-choices.png', 'screenshots/resident-batch-6-quest.png'],
+  ...curatedBrowserScreenshots.map(file => [`artifacts/v36/BROWSER_ACCEPTANCE/${file}`, `screenshots/endings/${file}`]),
+]) await stageCopy(source, target);
+
+const finalStatus = `# V36 status — current audited state\n\nThis is an honest progress snapshot, not a completion declaration. The integrated gate is evidence for the listed checks only; it does not override the blockers below.\n\n` +
+`V36_36_ACTIVE_CITIZENS: YES\nV36_30_POSSESSABLE: YES\nV36_NPC_INDEPENDENT_DAILY_GOALS: NO\nV36_6_DISTRICTS_8_INTERIORS: YES\nV36_ASSETS_AND_PERIOD_EVIDENCE: NO\nV36_OPENWORLD_CONTENT: NO\nV36_5_ENDINGS: YES\nV36_VERIFIABLE_BUILD: YES\nV36_BROWSER_QA: YES\nV36_GPU_PERFORMANCE: UNVERIFIED\nINDEPENDENT_REVIEW: PENDING\nHUMAN_PLAYTEST: PENDING\nV36_COMPLETE: NO\n\n` +
+`## Remaining work\n\n- NPC daily planning remains primarily schedule-led; current need-driven rest, hunger, social contact, and trade behaviors do not yet establish independent needs/history/relationship decisions for all 36 citizens.\n- The full 12-event observable world-reaction system (for example changing stock, opening/closing, rumor transfer, publication arrival, weather routing) is not yet demonstrated as 12 distinct player-visible state changes.\n- Period evidence is scoped and honest about fictional/non-georeferenced areas, but the full role, access, and environment-art claim audit still needs independent source-by-source review.\n- An independent adversarial review is in progress; its final result must be recorded before completion.\n- GPU-specific frame-time verification and human playtesting are not available in this run.\n- Vercel Production key/configuration and deployed generation remain outside this local evidence package.\n\nThe positive counts are backed by the included roster, route, quest, map, asset, and browser evidence. A NO or UNVERIFIED value above is intentional and prevents V36_COMPLETE: YES.\n`;
+await writeStage('V36_FINAL_STATUS.md', finalStatus);
+await stageCopy('docs/v36/INDEPENDENT_REVIEW_P1_FOLLOWUP.md', 'qa/INDEPENDENT_REVIEW.md');
+await writeStage('qa/INDEPENDENT_REVIEW_STATUS.md', '# Independent review status\n\nThe included `INDEPENDENT_REVIEW.md` is the prior scoped follow-up, not the final adversarial review required by V36. A fresh independent review of the current checkout is in progress. V36 completion remains NO until that review is incorporated and P0/P1 findings are addressed.\n');
+
 const files = (await listFiles(stage)).filter(file => file !== manifestName).sort();
 const lines = [];
 for (const relative of files) lines.push(`${await digest(path.join(stage, ...relative.split('/')))}  ${relative}`);
 await writeFile(path.join(stage, manifestName), `${lines.join('\n')}\n`, 'utf8');
+await writeFile(path.join(stage, 'manifest.sha256'), `${lines.join('\n')}\n`, 'utf8');
 const escapedStage = stage.replaceAll("'", "''");
 const escapedArchive = archivePath.replaceAll("'", "''");
 execFileSync('powershell.exe', ['-NoProfile', '-Command', `Compress-Archive -Path '${escapedStage}\\*' -DestinationPath '${escapedArchive}' -Force`], { stdio: 'inherit' });
