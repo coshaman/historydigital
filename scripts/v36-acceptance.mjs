@@ -37,6 +37,7 @@ const steps = [
   ['five-endings-and-campaign-browser-routes', 'v36-browser-acceptance'],
   ['all-36-residents-complete-three-stage-life-arcs', 'v36-personal-life-chain-test'],
   ['resident-quest-bundle-and-target-priority-browser', 'v36-quest-target-priority-browser'],
+  ['36-resident-income-pressure-selects-real-livelihood-route', 'v36-income-goal-test'],
 ];
 
 const probe = createServer();

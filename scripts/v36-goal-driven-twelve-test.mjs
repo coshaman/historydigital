@@ -31,13 +31,13 @@ function runDay() {
   const initialPositions = Object.fromEntries(ids.map(id => [id, { mapId: state.hosts[id].mapId, ...state.hosts[id].position }]));
   const initialInventories = Object.fromEntries([...ids, 'market_nadezhda'].map(id => [id, [...state.hosts[id].inventory]]));
   const initialMoney = Object.fromEntries([...ids, 'market_nadezhda'].map(id => [id, state.hosts[id].money.amount]));
-  state = game.advanceNpcWorld(state, 480, maps);
+  state = game.advanceNpcWorld(state, 600, maps);
   return { state, initialFatigue, initialPositions, initialInventories, initialMoney, events: state.ledger };
 }
 const first = runDay(), second = runDay();
 assert.equal(game.stateHash(first.state), game.stateHash(second.state), '12-resident replay must be deterministic');
 let collisionState = game.createInitialState({ maps, hostCards, startMapId: 'nevsky' });
-for (let interval = 0; interval < 96; interval += 1) {
+for (let interval = 0; interval < 120; interval += 1) {
   collisionState = game.advanceNpcWorld(collisionState, 5, maps);
   const occupied = new Map();
   for (const id of ids) {
@@ -54,6 +54,8 @@ const restRecoveries = first.events.flatMap(event => event.restRecoveries ?? [])
 const goalTypesByResident = Object.fromEntries(ids.map(id => [id, [...new Set(goals.filter(goal => goal.hostId === id).map(goal => goal.type))]]));
 const deliveries = first.events.flatMap(event => event.deliveries ?? []);
 const exchanges = first.events.flatMap(event => event.exchanges ?? []);
+assert.equal(new Set([...deliveries, ...exchanges].map(item => item.taskId)).size, deliveries.length + exchanges.length,
+  'a completed physical social task must not run twice after its scheduled slot has elapsed');
 const moves = first.events.flatMap(event => event.moves ?? []);
 const handoffs = deliveries.filter(item => item.hostId === 'senior_clerk_konstantin' || item.hostId === 'editor_sofia' || item.hostId === 'yardkeeper_semyon');
 const marketTrade = exchanges.filter(item => item.hostId === 'laundress_mariya' && item.recipientHostId === 'market_nadezhda');
@@ -97,17 +99,17 @@ for (const [hostId, start] of Object.entries(first.initialPositions)) {
 assert.deepEqual(first.state.quests, {}, 'autonomous routines must not complete player quests');
 
 const report = { schemaVersion: 'V36_TWELVE_RESIDENT_GOAL_REPLAY_1', status: 'PASS', phase: 'V36_PHASE_2_TWELVE_RESIDENTS',
-  deterministicReplays: 2, coreResidents: ids.length, supportCounterparties: ['market_nadezhda'], elapsedMinutes: 480,
+  deterministicReplays: 2, coreResidents: ids.length, supportCounterparties: ['market_nadezhda'], elapsedMinutes: 600,
   residents: ids.map(id => ({ id, authoredNeeds: coreCards.find(card => card.id === id).needs, initialFatigue: first.initialFatigue[id],
     finalFatigue: first.state.hosts[id].needs.fatigue, finalMapId: first.state.hosts[id].mapId, activeGoal: first.state.hosts[id].activeGoal,
     activity: first.state.hosts[id].currentActivityKo, goalTypes: goalTypesByResident[id] })),
   needDrivenRestResidents: [...new Set(restGoals.map(goal => goal.hostId))].sort(), restRecoveryEvents: restRecoveries.length, deliveries, exchanges, mapTransitions,
-  collisionSnapshots: 96, duplicateResidentTiles: 0, observedReplayMatchesBulkWorldState: true,
+  collisionSnapshots: 120, duplicateResidentTiles: 0, observedReplayMatchesBulkWorldState: true,
   movementCount: moves.length, questsResolved: Object.values(first.state.quests).filter(quest => quest.status === 'resolved').length,
   finalStateHash: game.stateHash(first.state) };
 await mkdir(new URL('../docs/v36/current-audit/', import.meta.url), { recursive: true });
 await writeFile(new URL('../docs/v36/current-audit/TWELVE_RESIDENT_GOAL_REPLAY.json', import.meta.url), JSON.stringify(report, null, 2) + '\n', 'utf8');
-console.log(JSON.stringify({ status: report.status, residents: ids.length, elapsedMinutes: 480, movementCount: moves.length,
+console.log(JSON.stringify({ status: report.status, residents: ids.length, elapsedMinutes: 600, movementCount: moves.length,
   needDrivenRestResidents: report.needDrivenRestResidents, deliveries: deliveries.length, exchanges: exchanges.length,
   mapTransitions: mapTransitions.length, collisionSnapshots: report.collisionSnapshots, duplicateResidentTiles: report.duplicateResidentTiles,
   questsResolved: report.questsResolved,

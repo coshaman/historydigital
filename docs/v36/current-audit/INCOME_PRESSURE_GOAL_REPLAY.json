@@ -1,0 +1,170 @@
+{
+  "schemaVersion": "V36_INCOME_PRESSURE_GOAL_REPLAY_1",
+  "status": "PASS",
+  "activeResidents": 36,
+  "highPressure": {
+    "incomePressure": 95,
+    "residentsChoosingLivelihoodGoal": 30,
+    "explicitIncomeGoals": 27,
+    "residentsDeferredToPreserveImminentDeliveryOrTrade": 6,
+    "goals": {
+      "seamstress_anna": {
+        "goalType": "NEED_INCOME",
+        "targetMapId": "courtyard",
+        "activityKo": "방세를 건네고 남은 일을 묻는다"
+      },
+      "bookseller_lev": {
+        "goalType": "NEED_INCOME",
+        "targetMapId": "bookshop-interior",
+        "activityKo": "새 생활권에서 맡은 일을 이어간다"
+      },
+      "senior_clerk_konstantin": {
+        "goalType": "FOLLOW_RECIPIENT",
+        "targetMapId": "chancery",
+        "activityKo": "검토 메모와 결재 문서를 나눈다"
+      },
+      "police_sergeant_ivan": {
+        "goalType": "NEED_INCOME",
+        "targetMapId": "police-station",
+        "activityKo": "진술서와 압수 목록을 정리한다"
+      },
+      "print_apprentice_stepan": {
+        "goalType": "NEED_INCOME",
+        "targetMapId": "market-quay",
+        "activityKo": "거래처의 인쇄 주문을 확인한다"
+      },
+      "bookbinder_elizaveta": {
+        "goalType": "NEED_INCOME",
+        "targetMapId": "market-quay",
+        "activityKo": "완성한 책의 인수 시각을 맞춘다"
+      },
+      "scribal_yuri": {
+        "goalType": "NEED_INCOME",
+        "targetMapId": "market-quay",
+        "activityKo": "사본을 맡길 사람과 전달 시각을 묻는다"
+      },
+      "student_vasily": {
+        "goalType": "NEED_INCOME",
+        "targetMapId": "market-quay",
+        "activityKo": "회비와 책값을 계산한다"
+      },
+      "minor_noble_andrei": {
+        "goalType": "NEED_INCOME",
+        "targetMapId": "courtyard",
+        "activityKo": "가족과 지출 계획을 의논한다"
+      },
+      "junior_guard_sergey": {
+        "goalType": "NEED_INCOME",
+        "targetMapId": "chancery",
+        "activityKo": "교대 경비에게 출입 기록을 넘긴다"
+      },
+      "street_vendor_matryona": {
+        "goalType": "NEED_INCOME",
+        "targetMapId": "market-quay",
+        "activityKo": "시장 손님에게 남은 물건을 판다"
+      },
+      "typesetter_nikita": {
+        "goalType": "NEED_INCOME",
+        "targetMapId": "bookshop-lane",
+        "activityKo": "다른 생활권에서 맡은 일을 확인한다"
+      },
+      "tenant_mikhail": {
+        "goalType": "NEED_INCOME",
+        "targetMapId": "courtyard",
+        "activityKo": "물을 길으러 우물가로 간다"
+      },
+      "housemaid_olga": {
+        "goalType": "NEED_INCOME",
+        "targetMapId": "market-quay",
+        "activityKo": "안뜰에 필요한 물건을 산다"
+      },
+      "midwife_avdotya": {
+        "goalType": "NEED_INCOME",
+        "targetMapId": "market-quay",
+        "activityKo": "필요한 물품의 값과 외상을 묻는다"
+      },
+      "innkeeper_irina": {
+        "goalType": "NEED_INCOME",
+        "targetMapId": "market-quay",
+        "activityKo": "손님을 위한 식재료를 산다"
+      },
+      "teacher_lyubov": {
+        "goalType": "NEED_INCOME",
+        "targetMapId": "bookshop-interior",
+        "activityKo": "새 생활권에서 맡은 일을 이어간다"
+      },
+      "landlady_polina": {
+        "goalType": "NEED_INCOME",
+        "targetMapId": "market-quay",
+        "activityKo": "공동 장작 가격을 묻는다"
+      },
+      "watercarrier_luka": {
+        "goalType": "NEED_INCOME",
+        "targetMapId": "market-quay",
+        "activityKo": "강가에서 물을 받아 나른다"
+      },
+      "servant_varvara": {
+        "goalType": "NEED_INCOME",
+        "targetMapId": "market-quay",
+        "activityKo": "집에 필요한 물건을 산다"
+      },
+      "lodging_tatyana": {
+        "goalType": "NEED_INCOME",
+        "targetMapId": "inn-interior",
+        "activityKo": "다른 생활권에서 맡은 일을 확인한다"
+      },
+      "yardkeeper_semyon": {
+        "goalType": "NEED_INCOME",
+        "targetMapId": "courtyard",
+        "activityKo": "계단과 장작 더미를 확인한다"
+      },
+      "laundress_mariya": {
+        "goalType": "FOLLOW_TRADE_PARTNER",
+        "targetMapId": "market-quay",
+        "activityKo": "손님에게 세탁값을 확인한다"
+      },
+      "baker_fyodor": {
+        "goalType": "FOLLOW_TRADE_PARTNER",
+        "targetMapId": "market-quay",
+        "activityKo": "시장 상인에게 빵을 넘기고 재료값을 받는다"
+      },
+      "porter_gavrila": {
+        "goalType": "NEED_INCOME",
+        "targetMapId": "market-quay",
+        "activityKo": "오늘 맡은 짐의 무게와 품삯을 적은 표를 본다"
+      },
+      "coachman_timofey": {
+        "goalType": "NEED_INCOME",
+        "targetMapId": "market-quay",
+        "activityKo": "비 예보 전 운임과 마차 점검을 적은 표를 살펴본다"
+      },
+      "apothecary_yakov": {
+        "goalType": "NEED_INCOME",
+        "targetMapId": "market-quay",
+        "activityKo": "손님에게 확인된 가격을 알린다"
+      },
+      "fishseller_klavdiya": {
+        "goalType": "NEED_INCOME",
+        "targetMapId": "market-quay",
+        "activityKo": "보관 시간과 판매량을 대조한다"
+      },
+      "warehouse_pyotr": {
+        "goalType": "NEED_INCOME",
+        "targetMapId": "chancery",
+        "activityKo": "반출 승인 문서를 전달한다"
+      },
+      "carter_roman": {
+        "goalType": "NEED_INCOME",
+        "targetMapId": "market-quay",
+        "activityKo": "부두 물량과 운임을 맞춘다"
+      }
+    }
+  },
+  "lowPressure": {
+    "incomePressure": 0,
+    "residentsChoosingLivelihoodGoal": 0
+  },
+  "autonomousQuestCompletions": 0,
+  "cashCreationOrLoss": false,
+  "elapsedMinutes": 5
+}

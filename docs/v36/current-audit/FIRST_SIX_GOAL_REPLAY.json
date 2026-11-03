@@ -44,7 +44,7 @@
         "status": "fictional_character_simulation_profile"
       },
       "initialFatigue": 40,
-      "finalFatigue": 8.49999999999973,
+      "finalFatigue": 10.599999999999849,
       "finalMapId": "courtyard",
       "activeGoal": {
         "type": "SCHEDULE",
@@ -52,7 +52,7 @@
         "targetHostId": null,
         "targetMapId": "courtyard",
         "reason": "authored_daily_schedule",
-        "selectedAtMinute": 901
+        "selectedAtMinute": 900
       },
       "currentActivityKo": "일을 접고 안뜰 방에서 잠시 쉰다"
     },
@@ -69,8 +69,8 @@
         "restFatigueReliefPerMinute": 0.16,
         "status": "fictional_character_simulation_profile"
       },
-      "initialFatigue": 35.3049999999998,
-      "finalFatigue": 14.674999999999757,
+      "initialFatigue": 33.79999999999964,
+      "finalFatigue": 43.44999999999975,
       "finalMapId": "market-quay",
       "activeGoal": {
         "type": "SCHEDULE",
@@ -78,7 +78,7 @@
         "targetHostId": null,
         "targetMapId": "market-quay",
         "reason": "authored_daily_schedule",
-        "selectedAtMinute": 900
+        "selectedAtMinute": 901
       },
       "currentActivityKo": "새 생활권에서 맡은 일을 이어간다"
     },
@@ -96,7 +96,7 @@
         "status": "fictional_character_simulation_profile"
       },
       "initialFatigue": 45,
-      "finalFatigue": 14.740000000000272,
+      "finalFatigue": 14.850000000000207,
       "finalMapId": "courtyard",
       "activeGoal": {
         "type": "SCHEDULE",
@@ -104,7 +104,7 @@
         "targetHostId": null,
         "targetMapId": "courtyard",
         "reason": "authored_daily_schedule",
-        "selectedAtMinute": 921
+        "selectedAtMinute": 815
       },
       "currentActivityKo": "일을 접고 수선방에서 잠시 쉰다"
     },
@@ -121,8 +121,8 @@
         "restFatigueReliefPerMinute": 0.15,
         "status": "fictional_character_simulation_profile"
       },
-      "initialFatigue": 34.88999999999976,
-      "finalFatigue": 30.049999999999972,
+      "initialFatigue": 32.99999999999983,
+      "finalFatigue": 40.3499999999994,
       "finalMapId": "market-quay",
       "activeGoal": {
         "type": "SCHEDULE",
@@ -130,7 +130,7 @@
         "targetHostId": null,
         "targetMapId": "market-quay",
         "reason": "authored_daily_schedule",
-        "selectedAtMinute": 840
+        "selectedAtMinute": 841
       },
       "currentActivityKo": "새 생활권에서 맡은 일을 이어간다"
     },
@@ -148,15 +148,15 @@
         "status": "fictional_character_simulation_profile"
       },
       "initialFatigue": 28.62500000000012,
-      "finalFatigue": 29.899999999999885,
+      "finalFatigue": 30.54999999999988,
       "finalMapId": "courtyard",
       "activeGoal": {
-        "type": "SCHEDULE",
-        "taskId": null,
+        "type": "NEED_REST",
+        "taskId": "REST:bookseller_lev:900",
         "targetHostId": null,
         "targetMapId": "courtyard",
-        "reason": "authored_daily_schedule",
-        "selectedAtMinute": 900
+        "reason": "fatigue_threshold_before_authored_rest_window",
+        "selectedAtMinute": 912
       },
       "currentActivityKo": "가판을 닫고 방에서 잠시 쉰다"
     }
@@ -214,5 +214,5 @@
   "saveReloadParity": true,
   "legacyNeedMigration": true,
   "autonomousQuestCompletions": 0,
-  "finalStateHash": "ea8fc758"
+  "finalStateHash": "39e08fdb"
 }

@@ -317,24 +317,58 @@ function nearestNpcArrival(state, hostId, map, preferred, maps, reservedTiles) {
   }
   return null;
 }
+const npcSocialForecastCache = new WeakMap();
+function upcomingNpcSocialWork(state) {
+  const cached = npcSocialForecastCache.get(state);
+  if (cached?.clockMinutes === state.world.clockMinutes) return cached;
+  const clockMinutes = state.world.clockMinutes ?? 540;
+  const localMinute = ((clockMinutes % 1440) + 1440) % 1440;
+  const hostIds = new Set(), mapIds = new Set();
+  for (const sender of Object.values(state.hosts)) for (const slot of sender.schedule ?? []) {
+    const task = slot.task;
+    if (!task || !['DELIVER', 'EXCHANGE'].includes(task.type) || sender.routineTaskCompletedId === task.id || sender.completedSocialTaskIds?.includes(task.id) || !sender.inventory.includes(task.itemKo)) continue;
+    const wait = (slot.atMinute - localMinute + 1440) % 1440, recipient = state.hosts[task.recipientHostId];
+    const overdueToday = slot.atMinute <= localMinute;
+    if ((!overdueToday && wait > 360) || !recipient || recipient.historicalAliveAndPresent === false || sender.historicalAliveAndPresent === false) continue;
+    hostIds.add(sender.id); hostIds.add(recipient.id);
+    if (!overdueToday) { mapIds.add(slot.mapId); mapIds.add(sender.mapId); mapIds.add(recipient.mapId); }
+  }
+  const forecast = { clockMinutes, hostIds, mapIds };
+  npcSocialForecastCache.set(state, forecast);
+  return forecast;
+}
+
 function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
   const localMinute = ((state.world.clockMinutes % 1440) + 1440) % 1440;
   const scheduledTask = scheduledSlot?.task;
-  if (scheduledTask && ['DELIVER', 'EXCHANGE'].includes(scheduledTask.type) && host.routineTaskCompletedId !== scheduledTask.id && host.inventory.includes(scheduledTask.itemKo)) {
-    const recipient = state.hosts[scheduledTask.recipientHostId];
-    const canPay = scheduledTask.type !== 'EXCHANGE' || (Number.isInteger(scheduledTask.moneyAmount) && scheduledTask.moneyAmount > 0 && Number.isFinite(recipient?.money?.amount) && recipient.money.amount >= scheduledTask.moneyAmount);
+  const overdueSocialTask = (host.schedule ?? []).find(slot => slot.atMinute <= localMinute
+    && ['DELIVER', 'EXCHANGE'].includes(slot.task?.type) && host.routineTaskCompletedId !== slot.task.id && !host.completedSocialTaskIds?.includes(slot.task.id)
+    && host.inventory.includes(slot.task.itemKo));
+  const activeSocialTask = scheduledTask && ['DELIVER', 'EXCHANGE'].includes(scheduledTask.type)
+    && host.routineTaskCompletedId !== scheduledTask.id && !host.completedSocialTaskIds?.includes(scheduledTask.id) && host.inventory.includes(scheduledTask.itemKo) ? scheduledTask : overdueSocialTask?.task;
+  const socialForecast = upcomingNpcSocialWork(state);
+  const imminentSocialTask = socialForecast.hostIds.has(host.id);
+  if (activeSocialTask) {
+    const recipient = state.hosts[activeSocialTask.recipientHostId];
+    const canPay = activeSocialTask.type !== 'EXCHANGE' || (Number.isInteger(activeSocialTask.moneyAmount) && activeSocialTask.moneyAmount > 0 && Number.isFinite(recipient?.money?.amount) && recipient.money.amount >= activeSocialTask.moneyAmount);
     if (recipient && canPay && recipient.id !== state.player.embodiment && recipient.historicalAliveAndPresent !== false && host.allowedMaps.includes(recipient.mapId) && npcMapRoute(host.mapId, recipient.mapId, host, maps, state.world.clockMinutes) !== null) {
-      return { slot: { ...scheduledSlot, mapId: recipient.mapId, position: { ...recipient.position } }, goalType: scheduledTask.type === 'DELIVER' ? 'FOLLOW_RECIPIENT' : 'FOLLOW_TRADE_PARTNER', targetHostId: recipient.id, taskId: scheduledTask.id, reason: 'social_action_tracks_recipient' };
+      const actionSlot = scheduledSlot?.task?.id === activeSocialTask.id ? scheduledSlot : host.schedule.find(slot => slot.task?.id === activeSocialTask.id);
+      return { slot: { ...actionSlot, mapId: recipient.mapId, position: { ...recipient.position } }, goalType: activeSocialTask.type === 'DELIVER' ? 'FOLLOW_RECIPIENT' : 'FOLLOW_TRADE_PARTNER', targetHostId: recipient.id, taskId: activeSocialTask.id, reason: 'social_action_tracks_recipient' };
     }
   }
 
-  if (host.needs) {
-    const restCandidate = (host.schedule ?? []).filter(slot => /쉬|휴식|잠/.test(slot.activityKo ?? ''))
+  if (host.needs && !imminentSocialTask) {
+    const continuingRestSlot = host.activeGoal?.type === 'NEED_REST'
+      ? (host.schedule ?? []).find(slot => `REST:${host.id}:${slot.atMinute}` === host.activeGoal.taskId) : null;
+    if (continuingRestSlot && host.needs.fatigue >= Math.max(0, host.needs.restThreshold - 10)) {
+      return { slot: continuingRestSlot, goalType: 'NEED_REST', targetHostId: null, taskId: host.activeGoal.taskId, reason: 'continue_rest_goal_until_physical_recovery' };
+    }
+    const restCandidates = (host.schedule ?? []).filter(slot => /쉬|휴식|잠/.test(slot.activityKo ?? ''))
       .map(slot => ({ slot, wait: (slot.atMinute - localMinute + 1440) % 1440 }))
-      .filter(goal => goal.wait <= 360)
-      .sort((a, b) => a.wait - b.wait)[0];
-    const isContinuingRestGoal = host.activeGoal?.type === 'NEED_REST' && host.needs.fatigue >= Math.max(0, host.needs.restThreshold - 10);
-    if (restCandidate && (host.needs.fatigue >= host.needs.restThreshold || isContinuingRestGoal)) {
+      .filter(goal => goal.wait <= 360);
+    if (/쉬|휴식|잠/.test(scheduledSlot?.activityKo ?? '')) restCandidates.push({ slot: scheduledSlot, wait: 0 });
+    const restCandidate = restCandidates.sort((a, b) => a.wait - b.wait)[0];
+    if (restCandidate && host.needs.fatigue >= host.needs.restThreshold) {
       return { slot: restCandidate.slot, goalType: 'NEED_REST', targetHostId: null, taskId: `REST:${host.id}:${restCandidate.slot.atMinute}`, reason: 'fatigue_threshold_before_authored_rest_window' };
     }
     const mealCandidates = (host.schedule ?? []).filter(slot => slot.task?.type === 'CONSUME' && slot.task.itemKo && host.inventory.includes(slot.task.itemKo))
@@ -343,6 +377,21 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
     if (scheduledTask?.type === 'CONSUME' && scheduledTask.itemKo && host.inventory.includes(scheduledTask.itemKo)) mealCandidates.push({ slot: scheduledSlot, wait: 0 });
     const meal = mealCandidates.filter(goal => host.needs.hunger >= (Number.isFinite(goal.slot.task.minimumHunger) ? goal.slot.task.minimumHunger : 40)).sort((a, b) => a.wait - b.wait)[0];
     if (meal) return { slot: meal.slot, goalType: 'NEED_MEAL', targetHostId: null, taskId: meal.slot.task.id, reason: 'hunger_threshold_before_meal_window' };
+  }
+  if (host.needs?.incomePressure >= 55 && !imminentSocialTask) {
+    const livelihoodSlots = (host.schedule ?? []).filter(slot => slot.activityKo
+      && !/쉬|휴식|잠|식사|모임|책을 읽|독서 시간|잠시 쉰/.test(slot.activityKo)
+      && host.allowedMaps.includes(slot.mapId)
+      && !socialForecast.mapIds.has(slot.mapId)
+      && !mapAccessFailure(maps?.[slot.mapId], host, state.world.clockMinutes)
+      && npcMapRoute(host.mapId, slot.mapId, host, maps, state.world.clockMinutes) !== null)
+      .map(slot => ({ slot, wait: (slot.atMinute - localMinute + 1440) % 1440 }))
+      .filter(candidate => candidate.wait <= 360)
+      .sort((a, b) => a.wait - b.wait || a.slot.atMinute - b.slot.atMinute);
+    const livelihood = livelihoodSlots[0];
+    if (livelihood) return { slot: livelihood.slot, goalType: 'NEED_INCOME', targetHostId: null,
+      taskId: `LIVELIHOOD:${host.id}:${Math.floor(state.world.clockMinutes / 1440)}:${livelihood.slot.atMinute}`,
+      reason: 'income_pressure_prioritizes_next_accessible_livelihood_activity' };
   }
   const relationshipGoal = (host.personalGoals ?? []).find(item => item.kind === 'RELATIONSHIP'
     && host.personalGoalProgress?.[item.id]?.status !== 'SATISFIED');
@@ -354,7 +403,7 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
   const awaitingIncomingGoods = Object.values(state.hosts).some(sender => {
     const task=scheduleEntry(sender,state.world.clockMinutes)?.task;
     return ['DELIVER','EXCHANGE'].includes(task?.type)&&task.recipientHostId===host.id
-      &&sender.id!==state.player.embodiment&&sender.historicalAliveAndPresent!==false&&sender.routineTaskCompletedId!==task.id;
+      &&sender.id!==state.player.embodiment&&sender.historicalAliveAndPresent!==false&&sender.routineTaskCompletedId!==task.id&&!sender.completedSocialTaskIds?.includes(task.id);
   });
   if (relationshipGoal && relationshipTarget && relationshipTarget.id !== state.player.embodiment
     && relationshipTarget.historicalAliveAndPresent !== false && host.needs?.socialNeed >= socialNeedThreshold
@@ -432,12 +481,14 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
   }
   for (const host of hosts) {
     const slot = scheduleEntry(host, state.world.clockMinutes), task = slot?.task;
-    if (task?.type !== 'DELIVER' || host.routineTaskCompletedId === task.id || host.id === embodiedId || paused.has(host.id) || host.historicalAliveAndPresent === false) continue;
+    if (task?.type !== 'DELIVER' || host.routineTaskCompletedId === task.id || host.completedSocialTaskIds?.includes(task.id) || host.id === embodiedId || paused.has(host.id) || host.historicalAliveAndPresent === false) continue;
     const recipient = state.hosts[task.recipientHostId];
     if (!recipient || recipient.id === embodiedId || recipient.historicalAliveAndPresent === false || recipient.mapId !== host.mapId || nearTile(recipient.position, host.position, 1) === false || !host.inventory.includes(task.itemKo)) continue;
     host.inventory.splice(host.inventory.indexOf(task.itemKo), 1);
     if (!recipient.inventory.includes(task.itemKo)) recipient.inventory.push(task.itemKo);
     host.routineTaskCompletedId = task.id;
+    host.completedSocialTaskIds ??= [];
+    if (!host.completedSocialTaskIds.includes(task.id)) host.completedSocialTaskIds.push(task.id);
     host.needs ??= initialNpcNeeds(host, state.world.clockMinutes);
     recipient.needs ??= initialNpcNeeds(recipient, state.world.clockMinutes);
     host.needs.socialNeed = Math.max(0, host.needs.socialNeed - 8);
@@ -450,7 +501,7 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
   }
   for (const host of hosts) {
     const slot = scheduleEntry(host, state.world.clockMinutes), task = slot?.task;
-    if (task?.type !== 'EXCHANGE' || host.routineTaskCompletedId === task.id || host.id === embodiedId || paused.has(host.id) || host.historicalAliveAndPresent === false) continue;
+    if (task?.type !== 'EXCHANGE' || host.routineTaskCompletedId === task.id || host.completedSocialTaskIds?.includes(task.id) || host.id === embodiedId || paused.has(host.id) || host.historicalAliveAndPresent === false) continue;
     const localMinute = ((state.world.clockMinutes % 1440) + 1440) % 1440;
     if (Number.isInteger(task.notBeforeMinute) && localMinute < task.notBeforeMinute) continue;
     const recipient = state.hosts[task.recipientHostId], moneyAmount = task.moneyAmount;
@@ -471,6 +522,8 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
     syncPersistentPersonalGoals(state, host.id);
     syncPersistentPersonalGoals(state, recipient.id);
     host.routineTaskCompletedId = task.id;
+    host.completedSocialTaskIds ??= [];
+    if (!host.completedSocialTaskIds.includes(task.id)) host.completedSocialTaskIds.push(task.id);
     exchangeRows.push({ hostId: host.id, recipientHostId: recipient.id, itemKo: task.itemKo, moneyAmount, taskId: task.id, mapId: host.mapId, minute: minuteOffset });
   }
   for (const host of hosts) {

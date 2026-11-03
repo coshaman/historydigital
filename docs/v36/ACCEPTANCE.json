@@ -1,8 +1,8 @@
 {
   "schemaVersion": "V36_ACCEPTANCE_1",
   "status": "PASS",
-  "generatedAt": "2026-11-03T16:55:05.961Z",
-  "completedSteps": 31,
+  "generatedAt": "2026-11-03T17:22:55.228Z",
+  "completedSteps": 32,
   "results": [
     {
       "id": "static-build",
@@ -251,6 +251,14 @@
       "exitCode": 0,
       "signal": null,
       "durationMs": 10271
+    },
+    {
+      "id": "36-resident-income-pressure-selects-real-livelihood-route",
+      "script": "v36-income-goal-test",
+      "status": "PASS",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 2853
     }
   ]
 }

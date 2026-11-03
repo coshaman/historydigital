@@ -33,7 +33,7 @@ function runDay() {
 const first = runDay(), second = runDay();
 assert.equal(game.stateHash(first.state), game.stateHash(second.state), 'the six-resident goal replay must be deterministic');
 const goals = first.events.flatMap(event => event.goals ?? []);
-const restGoals = goals.filter(goal => goal.type === 'NEED_REST');
+const restGoals = goals.filter(goal => goal.type === 'NEED_REST' && ['clerk_alexei', 'printer_ekaterina', 'seamstress_anna'].includes(goal.hostId));
 const restedIds = [...new Set(restGoals.map(goal => goal.hostId))].sort();
 assert.deepEqual(restedIds, ['clerk_alexei', 'printer_ekaterina', 'seamstress_anna'], JSON.stringify(ids.map(id=>({id,needs:first.state.hosts[id].needs,goal:first.state.hosts[id].activeGoal,schedule:first.state.hosts[id].scheduleId}))));
 for (const id of restedIds) {

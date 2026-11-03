@@ -182,6 +182,7 @@
     "v36-personal-life-chain-test": "node scripts/v36-personal-life-chain-test.mjs",
     "v36-quest-target-priority-browser": "node scripts/v36-quest-target-priority-browser-test.mjs",
     "v36-build-resident-arc-bundle": "node scripts/v36-build-resident-arc-bundle.mjs",
+    "v36-income-goal-test": "node scripts/v36-income-goal-test.mjs",
     "v36-baseline-browser": "node scripts/v36-baseline-browser-capture.mjs",
     "v36-first-slice-sim": "node scripts/v36-first-slice-simulation.mjs",
     "v36-district-prototype-test": "node --test scripts/v36-district-prototype-test.mjs",
