@@ -261,7 +261,58 @@
         "chainId": "TATYANA_READING_HOUR_1847",
         "stageCount": 3
       },
-      "fallbackKo": "연쇄 임무가 지금 열리지 않으면 오늘의 일과를 이어가고, 다음 단계를 확인할 수 있을 때 다시 돌아온다."
+      "fallbackKo": "연쇄 임무가 지금 열리지 않으면 오늘의 일과를 이어가고, 다음 단계를 확인할 수 있을 때 다시 돌아온다.",
+      "autonomyStages": [
+        {
+          "stage": 1,
+          "questId": "TATYANA_READING_HOUR_1847_STAGE_1",
+          "date": "1847-06-01",
+          "mapId": "courtyard",
+          "position": {
+            "x": 10,
+            "y": 13
+          },
+          "activityKo": "생활 문제 · 빌린 책과 미뤄 둔 바느질 · 1/3",
+          "prerequisiteQuestIds": [],
+          "windowStartMinute": 840,
+          "windowEndMinute": 1140,
+          "focusMinutes": 12
+        },
+        {
+          "stage": 2,
+          "questId": "TATYANA_READING_HOUR_1847_STAGE_2",
+          "date": "1847-06-01",
+          "mapId": "inn-interior",
+          "position": {
+            "x": 11,
+            "y": 13
+          },
+          "activityKo": "생활 문제 · 책방에서 빌릴 다음 책 · 2/3",
+          "prerequisiteQuestIds": [
+            "TATYANA_READING_HOUR_1847_STAGE_1"
+          ],
+          "windowStartMinute": 840,
+          "windowEndMinute": 1140,
+          "focusMinutes": 12
+        },
+        {
+          "stage": 3,
+          "questId": "TATYANA_READING_HOUR_1847_STAGE_3",
+          "date": "1847-06-01",
+          "mapId": "nevsky",
+          "position": {
+            "x": 9,
+            "y": 16
+          },
+          "activityKo": "생활 문제 · 수선대 옆의 독서 시간 · 3/3",
+          "prerequisiteQuestIds": [
+            "TATYANA_READING_HOUR_1847_STAGE_2"
+          ],
+          "windowStartMinute": 840,
+          "windowEndMinute": 1140,
+          "focusMinutes": 12
+        }
+      ]
     },
     {
       "id": "lodging_tatyana:relationship",

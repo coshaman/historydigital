@@ -207,6 +207,7 @@
     "v36-personal-goal-autonomy-test": "node scripts/v36-personal-goal-autonomy-test.mjs",
     "v36-second-six-personal-goal-autonomy-test": "node scripts/v36-personal-goal-autonomy-test.mjs --batch-two",
     "v36-third-six-personal-goal-autonomy-test": "node scripts/v36-personal-goal-autonomy-test.mjs --batch-three",
+    "v36-fourth-six-personal-goal-autonomy-test": "node scripts/v36-personal-goal-autonomy-test.mjs --batch-four",
     "v36-goal-driven-twelve": "node scripts/v36-goal-driven-twelve-test.mjs",
     "v36-two-neighborhood-capture": "node scripts/v36-two-neighborhood-browser-capture.mjs",
       "v36-visual-kit": "node scripts/v36-visual-kit-test.mjs",

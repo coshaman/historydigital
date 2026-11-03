@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "V36_FOURTH_SIX_PERSONAL_GOAL_AUTONOMY_1",
+  "status": "PASS",
+  "pilotResidents": 6,
+  "authoredLifeStagesPerResident": 3,
+  "dailyVisits": 6,
+  "deterministicReplay": true,
+  "stageProgressRetargets": true,
+  "questAutoCompletion": false,
+  "saveLoadParity": true,
+  "deferredUntilHistoricallyAvailable": [],
+  "playerWitnessRequired": true,
+  "residentOutcomes": [
+    {
+      "id": "housemaid_olga",
+      "questId": "OLGA_PRIVATE_WORDS_1847_STAGE_1",
+      "stage": 1,
+      "mapId": "courtyard",
+      "position": {
+        "x": 11,
+        "y": 12
+      },
+      "minute": 371,
+      "activityKo": "생활 문제 · 닫히지 않은 방문 앞 · 1/3",
+      "witnessedByPlayer": false
+    },
+    {
+      "id": "innkeeper_irina",
+      "questId": "IRINA_INN_PRIVACY_1847_STAGE_1",
+      "stage": 1,
+      "mapId": "courtyard",
+      "position": {
+        "x": 5,
+        "y": 16
+      },
+      "minute": 406,
+      "activityKo": "생활 문제 · 여관 장부와 손님의 사정 · 1막",
+      "witnessedByPlayer": false
+    },
+    {
+      "id": "junior_guard_sergey",
+      "questId": "SERGEY_VISITOR_PASS_1847_STAGE_1",
+      "stage": 1,
+      "mapId": "chancery",
+      "position": {
+        "x": 12,
+        "y": 14
+      },
+      "minute": 306,
+      "activityKo": "생활 문제 · 이름이 빠진 방문표 · 1/3",
+      "witnessedByPlayer": false
+    },
+    {
+      "id": "landlady_polina",
+      "questId": "POLINA_RENT_AND_REPAIRS_1847_STAGE_1",
+      "stage": 1,
+      "mapId": "courtyard",
+      "position": {
+        "x": 13,
+        "y": 12
+      },
+      "minute": 486,
+      "activityKo": "생활 문제 · 비가 스미는 천장 · 1/3",
+      "witnessedByPlayer": false
+    },
+    {
+      "id": "lodging_tatyana",
+      "questId": "TATYANA_READING_HOUR_1847_STAGE_1",
+      "stage": 1,
+      "mapId": "courtyard",
+      "position": {
+        "x": 10,
+        "y": 14
+      },
+      "minute": 391,
+      "activityKo": "생활 문제 · 빌린 책과 미뤄 둔 바느질 · 1/3",
+      "witnessedByPlayer": false
+    },
+    {
+      "id": "midwife_avdotya",
+      "questId": "AVDOTYA_NIGHT_CALLS_1847_STAGE_1",
+      "stage": 1,
+      "mapId": "courtyard",
+      "position": {
+        "x": 12,
+        "y": 12
+      },
+      "minute": 401,
+      "activityKo": "생활 문제 · 두 집에서 온 부탁 · 1/3",
+      "witnessedByPlayer": false
+    }
+  ]
+}
