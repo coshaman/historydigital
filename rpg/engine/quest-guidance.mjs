@@ -28,7 +28,7 @@ function walkPath(state, map, target, { radius = 1, targetHostId = null } = {}) 
   return null;
 }
 function pathKo(path) {
-  if (!path?.length) return '목적지 곁에 있습니다. E를 누르세요.';
+  if (!path?.length) return '목적지 곁에 있습니다.';
   const groups = [];
   for (const direction of path) {
     const last = groups.at(-1);
