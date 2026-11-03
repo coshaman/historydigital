@@ -77,12 +77,30 @@ const deliveries = first.state.ledger.flatMap(event => event.deliveries ?? []);
 const exchanges = first.state.ledger.flatMap(event => event.exchanges ?? []);
 const personalContacts = first.state.ledger.flatMap(event => event.personalContacts ?? []);
 const personalGoalVisits = first.observedPersonalGoalVisits;
-const actionableLifeGoalHosts = ['clerk_alexei', 'printer_ekaterina', 'courier_pavel', 'seamstress_anna', 'tenant_mikhail', 'bookseller_lev',
-  'editor_sofia', 'senior_clerk_konstantin', 'yardkeeper_semyon', 'laundress_mariya', 'apothecary_yakov', 'baker_fyodor',
-  'bookbinder_elizaveta', 'carter_roman', 'coachman_timofey', 'fishseller_klavdiya', 'housemaid_olga', 'innkeeper_irina',
-  'junior_guard_sergey', 'landlady_polina', 'lodging_tatyana', 'midwife_avdotya', 'print_apprentice_stepan', 'scribal_yuri',
-  'student_vasily', 'minor_noble_andrei', 'street_vendor_matryona', 'typesetter_nikita', 'teacher_lyubov', 'watercarrier_luka',
-  'servant_varvara', 'porter_gavrila', 'market_nadezhda', 'warehouse_pyotr'];
+const deferredLifeGoalHosts = {
+  police_sergeant_ivan: { questId: 'IVAN_WITNESS_ACCOUNT_1849_STAGE_1', reason: 'POLICE_TESTIMONY_RECORD_1849 is not yet recorded in the 1847 starting chapter' },
+  reader_darya: { questId: 'DARYA_READING_CIRCLE_1847_STAGE_1', reason: 'READER_SOURCE_AND_RUMOR_1847 has not yet been completed' },
+};
+const lifeGoalQuestById = new Map(quests.map(quest => [quest.id, quest]));
+const visitedLifeGoalHosts = new Set(personalGoalVisits.map(visit => visit.hostId));
+const goalCoverage = Object.fromEntries(ids.map(hostId => {
+  const visits = personalGoalVisits.filter(visit => visit.hostId === hostId);
+  if (visits.length) return [hostId, { status: 'PHYSICALLY_VISITED', questId: visits[0].questId }];
+  const deferred = deferredLifeGoalHosts[hostId];
+  assert.ok(deferred, `${hostId} must either reach a physical life-goal task or have an explicitly documented locked prerequisite`);
+  assert.equal(cardsById.get(hostId).persistentPersonalGoals.find(goal => goal.kind === 'LIFE')?.autonomyStages?.[0]?.questId, deferred.questId,
+    `${hostId} documented deferral must match their authored first-stage quest`);
+  const quest = lifeGoalQuestById.get(deferred.questId);
+  assert.ok(quest, `${hostId} deferred quest must exist`);
+  assert.ok(quest.prerequisiteQuestIds?.length, `${hostId} deferred quest must have a real authored prerequisite`);
+  assert.ok(quest.prerequisiteQuestIds.every(id => !first.state.ledger.some(event => event.questId === id)),
+    `${hostId} must remain deferred only while its authored prerequisite is absent`);
+  assert.equal(visitedLifeGoalHosts.has(hostId), false, `${hostId} cannot be marked deferred after visiting its task`);
+  return [hostId, { status: 'LOCKED_BY_PREREQUISITE', questId: deferred.questId, prerequisiteQuestIds: quest.prerequisiteQuestIds, reason: deferred.reason }];
+}));
+assert.equal(Object.keys(goalCoverage).length, 36, 'all city residents must be accounted for in life-goal coverage');
+assert.equal(Object.values(goalCoverage).filter(row => row.status === 'PHYSICALLY_VISITED').length, 34);
+assert.equal(Object.values(goalCoverage).filter(row => row.status === 'LOCKED_BY_PREREQUISITE').length, 2);
 const mapTransitions = first.moves.filter(move => move.viaExit);
 assert.ok(first.moves.length > 0, 'residents should walk throughout the day');
 assert.ok(mapTransitions.length > 0, 'residents should cross real district exits');
@@ -90,7 +108,7 @@ assert.ok(goals.length > 0, 'daily needs and schedules should create observable 
 assert.ok(deliveries.length > 0, 'at least one scheduled item handoff should complete');
 assert.ok(exchanges.length > 0, 'at least one scheduled exchange should complete');
 assert.ok(personalContacts.length > 0, 'active personal relationship goals should lead residents to meet their named neighbors');
-for (const hostId of actionableLifeGoalHosts) assert.ok(personalGoalVisits.some(visit => visit.hostId === hostId), `${hostId} must pursue the current physical life-arc stage during the 24-hour replay`);
+for (const hostId of ids.filter(id => !deferredLifeGoalHosts[id])) assert.ok(personalGoalVisits.some(visit => visit.hostId === hostId), `${hostId} must pursue the current physical life-arc stage during the 24-hour replay`);
 assert.ok(personalContacts.every(contact => contact.hostId !== contact.partnerHostId && contact.effect === 'social_need_relieved'), 'autonomous personal contacts should create a reciprocal, visible social-need change');
 const distinctPersonalContactResidents = new Set(personalContacts.map(contact => contact.hostId)).size;
 assert.ok(distinctPersonalContactResidents >= 10,
@@ -100,8 +118,9 @@ const report = { schemaVersion:'V36_FULL_DAY_36_RESIDENT_REPLAY_1', status:'PASS
   collisionSnapshotsPerReplay:first.collisionSnapshots, totalCollisionSnapshots:replays.reduce((sum,run)=>sum+run.collisionSnapshots,0),
   firstReplay:{ movementSteps:first.moves.length, districtTransitions:mapTransitions.length, goalEvents:goals.length,
     deliveries:deliveries.length, exchanges:exchanges.length, personalContacts:personalContacts.length, distinctPersonalContactResidents,
-    personalLifeGoalVisits:personalGoalVisits.length, residentsWithPhysicalLifeGoalVisits:new Set(personalGoalVisits.map(visit=>visit.hostId)).size,
-    actionableLifeGoalQuestIds:Object.fromEntries(actionableLifeGoalHosts.map(id=>[id,personalGoalVisits.find(visit=>visit.hostId===id)?.questId??null])),
+    personalLifeGoalVisits:personalGoalVisits.length, residentsWithPhysicalLifeGoalVisits:visitedLifeGoalHosts.size,
+    residentsWithLockedLifeGoals:Object.values(goalCoverage).filter(row => row.status === 'LOCKED_BY_PREREQUISITE').length,
+    lifeGoalCoverage:goalCoverage,
     residentsWithDistinctAuthoredObjectives:new Set(cards.map(card=>card.personalObjective)).size,
     finalActivityCount:new Set(ids.map(id=>first.state.hosts[id].currentActivityKo)).size,
     finalPositions:Object.fromEntries(ids.map(id=>[id,{mapId:first.state.hosts[id].mapId,...first.state.hosts[id].position}])) },

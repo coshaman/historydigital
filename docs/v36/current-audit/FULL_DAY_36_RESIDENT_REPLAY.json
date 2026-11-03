@@ -21,41 +21,160 @@
     "distinctPersonalContactResidents": 16,
     "personalLifeGoalVisits": 36,
     "residentsWithPhysicalLifeGoalVisits": 34,
-    "actionableLifeGoalQuestIds": {
-      "clerk_alexei": "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_1",
-      "printer_ekaterina": "EKATERINA_INK_SHORTAGE_1847_STAGE_1",
-      "courier_pavel": "PAVEL_PROOF_DELIVERY_1847_STAGE_1",
-      "seamstress_anna": "ANNA_COAT_REPAIR_1847_STAGE_1",
-      "tenant_mikhail": "MIKHAIL_WAGE_AND_RENT_1847_STAGE_1",
-      "bookseller_lev": "LEV_RETURNED_SHEETS_1847_STAGE_1",
-      "editor_sofia": "SOFIA_UNNAMED_NOTICE_1847_STAGE_1",
-      "senior_clerk_konstantin": "KONSTANTIN_UNSIGNED_REVIEW_1847_STAGE_1",
-      "yardkeeper_semyon": "SEMYON_FIREWOOD_LEDGER_1847_STAGE_1",
-      "laundress_mariya": "MARIYA_WASHING_WAGES_1847_STAGE_1",
-      "apothecary_yakov": "YAKOV_REMEDY_LIMITS_1847_STAGE_1",
-      "baker_fyodor": "FYODOR_FLOUR_AND_ORDERS_1847_STAGE_1",
-      "bookbinder_elizaveta": "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_1",
-      "carter_roman": "ROMAN_WHEEL_AND_FARE_1847_STAGE_1",
-      "coachman_timofey": "TIMofey_SHARED_LOAD_1847_STAGE_1",
-      "fishseller_klavdiya": "KLAVDIYA_FISH_STORAGE_1847_STAGE_1",
-      "housemaid_olga": "OLGA_PRIVATE_WORDS_1847_STAGE_1",
-      "innkeeper_irina": "IRINA_INN_PRIVACY_1847_STAGE_1",
-      "junior_guard_sergey": "SERGEY_VISITOR_PASS_1847_STAGE_1",
-      "landlady_polina": "POLINA_RENT_AND_REPAIRS_1847_STAGE_1",
-      "lodging_tatyana": "TATYANA_READING_HOUR_1847_STAGE_1",
-      "midwife_avdotya": "AVDOTYA_NIGHT_CALLS_1847_STAGE_1",
-      "print_apprentice_stepan": "STEPAN_PROOF_AUTHorship_1847_STAGE_1",
-      "scribal_yuri": "YURI_COPYING_LEDGER_1847_STAGE_1",
-      "student_vasily": "VASILY_READING_CIRCLE_1847_STAGE_1",
-      "minor_noble_andrei": "ANDREI_DEBT_STATUS_1847_STAGE_1",
-      "street_vendor_matryona": "MATRYONA_STREET_STALL_1847_STAGE_1",
-      "typesetter_nikita": "NIKITA_TYPESPEED_1847_STAGE_1",
-      "teacher_lyubov": "LYUBOV_LESSON_ACCESS_1847_STAGE_1",
-      "watercarrier_luka": "LUKA_WATER_QUEUE_1847_STAGE_1",
-      "servant_varvara": "VARVARA_PRIVATE_WARNING_1847_STAGE_1",
-      "porter_gavrila": "GAVRILA_CARRYING_TALLY_1847_STAGE_1",
-      "market_nadezhda": "NADEZHDA_STALL_WEATHER_1847_STAGE_1",
-      "warehouse_pyotr": "PYOTR_MISSING_CRATE_AUDIT_1847_STAGE_1"
+    "residentsWithLockedLifeGoals": 2,
+    "lifeGoalCoverage": {
+      "clerk_alexei": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_1"
+      },
+      "printer_ekaterina": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "EKATERINA_INK_SHORTAGE_1847_STAGE_1"
+      },
+      "courier_pavel": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "PAVEL_PROOF_DELIVERY_1847_STAGE_1"
+      },
+      "seamstress_anna": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "ANNA_COAT_REPAIR_1847_STAGE_1"
+      },
+      "bookseller_lev": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "LEV_RETURNED_SHEETS_1847_STAGE_1"
+      },
+      "senior_clerk_konstantin": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "KONSTANTIN_UNSIGNED_REVIEW_1847_STAGE_1"
+      },
+      "reader_darya": {
+        "status": "LOCKED_BY_PREREQUISITE",
+        "questId": "DARYA_READING_CIRCLE_1847_STAGE_1",
+        "prerequisiteQuestIds": [
+          "READER_SOURCE_AND_RUMOR_1847"
+        ],
+        "reason": "READER_SOURCE_AND_RUMOR_1847 has not yet been completed"
+      },
+      "editor_sofia": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "SOFIA_UNNAMED_NOTICE_1847_STAGE_1"
+      },
+      "police_sergeant_ivan": {
+        "status": "LOCKED_BY_PREREQUISITE",
+        "questId": "IVAN_WITNESS_ACCOUNT_1849_STAGE_1",
+        "prerequisiteQuestIds": [
+          "POLICE_TESTIMONY_RECORD_1849"
+        ],
+        "reason": "POLICE_TESTIMONY_RECORD_1849 is not yet recorded in the 1847 starting chapter"
+      },
+      "print_apprentice_stepan": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "STEPAN_PROOF_AUTHorship_1847_STAGE_1"
+      },
+      "bookbinder_elizaveta": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_1"
+      },
+      "scribal_yuri": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "YURI_COPYING_LEDGER_1847_STAGE_1"
+      },
+      "student_vasily": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "VASILY_READING_CIRCLE_1847_STAGE_1"
+      },
+      "minor_noble_andrei": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "ANDREI_DEBT_STATUS_1847_STAGE_1"
+      },
+      "junior_guard_sergey": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "SERGEY_VISITOR_PASS_1847_STAGE_1"
+      },
+      "street_vendor_matryona": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "MATRYONA_STREET_STALL_1847_STAGE_1"
+      },
+      "typesetter_nikita": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "NIKITA_TYPESPEED_1847_STAGE_1"
+      },
+      "tenant_mikhail": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "MIKHAIL_WAGE_AND_RENT_1847_STAGE_1"
+      },
+      "housemaid_olga": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "OLGA_PRIVATE_WORDS_1847_STAGE_1"
+      },
+      "midwife_avdotya": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "AVDOTYA_NIGHT_CALLS_1847_STAGE_1"
+      },
+      "innkeeper_irina": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "IRINA_INN_PRIVACY_1847_STAGE_1"
+      },
+      "teacher_lyubov": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "LYUBOV_LESSON_ACCESS_1847_STAGE_1"
+      },
+      "landlady_polina": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "POLINA_RENT_AND_REPAIRS_1847_STAGE_1"
+      },
+      "watercarrier_luka": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "LUKA_WATER_QUEUE_1847_STAGE_1"
+      },
+      "servant_varvara": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "VARVARA_PRIVATE_WARNING_1847_STAGE_1"
+      },
+      "lodging_tatyana": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "TATYANA_READING_HOUR_1847_STAGE_1"
+      },
+      "yardkeeper_semyon": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "SEMYON_FIREWOOD_LEDGER_1847_STAGE_1"
+      },
+      "laundress_mariya": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "MARIYA_WASHING_WAGES_1847_STAGE_1"
+      },
+      "baker_fyodor": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "FYODOR_FLOUR_AND_ORDERS_1847_STAGE_1"
+      },
+      "market_nadezhda": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "NADEZHDA_STALL_WEATHER_1847_STAGE_1"
+      },
+      "porter_gavrila": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "GAVRILA_CARRYING_TALLY_1847_STAGE_1"
+      },
+      "coachman_timofey": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "TIMofey_SHARED_LOAD_1847_STAGE_1"
+      },
+      "apothecary_yakov": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "YAKOV_REMEDY_LIMITS_1847_STAGE_1"
+      },
+      "fishseller_klavdiya": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "KLAVDIYA_FISH_STORAGE_1847_STAGE_1"
+      },
+      "warehouse_pyotr": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "PYOTR_MISSING_CRATE_AUDIT_1847_STAGE_1"
+      },
+      "carter_roman": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "ROMAN_WHEEL_AND_FARE_1847_STAGE_1"
+      }
     },
     "residentsWithDistinctAuthoredObjectives": 36,
     "finalActivityCount": 33,
@@ -244,5 +363,5 @@
   },
   "fullDaySaveReloadStateHash": "05cb48d6",
   "autoCompletedPlayerQuests": 0,
-  "runtimeMilliseconds": 31536
+  "runtimeMilliseconds": 25514
 }
