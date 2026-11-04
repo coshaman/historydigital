@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "viewport": {
+    "width": 1366,
+    "height": 768
+  },
+  "hostId": "student_vasily",
+  "questId": "STUDENT_CIRCLE_RISK_1847",
+  "selectedActionId": "STUDENT_VASILY_CHOICE_1",
+  "questResolved": true,
+  "continuationStayedOutsideCampaignTimeline": true,
+  "campaignDateBefore": "1847-06-01",
+  "campaignDateAfter": "1847-06-01",
+  "noInvalidCampaignDate": true,
+  "pageErrors": []
+}

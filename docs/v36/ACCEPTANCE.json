@@ -1,8 +1,8 @@
 {
   "schemaVersion": "V36_ACCEPTANCE_1",
   "status": "PASS",
-  "generatedAt": "2026-11-04T17:54:09.118Z",
-  "completedSteps": 42,
+  "generatedAt": "2026-11-04T18:28:09.170Z",
+  "completedSteps": 43,
   "results": [
     {
       "id": "static-build",
@@ -173,7 +173,7 @@
       "durationMs": 10172
     },
     {
-      "id": "real-build-and-deployed-static-smoke",
+      "id": "local-built-app-browser-smoke",
       "script": "real-build-browser",
       "status": "PASS",
       "exitCode": 0,
@@ -339,6 +339,14 @@
       "exitCode": 0,
       "signal": null,
       "durationMs": 3696
+    },
+    {
+      "id": "same-date-personal-quest-continuation",
+      "script": "v36-life-chain-date-regression-browser",
+      "status": "PASS",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 11038
     }
   ]
 }

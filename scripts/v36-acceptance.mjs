@@ -27,7 +27,7 @@ const steps = [
   ['provider-failure-diagnostics-persist-safely', 'api-diagnostics-test'],
   ['vercel-ai-state-safety', 'v33-ai-test'],
   ['missing-key-is-not-misreported-as-generation', 'v36-api-generation-probe-browser'],
-  ['real-build-and-deployed-static-smoke', 'real-build-browser'],
+  ['local-built-app-browser-smoke', 'real-build-browser'],
   ['desktop-mobile-and-reduced-motion-performance', 'perf'],
   ['mobile-layout-regression', 'mobile'],
   ['real-browser-personal-quest-completion', 'v36-personal-quest-browser'],
@@ -48,6 +48,7 @@ const steps = [
   ['fifth-six-personal-life-goals-drive-physical-daily-visits', 'v36-fifth-six-personal-goal-autonomy-test'],
   ['sixth-six-personal-life-goals-drive-physical-daily-visits', 'v36-sixth-six-personal-goal-autonomy-test'],
   ['dynamic-environment-tile-and-visual-asset-inventory', 'v36-baseline-inventory-test'],
+  ['same-date-personal-quest-continuation', 'v36-life-chain-date-regression-browser'],
 ];
 
 const probe = createServer();

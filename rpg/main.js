@@ -839,20 +839,46 @@ function continuationFor(activeQuest) {
   if (activeQuest.realmId || activeQuest.chapterId?.startsWith('LITERARY_')) return [{ label: '문학 세계 자료철 열기', run: openSourceDrawer }];
   const arcIndex = campaign.arcs.findIndex(arc => arc.id === state.world.chapterId), arc = campaign.arcs[arcIndex];
   const questIndex = arc?.questIds.indexOf(activeQuest.id) ?? -1;
+  const returnToCurrentGoal = () => {
+    destinationPinned = Boolean(missionGuidance.target);
+    updateHud();
+    say(missionGuidance.questTitleKo ?? activeQuest.titleKo, `${missionGuidance.actionKo ?? ''}${missionGuidance.placeKo ? ` · ${missionGuidance.placeKo}` : ''}\n${missionGuidance.howKo ?? ''}`, []);
+  };
+  if (state.quests[activeQuest.id]?.status !== 'resolved') {
+    return [{ label: '현재 목표로 돌아가기', subcopy: '표시된 장소와 다음 행동을 다시 확인합니다 · 연표 날짜는 그대로 둡니다', run: returnToCurrentGoal }];
+  }
+  if (questIndex < 0) {
+    const nextLifeStage = activeQuest.lifeChain && questList.find(quest => quest.lifeChain?.id === activeQuest.lifeChain.id
+      && quest.lifeChain.stage === activeQuest.lifeChain.stage + 1);
+    if (nextLifeStage && state.quests[nextLifeStage.id]?.status !== 'resolved') {
+      const nextMapName = maps[nextLifeStage.entry?.mapId]?.metadata.displayNameKo ?? '다음 장소';
+      return [{ label: `다음 막으로 이어가기 · ${nextLifeStage.lifeChain.stage}/${nextLifeStage.lifeChain.stageCount}`,
+        subcopy: `${nextLifeStage.premiseKo} · ${nextMapName} · 같은 날짜의 생활 기록이며 연표는 이동하지 않습니다`,
+        run: () => {
+          destinationPinned = true;
+          updateHud();
+          say(nextLifeStage.titleKo, `${nextLifeStage.premiseKo}\n\n${missionGuidance.actionKo} · ${missionGuidance.placeKo}\n${missionGuidance.howKo}`, []);
+        } }];
+    }
+    return [{ label: '현재 인물의 다음 목표 확인하기', subcopy: '이 사람의 생활 기록은 역사 연표와 별도로 이어집니다', run: returnToCurrentGoal }];
+  }
   const laterQuest = arc?.questIds.slice(questIndex + 1).map(id => questsById.get(id)).find(quest => state.quests[quest.id]?.status !== 'resolved');
-  if (laterQuest) { const [nextMonth, nextDay] = laterQuest.date.slice(5).split('-').map(Number); return [{ label: laterQuest.date > state.world.date ? `${nextMonth}월 ${nextDay}일 자료로 이어가기` : '다음 자료 열기', subcopy: `연표 ${state.world.date} → ${laterQuest.date} · 다음 문서가 만들어진 뒤로 진행합니다`, run: () => {
-    const advanced = advanceCampaignDate(state, laterQuest.date, campaign, questList);
-    if (!advanced.ok) { sayRecord(`날짜를 진행할 수 없음 · ${advanced.reason}`); return; }
-    setState(advanced.state);
+  if (laterQuest) { const [nextMonth, nextDay] = laterQuest.date.slice(5).split('-').map(Number); return [{ label: laterQuest.date > state.world.date ? `${nextMonth}월 ${nextDay}일 자료로 이어가기` : '같은 날의 다음 기록 열기', subcopy: `연표 ${state.world.date} → ${laterQuest.date} · 다음 문서가 만들어진 뒤로 진행합니다`, run: () => {
+    if (laterQuest.date > state.world.date) {
+      const advanced = advanceCampaignDate(state, laterQuest.date, campaign, questList);
+      if (!advanced.ok) { sayRecord(`날짜를 진행할 수 없음 · ${advanced.reason}`); return; }
+      setState(advanced.state);
+    }
     say(laterQuest.titleKo, laterQuest.premiseKo, [{ label: '열람 가능한 자료 확인', run: openSourceDrawer }]);
   } }]; }
   const nextArc = arcIndex >= 0 ? campaign.arcs[arcIndex + 1] : null;
-  if (nextArc) return [{ label: `${nextArc.date.slice(0, 4)}년으로 이어가기`, subcopy: '다음 장을 시작합니다 · 역사 연표가 앞으로 이동합니다', run: () => {
+  if (nextArc && arc?.questIds.every(id => state.quests[id]?.status === 'resolved')) return [{ label: `${nextArc.date.slice(0, 4)}년으로 이어가기`, subcopy: '다음 장을 시작합니다 · 역사 연표가 앞으로 이동합니다', run: () => {
     const advanced = advanceChapter(state, nextArc.id, campaign, maps);
     if (!advanced.ok) { sayRecord(`다음 장을 열 수 없음 · ${advanced.reason}`); return; }
     setState(advanced.state);
     say(nextArc.titleKo, `기록은 다음 연도로 이어졌다. ${nextArc.date.slice(0, 4)}년의 거리에서 새 사건을 살펴보자.`, [{ label: '자료철 열기', run: openSourceDrawer }]);
   } }];
+  if (nextArc) return [{ label: '현재 장의 남은 목표 확인하기', subcopy: '이 장의 기록을 마친 뒤에만 다음 해로 이동합니다', run: returnToCurrentGoal }];
   return [{ label: '마지막 기록을 정리한다', subcopy: '독서 모임 선택과 진급 시험을 마친 뒤 다섯 결말을 확인합니다', run: showLearningHub }];
 }
 function civicWitnesses(object, offenderId) {
