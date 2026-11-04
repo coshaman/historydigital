@@ -40,6 +40,23 @@
       "documentWidth": 1440,
       "pageErrors": [],
       "screenshot": "docs/v36/current-audit/screenshots/junior-guard-sergey-costume-1440.png"
+    },
+    {
+      "mapId": "market-quay",
+      "possessedResidentId": "fishseller_klavdiya",
+      "spriteFile": "rpg/assets/fishseller_klavdiya.png",
+      "costumeStyle": "fishvendor",
+      "visualReferenceIds": [
+        "V36-ART-KOLLMAN-FISH-SELLERS-1830S"
+      ],
+      "saveLoadRestoredPossession": true,
+      "renderedCanvas": {
+        "width": 1382,
+        "height": 355
+      },
+      "documentWidth": 1440,
+      "pageErrors": [],
+      "screenshot": "docs/v36/current-audit/screenshots/fishseller-klavdiya-costume-1440.png"
     }
   ]
 }

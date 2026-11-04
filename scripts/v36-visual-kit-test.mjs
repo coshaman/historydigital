@@ -103,6 +103,10 @@ const gatekeeper = JSON.parse(await fs.readFile(path.join(root, 'rpg/characters/
 const gatekeeperSourceId = 'V36-ART-LABASTIDE-GATEKEEPER-1845';
 const gatekeeperSource = sourceRegister.sources.find(source => source.sourceId === gatekeeperSourceId);
 const gatekeeperSpriteRecord = provenance.assets.find(asset => asset.id === 'sprite-junior_guard_sergey');
+const fishseller = JSON.parse(await fs.readFile(path.join(root, 'rpg/characters/fishseller_klavdiya.json'), 'utf8'));
+const fishsellerSourceId = 'V36-ART-KOLLMAN-FISH-SELLERS-1830S';
+const fishsellerSource = sourceRegister.sources.find(source => source.sourceId === fishsellerSourceId);
+const fishsellerSpriteRecord = provenance.assets.find(asset => asset.id === 'sprite-fishseller_klavdiya');
 assert.equal(marketVendor.sprite.style, 'skirt', 'the reviewed woman market-vendor sprite uses the source-informed skirt silhouette');
 assert.ok(marketVendor.sprite.visualReferenceIds?.includes(costumeSourceId), 'the character sprite names its specific visual source');
 assert.ok(costumeSource?.visualFeature.includes('handled basket') && costumeSource?.gameTransformation.includes('Palette colors are independent'), 'the checked source records the visible costume features and distinguishes invented color');
@@ -114,12 +118,19 @@ assert.ok(gatekeeper.sprite.visualReferenceNotes.includes('does not depict a pol
 assert.ok(gatekeeperSource?.visualFeature.includes('hat at his side') && gatekeeperSource?.gameTransformation.includes('not claimed as a uniformed guard'), 'the catalog record separates seen details from the fictional guard role');
 assert.ok(gatekeeperSource?.rights.includes('not included or redistributed'), 'the gatekeeper source image is not redistributed');
 assert.ok(gatekeeperSpriteRecord?.sourceIds.includes(gatekeeperSourceId), 'Sergey sprite provenance resolves to the inspected gatekeeper source');
+assert.equal(fishseller.sprite.style, 'fishvendor', 'Klavdiya has a distinct river-fish-vendor silhouette');
+assert.ok(fishseller.sprite.visualReferenceIds?.includes(fishsellerSourceId), 'Klavdiya names the inspected fish-seller painting');
+assert.ok(fishseller.sprite.visualReferenceNotes.includes('stands so she can move'), 'the walking sprite is clearly distinguished from the seated source figure');
+assert.ok(fishsellerSource?.visualFeature.includes('sits low beside a large oval container') && fishsellerSource?.gameTransformation.includes("The source does not establish Klavdiya's identity"), 'the fish-seller source records the observed figure and its limits');
+assert.ok(fishsellerSource?.rights.includes('no museum image is copied or redistributed'), 'the fish-seller painting is not redistributed');
+assert.ok(fishsellerSpriteRecord?.sourceIds.includes(fishsellerSourceId), 'Klavdiya sprite provenance resolves to the inspected fish-seller source');
 const reviewManifest = (await fs.readFile(path.join(root, 'qa/ASSET_REVIEW_MANIFEST.csv'), 'utf8')).trim().split(/\r?\n/);
 assert.equal(reviewManifest.length, 37, 'the visual review manifest covers all 36 residents');
 assert.ok(reviewManifest.some(line => line.includes('"market_nadezhda"') && line.includes('"LIMITED_SOURCE_INSPIRED_REVIEW"') && line.includes(costumeSourceId)), 'the inspected Nadezhda costume is recorded with a bounded review status');
 assert.ok(reviewManifest.some(line => line.includes('"junior_guard_sergey"') && line.includes('"LIMITED_SOURCE_INSPIRED_REVIEW"') && line.includes(gatekeeperSourceId)), 'the inspected Sergey costume is recorded with bounded source and review status');
-assert.equal(reviewManifest.filter(line => line.includes('"LIMITED_SOURCE_INSPIRED_REVIEW"')).length, 2, 'two specific costumes have bounded source-inspected reviews');
-assert.equal(reviewManifest.filter(line => line.includes('"NOT_VISUALLY_REVIEWED"')).length, 34, 'the remaining 34 residents are honestly listed as awaiting source-by-source visual review');
+assert.ok(reviewManifest.some(line => line.includes('"fishseller_klavdiya"') && line.includes('"LIMITED_SOURCE_INSPIRED_REVIEW"') && line.includes(fishsellerSourceId)), 'the fish-seller costume is tracked with bounded source provenance');
+assert.equal(reviewManifest.filter(line => line.includes('"LIMITED_SOURCE_INSPIRED_REVIEW"')).length, 3, 'three specific costumes have bounded source-inspected reviews');
+assert.equal(reviewManifest.filter(line => line.includes('"NOT_VISUALLY_REVIEWED"')).length, 33, 'the remaining 33 residents are honestly listed as awaiting source-by-source visual review');
 for (const [index, line] of usageRows.slice(1).entries()) {
   const fields = [...line.matchAll(/"((?:[^"]|"")*)"/g)].map(match => match[1].replaceAll('""', '"'));
   const gid = Number(fields[0]);

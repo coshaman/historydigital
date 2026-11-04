@@ -903,8 +903,10 @@
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "market-quay",
-      "sourceIds": [],
-      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen fishseller_klavdiya; not a documented likeness or evidence of a specific individual's clothing."
+      "sourceIds": [
+        "V36-ART-KOLLMAN-FISH-SELLERS-1830S"
+      ],
+      "notes": "Original project-authored costume silhouette for fictional resident fishseller_klavdiya. Original pixel interpretation of the female fish seller shown seated by a large container in Collmann's Petersburg embankment watercolor: wrapped head covering and long warm-brown outer garment. The game sprite stands so she can move; colors and exact garment construction are simplified, not a claim of an 1847 uniform or a documented individual. Not a documented likeness or exact reconstruction."
     },
     {
       "id": "portrait-fishseller_klavdiya",

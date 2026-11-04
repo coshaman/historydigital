@@ -107,12 +107,12 @@
       "verifiedMetadata": "The State Russian Museum catalog identifies K. I. Collmann's watercolor Fish and Egg Sellers on the Embankment in Petersburg, dated to the 1830s, inventory R-5783.",
       "eraRange": "1830s; first half of the nineteenth century",
       "locale": "Petersburg embankment",
-      "pageOrFolio": "Russian Museum object record R-5783; catalog metadata checked 2026-11-04.",
-      "visualFeature": "Fish and egg vendors at a Petersburg embankment; scene-level evidence for riverside street commerce, not a measured inventory of stall objects.",
-      "confidence": "HIGH for the cataloged subject/date/media; exact fish display arrangement must be checked against the image.",
+      "pageOrFolio": "Russian Museum object record R-5783; catalog metadata and displayed watercolor visually inspected 2026-11-05.",
+      "visualFeature": "The displayed watercolor shows fish and egg sellers along the Petersburg embankment. In the foreground, a female vendor sits low beside a large oval container and small basket, wearing a wrapped head covering and warm brown outer garment; standing vendors behind her carry baskets. This specific foreground silhouette informs Klavdiya's clothing only. The scene is contextual evidence, not a measured stall inventory.",
+      "confidence": "HIGH for title, artist, 1830s date, medium, and inventory; MEDIUM for the interpreted foreground vendor's clothing and container. The depicted figure is not identified as Klavdiya, and the painting does not document an 1847 uniform or exact garment construction.",
       "rights": "Catalog record reviewed; no museum image is copied or redistributed. Pixel asset is original project artwork.",
       "creditedArtist": "K. I. Collmann",
-      "gameTransformation": "Use only as scene context for an original fish-market pixel prop. It does not establish the game's exact stall layout, tile coordinates, object materials, or an unchanged 1847 location."
+      "gameTransformation": "An original 16×24 sprite for fictional fish seller Klavdiya adapts a wrapped head covering and long brown outer silhouette from the foreground vendor; the game sprite stands for locomotion. Palette and exact garment construction are simplified. The source does not establish Klavdiya's identity, a specific 1847 stall layout, or exact materials."
     },
     {
       "sourceId": "V36-ART-LABASTIDE-HAWKER-TRAY-1845",

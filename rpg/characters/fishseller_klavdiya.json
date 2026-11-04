@@ -132,11 +132,15 @@
     "file": "assets/fishseller_klavdiya.png",
     "frameWidth": 16,
     "frameHeight": 24,
-    "style": "scarf",
+    "style": "fishvendor",
+    "visualReferenceIds": [
+      "V36-ART-KOLLMAN-FISH-SELLERS-1830S"
+    ],
+    "visualReferenceNotes": "Original pixel interpretation of the female fish seller shown seated by a large container in Collmann's Petersburg embankment watercolor: wrapped head covering and long warm-brown outer garment. The game sprite stands so she can move; colors and exact garment construction are simplified, not a claim of an 1847 uniform or a documented individual.",
     "palette": {
       "cloth": "#72513b",
-      "trim": "#a95e42",
-      "headwear": "#503b31"
+      "trim": "#98826b",
+      "headwear": "#453b32"
     }
   },
   "speechStatus": "FICTIONAL_DESIGN",

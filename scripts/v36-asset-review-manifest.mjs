@@ -22,6 +22,13 @@ const reviewedResidents = {
     limits: '도판은 문지기를 그렸으며 경찰·군복, 계급장, 실제 경비병의 복식이나 정확한 색을 입증하지 않음; 박물관 이미지 배포 권리 미취득',
     screenshot: 'docs/v36/current-audit/screenshots/junior-guard-sergey-costume-1440.png',
   },
+  fishseller_klavdiya: {
+    sourceId: 'V36-ART-KOLLMAN-FISH-SELLERS-1830S',
+    features: '머리를 감싼 두건; 긴 갈색 겉옷; 몸을 낮춘 강변 생선 장수; 옆의 큰 통과 바구니',
+    transformation: '16x24 원작 픽셀에 두건과 긴 겉옷 실루엣 반영; 이동을 위해 서 있는 자세로 재구성; 색은 수채화에서 제한적으로 참고',
+    limits: '1830년대 장면의 인물이 클라브디야라는 뜻이 아니며 1847년 복식의 정확한 형태·색·좌판 배치를 증명하지 않음; 박물관 이미지 배포 권리 미취득',
+    screenshot: 'docs/v36/current-audit/screenshots/fishseller-klavdiya-costume-1440.png',
+  },
 };
 const ids = [...new Set(residentData.districts.flatMap(district => district.residentIds ?? []))].sort();
 assert.equal(ids.length, 36);

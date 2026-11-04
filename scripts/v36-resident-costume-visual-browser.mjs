@@ -31,6 +31,7 @@ const quests = questRecords.filter(quest => quest.historicalOutcome?.id && Array
 const targets = [
   { residentId: 'market_nadezhda', mapId: 'market-quay', expectedStyle: 'skirt' },
   { residentId: 'junior_guard_sergey', mapId: 'chancery', expectedStyle: 'gatekeeper' },
+  { residentId: 'fishseller_klavdiya', mapId: 'market-quay', expectedStyle: 'fishvendor' },
 ].map(target => ({ ...target, card: cards.find(item => item.id === target.residentId), map: maps[target.mapId] }));
 for (const target of targets) {
   assert.ok(target.card && target.map && registry.districts.some(item => item.residentIds?.includes(target.card.id)), `${target.residentId} and map data exist`);

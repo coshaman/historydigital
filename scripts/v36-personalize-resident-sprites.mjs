@@ -72,7 +72,7 @@ function makeSheet(card, roleProp, identity) {
     const style=card.sprite.style;
     if(style==='gatekeeper') { /* The source shows the hat carried, not worn. */ }
     else if(style==='cap') { r(4,1,8,2,headwear); r(3,3,10,1,headwear); }
-    else if(style==='scarf'||style==='skirt') { r(5,1,6,2,headwear); r(4,3,2,4,headwear); r(10,3,2,4,headwear); }
+    else if(style==='scarf'||style==='skirt'||style==='fishvendor') { r(5,1,6,2,headwear); r(4,3,2,4,headwear); r(10,3,2,4,headwear); }
     else if(style==='hair') { r(4,2,2,5,colors.hair); r(10,2,2,5,colors.hair); r(5,1,6,2,colors.hair); }
     else { r(4,1,8,2,headwear); r(5,0,6,1,headwear); }
     if(direction===0) { p(6,5,colors.ink); p(10,5,colors.ink); p(8,8,colors.skinShade); }
@@ -80,6 +80,7 @@ function makeSheet(card, roleProp, identity) {
     if(direction===3) { p(10,5,colors.ink); p(9,6,colors.skinShade); }
     // Work clothes vary by silhouette and the resident's recorded palette.
     if(style==='gatekeeper') { r(4,9,8,8,cloth); r(3,10,2,6,cloth); r(11,10,2,6,cloth); r(6,10,1,5,trim); r(9,10,1,5,trim); p(8,16,trim); }
+    else if(style==='fishvendor') { r(4,9,8,8,cloth); r(3,10,2,6,cloth); r(11,10,2,6,cloth); r(4,16,8,4,colors.pants); r(6,10,4,1,trim); p(7,13,trim); }
     else if(style==='skirt') { r(4,9,8,5,cloth); r(3,13,10,8,cloth); r(5,12,6,7,trim); r(7,12,1,7,headwear); }
     else if(style==='dress') { r(4,9,8,9,cloth); r(3,15,10,3,trim); }
     else if(style==='apron') { r(4,9,8,8,cloth); r(5,10,6,7,trim); r(4,8,8,2,trim); }
@@ -87,7 +88,7 @@ function makeSheet(card, roleProp, identity) {
     else { r(4,9,8,8,cloth); r(4,14,8,2,trim); p(7,10,colors.highlight); }
     r(3,10,2,5,cloth); r(11,10,2,5,cloth); p(3,15,colors.skin); p(12,15,colors.skin);
     if(style==='gatekeeper') { r(4+leg,17,4,4,colors.pants); r(8-leg,17,4,4,colors.pants); r(4+leg,21,4,2,colors.shoe); r(8-leg,21,4,2,colors.shoe); }
-    else if(style==='skirt') { r(5+leg,20,3,2,colors.shoe); r(9-leg,20,3,2,colors.shoe); }
+    else if(style==='fishvendor'||style==='skirt') { r(5+leg,20,3,2,colors.shoe); r(9-leg,20,3,2,colors.shoe); }
     else { r(5+leg,17,3,4,cloth); r(9-leg,17,3,4,cloth); r(4+leg,21,4,2,colors.shoe); r(9-leg,21,4,2,colors.shoe); }
     // A distinct, period-appropriate work object gives the resident a readable silhouette.
     const px = direction===1 || direction===2 ? 0 : 11;
