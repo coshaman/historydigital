@@ -73,6 +73,8 @@ const changedHostFields = Object.fromEntries(ids.flatMap(id => {
 }));
 assert.equal(game.stateHash(restored), hashes[0], `the complete 24-hour NPC and social-goal state must survive save/reload; changed fields: ${JSON.stringify({saveReloadDifferences,changedHostFields})}`);
 const goals = first.state.ledger.flatMap(event => event.goals ?? []);
+const autonomousGoals = goals.filter(goal => !['SCHEDULE', 'POSSESSED'].includes(goal.type));
+const autonomousGoalTypesByResident = Object.fromEntries(ids.map(id => [id, [...new Set(autonomousGoals.filter(goal => goal.hostId === id).map(goal => goal.type))]]));
 const deliveries = first.state.ledger.flatMap(event => event.deliveries ?? []);
 const exchanges = first.state.ledger.flatMap(event => event.exchanges ?? []);
 const personalContacts = first.state.ledger.flatMap(event => event.personalContacts ?? []);
@@ -105,6 +107,8 @@ const mapTransitions = first.moves.filter(move => move.viaExit);
 assert.ok(first.moves.length > 0, 'residents should walk throughout the day');
 assert.ok(mapTransitions.length > 0, 'residents should cross real district exits');
 assert.ok(goals.length > 0, 'daily needs and schedules should create observable goals');
+assert.ok(Object.values(autonomousGoalTypesByResident).every(types => types.length > 0),
+  `each of the 36 residents must make at least one need-, relationship-, or personal-life-driven decision during the day; missing=${JSON.stringify(Object.entries(autonomousGoalTypesByResident).filter(([, types]) => !types.length).map(([id]) => id))}`);
 assert.ok(deliveries.length > 0, 'at least one scheduled item handoff should complete');
 assert.ok(exchanges.length > 0, 'at least one scheduled exchange should complete');
 assert.ok(personalContacts.length > 0, 'active personal relationship goals should lead residents to meet their named neighbors');
@@ -117,6 +121,8 @@ const report = { schemaVersion:'V36_FULL_DAY_36_RESIDENT_REPLAY_1', status:'PASS
   deterministicReplays:3, simulatedMinutes:1440, replayHashes:hashes,
   collisionSnapshotsPerReplay:first.collisionSnapshots, totalCollisionSnapshots:replays.reduce((sum,run)=>sum+run.collisionSnapshots,0),
   firstReplay:{ movementSteps:first.moves.length, districtTransitions:mapTransitions.length, goalEvents:goals.length,
+    residentsWithAutonomousGoalDecision:Object.values(autonomousGoalTypesByResident).filter(types=>types.length).length,
+    autonomousGoalTypesByResident,
     deliveries:deliveries.length, exchanges:exchanges.length, personalContacts:personalContacts.length, distinctPersonalContactResidents,
     personalLifeGoalVisits:personalGoalVisits.length, residentsWithPhysicalLifeGoalVisits:visitedLifeGoalHosts.size,
     residentsWithLockedLifeGoals:Object.values(goalCoverage).filter(row => row.status === 'LOCKED_BY_PREREQUISITE').length,

@@ -93,6 +93,7 @@ function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky
     knownEvidenceIds: [...card.knownEvidenceIds],
     relations: clone(card.relations ?? {}),
     objective: card.personalObjective,
+    todayGoals: clone(card.todayGoals ?? []),
     plannerPolicy: clone(card.plannerPolicy ?? {}),
     personalGoals: clone(card.persistentPersonalGoals ?? []),
     personalGoalProgress: Object.fromEntries((card.persistentPersonalGoals ?? []).map(goal => [goal.id, { status: 'ACTIVE' }])),
@@ -365,37 +366,59 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
   const activeSocialTask = activeSocialSlot?.task;
   const socialForecast = upcomingNpcSocialWork(state);
   const imminentSocialTask = socialForecast.hostIds.has(host.id);
+  const candidates = [];
+  const addCandidate = (goal, utility, priority) => {
+    if (!goal?.slot || !Number.isFinite(utility)) return;
+    candidates.push({ ...goal, selectionBasis: { ...(goal.selectionBasis ?? {}), utilityScore: Math.round(utility * 100) / 100 }, _priority: priority });
+  };
   if (activeSocialTask) {
     const recipient = state.hosts[activeSocialTask.recipientHostId];
     const canPay = activeSocialTask.type !== 'EXCHANGE' || (Number.isInteger(activeSocialTask.moneyAmount) && activeSocialTask.moneyAmount > 0 && Number.isFinite(recipient?.money?.amount) && recipient.money.amount >= activeSocialTask.moneyAmount);
     if (recipient && canPay && recipient.id !== state.player.embodiment && recipient.historicalAliveAndPresent !== false && host.allowedMaps.includes(recipient.mapId) && npcMapRoute(host.mapId, recipient.mapId, host, maps, state.world.clockMinutes) !== null) {
-      return { slot: { ...activeSocialSlot, mapId: recipient.mapId, position: { ...recipient.position } }, goalType: activeSocialTask.type === 'DELIVER' ? 'FOLLOW_RECIPIENT' : 'FOLLOW_TRADE_PARTNER', targetHostId: recipient.id, taskId: activeSocialTask.id, reason: 'social_action_tracks_recipient' };
+      return { slot: { ...activeSocialSlot, mapId: recipient.mapId, position: { ...recipient.position } }, goalType: activeSocialTask.type === 'DELIVER' ? 'FOLLOW_RECIPIENT' : 'FOLLOW_TRADE_PARTNER', targetHostId: recipient.id, taskId: activeSocialTask.id, reason: 'committed_social_task', selectionBasis: { utilityScore: 100, committedTask: true } };
     }
   }
+
+  const todayGoalKinds = new Set((host.todayGoals ?? []).map(goal => goal.kind));
+  const personalPriority = Number.isFinite(host.plannerPolicy?.personalPriority) ? host.plannerPolicy.personalPriority : 0.5;
+  addCandidate({ slot: scheduledSlot, goalType: 'SCHEDULE', targetHostId: null, taskId: scheduledTask?.id ?? null, reason: 'authored_daily_schedule' },
+    43 + (scheduledTask ? 3 : 0), 0);
 
   if (host.needs && !imminentSocialTask) {
     const continuingRestSlot = host.activeGoal?.type === 'NEED_REST'
       ? (host.schedule ?? []).find(slot => `REST:${host.id}:${slot.atMinute}` === host.activeGoal.taskId) : null;
     if (continuingRestSlot && host.needs.fatigue >= Math.max(0, host.needs.restThreshold - 10)) {
-      return { slot: continuingRestSlot, goalType: 'NEED_REST', targetHostId: null, taskId: host.activeGoal.taskId, reason: 'continue_rest_goal_until_physical_recovery' };
+      const urgency = host.needs.fatigue - (host.needs.restThreshold - 10);
+      addCandidate({ slot: continuingRestSlot, goalType: 'NEED_REST', targetHostId: null, taskId: host.activeGoal.taskId, reason: 'continue_rest_goal_until_physical_recovery' },
+        57 + urgency * 0.55 + (host.activeGoal.type === 'NEED_REST' ? 8 : 0), 1);
     }
     const restCandidates = (host.schedule ?? []).filter(slot => /쉬|휴식|잠/.test(slot.activityKo ?? ''))
-      .map(slot => ({ slot, wait: (slot.atMinute - localMinute + 1440) % 1440 }))
+      .map(slot => ({ slot, wait: slot === scheduledSlot ? 0 : (slot.atMinute - localMinute + 1440) % 1440 }))
       .filter(goal => goal.wait <= 360);
     if (/쉬|휴식|잠/.test(scheduledSlot?.activityKo ?? '')) restCandidates.push({ slot: scheduledSlot, wait: 0 });
     const restCandidate = restCandidates.sort((a, b) => a.wait - b.wait)[0];
     if (restCandidate && host.needs.fatigue >= host.needs.restThreshold) {
-      return { slot: restCandidate.slot, goalType: 'NEED_REST', targetHostId: null, taskId: `REST:${host.id}:${restCandidate.slot.atMinute}`, reason: 'fatigue_threshold_before_authored_rest_window' };
+      const urgency = host.needs.fatigue - host.needs.restThreshold;
+      const restWeight = Number.isFinite(host.plannerPolicy?.restPriority) ? host.plannerPolicy.restPriority : 0.5;
+      addCandidate({ slot: restCandidate.slot, goalType: 'NEED_REST', targetHostId: null, taskId: `REST:${host.id}:${restCandidate.slot.atMinute}`, reason: 'fatigue_threshold_before_authored_rest_window' },
+        55 + urgency * 0.55 + restWeight * 8 + (todayGoalKinds.has('care') ? 3 : 0), 1);
     }
     const mealCandidates = (host.schedule ?? []).filter(slot => slot.task?.type === 'CONSUME' && slot.task.itemKo && host.inventory.includes(slot.task.itemKo))
       .map(slot => ({ slot, wait: (slot.atMinute - localMinute + 1440) % 1440 }))
       .filter(goal => goal.wait <= 60);
     if (scheduledTask?.type === 'CONSUME' && scheduledTask.itemKo && host.inventory.includes(scheduledTask.itemKo)) mealCandidates.push({ slot: scheduledSlot, wait: 0 });
     const meal = mealCandidates.filter(goal => host.needs.hunger >= (Number.isFinite(goal.slot.task.minimumHunger) ? goal.slot.task.minimumHunger : 40)).sort((a, b) => a.wait - b.wait)[0];
-    if (meal) return { slot: meal.slot, goalType: 'NEED_MEAL', targetHostId: null, taskId: meal.slot.task.id, reason: 'hunger_threshold_before_meal_window' };
+    if (meal) {
+      const mealWeight = Number.isFinite(host.plannerPolicy?.mealPriority) ? host.plannerPolicy.mealPriority : 0.5;
+      addCandidate({ slot: meal.slot, goalType: 'NEED_MEAL', targetHostId: null, taskId: meal.slot.task.id, reason: 'hunger_threshold_before_meal_window' },
+        35 + host.needs.hunger * 0.55 + mealWeight * 8 + Math.max(0, 60 - meal.wait) * 0.35 + (meal.wait === 0 ? 8 : 0), 2);
+    }
   }
   const lifeFocus = selectPersonalLifeFocus(state, host, maps, localMinute, imminentSocialTask);
-  if (lifeFocus) return lifeFocus;
+  if (lifeFocus) {
+    const activeStage = host.activeGoal?.type === lifeFocus.goalType && host.activeGoal?.taskId === lifeFocus.taskId;
+    addCandidate(lifeFocus, 80 + personalPriority * 14 + (todayGoalKinds.has('personal') ? 4 : 0) + (activeStage ? 9 : 0), 3);
+  }
   const workPriority = Number.isFinite(host.plannerPolicy?.workPriority) ? host.plannerPolicy.workPriority : 0.9;
   const incomeGoalThreshold = Math.max(42, Math.min(74, Math.round(82 - workPriority * 30)));
   if (host.needs?.incomePressure >= incomeGoalThreshold && !imminentSocialTask) {
@@ -405,14 +428,15 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
       && !socialForecast.mapIds.has(slot.mapId)
       && !mapAccessFailure(maps?.[slot.mapId], host, state.world.clockMinutes)
       && npcMapRoute(host.mapId, slot.mapId, host, maps, state.world.clockMinutes) !== null)
-      .map(slot => ({ slot, wait: (slot.atMinute - localMinute + 1440) % 1440 }))
+      .map(slot => ({ slot, wait: slot === scheduledSlot ? 0 : (slot.atMinute - localMinute + 1440) % 1440 }))
       .filter(candidate => candidate.wait <= 360)
       .sort((a, b) => a.wait - b.wait || a.slot.atMinute - b.slot.atMinute);
     const livelihood = livelihoodSlots[0];
-    if (livelihood) return { slot: livelihood.slot, goalType: 'NEED_INCOME', targetHostId: null,
+    if (livelihood) addCandidate({ slot: livelihood.slot, goalType: 'NEED_INCOME', targetHostId: null,
       taskId: `LIVELIHOOD:${host.id}:${Math.floor(state.world.clockMinutes / 1440)}:${livelihood.slot.atMinute}`,
       reason: 'income_pressure_exceeds_resident_work_priority_threshold',
-      selectionBasis: { need: host.needs.incomePressure, threshold: incomeGoalThreshold, workPriority } };
+      selectionBasis: { need: host.needs.incomePressure, threshold: incomeGoalThreshold, workPriority } },
+      35 + host.needs.incomePressure * 0.4 + workPriority * 14 + (todayGoalKinds.has('work') ? 3 : 0), 4);
   }
   const relationshipGoal = (host.personalGoals ?? []).find(item => item.kind === 'RELATIONSHIP'
     && host.personalGoalProgress?.[item.id]?.status !== 'SATISFIED');
@@ -433,18 +457,22 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
     return ['DELIVER','EXCHANGE'].includes(task?.type)&&task.recipientHostId===host.id
       &&sender.id!==state.player.embodiment&&sender.historicalAliveAndPresent!==false&&sender.routineTaskCompletedId!==task.id&&!sender.completedSocialTaskIds?.includes(task.id);
   });
-  if (relationshipGoal && relationshipTarget && relationshipTarget.id !== state.player.embodiment
+  if (!imminentSocialTask && relationshipGoal && relationshipTarget && relationshipTarget.id !== state.player.embodiment
     && relationshipTarget.historicalAliveAndPresent !== false && host.needs?.socialNeed >= socialNeedThreshold
     && host.needs.fatigue < Math.max(0, (host.needs.restThreshold ?? 72) - 10)
     && !awaitingIncomingGoods
     && host.lastPersonalContactTaskId !== contactTaskId
     && host.allowedMaps.includes(relationshipTarget.mapId)
     && npcMapRoute(host.mapId, relationshipTarget.mapId, host, maps, state.world.clockMinutes) !== null) {
-    return { slot: { mapId: relationshipTarget.mapId, position: { ...relationshipTarget.position }, activityKo: '개인적인 약속을 확인하려 이웃과 이야기를 나누러 간다' },
+    addCandidate({ slot: { mapId: relationshipTarget.mapId, position: { ...relationshipTarget.position }, activityKo: '개인적인 약속을 확인하려 이웃과 이야기를 나누러 간다' },
       goalType: 'PERSONAL_RELATIONSHIP', targetHostId: relationshipTarget.id, taskId: contactTaskId, reason: 'relationship_goal_selected_by_social_need_and_travel_risk',
-      selectionBasis: { socialNeed: host.needs.socialNeed, threshold: socialNeedThreshold, socialPriority, optionalTravelRisk, riskTolerance } };
+      selectionBasis: { socialNeed: host.needs.socialNeed, threshold: socialNeedThreshold, socialPriority, optionalTravelRisk, riskTolerance } },
+      60 + host.needs.socialNeed * 0.5 + socialPriority * 16 - optionalTravelRisk * 0.2 + (todayGoalKinds.has('social') ? 4 : 0), 5);
   }
-  return { slot: scheduledSlot, goalType: 'SCHEDULE', targetHostId: null, taskId: scheduledTask?.id ?? null, reason: 'authored_daily_schedule' };
+  candidates.sort((a, b) => b.selectionBasis.utilityScore - a.selectionBasis.utilityScore || a._priority - b._priority || a.goalType.localeCompare(b.goalType));
+  const selected = candidates[0] ?? { slot: scheduledSlot, goalType: 'SCHEDULE', targetHostId: null, taskId: scheduledTask?.id ?? null, reason: 'authored_daily_schedule' };
+  delete selected._priority;
+  return selected;
 }
 function selectPersonalLifeFocus(state, host, maps, localMinute, imminentSocialTask) {
   if (imminentSocialTask) return null;
@@ -1144,6 +1172,7 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
       host.situationNotes ??= [];
       host.activeGoal ??= null;
       host.plannerPolicy = clone(card.plannerPolicy ?? host.plannerPolicy ?? {});
+      host.todayGoals ??= clone(card.todayGoals ?? []);
       host.personalGoals ??= clone(card.persistentPersonalGoals ?? []);
       host.personalGoalProgress ??= Object.fromEntries((host.personalGoals ?? []).map(goal => [goal.id, { status: 'ACTIVE' }]));
       for(const goal of card.persistentPersonalGoals??[]){host.personalGoalProgress[goal.id]??={status:'ACTIVE'};}

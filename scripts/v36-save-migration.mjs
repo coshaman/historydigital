@@ -53,6 +53,7 @@ for (const [index, [fixtureId, hostId]] of scenarios.entries()) {
   assert.equal(restored.player.gameSaveVersion, 36, `${fixtureId}: player save schema was not upgraded`);
   assert.equal(restored.world.clockMinutes, 540 + index * 73, `${fixtureId}: world clock changed`);
   assert.ok(Object.values(restored.hosts).every(host => Number.isFinite(host.needs?.hunger) && Number.isFinite(host.needs?.fatigue) && host.activeGoal === null), `${fixtureId}: new resident runtime fields were not safely migrated`);
+  assert.ok(cards.every(card => (restored.hosts[card.id].todayGoals ?? []).length === (card.todayGoals ?? []).length), `${fixtureId}: authored daily intentions were not restored for all residents`);
   assert.equal(restored.player.position.x, originalPlayer.position.x, `${fixtureId}: player position was overwritten`);
   assert.equal(restored.player.position.y, originalPlayer.position.y, `${fixtureId}: player position was overwritten`);
   if (hostId) {

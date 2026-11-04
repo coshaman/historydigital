@@ -20,7 +20,7 @@
         "x": 17,
         "y": 14
       },
-      "minute": 566,
+      "minute": 541,
       "activityKo": "생활 문제 · 수업을 열 시간과 비용 · 1막",
       "witnessedByPlayer": false
     },
@@ -30,10 +30,10 @@
       "stage": 1,
       "mapId": "courtyard",
       "position": {
-        "x": 14,
-        "y": 15
+        "x": 15,
+        "y": 16
       },
-      "minute": 540,
+      "minute": 651,
       "activityKo": "생활 문제 · 물통 순서와 먼 길 · 1막",
       "witnessedByPlayer": false
     },
@@ -46,7 +46,7 @@
         "x": 4,
         "y": 13
       },
-      "minute": 601,
+      "minute": 586,
       "activityKo": "생활 문제 · 들어버린 말과 전할 경고 · 1막",
       "witnessedByPlayer": false
     },
@@ -72,7 +72,7 @@
         "x": 8,
         "y": 8
       },
-      "minute": 540,
+      "minute": 551,
       "activityKo": "생활 문제 · 비 맞은 좌판의 하루",
       "witnessedByPlayer": false
     },
@@ -85,7 +85,7 @@
         "x": 24,
         "y": 9
       },
-      "minute": 631,
+      "minute": 661,
       "activityKo": "생활 문제 · 장부에서 빠진 상자",
       "witnessedByPlayer": false
     }

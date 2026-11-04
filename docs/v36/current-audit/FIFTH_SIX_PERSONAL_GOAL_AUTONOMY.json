@@ -20,7 +20,7 @@
         "x": 10,
         "y": 12
       },
-      "minute": 431,
+      "minute": 486,
       "activityKo": "생활 문제 · 교정쇄에 남은 손자국 · 1막",
       "witnessedByPlayer": false
     },
@@ -30,10 +30,10 @@
       "stage": 1,
       "mapId": "chancery",
       "position": {
-        "x": 13,
+        "x": 12,
         "y": 14
       },
-      "minute": 441,
+      "minute": 420,
       "activityKo": "생활 문제 · 읽히는 사본과 빠진 줄 · 1막",
       "witnessedByPlayer": false
     },
@@ -43,10 +43,10 @@
       "stage": 1,
       "mapId": "nevsky",
       "position": {
-        "x": 25,
-        "y": 16
+        "x": 24,
+        "y": 15
       },
-      "minute": 541,
+      "minute": 420,
       "activityKo": "생활 문제 · 읽을 모임과 들킬 위험 · 1막",
       "witnessedByPlayer": false
     },
@@ -59,7 +59,7 @@
         "x": 14,
         "y": 14
       },
-      "minute": 421,
+      "minute": 420,
       "activityKo": "생활 문제 · 가문의 이름과 어음 만기 · 1막",
       "witnessedByPlayer": false
     },
@@ -72,7 +72,7 @@
         "x": 24,
         "y": 16
       },
-      "minute": 466,
+      "minute": 420,
       "activityKo": "생활 문제 · 비 그친 뒤의 좌판 자리 · 1막",
       "witnessedByPlayer": false
     },
@@ -82,10 +82,10 @@
       "stage": 1,
       "mapId": "printshop",
       "position": {
-        "x": 17,
-        "y": 12
+        "x": 16,
+        "y": 13
       },
-      "minute": 451,
+      "minute": 420,
       "activityKo": "생활 문제 · 빠른 인쇄와 남은 교정 · 1막",
       "witnessedByPlayer": false
     }

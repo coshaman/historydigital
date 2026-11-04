@@ -296,14 +296,36 @@ for (const viewport of (quickMode ? [{ width: 1440, height: 900 }] : [{ width: 1
   await page.getByText('이 몸으로는 들어갈 수 없다').waitFor();
   await page.locator('#release').click();
   await goExit(page, '하숙집 안뜰');
-  await moveKey(page, 'ArrowRight');
-  await moveKey(page, 'ArrowRight');
+  const courtyardMap = readData('rpg/maps/courtyard.json');
+  await page.evaluate(map => {
+    const envelope = JSON.parse(localStorage.getItem('v33-rpg-save'));
+    const state = envelope.state;
+    const host = state.hosts.tenant_mikhail;
+    const collision = map.layers.find(layer => layer.name === 'Collision');
+    const occupied = Object.values(state.hosts).filter(person => person.id !== host.id && person.mapId === map.mapId)
+      .map(person => `${person.position.x},${person.position.y}`);
+    const player = state.player.position;
+    const adjacent = [[1,0],[0,1],[-1,0],[0,-1]].map(([dx,dy]) => ({ x: player.x + dx, y: player.y + dy }))
+      .find(tile => tile.x >= 0 && tile.y >= 0 && tile.x < map.width && tile.y < map.height
+        && collision.data[tile.y * map.width + tile.x] === 0 && !occupied.includes(`${tile.x},${tile.y}`));
+    if (!adjacent) throw new Error('No free adjacent fixture tile for Mikhail possession test');
+    host.mapId = map.mapId;
+    host.position = adjacent;
+    host.schedule = [];
+    host.activeGoal = null;
+    host.plannedPath = { key: null, tiles: [] };
+    host.mapRoutePlan = { key: null, route: null };
+    localStorage.setItem('v33-rpg-save', window.V33GameState.saveGame(state));
+  }, courtyardMap);
+  await page.reload({ waitUntil: 'domcontentloaded' });
+  await page.waitForFunction(() => document.querySelector('#mapname')?.textContent.includes('하숙집 안뜰')
+    && document.querySelector('#bodyname')?.textContent.includes('바깥에서 바라보는 중'));
   await page.keyboard.press('e');
   const mikhailChoice = page.locator('#actions button').filter({ hasText: '미하일 살펴보기' });
   if (await mikhailChoice.count()) await mikhailChoice.first().click();
   try { await page.getByRole('button', { name: '몸을 빌린다' }).click(); }
-  catch { const diagnosis = await page.evaluate(() => { const saved=JSON.parse(localStorage.getItem('v33-rpg-save')||'null'); const host=saved?.state?.hosts?.tenant_mikhail; return {mapId:document.querySelector('#mapname')?.textContent,position:saved?.state?.player?.position,embodiment:saved?.state?.player?.embodiment,actions:document.querySelector('#actions')?.innerText,host:host&&{mapId:host.mapId,position:host.position}}; }); throw new Error(`Mikhail possession option unavailable: ${JSON.stringify(diagnosis)}`); }
-  for (let step = 0; step < 4; step++) await moveKey(page, 'ArrowRight');
+  catch { const diagnosis = await page.evaluate(() => { const saved=JSON.parse(localStorage.getItem('v33-rpg-save')||'null'); const host=saved?.state?.hosts?.tenant_mikhail; return {mapId:document.querySelector('#mapname')?.textContent,position:saved?.state?.player?.position,embodiment:saved?.state?.player?.embodiment,headline:document.querySelector('#headline')?.textContent,record:document.querySelector('#record')?.textContent,actions:document.querySelector('#actions')?.innerText,host:host&&{mapId:host.mapId,position:host.position}}; }); throw new Error(`Mikhail possession option unavailable: ${JSON.stringify(diagnosis)}`); }
+  for (let step = 0; step < 8; step++) await moveKey(page, 'ArrowRight');
   await page.keyboard.press('e');
   await page.locator('#headline').filter({ hasText: '방세와 공동 장작' }).waitFor({ timeout: 5000 }).catch(async () => {
     const state = await page.evaluate(() => ({ map: document.querySelector('#mapname')?.textContent, clock: document.querySelector('#clock')?.textContent, headline: document.querySelector('#headline')?.textContent, record: document.querySelector('#record')?.textContent, actions: document.querySelector('#actions')?.innerText }));
@@ -316,6 +338,7 @@ for (const viewport of (quickMode ? [{ width: 1440, height: 900 }] : [{ width: 1
   await page.screenshot({ path: path.join(out, 'courtyard-rent-1440x900.png') });
   for (let step = 0; step < 6; step++) await moveKey(page, 'ArrowLeft');
   for (let step = 0; step < 3; step++) await moveKey(page, 'ArrowDown');
+  for (let step = 0; step < 2; step++) await moveKey(page, 'ArrowLeft');
   await goExit(page, '네프스키 거리');
   if (errors.length) throw new Error(`Chancery/courtyard browser errors: ${errors.join('; ')}`);
   report.otherMaps = { chanceryVisit: true, clerkAccess: true, alexeiDeniedCourtyard: true, observerEnteredCourtyard: true, mikhailClueRead: true, mikhailReturnedToStreet: true, errors };

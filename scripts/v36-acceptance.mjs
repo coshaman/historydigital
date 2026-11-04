@@ -39,6 +39,8 @@ const steps = [
   ['resident-quest-bundle-and-target-priority-browser', 'v36-quest-target-priority-browser'],
   ['36-resident-income-pressure-selects-real-livelihood-route', 'v36-income-goal-test'],
   ['world-journal-only-reveals-observed-events', 'v36-observed-world-events-test'],
+  ['need-history-and-policy-based-goal-utility', 'v36-autonomy-utility-test'],
+  ['daily-intentions-survive-old-save-migration', 'v36-save-migration'],
   ['first-six-personal-life-goals-drive-physical-daily-visits', 'v36-personal-goal-autonomy-test'],
   ['second-six-personal-life-goals-drive-available-physical-daily-visits', 'v36-second-six-personal-goal-autonomy-test'],
   ['third-six-personal-life-goals-drive-physical-daily-visits', 'v36-third-six-personal-goal-autonomy-test'],

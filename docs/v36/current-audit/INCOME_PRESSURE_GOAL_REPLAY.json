@@ -18,7 +18,7 @@
       "police_sergeant_ivan": {
         "goalType": "NEED_INCOME",
         "targetMapId": "police-station",
-        "activityKo": "진술서와 압수 목록을 정리한다"
+        "activityKo": "신고 장부의 목격자 칸을 확인한다"
       },
       "print_apprentice_stepan": {
         "goalType": "NEED_INCOME",
@@ -32,8 +32,8 @@
       },
       "scribal_yuri": {
         "goalType": "NEED_INCOME",
-        "targetMapId": "market-quay",
-        "activityKo": "사본을 맡길 사람과 전달 시각을 묻는다"
+        "targetMapId": "chancery",
+        "activityKo": "원본과 베낄 종이를 정리한다"
       },
       "student_vasily": {
         "goalType": "NEED_INCOME",
@@ -42,13 +42,13 @@
       },
       "minor_noble_andrei": {
         "goalType": "NEED_INCOME",
-        "targetMapId": "courtyard",
-        "activityKo": "가족과 지출 계획을 의논한다"
+        "targetMapId": "chancery",
+        "activityKo": "늦어진 급료와 약속 어음을 확인한다"
       },
       "junior_guard_sergey": {
         "goalType": "NEED_INCOME",
         "targetMapId": "chancery",
-        "activityKo": "교대 경비에게 출입 기록을 넘긴다"
+        "activityKo": "관청 출입증과 방문 목적을 확인한다"
       },
       "street_vendor_matryona": {
         "goalType": "NEED_INCOME",
@@ -62,13 +62,13 @@
       },
       "housemaid_olga": {
         "goalType": "NEED_INCOME",
-        "targetMapId": "market-quay",
-        "activityKo": "안뜰에 필요한 물건을 산다"
+        "targetMapId": "courtyard",
+        "activityKo": "셋방의 물과 마른 걸레를 챙긴다"
       },
       "midwife_avdotya": {
         "goalType": "NEED_INCOME",
-        "targetMapId": "market-quay",
-        "activityKo": "필요한 물품의 값과 외상을 묻는다"
+        "targetMapId": "courtyard",
+        "activityKo": "호출 시간과 가져갈 물품을 확인한다"
       },
       "innkeeper_irina": {
         "goalType": "NEED_INCOME",
@@ -77,28 +77,28 @@
       },
       "teacher_lyubov": {
         "goalType": "NEED_INCOME",
-        "targetMapId": "bookshop-interior",
-        "activityKo": "수업에 빌릴 책을 고르고 돌려줄 날짜를 장부에 적는다"
+        "targetMapId": "courtyard",
+        "activityKo": "아이들에게 글 읽기를 가르친다"
       },
       "landlady_polina": {
         "goalType": "NEED_INCOME",
-        "targetMapId": "market-quay",
-        "activityKo": "공동 장작 가격을 묻는다"
+        "targetMapId": "courtyard",
+        "activityKo": "방세와 장작값을 대조한다"
       },
       "watercarrier_luka": {
         "goalType": "NEED_INCOME",
-        "targetMapId": "market-quay",
-        "activityKo": "강가에서 물을 받아 나른다"
+        "targetMapId": "courtyard",
+        "activityKo": "물동이를 채우고 안뜰 순서를 확인한다"
       },
       "servant_varvara": {
         "goalType": "NEED_INCOME",
-        "targetMapId": "market-quay",
-        "activityKo": "집에 필요한 물건을 산다"
+        "targetMapId": "courtyard",
+        "activityKo": "고용주 집의 청소와 심부름을 시작한다"
       },
       "lodging_tatyana": {
         "goalType": "NEED_INCOME",
-        "targetMapId": "inn-interior",
-        "activityKo": "여관에서 빌린 책을 돌려주고 수선방에 쓸 도구를 찾는다"
+        "targetMapId": "courtyard",
+        "activityKo": "셋방에서 재봉 일감을 시작한다"
       },
       "laundress_mariya": {
         "goalType": "FOLLOW_TRADE_PARTNER",
@@ -123,22 +123,22 @@
       "apothecary_yakov": {
         "goalType": "NEED_INCOME",
         "targetMapId": "market-quay",
-        "activityKo": "손님에게 확인된 가격을 알린다"
+        "activityKo": "재고와 외상 장부를 맞춘다"
       },
       "fishseller_klavdiya": {
         "goalType": "NEED_INCOME",
         "targetMapId": "market-quay",
-        "activityKo": "보관 시간과 판매량을 대조한다"
+        "activityKo": "강변에서 들어온 생선 수량을 확인한다"
       },
       "warehouse_pyotr": {
         "goalType": "NEED_INCOME",
-        "targetMapId": "chancery",
-        "activityKo": "반출 승인 문서를 전달한다"
+        "targetMapId": "market-quay",
+        "activityKo": "창고 입고표와 물품 번호를 맞춘다"
       },
       "carter_roman": {
         "goalType": "NEED_INCOME",
         "targetMapId": "market-quay",
-        "activityKo": "부두 물량과 운임을 맞춘다"
+        "activityKo": "시장 창고에서 적재량을 확인한다"
       }
     }
   },
@@ -148,43 +148,38 @@
   },
   "individualizedPressure": {
     "incomePressure": 56,
-    "residentsChoosingLivelihoodGoal": 7,
-    "residentsDeferredToOtherGoal": 25,
+    "residentsChoosingLivelihoodGoal": 5,
+    "residentsDeferredToOtherGoal": 27,
     "selectedThresholds": {
       "print_apprentice_stepan": {
         "need": 56,
         "threshold": 56,
-        "workPriority": 0.88
+        "workPriority": 0.88,
+        "utilityScore": 72.72
       },
       "street_vendor_matryona": {
         "need": 56,
         "threshold": 54,
-        "workPriority": 0.94
+        "workPriority": 0.94,
+        "utilityScore": 73.56
       },
       "typesetter_nikita": {
         "need": 56,
         "threshold": 54,
-        "workPriority": 0.93
+        "workPriority": 0.93,
+        "utilityScore": 73.42
       },
       "watercarrier_luka": {
         "need": 56,
         "threshold": 54,
-        "workPriority": 0.92
-      },
-      "servant_varvara": {
-        "need": 56,
-        "threshold": 56,
-        "workPriority": 0.86
+        "workPriority": 0.92,
+        "utilityScore": 73.28
       },
       "porter_gavrila": {
         "need": 56,
         "threshold": 53,
-        "workPriority": 0.96
-      },
-      "carter_roman": {
-        "need": 56,
-        "threshold": 56,
-        "workPriority": 0.88
+        "workPriority": 0.96,
+        "utilityScore": 73.84
       }
     }
   },

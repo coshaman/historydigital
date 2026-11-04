@@ -4,7 +4,7 @@ import { questChoices, continuationQuest } from './engine/quest-presentation.mjs
 import { guideToResident, resolveQuestGuidance } from './engine/quest-guidance.mjs';
 import { ownsKeyboardInput, observationText } from './engine/player-presentation.mjs';
 import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHost, discussionReflectionPromptsForHost } from './engine/discussion-quests.mjs';
-import { dialogueSessionNeedsReconnect, selectDialogueTurn } from './engine/dialogue-response.mjs';
+import { dialogueSessionNeedsReconnect, dialogueSpeakerLabel, selectDialogueTurn } from './engine/dialogue-response.mjs';
 import { appendApiDiagnostic, clearApiDiagnostics, readApiDiagnostics } from './engine/api-diagnostics.mjs';
 import { CITY_PRODUCTS, NEWSPAPER_STORIES, newspaperAssignment, purchaseCityProduct, publishNewspaperIssue, shareSourceWithEditor, readNewspaperIssue, circulateNewspaperIssue, commitSuspiciousAct, resolvePoliceCustody, publishedIssueLabel } from './engine/civic-life.mjs';
 import { availableTopics, contextualOpening } from './ai/authored-dialogue.mjs';
@@ -1425,7 +1425,7 @@ async function sendConversation(card, playerText, replyId = null) {
   const aiGenerated = Boolean(turn);
   if (!turn) return;
   dialogueFailedQuestions.delete(key);
-  for (const beat of turn.beats) lines.push({ speaker: beat.speakerId === 'NARRATION' ? card.displayNameKo : card.displayNameKo, text: beat.textKo });
+  for (const beat of turn.beats) lines.push({ speaker: dialogueSpeakerLabel(beat.speakerId, card.displayNameKo), text: beat.textKo });
   dialogueTranscripts.set(key, lines.slice(-24));
   dialogueCurrentLines.set(key, turn.beats.map(beat => beat.textKo).join('\n'));
   const recorded = recordDialogueTurn(state, { hostId: card.id, actorHostId: actorCard.id, sceneId: local.sceneId, intentClass, discussionId: discussionPrompt?.discussionId ?? null, discussionTitleKo: discussionPrompt?.questTitleKo, reflectionId: reflectionPrompt?.reflectionId ?? null, aiGenerated }, maps);

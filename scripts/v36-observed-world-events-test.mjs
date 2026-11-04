@@ -5,6 +5,7 @@ import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
 require('../rpg/engine/game-state.js');
 const game = globalThis.V33GameState;
+const { purchaseCityProduct, circulateNewspaperIssue, commitSuspiciousAct } = await import('../rpg/engine/civic-life.mjs');
 const readJson = async file => JSON.parse(await readFile(new URL(file, import.meta.url), 'utf8'));
 const mapFiles = (await readdir(new URL('../rpg/maps/', import.meta.url))).filter(file => file.endsWith('.json'));
 const maps = Object.fromEntries(await Promise.all(mapFiles.map(async file => {
@@ -78,6 +79,43 @@ assert.match(mainSource, /meals \?\? \[\]\)\.filter\(meal => meal\.witnessedByPl
 assert.match(mainSource, /restRecoveries \?\? \[\]\)\.filter\(rest => rest\.witnessedByPlayer\)/,
   'the journal must filter rest to witnessed events');
 
+const purchaseWorld = game.createInitialState({ maps, hostCards, startMapId: 'nevsky' });
+const purchaseHost = purchaseWorld.hosts.clerk_alexei, moneyBeforePurchase = purchaseHost.money.amount;
+const purchase = purchaseCityProduct(purchaseWorld, { hostId: purchaseHost.id, productId: 'newsprint_sheet' });
+assert.equal(purchase.ok, true);
+assert.equal(purchase.state.hosts[purchaseHost.id].money.amount, moneyBeforePurchase - purchase.product.priceKopeks,
+  'a recorded shop purchase changes the resident wallet');
+assert.ok(purchase.state.hosts[purchaseHost.id].inventory.includes('newsprint_sheet'),
+  'a recorded shop purchase changes carried stock');
+
+const circulationWorld = game.createInitialState({ maps, hostCards, startMapId: 'nevsky' });
+circulationWorld.player.civic.publishedIssues.push({ id: 'OBSERVATION_ISSUE', titleKo: '시험 호외', storyId: 'LITERARY_RURAL_LIFE_1847' });
+circulationWorld.hosts.clerk_alexei.inventory.push('newspaper_issue:OBSERVATION_ISSUE');
+const circulation = circulateNewspaperIssue(circulationWorld, { hostId: 'clerk_alexei', issueId: 'OBSERVATION_ISSUE', route: 'street' });
+assert.equal(circulation.ok, true);
+assert.ok(!circulation.state.hosts.clerk_alexei.inventory.includes('newspaper_issue:OBSERVATION_ISSUE'),
+  'public circulation removes the issue from office stock');
+assert.equal(circulation.state.player.civic.circulatedIssues.at(-1).route, 'street',
+  'public circulation records the new audience');
+
+const custodyWorld = game.createInitialState({ maps, hostCards, startMapId: 'nevsky' });
+const custodyHost = custodyWorld.hosts.courier_pavel;
+const embodied = game.possessHost(custodyWorld, custodyHost.id, maps.nevsky);
+assert.equal(embodied.ok, true);
+const custody = commitSuspiciousAct(embodied.state, { hostId: custodyHost.id, actId: 'OPEN_SEALED_DISPATCH', witnessIds: ['printer_ekaterina'], maps });
+assert.equal(custody.ok, true);
+assert.equal(custody.arrested, true);
+assert.equal(custody.state.player.civic.custody.active, true,
+  'a witnessed act produces an explicit police response');
+
+for (const eventType of ['CITY_PURCHASE', 'NEWSPAPER_CIRCULATED', 'POLICE_CUSTODY']) {
+  assert.ok(purchase.state.ledger.some(entry => entry.eventType === eventType)
+    || circulation.state.ledger.some(entry => entry.eventType === eventType)
+    || custody.state.ledger.some(entry => entry.eventType === eventType), `${eventType} must be recorded`);
+  assert.ok(mainSource.includes(`entry.eventType === '${eventType}'`), `${eventType} must be visible in the player journal`);
+}
+
 console.log(JSON.stringify({ status: 'PASS', currentDistrictAndRangeRequired: true,
   embodiedPlayerPositionUsed: true, witnessedDelivery: true, remoteDeliveryWithheld: true,
-  witnessedRoutineChange: true, witnessedDailyPlan: true, journalEventFamiliesFiltered: 9 }));
+  witnessedRoutineChange: true, witnessedDailyPlan: true, witnessedNpcBehaviorFamilies: 9,
+  playerVisibleCivicConsequenceFamilies: 3, journalEventFamiliesFiltered: 12 }));

@@ -1,10 +1,15 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { dialogueSessionNeedsReconnect, selectDialogueTurn, shouldUseAuthoredOfflineReply } from '../rpg/engine/dialogue-response.mjs';
+import { dialogueSessionNeedsReconnect, dialogueSpeakerLabel, selectDialogueTurn, shouldUseAuthoredOfflineReply } from '../rpg/engine/dialogue-response.mjs';
 
 test('a validated AI-mode response is the turn shown and recorded by the game', () => {
   const turn = { sceneId: 'SCENE_A', beats: [{ speakerId: 'editor_sofia', textKo: '원문을 먼저 볼게요.' }], suggestedReplies: [] };
   assert.deepEqual(selectDialogueTurn({ mode: 'AI', fallback: false, aiGenerated: true, turn }), { kind: 'generated', turn });
+});
+
+test('narration beats are not attributed to the NPC as spoken dialogue', () => {
+  assert.equal(dialogueSpeakerLabel('NARRATION', '예카테리나 벨로바'), '주변 상황');
+  assert.equal(dialogueSpeakerLabel('printer_ekaterina', '예카테리나 벨로바'), '예카테리나 벨로바');
 });
 
 test('provider fallback and non-AI mode never pass authored fallback as generated dialogue', () => {

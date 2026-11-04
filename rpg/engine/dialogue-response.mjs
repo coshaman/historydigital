@@ -7,6 +7,10 @@ export function selectDialogueTurn(data) {
   return { kind: 'generated', turn: data.turn };
 }
 
+export function dialogueSpeakerLabel(speakerId, hostName) {
+  return speakerId === 'NARRATION' ? '주변 상황' : hostName;
+}
+
 export function dialogueSessionNeedsReconnect(session) {
   return !session?.token || session.mode !== 'AI';
 }
