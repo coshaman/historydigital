@@ -7,6 +7,22 @@ const residentData = JSON.parse(await readFile(path.join(root, 'rpg/data/city-di
 const sourceRegister = JSON.parse(await readFile(path.join(root, 'docs/v36/historical-map-source-register.json'), 'utf8'));
 const provenance = JSON.parse(await readFile(path.join(root, 'rpg/assets/ASSET_PROVENANCE.json'), 'utf8'));
 const sourceMap = new Map(sourceRegister.sources.map(source => [source.sourceId, source]));
+const reviewedResidents = {
+  market_nadezhda: {
+    sourceId: 'V36-ART-LABASTIDE-EGG-SELLERS-1845',
+    features: '두건; 긴 겉옷/앞치마; 긴 치마; 손·등 바구니',
+    transformation: '16x24 원작 픽셀로 두건·치마/앞치마 실루엣과 바구니 소품만 반영; 색상은 창작',
+    limits: '가상 인물의 실재나 1847년 모든 여성 상인의 복식·정확한 색상/재단을 입증하지 않음; 박물관 이미지 배포 권리 미취득',
+    screenshot: 'docs/v36/current-audit/screenshots/market-nadezhda-costume-1440.png',
+  },
+  junior_guard_sergey: {
+    sourceId: 'V36-ART-LABASTIDE-GATEKEEPER-1845',
+    features: '짧은 단추식 겉재킷; 헐렁한 바지; 각반과 튼튼한 신발; 옆에 든 챙 넓은 모자',
+    transformation: '16x24 원작 픽셀에 재킷·헐렁한 바지·장화와 손에 든 모자 실루엣 반영; 팔레트는 창작',
+    limits: '도판은 문지기를 그렸으며 경찰·군복, 계급장, 실제 경비병의 복식이나 정확한 색을 입증하지 않음; 박물관 이미지 배포 권리 미취득',
+    screenshot: 'docs/v36/current-audit/screenshots/junior-guard-sergey-costume-1440.png',
+  },
+};
 const ids = [...new Set(residentData.districts.flatMap(district => district.residentIds ?? []))].sort();
 assert.equal(ids.length, 36);
 const quote = value => `"${String(value ?? '').replaceAll('"', '""')}"`;
@@ -21,19 +37,19 @@ for (const id of ids) {
     assert.ok(source, `${id} sprite source ID resolves`);
     assert.ok(asset.sourceIds?.includes(sourceId), `${id} asset provenance includes its source`);
   }
-  const reviewed = id === 'market_nadezhda' && sourceId === 'V36-ART-LABASTIDE-EGG-SELLERS-1845';
+  const review = reviewedResidents[id]?.sourceId === sourceId ? reviewedResidents[id] : null;
   rows.push([
     id,
     character.displayNameKo,
     `rpg/${character.sprite.file}`,
     `rpg/${character.portrait.file}`,
-    reviewed ? 'LIMITED_SOURCE_INSPIRED_REVIEW' : 'NOT_VISUALLY_REVIEWED',
+    review ? 'LIMITED_SOURCE_INSPIRED_REVIEW' : 'NOT_VISUALLY_REVIEWED',
     sourceId,
     source?.sourceUrl ?? '',
-    reviewed ? '두건; 긴 겉옷/앞치마; 긴 치마; 손·등 바구니' : '',
-    reviewed ? '16x24 원작 픽셀로 두건·치마/앞치마 실루엣과 바구니 소품만 반영; 색상은 창작' : '',
-    reviewed ? '가상 인물의 실재나 1847년 모든 여성 상인의 복식·정확한 색상/재단을 입증하지 않음; 박물관 이미지 배포 권리 미취득' : '이 인물의 복식에 대한 시각 출처 검토가 남아 있음; 역사적 복식 근거를 주장하지 않음',
-    reviewed ? 'docs/v36/current-audit/screenshots/market-nadezhda-costume-1440.png' : '',
+    review?.features ?? '',
+    review?.transformation ?? '',
+    review?.limits ?? '이 인물의 복식에 대한 시각 출처 검토가 남아 있음; 역사적 복식 근거를 주장하지 않음',
+    review?.screenshot ?? '',
   ]);
 }
 const headers = ['character_id','display_name_ko','sprite_path','portrait_path','review_status','source_id','source_url','observed_source_features','game_translation','limitations','screenshot'];

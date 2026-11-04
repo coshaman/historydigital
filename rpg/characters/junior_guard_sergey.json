@@ -132,10 +132,14 @@
     "file": "assets/junior_guard_sergey.png",
     "frameWidth": 16,
     "frameHeight": 24,
-    "style": "coat",
+    "style": "gatekeeper",
+    "visualReferenceIds": [
+      "V36-ART-LABASTIDE-GATEKEEPER-1845"
+    ],
+    "visualReferenceNotes": "Original pixel silhouette informed only by the 1845 Petersburg gatekeeper drawing: short buttoned outer jacket, loose trousers, boots, and a hat carried at the side. The drawing does not depict a police or military uniform; this character's guard role and insignia remain fictional. Colors are creative because the source is monochrome.",
     "palette": {
-      "cloth": "#3b4144",
-      "trim": "#874333",
+      "cloth": "#48514f",
+      "trim": "#8d684c",
       "headwear": "#51473b"
     }
   },

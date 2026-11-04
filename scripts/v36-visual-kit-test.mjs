@@ -99,15 +99,27 @@ const marketVendor = JSON.parse(await fs.readFile(path.join(root, 'rpg/character
 const costumeSourceId = 'V36-ART-LABASTIDE-EGG-SELLERS-1845';
 const costumeSource = sourceRegister.sources.find(source => source.sourceId === costumeSourceId);
 const marketSpriteRecord = provenance.assets.find(asset => asset.id === 'sprite-market_nadezhda');
+const gatekeeper = JSON.parse(await fs.readFile(path.join(root, 'rpg/characters/junior_guard_sergey.json'), 'utf8'));
+const gatekeeperSourceId = 'V36-ART-LABASTIDE-GATEKEEPER-1845';
+const gatekeeperSource = sourceRegister.sources.find(source => source.sourceId === gatekeeperSourceId);
+const gatekeeperSpriteRecord = provenance.assets.find(asset => asset.id === 'sprite-junior_guard_sergey');
 assert.equal(marketVendor.sprite.style, 'skirt', 'the reviewed woman market-vendor sprite uses the source-informed skirt silhouette');
 assert.ok(marketVendor.sprite.visualReferenceIds?.includes(costumeSourceId), 'the character sprite names its specific visual source');
 assert.ok(costumeSource?.visualFeature.includes('handled basket') && costumeSource?.gameTransformation.includes('Palette colors are independent'), 'the checked source records the visible costume features and distinguishes invented color');
 assert.ok(costumeSource?.rights.includes('not included or redistributed'), 'the costume source record does not claim image redistribution rights');
 assert.ok(marketSpriteRecord?.sourceIds.includes(costumeSourceId), 'the market-vendor sprite provenance resolves to the exact inspected museum record');
+assert.equal(gatekeeper.sprite.style, 'gatekeeper', 'Sergey has the individually source-informed civilian gatekeeper silhouette');
+assert.ok(gatekeeper.sprite.visualReferenceIds?.includes(gatekeeperSourceId), 'Sergey names the exact inspected source');
+assert.ok(gatekeeper.sprite.visualReferenceNotes.includes('does not depict a police or military uniform'), 'the source cannot be misread as evidence of an official uniform');
+assert.ok(gatekeeperSource?.visualFeature.includes('hat at his side') && gatekeeperSource?.gameTransformation.includes('not claimed as a uniformed guard'), 'the catalog record separates seen details from the fictional guard role');
+assert.ok(gatekeeperSource?.rights.includes('not included or redistributed'), 'the gatekeeper source image is not redistributed');
+assert.ok(gatekeeperSpriteRecord?.sourceIds.includes(gatekeeperSourceId), 'Sergey sprite provenance resolves to the inspected gatekeeper source');
 const reviewManifest = (await fs.readFile(path.join(root, 'qa/ASSET_REVIEW_MANIFEST.csv'), 'utf8')).trim().split(/\r?\n/);
 assert.equal(reviewManifest.length, 37, 'the visual review manifest covers all 36 residents');
 assert.ok(reviewManifest.some(line => line.includes('"market_nadezhda"') && line.includes('"LIMITED_SOURCE_INSPIRED_REVIEW"') && line.includes(costumeSourceId)), 'the inspected Nadezhda costume is recorded with a bounded review status');
-assert.equal(reviewManifest.filter(line => line.includes('"NOT_VISUALLY_REVIEWED"')).length, 35, 'the remaining 35 residents are honestly listed as awaiting source-by-source visual review');
+assert.ok(reviewManifest.some(line => line.includes('"junior_guard_sergey"') && line.includes('"LIMITED_SOURCE_INSPIRED_REVIEW"') && line.includes(gatekeeperSourceId)), 'the inspected Sergey costume is recorded with bounded source and review status');
+assert.equal(reviewManifest.filter(line => line.includes('"LIMITED_SOURCE_INSPIRED_REVIEW"')).length, 2, 'two specific costumes have bounded source-inspected reviews');
+assert.equal(reviewManifest.filter(line => line.includes('"NOT_VISUALLY_REVIEWED"')).length, 34, 'the remaining 34 residents are honestly listed as awaiting source-by-source visual review');
 for (const [index, line] of usageRows.slice(1).entries()) {
   const fields = [...line.matchAll(/"((?:[^"]|"")*)"/g)].map(match => match[1].replaceAll('""', '"'));
   const gid = Number(fields[0]);

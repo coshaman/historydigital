@@ -37,7 +37,7 @@ const props = {
   fishseller_klavdiya:['fish basket',['#####','#.#.#','#...#','#####','.###.']],
   warehouse_pyotr:['crate tally',['#####','#.#.#','#####','#...#','#####']],
   servant_varvara:['work cloth',['#####','##..#','#####','#..##','#####']],
-  junior_guard_sergey:['watch lantern',['.###.','#####','#####','.###.','..#..']],
+  junior_guard_sergey:['hat carried at side',['.###.','#####','#...#','..#..','..#..']],
   carter_roman:['whip handle',['#....','.#...','..#..','..#..','..##.']],
   street_vendor_matryona:['hawker tray',['#####','##.##','#####','..#..','..#..']],
   typesetter_nikita:['type gauge',['#.#.#','#####','#.#.#','#####','#.#.#']],
@@ -70,7 +70,8 @@ function makeSheet(card, roleProp, identity) {
     if(direction===1) { r(4,2,2,6,colors.hair); r(10,2,2,6,colors.hair); r(5,2,6,2,colors.hair); }
     else { r(4,2,8,2,colors.hair); r(4,3,2,4,colors.hair); r(10,3,2,4,colors.hair); }
     const style=card.sprite.style;
-    if(style==='cap') { r(4,1,8,2,headwear); r(3,3,10,1,headwear); }
+    if(style==='gatekeeper') { /* The source shows the hat carried, not worn. */ }
+    else if(style==='cap') { r(4,1,8,2,headwear); r(3,3,10,1,headwear); }
     else if(style==='scarf'||style==='skirt') { r(5,1,6,2,headwear); r(4,3,2,4,headwear); r(10,3,2,4,headwear); }
     else if(style==='hair') { r(4,2,2,5,colors.hair); r(10,2,2,5,colors.hair); r(5,1,6,2,colors.hair); }
     else { r(4,1,8,2,headwear); r(5,0,6,1,headwear); }
@@ -78,13 +79,15 @@ function makeSheet(card, roleProp, identity) {
     if(direction===2) { p(7,5,colors.ink); p(6,6,colors.skinShade); }
     if(direction===3) { p(10,5,colors.ink); p(9,6,colors.skinShade); }
     // Work clothes vary by silhouette and the resident's recorded palette.
-    if(style==='skirt') { r(4,9,8,5,cloth); r(3,13,10,8,cloth); r(5,12,6,7,trim); r(7,12,1,7,headwear); }
+    if(style==='gatekeeper') { r(4,9,8,8,cloth); r(3,10,2,6,cloth); r(11,10,2,6,cloth); r(6,10,1,5,trim); r(9,10,1,5,trim); p(8,16,trim); }
+    else if(style==='skirt') { r(4,9,8,5,cloth); r(3,13,10,8,cloth); r(5,12,6,7,trim); r(7,12,1,7,headwear); }
     else if(style==='dress') { r(4,9,8,9,cloth); r(3,15,10,3,trim); }
     else if(style==='apron') { r(4,9,8,8,cloth); r(5,10,6,7,trim); r(4,8,8,2,trim); }
     else if(style==='coat') { r(4,9,8,8,cloth); r(7,9,2,7,trim); p(6,12,colors.paper); }
     else { r(4,9,8,8,cloth); r(4,14,8,2,trim); p(7,10,colors.highlight); }
     r(3,10,2,5,cloth); r(11,10,2,5,cloth); p(3,15,colors.skin); p(12,15,colors.skin);
-    if(style==='skirt') { r(5+leg,20,3,2,colors.shoe); r(9-leg,20,3,2,colors.shoe); }
+    if(style==='gatekeeper') { r(4+leg,17,4,4,colors.pants); r(8-leg,17,4,4,colors.pants); r(4+leg,21,4,2,colors.shoe); r(8-leg,21,4,2,colors.shoe); }
+    else if(style==='skirt') { r(5+leg,20,3,2,colors.shoe); r(9-leg,20,3,2,colors.shoe); }
     else { r(5+leg,17,3,4,cloth); r(9-leg,17,3,4,cloth); r(4+leg,21,4,2,colors.shoe); r(9-leg,21,4,2,colors.shoe); }
     // A distinct, period-appropriate work object gives the resident a readable silhouette.
     const px = direction===1 || direction===2 ? 0 : 11;
@@ -95,8 +98,7 @@ function makeSheet(card, roleProp, identity) {
       else if(cell==='*') p(px+col,py+row,accent);
     }
     // Small wardrobe accent is individual and survives walk-frame animation.
-    const markerX=direction===2?3:direction===3?12:7;
-    p(markerX,10,headwear); p(markerX+1,10,trim);
+    if(style!=='gatekeeper') { const markerX=direction===2?3:direction===3?12:7; p(markerX,10,headwear); p(markerX+1,10,trim); }
   }
   const scan=Buffer.alloc((width*4+1)*height);
   for(let y=0;y<height;y++) scan.set(pixels.subarray(y*width*4,(y+1)*width*4),y*(width*4+1)+1);
@@ -140,6 +142,6 @@ for (const [identity,id] of ids.entries()) {
 }
 const provenancePath=path.join(root,'rpg/assets/ASSET_PROVENANCE.json');
 const provenance=JSON.parse(await fs.readFile(provenancePath,'utf8'));
-for(const id of ids){let record=provenance.assets.find(asset=>asset.id===`sprite-${id}`);if(!record){const matching=JSON.parse(await fs.readFile(path.join(root,'rpg/characters',`${id}.json`),'utf8'));record=provenance.assets.find(asset=>asset.path===`rpg/${matching.sprite.file}`);}const card=JSON.parse(await fs.readFile(path.join(root,'rpg/characters',`${id}.json`),'utf8'));if(record&&generatedFiles.has(`rpg/${card.sprite.file}`)){record.path=`rpg/${card.sprite.file}`;record.generatedBy='scripts/v36-personalize-resident-sprites.mjs';record.notes=`Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen ${id}; not a documented likeness or evidence of a specific individual's clothing.`;if(card.sprite.visualReferenceIds?.length){record.sourceIds=[...new Set([...(record.sourceIds??[]),...card.sprite.visualReferenceIds])];record.notes='Original project-authored costume silhouette for fictional market vendor Nadezhda, informed by the circa-1845 Labastide egg-seller drawing: head scarf, long overgarment/apron, skirt, and carried baskets. The source is monochrome; the game palette is an independent creative colorization. Not a documented likeness, exact reconstruction, or evidence of this fictional character.';}}}
+for(const id of ids){let record=provenance.assets.find(asset=>asset.id===`sprite-${id}`);if(!record){const matching=JSON.parse(await fs.readFile(path.join(root,'rpg/characters',`${id}.json`),'utf8'));record=provenance.assets.find(asset=>asset.path===`rpg/${matching.sprite.file}`);}const card=JSON.parse(await fs.readFile(path.join(root,'rpg/characters',`${id}.json`),'utf8'));if(record&&generatedFiles.has(`rpg/${card.sprite.file}`)){record.path=`rpg/${card.sprite.file}`;record.generatedBy='scripts/v36-personalize-resident-sprites.mjs';record.notes=`Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen ${id}; not a documented likeness or evidence of a specific individual's clothing.`;if(card.sprite.visualReferenceIds?.length){record.sourceIds=[...new Set([...(record.sourceIds??[]),...card.sprite.visualReferenceIds])];record.notes=`Original project-authored costume silhouette for fictional resident ${id}. ${card.sprite.visualReferenceNotes??'Source-informed details are listed in the character record.'} Not a documented likeness or exact reconstruction.`;}}}
 await fs.writeFile(provenancePath,`${JSON.stringify(provenance,null,2)}\n`);
 console.log(JSON.stringify({status:'PASS',residents:ids.length,generatedRasterSheets:generatedFiles.size,svgSheetsKept:ids.length-generatedFiles.size,roleProps:ids.length,framesPerResident:'3×4',propTypes:Object.fromEntries(Object.entries(props).map(([id,[name]])=>[id,name]))},null,2));

@@ -160,6 +160,23 @@
       "creditedArtist": "Labastide (as cataloged; artist's life dates unknown).",
       "gameTransformation": "The fictional market vendor receives an original 16×24 head-scarf, long skirt/apron silhouette and basket prop. Palette colors are independent creative colorization. This is not an exact reproduction, evidence about a real individual, or proof that every 1847 woman vendor dressed alike.",
       "rightsTermsUrl": "https://rusmuseumvrm.ru/terms/index.php"
+    },
+    {
+      "sourceId": "V36-ART-LABASTIDE-GATEKEEPER-1845",
+      "title": "Labastide, Привратник (Gatekeeper)",
+      "sourceType": "PERIOD_DRAWING",
+      "sourceUrl": "https://rusmuseumvrm.ru/data/collections/drawings/r-24370/index.php",
+      "sourceImageUrl": "https://rusmuseumvrm.ru/data/collections/drawings/r-24370/40707_mainfoto_03.jpg",
+      "verifiedMetadata": "The State Russian Museum identifies the graphite drawing as Привратник (Gatekeeper), inventory R-24370, dated 1845, in Labastide's series of Petersburg urban types.",
+      "eraRange": "1845",
+      "locale": "Saint Petersburg, as cataloged",
+      "pageOrFolio": "Russian Museum object record R-24370; catalog text and displayed scan visually inspected 2026-11-05.",
+      "visualFeature": "The displayed monochrome drawing shows a man in a short buttoned outer jacket, loose trousers gathered into leg coverings, and sturdy footwear, carrying a broad-brimmed hat at his side. The source's title identifies a gatekeeper, but the image does not establish police or military service, uniform insignia, or exact garment colors.",
+      "confidence": "HIGH for title, inventory number, 1845 date, medium, and Petersburg-series context; MEDIUM for the visually interpreted clothing silhouette; no color is inferable from the monochrome drawing.",
+      "rights": "Russian Museum terms state that obtaining collection images and publication rights requires a formal request. The source image is not included or redistributed; the game uses original pixel artwork only.",
+      "creditedArtist": "Labastide (as cataloged; artist's life dates unknown).",
+      "gameTransformation": "An original 16×24 outer-jacket, loose-trouser, boot, and carried-hat silhouette informs fictional guard Sergey. His guard occupation, any badge, and palette are independent creative choices; the figure is not claimed as a uniformed guard or historical person.",
+      "rightsTermsUrl": "https://rusmuseumvrm.ru/terms/index.php"
     }
   ],
   "verifiedLimits": [
