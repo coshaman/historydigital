@@ -44,10 +44,10 @@ const reviewedResidents = {
     screenshot: 'docs/v36/current-audit/screenshots/coachman-timofey-costume-1440.png',
   },
   street_vendor_matryona: {
-    sourceId: 'V36-ART-LABASTIDE-HAWKER-TRAY-1845',
-    features: '남성 행상의 허리띠에 고정된 넓은 진열대; 여러 층의 쟁반과 매달린 소품',
-    transformation: '16x24 원작 픽셀에서 휴대용 진열 구조만 참고해 허리 높이의 쟁반·상품 묶음으로 재구성',
-    limits: '도판 인물은 남성이며 마트료나의 복식·정체성을 입증하지 않음; 쟁반 치수·재료·상인들의 보편적 복식이나 위치도 증명하지 않음; 박물관 이미지 배포 권리 미취득',
+    sourceIds: ['V36-ART-LABASTIDE-HAWKER-TRAY-1845', 'V36-ART-LABASTIDE-BRUSH-SELLER-1845'],
+    features: '서로 다른 남성 행상의 이동식 판매 도구: 허리 고정 쟁반 진열대와 어깨에 멘 솔 묶음',
+    transformation: '16x24 원작 픽셀에 이동식 판매대의 실루엣과 어깨 가로대·매달린 솔 모양만 반영; 마트료나의 두건과 복식은 별도 창작',
+    limits: '두 도판은 남성을 그렸으며 마트료나의 복식·정체성이나 여성 행상 장비의 보편성을 입증하지 않음; 치수·재료·정확한 사용 방식도 단정하지 않음; 박물관 이미지 배포 권리 미취득',
     screenshot: 'docs/v36/current-audit/screenshots/street-vendor-matryona-costume-1440.png',
   },
   baker_fyodor: {
@@ -64,23 +64,24 @@ const quote = value => `"${String(value ?? '').replaceAll('"', '""')}"`;
 const rows = [];
 for (const id of ids) {
   const character = JSON.parse(await readFile(path.join(root, 'rpg/characters', `${id}.json`), 'utf8'));
-  const sourceId = character.sprite.visualReferenceIds?.[0] ?? '';
-  const source = sourceId ? sourceMap.get(sourceId) : null;
+  const sourceIds = character.sprite.visualReferenceIds ?? [];
+  const sources = sourceIds.map(sourceId => sourceMap.get(sourceId));
   const asset = provenance.assets.find(item => item.path === `rpg/${character.sprite.file}`);
   assert.ok(asset, `${id} sprite has an asset provenance record`);
-  if (sourceId) {
-    assert.ok(source, `${id} sprite source ID resolves`);
-    assert.ok(asset.sourceIds?.includes(sourceId), `${id} asset provenance includes its source`);
+  if (sourceIds.length) {
+    assert.ok(sources.every(Boolean), `${id} sprite source IDs resolve`);
+    assert.ok(sourceIds.every(sourceId => asset.sourceIds?.includes(sourceId)), `${id} asset provenance includes all sources`);
   }
-  const review = reviewedResidents[id]?.sourceId === sourceId ? reviewedResidents[id] : null;
+  const reviewIds = reviewedResidents[id]?.sourceIds ?? (reviewedResidents[id]?.sourceId ? [reviewedResidents[id].sourceId] : []);
+  const review = reviewIds.length && reviewIds.length === sourceIds.length && reviewIds.every((sourceId, index) => sourceId === sourceIds[index]) ? reviewedResidents[id] : null;
   rows.push([
     id,
     character.displayNameKo,
     `rpg/${character.sprite.file}`,
     `rpg/${character.portrait.file}`,
     review ? 'LIMITED_SOURCE_INSPIRED_REVIEW' : 'NOT_VISUALLY_REVIEWED',
-    sourceId,
-    source?.sourceUrl ?? '',
+    sourceIds.join('|'),
+    sources.map(source => source?.sourceUrl ?? '').join('|'),
     review?.features ?? '',
     review?.transformation ?? '',
     review?.limits ?? '이 인물의 복식에 대한 시각 출처 검토가 남아 있음; 역사적 복식 근거를 주장하지 않음',

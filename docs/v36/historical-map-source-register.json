@@ -207,6 +207,23 @@
       "creditedArtist": "Labastide (as cataloged; artist's life dates unknown).",
       "gameTransformation": "An original 16×24 outer-jacket, loose-trouser, boot, and carried-hat silhouette informs fictional guard Sergey. His guard occupation, any badge, and palette are independent creative choices; the figure is not claimed as a uniformed guard or historical person.",
       "rightsTermsUrl": "https://rusmuseumvrm.ru/terms/index.php"
+    },
+    {
+      "sourceId": "V36-ART-LABASTIDE-BRUSH-SELLER-1845",
+      "title": "Labastide, Продавец щеток (Brush Seller)",
+      "sourceType": "PERIOD_DRAWING",
+      "sourceUrl": "https://rusmuseumvrm.ru/data/collections/drawings/r-24376/index.php",
+      "sourceImageUrl": "https://rusmuseumvrm.ru/data/collections/drawings/r-24376/40711_mainfoto_01.jpg",
+      "verifiedMetadata": "The State Russian Museum catalog identifies the graphite drawing as Продавец щеток (Brush Seller), inventory R-24376, part of Labastide's Petersburg urban-types series from the mid-1840s; the catalog describes the series as circa 1845.",
+      "eraRange": "Mid-1840s; cataloged series circa 1845",
+      "locale": "Saint Petersburg, as cataloged",
+      "pageOrFolio": "Russian Museum object record R-24376; catalog metadata and displayed scan visually inspected 2026-11-05.",
+      "visualFeature": "The monochrome drawing shows a male brush seller carrying a cross-shoulder pole or yoke with multiple long-handled brushes and large bristle heads hanging around him. It is direct evidence for this depicted seller's portable brush-carrying rig, not for women's clothing or the prevalence of such rigs.",
+      "confidence": "HIGH for title, inventory, medium, and Petersburg-series context; MEDIUM for the visually interpreted yoke and brush arrangement.",
+      "rights": "Russian Museum terms require formal permission for collection-image publication. The museum image is not copied or redistributed; game pixels are original project artwork.",
+      "creditedArtist": "Labastide (as cataloged; artist's life dates unknown).",
+      "gameTransformation": "Matryona's original 16×24 sprite adapts only the visible shoulder yoke and hanging brush silhouettes as a possible portable-selling rig. Her scarf, clothing, colors, fictional identity, and specific employment remain independent design choices. The source depicts a man and does not establish women's vendor equipment or a universal Petersburg practice.",
+      "rightsTermsUrl": "https://rusmuseumvrm.ru/terms/index.php"
     }
   ],
   "verifiedLimits": [

@@ -98,7 +98,8 @@
       "spriteFile": "rpg/assets/street_vendor_matryona.png",
       "costumeStyle": "scarf",
       "visualReferenceIds": [
-        "V36-ART-LABASTIDE-HAWKER-TRAY-1845"
+        "V36-ART-LABASTIDE-HAWKER-TRAY-1845",
+        "V36-ART-LABASTIDE-BRUSH-SELLER-1845"
       ],
       "saveLoadRestoredPossession": true,
       "renderedCanvas": {

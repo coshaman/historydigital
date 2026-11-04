@@ -8,7 +8,7 @@
     "status": "fictional_character_design"
   },
   "socialEstate": "urban_laborer",
-  "occupation": "날씨와 통행량을 살피며 거리에서 작은 물건을 파는 행상",
+  "occupation": "날씨와 통행량을 살피며 솔과 생활용품을 파는 거리 행상",
   "rank": {
     "value": null,
     "ru": null,
@@ -58,7 +58,7 @@
   },
   "voiceSamples": [
     "지나가실 거면 길을 비켜 주세요. 좌판은 곧 옮길 수도 있어요.",
-    "비가 오면 물건이 상해요. 지금 옮기면 손님이 어디로 갔는지 모르겠죠.",
+    "비가 오면 솔 묶음이 젖어요. 지금 옮기면 손님이 어디로 갔는지 모르겠죠.",
     "장사할 자리는 필요해요. 그렇다고 길을 막거나 남의 좌판을 밀 순 없죠. 비가 오면 나는 어디로 옮기나도 봐야 하고요."
   ],
   "worldview": {
@@ -121,8 +121,8 @@
   },
   "wealthBracketStatus": "designedEstimate",
   "inventory": [
-    "양배추 바구니",
-    "황동 저울추"
+    "솔 묶음",
+    "생활용품 꾸러미"
   ],
   "sourceIds": [],
   "canonConstraint": "fictional citizen; never treated as an attested historical individual or witness",
@@ -133,9 +133,10 @@
     "frameHeight": 24,
     "style": "scarf",
     "visualReferenceIds": [
-      "V36-ART-LABASTIDE-HAWKER-TRAY-1845"
+      "V36-ART-LABASTIDE-HAWKER-TRAY-1845",
+      "V36-ART-LABASTIDE-BRUSH-SELLER-1845"
     ],
-    "visualReferenceNotes": "Labastide's circa-1845 Petersburg drawing shows a male peddler with a belt-mounted array of trays and wares. Matryona's original sprite adapts only the portable goods-rack idea to her street-selling role; it does not borrow the depicted man's clothing or claim the figure is Matryona.",
+    "visualReferenceNotes": "Labastide's circa-1845 Petersburg drawings show a male tray seller and a male brush seller carrying goods. Matryona's original sprite borrows only the portable selling-rig idea and hanging brush silhouettes; her scarf, clothes, colors, and fictional identity are independent. Neither male drawing establishes women's clothing or proves this equipment was universal.",
     "palette": {
       "cloth": "#72513b",
       "trim": "#a95e42",
@@ -314,7 +315,7 @@
     }
   ],
   "needsProfileStatus": "FICTIONAL_GAMEPLAY_BALANCE",
-  "needsProfileBasisKo": "날씨와 통행량을 살피며 거리에서 작은 물건을 파는 행상의 업무 부담, 소득 불안, 관계 성향을 플레이용으로 추상화한 허구 프로필이며 역사 통계가 아니다.",
+  "needsProfileBasisKo": "날씨와 통행량을 살피며 솔과 생활용품을 파는 거리 행상의 업무 부담, 소득 불안, 관계 성향을 플레이용으로 추상화한 허구 프로필이며 역사 통계가 아니다.",
   "plannerPolicy": {
     "riskTolerance": 0.66,
     "workPriority": 0.94,

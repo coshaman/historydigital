@@ -39,7 +39,7 @@ const props = {
   servant_varvara:['work cloth',['#####','##..#','#####','#..##','#####']],
   junior_guard_sergey:['hat carried at side',['.###.','#####','#...#','..#..','..#..']],
   carter_roman:['cart reins',['#...#','.#.#.','..#..','.#.#.','##..#']],
-  street_vendor_matryona:['portable tray-and-goods rack',['#####','#.#.#','#####','#.#.#','..#..']],
+  street_vendor_matryona:['brush yoke and hanging brushes',['#####','#.#.#','#####','#.#.#','..#..']],
   typesetter_nikita:['type gauge',['#.#.#','#####','#.#.#','#####','#.#.#']],
   lodging_tatyana:['thread spool',['.###.','#####','..#..','#####','.###.']],
 };
@@ -93,10 +93,28 @@ function makeSheet(card, roleProp, identity) {
     // A distinct, period-appropriate work object gives the resident a readable silhouette.
     const px = direction===1 || direction===2 ? 0 : 11;
     const py = 11 + (identity % 2);
-    for(let row=0;row<mask.length;row++) for(let col=0;col<mask[row].length;col++) {
-      const cell=mask[row][col];
-      if(cell==='#') p(px+col,py+row,trim);
-      else if(cell==='*') p(px+col,py+row,accent);
+    if(card.id==='street_vendor_matryona') {
+      // A source-bounded portable load: a shoulder pole with hanging brush shapes.
+      // Keep her clothing and scarf wholly project-designed; the drawing depicts a man.
+      r(0,8,16,1,colors.outline); r(1,8,14,1,trim);
+      if(direction===0||direction===1) {
+        for(const x of [0,2,4,11,13,15]) { p(x,9,colors.outline); p(x,10,trim); }
+        for(const [x,w] of [[0,3],[3,2],[12,3],[7,2]]) {
+          r(x,11,w,2,colors.outline); r(x,12,w,1,trim); p(x,13,accent); p(x+w-1,13,accent);
+        }
+        for(const x of [5,9,10]) { p(x,9,colors.ink); p(x,10,trim); p(x,11,colors.outline); }
+      } else {
+        r(direction===2?0:5,8,11,1,trim);
+        for(const x of (direction===2?[0,2,4]:[11,13,15])) {
+          p(x,9,colors.outline); p(x,10,trim); r(Math.max(0,x-1),11,3,2,colors.outline); p(x,13,accent);
+        }
+      }
+    } else {
+      for(let row=0;row<mask.length;row++) for(let col=0;col<mask[row].length;col++) {
+        const cell=mask[row][col];
+        if(cell==='#') p(px+col,py+row,trim);
+        else if(cell==='*') p(px+col,py+row,accent);
+      }
     }
     // Small wardrobe accent is individual and survives walk-frame animation.
     if(style!=='gatekeeper') { const markerX=direction===2?3:direction===3?12:7; p(markerX,10,headwear); p(markerX+1,10,trim); }

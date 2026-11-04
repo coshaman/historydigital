@@ -1024,9 +1024,10 @@
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "nevsky",
       "sourceIds": [
-        "V36-ART-LABASTIDE-HAWKER-TRAY-1845"
+        "V36-ART-LABASTIDE-HAWKER-TRAY-1845",
+        "V36-ART-LABASTIDE-BRUSH-SELLER-1845"
       ],
-      "notes": "Original project-authored costume silhouette for fictional resident street_vendor_matryona. Labastide's circa-1845 Petersburg drawing shows a male peddler with a belt-mounted array of trays and wares. Matryona's original sprite adapts only the portable goods-rack idea to her street-selling role; it does not borrow the depicted man's clothing or claim the figure is Matryona. Not a documented likeness or exact reconstruction."
+      "notes": "Original project-authored costume silhouette for fictional resident street_vendor_matryona. Labastide's circa-1845 Petersburg drawings show a male tray seller and a male brush seller carrying goods. Matryona's original sprite borrows only the portable selling-rig idea and hanging brush silhouettes; her scarf, clothes, colors, and fictional identity are independent. Neither male drawing establishes women's clothing or proves this equipment was universal. Not a documented likeness or exact reconstruction."
     },
     {
       "id": "portrait-street_vendor_matryona",
