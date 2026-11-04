@@ -51,6 +51,32 @@ test('dialogue register is selected from the relationship, privacy, conflict, an
   assert.equal(speechSituationFor({ character, actor: { id: 'seamstress_anna', occupation: '재봉사' }, actorRelations: {}, sceneContext: { mapId: 'nevsky' }, recentTurns: [], playerInput: '그건 틀렸어요.' }), 'conflict');
 });
 
+test('live dialogue rejects meta commentary, narrator-only replies, and summary-style prose', async () => {
+  const invalidReplies = [
+    { kind: 'meta', textKo: '저는 인공지능 언어 모델이라 이 장면의 답을 정할 수 없습니다.' },
+    { kind: 'summary', textKo: '요약하자면, 주인공은 검열과 책임 사이에서 선택해야 합니다.' },
+    { kind: 'narration-only', narrationOnly: true },
+  ];
+  for (const [index, invalid] of invalidReplies.entries()) {
+    const store = new MemorySessionStore();
+    const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store, allowedOrigins: ['https://game.example'], provider: { generate: async request => {
+      const turn = validTurn(request.input.scene.id, request.input.character.id);
+      if (invalid.narrationOnly) turn.beats[0].speakerId = 'NARRATION';
+      else turn.beats[0].textKo = invalid.textKo;
+      return turn;
+    } } });
+    const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'printer_ekaterina' }));
+    const reply = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken, requestId: `style-gate-${index}-0001`, playerInput: '이 문장을 어떻게 읽어야 할까요?' }));
+    assert.equal(reply.status, 502, `${invalid.kind} output must not be shown as character dialogue`);
+    assert.equal(reply.body.providerErrorCode, invalid.kind === 'narration-only' ? 'response_schema_invalid' : 'non_conversational_dialogue');
+  }
+  const store = new MemorySessionStore();
+  const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store, allowedOrigins: ['https://game.example'], provider: { generate: async request => validTurn(request.input.scene.id, request.input.character.id) } });
+  const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'printer_ekaterina' }));
+  const reply = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken, requestId: 'style-gate-valid-0001', playerInput: '이 문장을 어떻게 읽어야 할까요?' }));
+  assert.equal(reply.status, 200, 'ordinary character speech must pass the runtime gate');
+});
+
 test('AI dialogue receives the embodied public character context and keeps each speaker-pair memory separate', async () => {
   const store = new MemorySessionStore(), observed = [], observedInstructions = [];
   const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store, allowedOrigins: ['https://game.example'], provider: { generate: async request => { observed.push(request.input); observedInstructions.push(request.instructions); return validTurn(request.input.scene.id, request.input.character.id); } } });

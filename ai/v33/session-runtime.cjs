@@ -196,7 +196,12 @@ function validateTurn(turn, scene) {
   return repliesValid && turn.beats.every(beat => beat && Object.keys(beat).every(key => ['speakerId','textKo','emotion','claimIds'].includes(key))
     && [scene.hostId,'NARRATION'].includes(beat.speakerId) && typeof beat.textKo === 'string' && beat.textKo.trim().length > 0 && beat.textKo.length <= 420
     && Array.isArray(beat.claimIds) && beat.claimIds.length <= 3 && new Set(beat.claimIds).size === beat.claimIds.length && beat.claimIds.every(id => allowedClaimIds.has(id))
-    && ['neutral','curious','guarded','warm','irritated','sad','amused','afraid','focused'].includes(beat.emotion));
+    && ['neutral','curious','guarded','warm','irritated','sad','amused','afraid','focused'].includes(beat.emotion))
+    && turn.beats.some(beat => beat.speakerId === scene.hostId);
+}
+function hasMetaOrSummaryDialogue(turn) {
+  const disallowed = /(?:인공지능|언어\s*모델|시스템\s*프롬프트|개발자\s*지침|API\s*키|OpenAI|ChatGPT|게임\s*엔진|숨은\s*(?:수치|점수|설정)|엔딩\s*조건|요약하자면|이야기를\s*정리하면|이\s*장면에서는|플레이어는|주인공은|해당\s*캐릭터는|이\s*인물은)/i;
+  return turn.beats.some(beat => disallowed.test(beat.textKo));
 }
 function claimsForScene(scene) {
   const allowedSourceIds = new Set(scene.allowedSourceIds ?? []);
@@ -475,6 +480,7 @@ function createRpgAiService({ secret, store, allowedOrigins = [], provider = nul
     try {
       const output = await provider.generate({ input, instructions, format: responseFormat(scene), model: dialogueModel, maxOutputTokens: 700 });
       if (!validateTurn(output, scene)) { provider.lastFailureCode = 'response_schema_invalid'; throw new Error('invalid provider response schema'); }
+      if (hasMetaOrSummaryDialogue(output)) { provider.lastFailureCode = 'non_conversational_dialogue'; throw new Error('non-conversational dialogue'); }
       if (hasUnsupportedHistoricalYear(output, scene)) { provider.lastFailureCode = 'unsupported_historical_year'; throw new Error('unsupported historical year'); }
       if (hasUncitedHistoricalPerson(output, scene)) { provider.lastFailureCode = 'uncited_historical_person'; throw new Error('uncited historical person'); }
       if (hasUndisclosedPlayerContext(output, input)) { provider.lastFailureCode = 'undisclosed_player_context'; throw new Error('undisclosed player context'); }
