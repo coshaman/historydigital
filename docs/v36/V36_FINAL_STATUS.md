@@ -15,7 +15,7 @@ V36_BROWSER_QA: YES
 V36_GPU_PERFORMANCE: UNVERIFIED
 INDEPENDENT_REVIEW: COMPLETE_WITH_P1_FOLLOWUP
 HUMAN_PLAYTEST: PENDING
-VERCEL_PRODUCTION_GENERATION: UNVERIFIED
+VERCEL_PRODUCTION_GENERATION: VERIFIED_ONE_LIVE_REQUEST
 V36_COMPLETE: NO
 ```
 
@@ -28,7 +28,7 @@ A direct replay on the deployed game exposed a same-date resident quest whose co
 - 82 of 85 environment tiles remain `UNVERIFIED_RECONSTRUCTION`. GID 63–65 have bounded scene-level references, not evidence for each tile's exact appearance. Seven limited source-inspired resident asset reviews are recorded with explicit limits: Nadezhda (egg sellers), Sergey (gatekeeper), Matryona's portable vending rack, and Fyodor's bread-on-tray prop from Labastide's circa-1845 Petersburg studies; Klavdiya (fish sellers), Roman (ice delivery), and Timofey (cab hire) from Collmann watercolors dated to the 1830s and 1842. Matryona's male peddler source informs only the goods rack, not her clothing. Fyodor's kalach-seller source informs only a rounded bread product cue, not bakery workwear, recipe, or oven practice. The other 29 residents remain unreviewed. See `qa/ASSET_REVIEW_MANIFEST.csv` and `current-audit/RESIDENT_COSTUME_BROWSER_EVIDENCE.json`. Pixel uniqueness does not establish human-perceived sprite identity.
 - Headless Chrome used SwiftShader, not a hardware GPU. The latest 1440×900 run measured an 88.6 ms initial full-desk draw, zero idle redraws, and one redraw when focusing the window. Browser callback median was about 60 Hz with a 50 ms p95 during window focus; this is not a hardware-GPU frame-time result. Real GPU timing and a 10-minute live device session remain unverified.
 - Human playtesting is pending.
-- Vercel production key configuration and actual deployed AI generation are unverified. The browser smoke gate runs against the locally built app only.
+- A one-request smoke in the live Vercel game's API status panel confirmed the key was configured and an actual AI answer appeared in the UI; see `current-audit/VERCEL_PRODUCTION_AI_SMOKE.json`. This verifies one generation at the observed deployment and time, not every voice or future request. The local `.env.local` smoke returned `network_error` before receiving a provider response in this execution environment.
 - The earlier 1,762-file evidence archive passed SHA-256 verification, `npm run check`, `npm run build:v33`, and a browser smoke of extracted `dist-v33/`. The current 1,767-file archive passes SHA-256 verification and its clean extraction passes `npm run check`. Dependency-backed visual-kit and build checks were run in the workspace; `node_modules` is intentionally excluded from the archive. A clean `npm ci` could not complete here: the default npm cache returned `EPERM`, then the isolated cache's registry request returned `EACCES`.
 
 These gaps intentionally keep `V36_COMPLETE: NO`.

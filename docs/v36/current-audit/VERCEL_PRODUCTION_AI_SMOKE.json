@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "V36_VERCEL_PRODUCTION_AI_SMOKE_1",
+  "status": "PASS",
+  "testedAt": "2026-11-05",
+  "origin": "https://historydigital.vercel.app/",
+  "method": "Opened the game's API status panel and used its one-request real AI answer check; then observed the returned character answer in the panel.",
+  "productionHealth": "OPENAI_API_KEY configured",
+  "modelResponse": "generated and displayed",
+  "paidGenerations": 1,
+  "generatedTextStored": false,
+  "credentialOrSessionDataStored": false,
+  "limitations": [
+    "This verifies one production generation at the observed deployment and time, not every character voice or every future request.",
+    "The local same-origin smoke returned the safe provider category network_error in this execution environment; no provider response was received locally."
+  ]
+}

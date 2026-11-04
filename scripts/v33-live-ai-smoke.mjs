@@ -23,7 +23,10 @@ try {
     body: JSON.stringify({ sessionToken: session.sessionToken, requestId: crypto.randomUUID(), playerInput: '그 문장에서 가장 먼저 확인해야 할 대목은 어디인가요?', actorRelations: {}, actorActions: [] }),
   });
   turns++;
-  if (!response.ok) throw new Error(`dialogue_${response.status}`);
+  if (!response.ok) {
+    const providerCode = response.headers.get('x-v33-provider-result') || 'unknown';
+    throw new Error(`dialogue_${response.status}_${providerCode}`);
+  }
   const result = await response.json();
   const generatedText = result.turn?.beats?.map(beat => beat.textKo).filter(text => typeof text === 'string' && text.trim()).join('\n') ?? '';
   if (result.fallback || result.mode !== 'AI' || !generatedText) throw new Error(`provider_${response.headers.get('x-v33-provider-result') || 'response_validation'}`);

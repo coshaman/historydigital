@@ -1,6 +1,6 @@
 # API audit — current V36 checkpoint
 
-Audited HEAD: f2a607258152f40f5ef3e446f11eb21148001dea (codex/master-dialogue-opinions)
+Audit date: 2026-11-05
 
 - Deployment contract: Vercel same-origin functions; no Cloudflare worker or external client-side key.
 - Runtime routes: /api/rpg/health, /api/rpg/session/start, and /api/rpg/dialogue.
@@ -8,4 +8,5 @@ Audited HEAD: f2a607258152f40f5ef3e446f11eb21148001dea (codex/master-dialogue-op
 - Dialogue uses a server-created, signed session and validated model response. NPC simulation must not call the LLM.
 - Regression coverage includes generated turns, missing-key fallback, provider 429/5xx/timeout, incomplete-output cause, invalid response rejection, session recovery, and authoritative-state protection.
 - Real in-game API acceptance is recorded separately in REAL_AI_IN_GAME_ACCEPTANCE.json; generated dialogue text and credentials are excluded from that evidence.
-- Vercel production deployment and environment settings remain unverified; health confirms key presence only, while a successful dialogue request is the generation check.
+- Live Vercel API status confirmed `OPENAI_API_KEY` configured, and the one-request in-game generation check returned a character answer in the UI. Evidence: `VERCEL_PRODUCTION_AI_SMOKE.json`. This is a single successful generation, not a full voice-quality or reliability evaluation.
+- A local `.env.local` smoke received the safe category `network_error`; it did not receive an HTTP response from the provider. The secret value and provider response body are never logged by the smoke.
