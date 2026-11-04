@@ -29,6 +29,13 @@ const reviewedResidents = {
     limits: '1830년대 장면의 인물이 클라브디야라는 뜻이 아니며 1847년 복식의 정확한 형태·색·좌판 배치를 증명하지 않음; 박물관 이미지 배포 권리 미취득',
     screenshot: 'docs/v36/current-audit/screenshots/fishseller-klavdiya-costume-1440.png',
   },
+  carter_roman: {
+    sourceId: 'V36-ART-COLLMANN-ICE-DELIVERY-1842',
+    features: '말이 끄는 얼음 수레; 수레 곁의 남성 노동자; 헐렁한 겉옷과 바지의 큰 윤곽',
+    transformation: '16x24 원작 픽셀에 모자와 긴 겉옷 실루엣만 반영; 수레 장면의 색과 세부 복식은 복제하지 않음',
+    limits: '1842년 도판은 로만이라는 인물이나 1847년의 정확한 복식·마구·수레 구조를 증명하지 않음; 박물관 이미지 배포 권리 미취득',
+    screenshot: 'docs/v36/current-audit/screenshots/carter-roman-costume-1440.png',
+  },
 };
 const ids = [...new Set(residentData.districts.flatMap(district => district.residentIds ?? []))].sort();
 assert.equal(ids.length, 36);

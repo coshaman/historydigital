@@ -995,8 +995,10 @@
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "market-quay",
-      "sourceIds": [],
-      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen carter_roman; not a documented likeness or evidence of a specific individual's clothing."
+      "sourceIds": [
+        "V36-ART-COLLMANN-ICE-DELIVERY-1842"
+      ],
+      "notes": "Original project-authored costume silhouette for fictional resident carter_roman. The Russian Museum's 1842 watercolor shows a horse-drawn ice cart and workers in loose outer garments and trousers. Roman's original sprite borrows only a cap-and-coat silhouette and transport context; it does not depict an identified person or establish an exact 1847 outfit. Not a documented likeness or exact reconstruction."
     },
     {
       "id": "portrait-carter_roman",

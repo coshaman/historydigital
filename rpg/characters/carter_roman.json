@@ -132,7 +132,11 @@
     "file": "assets/carter_roman.png",
     "frameWidth": 16,
     "frameHeight": 24,
-    "style": "cap",
+    "style": "cartdriver",
+    "visualReferenceIds": [
+      "V36-ART-COLLMANN-ICE-DELIVERY-1842"
+    ],
+    "visualReferenceNotes": "The Russian Museum's 1842 watercolor shows a horse-drawn ice cart and workers in loose outer garments and trousers. Roman's original sprite borrows only a cap-and-coat silhouette and transport context; it does not depict an identified person or establish an exact 1847 outfit.",
     "palette": {
       "cloth": "#394a55",
       "trim": "#c39a5c",

@@ -57,6 +57,23 @@
       "documentWidth": 1440,
       "pageErrors": [],
       "screenshot": "docs/v36/current-audit/screenshots/fishseller-klavdiya-costume-1440.png"
+    },
+    {
+      "mapId": "market-quay",
+      "possessedResidentId": "carter_roman",
+      "spriteFile": "rpg/assets/carter_roman.png",
+      "costumeStyle": "cartdriver",
+      "visualReferenceIds": [
+        "V36-ART-COLLMANN-ICE-DELIVERY-1842"
+      ],
+      "saveLoadRestoredPossession": true,
+      "renderedCanvas": {
+        "width": 1382,
+        "height": 355
+      },
+      "documentWidth": 1440,
+      "pageErrors": [],
+      "screenshot": "docs/v36/current-audit/screenshots/carter-roman-costume-1440.png"
     }
   ]
 }

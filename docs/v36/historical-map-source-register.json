@@ -115,6 +115,21 @@
       "gameTransformation": "An original 16×24 sprite for fictional fish seller Klavdiya adapts a wrapped head covering and long brown outer silhouette from the foreground vendor; the game sprite stands for locomotion. Palette and exact garment construction are simplified. The source does not establish Klavdiya's identity, a specific 1847 stall layout, or exact materials."
     },
     {
+      "sourceId": "V36-ART-COLLMANN-ICE-DELIVERY-1842",
+      "title": "K. I. Collmann, Ice Delivery",
+      "sourceType": "PERIOD_PAINTING",
+      "sourceUrl": "https://rusmuseumvrm.ru/data/collections/drawings/r-12703/index.php",
+      "verifiedMetadata": "The State Russian Museum catalog identifies K. I. Collmann's watercolor Ice Delivery, dated 1842, inventory R-12703.",
+      "eraRange": "1842; seven years before the game's initial 1847 date",
+      "locale": "Saint Petersburg street",
+      "pageOrFolio": "Russian Museum object record R-12703; catalog metadata and displayed watercolor visually inspected 2026-11-05.",
+      "visualFeature": "The displayed watercolor shows a horse drawing a box-shaped ice cart on a Petersburg street, with male workers nearby in loose outer garments and trousers. The work scene is a bounded transport reference; individual garment construction is not fully legible at sprite scale.",
+      "confidence": "HIGH for title, artist, 1842 date, medium, and inventory; MEDIUM for the broad cart and clothing silhouettes. The depicted people are unidentified and do not establish Roman's identity or an exact 1847 costume.",
+      "rights": "Catalog record reviewed; no museum image is copied or redistributed. Pixel asset is original project artwork.",
+      "creditedArtist": "K. I. Collmann",
+      "gameTransformation": "An original 16×24 sprite for fictional carter Roman borrows only a cap-and-coat silhouette and horse-cart work context. The walking sprite does not reproduce a particular figure or prove exact 1847 clothing, colors, harness, vehicle, or street layout."
+    },
+    {
       "sourceId": "V36-ART-LABASTIDE-HAWKER-TRAY-1845",
       "title": "Labastide, Коробейник с лотком (Peddler with a Tray)",
       "sourceType": "PERIOD_DRAWING",
