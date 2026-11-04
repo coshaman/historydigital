@@ -50,6 +50,13 @@ const reviewedResidents = {
     limits: '두 도판은 남성을 그렸으며 마트료나의 복식·정체성이나 여성 행상 장비의 보편성을 입증하지 않음; 치수·재료·정확한 사용 방식도 단정하지 않음; 박물관 이미지 배포 권리 미취득',
     screenshot: 'docs/v36/current-audit/screenshots/street-vendor-matryona-costume-1440.png',
   },
+  watercarrier_luka: {
+    sourceId: 'V36-ART-SHCHEDROVSKY-WATER-CARRIER-1845',
+    features: '1845년 집단 석판화에 물장수 인물이 목록에 포함되고 화면에 나무 통과 세척용 통이 보임; 특정 물건의 주인을 단정하지 않음',
+    transformation: '16×24 픽셀에 작은 물통 소품만 역할 표식으로 사용; 복식·운반 방식은 별도 창작 또는 미확정',
+    limits: '도판은 루카라는 인물이나 특정 통의 소유·용도를 입증하지 않음; 물장수의 운반 방식과 1847년 보편성도 추론하지 않음; 원본 뷰어는 VPN 차단으로 열리지 않아 2012년 기사에 실린 재현 이미지를 검토; 재배포 권리 미취득',
+    screenshot: 'docs/v36/current-audit/screenshots/watercarrier-luka-costume-1440.png',
+  },
   baker_fyodor: {
     sourceId: 'V36-ART-LABASTIDE-KALACH-SELLER-1845',
     features: '엑스자 다리의 길거리 탁자; 둥근 빵 여러 개; 탁자보와 아래 바구니',

@@ -224,6 +224,23 @@
       "creditedArtist": "Labastide (as cataloged; artist's life dates unknown).",
       "gameTransformation": "Matryona's original 16×24 sprite adapts only the visible shoulder yoke and hanging brush silhouettes as a possible portable-selling rig. Her scarf, clothing, colors, fictional identity, and specific employment remain independent design choices. The source depicts a man and does not establish women's vendor equipment or a universal Petersburg practice.",
       "rightsTermsUrl": "https://rusmuseumvrm.ru/terms/index.php"
+    },
+    {
+      "sourceId": "V36-ART-SHCHEDROVSKY-WATER-CARRIER-1845",
+      "title": "Shchedrovsky, Carpenter's Wife, Water Carrier from Vasilievsky Island, White Seamstress, and Wood Carrier",
+      "sourceType": "PERIOD_PRINT",
+      "sourceUrl": "https://rusneb.ru/catalog/000199_000009_009492648/",
+      "sourceImageUrl": "https://compuart.ru/archive/ca/2012/9/11/Ris_5.jpg",
+      "verifiedMetadata": "The National Electronic Library catalog records Ignaty Shchedrovsky's hand-colored lithograph album Вот наши! С натуры, printed in Saint Petersburg in 1845 by Tyulev's lithography (RSL document 000199_000009_009492648). CompuArt's illustrated article by Alexey Vengerov identifies plate 8 as a group including a water carrier from Vasilievsky Island and links its displayed reproduction.",
+      "eraRange": "1845",
+      "locale": "Saint Petersburg; the cataloged plate identifies the water carrier as from Vasilievsky Island",
+      "pageOrFolio": "Plate 8 of the 1845 album; bibliography checked in NЭБ catalog and plate reproduction visually inspected at https://compuart.ru/article/23289 on 2026-11-05. The NЭБ page's scan viewer was blocked by its VPN interstitial in this environment.",
+      "visualFeature": "The inspected colorized group lithograph shows several workers, a large wooden barrel and a wash tub. The article's plate list names a water carrier among the group, but the displayed scene does not let us confidently assign the barrel or tub to that individual or establish a carrying method.",
+      "confidence": "HIGH for the album edition, publication year, and plate subject list from the NЭБ catalog/article; MEDIUM for visible group-scene details; LOW for assigning any particular vessel to the water carrier.",
+      "rights": "The NЭБ record lists open access to the bibliographic item, but permission to redistribute the secondary-hosted reproduction was not established. Neither reproduction is copied into the game; all game pixels are original project artwork.",
+      "creditedArtist": "Ignaty Shchedrovsky, compiled and lithographed by the artist as cataloged; hand-coloring noted in the bibliographic description.",
+      "gameTransformation": "Luka receives an original small handled-pail role marker. The group plate supplies only broad context for water work and vessels; it does not establish Luka's identity, clothing, exact tool, or method of carrying water.",
+      "rightsTermsUrl": "https://rusneb.ru/catalog/000199_000009_009492648/"
     }
   ],
   "verifiedLimits": [

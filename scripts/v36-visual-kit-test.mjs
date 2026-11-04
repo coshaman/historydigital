@@ -157,6 +157,15 @@ assert.ok(streetVendor.sprite.visualReferenceIds?.includes(brushSellerSourceId),
 assert.ok(brushSellerSource?.visualFeature.includes('cross-shoulder pole or yoke') && brushSellerSource?.gameTransformation.includes('adapts only the visible shoulder yoke and hanging brush silhouettes'), 'the brush-seller source and prop-only adaptation are documented');
 assert.ok(brushSellerSource?.rights.includes('not copied or redistributed'), 'the brush-seller drawing is not redistributed');
 assert.ok(hawkerSpriteRecord?.sourceIds.includes(brushSellerSourceId), 'Matryona sprite provenance includes the second inspected drawing');
+const watercarrier = JSON.parse(await fs.readFile(path.join(root, 'rpg/characters/watercarrier_luka.json'), 'utf8'));
+const watercarrierSourceId = 'V36-ART-SHCHEDROVSKY-WATER-CARRIER-1845';
+const watercarrierSource = sourceRegister.sources.find(source => source.sourceId === watercarrierSourceId);
+const watercarrierSpriteRecord = provenance.assets.find(asset => asset.id === 'sprite-watercarrier_luka');
+assert.ok(watercarrier.sprite.visualReferenceIds?.includes(watercarrierSourceId), 'Luka records the checked 1845 water-carrier group print');
+assert.ok(watercarrier.sprite.visualReferenceNotes.includes('does not identify which object belongs to him') && watercarrier.sprite.visualReferenceNotes.includes('original role icon'), 'Luka does not overstate object attribution or carrying method');
+assert.ok(watercarrierSource?.visualFeature.includes('does not let us confidently assign the barrel or tub') && watercarrierSource?.confidence.includes('LOW for assigning'), 'water-carrier source records uncertainty about the depicted group and objects');
+assert.ok(watercarrierSource?.rights.includes('copied into the game'), 'the secondary reproduction is not redistributed');
+assert.ok(watercarrierSpriteRecord?.sourceIds.includes(watercarrierSourceId), 'Luka sprite provenance resolves to the checked source');
 const baker = JSON.parse(await fs.readFile(path.join(root, 'rpg/characters/baker_fyodor.json'), 'utf8'));
 const kalachSourceId = 'V36-ART-LABASTIDE-KALACH-SELLER-1845';
 const kalachSource = sourceRegister.sources.find(source => source.sourceId === kalachSourceId);
@@ -174,9 +183,10 @@ assert.ok(reviewManifest.some(line => line.includes('"fishseller_klavdiya"') && 
 assert.ok(reviewManifest.some(line => line.includes('"carter_roman"') && line.includes('"LIMITED_SOURCE_INSPIRED_REVIEW"') && line.includes(carterSourceId)), 'the cart-driver costume is tracked with bounded source provenance');
 assert.ok(reviewManifest.some(line => line.includes('"coachman_timofey"') && line.includes('"LIMITED_SOURCE_INSPIRED_REVIEW"') && line.includes(coachmanSourceId)), 'the cab-driver costume is tracked with bounded source provenance');
 assert.ok(reviewManifest.some(line => line.includes('"street_vendor_matryona"') && line.includes('"LIMITED_SOURCE_INSPIRED_REVIEW"') && line.includes(hawkerSourceId) && line.includes(brushSellerSourceId)), 'Matryona\'s portable vending and brush-carrying props have bounded provenance to both inspected drawings');
+assert.ok(reviewManifest.some(line => line.includes('"watercarrier_luka"') && line.includes('"LIMITED_SOURCE_INSPIRED_REVIEW"') && line.includes(watercarrierSourceId) && line.includes('특정 물건의 주인을 단정하지 않음')), 'Luka\'s prop-only reference preserves the plate attribution uncertainty');
 assert.ok(reviewManifest.some(line => line.includes('"baker_fyodor"') && line.includes('"LIMITED_SOURCE_INSPIRED_REVIEW"') && line.includes(kalachSourceId)), 'Fyodor\'s kalach product prop has bounded source provenance');
-assert.equal(reviewManifest.filter(line => line.includes('"LIMITED_SOURCE_INSPIRED_REVIEW"')).length, 7, 'seven specific residents have bounded source-inspected asset reviews');
-assert.equal(reviewManifest.filter(line => line.includes('"NOT_VISUALLY_REVIEWED"')).length, 29, 'the remaining 29 residents are honestly listed as awaiting source-by-source visual review');
+assert.equal(reviewManifest.filter(line => line.includes('"LIMITED_SOURCE_INSPIRED_REVIEW"')).length, 8, 'eight specific residents have bounded source-inspected asset reviews');
+assert.equal(reviewManifest.filter(line => line.includes('"NOT_VISUALLY_REVIEWED"')).length, 28, 'the remaining 28 residents are honestly listed as awaiting source-by-source visual review');
 for (const [index, line] of usageRows.slice(1).entries()) {
   const fields = [...line.matchAll(/"((?:[^"]|"")*)"/g)].map(match => match[1].replaceAll('""', '"'));
   const gid = Number(fields[0]);

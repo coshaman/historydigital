@@ -885,8 +885,10 @@
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "courtyard",
-      "sourceIds": [],
-      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen watercarrier_luka; not a documented likeness or evidence of a specific individual's clothing."
+      "sourceIds": [
+        "V36-ART-SHCHEDROVSKY-WATER-CARRIER-1845"
+      ],
+      "notes": "Original project-authored costume silhouette for fictional resident watercarrier_luka. The 1845 group plate lists a water carrier and visibly includes wooden vessels, but it does not identify which object belongs to him or how he carries water. Luka's handled pail is an original role icon; his scarf, clothes and fictional identity are independent design choices. Not a documented likeness or exact reconstruction."
     },
     {
       "id": "portrait-watercarrier_luka",

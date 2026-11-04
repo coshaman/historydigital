@@ -33,7 +33,7 @@ const props = {
   teacher_lyubov:['lesson slate',['#####','#...#','#.##.','#...#','#####']],
   minor_noble_andrei:['walking cane',['#....','#....','#....','#....','####.']],
   landlady_polina:['house key',['..##.','.#...','#####','..#..','..#..']],
-  watercarrier_luka:['water pail',['#####','#...#','#...#','#####','.###.']],
+  watercarrier_luka:['handled water pail',['#####','#...#','#...#','#####','.###.']],
   fishseller_klavdiya:['fish basket',['#####','#.#.#','#...#','#####','.###.']],
   warehouse_pyotr:['crate tally',['#####','#.#.#','#####','#...#','#####']],
   servant_varvara:['work cloth',['#####','##..#','#####','#..##','#####']],
@@ -93,7 +93,14 @@ function makeSheet(card, roleProp, identity) {
     // A distinct, period-appropriate work object gives the resident a readable silhouette.
     const px = direction===1 || direction===2 ? 0 : 11;
     const py = 11 + (identity % 2);
-    if(card.id==='street_vendor_matryona') {
+    if(card.id==='watercarrier_luka') {
+      // A clear original handled-pail role marker; the source plate does not assign this vessel to its water carrier.
+      const bx = direction===2 ? 0 : 11;
+      r(bx+1,py,2,1,colors.outline); r(bx,py+1,4,1,colors.outline);
+      r(bx+1,py+1,2,1,trim); r(bx,py+2,1,2,colors.outline); r(bx+3,py+2,1,2,colors.outline);
+      r(bx+1,py+2,2,2,trim); r(bx+1,py+4,2,1,colors.outline);
+      p(bx+1,py-1,colors.outline); p(bx+2,py-1,colors.outline);
+    } else if(card.id==='street_vendor_matryona') {
       // A source-bounded portable load: a shoulder pole with hanging brush shapes.
       // Keep her clothing and scarf wholly project-designed; the drawing depicts a man.
       r(0,8,16,1,colors.outline); r(1,8,14,1,trim);

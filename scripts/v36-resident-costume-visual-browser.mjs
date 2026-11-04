@@ -35,6 +35,7 @@ const targets = [
   { residentId: 'carter_roman', mapId: 'market-quay', expectedStyle: 'cartdriver' },
   { residentId: 'coachman_timofey', mapId: 'market-quay', expectedStyle: 'cabman' },
   { residentId: 'street_vendor_matryona', mapId: 'nevsky', expectedStyle: 'scarf' },
+  { residentId: 'watercarrier_luka', mapId: 'courtyard', expectedStyle: 'scarf' },
   { residentId: 'baker_fyodor', mapId: 'bakery-interior', expectedStyle: 'cap' },
 ].map(target => ({ ...target, card: cards.find(item => item.id === target.residentId), map: maps[target.mapId] }));
 for (const target of targets) {

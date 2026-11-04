@@ -133,6 +133,10 @@
     "frameWidth": 16,
     "frameHeight": 24,
     "style": "scarf",
+    "visualReferenceIds": [
+      "V36-ART-SHCHEDROVSKY-WATER-CARRIER-1845"
+    ],
+    "visualReferenceNotes": "The 1845 group plate lists a water carrier and visibly includes wooden vessels, but it does not identify which object belongs to him or how he carries water. Luka's handled pail is an original role icon; his scarf, clothes and fictional identity are independent design choices.",
     "palette": {
       "cloth": "#484b48",
       "trim": "#ad794b",
