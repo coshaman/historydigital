@@ -108,6 +108,23 @@
       "documentWidth": 1440,
       "pageErrors": [],
       "screenshot": "docs/v36/current-audit/screenshots/street-vendor-matryona-costume-1440.png"
+    },
+    {
+      "mapId": "bakery-interior",
+      "possessedResidentId": "baker_fyodor",
+      "spriteFile": "rpg/assets/baker_fyodor.png",
+      "costumeStyle": "cap",
+      "visualReferenceIds": [
+        "V36-ART-LABASTIDE-KALACH-SELLER-1845"
+      ],
+      "saveLoadRestoredPossession": true,
+      "renderedCanvas": {
+        "width": 1382,
+        "height": 355
+      },
+      "documentWidth": 1440,
+      "pageErrors": [],
+      "screenshot": "docs/v36/current-audit/screenshots/baker-fyodor-costume-1440.png"
     }
   ]
 }

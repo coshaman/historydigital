@@ -11,7 +11,7 @@ This report records evidence from the current workspace. It distinguishes local 
 
 ## Verification evidence
 
-- npm run v36-visual-kit verifies 36 unique resident sprites and portraits and generates qa/ASSET_REVIEW_MANIFEST.csv; six bounded source-inspired resident assets were reviewed in-browser, with the remaining 30 explicitly unreviewed. One male peddler drawing informs only Matryona's portable-goods rack, not her clothing. npm run v36-resident-costume-visual-browser checks all six cases at 1440×900, including save/load, canvas rendering, overflow, and browser errors.
+- npm run v36-visual-kit verifies 36 unique resident sprites and portraits and generates qa/ASSET_REVIEW_MANIFEST.csv; seven bounded source-inspired resident assets were reviewed in-browser, with the remaining 29 explicitly unreviewed. Male peddler drawings inform Matryona's portable-goods rack and Fyodor's bread prop only, not their clothing. npm run v36-resident-costume-visual-browser checks all seven cases at 1440×900, including save/load, canvas rendering, overflow, and browser errors.
 
 - `npm run acceptance:v36` is the integrated release gate and writes `docs/v36/ACCEPTANCE.json`; it runs with `OPENAI_API_KEY` cleared and does not incur model costs. The local real-generation check below is separate.
 - `npm run check`, `npm run build:v33`, `npm test`, and `npm run v33-vercel-api-test` pass.

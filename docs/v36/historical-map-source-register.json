@@ -167,12 +167,12 @@
       "verifiedMetadata": "The State Russian Museum catalog identifies the drawing as part of a series of Petersburg urban types, circa 1845, graphite on paper, inventory R-24382; the Russian title identifies a kalach seller.",
       "eraRange": "Circa 1845",
       "locale": "Petersburg urban life",
-      "pageOrFolio": "Russian Museum object record R-24382; catalog metadata checked 2026-11-05.",
-      "visualFeature": "A seller of kalachi as a city type; evidence for this food trade, not the exact shape, recipe, or material appearance of the game's bread prop.",
-      "confidence": "HIGH for catalog title, medium, series, date range, medium, and location; exact bread shape and recipe are not established by the metadata.",
+      "pageOrFolio": "Russian Museum object record R-24382; catalog metadata and displayed drawing visually inspected 2026-11-05.",
+      "visualFeature": "The drawing shows a male kalach seller beside an X-legged street table carrying many rounded breads, with a cloth draped from the tabletop and a basket below. The catalog title identifies the wares as kalachi; the image does not establish the precise recipe or the baked form's cross-section.",
+      "confidence": "HIGH for catalog title, medium, circa-1845 date, series, and location; MEDIUM for the visible table, cloth, basket, and rounded bread shapes. The seller is not Fyodor and is not a bakery-worker uniform reference.",
       "rights": "Catalog record reviewed; no museum image is copied or redistributed. Pixel asset is original project artwork.",
       "creditedArtist": "Labastide (as cataloged; artist's life dates unknown).",
-      "gameTransformation": "Use only as scene reference for an original pixel bread prop in a Petersburg vendor context. It does not prove exact bread geometry, recipe, map coordinates, or an identifiable historical seller."
+      "gameTransformation": "Fyodor's original 16×24 sprite adapts only the rounded bread-on-tray product cue into a small carried batch. The reference does not determine his bakery clothing, a recipe, oven technique, precise bread cross-section, map location, or an identifiable fictional person."
     },
     {
       "sourceId": "V36-ART-LABASTIDE-EGG-SELLERS-1845",

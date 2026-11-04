@@ -50,6 +50,13 @@ const reviewedResidents = {
     limits: '도판 인물은 남성이며 마트료나의 복식·정체성을 입증하지 않음; 쟁반 치수·재료·상인들의 보편적 복식이나 위치도 증명하지 않음; 박물관 이미지 배포 권리 미취득',
     screenshot: 'docs/v36/current-audit/screenshots/street-vendor-matryona-costume-1440.png',
   },
+  baker_fyodor: {
+    sourceId: 'V36-ART-LABASTIDE-KALACH-SELLER-1845',
+    features: '엑스자 다리의 길거리 탁자; 둥근 빵 여러 개; 탁자보와 아래 바구니',
+    transformation: '16x24 원작 픽셀의 둥근 빵·쟁반 단서만 작은 휴대용 빵 묶음으로 반영',
+    limits: '도판 인물은 길거리 판매자이지 제빵공 표준 복식이나 푀이도르의 정체가 아님; 조리법·오븐·정확한 빵 단면을 입증하지 않음; 박물관 이미지 배포 권리 미취득',
+    screenshot: 'docs/v36/current-audit/screenshots/baker-fyodor-costume-1440.png',
+  },
 };
 const ids = [...new Set(residentData.districts.flatMap(district => district.residentIds ?? []))].sort();
 assert.equal(ids.length, 36);

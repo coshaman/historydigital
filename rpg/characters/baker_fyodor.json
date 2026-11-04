@@ -132,6 +132,10 @@
     "frameWidth": 16,
     "frameHeight": 24,
     "style": "cap",
+    "visualReferenceIds": [
+      "V36-ART-LABASTIDE-KALACH-SELLER-1845"
+    ],
+    "visualReferenceNotes": "Labastide's circa-1845 drawing shows a street seller with a table of rounded kalachi. Fyodor's original sprite borrows only the rounded bread-and-tray product cue; it does not use the street seller as evidence for a bakery worker's clothes, recipe, or oven practice.",
     "palette": {
       "cloth": "#7a5637",
       "trim": "#d4a45c",

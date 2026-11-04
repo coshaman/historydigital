@@ -18,7 +18,7 @@ const props = {
   senior_clerk_konstantin:['sealed ledger',['#####','#...#','#.O.#','#.###','#####']],
   yardkeeper_semyon:['key ring',['.###.','#...#','.###.','..#..','..#.#']],
   laundress_mariya:['folded linen',['#####','#...#','#####','#...#','#####']],
-  baker_fyodor:['loaf of bread',['.###.','#####','#####','#####','.###.']],
+  baker_fyodor:['kalach tray',['#####','#*#*#','#####','..#..','..#..']],
   market_nadezhda:['wicker baskets',['.###.','#####','#*#*#','#####','#...#']],
   porter_gavrila:['shoulder load',['.###.','#####','##.##','#####','..#..']],
   coachman_timofey:['reins',['#...#','.#.#.','..#..','.#.#.','#...#']],

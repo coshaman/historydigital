@@ -529,8 +529,10 @@
         "nevsky",
         "courtyard"
       ],
-      "sourceIds": [],
-      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen baker_fyodor; not a documented likeness or evidence of a specific individual's clothing."
+      "sourceIds": [
+        "V36-ART-LABASTIDE-KALACH-SELLER-1845"
+      ],
+      "notes": "Original project-authored costume silhouette for fictional resident baker_fyodor. Labastide's circa-1845 drawing shows a street seller with a table of rounded kalachi. Fyodor's original sprite borrows only the rounded bread-and-tray product cue; it does not use the street seller as evidence for a bakery worker's clothes, recipe, or oven practice. Not a documented likeness or exact reconstruction."
     },
     {
       "id": "portrait-baker_fyodor",

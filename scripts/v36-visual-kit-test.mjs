@@ -151,6 +151,15 @@ assert.ok(streetVendor.sprite.visualReferenceNotes.includes('does not borrow the
 assert.ok(hawkerSource?.visualFeature.includes('belt-mounted rack carrying several trays') && hawkerSource?.gameTransformation.includes('adapts only the idea of a compact waist-level portable goods rack'), 'the source image and limited prop adaptation are documented');
 assert.ok(hawkerSource?.rights.includes('no museum image is copied or redistributed'), 'the hawker drawing is not redistributed');
 assert.ok(hawkerSpriteRecord?.sourceIds.includes(hawkerSourceId), 'Matryona sprite provenance resolves to the inspected peddler source');
+const baker = JSON.parse(await fs.readFile(path.join(root, 'rpg/characters/baker_fyodor.json'), 'utf8'));
+const kalachSourceId = 'V36-ART-LABASTIDE-KALACH-SELLER-1845';
+const kalachSource = sourceRegister.sources.find(source => source.sourceId === kalachSourceId);
+const bakerSpriteRecord = provenance.assets.find(asset => asset.id === 'sprite-baker_fyodor');
+assert.ok(baker.sprite.visualReferenceIds?.includes(kalachSourceId), 'Fyodor names the inspected kalach-seller drawing');
+assert.ok(baker.sprite.visualReferenceNotes.includes('does not use the street seller as evidence for a bakery worker\'s clothes'), 'the street seller is not misrepresented as a bakery-worker costume source');
+assert.ok(kalachSource?.visualFeature.includes('X-legged street table carrying many rounded breads') && kalachSource?.gameTransformation.includes('only the rounded bread-on-tray product cue'), 'the observed bread display and limited sprite transformation are recorded');
+assert.ok(kalachSource?.rights.includes('no museum image is copied or redistributed'), 'the kalach-seller drawing is not redistributed');
+assert.ok(bakerSpriteRecord?.sourceIds.includes(kalachSourceId), 'Fyodor sprite provenance resolves to the inspected kalach-seller source');
 const reviewManifest = (await fs.readFile(path.join(root, 'qa/ASSET_REVIEW_MANIFEST.csv'), 'utf8')).trim().split(/\r?\n/);
 assert.equal(reviewManifest.length, 37, 'the visual review manifest covers all 36 residents');
 assert.ok(reviewManifest.some(line => line.includes('"market_nadezhda"') && line.includes('"LIMITED_SOURCE_INSPIRED_REVIEW"') && line.includes(costumeSourceId)), 'the inspected Nadezhda costume is recorded with a bounded review status');
@@ -159,8 +168,9 @@ assert.ok(reviewManifest.some(line => line.includes('"fishseller_klavdiya"') && 
 assert.ok(reviewManifest.some(line => line.includes('"carter_roman"') && line.includes('"LIMITED_SOURCE_INSPIRED_REVIEW"') && line.includes(carterSourceId)), 'the cart-driver costume is tracked with bounded source provenance');
 assert.ok(reviewManifest.some(line => line.includes('"coachman_timofey"') && line.includes('"LIMITED_SOURCE_INSPIRED_REVIEW"') && line.includes(coachmanSourceId)), 'the cab-driver costume is tracked with bounded source provenance');
 assert.ok(reviewManifest.some(line => line.includes('"street_vendor_matryona"') && line.includes('"LIMITED_SOURCE_INSPIRED_REVIEW"') && line.includes(hawkerSourceId)), 'Matryona\'s portable vending prop has bounded source provenance');
-assert.equal(reviewManifest.filter(line => line.includes('"LIMITED_SOURCE_INSPIRED_REVIEW"')).length, 6, 'six specific residents have bounded source-inspected asset reviews');
-assert.equal(reviewManifest.filter(line => line.includes('"NOT_VISUALLY_REVIEWED"')).length, 30, 'the remaining 30 residents are honestly listed as awaiting source-by-source visual review');
+assert.ok(reviewManifest.some(line => line.includes('"baker_fyodor"') && line.includes('"LIMITED_SOURCE_INSPIRED_REVIEW"') && line.includes(kalachSourceId)), 'Fyodor\'s kalach product prop has bounded source provenance');
+assert.equal(reviewManifest.filter(line => line.includes('"LIMITED_SOURCE_INSPIRED_REVIEW"')).length, 7, 'seven specific residents have bounded source-inspected asset reviews');
+assert.equal(reviewManifest.filter(line => line.includes('"NOT_VISUALLY_REVIEWED"')).length, 29, 'the remaining 29 residents are honestly listed as awaiting source-by-source visual review');
 for (const [index, line] of usageRows.slice(1).entries()) {
   const fields = [...line.matchAll(/"((?:[^"]|"")*)"/g)].map(match => match[1].replaceAll('""', '"'));
   const gid = Number(fields[0]);
