@@ -64,8 +64,8 @@ const definitions = [
   ['WHARF_PLANK_C','비에 어두워진 발판','TIMBER_WALK'],
   ['WOODEN_CRATE_OPEN','열린 나무 운송 상자','TRADE_CONTAINER'],
   ['COOPERED_STORAGE_CASK','작은 저장통','TRADE_CONTAINER'],
-  ['WOVEN_MARKET_BASKET','장터 바구니','MARKET_GOODS'],
-  ['BAKERS_ROUND_LOAF','둥근 빵 한 덩이','BAKERY_GOODS'],
+  ['HAWKER_PORTABLE_SALES_TRAY','행상의 휴대 판매 쟁반','MARKET_GOODS'],
+  ['KALACH_VENDOR_BREAD','칼라치 판매인의 빵','BAKERY_GOODS'],
   ['RIVER_FISH_ON_TRAY','강변 장터의 생선','MARKET_GOODS'],
   ['TWO_WHEEL_HANDCART','두 바퀴 손수레','TRANSPORT_EQUIPMENT'],
   ['COURIER_SHOULDER_BAG','어깨에 메는 작은 가방','POSTAL_EQUIPMENT'],
@@ -100,11 +100,21 @@ const rows = lines.slice(1).map((line, index) => {
   columns[1] = tileKey;
   columns[2] = descriptionKo;
   columns[3] = category;
-  if (gid === 65) {
+  if (gid === 63) {
+    if (columns[4] !== 'CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE' || columns[5] !== 'V36-ART-LABASTIDE-HAWKER-TRAY-1845' || columns[6] !== 'https://rusmuseumvrm.ru/data/collections/drawings/r-24373/index.php') {
+      throw new Error('GID 63 must identify the exact Russian Museum Labastide peddler-with-tray record R-24373.');
+    }
+    if (!columns[7].includes('R-24373') || !columns[7].includes('정확한 쟁반 모양')) throw new Error('GID 63 must bound its tray scene reference.');
+  } else if (gid === 64) {
+    if (columns[4] !== 'CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE' || columns[5] !== 'V36-ART-LABASTIDE-KALACH-SELLER-1845' || columns[6] !== 'https://rusmuseumvrm.ru/data/collections/drawings/r-24382/index.php') {
+      throw new Error('GID 64 must identify the exact Russian Museum Labastide kalach-seller record R-24382.');
+    }
+    if (!columns[7].includes('R-24382') || !columns[7].includes('빵의 정확한 형태')) throw new Error('GID 64 must bound its kalach scene reference.');
+  } else if (gid === 65) {
     if (columns[4] !== 'CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE' || columns[5] !== 'V36-ART-KOLLMAN-FISH-SELLERS-1830S' || columns[6] !== 'https://rusmuseumvrm.ru/data/collections/drawings/r-5783/index.php') {
       throw new Error('GID 65 must identify the exact Russian Museum fish-and-egg sellers record R-5783.');
     }
-    if (!columns[7].includes('원작 복제가 아니며') || !columns[7].includes('1847년 동일 장소를 입증하지 않는다')) throw new Error('GID 65 must delimit what its visual source does not prove.');
+    if (!columns[7].includes('정확한 생선 진열 모양') || !columns[7].includes('1847년 동일 장소')) throw new Error('GID 65 must delimit what its visual source does not prove.');
   } else if (gid >= 61) {
     if (columns[4] !== 'UNVERIFIED_RECONSTRUCTION' || columns[5] || columns[6] || !columns[7].includes('UNVERIFIED_RECONSTRUCTION')) {
       throw new Error(`GID ${gid} must not imply direct historical support without an inspected item-level source.`);

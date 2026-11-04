@@ -113,6 +113,36 @@
       "rights": "Catalog record reviewed; no museum image is copied or redistributed. Pixel asset is original project artwork.",
       "creditedArtist": "K. I. Collmann",
       "gameTransformation": "Use only as scene context for an original fish-market pixel prop. It does not establish the game's exact stall layout, tile coordinates, object materials, or an unchanged 1847 location."
+    },
+    {
+      "sourceId": "V36-ART-LABASTIDE-HAWKER-TRAY-1845",
+      "title": "Labastide, Коробейник с лотком (Peddler with a Tray)",
+      "sourceType": "PERIOD_DRAWING",
+      "sourceUrl": "https://rusmuseumvrm.ru/data/collections/drawings/r-24373/index.php",
+      "verifiedMetadata": "The State Russian Museum catalog identifies the drawing as part of a series of Petersburg urban types, circa 1845, graphite on paper, inventory R-24373; the Russian title names a peddler with a tray.",
+      "eraRange": "Circa 1845",
+      "locale": "Petersburg urban life",
+      "pageOrFolio": "Russian Museum object record R-24373; catalog metadata checked 2026-11-05.",
+      "visualFeature": "A tray-carrying peddler as a city type; evidence for portable street vending, not the exact design of the game's tray.",
+      "confidence": "HIGH for catalog title, medium, series, date range, medium, and location; exact tray construction is not established by the metadata.",
+      "rights": "Catalog record reviewed; no museum image is copied or redistributed. Pixel asset is original project artwork.",
+      "creditedArtist": "Labastide (as cataloged; artist's life dates unknown).",
+      "gameTransformation": "Use only as scene reference for original pixel art about portable vending. It does not prove exact tray geometry, materials, map coordinates, or an identifiable historical vendor."
+    },
+    {
+      "sourceId": "V36-ART-LABASTIDE-KALACH-SELLER-1845",
+      "title": "Labastide, Продавец калачей (Kalach Seller)",
+      "sourceType": "PERIOD_DRAWING",
+      "sourceUrl": "https://rusmuseumvrm.ru/data/collections/drawings/r-24382/index.php",
+      "verifiedMetadata": "The State Russian Museum catalog identifies the drawing as part of a series of Petersburg urban types, circa 1845, graphite on paper, inventory R-24382; the Russian title identifies a kalach seller.",
+      "eraRange": "Circa 1845",
+      "locale": "Petersburg urban life",
+      "pageOrFolio": "Russian Museum object record R-24382; catalog metadata checked 2026-11-05.",
+      "visualFeature": "A seller of kalachi as a city type; evidence for this food trade, not the exact shape, recipe, or material appearance of the game's bread prop.",
+      "confidence": "HIGH for catalog title, medium, series, date range, medium, and location; exact bread shape and recipe are not established by the metadata.",
+      "rights": "Catalog record reviewed; no museum image is copied or redistributed. Pixel asset is original project artwork.",
+      "creditedArtist": "Labastide (as cataloged; artist's life dates unknown).",
+      "gameTransformation": "Use only as scene reference for an original pixel bread prop in a Petersburg vendor context. It does not prove exact bread geometry, recipe, map coordinates, or an identifiable historical seller."
     }
   ],
   "verifiedLimits": [

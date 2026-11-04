@@ -447,7 +447,9 @@ if (process.argv.includes('--v36-tiles-only')) {
   ];
   atlas.sourceIds.push('V36-ART-KOLLMAN-FISH-SELLERS-1830S');
   atlas.sourceUrls.push('https://rusmuseumvrm.ru/data/collections/drawings/r-5783/index.php');
-  atlas.notes = 'Original project pixel art. Broad historical sources contextualize the city, while row-level evidence in ASSET_USAGE_V36.csv distinguishes supported visual references from UNVERIFIED_RECONSTRUCTION. The R-5783 fish-seller watercolor is a scene-level reference for the fish-market tile only. The 1849 atlas is later comparison, not direct proof of 1847 paving; no museum scan is embedded.';
+  atlas.sourceIds.push('V36-ART-LABASTIDE-HAWKER-TRAY-1845','V36-ART-LABASTIDE-KALACH-SELLER-1845');
+  atlas.sourceUrls.push('https://rusmuseumvrm.ru/data/collections/drawings/r-24373/index.php','https://rusmuseumvrm.ru/data/collections/drawings/r-24382/index.php');
+  atlas.notes = 'Original project pixel art. Row-level evidence in ASSET_USAGE_V36.csv separates three bounded period-art references from 21 UNVERIFIED_RECONSTRUCTION props. Russian Museum records R-5783, R-24373, and R-24382 support only the depicted fish/egg sellers, hawker with tray, and kalach seller subjects; they do not prove exact pixel-object shapes, materials, coordinates, or a fixed 1847 location. The 1849 atlas is later comparison, not direct proof of 1847 paving; no museum scan is embedded.';
   await writeFile(provenancePath, `${JSON.stringify(provenance, null, 2)}\n`.replace(/\n/g, '\r\n'));
 
   const additions = [
@@ -470,8 +472,8 @@ if (process.argv.includes('--v36-tiles-only')) {
   const householdTradeProps = [
     ['WOODEN_CRATE_OPEN','열린 나무 운송 상자','TRADE_CONTAINER','UNVERIFIED_RECONSTRUCTION'],
     ['COOPERED_STORAGE_CASK','작은 저장통','TRADE_CONTAINER','UNVERIFIED_RECONSTRUCTION'],
-    ['WOVEN_MARKET_BASKET','장터 바구니','MARKET_GOODS','UNVERIFIED_RECONSTRUCTION'],
-    ['BAKERS_ROUND_LOAF','둥근 빵 한 덩이','BAKERY_GOODS','UNVERIFIED_RECONSTRUCTION'],
+    ['HAWKER_PORTABLE_SALES_TRAY','행상의 휴대 판매 쟁반','MARKET_GOODS','V36-ART-LABASTIDE-HAWKER-TRAY-1845'],
+    ['KALACH_VENDOR_BREAD','칼라치 판매인의 빵','BAKERY_GOODS','V36-ART-LABASTIDE-KALACH-SELLER-1845'],
     ['RIVER_FISH_ON_TRAY','강변 장터의 생선','MARKET_GOODS','V36-ART-KOLLMAN-FISH-SELLERS-1830S'],
     ['TWO_WHEEL_HANDCART','두 바퀴 손수레','TRANSPORT_EQUIPMENT','UNVERIFIED_RECONSTRUCTION'],
     ['COURIER_SHOULDER_BAG','어깨에 메는 작은 가방','POSTAL_EQUIPMENT','UNVERIFIED_RECONSTRUCTION'],
@@ -502,14 +504,21 @@ if (process.argv.includes('--v36-tiles-only')) {
     'V36-ART-RUSSIAN-MUSEUM-COLLMANN-1840S': atlas.sourceUrls[3],
     'V36-PHYSIOLOGY-PETERSBURG-1845': atlas.sourceUrls[4],
     'V36-ART-KOLLMAN-FISH-SELLERS-1830S': 'https://rusmuseumvrm.ru/data/collections/drawings/r-5783/index.php',
+    'V36-ART-LABASTIDE-HAWKER-TRAY-1845': 'https://rusmuseumvrm.ru/data/collections/drawings/r-24373/index.php',
+    'V36-ART-LABASTIDE-KALACH-SELLER-1845': 'https://rusmuseumvrm.ru/data/collections/drawings/r-24382/index.php',
   };
   const csv = [['gid','tile_key','description_ko','category','source_type','source_id','source_url','historical_note','file','atlas_x','atlas_y'],
     ...oldTiles.map(([gid,key,description,category,sourceId]) => [gid,key,description,category,'CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE',sourceId,'https://expositions.nlr.ru/eng/ex_map/mozaika_Saint-Petersburg/plans_19_century.php','기존 프로젝트 재구성 타일; 실측 표면 아님','rpg/assets/petersburg-tiles.png',((gid-1)%16)*16,Math.floor((gid-1)/16)*16]),
     ...newTiles.map(([gid,key,description,category,sourceId]) => {
-      const verifiedVisualReference = sourceId === 'V36-ART-KOLLMAN-FISH-SELLERS-1830S';
+      const verifiedVisualReferences = {
+        'V36-ART-KOLLMAN-FISH-SELLERS-1830S': '창작 픽셀 타일의 장면 참고: 러시아 박물관 R-5783은 1830년대 페테르부르크 강변의 생선·달걀 장수를 기록한다. 정확한 생선 진열 모양·게임 좌표·1847년 동일 장소를 입증하지 않는다.',
+        'V36-ART-LABASTIDE-HAWKER-TRAY-1845': '창작 픽셀 타일의 장면 참고: 러시아 박물관 R-24373은 약 1845년 페테르부르크 도시 유형화 연작의 쟁반 든 행상인을 기록한다. 타일의 정확한 쟁반 모양·게임 좌표·개별 행상인의 실재를 입증하지 않는다.',
+        'V36-ART-LABASTIDE-KALACH-SELLER-1845': '창작 픽셀 타일의 장면 참고: 러시아 박물관 R-24382는 약 1845년 페테르부르크 도시 유형화 연작의 칼라치 판매인을 기록한다. 빵의 정확한 형태·재료·게임 좌표·개별 판매인의 실재를 입증하지 않는다.',
+      };
+      const verifiedVisualReference = Object.hasOwn(verifiedVisualReferences, sourceId);
       const sourceType = sourceId === 'UNVERIFIED_RECONSTRUCTION' ? sourceId : 'CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE';
       const note = verifiedVisualReference
-        ? '창작 픽셀 타일의 장면 참고: 러시아 박물관 R-5783은 1830년대 페테르부르크 강변의 생선·달걀 장수를 기록한다. 생선 타일은 원작 복제가 아니며, 정확한 좌판 형태·게임 좌표·1847년 동일 장소를 입증하지 않는다.'
+        ? verifiedVisualReferences[sourceId]
         : 'UNVERIFIED_RECONSTRUCTION: 독립적으로 그린 게임용 소품. 확인한 1840년대 자료에서 이 물건의 구체적 형태·재료·용도를 직접 확인하지 못했으므로 사료 기반의 재현물로 단정하지 않는다.';
       return [gid,key,description,category,sourceType,verifiedVisualReference ? sourceId : '',verifiedVisualReference ? sourceUrlById[sourceId] : '',note,'rpg/assets/petersburg-tiles.png',((gid-1)%16)*16,Math.floor((gid-1)/16)*16];
     })

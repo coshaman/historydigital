@@ -87,7 +87,21 @@ for (const [index, line] of usageRows.slice(1).entries()) {
   const fields = [...line.matchAll(/"((?:[^"]|"")*)"/g)].map(match => match[1].replaceAll('""', '"'));
   const gid = Number(fields[0]);
   if (gid < 61) continue;
-  if (gid === 65) {
+  if (gid === 63) {
+    assert.equal(fields[1], 'HAWKER_PORTABLE_SALES_TRAY');
+    assert.equal(fields[4], 'CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE');
+    assert.equal(fields[5], 'V36-ART-LABASTIDE-HAWKER-TRAY-1845');
+    assert.ok(knownSourceIds.has(fields[5]));
+    assert.equal(fields[6], 'https://rusmuseumvrm.ru/data/collections/drawings/r-24373/index.php');
+    assert.match(fields[7], /정확한 쟁반 모양/);
+  } else if (gid === 64) {
+    assert.equal(fields[1], 'KALACH_VENDOR_BREAD');
+    assert.equal(fields[4], 'CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE');
+    assert.equal(fields[5], 'V36-ART-LABASTIDE-KALACH-SELLER-1845');
+    assert.ok(knownSourceIds.has(fields[5]));
+    assert.equal(fields[6], 'https://rusmuseumvrm.ru/data/collections/drawings/r-24382/index.php');
+    assert.match(fields[7], /빵의 정확한 형태/);
+  } else if (gid === 65) {
     assert.equal(fields[4], 'CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE');
     assert.equal(fields[5], 'V36-ART-KOLLMAN-FISH-SELLERS-1830S');
     assert.ok(knownSourceIds.has(fields[5]), 'GID 65 exact museum source must be registered');
