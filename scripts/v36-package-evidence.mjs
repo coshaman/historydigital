@@ -59,17 +59,11 @@ async function copyProject(from, to, relative = '') {
     const rel = path.posix.join(relative, entry.name);
     if (entry.isDirectory()) {
       if (skipDirectories.has(entry.name)) continue;
-      if (rel === 'docs/v27' || rel === 'artifacts/v27-browser') continue;
+      if (rel === 'docs/v27' || rel === 'artifacts/v27-browser' || rel === 'docs/v35/screenshots') continue;
       if (rel === 'artifacts') {
         const v36 = path.join(from, entry.name, 'v36');
         try { await stat(v36); } catch { continue; }
-        const screenshotDirectory = path.join(v36, 'BROWSER_ACCEPTANCE');
-        await mkdir(screenshotDirectory.replace(v36, path.join(to, 'artifacts', 'v36')), { recursive: true });
-        for (const file of curatedBrowserScreenshots) {
-          const source = path.join(screenshotDirectory, file);
-          try { await stat(source); } catch { throw new Error(`Required curated screenshot is missing: ${file}`); }
-          await cp(source, path.join(to, 'artifacts', 'v36', 'BROWSER_ACCEPTANCE', file));
-        }
+        // The curated ending captures are copied once into screenshots/endings below.
         continue;
       }
       await copyProject(path.join(from, entry.name), path.join(to, entry.name), rel);
