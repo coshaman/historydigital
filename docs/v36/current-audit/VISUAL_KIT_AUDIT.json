@@ -4,8 +4,8 @@
   "atlas": {
     "width": 256,
     "height": 160,
-    "declaredTiles": 84,
-    "uniquePixelTiles": 84,
+    "declaredTiles": 85,
+    "uniquePixelTiles": 85,
     "duplicateGroups": []
   },
   "tileUsageByDistrict": {
@@ -28,10 +28,9 @@
       59,
       60
     ],
-    "printshop": [
-      58,
-      59,
-      60
+    "printshopIndoorFloor": [
+      5,
+      6
     ],
     "courtyard": [
       54,
@@ -40,7 +39,7 @@
       57
     ],
     "cityMapCount": 14,
-    "distinctAtlasGidsUsed": 84,
+    "distinctAtlasGidsUsed": 85,
     "atlasGids": [
       1,
       2,
@@ -125,11 +124,12 @@
       81,
       82,
       83,
-      84
+      84,
+      85
     ]
   },
   "mapsWithUpdatedAtlasCount": 16,
-  "assetUsageLedgerRows": 84,
+  "assetUsageLedgerRows": 85,
   "sourceIdsResolve": true,
   "residentArt": {
     "residents": 36,

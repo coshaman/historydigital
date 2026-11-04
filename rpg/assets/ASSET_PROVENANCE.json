@@ -7,7 +7,7 @@
       "type": "ORIGINAL_PIXEL_TILE_ATLAS",
       "generatedBy": "scripts/v33-generate-rpg-content.mjs --v36-tiles-only",
       "license": "original project-authored pixels",
-      "historicalConfidence": "CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE",
+      "historicalConfidence": "UNVERIFIED_RECONSTRUCTION",
       "intendedScene": [
         "nevsky",
         "printshop"
@@ -32,7 +32,7 @@
         "https://rusmuseumvrm.ru/data/collections/drawings/r-24373/index.php",
         "https://rusmuseumvrm.ru/data/collections/drawings/r-24382/index.php"
       ],
-      "notes": "Original project pixel art. Row-level evidence in ASSET_USAGE_V36.csv separates three bounded period-art references from 21 UNVERIFIED_RECONSTRUCTION props. Russian Museum records R-5783, R-24373, and R-24382 support only the depicted fish/egg sellers, hawker with tray, and kalach seller subjects; they do not prove exact pixel-object shapes, materials, coordinates, or a fixed 1847 location. The 1849 atlas is later comparison, not direct proof of 1847 paving; no museum scan is embedded."
+      "notes": "Original project pixel art. Row-level evidence in ASSET_USAGE_V36.csv separates three bounded period-art references from 15 unverified surface tiles and 21 unverified props. Russian Museum records support only the depicted market subjects, not exact pixel shapes, materials, coordinates, or a fixed 1847 location. The 1849 atlas is later comparison, not direct proof of 1847 paving. Water tile GID 85 indicates map geography only and does not establish a historical water color or texture; no museum scan is embedded."
     },
     {
       "id": "sprite-clerk_alexei",

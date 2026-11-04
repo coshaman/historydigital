@@ -4,11 +4,16 @@ import { mkdir, writeFile } from 'node:fs/promises';
 const browser = await chromium.launch({headless:true});
 const context = await browser.newContext({viewport:{width:1440,height:900},deviceScaleFactor:1});
 const page = await context.newPage();
-await page.goto('http://127.0.0.1:4173/#legacy', {waitUntil:'domcontentloaded',timeout:15000});
+const baseUrl = process.env.CHANCERY_BASE_URL || 'http://127.0.0.1:4173';
+await page.goto(`${baseUrl}/chancery.html#legacy`, {waitUntil:'domcontentloaded',timeout:15000});
 await page.waitForFunction(() => window.__threeRuntime && window.__goldRuntime, null, {timeout:15000});
 const result = await page.evaluate(async () => {
   const gate = window.__threeRuntime;
   if (!gate?.loaded || !gate.local || gate.fallback || !gate.renderer?.info || !document.querySelector('#deskCanvas')?.dataset.threeLoaded) throw new Error('real local WebGL gate failed');
+  const gl = gate.renderer.getContext();
+  const debug = gl.getExtension('WEBGL_debug_renderer_info');
+  const renderer = debug ? gl.getParameter(debug.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER);
+  const vendor = debug ? gl.getParameter(debug.UNMASKED_VENDOR_WEBGL) : gl.getParameter(gl.VENDOR);
   const samples = async (label) => {
     const frames = await new Promise(resolve => { const values=[]; let previous=performance.now(); let count=0; const tick=now=>{ if(count++) values.push(now-previous); previous=now; if(count<31) requestAnimationFrame(tick); else resolve(values.slice(1)); }; requestAnimationFrame(tick); });
     const sorted=[...frames].sort((a,b)=>a-b); const percentile=p=>sorted[Math.min(sorted.length-1,Math.floor(sorted.length*p))];
@@ -22,9 +27,11 @@ const result = await page.evaluate(async () => {
   document.querySelector('#closeDrawer').click();
   document.querySelector('#petersburgWindow').dispatchEvent(new MouseEvent('click',{bubbles:true}));
   const windowInteraction=await samples('window-interaction');
-  return {gate:{loaded:gate.loaded,local:gate.local,fallback:gate.fallback,canvas:gate.canvas.dataset.threeLoaded}, samples:[idle,pickup,drawer,windowInteraction]};
+  const softwareRenderer = /swiftshader|llvmpipe|software rasterizer|software renderer/i.test(renderer);
+  return {schemaVersion:'V36_DESK_WEBGL_PERFORMANCE_V1',measuredAt:new Date().toISOString(),environment:{browser:navigator.userAgent,platform:navigator.platform,hardwareConcurrency:navigator.hardwareConcurrency,devicePixelRatio,renderer,vendor,softwareRenderer,hardwareGpuVerified:false},gate:{loaded:gate.loaded,local:gate.local,fallback:gate.fallback,canvas:gate.canvas.dataset.threeLoaded},samples:[idle,pickup,drawer,windowInteraction]};
 });
-await mkdir(new URL('../docs/v6/', import.meta.url), {recursive:true});
-await writeFile(new URL('../docs/v6/gold-webgl-performance.json', import.meta.url), JSON.stringify(result,null,2));
+const reportPath = new URL('../docs/v36/current-audit/DESK_WEBGL_PERFORMANCE.json', import.meta.url);
+await mkdir(new URL('../docs/v36/current-audit/', import.meta.url), {recursive:true});
+await writeFile(reportPath, JSON.stringify(result,null,2));
 console.log(JSON.stringify(result,null,2));
 await browser.close();

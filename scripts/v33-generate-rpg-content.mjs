@@ -116,6 +116,9 @@ const tileDrawers = [
   ({ rect, line, put }) => { rect(0,0,16,16,'#3a3028'); rect(5,2,6,12,'#6a4934'); rect(6,3,4,9,'#91a0a0'); rect(5,2,6,2,'#c1a36e'); rect(4,13,8,1,'#332820'); line(6,6,9,6,'#d8d1b8'); put(7,8,'#ded7c1'); },
   ({ rect, line, put }) => { rect(0,0,16,16,'#3c3229'); rect(3,10,10,4,'#765238'); rect(4,8,8,3,'#9c7044'); rect(5,6,6,3,'#bd9056'); rect(6,4,4,3,'#d3ac6c'); line(2,14,13,14,'#30251e'); put(4,9,'#e0c995'); put(11,11,'#e0c995'); },
   ({ rect, line, put }) => { rect(0,0,16,16,'#39312a'); rect(3,7,10,6,'#6f5840'); rect(4,6,8,2,'#b39260'); rect(5,4,2,3,'#d1b77e'); rect(9,4,2,3,'#d1b77e'); line(4,9,11,9,'#392d24'); line(4,11,11,11,'#392d24'); put(3,13,'#d4ba80'); put(12,13,'#d4ba80'); },
+  // Original game-art water pattern. It denotes navigable geography in the map,
+  // not the historically attested color or surface of any particular canal.
+  ({ rect, line, put }) => { rect(0, 0, 16, 16, '#354b50'); rect(0, 2, 16, 3, '#415c60'); rect(0, 10, 16, 4, '#3b5559'); line(1, 3, 6, 3, '#78908b'); line(9, 11, 14, 11, '#718985'); put(8, 4, '#9ba69a'); put(3, 12, '#8e9b90'); put(14, 6, '#617c7e'); },
 ];
 function drawText({ put, text, x, y, color }) {
   const glyphs = { 'К': ['101','110','100','110','101'], 'Н': ['101','101','111','101','101'], 'И': ['101','101','111','111','101'], 'Г': ['111','100','100','100','100'], 'П': ['111','101','101','101','101'], 'Е': ['111','100','110','100','111'], 'Ч': ['101','101','111','001','001'], 'Ь': ['100','100','110','101','110'], 'А': ['010','101','111','101','101'], 'Я': ['011','101','011','101','101'], 'О': ['111','101','101','101','111'], 'В': ['110','101','110','101','110'] };
@@ -363,7 +366,7 @@ const sceneObservations = {
 
 function putGridRow(grid,y,x0,x1,gid) { for(let x=x0;x<=x1;x++) grid.push([x,y,gid]); }
 if (process.argv.includes('--v36-tiles-only')) {
-  if (tileDrawers.length !== 84) throw new Error(`expected 84 tile types, got ${tileDrawers.length}`);
+  if (tileDrawers.length !== 85) throw new Error(`expected 85 tile types, got ${tileDrawers.length}`);
   const assetPath = path.join(out, 'assets', 'petersburg-tiles.png');
   await writeFile(assetPath, buildTileset());
   const mapIds = (await readdir(path.join(out, 'maps'))).filter(file => file.endsWith('.json')).map(file => file.slice(0, -5));
@@ -382,12 +385,23 @@ if (process.argv.includes('--v36-tiles-only')) {
     if (ground && mapId === 'market-quay') {
       for (let y = 8; y <= 11; y++) for (let x = 0; x < map.width; x++) ground[y * map.width + x] = 50 + ((x + y * 3) % 4);
       for (let y = 12; y <= 17; y++) for (let x = 0; x < map.width; x++) ground[y * map.width + x] = 54 + ((x * 2 + y) % 4);
-      for (let y = 14; y <= 17; y++) for (let x = 18; x <= 28; x++) ground[y * map.width + x] = 58 + ((x + y) % 3);
+      for (let y = 14; y <= 17; y++) for (let x = 18; x <= 27; x++) ground[y * map.width + x] = 58 + ((x + y) % 3);
+      for (let y = 10; y <= 18; y++) for (let x = 28; x <= 29; x++) ground[y * map.width + x] = 85;
+      for (let y = 10; y <= 18; y++) for (let x = 28; x <= 29; x++) map.layers.find(layer => layer.name === 'Collision').data[y * map.width + x] = 1;
+    }
+    if (ground && mapId === 'canal-road') {
+      for (let y = 8; y <= 17; y++) for (let x = 28; x <= 29; x++) {
+        ground[y * map.width + x] = 85;
+        map.layers.find(layer => layer.name === 'Collision').data[y * map.width + x] = 1;
+      }
+    }
+    if (ground && ['bakery-interior','bookshop-interior','sewing-room','printshop'].includes(mapId)) {
+      for (let at = 0; at < ground.length; at++) if (ground[at] >= 58 && ground[at] <= 60) ground[at] = 5 + (at % map.width % 2);
     }
     if (ground && mapId === 'printshop') {
       for (let y = 4; y <= 16; y++) for (let x = 3; x <= 26; x++) {
         const at = y * map.width + x;
-        if (ground[at] === 5 || ground[at] === 6) ground[at] = 58 + ((x + y * 2) % 3);
+        if (ground[at] === 5 || ground[at] === 6 || (ground[at] >= 58 && ground[at] <= 60)) ground[at] = 5 + ((x + y * 2) % 2);
       }
     }
     if (ground && mapId === 'courtyard') {
@@ -436,7 +450,7 @@ if (process.argv.includes('--v36-tiles-only')) {
   const atlas = provenance.assets.find(asset => asset.id === 'petersburg-tiles');
   atlas.type = 'ORIGINAL_PIXEL_TILE_ATLAS';
   atlas.generatedBy = 'scripts/v33-generate-rpg-content.mjs --v36-tiles-only';
-  atlas.historicalConfidence = 'CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE';
+  atlas.historicalConfidence = 'UNVERIFIED_RECONSTRUCTION';
   atlas.sourceIds = ['V36-MAP-NLR-19C-PLANS','V36-GUIDE-PUSHKAREV-1843','V36-MAP-TSYLOV-1849','V36-ART-RUSSIAN-MUSEUM-COLLMANN-1840S','V36-PHYSIOLOGY-PETERSBURG-1845'];
   atlas.sourceUrls = [
     'https://expositions.nlr.ru/eng/ex_map/mozaika_Saint-Petersburg/plans_19_century.php',
@@ -449,7 +463,7 @@ if (process.argv.includes('--v36-tiles-only')) {
   atlas.sourceUrls.push('https://rusmuseumvrm.ru/data/collections/drawings/r-5783/index.php');
   atlas.sourceIds.push('V36-ART-LABASTIDE-HAWKER-TRAY-1845','V36-ART-LABASTIDE-KALACH-SELLER-1845');
   atlas.sourceUrls.push('https://rusmuseumvrm.ru/data/collections/drawings/r-24373/index.php','https://rusmuseumvrm.ru/data/collections/drawings/r-24382/index.php');
-  atlas.notes = 'Original project pixel art. Row-level evidence in ASSET_USAGE_V36.csv separates three bounded period-art references from 21 UNVERIFIED_RECONSTRUCTION props. Russian Museum records R-5783, R-24373, and R-24382 support only the depicted fish/egg sellers, hawker with tray, and kalach seller subjects; they do not prove exact pixel-object shapes, materials, coordinates, or a fixed 1847 location. The 1849 atlas is later comparison, not direct proof of 1847 paving; no museum scan is embedded.';
+  atlas.notes = 'Original project pixel art. Row-level evidence in ASSET_USAGE_V36.csv separates three bounded period-art references from 15 unverified surface tiles and 21 unverified props. Russian Museum records support only the depicted market subjects, not exact pixel shapes, materials, coordinates, or a fixed 1847 location. The 1849 atlas is later comparison, not direct proof of 1847 paving. Water tile GID 85 indicates map geography only and does not establish a historical water color or texture; no museum scan is embedded.';
   await writeFile(provenancePath, `${JSON.stringify(provenance, null, 2)}\n`.replace(/\n/g, '\r\n'));
 
   const additions = [
@@ -496,7 +510,7 @@ if (process.argv.includes('--v36-tiles-only')) {
     ['CART_WHEEL_REPAIR_TOOLS','수레 수리 공구','TRANSPORT_EQUIPMENT','UNVERIFIED_RECONSTRUCTION'],
   ];
   const oldTiles = Array.from({ length: 45 }, (_, i) => [i + 1, 'EXISTING_TILE', `기존 타일 ${i + 1} · 기존 도심 세트`, 'EXISTING_RECONSTRUCTION', 'V36-MAP-NLR-19C-PLANS']);
-  const newTiles = [...additions.map(([key,description,category,sourceId], i) => [i + 46, key, description, category, sourceId]), ...householdTradeProps.map(([key,description,category,sourceId], i) => [i + 61, key, description, category, sourceId])];
+  const newTiles = [...additions.map(([key,description,category,sourceId], i) => [i + 46, key, description, category, sourceId]), ...householdTradeProps.map(([key,description,category,sourceId], i) => [i + 61, key, description, category, sourceId]), [85, 'RIVER_WATER_PIXEL_SURFACE', '강과 운하를 나타내는 게임용 물 표면', 'WATER_SURFACE', 'UNVERIFIED_RECONSTRUCTION']];
   const sourceUrlById = {
     'V36-MAP-NLR-19C-PLANS': atlas.sourceUrls[0],
     'V36-GUIDE-PUSHKAREV-1843': atlas.sourceUrls[1],
@@ -516,10 +530,13 @@ if (process.argv.includes('--v36-tiles-only')) {
         'V36-ART-LABASTIDE-KALACH-SELLER-1845': '창작 픽셀 타일의 장면 참고: 러시아 박물관 R-24382는 약 1845년 페테르부르크 도시 유형화 연작의 칼라치 판매인을 기록한다. 빵의 정확한 형태·재료·게임 좌표·개별 판매인의 실재를 입증하지 않는다.',
       };
       const verifiedVisualReference = Object.hasOwn(verifiedVisualReferences, sourceId);
-      const sourceType = sourceId === 'UNVERIFIED_RECONSTRUCTION' ? sourceId : 'CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE';
+      const surfaceReconstruction = gid >= 46 && gid <= 60;
+      const sourceType = sourceId === 'UNVERIFIED_RECONSTRUCTION' || surfaceReconstruction ? 'UNVERIFIED_RECONSTRUCTION' : 'CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE';
       const note = verifiedVisualReference
         ? verifiedVisualReferences[sourceId]
-        : 'UNVERIFIED_RECONSTRUCTION: 독립적으로 그린 게임용 소품. 확인한 1840년대 자료에서 이 물건의 구체적 형태·재료·용도를 직접 확인하지 못했으므로 사료 기반의 재현물로 단정하지 않는다.';
+        : surfaceReconstruction
+          ? 'UNVERIFIED_RECONSTRUCTION: 독립적으로 그린 게임용 노면·널판 타일. 확인한 자료는 이 구체적 표면의 색·문양·재료를 입증하지 않는다.'
+          : 'UNVERIFIED_RECONSTRUCTION: 독립적으로 그린 게임용 소품 또는 물 표면. 확인한 자료가 이 구체적 모양·색·재료를 입증하지 않으므로 사료 기반 재현물로 단정하지 않는다.';
       return [gid,key,description,category,sourceType,verifiedVisualReference ? sourceId : '',verifiedVisualReference ? sourceUrlById[sourceId] : '',note,'rpg/assets/petersburg-tiles.png',((gid-1)%16)*16,Math.floor((gid-1)/16)*16];
     })
   ].map(row => row.map(value => `"${String(value).replace(/"/g,'""')}"`).join(',')).join('\n') + '\n';

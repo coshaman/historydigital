@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "V36_DESK_WEBGL_PERFORMANCE_V1",
+  "measuredAt": "2026-11-04T16:13:44.089Z",
+  "environment": {
+    "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.12 Safari/537.36",
+    "platform": "Win32",
+    "hardwareConcurrency": 18,
+    "devicePixelRatio": 1,
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "vendor": "Google Inc. (Google)",
+    "softwareRenderer": true,
+    "hardwareGpuVerified": false
+  },
+  "gate": {
+    "loaded": true,
+    "local": true,
+    "fallback": false,
+    "canvas": "local"
+  },
+  "samples": [
+    {
+      "label": "idle",
+      "frameTimeMedian": 433.39999999999964,
+      "frameTimeP95": 566.5,
+      "fpsMedian": 2.3073373327180455,
+      "fpsP95": 1.7652250661959399,
+      "metrics": {
+        "drawCalls": 50,
+        "triangles": 2158,
+        "textures": 1,
+        "geometries": 49,
+        "dpr": 1,
+        "propCount": 22
+      }
+    },
+    {
+      "label": "document-pickup",
+      "frameTimeMedian": 433.3000000000029,
+      "frameTimeP95": 566.7000000000007,
+      "fpsMedian": 2.307869836141226,
+      "fpsP95": 1.7646020822304547,
+      "metrics": {
+        "drawCalls": 50,
+        "triangles": 2158,
+        "textures": 1,
+        "geometries": 49,
+        "dpr": 1,
+        "propCount": 22
+      }
+    },
+    {
+      "label": "drawer-interaction",
+      "frameTimeMedian": 400,
+      "frameTimeP95": 533.4000000000015,
+      "fpsMedian": 2.5,
+      "fpsP95": 1.8747656542932083,
+      "metrics": {
+        "drawCalls": 50,
+        "triangles": 2158,
+        "textures": 1,
+        "geometries": 49,
+        "dpr": 1,
+        "propCount": 22
+      }
+    },
+    {
+      "label": "window-interaction",
+      "frameTimeMedian": 466.59999999999854,
+      "frameTimeP95": 1100.0999999999985,
+      "fpsMedian": 2.143163309044156,
+      "fpsP95": 0.9090082719752762,
+      "metrics": {
+        "drawCalls": 12,
+        "triangles": 144,
+        "textures": 1,
+        "geometries": 54,
+        "dpr": 1,
+        "propCount": 22
+      }
+    }
+  ]
+}

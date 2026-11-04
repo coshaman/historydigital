@@ -86,11 +86,12 @@ const definitions = [
   ['APOTHECARY_STOPPERED_JAR','마개가 있는 약병','APOTHECARY_GOODS'],
   ['SHARED_FIREWOOD_STACK','장작 더미','HOUSEHOLD_FUEL'],
   ['CART_WHEEL_REPAIR_TOOLS','수레 수리 공구','TRANSPORT_EQUIPMENT'],
+  ['RIVER_WATER_PIXEL_SURFACE','강과 운하를 나타내는 게임용 물 표면','WATER_SURFACE'],
 ];
 
 const lines = (await readFile(file, 'utf8')).trimEnd().split(/\r?\n/);
 const headers = lines[0];
-if (lines.length !== 85 || definitions.length !== 84) throw new Error('expected a header and exactly 84 atlas entries');
+if (lines.length !== 86 || definitions.length !== 85) throw new Error('expected a header and exactly 85 atlas entries');
 const quote = value => `"${String(value).replaceAll('"','""')}"`;
 const rows = lines.slice(1).map((line, index) => {
   const columns = [...line.matchAll(/"((?:[^"]|"")*)"/g)].map(match => match[1].replaceAll('""','"'));
@@ -119,6 +120,11 @@ const rows = lines.slice(1).map((line, index) => {
     if (columns[4] !== 'UNVERIFIED_RECONSTRUCTION' || columns[5] || columns[6] || !columns[7].includes('UNVERIFIED_RECONSTRUCTION')) {
       throw new Error(`GID ${gid} must not imply direct historical support without an inspected item-level source.`);
     }
+  } else if (gid >= 46 && gid <= 60) {
+    columns[4] = 'UNVERIFIED_RECONSTRUCTION';
+    columns[5] = '';
+    columns[6] = '';
+    columns[7] = 'UNVERIFIED_RECONSTRUCTION: 독립적으로 그린 게임용 노면·널판 타일. 확인한 자료는 이 구체적 표면의 색·문양·재료를 입증하지 않는다.';
   } else {
     columns[7] = '독립적으로 그린 게임용 타일; 이 시각 자료는 특정 주소·건축물·노면 배치를 입증하지 않음';
   }

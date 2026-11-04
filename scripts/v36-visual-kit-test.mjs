@@ -11,7 +11,7 @@ const withTimeout = (promise, label, ms = 45000) => new Promise((resolve, reject
   promise.then(value => { clearTimeout(timer); resolve(value); }, error => { clearTimeout(timer); reject(error); });
 });
 const atlasPath = path.join(root, 'rpg/assets/petersburg-tiles.png');
-assert.equal(interactionTile({ type: 'inspectable', properties: [{ name: 'assetTileId', value: 84 }] }), 84, 'runtime recognizes the last tile in the expanded atlas');
+assert.equal(interactionTile({ type: 'inspectable', properties: [{ name: 'assetTileId', value: 85 }] }), 85, 'runtime recognizes the last tile in the expanded atlas');
 const atlasBytes = await fs.readFile(atlasPath);
 const atlasDataUrl = `data:image/png;base64,${atlasBytes.toString('base64')}`;
 const browser = await chromium.launch({ headless: true });
@@ -23,7 +23,7 @@ try {
     const canvas = document.createElement('canvas'); canvas.width = image.naturalWidth; canvas.height = image.naturalHeight;
     const ctx = canvas.getContext('2d', { willReadFrequently: true }); ctx.imageSmoothingEnabled = false; ctx.drawImage(image, 0, 0);
     const { data } = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    return { width: canvas.width, height: canvas.height, tiles: Array.from({ length: 84 }, (_, gid) => {
+    return { width: canvas.width, height: canvas.height, tiles: Array.from({ length: 85 }, (_, gid) => {
       const x0 = gid % 16 * 16, y0 = Math.floor(gid / 16) * 16, pixels = [];
       for (let y = y0; y < y0 + 16; y++) for (let x = x0; x < x0 + 16; x++) {
         const at = (y * canvas.width + x) * 4; pixels.push(data[at], data[at + 1], data[at + 2], data[at + 3]);
@@ -35,7 +35,7 @@ try {
 } finally { await withTimeout(browser.close(), 'atlas browser close', 10000); }
 
 assert.equal(tilePixels.width, 256, 'atlas keeps 16 columns of 16px tiles');
-assert.equal(tilePixels.height, 160, 'atlas height includes all 84 declared tiles');
+assert.equal(tilePixels.height, 160, 'atlas height includes all 85 declared tiles');
 const tileHashes = tilePixels.tiles.map(pixels => createHash('sha256').update(Buffer.from(pixels)).digest('hex'));
 const uniqueHashes = new Set(tileHashes);
 const duplicateGroups = [...new Set(tileHashes)].map(hash => ({ hash, gids: tileHashes.flatMap((value, index) => value === hash ? [index + 1] : []) })).filter(group => group.gids.length > 1);
@@ -44,48 +44,66 @@ const mapIds = (await fs.readdir(path.join(root,'rpg/maps'))).filter(file=>file.
 const maps = Object.fromEntries(await Promise.all(mapIds.map(async id => [id, JSON.parse(await fs.readFile(path.join(root, `rpg/maps/${id}.json`), 'utf8'))])));
 for (const [id, map] of Object.entries(maps)) {
   const tileset = map.tilesets.find(item => item.image?.endsWith('petersburg-tiles.png'));
-  assert.equal(tileset?.tilecount, 84, `${id} declares all 84 atlas tiles`);
+  assert.equal(tileset?.tilecount, 85, `${id} declares all 85 atlas tiles`);
+  if (['bakery-interior','bookshop-interior','sewing-room','printshop'].includes(id)) {
+    assert.ok(map.layers.find(layer => layer.name === 'Ground').data.every(gid => gid < 58 || gid > 60), `${id} uses indoor timber instead of dock planks`);
+  }
 }
 function usedRange(map, min, max) { return new Set(map.layers.find(layer => layer.name === 'Ground').data.filter(gid => gid >= min && gid <= max)); }
 const used = {
   nevsky: [...usedRange(maps.nevsky, 46, 49)].sort((a,b) => a-b),
   marketQuay: [...usedRange(maps['market-quay'], 50, 60)].sort((a,b) => a-b),
-  printshop: [...usedRange(maps.printshop, 58, 60)].sort((a,b) => a-b),
+  printshopIndoorFloor: [...usedRange(maps.printshop, 5, 6)].sort((a,b) => a-b),
   courtyard: [...usedRange(maps.courtyard, 54, 57)].sort((a,b) => a-b),
 };
 assert.equal(used.nevsky.length, 4, 'Nevsky uses all four new street stones');
 assert.equal(used.marketQuay.length, 11, 'market and quay use all ground, stone and timber variants');
-assert.equal(used.printshop.length, 3, 'printshop uses the indoor timber floor variants');
+assert.deepEqual(used.printshopIndoorFloor, [5, 6], 'printshop uses both indoor timber floor variants');
 assert.equal(used.courtyard.length, 4, 'courtyard uses all worn stone variants');
+for (const [mapId, range] of [['market-quay',[10,18]],['canal-road',[8,17]]]) {
+  const map = maps[mapId], ground = map.layers.find(layer => layer.name === 'Ground').data, collision = map.layers.find(layer => layer.name === 'Collision').data;
+  const waterCells = [];
+  for (let y = range[0]; y <= range[1]; y++) for (let x = 28; x <= 29; x++) {
+    const at = y * map.width + x;
+    if (ground[at] === 85) { waterCells.push(at); assert.equal(collision[at], 1, `${mapId} water blocks movement at ${x},${y}`); }
+  }
+  assert.ok(waterCells.length >= 18, `${mapId} has a visible two-cell water edge`);
+}
 const usedAtlasGids = new Set();
 for (const map of Object.values(maps).filter(item=>item.metadata.mapClass!=='LITERARY_REALM')) {
-  for (const layer of map.layers.filter(item=>item.type==='tilelayer')) for (const gid of layer.data) if (gid>0&&gid<=84) usedAtlasGids.add(gid);
+  for (const layer of map.layers.filter(item=>item.type==='tilelayer')) for (const gid of layer.data) if (gid>0&&gid<=85) usedAtlasGids.add(gid);
   for (const object of map.layers.find(item=>item.name==='Interactions')?.objects??[]) {
     const tile=Number(object.properties?.find(item=>item.name==='assetTileId')?.value);
-    if(Number.isInteger(tile)&&tile>=1&&tile<=84)usedAtlasGids.add(tile);
+    if(Number.isInteger(tile)&&tile>=1&&tile<=85)usedAtlasGids.add(tile);
   }
 }
-assert.equal(usedAtlasGids.size,84,`all 84 distinct atlas assets must appear in playable city maps; missing=${JSON.stringify([...Array(84)].map((_,index)=>index+1).filter(id=>!usedAtlasGids.has(id)))}`);
+assert.equal(usedAtlasGids.size,85,`all 85 distinct atlas assets must appear in playable city maps; missing=${JSON.stringify([...Array(85)].map((_,index)=>index+1).filter(id=>!usedAtlasGids.has(id)))}`);
 
 const usageRows = (await fs.readFile(path.join(root, 'rpg/assets/ASSET_USAGE_V36.csv'), 'utf8')).trim().split(/\r?\n/);
-assert.equal(usageRows.length, 85, 'tile usage ledger has a header and one row per GID');
+assert.equal(usageRows.length, 86, 'tile usage ledger has a header and one row per GID');
 const usageGids = usageRows.slice(1).map(line => Number(line.match(/^"(\d+)"/)?.[1]));
-assert.deepEqual(usageGids, Array.from({ length: 84 }, (_, index) => index + 1), 'ledger covers each atlas tile exactly once in order');
+assert.deepEqual(usageGids, Array.from({ length: 85 }, (_, index) => index + 1), 'ledger covers each atlas tile exactly once in order');
 const usageKeys = usageRows.slice(1).map(line => [...line.matchAll(/"((?:[^"]|"")*)"/g)][1]?.[1]);
-assert.equal(new Set(usageKeys).size,84,'all 84 ledger rows identify a distinct environmental tile asset');
+assert.equal(new Set(usageKeys).size,85,'all 85 ledger rows identify a distinct environmental tile asset');
 assert.ok(usageKeys.every(key=>key&&key!=='EXISTING_TILE'),'tile ledger entries must use distinct descriptive names');
-assert.ok(usageKeys.slice(60).every(key => !/(COBBLE|EARTH|STONE|PLANK)_/.test(key)), 'the 24 added entries must identify physical props, not more surface variations');
+assert.ok(usageKeys.slice(60,84).every(key => !/(COBBLE|EARTH|STONE|PLANK)_/.test(key)), 'the 24 added entries must identify physical props, not more surface variations');
 const provenance = JSON.parse(await fs.readFile(path.join(root, 'rpg/assets/ASSET_PROVENANCE.json'), 'utf8'));
 const atlasRecord = provenance.assets.find(asset => asset.id === 'petersburg-tiles');
-assert.equal(atlasRecord.historicalConfidence, 'CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE');
 assert.match(atlasRecord.notes, /1849 atlas is later comparison/);
 assert.doesNotMatch(atlasRecord.notes, /1847 photograph|surveyed 1847 paving/i);
 const sourceRegister = JSON.parse(await fs.readFile(path.join(root, 'docs/v36/historical-map-source-register.json'), 'utf8'));
 const knownSourceIds = new Set(sourceRegister.sources.map(source => source.sourceId));
 assert.ok(atlasRecord.sourceIds.every(id => knownSourceIds.has(id)), 'atlas provenance source IDs resolve to checked-in historical records');
+assert.equal(atlasRecord.historicalConfidence, 'UNVERIFIED_RECONSTRUCTION');
 for (const [index, line] of usageRows.slice(1).entries()) {
   const fields = [...line.matchAll(/"((?:[^"]|"")*)"/g)].map(match => match[1].replaceAll('""', '"'));
   const gid = Number(fields[0]);
+  if (gid >= 46 && gid <= 60) {
+    assert.equal(fields[4], 'UNVERIFIED_RECONSTRUCTION', `surface GID ${gid} does not overstate its source support`);
+    assert.equal(fields[5], ''); assert.equal(fields[6], '');
+    assert.match(fields[7], /색·문양·재료를 입증하지 않는다/);
+    continue;
+  }
   if (gid < 61) continue;
   if (gid === 63) {
     assert.equal(fields[1], 'HAWKER_PORTABLE_SALES_TRAY');
@@ -139,8 +157,8 @@ assert.equal(uniquePortraits, 36, `all resident portraits have distinct rendered
 
 const report = {
   schemaVersion: 'V36_VISUAL_KIT_AUDIT_1',
-  status: uniqueHashes.size === 84 ? 'PASS' : 'FAIL',
-  atlas: { width: tilePixels.width, height: tilePixels.height, declaredTiles: 84, uniquePixelTiles: uniqueHashes.size, duplicateGroups },
+  status: uniqueHashes.size === 85 ? 'PASS' : 'FAIL',
+  atlas: { width: tilePixels.width, height: tilePixels.height, declaredTiles: 85, uniquePixelTiles: uniqueHashes.size, duplicateGroups },
   tileUsageByDistrict: { ...used, cityMapCount: Object.values(maps).filter(item=>item.metadata.mapClass!=='LITERARY_REALM').length,
     distinctAtlasGidsUsed: usedAtlasGids.size, atlasGids: [...usedAtlasGids].sort((a,b)=>a-b) },
   mapsWithUpdatedAtlasCount: Object.keys(maps).length,
