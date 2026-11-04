@@ -81,7 +81,7 @@
       "imageheight": 160,
       "tilewidth": 16,
       "tileheight": 16,
-      "tilecount": 60,
+      "tilecount": 84,
       "columns": 16
     }
   ],
@@ -2934,6 +2934,11 @@
               "name": "questId",
               "type": "string",
               "value": "PAVEL_PROOF_DELIVERY_1847_STAGE_2"
+            },
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 67
             }
           ]
         },

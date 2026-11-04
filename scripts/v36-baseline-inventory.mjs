@@ -24,6 +24,9 @@ const questFiles = await files('rpg/quests');
 const quests = await Promise.all(questFiles.map(json));
 const mapFiles = await files('rpg/maps');
 const maps = await Promise.all(mapFiles.map(json));
+const assetUsageLines = (await readFile(path.join(root, 'rpg/assets/ASSET_USAGE_V36.csv'), 'utf8')).trim().split(/\r?\n/);
+const declaredAtlasGids = new Set(assetUsageLines.slice(1).map(line => Number(line.match(/^"(\d+)"/)?.[1])).filter(Number.isInteger));
+if (!declaredAtlasGids.size) throw new Error('V36 asset usage ledger contains no numeric tile GIDs.');
 const questHostIds = new Map(characters.map(person => [person.id, []]));
 for (const quest of quests) for (const action of quest.actions ?? []) for (const hostId of action.hostIds ?? []) questHostIds.get(hostId)?.push(quest.id);
 
@@ -70,14 +73,20 @@ const enterableInteriors = [...registeredInteriorIds].filter(id => {
   return Boolean(map?.metadata?.access && mapRows.find(row => row.mapId === id)?.mapExits.some(exit => exit.targetExists));
 });
 const usedAtlasGids = new Set();
+const unresolvedAtlasGids = new Set();
 for (const map of maps.filter(item => item.metadata?.mapClass !== 'LITERARY_REALM')) {
-  for (const layer of map.layers?.filter(item => item.type === 'tilelayer') ?? []) for (const gid of layer.data ?? []) if (gid > 0 && gid <= 60) usedAtlasGids.add(gid);
+  for (const layer of map.layers?.filter(item => item.type === 'tilelayer') ?? []) for (const gid of layer.data ?? []) if (gid > 0) {
+    if (declaredAtlasGids.has(gid)) usedAtlasGids.add(gid);
+    else unresolvedAtlasGids.add(gid);
+  }
   for (const object of map.layers?.find(item => item.name === 'Interactions')?.objects ?? []) {
     const gid = Number(props(object).assetTileId);
-    if (Number.isInteger(gid) && gid >= 1 && gid <= 60) usedAtlasGids.add(gid);
+    if (Number.isInteger(gid) && gid > 0) {
+      if (declaredAtlasGids.has(gid)) usedAtlasGids.add(gid);
+      else unresolvedAtlasGids.add(gid);
+    }
   }
 }
-const assetUsageLines = (await readFile(path.join(root, 'rpg/assets/ASSET_USAGE_V36.csv'), 'utf8')).trim().split(/\r?\n/);
 await writeFile(path.join(out, 'MAP_GRAPH_AUDIT.json'), JSON.stringify({ auditedHead: commit, generatedAt,
   summary: { totalMaps: mapRows.length, cityAndReconstructionMaps: cityMaps.length,
     literaryMapsSeparate: mapRows.length - cityMaps.length, knownInteriorCandidatesByMetadata: interiorCandidates,
@@ -89,11 +98,12 @@ await writeFile(path.join(out, 'MAP_GRAPH_AUDIT.json'), JSON.stringify({ audited
 const provenance = await json('rpg/assets/ASSET_PROVENANCE.json');
 const provenanceByPath = new Map((provenance.assets ?? []).map(asset => [asset.path.replaceAll('\\', '/'), asset]));
 const assetFiles = [];
+const visualAssetExtensions = new Set(['.png', '.svg', '.jpg', '.jpeg', '.webp', '.gif']);
 async function walkAssets(dir) {
   for (const entry of await readdir(path.join(root, dir), { withFileTypes: true })) {
     const relative = path.join(dir, entry.name).replaceAll('\\', '/');
     if (entry.isDirectory()) await walkAssets(relative);
-    else assetFiles.push(relative);
+    else if (visualAssetExtensions.has(path.extname(entry.name).toLowerCase())) assetFiles.push(relative);
   }
 }
 await walkAssets('rpg/assets');
@@ -145,11 +155,14 @@ const baseline = { auditedHead: commit, branch, generatedAt, workingTreeStatus: 
     playableDistricts: playableDistricts.length,
     registeredInteriors: registeredInteriorIds.size,
     physicallyEnterableRegisteredInteriors: enterableInteriors.length,
-    environmentAtlasTilesDeclared: 60,
+    environmentAtlasTilesDeclared: declaredAtlasGids.size,
+    environmentAtlasTilesMinimum: 60,
     distinctEnvironmentAtlasTilesUsed: usedAtlasGids.size,
     environmentTileUsageLedgerEntries: assetUsageLines.length - 1,
+    unresolvedEnvironmentAtlasGids: [...unresolvedAtlasGids].sort((a, b) => a - b),
     currentCityNonExitInteractionObjects: cityMaps.reduce((sum, map) => sum + map.interactionObjects - map.mapExits.length, 0),
     currentCityMeaningfulInteractions: meaningfulCityInteractions,
+    visualAssetsAudited: assetRows.length,
     distinctProvenanceAssetTypes: new Set((provenance.assets ?? []).map(asset => asset.type)).size,
     districtRegistryCoversAllCityMaps: [...districtMapIds].filter(id => mapIdSet.has(id)).length === cityMaps.length },
   rosterGaps: { scheduleUnderFour: characters.filter(person => person.kind === 'FICTIONAL' && !person.id.startsWith('literary_') && (person.schedule ?? []).length < 4).map(person => person.id),
@@ -168,7 +181,7 @@ const baseline = { auditedHead: commit, branch, generatedAt, workingTreeStatus: 
     `${enterableInteriors.length} registered interiors have access metadata and a physical exit; the V36 target is 8.`,
     `${meaningfulCityInteractions} city interactions resolve to a quest, authored inspection, cited source, clue, or service; the V36 threshold is 70.`,
     `${new Set(quests.filter(quest => quest.lifeChain?.stageCount >= 3).map(quest => quest.lifeChain.id)).size} complete resident life chains are registered, including ${new Set(quests.filter(quest => quest.socialChain?.stageCount === 3).map(quest => quest.socialChain.id)).size} three-stage social chains; targets are 30 life chains and 10 social chains.`,
-    `${usedAtlasGids.size}/60 unique environmental atlas tiles are used in city maps; the V36 target is 60, with ${assetUsageLines.length - 1} ledger entries.`,
+    `${usedAtlasGids.size}/${declaredAtlasGids.size} declared environmental atlas tile GIDs are used in city maps; the V36 minimum is 60 distinct environment assets, and the ledger has ${assetUsageLines.length - 1} rows.`,
     'Map geography remains stylized and not georeferenced; cited records contextualize scenes but do not prove survey-grade in-game coordinates.',
     'Local live-provider smoke does not verify the deployed Vercel production environment or its environment variables.',
   ] };

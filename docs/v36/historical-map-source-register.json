@@ -98,6 +98,21 @@
       "creditedArtist": "K. I. Collmann for the two 1842 watercolors; the museum identifies the 1840 Street in the Rain under the same exhibition listing.",
       "gameTransformation": "Create original pixel art inspired by visible, inspected features and mark it CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE. Do not claim the pixel reconstruction is a documentary image.",
       "catalogResearchUrl": "https://rusmuseumvrm.ru/online_resources/art_gallery/spb._gorod_i_gorozhane/index.php?lang=ru&p=803&page=1&ps=500&show=name&t=0"
+    },
+    {
+      "sourceId": "V36-ART-KOLLMAN-FISH-SELLERS-1830S",
+      "title": "K. I. Collmann, Fish and Egg Sellers on the Embankment in Petersburg",
+      "sourceType": "PERIOD_PAINTING",
+      "sourceUrl": "https://rusmuseumvrm.ru/data/collections/drawings/r-5783/index.php",
+      "verifiedMetadata": "The State Russian Museum catalog identifies K. I. Collmann's watercolor Fish and Egg Sellers on the Embankment in Petersburg, dated to the 1830s, inventory R-5783.",
+      "eraRange": "1830s; first half of the nineteenth century",
+      "locale": "Petersburg embankment",
+      "pageOrFolio": "Russian Museum object record R-5783; catalog metadata checked 2026-11-04.",
+      "visualFeature": "Fish and egg vendors at a Petersburg embankment; scene-level evidence for riverside street commerce, not a measured inventory of stall objects.",
+      "confidence": "HIGH for the cataloged subject/date/media; exact fish display arrangement must be checked against the image.",
+      "rights": "Catalog record reviewed; no museum image is copied or redistributed. Pixel asset is original project artwork.",
+      "creditedArtist": "K. I. Collmann",
+      "gameTransformation": "Use only as scene context for an original fish-market pixel prop. It does not establish the game's exact stall layout, tile coordinates, object materials, or an unchanged 1847 location."
     }
   ],
   "verifiedLimits": [

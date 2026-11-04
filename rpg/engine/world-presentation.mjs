@@ -28,7 +28,7 @@ export function questPrerequisitesMet(state, quest) {
 export function interactionTile(object) {
   const p = Object.fromEntries((object.properties ?? []).map(item => [item.name, item.value]));
   const assetTileId = Number(p.assetTileId);
-  if (Number.isInteger(assetTileId) && assetTileId >= 1 && assetTileId <= 60) return assetTileId;
+  if (Number.isInteger(assetTileId) && assetTileId >= 1 && assetTileId <= 84) return assetTileId;
   if (object.type === 'map-exit') return 13;
   if (object.type === 'source') return 29;
   if (object.type === 'quest-object') return 24;

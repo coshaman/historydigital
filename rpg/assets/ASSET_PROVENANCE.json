@@ -17,16 +17,18 @@
         "V36-GUIDE-PUSHKAREV-1843",
         "V36-MAP-TSYLOV-1849",
         "V36-ART-RUSSIAN-MUSEUM-COLLMANN-1840S",
-        "V36-PHYSIOLOGY-PETERSBURG-1845"
+        "V36-PHYSIOLOGY-PETERSBURG-1845",
+        "V36-ART-KOLLMAN-FISH-SELLERS-1830S"
       ],
       "sourceUrls": [
         "https://expositions.nlr.ru/eng/ex_map/mozaika_Saint-Petersburg/plans_19_century.php",
         "https://www.prlib.ru/item/441202",
         "https://rusneb.ru/catalog/000200_000018_v19_rc_1287364/",
         "https://rusmuseumvrm.ru/online_resources/art_gallery/spb._gorod_i_gorozhane/index.php?lang=en&p=0&page=3&ps=60&show=desc&t=830",
-        "https://www.prlib.ru/section/1327906"
+        "https://www.prlib.ru/section/1327906",
+        "https://rusmuseumvrm.ru/data/collections/drawings/r-5783/index.php"
       ],
-      "notes": "Original project pixel art. 1843 guide and 1840s genre watercolours inform street activity, clothing silhouettes, market and transport props; 1849 atlas is a later comparative map, not direct proof of 1847 paving. Exact blocks, paving, quay layout, and merchants are fictional reconstruction; no scanned source image is embedded."
+      "notes": "Original project pixel art. Broad historical sources contextualize the city, while row-level evidence in ASSET_USAGE_V36.csv distinguishes supported visual references from UNVERIFIED_RECONSTRUCTION. The R-5783 fish-seller watercolor is a scene-level reference for the fish-market tile only. The 1849 atlas is later comparison, not direct proof of 1847 paving; no museum scan is embedded."
     },
     {
       "id": "sprite-clerk_alexei",

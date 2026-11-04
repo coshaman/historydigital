@@ -1,6 +1,6 @@
 {
   "schemaVersion": "V33_CAMPAIGN_BROWSER_SMOKE_V1",
-  "base": "http://127.0.0.1:59130/",
+  "base": "http://127.0.0.1:63182/",
   "endingId": "UVAROV",
   "status": "PASS",
   "steps": [
@@ -192,8 +192,8 @@
       "hostId": "clerk_alexei",
       "mapId": "chancery",
       "position": {
-        "x": 13,
-        "y": 13
+        "x": 11,
+        "y": 15
       }
     },
     {

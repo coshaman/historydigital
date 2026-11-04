@@ -135,7 +135,7 @@
       "imageheight": 160,
       "tilewidth": 16,
       "tileheight": 16,
-      "tilecount": 60,
+      "tilecount": 84,
       "columns": 16
     }
   ],
@@ -2088,6 +2088,11 @@
               "name": "questId",
               "type": "string",
               "value": "CIRCLE_INVESTIGATION_1849"
+            },
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 81
             }
           ]
         },

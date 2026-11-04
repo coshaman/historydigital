@@ -83,7 +83,7 @@
       "imageheight": 160,
       "tilewidth": 16,
       "tileheight": 16,
-      "tilecount": 60,
+      "tilecount": 84,
       "columns": 16
     }
   ],
@@ -2559,7 +2559,7 @@
             {
               "name": "assetTileId",
               "type": "int",
-              "value": 31
+              "value": 61
             },
             {
               "name": "scope",
@@ -2613,7 +2613,7 @@
             {
               "name": "assetTileId",
               "type": "int",
-              "value": 35
+              "value": 66
             },
             {
               "name": "scope",
@@ -2742,6 +2742,11 @@
               "name": "personalLifeQuest",
               "type": "bool",
               "value": true
+            },
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 68
             }
           ]
         }

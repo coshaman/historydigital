@@ -1,6 +1,6 @@
 {
   "schemaVersion": "V33_RPG_BROWSER_SMOKE_V1",
-  "base": "http://127.0.0.1:59130/",
+  "base": "http://127.0.0.1:63182/",
   "viewports": [
     {
       "viewport": {
@@ -520,7 +520,7 @@
       "canvas": {
         "width": 338,
         "height": 339,
-        "sampledColors": 45,
+        "sampledColors": 43,
         "mapCoverage": 1,
         "cssTileScale": 0.7041666666666667
       },
@@ -544,7 +544,7 @@
     "clueInspected": "PRINTSHOP_ROUTING_NOTE",
     "sourceRead": true,
     "sourceReaderScroll": {
-      "scrollHeight": 893,
+      "scrollHeight": 921,
       "clientHeight": 335
     },
     "choiceResolved": true,

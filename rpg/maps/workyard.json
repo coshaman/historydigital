@@ -83,7 +83,7 @@
       "imageheight": 160,
       "tilewidth": 16,
       "tileheight": 16,
-      "tilecount": 60,
+      "tilecount": 84,
       "columns": 16
     }
   ],
@@ -1887,7 +1887,7 @@
             {
               "name": "assetTileId",
               "type": "int",
-              "value": 34
+              "value": 72
             },
             {
               "name": "scope",
@@ -1914,7 +1914,7 @@
             {
               "name": "assetTileId",
               "type": "int",
-              "value": 22
+              "value": 31
             },
             {
               "name": "scope",

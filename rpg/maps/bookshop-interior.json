@@ -120,7 +120,7 @@
       "imageheight": 160,
       "tilewidth": 16,
       "tileheight": 16,
-      "tilecount": 60,
+      "tilecount": 84,
       "columns": 16
     }
   ],
@@ -1924,7 +1924,7 @@
             {
               "name": "assetTileId",
               "type": "int",
-              "value": 20
+              "value": 32
             },
             {
               "name": "scope",
@@ -2171,6 +2171,28 @@
               "name": "personalLifeQuest",
               "type": "bool",
               "value": true
+            }
+          ]
+        },
+        {
+          "id": 4009,
+          "name": "서가 앞 발판 사다리",
+          "type": "inspectable",
+          "x": 112,
+          "y": 80,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 71
+            },
+            {
+              "name": "storyTextKo",
+              "type": "string",
+              "value": "높은 칸에 닿으려고 둔 낮은 사다리다. 손잡이와 발판이 닳았지만, 이것만으로 누가 어떤 책을 찾았는지는 알 수 없다."
             }
           ]
         }

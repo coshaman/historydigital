@@ -1,7 +1,7 @@
 {
   "schemaVersion": "V36_PHASE2_NEIGHBORHOOD_BROWSER_1",
   "status": "PASS",
-  "generatedAt": "2026-11-02T21:50:49.457Z",
+  "generatedAt": "2026-11-04T04:17:26.120Z",
   "elapsedNpcSimulationMinutes": 120,
   "coreResidentCount": 12,
   "viewports": [
@@ -14,7 +14,7 @@
       "mapId": "nevsky",
       "mission": "말할 기회와 감당할 위험",
       "opinionBoardVisible": true,
-      "scheduledResidentsInMap": 17,
+      "scheduledResidentsInMap": 14,
       "canvas": {
         "width": 1382,
         "height": 355
@@ -31,7 +31,7 @@
       "mapId": "market-quay",
       "mission": "장작 장부의 빈칸",
       "opinionBoardVisible": true,
-      "scheduledResidentsInMap": 10,
+      "scheduledResidentsInMap": 5,
       "canvas": {
         "width": 1382,
         "height": 355

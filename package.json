@@ -177,6 +177,7 @@
     "v35-actor-audit": "node scripts/v35-actor-visibility-audit.mjs",
     "v36-tie-baseline": "node scripts/v36-ending-tie-baseline.mjs",
     "v36-baseline": "node scripts/v36-baseline-inventory.mjs",
+    "v36-baseline-inventory-test": "node scripts/v36-baseline-inventory-test.mjs",
     "v36-current-audit": "node scripts/v36-baseline-inventory.mjs",
     "v36-add-personal-life-chains": "node scripts/v36-add-personal-life-chains.mjs",
     "v36-personal-life-chain-test": "node scripts/v36-personal-life-chain-test.mjs",

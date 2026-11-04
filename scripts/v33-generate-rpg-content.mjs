@@ -1,4 +1,4 @@
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { deflateSync } from 'node:zlib';
@@ -91,6 +91,31 @@ const tileDrawers = [
   ({ rect, put, line }) => { rect(0,0,16,16,'#493f34'); rect(0,0,16,4,'#66533f'); rect(1,5,14,2,'#362f29'); rect(0,8,16,4,'#70583f'); rect(1,13,14,2,'#514334'); line(3,1,3,3,'#a27e52'); line(10,9,10,11,'#a08052'); put(7,6,'#b2905e'); put(13,13,'#9d7951'); },
   ({ rect, put, line }) => { rect(0,0,16,16,'#575148'); rect(1,0,6,4,'#6e665b'); rect(9,1,6,3,'#625a50'); rect(2,6,5,4,'#73695b'); rect(10,6,5,4,'#5d574e'); rect(0,12,7,3,'#665f54'); rect(9,12,6,3,'#766b5b'); line(1,5,5,5,'#403c37'); line(8,11,14,11,'#3e3a36'); put(6,2,'#94836b'); put(12,5,'#9c8b70'); },
   ({ rect, put, line }) => { rect(0,0,16,16,'#544b3f'); rect(0,0,16,3,'#73624d'); rect(1,4,14,3,'#5f5547'); rect(0,8,16,3,'#78634a'); rect(1,12,14,3,'#5b5145'); line(4,0,4,2,'#a58961'); line(12,8,12,10,'#a1875f'); put(8,6,'#3f3a34'); put(3,13,'#a18b66'); },
+  // 61–84: original scene props; period sources inform context, not exact forms.
+  ({ rect, line, put }) => { rect(0,0,16,16,'#332820'); rect(2,3,12,11,'#8a6038'); rect(3,4,10,9,'#a87a49'); line(2,6,13,6,'#513a29'); line(2,10,13,10,'#513a29'); line(7,4,7,12,'#513a29'); put(4,5,'#d0a46a'); put(11,11,'#d0a46a'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#2d251f'); rect(3,2,10,12,'#704b31'); rect(4,1,8,2,'#b38b59'); rect(4,13,8,2,'#b38b59'); line(3,5,12,5,'#c3a06b'); line(3,10,12,10,'#c3a06b'); put(3,7,'#d5b176'); put(12,8,'#d5b176'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#484037'); rect(2,7,12,7,'#a77d48'); rect(3,6,10,2,'#d1a65e'); line(3,9,12,9,'#6b4d30'); line(4,10,4,13,'#6b4d30'); line(8,10,8,13,'#6b4d30'); line(12,10,12,13,'#6b4d30'); put(5,7,'#ead49a'); put(10,7,'#ead49a'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#5a4932'); rect(2,5,12,7,'#c79b55'); rect(3,4,10,2,'#e3c274'); line(3,8,12,8,'#8f5b36'); line(5,6,5,10,'#94603b'); line(10,6,10,10,'#94603b'); put(3,11,'#f0d691'); put(12,11,'#f0d691'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#3b2d23'); rect(2,3,12,10,'#765238'); rect(3,4,10,8,'#d0b67f'); rect(4,5,8,6,'#b88c4e'); line(3,3,12,3,'#33261e'); line(3,13,12,13,'#33261e'); put(6,6,'#e2ca91'); put(10,9,'#e2ca91'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#44382e'); rect(2,5,12,6,'#86573a'); rect(3,4,10,2,'#b7864d'); rect(4,11,2,3,'#342a24'); rect(10,11,2,3,'#342a24'); line(3,7,12,7,'#d1a866'); line(6,5,6,10,'#5d412d'); line(10,5,10,10,'#5d412d'); put(3,13,'#c5995a'); put(12,13,'#c5995a'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#332a23'); rect(4,3,8,10,'#73543b'); rect(5,4,6,8,'#b98752'); line(4,6,11,6,'#4a3529'); line(4,10,11,10,'#4a3529'); line(3,3,12,3,'#c59b63'); line(5,2,10,2,'#d6b27a'); put(6,5,'#e5d0a0'); put(9,9,'#e5d0a0'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#42372c'); line(4,4,7,3,'#bd9c6b'); line(7,3,10,5,'#bd9c6b'); line(10,5,12,8,'#bd9c6b'); line(12,8,10,11,'#bd9c6b'); line(10,11,7,12,'#bd9c6b'); line(7,12,4,10,'#bd9c6b'); line(4,10,3,7,'#bd9c6b'); line(3,7,4,4,'#bd9c6b'); put(7,3,'#e0c28c'); put(3,7,'#e0c28c'); put(10,11,'#e0c28c'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#34302b'); rect(6,3,4,11,'#785b3c'); rect(4,4,8,2,'#b18b55'); rect(4,12,8,2,'#b18b55'); line(6,7,9,7,'#d2b26f'); line(6,9,9,9,'#d2b26f'); put(5,5,'#d9c28d'); put(10,10,'#d9c28d'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#40352a'); rect(3,4,10,9,'#9a7045'); rect(4,5,8,7,'#b88953'); line(3,7,12,7,'#523d2d'); line(3,10,12,10,'#523d2d'); line(5,5,5,12,'#d0a96c'); line(10,5,10,12,'#d0a96c'); put(4,13,'#372b22'); put(11,13,'#372b22'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#3b3027'); rect(3,2,10,11,'#795b3c'); rect(4,3,8,8,'#9a774c'); line(4,4,11,4,'#d2b57b'); line(4,7,11,7,'#594431'); line(4,10,11,10,'#594431'); line(5,2,5,13,'#594431'); line(10,2,10,13,'#594431'); put(12,5,'#c9a56a'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#42372d'); rect(4,3,8,10,'#80603d'); rect(5,4,6,8,'#c2a06b'); line(4,5,11,5,'#4d3929'); line(4,11,11,11,'#4d3929'); line(5,3,5,13,'#4d3929'); line(10,3,10,13,'#4d3929'); put(7,7,'#ead59c'); put(8,9,'#ead59c'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#40362e'); rect(5,3,6,10,'#8a6842'); rect(6,4,4,8,'#b48a53'); rect(4,2,8,2,'#d2b67b'); rect(4,13,8,1,'#d2b67b'); line(6,7,9,7,'#504032'); put(7,6,'#e7d19a'); put(8,10,'#715039'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#44372b'); rect(2,5,12,7,'#76583b'); rect(3,4,10,2,'#c2a06b'); rect(4,7,8,4,'#a57e4f'); line(3,12,2,14,'#32271f'); line(12,12,13,14,'#32271f'); line(2,14,13,14,'#32271f'); put(5,8,'#d6b982'); put(10,9,'#d6b982'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#493a2c'); rect(3,4,10,8,'#89623c'); rect(4,5,8,6,'#b18754'); line(4,6,11,6,'#493328'); line(4,9,11,9,'#493328'); line(5,5,5,11,'#d3ae74'); line(10,5,10,11,'#d3ae74'); put(6,7,'#ead29a'); put(9,10,'#ead29a'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#44382e'); rect(2,5,12,7,'#78583a'); rect(3,4,10,2,'#c39d60'); line(4,7,11,7,'#463326'); line(4,9,11,9,'#463326'); line(4,11,11,11,'#463326'); put(5,5,'#ead6a7'); put(10,5,'#ead6a7'); put(7,12,'#d4bb85'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#3f3329'); rect(4,2,8,12,'#8c6640'); rect(5,3,6,10,'#bd9257'); rect(6,5,4,1,'#3b3028'); rect(6,8,4,1,'#3b3028'); rect(6,11,4,1,'#3b3028'); put(5,4,'#dfc28d'); put(10,10,'#dfc28d'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#3a302a'); rect(4,3,8,10,'#6b5541'); rect(5,4,6,8,'#a08a6a'); rect(6,5,4,6,'#60747a'); line(7,3,7,11,'#d7c398'); line(4,7,11,7,'#d7c398'); put(5,5,'#d9e0d3'); put(10,10,'#d9e0d3'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#392e26'); rect(2,4,12,8,'#766047'); rect(3,5,10,6,'#b9a078'); rect(4,6,8,1,'#504437'); rect(4,9,8,1,'#504437'); line(2,3,13,3,'#d2bc8f'); line(3,12,12,12,'#47372b'); put(11,6,'#d8c69e'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#44382f'); rect(3,3,10,10,'#7e5937'); rect(4,4,8,8,'#bc9357'); rect(5,5,6,6,'#ead7a4'); line(6,5,6,10,'#735137'); line(8,5,8,10,'#735137'); line(10,5,10,10,'#735137'); put(3,12,'#342920'); put(12,12,'#342920'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#3b3028'); rect(4,4,8,8,'#846747'); rect(5,5,6,6,'#c5ab78'); line(5,6,10,6,'#4b3a2e'); line(5,8,10,8,'#4b3a2e'); line(5,10,9,10,'#4b3a2e'); line(11,5,13,3,'#d4c08e'); line(12,4,13,5,'#d4c08e'); put(12,3,'#e2d1a6'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#3a3028'); rect(5,2,6,12,'#6a4934'); rect(6,3,4,9,'#91a0a0'); rect(5,2,6,2,'#c1a36e'); rect(4,13,8,1,'#332820'); line(6,6,9,6,'#d8d1b8'); put(7,8,'#ded7c1'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#3c3229'); rect(3,10,10,4,'#765238'); rect(4,8,8,3,'#9c7044'); rect(5,6,6,3,'#bd9056'); rect(6,4,4,3,'#d3ac6c'); line(2,14,13,14,'#30251e'); put(4,9,'#e0c995'); put(11,11,'#e0c995'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#39312a'); rect(3,7,10,6,'#6f5840'); rect(4,6,8,2,'#b39260'); rect(5,4,2,3,'#d1b77e'); rect(9,4,2,3,'#d1b77e'); line(4,9,11,9,'#392d24'); line(4,11,11,11,'#392d24'); put(3,13,'#d4ba80'); put(12,13,'#d4ba80'); },
 ];
 function drawText({ put, text, x, y, color }) {
   const glyphs = { 'К': ['101','110','100','110','101'], 'Н': ['101','101','111','101','101'], 'И': ['101','101','111','111','101'], 'Г': ['111','100','100','100','100'], 'П': ['111','101','101','101','101'], 'Е': ['111','100','110','100','111'], 'Ч': ['101','101','111','001','001'], 'Ь': ['100','100','110','101','110'], 'А': ['010','101','111','101','101'], 'Я': ['011','101','011','101','101'], 'О': ['111','101','101','101','111'], 'В': ['110','101','110','101','110'] };
@@ -338,10 +363,10 @@ const sceneObservations = {
 
 function putGridRow(grid,y,x0,x1,gid) { for(let x=x0;x<=x1;x++) grid.push([x,y,gid]); }
 if (process.argv.includes('--v36-tiles-only')) {
-  if (tileDrawers.length !== 60) throw new Error(`expected 60 tile types, got ${tileDrawers.length}`);
+  if (tileDrawers.length !== 84) throw new Error(`expected 84 tile types, got ${tileDrawers.length}`);
   const assetPath = path.join(out, 'assets', 'petersburg-tiles.png');
   await writeFile(assetPath, buildTileset());
-  const mapIds = ['nevsky','market-quay','printshop','courtyard','chancery','police-station','dead-souls','overcoat'];
+  const mapIds = (await readdir(path.join(out, 'maps'))).filter(file => file.endsWith('.json')).map(file => file.slice(0, -5));
   for (const mapId of mapIds) {
     const mapPath = path.join(out, 'maps', `${mapId}.json`);
     const map = JSON.parse(await readFile(mapPath, 'utf8'));
@@ -371,6 +396,38 @@ if (process.argv.includes('--v36-tiles-only')) {
         if (ground[at] === 1 || ground[at] === 2) ground[at] = 54 + ((x * 3 + y) % 4);
       }
     }
+    const objectTileAssignments = {
+      'bakery-interior': [['빵 작업대',34],['밀가루 자루',70],['굽기 전 빵판',64]],
+      'bookshop-interior': [['책 선반',32]],
+      'canal-road': [['짐 상자',61],['수레 짐칸',66],['무거운 짐과 삯',68]],
+      chancery: [['접수 장부',81]],
+      'communal-room': [['물통과 국자',72],['공용 찬장',35]],
+      courtyard: [['우물가의 물동이',72],['공용 장작 더미와 몫 계산',83]],
+      'bookshop-lane': [['책을 내놓은 가판',33]],
+      'market-quay': [['좌판 마감과 남은 바구니',63],['생선 입고와 판매 시각표',65],['창고 반출과 분실 대장',62],['짐 인수와 배달 지연표',66],['약방 재고와 외상 장부',82],['세탁값 계산표',73],['마차에 실을 짐의 순서',69],['금 간 바퀴살',84]],
+      nevsky: [['거리의 수취 확인',67]],
+      printshop: [['모자란 잉크와 교정쇄',77],['활자 서랍',78],['교정쇄가 놓인 작업대',79],['지방행 우편 묶음',80],['작업 장부',81]],
+      'sewing-room': [['바느질 틀',75],['실·단추 함',74],['옷감 작업대',32]],
+      workyard: [['공용 물동이',72],['수선 작업대',31]],
+    };
+    for (const [objectName, assetTileId] of objectTileAssignments[mapId] ?? []) {
+      const object = map.layers.find(layer => layer.name === 'Interactions')?.objects.find(item => item.name === objectName);
+      if (!object) throw new Error(`missing interaction for new visual asset ${mapId}:${objectName}`);
+      object.properties ??= [];
+      const property = object.properties.find(item => item.name === 'assetTileId');
+      if (property) property.value = assetTileId;
+      else object.properties.push({ name: 'assetTileId', type: 'int', value: assetTileId });
+    }
+    const extraInspectableProps = {
+      'bookshop-interior': [{ id: 4009, name: '서가 앞 발판 사다리', x: 7, y: 5, assetTileId: 71, storyTextKo: '높은 칸에 닿으려고 둔 낮은 사다리다. 손잡이와 발판이 닳았지만, 이것만으로 누가 어떤 책을 찾았는지는 알 수 없다.' }],
+      'sewing-room': [{ id: 4004, name: '나무 실패에 감긴 실', x: 11, y: 10, assetTileId: 76, storyTextKo: '손바닥만 한 실패에 실을 감아 두었다. 색과 길이는 그날 맡은 수선에 따라 달라진다.' }],
+    };
+    for (const prop of extraInspectableProps[mapId] ?? []) if (!map.layers.find(layer => layer.name === 'Interactions').objects.some(object => object.id === prop.id)) {
+      map.layers.find(layer => layer.name === 'Interactions').objects.push({
+        id: prop.id, name: prop.name, type: 'inspectable', x: prop.x * 16, y: prop.y * 16, width: 16, height: 16, visible: true,
+        properties: [{ name: 'assetTileId', type: 'int', value: prop.assetTileId }, { name: 'storyTextKo', type: 'string', value: prop.storyTextKo }],
+      });
+    }
     await writeFile(mapPath, `${JSON.stringify(map, null, 2)}\n`.replace(/\n/g, '\r\n'));
   }
 
@@ -388,7 +445,9 @@ if (process.argv.includes('--v36-tiles-only')) {
     'https://rusmuseumvrm.ru/online_resources/art_gallery/spb._gorod_i_gorozhane/index.php?lang=en&p=0&page=3&ps=60&show=desc&t=830',
     'https://www.prlib.ru/section/1327906',
   ];
-  atlas.notes = 'Original project pixel art. 1843 guide and 1840s genre watercolours inform street activity, clothing silhouettes, market and transport props; 1849 atlas is a later comparative map, not direct proof of 1847 paving. Exact blocks, paving, quay layout, and merchants are fictional reconstruction; no scanned source image is embedded.';
+  atlas.sourceIds.push('V36-ART-KOLLMAN-FISH-SELLERS-1830S');
+  atlas.sourceUrls.push('https://rusmuseumvrm.ru/data/collections/drawings/r-5783/index.php');
+  atlas.notes = 'Original project pixel art. Broad historical sources contextualize the city, while row-level evidence in ASSET_USAGE_V36.csv distinguishes supported visual references from UNVERIFIED_RECONSTRUCTION. The R-5783 fish-seller watercolor is a scene-level reference for the fish-market tile only. The 1849 atlas is later comparison, not direct proof of 1847 paving; no museum scan is embedded.';
   await writeFile(provenancePath, `${JSON.stringify(provenance, null, 2)}\n`.replace(/\n/g, '\r\n'));
 
   const additions = [
@@ -408,18 +467,52 @@ if (process.argv.includes('--v36-tiles-only')) {
     ['WHARF_PLANK_B','못 자국이 보이는 발판','TIMBER_WALK','V36-ART-RUSSIAN-MUSEUM-COLLMANN-1840S'],
     ['WHARF_PLANK_C','비에 어두워진 발판','TIMBER_WALK','V36-ART-RUSSIAN-MUSEUM-COLLMANN-1840S'],
   ];
+  const householdTradeProps = [
+    ['WOODEN_CRATE_OPEN','열린 나무 운송 상자','TRADE_CONTAINER','UNVERIFIED_RECONSTRUCTION'],
+    ['COOPERED_STORAGE_CASK','작은 저장통','TRADE_CONTAINER','UNVERIFIED_RECONSTRUCTION'],
+    ['WOVEN_MARKET_BASKET','장터 바구니','MARKET_GOODS','UNVERIFIED_RECONSTRUCTION'],
+    ['BAKERS_ROUND_LOAF','둥근 빵 한 덩이','BAKERY_GOODS','UNVERIFIED_RECONSTRUCTION'],
+    ['RIVER_FISH_ON_TRAY','강변 장터의 생선','MARKET_GOODS','V36-ART-KOLLMAN-FISH-SELLERS-1830S'],
+    ['TWO_WHEEL_HANDCART','두 바퀴 손수레','TRANSPORT_EQUIPMENT','UNVERIFIED_RECONSTRUCTION'],
+    ['COURIER_SHOULDER_BAG','어깨에 메는 작은 가방','POSTAL_EQUIPMENT','UNVERIFIED_RECONSTRUCTION'],
+    ['COILED_HAULING_ROPE','감아 둔 굵은 밧줄','TRANSPORT_EQUIPMENT','UNVERIFIED_RECONSTRUCTION'],
+    ['QUAY_MOORING_POST','강변의 목재 말뚝','QUAY_EQUIPMENT','UNVERIFIED_RECONSTRUCTION'],
+    ['FLOUR_SACK_TIED','묶어 둔 자루','BAKERY_GOODS','UNVERIFIED_RECONSTRUCTION'],
+    ['BOOKSHOP_STEP_LADDER','서가 앞 발판','BOOKSHOP_FURNITURE','UNVERIFIED_RECONSTRUCTION'],
+    ['WATER_BUCKET_WOOD','나무 물통','HOUSEHOLD_GOODS','UNVERIFIED_RECONSTRUCTION'],
+    ['WASH_BASIN_METAL','금속 세숫대야','HOUSEHOLD_GOODS','UNVERIFIED_RECONSTRUCTION'],
+    ['SEWING_NOTIONS_BASKET','바느질감 바구니','SEWING_EQUIPMENT','UNVERIFIED_RECONSTRUCTION'],
+    ['TAILORS_SHEARS','재단용 가위','SEWING_EQUIPMENT','UNVERIFIED_RECONSTRUCTION'],
+    ['THREAD_SPOOL_WOOD','나무 실패와 감긴 실','SEWING_EQUIPMENT','UNVERIFIED_RECONSTRUCTION'],
+    ['PRINTERS_INK_BOTTLE','인쇄용 잉크병','PRINTSHOP_EQUIPMENT','UNVERIFIED_RECONSTRUCTION'],
+    ['TYPE_CASE_LETTERS','활자 서랍','PRINTSHOP_EQUIPMENT','UNVERIFIED_RECONSTRUCTION'],
+    ['HAND_PRESS_PLATEN','인쇄기 압판','PRINTSHOP_EQUIPMENT','UNVERIFIED_RECONSTRUCTION'],
+    ['PRINTING_PAPER_STACK','인쇄할 종이 묶음','PRINTSHOP_SUPPLY','UNVERIFIED_RECONSTRUCTION'],
+    ['LEDGER_AND_QUILL','장부와 깃펜','OFFICE_EQUIPMENT','UNVERIFIED_RECONSTRUCTION'],
+    ['APOTHECARY_STOPPERED_JAR','마개가 있는 약병','APOTHECARY_GOODS','UNVERIFIED_RECONSTRUCTION'],
+    ['SHARED_FIREWOOD_STACK','장작 더미','HOUSEHOLD_FUEL','UNVERIFIED_RECONSTRUCTION'],
+    ['CART_WHEEL_REPAIR_TOOLS','수레 수리 공구','TRANSPORT_EQUIPMENT','UNVERIFIED_RECONSTRUCTION'],
+  ];
   const oldTiles = Array.from({ length: 45 }, (_, i) => [i + 1, 'EXISTING_TILE', `기존 타일 ${i + 1} · 기존 도심 세트`, 'EXISTING_RECONSTRUCTION', 'V36-MAP-NLR-19C-PLANS']);
-  const newTiles = additions.map(([key,description,category,sourceId], i) => [i + 46, key, description, category, sourceId]);
+  const newTiles = [...additions.map(([key,description,category,sourceId], i) => [i + 46, key, description, category, sourceId]), ...householdTradeProps.map(([key,description,category,sourceId], i) => [i + 61, key, description, category, sourceId])];
   const sourceUrlById = {
     'V36-MAP-NLR-19C-PLANS': atlas.sourceUrls[0],
     'V36-GUIDE-PUSHKAREV-1843': atlas.sourceUrls[1],
     'V36-MAP-TSYLOV-1849': atlas.sourceUrls[2],
     'V36-ART-RUSSIAN-MUSEUM-COLLMANN-1840S': atlas.sourceUrls[3],
     'V36-PHYSIOLOGY-PETERSBURG-1845': atlas.sourceUrls[4],
+    'V36-ART-KOLLMAN-FISH-SELLERS-1830S': 'https://rusmuseumvrm.ru/data/collections/drawings/r-5783/index.php',
   };
   const csv = [['gid','tile_key','description_ko','category','source_type','source_id','source_url','historical_note','file','atlas_x','atlas_y'],
     ...oldTiles.map(([gid,key,description,category,sourceId]) => [gid,key,description,category,'CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE',sourceId,'https://expositions.nlr.ru/eng/ex_map/mozaika_Saint-Petersburg/plans_19_century.php','기존 프로젝트 재구성 타일; 실측 표면 아님','rpg/assets/petersburg-tiles.png',((gid-1)%16)*16,Math.floor((gid-1)/16)*16]),
-    ...newTiles.map(([gid,key,description,category,sourceId]) => [gid,key,description,category,'CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE',sourceId,sourceUrlById[sourceId],'창작 도트 타일; 역사적 포석 배치·주소의 직접 증거가 아님','rpg/assets/petersburg-tiles.png',((gid-1)%16)*16,Math.floor((gid-1)/16)*16])
+    ...newTiles.map(([gid,key,description,category,sourceId]) => {
+      const verifiedVisualReference = sourceId === 'V36-ART-KOLLMAN-FISH-SELLERS-1830S';
+      const sourceType = sourceId === 'UNVERIFIED_RECONSTRUCTION' ? sourceId : 'CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE';
+      const note = verifiedVisualReference
+        ? '창작 픽셀 타일의 장면 참고: 러시아 박물관 R-5783은 1830년대 페테르부르크 강변의 생선·달걀 장수를 기록한다. 생선 타일은 원작 복제가 아니며, 정확한 좌판 형태·게임 좌표·1847년 동일 장소를 입증하지 않는다.'
+        : 'UNVERIFIED_RECONSTRUCTION: 독립적으로 그린 게임용 소품. 확인한 1840년대 자료에서 이 물건의 구체적 형태·재료·용도를 직접 확인하지 못했으므로 사료 기반의 재현물로 단정하지 않는다.';
+      return [gid,key,description,category,sourceType,verifiedVisualReference ? sourceId : '',verifiedVisualReference ? sourceUrlById[sourceId] : '',note,'rpg/assets/petersburg-tiles.png',((gid-1)%16)*16,Math.floor((gid-1)/16)*16];
+    })
   ].map(row => row.map(value => `"${String(value).replace(/"/g,'""')}"`).join(',')).join('\n') + '\n';
   await writeFile(path.join(out, 'assets', 'ASSET_USAGE_V36.csv'), csv);
   console.log(JSON.stringify({status:'PASS',tileTypes:tileDrawers.length,updatedMaps:mapIds,atlas:assetPath}, null, 2));

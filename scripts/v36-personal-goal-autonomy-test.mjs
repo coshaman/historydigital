@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
+import { formatObservedNpcReactions } from '../rpg/engine/world-reaction-presentation.mjs';
 
 const require = createRequire(import.meta.url);
 require('../rpg/engine/game-state.js');
@@ -78,8 +79,17 @@ const secondStageState = game.advanceNpcWorld(progressing, 600, maps);
 assert.ok(secondStageState.ledger.flatMap(entry => entry.personalGoalVisits ?? []).some(visit => visit.hostId === hostId && visit.stage === 2),
   'advancing the resident life chain should retarget autonomy to the next authored stage');
 
-const audit = await readFile(new URL('../rpg/main.js', import.meta.url), 'utf8');
-assert.match(audit, /personalGoalVisits \?\? \[\]\)\.filter\(visit => visit\.witnessedByPlayer\)/,
+const journalReactions = formatObservedNpcReactions([{
+  eventType: 'NPC_SIMULATION',
+  date: '1847-06-01',
+  personalGoalVisits: [
+    { hostId, activityKo: '목격한 수선 일을 이어갔다', stage: 2, witnessedByPlayer: true },
+    { hostId, activityKo: '보지 못한 사적인 만남', stage: 2, witnessedByPlayer: false },
+  ],
+}], hostCards);
+assert.ok(journalReactions.some(line => line.includes('목격한 수선 일을 이어갔다')),
+  'the journal should surface a witnessed autonomous life-goal action');
+assert.ok(journalReactions.every(line => !line.includes('보지 못한 사적인 만남')),
   'the journal must disclose autonomous life-goal work only when the player witnessed it');
 const report = { schemaVersion: `V36_${['', 'FIRST', 'SECOND', 'THIRD', 'FOURTH', 'FIFTH', 'SIXTH'][batch]}_SIX_PERSONAL_GOAL_AUTONOMY_1`, status: 'PASS', pilotResidents: pilotIds.length,
   authoredLifeStagesPerResident: 3, dailyVisits: pilotVisits.length,

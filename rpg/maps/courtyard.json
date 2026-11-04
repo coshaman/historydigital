@@ -81,7 +81,7 @@
       "imageheight": 160,
       "tilewidth": 16,
       "tileheight": 16,
-      "tilecount": 60,
+      "tilecount": 84,
       "columns": 16
     }
   ],
@@ -1923,6 +1923,11 @@
               "name": "scope",
               "type": "string",
               "value": "fictional_scene_clue"
+            },
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 72
             }
           ]
         },
@@ -2305,6 +2310,11 @@
               "name": "questId",
               "type": "string",
               "value": "POLINA_COMMON_FIREWOOD_1847_STAGE_1"
+            },
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 83
             }
           ]
         },

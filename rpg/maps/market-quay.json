@@ -82,7 +82,7 @@
       "imageheight": 160,
       "tilewidth": 16,
       "tileheight": 16,
-      "tilecount": 60,
+      "tilecount": 84,
       "columns": 16
     }
   ],
@@ -2618,6 +2618,11 @@
               "name": "questId",
               "type": "string",
               "value": "LAUNDRY_WAGES_1847"
+            },
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 73
             }
           ]
         },
@@ -2703,6 +2708,11 @@
               "name": "questId",
               "type": "string",
               "value": "APOTHECARY_LIMITS_1847"
+            },
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 82
             }
           ]
         },
@@ -2720,6 +2730,11 @@
               "name": "questId",
               "type": "string",
               "value": "FISH_STORAGE_TIME_1847"
+            },
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 65
             }
           ]
         },
@@ -2737,6 +2752,11 @@
               "name": "questId",
               "type": "string",
               "value": "WAREHOUSE_LOSS_RECORD_1847"
+            },
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 62
             }
           ]
         },
@@ -2754,6 +2774,11 @@
               "name": "questId",
               "type": "string",
               "value": "CARTER_DELIVERY_DELAY_1847"
+            },
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 66
             }
           ]
         },
@@ -2788,6 +2813,11 @@
               "name": "questId",
               "type": "string",
               "value": "NADEZHDA_STALL_WEATHER_1847_STAGE_3"
+            },
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 63
             }
           ]
         },
@@ -2924,6 +2954,11 @@
               "name": "questId",
               "type": "string",
               "value": "ROMAN_ROUTE_PRIORITY_1847_STAGE_1"
+            },
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 69
             }
           ]
         },
@@ -3116,6 +3151,11 @@
               "name": "personalLifeQuest",
               "type": "bool",
               "value": true
+            },
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 84
             }
           ]
         },

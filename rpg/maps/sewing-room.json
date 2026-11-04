@@ -119,7 +119,7 @@
       "imageheight": 160,
       "tilewidth": 16,
       "tileheight": 16,
-      "tilecount": 60,
+      "tilecount": 84,
       "columns": 16
     }
   ],
@@ -1923,7 +1923,7 @@
             {
               "name": "assetTileId",
               "type": "int",
-              "value": 32
+              "value": 75
             },
             {
               "name": "scope",
@@ -1950,7 +1950,7 @@
             {
               "name": "assetTileId",
               "type": "int",
-              "value": 22
+              "value": 32
             },
             {
               "name": "scope",
@@ -1977,7 +1977,7 @@
             {
               "name": "assetTileId",
               "type": "int",
-              "value": 34
+              "value": 74
             },
             {
               "name": "scope",
@@ -2040,6 +2040,28 @@
               "name": "districtId",
               "type": "string",
               "value": "HOUSEHOLD_WORKYARD"
+            }
+          ]
+        },
+        {
+          "id": 4004,
+          "name": "나무 실패에 감긴 실",
+          "type": "inspectable",
+          "x": 176,
+          "y": 160,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 76
+            },
+            {
+              "name": "storyTextKo",
+              "type": "string",
+              "value": "손바닥만 한 실패에 실을 감아 두었다. 색과 길이는 그날 맡은 수선에 따라 달라진다."
             }
           ]
         }

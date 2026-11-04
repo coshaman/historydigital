@@ -59,7 +59,7 @@ async function copyProject(from, to, relative = '') {
     const rel = path.posix.join(relative, entry.name);
     if (entry.isDirectory()) {
       if (skipDirectories.has(entry.name)) continue;
-      if (rel === 'docs/v27' || rel === 'artifacts/v27-browser' || rel === 'docs/v35/screenshots') continue;
+      if (rel === 'docs/v27' || rel === 'artifacts/v27-browser' || rel === 'docs/v35/screenshots' || rel === 'docs/v36/current-audit/screenshots') continue;
       if (rel === 'artifacts') {
         const v36 = path.join(from, entry.name, 'v36');
         try { await stat(v36); } catch { continue; }
@@ -147,6 +147,9 @@ for (const [source, target] of [
   ['docs/v36/current-audit/screenshots/world-map-tour-verified/laptop-1366x768-nevsky.png', 'screenshots/laptop-1366x768-nevsky.png'],
   ['docs/v36/current-audit/screenshots/world-map-tour-verified/mobile-390x844-nevsky.png', 'screenshots/mobile-390x844-nevsky.png'],
   ['docs/v36/current-audit/screenshots/world-map-tour-verified/mobile-360x800-nevsky.png', 'screenshots/mobile-360x800-nevsky.png'],
+  ['docs/v36/current-audit/screenshots/nevsky-12-resident-neighborhood.png', 'screenshots/nevsky-12-resident-neighborhood.png'],
+  ['docs/v36/current-audit/screenshots/market-quay-12-resident-neighborhood.png', 'screenshots/market-quay-12-resident-neighborhood.png'],
+  ['rpg/assets/petersburg-tiles.png', 'screenshots/asset-atlas-84.png'],
   ['docs/v36/current-audit/reader-opinion-quest-click.png', 'screenshots/opinion-board-and-quest.png'],
   ['docs/v36/current-audit/screenshots/resident-batch-1-quest-choices.png', 'screenshots/resident-batch-1-quest.png'],
   ['docs/v36/current-audit/screenshots/resident-batch-2-quest-choices.png', 'screenshots/resident-batch-2-quest.png'],

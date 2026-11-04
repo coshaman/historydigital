@@ -62,20 +62,56 @@ const definitions = [
   ['WHARF_PLANK_A','짐을 내리는 나무 발판','TIMBER_WALK'],
   ['WHARF_PLANK_B','못 자국이 보이는 발판','TIMBER_WALK'],
   ['WHARF_PLANK_C','비에 어두워진 발판','TIMBER_WALK'],
+  ['WOODEN_CRATE_OPEN','열린 나무 운송 상자','TRADE_CONTAINER'],
+  ['COOPERED_STORAGE_CASK','작은 저장통','TRADE_CONTAINER'],
+  ['WOVEN_MARKET_BASKET','장터 바구니','MARKET_GOODS'],
+  ['BAKERS_ROUND_LOAF','둥근 빵 한 덩이','BAKERY_GOODS'],
+  ['RIVER_FISH_ON_TRAY','강변 장터의 생선','MARKET_GOODS'],
+  ['TWO_WHEEL_HANDCART','두 바퀴 손수레','TRANSPORT_EQUIPMENT'],
+  ['COURIER_SHOULDER_BAG','어깨에 메는 작은 가방','POSTAL_EQUIPMENT'],
+  ['COILED_HAULING_ROPE','감아 둔 하역 밧줄','TRANSPORT_EQUIPMENT'],
+  ['QUAY_MOORING_POST','강변의 목재 말뚝','QUAY_EQUIPMENT'],
+  ['FLOUR_SACK_TIED','묶어 둔 자루','BAKERY_GOODS'],
+  ['BOOKSHOP_STEP_LADDER','서가 앞 발판','BOOKSHOP_FURNITURE'],
+  ['WATER_BUCKET_WOOD','나무 물통','HOUSEHOLD_GOODS'],
+  ['WASH_BASIN_METAL','금속 세숫대야','HOUSEHOLD_GOODS'],
+  ['SEWING_NOTIONS_BASKET','바느질감을 담은 작은 바구니','SEWING_EQUIPMENT'],
+  ['TAILORS_SHEARS','재단용 가위','SEWING_EQUIPMENT'],
+  ['THREAD_SPOOL_WOOD','나무 실패에 감긴 실','SEWING_EQUIPMENT'],
+  ['PRINTERS_INK_BOTTLE','인쇄용 잉크병','PRINTSHOP_EQUIPMENT'],
+  ['TYPE_CASE_LETTERS','활자 서랍','PRINTSHOP_EQUIPMENT'],
+  ['HAND_PRESS_PLATEN','인쇄기 압판','PRINTSHOP_EQUIPMENT'],
+  ['PRINTING_PAPER_STACK','인쇄할 종이 묶음','PRINTSHOP_SUPPLY'],
+  ['LEDGER_AND_QUILL','장부와 깃펜','OFFICE_EQUIPMENT'],
+  ['APOTHECARY_STOPPERED_JAR','마개가 있는 약병','APOTHECARY_GOODS'],
+  ['SHARED_FIREWOOD_STACK','장작 더미','HOUSEHOLD_FUEL'],
+  ['CART_WHEEL_REPAIR_TOOLS','수레 수리 공구','TRANSPORT_EQUIPMENT'],
 ];
 
 const lines = (await readFile(file, 'utf8')).trimEnd().split(/\r?\n/);
 const headers = lines[0];
-if (lines.length !== 61 || definitions.length !== 60) throw new Error('expected a header and exactly 60 atlas entries');
+if (lines.length !== 85 || definitions.length !== 84) throw new Error('expected a header and exactly 84 atlas entries');
 const quote = value => `"${String(value).replaceAll('"','""')}"`;
 const rows = lines.slice(1).map((line, index) => {
   const columns = [...line.matchAll(/"((?:[^"]|"")*)"/g)].map(match => match[1].replaceAll('""','"'));
   if (columns.length !== 11 || Number(columns[0]) !== index + 1) throw new Error(`invalid usage row ${index + 2}`);
   const [tileKey, descriptionKo, category] = definitions[index];
+  const gid = index + 1;
   columns[1] = tileKey;
   columns[2] = descriptionKo;
   columns[3] = category;
-  columns[7] = '독립적으로 그린 게임용 타일; 이 시각 자료는 특정 주소·건축물·노면 배치를 입증하지 않음';
+  if (gid === 65) {
+    if (columns[4] !== 'CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE' || columns[5] !== 'V36-ART-KOLLMAN-FISH-SELLERS-1830S' || columns[6] !== 'https://rusmuseumvrm.ru/data/collections/drawings/r-5783/index.php') {
+      throw new Error('GID 65 must identify the exact Russian Museum fish-and-egg sellers record R-5783.');
+    }
+    if (!columns[7].includes('원작 복제가 아니며') || !columns[7].includes('1847년 동일 장소를 입증하지 않는다')) throw new Error('GID 65 must delimit what its visual source does not prove.');
+  } else if (gid >= 61) {
+    if (columns[4] !== 'UNVERIFIED_RECONSTRUCTION' || columns[5] || columns[6] || !columns[7].includes('UNVERIFIED_RECONSTRUCTION')) {
+      throw new Error(`GID ${gid} must not imply direct historical support without an inspected item-level source.`);
+    }
+  } else {
+    columns[7] = '독립적으로 그린 게임용 타일; 이 시각 자료는 특정 주소·건축물·노면 배치를 입증하지 않음';
+  }
   return columns.map(quote).join(',');
 });
 await writeFile(file, `${headers}\n${rows.join('\n')}\n`, 'utf8');

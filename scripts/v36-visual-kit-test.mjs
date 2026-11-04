@@ -3,32 +3,39 @@ import { createHash } from 'node:crypto';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { chromium } from 'playwright';
+import { interactionTile } from '../rpg/engine/world-presentation.mjs';
 
 const root = process.cwd();
+const withTimeout = (promise, label, ms = 45000) => new Promise((resolve, reject) => {
+  const timer = setTimeout(() => reject(new Error(`${label} exceeded ${ms}ms`)), ms);
+  promise.then(value => { clearTimeout(timer); resolve(value); }, error => { clearTimeout(timer); reject(error); });
+});
 const atlasPath = path.join(root, 'rpg/assets/petersburg-tiles.png');
+assert.equal(interactionTile({ type: 'inspectable', properties: [{ name: 'assetTileId', value: 84 }] }), 84, 'runtime recognizes the last tile in the expanded atlas');
 const atlasBytes = await fs.readFile(atlasPath);
 const atlasDataUrl = `data:image/png;base64,${atlasBytes.toString('base64')}`;
 const browser = await chromium.launch({ headless: true });
 let tilePixels;
 try {
   const page = await browser.newPage();
-  tilePixels = await page.evaluate(async dataUrl => {
+  tilePixels = await withTimeout(page.evaluate(async dataUrl => {
     const image = new Image(); image.src = dataUrl; await image.decode();
     const canvas = document.createElement('canvas'); canvas.width = image.naturalWidth; canvas.height = image.naturalHeight;
     const ctx = canvas.getContext('2d', { willReadFrequently: true }); ctx.imageSmoothingEnabled = false; ctx.drawImage(image, 0, 0);
     const { data } = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    return { width: canvas.width, height: canvas.height, tiles: Array.from({ length: 60 }, (_, gid) => {
+    return { width: canvas.width, height: canvas.height, tiles: Array.from({ length: 84 }, (_, gid) => {
       const x0 = gid % 16 * 16, y0 = Math.floor(gid / 16) * 16, pixels = [];
       for (let y = y0; y < y0 + 16; y++) for (let x = x0; x < x0 + 16; x++) {
         const at = (y * canvas.width + x) * 4; pixels.push(data[at], data[at + 1], data[at + 2], data[at + 3]);
       }
       return pixels;
     }) };
-  }, atlasDataUrl);
-} finally { await browser.close(); }
+  }, atlasDataUrl), 'atlas pixel read');
+  console.log('visual-kit: atlas pixels decoded');
+} finally { await withTimeout(browser.close(), 'atlas browser close', 10000); }
 
 assert.equal(tilePixels.width, 256, 'atlas keeps 16 columns of 16px tiles');
-assert.equal(tilePixels.height, 160, 'atlas height includes all 60 declared tiles');
+assert.equal(tilePixels.height, 160, 'atlas height includes all 84 declared tiles');
 const tileHashes = tilePixels.tiles.map(pixels => createHash('sha256').update(Buffer.from(pixels)).digest('hex'));
 const uniqueHashes = new Set(tileHashes);
 const duplicateGroups = [...new Set(tileHashes)].map(hash => ({ hash, gids: tileHashes.flatMap((value, index) => value === hash ? [index + 1] : []) })).filter(group => group.gids.length > 1);
@@ -37,7 +44,7 @@ const mapIds = (await fs.readdir(path.join(root,'rpg/maps'))).filter(file=>file.
 const maps = Object.fromEntries(await Promise.all(mapIds.map(async id => [id, JSON.parse(await fs.readFile(path.join(root, `rpg/maps/${id}.json`), 'utf8'))])));
 for (const [id, map] of Object.entries(maps)) {
   const tileset = map.tilesets.find(item => item.image?.endsWith('petersburg-tiles.png'));
-  assert.equal(tileset?.tilecount, 60, `${id} declares all 60 atlas tiles`);
+  assert.equal(tileset?.tilecount, 84, `${id} declares all 84 atlas tiles`);
 }
 function usedRange(map, min, max) { return new Set(map.layers.find(layer => layer.name === 'Ground').data.filter(gid => gid >= min && gid <= max)); }
 const used = {
@@ -52,29 +59,47 @@ assert.equal(used.printshop.length, 3, 'printshop uses the indoor timber floor v
 assert.equal(used.courtyard.length, 4, 'courtyard uses all worn stone variants');
 const usedAtlasGids = new Set();
 for (const map of Object.values(maps).filter(item=>item.metadata.mapClass!=='LITERARY_REALM')) {
-  for (const layer of map.layers.filter(item=>item.type==='tilelayer')) for (const gid of layer.data) if (gid>0&&gid<=60) usedAtlasGids.add(gid);
+  for (const layer of map.layers.filter(item=>item.type==='tilelayer')) for (const gid of layer.data) if (gid>0&&gid<=84) usedAtlasGids.add(gid);
   for (const object of map.layers.find(item=>item.name==='Interactions')?.objects??[]) {
     const tile=Number(object.properties?.find(item=>item.name==='assetTileId')?.value);
-    if(Number.isInteger(tile)&&tile>=1&&tile<=60)usedAtlasGids.add(tile);
+    if(Number.isInteger(tile)&&tile>=1&&tile<=84)usedAtlasGids.add(tile);
   }
 }
-assert.equal(usedAtlasGids.size,60,`all 60 distinct atlas assets must appear in playable city maps; missing=${JSON.stringify([...Array(60)].map((_,index)=>index+1).filter(id=>!usedAtlasGids.has(id)))}`);
+assert.equal(usedAtlasGids.size,84,`all 84 distinct atlas assets must appear in playable city maps; missing=${JSON.stringify([...Array(84)].map((_,index)=>index+1).filter(id=>!usedAtlasGids.has(id)))}`);
 
 const usageRows = (await fs.readFile(path.join(root, 'rpg/assets/ASSET_USAGE_V36.csv'), 'utf8')).trim().split(/\r?\n/);
-assert.equal(usageRows.length, 61, 'tile usage ledger has a header and one row per GID');
+assert.equal(usageRows.length, 85, 'tile usage ledger has a header and one row per GID');
 const usageGids = usageRows.slice(1).map(line => Number(line.match(/^"(\d+)"/)?.[1]));
-assert.deepEqual(usageGids, Array.from({ length: 60 }, (_, index) => index + 1), 'ledger covers each atlas tile exactly once in order');
+assert.deepEqual(usageGids, Array.from({ length: 84 }, (_, index) => index + 1), 'ledger covers each atlas tile exactly once in order');
 const usageKeys = usageRows.slice(1).map(line => [...line.matchAll(/"((?:[^"]|"")*)"/g)][1]?.[1]);
-assert.equal(new Set(usageKeys).size,60,'all 60 ledger rows identify a distinct environmental tile asset');
+assert.equal(new Set(usageKeys).size,84,'all 84 ledger rows identify a distinct environmental tile asset');
 assert.ok(usageKeys.every(key=>key&&key!=='EXISTING_TILE'),'tile ledger entries must use distinct descriptive names');
+assert.ok(usageKeys.slice(60).every(key => !/(COBBLE|EARTH|STONE|PLANK)_/.test(key)), 'the 24 added entries must identify physical props, not more surface variations');
 const provenance = JSON.parse(await fs.readFile(path.join(root, 'rpg/assets/ASSET_PROVENANCE.json'), 'utf8'));
 const atlasRecord = provenance.assets.find(asset => asset.id === 'petersburg-tiles');
 assert.equal(atlasRecord.historicalConfidence, 'CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE');
-assert.match(atlasRecord.notes, /1849 atlas is a later comparative map/);
+assert.match(atlasRecord.notes, /1849 atlas is later comparison/);
 assert.doesNotMatch(atlasRecord.notes, /1847 photograph|surveyed 1847 paving/i);
 const sourceRegister = JSON.parse(await fs.readFile(path.join(root, 'docs/v36/historical-map-source-register.json'), 'utf8'));
 const knownSourceIds = new Set(sourceRegister.sources.map(source => source.sourceId));
 assert.ok(atlasRecord.sourceIds.every(id => knownSourceIds.has(id)), 'atlas provenance source IDs resolve to checked-in historical records');
+for (const [index, line] of usageRows.slice(1).entries()) {
+  const fields = [...line.matchAll(/"((?:[^"]|"")*)"/g)].map(match => match[1].replaceAll('""', '"'));
+  const gid = Number(fields[0]);
+  if (gid < 61) continue;
+  if (gid === 65) {
+    assert.equal(fields[4], 'CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE');
+    assert.equal(fields[5], 'V36-ART-KOLLMAN-FISH-SELLERS-1830S');
+    assert.ok(knownSourceIds.has(fields[5]), 'GID 65 exact museum source must be registered');
+    assert.equal(fields[6], 'https://rusmuseumvrm.ru/data/collections/drawings/r-5783/index.php');
+    assert.match(fields[7], /장면 참고/);
+  } else {
+    assert.equal(fields[4], 'UNVERIFIED_RECONSTRUCTION', `GID ${gid} has no checked object-level source`);
+    assert.equal(fields[5], '', `GID ${gid} must not cite an unrelated source`);
+    assert.equal(fields[6], '', `GID ${gid} must not link an unrelated source`);
+    assert.match(fields[7], /UNVERIFIED_RECONSTRUCTION/);
+  }
+}
 
 const districtData = JSON.parse(await fs.readFile(path.join(root, 'rpg/data/city-districts-v36.json'), 'utf8'));
 const residentIds = [...new Set(districtData.districts.flatMap(district => district.residentIds ?? []))];
@@ -100,8 +125,8 @@ assert.equal(uniquePortraits, 36, `all resident portraits have distinct rendered
 
 const report = {
   schemaVersion: 'V36_VISUAL_KIT_AUDIT_1',
-  status: uniqueHashes.size === 60 ? 'PASS' : 'FAIL',
-  atlas: { width: tilePixels.width, height: tilePixels.height, declaredTiles: 60, uniquePixelTiles: uniqueHashes.size, duplicateGroups },
+  status: uniqueHashes.size === 84 ? 'PASS' : 'FAIL',
+  atlas: { width: tilePixels.width, height: tilePixels.height, declaredTiles: 84, uniquePixelTiles: uniqueHashes.size, duplicateGroups },
   tileUsageByDistrict: { ...used, cityMapCount: Object.values(maps).filter(item=>item.metadata.mapClass!=='LITERARY_REALM').length,
     distinctAtlasGidsUsed: usedAtlasGids.size, atlasGids: [...usedAtlasGids].sort((a,b)=>a-b) },
   mapsWithUpdatedAtlasCount: Object.keys(maps).length,
@@ -118,7 +143,7 @@ async function pageForResidentAssets(assets) {
   const browser = await chromium.launch({ headless: true });
   try {
     const page = await browser.newPage();
-    return await page.evaluate(async entries => Promise.all(entries.map(async entry => {
+    return await withTimeout(page.evaluate(async entries => Promise.all(entries.map(async entry => {
       const load = async dataUrl => {
         const image = new Image(); image.src = `data:${dataUrl}`; await image.decode();
         const canvas = document.createElement('canvas'); canvas.width = image.naturalWidth; canvas.height = image.naturalHeight;
@@ -128,6 +153,6 @@ async function pageForResidentAssets(assets) {
         return { width: image.naturalWidth, height: image.naturalHeight, hash: hash >>> 0 };
       };
       return { id: entry.id, frameWidth: entry.frameWidth, frameHeight: entry.frameHeight, sprite: await load(entry.spriteDataUrl), portrait: await load(entry.portraitDataUrl) };
-    })), assets);
-  } finally { await browser.close(); }
+    })), assets), 'resident sprite and portrait decode');
+  } finally { await withTimeout(browser.close(), 'resident browser close', 10000); }
 }

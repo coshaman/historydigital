@@ -1,6 +1,6 @@
 {
-  "auditedHead": "e071ea693d4911de0b0e35d2d67f72e86a79cd1c",
-  "generatedAt": "2026-11-03T10:30:01.569Z",
+  "auditedHead": "0c12ebd9010ddefd58d776db21a02616daaa26b4",
+  "generatedAt": "2026-11-04T15:10:19.971Z",
   "summary": {
     "totalMaps": 16,
     "cityAndReconstructionMaps": 14,
@@ -15,8 +15,8 @@
       "printshop",
       "sewing-room"
     ],
-    "totalInteractionObjects": 216,
-    "nonExitInteractionCandidates": 190,
+    "totalInteractionObjects": 218,
+    "nonExitInteractionCandidates": 192,
     "totalMapExitObjects": 26,
     "missingTargets": []
   },
@@ -62,7 +62,7 @@
         "V36-PHYSIOLOGY-PETERSBURG-1845",
         "V36-GUIDE-PUSHKAREV-1843"
       ],
-      "interactionObjects": 9,
+      "interactionObjects": 10,
       "mapExits": [
         {
           "objectId": 4007,
@@ -536,7 +536,7 @@
         "V36-PHYSIOLOGY-PETERSBURG-1845",
         "V36-GUIDE-PUSHKAREV-1843"
       ],
-      "interactionObjects": 4,
+      "interactionObjects": 5,
       "mapExits": [
         {
           "objectId": 4003,
