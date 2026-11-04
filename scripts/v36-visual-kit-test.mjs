@@ -98,6 +98,12 @@ assert.equal(atlasRecord.historicalConfidence, 'UNVERIFIED_RECONSTRUCTION');
 for (const [index, line] of usageRows.slice(1).entries()) {
   const fields = [...line.matchAll(/"((?:[^"]|"")*)"/g)].map(match => match[1].replaceAll('""', '"'));
   const gid = Number(fields[0]);
+  if (gid <= 45) {
+    assert.equal(fields[4], 'UNVERIFIED_RECONSTRUCTION', `GID ${gid} has no checked object-level visual source`);
+    assert.equal(fields[5], ''); assert.equal(fields[6], '');
+    assert.match(fields[7], /UNVERIFIED_RECONSTRUCTION/);
+    continue;
+  }
   if (gid >= 46 && gid <= 60) {
     assert.equal(fields[4], 'UNVERIFIED_RECONSTRUCTION', `surface GID ${gid} does not overstate its source support`);
     assert.equal(fields[5], ''); assert.equal(fields[6], '');

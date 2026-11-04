@@ -126,7 +126,10 @@ const rows = lines.slice(1).map((line, index) => {
     columns[6] = '';
     columns[7] = 'UNVERIFIED_RECONSTRUCTION: 독립적으로 그린 게임용 노면·널판 타일. 확인한 자료는 이 구체적 표면의 색·문양·재료를 입증하지 않는다.';
   } else {
-    columns[7] = '독립적으로 그린 게임용 타일; 이 시각 자료는 특정 주소·건축물·노면 배치를 입증하지 않음';
+    columns[4] = 'UNVERIFIED_RECONSTRUCTION';
+    columns[5] = '';
+    columns[6] = '';
+    columns[7] = 'UNVERIFIED_RECONSTRUCTION: 독립적으로 제작한 게임용 환경 타일. 확인된 지도 자료는 이 타일의 구체적 형태·재료·색상·세부 용도를 입증하지 않는다.';
   }
   return columns.map(quote).join(',');
 });

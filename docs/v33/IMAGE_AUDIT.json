@@ -224,10 +224,10 @@
       "path": "rpg/assets/petersburg-tiles.png",
       "width": 256,
       "height": 160,
-      "bytes": 5422,
-      "sha256": "edec283e54620b58d5e17b66456096932bce535847953849eabf2c304de00628",
+      "bytes": 5482,
+      "sha256": "8b249177dc075928c454b5a576e486bd988c1d401ef4577ea44cb0e06e651ad8",
       "license": "original project-authored pixels",
-      "confidence": "CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE"
+      "confidence": "UNVERIFIED_RECONSTRUCTION"
     },
     {
       "path": "rpg/assets/petrovich.png",

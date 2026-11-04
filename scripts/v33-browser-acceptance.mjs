@@ -67,7 +67,11 @@ const scripts = atmosphereOnly
       cwd: root,
       env: { ...process.env, V33_RPG_URL: url, ...(rpgOnly ? { V33_BROWSER_RUN_ID: new Date().toISOString().replaceAll(':', '-') } : {}) },
       stdio: 'inherit',
-      timeout: 15 * 60 * 1000,
+      // The campaign case drives a complete historical route through an
+      // interactive browser and can exceed the old 15-minute ceiling on
+      // slower/virtualized machines. Preserve all assertions and allow the
+      // route to finish before the enclosing acceptance gate decides status.
+      timeout: script.includes('v33-campaign-browser-acceptance') ? 45 * 60 * 1000 : 15 * 60 * 1000,
       windowsHide: true,
     });
     if (result.error) throw result.error;

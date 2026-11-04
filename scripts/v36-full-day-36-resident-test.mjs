@@ -37,6 +37,7 @@ function runFullDay() {
     collisionSnapshots += 1;
   }
   const moves = state.ledger.flatMap(event => event.moves ?? []);
+  const movementStepsByResident = Object.fromEntries(ids.map(id => [id, moves.filter(item => item.hostId === id).length]));
   for (const [id, start] of Object.entries(initialPositions)) {
     let previous = start;
     for (const step of moves.filter(item => item.hostId === id)) {
@@ -48,6 +49,7 @@ function runFullDay() {
       previous = { mapId: step.toMapId, ...step.to };
     }
     const host = state.hosts[id];
+    assert.ok(movementStepsByResident[id] > 0, `${id} must physically move at least one tile during the 24-hour replay`);
     assert.deepEqual({ mapId: host.mapId, ...host.position }, previous, `${id} end position must match its movement trace`);
     assert.ok(host.schedule.length >= 4, `${id} needs a daily schedule`);
     const authoredSchedule = cardsById.get(id).schedule ?? [];
@@ -57,7 +59,7 @@ function runFullDay() {
     assert.ok(host.currentActivityKo?.length > 0, `${id} needs a current activity after the full-day replay`);
   }
   assert.deepEqual(state.quests, Object.fromEntries(quests.map(quest => [quest.id, { status:'open', result:null }])), 'NPC autonomy cannot complete player quests');
-  return { state, initialPositions, moves, collisionSnapshots, observedPersonalGoalVisits };
+  return { state, initialPositions, moves, movementStepsByResident, collisionSnapshots, observedPersonalGoalVisits };
 }
 
 const startedAt = performance.now();
@@ -121,6 +123,7 @@ const report = { schemaVersion:'V36_FULL_DAY_36_RESIDENT_REPLAY_1', status:'PASS
   deterministicReplays:3, simulatedMinutes:1440, replayHashes:hashes,
   collisionSnapshotsPerReplay:first.collisionSnapshots, totalCollisionSnapshots:replays.reduce((sum,run)=>sum+run.collisionSnapshots,0),
   firstReplay:{ movementSteps:first.moves.length, districtTransitions:mapTransitions.length, goalEvents:goals.length,
+    movementStepsByResident:first.movementStepsByResident,
     residentsWithAutonomousGoalDecision:Object.values(autonomousGoalTypesByResident).filter(types=>types.length).length,
     autonomousGoalTypesByResident,
     deliveries:deliveries.length, exchanges:exchanges.length, personalContacts:personalContacts.length, distinctPersonalContactResidents,
