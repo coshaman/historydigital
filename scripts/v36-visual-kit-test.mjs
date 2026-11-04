@@ -93,6 +93,11 @@ assert.match(atlasRecord.notes, /1849 atlas is later comparison/);
 assert.doesNotMatch(atlasRecord.notes, /1847 photograph|surveyed 1847 paving/i);
 const sourceRegister = JSON.parse(await fs.readFile(path.join(root, 'docs/v36/historical-map-source-register.json'), 'utf8'));
 const knownSourceIds = new Set(sourceRegister.sources.map(source => source.sourceId));
+const firewoodSourceId = 'V36-ART-SHCHEDROVSKY-WATER-CARRIER-1845';
+const firewoodSource = sourceRegister.sources.find(source => source.sourceId === firewoodSourceId);
+assert.ok(firewoodSource?.visualFeature.includes('short rounded pieces stacked') && firewoodSource?.gameTransformation.includes('Atlas tile GID 83'), 'the inspected Shchedrovsky plate bounds the firewood tile reference');
+assert.ok(atlasRecord.sourceIds.includes(firewoodSourceId), 'the atlas-level provenance includes the group-print reference');
+assert.ok(atlasRecord.sourceUrls.includes('https://rusneb.ru/catalog/000199_000009_009492648/') && atlasRecord.sourceUrls.includes('https://compuart.ru/article/23289'), 'atlas provenance preserves both catalog and inspected plate-reproduction URLs');
 assert.ok(atlasRecord.sourceIds.every(id => knownSourceIds.has(id)), 'atlas provenance source IDs resolve to checked-in historical records');
 assert.equal(atlasRecord.historicalConfidence, 'UNVERIFIED_RECONSTRUCTION');
 const marketVendor = JSON.parse(await fs.readFile(path.join(root, 'rpg/characters/market_nadezhda.json'), 'utf8'));
@@ -223,6 +228,15 @@ for (const [index, line] of usageRows.slice(1).entries()) {
     assert.ok(knownSourceIds.has(fields[5]), 'GID 65 exact museum source must be registered');
     assert.equal(fields[6], 'https://rusmuseumvrm.ru/data/collections/drawings/r-5783/index.php');
     assert.match(fields[7], /장면 참고/);
+  } else if (gid === 83) {
+    assert.equal(fields[1], 'SHARED_FIREWOOD_STACK');
+    assert.equal(fields[4], 'CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE');
+    assert.equal(fields[5], 'V36-ART-SHCHEDROVSKY-WATER-CARRIER-1845');
+    assert.ok(knownSourceIds.has(fields[5]));
+    assert.ok(firewoodSource?.confidence.includes('LOW for assigning'));
+    assert.equal(fields[6], 'https://rusneb.ru/catalog/000199_000009_009492648/');
+    assert.match(fields[7], /짧은 나무 조각이 쌓인 모습/);
+    assert.match(fields[7], /목재 종류·치수·보관 관행/);
   } else {
     assert.equal(fields[4], 'UNVERIFIED_RECONSTRUCTION', `GID ${gid} has no checked object-level source`);
     assert.equal(fields[5], '', `GID ${gid} must not cite an unrelated source`);

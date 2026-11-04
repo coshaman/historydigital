@@ -116,6 +116,12 @@ const rows = lines.slice(1).map((line, index) => {
       throw new Error('GID 65 must identify the exact Russian Museum fish-and-egg sellers record R-5783.');
     }
     if (!columns[7].includes('정확한 생선 진열 모양') || !columns[7].includes('1847년 동일 장소')) throw new Error('GID 65 must delimit what its visual source does not prove.');
+  } else if (gid === 83) {
+    columns[4] = 'CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE';
+    columns[5] = 'V36-ART-SHCHEDROVSKY-WATER-CARRIER-1845';
+    columns[6] = 'https://rusneb.ru/catalog/000199_000009_009492648/';
+    columns[7] = '창작 픽셀 타일의 제한적 장면 참고: Щедровский의 1845년 집단 석판화 판 8에서 짧은 나무 조각이 쌓인 모습을 확인했다. 도판 목록은 물장수와 장작 운반인을 함께 열거하지만, 구체적 목재 종류·치수·보관 관행·게임 좌표를 입증하지 않는다.';
+    if (!columns[7].includes('입증하지 않는다')) throw new Error('GID 83 must state its evidence limits.');
   } else if (gid >= 61) {
     if (columns[4] !== 'UNVERIFIED_RECONSTRUCTION' || columns[5] || columns[6] || !columns[7].includes('UNVERIFIED_RECONSTRUCTION')) {
       throw new Error(`GID ${gid} must not imply direct historical support without an inspected item-level source.`);

@@ -235,11 +235,11 @@
       "eraRange": "1845",
       "locale": "Saint Petersburg; the cataloged plate identifies the water carrier as from Vasilievsky Island",
       "pageOrFolio": "Plate 8 of the 1845 album; bibliography checked in NЭБ catalog and plate reproduction visually inspected at https://compuart.ru/article/23289 on 2026-11-05. The NЭБ page's scan viewer was blocked by its VPN interstitial in this environment.",
-      "visualFeature": "The inspected colorized group lithograph shows several workers, a large wooden barrel and a wash tub. The article's plate list names a water carrier among the group, but the displayed scene does not let us confidently assign the barrel or tub to that individual or establish a carrying method.",
+      "visualFeature": "The inspected colorized group lithograph shows several workers, a large wooden barrel, a wash tub, and short rounded pieces stacked behind a standing figure and scattered in the foreground. The article's plate list names both a water carrier and a wood carrier, but the display does not let us confidently assign the barrel or tub to the water carrier or determine the wood species, dimensions, or exact handling practice.",
       "confidence": "HIGH for the album edition, publication year, and plate subject list from the NЭБ catalog/article; MEDIUM for visible group-scene details; LOW for assigning any particular vessel to the water carrier.",
       "rights": "The NЭБ record lists open access to the bibliographic item, but permission to redistribute the secondary-hosted reproduction was not established. Neither reproduction is copied into the game; all game pixels are original project artwork.",
       "creditedArtist": "Ignaty Shchedrovsky, compiled and lithographed by the artist as cataloged; hand-coloring noted in the bibliographic description.",
-      "gameTransformation": "Luka receives an original small handled-pail role marker. The group plate supplies only broad context for water work and vessels; it does not establish Luka's identity, clothing, exact tool, or method of carrying water.",
+      "gameTransformation": "Luka receives an original small handled-pail role marker. Atlas tile GID 83 uses a simple stacked-short-wood silhouette informed only by the visible pile in this group plate. The image does not establish Luka's identity, clothing, a water-carrier's exact tool, wood species, dimensions, or universal storage practice.",
       "rightsTermsUrl": "https://rusneb.ru/catalog/000199_000009_009492648/"
     }
   ],

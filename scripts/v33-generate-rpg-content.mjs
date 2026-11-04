@@ -463,7 +463,9 @@ if (process.argv.includes('--v36-tiles-only')) {
   atlas.sourceUrls.push('https://rusmuseumvrm.ru/data/collections/drawings/r-5783/index.php');
   atlas.sourceIds.push('V36-ART-LABASTIDE-HAWKER-TRAY-1845','V36-ART-LABASTIDE-KALACH-SELLER-1845');
   atlas.sourceUrls.push('https://rusmuseumvrm.ru/data/collections/drawings/r-24373/index.php','https://rusmuseumvrm.ru/data/collections/drawings/r-24382/index.php');
-  atlas.notes = 'Original project pixel art. Row-level evidence in ASSET_USAGE_V36.csv separates three bounded period-art references from 15 unverified surface tiles and 21 unverified props. Russian Museum records support only the depicted market subjects, not exact pixel shapes, materials, coordinates, or a fixed 1847 location. The 1849 atlas is later comparison, not direct proof of 1847 paving. Water tile GID 85 indicates map geography only and does not establish a historical water color or texture; no museum scan is embedded.';
+  atlas.sourceIds.push('V36-ART-SHCHEDROVSKY-WATER-CARRIER-1845');
+  atlas.sourceUrls.push('https://rusneb.ru/catalog/000199_000009_009492648/','https://compuart.ru/article/23289');
+  atlas.notes = 'Original project pixel art. Row-level evidence in ASSET_USAGE_V36.csv separates four bounded period-art references from 15 unverified surface tiles and 20 unverified props. Russian Museum records support only the depicted market subjects, not exact pixel shapes, materials, coordinates, or a fixed 1847 location. The 1849 atlas is later comparison, not direct proof of 1847 paving. Water tile GID 85 indicates map geography only and does not establish a historical water color or texture; no museum scan is embedded.';
   await writeFile(provenancePath, `${JSON.stringify(provenance, null, 2)}\n`.replace(/\n/g, '\r\n'));
 
   const additions = [
@@ -520,6 +522,7 @@ if (process.argv.includes('--v36-tiles-only')) {
     'V36-ART-KOLLMAN-FISH-SELLERS-1830S': 'https://rusmuseumvrm.ru/data/collections/drawings/r-5783/index.php',
     'V36-ART-LABASTIDE-HAWKER-TRAY-1845': 'https://rusmuseumvrm.ru/data/collections/drawings/r-24373/index.php',
     'V36-ART-LABASTIDE-KALACH-SELLER-1845': 'https://rusmuseumvrm.ru/data/collections/drawings/r-24382/index.php',
+    'V36-ART-SHCHEDROVSKY-WATER-CARRIER-1845': 'https://rusneb.ru/catalog/000199_000009_009492648/',
   };
   const csv = [['gid','tile_key','description_ko','category','source_type','source_id','source_url','historical_note','file','atlas_x','atlas_y'],
     ...oldTiles.map(([gid,key,description,category,sourceId]) => [gid,key,description,category,'CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE',sourceId,'https://expositions.nlr.ru/eng/ex_map/mozaika_Saint-Petersburg/plans_19_century.php','기존 프로젝트 재구성 타일; 실측 표면 아님','rpg/assets/petersburg-tiles.png',((gid-1)%16)*16,Math.floor((gid-1)/16)*16]),
@@ -528,6 +531,7 @@ if (process.argv.includes('--v36-tiles-only')) {
         'V36-ART-KOLLMAN-FISH-SELLERS-1830S': '창작 픽셀 타일의 장면 참고: 러시아 박물관 R-5783은 1830년대 페테르부르크 강변의 생선·달걀 장수를 기록한다. 정확한 생선 진열 모양·게임 좌표·1847년 동일 장소를 입증하지 않는다.',
         'V36-ART-LABASTIDE-HAWKER-TRAY-1845': '창작 픽셀 타일의 장면 참고: 러시아 박물관 R-24373은 약 1845년 페테르부르크 도시 유형화 연작의 쟁반 든 행상인을 기록한다. 타일의 정확한 쟁반 모양·게임 좌표·개별 행상인의 실재를 입증하지 않는다.',
         'V36-ART-LABASTIDE-KALACH-SELLER-1845': '창작 픽셀 타일의 장면 참고: 러시아 박물관 R-24382는 약 1845년 페테르부르크 도시 유형화 연작의 칼라치 판매인을 기록한다. 빵의 정확한 형태·재료·게임 좌표·개별 판매인의 실재를 입증하지 않는다.',
+        'V36-ART-SHCHEDROVSKY-WATER-CARRIER-1845': '창작 픽셀 타일의 제한적 장면 참고: Щедровский의 1845년 집단 석판화 판 8에서 짧은 나무 조각이 쌓인 모습을 확인했다. 도판 목록은 물장수와 장작 운반인을 함께 열거하지만, 구체적 목재 종류·치수·보관 관행·게임 좌표를 입증하지 않는다.',
       };
       const verifiedVisualReference = Object.hasOwn(verifiedVisualReferences, sourceId);
       const surfaceReconstruction = gid >= 46 && gid <= 60;

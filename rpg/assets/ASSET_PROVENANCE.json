@@ -20,7 +20,8 @@
         "V36-PHYSIOLOGY-PETERSBURG-1845",
         "V36-ART-KOLLMAN-FISH-SELLERS-1830S",
         "V36-ART-LABASTIDE-HAWKER-TRAY-1845",
-        "V36-ART-LABASTIDE-KALACH-SELLER-1845"
+        "V36-ART-LABASTIDE-KALACH-SELLER-1845",
+        "V36-ART-SHCHEDROVSKY-WATER-CARRIER-1845"
       ],
       "sourceUrls": [
         "https://expositions.nlr.ru/eng/ex_map/mozaika_Saint-Petersburg/plans_19_century.php",
@@ -30,9 +31,11 @@
         "https://www.prlib.ru/section/1327906",
         "https://rusmuseumvrm.ru/data/collections/drawings/r-5783/index.php",
         "https://rusmuseumvrm.ru/data/collections/drawings/r-24373/index.php",
-        "https://rusmuseumvrm.ru/data/collections/drawings/r-24382/index.php"
+        "https://rusmuseumvrm.ru/data/collections/drawings/r-24382/index.php",
+        "https://rusneb.ru/catalog/000199_000009_009492648/",
+        "https://compuart.ru/article/23289"
       ],
-      "notes": "Original project pixel art. Row-level evidence in ASSET_USAGE_V36.csv separates three bounded period-art references from 15 unverified surface tiles and 21 unverified props. Russian Museum records support only the depicted market subjects, not exact pixel shapes, materials, coordinates, or a fixed 1847 location. The 1849 atlas is later comparison, not direct proof of 1847 paving. Water tile GID 85 indicates map geography only and does not establish a historical water color or texture; no museum scan is embedded."
+      "notes": "Original project pixel art. Row-level evidence in ASSET_USAGE_V36.csv separates four bounded period-art references from 15 unverified surface tiles and 20 unverified props. Russian Museum records support only the depicted market subjects, not exact pixel shapes, materials, coordinates, or a fixed 1847 location. The 1849 atlas is later comparison, not direct proof of 1847 paving. Water tile GID 85 indicates map geography only and does not establish a historical water color or texture; no museum scan is embedded."
     },
     {
       "id": "sprite-clerk_alexei",

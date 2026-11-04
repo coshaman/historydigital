@@ -183,7 +183,7 @@ const baseline = { auditedHead: commit, branch, generatedAt, workingTreeStatus: 
     `${new Set(quests.filter(quest => quest.lifeChain?.stageCount >= 3).map(quest => quest.lifeChain.id)).size} complete resident life chains are registered, including ${new Set(quests.filter(quest => quest.socialChain?.stageCount === 3).map(quest => quest.socialChain.id)).size} three-stage social chains; targets are 30 life chains and 10 social chains.`,
     `${usedAtlasGids.size}/${declaredAtlasGids.size} declared environmental atlas tile GIDs are used in city maps; the V36 minimum is 60 distinct environment assets, and the ledger has ${assetUsageLines.length - 1} rows.`,
     'Map geography remains stylized and not georeferenced; cited records contextualize scenes but do not prove survey-grade in-game coordinates.',
-    'Local live-provider smoke does not verify the deployed Vercel production environment or its environment variables.',
+    'One successful Vercel production generation verifies a single request only; it does not establish ongoing availability or cast-wide dialogue quality.',
   ] };
 await writeFile(path.join(out, 'HEAD_AUDIT.json'), JSON.stringify(baseline, null, 2) + '\n', 'utf8');
 
@@ -196,7 +196,8 @@ const apiAudit = [
   '- Dialogue uses a server-created, signed session and validated model response. NPC simulation must not call the LLM.',
   '- Regression coverage includes generated turns, missing-key fallback, provider 429/5xx/timeout, incomplete-output cause, invalid response rejection, session recovery, and authoritative-state protection.',
   '- Real in-game API acceptance is recorded separately in REAL_AI_IN_GAME_ACCEPTANCE.json; generated dialogue text and credentials are excluded from that evidence.',
-  '- Vercel production deployment and environment settings remain unverified; health confirms key presence only, while a successful dialogue request is the generation check.',
+  '- Live Vercel API status confirmed `OPENAI_API_KEY` configured, and the one-request in-game generation check returned a character answer in the UI. Evidence: `VERCEL_PRODUCTION_AI_SMOKE.json`. This is a single successful generation, not a full voice-quality or reliability evaluation.',
+  '- A local `.env.local` smoke received the safe category `network_error`; it did not receive an HTTP response from the provider. The secret value and provider response body are never logged by the smoke.',
   '',
 ].join('\n');
 await writeFile(path.join(out, 'API_AUDIT.md'), apiAudit, 'utf8');
