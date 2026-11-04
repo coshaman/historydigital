@@ -4,13 +4,16 @@ import path from 'node:path';
 const root = process.cwd(), output = path.join(root, 'dist-v33');
 await import('./v36-build-resident-arc-bundle.mjs');
 const required = ['index.html', 'chancery.html', 'rpg/main.js', 'rpg/rpg.css', 'rpg/engine/game-state.js', 'rpg/engine/learning-life.mjs', 'rpg/engine/civic-life.mjs', 'rpg/engine/dialogue-response.mjs', 'rpg/data/learning-exam.json', 'rpg/data/learning-sources.json', 'rpg/data/life-simulation.json', 'rpg/data/historical-comparisons.json', 'rpg/maps/nevsky.json', 'rpg/maps/printshop.json', 'rpg/maps/chancery.json', 'rpg/maps/courtyard.json', 'rpg/maps/police-station.json', 'rpg/characters/editor_sofia.json', 'rpg/characters/police_sergeant_ivan.json', 'rpg/assets/petersburg-tiles.png', 'rpg/assets/chichikov.png', 'rpg/assets/nekrasov.png'];
+const legacyRuntimeFiles = ['styles.css', 'app.js', 'gold-runtime.js', 'three-desk.js', 'three-walk.js', 'window-view-controller.js', 'main20-branch-graph.js', 'main20-exam.js', 'main20-life-simulation.js', 'main20-runtime.js'];
 await fs.rm(output, { recursive: true, force: true });
 await fs.mkdir(output, { recursive: true });
 await fs.copyFile(path.join(root, 'index.html'), path.join(output, 'index.html'));
 await fs.copyFile(path.join(root, 'chancery.html'), path.join(output, 'chancery.html'));
 await fs.cp(path.join(root, 'rpg'), path.join(output, 'rpg'), { recursive: true });
+for (const file of legacyRuntimeFiles) await fs.copyFile(path.join(root, file), path.join(output, file));
+for (const directory of ['assets', 'data', 'narrative', 'vendor']) await fs.cp(path.join(root, directory), path.join(output, directory), { recursive: true });
 await fs.writeFile(path.join(output, 'rpg/ai/config.js'), '// AI requests use the same-origin Vercel Function at /api/rpg/.\n');
-for (const file of required) {
+for (const file of [...required, ...legacyRuntimeFiles, 'vendor/three/three.module.min.js', 'vendor/three/three.core.min.js', 'vendor/three/LICENSE', 'data/v6-gold-cases.json', 'narrative/MAIN_20MIN_DIALOGUE.json', 'assets/window-anichkov-1830.jpg', 'assets/portraits/alexei-orlov.png']) {
   const stat = await fs.stat(path.join(output, file)).catch(() => null);
   if (!stat?.isFile() || stat.size === 0) throw new Error(`Missing static RPG artifact: ${file}`);
 }

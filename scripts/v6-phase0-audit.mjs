@@ -32,7 +32,7 @@ const semicolonRelations = casePacks.filter(pack => String(pack.id).includes(';'
 const directCaseRelations = new Set(excerpts.filter(item => item.case_id || item.caseId).map(item => item.case_id ?? item.caseId));
 const missingDirectExcerptCases = caseIds.filter(caseId => !directCaseRelations.has(caseId));
 const findings = [
-  {id:1, title:'Three.js 외부 동적 import 3건', status:/cdn\.jsdelivr\.net/.test(threeDesk + threeWalk) ? 'CONFIRMED' : 'FIXED_LOCAL_RUNTIME', evidence:[/cdn\.jsdelivr\.net/.test(threeDesk + threeWalk) ? 'CDN import remains' : 'three-desk.js and three-walk.js import /node_modules/three/build/three.module.js','package.json pins three 0.180.0']},
+  {id:1, title:'Three.js 외부 동적 import 3건', status:/cdn\.jsdelivr\.net/.test(threeDesk + threeWalk) ? 'CONFIRMED' : 'FIXED_LOCAL_RUNTIME', evidence:[/cdn\.jsdelivr\.net/.test(threeDesk + threeWalk) ? 'CDN import remains' : 'three-desk.js and three-walk.js import ./vendor/three/three.module.min.js with adjacent local core module and MIT license','package.json pins three 0.180.0']},
   {id:2, title:'네트워크 차단 시 3D fallback', status:/cdn\.jsdelivr\.net/.test(threeDesk + threeWalk) ? 'CONFIRMED' : 'NO_CDN_PRODUCTION_PATH', evidence:['local module load is the production path','runtime gate exposes fallback=true only on local load failure']},
   {id:3, title:'성능 감사가 실제 WebGL 대신 fallback 측정', status:'CONFIRMED', evidence:['performance route starts with fallback-compatible page','WebGL availability and Three import are separate from timing assertions']},
   {id:4, title:'mountCaseEvidence/setSourceReading의 번역 인자 오염 가능성', status:'CONFIRMED', evidence:['app.js passes runtime line text through evidence mounting path','source display and translation fields are not typed at the boundary']},

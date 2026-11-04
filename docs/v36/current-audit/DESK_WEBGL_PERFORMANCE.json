@@ -1,6 +1,6 @@
 {
   "schemaVersion": "V36_DESK_WEBGL_PERFORMANCE_V1",
-  "measuredAt": "2026-11-04T16:13:44.089Z",
+  "measuredAt": "2026-11-04T19:15:21.359Z",
   "environment": {
     "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.12 Safari/537.36",
     "platform": "Win32",
@@ -17,65 +17,93 @@
     "fallback": false,
     "canvas": "local"
   },
+  "checks": {
+    "noIdle3dRedraws": true,
+    "softwareCameraFocusDrawsAtMostOnce": true
+  },
   "samples": [
     {
       "label": "idle",
-      "frameTimeMedian": 433.39999999999964,
-      "frameTimeP95": 566.5,
-      "fpsMedian": 2.3073373327180455,
-      "fpsP95": 1.7652250661959399,
+      "browserFrameTimeMedian": 16.699999999999818,
+      "browserFrameTimeP95": 16.700000000000273,
+      "browserFpsMedian": 59.88023952095874,
+      "browserFpsP95": 59.880239520957105,
+      "sceneRenderedFrames": 0,
+      "sceneRenderHz": 0,
       "metrics": {
-        "drawCalls": 50,
-        "triangles": 2158,
-        "textures": 1,
-        "geometries": 49,
+        "drawCalls": 47,
+        "triangles": 2066,
+        "textures": 0,
+        "geometries": 46,
         "dpr": 1,
-        "propCount": 22
+        "propCount": 22,
+        "renderedFrames": 1,
+        "lastRenderDurationMs": 88.60000000149012,
+        "maxRenderDurationMs": 88.60000000149012,
+        "softwareRenderer": true
       }
     },
     {
       "label": "document-pickup",
-      "frameTimeMedian": 433.3000000000029,
-      "frameTimeP95": 566.7000000000007,
-      "fpsMedian": 2.307869836141226,
-      "fpsP95": 1.7646020822304547,
+      "browserFrameTimeMedian": 16.699999999999818,
+      "browserFrameTimeP95": 16.800000000000182,
+      "browserFpsMedian": 59.88023952095874,
+      "browserFpsP95": 59.52380952380888,
+      "sceneRenderedFrames": 0,
+      "sceneRenderHz": 0,
       "metrics": {
-        "drawCalls": 50,
-        "triangles": 2158,
-        "textures": 1,
-        "geometries": 49,
+        "drawCalls": 47,
+        "triangles": 2066,
+        "textures": 0,
+        "geometries": 46,
         "dpr": 1,
-        "propCount": 22
+        "propCount": 22,
+        "renderedFrames": 1,
+        "lastRenderDurationMs": 88.60000000149012,
+        "maxRenderDurationMs": 88.60000000149012,
+        "softwareRenderer": true
       }
     },
     {
       "label": "drawer-interaction",
-      "frameTimeMedian": 400,
-      "frameTimeP95": 533.4000000000015,
-      "fpsMedian": 2.5,
-      "fpsP95": 1.8747656542932083,
+      "browserFrameTimeMedian": 16.700000000000728,
+      "browserFrameTimeP95": 1133.2999999999993,
+      "browserFpsMedian": 59.88023952095548,
+      "browserFpsP95": 0.8823788934968682,
+      "sceneRenderedFrames": 0,
+      "sceneRenderHz": 0,
       "metrics": {
-        "drawCalls": 50,
-        "triangles": 2158,
-        "textures": 1,
-        "geometries": 49,
+        "drawCalls": 47,
+        "triangles": 2066,
+        "textures": 0,
+        "geometries": 46,
         "dpr": 1,
-        "propCount": 22
+        "propCount": 22,
+        "renderedFrames": 1,
+        "lastRenderDurationMs": 88.60000000149012,
+        "maxRenderDurationMs": 88.60000000149012,
+        "softwareRenderer": true
       }
     },
     {
       "label": "window-interaction",
-      "frameTimeMedian": 466.59999999999854,
-      "frameTimeP95": 1100.0999999999985,
-      "fpsMedian": 2.143163309044156,
-      "fpsP95": 0.9090082719752762,
+      "browserFrameTimeMedian": 16.700000000000728,
+      "browserFrameTimeP95": 50,
+      "browserFpsMedian": 59.88023952095548,
+      "browserFpsP95": 20,
+      "sceneRenderedFrames": 1,
+      "sceneRenderHz": 0.29975120649847226,
       "metrics": {
         "drawCalls": 12,
         "triangles": 144,
-        "textures": 1,
-        "geometries": 54,
+        "textures": 0,
+        "geometries": 51,
         "dpr": 1,
-        "propCount": 22
+        "propCount": 22,
+        "renderedFrames": 2,
+        "lastRenderDurationMs": 5.100000001490116,
+        "maxRenderDurationMs": 88.60000000149012,
+        "softwareRenderer": true
       }
     }
   ]

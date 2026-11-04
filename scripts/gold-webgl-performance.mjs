@@ -9,15 +9,20 @@ await page.goto(`${baseUrl}/chancery.html#legacy`, {waitUntil:'domcontentloaded'
 await page.waitForFunction(() => window.__threeRuntime && window.__goldRuntime, null, {timeout:15000});
 const result = await page.evaluate(async () => {
   const gate = window.__threeRuntime;
-  if (!gate?.loaded || !gate.local || gate.fallback || !gate.renderer?.info || !document.querySelector('#deskCanvas')?.dataset.threeLoaded) throw new Error('real local WebGL gate failed');
+  if (!gate?.loaded || !gate.local || gate.fallback || !gate.renderer?.info || !document.querySelector('#deskCanvas')?.dataset.threeLoaded) throw new Error(`real local WebGL gate failed: ${JSON.stringify(gate)}`);
   const gl = gate.renderer.getContext();
   const debug = gl.getExtension('WEBGL_debug_renderer_info');
   const renderer = debug ? gl.getParameter(debug.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER);
   const vendor = debug ? gl.getParameter(debug.UNMASKED_VENDOR_WEBGL) : gl.getParameter(gl.VENDOR);
   const samples = async (label) => {
+    const start = performance.now();
+    const firstRenderedFrame = gate.getMetrics().renderedFrames;
     const frames = await new Promise(resolve => { const values=[]; let previous=performance.now(); let count=0; const tick=now=>{ if(count++) values.push(now-previous); previous=now; if(count<31) requestAnimationFrame(tick); else resolve(values.slice(1)); }; requestAnimationFrame(tick); });
+    const elapsedMs = performance.now() - start;
     const sorted=[...frames].sort((a,b)=>a-b); const percentile=p=>sorted[Math.min(sorted.length-1,Math.floor(sorted.length*p))];
-    return {label, frameTimeMedian:percentile(.5), frameTimeP95:percentile(.95), fpsMedian:1000/percentile(.5), fpsP95:1000/percentile(.95), metrics:gate.getMetrics()};
+    const metrics = gate.getMetrics();
+    const renderedFrames = metrics.renderedFrames - firstRenderedFrame;
+    return {label, browserFrameTimeMedian:percentile(.5), browserFrameTimeP95:percentile(.95), browserFpsMedian:1000/percentile(.5), browserFpsP95:1000/percentile(.95), sceneRenderedFrames:renderedFrames, sceneRenderHz:renderedFrames/(elapsedMs/1000), metrics};
   };
   const idle=await samples('idle');
   await window.__goldRuntime.selectGoldExcerpt('E02-X2');
@@ -28,7 +33,9 @@ const result = await page.evaluate(async () => {
   document.querySelector('#petersburgWindow').dispatchEvent(new MouseEvent('click',{bubbles:true}));
   const windowInteraction=await samples('window-interaction');
   const softwareRenderer = /swiftshader|llvmpipe|software rasterizer|software renderer/i.test(renderer);
-  return {schemaVersion:'V36_DESK_WEBGL_PERFORMANCE_V1',measuredAt:new Date().toISOString(),environment:{browser:navigator.userAgent,platform:navigator.platform,hardwareConcurrency:navigator.hardwareConcurrency,devicePixelRatio,renderer,vendor,softwareRenderer,hardwareGpuVerified:false},gate:{loaded:gate.loaded,local:gate.local,fallback:gate.fallback,canvas:gate.canvas.dataset.threeLoaded},samples:[idle,pickup,drawer,windowInteraction]};
+  if (idle.sceneRenderedFrames !== 0 || pickup.sceneRenderedFrames !== 0 || drawer.sceneRenderedFrames !== 0) throw new Error(`idle/document UI caused unnecessary 3D redraws: ${JSON.stringify([idle,pickup,drawer])}`);
+  if (softwareRenderer && windowInteraction.sceneRenderedFrames > 1) throw new Error(`software-rendered camera focus should draw one responsive destination frame: ${JSON.stringify(windowInteraction)}`);
+  return {schemaVersion:'V36_DESK_WEBGL_PERFORMANCE_V1',measuredAt:new Date().toISOString(),environment:{browser:navigator.userAgent,platform:navigator.platform,hardwareConcurrency:navigator.hardwareConcurrency,devicePixelRatio,renderer,vendor,softwareRenderer,hardwareGpuVerified:false},gate:{loaded:gate.loaded,local:gate.local,fallback:gate.fallback,canvas:gate.canvas.dataset.threeLoaded},checks:{noIdle3dRedraws:true,softwareCameraFocusDrawsAtMostOnce:softwareRenderer},samples:[idle,pickup,drawer,windowInteraction]};
 });
 const reportPath = new URL('../docs/v36/current-audit/DESK_WEBGL_PERFORMANCE.json', import.meta.url);
 await mkdir(new URL('../docs/v36/current-audit/', import.meta.url), {recursive:true});

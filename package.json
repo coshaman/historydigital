@@ -205,6 +205,7 @@
     "v36-personal-quest-coverage": "node scripts/v36-personal-quest-coverage-test.mjs",
     "v36-personal-quest-browser": "node scripts/v36-personal-quest-browser-test.mjs",
     "v36-life-chain-date-regression-browser": "node scripts/v36-life-chain-date-continuation-browser.mjs",
+    "v33-static-build-browser-smoke": "node scripts/v33-static-build-browser-smoke.mjs",
     "v36-first-slice": "npm run v36-district-prototype-test && npm run v36-first-slice-sim",
     "v36-goal-driven-six": "node scripts/v36-goal-driven-six-test.mjs",
     "v36-personal-goal-autonomy-test": "node scripts/v36-personal-goal-autonomy-test.mjs",

@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "V36_CLEAN_EXTRACTION_BROWSER_V1",
+  "status": "PASS_WITH_NPM_CI_ENVIRONMENT_LIMITATION",
+  "archive": "RUSSIAN_LIVES_V36_OPEN_WORLD_EVIDENCE.zip",
+  "checksumVerification": {
+    "status": "PASS",
+    "files": 1761
+  },
+  "cleanExtraction": {
+    "npmRunCheck": "PASS",
+    "npmRunBuildV33": "PASS",
+    "distV33Files": 506,
+    "browser": {
+      "status": "PASS",
+      "v36EntryPlayable": true,
+      "preservedDeskThreeLoadedLocally": true,
+      "fallback": false,
+      "initialRenderedFrames": 1,
+      "narrationPortraitHidden": true,
+      "pageErrors": 0
+    }
+  },
+  "npmCi": {
+    "status": "ENVIRONMENT_BLOCKED",
+    "attempts": [
+      "default npm cache stat failed with EPERM",
+      "isolated temporary cache fetch from registry.npmjs.org failed with EACCES"
+    ]
+  },
+  "hardwareGpuVerified": false,
+  "notes": "The browser verification reused workspace Playwright while serving the clean extracted dist-v33 directory. This verifies the archive's built runtime paths, but it does not make the registry-dependent npm ci attempt pass."
+}

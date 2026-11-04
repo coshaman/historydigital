@@ -1,0 +1,53 @@
+{
+  "status": "PASS",
+  "artifact": "dist-v33/",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "v36EntryPlayable": true,
+  "preservedDeskEntry": {
+    "threeLoaded": true,
+    "fallback": false,
+    "visibleImagesLoaded": true,
+    "narrationPortraitHidden": true
+  },
+  "cameraFocus": {
+    "focus": "window",
+    "frames": 2,
+    "redraws": 1
+  },
+  "mobileLayouts": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "layout": {
+        "width": 390,
+        "height": 844,
+        "documentWidth": 390,
+        "bodyWidth": 390,
+        "canvasRight": 390,
+        "canvasWidth": 390
+      }
+    },
+    {
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "layout": {
+        "width": 360,
+        "height": 800,
+        "documentWidth": 360,
+        "bodyWidth": 360,
+        "canvasRight": 360,
+        "canvasWidth": 360
+      }
+    }
+  ],
+  "pageErrors": [],
+  "localResourceFailures": [],
+  "screenshot": "docs/v36/current-audit/v33-static-desk-1440.png"
+}

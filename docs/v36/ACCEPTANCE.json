@@ -1,8 +1,8 @@
 {
   "schemaVersion": "V36_ACCEPTANCE_1",
   "status": "PASS",
-  "generatedAt": "2026-11-04T18:28:09.170Z",
-  "completedSteps": 43,
+  "generatedAt": "2026-11-04T19:15:27.304Z",
+  "completedSteps": 44,
   "results": [
     {
       "id": "static-build",
@@ -173,12 +173,12 @@
       "durationMs": 10172
     },
     {
-      "id": "local-built-app-browser-smoke",
-      "script": "real-build-browser",
+      "id": "vercel-static-output-browser-smoke",
+      "script": "v33-static-build-browser-smoke",
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 9360
+      "durationMs": 16000
     },
     {
       "id": "desktop-mobile-and-reduced-motion-performance",
@@ -347,6 +347,14 @@
       "exitCode": 0,
       "signal": null,
       "durationMs": 11038
+    },
+    {
+      "id": "vendored-three-demand-render-webgl-browser",
+      "script": "gold-webgl-performance",
+      "status": "PASS",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 23701
     }
   ]
 }

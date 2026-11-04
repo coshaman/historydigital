@@ -2,6 +2,8 @@
 
 This repository contains the Vercel-only web game. It keeps the V35/Act III campaign, document reader, possession system, literary realms, Vercel dialogue API, and five historical endings while adding the 1847 Petersburg resident simulation and connected city districts.
 
+Both 3D scenes load the pinned Three.js 0.180.0 modules from `vendor/three/`; they do not depend on a runtime CDN request. The Vercel `dist-v33/` output includes the full `chancery.html` runtime, its required data and visual assets, and the vendored modules. The MIT license is included alongside them. The 3D desk idles without a continuous render loop and redraws on interaction, resize, or camera focus changes.
+
 ## Run locally
 
 ```powershell

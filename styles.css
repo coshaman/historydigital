@@ -27,6 +27,7 @@
 .v28-runtime .main20-context-range{margin:8px 0 14px;padding:8px 10px;border-left:2px solid #b98b52;color:#8e704e;font-size:12px;line-height:1.5}
 .v28-runtime .choice-area button:hover,.v28-runtime .choice-area button:focus{background:#5d3b24;border-color:#f2d39b}
 .v28-portrait{grid-column:1;grid-row:1/3;width:76px;height:104px;align-self:center;position:relative;border:1px solid #d8ad6a99;background:#19120f;overflow:hidden;box-shadow:4px 5px 0 #10090788}
+.v28-portrait[hidden]{display:none!important}
 .portrait-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 22%;filter:sepia(.12) saturate(.82) contrast(.98);z-index:1}.portrait-shadow{position:absolute;inset:auto 0 0;height:34%;background:linear-gradient(transparent,#0d0b0dcc);z-index:2;pointer-events:none}
 .v28-evidence-board{display:grid!important;grid-template-columns:1fr 1fr;gap:12px;min-height:300px!important;padding:10px!important;overflow:auto!important}
 .v28-evidence-card{background:linear-gradient(145deg,#f1e4c7,#cbb68c);border:1px solid #6f563866;padding:12px;color:#30251d;box-shadow:5px 6px 0 #33201544}.v28-evidence-card small{display:block;color:#765b39;font-size:10px;line-height:1.35}.v28-evidence-card p{margin:8px 0;font-size:13px;line-height:1.45}.v28-evidence-card .ru-text{font-family:Georgia,serif;font-style:italic}.v28-evidence-card .ko-text{font-family:'Noto Sans KR',sans-serif}
