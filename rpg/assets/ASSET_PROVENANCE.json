@@ -615,8 +615,10 @@
         "nevsky",
         "courtyard"
       ],
-      "sourceIds": [],
-      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen coachman_timofey; not a documented likeness or evidence of a specific individual's clothing."
+      "sourceIds": [
+        "V36-ART-COLLMANN-HIRE-CAB-1842"
+      ],
+      "notes": "Original project-authored costume silhouette for fictional resident coachman_timofey. Collmann's 1842 cab-hire watercolor shows a horse-drawn carriage, harness, and men in caps and long outer garments; a standing figure handles the reins. Timofey's original walking sprite borrows only the cap-and-coat silhouette and reins as a work cue, not an identified sitter or exact 1847 uniform. Not a documented likeness or exact reconstruction."
     },
     {
       "id": "portrait-coachman_timofey",

@@ -133,14 +133,24 @@ assert.ok(carter.sprite.visualReferenceIds?.includes(carterSourceId), 'Roman nam
 assert.ok(carterSource?.visualFeature.includes('horse drawing a box-shaped ice cart') && carterSource?.gameTransformation.includes("does not reproduce a particular figure"), 'the transport scene is visually scoped and kept separate from Roman as a fictional person');
 assert.ok(carterSource?.rights.includes('no museum image is copied or redistributed'), 'the ice-delivery painting is not redistributed');
 assert.ok(carterSpriteRecord?.sourceIds.includes(carterSourceId), 'Roman sprite provenance resolves to the inspected ice-delivery source');
+const coachman = JSON.parse(await fs.readFile(path.join(root, 'rpg/characters/coachman_timofey.json'), 'utf8'));
+const coachmanSourceId = 'V36-ART-COLLMANN-HIRE-CAB-1842';
+const coachmanSource = sourceRegister.sources.find(source => source.sourceId === coachmanSourceId);
+const coachmanSpriteRecord = provenance.assets.find(asset => asset.id === 'sprite-coachman_timofey');
+assert.equal(coachman.sprite.style, 'cabman', 'Timofey has a distinct source-informed cab-driver silhouette');
+assert.ok(coachman.sprite.visualReferenceIds?.includes(coachmanSourceId), 'Timofey names the inspected cab-hire watercolor');
+assert.ok(coachmanSource?.visualFeature.includes('one standing figure handles the reins') && coachmanSource?.gameTransformation.includes('does not reproduce a particular figure'), 'the cab-hire source is visually scoped and kept separate from Timofey as a fictional person');
+assert.ok(coachmanSource?.rights.includes('no museum image is copied or redistributed'), 'the cab-hire painting is not redistributed');
+assert.ok(coachmanSpriteRecord?.sourceIds.includes(coachmanSourceId), 'Timofey sprite provenance resolves to the inspected cab-hire source');
 const reviewManifest = (await fs.readFile(path.join(root, 'qa/ASSET_REVIEW_MANIFEST.csv'), 'utf8')).trim().split(/\r?\n/);
 assert.equal(reviewManifest.length, 37, 'the visual review manifest covers all 36 residents');
 assert.ok(reviewManifest.some(line => line.includes('"market_nadezhda"') && line.includes('"LIMITED_SOURCE_INSPIRED_REVIEW"') && line.includes(costumeSourceId)), 'the inspected Nadezhda costume is recorded with a bounded review status');
 assert.ok(reviewManifest.some(line => line.includes('"junior_guard_sergey"') && line.includes('"LIMITED_SOURCE_INSPIRED_REVIEW"') && line.includes(gatekeeperSourceId)), 'the inspected Sergey costume is recorded with bounded source and review status');
 assert.ok(reviewManifest.some(line => line.includes('"fishseller_klavdiya"') && line.includes('"LIMITED_SOURCE_INSPIRED_REVIEW"') && line.includes(fishsellerSourceId)), 'the fish-seller costume is tracked with bounded source provenance');
 assert.ok(reviewManifest.some(line => line.includes('"carter_roman"') && line.includes('"LIMITED_SOURCE_INSPIRED_REVIEW"') && line.includes(carterSourceId)), 'the cart-driver costume is tracked with bounded source provenance');
-assert.equal(reviewManifest.filter(line => line.includes('"LIMITED_SOURCE_INSPIRED_REVIEW"')).length, 4, 'four specific costumes have bounded source-inspected reviews');
-assert.equal(reviewManifest.filter(line => line.includes('"NOT_VISUALLY_REVIEWED"')).length, 32, 'the remaining 32 residents are honestly listed as awaiting source-by-source visual review');
+assert.ok(reviewManifest.some(line => line.includes('"coachman_timofey"') && line.includes('"LIMITED_SOURCE_INSPIRED_REVIEW"') && line.includes(coachmanSourceId)), 'the cab-driver costume is tracked with bounded source provenance');
+assert.equal(reviewManifest.filter(line => line.includes('"LIMITED_SOURCE_INSPIRED_REVIEW"')).length, 5, 'five specific costumes have bounded source-inspected reviews');
+assert.equal(reviewManifest.filter(line => line.includes('"NOT_VISUALLY_REVIEWED"')).length, 31, 'the remaining 31 residents are honestly listed as awaiting source-by-source visual review');
 for (const [index, line] of usageRows.slice(1).entries()) {
   const fields = [...line.matchAll(/"((?:[^"]|"")*)"/g)].map(match => match[1].replaceAll('""', '"'));
   const gid = Number(fields[0]);

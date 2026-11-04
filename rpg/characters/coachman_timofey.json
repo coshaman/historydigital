@@ -130,7 +130,11 @@
     "file": "assets/coachman_timofey.png",
     "frameWidth": 16,
     "frameHeight": 24,
-    "style": "cap",
+    "style": "cabman",
+    "visualReferenceIds": [
+      "V36-ART-COLLMANN-HIRE-CAB-1842"
+    ],
+    "visualReferenceNotes": "Collmann's 1842 cab-hire watercolor shows a horse-drawn carriage, harness, and men in caps and long outer garments; a standing figure handles the reins. Timofey's original walking sprite borrows only the cap-and-coat silhouette and reins as a work cue, not an identified sitter or exact 1847 uniform.",
     "palette": {
       "cloth": "#394a55",
       "trim": "#c39a5c",

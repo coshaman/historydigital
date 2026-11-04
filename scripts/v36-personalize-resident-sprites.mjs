@@ -71,7 +71,7 @@ function makeSheet(card, roleProp, identity) {
     else { r(4,2,8,2,colors.hair); r(4,3,2,4,colors.hair); r(10,3,2,4,colors.hair); }
     const style=card.sprite.style;
     if(style==='gatekeeper') { /* The source shows the hat carried, not worn. */ }
-    else if(style==='cap'||style==='cartdriver') { r(4,1,8,2,headwear); r(3,3,10,1,headwear); }
+    else if(style==='cap'||style==='cartdriver'||style==='cabman') { r(4,1,8,2,headwear); r(3,3,10,1,headwear); }
     else if(style==='scarf'||style==='skirt'||style==='fishvendor') { r(5,1,6,2,headwear); r(4,3,2,4,headwear); r(10,3,2,4,headwear); }
     else if(style==='hair') { r(4,2,2,5,colors.hair); r(10,2,2,5,colors.hair); r(5,1,6,2,colors.hair); }
     else { r(4,1,8,2,headwear); r(5,0,6,1,headwear); }
@@ -84,7 +84,7 @@ function makeSheet(card, roleProp, identity) {
     else if(style==='skirt') { r(4,9,8,5,cloth); r(3,13,10,8,cloth); r(5,12,6,7,trim); r(7,12,1,7,headwear); }
     else if(style==='dress') { r(4,9,8,9,cloth); r(3,15,10,3,trim); }
     else if(style==='apron') { r(4,9,8,8,cloth); r(5,10,6,7,trim); r(4,8,8,2,trim); }
-    else if(style==='coat'||style==='cartdriver') { r(4,9,8,8,cloth); r(7,9,2,7,trim); p(6,12,colors.paper); if(style==='cartdriver') { r(4,15,3,2,cloth); r(9,15,3,2,cloth); } }
+    else if(style==='coat'||style==='cartdriver'||style==='cabman') { r(4,9,8,8,cloth); r(7,9,2,7,trim); p(6,12,colors.paper); if(style==='cartdriver'||style==='cabman') { r(4,15,3,2,cloth); r(9,15,3,2,cloth); } }
     else { r(4,9,8,8,cloth); r(4,14,8,2,trim); p(7,10,colors.highlight); }
     r(3,10,2,5,cloth); r(11,10,2,5,cloth); p(3,15,colors.skin); p(12,15,colors.skin);
     if(style==='gatekeeper') { r(4+leg,17,4,4,colors.pants); r(8-leg,17,4,4,colors.pants); r(4+leg,21,4,2,colors.shoe); r(8-leg,21,4,2,colors.shoe); }

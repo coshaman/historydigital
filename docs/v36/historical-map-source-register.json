@@ -130,6 +130,21 @@
       "gameTransformation": "An original 16×24 sprite for fictional carter Roman borrows only a cap-and-coat silhouette and horse-cart work context. The walking sprite does not reproduce a particular figure or prove exact 1847 clothing, colors, harness, vehicle, or street layout."
     },
     {
+      "sourceId": "V36-ART-COLLMANN-HIRE-CAB-1842",
+      "title": "K. I. Collmann, Hire a Cab",
+      "sourceType": "PERIOD_PAINTING",
+      "sourceUrl": "https://rusmuseumvrm.ru/data/collections/drawings/r-1099/index.php",
+      "verifiedMetadata": "The State Russian Museum catalog identifies K. I. Collmann's watercolor Hire a Cab, dated 1842, inventory R-1099.",
+      "eraRange": "1842; five years before the game's initial 1847 date",
+      "locale": "Saint Petersburg street",
+      "pageOrFolio": "Russian Museum object record R-1099; catalog metadata and displayed watercolor visually inspected 2026-11-05.",
+      "visualFeature": "The displayed watercolor shows horse-drawn carriages and harnesses, with men in caps and long outer garments; one standing figure handles the reins. Winter conditions are depicted, but the scene is not evidence of weather on a specific 1847 game date.",
+      "confidence": "HIGH for title, artist, 1842 date, medium, and inventory; MEDIUM for the broad garment and carriage silhouettes. The people are unidentified and do not establish Timofey's identity or an exact 1847 uniform.",
+      "rights": "Catalog record reviewed; no museum image is copied or redistributed. Pixel asset is original project artwork.",
+      "creditedArtist": "K. I. Collmann",
+      "gameTransformation": "An original 16×24 sprite for fictional coachman Timofey borrows only the cap-and-coat silhouette and reins as a work cue. It does not reproduce a particular figure or prove exact 1847 clothing, colors, harness, carriage, or weather."
+    },
+    {
       "sourceId": "V36-ART-LABASTIDE-HAWKER-TRAY-1845",
       "title": "Labastide, Коробейник с лотком (Peddler with a Tray)",
       "sourceType": "PERIOD_DRAWING",

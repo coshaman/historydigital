@@ -74,6 +74,23 @@
       "documentWidth": 1440,
       "pageErrors": [],
       "screenshot": "docs/v36/current-audit/screenshots/carter-roman-costume-1440.png"
+    },
+    {
+      "mapId": "market-quay",
+      "possessedResidentId": "coachman_timofey",
+      "spriteFile": "rpg/assets/coachman_timofey.png",
+      "costumeStyle": "cabman",
+      "visualReferenceIds": [
+        "V36-ART-COLLMANN-HIRE-CAB-1842"
+      ],
+      "saveLoadRestoredPossession": true,
+      "renderedCanvas": {
+        "width": 1382,
+        "height": 355
+      },
+      "documentWidth": 1440,
+      "pageErrors": [],
+      "screenshot": "docs/v36/current-audit/screenshots/coachman-timofey-costume-1440.png"
     }
   ]
 }

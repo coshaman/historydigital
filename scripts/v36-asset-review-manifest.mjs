@@ -36,6 +36,13 @@ const reviewedResidents = {
     limits: '1842년 도판은 로만이라는 인물이나 1847년의 정확한 복식·마구·수레 구조를 증명하지 않음; 박물관 이미지 배포 권리 미취득',
     screenshot: 'docs/v36/current-audit/screenshots/carter-roman-costume-1440.png',
   },
+  coachman_timofey: {
+    sourceId: 'V36-ART-COLLMANN-HIRE-CAB-1842',
+    features: '말이 끄는 마차와 마구; 모자와 긴 겉옷을 입은 남성들; 고삐를 다루는 인물',
+    transformation: '16x24 원작 픽셀에 모자·긴 겉옷 실루엣과 고삐 소품만 반영; 겨울 풍경·마차는 복제하지 않음',
+    limits: '1842년 그림은 티모페이라는 인물이나 1847년의 정확한 복식·마구·마차·날씨를 증명하지 않음; 박물관 이미지 배포 권리 미취득',
+    screenshot: 'docs/v36/current-audit/screenshots/coachman-timofey-costume-1440.png',
+  },
 };
 const ids = [...new Set(residentData.districts.flatMap(district => district.residentIds ?? []))].sort();
 assert.equal(ids.length, 36);
