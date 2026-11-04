@@ -19,7 +19,7 @@ Reviewer: one independent subagent, read-only critique, 2026-11-02. This is a sc
 - The last eight residents add fish and street sellers, a warehouse clerk, household servant, junior guard, carter, typesetter, and lodging-house reader. Their dialogue and personal stakes focus on scarcity, access, labor, authority, and learning.
 - The local live-provider smoke passed one real generation with non-empty AI text and no authored fallback. This verifies local credentials and response handling only; Vercel production configuration must be checked at its deployed `/api/rpg/health` endpoint.
 
-## Remaining P1 scope
+## Remaining P1 scope at the 2026-11-02 review (historical snapshot)
 
 - V36 still requires 3 more districts and 5 more usable interiors.
 - `city-districts-v36.json` currently improves display and provides validated prototype metadata. The whole runtime's access, spawning, social graph, and routines are not yet driven by that registry.
@@ -47,3 +47,12 @@ Reviewer: one independent subagent, read-only critique, 2026-11-02. This is a sc
 - A desktop/mobile browser replay completed an actual two-resident censorship-and-labor inquiry, confirmed the comparison note and saved progress, found no page errors, and found no horizontal overflow.
 - Review found repeated worldview blind-spot text on 26 resident cards and an overly similar carter/warehouse voice signature. Those 26 limitations now describe role-specific errors; the carter samples now differ in endings and rhythm. `npm run v36-voice-audit` enforces six registers, three authored samples, unique resident blind spots, and distinct endings/rhythm signatures across all 36 fictional residents.
 - Validation: `npm run check`, `npm run build:v33`, `npm run v36-voice-audit`, `npm run v36-goal-driven-six`, `npm run v36-life-chain-test`, and `npm run v36-opinion-board-browser` passed.
+
+## Updated acceptance and remaining evidence (2026-11-04)
+
+- `npm run acceptance:v36` completed **41/41 gates**. It verified 36 active residents, 30+ possessable residents, six connected districts, 14 city maps, eight enterable interiors, and 175 meaningful interactions.
+- All 36 residents completed a playable three-stage life arc (108 physical stages). Quest coverage reports 47 complete multi-stage chains. Ten social chains and 16 currently available philosophy/ideology inquiries were checked.
+- Three deterministic 24-hour replays completed for all 36 residents with matching state hashes and no occupancy collision. A browser inquiry compared two AI-generated resident views, recorded the player's own stance, and preserved it through save/load.
+- The campaign browser suite completed 28 routes: five canonical endings, five mixed-choice routes, tie-break cases, and randomized routes. The map browser capture produced 56 images over four viewport sizes with zero horizontal overflow or page errors.
+- The 2026-11-04 independent-review P1 about the world-reaction count is addressed in code: the shared journal formatter exposes eight witnessed resident outcome families plus four reducer-produced civic outcome families. Internal goal selection is excluded. `npm run v36-observed-world-events-test` verifies the shared formatter and reducer results.
+- **Still unresolved:** visual distinction/semantic uniqueness of every sprite and tile has not been independently judged; historical role, access, and environment-art claims still need source-by-source review; generated AI dialogue has no runtime style-quality gate; GPU frame timing, human playtesting, and deployed Vercel AI generation remain unverified. Consequently `V36_ASSETS_AND_PERIOD_EVIDENCE` is NO, `V36_GPU_PERFORMANCE` is UNVERIFIED, `HUMAN_PLAYTEST` is PENDING, and `V36_COMPLETE` remains NO.

@@ -8,6 +8,7 @@ import { dialogueSessionNeedsReconnect, dialogueSpeakerLabel, selectDialogueTurn
 import { appendApiDiagnostic, clearApiDiagnostics, readApiDiagnostics } from './engine/api-diagnostics.mjs';
 import { CITY_PRODUCTS, NEWSPAPER_STORIES, newspaperAssignment, purchaseCityProduct, publishNewspaperIssue, shareSourceWithEditor, readNewspaperIssue, circulateNewspaperIssue, commitSuspiciousAct, resolvePoliceCustody, publishedIssueLabel } from './engine/civic-life.mjs';
 import { availableTopics, contextualOpening } from './ai/authored-dialogue.mjs';
+import { formatCivicReaction, formatObservedNpcReactions } from './engine/world-reaction-presentation.mjs';
 import { advanceStudy, beginExam, buildLifeTimeline, chooseCirclePath, completeLearning, getExamQuestions, selectExamAnswer, submitExam } from './engine/learning-life.mjs';
 import './engine/game-state.js';
 const { createInitialState, moveActor, possessHost, releaseHost, transitionMap, performQuestAction, saveGame, loadGame, nearTile, knowledgeForHost, recordSourceRead, recordEvidenceRead, recordDialogueTurn, recordDiscussionPosition, enterLiteraryRealm, leaveLiteraryRealm, advanceChapter, advanceCampaignDate, resolveEnding, describeHostMoney } = globalThis.V33GameState;
@@ -616,23 +617,16 @@ function updateHud() {
     if (entry.eventType === 'HISTORICAL_ACTION' || entry.eventType === 'LITERARY_ACTION') { const q=questsById.get(entry.questId), a=q?.actions.find(item=>item.id===entry.actionId); return `${entry.date} · ${a?.labelKo ?? '문서에 선택을 남김'}`; }
     if (entry.eventType === 'READ_SOURCE') return `${entry.date} · 자료를 읽음`;
     if (entry.eventType === 'OBSERVE_EVIDENCE') return `${entry.date} · 현장의 흔적을 살펴봄`;
-    if (entry.eventType === 'CITY_PURCHASE') return `${entry.date} · 가판대에서 ${CITY_PRODUCTS.find(product => product.id === entry.productId)?.titleKo ?? '물건'} 구입 · ${entry.priceKopeks} 코페이카`;
-    if (entry.eventType === 'NEWSPAPER_PUBLISHED') return `${entry.date} · 신문 인쇄 · ${NEWSPAPER_STORIES.find(story => story.id === entry.storyId)?.titleKo ?? entry.storyId}`;
-    if (entry.eventType === 'NEWSPAPER_CIRCULATED') return `${entry.date} · 신문 배포 · ${entry.route === 'postal' ? '지방행 우편' : '거리 독자'}`;
+    const civicReaction = formatCivicReaction(entry, {
+      productName: productId => CITY_PRODUCTS.find(product => product.id === productId)?.titleKo ?? '물건',
+      storyName: storyId => NEWSPAPER_STORIES.find(story => story.id === storyId)?.titleKo ?? storyId,
+      residentName: hostId => cards.find(item => item.id === hostId)?.displayNameKo ?? '주민',
+    });
+    if (civicReaction) return civicReaction;
     if (entry.eventType === 'SUSPICIOUS_ACT' || entry.eventType === 'POLICE_CUSTODY' || entry.eventType === 'POLICE_RELEASE') return `${entry.date} · ${entry.eventType === 'SUSPICIOUS_ACT' ? '수상한 행동 기록' : entry.eventType === 'POLICE_CUSTODY' ? '경찰 접수·연행' : '경찰 접수실 석방'}`;
     return null;
   }).filter(Boolean);
-  const cityReactions = state.ledger.filter(entry => entry.eventType === 'NPC_SIMULATION').flatMap(entry => [
-    ...(entry.stateChanges ?? []).filter(change => change.witnessedByPlayer).map(change => `${entry.date} · 일과 변화: ${cards.find(item=>item.id===change.hostId)?.displayNameKo ?? '주민'}이(가) ${change.from === 'IDLE' ? '일을 시작해' : '하던 일을 바꾸어'} ${change.activityKo || ({ TRAVELLING: '길을 나섬', WORKING: '일을 시작함', TRADING: '거래를 시작함', RESTING: '잠시 쉼', SOCIALIZING: '사람들과 어울림', DELIVERING: '물건을 전함' })[change.to] || '새 일과에 들어감'}`),
-    ...(entry.moves ?? []).filter(move => move.witnessedByPlayer).map(move => `${entry.date} · 길 위의 변화: ${cards.find(item=>item.id===move.hostId)?.displayNameKo ?? '주민'}이(가) ${move.viaExit ? '다른 구역으로 길을 건너' : '골목을 따라'} ${move.activityKo || '목적지'}로 향함`),
-    ...(entry.goals ?? []).filter(goal => goal.witnessedByPlayer).map(goal => `${entry.date} · 주민의 계획: ${cards.find(item=>item.id===goal.hostId)?.displayNameKo ?? '주민'}이(가) ${goal.activityKo || goal.reason || '오늘 할 일'}을(를) 택함`),
-    ...(entry.personalGoalVisits ?? []).filter(visit => visit.witnessedByPlayer).map(visit => `${entry.date} · 목격한 생활 목표: ${cards.find(item=>item.id===visit.hostId)?.displayNameKo ?? '주민'}이(가) ${visit.activityKo} (${visit.stage}/3)`),
-    ...(entry.personalContacts ?? []).filter(contact => contact.witnessedByPlayer).map(contact => `${entry.date} · 목격한 도시 생활: ${cards.find(item=>item.id===contact.hostId)?.displayNameKo ?? '주민'}가 ${cards.find(item=>item.id===contact.partnerHostId)?.displayNameKo ?? '이웃'}를 찾아가 이야기를 나눔`),
-    ...(entry.deliveries ?? []).filter(delivery => delivery.witnessedByPlayer).map(delivery => `${entry.date} · 목격한 도시 생활: ${cards.find(item=>item.id===delivery.hostId)?.displayNameKo ?? '주민'}가 ${cards.find(item=>item.id===delivery.recipientHostId)?.displayNameKo ?? '이웃'}에게 ${delivery.itemKo} 전달`),
-    ...(entry.exchanges ?? []).filter(exchange => exchange.witnessedByPlayer).map(exchange => `${entry.date} · 목격한 도시 생활: ${cards.find(item=>item.id===exchange.hostId)?.displayNameKo ?? '주민'}와 ${cards.find(item=>item.id===exchange.recipientHostId)?.displayNameKo ?? '이웃'}가 ${exchange.itemKo} 거래`),
-    ...(entry.meals ?? []).filter(meal => meal.witnessedByPlayer).map(meal => `${entry.date} · 목격한 도시 생활: ${cards.find(item=>item.id===meal.hostId)?.displayNameKo ?? '주민'}가 ${meal.itemKo}로 끼니를 챙김`),
-    ...(entry.restRecoveries ?? []).filter(rest => rest.witnessedByPlayer).map(rest => `${entry.date} · 목격한 도시 생활: ${cards.find(item=>item.id===rest.hostId)?.displayNameKo ?? '주민'}가 일손을 멈추고 숨을 돌림`),
-  ]).slice(-12).reverse();
+  const cityReactions = formatObservedNpcReactions(state.ledger, cards).slice(-12).reverse();
   logs.unshift(...cityReactions);
   fill('#journal-history', logs.length ? logs : ['아직 남긴 기록이 없습니다.'], 'li');
   updateTutorial();

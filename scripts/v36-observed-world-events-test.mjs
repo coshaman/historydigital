@@ -5,7 +5,8 @@ import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
 require('../rpg/engine/game-state.js');
 const game = globalThis.V33GameState;
-const { purchaseCityProduct, circulateNewspaperIssue, commitSuspiciousAct } = await import('../rpg/engine/civic-life.mjs');
+const { purchaseCityProduct, publishNewspaperIssue, circulateNewspaperIssue, commitSuspiciousAct } = await import('../rpg/engine/civic-life.mjs');
+const { CIVIC_REACTION_FAMILY_COUNT, formatCivicReaction, formatObservedNpcReactions, OBSERVED_NPC_REACTION_FAMILY_COUNT } = await import('../rpg/engine/world-reaction-presentation.mjs');
 const readJson = async file => JSON.parse(await readFile(new URL(file, import.meta.url), 'utf8'));
 const mapFiles = (await readdir(new URL('../rpg/maps/', import.meta.url))).filter(file => file.endsWith('.json'));
 const maps = Object.fromEntries(await Promise.all(mapFiles.map(async file => {
@@ -58,26 +59,32 @@ const routineResult = game.advanceNpcWorld(routineWorld, 6, maps);
 const routineEntry = routineResult.ledger.find(entry => entry.eventType === 'NPC_SIMULATION');
 assert.ok(routineEntry?.stateChanges?.some(change => change.hostId === nearbyWorker.id && change.witnessedByPlayer),
   'the player can witness and record an NPC beginning a routine');
-assert.ok(routineEntry?.goals?.some(goal => goal.hostId === nearbyWorker.id && goal.witnessedByPlayer),
-  'the player can witness the resident choosing a concrete daily plan');
-assert.match(await readFile(new URL('../rpg/main.js', import.meta.url), 'utf8'), /entry\.stateChanges \?\? \[\].*witnessedByPlayer/,
-  'observed routine changes are surfaced in the journal');
-assert.match(await readFile(new URL('../rpg/main.js', import.meta.url), 'utf8'), /entry\.goals \?\? \[\].*witnessedByPlayer/,
-  'observed plans are surfaced in the journal');
 
 const mainSource = await readFile(new URL('../rpg/main.js', import.meta.url), 'utf8');
-assert.match(mainSource, /personalGoalVisits \?\? \[\]\)\.filter\(visit => visit\.witnessedByPlayer\)/,
-  'the journal must filter personal life-goal visits to player-witnessed events');
-assert.match(mainSource, /personalContacts \?\? \[\]\)\.filter\(contact => contact\.witnessedByPlayer\)/,
-  'the journal must filter social reactions to witnessed contacts');
-assert.match(mainSource, /deliveries \?\? \[\]\)\.filter\(delivery => delivery\.witnessedByPlayer\)/,
-  'the journal must filter deliveries to witnessed events');
-assert.match(mainSource, /exchanges \?\? \[\]\)\.filter\(exchange => exchange\.witnessedByPlayer\)/,
-  'the journal must filter exchanges to witnessed events');
-assert.match(mainSource, /meals \?\? \[\]\)\.filter\(meal => meal\.witnessedByPlayer\)/,
-  'the journal must filter meals to witnessed events');
-assert.match(mainSource, /restRecoveries \?\? \[\]\)\.filter\(rest => rest\.witnessedByPlayer\)/,
-  'the journal must filter rest to witnessed events');
+
+const reactionResidents = hostCards.map(card => ({ id: card.id, displayNameKo: card.displayNameKo }));
+const visibleNpcReactions = formatObservedNpcReactions([{
+  date: '1847-06-01', eventType: 'NPC_SIMULATION',
+  stateChanges: [{ hostId: 'clerk_alexei', from: 'IDLE', to: 'WORKING', activityKo: '접수 장부를 편다', witnessedByPlayer: true }],
+  moves: [{ hostId: 'courier_pavel', viaExit: 'NEVSKY_TO_PRINTSHOP', activityKo: '인쇄소로 향함', witnessedByPlayer: true }],
+  personalGoalVisits: [{ hostId: 'printer_ekaterina', activityKo: '교정쇄를 확인한다', stage: 1, witnessedByPlayer: true }],
+  personalContacts: [{ hostId: 'seamstress_anna', partnerHostId: 'tenant_mikhail', witnessedByPlayer: true }],
+  deliveries: [{ hostId: 'courier_pavel', recipientHostId: 'clerk_alexei', itemKo: '교정쇄', witnessedByPlayer: true }],
+  exchanges: [{ hostId: 'baker_fyodor', recipientHostId: 'market_nadezhda', itemKo: '빵 한 묶음', witnessedByPlayer: true }],
+  meals: [{ hostId: 'market_nadezhda', itemKo: '빵', witnessedByPlayer: true }],
+  restRecoveries: [{ hostId: 'porter_gavrila', witnessedByPlayer: true }],
+  goals: [{ hostId: 'clerk_alexei', activityKo: '내부 목표일 뿐 세계 행동은 아님', witnessedByPlayer: true }],
+}, {
+  date: '1847-06-01', eventType: 'NPC_SIMULATION',
+  stateChanges: [{ hostId: 'clerk_alexei', activityKo: '다른 구역의 비공개 행동', witnessedByPlayer: false }],
+}], reactionResidents);
+assert.equal(OBSERVED_NPC_REACTION_FAMILY_COUNT, 8,
+  'only witnessed physical or social resident outcomes count; internal plan selection is excluded');
+assert.equal(visibleNpcReactions.length, 8,
+  'the same formatter used by the journal renders each witnessed outcome family once');
+assert.ok(visibleNpcReactions.some(line => line.includes('접수 장부를 편다')));
+assert.ok(!visibleNpcReactions.some(line => line.includes('내부 목표일 뿐') || line.includes('비공개 행동')),
+  'internal goal selection and events outside player observation are neither counted nor disclosed');
 
 const purchaseWorld = game.createInitialState({ maps, hostCards, startMapId: 'nevsky' });
 const purchaseHost = purchaseWorld.hosts.clerk_alexei, moneyBeforePurchase = purchaseHost.money.amount;
@@ -87,6 +94,18 @@ assert.equal(purchase.state.hosts[purchaseHost.id].money.amount, moneyBeforePurc
   'a recorded shop purchase changes the resident wallet');
 assert.ok(purchase.state.hosts[purchaseHost.id].inventory.includes('newsprint_sheet'),
   'a recorded shop purchase changes carried stock');
+
+const publicationWorld = game.createInitialState({ maps, hostCards, startMapId: 'printshop' });
+const editor = publicationWorld.hosts.printer_ekaterina;
+editor.mapId = 'printshop';
+editor.knownEvidenceIds.push('LIT-TURGENEV-KHOR-KALYNYCH-1847');
+editor.inventory.push('newsprint_sheet', 'printing_ink');
+const publication = publishNewspaperIssue(publicationWorld, { hostId: editor.id, storyId: 'LITERARY_RURAL_LIFE_1847' });
+assert.equal(publication.ok, true);
+assert.ok(!publication.state.hosts[editor.id].inventory.includes('newsprint_sheet')
+  && !publication.state.hosts[editor.id].inventory.includes('printing_ink'),
+  'printing consumes supplies and creates an issue');
+assert.equal(publication.state.player.civic.publishedIssues.length, 1);
 
 const circulationWorld = game.createInitialState({ maps, hostCards, startMapId: 'nevsky' });
 circulationWorld.player.civic.publishedIssues.push({ id: 'OBSERVATION_ISSUE', titleKo: '시험 호외', storyId: 'LITERARY_RURAL_LIFE_1847' });
@@ -108,14 +127,31 @@ assert.equal(custody.arrested, true);
 assert.equal(custody.state.player.civic.custody.active, true,
   'a witnessed act produces an explicit police response');
 
-for (const eventType of ['CITY_PURCHASE', 'NEWSPAPER_CIRCULATED', 'POLICE_CUSTODY']) {
-  assert.ok(purchase.state.ledger.some(entry => entry.eventType === eventType)
-    || circulation.state.ledger.some(entry => entry.eventType === eventType)
-    || custody.state.ledger.some(entry => entry.eventType === eventType), `${eventType} must be recorded`);
-  assert.ok(mainSource.includes(`entry.eventType === '${eventType}'`), `${eventType} must be visible in the player journal`);
-}
+const civicOutcomes = [
+  purchase.state.ledger.find(entry => entry.eventType === 'CITY_PURCHASE'),
+  publication.state.ledger.find(entry => entry.eventType === 'NEWSPAPER_PUBLISHED'),
+  circulation.state.ledger.find(entry => entry.eventType === 'NEWSPAPER_CIRCULATED'),
+  custody.state.ledger.find(entry => entry.eventType === 'POLICE_CUSTODY'),
+];
+assert.equal(CIVIC_REACTION_FAMILY_COUNT, 4,
+  'four distinct civic outcomes count toward the world-change gate');
+assert.ok(civicOutcomes.every(Boolean), 'each civic outcome is produced by its real game reducer');
+const civicLines = civicOutcomes.map(entry => formatCivicReaction(entry, {
+  productName: id => id === 'newsprint_sheet' ? '신문용 종이 한 묶음' : id,
+  storyName: id => id === 'LITERARY_RURAL_LIFE_1847' ? '농촌의 두 사람을 그린 글' : id,
+  residentName: id => reactionResidents.find(item => item.id === id)?.displayNameKo ?? '주민',
+}));
+assert.deepEqual(civicLines.map(line => line.slice(line.indexOf(' · ') + 3).split(' · ')[0]), [
+  '가판대에서 신문용 종이 한 묶음 구입', '신문 인쇄', '신문 배포', '경찰 접수·연행',
+]);
+assert.match(mainSource, /formatObservedNpcReactions\(state\.ledger, cards\)/,
+  'the journal renders observed world outcomes through the audited formatter');
+assert.match(mainSource, /formatCivicReaction\(entry/,
+  'civic outcomes use the same formatter exercised by this test');
 
 console.log(JSON.stringify({ status: 'PASS', currentDistrictAndRangeRequired: true,
   embodiedPlayerPositionUsed: true, witnessedDelivery: true, remoteDeliveryWithheld: true,
-  witnessedRoutineChange: true, witnessedDailyPlan: true, witnessedNpcBehaviorFamilies: 9,
-  playerVisibleCivicConsequenceFamilies: 3, journalEventFamiliesFiltered: 12 }));
+  witnessedRoutineChange: true, internalGoalsExcludedFromWorldChangeCount: true,
+  witnessedNpcOutcomeFamilies: OBSERVED_NPC_REACTION_FAMILY_COUNT,
+  reducerProducedAndJournalFormattedCivicOutcomeFamilies: CIVIC_REACTION_FAMILY_COUNT,
+  independentlyFormattedVisibleWorldChangeFamilies: OBSERVED_NPC_REACTION_FAMILY_COUNT + CIVIC_REACTION_FAMILY_COUNT }));
