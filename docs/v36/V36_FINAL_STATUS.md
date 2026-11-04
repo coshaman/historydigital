@@ -29,6 +29,6 @@ A direct replay on the deployed game exposed a same-date resident quest whose co
 - Headless Chrome used SwiftShader, not a hardware GPU. The latest 1440×900 run measured an 88.6 ms initial full-desk draw, zero idle redraws, and one redraw when focusing the window. Browser callback median was about 60 Hz with a 50 ms p95 during window focus; this is not a hardware-GPU frame-time result. Real GPU timing and a 10-minute live device session remain unverified.
 - Human playtesting is pending.
 - Vercel production key configuration and actual deployed AI generation are unverified. The browser smoke gate runs against the locally built app only.
-- The 1,761-file evidence archive passed SHA-256 verification; its clean extraction passed `npm run check`, `npm run build:v33`, and a browser smoke of `dist-v33/`. A clean `npm ci` could not complete in this environment: the default npm cache returned `EPERM`, then the isolated cache's npm registry request returned `EACCES`.
+- The 1,762-file evidence archive passed SHA-256 verification; its clean extraction passed `npm run check`, `npm run build:v33`, and a browser smoke of `dist-v33/`. A clean `npm ci` could not complete in this environment: the default npm cache returned `EPERM`, then the isolated cache's npm registry request returned `EACCES`.
 
 These gaps intentionally keep `V36_COMPLETE: NO`.
