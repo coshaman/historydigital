@@ -95,6 +95,19 @@ const sourceRegister = JSON.parse(await fs.readFile(path.join(root, 'docs/v36/hi
 const knownSourceIds = new Set(sourceRegister.sources.map(source => source.sourceId));
 assert.ok(atlasRecord.sourceIds.every(id => knownSourceIds.has(id)), 'atlas provenance source IDs resolve to checked-in historical records');
 assert.equal(atlasRecord.historicalConfidence, 'UNVERIFIED_RECONSTRUCTION');
+const marketVendor = JSON.parse(await fs.readFile(path.join(root, 'rpg/characters/market_nadezhda.json'), 'utf8'));
+const costumeSourceId = 'V36-ART-LABASTIDE-EGG-SELLERS-1845';
+const costumeSource = sourceRegister.sources.find(source => source.sourceId === costumeSourceId);
+const marketSpriteRecord = provenance.assets.find(asset => asset.id === 'sprite-market_nadezhda');
+assert.equal(marketVendor.sprite.style, 'skirt', 'the reviewed woman market-vendor sprite uses the source-informed skirt silhouette');
+assert.ok(marketVendor.sprite.visualReferenceIds?.includes(costumeSourceId), 'the character sprite names its specific visual source');
+assert.ok(costumeSource?.visualFeature.includes('handled basket') && costumeSource?.gameTransformation.includes('Palette colors are independent'), 'the checked source records the visible costume features and distinguishes invented color');
+assert.ok(costumeSource?.rights.includes('not included or redistributed'), 'the costume source record does not claim image redistribution rights');
+assert.ok(marketSpriteRecord?.sourceIds.includes(costumeSourceId), 'the market-vendor sprite provenance resolves to the exact inspected museum record');
+const reviewManifest = (await fs.readFile(path.join(root, 'qa/ASSET_REVIEW_MANIFEST.csv'), 'utf8')).trim().split(/\r?\n/);
+assert.equal(reviewManifest.length, 37, 'the visual review manifest covers all 36 residents');
+assert.ok(reviewManifest.some(line => line.includes('"market_nadezhda"') && line.includes('"LIMITED_SOURCE_INSPIRED_REVIEW"') && line.includes(costumeSourceId)), 'the inspected Nadezhda costume is recorded with a bounded review status');
+assert.equal(reviewManifest.filter(line => line.includes('"NOT_VISUALLY_REVIEWED"')).length, 35, 'the remaining 35 residents are honestly listed as awaiting source-by-source visual review');
 for (const [index, line] of usageRows.slice(1).entries()) {
   const fields = [...line.matchAll(/"((?:[^"]|"")*)"/g)].map(match => match[1].replaceAll('""', '"'));
   const gid = Number(fields[0]);

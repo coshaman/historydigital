@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "V36_MARKET_VENDOR_COSTUME_BROWSER_V1",
+  "status": "PASS",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "mapId": "market-quay",
+  "possessedResidentId": "market_nadezhda",
+  "spriteFile": "rpg/assets/market_nadezhda.png",
+  "costumeStyle": "skirt",
+  "visualReferenceIds": [
+    "V36-ART-LABASTIDE-EGG-SELLERS-1845"
+  ],
+  "saveLoadRestoredPossession": true,
+  "renderedCanvas": {
+    "width": 1382,
+    "height": 355
+  },
+  "documentWidth": 1440,
+  "pageErrors": [],
+  "screenshot": "docs/v36/current-audit/screenshots/market-nadezhda-costume-1440.png"
+}

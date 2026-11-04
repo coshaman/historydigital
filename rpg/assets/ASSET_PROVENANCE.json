@@ -47,7 +47,7 @@
         "chancery"
       ],
       "sourceIds": [],
-      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen clerk_alexei; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen clerk_alexei; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "sprite-printer_ekaterina",
@@ -64,7 +64,7 @@
       "sourceIds": [
         "OBJ-SOV-1847"
       ],
-      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen printer_ekaterina; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen printer_ekaterina; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "sprite-courier_pavel",
@@ -79,7 +79,7 @@
         "courtyard"
       ],
       "sourceIds": [],
-      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen courier_pavel; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen courier_pavel; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "sprite-seamstress_anna",
@@ -93,7 +93,7 @@
         "courtyard"
       ],
       "sourceIds": [],
-      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen seamstress_anna; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen seamstress_anna; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "sprite-tenant_mikhail",
@@ -107,7 +107,7 @@
         "courtyard"
       ],
       "sourceIds": [],
-      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen tenant_mikhail; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen tenant_mikhail; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "sprite-bookseller_lev",
@@ -124,7 +124,7 @@
       "sourceIds": [
         "OBJ-SOV-1847"
       ],
-      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen bookseller_lev; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen bookseller_lev; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "sprite-literary_chichikov",
@@ -474,7 +474,7 @@
         "courtyard"
       ],
       "sourceIds": [],
-      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen yardkeeper_semyon; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen yardkeeper_semyon; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-yardkeeper_semyon",
@@ -502,7 +502,7 @@
         "courtyard"
       ],
       "sourceIds": [],
-      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen laundress_mariya; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen laundress_mariya; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-laundress_mariya",
@@ -530,7 +530,7 @@
         "courtyard"
       ],
       "sourceIds": [],
-      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen baker_fyodor; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen baker_fyodor; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-baker_fyodor",
@@ -557,8 +557,10 @@
         "nevsky",
         "courtyard"
       ],
-      "sourceIds": [],
-      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen market_nadezhda; not a documented likeness or evidence of a specific individual's clothing."
+      "sourceIds": [
+        "V36-ART-LABASTIDE-EGG-SELLERS-1845"
+      ],
+      "notes": "Original project-authored costume silhouette for fictional market vendor Nadezhda, informed by the circa-1845 Labastide egg-seller drawing: head scarf, long overgarment/apron, skirt, and carried baskets. The source is monochrome; the game palette is an independent creative colorization. Not a documented likeness, exact reconstruction, or evidence of this fictional character."
     },
     {
       "id": "portrait-market_nadezhda",
@@ -586,7 +588,7 @@
         "courtyard"
       ],
       "sourceIds": [],
-      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen porter_gavrila; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen porter_gavrila; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-porter_gavrila",
@@ -614,7 +616,7 @@
         "courtyard"
       ],
       "sourceIds": [],
-      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen coachman_timofey; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen coachman_timofey; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-coachman_timofey",
@@ -638,7 +640,7 @@
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "courtyard",
       "sourceIds": [],
-      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen housemaid_olga; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen housemaid_olga; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-housemaid_olga",
@@ -660,7 +662,7 @@
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "courtyard",
       "sourceIds": [],
-      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen midwife_avdotya; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen midwife_avdotya; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-midwife_avdotya",
@@ -682,7 +684,7 @@
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "market-quay",
       "sourceIds": [],
-      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen apothecary_yakov; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen apothecary_yakov; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-apothecary_yakov",
@@ -704,7 +706,7 @@
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "printshop",
       "sourceIds": [],
-      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen print_apprentice_stepan; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen print_apprentice_stepan; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-print_apprentice_stepan",
@@ -726,7 +728,7 @@
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "printshop",
       "sourceIds": [],
-      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen bookbinder_elizaveta; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen bookbinder_elizaveta; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-bookbinder_elizaveta",
@@ -748,7 +750,7 @@
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "chancery",
       "sourceIds": [],
-      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen scribal_yuri; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen scribal_yuri; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-scribal_yuri",
@@ -770,7 +772,7 @@
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "courtyard",
       "sourceIds": [],
-      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen innkeeper_irina; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen innkeeper_irina; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-innkeeper_irina",
@@ -792,7 +794,7 @@
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "nevsky",
       "sourceIds": [],
-      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen student_vasily; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen student_vasily; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-student_vasily",
@@ -814,7 +816,7 @@
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "courtyard",
       "sourceIds": [],
-      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen teacher_lyubov; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen teacher_lyubov; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-teacher_lyubov",
@@ -836,7 +838,7 @@
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "chancery",
       "sourceIds": [],
-      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen minor_noble_andrei; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen minor_noble_andrei; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-minor_noble_andrei",
@@ -858,7 +860,7 @@
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "courtyard",
       "sourceIds": [],
-      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen landlady_polina; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen landlady_polina; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-landlady_polina",
@@ -880,7 +882,7 @@
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "courtyard",
       "sourceIds": [],
-      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen watercarrier_luka; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen watercarrier_luka; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-watercarrier_luka",
@@ -902,7 +904,7 @@
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "market-quay",
       "sourceIds": [],
-      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen fishseller_klavdiya; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen fishseller_klavdiya; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-fishseller_klavdiya",
@@ -924,7 +926,7 @@
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "market-quay",
       "sourceIds": [],
-      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen warehouse_pyotr; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen warehouse_pyotr; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-warehouse_pyotr",
@@ -946,7 +948,7 @@
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "courtyard",
       "sourceIds": [],
-      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen servant_varvara; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen servant_varvara; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-servant_varvara",
@@ -968,7 +970,7 @@
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "chancery",
       "sourceIds": [],
-      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen junior_guard_sergey; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen junior_guard_sergey; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-junior_guard_sergey",
@@ -990,7 +992,7 @@
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "market-quay",
       "sourceIds": [],
-      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen carter_roman; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen carter_roman; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-carter_roman",
@@ -1012,7 +1014,7 @@
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "nevsky",
       "sourceIds": [],
-      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen street_vendor_matryona; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen street_vendor_matryona; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-street_vendor_matryona",
@@ -1034,7 +1036,7 @@
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "printshop",
       "sourceIds": [],
-      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen typesetter_nikita; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen typesetter_nikita; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-typesetter_nikita",
@@ -1056,7 +1058,7 @@
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "courtyard",
       "sourceIds": [],
-      "notes": "Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen lodging_tatyana; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen lodging_tatyana; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "portrait-lodging_tatyana",
@@ -1078,7 +1080,7 @@
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "nevsky",
       "sourceIds": [],
-      "notes": "Original pixel interpretation using the neutral civilian atlas for fictional citizen reader_darya; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen reader_darya; not a documented likeness or evidence of a specific individual's clothing."
     },
     {
       "id": "sprite-senior_clerk_konstantin",
@@ -1089,7 +1091,7 @@
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "chancery",
       "sourceIds": [],
-      "notes": "Original pixel interpretation using the neutral office atlas for fictional citizen senior_clerk_konstantin; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen senior_clerk_konstantin; not a documented likeness or evidence of a specific individual's clothing."
     }
   ]
 }

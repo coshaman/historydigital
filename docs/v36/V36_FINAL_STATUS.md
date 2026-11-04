@@ -25,7 +25,7 @@ A direct replay on the deployed game exposed a same-date resident quest whose co
 
 ## Evidence still missing
 
-- 82 of 85 environment tiles remain `UNVERIFIED_RECONSTRUCTION`. GID 63–65 have bounded scene-level references, not evidence for each tile's exact appearance. Fictional resident clothing has not had a source-by-source visual review. Pixel uniqueness does not establish human-perceived sprite identity.
+- 82 of 85 environment tiles remain `UNVERIFIED_RECONSTRUCTION`. GID 63–65 have bounded scene-level references, not evidence for each tile's exact appearance. One limited source-inspired costume silhouette review (Nadezhda, based on a 1845 Russian Museum egg-seller drawing) is recorded with explicit limits; the other 35 residents remain unreviewed. See `qa/ASSET_REVIEW_MANIFEST.csv` and `current-audit/RESIDENT_COSTUME_BROWSER_EVIDENCE.json`. Pixel uniqueness does not establish human-perceived sprite identity.
 - Headless Chrome used SwiftShader, not a hardware GPU. The latest 1440×900 run measured an 88.6 ms initial full-desk draw, zero idle redraws, and one redraw when focusing the window. Browser callback median was about 60 Hz with a 50 ms p95 during window focus; this is not a hardware-GPU frame-time result. Real GPU timing and a 10-minute live device session remain unverified.
 - Human playtesting is pending.
 - Vercel production key configuration and actual deployed AI generation are unverified. The browser smoke gate runs against the locally built app only.

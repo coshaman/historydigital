@@ -19,7 +19,7 @@ const props = {
   yardkeeper_semyon:['key ring',['.###.','#...#','.###.','..#..','..#.#']],
   laundress_mariya:['folded linen',['#####','#...#','#####','#...#','#####']],
   baker_fyodor:['loaf of bread',['.###.','#####','#####','#####','.###.']],
-  market_nadezhda:['market scale',['#...#','.#.#.','..#..','#####','..#..']],
+  market_nadezhda:['wicker baskets',['.###.','#####','#*#*#','#####','#...#']],
   porter_gavrila:['shoulder load',['.###.','#####','##.##','#####','..#..']],
   coachman_timofey:['reins',['#...#','.#.#.','..#..','.#.#.','#...#']],
   housemaid_olga:['broom',['....#','...#.', '..#..','.##..','#....']],
@@ -71,19 +71,21 @@ function makeSheet(card, roleProp, identity) {
     else { r(4,2,8,2,colors.hair); r(4,3,2,4,colors.hair); r(10,3,2,4,colors.hair); }
     const style=card.sprite.style;
     if(style==='cap') { r(4,1,8,2,headwear); r(3,3,10,1,headwear); }
-    else if(style==='scarf') { r(5,1,6,2,headwear); r(4,3,2,4,headwear); r(10,3,2,4,headwear); }
+    else if(style==='scarf'||style==='skirt') { r(5,1,6,2,headwear); r(4,3,2,4,headwear); r(10,3,2,4,headwear); }
     else if(style==='hair') { r(4,2,2,5,colors.hair); r(10,2,2,5,colors.hair); r(5,1,6,2,colors.hair); }
     else { r(4,1,8,2,headwear); r(5,0,6,1,headwear); }
     if(direction===0) { p(6,5,colors.ink); p(10,5,colors.ink); p(8,8,colors.skinShade); }
     if(direction===2) { p(7,5,colors.ink); p(6,6,colors.skinShade); }
     if(direction===3) { p(10,5,colors.ink); p(9,6,colors.skinShade); }
     // Work clothes vary by silhouette and the resident's recorded palette.
-    if(style==='dress') { r(4,9,8,9,cloth); r(3,15,10,3,trim); }
+    if(style==='skirt') { r(4,9,8,5,cloth); r(3,13,10,8,cloth); r(5,12,6,7,trim); r(7,12,1,7,headwear); }
+    else if(style==='dress') { r(4,9,8,9,cloth); r(3,15,10,3,trim); }
     else if(style==='apron') { r(4,9,8,8,cloth); r(5,10,6,7,trim); r(4,8,8,2,trim); }
     else if(style==='coat') { r(4,9,8,8,cloth); r(7,9,2,7,trim); p(6,12,colors.paper); }
     else { r(4,9,8,8,cloth); r(4,14,8,2,trim); p(7,10,colors.highlight); }
     r(3,10,2,5,cloth); r(11,10,2,5,cloth); p(3,15,colors.skin); p(12,15,colors.skin);
-    r(5+leg,17,3,4,cloth); r(9-leg,17,3,4,cloth); r(4+leg,21,4,2,colors.shoe); r(9-leg,21,4,2,colors.shoe);
+    if(style==='skirt') { r(5+leg,20,3,2,colors.shoe); r(9-leg,20,3,2,colors.shoe); }
+    else { r(5+leg,17,3,4,cloth); r(9-leg,17,3,4,cloth); r(4+leg,21,4,2,colors.shoe); r(9-leg,21,4,2,colors.shoe); }
     // A distinct, period-appropriate work object gives the resident a readable silhouette.
     const px = direction===1 || direction===2 ? 0 : 11;
     const py = 11 + (identity % 2);
@@ -138,6 +140,6 @@ for (const [identity,id] of ids.entries()) {
 }
 const provenancePath=path.join(root,'rpg/assets/ASSET_PROVENANCE.json');
 const provenance=JSON.parse(await fs.readFile(provenancePath,'utf8'));
-for(const id of ids){let record=provenance.assets.find(asset=>asset.id===`sprite-${id}`);if(!record){const matching=JSON.parse(await fs.readFile(path.join(root,'rpg/characters',`${id}.json`),'utf8'));record=provenance.assets.find(asset=>asset.path===`rpg/${matching.sprite.file}`);}const card=JSON.parse(await fs.readFile(path.join(root,'rpg/characters',`${id}.json`),'utf8'));if(record&&generatedFiles.has(`rpg/${card.sprite.file}`)){record.path=`rpg/${card.sprite.file}`;record.generatedBy='scripts/v36-personalize-resident-sprites.mjs';record.notes=`Hand-authored original 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen ${id}; not a documented likeness or evidence of a specific individual's clothing.`;}}
+for(const id of ids){let record=provenance.assets.find(asset=>asset.id===`sprite-${id}`);if(!record){const matching=JSON.parse(await fs.readFile(path.join(root,'rpg/characters',`${id}.json`),'utf8'));record=provenance.assets.find(asset=>asset.path===`rpg/${matching.sprite.file}`);}const card=JSON.parse(await fs.readFile(path.join(root,'rpg/characters',`${id}.json`),'utf8'));if(record&&generatedFiles.has(`rpg/${card.sprite.file}`)){record.path=`rpg/${card.sprite.file}`;record.generatedBy='scripts/v36-personalize-resident-sprites.mjs';record.notes=`Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen ${id}; not a documented likeness or evidence of a specific individual's clothing.`;if(card.sprite.visualReferenceIds?.length){record.sourceIds=[...new Set([...(record.sourceIds??[]),...card.sprite.visualReferenceIds])];record.notes='Original project-authored costume silhouette for fictional market vendor Nadezhda, informed by the circa-1845 Labastide egg-seller drawing: head scarf, long overgarment/apron, skirt, and carried baskets. The source is monochrome; the game palette is an independent creative colorization. Not a documented likeness, exact reconstruction, or evidence of this fictional character.';}}}
 await fs.writeFile(provenancePath,`${JSON.stringify(provenance,null,2)}\n`);
 console.log(JSON.stringify({status:'PASS',residents:ids.length,generatedRasterSheets:generatedFiles.size,svgSheetsKept:ids.length-generatedFiles.size,roleProps:ids.length,framesPerResident:'3×4',propTypes:Object.fromEntries(Object.entries(props).map(([id,[name]])=>[id,name]))},null,2));

@@ -1,7 +1,7 @@
 {
   "schemaVersion": "V36_HISTORICAL_MAP_SOURCE_REGISTER_V1",
   "baselineCommit": "7974392eb6e30a19607ff306972159fe5cd47b2e",
-  "researchDate": "2026-11-02",
+  "researchDate": "2026-11-05",
   "policy": "Sources establish bounded features only. The playable street grid is a stylized, non-georeferenced reconstruction unless a feature is tied to an exact mapped locator. No source image is redistributed by this register.",
   "sources": [
     {
@@ -143,6 +143,23 @@
       "rights": "Catalog record reviewed; no museum image is copied or redistributed. Pixel asset is original project artwork.",
       "creditedArtist": "Labastide (as cataloged; artist's life dates unknown).",
       "gameTransformation": "Use only as scene reference for an original pixel bread prop in a Petersburg vendor context. It does not prove exact bread geometry, recipe, map coordinates, or an identifiable historical seller."
+    },
+    {
+      "sourceId": "V36-ART-LABASTIDE-EGG-SELLERS-1845",
+      "title": "Labastide, Торговки яйцами (Egg Sellers)",
+      "sourceType": "PERIOD_DRAWING",
+      "sourceUrl": "https://rusmuseumvrm.ru/data/collections/drawings/r-24372/index.php",
+      "sourceImageUrl": "https://rusmuseumvrm.ru/data/collections/drawings/r-24372/40708_mainfoto_01.jpg",
+      "verifiedMetadata": "The State Russian Museum catalog identifies the graphite drawing as part of Labastide's series of Petersburg urban types, circa 1845, inventory R-24372; catalog keywords include female costume, headwear, work, and St Petersburg.",
+      "eraRange": "Circa 1845",
+      "locale": "Petersburg embankment / urban street scene as cataloged",
+      "pageOrFolio": "Russian Museum object record R-24372; catalog metadata and displayed scan visually inspected 2026-11-05.",
+      "visualFeature": "The displayed drawing shows a woman vendor with a wrapped head covering, long outer layer and apron over a full-length skirt, a handled basket and a carried back basket. It also depicts other vendors, embankment railing, stone paving and lamp standards; this record is used only for the woman's vendor silhouette and baskets in the Nadezhda sprite.",
+      "confidence": "HIGH for catalog title, inventory, medium, and circa-1845 series context; MEDIUM for the visually interpreted silhouette; no garment color is inferable from the monochrome drawing.",
+      "rights": "Russian Museum terms state that obtaining collection images and publication rights requires a formal request. The source image is not included or redistributed; the game uses original pixel artwork only.",
+      "creditedArtist": "Labastide (as cataloged; artist's life dates unknown).",
+      "gameTransformation": "The fictional market vendor receives an original 16×24 head-scarf, long skirt/apron silhouette and basket prop. Palette colors are independent creative colorization. This is not an exact reproduction, evidence about a real individual, or proof that every 1847 woman vendor dressed alike.",
+      "rightsTermsUrl": "https://rusmuseumvrm.ru/terms/index.php"
     }
   ],
   "verifiedLimits": [

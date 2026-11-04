@@ -11,6 +11,8 @@ This report records evidence from the current workspace. It distinguishes local 
 
 ## Verification evidence
 
+- npm run v36-visual-kit verifies 36 unique resident sprites and portraits and generates qa/ASSET_REVIEW_MANIFEST.csv; one bounded source-inspired costume silhouette was reviewed in-browser, with the remaining 35 explicitly unreviewed. npm run v36-market-vendor-visual-browser checks save/load, canvas rendering, overflow, and browser errors at 1440×900.
+
 - `npm run acceptance:v36` is the integrated release gate and writes `docs/v36/ACCEPTANCE.json`; it runs with `OPENAI_API_KEY` cleared and does not incur model costs. The local real-generation check below is separate.
 - `npm run check`, `npm run build:v33`, `npm test`, and `npm run v33-vercel-api-test` pass.
 - `npm run perf` and `npm run mobile` pass, including the reduced-motion static fallback for the courier scene.

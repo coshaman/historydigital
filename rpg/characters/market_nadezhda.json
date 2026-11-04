@@ -130,11 +130,14 @@
     "file": "assets/market_nadezhda.png",
     "frameWidth": 16,
     "frameHeight": 24,
-    "style": "scarf",
+    "style": "skirt",
+    "visualReferenceIds": [
+      "V36-ART-LABASTIDE-EGG-SELLERS-1845"
+    ],
     "palette": {
-      "cloth": "#72513b",
-      "trim": "#a95e42",
-      "headwear": "#503b31"
+      "cloth": "#635348",
+      "trim": "#a8845e",
+      "headwear": "#483a32"
     }
   },
   "speechStatus": "FICTIONAL_DESIGN",
