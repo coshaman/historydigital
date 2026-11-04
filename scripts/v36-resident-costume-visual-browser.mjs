@@ -34,6 +34,7 @@ const targets = [
   { residentId: 'fishseller_klavdiya', mapId: 'market-quay', expectedStyle: 'fishvendor' },
   { residentId: 'carter_roman', mapId: 'market-quay', expectedStyle: 'cartdriver' },
   { residentId: 'coachman_timofey', mapId: 'market-quay', expectedStyle: 'cabman' },
+  { residentId: 'street_vendor_matryona', mapId: 'nevsky', expectedStyle: 'scarf' },
 ].map(target => ({ ...target, card: cards.find(item => item.id === target.residentId), map: maps[target.mapId] }));
 for (const target of targets) {
   assert.ok(target.card && target.map && registry.districts.some(item => item.residentIds?.includes(target.card.id)), `${target.residentId} and map data exist`);

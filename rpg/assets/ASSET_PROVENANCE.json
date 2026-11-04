@@ -1021,8 +1021,10 @@
       "license": "original project-authored pixels",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "nevsky",
-      "sourceIds": [],
-      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen street_vendor_matryona; not a documented likeness or evidence of a specific individual's clothing."
+      "sourceIds": [
+        "V36-ART-LABASTIDE-HAWKER-TRAY-1845"
+      ],
+      "notes": "Original project-authored costume silhouette for fictional resident street_vendor_matryona. Labastide's circa-1845 Petersburg drawing shows a male peddler with a belt-mounted array of trays and wares. Matryona's original sprite adapts only the portable goods-rack idea to her street-selling role; it does not borrow the depicted man's clothing or claim the figure is Matryona. Not a documented likeness or exact reconstruction."
     },
     {
       "id": "portrait-street_vendor_matryona",

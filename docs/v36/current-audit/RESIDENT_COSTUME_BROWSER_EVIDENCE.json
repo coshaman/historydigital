@@ -91,6 +91,23 @@
       "documentWidth": 1440,
       "pageErrors": [],
       "screenshot": "docs/v36/current-audit/screenshots/coachman-timofey-costume-1440.png"
+    },
+    {
+      "mapId": "nevsky",
+      "possessedResidentId": "street_vendor_matryona",
+      "spriteFile": "rpg/assets/street_vendor_matryona.png",
+      "costumeStyle": "scarf",
+      "visualReferenceIds": [
+        "V36-ART-LABASTIDE-HAWKER-TRAY-1845"
+      ],
+      "saveLoadRestoredPossession": true,
+      "renderedCanvas": {
+        "width": 1382,
+        "height": 355
+      },
+      "documentWidth": 1440,
+      "pageErrors": [],
+      "screenshot": "docs/v36/current-audit/screenshots/street-vendor-matryona-costume-1440.png"
     }
   ]
 }

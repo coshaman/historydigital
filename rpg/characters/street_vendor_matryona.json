@@ -132,6 +132,10 @@
     "frameWidth": 16,
     "frameHeight": 24,
     "style": "scarf",
+    "visualReferenceIds": [
+      "V36-ART-LABASTIDE-HAWKER-TRAY-1845"
+    ],
+    "visualReferenceNotes": "Labastide's circa-1845 Petersburg drawing shows a male peddler with a belt-mounted array of trays and wares. Matryona's original sprite adapts only the portable goods-rack idea to her street-selling role; it does not borrow the depicted man's clothing or claim the figure is Matryona.",
     "palette": {
       "cloth": "#72513b",
       "trim": "#a95e42",

@@ -43,6 +43,13 @@ const reviewedResidents = {
     limits: '1842년 그림은 티모페이라는 인물이나 1847년의 정확한 복식·마구·마차·날씨를 증명하지 않음; 박물관 이미지 배포 권리 미취득',
     screenshot: 'docs/v36/current-audit/screenshots/coachman-timofey-costume-1440.png',
   },
+  street_vendor_matryona: {
+    sourceId: 'V36-ART-LABASTIDE-HAWKER-TRAY-1845',
+    features: '남성 행상의 허리띠에 고정된 넓은 진열대; 여러 층의 쟁반과 매달린 소품',
+    transformation: '16x24 원작 픽셀에서 휴대용 진열 구조만 참고해 허리 높이의 쟁반·상품 묶음으로 재구성',
+    limits: '도판 인물은 남성이며 마트료나의 복식·정체성을 입증하지 않음; 쟁반 치수·재료·상인들의 보편적 복식이나 위치도 증명하지 않음; 박물관 이미지 배포 권리 미취득',
+    screenshot: 'docs/v36/current-audit/screenshots/street-vendor-matryona-costume-1440.png',
+  },
 };
 const ids = [...new Set(residentData.districts.flatMap(district => district.residentIds ?? []))].sort();
 assert.equal(ids.length, 36);

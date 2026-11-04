@@ -39,7 +39,7 @@ const props = {
   servant_varvara:['work cloth',['#####','##..#','#####','#..##','#####']],
   junior_guard_sergey:['hat carried at side',['.###.','#####','#...#','..#..','..#..']],
   carter_roman:['cart reins',['#...#','.#.#.','..#..','.#.#.','##..#']],
-  street_vendor_matryona:['hawker tray',['#####','##.##','#####','..#..','..#..']],
+  street_vendor_matryona:['portable tray-and-goods rack',['#####','#.#.#','#####','#.#.#','..#..']],
   typesetter_nikita:['type gauge',['#.#.#','#####','#.#.#','#####','#.#.#']],
   lodging_tatyana:['thread spool',['.###.','#####','..#..','#####','.###.']],
 };

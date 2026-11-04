@@ -152,12 +152,12 @@
       "verifiedMetadata": "The State Russian Museum catalog identifies the drawing as part of a series of Petersburg urban types, circa 1845, graphite on paper, inventory R-24373; the Russian title names a peddler with a tray.",
       "eraRange": "Circa 1845",
       "locale": "Petersburg urban life",
-      "pageOrFolio": "Russian Museum object record R-24373; catalog metadata checked 2026-11-05.",
-      "visualFeature": "A tray-carrying peddler as a city type; evidence for portable street vending, not the exact design of the game's tray.",
-      "confidence": "HIGH for catalog title, medium, series, date range, medium, and location; exact tray construction is not established by the metadata.",
+      "pageOrFolio": "Russian Museum object record R-24373; catalog metadata and displayed drawing visually inspected 2026-11-05.",
+      "visualFeature": "The drawing shows a male street peddler wearing a rounded cap, long-sleeved outer garment, waist belt, and a broad belt-mounted rack carrying several trays and hanging wares. This documents a portable vending setup in the depicted urban-type study, not the exact design or prevalence of such gear.",
+      "confidence": "HIGH for catalog title, medium, circa-1845 date, series, and location; MEDIUM for the interpreted portable rack and garment silhouette. The male figure is unidentified and is not evidence for a fictional woman's clothing.",
       "rights": "Catalog record reviewed; no museum image is copied or redistributed. Pixel asset is original project artwork.",
       "creditedArtist": "Labastide (as cataloged; artist's life dates unknown).",
-      "gameTransformation": "Use only as scene reference for original pixel art about portable vending. It does not prove exact tray geometry, materials, map coordinates, or an identifiable historical vendor."
+      "gameTransformation": "Matryona's original 16×24 sprite adapts only the idea of a compact waist-level portable goods rack for street selling. Her scarf and clothing are independently designed; the source's male figure is not identified as Matryona and does not establish a woman's outfit, exact tray geometry, materials, location, or vendor prevalence."
     },
     {
       "sourceId": "V36-ART-LABASTIDE-KALACH-SELLER-1845",
