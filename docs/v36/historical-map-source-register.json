@@ -226,6 +226,23 @@
       "rightsTermsUrl": "https://rusmuseumvrm.ru/terms/index.php"
     },
     {
+      "sourceId": "V36-ART-WESTERLING-NEVSKY-1847",
+      "title": "E. Westerling, View from a Window onto Nevsky Prospect in Saint Petersburg",
+      "sourceType": "PERIOD_WATERCOLOR",
+      "sourceUrl": "https://rusmuseumvrm.ru/data/collections/drawings/r-60382/index.php",
+      "sourceImageUrl": "https://rusmuseumvrm.ru/data/collections/drawings/r-60382/40716_mainfoto_02.jpg",
+      "verifiedMetadata": "The State Russian Museum catalog identifies E. Westerling's View from a Window onto Nevsky Prospect in Saint Petersburg as a 1847 watercolor and gouache, inventory R-60382. The museum's catalog essay locates the view near Police Bridge and describes the work as a careful record of mid-19th-century Nevsky architecture.",
+      "eraRange": "1847",
+      "locale": "Nevsky Prospect near Police Bridge, Saint Petersburg",
+      "pageOrFolio": "Russian Museum object record R-60382; catalog record and displayed 165×119 preview visually inspected 2026-11-05.",
+      "visualFeature": "The small displayed view shows a window-framed prospect, a continuous line of multi-story urban facades, and dense horse-carriage and pedestrian traffic. The preview does not resolve individual paving stones or establish a specific road-surface material. The museum's essay characterizes the roadway as ochre-colored from slush.",
+      "confidence": "HIGH for the title, 1847 date, medium, inventory, and location from the museum record; MEDIUM for the broad street composition; LOW for any claim about individual pavement stones, material, or pixel-level color.",
+      "rights": "Russian Museum catalog record and preview reviewed; image reproduction rights were not cleared. The museum image is not copied or redistributed; game tiles remain original project artwork.",
+      "creditedArtist": "E. Westerling (as cataloged; life dates unknown).",
+      "gameTransformation": "Context reference for the 1847 Nevsky scene's continuous facade scale and carriage-rich street activity only. It does not validate GID 46–49's gray cobblestone pattern, stone material, wear, pixel colors, or exact street geometry; those tiles remain UNVERIFIED_RECONSTRUCTION.",
+      "rightsTermsUrl": "https://rusmuseumvrm.ru/terms/index.php"
+    },
+    {
       "sourceId": "V36-ART-SHCHEDROVSKY-WATER-CARRIER-1845",
       "title": "Shchedrovsky, Carpenter's Wife, Water Carrier from Vasilievsky Island, White Seamstress, and Wood Carrier",
       "sourceType": "PERIOD_PRINT",

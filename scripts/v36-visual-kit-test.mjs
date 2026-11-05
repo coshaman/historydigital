@@ -92,6 +92,12 @@ const atlasRecord = provenance.assets.find(asset => asset.id === 'petersburg-til
 assert.match(atlasRecord.notes, /1849 atlas is later comparison/);
 assert.doesNotMatch(atlasRecord.notes, /1847 photograph|surveyed 1847 paving/i);
 const sourceRegister = JSON.parse(await fs.readFile(path.join(root, 'docs/v36/historical-map-source-register.json'), 'utf8'));
+const nevskyViewSourceId = 'V36-ART-WESTERLING-NEVSKY-1847';
+const nevskyViewSource = sourceRegister.sources.find(source => source.sourceId === nevskyViewSourceId);
+assert.ok(nevskyViewSource?.sourceUrl.endsWith('/r-60382/index.php') && nevskyViewSource?.eraRange === '1847', 'the exact 1847 Russian Museum Nevsky view is registered');
+assert.ok(nevskyViewSource?.visualFeature.includes('does not resolve individual paving stones') && nevskyViewSource?.gameTransformation.includes('remain UNVERIFIED_RECONSTRUCTION'), 'the city-view source is restricted to scene context and does not certify cobblestone details');
+assert.ok(nevskyViewSource?.rights.includes('not copied or redistributed'), 'the 1847 museum watercolor is not redistributed');
+assert.ok(provenance.assets.find(asset => asset.id === 'petersburg-tiles')?.sourceIds.includes(nevskyViewSourceId), 'the tile-atlas provenance links the contextual Nevsky view');
 const knownSourceIds = new Set(sourceRegister.sources.map(source => source.sourceId));
 const firewoodSourceId = 'V36-ART-SHCHEDROVSKY-WATER-CARRIER-1845';
 const firewoodSource = sourceRegister.sources.find(source => source.sourceId === firewoodSourceId);
@@ -203,8 +209,15 @@ for (const [index, line] of usageRows.slice(1).entries()) {
   }
   if (gid >= 46 && gid <= 60) {
     assert.equal(fields[4], 'UNVERIFIED_RECONSTRUCTION', `surface GID ${gid} does not overstate its source support`);
-    assert.equal(fields[5], ''); assert.equal(fields[6], '');
-    assert.match(fields[7], /색·문양·재료를 입증하지 않는다/);
+    if (gid >= 46 && gid <= 49) {
+      assert.equal(fields[5], nevskyViewSourceId, `Nevsky GID ${gid} links its scene-context source`);
+      assert.equal(fields[6], nevskyViewSource.sourceUrl);
+      assert.match(fields[7], /포석/);
+      assert.match(fields[7], /미검증/);
+    } else {
+      assert.equal(fields[5], ''); assert.equal(fields[6], '');
+      assert.match(fields[7], /색·문양·재료를 입증하지 않는다/);
+    }
     continue;
   }
   if (gid < 61) continue;
