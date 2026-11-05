@@ -43,6 +43,13 @@ const props = {
   typesetter_nikita:['type gauge',['#.#.#','#####','#.#.#','#####','#.#.#']],
   lodging_tatyana:['thread spool',['.###.','#####','..#..','#####','.###.']],
 };
+const roleMarkerData=JSON.parse(await fs.readFile(path.join(root,'rpg/data/resident-role-markers-v36.json'),'utf8'));
+if(roleMarkerData.classification!=='GAMEPLAY_READABILITY_ICON_ONLY'||roleMarkerData.historicalEvidence!==false)throw new Error('Resident role markers must remain gameplay-only, not historical evidence');
+for(const [id,marker] of Object.entries(roleMarkerData.characters)){
+  if(marker.pattern.length!==8||marker.pattern.some(row=>row.length!==8||/[^.#*+@!]/.test(row)))throw new Error(`Invalid 8×8 role marker for ${id}`);
+  if(!props[id])throw new Error(`Role marker has no resident sprite profile: ${id}`);
+  props[id]=[marker.labelKo,marker.pattern];
+}
 const chars = {};
 for (let index = 0; index < 256; index++) {
   let value = index; const out = [];
@@ -56,7 +63,7 @@ function chunk(name, bytes) { const type = Buffer.from(name), size = Buffer.allo
 function hex(value) { return [1,3,5].map(index => parseInt(value.slice(index,index+2),16)); }
 function makeSheet(card, roleProp, identity) {
   const width = 48, height = 96, pixels = new Uint8Array(width * height * 4);
-  const colors = { ink:[38,31,28], outline:[47,37,31], skin:[208,160,126], skinShade:[153,103,82], hair:[48,37,32], pants:[53,43,35], shoe:[37,32,29], paper:[226,211,174], highlight:[234,210,156] };
+  const colors = { ink:[38,31,28], outline:[47,37,31], skin:[208,160,126], skinShade:[153,103,82], hair:[48,37,32], pants:[53,43,35], shoe:[37,32,29], paper:[226,211,174], highlight:[234,210,156], proofInk:[153,67,51] };
   const palette = card.sprite.palette ?? {}, cloth = hex(palette.cloth ?? '#55443b'), trim = hex(palette.trim ?? '#b18a57'), headwear = hex(palette.headwear ?? '#43382f');
   const put = (x,y,color) => { if (x < 0 || y < 0 || x >= width || y >= height) return; const at = (y*width+x)*4; pixels.set([...color,255],at); };
   const rect = (x,y,w,h,color) => { for(let yy=y;yy<y+h;yy++) for(let xx=x;xx<x+w;xx++) put(xx,yy,color); };
@@ -91,8 +98,9 @@ function makeSheet(card, roleProp, identity) {
     else if(style==='fishvendor'||style==='skirt') { r(5+leg,20,3,2,colors.shoe); r(9-leg,20,3,2,colors.shoe); }
     else { r(5+leg,17,3,4,cloth); r(9-leg,17,3,4,cloth); r(4+leg,21,4,2,colors.shoe); r(9-leg,21,4,2,colors.shoe); }
     // A distinct, period-appropriate work object gives the resident a readable silhouette.
-    const px = direction===1 || direction===2 ? 0 : 11;
-    const py = 11 + (identity % 2);
+    const roleMarker = roleMarkerData.characters[card.id];
+    const px = roleMarker ? (direction===2 ? 0 : 8) : direction===1 || direction===2 ? 0 : 11;
+    const py = roleMarker ? 8 : 11 + (identity % 2);
     if(card.id==='watercarrier_luka') {
       // A clear original handled-pail role marker; the source plate does not assign this vessel to its water carrier.
       const bx = direction===2 ? 0 : 11;
@@ -119,8 +127,11 @@ function makeSheet(card, roleProp, identity) {
     } else {
       for(let row=0;row<mask.length;row++) for(let col=0;col<mask[row].length;col++) {
         const cell=mask[row][col];
-        if(cell==='#') p(px+col,py+row,trim);
-        else if(cell==='*') p(px+col,py+row,accent);
+        if(cell==='#') p(px+col,py+row,roleMarker ? colors.outline : trim);
+        else if(cell==='*') p(px+col,py+row,roleMarker ? colors.highlight : accent);
+        else if(cell==='+') p(px+col,py+row,colors.paper);
+        else if(cell==='@') p(px+col,py+row,colors.highlight);
+        else if(cell==='!') p(px+col,py+row,colors.proofInk);
       }
     }
     // Small wardrobe accent is individual and survives walk-frame animation.
@@ -130,6 +141,14 @@ function makeSheet(card, roleProp, identity) {
   for(let y=0;y<height;y++) scan.set(pixels.subarray(y*width*4,(y+1)*width*4),y*(width*4+1)+1);
   const ihdr=Buffer.alloc(13); ihdr.writeUInt32BE(width); ihdr.writeUInt32BE(height,4); ihdr.set([8,6,0,0,0],8);
   return Buffer.concat([Buffer.from([137,80,78,71,13,10,26,10]),chunk('IHDR',ihdr),chunk('IDAT',deflateSync(scan,{level:9})),chunk('IEND',Buffer.alloc(0))]);
+}
+function roleMarkerSvg(marker, id) {
+  const palette = { '#': '#30251f', '*': '#c49c62', '+': '#e2d3ae', '@': '#ead29c', '!': '#994333' };
+  const paths = Object.entries(palette).map(([cell, color]) => {
+    const pathData = marker.pattern.flatMap((row, y) => [...row].flatMap((value, x) => value === cell ? [`M${8+x} ${8+y}h1v1h-1z`] : [])).join('');
+    return pathData ? `<path fill="${color}" d="${pathData}"/>` : '';
+  }).join('');
+  return `<g data-role-marker="${id}">${paths}</g>`;
 }
 const portraitProfiles = {
   apothecary_yakov: { skin:'#c99472', hair:'#46362e', coat:'#4c4a43', rx:11, cap:'', hairBack:'<path d="M20 26q-4-17 4-21 8-5 17 0 8 5 5 21l-4 8-4-16-13 1-2 14z"/>', hairFront:'<path d="M21 22q1-14 11-15 11 0 13 14-7-6-13-5-7 0-11 6z"/>', face:'<path d="M23 35q9 8 18 0" fill="none" stroke="#765046" stroke-width="2.4"/>', facial:'<path d="M25 32q7-5 14 0-2 5-7 5-5 0-7-5z" fill="#60463b"/><path d="M27 34h10" stroke="#c99472" stroke-width="1.2"/>', collar:'<path d="M26 45l6 7 6-7" fill="#ded0b2"/>' },
@@ -244,6 +263,7 @@ function personalizePortrait(_svg, card) {
 }
 
 const generatedFiles = new Set();
+const generatedVectorSpriteFiles = new Set();
 const generatedPortraitFiles = new Set();
 const reassignedSpriteFiles = {
   senior_clerk_konstantin: 'assets/senior_clerk_konstantin.png',
@@ -280,13 +300,25 @@ for (const [identity,id] of ids.entries()) {
     generatedPortraitFiles.add(`rpg/${card.portrait.file}`);
   }
   const spritePath = path.join(root,'rpg',card.sprite.file);
+  if (card.sprite.file.toLowerCase().endsWith('.svg')) {
+    const marker = roleMarkerData.characters[id];
+    if (marker) {
+      const svg = await fs.readFile(spritePath, 'utf8');
+      const cleanSvg = svg.replace(/<g data-role-marker="[^"]+">[\s\S]*?<\/g>/g, '');
+      const updated = cleanSvg.replace(/<g id="([^"]+)">([\s\S]*?)<\/g><\/defs>/, (_match, groupId, content) => `<g id="${groupId}">${content}${roleMarkerSvg(marker, id)}</g></defs>`);
+      if (updated === cleanSvg) throw new Error(`Could not locate the base group for SVG role marker ${id}`);
+      await fs.writeFile(spritePath, updated);
+      generatedVectorSpriteFiles.add(`rpg/${card.sprite.file}`);
+    }
+    continue;
+  }
   if (!card.sprite.file.toLowerCase().endsWith('.png')) continue;
   await fs.writeFile(spritePath,makeSheet(card,prop,identity));
   generatedFiles.add(`rpg/${card.sprite.file}`);
 }
 const provenancePath=path.join(root,'rpg/assets/ASSET_PROVENANCE.json');
 const provenance=JSON.parse(await fs.readFile(provenancePath,'utf8'));
-for(const id of ids){const card=JSON.parse(await fs.readFile(path.join(root,'rpg/characters',`${id}.json`),'utf8'));let record=provenance.assets.find(asset=>asset.id===`sprite-${id}`);if(!record)record=provenance.assets.find(asset=>asset.path===`rpg/${card.sprite.file}`);if(record&&generatedFiles.has(`rpg/${card.sprite.file}`)){record.path=`rpg/${card.sprite.file}`;record.generatedBy='scripts/v36-personalize-resident-sprites.mjs';record.notes=`Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen ${id}; not a documented likeness or evidence of a specific individual's clothing.`;if(card.sprite.visualReferenceIds?.length){record.sourceIds=[...new Set([...(record.sourceIds??[]),...card.sprite.visualReferenceIds])];record.notes=`Original project-authored costume silhouette for fictional resident ${id}. ${card.sprite.visualReferenceNotes??'Source-informed details are listed in the character record.'} Not a documented likeness or exact reconstruction.`;}}const portraitRecord=provenance.assets.find(asset=>asset.path===`rpg/${card.portrait.file}`);if(portraitRecord&&generatedPortraitFiles.has(`rpg/${card.portrait.file}`)){portraitRecord.generatedBy='scripts/v36-personalize-resident-sprites.mjs';portraitRecord.license='original project-authored fictional vector portrait';portraitRecord.historicalConfidence=card.portrait.historicalConfidence??'FICTIONAL_CHARACTER_RECONSTRUCTION';portraitRecord.sourceIds=[];portraitRecord.notes=`Individually authored fictional face, hair, expression, and clothing design for ${id}; created for game readability, not a documented likeness, period portrait, or evidence of typical historical dress.`;}}
+for(const id of ids){const card=JSON.parse(await fs.readFile(path.join(root,'rpg/characters',`${id}.json`),'utf8'));let record=provenance.assets.find(asset=>asset.id===`sprite-${id}`);if(!record)record=provenance.assets.find(asset=>asset.path===`rpg/${card.sprite.file}`);if(record&&(generatedFiles.has(`rpg/${card.sprite.file}`)||generatedVectorSpriteFiles.has(`rpg/${card.sprite.file}`))){record.path=`rpg/${card.sprite.file}`;record.generatedBy='scripts/v36-personalize-resident-sprites.mjs';record.notes=`Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen ${id}; not a documented likeness or evidence of a specific individual's clothing.`;if(card.sprite.visualReferenceIds?.length){record.sourceIds=[...new Set([...(record.sourceIds??[]),...card.sprite.visualReferenceIds])];record.notes=`Original project-authored costume silhouette for fictional resident ${id}. ${card.sprite.visualReferenceNotes??'Source-informed details are listed in the character record.'} Not a documented likeness or exact reconstruction.`;}if(roleMarkerData.characters[id])record.notes+=` The ${roleMarkerData.characters[id].labelKo} is a gameplay readability icon only; it is not evidence that this fictional person historically carried that item.`;}const portraitRecord=provenance.assets.find(asset=>asset.path===`rpg/${card.portrait.file}`);if(portraitRecord&&generatedPortraitFiles.has(`rpg/${card.portrait.file}`)){portraitRecord.generatedBy='scripts/v36-personalize-resident-sprites.mjs';portraitRecord.license='original project-authored fictional vector portrait';portraitRecord.historicalConfidence=card.portrait.historicalConfidence??'FICTIONAL_CHARACTER_RECONSTRUCTION';portraitRecord.sourceIds=[];portraitRecord.notes=`Individually authored fictional face, hair, expression, and clothing design for ${id}; created for game readability, not a documented likeness, period portrait, or evidence of typical historical dress.`;}}
 for (const id of Object.keys(reassignedPortraitFiles)) {
   const card = JSON.parse(await fs.readFile(path.join(root,'rpg/characters',`${id}.json`),'utf8'));
   const record = provenance.assets.find(asset => asset.id === `portrait-${id}`);

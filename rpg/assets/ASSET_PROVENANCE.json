@@ -54,7 +54,7 @@
         "chancery"
       ],
       "sourceIds": [],
-      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen clerk_alexei; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen clerk_alexei; not a documented likeness or evidence of a specific individual's clothing. The 접수 봉투 is a gameplay readability icon only; it is not evidence that this fictional person historically carried that item."
     },
     {
       "id": "sprite-printer_ekaterina",
@@ -71,7 +71,7 @@
       "sourceIds": [
         "OBJ-SOV-1847"
       ],
-      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen printer_ekaterina; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen printer_ekaterina; not a documented likeness or evidence of a specific individual's clothing. The 교정쇄 is a gameplay readability icon only; it is not evidence that this fictional person historically carried that item."
     },
     {
       "id": "sprite-courier_pavel",
@@ -86,7 +86,7 @@
         "courtyard"
       ],
       "sourceIds": [],
-      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen courier_pavel; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen courier_pavel; not a documented likeness or evidence of a specific individual's clothing. The 전달 가방 is a gameplay readability icon only; it is not evidence that this fictional person historically carried that item."
     },
     {
       "id": "sprite-seamstress_anna",
@@ -410,7 +410,7 @@
       "id": "sprite-editor-sofia",
       "path": "rpg/assets/sofia-sprite.svg",
       "type": "ORIGINAL_VECTOR_SPRITE_SHEET",
-      "generatedBy": "hand-authored project SVG",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
       "license": "original project-authored vector artwork",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": [
@@ -422,7 +422,7 @@
         "OBJ-WS-NEKRASOV-EDITORIAL-1848"
       ],
       "sourceUrls": [],
-      "notes": "Original vector walk-cycle for fictional editor Sofia; no historical likeness is claimed."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen editor_sofia; not a documented likeness or evidence of a specific individual's clothing. The 표시한 원고 is a gameplay readability icon only; it is not evidence that this fictional person historically carried that item."
     },
     {
       "id": "portrait-editor-sofia",
@@ -447,7 +447,7 @@
       "id": "sprite-police-ivan",
       "path": "rpg/assets/ivan-sprite.svg",
       "type": "ORIGINAL_VECTOR_SPRITE_SHEET",
-      "generatedBy": "hand-authored project SVG",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
       "license": "original project-authored vector artwork",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": [
@@ -456,7 +456,7 @@
       ],
       "sourceIds": [],
       "sourceUrls": [],
-      "notes": "Original vector walk-cycle for fictional police sergeant Ivan; not a reconstruction of an actual officer."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen police_sergeant_ivan; not a documented likeness or evidence of a specific individual's clothing. The 순찰 표식 is a gameplay readability icon only; it is not evidence that this fictional person historically carried that item."
     },
     {
       "id": "portrait-police-ivan",
@@ -514,7 +514,7 @@
         "courtyard"
       ],
       "sourceIds": [],
-      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen laundress_mariya; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen laundress_mariya; not a documented likeness or evidence of a specific individual's clothing. The 접은 세탁물 is a gameplay readability icon only; it is not evidence that this fictional person historically carried that item."
     },
     {
       "id": "portrait-laundress_mariya",
@@ -656,7 +656,7 @@
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "courtyard",
       "sourceIds": [],
-      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen housemaid_olga; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen housemaid_olga; not a documented likeness or evidence of a specific individual's clothing. The 빗자루 표식 is a gameplay readability icon only; it is not evidence that this fictional person historically carried that item."
     },
     {
       "id": "portrait-housemaid_olga",
@@ -722,7 +722,7 @@
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "printshop",
       "sourceIds": [],
-      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen print_apprentice_stepan; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen print_apprentice_stepan; not a documented likeness or evidence of a specific individual's clothing. The 조판 활자 is a gameplay readability icon only; it is not evidence that this fictional person historically carried that item."
     },
     {
       "id": "portrait-print_apprentice_stepan",
@@ -766,7 +766,7 @@
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "chancery",
       "sourceIds": [],
-      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen scribal_yuri; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen scribal_yuri; not a documented likeness or evidence of a specific individual's clothing. The 필사 folio와 펜촉 is a gameplay readability icon only; it is not evidence that this fictional person historically carried that item."
     },
     {
       "id": "portrait-scribal_yuri",
@@ -992,7 +992,7 @@
       "sourceIds": [
         "V36-ART-LABASTIDE-GATEKEEPER-1845"
       ],
-      "notes": "Original project-authored costume silhouette for fictional resident junior_guard_sergey. Original pixel silhouette informed only by the 1845 Petersburg gatekeeper drawing: short buttoned outer jacket, loose trousers, boots, and a hat carried at the side. The drawing does not depict a police or military uniform; this character's guard role and insignia remain fictional. Colors are creative because the source is monochrome. Not a documented likeness or exact reconstruction."
+      "notes": "Original project-authored costume silhouette for fictional resident junior_guard_sergey. Original pixel silhouette informed only by the 1845 Petersburg gatekeeper drawing: short buttoned outer jacket, loose trousers, boots, and a hat carried at the side. The drawing does not depict a police or military uniform; this character's guard role and insignia remain fictional. Colors are creative because the source is monochrome. Not a documented likeness or exact reconstruction. The 열쇠 표식 is a gameplay readability icon only; it is not evidence that this fictional person historically carried that item."
     },
     {
       "id": "portrait-junior_guard_sergey",
@@ -1107,7 +1107,7 @@
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "nevsky",
       "sourceIds": [],
-      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen reader_darya; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen reader_darya; not a documented likeness or evidence of a specific individual's clothing. The 펼친 책 is a gameplay readability icon only; it is not evidence that this fictional person historically carried that item."
     },
     {
       "id": "sprite-senior_clerk_konstantin",
@@ -1118,7 +1118,7 @@
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "chancery",
       "sourceIds": [],
-      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen senior_clerk_konstantin; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen senior_clerk_konstantin; not a documented likeness or evidence of a specific individual's clothing. The 분류 대장 is a gameplay readability icon only; it is not evidence that this fictional person historically carried that item."
     }
   ]
 }

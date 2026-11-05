@@ -112,7 +112,7 @@ export function createRenderer(canvas, assets) {
       const active = state.player.embodiment === card.id;
       const frameCount = atlas.framesPerDirection ?? 3, frameWidth = atlas.frameWidth ?? 16, frameHeight = atlas.frameHeight ?? 24;
       const frame = !reducedMotion && active && time - lastMoveAt < 360 ? Math.floor(time / 120) % frameCount : 0;
-      const dir = atlas.directionRows?.[host.facing] ?? ({ down: 0, up: 1, left: 2, right: 3 })[host.facing] ?? 0, px = ox + host.position.x * tile * scale, py = oy + host.position.y * tile * scale;
+      const dir = atlas.directionRows?.[host.facing] ?? ({ down: 0, up: 1, left: 2, right: 3 })[host.facing] ?? 0, px = ox + host.position.x * tile * scale, tileY = oy + host.position.y * tile * scale, py = Math.max(tileY, oy + 8 * scale);
       if (sprite.complete && sprite.naturalWidth) ctx.drawImage(sprite, frame * frameWidth, dir * frameHeight, frameWidth, frameHeight, px, py - 8 * scale, frameWidth * scale, frameHeight * scale);
       if (state.player.embodiment === card.id) { ctx.strokeStyle = '#f2d38b'; ctx.lineWidth = 1; ctx.beginPath(); ctx.ellipse(px + 8 * scale, py + 15 * scale, 8 * scale, 3 * scale, 0, 0, Math.PI * 2); ctx.stroke(); }
     }

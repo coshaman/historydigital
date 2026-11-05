@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "V36_NORTH_EDGE_BROWSER_CHECK_1",
+  "status": "PASS",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "mapId": "nevsky",
+  "input": "two real up-button clicks",
+  "start": {
+    "x": 11,
+    "y": 9
+  },
+  "reached": {
+    "x": 11,
+    "y": 8
+  },
+  "blockedAt": {
+    "x": 11,
+    "y": 8
+  },
+  "pageErrors": [],
+  "screenshot": "nevsky-north-walkable-boundary.png",
+  "noteKo": "첫 입력으로 북쪽 통행 경계까지 이동하고, 두 번째 입력은 충돌 경계에서 멈춤."
+}

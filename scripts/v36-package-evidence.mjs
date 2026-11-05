@@ -126,6 +126,7 @@ for (const card of residents) for (const slot of card.schedule ?? []) scheduleRo
 ]);
 await writeStage('qa/36_NPC_DAILY_SCHEDULES.csv', `${scheduleRows.map(row => row.map(csvCell).join(',')).join('\n')}\n`);
 await stageCopy('docs/v36/current-audit/FULL_DAY_36_RESIDENT_REPLAY.json', 'qa/36_NPC_24H_REPLAY.json');
+await stageCopy('docs/v36/current-audit/screenshots/NORTH_EDGE_BROWSER_CHECK.json', 'qa/NORTH_EDGE_BROWSER_CHECK.json');
 await stageCopy('docs/v36/current-audit/MAP_GRAPH_AUDIT.json', 'qa/MAP_NAVIGATION_AND_ACCESS.json');
 await stageCopy('qa/ASSET_REVIEW_MANIFEST.csv', 'qa/ASSET_REVIEW_MANIFEST.csv');
 await stageCopy('docs/v36/current-audit/PERSONAL_LIFE_CHAIN_ACCEPTANCE.json', 'qa/36_RESIDENT_LIFE_CHAIN_REPLAY.json');
@@ -148,8 +149,10 @@ for (const [source, target] of [
   ['docs/v36/current-audit/screenshots/world-map-tour-verified/mobile-390x844-nevsky.png', 'screenshots/mobile-390x844-nevsky.png'],
   ['docs/v36/current-audit/screenshots/world-map-tour-verified/mobile-360x800-nevsky.png', 'screenshots/mobile-360x800-nevsky.png'],
   ['docs/v36/current-audit/screenshots/nevsky-12-resident-neighborhood.png', 'screenshots/nevsky-12-resident-neighborhood.png'],
+  ['docs/v36/current-audit/screenshots/nevsky-north-walkable-boundary.png', 'screenshots/nevsky-north-walkable-boundary.png'],
   ['docs/v36/current-audit/screenshots/market-quay-12-resident-neighborhood.png', 'screenshots/market-quay-12-resident-neighborhood.png'],
   ['docs/v36/current-audit/screenshots/resident-portraits-64px-contact-sheet.png', 'screenshots/resident-portraits-64px-contact-sheet.png'],
+  ['docs/v36/current-audit/screenshots/resident-sprites-16x24-contact-sheet.png', 'screenshots/resident-sprites-16x24-contact-sheet.png'],
   ['docs/v36/current-audit/screenshots/market-nadezhda-costume-1440.png', 'screenshots/market-nadezhda-costume-1440.png'],
   ['docs/v36/current-audit/screenshots/junior-guard-sergey-costume-1440.png', 'screenshots/junior-guard-sergey-costume-1440.png'],
   ['docs/v36/current-audit/screenshots/fishseller-klavdiya-costume-1440.png', 'screenshots/fishseller-klavdiya-costume-1440.png'],
