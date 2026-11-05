@@ -138,7 +138,7 @@
     "uniqueFaceRegions": 36,
     "faceRegionDuplicates": [],
     "frameGrid": "3×4 at 16×24 px",
-    "enlargedGameplayRoleMarkers": 12,
+    "enlargedGameplayRoleMarkers": 14,
     "portraitSize": "64×64 px",
     "faceRegion": "20×17 px interior crop covering eyes, nose, and mouth; excluding hair, frame, and torso"
   },

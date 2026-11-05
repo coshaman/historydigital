@@ -54,7 +54,7 @@
         "chancery"
       ],
       "sourceIds": [],
-      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen clerk_alexei; not a documented likeness or evidence of a specific individual's clothing. The 접수 봉투 is a gameplay readability icon only; it is not evidence that this fictional person historically carried that item."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen clerk_alexei; not a documented likeness or evidence of a specific individual's clothing. The 봉인한 편지 봉투 is a gameplay readability icon only; it is not evidence that this fictional person historically carried that item."
     },
     {
       "id": "sprite-printer_ekaterina",
@@ -86,7 +86,7 @@
         "courtyard"
       ],
       "sourceIds": [],
-      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen courier_pavel; not a documented likeness or evidence of a specific individual's clothing. The 전달 가방 is a gameplay readability icon only; it is not evidence that this fictional person historically carried that item."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen courier_pavel; not a documented likeness or evidence of a specific individual's clothing. The 청록빛 어깨 가방 is a gameplay readability icon only; it is not evidence that this fictional person historically carried that item."
     },
     {
       "id": "sprite-seamstress_anna",
@@ -131,7 +131,7 @@
       "sourceIds": [
         "OBJ-SOV-1847"
       ],
-      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen bookseller_lev; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen bookseller_lev; not a documented likeness or evidence of a specific individual's clothing. The 겹쳐 둔 책 두 권 is a gameplay readability icon only; it is not evidence that this fictional person historically carried that item."
     },
     {
       "id": "sprite-literary_chichikov",
@@ -422,7 +422,7 @@
         "OBJ-WS-NEKRASOV-EDITORIAL-1848"
       ],
       "sourceUrls": [],
-      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen editor_sofia; not a documented likeness or evidence of a specific individual's clothing. The 표시한 원고 is a gameplay readability icon only; it is not evidence that this fictional person historically carried that item."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen editor_sofia; not a documented likeness or evidence of a specific individual's clothing. The 붉은 연필 is a gameplay readability icon only; it is not evidence that this fictional person historically carried that item."
     },
     {
       "id": "portrait-editor-sofia",
@@ -744,7 +744,7 @@
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "printshop",
       "sourceIds": [],
-      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen bookbinder_elizaveta; not a documented likeness or evidence of a specific individual's clothing."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen bookbinder_elizaveta; not a documented likeness or evidence of a specific individual's clothing. The 제본 바늘과 실 is a gameplay readability icon only; it is not evidence that this fictional person historically carried that item."
     },
     {
       "id": "portrait-bookbinder_elizaveta",
@@ -1118,7 +1118,7 @@
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "chancery",
       "sourceIds": [],
-      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen senior_clerk_konstantin; not a documented likeness or evidence of a specific individual's clothing. The 분류 대장 is a gameplay readability icon only; it is not evidence that this fictional person historically carried that item."
+      "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen senior_clerk_konstantin; not a documented likeness or evidence of a specific individual's clothing. The 푸른 표지 분류 장부 is a gameplay readability icon only; it is not evidence that this fictional person historically carried that item."
     }
   ]
 }

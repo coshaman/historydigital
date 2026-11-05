@@ -46,7 +46,7 @@ const props = {
 const roleMarkerData=JSON.parse(await fs.readFile(path.join(root,'rpg/data/resident-role-markers-v36.json'),'utf8'));
 if(roleMarkerData.classification!=='GAMEPLAY_READABILITY_ICON_ONLY'||roleMarkerData.historicalEvidence!==false)throw new Error('Resident role markers must remain gameplay-only, not historical evidence');
 for(const [id,marker] of Object.entries(roleMarkerData.characters)){
-  if(marker.pattern.length!==8||marker.pattern.some(row=>row.length!==8||/[^.#*+@!]/.test(row)))throw new Error(`Invalid 8×8 role marker for ${id}`);
+  if(marker.pattern.length!==8||marker.pattern.some(row=>row.length!==8||/[^.#*+@!~$]/.test(row)))throw new Error(`Invalid 8×8 role marker for ${id}`);
   if(!props[id])throw new Error(`Role marker has no resident sprite profile: ${id}`);
   props[id]=[marker.labelKo,marker.pattern];
 }
@@ -132,6 +132,8 @@ function makeSheet(card, roleProp, identity) {
         else if(cell==='+') p(px+col,py+row,colors.paper);
         else if(cell==='@') p(px+col,py+row,colors.highlight);
         else if(cell==='!') p(px+col,py+row,colors.proofInk);
+        else if(cell==='~') p(px+col,py+row,'#287985');
+        else if(cell==='$') p(px+col,py+row,'#315f89');
       }
     }
     // Small wardrobe accent is individual and survives walk-frame animation.
@@ -143,7 +145,7 @@ function makeSheet(card, roleProp, identity) {
   return Buffer.concat([Buffer.from([137,80,78,71,13,10,26,10]),chunk('IHDR',ihdr),chunk('IDAT',deflateSync(scan,{level:9})),chunk('IEND',Buffer.alloc(0))]);
 }
 function roleMarkerSvg(marker, id) {
-  const palette = { '#': '#30251f', '*': '#c49c62', '+': '#e2d3ae', '@': '#ead29c', '!': '#994333' };
+  const palette = { '#': '#30251f', '*': '#c49c62', '+': '#e2d3ae', '@': '#ead29c', '!': '#994333', '~': '#287985', '$': '#315f89' };
   const paths = Object.entries(palette).map(([cell, color]) => {
     const pathData = marker.pattern.flatMap((row, y) => [...row].flatMap((value, x) => value === cell ? [`M${8+x} ${8+y}h1v1h-1z`] : [])).join('');
     return pathData ? `<path fill="${color}" d="${pathData}"/>` : '';

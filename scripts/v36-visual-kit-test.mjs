@@ -280,12 +280,12 @@ const roleMarkerData = JSON.parse(await fs.readFile(path.join(root, 'rpg/data/re
 assert.equal(roleMarkerData.classification, 'GAMEPLAY_READABILITY_ICON_ONLY', 'role props are identified as gameplay cues');
 assert.equal(roleMarkerData.historicalEvidence, false, 'gameplay cues are not used as historical evidence');
 assert.match(roleMarkerData.noteKo, /역사적 증거가 아니다/);
-assert.equal(Object.keys(roleMarkerData.characters).length, 12, '12 ambiguous core roles receive a larger map-scale marker');
+assert.equal(Object.keys(roleMarkerData.characters).length, 14, '14 ambiguous core roles receive a larger map-scale marker');
 for (const [id, marker] of Object.entries(roleMarkerData.characters)) {
   assert.ok(residentIds.includes(id), `${id} is an active resident`);
   assert.ok(marker.labelKo?.length >= 2, `${id} marker has an explicit role label`);
   assert.equal(marker.pattern.length, 8, `${id} marker height`);
-  assert.ok(marker.pattern.every(row => row.length === 8 && /^[.#*+@!]{8}$/.test(row)), `${id} marker is an 8×8 pixel design`);
+  assert.ok(marker.pattern.every(row => row.length === 8 && /^[.#*+@!~$]{8}$/.test(row)), `${id} marker is an 8×8 pixel design`);
 }
 const residentAssets = await Promise.all(residentIds.map(async id => {
   const card = JSON.parse(await fs.readFile(path.join(root, `rpg/characters/${id}.json`), 'utf8'));
