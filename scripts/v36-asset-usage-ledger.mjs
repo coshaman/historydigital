@@ -1,6 +1,13 @@
 import { readFile, writeFile } from 'node:fs/promises';
 
 const file = 'rpg/assets/ASSET_USAGE_V36.csv';
+const sourceRegister = JSON.parse(await readFile('docs/v36/historical-map-source-register.json', 'utf8'));
+const sourceById = new Map(sourceRegister.sources.map(source => [source.sourceId, source]));
+const requireSource = (sourceId, sourceUrl) => {
+  const source = sourceById.get(sourceId);
+  if (!source || source.sourceUrl !== sourceUrl) throw new Error(`Missing or mismatched source register record: ${sourceId}`);
+  return source;
+};
 const definitions = [
   ['MASONRY_DARK_BLOCK','짙은 블록 석재 표면','CITY_MASONRY'],
   ['MASONRY_WORN_SLAB','닳은 넓은 석재 표면','CITY_MASONRY'],
@@ -101,7 +108,29 @@ const rows = lines.slice(1).map((line, index) => {
   columns[1] = tileKey;
   columns[2] = descriptionKo;
   columns[3] = category;
-  if (gid === 63) {
+  if (gid === 19) {
+    const sourceId = 'V36-ART-FEDOTOV-FLUG-CHAIR-1846';
+    const sourceUrl = 'https://rusmuseumvrm.ru/data/collections/drawings/r-7740/index.php';
+    requireSource(sourceId, sourceUrl);
+    columns[4] = 'CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE';
+    columns[5] = sourceId;
+    columns[6] = sourceUrl;
+    columns[7] = '제한적 도판 참고: 1846–1847년 Fedotov의 그림에는 둥근 등받이 의자와 판재형 등받이 의자가 보인다. 이 타일은 높은 등받이와 가는 지지대의 일반적 형태만 참고한다. 정확한 형태·목재·색·천·필기용 기능은 미검증이다.';
+  } else if (gid >= 46 && gid <= 49) {
+    const sourceId = 'V36-ART-WESTERLING-NEVSKY-1847';
+    const sourceUrl = 'https://rusmuseumvrm.ru/data/collections/drawings/r-60382/index.php';
+    requireSource(sourceId, sourceUrl);
+    columns[4] = 'UNVERIFIED_RECONSTRUCTION';
+    columns[5] = sourceId;
+    columns[6] = sourceUrl;
+    const notes = {
+      46: 'UNVERIFIED_RECONSTRUCTION: 1847년 네프스키 전망은 거리와 마차 장면의 맥락만 뒷받침한다. 작은 도판은 개별 포석·재료·회색 문양을 보여주지 않으며, 이 16px 타일의 표면은 미검증이다.',
+      47: 'UNVERIFIED_RECONSTRUCTION: 1847년 네프스키 전망은 거리와 마차 장면의 맥락만 뒷받침한다. 작은 도판은 개별 포석·재료·밝은 회색 문양을 보여주지 않으며, 이 16px 타일의 표면은 미검증이다.',
+      48: 'UNVERIFIED_RECONSTRUCTION: 1847년 네프스키 전망은 거리와 마차 장면의 맥락만 뒷받침한다. 작은 도판은 포석의 마모·재료·색을 확인할 만큼 세밀하지 않아 이 16px 타일은 미검증이다.',
+      49: 'UNVERIFIED_RECONSTRUCTION: 1847년 네프스키 전망은 거리 장면의 맥락만 뒷받침하며, 수선된 포석을 확인할 수 없다. 이 16px 타일의 개별 돌·재료·수선 흔적은 미검증이다.',
+    };
+    columns[7] = notes[gid];
+  } else if (gid === 63) {
     if (columns[4] !== 'CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE' || columns[5] !== 'V36-ART-LABASTIDE-HAWKER-TRAY-1845' || columns[6] !== 'https://rusmuseumvrm.ru/data/collections/drawings/r-24373/index.php') {
       throw new Error('GID 63 must identify the exact Russian Museum Labastide peddler-with-tray record R-24373.');
     }
@@ -139,5 +168,12 @@ const rows = lines.slice(1).map((line, index) => {
   }
   return columns.map(quote).join(',');
 });
-await writeFile(file, `${headers}\n${rows.join('\n')}\n`, 'utf8');
+const serialized = `${headers}\n${rows.join('\n')}\n`;
+const parsedRows = serialized.trimEnd().split(/\r?\n/).slice(1).map(line => [...line.matchAll(/"((?:[^"]|"")*)"/g)].map(match => match[1].replaceAll('""','"')));
+if (parsedRows.filter(row => row[4] === 'CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE').length !== 5) throw new Error('expected exactly five bounded source-inspired environmental tiles');
+for (const gid of [19, 46, 47, 48, 49]) {
+  const row = parsedRows[gid - 1];
+  if (!row[5] || !row[6] || !sourceById.has(row[5])) throw new Error(`GID ${gid} lost its registered source context`);
+}
+await writeFile(file, serialized, 'utf8');
 console.log(JSON.stringify({ status: 'PASS', entries: rows.length, uniqueTileKeys: new Set(definitions.map(row => row[0])).size, genericLabels: 0 }));
