@@ -17,6 +17,7 @@
         "V36-GUIDE-PUSHKAREV-1843",
         "V36-MAP-TSYLOV-1849",
         "V36-ART-WESTERLING-NEVSKY-1847",
+        "V36-ART-FEDOTOV-FLUG-CHAIR-1846",
         "V36-ART-RUSSIAN-MUSEUM-COLLMANN-1840S",
         "V36-PHYSIOLOGY-PETERSBURG-1845",
         "V36-ART-KOLLMAN-FISH-SELLERS-1830S",
@@ -29,6 +30,7 @@
         "https://www.prlib.ru/item/441202",
         "https://rusneb.ru/catalog/000200_000018_v19_rc_1287364/",
         "https://rusmuseumvrm.ru/data/collections/drawings/r-60382/index.php",
+        "https://rusmuseumvrm.ru/data/collections/drawings/r-7740/index.php",
         "https://rusmuseumvrm.ru/online_resources/art_gallery/spb._gorod_i_gorozhane/index.php?lang=en&p=0&page=3&ps=60&show=desc&t=830",
         "https://www.prlib.ru/section/1327906",
         "https://rusmuseumvrm.ru/data/collections/drawings/r-5783/index.php",
@@ -37,7 +39,7 @@
         "https://rusneb.ru/catalog/000199_000009_009492648/",
         "https://compuart.ru/article/23289"
       ],
-      "notes": "Original project pixel art. Row-level evidence in ASSET_USAGE_V36.csv separates four bounded period-art asset inspirations from 15 unverified surface tiles and 20 unverified props. The 1847 Westerling view informs the Nevsky scene's broad facade scale and carriage-rich street activity only; GID 46–49 remain unverified as cobblestone patterns, materials, wear, and pixel colors. Russian Museum records for market assets support only depicted subjects, not exact pixel shapes, materials, coordinates, or a fixed 1847 location. The 1849 atlas is later comparison, not direct proof of 1847 paving. Water tile GID 85 indicates map geography only and does not establish a historical water color or texture; no museum scan is embedded."
+      "notes": "Original project pixel art. Row-level evidence in ASSET_USAGE_V36.csv records five bounded period-art inspirations, including GID 19's limited chair-silhouette reference. The 1847 Westerling view informs the Nevsky scene's broad facade scale and carriage-rich street activity only; GID 46–49 remain unverified as cobblestone patterns, materials, wear, and pixel colors. The Fedotov drawing informs only the presence of a raised-back chair; GID 19's exact shape, color, material, upholstery, and writing function remain project-authored interpretations. Russian Museum records for market assets support only depicted subjects, not exact pixel shapes, materials, coordinates, or a fixed 1847 location. The 1849 atlas is later comparison, not direct proof of 1847 paving. Water tile GID 85 indicates map geography only and does not establish a historical water color or texture; no museum scan is embedded."
     },
     {
       "id": "sprite-clerk_alexei",

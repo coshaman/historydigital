@@ -98,6 +98,12 @@ assert.ok(nevskyViewSource?.sourceUrl.endsWith('/r-60382/index.php') && nevskyVi
 assert.ok(nevskyViewSource?.visualFeature.includes('does not resolve individual paving stones') && nevskyViewSource?.gameTransformation.includes('remain UNVERIFIED_RECONSTRUCTION'), 'the city-view source is restricted to scene context and does not certify cobblestone details');
 assert.ok(nevskyViewSource?.rights.includes('not copied or redistributed'), 'the 1847 museum watercolor is not redistributed');
 assert.ok(provenance.assets.find(asset => asset.id === 'petersburg-tiles')?.sourceIds.includes(nevskyViewSourceId), 'the tile-atlas provenance links the contextual Nevsky view');
+const fedotovChairSourceId = 'V36-ART-FEDOTOV-FLUG-CHAIR-1846';
+const fedotovChairSource = sourceRegister.sources.find(source => source.sourceId === fedotovChairSourceId);
+assert.ok(fedotovChairSource?.sourceUrl.endsWith('/r-7740/index.php') && fedotovChairSource?.eraRange === '1846–1847', 'the exact 1846–1847 Fedotov chair drawing is registered');
+assert.ok(fedotovChairSource?.visualFeature.includes('rounded, open back') && fedotovChairSource?.gameTransformation.includes('writing chair are project-authored interpretations'), 'the chair reference records visible form and limits its interpretation');
+assert.ok(fedotovChairSource?.rights.includes('not copied or redistributed'), 'the Fedotov drawing is not redistributed');
+assert.ok(provenance.assets.find(asset => asset.id === 'petersburg-tiles')?.sourceIds.includes(fedotovChairSourceId), 'the tile-atlas provenance links the bounded chair reference');
 const knownSourceIds = new Set(sourceRegister.sources.map(source => source.sourceId));
 const firewoodSourceId = 'V36-ART-SHCHEDROVSKY-WATER-CARRIER-1845';
 const firewoodSource = sourceRegister.sources.find(source => source.sourceId === firewoodSourceId);
@@ -202,6 +208,15 @@ for (const [index, line] of usageRows.slice(1).entries()) {
   const fields = [...line.matchAll(/"((?:[^"]|"")*)"/g)].map(match => match[1].replaceAll('""', '"'));
   const gid = Number(fields[0]);
   if (gid <= 45) {
+    if (gid === 19) {
+      assert.equal(fields[1], 'CHAIR_WRITING');
+      assert.equal(fields[4], 'CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE');
+      assert.equal(fields[5], fedotovChairSourceId);
+      assert.equal(fields[6], fedotovChairSource.sourceUrl);
+      assert.match(fields[7], /높은 등받이와 가는 지지대의 일반적 형태만 참고/);
+      assert.match(fields[7], /기능은 미검증/);
+      continue;
+    }
     assert.equal(fields[4], 'UNVERIFIED_RECONSTRUCTION', `GID ${gid} has no checked object-level visual source`);
     assert.equal(fields[5], ''); assert.equal(fields[6], '');
     assert.match(fields[7], /UNVERIFIED_RECONSTRUCTION/);
@@ -257,6 +272,7 @@ for (const [index, line] of usageRows.slice(1).entries()) {
     assert.match(fields[7], /UNVERIFIED_RECONSTRUCTION/);
   }
 }
+assert.equal(usageRows.slice(1).filter(line => line.includes('"CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE"')).length, 5, 'five environmental assets have bounded source-inspected inspirations');
 
 const districtData = JSON.parse(await fs.readFile(path.join(root, 'rpg/data/city-districts-v36.json'), 'utf8'));
 const residentIds = [...new Set(districtData.districts.flatMap(district => district.residentIds ?? []))];

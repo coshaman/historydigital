@@ -243,6 +243,22 @@
       "rightsTermsUrl": "https://rusmuseumvrm.ru/terms/index.php"
     },
     {
+      "sourceId": "V36-ART-FEDOTOV-FLUG-CHAIR-1846",
+      "title": "P. A. Fedotov, K. K. Pflug and His Housekeeper Frau Hun",
+      "sourceType": "PERIOD_DRAWING",
+      "sourceUrl": "https://rusmuseumvrm.ru/data/collections/drawings/r-7740/index.php",
+      "verifiedMetadata": "The State Russian Museum catalog identifies this graphite drawing on paper as a work by Pavel Fedotov dated 1846–1847, inventory R-7740, previously in K. K. Pflug's collection in Saint Petersburg.",
+      "eraRange": "1846–1847",
+      "locale": "Saint Petersburg; catalog records K. K. Pflug's former collection in Petersburg",
+      "pageOrFolio": "Russian Museum object record R-7740; catalog record and displayed drawing visually inspected 2026-11-05.",
+      "visualFeature": "The monochrome drawing includes two chair forms beside the seated figures: one has a rounded, open back and long legs; another has a straighter, paneled back and narrow supports. The image does not establish wood species, color, upholstery material, room location, or a writing-specific function.",
+      "confidence": "HIGH for artist, title, inventory, and 1846–1847 date from the museum catalog; MEDIUM for the visible chair silhouettes; LOW for material, color, or furniture function.",
+      "rights": "Russian Museum catalog record and displayed drawing reviewed; reproduction rights were not cleared. The museum image is not copied or redistributed; the game tile remains original project artwork.",
+      "creditedArtist": "Pavel Fedotov (1815–1852), as cataloged.",
+      "gameTransformation": "GID 19 is informed only by the presence of a raised chair back and narrow supports in this 1846–1847 Petersburg drawing. The pixel tile's precise shape, color, wood, upholstery, and designation as a writing chair are project-authored interpretations, not verified historical details.",
+      "rightsTermsUrl": "https://rusmuseumvrm.ru/terms/index.php"
+    },
+    {
       "sourceId": "V36-ART-SHCHEDROVSKY-WATER-CARRIER-1845",
       "title": "Shchedrovsky, Carpenter's Wife, Water Carrier from Vasilievsky Island, White Seamstress, and Wood Carrier",
       "sourceType": "PERIOD_PRINT",
