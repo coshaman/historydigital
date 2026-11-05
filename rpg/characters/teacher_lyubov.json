@@ -150,7 +150,13 @@
         "x": 17,
         "y": 13
       },
-      "activityKo": "아이들에게 글 읽기를 가르친다"
+      "activityKo": "아이들에게 글 읽기를 가르친다",
+      "workAction": {
+        "id": "V36_TEACHER_PREPARE_LESSON",
+        "outputKind": "수업 준비",
+        "outputKo": "수업할 글과 학생별 연습 분량을 준비한다",
+        "durationMinutes": 20
+      }
     },
     {
       "atMinute": 600,
@@ -177,7 +183,13 @@
         "x": 17,
         "y": 13
       },
-      "activityKo": "학생별 연습 분량을 정리한다"
+      "activityKo": "학생별 연습 분량을 정리한다",
+      "workAction": {
+        "id": "V36_TEACHER_REVIEW_EXERCISES",
+        "outputKind": "수업 정리",
+        "outputKo": "학생별 연습 종이를 확인하고 다음 수업의 분량을 정한다",
+        "durationMinutes": 20
+      }
     }
   ],
   "portrait": {

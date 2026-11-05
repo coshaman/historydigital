@@ -163,7 +163,14 @@
         "x": 11,
         "y": 13
       },
-      "activityKo": "교정쇄와 활자를 살핀다"
+      "activityKo": "교정쇄와 활자를 살핀다",
+      "workAction": {
+        "id": "V36_PRINTER_MARK_PROOF",
+        "outputKind": "인쇄 교정",
+        "outputKo": "교정쇄의 날짜·출처·오자를 표시한다",
+        "durationMinutes": 20,
+        "inventoryItemKo": "수정 표시가 된 교정쇄"
+      }
     },
     {
       "atMinute": 600,
@@ -181,7 +188,13 @@
         "x": 16,
         "y": 11
       },
-      "activityKo": "활자를 정리하고 인쇄비를 맞춘다"
+      "activityKo": "활자를 정리하고 인쇄비를 맞춘다",
+      "workAction": {
+        "id": "V36_PRINTER_RECONCILE_COST",
+        "outputKind": "인쇄 회계",
+        "outputKo": "활자 정리와 인쇄비 항목을 주문 장부에 맞춘다",
+        "durationMinutes": 20
+      }
     },
     {
       "atMinute": 720,

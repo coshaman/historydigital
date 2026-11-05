@@ -7,6 +7,7 @@ const NPC_REACTION_FAMILIES = Object.freeze([
   ['exchanges', (exchange, name) => `목격한 거래: ${name(exchange.hostId)}와 ${name(exchange.recipientHostId, '이웃')}가 ${exchange.itemKo} 거래`],
   ['meals', (meal, name) => `목격한 끼니: ${name(meal.hostId)}가 ${meal.itemKo}로 끼니를 챙김`],
   ['restRecoveries', (rest, name) => `목격한 휴식: ${name(rest.hostId)}가 일손을 멈추고 숨을 돌림`],
+  ['workOutputs', (work, name) => `목격한 일의 결과: ${name(work.hostId)} ${work.outputKo}`],
 ]);
 
 const CIVIC_REACTION_TYPES = Object.freeze(['CITY_PURCHASE', 'NEWSPAPER_PUBLISHED', 'NEWSPAPER_CIRCULATED', 'POLICE_CUSTODY']);

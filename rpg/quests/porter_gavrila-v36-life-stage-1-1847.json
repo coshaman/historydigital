@@ -55,6 +55,9 @@
         "recordKo": "운송표 대조 메모가 남습니다",
         "riskKo": "동료가 자기 짐을 찾느라 늦어질 수 있습니다"
       },
+      "requiredPresentHostIds": [
+        "coachman_timofey"
+      ],
       "resultKo": "티모페이의 표에는 같은 매듭 표시가 없었다. 다른 운송인의 기록도 확인하기로 했다.",
       "resultFlag": "GAVRILA_CARRYING_TALLY_1847_STAGE_1_RESULT_2",
       "followupTitleKo": "표가 없는 꾸러미",

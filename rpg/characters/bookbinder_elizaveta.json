@@ -147,7 +147,14 @@
         "x": 6,
         "y": 12
       },
-      "activityKo": "속장을 꿰매고 표지 풀을 바른다"
+      "activityKo": "속장을 꿰매고 표지 풀을 바른다",
+      "workAction": {
+        "id": "V36_BOOKBINDER_SEW_SIGNATURES",
+        "outputKind": "제본 작업",
+        "outputKo": "속장을 꿰매고 실이 느슨한 쪽을 다시 고정한다",
+        "durationMinutes": 20,
+        "inventoryItemKo": "제본 중인 책 한 권"
+      }
     },
     {
       "atMinute": 600,
@@ -165,7 +172,13 @@
         "x": 20,
         "y": 12
       },
-      "activityKo": "책방에 제본한 묶음을 전달한다"
+      "activityKo": "책방에 제본한 묶음을 전달한다",
+      "workAction": {
+        "id": "V36_BOOKBINDER_DELIVERY_REGISTER",
+        "outputKind": "제본 인수",
+        "outputKo": "책방에 보낼 묶음의 수와 인수 시각을 기록한다",
+        "durationMinutes": 20
+      }
     },
     {
       "atMinute": 960,

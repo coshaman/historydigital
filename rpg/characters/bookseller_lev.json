@@ -163,7 +163,13 @@
         "x": 25,
         "y": 16
       },
-      "activityKo": "가판의 책을 정리한다"
+      "activityKo": "가판의 책을 정리한다",
+      "workAction": {
+        "id": "V36_BOOKSELLER_SORT_STOCK",
+        "outputKind": "서점 재고",
+        "outputKo": "책과 잡지를 주제별로 나누고 가판 목록을 고친다",
+        "durationMinutes": 20
+      }
     },
     {
       "atMinute": 600,
@@ -181,7 +187,13 @@
         "x": 11,
         "y": 14
       },
-      "activityKo": "서점 안 예약 장부를 펴고 책과 잡지의 인도 순서를 정한다"
+      "activityKo": "서점 안 예약 장부를 펴고 책과 잡지의 인도 순서를 정한다",
+      "workAction": {
+        "id": "V36_BOOKSELLER_RESERVATION_LEDGER",
+        "outputKind": "예약 관리",
+        "outputKo": "예약한 독자의 이름과 인도 순서를 장부에 대조한다",
+        "durationMinutes": 20
+      }
     },
     {
       "atMinute": 720,

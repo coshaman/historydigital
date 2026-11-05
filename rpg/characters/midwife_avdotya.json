@@ -149,7 +149,13 @@
         "x": 10,
         "y": 14
       },
-      "activityKo": "호출 시간과 가져갈 물품을 확인한다"
+      "activityKo": "호출 시간과 가져갈 물품을 확인한다",
+      "workAction": {
+        "id": "V36_MIDWIFE_PREPARE_CALL",
+        "outputKind": "산파 방문",
+        "outputKo": "호출 시각과 가져갈 물품을 방문 순서표에 적는다",
+        "durationMinutes": 20
+      }
     },
     {
       "atMinute": 600,
@@ -176,7 +182,13 @@
         "x": 10,
         "y": 14
       },
-      "activityKo": "방문 순서와 비용을 기록한다"
+      "activityKo": "방문 순서와 비용을 기록한다",
+      "workAction": {
+        "id": "V36_MIDWIFE_CLOSE_VISITS",
+        "outputKind": "돌봄 기록",
+        "outputKo": "방문 순서와 아직 확인하지 못한 비용을 구분해 기록한다",
+        "durationMinutes": 20
+      }
     }
   ],
   "portrait": {

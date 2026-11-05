@@ -1085,7 +1085,7 @@ function inspect(object) {
     const choiceStates = questChoices(activeQuest, state.player.embodiment, knowledgeForHost(state, state.player.embodiment), state);
     const opts = choiceStates.map(({ action, missingSourceId }) => ({ label: action.labelKo, disabled: Boolean(missingSourceId), subcopy: `${missingSourceId ? `먼저 이 몸으로 「${sourceRecords.get(missingSourceId)?.titleKo ?? '관련 자료'}」을 현장에서 읽어야 합니다.\n` : ''}${action.subcopyKo}`, run: () => {
       const result = performQuestAction(state, { questId: activeQuest.id, hostId: state.player.embodiment, actionId: action.id, objectId: object.id }, { quests: questList, maps });
-      if (!result.ok) { sayRecord(result.reason === 'social_partner_not_present' ? '이 일은 상대와 직접 만나야 합니다. 같은 장소에서 곁에 있는 시간에 다시 이야기해 보세요.' : `처리할 수 없음 · ${result.reason}`); return; }
+      if (!result.ok) { sayRecord(result.reason === 'social_partner_not_present' || result.reason === 'required_participant_not_present' ? '이 선택은 이름이 적힌 사람과 직접 확인해야 합니다. 그 사람이 같은 장소 가까이에 있을 때 다시 해 보세요.' : `처리할 수 없음 · ${result.reason}`); return; }
       setState(result.state);
       tutorialAdvance('target');
       const actions = continuationFor(activeQuest);
@@ -1233,9 +1233,10 @@ function interact() {
         return { label: `문을 지나 ${destination}로`, subcopy: '실제 출입문을 통해 장소를 옮깁니다.', run: () => inspect(item) };
       }
       const quest = questsById.get(props.questId);
-      const partner = quest?.socialChain ? cards.find(person => person.id === quest.socialChain.partnerHostId)?.displayNameKo : '';
-      const partnerNote = partner ? ` · ${partner}가 같은 장소 가까이에 있을 때 진행할 수 있습니다.` : '';
-      return { label: `사건 살펴보기 · ${quest?.titleKo ?? '현장 기록'}`, subcopy: `${quest?.premiseKo ?? ''}${partnerNote}`, run: () => inspect(item) };
+      const participantIds = [...new Set([quest?.socialChain?.partnerHostId, ...(quest?.actions ?? []).flatMap(action => action.requiredPresentHostIds ?? [])].filter(Boolean))];
+      const participants = participantIds.map(id => cards.find(person => person.id === id)?.displayNameKo).filter(Boolean);
+      const participantNote = participants.length ? ` · ${participants.join('·')}가 같은 장소 가까이에 있어야 하는 선택이 있습니다.` : '';
+      return { label: `사건 살펴보기 · ${quest?.titleKo ?? '현장 기록'}`, subcopy: `${quest?.premiseKo ?? ''}${participantNote}`, run: () => inspect(item) };
     });
     say('가까이에 사람과 문서가 있다', '살펴볼 사람이나 주변의 문서·출입문을 고르세요.', [...peopleChoices, ...nearbyObjects]);
     return;

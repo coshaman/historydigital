@@ -147,7 +147,13 @@
         "x": 7,
         "y": 10
       },
-      "activityKo": "빈방과 식사 준비를 확인한다"
+      "activityKo": "빈방과 식사 준비를 확인한다",
+      "workAction": {
+        "id": "V36_INNKEEPER_PREPARE_ROOMS",
+        "outputKind": "여관 운영",
+        "outputKo": "빈방과 식사 준비를 확인해 손님 명부를 갱신한다",
+        "durationMinutes": 20
+      }
     },
     {
       "atMinute": 600,
@@ -174,7 +180,13 @@
         "x": 11,
         "y": 14
       },
-      "activityKo": "여관 안쪽 방의 빈자리와 저녁 손님 명부를 확인한다"
+      "activityKo": "여관 안쪽 방의 빈자리와 저녁 손님 명부를 확인한다",
+      "workAction": {
+        "id": "V36_INNKEEPER_EVENING_REGISTER",
+        "outputKind": "여관 접수",
+        "outputKo": "저녁 손님의 이름과 빈자리 수를 접수 장부에 맞춘다",
+        "durationMinutes": 20
+      }
     }
   ],
   "portrait": {

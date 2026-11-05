@@ -155,7 +155,13 @@
         "x": 19,
         "y": 12
       },
-      "activityKo": "면담에 필요한 서류를 챙긴다"
+      "activityKo": "면담에 필요한 서류를 챙긴다",
+      "workAction": {
+        "id": "V36_NOBLE_PREPARE_PAPERS",
+        "outputKind": "개인 서류",
+        "outputKo": "면담에 필요한 서류와 약속 어음의 날짜를 대조한다",
+        "durationMinutes": 20
+      }
     },
     {
       "atMinute": 780,
@@ -173,7 +179,13 @@
         "x": 15,
         "y": 13
       },
-      "activityKo": "지급 날짜를 다시 적는다"
+      "activityKo": "지급 날짜를 다시 적는다",
+      "workAction": {
+        "id": "V36_NOBLE_REVIEW_PAYMENT_DATE",
+        "outputKind": "채무 관리",
+        "outputKo": "늦어진 지급 날짜를 다시 확인해 가족 지출표에 적는다",
+        "durationMinutes": 20
+      }
     }
   ],
   "portrait": {

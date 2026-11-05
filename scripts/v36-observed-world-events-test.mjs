@@ -73,14 +73,15 @@ const visibleNpcReactions = formatObservedNpcReactions([{
   exchanges: [{ hostId: 'baker_fyodor', recipientHostId: 'market_nadezhda', itemKo: '빵 한 묶음', witnessedByPlayer: true }],
   meals: [{ hostId: 'market_nadezhda', itemKo: '빵', witnessedByPlayer: true }],
   restRecoveries: [{ hostId: 'porter_gavrila', witnessedByPlayer: true }],
+  workOutputs: [{ hostId: 'clerk_alexei', outputKo: '접수부에 문서 번호와 도착 시각을 적음', witnessedByPlayer: true }],
   goals: [{ hostId: 'clerk_alexei', activityKo: '내부 목표일 뿐 세계 행동은 아님', witnessedByPlayer: true }],
 }, {
   date: '1847-06-01', eventType: 'NPC_SIMULATION',
   stateChanges: [{ hostId: 'clerk_alexei', activityKo: '다른 구역의 비공개 행동', witnessedByPlayer: false }],
 }], reactionResidents);
-assert.equal(OBSERVED_NPC_REACTION_FAMILY_COUNT, 8,
+assert.equal(OBSERVED_NPC_REACTION_FAMILY_COUNT, 9,
   'only witnessed physical or social resident outcomes count; internal plan selection is excluded');
-assert.equal(visibleNpcReactions.length, 8,
+assert.equal(visibleNpcReactions.length, 9,
   'the same formatter used by the journal renders each witnessed outcome family once');
 assert.ok(visibleNpcReactions.some(line => line.includes('접수 장부를 편다')));
 assert.ok(!visibleNpcReactions.some(line => line.includes('내부 목표일 뿐') || line.includes('비공개 행동')),

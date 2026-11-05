@@ -1,8 +1,8 @@
 {
   "schemaVersion": "V36_ACCEPTANCE_1",
   "status": "PASS",
-  "generatedAt": "2026-11-04T19:15:27.304Z",
-  "completedSteps": 44,
+  "generatedAt": "2026-11-05T01:06:39.944Z",
+  "completedSteps": 45,
   "results": [
     {
       "id": "static-build",
@@ -10,7 +10,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 4059
+      "durationMs": 1893
     },
     {
       "id": "legacy-contract-regression",
@@ -18,7 +18,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 1760217
+      "durationMs": 1551541
     },
     {
       "id": "36-resident-goals-and-roster",
@@ -26,7 +26,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 2476
+      "durationMs": 1201
     },
     {
       "id": "six-districts-interiors-and-paths",
@@ -34,7 +34,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 4379
+      "durationMs": 3171
     },
     {
       "id": "asset-pixels-and-usage",
@@ -42,7 +42,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 6813
+      "durationMs": 8690
     },
     {
       "id": "asset-provenance-and-reference-integrity",
@@ -50,7 +50,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 2377
+      "durationMs": 965
     },
     {
       "id": "historical-provenance-regression",
@@ -58,7 +58,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 2450
+      "durationMs": 1047
     },
     {
       "id": "all-resident-possession-and-personal-quests",
@@ -66,7 +66,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 10591
+      "durationMs": 10544
     },
     {
       "id": "personal-quest-coverage-and-stage-links",
@@ -74,7 +74,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 3726
+      "durationMs": 2415
     },
     {
       "id": "three-deterministic-24-hour-city-replays",
@@ -82,7 +82,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 88836
+      "durationMs": 66454
     },
     {
       "id": "social-chain-and-presence-gates",
@@ -90,7 +90,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 3727
+      "durationMs": 2610
     },
     {
       "id": "expanded-personal-life-chains",
@@ -98,7 +98,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 4434
+      "durationMs": 3320
     },
     {
       "id": "physical-social-exchange",
@@ -106,7 +106,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 20072
+      "durationMs": 23465
     },
     {
       "id": "opinion-routing",
@@ -114,7 +114,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 2668
+      "durationMs": 1131
     },
     {
       "id": "ending-quest-scope",
@@ -122,7 +122,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 2360
+      "durationMs": 889
     },
     {
       "id": "five-ending-route-semantics",
@@ -130,7 +130,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 11169
+      "durationMs": 12282
     },
     {
       "id": "36-character-voice-differentiation",
@@ -138,7 +138,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 2361
+      "durationMs": 1074
     },
     {
       "id": "vercel-api-contract-and-fallback-safety",
@@ -146,7 +146,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 2812
+      "durationMs": 2100
     },
     {
       "id": "provider-failure-diagnostics-persist-safely",
@@ -154,7 +154,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 2712
+      "durationMs": 1930
     },
     {
       "id": "vercel-ai-state-safety",
@@ -162,7 +162,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 3274
+      "durationMs": 1601
     },
     {
       "id": "missing-key-is-not-misreported-as-generation",
@@ -170,7 +170,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 10172
+      "durationMs": 9396
     },
     {
       "id": "vercel-static-output-browser-smoke",
@@ -178,7 +178,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 16000
+      "durationMs": 16532
     },
     {
       "id": "desktop-mobile-and-reduced-motion-performance",
@@ -186,7 +186,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 2623
+      "durationMs": 941
     },
     {
       "id": "mobile-layout-regression",
@@ -194,7 +194,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 2470
+      "durationMs": 1106
     },
     {
       "id": "real-browser-personal-quest-completion",
@@ -202,7 +202,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 11223
+      "durationMs": 10830
     },
     {
       "id": "six-resident-class-quest-browser-routes",
@@ -210,7 +210,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 35770
+      "durationMs": 37261
     },
     {
       "id": "historical-opinion-board-and-save-load",
@@ -218,7 +218,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 19758
+      "durationMs": 21414
     },
     {
       "id": "all-14-maps-at-four-viewport-sizes",
@@ -226,7 +226,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 342517
+      "durationMs": 288838
     },
     {
       "id": "five-endings-and-campaign-browser-routes",
@@ -234,7 +234,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 1579846
+      "durationMs": 1632372
     },
     {
       "id": "all-36-residents-complete-three-stage-life-arcs",
@@ -242,7 +242,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 15371
+      "durationMs": 7526
     },
     {
       "id": "resident-quest-bundle-and-target-priority-browser",
@@ -250,7 +250,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 22216
+      "durationMs": 10396
     },
     {
       "id": "36-resident-income-pressure-selects-real-livelihood-route",
@@ -258,7 +258,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 3223
+      "durationMs": 1251
     },
     {
       "id": "world-journal-only-reveals-observed-events",
@@ -266,7 +266,15 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 3281
+      "durationMs": 1321
+    },
+    {
+      "id": "36-residents-produce-audited-work-outcomes",
+      "script": "v36-occupational-work-test",
+      "status": "PASS",
+      "exitCode": 0,
+      "signal": null,
+      "durationMs": 3175
     },
     {
       "id": "need-history-and-policy-based-goal-utility",
@@ -274,7 +282,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 8581
+      "durationMs": 1146
     },
     {
       "id": "daily-intentions-survive-old-save-migration",
@@ -282,7 +290,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 3644
+      "durationMs": 1722
     },
     {
       "id": "first-six-personal-life-goals-drive-physical-daily-visits",
@@ -290,7 +298,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 16674
+      "durationMs": 18248
     },
     {
       "id": "second-six-personal-life-goals-drive-available-physical-daily-visits",
@@ -298,7 +306,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 15003
+      "durationMs": 18469
     },
     {
       "id": "third-six-personal-life-goals-drive-physical-daily-visits",
@@ -306,7 +314,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 15647
+      "durationMs": 15538
     },
     {
       "id": "fourth-six-personal-life-goals-drive-physical-daily-visits",
@@ -314,7 +322,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 15220
+      "durationMs": 17652
     },
     {
       "id": "fifth-six-personal-life-goals-drive-physical-daily-visits",
@@ -322,7 +330,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 14910
+      "durationMs": 16245
     },
     {
       "id": "sixth-six-personal-life-goals-drive-physical-daily-visits",
@@ -330,7 +338,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 9877
+      "durationMs": 18801
     },
     {
       "id": "dynamic-environment-tile-and-visual-asset-inventory",
@@ -338,7 +346,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 3696
+      "durationMs": 2079
     },
     {
       "id": "same-date-personal-quest-continuation",
@@ -346,7 +354,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 11038
+      "durationMs": 9116
     },
     {
       "id": "vendored-three-demand-render-webgl-browser",
@@ -354,7 +362,7 @@
       "status": "PASS",
       "exitCode": 0,
       "signal": null,
-      "durationMs": 23701
+      "durationMs": 22159
     }
   ]
 }

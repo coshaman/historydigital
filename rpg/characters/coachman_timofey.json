@@ -150,7 +150,13 @@
         "x": 25,
         "y": 13
       },
-      "activityKo": "비 예보 전 운임과 마차 점검을 적은 표를 살펴본다"
+      "activityKo": "비 예보 전 운임과 마차 점검을 적은 표를 살펴본다",
+      "workAction": {
+        "id": "V36_COACHMAN_CHECK_FARE_BOARD",
+        "outputKind": "마차 운송",
+        "outputKo": "운임표와 마차 상태를 확인해 오늘 운행표에 표시한다",
+        "durationMinutes": 20
+      }
     },
     {
       "atMinute": 660,
@@ -177,7 +183,13 @@
         "x": 11,
         "y": 14
       },
-      "activityKo": "강변 길의 통행과 마차 상태를 살핀다"
+      "activityKo": "강변 길의 통행과 마차 상태를 살핀다",
+      "workAction": {
+        "id": "V36_COACHMAN_ROUTE_CONDITION",
+        "outputKind": "노상 운송",
+        "outputKo": "강변 길의 통행 상태와 바퀴 점검 결과를 운행 메모에 적는다",
+        "durationMinutes": 20
+      }
     },
     {
       "atMinute": 1020,

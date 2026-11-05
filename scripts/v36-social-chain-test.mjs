@@ -63,7 +63,25 @@ for(const [id,stages] of chains){
     state=result.state;state.hosts[partner].mapId=priorPartnerMap;state.hosts[partner].position=priorPartnerPosition;completedStages++;reciprocalUpdates++;
   }
 }
+const gavrilaQuest=quests.find(quest=>quest.id==='GAVRILA_CARRYING_TALLY_1847_STAGE_1');
+const gavrilaAction=gavrilaQuest?.actions.find(action=>action.id.endsWith('_CHOICE_2'));
+const gavrilaObject=maps[gavrilaQuest.entry.mapId].layers.find(layer=>layer.name==='Interactions').objects.find(object=>object.id===gavrilaQuest.entry.objectId);
+assert.deepEqual(gavrilaAction?.requiredPresentHostIds,['coachman_timofey'],'a choice that checks Timofey’s actual tally must declare him as a required participant');
+let gavrilaState=game.createInitialState({maps,hostCards:cards,quests,startMapId:gavrilaQuest.entry.mapId});
+const gavrilaId=gavrilaQuest.entry.requiredHostId,gavrilaPosition={x:Math.floor(gavrilaObject.x/16),y:Math.floor(gavrilaObject.y/16)};
+gavrilaState.world.currentMapId=gavrilaQuest.entry.mapId;gavrilaState.player.embodiment=gavrilaId;gavrilaState.player.position={...gavrilaPosition};
+gavrilaState.hosts[gavrilaId].mapId=gavrilaQuest.entry.mapId;gavrilaState.hosts[gavrilaId].position={...gavrilaPosition};
+gavrilaState.hosts.coachman_timofey.mapId='police-station';
+const absentTimofey=game.performQuestAction(gavrilaState,{questId:gavrilaQuest.id,hostId:gavrilaId,actionId:gavrilaAction.id,objectId:gavrilaObject.id},{quests,maps});
+assert.equal(absentTimofey.reason,'required_participant_not_present','Gavrila cannot claim to check a tally while Timofey is in another district');
+assert.equal(gavrilaState.quests[gavrilaQuest.id].status,'open','a blocked participant check cannot resolve the quest');
+gavrilaState.hosts.coachman_timofey.mapId=gavrilaQuest.entry.mapId;gavrilaState.hosts.coachman_timofey.position={x:gavrilaPosition.x+1,y:gavrilaPosition.y};
+const presentTimofey=game.performQuestAction(gavrilaState,{questId:gavrilaQuest.id,hostId:gavrilaId,actionId:gavrilaAction.id,objectId:gavrilaObject.id},{quests,maps});
+assert.equal(presentTimofey.ok,true,'the same tally-check choice resolves when Timofey is physically nearby');
+assert.equal(presentTimofey.state.quests[gavrilaQuest.id].result,gavrilaAction.id);
 const main=await readFile(path.join(root,'rpg/main.js'),'utf8');
+assert.ok(main.includes('action.requiredPresentHostIds ?? []') && main.includes('같은 장소 가까이에 있어야 하는 선택이 있습니다.'),
+  'the quest marker warns the player when a consequential choice requires a named person nearby');
 const runtimeSlugs=['baker-fyodor-life-extra-1-1847','baker-fyodor-life-extra-2-1847','baker-fyodor-life-extra-3-1847','bookseller-lev-life-1-1847','bookseller-lev-life-2-1847','bookseller-lev-life-3-1847','carter-roman-life-extra-1-1847','carter-roman-life-extra-2-1847','carter-roman-life-extra-3-1847','clerk-alexei-life-1-1847','clerk-alexei-life-2-1847','clerk-alexei-life-3-1847','editor-sofia-chain-1-stage-1-1847','editor-sofia-chain-1-stage-2-1847','editor-sofia-chain-1-stage-3-1847','housemaid-olga-chain-4-stage-1-1847','housemaid-olga-chain-4-stage-2-1847','housemaid-olga-chain-4-stage-3-1847','junior-guard-sergey-chain-6-stage-1-1847','junior-guard-sergey-chain-6-stage-2-1847','junior-guard-sergey-chain-6-stage-3-1847','landlady-polina-life-extra-1-1847','landlady-polina-life-extra-2-1847','landlady-polina-life-extra-3-1847','midwife-avdotya-chain-5-stage-1-1847','midwife-avdotya-chain-5-stage-2-1847','midwife-avdotya-chain-5-stage-3-1847','porter-gavrila-life-extra-1-1847','porter-gavrila-life-extra-2-1847','porter-gavrila-life-extra-3-1847'];
 assert.ok(runtimeSlugs.every(slug=>main.includes(`'${slug}'`)),'main runtime must load every tagged social chain stage');
 console.log(JSON.stringify({status:'PASS',socialChains:chains.size,threeStageQuestRecords:social.length,completedStages,reciprocalRelationshipUpdates:reciprocalUpdates,allChoicesDisclosePracticalRisk:true},null,2));

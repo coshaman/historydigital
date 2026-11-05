@@ -179,7 +179,13 @@
         "x": 8,
         "y": 16
       },
-      "activityKo": "하루 품을 구할 곳을 살핀다"
+      "activityKo": "하루 품을 구할 곳을 살핀다",
+      "workAction": {
+        "id": "V36_TENANT_SEEK_DAY_WORK",
+        "outputKind": "품일 찾기",
+        "outputKo": "강변 장터에서 오늘 맡을 짐일과 시작 시각을 확인한다",
+        "durationMinutes": 20
+      }
     },
     {
       "atMinute": 720,
@@ -197,7 +203,13 @@
         "x": 22,
         "y": 10
       },
-      "activityKo": "강변 장터에서 오늘 맡을 짐일을 알아보고 귀가비를 남긴다"
+      "activityKo": "강변 장터에서 오늘 맡을 짐일을 알아보고 귀가비를 남긴다",
+      "workAction": {
+        "id": "V36_TENANT_RESERVE_RETURN_FARE",
+        "outputKind": "품삯 관리",
+        "outputKo": "오늘 받은 일감과 귀가에 남겨 둘 돈을 개인 장부에 적는다",
+        "durationMinutes": 20
+      }
     }
   ],
   "portrait": {

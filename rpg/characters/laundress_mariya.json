@@ -148,7 +148,14 @@
         "x": 10,
         "y": 12
       },
-      "activityKo": "린넨을 물에 담그고 비누를 아껴 쓴다"
+      "activityKo": "린넨을 물에 담그고 비누를 아껴 쓴다",
+      "workAction": {
+        "id": "V36_LAUNDRESS_WASH_LINEN",
+        "outputKind": "세탁 노동",
+        "outputKo": "린넨을 물에 담그고 세탁물마다 맡긴 사람을 표시한다",
+        "durationMinutes": 20,
+        "inventoryItemKo": "접은 린넨 한 벌"
+      }
     },
     {
       "atMinute": 540,
@@ -184,7 +191,13 @@
         "x": 10,
         "y": 12
       },
-      "activityKo": "받은 돈과 밀린 값을 계산한다"
+      "activityKo": "받은 돈과 밀린 값을 계산한다",
+      "workAction": {
+        "id": "V36_LAUNDRESS_RECONCILE_PAYMENTS",
+        "outputKind": "세탁 정산",
+        "outputKo": "받은 세탁값과 아직 받지 못한 값을 장부에서 나눈다",
+        "durationMinutes": 20
+      }
     },
     {
       "atMinute": 900,

@@ -185,6 +185,8 @@
     "v36-build-resident-arc-bundle": "node scripts/v36-build-resident-arc-bundle.mjs",
     "v36-income-goal-test": "node scripts/v36-income-goal-test.mjs",
     "v36-observed-world-events-test": "node scripts/v36-observed-world-events-test.mjs",
+    "v36-author-occupational-actions": "node scripts/v36-author-occupational-actions.mjs",
+    "v36-occupational-work-test": "node scripts/v36-occupational-work-test.mjs",
     "v36-autonomy-utility-test": "node scripts/v36-autonomy-utility-test.mjs",
     "v36-baseline-browser": "node scripts/v36-baseline-browser-capture.mjs",
     "v36-first-slice-sim": "node scripts/v36-first-slice-simulation.mjs",

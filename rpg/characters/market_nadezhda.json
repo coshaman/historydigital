@@ -149,7 +149,13 @@
         "x": 14,
         "y": 12
       },
-      "activityKo": "시장 저울과 젖은 채소 가격표를 확인한다"
+      "activityKo": "시장 저울과 젖은 채소 가격표를 확인한다",
+      "workAction": {
+        "id": "V36_MARKET_CHECK_SCALE",
+        "outputKind": "시장 좌판",
+        "outputKo": "저울과 채소 꾸러미의 상태를 확인해 좌판 목록을 고친다",
+        "durationMinutes": 20
+      }
     },
     {
       "atMinute": 660,
@@ -167,7 +173,14 @@
         "x": 11,
         "y": 14
       },
-      "activityKo": "빵집에 채소를 건네고 젖은 물량의 값을 흥정한다"
+      "activityKo": "빵집에 채소를 건네고 젖은 물량의 값을 흥정한다",
+      "workAction": {
+        "id": "V36_MARKET_SETTLE_BREAD_ORDER",
+        "outputKind": "시장 거래",
+        "outputKo": "빵집에 넘긴 채소와 젖은 물량의 값을 정산한다",
+        "durationMinutes": 20,
+        "inventoryItemKo": "채소 꾸러미 한 몫"
+      }
     },
     {
       "atMinute": 1020,

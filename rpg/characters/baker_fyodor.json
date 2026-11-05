@@ -179,7 +179,14 @@
         "x": 11,
         "y": 14
       },
-      "activityKo": "빵집에서 오븐에 넣을 반죽과 남은 밀가루를 나눈다"
+      "activityKo": "빵집에서 오븐에 넣을 반죽과 남은 밀가루를 나눈다",
+      "workAction": {
+        "id": "V36_BAKER_PREPARE_DOUGH",
+        "outputKind": "제빵 생산",
+        "outputKo": "오븐에 넣을 반죽을 나눠 굽기 순서를 적는다",
+        "durationMinutes": 20,
+        "inventoryItemKo": "반죽 한 몫"
+      }
     },
     {
       "atMinute": 1020,
@@ -188,7 +195,13 @@
         "x": 13,
         "y": 12
       },
-      "activityKo": "오늘 장부와 남은 일을 정리한다"
+      "activityKo": "오늘 장부와 남은 일을 정리한다",
+      "workAction": {
+        "id": "V36_BAKER_CLOSE_BAKERY",
+        "outputKind": "제빵 마감",
+        "outputKo": "남은 밀가루와 오늘 주문의 인수 여부를 장부에 맞춘다",
+        "durationMinutes": 20
+      }
     }
   ],
   "portrait": {

@@ -148,7 +148,14 @@
         "x": 22,
         "y": 10
       },
-      "activityKo": "셋방에서 재봉 일감을 시작한다"
+      "activityKo": "셋방에서 재봉 일감을 시작한다",
+      "workAction": {
+        "id": "V36_LODGING_SEWING_ORDER",
+        "outputKind": "재봉 작업",
+        "outputKo": "수선할 옷감의 손상 부위와 납기 순서를 적는다",
+        "durationMinutes": 20,
+        "inventoryItemKo": "수선 중인 옷감 한 벌"
+      }
     },
     {
       "atMinute": 600,
@@ -175,7 +182,13 @@
         "x": 11,
         "y": 14
       },
-      "activityKo": "여관에서 빌린 책을 돌려주고 수선방에 쓸 도구를 찾는다"
+      "activityKo": "여관에서 빌린 책을 돌려주고 수선방에 쓸 도구를 찾는다",
+      "workAction": {
+        "id": "V36_LODGING_RETURN_BOOK_AND_TOOLS",
+        "outputKind": "대여품 관리",
+        "outputKo": "빌린 책의 반납과 수선 도구의 인수 여부를 기록한다",
+        "durationMinutes": 20
+      }
     },
     {
       "atMinute": 960,

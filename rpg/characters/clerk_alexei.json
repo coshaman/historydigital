@@ -159,7 +159,13 @@
         "x": 11,
         "y": 13
       },
-      "activityKo": "접수대에서 문서를 정리한다"
+      "activityKo": "접수대에서 문서를 정리한다",
+      "workAction": {
+        "id": "V36_CLERK_REGISTER_INTAKE",
+        "outputKind": "관청 접수",
+        "outputKo": "접수 문서의 번호와 도착 시각을 접수부에 적는다",
+        "durationMinutes": 20
+      }
     },
     {
       "atMinute": 600,
@@ -177,7 +183,13 @@
         "x": 17,
         "y": 12
       },
-      "activityKo": "접수부와 원본을 대조한다"
+      "activityKo": "접수부와 원본을 대조한다",
+      "workAction": {
+        "id": "V36_CLERK_COMPARE_ORIGINALS",
+        "outputKind": "원본 대조",
+        "outputKo": "접수부와 원본의 이름·쪽수를 한 줄씩 대조한다",
+        "durationMinutes": 20
+      }
     },
     {
       "atMinute": 720,

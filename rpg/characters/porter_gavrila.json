@@ -165,7 +165,13 @@
         "x": 24,
         "y": 13
       },
-      "activityKo": "오늘 맡은 짐의 무게와 품삯을 적은 표를 본다"
+      "activityKo": "오늘 맡은 짐의 무게와 품삯을 적은 표를 본다",
+      "workAction": {
+        "id": "V36_PORTER_RECORD_LOAD_AND_FEE",
+        "outputKind": "짐 운반",
+        "outputKo": "짐의 무게와 합의한 품삯을 운송표에 적는다",
+        "durationMinutes": 20
+      }
     },
     {
       "atMinute": 840,
@@ -174,7 +180,14 @@
         "x": 11,
         "y": 14
       },
-      "activityKo": "빵집 안으로 밀가루 포대를 옮기고 인수표를 받아 챙긴다"
+      "activityKo": "빵집 안으로 밀가루 포대를 옮기고 인수표를 받아 챙긴다",
+      "workAction": {
+        "id": "V36_PORTER_TRANSFER_FLOUR_SACKS",
+        "outputKind": "짐 운반",
+        "outputKo": "밀가루 포대를 빵집 안으로 옮기고 인수표를 받아 둔다",
+        "durationMinutes": 20,
+        "inventoryItemKo": "인수 확인표 한 장"
+      }
     },
     {
       "atMinute": 1020,

@@ -146,7 +146,13 @@
         "x": 13,
         "y": 14
       },
-      "activityKo": "재고와 외상 장부를 맞춘다"
+      "activityKo": "재고와 외상 장부를 맞춘다",
+      "workAction": {
+        "id": "V36_APOTHECARY_CHECK_STOCK",
+        "outputKind": "재고 대조",
+        "outputKo": "약병과 꾸러미 수를 확인해 약방 재고표의 빈칸을 채운다",
+        "durationMinutes": 20
+      }
     },
     {
       "atMinute": 600,
@@ -182,7 +188,13 @@
         "x": 14,
         "y": 14
       },
-      "activityKo": "남은 재고와 미수금을 정리한다"
+      "activityKo": "남은 재고와 미수금을 정리한다",
+      "workAction": {
+        "id": "V36_APOTHECARY_CLOSE_ACCOUNTS",
+        "outputKind": "약방 장부",
+        "outputKo": "남은 재고와 미수금 항목을 나눠 마감 메모를 남긴다",
+        "durationMinutes": 20
+      }
     }
   ],
   "portrait": {

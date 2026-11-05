@@ -150,7 +150,13 @@
         "x": 5,
         "y": 13
       },
-      "activityKo": "셋방의 물과 마른 걸레를 챙긴다"
+      "activityKo": "셋방의 물과 마른 걸레를 챙긴다",
+      "workAction": {
+        "id": "V36_HOUSEMAID_PREPARE_WATER",
+        "outputKind": "가사 노동",
+        "outputKo": "물과 마른 걸레를 챙기고 맡은 방의 청소 순서를 정한다",
+        "durationMinutes": 20
+      }
     },
     {
       "atMinute": 600,
@@ -177,7 +183,13 @@
         "x": 5,
         "y": 13
       },
-      "activityKo": "저녁 물품과 심부름을 정리한다"
+      "activityKo": "저녁 물품과 심부름을 정리한다",
+      "workAction": {
+        "id": "V36_HOUSEMAID_CLOSE_ERRANDS",
+        "outputKind": "가사 심부름",
+        "outputKo": "저녁에 필요한 물품과 끝내지 못한 심부름을 구분해 적는다",
+        "durationMinutes": 20
+      }
     }
   ],
   "portrait": {

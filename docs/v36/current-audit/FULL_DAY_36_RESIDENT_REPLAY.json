@@ -5,14 +5,14 @@
   "deterministicReplays": 3,
   "simulatedMinutes": 1440,
   "replayHashes": [
-    "c0c94039",
-    "c0c94039",
-    "c0c94039"
+    "f6abf641",
+    "f6abf641",
+    "f6abf641"
   ],
   "collisionSnapshotsPerReplay": 288,
   "totalCollisionSnapshots": 864,
   "firstReplay": {
-    "movementSteps": 3113,
+    "movementSteps": 3117,
     "districtTransitions": 177,
     "goalEvents": 326,
     "movementStepsByResident": {
@@ -20,9 +20,9 @@
       "printer_ekaterina": 90,
       "courier_pavel": 153,
       "seamstress_anna": 84,
-      "bookseller_lev": 115,
+      "bookseller_lev": 117,
       "senior_clerk_konstantin": 114,
-      "reader_darya": 75,
+      "reader_darya": 81,
       "editor_sofia": 80,
       "police_sergeant_ivan": 52,
       "print_apprentice_stepan": 121,
@@ -33,7 +33,7 @@
       "junior_guard_sergey": 48,
       "street_vendor_matryona": 92,
       "typesetter_nikita": 75,
-      "tenant_mikhail": 109,
+      "tenant_mikhail": 111,
       "housemaid_olga": 83,
       "midwife_avdotya": 83,
       "innkeeper_irina": 101,
@@ -46,7 +46,7 @@
       "laundress_mariya": 136,
       "baker_fyodor": 21,
       "market_nadezhda": 37,
-      "porter_gavrila": 39,
+      "porter_gavrila": 33,
       "coachman_timofey": 41,
       "apothecary_yakov": 37,
       "fishseller_klavdiya": 140,
@@ -216,7 +216,6 @@
       ],
       "porter_gavrila": [
         "NEED_INCOME",
-        "PERSONAL_RELATIONSHIP",
         "PERSONAL_LIFE_PREPARATION",
         "PERSONAL_LIFE_FOCUS"
       ],
@@ -251,7 +250,7 @@
     "deliveries": 4,
     "exchanges": 2,
     "personalContacts": 20,
-    "distinctPersonalContactResidents": 20,
+    "distinctPersonalContactResidents": 19,
     "personalLifeGoalVisits": 40,
     "residentsWithPhysicalLifeGoalVisits": 34,
     "residentsWithLockedLifeGoals": 2,
@@ -594,7 +593,7 @@
       }
     }
   },
-  "fullDaySaveReloadStateHash": "c0c94039",
+  "fullDaySaveReloadStateHash": "f6abf641",
   "autoCompletedPlayerQuests": 0,
-  "runtimeMilliseconds": 47621
+  "runtimeMilliseconds": 65284
 }

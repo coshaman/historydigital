@@ -152,7 +152,14 @@
         "x": 26,
         "y": 14
       },
-      "activityKo": "강변에서 들어온 생선 수량을 확인한다"
+      "activityKo": "강변에서 들어온 생선 수량을 확인한다",
+      "workAction": {
+        "id": "V36_FISHSELLER_RECEIVE_CATCH",
+        "outputKind": "시장 판매",
+        "outputKo": "강변에서 들어온 생선의 수량과 받은 시각을 적는다",
+        "durationMinutes": 20,
+        "inventoryItemKo": "생선 좌판 한 몫"
+      }
     },
     {
       "atMinute": 600,
@@ -170,7 +177,13 @@
         "x": 26,
         "y": 14
       },
-      "activityKo": "보관 시간과 판매량을 대조한다"
+      "activityKo": "보관 시간과 판매량을 대조한다",
+      "workAction": {
+        "id": "V36_FISHSELLER_STOCK_TALLY",
+        "outputKind": "시장 재고",
+        "outputKo": "좌판에 남은 물량과 보관 시간을 비교해 손실을 기록한다",
+        "durationMinutes": 20
+      }
     },
     {
       "atMinute": 960,

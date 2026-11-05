@@ -149,7 +149,13 @@
         "x": 3,
         "y": 10
       },
-      "activityKo": "고용주 집의 청소와 심부름을 시작한다"
+      "activityKo": "고용주 집의 청소와 심부름을 시작한다",
+      "workAction": {
+        "id": "V36_SERVANT_PREPARE_CLEANING",
+        "outputKind": "가사 노동",
+        "outputKo": "청소할 방과 먼저 전할 집안 지시를 순서대로 적는다",
+        "durationMinutes": 20
+      }
     },
     {
       "atMinute": 600,
@@ -176,7 +182,13 @@
         "x": 3,
         "y": 10
       },
-      "activityKo": "전달한 말과 남은 일을 정리한다"
+      "activityKo": "전달한 말과 남은 일을 정리한다",
+      "workAction": {
+        "id": "V36_SERVANT_CLOSE_ERRANDS",
+        "outputKind": "가사 심부름",
+        "outputKo": "전달한 말과 남은 심부름을 주인집 메모에 나눠 둔다",
+        "durationMinutes": 20
+      }
     }
   ],
   "portrait": {

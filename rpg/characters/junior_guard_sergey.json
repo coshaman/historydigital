@@ -151,7 +151,13 @@
         "x": 5,
         "y": 11
       },
-      "activityKo": "관청 출입증과 방문 목적을 확인한다"
+      "activityKo": "관청 출입증과 방문 목적을 확인한다",
+      "workAction": {
+        "id": "V36_GUARD_CHECK_VISITOR_PASSES",
+        "outputKind": "출입 감독",
+        "outputKo": "방문증과 방문 목적을 대조해 출입 기록을 남긴다",
+        "durationMinutes": 20
+      }
     },
     {
       "atMinute": 600,
@@ -187,7 +193,13 @@
         "x": 5,
         "y": 11
       },
-      "activityKo": "허가된 방문과 대기 인원을 대조한다"
+      "activityKo": "허가된 방문과 대기 인원을 대조한다",
+      "workAction": {
+        "id": "V36_GUARD_HANDOVER_REGISTER",
+        "outputKind": "당직 인계",
+        "outputKo": "허가된 방문과 대기 인원을 교대 목록에 맞춘다",
+        "durationMinutes": 20
+      }
     }
   ],
   "portrait": {

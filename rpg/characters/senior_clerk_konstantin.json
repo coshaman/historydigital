@@ -150,6 +150,12 @@
         "id": "KONSTANTIN_MEMO_TO_ALEXEI_1847",
         "itemKo": "검토 메모 사본",
         "recipientHostId": "clerk_alexei"
+      },
+      "workAction": {
+        "id": "V36_SENIOR_CLERK_REVIEW_MEMO",
+        "outputKind": "관청 검토",
+        "outputKo": "검토 메모와 결재 문서를 서로 다른 묶음으로 나눈다",
+        "durationMinutes": 20
       }
     },
     {
@@ -168,7 +174,13 @@
         "x": 3,
         "y": 4
       },
-      "activityKo": "경찰 연락실로 온 진술서의 접수 날짜와 서명을 대조한다"
+      "activityKo": "경찰 연락실로 온 진술서의 접수 날짜와 서명을 대조한다",
+      "workAction": {
+        "id": "V36_SENIOR_CLERK_COMPARE_STATEMENT",
+        "outputKind": "관청 검토",
+        "outputKo": "경찰 연락실 진술서의 접수 날짜와 서명을 대조한다",
+        "durationMinutes": 20
+      }
     },
     {
       "atMinute": 900,

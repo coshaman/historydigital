@@ -148,7 +148,13 @@
         "x": 7,
         "y": 12
       },
-      "activityKo": "안뜰 문을 열고 장작을 센다"
+      "activityKo": "안뜰 문을 열고 장작을 센다",
+      "workAction": {
+        "id": "V36_YARDKEEPER_OPEN_AND_COUNT_WOOD",
+        "outputKind": "안뜰 관리",
+        "outputKo": "안뜰 문을 열고 공동 장작의 남은 수량을 센다",
+        "durationMinutes": 20
+      }
     },
     {
       "atMinute": 600,
@@ -175,7 +181,13 @@
         "x": 11,
         "y": 14
       },
-      "activityKo": "작업 뜰에 쌓인 공동 장작을 세입자별 장부와 대조한다"
+      "activityKo": "작업 뜰에 쌓인 공동 장작을 세입자별 장부와 대조한다",
+      "workAction": {
+        "id": "V36_YARDKEEPER_RECONCILE_WOOD",
+        "outputKind": "안뜰 관리",
+        "outputKo": "작업 뜰 장작 수량을 세입자 장부와 대조한다",
+        "durationMinutes": 20
+      }
     },
     {
       "atMinute": 900,

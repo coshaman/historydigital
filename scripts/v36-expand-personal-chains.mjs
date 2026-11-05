@@ -232,7 +232,7 @@ const arcs = [
   {host:'porter_gavrila',partner:'coachman_timofey',id:'GAVRILA_CARRYING_TALLY_1847',maps:['market-quay','canal-road','bakery-interior'],stages:[
     {title:'표가 없는 꾸러미',premise:'시장에 맡겨진 꾸러미 하나에는 받을 사람 이름이 없다. 가브릴라는 물건을 열어보지 않고 주인을 찾아야 한다.',choices:[
       ['끈과 표식만 적어 둔다','가브릴라와 보관 담당이 압니다','보관표에 겉모양이 남습니다','주인이 늦으면 보관 자리를 차지합니다','겉의 끈 색과 매듭만 적었다. 안의 물건을 추측해 기록하지 않았다.'],
-      ['티모페이에게 운송표를 확인한다','가브릴라와 티모페이가 압니다','운송표 대조 메모가 남습니다','동료가 자기 짐을 찾느라 늦어질 수 있습니다','티모페이의 표에는 같은 매듭 표시가 없었다. 다른 운송인의 기록도 확인하기로 했다.'],
+      ['티모페이에게 운송표를 확인한다','가브릴라와 티모페이가 압니다','운송표 대조 메모가 남습니다','동료가 자기 짐을 찾느라 늦어질 수 있습니다','티모페이의 표에는 같은 매듭 표시가 없었다. 다른 운송인의 기록도 확인하기로 했다.',['coachman_timofey']],
       ['시장 보관소에 공개 문의를 붙인다','시장 운송꾼들이 봅니다','주인 찾기 공지가 남습니다','공지를 본 사람이 거짓 소유를 주장할 수 있습니다','겉모양만 적어 문의를 붙였다. 내용물을 아는 사람만 확인할 수 있게 하지는 않았다.']]},
     {title:'무거운 짐과 삯',premise:'상인이 예상보다 무거운 상자를 맡긴다. 삯은 그대로지만 운반에는 한 명이 더 필요하다.',choices:[
       ['무게를 확인하고 삯을 다시 묻는다','가브릴라와 상인이 압니다','변경 운임 메모가 남습니다','상인이 운송을 취소할 수 있습니다','상자 무게를 확인하고 추가 일손 값을 말했다. 상인은 가격을 듣고 운송을 보류했다.'],
@@ -267,6 +267,7 @@ for (const arc of arcs) {
       id:`${questId}_CHOICE_${choiceIndex+1}`,hostIds:[arc.host],labelKo:choice[0],subcopyKo:`${choice[1]} · ${choice[2]} · ${choice[3]}`,
       practicalDisclosure:{audienceKo:choice[1],recordKo:choice[2],riskKo:choice[3]},
       resultKo:choice[4],resultFlag:`${questId}_RESULT_${choiceIndex+1}`,followupTitleKo:stageSpec.title,followupKo:'이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.',
+      ...(choice[5]?{requiredPresentHostIds:choice[5]}:{}),
       effects:{situationKo:choice[4],relations:{[arc.partner]:`${stageSpec.title}에서 ${person}와 함께 선택한 일`},lifeChainDelta:{care:choiceIndex===0?1:0,record:choiceIndex===1?1:0,exposure:choiceIndex===2?1:0}}
     }));
     const quest={id:questId,titleKo:`${stageSpec.title} · ${stage}/3`,chapterId:'V33_1847_PRINT',date:'1847-06-01',premiseKo:stageSpec.premise,

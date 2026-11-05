@@ -147,7 +147,13 @@
         "x": 16,
         "y": 10
       },
-      "activityKo": "활자함에서 인쇄할 줄을 맞춘다"
+      "activityKo": "활자함에서 인쇄할 줄을 맞춘다",
+      "workAction": {
+        "id": "V36_TYPESETTER_SET_LINES",
+        "outputKind": "활자 작업",
+        "outputKo": "인쇄할 줄의 활자를 맞추고 빠진 글자를 보충한다",
+        "durationMinutes": 20
+      }
     },
     {
       "atMinute": 600,
@@ -174,7 +180,13 @@
         "x": 11,
         "y": 14
       },
-      "activityKo": "책방에 놓인 교정쇄 견본에서 활자 빠짐을 찾아 표시한다"
+      "activityKo": "책방에 놓인 교정쇄 견본에서 활자 빠짐을 찾아 표시한다",
+      "workAction": {
+        "id": "V36_TYPESETTER_MARK_PROOF_ERRORS",
+        "outputKind": "활자 교정",
+        "outputKo": "교정쇄의 오자를 표시해 재인쇄할 줄을 정리한다",
+        "durationMinutes": 20
+      }
     },
     {
       "atMinute": 960,

@@ -147,7 +147,13 @@
         "x": 4,
         "y": 10
       },
-      "activityKo": "창고 입고표와 물품 번호를 맞춘다"
+      "activityKo": "창고 입고표와 물품 번호를 맞춘다",
+      "workAction": {
+        "id": "V36_WAREHOUSE_CHECK_INTAKE",
+        "outputKind": "창고 관리",
+        "outputKo": "입고표와 물품 번호를 대조해 창고 장부를 갱신한다",
+        "durationMinutes": 20
+      }
     },
     {
       "atMinute": 600,
@@ -183,7 +189,13 @@
         "x": 4,
         "y": 10
       },
-      "activityKo": "남은 물량과 빈칸을 다시 센다"
+      "activityKo": "남은 물량과 빈칸을 다시 센다",
+      "workAction": {
+        "id": "V36_WAREHOUSE_CLOSE_STOCK",
+        "outputKind": "창고 관리",
+        "outputKo": "남은 물량과 비어 있는 장부 칸을 다시 확인한다",
+        "durationMinutes": 20
+      }
     }
   ],
   "portrait": {

@@ -152,7 +152,14 @@
         "x": 24,
         "y": 14
       },
-      "activityKo": "날씨와 통행량을 보고 좌판을 편다"
+      "activityKo": "날씨와 통행량을 보고 좌판을 편다",
+      "workAction": {
+        "id": "V36_VENDOR_OPEN_STALL",
+        "outputKind": "거리 행상",
+        "outputKo": "날씨와 통행량을 보고 좌판에 펼 물건을 고른다",
+        "durationMinutes": 20,
+        "inventoryItemKo": "솔과 생활용품 꾸러미"
+      }
     },
     {
       "atMinute": 600,
@@ -179,7 +186,13 @@
         "x": 13,
         "y": 14
       },
-      "activityKo": "하루 매상과 젖은 재고를 적는다"
+      "activityKo": "하루 매상과 젖은 재고를 적는다",
+      "workAction": {
+        "id": "V36_VENDOR_CLOSE_STOCK",
+        "outputKind": "거리 행상",
+        "outputKo": "하루 매상과 비에 젖은 재고를 따로 기록한다",
+        "durationMinutes": 20
+      }
     }
   ],
   "portrait": {
