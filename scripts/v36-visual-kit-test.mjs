@@ -279,6 +279,12 @@ const residentIds = [...new Set(districtData.districts.flatMap(district => distr
 const residentAssets = await Promise.all(residentIds.map(async id => {
   const card = JSON.parse(await fs.readFile(path.join(root, `rpg/characters/${id}.json`), 'utf8'));
   const spritePath = path.join(root, 'rpg', card.sprite.file), portraitPath = path.join(root, 'rpg', card.portrait.file);
+  if (card.kind === 'FICTIONAL') {
+    const portraitRecord = provenance.assets.find(asset => asset.path === `rpg/${card.portrait.file}`);
+    assert.ok(portraitRecord, `${id} has a portrait provenance record`);
+    assert.deepEqual(portraitRecord.sourceIds ?? [], [], `${id} portrait must not cite narrative-context sources as appearance evidence`);
+    assert.ok(['UNVERIFIED_RECONSTRUCTION','FICTIONAL_CHARACTER_RECONSTRUCTION'].includes(portraitRecord.historicalConfidence), `${id} fictional portrait stays explicitly unverified as historical appearance`);
+  }
   const [spriteBytes, portraitBytes] = await Promise.all([fs.readFile(spritePath), fs.readFile(portraitPath)]);
   const dataUrl = (file, bytes) => `${path.extname(file).toLowerCase() === '.svg' ? 'image/svg+xml' : 'image/png'};base64,${bytes.toString('base64')}`;
   return { id, spriteFile: card.sprite.file, portraitFile: card.portrait.file, frameWidth: card.sprite.frameWidth, frameHeight: card.sprite.frameHeight,
@@ -291,10 +297,14 @@ assert.ok(decodedResidents.every(row => row.sprite.width === 48 && row.sprite.he
 assert.ok(decodedResidents.every(row => row.portrait.width === 64 && row.portrait.height === 64), 'all resident portraits use the in-game portrait size');
 const uniqueSprites = new Set(decodedResidents.map(row => row.sprite.hash)).size;
 const uniquePortraits = new Set(decodedResidents.map(row => row.portrait.hash)).size;
+const uniqueFaceRegions = new Set(decodedResidents.map(row => row.portrait.faceHash)).size;
+const faceRegionDuplicates = [...new Set(decodedResidents.map(row => row.portrait.faceHash))].map(hash => decodedResidents.filter(row => row.portrait.faceHash === hash).map(row => row.id)).filter(group => group.length > 1);
 const spriteDuplicates = [...new Set(decodedResidents.map(row => row.sprite.hash))].map(hash => decodedResidents.filter(row => row.sprite.hash === hash).map(row => row.id)).filter(group => group.length > 1);
 const portraitDuplicates = [...new Set(decodedResidents.map(row => row.portrait.hash))].map(hash => decodedResidents.filter(row => row.portrait.hash === hash).map(row => `${row.id}:${row.portraitFile}`)).filter(group => group.length > 1);
 assert.equal(uniqueSprites, 36, `all resident walk sprites have distinct rendered pixels; duplicates=${JSON.stringify(spriteDuplicates)}`);
 assert.equal(uniquePortraits, 36, `all resident portraits have distinct rendered pixels; duplicates=${JSON.stringify(portraitDuplicates)}`);
+assert.equal(uniqueFaceRegions, 36, `all residents must have distinct rendered eyes/nose/mouth regions, excluding hair, border, and torso palette; duplicates=${JSON.stringify(faceRegionDuplicates)}`);
+const portraitContactSheet = await capturePortraitContactSheet(residentAssets);
 
 const report = {
   schemaVersion: 'V36_VISUAL_KIT_AUDIT_1',
@@ -305,8 +315,8 @@ const report = {
   mapsWithUpdatedAtlasCount: Object.keys(maps).length,
   assetUsageLedgerRows: usageRows.length - 1,
   sourceIdsResolve: true,
-  residentArt: { residents: residentIds.length, uniqueWalkSprites: uniqueSprites, uniquePortraits, frameGrid: '3×4 at 16×24 px', portraitSize: '64×64 px' },
-  screenshotEvidence: ['screenshots/nevsky-12-resident-neighborhood.png','screenshots/market-quay-12-resident-neighborhood.png'],
+  residentArt: { residents: residentIds.length, uniqueWalkSprites: uniqueSprites, uniquePortraits, uniqueFaceRegions, faceRegionDuplicates, frameGrid: '3×4 at 16×24 px', portraitSize: '64×64 px', faceRegion: '20×17 px interior crop covering eyes, nose, and mouth; excluding hair, frame, and torso' },
+  screenshotEvidence: ['screenshots/nevsky-12-resident-neighborhood.png','screenshots/market-quay-12-resident-neighborhood.png', portraitContactSheet],
 };
 await fs.writeFile(path.join(root, 'docs/v36/current-audit/VISUAL_KIT_AUDIT.json'), `${JSON.stringify(report, null, 2)}\n`);
 console.log(JSON.stringify(report, null, 2));
@@ -323,9 +333,30 @@ async function pageForResidentAssets(assets) {
         const context = canvas.getContext('2d', { willReadFrequently: true }); context.imageSmoothingEnabled = false; context.drawImage(image, 0, 0);
         const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
         let hash = 2166136261; for (const value of pixels) { hash ^= value; hash = Math.imul(hash, 16777619); }
-        return { width: image.naturalWidth, height: image.naturalHeight, hash: hash >>> 0 };
+        let faceHash = null;
+        if (image.naturalWidth === 64 && image.naturalHeight === 64) {
+          const facePixels = context.getImageData(22, 23, 20, 17).data;
+          let faceValue = 2166136261; for (const value of facePixels) { faceValue ^= value; faceValue = Math.imul(faceValue, 16777619); }
+          faceHash = faceValue >>> 0;
+        }
+        return { width: image.naturalWidth, height: image.naturalHeight, hash: hash >>> 0, faceHash };
       };
       return { id: entry.id, frameWidth: entry.frameWidth, frameHeight: entry.frameHeight, sprite: await load(entry.spriteDataUrl), portrait: await load(entry.portraitDataUrl) };
     })), assets), 'resident sprite and portrait decode');
   } finally { await withTimeout(browser.close(), 'resident browser close', 10000); }
+}
+
+async function capturePortraitContactSheet(assets) {
+  const browser = await chromium.launch({ headless: true });
+  const relativePath = 'docs/v36/current-audit/screenshots/resident-portraits-64px-contact-sheet.png';
+  const absolutePath = path.join(root, relativePath);
+  await fs.mkdir(path.dirname(absolutePath), { recursive: true });
+  try {
+    const page = await browser.newPage({ viewport: { width: 900, height: 744 }, deviceScaleFactor: 1 });
+    const cards = assets.map(entry => `<figure><img src="data:${entry.portraitDataUrl}" alt=""><figcaption>${entry.id}</figcaption></figure>`).join('');
+    await page.setContent(`<!doctype html><meta charset="utf-8"><style>*{box-sizing:border-box}body{margin:0;background:#28221d;color:#eddbb5;font:11px Georgia,serif;display:grid;grid-template-columns:repeat(6,150px);grid-auto-rows:124px}figure{margin:3px;border:1px solid #61503a;display:flex;align-items:center;justify-content:center;flex-direction:column}img{width:96px;height:96px;image-rendering:pixelated}figcaption{height:18px;max-width:146px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;color:#d9c28e}</style>${cards}`);
+    await page.evaluate(async () => Promise.all([...document.images].map(image => image.decode())));
+    await page.screenshot({ path: absolutePath, fullPage: true });
+    return relativePath.replace('docs/v36/current-audit/','');
+  } finally { await withTimeout(browser.close(), 'portrait contact sheet browser close', 10000); }
 }

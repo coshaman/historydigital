@@ -180,10 +180,11 @@
         "printshop",
         "courtyard"
       ],
-      "sourceIds": [
+      "sourceIds": [],
+      "notes": "Fictional character illustration for the game; no claim of a documented individual. Source contact sheet: artifacts/v33/portrait-source-sheet.png. Linked publication or event records provide narrative context only; they are not visual references for this fictional portrait.",
+      "contextSourceIds": [
         "OBJ-SOV-1847"
-      ],
-      "notes": "Fictional character illustration for the game; no claim of a documented individual. Source contact sheet: artifacts/v33/portrait-source-sheet.png."
+      ]
     },
     {
       "id": "portrait-clerk_alexei",
@@ -259,10 +260,11 @@
         "printshop",
         "courtyard"
       ],
-      "sourceIds": [
+      "sourceIds": [],
+      "notes": "Fictional character illustration for the game; no claim of a documented individual. Source contact sheet: artifacts/v33/portrait-source-sheet.png. Linked publication or event records provide narrative context only; they are not visual references for this fictional portrait.",
+      "contextSourceIds": [
         "OBJ-SOV-1847"
-      ],
-      "notes": "Fictional character illustration for the game; no claim of a documented individual. Source contact sheet: artifacts/v33/portrait-source-sheet.png."
+      ]
     },
     {
       "id": "portrait-seamstress_anna",
@@ -369,38 +371,40 @@
       "id": "portrait-senior-clerk-konstantin",
       "path": "rpg/assets/portrait-senior-clerk-konstantin.svg",
       "type": "ORIGINAL_VECTOR_FACE_PORTRAIT",
-      "generatedBy": "hand-authored project SVG",
-      "license": "original project-authored vector artwork",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
+      "license": "original project-authored fictional vector portrait",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": [
         "chancery",
         "nevsky"
       ],
-      "sourceIds": [
+      "sourceIds": [],
+      "sourceUrls": [],
+      "notes": "Individually authored fictional face, hair, expression, and clothing design for senior_clerk_konstantin; created for game readability, not a documented likeness, period portrait, or evidence of typical historical dress.",
+      "contextSourceIds": [
         "OBJ-SOV-1847",
         "OBJ-WS-PETRASHEVSKY-REPORT-1849"
-      ],
-      "sourceUrls": [],
-      "notes": "Original stylized portrait of a fictional senior clerk; no historical likeness is claimed."
+      ]
     },
     {
       "id": "portrait-reader-darya",
       "path": "rpg/assets/portrait-reader-darya.svg",
       "type": "ORIGINAL_VECTOR_FACE_PORTRAIT",
-      "generatedBy": "hand-authored project SVG",
-      "license": "original project-authored vector artwork",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
+      "license": "original project-authored fictional vector portrait",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": [
         "nevsky",
         "printshop"
       ],
-      "sourceIds": [
+      "sourceIds": [],
+      "sourceUrls": [],
+      "notes": "Individually authored fictional face, hair, expression, and clothing design for reader_darya; created for game readability, not a documented likeness, period portrait, or evidence of typical historical dress.",
+      "contextSourceIds": [
         "LIT-TURGENEV-KHOR-KALYNYCH-1847",
         "OBJ-SOV-1847",
         "OBJ-WS-NEKRASOV-EDITORIAL-1848"
-      ],
-      "sourceUrls": [],
-      "notes": "Original stylized portrait of a fictional reader; no historical likeness is claimed."
+      ]
     },
     {
       "id": "sprite-editor-sofia",
@@ -424,19 +428,20 @@
       "id": "portrait-editor-sofia",
       "path": "rpg/assets/portrait-sofia.svg",
       "type": "ORIGINAL_VECTOR_FACE_PORTRAIT",
-      "generatedBy": "hand-authored project SVG",
-      "license": "original project-authored vector artwork",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
+      "license": "original project-authored fictional vector portrait",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": [
         "printshop",
         "nevsky"
       ],
-      "sourceIds": [
+      "sourceIds": [],
+      "sourceUrls": [],
+      "notes": "Individually authored fictional face, hair, expression, and clothing design for editor_sofia; created for game readability, not a documented likeness, period portrait, or evidence of typical historical dress.",
+      "contextSourceIds": [
         "LIT-TURGENEV-KHOR-KALYNYCH-1847",
         "OBJ-WS-NEKRASOV-EDITORIAL-1848"
-      ],
-      "sourceUrls": [],
-      "notes": "Original stylized portrait of fictional editor Sofia; no historical likeness is claimed."
+      ]
     },
     {
       "id": "sprite-police-ivan",
@@ -457,8 +462,8 @@
       "id": "portrait-police-ivan",
       "path": "rpg/assets/portrait-ivan.svg",
       "type": "ORIGINAL_VECTOR_FACE_PORTRAIT",
-      "generatedBy": "hand-authored project SVG",
-      "license": "original project-authored vector artwork",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
+      "license": "original project-authored fictional vector portrait",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": [
         "police-station",
@@ -466,7 +471,7 @@
       ],
       "sourceIds": [],
       "sourceUrls": [],
-      "notes": "Original stylized portrait of fictional police sergeant Ivan; no historical likeness is claimed."
+      "notes": "Individually authored fictional face, hair, expression, and clothing design for police_sergeant_ivan; created for game readability, not a documented likeness, period portrait, or evidence of typical historical dress."
     },
     {
       "id": "sprite-yardkeeper_semyon",
@@ -485,16 +490,16 @@
     },
     {
       "id": "portrait-yardkeeper_semyon",
-      "path": "rpg/assets/portrait-yardkeeper_semyon.png",
-      "type": "ORIGINAL_PIXEL_FACE_PORTRAIT",
-      "generatedBy": "scripts/v36-add-market-cohort.mjs",
-      "license": "original project-authored pixels",
+      "path": "rpg/assets/portrait-yardkeeper_semyon.svg",
+      "type": "ORIGINAL_VECTOR_PORTRAIT",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
+      "license": "original project-authored fictional vector portrait",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": [
         "market-quay"
       ],
       "sourceIds": [],
-      "notes": "Original pixel design for the fictional 하숙집 안뜰 관리인; not a documented likeness or period artifact."
+      "notes": "Individually authored fictional face, hair, expression, and clothing design for yardkeeper_semyon; created for game readability, not a documented likeness, period portrait, or evidence of typical historical dress."
     },
     {
       "id": "sprite-laundress_mariya",
@@ -513,16 +518,16 @@
     },
     {
       "id": "portrait-laundress_mariya",
-      "path": "rpg/assets/portrait-laundress_mariya.png",
-      "type": "ORIGINAL_PIXEL_FACE_PORTRAIT",
-      "generatedBy": "scripts/v36-add-market-cohort.mjs",
-      "license": "original project-authored pixels",
+      "path": "rpg/assets/portrait-laundress_mariya.svg",
+      "type": "ORIGINAL_VECTOR_PORTRAIT",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
+      "license": "original project-authored fictional vector portrait",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": [
         "market-quay"
       ],
       "sourceIds": [],
-      "notes": "Original pixel design for the fictional 세탁과 다림질을 맡는 품팔이 노동자; not a documented likeness or period artifact."
+      "notes": "Individually authored fictional face, hair, expression, and clothing design for laundress_mariya; created for game readability, not a documented likeness, period portrait, or evidence of typical historical dress."
     },
     {
       "id": "sprite-baker_fyodor",
@@ -543,16 +548,16 @@
     },
     {
       "id": "portrait-baker_fyodor",
-      "path": "rpg/assets/portrait-baker_fyodor.png",
-      "type": "ORIGINAL_PIXEL_FACE_PORTRAIT",
-      "generatedBy": "scripts/v36-add-market-cohort.mjs",
-      "license": "original project-authored pixels",
+      "path": "rpg/assets/portrait-baker_fyodor.svg",
+      "type": "ORIGINAL_VECTOR_PORTRAIT",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
+      "license": "original project-authored fictional vector portrait",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": [
         "market-quay"
       ],
       "sourceIds": [],
-      "notes": "Original pixel design for the fictional 새벽부터 반죽과 화덕을 맡는 제빵공; not a documented likeness or period artifact."
+      "notes": "Individually authored fictional face, hair, expression, and clothing design for baker_fyodor; created for game readability, not a documented likeness, period portrait, or evidence of typical historical dress."
     },
     {
       "id": "sprite-market_nadezhda",
@@ -573,16 +578,16 @@
     },
     {
       "id": "portrait-market_nadezhda",
-      "path": "rpg/assets/portrait-market_nadezhda.png",
-      "type": "ORIGINAL_PIXEL_FACE_PORTRAIT",
-      "generatedBy": "scripts/v36-add-market-cohort.mjs",
-      "license": "original project-authored pixels",
+      "path": "rpg/assets/portrait-market_nadezhda.svg",
+      "type": "ORIGINAL_VECTOR_PORTRAIT",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
+      "license": "original project-authored fictional vector portrait",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": [
         "market-quay"
       ],
       "sourceIds": [],
-      "notes": "Original pixel design for the fictional 시장 좌판을 꾸리는 식료품 판매상; not a documented likeness or period artifact."
+      "notes": "Individually authored fictional face, hair, expression, and clothing design for market_nadezhda; created for game readability, not a documented likeness, period portrait, or evidence of typical historical dress."
     },
     {
       "id": "sprite-porter_gavrila",
@@ -601,16 +606,16 @@
     },
     {
       "id": "portrait-porter_gavrila",
-      "path": "rpg/assets/portrait-porter_gavrila.png",
-      "type": "ORIGINAL_PIXEL_FACE_PORTRAIT",
-      "generatedBy": "scripts/v36-add-market-cohort.mjs",
-      "license": "original project-authored pixels",
+      "path": "rpg/assets/portrait-porter_gavrila.svg",
+      "type": "ORIGINAL_VECTOR_PORTRAIT",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
+      "license": "original project-authored fictional vector portrait",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": [
         "market-quay"
       ],
       "sourceIds": [],
-      "notes": "Original pixel design for the fictional 부두와 시장 사이에서 짐을 나르는 인부; not a documented likeness or period artifact."
+      "notes": "Individually authored fictional face, hair, expression, and clothing design for porter_gavrila; created for game readability, not a documented likeness, period portrait, or evidence of typical historical dress."
     },
     {
       "id": "sprite-coachman_timofey",
@@ -631,16 +636,16 @@
     },
     {
       "id": "portrait-coachman_timofey",
-      "path": "rpg/assets/portrait-coachman_timofey.png",
-      "type": "ORIGINAL_PIXEL_FACE_PORTRAIT",
-      "generatedBy": "scripts/v36-add-market-cohort.mjs",
-      "license": "original project-authored pixels",
+      "path": "rpg/assets/portrait-coachman_timofey.svg",
+      "type": "ORIGINAL_VECTOR_PORTRAIT",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
+      "license": "original project-authored fictional vector portrait",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": [
         "market-quay"
       ],
       "sourceIds": [],
-      "notes": "Original pixel design for the fictional 도심 손님과 짐을 나르는 마부; not a documented likeness or period artifact."
+      "notes": "Individually authored fictional face, hair, expression, and clothing design for coachman_timofey; created for game readability, not a documented likeness, period portrait, or evidence of typical historical dress."
     },
     {
       "id": "sprite-housemaid_olga",
@@ -657,12 +662,12 @@
       "id": "portrait-housemaid_olga",
       "path": "rpg/assets/portrait-housemaid_olga.svg",
       "type": "ORIGINAL_VECTOR_PORTRAIT",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
-      "license": "original project-authored vector artwork",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
+      "license": "original project-authored fictional vector portrait",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "courtyard",
       "sourceIds": [],
-      "notes": "Original stylized portrait of a fictional resident; not a documented likeness."
+      "notes": "Individually authored fictional face, hair, expression, and clothing design for housemaid_olga; created for game readability, not a documented likeness, period portrait, or evidence of typical historical dress."
     },
     {
       "id": "sprite-midwife_avdotya",
@@ -679,12 +684,12 @@
       "id": "portrait-midwife_avdotya",
       "path": "rpg/assets/portrait-midwife_avdotya.svg",
       "type": "ORIGINAL_VECTOR_PORTRAIT",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
-      "license": "original project-authored vector artwork",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
+      "license": "original project-authored fictional vector portrait",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "courtyard",
       "sourceIds": [],
-      "notes": "Original stylized portrait of a fictional resident; not a documented likeness."
+      "notes": "Individually authored fictional face, hair, expression, and clothing design for midwife_avdotya; created for game readability, not a documented likeness, period portrait, or evidence of typical historical dress."
     },
     {
       "id": "sprite-apothecary_yakov",
@@ -701,12 +706,12 @@
       "id": "portrait-apothecary_yakov",
       "path": "rpg/assets/portrait-apothecary_yakov.svg",
       "type": "ORIGINAL_VECTOR_PORTRAIT",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
-      "license": "original project-authored vector artwork",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
+      "license": "original project-authored fictional vector portrait",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "market-quay",
       "sourceIds": [],
-      "notes": "Original stylized portrait of a fictional resident; not a documented likeness."
+      "notes": "Individually authored fictional face, hair, expression, and clothing design for apothecary_yakov; created for game readability, not a documented likeness, period portrait, or evidence of typical historical dress."
     },
     {
       "id": "sprite-print_apprentice_stepan",
@@ -723,12 +728,12 @@
       "id": "portrait-print_apprentice_stepan",
       "path": "rpg/assets/portrait-print_apprentice_stepan.svg",
       "type": "ORIGINAL_VECTOR_PORTRAIT",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
-      "license": "original project-authored vector artwork",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
+      "license": "original project-authored fictional vector portrait",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "printshop",
       "sourceIds": [],
-      "notes": "Original stylized portrait of a fictional resident; not a documented likeness."
+      "notes": "Individually authored fictional face, hair, expression, and clothing design for print_apprentice_stepan; created for game readability, not a documented likeness, period portrait, or evidence of typical historical dress."
     },
     {
       "id": "sprite-bookbinder_elizaveta",
@@ -745,12 +750,12 @@
       "id": "portrait-bookbinder_elizaveta",
       "path": "rpg/assets/portrait-bookbinder_elizaveta.svg",
       "type": "ORIGINAL_VECTOR_PORTRAIT",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
-      "license": "original project-authored vector artwork",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
+      "license": "original project-authored fictional vector portrait",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "printshop",
       "sourceIds": [],
-      "notes": "Original stylized portrait of a fictional resident; not a documented likeness."
+      "notes": "Individually authored fictional face, hair, expression, and clothing design for bookbinder_elizaveta; created for game readability, not a documented likeness, period portrait, or evidence of typical historical dress."
     },
     {
       "id": "sprite-scribal_yuri",
@@ -767,12 +772,12 @@
       "id": "portrait-scribal_yuri",
       "path": "rpg/assets/portrait-scribal_yuri.svg",
       "type": "ORIGINAL_VECTOR_PORTRAIT",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
-      "license": "original project-authored vector artwork",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
+      "license": "original project-authored fictional vector portrait",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "chancery",
       "sourceIds": [],
-      "notes": "Original stylized portrait of a fictional resident; not a documented likeness."
+      "notes": "Individually authored fictional face, hair, expression, and clothing design for scribal_yuri; created for game readability, not a documented likeness, period portrait, or evidence of typical historical dress."
     },
     {
       "id": "sprite-innkeeper_irina",
@@ -789,12 +794,12 @@
       "id": "portrait-innkeeper_irina",
       "path": "rpg/assets/portrait-innkeeper_irina.svg",
       "type": "ORIGINAL_VECTOR_PORTRAIT",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
-      "license": "original project-authored vector artwork",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
+      "license": "original project-authored fictional vector portrait",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "courtyard",
       "sourceIds": [],
-      "notes": "Original stylized portrait of a fictional resident; not a documented likeness."
+      "notes": "Individually authored fictional face, hair, expression, and clothing design for innkeeper_irina; created for game readability, not a documented likeness, period portrait, or evidence of typical historical dress."
     },
     {
       "id": "sprite-student_vasily",
@@ -811,12 +816,12 @@
       "id": "portrait-student_vasily",
       "path": "rpg/assets/portrait-student_vasily.svg",
       "type": "ORIGINAL_VECTOR_PORTRAIT",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
-      "license": "original project-authored vector artwork",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
+      "license": "original project-authored fictional vector portrait",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "nevsky",
       "sourceIds": [],
-      "notes": "Original stylized portrait of a fictional resident; not a documented likeness."
+      "notes": "Individually authored fictional face, hair, expression, and clothing design for student_vasily; created for game readability, not a documented likeness, period portrait, or evidence of typical historical dress."
     },
     {
       "id": "sprite-teacher_lyubov",
@@ -833,12 +838,12 @@
       "id": "portrait-teacher_lyubov",
       "path": "rpg/assets/portrait-teacher_lyubov.svg",
       "type": "ORIGINAL_VECTOR_PORTRAIT",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
-      "license": "original project-authored vector artwork",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
+      "license": "original project-authored fictional vector portrait",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "courtyard",
       "sourceIds": [],
-      "notes": "Original stylized portrait of a fictional resident; not a documented likeness."
+      "notes": "Individually authored fictional face, hair, expression, and clothing design for teacher_lyubov; created for game readability, not a documented likeness, period portrait, or evidence of typical historical dress."
     },
     {
       "id": "sprite-minor_noble_andrei",
@@ -855,12 +860,12 @@
       "id": "portrait-minor_noble_andrei",
       "path": "rpg/assets/portrait-minor_noble_andrei.svg",
       "type": "ORIGINAL_VECTOR_PORTRAIT",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
-      "license": "original project-authored vector artwork",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
+      "license": "original project-authored fictional vector portrait",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "chancery",
       "sourceIds": [],
-      "notes": "Original stylized portrait of a fictional resident; not a documented likeness."
+      "notes": "Individually authored fictional face, hair, expression, and clothing design for minor_noble_andrei; created for game readability, not a documented likeness, period portrait, or evidence of typical historical dress."
     },
     {
       "id": "sprite-landlady_polina",
@@ -877,12 +882,12 @@
       "id": "portrait-landlady_polina",
       "path": "rpg/assets/portrait-landlady_polina.svg",
       "type": "ORIGINAL_VECTOR_PORTRAIT",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
-      "license": "original project-authored vector artwork",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
+      "license": "original project-authored fictional vector portrait",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "courtyard",
       "sourceIds": [],
-      "notes": "Original stylized portrait of a fictional resident; not a documented likeness."
+      "notes": "Individually authored fictional face, hair, expression, and clothing design for landlady_polina; created for game readability, not a documented likeness, period portrait, or evidence of typical historical dress."
     },
     {
       "id": "sprite-watercarrier_luka",
@@ -901,12 +906,12 @@
       "id": "portrait-watercarrier_luka",
       "path": "rpg/assets/portrait-watercarrier_luka.svg",
       "type": "ORIGINAL_VECTOR_PORTRAIT",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
-      "license": "original project-authored vector artwork",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
+      "license": "original project-authored fictional vector portrait",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "courtyard",
       "sourceIds": [],
-      "notes": "Original stylized portrait of a fictional resident; not a documented likeness."
+      "notes": "Individually authored fictional face, hair, expression, and clothing design for watercarrier_luka; created for game readability, not a documented likeness, period portrait, or evidence of typical historical dress."
     },
     {
       "id": "sprite-fishseller_klavdiya",
@@ -925,12 +930,12 @@
       "id": "portrait-fishseller_klavdiya",
       "path": "rpg/assets/portrait-fishseller_klavdiya.svg",
       "type": "ORIGINAL_VECTOR_PORTRAIT",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
-      "license": "original project-authored vector artwork",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
+      "license": "original project-authored fictional vector portrait",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "market-quay",
       "sourceIds": [],
-      "notes": "Original stylized portrait of a fictional resident; not a documented likeness."
+      "notes": "Individually authored fictional face, hair, expression, and clothing design for fishseller_klavdiya; created for game readability, not a documented likeness, period portrait, or evidence of typical historical dress."
     },
     {
       "id": "sprite-warehouse_pyotr",
@@ -947,12 +952,12 @@
       "id": "portrait-warehouse_pyotr",
       "path": "rpg/assets/portrait-warehouse_pyotr.svg",
       "type": "ORIGINAL_VECTOR_PORTRAIT",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
-      "license": "original project-authored vector artwork",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
+      "license": "original project-authored fictional vector portrait",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "market-quay",
       "sourceIds": [],
-      "notes": "Original stylized portrait of a fictional resident; not a documented likeness."
+      "notes": "Individually authored fictional face, hair, expression, and clothing design for warehouse_pyotr; created for game readability, not a documented likeness, period portrait, or evidence of typical historical dress."
     },
     {
       "id": "sprite-servant_varvara",
@@ -969,12 +974,12 @@
       "id": "portrait-servant_varvara",
       "path": "rpg/assets/portrait-servant_varvara.svg",
       "type": "ORIGINAL_VECTOR_PORTRAIT",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
-      "license": "original project-authored vector artwork",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
+      "license": "original project-authored fictional vector portrait",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "courtyard",
       "sourceIds": [],
-      "notes": "Original stylized portrait of a fictional resident; not a documented likeness."
+      "notes": "Individually authored fictional face, hair, expression, and clothing design for servant_varvara; created for game readability, not a documented likeness, period portrait, or evidence of typical historical dress."
     },
     {
       "id": "sprite-junior_guard_sergey",
@@ -993,12 +998,12 @@
       "id": "portrait-junior_guard_sergey",
       "path": "rpg/assets/portrait-junior_guard_sergey.svg",
       "type": "ORIGINAL_VECTOR_PORTRAIT",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
-      "license": "original project-authored vector artwork",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
+      "license": "original project-authored fictional vector portrait",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "chancery",
       "sourceIds": [],
-      "notes": "Original stylized portrait of a fictional resident; not a documented likeness."
+      "notes": "Individually authored fictional face, hair, expression, and clothing design for junior_guard_sergey; created for game readability, not a documented likeness, period portrait, or evidence of typical historical dress."
     },
     {
       "id": "sprite-carter_roman",
@@ -1017,12 +1022,12 @@
       "id": "portrait-carter_roman",
       "path": "rpg/assets/portrait-carter_roman.svg",
       "type": "ORIGINAL_VECTOR_PORTRAIT",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
-      "license": "original project-authored vector artwork",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
+      "license": "original project-authored fictional vector portrait",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "market-quay",
       "sourceIds": [],
-      "notes": "Original stylized portrait of a fictional resident; not a documented likeness."
+      "notes": "Individually authored fictional face, hair, expression, and clothing design for carter_roman; created for game readability, not a documented likeness, period portrait, or evidence of typical historical dress."
     },
     {
       "id": "sprite-street_vendor_matryona",
@@ -1042,12 +1047,12 @@
       "id": "portrait-street_vendor_matryona",
       "path": "rpg/assets/portrait-street_vendor_matryona.svg",
       "type": "ORIGINAL_VECTOR_PORTRAIT",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
-      "license": "original project-authored vector artwork",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
+      "license": "original project-authored fictional vector portrait",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "nevsky",
       "sourceIds": [],
-      "notes": "Original stylized portrait of a fictional resident; not a documented likeness."
+      "notes": "Individually authored fictional face, hair, expression, and clothing design for street_vendor_matryona; created for game readability, not a documented likeness, period portrait, or evidence of typical historical dress."
     },
     {
       "id": "sprite-typesetter_nikita",
@@ -1064,12 +1069,12 @@
       "id": "portrait-typesetter_nikita",
       "path": "rpg/assets/portrait-typesetter_nikita.svg",
       "type": "ORIGINAL_VECTOR_PORTRAIT",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
-      "license": "original project-authored vector artwork",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
+      "license": "original project-authored fictional vector portrait",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "printshop",
       "sourceIds": [],
-      "notes": "Original stylized portrait of a fictional resident; not a documented likeness."
+      "notes": "Individually authored fictional face, hair, expression, and clothing design for typesetter_nikita; created for game readability, not a documented likeness, period portrait, or evidence of typical historical dress."
     },
     {
       "id": "sprite-lodging_tatyana",
@@ -1086,12 +1091,12 @@
       "id": "portrait-lodging_tatyana",
       "path": "rpg/assets/portrait-lodging_tatyana.svg",
       "type": "ORIGINAL_VECTOR_PORTRAIT",
-      "generatedBy": "scripts/v36-add-neighborhood-cohort.mjs",
-      "license": "original project-authored vector artwork",
+      "generatedBy": "scripts/v36-personalize-resident-sprites.mjs",
+      "license": "original project-authored fictional vector portrait",
       "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION",
       "intendedScene": "courtyard",
       "sourceIds": [],
-      "notes": "Original stylized portrait of a fictional resident; not a documented likeness."
+      "notes": "Individually authored fictional face, hair, expression, and clothing design for lodging_tatyana; created for game readability, not a documented likeness, period portrait, or evidence of typical historical dress."
     },
     {
       "id": "sprite-reader_darya",

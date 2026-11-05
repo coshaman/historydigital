@@ -224,7 +224,7 @@
     }
   ],
   "portrait": {
-    "file": "assets/portrait-yardkeeper_semyon.png",
+    "file": "assets/portrait-yardkeeper_semyon.svg",
     "width": 64,
     "height": 64,
     "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"

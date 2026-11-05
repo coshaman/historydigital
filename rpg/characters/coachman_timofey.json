@@ -202,7 +202,7 @@
     }
   ],
   "portrait": {
-    "file": "assets/portrait-coachman_timofey.png",
+    "file": "assets/portrait-coachman_timofey.svg",
     "width": 64,
     "height": 64,
     "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"

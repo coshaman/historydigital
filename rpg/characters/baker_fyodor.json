@@ -205,7 +205,7 @@
     }
   ],
   "portrait": {
-    "file": "assets/portrait-baker_fyodor.png",
+    "file": "assets/portrait-baker_fyodor.svg",
     "width": 64,
     "height": 64,
     "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"

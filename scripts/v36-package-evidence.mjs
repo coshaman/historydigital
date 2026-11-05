@@ -149,6 +149,7 @@ for (const [source, target] of [
   ['docs/v36/current-audit/screenshots/world-map-tour-verified/mobile-360x800-nevsky.png', 'screenshots/mobile-360x800-nevsky.png'],
   ['docs/v36/current-audit/screenshots/nevsky-12-resident-neighborhood.png', 'screenshots/nevsky-12-resident-neighborhood.png'],
   ['docs/v36/current-audit/screenshots/market-quay-12-resident-neighborhood.png', 'screenshots/market-quay-12-resident-neighborhood.png'],
+  ['docs/v36/current-audit/screenshots/resident-portraits-64px-contact-sheet.png', 'screenshots/resident-portraits-64px-contact-sheet.png'],
   ['docs/v36/current-audit/screenshots/market-nadezhda-costume-1440.png', 'screenshots/market-nadezhda-costume-1440.png'],
   ['docs/v36/current-audit/screenshots/junior-guard-sergey-costume-1440.png', 'screenshots/junior-guard-sergey-costume-1440.png'],
   ['docs/v36/current-audit/screenshots/fishseller-klavdiya-costume-1440.png', 'screenshots/fishseller-klavdiya-costume-1440.png'],

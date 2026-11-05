@@ -200,7 +200,7 @@
     }
   ],
   "portrait": {
-    "file": "assets/portrait-market_nadezhda.png",
+    "file": "assets/portrait-market_nadezhda.svg",
     "width": 64,
     "height": 64,
     "historicalConfidence": "FICTIONAL_CHARACTER_RECONSTRUCTION"

@@ -135,11 +135,15 @@
     "residents": 36,
     "uniqueWalkSprites": 36,
     "uniquePortraits": 36,
+    "uniqueFaceRegions": 36,
+    "faceRegionDuplicates": [],
     "frameGrid": "3×4 at 16×24 px",
-    "portraitSize": "64×64 px"
+    "portraitSize": "64×64 px",
+    "faceRegion": "20×17 px interior crop covering eyes, nose, and mouth; excluding hair, frame, and torso"
   },
   "screenshotEvidence": [
     "screenshots/nevsky-12-resident-neighborhood.png",
-    "screenshots/market-quay-12-resident-neighborhood.png"
+    "screenshots/market-quay-12-resident-neighborhood.png",
+    "screenshots/resident-portraits-64px-contact-sheet.png"
   ]
 }

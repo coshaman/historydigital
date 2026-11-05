@@ -1,6 +1,6 @@
 {
   "schemaVersion": "V36_DESK_WEBGL_PERFORMANCE_V1",
-  "measuredAt": "2026-11-05T01:06:38.107Z",
+  "measuredAt": "2026-11-05T05:48:14.848Z",
   "environment": {
     "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.12 Safari/537.36",
     "platform": "Win32",
@@ -24,10 +24,10 @@
   "samples": [
     {
       "label": "idle",
-      "browserFrameTimeMedian": 33.30000000000018,
-      "browserFrameTimeP95": 783.3000000000002,
-      "browserFpsMedian": 30.030030030029867,
-      "browserFpsP95": 1.2766500702157535,
+      "browserFrameTimeMedian": 16.699999999999818,
+      "browserFrameTimeP95": 50,
+      "browserFpsMedian": 59.88023952095874,
+      "browserFpsP95": 20,
       "sceneRenderedFrames": 0,
       "sceneRenderHz": 0,
       "metrics": {
@@ -38,17 +38,17 @@
         "dpr": 1,
         "propCount": 22,
         "renderedFrames": 1,
-        "lastRenderDurationMs": 158.20000000298023,
-        "maxRenderDurationMs": 158.20000000298023,
+        "lastRenderDurationMs": 148.30000000447035,
+        "maxRenderDurationMs": 148.30000000447035,
         "softwareRenderer": true
       }
     },
     {
       "label": "document-pickup",
       "browserFrameTimeMedian": 16.699999999999818,
-      "browserFrameTimeP95": 33.399999999999636,
+      "browserFrameTimeP95": 33.400000000000546,
       "browserFpsMedian": 59.88023952095874,
-      "browserFpsP95": 29.94011976047937,
+      "browserFpsP95": 29.940119760478552,
       "sceneRenderedFrames": 0,
       "sceneRenderHz": 0,
       "metrics": {
@@ -59,17 +59,17 @@
         "dpr": 1,
         "propCount": 22,
         "renderedFrames": 1,
-        "lastRenderDurationMs": 158.20000000298023,
-        "maxRenderDurationMs": 158.20000000298023,
+        "lastRenderDurationMs": 148.30000000447035,
+        "maxRenderDurationMs": 148.30000000447035,
         "softwareRenderer": true
       }
     },
     {
       "label": "drawer-interaction",
-      "browserFrameTimeMedian": 16.700000000000728,
-      "browserFrameTimeP95": 966.7000000000007,
-      "browserFpsMedian": 59.88023952095548,
-      "browserFpsP95": 1.0344470880314465,
+      "browserFrameTimeMedian": 33.29999999999927,
+      "browserFrameTimeP95": 1050,
+      "browserFpsMedian": 30.030030030030687,
+      "browserFpsP95": 0.9523809523809523,
       "sceneRenderedFrames": 0,
       "sceneRenderHz": 0,
       "metrics": {
@@ -80,19 +80,19 @@
         "dpr": 1,
         "propCount": 22,
         "renderedFrames": 1,
-        "lastRenderDurationMs": 158.20000000298023,
-        "maxRenderDurationMs": 158.20000000298023,
+        "lastRenderDurationMs": 148.30000000447035,
+        "maxRenderDurationMs": 148.30000000447035,
         "softwareRenderer": true
       }
     },
     {
       "label": "window-interaction",
-      "browserFrameTimeMedian": 49.899999999999636,
-      "browserFrameTimeP95": 50.100000000000364,
-      "browserFpsMedian": 20.040080160320787,
-      "browserFpsP95": 19.960079840319217,
+      "browserFrameTimeMedian": 33.399999999999636,
+      "browserFrameTimeP95": 66.60000000000036,
+      "browserFpsMedian": 29.94011976047937,
+      "browserFpsP95": 15.015015015014933,
       "sceneRenderedFrames": 1,
-      "sceneRenderHz": 0.5273983439687855,
+      "sceneRenderHz": 0.5771672630723421,
       "metrics": {
         "drawCalls": 12,
         "triangles": 144,
@@ -101,8 +101,8 @@
         "dpr": 1,
         "propCount": 22,
         "renderedFrames": 2,
-        "lastRenderDurationMs": 1.1000000014901161,
-        "maxRenderDurationMs": 158.20000000298023,
+        "lastRenderDurationMs": 1.3999999985098839,
+        "maxRenderDurationMs": 148.30000000447035,
         "softwareRenderer": true
       }
     }
