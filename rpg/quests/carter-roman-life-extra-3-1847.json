@@ -25,7 +25,6 @@
       "resultKo": "짐 상태와 시각을 같이 적었다. 다음에 문제가 생기면 인계 전후를 구분할 수 있다.",
       "resultFlag": "ROMAN_ROUTE_PRIORITY_1847_3_1",
       "followupTitleKo": "도착한 짐과 수취 확인",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "짐 상태와 시각을 같이 적었다. 다음에 문제가 생기면 인계 전후를 구분할 수 있다.",
         "relations": {
@@ -48,7 +47,6 @@
       "resultKo": "수량만 확인하고 출발했다. 다음 운행은 시작했지만 짐 상태는 서로 확인하지 못했다.",
       "resultFlag": "ROMAN_ROUTE_PRIORITY_1847_3_2",
       "followupTitleKo": "도착한 짐과 수취 확인",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "수량만 확인하고 출발했다. 다음 운행은 시작했지만 짐 상태는 서로 확인하지 못했다.",
         "relations": {
@@ -71,7 +69,6 @@
       "resultKo": "수취인이 없어 짐을 가져왔다. 잘못된 사람에게 넘기지는 않았고 재방문이 필요하다.",
       "resultFlag": "ROMAN_ROUTE_PRIORITY_1847_3_3",
       "followupTitleKo": "도착한 짐과 수취 확인",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "수취인이 없어 짐을 가져왔다. 잘못된 사람에게 넘기지는 않았고 재방문이 필요하다.",
         "relations": {

@@ -1,0 +1,35 @@
+{
+  "id": "V37_FUNERAL_DEBT_REPAYMENT_1847",
+  "titleKo": "장례비 빚 갚기",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "requiresLivingEventId": "E28",
+  "requiresLivingEventDebtStatus": ["OUTSTANDING"],
+  "premiseKo": "파벨은 장례비로 빌린 돈을 이리나에게 갚으러 왔다.",
+  "historicalOutcome": {
+    "id": "V37_FUNERAL_DEBT_REPAYMENT_GAMEPLAY",
+    "value": "fictional debt repayment and relationship outcome",
+    "sourceIds": []
+  },
+  "entry": { "mapId": "inn-interior", "objectId": 4007, "requiredHostId": "courier_pavel" },
+  "actions": [
+    {
+      "id": "E28_REPAY_FUNERAL_COSTS",
+      "hostIds": ["courier_pavel"],
+      "requiredLivingEventDebtStatus": "OUTSTANDING",
+      "requiredPresentHostIds": ["innkeeper_irina"],
+      "requiredParticipantDistance": 4,
+      "debtPaymentAmount": 2,
+      "durationMinutes": 3,
+      "labelKo": "2코페이카를 갚는다",
+      "subcopyKo": "이리나가 확인합니다 · 내 돈 2코페이카가 장부 빚에서 빠집니다",
+      "resultFlag": "v37FuneralDebtPartPaid",
+      "resultKo": "파벨은 이리나에게 장례비 빚 2코페이카를 갚았다.",
+      "effects": {
+        "moneyDelta": -2,
+        "situationKo": "장례비 빚 2코페이카를 갚았다."
+      }
+    }
+  ],
+  "completion": "파벨이 여관 장부에서 이리나에게 장례비 빚을 나누어 갚는다"
+}

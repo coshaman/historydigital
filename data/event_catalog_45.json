@@ -1,0 +1,1502 @@
+[
+  {
+    "event_id": "E01",
+    "title": "방세 독촉",
+    "place": "lodging_house",
+    "roles": [
+      "tenant",
+      "landlady"
+    ],
+    "trigger": "rent_due",
+    "visible_scene": "집주인이 방으로 올라와 밀린 방세를 받거나 연기를 협상한다",
+    "historical_anchor": "도시 풍속과 집세 계약 자료",
+    "player_actions": [
+      "지불",
+      "협상",
+      "이웃보증",
+      "거절"
+    ],
+    "world_consequence": "퇴거 위험·새 거처 찾기",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E02",
+    "title": "빵값 상승",
+    "place": "bakery",
+    "roles": [
+      "baker",
+      "hawker",
+      "poor"
+    ],
+    "trigger": "bread_stockout",
+    "visible_scene": "제빵사가 가격표를 고치고 손님들이 줄 앞에서 항의한다",
+    "historical_anchor": "도시 시장 가격 자료",
+    "player_actions": [
+      "구매",
+      "항의",
+      "외상",
+      "돕기"
+    ],
+    "world_consequence": "배고픔과 이웃 신용 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E03",
+    "title": "겨울 장작 부족",
+    "place": "market_stall",
+    "roles": [
+      "porter",
+      "merchant",
+      "tenant"
+    ],
+    "trigger": "cold_wave",
+    "visible_scene": "장작상 앞에 줄이 생기고 가격이 올라간다",
+    "historical_anchor": "기후와 생활비 기록",
+    "player_actions": [
+      "구매",
+      "운반",
+      "공동구매",
+      "외면"
+    ],
+    "world_consequence": "난방·건강 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E04",
+    "title": "세탁 일감",
+    "place": "wash_house",
+    "roles": [
+      "washer",
+      "servant"
+    ],
+    "trigger": "linen_due",
+    "visible_scene": "부잣집 린넨을 들고 노동자가 모인다",
+    "historical_anchor": "1845 도시 풍속집",
+    "player_actions": [
+      "수주",
+      "협상",
+      "도움",
+      "거절"
+    ],
+    "world_consequence": "임금·피로 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E05",
+    "title": "봉투 분실",
+    "place": "postal_yard",
+    "roles": [
+      "courier",
+      "clerk",
+      "merchant"
+    ],
+    "trigger": "parcel_missing",
+    "visible_scene": "배달원이 봉투를 잃어버려 수신자가 찾아온다",
+    "historical_anchor": "당대 우편·행정 규정",
+    "player_actions": [
+      "수색",
+      "신고",
+      "숨김",
+      "동행"
+    ],
+    "world_consequence": "정보·신뢰·위험 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E06",
+    "title": "검열된 지면",
+    "place": "printshop",
+    "roles": [
+      "printer",
+      "censor",
+      "bookseller"
+    ],
+    "trigger": "censor_order",
+    "visible_scene": "인쇄 조수가 빨간 삭제 표시를 보고 활자를 빼낸다",
+    "historical_anchor": "검열 법령·원본 정기간행물",
+    "player_actions": [
+      "삭제",
+      "이의",
+      "사본보관",
+      "보고"
+    ],
+    "world_consequence": "지면과 출판자 위험 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E07",
+    "title": "활자 인쇄 마감",
+    "place": "printshop",
+    "roles": [
+      "typesetter",
+      "publisher"
+    ],
+    "trigger": "deadline",
+    "visible_scene": "식자공이 한 칸의 활자를 다시 조립한다",
+    "historical_anchor": "1840년대 출판·작업 기록",
+    "player_actions": [
+      "교정",
+      "야근",
+      "품삯요구",
+      "중단"
+    ],
+    "world_consequence": "납품·임금 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E08",
+    "title": "제본 계약",
+    "place": "printshop_and_market_quay",
+    "roles": [
+      "binder",
+      "bookseller"
+    ],
+    "trigger": "scheduled_binding_order",
+    "visible_scene": "제본공이 책을 묶어 책방 주인에게 납품하고 약정한 대금을 받는다",
+    "historical_anchor": "출판사 광고·서점 목록",
+    "player_actions": [
+      "수주",
+      "책매입",
+      "외상",
+      "거절"
+    ],
+    "world_consequence": "수입·재고 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E09",
+    "title": "거리 수위의 신고",
+    "place": "tenement_courtyard",
+    "roles": [
+      "yardkeeper",
+      "tenant",
+      "watchman"
+    ],
+    "trigger": "noise_or_theft",
+    "visible_scene": "수위가 마당의 다툼을 목격하고 신고할지 망설인다",
+    "historical_anchor": "1845 생리학집 수위 묘사",
+    "player_actions": [
+      "중재",
+      "신고",
+      "증언",
+      "숨기기"
+    ],
+    "world_consequence": "평판·수사 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E10",
+    "title": "마차 운임 흥정",
+    "place": "nevsky_road",
+    "roles": [
+      "coachman",
+      "passenger"
+    ],
+    "trigger": "fare_request",
+    "visible_scene": "마부가 목적지와 도로 상태를 두고 운임을 정한다",
+    "historical_anchor": "도시 안내서·교통 자료",
+    "player_actions": [
+      "탑승",
+      "흥정",
+      "도보",
+      "동행"
+    ],
+    "world_consequence": "시간·돈 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E11",
+    "title": "다리와 운하 통행",
+    "place": "canal_crossing",
+    "roles": [
+      "sailor",
+      "courier",
+      "porter"
+    ],
+    "trigger": "bridge_schedule",
+    "visible_scene": "운하에 배가 몰려 짐 운반이 지연된다",
+    "historical_anchor": "운하·교량 자료",
+    "player_actions": [
+      "대기",
+      "우회",
+      "노무구함"
+    ],
+    "world_consequence": "화물·시간 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E12",
+    "title": "창고 하역 부상",
+    "place": "warehouse",
+    "roles": [
+      "porter",
+      "doctor"
+    ],
+    "trigger": "heavy_load",
+    "visible_scene": "짐꾼이 부상을 입어 작업이 멈춘다",
+    "historical_anchor": "노동 풍속·의료 문헌",
+    "player_actions": [
+      "진료",
+      "대체인력",
+      "숨김",
+      "휴식"
+    ],
+    "world_consequence": "건강·임금 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E13",
+    "title": "시장 바가지 논쟁",
+    "place": "market",
+    "roles": [
+      "vendor",
+      "buyer",
+      "watchman"
+    ],
+    "trigger": "supply_shock",
+    "visible_scene": "양배추 더미 옆에서 값을 두고 말다툼이 난다",
+    "historical_anchor": "시장·생활비 자료",
+    "player_actions": [
+      "흥정",
+      "중재",
+      "경찰요청",
+      "무시"
+    ],
+    "world_consequence": "신용·재고 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E14",
+    "title": "빈민 무료급식",
+    "place": "parish_church",
+    "roles": [
+      "relief_worker",
+      "poor",
+      "clergy"
+    ],
+    "trigger": "charity_day",
+    "visible_scene": "교회 앞 식량 배급 줄이 길어진다",
+    "historical_anchor": "교구·자선 관련 자료",
+    "player_actions": [
+      "배급",
+      "기부",
+      "줄서기",
+      "돕기"
+    ],
+    "world_consequence": "굶주림·관계 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E15",
+    "title": "병든 하숙인",
+    "place": "lodging_house",
+    "roles": [
+      "doctor",
+      "landlady",
+      "tenant"
+    ],
+    "trigger": "illness",
+    "visible_scene": "방에서 환자가 나오지 않아 주변 사람이 문을 두드린다",
+    "historical_anchor": "19세기 러시아 위생·의학 자료",
+    "player_actions": [
+      "왕진",
+      "약구매",
+      "격리",
+      "간호"
+    ],
+    "world_consequence": "건강·감염 위험 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E16",
+    "title": "약재 부족",
+    "place": "market-quay apothecary counter",
+    "roles": [
+      "apothecary assistant",
+      "warehouse clerk",
+      "customer"
+    ],
+    "trigger": "supply_missing",
+    "visible_scene": "약방 재고표에서 꾸러미가 비어 있고 거래처가 주문을 확인한다",
+    "historical_anchor": "1841년 약국 가격표 서지 흔적만 확인; 이 생활 사건과 물품 내용은 검증되지 않음",
+    "source_ids": [
+      "CAT-NLR-SENATSKIE-1841-APTEKARSKAYA-TAXA"
+    ],
+    "player_actions": [
+      "사적 주문 메모",
+      "주문 보류",
+      "꾸러미 인도",
+      "인도 거절"
+    ],
+    "world_consequence": "물품 재고·양측 잔액·거래 관계 변화; 건강이나 약효 변화 없음",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E17",
+    "title": "저녁 여관 손님",
+    "place": "inn",
+    "roles": [
+      "innkeeper",
+      "server",
+      "traveler"
+    ],
+    "trigger": "arrival",
+    "visible_scene": "여관에 낯선 사람이 들어와 숙박과 식사를 부탁한다",
+    "historical_anchor": "당대 여행기·여관 규정",
+    "player_actions": [
+      "방제공",
+      "가격협상",
+      "거절",
+      "신분확인"
+    ],
+    "world_consequence": "수입·소문 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E18",
+    "title": "늦은 식사",
+    "place": "tavern",
+    "roles": [
+      "worker",
+      "server"
+    ],
+    "trigger": "hunger_high",
+    "visible_scene": "노동자가 일 끝나고 식사를 주문한다",
+    "historical_anchor": "식생활·가격 자료",
+    "player_actions": [
+      "식사",
+      "외상",
+      "자리양보",
+      "대화"
+    ],
+    "world_consequence": "돈·배고픔·소문 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E19",
+    "title": "견습생의 글공부",
+    "place": "schoolhouse",
+    "roles": [
+      "teacher",
+      "apprentice"
+    ],
+    "trigger": "lesson_time",
+    "visible_scene": "일터를 마친 아이가 글공부를 청한다",
+    "historical_anchor": "교육·문해 관련 자료",
+    "player_actions": [
+      "가르침",
+      "보수요구",
+      "지원",
+      "거절"
+    ],
+    "world_consequence": "지식·피로 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E20",
+    "title": "관리의 서류 누락",
+    "place": "ministry_office",
+    "roles": [
+      "clerk",
+      "superior"
+    ],
+    "trigger": "missing_record",
+    "visible_scene": "관청 서류 묶음에서 한 장이 빠져 있다",
+    "historical_anchor": "행정 체계·관등제 자료",
+    "player_actions": [
+      "조사",
+      "신고",
+      "대체",
+      "보류"
+    ],
+    "world_consequence": "승진·책임 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E21",
+    "title": "살롱 논쟁",
+    "place": "salon",
+    "roles": [
+      "elite",
+      "bookseller",
+      "student"
+    ],
+    "trigger": "salon_night",
+    "visible_scene": "러시아와 서구의 길을 두고 참석자들이 맞선다",
+    "historical_anchor": "슬라브주의·서구주의 원전",
+    "player_actions": [
+      "발언",
+      "질문",
+      "침묵",
+      "서적 제시"
+    ],
+    "world_consequence": "인맥·사상·초대 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E22",
+    "title": "신문 발행일",
+    "place": "newsstand",
+    "roles": [
+      "printer",
+      "reader"
+    ],
+    "trigger": "issue_released",
+    "visible_scene": "새 호가 진열되고 사람이 기사의 대목을 읽는다",
+    "historical_anchor": "Северная пчела·Современник 실물 호",
+    "player_actions": [
+      "구입",
+      "낭독",
+      "비교",
+      "논평"
+    ],
+    "world_consequence": "이슈 지식·구독 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E23",
+    "title": "가짜 소문의 확산",
+    "place": "market",
+    "roles": [
+      "hawker",
+      "clerk"
+    ],
+    "trigger": "rumor",
+    "visible_scene": "시장에서 잘못된 사건 소문이 번진다",
+    "historical_anchor": "실제 기사와 구분한 허구 소문",
+    "player_actions": [
+      "확인",
+      "전달",
+      "반박",
+      "묵살"
+    ],
+    "world_consequence": "여론과 신뢰 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E24",
+    "title": "안뜰 독서 모임",
+    "place": "shared_courtyard",
+    "roles": [
+      "student",
+      "reader"
+    ],
+    "trigger": "student_and_reader_meet_at_the_scheduled_reading_hour",
+    "visible_scene": "학생과 독자가 안뜰에 모이고 참석 장부에 이름을 남길지 이야기한다",
+    "historical_anchor": "FICTIONAL_RECONSTRUCTION_ONLY",
+    "player_actions": [
+      "이름을 남기고 발언",
+      "명단 없이 듣기",
+      "공개 장부를 만들지 않기"
+    ],
+    "world_consequence": "물리적 모임·공개 명단 또는 익명 참석·관계 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E25",
+    "title": "경찰의 신분 조회",
+    "place": "police_post",
+    "roles": [
+      "watchman",
+      "poor",
+      "traveler"
+    ],
+    "trigger": "follow_up_after_reported_lost_parcel",
+    "visible_scene": "분실 신고 뒤 배달부와 경찰관이 경로와 시각을 확인한다",
+    "historical_anchor": "당대 이동·등록 규정",
+    "player_actions": [
+      "경로를 장부에 적기",
+      "확인 범위 묻기",
+      "답을 미루고 나가기"
+    ],
+    "world_consequence": "공식 기록 범위·배달 경로 노출·미확인 신고",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E26",
+    "title": "불어난 숙박비",
+    "place": "courtyard",
+    "roles": [
+      "landlady",
+      "tenant"
+    ],
+    "trigger": "first_purchase_after_E02_price_adjustment",
+    "visible_scene": "빵값 조정 뒤 안뜰에 방세 인상 공지가 붙는다",
+    "historical_anchor": "도시 집세·숙박자료",
+    "player_actions": [
+      "흥정",
+      "이사",
+      "방세 분담 제안"
+    ],
+    "world_consequence": "경제·거주 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E27",
+    "title": "화재 경보",
+    "place": "tenement_courtyard",
+    "roles": [
+      "firewatch",
+      "worker",
+      "tenant"
+    ],
+    "trigger": "fire_ignition",
+    "visible_scene": "연기와 종소리로 주변인이 물을 나르고 피난한다",
+    "historical_anchor": "당대 화재·도시 행정 기록",
+    "player_actions": [
+      "진화지원",
+      "피난",
+      "구조",
+      "신고"
+    ],
+    "world_consequence": "상처·집손실·감사 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E28",
+    "title": "장례 비용",
+    "place": "parish_church",
+    "roles": [
+      "family",
+      "clergy"
+    ],
+    "trigger": "family_death",
+    "visible_scene": "가족이 관과 예배 비용을 마련한다",
+    "historical_anchor": "교구 관습·장례 풍속",
+    "player_actions": [
+      "비용마련",
+      "도움",
+      "장부확인"
+    ],
+    "world_consequence": "돈·유대 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E29",
+    "title": "사교 초대장",
+    "place": "salon",
+    "roles": [
+      "patron",
+      "clerk"
+    ],
+    "trigger": "invitation",
+    "visible_scene": "하급 서기가 낯선 귀족의 모임 초대를 받는다",
+    "historical_anchor": "당대 사교 회고 자료",
+    "player_actions": [
+      "참석",
+      "서신답변",
+      "거절"
+    ],
+    "world_consequence": "접근권·평판 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E30",
+    "title": "무명 저자의 원고",
+    "place": "bookshop",
+    "roles": [
+      "bookseller",
+      "publisher",
+      "student"
+    ],
+    "trigger": "manuscript_offer",
+    "visible_scene": "작가가 원고를 내밀고 인쇄비를 흥정한다",
+    "historical_anchor": "당대 출판 계약 자료",
+    "player_actions": [
+      "검토",
+      "추천",
+      "출판보류"
+    ],
+    "world_consequence": "문학 인맥·돈 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E31",
+      "title": "고골 「러시아 지주」 독서 모임",
+      "place": "bookshop-interior",
+    "roles": [
+      "student",
+      "official",
+      "reader"
+    ],
+      "trigger": "gogol_russian_landlord_publication_reading",
+      "visible_scene": "세 독자가 고골의 공개된 글을 읽고 지주와 농민의 관계를 두고 논쟁한다",
+      "historical_anchor": "Гоголь, «Русской помещик», 1847, глава XXII",
+    "player_actions": [
+        "주인의 책임을 묻기",
+        "복종 요구에 반박하기",
+        "농민의 목소리를 묻기"
+    ],
+    "world_consequence": "사상·관계 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E32",
+    "title": "농촌에서 온 구직자",
+    "place": "market",
+    "roles": [
+      "migrant",
+      "employer"
+    ],
+    "trigger": "jobseeker",
+    "visible_scene": "도착한 사람이 연줄과 일자리를 찾는다",
+    "historical_anchor": "도시 이주·등록 자료",
+    "player_actions": [
+      "고용",
+      "소개",
+      "노숙지원",
+      "거절"
+    ],
+    "world_consequence": "노동 공급·안전 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E33",
+    "title": "어린 견습의 탈진",
+    "place": "printshop",
+    "roles": [
+      "apprentice",
+      "printer"
+    ],
+    "trigger": "fatigue",
+    "visible_scene": "견습생이 활자 앞에서 쓰러질 듯하다",
+    "historical_anchor": "도시 노동 풍속",
+    "player_actions": [
+      "휴식",
+      "대체근무",
+      "진료",
+      "외면"
+    ],
+    "world_consequence": "건강·생산 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E34",
+    "title": "밀수 판본 거래",
+    "place": "bookshop",
+    "roles": [
+      "bookseller",
+      "student",
+      "watchman"
+    ],
+    "trigger": "risky_book",
+    "visible_scene": "책장 밑에서 정체 불명의 인쇄본이 발견된다",
+    "historical_anchor": "실제 압수 기록 존재할 때만 역사 사건 연동",
+    "player_actions": [
+      "숨김",
+      "확인",
+      "신고",
+      "거절"
+    ],
+    "world_consequence": "검열 위험·관계 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E35",
+    "title": "지붕 누수 수리",
+    "place": "tenement_courtyard",
+    "roles": [
+      "carpenter",
+      "tenant"
+    ],
+    "trigger": "rain_damage",
+    "visible_scene": "비가 새는 방 때문에 목수가 방문한다",
+    "historical_anchor": "생활·건축 자료",
+    "player_actions": [
+      "수리",
+      "비용협상",
+      "이사"
+    ],
+    "world_consequence": "돈·주거 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E36",
+    "title": "장터 도난",
+    "place": "market",
+    "roles": [
+      "vendor",
+      "thief",
+      "watchman"
+    ],
+    "trigger": "theft",
+    "visible_scene": "상인이 돈주머니가 사라진 걸 알아차린다",
+    "historical_anchor": "당대 법률·치안 자료",
+    "player_actions": [
+      "추적",
+      "목격증언",
+      "경찰",
+      "중재"
+    ],
+    "world_consequence": "법적 위험·평판 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E37",
+    "title": "차별적인 일자리",
+    "place": "official_flat",
+    "roles": [
+      "governess",
+      "patron"
+    ],
+    "trigger": "employment_offer",
+    "visible_scene": "후원자가 가정교사에 새 조건을 내건다",
+    "historical_anchor": "여성 교육·고용 역사 자료",
+    "player_actions": [
+      "수락",
+      "협상",
+      "거절"
+    ],
+    "world_consequence": "임금·기회 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E38",
+    "title": "거리 악사 공연",
+    "place": "nevsky_road",
+    "roles": [
+      "musician",
+      "passerby"
+    ],
+    "trigger": "street_show",
+    "visible_scene": "거리 악사의 연주를 듣고 사람들이 모여든다",
+    "historical_anchor": "1845 풍속 스케치 거리 음악가",
+    "player_actions": [
+      "동전주기",
+      "질문",
+      "외면"
+    ],
+    "world_consequence": "돈·여가·소문 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E39",
+    "title": "서점 낭독회",
+    "place": "bookshop",
+    "roles": [
+      "bookseller",
+      "student"
+    ],
+    "trigger": "public_reading",
+    "visible_scene": "신간을 둘러싸고 독자들의 의견이 갈린다",
+    "historical_anchor": "정확한 작품 판본·호수",
+    "player_actions": [
+      "구매",
+      "논평",
+      "찬반",
+      "서간"
+    ],
+    "world_consequence": "사상·구독 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E40",
+    "title": "페트라솁스키 체포 소식",
+    "place": "st_petersburg_1849",
+    "roles": [
+      "student",
+      "official",
+      "police"
+    ],
+    "trigger": "historical_1849_arrests",
+    "visible_scene": "일부 실제 인물이 체포되고 서류와 편지가 조사된다",
+    "historical_anchor": "1849 페트라솁스키 사건 관련 기록",
+    "player_actions": [
+      "증언",
+      "숨김",
+      "서류검토",
+      "거리두기"
+    ],
+    "world_consequence": "위험·문헌 접근 변화",
+    "occurrence_type": "DOCUMENTED_HISTORICAL_EVENT",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "HISTORICAL_FIXED",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E41",
+    "title": "1849년 12월 선고",
+    "place": "semenovsky_square",
+    "roles": [
+      "official",
+      "witness",
+      "prisoner"
+    ],
+    "trigger": "historical_1849_dec",
+    "visible_scene": "사형식 준비와 형 감경 발표가 역사대로 진행된다",
+    "historical_anchor": "1849년 12월 22일 기록·연구",
+    "player_actions": [
+      "목격",
+      "전언",
+      "후일문헌 검토"
+    ],
+    "world_consequence": "개인 트라우마·소문 변화",
+    "occurrence_type": "DOCUMENTED_HISTORICAL_EVENT",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "HISTORICAL_FIXED",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E42",
+    "title": "1848년 유럽 소식",
+    "place": "newsstand",
+    "roles": [
+      "reader",
+      "printer",
+      "student"
+    ],
+    "trigger": "foreign_news_1848",
+    "visible_scene": "유럽 정치 변동 기사를 두고 독자들이 언쟁한다",
+    "historical_anchor": "1848년 실제 정기간행물 기사",
+    "player_actions": [
+      "읽기",
+      "질문",
+      "논평",
+      "불매"
+    ],
+    "world_consequence": "소문·사상·검열 변화",
+    "occurrence_type": "DOCUMENTED_HISTORICAL_EVENT",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "HISTORICAL_FIXED",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E43",
+    "title": "푸시킨의 죽음 소식",
+    "place": "newsstand",
+    "roles": [
+      "reader",
+      "clerk",
+      "poet"
+    ],
+    "trigger": "historical_1837_news",
+    "visible_scene": "1837년 푸시킨 사망 보도가 퍼지고 애도 문서가 등장한다",
+    "historical_anchor": "1837년 실제 기사·편지",
+    "player_actions": [
+      "읽기",
+      "애도",
+      "논쟁",
+      "편지"
+    ],
+    "world_consequence": "문학 네트워크 영향",
+    "occurrence_type": "DOCUMENTED_HISTORICAL_EVENT",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "HISTORICAL_FIXED",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E44",
+    "title": "벨린스키의 편지 논쟁",
+    "place": "literary_circle",
+    "roles": [
+      "critic",
+      "reader",
+      "clerk"
+    ],
+    "trigger": "historical_1847_letter",
+    "visible_scene": "편지 내용이 실제 유통 가능한 경로로 소개되어 토론을 유발한다",
+    "historical_anchor": "1847년 벨린스키 서한·판본",
+    "player_actions": [
+      "대조",
+      "반론",
+      "침묵",
+      "전달"
+    ],
+    "world_consequence": "사상·감시·관계 변화",
+    "occurrence_type": "DOCUMENTED_HISTORICAL_EVENT",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "HISTORICAL_FIXED",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  },
+  {
+    "event_id": "E45",
+    "title": "공식 행렬과 경계",
+    "place": "nevsky_road",
+    "roles": [
+      "officer",
+      "coachman",
+      "hawker"
+    ],
+    "trigger": "state_procession",
+    "visible_scene": "공식 마차 이동으로 길이 막히고 상인들이 치워진다",
+    "historical_anchor": "당대 의전·통행 규정",
+    "player_actions": [
+      "우회",
+      "관찰",
+      "항의",
+      "영업중단"
+    ],
+    "world_consequence": "시간·평판 변화",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
+    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "trigger_class": "EMERGENT_CONDITIONAL",
+    "scene_steps": [
+      "spawn_actor_and_prop",
+      "show_causal_world_change",
+      "perform_interaction",
+      "update_witness_and_private_knowledge",
+      "emit_local_newspaper_or_gossip_if_newsworthy"
+    ],
+    "failure_outcomes": [
+      "nonparticipation_world_continues",
+      "witness_not_omniscient"
+    ]
+  }
+]

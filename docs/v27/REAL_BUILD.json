@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "REAL-BUILD-1",
+  "kind": "static-deployment-artifact",
+  "generatedAt": "2026-11-06T11:21:22.859Z",
+  "bundler": "none",
+  "sourceRoot": ".",
+  "entry": "index.html",
+  "server": "server.mjs",
+  "copiedDirectories": [
+    "data",
+    "assets",
+    "narrative",
+    "rpg"
+  ],
+  "files": {
+    "index.html": {
+      "path": "index.html",
+      "sha256": "87d723707271d32eb470463067d39c21726fa45aaf3fb987129dbe6ea607119f"
+    },
+    "styles.css": {
+      "path": "styles.css",
+      "sha256": "fd08418ce9981e57867b3ed34df17b833a70b8f2e1e54392ddfc78c344d27d9e"
+    },
+    "app.js": {
+      "path": "app.js",
+      "sha256": "dd7d2c8b7ffa3b0bddf3bf8b5aac1e7753e3f9578918ebfd92f3d16f8692637a"
+    },
+    "gold-runtime.js": {
+      "path": "gold-runtime.js",
+      "sha256": "150e8fb48ab52166f2f21e105ccc585583fdeab74ca2a4fead126546dc1c5ff3"
+    },
+    "three-desk.js": {
+      "path": "three-desk.js",
+      "sha256": "67033e4816c08a8ae68f38ee524cfa0c3d77d8fe47832be4f58014975ff659d2"
+    },
+    "three-walk.js": {
+      "path": "three-walk.js",
+      "sha256": "e8307e915b4cf1616a4a770417bcc4c5f85864715f35014e7fb1e05343f850b7"
+    },
+    "window-view-controller.js": {
+      "path": "window-view-controller.js",
+      "sha256": "0a23fd7055dd529551e493bcb893bdaccfa06f58456e40f213b322ab842694a8"
+    },
+    "main20-branch-graph.js": {
+      "path": "main20-branch-graph.js",
+      "sha256": "509eb9672a07b5c42b5e6dcb490f300af7bd0153f646918ebfc97bb860c45983"
+    },
+    "main20-exam.js": {
+      "path": "main20-exam.js",
+      "sha256": "0bda69bd0890ac59669235986b24679a25cd23bedc210cd54bd961ff8c7d912b"
+    },
+    "main20-life-simulation.js": {
+      "path": "main20-life-simulation.js",
+      "sha256": "96de9b7f62081dbbc6a2bd14ebba95d326c6bb0266fde51c25bd1efaf04ffbe6"
+    },
+    "main20-runtime.js": {
+      "path": "main20-runtime.js",
+      "sha256": "ace8d2ce323dc265c6f49355ea258acc1ea93cb14e5be3e2a0cf821c408d901b"
+    },
+    "server.mjs": {
+      "path": "server.mjs",
+      "sha256": "984c9e44e060092cb8565af1002745cef9923e33bd6e467fbe133015dfe1c9ac"
+    },
+    "server-mime.mjs": {
+      "path": "server-mime.mjs",
+      "sha256": "3e5d9e65e88f642471593d5a57ac99d21f292661f54469eefb07c000eb1d058d"
+    }
+  },
+  "status": "PASS",
+  "artifactPath": "dist/",
+  "note": "Static app has no bundler; this is the actual copied deployment artifact served by dist/server.mjs."
+}

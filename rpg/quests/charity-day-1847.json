@@ -1,0 +1,72 @@
+{
+  "id": "V37_CHARITY_DAY_1847",
+  "titleKo": "시장에 선 일요일 구호 줄",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "requiresLivingEventId": "E14",
+  "premiseKo": "시장에 남은 빵 한 묶음이 구호 몫으로 나올 수 있습니다. 배가 고픈 세입자와 상인, 안뜰 관리인이 좌판 곁에 모이면 누가 비용을 내고 어떻게 나눌지 정할 수 있습니다.",
+  "historicalOutcome": {
+    "id": "V37_CHARITY_DAY_FICTIONAL_OUTCOME",
+    "value": "fictional Sunday market-side food-relief transaction and resident hunger only; no historical parish, charity institution, or price is asserted",
+    "sourceIds": []
+  },
+  "entry": { "mapId": "market-quay", "objectId": 1175 },
+  "actions": [
+    {
+      "id": "E14_BUY_FOR_SELF",
+      "hostIds": ["tenant_mikhail"],
+      "requiredLivingEventActorKey": "recipientHostId",
+      "requiredLivingEventStage": "RELIEF_LINE_FORMS",
+      "requiredPresentHostIds": ["yardkeeper_semyon", "market_nadezhda"],
+      "requiredParticipantDistance": 4,
+      "durationMinutes": 2,
+      "labelKo": "1코페이카를 내고 빵을 받아 간다",
+      "subcopyKo": "안뜰 관리인과 상인이 압니다 · 시장 구호 장부에 값이 남습니다 · 내 돈 1코페이카가 나갑니다 · 음식이 해결되지만 동전 하나를 씁니다",
+      "resultFlag": "v37CharityRationPurchased",
+      "resultKo": "미하일은 값을 치르고 빵을 받아 안뜰로 가져갔다.",
+      "effects": { "situationKo": "일요일 시장 구호 줄에서 1코페이카를 내고 빵 한 묶음을 받았다." }
+    },
+    {
+      "id": "E14_ORGANIZER_SPONSORS",
+      "hostIds": ["yardkeeper_semyon"],
+      "requiredLivingEventStage": "RELIEF_LINE_FORMS",
+      "requiredPresentHostIds": ["tenant_mikhail", "market_nadezhda"],
+      "requiredParticipantDistance": 4,
+      "durationMinutes": 2,
+      "labelKo": "공동 돈에서 1코페이카를 보태 준다",
+      "subcopyKo": "미하일과 상인이 압니다 · 시장 구호 장부에 지출이 남습니다 · 공동 돈 1코페이카가 상인에게 갑니다 · 다음 안뜰 지출에 쓸 몫이 줄어듭니다",
+      "resultFlag": "v37CharityRationSponsored",
+      "resultKo": "세묜은 공동 돈에서 빵값을 내고 미하일에게 한 묶음을 건넸다.",
+      "effects": { "situationKo": "시장 구호를 위해 1코페이카를 보탰다." }
+    },
+    {
+      "id": "E14_VENDOR_DONATES",
+      "hostIds": ["market_nadezhda"],
+      "requiresLivingEventActorKey": "donorHostId",
+      "requiredLivingEventStage": "RELIEF_LINE_FORMS",
+      "requiredPresentHostIds": ["yardkeeper_semyon", "tenant_mikhail"],
+      "requiredParticipantDistance": 4,
+      "durationMinutes": 2,
+      "labelKo": "빵 한 묶음을 구호 몫으로 내놓는다",
+      "subcopyKo": "세묜과 미하일이 압니다 · 시장 구호 장부에 남습니다 · 좌판 재고 한 묶음을 내어 줍니다 · 오늘 판매 수입은 생기지 않습니다",
+      "resultFlag": "v37CharityRationDonated",
+      "resultKo": "나데즈다는 빵 한 묶음을 구호 몫으로 내어 주었다.",
+      "effects": { "situationKo": "좌판의 빵 한 묶음을 구호 몫으로 내놓았다." }
+    },
+    {
+      "id": "E14_DECLINE_AID",
+      "hostIds": ["tenant_mikhail"],
+      "requiresLivingEventActorKey": "recipientHostId",
+      "requiredLivingEventStage": "RELIEF_LINE_FORMS",
+      "requiredPresentHostIds": ["yardkeeper_semyon", "market_nadezhda"],
+      "requiredParticipantDistance": 4,
+      "durationMinutes": 1,
+      "labelKo": "오늘은 줄에서 물러난다",
+      "subcopyKo": "곁에 있는 상인과 관리인이 압니다 · 공식 문서에는 오르지 않습니다 · 돈과 빵은 움직이지 않습니다 · 허기를 안고 돌아가는 부담을 감수합니다",
+      "resultFlag": "v37CharityAidDeclined",
+      "resultKo": "미하일은 오늘은 줄에서 물러났다. 빵은 좌판에 남았다.",
+      "effects": { "situationKo": "시장 구호 줄에서 물러났다. 당장의 식량은 얻지 못했다." }
+    }
+  ],
+  "completion": "A high-hunger resident, a market seller with actual bread stock, and the courtyard steward converge at the market relief table on a Sunday. The food, money, hunger, relations, witnesses, and unattended result are deterministic fictional gameplay; this is an adaptation of the unverified catalog seed, not a claim about a historical parish schedule or price."
+}

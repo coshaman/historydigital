@@ -25,7 +25,6 @@
       "resultKo": "바뀐 줄과 확인한 시각을 적었다. 사실은 남지만 수정한 사람은 아직 확인되지 않았다.",
       "resultFlag": "stepanMarked",
       "followupTitleKo": "고친 글자와 찍은 손",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "바뀐 줄과 확인 시각을 교정표에 적었다.",
         "relations": {
@@ -43,7 +42,6 @@
       "resultKo": "추측한 이름을 작업표에 올렸다. 조사는 시작될 수 있지만 그 사람이 고쳤다는 증거는 없다.",
       "resultFlag": "stepanNamed",
       "followupTitleKo": "고친 글자와 찍은 손",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "확인되지 않은 수정자 이름을 작업표에 썼다.",
         "relations": {
@@ -61,7 +59,6 @@
       "resultKo": "교정쇄를 다시 맞춰 보기로 했다. 잘못된 인쇄를 막을 수 있지만 다른 작업이 밀린다.",
       "resultFlag": "stepanCompared",
       "followupTitleKo": "고친 글자와 찍은 손",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "작업표를 보류하고 교정쇄를 대조하기로 했다.",
         "relations": {

@@ -21,10 +21,18 @@ function runFullDay() {
   let state = game.createInitialState({ maps, hostCards: cards, quests, startMapId: 'nevsky' });
   const initialPositions = Object.fromEntries(ids.map(id => [id, { mapId: state.hosts[id].mapId, ...state.hosts[id].position }]));
   const observedPersonalGoalVisits = [];
+  const nightlySleepArrivals = new Set();
   let collisionSnapshots = 0;
   for (let interval = 0; interval < 288; interval += 1) {
     const priorLedgerLength = state.ledger.length;
     state = game.advanceNpcWorld(state, 5, maps);
+    if (state.world.clockMinutes >= 1380 && state.world.clockMinutes < 1500) {
+      for (const id of ids) {
+        const host = state.hosts[id], sleepSlot = host.schedule.find(slot => slot.routineKind === 'FICTIONAL_HOME_SLEEP');
+        if (sleepSlot && host.mapId === sleepSlot.mapId && Math.abs(host.position.x - sleepSlot.position.x) + Math.abs(host.position.y - sleepSlot.position.y) <= 1
+          && /잠|취침/.test(host.currentActivityKo ?? '')) nightlySleepArrivals.add(id);
+      }
+    }
     const addedEvents = state.ledger.length >= priorLedgerLength ? state.ledger.slice(priorLedgerLength) : state.ledger;
     observedPersonalGoalVisits.push(...addedEvents.flatMap(event => event.personalGoalVisits ?? []));
     const occupied = new Map();
@@ -59,7 +67,7 @@ function runFullDay() {
     assert.ok(host.currentActivityKo?.length > 0, `${id} needs a current activity after the full-day replay`);
   }
   assert.deepEqual(state.quests, Object.fromEntries(quests.map(quest => [quest.id, { status:'open', result:null }])), 'NPC autonomy cannot complete player quests');
-  return { state, initialPositions, moves, movementStepsByResident, collisionSnapshots, observedPersonalGoalVisits };
+  return { state, initialPositions, moves, movementStepsByResident, collisionSnapshots, observedPersonalGoalVisits, nightlySleepArrivals };
 }
 
 const startedAt = performance.now();
@@ -67,6 +75,26 @@ const replays = [runFullDay(), runFullDay(), runFullDay()];
 const hashes = replays.map(run => game.stateHash(run.state));
 assert.equal(new Set(hashes).size, 1, 'three canonical full-day replays must produce identical saved state');
 const first = replays[0];
+assert.equal(first.nightlySleepArrivals.size, ids.length,
+  `all residents must reach their authored home/street sleeping location at night; missed=${JSON.stringify(ids.filter(id => !first.nightlySleepArrivals.has(id)))}`);
+assert.ok(replays.every(run => run.state.world.livingEventStates.E05 === undefined),
+  'the authored courier reaches the recipient by the delivery deadline in the unmodified full-day scenario');
+assert.ok(first.state.ledger.flatMap(event => event.deliveries ?? [])
+  .some(delivery => delivery.taskId === 'PAVEL_DELIVER_SEALED_ENVELOPE_01'),
+  'the normal parcel handoff physically transfers the sealed envelope to its intended recipient');
+const injuryStages = first.state.ledger.flatMap(event => event.livingEvents ?? [])
+  .filter(event => event.catalogIdSpace === 'V37_EVENT_CATALOG_45' && event.catalogEventId === 'E12').map(event => event.stage);
+assert.deepEqual(injuryStages, ['INJURY', 'RESTED_UNTREATED'],
+  'the unmodified 36-resident day naturally includes the heavy-load injury and unattended rest stages');
+assert.equal(first.state.world.livingEventStates.E12?.stage, 'RESTED_UNTREATED');
+const catalogEventRows = first.state.ledger.flatMap(event => event.livingEvents ?? [])
+  .filter(event => event.catalogIdSpace === 'V37_EVENT_CATALOG_45');
+const missingRecordStages = catalogEventRows.filter(event => event.catalogEventId === 'E20').map(event => event.stage);
+assert.deepEqual(missingRecordStages, ['RECORD_NOT_FOUND', 'UNMATCHED_FILED_AUTOMATICALLY'],
+  'the unattended intake discrepancy is filed by the supervisor during the ordinary city day');
+const apprenticeFatigueStages = catalogEventRows.filter(event => event.catalogEventId === 'E33').map(event => event.stage);
+assert.deepEqual(apprenticeFatigueStages, ['FATIGUE_LIMIT_REACHED', 'RESTED_UNATTENDED'],
+  'the apprentice naturally reaches the authored rest threshold and recovers without player intervention');
 const restored = game.loadGame(game.saveGame(first.state), { maps, hostCards: cards, quests });
 const saveReloadDifferences = Object.keys(first.state).filter(key => JSON.stringify(first.state[key]) !== JSON.stringify(restored[key]));
 const changedHostFields = Object.fromEntries(ids.flatMap(id => {
@@ -79,6 +107,8 @@ const autonomousGoals = goals.filter(goal => !['SCHEDULE', 'POSSESSED'].includes
 const autonomousGoalTypesByResident = Object.fromEntries(ids.map(id => [id, [...new Set(autonomousGoals.filter(goal => goal.hostId === id).map(goal => goal.type))]]));
 const deliveries = first.state.ledger.flatMap(event => event.deliveries ?? []);
 const exchanges = first.state.ledger.flatMap(event => event.exchanges ?? []);
+const wagePayments = first.state.ledger.flatMap(event => event.payments ?? []).filter(payment => payment.kind === 'WAGE');
+const marketMeals = first.state.ledger.flatMap(event => event.meals ?? []).filter(meal => meal.kind === 'PURCHASE_AND_EAT');
 const personalContacts = first.state.ledger.flatMap(event => event.personalContacts ?? []);
 const personalGoalVisits = first.observedPersonalGoalVisits;
 const deferredLifeGoalHosts = {
@@ -113,9 +143,33 @@ assert.ok(Object.values(autonomousGoalTypesByResident).every(types => types.leng
   `each of the 36 residents must make at least one need-, relationship-, or personal-life-driven decision during the day; missing=${JSON.stringify(Object.entries(autonomousGoalTypesByResident).filter(([, types]) => !types.length).map(([id]) => id))}`);
 assert.ok(deliveries.length > 0, 'at least one scheduled item handoff should complete');
 assert.ok(exchanges.length > 0, 'at least one scheduled exchange should complete');
+assert.ok(marketMeals.length > 0, 'a hungry resident should physically buy and eat market food during the day');
+assert.ok(marketMeals.every(meal => meal.mapId === meal.sellerMapId
+  && Math.abs(meal.position.x - meal.sellerPosition.x) + Math.abs(meal.position.y - meal.sellerPosition.y) <= 1
+  && meal.price > 0 && meal.valueStatus === 'fictional_gameplay_balance'),
+  'market meals must be paid, adjacent seller handoffs with fictional balance labels');
+assert.ok(marketMeals.every(meal => goals.some(goal => goal.hostId === meal.hostId && goal.type === 'PURCHASE_MEAL'
+  && goal.targetHostId === meal.sellerHostId)
+  && first.moves.some(move => move.hostId === meal.hostId && move.toMapId === meal.mapId && move.minute <= meal.minute)),
+  'each market meal needs a matching seller-directed goal and recorded movement in the seller district');
+for (const hostId of ['printer_ekaterina', 'print_apprentice_stepan', 'typesetter_nikita']) {
+  assert.ok(wagePayments.some(payment => payment.hostId === hostId), `${hostId} should receive a physically settled job wage`);
+}
+assert.ok(goals.some(goal => goal.type === 'COLLECT_WAGE'), 'a resident with a due wage claim should travel to meet the payer');
+assert.ok(wagePayments.every(payment => payment.mapId === payment.counterpartyMapId
+  && Math.abs(payment.position.x - payment.counterpartyPosition.x) + Math.abs(payment.position.y - payment.counterpartyPosition.y) <= 1),
+  'additional payroll contracts must settle only at a physical adjacent handoff');
 assert.ok(personalContacts.length > 0, 'active personal relationship goals should lead residents to meet their named neighbors');
 for (const hostId of ids.filter(id => !deferredLifeGoalHosts[id])) assert.ok(personalGoalVisits.some(visit => visit.hostId === hostId), `${hostId} must pursue the current physical life-arc stage during the 24-hour replay`);
 assert.ok(personalContacts.every(contact => contact.hostId !== contact.partnerHostId && contact.effect === 'social_need_relieved'), 'autonomous personal contacts should create a reciprocal, visible social-need change');
+assert.ok(personalContacts.every(contact => Number.isInteger(contact.meetingCount) && contact.meetingCount > 0 && typeof contact.familiarity === 'string'),
+  'each physical meeting should advance a readable, deterministic relationship memory');
+for (const hostId of ids) for (const [otherId, memory] of Object.entries(first.state.hosts[hostId].relationshipMemory ?? {})) {
+  const reciprocal = first.state.hosts[otherId]?.relationshipMemory?.[hostId];
+  assert.ok(reciprocal, `${hostId}/${otherId} relationship memory is mutual`);
+  assert.equal(memory.meetingCount, reciprocal.meetingCount, `${hostId}/${otherId} meeting count is reciprocal`);
+  assert.equal(memory.lastMetAtMinute, reciprocal.lastMetAtMinute, `${hostId}/${otherId} last meeting is shared`);
+}
 const distinctPersonalContactResidents = new Set(personalContacts.map(contact => contact.hostId)).size;
 assert.ok(distinctPersonalContactResidents >= 10,
   `personal goal behavior should affect at least 10 residents (over a quarter of the city) in one day; got ${distinctPersonalContactResidents}/${ids.length}: ${JSON.stringify([...new Set(personalContacts.map(contact => contact.hostId))])}`);
@@ -123,10 +177,19 @@ const report = { schemaVersion:'V36_FULL_DAY_36_RESIDENT_REPLAY_1', status:'PASS
   deterministicReplays:3, simulatedMinutes:1440, replayHashes:hashes,
   collisionSnapshotsPerReplay:first.collisionSnapshots, totalCollisionSnapshots:replays.reduce((sum,run)=>sum+run.collisionSnapshots,0),
   firstReplay:{ movementSteps:first.moves.length, districtTransitions:mapTransitions.length, goalEvents:goals.length,
+    newCatalogEventStages: { E20: missingRecordStages, E33: apprenticeFatigueStages },
+    warehouseInjuryStages:injuryStages,
+    firstNightSleepArrivals: [...first.nightlySleepArrivals].sort(),
+    firstNightSleepArrivalCount: first.nightlySleepArrivals.size,
+    firstNightSleepArrivalMisses: ids.filter(id => !first.nightlySleepArrivals.has(id)),
+    normalParcelDelivery:{ deliveredOnSchedule:true, missedParcelEventTriggered:false },
     movementStepsByResident:first.movementStepsByResident,
     residentsWithAutonomousGoalDecision:Object.values(autonomousGoalTypesByResident).filter(types=>types.length).length,
     autonomousGoalTypesByResident,
-    deliveries:deliveries.length, exchanges:exchanges.length, personalContacts:personalContacts.length, distinctPersonalContactResidents,
+    deliveries:deliveries.length, exchanges:exchanges.length, wagePayments:wagePayments.length, paidMarketMeals:marketMeals.length,
+    marketMealBuyers:[...new Set(marketMeals.map(meal=>meal.hostId))], personalContacts:personalContacts.length,
+    relationshipMemoryPairs:Object.values(first.state.hosts).reduce((sum,host)=>sum+Object.keys(host.relationshipMemory??{}).length,0)/2,
+    distinctPersonalContactResidents,
     personalLifeGoalVisits:personalGoalVisits.length, residentsWithPhysicalLifeGoalVisits:visitedLifeGoalHosts.size,
     residentsWithLockedLifeGoals:Object.values(goalCoverage).filter(row => row.status === 'LOCKED_BY_PREREQUISITE').length,
     lifeGoalCoverage:goalCoverage,

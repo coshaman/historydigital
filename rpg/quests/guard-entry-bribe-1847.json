@@ -25,7 +25,6 @@
       "resultKo": "담당자를 확인할 때까지 문 앞에서 기다리게 했다. 기록은 분명하지만 급한 용무는 늦어진다.",
       "resultFlag": "sergeyChecked",
       "followupTitleKo": "출입 허가와 급한 부탁",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "허가와 담당자를 확인한 뒤 출입을 정하기로 했다.",
         "relations": {
@@ -43,7 +42,6 @@
       "resultKo": "돈을 받고 문을 열었다. 방문은 빨라졌지만 허가 여부는 확인되지 않았다.",
       "resultFlag": "sergeyBribed",
       "followupTitleKo": "출입 허가와 급한 부탁",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "허가 확인 없이 돈을 받고 출입을 허용했다.",
         "relations": {
@@ -61,7 +59,6 @@
       "resultKo": "확인을 요청하고 대기 이유를 설명했다. 책임을 숨기지 않았지만 결정은 늦어질 수 있다.",
       "resultFlag": "sergeyEscalated",
       "followupTitleKo": "출입 허가와 급한 부탁",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "상급자에게 출입 여부를 확인했다.",
         "relations": {

@@ -71,6 +71,8 @@ const visibleNpcReactions = formatObservedNpcReactions([{
   personalContacts: [{ hostId: 'seamstress_anna', partnerHostId: 'tenant_mikhail', witnessedByPlayer: true }],
   deliveries: [{ hostId: 'courier_pavel', recipientHostId: 'clerk_alexei', itemKo: '교정쇄', witnessedByPlayer: true }],
   exchanges: [{ hostId: 'baker_fyodor', recipientHostId: 'market_nadezhda', itemKo: '빵 한 묶음', witnessedByPlayer: true }],
+  payments: [{ hostId: 'tenant_mikhail', payerHostId: 'carter_roman', amount: 3, unit: 'kopeks', witnessedByPlayer: true }],
+  housing: [{ kind: 'RENT_PAID', hostId: 'tenant_mikhail', landlordHostId: 'landlady_polina', amount: 3, unit: 'kopeks', witnessedByPlayer: true }],
   meals: [{ hostId: 'market_nadezhda', itemKo: '빵', witnessedByPlayer: true }],
   restRecoveries: [{ hostId: 'porter_gavrila', witnessedByPlayer: true }],
   workOutputs: [{ hostId: 'clerk_alexei', outputKo: '접수부에 문서 번호와 도착 시각을 적음', witnessedByPlayer: true }],
@@ -79,9 +81,9 @@ const visibleNpcReactions = formatObservedNpcReactions([{
   date: '1847-06-01', eventType: 'NPC_SIMULATION',
   stateChanges: [{ hostId: 'clerk_alexei', activityKo: '다른 구역의 비공개 행동', witnessedByPlayer: false }],
 }], reactionResidents);
-assert.equal(OBSERVED_NPC_REACTION_FAMILY_COUNT, 9,
+assert.equal(OBSERVED_NPC_REACTION_FAMILY_COUNT, 13,
   'only witnessed physical or social resident outcomes count; internal plan selection is excluded');
-assert.equal(visibleNpcReactions.length, 9,
+assert.equal(visibleNpcReactions.length, 11,
   'the same formatter used by the journal renders each witnessed outcome family once');
 assert.ok(visibleNpcReactions.some(line => line.includes('접수 장부를 편다')));
 assert.ok(!visibleNpcReactions.some(line => line.includes('내부 목표일 뿐') || line.includes('비공개 행동')),

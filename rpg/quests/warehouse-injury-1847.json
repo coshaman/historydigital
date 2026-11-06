@@ -1,0 +1,50 @@
+{
+  "id": "WAREHOUSE_INJURY_1847",
+  "titleKo": "하역 중 다친 짐꾼",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "requiresLivingEventId": "E12",
+  "premiseKo": "무거운 자루를 옮기던 가브릴라가 어깨를 다쳤다. 하역은 멈췄고, 자루는 바닥에 남아 있다.",
+  "historicalOutcome": {
+    "id": "WAREHOUSE_INJURY_1847_FICTIONAL_OUTCOME",
+    "value": "fictional worker health and gameplay only; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "market-quay",
+    "objectId": 1172,
+    "requiredHostId": "porter_gavrila"
+  },
+  "actions": [
+    {
+      "id": "GAVRILA_INJURY_MIDWIFE_CARE",
+      "hostIds": ["porter_gavrila"],
+      "requiredPresentHostIds": ["midwife_avdotya"],
+      "requiredParticipantDistance": 2,
+      "durationMinutes": 5,
+      "labelKo": "조산사에게 상처를 살피고 붕대를 부탁한다",
+      "subcopyKo": "조산사가 곁에 있어야 합니다 · 2코페이카를 내고 일은 멈춥니다 · 회복까지 시간이 듭니다",
+      "resultKo": "가브릴라는 조산사에게 어깨를 보이고 처치를 받았다. 품삯을 잃었지만 상처를 감추고 자루를 다시 들지는 않았다.",
+      "resultFlag": "gavrilaTreatedAtQuay",
+      "effects": {
+        "moneyDelta": -2,
+        "healthTransition": {"condition": "RECOVERING", "recoveryMinutes": 120, "care": "MIDWIFE_TREATED"},
+        "situationKo": "하역 중 어깨를 다쳐 조산사에게 2코페이카를 내고 처치를 받았다."
+      }
+    },
+    {
+      "id": "GAVRILA_INJURY_REST_AT_QUAY",
+      "hostIds": ["porter_gavrila"],
+      "durationMinutes": 30,
+      "labelKo": "자루를 내려놓고 쉬며 주인에게 알린다",
+      "subcopyKo": "하역주와 조산사가 알게 됩니다 · 돈은 들지 않습니다 · 오늘 운반 일은 끝나고 회복이 더딥니다",
+      "resultKo": "가브릴라는 자루를 내려놓고 쉴 자리를 찾았다. 하역은 미뤄졌지만 어깨를 더 다치지는 않았다.",
+      "resultFlag": "gavrilaRestedAtQuay",
+      "effects": {
+        "healthTransition": {"condition": "RECOVERING", "recoveryMinutes": 240, "care": "RESTED_WITHOUT_TREATMENT"},
+        "situationKo": "하역 중 어깨를 다쳐 자루를 내려놓고 쉬었다."
+      }
+    }
+  ],
+  "completion": "one in-world response during the active injury event; otherwise the worker rests without treatment"
+}

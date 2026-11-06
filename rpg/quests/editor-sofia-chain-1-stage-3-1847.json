@@ -25,7 +25,6 @@
       "resultKo": "필요한 수량만 확인해 다시 보냈다. 모든 가판대를 채우진 못해도 부족분을 숨기지 않았다.",
       "resultFlag": "targetedResend",
       "followupTitleKo": "재발송과 비용 처리 기록",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "필요한 수량만 확인해 다시 보냈다. 모든 가판대를 채우진 못해도 부족분을 숨기지 않았다.",
         "relations": {
@@ -47,7 +46,6 @@
       "resultKo": "원인이 확인된 부분부터 비용을 나눠 보기로 했다. 결론은 늦지만 한 사람에게 손실을 먼저 떠넘기지 않는다.",
       "resultFlag": "sharedReview",
       "followupTitleKo": "재발송과 비용 처리 기록",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "원인이 확인된 부분부터 비용을 나눠 보기로 했다. 결론은 늦지만 한 사람에게 손실을 먼저 떠넘기지 않는다.",
         "relations": {
@@ -69,7 +67,6 @@
       "resultKo": "이번 손실은 예비금으로 메웠다. 배포는 회복되지만 다음 호 예산은 줄어든다.",
       "resultFlag": "reservePays",
       "followupTitleKo": "재발송과 비용 처리 기록",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "이번 손실은 예비금으로 메웠다. 배포는 회복되지만 다음 호 예산은 줄어든다.",
         "relations": {

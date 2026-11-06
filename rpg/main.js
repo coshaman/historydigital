@@ -1,27 +1,30 @@
 import { createRenderer } from './engine/renderer.js';
+import { decorateCardsWithEraProfiles } from './engine/era-profiles.mjs';
 import { objectIsPresent, questPrerequisitesMet } from './engine/world-presentation.mjs';
 import { questChoices, continuationQuest } from './engine/quest-presentation.mjs';
 import { guideToResident, resolveQuestGuidance } from './engine/quest-guidance.mjs';
 import { ownsKeyboardInput, observationText } from './engine/player-presentation.mjs';
 import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHost, discussionReflectionPromptsForHost } from './engine/discussion-quests.mjs';
 import { dialogueSessionNeedsReconnect, dialogueSpeakerLabel, selectDialogueTurn } from './engine/dialogue-response.mjs';
+import { dialogueSceneContext } from './engine/dialogue-context.mjs';
 import { appendApiDiagnostic, clearApiDiagnostics, readApiDiagnostics } from './engine/api-diagnostics.mjs';
 import { CITY_PRODUCTS, NEWSPAPER_STORIES, newspaperAssignment, purchaseCityProduct, publishNewspaperIssue, shareSourceWithEditor, readNewspaperIssue, circulateNewspaperIssue, commitSuspiciousAct, resolvePoliceCustody, publishedIssueLabel } from './engine/civic-life.mjs';
 import { availableTopics, contextualOpening } from './ai/authored-dialogue.mjs';
 import { formatCivicReaction, formatObservedNpcReactions } from './engine/world-reaction-presentation.mjs';
 import { advanceStudy, beginExam, buildLifeTimeline, chooseCirclePath, completeLearning, getExamQuestions, selectExamAnswer, submitExam } from './engine/learning-life.mjs';
 import './engine/game-state.js';
-const { createInitialState, moveActor, possessHost, releaseHost, transitionMap, performQuestAction, saveGame, loadGame, nearTile, knowledgeForHost, recordSourceRead, recordEvidenceRead, recordDialogueTurn, recordDiscussionPosition, enterLiteraryRealm, leaveLiteraryRealm, advanceChapter, advanceCampaignDate, resolveEnding, describeHostMoney } = globalThis.V33GameState;
+const { createInitialState, moveActor, possessHost, releaseHost, transitionMap, performQuestAction, payRent, saveGame, loadGame, nearTile, knowledgeForHost, recordSourceRead, recordEvidenceRead, recordDialogueTurn, recordDiscussionPosition, enterLiteraryRealm, leaveLiteraryRealm, advanceChapter, advanceCampaignDate, resolveEnding, describeHostMoney } = globalThis.V33GameState;
 
 const readJson = async path => (await fetch(path)).json();
-const [street, shop, chancery, courtyard, marketMap, literaryMap, overcoatMap, policeMap, firstQuest, marketPersonalQuests, source, firstIssue, historicalSources, literarySource, overcoatSource, campaign, publicQuest, circleQuest, letterQuest, literaryQuest, overcoatQuest, sceneObservations, aiScenes, learningExam, learningSourceData, lifeTemplates, historicalComparisons] = await Promise.all([readJson('./rpg/maps/nevsky.json'), readJson('./rpg/maps/printshop.json'), readJson('./rpg/maps/chancery.json'), readJson('./rpg/maps/courtyard.json'), readJson('./rpg/maps/market-quay.json'), readJson('./rpg/maps/dead-souls.json'), readJson('./rpg/maps/overcoat.json'), readJson('./rpg/maps/police-station.json'), readJson('./rpg/quests/printshop-article.json'), Promise.all(['yard-ledger-1847','laundry-wages-1847','bakery-flour-1847','market-prices-1847','porter-load-1847','coach-fare-1847','household-privacy-1847','midwife-care-cost-1847','apothecary-limits-1847','apprentice-authorship-1847','bookbinder-damage-1847','scribal-copy-1847','inn-debt-rumor-1847','student-circle-risk-1847','teacher-access-cost-1847','noble-status-debt-1847','landlady-rent-commons-1847','water-access-queue-1847','fish-storage-time-1847','warehouse-loss-record-1847','servant-private-warning-1847','guard-entry-bribe-1847','carter-delivery-delay-1847','street-vendor-weather-1847','typesetter-speed-censorship-1847','lodging-reading-income-1847','clerk-alexei-life-1-1847','clerk-alexei-life-2-1847','clerk-alexei-life-3-1847','courier-pavel-life-1-1847','courier-pavel-life-2-1847','courier-pavel-life-3-1847','seamstress-anna-life-1-1847','seamstress-anna-life-2-1847','seamstress-anna-life-3-1847','bookseller-lev-life-1-1847','bookseller-lev-life-2-1847','bookseller-lev-life-3-1847'].map(id => readJson(`./rpg/quests/${id}.json`))), readJson('./rpg/data/khor-kalynych-source.json'), readJson('./rpg/data/sovremennik-1847-issue.json'), readJson('./rpg/data/historical-source-packets.json'), readJson('./rpg/data/dead-souls-source.json'), readJson('./rpg/data/overcoat-source.json'), readJson('./rpg/quests/campaign.json'), readJson('./rpg/quests/public-discourse-1848.json'), readJson('./rpg/quests/circle-investigation-1849.json'), readJson('./rpg/quests/circle-letter-1849-may.json'), readJson('./rpg/quests/literary-dead-souls.json'), readJson('./rpg/quests/literary-overcoat.json'), readJson('./rpg/data/scene-observations.json'), readJson('./rpg/ai/scenes.json'), readJson('./rpg/data/learning-exam.json'), readJson('./rpg/data/learning-sources.json'), readJson('./rpg/data/life-simulation.json'), readJson('./rpg/data/historical-comparisons.json')]);
+const [street, shop, chancery, courtyard, marketMap, literaryMap, overcoatMap, policeMap, firstQuest, marketPersonalQuests, source, firstIssue, historicalSources, literarySource, overcoatSource, campaign, publicQuest, circleQuest, letterQuest, literaryQuest, overcoatQuest, sceneObservations, aiScenes, learningExam, learningSourceData, lifeTemplates] = await Promise.all([readJson('./rpg/maps/nevsky.json'), readJson('./rpg/maps/printshop.json'), readJson('./rpg/maps/chancery.json'), readJson('./rpg/maps/courtyard.json'), readJson('./rpg/maps/market-quay.json'), readJson('./rpg/maps/dead-souls.json'), readJson('./rpg/maps/overcoat.json'), readJson('./rpg/maps/police-station.json'), readJson('./rpg/quests/printshop-article.json'), Promise.all(['yard-ledger-1847','laundry-wages-1847','bakery-flour-1847','market-prices-1847','porter-load-1847','coach-fare-1847','warehouse-injury-1847','pavel-missing-parcel-1847','household-privacy-1847','midwife-care-cost-1847','apothecary-limits-1847','apprentice-authorship-1847','bookbinder-damage-1847','scribal-copy-1847','inn-debt-rumor-1847','student-circle-risk-1847','teacher-access-cost-1847','noble-status-debt-1847','landlady-rent-commons-1847','water-access-queue-1847','fish-storage-time-1847','warehouse-loss-record-1847','servant-private-warning-1847','guard-entry-bribe-1847','carter-delivery-delay-1847','street-vendor-weather-1847','typesetter-speed-censorship-1847','lodging-reading-income-1847','clerk-alexei-life-1-1847','clerk-alexei-life-2-1847','clerk-alexei-life-3-1847','courier-pavel-life-1-1847','courier-pavel-life-2-1847','courier-pavel-life-3-1847','seamstress-anna-life-1-1847','seamstress-anna-life-2-1847','seamstress-anna-life-3-1847','bookseller-lev-life-1-1847','bookseller-lev-life-2-1847','bookseller-lev-life-3-1847'].map(id => readJson(`./rpg/quests/${id}.json`))), readJson('./rpg/data/khor-kalynych-source.json'), readJson('./rpg/data/sovremennik-1847-issue.json'), readJson('./rpg/data/historical-source-packets.json'), readJson('./rpg/data/dead-souls-source.json'), readJson('./rpg/data/overcoat-source.json'), readJson('./rpg/quests/campaign.json'), readJson('./rpg/quests/public-discourse-1848.json'), readJson('./rpg/quests/circle-investigation-1849.json'), readJson('./rpg/quests/circle-letter-1849-may.json'), readJson('./rpg/quests/literary-dead-souls.json'), readJson('./rpg/quests/literary-overcoat.json'), readJson('./rpg/data/scene-observations.json'), readJson('./rpg/ai/scenes.json'), readJson('./rpg/data/learning-exam.json'), readJson('./rpg/data/learning-sources.json'), readJson('./rpg/data/life-simulation.json')]);
 const [sourceReaderIndex, caseContextData, discussionQuestData, districtRegistry] = await Promise.all([readJson('./rpg/data/source-reader-index.json'), readJson('./rpg/data/case-contexts.json'), readJson('./rpg/data/discussion-quests.json'), readJson('./rpg/data/city-districts-v36.json')]);
-const cards = await Promise.all(['clerk_alexei','printer_ekaterina','courier_pavel','seamstress_anna','tenant_mikhail','bookseller_lev','senior_clerk_konstantin','reader_darya','editor_sofia','police_sergeant_ivan','yardkeeper_semyon','laundress_mariya','baker_fyodor','market_nadezhda','porter_gavrila','coachman_timofey','housemaid_olga','midwife_avdotya','apothecary_yakov','print_apprentice_stepan','bookbinder_elizaveta','scribal_yuri','innkeeper_irina','student_vasily','teacher_lyubov','minor_noble_andrei','landlady_polina','watercarrier_luka','fishseller_klavdiya','warehouse_pyotr','servant_varvara','junior_guard_sergey','carter_roman','street_vendor_matryona','typesetter_nikita','lodging_tatyana','nekrasov_reconstruction','literary_chichikov','literary_akaky','literary_petrovich'].map(id => readJson(`./rpg/characters/${id}.json`)));
+const [rawCards, eraCharacterRegistry] = await Promise.all([Promise.all(['clerk_alexei','printer_ekaterina','courier_pavel','seamstress_anna','tenant_mikhail','bookseller_lev','senior_clerk_konstantin','reader_darya','editor_sofia','police_sergeant_ivan','yardkeeper_semyon','laundress_mariya','baker_fyodor','market_nadezhda','porter_gavrila','coachman_timofey','housemaid_olga','midwife_avdotya','apothecary_yakov','print_apprentice_stepan','bookbinder_elizaveta','scribal_yuri','innkeeper_irina','student_vasily','teacher_lyubov','minor_noble_andrei','landlady_polina','watercarrier_luka','fishseller_klavdiya','warehouse_pyotr','servant_varvara','junior_guard_sergey','carter_roman','street_vendor_matryona','typesetter_nikita','lodging_tatyana','nekrasov_reconstruction','literary_chichikov','literary_akaky','literary_petrovich'].map(id => readJson(`./rpg/characters/${id}.json`))), readJson('./data/era_character_registry.json')]);
+const cards = decorateCardsWithEraProfiles(rawCards, eraCharacterRegistry);
 const expansionMapIds = ['bookshop-lane','canal-road','workyard','bookshop-interior','bakery-interior','inn-interior','sewing-room','communal-room'];
 const expansionMaps = Object.fromEntries(await Promise.all(expansionMapIds.map(async id => [id, await readJson(`./rpg/maps/${id}.json`)])));
 const maps = { nevsky: street, printshop: shop, chancery, courtyard, 'market-quay': marketMap, 'dead-souls': literaryMap, overcoat: overcoatMap, 'police-station': policeMap, ...expansionMaps }, hostCards = cards;
 const residentQuestBatchTwo = ['market-nadezhda-life-extra-1-1847','market-nadezhda-life-extra-2-1847','market-nadezhda-life-extra-3-1847','porter-gavrila-life-extra-1-1847','porter-gavrila-life-extra-2-1847','porter-gavrila-life-extra-3-1847','warehouse-pyotr-life-extra-1-1847','warehouse-pyotr-life-extra-2-1847','warehouse-pyotr-life-extra-3-1847','baker-fyodor-life-extra-1-1847','baker-fyodor-life-extra-2-1847','baker-fyodor-life-extra-3-1847','landlady-polina-life-extra-1-1847','landlady-polina-life-extra-2-1847','landlady-polina-life-extra-3-1847','carter-roman-life-extra-1-1847','carter-roman-life-extra-2-1847','carter-roman-life-extra-3-1847'];
-const addedPersonalQuests = await Promise.all(['editor-publication-record-1847','police-testimony-record-1849','reader-source-and-rumor-1847','senior-clerk-review-and-signature-1847','tenant-rent-and-firewood-1847',
+const addedPersonalQuests = await Promise.all(['editor-publication-record-1847','police-testimony-record-1849','reader-source-and-rumor-1847','senior-clerk-review-and-signature-1847','tenant-rent-and-firewood-1847','cold-wave-firewood-1847','censored-page-1847','courtyard-dispute-1847','market-price-dispute-1847','market-rumor-1847','inn-guest-1847','late-meal-1847','charity-day-1847','apprentice-literacy-1847','sick-lodger-1847','apothecary-order-1847','missing-record-1847','apprentice-fatigue-1847','newspaper-release-1847','police-document-check-1847','rent-notice-1847','courtyard-fire-1847','funeral-costs-1847','funeral-debt-repayment-1847',
   'editor-sofia-chain-1-stage-1-1847','editor-sofia-chain-1-stage-2-1847','editor-sofia-chain-1-stage-3-1847',
   'police-sergeant-ivan-chain-2-stage-1-1847','police-sergeant-ivan-chain-2-stage-2-1847','police-sergeant-ivan-chain-2-stage-3-1847',
   'reader-darya-chain-3-stage-1-1847','reader-darya-chain-3-stage-2-1847','reader-darya-chain-3-stage-3-1847',
@@ -30,8 +33,11 @@ const addedPersonalQuests = await Promise.all(['editor-publication-record-1847',
   'junior-guard-sergey-chain-6-stage-1-1847','junior-guard-sergey-chain-6-stage-2-1847','junior-guard-sergey-chain-6-stage-3-1847',...residentQuestBatchTwo].map(id => readJson(`./rpg/quests/${id}.json`)));
 const v36PersonalQuestFiles = ["bookseller_lev-v36-life-stage-1-1847","bookseller_lev-v36-life-stage-2-1847","bookseller_lev-v36-life-stage-3-1847","clerk_alexei-v36-life-stage-1-1847","clerk_alexei-v36-life-stage-2-1847","clerk_alexei-v36-life-stage-3-1847","coachman_timofey-v36-life-stage-1-1847","coachman_timofey-v36-life-stage-2-1847","coachman_timofey-v36-life-stage-3-1847","editor_sofia-v36-life-stage-1-1847","editor_sofia-v36-life-stage-2-1847","editor_sofia-v36-life-stage-3-1847","housemaid_olga-v36-life-stage-1-1847","housemaid_olga-v36-life-stage-2-1847","housemaid_olga-v36-life-stage-3-1847","junior_guard_sergey-v36-life-stage-1-1847","junior_guard_sergey-v36-life-stage-2-1847","junior_guard_sergey-v36-life-stage-3-1847","lodging_tatyana-v36-life-stage-1-1847","lodging_tatyana-v36-life-stage-2-1847","lodging_tatyana-v36-life-stage-3-1847","midwife_avdotya-v36-life-stage-1-1847","midwife_avdotya-v36-life-stage-2-1847","midwife_avdotya-v36-life-stage-3-1847","printer_ekaterina-v36-life-stage-1-1847","printer_ekaterina-v36-life-stage-2-1847","printer_ekaterina-v36-life-stage-3-1847","senior_clerk_konstantin-v36-life-stage-1-1847","senior_clerk_konstantin-v36-life-stage-2-1847","senior_clerk_konstantin-v36-life-stage-3-1847","tenant_mikhail-v36-life-stage-1-1847","tenant_mikhail-v36-life-stage-2-1847","tenant_mikhail-v36-life-stage-3-1847","yardkeeper_semyon-v36-life-stage-1-1847","yardkeeper_semyon-v36-life-stage-2-1847","yardkeeper_semyon-v36-life-stage-3-1847","baker_fyodor-v36-life-stage-1-1847","baker_fyodor-v36-life-stage-2-1847","baker_fyodor-v36-life-stage-3-1847","carter_roman-v36-life-stage-1-1847","carter_roman-v36-life-stage-2-1847","carter_roman-v36-life-stage-3-1847","landlady_polina-v36-life-stage-1-1847","landlady_polina-v36-life-stage-2-1847","landlady_polina-v36-life-stage-3-1847","porter_gavrila-v36-life-stage-1-1847","porter_gavrila-v36-life-stage-2-1847","porter_gavrila-v36-life-stage-3-1847"].map(id => readJson(`./rpg/quests/${id}.json`));
 const socialQuestFiles = ['baker-fyodor-life-extra-1-1847','baker-fyodor-life-extra-2-1847','baker-fyodor-life-extra-3-1847','bookseller-lev-life-1-1847','bookseller-lev-life-2-1847','bookseller-lev-life-3-1847','carter-roman-life-extra-1-1847','carter-roman-life-extra-2-1847','carter-roman-life-extra-3-1847','clerk-alexei-life-1-1847','clerk-alexei-life-2-1847','clerk-alexei-life-3-1847','editor-sofia-chain-1-stage-1-1847','editor-sofia-chain-1-stage-2-1847','editor-sofia-chain-1-stage-3-1847','housemaid-olga-chain-4-stage-1-1847','housemaid-olga-chain-4-stage-2-1847','housemaid-olga-chain-4-stage-3-1847','junior-guard-sergey-chain-6-stage-1-1847','junior-guard-sergey-chain-6-stage-2-1847','junior-guard-sergey-chain-6-stage-3-1847','landlady-polina-life-extra-1-1847','landlady-polina-life-extra-2-1847','landlady-polina-life-extra-3-1847','midwife-avdotya-chain-5-stage-1-1847','midwife-avdotya-chain-5-stage-2-1847','midwife-avdotya-chain-5-stage-3-1847','porter-gavrila-life-extra-1-1847','porter-gavrila-life-extra-2-1847','porter-gavrila-life-extra-3-1847'].map(id => readJson(`./rpg/quests/${id}.json`));
+const manuscriptOfferQuest = await readJson('./rpg/quests/v37-manuscript-offer-1847.json');
+const serfdomReadingQuest = await readJson('./rpg/quests/v37-serfdom-reading-1847.json');
+const salonDebateQuest = await readJson('./rpg/quests/v37-salon-debate-1847.json');
 const residentArcBundle = await readJson('./rpg/quests/resident-arcs-v36.json');
-const questList = [...new Map([firstQuest, publicQuest, circleQuest, letterQuest, literaryQuest, overcoatQuest, ...marketPersonalQuests, ...addedPersonalQuests, ...v36PersonalQuestFiles, ...socialQuestFiles, ...residentArcBundle.quests].map(quest => [quest.id, quest])).values()];
+const questList = [...new Map([firstQuest, publicQuest, circleQuest, letterQuest, literaryQuest, overcoatQuest, ...marketPersonalQuests, ...addedPersonalQuests, manuscriptOfferQuest, serfdomReadingQuest, salonDebateQuest, ...v36PersonalQuestFiles, ...socialQuestFiles, ...residentArcBundle.quests].map(quest => [quest.id, quest])).values()];
 const questsById = new Map(questList.map(item => [item.id, item]));
 const relationHintValues = new Map();
 for (const quest of questList) for (const action of quest.actions ?? []) {
@@ -70,7 +76,7 @@ caseContextButton.addEventListener('click', () => {
   const hostId = state.player.embodiment, context = caseContextsByQuest.get(missionGuidance?.questId), role = context?.roles?.[hostId];
   if (!context || !role) return;
   const questions = role.discussionQuestions.map(question => `· ${question}`).join('\n');
-  const text = `${role.entrySituationKo}\n\n${context.playerFacing.premiseKo}\n\n${role.personalStakesKo}\n\n${context.playerFacing.decisionQuestionKo}\n\n이 인물이 던질 질문\n${questions}\n\n${context.historicalBoundaryKo}`;
+  const text = `${role.entrySituationKo}\n\n${context.playerFacing.premiseKo}\n\n${role.personalStakesKo}\n\n${context.playerFacing.decisionQuestionKo}\n\n이 인물이 던질 질문\n${questions}`;
   const sourceActions = context.sourceIds.map(id => sourceRecords.get(id)).filter(Boolean).map(record => ({
     label: `관련 자료 · ${record.titleKo}`,
     subcopy: `${record.sourceId} · ${sourceReaderRecords.get(record.sourceId)?.pageLocator ?? record.range ?? record.witness?.range ?? ''}`,
@@ -229,9 +235,8 @@ function renderLearning(focus = false) {
     const attendee = learning.phase === 'learning';
     $('#learning-stage').textContent = attendee ? `독서방 · ${learning.lessonIndex + 1} / ${learningExam.learningUnits.length}` : `공개 교재 · ${learning.lessonIndex + 1} / ${learningExam.publicPrepUnitIds.length}`;
     $('#learning-title').textContent = unit.title;
-    $('#learning-intro').textContent = attendee ? '창고의 작은 독서방. 문서에 적힌 내용과 이 방에서 만든 허구의 장면을 나눠 읽는다.' : '모임에 가지 않아도 볼 수 있는 공개 준비 자료다. 참석자와 같은 다섯 문항, 같은 정답 기준으로 시험을 본다.';
+    $('#learning-intro').textContent = attendee ? '창고 독서방에서 문서를 읽고 동료들과 의견을 나눈다.' : '공개 교재로 같은 다섯 문항과 정답 기준을 미리 공부할 수 있다.';
     const body = document.createElement('p'); body.className = 'learning-unit-body'; body.textContent = unit.bodyKo; content.append(body);
-    const fiction = document.createElement('p'); fiction.className = 'learning-fiction-note'; fiction.textContent = `이야기를 위한 장면 · ${unit.fictionalElements?.join(' · ') ?? '가상의 서기가 자료를 읽는 장면'}`; content.append(fiction);
     if (attendee && learning.circleLearning === 'attended') for (const line of unit.speakerLines ?? []) {
       const voice = document.createElement('p'); voice.className = 'learning-voice'; voice.textContent = `${({ alexei: '알렉세이', ekaterina: '예카테리나', pavel: '파벨', protagonist: '서기' })[line.speaker] ?? line.speaker} · “${line.text}”`; content.append(voice);
     }
@@ -259,7 +264,7 @@ function renderLearning(focus = false) {
       const progress = beginExam(state.learning, action), next = structuredClone(state); next.learning = progress;
       if (action === 'help-peer') {
         const pavel = next.hosts.courier_pavel; pavel.situationNotes ??= []; pavel.relations ??= {};
-        pavel.situationNotes.push('가상의 서기와 진급 시험 조항을 함께 공부했다.');
+        pavel.situationNotes.push('서기와 진급 시험 조항을 함께 공부했다.');
         pavel.relations.examPreparation = '시험 대신 함께 공부했다';
       }
       next.ledger.push({ eventId: `LEARNING_${next.ledger.length + 1}`, eventType, date: next.world.date, partnerHostId: action === 'help-peer' ? 'courier_pavel' : undefined, score: null });
@@ -297,8 +302,8 @@ function renderLearning(focus = false) {
   } else if (learning.phase === 'result') {
     $('#learning-stage').textContent = '진급 시험 · 결과';
     const resultText = {
-      passed: ['이번 회차는 통과했다', `${learning.examCorrectCount} / ${learningExam.questionCount}개 정답. 가상의 서기는 이번 회차 진급 자격을 얻었다. 실제 관등표의 절차와 역사적 사건은 바뀌지 않는다.`],
-      failed: ['이번 회차는 통과하지 못했다', `${learning.examCorrectCount} / ${learningExam.questionCount}개 정답. 이번 회차 진급은 이뤄지지 않는다. 답안은 기록에 남고 이후의 역사 사건은 바뀌지 않는다.`],
+      passed: ['이번 회차는 통과했다', `${learning.examCorrectCount} / ${learningExam.questionCount}개 정답. 이번 회차 진급 자격을 얻었다.`],
+      failed: ['이번 회차는 통과하지 못했다', `${learning.examCorrectCount} / ${learningExam.questionCount}개 정답. 이번 회차 진급은 이뤄지지 않는다. 답안은 기록에 남는다.`],
       deferred: ['이번 회차를 미뤘다', '점수는 기록하지 않았다. 진급 여부도 보류 상태로 남는다.'],
       'helped-peer': ['파벨과 함께 공부했다', '시험 점수는 없다. 파벨과 조항을 함께 살펴본 일이 서기의 이후 삶에 남는다.'],
     }[learning.examOutcome] ?? ['결과를 확인할 수 없다', '학습 화면을 다시 열어 진행을 확인하자.'];
@@ -326,7 +331,7 @@ function classifyTypedResponse(input) {
   return 'GENERAL_CONVERSATION';
 }
 
-const relationLabels = { editorial_office: '편집부', workshop: '작업장 동료', source_readers: '출처를 확인하는 독자', postal_route: '우편 경로', local_readers: '가게의 독자들', office_supervisor: '상급자', archive_keeper: '문서 담당자', market_nadezhda: '나데즈다와', baker_fyodor: '표도르와' };
+const relationLabels = { editorial_office: '편집부', workshop: '작업장 동료', source_readers: '출처를 확인하는 독자', postal_route: '우편 경로', local_readers: '가게의 독자들', office_supervisor: '상급자', archive_keeper: '문서 담당자', market_nadezhda: '나데즈다와', baker_fyodor: '표도르와', landlady_polina: '폴리나와' };
 function render(now) {
   renderFrame = null;
   const map = currentMap();
@@ -347,6 +352,8 @@ function say(title, text, actions = []) {
   const readyQuest = continuationQuest(state, campaign, questList);
   const persistentLabel = readyQuest ? continuationFor(readyQuest)[0].label : null;
   const visibleActions = actions.filter(action => action.label !== persistentLabel);
+  $('.lower').classList.toggle('has-actions', visibleActions.length > 0);
+  $('#mission-tracker').hidden = Boolean(state.endingId) || visibleActions.length > 0;
   $('#actions').replaceChildren(...visibleActions.map(({ label, subcopy, run, disabled = false }) => {
     const button = document.createElement('button');
     button.type = 'button'; button.disabled = disabled;
@@ -561,7 +568,7 @@ function updateHud() {
   $('#journal-pin').disabled = !missionGuidance.target;
   $('#journal-pin').textContent = destinationPinned ? '목적지 표시 중' : '목적지 표시';
   const fill = (selector, rows, tag = 'li') => { const list = $(selector); list.replaceChildren(...rows.map(value => { const item = document.createElement(tag); item.textContent = value; return item; })); };
-  for (const selector of ['#journal-inventory','#journal-relations','#journal-sources','#journal-history','#journal-perspective-notes','#journal-today-goals']) $(selector).replaceChildren();
+  for (const selector of ['#journal-inventory','#journal-skills','#journal-relations','#journal-sources','#journal-history','#journal-perspective-notes','#journal-today-goals']) $(selector).replaceChildren();
   if (host) {
     const live = state.hosts[host.id], known = host.secretKnowledge.filter(item => live.privateKnowledgeIds.includes(item.id)).map(item => item.summaryKo);
     const goalList = $('#journal-today-goals');
@@ -581,23 +588,15 @@ function updateHud() {
       const clue = sceneObservations.entries[id];
       if (clue) known.push(clue.titleKo);
     }
-    const discussionItems = [
-      ...(state.player.dialogueGrowth?.comparisonNotes ?? []).map(note => `관점 대조 메모 · ${note.titleKo}`),
-      ...(state.player.dialogueGrowth?.playerPositions ?? []).map(note => `내 입장 · ${note.titleKo} · ${note.labelKo}`),
-    ];
-    const visibleInventory = [...live.inventory.map(item => publishedIssueLabel(state, item) ?? CITY_PRODUCTS.find(product => product.id === item)?.titleKo ?? item), ...discussionItems];
+    const visibleInventory = live.inventory.map(item => publishedIssueLabel(state, item) ?? CITY_PRODUCTS.find(product => product.id === item)?.titleKo ?? item);
     $('#journal-inventory').append(...(visibleInventory.length ? visibleInventory : ['따로 기록된 물건이 없습니다.']).map(value => { const li=document.createElement('li');li.textContent=value;return li; }));
-    const relations = Object.entries(live.relations ?? {}).map(([group,status])=>`${relationLabels[group] ?? group} · ${status}`).concat(live.situationNotes ?? []);
-    fill('#journal-relations', relations.length ? relations : ['아직 기록된 관계 변화가 없습니다.']);
+    const skillLabels = { basicReading: '기초 읽기' };
+    const visibleSkills = Object.entries(live.skills ?? {}).map(([id, level]) => `${skillLabels[id] ?? id} · ${level} / 5`);
+    $('#journal-skills').append(...(visibleSkills.length ? visibleSkills : ['따로 기록된 기술이 없습니다.']).map(value => { const li=document.createElement('li');li.textContent=value;return li; }));
+    renderJournalRelations();
     fill('#journal-sources', known.length ? known : ['이 몸으로 확인한 자료와 단서가 없습니다.']);
   }
-  if (!host) {
-    const discussionItems = [
-      ...(state.player.dialogueGrowth?.comparisonNotes ?? []).map(note => `관점 대조 메모 · ${note.titleKo}`),
-      ...(state.player.dialogueGrowth?.playerPositions ?? []).map(note => `내 입장 · ${note.titleKo} · ${note.labelKo}`),
-    ];
-    $('#journal-inventory').append(...(discussionItems.length ? discussionItems : ['따로 기록된 물건이 없습니다.']).map(value => { const li=document.createElement('li');li.textContent=value;return li; }));
-  }
+  if (!host) fill('#journal-inventory', ['따로 기록된 물건이 없습니다.']);
   const dialogueGrowth = state.player.dialogueGrowth ?? { insight: 0, aiReplies: 0, perspectiveNotes: [] };
   $('#journal-growth-stats').textContent = `AI 대화 ${dialogueGrowth.aiReplies}회 · 모은 관점 ${dialogueGrowth.insight}개 · 대조 메모 ${dialogueGrowth.comparisonNotes?.length ?? 0}개 · 내 입장 ${dialogueGrowth.playerPositions?.length ?? 0}개`;
   const reflectionRows = (dialogueGrowth.perspectiveNotes ?? []).map(note => {
@@ -614,7 +613,7 @@ function updateHud() {
   const logs = state.ledger.slice(-12).reverse().map(entry => {
     if (entry.eventType === 'NPC_SIMULATION') return null;
     if (entry.eventType === 'DIALOGUE_TURN') return `${entry.date} · ${entry.discussionId ? `견해 질문 · ${discussionQuestById.get(entry.discussionId)?.titleKo ?? '주제 대화'}` : `${cards.find(item=>item.id===entry.hostId)?.displayNameKo ?? '대화'}와 이야기함`}`;
-    if (entry.eventType === 'HISTORICAL_ACTION' || entry.eventType === 'LITERARY_ACTION') { const q=questsById.get(entry.questId), a=q?.actions.find(item=>item.id===entry.actionId); return `${entry.date} · ${a?.labelKo ?? '문서에 선택을 남김'}`; }
+    if (entry.eventType === 'HISTORICAL_ACTION' || entry.eventType === 'LITERARY_ACTION') { const q=questsById.get(entry.questId), a=q?.actions.find(item=>item.id===entry.actionId); const fare=entry.livingEvents?.find(event=>event.catalogIdSpace==='V37_EVENT_CATALOG_45'&&event.catalogEventId==='E10'); const fareLabel=({FARE_ACCEPTED_WITH_INSPECTION:'마차 운임 · 점검 뒤 제한 운행',FARE_ACCEPTED_WITH_RISK_DISCLOSED:'마차 운임 · 위험을 알리고 운행',FARE_DECLINED_FOR_REPAIR:'마차 운임 · 수리를 위해 운행 연기'})[fare?.stage]; return `${entry.date} · ${fareLabel ? `${fareLabel} · ` : ''}${a?.labelKo ?? '문서에 선택을 남김'}`; }
     if (entry.eventType === 'READ_SOURCE') return `${entry.date} · 자료를 읽음`;
     if (entry.eventType === 'OBSERVE_EVIDENCE') return `${entry.date} · 현장의 흔적을 살펴봄`;
     const civicReaction = formatCivicReaction(entry, {
@@ -635,6 +634,51 @@ function setJournalTab(name) {
   document.querySelectorAll('[data-journal-tab]').forEach(button => button.setAttribute('aria-selected', String(button.dataset.journalTab === name)));
   document.querySelectorAll('[data-journal-panel]').forEach(panel => { panel.hidden = panel.dataset.journalPanel !== name; });
   $('#journal-title').textContent = ({ goal: '해야 할 일', inventory: '지금 가진 것', people: '인물과 관계', sources: '읽은 자료', reflections: '관점 노트', history: '지난 기록' })[name] ?? '해야 할 일';
+  if (name === 'people') renderJournalRelations();
+}
+function renderJournalRelations() {
+  const list = $('#journal-relations');
+  const hostId = state.player.embodiment;
+  const card = cards.find(item => item.id === hostId);
+  const live = state.hosts[hostId];
+  if (!card || !live) { list.replaceChildren(); return; }
+  const edges = (live.relationshipEdges ?? []).filter(edge => edge.knownByHostIds?.includes(hostId));
+  const rentalPartners = new Set(edges.filter(edge => edge.kind === 'RENTAL_OBLIGATION')
+    .map(edge => edge.fromHostId === hostId ? edge.toHostId : edge.fromHostId));
+  const placeName = place => maps[place?.mapId]?.metadata?.displayNameKo ?? place?.mapId ?? '위치 미상';
+  const placeRows = [];
+  if (live.places?.homeLocationStatus === 'FICTIONAL_HOMELESSNESS_DESIGN') {
+    placeRows.push(`거처 · 정해진 방 없음 · ${live.residence?.unitLabelKo ?? '거리에서 잠을 청함'}`);
+  } else if (live.housing?.kind === 'RENT') placeRows.push(`거처 · 세를 내는 방 · ${placeName(live.places?.homeLocation)}`);
+  else if (live.places?.homeLocation?.householdId) placeRows.push(`거처 · ${live.places.homeLocation.unitLabelKo} · ${placeName(live.places.homeLocation)}`);
+  else if (live.places?.homeLocation) placeRows.push(`거처 · ${live.places.homeLocation.unitLabelKo ?? live.places.residenceKind ?? '생활 공간'} · ${placeName(live.places.homeLocation)}`);
+  else placeRows.push('거처 · 현재 주민 기록에 없음 (노숙 여부는 확인되지 않음)');
+  const workplaces = [...new Set((live.places?.workLocations ?? []).map(placeName))];
+  placeRows.push(workplaces.length ? `일하는 곳 · ${workplaces.join(' · ')}` : '일하는 곳 · 일정에 기록 없음');
+  const sleepPlaces = [...new Set((live.places?.sleepLocations ?? []).map(placeName))];
+  placeRows.push(sleepPlaces.length ? `잠시 쉬거나 잠드는 곳 · ${sleepPlaces.join(' · ')}` : '수면 장소 · 일정에 기록 없음');
+  const rows = [...placeRows, ...edges.map(edge => {
+    const otherId = edge.fromHostId === hostId ? edge.toHostId : edge.fromHostId;
+    const otherName = cards.find(person => person.id === otherId)?.displayNameKo ?? '관계 당사자';
+    if (edge.kind !== 'RENTAL_OBLIGATION') {
+      const memory = live.relationshipMemory?.[otherId];
+      const history = memory ? ` · ${memory.familiarity} · ${memory.meetingCount}회 만남 · 최근 ${memory.lastMetDate}` : '';
+      return `${otherName} · ${edge.descriptionKo}${history}`;
+    }
+    const contract = state.hosts[edge.contractOwnerHostId]?.housing;
+    if (!contract) return `${otherName} · 임대차 당사자`;
+    const currentDay = Math.floor(state.world.clockMinutes / 1440);
+    const remaining = contract.dueDayIndex === currentDay && contract.amountDueRemaining > 0 ? ` · 이번 정산 잔액 ${contract.amountDueRemaining} ${contract.unit}` : '';
+    const arrears = contract.arrears > 0 ? ` · 지난 체납 ${contract.arrears} ${contract.unit}` : '';
+    const relationStatus = live.relations?.[otherId] !== card.relations?.[otherId] ? ` · ${live.relations[otherId]}` : '';
+    return `${otherName} · 방세 ${contract.amount} ${contract.unit}${remaining}${arrears}${relationStatus}`;
+  })];
+  rows.push(...Object.entries(live.relations ?? {}).filter(([group, status]) => card.relations?.[group] !== status && !rentalPartners.has(group))
+    .map(([group, status]) => `${relationLabels[group] ?? group} · ${status}`));
+  rows.push(...(live.situationNotes ?? []));
+  list.replaceChildren(...(rows.length ? rows : ['아직 기록된 관계 변화가 없습니다.']).map(value => {
+    const item = document.createElement('li'); item.textContent = value; return item;
+  }));
 }
 function openJournal() {
   journalReturnFocus = document.activeElement;
@@ -749,7 +793,17 @@ function currentNearby() {
 }
 function questIsAvailable(activeQuest) {
   const literary = Boolean(activeQuest?.realmId || activeQuest?.chapterId?.startsWith('LITERARY_'));
-  return Boolean(activeQuest && questPrerequisitesMet(state, activeQuest) && (literary ? state.world.activeRealm?.id === (activeQuest.realmId ?? activeQuest.chapterId) : activeQuest.chapterId === state.world.chapterId) && (!activeQuest.date || activeQuest.date <= state.world.date || literary));
+  const requiredEvent = activeQuest?.requiresLivingEventId
+    ? state.world.livingEventStates?.[activeQuest.requiresLivingEventId] : null;
+  const requiredDebtStatuses = activeQuest?.requiresLivingEventDebtStatus
+    ? [].concat(activeQuest.requiresLivingEventDebtStatus) : null;
+  const eventConditionMet = !activeQuest?.requiresLivingEventId || (requiredDebtStatuses
+    ? requiredDebtStatuses.includes(requiredEvent?.debt?.status)
+    : requiredEvent?.status === 'ACTIVE');
+  return Boolean(activeQuest && questPrerequisitesMet(state, activeQuest)
+    && eventConditionMet
+    && (literary ? state.world.activeRealm?.id === (activeQuest.realmId ?? activeQuest.chapterId) : activeQuest.chapterId === state.world.chapterId)
+    && (!activeQuest.date || activeQuest.date <= state.world.date || literary));
 }
 let pendingSourceRead = null;
 let sourceReaderMode = ['bilingual', 'ko', 'ru'].includes(localStorage.getItem('v35-source-reader-mode')) ? localStorage.getItem('v35-source-reader-mode') : 'bilingual';
@@ -771,7 +825,7 @@ function openSourceReader(record, { nextState = null, readingMode = null } = {})
   const dialog = $('#source-reader'), index = sourceReaderRecords.get(record.sourceId), isTurgenev = record.sourceId === source.sourceId;
   if (!index) { sayRecord('이 자료의 서지 표시 정보를 찾지 못했다.'); return; }
   const context = isTurgenev ? index.contextKo : index.contextKo ?? record.contextKo;
-  const provenance = `${record.creator ?? record.author ?? ''}\n작성·문서 시점: ${index.documentDate ?? index.creationDate ?? record.documentDate ?? record.dateCreated ?? '기재 없음'}\n최초 간행: ${index.publicationDate ?? record.firstPublication ?? '서지상 간행일 확인 불가'}\n판본: ${record.edition ?? record.witness?.edition ?? '서지 판본 정보 없음'}\n정확한 범위: ${index.pageLocator ?? record.range ?? record.witness?.range ?? ''}\n자료 성격: ${record.type ?? '기록 유형 미분류'} · ${index.rightsNoteKo}\n${record.translationNoteKo ?? sourceReaderIndex.translationPolicyKo}`;
+  const provenance = `${record.creator ?? record.author ?? ''}\n${index.pageLocator ?? record.range ?? record.witness?.range ?? ''}`;
   const url = isTurgenev ? record.witness.stableRevisionUrl : record.sourceUrl;
   pendingSourceRead = nextState ? { nextState, readingMode, record } : null;
   dialog.className = `source-reader source-reader--${index.layout}`;
@@ -782,9 +836,8 @@ function openSourceReader(record, { nextState = null, readingMode = null } = {})
   $('#source-reader-title-ru').textContent = record.titleRu ?? '';
   $('#source-reader-context').textContent = context;
   $('#source-reader-provenance-text').textContent = provenance;
-  $('#source-reader-ids').textContent = `${record.sourceId} · ${index.excerptId} · ${index.textStatus} 원문 · 판면 ${index.renderingStatus}`;
+  $('#source-reader-ids').textContent = `${record.sourceId} · ${index.excerptId}`;
   $('#source-reader-dates').textContent = `작성·문서: ${index.documentDate ?? index.creationDate ?? record.documentDate ?? record.dateCreated ?? '확인된 날짜 없음'} · 최초 간행: ${index.publicationDate ?? record.firstPublication ?? '확인된 간행일 없음'} · 이 장면의 날짜: ${state.world.date}`;
-  $('#source-reader-reconstruction').textContent = '실제 스캔 이미지가 아니라, 확인 가능한 원문을 읽기 좋게 배치한 재구성 판면입니다.';
   $('#source-reader-passages').replaceChildren(...record.paragraphs.map((paragraph, index) => {
     const section = document.createElement('section'); section.className = 'source-passage';
     const label = document.createElement('h3'); label.textContent = `문단 ${index + 1} · 원문과 번역`;
@@ -1009,7 +1062,7 @@ function releaseFromCustody(resolution) {
 }
 function openPoliceDesk() {
   const custody = state.player.civic?.custody;
-  if (!custody?.active) { say('경찰 접수 창구', '신고자의 말, 직접 목격한 사실, 아직 확인하지 못한 추정을 장부의 서로 다른 칸에 적습니다. 이 접수실과 절차는 허구의 게임 장면입니다.', []); return; }
+  if (!custody?.active) { say('경찰 접수 창구', '신고자의 말과 직접 본 일, 아직 확인되지 않은 추정을 장부의 다른 칸에 적는다.', []); return; }
   const host = state.hosts[custody.hostId], canPay = Number.isFinite(host.money?.amount) && host.money.amount >= 8;
   say('진술과 석방 절차', `접수 사유 · ${custody.reasonKo}\n압수 대상 · ${custody.stolenItemId ? '신문 1부' : '없음'}\n\n벌금을 내면 소지금에서 8코페이카가 빠집니다. 진술서를 쓰면 돈은 들지 않지만 사건 경위가 장부에 남습니다. 어느 쪽이든 압수된 물건은 돌려줘야 합니다.`, [
     { label: '8코페이카를 내고 석방된다', subcopy: '경찰 접수 장부에 벌금 납부가 남습니다.', disabled: !canPay, run: () => releaseFromCustody('pay_fine') },
@@ -1039,6 +1092,27 @@ function inspect(object) {
     tutorialAdvance('inspect');
     const card = cards.find(item => item.id === props.hostId), host = state.hosts[props.hostId];
     if (state.player.embodiment && card.id !== state.player.embodiment) {
+      const tenant = state.hosts[state.player.embodiment], contract = tenant.housing;
+      if (contract?.kind === 'RENT' && contract.landlordHostId === card.id) {
+        const dayIndex = Math.floor(state.world.clockMinutes / 1440);
+        const amountDue = contract.dueDayIndex === dayIndex && Number.isInteger(contract.amountDueRemaining)
+          ? contract.amountDueRemaining : contract.amount + (contract.arrears ?? 0);
+        const canPay = Number.isFinite(tenant.money?.amount) && tenant.money.amount > 0 && amountDue > 0;
+        const payment = Math.min(tenant.money?.amount ?? 0, amountDue), remainder = Math.max(0, amountDue - payment);
+        const unitLabel = contract.unit === 'kopeks' ? '코페이카' : contract.unit;
+        const amountLine = `${card.displayNameKo}와 마주 서 있습니다. 지금 건네면 ${payment} ${unitLabel}가 주머니에서 빠집니다.${remainder ? ` 남은 ${remainder} ${unitLabel}는 체납으로 남습니다.` : ''}`;
+        say('방세를 정산하다', `${amountLine}\n\n정산에는 5분이 들고, 거래는 이 몸의 수첩과 세계 기록에 남습니다.`, [
+          { label: `지금 ${payment} ${unitLabel}를 건넨다`, subcopy: '집주인에게 직접 지급 · 돈과 남은 방세가 즉시 바뀝니다.', disabled: !canPay || contract.lastSettledDayIndex === dayIndex, run: () => {
+            const result = payRent(state, { tenantHostId: tenant.id }, maps);
+            if (!result.ok) { sayRecord(result.reason === 'insufficient_funds' ? '건넬 수 있는 돈이 없습니다. 오늘은 납부하지 못했습니다.' : '지금은 정산할 수 없습니다. 가까이에서 다시 확인하세요.'); return; }
+            setState(result.state);
+            const remainingText = result.amountDueRemaining > 0 ? ` 남은 ${result.amountDueRemaining} ${unitLabel}는 체납으로 남습니다.` : ' 오늘 낼 방세를 모두 정산했습니다.';
+            say('방세를 건넸다', `${card.displayNameKo}에게 ${result.paidAmount} ${unitLabel}를 전했습니다.${remainingText} 거래 기록이 수첩에 남았습니다.`, []);
+          } },
+          { label: `${card.displayNameKo}에게 사정을 말한다`, subcopy: '돈은 움직이지 않습니다 · 방세 사정을 직접 이야기합니다.', run: () => startConversation(card) },
+        ]);
+        return;
+      }
       say(card.displayNameKo, `${card.occupation}. ${card.personalObjective}`, [{ label: `${card.displayNameKo}에게 말 걸기`, run: () => startConversation(card) }]);
     } else if (state.player.embodiment === card.id) {
       say(card.displayNameKo, `지금 빌린 몸이다. ${card.personalObjective} · ${describeHostMoney(host.money)}`, [{ label: '이 몸의 수첩 보기', run: openJournal }]);
@@ -1072,9 +1146,9 @@ function inspect(object) {
     setState(recorded.state);
     const hostLine = state.player.embodiment ? clue.hostLines[state.player.embodiment] : null;
     say(clue.titleKo, observationText(clue, state.player.embodiment), []);
-    sayRecord(`허구 소품 조사 · ${clue.titleKo} · ${state.player.embodiment ? '현재 몸의 수첩에 기록' : '관찰 기록에만 저장'}`);
+    sayRecord(`조사 · ${clue.titleKo} · ${state.player.embodiment ? '현재 몸의 수첩에 기록' : '관찰 기록에 저장'}`);
   }
-  else if (props.storyTextKo) { say(item.name || '주변의 물건', props.storyTextKo, []); sayRecord(`허구의 현장 소품을 살펴봤다 · ${item.name || '주변의 물건'}`); }
+  else if (props.storyTextKo && !props.questId) { say(object.name || '주변의 물건', props.storyTextKo, []); sayRecord(`살펴봄 · ${object.name || '주변의 물건'}`); }
   else if (props.questId) {
     const activeQuest = questsById.get(props.questId);
     if (!questIsAvailable(activeQuest)) { say('아직 시작할 때가 아니다', '이 장의 사건이 열리면 여기서 이어진다.', []); return; }
@@ -1087,6 +1161,8 @@ function inspect(object) {
       const result = performQuestAction(state, { questId: activeQuest.id, hostId: state.player.embodiment, actionId: action.id, objectId: object.id }, { quests: questList, maps });
       if (!result.ok) { sayRecord(result.reason === 'social_partner_not_present' || result.reason === 'required_participant_not_present' ? '이 선택은 이름이 적힌 사람과 직접 확인해야 합니다. 그 사람이 같은 장소 가까이에 있을 때 다시 해 보세요.' : `처리할 수 없음 · ${result.reason}`); return; }
       setState(result.state);
+      localStorage.setItem('v33-rpg-save', saveGame(result.state));
+      $('#load').disabled = false;
       tutorialAdvance('target');
       const actions = continuationFor(activeQuest);
       const chain = activeQuest.lifeChain, chainProgress = chain ? result.state.world.lifeChains?.[chain.id] : null;
@@ -1143,8 +1219,7 @@ function renderLifeTimeline() {
   $('#ending-life-progress').textContent = `${episode.periodLabel} · ${index + 1} / ${episodes.length}`;
   const title = document.createElement('h4'); title.textContent = episode.title;
   const text = document.createElement('p'); text.textContent = episode.textKo;
-  const mark = document.createElement('small'); mark.textContent = '가상의 서기 · 플레이 기록으로 구성한 장면';
-  card.append(title, text, mark);
+  card.append(title, text);
   $('#ending-life-previous').disabled = index === 0;
   $('#ending-life-next').disabled = index === episodes.length - 1;
   $('#ending-life-previous').onclick = () => moveLifeTimeline(-1);
@@ -1164,17 +1239,6 @@ function renderEnding(ending) {
   $('#ending-date').textContent = `${state.world.date.replaceAll('-', '.')} · 보존 기록`;
   $('#ending-title').textContent = ending.titleKo;
   $('#ending-epilogue').textContent = ending.epilogueKo;
-  $('#ending-history').textContent = campaign.endingHistoryNoteKo;
-  const comparison = historicalComparisons.comparisons.find(item => item.endingId === ending.id);
-  $('#ending-comparison-title').textContent = comparison ? comparison.personKo : '비교 자료 없음';
-  $('#ending-comparison-text').textContent = comparison?.documentedLifeKo ?? '';
-  $('#ending-comparison-route').textContent = comparison?.routeContextKo ?? '';
-  const comparisonSources = $('#ending-comparison-sources'); comparisonSources.replaceChildren();
-  for (const sourceInfo of comparison?.sources ?? []) {
-    const item = document.createElement('li'), link = document.createElement('a');
-    link.href = sourceInfo.url; link.target = '_blank'; link.rel = 'noopener noreferrer';
-    link.textContent = `${sourceInfo.sourceId} · ${sourceInfo.claim} · ${sourceInfo.locator}`; item.append(link); comparisonSources.append(item);
-  }
   const actionLines = state.ledger.filter(item => item.actionId).map(item => {
     const quest = questsById.get(item.questId), action = quest?.actions.find(entry => entry.id === item.actionId);
     const card = cards.find(entry => entry.id === item.hostId);
@@ -1216,14 +1280,14 @@ function interact() {
     const peopleChoices = nearbyPeople.map(item => {
       const hostId = mapObjectProperties(item).hostId, card = cards.find(character => character.id === hostId), person = state.hosts[hostId];
       const routineStateKo = ({ TRAVELLING: '이동 중', WORKING: '일하는 중', TRADING: '거래 중', RESTING: '쉬는 중', SOCIALIZING: '사람들과 이야기하는 중', DELIVERING: '물건을 전하는 중', POSSESSED: '다른 이의 시야에 들어와 있음' })[person.routineState?.state] ?? '자기 일과를 보내는 중';
-      const goalKo = ({ FOLLOW_RECIPIENT: '받을 사람을 찾아가는 중', FOLLOW_TRADE_PARTNER: '거래 상대를 찾아가는 중', PERSONAL_RELATIONSHIP: `${cards.find(item=>item.id===person.activeGoal?.targetHostId)?.displayNameKo ?? '이웃'}를 만나러 가는 중`, NEED_MEAL: '허기를 채우러 가는 중', NEED_REST: '피로를 풀 곳으로 가는 중' })[person.activeGoal?.type] ?? person.currentActivityKo ?? card.personalObjective;
+      const goalKo = ({ FOLLOW_RECIPIENT: '받을 사람을 찾아가는 중', FOLLOW_TRADE_PARTNER: '거래 상대를 찾아가는 중', COLLECT_WAGE: '밀린 품삯을 받으러 가는 중', HOUSING_RENT: '방세를 내려고 집주인을 찾아가는 중', PERSONAL_RELATIONSHIP: `${cards.find(item=>item.id===person.activeGoal?.targetHostId)?.displayNameKo ?? '이웃'}를 만나러 가는 중`, NEED_MEAL: '허기를 채우러 가는 중', NEED_REST: '피로를 풀 곳으로 가는 중' })[person.activeGoal?.type] ?? person.currentActivityKo ?? card.personalObjective;
       const hungerKo = (person.needs?.hunger ?? 0) >= 65 ? '끼니가 급함' : (person.needs?.hunger ?? 0) >= 45 ? '허기를 느끼는 중' : '허기 낮음';
       return { label: `${card.displayNameKo} 살펴보기`, subcopy: `${card.occupation} · ${routineStateKo} · ${goalKo} · ${hungerKo}`, run: () => inspect(item) };
     });
     const nearbyObjects = near.filter(item => ['source', 'map-exit', 'quest-object','inspectable'].includes(item.type) || Boolean(mapObjectProperties(item).serviceId)).map(item => {
       const props = mapObjectProperties(item);
       if (props.serviceId) return { label: `${item.name} 이용`, subcopy: '이 장소의 물건이나 기록을 살펴봅니다.', run: () => inspect(item) };
-      if (item.type === 'inspectable') return { label: `살펴보기 · ${item.name}`, subcopy: props.storyTextKo ?? '허구 장면을 위한 생활 소품입니다.', run: () => inspect(item) };
+      if (item.type === 'inspectable') return { label: `살펴보기 · ${item.name}`, subcopy: props.storyTextKo ?? '', run: () => inspect(item) };
       if (item.type === 'source') {
         const record = sourceRecords.get(props.sourceId);
         return { label: `자료 읽기 · ${record?.titleKo ?? '문서'}`, subcopy: record?.range ?? record?.witness?.range ?? '가까이에 놓인 자료', run: () => inspect(item) };
@@ -1398,7 +1462,7 @@ async function sendConversation(card, playerText, replyId = null) {
     dialogueCurrentLines.set(key, '말을 들었어요. 잠시 생각하고 있어요.');
     showConversation(card, dialogueCurrentLines.get(key), [], '답변을 기다리는 중 · Esc로 대화를 마칠 수 있습니다.');
     try {
-      const requestDialogue = currentSession => fetch(`${aiBaseUrl}/api/rpg/dialogue`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ sessionToken: currentSession.token, requestId: crypto.randomUUID(), playerInput: playerText, actorRelations: relationshipHintsFor(actorCard.id), actorActions: playerActionHintsFor(actorCard.id), sceneContext: { date: state.world.date, mapId: state.world.currentMapId, questId: discussionPrompt ? null : missionGuidance?.questId ?? null } }), signal: controller.signal });
+      const requestDialogue = currentSession => fetch(`${aiBaseUrl}/api/rpg/dialogue`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ sessionToken: currentSession.token, requestId: crypto.randomUUID(), playerInput: playerText, actorRelations: relationshipHintsFor(actorCard.id), actorActions: playerActionHintsFor(actorCard.id), sceneContext: dialogueSceneContext(card, state.hosts[card.id], state.world.date, state.world.currentMapId, discussionPrompt ? null : missionGuidance?.questId ?? null) }), signal: controller.signal });
       let response = await requestDialogue(session);
       if (response.status === 401) {
         sessionStorage.removeItem(sessionStorageKey); dialogueSessions.delete(key);
@@ -1514,7 +1578,7 @@ function restoreJournal() {
     if (clue) {
       const hostLine = latest.hostId ? clue.hostLines[latest.hostId] : null;
       say(clue.titleKo, observationText(clue, latest.hostId), []);
-      sayRecord('저장한 허구 소품 관찰을 불러왔다.');
+      sayRecord('관찰 기록을 불러왔다.');
       return;
     }
   }

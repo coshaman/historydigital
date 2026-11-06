@@ -25,7 +25,6 @@
       "resultKo": "먼저 가까운 셋방에 가서 필요한 일을 확인하기로 했다. 다른 집의 약속 시간은 늦어질 수 있다.",
       "resultFlag": "avdotyaNearby",
       "followupTitleKo": "급한 호출과 치러야 할 값",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "가까운 셋방을 먼저 방문하기로 했다.",
         "relations": {
@@ -43,7 +42,6 @@
       "resultKo": "약속한 호출부터 가고 비용 일부는 나중에 받기로 했다. 당장 수입은 유지되지만 가까운 이웃은 기다려야 한다.",
       "resultFlag": "avdotyaPaid",
       "followupTitleKo": "급한 호출과 치러야 할 값",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "약속한 호출과 비용 정산을 먼저 하기로 했다.",
         "relations": {
@@ -61,7 +59,6 @@
       "resultKo": "두 곳에 가능한 시각과 비용을 알렸다. 결정은 투명해졌지만, 기다리는 동안 시간이 흐른다.",
       "resultFlag": "avdotyaNotified",
       "followupTitleKo": "급한 호출과 치러야 할 값",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "두 호출에 방문 시각과 비용을 먼저 알렸다.",
         "relations": {

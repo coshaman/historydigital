@@ -26,7 +26,6 @@
       "resultKo": "허락받은 물건만 날짜와 함께 적었다. 도움이 필요한 범위는 분명해졌다.",
       "resultFlag": "VARVARA_PRIVATE_WARNING_1847_STAGE_3_RESULT_1",
       "followupTitleKo": "들어버린 말과 전할 경고",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "허락받은 물건만 날짜와 함께 적었다. 도움이 필요한 범위는 분명해졌다.",
         "relations": {
@@ -49,7 +48,6 @@
       "resultKo": "둘이 함께 방을 알아보기로 했다. 사적인 말을 퍼뜨리지 않고 도움을 찾는다.",
       "resultFlag": "VARVARA_PRIVATE_WARNING_1847_STAGE_3_RESULT_2",
       "followupTitleKo": "들어버린 말과 전할 경고",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "둘이 함께 방을 알아보기로 했다. 사적인 말을 퍼뜨리지 않고 도움을 찾는다.",
         "relations": {
@@ -72,7 +70,6 @@
       "resultKo": "정식 방을 요청했다. 답을 받을 수 있지만 대상자의 사정이 공개 기록에 남는다.",
       "resultFlag": "VARVARA_PRIVATE_WARNING_1847_STAGE_3_RESULT_3",
       "followupTitleKo": "들어버린 말과 전할 경고",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "정식 방을 요청했다. 답을 받을 수 있지만 대상자의 사정이 공개 기록에 남는다.",
         "relations": {

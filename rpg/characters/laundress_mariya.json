@@ -31,6 +31,31 @@
     "yardkeeper_semyon": "세탁물을 널 곳을 두고 상의하는 안뜰 관리인이다",
     "baker_fyodor": "빵집 앞에서 세탁물 배달과 품삯 이야기를 나눈다"
   },
+  "kinshipRelations": [
+    {
+      "targetHostId": "seamstress_anna",
+      "kind": "SIBLING",
+      "relationshipKo": "안나는 내 여동생이다. 우리는 안뜰 공동 셋방을 함께 쓴다.",
+      "status": "FICTIONAL_CHARACTER_DESIGN",
+      "graphEdgeId": "KIN-ANNA-MARIYA"
+    }
+  ],
+  "household": {
+    "id": "COURTYARD_SISTERS_1847",
+    "unitLabelKo": "안뜰 공동 셋방",
+    "homeLocation": {
+      "mapId": "courtyard",
+      "position": {
+        "x": 11,
+        "y": 13
+      }
+    },
+    "memberHostIds": [
+      "seamstress_anna",
+      "laundress_mariya"
+    ],
+    "status": "FICTIONAL_CHARACTER_DESIGN"
+  },
   "secretKnowledge": [
     {
       "id": "LAUNDRESS_MARIYA_PRIVATE_NOTE",
@@ -154,7 +179,7 @@
         "outputKind": "세탁 노동",
         "outputKo": "린넨을 물에 담그고 세탁물마다 맡긴 사람을 표시한다",
         "durationMinutes": 20,
-        "inventoryItemKo": "접은 린넨 한 벌"
+        "inventoryItemKo": "접은 린넨"
       }
     },
     {
@@ -168,6 +193,7 @@
       "task": {
         "type": "EXCHANGE",
         "id": "MARIYA_LINEN_SALE_TO_NADEZHDA_1847",
+        "repeatDaily": true,
         "itemKo": "접은 린넨",
         "recipientHostId": "market_nadezhda",
         "moneyAmount": 2,
@@ -216,6 +242,26 @@
         "y": 12
       },
       "activityKo": "다음 날 세탁물을 정리한다"
+    },
+    {
+      "atMinute": 1080,
+      "mapId": "courtyard",
+      "position": {
+        "x": 11,
+        "y": 13
+      },
+      "activityKo": "안나와 장작값을 의논한다",
+      "task": {
+        "type": "CARE_TRANSFER",
+        "id": "MARIYA_SIBLING_SUPPORT_ANNA_1847",
+        "repeatDaily": true,
+        "recipientHostId": "seamstress_anna",
+        "moneyAmount": 2,
+        "donorReserve": 5,
+        "recipientMaximum": 5,
+        "relationshipKo": "동생에게 생활비를 보탠 언니",
+        "recipientRelationshipKo": "언니에게 생활비를 받은 동생"
+      }
     }
   ],
   "portrait": {

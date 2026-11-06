@@ -25,7 +25,6 @@
       "resultKo": "상자 표식을 하나씩 대조했다. 누락 위치는 찾지 못했지만 확인한 수량은 남겼다.",
       "resultFlag": "PYOTR_MISSING_CRATE_AUDIT_1847_1_1",
       "followupTitleKo": "들어온 상자와 인장 대조",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "상자 표식을 하나씩 대조했다. 누락 위치는 찾지 못했지만 확인한 수량은 남겼다.",
         "relations": {
@@ -47,7 +46,6 @@
       "resultKo": "떠난 시각과 경로를 물었다. 아직 누구의 실수인지 정하지 않고 이동 기록부터 확인했다.",
       "resultFlag": "PYOTR_MISSING_CRATE_AUDIT_1847_1_2",
       "followupTitleKo": "들어온 상자와 인장 대조",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "떠난 시각과 경로를 물었다. 아직 누구의 실수인지 정하지 않고 이동 기록부터 확인했다.",
         "relations": {
@@ -69,7 +67,6 @@
       "resultKo": "상자를 찾기 전에 수량을 줄였다. 다음 사람은 재고를 믿기 어렵고, 뒤늦게 찾으면 다시 고쳐야 한다.",
       "resultFlag": "PYOTR_MISSING_CRATE_AUDIT_1847_1_3",
       "followupTitleKo": "들어온 상자와 인장 대조",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "상자를 찾기 전에 수량을 줄였다. 다음 사람은 재고를 믿기 어렵고, 뒤늦게 찾으면 다시 고쳐야 한다.",
         "relations": {

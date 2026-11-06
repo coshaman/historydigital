@@ -25,7 +25,6 @@
       "resultKo": "수업을 계속하고 종이 부족을 알렸다. 학생은 배울 수 있지만 수업 방식과 재료를 다시 조정해야 한다.",
       "resultFlag": "lyubovContinued",
       "followupTitleKo": "배울 기회와 종이값",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "수업을 이어가며 종이 부족을 알렸다.",
         "relations": {
@@ -43,7 +42,6 @@
       "resultKo": "수업료를 먼저 정산하고 날짜를 다시 잡기로 했다. 교사의 비용은 보호되지만 학생은 기다려야 한다.",
       "resultFlag": "lyubovPayment",
       "followupTitleKo": "배울 기회와 종이값",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "수업료 정산 뒤 다음 수업을 정했다.",
         "relations": {
@@ -61,7 +59,6 @@
       "resultKo": "종이와 시간을 함께 나눴다. 더 많은 학생이 참여하지만 각자 연습량은 줄었다.",
       "resultFlag": "lyubovShared",
       "followupTitleKo": "배울 기회와 종이값",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "종이와 수업 시간을 공동으로 나눴다.",
         "relations": {

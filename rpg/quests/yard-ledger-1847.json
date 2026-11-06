@@ -25,7 +25,6 @@
       "resultKo": "수량과 마지막 확인 시각만 적었다. 이름을 적을 근거가 생길 때까지 판단은 미뤘다.",
       "resultFlag": "semyonMeasured",
       "followupTitleKo": "장작 장부의 빈칸",
-      "followupKo": "이 선택은 이 허구 인물의 오늘과 이웃과의 관계에만 남는다.",
       "effects": {
         "situationKo": "세입자의 이름 없이 수량과 시각을 기록했다.",
         "relations": {
@@ -43,7 +42,6 @@
       "resultKo": "확인되지 않은 의심을 이름과 함께 알렸다. 집주인은 조사할 수 있지만, 그 집 사람에게도 소문이 닿을 수 있다.",
       "resultFlag": "semyonNamed",
       "followupTitleKo": "장작 장부의 빈칸",
-      "followupKo": "이 선택은 이 허구 인물의 오늘과 이웃과의 관계에만 남는다.",
       "effects": {
         "situationKo": "확인되지 않은 이름을 안뜰 장부에 적었다.",
         "relations": {
@@ -61,7 +59,6 @@
       "resultKo": "장부는 잠가 두고 해당 세입자에게 먼저 물어보기로 했다. 당장은 이름이 퍼지지 않지만 장작은 아직 찾지 못했다.",
       "resultFlag": "semyonAsked",
       "followupTitleKo": "장작 장부의 빈칸",
-      "followupKo": "이 선택은 이 허구 인물의 오늘과 이웃과의 관계에만 남는다.",
       "effects": {
         "situationKo": "장부를 잠그고 당사자에게 먼저 확인하기로 했다.",
         "relations": {

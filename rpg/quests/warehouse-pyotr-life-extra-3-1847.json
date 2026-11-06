@@ -25,7 +25,6 @@
       "resultKo": "찾은 수량과 찾지 못한 수량을 나눠 남겼다. 손실을 확정하지 않아 다음 확인이 이어질 수 있다.",
       "resultFlag": "PYOTR_MISSING_CRATE_AUDIT_1847_3_1",
       "followupTitleKo": "누락 수량과 책임자 기록",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "찾은 수량과 찾지 못한 수량을 나눠 남겼다. 손실을 확정하지 않아 다음 확인이 이어질 수 있다.",
         "relations": {
@@ -47,7 +46,6 @@
       "resultKo": "차이를 공식 보고로 올렸다. 책임을 정하지는 않았고 추가 확인을 맡겼다.",
       "resultFlag": "PYOTR_MISSING_CRATE_AUDIT_1847_3_2",
       "followupTitleKo": "누락 수량과 책임자 기록",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "차이를 공식 보고로 올렸다. 책임을 정하지는 않았고 추가 확인을 맡겼다.",
         "relations": {
@@ -69,7 +67,6 @@
       "resultKo": "미확인 상자를 손실로 닫았다. 오늘 장부는 끝났지만 그 결론을 되돌릴 가능성도 남았다.",
       "resultFlag": "PYOTR_MISSING_CRATE_AUDIT_1847_3_3",
       "followupTitleKo": "누락 수량과 책임자 기록",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "미확인 상자를 손실로 닫았다. 오늘 장부는 끝났지만 그 결론을 되돌릴 가능성도 남았다.",
         "relations": {

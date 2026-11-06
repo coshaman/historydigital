@@ -25,7 +25,6 @@
       "resultKo": "만든 양과 건넨 양을 나눠 적었다. 다음 주문은 남은 재료에 맞춰 잡을 수 있다.",
       "resultFlag": "FYODOR_OVEN_ORDER_1847_3_1",
       "followupTitleKo": "화덕을 끄기 전 주문 마감",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "만든 양과 건넨 양을 나눠 적었다. 다음 주문은 남은 재료에 맞춰 잡을 수 있다.",
         "relations": {
@@ -48,7 +47,6 @@
       "resultKo": "남은 밀가루를 따로 두었다. 오늘 더 팔지는 못하지만 재료가 있는 것처럼 약속하지 않았다.",
       "resultFlag": "FYODOR_OVEN_ORDER_1847_3_2",
       "followupTitleKo": "화덕을 끄기 전 주문 마감",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "남은 밀가루를 따로 두었다. 오늘 더 팔지는 못하지만 재료가 있는 것처럼 약속하지 않았다.",
         "relations": {
@@ -71,7 +69,6 @@
       "resultKo": "다음 굽기에 먼저 주겠다고 말했다. 오늘 문제는 남았고 새 약속도 지켜야 한다.",
       "resultFlag": "FYODOR_OVEN_ORDER_1847_3_3",
       "followupTitleKo": "화덕을 끄기 전 주문 마감",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "다음 굽기에 먼저 주겠다고 말했다. 오늘 문제는 남았고 새 약속도 지켜야 한다.",
         "relations": {

@@ -25,7 +25,6 @@
       "resultKo": "봉투를 손에서 손으로 건네고 받은 시각을 확인했다. 다른 일은 늦어졌지만 전달 여부는 분명해졌다.",
       "resultFlag": "recipientConfirmed",
       "followupTitleKo": "거리의 수취 확인",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "봉투를 손에서 손으로 건네고 받은 시각을 확인했다. 다른 일은 늦어졌지만 전달 여부는 분명해졌다.",
         "relations": {
@@ -47,7 +46,6 @@
       "resultKo": "가게 앞에 봉투를 맡겼다. 수취 확인은 없고 전달 책임이 흐려졌다.",
       "resultFlag": "leftWithBystander",
       "followupTitleKo": "거리의 수취 확인",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "가게 앞에 봉투를 맡겼다. 수취 확인은 없고 전달 책임이 흐려졌다.",
         "relations": {
@@ -69,7 +67,6 @@
       "resultKo": "봉투는 가지고 있고 지연 쪽지만 보냈다. 인쇄는 늦어져도 내용은 확인된 사람에게 건넬 수 있다.",
       "resultFlag": "heldForRecipient",
       "followupTitleKo": "거리의 수취 확인",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "봉투는 가지고 있고 지연 쪽지만 보냈다. 인쇄는 늦어져도 내용은 확인된 사람에게 건넬 수 있다.",
         "relations": {

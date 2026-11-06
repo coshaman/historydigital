@@ -25,7 +25,6 @@
       "resultKo": "먼저 약속한 집에 도착 시간을 알렸다. 순서는 지키지만 다른 집의 급한 사정을 더 확인해야 한다.",
       "resultFlag": "firstPromise",
       "followupTitleKo": "방문 순서와 비용표",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "먼저 약속한 집에 도착 시간을 알렸다. 순서는 지키지만 다른 집의 급한 사정을 더 확인해야 한다.",
         "relations": {
@@ -47,7 +46,6 @@
       "resultKo": "상태를 확인해 급한 집을 먼저 보기로 했다. 순서를 바꾼 이유를 설명해야 한다.",
       "resultFlag": "triage",
       "followupTitleKo": "방문 순서와 비용표",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "상태를 확인해 급한 집을 먼저 보기로 했다. 순서를 바꾼 이유를 설명해야 한다.",
         "relations": {
@@ -69,7 +67,6 @@
       "resultKo": "두 집에 같은 시간에 오라고 알렸다. 이동은 줄지만 도착 순서는 다시 정해야 한다.",
       "resultFlag": "sharedVisit",
       "followupTitleKo": "방문 순서와 비용표",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "두 집에 같은 시간에 오라고 알렸다. 이동은 줄지만 도착 순서는 다시 정해야 한다.",
         "relations": {

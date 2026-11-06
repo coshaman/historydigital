@@ -25,7 +25,6 @@
       "resultKo": "받을 날짜를 적어 두었다. 약속이 흐려지진 않겠지만, 의뢰인도 날짜를 지켜야 한다.",
       "resultFlag": "MARIYA_WASHING_WAGES_1847_STAGE_1_RESULT_1",
       "followupTitleKo": "밀린 빨래값과 다음 일감",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "받을 날짜를 적어 두었다. 약속이 흐려지진 않겠지만, 의뢰인도 날짜를 지켜야 한다.",
         "relations": {
@@ -48,7 +47,6 @@
       "resultKo": "다음 일감에서 일부를 받기로 했다. 관계는 이어지지만 오늘 필요한 돈은 마련되지 않았다.",
       "resultFlag": "MARIYA_WASHING_WAGES_1847_STAGE_1_RESULT_2",
       "followupTitleKo": "밀린 빨래값과 다음 일감",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "다음 일감에서 일부를 받기로 했다. 관계는 이어지지만 오늘 필요한 돈은 마련되지 않았다.",
         "relations": {
@@ -71,7 +69,6 @@
       "resultKo": "새 일감을 잠시 받지 않기로 했다. 빚을 더 늘리지 않는 대신 수입도 끊길 수 있다.",
       "resultFlag": "MARIYA_WASHING_WAGES_1847_STAGE_1_RESULT_3",
       "followupTitleKo": "밀린 빨래값과 다음 일감",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "새 일감을 잠시 받지 않기로 했다. 빚을 더 늘리지 않는 대신 수입도 끊길 수 있다.",
         "relations": {

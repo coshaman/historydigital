@@ -20,7 +20,9 @@ try {
   const session = await started.json();
   const response = await fetch(`${origin}/api/rpg/dialogue`, {
     method: 'POST', headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ sessionToken: session.sessionToken, requestId: crypto.randomUUID(), playerInput: '그 문장에서 가장 먼저 확인해야 할 대목은 어디인가요?', actorRelations: {}, actorActions: [] }),
+    body: JSON.stringify({ sessionToken: session.sessionToken, requestId: crypto.randomUUID(), playerInput: '그 문장에서 가장 먼저 확인해야 할 대목은 어디인가요?', actorRelations: {}, actorActions: [],
+      sceneContext: { date: '1847-06-01', mapId: 'printshop', questId: 'PRINTSHOP_PROOF_1847', activityKo: '교정쇄와 활자를 살핀다',
+        currentAimKo: '작업한 교정쇄의 전달처와 책임자를 확인한다', hungerBand: 'HUNGRY', fatigueBand: 'RESTED', healthCondition: 'FIT' } }),
   });
   turns++;
   if (!response.ok) {

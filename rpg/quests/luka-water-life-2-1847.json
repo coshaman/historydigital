@@ -26,7 +26,6 @@
       "resultKo": "통을 먼저 고치고 함께 날랐다. 다음 운반은 줄겠지만 오늘 물이 늦게 도착한다.",
       "resultFlag": "LUKA_WATER_QUEUE_1847_STAGE_2_RESULT_1",
       "followupTitleKo": "물통 순서와 먼 길",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "통을 먼저 고치고 함께 날랐다. 다음 운반은 줄겠지만 오늘 물이 늦게 도착한다.",
         "relations": {
@@ -49,7 +48,6 @@
       "resultKo": "새 통을 빌려 물을 날랐다. 오늘은 해결했지만 통을 돌려줘야 한다.",
       "resultFlag": "LUKA_WATER_QUEUE_1847_STAGE_2_RESULT_2",
       "followupTitleKo": "물통 순서와 먼 길",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "새 통을 빌려 물을 날랐다. 오늘은 해결했지만 통을 돌려줘야 한다.",
         "relations": {
@@ -72,7 +70,6 @@
       "resultKo": "아래에서 받도록 부탁했다. 운반은 줄었지만 내려오기 힘든 사람은 불편해졌다.",
       "resultFlag": "LUKA_WATER_QUEUE_1847_STAGE_2_RESULT_3",
       "followupTitleKo": "물통 순서와 먼 길",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "아래에서 받도록 부탁했다. 운반은 줄었지만 내려오기 힘든 사람은 불편해졌다.",
         "relations": {

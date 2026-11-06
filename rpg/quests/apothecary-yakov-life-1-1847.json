@@ -25,7 +25,6 @@
       "resultKo": "재료와 값은 확인해 주되 효능은 장담하지 않았다. 손님은 다른 의견을 더 들어볼 수 있다.",
       "resultFlag": "YAKOV_REMEDY_LIMITS_1847_STAGE_1_RESULT_1",
       "followupTitleKo": "약재의 이름과 모르는 효능",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "재료와 값은 확인해 주되 효능은 장담하지 않았다. 손님은 다른 의견을 더 들어볼 수 있다.",
         "relations": {
@@ -48,7 +47,6 @@
       "resultKo": "처방대로 약재를 내주었다. 손님은 기다리지 않아도 되지만 결과까지 약속한 셈은 아니다.",
       "resultFlag": "YAKOV_REMEDY_LIMITS_1847_STAGE_1_RESULT_2",
       "followupTitleKo": "약재의 이름과 모르는 효능",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "처방대로 약재를 내주었다. 손님은 기다리지 않아도 되지만 결과까지 약속한 셈은 아니다.",
         "relations": {
@@ -71,7 +69,6 @@
       "resultKo": "값이 낮은 재료를 안내했다. 부담은 줄었지만 같은 효과라고 말하지는 않았다.",
       "resultFlag": "YAKOV_REMEDY_LIMITS_1847_STAGE_1_RESULT_3",
       "followupTitleKo": "약재의 이름과 모르는 효능",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "값이 낮은 재료를 안내했다. 부담은 줄었지만 같은 효과라고 말하지는 않았다.",
         "relations": {

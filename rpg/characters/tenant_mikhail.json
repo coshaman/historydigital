@@ -21,6 +21,23 @@
     "unit": "kopeks",
     "status": "designedEstimate"
   },
+  "housing": {
+    "kind": "RENT",
+    "landlordHostId": "landlady_polina",
+    "mapId": "courtyard",
+    "position": {
+      "x": 20,
+      "y": 13
+    },
+    "amount": 3,
+    "unit": "kopeks",
+    "dueMinute": 1200,
+    "travelLeadMinutes": 240,
+    "closeMinute": 1380,
+    "arrears": 0,
+    "valueStatus": "fictional_gameplay_balance",
+    "noteKo": "미하일·폴리나의 허구 생활 시뮬레이션용 방세 수치이며 1840년대 실측 통계가 아니다."
+  },
   "literacy": "주소와 짧은 표지는 알아보지만 긴 문서는 천천히 읽는다",
   "health": "working",
   "reputationByGroup": {
@@ -189,27 +206,42 @@
     },
     {
       "atMinute": 720,
-      "mapId": "courtyard",
-      "position": {
-        "x": 13,
-        "y": 15
-      },
-      "activityKo": "해 질 무렵 방으로 돌아가 잠시 쉰다"
-    },
-    {
-      "atMinute": 840,
       "mapId": "market-quay",
       "position": {
-        "x": 22,
-        "y": 10
+        "x": 19,
+        "y": 14
       },
-      "activityKo": "강변 장터에서 오늘 맡을 짐일을 알아보고 귀가비를 남긴다",
+      "activityKo": "나루터로 가서 오늘 일감을 기다리며 잠깐 숨을 고른다"
+    },
+    {
+      "atMinute": 900,
+      "mapId": "market-quay",
+      "position": {
+        "x": 19,
+        "y": 14
+      },
+      "activityKo": "로만을 도와 짐을 옮기고 약속한 품삯을 받는다",
       "workAction": {
         "id": "V36_TENANT_RESERVE_RETURN_FARE",
-        "outputKind": "품삯 관리",
-        "outputKo": "오늘 받은 일감과 귀가에 남겨 둘 돈을 개인 장부에 적는다",
-        "durationMinutes": 20
+        "outputKind": "하역 노동과 품삯 정산",
+        "outputKo": "로만을 도와 짐을 옮기고 귀가비를 남긴 뒤 품삯을 받는다",
+        "durationMinutes": 20,
+        "payroll": {
+          "payerHostId": "carter_roman",
+          "amount": 3,
+          "unit": "kopeks",
+          "valueStatus": "fictional_gameplay_balance"
+        }
       }
+    },
+    {
+      "atMinute": 960,
+      "mapId": "courtyard",
+      "position": {
+        "x": 20,
+        "y": 12
+      },
+      "activityKo": "안뜰로 돌아가 방세 날짜와 식비를 정리한다"
     }
   ],
   "portrait": {
@@ -349,5 +381,14 @@
     "deterministicSeed": 867536155
   },
   "plannerPolicyStatus": "FICTIONAL_GAMEPLAY_BALANCE",
-  "plannerPolicyBasisKo": "미하일의 경계심·생계 우선도·관계 필요를 반영한 결정론적 게임 성향."
+  "plannerPolicyBasisKo": "미하일의 경계심·생계 우선도·관계 필요를 반영한 결정론적 게임 성향.",
+  "kinshipRelations": [
+    {
+      "targetHostId": "housemaid_olga",
+      "kind": "SIBLING",
+      "relationshipKo": "올가는 내 누이다. 수입과 주거 사정이 다른 허구 남매 (게임용 허구 설정).",
+      "status": "FICTIONAL_CHARACTER_DESIGN",
+      "graphEdgeId": "KIN-MIKHAIL-OLGA"
+    }
+  ]
 }

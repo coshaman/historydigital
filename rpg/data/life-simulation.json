@@ -7,7 +7,7 @@
       "statePath": "learning.examOutcome",
       "default": {"id":"V33-LIFE-1850-UNSET","title":"책상에 남은 빈칸","textKo":"시험 기록에는 점수가 남아 있지 않습니다. 맡은 서류를 다시 정리하며 다음 기회를 기다립니다.","fictional":true,"basis":["learning.examOutcome"]},
       "variants": {
-        "passed": {"id":"V33-LIFE-1850-PASSED","title":"새 책상에 익숙해지다","textKo":"이번 회차 답안은 기준을 넘겼습니다. 가상의 인사 기록에 진급이 적히고, 더 많은 이름이 놓인 책상을 맡습니다.","fictional":true,"basis":["learning.examCorrectCount","learning.promotionStatus"]},
+        "passed": {"id":"V33-LIFE-1850-PASSED","title":"새 책상에 익숙해지다","textKo":"이번 회차 답안은 기준을 넘겼습니다. 인사 기록에 진급이 적히고, 더 많은 이름이 놓인 책상을 맡습니다.","fictional":true,"basis":["learning.examCorrectCount","learning.promotionStatus"]},
         "failed": {"id":"V33-LIFE-1850-FAILED","title":"같은 창구, 다른 하루","textKo":"이번 회차는 기준에 이르지 못했습니다. 진급은 이뤄지지 않았고, 맡았던 창구에서 일을 이어갑니다.","fictional":true,"basis":["learning.examCorrectCount","learning.promotionStatus"]},
         "deferred": {"id":"V33-LIFE-1850-DEFERRED","title":"비워 둔 답안","textKo":"시험을 미뤘습니다. 점수는 기록되지 않았고, 준비가 덜 된 부분은 다음 업무표 옆에 남았습니다.","fictional":true,"basis":["learning.examOutcome"]},
         "helped-peer": {"id":"V33-LIFE-1850-PEER","title":"두 사람 몫의 저녁","textKo":"시험 대신 파벨과 공부했습니다. 이번 회차 점수는 없지만, 그날 이후 서로 막힌 문서를 함께 살펴봅니다.","fictional":true,"basis":["learning.examOutcome","learning.examAction"]}
@@ -71,7 +71,7 @@
       "id": "THE-LAST-DESK",
       "year": 1874,
       "statePath": "learning.examOutcome",
-      "default": {"id":"V33-LIFE-1874-PENDING","title":"마지막으로 정리한 자료철","textKo":"마지막 책상에는 다른 이가 확인할 수 있도록 정리한 종이가 남았습니다. 가상의 기록은 여기서 끝납니다.","fictional":true,"basis":["learning.examOutcome","ledger"]},
+      "default": {"id":"V33-LIFE-1874-PENDING","title":"마지막으로 정리한 자료철","textKo":"마지막 책상에는 다른 이가 확인할 수 있도록 정리한 종이가 남았습니다.","fictional":true,"basis":["learning.examOutcome","ledger"]},
       "variants": {
         "passed": {"id":"V33-LIFE-1874-PROMOTED","title":"마지막 결재선","textKo":"마지막 자료철에는 서로 다른 설명과 확인된 사실이 나란히 놓였습니다. 오래 맡아 온 책임은 다른 손으로 넘어갔습니다.","fictional":true,"basis":["learning.promotionStatus","ledger"]},
         "failed": {"id":"V33-LIFE-1874-NO-PROMOTION","title":"마지막 접수 번호","textKo":"마지막 접수부에는 날짜와 출처가 빠짐없이 적혀 있었습니다. 직함보다 그 기록을 먼저 찾는 후임이 있었습니다.","fictional":true,"basis":["learning.promotionStatus","ledger"]},

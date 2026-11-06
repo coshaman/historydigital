@@ -25,7 +25,6 @@
       "resultKo": "남은 종이 수량부터 확인했다. 재인쇄는 미뤄질 수 있어도 없는 재고를 약속하지 않는다.",
       "resultFlag": "checkedPaper",
       "followupTitleKo": "책의 다음 인쇄와 종이 값",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "남은 종이 수량부터 확인했다. 재인쇄는 미뤄질 수 있어도 없는 재고를 약속하지 않는다.",
         "relations": {
@@ -48,7 +47,6 @@
       "resultKo": "소량 인쇄를 부탁했다. 독자는 빨리 책을 보지만 한 권마다 드는 비용은 커진다.",
       "resultFlag": "smallRun",
       "followupTitleKo": "책의 다음 인쇄와 종이 값",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "소량 인쇄를 부탁했다. 독자는 빨리 책을 보지만 한 권마다 드는 비용은 커진다.",
         "relations": {
@@ -71,7 +69,6 @@
       "resultKo": "종이를 외상으로 받아 인쇄를 약속했다. 책은 더 많이 나오지만 팔리지 않은 몫은 빚으로 남는다.",
       "resultFlag": "creditPrint",
       "followupTitleKo": "책의 다음 인쇄와 종이 값",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "종이를 외상으로 받아 인쇄를 약속했다. 책은 더 많이 나오지만 팔리지 않은 몫은 빚으로 남는다.",
         "relations": {

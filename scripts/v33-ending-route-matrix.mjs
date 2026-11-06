@@ -77,7 +77,7 @@ function takeAction(state, questId, actionId) {
 export function buildRoute(endingId, variant, choiceOverrides = {}) {
   let state = engine.createInitialState({ maps, hostCards: cards, quests });
   const historicalArcs = campaign.arcs;
-  state = parkNear(state, 'nekrasov_reconstruction', 'printshop');
+  state = parkNear(state, 'print_apprentice_stepan', 'printshop');
   state = engine.releaseHost(state, maps.printshop).state;
   state = parkNear(state, 'printer_ekaterina', 'printshop');
   const arc1 = historicalArcs[0];

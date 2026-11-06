@@ -1,0 +1,83 @@
+{
+  "id": "V37_COLD_WAVE_FIREWOOD_1847",
+  "titleKo": "찬바람 뒤 장작값",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-01-01",
+  "requiresLivingEventId": "E03",
+  "premiseKo": "눈발이 거세지자 강변 장터의 장작값이 올랐다. 안뜰에서 쓸 몫을 마련할지, 비용을 감당하지 않을지 정해야 한다.",
+  "historicalOutcome": {
+    "id": "V37_COLD_WAVE_FIREWOOD_FICTIONAL_OUTCOME",
+    "value": "fictional household fuel choice only; no historical event or real price is asserted",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "market-quay",
+    "objectId": 1173,
+    "requiredHostId": "porter_gavrila"
+  },
+  "actions": [
+    {
+      "id": "E03_BUY_FIREWOOD",
+      "hostIds": [
+        "porter_gavrila",
+        "tenant_mikhail",
+        "landlady_polina"
+      ],
+      "durationMinutes": 5,
+      "labelKo": "장작 한 단을 사서 가져간다",
+      "subcopyKo": "주변에 선택이 보입니다 · 내 주머니에서 2코페이카가 나갑니다 · 장작 한 단을 직접 들고 갑니다",
+      "resultKo": "장작 한 단을 샀다. 지출은 지금 생겼고, 이 묶음은 직접 안뜰까지 옮겨야 한다.",
+      "resultFlag": "v37ColdWaveBoughtFirewood",
+      "effects": {
+        "moneyDelta": -2,
+        "inventoryAdd": [
+          "장작 한 단"
+        ],
+        "situationKo": "겨울 장작값이 오른 날 장작 한 단을 사서 직접 옮겼다."
+      }
+    },
+    {
+      "id": "E03_POOL_COURTYARD_FUEL",
+      "hostIds": [
+        "landlady_polina"
+      ],
+      "requiredPresentHostIds": [
+        "tenant_mikhail"
+      ],
+      "requiredParticipantDistance": 3,
+      "durationMinutes": 5,
+      "labelKo": "미하일과 장작 몫을 함께 마련한다",
+      "subcopyKo": "미하일과 장부를 보는 사람에게 알려집니다 · 내 주머니에서 1코페이카가 나갑니다 · 공동 몫으로 기록됩니다",
+      "resultKo": "폴리나는 공동 장작 몫을 장부에 적었다. 안뜰 사람들은 비용을 알지만, 방세와는 별도로 남는다.",
+      "resultFlag": "v37ColdWavePooledFuel",
+      "effects": {
+        "moneyDelta": -1,
+        "inventoryAdd": [
+          "공용 장작 한 몫"
+        ],
+        "relations": {
+          "tenant_mikhail": "장작 몫을 함께 마련한 세입자"
+        },
+        "partnerRelationKo": "폴리나와 공동 장작값을 나눈 세입자",
+        "situationKo": "폴리나와 세입자들이 장작값을 나눠 부담했다."
+      }
+    },
+    {
+      "id": "E03_LEAVE_FUEL_UNBOUGHT",
+      "hostIds": [
+        "porter_gavrila",
+        "tenant_mikhail",
+        "landlady_polina"
+      ],
+      "durationMinutes": 2,
+      "labelKo": "오늘은 사지 않고 장부만 확인한다",
+      "subcopyKo": "장터 장부에 확인 사실이 남습니다 · 지금 지출은 없습니다 · 추위는 이어지고 공동 몫은 마련되지 않습니다",
+      "resultKo": "오늘은 장작을 사지 않았다. 남은 묶음이 있는지 다시 확인해야 하고, 방 안의 냉기는 저절로 사라지지 않는다.",
+      "resultFlag": "v37ColdWaveFuelDeferred",
+      "effects": {
+        "situationKo": "겨울 장작을 사지 않고 다음 공급을 기다렸다."
+      }
+    }
+  ],
+  "completion": "a witnessed in-world response to a deterministic winter snow or wind event; otherwise the cold interval resolves after one day"
+}

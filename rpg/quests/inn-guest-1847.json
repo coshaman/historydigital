@@ -1,0 +1,88 @@
+{
+  "id": "V37_INN_GUEST_1847",
+  "titleKo": "늦게 도착한 손님",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-01-01",
+  "requiresLivingEventId": "E17",
+  "premiseKo": "저녁 배달을 마친 파벨이 여관에 들렀습니다. 방값을 내거나 흥정할 수 있고, 이리나는 값을 낮추거나 오늘 밤 쉴 방을 내줄 수 있습니다.",
+  "historicalOutcome": {
+    "id": "V37_INN_GUEST_FICTIONAL_OUTCOME",
+    "value": "fictional resident lodging transaction only; no historical inn, traveler, regulation, or price is asserted",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "inn-interior",
+    "objectId": 4006
+  },
+  "actions": [
+    {
+      "id": "E17_RENT_ROOM",
+      "hostIds": [
+        "courier_pavel"
+      ],
+      "requiredLivingEventStage": "GUEST_ARRIVED",
+      "requiredPresentLivingEventHostKey": "innkeeperHostId",
+      "requiredParticipantDistance": 3,
+      "durationMinutes": 4,
+      "labelKo": "2코페이카를 내고 방을 빌린다",
+      "subcopyKo": "파벨과 이리나가 압니다 · 숙박 장부에 이름과 값이 남습니다 · 2코페이카를 냅니다 · 다음 날 아침까지 자기 방 대신 여관에 머뭅니다",
+      "resultFlag": "v37InnRoomRented",
+      "resultKo": "파벨은 여관방 값을 내고 다음 날 아침까지 머물기로 했다.",
+      "effects": {
+        "situationKo": "파벨은 2코페이카를 내고 다음 날 아침까지 여관방에 머물기로 했다."
+      }
+    },
+    {
+      "id": "E17_NEGOTIATE_RATE",
+      "hostIds": [
+        "courier_pavel"
+      ],
+      "requiredLivingEventStage": "GUEST_ARRIVED",
+      "requiredPresentLivingEventHostKey": "innkeeperHostId",
+      "requiredParticipantDistance": 3,
+      "durationMinutes": 5,
+      "labelKo": "오늘 배달 경로를 보여주고 방값을 낮춰 달라고 한다",
+      "subcopyKo": "파벨과 이리나가 압니다 · 낮춘 숙박값이 장부에 남습니다 · 1코페이카를 냅니다 · 배달이 늦어진 사정만 알리고 봉투 내용은 공개하지 않습니다",
+      "resultFlag": "v37InnRateNegotiated",
+      "resultKo": "파벨은 배달 경로만 보여주고 값을 낮춰 달라고 했다. 이리나는 오늘 밤에 한해 1코페이카를 받았다.",
+      "effects": {
+        "situationKo": "파벨은 배달 경로만 보여 주고 값을 낮춰 달라고 했다. 이리나는 오늘 밤에 한해 1코페이카를 받았다. 봉투는 열지 않았다."
+      }
+    },
+    {
+      "id": "E17_OFFER_BED",
+      "hostIds": [
+        "innkeeper_irina"
+      ],
+      "requiredLivingEventStage": "GUEST_ARRIVED",
+      "requiredPresentLivingEventHostKey": "guestHostId",
+      "requiredParticipantDistance": 3,
+      "durationMinutes": 3,
+      "labelKo": "오늘 밤 쉴 방을 내준다",
+      "subcopyKo": "이리나와 파벨이 압니다 · 숙박 장부에는 무상 제공으로 남습니다 · 돈은 오가지 않습니다 · 방 한 칸의 오늘 수입을 포기합니다",
+      "resultFlag": "v37InnBedOffered",
+      "resultKo": "이리나는 파벨에게 오늘 밤 쉴 방을 내주었다. 숙박값은 받지 않았다.",
+      "effects": {
+        "situationKo": "이리나는 파벨에게 오늘 밤 쉴 방을 내주었다. 숙박값은 받지 않았다."
+      }
+    },
+    {
+      "id": "E17_DECLINE_ROOM",
+      "hostIds": [
+        "courier_pavel"
+      ],
+      "requiredLivingEventStage": "GUEST_ARRIVED",
+      "requiredPresentLivingEventHostKey": "innkeeperHostId",
+      "requiredParticipantDistance": 3,
+      "durationMinutes": 2,
+      "labelKo": "방을 빌리지 않고 하숙방으로 돌아간다",
+      "subcopyKo": "이리나와 가까운 손님이 압니다 · 숙박 기록은 남지 않습니다 · 돈은 쓰지 않습니다 · 피곤해도 집까지 걸어가야 합니다",
+      "resultFlag": "v37InnRoomDeclined",
+      "resultKo": "파벨은 방을 빌리지 않고 자기 하숙방으로 돌아갔다.",
+      "effects": {
+        "situationKo": "숙박하지 않고 자기 거처로 돌아가는 길을 택했다."
+      }
+    }
+  ],
+  "completion": "an evening courier arrival opens a physical inn-room request; room payment, reduced rate, free bed, refusal, or unattended settlement updates money, lodging, witnesses, and overnight rest"
+}

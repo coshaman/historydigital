@@ -25,7 +25,6 @@
       "resultKo": "밀가루를 다시 재고 만들 수량을 정했다. 약속을 바꾸기 전에 부족한 양을 확인했다.",
       "resultFlag": "FYODOR_OVEN_ORDER_1847_1_1",
       "followupTitleKo": "밀가루 자루와 주문 수량",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "밀가루를 다시 재고 만들 수량을 정했다. 약속을 바꾸기 전에 부족한 양을 확인했다.",
         "relations": {
@@ -48,7 +47,6 @@
       "resultKo": "급한 주문을 먼저 화덕에 넣었다. 필요한 사람에게는 맞췄지만 다른 손님에게 늦는 이유를 알려야 한다.",
       "resultFlag": "FYODOR_OVEN_ORDER_1847_1_2",
       "followupTitleKo": "밀가루 자루와 주문 수량",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "급한 주문을 먼저 화덕에 넣었다. 필요한 사람에게는 맞췄지만 다른 손님에게 늦는 이유를 알려야 한다.",
         "relations": {
@@ -71,7 +69,6 @@
       "resultKo": "모든 주문을 조금씩 줄였다. 한 사람에게만 부담을 넘기지 않았지만 누구도 약속한 양을 받지 못한다.",
       "resultFlag": "FYODOR_OVEN_ORDER_1847_1_3",
       "followupTitleKo": "밀가루 자루와 주문 수량",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "모든 주문을 조금씩 줄였다. 한 사람에게만 부담을 넘기지 않았지만 누구도 약속한 양을 받지 못한다.",
         "relations": {

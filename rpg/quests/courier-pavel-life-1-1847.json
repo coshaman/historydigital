@@ -25,7 +25,6 @@
       "resultKo": "우회 시간을 적고 수취인에게 늦어질 수 있다고 알렸다. 약속은 바뀌지만 문서는 분실 위험을 덜었다.",
       "resultFlag": "routeNotice",
       "followupTitleKo": "배달 순서 메모",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "우회 시간을 적고 수취인에게 늦어질 수 있다고 알렸다. 약속은 바뀌지만 문서는 분실 위험을 덜었다.",
         "relations": {
@@ -47,7 +46,6 @@
       "resultKo": "짧은 길로 가기로 했다. 기록은 남지 않았고 봉투는 직접 지켜야 한다.",
       "resultFlag": "shortRoute",
       "followupTitleKo": "배달 순서 메모",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "짧은 길로 가기로 했다. 기록은 남지 않았고 봉투는 직접 지켜야 한다.",
         "relations": {
@@ -69,7 +67,6 @@
       "resultKo": "막힌 길과 봉투 상태를 적고 길이 비기를 기다렸다. 늦어지는 이유는 분명해졌다.",
       "resultFlag": "waitForClearance",
       "followupTitleKo": "배달 순서 메모",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "막힌 길과 봉투 상태를 적고 길이 비기를 기다렸다. 늦어지는 이유는 분명해졌다.",
         "relations": {

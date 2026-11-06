@@ -30,7 +30,6 @@
       "resultKo": "확인된 분량부터 찍었다. 나머지는 재료가 도착한 뒤 이어가기로 했다.",
       "resultFlag": "EKATERINA_INK_SHORTAGE_1847_STAGE_3_RESULT_1",
       "followupTitleKo": "오늘 찍을 분량",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "확인된 분량부터 찍었다. 나머지는 재료가 도착한 뒤 이어가기로 했다.",
         "relations": {
@@ -58,7 +57,6 @@
       "resultKo": "잉크가 도착할 때까지 인쇄를 보류했다. 정확한 분량을 약속하지 않았다.",
       "resultFlag": "EKATERINA_INK_SHORTAGE_1847_STAGE_3_RESULT_2",
       "followupTitleKo": "오늘 찍을 분량",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "잉크가 도착할 때까지 인쇄를 보류했다. 정확한 분량을 약속하지 않았다.",
         "relations": {
@@ -86,7 +84,6 @@
       "resultKo": "배포 순서를 다시 나눴다. 먼저 도착하는 구역과 기다려야 하는 구역을 알렸다.",
       "resultFlag": "EKATERINA_INK_SHORTAGE_1847_STAGE_3_RESULT_3",
       "followupTitleKo": "오늘 찍을 분량",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "배포 순서를 다시 나눴다. 먼저 도착하는 구역과 기다려야 하는 구역을 알렸다.",
         "relations": {

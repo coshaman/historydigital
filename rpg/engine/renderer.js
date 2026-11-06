@@ -1,5 +1,5 @@
 import { objectIsPresent, interactionTile } from './world-presentation.mjs';
-import { atmosphereForMap, mapHasAtmosphere } from './atmosphere.mjs';
+import { atmosphereForMap, mapHasAtmosphere, weatherForDate } from './atmosphere.mjs';
 
 export function calculateCamera({ viewportWidth, viewportHeight, mapWidth, mapHeight, tileSize = 16, position, zoom = 2.25 }) {
   const mapWidthWorld = mapWidth * tileSize, mapHeightWorld = mapHeight * tileSize;
@@ -122,7 +122,8 @@ export function createRenderer(canvas, assets) {
     const glow = ctx.createRadialGradient(px + 8 * scale, py + 8 * scale, 2, px + 8 * scale, py + 8 * scale, 46 * scale);
     const pulse = reducedMotion ? 0.5 : (Math.sin(time / 850) + 1) / 2;
     glow.addColorStop(0, `rgba(212,163,93,${0.055 + pulse * 0.025})`); glow.addColorStop(1, '#d4a35d00'); ctx.globalCompositeOperation = 'screen'; ctx.fillStyle = glow; ctx.fillRect(ox, oy, map.width * tile * scale, map.height * tile * scale); ctx.globalCompositeOperation = 'source-over';
-    const atmosphere = atmosphereForMap(map.mapId, map.width * tile * scale, map.height * tile * scale, time, reducedMotion);
+    const weather = weatherForDate(state.world.date, Math.floor((state.world.clockMinutes ?? 0) / 1440));
+    const atmosphere = atmosphereForMap(map.mapId, map.width * tile * scale, map.height * tile * scale, time, reducedMotion, weather);
     if (atmosphere) {
       ctx.save();
       ctx.beginPath(); ctx.rect(ox, oy, map.width * tile * scale, map.height * tile * scale); ctx.clip();
@@ -135,6 +136,23 @@ export function createRenderer(canvas, assets) {
         for (const drop of atmosphere.particles) {
           ctx.strokeStyle = `rgba(190,204,204,${drop.alpha})`;
           ctx.beginPath(); ctx.moveTo(ox + drop.x, oy + drop.y); ctx.lineTo(ox + drop.x - 1.5, oy + drop.y + drop.length); ctx.stroke();
+        }
+      } else if (atmosphere.kind === 'fog' || atmosphere.kind === 'overcast') {
+        const haze = ctx.createLinearGradient(0, oy, 0, oy + map.height * tile * scale);
+        haze.addColorStop(0, atmosphere.kind === 'fog' ? 'rgba(198,207,207,0.02)' : 'rgba(93,108,119,0.055)');
+        haze.addColorStop(0.58, atmosphere.kind === 'fog' ? 'rgba(198,207,207,0.15)' : 'rgba(93,108,119,0.025)');
+        haze.addColorStop(1, 'rgba(198,207,207,0.01)');
+        ctx.fillStyle = haze; ctx.fillRect(ox, oy, map.width * tile * scale, map.height * tile * scale);
+      } else if (atmosphere.kind === 'wind') {
+        ctx.lineWidth = 1;
+        for (const gust of atmosphere.particles) {
+          ctx.strokeStyle = `rgba(205,210,202,${gust.alpha})`;
+          ctx.beginPath(); ctx.moveTo(ox + gust.x, oy + gust.y); ctx.lineTo(ox + gust.x + gust.length, oy + gust.y - 1); ctx.stroke();
+        }
+      } else if (atmosphere.kind === 'snow') {
+        for (const flake of atmosphere.particles) {
+          ctx.fillStyle = `rgba(237,239,230,${flake.alpha})`;
+          ctx.fillRect(ox + flake.x, oy + flake.y, flake.size, flake.size);
         }
       } else {
         for (const mote of atmosphere.particles) {

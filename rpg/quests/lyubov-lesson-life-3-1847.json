@@ -26,7 +26,6 @@
       "resultKo": "수업료를 낮췄다. 학생은 배움을 이어가지만 교사도 생활비를 다시 계산해야 한다.",
       "resultFlag": "LYUBOV_LESSON_ACCESS_1847_STAGE_3_RESULT_1",
       "followupTitleKo": "수업을 열 시간과 비용",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "수업료를 낮췄다. 학생은 배움을 이어가지만 교사도 생활비를 다시 계산해야 한다.",
         "relations": {
@@ -49,7 +48,6 @@
       "resultKo": "수업은 쉬고 읽을 자료를 건넸다. 비용은 들지 않지만 학생이 혼자 따라가야 한다.",
       "resultFlag": "LYUBOV_LESSON_ACCESS_1847_STAGE_3_RESULT_2",
       "followupTitleKo": "수업을 열 시간과 비용",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "수업은 쉬고 읽을 자료를 건넸다. 비용은 들지 않지만 학생이 혼자 따라가야 한다.",
         "relations": {
@@ -72,7 +70,6 @@
       "resultKo": "먼저 수업하고 날짜를 정했다. 학습은 끊기지 않지만 빚이 생겼다.",
       "resultFlag": "LYUBOV_LESSON_ACCESS_1847_STAGE_3_RESULT_3",
       "followupTitleKo": "수업을 열 시간과 비용",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "먼저 수업하고 날짜를 정했다. 학습은 끊기지 않지만 빚이 생겼다.",
         "relations": {

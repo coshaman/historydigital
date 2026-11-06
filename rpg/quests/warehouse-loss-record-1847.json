@@ -25,7 +25,6 @@
       "resultKo": "수량을 다시 세고 확인하지 못한 칸을 표시했다. 오기 가능성은 살피지만 결론은 늦어진다.",
       "resultFlag": "pyotrRecount",
       "followupTitleKo": "장부의 빈칸과 분실 책임",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "입고·반출 수량을 재확인하고 빈칸을 표시했다.",
         "relations": {
@@ -43,10 +42,9 @@
       ],
       "labelKo": "마지막 기록자 이름을 먼저 책임자로 적는다",
       "subcopyKo": "창고 책임자와 기록자가 봅니다 · 대장에 이름이 남습니다 · 잘못 지목하면 신뢰와 일감을 잃습니다",
-      "resultKo": "마지막 기록자를 책임자로 적었다. 조사는 빨라지지만 실제 인수 여부는 아직 확인되지 않았다.",
+      "resultKo": "마지막 기록자를 책임자로 적었다. 조사는 빨라지지만 인수 여부는 아직 확인되지 않았다.",
       "resultFlag": "pyotrNamed",
       "followupTitleKo": "장부의 빈칸과 분실 책임",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "확인 전에 마지막 기록자 이름을 적었다.",
         "relations": {
@@ -67,7 +65,6 @@
       "resultKo": "운반표와 장부를 맞출 때까지 반출을 보류했다. 추가 누락은 막지만 다음 작업이 밀린다.",
       "resultFlag": "pyotrHeld",
       "followupTitleKo": "장부의 빈칸과 분실 책임",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "운반표 대조가 끝날 때까지 반출을 보류했다.",
         "relations": {

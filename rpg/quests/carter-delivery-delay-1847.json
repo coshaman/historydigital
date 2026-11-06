@@ -25,7 +25,6 @@
       "resultKo": "적재량과 순서를 알렸다. 어느 쪽이 늦는지 숨기지 않았지만 불만은 남는다.",
       "resultFlag": "romanNotified",
       "followupTitleKo": "먼저 실을 짐과 늦어질 물량",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "적재량과 배달 순서를 양쪽에 알렸다.",
         "relations": {
@@ -46,7 +45,6 @@
       "resultKo": "운임이 높은 짐을 먼저 실었다. 오늘 수입은 늘지만 다른 약속이 늦어진다.",
       "resultFlag": "romanPaid",
       "followupTitleKo": "먼저 실을 짐과 늦어질 물량",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "운임이 높은 주문을 먼저 배달하기로 했다.",
         "relations": {
@@ -68,7 +66,6 @@
       "resultKo": "축을 확인하기 전 출발하지 않았다. 파손 위험은 줄지만 두 주문 모두 지연된다.",
       "resultFlag": "romanInspected",
       "followupTitleKo": "먼저 실을 짐과 늦어질 물량",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "마차 축을 점검한 뒤 출발하기로 했다.",
         "relations": {

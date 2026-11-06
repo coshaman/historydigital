@@ -30,7 +30,6 @@
       "resultKo": "빌리기 전 메모에는 손잡이 상태가 없었다. 손상을 누구 책임이라고 단정하지 않았다.",
       "resultFlag": "ROMAN_WHEEL_AND_FARE_1847_STAGE_3_RESULT_1",
       "followupTitleKo": "빌린 공구를 돌려주는 날",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "빌리기 전 메모에는 손잡이 상태가 없었다. 손상을 누구 책임이라고 단정하지 않았다.",
         "relations": {
@@ -58,7 +57,6 @@
       "resultKo": "둘이 수리비를 나눴다. 다음 대여부터는 상태를 함께 확인하기로 했다.",
       "resultFlag": "ROMAN_WHEEL_AND_FARE_1847_STAGE_3_RESULT_2",
       "followupTitleKo": "빌린 공구를 돌려주는 날",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "둘이 수리비를 나눴다. 다음 대여부터는 상태를 함께 확인하기로 했다.",
         "relations": {
@@ -86,7 +84,6 @@
       "resultKo": "헐거운 공구를 사용하지 않도록 따로 두었다. 주인에게 알리고 수리 전에는 빌리지 않기로 했다.",
       "resultFlag": "ROMAN_WHEEL_AND_FARE_1847_STAGE_3_RESULT_3",
       "followupTitleKo": "빌린 공구를 돌려주는 날",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "헐거운 공구를 사용하지 않도록 따로 두었다. 주인에게 알리고 수리 전에는 빌리지 않기로 했다.",
         "relations": {

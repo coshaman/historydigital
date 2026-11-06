@@ -25,7 +25,6 @@
       "resultKo": "대기 상황과 열쇠를 다음 근무자에게 직접 넘겼다. 대기자는 더 기다리지만 기록은 이어진다.",
       "resultFlag": "writtenHandoff",
       "followupTitleKo": "교대 시간과 열쇠 인계",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "대기 상황과 열쇠를 다음 근무자에게 직접 넘겼다. 대기자는 더 기다리지만 기록은 이어진다.",
         "relations": {
@@ -47,7 +46,6 @@
       "resultKo": "상급자가 올 때까지 열쇠를 보관했다. 출입은 보류했지만 다른 업무가 늦어질 수 있다.",
       "resultFlag": "holdKey",
       "followupTitleKo": "교대 시간과 열쇠 인계",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "상급자가 올 때까지 열쇠를 보관했다. 출입은 보류했지만 다른 업무가 늦어질 수 있다.",
         "relations": {
@@ -69,7 +67,6 @@
       "resultKo": "담당자 책상에 봉투를 두었다. 전달은 빨라져도 누가 인수했는지는 비어 있다.",
       "resultFlag": "unloggedDrop",
       "followupTitleKo": "교대 시간과 열쇠 인계",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "담당자 책상에 봉투를 두었다. 전달은 빨라져도 누가 인수했는지는 비어 있다.",
         "relations": {

@@ -25,7 +25,6 @@
       "resultKo": "팔린 것과 버린 것을 나눠 적었다. 오늘 손해는 감출 수 없지만 내일 주문량은 다시 맞출 수 있다.",
       "resultFlag": "NADEZHDA_STALL_WEATHER_1847_3_1",
       "followupTitleKo": "좌판 마감과 남은 바구니",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "팔린 것과 버린 것을 나눠 적었다. 오늘 손해는 감출 수 없지만 내일 주문량은 다시 맞출 수 있다.",
         "relations": {
@@ -47,7 +46,6 @@
       "resultKo": "남은 물건 일부를 이웃에게 건넸다. 버리는 양은 줄었고 다음 거래를 부탁하기가 편해졌다.",
       "resultFlag": "NADEZHDA_STALL_WEATHER_1847_3_2",
       "followupTitleKo": "좌판 마감과 남은 바구니",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "남은 물건 일부를 이웃에게 건넸다. 버리는 양은 줄었고 다음 거래를 부탁하기가 편해졌다.",
         "relations": {
@@ -69,7 +67,6 @@
       "resultKo": "괜찮은 것만 남겨 두었다. 오늘은 덜 팔았지만 상태를 확인하지 않은 물건을 손님에게 넘기지 않았다.",
       "resultFlag": "NADEZHDA_STALL_WEATHER_1847_3_3",
       "followupTitleKo": "좌판 마감과 남은 바구니",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "괜찮은 것만 남겨 두었다. 오늘은 덜 팔았지만 상태를 확인하지 않은 물건을 손님에게 넘기지 않았다.",
         "relations": {

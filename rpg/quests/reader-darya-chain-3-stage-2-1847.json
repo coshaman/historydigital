@@ -25,7 +25,6 @@
       "resultKo": "서로 다르게 읽은 문장만 나란히 적었다. 어느 쪽이 작가의 뜻이라고 단정하진 않았다.",
       "resultFlag": "parallelReadings",
       "followupTitleKo": "독서 모임의 질문 목록",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "서로 다르게 읽은 문장만 나란히 적었다. 어느 쪽이 작가의 뜻이라고 단정하진 않았다.",
         "relations": {
@@ -46,7 +45,6 @@
       "resultKo": "누가 읽었고 누가 기다리는지 적었다. 읽을 기회 차이가 보이지만 개인 형편까지 공개되진 않게 조심해야 한다.",
       "resultFlag": "accessGap",
       "followupTitleKo": "독서 모임의 질문 목록",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "누가 읽었고 누가 기다리는지 적었다. 읽을 기회 차이가 보이지만 개인 형편까지 공개되진 않게 조심해야 한다.",
         "relations": {
@@ -67,7 +65,6 @@
       "resultKo": "한 해석을 대표 의견으로 기록했다. 읽기는 쉬워져도 다른 생각은 뒤로 밀릴 수 있다.",
       "resultFlag": "singleReading",
       "followupTitleKo": "독서 모임의 질문 목록",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "한 해석을 대표 의견으로 기록했다. 읽기는 쉬워져도 다른 생각은 뒤로 밀릴 수 있다.",
         "relations": {

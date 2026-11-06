@@ -1,0 +1,83 @@
+{
+  "id": "V37_COURTYARD_DISPUTE_1847",
+  "titleKo": "안뜰의 고성과 신고 장부",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-01-01",
+  "requiresLivingEventId": "E09",
+  "premiseKo": "방세 미납을 두고 세입자와 집주인의 목소리가 높아졌다. 안뜰 관리인이 들었고, 가까운 경비도 알아차릴 수 있다.",
+  "historicalOutcome": {
+    "id": "V37_COURTYARD_DISPUTE_FICTIONAL_OUTCOME",
+    "value": "fictional courtyard dispute and reporting procedure only; no real resident, accusation, or police action is represented",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "courtyard",
+    "objectId": 1173
+  },
+  "actions": [
+    {
+      "id": "E09_MEDIATE_DISPUTE",
+      "hostIds": [
+        "yardkeeper_semyon"
+      ],
+      "requiredPresentHostIds": [
+        "tenant_mikhail",
+        "landlady_polina"
+      ],
+      "requiredParticipantDistance": 8,
+      "durationMinutes": 8,
+      "labelKo": "두 사람 말을 듣고 장부를 함께 확인한다",
+      "subcopyKo": "관리인과 두 당사자가 압니다 · 공식 신고는 남지 않습니다 · 서류는 안뜰에 머뭅니다 · 다툼은 가라앉을 수 있지만 방세 미납은 그대로입니다",
+      "resultFlag": "v37CourtyardDisputeMediated",
+      "resultKo": "관리인은 두 사람의 말을 차례로 듣고, 방세 장부를 확인해 다시 이야기하기로 했다.",
+      "effects": {
+        "relations": {
+          "tenant_mikhail": "말을 들어준 안뜰 관리인",
+          "landlady_polina": "장부를 함께 확인한 관리인"
+        },
+        "situationKo": "안뜰 관리인이 언쟁을 중재하고 방세 장부를 함께 확인했다."
+      }
+    },
+    {
+      "id": "E09_FILE_REPORT",
+      "hostIds": [
+        "yardkeeper_semyon",
+        "tenant_mikhail",
+        "landlady_polina"
+      ],
+      "durationMinutes": 5,
+      "labelKo": "당직 경비에게 신고를 남긴다",
+      "subcopyKo": "당직 경비와 신고 기록 담당자가 알게 됩니다 · 공식 기록이 남습니다 · 신고 내용은 안뜰 밖 당직소로 전달됩니다 · 당사자 확인 절차가 시작됩니다",
+      "resultFlag": "v37CourtyardReportFiled",
+      "resultKo": "신고는 당직 기록에 접수됐다. 경비가 안뜰로 와 당사자들의 말을 들으면 사건 기록이 갱신된다.",
+      "effects": {
+        "relations": {
+          "tenant_mikhail": "안뜰 다툼을 신고한 관리인",
+          "landlady_polina": "안뜰 다툼을 신고한 관리인"
+        },
+        "situationKo": "세묘온은 안뜰 다툼을 당직 기록에 올렸다. 경비가 도착하면 양쪽 말을 확인한다."
+      }
+    },
+    {
+      "id": "E09_DECLINE_REPORT",
+      "hostIds": [
+        "yardkeeper_semyon",
+        "tenant_mikhail",
+        "landlady_polina"
+      ],
+      "durationMinutes": 3,
+      "labelKo": "지금은 신고하지 않고 지켜본다",
+      "subcopyKo": "당사자와 관리인만 압니다 · 공식 기록은 남지 않습니다 · 서류는 안뜰을 떠나지 않습니다 · 방세 문제는 계속 남습니다",
+      "resultFlag": "v37CourtyardReportDeclined",
+      "resultKo": "이번에는 신고하지 않기로 했다. 목소리는 낮아졌지만, 미납된 방세와 기록은 그대로 남아 있다.",
+      "effects": {
+        "relations": {
+          "tenant_mikhail": "신고를 보류한 안뜰 관리인",
+          "landlady_polina": "신고를 보류한 안뜰 관리인"
+        },
+        "situationKo": "관리인은 신고하지 않았고, 당사자들은 스스로 언성을 낮췄다. 미납액은 장부에 남았다."
+      }
+    }
+  ],
+  "completion": "a fictional rent-arrears dispute begins only after E01 reaches OVERDUE and the named residents meet in the shared courtyard; unattended voices settle without erasing the rent ledger"
+}

@@ -26,7 +26,6 @@
       "resultKo": "쓴 종이와 덧댄 자리를 적었다. 다음 수리자는 무엇을 했는지 알 수 있다.",
       "resultFlag": "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_2_RESULT_1",
       "followupTitleKo": "찢어진 장과 수리값",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "쓴 종이와 덧댄 자리를 적었다. 다음 수리자는 무엇을 했는지 알 수 있다.",
         "relations": {
@@ -49,7 +48,6 @@
       "resultKo": "겉모양을 먼저 다듬었다. 책은 깔끔해졌지만 수리 흔적은 덜 보인다.",
       "resultFlag": "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_2_RESULT_2",
       "followupTitleKo": "찢어진 장과 수리값",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "겉모양을 먼저 다듬었다. 책은 깔끔해졌지만 수리 흔적은 덜 보인다.",
         "relations": {
@@ -72,7 +70,6 @@
       "resultKo": "손님이 보존과 외관 가운데 우선순위를 정했다. 결정은 분명하지만 선택 부담도 손님에게 갔다.",
       "resultFlag": "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_2_RESULT_3",
       "followupTitleKo": "찢어진 장과 수리값",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "손님이 보존과 외관 가운데 우선순위를 정했다. 결정은 분명하지만 선택 부담도 손님에게 갔다.",
         "relations": {

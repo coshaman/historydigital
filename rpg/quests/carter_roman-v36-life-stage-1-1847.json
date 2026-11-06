@@ -30,7 +30,6 @@
       "resultKo": "짐을 내리자 금이 더 깊은 것을 확인했다. 무거운 꾸러미는 싣지 않기로 했다.",
       "resultFlag": "ROMAN_WHEEL_AND_FARE_1847_STAGE_1_RESULT_1",
       "followupTitleKo": "금 간 바퀴살",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "짐을 내리자 금이 더 깊은 것을 확인했다. 무거운 꾸러미는 싣지 않기로 했다.",
         "relations": {
@@ -58,7 +57,6 @@
       "resultKo": "예비 바퀴는 있었지만 축 크기가 맞지 않았다. 맞지 않는 부품을 억지로 끼우지 않았다.",
       "resultFlag": "ROMAN_WHEEL_AND_FARE_1847_STAGE_1_RESULT_2",
       "followupTitleKo": "금 간 바퀴살",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "예비 바퀴는 있었지만 축 크기가 맞지 않았다. 맞지 않는 부품을 억지로 끼우지 않았다.",
         "relations": {
@@ -86,7 +84,6 @@
       "resultKo": "가벼운 짐만 가까운 곳에 옮겼다. 먼 길의 물품은 수리 뒤로 미뤘다.",
       "resultFlag": "ROMAN_WHEEL_AND_FARE_1847_STAGE_1_RESULT_3",
       "followupTitleKo": "금 간 바퀴살",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "가벼운 짐만 가까운 곳에 옮겼다. 먼 길의 물품은 수리 뒤로 미뤘다.",
         "relations": {

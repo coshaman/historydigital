@@ -1,0 +1,71 @@
+{
+  "id": "V37_MARKET_RUMOR_1847",
+  "titleKo": "값이 오른 뒤 퍼진 말",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-01-01",
+  "requiresLivingEventId": "E23",
+  "premiseKo": "당직 기록에 가격 확인 요청이 들어간 뒤, 빵을 숨겼다는 말까지 장터에 돌기 시작했습니다. 확인된 거래와 근거 없는 의혹을 가려 대응할 수 있습니다.",
+  "historicalOutcome": {
+    "id": "V37_MARKET_RUMOR_FICTIONAL_OUTCOME",
+    "value": "fictional rumor and market record only; no historical merchant or rumor is represented",
+    "sourceIds": []
+  },
+  "entry": { "mapId": "market-quay", "objectId": 1177 },
+  "actions": [
+    {
+      "id": "E23_CHECK_MARKET_RECORD",
+      "hostIds": ["clerk_alexei"],
+      "requiredLivingEventStage": "RUMOR_ACTIVE",
+      "requiredPresentLivingEventHostKey": "carrierHostId",
+      "requiredParticipantDistance": 5,
+      "durationMinutes": 4,
+      "labelKo": "가격 기록을 대조한다",
+      "subcopyKo": "서기와 행상이 압니다 · 확인 메모가 남습니다 · 공식 원장은 그대로 둡니다 · 가격 조정은 확인해도 빵을 숨겼다는 말은 입증되지 않습니다",
+      "resultFlag": "v37MarketRumorPriceChecked",
+      "resultKo": "가격표와 거래 기록은 대조했지만, 재고를 숨겼다는 의혹을 뒷받침하는 기록은 찾지 못했다.",
+      "effects": { "situationKo": "게임 안의 거래 기록에서 가격 조정만 확인했다. 상인이 재고를 숨겼다는 주장은 근거가 확인되지 않았다." }
+    },
+    {
+      "id": "E23_REPEAT_RUMOR",
+      "hostIds": ["street_vendor_matryona"],
+      "requiredLivingEventStage": "RUMOR_ACTIVE",
+      "requiredPresentLivingEventHostKey": "clerkHostId",
+      "requiredParticipantDistance": 5,
+      "requiresNearbyAudience": true,
+      "nearbyAudienceDistance": 5,
+      "durationMinutes": 3,
+      "labelKo": "확인 전 말을 다른 손님에게 전한다",
+      "subcopyKo": "곁의 손님들이 듣습니다 · 공식 기록은 남지 않습니다 · 확인되지 않은 말을 가까운 이들에게 전합니다",
+      "resultFlag": "v37MarketRumorForwarded",
+      "resultKo": "마트료나는 확인되지 않은 말을 다른 손님에게 전했다.",
+      "effects": { "situationKo": "확인되지 않은 가격 소문을 다른 손님에게 전달했다." }
+    },
+    {
+      "id": "E23_CORRECT_RUMOR",
+      "hostIds": ["street_vendor_matryona"],
+      "requiredLivingEventStage": "RUMOR_ACTIVE",
+      "requiredPresentLivingEventHostKey": "clerkHostId",
+      "requiredParticipantDistance": 5,
+      "requiresNearbyAudience": true,
+      "nearbyAudienceDistance": 5,
+      "durationMinutes": 4,
+      "labelKo": "확인된 거래만 알리고 소문을 바로잡는다",
+      "subcopyKo": "가까운 손님들과 서기가 압니다 · 정정 메모가 남습니다 · 공식 원장은 바뀌지 않습니다 · 상인의 의도를 단정하지 않고 가격 기록만 알립니다",
+      "resultFlag": "v37MarketRumorCorrected",
+      "resultKo": "마트료나는 장터 손님들에게 가격 기록에서 확인한 내용과 아직 확인되지 않은 의혹을 나누어 전했다.",
+      "effects": { "situationKo": "가격 조정은 기록에서 확인됐지만 재고를 숨겼다는 의혹은 입증되지 않았다고 정정했다." }
+    },
+    {
+      "id": "E23_IGNORE_RUMOR",
+      "hostIds": ["clerk_alexei", "street_vendor_matryona"],
+      "requiredLivingEventStage": "RUMOR_ACTIVE",
+      "durationMinutes": 1,
+      "labelKo": "지금은 대꾸하지 않는다",
+      "subcopyKo": "곁에 있는 사람만 압니다 · 공식 기록은 남지 않습니다 · 바로잡는 말도 보태지 않습니다 · 아무 대응이 없으면 소문이 장터에 더 퍼질 수 있습니다",
+      "resultFlag": "v37MarketRumorIgnored",
+      "resultKo": "두 사람은 소문에 대꾸하지 않았다. 장터의 다른 이들은 확인되지 않은 말을 계속 들을 수 있다.",
+      "effects": { "situationKo": "소문을 바로잡지 않은 채 두었다." }
+    }
+  ],
+  "completion": "an official fictional price-check request triggers an unverified market rumor; a clerk can compare the transaction record, the hawker can spread or correct the claim, or inaction lets it travel to nearby residents"
+}

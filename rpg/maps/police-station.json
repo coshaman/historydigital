@@ -562,6 +562,20 @@
               "value": true
             }
           ]
+        },
+        {
+          "id": 1174,
+          "name": "배달부의 분실 신고 확인",
+          "type": "quest-object",
+          "x": 80,
+          "y": 48,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            { "name": "questId", "type": "string", "value": "V37_POLICE_DOCUMENT_CHECK_1847" },
+            { "name": "eventId", "type": "string", "value": "E25" }
+          ]
         }
       ]
     },

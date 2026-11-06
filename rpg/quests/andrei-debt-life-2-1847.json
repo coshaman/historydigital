@@ -26,7 +26,6 @@
       "resultKo": "임금과 빚을 나눠 갚았다. 한쪽만 먼저 세우진 않았지만 둘 다 완전히 해결되지 않았다.",
       "resultFlag": "ANDREI_DEBT_STATUS_1847_STAGE_2_RESULT_1",
       "followupTitleKo": "가문의 이름과 어음 만기",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "임금과 빚을 나눠 갚았다. 한쪽만 먼저 세우진 않았지만 둘 다 완전히 해결되지 않았다.",
         "relations": {
@@ -49,7 +48,6 @@
       "resultKo": "밀린 임금을 먼저 지급했다. 일한 몫은 돌아갔지만 어음 날짜는 지키기 어렵다.",
       "resultFlag": "ANDREI_DEBT_STATUS_1847_STAGE_2_RESULT_2",
       "followupTitleKo": "가문의 이름과 어음 만기",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "밀린 임금을 먼저 지급했다. 일한 몫은 돌아갔지만 어음 날짜는 지키기 어렵다.",
         "relations": {
@@ -72,7 +70,6 @@
       "resultKo": "새 기한을 부탁했다. 시간을 얻을 수 있지만 조건을 다시 확인해야 한다.",
       "resultFlag": "ANDREI_DEBT_STATUS_1847_STAGE_2_RESULT_3",
       "followupTitleKo": "가문의 이름과 어음 만기",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "새 기한을 부탁했다. 시간을 얻을 수 있지만 조건을 다시 확인해야 한다.",
         "relations": {

@@ -25,7 +25,6 @@
       "resultKo": "실밥과 풀을 먼저 살폈다. 손상 원인은 아직 정해지지 않았다.",
       "resultFlag": "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_1_RESULT_1",
       "followupTitleKo": "찢어진 장과 수리값",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "실밥과 풀을 먼저 살폈다. 손상 원인은 아직 정해지지 않았다.",
         "relations": {
@@ -48,7 +47,6 @@
       "resultKo": "빠진 장을 함께 찾기로 했다. 책임을 정하기 전에 책의 상태부터 맞출 수 있다.",
       "resultFlag": "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_1_RESULT_2",
       "followupTitleKo": "찢어진 장과 수리값",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "빠진 장을 함께 찾기로 했다. 책임을 정하기 전에 책의 상태부터 맞출 수 있다.",
         "relations": {
@@ -71,7 +69,6 @@
       "resultKo": "책을 먼저 고치기로 했다. 책은 돌아오지만 비용을 낼 사람은 정해지지 않았다.",
       "resultFlag": "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_1_RESULT_3",
       "followupTitleKo": "찢어진 장과 수리값",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "책을 먼저 고치기로 했다. 책은 돌아오지만 비용을 낼 사람은 정해지지 않았다.",
         "relations": {

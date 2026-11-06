@@ -179,13 +179,13 @@
         "x": 11,
         "y": 14
       },
-      "activityKo": "빵집에서 오븐에 넣을 반죽과 남은 밀가루를 나눈다",
+      "activityKo": "오븐에서 빵을 구워 시장에 보낼 몫을 마련한다",
       "workAction": {
         "id": "V36_BAKER_PREPARE_DOUGH",
         "outputKind": "제빵 생산",
-        "outputKo": "오븐에 넣을 반죽을 나눠 굽기 순서를 적는다",
+        "outputKo": "빵 한 묶음을 구워 시장에 보낼 몫으로 둔다",
         "durationMinutes": 20,
-        "inventoryItemKo": "반죽 한 몫"
+        "inventoryItemKo": "빵 한 묶음"
       }
     },
     {
@@ -201,6 +201,27 @@
         "outputKind": "제빵 마감",
         "outputKo": "남은 밀가루와 오늘 주문의 인수 여부를 장부에 맞춘다",
         "durationMinutes": 20
+      }
+    },
+    {
+      "atMinute": 1080,
+      "mapId": "market-quay",
+      "position": {
+        "x": 13,
+        "y": 12
+      },
+      "activityKo": "재고가 떨어졌다면 구운 빵을 장터에 보내고 대금을 받는다",
+      "task": {
+        "type": "EXCHANGE",
+        "id": "BAKER_DAILY_MARKET_RESTOCK_1847",
+        "repeatDaily": true,
+        "requiresMarketStockout": true,
+        "recipientHostId": "market_nadezhda",
+        "notBeforeMinute": 1080,
+        "itemKo": "빵 한 묶음",
+        "moneyAmount": 3,
+        "relationshipKo": "빵값을 치른 거래 이웃",
+        "recipientRelationshipKo": "빵을 산 거래 이웃"
       }
     }
   ],
@@ -354,5 +375,36 @@
     "deterministicSeed": 736729430
   },
   "plannerPolicyStatus": "FICTIONAL_GAMEPLAY_BALANCE",
-  "plannerPolicyBasisKo": "표도르의 경계심·생계 우선도·관계 필요를 반영한 결정론적 게임 성향."
+  "plannerPolicyBasisKo": "표도르의 경계심·생계 우선도·관계 필요를 반영한 결정론적 게임 성향.",
+  "residence": {
+    "kind": "TENEMENT_ROOM",
+    "homeLocation": {
+      "mapId": "courtyard",
+      "position": {
+        "x": 14,
+        "y": 9
+      }
+    },
+    "sleepLocation": {
+      "mapId": "courtyard",
+      "position": {
+        "x": 14,
+        "y": 9
+      }
+    },
+    "sleepMinute": 1230,
+    "unitLabelKo": "허구의 공동주택 셋방",
+    "status": "FICTIONAL_CHARACTER_DESIGN",
+    "valueStatus": "FICTIONAL_GAMEPLAY_DESIGN",
+    "designBasisKo": "역사적 주소나 실제 동거 관계가 아닌 허구 생활 시뮬레이션용 거처. 지도 타일은 게임 내 귀가·취침 동선의 목적지다."
+  },
+  "kinshipRelations": [
+    {
+      "targetHostId": "market_nadezhda",
+      "kind": "SIBLING",
+      "relationshipKo": "나데즈다는 내 누이다. 빵과 시장 물가를 두고 계산이 다른 허구 남매 (게임용 허구 설정).",
+      "status": "FICTIONAL_CHARACTER_DESIGN",
+      "graphEdgeId": "KIN-FYODOR-NADEZHDA"
+    }
+  ]
 }

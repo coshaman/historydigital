@@ -107,7 +107,9 @@ export function resolveQuestGuidance({ state, quests, maps, hostCards }) {
   const embodied = state.player.embodiment ? state.hosts[state.player.embodiment] : null;
   const host = embodied ? hostCards.find(card => card.id === embodied.id) : null;
   if (!host) {
-    const availableQuests = quests.filter(item => item.chapterId === state.world.chapterId && (!item.date || item.date <= state.world.date) && state.quests[item.id]?.status !== 'resolved' && questPrerequisitesMet(state, item)).sort((a,b)=>(a.date??'').localeCompare(b.date??''));
+    const availableQuests = quests.filter(item => item.chapterId === state.world.chapterId && (!item.date || item.date <= state.world.date)
+      && (!item.requiresLivingEventId || state.world.livingEventStates?.[item.requiresLivingEventId]?.status === 'ACTIVE')
+      && state.quests[item.id]?.status !== 'resolved' && questPrerequisitesMet(state, item)).sort((a,b)=>(a.date??'').localeCompare(b.date??''));
     const observerQuest = availableQuests.find(item => item.entry?.mapId === mapId) ?? availableQuests[0];
     const eligibleIds = observerQuest ? new Set(observerQuest.actions.flatMap(action => action.hostIds)) : null;
     const candidates = Object.values(state.hosts).filter(person => person.historicalAliveAndPresent && (!eligibleIds || eligibleIds.has(person.id)))
@@ -135,7 +137,9 @@ export function resolveQuestGuidance({ state, quests, maps, hostCards }) {
     ? state.world.activeRealm?.id === (quest.realmId ?? quest.chapterId)
     : quest.chapterId === state.world.chapterId)
     .sort((a, b) => (a.date ?? '').localeCompare(b.date ?? ''));
-  const playableCandidates = candidates.filter(item => (!item.date || item.date <= state.world.date) && state.quests[item.id]?.status !== 'resolved' && questPrerequisitesMet(state, item));
+  const playableCandidates = candidates.filter(item => (!item.date || item.date <= state.world.date)
+    && (!item.requiresLivingEventId || state.world.livingEventStates?.[item.requiresLivingEventId]?.status === 'ACTIVE')
+    && state.quests[item.id]?.status !== 'resolved' && questPrerequisitesMet(state, item));
   // A resident who belongs to a later stage of a personal chain should be
   // directed to the next stage owner, instead of receiving an unrelated
   // fallback campaign objective that makes the chain look broken.

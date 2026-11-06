@@ -25,7 +25,6 @@
       "resultKo": "반납 날짜와 사정을 먼저 물었다. 책이 어디 있는지 확인할 시간을 주되 다음 독자에게는 기다려 달라 해야 한다.",
       "resultFlag": "askedReturnDate",
       "followupTitleKo": "책 대여와 선금 장부",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "반납 날짜와 사정을 먼저 물었다. 책이 어디 있는지 확인할 시간을 주되 다음 독자에게는 기다려 달라 해야 한다.",
         "relations": {
@@ -48,7 +47,6 @@
       "resultKo": "새 책을 구하기 전까지 예약을 멈췄다. 약속은 줄었고 오늘의 수입도 줄 수 있다.",
       "resultFlag": "pausedReservation",
       "followupTitleKo": "책 대여와 선금 장부",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "새 책을 구하기 전까지 예약을 멈췄다. 약속은 줄었고 오늘의 수입도 줄 수 있다.",
         "relations": {
@@ -71,7 +69,6 @@
       "resultKo": "선금을 받고 다른 손님에게 책을 빌렸다. 한 사람의 기다림은 줄었지만 책을 돌려받을 책임이 늘었다.",
       "resultFlag": "borrowedReplacement",
       "followupTitleKo": "책 대여와 선금 장부",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "선금을 받고 다른 손님에게 책을 빌렸다. 한 사람의 기다림은 줄었지만 책을 돌려받을 책임이 늘었다.",
         "relations": {

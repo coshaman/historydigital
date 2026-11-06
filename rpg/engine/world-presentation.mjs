@@ -8,6 +8,10 @@ export function objectIsPresent(object, state, quests = []) {
   if (object.type !== 'quest-object') return true;
   const quest = quests.find(item => item.id === p.questId);
   if (!quest) return false;
+  const requiredEventId = p.requiresLivingEventId ?? quest.requiresLivingEventId;
+  const requiredEvent = requiredEventId ? state.world.livingEventStates?.[requiredEventId] : null;
+  const debtStatuses = quest.requiresLivingEventDebtStatus ? [].concat(quest.requiresLivingEventDebtStatus) : null;
+  if (requiredEventId && (debtStatuses ? !debtStatuses.includes(requiredEvent?.debt?.status) : requiredEvent?.status !== 'ACTIVE')) return false;
   if (!questPrerequisitesMet(state, quest)) return false;
   const realm = quest.realmId ?? (quest.chapterId?.startsWith('LITERARY_') ? quest.chapterId : null);
   return realm ? state.world.activeRealm?.id === realm

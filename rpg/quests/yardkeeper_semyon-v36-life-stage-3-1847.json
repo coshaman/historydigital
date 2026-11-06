@@ -30,7 +30,6 @@
       "resultKo": "수량 차이와 확인한 범위를 적었다. 추측으로 세입자 이름을 쓰지 않았다.",
       "resultFlag": "SEMYON_FIREWOOD_LEDGER_1847_STAGE_3_RESULT_1",
       "followupTitleKo": "빈칸을 어떤 이름으로 남길까",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "수량 차이와 확인한 범위를 적었다. 추측으로 세입자 이름을 쓰지 않았다.",
         "relations": {
@@ -58,7 +57,6 @@
       "resultKo": "새 반입분을 새 기준으로 기록했다. 이전 수량 차이는 별도 미결로 보관했다.",
       "resultFlag": "SEMYON_FIREWOOD_LEDGER_1847_STAGE_3_RESULT_2",
       "followupTitleKo": "빈칸을 어떤 이름으로 남길까",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "새 반입분을 새 기준으로 기록했다. 이전 수량 차이는 별도 미결로 보관했다.",
         "relations": {
@@ -86,7 +84,6 @@
       "resultKo": "참여한 세입자와 수량을 확인했다. 자리에 없던 사람의 몫은 임의로 줄이지 않았다.",
       "resultFlag": "SEMYON_FIREWOOD_LEDGER_1847_STAGE_3_RESULT_3",
       "followupTitleKo": "빈칸을 어떤 이름으로 남길까",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "참여한 세입자와 수량을 확인했다. 자리에 없던 사람의 몫은 임의로 줄이지 않았다.",
         "relations": {

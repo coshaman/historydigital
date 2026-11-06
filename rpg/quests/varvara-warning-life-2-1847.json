@@ -26,7 +26,6 @@
       "resultKo": "동료와 함께 직접 확인하기로 했다. 소문을 옮기기보다 당사자에게 물을 수 있다.",
       "resultFlag": "VARVARA_PRIVATE_WARNING_1847_STAGE_2_RESULT_1",
       "followupTitleKo": "들어버린 말과 전할 경고",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "동료와 함께 직접 확인하기로 했다. 소문을 옮기기보다 당사자에게 물을 수 있다.",
         "relations": {
@@ -49,7 +48,6 @@
       "resultKo": "도울 사람 한 명에게만 알렸다. 도움은 받을 수 있지만 비밀이 하나 더 생겼다.",
       "resultFlag": "VARVARA_PRIVATE_WARNING_1847_STAGE_2_RESULT_2",
       "followupTitleKo": "들어버린 말과 전할 경고",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "도울 사람 한 명에게만 알렸다. 도움은 받을 수 있지만 비밀이 하나 더 생겼다.",
         "relations": {
@@ -72,7 +70,6 @@
       "resultKo": "이름 없이 상황만 알렸다. 확인을 요청했지만 누군지 추측할 여지는 남는다.",
       "resultFlag": "VARVARA_PRIVATE_WARNING_1847_STAGE_2_RESULT_3",
       "followupTitleKo": "들어버린 말과 전할 경고",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "이름 없이 상황만 알렸다. 확인을 요청했지만 누군지 추측할 여지는 남는다.",
         "relations": {

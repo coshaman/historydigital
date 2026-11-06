@@ -1,0 +1,143 @@
+{
+  "id": "V37_MARKET_PRICE_DISPUTE_1847",
+  "titleKo": "값이 오른 뒤의 거래",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-01-01",
+  "requiresLivingEventId": "E13",
+  "premiseKo": "빵 재고가 바닥난 뒤 조정된 게임 가격표가 적용됐고, 한 손님이 그 가격으로 실제 빵을 샀다. 거래 뒤 가격을 확인하거나 차액을 돌려주거나 당직 기록에 확인을 요청할 수 있다.",
+  "historicalOutcome": {
+    "id": "V37_MARKET_PRICE_DISPUTE_FICTIONAL_OUTCOME",
+    "value": "fictional market transaction and complaint procedure only; the gameplay price is not a historical price estimate",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "market-quay",
+    "objectId": 1174
+  },
+  "actions": [
+    {
+      "id": "E13_REFUND_SURCHARGE",
+      "hostIds": [
+        "market_nadezhda"
+      ],
+      "requiredPresentLivingEventHostKey": "buyerHostId",
+      "requiredParticipantDistance": 3,
+      "durationMinutes": 6,
+      "labelKo": "가격표를 설명하고 오른 몫을 돌려준다",
+      "subcopyKo": "판매자와 구매자가 압니다 · 당직 기록은 남지 않습니다 · 빵은 구매자에게 남고 돈이 판매자에게서 구매자에게 돌아갑니다 · 판매자는 수입 일부를 포기합니다",
+      "resultFlag": "v37MarketSurchargeRefunded",
+      "resultKo": "나데즈다는 가격표와 남은 재고를 설명한 뒤, 이번 거래에서 오른 몫을 손님에게 돌려줬다.",
+      "effects": {
+        "situationKo": "빵값이 오른 이유와 가격표를 설명하고 손님에게 값을 돌려줬다."
+      }
+    },
+    {
+      "id": "E13_ACCEPT_TRANSACTION",
+      "hostIds": [
+        "apothecary_yakov",
+        "baker_fyodor",
+        "bookbinder_elizaveta",
+        "bookseller_lev",
+        "carter_roman",
+        "clerk_alexei",
+        "coachman_timofey",
+        "courier_pavel",
+        "editor_sofia",
+        "fishseller_klavdiya",
+        "housemaid_olga",
+        "innkeeper_irina",
+        "junior_guard_sergey",
+        "landlady_polina",
+        "laundress_mariya",
+        "lodging_tatyana",
+        "market_nadezhda",
+        "midwife_avdotya",
+        "minor_noble_andrei",
+        "police_sergeant_ivan",
+        "porter_gavrila",
+        "printer_ekaterina",
+        "print_apprentice_stepan",
+        "reader_darya",
+        "scribal_yuri",
+        "seamstress_anna",
+        "senior_clerk_konstantin",
+        "servant_varvara",
+        "street_vendor_matryona",
+        "student_vasily",
+        "teacher_lyubov",
+        "tenant_mikhail",
+        "typesetter_nikita",
+        "warehouse_pyotr",
+        "watercarrier_luka",
+        "yardkeeper_semyon"
+      ],
+      "requiresLivingEventActorKey": "buyerHostId",
+      "durationMinutes": 3,
+      "labelKo": "빵을 가지고 거래를 마친다",
+      "subcopyKo": "판매자와 가까운 손님들이 거래를 압니다 · 공식 신고는 남지 않습니다 · 빵을 산 끼니는 그대로입니다 · 이미 낸 돈은 돌려받지 않습니다",
+      "resultFlag": "v37MarketTransactionAccepted",
+      "resultKo": "구매자는 빵값을 확인하고 거래를 마쳤다. 조정된 가격표가 다음 손님에게도 적용된다.",
+      "effects": {
+        "relations": {
+          "market_nadezhda": "가격표를 확인하고 빵을 산 손님"
+        },
+        "partnerRelationKo": "가격표를 확인한 단골 손님",
+        "situationKo": "빵을 사고 가격표를 확인했다."
+      }
+    },
+    {
+      "id": "E13_FILE_PRICE_COMPLAINT",
+      "hostIds": [
+        "apothecary_yakov",
+        "baker_fyodor",
+        "bookbinder_elizaveta",
+        "bookseller_lev",
+        "carter_roman",
+        "clerk_alexei",
+        "coachman_timofey",
+        "courier_pavel",
+        "editor_sofia",
+        "fishseller_klavdiya",
+        "housemaid_olga",
+        "innkeeper_irina",
+        "junior_guard_sergey",
+        "landlady_polina",
+        "laundress_mariya",
+        "lodging_tatyana",
+        "market_nadezhda",
+        "midwife_avdotya",
+        "minor_noble_andrei",
+        "police_sergeant_ivan",
+        "porter_gavrila",
+        "printer_ekaterina",
+        "print_apprentice_stepan",
+        "reader_darya",
+        "scribal_yuri",
+        "seamstress_anna",
+        "senior_clerk_konstantin",
+        "servant_varvara",
+        "street_vendor_matryona",
+        "student_vasily",
+        "teacher_lyubov",
+        "tenant_mikhail",
+        "typesetter_nikita",
+        "warehouse_pyotr",
+        "watercarrier_luka",
+        "yardkeeper_semyon"
+      ],
+      "requiresLivingEventActorKey": "buyerHostId",
+      "durationMinutes": 5,
+      "labelKo": "당직 경비에게 가격 확인을 요청한다",
+      "subcopyKo": "당직 경비와 기록 담당자가 알게 됩니다 · 공식 확인 요청이 남습니다 · 요청 사본은 좌판 밖 당직소로 전달됩니다 · 경비가 오지 않으면 기록만 남을 수 있습니다",
+      "resultFlag": "v37MarketPriceComplaintFiled",
+      "resultKo": "가격 확인 요청이 당직 기록에 접수됐다. 경비가 좌판에 도착해 양쪽 말을 듣기 전까지 요청은 미결로 남는다.",
+      "effects": {
+        "relations": {
+          "market_nadezhda": "가격 확인을 요청한 손님"
+        },
+        "situationKo": "알렉세이는 가격 조정 요청을 당직 기록에 남겼다. 경비가 도착하면 장터 장부를 확인한다."
+      }
+    }
+  ],
+  "completion": "a real in-simulation purchase at the adjusted E02 gameplay price opens the dispute; either the seller returns the difference, the buyer accepts the transaction, or a fictional watchman reviews the filed record"
+}

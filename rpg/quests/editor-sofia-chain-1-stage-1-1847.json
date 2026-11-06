@@ -25,7 +25,6 @@
       "resultKo": "인쇄가 끝난 시각부터 확인하기로 했다. 도착이 늦었다고 인쇄소에 바로 책임을 돌리진 않았다.",
       "resultFlag": "pressTime",
       "followupTitleKo": "반송된 신문 묶음 메모",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "인쇄가 끝난 시각부터 확인하기로 했다. 도착이 늦었다고 인쇄소에 바로 책임을 돌리진 않았다.",
         "relations": {
@@ -47,7 +46,6 @@
       "resultKo": "배달원이 직접 확인한 구간부터 물었다. 길에서 보지 못한 일은 단정하지 않기로 했다.",
       "resultFlag": "routeAsked",
       "followupTitleKo": "반송된 신문 묶음 메모",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "배달원이 직접 확인한 구간부터 물었다. 길에서 보지 못한 일은 단정하지 않기로 했다.",
         "relations": {
@@ -69,7 +67,6 @@
       "resultKo": "누락된 호수를 공고에 알렸다. 독자에게는 상황이 보이지만 원인은 아직 확인되지 않았다.",
       "resultFlag": "publicNotice",
       "followupTitleKo": "반송된 신문 묶음 메모",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "누락된 호수를 공고에 알렸다. 독자에게는 상황이 보이지만 원인은 아직 확인되지 않았다.",
         "relations": {

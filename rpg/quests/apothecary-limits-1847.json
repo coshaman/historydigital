@@ -25,7 +25,6 @@
       "resultKo": "확인한 재고와 가격만 설명했다. 효능을 약속하지 않았지만 손님은 다른 조언을 찾아야 한다.",
       "resultFlag": "yakovLimited",
       "followupTitleKo": "모르는 약효와 외상 장부",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "확인된 재고와 가격만 안내했다.",
         "relations": {
@@ -43,7 +42,6 @@
       "resultKo": "요구받은 처방을 권했다. 손님은 바로 선택할 수 있지만 효과는 확인되지 않았다.",
       "resultFlag": "yakovRecommended",
       "followupTitleKo": "모르는 약효와 외상 장부",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "출처를 확인하지 못한 처방을 권했다.",
         "relations": {
@@ -61,7 +59,6 @@
       "resultKo": "비용 걱정과 확인하지 못한 점을 함께 적어 약사에게 물었다. 손님은 기다려야 하지만 설명 책임을 넘기지 않았다.",
       "resultFlag": "yakovReferred",
       "followupTitleKo": "모르는 약효와 외상 장부",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "비용과 확인 요청을 약사에게 전달했다.",
         "relations": {

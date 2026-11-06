@@ -1,0 +1,48 @@
+{
+  "id": "V37_COURTYARD_FIRE_1847",
+  "titleKo": "안뜰의 연기",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-01-01",
+  "requiresLivingEventId": "E27",
+  "premiseKo": "안뜰에서 연기가 번진다. 사람들을 먼저 안전한 곳으로 옮겨야 한다.",
+  "historicalOutcome": { "id": "V37_COURTYARD_FIRE_GAMEPLAY", "value": "fictional household outcome", "sourceIds": [] },
+  "entry": { "mapId": "courtyard", "objectId": 1176, "requiredHostId": "tenant_mikhail" },
+  "actions": [
+    {
+      "id": "E27_EVACUATE_RESIDENTS",
+      "hostIds": ["tenant_mikhail"],
+      "requiredLivingEventStage": "FIRE_REPORTED",
+      "requiresLivingEventActorKey": "tenantHostId",
+      "durationMinutes": 2,
+      "labelKo": "방 안의 사람들을 안뜰 밖으로 이끈다",
+      "subcopyKo": "이웃들이 알게 됩니다 · 방에서 물건을 챙길 시간은 없습니다 · 안뜰 밖에 모이게 됩니다",
+      "resultKo": "미하일은 이웃들을 먼저 문밖으로 이끌었다.",
+      "effects": { "situationKo": "안뜰의 불길이 번지기 전에 주민들을 밖으로 대피시켰다." }
+    },
+    {
+      "id": "E27_RAISE_NEIGHBOR_ALARM",
+      "hostIds": ["tenant_mikhail"],
+      "requiredLivingEventStage": "FIRE_REPORTED",
+      "requiresLivingEventActorKey": "tenantHostId",
+      "durationMinutes": 3,
+      "labelKo": "종을 울리고 이웃에게 알린다",
+      "subcopyKo": "안뜰 전체가 알게 됩니다 · 경보가 사건 기록에 남습니다 · 소란을 일으킨 책임을 질 수 있습니다",
+      "resultKo": "종소리에 이웃들이 모여 연기를 피하고, 불길을 함께 막았다.",
+      "effects": { "situationKo": "종을 울려 안뜰에 알리고 주민들과 불길을 막았다." }
+    },
+    {
+      "id": "E27_REPORT_TO_WATCH",
+      "hostIds": ["tenant_mikhail"],
+      "requiredLivingEventStage": "FIRE_REPORTED",
+      "requiresLivingEventActorKey": "tenantHostId",
+      "requiredPresentLivingEventHostKey": "guardHostId",
+      "requiredParticipantDistance": 4,
+      "durationMinutes": 4,
+      "labelKo": "경비를 불러 화재를 알린다",
+      "subcopyKo": "경비와 집주인이 알게 됩니다 · 신고 기록이 남습니다 · 그동안 주민들이 직접 대응해야 합니다",
+      "resultKo": "경비가 현장에 왔고 집주인은 난로와 방 상태를 확인했다.",
+      "effects": { "situationKo": "경비에게 화재를 알리고 안뜰의 피해를 확인받았다." }
+    }
+  ],
+  "completion": "주민 대피 또는 이웃 경보로 화재 피해를 줄인다"
+}

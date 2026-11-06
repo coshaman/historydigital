@@ -12,6 +12,29 @@
       "archive": "Национальная электронная библиотека / Российская государственная библиотека"
     },
     {
+      "sourceId": "CAT-NEB-SEVERNAYA-PCHELA-1847-194",
+      "type": "PRIMARY_PERIODICAL_CATALOG_AND_DIGITAL_COPY_METADATA",
+      "title": "Северная Пчела. 1847, № 194 (28 августа)",
+      "creator": "Редакция «Северной Пчелы»; запись описывает выпуск, а не удостоверяет авторство отдельных материалов",
+      "date": "1847-08-28",
+      "issue": "№ 194; 4 страницы",
+      "catalogId": "000200_000018_RU_NLR_DIGIT_94257",
+      "url": "https://rusneb.ru/catalog/000200_000018_RU_NLR_DIGIT_94257/",
+      "archive": "Национальная электронная библиотека; цифровая копия предоставлена Российской национальной библиотекой",
+      "verificationStatus": "BIBLIOGRAPHIC_METADATA_VERIFIED_DIGITAL_CONTENT_NOT_TRANSCRIBED",
+      "rights": "Запись подтверждает заглавие, дату, номер, объём и наличие цифровой копии; содержание статей не проверено и не цитируется."
+    },
+    {
+      "sourceId": "CAT-NLR-SENATSKIE-1841-APTEKARSKAYA-TAXA",
+      "type": "PRIMARY_PERIODICAL_CATALOG_METADATA",
+      "title": "Санктпетербургские сенатские ведомости. 1841; catalogue lists Аптекарская такса или Оценка лекарствам",
+      "creator": "Российская национальная библиотека catalogue record",
+      "date": "1841-10-21",
+      "range": "Catalogue entry for the supplement to p. 651, no. 84 (21 October 1841); this is metadata locating the supplement, not the supplement's text or a verified scan.",
+      "url": "https://nlr.ru/ibo_ws/_aspid/_record_docs/55/spb_senatskie_vedomosti_1841.pdf",
+      "rights": "Library catalogue metadata. No excerpt, price, medicine name, or health claim is taken from this record."
+    },
+    {
       "sourceId": "LIT-TURGENEV-KHOR-KALYNYCH-1847",
       "type": "LITERARY_SOURCE_WITNESS",
       "author": "И. С. Тургенев",
@@ -67,6 +90,17 @@
       "rights": "Public-domain original; new Korean project translation. Modern scholarly transcription, not a facsimile."
     },
     {
+      "sourceId": "LIT-GOGOL-RUSSIAN-LANDLORD-1847",
+      "type": "PUBLIC_LETTER_IN_LITERARY_BOOK_MODERN_TRANSCRIPTION",
+      "title": "Русской помещик",
+      "creator": "Николай Васильевич Гоголь",
+      "date": "1847",
+      "edition": "Выбранные места из переписки с друзьями. Санкт-Петербург: Типография Департамента внешней торговли, 1847, глава XXII.",
+      "range": "Wikisource lines 99–104; six consecutive paragraphs.",
+      "url": "https://ru.wikisource.org/wiki/Выбранные_места_из_переписки_с_друзьями_(Гоголь)/XXII",
+      "rights": "Public-domain original; new Korean project translation."
+    },
+    {
       "sourceId": "LIT-GOGOL-DEAD-SOULS-1842",
       "type": "LITERARY_SOURCE_WITNESS_MODERN_TRANSCRIPTION",
       "title": "Мертвые души. Том первый",
@@ -76,6 +110,17 @@
       "range": "Wikisource lines 128–130, three consecutive paragraphs at the beginning of chapter one.",
       "url": "https://ru.wikisource.org/wiki/Мертвые_души._Том_первый_(Гоголь)",
       "rights": "Public-domain original; new Korean project translation."
+    },
+    {
+      "sourceId": "LIT-BELINSKY-GOGOL-REVIEW-1847",
+      "type": "PUBLIC_PERIODICAL_REVIEW",
+      "title": "Выбранные места из переписки с друзьями",
+      "creator": "Виссарион Белинский",
+      "date": "1847",
+      "edition": "Современник, 1847, том I, № 2, раздел III, с. 103–124.",
+      "range": "Wikisource lines 142–150, nine consecutive paragraphs; review text with quoted Gogol passage.",
+      "url": "https://ru.wikisource.org/wiki/Выбранные_места_из_переписки_с_друзьями_Николая_Гоголя_(Белинский)",
+      "rights": "Public-domain Russian original; new Korean project translation."
     }
   ]
 }

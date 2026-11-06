@@ -25,7 +25,6 @@
       "resultKo": "어제와 오늘 바구니가 다르다는 점부터 설명했다. 같은 값으로 보이는 이유를 숨기지 않았다.",
       "resultFlag": "NADEZHDA_STALL_WEATHER_1847_2_1",
       "followupTitleKo": "값을 기억하는 단골 메모",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "어제와 오늘 바구니가 다르다는 점부터 설명했다. 같은 값으로 보이는 이유를 숨기지 않았다.",
         "relations": {
@@ -47,7 +46,6 @@
       "resultKo": "오늘 값을 표에 적었다. 손님은 이유를 묻기 쉬워졌고, 값을 임의로 바꿨다는 오해는 줄었다.",
       "resultFlag": "NADEZHDA_STALL_WEATHER_1847_2_2",
       "followupTitleKo": "값을 기억하는 단골 메모",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "오늘 값을 표에 적었다. 손님은 이유를 묻기 쉬워졌고, 값을 임의로 바꿨다는 오해는 줄었다.",
         "relations": {
@@ -69,7 +67,6 @@
       "resultKo": "단골에게 지난 값을 적용했다. 한 사람은 납득했지만 좌판의 기준을 다시 말해야 한다.",
       "resultFlag": "NADEZHDA_STALL_WEATHER_1847_2_3",
       "followupTitleKo": "값을 기억하는 단골 메모",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "단골에게 지난 값을 적용했다. 한 사람은 납득했지만 좌판의 기준을 다시 말해야 한다.",
         "relations": {

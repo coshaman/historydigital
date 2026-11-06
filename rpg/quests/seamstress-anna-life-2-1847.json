@@ -25,7 +25,6 @@
       "resultKo": "튼튼한 천을 필요한 만큼만 샀다. 외투는 오래 버티겠지만 다른 주문에는 남는 재료가 적다.",
       "resultFlag": "durablePatch",
       "followupTitleKo": "천과 실의 구입 쪽지",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "튼튼한 천을 필요한 만큼만 샀다. 외투는 오래 버티겠지만 다른 주문에는 남는 재료가 적다.",
         "relations": {
@@ -47,7 +46,6 @@
       "resultKo": "조각천을 사 두 벌에 나눴다. 비용은 줄었지만 색과 결이 같지는 않다.",
       "resultFlag": "sharedCloth",
       "followupTitleKo": "천과 실의 구입 쪽지",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "조각천을 사 두 벌에 나눴다. 비용은 줄었지만 색과 결이 같지는 않다.",
         "relations": {
@@ -69,7 +67,6 @@
       "resultKo": "재료값 일부를 먼저 부탁했다. 빚은 피했지만 주문을 기다릴지 손님이 정해야 한다.",
       "resultFlag": "askedForAdvance",
       "followupTitleKo": "천과 실의 구입 쪽지",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "재료값 일부를 먼저 부탁했다. 빚은 피했지만 주문을 기다릴지 손님이 정해야 한다.",
         "relations": {

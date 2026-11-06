@@ -26,7 +26,6 @@
       "resultKo": "사용량과 시간을 먼저 확인했다. 새 약을 권하기 전에 알아야 할 것이 생겼다.",
       "resultFlag": "YAKOV_REMEDY_LIMITS_1847_STAGE_2_RESULT_1",
       "followupTitleKo": "약재의 이름과 모르는 효능",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "사용량과 시간을 먼저 확인했다. 새 약을 권하기 전에 알아야 할 것이 생겼다.",
         "relations": {
@@ -49,7 +48,6 @@
       "resultKo": "추가 구매를 재촉하지 않고 다른 도움을 권했다. 손님은 선택할 길을 얻었지만 약방 수입은 없다.",
       "resultFlag": "YAKOV_REMEDY_LIMITS_1847_STAGE_2_RESULT_2",
       "followupTitleKo": "약재의 이름과 모르는 효능",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "추가 구매를 재촉하지 않고 다른 도움을 권했다. 손님은 선택할 길을 얻었지만 약방 수입은 없다.",
         "relations": {
@@ -72,7 +70,6 @@
       "resultKo": "적은 양을 내주었다. 손님은 비용을 줄였지만 차도가 없던 이유는 아직 모른다.",
       "resultFlag": "YAKOV_REMEDY_LIMITS_1847_STAGE_2_RESULT_3",
       "followupTitleKo": "약재의 이름과 모르는 효능",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "적은 양을 내주었다. 손님은 비용을 줄였지만 차도가 없던 이유는 아직 모른다.",
         "relations": {

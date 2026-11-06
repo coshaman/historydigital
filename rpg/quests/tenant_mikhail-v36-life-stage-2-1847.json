@@ -30,7 +30,6 @@
       "resultKo": "수량과 값을 직접 물었다. 소문보다 실제 거래 조건을 기준으로 계산하기로 했다.",
       "resultFlag": "MIKHAIL_WAGE_AND_RENT_1847_STAGE_2_RESULT_1",
       "followupTitleKo": "일감과 장작값",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "수량과 값을 직접 물었다. 소문보다 실제 거래 조건을 기준으로 계산하기로 했다.",
         "relations": {
@@ -58,7 +57,6 @@
       "resultKo": "폴리나는 약속된 날짜만 확인했다. 장작값 이야기는 방세와 별도로 두었다.",
       "resultFlag": "MIKHAIL_WAGE_AND_RENT_1847_STAGE_2_RESULT_2",
       "followupTitleKo": "일감과 장작값",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "폴리나는 약속된 날짜만 확인했다. 장작값 이야기는 방세와 별도로 두었다.",
         "relations": {
@@ -86,7 +84,6 @@
       "resultKo": "품삯을 받으면 일부를 따로 두기로 했다. 당장 필요한 물건은 다음 날 다시 살펴야 한다.",
       "resultFlag": "MIKHAIL_WAGE_AND_RENT_1847_STAGE_2_RESULT_3",
       "followupTitleKo": "일감과 장작값",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "품삯을 받으면 일부를 따로 두기로 했다. 당장 필요한 물건은 다음 날 다시 살펴야 한다.",
         "relations": {

@@ -1,0 +1,457 @@
+{
+  "schemaVersion": "V37_RESIDENT_CROSSWALK_1",
+  "reviewStatus": "CANDIDATE_MAPPING_ONLY_NOT_RUNTIME_MIGRATION",
+  "rule": "A candidate is not an identity claim. Do not import bundle attributes until a field-level migration preserves runtime state, provenance, money units, and authored quests.",
+  "records": [
+    {
+      "bundleId": "anna",
+      "bundleNameKo": "안나 페트로바",
+      "bundleRole": "빈민 재봉사",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [
+        "seamstress_anna"
+      ],
+      "decision": "POTENTIAL_OVERLAP_REVIEWED_NOT_MERGED",
+      "mergeAllowed": false,
+      "decisionBasis": "Name and sewing work overlap; surname and bundle kinship do not prove this is the same character record.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "maria",
+      "bundleNameKo": "마리야 페트로바",
+      "bundleRole": "도제·동생",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [
+        "laundress_mariya"
+      ],
+      "decision": "POTENTIAL_OVERLAP_REVIEWED_NOT_MERGED",
+      "mergeAllowed": false,
+      "decisionBasis": "Maria is a plausible spelling match for Mariya, but bundle apprentice role conflicts with runtime laundress role.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "vara",
+      "bundleNameKo": "바르바라 소콜로바",
+      "bundleRole": "인쇄소 조수",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [
+        "servant_varvara"
+      ],
+      "decision": "POTENTIAL_OVERLAP_REVIEWED_NOT_MERGED",
+      "mergeAllowed": false,
+      "decisionBasis": "No reliable identity match from name, role, family, and provenance; keep this fictional composite as a separate design seed.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "aleksei",
+      "bundleNameKo": "알렉세이 오를로프",
+      "bundleRole": "관청 하급 서기",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [
+        "clerk_alexei"
+      ],
+      "decision": "POTENTIAL_OVERLAP_REVIEWED_NOT_MERGED",
+      "mergeAllowed": false,
+      "decisionBasis": "Bundle and runtime share full Korean name and clerk role; verify salary, currency, kinship, starting money and schedule before importing any values.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "ekaterina",
+      "bundleNameKo": "예카테리나 벨로바",
+      "bundleRole": "서적 중개인",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [
+        "printer_ekaterina"
+      ],
+      "decision": "POTENTIAL_OVERLAP_REVIEWED_NOT_MERGED",
+      "mergeAllowed": false,
+      "decisionBasis": "Name matches, but bundle describes a bookseller while runtime character is an in-printshop proofreader; preserve runtime occupation pending explicit migration.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "pavel",
+      "bundleNameKo": "파벨 안토노프",
+      "bundleRole": "우편 전달원",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [
+        "courier_pavel"
+      ],
+      "decision": "POTENTIAL_OVERLAP_REVIEWED_NOT_MERGED",
+      "mergeAllowed": false,
+      "decisionBasis": "Bundle and runtime share full Korean name and courier role; bundle relationships, housing, stats and ruble balance remain unverified.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "nikolai",
+      "bundleNameKo": "니콜라이 예고로프",
+      "bundleRole": "검열 기록원",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [],
+      "decision": "NO_IDENTITY_SAFE_MATCH",
+      "mergeAllowed": false,
+      "decisionBasis": "No reliable identity match from name, role, family, and provenance; keep this fictional composite as a separate design seed.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "nina",
+      "bundleNameKo": "니나 예고로바",
+      "bundleRole": "하숙집 운영 보조",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [],
+      "decision": "NO_IDENTITY_SAFE_MATCH",
+      "mergeAllowed": false,
+      "decisionBasis": "No reliable identity match from name, role, family, and provenance; keep this fictional composite as a separate design seed.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "sergei",
+      "bundleNameKo": "세르게이 오를로프",
+      "bundleRole": "상급 관료",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [
+        "junior_guard_sergey"
+      ],
+      "decision": "POTENTIAL_OVERLAP_REVIEWED_NOT_MERGED",
+      "mergeAllowed": false,
+      "decisionBasis": "First name overlaps; bundle official and runtime junior guard are different occupations and social access.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "elena",
+      "bundleNameKo": "옐레나 오를로바",
+      "bundleRole": "관료 가정의 살롱 주최",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [],
+      "decision": "NO_IDENTITY_SAFE_MATCH",
+      "mergeAllowed": false,
+      "decisionBasis": "No reliable identity match from name, role, family, and provenance; keep this fictional composite as a separate design seed.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "sofya",
+      "bundleNameKo": "소피야 키레예바",
+      "bundleRole": "귀족 문학 살롱",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [
+        "editor_sofia"
+      ],
+      "decision": "POTENTIAL_OVERLAP_REVIEWED_NOT_MERGED",
+      "mergeAllowed": false,
+      "decisionBasis": "Name overlap; bundle salon patron and runtime editor are different occupations.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "ivan",
+      "bundleNameKo": "이반 페도로프",
+      "bundleRole": "마부",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [
+        "police_sergeant_ivan"
+      ],
+      "decision": "POTENTIAL_OVERLAP_REVIEWED_NOT_MERGED",
+      "mergeAllowed": false,
+      "decisionBasis": "Name overlap; bundle coachman and runtime police sergeant are different occupations.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "daria",
+      "bundleNameKo": "다리야 페도로바",
+      "bundleRole": "시장 채소상",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [
+        "reader_darya"
+      ],
+      "decision": "POTENTIAL_OVERLAP_REVIEWED_NOT_MERGED",
+      "mergeAllowed": false,
+      "decisionBasis": "Name overlap; bundle vendor and runtime reader/tutor are different occupations.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "fyodor",
+      "bundleNameKo": "표도르 바실리예프",
+      "bundleRole": "빵집 제빵사",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [
+        "baker_fyodor"
+      ],
+      "decision": "POTENTIAL_OVERLAP_REVIEWED_NOT_MERGED",
+      "mergeAllowed": false,
+      "decisionBasis": "First name and baker role overlap, but surnames and individual data are not confirmed.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "tanya",
+      "bundleNameKo": "타티야나 바실리예바",
+      "bundleRole": "제빵 견습생",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [
+        "lodging_tatyana"
+      ],
+      "decision": "POTENTIAL_OVERLAP_REVIEWED_NOT_MERGED",
+      "mergeAllowed": false,
+      "decisionBasis": "Tanya may be a diminutive of Tatyana; bundle apprentice baker and runtime lodging tenant have different work.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "mikhail",
+      "bundleNameKo": "미하일 체르노프",
+      "bundleRole": "인쇄소 식자공",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [
+        "tenant_mikhail"
+      ],
+      "decision": "POTENTIAL_OVERLAP_REVIEWED_NOT_MERGED",
+      "mergeAllowed": false,
+      "decisionBasis": "First name overlap; bundle typesetter differs from runtime day laborer.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "yakov",
+      "bundleNameKo": "야코프 체르노프",
+      "bundleRole": "제본공",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [
+        "apothecary_yakov"
+      ],
+      "decision": "POTENTIAL_OVERLAP_REVIEWED_NOT_MERGED",
+      "mergeAllowed": false,
+      "decisionBasis": "First name overlap; bundle bookbinder differs from runtime apothecary assistant.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "boris",
+      "bundleNameKo": "보리스 코즈로프",
+      "bundleRole": "야경꾼",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [],
+      "decision": "NO_IDENTITY_SAFE_MATCH",
+      "mergeAllowed": false,
+      "decisionBasis": "No reliable identity match from name, role, family, and provenance; keep this fictional composite as a separate design seed.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "olga",
+      "bundleNameKo": "올가 코즐로바",
+      "bundleRole": "세탁 노동자",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [
+        "housemaid_olga"
+      ],
+      "decision": "POTENTIAL_OVERLAP_REVIEWED_NOT_MERGED",
+      "mergeAllowed": false,
+      "decisionBasis": "First name overlap; bundle washer differs from runtime housemaid.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "stepan",
+      "bundleNameKo": "스테판 레베데프",
+      "bundleRole": "수위",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [
+        "print_apprentice_stepan"
+      ],
+      "decision": "POTENTIAL_OVERLAP_REVIEWED_NOT_MERGED",
+      "mergeAllowed": false,
+      "decisionBasis": "Name overlap; bundle yard keeper differs from runtime print apprentice.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "kirill",
+      "bundleNameKo": "키릴 레베데프",
+      "bundleRole": "짐꾼",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [
+        "porter_gavrila"
+      ],
+      "decision": "POTENTIAL_OVERLAP_REVIEWED_NOT_MERGED",
+      "mergeAllowed": false,
+      "decisionBasis": "Role overlap only; identities and relations differ or are unknown.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "lev",
+      "bundleNameKo": "레프 골로빈",
+      "bundleRole": "학생",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [
+        "bookseller_lev",
+        "student_vasily"
+      ],
+      "decision": "POTENTIAL_OVERLAP_REVIEWED_NOT_MERGED",
+      "mergeAllowed": false,
+      "decisionBasis": "Name overlap; bundle student differs from runtime bookseller; student_vasily is a second occupation candidate, not an identity match.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "grigory",
+      "bundleNameKo": "그리고리 안드레예프",
+      "bundleRole": "초등 교사",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [
+        "teacher_lyubov"
+      ],
+      "decision": "POTENTIAL_OVERLAP_REVIEWED_NOT_MERGED",
+      "mergeAllowed": false,
+      "decisionBasis": "Teacher role overlap only; no name match.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "irina",
+      "bundleNameKo": "이리나 안드레예바",
+      "bundleRole": "가정교사",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [
+        "innkeeper_irina"
+      ],
+      "decision": "POTENTIAL_OVERLAP_REVIEWED_NOT_MERGED",
+      "mergeAllowed": false,
+      "decisionBasis": "Name overlap; bundle governess differs from runtime innkeeper.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "matvei",
+      "bundleNameKo": "마트베이 로마노프",
+      "bundleRole": "교회 독서 담당",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [],
+      "decision": "NO_IDENTITY_SAFE_MATCH",
+      "mergeAllowed": false,
+      "decisionBasis": "No reliable identity match from name, role, family, and provenance; keep this fictional composite as a separate design seed.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "liza",
+      "bundleNameKo": "리자 로마노바",
+      "bundleRole": "자선 구호 보조",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [
+        "bookbinder_elizaveta"
+      ],
+      "decision": "POTENTIAL_OVERLAP_REVIEWED_NOT_MERGED",
+      "mergeAllowed": false,
+      "decisionBasis": "Possible diminutive/name-family overlap with Elizaveta; bundle relief worker differs from runtime bookbinder.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "yuri",
+      "bundleNameKo": "유리 수보로프",
+      "bundleRole": "의사",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [
+        "scribal_yuri"
+      ],
+      "decision": "POTENTIAL_OVERLAP_REVIEWED_NOT_MERGED",
+      "mergeAllowed": false,
+      "decisionBasis": "Name overlap; bundle doctor differs from runtime scribal clerk.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "zoia",
+      "bundleNameKo": "조야 수보로바",
+      "bundleRole": "약제실 조수",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [],
+      "decision": "NO_IDENTITY_SAFE_MATCH",
+      "mergeAllowed": false,
+      "decisionBasis": "No reliable identity match from name, role, family, and provenance; keep this fictional composite as a separate design seed.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "arkady",
+      "bundleNameKo": "아르카디 벨랴예프",
+      "bundleRole": "여관 주인",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [
+        "innkeeper_irina"
+      ],
+      "decision": "POTENTIAL_OVERLAP_REVIEWED_NOT_MERGED",
+      "mergeAllowed": false,
+      "decisionBasis": "Innkeeper role overlap only; runtime Irina is not an identity match.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "katya",
+      "bundleNameKo": "카탸 벨랴예바",
+      "bundleRole": "여관 종업원",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [],
+      "decision": "NO_IDENTITY_SAFE_MATCH",
+      "mergeAllowed": false,
+      "decisionBasis": "No reliable identity match from name, role, family, and provenance; keep this fictional composite as a separate design seed.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "arseny",
+      "bundleNameKo": "아르세니 볼코프",
+      "bundleRole": "선원",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [],
+      "decision": "NO_IDENTITY_SAFE_MATCH",
+      "mergeAllowed": false,
+      "decisionBasis": "No reliable identity match from name, role, family, and provenance; keep this fictional composite as a separate design seed.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "roman",
+      "bundleNameKo": "로만 슈체드린",
+      "bundleRole": "도시 경찰 서기관",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [
+        "carter_roman",
+        "police_sergeant_ivan"
+      ],
+      "decision": "POTENTIAL_OVERLAP_REVIEWED_NOT_MERGED",
+      "mergeAllowed": false,
+      "decisionBasis": "First name overlap; bundle police clerk conflicts with runtime carter; Ivan’s police role is an occupation candidate only.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "agafya",
+      "bundleNameKo": "아가피야 세메노바",
+      "bundleRole": "행상·숙박 불안정",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [
+        "street_vendor_matryona"
+      ],
+      "decision": "POTENTIAL_OVERLAP_REVIEWED_NOT_MERGED",
+      "mergeAllowed": false,
+      "decisionBasis": "Hawker role overlap only; no name match.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "viktor",
+      "bundleNameKo": "빅토르 바란노프",
+      "bundleRole": "소규모 출판업자",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [],
+      "decision": "NO_IDENTITY_SAFE_MATCH",
+      "mergeAllowed": false,
+      "decisionBasis": "No reliable identity match from name, role, family, and provenance; keep this fictional composite as a separate design seed.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "filipp",
+      "bundleNameKo": "필리프 데미도프",
+      "bundleRole": "목수",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [],
+      "decision": "NO_IDENTITY_SAFE_MATCH",
+      "mergeAllowed": false,
+      "decisionBasis": "No reliable identity match from name, role, family, and provenance; keep this fictional composite as a separate design seed.",
+      "sourcePath": "data/residents_1840s_36.json"
+    },
+    {
+      "bundleId": "nadezhda",
+      "bundleNameKo": "나데즈다 데미도바",
+      "bundleRole": "바느질·육아 노동",
+      "fictionClass": "FICTIONAL_COMPOSITE",
+      "candidateRuntimeIds": [
+        "market_nadezhda"
+      ],
+      "decision": "POTENTIAL_OVERLAP_REVIEWED_NOT_MERGED",
+      "mergeAllowed": false,
+      "decisionBasis": "Name overlap; bundle home worker differs from runtime market vendor.",
+      "sourcePath": "data/residents_1840s_36.json"
+    }
+  ]
+}

@@ -25,7 +25,6 @@
       "resultKo": "책 제목과 날짜만 적었다. 모임은 준비할 수 있지만 누가 왔는지는 기록하지 않는다.",
       "resultFlag": "VASILY_READING_CIRCLE_1847_STAGE_1_RESULT_1",
       "followupTitleKo": "읽을 모임과 들킬 위험",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "책 제목과 날짜만 적었다. 모임은 준비할 수 있지만 누가 왔는지는 기록하지 않는다.",
         "relations": {
@@ -48,7 +47,6 @@
       "resultKo": "동의를 받고 이름을 적었다. 연락은 편해지지만 참석 기록도 생긴다.",
       "resultFlag": "VASILY_READING_CIRCLE_1847_STAGE_1_RESULT_2",
       "followupTitleKo": "읽을 모임과 들킬 위험",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "동의를 받고 이름을 적었다. 연락은 편해지지만 참석 기록도 생긴다.",
         "relations": {
@@ -71,7 +69,6 @@
       "resultKo": "말로만 초대했다. 명단은 없지만 소식이 제대로 닿았는지 알기 어렵다.",
       "resultFlag": "VASILY_READING_CIRCLE_1847_STAGE_1_RESULT_3",
       "followupTitleKo": "읽을 모임과 들킬 위험",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "말로만 초대했다. 명단은 없지만 소식이 제대로 닿았는지 알기 어렵다.",
         "relations": {

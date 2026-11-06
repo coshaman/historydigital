@@ -336,5 +336,30 @@
     "deterministicSeed": 3116230203
   },
   "plannerPolicyStatus": "FICTIONAL_GAMEPLAY_BALANCE",
-  "plannerPolicyBasisKo": "마트료나의 경계심·생계 우선도·관계 필요를 반영한 결정론적 게임 성향."
+  "plannerPolicyBasisKo": "마트료나의 경계심·생계 우선도·관계 필요를 반영한 결정론적 게임 성향.",
+  "residence": {
+    "kind": "STREET_SLEEPER",
+    "homeLocation": null,
+    "sleepLocation": {
+      "mapId": "nevsky",
+      "position": {
+        "x": 8,
+        "y": 16
+      }
+    },
+    "sleepMinute": 1080,
+    "unitLabelKo": "정해진 방 없이 거리에서 잠을 청함",
+    "status": "FICTIONAL_CHARACTER_DESIGN",
+    "valueStatus": "FICTIONAL_GAMEPLAY_DESIGN",
+    "designBasisKo": "역사적 주민 사실이 아닌 허구 생활 시뮬레이션 설정. 고정 거처 없이 공개 거리에서 잠을 청하며, 지도 위치는 게임 장면 배치다."
+  },
+  "kinshipRelations": [
+    {
+      "targetHostId": "coachman_timofey",
+      "kind": "SIBLING",
+      "relationshipKo": "티모페이는 내 오라버니다. 거리에서 생계를 잇는 허구 남매 (게임용 허구 설정).",
+      "status": "FICTIONAL_CHARACTER_DESIGN",
+      "graphEdgeId": "KIN-TIMOFEY-MATRYONA"
+    }
+  ]
 }

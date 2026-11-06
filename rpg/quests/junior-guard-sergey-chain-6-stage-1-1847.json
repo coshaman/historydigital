@@ -25,7 +25,6 @@
       "resultKo": "이름과 용무를 적고 담당자에게 확인하기로 했다. 절차는 늦어져도 방문자를 몰래 들이진 않는다.",
       "resultFlag": "verifyVisitor",
       "followupTitleKo": "방문자 출입 메모",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "이름과 용무를 적고 담당자에게 확인하기로 했다. 절차는 늦어져도 방문자를 몰래 들이진 않는다.",
         "relations": {
@@ -47,7 +46,6 @@
       "resultKo": "문 앞에서 봉투만 받고 담당자에게 전달하기로 했다. 안으로 들이진 않지만 전달 경로를 기록해야 한다.",
       "resultFlag": "doorHandoff",
       "followupTitleKo": "방문자 출입 메모",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "문 앞에서 봉투만 받고 담당자에게 전달하기로 했다. 안으로 들이진 않지만 전달 경로를 기록해야 한다.",
         "relations": {
@@ -69,7 +67,6 @@
       "resultKo": "아는 사람을 먼저 들였다. 급한 일은 진행되지만 출입 기록을 남기지 않은 책임이 생긴다.",
       "resultFlag": "quietEntry",
       "followupTitleKo": "방문자 출입 메모",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "아는 사람을 먼저 들였다. 급한 일은 진행되지만 출입 기록을 남기지 않은 책임이 생긴다.",
         "relations": {

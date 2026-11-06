@@ -25,7 +25,6 @@
       "resultKo": "정해 둔 순서로 물을 나르기로 했다. 기다림은 예측할 수 있지만 급한 집은 늦어진다.",
       "resultFlag": "lukaQueue",
       "followupTitleKo": "물동이 순서와 값",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "추가 운임보다 안뜰 순서를 지켰다.",
         "relations": {
@@ -43,7 +42,6 @@
       "resultKo": "추가 운임을 받고 먼저 배달했다. 오늘 수입은 늘지만 다른 집은 순서를 믿기 어려워졌다.",
       "resultFlag": "lukaPaidFirst",
       "followupTitleKo": "물동이 순서와 값",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "추가 운임을 받고 배달 순서를 앞당겼다.",
         "relations": {
@@ -61,7 +59,6 @@
       "resultKo": "공동 배달 시간표를 제안했다. 순서는 함께 정하지만 루카의 이동이 더 길어질 수 있다.",
       "resultFlag": "lukaShared",
       "followupTitleKo": "물동이 순서와 값",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "추가 운임 대신 공동 배달 시간을 정했다.",
         "relations": {

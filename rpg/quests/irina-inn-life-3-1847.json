@@ -26,7 +26,6 @@
       "resultKo": "미수금 쪽지를 봉해 두었다. 금액은 남지만 사정은 공개 장부에서 빠졌다.",
       "resultFlag": "IRINA_INN_PRIVACY_1847_STAGE_3_RESULT_1",
       "followupTitleKo": "여관 장부와 손님의 사정",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "미수금 쪽지를 봉해 두었다. 금액은 남지만 사정은 공개 장부에서 빠졌다.",
         "relations": {
@@ -49,7 +48,6 @@
       "resultKo": "손님 주소로 계산서를 보내기로 했다. 청구는 이어지지만 주소도 장부에 남는다.",
       "resultFlag": "IRINA_INN_PRIVACY_1847_STAGE_3_RESULT_2",
       "followupTitleKo": "여관 장부와 손님의 사정",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "손님 주소로 계산서를 보내기로 했다. 청구는 이어지지만 주소도 장부에 남는다.",
         "relations": {
@@ -72,7 +70,6 @@
       "resultKo": "미수금을 공동 손실로 적었다. 손님은 떠났지만 다른 직원과 손님이 비용을 나눌 수 있다.",
       "resultFlag": "IRINA_INN_PRIVACY_1847_STAGE_3_RESULT_3",
       "followupTitleKo": "여관 장부와 손님의 사정",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "미수금을 공동 손실로 적었다. 손님은 떠났지만 다른 직원과 손님이 비용을 나눌 수 있다.",
         "relations": {

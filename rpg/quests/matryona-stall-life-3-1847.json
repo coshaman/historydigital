@@ -26,7 +26,6 @@
       "resultKo": "물건을 다시 세고 버린 몫을 따로 적었다. 차이는 보이지만 원인은 더 살펴야 한다.",
       "resultFlag": "MATRYONA_STREET_STALL_1847_STAGE_3_RESULT_1",
       "followupTitleKo": "비 그친 뒤의 좌판 자리",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "물건을 다시 세고 버린 몫을 따로 적었다. 차이는 보이지만 원인은 더 살펴야 한다.",
         "relations": {
@@ -49,7 +48,6 @@
       "resultKo": "차이를 손실로 적었다. 누구도 탓하지 않지만 손해는 그대로 남는다.",
       "resultFlag": "MATRYONA_STREET_STALL_1847_STAGE_3_RESULT_2",
       "followupTitleKo": "비 그친 뒤의 좌판 자리",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "차이를 손실로 적었다. 누구도 탓하지 않지만 손해는 그대로 남는다.",
         "relations": {
@@ -72,7 +70,6 @@
       "resultKo": "옆 상인에게 본 것을 물었다. 단서는 얻을 수 있어도 전해 들은 말을 사실로 적을 수는 없다.",
       "resultFlag": "MATRYONA_STREET_STALL_1847_STAGE_3_RESULT_3",
       "followupTitleKo": "비 그친 뒤의 좌판 자리",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "옆 상인에게 본 것을 물었다. 단서는 얻을 수 있어도 전해 들은 말을 사실로 적을 수는 없다.",
         "relations": {

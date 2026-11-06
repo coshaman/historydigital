@@ -25,7 +25,6 @@
       "resultKo": "늦어질 시각을 알려 기다리는 사람이 헛걸음하지 않게 했다. 다른 짐의 약속은 다시 맞춰야 한다.",
       "resultFlag": "ROMAN_ROUTE_PRIORITY_1847_2_1",
       "followupTitleKo": "길이 막힌 곳과 새 도착 시각",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "늦어질 시각을 알려 기다리는 사람이 헛걸음하지 않게 했다. 다른 짐의 약속은 다시 맞춰야 한다.",
         "relations": {
@@ -48,7 +47,6 @@
       "resultKo": "넓은 길로 돌았다. 마차는 덜 흔들렸지만 약속한 시각을 맞추지는 못했다.",
       "resultFlag": "ROMAN_ROUTE_PRIORITY_1847_2_2",
       "followupTitleKo": "길이 막힌 곳과 새 도착 시각",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "넓은 길로 돌았다. 마차는 덜 흔들렸지만 약속한 시각을 맞추지는 못했다.",
         "relations": {
@@ -71,7 +69,6 @@
       "resultKo": "가까운 사람과 짐을 나눠 들었다. 이동은 빨라졌고 인계한 물건을 다시 확인해야 한다.",
       "resultFlag": "ROMAN_ROUTE_PRIORITY_1847_2_3",
       "followupTitleKo": "길이 막힌 곳과 새 도착 시각",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "가까운 사람과 짐을 나눠 들었다. 이동은 빨라졌고 인계한 물건을 다시 확인해야 한다.",
         "relations": {

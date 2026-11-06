@@ -2388,6 +2388,20 @@
               "value": true
             }
           ]
+        },
+        {
+          "id": 1157,
+          "name": "번호가 맞지 않는 접수 표지",
+          "type": "quest-object",
+          "x": 208,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            { "name": "questId", "type": "string", "value": "V37_MISSING_RECORD_1847" },
+            { "name": "requiresLivingEventId", "type": "string", "value": "E20" }
+          ]
         }
       ]
     },

@@ -1,0 +1,69 @@
+{
+  "id": "V37_SALON_DEBATE_1847",
+  "titleKo": "서평을 두고 나눈 말",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "requiresLivingEventId": "E21",
+  "sourceIds": ["LIT-BELINSKY-GOGOL-REVIEW-1847"],
+  "premiseKo": "소피아가 서평의 한 대목을 짚는다. “서로 다른 쪽을 보고 있다면, 어느 쪽이 틀렸다고만 할 수 있을까요?”",
+  "historicalOutcome": {
+    "id": "V37_E21_FICTIONAL_READER_DISCUSSION",
+    "value": "fictional readers' interpretations and relationships only",
+    "sourceIds": ["LIT-BELINSKY-GOGOL-REVIEW-1847"]
+  },
+  "entry": { "mapId": "bookshop-interior", "objectId": 4014, "requiredHostId": "reader_darya" },
+  "actions": [
+    {
+      "id": "E21_DEFEND_EUROPEAN_METHOD",
+      "hostIds": ["reader_darya"],
+      "requiresLivingEventActorKey": "readerHostId",
+      "requiredLivingEventStage": "DEBATE_READY",
+      "requiredPresentHostIds": ["student_vasily", "editor_sofia"],
+      "requiredParticipantDistance": 5,
+      "durationMinutes": 5,
+      "labelKo": "유럽의 경험도 살펴야 한다고 말한다",
+      "subcopyKo": "바실리와 소피아가 듣습니다 · 개인 독서 메모에 남습니다 · 서평은 책방에 둡니다",
+      "resultKo": "다리야는 다른 나라의 경험을 살피면 러시아의 문제도 더 잘 보일 수 있다고 했다. 바실리는 무엇을 들여올지 고르는 기준부터 물었다.",
+      "resultFlag": "salon_debate_considered_european_experience",
+      "effects": {
+        "relations": { "student_vasily": "유럽의 경험을 비교해 보자고 제안한 독자", "editor_sofia": "논쟁의 근거를 차분히 나눈 독자" },
+        "situationKo": "유럽의 사례를 살피자는 의견을 독서 메모에 남겼다."
+      }
+    },
+    {
+      "id": "E21_DEFEND_RUSSIAN_INSTITUTIONS",
+      "hostIds": ["student_vasily"],
+      "requiresLivingEventActorKey": "studentHostId",
+      "requiredLivingEventStage": "DEBATE_READY",
+      "requiredPresentHostIds": ["reader_darya", "editor_sofia"],
+      "requiredParticipantDistance": 5,
+      "durationMinutes": 5,
+      "labelKo": "러시아의 제도와 생활부터 보자고 말한다",
+      "subcopyKo": "다리야와 소피아가 듣습니다 · 개인 독서 메모에 남습니다 · 서평은 책방에 둡니다",
+      "resultKo": "바실리는 남의 제도를 먼저 본뜨면 여기 사는 사람의 형편을 놓칠 수 있다고 했다. 다리야는 익숙한 제도도 누구에게 편한지 물어야 한다고 답했다.",
+      "resultFlag": "salon_debate_considered_local_institutions",
+      "effects": {
+        "relations": { "reader_darya": "러시아의 생활을 기준으로 제도를 따진 독자", "editor_sofia": "구체적인 기준을 들어 말한 독자" },
+        "situationKo": "러시아의 제도와 생활을 먼저 살피자는 의견을 독서 메모에 남겼다."
+      }
+    },
+    {
+      "id": "E21_TEST_BOTH_SIDES",
+      "hostIds": ["editor_sofia"],
+      "requiresLivingEventActorKey": "editorHostId",
+      "requiredLivingEventStage": "DEBATE_READY",
+      "requiredPresentHostIds": ["reader_darya", "student_vasily"],
+      "requiredParticipantDistance": 5,
+      "durationMinutes": 5,
+      "labelKo": "양쪽 주장에 같은 질문을 던지자고 한다",
+      "subcopyKo": "다리야와 바실리가 듣습니다 · 개인 독서 메모에 남습니다 · 서평은 책방에 둡니다",
+      "resultKo": "소피아는 어느 쪽 말이든 실제로 누구의 삶을 바꾸는지 물어보자고 했다. 두 사람은 자기 주장을 다시 풀어 설명했다.",
+      "resultFlag": "salon_debate_tested_both_positions",
+      "effects": {
+        "relations": { "reader_darya": "양쪽 주장에 같은 질문을 던진 편집자", "student_vasily": "주장의 결과를 함께 따져 본 편집자" },
+        "situationKo": "두 입장 모두 생활에서 어떤 결과를 낳는지 묻기로 했다."
+      }
+    }
+  ],
+  "completion": "three fictional readers discuss a verified public review; their choices do not alter historical events"
+}

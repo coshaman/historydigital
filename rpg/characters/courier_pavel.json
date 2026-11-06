@@ -90,9 +90,9 @@
     "formal": "수취인과 관청 앞에서는 주소와 전달 시각을 분명히 말한다"
   },
   "voiceSamples": [
-    "길은 열려 있어요. 봉인은 그대로고.",
-    "받는 사람 이름만 다시 불러줘요.",
-    "내용은 몰라요. 내가 맡은 건 도착까지예요."
+    "서쪽 길로 돌아왔어요. 봉인은 그대로고, 배달은 끝났습니다.",
+    "방값부터 알려줘요. 내일 아침엔 다시 나가야 해서요.",
+    "내용은 몰라요. 내가 맡은 건 여기까지예요."
   ],
   "lexicon": [
     "골목",
@@ -127,7 +127,9 @@
     "courtyard",
     "police-station",
     "inn-interior",
-    "market-quay"
+    "market-quay",
+    "communal-room",
+    "workyard"
   ],
   "start": {
     "mapId": "nevsky",
@@ -190,7 +192,9 @@
         "id": "PAVEL_DELIVER_SEALED_ENVELOPE_01",
         "type": "DELIVER",
         "recipientHostId": "printer_ekaterina",
-        "itemKo": "밀봉 봉투"
+        "itemKo": "밀봉 봉투",
+        "deadlineMinute": 660,
+        "missedDeadlineEventId": "E05"
       }
     },
     {
@@ -359,5 +363,36 @@
     "deterministicSeed": 1803951573
   },
   "plannerPolicyStatus": "FICTIONAL_GAMEPLAY_BALANCE",
-  "plannerPolicyBasisKo": "파벨 안토노프의 경계심·생계 우선도·관계 필요를 반영한 결정론적 게임 성향."
+  "plannerPolicyBasisKo": "파벨 안토노프의 경계심·생계 우선도·관계 필요를 반영한 결정론적 게임 성향.",
+  "residence": {
+    "kind": "TENEMENT_ROOM",
+    "homeLocation": {
+      "mapId": "courtyard",
+      "position": {
+        "x": 8,
+        "y": 7
+      }
+    },
+    "sleepLocation": {
+      "mapId": "courtyard",
+      "position": {
+        "x": 8,
+        "y": 7
+      }
+    },
+    "sleepMinute": 1050,
+    "unitLabelKo": "허구의 공동주택 셋방",
+    "status": "FICTIONAL_CHARACTER_DESIGN",
+    "valueStatus": "FICTIONAL_GAMEPLAY_DESIGN",
+    "designBasisKo": "역사적 주소나 실제 동거 관계가 아닌 허구 생활 시뮬레이션용 거처. 지도 타일은 게임 내 귀가·취침 동선의 목적지다."
+  },
+  "kinshipRelations": [
+    {
+      "targetHostId": "porter_gavrila",
+      "kind": "OTHER_KIN",
+      "relationshipKo": "가브릴라는 내 외삼촌다. 운송 노동의 경험을 나누는 허구 외삼촌과 조카 (게임용 허구 설정).",
+      "status": "FICTIONAL_CHARACTER_DESIGN",
+      "graphEdgeId": "KIN-PAVEL-GAVRILA"
+    }
+  ]
 }

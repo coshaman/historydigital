@@ -25,7 +25,6 @@
       "resultKo": "상한 부분을 먼저 골라냈다. 얼마를 팔 수 있는지 확인한 뒤 값을 정하기로 했다.",
       "resultFlag": "NADEZHDA_STALL_WEATHER_1847_1_1",
       "followupTitleKo": "젖은 채소와 오늘의 값",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "상한 부분을 먼저 골라냈다. 얼마를 팔 수 있는지 확인한 뒤 값을 정하기로 했다.",
         "relations": {
@@ -47,7 +46,6 @@
       "resultKo": "값을 낮춰 바구니를 비웠다. 물건은 덜 남았지만 평소 값을 믿고 온 손님에게 설명해야 한다.",
       "resultFlag": "NADEZHDA_STALL_WEATHER_1847_1_2",
       "followupTitleKo": "젖은 채소와 오늘의 값",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "값을 낮춰 바구니를 비웠다. 물건은 덜 남았지만 평소 값을 믿고 온 손님에게 설명해야 한다.",
         "relations": {
@@ -69,7 +67,6 @@
       "resultKo": "덮개를 나눠 쓰기로 했다. 판매는 늦어져도 물건을 급히 헐값에 내놓지는 않았다.",
       "resultFlag": "NADEZHDA_STALL_WEATHER_1847_1_3",
       "followupTitleKo": "젖은 채소와 오늘의 값",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "덮개를 나눠 쓰기로 했다. 판매는 늦어져도 물건을 급히 헐값에 내놓지는 않았다.",
         "relations": {

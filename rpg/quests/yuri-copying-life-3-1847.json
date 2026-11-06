@@ -26,7 +26,6 @@
       "resultKo": "원본과 두 사본을 맞춰 보기로 했다. 차이는 찾을 수 있지만 결재가 늦어진다.",
       "resultFlag": "YURI_COPYING_LEDGER_1847_STAGE_3_RESULT_1",
       "followupTitleKo": "읽히는 사본과 빠진 줄",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "원본과 두 사본을 맞춰 보기로 했다. 차이는 찾을 수 있지만 결재가 늦어진다.",
         "relations": {
@@ -49,7 +48,6 @@
       "resultKo": "차이를 보충 쪽지로 붙였다. 본문은 그대로 두었지만 쪽지를 함께 보아야 한다.",
       "resultFlag": "YURI_COPYING_LEDGER_1847_STAGE_3_RESULT_2",
       "followupTitleKo": "읽히는 사본과 빠진 줄",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "차이를 보충 쪽지로 붙였다. 본문은 그대로 두었지만 쪽지를 함께 보아야 한다.",
         "relations": {
@@ -72,7 +70,6 @@
       "resultKo": "서명을 받고 한 사본을 기준으로 삼았다. 기준은 정해졌지만 서명한 사람이 책임을 진다.",
       "resultFlag": "YURI_COPYING_LEDGER_1847_STAGE_3_RESULT_3",
       "followupTitleKo": "읽히는 사본과 빠진 줄",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "서명을 받고 한 사본을 기준으로 삼았다. 기준은 정해졌지만 서명한 사람이 책임을 진다.",
         "relations": {

@@ -25,7 +25,6 @@
       "resultKo": "필요한 물품과 실제 비용만 적었다. 치료 효과를 장담하거나 쓸데없는 물건을 더하진 않았다.",
       "resultFlag": "actualCosts",
       "followupTitleKo": "약품과 교통비 내역",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "필요한 물품과 실제 비용만 적었다. 치료 효과를 장담하거나 쓸데없는 물건을 더하진 않았다.",
         "relations": {
@@ -47,7 +46,6 @@
       "resultKo": "각 집에 감당할 수 있는 몫을 따로 물었다. 사정은 지키지만 기준을 설명하기 어려울 수 있다.",
       "resultFlag": "meansTest",
       "followupTitleKo": "약품과 교통비 내역",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "각 집에 감당할 수 있는 몫을 따로 물었다. 사정은 지키지만 기준을 설명하기 어려울 수 있다.",
         "relations": {
@@ -69,7 +67,6 @@
       "resultKo": "비용을 반씩 나눴다. 기준은 간단하지만 같은 액수가 모두에게 같은 부담은 아니다.",
       "resultFlag": "equalSplit",
       "followupTitleKo": "약품과 교통비 내역",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "비용을 반씩 나눴다. 기준은 간단하지만 같은 액수가 모두에게 같은 부담은 아니다.",
         "relations": {

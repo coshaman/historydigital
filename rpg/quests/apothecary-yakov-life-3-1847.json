@@ -26,7 +26,6 @@
       "resultKo": "외상 금액과 날짜를 적었다. 약은 건넸지만 개인 사정도 기록에 남는다.",
       "resultFlag": "YAKOV_REMEDY_LIMITS_1847_STAGE_3_RESULT_1",
       "followupTitleKo": "약재의 이름과 모르는 효능",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "외상 금액과 날짜를 적었다. 약은 건넸지만 개인 사정도 기록에 남는다.",
         "relations": {
@@ -49,7 +48,6 @@
       "resultKo": "이름 대신 합계만 기록했다. 사정은 덜 드러나지만 셈을 맞추기 어렵다.",
       "resultFlag": "YAKOV_REMEDY_LIMITS_1847_STAGE_3_RESULT_2",
       "followupTitleKo": "약재의 이름과 모르는 효능",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "이름 대신 합계만 기록했다. 사정은 덜 드러나지만 셈을 맞추기 어렵다.",
         "relations": {
@@ -72,7 +70,6 @@
       "resultKo": "외상 대신 값을 조정했다. 손님은 빚지지 않았지만 약방 몫은 줄었다.",
       "resultFlag": "YAKOV_REMEDY_LIMITS_1847_STAGE_3_RESULT_3",
       "followupTitleKo": "약재의 이름과 모르는 효능",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "외상 대신 값을 조정했다. 손님은 빚지지 않았지만 약방 몫은 줄었다.",
         "relations": {

@@ -57,10 +57,44 @@ export function purchaseCityProduct(state, { hostId, productId } = {}) {
   if (state.player.civic?.custody?.active) return { ok: false, reason: 'custody_active', state };
   if (!Number.isFinite(host.money?.amount)) return { ok: false, reason: 'money_not_established', state };
   if (host.money.amount < product.priceKopeks) return { ok: false, reason: 'insufficient_funds', state };
+  const bookseller = state.hosts.bookseller_lev;
+  if (product.kind === 'periodical' && (hostId === 'bookseller_lev' || state.world.currentMapId !== 'nevsky'
+    || host.mapId !== 'nevsky' || !bookseller || bookseller.mapId !== 'nevsky'
+    || !Number.isFinite(bookseller.money?.amount) || bookseller.money.unit !== 'kopeks'
+    || Math.abs(host.position.x - bookseller.position.x) + Math.abs(host.position.y - bookseller.position.y) > 3)) {
+    return { ok: false, reason: 'periodical_counter_unavailable', state };
+  }
+  if (product.kind === 'periodical' && !bookseller.inventory?.includes(product.id)) return { ok: false, reason: 'periodical_out_of_stock', state };
   const next = clone(state);
   next.hosts[hostId].money.amount -= product.priceKopeks;
   next.hosts[hostId].inventory.push(product.id);
+  if (product.kind === 'periodical') {
+    const seller = next.hosts.bookseller_lev;
+    seller.inventory.splice(seller.inventory.indexOf(product.id), 1);
+    seller.money.amount += product.priceKopeks;
+    next.world.livingEventStates ??= {};
+    if (product.id === 'newspaper_1847_01' && !next.world.livingEventStates.E22) {
+      const scenePosition = { ...host.position };
+      const witnessHostIds = Object.values(next.hosts).filter(person => ![host.id, seller.id].includes(person.id)
+        && person.historicalAliveAndPresent !== false && person.mapId === 'nevsky'
+        && Math.abs(person.position.x - scenePosition.x) + Math.abs(person.position.y - scenePosition.y) <= 4)
+        .map(person => person.id).sort();
+      next.world.livingEventStates.E22 = { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E22',
+        status: 'ACTIVE', stage: 'ISSUE_SOLD', trigger: 'verified_1847_periodical_copy_sold_at_nevsky_counter',
+        occurrenceType: 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION', validationStatus: 'DESIGN_SEED_NOT_VERIFIED',
+        valueStatus: 'fictional_gameplay_balance', sourceId: product.sourceId, sourceKind: 'PRIMARY_BIBLIOGRAPHIC_RECORD',
+        sourceUrl: 'https://rusneb.ru/catalog/000199_000009_007828983/', issueId: product.id,
+        issueTitleKo: product.titleKo, sellerHostId: seller.id, buyerHostId: host.id,
+        actorHostIds: [seller.id, host.id], witnessHostIds: witnessHostIds,
+        scenePosition, startedAtMinute: state.world.clockMinutes, autoResolveAtMinute: state.world.clockMinutes + 60,
+        paidAmount: product.priceKopeks, currency: 'kopeks', resolutionActionId: null };
+    }
+  }
   record(next, 'CITY_PURCHASE', hostId, { productId, priceKopeks: product.priceKopeks });
+  if (product.kind === 'periodical') record(next, 'NEWSPAPER_ISSUE_SOLD', 'bookseller_lev', {
+    catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E22', buyerHostId: hostId,
+    issueId: product.id, sourceId: product.sourceId, priceKopeks: product.priceKopeks,
+    valueStatus: 'fictional_gameplay_balance' });
   return { ok: true, state: next, product };
 }
 

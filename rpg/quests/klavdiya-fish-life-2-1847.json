@@ -26,7 +26,6 @@
       "resultKo": "손질할 부분과 남는 양을 설명했다. 값은 낮췄지만 손님이 원하지 않을 수 있다.",
       "resultFlag": "KLAVDIYA_FISH_STORAGE_1847_STAGE_2_RESULT_1",
       "followupTitleKo": "상하기 전의 생선값",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "손질할 부분과 남는 양을 설명했다. 값은 낮췄지만 손님이 원하지 않을 수 있다.",
         "relations": {
@@ -49,7 +48,6 @@
       "resultKo": "손님이 직접 손질하기로 했다. 값은 낮아졌지만 버릴 양도 손님이 감당한다.",
       "resultFlag": "KLAVDIYA_FISH_STORAGE_1847_STAGE_2_RESULT_2",
       "followupTitleKo": "상하기 전의 생선값",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "손님이 직접 손질하기로 했다. 값은 낮아졌지만 버릴 양도 손님이 감당한다.",
         "relations": {
@@ -72,7 +70,6 @@
       "resultKo": "팔기 어려운 생선을 공동 식사에 보탰다. 버리는 양은 줄었지만 판매 대금은 없다.",
       "resultFlag": "KLAVDIYA_FISH_STORAGE_1847_STAGE_2_RESULT_3",
       "followupTitleKo": "상하기 전의 생선값",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "팔기 어려운 생선을 공동 식사에 보탰다. 버리는 양은 줄었지만 판매 대금은 없다.",
         "relations": {

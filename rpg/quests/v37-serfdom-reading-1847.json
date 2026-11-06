@@ -1,0 +1,72 @@
+{
+  "id": "V37_SERFDOM_READING_1847",
+  "titleKo": "「러시아 지주」를 읽다",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "requiresLivingEventId": "E31",
+  "sourceIds": ["LIT-GOGOL-RUSSIAN-LANDLORD-1847"],
+  "premiseKo": "다리야가 책을 덮지 않고 묻는다. “주인이 선하게 대하면, 이 관계도 정당해지는 걸까요?”",
+  "historicalOutcome": {
+    "id": "V37_E31_FICTIONAL_READING_OUTCOME",
+    "value": "fictional readers' interpretations and relationships only",
+    "sourceIds": ["LIT-GOGOL-RUSSIAN-LANDLORD-1847"]
+  },
+  "entry": { "mapId": "bookshop-interior", "objectId": 4011, "requiredHostId": "reader_darya" },
+  "actions": [
+    {
+      "id": "E31_DEFEND_PATERNAL_DUTY",
+      "hostIds": ["reader_darya"],
+      "requiredLivingEventStage": "DISCUSSION_READY",
+      "requiredLivingEventActorKey": "readerHostId",
+      "requiredPresentHostIds": ["student_vasily", "editor_sofia"],
+      "requiredParticipantDistance": 5,
+      "requiredKnowledgeId": "LIT-GOGOL-RUSSIAN-LANDLORD-1847",
+      "durationMinutes": 5,
+      "labelKo": "주인의 책임을 먼저 따져 보자고 말한다",
+      "subcopyKo": "바실리와 소피아가 듣습니다 · 셋의 독서 메모에 남습니다 · 책방 밖으로 옮기지는 않습니다",
+      "resultKo": "다리야는 주인의 의무를 먼저 따져야 한다고 했다. 바실리는 의무를 다해도 농민이 복종해야 한다는 문장은 남는다고 답했다.",
+      "resultFlag": "serfdom_reading_weighted_landlord_duty",
+      "effects": {
+        "relations": { "student_vasily": "주인의 의무와 농민의 처지를 함께 따진 독자", "editor_sofia": "책의 주장을 차분히 짚은 독자" },
+        "situationKo": "주인의 의무를 중심으로 읽은 의견을 독서 메모에 남겼다."
+      }
+    },
+    {
+      "id": "E31_CHALLENGE_OBEDIENCE",
+      "hostIds": ["student_vasily"],
+      "requiredLivingEventStage": "DISCUSSION_READY",
+      "requiredLivingEventActorKey": "studentHostId",
+      "requiredPresentHostIds": ["reader_darya", "editor_sofia"],
+      "requiredParticipantDistance": 5,
+      "requiredKnowledgeId": "LIT-GOGOL-RUSSIAN-LANDLORD-1847",
+      "durationMinutes": 5,
+      "labelKo": "선한 대우와 복종을 한 문장에 묶을 수 없다고 말한다",
+      "subcopyKo": "다리야와 소피아가 듣습니다 · 셋의 독서 메모에 남습니다 · 책방 밖으로 옮기지는 않습니다",
+      "resultKo": "바실리는 잘해 주겠다는 약속이 복종을 요구할 권리까지 만들지는 않는다고 했다. 소피아는 그 대목에 표시를 해 두었다.",
+      "resultFlag": "serfdom_reading_questioned_obedience",
+      "effects": {
+        "relations": { "reader_darya": "대우와 권리를 나누어 물은 독자", "editor_sofia": "책의 전제를 짚어 준 독자" },
+        "situationKo": "선한 대우와 복종을 구분한 의견을 독서 메모에 남겼다."
+      }
+    },
+    {
+      "id": "E31_ASK_ABOUT_PEASANT_VOICE",
+      "hostIds": ["editor_sofia"],
+      "requiredLivingEventStage": "DISCUSSION_READY",
+      "requiredLivingEventActorKey": "editorHostId",
+      "requiredPresentHostIds": ["reader_darya", "student_vasily"],
+      "requiredParticipantDistance": 5,
+      "requiredKnowledgeId": "LIT-GOGOL-RUSSIAN-LANDLORD-1847",
+      "durationMinutes": 5,
+      "labelKo": "이 글에서 농민은 어디서 자기 말을 하나 묻는다",
+      "subcopyKo": "다리야와 바실리가 듣습니다 · 셋의 독서 메모에 남습니다 · 책방 밖으로 옮기지는 않습니다",
+      "resultKo": "소피아는 글 속 농민이 주인의 설명을 듣기만 한다는 점을 짚었다. 다리야는 읽지 못한 사람의 목소리를 책 한 권이 대신할 수 없다고 했다.",
+      "resultFlag": "serfdom_reading_asked_for_peasant_voice",
+      "effects": {
+        "relations": { "reader_darya": "글 속에서 빠진 목소리를 짚은 편집자", "student_vasily": "농민의 발언 자리를 물은 편집자" },
+        "situationKo": "글에 등장하지 않는 농민의 목소리를 질문으로 남겼다."
+      }
+    }
+  ],
+  "completion": "three readers discuss Gogol's published argument; their private interpretation does not alter historical events"
+}

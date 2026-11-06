@@ -25,7 +25,6 @@
       "resultKo": "비를 맞은 상태를 알리고 값을 낮췄다. 손님은 사정을 알고 고를 수 있고, 판매 수입은 줄어든다.",
       "resultFlag": "nadezhdaDiscount",
       "followupTitleKo": "비 맞은 채소",
-      "followupKo": "이 선택은 이 허구 인물의 오늘과 이웃과의 관계에만 남는다.",
       "effects": {
         "situationKo": "젖은 채소의 상태를 알리고 가격을 낮췄다.",
         "relations": {
@@ -47,7 +46,6 @@
       "resultKo": "상태를 알리되 값을 유지했다. 손님은 고를 수 있지만, 팔리지 않은 채소는 더 상할 수 있다.",
       "resultFlag": "nadezhdaFullPrice",
       "followupTitleKo": "비 맞은 채소",
-      "followupKo": "이 선택은 이 허구 인물의 오늘과 이웃과의 관계에만 남는다.",
       "effects": {
         "situationKo": "젖은 채소 상태를 공개하고 값을 유지했다.",
         "relations": {
@@ -69,7 +67,6 @@
       "resultKo": "상한 것만 골라냈다. 팔 수 있는 채소는 남았지만 골라낸 몫의 손해는 판매상이 감당한다.",
       "resultFlag": "nadezhdaSorted",
       "followupTitleKo": "비 맞은 채소",
-      "followupKo": "이 선택은 이 허구 인물의 오늘과 이웃과의 관계에만 남는다.",
       "effects": {
         "situationKo": "상한 채소를 골라내고 판매 가능한 것만 남겼다.",
         "relations": {

@@ -25,7 +25,6 @@
       "resultKo": "찢어진 장과 발견 시각을 기록했다. 책임을 정하진 않았지만 책은 추가 확인 전까지 전달되지 않는다.",
       "resultFlag": "elizavetaRecorded",
       "followupTitleKo": "찢어진 장과 누구의 책임",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "손상 부위와 발견 시각을 인수표에 남겼다.",
         "relations": {
@@ -43,7 +42,6 @@
       "resultKo": "수리 비용을 자기 품삯에서 먼저 빼기로 했다. 책은 고칠 수 있지만 손상 원인은 확인되지 않았다.",
       "resultFlag": "elizavetaDeducted",
       "followupTitleKo": "찢어진 장과 누구의 책임",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "원인 확인 전 수리비를 품삯에서 뺐다.",
         "relations": {
@@ -61,7 +59,6 @@
       "resultKo": "작업자들과 손상 시점을 확인하기로 했다. 책임을 나눠 살필 수 있지만 전달이 늦어진다.",
       "resultFlag": "elizavetaChecked",
       "followupTitleKo": "찢어진 장과 누구의 책임",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "인쇄소와 운반인에게 손상 시점을 확인하기로 했다.",
         "relations": {

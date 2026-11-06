@@ -25,7 +25,6 @@
       "resultKo": "급한 외투의 찢어진 곳부터 재고 치수를 적었다. 새 천을 사기 전 필요한 양을 알 수 있다.",
       "resultFlag": "urgentMeasured",
       "followupTitleKo": "수선 주문과 치수 메모",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "급한 외투의 찢어진 곳부터 재고 치수를 적었다. 새 천을 사기 전 필요한 양을 알 수 있다.",
         "relations": {
@@ -47,7 +46,6 @@
       "resultKo": "두 손님에게 가능한 시각을 따로 말했다. 약속을 낮춰 잡았지만 작업 순서는 분명해졌다.",
       "resultFlag": "bothNotified",
       "followupTitleKo": "수선 주문과 치수 메모",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "두 손님에게 가능한 시각을 따로 말했다. 약속을 낮춰 잡았지만 작업 순서는 분명해졌다.",
         "relations": {
@@ -69,7 +67,6 @@
       "resultKo": "선금을 받은 주문부터 시작했다. 일한 값은 보장되지만 급한 사정은 뒤로 밀렸다.",
       "resultFlag": "depositFirst",
       "followupTitleKo": "수선 주문과 치수 메모",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "선금을 받은 주문부터 시작했다. 일한 값은 보장되지만 급한 사정은 뒤로 밀렸다.",
         "relations": {

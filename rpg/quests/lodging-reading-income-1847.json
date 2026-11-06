@@ -25,7 +25,6 @@
       "resultKo": "하루의 일부를 읽는 데 쓰기로 했다. 책은 읽지만 주문이 늦어질 가능성이 있다.",
       "resultFlag": "tatyanaScheduled",
       "followupTitleKo": "책 읽는 시간과 재봉 품삯",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "책 읽는 시간과 재봉 시간을 나눠 적었다.",
         "relations": {
@@ -43,7 +42,6 @@
       "resultKo": "책을 돌려주고 품삯 일을 먼저 끝냈다. 납기는 지킬 수 있지만 읽기는 멈췄다.",
       "resultFlag": "tatyanaReturned",
       "followupTitleKo": "책 읽는 시간과 재봉 품삯",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "빌린 책을 반납하고 재봉 일을 마치기로 했다.",
         "relations": {
@@ -61,7 +59,6 @@
       "resultKo": "읽기와 납기 시간을 함께 조정해 달라고 물었다. 서로 도울 수 있지만 답은 보장되지 않는다.",
       "resultFlag": "tatyanaAsked",
       "followupTitleKo": "책 읽는 시간과 재봉 품삯",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "독서 모임과 주문자에게 일정 조정을 요청했다.",
         "relations": {

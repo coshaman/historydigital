@@ -25,7 +25,6 @@
       "resultKo": "다음 방문과 남은 비용을 따로 적었다. 다시 확인하기 쉽지만 기록을 안전하게 보관해야 한다.",
       "resultFlag": "nextVisit",
       "followupTitleKo": "다음 방문과 미납 기록",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "다음 방문과 남은 비용을 따로 적었다. 다시 확인하기 쉽지만 기록을 안전하게 보관해야 한다.",
         "relations": {
@@ -47,7 +46,6 @@
       "resultKo": "함께 쓰는 물품을 마련하기로 했다. 부담을 나눌 수 있지만 재고가 모자라면 기다려야 한다.",
       "resultFlag": "sharedSupplies",
       "followupTitleKo": "다음 방문과 미납 기록",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "함께 쓰는 물품을 마련하기로 했다. 부담을 나눌 수 있지만 재고가 모자라면 기다려야 한다.",
         "relations": {
@@ -69,7 +67,6 @@
       "resultKo": "미납은 다음 방문 때 다시 확인하기로 했다. 도움은 이어지지만 당장은 조산원이 비용을 부담한다.",
       "resultFlag": "deferFee",
       "followupTitleKo": "다음 방문과 미납 기록",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "미납은 다음 방문 때 다시 확인하기로 했다. 도움은 이어지지만 당장은 조산원이 비용을 부담한다.",
         "relations": {

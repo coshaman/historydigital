@@ -26,7 +26,6 @@
       "resultKo": "이름은 옮기지 않고 수량만 적었다. 사생활은 덜 드러나지만 원본 대조가 제한된다.",
       "resultFlag": "YURI_COPYING_LEDGER_1847_STAGE_2_RESULT_1",
       "followupTitleKo": "읽히는 사본과 빠진 줄",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "이름은 옮기지 않고 수량만 적었다. 사생활은 덜 드러나지만 원본 대조가 제한된다.",
         "relations": {
@@ -49,7 +48,6 @@
       "resultKo": "누가 읽는지 적고 사본을 돌렸다. 책임은 확인되지만 열람자 명단도 남는다.",
       "resultFlag": "YURI_COPYING_LEDGER_1847_STAGE_2_RESULT_2",
       "followupTitleKo": "읽히는 사본과 빠진 줄",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "누가 읽는지 적고 사본을 돌렸다. 책임은 확인되지만 열람자 명단도 남는다.",
         "relations": {
@@ -72,7 +70,6 @@
       "resultKo": "원본은 필요한 사람에게만 보였다. 범위는 좁혔지만 독립된 대조가 어렵다.",
       "resultFlag": "YURI_COPYING_LEDGER_1847_STAGE_2_RESULT_3",
       "followupTitleKo": "읽히는 사본과 빠진 줄",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "원본은 필요한 사람에게만 보였다. 범위는 좁혔지만 독립된 대조가 어렵다.",
         "relations": {

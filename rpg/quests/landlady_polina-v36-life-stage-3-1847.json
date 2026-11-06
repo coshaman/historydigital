@@ -30,7 +30,6 @@
       "resultKo": "둘이 날짜를 다시 정했다. 다른 세입자의 장부에는 이름이나 사정을 적지 않았다.",
       "resultFlag": "POLINA_RENT_AND_REPAIRS_1847_STAGE_3_RESULT_1",
       "followupTitleKo": "밀린 집세를 어떻게 남길까",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "둘이 날짜를 다시 정했다. 다른 세입자의 장부에는 이름이나 사정을 적지 않았다.",
         "relations": {
@@ -58,7 +57,6 @@
       "resultKo": "금액과 날짜만 장부에 적었다. 사정은 확인되지 않아 덧붙이지 않았다.",
       "resultFlag": "POLINA_RENT_AND_REPAIRS_1847_STAGE_3_RESULT_2",
       "followupTitleKo": "밀린 집세를 어떻게 남길까",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "금액과 날짜만 장부에 적었다. 사정은 확인되지 않아 덧붙이지 않았다.",
         "relations": {
@@ -86,7 +84,6 @@
       "resultKo": "당장 가능한 지출만 남겼다. 불편이 생긴 구역과 미룬 수리 항목을 함께 알렸다.",
       "resultFlag": "POLINA_RENT_AND_REPAIRS_1847_STAGE_3_RESULT_3",
       "followupTitleKo": "밀린 집세를 어떻게 남길까",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "당장 가능한 지출만 남겼다. 불편이 생긴 구역과 미룬 수리 항목을 함께 알렸다.",
         "relations": {

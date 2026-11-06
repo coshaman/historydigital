@@ -25,7 +25,6 @@
       "resultKo": "바뀐 줄을 함께 확인했다. 수정은 맞췄지만 다른 오자는 남을 수 있다.",
       "resultFlag": "NIKITA_TYPESPEED_1847_STAGE_1_RESULT_1",
       "followupTitleKo": "빠른 인쇄와 남은 교정",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "바뀐 줄을 함께 확인했다. 수정은 맞췄지만 다른 오자는 남을 수 있다.",
         "relations": {
@@ -48,7 +47,6 @@
       "resultKo": "전체 면을 다시 읽기로 했다. 오류를 찾을 수 있지만 신문은 늦게 나간다.",
       "resultFlag": "NIKITA_TYPESPEED_1847_STAGE_1_RESULT_2",
       "followupTitleKo": "빠른 인쇄와 남은 교정",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "전체 면을 다시 읽기로 했다. 오류를 찾을 수 있지만 신문은 늦게 나간다.",
         "relations": {
@@ -71,7 +69,6 @@
       "resultKo": "서명을 받은 뒤 찍기로 했다. 승인 책임은 남지만 기다리는 시간은 필요하다.",
       "resultFlag": "NIKITA_TYPESPEED_1847_STAGE_1_RESULT_3",
       "followupTitleKo": "빠른 인쇄와 남은 교정",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "서명을 받은 뒤 찍기로 했다. 승인 책임은 남지만 기다리는 시간은 필요하다.",
         "relations": {

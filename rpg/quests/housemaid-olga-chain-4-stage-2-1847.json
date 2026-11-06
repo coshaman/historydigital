@@ -25,7 +25,6 @@
       "resultKo": "해당 방 사람에게만 준비 시간을 알렸다. 불안을 넓히진 않았지만 다른 사람은 모른다.",
       "resultFlag": "privateNotice",
       "followupTitleKo": "대비할 사람과 물건",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "해당 방 사람에게만 준비 시간을 알렸다. 불안을 넓히진 않았지만 다른 사람은 모른다.",
         "relations": {
@@ -47,7 +46,6 @@
       "resultKo": "공용 물건과 보관 장소를 확인했다. 피난을 단정하지 않아도 필요한 물건은 찾을 수 있다.",
       "resultFlag": "inventoryCheck",
       "followupTitleKo": "대비할 사람과 물건",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "공용 물건과 보관 장소를 확인했다. 피난을 단정하지 않아도 필요한 물건은 찾을 수 있다.",
         "relations": {
@@ -69,7 +67,6 @@
       "resultKo": "확인되지 않았다고 게시했다. 소문과 사실은 나뉘지만 불안한 사람은 더 늘 수 있다.",
       "resultFlag": "uncertaintyPosted",
       "followupTitleKo": "대비할 사람과 물건",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "확인되지 않았다고 게시했다. 소문과 사실은 나뉘지만 불안한 사람은 더 늘 수 있다.",
         "relations": {

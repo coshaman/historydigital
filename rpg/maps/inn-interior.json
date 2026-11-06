@@ -41,7 +41,8 @@
         "courier_pavel",
         "teacher_lyubov",
         "lodging_tatyana",
-        "tenant_mikhail"
+        "tenant_mikhail",
+        "midwife_avdotya"
       ],
       "opensMinute": 360,
       "closesMinute": 1200,
@@ -70,7 +71,7 @@
   "tileheight": 16,
   "infinite": false,
   "nextlayerid": 7,
-  "nextobjectid": 4004,
+  "nextobjectid": 4008,
   "properties": [
     {
       "name": "mapId",
@@ -1934,9 +1935,14 @@
               "value": "fictional_scene_prop"
             },
             {
+              "name": "questId",
+              "type": "string",
+              "value": "V37_SICK_LODGER_1847"
+            },
+            {
               "name": "storyTextKo",
               "type": "string",
-              "value": "사람이 머무는 자리를 표시한 허구의 소품이다. 빈자리와 사용료는 주인에게 확인해야 한다."
+              "value": "사람이 머무는 자리를 표시했다. 빈자리와 사용료는 주인에게 확인해야 한다."
             }
           ]
         },
@@ -1990,7 +1996,7 @@
             {
               "name": "storyTextKo",
               "type": "string",
-              "value": "방세를 적는 게임 속 장부다. 인물별 비용과 날짜는 실제 기록이 아니다."
+              "value": "방세를 적는 장부다. 인물별 비용과 날짜를 확인할 수 있다."
             }
           ]
         },
@@ -2066,6 +2072,56 @@
               "type": "bool",
               "value": true
             }
+          ]
+        },
+        {
+          "id": 4005,
+          "name": "저녁 식사 장부",
+          "type": "quest-object",
+          "x": 192,
+          "y": 208,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "V37_LATE_MEAL_1847"
+            },
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 21
+            }
+          ]
+        },
+        {
+          "id": 4006,
+          "name": "늦게 도착한 손님의 숙박 장부",
+          "type": "quest-object",
+          "x": 160,
+          "y": 160,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            { "name": "questId", "type": "string", "value": "V37_INN_GUEST_1847" },
+            { "name": "requiresLivingEventId", "type": "string", "value": "E17" }
+          ]
+        },
+        {
+          "id": 4007,
+          "name": "장례비 외상 장부",
+          "type": "quest-object",
+          "x": 208,
+          "y": 160,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            { "name": "questId", "type": "string", "value": "V37_FUNERAL_DEBT_REPAYMENT_1847" },
+            { "name": "assetTileId", "type": "int", "value": 21 }
           ]
         }
       ]

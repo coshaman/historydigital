@@ -25,7 +25,6 @@
       "resultKo": "짐을 둘로 나눠 들었다. 늦어졌지만 한 사람에게 무게를 몰아주지는 않았다.",
       "resultFlag": "GAVRILA_LOAD_AND_REST_1847_1_1",
       "followupTitleKo": "들기 전 짐 무게 확인",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "짐을 둘로 나눠 들었다. 늦어졌지만 한 사람에게 무게를 몰아주지는 않았다.",
         "relations": {
@@ -48,7 +47,6 @@
       "resultKo": "무게를 재고 가능한 양만 맡았다. 남은 몫은 그대로지만 누가 얼마나 들었는지는 분명해졌다.",
       "resultFlag": "GAVRILA_LOAD_AND_REST_1847_1_2",
       "followupTitleKo": "들기 전 짐 무게 확인",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "무게를 재고 가능한 양만 맡았다. 남은 몫은 그대로지만 누가 얼마나 들었는지는 분명해졌다.",
         "relations": {
@@ -71,7 +69,6 @@
       "resultKo": "혼자 한 번에 들었다. 오늘 일은 빨리 끝났지만 몸이 더 나빠져도 고용인은 알기 어렵다.",
       "resultFlag": "GAVRILA_LOAD_AND_REST_1847_1_3",
       "followupTitleKo": "들기 전 짐 무게 확인",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "혼자 한 번에 들었다. 오늘 일은 빨리 끝났지만 몸이 더 나빠져도 고용인은 알기 어렵다.",
         "relations": {

@@ -1,0 +1,126 @@
+{
+  "id": "V37_APPRENTICE_LITERACY_1847",
+  "titleKo": "일을 마친 뒤, 활자를 읽다",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-01-01",
+  "requiresLivingEventId": "E19",
+  "premiseKo": "일을 마친 스테판이 류보프에게 활자 읽기를 더 배우고 싶다고 말했다. 수업 시간을 낼 수 있는지 답을 기다린다.",
+  "historicalOutcome": {
+    "id": "V37_APPRENTICE_LITERACY_FICTIONAL_OUTCOME",
+    "value": "fictional after-work reading practice and character skill progression only; no historical school, lesson, or literacy rate is asserted",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "printshop",
+    "objectId": 1175
+  },
+  "actions": [
+    {
+      "id": "E19_ASK_FOR_LESSON",
+      "hostIds": [
+        "print_apprentice_stepan"
+      ],
+      "requiresLivingEventActorKey": "studentHostId",
+      "requiredLivingEventStage": "LESSON_READY",
+      "requiredPresentLivingEventHostKey": "teacherHostId",
+      "requiredParticipantDistance": 4,
+      "durationMinutes": 20,
+      "labelKo": "오늘 배운 글자를 한 줄 더 읽어 달라고 한다",
+      "subcopyKo": "류보프와 곁의 인쇄소 사람이 들을 수 있습니다 · 개인 연습 기록만 남습니다 · 연습지는 가게 밖으로 가져갑니다 · 저녁 시간과 집중력을 써야 합니다",
+      "resultFlag": "v37StepanReadsWithTeacher",
+      "resultKo": "류보프는 스테판이 고른 활자 줄을 천천히 읽게 했다. 연습지는 스테판의 것이 됐다.",
+      "effects": {
+        "situationKo": "스테판은 류보프와 저녁 읽기 연습을 했다. 읽은 내용이 학습 기록에 더해졌다."
+      }
+    },
+    {
+      "id": "E19_OFFER_KOPEK",
+      "hostIds": [
+        "print_apprentice_stepan"
+      ],
+      "requiresLivingEventActorKey": "studentHostId",
+      "requiredLivingEventStage": "LESSON_READY",
+      "requiredPresentLivingEventHostKey": "teacherHostId",
+      "requiredParticipantDistance": 4,
+      "durationMinutes": 20,
+      "labelKo": "1코페이카를 내고 읽기를 배운다",
+      "subcopyKo": "류보프와 곁의 인쇄소 사람이 알게 됩니다 · 수업 장부는 남지 않습니다 · 연습지는 스테판이 가져갑니다 · 스테판이 동전 하나를 내고 저녁 시간을 씁니다",
+      "resultFlag": "v37StepanPaysForReading",
+      "resultKo": "스테판은 동전 하나를 건네고 저녁 읽기 연습을 했다. 류보프는 연습지를 그에게 주었다.",
+      "effects": {
+        "situationKo": "스테판은 읽기 수업을 받고 1코페이카를 건넸다."
+      }
+    },
+    {
+      "id": "E19_TEACH_FREE",
+      "hostIds": [
+        "teacher_lyubov"
+      ],
+      "requiredLivingEventActorKey": "teacherHostId",
+      "requiredLivingEventStage": "LESSON_READY",
+      "requiredPresentLivingEventHostKey": "studentHostId",
+      "requiredParticipantDistance": 4,
+      "durationMinutes": 20,
+      "labelKo": "스테판에게 활자 세 줄을 가르친다",
+      "subcopyKo": "스테판과 곁의 인쇄소 사람이 알게 됩니다 · 공식 기록은 남지 않습니다 · 연습지는 스테판이 가져갑니다 · 류보프의 저녁 시간과 힘을 씁니다",
+      "resultFlag": "v37LyubovTeachesWithoutPay",
+      "resultKo": "류보프는 보수를 받지 않고 글자 세 줄을 짚어 주었다. 스테판은 연습지를 챙겼다.",
+      "effects": {
+        "situationKo": "스테판은 익힌 글자를 다시 읽었다."
+      }
+    },
+    {
+      "id": "E19_REQUEST_KOPEK",
+      "hostIds": [
+        "teacher_lyubov"
+      ],
+      "requiredLivingEventActorKey": "teacherHostId",
+      "requiredLivingEventStage": "LESSON_READY",
+      "requiredPresentLivingEventHostKey": "studentHostId",
+      "requiredParticipantDistance": 4,
+      "durationMinutes": 20,
+      "labelKo": "1코페이카를 받고 읽기를 가르친다",
+      "subcopyKo": "스테판과 곁의 인쇄소 사람이 알게 됩니다 · 공식 기록은 남지 않습니다 · 연습지는 스테판이 가져갑니다 · 스테판이 동전 하나를 내고 류보프는 저녁 시간을 씁니다",
+      "resultFlag": "v37LyubovReceivesLessonPay",
+      "resultKo": "스테판은 수업료로 동전 하나를 내고 읽기를 배웠다. 류보프는 활자 줄을 짚어 주었다.",
+      "effects": {
+        "situationKo": "스테판은 읽기 수업을 받고 1코페이카를 건넸다."
+      }
+    },
+    {
+      "id": "E19_STUDENT_DECLINE",
+      "hostIds": [
+        "print_apprentice_stepan"
+      ],
+      "requiredLivingEventStage": "LESSON_READY",
+      "requiredPresentLivingEventHostKey": "teacherHostId",
+      "requiredParticipantDistance": 4,
+      "durationMinutes": 2,
+      "labelKo": "오늘은 여기서 그만하고 각자 돌아간다",
+      "subcopyKo": "두 사람과 곁의 인쇄소 사람이 압니다 · 수업 기록은 남지 않습니다 · 연습지는 작업대에 둡니다 · 배움은 다음으로 미룹니다",
+      "resultFlag": "v37EveningLessonDeferredByStudent",
+      "resultKo": "두 사람은 연습을 미루고 각자 돌아갔다. 오늘은 동전이나 연습지가 오가지 않았다.",
+      "effects": {
+        "situationKo": "오늘은 연습을 하지 않았다. 배움은 자동으로 늘지 않는다."
+      }
+    },
+    {
+      "id": "E19_TEACHER_POSTPONE",
+      "hostIds": [
+        "teacher_lyubov"
+      ],
+      "requiredLivingEventStage": "LESSON_READY",
+      "requiredPresentLivingEventHostKey": "studentHostId",
+      "requiredParticipantDistance": 4,
+      "durationMinutes": 2,
+      "labelKo": "오늘은 그만하고 다음에 다시 보자고 한다",
+      "subcopyKo": "스테판과 곁의 인쇄소 사람이 압니다 · 수업 기록은 남지 않습니다 · 연습지는 작업대에 남습니다 · 류보프의 저녁 시간은 아낍니다",
+      "resultFlag": "v37EveningLessonDeferredByTeacher",
+      "resultKo": "류보프는 오늘은 여기까지 하자고 했다. 두 사람은 연습지를 작업대에 두고 돌아갔다.",
+      "effects": {
+        "situationKo": "오늘은 연습을 하지 않았다. 배움은 자동으로 늘지 않는다."
+      }
+    }
+  ],
+  "completion": "after the scheduled workday, the teacher and apprentice physically meet at the printshop workbench; a chosen lesson changes their money and the apprentice's saved basic-reading skill, while an unattended missed meeting records no learning"
+}

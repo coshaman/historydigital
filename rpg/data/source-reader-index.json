@@ -2,13 +2,124 @@
   "schemaVersion": "V35_SOURCE_READER_INDEX_V1",
   "translationPolicyKo": "모든 한국어 번역은 이 프로젝트가 러시아어 원문에서 새로 작성했다. 현대 한국어 번역본은 전재하지 않았다.",
   "records": [
-    { "sourceId": "OBJ-SOV-1847", "excerptId": "EX-OBJ-SOV-1847-BIB-001", "layout": "catalog", "textStatus": "DIRECT", "renderingStatus": "RECONSTRUCTED", "publicationDate": "1847", "pageLocator": "권 I · 제1호 · 서지 항목", "contextKo": "1847년 《현대인》 제1호의 서지 자료입니다. 잡지의 발행 정보를 확인하며, 본문이 실린 판면을 보여 주는 자료는 아닙니다.", "rightsNoteKo": "국립전자도서관의 서지 레코드다. 실제 잡지 본문이나 스캔 페이지가 아니다." },
-    { "sourceId": "LIT-TURGENEV-KHOR-KALYNYCH-1847", "excerptId": "EX-TURGENEV-KHOR-1847-OPENING-001", "layout": "book", "textStatus": "DIRECT", "renderingStatus": "RECONSTRUCTED", "creationDate": "1847", "publicationDate": "1847 · Современник, том I, № 1, «Смесь»", "pageLocator": "인용 판본 본문 123–129행 · 연속된 네 문단", "contextKo": "화자는 지주 폴루티킨과 함께 농노 호리의 집으로 향합니다. 이어지는 네 문단은 인물과 관계를 소개하는 소설의 도입부입니다.", "rightsNoteKo": "1847년 초판의 facsimile이 아니라 공개된 4판 전집의 전사문이다. 작품 속 화자의 허구 서술." },
-    { "sourceId": "OBJ-WS-NEKRASOV-EDITORIAL-1848", "excerptId": "EX-NEKRASOV-EDITORIAL-1848-L117-119", "layout": "periodical", "textStatus": "DIRECT", "renderingStatus": "RECONSTRUCTED", "documentDate": "1848", "publicationDate": "1848", "pageLocator": "Wikisource 117–119행 · 연속된 세 문단", "contextKo": "편집부 공지는 지방 구독자에게 첫 호가 늦게 도착한 사정과 이후 발행 일정을 설명합니다. 같은 글에서 미뤄 둔 기사와 라마르틴 관련 소식도 알립니다.", "rightsNoteKo": "1997년 학술 전집을 바탕으로 한 현대 전사문이며 원 잡지 판면 스캔이 아니다." },
-    { "sourceId": "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE", "excerptId": "EX-NEKRASOV-1849-ANNOUNCEMENT-L182-190", "layout": "periodical", "textStatus": "DIRECT", "renderingStatus": "RECONSTRUCTED", "documentDate": "1848 · 1849년 발행분을 예고", "publicationDate": "1848", "pageLocator": "Wikisource 182–190행 · 연속된 여덟 문단 블록", "contextKo": "이 공고는 1849년에 나올 《현대인》의 발행 계획과 구독 조건을 미리 알립니다. 제목에 적힌 1849년은 공고 작성 연도가 아니라 예고하는 발행 연도입니다.", "rightsNoteKo": "제목의 1849년은 안내 대상 발행 연도다. 문서는 1848년에 작성·공표된 공고다. 1997년 학술 전집 전사문." },
-    { "sourceId": "OBJ-WS-PETRASHEVSKY-REPORT-1849", "excerptId": "EX-PETRASHEVSKY-REPORT-1849-L388-394", "layout": "official", "textStatus": "DIRECT", "renderingStatus": "RECONSTRUCTED", "documentDate": "1849-04-22부터 이어지는 보고 부분", "publicationDate": "1928년 자료집 수록", "pageLocator": "Wikisource 388–394행 · 같은 보고서의 연속된 일곱 문단", "contextKo": "조사기관의 보고서는 4월 22일 모임에서 검열을 논의했다는 기록 뒤에 정보원의 보고와 체포 명령을 이어 적습니다. 아래 문단에서 보고서의 서술과 정보원 주장을 구분해 읽을 수 있습니다.", "rightsNoteKo": "국가기관 조사 보고서의 관점과 정보원 주장을 담는다. 회의 참석자의 중립 증언으로 취급하지 않는다." },
-    { "sourceId": "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849", "excerptId": "EX-DUBELT-LETTER-1849-05-05-L127-135", "layout": "letter", "textStatus": "DIRECT", "renderingStatus": "RECONSTRUCTED", "documentDate": "1849-05-05", "publicationDate": "1974년 학술 자료집 수록", "pageLocator": "Wikisource 127–135행 · «5 мая 1849 г. Секретно»부터 Dubelt 서명까지", "contextKo": "두벨트가 도스토옙스키의 체포와 수색·이송을 지시하는 비밀 편지입니다. 편지에 적힌 지시와 실제 집행 경위는 구분해야 합니다.", "rightsNoteKo": "ЦГВИА, ф. 801, оп. 84/28, № 55, ч. 36, л. 1의 아카이브 locator를 기재한 현대 전사문." },
-    { "sourceId": "LIT-GOGOL-DEAD-SOULS-1842", "excerptId": "EX-GOGOL-DEAD-SOULS-1842-CH1-L128-130", "layout": "book", "textStatus": "DIRECT", "renderingStatus": "RECONSTRUCTED", "creationDate": "1842", "publicationDate": "1842", "pageLocator": "Wikisource 128–130행 · 제1장 첫 세 문단", "contextKo": "치치코프가 지방 도시에 도착해 여관과 관리들을 살펴보는 제1장 첫머리입니다. 작품 속 묘사로 당시 도시 전체를 입증하는 기록은 아닙니다.", "rightsNoteKo": "1951년 학술 전집의 현대 전사문. 문학 세계의 허구 텍스트." },
-    { "sourceId": "LIT-GOGOL-OVERCOAT-1842", "excerptId": "EX-GOGOL-OVERCOAT-1842-COAT-L151-156", "layout": "book", "textStatus": "DIRECT", "renderingStatus": "RECONSTRUCTED", "creationDate": "1842", "publicationDate": "1842", "pageLocator": "RVB 학술 텍스트 151–156행 · 겨울 추위, 낡은 외투와 재단사에 관한 연속된 여섯 문단", "contextKo": "화자는 연 400루블 안팎을 받는 아카키가 페테르부르크의 추위에 낡은 외투로 버티는 장면을 설명합니다. 외투의 천은 등과 어깨에서 닳아 비치고, 그는 수선을 맡기러 재단사 페트로비치를 찾아갑니다.", "rightsNoteKo": "학술 텍스트의 전사문이며 원 판면 스캔이 아니다. 문학 세계의 허구 텍스트." }
+    {
+      "sourceId": "OBJ-SOV-1847",
+      "excerptId": "EX-OBJ-SOV-1847-BIB-001",
+      "layout": "catalog",
+      "textStatus": "DIRECT",
+      "renderingStatus": "RECONSTRUCTED",
+      "publicationDate": "1847",
+      "pageLocator": "권 I · 제1호 · 서지 항목",
+      "contextKo": "1847년 《현대인》 제1호의 서지 항목으로 발행 정보를 확인합니다.",
+      "rightsNoteKo": "국립전자도서관의 서지 레코드다. 실제 잡지 본문이나 스캔 페이지가 아니다."
+    },
+    {
+      "sourceId": "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+      "excerptId": "EX-TURGENEV-KHOR-1847-OPENING-001",
+      "layout": "book",
+      "textStatus": "DIRECT",
+      "renderingStatus": "RECONSTRUCTED",
+      "creationDate": "1847",
+      "publicationDate": "1847 · Современник, том I, № 1, «Смесь»",
+      "pageLocator": "인용 판본 본문 123–129행 · 연속된 네 문단",
+      "contextKo": "화자는 지주 폴루티킨과 함께 농노 호리의 집으로 향합니다. 이어지는 네 문단은 인물과 관계를 소개하는 소설의 도입부입니다.",
+      "rightsNoteKo": "1847년 초판의 facsimile이 아니라 공개된 4판 전집의 전사문이다. 작품 속 화자의 허구 서술."
+    },
+    {
+      "sourceId": "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+      "excerptId": "EX-NEKRASOV-EDITORIAL-1848-L117-119",
+      "layout": "periodical",
+      "textStatus": "DIRECT",
+      "renderingStatus": "RECONSTRUCTED",
+      "documentDate": "1848",
+      "publicationDate": "1848",
+      "pageLocator": "Wikisource 117–119행 · 연속된 세 문단",
+      "contextKo": "편집부 공지는 지방 구독자에게 첫 호가 늦게 도착한 사정과 이후 발행 일정을 설명합니다. 같은 글에서 미뤄 둔 기사와 라마르틴 관련 소식도 알립니다.",
+      "rightsNoteKo": "1997년 학술 전집을 바탕으로 한 현대 전사문이며 원 잡지 판면 스캔이 아니다."
+    },
+    {
+      "sourceId": "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+      "excerptId": "EX-NEKRASOV-1849-ANNOUNCEMENT-L182-190",
+      "layout": "periodical",
+      "textStatus": "DIRECT",
+      "renderingStatus": "RECONSTRUCTED",
+      "documentDate": "1848 · 1849년 발행분을 예고",
+      "publicationDate": "1848",
+      "pageLocator": "Wikisource 182–190행 · 연속된 여덟 문단 블록",
+      "contextKo": "이 공고는 1849년에 나올 《현대인》의 발행 계획과 구독 조건을 미리 알립니다. 제목에 적힌 1849년은 공고 작성 연도가 아니라 예고하는 발행 연도입니다.",
+      "rightsNoteKo": "제목의 1849년은 안내 대상 발행 연도다. 문서는 1848년에 작성·공표된 공고다. 1997년 학술 전집 전사문."
+    },
+    {
+      "sourceId": "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+      "excerptId": "EX-PETRASHEVSKY-REPORT-1849-L388-394",
+      "layout": "official",
+      "textStatus": "DIRECT",
+      "renderingStatus": "RECONSTRUCTED",
+      "documentDate": "1849-04-22부터 이어지는 보고 부분",
+      "publicationDate": "1928년 자료집 수록",
+      "pageLocator": "Wikisource 388–394행 · 같은 보고서의 연속된 일곱 문단",
+      "contextKo": "조사기관의 보고서는 4월 22일 모임에서 검열을 논의했다는 기록 뒤에 정보원의 보고와 체포 명령을 이어 적습니다. 아래 문단에서 보고서의 서술과 정보원 주장을 구분해 읽을 수 있습니다.",
+      "rightsNoteKo": "국가기관 조사 보고서의 관점과 정보원 주장을 담는다. 회의 참석자의 중립 증언으로 취급하지 않는다."
+    },
+    {
+      "sourceId": "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849",
+      "excerptId": "EX-DUBELT-LETTER-1849-05-05-L127-135",
+      "layout": "letter",
+      "textStatus": "DIRECT",
+      "renderingStatus": "RECONSTRUCTED",
+      "documentDate": "1849-05-05",
+      "publicationDate": "1974년 학술 자료집 수록",
+      "pageLocator": "Wikisource 127–135행 · «5 мая 1849 г. Секретно»부터 Dubelt 서명까지",
+      "contextKo": "두벨트가 도스토옙스키의 체포와 수색·이송을 지시하는 비밀 편지입니다. 편지에 적힌 지시와 실제 집행 경위는 구분해야 합니다.",
+      "rightsNoteKo": "ЦГВИА, ф. 801, оп. 84/28, № 55, ч. 36, л. 1의 아카이브 locator를 기재한 현대 전사문."
+    },
+    {
+      "sourceId": "LIT-GOGOL-DEAD-SOULS-1842",
+      "excerptId": "EX-GOGOL-DEAD-SOULS-1842-CH1-L128-130",
+      "layout": "book",
+      "textStatus": "DIRECT",
+      "renderingStatus": "RECONSTRUCTED",
+      "creationDate": "1842",
+      "publicationDate": "1842",
+      "pageLocator": "Wikisource 128–130행 · 제1장 첫 세 문단",
+      "contextKo": "치치코프가 지방 도시에 도착해 여관과 관리들을 살펴보는 제1장 첫머리입니다.",
+      "rightsNoteKo": "1951년 학술 전집의 현대 전사문. 문학 세계의 허구 텍스트."
+    },
+    {
+      "sourceId": "LIT-GOGOL-OVERCOAT-1842",
+      "excerptId": "EX-GOGOL-OVERCOAT-1842-COAT-L151-156",
+      "layout": "book",
+      "textStatus": "DIRECT",
+      "renderingStatus": "RECONSTRUCTED",
+      "creationDate": "1842",
+      "publicationDate": "1842",
+      "pageLocator": "RVB 학술 텍스트 151–156행 · 겨울 추위, 낡은 외투와 재단사에 관한 연속된 여섯 문단",
+      "contextKo": "화자는 연 400루블 안팎을 받는 아카키가 페테르부르크의 추위에 낡은 외투로 버티는 장면을 설명합니다. 외투의 천은 등과 어깨에서 닳아 비치고, 그는 수선을 맡기러 재단사 페트로비치를 찾아갑니다.",
+      "rightsNoteKo": "학술 텍스트의 전사문이며 원 판면 스캔이 아니다. 문학 세계의 허구 텍스트."
+    },
+    {
+      "sourceId": "LIT-GOGOL-RUSSIAN-LANDLORD-1847",
+      "excerptId": "EX-GOGOL-RUSSIAN-LANDLORD-1847-XXII-L99-104",
+      "layout": "book",
+      "textStatus": "DIRECT",
+      "renderingStatus": "RECONSTRUCTED",
+      "documentDate": "1846",
+      "publicationDate": "1847 · Выбранные места из переписки с друзьями, XXII",
+      "pageLocator": "Wikisource lines 99–104 · 연속된 여섯 문단",
+      "contextKo": "고골은 지주가 마을에 도착한 뒤 농민을 모아 신분과 복종의 이유를 설명하라고 권합니다. 이어 성서와 노동, 공동체의 책임을 근거로 그 관계를 세우는 방법을 적습니다.",
+      "rightsNoteKo": "1847년 공개된 러시아어 원문에서 새로 옮긴 번역."
+    },
+    {
+      "sourceId": "LIT-BELINSKY-GOGOL-REVIEW-1847",
+      "excerptId": "EX-BELINSKY-GOGOL-REVIEW-1847-L142-150",
+      "layout": "periodical",
+      "textStatus": "DIRECT",
+      "renderingStatus": "RECONSTRUCTED",
+      "documentDate": "1847",
+      "publicationDate": "1847 · Современник, том I, № 2, раздел III, с. 103–124",
+      "pageLocator": "Wikisource lines 142–150 · 벨린스키의 논평과 고골 인용이 이어지는 아홉 문단",
+      "contextKo": "벨린스키는 고골의 책에서 슬라브파와 서구파를 다룬 대목을 인용한 뒤, 두 진영이 각자 무엇을 보고 놓치는지 비평합니다. 이어 러시아의 장점을 과시하는 젊은이들에 관한 고골의 문장을 인용합니다.",
+      "rightsNoteKo": "1847년 공개 서평의 러시아어 원문에서 새로 옮겼다. 인용문은 고골의 문장이고, 그 인용을 둘러싼 평가는 벨린스키의 글이다."
+    }
   ]
 }

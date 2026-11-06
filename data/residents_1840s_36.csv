@@ -1,0 +1,37 @@
+id,name_ko,role,stratum,home_zone,job,housing,family_relation,friends,personal_goal
+anna,안나 페트로바,빈민 재봉사,LOWER,vassilievsky_lodgings,seamstress,rents_room,sister_maria,"maria,vara",밤샘 수선으로 방세를 모으되 아픈 동생을 돌봄
+maria,마리야 페트로바,도제·동생,LOWER,vassilievsky_lodgings,apprentice,shared_room,sister_anna,"anna,vara",언니를 돕고 글을 배워 인쇄소 일감을 찾음
+vara,바르바라 소콜로바,인쇄소 조수,LOWER,printshop_loft,printer,shared_room,mother_vara,"anna,maria,ekaterina",인쇄소 납품 기일을 맞추면서 위험한 원고를 숨김
+aleksei,알렉세이 오를로프,관청 하급 서기,CLERK,clerk_room,clerk,rented_room,mother_orlov,"nikolai,sergei,ekaterina",실수를 피하면서 부당한 기록을 고칠 기회를 엿봄
+ekaterina,예카테리나 벨로바,서적 중개인,MIDDLE,bookshop_flat,bookseller,private_flat,aunt_belova,"vara,pavel,sofya",불온 판본과 합법 거래 사이에서 고객을 보호함
+pavel,파벨 안토노프,우편 전달원,LOWER,coachmen_yard,courier,shared_barracks,brother_antonov,"ekaterina,ivan,alexei",배송료를 모으면서 위험한 편지를 맡아야 할지 판단함
+nikolai,니콜라이 예고로프,검열 기록원,CLERK,clerk_room,censor_clerk,rented_room,wife_nina,"alexei,sergei",문서 검열과 가족 부양의 충돌을 견딤
+nina,니나 예고로바,하숙집 운영 보조,LOWER,lodging_house,landlady_assistant,tenement_room,husband_nikolai,"nikolai,anna,landlord",하숙인들의 월세와 난방을 책임짐
+sergei,세르게이 오를로프,상급 관료,ELITE,ministry_office,official,official_flat,wife_elena,"alexei,nikolai,sofya",경력을 지키기 위해 불온 서적을 단속함
+elena,옐레나 오를로바,관료 가정의 살롱 주최,ELITE,official_flat,salon_host,official_flat,husband_sergei,"sergei,sofya",사교 모임으로 가족의 평판을 지킴
+sofya,소피야 키레예바,귀족 문학 살롱,ELITE,salon_house,patron,mansion,cousin_elena,"ekaterina,elena,sergei",논쟁을 후원하지만 정치적 위험은 피하려 함
+ivan,이반 페도로프,마부,LOWER,coachmen_yard,coachman,stable_room,wife_daria,"pavel,daria",말 사료와 수레 수리비를 벌어야 함
+daria,다리야 페도로바,시장 채소상,LOWER,market_stall,vendor,stable_room,husband_ivan,"ivan,anna",상하기 쉬운 채소를 제값에 팔아 가족을 먹여 살림
+fyodor,표도르 바실리예프,빵집 제빵사,LOWER,bakery,baker,bakery_attic,daughter_tanya,"tanya,daria",밀가루값이 올라 빵값을 결정해야 함
+tanya,타티야나 바실리예바,제빵 견습생,LOWER,bakery,apprentice_baker,bakery_attic,father_fyodor,"fyodor,maria",새벽 불 때기와 시장 심부름을 함께 함
+mikhail,미하일 체르노프,인쇄소 식자공,LOWER,printshop_loft,typesetter,shared_room,brother_yakov,"vara,yakov",교정 오류를 감추지 않고 원고를 제때 내야 함
+yakov,야코프 체르노프,제본공,LOWER,printshop_loft,bookbinder,shared_room,brother_mikhail,"mikhail,ekaterina",밀린 대금을 받으면서 책을 납품함
+boris,보리스 코즈로프,야경꾼,LOWER,police_post,watchman,barracks,wife_olga,"olga,sergei",도난과 소란을 보고하지만 억울한 이를 단속할까 고민함
+olga,올가 코즐로바,세탁 노동자,LOWER,wash_house,washer,tenement_room,husband_boris,"boris,nina",하루 종일 차가운 물에서 옷을 빨아 생계를 꾸림
+stepan,스테판 레베데프,수위,LOWER,canal_yard,yard_keeper,yard_room,son_kirill,"kirill,boris",거주자들의 삶을 보면서 집주인의 명령을 집행함
+kirill,키릴 레베데프,짐꾼,LOWER,warehouse,porter,yard_room,father_stepan,"stepan,ivan",장비 없이 무거운 화물을 나르며 몸을 지킴
+lev,레프 골로빈,학생,MIDDLE,student_boarding,student,boarding_room,mother_lev,"pavel,ekaterina",등록금과 급진적 서클 참석 사이를 고민함
+grigory,그리고리 안드레예프,초등 교사,MIDDLE,schoolhouse,teacher,school_room,sister_irina,"lev,irina",어린 노동자에게 글을 가르치고 후원자를 찾음
+irina,이리나 안드레예바,가정교사,MIDDLE,official_flat,governess,servants_room,brother_grigory,"grigory,elena",귀족 자녀를 가르치며 자기 생계를 지킴
+matvei,마트베이 로마노프,교회 독서 담당,CLERGY,parish_church,parish_clerk,church_room,daughter_liza,"liza,anna",구호 물품을 나누며 교회 문서를 관리함
+liza,리자 로마노바,자선 구호 보조,LOWER,parish_church,relief_worker,church_room,father_matvei,"matvei,anna",식량과 장작을 꼭 필요한 이웃에게 분배함
+yuri,유리 수보로프,의사,MIDDLE,clinic,doctor,clinic_flat,wife_zoia,"zoia,liza",전염병 의심 환자를 돌보며 진료비를 고민함
+zoia,조야 수보로바,약제실 조수,MIDDLE,clinic,pharmacy_assistant,clinic_flat,husband_yuri,"yuri,liza",약품을 정확히 재고 가난한 환자를 도움
+arkady,아르카디 벨랴예프,여관 주인,MIDDLE,inn,innkeeper,inn_room,daughter_katya,"katya,pavel",여행객 수입과 경찰 검문을 조율함
+katya,카탸 벨랴예바,여관 종업원,LOWER,inn,server,inn_room,father_arkady,"arkady,anna",손님들의 소문을 듣고 자기 독립을 꿈꿈
+arseny,아르세니 볼코프,선원,LOWER,canal_dock,sailor,ship_bunk,friend_kirill,"kirill,pavel",새 항해를 떠나기 전 임금을 받아야 함
+roman,로만 슈체드린,도시 경찰 서기관,CLERK,police_post,police_clerk,barracks,brother_sergei,"boris,sergei",신고와 소문을 구별하고 사건 기록을 정확히 남김
+agafya,아가피야 세메노바,행상·숙박 불안정,LOWER,market_stall,hawker,street,none,"daria,anna",잠자리와 먹을 것을 구하면서 길거리 물건을 팖
+viktor,빅토르 바란노프,소규모 출판업자,MIDDLE,printing_office,publisher,merchant_flat,sister_sofya,"sofya,mikhail",판권·검열·인쇄비 사이에서 출판을 결정함
+filipp,필리프 데미도프,목수,LOWER,carpentry_shop,carpenter,workshop_attic,wife_nadezhda,"nadezhda,stepan",임대주택의 창문과 문을 수리하며 일감을 찾음
+nadezhda,나데즈다 데미도바,바느질·육아 노동,LOWER,carpentry_shop,home_worker,workshop_attic,husband_filipp,"filipp,nina",집안일과 품삯 일을 병행함

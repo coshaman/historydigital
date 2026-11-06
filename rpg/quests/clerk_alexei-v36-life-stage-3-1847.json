@@ -30,7 +30,6 @@
       "resultKo": "확인된 두 시각과 미확인 경로를 나눠 결재를 올렸다. 최종 수정 책임은 결재자에게 남는다.",
       "resultFlag": "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_3_RESULT_1",
       "followupTitleKo": "누가 마지막으로 서명할까",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "확인된 두 시각과 미확인 경로를 나눠 결재를 올렸다. 최종 수정 책임은 결재자에게 남는다.",
         "relations": {
@@ -58,7 +57,6 @@
       "resultKo": "정정 이유를 함께 적었다. 번호는 고쳤지만 원본의 흔적은 지우지 않았다.",
       "resultFlag": "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_3_RESULT_2",
       "followupTitleKo": "누가 마지막으로 서명할까",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "정정 이유를 함께 적었다. 번호는 고쳤지만 원본의 흔적은 지우지 않았다.",
         "relations": {
@@ -86,7 +84,6 @@
       "resultKo": "원본이 돌아올 때까지 접수 상태를 보류했다. 모르는 부분을 임의로 채우지 않았다.",
       "resultFlag": "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_3_RESULT_3",
       "followupTitleKo": "누가 마지막으로 서명할까",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "원본이 돌아올 때까지 접수 상태를 보류했다. 모르는 부분을 임의로 채우지 않았다.",
         "relations": {

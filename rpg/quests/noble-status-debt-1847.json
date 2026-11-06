@@ -25,7 +25,6 @@
       "resultKo": "지출을 줄이고 날짜를 먼저 알렸다. 사정은 드러났지만 약속을 지킬 수 있을지는 남아 있다.",
       "resultFlag": "andreiDated",
       "followupTitleKo": "체면을 지킬 돈과 갚을 돈",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "빚 상환 날짜와 줄일 지출을 정리했다.",
         "relations": {
@@ -43,7 +42,6 @@
       "resultKo": "가문의 이름으로 시간을 더 얻었다. 당장 체면은 지켰지만 빚의 책임은 커졌다.",
       "resultFlag": "andreiDeferred",
       "followupTitleKo": "체면을 지킬 돈과 갚을 돈",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "가문의 이름을 내세워 지급을 미뤘다.",
         "relations": {
@@ -61,7 +59,6 @@
       "resultKo": "가족에게 급료와 빚을 털어놓았다. 부담을 나눌 수 있지만 숨긴 일을 설명해야 한다.",
       "resultFlag": "andreiTold",
       "followupTitleKo": "체면을 지킬 돈과 갚을 돈",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "가족과 지출 및 상환 계획을 다시 정했다.",
         "relations": {

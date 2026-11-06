@@ -30,7 +30,6 @@
       "resultKo": "가격 주장만 남기고 이름은 보류했다. 확인되지 않은 개인 비난을 독자에게 넘기지 않았다.",
       "resultFlag": "SOFIA_UNNAMED_NOTICE_1847_STAGE_1_RESULT_1",
       "followupTitleKo": "이름이 지워진 제보",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "가격 주장만 남기고 이름은 보류했다. 확인되지 않은 개인 비난을 독자에게 넘기지 않았다.",
         "relations": {
@@ -58,7 +57,6 @@
       "resultKo": "제보자에게 날짜와 직접 본 자료를 물었다. 답을 받기 전까지 인쇄를 미뤘다.",
       "resultFlag": "SOFIA_UNNAMED_NOTICE_1847_STAGE_1_RESULT_2",
       "followupTitleKo": "이름이 지워진 제보",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "제보자에게 날짜와 직접 본 자료를 물었다. 답을 받기 전까지 인쇄를 미뤘다.",
         "relations": {
@@ -86,7 +84,6 @@
       "resultKo": "확인되지 않은 제보라고 밝혀 실었다. 이름은 싣지 않아도 독자가 주변을 추측할 위험은 남았다.",
       "resultFlag": "SOFIA_UNNAMED_NOTICE_1847_STAGE_1_RESULT_3",
       "followupTitleKo": "이름이 지워진 제보",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "확인되지 않은 제보라고 밝혀 실었다. 이름은 싣지 않아도 독자가 주변을 추측할 위험은 남았다.",
         "relations": {

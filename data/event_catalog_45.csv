@@ -1,0 +1,46 @@
+event_id,title,place,trigger,visible_scene,historical_anchor,world_consequence,occurrence_type,validation_status
+E01,방세 독촉,lodging_house,rent_due,집주인이 방으로 올라와 밀린 방세를 받거나 연기를 협상한다,도시 풍속과 집세 계약 자료,퇴거 위험·새 거처 찾기,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E02,빵값 상승,bakery,bread_stockout,제빵사가 가격표를 고치고 손님들이 줄 앞에서 항의한다,도시 시장 가격 자료,배고픔과 이웃 신용 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E03,겨울 장작 부족,market_stall,cold_wave,장작상 앞에 줄이 생기고 가격이 올라간다,기후와 생활비 기록,난방·건강 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E04,세탁 일감,wash_house,linen_due,부잣집 린넨을 들고 노동자가 모인다,1845 도시 풍속집,임금·피로 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E05,봉투 분실,postal_yard,parcel_missing,배달원이 봉투를 잃어버려 수신자가 찾아온다,당대 우편·행정 규정,정보·신뢰·위험 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E06,검열된 지면,printshop,censor_order,인쇄 조수가 빨간 삭제 표시를 보고 활자를 빼낸다,검열 법령·원본 정기간행물,지면과 출판자 위험 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E07,활자 인쇄 마감,printshop,deadline,식자공이 한 칸의 활자를 다시 조립한다,1840년대 출판·작업 기록,납품·임금 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E08,제본 계약,printshop_and_market_quay,scheduled_binding_order,제본공이 책을 묶어 책방 주인에게 납품하고 약정한 대금을 받는다,출판사 광고·서점 목록,수입·재고 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E09,거리 수위의 신고,tenement_courtyard,noise_or_theft,수위가 마당의 다툼을 목격하고 신고할지 망설인다,1845 생리학집 수위 묘사,평판·수사 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E10,마차 운임 흥정,nevsky_road,fare_request,마부가 목적지와 도로 상태를 두고 운임을 정한다,도시 안내서·교통 자료,시간·돈 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E11,다리와 운하 통행,canal_crossing,bridge_schedule,운하에 배가 몰려 짐 운반이 지연된다,운하·교량 자료,화물·시간 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E12,창고 하역 부상,warehouse,heavy_load,짐꾼이 부상을 입어 작업이 멈춘다,노동 풍속·의료 문헌,건강·임금 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E13,시장 바가지 논쟁,market,supply_shock,양배추 더미 옆에서 값을 두고 말다툼이 난다,시장·생활비 자료,신용·재고 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E14,빈민 무료급식,parish_church,charity_day,교회 앞 식량 배급 줄이 길어진다,교구·자선 관련 자료,굶주림·관계 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E15,병든 하숙인,lodging_house,illness,방에서 환자가 나오지 않아 주변 사람이 문을 두드린다,19세기 러시아 위생·의학 자료,건강·감염 위험 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E16,약재 부족,clinic,supply_missing,약제실이 필요한 약품을 찾지 못한다,당대 약전·상업 광고,의료 신뢰·회복 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E17,저녁 여관 손님,inn,arrival,여관에 낯선 사람이 들어와 숙박과 식사를 부탁한다,당대 여행기·여관 규정,수입·소문 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E18,늦은 식사,tavern,hunger_high,노동자가 일 끝나고 식사를 주문한다,식생활·가격 자료,돈·배고픔·소문 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E19,견습생의 글공부,schoolhouse,lesson_time,일터를 마친 아이가 글공부를 청한다,교육·문해 관련 자료,지식·피로 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E20,관리의 서류 누락,ministry_office,missing_record,관청 서류 묶음에서 한 장이 빠져 있다,행정 체계·관등제 자료,승진·책임 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E21,살롱 논쟁,salon,salon_night,러시아와 서구의 길을 두고 참석자들이 맞선다,슬라브주의·서구주의 원전,인맥·사상·초대 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E22,신문 발행일,newsstand,issue_released,새 호가 진열되고 사람이 기사의 대목을 읽는다,Северная пчела·Современник 실물 호,이슈 지식·구독 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E23,가짜 소문의 확산,market,rumor,시장에서 잘못된 사건 소문이 번진다,실제 기사와 구분한 허구 소문,여론과 신뢰 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E24,수상한 독서 모임,student_boarding,circle_invitation,학생이 소규모 독서 모임에 초대받는다,1840년대 독서서클 연구,네트워크·감시 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E25,경찰의 신분 조회,police_post,follow_up_after_reported_lost_parcel,분실 신고 뒤 배달부와 경찰관이 경로와 시각을 확인한다,당대 이동·등록 규정,공식 기록 범위·배달 경로 노출·미확인 신고,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E26,불어난 숙박비,inn,price_change,하숙비 인상 전단이 벽에 붙는다,도시 집세·숙박자료,경제·거주 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E27,화재 경보,tenement_courtyard,fire_ignition,연기와 종소리로 주변인이 물을 나르고 피난한다,당대 화재·도시 행정 기록,상처·집손실·감사 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E28,장례 비용,parish_church,family_death,가족이 관과 예배 비용을 마련한다,교구 관습·장례 풍속,돈·유대 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E29,사교 초대장,salon,invitation,하급 서기가 낯선 귀족의 모임 초대를 받는다,당대 사교 회고 자료,접근권·평판 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E30,무명 저자의 원고,bookshop,manuscript_offer,작가가 원고를 내밀고 인쇄비를 흥정한다,당대 출판 계약 자료,문학 인맥·돈 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E31,농노제에 관한 편지,salon,serfdom_letter,지역 지주가 보낸 논쟁적 편지가 낭독된다,당대 농노제 문서·사상 원전,사상·관계 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E32,농촌에서 온 구직자,market,jobseeker,도착한 사람이 연줄과 일자리를 찾는다,도시 이주·등록 자료,노동 공급·안전 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E33,어린 견습의 탈진,printshop,fatigue,견습생이 활자 앞에서 쓰러질 듯하다,도시 노동 풍속,건강·생산 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E34,밀수 판본 거래,bookshop,risky_book,책장 밑에서 정체 불명의 인쇄본이 발견된다,실제 압수 기록 존재할 때만 역사 사건 연동,검열 위험·관계 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E35,지붕 누수 수리,tenement_courtyard,rain_damage,비가 새는 방 때문에 목수가 방문한다,생활·건축 자료,돈·주거 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E36,장터 도난,market,theft,상인이 돈주머니가 사라진 걸 알아차린다,당대 법률·치안 자료,법적 위험·평판 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E37,차별적인 일자리,official_flat,employment_offer,후원자가 가정교사에 새 조건을 내건다,여성 교육·고용 역사 자료,임금·기회 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E38,거리 악사 공연,nevsky_road,street_show,거리 악사의 연주를 듣고 사람들이 모여든다,1845 풍속 스케치 거리 음악가,돈·여가·소문 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E39,서점 낭독회,bookshop,public_reading,신간을 둘러싸고 독자들의 의견이 갈린다,정확한 작품 판본·호수,사상·구독 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E40,페트라솁스키 체포 소식,st_petersburg_1849,historical_1849_arrests,일부 실제 인물이 체포되고 서류와 편지가 조사된다,1849 페트라솁스키 사건 관련 기록,위험·문헌 접근 변화,DOCUMENTED_HISTORICAL_EVENT,DESIGN_SEED_NOT_VERIFIED
+E41,1849년 12월 선고,semenovsky_square,historical_1849_dec,사형식 준비와 형 감경 발표가 역사대로 진행된다,1849년 12월 22일 기록·연구,개인 트라우마·소문 변화,DOCUMENTED_HISTORICAL_EVENT,DESIGN_SEED_NOT_VERIFIED
+E42,1848년 유럽 소식,newsstand,foreign_news_1848,유럽 정치 변동 기사를 두고 독자들이 언쟁한다,1848년 실제 정기간행물 기사,소문·사상·검열 변화,DOCUMENTED_HISTORICAL_EVENT,DESIGN_SEED_NOT_VERIFIED
+E43,푸시킨의 죽음 소식,newsstand,historical_1837_news,1837년 푸시킨 사망 보도가 퍼지고 애도 문서가 등장한다,1837년 실제 기사·편지,문학 네트워크 영향,DOCUMENTED_HISTORICAL_EVENT,DESIGN_SEED_NOT_VERIFIED
+E44,벨린스키의 편지 논쟁,literary_circle,historical_1847_letter,편지 내용이 실제 유통 가능한 경로로 소개되어 토론을 유발한다,1847년 벨린스키 서한·판본,사상·감시·관계 변화,DOCUMENTED_HISTORICAL_EVENT,DESIGN_SEED_NOT_VERIFIED
+E45,공식 행렬과 경계,nevsky_road,state_procession,공식 마차 이동으로 길이 막히고 상인들이 치워진다,당대 의전·통행 규정,시간·평판 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED

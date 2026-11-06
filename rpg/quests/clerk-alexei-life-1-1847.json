@@ -25,7 +25,6 @@
       "resultKo": "봉투의 도착 시각과 봉인 상태를 따로 적었다. 번호가 맞는지는 아직 단정하지 않았다.",
       "resultFlag": "arrivalTime",
       "followupTitleKo": "도착 시각과 접수 번호 메모",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "봉투의 도착 시각과 봉인 상태를 따로 적었다. 번호가 맞는지는 아직 단정하지 않았다.",
         "relations": {
@@ -48,7 +47,6 @@
       "resultKo": "번호를 고쳐 접수부에 올렸다. 서류는 움직이지만 수정 이유를 설명해야 한다.",
       "resultFlag": "numberCorrected",
       "followupTitleKo": "도착 시각과 접수 번호 메모",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "번호를 고쳐 접수부에 올렸다. 서류는 움직이지만 수정 이유를 설명해야 한다.",
         "relations": {
@@ -71,7 +69,6 @@
       "resultKo": "접수 번호는 그대로 두고 배달 경로부터 확인하기로 했다.",
       "resultFlag": "routeChecked",
       "followupTitleKo": "도착 시각과 접수 번호 메모",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "접수 번호는 그대로 두고 배달 경로부터 확인하기로 했다.",
         "relations": {

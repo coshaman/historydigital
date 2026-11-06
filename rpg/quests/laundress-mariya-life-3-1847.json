@@ -26,7 +26,6 @@
       "resultKo": "장작값과 다음 일감 준비금을 따로 두었다. 급한 지출은 막았지만 여유는 거의 남지 않았다.",
       "resultFlag": "MARIYA_WASHING_WAGES_1847_STAGE_3_RESULT_1",
       "followupTitleKo": "밀린 빨래값과 다음 일감",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "장작값과 다음 일감 준비금을 따로 두었다. 급한 지출은 막았지만 여유는 거의 남지 않았다.",
         "relations": {
@@ -49,7 +48,6 @@
       "resultKo": "먼저 빌린 돈을 갚았다. 약속은 지켰지만 장작은 다시 구해야 한다.",
       "resultFlag": "MARIYA_WASHING_WAGES_1847_STAGE_3_RESULT_2",
       "followupTitleKo": "밀린 빨래값과 다음 일감",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "먼저 빌린 돈을 갚았다. 약속은 지켰지만 장작은 다시 구해야 한다.",
         "relations": {
@@ -72,7 +70,6 @@
       "resultKo": "일을 하나 더 맡았다. 장작값은 마련하겠지만 몸을 돌볼 틈은 줄었다.",
       "resultFlag": "MARIYA_WASHING_WAGES_1847_STAGE_3_RESULT_3",
       "followupTitleKo": "밀린 빨래값과 다음 일감",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "일을 하나 더 맡았다. 장작값은 마련하겠지만 몸을 돌볼 틈은 줄었다.",
         "relations": {

@@ -25,7 +25,6 @@
       "resultKo": "짐이 옮겨진 시각만 적었다. 추측은 퍼뜨리지 않았지만 이웃은 아직 모른다.",
       "resultFlag": "varvaraObserved",
       "followupTitleKo": "들은 말과 해야 할 경고",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "직접 본 짐 이동과 시각만 적었다.",
         "relations": {
@@ -43,7 +42,6 @@
       "resultKo": "들은 말을 이웃에게 전했다. 대비할 시간은 생기지만 잘못 전했을 가능성도 있다.",
       "resultFlag": "varvaraWarned",
       "followupTitleKo": "들은 말과 해야 할 경고",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "확인되지 않은 지시를 이웃에게 알렸다.",
         "relations": {
@@ -61,7 +59,6 @@
       "resultKo": "뜻을 직접 확인하기로 했다. 소문을 피하지만 답을 기다리는 동안 불안은 남는다.",
       "resultFlag": "varvaraAsked",
       "followupTitleKo": "들은 말과 해야 할 경고",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "방을 비우라는 지시의 대상을 고용주에게 확인했다.",
         "relations": {

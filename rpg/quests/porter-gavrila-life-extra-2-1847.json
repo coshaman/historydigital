@@ -25,7 +25,6 @@
       "resultKo": "잠깐 쉬고 돌아와 인계한 짐을 확인했다. 맡긴 양은 분명하고 다음 품삯도 협의할 수 있다.",
       "resultFlag": "GAVRILA_LOAD_AND_REST_1847_2_1",
       "followupTitleKo": "쉬는 시간과 맡은 짐 메모",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "잠깐 쉬고 돌아와 인계한 짐을 확인했다. 맡긴 양은 분명하고 다음 품삯도 협의할 수 있다.",
         "relations": {
@@ -48,7 +47,6 @@
       "resultKo": "어깨 상태를 알렸다. 오늘은 작업이 늦어질 수 있지만 이유를 숨기지 않았다.",
       "resultFlag": "GAVRILA_LOAD_AND_REST_1847_2_2",
       "followupTitleKo": "쉬는 시간과 맡은 짐 메모",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "어깨 상태를 알렸다. 오늘은 작업이 늦어질 수 있지만 이유를 숨기지 않았다.",
         "relations": {
@@ -71,7 +69,6 @@
       "resultKo": "기록 없이 쉬었다. 몸은 잠깐 나아졌지만 누가 무엇을 맡았는지 다시 맞춰야 한다.",
       "resultFlag": "GAVRILA_LOAD_AND_REST_1847_2_3",
       "followupTitleKo": "쉬는 시간과 맡은 짐 메모",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "기록 없이 쉬었다. 몸은 잠깐 나아졌지만 누가 무엇을 맡았는지 다시 맞춰야 한다.",
         "relations": {

@@ -30,7 +30,6 @@
       "resultKo": "정해 둔 만큼만 읽었다. 남은 쪽은 다음 기회로 넘겼다.",
       "resultFlag": "TATYANA_READING_HOUR_1847_STAGE_3_RESULT_1",
       "followupTitleKo": "수선대 옆의 독서 시간",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "정해 둔 만큼만 읽었다. 남은 쪽은 다음 기회로 넘겼다.",
         "relations": {
@@ -58,7 +57,6 @@
       "resultKo": "표현의 뜻만 물었다. 자신의 형편을 작품의 뜻으로 대신 설명하지 않았다.",
       "resultFlag": "TATYANA_READING_HOUR_1847_STAGE_3_RESULT_2",
       "followupTitleKo": "수선대 옆의 독서 시간",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "표현의 뜻만 물었다. 자신의 형편을 작품의 뜻으로 대신 설명하지 않았다.",
         "relations": {
@@ -86,7 +84,6 @@
       "resultKo": "기한을 지켜 책을 돌려줬다. 모임은 놓쳤지만 다음 사람이 책을 빌릴 수 있다.",
       "resultFlag": "TATYANA_READING_HOUR_1847_STAGE_3_RESULT_3",
       "followupTitleKo": "수선대 옆의 독서 시간",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "기한을 지켜 책을 돌려줬다. 모임은 놓쳤지만 다음 사람이 책을 빌릴 수 있다.",
         "relations": {

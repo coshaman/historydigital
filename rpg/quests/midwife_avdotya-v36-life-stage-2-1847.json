@@ -30,7 +30,6 @@
       "resultKo": "필요 물품과 예상 비용을 구분해 적었다. 지불 가능 여부는 다른 사람에게 알리지 않았다.",
       "resultFlag": "AVDOTYA_NIGHT_CALLS_1847_STAGE_2_RESULT_1",
       "followupTitleKo": "돌봄 비용을 누가 묻나",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "필요 물품과 예상 비용을 구분해 적었다. 지불 가능 여부는 다른 사람에게 알리지 않았다.",
         "relations": {
@@ -58,7 +57,6 @@
       "resultKo": "폴리나는 물품을 빌려줄 수 있는지만 확인했다. 누구의 집인지 말하지 않았다.",
       "resultFlag": "AVDOTYA_NIGHT_CALLS_1847_STAGE_2_RESULT_2",
       "followupTitleKo": "돌봄 비용을 누가 묻나",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "폴리나는 물품을 빌려줄 수 있는지만 확인했다. 누구의 집인지 말하지 않았다.",
         "relations": {
@@ -86,7 +84,6 @@
       "resultKo": "도착 예정부터 알렸다. 비용과 돌봄을 같은 판단으로 묶지 않았다.",
       "resultFlag": "AVDOTYA_NIGHT_CALLS_1847_STAGE_2_RESULT_3",
       "followupTitleKo": "돌봄 비용을 누가 묻나",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "도착 예정부터 알렸다. 비용과 돌봄을 같은 판단으로 묶지 않았다.",
         "relations": {

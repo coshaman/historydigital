@@ -25,7 +25,6 @@
       "resultKo": "어디를 고쳤고 얼마를 받았는지 나눠 적었다. 일이 끝난 범위와 아직 받을 돈이 구분된다.",
       "resultFlag": "workAndPaySeparate",
       "followupTitleKo": "수선 완료와 품삯 기록",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "어디를 고쳤고 얼마를 받았는지 나눠 적었다. 일이 끝난 범위와 아직 받을 돈이 구분된다.",
         "relations": {
@@ -47,7 +46,6 @@
       "resultKo": "두 벌을 함께 건네고 다음 주문도 맡기로 했다. 장부는 가벼워졌지만 약속을 기억해야 한다.",
       "resultFlag": "nextOrderPromise",
       "followupTitleKo": "수선 완료와 품삯 기록",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "두 벌을 함께 건네고 다음 주문도 맡기로 했다. 장부는 가벼워졌지만 약속을 기억해야 한다.",
         "relations": {
@@ -69,7 +67,6 @@
       "resultKo": "한 벌은 품삯이 정리될 때까지 보관했다. 일한 값을 지키지만 손님은 당장 옷을 입을 수 없다.",
       "resultFlag": "heldUntilPaid",
       "followupTitleKo": "수선 완료와 품삯 기록",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "한 벌은 품삯이 정리될 때까지 보관했다. 일한 값을 지키지만 손님은 당장 옷을 입을 수 없다.",
         "relations": {

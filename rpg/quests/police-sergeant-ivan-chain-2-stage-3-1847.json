@@ -25,7 +25,6 @@
       "resultKo": "원본은 접수실에 두고 출처 구분을 적은 요약만 돌렸다. 신원 노출은 줄었지만 요약이 전부는 아니다.",
       "resultFlag": "restrictedOriginal",
       "followupTitleKo": "접수 결과와 보관 범위",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "원본은 접수실에 두고 출처 구분을 적은 요약만 돌렸다. 신원 노출은 줄었지만 요약이 전부는 아니다.",
         "relations": {
@@ -46,7 +45,6 @@
       "resultKo": "진술자가 확인한 사본만 지정된 사람에게 건넸다. 널리 돌리진 않지만 필요한 확인은 가능하다.",
       "resultFlag": "signedCopy",
       "followupTitleKo": "접수 결과와 보관 범위",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "진술자가 확인한 사본만 지정된 사람에게 건넸다. 널리 돌리진 않지만 필요한 확인은 가능하다.",
         "relations": {
@@ -67,7 +65,6 @@
       "resultKo": "이름과 전언을 장부에 함께 남겼다. 추적은 쉽지만 잘못된 말도 오래 기록된다.",
       "resultFlag": "fullRegister",
       "followupTitleKo": "접수 결과와 보관 범위",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "이름과 전언을 장부에 함께 남겼다. 추적은 쉽지만 잘못된 말도 오래 기록된다.",
         "relations": {

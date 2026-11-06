@@ -29,7 +29,7 @@
   "tileheight": 16,
   "infinite": false,
   "nextlayerid": 7,
-  "nextobjectid": null,
+  "nextobjectid": 1177,
   "properties": [
     {
       "name": "mapId",
@@ -2592,6 +2592,62 @@
               "value": true
             }
           ]
+        },
+        {
+          "id": 1173,
+          "name": "안뜰 관리인의 신고 장부",
+          "type": "quest-object",
+          "x": 192,
+          "y": 96,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            { "name": "questId", "type": "string", "value": "V37_COURTYARD_DISPUTE_1847" },
+            { "name": "requiresLivingEventId", "type": "string", "value": "E09" }
+          ]
+        },
+        {
+          "id": 1174,
+          "name": "독서 모임의 참석 장부",
+          "type": "quest-object",
+          "x": 256,
+          "y": 208,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            { "name": "questId", "type": "string", "value": "STUDENT_CIRCLE_RISK_1847" },
+            { "name": "requiresLivingEventId", "type": "string", "value": "E24" }
+          ]
+        },
+        {
+          "id": 1175,
+          "name": "방세 인상 공지",
+          "type": "quest-object",
+          "x": 192,
+          "y": 112,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            { "name": "questId", "type": "string", "value": "V37_RENT_NOTICE_1847" },
+            { "name": "requiresLivingEventId", "type": "string", "value": "E26" }
+          ]
+        },
+        {
+          "id": 1176,
+          "name": "안뜰의 연기",
+          "type": "quest-object",
+          "x": 240,
+          "y": 176,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            { "name": "questId", "type": "string", "value": "V37_COURTYARD_FIRE_1847" },
+            { "name": "requiresLivingEventId", "type": "string", "value": "E27" }
+          ]
         }
       ]
     },
@@ -3142,6 +3198,23 @@
               "name": "hostId",
               "type": "string",
               "value": "lodging_tatyana"
+            }
+          ]
+        },
+        {
+          "id": 920,
+          "name": "다리야",
+          "type": "npc",
+          "x": 240,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "reader_darya"
             }
           ]
         }

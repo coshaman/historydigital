@@ -25,7 +25,6 @@
       "resultKo": "물건 상태에 맞춰 값을 다시 붙였다. 손님은 고를 수 있지만 값은 낮아진다.",
       "resultFlag": "MATRYONA_STREET_STALL_1847_STAGE_1_RESULT_1",
       "followupTitleKo": "비 그친 뒤의 좌판 자리",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "물건 상태에 맞춰 값을 다시 붙였다. 손님은 고를 수 있지만 값은 낮아진다.",
         "relations": {
@@ -48,7 +47,6 @@
       "resultKo": "괜찮은 것만 내놓고 나머지는 말리기로 했다. 손해를 줄일 수 있지만 오늘 벌이는 적다.",
       "resultFlag": "MATRYONA_STREET_STALL_1847_STAGE_1_RESULT_2",
       "followupTitleKo": "비 그친 뒤의 좌판 자리",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "괜찮은 것만 내놓고 나머지는 말리기로 했다. 손해를 줄일 수 있지만 오늘 벌이는 적다.",
         "relations": {
@@ -71,7 +69,6 @@
       "resultKo": "이웃과 마른 천을 나눠 썼다. 물건은 지켰지만 좌판 공간도 나눠야 한다.",
       "resultFlag": "MATRYONA_STREET_STALL_1847_STAGE_1_RESULT_3",
       "followupTitleKo": "비 그친 뒤의 좌판 자리",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "이웃과 마른 천을 나눠 썼다. 물건은 지켰지만 좌판 공간도 나눠야 한다.",
         "relations": {

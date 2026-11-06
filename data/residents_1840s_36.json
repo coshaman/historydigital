@@ -1,0 +1,3247 @@
+[
+  {
+    "id": "anna",
+    "name_ko": "안나 페트로바",
+    "gender": "여",
+    "role": "빈민 재봉사",
+    "stratum": "LOWER",
+    "home_zone": "vassilievsky_lodgings",
+    "job": "seamstress",
+    "housing": "rents_room",
+    "family_relation": "sister_maria",
+    "friends": [
+      "maria",
+      "vara"
+    ],
+    "skills": [
+      "sewing",
+      "repair"
+    ],
+    "needs": [
+      "rent_due",
+      "food_security"
+    ],
+    "personal_goal": "밤샘 수선으로 방세를 모으되 아픈 동생을 돌봄",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "vassilievsky_lodgings",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 18,
+      "hunger": 15,
+      "health": 72,
+      "education": 39,
+      "reputation": 48,
+      "suspicion": 0,
+      "fatigue": 20,
+      "work_skill": 35
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "vassilievsky_lodgings"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "sewing",
+        "at": "seamstress_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "repair",
+        "at": "seamstress_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "vassilievsky_lodgings"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-anna-LIVELIHOOD",
+        "goal": "밤샘 수선으로 방세를 모으되 아픈 동생을 돌봄",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "maria",
+    "name_ko": "마리야 페트로바",
+    "gender": "여",
+    "role": "도제·동생",
+    "stratum": "LOWER",
+    "home_zone": "vassilievsky_lodgings",
+    "job": "apprentice",
+    "housing": "shared_room",
+    "family_relation": "sister_anna",
+    "friends": [
+      "anna",
+      "vara"
+    ],
+    "skills": [
+      "sewing",
+      "errands"
+    ],
+    "needs": [
+      "rest",
+      "learning"
+    ],
+    "personal_goal": "언니를 돕고 글을 배워 인쇄소 일감을 찾음",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "vassilievsky_lodgings",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 4,
+      "hunger": 22,
+      "health": 57,
+      "education": 43,
+      "reputation": 40,
+      "suspicion": 5,
+      "fatigue": 23,
+      "work_skill": 44
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "vassilievsky_lodgings"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "sewing",
+        "at": "apprentice_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "errands",
+        "at": "apprentice_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "vassilievsky_lodgings"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-maria-LIVELIHOOD",
+        "goal": "언니를 돕고 글을 배워 인쇄소 일감을 찾음",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "vara",
+    "name_ko": "바르바라 소콜로바",
+    "gender": "여",
+    "role": "인쇄소 조수",
+    "stratum": "LOWER",
+    "home_zone": "printshop_loft",
+    "job": "printer",
+    "housing": "shared_room",
+    "family_relation": "mother_vara",
+    "friends": [
+      "anna",
+      "maria",
+      "ekaterina"
+    ],
+    "skills": [
+      "proofread",
+      "print"
+    ],
+    "needs": [
+      "wages",
+      "press_risk"
+    ],
+    "personal_goal": "인쇄소 납품 기일을 맞추면서 위험한 원고를 숨김",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "printshop_loft",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 24,
+      "hunger": 29,
+      "health": 64,
+      "education": 52,
+      "reputation": 64,
+      "suspicion": 10,
+      "fatigue": 26,
+      "work_skill": 53
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "printshop_loft"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "proofread",
+        "at": "printer_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "print",
+        "at": "printer_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "printshop_loft"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-vara-LIVELIHOOD",
+        "goal": "인쇄소 납품 기일을 맞추면서 위험한 원고를 숨김",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "aleksei",
+    "name_ko": "알렉세이 오를로프",
+    "gender": "남",
+    "role": "관청 하급 서기",
+    "stratum": "CLERK",
+    "home_zone": "clerk_room",
+    "job": "clerk",
+    "housing": "rented_room",
+    "family_relation": "mother_orlov",
+    "friends": [
+      "nikolai",
+      "sergei",
+      "ekaterina"
+    ],
+    "skills": [
+      "copy",
+      "stamp"
+    ],
+    "needs": [
+      "career",
+      "conscience"
+    ],
+    "personal_goal": "실수를 피하면서 부당한 기록을 고칠 기회를 엿봄",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "clerk_room",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 82,
+      "hunger": 36,
+      "health": 61,
+      "education": 50,
+      "reputation": 67,
+      "suspicion": 15,
+      "fatigue": 29,
+      "work_skill": 62
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "clerk_room"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "copy",
+        "at": "clerk_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "stamp",
+        "at": "clerk_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "clerk_room"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-aleksei-LIVELIHOOD",
+        "goal": "실수를 피하면서 부당한 기록을 고칠 기회를 엿봄",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ekaterina",
+    "name_ko": "예카테리나 벨로바",
+    "gender": "여",
+    "role": "서적 중개인",
+    "stratum": "MIDDLE",
+    "home_zone": "bookshop_flat",
+    "job": "bookseller",
+    "housing": "private_flat",
+    "family_relation": "aunt_belova",
+    "friends": [
+      "vara",
+      "pavel",
+      "sofya"
+    ],
+    "skills": [
+      "trade",
+      "read"
+    ],
+    "needs": [
+      "circulation",
+      "trust"
+    ],
+    "personal_goal": "불온 판본과 합법 거래 사이에서 고객을 보호함",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "bookshop_flat",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 110,
+      "hunger": 43,
+      "health": 68,
+      "education": 69,
+      "reputation": 71,
+      "suspicion": 20,
+      "fatigue": 32,
+      "work_skill": 71
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "bookshop_flat"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "trade",
+        "at": "bookseller_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "read",
+        "at": "bookseller_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "bookshop_flat"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-ekaterina-LIVELIHOOD",
+        "goal": "불온 판본과 합법 거래 사이에서 고객을 보호함",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "pavel",
+    "name_ko": "파벨 안토노프",
+    "gender": "남",
+    "role": "우편 전달원",
+    "stratum": "LOWER",
+    "home_zone": "coachmen_yard",
+    "job": "courier",
+    "housing": "shared_barracks",
+    "family_relation": "brother_antonov",
+    "friends": [
+      "ekaterina",
+      "ivan",
+      "alexei"
+    ],
+    "skills": [
+      "deliver",
+      "travel"
+    ],
+    "needs": [
+      "routes",
+      "safety"
+    ],
+    "personal_goal": "배송료를 모으면서 위험한 편지를 맡아야 할지 판단함",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "coachmen_yard",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 27,
+      "hunger": 50,
+      "health": 74,
+      "education": 47,
+      "reputation": 65,
+      "suspicion": 25,
+      "fatigue": 35,
+      "work_skill": 80
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "coachmen_yard"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "deliver",
+        "at": "courier_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "travel",
+        "at": "courier_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "coachmen_yard"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-pavel-LIVELIHOOD",
+        "goal": "배송료를 모으면서 위험한 편지를 맡아야 할지 판단함",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "nikolai",
+    "name_ko": "니콜라이 예고로프",
+    "gender": "남",
+    "role": "검열 기록원",
+    "stratum": "CLERK",
+    "home_zone": "clerk_room",
+    "job": "censor_clerk",
+    "housing": "rented_room",
+    "family_relation": "wife_nina",
+    "friends": [
+      "alexei",
+      "sergei"
+    ],
+    "skills": [
+      "audit",
+      "stamp"
+    ],
+    "needs": [
+      "duty",
+      "integrity"
+    ],
+    "personal_goal": "문서 검열과 가족 부양의 충돌을 견딤",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "clerk_room",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 91,
+      "hunger": 57,
+      "health": 55,
+      "education": 47,
+      "reputation": 58,
+      "suspicion": 2,
+      "fatigue": 38,
+      "work_skill": 89
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "clerk_room"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "audit",
+        "at": "censor_clerk_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "stamp",
+        "at": "censor_clerk_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "clerk_room"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-nikolai-LIVELIHOOD",
+        "goal": "문서 검열과 가족 부양의 충돌을 견딤",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "nina",
+    "name_ko": "니나 예고로바",
+    "gender": "여",
+    "role": "하숙집 운영 보조",
+    "stratum": "LOWER",
+    "home_zone": "lodging_house",
+    "job": "landlady_assistant",
+    "housing": "tenement_room",
+    "family_relation": "husband_nikolai",
+    "friends": [
+      "nikolai",
+      "anna",
+      "landlord"
+    ],
+    "skills": [
+      "cook",
+      "collect_rent"
+    ],
+    "needs": [
+      "household",
+      "illness"
+    ],
+    "personal_goal": "하숙인들의 월세와 난방을 책임짐",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "lodging_house",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 33,
+      "hunger": 64,
+      "health": 59,
+      "education": 73,
+      "reputation": 64,
+      "suspicion": 7,
+      "fatigue": 41,
+      "work_skill": 38
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "lodging_house"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "cook",
+        "at": "landlady_assistant_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "collect_rent",
+        "at": "landlady_assistant_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "lodging_house"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-nina-LIVELIHOOD",
+        "goal": "하숙인들의 월세와 난방을 책임짐",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sergei",
+    "name_ko": "세르게이 오를로프",
+    "gender": "남",
+    "role": "상급 관료",
+    "stratum": "ELITE",
+    "home_zone": "ministry_office",
+    "job": "official",
+    "housing": "official_flat",
+    "family_relation": "wife_elena",
+    "friends": [
+      "alexei",
+      "nikolai",
+      "sofya"
+    ],
+    "skills": [
+      "office",
+      "review"
+    ],
+    "needs": [
+      "promotion",
+      "order"
+    ],
+    "personal_goal": "경력을 지키기 위해 불온 서적을 단속함",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "ministry_office",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 620,
+      "hunger": 16,
+      "health": 66,
+      "education": 62,
+      "reputation": 74,
+      "suspicion": 12,
+      "fatigue": 44,
+      "work_skill": 47
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "ministry_office"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "office",
+        "at": "official_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "review",
+        "at": "official_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "ministry_office"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-sergei-LIVELIHOOD",
+        "goal": "경력을 지키기 위해 불온 서적을 단속함",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "elena",
+    "name_ko": "옐레나 오를로바",
+    "gender": "여",
+    "role": "관료 가정의 살롱 주최",
+    "stratum": "ELITE",
+    "home_zone": "official_flat",
+    "job": "salon_host",
+    "housing": "official_flat",
+    "family_relation": "husband_sergei",
+    "friends": [
+      "sergei",
+      "sofya"
+    ],
+    "skills": [
+      "host",
+      "read"
+    ],
+    "needs": [
+      "reputation",
+      "patronage"
+    ],
+    "personal_goal": "사교 모임으로 가족의 평판을 지킴",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "official_flat",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 440,
+      "hunger": 23,
+      "health": 66,
+      "education": 75,
+      "reputation": 77,
+      "suspicion": 17,
+      "fatigue": 47,
+      "work_skill": 56
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "official_flat"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "host",
+        "at": "salon_host_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "read",
+        "at": "salon_host_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "official_flat"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-elena-LIVELIHOOD",
+        "goal": "사교 모임으로 가족의 평판을 지킴",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sofya",
+    "name_ko": "소피야 키레예바",
+    "gender": "여",
+    "role": "귀족 문학 살롱",
+    "stratum": "ELITE",
+    "home_zone": "salon_house",
+    "job": "patron",
+    "housing": "mansion",
+    "family_relation": "cousin_elena",
+    "friends": [
+      "ekaterina",
+      "elena",
+      "sergei"
+    ],
+    "skills": [
+      "host",
+      "write"
+    ],
+    "needs": [
+      "reputation",
+      "ideas"
+    ],
+    "personal_goal": "논쟁을 후원하지만 정치적 위험은 피하려 함",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "salon_house",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 850,
+      "hunger": 30,
+      "health": 66,
+      "education": 78,
+      "reputation": 77,
+      "suspicion": 22,
+      "fatigue": 20,
+      "work_skill": 65
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "salon_house"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "host",
+        "at": "patron_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "write",
+        "at": "patron_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "salon_house"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-sofya-LIVELIHOOD",
+        "goal": "논쟁을 후원하지만 정치적 위험은 피하려 함",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ivan",
+    "name_ko": "이반 페도로프",
+    "gender": "남",
+    "role": "마부",
+    "stratum": "LOWER",
+    "home_zone": "coachmen_yard",
+    "job": "coachman",
+    "housing": "stable_room",
+    "family_relation": "wife_daria",
+    "friends": [
+      "pavel",
+      "daria"
+    ],
+    "skills": [
+      "drive",
+      "feed_horse"
+    ],
+    "needs": [
+      "food",
+      "debts"
+    ],
+    "personal_goal": "말 사료와 수레 수리비를 벌어야 함",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "coachmen_yard",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 46,
+      "hunger": 37,
+      "health": 81,
+      "education": 54,
+      "reputation": 59,
+      "suspicion": 27,
+      "fatigue": 23,
+      "work_skill": 74
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "coachmen_yard"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "drive",
+        "at": "coachman_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "feed_horse",
+        "at": "coachman_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "coachmen_yard"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-ivan-LIVELIHOOD",
+        "goal": "말 사료와 수레 수리비를 벌어야 함",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "daria",
+    "name_ko": "다리야 페도로바",
+    "gender": "여",
+    "role": "시장 채소상",
+    "stratum": "LOWER",
+    "home_zone": "market_stall",
+    "job": "vendor",
+    "housing": "stable_room",
+    "family_relation": "husband_ivan",
+    "friends": [
+      "ivan",
+      "anna"
+    ],
+    "skills": [
+      "buy",
+      "trade"
+    ],
+    "needs": [
+      "profit",
+      "survival"
+    ],
+    "personal_goal": "상하기 쉬운 채소를 제값에 팔아 가족을 먹여 살림",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "market_stall",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 53,
+      "hunger": 44,
+      "health": 70,
+      "education": 69,
+      "reputation": 67,
+      "suspicion": 4,
+      "fatigue": 26,
+      "work_skill": 83
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "market_stall"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "buy",
+        "at": "vendor_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "trade",
+        "at": "vendor_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "market_stall"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-daria-LIVELIHOOD",
+        "goal": "상하기 쉬운 채소를 제값에 팔아 가족을 먹여 살림",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "fyodor",
+    "name_ko": "표도르 바실리예프",
+    "gender": "남",
+    "role": "빵집 제빵사",
+    "stratum": "LOWER",
+    "home_zone": "bakery",
+    "job": "baker",
+    "housing": "bakery_attic",
+    "family_relation": "daughter_tanya",
+    "friends": [
+      "tanya",
+      "daria"
+    ],
+    "skills": [
+      "bake",
+      "sell"
+    ],
+    "needs": [
+      "bread_prices"
+    ],
+    "personal_goal": "밀가루값이 올라 빵값을 결정해야 함",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "bakery",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 65,
+      "hunger": 51,
+      "health": 77,
+      "education": 54,
+      "reputation": 61,
+      "suspicion": 9,
+      "fatigue": 29,
+      "work_skill": 92
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "bakery"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "bake",
+        "at": "baker_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "sell",
+        "at": "baker_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "bakery"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-fyodor-LIVELIHOOD",
+        "goal": "밀가루값이 올라 빵값을 결정해야 함",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "tanya",
+    "name_ko": "타티야나 바실리예바",
+    "gender": "여",
+    "role": "제빵 견습생",
+    "stratum": "LOWER",
+    "home_zone": "bakery",
+    "job": "apprentice_baker",
+    "housing": "bakery_attic",
+    "family_relation": "father_fyodor",
+    "friends": [
+      "fyodor",
+      "maria"
+    ],
+    "skills": [
+      "bake",
+      "learn"
+    ],
+    "needs": [
+      "wages",
+      "skill"
+    ],
+    "personal_goal": "새벽 불 때기와 시장 심부름을 함께 함",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "bakery",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 12,
+      "hunger": 58,
+      "health": 66,
+      "education": 62,
+      "reputation": 47,
+      "suspicion": 14,
+      "fatigue": 32,
+      "work_skill": 41
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "bakery"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "bake",
+        "at": "apprentice_baker_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "learn",
+        "at": "apprentice_baker_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "bakery"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-tanya-LIVELIHOOD",
+        "goal": "새벽 불 때기와 시장 심부름을 함께 함",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mikhail",
+    "name_ko": "미하일 체르노프",
+    "gender": "남",
+    "role": "인쇄소 식자공",
+    "stratum": "LOWER",
+    "home_zone": "printshop_loft",
+    "job": "typesetter",
+    "housing": "shared_room",
+    "family_relation": "brother_yakov",
+    "friends": [
+      "vara",
+      "yakov"
+    ],
+    "skills": [
+      "set_type",
+      "print"
+    ],
+    "needs": [
+      "wages",
+      "censorship"
+    ],
+    "personal_goal": "교정 오류를 감추지 않고 원고를 제때 내야 함",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "printshop_loft",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 72,
+      "hunger": 65,
+      "health": 67,
+      "education": 68,
+      "reputation": 67,
+      "suspicion": 19,
+      "fatigue": 35,
+      "work_skill": 50
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "printshop_loft"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "set_type",
+        "at": "typesetter_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "print",
+        "at": "typesetter_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "printshop_loft"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-mikhail-LIVELIHOOD",
+        "goal": "교정 오류를 감추지 않고 원고를 제때 내야 함",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "yakov",
+    "name_ko": "야코프 체르노프",
+    "gender": "남",
+    "role": "제본공",
+    "stratum": "LOWER",
+    "home_zone": "printshop_loft",
+    "job": "bookbinder",
+    "housing": "shared_room",
+    "family_relation": "brother_mikhail",
+    "friends": [
+      "mikhail",
+      "ekaterina"
+    ],
+    "skills": [
+      "bind",
+      "sell"
+    ],
+    "needs": [
+      "contracts"
+    ],
+    "personal_goal": "밀린 대금을 받으면서 책을 납품함",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "printshop_loft",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 55,
+      "hunger": 17,
+      "health": 69,
+      "education": 72,
+      "reputation": 63,
+      "suspicion": 24,
+      "fatigue": 38,
+      "work_skill": 59
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "printshop_loft"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "bind",
+        "at": "bookbinder_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "sell",
+        "at": "bookbinder_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "printshop_loft"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-yakov-LIVELIHOOD",
+        "goal": "밀린 대금을 받으면서 책을 납품함",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "boris",
+    "name_ko": "보리스 코즈로프",
+    "gender": "남",
+    "role": "야경꾼",
+    "stratum": "LOWER",
+    "home_zone": "police_post",
+    "job": "watchman",
+    "housing": "barracks",
+    "family_relation": "wife_olga",
+    "friends": [
+      "olga",
+      "sergei"
+    ],
+    "skills": [
+      "patrol",
+      "report"
+    ],
+    "needs": [
+      "order",
+      "wages"
+    ],
+    "personal_goal": "도난과 소란을 보고하지만 억울한 이를 단속할까 고민함",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "police_post",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 37,
+      "hunger": 24,
+      "health": 74,
+      "education": 52,
+      "reputation": 61,
+      "suspicion": 1,
+      "fatigue": 41,
+      "work_skill": 68
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "police_post"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "patrol",
+        "at": "watchman_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "report",
+        "at": "watchman_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "police_post"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-boris-LIVELIHOOD",
+        "goal": "도난과 소란을 보고하지만 억울한 이를 단속할까 고민함",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "olga",
+    "name_ko": "올가 코즐로바",
+    "gender": "여",
+    "role": "세탁 노동자",
+    "stratum": "LOWER",
+    "home_zone": "wash_house",
+    "job": "washer",
+    "housing": "tenement_room",
+    "family_relation": "husband_boris",
+    "friends": [
+      "boris",
+      "nina"
+    ],
+    "skills": [
+      "wash",
+      "collect"
+    ],
+    "needs": [
+      "rent",
+      "health"
+    ],
+    "personal_goal": "하루 종일 차가운 물에서 옷을 빨아 생계를 꾸림",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "wash_house",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 29,
+      "hunger": 31,
+      "health": 57,
+      "education": 71,
+      "reputation": 56,
+      "suspicion": 6,
+      "fatigue": 44,
+      "work_skill": 77
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "wash_house"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "wash",
+        "at": "washer_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "collect",
+        "at": "washer_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "wash_house"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-olga-LIVELIHOOD",
+        "goal": "하루 종일 차가운 물에서 옷을 빨아 생계를 꾸림",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "stepan",
+    "name_ko": "스테판 레베데프",
+    "gender": "남",
+    "role": "수위",
+    "stratum": "LOWER",
+    "home_zone": "canal_yard",
+    "job": "yard_keeper",
+    "housing": "yard_room",
+    "family_relation": "son_kirill",
+    "friends": [
+      "kirill",
+      "boris"
+    ],
+    "skills": [
+      "sweep",
+      "guard"
+    ],
+    "needs": [
+      "tenants",
+      "order"
+    ],
+    "personal_goal": "거주자들의 삶을 보면서 집주인의 명령을 집행함",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "canal_yard",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 40,
+      "hunger": 38,
+      "health": 76,
+      "education": 60,
+      "reputation": 64,
+      "suspicion": 11,
+      "fatigue": 47,
+      "work_skill": 86
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "canal_yard"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "sweep",
+        "at": "yard_keeper_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "guard",
+        "at": "yard_keeper_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "canal_yard"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-stepan-LIVELIHOOD",
+        "goal": "거주자들의 삶을 보면서 집주인의 명령을 집행함",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "kirill",
+    "name_ko": "키릴 레베데프",
+    "gender": "남",
+    "role": "짐꾼",
+    "stratum": "LOWER",
+    "home_zone": "warehouse",
+    "job": "porter",
+    "housing": "yard_room",
+    "family_relation": "father_stepan",
+    "friends": [
+      "stepan",
+      "ivan"
+    ],
+    "skills": [
+      "carry",
+      "unload"
+    ],
+    "needs": [
+      "wages",
+      "injury"
+    ],
+    "personal_goal": "장비 없이 무거운 화물을 나르며 몸을 지킴",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "warehouse",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 23,
+      "hunger": 45,
+      "health": 85,
+      "education": 67,
+      "reputation": 53,
+      "suspicion": 16,
+      "fatigue": 20,
+      "work_skill": 35
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "warehouse"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "carry",
+        "at": "porter_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "unload",
+        "at": "porter_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "warehouse"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-kirill-LIVELIHOOD",
+        "goal": "장비 없이 무거운 화물을 나르며 몸을 지킴",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "lev",
+    "name_ko": "레프 골로빈",
+    "gender": "남",
+    "role": "학생",
+    "stratum": "MIDDLE",
+    "home_zone": "student_boarding",
+    "job": "student",
+    "housing": "boarding_room",
+    "family_relation": "mother_lev",
+    "friends": [
+      "pavel",
+      "ekaterina"
+    ],
+    "skills": [
+      "study",
+      "debate"
+    ],
+    "needs": [
+      "fees",
+      "beliefs"
+    ],
+    "personal_goal": "등록금과 급진적 서클 참석 사이를 고민함",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "student_boarding",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 18,
+      "hunger": 52,
+      "health": 75,
+      "education": 37,
+      "reputation": 73,
+      "suspicion": 21,
+      "fatigue": 23,
+      "work_skill": 44
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "student_boarding"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "study",
+        "at": "student_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "debate",
+        "at": "student_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "student_boarding"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-lev-LIVELIHOOD",
+        "goal": "등록금과 급진적 서클 참석 사이를 고민함",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "grigory",
+    "name_ko": "그리고리 안드레예프",
+    "gender": "남",
+    "role": "초등 교사",
+    "stratum": "MIDDLE",
+    "home_zone": "schoolhouse",
+    "job": "teacher",
+    "housing": "school_room",
+    "family_relation": "sister_irina",
+    "friends": [
+      "lev",
+      "irina"
+    ],
+    "skills": [
+      "teach",
+      "read"
+    ],
+    "needs": [
+      "learning",
+      "livelihood"
+    ],
+    "personal_goal": "어린 노동자에게 글을 가르치고 후원자를 찾음",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "schoolhouse",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 120,
+      "hunger": 59,
+      "health": 62,
+      "education": 70,
+      "reputation": 72,
+      "suspicion": 26,
+      "fatigue": 26,
+      "work_skill": 53
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "schoolhouse"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "teach",
+        "at": "teacher_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "read",
+        "at": "teacher_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "schoolhouse"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-grigory-LIVELIHOOD",
+        "goal": "어린 노동자에게 글을 가르치고 후원자를 찾음",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "irina",
+    "name_ko": "이리나 안드레예바",
+    "gender": "여",
+    "role": "가정교사",
+    "stratum": "MIDDLE",
+    "home_zone": "official_flat",
+    "job": "governess",
+    "housing": "servants_room",
+    "family_relation": "brother_grigory",
+    "friends": [
+      "grigory",
+      "elena"
+    ],
+    "skills": [
+      "teach",
+      "sew"
+    ],
+    "needs": [
+      "education",
+      "job_security"
+    ],
+    "personal_goal": "귀족 자녀를 가르치며 자기 생계를 지킴",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "official_flat",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 85,
+      "hunger": 66,
+      "health": 62,
+      "education": 73,
+      "reputation": 69,
+      "suspicion": 3,
+      "fatigue": 29,
+      "work_skill": 62
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "official_flat"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "teach",
+        "at": "governess_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "sew",
+        "at": "governess_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "official_flat"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-irina-LIVELIHOOD",
+        "goal": "귀족 자녀를 가르치며 자기 생계를 지킴",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "matvei",
+    "name_ko": "마트베이 로마노프",
+    "gender": "남",
+    "role": "교회 독서 담당",
+    "stratum": "CLERGY",
+    "home_zone": "parish_church",
+    "job": "parish_clerk",
+    "housing": "church_room",
+    "family_relation": "daughter_liza",
+    "friends": [
+      "liza",
+      "anna"
+    ],
+    "skills": [
+      "copy",
+      "assist"
+    ],
+    "needs": [
+      "charity",
+      "faith"
+    ],
+    "personal_goal": "구호 물품을 나누며 교회 문서를 관리함",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "parish_church",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 95,
+      "hunger": 18,
+      "health": 60,
+      "education": 77,
+      "reputation": 65,
+      "suspicion": 8,
+      "fatigue": 32,
+      "work_skill": 71
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "parish_church"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "copy",
+        "at": "parish_clerk_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "assist",
+        "at": "parish_clerk_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "parish_church"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-matvei-LIVELIHOOD",
+        "goal": "구호 물품을 나누며 교회 문서를 관리함",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "liza",
+    "name_ko": "리자 로마노바",
+    "gender": "여",
+    "role": "자선 구호 보조",
+    "stratum": "LOWER",
+    "home_zone": "parish_church",
+    "job": "relief_worker",
+    "housing": "church_room",
+    "family_relation": "father_matvei",
+    "friends": [
+      "matvei",
+      "anna"
+    ],
+    "skills": [
+      "relief",
+      "deliver"
+    ],
+    "needs": [
+      "charity",
+      "health"
+    ],
+    "personal_goal": "식량과 장작을 꼭 필요한 이웃에게 분배함",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "parish_church",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 35,
+      "hunger": 25,
+      "health": 63,
+      "education": 76,
+      "reputation": 71,
+      "suspicion": 13,
+      "fatigue": 35,
+      "work_skill": 80
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "parish_church"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "relief",
+        "at": "relief_worker_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "deliver",
+        "at": "relief_worker_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "parish_church"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-liza-LIVELIHOOD",
+        "goal": "식량과 장작을 꼭 필요한 이웃에게 분배함",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "yuri",
+    "name_ko": "유리 수보로프",
+    "gender": "남",
+    "role": "의사",
+    "stratum": "MIDDLE",
+    "home_zone": "clinic",
+    "job": "doctor",
+    "housing": "clinic_flat",
+    "family_relation": "wife_zoia",
+    "friends": [
+      "zoia",
+      "liza"
+    ],
+    "skills": [
+      "treat",
+      "visit"
+    ],
+    "needs": [
+      "health",
+      "ethics"
+    ],
+    "personal_goal": "전염병 의심 환자를 돌보며 진료비를 고민함",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "clinic",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 310,
+      "hunger": 32,
+      "health": 52,
+      "education": 74,
+      "reputation": 76,
+      "suspicion": 18,
+      "fatigue": 38,
+      "work_skill": 89
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "clinic"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "treat",
+        "at": "doctor_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "visit",
+        "at": "doctor_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "clinic"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-yuri-LIVELIHOOD",
+        "goal": "전염병 의심 환자를 돌보며 진료비를 고민함",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "zoia",
+    "name_ko": "조야 수보로바",
+    "gender": "여",
+    "role": "약제실 조수",
+    "stratum": "MIDDLE",
+    "home_zone": "clinic",
+    "job": "pharmacy_assistant",
+    "housing": "clinic_flat",
+    "family_relation": "husband_yuri",
+    "friends": [
+      "yuri",
+      "liza"
+    ],
+    "skills": [
+      "prepare_medicine",
+      "assist"
+    ],
+    "needs": [
+      "medicine",
+      "care"
+    ],
+    "personal_goal": "약품을 정확히 재고 가난한 환자를 도움",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "clinic",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 110,
+      "hunger": 39,
+      "health": 65,
+      "education": 70,
+      "reputation": 70,
+      "suspicion": 23,
+      "fatigue": 41,
+      "work_skill": 38
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "clinic"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "prepare_medicine",
+        "at": "pharmacy_assistant_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "assist",
+        "at": "pharmacy_assistant_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "clinic"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-zoia-LIVELIHOOD",
+        "goal": "약품을 정확히 재고 가난한 환자를 도움",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "arkady",
+    "name_ko": "아르카디 벨랴예프",
+    "gender": "남",
+    "role": "여관 주인",
+    "stratum": "MIDDLE",
+    "home_zone": "inn",
+    "job": "innkeeper",
+    "housing": "inn_room",
+    "family_relation": "daughter_katya",
+    "friends": [
+      "katya",
+      "pavel"
+    ],
+    "skills": [
+      "serve",
+      "manage"
+    ],
+    "needs": [
+      "trade",
+      "security"
+    ],
+    "personal_goal": "여행객 수입과 경찰 검문을 조율함",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "inn",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 290,
+      "hunger": 46,
+      "health": 70,
+      "education": 80,
+      "reputation": 63,
+      "suspicion": 0,
+      "fatigue": 44,
+      "work_skill": 47
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "inn"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "serve",
+        "at": "innkeeper_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "manage",
+        "at": "innkeeper_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "inn"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-arkady-LIVELIHOOD",
+        "goal": "여행객 수입과 경찰 검문을 조율함",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "katya",
+    "name_ko": "카탸 벨랴예바",
+    "gender": "여",
+    "role": "여관 종업원",
+    "stratum": "LOWER",
+    "home_zone": "inn",
+    "job": "server",
+    "housing": "inn_room",
+    "family_relation": "father_arkady",
+    "friends": [
+      "arkady",
+      "anna"
+    ],
+    "skills": [
+      "serve",
+      "clean"
+    ],
+    "needs": [
+      "tips",
+      "freedom"
+    ],
+    "personal_goal": "손님들의 소문을 듣고 자기 독립을 꿈꿈",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "inn",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 31,
+      "hunger": 53,
+      "health": 75,
+      "education": 72,
+      "reputation": 56,
+      "suspicion": 5,
+      "fatigue": 47,
+      "work_skill": 56
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "inn"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "serve",
+        "at": "server_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "clean",
+        "at": "server_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "inn"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-katya-LIVELIHOOD",
+        "goal": "손님들의 소문을 듣고 자기 독립을 꿈꿈",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "arseny",
+    "name_ko": "아르세니 볼코프",
+    "gender": "남",
+    "role": "선원",
+    "stratum": "LOWER",
+    "home_zone": "canal_dock",
+    "job": "sailor",
+    "housing": "ship_bunk",
+    "family_relation": "friend_kirill",
+    "friends": [
+      "kirill",
+      "pavel"
+    ],
+    "skills": [
+      "dock",
+      "travel"
+    ],
+    "needs": [
+      "voyage",
+      "wages"
+    ],
+    "personal_goal": "새 항해를 떠나기 전 임금을 받아야 함",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "canal_dock",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 62,
+      "hunger": 60,
+      "health": 84,
+      "education": 55,
+      "reputation": 61,
+      "suspicion": 10,
+      "fatigue": 20,
+      "work_skill": 65
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "canal_dock"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "dock",
+        "at": "sailor_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "travel",
+        "at": "sailor_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "canal_dock"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-arseny-LIVELIHOOD",
+        "goal": "새 항해를 떠나기 전 임금을 받아야 함",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "roman",
+    "name_ko": "로만 슈체드린",
+    "gender": "남",
+    "role": "도시 경찰 서기관",
+    "stratum": "CLERK",
+    "home_zone": "police_post",
+    "job": "police_clerk",
+    "housing": "barracks",
+    "family_relation": "brother_sergei",
+    "friends": [
+      "boris",
+      "sergei"
+    ],
+    "skills": [
+      "write_report",
+      "interview"
+    ],
+    "needs": [
+      "order",
+      "advancement"
+    ],
+    "personal_goal": "신고와 소문을 구별하고 사건 기록을 정확히 남김",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "police_post",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 150,
+      "hunger": 67,
+      "health": 63,
+      "education": 55,
+      "reputation": 62,
+      "suspicion": 15,
+      "fatigue": 23,
+      "work_skill": 74
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "police_post"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "write_report",
+        "at": "police_clerk_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "interview",
+        "at": "police_clerk_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "police_post"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-roman-LIVELIHOOD",
+        "goal": "신고와 소문을 구별하고 사건 기록을 정확히 남김",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "agafya",
+    "name_ko": "아가피야 세메노바",
+    "gender": "여",
+    "role": "행상·숙박 불안정",
+    "stratum": "LOWER",
+    "home_zone": "market_stall",
+    "job": "hawker",
+    "housing": "street",
+    "family_relation": "none",
+    "friends": [
+      "daria",
+      "anna"
+    ],
+    "skills": [
+      "sell",
+      "seek_shelter"
+    ],
+    "needs": [
+      "hunger",
+      "shelter"
+    ],
+    "personal_goal": "잠자리와 먹을 것을 구하면서 길거리 물건을 팖",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "market_stall",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 7,
+      "hunger": 19,
+      "health": 53,
+      "education": 63,
+      "reputation": 44,
+      "suspicion": 20,
+      "fatigue": 26,
+      "work_skill": 83
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "market_stall"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "sell",
+        "at": "hawker_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "seek_shelter",
+        "at": "hawker_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "market_stall"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-agafya-LIVELIHOOD",
+        "goal": "잠자리와 먹을 것을 구하면서 길거리 물건을 팖",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "viktor",
+    "name_ko": "빅토르 바란노프",
+    "gender": "남",
+    "role": "소규모 출판업자",
+    "stratum": "MIDDLE",
+    "home_zone": "printing_office",
+    "job": "publisher",
+    "housing": "merchant_flat",
+    "family_relation": "sister_sofya",
+    "friends": [
+      "sofya",
+      "mikhail"
+    ],
+    "skills": [
+      "commission",
+      "publish"
+    ],
+    "needs": [
+      "profit",
+      "press_freedom"
+    ],
+    "personal_goal": "판권·검열·인쇄비 사이에서 출판을 결정함",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "printing_office",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 470,
+      "hunger": 26,
+      "health": 63,
+      "education": 66,
+      "reputation": 77,
+      "suspicion": 25,
+      "fatigue": 29,
+      "work_skill": 92
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "printing_office"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "commission",
+        "at": "publisher_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "publish",
+        "at": "publisher_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "printing_office"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-viktor-LIVELIHOOD",
+        "goal": "판권·검열·인쇄비 사이에서 출판을 결정함",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "filipp",
+    "name_ko": "필리프 데미도프",
+    "gender": "남",
+    "role": "목수",
+    "stratum": "LOWER",
+    "home_zone": "carpentry_shop",
+    "job": "carpenter",
+    "housing": "workshop_attic",
+    "family_relation": "wife_nadezhda",
+    "friends": [
+      "nadezhda",
+      "stepan"
+    ],
+    "skills": [
+      "repair",
+      "build"
+    ],
+    "needs": [
+      "contracts",
+      "injury"
+    ],
+    "personal_goal": "임대주택의 창문과 문을 수리하며 일감을 찾음",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "carpentry_shop",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 73,
+      "hunger": 33,
+      "health": 82,
+      "education": 59,
+      "reputation": 67,
+      "suspicion": 2,
+      "fatigue": 32,
+      "work_skill": 41
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "carpentry_shop"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "repair",
+        "at": "carpenter_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "build",
+        "at": "carpenter_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "carpentry_shop"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-filipp-LIVELIHOOD",
+        "goal": "임대주택의 창문과 문을 수리하며 일감을 찾음",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "nadezhda",
+    "name_ko": "나데즈다 데미도바",
+    "gender": "여",
+    "role": "바느질·육아 노동",
+    "stratum": "LOWER",
+    "home_zone": "carpentry_shop",
+    "job": "home_worker",
+    "housing": "workshop_attic",
+    "family_relation": "husband_filipp",
+    "friends": [
+      "filipp",
+      "nina"
+    ],
+    "skills": [
+      "sew",
+      "care"
+    ],
+    "needs": [
+      "family",
+      "childcare"
+    ],
+    "personal_goal": "집안일과 품삯 일을 병행함",
+    "era": "1840s",
+    "fiction_class": "FICTIONAL_COMPOSITE",
+    "home_marker": "carpentry_shop",
+    "possessable": true,
+    "stats": {
+      "cash_rubles": 24,
+      "hunger": 40,
+      "health": 53,
+      "education": 73,
+      "reputation": 59,
+      "suspicion": 7,
+      "fatigue": 35,
+      "work_skill": 50
+    },
+    "schedule": [
+      {
+        "start": "06:00",
+        "end": "08:00",
+        "verb": "WAKE_BREAKFAST",
+        "at": "carpentry_shop"
+      },
+      {
+        "start": "08:00",
+        "end": "12:00",
+        "verb": "sew",
+        "at": "home_worker_site"
+      },
+      {
+        "start": "12:00",
+        "end": "13:00",
+        "verb": "EAT_OR_FIND_FOOD",
+        "at": "market_or_home"
+      },
+      {
+        "start": "13:00",
+        "end": "18:00",
+        "verb": "care",
+        "at": "home_worker_site"
+      },
+      {
+        "start": "18:00",
+        "end": "21:00",
+        "verb": "SOCIAL_OR_ERRAND",
+        "at": "social_node"
+      },
+      {
+        "start": "21:00",
+        "end": "06:00",
+        "verb": "SLEEP",
+        "at": "carpentry_shop"
+      }
+    ],
+    "quests": [
+      {
+        "id": "Q-nadezhda-LIVELIHOOD",
+        "goal": "집안일과 품삯 일을 병행함",
+        "prerequisites": [
+          "in_historical_era",
+          "has_access_to_task"
+        ],
+        "outcomes": [
+          "money_or_safety_change",
+          "relation_or_reputation_change"
+        ]
+      }
+    ]
+  }
+]

@@ -40,7 +40,9 @@
         "watercarrier_luka",
         "midwife_avdotya",
         "housemaid_olga",
-        "tenant_mikhail"
+        "tenant_mikhail",
+        "courier_pavel",
+        "innkeeper_irina"
       ],
       "opensMinute": 360,
       "closesMinute": 1200,
@@ -69,7 +71,7 @@
   "tileheight": 16,
   "infinite": false,
   "nextlayerid": 7,
-  "nextobjectid": 4005,
+  "nextobjectid": 4010,
   "properties": [
     {
       "name": "mapId",
@@ -1962,7 +1964,7 @@
             {
               "name": "storyTextKo",
               "type": "string",
-              "value": "물을 받아 두는 허구의 공동 용기다. 남은 물과 길어 올 사람은 다르다."
+              "value": "물을 받아 두는 공동 용기다. 남은 물과 길어 올 사람은 다르다."
             }
           ]
         },
@@ -1989,7 +1991,7 @@
             {
               "name": "storyTextKo",
               "type": "string",
-              "value": "그릇과 마른 식량을 나누어 두는 허구의 찬장이다."
+              "value": "그릇과 마른 식량을 나누어 두는 찬장이다."
             }
           ]
         },
@@ -2158,6 +2160,20 @@
               "type": "bool",
               "value": true
             }
+          ]
+        },
+        {
+          "id": 4009,
+          "name": "장례 비용 장부",
+          "type": "quest-object",
+          "x": 176,
+          "y": 160,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            { "name": "questId", "type": "string", "value": "V37_FUNERAL_COSTS_1847" },
+            { "name": "requiresLivingEventId", "type": "string", "value": "E28" }
           ]
         }
       ]

@@ -25,7 +25,6 @@
       "resultKo": "날짜별로 수입과 지출을 적었다. 막연한 약속 대신 부족한 금액이 보인다.",
       "resultFlag": "ANDREI_DEBT_STATUS_1847_STAGE_1_RESULT_1",
       "followupTitleKo": "가문의 이름과 어음 만기",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "날짜별로 수입과 지출을 적었다. 막연한 약속 대신 부족한 금액이 보인다.",
         "relations": {
@@ -48,7 +47,6 @@
       "resultKo": "가문 보증을 부탁했다. 시간을 벌 수 있지만 책임이 가족에게도 간다.",
       "resultFlag": "ANDREI_DEBT_STATUS_1847_STAGE_1_RESULT_2",
       "followupTitleKo": "가문의 이름과 어음 만기",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "가문 보증을 부탁했다. 시간을 벌 수 있지만 책임이 가족에게도 간다.",
         "relations": {
@@ -71,7 +69,6 @@
       "resultKo": "물건을 팔아 일부를 갚았다. 빚은 줄었지만 무엇을 내놓을지 더 골라야 한다.",
       "resultFlag": "ANDREI_DEBT_STATUS_1847_STAGE_1_RESULT_3",
       "followupTitleKo": "가문의 이름과 어음 만기",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "물건을 팔아 일부를 갚았다. 빚은 줄었지만 무엇을 내놓을지 더 골라야 한다.",
         "relations": {

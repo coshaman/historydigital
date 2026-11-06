@@ -25,7 +25,6 @@
       "resultKo": "통행할 자리를 남기고 물건을 덮었다. 길은 열렸지만 진열과 판매량이 줄었다.",
       "resultFlag": "matryonaCleared",
       "followupTitleKo": "비를 맞을 자리와 하루 벌이",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "좌판을 줄여 길을 비우고 물건을 덮었다.",
         "relations": {
@@ -43,7 +42,6 @@
       "resultKo": "좌판을 안쪽으로 옮겼다. 물건은 보호되지만 이미 쓰는 자리와 갈등할 수 있다.",
       "resultFlag": "matryonaMoved",
       "followupTitleKo": "비를 맞을 자리와 하루 벌이",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "좌판을 골목 안쪽으로 옮겼다.",
         "relations": {
@@ -61,7 +59,6 @@
       "resultKo": "물건 일부를 거둬들였다. 이동하지 않아도 되지만 남은 재고는 날씨에 노출된다.",
       "resultFlag": "matryonaStored",
       "followupTitleKo": "비를 맞을 자리와 하루 벌이",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "물건 일부를 먼저 거둬들였다.",
         "relations": {

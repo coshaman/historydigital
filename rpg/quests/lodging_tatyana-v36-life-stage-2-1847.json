@@ -30,7 +30,6 @@
       "resultKo": "서점상은 며칠 안에 돌려달라고 했다. 타티야나는 그날을 작업 일정 옆에 표시했다.",
       "resultFlag": "TATYANA_READING_HOUR_1847_STAGE_2_RESULT_1",
       "followupTitleKo": "책방에서 빌릴 다음 책",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "서점상은 며칠 안에 돌려달라고 했다. 타티야나는 그날을 작업 일정 옆에 표시했다.",
         "relations": {
@@ -58,7 +57,6 @@
       "resultKo": "류보프는 수업용 책을 잠시 빌려줬다. 수업 전에 돌려주기로 정했다.",
       "resultFlag": "TATYANA_READING_HOUR_1847_STAGE_2_RESULT_2",
       "followupTitleKo": "책방에서 빌릴 다음 책",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "류보프는 수업용 책을 잠시 빌려줬다. 수업 전에 돌려주기로 정했다.",
         "relations": {
@@ -86,7 +84,6 @@
       "resultKo": "책 제목을 수첩에 적었다. 지금은 주문을 마치는 편이 낫다고 판단했다.",
       "resultFlag": "TATYANA_READING_HOUR_1847_STAGE_2_RESULT_3",
       "followupTitleKo": "책방에서 빌릴 다음 책",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "책 제목을 수첩에 적었다. 지금은 주문을 마치는 편이 낫다고 판단했다.",
         "relations": {

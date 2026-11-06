@@ -1,0 +1,65 @@
+{
+  "id": "V37_CENSORED_PAGE_1847",
+  "titleKo": "교정쇄에 남은 붉은 표시",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-01-01",
+  "requiresLivingEventId": "E06",
+  "premiseKo": "삭제 표시가 붙은 교정쇄가 인쇄소로 돌아왔다. 활자를 빼거나, 근거를 묻거나, 사본을 간직할 수 있다.",
+  "historicalOutcome": {
+    "id": "V37_CENSORED_PAGE_FICTIONAL_OUTCOME",
+    "value": "fictional printshop workflow only; no real censor, publication, or historical censorship decision is represented",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "printshop",
+    "objectId": 1174
+  },
+  "actions": [
+    {
+      "id": "E06_REMOVE_TYPE",
+      "hostIds": [
+        "printer_ekaterina"
+      ],
+      "durationMinutes": 5,
+      "labelKo": "표시된 활자를 빼고 수정 교정쇄를 넘긴다",
+      "subcopyKo": "인쇄소 작업자들이 압니다 · 공식 메모는 남지 않습니다 · 교정쇄는 작업대에 남습니다 · 추가 검토 위험은 낮아집니다",
+      "resultFlag": "v37CensoredTextRemoved",
+      "resultKo": "예카테리나는 표시된 활자를 빼고 수정 교정쇄를 넘겼다. 그 문장은 이번 인쇄물에 실리지 않는다.",
+      "effects": {
+        "situationKo": "예카테리나는 표시된 활자를 빼고 수정 교정쇄를 넘겼다."
+      }
+    },
+    {
+      "id": "E06_FILE_QUERY",
+      "hostIds": [
+        "editor_sofia"
+      ],
+      "durationMinutes": 8,
+      "labelKo": "삭제 근거를 묻는 메모를 편집부 기록에 남긴다",
+      "subcopyKo": "편집자와 기록 담당자가 압니다 · 공식 메모가 남습니다 · 교정쇄는 사무실에 머뭅니다 · 답변과 인쇄가 늦어질 수 있습니다",
+      "resultFlag": "v37CensorshipQueryFiled",
+      "resultKo": "소피아는 삭제 표시의 근거를 묻는 메모를 편집부 기록에 남겼다. 회신이 올지는 아직 알 수 없다.",
+      "effects": {
+        "situationKo": "소피아는 삭제 표시의 근거를 묻는 메모를 편집부 기록에 남겼다."
+      }
+    },
+    {
+      "id": "E06_KEEP_COPY",
+      "hostIds": [
+        "typesetter_nikita"
+      ],
+      "durationMinutes": 4,
+      "labelKo": "표시가 남은 사본을 작업복 안쪽에 숨긴다",
+      "subcopyKo": "니키타만 압니다 · 개인 소지품 기록이 남습니다 · 사본은 인쇄소 밖으로 나갑니다 · 발견되면 작업자에게 책임이 돌아올 수 있습니다",
+      "resultFlag": "v37MarkedProofPrivatelyKept",
+      "resultKo": "니키타는 표시가 남은 교정쇄 사본을 작업복 안쪽에 숨겼다. 인쇄소 밖으로 가져갈 수 있지만, 발견되면 작업자에게 책임이 돌아올 수 있다.",
+      "effects": {
+        "inventoryAdd": [
+          "삭제 표시가 남은 교정쇄 사본"
+        ],
+        "situationKo": "니키타는 삭제 표시가 남은 사본을 작업복 안쪽에 숨겼다."
+      }
+    }
+  ],
+  "completion": "the player responds to a returned fictional proof; without a response, the printshop removes the marked text after one simulated day"
+}

@@ -30,7 +30,6 @@
       "resultKo": "저울을 영점에 맞춰 두 번 쟀다. 가루가 모자란 것은 맞지만 상인의 고의인지는 알 수 없었다.",
       "resultFlag": "FYODOR_FLOUR_AND_ORDERS_1847_STAGE_1_RESULT_1",
       "followupTitleKo": "밀가루 자루의 무게",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "저울을 영점에 맞춰 두 번 쟀다. 가루가 모자란 것은 맞지만 상인의 고의인지는 알 수 없었다.",
         "relations": {
@@ -58,7 +57,6 @@
       "resultKo": "두 장부의 수량은 같았다. 운반 중 손실이 있었는지는 따로 확인하기로 했다.",
       "resultFlag": "FYODOR_FLOUR_AND_ORDERS_1847_STAGE_1_RESULT_2",
       "followupTitleKo": "밀가루 자루의 무게",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "두 장부의 수량은 같았다. 운반 중 손실이 있었는지는 따로 확인하기로 했다.",
         "relations": {
@@ -86,7 +84,6 @@
       "resultKo": "남은 밀가루로 구울 수 있는 수량을 적었다. 손님은 기다릴지 다른 곳을 찾을지 알게 됐다.",
       "resultFlag": "FYODOR_FLOUR_AND_ORDERS_1847_STAGE_1_RESULT_3",
       "followupTitleKo": "밀가루 자루의 무게",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "남은 밀가루로 구울 수 있는 수량을 적었다. 손님은 기다릴지 다른 곳을 찾을지 알게 됐다.",
         "relations": {

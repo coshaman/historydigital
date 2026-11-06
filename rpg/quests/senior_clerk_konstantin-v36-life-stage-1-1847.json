@@ -30,7 +30,6 @@
       "resultKo": "검토 메모는 남기고 결재란은 비워 두었다. 누가 다음 책임자인지 확인을 요청했다.",
       "resultFlag": "KONSTANTIN_UNSIGNED_REVIEW_1847_STAGE_1_RESULT_1",
       "followupTitleKo": "서명이 빠진 검토표",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "검토 메모는 남기고 결재란은 비워 두었다. 누가 다음 책임자인지 확인을 요청했다.",
         "relations": {
@@ -58,7 +57,6 @@
       "resultKo": "알렉세이는 접수 순서를 보여줬다. 자신이 결재를 받았다고 말하지 않았다.",
       "resultFlag": "KONSTANTIN_UNSIGNED_REVIEW_1847_STAGE_1_RESULT_2",
       "followupTitleKo": "서명이 빠진 검토표",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "알렉세이는 접수 순서를 보여줬다. 자신이 결재를 받았다고 말하지 않았다.",
         "relations": {
@@ -86,7 +84,6 @@
       "resultKo": "문서를 미결함에 넣고 서명 대기라고 표시했다. 검토 메모는 함께 보관했다.",
       "resultFlag": "KONSTANTIN_UNSIGNED_REVIEW_1847_STAGE_1_RESULT_3",
       "followupTitleKo": "서명이 빠진 검토표",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "문서를 미결함에 넣고 서명 대기라고 표시했다. 검토 메모는 함께 보관했다.",
         "relations": {

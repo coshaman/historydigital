@@ -31,6 +31,31 @@
     "courier_pavel": "가끔 안뜰까지 문서와 물건을 가져오는 배달원이다",
     "tenant_mikhail": "장작과 물을 나누는 안뜰 이웃이다"
   },
+  "kinshipRelations": [
+    {
+      "targetHostId": "laundress_mariya",
+      "kind": "SIBLING",
+      "relationshipKo": "마리야는 열한 살 많은 언니다. 두 사람은 안뜰 공동 셋방을 함께 쓴다.",
+      "status": "FICTIONAL_CHARACTER_DESIGN",
+      "graphEdgeId": "KIN-ANNA-MARIYA"
+    }
+  ],
+  "household": {
+    "id": "COURTYARD_SISTERS_1847",
+    "unitLabelKo": "안뜰 공동 셋방",
+    "homeLocation": {
+      "mapId": "courtyard",
+      "position": {
+        "x": 11,
+        "y": 13
+      }
+    },
+    "memberHostIds": [
+      "seamstress_anna",
+      "laundress_mariya"
+    ],
+    "status": "FICTIONAL_CHARACTER_DESIGN"
+  },
   "secretKnowledge": [
     {
       "id": "ANNA_WORK_ORDER",

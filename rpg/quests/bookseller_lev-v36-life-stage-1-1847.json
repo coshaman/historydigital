@@ -30,7 +30,6 @@
       "resultKo": "제본 흔적을 확인하니 책등만 헐거웠다. 글이 훼손됐다고 단정할 이유는 아직 없다.",
       "resultFlag": "LEV_RETURNED_SHEETS_1847_STAGE_1_RESULT_1",
       "followupTitleKo": "반품 장부에 빠진 책",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "제본 흔적을 확인하니 책등만 헐거웠다. 글이 훼손됐다고 단정할 이유는 아직 없다.",
         "relations": {
@@ -58,7 +57,6 @@
       "resultKo": "돌려준 사람은 책이 젖지 않게 감싸 두었다고 했다. 누가 읽었는지는 말하지 않았다.",
       "resultFlag": "LEV_RETURNED_SHEETS_1847_STAGE_1_RESULT_2",
       "followupTitleKo": "반품 장부에 빠진 책",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "돌려준 사람은 책이 젖지 않게 감싸 두었다고 했다. 누가 읽었는지는 말하지 않았다.",
         "relations": {
@@ -86,7 +84,6 @@
       "resultKo": "진열표에 책등이 느슨하다고 적었다. 손님은 상태를 알고 고를 수 있다.",
       "resultFlag": "LEV_RETURNED_SHEETS_1847_STAGE_1_RESULT_3",
       "followupTitleKo": "반품 장부에 빠진 책",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "진열표에 책등이 느슨하다고 적었다. 손님은 상태를 알고 고를 수 있다.",
         "relations": {

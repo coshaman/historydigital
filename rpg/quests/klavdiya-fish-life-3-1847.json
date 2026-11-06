@@ -26,7 +26,6 @@
       "resultKo": "저울과 수량을 다시 확인했다. 원인을 찾기 전에는 누구 이름도 적지 않았다.",
       "resultFlag": "KLAVDIYA_FISH_STORAGE_1847_STAGE_3_RESULT_1",
       "followupTitleKo": "상하기 전의 생선값",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "저울과 수량을 다시 확인했다. 원인을 찾기 전에는 누구 이름도 적지 않았다.",
         "relations": {
@@ -49,7 +48,6 @@
       "resultKo": "차이 난 양만 손실로 적었다. 사람을 지목하진 않았지만 가게 수입은 줄었다.",
       "resultFlag": "KLAVDIYA_FISH_STORAGE_1847_STAGE_3_RESULT_2",
       "followupTitleKo": "상하기 전의 생선값",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "차이 난 양만 손실로 적었다. 사람을 지목하진 않았지만 가게 수입은 줄었다.",
         "relations": {
@@ -72,7 +70,6 @@
       "resultKo": "주변 상인에게 본 일을 물었다. 단서를 얻을 수 있지만 추측을 사실처럼 적지 않아야 한다.",
       "resultFlag": "KLAVDIYA_FISH_STORAGE_1847_STAGE_3_RESULT_3",
       "followupTitleKo": "상하기 전의 생선값",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "주변 상인에게 본 일을 물었다. 단서를 얻을 수 있지만 추측을 사실처럼 적지 않아야 한다.",
         "relations": {

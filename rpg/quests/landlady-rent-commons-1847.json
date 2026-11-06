@@ -25,7 +25,6 @@
       "resultKo": "방세와 공동 장작값을 나눠 적고 기한을 정했다. 무엇이 부족한지 보이지만 납부는 보장되지 않는다.",
       "resultFlag": "polinaSeparated",
       "followupTitleKo": "방세 독촉과 공동 지출",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "방세와 공동 비용의 지급 날짜를 따로 적었다.",
         "relations": {
@@ -46,7 +45,6 @@
       "resultKo": "세입자에게 방을 비우라고 통보했다. 장부는 정리될 수 있지만 세입자는 거처를 잃는다.",
       "resultFlag": "polinaEvicted",
       "followupTitleKo": "방세 독촉과 공동 지출",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "방세가 밀린 세입자에게 퇴거를 통보했다.",
         "relations": {
@@ -67,7 +65,6 @@
       "resultKo": "모두가 비용을 다시 나눠 부담하기로 했다. 한 집의 압박은 줄었지만 장작을 늦게 살 수도 있다.",
       "resultFlag": "polinaShared",
       "followupTitleKo": "방세 독촉과 공동 지출",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "공동 비용을 다시 나눠 일부 지급을 미뤘다.",
         "relations": {

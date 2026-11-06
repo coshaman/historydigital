@@ -7,6 +7,7 @@ const requiredScenes = ['C03', 'C06', 'C07', 'E02', 'E07'];
 const requiredCharacters = ['alexei', 'ekaterina', 'pavel', 'protagonist'];
 const requiredSituations = ['firstMeeting', 'ordinaryColleague', 'private', 'conflict', 'increasedIntimacy', 'formalInstitutional'];
 const requiredDirectionKeys = ['audience', 'recordMode', 'leavesOffice', 'risk'];
+const normalizeLine = value => String(value ?? '').normalize('NFC').replace(/[\s.,!?…·]/g, '').toLocaleLowerCase('ko');
 
 if (!Array.isArray(data.literaryBorrowings)) failures.push('literaryBorrowings must be an array');
 for (const borrowing of data.literaryBorrowings || []) {
@@ -34,14 +35,23 @@ if (signatures.filter(Boolean).length === requiredCharacters.length && new Set(s
 
 const actualLines = Object.fromEntries(requiredCharacters.map((character) => [character, []]));
 const addActual = (speaker, text) => { if (requiredCharacters.includes(speaker) && typeof text === 'string' && text.trim()) actualLines[speaker].push(text.trim()); };
+const sceneLines = new Map();
 for (const scene of data.scenes || []) {
-  for (const [speaker, text] of scene.intro || []) addActual(speaker, text);
-  addActual(scene.character, scene.question);
-  for (const callback of scene.memoryCallbacks || []) addActual(callback.character, callback.line);
+  const currentSceneLines = Object.fromEntries(requiredCharacters.map((character) => [character, []]));
+  const addSceneLine = (speaker, text) => {
+    addActual(speaker, text);
+    if (requiredCharacters.includes(speaker) && typeof text === 'string' && text.trim()) currentSceneLines[speaker].push(text.trim());
+  };
+  sceneLines.set(scene.id, currentSceneLines);
+  for (const [speaker, text] of scene.intro || []) addSceneLine(speaker, text);
+  addSceneLine(scene.character, scene.question);
+  for (const callback of scene.memoryCallbacks || []) addSceneLine(callback.character, callback.line);
   for (const choice of [...(scene.choices || []), ...(scene.postChoices || [])]) {
-    addActual(choice.actor === 'PLAYER' ? 'protagonist' : choice.actor, choice.text);
-    addActual(choice.reactionActor, choice.reaction);
-    for (const [speaker, text] of choice.reactionSequence || []) addActual(speaker, text);
+    addSceneLine(choice.actor === 'PLAYER' ? 'protagonist' : choice.actor, choice.text);
+    // `reaction` is a compatibility fallback when the structured sequence is absent.
+    // Counting both makes one displayed reply look like duplicated authored dialogue.
+    if (!choice.reactionSequence?.length) addSceneLine(choice.reactionActor, choice.reaction);
+    for (const [speaker, text] of choice.reactionSequence || []) addSceneLine(speaker, text);
     if (choice.reactionSequence?.length && choice.reactionActor === 'NARRATION') failures.push(`${choice.id} reactionActor must match the first reactionSequence speaker`);
     if (/^(알렉세이|예카테리나|파벨):/.test(choice.reaction || '')) failures.push(`${choice.id} reaction repeats a speaker label already rendered by reactionActor`);
   }
@@ -56,6 +66,30 @@ const actualSignature = (character) => {
 const actualSignatures = requiredCharacters.map(actualSignature);
 for (const character of requiredCharacters) if (actualLines[character].length < 2) failures.push(`speech audit: insufficient canonical lines for ${character}`);
 if (actualSignatures.every(Boolean) && new Set(actualSignatures).size < requiredCharacters.length) failures.push('speech audit: canonical dialogue endings and rhythm are effectively identical');
+
+const spokenLineOwners = new Map();
+for (const character of requiredCharacters) for (const line of actualLines[character]) {
+  const key = normalizeLine(line);
+  if (!key) continue;
+  const prior = spokenLineOwners.get(key);
+  if (prior) failures.push(`duplicate authored spoken line: ${prior.character} and ${character}: ${line}`);
+  else spokenLineOwners.set(key, { character, line });
+}
+
+for (const [sceneId, linesBySpeaker] of sceneLines) {
+  const speakersInScene = requiredCharacters.filter(character => linesBySpeaker[character].length);
+  const signaturesInScene = speakersInScene.map(character => {
+    const lines = linesBySpeaker[character];
+    const endings = [...new Set(lines.flatMap(line => {
+      const normalizedLine = line.replace(/[.!?…]+$/g, '');
+      return endingTokens.filter(token => normalizedLine.endsWith(token));
+    }))].sort();
+    const rhythms = [...new Set(lines.map(line => `${(line.match(/[.!?]/g) || []).length || 1}:${line.length < 35 ? 'short' : line.length < 75 ? 'mid' : 'long'}`))].sort();
+    return `${endings.join('|')}::${rhythms.join('|')}`;
+  });
+  if (signaturesInScene.length > 1 && new Set(signaturesInScene).size < signaturesInScene.length)
+    failures.push(`${sceneId}: characters share effectively identical dialogue endings and rhythm`);
+}
 
 for (const sceneId of requiredScenes) {
   const scene = data.scenes.find((item) => item.id === sceneId);

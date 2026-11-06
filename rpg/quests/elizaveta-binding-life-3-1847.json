@@ -26,7 +26,6 @@
       "resultKo": "바뀐 곳을 함께 확인하고 책을 건넸다. 손님은 수리 범위를 알고 가져간다.",
       "resultFlag": "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_3_RESULT_1",
       "followupTitleKo": "찢어진 장과 수리값",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "바뀐 곳을 함께 확인하고 책을 건넸다. 손님은 수리 범위를 알고 가져간다.",
         "relations": {
@@ -49,7 +48,6 @@
       "resultKo": "수리비를 낮춰 돌려주었다. 손님 부담은 줄었지만 일한 값도 깎였다.",
       "resultFlag": "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_3_RESULT_2",
       "followupTitleKo": "찢어진 장과 수리값",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "수리비를 낮춰 돌려주었다. 손님 부담은 줄었지만 일한 값도 깎였다.",
         "relations": {
@@ -72,7 +70,6 @@
       "resultKo": "손님이 직접 올 때까지 책을 보관했다. 오해는 줄겠지만 작업대가 비워지지 않는다.",
       "resultFlag": "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_3_RESULT_3",
       "followupTitleKo": "찢어진 장과 수리값",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "손님이 직접 올 때까지 책을 보관했다. 오해는 줄겠지만 작업대가 비워지지 않는다.",
         "relations": {

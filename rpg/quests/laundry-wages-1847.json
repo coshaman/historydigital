@@ -25,7 +25,6 @@
       "resultKo": "받을 날짜를 적고 외상으로 남겼다. 오늘 돈은 생기지 않았지만 다음 약속은 분명해졌다.",
       "resultFlag": "mariyaCredit",
       "followupTitleKo": "밀린 세탁값",
-      "followupKo": "이 선택은 이 허구 인물의 오늘과 이웃과의 관계에만 남는다.",
       "effects": {
         "situationKo": "세탁값의 지급 날짜를 정해 개인 계산표에 남겼다.",
         "relations": {
@@ -43,7 +42,6 @@
       "resultKo": "밀린 값을 먼저 받은 뒤 다음 세탁을 맡기로 했다. 마리야의 장작값은 마련되지만, 의뢰인이 다음 주문을 맡길지는 알 수 없다.",
       "resultFlag": "mariyaPaid",
       "followupTitleKo": "밀린 세탁값",
-      "followupKo": "이 선택은 이 허구 인물의 오늘과 이웃과의 관계에만 남는다.",
       "effects": {
         "situationKo": "밀린 세탁값을 받고 다음 일감을 새로 정했다.",
         "relations": {
@@ -61,7 +59,6 @@
       "resultKo": "일부를 받아 오늘 필요한 장작값에 보탰다. 남은 값은 날짜를 정해 계산표에 남겼다.",
       "resultFlag": "mariyaPartial",
       "followupTitleKo": "밀린 세탁값",
-      "followupKo": "이 선택은 이 허구 인물의 오늘과 이웃과의 관계에만 남는다.",
       "effects": {
         "situationKo": "세탁값 일부를 받고 잔액 지급 날짜를 적었다.",
         "relations": {

@@ -57,15 +57,12 @@ try {
     assert.equal(await page.locator('.topline').isVisible(), false);
     assert.equal(await page.locator('.playfield').isVisible(), false);
     assert.equal(await page.locator('.lower').isVisible(), false);
-    assert.match(await page.locator('#ending-history').innerText(), /실제 잡지의 발행.*플레이어의 선택으로 바뀌지 않는다/);
+    assert.equal(await page.locator('#ending-history').count(), 0, 'ending omits historical meta notices');
+    assert.doesNotMatch(await page.locator('#ending-screen').innerText(), /허구|재구성|게임 설정|실제와 다르/);
     const journeyCount = await page.locator('#ending-journey').count();
     const journeyText = await page.locator('#ending-journey').innerText();
     assert.ok(journeyCount === 1 && journeyText.length > 60, `journey entries not rendered: ${journeyCount}, ${journeyText.length}`);
-    assert.ok(await page.locator('#ending-sources a').count() >= 3);
-    const historyComesFirst = await page.evaluate(() => Boolean(
-      document.querySelector('#ending-historical-comparison').compareDocumentPosition(document.querySelector('#ending-life-section')) & Node.DOCUMENT_POSITION_FOLLOWING,
-    ));
-    assert.equal(historyComesFirst, true, 'documented biography must precede the fictional life timeline');
+    assert.equal(await page.locator('#ending-historical-comparison').count(), 0, 'ending keeps only the result and the player life path');
     assert.match(await page.locator('#ending-life-progress').innerText(), /1 \/ 7/);
     const routeBeforeReplay = await page.evaluate(() => {
       const state = JSON.parse(localStorage.getItem('v33-rpg-save')).state;

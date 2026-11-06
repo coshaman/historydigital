@@ -8,7 +8,7 @@
     "status": "fictional_character_design"
   },
   "socialEstate": "urban_service_worker",
-  "occupation": "거리 순찰과 민원 접수를 맡는 허구의 경찰 하사관",
+  "occupation": "거리 순찰과 민원 접수를 맡는 경찰 하사관",
   "rank": {
     "value": "게임 속 순찰 담당",
     "ru": null,
@@ -338,5 +338,36 @@
     "deterministicSeed": 2307006612
   },
   "plannerPolicyStatus": "FICTIONAL_GAMEPLAY_BALANCE",
-  "plannerPolicyBasisKo": "이반 세묘노프의 경계심·생계 우선도·관계 필요를 반영한 결정론적 게임 성향."
+  "plannerPolicyBasisKo": "이반 세묘노프의 경계심·생계 우선도·관계 필요를 반영한 결정론적 게임 성향.",
+  "residence": {
+    "kind": "BARRACKS_BED",
+    "homeLocation": {
+      "mapId": "police-station",
+      "position": {
+        "x": 5,
+        "y": 4
+      }
+    },
+    "sleepLocation": {
+      "mapId": "police-station",
+      "position": {
+        "x": 5,
+        "y": 4
+      }
+    },
+    "sleepMinute": 1140,
+    "unitLabelKo": "관할 숙소의 병영 침상",
+    "status": "FICTIONAL_CHARACTER_DESIGN",
+    "valueStatus": "FICTIONAL_GAMEPLAY_DESIGN",
+    "designBasisKo": "역사적 주소나 실제 동거 관계가 아닌 허구 생활 시뮬레이션용 거처. 지도 타일은 게임 내 귀가·취침 동선의 목적지다."
+  },
+  "kinshipRelations": [
+    {
+      "targetHostId": "junior_guard_sergey",
+      "kind": "OTHER_KIN",
+      "relationshipKo": "세르게이는 내 조카다. 관청 경비 업무를 두고 견해가 다른 허구 외삼촌과 조카 (게임용 허구 설정).",
+      "status": "FICTIONAL_CHARACTER_DESIGN",
+      "graphEdgeId": "KIN-IVAN-SERGEY"
+    }
+  ]
 }

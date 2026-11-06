@@ -26,7 +26,6 @@
       "resultKo": "계획이 없는 차입은 거절했다. 대신 어디에 돈을 썼는지 가족에게 보여야 한다.",
       "resultFlag": "ANDREI_DEBT_STATUS_1847_STAGE_3_RESULT_1",
       "followupTitleKo": "가문의 이름과 어음 만기",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "계획이 없는 차입은 거절했다. 대신 어디에 돈을 썼는지 가족에게 보여야 한다.",
         "relations": {
@@ -49,7 +48,6 @@
       "resultKo": "조건을 적고 빌리기로 했다. 책임은 분명하지만 만기를 넘기면 위험도 커진다.",
       "resultFlag": "ANDREI_DEBT_STATUS_1847_STAGE_3_RESULT_2",
       "followupTitleKo": "가문의 이름과 어음 만기",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "조건을 적고 빌리기로 했다. 책임은 분명하지만 만기를 넘기면 위험도 커진다.",
         "relations": {
@@ -72,7 +70,6 @@
       "resultKo": "물건을 정리해 빚을 줄이기로 했다. 체면은 상할 수 있지만 새 빚은 피한다.",
       "resultFlag": "ANDREI_DEBT_STATUS_1847_STAGE_3_RESULT_3",
       "followupTitleKo": "가문의 이름과 어음 만기",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "물건을 정리해 빚을 줄이기로 했다. 체면은 상할 수 있지만 새 빚은 피한다.",
         "relations": {

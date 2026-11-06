@@ -25,7 +25,6 @@
       "resultKo": "봉인 상태와 시각을 함께 적고 수취 서명을 받았다. 무엇을 확인했는지 서로 같은 기록을 갖는다.",
       "resultFlag": "signedReceipt",
       "followupTitleKo": "수취 서명과 전달 대장",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "봉인 상태와 시각을 함께 적고 수취 서명을 받았다. 무엇을 확인했는지 서로 같은 기록을 갖는다.",
         "relations": {
@@ -47,7 +46,6 @@
       "resultKo": "이름만 적고 출발했다. 빠르게 움직였지만 봉투가 온전했는지는 기록되지 않았다.",
       "resultFlag": "nameOnlyReceipt",
       "followupTitleKo": "수취 서명과 전달 대장",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "이름만 적고 출발했다. 빠르게 움직였지만 봉투가 온전했는지는 기록되지 않았다.",
         "relations": {
@@ -69,7 +67,6 @@
       "resultKo": "봉투를 열기 전에 흠집을 같이 확인하기로 했다. 늦어지더라도 전달 전 상태를 숨기지 않았다.",
       "resultFlag": "sealHeld",
       "followupTitleKo": "수취 서명과 전달 대장",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "봉투를 열기 전에 흠집을 같이 확인하기로 했다. 늦어지더라도 전달 전 상태를 숨기지 않았다.",
         "relations": {

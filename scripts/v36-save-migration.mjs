@@ -14,7 +14,7 @@ const quests = (await Promise.all((await readdir(path.join(root, 'rpg/quests')))
 const scenarios = [
   ['fresh_observer', null], ['alexei_possessed', 'clerk_alexei'], ['ekaterina_possessed', 'printer_ekaterina'], ['pavel_route', 'courier_pavel'],
   ['anna_life', 'seamstress_anna'], ['mikhail_housing', 'tenant_mikhail'], ['lev_bookseller', 'bookseller_lev'], ['sofia_editor', 'editor_sofia'],
-  ['ivan_patrol', 'police_sergeant_ivan'], ['darya_reader', 'reader_darya'], ['market_seller', 'market_nadezhda'], ['warehouse_worker', 'warehouse_pyotr'],
+  ['ivan_patrol', 'police_sergeant_ivan'], ['darya_reader', 'reader_darya'], ['market_seller', 'market_nadezhda'], ['warehouse_worker', 'warehouse_pyotr'], ['legacy_v36', null],
 ];
 const results = [];
 
@@ -35,6 +35,11 @@ for (const [index, [fixtureId, hostId]] of scenarios.entries()) {
   for (const host of Object.values(state.hosts)) {
     delete host.activeGoal;
     delete host.needs;
+    if (fixtureId === 'legacy_v36') {
+      delete host.housing;
+      delete host.pendingWageClaims;
+      delete host.relationshipEdges;
+    }
   }
   if (index % 2 === 0) delete state.player.dialogueGrowth;
   if (index % 3 === 0) delete state.player.civic;
@@ -42,18 +47,27 @@ for (const [index, [fixtureId, hostId]] of scenarios.entries()) {
     delete state.learning.examAnswers;
     delete state.learning.promotionStatus;
   }
-  state.version = index % 3 === 0 ? 1 : index % 3 === 1 ? 2 : 3;
+  state.version = fixtureId === 'legacy_v36' ? 36 : index % 3 === 0 ? 1 : index % 3 === 1 ? 2 : 3;
   state.player.gameSaveVersion = state.version;
   const saveVersion = state.version;
   const envelope = { saveVersion, checksum: game.stateHash(state), state };
   const originalPlayer = structuredClone(state.player), originalHost = hostId ? structuredClone(state.hosts[hostId]) : null;
   const restored = game.loadGame(envelope, { maps, hostCards: cards, quests });
 
-  assert.equal(restored.version, 36, `${fixtureId}: state schema was not upgraded to V36`);
-  assert.equal(restored.player.gameSaveVersion, 36, `${fixtureId}: player save schema was not upgraded`);
+  assert.equal(restored.version, 37, `${fixtureId}: state schema was not upgraded to V37`);
+  assert.equal(restored.player.gameSaveVersion, 37, `${fixtureId}: player save schema was not upgraded`);
   assert.equal(restored.world.clockMinutes, 540 + index * 73, `${fixtureId}: world clock changed`);
   assert.ok(Object.values(restored.hosts).every(host => Number.isFinite(host.needs?.hunger) && Number.isFinite(host.needs?.fatigue) && host.activeGoal === null), `${fixtureId}: new resident runtime fields were not safely migrated`);
   assert.ok(cards.every(card => (restored.hosts[card.id].todayGoals ?? []).length === (card.todayGoals ?? []).length), `${fixtureId}: authored daily intentions were not restored for all residents`);
+  if (fixtureId === 'legacy_v36') {
+    assert.deepEqual(restored.hosts.tenant_mikhail.housing, cards.find(card => card.id === 'tenant_mikhail').housing,
+      'V36 save migration adds the authored housing contract without overwriting player data');
+    assert.deepEqual(restored.hosts.tenant_mikhail.pendingWageClaims, [], 'V36 save migration initializes the wage ledger');
+    assert.ok(restored.hosts.tenant_mikhail.relationshipEdges.some(edge => edge.kind === 'AUTHORED_SOCIAL_TIE' && edge.toHostId === 'seamstress_anna'),
+      'V36 save migration adds host-scoped typed social edges');
+    assert.ok(restored.hosts.landlady_polina.relationshipEdges.some(edge => edge.edgeId === 'HOUSING:tenant_mikhail:landlady_polina'),
+      'V36 save migration indexes the authored rent obligation for both parties');
+  }
   assert.equal(restored.player.position.x, originalPlayer.position.x, `${fixtureId}: player position was overwritten`);
   assert.equal(restored.player.position.y, originalPlayer.position.y, `${fixtureId}: player position was overwritten`);
   if (hostId) {
@@ -63,18 +77,18 @@ for (const [index, [fixtureId, hostId]] of scenarios.entries()) {
     assert.deepEqual(restoredHost.relations, originalHost.relations, `${fixtureId}: relationship state was overwritten`);
   }
   const roundTrip = JSON.parse(game.saveGame(restored));
-  assert.equal(roundTrip.saveVersion, 36, `${fixtureId}: new save was not written with V36 schema`);
-  assert.equal(game.stateHash(game.loadGame(roundTrip, { maps, hostCards: cards, quests })), game.stateHash(restored), `${fixtureId}: V36 round trip changed state`);
+  assert.equal(roundTrip.saveVersion, 37, `${fixtureId}: new save was not written with V37 schema`);
+  assert.equal(game.stateHash(game.loadGame(roundTrip, { maps, hostCards: cards, quests })), game.stateHash(restored), `${fixtureId}: V37 round trip changed state`);
   results.push({ fixtureId, sourceSaveVersion: saveVersion, migratedSaveVersion: roundTrip.saveVersion, possessedHostId: hostId, preservesPlayerData: true, roundTrip: true });
 }
 
 const corrupted = game.createInitialState({ maps, hostCards: cards, quests, startMapId: 'nevsky' });
 const badChecksum = { saveVersion: 3, checksum: '00000000', state: corrupted };
-assert.throws(() => game.loadGame(badChecksum, { maps, hostCards: cards, quests }), /Invalid or corrupted V36 save/);
+assert.throws(() => game.loadGame(badChecksum, { maps, hostCards: cards, quests }), /Invalid or corrupted V37 save/);
 const badPosition = structuredClone(corrupted);
 badPosition.player.position.x = 999;
 assert.throws(() => game.loadGame({ saveVersion: 3, checksum: game.stateHash(badPosition), state: badPosition }, { maps, hostCards: cards, quests }), /invalid player position/i);
-const report = { schemaVersion: 'V36-SAVE-MIGRATION-1', status: 'PASS', supportedSourceVersions: [1, 2, 3], targetVersion: 36, fixtureCount: results.length, fixtures: results, preservesUserData: true, rejectsCorruptChecksum: true, rejectsInvalidPosition: true, generatedAt: new Date().toISOString() };
-await mkdir(path.join(root, 'docs', 'v36'), { recursive: true });
-await writeFile(path.join(root, 'docs', 'v36', 'SAVE_MIGRATION.json'), JSON.stringify(report, null, 2) + '\n', 'utf8');
+const report = { schemaVersion: 'V37-SAVE-MIGRATION-1', status: 'PASS', supportedSourceVersions: [1, 2, 3, 36], targetVersion: 37, fixtureCount: results.length, fixtures: results, preservesUserData: true, rejectsCorruptChecksum: true, rejectsInvalidPosition: true, generatedAt: new Date().toISOString() };
+await mkdir(path.join(root, 'docs', 'v37'), { recursive: true });
+await writeFile(path.join(root, 'docs', 'v37', 'SAVE_MIGRATION.json'), JSON.stringify(report, null, 2) + '\n', 'utf8');
 console.log(JSON.stringify(report, null, 2));

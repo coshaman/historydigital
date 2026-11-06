@@ -1,0 +1,69 @@
+{
+  "id": "V37_APOTHECARY_ORDER_1847",
+  "titleKo": "비어 있는 약방 재고표",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "requiresLivingEventId": "E16",
+  "premiseKo": "야코프가 재고표에서 물품 꾸러미가 비어 있는 것을 확인했습니다. 주문을 남기거나, 보류하거나, 표트르가 꾸러미를 내줄지 정할 수 있습니다.",
+  "historicalOutcome": {
+    "id": "V37_APOTHECARY_ORDER_FICTIONAL_OUTCOME",
+    "value": "fictional stock-check, generic sealed supply packet, payment, and delivery only; no medicine, treatment, or health effect is represented",
+    "sourceIds": []
+  },
+  "entry": { "mapId": "market-quay", "objectId": 1176 },
+  "actions": [
+    {
+      "id": "E16_PLACE_ORDER",
+      "hostIds": ["apothecary_yakov"],
+      "requiredLivingEventActorKey": "buyerHostId",
+      "requiredLivingEventStage": "SHORTAGE_FOUND",
+      "durationMinutes": 2,
+      "labelKo": "사적인 주문 메모를 남기고 꾸러미를 청한다",
+      "subcopyKo": "야코프와 표트르가 알게 됩니다 · 사적인 주문 메모가 남고 공식 장부에는 올리지 않습니다 · 도착하면 3코페이카를 냅니다 · 꾸러미가 오기 전까지 재고는 비어 있습니다",
+      "resultFlag": "v37ApothecaryOrderPlaced",
+      "resultKo": "야코프는 주문 메모를 남겼다. 꾸러미가 실제로 도착하기 전까지 대금은 건네지지 않는다.",
+      "effects": { "situationKo": "약방 물품 꾸러미를 사적으로 주문했다. 정해진 게임 거래 금액은 인도 시점에만 지불한다." }
+    },
+    {
+      "id": "E16_DECLINE_ORDER",
+      "hostIds": ["apothecary_yakov"],
+      "requiredLivingEventActorKey": "buyerHostId",
+      "requiredLivingEventStage": "SHORTAGE_FOUND",
+      "durationMinutes": 1,
+      "labelKo": "주문을 미루고 빈 재고표를 둔다",
+      "subcopyKo": "야코프와 표트르가 알게 됩니다 · 사적 주문 메모나 공식 발주서는 남지 않습니다 · 돈과 소지품은 그대로입니다 · 당분간 꾸러미를 받을 수 없습니다",
+      "resultFlag": "v37ApothecaryOrderDeclined",
+      "resultKo": "야코프는 주문을 미뤘다. 재고는 비어 있고 거래는 없었다.",
+      "effects": { "situationKo": "물품 주문을 미뤘다. 돈과 소지품은 움직이지 않았다." }
+    },
+    {
+      "id": "E16_DISPATCH_SUPPLY",
+      "hostIds": ["warehouse_pyotr"],
+      "requiredLivingEventActorKey": "supplierHostId",
+      "requiredLivingEventStage": "ORDER_PLACED",
+      "requiredPresentLivingEventHostKey": "buyerHostId",
+      "requiredParticipantDistance": 2,
+      "durationMinutes": 3,
+      "labelKo": "꾸러미를 건네고 3코페이카를 받는다",
+      "subcopyKo": "야코프가 현장에서 받습니다 · 별도 공문서는 남지 않습니다 · 야코프에게서 3코페이카를 받고 소지한 꾸러미를 넘깁니다 · 표트르의 소지품 하나가 줄어듭니다",
+      "resultFlag": "v37ApothecarySupplyDispatched",
+      "resultKo": "표트르는 주문 꾸러미를 건네고 대금을 받았다. 재고 꾸러미와 두 사람의 잔액이 바뀌었다.",
+      "effects": { "situationKo": "주문된 물품 꾸러미를 인도하고 게임 거래 대금을 받았다." }
+    },
+    {
+      "id": "E16_WITHHOLD_SUPPLY",
+      "hostIds": ["warehouse_pyotr"],
+      "requiredLivingEventActorKey": "supplierHostId",
+      "requiredLivingEventStage": "ORDER_PLACED",
+      "requiredPresentLivingEventHostKey": "buyerHostId",
+      "requiredParticipantDistance": 2,
+      "durationMinutes": 1,
+      "labelKo": "꾸러미를 내주지 않고 거래를 접는다",
+      "subcopyKo": "야코프가 현장에서 압니다 · 별도 공문서는 남지 않습니다 · 돈과 소지품은 그대로입니다 · 주문은 미결로 끝납니다",
+      "resultFlag": "v37ApothecarySupplyWithheld",
+      "resultKo": "표트르는 꾸러미를 내주지 않았다. 대금 거래는 없었다.",
+      "effects": { "situationKo": "물품 인도를 보류했다. 대금과 재고는 그대로 남았다." }
+    }
+  ],
+  "completion": "a stock check starts a shortage scene; the buyer may place a private order or decline, the supplier may dispatch or withhold a real inventory item, and unattended orders resolve through deterministic NPC travel and payment without changing health"
+}

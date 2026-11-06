@@ -30,7 +30,6 @@
       "resultKo": "필체가 다른 두 기입을 따로 표시했다. 어느 쪽이 맞는지는 아직 정하지 않았다.",
       "resultFlag": "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_1_RESULT_1",
       "followupTitleKo": "겹쳐 적힌 접수 번호",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "필체가 다른 두 기입을 따로 표시했다. 어느 쪽이 맞는지는 아직 정하지 않았다.",
         "relations": {
@@ -58,7 +57,6 @@
       "resultKo": "예카테리나는 봉투를 보낸 시각만 확인했다. 접수 번호가 두 번 적힌 이유는 알지 못했다.",
       "resultFlag": "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_1_RESULT_2",
       "followupTitleKo": "겹쳐 적힌 접수 번호",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "예카테리나는 봉투를 보낸 시각만 확인했다. 접수 번호가 두 번 적힌 이유는 알지 못했다.",
         "relations": {
@@ -86,7 +84,6 @@
       "resultKo": "번호를 그대로 두고 미해결이라고 적었다. 결재자는 문제를 보지만 원인은 따로 확인해야 한다.",
       "resultFlag": "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_1_RESULT_3",
       "followupTitleKo": "겹쳐 적힌 접수 번호",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "번호를 그대로 두고 미해결이라고 적었다. 결재자는 문제를 보지만 원인은 따로 확인해야 한다.",
         "relations": {

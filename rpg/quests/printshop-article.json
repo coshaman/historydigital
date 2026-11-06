@@ -3,7 +3,7 @@
   "titleKo": "교정쇄의 행선지",
   "chapterId": "V33_1847_PRINT",
   "date": "1847-06-01",
-  "premiseKo": "인쇄소의 허구 교정쇄 사본을 누가 어떤 절차로 다룰지 정한다. 실제 간행물의 역사적 발행 사실은 이 선택으로 바뀌지 않는다.",
+  "premiseKo": "편집부 공고와 교정쇄를 누구에게 어떤 순서로 보낼지 정한다.",
   "historicalOutcome": {
     "id": "SOVREMENNIK_1847_ISSUE_PUBLICATION",
     "value": "the attested 1847 issue remains historically published",
@@ -29,7 +29,15 @@
       "followup": "EDITORIAL_RETURN",
       "followupTitleKo": "편집실로 돌아간 사본",
       "followupKo": "전달표에 반납 시각이 적혔다. 오늘의 교정쇄는 작업장을 떠났고, 예카테리나는 다음 교정 의뢰를 기다린다.",
-      "effects": { "situationKo": "교정쇄 사본을 편집실로 돌려보냈다.", "relations": { "editorial_office": "반납 절차를 확인했다" }, "inventoryRemove": ["교정쇄 사본"] }
+      "effects": {
+        "situationKo": "교정쇄 사본을 편집실로 돌려보냈다.",
+        "relations": {
+          "editorial_office": "반납 절차를 확인했다"
+        },
+        "inventoryRemove": [
+          "교정쇄 사본"
+        ]
+      }
     },
     {
       "id": "HOLD_FOR_CORRECTION",
@@ -43,7 +51,12 @@
       "followup": "CORRECTION_HOLD",
       "followupTitleKo": "작업대에 남은 표시",
       "followupKo": "표시한 문장 옆에 확인 메모가 놓였다. 사본은 남아 있지만 마감 전에 다시 읽을 사람이 필요하다.",
-      "effects": { "situationKo": "교정 확인을 위해 작업을 보류했다.", "relations": { "workshop": "재확인 요청을 함께 맡았다" } }
+      "effects": {
+        "situationKo": "교정 확인을 위해 작업을 보류했다.",
+        "relations": {
+          "workshop": "재확인 요청을 함께 맡았다"
+        }
+      }
     },
     {
       "id": "ASK_FOR_SOURCE",
@@ -59,7 +72,12 @@
       "followup": "SOURCE_COMPARISON",
       "followupTitleKo": "원문 옆의 교정표",
       "followupKo": "인쇄된 원문과 대조한 표시가 작업대에 남았다. 확인한 문장은 이제 출처와 함께 편집부에 돌아갈 수 있다.",
-      "effects": { "situationKo": "교정쇄를 원문과 대조했다.", "relations": { "source_readers": "출처 확인을 먼저 요청했다" } }
+      "effects": {
+        "situationKo": "교정쇄를 원문과 대조했다.",
+        "relations": {
+          "source_readers": "출처 확인을 먼저 요청했다"
+        }
+      }
     }
   ],
   "completion": "one authorized action on the represented physical object"

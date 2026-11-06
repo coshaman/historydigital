@@ -1,0 +1,82 @@
+{
+  "id": "V37_MANUSCRIPT_OFFER_1847",
+  "titleKo": "서점에 맡겨진 원고",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "requiresLivingEventId": "E30",
+  "premiseKo": "바실리가 쓴 원고를 들고 책방에 왔다. 인쇄비를 마련할지, 서점에 맡길지, 돌려보낼지 정해야 한다.",
+  "historicalOutcome": {
+    "id": "V37_E30_FICTIONAL_MANUSCRIPT_OUTCOME",
+    "value": "fictional manuscript, private negotiations, and gameplay relationships only",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "bookshop-interior",
+    "objectId": 4010,
+    "requiredHostId": "editor_sofia"
+  },
+  "actions": [
+    {
+      "id": "E30_EDITOR_BUYS_COPY",
+      "hostIds": ["editor_sofia"],
+      "requiredLivingEventStage": "REVIEW_READY",
+      "requiredLivingEventActorKey": "editorHostId",
+      "requiredPresentHostIds": ["student_vasily", "bookseller_lev"],
+      "requiredParticipantDistance": 5,
+      "durationMinutes": 8,
+      "labelKo": "원고를 검토하고 바실리에게 2코페이카를 건넨다",
+      "subcopyKo": "바실리와 서점 주인이 봅니다 · 거래 장부에 값과 인수 사실이 남습니다 · 인쇄가 팔리지 않으면 편집부가 손해를 집니다",
+      "resultKo": "소피아가 원고를 받아 검토하기로 하고 바실리에게 2코페이카를 건넸다.",
+      "resultFlag": "manuscriptPurchasedForReview",
+      "effects": {
+        "moneyDelta": -2,
+        "relations": {
+          "student_vasily": "원고를 값을 치르고 검토하기로 한 편집자",
+          "bookseller_lev": "원고를 책방에서 검토한 편집자"
+        },
+        "situationKo": "바실리의 원고를 2코페이카에 인수해 검토한다."
+      }
+    },
+    {
+      "id": "E30_BOOKSELLER_HOLDS_COPY",
+      "hostIds": ["bookseller_lev"],
+      "requiredLivingEventStage": "REVIEW_READY",
+      "requiredLivingEventActorKey": "booksellerHostId",
+      "requiredPresentHostIds": ["student_vasily", "editor_sofia"],
+      "requiredParticipantDistance": 5,
+      "durationMinutes": 5,
+      "labelKo": "원고를 책방에 맡아 두고 손님 반응을 살핀다",
+      "subcopyKo": "바실리와 편집자가 압니다 · 책방 보관 메모에 남습니다 · 팔릴 때까지 원고와 자리를 내줘야 합니다",
+      "resultKo": "레프가 원고를 책방에 맡아 두고 읽을 손님이 있는지 살피기로 했다.",
+      "resultFlag": "manuscriptHeldAtBookshop",
+      "effects": {
+        "relations": {
+          "student_vasily": "원고를 책방에 맡긴 학생",
+          "editor_sofia": "원고를 서점에서 살펴보기로 한 편집자"
+        },
+        "situationKo": "원고를 책방에 맡겨 둘 자리를 내주었다."
+      }
+    },
+    {
+      "id": "E30_EDITOR_RETURNS_COPY",
+      "hostIds": ["editor_sofia"],
+      "requiredLivingEventStage": "REVIEW_READY",
+      "requiredLivingEventActorKey": "editorHostId",
+      "requiredPresentHostIds": ["student_vasily", "bookseller_lev"],
+      "requiredParticipantDistance": 5,
+      "durationMinutes": 4,
+      "labelKo": "인쇄 약속은 미루고 원고를 돌려준다",
+      "subcopyKo": "바실리와 서점 주인이 압니다 · 인쇄·거래 장부에는 올리지 않습니다 · 바실리는 다른 후원자를 찾아야 합니다",
+      "resultKo": "소피아는 인쇄 약속을 하지 않고 원고를 바실리에게 돌려주었다.",
+      "resultFlag": "manuscriptReturnedWithoutDeal",
+      "effects": {
+        "relations": {
+          "student_vasily": "원고를 돌려보낸 편집자",
+          "bookseller_lev": "인쇄 약속을 미룬 편집자"
+        },
+        "situationKo": "인쇄 약속 없이 원고를 돌려주었다."
+      }
+    }
+  ],
+  "completion": "the author, bookseller, and editor meet in the bookshop; the manuscript changes hands or returns to its author, payment is recorded, and an unattended offer is withdrawn"
+}

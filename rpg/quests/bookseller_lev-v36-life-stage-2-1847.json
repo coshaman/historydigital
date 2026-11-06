@@ -30,7 +30,6 @@
       "resultKo": "두 장부의 날짜를 나란히 놓았다. 현재 기록만으로 독자를 특정할 수는 없었다.",
       "resultFlag": "LEV_RETURNED_SHEETS_1847_STAGE_2_RESULT_1",
       "followupTitleKo": "서점 골목의 두 장부",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "두 장부의 날짜를 나란히 놓았다. 현재 기록만으로 독자를 특정할 수는 없었다.",
         "relations": {
@@ -58,7 +57,6 @@
       "resultKo": "다리야는 모임에서 책을 돌려 읽었다고 했다. 누가 먼저 가져갔는지는 보지 못했다.",
       "resultFlag": "LEV_RETURNED_SHEETS_1847_STAGE_2_RESULT_2",
       "followupTitleKo": "서점 골목의 두 장부",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "다리야는 모임에서 책을 돌려 읽었다고 했다. 누가 먼저 가져갔는지는 보지 못했다.",
         "relations": {
@@ -86,7 +84,6 @@
       "resultKo": "책을 확인 중이라고 알렸다. 빌려 간 사람을 지목하지 않으면서 판매는 잠시 멈췄다.",
       "resultFlag": "LEV_RETURNED_SHEETS_1847_STAGE_2_RESULT_3",
       "followupTitleKo": "서점 골목의 두 장부",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "책을 확인 중이라고 알렸다. 빌려 간 사람을 지목하지 않으면서 판매는 잠시 멈췄다.",
         "relations": {

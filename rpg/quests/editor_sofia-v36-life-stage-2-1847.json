@@ -30,7 +30,6 @@
       "resultKo": "가격을 본 자료와 함께 적고 의도에 대한 단정은 뺐다. 두 문장의 근거 수준을 구분했다.",
       "resultFlag": "SOFIA_UNNAMED_NOTICE_1847_STAGE_2_RESULT_1",
       "followupTitleKo": "교정대의 두 문장",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "가격을 본 자료와 함께 적고 의도에 대한 단정은 뺐다. 두 문장의 근거 수준을 구분했다.",
         "relations": {
@@ -58,7 +57,6 @@
       "resultKo": "상인은 물건이 늦게 들어왔다고 설명했다. 그 말을 확인된 자료와 같은 자리에 두지 않았다.",
       "resultFlag": "SOFIA_UNNAMED_NOTICE_1847_STAGE_2_RESULT_2",
       "followupTitleKo": "교정대의 두 문장",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "상인은 물건이 늦게 들어왔다고 설명했다. 그 말을 확인된 자료와 같은 자리에 두지 않았다.",
         "relations": {
@@ -86,7 +84,6 @@
       "resultKo": "날짜와 가격 변동만 적은 짧은 공지로 고쳤다. 의도에 관한 주장은 다음 호로 미뤘다.",
       "resultFlag": "SOFIA_UNNAMED_NOTICE_1847_STAGE_2_RESULT_3",
       "followupTitleKo": "교정대의 두 문장",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "날짜와 가격 변동만 적은 짧은 공지로 고쳤다. 의도에 관한 주장은 다음 호로 미뤘다.",
         "relations": {

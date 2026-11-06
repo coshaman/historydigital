@@ -25,7 +25,6 @@
       "resultKo": "수량과 순서를 적었다. 차례는 보이지만 물통 주인은 따로 확인해야 한다.",
       "resultFlag": "LUKA_WATER_QUEUE_1847_STAGE_1_RESULT_1",
       "followupTitleKo": "물통 순서와 먼 길",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "수량과 순서를 적었다. 차례는 보이지만 물통 주인은 따로 확인해야 한다.",
         "relations": {
@@ -48,7 +47,6 @@
       "resultKo": "먼저 온 순서를 지켰다. 규칙은 분명하지만 급한 사정은 반영되지 않는다.",
       "resultFlag": "LUKA_WATER_QUEUE_1847_STAGE_1_RESULT_2",
       "followupTitleKo": "물통 순서와 먼 길",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "먼저 온 순서를 지켰다. 규칙은 분명하지만 급한 사정은 반영되지 않는다.",
         "relations": {
@@ -71,7 +69,6 @@
       "resultKo": "급한 집에 한 통을 먼저 보냈다. 필요한 곳에 닿았지만 순서를 바꾼 이유를 설명해야 한다.",
       "resultFlag": "LUKA_WATER_QUEUE_1847_STAGE_1_RESULT_3",
       "followupTitleKo": "물통 순서와 먼 길",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "급한 집에 한 통을 먼저 보냈다. 필요한 곳에 닿았지만 순서를 바꾼 이유를 설명해야 한다.",
         "relations": {

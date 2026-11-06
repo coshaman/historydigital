@@ -1,0 +1,37 @@
+{
+  "id": "V37_FUNERAL_COSTS_1847",
+  "titleKo": "삼촌의 장례 비용",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "requiresLivingEventId": "E28",
+  "premiseKo": "가브릴라가 세상을 떠났다. 파벨은 장례 비용을 마련해야 한다.",
+  "historicalOutcome": { "id": "V37_FUNERAL_COSTS_GAMEPLAY", "value": "fictional family and expense outcome", "sourceIds": [] },
+  "entry": { "mapId": "communal-room", "objectId": 4009, "requiredHostId": "courier_pavel" },
+  "actions": [
+    {
+      "id": "E28_PAVEL_PAYS_COSTS",
+      "hostIds": ["courier_pavel"],
+      "requiredLivingEventStage": "FUNERAL_COSTS_DUE",
+      "requiresLivingEventActorKey": "organizerHostId",
+      "durationMinutes": 5,
+      "labelKo": "내 돈으로 장례 비용을 낸다",
+      "subcopyKo": "이리나에게 알려집니다 · 4코페이카가 장례비로 나갑니다",
+      "resultKo": "파벨은 가진 돈으로 삼촌의 장례 비용을 냈다.",
+      "effects": { "moneyDelta": -4, "situationKo": "삼촌의 장례 비용 4코페이카를 냈다." }
+    },
+    {
+      "id": "E28_IRINA_ADVANCES_COSTS",
+      "hostIds": ["courier_pavel"],
+      "requiredLivingEventStage": "FUNERAL_COSTS_DUE",
+      "requiresLivingEventActorKey": "organizerHostId",
+      "requiredPresentLivingEventHostKey": "lenderHostId",
+      "requiredParticipantDistance": 4,
+      "durationMinutes": 5,
+      "labelKo": "이리나에게 장례비를 빌린다",
+      "subcopyKo": "파벨과 이리나만 압니다 · 4코페이카 빚이 장부에 남습니다",
+      "resultKo": "이리나는 장례 비용을 대신 내고, 파벨이 갚을 돈으로 장부에 적었다.",
+      "effects": { "situationKo": "이리나가 장례비 4코페이카를 대신 내고 파벨의 빚으로 기록했다." }
+    }
+  ],
+  "completion": "파벨이 비용을 내거나 이리나에게 빌리고, 가족의 장례를 치른다"
+}

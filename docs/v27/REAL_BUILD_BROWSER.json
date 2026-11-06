@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "REAL-BUILD-BROWSER-1",
+  "status": "PASS",
+  "port": 4183,
+  "state": {
+    "title": "잉크의 관청 — 페테르부르크 1847",
+    "runtime": true,
+    "mission": "비를 맞을 자리와 하루 벌이",
+    "canvas": {
+      "width": 1382,
+      "height": 358
+    },
+    "width": 1440
+  },
+  "screenshot": "real-build.png",
+  "serverErrors": []
+}

@@ -91,7 +91,7 @@
   "tileheight": 16,
   "infinite": false,
   "nextlayerid": 7,
-  "nextobjectid": 1021,
+  "nextobjectid": 1176,
   "properties": [
     {
       "name": "mapId",
@@ -2467,6 +2467,67 @@
               "value": 77
             }
           ]
+        },
+        {
+          "id": 1172,
+          "name": "도착하지 않은 봉투",
+          "type": "quest-object",
+          "x": 160,
+          "y": 208,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {"name": "questId", "type": "string", "value": "PAVEL_MISSING_PARCEL_1847"},
+            {"name": "requiresLivingEventId", "type": "string", "value": "E05"},
+            {"name": "assetTileId", "type": "int", "value": 24}
+          ]
+        }
+        ,{
+          "id": 1174,
+          "name": "삭제 표시가 남은 교정쇄",
+          "type": "quest-object",
+          "x": 208,
+          "y": 176,
+          "width": 16,
+          "height": 16,
+          "rotation": 0,
+          "visible": true,
+          "properties": [
+            { "name": "questId", "type": "string", "value": "V37_CENSORED_PAGE_1847" },
+            { "name": "requiresLivingEventId", "type": "string", "value": "E06" },
+            { "name": "assetTileId", "type": "int", "value": 79 }
+          ]
+        },
+        {
+          "id": 1175,
+          "name": "견습생의 저녁 읽기 연습지",
+          "type": "quest-object",
+          "x": 224,
+          "y": 176,
+          "width": 16,
+          "height": 16,
+          "rotation": 0,
+          "visible": true,
+          "properties": [
+            { "name": "questId", "type": "string", "value": "V37_APPRENTICE_LITERACY_1847" },
+            { "name": "requiresLivingEventId", "type": "string", "value": "E19" }
+          ]
+        },
+        {
+          "id": 1176,
+          "name": "견습생의 휴식과 작업 인계",
+          "type": "quest-object",
+          "x": 224,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            { "name": "questId", "type": "string", "value": "V37_APPRENTICE_FATIGUE_1847" },
+            { "name": "requiresLivingEventId", "type": "string", "value": "E33" },
+            { "name": "assetTileId", "type": "int", "value": 24 }
+          ]
         }
       ]
     },
@@ -2580,7 +2641,7 @@
         },
         {
           "id": 36,
-          "name": "니콜라이 네크라소프 · 사료에 근거한 재구성",
+          "name": "니콜라이 네크라소프",
           "type": "npc",
           "x": 288,
           "y": 112,

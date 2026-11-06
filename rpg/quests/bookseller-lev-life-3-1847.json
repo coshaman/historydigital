@@ -25,7 +25,6 @@
       "resultKo": "예약 순서와 날짜를 장부에 적었다. 누구 차례인지 분명하지만 개인 사정은 덜 가려진다.",
       "resultFlag": "publicQueue",
       "followupTitleKo": "예약자와 반납 기한 정리",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "예약 순서와 날짜를 장부에 적었다. 누구 차례인지 분명하지만 개인 사정은 덜 가려진다.",
         "relations": {
@@ -48,7 +47,6 @@
       "resultKo": "각 손님에게 따로 날짜를 전했다. 사정은 보호되지만 차례를 다시 설명해야 할 수 있다.",
       "resultFlag": "privateNotice",
       "followupTitleKo": "예약자와 반납 기한 정리",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "각 손님에게 따로 날짜를 전했다. 사정은 보호되지만 차례를 다시 설명해야 할 수 있다.",
         "relations": {
@@ -71,7 +69,6 @@
       "resultKo": "기한과 보증금을 정했다. 책이 돌아올 가능성은 커지지만 형편이 어려운 독자는 빌리기 힘들다.",
       "resultFlag": "depositRule",
       "followupTitleKo": "예약자와 반납 기한 정리",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "기한과 보증금을 정했다. 책이 돌아올 가능성은 커지지만 형편이 어려운 독자는 빌리기 힘들다.",
         "relations": {

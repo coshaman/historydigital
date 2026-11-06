@@ -25,7 +25,6 @@
       "resultKo": "장작 수를 다시 세었다. 누가 가져갔는지는 적지 않고 다음 몫을 논의하기로 했다.",
       "resultFlag": "POLINA_COMMON_FIREWOOD_1847_1_1",
       "followupTitleKo": "공용 장작 더미와 몫 계산",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "장작 수를 다시 세었다. 누가 가져갔는지는 적지 않고 다음 몫을 논의하기로 했다.",
         "relations": {
@@ -48,7 +47,6 @@
       "resultKo": "같은 몫을 정했다. 계산은 단순하지만 각 집의 사정은 반영하지 못했다.",
       "resultFlag": "POLINA_COMMON_FIREWOOD_1847_1_2",
       "followupTitleKo": "공용 장작 더미와 몫 계산",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "같은 몫을 정했다. 계산은 단순하지만 각 집의 사정은 반영하지 못했다.",
         "relations": {
@@ -71,7 +69,6 @@
       "resultKo": "추측으로 한 집에 비용을 붙였다. 장부는 빨리 채워도 근거를 물으면 답할 수 없다.",
       "resultFlag": "POLINA_COMMON_FIREWOOD_1847_1_3",
       "followupTitleKo": "공용 장작 더미와 몫 계산",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "추측으로 한 집에 비용을 붙였다. 장부는 빨리 채워도 근거를 물으면 답할 수 없다.",
         "relations": {

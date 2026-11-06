@@ -25,7 +25,6 @@
       "resultKo": "읽을 순서와 날짜를 적었다. 모두가 바로 읽지는 못하지만 누가 다음인지 보이게 했다.",
       "resultFlag": "readingQueue",
       "followupTitleKo": "빌려줄 책과 읽는 순서",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "읽을 순서와 날짜를 적었다. 모두가 바로 읽지는 못하지만 누가 다음인지 보이게 했다.",
         "relations": {
@@ -46,7 +45,6 @@
       "resultKo": "필요한 대목을 나눠 베끼기로 했다. 책은 돌려줄 수 있어도 베껴 쓴 문장은 다시 대조해야 한다.",
       "resultFlag": "sharedCopy",
       "followupTitleKo": "빌려줄 책과 읽는 순서",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "필요한 대목을 나눠 베끼기로 했다. 책은 돌려줄 수 있어도 베껴 쓴 문장은 다시 대조해야 한다.",
         "relations": {
@@ -67,7 +65,6 @@
       "resultKo": "보증금을 받고 책을 내줬다. 책이 돌아올 가능성은 커졌지만 형편이 어려운 사람은 빠질 수 있다.",
       "resultFlag": "deposit",
       "followupTitleKo": "빌려줄 책과 읽는 순서",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "보증금을 받고 책을 내줬다. 책이 돌아올 가능성은 커졌지만 형편이 어려운 사람은 빠질 수 있다.",
         "relations": {

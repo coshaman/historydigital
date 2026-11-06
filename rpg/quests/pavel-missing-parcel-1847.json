@@ -1,0 +1,47 @@
+{
+  "id": "PAVEL_MISSING_PARCEL_1847",
+  "titleKo": "도착하지 않은 봉투",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "requiresLivingEventId": "E05",
+  "premiseKo": "배달 시각이 지났는데 봉투가 인쇄소에 닿지 않았다. 봉투는 문 앞에 놓여 있고 봉인은 아직 닫혀 있다.",
+  "historicalOutcome": {
+    "id": "PAVEL_MISSING_PARCEL_1847_FICTIONAL_OUTCOME",
+    "value": "fictional delivery failure and its gameplay consequences; no historical public record is altered",
+    "sourceIds": []
+  },
+  "entry": {"mapId": "printshop", "objectId": 1172, "requiredHostId": "courier_pavel"},
+  "actions": [
+    {
+      "id": "PAVEL_RECOVER_MISSING_PARCEL",
+      "hostIds": ["courier_pavel"],
+      "durationMinutes": 5,
+      "labelKo": "문 앞의 봉투를 찾아 다시 맡는다",
+      "subcopyKo": "파벨이 봉투를 다시 소지합니다 · 예카테리나에게 늦은 사정을 설명해야 합니다 · 봉인은 열지 않습니다",
+      "resultKo": "파벨은 문 앞에서 봉투를 찾아 가방에 넣었다. 봉인은 그대로였지만 배달 시각은 이미 지났다.",
+      "resultFlag": "pavelRecoveredMissingParcel",
+      "effects": {"inventoryAdd": ["밀봉 봉투"], "situationKo": "배달 시각을 놓친 봉투를 인쇄소 문 앞에서 찾아 다시 소지했다."}
+    },
+    {
+      "id": "EKATERINA_ACCEPT_MISSING_PARCEL",
+      "hostIds": ["printer_ekaterina"],
+      "durationMinutes": 5,
+      "labelKo": "봉투를 접수하고 늦은 도착을 장부에 적는다",
+      "subcopyKo": "예카테리나가 봉투를 받습니다 · 지연 사실이 인쇄소 기록에 남습니다 · 내용은 봉인된 채입니다",
+      "resultKo": "예카테리나는 봉투를 열지 않고 접수했다. 도착 시각을 적어 두고 파벨에게 늦어진 경위를 물었다.",
+      "resultFlag": "ekaterinaAcceptedMissingParcel",
+      "effects": {"inventoryAdd": ["밀봉 봉투"], "relations": {"courier_pavel": "늦은 봉투를 접수하고 경위를 확인한 인쇄소 책임자"}, "situationKo": "늦게 도착한 봉투를 봉인된 채 접수하고 도착 지연을 기록했다."}
+    },
+    {
+      "id": "PAVEL_REPORT_MISSING_PARCEL",
+      "hostIds": ["courier_pavel"],
+      "durationMinutes": 5,
+      "labelKo": "봉투를 찾지 못했다고 인쇄소에 알린다",
+      "subcopyKo": "분실 사실과 파벨의 설명이 공식 업무 기록에 남습니다 · 봉투는 돌아오지 않습니다 · 다음 배달 신뢰에 부담이 생깁니다",
+      "resultKo": "파벨은 봉투를 찾지 못했다고 보고했다. 기록에는 늦은 배달과 그의 설명이 함께 남았다.",
+      "resultFlag": "pavelReportedMissingParcel",
+      "effects": {"relations": {"printer_ekaterina": "배달 봉투 분실을 보고한 전달원"}, "situationKo": "인쇄소에 봉투 분실을 보고했다. 배달 기록에는 분실과 파벨의 설명이 남아 있다."}
+    }
+  ],
+  "completion": "recover the sealed parcel, accept and register it at the printshop, or file the courier's loss report"
+}

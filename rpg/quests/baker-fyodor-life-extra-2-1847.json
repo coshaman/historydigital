@@ -25,7 +25,6 @@
       "resultKo": "기다리는 손님에게 새 시각을 말했다. 그 사람은 헛걸음을 피하고 다른 주문은 따로 알려야 한다.",
       "resultFlag": "FYODOR_OVEN_ORDER_1847_2_1",
       "followupTitleKo": "손님에게 보낼 굽기 시각 쪽지",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "기다리는 손님에게 새 시각을 말했다. 그 사람은 헛걸음을 피하고 다른 주문은 따로 알려야 한다.",
         "relations": {
@@ -48,7 +47,6 @@
       "resultKo": "순서를 문 앞에 붙였다. 누구나 확인할 수 있지만 사정이 공개되는 부담도 생겼다.",
       "resultFlag": "FYODOR_OVEN_ORDER_1847_2_2",
       "followupTitleKo": "손님에게 보낼 굽기 시각 쪽지",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "순서를 문 앞에 붙였다. 누구나 확인할 수 있지만 사정이 공개되는 부담도 생겼다.",
         "relations": {
@@ -71,7 +69,6 @@
       "resultKo": "따로 알리지 않았다. 일이 끝나면 건넬 수 있지만 손님은 언제 올지 모른다.",
       "resultFlag": "FYODOR_OVEN_ORDER_1847_2_3",
       "followupTitleKo": "손님에게 보낼 굽기 시각 쪽지",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "따로 알리지 않았다. 일이 끝나면 건넬 수 있지만 손님은 언제 올지 모른다.",
         "relations": {

@@ -25,7 +25,6 @@
       "resultKo": "봉투를 감싸 먼저 실었다. 글은 제때 갈 수 있지만 시장 쪽 물량이 늦어진다.",
       "resultFlag": "ROMAN_ROUTE_PRIORITY_1847_1_1",
       "followupTitleKo": "마차에 실을 짐의 순서",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "봉투를 감싸 먼저 실었다. 글은 제때 갈 수 있지만 시장 쪽 물량이 늦어진다.",
         "relations": {
@@ -48,7 +47,6 @@
       "resultKo": "시장 물건을 먼저 옮겼다. 상할 위험은 줄었고 봉투는 다음 길을 기다린다.",
       "resultFlag": "ROMAN_ROUTE_PRIORITY_1847_1_2",
       "followupTitleKo": "마차에 실을 짐의 순서",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "시장 물건을 먼저 옮겼다. 상할 위험은 줄었고 봉투는 다음 길을 기다린다.",
         "relations": {
@@ -71,7 +69,6 @@
       "resultKo": "수취인의 사정을 먼저 물었다. 출발은 늦었지만 누구에게 왜 기다려 달라 했는지 남겼다.",
       "resultFlag": "ROMAN_ROUTE_PRIORITY_1847_1_3",
       "followupTitleKo": "마차에 실을 짐의 순서",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "수취인의 사정을 먼저 물었다. 출발은 늦었지만 누구에게 왜 기다려 달라 했는지 남겼다.",
         "relations": {

@@ -25,7 +25,6 @@
       "resultKo": "숙박 일수와 미수금만 장부에 적고 이름은 따로 보관했다. 외상은 확인되지만 정산에 시간이 더 든다.",
       "resultFlag": "irinaSeparated",
       "followupTitleKo": "이름을 적을 것인가, 외상을 둘 것인가",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "외상 금액과 손님 이름을 별도로 기록했다.",
         "relations": {
@@ -43,7 +42,6 @@
       "resultKo": "외상 사실을 공용으로 알렸다. 다른 손님은 알게 됐지만 손님은 다시 머물지 않을 수 있다.",
       "resultFlag": "irinaPosted",
       "followupTitleKo": "이름을 적을 것인가, 외상을 둘 것인가",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "손님의 외상 정보를 공용 게시판에 붙였다.",
         "relations": {
@@ -61,7 +59,6 @@
       "resultKo": "손님과 날짜를 정해 외상으로 남겼다. 공개는 피했지만 약속을 지킬지는 아직 모른다.",
       "resultFlag": "irinaDated",
       "followupTitleKo": "이름을 적을 것인가, 외상을 둘 것인가",
-      "followupKo": "이 선택은 이 허구 인물의 일과 관계에만 남는다.",
       "effects": {
         "situationKo": "미수금 지급 날짜를 손님과 정했다.",
         "relations": {

@@ -1,0 +1,52 @@
+{
+  "id": "V37_RENT_NOTICE_1847",
+  "titleKo": "안뜰의 새 방세 공지",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "requiresLivingEventId": "E26",
+  "premiseKo": "미하일의 방세가 오른다는 공지가 안뜰에 붙었다. 폴리나와 함께 금액을 정해야 한다.",
+  "historicalOutcome": { "id": "V37_RENT_NOTICE_FICTIONAL_OUTCOME", "value": "fictional household gameplay state", "sourceIds": [] },
+  "entry": { "mapId": "courtyard", "objectId": 1175, "requiredHostId": "tenant_mikhail" },
+  "actions": [
+    {
+      "id": "E26_KEEP_OLD_RENT",
+      "hostIds": ["tenant_mikhail"],
+      "requiredLivingEventStage": "NOTICE_POSTED",
+      "requiresLivingEventActorKey": "tenantHostId",
+      "requiredPresentLivingEventHostKey": "landlordHostId",
+      "requiredParticipantDistance": 4,
+      "durationMinutes": 4,
+      "labelKo": "이번 납부일까지 이전 금액을 내겠다고 말한다",
+      "subcopyKo": "미하일과 폴리나가 압니다 · 새 장부는 만들지 않습니다 · 다음 납부 전 다시 이야기해야 합니다",
+      "resultKo": "미하일은 오른 금액을 내기 어렵다고 말했다. 폴리나는 이번 납부일까지 이전 금액을 받기로 했다.",
+      "effects": { "situationKo": "이번 납부일까지 이전 방세를 유지하기로 했다." }
+    },
+    {
+      "id": "E26_ACCEPT_NEW_RENT",
+      "hostIds": ["tenant_mikhail"],
+      "requiredLivingEventStage": "NOTICE_POSTED",
+      "requiresLivingEventActorKey": "tenantHostId",
+      "requiredPresentLivingEventHostKey": "landlordHostId",
+      "requiredParticipantDistance": 4,
+      "durationMinutes": 3,
+      "labelKo": "다음 납부일부터 오른 방세를 내기로 한다",
+      "subcopyKo": "미하일과 폴리나가 압니다 · 방세 약속에 반영됩니다 · 식비와 일당에 쓸 돈이 줄어듭니다",
+      "resultKo": "미하일은 다음 납부일부터 새 방세를 내기로 했다.",
+      "effects": { "situationKo": "다음 납부일부터 새 방세를 내기로 했다." }
+    },
+    {
+      "id": "E26_SHARE_ROOM_COST",
+      "hostIds": ["tenant_mikhail"],
+      "requiredLivingEventStage": "NOTICE_POSTED",
+      "requiresLivingEventActorKey": "tenantHostId",
+      "requiredPresentLivingEventHostKey": "landlordHostId",
+      "requiredParticipantDistance": 4,
+      "durationMinutes": 6,
+      "labelKo": "안나와 방세 일부를 나눌 수 있는지 묻는다",
+      "subcopyKo": "미하일과 폴리나가 압니다 · 안나에게 다음 대화에서 제안합니다 · 수락 전까지 새 방세가 유지됩니다",
+      "resultKo": "미하일은 같은 안뜰에 사는 안나에게 방세 일부를 함께 부담할 수 있는지 묻기로 했다.",
+      "effects": { "situationKo": "안나와 방세 부담을 나누기로 했다." }
+    }
+  ],
+  "completion": "미하일과 폴리나가 공지 앞에서 방세를 정한다"
+}

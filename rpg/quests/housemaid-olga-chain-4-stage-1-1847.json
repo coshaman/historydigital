@@ -25,7 +25,6 @@
       "resultKo": "직접 들은 사람에게 표현을 확인하기로 했다. 뜻을 부풀리지 않지만 기다리는 동안 불안은 남는다.",
       "resultFlag": "quoteCheck",
       "followupTitleKo": "집안 경고 쪽지",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "직접 들은 사람에게 표현을 확인하기로 했다. 뜻을 부풀리지 않지만 기다리는 동안 불안은 남는다.",
         "relations": {
@@ -47,7 +46,6 @@
       "resultKo": "집주인에게 방을 비우라는 지시가 있었는지 물었다. 모호한 말을 확인하는 대신 눈에 띄는 위험을 감수한다.",
       "resultFlag": "landladyAsk",
       "followupTitleKo": "집안 경고 쪽지",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "집주인에게 방을 비우라는 지시가 있었는지 물었다. 모호한 말을 확인하는 대신 눈에 띄는 위험을 감수한다.",
         "relations": {
@@ -69,7 +67,6 @@
       "resultKo": "안뜰에 말을 전했다. 사람들이 대비할 수 있지만 소문이 더 커질 수도 있다.",
       "resultFlag": "spreadWarning",
       "followupTitleKo": "집안 경고 쪽지",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "안뜰에 말을 전했다. 사람들이 대비할 수 있지만 소문이 더 커질 수도 있다.",
         "relations": {

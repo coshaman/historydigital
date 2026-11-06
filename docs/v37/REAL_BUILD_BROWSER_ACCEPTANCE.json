@@ -1,0 +1,203 @@
+{
+  "schemaVersion": "V37-REAL-BUILD-BROWSER-3",
+  "status": true,
+  "productionBuild": "dist-v33/",
+  "method": "Representative choice histories are resolved by the runtime, persisted, and rendered in the deployed static artifact; this validates ending presentation, reload, restart, and viewport behavior, not full manual-route playthrough.",
+  "port": 4187,
+  "routeCount": 8,
+  "results": [
+    {
+      "name": "representative-UVAROV",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "expected": "UVAROV",
+      "actual": "UVAROV",
+      "title": "당신의 선택은 세르게이 우바로프와 가장 닮았습니다",
+      "phase": "ending",
+      "matches": true,
+      "saveReload": true,
+      "restartWorks": true,
+      "sceneCount": 4,
+      "viewportAudit": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "height": 900,
+        "cardClientHeight": 840,
+        "cardScrollHeight": 1601,
+        "cardOverflowY": "auto"
+      },
+      "errors": []
+    },
+    {
+      "name": "representative-BELINSKY",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "expected": "BELINSKY",
+      "actual": "BELINSKY",
+      "title": "당신의 선택은 비사리온 벨린스키와 가장 닮았습니다",
+      "phase": "ending",
+      "matches": true,
+      "saveReload": false,
+      "restartWorks": null,
+      "sceneCount": 4,
+      "viewportAudit": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "height": 900,
+        "cardClientHeight": 840,
+        "cardScrollHeight": 1601,
+        "cardOverflowY": "auto"
+      },
+      "errors": []
+    },
+    {
+      "name": "representative-HERZEN",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "expected": "HERZEN",
+      "actual": "HERZEN",
+      "title": "당신의 선택은 알렉산드르 게르첸과 가장 닮았습니다",
+      "phase": "ending",
+      "matches": true,
+      "saveReload": false,
+      "restartWorks": null,
+      "sceneCount": 4,
+      "viewportAudit": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "height": 900,
+        "cardClientHeight": 840,
+        "cardScrollHeight": 1528,
+        "cardOverflowY": "auto"
+      },
+      "errors": []
+    },
+    {
+      "name": "representative-KHOMYAKOV",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "expected": "KHOMYAKOV",
+      "actual": "KHOMYAKOV",
+      "title": "당신의 선택은 알렉세이 호먀코프와 가장 닮았습니다",
+      "phase": "ending",
+      "matches": true,
+      "saveReload": false,
+      "restartWorks": null,
+      "sceneCount": 4,
+      "viewportAudit": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "height": 900,
+        "cardClientHeight": 840,
+        "cardScrollHeight": 1474,
+        "cardOverflowY": "auto"
+      },
+      "errors": []
+    },
+    {
+      "name": "representative-DOSTOEVSKY_PETRASHEVSKY",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "expected": "DOSTOEVSKY_PETRASHEVSKY",
+      "actual": "DOSTOEVSKY_PETRASHEVSKY",
+      "title": "젊은 도스토옙스키와 페트라셰프스키 모임을 닮은 선택",
+      "phase": "ending",
+      "matches": true,
+      "saveReload": false,
+      "restartWorks": null,
+      "sceneCount": 4,
+      "viewportAudit": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "height": 900,
+        "cardClientHeight": 840,
+        "cardScrollHeight": 1494,
+        "cardOverflowY": "auto"
+      },
+      "errors": []
+    },
+    {
+      "name": "setwise-resolution-1",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "expected": "KHOMYAKOV",
+      "actual": "KHOMYAKOV",
+      "title": "당신의 선택은 알렉세이 호먀코프와 가장 닮았습니다",
+      "phase": "ending",
+      "matches": true,
+      "saveReload": false,
+      "restartWorks": true,
+      "sceneCount": 4,
+      "viewportAudit": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844,
+        "cardClientHeight": 1965,
+        "cardScrollHeight": 1965,
+        "cardOverflowY": "auto"
+      },
+      "errors": []
+    },
+    {
+      "name": "setwise-resolution-2",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "expected": "KHOMYAKOV",
+      "actual": "KHOMYAKOV",
+      "title": "당신의 선택은 알렉세이 호먀코프와 가장 닮았습니다",
+      "phase": "ending",
+      "matches": true,
+      "saveReload": false,
+      "restartWorks": true,
+      "sceneCount": 4,
+      "viewportAudit": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844,
+        "cardClientHeight": 1965,
+        "cardScrollHeight": 1965,
+        "cardOverflowY": "auto"
+      },
+      "errors": []
+    },
+    {
+      "name": "tie-resolution",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "expected": "HERZEN",
+      "actual": "HERZEN",
+      "title": "당신의 선택은 알렉산드르 게르첸과 가장 닮았습니다",
+      "phase": "ending",
+      "matches": true,
+      "saveReload": false,
+      "restartWorks": true,
+      "sceneCount": 4,
+      "viewportAudit": {
+        "width": 390,
+        "scrollWidth": 390,
+        "height": 844,
+        "cardClientHeight": 1962,
+        "cardScrollHeight": 1962,
+        "cardOverflowY": "auto"
+      },
+      "errors": []
+    }
+  ],
+  "serverErrors": []
+}

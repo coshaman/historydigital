@@ -1,0 +1,93 @@
+{
+  "id": "V37_APPRENTICE_FATIGUE_1847",
+  "titleKo": "견습생의 피로와 작업 순서",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "requiresLivingEventId": "E33",
+  "premiseKo": "스테판이 작업을 멈추고 손을 털었다. 계속할지 잠시 쉴지 정해야 한다.",
+  "historicalOutcome": {
+    "id": "V37_APPRENTICE_FATIGUE_FICTIONAL_OUTCOME",
+    "value": "fictional apprentice work schedule and fatigue simulation only; no historical medical or labor incident is asserted",
+    "sourceIds": []
+  },
+  "entry": {
+    "mapId": "printshop",
+    "objectId": 1176
+  },
+  "actions": [
+    {
+      "id": "E33_REST_NOW",
+      "hostIds": [
+        "print_apprentice_stepan"
+      ],
+      "requiredPresentHostIds": [
+        "printer_ekaterina"
+      ],
+      "requiredParticipantDistance": 3,
+      "durationMinutes": 5,
+      "labelKo": "예카테리나에게 알리고 30분 쉰다",
+      "subcopyKo": "스테판과 예카테리나가 압니다 · 30분 작업을 멈춥니다 · 작업 품삯은 완료할 때까지 미뤄집니다",
+      "resultKo": "스테판은 잠깐 손을 쉬겠다고 알렸다. 작업 진척은 보존되고 30분 뒤 다시 이어진다.",
+      "resultFlag": "v37ApprenticeRestRequested",
+      "effects": {
+        "situationKo": "작업 진척을 보존한 채 30분 휴식을 요청했다."
+      }
+    },
+    {
+      "id": "E33_COWORKER_COVERS",
+      "hostIds": [
+        "printer_ekaterina"
+      ],
+      "requiredPresentHostIds": [
+        "print_apprentice_stepan"
+      ],
+      "requiredParticipantDistance": 3,
+      "durationMinutes": 15,
+      "labelKo": "예카테리나가 남은 작업을 맡는다",
+      "subcopyKo": "두 사람이 알고 작업장 기록에 남습니다 · 예카테리나가 작업물과 품삯을 인계합니다 · 동료에게 일이 더해집니다",
+      "resultKo": "예카테리나가 남은 작업을 마쳤다. 완성품은 그녀가 맡고 약속된 품삯은 스테판에게 건넸다.",
+      "resultFlag": "v37ApprenticeWorkCovered",
+      "effects": {
+        "situationKo": "예카테리나가 작업을 넘겨받고 완성품과 품삯을 정리했다."
+      }
+    },
+    {
+      "id": "E33_STOP_SHIFT",
+      "hostIds": [
+        "printer_ekaterina"
+      ],
+      "requiredPresentHostIds": [
+        "print_apprentice_stepan"
+      ],
+      "requiredParticipantDistance": 3,
+      "durationMinutes": 5,
+      "labelKo": "오늘 작업을 멈추고 미완료분을 다음 순서로 넘긴다",
+      "subcopyKo": "작업장 동료들이 압니다 · 중단 사유와 미완료 작업이 남습니다 · 이 작업 품삯은 지급되지 않습니다",
+      "resultKo": "예카테리나는 오늘 작업을 중단하고 미완료분을 기록했다. 스테판은 작업대에서 물러나 쉬었다.",
+      "resultFlag": "v37ApprenticeShiftStopped",
+      "effects": {
+        "situationKo": "오늘 작업을 중단했다. 품삯 없이 남은 일을 다음 교대 순서로 넘겼다."
+      }
+    },
+    {
+      "id": "E33_KEEP_WORKING",
+      "hostIds": [
+        "print_apprentice_stepan"
+      ],
+      "durationMinutes": 5,
+      "labelKo": "피로를 감수하고 계속 작업한다",
+      "subcopyKo": "스테판이 혼자 결정합니다 · 공식 기록은 만들지 않습니다 · 피로와 작업 중 실수 위험이 커집니다",
+      "resultKo": "스테판은 일을 계속했다. 그날 작업은 이어지지만 피로가 더 쌓였다.",
+      "resultFlag": "v37ApprenticeWorkedWhileTired",
+      "effects": {
+        "situationKo": "휴식 대신 작업을 이어가 피로가 늘었다."
+      }
+    }
+  ],
+  "completion": "Deterministic fatigue threshold at a scheduled printshop task; an unattended break preserves unfinished progress and resumes work after recovery.",
+  "eventCatalogRef": {
+    "catalogIdSpace": "V37_EVENT_CATALOG_45",
+    "eventId": "E33",
+    "validationStatus": "DESIGN_SEED_NOT_VERIFIED"
+  }
+}

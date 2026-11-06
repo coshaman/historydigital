@@ -1,0 +1,332 @@
+{
+  "totalRoutes": 11664,
+  "expectedRouteCount": 11664,
+  "sceneIds": [
+    "C07",
+    "E02",
+    "E04",
+    "E07"
+  ],
+  "semanticMismatch": 0,
+  "noEnding": 0,
+  "multiEnding": 0,
+  "unresolvedSemanticTie": 0,
+  "arrayOrderFallback": 0,
+  "counts": {
+    "UVAROV": 2365,
+    "BELINSKY": 2030,
+    "HERZEN": 2022,
+    "KHOMYAKOV": 2181,
+    "DOSTOEVSKY_PETRASHEVSKY": 3066
+  },
+  "mixed": {
+    "UVAROV": {
+      "route": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          2
+        ]
+      ],
+      "endingId": "UVAROV"
+    },
+    "BELINSKY": {
+      "route": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      "endingId": "BELINSKY"
+    },
+    "HERZEN": {
+      "route": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      "endingId": "HERZEN"
+    },
+    "KHOMYAKOV": {
+      "route": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          0,
+          3
+        ]
+      ],
+      "endingId": "KHOMYAKOV"
+    },
+    "DOSTOEVSKY_PETRASHEVSKY": {
+      "route": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          2
+        ],
+        [
+          2,
+          0
+        ]
+      ],
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY"
+    }
+  },
+  "representativeRoutes": {
+    "UVAROV": [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        1
+      ]
+    ],
+    "BELINSKY": [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0
+      ]
+    ],
+    "HERZEN": [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        2
+      ]
+    ],
+    "KHOMYAKOV": [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        3,
+        3
+      ]
+    ],
+    "DOSTOEVSKY_PETRASHEVSKY": [
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        0
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        2
+      ]
+    ]
+  },
+  "mismatches": [],
+  "legacyMismatchRoutes": [
+    {
+      "route": [
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "legacy": "BELINSKY",
+      "expected": "KHOMYAKOV",
+      "topScoreCandidates": [
+        "BELINSKY",
+        "KHOMYAKOV"
+      ]
+    },
+    {
+      "route": [
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ]
+      ],
+      "legacy": "BELINSKY",
+      "expected": "KHOMYAKOV",
+      "topScoreCandidates": [
+        "BELINSKY",
+        "KHOMYAKOV"
+      ]
+    },
+    {
+      "route": [
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      "legacy": "BELINSKY",
+      "expected": "KHOMYAKOV",
+      "topScoreCandidates": [
+        "BELINSKY",
+        "KHOMYAKOV"
+      ]
+    }
+  ],
+  "tieSamples": {
+    "first": {
+      "route": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          0
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ]
+      ],
+      "candidates": [
+        "HERZEN",
+        "DOSTOEVSKY_PETRASHEVSKY"
+      ],
+      "result": "HERZEN"
+    },
+    "threeWay": null
+  },
+  "schemaVersion": "V37-INDEPENDENT-ENDING-SEMANTICS-2",
+  "status": true
+}

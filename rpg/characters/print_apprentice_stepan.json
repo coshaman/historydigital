@@ -1,5 +1,7 @@
 {
   "id": "print_apprentice_stepan",
+  "skillsValueStatus": "FICTIONAL_CHARACTER_DESIGN",
+  "skills": { "basicReading": 1 },
   "kind": "FICTIONAL",
   "displayNameKo": "스테판",
   "displayNameRu": "Степан Орлов",
@@ -152,7 +154,13 @@
         "outputKind": "인쇄 견습",
         "outputKo": "교정에 필요한 활자를 찾아 조판대에 모아 둔다",
         "durationMinutes": 20,
-        "inventoryItemKo": "교정용 활자 묶음"
+        "inventoryItemKo": "교정용 활자 묶음",
+        "payroll": {
+          "payerHostId": "printer_ekaterina",
+          "amount": 1,
+          "unit": "kopeks",
+          "valueStatus": "fictional_gameplay_balance"
+        }
       }
     },
     {
@@ -185,7 +193,8 @@
         "id": "V36_APPRENTICE_ORDER_WORK",
         "outputKind": "인쇄 견습",
         "outputKo": "교정표와 다음 작업 순서를 인쇄소 장부에 정리한다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "payroll": { "payerHostId": "printer_ekaterina", "amount": 1, "unit": "kopeks", "valueStatus": "fictional_gameplay_balance" }
       }
     }
   ],
@@ -216,7 +225,7 @@
     "income": 79,
     "safety": 47,
     "socialBelonging": 54,
-    "restThreshold": 46,
+    "restThreshold": 32,
     "workFatiguePerMinute": 0.046,
     "restFatigueReliefPerMinute": 0.17,
     "status": "fictional_character_simulation_profile",
@@ -331,5 +340,36 @@
     "deterministicSeed": 156796944
   },
   "plannerPolicyStatus": "FICTIONAL_GAMEPLAY_BALANCE",
-  "plannerPolicyBasisKo": "스테판의 경계심·생계 우선도·관계 필요를 반영한 결정론적 게임 성향."
+  "plannerPolicyBasisKo": "스테판의 경계심·생계 우선도·관계 필요를 반영한 결정론적 게임 성향.",
+  "residence": {
+    "kind": "TENEMENT_ROOM",
+    "homeLocation": {
+      "mapId": "courtyard",
+      "position": {
+        "x": 8,
+        "y": 14
+      }
+    },
+    "sleepLocation": {
+      "mapId": "courtyard",
+      "position": {
+        "x": 8,
+        "y": 14
+      }
+    },
+    "sleepMinute": 1110,
+    "unitLabelKo": "허구의 공동주택 셋방",
+    "status": "FICTIONAL_CHARACTER_DESIGN",
+    "valueStatus": "FICTIONAL_GAMEPLAY_DESIGN",
+    "designBasisKo": "역사적 주소나 실제 동거 관계가 아닌 허구 생활 시뮬레이션용 거처. 지도 타일은 게임 내 귀가·취침 동선의 목적지다."
+  },
+  "kinshipRelations": [
+    {
+      "targetHostId": "senior_clerk_konstantin",
+      "kind": "OTHER_KIN",
+      "relationshipKo": "콘스탄틴 바라노프는 내 외삼촌다. 계급과 견습 경로의 차이를 드러내는 허구 외삼촌과 조카 (게임용 허구 설정).",
+      "status": "FICTIONAL_CHARACTER_DESIGN",
+      "graphEdgeId": "KIN-KONSTANTIN-STEPAN"
+    }
+  ]
 }

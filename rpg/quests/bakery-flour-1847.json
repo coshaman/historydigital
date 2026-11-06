@@ -25,7 +25,6 @@
       "resultKo": "주문 수량을 줄였다. 재료는 아꼈지만 약속한 빵을 기다리던 손님은 덜 받게 된다.",
       "resultFlag": "fyodorReduced",
       "followupTitleKo": "모자란 밀가루",
-      "followupKo": "이 선택은 이 허구 인물의 오늘과 이웃과의 관계에만 남는다.",
       "effects": {
         "situationKo": "밀가루에 맞춰 빵 수량을 줄였다.",
         "relations": {
@@ -47,7 +46,6 @@
       "resultKo": "값을 올려 밀가루를 더 사기로 했다. 주문은 지킬 수 있지만, 손님이 새 값을 감당할지는 모른다.",
       "resultFlag": "fyodorRaised",
       "followupTitleKo": "모자란 밀가루",
-      "followupKo": "이 선택은 이 허구 인물의 오늘과 이웃과의 관계에만 남는다.",
       "effects": {
         "situationKo": "밀가루를 더 사기 위해 빵값을 올렸다.",
         "relations": {
@@ -69,7 +67,6 @@
       "resultKo": "먼저 받은 주문부터 굽고 나머지 손님에게 지연을 알리기로 했다. 기준은 분명해졌지만 모두가 만족하진 않을 것이다.",
       "resultFlag": "fyodorQueued",
       "followupTitleKo": "모자란 밀가루",
-      "followupKo": "이 선택은 이 허구 인물의 오늘과 이웃과의 관계에만 남는다.",
       "effects": {
         "situationKo": "주문을 받은 순서대로 굽고 지연을 알리기로 했다.",
         "relations": {

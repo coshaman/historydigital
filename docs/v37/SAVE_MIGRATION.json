@@ -1,0 +1,122 @@
+{
+  "schemaVersion": "V37-SAVE-MIGRATION-1",
+  "status": "PASS",
+  "supportedSourceVersions": [
+    1,
+    2,
+    3,
+    36
+  ],
+  "targetVersion": 37,
+  "fixtureCount": 13,
+  "fixtures": [
+    {
+      "fixtureId": "fresh_observer",
+      "sourceSaveVersion": 1,
+      "migratedSaveVersion": 37,
+      "possessedHostId": null,
+      "preservesPlayerData": true,
+      "roundTrip": true
+    },
+    {
+      "fixtureId": "alexei_possessed",
+      "sourceSaveVersion": 2,
+      "migratedSaveVersion": 37,
+      "possessedHostId": "clerk_alexei",
+      "preservesPlayerData": true,
+      "roundTrip": true
+    },
+    {
+      "fixtureId": "ekaterina_possessed",
+      "sourceSaveVersion": 3,
+      "migratedSaveVersion": 37,
+      "possessedHostId": "printer_ekaterina",
+      "preservesPlayerData": true,
+      "roundTrip": true
+    },
+    {
+      "fixtureId": "pavel_route",
+      "sourceSaveVersion": 1,
+      "migratedSaveVersion": 37,
+      "possessedHostId": "courier_pavel",
+      "preservesPlayerData": true,
+      "roundTrip": true
+    },
+    {
+      "fixtureId": "anna_life",
+      "sourceSaveVersion": 2,
+      "migratedSaveVersion": 37,
+      "possessedHostId": "seamstress_anna",
+      "preservesPlayerData": true,
+      "roundTrip": true
+    },
+    {
+      "fixtureId": "mikhail_housing",
+      "sourceSaveVersion": 3,
+      "migratedSaveVersion": 37,
+      "possessedHostId": "tenant_mikhail",
+      "preservesPlayerData": true,
+      "roundTrip": true
+    },
+    {
+      "fixtureId": "lev_bookseller",
+      "sourceSaveVersion": 1,
+      "migratedSaveVersion": 37,
+      "possessedHostId": "bookseller_lev",
+      "preservesPlayerData": true,
+      "roundTrip": true
+    },
+    {
+      "fixtureId": "sofia_editor",
+      "sourceSaveVersion": 2,
+      "migratedSaveVersion": 37,
+      "possessedHostId": "editor_sofia",
+      "preservesPlayerData": true,
+      "roundTrip": true
+    },
+    {
+      "fixtureId": "ivan_patrol",
+      "sourceSaveVersion": 3,
+      "migratedSaveVersion": 37,
+      "possessedHostId": "police_sergeant_ivan",
+      "preservesPlayerData": true,
+      "roundTrip": true
+    },
+    {
+      "fixtureId": "darya_reader",
+      "sourceSaveVersion": 1,
+      "migratedSaveVersion": 37,
+      "possessedHostId": "reader_darya",
+      "preservesPlayerData": true,
+      "roundTrip": true
+    },
+    {
+      "fixtureId": "market_seller",
+      "sourceSaveVersion": 2,
+      "migratedSaveVersion": 37,
+      "possessedHostId": "market_nadezhda",
+      "preservesPlayerData": true,
+      "roundTrip": true
+    },
+    {
+      "fixtureId": "warehouse_worker",
+      "sourceSaveVersion": 3,
+      "migratedSaveVersion": 37,
+      "possessedHostId": "warehouse_pyotr",
+      "preservesPlayerData": true,
+      "roundTrip": true
+    },
+    {
+      "fixtureId": "legacy_v36",
+      "sourceSaveVersion": 36,
+      "migratedSaveVersion": 37,
+      "possessedHostId": null,
+      "preservesPlayerData": true,
+      "roundTrip": true
+    }
+  ],
+  "preservesUserData": true,
+  "rejectsCorruptChecksum": true,
+  "rejectsInvalidPosition": true,
+  "generatedAt": "2026-11-06T05:33:56.408Z"
+}

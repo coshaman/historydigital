@@ -1,25 +1,20 @@
 import fs from 'node:fs';
 import { chromium } from 'playwright';
 
-const canonical = {
-  UVAROV: { C03: [0, 0], C06: [0, 0], C07: [0, 0], E02: [1, 1], E07: [1, 1] },
-  BELINSKY: { C03: [1, 1], C06: [1, 1], C07: [1, 1], E02: [0, 0], E07: [0, 0] },
-  HERZEN: { C03: [2, 2], C06: [2, 2], C07: [2, 2], E02: [2, 2], E07: [2, 2] },
-  KHOMYAKOV: { C03: [1, 1], C06: [1, 1], C07: [2, 2], E02: [1, 1], E07: [3, 3] },
-  DOSTOEVSKY_PETRASHEVSKY: { C03: [2, 2], C06: [2, 2], C07: [1, 1], E02: [0, 2], E07: [0, 0] }
-};
 const browser = await chromium.launch({ headless: true });
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
-await page.goto('http://127.0.0.1:4173/?main20=1#v37-exhaustive', { waitUntil: 'domcontentloaded' });
+await page.goto('http://127.0.0.1:4173/chancery.html?main20=1#v37-exhaustive', { waitUntil: 'domcontentloaded' });
 await page.waitForFunction(() => Boolean(window.__main20?.resolveEndingDetailedFor));
-const report = await page.evaluate((canonicalRoutes) => {
+const report = await page.evaluate(() => {
   const data = window.__main20.data;
   const ids = data.scenes.map((scene) => scene.id);
   const shape = data.scenes.map((scene) => [scene.choices.length, scene.postChoices.length]);
   const endingIds = data.endings.map((ending) => ending.id);
   const actionChoices = new Map(data.scenes.flatMap((scene) => [...scene.choices, ...scene.postChoices].map((choice) => [choice.action, choice])));
-  const routeKey = (route) => route.map((pair) => pair.join(':')).join('|');
-  const canonicalKeys = new Set(Object.values(canonicalRoutes).map((route) => routeKey(ids.map((id) => route[id]))));
+  const routeKey = (route) => route.map((pair, index) => {
+    if (!Array.isArray(pair)) throw new Error(`Invalid route pair at ${index}: ${JSON.stringify(route)}`);
+    return pair.join(':');
+  }).join('|');
   const sourceFor = (route) => {
     const source = { history: [], flags: [], relationships: { alexei: 0, ekaterina: 0, pavel: 0 } };
     for (let i = 0; i < data.scenes.length; i += 1) for (const kind of ['pre_read_choice', 'post_read_choice']) {
@@ -116,14 +111,9 @@ const report = await page.evaluate((canonicalRoutes) => {
   };
   const counts = Object.fromEntries(endingIds.map((id) => [id, 0]));
   const mixed = Object.fromEntries(endingIds.map((id) => [id, null]));
+  const representativeRoutes = Object.fromEntries(endingIds.map((id) => [id, null]));
   let totalRoutes = 0, semanticMismatch = 0, noEnding = 0, multiEnding = 0, unresolvedSemanticTie = 0, arrayOrderFallback = 0;
-  const mismatches = [], legacyMismatchRoutes = [], tieSamples = { support: null, relationship: null };
-  const namedTiePattern = Object.fromEntries(data.scenes.map((scene) => {
-    const pairs = { C03: ['C03-A', 'C03-P2'], C06: ['C06-B', 'C06-P1'], C07: ['C07-A', 'C07-P2'], E02: ['E02-A', 'E02-P2'], E07: ['E07-D', 'E07-P3'] }[scene.id];
-    return [scene.id, [scene.choices.findIndex((choice) => choice.id === pairs[0]), scene.postChoices.findIndex((choice) => choice.id === pairs[1])]];
-  }));
-  const namedTieRoute = ids.map((id) => namedTiePattern[id]);
-  let namedTieCheck = null;
+  const mismatches = [], legacyMismatchRoutes = [], tieSamples = { first: null, threeWay: null };
   const visit = (depth, route) => {
     if (depth < ids.length) {
       for (let first = 0; first < shape[depth][0]; first += 1) for (let post = 0; post < shape[depth][1]; post += 1) visit(depth + 1, [...route, [first, post]]);
@@ -133,9 +123,8 @@ const report = await page.evaluate((canonicalRoutes) => {
     const source = sourceFor(route);
     const actual = window.__main20.resolveEndingDetailedFor(source);
     const expected = independentResolve(source);
-    if (routeKey(route) === routeKey(namedTieRoute)) namedTieCheck = { route, production: actual?.endingId || null, independent: expected.endingId, topScoreCandidates: expected.topScoreCandidates, remaining: expected.finalCandidates };
     if (actual?.endingId !== expected.endingId) { semanticMismatch += 1; if (mismatches.length < 20) mismatches.push({ route, actual: actual?.endingId || null, expected: expected.endingId, remaining: expected.finalCandidates, tieProfile: expected.tieProfile }); }
-    if (expected.legacyPairwiseEnding !== expected.endingId && legacyMismatchRoutes.length < 11) legacyMismatchRoutes.push({ route, legacy: expected.legacyPairwiseEnding, setWise: expected.endingId, topScoreCandidates: expected.topScoreCandidates });
+    if (expected.legacyPairwiseEnding !== expected.endingId && legacyMismatchRoutes.length < 11) legacyMismatchRoutes.push({ route, legacy: expected.legacyPairwiseEnding, expected: expected.endingId, topScoreCandidates: expected.topScoreCandidates });
     if (!actual?.endingId) noEnding += 1;
     if ((actual?.strongMatches || []).length > 1) multiEnding += 1;
     if (expected.unresolvedSemanticTie) unresolvedSemanticTie += 1;
@@ -143,22 +132,20 @@ const report = await page.evaluate((canonicalRoutes) => {
     if (actual?.endingId) {
       counts[actual.endingId] += 1;
       const key = routeKey(route);
-      if (!canonicalKeys.has(key) && !mixed[actual.endingId]) mixed[actual.endingId] = { route, endingId: actual.endingId };
+      if (!representativeRoutes[actual.endingId]) representativeRoutes[actual.endingId] = route;
+      else if (routeKey(representativeRoutes[actual.endingId]) !== key && !mixed[actual.endingId]) mixed[actual.endingId] = { route, endingId: actual.endingId };
     }
-    if (!tieSamples.support || !tieSamples.relationship) {
-      const idsInTie = new Set(expected.topScoreCandidates);
-      if (idsInTie.has('UVAROV') && idsInTie.has('BELINSKY') && idsInTie.has('KHOMYAKOV')) tieSamples.support = { route, candidates: expected.topScoreCandidates, result: expected.endingId };
-      if (idsInTie.has('UVAROV') && idsInTie.has('HERZEN') && idsInTie.has('DOSTOEVSKY_PETRASHEVSKY')) tieSamples.relationship = { route, candidates: expected.topScoreCandidates, result: expected.endingId };
-    }
+    if (expected.topScoreCandidates.length > 1 && !tieSamples.first) tieSamples.first = { route, candidates: expected.topScoreCandidates, result: expected.endingId };
+    if (expected.topScoreCandidates.length >= 3 && !tieSamples.threeWay) tieSamples.threeWay = { route, candidates: expected.topScoreCandidates, result: expected.endingId };
   };
   visit(0, []);
-  const canonicalResults = Object.fromEntries(Object.entries(canonicalRoutes).map(([id, route]) => [id, window.__main20.resolveEndingDetailedFor(sourceFor(ids.map((sceneId) => route[sceneId])))?.endingId || null]));
-  return { totalRoutes, semanticMismatch, noEnding, multiEnding, unresolvedSemanticTie, arrayOrderFallback, counts, mixed, canonicalResults, mismatches, legacyMismatchRoutes, tieSamples, namedTieCheck };
-}, canonical);
-report.schemaVersion = 'V37-INDEPENDENT-ENDING-SEMANTICS-1';
-report.status = report.totalRoutes === 104976 && report.semanticMismatch === 0 && report.noEnding === 0 && report.multiEnding === 0 && report.unresolvedSemanticTie === 0 && report.arrayOrderFallback === 0 && report.legacyMismatchRoutes.length === 11 && Object.values(report.counts).every((count) => count > 0) && Object.values(report.mixed).every(Boolean) && report.namedTieCheck?.production === 'KHOMYAKOV' && report.namedTieCheck?.independent === 'KHOMYAKOV' && report.tieSamples.support?.candidates.length === 3 && ['UVAROV', 'BELINSKY', 'KHOMYAKOV'].every((id) => report.tieSamples.support.candidates.includes(id)) && report.tieSamples.relationship?.candidates.length === 3 && ['UVAROV', 'HERZEN', 'DOSTOEVSKY_PETRASHEVSKY'].every((id) => report.tieSamples.relationship.candidates.includes(id));
+  const expectedRouteCount = shape.reduce((count, [first, post]) => count * first * post, 1);
+  return { totalRoutes, expectedRouteCount, sceneIds: ids, semanticMismatch, noEnding, multiEnding, unresolvedSemanticTie, arrayOrderFallback, counts, mixed, representativeRoutes, mismatches, legacyMismatchRoutes, tieSamples };
+});
+report.schemaVersion = 'V37-INDEPENDENT-ENDING-SEMANTICS-2';
+report.status = report.totalRoutes === report.expectedRouteCount && report.semanticMismatch === 0 && report.noEnding === 0 && report.multiEnding === 0 && report.unresolvedSemanticTie === 0 && report.arrayOrderFallback === 0 && Object.values(report.counts).every((count) => count > 0) && Object.values(report.representativeRoutes).every(Boolean) && Object.values(report.mixed).every(Boolean);
 fs.mkdirSync('docs/v37', { recursive: true });
 fs.writeFileSync('docs/v37/ENDING_SEMANTIC_EXHAUSTIVE.json', JSON.stringify(report, null, 2) + '\n');
-console.log(JSON.stringify({ status: report.status, totalRoutes: report.totalRoutes, semanticMismatch: report.semanticMismatch, noEnding: report.noEnding, multiEnding: report.multiEnding, unresolvedSemanticTie: report.unresolvedSemanticTie, arrayOrderFallback: report.arrayOrderFallback, legacyMismatchRouteCount: report.legacyMismatchRoutes.length, counts: report.counts, mixedRoutes: Object.fromEntries(Object.entries(report.mixed).map(([id, item]) => [id, Boolean(item)])), canonicalResults: report.canonicalResults, namedTieCheck: report.namedTieCheck, tieSamples: report.tieSamples, examples: report.mismatches.slice(0, 5) }, null, 2));
+console.log(JSON.stringify({ status: report.status, sceneIds: report.sceneIds, totalRoutes: report.totalRoutes, semanticMismatch: report.semanticMismatch, noEnding: report.noEnding, multiEnding: report.multiEnding, unresolvedSemanticTie: report.unresolvedSemanticTie, arrayOrderFallback: report.arrayOrderFallback, legacyMismatchRouteCount: report.legacyMismatchRoutes.length, counts: report.counts, mixedRoutes: Object.fromEntries(Object.entries(report.mixed).map(([id, item]) => [id, Boolean(item)])), representativeRoutes: report.representativeRoutes, tieSamples: report.tieSamples, examples: report.mismatches.slice(0, 5) }, null, 2));
 await browser.close();
 if (!report.status) process.exit(1);

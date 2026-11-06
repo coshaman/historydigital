@@ -24,9 +24,9 @@ if (server) {
 const browser = await chromium.launch({ headless: true });
 
 async function canvasFrame(page) {
-  await page.waitForTimeout(350);
+  await page.waitForTimeout(500);
   const first = await page.locator('#world').evaluate(canvas => canvas.toDataURL());
-  await page.waitForTimeout(350);
+  await page.waitForTimeout(500);
   const second = await page.locator('#world').evaluate(canvas => canvas.toDataURL());
   return first !== second;
 }
@@ -38,8 +38,10 @@ async function testMotionPreferences() {
   await page.waitForFunction(() => { const canvas = document.querySelector('#world'); return canvas?.width > 0 && canvas?.height > 0; });
   const moving = await canvasFrame(page);
   await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.waitForFunction(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   const still = await canvasFrame(page);
   await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.waitForFunction(() => !window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   const resumes = await canvasFrame(page);
   await context.close();
   return { moving, still, resumes };

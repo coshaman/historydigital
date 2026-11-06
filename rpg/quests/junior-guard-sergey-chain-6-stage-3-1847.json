@@ -25,7 +25,6 @@
       "resultKo": "확인된 범위와 서명을 장부에 남겼다. 한 번에 끝나진 않아도 누구의 판단인지 분명하다.",
       "resultFlag": "signedEntry",
       "followupTitleKo": "출입 결정과 책임 기록",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "확인된 범위와 서명을 장부에 남겼다. 한 번에 끝나진 않아도 누구의 판단인지 분명하다.",
         "relations": {
@@ -47,7 +46,6 @@
       "resultKo": "오늘은 들이지 않고 재방문 방법을 알려줬다. 기준은 지켰지만 서류는 제때 전달되지 않을 수 있다.",
       "resultFlag": "clearRefusal",
       "followupTitleKo": "출입 결정과 책임 기록",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "오늘은 들이지 않고 재방문 방법을 알려줬다. 기준은 지켰지만 서류는 제때 전달되지 않을 수 있다.",
         "relations": {
@@ -69,7 +67,6 @@
       "resultKo": "뒤늦게 부탁을 들어준 일을 적었다. 출입 절차는 어겼지만 기록에서 감추지는 않았다.",
       "resultFlag": "lateDisclosure",
       "followupTitleKo": "출입 결정과 책임 기록",
-      "followupKo": "이 선택은 허구 주민의 일과와 이웃 관계에만 남는다.",
       "effects": {
         "situationKo": "뒤늦게 부탁을 들어준 일을 적었다. 출입 절차는 어겼지만 기록에서 감추지는 않았다.",
         "relations": {

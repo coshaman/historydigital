@@ -30,7 +30,6 @@
       "resultKo": "메모를 원본과 함께 결재에 올렸다. 누가 검토하고 누가 허가하는지 분리해 적었다.",
       "resultFlag": "KONSTANTIN_UNSIGNED_REVIEW_1847_STAGE_3_RESULT_1",
       "followupTitleKo": "책임을 남기는 결재 경로",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "메모를 원본과 함께 결재에 올렸다. 누가 검토하고 누가 허가하는지 분리해 적었다.",
         "relations": {
@@ -58,7 +57,6 @@
       "resultKo": "완료가 아니라 검토 대기라고 정정했다. 이전 표현도 삭제하지 않고 이력을 남겼다.",
       "resultFlag": "KONSTANTIN_UNSIGNED_REVIEW_1847_STAGE_3_RESULT_2",
       "followupTitleKo": "책임을 남기는 결재 경로",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "완료가 아니라 검토 대기라고 정정했다. 이전 표현도 삭제하지 않고 이력을 남겼다.",
         "relations": {
@@ -86,7 +84,6 @@
       "resultKo": "서명 전까지 미결로 남겼다. 문서를 끝낸 척하지 않았지만 지연 사유를 계속 설명해야 한다.",
       "resultFlag": "KONSTANTIN_UNSIGNED_REVIEW_1847_STAGE_3_RESULT_3",
       "followupTitleKo": "책임을 남기는 결재 경로",
-      "followupKo": "이 선택은 허구 주민의 생활과 관계에만 남으며, 기록된 역사적 결과는 바꾸지 않는다.",
       "effects": {
         "situationKo": "서명 전까지 미결로 남겼다. 문서를 끝낸 척하지 않았지만 지연 사유를 계속 설명해야 한다.",
         "relations": {

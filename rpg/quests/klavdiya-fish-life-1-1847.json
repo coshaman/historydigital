@@ -25,7 +25,6 @@
       "resultKo": "생선 상태를 보여 주고 값을 바꿨다. 숨기지는 않았지만 손님이 품질을 직접 판단해야 한다.",
       "resultFlag": "KLAVDIYA_FISH_STORAGE_1847_STAGE_1_RESULT_1",
       "followupTitleKo": "상하기 전의 생선값",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "생선 상태를 보여 주고 값을 바꿨다. 숨기지는 않았지만 손님이 품질을 직접 판단해야 한다.",
         "relations": {
@@ -48,7 +47,6 @@
       "resultKo": "좋은 것과 먼저 팔 것을 나눴다. 선택은 쉬워졌지만 남은 몫을 빨리 처리해야 한다.",
       "resultFlag": "KLAVDIYA_FISH_STORAGE_1847_STAGE_1_RESULT_2",
       "followupTitleKo": "상하기 전의 생선값",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "좋은 것과 먼저 팔 것을 나눴다. 선택은 쉬워졌지만 남은 몫을 빨리 처리해야 한다.",
         "relations": {
@@ -71,7 +69,6 @@
       "resultKo": "팔 양을 줄여 일부를 보관했다. 값은 지켰지만 보관이 잘못되면 더 큰 손해가 난다.",
       "resultFlag": "KLAVDIYA_FISH_STORAGE_1847_STAGE_1_RESULT_3",
       "followupTitleKo": "상하기 전의 생선값",
-      "followupKo": "이 선택은 허구 주민의 생활과 이웃 관계에만 남으며, 기록된 역사 사건은 바꾸지 않는다.",
       "effects": {
         "situationKo": "팔 양을 줄여 일부를 보관했다. 값은 지켰지만 보관이 잘못되면 더 큰 손해가 난다.",
         "relations": {
