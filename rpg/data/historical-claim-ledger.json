@@ -183,6 +183,34 @@
         "file": "rpg/maps/chancery.json",
         "objectId": 31
       }
+    },
+    {
+      "claimId": "DOSTOEVSKY-ARREST-ORDER-DATE-AND-DESTINATION",
+      "claimClass": "SOURCE_ASSERTION",
+      "sourceId": "OBJ-WS-DOSTOEVSKY-ARREST-ORDER-1849",
+      "paragraphIndex": 1,
+      "arcId": "V33_1849_CIRCLE",
+      "questId": "CIRCLE_INVESTIGATION_1849",
+      "claimKo": "제3부의 1849년 4월 22일 명령은 다음 날 새벽 도스토옙스키를 체포해 책·서류와 함께 제3부로 데려오도록 지시했다.",
+      "useKo": "명령서의 날짜, 체포 시각, 장소와 문서 이송 경로 확인",
+      "useRef": {
+        "file": "rpg/maps/chancery.json",
+        "objectId": 1158
+      }
+    },
+    {
+      "claimId": "DOSTOEVSKY-ARREST-ORDER-SEIZURE-SCOPE",
+      "claimClass": "SOURCE_ASSERTION",
+      "sourceId": "OBJ-WS-DOSTOEVSKY-ARREST-ORDER-1849",
+      "paragraphIndex": 3,
+      "arcId": "V33_1849_CIRCLE",
+      "questId": "CIRCLE_INVESTIGATION_1849",
+      "claimKo": "명령은 도스토옙스키가 다른 사람 소유라고 말한 서류도 봉인하라고 지시했다.",
+      "useKo": "책임자 선택에서 압수 범위와 별도 소유 기록을 다루는 선택지의 근거",
+      "useRef": {
+        "file": "rpg/maps/chancery.json",
+        "objectId": 1158
+      }
     }
   ]
 }

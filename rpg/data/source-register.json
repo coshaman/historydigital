@@ -121,6 +121,18 @@
       "range": "Wikisource lines 142–150, nine consecutive paragraphs; review text with quoted Gogol passage.",
       "url": "https://ru.wikisource.org/wiki/Выбранные_места_из_переписки_с_друзьями_Николая_Гоголя_(Белинский)",
       "rights": "Public-domain Russian original; new Korean project translation."
+    },
+    {
+      "sourceId": "OBJ-WS-DOSTOEVSKY-ARREST-ORDER-1849",
+      "type": "PRIMARY_DOCUMENT_MODERN_TRANSCRIPTION",
+      "title": "Секретное предписание об аресте Ф. М. Достоевского",
+      "creator": "III отделение; граф Орлов",
+      "date": "1849-04-22",
+      "edition": "Н. Ф. Бельчиков, Достоевский в процессе петрашевцев (1936), стр. 169–170",
+      "url": "https://ru.djvu.online/file/def7jCu57rowh",
+      "archive": "Печатная транскрипция документа III отделения; редактор указывает дело: III отделение, I экспедиция, 1849, № 214, часть 13.",
+      "verificationStatus": "VERIFIED_TRANSCRIPTION",
+      "rights": "Текст исторического документа; редакционная публикация 1936 года."
     }
   ]
 }

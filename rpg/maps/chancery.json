@@ -2399,8 +2399,44 @@
           "height": 16,
           "visible": true,
           "properties": [
-            { "name": "questId", "type": "string", "value": "V37_MISSING_RECORD_1847" },
-            { "name": "requiresLivingEventId", "type": "string", "value": "E20" }
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "V37_MISSING_RECORD_1847"
+            },
+            {
+              "name": "requiresLivingEventId",
+              "type": "string",
+              "value": "E20"
+            }
+          ]
+        },
+        {
+          "id": 1158,
+          "name": "4월 22일 체포 명령서",
+          "type": "source",
+          "x": 128,
+          "y": 144,
+          "width": 16,
+          "height": 16,
+          "rotation": 0,
+          "visible": true,
+          "properties": [
+            {
+              "name": "sourceId",
+              "type": "string",
+              "value": "OBJ-WS-DOSTOEVSKY-ARREST-ORDER-1849"
+            },
+            {
+              "name": "availableChapterId",
+              "type": "string",
+              "value": "V33_1849_CIRCLE"
+            },
+            {
+              "name": "availableDate",
+              "type": "string",
+              "value": "1849-04-22"
+            }
           ]
         }
       ]

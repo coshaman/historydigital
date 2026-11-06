@@ -120,6 +120,18 @@
       "pageLocator": "Wikisource lines 142–150 · 벨린스키의 논평과 고골 인용이 이어지는 아홉 문단",
       "contextKo": "벨린스키는 고골의 책에서 슬라브파와 서구파를 다룬 대목을 인용한 뒤, 두 진영이 각자 무엇을 보고 놓치는지 비평합니다. 이어 러시아의 장점을 과시하는 젊은이들에 관한 고골의 문장을 인용합니다.",
       "rightsNoteKo": "1847년 공개 서평의 러시아어 원문에서 새로 옮겼다. 인용문은 고골의 문장이고, 그 인용을 둘러싼 평가는 벨린스키의 글이다."
+    },
+    {
+      "sourceId": "OBJ-WS-DOSTOEVSKY-ARREST-ORDER-1849",
+      "excerptId": "EX-DOSTOEVSKY-ARREST-ORDER-1849-L2779-2810",
+      "layout": "official",
+      "textStatus": "DIRECT",
+      "renderingStatus": "RECONSTRUCTED",
+      "documentDate": "1849-04-22",
+      "publicationDate": "1936년 학술 자료집 수록",
+      "pageLocator": "Бельчиков, стр. 169–170 · электронная транскрипция 2779–2810행 · 명령서 전문의 연속 네 문단",
+      "contextKo": "4월 22일 명령서에는 다음 날 새벽의 체포 시각과 주소, 책과 서류의 봉인·인계, 집행 담당자의 책임이 차례로 적혀 있습니다.",
+      "rightsNoteKo": "1849년 국가기관의 비밀 명령서. 1936년 자료집의 전사문을 새로 번역했다."
     }
   ]
 }
