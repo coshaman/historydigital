@@ -1,0 +1,72 @@
+{
+  "id": "V37_MARKET_DAY_WORK_1847",
+  "titleKo": "시장의 하루 일감",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "requiresLivingEventId": "E32",
+  "premiseKo": "나데즈다에게 오늘 일손이 필요하고, 미하일은 품을 찾고 있다. 어떤 일을 얼마에 맡길지 정해야 한다.",
+  "historicalOutcome": {
+    "id": "V37_E32_FICTIONAL_MARKET_WORK_OUTCOME",
+    "value": "Fictional market work, wage, fatigue, referral, and relationship outcomes.",
+    "sourceIds": []
+  },
+  "entry": { "mapId": "market-quay", "objectId": 1180, "requiredHostId": "market_nadezhda" },
+  "actions": [
+    {
+      "id": "E32_HIRE_HEAVY_LOADING",
+      "hostIds": ["market_nadezhda"],
+      "requiresLivingEventActorKey": "employerHostId",
+      "requiredLivingEventStage": "OFFER_READY",
+      "requiredPresentHostIds": ["tenant_mikhail"],
+      "requiredParticipantDistance": 4,
+      "durationMinutes": 60,
+      "labelKo": "상자 나르기를 2코페이카에 맡긴다",
+      "subcopyKo": "나데즈다가 2코페이카를 냅니다 · 무거운 짐이라 피로가 쌓입니다 · 시장 가까이에 있는 사람이 볼 수 있습니다",
+      "resultKo": "나데즈다는 상자 나르기를 맡기고 약속한 품삯을 치렀다. 미하일은 다음 일감을 찾을 시간을 조금 미뤘다.",
+      "resultFlag": "market_day_work_hired_for_loading",
+      "effects": { "moneyDelta": -2, "relations": { "tenant_mikhail": "상자 나르기를 맡긴 좌판 주인" }, "situationKo": "시장에서 상자 나르기를 하고 2코페이카를 받았다." }
+    },
+    {
+      "id": "E32_HIRE_LIGHT_SORTING",
+      "hostIds": ["market_nadezhda"],
+      "requiresLivingEventActorKey": "employerHostId",
+      "requiredLivingEventStage": "OFFER_READY",
+      "requiredPresentHostIds": ["tenant_mikhail"],
+      "requiredParticipantDistance": 4,
+      "durationMinutes": 60,
+      "labelKo": "물건 분류를 1코페이카에 맡긴다",
+      "subcopyKo": "나데즈다가 1코페이카를 냅니다 · 가벼운 일이어서 피로가 덜 쌓입니다 · 시장 가까이에 있는 사람이 볼 수 있습니다",
+      "resultKo": "나데즈다는 바구니의 물건을 나누는 일을 맡겼다. 미하일은 적은 품삯을 받고 무거운 짐은 들지 않았다.",
+      "resultFlag": "market_day_work_hired_for_sorting",
+      "effects": { "moneyDelta": -1, "relations": { "tenant_mikhail": "물건 분류를 맡긴 좌판 주인" }, "situationKo": "시장에서 물건을 분류하고 1코페이카를 받았다." }
+    },
+    {
+      "id": "E32_REFER_PRINTSHOP",
+      "hostIds": ["market_nadezhda"],
+      "requiresLivingEventActorKey": "employerHostId",
+      "requiredLivingEventStage": "OFFER_READY",
+      "requiredPresentHostIds": ["tenant_mikhail"],
+      "requiredParticipantDistance": 4,
+      "durationMinutes": 5,
+      "labelKo": "인쇄소의 일감을 알아보라고 소개한다",
+      "subcopyKo": "오늘 품삯은 오가지 않습니다 · 미하일과 로만의 일자리 인맥에 남습니다 · 소개가 고용을 보장하진 않습니다",
+      "resultKo": "나데즈다는 인쇄소의 로만을 찾아가 보라고 했다. 오늘 품삯은 받지 못했지만 미하일은 일자리 하나를 더 알아볼 수 있게 됐다.",
+      "resultFlag": "market_day_work_referred_to_printshop",
+      "effects": { "relations": { "tenant_mikhail": "인쇄소 일자리를 소개한 좌판 주인" }, "situationKo": "나데즈다가 인쇄소의 로만을 찾아가 보라고 소개했다." }
+    },
+    {
+      "id": "E32_LEAVE_WITHOUT_WORK",
+      "hostIds": ["tenant_mikhail"],
+      "requiresLivingEventActorKey": "workerHostId",
+      "requiredLivingEventStage": "OFFER_READY",
+      "requiredPresentHostIds": ["market_nadezhda"],
+      "requiredParticipantDistance": 4,
+      "durationMinutes": 5,
+      "labelKo": "오늘 일은 받지 않고 자리를 뜬다",
+      "subcopyKo": "품삯은 받지 않습니다 · 오늘의 구직 기록에 남습니다 · 다른 일감을 찾으러 갈 수 있습니다",
+      "resultKo": "미하일은 오늘 일을 받지 않고 다른 일감을 찾아보기로 했다.",
+      "resultFlag": "market_day_work_declined",
+      "effects": { "relations": { "market_nadezhda": "오늘 제안을 정중히 거절한 일용직 노동자" }, "situationKo": "오늘 시장의 일을 받지 않고 다른 일감을 찾기로 했다." }
+    }
+  ]
+}

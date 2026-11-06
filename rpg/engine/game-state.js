@@ -1725,6 +1725,64 @@ function advanceSalonDebateEvent(state, minuteOffset, maps, livingEventRows, opt
       { actionId: event.resolutionActionId, changeKo: '세 사람은 책을 덮고 각자 하던 일로 돌아갔다.' }));
   }
 }
+function marketDayWorkEventRow(state, stage, minuteOffset, maps, details = {}) {
+  const event = state.world.livingEventStates?.E32, position = event?.scenePosition ?? { x: 15, y: 12 };
+  return { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E32', stage,
+    stageIndex: ({ JOB_SEARCH_OPENED: 1, OFFER_READY: 2, HEAVY_LOADING_PAID: 3,
+      LIGHT_SORTING_PAID: 3, PRINTSHOP_REFERRAL: 3, WORK_DECLINED: 3, NO_WORK_FOUND: 3 })[stage],
+    actorHostIds: [...(event?.actorHostIds ?? [])], witnessHostIds: [...(event?.witnessHostIds ?? [])],
+    date: state.world.date, minute: minuteOffset, mapId: 'market-quay', position: { ...position },
+    occurrenceType: 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION', validationStatus: 'DESIGN_SEED_NOT_VERIFIED',
+    valueStatus: 'fictional_gameplay_balance', state: event ? clone(event) : null,
+    witnessedByPlayer: playerCanObserveWorldEvent(state, 'market-quay', position, 6, maps), ...details };
+}
+function advanceMarketDayWorkEvent(state, minuteOffset, maps, livingEventRows, options = {}) {
+  state.world.livingEventStates ??= {};
+  let event = state.world.livingEventStates.E32;
+  if (!event) {
+    const minute = ((state.world.clockMinutes % 1440) + 1440) % 1440;
+    const worker = state.hosts.tenant_mikhail, employer = state.hosts.market_nadezhda;
+    const entry = layer(maps?.['market-quay'], 'Interactions')?.objects.find(item => item.id === 1180);
+    if (state.world.chapterId !== 'V33_1847_PRINT' || state.world.activeRealm || state.world.date < '1847-06-01'
+      || minute < 540 || minute > 960 || !entry || !worker || !employer || worker.historicalAliveAndPresent === false
+      || employer.historicalAliveAndPresent === false || worker.money?.amount > 9 && (worker.needs?.incomePressure ?? 0) < 65
+      || !worker.allowedMaps.includes('market-quay')
+      || !employer.allowedMaps.includes('market-quay') || employer.money?.amount < 3
+      || npcMapRoute(worker.mapId, 'market-quay', worker, maps, state.world.clockMinutes) === null
+      || npcMapRoute(employer.mapId, 'market-quay', employer, maps, state.world.clockMinutes) === null) return;
+    const scenePosition = objectTile(entry);
+    const witnesses = Object.values(state.hosts).filter(host => ![worker.id, employer.id].includes(host.id)
+      && host.historicalAliveAndPresent !== false && host.mapId === 'market-quay'
+      && nearTile(host.position, scenePosition, 5)).map(host => host.id).sort();
+    event = state.world.livingEventStates.E32 = { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E32',
+      status: 'ACTIVE', stage: 'JOB_SEARCH_OPENED', trigger: 'low_cash_day_laborer_seeks_a_market_shift',
+      startedAtMinute: state.world.clockMinutes, workerHostId: worker.id, employerHostId: employer.id,
+      actorHostIds: [worker.id, employer.id], witnessHostIds: witnesses, venueMapId: 'market-quay',
+      scenePosition, offerExpiresAtMinute: state.world.clockMinutes + 240, resolutionActionId: null };
+    livingEventRows.push(marketDayWorkEventRow(state, event.stage, minuteOffset, maps,
+      { changeKo: '미하일이 시장에서 하루 일감을 묻는다. 나데즈다는 좌판을 지키며 맡길 일을 생각한다.' }));
+  }
+  if (event.status !== 'ACTIVE' || options.deferLivingEventExpiryId === 'E32') return;
+  const worker = state.hosts[event.workerHostId], employer = state.hosts[event.employerHostId];
+  const gathered = [worker, employer].every(person => person && person.historicalAliveAndPresent !== false
+    && person.mapId === event.venueMapId && nearTile(person.position, event.scenePosition, 4));
+  if (gathered && event.stage === 'JOB_SEARCH_OPENED') {
+    event.stage = 'OFFER_READY'; event.gatheredAtMinute = state.world.clockMinutes;
+    event.offerExpiresAtMinute = state.world.clockMinutes + 120;
+    livingEventRows.push(marketDayWorkEventRow(state, event.stage, minuteOffset, maps,
+      { changeKo: '나데즈다와 미하일이 일의 무게와 품삯을 의논할 수 있게 자리에 모였다.' }));
+  }
+  if (state.world.clockMinutes < event.offerExpiresAtMinute) return;
+  event.status = 'RESOLVED'; event.stage = 'NO_WORK_FOUND'; event.resolvedAtMinute = state.world.clockMinutes;
+  event.resolutionActionId = 'AUTO_OFFER_WINDOW_CLOSED';
+  if (worker) {
+    worker.relations[event.employerHostId] = '시장에 일자리를 물었으나 오늘은 일하지 못한 노동자';
+    worker.activeGoal = null;
+  }
+  if (employer) employer.activeGoal = null;
+  livingEventRows.push(marketDayWorkEventRow(state, event.stage, minuteOffset, maps,
+    { actionId: event.resolutionActionId, changeKo: '나데즈다는 맡길 일을 정하지 못했고, 미하일은 오늘 다른 일감을 찾아 나섰다.' }));
+}
 function advanceMarketPriceDispute(state, minuteOffset, maps, livingEventRows, options = {}) {
   state.world.livingEventStates ??= {};
   const event = state.world.livingEventStates.E13;
@@ -2546,6 +2604,17 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
       goalType: 'LIVING_EVENT_RESPONSE', targetHostId: host.id === salonDebate.readerHostId ? salonDebate.studentHostId : salonDebate.readerHostId,
       taskId: `V37:E21:${salonDebate.stage}:${host.id}`, reason: 'readers_gather_to_discuss_a_public_review',
       selectionBasis: { utilityScore: 182, eventId: 'E21', stage: salonDebate.stage } };
+  }
+  const marketDayWork = state.world.livingEventStates?.E32;
+  if (marketDayWork?.status === 'ACTIVE' && marketDayWork.actorHostIds.includes(host.id)
+    && host.allowedMaps.includes(marketDayWork.venueMapId)
+    && npcMapRoute(host.mapId, marketDayWork.venueMapId, host, maps, state.world.clockMinutes) !== null) {
+    const worker = host.id === marketDayWork.workerHostId;
+    return { slot: { mapId: marketDayWork.venueMapId, position: { ...marketDayWork.scenePosition },
+      activityKo: worker ? '시장에서 하루 일감을 구한다' : '좌판을 지키며 오늘 맡길 일을 고른다' },
+      goalType: 'LIVING_EVENT_RESPONSE', targetHostId: worker ? marketDayWork.employerHostId : marketDayWork.workerHostId,
+      taskId: `V37:E32:${marketDayWork.stage}:${host.id}`, reason: 'day_laborer_and_market_employer_meet_to_set_work_terms',
+      selectionBasis: { utilityScore: 183, eventId: 'E32', stage: marketDayWork.stage } };
   }
   const documentCheck = state.world.livingEventStates?.E25;
   if (documentCheck?.status === 'ACTIVE' && documentCheck.actorHostIds.includes(host.id)
@@ -3423,6 +3492,7 @@ function advanceNpcWorld(state, elapsedMinutes, maps, options = {}) {
     advanceManuscriptOfferEvent(next, tick, maps, result.livingEventRows, options);
     advanceSerfdomReadingEvent(next, tick, maps, result.livingEventRows, options);
     advanceSalonDebateEvent(next, tick, maps, result.livingEventRows, options);
+    advanceMarketDayWorkEvent(next, tick, maps, result.livingEventRows, options);
     advancePoliceDocumentCheck(next, tick, maps, result.livingEventRows);
     advanceRentNoticeEvent(next, tick, maps, result.livingEventRows);
      advanceCourtyardFireEvent(next, tick, maps, result.livingEventRows);
@@ -3776,6 +3846,7 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
   const timed = advanceWorldTime(state, actionDuration, maps, [], { deferLivingEventExpiryId: questId === 'V37_MANUSCRIPT_OFFER_1847' ? 'E30'
     : questId === 'V37_SERFDOM_READING_1847' ? 'E31'
       : questId === 'V37_SALON_DEBATE_1847' ? 'E21'
+      : questId === 'V37_MARKET_DAY_WORK_1847' ? 'E32'
     : questId === 'V37_CENSORED_PAGE_1847' ? 'E06'
     : questId === 'V37_COURTYARD_DISPUTE_1847' ? 'E09'
       : questId === 'V37_MARKET_PRICE_DISPUTE_1847' ? 'E13'
@@ -3790,7 +3861,7 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
             : questId === 'V37_SICK_LODGER_1847' ? 'E15'
             : questId === 'V37_APOTHECARY_ORDER_1847' ? 'E16'
               : questId === 'V37_APPRENTICE_FATIGUE_1847' ? 'E33' : undefined,
-    pausedHostIds: ['V37_MANUSCRIPT_OFFER_1847', 'V37_SERFDOM_READING_1847', 'V37_SALON_DEBATE_1847', 'V37_CHARITY_DAY_1847', 'V37_APPRENTICE_LITERACY_1847', 'STUDENT_CIRCLE_RISK_1847', 'V37_POLICE_DOCUMENT_CHECK_1847', 'V37_SICK_LODGER_1847', 'V37_APPRENTICE_FATIGUE_1847', 'V37_MARKET_RUMOR_1847', 'V37_INN_GUEST_1847', 'V37_NEWSPAPER_RELEASE_1847'].includes(questId) ? [...(requiredLivingEvent?.actorHostIds ?? [])]
+    pausedHostIds: ['V37_MANUSCRIPT_OFFER_1847', 'V37_SERFDOM_READING_1847', 'V37_SALON_DEBATE_1847', 'V37_MARKET_DAY_WORK_1847', 'V37_CHARITY_DAY_1847', 'V37_APPRENTICE_LITERACY_1847', 'STUDENT_CIRCLE_RISK_1847', 'V37_POLICE_DOCUMENT_CHECK_1847', 'V37_SICK_LODGER_1847', 'V37_APPRENTICE_FATIGUE_1847', 'V37_MARKET_RUMOR_1847', 'V37_INN_GUEST_1847', 'V37_NEWSPAPER_RELEASE_1847'].includes(questId) ? [...(requiredLivingEvent?.actorHostIds ?? [])]
       : ['V37_MARKET_PRICE_DISPUTE_1847', 'V37_LATE_MEAL_1847'].includes(questId)
         ? [requiredLivingEvent?.sellerHostId, requiredLivingEvent?.buyerHostId].filter(Boolean)
             : questId === 'V37_APOTHECARY_ORDER_1847' ? [requiredLivingEvent?.buyerHostId, requiredLivingEvent?.supplierHostId].filter(Boolean)
@@ -4323,6 +4394,45 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
     for (const person of actors) if (person.activeGoal?.taskId?.startsWith('V37:E21:')) person.activeGoal = null;
     livingEvents.push(salonDebateEventRow(next, stage, next.world.clockMinutes % 1440, maps,
       { actionId, resolvedByHostId: hostId, changeKo: action.resultKo }));
+  }
+  if (!literaryQuest && questId === 'V37_MARKET_DAY_WORK_1847') {
+    const event = next.world.livingEventStates?.E32, worker = next.hosts[event?.workerHostId], employer = next.hosts[event?.employerHostId];
+    const outcomes = {
+      E32_HIRE_HEAVY_LOADING: ['HEAVY_LOADING_PAID', 2, 18, '상자 나르기', 'AUTO_DAY_WORK_COMPLETED'],
+      E32_HIRE_LIGHT_SORTING: ['LIGHT_SORTING_PAID', 1, 7, '물건 분류', 'AUTO_DAY_WORK_COMPLETED'],
+      E32_REFER_PRINTSHOP: ['PRINTSHOP_REFERRAL', 0, 0, null, 'MARKET_TO_PRINTSHOP_REFERRAL'],
+      E32_LEAVE_WITHOUT_WORK: ['WORK_DECLINED', 0, 0, null, 'WORKER_DECLINED_MARKET_JOB'],
+    };
+    const [stage, wage, fatigue, workKind, resolutionActionId] = outcomes[actionId] ?? [];
+    if (!event || event.status !== 'ACTIVE' || event.stage !== 'OFFER_READY' || !worker || !employer
+      || ![worker, employer].every(person => person.historicalAliveAndPresent !== false
+        && person.mapId === 'market-quay' && nearTile(person.position, event.scenePosition, 4))
+      || (wage > 0 && (hostId !== employer.id || employer.money.amount < wage))) {
+      return { ok: false, reason: 'market_day_work_not_ready', state };
+    }
+    event.status = 'RESOLVED'; event.stage = stage; event.resolvedAtMinute = next.world.clockMinutes;
+    event.resolutionActionId = resolutionActionId; event.resolvedByHostId = hostId;
+    event.workMinutes = wage ? action.durationMinutes : 0;
+    event.workKind = workKind;
+    if (wage > 0) {
+      worker.money.amount += wage;
+      worker.needs.fatigue = Math.min(100, worker.needs.fatigue + fatigue);
+      worker.needs.incomePressure = Math.max(0, worker.needs.incomePressure - wage * 4);
+      worker.lastPaidWorkAtMinute = next.world.clockMinutes;
+      worker.relations[employer.id] = `${workKind}를 맡기고 품삯을 낸 좌판 주인`;
+      employer.relations[worker.id] = `${workKind}를 하고 품삯을 받은 일용직 노동자`;
+      worker.currentActivityKo = `${workKind}를 마치고 품삯 ${wage}코페이카를 받았다`;
+      employer.currentActivityKo = `${worker.displayNameKo ?? '미하일'}에게 ${workKind} 품삯을 지급했다`;
+    } else if (actionId === 'E32_REFER_PRINTSHOP') {
+      worker.relations[employer.id] = '인쇄소 일자리를 소개해 준 좌판 주인';
+      worker.relations.carter_roman = '나데즈다의 소개로 인쇄소 일을 알아보러 온 노동자';
+      next.hosts.carter_roman.relations[worker.id] = '나데즈다에게 소개받아 일자리를 물으러 온 노동자';
+      event.referredEmployerHostId = 'carter_roman';
+    } else worker.relations[employer.id] = '오늘 제안된 일을 받지 않고 다른 일감을 찾으러 간 노동자';
+    for (const person of [worker, employer]) if (person.activeGoal?.taskId?.startsWith('V37:E32:')) person.activeGoal = null;
+    livingEvents.push(marketDayWorkEventRow(next, stage, next.world.clockMinutes % 1440, maps,
+      { actionId, resolvedByHostId: hostId, wage, workKind, workMinutes: event.workMinutes,
+        changeKo: action.resultKo }));
   }
   if (!literaryQuest && questId === 'STUDENT_CIRCLE_RISK_1847') {
     const event = next.world.livingEventStates?.E24;
@@ -5215,6 +5325,23 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
       || !Number.isInteger(funeralCostsEvent.debt.nextPaymentAtMinute) || funeralCostsEvent.debt.nextPaymentAtMinute < funeralCostsEvent.debt.dueAtMinute
       || (funeralCostsEvent.debt.status === 'SETTLED') !== (funeralCostsEvent.debt.remainingAmount === 0))))) {
     throw new Error('Save contains invalid E28 funeral cost state');
+  }
+  const marketDayWorkEvent = state.world.livingEventStates.E32;
+  if (marketDayWorkEvent && (marketDayWorkEvent.catalogIdSpace !== 'V37_EVENT_CATALOG_45' || marketDayWorkEvent.catalogEventId !== 'E32'
+    || !['ACTIVE', 'RESOLVED'].includes(marketDayWorkEvent.status)
+    || !['JOB_SEARCH_OPENED', 'OFFER_READY', 'HEAVY_LOADING_PAID', 'LIGHT_SORTING_PAID', 'PRINTSHOP_REFERRAL', 'WORK_DECLINED', 'NO_WORK_FOUND'].includes(marketDayWorkEvent.stage)
+    || marketDayWorkEvent.workerHostId !== 'tenant_mikhail' || marketDayWorkEvent.employerHostId !== 'market_nadezhda'
+    || !Array.isArray(marketDayWorkEvent.actorHostIds) || marketDayWorkEvent.actorHostIds.join(',') !== 'tenant_mikhail,market_nadezhda'
+    || !Array.isArray(marketDayWorkEvent.witnessHostIds) || marketDayWorkEvent.witnessHostIds.some(id => !state.hosts[id])
+    || marketDayWorkEvent.venueMapId !== 'market-quay' || marketDayWorkEvent.scenePosition?.x !== 15 || marketDayWorkEvent.scenePosition?.y !== 12
+    || !Number.isInteger(marketDayWorkEvent.startedAtMinute) || !Number.isInteger(marketDayWorkEvent.offerExpiresAtMinute)
+    || (marketDayWorkEvent.status === 'ACTIVE') !== ['JOB_SEARCH_OPENED', 'OFFER_READY'].includes(marketDayWorkEvent.stage)
+    || (['HEAVY_LOADING_PAID', 'LIGHT_SORTING_PAID'].includes(marketDayWorkEvent.stage)
+      && (!Number.isInteger(marketDayWorkEvent.workMinutes) || marketDayWorkEvent.workMinutes !== 60
+        || !['상자 나르기', '물건 분류'].includes(marketDayWorkEvent.workKind)))
+    || (marketDayWorkEvent.status === 'RESOLVED' && (!Number.isInteger(marketDayWorkEvent.resolvedAtMinute)
+      || !['AUTO_DAY_WORK_COMPLETED', 'MARKET_TO_PRINTSHOP_REFERRAL', 'WORKER_DECLINED_MARKET_JOB', 'AUTO_OFFER_WINDOW_CLOSED'].includes(marketDayWorkEvent.resolutionActionId))))) {
+    throw new Error('Save contains invalid E32 market day work state');
   }
   if (rentEvent && (rentEvent.catalogIdSpace !== 'V37_EVENT_CATALOG_45' || rentEvent.catalogEventId !== 'E01'
     || !['ACTIVE', 'RESOLVED'].includes(rentEvent.status) || !['DUE_NOTICE', 'PARTIAL_PAYMENT', 'OVERDUE', 'SETTLED'].includes(rentEvent.stage)

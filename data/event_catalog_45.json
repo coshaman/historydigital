@@ -1035,21 +1035,14 @@
   },
   {
     "event_id": "E32",
-    "title": "농촌에서 온 구직자",
+    "title": "시장에서 일감을 찾는 날품팔이",
     "place": "market",
-    "roles": [
-      "migrant",
-      "employer"
-    ],
+    "roles": ["day_laborer", "market_employer"],
     "trigger": "jobseeker",
-    "visible_scene": "도착한 사람이 연줄과 일자리를 찾는다",
-    "historical_anchor": "도시 이주·등록 자료",
-    "player_actions": [
-      "고용",
-      "소개",
-      "노숙지원",
-      "거절"
-    ],
+    "visible_scene": "일감이 끊긴 노동자가 시장에서 하루 일을 찾는다",
+    "historical_anchor": "Kizhi Museum의 1834·1844년 페테르부르크 이주·도시 신분 등록 사례는 배경 맥락만 제공한다; 이 시장 일감 장면의 기록은 아니다",
+    "historical_source_url": "https://site.kizhi.karelia.ru/library/kizhskij-vestnik-vyipusk-13-sbornik-statej/1086.html",
+    "player_actions": ["하역·분류 일감 선택", "다른 일자리 소개", "일감 거절"],
     "world_consequence": "노동 공급·안전 변화",
     "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
     "validation_status": "DESIGN_SEED_NOT_VERIFIED",
