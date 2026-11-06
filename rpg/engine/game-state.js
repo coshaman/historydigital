@@ -3495,6 +3495,7 @@ function advanceNpcWorld(state, elapsedMinutes, maps, options = {}) {
     advanceMarketDayWorkEvent(next, tick, maps, result.livingEventRows, options);
     advancePoliceDocumentCheck(next, tick, maps, result.livingEventRows);
     advanceRentNoticeEvent(next, tick, maps, result.livingEventRows);
+    advanceRoofLeakRepairEvent(next, tick, maps, result.livingEventRows);
      advanceCourtyardFireEvent(next, tick, maps, result.livingEventRows);
       advanceFuneralCostsEvent(next, tick, maps, result.livingEventRows);
     advanceCourtyardDispute(next, tick, maps, result.livingEventRows, options);
@@ -3525,6 +3526,37 @@ function advanceNpcWorld(state, elapsedMinutes, maps, options = {}) {
   return next;
 }
 
+function beginRoofLeakRepairEvent(state, minuteOffset, maps, livingEventRows, sourceEventId = 'E26') {
+  state.world.livingEventStates ??= {};
+  if (state.world.livingEventStates.E35) return;
+  const landlord = state.hosts.landlady_polina, tenant = state.hosts.tenant_mikhail;
+  if (!landlord || !tenant || tenant.housing?.kind !== 'RENT' || tenant.housing.landlordHostId !== landlord.id) return;
+  const scenePosition = { x: 12, y: 7 };
+  const event = state.world.livingEventStates.E35 = { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E35',
+    status: 'ACTIVE', stage: 'REPAIR_OPTIONS_OPEN', sourceEventId, startedAtMinute: state.world.clockMinutes,
+    resolvesAtMinute: state.world.clockMinutes + 240, actorHostIds: [landlord.id, tenant.id], landlordHostId: landlord.id,
+    tenantHostId: tenant.id, venueMapId: 'courtyard', scenePosition, repairStatus: 'LEAKING',
+    occurrenceType: 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION', validationStatus: 'DESIGN_SEED_NOT_VERIFIED',
+    valueStatus: 'fictional_gameplay_balance' };
+  livingEventRows.push({ catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E35', stage: event.stage,
+    stageIndex: 1, actorHostIds: [...event.actorHostIds], witnessHostIds: [], date: state.world.date,
+    minute: minuteOffset, mapId: event.venueMapId, position: { ...scenePosition }, sourceEventId,
+    occurrenceType: event.occurrenceType, validationStatus: event.validationStatus, valueStatus: event.valueStatus,
+    state: clone(event), witnessedByPlayer: playerCanObserveWorldEvent(state, event.venueMapId, scenePosition, 6, maps),
+    changeKo: '방세를 의논하던 중 미하일 방에 물이 새는 문제가 드러났다.' });
+}
+function advanceRoofLeakRepairEvent(state, minuteOffset, maps, livingEventRows) {
+  const event = state.world.livingEventStates?.E35;
+  if (!event || event.status !== 'ACTIVE' || state.world.clockMinutes < event.resolvesAtMinute) return;
+  event.status = 'RESOLVED'; event.stage = 'REPAIR_POSTPONED'; event.repairStatus = 'LEAKING';
+  event.resolvedAtMinute = state.world.clockMinutes; event.resolutionActionId = 'AUTO_REPAIR_POSTPONED';
+  livingEventRows.push({ catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E35', stage: event.stage,
+    stageIndex: 2, actorHostIds: [...event.actorHostIds], witnessHostIds: [], date: state.world.date,
+    minute: minuteOffset, mapId: event.venueMapId, position: { ...event.scenePosition },
+    occurrenceType: event.occurrenceType, validationStatus: event.validationStatus, valueStatus: event.valueStatus,
+    state: clone(event), witnessedByPlayer: playerCanObserveWorldEvent(state, event.venueMapId, event.scenePosition, 6, maps),
+    unattended: true, changeKo: '수리 약속은 정해지지 않았다. 천장은 계속 새고 두 사람은 각자 일터로 돌아갔다.' });
+}
 function advanceRentNoticeEvent(state, minuteOffset, maps, livingEventRows) {
   const event = state.world.livingEventStates?.E26;
   if (!event || event.status !== 'ACTIVE' || state.world.clockMinutes < event.closesAtMinute) return;
@@ -3542,6 +3574,7 @@ function advanceRentNoticeEvent(state, minuteOffset, maps, livingEventRows) {
     occurrenceType: event.occurrenceType, validationStatus: event.validationStatus, valueStatus: event.valueStatus,
     state: clone(event), witnessedByPlayer: playerCanObserveWorldEvent(state, event.venueMapId, event.scenePosition, 6, maps),
     changeKo: '합의가 이뤄지지 않아 다음 납부일부터 새 방세가 적용된다.' });
+  beginRoofLeakRepairEvent(state, minuteOffset, maps, livingEventRows);
 }
 
 function advanceWorldTime(state, minutes, maps, reservedTiles = [], options = {}) {
@@ -3847,6 +3880,7 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
     : questId === 'V37_SERFDOM_READING_1847' ? 'E31'
       : questId === 'V37_SALON_DEBATE_1847' ? 'E21'
       : questId === 'V37_MARKET_DAY_WORK_1847' ? 'E32'
+    : questId === 'V37_ROOF_LEAK_REPAIR_1847' ? 'E35'
     : questId === 'V37_CENSORED_PAGE_1847' ? 'E06'
     : questId === 'V37_COURTYARD_DISPUTE_1847' ? 'E09'
       : questId === 'V37_MARKET_PRICE_DISPUTE_1847' ? 'E13'
@@ -3861,7 +3895,7 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
             : questId === 'V37_SICK_LODGER_1847' ? 'E15'
             : questId === 'V37_APOTHECARY_ORDER_1847' ? 'E16'
               : questId === 'V37_APPRENTICE_FATIGUE_1847' ? 'E33' : undefined,
-    pausedHostIds: ['V37_MANUSCRIPT_OFFER_1847', 'V37_SERFDOM_READING_1847', 'V37_SALON_DEBATE_1847', 'V37_MARKET_DAY_WORK_1847', 'V37_CHARITY_DAY_1847', 'V37_APPRENTICE_LITERACY_1847', 'STUDENT_CIRCLE_RISK_1847', 'V37_POLICE_DOCUMENT_CHECK_1847', 'V37_SICK_LODGER_1847', 'V37_APPRENTICE_FATIGUE_1847', 'V37_MARKET_RUMOR_1847', 'V37_INN_GUEST_1847', 'V37_NEWSPAPER_RELEASE_1847'].includes(questId) ? [...(requiredLivingEvent?.actorHostIds ?? [])]
+    pausedHostIds: ['V37_MANUSCRIPT_OFFER_1847', 'V37_SERFDOM_READING_1847', 'V37_SALON_DEBATE_1847', 'V37_MARKET_DAY_WORK_1847', 'V37_ROOF_LEAK_REPAIR_1847', 'V37_CHARITY_DAY_1847', 'V37_APPRENTICE_LITERACY_1847', 'STUDENT_CIRCLE_RISK_1847', 'V37_POLICE_DOCUMENT_CHECK_1847', 'V37_SICK_LODGER_1847', 'V37_APPRENTICE_FATIGUE_1847', 'V37_MARKET_RUMOR_1847', 'V37_INN_GUEST_1847', 'V37_NEWSPAPER_RELEASE_1847'].includes(questId) ? [...(requiredLivingEvent?.actorHostIds ?? [])]
       : ['V37_MARKET_PRICE_DISPUTE_1847', 'V37_LATE_MEAL_1847'].includes(questId)
         ? [requiredLivingEvent?.sellerHostId, requiredLivingEvent?.buyerHostId].filter(Boolean)
             : questId === 'V37_APOTHECARY_ORDER_1847' ? [requiredLivingEvent?.buyerHostId, requiredLivingEvent?.supplierHostId].filter(Boolean)
@@ -4499,6 +4533,33 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
       occurrenceType: event.occurrenceType, validationStatus: event.validationStatus, valueStatus: event.valueStatus,
       state: clone(event), witnessedByPlayer: playerCanObserveWorldEvent(next, event.venueMapId, event.scenePosition, 6, maps),
       actionId, resolvedByHostId: hostId, changeKo: outcome[1] });
+    beginRoofLeakRepairEvent(next, next.world.clockMinutes % 1440, maps, livingEvents);
+  }
+  if (!literaryQuest && questId === 'V37_ROOF_LEAK_REPAIR_1847') {
+    const event = next.world.livingEventStates?.E35, landlord = next.hosts.landlady_polina, tenant = next.hosts.tenant_mikhail;
+    const stages = { E35_OWNER_PAYS_REPAIR: 'OWNER_PAID', E35_SPLIT_REPAIR_COST: 'COST_SHARED', E35_DELAY_REPAIR: 'REPAIR_POSTPONED' };
+    const stage = stages[actionId];
+    if (!stage || event?.status !== 'ACTIVE' || event.stage !== 'REPAIR_OPTIONS_OPEN'
+      || !landlord || !tenant || landlord.mapId !== 'courtyard' || tenant.mapId !== 'courtyard'
+      || (actionId === 'E35_OWNER_PAYS_REPAIR' && (hostId !== landlord.id || landlord.money.amount < 4))
+      || (actionId === 'E35_SPLIT_REPAIR_COST' && (hostId !== landlord.id || landlord.money.amount < 2 || tenant.money.amount < 2))) {
+      return { ok: false, reason: 'roof_repair_not_ready_or_unaffordable', state };
+    }
+    if (actionId === 'E35_SPLIT_REPAIR_COST') { landlord.money.amount -= 2; tenant.money.amount -= 2; }
+    event.status = 'RESOLVED'; event.stage = stage; event.resolvedAtMinute = next.world.clockMinutes;
+    event.resolutionActionId = actionId; event.resolvedByHostId = hostId;
+    event.repairStatus = actionId === 'E35_DELAY_REPAIR' ? 'LEAKING' : 'REPAIRED';
+    if (actionId !== 'E35_DELAY_REPAIR') {
+      tenant.housing.repairStatus = 'ROOF_REPAIRED';
+      landlord.relations[tenant.id] = '수리비를 부담하고 방을 고쳐 준 집주인';
+      tenant.relations[landlord.id] = actionId === 'E35_OWNER_PAYS_REPAIR' ? '수리비를 부담한 집주인' : '수리비를 함께 낸 집주인';
+    } else landlord.relations[tenant.id] = '수리를 미룬 집주인';
+    livingEvents.push({ catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E35', stage,
+      stageIndex: 2, actorHostIds: [...event.actorHostIds], witnessHostIds: [], date: next.world.date,
+      minute: next.world.clockMinutes % 1440, mapId: event.venueMapId, position: { ...event.scenePosition },
+      occurrenceType: event.occurrenceType, validationStatus: event.validationStatus, valueStatus: event.valueStatus,
+      state: clone(event), witnessedByPlayer: playerCanObserveWorldEvent(next, event.venueMapId, event.scenePosition, 6, maps),
+      actionId, resolvedByHostId: hostId, repairStatus: event.repairStatus, changeKo: action.resultKo });
   }
   if (!literaryQuest && questId === 'V37_COURTYARD_FIRE_1847') {
     const event = next.world.livingEventStates?.E27;
@@ -5342,6 +5403,23 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
     || (marketDayWorkEvent.status === 'RESOLVED' && (!Number.isInteger(marketDayWorkEvent.resolvedAtMinute)
       || !['AUTO_DAY_WORK_COMPLETED', 'MARKET_TO_PRINTSHOP_REFERRAL', 'WORKER_DECLINED_MARKET_JOB', 'AUTO_OFFER_WINDOW_CLOSED'].includes(marketDayWorkEvent.resolutionActionId))))) {
     throw new Error('Save contains invalid E32 market day work state');
+  }
+  const roofLeakEvent = state.world.livingEventStates.E35;
+  if (roofLeakEvent && (roofLeakEvent.catalogIdSpace !== 'V37_EVENT_CATALOG_45' || roofLeakEvent.catalogEventId !== 'E35'
+    || !['ACTIVE', 'RESOLVED'].includes(roofLeakEvent.status)
+    || !['REPAIR_OPTIONS_OPEN', 'OWNER_PAID', 'COST_SHARED', 'REPAIR_POSTPONED'].includes(roofLeakEvent.stage)
+    || !['LEAKING', 'REPAIRED'].includes(roofLeakEvent.repairStatus)
+    || roofLeakEvent.landlordHostId !== 'landlady_polina' || roofLeakEvent.tenantHostId !== 'tenant_mikhail'
+    || !Array.isArray(roofLeakEvent.actorHostIds) || roofLeakEvent.actorHostIds.join(',') !== 'landlady_polina,tenant_mikhail'
+    || roofLeakEvent.venueMapId !== 'courtyard' || roofLeakEvent.scenePosition?.x !== 12 || roofLeakEvent.scenePosition?.y !== 7
+    || roofLeakEvent.occurrenceType !== 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION'
+    || roofLeakEvent.validationStatus !== 'DESIGN_SEED_NOT_VERIFIED' || roofLeakEvent.valueStatus !== 'fictional_gameplay_balance'
+    || !Number.isInteger(roofLeakEvent.startedAtMinute) || !Number.isInteger(roofLeakEvent.resolvesAtMinute)
+    || (roofLeakEvent.status === 'ACTIVE') !== (roofLeakEvent.stage === 'REPAIR_OPTIONS_OPEN')
+    || (['OWNER_PAID', 'COST_SHARED'].includes(roofLeakEvent.stage) !== (roofLeakEvent.repairStatus === 'REPAIRED'))
+    || (roofLeakEvent.status === 'RESOLVED' && (!Number.isInteger(roofLeakEvent.resolvedAtMinute)
+      || !['E35_OWNER_PAYS_REPAIR', 'E35_SPLIT_REPAIR_COST', 'E35_DELAY_REPAIR', 'AUTO_REPAIR_POSTPONED'].includes(roofLeakEvent.resolutionActionId))))) {
+    throw new Error('Save contains invalid E35 roof leak repair state');
   }
   if (rentEvent && (rentEvent.catalogIdSpace !== 'V37_EVENT_CATALOG_45' || rentEvent.catalogEventId !== 'E01'
     || !['ACTIVE', 'RESOLVED'].includes(rentEvent.status) || !['DUE_NOTICE', 'PARTIAL_PAYMENT', 'OVERDUE', 'SETTLED'].includes(rentEvent.stage)

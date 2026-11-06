@@ -2622,6 +2622,20 @@
           ]
         },
         {
+          "id": 1185,
+          "name": "수리비를 의논하는 쪽지",
+          "type": "quest-object",
+          "x": 176,
+          "y": 112,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            { "name": "questId", "type": "string", "value": "V37_ROOF_LEAK_REPAIR_1847" },
+            { "name": "requiresLivingEventId", "type": "string", "value": "E35" }
+          ]
+        },
+        {
           "id": 1175,
           "name": "방세 인상 공지",
           "type": "quest-object",

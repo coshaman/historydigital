@@ -1,0 +1,34 @@
+{
+  "id": "V37_ROOF_LEAK_REPAIR_1847",
+  "titleKo": "새는 지붕",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "requiresLivingEventId": "E35",
+  "premiseKo": "빗물이 미하일의 방으로 샌다. 폴리나는 수리비를, 미하일은 오늘 밤 잘 곳을 걱정한다.",
+  "historicalOutcome": { "id": "V37_E35_FICTIONAL_HOUSING_OUTCOME", "value": "fictional household repair and rent outcomes", "sourceIds": [] },
+  "entry": { "mapId": "courtyard", "objectId": 1185, "requiredHostId": "landlady_polina" },
+  "actions": [
+    {
+      "id": "E35_OWNER_PAYS_REPAIR", "hostIds": ["landlady_polina"], "requiresLivingEventActorKey": "landlordHostId", "requiredLivingEventStage": "REPAIR_OPTIONS_OPEN", "requiredPresentHostIds": ["tenant_mikhail"], "requiredParticipantDistance": 5, "durationMinutes": 20,
+      "labelKo": "수리공을 부르고 비용 4코페이카를 낸다",
+      "subcopyKo": "폴리나와 미하일이 압니다 · 폴리나가 4코페이카를 냅니다 · 미하일은 방을 계속 씁니다",
+      "resultKo": "폴리나는 수리공을 불러 지붕을 고쳤다. 미하일은 방을 비우지 않아도 됐다.", "resultFlag": "E35_ROOF_REPAIRED_OWNER_PAID",
+      "effects": { "moneyDelta": -4, "situationKo": "폴리나가 수리비를 부담해 지붕을 고쳤다." }
+    },
+    {
+      "id": "E35_SPLIT_REPAIR_COST", "hostIds": ["landlady_polina"], "requiresLivingEventActorKey": "landlordHostId", "requiredLivingEventStage": "REPAIR_OPTIONS_OPEN", "requiredPresentHostIds": ["tenant_mikhail"], "requiredParticipantDistance": 5, "durationMinutes": 20,
+      "labelKo": "수리비를 2코페이카씩 나눈다",
+      "subcopyKo": "폴리나와 미하일이 압니다 · 두 사람이 각각 2코페이카를 냅니다 · 방은 그대로 씁니다",
+      "resultKo": "폴리나와 미하일은 수리비를 나눠 냈다. 수리공은 지붕을 고치고 돌아갔다.", "resultFlag": "E35_ROOF_REPAIRED_SHARED_COST",
+      "effects": { "situationKo": "폴리나와 미하일이 수리비를 나눠 지붕을 고쳤다." }
+    },
+    {
+      "id": "E35_DELAY_REPAIR", "hostIds": ["tenant_mikhail"], "requiresLivingEventActorKey": "tenantHostId", "requiredLivingEventStage": "REPAIR_OPTIONS_OPEN", "requiredPresentHostIds": ["landlady_polina"], "requiredParticipantDistance": 5, "durationMinutes": 5,
+      "labelKo": "수리를 미루고 물받이만 둔다",
+      "subcopyKo": "폴리나와 미하일이 압니다 · 지금 비용은 들지 않습니다 · 비가 오면 방을 계속 쓸 수 없습니다",
+      "resultKo": "두 사람은 당장 수리비를 마련하지 못했다. 물받이를 두었지만 천장은 여전히 샌다.", "resultFlag": "E35_ROOF_REPAIR_DELAYED",
+      "effects": { "situationKo": "수리를 미루고 물받이로 빗물을 받는다." }
+    }
+  ],
+  "completion": "one choice resolves the repair plan; without a choice, the household keeps the leak and the world continues"
+}
