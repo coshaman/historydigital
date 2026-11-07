@@ -382,5 +382,11 @@
       "status": "FICTIONAL_CHARACTER_DESIGN",
       "graphEdgeId": "KIN-TIMOFEY-MATRYONA"
     }
-  ]
+  ],
+  "skills": {
+    "horseDriving": 4,
+    "routeFinding": 3,
+    "passengerCare": 2
+  },
+  "skillsValueStatus": "FICTIONAL_CHARACTER_DESIGN"
 }

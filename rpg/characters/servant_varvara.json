@@ -363,5 +363,11 @@
       "status": "FICTIONAL_CHARACTER_DESIGN",
       "graphEdgeId": "KIN-VARVARA-LUKA"
     }
-  ]
+  ],
+  "skills": {
+    "householdCare": 4,
+    "cleaning": 3,
+    "errands": 4
+  },
+  "skillsValueStatus": "FICTIONAL_CHARACTER_DESIGN"
 }

@@ -376,5 +376,11 @@
       "status": "FICTIONAL_CHARACTER_DESIGN",
       "graphEdgeId": "KIN-DARYA-VASILY"
     }
-  ]
+  ],
+  "skills": {
+    "teaching": 4,
+    "translation": 3,
+    "reading": 4
+  },
+  "skillsValueStatus": "FICTIONAL_CHARACTER_DESIGN"
 }

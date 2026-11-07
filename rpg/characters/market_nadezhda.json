@@ -405,5 +405,11 @@
       "status": "FICTIONAL_CHARACTER_DESIGN",
       "graphEdgeId": "KIN-FYODOR-NADEZHDA"
     }
-  ]
+  ],
+  "skills": {
+    "trade": 4,
+    "stockManagement": 3,
+    "priceJudgment": 4
+  },
+  "skillsValueStatus": "FICTIONAL_CHARACTER_DESIGN"
 }

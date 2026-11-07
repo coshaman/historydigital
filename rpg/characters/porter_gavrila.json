@@ -412,5 +412,11 @@
       "status": "FICTIONAL_CHARACTER_DESIGN",
       "graphEdgeId": "KIN-PAVEL-GAVRILA"
     }
-  ]
+  ],
+  "skills": {
+    "loadHandling": 4,
+    "routeFinding": 3,
+    "parcelCare": 2
+  },
+  "skillsValueStatus": "FICTIONAL_CHARACTER_DESIGN"
 }

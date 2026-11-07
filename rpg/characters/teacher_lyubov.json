@@ -2,7 +2,9 @@
   "id": "teacher_lyubov",
   "skillsValueStatus": "FICTIONAL_CHARACTER_DESIGN",
   "skills": {
-    "basicReading": 4
+    "basicReading": 4,
+    "lessonPlanning": 4,
+    "childInstruction": 4
   },
   "kind": "FICTIONAL",
   "displayNameKo": "류보프",

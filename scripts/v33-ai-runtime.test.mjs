@@ -29,6 +29,9 @@ test('session is server-bound to one host; client cannot choose scene, inject me
   assert.equal(turn.body.aiGenerated, true, 'the client can distinguish a real model answer from any authored text');
   assert.equal(turn.body.turn.suggestedReplies.length, 2);
   assert.equal(providerInput.character.id, 'printer_ekaterina');
+  assert.deepEqual(providerInput.character.skills, { proofReading: 4, typesetting: 3, pressSafety: 2 });
+  assert.equal(providerInput.character.skillsValueStatus, 'FICTIONAL_CHARACTER_DESIGN');
+  assert.deepEqual(providerInput.conversation.embodiedPlayer.skills, { copying: 4, documentSorting: 4, officeProcedure: 3 });
   assert.equal(providerInput.character.speechDelivery.situation, providerInput.conversation.speechSituation);
   assert.equal(providerInput.character.speechDelivery.register, providerInput.character.speechRegister[providerInput.conversation.speechSituation]);
   assert.ok(providerInput.character.speechDelivery.rhythm.length > 20);

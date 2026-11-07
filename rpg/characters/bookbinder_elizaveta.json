@@ -376,5 +376,11 @@
       "status": "FICTIONAL_CHARACTER_DESIGN",
       "graphEdgeId": "KIN-LEV-ELIZAVETA"
     }
-  ]
+  ],
+  "skills": {
+    "bookbinding": 4,
+    "sewing": 3,
+    "reading": 3
+  },
+  "skillsValueStatus": "FICTIONAL_CHARACTER_DESIGN"
 }

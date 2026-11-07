@@ -379,5 +379,11 @@
       "status": "FICTIONAL_CHARACTER_DESIGN",
       "graphEdgeId": "KIN-MIKHAIL-OLGA"
     }
-  ]
+  ],
+  "skills": {
+    "cleaning": 4,
+    "householdCare": 3,
+    "errands": 4
+  },
+  "skillsValueStatus": "FICTIONAL_CHARACTER_DESIGN"
 }

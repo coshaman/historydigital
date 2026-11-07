@@ -369,5 +369,11 @@
       "status": "FICTIONAL_CHARACTER_DESIGN",
       "graphEdgeId": "KIN-IVAN-SERGEY"
     }
-  ]
+  ],
+  "skills": {
+    "patrol": 3,
+    "inquiryTaking": 3,
+    "deescalation": 3
+  },
+  "skillsValueStatus": "FICTIONAL_CHARACTER_DESIGN"
 }

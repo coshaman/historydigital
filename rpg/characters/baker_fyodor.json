@@ -409,5 +409,11 @@
       "status": "FICTIONAL_CHARACTER_DESIGN",
       "graphEdgeId": "KIN-FYODOR-NADEZHDA"
     }
-  ]
+  ],
+  "skills": {
+    "breadMaking": 4,
+    "ovenManagement": 3,
+    "stockRecords": 2
+  },
+  "skillsValueStatus": "FICTIONAL_CHARACTER_DESIGN"
 }

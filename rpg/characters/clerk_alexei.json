@@ -398,5 +398,11 @@
       "status": "FICTIONAL_CHARACTER_DESIGN",
       "graphEdgeId": "KIN-ALEXEI-ANDREI"
     }
-  ]
+  ],
+  "skills": {
+    "copying": 4,
+    "documentSorting": 4,
+    "officeProcedure": 3
+  },
+  "skillsValueStatus": "FICTIONAL_CHARACTER_DESIGN"
 }

@@ -376,5 +376,11 @@
       "status": "FICTIONAL_CHARACTER_DESIGN",
       "graphEdgeId": "KIN-ROMAN-PYOTR"
     }
-  ]
+  ],
+  "skills": {
+    "inventoryRecords": 4,
+    "cargoTally": 4,
+    "freightInspection": 3
+  },
+  "skillsValueStatus": "FICTIONAL_CHARACTER_DESIGN"
 }

@@ -1,7 +1,11 @@
 {
   "id": "print_apprentice_stepan",
   "skillsValueStatus": "FICTIONAL_CHARACTER_DESIGN",
-  "skills": { "basicReading": 1 },
+  "skills": {
+    "basicReading": 1,
+    "typesetting": 2,
+    "pressSafety": 1
+  },
   "kind": "FICTIONAL",
   "displayNameKo": "스테판",
   "displayNameRu": "Степан Орлов",

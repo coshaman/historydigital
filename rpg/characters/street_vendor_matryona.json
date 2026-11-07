@@ -368,5 +368,11 @@
       "status": "FICTIONAL_CHARACTER_DESIGN",
       "graphEdgeId": "KIN-IVAN-MATRYONA"
     }
-  ]
+  ],
+  "skills": {
+    "trade": 4,
+    "stockManagement": 3,
+    "weatherReading": 2
+  },
+  "skillsValueStatus": "FICTIONAL_CHARACTER_DESIGN"
 }

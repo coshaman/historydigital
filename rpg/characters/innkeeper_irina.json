@@ -408,5 +408,11 @@
       "status": "FICTIONAL_CHARACTER_DESIGN",
       "graphEdgeId": "KIN-IRINA-POLINA"
     }
-  ]
+  ],
+  "skills": {
+    "lodgingManagement": 4,
+    "accounts": 3,
+    "cooking": 2
+  },
+  "skillsValueStatus": "FICTIONAL_CHARACTER_DESIGN"
 }

@@ -393,5 +393,11 @@
       "status": "FICTIONAL_CHARACTER_DESIGN",
       "graphEdgeId": "KIN-LEV-ELIZAVETA"
     }
-  ]
+  ],
+  "skills": {
+    "trade": 4,
+    "reading": 3,
+    "accounts": 3
+  },
+  "skillsValueStatus": "FICTIONAL_CHARACTER_DESIGN"
 }

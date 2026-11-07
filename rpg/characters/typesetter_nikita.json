@@ -378,5 +378,11 @@
       "status": "FICTIONAL_CHARACTER_DESIGN",
       "graphEdgeId": "KIN-YURI-NIKITA"
     }
-  ]
+  ],
+  "skills": {
+    "typesetting": 4,
+    "letterSpacing": 3,
+    "pressSafety": 3
+  },
+  "skillsValueStatus": "FICTIONAL_CHARACTER_DESIGN"
 }

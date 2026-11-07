@@ -388,5 +388,11 @@
       "status": "FICTIONAL_CHARACTER_DESIGN",
       "graphEdgeId": "KIN-EKATERINA-SOFIA"
     }
-  ]
+  ],
+  "skills": {
+    "proofreading": 4,
+    "editing": 4,
+    "publicationPlanning": 3
+  },
+  "skillsValueStatus": "FICTIONAL_CHARACTER_DESIGN"
 }

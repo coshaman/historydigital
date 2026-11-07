@@ -397,5 +397,11 @@
       "status": "FICTIONAL_CHARACTER_DESIGN",
       "graphEdgeId": "KIN-MIKHAIL-MARIYA"
     }
-  ]
+  ],
+  "skills": {
+    "loadHandling": 3,
+    "routeFinding": 2,
+    "bargaining": 3
+  },
+  "skillsValueStatus": "FICTIONAL_CHARACTER_DESIGN"
 }

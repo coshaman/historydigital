@@ -386,5 +386,11 @@
       "status": "FICTIONAL_CHARACTER_DESIGN",
       "graphEdgeId": "KIN-IVAN-SERGEY"
     }
-  ]
+  ],
+  "skills": {
+    "observation": 3,
+    "accessControl": 4,
+    "deescalation": 2
+  },
+  "skillsValueStatus": "FICTIONAL_CHARACTER_DESIGN"
 }

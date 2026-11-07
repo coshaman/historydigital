@@ -383,5 +383,11 @@
       "status": "FICTIONAL_CHARACTER_DESIGN",
       "graphEdgeId": "KIN-KONSTANTIN-STEPAN"
     }
-  ]
+  ],
+  "skills": {
+    "documentReview": 4,
+    "officeProcedure": 4,
+    "committeeRecords": 3
+  },
+  "skillsValueStatus": "FICTIONAL_CHARACTER_DESIGN"
 }

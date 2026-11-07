@@ -405,5 +405,11 @@
       "status": "FICTIONAL_CHARACTER_DESIGN",
       "graphEdgeId": "KIN-SEMYON-KLAVDIYA"
     }
-  ]
+  ],
+  "skills": {
+    "fishHandling": 4,
+    "trade": 3,
+    "foodPreservation": 2
+  },
+  "skillsValueStatus": "FICTIONAL_CHARACTER_DESIGN"
 }

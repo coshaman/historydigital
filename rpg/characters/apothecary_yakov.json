@@ -370,5 +370,11 @@
       "status": "FICTIONAL_CHARACTER_DESIGN",
       "graphEdgeId": "KIN-YAKOV-AVDOTYA"
     }
-  ]
+  ],
+  "skills": {
+    "stockRecords": 4,
+    "remedyPreparation": 3,
+    "trade": 2
+  },
+  "skillsValueStatus": "FICTIONAL_CHARACTER_DESIGN"
 }

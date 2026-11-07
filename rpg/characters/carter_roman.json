@@ -381,5 +381,11 @@
       "status": "FICTIONAL_CHARACTER_DESIGN",
       "graphEdgeId": "KIN-ROMAN-PYOTR"
     }
-  ]
+  ],
+  "skills": {
+    "loadHandling": 4,
+    "routeFinding": 3,
+    "horseHandling": 3
+  },
+  "skillsValueStatus": "FICTIONAL_CHARACTER_DESIGN"
 }

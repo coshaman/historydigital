@@ -389,5 +389,11 @@
       "status": "FICTIONAL_CHARACTER_DESIGN",
       "graphEdgeId": "KIN-LYUBOV-TATYANA"
     }
-  ]
+  ],
+  "skills": {
+    "sewing": 3,
+    "reading": 1,
+    "garmentRepair": 3
+  },
+  "skillsValueStatus": "FICTIONAL_CHARACTER_DESIGN"
 }

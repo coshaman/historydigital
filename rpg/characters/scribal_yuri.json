@@ -361,5 +361,11 @@
       "status": "FICTIONAL_CHARACTER_DESIGN",
       "graphEdgeId": "KIN-YURI-NIKITA"
     }
-  ]
+  ],
+  "skills": {
+    "copying": 4,
+    "handwriting": 4,
+    "documentSorting": 3
+  },
+  "skillsValueStatus": "FICTIONAL_CHARACTER_DESIGN"
 }
