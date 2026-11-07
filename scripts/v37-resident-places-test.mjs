@@ -51,11 +51,12 @@ for (const card of fictionalCards) {
 }
 const householdCards = fictionalCards.filter(card => card.household);
 const careTasks = fictionalCards.flatMap(card => card.schedule.filter(slot => slot.task?.type === 'CARE_TRANSFER').map(slot => ({ card, task: slot.task })));
-assert.equal(householdCards.length, 2, 'the current sample household has two explicitly named members');
+assert.equal(householdCards.length, 4, 'two households each have two explicitly named members');
 assert.ok(careTasks.some(({ card, task }) => card.id === 'laundress_mariya' && task.recipientHostId === 'seamstress_anna'),
   'the shared household retains its explicitly authored conditional care transfer alongside other households’ support tasks');
 assert.ok(householdCards.every(card => state.hosts[card.id].places.homeLocationStatus === 'AUTHORED_FICTIONAL_HOUSEHOLD'));
-assert.equal(new Set(householdCards.map(card => card.household.id)).size, 1, 'both sisters share one authored household');
+assert.deepEqual([...new Set(householdCards.map(card => card.household.id))].sort(),
+  ['COURTYARD_SISTERS_1847', 'LYUBOV_TATYANA_ROOM_1847'], 'both authored households have stable identifiers');
 
 const serialized = game.saveGame(state);
 const restored = game.loadGame(serialized, { maps, hostCards: cards });

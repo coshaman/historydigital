@@ -207,8 +207,8 @@ function authoredRoutinePlaces(card) {
       provenance: residence.status });
   }
   const homeLocationStatus = residence?.kind === 'STREET_SLEEPER' ? 'FICTIONAL_HOMELESSNESS_DESIGN'
-    : residence?.homeLocation ? 'AUTHORED_FICTIONAL_RESIDENCE'
-      : card.household ? 'AUTHORED_FICTIONAL_HOUSEHOLD' : housing ? 'AUTHORED_HOUSING_RECORD'
+    : card.household ? 'AUTHORED_FICTIONAL_HOUSEHOLD'
+      : residence?.homeLocation ? 'AUTHORED_FICTIONAL_RESIDENCE' : housing ? 'AUTHORED_HOUSING_RECORD'
         : homeSlot ? 'SCHEDULE_DERIVED_FICTIONAL_CUE' : 'NOT_AUTHORED';
   return {
     homeLocation,
@@ -527,12 +527,13 @@ function pendingTaskSlot(host, taskTypes, localMinute, dayIndex = 0) {
 function canMakeAuthoredCareTransfer(state, giver, task) {
   const recipient = state.hosts[task?.recipientHostId], amount = task?.moneyAmount;
   const kinship = giver?.relationshipEdges?.find(edge => edge.kind === 'KINSHIP' && edge.toHostId === recipient?.id
-    && edge.relationshipType === 'SIBLING' && edge.status === 'FICTIONAL_CHARACTER_DESIGN');
+    && edge.status === 'FICTIONAL_CHARACTER_DESIGN');
   const giverHousehold = giver?.places?.homeLocation?.householdId;
   const recipientHousehold = recipient?.places?.homeLocation?.householdId;
   const sharedHousehold = Boolean(giverHousehold && giverHousehold === recipientHousehold);
-  const authoredSeparateHouseholdAid = task?.allowSeparateHousehold === true && Boolean(kinship);
-  return Boolean(recipient && kinship && (sharedHousehold || authoredSeparateHouseholdAid)
+  const authorizedFamilyAid = Boolean(kinship && (sharedHousehold
+    || (task?.allowSeparateHousehold === true && kinship.relationshipType === 'SIBLING')));
+  return Boolean(recipient && authorizedFamilyAid
     && Number.isInteger(amount) && amount > 0 && Number.isFinite(giver.money?.amount) && Number.isFinite(recipient.money?.amount)
     && giver.money.unit === recipient.money.unit && giver.money.amount - amount >= (task.donorReserve ?? 0)
     && recipient.money.amount <= (task.recipientMaximum ?? 0));

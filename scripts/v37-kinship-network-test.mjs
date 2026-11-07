@@ -171,6 +171,32 @@ const deniedSeparateAid = game.advanceNpcWorld(unapprovedAidState, 1, maps);
 assert.equal(deniedSeparateAid.hosts.innkeeper_irina.money.amount, 30, 'cross-household aid requires explicit authoring');
 assert.equal(deniedSeparateAid.hosts.landlady_polina.money.amount, 4);
 
+const auntNieceState = game.createInitialState({ maps, hostCards: cards, startMapId: 'courtyard' });
+auntNieceState.world.currentMapId = 'courtyard';
+auntNieceState.world.clockMinutes = 1020;
+auntNieceState.world.date = '1847-06-01';
+for (const person of Object.values(auntNieceState.hosts)) person.historicalAliveAndPresent = false;
+const aunt = auntNieceState.hosts.teacher_lyubov, niece = auntNieceState.hosts.lodging_tatyana;
+const auntAid = cards.find(card => card.id === aunt.id).schedule.find(slot => slot.task?.id === 'LYUBOV_AUNT_SUPPORT_TATYANA_1847');
+assert.ok(auntAid, 'the aunt has an authored household support visit for her niece');
+for (const [person, position] of [[aunt, { x: 17, y: 13 }], [niece, { x: 19, y: 13 }]]) {
+  person.historicalAliveAndPresent = true; person.mapId = 'courtyard'; person.position = position;
+  person.money.amount = person.id === aunt.id ? 18 : 4;
+  person.schedule = person.id === aunt.id
+    ? [{ ...auntAid, mapId: 'courtyard', position: { ...position } }]
+    : [{ atMinute: 0, mapId: 'courtyard', position: { ...position }, activityKo: '셋방에서 쉰다' }];
+}
+const auntAidResult = game.advanceNpcWorld(auntNieceState, 90, maps, { pausedHostIds: [niece.id] });
+const auntAidRow = auntAidResult.ledger.flatMap(row => row.careTransfers ?? []).find(row => row.taskId === auntAid.task.id);
+assert.ok(auntAidRow, 'aunt and niece can transfer household support through their non-sibling kinship edge');
+assert.equal(auntAidRow.kind, 'HOUSEHOLD_SUPPORT');
+assert.equal(auntAidResult.hosts.teacher_lyubov.money.amount, 16);
+assert.equal(auntAidResult.hosts.lodging_tatyana.money.amount, 6);
+const restoredAuntAid = game.loadGame(game.saveGame(auntAidResult), { maps, hostCards: cards });
+assert.equal(restoredAuntAid.hosts.teacher_lyubov.money.amount, 16);
+assert.equal(restoredAuntAid.hosts.lodging_tatyana.money.amount, 6);
+
 console.log(JSON.stringify({ status: 'PASS', fictionalResidents: fictional.length, reciprocalKinshipEdges: graph.edges.length,
   scopedKnowledge: true, autonomousVisit: contact.goalId, extendedRelativeVisit: extendedContact.goalId,
-  reciprocalMeetingMemory: true, crossHouseholdFamilyAid: true, familyAidSaveLoad: true, saveLoad: true }, null, 2));
+  reciprocalMeetingMemory: true, crossHouseholdFamilyAid: true, auntNieceHouseholdAid: true,
+  familyAidSaveLoad: true, saveLoad: true }, null, 2));

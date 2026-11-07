@@ -13,8 +13,10 @@ const maps = Object.fromEntries(fs.readdirSync('rpg/maps').filter(file => file.e
 const cards = fs.readdirSync('rpg/characters').filter(file => file.endsWith('.json'))
   .map(file => readJson(path.join('rpg/characters', file)));
 const fixtures = [
-  { id: 'street_vendor_matryona', label: 'homeless', viewport: { width: 390, height: 844 }, expected: '정해진 방 없음' },
-  { id: 'porter_gavrila', label: 'rented-room', viewport: { width: 1440, height: 900 }, expected: '허구의 공동주택 셋방' },
+  { id: 'street_vendor_matryona', displayName: '마트료나', label: 'homeless', viewport: { width: 390, height: 844 }, expected: '정해진 방 없음' },
+  { id: 'porter_gavrila', displayName: '가브릴라', label: 'rented-room', viewport: { width: 1440, height: 900 }, expected: '허구의 공동주택 셋방' },
+  { id: 'lodging_tatyana', displayName: '타티야나', label: 'aunt-niece-household-mobile', viewport: { width: 390, height: 844 }, expected: '허구의 안뜰 셋방' },
+  { id: 'teacher_lyubov', displayName: '류보프', label: 'aunt-niece-household-desktop', viewport: { width: 1440, height: 900 }, expected: '허구의 안뜰 셋방' },
 ];
 const output = path.join('artifacts', 'v37', 'BROWSER_ACCEPTANCE');
 fs.mkdirSync(output, { recursive: true });
@@ -48,7 +50,7 @@ try {
       localStorage.setItem('v33-rpg-tutorial-stage', 'done');
     }, game.saveGame(possessed.state));
     await page.goto(`http://127.0.0.1:${port}/index.html#v37-housing-${fixture.label}`, { waitUntil: 'domcontentloaded' });
-    await page.waitForFunction(name => document.querySelector('#bodyname')?.textContent?.includes(name), fixture.id === 'street_vendor_matryona' ? '마트료나' : '가브릴라');
+    await page.waitForFunction(name => document.querySelector('#bodyname')?.textContent?.includes(name), fixture.displayName);
     await page.keyboard.press('j');
     await page.locator('[data-journal-tab="people"]').click();
     const audit = await page.evaluate(() => ({

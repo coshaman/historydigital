@@ -1,0 +1,50 @@
+{
+  "status": "PASS",
+  "cases": [
+    {
+      "resident": "street_vendor_matryona",
+      "viewport": {
+        "width": 390,
+        "scrollWidth": 390
+      },
+      "journalOpen": true,
+      "expectedResidenceVisible": "정해진 방 없음",
+      "residenceText": "거처 · 정해진 방 없음 · 정해진 방 없이 거리에서 잠을 청함",
+      "pageErrors": []
+    },
+    {
+      "resident": "porter_gavrila",
+      "viewport": {
+        "width": 1440,
+        "scrollWidth": 1440
+      },
+      "journalOpen": true,
+      "expectedResidenceVisible": "허구의 공동주택 셋방",
+      "residenceText": "거처 · 허구의 공동주택 셋방 · 하숙집 안뜰",
+      "pageErrors": []
+    },
+    {
+      "resident": "lodging_tatyana",
+      "viewport": {
+        "width": 390,
+        "scrollWidth": 390
+      },
+      "journalOpen": true,
+      "expectedResidenceVisible": "허구의 안뜰 셋방",
+      "residenceText": "거처 · 허구의 안뜰 셋방 · 하숙집 안뜰",
+      "pageErrors": []
+    },
+    {
+      "resident": "teacher_lyubov",
+      "viewport": {
+        "width": 1440,
+        "scrollWidth": 1440
+      },
+      "journalOpen": true,
+      "expectedResidenceVisible": "허구의 안뜰 셋방",
+      "residenceText": "거처 · 허구의 안뜰 셋방 · 하숙집 안뜰",
+      "pageErrors": []
+    }
+  ],
+  "serverErrors": []
+}
