@@ -27,7 +27,7 @@ E25,경찰의 신분 조회,police_post,follow_up_after_reported_lost_parcel,분
 E26,불어난 숙박비,inn,price_change,하숙비 인상 전단이 벽에 붙는다,도시 집세·숙박자료,경제·거주 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
 E27,화재 경보,tenement_courtyard,fire_ignition,연기와 종소리로 주변인이 물을 나르고 피난한다,당대 화재·도시 행정 기록,상처·집손실·감사 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
 E28,장례 비용,parish_church,family_death,가족이 관과 예배 비용을 마련한다,교구 관습·장례 풍속,돈·유대 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
-E29,사교 초대장,salon,invitation,하급 서기가 낯선 귀족의 모임 초대를 받는다,당대 사교 회고 자료,접근권·평판 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E29,저녁 독서 모임 초대,bookshop,after_public_review_discussion,벨린스키의 서평을 함께 읽은 사람들이 저녁 모임에 초대한다,1847년 《현대인》에 실린 벨린스키의 고골 서평; 독서 모임은 허구의 장면,초대 수락·사양·개인 기록·독서 자료,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,PUBLIC_REVIEW_VERIFIED_FICTIONAL_INVITATION
 E30,무명 저자의 원고,bookshop,manuscript_offer,작가가 원고를 내밀고 인쇄비를 흥정한다,당대 출판 계약 자료,문학 인맥·돈 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
 E31,농노제에 관한 편지,salon,serfdom_letter,지역 지주가 보낸 논쟁적 편지가 낭독된다,당대 농노제 문서·사상 원전,사상·관계 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
 E32,농촌에서 온 구직자,market,jobseeker,도착한 사람이 연줄과 일자리를 찾는다,도시 이주·등록 자료,노동 공급·안전 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED

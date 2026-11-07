@@ -69,7 +69,7 @@
   "tileheight": 16,
   "infinite": false,
   "nextlayerid": 7,
-  "nextobjectid": 4017,
+  "nextobjectid": 4018,
   "properties": [
     {
       "name": "mapId",
@@ -2294,6 +2294,17 @@
           "properties": [
             { "name": "sourceId", "type": "string", "value": "LIT-TURGENEV-KHOR-KALYNYCH-1847" },
             { "name": "scope", "type": "string", "value": "public" }
+          ]
+        },
+        {
+          "id": 4017,
+          "name": "소피아가 건넨 저녁 독서회 초대장",
+          "type": "quest-object",
+          "x": 224,
+          "y": 192,
+          "properties": [
+            { "name": "questId", "type": "string", "value": "V37_SALON_INVITATION_1847" },
+            { "name": "requiresLivingEventId", "type": "string", "value": "E29" }
           ]
         }
       ]

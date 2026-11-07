@@ -1859,6 +1859,47 @@ function advanceSalonDebateEvent(state, minuteOffset, maps, livingEventRows, opt
       { actionId: event.resolutionActionId, changeKo: '세 사람은 책을 덮고 각자 하던 일로 돌아갔다.' }));
   }
 }
+function salonInvitationEventRow(state, stage, minuteOffset, maps, details = {}) {
+  const event = state.world.livingEventStates?.E29, position = event?.scenePosition ?? { x: 13, y: 12 };
+  return { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E29', stage,
+    stageIndex: ({ INVITATION_OFFERED: 1, INVITATION_ACCEPTED: 2, INVITATION_DECLINED: 2,
+      TEXT_COPIES_REQUESTED: 2, INVITATION_PASSED: 2 })[stage],
+    actorHostIds: [...(event?.actorHostIds ?? [])], witnessHostIds: [...(event?.witnessHostIds ?? [])],
+    date: state.world.date, minute: minuteOffset, mapId: 'bookshop-interior', position: { ...position },
+    sourceIds: ['LIT-BELINSKY-GOGOL-REVIEW-1847'],
+    occurrenceType: 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION', validationStatus: 'PUBLIC_REVIEW_VERIFIED_FICTIONAL_INVITATION',
+    state: event ? clone(event) : null,
+    witnessedByPlayer: playerCanObserveWorldEvent(state, 'bookshop-interior', position, 6, maps), ...details };
+}
+function startSalonInvitationEvent(state, minuteOffset, maps, livingEventRows) {
+  const discussion = state.world.livingEventStates?.E21;
+  if (state.world.livingEventStates?.E29 || !discussion || discussion.status !== 'RESOLVED'
+    || !['EUROPEAN_METHOD_DEFENDED', 'RUSSIAN_INSTITUTIONS_DEFENDED', 'BOTH_SIDES_TESTED'].includes(discussion.stage)
+    || discussion.sourceId !== 'LIT-BELINSKY-GOGOL-REVIEW-1847') return false;
+  const actors = (discussion.actorHostIds ?? []).map(id => state.hosts[id]);
+  const sourceObject = layer(maps?.['bookshop-interior'], 'Interactions')?.objects.find(item => item.type === 'source'
+    && properties(item).sourceId === discussion.sourceId);
+  if (!sourceObject || actors.length !== 3 || actors.some(host => !host || host.historicalAliveAndPresent === false
+    || host.mapId !== 'bookshop-interior' || !nearTile(host.position, discussion.scenePosition ?? { x: 12, y: 12 }, 5))) return false;
+  const position = { ...(discussion.scenePosition ?? { x: 12, y: 12 }) };
+  const event = state.world.livingEventStates.E29 = { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E29',
+    status: 'ACTIVE', stage: 'INVITATION_OFFERED', trigger: 'sofia_invites_the_readers_after_belinsky_review_discussion',
+    startedAtMinute: state.world.clockMinutes, inviterHostId: discussion.editorHostId ?? 'editor_sofia',
+    actorHostIds: actors.map(host => host.id), witnessHostIds: [], venueMapId: 'bookshop-interior', scenePosition: position,
+    sourceId: discussion.sourceId, resolvesAtMinute: state.world.clockMinutes + 120, resolutionActionId: null };
+  livingEventRows.push(salonInvitationEventRow(state, event.stage, minuteOffset, maps,
+    { changeKo: '서평 이야기가 끝나자 소피아가 접힌 종이를 내밀었다. 오늘 저녁, 책방 문을 닫은 뒤 이어서 읽자는 초대였다.' }));
+  return true;
+}
+function advanceSalonInvitationEvent(state, minuteOffset, maps, livingEventRows, options = {}) {
+  const event = state.world.livingEventStates?.E29;
+  if (!event || event.status !== 'ACTIVE' || options.deferLivingEventExpiryId === 'E29') return;
+  if (state.world.clockMinutes < event.resolvesAtMinute) return;
+  event.status = 'RESOLVED'; event.stage = 'INVITATION_PASSED'; event.resolvedAtMinute = state.world.clockMinutes;
+  event.resolutionActionId = 'AUTO_INVITATION_WINDOW_CLOSED';
+  livingEventRows.push(salonInvitationEventRow(state, event.stage, minuteOffset, maps,
+    { actionId: event.resolutionActionId, changeKo: '소피아는 초대장을 책 사이에 넣고 오늘 저녁 자리는 비워 두었다.' }));
+}
 function marketDayWorkEventRow(state, stage, minuteOffset, maps, details = {}) {
   const event = state.world.livingEventStates?.E32, position = event?.scenePosition ?? { x: 15, y: 12 };
   return { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E32', stage,
@@ -3642,6 +3683,8 @@ function advanceNpcWorld(state, elapsedMinutes, maps, options = {}) {
     advanceManuscriptOfferEvent(next, tick, maps, result.livingEventRows, options);
     advanceSerfdomReadingEvent(next, tick, maps, result.livingEventRows, options);
     advanceSalonDebateEvent(next, tick, maps, result.livingEventRows, options);
+    startSalonInvitationEvent(next, tick, maps, result.livingEventRows);
+    advanceSalonInvitationEvent(next, tick, maps, result.livingEventRows, options);
     advanceMarketDayWorkEvent(next, tick, maps, result.livingEventRows, options);
     advancePoliceDocumentCheck(next, tick, maps, result.livingEventRows);
     advanceRentNoticeEvent(next, tick, maps, result.livingEventRows);
@@ -4060,7 +4103,8 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
   if (!Array.isArray(inventoryRemove) || !Array.isArray(inventoryAdd) || inventoryRemove.some(item => typeof item !== 'string' || !host.inventory.includes(item)) || inventoryAdd.some(item => typeof item !== 'string' || item.length > 80)) return { ok: false, reason: 'required_item_missing', state };
   const timed = advanceWorldTime(state, actionDuration, maps, [], { deferLivingEventExpiryId: questId === 'V37_MANUSCRIPT_OFFER_1847' ? 'E30'
     : questId === 'V37_SERFDOM_READING_1847' ? 'E31'
-      : questId === 'V37_SALON_DEBATE_1847' ? 'E21'
+      : questId === 'V37_SALON_INVITATION_1847' ? 'E29'
+        : questId === 'V37_SALON_DEBATE_1847' ? 'E21'
       : questId === 'V37_PHYSIOLOGY_READING_1847' ? 'E39'
       : questId === 'V37_MARKET_DAY_WORK_1847' ? 'E32'
     : questId === 'V37_ROOF_LEAK_REPAIR_1847' ? 'E35'
@@ -4080,7 +4124,7 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
             : questId === 'V37_APPRENTICE_FATIGUE_1847' ? 'E33'
               : questId === 'E41_SEMENOVSKY_1849' ? 'E41'
                 : questId === 'V37_STREET_MUSIC_1847' ? 'E38' : undefined,
-    pausedHostIds: ['V37_MANUSCRIPT_OFFER_1847', 'V37_SERFDOM_READING_1847', 'V37_SALON_DEBATE_1847', 'V37_MARKET_DAY_WORK_1847', 'V37_ROOF_LEAK_REPAIR_1847', 'V37_CHARITY_DAY_1847', 'V37_APPRENTICE_LITERACY_1847', 'STUDENT_CIRCLE_RISK_1847', 'V37_POLICE_DOCUMENT_CHECK_1847', 'V37_SICK_LODGER_1847', 'V37_APPRENTICE_FATIGUE_1847', 'V37_MARKET_RUMOR_1847', 'V37_INN_GUEST_1847', 'V37_NEWSPAPER_RELEASE_1847', 'E41_SEMENOVSKY_1849', 'V37_STREET_MUSIC_1847', 'V37_PHYSIOLOGY_READING_1847'].includes(questId) ? [...(requiredLivingEvent?.actorHostIds ?? [])]
+    pausedHostIds: ['V37_MANUSCRIPT_OFFER_1847', 'V37_SERFDOM_READING_1847', 'V37_SALON_DEBATE_1847', 'V37_SALON_INVITATION_1847', 'V37_MARKET_DAY_WORK_1847', 'V37_ROOF_LEAK_REPAIR_1847', 'V37_CHARITY_DAY_1847', 'V37_APPRENTICE_LITERACY_1847', 'STUDENT_CIRCLE_RISK_1847', 'V37_POLICE_DOCUMENT_CHECK_1847', 'V37_SICK_LODGER_1847', 'V37_APPRENTICE_FATIGUE_1847', 'V37_MARKET_RUMOR_1847', 'V37_INN_GUEST_1847', 'V37_NEWSPAPER_RELEASE_1847', 'E41_SEMENOVSKY_1849', 'V37_STREET_MUSIC_1847', 'V37_PHYSIOLOGY_READING_1847'].includes(questId) ? [...(requiredLivingEvent?.actorHostIds ?? [])]
       : ['V37_MARKET_PRICE_DISPUTE_1847', 'V37_LATE_MEAL_1847'].includes(questId)
         ? [requiredLivingEvent?.sellerHostId, requiredLivingEvent?.buyerHostId].filter(Boolean)
             : questId === 'V37_APOTHECARY_ORDER_1847' ? [requiredLivingEvent?.buyerHostId, requiredLivingEvent?.supplierHostId].filter(Boolean)
@@ -4696,6 +4740,48 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
     for (const person of actors) if (person.activeGoal?.taskId?.startsWith('V37:E21:')) person.activeGoal = null;
     livingEvents.push(salonDebateEventRow(next, stage, next.world.clockMinutes % 1440, maps,
       { actionId, resolvedByHostId: hostId, changeKo: action.resultKo }));
+    startSalonInvitationEvent(next, next.world.clockMinutes % 1440, maps, livingEvents);
+  }
+  if (!literaryQuest && questId === 'V37_SALON_INVITATION_1847') {
+    const event = next.world.livingEventStates?.E29;
+    const outcomes = {
+      E29_ACCEPT_INVITATION: 'INVITATION_ACCEPTED',
+      E29_DECLINE_INVITATION: 'INVITATION_DECLINED',
+      E29_REQUEST_SHARED_READING: 'TEXT_COPIES_REQUESTED',
+    };
+    const stage = outcomes[actionId], actors = event?.actorHostIds?.map(id => next.hosts[id]) ?? [];
+    if (!event || event.status !== 'ACTIVE' || event.stage !== 'INVITATION_OFFERED' || !stage
+      || actors.length !== 3 || actors.some(person => !person || person.historicalAliveAndPresent === false
+        || person.mapId !== event.venueMapId || !nearTile(person.position, event.scenePosition, 5))) {
+      return { ok: false, reason: 'salon_invitation_not_available', state };
+    }
+    event.status = 'RESOLVED'; event.stage = stage; event.resolvedAtMinute = next.world.clockMinutes;
+    event.resolutionActionId = actionId; event.resolvedByHostId = hostId; event.invitationDisposition = stage;
+    const noteKo = actionId === 'E29_ACCEPT_INVITATION' ? '소피아의 저녁 독서회 초대를 받아들였다.'
+      : actionId === 'E29_DECLINE_INVITATION' ? '소피아의 저녁 독서회 초대를 사양했다.'
+        : '저녁 독서회에서 서평 사본을 함께 읽자고 제안했다.';
+    for (const person of actors) {
+      person.personalEventNotes ??= [];
+      person.personalEventNotes.push({ eventId: 'E29', sourceId: event.sourceId, speakerHostId: hostId,
+        atMinute: next.world.clockMinutes, noteKo });
+    }
+    if (actionId === 'E29_ACCEPT_INVITATION') {
+      next.world.readingCircleAccess ??= {};
+      next.world.readingCircleAccess[hostId] = 'INVITED';
+      next.hosts[event.inviterHostId].relations[hostId] = '저녁 독서회에 오기로 한 초대 손님';
+    } else if (actionId === 'E29_DECLINE_INVITATION') {
+      next.hosts[event.inviterHostId].relations[hostId] = '저녁 독서회 초대를 사양한 독자';
+    } else {
+      const copy = '독서회에서 함께 볼 서평 사본';
+      const editor = next.hosts[event.inviterHostId];
+      if (!editor.inventory.includes(copy)) editor.inventory.push(copy);
+      event.copy = { itemKo: copy, ownerHostId: editor.id, location: 'bookshop_reading_table' };
+      next.world.readingCircleAccess ??= {};
+      next.world.readingCircleAccess[hostId] = 'SHARED_READING';
+    }
+    livingEvents.push(salonInvitationEventRow(next, stage, next.world.clockMinutes % 1440, maps,
+      { actionId, resolvedByHostId: hostId, changeKo: action.resultKo,
+        ...(event.copy ? { itemCreatedKo: event.copy.itemKo, itemOwnerHostId: event.copy.ownerHostId } : {}) }));
   }
   if (!literaryQuest && questId === 'V37_MARKET_DAY_WORK_1847') {
     const event = next.world.livingEventStates?.E32, worker = next.hosts[event?.workerHostId], employer = next.hosts[event?.employerHostId];

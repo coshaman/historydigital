@@ -937,23 +937,23 @@
   },
   {
     "event_id": "E29",
-    "title": "사교 초대장",
-    "place": "salon",
+    "title": "저녁 독서 모임 초대",
+    "place": "bookshop",
     "roles": [
       "patron",
       "clerk"
     ],
-    "trigger": "invitation",
-    "visible_scene": "하급 서기가 낯선 귀족의 모임 초대를 받는다",
-    "historical_anchor": "당대 사교 회고 자료",
+    "trigger": "after_public_review_discussion",
+    "visible_scene": "벨린스키의 서평을 함께 읽은 사람들이 저녁 모임에 초대한다",
+    "historical_anchor": "1847년 《현대인》에 실린 벨린스키의 고골 서평; 독서 모임은 허구의 장면",
     "player_actions": [
       "참석",
       "서신답변",
       "거절"
     ],
-    "world_consequence": "접근권·평판 변화",
+    "world_consequence": "초대 수락·사양, 개인 기록, 독서 모임 자료",
     "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
-    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "validation_status": "PUBLIC_REVIEW_VERIFIED_FICTIONAL_INVITATION",
     "trigger_class": "EMERGENT_CONDITIONAL",
     "scene_steps": [
       "spawn_actor_and_prop",

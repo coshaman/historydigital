@@ -1,0 +1,55 @@
+{
+  "id": "V37_SALON_INVITATION_1847",
+  "catalogEventId": "E29",
+  "titleKo": "저녁 독서 모임 초대",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "requiresLivingEventId": "E29",
+  "sourceIds": ["LIT-BELINSKY-GOGOL-REVIEW-1847"],
+  "premiseKo": "서평 이야기가 끝나자 소피아가 접힌 종이를 내민다. 오늘 저녁, 책방 문을 닫은 뒤 이어서 읽자는 초대다.",
+  "historicalOutcome": {
+    "id": "E29_FICTIONAL_READING_CIRCLE_INVITATION",
+    "value": "A fictional readers' invitation and private responses; Belinsky's 1847 review remains unchanged.",
+    "sourceIds": ["LIT-BELINSKY-GOGOL-REVIEW-1847"]
+  },
+  "entry": { "mapId": "bookshop-interior", "objectId": 4017, "requiredHostId": "editor_sofia" },
+  "actions": [
+    {
+      "id": "E29_ACCEPT_INVITATION",
+      "hostIds": ["reader_darya", "student_vasily"],
+      "requiresLivingEventStage": "INVITATION_OFFERED",
+      "requiredKnowledgeId": "LIT-BELINSKY-GOGOL-REVIEW-1847",
+      "durationMinutes": 2,
+      "labelKo": "초대를 받고 종이를 챙긴다",
+      "subcopyKo": "소피아와 독서 모임 사람들만 압니다 · 초대장은 개인 수첩에 보관됩니다 · 저녁 모임에 갈 자리를 받아들입니다",
+      "resultKo": "초대장을 받아 접어 넣었다. 소피아는 저녁에 자리를 비워 두겠다고 했다.",
+      "resultFlag": "e29_invitation_accepted",
+      "effects": { "inventoryAdd": ["저녁 독서회 초대장"], "relations": { "editor_sofia": "저녁 독서회에 초대한 편집자" }, "situationKo": "소피아의 저녁 독서회 초대를 받아 개인 초대장을 챙겼다." }
+    },
+    {
+      "id": "E29_DECLINE_INVITATION",
+      "hostIds": ["reader_darya", "student_vasily"],
+      "requiresLivingEventStage": "INVITATION_OFFERED",
+      "requiredKnowledgeId": "LIT-BELINSKY-GOGOL-REVIEW-1847",
+      "durationMinutes": 2,
+      "labelKo": "오늘은 가지 않겠다고 답한다",
+      "subcopyKo": "소피아와 독서 모임 사람들만 압니다 · 초대장과 참석자 명단은 만들지 않습니다 · 저녁 자리는 비워 둡니다",
+      "resultKo": "오늘은 어렵다고 답했다. 소피아는 종이를 도로 접어 책 사이에 끼웠다.",
+      "resultFlag": "e29_invitation_declined",
+      "effects": { "relations": { "editor_sofia": "저녁 독서회 초대를 사양한 독자" }, "situationKo": "저녁 독서회 초대를 사양했다." }
+    },
+    {
+      "id": "E29_REQUEST_SHARED_READING",
+      "hostIds": ["reader_darya", "student_vasily"],
+      "requiresLivingEventStage": "INVITATION_OFFERED",
+      "requiredKnowledgeId": "LIT-BELINSKY-GOGOL-REVIEW-1847",
+      "durationMinutes": 3,
+      "labelKo": "둘만 읽지 말고 서평 사본도 함께 두자고 한다",
+      "subcopyKo": "소피아와 바실리가 듣습니다 · 사본을 독서대에 둡니다 · 모임의 자료와 참석 범위가 함께 정해집니다",
+      "resultKo": "서평 사본도 함께 놓자는 말에 소피아가 고개를 끄덕였다. 바실리는 읽을 자리를 하나 더 마련하겠다고 했다.",
+      "resultFlag": "e29_shared_reading_requested",
+      "effects": { "relations": { "editor_sofia": "서평 사본을 함께 읽자고 제안한 독자", "student_vasily": "독서 모임의 자료와 자리를 함께 마련한 독자" }, "situationKo": "저녁 모임에서 서평 사본을 함께 읽기로 했다." }
+    }
+  ],
+  "completion": "A source-based fictional follow-up invitation changes only the readers' private access, records, and relationships."
+}
