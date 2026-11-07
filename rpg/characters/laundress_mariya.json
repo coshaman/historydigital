@@ -186,7 +186,8 @@
         "outputKind": "세탁 노동",
         "outputKo": "린넨을 물에 담그고 세탁물마다 맡긴 사람을 표시한다",
         "durationMinutes": 20,
-        "inventoryItemKo": "접은 린넨"
+        "inventoryItemKo": "접은 린넨",
+        "payroll": { "payerHostId": "baker_fyodor", "amount": 1, "unit": "kopeks", "valueStatus": "fictional_gameplay_balance" }
       }
     },
     {

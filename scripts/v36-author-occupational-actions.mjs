@@ -18,7 +18,7 @@ const actionDefinitions = {
   innkeeper_irina: [[420,'INNKEEPER_PREPARE_ROOMS','여관 운영','빈방과 식사 준비를 확인해 손님 명부를 갱신한다'],[960,'INNKEEPER_EVENING_REGISTER','여관 접수','저녁 손님의 이름과 빈자리 수를 접수 장부에 맞춘다']],
   junior_guard_sergey: [[420,'GUARD_CHECK_VISITOR_PASSES','출입 감독','방문증과 방문 목적을 대조해 출입 기록을 남긴다'],[960,'GUARD_HANDOVER_REGISTER','당직 인계','허가된 방문과 대기 인원을 교대 목록에 맞춘다']],
   landlady_polina: [[420,'LANDLADY_COMPARE_RENT','셋방 관리','방세와 공동 장작 비용을 따로 장부에 적는다'],[960,'LANDLADY_CLOSE_SHARED_COSTS','셋방 정산','세입자별 공동 지출과 아직 합의되지 않은 항목을 구분한다']],
-  laundress_mariya: [[420,'LAUNDRESS_WASH_LINEN','세탁 노동','린넨을 물에 담그고 세탁물마다 맡긴 사람을 표시한다','접은 린넨 한 벌'],[780,'LAUNDRESS_RECONCILE_PAYMENTS','세탁 정산','받은 세탁값과 아직 받지 못한 값을 장부에서 나눈다']],
+  laundress_mariya: [[420,'LAUNDRESS_WASH_LINEN','세탁 노동','린넨을 물에 담그고 세탁물마다 맡긴 사람을 표시한다','접은 린넨 한 벌',{ payerHostId:'baker_fyodor', amount:1, unit:'kopeks', valueStatus:'fictional_gameplay_balance' }],[780,'LAUNDRESS_RECONCILE_PAYMENTS','세탁 정산','받은 세탁값과 아직 받지 못한 값을 장부에서 나눈다']],
   lodging_tatyana: [[420,'LODGING_SEWING_ORDER','재봉 작업','수선할 옷감의 손상 부위와 납기 순서를 적는다','수선 중인 옷감 한 벌'],[840,'LODGING_RETURN_BOOK_AND_TOOLS','대여품 관리','빌린 책의 반납과 수선 도구의 인수 여부를 기록한다']],
   market_nadezhda: [[480,'MARKET_CHECK_SCALE','시장 좌판','저울과 채소 꾸러미의 상태를 확인해 좌판 목록을 고친다'],[780,'MARKET_SETTLE_BREAD_ORDER','시장 거래','빵집에 넘긴 채소와 젖은 물량의 값을 정산한다','채소 꾸러미 한 몫']],
   midwife_avdotya: [[420,'MIDWIFE_PREPARE_CALL','산파 방문','호출 시각과 가져갈 물품을 방문 순서표에 적는다'],[960,'MIDWIFE_CLOSE_VISITS','돌봄 기록','방문 순서와 아직 확인하지 못한 비용을 구분해 기록한다']],
@@ -38,8 +38,8 @@ const actionDefinitions = {
   tenant_mikhail: [[660,'TENANT_SEEK_DAY_WORK','품일 찾기','강변 장터에서 오늘 맡을 짐일과 시작 시각을 확인한다'],[840,'TENANT_RESERVE_RETURN_FARE','품삯 관리','오늘 받은 일감과 귀가에 남겨 둘 돈을 개인 장부에 적는다']],
   typesetter_nikita: [[420,'TYPESETTER_SET_LINES','활자 작업','인쇄할 줄의 활자를 맞추고 빠진 글자를 보충한다'],[840,'TYPESETTER_MARK_PROOF_ERRORS','활자 교정','교정쇄의 오자를 표시해 재인쇄할 줄을 정리한다']],
   warehouse_pyotr: [[420,'WAREHOUSE_CHECK_INTAKE','창고 관리','입고표와 물품 번호를 대조해 창고 장부를 갱신한다'],[960,'WAREHOUSE_CLOSE_STOCK','창고 관리','남은 물량과 비어 있는 장부 칸을 다시 확인한다']],
-  watercarrier_luka: [[420,'WATERCARRIER_FILL_PAIL','물 운반','물동이를 채우고 안뜰의 배달 순서를 확인한다','물동이 한 개'],[780,'WATERCARRIER_PLAN_DELIVERIES','물 운반','물통을 채울 순서와 안뜰까지의 운반량을 기록한다']],
-  yardkeeper_semyon: [[480,'YARDKEEPER_OPEN_AND_COUNT_WOOD','안뜰 관리','안뜰 문을 열고 공동 장작의 남은 수량을 센다'],[840,'YARDKEEPER_RECONCILE_WOOD','안뜰 관리','작업 뜰 장작 수량을 세입자 장부와 대조한다']],
+  watercarrier_luka: [[420,'WATERCARRIER_FILL_PAIL','물 운반','물동이를 채우고 안뜰의 배달 순서를 확인한다','물동이 한 개',{ payerHostId:'landlady_polina', amount:1, unit:'kopeks', valueStatus:'fictional_gameplay_balance' }],[780,'WATERCARRIER_PLAN_DELIVERIES','물 운반','물통을 채울 순서와 안뜰까지의 운반량을 기록한다']],
+  yardkeeper_semyon: [[480,'YARDKEEPER_OPEN_AND_COUNT_WOOD','안뜰 관리','안뜰 문을 열고 공동 장작의 남은 수량을 센다',null,{ payerHostId:'landlady_polina', amount:1, unit:'kopeks', valueStatus:'fictional_gameplay_balance' }],[840,'YARDKEEPER_RECONCILE_WOOD','안뜰 관리','작업 뜰 장작 수량을 세입자 장부와 대조한다']],
 };
 
 const files = (await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json'));
@@ -52,14 +52,18 @@ assert.equal(residents.size, 36, 'work-action rollout targets exactly the 36 act
 assert.deepEqual([...residents.keys()].sort(), Object.keys(actionDefinitions).sort(), 'each active resident needs authored job actions');
 const allIds = [];
 const allOutputs = [];
+const allPayrolls = [];
 for (const [hostId, definitions] of Object.entries(actionDefinitions)) {
   assert.equal(definitions.length, 2, `${hostId} needs two distinct job actions`);
   const { file, card } = residents.get(hostId);
-  for (const [atMinute, id, outputKind, outputKo, inventoryItemKo] of definitions) {
+  for (const [atMinute, id, outputKind, outputKo, inventoryItemKo, payroll] of definitions) {
     const slot = card.schedule.find(item => item.atMinute === atMinute);
     assert.ok(slot, `${hostId} has authored schedule slot ${atMinute}`);
     assert.ok(!slot.task || ['DELIVER','EXCHANGE','CONSUME'].includes(slot.task.type), `${hostId} existing task remains intact`);
-    slot.workAction = { id: `V36_${id}`, outputKind, outputKo, durationMinutes: 20, ...(inventoryItemKo ? { inventoryItemKo } : {}) };
+    const resolvedPayroll = payroll ?? slot.workAction?.payroll;
+    slot.workAction = { id: `V36_${id}`, outputKind, outputKo, durationMinutes: 20,
+      ...(inventoryItemKo ? { inventoryItemKo } : {}), ...(resolvedPayroll ? { payroll: resolvedPayroll } : {}) };
+    if (resolvedPayroll) allPayrolls.push({ hostId, actionId: slot.workAction.id, ...resolvedPayroll });
     allIds.push(slot.workAction.id);
     allOutputs.push(outputKo);
   }
@@ -67,5 +71,6 @@ for (const [hostId, definitions] of Object.entries(actionDefinitions)) {
 }
 assert.equal(new Set(allIds).size, 72, 'all authored work actions have unique stable IDs');
 assert.equal(new Set(allOutputs).size, 72, 'each authored work action has its own output description');
+assert.equal(allPayrolls.length, 11, 'existing and newly authored recurring wage contracts survive work-action regeneration');
 console.log(JSON.stringify({ status: 'GENERATED', residents: residents.size, authoredWorkActions: allIds.length,
-  distinctOutputs: new Set(allOutputs).size, wagesInvented: false }, null, 2));
+  distinctOutputs: new Set(allOutputs).size, recurringPayrollContracts: allPayrolls.length }, null, 2));

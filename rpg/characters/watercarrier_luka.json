@@ -158,7 +158,8 @@
         "outputKind": "물 운반",
         "outputKo": "물동이를 채우고 안뜰의 배달 순서를 확인한다",
         "durationMinutes": 20,
-        "inventoryItemKo": "물동이 한 개"
+        "inventoryItemKo": "물동이 한 개",
+        "payroll": { "payerHostId": "landlady_polina", "amount": 1, "unit": "kopeks", "valueStatus": "fictional_gameplay_balance" }
       }
     },
     {

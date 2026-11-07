@@ -29,7 +29,8 @@
   "risk": "하루 일감이 끊기면 방세와 식비가 함께 밀린다",
   "relations": {
     "teacher_lyubov": "방세를 내면서 아이들을 가르치는 세입자다",
-    "watercarrier_luka": "안뜰의 물통을 채우는 삯꾼이다"
+    "watercarrier_luka": "안뜰의 물통을 채우는 삯꾼이다",
+    "yardkeeper_semyon": "공용 장작과 안뜰을 맡아 살피는 관리인이다"
   },
   "secretKnowledge": [
     {

@@ -28,6 +28,7 @@
   },
   "risk": "일감을 잃거나 이웃의 신뢰를 잃을 가능성을 함께 계산한다.",
   "relations": {
+    "landlady_polina": "공용 장작과 안뜰 관리를 맡기는 집주인이다",
     "lodging_tatyana": "셋방 계약과 안뜰 규칙을 확인하러 오는 세입자다",
     "laundress_mariya": "세탁할 물과 마당 사용 시간을 조율한다"
   },
@@ -153,7 +154,8 @@
         "id": "V36_YARDKEEPER_OPEN_AND_COUNT_WOOD",
         "outputKind": "안뜰 관리",
         "outputKo": "안뜰 문을 열고 공동 장작의 남은 수량을 센다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "payroll": { "payerHostId": "landlady_polina", "amount": 1, "unit": "kopeks", "valueStatus": "fictional_gameplay_balance" }
       }
     },
     {
