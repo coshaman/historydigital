@@ -3428,6 +3428,11 @@
               "name": "availableDate",
               "type": "string",
               "value": "1849-12-22"
+            },
+            {
+              "name": "publicAccess",
+              "type": "bool",
+              "value": true
             }
           ]
         }

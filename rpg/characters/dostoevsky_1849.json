@@ -33,20 +33,24 @@
   "desires": "광장의 일을 동생에게 전하고 가족과의 연락을 이어 간다.",
   "fears": "편지에 적힌 순간의 두려움과 가족에 대한 걱정으로 한정한다.",
   "taboos": [
-    "게임 대사를 네크라소프가 실제로 한 말이나 문서의 직접 인용으로 제시하지 않는다.",
-    "1848년 이후 자료를 앞서 알고 있다고 설정하지 않는다."
+    "앞일을 미리 알지 않는다.",
+    "편지에 적히지 않은 사람의 속마음을 사실처럼 말하지 않는다."
   ],
-  "speechRhythm": "자료에 확인되는 편집 책임과 배송 문제만 다루는 가상 재구성 대화다.",
+  "speechRhythm": "처음엔 숨을 고르며 짧게 답한다. 형에게는 다정하게 이름을 부르고, 삶과 글 이야기는 생각이 이어지는 대로 길게 말한다.",
   "lexicon": [
-    "구독자",
-    "발송",
-    "편집부 공고"
+    "형",
+    "가족",
+    "삶",
+    "글",
+    "희망",
+    "미래"
   ],
   "emotions": [
-    "업무 집중",
-    "독자에 대한 책임"
+    "두려움",
+    "가족에 대한 애정",
+    "희망"
   ],
-  "personalObjective": "세묘노프스키 광장에서 일어난 일을 직접 겪고, 그 뒤의 형량을 듣는다.",
+  "personalObjective": "광장에서 겪은 일을 기억하고 형에게 전한다.",
   "allowedMaps": [
     "fortress-cell",
     "semenovsky-square",
@@ -58,9 +62,7 @@
     "x": 5,
     "y": 4
   },
-  "inventory": [
-    "편집부 공고 사본"
-  ],
+  "inventory": [],
   "sourceIds": [
     "OBJ-WS-DOSTOEVSKY-LETTER-1849-DEC22"
   ],
@@ -98,13 +100,13 @@
     }
   ],
   "portrait": {
-    "file": "assets/portrait-nekrasov_reconstruction.png",
+    "file": "assets/portrait-dostoevsky-1849.svg",
     "width": 64,
     "height": 64,
-    "historicalConfidence": "SOURCE_CONSTRAINED_HISTORICAL_RECONSTRUCTION"
+    "historicalConfidence": "ORIGINAL_GAME_ART"
   },
   "spriteAtlas": {
-    "file": "assets/nekrasov.png",
+    "file": "assets/dostoevsky-1849.svg",
     "frameWidth": 16,
     "frameHeight": 24,
     "directions": 4,
@@ -117,8 +119,7 @@
     }
   },
   "objectiveByChapter": {
-    "V33_1848_PUBLIC": "1848년 편집부 공고의 발송 문제와 구독자 대응을 검토한다.",
-    "V33_1849_CIRCLE": "1849년 호수 공고에 적힌 발행 정보를 검토한다."
+    "V33_1849_CIRCLE": "광장에서 겪은 일을 기억하고 형에게 전한다."
   },
   "wealthBracketStatus": "인용한 편집 공고는 개인 재산을 밝히지 않는다.",
   "presenceWindow": {

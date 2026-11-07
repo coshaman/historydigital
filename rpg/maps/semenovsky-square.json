@@ -1976,6 +1976,11 @@
               "name": "arrivalY",
               "type": "string",
               "value": "10"
+            },
+            {
+              "name": "publicAccess",
+              "type": "bool",
+              "value": true
             }
           ]
         }

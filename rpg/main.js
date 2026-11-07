@@ -807,6 +807,7 @@ function questIsAvailable(activeQuest) {
     && (!activeQuest.date || activeQuest.date <= state.world.date || literary));
 }
 let pendingSourceRead = null;
+let pendingQuestReadRefresh = null;
 let sourceReaderMode = ['bilingual', 'ko', 'ru'].includes(localStorage.getItem('v35-source-reader-mode')) ? localStorage.getItem('v35-source-reader-mode') : 'bilingual';
 function applySourceReaderMode(mode) {
   if (!['bilingual', 'ko', 'ru'].includes(mode)) return;
@@ -861,13 +862,19 @@ $('#source-reader-close').addEventListener('click', () => $('#source-reader').cl
 $('#source-reader-complete').addEventListener('click', () => {
   if (!pendingSourceRead) return;
   const { nextState, readingMode, record } = pendingSourceRead;
+  const refreshQuestId = pendingQuestReadRefresh;
+  pendingQuestReadRefresh = null;
   setState(nextState); pendingSourceRead = null; $('#source-reader').close();
   tutorialAdvance('target');
+  if (refreshQuestId) {
+    const questObject = currentNearby().find(item => item.type === 'quest-object' && mapObjectProperties(item).questId === refreshQuestId);
+    if (questObject) inspect(questObject);
+  }
   sayRecord(readingMode === 'PHYSICAL_COPY'
     ? `현장에서 읽음 · ${record.creator ?? record.author} · 현재 몸의 자료 기록에 남겼다`
     : `자료철에서 살펴봄 · ${record.creator ?? record.author} · 기록의 손님 메모에 남겼다`);
 });
-$('#source-reader').addEventListener('close', () => { pendingSourceRead = null; });
+$('#source-reader').addEventListener('close', () => { pendingSourceRead = null; pendingQuestReadRefresh = null; });
 function showSourceSummary(record = source) {
   openSourceReader(record);
 }
@@ -1181,7 +1188,7 @@ function inspect(object) {
     for (const id of missingIds) {
       const record = sourceRecords.get(id);
       const physical = currentNearby().find(item => item.type === 'source' && mapObjectProperties(item).sourceId === id);
-      if (physical) opts.push({ label: `자료 읽기 · ${record.titleKo}`, subcopy: '바로 곁의 자료를 현재 인물의 시야로 읽습니다.', run: () => sourceRead(id) });
+      if (physical) opts.push({ label: `자료 읽기 · ${record.titleKo}`, subcopy: '바로 곁의 자료를 현재 인물의 시야로 읽습니다.', run: () => { pendingQuestReadRefresh = activeQuest.id; sourceRead(id); } });
       else {
         const location = Object.values(maps).find(map => map.layers.find(layer => layer.name === 'Interactions')?.objects.some(item => item.type === 'source' && mapObjectProperties(item).sourceId === id));
         guidance += `\n\n「${record?.titleKo ?? '관련 자료'}」은 ${location?.metadata.displayNameKo ?? '현장'}에 있다. 종이 모양의 자료 곁으로 가서 살펴보자.`;
