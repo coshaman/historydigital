@@ -401,6 +401,7 @@ function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky
     witnessedKnowledgeIds: [],
     knownEvidenceIds: [...card.knownEvidenceIds],
     knownRumors: [],
+    heardEventReports: [],
     relations: clone(card.relations ?? {}),
     relationshipEdges: authoredRelationshipEdges(card, hostCards),
     relationshipMemory: {},
@@ -437,6 +438,7 @@ function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky
       marketPriceModifiers: {},
       livingEventStates: {},
       rumorPropagationLog: [],
+      eventKnowledgeLog: [],
       foodAidRecords: [],
       immutableOutcomes,
       literaryOutcomes,
@@ -2324,7 +2326,7 @@ function pushkinObituaryEventRow(state, event, minuteOffset, maps, details = {})
     actorHostIds: [...event.actorHostIds], witnessHostIds: [...event.witnessHostIds],
     date: state.world.date, minute: minuteOffset, mapId: event.venueMapId,
     position: { ...event.scenePosition }, sourceIds: [...event.sourceIds],
-    occurrenceType: 'DOCUMENTED_HISTORICAL_EVENT',
+    occurrenceType: 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION',
     validationStatus: 'PRIMARY_PERIODICAL_TEXT_AND_ACADEMIC_TRANSCRIPTION_VERIFIED',
     historicalOutcomeId: 'PUSHKIN_OBITUARY_TEXT_AND_PUBLICATION', historicalOutcomeFixed: true,
     state: clone(event), witnessedByPlayer: playerCanObserveWorldEvent(state, event.venueMapId, event.scenePosition, 6, maps), ...details };
@@ -4338,6 +4340,56 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
   return { moveRows, deliveryRows, exchangeRows, careRows, paymentRows, housingRows, mealRows, goalRows, personalContactRows, restRecoveryRows, personalGoalRows, workRows, livingEventRows };
 }
 
+function rememberAndShareEventReports(state, eventRows, personalContacts) {
+  state.world.eventKnowledgeLog ??= [];
+  const remember = (hostId, report) => {
+    const host = state.hosts[hostId];
+    if (!host) return false;
+    host.heardEventReports ??= [];
+    const existing = host.heardEventReports.findIndex(item => item.reportId === report.reportId);
+    if (existing >= 0) return false;
+    host.heardEventReports.push(report);
+    if (host.heardEventReports.length > 64) host.heardEventReports.splice(0, host.heardEventReports.length - 64);
+    state.world.eventKnowledgeLog.push({ hostId, ...report });
+    if (state.world.eventKnowledgeLog.length > 8192) state.world.eventKnowledgeLog.splice(0, state.world.eventKnowledgeLog.length - 8192);
+    return true;
+  };
+  for (const event of eventRows) {
+    if (!event?.catalogEventId || event.catalogEventId === 'E23' || !event.stage || !event.changeKo) continue;
+    const reportId = `${event.catalogIdSpace ?? 'V37_EVENT_CATALOG_45'}:${event.catalogEventId}:${event.stage}:${state.world.date}:${state.world.clockMinutes}`;
+    const sourceIds = [...new Set((event.sourceIds ?? []).filter(id => typeof id === 'string' && id.length <= 180))].slice(0, 8);
+    for (const hostId of new Set([...(event.actorHostIds ?? []), ...(event.witnessHostIds ?? [])])) {
+      remember(hostId, { reportId, catalogEventId: event.catalogEventId, stage: event.stage,
+        summaryKo: String(event.changeKo).slice(0, 300), sourceIds, date: state.world.date,
+        atMinute: state.world.clockMinutes, mapId: event.mapId ?? null,
+        occurrenceType: event.occurrenceType ?? 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION',
+        validationStatus: event.validationStatus ?? 'DESIGN_SEED_NOT_VERIFIED',
+        historicalOutcomeFixed: event.historicalOutcomeFixed === true,
+        knowledgeKind: event.actorHostIds?.includes(hostId) ? 'PARTICIPANT' : 'WITNESSED',
+        fromHostId: null, rumorDepth: 0 });
+    }
+  }
+  for (const contact of personalContacts) {
+    const participants = [contact.hostId, contact.partnerHostId];
+    const options = participants.flatMap(fromHostId => {
+      const recipientHostId = participants.find(id => id !== fromHostId);
+      return (state.hosts[fromHostId]?.heardEventReports ?? [])
+        .filter(report => report.rumorDepth < 2 && state.world.clockMinutes - report.atMinute <= 1440
+          && state.world.clockMinutes >= report.atMinute
+          && !(state.hosts[recipientHostId]?.heardEventReports ?? []).some(item => item.reportId === report.reportId))
+        .map(report => ({ fromHostId, recipientHostId, report }));
+    }).sort((a, b) => b.report.atMinute - a.report.atMinute
+      || a.report.catalogEventId.localeCompare(b.report.catalogEventId) || a.fromHostId.localeCompare(b.fromHostId));
+    const selected = options[0];
+    if (!selected) continue;
+    const { fromHostId, recipientHostId, report } = selected;
+    if (!remember(recipientHostId, { ...report, knowledgeKind: 'HEARD_FROM_PERSON',
+      fromHostId, atMinute: state.world.clockMinutes, rumorDepth: report.rumorDepth + 1 })) continue;
+    contact.sharedReport = { catalogEventId: report.catalogEventId, stage: report.stage,
+      reportId: report.reportId, fromHostId };
+  }
+}
+
 function advanceNpcWorld(state, elapsedMinutes, maps, options = {}) {
   if (!Number.isFinite(elapsedMinutes) || elapsedMinutes <= 0) return state;
   const next = clone(state);
@@ -4394,6 +4446,7 @@ function advanceNpcWorld(state, elapsedMinutes, maps, options = {}) {
     advanceNewspaperIssueEvent(next, tick, maps, result.livingEventRows, options);
     advanceCharityMealEvent(next, tick, maps, result.livingEventRows, options);
     livingEventLog.push(...coldWaveRows);
+    rememberAndShareEventReports(next, [...coldWaveRows, ...result.livingEventRows], result.personalContactRows);
     advanceCanalTraffic(next, result.moveRows, tick, maps, result.livingEventRows);
     deliveryLog.push(...result.deliveryRows);
     exchangeLog.push(...result.exchangeRows);
@@ -6500,7 +6553,9 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
     state.hosts[card.id].eraProfile = runtimeEraProfile(card);
     state.hosts[card.id].healthState ??= { condition: 'FIT', injury: null, recoveryUntilMinute: null, valueStatus: 'FICTIONAL_CHARACTER_DESIGN' };
     state.hosts[card.id].knownRumors ??= [];
+    state.hosts[card.id].heardEventReports ??= [];
   }
+  state.world.eventKnowledgeLog ??= [];
   state.ledger ??= [];
   const verifiedLedgerDigest = digestLedger(state.ledger);
   if (state.ledgerDigest && state.ledgerDigest !== verifiedLedgerDigest) throw new Error('Save contains an invalid event ledger digest');
@@ -7348,6 +7403,19 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
     if (!Array.isArray(host.knownRumors) || host.knownRumors.some(row => !row || row.eventId !== 'E23' || row.sourceEventId !== 'E13'
       || !['UNVERIFIED', 'CHECKED', 'CORRECTED'].includes(row.status) || !ids.has(row.fromHostId)
       || !Number.isInteger(row.atMinute) || (row.recordNumber !== null && typeof row.recordNumber !== 'string' && !Number.isInteger(row.recordNumber)))) throw new Error(`Save contains invalid rumor knowledge: ${card.id}`);
+    if (!Array.isArray(host.heardEventReports) || host.heardEventReports.length > 64 || host.heardEventReports.some(report => !report
+      || typeof report.reportId !== 'string' || !/^V37_EVENT_CATALOG_45:E\d{2}:[A-Z0-9_]+:\d{4}-\d{2}-\d{2}:\d+$/.test(report.reportId)
+      || !/^E\d{2}$/.test(report.catalogEventId) || report.catalogEventId === 'E23' || typeof report.stage !== 'string'
+      || typeof report.summaryKo !== 'string' || report.summaryKo.length < 1 || report.summaryKo.length > 300
+      || !Array.isArray(report.sourceIds) || report.sourceIds.length > 8 || report.sourceIds.some(id => typeof id !== 'string' || id.length > 180)
+      || typeof report.date !== 'string' || !Number.isInteger(report.atMinute) || report.atMinute < 0
+      || (report.mapId !== null && typeof report.mapId !== 'string')
+      || typeof report.occurrenceType !== 'string' || typeof report.validationStatus !== 'string'
+      || typeof report.historicalOutcomeFixed !== 'boolean'
+      || !['PARTICIPANT', 'WITNESSED', 'HEARD_FROM_PERSON'].includes(report.knowledgeKind)
+      || (report.fromHostId !== null && !ids.has(report.fromHostId)) || !Number.isInteger(report.rumorDepth) || report.rumorDepth < 0 || report.rumorDepth > 2
+      || !state.world.eventKnowledgeLog.some(item => item.hostId === card.id && item.reportId === report.reportId
+        && item.knowledgeKind === report.knowledgeKind && item.fromHostId === report.fromHostId))) throw new Error(`Save contains invalid event knowledge: ${card.id}`);
     for (const [otherId, memory] of Object.entries(host.relationshipMemory)) {
       const mirror = state.hosts[otherId]?.relationshipMemory?.[card.id];
       if (!mirror || !Number.isInteger(memory?.meetingCount) || memory.meetingCount < 1 || memory.meetingCount !== mirror.meetingCount

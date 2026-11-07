@@ -23,6 +23,11 @@ export function dialogueSceneContext(card, host, date, mapId, questId = null) {
     && ['UNVERIFIED', 'CHECKED', 'CORRECTED'].includes(row.status)).slice(-3).map(row => ({
       eventId: row.eventId, sourceEventId: row.sourceEventId, status: row.status, fromHostId: row.fromHostId,
     })) : [];
+  const heardEvents = host?.id === card.id ? [...(host.heardEventReports ?? [])].sort((a, b) => b.atMinute - a.atMinute)
+    .slice(0, 4).map(row => ({ catalogEventId: row.catalogEventId, stage: row.stage,
+      summaryKo: row.summaryKo, sourceIds: [...row.sourceIds], knowledgeKind: row.knowledgeKind,
+      occurrenceType: row.occurrenceType, validationStatus: row.validationStatus,
+      historicalOutcomeFixed: row.historicalOutcomeFixed, fromHostId: row.fromHostId })) : [];
   return { date, mapId, questId, activityKo, currentAimKo: cues.aims.has(currentAimKo) ? currentAimKo : null,
-    hungerBand, fatigueBand, healthCondition, heardRumors };
+    hungerBand, fatigueBand, healthCondition, heardRumors, heardEvents };
 }

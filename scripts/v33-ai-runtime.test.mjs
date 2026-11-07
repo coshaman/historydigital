@@ -41,7 +41,7 @@ test('session is server-bound to one host; client cannot choose scene, inject me
   assert.equal(providerInput.character.worldview.sceneAnchorIds, undefined, 'quest anchors are not presented as historical citations for a fictional opinion');
   assert.match(providerInput.character.worldview.designBasisKo, /실제 견해나 발언을 재현하지 않는다/);
   assert.deepEqual(providerInput.conversation.sceneContext, { date: '1847-06-01', mapId: 'printshop', placeKo: '네프스키 인쇄소', questId: 'PRINTSHOP_PROOF_1847', questTitleKo: '교정쇄의 행선지',
-    activityKo: '교정쇄와 활자를 살핀다', currentAimKo: '작업한 교정쇄의 전달처와 책임자를 확인한다', hungerBand: 'HUNGRY', fatigueBand: 'TIRED', healthCondition: 'FIT', heardRumors: [] });
+    activityKo: '교정쇄와 활자를 살핀다', currentAimKo: '작업한 교정쇄의 전달처와 책임자를 확인한다', hungerBand: 'HUNGRY', fatigueBand: 'TIRED', healthCondition: 'FIT', heardRumors: [], heardEvents: [] });
   assert.equal(providerInput.character.relationshipToEmbodiedPlayer?.nameKo, '알렉세이 오를로프');
   assert.match(providerInput.character.relationshipToEmbodiedPlayer?.descriptionKo ?? '', /교정쇄/);
   assert.ok(providerInput.character.todayGoals.some(goal => goal.textKo === '작업한 교정쇄의 전달처와 책임자를 확인한다'));
@@ -184,7 +184,11 @@ test('AI dialogue receives only the speaker’s authored family and relationship
   const result = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken, requestId: 'mariya-family-0001',
     playerInput: '요즘 집에서는 어떻게 지내?', actorRelations: {}, actorActions: [],
     sceneContext: { date: '1847-06-01', mapId: 'courtyard', questId: null, currentAimKo: '밀린 세탁값을 받을지 다음 일감과 맞바꿀지 정한다',
-      heardRumors: [{ eventId: 'E23', sourceEventId: 'E13', status: 'UNVERIFIED', fromHostId: 'street_vendor_matryona' }] } }));
+      heardRumors: [{ eventId: 'E23', sourceEventId: 'E13', status: 'UNVERIFIED', fromHostId: 'street_vendor_matryona' }],
+      heardEvents: [{ catalogEventId: 'E36', stage: 'LOSS_NOTICED', summaryKo: '장터에서 돈주머니가 사라졌다는 말을 들었다.',
+        sourceIds: ['CAT-RSL-BAZAAR-WARDENS-1842', 'OBJ-PRLIB-STPETE-THEFT-CASES-1843-44'],
+        knowledgeKind: 'HEARD_FROM_PERSON', occurrenceType: 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION',
+        validationStatus: 'DESIGN_SEED_NOT_VERIFIED', historicalOutcomeFixed: false, fromHostId: 'porter_gavrila' }] } }));
   assert.equal(result.status, 200);
   assert.equal(observed.character.relationshipToEmbodiedPlayer?.kind, 'SIBLING');
   assert.equal(observed.character.relationshipToEmbodiedPlayer?.status, 'FICTIONAL_CHARACTER_DESIGN');
@@ -193,6 +197,10 @@ test('AI dialogue receives only the speaker’s authored family and relationship
   assert.equal(observed.conversation.sceneContext.currentAimKo, '밀린 세탁값을 받을지 다음 일감과 맞바꿀지 정한다');
   assert.deepEqual(observed.conversation.sceneContext.heardRumors, [{ eventId: 'E23', sourceEventId: 'E13', status: 'UNVERIFIED',
     fromHostKo: '마트료나', detailKo: '장터에서 빵값이 두 배였고 상인이 빵을 숨겼다는 확인되지 않은 말' }]);
+  assert.deepEqual(observed.conversation.sceneContext.heardEvents, [{ catalogEventId: 'E36', eventTitleKo: '장터 도난', stage: 'LOSS_NOTICED',
+    summaryKo: '장터에서 돈주머니가 사라졌다는 말을 들었다.', sourceIds: ['CAT-RSL-BAZAAR-WARDENS-1842', 'OBJ-PRLIB-STPETE-THEFT-CASES-1843-44'],
+    knowledgeKind: 'HEARD_FROM_PERSON', occurrenceType: 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION',
+    validationStatus: 'DESIGN_SEED_NOT_VERIFIED', historicalOutcomeFixed: false, fromHostKo: '가브릴라' }]);
 });
 
 test('the client dialogue context exposes current needs and only authored activities and aims', async () => {

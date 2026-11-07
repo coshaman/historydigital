@@ -28,6 +28,8 @@ assert.match(source.paragraphs[0].ru, /^Солнце нашей Поэзии з�
 assert.match(source.paragraphs[0].ru, /К этой мысли нельзя привыкнуть!/);
 assert.equal(index.records.find(row => row.sourceId === sourceId)?.excerptId, 'EX-PUSHKIN-OBITUARY-1837-LP-NO5-001');
 assert.equal(catalog.find(row => row.event_id === 'E43')?.validation_status, 'PRIMARY_PERIODICAL_TEXT_AND_ACADEMIC_TRANSCRIPTION_VERIFIED');
+assert.equal(catalog.find(row => row.event_id === 'E43')?.occurrence_type, 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION',
+  'the verified obituary text is historical evidence; the 1847 local reading is a game event');
 assert.equal(map.layers.find(layer => layer.name === 'Interactions').objects.find(row => row.id === 4018)?.name, '1837년 부고를 펼쳐 읽다');
 
 const state = game.createInitialState({ maps, hostCards: cards, quests: [quest], startMapId: 'bookshop-interior' });
@@ -43,6 +45,8 @@ assert.equal(objectIsPresent(eventObject, state, [quest]), false, 'the reading e
 let active = game.advanceNpcWorld(state, 1, maps, { pausedHostIds: ['bookseller_lev', 'reader_darya', 'student_vasily'] });
 const event = active.world.livingEventStates.E43;
 assert.equal(event?.status, 'ACTIVE', 'the dated reading gathers its residents');
+assert.equal(active.ledger.flatMap(row => row.livingEvents ?? []).find(item => item.catalogEventId === 'E43')?.occurrenceType,
+  'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION');
 assert.equal(event.stage, 'READING_READY');
 assert.ok(objectIsPresent(eventObject, active, [quest]));
 assert.ok(active.ledger.some(row => row.livingEvents?.some(item => item.catalogEventId === 'E43')));
