@@ -482,12 +482,13 @@ function livingLaundryEventRow(state, stage, actorHostIds, mapId, position, minu
 }
 function rentCatalogEventRow(state, stage, row, minute, maps, details = {}) {
   const event = state.world.livingEventStates?.E01;
-  return { ...RENT_LIVING_EVENT, stage, stageIndex: ({ DUE_NOTICE: 1, PARTIAL_PAYMENT: 2, OVERDUE: 2, SETTLED: 3 })[stage],
+  return { ...RENT_LIVING_EVENT, stage, stageIndex: ({ DUE_NOTICE: 1, PARTIAL_PAYMENT: 2, OVERDUE: 2, EVICTED: 3, SETTLED: 4 })[stage],
     actorHostIds: [row.hostId, row.landlordHostId].filter(Boolean), date: state.world.date, minute, mapId: row.mapId,
     position: { ...(row.position ?? { x: 0, y: 0 }) }, state: event ? { ...event } : null,
     witnessedByPlayer: row.witnessedByPlayer === true, ...details };
 }
 function beginRentCatalogEvent(state, row, minute, maps, livingEventRows) {
+  if (row.hostId !== 'tenant_mikhail') return;
   const dayIndex = Math.floor(state.world.clockMinutes / 1440), current = state.world.livingEventStates?.E01;
   if (current?.dueDayIndex === dayIndex) return;
   state.world.livingEventStates ??= {};
@@ -498,10 +499,11 @@ function beginRentCatalogEvent(state, row, minute, maps, livingEventRows) {
     { amountDue: state.world.livingEventStates.E01.amountDue, changeKo: '방세 납부일이 되어 세입자와 집주인 사이에 납부 확인이 시작된다' }));
 }
 function advanceRentCatalogEvent(state, row, minute, maps, livingEventRows) {
+  if (row.hostId !== 'tenant_mikhail') return;
   const event = state.world.livingEventStates?.E01;
   if (!event || event.tenantHostId !== row.hostId || event.landlordHostId !== row.landlordHostId) return;
   const stage = row.kind === 'RENT_PAID' ? 'SETTLED' : row.kind === 'RENT_PARTIAL' ? 'PARTIAL_PAYMENT'
-    : row.kind === 'RENT_OVERDUE' ? 'OVERDUE' : null;
+    : row.kind === 'RENT_OVERDUE' ? (state.hosts[row.hostId]?.housing?.evictionStatus === 'EVICTED' ? 'EVICTED' : 'OVERDUE') : null;
   if (!stage || event.stage === stage || event.status === 'RESOLVED') return;
   event.stage = stage;
   if (stage === 'SETTLED') { event.status = 'RESOLVED'; event.resolvedAtMinute = state.world.clockMinutes; }
@@ -510,7 +512,65 @@ function advanceRentCatalogEvent(state, row, minute, maps, livingEventRows) {
   livingEventRows.push(rentCatalogEventRow(state, stage, row, minute, maps,
     { amount: row.amount, amountDueRemaining: row.amountDueRemaining ?? 0,
       changeKo: stage === 'SETTLED' ? '이번 납부액을 치르고 방세 장부를 마감한다'
-        : stage === 'PARTIAL_PAYMENT' ? '일부 방세를 받았고 남은 금액은 장부에 남는다' : '납부 기한이 지나 미납액이 장부에 남는다' }));
+        : stage === 'PARTIAL_PAYMENT' ? '일부 방세를 받았고 남은 금액은 장부에 남는다'
+          : stage === 'EVICTED' ? '밀린 방세가 쌓여 세입자가 방을 비우고 안뜰에서 밤을 보낸다'
+            : '납부 기한이 지나 미납액이 장부에 남는다' }));
+}
+function evictFictionalTenant(state, host, contract, minute, maps) {
+  if (host.id !== 'tenant_mikhail' || contract.evictionStatus === 'EVICTED' || (contract.overduePeriods ?? 0) < 2) return;
+  const home = host.places?.homeLocation;
+  if (!home || !maps.courtyard || !host.allowedMaps.includes('courtyard')) return;
+  const sleepSlot = (host.schedule ?? []).find(slot => slot.routineKind === 'FICTIONAL_HOME_SLEEP');
+  const courtyard = maps.courtyard;
+  let sleepPosition = null;
+  for (let y = courtyard.height - 2; y >= 1 && !sleepPosition; y--) {
+    for (let x = 1; x < courtyard.width - 1; x++) {
+      if (canOccupy(courtyard, x, y, host.id, state.hosts)) { sleepPosition = { x, y }; break; }
+    }
+  }
+  if (!sleepPosition) return;
+  contract.evictedHome = clone(home);
+  contract.evictedSleepSlot = sleepSlot ? clone(sleepSlot) : null;
+  contract.evictionStatus = 'EVICTED';
+  contract.evictedAtMinute = state.world.clockMinutes;
+  host.places.homeLocation = null;
+  host.places.homeLocationStatus = 'FICTIONAL_EVICTION_DESIGN';
+  host.places.residenceKind = 'STREET_SLEEPER';
+  host.places.sleepLocations = [{ mapId: 'courtyard', position: { ...sleepPosition }, scheduledMinute: sleepSlot?.atMinute ?? 1320,
+    activityKo: '안뜰 바깥에서 잠을 청한다', provenance: 'FICTIONAL_EVICTION_DESIGN' }];
+  host.schedule = (host.schedule ?? []).filter(slot => slot.routineKind !== 'FICTIONAL_HOME_SLEEP');
+  host.schedule.push({ atMinute: sleepSlot?.atMinute ?? 1320, mapId: 'courtyard', position: { ...sleepPosition },
+    activityKo: '안뜰 바깥에서 잠을 청한다', routineKind: 'FICTIONAL_HOME_SLEEP', valueStatus: 'fictional_gameplay_balance' });
+  host.schedule.sort((a, b) => a.atMinute - b.atMinute);
+  host.activeGoal = null;
+  host.plannedPath = [];
+  host.mapRoutePlan = null;
+  host.currentActivityKo = '안뜰 바깥에서 잠을 청한다';
+  host.routineState = { state: 'IDLE', activityKo: host.currentActivityKo, targetMapId: 'courtyard', targetPosition: { ...sleepPosition },
+    changedAtMinute: minute, minutesInState: 0 };
+}
+function settleEvictedTenant(host, contract) {
+  if (contract.evictionStatus !== 'EVICTED' || !contract.evictedHome) return;
+  host.places.homeLocation = clone(contract.evictedHome);
+  host.places.homeLocationStatus = 'AUTHORED_HOUSING_RECORD';
+  host.places.residenceKind = contract.evictedHome.kind ?? 'RENT';
+  const previousSleep = contract.evictedSleepSlot;
+  host.schedule = (host.schedule ?? []).filter(slot => slot.routineKind !== 'FICTIONAL_HOME_SLEEP');
+  if (previousSleep) host.schedule.push(clone(previousSleep));
+  host.schedule.sort((a, b) => a.atMinute - b.atMinute);
+  host.places.sleepLocations = previousSleep ? [{ mapId: previousSleep.mapId, position: { ...previousSleep.position },
+    scheduledMinute: previousSleep.atMinute, activityKo: previousSleep.activityKo, provenance: previousSleep.valueStatus }] : [];
+  contract.evictionStatus = 'HOUSED';
+  contract.overduePeriods = 0;
+  delete contract.evictedAtMinute;
+  delete contract.evictedHome;
+  delete contract.evictedSleepSlot;
+}
+function recordRentOverdue(state, host, contract, row, minute, maps, housingRows, livingEventRows) {
+  contract.overduePeriods = (contract.overduePeriods ?? 0) + 1;
+  evictFictionalTenant(state, host, contract, minute, maps);
+  housingRows.push(row);
+  advanceRentCatalogEvent(state, row, minute, maps, livingEventRows);
 }
 function livingCourtyardDisputeEventRow(state, stage, minute, maps, details = {}) {
   const event = state.world.livingEventStates?.E09;
@@ -3865,8 +3925,7 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
           arrears: contract.arrears, unit: contract.unit, mapId: host.mapId, position: { ...host.position }, minute: minuteOffset,
           causedByClaimId: host.lastWageClaimDayIndex === dayIndex ? host.lastWageClaimId : null,
           witnessedByPlayer: playerCanObserveWorldEvent(state, host.mapId, host.position, 6, maps), valueStatus: contract.valueStatus };
-        housingRows.push(rentRow);
-        advanceRentCatalogEvent(state, rentRow, minuteOffset, maps, livingEventRows);
+        recordRentOverdue(state, host, contract, rentRow, minuteOffset, maps, housingRows, livingEventRows);
       }
       continue;
     }
@@ -3893,8 +3952,7 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
         mapId: host.mapId, position: { ...host.position }, minute: minuteOffset,
         causedByClaimId: host.lastWageClaimDayIndex === dayIndex ? host.lastWageClaimId : null,
         witnessedByPlayer: playerCanObserveWorldEvent(state, host.mapId, host.position, 6, maps), valueStatus: contract.valueStatus };
-      housingRows.push(rentRow);
-      advanceRentCatalogEvent(state, rentRow, minuteOffset, maps, livingEventRows);
+      recordRentOverdue(state, host, contract, rentRow, minuteOffset, maps, housingRows, livingEventRows);
     }
     if (localMinute >= closeMinute && contract.amountDueRemaining > 0) {
       contract.arrears = contract.amountDueRemaining;
@@ -4375,8 +4433,8 @@ function payRent(state, { tenantHostId = state?.player?.embodiment } = {}, maps 
     return { ok: false, reason: 'invalid_rent_contract', state };
   }
   const dayIndex = Math.floor(state.world.clockMinutes / 1440);
-  if (dayIndex < nextRentDueDay(contract)) return { ok: false, reason: 'rent_not_due_yet', state };
-  if (contract.lastSettledDayIndex === dayIndex) return { ok: false, reason: 'rent_already_settled', state };
+  if (contract.evictionStatus !== 'EVICTED' && dayIndex < nextRentDueDay(contract)) return { ok: false, reason: 'rent_not_due_yet', state };
+  if (contract.lastSettledDayIndex === dayIndex && contract.evictionStatus !== 'EVICTED') return { ok: false, reason: 'rent_already_settled', state };
   const amountDue = contract.dueDayIndex === dayIndex && Number.isInteger(contract.amountDueRemaining)
     ? contract.amountDueRemaining : contract.amount + (contract.arrears ?? 0);
   const paidAmount = Math.min(tenant.money.amount, amountDue);
@@ -4399,12 +4457,13 @@ function payRent(state, { tenantHostId = state?.player?.embodiment } = {}, maps 
   nextContract.currentRentRemaining = Math.max(0, (nextContract.currentRentRemaining ?? nextContract.amount) - towardRent);
   const settledArrears = Math.min(Math.max(0, paidAmount - towardRent), nextContract.arrearsDue ?? 0);
   nextContract.arrearsDue = Math.max(0, (nextContract.arrearsDue ?? 0) - settledArrears);
-  nextContract.arrears = 0;
   const fullyPaid = nextContract.amountDueRemaining === 0;
+  nextContract.arrears = Math.max(0, nextContract.amountDueRemaining);
   if (fullyPaid) {
     nextContract.lastSettledDayIndex = dayIndex;
     nextContract.nextDueDayIndex = dayIndex + rentBillingIntervalDays(nextContract);
   }
+  if (fullyPaid) settleEvictedTenant(nextTenant, nextContract);
   nextTenant.needs ??= initialNpcNeeds(nextTenant, next.world.clockMinutes);
   nextTenant.needs.incomePressure = Math.max(0, nextTenant.needs.incomePressure - Math.min(12, paidAmount * 2));
   nextTenant.relations[contract.landlordHostId] ??= '방세를 낸 세입자';
@@ -6674,7 +6733,7 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
     throw new Error('Save contains invalid E35 roof leak repair state');
   }
   if (rentEvent && (rentEvent.catalogIdSpace !== 'V37_EVENT_CATALOG_45' || rentEvent.catalogEventId !== 'E01'
-    || !['ACTIVE', 'RESOLVED'].includes(rentEvent.status) || !['DUE_NOTICE', 'PARTIAL_PAYMENT', 'OVERDUE', 'SETTLED'].includes(rentEvent.stage)
+    || !['ACTIVE', 'RESOLVED'].includes(rentEvent.status) || !['DUE_NOTICE', 'PARTIAL_PAYMENT', 'OVERDUE', 'EVICTED', 'SETTLED'].includes(rentEvent.stage)
     || rentEvent.validationStatus !== 'DESIGN_SEED_NOT_VERIFIED' || typeof rentEvent.tenantHostId !== 'string'
     || typeof rentEvent.landlordHostId !== 'string' || !Number.isInteger(rentEvent.dueDayIndex) || rentEvent.dueDayIndex < 0
     || (rentEvent.status === 'RESOLVED') !== (rentEvent.stage === 'SETTLED'))) throw new Error('Save contains invalid E01 rent event state');
@@ -6929,8 +6988,10 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
       host.relations ??= {};
       for (const [otherId, description] of Object.entries(card.relations ?? {})) host.relations[otherId] ??= description;
       const authoredSchedule = authoredDailySchedule(card);
-      const authoredMinutes = new Set(authoredSchedule.map(slot => slot.atMinute));
-      host.schedule = [...(host.schedule ?? []).filter(slot => !authoredMinutes.has(slot.atMinute)), ...authoredSchedule].sort((a,b) => a.atMinute - b.atMinute);
+      const persistedSchedule = host.housing?.evictionStatus === 'EVICTED'
+        ? authoredSchedule.filter(slot => slot.routineKind !== 'FICTIONAL_HOME_SLEEP') : authoredSchedule;
+      const authoredMinutes = new Set(persistedSchedule.map(slot => slot.atMinute));
+      host.schedule = [...(host.schedule ?? []).filter(slot => !authoredMinutes.has(slot.atMinute)), ...persistedSchedule].sort((a,b) => a.atMinute - b.atMinute);
       if (host.completedSocialTaskDayById !== undefined) {
         const repeatTaskIds = new Set(host.schedule.flatMap(slot => slot.task?.repeatDaily === true ? [slot.task.id] : []));
         if (!host.completedSocialTaskDayById || typeof host.completedSocialTaskDayById !== 'object' || Array.isArray(host.completedSocialTaskDayById)
@@ -6965,9 +7026,11 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
         host.places.residenceKind = seededHosts[card.id].places.residenceKind;
       }
       const knownSleepLocations = new Set(host.places.sleepLocations.map(place => `${place.mapId}:${place.position?.x}:${place.position?.y}`));
-      for (const place of seededHosts[card.id].places.sleepLocations) {
-        const key = `${place.mapId}:${place.position?.x}:${place.position?.y}`;
-        if (!knownSleepLocations.has(key)) { host.places.sleepLocations.push(clone(place)); knownSleepLocations.add(key); }
+      if (host.housing?.evictionStatus !== 'EVICTED') {
+        for (const place of seededHosts[card.id].places.sleepLocations) {
+          const key = `${place.mapId}:${place.position?.x}:${place.position?.y}`;
+          if (!knownSleepLocations.has(key)) { host.places.sleepLocations.push(clone(place)); knownSleepLocations.add(key); }
+        }
       }
       if (host.places.status !== 'FICTIONAL_GAMEPLAY_PROFILE' || !Array.isArray(host.places.workLocations)
         || !Array.isArray(host.places.sleepLocations)
