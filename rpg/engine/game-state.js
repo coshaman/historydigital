@@ -916,7 +916,7 @@ function livingCanalTrafficEventRow(state, stage, minuteOffset, maps, details = 
   const actors = (event?.actorHostIds ?? []).map(id => state.hosts[id]).filter(Boolean);
   const position = actors[0]?.position ?? { x: 11, y: 14 };
   return { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E11', stage,
-    stageIndex: stage === 'BOAT_TRAFFIC' ? 1 : 2, actorHostIds: actors.map(host => host.id),
+    stageIndex: stage === 'WAITING_FOR_PARTNER' ? 0 : stage === 'BOAT_TRAFFIC' ? 1 : 2, actorHostIds: actors.map(host => host.id),
     date: state.world.date, minute: minuteOffset, mapId: 'canal-road', position: { ...position },
     valueStatus: 'fictional_gameplay_balance', occurrenceType: 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION',
     validationStatus: 'DESIGN_SEED_NOT_VERIFIED',
@@ -1013,7 +1013,23 @@ function advanceCourtyardFireEvent(state, minuteOffset, maps, livingEventRows) {
 }
 function advanceCanalTraffic(state, moveRows, minuteOffset, maps, livingEventRows) {
   state.world.livingEventStates ??= {};
-  const event = state.world.livingEventStates.E11;
+  let event = state.world.livingEventStates.E11;
+  if (event?.status === 'ACTIVE' && event.stage === 'WAITING_FOR_PARTNER') {
+    const coachman = state.hosts.coachman_timofey, watercarrier = state.hosts.watercarrier_luka;
+    if (coachman?.mapId === 'canal-road' && watercarrier?.mapId === 'canal-road'
+      && nearTile(coachman.position, watercarrier.position, 6)) {
+      event.stage = 'BOAT_TRAFFIC';
+      event.startedAtMinute = state.world.clockMinutes;
+      event.clearsAtMinute = state.world.clockMinutes + 21;
+      event.waitMinutesByHost = {};
+      livingEventRows.push(livingCanalTrafficEventRow(state, 'BOAT_TRAFFIC', minuteOffset, maps,
+        { changeKo: '배가 운하를 지나는 동안 두 운송 노동자의 길이 잠시 막힌다', delayMinutes: 20 }));
+    } else if (state.world.clockMinutes >= event.partnerDeadlineMinute) {
+      delete state.world.livingEventStates.E11;
+      return;
+    }
+  }
+  event = state.world.livingEventStates.E11;
   if (event?.status === 'ACTIVE' && state.world.clockMinutes >= event.clearsAtMinute) {
     event.status = 'RESOLVED'; event.stage = 'CLEARED'; event.resolvedAtMinute = state.world.clockMinutes;
     livingEventRows.push(livingCanalTrafficEventRow(state, 'CLEARED', minuteOffset, maps,
@@ -1024,15 +1040,23 @@ function advanceCanalTraffic(state, moveRows, minuteOffset, maps, livingEventRow
     && ['coachman_timofey', 'watercarrier_luka'].includes(move.hostId));
   if (!arrivals.length) return;
   const coachman = state.hosts.coachman_timofey, watercarrier = state.hosts.watercarrier_luka;
-  if (!coachman || !watercarrier || coachman.mapId !== 'canal-road' || watercarrier.mapId !== 'canal-road'
-    || !nearTile(coachman.position, watercarrier.position, 6)) return;
+  if (!coachman || !watercarrier) return;
   state.world.livingEventStates.E11 = { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E11',
-    status: 'ACTIVE', stage: 'BOAT_TRAFFIC', startedAtMinute: state.world.clockMinutes,
-    clearsAtMinute: state.world.clockMinutes + 21, actorHostIds: [coachman.id, watercarrier.id],
+    status: 'ACTIVE', stage: 'WAITING_FOR_PARTNER', startedAtMinute: state.world.clockMinutes,
+    partnerWaitStartedAtMinute: state.world.clockMinutes,
+    partnerDeadlineMinute: state.world.clockMinutes + 360, clearsAtMinute: state.world.clockMinutes + 360,
+    actorHostIds: [coachman.id, watercarrier.id],
     triggerHostId: arrivals.at(-1).hostId, waitMinutesByHost: {}, valueStatus: 'fictional_gameplay_balance',
     occurrenceType: 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION', validationStatus: 'DESIGN_SEED_NOT_VERIFIED' };
-  livingEventRows.push(livingCanalTrafficEventRow(state, 'BOAT_TRAFFIC', minuteOffset, maps,
-    { changeKo: '운하를 지나는 배 때문에 강변 길이 잠시 막히고 두 운송 노동자의 이동이 늦어진다', delayMinutes: 20 }));
+  const other = arrivals.at(-1).hostId === coachman.id ? watercarrier : coachman;
+  if (other.mapId === 'canal-road' && nearTile((arrivals.at(-1).hostId === coachman.id ? coachman : watercarrier).position, other.position, 6)) {
+    state.world.livingEventStates.E11.stage = 'BOAT_TRAFFIC';
+    state.world.livingEventStates.E11.startedAtMinute = state.world.clockMinutes;
+    state.world.livingEventStates.E11.clearsAtMinute = state.world.clockMinutes + 21;
+    state.world.livingEventStates.E11.waitMinutesByHost = {};
+    livingEventRows.push(livingCanalTrafficEventRow(state, 'BOAT_TRAFFIC', minuteOffset, maps,
+      { changeKo: '배가 운하를 지나는 동안 두 운송 노동자의 길이 잠시 막힌다', delayMinutes: 20 }));
+  }
 }
 function beginBreadPriceEvent(state, meal, minuteOffset, maps, livingEventRows) {
   if (state.world.livingEventStates?.E02 || meal.sellerHostId !== 'market_nadezhda') return;
@@ -2956,10 +2980,12 @@ function nextNpcStep(state, host, slot, maps, reservedTiles) {
     if (!route?.length) return null;
     const { exit, toMapId } = route[0], fromMap = maps[host.mapId], toMap = maps[toMapId];
     const canalEvent = state.world.livingEventStates?.E11;
-    if (canalEvent?.status === 'ACTIVE' && state.world.clockMinutes < canalEvent.clearsAtMinute
-      && ['market-canal-road', 'canal-road-market'].includes(exit.data.exitId)) {
-      canalEvent.waitMinutesByHost ??= {};
-      canalEvent.waitMinutesByHost[host.id] = (canalEvent.waitMinutesByHost[host.id] ?? 0) + 5;
+    const canalExit = ['market-canal-road', 'canal-road-market'].includes(exit.data.exitId);
+    const waitingCanalPartner = canalEvent?.stage === 'WAITING_FOR_PARTNER' && canalEvent.actorHostIds.includes(host.id);
+    const blockedByActiveBoat = canalEvent?.stage === 'BOAT_TRAFFIC' && canalEvent.actorHostIds.includes(host.id)
+      && state.world.clockMinutes < canalEvent.clearsAtMinute;
+    const participantCannotLeaveCanal = waitingCanalPartner && host.mapId === 'canal-road' && exit.data.exitId === 'canal-road-market';
+    if (canalEvent?.status === 'ACTIVE' && canalExit && (blockedByActiveBoat || participantCannotLeaveCanal)) {
       return null;
     }
     const approach = exitApproachTiles(fromMap, exit.tile);
@@ -3040,6 +3066,14 @@ function upcomingNpcSocialWork(state) {
 
 function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
   const localMinute = ((state.world.clockMinutes % 1440) + 1440) % 1440;
+  const canalEvent = state.world.livingEventStates?.E11;
+  if (canalEvent?.status === 'ACTIVE' && canalEvent.stage === 'WAITING_FOR_PARTNER'
+    && canalEvent.actorHostIds.includes(host.id) && host.allowedMaps.includes('canal-road')) {
+    return { slot: { mapId: 'canal-road', position: { x: 11, y: 14 }, activityKo: '운하 물가에서 만나기로 한 사람을 기다린다' },
+      goalType: 'LIVING_EVENT_RESPONSE', targetHostId: canalEvent.actorHostIds.find(id => id !== host.id),
+      taskId: 'V37:E11:MEET_AT_CANAL', reason: 'arrive_for_the_canal_crossing_and_wait_for_the_other_carrier',
+      selectionBasis: { utilityScore: 170, eventId: 'E11', stage: canalEvent.stage } };
+  }
   const homeward = state.world.homewardTravelGoals?.[host.id], home = host.residence?.homeLocation;
   if (homeward && state.world.clockMinutes < homeward.untilMinute && home?.mapId
     && Number.isInteger(home.position?.x) && Number.isInteger(home.position?.y)
@@ -3222,7 +3256,23 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
       selectionBasis: { utilityScore: 182, eventId: 'E21', stage: salonDebate.stage } };
   }
   const marketTheft = state.world.livingEventStates?.E36;
+  const unfinishedNeighborShift = host.activeGoal?.type === 'SCHEDULED_WORK' && (host.schedule ?? []).some(slot => slot.workAction?.id === host.activeGoal.taskId
+      && !(host.completedWorkActionKeys ?? []).includes(`${Math.floor(state.world.clockMinutes / 1440)}:${slot.workAction.id}`))
+      || (host.schedule ?? []).some(slot => {
+        if (!slot.workAction || (host.completedWorkActionKeys ?? []).includes(`${Math.floor(state.world.clockMinutes / 1440)}:${slot.workAction.id}`)) return false;
+        const wait = (slot.atMinute - localMinute + 1440) % 1440;
+        return slot === scheduledSlot || (wait > 0 && wait <= 90);
+      });
+  const rentContract = host.housing, neighborRentDay = Math.floor(state.world.clockMinutes / 1440);
+  const neighborRentDueMinute = Number.isInteger(rentContract?.dueMinute) ? rentContract.dueMinute : 1020;
+  const neighborRentTravelLead = Number.isInteger(rentContract?.travelLeadMinutes) ? rentContract.travelLeadMinutes : 120;
+  const neighborProtectingHome = rentContract?.kind === 'RENT' && neighborRentDay >= nextRentDueDay(rentContract)
+    && rentContract.lastSettledDayIndex !== neighborRentDay
+    && localMinute >= neighborRentDueMinute - neighborRentTravelLead
+    && localMinute <= (Number.isInteger(rentContract.closeMinute) ? rentContract.closeMinute : 1380);
+  const neighborShiftDue = host.id === marketTheft?.neighborHostId && (unfinishedNeighborShift || neighborProtectingHome);
   if (marketTheft?.status === 'ACTIVE' && marketTheft.actorHostIds.includes(host.id)
+    && !neighborShiftDue
     && host.allowedMaps.includes(marketTheft.venueMapId)
     && npcMapRoute(host.mapId, marketTheft.venueMapId, host, maps, state.world.clockMinutes) !== null) {
     const roleActivity = host.id === marketTheft.sellerHostId ? '좌판의 분실 금액을 다시 확인한다'
@@ -6880,15 +6930,20 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
   const canalTrafficEvent = state.world.livingEventStates.E11;
   if (canalTrafficEvent && (canalTrafficEvent.catalogIdSpace !== 'V37_EVENT_CATALOG_45' || canalTrafficEvent.catalogEventId !== 'E11'
     || !['ACTIVE', 'RESOLVED'].includes(canalTrafficEvent.status)
-    || !['BOAT_TRAFFIC', 'CLEARED'].includes(canalTrafficEvent.stage)
+    || !['WAITING_FOR_PARTNER', 'BOAT_TRAFFIC', 'CLEARED'].includes(canalTrafficEvent.stage)
     || canalTrafficEvent.validationStatus !== 'DESIGN_SEED_NOT_VERIFIED' || canalTrafficEvent.valueStatus !== 'fictional_gameplay_balance'
     || canalTrafficEvent.occurrenceType !== 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION'
     || !Array.isArray(canalTrafficEvent.actorHostIds) || canalTrafficEvent.actorHostIds.length !== 2
     || canalTrafficEvent.actorHostIds[0] !== 'coachman_timofey' || canalTrafficEvent.actorHostIds[1] !== 'watercarrier_luka'
     || canalTrafficEvent.triggerHostId !== 'coachman_timofey' && canalTrafficEvent.triggerHostId !== 'watercarrier_luka'
     || !Number.isInteger(canalTrafficEvent.startedAtMinute) || !Number.isInteger(canalTrafficEvent.clearsAtMinute)
-    || canalTrafficEvent.clearsAtMinute !== canalTrafficEvent.startedAtMinute + 21
-    || (canalTrafficEvent.status === 'ACTIVE') !== (canalTrafficEvent.stage === 'BOAT_TRAFFIC')
+    || (canalTrafficEvent.stage === 'WAITING_FOR_PARTNER' && (!Number.isInteger(canalTrafficEvent.partnerWaitStartedAtMinute)
+      || !Number.isInteger(canalTrafficEvent.partnerDeadlineMinute)
+      || canalTrafficEvent.partnerDeadlineMinute !== canalTrafficEvent.partnerWaitStartedAtMinute + 360
+      || canalTrafficEvent.clearsAtMinute !== canalTrafficEvent.partnerDeadlineMinute))
+    || (['BOAT_TRAFFIC', 'CLEARED'].includes(canalTrafficEvent.stage)
+      && canalTrafficEvent.clearsAtMinute !== canalTrafficEvent.startedAtMinute + 21)
+    || (canalTrafficEvent.status === 'ACTIVE') !== ['WAITING_FOR_PARTNER', 'BOAT_TRAFFIC'].includes(canalTrafficEvent.stage)
     || (canalTrafficEvent.status === 'RESOLVED' && (!Number.isInteger(canalTrafficEvent.resolvedAtMinute)
       || canalTrafficEvent.resolvedAtMinute < canalTrafficEvent.clearsAtMinute)))) {
     throw new Error('Save contains invalid E11 canal traffic event state');
