@@ -187,11 +187,11 @@ for (const district of districtConfig) {
 await writeFile(registryPath, `${JSON.stringify(registry, null, 2)}\n`, 'utf8');
 
 const allowedUpdates = {
-  bookseller_lev: ['bookshop-lane','bookshop-interior'], reader_darya: ['bookshop-lane','bookshop-interior'], student_vasily: ['bookshop-lane','bookshop-interior'], teacher_lyubov: ['bookshop-lane','bookshop-interior','inn-interior'],
+  bookseller_lev: ['bookshop-lane','bookshop-interior'], reader_darya: ['bookshop-lane','bookshop-interior','market-quay'], student_vasily: ['bookshop-lane','bookshop-interior'], teacher_lyubov: ['bookshop-lane','bookshop-interior','inn-interior'],
   carter_roman: ['canal-road'], coachman_timofey: ['canal-road'], porter_gavrila: ['canal-road'], warehouse_pyotr: ['canal-road','courtyard'], fishseller_klavdiya: ['canal-road'], watercarrier_luka: ['canal-road'],
   baker_fyodor: ['bakery-interior'], market_nadezhda: ['bakery-interior'], porter_gavrila: ['canal-road','bakery-interior'], laundress_mariya: ['bakery-interior','workyard','sewing-room'],
-  innkeeper_irina: ['inn-interior'], courier_pavel: ['inn-interior','market-quay'], lodging_tatyana: ['inn-interior'], tenant_mikhail: ['inn-interior','communal-room','workyard','market-quay'], printer_ekaterina: ['chancery'],
-  seamstress_anna: ['workyard','sewing-room'], housemaid_olga: ['workyard','sewing-room','communal-room'], servant_varvara: ['workyard','sewing-room'], yardkeeper_semyon: ['workyard','communal-room'], landlady_polina: ['workyard','communal-room'], midwife_avdotya: ['workyard','communal-room'],
+  innkeeper_irina: ['inn-interior'], courier_pavel: ['inn-interior','market-quay'], lodging_tatyana: ['inn-interior'], tenant_mikhail: ['inn-interior','communal-room','workyard','market-quay'], printer_ekaterina: ['chancery','market-quay'],
+  seamstress_anna: ['workyard','sewing-room','market-quay'], senior_clerk_konstantin: ['market-quay'], housemaid_olga: ['workyard','sewing-room','communal-room'], servant_varvara: ['workyard','sewing-room'], yardkeeper_semyon: ['workyard','communal-room'], landlady_polina: ['workyard','communal-room'], midwife_avdotya: ['workyard','communal-room'],
 };
 const scheduleUpdates = { bookseller_lev: ['bookshop-interior',660], teacher_lyubov:['bookshop-interior',780], baker_fyodor:['bakery-interior',780], market_nadezhda:['bakery-interior',780], innkeeper_irina:['inn-interior',960], seamstress_anna:['sewing-room',900], yardkeeper_semyon:['workyard',840], watercarrier_luka:['canal-road',780], courier_pavel:['market-quay',900], printer_ekaterina:['chancery',780], tenant_mikhail:['market-quay',840], warehouse_pyotr:['courtyard',900] };
 for (const [id, additions] of Object.entries(allowedUpdates)) {

@@ -58,7 +58,7 @@
   "emotions": [ "경계", "기대", "피로" ],
   "personalObjective": "연주로 오늘 집세와 악기 수리비를 마련한다.",
   "objectiveByChapter": { "V33_1847_PRINT": "네프스키 거리에서 연주하고 벌이를 챙긴다." },
-  "allowedMaps": [ "courtyard", "nevsky" ],
+  "allowedMaps": [ "courtyard", "nevsky", "market-quay" ],
   "start": { "mapId": "courtyard", "x": 20, "y": 5 },
   "wealthBracketStatus": "fictional_gameplay_estimate",
   "inventory": [ "손풍금", "악기 수리용 끈" ],

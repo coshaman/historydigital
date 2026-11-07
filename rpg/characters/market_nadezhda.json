@@ -137,7 +137,7 @@
         },
         {
           "startMinute": 1020,
-          "endMinute": 1200
+          "endMinute": 1320
         }
       ],
       "hungerRelief": 32,
@@ -391,7 +391,7 @@
         "y": 5
       }
     },
-    "sleepMinute": 1170,
+    "sleepMinute": 1380,
     "unitLabelKo": "허구의 공동주택 셋방",
     "status": "FICTIONAL_CHARACTER_DESIGN",
     "valueStatus": "FICTIONAL_GAMEPLAY_DESIGN",

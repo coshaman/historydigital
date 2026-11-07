@@ -3789,7 +3789,10 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
   }
   const foodItems = new Set(Object.values(state.hosts).flatMap(person => (person.marketOffers ?? [])
     .filter(offer => offer.category === 'food').map(offer => offer.itemKo)));
-  if (host.needs?.hunger >= 60 && !host.inventory.some(item => foodItems.has(item))) {
+  const activelyServingFood = (host.marketOffers ?? []).some(offer => offer.category === 'food'
+    && (host.marketStock?.[offer.itemKo] ?? 0) > 0
+    && isMarketOfferOpen(host, offer, state.world.clockMinutes));
+  if (!activelyServingFood && host.needs?.hunger >= 60 && !host.inventory.some(item => foodItems.has(item))) {
     const foodOffers = Object.values(state.hosts).filter(seller => seller.id !== host.id
       && seller.id !== state.player.embodiment && seller.historicalAliveAndPresent !== false
       && seller.mapId && host.allowedMaps.includes(seller.mapId)
@@ -3816,7 +3819,7 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
       addCandidate({ slot: { mapId: seller.mapId, position: { ...seller.position }, activityKo: '시장 상인에게 빵값을 내고 끼니를 산다' },
         goalType: 'PURCHASE_MEAL', targetHostId: seller.id, taskId: `FOOD:${seller.id}:${offer.itemKo}`, reason: 'hunger_requires_affordable_market_food',
         selectionBasis: { hunger: host.needs.hunger, price, unit: offer.unit, ...(mealSourceEventId ? { sourceEventId: mealSourceEventId } : {}) } },
-        62 + host.needs.hunger * 0.72 + unresolvedHungerPriority, 2);
+        Math.min(154, 108 + host.needs.hunger * 0.72) + unresolvedHungerPriority, 2);
     }
     if (!seller && host.needs.hunger >= 82) {
       const kinFoodDonor = (host.relationshipEdges ?? []).filter(edge => edge.kind === 'KINSHIP'
@@ -4227,7 +4230,7 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
       && state.world.clockMinutes - host.needs.lastMealAtMinute < 90;
     if (!seller || seller.id === embodiedId || paused.has(host.id) || paused.has(seller.id)
       || host.historicalAliveAndPresent === false || seller.historicalAliveAndPresent === false
-      || host.mapId !== seller.mapId || !nearTile(host.position, seller.position, 1)
+      || host.mapId !== seller.mapId || !nearTile(host.position, seller.position, 3)
       || !offer || offer.unit !== host.money?.unit || seller.money?.unit !== offer.unit
       || !Number.isInteger(price) || price <= 0 || host.money.amount < price || recentlyAte
       || host.needs.hunger < 60) continue;

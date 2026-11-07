@@ -151,7 +151,8 @@
     "printshop",
     "police-station",
     "workyard",
-    "sewing-room"
+    "sewing-room",
+    "market-quay"
   ],
   "start": {
     "mapId": "nevsky",

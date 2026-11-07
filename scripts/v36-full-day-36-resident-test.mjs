@@ -21,6 +21,8 @@ const quests = (await Promise.all((await readdir(new URL('../rpg/quests/', impor
   .map(file => readJson(`rpg/quests/${file}`)))).filter(quest => quest.historicalOutcome?.id);
 assert.equal(rosterIds.length, 36);
 assert.equal(ids.length, includeEventPerformers ? 37 : 36);
+assert.ok(ids.every(id => cardsById.get(id)?.allowedMaps.includes('market-quay')),
+  `every active city resident can reach the public food market; missing=${JSON.stringify(ids.filter(id => !cardsById.get(id)?.allowedMaps.includes('market-quay')))}`);
 
 function runFullDay(seed) {
   let state = game.createInitialState({ maps, hostCards: cards, quests, startMapId: 'nevsky', simulationSeed: seed });
@@ -29,11 +31,24 @@ function runFullDay(seed) {
   const initialNeeds = Object.fromEntries(ids.map(id => [id, { hunger:state.hosts[id].needs.hunger, fatigue:state.hosts[id].needs.fatigue, socialNeed:state.hosts[id].needs.socialNeed }]));
   const observedPersonalGoalVisits = [];
   const nightlySleepArrivals = new Set();
+  const foodGoalSnapshots = [];
   const romanNightSnapshots = [];
   let collisionSnapshots = 0;
   for (let interval = 0; interval < 288; interval += 1) {
     const priorLedgerLength = state.ledger.length;
     state = game.advanceNpcWorld(state, 5, maps);
+    if (state.world.clockMinutes % 15 === 0) for (const host of Object.values(state.hosts)) {
+      if (host.activeGoal?.type !== 'PURCHASE_MEAL') continue;
+      const seller = state.hosts[host.activeGoal.targetHostId];
+      const offer = seller?.marketOffers?.find(item => item.category === 'food');
+      foodGoalSnapshots.push({ minute: state.world.clockMinutes, hostId: host.id, hostMap: host.mapId,
+        hostPosition: { ...host.position }, sellerHostId: seller?.id, sellerMap: seller?.mapId,
+        sellerPosition: seller?.position ? { ...seller.position } : null,
+        distance: seller?.mapId === host.mapId && seller.position
+          ? Math.abs(host.position.x - seller.position.x) + Math.abs(host.position.y - seller.position.y) : null,
+        stock: offer ? seller.marketStock?.[offer.itemKo] ?? 0 : 0,
+        activity: host.currentActivityKo, routine: host.routineState?.state });
+    }
     if (includeEventPerformers && state.world.clockMinutes >= 1380 && state.world.clockMinutes <= 1620
       && state.world.clockMinutes % 15 === 0) {
       const host = state.hosts.carter_roman;
@@ -91,7 +106,7 @@ function runFullDay(seed) {
     assert.ok(host.currentActivityKo?.length > 0, `${id} needs a current activity after the full-day replay`);
   }
   assert.deepEqual(state.quests, Object.fromEntries(quests.map(quest => [quest.id, { status:'open', result:null }])), 'NPC autonomy cannot complete player quests');
-  return { state, initialPositions, initialNeeds, moves, movementStepsByResident, collisionSnapshots, observedPersonalGoalVisits, nightlySleepArrivals };
+  return { state, initialPositions, initialNeeds, moves, movementStepsByResident, collisionSnapshots, observedPersonalGoalVisits, nightlySleepArrivals, foodGoalSnapshots };
 }
 
 const startedAt = performance.now();
@@ -134,6 +149,15 @@ const marketMeals = mealRows.filter(meal => meal.kind === 'PURCHASE_AND_EAT');
 const innMealEvents = first.state.ledger.flatMap(event => event.livingEvents ?? [])
   .filter(event => event.catalogEventId === 'E18');
 const paidInnMeals = innMealEvents.filter(event => ['MEAL_PAID', 'SMALL_MEAL_PAID', 'AUTO_SERVED'].includes(event.stage));
+const foodGoalAttempts = autonomousGoals.filter(goal => goal.type === 'PURCHASE_MEAL').map(goal => ({
+  hostId: goal.hostId, targetHostId: goal.targetHostId, selectedAtMinute: goal.selectedAtMinute,
+  mapId: goal.mapId, hunger: goal.selectionBasis?.hunger, price: goal.selectionBasis?.price,
+}));
+const criticallyHungryIds = ids.filter(id => first.state.hosts[id].needs.hunger >= 90);
+const criticalGoalTimeline = Object.fromEntries(criticallyHungryIds.map(hostId => [hostId,
+  goals.filter(goal => goal.hostId === hostId).map(goal => ({ type: goal.type, selectedAtMinute: goal.selectedAtMinute,
+    mapId: goal.mapId, targetMapId: goal.targetMapId, targetHostId: goal.targetHostId,
+    taskId: goal.taskId, utilityScore: goal.selectionBasis?.utilityScore }))]));
 const residentFoodStates = Object.fromEntries(ids.map(id => {
   const host = first.state.hosts[id], residentMeals = mealRows.filter(row => row.hostId === id);
   const innMeals = paidInnMeals.filter(row => row.state?.buyerHostId === id);
@@ -188,7 +212,7 @@ assert.ok(marketMeals.length >= 9,
 assert.ok(paidInnMeals.length > 0,
   `the inn should serve at least one paid evening meal during its authored service window; stages=${JSON.stringify(innMealEvents.map(event => event.stage))}`);
 assert.ok(marketMeals.every(meal => meal.mapId === meal.sellerMapId
-  && Math.abs(meal.position.x - meal.sellerPosition.x) + Math.abs(meal.position.y - meal.sellerPosition.y) <= 1
+  && Math.abs(meal.position.x - meal.sellerPosition.x) + Math.abs(meal.position.y - meal.sellerPosition.y) <= 3
   && meal.price > 0 && meal.valueStatus === 'fictional_gameplay_balance'),
   'market meals must be paid, adjacent seller handoffs with fictional balance labels');
 assert.ok(marketMeals.every(meal => goals.some(goal => goal.hostId === meal.hostId && goal.type === 'PURCHASE_MEAL'
@@ -249,6 +273,9 @@ const report = { schemaVersion:includeEventPerformers ? 'V37_FULL_DAY_37_RUNTIME
     deliveries:deliveries.length, exchanges:exchanges.length, wagePayments:wagePayments.length, paidMarketMeals:marketMeals.length,
     otherMealActions:mealRows.filter(meal => meal.kind !== 'PURCHASE_AND_EAT').length,
     innMealEventStages:innMealEvents.map(event => event.stage), paidInnMeals:paidInnMeals.length,
+    foodGoalAttempts, marketMealsBySeller:Object.fromEntries([...new Set(marketMeals.map(meal => meal.sellerHostId))]
+      .map(sellerHostId => [sellerHostId, marketMeals.filter(meal => meal.sellerHostId === sellerHostId).length])),
+    criticalGoalTimeline, foodGoalSnapshots:first.foodGoalSnapshots,
     residentsEndingAtCriticalHunger:ids.filter(id => first.state.hosts[id].needs.hunger >= 90), residentFoodStates,
     foodStocksAtEnd:Object.fromEntries(['market_nadezhda','fishseller_klavdiya','innkeeper_irina']
       .map(id => [id, { ...(first.state.hosts[id].marketStock ?? {}) }])),

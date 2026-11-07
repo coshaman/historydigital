@@ -112,7 +112,8 @@
   "allowedMaps": [
     "chancery",
     "nevsky",
-    "police-station"
+    "police-station",
+    "market-quay"
   ],
   "start": {
     "mapId": "chancery",

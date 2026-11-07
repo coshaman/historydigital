@@ -126,7 +126,8 @@
     "printshop",
     "courtyard",
     "police-station",
-    "chancery"
+    "chancery",
+    "market-quay"
   ],
   "start": {
     "mapId": "printshop",

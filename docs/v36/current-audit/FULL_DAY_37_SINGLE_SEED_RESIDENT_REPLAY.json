@@ -9,14 +9,14 @@
   "deterministicReplaySeed": 0,
   "simulatedMinutes": 1440,
   "replayHashes": [
-    "14dabf08"
+    "df723f49"
   ],
   "collisionSnapshotsPerReplay": 288,
   "totalCollisionSnapshots": 288,
   "firstReplay": {
-    "movementSteps": 5544,
-    "districtTransitions": 278,
-    "goalEvents": 551,
+    "movementSteps": 5700,
+    "districtTransitions": 280,
+    "goalEvents": 571,
     "newCatalogEventStages": {
       "E20": [
         "RECORD_NOT_FOUND",
@@ -77,43 +77,43 @@
       "missedParcelEventTriggered": false
     },
     "movementStepsByResident": {
-      "clerk_alexei": 97,
-      "printer_ekaterina": 97,
-      "courier_pavel": 195,
-      "seamstress_anna": 135,
-      "bookseller_lev": 107,
+      "clerk_alexei": 100,
+      "printer_ekaterina": 117,
+      "courier_pavel": 190,
+      "seamstress_anna": 180,
+      "bookseller_lev": 117,
       "senior_clerk_konstantin": 105,
-      "reader_darya": 127,
-      "editor_sofia": 135,
-      "police_sergeant_ivan": 128,
-      "print_apprentice_stepan": 108,
-      "bookbinder_elizaveta": 178,
+      "reader_darya": 97,
+      "editor_sofia": 126,
+      "police_sergeant_ivan": 130,
+      "print_apprentice_stepan": 107,
+      "bookbinder_elizaveta": 183,
       "scribal_yuri": 98,
-      "student_vasily": 143,
+      "student_vasily": 139,
       "minor_noble_andrei": 150,
-      "junior_guard_sergey": 159,
-      "street_vendor_matryona": 201,
-      "typesetter_nikita": 135,
-      "tenant_mikhail": 185,
-      "housemaid_olga": 189,
-      "midwife_avdotya": 121,
-      "innkeeper_irina": 132,
-      "teacher_lyubov": 130,
-      "landlady_polina": 153,
-      "watercarrier_luka": 159,
-      "servant_varvara": 180,
+      "junior_guard_sergey": 162,
+      "street_vendor_matryona": 204,
+      "typesetter_nikita": 155,
+      "tenant_mikhail": 195,
+      "housemaid_olga": 188,
+      "midwife_avdotya": 126,
+      "innkeeper_irina": 134,
+      "teacher_lyubov": 131,
+      "landlady_polina": 155,
+      "watercarrier_luka": 189,
+      "servant_varvara": 176,
       "lodging_tatyana": 174,
-      "yardkeeper_semyon": 223,
-      "laundress_mariya": 138,
-      "baker_fyodor": 105,
-      "market_nadezhda": 120,
-      "porter_gavrila": 190,
-      "coachman_timofey": 234,
-      "apothecary_yakov": 177,
-      "fishseller_klavdiya": 173,
-      "warehouse_pyotr": 154,
-      "carter_roman": 196,
-      "street_musician_ivan": 113
+      "yardkeeper_semyon": 237,
+      "laundress_mariya": 134,
+      "baker_fyodor": 121,
+      "market_nadezhda": 106,
+      "porter_gavrila": 192,
+      "coachman_timofey": 244,
+      "apothecary_yakov": 154,
+      "fishseller_klavdiya": 162,
+      "warehouse_pyotr": 162,
+      "carter_roman": 209,
+      "street_musician_ivan": 151
     },
     "residentsWithAutonomousGoalDecision": 37,
     "autonomousGoalTypesByResident": {
@@ -129,8 +129,10 @@
         "PERSONAL_LIFE_FOCUS",
         "LIVING_EVENT_RESPONSE",
         "NIGHT_REST",
+        "PURCHASE_MEAL",
         "COLLECT_WAGE",
-        "PERSONAL_LIFE_PREPARATION"
+        "PERSONAL_LIFE_PREPARATION",
+        "PAY_WAGE"
       ],
       "courier_pavel": [
         "PREPARE_DELIVERY",
@@ -147,6 +149,7 @@
         "SCHEDULED_WORK",
         "PERSONAL_LIFE_FOCUS",
         "PERSONAL_RELATIONSHIP",
+        "PURCHASE_MEAL",
         "NIGHT_REST",
         "NEED_INCOME",
         "PERSONAL_LIFE_PREPARATION"
@@ -213,7 +216,8 @@
         "NEED_INCOME",
         "PERSONAL_LIFE_PREPARATION",
         "PERSONAL_LIFE_FOCUS",
-        "NIGHT_REST"
+        "NIGHT_REST",
+        "PURCHASE_MEAL"
       ],
       "student_vasily": [
         "SCHEDULED_WORK",
@@ -263,6 +267,7 @@
         "PURCHASE_MEAL",
         "SCHEDULED_WORK",
         "HOUSING_RENT",
+        "COLLECT_WAGE",
         "NIGHT_REST",
         "NEED_INCOME",
         "PERSONAL_LIFE_PREPARATION"
@@ -297,6 +302,7 @@
       "teacher_lyubov": [
         "SCHEDULED_WORK",
         "PERSONAL_RELATIONSHIP",
+        "PERSONAL_LIFE_FOCUS",
         "LIVING_EVENT_RESPONSE",
         "NIGHT_REST",
         "PURCHASE_MEAL"
@@ -316,9 +322,9 @@
         "PERSONAL_RELATIONSHIP",
         "NEED_INCOME",
         "LIVING_EVENT_RESPONSE",
+        "PURCHASE_MEAL",
         "PERSONAL_LIFE_PREPARATION",
         "PERSONAL_LIFE_FOCUS",
-        "PURCHASE_MEAL",
         "NIGHT_REST"
       ],
       "servant_varvara": [
@@ -344,8 +350,8 @@
         "PREPARE_DELIVERY",
         "FOLLOW_RECIPIENT",
         "PERSONAL_RELATIONSHIP",
-        "NEED_INCOME",
         "PURCHASE_MEAL",
+        "NEED_INCOME",
         "NIGHT_REST",
         "COLLECT_WAGE"
       ],
@@ -354,8 +360,8 @@
         "PERSONAL_LIFE_PREPARATION",
         "PERSONAL_LIFE_FOCUS",
         "SCHEDULED_WORK",
-        "NEED_INCOME",
         "PURCHASE_MEAL",
+        "NEED_INCOME",
         "NIGHT_REST",
         "COLLECT_WAGE"
       ],
@@ -375,8 +381,8 @@
         "LIVING_EVENT_RESPONSE",
         "PERSONAL_LIFE_PREPARATION",
         "PERSONAL_LIFE_FOCUS",
-        "NIGHT_REST",
-        "PURCHASE_MEAL"
+        "NEED_REST",
+        "NIGHT_REST"
       ],
       "porter_gavrila": [
         "PREPARE_SCHEDULED_WORK",
@@ -438,12 +444,13 @@
       "street_musician_ivan": [
         "NEED_INCOME",
         "HOUSING_RENT",
+        "PURCHASE_MEAL",
         "NIGHT_REST"
       ]
     },
     "deliveries": 4,
     "exchanges": 4,
-    "wagePayments": 13,
+    "wagePayments": 14,
     "paidMarketMeals": 10,
     "otherMealActions": 0,
     "innMealEventStages": [
@@ -453,11 +460,6051 @@
       "AUTO_SERVED"
     ],
     "paidInnMeals": 2,
+    "foodGoalAttempts": [
+      {
+        "hostId": "porter_gavrila",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 812,
+        "mapId": "market-quay",
+        "hunger": 60.00800000000049,
+        "price": 2
+      },
+      {
+        "hostId": "tenant_mikhail",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 826,
+        "mapId": "market-quay",
+        "hunger": 61.39499999999916,
+        "price": 2
+      },
+      {
+        "hostId": "carter_roman",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 875,
+        "mapId": "market-quay",
+        "hunger": 60.03000000000057,
+        "price": 2
+      },
+      {
+        "hostId": "street_vendor_matryona",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 905,
+        "mapId": "nevsky",
+        "hunger": 60.01599999999888,
+        "price": 2
+      },
+      {
+        "hostId": "courier_pavel",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 914,
+        "mapId": "courtyard",
+        "hunger": 60.038999999999724,
+        "price": 2
+      },
+      {
+        "hostId": "laundress_mariya",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 951,
+        "mapId": "market-quay",
+        "hunger": 60.03999999999874,
+        "price": 2
+      },
+      {
+        "hostId": "watercarrier_luka",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 986,
+        "mapId": "canal-road",
+        "hunger": 66.4700000000001,
+        "price": 2
+      },
+      {
+        "hostId": "courier_pavel",
+        "targetHostId": "market_nadezhda",
+        "selectedAtMinute": 1021,
+        "mapId": "market-quay",
+        "hunger": 64.63999999999974,
+        "price": 1
+      },
+      {
+        "hostId": "fishseller_klavdiya",
+        "targetHostId": "market_nadezhda",
+        "selectedAtMinute": 1021,
+        "mapId": "market-quay",
+        "hunger": 63.160000000000764,
+        "price": 1
+      },
+      {
+        "hostId": "watercarrier_luka",
+        "targetHostId": "market_nadezhda",
+        "selectedAtMinute": 1021,
+        "mapId": "market-quay",
+        "hunger": 68.08000000000033,
+        "price": 1
+      },
+      {
+        "hostId": "courier_pavel",
+        "targetHostId": "innkeeper_irina",
+        "selectedAtMinute": 1026,
+        "mapId": "market-quay",
+        "hunger": 64.85499999999978,
+        "price": 2
+      },
+      {
+        "hostId": "baker_fyodor",
+        "targetHostId": "market_nadezhda",
+        "selectedAtMinute": 1086,
+        "mapId": "market-quay",
+        "hunger": 63.344999999998265,
+        "price": 2
+      },
+      {
+        "hostId": "coachman_timofey",
+        "targetHostId": "market_nadezhda",
+        "selectedAtMinute": 1086,
+        "mapId": "market-quay",
+        "hunger": 61.255000000000805,
+        "price": 2
+      },
+      {
+        "hostId": "courier_pavel",
+        "targetHostId": "market_nadezhda",
+        "selectedAtMinute": 1086,
+        "mapId": "nevsky",
+        "hunger": 67.43500000000016,
+        "price": 2
+      },
+      {
+        "hostId": "porter_gavrila",
+        "targetHostId": "market_nadezhda",
+        "selectedAtMinute": 1086,
+        "mapId": "market-quay",
+        "hunger": 73.16000000000099,
+        "price": 2
+      },
+      {
+        "hostId": "street_musician_ivan",
+        "targetHostId": "market_nadezhda",
+        "selectedAtMinute": 1086,
+        "mapId": "courtyard",
+        "hunger": 61.07499999999814,
+        "price": 2
+      },
+      {
+        "hostId": "typesetter_nikita",
+        "targetHostId": "market_nadezhda",
+        "selectedAtMinute": 1086,
+        "mapId": "printshop",
+        "hunger": 62.344999999998265,
+        "price": 2
+      },
+      {
+        "hostId": "watercarrier_luka",
+        "targetHostId": "market_nadezhda",
+        "selectedAtMinute": 1086,
+        "mapId": "market-quay",
+        "hunger": 71.07000000000075,
+        "price": 2
+      },
+      {
+        "hostId": "yardkeeper_semyon",
+        "targetHostId": "market_nadezhda",
+        "selectedAtMinute": 1086,
+        "mapId": "market-quay",
+        "hunger": 61.799999999999535,
+        "price": 2
+      },
+      {
+        "hostId": "courier_pavel",
+        "targetHostId": "innkeeper_irina",
+        "selectedAtMinute": 1116,
+        "mapId": "market-quay",
+        "hunger": 68.72500000000035,
+        "price": 2
+      },
+      {
+        "hostId": "seamstress_anna",
+        "targetHostId": "market_nadezhda",
+        "selectedAtMinute": 1120,
+        "mapId": "nevsky",
+        "hunger": 60.00199999999809,
+        "price": 2
+      },
+      {
+        "hostId": "warehouse_pyotr",
+        "targetHostId": "market_nadezhda",
+        "selectedAtMinute": 1120,
+        "mapId": "market-quay",
+        "hunger": 60.00199999999809,
+        "price": 2
+      },
+      {
+        "hostId": "printer_ekaterina",
+        "targetHostId": "market_nadezhda",
+        "selectedAtMinute": 1153,
+        "mapId": "courtyard",
+        "hunger": 60.032000000000835,
+        "price": 2
+      },
+      {
+        "hostId": "police_sergeant_ivan",
+        "targetHostId": "market_nadezhda",
+        "selectedAtMinute": 1159,
+        "mapId": "nevsky",
+        "hunger": 60.01199999999933,
+        "price": 2
+      },
+      {
+        "hostId": "lodging_tatyana",
+        "targetHostId": "innkeeper_irina",
+        "selectedAtMinute": 1163,
+        "mapId": "courtyard",
+        "hunger": 60.0139999999994,
+        "price": 2
+      },
+      {
+        "hostId": "apothecary_yakov",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 1920,
+        "mapId": "nevsky",
+        "hunger": 80.50700000000172,
+        "price": 2
+      },
+      {
+        "hostId": "baker_fyodor",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 1920,
+        "mapId": "market-quay",
+        "hunger": 65.53899999999567,
+        "price": 2
+      },
+      {
+        "hostId": "bookbinder_elizaveta",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 1920,
+        "mapId": "printshop",
+        "hunger": 84.2649999999953,
+        "price": 2
+      },
+      {
+        "hostId": "bookseller_lev",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 1920,
+        "mapId": "bookshop-interior",
+        "hunger": 82.12799999999514,
+        "price": 2
+      },
+      {
+        "hostId": "carter_roman",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 1920,
+        "mapId": "printshop",
+        "hunger": 75.05500000000235,
+        "price": 2
+      },
+      {
+        "hostId": "clerk_alexei",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 1920,
+        "mapId": "nevsky",
+        "hunger": 74.74900000000082,
+        "price": 2
+      },
+      {
+        "hostId": "coachman_timofey",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 1920,
+        "mapId": "nevsky",
+        "hunger": 93.78100000000204,
+        "price": 2
+      },
+      {
+        "hostId": "courier_pavel",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 1920,
+        "mapId": "nevsky",
+        "hunger": 71.29700000000237,
+        "price": 2
+      },
+      {
+        "hostId": "editor_sofia",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 1920,
+        "mapId": "printshop",
+        "hunger": 72.37000000000157,
+        "price": 2
+      },
+      {
+        "hostId": "housemaid_olga",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 1920,
+        "mapId": "nevsky",
+        "hunger": 80.88600000000204,
+        "price": 2
+      },
+      {
+        "hostId": "innkeeper_irina",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 1920,
+        "mapId": "courtyard",
+        "hunger": 77.12799999999514,
+        "price": 2
+      },
+      {
+        "hostId": "junior_guard_sergey",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 1920,
+        "mapId": "nevsky",
+        "hunger": 86.64400000000188,
+        "price": 2
+      },
+      {
+        "hostId": "landlady_polina",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 1920,
+        "mapId": "courtyard",
+        "hunger": 79.50700000000172,
+        "price": 2
+      },
+      {
+        "hostId": "laundress_mariya",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 1920,
+        "mapId": "courtyard",
+        "hunger": 70.67599999999584,
+        "price": 2
+      },
+      {
+        "hostId": "midwife_avdotya",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 1920,
+        "mapId": "courtyard",
+        "hunger": 76.12799999999514,
+        "price": 2
+      },
+      {
+        "hostId": "minor_noble_andrei",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 1920,
+        "mapId": "chancery",
+        "hunger": 83.2649999999953,
+        "price": 2
+      },
+      {
+        "hostId": "police_sergeant_ivan",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 1920,
+        "mapId": "police-station",
+        "hunger": 85.88600000000308,
+        "price": 2
+      },
+      {
+        "hostId": "porter_gavrila",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 1920,
+        "mapId": "nevsky",
+        "hunger": 81.19200000000251,
+        "price": 2
+      },
+      {
+        "hostId": "print_apprentice_stepan",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 1920,
+        "mapId": "printshop",
+        "hunger": 94.12000000000417,
+        "price": 2
+      },
+      {
+        "hostId": "printer_ekaterina",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 1920,
+        "mapId": "printshop",
+        "hunger": 87.64400000000188,
+        "price": 2
+      },
+      {
+        "hostId": "scribal_yuri",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 1920,
+        "mapId": "nevsky",
+        "hunger": 72.37000000000157,
+        "price": 2
+      },
+      {
+        "hostId": "seamstress_anna",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 1920,
+        "mapId": "courtyard",
+        "hunger": 90.40199999999545,
+        "price": 2
+      },
+      {
+        "hostId": "servant_varvara",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 1920,
+        "mapId": "nevsky",
+        "hunger": 85.64400000000188,
+        "price": 2
+      },
+      {
+        "hostId": "street_musician_ivan",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 1920,
+        "mapId": "nevsky",
+        "hunger": 90.2649999999953,
+        "price": 2
+      },
+      {
+        "hostId": "street_vendor_matryona",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 1920,
+        "mapId": "nevsky",
+        "hunger": 72.67599999999577,
+        "price": 2
+      },
+      {
+        "hostId": "student_vasily",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 1920,
+        "mapId": "nevsky",
+        "hunger": 75.74900000000105,
+        "price": 2
+      },
+      {
+        "hostId": "teacher_lyubov",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 1920,
+        "mapId": "courtyard",
+        "hunger": 71.37000000000157,
+        "price": 2
+      },
+      {
+        "hostId": "tenant_mikhail",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 1920,
+        "mapId": "courtyard",
+        "hunger": 80.81299999999595,
+        "price": 2
+      },
+      {
+        "hostId": "typesetter_nikita",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 1920,
+        "mapId": "nevsky",
+        "hunger": 96.53899999999561,
+        "price": 2
+      },
+      {
+        "hostId": "warehouse_pyotr",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 1920,
+        "mapId": "nevsky",
+        "hunger": 90.40199999999545,
+        "price": 2
+      },
+      {
+        "hostId": "watercarrier_luka",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 1920,
+        "mapId": "nevsky",
+        "hunger": 77.43400000000241,
+        "price": 2
+      },
+      {
+        "hostId": "yardkeeper_semyon",
+        "targetHostId": "fishseller_klavdiya",
+        "selectedAtMinute": 1920,
+        "mapId": "nevsky",
+        "hunger": 63.159999999998824,
+        "price": 2
+      }
+    ],
+    "marketMealsBySeller": {
+      "fishseller_klavdiya": 5,
+      "market_nadezhda": 5
+    },
+    "criticalGoalTimeline": {
+      "seamstress_anna": [
+        {
+          "type": "SCHEDULED_WORK",
+          "selectedAtMinute": 541,
+          "mapId": "nevsky",
+          "targetMapId": "nevsky",
+          "targetHostId": null,
+          "taskId": "V36_SEAMSTRESS_FIND_ORDER",
+          "utilityScore": 120
+        },
+        {
+          "type": "PERSONAL_LIFE_FOCUS",
+          "selectedAtMinute": 561,
+          "mapId": "nevsky",
+          "targetMapId": "courtyard",
+          "targetHostId": null,
+          "taskId": "seamstress_anna:life-arc:STAGE_1:DAY_0",
+          "utilityScore": 101
+        },
+        {
+          "type": "SCHEDULED_WORK",
+          "selectedAtMinute": 660,
+          "mapId": "courtyard",
+          "targetMapId": "printshop",
+          "targetHostId": null,
+          "taskId": "V36_SEAMSTRESS_PRICE_REPAIR",
+          "utilityScore": 116
+        },
+        {
+          "type": "PERSONAL_LIFE_FOCUS",
+          "selectedAtMinute": 806,
+          "mapId": "printshop",
+          "targetMapId": "courtyard",
+          "targetHostId": null,
+          "taskId": "seamstress_anna:life-arc:STAGE_1:DAY_0",
+          "utilityScore": 101
+        },
+        {
+          "type": "SCHEDULE",
+          "selectedAtMinute": 913,
+          "mapId": "courtyard",
+          "targetMapId": "courtyard",
+          "targetHostId": null,
+          "taskId": null,
+          "utilityScore": 43
+        },
+        {
+          "type": "PERSONAL_RELATIONSHIP",
+          "selectedAtMinute": 1042,
+          "mapId": "courtyard",
+          "targetMapId": "market-quay",
+          "targetHostId": "tenant_mikhail",
+          "taskId": "seamstress_anna:relationship:DAY_0",
+          "utilityScore": 81.49
+        },
+        {
+          "type": "PERSONAL_RELATIONSHIP",
+          "selectedAtMinute": 1076,
+          "mapId": "nevsky",
+          "targetMapId": "nevsky",
+          "targetHostId": "tenant_mikhail",
+          "taskId": "seamstress_anna:relationship:DAY_0",
+          "utilityScore": 81.56
+        },
+        {
+          "type": "PURCHASE_MEAL",
+          "selectedAtMinute": 1120,
+          "mapId": "nevsky",
+          "targetMapId": "market-quay",
+          "targetHostId": "market_nadezhda",
+          "taskId": "FOOD:market_nadezhda:빵 한 묶음",
+          "utilityScore": 151.2
+        },
+        {
+          "type": "PERSONAL_RELATIONSHIP",
+          "selectedAtMinute": 1175,
+          "mapId": "nevsky",
+          "targetMapId": "courtyard",
+          "targetHostId": "tenant_mikhail",
+          "taskId": "seamstress_anna:relationship:DAY_0",
+          "utilityScore": 81.76
+        },
+        {
+          "type": "SCHEDULE",
+          "selectedAtMinute": 1200,
+          "mapId": "nevsky",
+          "targetMapId": "courtyard",
+          "targetHostId": null,
+          "taskId": null,
+          "utilityScore": 43
+        },
+        {
+          "type": "NIGHT_REST",
+          "selectedAtMinute": 1320,
+          "mapId": "nevsky",
+          "targetMapId": "courtyard",
+          "targetHostId": null,
+          "taskId": "SLEEP:seamstress_anna:0",
+          "utilityScore": 109.62
+        },
+        {
+          "type": "SCHEDULED_WORK",
+          "selectedAtMinute": 1440,
+          "mapId": "courtyard",
+          "targetMapId": "nevsky",
+          "targetHostId": null,
+          "taskId": "V36_SEAMSTRESS_FIND_ORDER",
+          "utilityScore": 116
+        },
+        {
+          "type": "NEED_INCOME",
+          "selectedAtMinute": 1536,
+          "mapId": "nevsky",
+          "targetMapId": "nevsky",
+          "targetHostId": null,
+          "taskId": "LIVELIHOOD:seamstress_anna:1:540",
+          "utilityScore": 80.44
+        },
+        {
+          "type": "PERSONAL_RELATIONSHIP",
+          "selectedAtMinute": 1620,
+          "mapId": "nevsky",
+          "targetMapId": "courtyard",
+          "targetHostId": "tenant_mikhail",
+          "taskId": "seamstress_anna:relationship:DAY_1",
+          "utilityScore": 79.05
+        },
+        {
+          "type": "NEED_INCOME",
+          "selectedAtMinute": 1621,
+          "mapId": "nevsky",
+          "targetMapId": "nevsky",
+          "targetHostId": null,
+          "taskId": "LIVELIHOOD:seamstress_anna:1:540",
+          "utilityScore": 80.39
+        },
+        {
+          "type": "PERSONAL_RELATIONSHIP",
+          "selectedAtMinute": 1800,
+          "mapId": "nevsky",
+          "targetMapId": "nevsky",
+          "targetHostId": "tenant_mikhail",
+          "taskId": "seamstress_anna:relationship:DAY_1",
+          "utilityScore": 83.01
+        },
+        {
+          "type": "PERSONAL_LIFE_PREPARATION",
+          "selectedAtMinute": 1830,
+          "mapId": "nevsky",
+          "targetMapId": "courtyard",
+          "targetHostId": null,
+          "taskId": "seamstress_anna:life-arc:STAGE_1:DAY_1",
+          "utilityScore": 101
+        },
+        {
+          "type": "PURCHASE_MEAL",
+          "selectedAtMinute": 1920,
+          "mapId": "courtyard",
+          "targetMapId": "market-quay",
+          "targetHostId": "fishseller_klavdiya",
+          "taskId": "FOOD:fishseller_klavdiya:생선 한 점",
+          "utilityScore": 154
+        }
+      ],
+      "print_apprentice_stepan": [
+        {
+          "type": "SCHEDULED_WORK",
+          "selectedAtMinute": 541,
+          "mapId": "printshop",
+          "targetMapId": "printshop",
+          "targetHostId": null,
+          "taskId": "V36_APPRENTICE_SELECT_TYPE",
+          "utilityScore": 120
+        },
+        {
+          "type": "COLLECT_WAGE",
+          "selectedAtMinute": 561,
+          "mapId": "printshop",
+          "targetMapId": "printshop",
+          "targetHostId": "printer_ekaterina",
+          "taskId": "WAGE:0:V36_APPRENTICE_SELECT_TYPE",
+          "utilityScore": 146
+        },
+        {
+          "type": "SCHEDULE",
+          "selectedAtMinute": 581,
+          "mapId": "printshop",
+          "targetMapId": "printshop",
+          "targetHostId": null,
+          "taskId": null,
+          "utilityScore": 43
+        },
+        {
+          "type": "SCHEDULE",
+          "selectedAtMinute": 600,
+          "mapId": "printshop",
+          "targetMapId": "nevsky",
+          "targetHostId": null,
+          "taskId": null,
+          "utilityScore": 43
+        },
+        {
+          "type": "NEED_REST",
+          "selectedAtMinute": 750,
+          "mapId": "nevsky",
+          "targetMapId": "courtyard",
+          "targetHostId": null,
+          "taskId": "REST:print_apprentice_stepan:1110",
+          "utilityScore": 62.79
+        },
+        {
+          "type": "NEED_INCOME",
+          "selectedAtMinute": 766,
+          "mapId": "nevsky",
+          "targetMapId": "printshop",
+          "targetHostId": null,
+          "taskId": "LIVELIHOOD:print_apprentice_stepan:0:960",
+          "utilityScore": 81.06
+        },
+        {
+          "type": "NEED_INCOME",
+          "selectedAtMinute": 780,
+          "mapId": "nevsky",
+          "targetMapId": "market-quay",
+          "targetHostId": null,
+          "taskId": "LIVELIHOOD:print_apprentice_stepan:0:780",
+          "utilityScore": 81.06
+        },
+        {
+          "type": "NEED_INCOME",
+          "selectedAtMinute": 836,
+          "mapId": "nevsky",
+          "targetMapId": "printshop",
+          "targetHostId": null,
+          "taskId": "LIVELIHOOD:print_apprentice_stepan:0:960",
+          "utilityScore": 81.06
+        },
+        {
+          "type": "PERSONAL_LIFE_PREPARATION",
+          "selectedAtMinute": 870,
+          "mapId": "printshop",
+          "targetMapId": "printshop",
+          "targetHostId": null,
+          "taskId": "print_apprentice_stepan:life-arc:STAGE_1:DAY_0",
+          "utilityScore": 101
+        },
+        {
+          "type": "SCHEDULED_WORK",
+          "selectedAtMinute": 960,
+          "mapId": "printshop",
+          "targetMapId": "printshop",
+          "targetHostId": null,
+          "taskId": "V36_APPRENTICE_ORDER_WORK",
+          "utilityScore": 120
+        },
+        {
+          "type": "LIVING_EVENT_RESPONSE",
+          "selectedAtMinute": 961,
+          "mapId": "printshop",
+          "targetMapId": "printshop",
+          "targetHostId": "printer_ekaterina",
+          "taskId": "V37:E33:REST:FATIGUE_LIMIT_REACHED",
+          "utilityScore": 181
+        },
+        {
+          "type": "LIVING_EVENT_RESPONSE",
+          "selectedAtMinute": 1005,
+          "mapId": "printshop",
+          "targetMapId": "printshop",
+          "targetHostId": null,
+          "taskId": "V37:E19:REACH_READING_PRACTICE",
+          "utilityScore": 176
+        },
+        {
+          "type": "NIGHT_REST",
+          "selectedAtMinute": 1265,
+          "mapId": "printshop",
+          "targetMapId": "courtyard",
+          "targetHostId": null,
+          "taskId": "SLEEP:print_apprentice_stepan:0",
+          "utilityScore": 111.3
+        },
+        {
+          "type": "SCHEDULED_WORK",
+          "selectedAtMinute": 1440,
+          "mapId": "courtyard",
+          "targetMapId": "printshop",
+          "targetHostId": null,
+          "taskId": "V36_APPRENTICE_SELECT_TYPE",
+          "utilityScore": 116
+        },
+        {
+          "type": "COLLECT_WAGE",
+          "selectedAtMinute": 1911,
+          "mapId": "printshop",
+          "targetMapId": "printshop",
+          "targetHostId": "printer_ekaterina",
+          "taskId": "WAGE:1:V36_APPRENTICE_SELECT_TYPE",
+          "utilityScore": 146
+        },
+        {
+          "type": "NEED_INCOME",
+          "selectedAtMinute": 1916,
+          "mapId": "printshop",
+          "targetMapId": "printshop",
+          "targetHostId": null,
+          "taskId": "LIVELIHOOD:print_apprentice_stepan:1:420",
+          "utilityScore": 80.21
+        },
+        {
+          "type": "PURCHASE_MEAL",
+          "selectedAtMinute": 1920,
+          "mapId": "printshop",
+          "targetMapId": "market-quay",
+          "targetHostId": "fishseller_klavdiya",
+          "taskId": "FOOD:fishseller_klavdiya:생선 한 점",
+          "utilityScore": 154
+        }
+      ],
+      "typesetter_nikita": [
+        {
+          "type": "SCHEDULED_WORK",
+          "selectedAtMinute": 541,
+          "mapId": "printshop",
+          "targetMapId": "printshop",
+          "targetHostId": null,
+          "taskId": "V36_TYPESETTER_SET_LINES",
+          "utilityScore": 120
+        },
+        {
+          "type": "COLLECT_WAGE",
+          "selectedAtMinute": 561,
+          "mapId": "printshop",
+          "targetMapId": "printshop",
+          "targetHostId": "printer_ekaterina",
+          "taskId": "WAGE:0:V36_TYPESETTER_SET_LINES",
+          "utilityScore": 146
+        },
+        {
+          "type": "NEED_INCOME",
+          "selectedAtMinute": 591,
+          "mapId": "printshop",
+          "targetMapId": "bookshop-lane",
+          "targetHostId": null,
+          "taskId": "LIVELIHOOD:typesetter_nikita:0:840",
+          "utilityScore": 80.21
+        },
+        {
+          "type": "SCHEDULE",
+          "selectedAtMinute": 631,
+          "mapId": "nevsky",
+          "targetMapId": "printshop",
+          "targetHostId": null,
+          "taskId": null,
+          "utilityScore": 43
+        },
+        {
+          "type": "NEED_INCOME",
+          "selectedAtMinute": 656,
+          "mapId": "nevsky",
+          "targetMapId": "bookshop-lane",
+          "targetHostId": null,
+          "taskId": "LIVELIHOOD:typesetter_nikita:0:840",
+          "utilityScore": 80.21
+        },
+        {
+          "type": "NEED_INCOME",
+          "selectedAtMinute": 766,
+          "mapId": "bookshop-lane",
+          "targetMapId": "printshop",
+          "targetHostId": null,
+          "taskId": "LIVELIHOOD:typesetter_nikita:0:600",
+          "utilityScore": 80.19
+        },
+        {
+          "type": "NEED_INCOME",
+          "selectedAtMinute": 780,
+          "mapId": "nevsky",
+          "targetMapId": "bookshop-lane",
+          "targetHostId": null,
+          "taskId": "LIVELIHOOD:typesetter_nikita:0:840",
+          "utilityScore": 80.19
+        },
+        {
+          "type": "PERSONAL_RELATIONSHIP",
+          "selectedAtMinute": 792,
+          "mapId": "bookshop-lane",
+          "targetMapId": "nevsky",
+          "targetHostId": "street_vendor_matryona",
+          "taskId": "typesetter_nikita:relationship:DAY_0",
+          "utilityScore": 81.66
+        },
+        {
+          "type": "NEED_INCOME",
+          "selectedAtMinute": 862,
+          "mapId": "nevsky",
+          "targetMapId": "bookshop-lane",
+          "targetHostId": null,
+          "taskId": "LIVELIHOOD:typesetter_nikita:0:840",
+          "utilityScore": 80.19
+        },
+        {
+          "type": "PERSONAL_LIFE_PREPARATION",
+          "selectedAtMinute": 870,
+          "mapId": "nevsky",
+          "targetMapId": "printshop",
+          "targetHostId": null,
+          "taskId": "typesetter_nikita:life-arc:STAGE_1:DAY_0",
+          "utilityScore": 101
+        },
+        {
+          "type": "PERSONAL_LIFE_FOCUS",
+          "selectedAtMinute": 960,
+          "mapId": "printshop",
+          "targetMapId": "printshop",
+          "targetHostId": null,
+          "taskId": "typesetter_nikita:life-arc:STAGE_1:DAY_0",
+          "utilityScore": 101
+        },
+        {
+          "type": "NEED_INCOME",
+          "selectedAtMinute": 972,
+          "mapId": "printshop",
+          "targetMapId": "printshop",
+          "targetHostId": null,
+          "taskId": "LIVELIHOOD:typesetter_nikita:0:960",
+          "utilityScore": 80.16
+        },
+        {
+          "type": "PURCHASE_MEAL",
+          "selectedAtMinute": 1086,
+          "mapId": "printshop",
+          "targetMapId": "market-quay",
+          "targetHostId": "market_nadezhda",
+          "taskId": "FOOD:market_nadezhda:빵 한 묶음",
+          "utilityScore": 152.89
+        },
+        {
+          "type": "NIGHT_REST",
+          "selectedAtMinute": 1175,
+          "mapId": "nevsky",
+          "targetMapId": "courtyard",
+          "targetHostId": null,
+          "taskId": "SLEEP:typesetter_nikita:0",
+          "utilityScore": 111.46
+        },
+        {
+          "type": "SCHEDULED_WORK",
+          "selectedAtMinute": 1440,
+          "mapId": "courtyard",
+          "targetMapId": "printshop",
+          "targetHostId": null,
+          "taskId": "V36_TYPESETTER_SET_LINES",
+          "utilityScore": 116
+        },
+        {
+          "type": "PURCHASE_MEAL",
+          "selectedAtMinute": 1920,
+          "mapId": "nevsky",
+          "targetMapId": "market-quay",
+          "targetHostId": "fishseller_klavdiya",
+          "taskId": "FOOD:fishseller_klavdiya:생선 한 점",
+          "utilityScore": 154
+        }
+      ],
+      "market_nadezhda": [
+        {
+          "type": "SCHEDULED_WORK",
+          "selectedAtMinute": 541,
+          "mapId": "market-quay",
+          "targetMapId": "market-quay",
+          "targetHostId": null,
+          "taskId": "V36_MARKET_CHECK_SCALE",
+          "utilityScore": 120
+        },
+        {
+          "type": "LIVING_EVENT_RESPONSE",
+          "selectedAtMinute": 542,
+          "mapId": "market-quay",
+          "targetMapId": "market-quay",
+          "targetHostId": "tenant_mikhail",
+          "taskId": "V37:E32:JOB_SEARCH_OPENED:market_nadezhda",
+          "utilityScore": 183
+        },
+        {
+          "type": "LIVING_EVENT_RESPONSE",
+          "selectedAtMinute": 706,
+          "mapId": "market-quay",
+          "targetMapId": "market-quay",
+          "targetHostId": "tenant_mikhail",
+          "taskId": "V37:E32:OFFER_READY:market_nadezhda",
+          "utilityScore": 183
+        },
+        {
+          "type": "LIVING_EVENT_RESPONSE",
+          "selectedAtMinute": 826,
+          "mapId": "market-quay",
+          "targetMapId": "market-quay",
+          "targetHostId": "police_sergeant_ivan",
+          "taskId": "V37:E36:LOSS_NOTICED:market_nadezhda",
+          "utilityScore": 184
+        },
+        {
+          "type": "PERSONAL_LIFE_PREPARATION",
+          "selectedAtMinute": 1066,
+          "mapId": "market-quay",
+          "targetMapId": "market-quay",
+          "targetHostId": null,
+          "taskId": "market_nadezhda:life-arc:STAGE_1:DAY_0",
+          "utilityScore": 101
+        },
+        {
+          "type": "PERSONAL_LIFE_FOCUS",
+          "selectedAtMinute": 1080,
+          "mapId": "market-quay",
+          "targetMapId": "market-quay",
+          "targetHostId": null,
+          "taskId": "market_nadezhda:life-arc:STAGE_1:DAY_0",
+          "utilityScore": 101
+        },
+        {
+          "type": "NEED_REST",
+          "selectedAtMinute": 1133,
+          "mapId": "market-quay",
+          "targetMapId": "courtyard",
+          "targetHostId": null,
+          "taskId": "REST:market_nadezhda:1380",
+          "utilityScore": 63.88
+        },
+        {
+          "type": "NIGHT_REST",
+          "selectedAtMinute": 1380,
+          "mapId": "courtyard",
+          "targetMapId": "courtyard",
+          "targetHostId": null,
+          "taskId": "SLEEP:market_nadezhda:0",
+          "utilityScore": 111.23
+        },
+        {
+          "type": "SCHEDULED_WORK",
+          "selectedAtMinute": 1440,
+          "mapId": "courtyard",
+          "targetMapId": "market-quay",
+          "targetHostId": null,
+          "taskId": "V36_MARKET_CHECK_SCALE",
+          "utilityScore": 116
+        },
+        {
+          "type": "SCHEDULE",
+          "selectedAtMinute": 1711,
+          "mapId": "market-quay",
+          "targetMapId": "market-quay",
+          "targetHostId": null,
+          "taskId": null,
+          "utilityScore": 43
+        }
+      ],
+      "coachman_timofey": [
+        {
+          "type": "SCHEDULED_WORK",
+          "selectedAtMinute": 541,
+          "mapId": "market-quay",
+          "targetMapId": "market-quay",
+          "targetHostId": null,
+          "taskId": "V36_COACHMAN_CHECK_FARE_BOARD",
+          "utilityScore": 120
+        },
+        {
+          "type": "PERSONAL_RELATIONSHIP",
+          "selectedAtMinute": 561,
+          "mapId": "market-quay",
+          "targetMapId": "market-quay",
+          "targetHostId": "carter_roman",
+          "taskId": "coachman_timofey:relationship:DAY_0",
+          "utilityScore": 83.3
+        },
+        {
+          "type": "PERSONAL_LIFE_PREPARATION",
+          "selectedAtMinute": 630,
+          "mapId": "market-quay",
+          "targetMapId": "market-quay",
+          "targetHostId": null,
+          "taskId": "coachman_timofey:life-arc:STAGE_1:DAY_0",
+          "utilityScore": 101
+        },
+        {
+          "type": "LIVING_EVENT_RESPONSE",
+          "selectedAtMinute": 690,
+          "mapId": "market-quay",
+          "targetMapId": "nevsky",
+          "targetHostId": "street_vendor_matryona",
+          "taskId": "V37:E45:CLEARANCE_READY:coachman_timofey",
+          "utilityScore": 184
+        },
+        {
+          "type": "LIVING_EVENT_RESPONSE",
+          "selectedAtMinute": 836,
+          "mapId": "nevsky",
+          "targetMapId": "canal-road",
+          "targetHostId": "watercarrier_luka",
+          "taskId": "V37:E11:MEET_AT_CANAL",
+          "utilityScore": 170
+        },
+        {
+          "type": "SCHEDULED_WORK",
+          "selectedAtMinute": 986,
+          "mapId": "canal-road",
+          "targetMapId": "canal-road",
+          "targetHostId": null,
+          "taskId": "V36_COACHMAN_ROUTE_CONDITION",
+          "utilityScore": 120
+        },
+        {
+          "type": "PERSONAL_LIFE_FOCUS",
+          "selectedAtMinute": 1026,
+          "mapId": "canal-road",
+          "targetMapId": "market-quay",
+          "targetHostId": null,
+          "taskId": "coachman_timofey:life-arc:STAGE_1:DAY_0",
+          "utilityScore": 101
+        },
+        {
+          "type": "SCHEDULE",
+          "selectedAtMinute": 1053,
+          "mapId": "market-quay",
+          "targetMapId": "market-quay",
+          "targetHostId": null,
+          "taskId": null,
+          "utilityScore": 43
+        },
+        {
+          "type": "NEED_INCOME",
+          "selectedAtMinute": 1080,
+          "mapId": "market-quay",
+          "targetMapId": "market-quay",
+          "targetHostId": null,
+          "taskId": "LIVELIHOOD:coachman_timofey:0:1020",
+          "utilityScore": 73.91
+        },
+        {
+          "type": "PURCHASE_MEAL",
+          "selectedAtMinute": 1086,
+          "mapId": "market-quay",
+          "targetMapId": "market-quay",
+          "targetHostId": "market_nadezhda",
+          "taskId": "FOOD:market_nadezhda:빵 한 묶음",
+          "utilityScore": 152.1
+        },
+        {
+          "type": "NIGHT_REST",
+          "selectedAtMinute": 1176,
+          "mapId": "market-quay",
+          "targetMapId": "courtyard",
+          "targetHostId": null,
+          "taskId": "SLEEP:coachman_timofey:0",
+          "utilityScore": 110.77
+        },
+        {
+          "type": "SCHEDULED_WORK",
+          "selectedAtMinute": 1440,
+          "mapId": "courtyard",
+          "targetMapId": "market-quay",
+          "targetHostId": null,
+          "taskId": "V36_COACHMAN_CHECK_FARE_BOARD",
+          "utilityScore": 116
+        },
+        {
+          "type": "SCHEDULE",
+          "selectedAtMinute": 1686,
+          "mapId": "market-quay",
+          "targetMapId": "market-quay",
+          "targetHostId": null,
+          "taskId": null,
+          "utilityScore": 43
+        },
+        {
+          "type": "NEED_INCOME",
+          "selectedAtMinute": 1740,
+          "mapId": "market-quay",
+          "targetMapId": "nevsky",
+          "targetHostId": null,
+          "taskId": "LIVELIHOOD:coachman_timofey:1:660",
+          "utilityScore": 73.85
+        },
+        {
+          "type": "PURCHASE_MEAL",
+          "selectedAtMinute": 1920,
+          "mapId": "nevsky",
+          "targetMapId": "market-quay",
+          "targetHostId": "fishseller_klavdiya",
+          "taskId": "FOOD:fishseller_klavdiya:생선 한 점",
+          "utilityScore": 154
+        }
+      ],
+      "warehouse_pyotr": [
+        {
+          "type": "SCHEDULED_WORK",
+          "selectedAtMinute": 541,
+          "mapId": "market-quay",
+          "targetMapId": "market-quay",
+          "targetHostId": null,
+          "taskId": "V36_WAREHOUSE_CHECK_INTAKE",
+          "utilityScore": 120
+        },
+        {
+          "type": "NEED_INCOME",
+          "selectedAtMinute": 561,
+          "mapId": "market-quay",
+          "targetMapId": "chancery",
+          "targetHostId": null,
+          "taskId": "LIVELIHOOD:warehouse_pyotr:0:600",
+          "utilityScore": 72.92
+        },
+        {
+          "type": "LIVING_EVENT_RESPONSE",
+          "selectedAtMinute": 621,
+          "mapId": "nevsky",
+          "targetMapId": "market-quay",
+          "targetHostId": "apothecary_yakov",
+          "taskId": "V37:E16:ORDER_PLACED:warehouse_pyotr",
+          "utilityScore": 177
+        },
+        {
+          "type": "NEED_INCOME",
+          "selectedAtMinute": 741,
+          "mapId": "market-quay",
+          "targetMapId": "chancery",
+          "targetHostId": null,
+          "taskId": "LIVELIHOOD:warehouse_pyotr:0:600",
+          "utilityScore": 72.92
+        },
+        {
+          "type": "NEED_INCOME",
+          "selectedAtMinute": 780,
+          "mapId": "market-quay",
+          "targetMapId": "market-quay",
+          "targetHostId": null,
+          "taskId": "LIVELIHOOD:warehouse_pyotr:0:960",
+          "utilityScore": 72.92
+        },
+        {
+          "type": "PAY_WAGE",
+          "selectedAtMinute": 835,
+          "mapId": "market-quay",
+          "targetMapId": "market-quay",
+          "targetHostId": "carter_roman",
+          "taskId": "WAGE:0:V36_CARTER_QUAY_FREIGHT_TALLY",
+          "utilityScore": 146
+        },
+        {
+          "type": "SCHEDULE",
+          "selectedAtMinute": 871,
+          "mapId": "market-quay",
+          "targetMapId": "nevsky",
+          "targetHostId": null,
+          "taskId": null,
+          "utilityScore": 43
+        },
+        {
+          "type": "NEED_INCOME",
+          "selectedAtMinute": 876,
+          "mapId": "market-quay",
+          "targetMapId": "nevsky",
+          "targetHostId": null,
+          "taskId": "LIVELIHOOD:warehouse_pyotr:0:780",
+          "utilityScore": 73.69
+        },
+        {
+          "type": "SCHEDULE",
+          "selectedAtMinute": 900,
+          "mapId": "market-quay",
+          "targetMapId": "courtyard",
+          "targetHostId": null,
+          "taskId": null,
+          "utilityScore": 43
+        },
+        {
+          "type": "NEED_INCOME",
+          "selectedAtMinute": 960,
+          "mapId": "nevsky",
+          "targetMapId": "market-quay",
+          "targetHostId": null,
+          "taskId": "LIVELIHOOD:warehouse_pyotr:0:960",
+          "utilityScore": 73.69
+        },
+        {
+          "type": "PERSONAL_LIFE_PREPARATION",
+          "selectedAtMinute": 990,
+          "mapId": "market-quay",
+          "targetMapId": "market-quay",
+          "targetHostId": null,
+          "taskId": "warehouse_pyotr:life-arc:STAGE_1:DAY_0",
+          "utilityScore": 101
+        },
+        {
+          "type": "PERSONAL_LIFE_FOCUS",
+          "selectedAtMinute": 1080,
+          "mapId": "market-quay",
+          "targetMapId": "market-quay",
+          "targetHostId": null,
+          "taskId": "warehouse_pyotr:life-arc:STAGE_1:DAY_0",
+          "utilityScore": 101
+        },
+        {
+          "type": "NEED_INCOME",
+          "selectedAtMinute": 1108,
+          "mapId": "market-quay",
+          "targetMapId": "market-quay",
+          "targetHostId": null,
+          "taskId": "LIVELIHOOD:warehouse_pyotr:0:960",
+          "utilityScore": 73.67
+        },
+        {
+          "type": "NIGHT_REST",
+          "selectedAtMinute": 1110,
+          "mapId": "market-quay",
+          "targetMapId": "market-quay",
+          "targetHostId": null,
+          "taskId": "SLEEP:warehouse_pyotr:0",
+          "utilityScore": 110.06
+        },
+        {
+          "type": "PURCHASE_MEAL",
+          "selectedAtMinute": 1120,
+          "mapId": "market-quay",
+          "targetMapId": "market-quay",
+          "targetHostId": "market_nadezhda",
+          "taskId": "FOOD:market_nadezhda:빵 한 묶음",
+          "utilityScore": 151.2
+        },
+        {
+          "type": "NIGHT_REST",
+          "selectedAtMinute": 1175,
+          "mapId": "market-quay",
+          "targetMapId": "market-quay",
+          "targetHostId": null,
+          "taskId": "SLEEP:warehouse_pyotr:0",
+          "utilityScore": 110.11
+        },
+        {
+          "type": "SCHEDULED_WORK",
+          "selectedAtMinute": 1440,
+          "mapId": "market-quay",
+          "targetMapId": "market-quay",
+          "targetHostId": null,
+          "taskId": "V36_WAREHOUSE_CHECK_INTAKE",
+          "utilityScore": 116
+        },
+        {
+          "type": "NEED_INCOME",
+          "selectedAtMinute": 1506,
+          "mapId": "market-quay",
+          "targetMapId": "market-quay",
+          "targetHostId": null,
+          "taskId": "LIVELIHOOD:warehouse_pyotr:1:420",
+          "utilityScore": 73.65
+        },
+        {
+          "type": "SCHEDULE",
+          "selectedAtMinute": 1620,
+          "mapId": "market-quay",
+          "targetMapId": "market-quay",
+          "targetHostId": null,
+          "taskId": null,
+          "utilityScore": 43
+        },
+        {
+          "type": "NEED_INCOME",
+          "selectedAtMinute": 1800,
+          "mapId": "market-quay",
+          "targetMapId": "chancery",
+          "targetHostId": null,
+          "taskId": "LIVELIHOOD:warehouse_pyotr:1:600",
+          "utilityScore": 73.4
+        },
+        {
+          "type": "PURCHASE_MEAL",
+          "selectedAtMinute": 1920,
+          "mapId": "nevsky",
+          "targetMapId": "market-quay",
+          "targetHostId": "fishseller_klavdiya",
+          "taskId": "FOOD:fishseller_klavdiya:생선 한 점",
+          "utilityScore": 154
+        }
+      ],
+      "street_musician_ivan": [
+        {
+          "type": "SCHEDULE",
+          "selectedAtMinute": 541,
+          "mapId": "courtyard",
+          "targetMapId": "nevsky",
+          "targetHostId": null,
+          "taskId": null,
+          "utilityScore": 43
+        },
+        {
+          "type": "NEED_INCOME",
+          "selectedAtMinute": 876,
+          "mapId": "nevsky",
+          "targetMapId": "nevsky",
+          "targetHostId": null,
+          "taskId": "LIVELIHOOD:street_musician_ivan:0:720",
+          "utilityScore": 77.93
+        },
+        {
+          "type": "SCHEDULE",
+          "selectedAtMinute": 900,
+          "mapId": "nevsky",
+          "targetMapId": "courtyard",
+          "targetHostId": null,
+          "taskId": null,
+          "utilityScore": 43
+        },
+        {
+          "type": "HOUSING_RENT",
+          "selectedAtMinute": 960,
+          "mapId": "courtyard",
+          "targetMapId": "courtyard",
+          "targetHostId": "landlady_polina",
+          "taskId": "RENT:street_musician_ivan:0",
+          "utilityScore": 150
+        },
+        {
+          "type": "PURCHASE_MEAL",
+          "selectedAtMinute": 1086,
+          "mapId": "courtyard",
+          "targetMapId": "market-quay",
+          "targetHostId": "market_nadezhda",
+          "taskId": "FOOD:market_nadezhda:빵 한 묶음",
+          "utilityScore": 151.97
+        },
+        {
+          "type": "HOUSING_RENT",
+          "selectedAtMinute": 1175,
+          "mapId": "nevsky",
+          "targetMapId": "courtyard",
+          "targetHostId": "landlady_polina",
+          "taskId": "RENT:street_musician_ivan:0",
+          "utilityScore": 150
+        },
+        {
+          "type": "NEED_INCOME",
+          "selectedAtMinute": 1251,
+          "mapId": "courtyard",
+          "targetMapId": "courtyard",
+          "targetHostId": null,
+          "taskId": "LIVELIHOOD:street_musician_ivan:0:1020",
+          "utilityScore": 77.89
+        },
+        {
+          "type": "NIGHT_REST",
+          "selectedAtMinute": 1320,
+          "mapId": "courtyard",
+          "targetMapId": "courtyard",
+          "targetHostId": null,
+          "taskId": "SLEEP:street_musician_ivan:0",
+          "utilityScore": 111.31
+        },
+        {
+          "type": "NEED_INCOME",
+          "selectedAtMinute": 1440,
+          "mapId": "courtyard",
+          "targetMapId": "courtyard",
+          "targetHostId": null,
+          "taskId": "LIVELIHOOD:street_musician_ivan:1:420",
+          "utilityScore": 77.89
+        },
+        {
+          "type": "SCHEDULE",
+          "selectedAtMinute": 1620,
+          "mapId": "courtyard",
+          "targetMapId": "courtyard",
+          "targetHostId": null,
+          "taskId": null,
+          "utilityScore": 43
+        },
+        {
+          "type": "NEED_INCOME",
+          "selectedAtMinute": 1621,
+          "mapId": "courtyard",
+          "targetMapId": "nevsky",
+          "targetHostId": null,
+          "taskId": "LIVELIHOOD:street_musician_ivan:1:540",
+          "utilityScore": 77.82
+        },
+        {
+          "type": "PURCHASE_MEAL",
+          "selectedAtMinute": 1920,
+          "mapId": "nevsky",
+          "targetMapId": "market-quay",
+          "targetHostId": "fishseller_klavdiya",
+          "taskId": "FOOD:fishseller_klavdiya:생선 한 점",
+          "utilityScore": 154
+        }
+      ]
+    },
+    "foodGoalSnapshots": [
+      {
+        "minute": 825,
+        "hostId": "porter_gavrila",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 13,
+          "y": 13
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 15
+        },
+        "distance": 15,
+        "stock": 4,
+        "activity": "어깨를 다쳐 무거운 일을 쉬고 있다",
+        "routine": "RESTING"
+      },
+      {
+        "minute": 840,
+        "hostId": "tenant_mikhail",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 19,
+          "y": 12
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 15
+        },
+        "distance": 10,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 855,
+        "hostId": "tenant_mikhail",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 22,
+          "y": 12
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 15
+        },
+        "distance": 7,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 870,
+        "hostId": "tenant_mikhail",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 25,
+          "y": 12
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 15
+        },
+        "distance": 4,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 885,
+        "hostId": "carter_roman",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 16,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 15
+        },
+        "distance": 14,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 900,
+        "hostId": "carter_roman",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 19,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 15
+        },
+        "distance": 11,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 915,
+        "hostId": "courier_pavel",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 15,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 15
+        },
+        "distance": null,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 915,
+        "hostId": "street_vendor_matryona",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 24,
+          "y": 13
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 15
+        },
+        "distance": null,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 915,
+        "hostId": "carter_roman",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 22,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 15
+        },
+        "distance": 8,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 930,
+        "hostId": "courier_pavel",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 17,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 15
+        },
+        "distance": null,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 930,
+        "hostId": "street_vendor_matryona",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 24,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 15
+        },
+        "distance": null,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 930,
+        "hostId": "carter_roman",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 25,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 15
+        },
+        "distance": 5,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 945,
+        "hostId": "courier_pavel",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 19,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 15
+        },
+        "distance": null,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 945,
+        "hostId": "street_vendor_matryona",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 27,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 15
+        },
+        "distance": null,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 960,
+        "hostId": "courier_pavel",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 21,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 14
+        },
+        "distance": null,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 960,
+        "hostId": "street_vendor_matryona",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 5,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 14
+        },
+        "distance": 25,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 960,
+        "hostId": "laundress_mariya",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 4,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 14
+        },
+        "distance": 27,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 975,
+        "hostId": "courier_pavel",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 24,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 24,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 975,
+        "hostId": "street_vendor_matryona",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 8,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 24,
+          "y": 13
+        },
+        "distance": 19,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 975,
+        "hostId": "laundress_mariya",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 7,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 24,
+          "y": 13
+        },
+        "distance": 21,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 990,
+        "hostId": "courier_pavel",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 27,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 22,
+          "y": 12
+        },
+        "distance": null,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 990,
+        "hostId": "street_vendor_matryona",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 11,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 22,
+          "y": 12
+        },
+        "distance": 13,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 990,
+        "hostId": "watercarrier_luka",
+        "hostMap": "canal-road",
+        "hostPosition": {
+          "x": 11,
+          "y": 12
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 22,
+          "y": 12
+        },
+        "distance": null,
+        "stock": 2,
+        "activity": "배가 지나는 동안 운하 길목에서 기다린다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 990,
+        "hostId": "laundress_mariya",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 10,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 22,
+          "y": 12
+        },
+        "distance": 15,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1005,
+        "hostId": "courier_pavel",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 4,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 20,
+          "y": 11
+        },
+        "distance": 18,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1005,
+        "hostId": "street_vendor_matryona",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 14,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 20,
+          "y": 11
+        },
+        "distance": 7,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1005,
+        "hostId": "watercarrier_luka",
+        "hostMap": "canal-road",
+        "hostPosition": {
+          "x": 11,
+          "y": 12
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 20,
+          "y": 11
+        },
+        "distance": null,
+        "stock": 2,
+        "activity": "배가 지나는 동안 운하 길목에서 기다린다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1005,
+        "hostId": "laundress_mariya",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 13,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 20,
+          "y": 11
+        },
+        "distance": 9,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1020,
+        "hostId": "courier_pavel",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 7,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 17,
+          "y": 11
+        },
+        "distance": 12,
+        "stock": 0,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1020,
+        "hostId": "watercarrier_luka",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 20,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 17,
+          "y": 11
+        },
+        "distance": 4,
+        "stock": 0,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1020,
+        "hostId": "laundress_mariya",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 16,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 17,
+          "y": 11
+        },
+        "distance": 3,
+        "stock": 0,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1035,
+        "hostId": "courier_pavel",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 7,
+          "y": 10
+        },
+        "sellerHostId": "innkeeper_irina",
+        "sellerMap": "inn-interior",
+        "sellerPosition": {
+          "x": 11,
+          "y": 12
+        },
+        "distance": null,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1050,
+        "hostId": "courier_pavel",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 4,
+          "y": 10
+        },
+        "sellerHostId": "innkeeper_irina",
+        "sellerMap": "inn-interior",
+        "sellerPosition": {
+          "x": 11,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 9,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1095,
+        "hostId": "courier_pavel",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 26,
+          "y": 10
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 13,
+          "y": 8
+        },
+        "distance": null,
+        "stock": 5,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1095,
+        "hostId": "typesetter_nikita",
+        "hostMap": "printshop",
+        "hostPosition": {
+          "x": 16,
+          "y": 13
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 13,
+          "y": 8
+        },
+        "distance": null,
+        "stock": 5,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1095,
+        "hostId": "watercarrier_luka",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 9,
+          "y": 8
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 13,
+          "y": 8
+        },
+        "distance": 4,
+        "stock": 5,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1095,
+        "hostId": "yardkeeper_semyon",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 8,
+          "y": 9
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 13,
+          "y": 8
+        },
+        "distance": 6,
+        "stock": 5,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1095,
+        "hostId": "porter_gavrila",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 16,
+          "y": 9
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 13,
+          "y": 8
+        },
+        "distance": 4,
+        "stock": 5,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1095,
+        "hostId": "coachman_timofey",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 24,
+          "y": 10
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 13,
+          "y": 8
+        },
+        "distance": 13,
+        "stock": 5,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1095,
+        "hostId": "street_musician_ivan",
+        "hostMap": "courtyard",
+        "hostPosition": {
+          "x": 14,
+          "y": 13
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 13,
+          "y": 8
+        },
+        "distance": null,
+        "stock": 5,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1110,
+        "hostId": "courier_pavel",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 3,
+          "y": 9
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 10,
+          "y": 8
+        },
+        "distance": 8,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1110,
+        "hostId": "typesetter_nikita",
+        "hostMap": "printshop",
+        "hostPosition": {
+          "x": 15,
+          "y": 15
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 10,
+          "y": 8
+        },
+        "distance": null,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1110,
+        "hostId": "porter_gavrila",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 14,
+          "y": 8
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 10,
+          "y": 8
+        },
+        "distance": 4,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1110,
+        "hostId": "coachman_timofey",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 21,
+          "y": 10
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 10,
+          "y": 8
+        },
+        "distance": 13,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1110,
+        "hostId": "street_musician_ivan",
+        "hostMap": "courtyard",
+        "hostPosition": {
+          "x": 14,
+          "y": 16
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 10,
+          "y": 8
+        },
+        "distance": null,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1125,
+        "hostId": "courier_pavel",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 3,
+          "y": 10
+        },
+        "sellerHostId": "innkeeper_irina",
+        "sellerMap": "inn-interior",
+        "sellerPosition": {
+          "x": 11,
+          "y": 12
+        },
+        "distance": null,
+        "stock": 9,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1125,
+        "hostId": "seamstress_anna",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 23,
+          "y": 9
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 8,
+          "y": 8
+        },
+        "distance": null,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1125,
+        "hostId": "typesetter_nikita",
+        "hostMap": "printshop",
+        "hostPosition": {
+          "x": 12,
+          "y": 15
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 8,
+          "y": 8
+        },
+        "distance": null,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1125,
+        "hostId": "porter_gavrila",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 11,
+          "y": 8
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 8,
+          "y": 8
+        },
+        "distance": 3,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1125,
+        "hostId": "coachman_timofey",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 20,
+          "y": 10
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 8,
+          "y": 8
+        },
+        "distance": 14,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1125,
+        "hostId": "warehouse_pyotr",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 21,
+          "y": 10
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 8,
+          "y": 8
+        },
+        "distance": 15,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1125,
+        "hostId": "street_musician_ivan",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 16,
+          "y": 9
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 8,
+          "y": 8
+        },
+        "distance": null,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1140,
+        "hostId": "courier_pavel",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 26,
+          "y": 11
+        },
+        "sellerHostId": "innkeeper_irina",
+        "sellerMap": "inn-interior",
+        "sellerPosition": {
+          "x": 11,
+          "y": 12
+        },
+        "distance": null,
+        "stock": 9,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1140,
+        "hostId": "seamstress_anna",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 24,
+          "y": 9
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 8,
+          "y": 10
+        },
+        "distance": null,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1140,
+        "hostId": "typesetter_nikita",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 21,
+          "y": 9
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 8,
+          "y": 10
+        },
+        "distance": null,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1140,
+        "hostId": "coachman_timofey",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 18,
+          "y": 9
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 8,
+          "y": 10
+        },
+        "distance": 11,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1140,
+        "hostId": "warehouse_pyotr",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 20,
+          "y": 10
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 8,
+          "y": 10
+        },
+        "distance": 12,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1140,
+        "hostId": "street_musician_ivan",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 18,
+          "y": 10
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 8,
+          "y": 10
+        },
+        "distance": null,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1155,
+        "hostId": "printer_ekaterina",
+        "hostMap": "courtyard",
+        "hostPosition": {
+          "x": 15,
+          "y": 15
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 5,
+          "y": 10
+        },
+        "distance": null,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1155,
+        "hostId": "courier_pavel",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 24,
+          "y": 12
+        },
+        "sellerHostId": "innkeeper_irina",
+        "sellerMap": "inn-interior",
+        "sellerPosition": {
+          "x": 11,
+          "y": 12
+        },
+        "distance": null,
+        "stock": 9,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1155,
+        "hostId": "seamstress_anna",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 26,
+          "y": 8
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 5,
+          "y": 10
+        },
+        "distance": null,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1155,
+        "hostId": "typesetter_nikita",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 24,
+          "y": 9
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 5,
+          "y": 10
+        },
+        "distance": null,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1155,
+        "hostId": "coachman_timofey",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 16,
+          "y": 10
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 5,
+          "y": 10
+        },
+        "distance": 11,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1155,
+        "hostId": "warehouse_pyotr",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 19,
+          "y": 10
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 5,
+          "y": 10
+        },
+        "distance": 14,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1155,
+        "hostId": "street_musician_ivan",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 20,
+          "y": 11
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 5,
+          "y": 10
+        },
+        "distance": null,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1170,
+        "hostId": "printer_ekaterina",
+        "hostMap": "courtyard",
+        "hostPosition": {
+          "x": 13,
+          "y": 16
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 2,
+          "y": 10
+        },
+        "distance": null,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1170,
+        "hostId": "courier_pavel",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 22,
+          "y": 13
+        },
+        "sellerHostId": "innkeeper_irina",
+        "sellerMap": "inn-interior",
+        "sellerPosition": {
+          "x": 11,
+          "y": 12
+        },
+        "distance": null,
+        "stock": 9,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1170,
+        "hostId": "seamstress_anna",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 28,
+          "y": 9
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 2,
+          "y": 10
+        },
+        "distance": null,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1170,
+        "hostId": "police_sergeant_ivan",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 19,
+          "y": 11
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 2,
+          "y": 10
+        },
+        "distance": null,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1170,
+        "hostId": "typesetter_nikita",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 26,
+          "y": 10
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 2,
+          "y": 10
+        },
+        "distance": null,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1170,
+        "hostId": "lodging_tatyana",
+        "hostMap": "courtyard",
+        "hostPosition": {
+          "x": 17,
+          "y": 7
+        },
+        "sellerHostId": "innkeeper_irina",
+        "sellerMap": "inn-interior",
+        "sellerPosition": {
+          "x": 11,
+          "y": 12
+        },
+        "distance": null,
+        "stock": 9,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1170,
+        "hostId": "coachman_timofey",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 14,
+          "y": 11
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 2,
+          "y": 10
+        },
+        "distance": 13,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1170,
+        "hostId": "warehouse_pyotr",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 17,
+          "y": 9
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 2,
+          "y": 10
+        },
+        "distance": 16,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1170,
+        "hostId": "street_musician_ivan",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 21,
+          "y": 11
+        },
+        "sellerHostId": "market_nadezhda",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 2,
+          "y": 10
+        },
+        "distance": null,
+        "stock": 2,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1185,
+        "hostId": "courier_pavel",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 19,
+          "y": 13
+        },
+        "sellerHostId": "innkeeper_irina",
+        "sellerMap": "inn-interior",
+        "sellerPosition": {
+          "x": 11,
+          "y": 12
+        },
+        "distance": null,
+        "stock": 9,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1185,
+        "hostId": "lodging_tatyana",
+        "hostMap": "courtyard",
+        "hostPosition": {
+          "x": 16,
+          "y": 9
+        },
+        "sellerHostId": "innkeeper_irina",
+        "sellerMap": "inn-interior",
+        "sellerPosition": {
+          "x": 11,
+          "y": 12
+        },
+        "distance": null,
+        "stock": 9,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1200,
+        "hostId": "courier_pavel",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 18,
+          "y": 12
+        },
+        "sellerHostId": "innkeeper_irina",
+        "sellerMap": "inn-interior",
+        "sellerPosition": {
+          "x": 11,
+          "y": 12
+        },
+        "distance": null,
+        "stock": 9,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1200,
+        "hostId": "lodging_tatyana",
+        "hostMap": "courtyard",
+        "hostPosition": {
+          "x": 14,
+          "y": 10
+        },
+        "sellerHostId": "innkeeper_irina",
+        "sellerMap": "inn-interior",
+        "sellerPosition": {
+          "x": 11,
+          "y": 12
+        },
+        "distance": null,
+        "stock": 9,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1215,
+        "hostId": "courier_pavel",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 18,
+          "y": 12
+        },
+        "sellerHostId": "innkeeper_irina",
+        "sellerMap": "inn-interior",
+        "sellerPosition": {
+          "x": 11,
+          "y": 12
+        },
+        "distance": null,
+        "stock": 9,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1230,
+        "hostId": "courier_pavel",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 17,
+          "y": 10
+        },
+        "sellerHostId": "innkeeper_irina",
+        "sellerMap": "inn-interior",
+        "sellerPosition": {
+          "x": 11,
+          "y": 12
+        },
+        "distance": null,
+        "stock": 9,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1245,
+        "hostId": "courier_pavel",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 17,
+          "y": 10
+        },
+        "sellerHostId": "innkeeper_irina",
+        "sellerMap": "inn-interior",
+        "sellerPosition": {
+          "x": 11,
+          "y": 12
+        },
+        "distance": null,
+        "stock": 8,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1260,
+        "hostId": "courier_pavel",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 16,
+          "y": 9
+        },
+        "sellerHostId": "innkeeper_irina",
+        "sellerMap": "inn-interior",
+        "sellerPosition": {
+          "x": 11,
+          "y": 12
+        },
+        "distance": null,
+        "stock": 8,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1275,
+        "hostId": "courier_pavel",
+        "hostMap": "courtyard",
+        "hostPosition": {
+          "x": 12,
+          "y": 11
+        },
+        "sellerHostId": "innkeeper_irina",
+        "sellerMap": "inn-interior",
+        "sellerPosition": {
+          "x": 11,
+          "y": 12
+        },
+        "distance": null,
+        "stock": 8,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1920,
+        "hostId": "clerk_alexei",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 5,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1920,
+        "hostId": "printer_ekaterina",
+        "hostMap": "printshop",
+        "hostPosition": {
+          "x": 12,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1920,
+        "hostId": "courier_pavel",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 16,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1920,
+        "hostId": "seamstress_anna",
+        "hostMap": "courtyard",
+        "hostPosition": {
+          "x": 13,
+          "y": 12
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1920,
+        "hostId": "bookseller_lev",
+        "hostMap": "bookshop-interior",
+        "hostPosition": {
+          "x": 11,
+          "y": 13
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1920,
+        "hostId": "editor_sofia",
+        "hostMap": "printshop",
+        "hostPosition": {
+          "x": 13,
+          "y": 12
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1920,
+        "hostId": "police_sergeant_ivan",
+        "hostMap": "police-station",
+        "hostPosition": {
+          "x": 6,
+          "y": 4
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1920,
+        "hostId": "print_apprentice_stepan",
+        "hostMap": "printshop",
+        "hostPosition": {
+          "x": 12,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1920,
+        "hostId": "bookbinder_elizaveta",
+        "hostMap": "printshop",
+        "hostPosition": {
+          "x": 13,
+          "y": 13
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1920,
+        "hostId": "scribal_yuri",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 19,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1920,
+        "hostId": "student_vasily",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 23,
+          "y": 12
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1920,
+        "hostId": "minor_noble_andrei",
+        "hostMap": "chancery",
+        "hostPosition": {
+          "x": 14,
+          "y": 14
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1920,
+        "hostId": "junior_guard_sergey",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 18,
+          "y": 13
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1920,
+        "hostId": "street_vendor_matryona",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 25,
+          "y": 13
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1920,
+        "hostId": "typesetter_nikita",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 23,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1920,
+        "hostId": "tenant_mikhail",
+        "hostMap": "courtyard",
+        "hostPosition": {
+          "x": 11,
+          "y": 14
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1920,
+        "hostId": "housemaid_olga",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 10,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1920,
+        "hostId": "midwife_avdotya",
+        "hostMap": "courtyard",
+        "hostPosition": {
+          "x": 12,
+          "y": 14
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1920,
+        "hostId": "innkeeper_irina",
+        "hostMap": "courtyard",
+        "hostPosition": {
+          "x": 9,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1920,
+        "hostId": "teacher_lyubov",
+        "hostMap": "courtyard",
+        "hostPosition": {
+          "x": 16,
+          "y": 14
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1920,
+        "hostId": "landlady_polina",
+        "hostMap": "courtyard",
+        "hostPosition": {
+          "x": 20,
+          "y": 13
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1920,
+        "hostId": "watercarrier_luka",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 21,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1920,
+        "hostId": "servant_varvara",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 9,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1920,
+        "hostId": "yardkeeper_semyon",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 8,
+          "y": 12
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1920,
+        "hostId": "laundress_mariya",
+        "hostMap": "courtyard",
+        "hostPosition": {
+          "x": 11,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1920,
+        "hostId": "baker_fyodor",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 14,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": 14,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1920,
+        "hostId": "porter_gavrila",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 22,
+          "y": 12
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1920,
+        "hostId": "coachman_timofey",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 25,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1920,
+        "hostId": "apothecary_yakov",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 17,
+          "y": 12
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1920,
+        "hostId": "warehouse_pyotr",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 13,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1920,
+        "hostId": "carter_roman",
+        "hostMap": "printshop",
+        "hostPosition": {
+          "x": 12,
+          "y": 15
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1920,
+        "hostId": "street_musician_ivan",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 20,
+          "y": 12
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1935,
+        "hostId": "clerk_alexei",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 8,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1935,
+        "hostId": "printer_ekaterina",
+        "hostMap": "printshop",
+        "hostPosition": {
+          "x": 13,
+          "y": 13
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1935,
+        "hostId": "courier_pavel",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 19,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1935,
+        "hostId": "seamstress_anna",
+        "hostMap": "courtyard",
+        "hostPosition": {
+          "x": 13,
+          "y": 15
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1935,
+        "hostId": "bookseller_lev",
+        "hostMap": "bookshop-lane",
+        "hostPosition": {
+          "x": 11,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1935,
+        "hostId": "editor_sofia",
+        "hostMap": "printshop",
+        "hostPosition": {
+          "x": 12,
+          "y": 14
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1935,
+        "hostId": "police_sergeant_ivan",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 7,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1935,
+        "hostId": "print_apprentice_stepan",
+        "hostMap": "printshop",
+        "hostPosition": {
+          "x": 13,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1935,
+        "hostId": "bookbinder_elizaveta",
+        "hostMap": "printshop",
+        "hostPosition": {
+          "x": 12,
+          "y": 15
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1935,
+        "hostId": "scribal_yuri",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 21,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1935,
+        "hostId": "student_vasily",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 24,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1935,
+        "hostId": "minor_noble_andrei",
+        "hostMap": "chancery",
+        "hostPosition": {
+          "x": 12,
+          "y": 15
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1935,
+        "hostId": "junior_guard_sergey",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 20,
+          "y": 14
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1935,
+        "hostId": "street_vendor_matryona",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 26,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1935,
+        "hostId": "typesetter_nikita",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 26,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1935,
+        "hostId": "tenant_mikhail",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 15,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1935,
+        "hostId": "housemaid_olga",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 12,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1935,
+        "hostId": "midwife_avdotya",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 16,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1935,
+        "hostId": "innkeeper_irina",
+        "hostMap": "courtyard",
+        "hostPosition": {
+          "x": 9,
+          "y": 13
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1935,
+        "hostId": "teacher_lyubov",
+        "hostMap": "courtyard",
+        "hostPosition": {
+          "x": 15,
+          "y": 16
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1935,
+        "hostId": "landlady_polina",
+        "hostMap": "courtyard",
+        "hostPosition": {
+          "x": 20,
+          "y": 16
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1935,
+        "hostId": "watercarrier_luka",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 23,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1935,
+        "hostId": "servant_varvara",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 11,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1935,
+        "hostId": "yardkeeper_semyon",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 11,
+          "y": 12
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1935,
+        "hostId": "laundress_mariya",
+        "hostMap": "courtyard",
+        "hostPosition": {
+          "x": 13,
+          "y": 12
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1935,
+        "hostId": "baker_fyodor",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 17,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": 11,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1935,
+        "hostId": "porter_gavrila",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 23,
+          "y": 12
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1935,
+        "hostId": "coachman_timofey",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 27,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1935,
+        "hostId": "apothecary_yakov",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 19,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1935,
+        "hostId": "warehouse_pyotr",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 16,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1935,
+        "hostId": "carter_roman",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 23,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1935,
+        "hostId": "street_musician_ivan",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 22,
+          "y": 13
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1950,
+        "hostId": "clerk_alexei",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 11,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1950,
+        "hostId": "printer_ekaterina",
+        "hostMap": "printshop",
+        "hostPosition": {
+          "x": 12,
+          "y": 15
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1950,
+        "hostId": "courier_pavel",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 20,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1950,
+        "hostId": "seamstress_anna",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 16,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1950,
+        "hostId": "bookseller_lev",
+        "hostMap": "bookshop-lane",
+        "hostPosition": {
+          "x": 11,
+          "y": 13
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1950,
+        "hostId": "editor_sofia",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 23,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1950,
+        "hostId": "police_sergeant_ivan",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 10,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1950,
+        "hostId": "print_apprentice_stepan",
+        "hostMap": "printshop",
+        "hostPosition": {
+          "x": 13,
+          "y": 13
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1950,
+        "hostId": "bookbinder_elizaveta",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 22,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1950,
+        "hostId": "scribal_yuri",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 24,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1950,
+        "hostId": "student_vasily",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 27,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1950,
+        "hostId": "minor_noble_andrei",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 5,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1950,
+        "hostId": "junior_guard_sergey",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 22,
+          "y": 13
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1950,
+        "hostId": "street_vendor_matryona",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 2,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": 28,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1950,
+        "hostId": "typesetter_nikita",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 3,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": 26,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1950,
+        "hostId": "tenant_mikhail",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 16,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1950,
+        "hostId": "housemaid_olga",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 14,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1950,
+        "hostId": "midwife_avdotya",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 16,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1950,
+        "hostId": "innkeeper_irina",
+        "hostMap": "courtyard",
+        "hostPosition": {
+          "x": 10,
+          "y": 15
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1950,
+        "hostId": "teacher_lyubov",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 15,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1950,
+        "hostId": "landlady_polina",
+        "hostMap": "courtyard",
+        "hostPosition": {
+          "x": 17,
+          "y": 16
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1950,
+        "hostId": "watercarrier_luka",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 26,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1950,
+        "hostId": "servant_varvara",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 13,
+          "y": 12
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1950,
+        "hostId": "yardkeeper_semyon",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 13,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1950,
+        "hostId": "laundress_mariya",
+        "hostMap": "courtyard",
+        "hostPosition": {
+          "x": 13,
+          "y": 15
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1950,
+        "hostId": "baker_fyodor",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 20,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": 8,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1950,
+        "hostId": "porter_gavrila",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 26,
+          "y": 12
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1950,
+        "hostId": "coachman_timofey",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 4,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": 26,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1950,
+        "hostId": "apothecary_yakov",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 21,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1950,
+        "hostId": "warehouse_pyotr",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 18,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1950,
+        "hostId": "carter_roman",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 24,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1950,
+        "hostId": "street_musician_ivan",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 24,
+          "y": 12
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1965,
+        "hostId": "clerk_alexei",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 14,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1965,
+        "hostId": "printer_ekaterina",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 23,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1965,
+        "hostId": "courier_pavel",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 21,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1965,
+        "hostId": "seamstress_anna",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 18,
+          "y": 8
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1965,
+        "hostId": "bookseller_lev",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 13,
+          "y": 14
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1965,
+        "hostId": "editor_sofia",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 26,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1965,
+        "hostId": "police_sergeant_ivan",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 12,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1965,
+        "hostId": "print_apprentice_stepan",
+        "hostMap": "printshop",
+        "hostPosition": {
+          "x": 12,
+          "y": 15
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1965,
+        "hostId": "bookbinder_elizaveta",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 24,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1965,
+        "hostId": "scribal_yuri",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 25,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1965,
+        "hostId": "student_vasily",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 3,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": 26,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1965,
+        "hostId": "minor_noble_andrei",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 8,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1965,
+        "hostId": "junior_guard_sergey",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 23,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1965,
+        "hostId": "street_vendor_matryona",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 4,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": 25,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1965,
+        "hostId": "typesetter_nikita",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 6,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": 23,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1965,
+        "hostId": "tenant_mikhail",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 19,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1965,
+        "hostId": "housemaid_olga",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 16,
+          "y": 12
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1965,
+        "hostId": "midwife_avdotya",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 19,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1965,
+        "hostId": "innkeeper_irina",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 17,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1965,
+        "hostId": "teacher_lyubov",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 13,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1965,
+        "hostId": "landlady_polina",
+        "hostMap": "courtyard",
+        "hostPosition": {
+          "x": 14,
+          "y": 16
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1965,
+        "hostId": "watercarrier_luka",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 2,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": 28,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1965,
+        "hostId": "servant_varvara",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 15,
+          "y": 13
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1965,
+        "hostId": "yardkeeper_semyon",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 13,
+          "y": 12
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1965,
+        "hostId": "laundress_mariya",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 15,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1965,
+        "hostId": "baker_fyodor",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 23,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": 5,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1965,
+        "hostId": "porter_gavrila",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 28,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1965,
+        "hostId": "coachman_timofey",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 7,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": 23,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1965,
+        "hostId": "apothecary_yakov",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 22,
+          "y": 12
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1965,
+        "hostId": "warehouse_pyotr",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 21,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1965,
+        "hostId": "carter_roman",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 27,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1965,
+        "hostId": "street_musician_ivan",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 26,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 4,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1980,
+        "hostId": "clerk_alexei",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 16,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1980,
+        "hostId": "printer_ekaterina",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 24,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1980,
+        "hostId": "courier_pavel",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 22,
+          "y": 13
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1980,
+        "hostId": "seamstress_anna",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 19,
+          "y": 8
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1980,
+        "hostId": "bookseller_lev",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 15,
+          "y": 13
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1980,
+        "hostId": "editor_sofia",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 2,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": 28,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1980,
+        "hostId": "police_sergeant_ivan",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 14,
+          "y": 12
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1980,
+        "hostId": "print_apprentice_stepan",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 24,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1980,
+        "hostId": "bookbinder_elizaveta",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 25,
+          "y": 13
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1980,
+        "hostId": "scribal_yuri",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 26,
+          "y": 8
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1980,
+        "hostId": "student_vasily",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 5,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": 23,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1980,
+        "hostId": "minor_noble_andrei",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 10,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1980,
+        "hostId": "junior_guard_sergey",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 26,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1980,
+        "hostId": "street_vendor_matryona",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 7,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": 22,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1980,
+        "hostId": "typesetter_nikita",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 9,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": 20,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1980,
+        "hostId": "tenant_mikhail",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 21,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1980,
+        "hostId": "housemaid_olga",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 18,
+          "y": 11
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1980,
+        "hostId": "midwife_avdotya",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 21,
+          "y": 12
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1980,
+        "hostId": "innkeeper_irina",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 20,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1980,
+        "hostId": "teacher_lyubov",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 12,
+          "y": 12
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1980,
+        "hostId": "landlady_polina",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 15,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1980,
+        "hostId": "watercarrier_luka",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 5,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": 25,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1980,
+        "hostId": "servant_varvara",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 18,
+          "y": 13
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1980,
+        "hostId": "yardkeeper_semyon",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 14,
+          "y": 14
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1980,
+        "hostId": "porter_gavrila",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 3,
+          "y": 12
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": 24,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1980,
+        "hostId": "coachman_timofey",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 10,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": 20,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1980,
+        "hostId": "apothecary_yakov",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 23,
+          "y": 12
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1980,
+        "hostId": "warehouse_pyotr",
+        "hostMap": "nevsky",
+        "hostPosition": {
+          "x": 23,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": null,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1980,
+        "hostId": "carter_roman",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 3,
+          "y": 9
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": 27,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      },
+      {
+        "minute": 1980,
+        "hostId": "street_musician_ivan",
+        "hostMap": "market-quay",
+        "hostPosition": {
+          "x": 3,
+          "y": 10
+        },
+        "sellerHostId": "fishseller_klavdiya",
+        "sellerMap": "market-quay",
+        "sellerPosition": {
+          "x": 26,
+          "y": 13
+        },
+        "distance": 26,
+        "stock": 3,
+        "activity": "시장 상인에게 빵값을 내고 끼니를 산다",
+        "routine": "TRAVELLING"
+      }
+    ],
     "residentsEndingAtCriticalHunger": [
       "seamstress_anna",
       "print_apprentice_stepan",
       "typesetter_nikita",
-      "laundress_mariya",
+      "market_nadezhda",
       "coachman_timofey",
       "warehouse_pyotr",
       "street_musician_ivan"
@@ -480,13 +6527,13 @@
         "mealCount": 0,
         "mealKinds": [],
         "innMealCount": 0,
-        "cash": 27,
+        "cash": 26,
         "foodInventory": []
       },
       "courier_pavel": {
         "initialHunger": 44,
-        "finalHunger": 73.92000000000283,
-        "lastMealAtMinute": 1325,
+        "finalHunger": 73.92000000000276,
+        "lastMealAtMinute": 1315,
         "mealCount": 1,
         "mealKinds": [],
         "innMealCount": 1,
@@ -560,7 +6607,7 @@
         "mealCount": 0,
         "mealKinds": [],
         "innMealCount": 0,
-        "cash": 12,
+        "cash": 13,
         "foodInventory": []
       },
       "bookbinder_elizaveta": {
@@ -616,7 +6663,7 @@
       "street_vendor_matryona": {
         "initialHunger": 44,
         "finalHunger": 75.35999999999558,
-        "lastMealAtMinute": 1195,
+        "lastMealAtMinute": 1015,
         "mealCount": 1,
         "mealKinds": [
           "PURCHASE_AND_EAT"
@@ -637,8 +6684,8 @@
       },
       "tenant_mikhail": {
         "initialHunger": 48,
-        "finalHunger": 83.67999999999574,
-        "lastMealAtMinute": 885,
+        "finalHunger": 83.67999999999577,
+        "lastMealAtMinute": 875,
         "mealCount": 1,
         "mealKinds": [
           "PURCHASE_AND_EAT"
@@ -699,8 +6746,8 @@
       },
       "watercarrier_luka": {
         "initialHunger": 46,
-        "finalHunger": 80.24000000000288,
-        "lastMealAtMinute": 1110,
+        "finalHunger": 80.24000000000281,
+        "lastMealAtMinute": 1100,
         "mealCount": 1,
         "mealKinds": [
           "PURCHASE_AND_EAT"
@@ -721,8 +6768,8 @@
       },
       "lodging_tatyana": {
         "initialHunger": 37,
-        "finalHunger": 58.27999999999938,
-        "lastMealAtMinute": 1380,
+        "finalHunger": 58.27999999999861,
+        "lastMealAtMinute": 1235,
         "mealCount": 1,
         "mealKinds": [],
         "innMealCount": 1,
@@ -731,8 +6778,8 @@
       },
       "yardkeeper_semyon": {
         "initialHunger": 40,
-        "finalHunger": 65.59999999999923,
-        "lastMealAtMinute": 1165,
+        "finalHunger": 65.59999999999906,
+        "lastMealAtMinute": 1105,
         "mealCount": 1,
         "mealKinds": [
           "PURCHASE_AND_EAT"
@@ -743,18 +6790,20 @@
       },
       "laundress_mariya": {
         "initialHunger": 42,
-        "finalHunger": 100,
-        "lastMealAtMinute": 540,
-        "mealCount": 0,
-        "mealKinds": [],
+        "finalHunger": 73.35999999999565,
+        "lastMealAtMinute": 1020,
+        "mealCount": 1,
+        "mealKinds": [
+          "PURCHASE_AND_EAT"
+        ],
         "innMealCount": 0,
-        "cash": 17,
+        "cash": 15,
         "foodInventory": []
       },
       "baker_fyodor": {
         "initialHunger": 41,
         "finalHunger": 36.03999999999547,
-        "lastMealAtMinute": 1980,
+        "lastMealAtMinute": 1975,
         "mealCount": 2,
         "mealKinds": [
           "PURCHASE_AND_EAT",
@@ -766,20 +6815,18 @@
       },
       "market_nadezhda": {
         "initialHunger": 42,
-        "finalHunger": 69.07500000000016,
-        "lastMealAtMinute": 1955,
-        "mealCount": 1,
-        "mealKinds": [
-          "PURCHASE_AND_EAT"
-        ],
+        "finalHunger": 100,
+        "lastMealAtMinute": 540,
+        "mealCount": 0,
+        "mealKinds": [],
         "innMealCount": 0,
-        "cash": 30,
+        "cash": 28,
         "foodInventory": []
       },
       "porter_gavrila": {
         "initialHunger": 47,
         "finalHunger": 84.12000000000262,
-        "lastMealAtMinute": 1145,
+        "lastMealAtMinute": 1125,
         "mealCount": 1,
         "mealKinds": [
           "PURCHASE_AND_EAT"
@@ -810,14 +6857,14 @@
       },
       "fishseller_klavdiya": {
         "initialHunger": 43,
-        "finalHunger": 69.05000000000004,
-        "lastMealAtMinute": 1955,
+        "finalHunger": 71.48000000000229,
+        "lastMealAtMinute": 1021,
         "mealCount": 1,
         "mealKinds": [
           "PURCHASE_AND_EAT"
         ],
         "innMealCount": 0,
-        "cash": 36,
+        "cash": 41,
         "foodInventory": []
       },
       "warehouse_pyotr": {
@@ -833,13 +6880,13 @@
       "carter_roman": {
         "initialHunger": 45,
         "finalHunger": 77.80000000000246,
-        "lastMealAtMinute": 910,
+        "lastMealAtMinute": 940,
         "mealCount": 1,
         "mealKinds": [
           "PURCHASE_AND_EAT"
         ],
         "innMealCount": 0,
-        "cash": 26,
+        "cash": 25,
         "foodInventory": []
       },
       "street_musician_ivan": {
@@ -855,10 +6902,10 @@
     },
     "foodStocksAtEnd": {
       "market_nadezhda": {
-        "빵 한 묶음": 0
+        "빵 한 묶음": 2
       },
       "fishseller_klavdiya": {
-        "생선 한 점": 5
+        "생선 한 점": 3
       },
       "innkeeper_irina": {
         "저녁 수프": 7
@@ -867,18 +6914,18 @@
     "marketMealBuyers": [
       "tenant_mikhail",
       "carter_roman",
+      "street_vendor_matryona",
+      "laundress_mariya",
+      "fishseller_klavdiya",
       "baker_fyodor",
       "watercarrier_luka",
-      "porter_gavrila",
       "yardkeeper_semyon",
-      "street_vendor_matryona",
-      "fishseller_klavdiya",
-      "market_nadezhda"
+      "porter_gavrila"
     ],
-    "personalContacts": 19,
-    "relationshipMemoryPairs": 16,
-    "distinctPersonalContactResidents": 16,
-    "personalLifeGoalVisits": 27,
+    "personalContacts": 16,
+    "relationshipMemoryPairs": 13,
+    "distinctPersonalContactResidents": 13,
+    "personalLifeGoalVisits": 26,
     "residentsWithPhysicalLifeGoalVisits": 26,
     "residentsWithLockedLifeGoals": 2,
     "lifeGoalCoverage": {
@@ -967,8 +7014,10 @@
         "questId": "NIKITA_TYPESPEED_1847_STAGE_1"
       },
       "tenant_mikhail": {
-        "status": "PHYSICALLY_VISITED",
-        "questId": "MIKHAIL_WAGE_AND_RENT_1847_STAGE_1"
+        "status": "DEFERRED_BY_DAILY_ROUTINE",
+        "questId": "MIKHAIL_WAGE_AND_RENT_1847_STAGE_1",
+        "prerequisiteQuestIds": [],
+        "reason": "routine work, travel, and other resident needs defer this open personal-life scene to another day"
       },
       "housemaid_olga": {
         "status": "PHYSICALLY_VISITED",
@@ -1021,10 +7070,8 @@
         "questId": "FYODOR_FLOUR_AND_ORDERS_1847_STAGE_1"
       },
       "market_nadezhda": {
-        "status": "DEFERRED_BY_DAILY_ROUTINE",
-        "questId": "NADEZHDA_STALL_WEATHER_1847_STAGE_1",
-        "prerequisiteQuestIds": [],
-        "reason": "routine work, travel, and other resident needs defer this open personal-life scene to another day"
+        "status": "PHYSICALLY_VISITED",
+        "questId": "NADEZHDA_STALL_WEATHER_1847_STAGE_1"
       },
       "porter_gavrila": {
         "status": "PHYSICALLY_VISITED",
@@ -1052,27 +7099,27 @@
       }
     },
     "residentsWithDistinctAuthoredObjectives": 37,
-    "finalActivityCount": 10,
+    "finalActivityCount": 8,
     "finalPositions": {
       "clerk_alexei": {
         "mapId": "nevsky",
-        "x": 8,
-        "y": 9
+        "x": 16,
+        "y": 10
       },
       "printer_ekaterina": {
-        "mapId": "printshop",
-        "x": 12,
-        "y": 13
+        "mapId": "nevsky",
+        "x": 24,
+        "y": 9
       },
       "courier_pavel": {
         "mapId": "nevsky",
-        "x": 14,
-        "y": 12
+        "x": 22,
+        "y": 13
       },
       "seamstress_anna": {
         "mapId": "nevsky",
-        "x": 16,
-        "y": 9
+        "x": 19,
+        "y": 8
       },
       "bookseller_lev": {
         "mapId": "nevsky",
@@ -1086,113 +7133,113 @@
       },
       "reader_darya": {
         "mapId": "nevsky",
-        "x": 16,
-        "y": 12
+        "x": 15,
+        "y": 11
       },
       "editor_sofia": {
-        "mapId": "nevsky",
-        "x": 27,
-        "y": 10
+        "mapId": "market-quay",
+        "x": 2,
+        "y": 9
       },
       "police_sergeant_ivan": {
         "mapId": "nevsky",
         "x": 14,
-        "y": 11
+        "y": 12
       },
       "print_apprentice_stepan": {
         "mapId": "nevsky",
-        "x": 23,
-        "y": 12
+        "x": 24,
+        "y": 10
       },
       "bookbinder_elizaveta": {
-        "mapId": "market-quay",
-        "x": 5,
-        "y": 9
+        "mapId": "nevsky",
+        "x": 25,
+        "y": 13
       },
       "scribal_yuri": {
-        "mapId": "chancery",
-        "x": 14,
-        "y": 11
+        "mapId": "nevsky",
+        "x": 26,
+        "y": 8
       },
       "student_vasily": {
         "mapId": "market-quay",
-        "x": 6,
-        "y": 10
+        "x": 5,
+        "y": 11
       },
       "minor_noble_andrei": {
         "mapId": "nevsky",
-        "x": 11,
-        "y": 8
+        "x": 10,
+        "y": 10
       },
       "junior_guard_sergey": {
         "mapId": "nevsky",
-        "x": 18,
+        "x": 26,
         "y": 11
       },
       "street_vendor_matryona": {
         "mapId": "market-quay",
         "x": 7,
-        "y": 8
+        "y": 10
       },
       "typesetter_nikita": {
         "mapId": "market-quay",
-        "x": 8,
+        "x": 9,
         "y": 10
       },
       "tenant_mikhail": {
-        "mapId": "market-quay",
-        "x": 2,
-        "y": 9
+        "mapId": "nevsky",
+        "x": 21,
+        "y": 11
       },
       "housemaid_olga": {
         "mapId": "nevsky",
-        "x": 19,
-        "y": 13
+        "x": 18,
+        "y": 11
       },
       "midwife_avdotya": {
         "mapId": "nevsky",
         "x": 21,
-        "y": 13
+        "y": 12
       },
       "innkeeper_irina": {
+        "mapId": "nevsky",
+        "x": 20,
+        "y": 9
+      },
+      "teacher_lyubov": {
+        "mapId": "nevsky",
+        "x": 12,
+        "y": 12
+      },
+      "landlady_polina": {
         "mapId": "nevsky",
         "x": 15,
         "y": 10
       },
-      "teacher_lyubov": {
-        "mapId": "nevsky",
-        "x": 13,
-        "y": 10
-      },
-      "landlady_polina": {
-        "mapId": "nevsky",
-        "x": 18,
-        "y": 9
-      },
       "watercarrier_luka": {
         "mapId": "market-quay",
-        "x": 11,
+        "x": 5,
         "y": 9
       },
       "servant_varvara": {
         "mapId": "nevsky",
-        "x": 15,
-        "y": 14
+        "x": 18,
+        "y": 13
       },
       "lodging_tatyana": {
-        "mapId": "courtyard",
-        "x": 11,
-        "y": 11
+        "mapId": "nevsky",
+        "x": 18,
+        "y": 12
       },
       "yardkeeper_semyon": {
         "mapId": "nevsky",
-        "x": 18,
+        "x": 14,
         "y": 14
       },
       "laundress_mariya": {
         "mapId": "nevsky",
-        "x": 21,
-        "y": 11
+        "x": 17,
+        "y": 10
       },
       "baker_fyodor": {
         "mapId": "market-quay",
@@ -1201,33 +7248,33 @@
       },
       "market_nadezhda": {
         "mapId": "market-quay",
-        "x": 26,
-        "y": 11
+        "x": 14,
+        "y": 13
       },
       "porter_gavrila": {
-        "mapId": "nevsky",
-        "x": 26,
-        "y": 10
+        "mapId": "market-quay",
+        "x": 3,
+        "y": 12
       },
       "coachman_timofey": {
         "mapId": "market-quay",
-        "x": 11,
-        "y": 10
+        "x": 10,
+        "y": 9
       },
       "apothecary_yakov": {
         "mapId": "nevsky",
-        "x": 25,
-        "y": 10
+        "x": 23,
+        "y": 12
       },
       "fishseller_klavdiya": {
         "mapId": "market-quay",
         "x": 26,
-        "y": 12
+        "y": 13
       },
       "warehouse_pyotr": {
         "mapId": "nevsky",
-        "x": 25,
-        "y": 12
+        "x": 23,
+        "y": 10
       },
       "carter_roman": {
         "mapId": "market-quay",
@@ -1235,13 +7282,13 @@
         "y": 9
       },
       "street_musician_ivan": {
-        "mapId": "nevsky",
-        "x": 20,
+        "mapId": "market-quay",
+        "x": 3,
         "y": 10
       }
     }
   },
-  "fullDaySaveReloadStateHash": "14dabf08",
+  "fullDaySaveReloadStateHash": "df723f49",
   "autoCompletedPlayerQuests": 0,
-  "runtimeMilliseconds": 60022
+  "runtimeMilliseconds": 28728
 }

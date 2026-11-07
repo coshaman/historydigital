@@ -114,7 +114,8 @@
     "printshop",
     "police-station",
     "bookshop-lane",
-    "bookshop-interior"
+    "bookshop-interior",
+    "market-quay"
   ],
   "start": {
     "mapId": "nevsky",
