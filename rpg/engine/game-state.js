@@ -1735,6 +1735,79 @@ function advanceSerfdomReadingEvent(state, minuteOffset, maps, livingEventRows, 
       { actionId: event.resolutionActionId, changeKo: '세 사람은 책을 덮고 각자 하던 일로 돌아갔다.' }));
   }
 }
+function physiologyReadingEventRow(state, stage, minuteOffset, maps, details = {}) {
+  const event = state.world.livingEventStates?.E39, position = event?.scenePosition ?? { x: 12, y: 12 };
+  return { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E39', stage,
+    stageIndex: ({ READING_OPENED: 1, DISCUSSION_READY: 2, COPY_SOLD: 3, LIVES_COMPARED: 3,
+      NARRATOR_QUESTIONED: 3, READING_ENDED: 3 })[stage],
+    actorHostIds: [...(event?.actorHostIds ?? [])], witnessHostIds: [...(event?.witnessHostIds ?? [])],
+    date: state.world.date, minute: minuteOffset, mapId: 'bookshop-interior', position: { ...position },
+    sourceIds: ['LIT-TURGENEV-KHOR-KALYNYCH-1847'],
+    occurrenceType: 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION', validationStatus: 'PUBLIC_DOMAIN_TEXT_AND_1847_ISSUE_VERIFIED',
+    state: event ? clone(event) : null,
+    witnessedByPlayer: playerCanObserveWorldEvent(state, 'bookshop-interior', position, 6, maps), ...details };
+}
+function advancePhysiologyReadingEvent(state, minuteOffset, maps, livingEventRows, options = {}) {
+  state.world.livingEventStates ??= {};
+  let event = state.world.livingEventStates.E39;
+  const dayIndex = Math.floor(state.world.clockMinutes / 1440);
+  if (event?.status === 'RESOLVED' && event.readingDayIndex !== dayIndex) {
+    delete state.world.livingEventStates.E39;
+    state.quests.V37_PHYSIOLOGY_READING_1847 = { status: 'open', result: null };
+    event = null;
+  }
+  if (!event) {
+    const actors = ['reader_darya', 'student_vasily', 'bookseller_lev'].map(id => state.hosts[id]);
+    const sourceObject = layer(maps?.['bookshop-interior'], 'Interactions')?.objects.find(item => item.type === 'source'
+      && properties(item).sourceId === 'LIT-TURGENEV-KHOR-KALYNYCH-1847');
+    if (state.world.chapterId !== 'V33_1847_PRINT' || state.world.activeRealm || state.world.date < '1847-06-01'
+      || !sourceObject || !actors.some(host => host?.knownEvidenceIds?.includes('LIT-TURGENEV-KHOR-KALYNYCH-1847'))
+      || actors.some(host => !host || host.historicalAliveAndPresent === false || !host.allowedMaps.includes('bookshop-interior')
+        || npcMapRoute(host.mapId, 'bookshop-interior', host, maps, state.world.clockMinutes) === null)) return;
+    event = state.world.livingEventStates.E39 = { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E39',
+      status: 'ACTIVE', stage: 'READING_OPENED', trigger: 'reader_opened_turgenev_1847_sovremennik_text',
+      startedAtMinute: state.world.clockMinutes, readingDayIndex: dayIndex,
+      readerHostId: actors[0].id, studentHostId: actors[1].id, booksellerHostId: actors[2].id,
+      actorHostIds: actors.map(host => host.id), witnessHostIds: [], venueMapId: 'bookshop-interior',
+      scenePosition: { x: 12, y: 12 }, sourceId: 'LIT-TURGENEV-KHOR-KALYNYCH-1847',
+      copy: { itemKo: '《현대인》 1847년 제1호 · 「호리와 칼리니치」', location: '책방의 독서대', ownerHostId: actors[2].id },
+      closesAtMinute: state.world.clockMinutes + 240, resolutionActionId: null };
+    livingEventRows.push(physiologyReadingEventRow(state, event.stage, minuteOffset, maps,
+      { changeKo: '다리야가 1847년 《현대인》 제1호에 실린 「호리와 칼리니치」를 펼쳤다. 레프는 책방 자리를 내주고, 바실리가 읽으러 왔다.' }));
+  }
+  if (!event || event.status !== 'ACTIVE' || options.deferLivingEventExpiryId === 'E39') return;
+  const actors = event.actorHostIds.map(id => state.hosts[id]);
+  const gathered = actors.every(host => host && host.historicalAliveAndPresent !== false
+    && host.mapId === event.venueMapId && nearTile(host.position, event.scenePosition, 5));
+  if (gathered && event.stage === 'READING_OPENED') {
+    event.stage = 'DISCUSSION_READY'; event.gatheredAtMinute = state.world.clockMinutes;
+    event.closesAtMinute = state.world.clockMinutes + 120;
+    event.witnessHostIds = Object.values(state.hosts).filter(host => !event.actorHostIds.includes(host.id)
+      && host.historicalAliveAndPresent !== false && host.mapId === event.venueMapId
+      && nearTile(host.position, event.scenePosition, 5)).map(host => host.id).sort();
+    livingEventRows.push(physiologyReadingEventRow(state, event.stage, minuteOffset, maps,
+      { changeKo: '세 사람이 책방에 모였다. 호리의 살림과 칼리니치의 재주, 두 농노를 바라보는 화자의 시선을 두고 읽기 시작했다.' }));
+  }
+  if (state.world.clockMinutes < event.closesAtMinute) return;
+  const buyer = state.hosts[event.studentHostId], bookseller = state.hosts[event.booksellerHostId];
+  if (buyer && bookseller && buyer.money?.unit === bookseller.money?.unit && buyer.money.amount >= 2) {
+    buyer.money.amount -= 2; bookseller.money.amount += 2;
+    buyer.inventory ??= []; buyer.inventory.push(event.copy.itemKo);
+    event.copy.location = 'student_inventory'; event.copy.ownerHostId = buyer.id; event.copy.paidAmount = 2;
+    event.stage = 'COPY_SOLD'; event.resolutionActionId = 'AUTO_READER_BOUGHT_COPY';
+    buyer.relations[bookseller.id] = '책 한 부를 사고 값을 치른 학생 독자';
+    bookseller.relations[buyer.id] = '읽을 책을 팔고 값을 받은 손님';
+  } else {
+    event.copy.location = '책방 선반'; event.stage = 'READING_ENDED';
+    event.resolutionActionId = 'AUTO_COPY_RETURNED_TO_SHELF';
+  }
+  event.status = 'RESOLVED'; event.resolvedAtMinute = state.world.clockMinutes;
+  for (const host of actors) if (host.activeGoal?.taskId?.startsWith('V37:E39:')) host.activeGoal = null;
+  livingEventRows.push(physiologyReadingEventRow(state, event.stage, minuteOffset, maps,
+    { actionId: event.resolutionActionId,
+      ...(event.stage === 'COPY_SOLD' ? { payerHostId: buyer.id, recipientHostId: bookseller.id, paidAmount: 2, itemTransferredKo: event.copy.itemKo } : {}),
+      changeKo: event.stage === 'COPY_SOLD' ? '바실리는 책값을 내고 한 부를 가져갔다.' : '독서대의 책을 덮고 선반에 돌려놓았다.' }));
+}
 function salonDebateEventRow(state, stage, minuteOffset, maps, details = {}) {
   const event = state.world.livingEventStates?.E21, position = event?.scenePosition ?? { x: 12, y: 12 };
   return { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E21', stage,
@@ -2655,6 +2728,19 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
       taskId: `V37:E31:${serfdomReading.stage}:${host.id}`, reason: 'readers_gather_to_discuss_published_gogol_text',
       selectionBasis: { utilityScore: 181, eventId: 'E31', stage: serfdomReading.stage } };
   }
+  const physiologyReading = state.world.livingEventStates?.E39;
+  if (physiologyReading?.status === 'ACTIVE' && physiologyReading.actorHostIds.includes(host.id)
+    && host.allowedMaps.includes(physiologyReading.venueMapId)
+    && npcMapRoute(host.mapId, physiologyReading.venueMapId, host, maps, state.world.clockMinutes) !== null) {
+    const roleActivity = host.id === physiologyReading.readerHostId ? '투르게네프의 글을 펼쳐 두고 독자를 기다린다'
+      : host.id === physiologyReading.studentHostId ? '두 농노의 삶을 비교해 읽으러 책방으로 간다'
+      : '독자들에게 책방의 읽을 자리를 내준다';
+    return { slot: { mapId: physiologyReading.venueMapId, position: { ...physiologyReading.scenePosition }, activityKo: roleActivity },
+      goalType: 'LIVING_EVENT_RESPONSE', targetHostId: host.id === physiologyReading.readerHostId
+        ? physiologyReading.studentHostId : physiologyReading.readerHostId,
+      taskId: `V37:E39:${physiologyReading.stage}:${host.id}`, reason: 'readers_gather_to_read_turgenevs_1847_text',
+      selectionBasis: { utilityScore: 183, eventId: 'E39', stage: physiologyReading.stage } };
+  }
   const salonDebate = state.world.livingEventStates?.E21;
   if (salonDebate?.status === 'ACTIVE' && salonDebate.actorHostIds.includes(host.id)
     && host.allowedMaps.includes(salonDebate.venueMapId)
@@ -3552,6 +3638,7 @@ function advanceNpcWorld(state, elapsedMinutes, maps, options = {}) {
     advanceApprenticeLiteracy(next, tick, maps, result.livingEventRows, options);
     advanceStudentCircle(next, tick, maps, result.livingEventRows);
     advanceStreetMusicEvent(next, tick, maps, result.livingEventRows);
+    advancePhysiologyReadingEvent(next, tick, maps, result.livingEventRows);
     advanceManuscriptOfferEvent(next, tick, maps, result.livingEventRows, options);
     advanceSerfdomReadingEvent(next, tick, maps, result.livingEventRows, options);
     advanceSalonDebateEvent(next, tick, maps, result.livingEventRows, options);
@@ -3974,6 +4061,7 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
   const timed = advanceWorldTime(state, actionDuration, maps, [], { deferLivingEventExpiryId: questId === 'V37_MANUSCRIPT_OFFER_1847' ? 'E30'
     : questId === 'V37_SERFDOM_READING_1847' ? 'E31'
       : questId === 'V37_SALON_DEBATE_1847' ? 'E21'
+      : questId === 'V37_PHYSIOLOGY_READING_1847' ? 'E39'
       : questId === 'V37_MARKET_DAY_WORK_1847' ? 'E32'
     : questId === 'V37_ROOF_LEAK_REPAIR_1847' ? 'E35'
     : questId === 'V37_CENSORED_PAGE_1847' ? 'E06'
@@ -3992,7 +4080,7 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
             : questId === 'V37_APPRENTICE_FATIGUE_1847' ? 'E33'
               : questId === 'E41_SEMENOVSKY_1849' ? 'E41'
                 : questId === 'V37_STREET_MUSIC_1847' ? 'E38' : undefined,
-    pausedHostIds: ['V37_MANUSCRIPT_OFFER_1847', 'V37_SERFDOM_READING_1847', 'V37_SALON_DEBATE_1847', 'V37_MARKET_DAY_WORK_1847', 'V37_ROOF_LEAK_REPAIR_1847', 'V37_CHARITY_DAY_1847', 'V37_APPRENTICE_LITERACY_1847', 'STUDENT_CIRCLE_RISK_1847', 'V37_POLICE_DOCUMENT_CHECK_1847', 'V37_SICK_LODGER_1847', 'V37_APPRENTICE_FATIGUE_1847', 'V37_MARKET_RUMOR_1847', 'V37_INN_GUEST_1847', 'V37_NEWSPAPER_RELEASE_1847', 'E41_SEMENOVSKY_1849', 'V37_STREET_MUSIC_1847'].includes(questId) ? [...(requiredLivingEvent?.actorHostIds ?? [])]
+    pausedHostIds: ['V37_MANUSCRIPT_OFFER_1847', 'V37_SERFDOM_READING_1847', 'V37_SALON_DEBATE_1847', 'V37_MARKET_DAY_WORK_1847', 'V37_ROOF_LEAK_REPAIR_1847', 'V37_CHARITY_DAY_1847', 'V37_APPRENTICE_LITERACY_1847', 'STUDENT_CIRCLE_RISK_1847', 'V37_POLICE_DOCUMENT_CHECK_1847', 'V37_SICK_LODGER_1847', 'V37_APPRENTICE_FATIGUE_1847', 'V37_MARKET_RUMOR_1847', 'V37_INN_GUEST_1847', 'V37_NEWSPAPER_RELEASE_1847', 'E41_SEMENOVSKY_1849', 'V37_STREET_MUSIC_1847', 'V37_PHYSIOLOGY_READING_1847'].includes(questId) ? [...(requiredLivingEvent?.actorHostIds ?? [])]
       : ['V37_MARKET_PRICE_DISPUTE_1847', 'V37_LATE_MEAL_1847'].includes(questId)
         ? [requiredLivingEvent?.sellerHostId, requiredLivingEvent?.buyerHostId].filter(Boolean)
             : questId === 'V37_APOTHECARY_ORDER_1847' ? [requiredLivingEvent?.buyerHostId, requiredLivingEvent?.supplierHostId].filter(Boolean)
@@ -4033,10 +4121,9 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
       musician.money.amount += 1; event.playerTipHostId = listener.id; event.playerTipAmount = 1;
       musician.relations[listener.id] = '연주를 듣고 동전을 건넨 사람';
     } else if (actionId === 'E38_ASK_MUSICIAN') {
-      listener.knownRumors ??= [];
-      listener.knownRumors.push({ rumorId: `E38_MUSICIAN_WORK_${next.world.clockMinutes}`, sourceHostId: musician.id,
-        sourceEventId: 'E38', confidence: 1, observedAtMinute: next.world.clockMinutes,
-        summaryKo: '이반은 연주로 버는 돈에서 집세와 악기 수리비를 마련한다고 말했다.' });
+      listener.personalEventNotes ??= [];
+      listener.personalEventNotes.push({ eventId: 'E38', speakerHostId: musician.id, atMinute: next.world.clockMinutes,
+        noteKo: '이반은 연주로 버는 돈에서 집세와 악기 수리비를 마련한다고 말했다.' });
       musician.relations[listener.id] = '연주와 벌이를 물어본 행인';
     }
     livingEvents.push(streetMusicEventRow(next, event.stage, next.world.clockMinutes % 1440, maps,
@@ -4548,6 +4635,49 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
     for (const person of actors) if (person.activeGoal?.taskId?.startsWith('V37:E31:')) person.activeGoal = null;
     livingEvents.push(serfdomReadingEventRow(next, stage, next.world.clockMinutes % 1440, maps,
       { actionId, resolvedByHostId: hostId, changeKo: action.resultKo }));
+  }
+  if (!literaryQuest && questId === 'V37_PHYSIOLOGY_READING_1847') {
+    const event = next.world.livingEventStates?.E39;
+    const outcomes = {
+      E39_BUY_COPY: ['COPY_SOLD', 'studentHostId'],
+      E39_COMPARE_KHORY_KALYNYCH: ['LIVES_COMPARED', 'readerHostId'],
+      E39_ASK_WHO_SPEAKS: ['NARRATOR_QUESTIONED', 'studentHostId'],
+    };
+    const [stage, actorKey] = outcomes[actionId] ?? [], actors = event?.actorHostIds?.map(id => next.hosts[id]) ?? [];
+    if (!event || event.status !== 'ACTIVE' || event.stage !== 'DISCUSSION_READY' || event[actorKey] !== hostId
+      || actors.some(person => person.historicalAliveAndPresent === false || person.mapId !== 'bookshop-interior'
+        || !nearTile(person.position, event.scenePosition, 5))) return { ok: false, reason: 'public_reading_not_ready', state };
+    const buyer = next.hosts[event.studentHostId], bookseller = next.hosts[event.booksellerHostId];
+    if (actionId === 'E39_BUY_COPY') {
+      if (!buyer || buyer.money.unit !== bookseller.money.unit) return { ok: false, reason: 'copy_unaffordable', state };
+      bookseller.money.amount += 2;
+      event.copy.location = 'student_inventory'; event.copy.ownerHostId = buyer.id; event.copy.paidAmount = 2;
+      event.stage = stage; event.buyerHostId = buyer.id; event.paymentAmount = 2;
+      buyer.relations[bookseller.id] = '책 한 부를 사고 값을 치른 학생 독자';
+      bookseller.relations[buyer.id] = '읽을 책을 팔고 값을 받은 손님';
+    } else {
+      event.copy.location = '책방 선반'; event.copy.ownerHostId = bookseller.id; event.stage = stage;
+      const summaryKo = actionId === 'E39_COMPARE_KHORY_KALYNYCH'
+        ? '호리와 칼리니치의 서로 다른 살림과 재주를 농노제 아래 놓인 삶으로 비교해 읽었다.'
+        : '화자의 시선과 작품 속 농노들이 직접 말하는 자리를 구분해 물었다.';
+      for (const person of actors) {
+        person.personalEventNotes ??= [];
+        person.personalEventNotes.push({ eventId: 'E39', sourceId: event.sourceId, speakerHostId: hostId,
+          atMinute: next.world.clockMinutes, noteKo: summaryKo });
+        if (person.id !== hostId) {
+          person.relations[hostId] = actionId === 'E39_COMPARE_KHORY_KALYNYCH'
+            ? '호리와 칼리니치의 삶을 함께 읽은 독자' : '작품 속 목소리를 함께 따져 본 독자';
+          next.hosts[hostId].relations[person.id] ??= person.id === bookseller.id ? '읽을 자리를 내준 책방 주인' : '같은 글을 읽은 사람';
+        }
+      }
+    }
+    event.status = 'RESOLVED'; event.resolvedAtMinute = next.world.clockMinutes;
+    event.resolutionActionId = actionId; event.resolvedByHostId = hostId;
+    for (const person of actors) if (person.activeGoal?.taskId?.startsWith('V37:E39:')) person.activeGoal = null;
+    livingEvents.push(physiologyReadingEventRow(next, stage, next.world.clockMinutes % 1440, maps,
+      { actionId, resolvedByHostId: hostId,
+        ...(actionId === 'E39_BUY_COPY' ? { payerHostId: buyer.id, recipientHostId: bookseller.id,
+          paidAmount: 2, itemTransferredKo: event.copy.itemKo } : {}), changeKo: action.resultKo }));
   }
   if (!literaryQuest && questId === 'V37_SALON_DEBATE_1847') {
     const event = next.world.livingEventStates?.E21;

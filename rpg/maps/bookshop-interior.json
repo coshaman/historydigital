@@ -69,7 +69,7 @@
   "tileheight": 16,
   "infinite": false,
   "nextlayerid": 7,
-  "nextobjectid": 4008,
+  "nextobjectid": 4017,
   "properties": [
     {
       "name": "mapId",
@@ -2266,6 +2266,34 @@
           "visible": true,
           "properties": [
             { "name": "questId", "type": "string", "value": "V37_SALON_DEBATE_1847" }
+          ]
+        },
+        {
+          "id": 4015,
+          "name": "호리와 칼리니치를 두고 나눈 말",
+          "type": "quest-object",
+          "x": 192,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            { "name": "questId", "type": "string", "value": "V37_PHYSIOLOGY_READING_1847" },
+            { "name": "requiresLivingEventId", "type": "string", "value": "E39" }
+          ]
+        },
+        {
+          "id": 4016,
+          "name": "투르게네프 「호리와 칼리니치」 · 《현대인》 1847년 제1호",
+          "type": "source",
+          "x": 192,
+          "y": 160,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            { "name": "sourceId", "type": "string", "value": "LIT-TURGENEV-KHOR-KALYNYCH-1847" },
+            { "name": "scope", "type": "string", "value": "public" }
           ]
         }
       ]

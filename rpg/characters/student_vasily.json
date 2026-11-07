@@ -163,13 +163,22 @@
       "activityKo": "독서 모임에서 질문을 나눈다"
     },
     {
-      "atMinute": 780,
+      "atMinute": 720,
       "mapId": "market-quay",
       "position": {
         "x": 22,
         "y": 14
       },
-      "activityKo": "회비와 책값을 계산한다"
+      "activityKo": "시장 골목에서 읽을거리를 고를 돈을 아낀다"
+    },
+    {
+      "atMinute": 780,
+      "mapId": "bookshop-interior",
+      "position": {
+        "x": 11,
+        "y": 14
+      },
+      "activityKo": "책방에 들러 새로 읽을 글을 찾는다"
     },
     {
       "atMinute": 960,

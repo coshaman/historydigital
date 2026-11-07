@@ -1274,15 +1274,24 @@
       "student"
     ],
     "trigger": "public_reading",
-    "visible_scene": "신간을 둘러싸고 독자들의 의견이 갈린다",
-    "historical_anchor": "정확한 작품 판본·호수",
+    "visible_scene": "다리야와 바실리가 1847년 《현대인》 제1호의 글을 읽고 농노들의 삶과 화자의 시선을 두고 의견을 나눈다",
+    "historical_anchor": "이반 투르게네프, 「호리와 칼리니치」 · 《현대인》 1847년 제1호",
+    "source_basis": {
+      "sourceId": "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+      "author": "И. С. Тургенев",
+      "work": "Хорь и Калинычъ",
+      "firstPublication": "Современник, 1847, том I, № 1, «Смесь»",
+      "edition": "Полное собраніе сочиненій И. С. Тургенева. 4-е изд. Санкт-Петербург: Типографія Глазунова, т. 1",
+      "exactExcerptRange": "opening narrative, cited transcription lines 123–129; four consecutive paragraphs",
+      "sourceUrl": "https://ru.wikisource.org/w/index.php?title=Хорь_и_Калиныч_(Тургенев)/ДО&oldid=4722069",
+      "evidenceScope": "Verifies the literary text, excerpt range, and 1847 publication. The bookseller, readers, meeting, and purchase are fictional gameplay events."
+    },
     "player_actions": [
-      "구매",
-      "논평",
-      "찬반",
-      "서간"
+      "책값을 내고 한 부를 산다",
+      "호리와 칼리니치의 삶을 견줘 본다",
+      "화자의 시선과 인물의 목소리를 묻는다"
     ],
-    "world_consequence": "사상·구독 변화",
+    "world_consequence": "책 한 부의 소유·돈·독서 메모·인물 관계 변화",
     "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
     "validation_status": "DESIGN_SEED_NOT_VERIFIED",
     "trigger_class": "EMERGENT_CONDITIONAL",

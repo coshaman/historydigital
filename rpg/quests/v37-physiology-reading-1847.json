@@ -1,0 +1,61 @@
+{
+  "id": "V37_PHYSIOLOGY_READING_1847",
+  "catalogEventId": "E39",
+  "titleKo": "서점에서 함께 읽은 글",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "requiresLivingEventId": "E39",
+  "sourceIds": ["LIT-TURGENEV-KHOR-KALYNYCH-1847"],
+  "premiseKo": "다리야가 투르게네프의 글을 펼친다. 호리와 칼리니치, 두 농노의 다른 삶을 두고 독자들이 말을 보탠다.",
+  "historicalOutcome": {
+    "id": "E39_FICTIONAL_READING_AND_SALE",
+    "value": "A fictional reading and book transaction; the text and its 1847 publication remain unchanged.",
+    "sourceIds": ["LIT-TURGENEV-KHOR-KALYNYCH-1847"]
+  },
+  "entry": { "mapId": "bookshop-interior", "objectId": 4015, "requiredHostId": "reader_darya" },
+  "actions": [
+    {
+      "id": "E39_BUY_COPY",
+      "hostIds": ["student_vasily"],
+      "requiresLivingEventStage": "DISCUSSION_READY",
+      "requiredLivingEventActorKey": "studentHostId",
+      "requiredPresentHostIds": ["bookseller_lev", "reader_darya"],
+      "requiredParticipantDistance": 5,
+      "durationMinutes": 3,
+      "labelKo": "두 코페이카를 내고 책을 산다",
+      "subcopyKo": "레프에게 돈을 내고 책 한 부를 가져갑니다 · 다리야도 거래를 봅니다 · 장부에 판매가 남습니다",
+      "resultKo": "바실리가 책값을 치르고 한 부를 샀다. 레프는 값을 받아 장부에 적었다.",
+      "resultFlag": "e39_copy_purchased",
+      "effects": { "moneyDelta": -2, "inventoryAdd": ["《현대인》 1847년 제1호 · 「호리와 칼리니치」"], "relations": { "bookseller_lev": "책을 산 독자" } }
+    },
+    {
+      "id": "E39_COMPARE_KHORY_KALYNYCH",
+      "hostIds": ["reader_darya"],
+      "requiresLivingEventStage": "DISCUSSION_READY",
+      "requiredLivingEventActorKey": "readerHostId",
+      "requiredPresentHostIds": ["bookseller_lev", "student_vasily"],
+      "requiredParticipantDistance": 5,
+      "durationMinutes": 5,
+      "labelKo": "호리와 칼리니치가 살아가는 방식을 견줘 본다",
+      "subcopyKo": "레프·바실리·류보프가 듣습니다 · 네 사람의 독서 메모에 남습니다 · 책은 서점에 둡니다",
+      "resultKo": "다리야는 호리의 살림살이와 칼리니치의 재주가 서로 다른 조건에서 나왔다는 점을 짚었다. 바실리는 글 속 두 사람의 형편이 주인과 맺은 관계 안에 놓여 있다고 덧붙였다.",
+      "resultFlag": "e39_compared_two_lives",
+      "effects": { "relations": { "student_vasily": "두 농노의 형편을 함께 따져 본 독자", "teacher_lyubov": "인물의 삶과 제도를 나누어 살핀 독자", "bookseller_lev": "글의 내용을 짚어 준 독자" } }
+    },
+    {
+      "id": "E39_ASK_WHO_SPEAKS",
+      "hostIds": ["student_vasily"],
+      "requiresLivingEventStage": "DISCUSSION_READY",
+      "requiredLivingEventActorKey": "studentHostId",
+      "requiredPresentHostIds": ["bookseller_lev", "reader_darya"],
+      "requiredParticipantDistance": 5,
+      "durationMinutes": 5,
+      "labelKo": "두 사람의 목소리는 누구의 시선으로 전해지는지 묻는다",
+      "subcopyKo": "레프와 다리야가 듣습니다 · 세 사람의 독서 메모에 남습니다 · 책은 서점에 둡니다",
+      "resultKo": "바실리는 두 농노를 묘사하는 화자의 시선과 그들이 직접 말하는 자리를 구분해 보자고 했다. 다리야는 글에 적힌 것만으로 두 사람의 삶을 다 안다고 할 수는 없다고 답했다.",
+      "resultFlag": "e39_questioned_narrative_voice",
+      "effects": { "relations": { "reader_darya": "화자의 시선과 인물의 말을 구분해 물은 독자", "bookseller_lev": "읽는 관점을 차분히 나눈 학생" } }
+    }
+  ],
+  "completion": "The public-domain 1847 text is read and discussed; fictional reader actions change only their own records and relationships."
+}

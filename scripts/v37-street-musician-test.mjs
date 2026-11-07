@@ -41,6 +41,12 @@ const availableChoices = questChoices(quest, listener.id, [], started);
 assert.ok(availableChoices.some(item => item.action.id === 'E38_TIP_MUSICIAN'),
   `E38 choices require the on-site passerby and musician: ${JSON.stringify({ event: started.world.livingEventStates.E38, listener: { map: listener.mapId, position: listener.position }, choices: availableChoices.map(item => item.action.id) })}`);
 const cashBefore = { listener: listener.money.amount, musician: started.hosts.street_musician_ivan.money.amount };
+const asked = game.performQuestAction(started, { questId: quest.id, hostId: listener.id,
+  actionId: 'E38_ASK_MUSICIAN', objectId: quest.entry.objectId }, { quests: [quest], maps });
+assert.equal(asked.ok, true, asked.reason);
+assert.ok(asked.state.hosts[listener.id].personalEventNotes.some(note => note.eventId === 'E38'));
+const askedSaved = game.loadGame(game.saveGame(asked.state), { maps, hostCards: cards, quests: [quest] });
+assert.ok(askedSaved.hosts[listener.id].personalEventNotes.some(note => note.eventId === 'E38'), 'the private conversation note survives save/load');
 const tipped = game.performQuestAction(started, { questId: quest.id, hostId: listener.id, actionId: 'E38_TIP_MUSICIAN', objectId: quest.entry.objectId }, { quests: [quest], maps });
 assert.equal(tipped.ok, true, `the player can tip the musician at the live performance (${tipped.reason ?? ''})`);
 assert.equal(tipped.state.hosts[listener.id].money.amount, cashBefore.listener - 1);

@@ -199,21 +199,21 @@
     },
     {
       "atMinute": 720,
-      "mapId": "nevsky",
+      "mapId": "bookshop-interior",
       "position": {
-        "x": 25,
-        "y": 16
+        "x": 11,
+        "y": 14
       },
-      "activityKo": "저녁 장사 전에 가판으로 돌아간다"
+      "activityKo": "예약한 책을 독서대에 펼쳐 둔다"
     },
     {
       "atMinute": 780,
-      "mapId": "market-quay",
+      "mapId": "bookshop-interior",
       "position": {
-        "x": 21,
+        "x": 11,
         "y": 14
       },
-      "activityKo": "제본품을 받고 장부에 값을 적는다"
+      "activityKo": "읽으러 온 손님에게 책을 건네고 값을 장부에 적는다"
     },
     {
       "atMinute": 900,
