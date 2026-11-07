@@ -5060,12 +5060,25 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
     if (participant.historicalAliveAndPresent === false || participant.mapId !== state.world.currentMapId
       || !nearTile(host.position, participant.position, participantDistance)) return { ok: false, reason: 'required_participant_not_present', state };
   }
+  if (action.requiredMarketStock) {
+    const requirement = action.requiredMarketStock, seller = state.hosts[requirement.sellerHostId];
+    if (typeof requirement.sellerHostId !== 'string' || typeof requirement.itemKo !== 'string'
+      || !Number.isInteger(requirement.quantity) || requirement.quantity < 1 || !seller)
+      return { ok: false, reason: 'invalid_required_market_stock', state };
+    if ((seller.marketStock?.[requirement.itemKo] ?? 0) < requirement.quantity)
+      return { ok: false, reason: 'required_market_stock_unavailable', state };
+  }
   if (action.requiredKnowledgeId && !knowledgeForHost(state, hostId).includes(action.requiredKnowledgeId)) return { ok: false, reason: 'host_lacks_knowledge', state };
   const effects = action.effects ?? {}, relationEffects = effects.relations ?? {}, inventoryRemove = effects.inventoryRemove ?? [], inventoryAdd = effects.inventoryAdd ?? [];
   const chainDelta = effects.lifeChainDelta ?? {};
   if (effects.canalTrafficResponse !== undefined
     && !['WAIT_FOR_PASSAGE', 'TAKE_CONFIRMED_DETOUR', 'REORDER_DELIVERIES'].includes(effects.canalTrafficResponse)) {
     return { ok: false, reason: 'invalid_canal_traffic_response', state };
+  }
+  if (effects.laundryDisposition !== undefined
+    && (questId !== 'V37_LAUNDRY_SALE_CHOICE_1847'
+      || !['SELL_FOR_CASH', 'BARTER_FOR_BREAD', 'HOLD_UNTIL_TOMORROW'].includes(effects.laundryDisposition))) {
+    return { ok: false, reason: 'invalid_laundry_disposition', state };
   }
   if (Object.entries(chainDelta).some(([key, value]) => !/^[a-z][a-zA-Z0-9]{0,39}$/.test(key) || !Number.isInteger(value) || Math.abs(value) > 20)) return { ok: false, reason: 'invalid_life_chain_effect', state };
   if (effects.moneyDelta !== undefined && (!Number.isInteger(effects.moneyDelta) || Math.abs(effects.moneyDelta) > 10000 || !Number.isFinite(host.money?.amount) || host.money.amount + effects.moneyDelta < 0)) return { ok: false, reason: 'invalid_or_unaffordable_effect', state };
@@ -5082,6 +5095,20 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
     || (effects.partnerRelationKo !== undefined && (typeof effects.partnerRelationKo !== 'string' || effects.partnerRelationKo.length > 160))
     || (effects.situationKo !== undefined && (typeof effects.situationKo !== 'string' || effects.situationKo.length > 220))) return { ok: false, reason: 'invalid_action_effect', state };
   if (!Array.isArray(inventoryRemove) || !Array.isArray(inventoryAdd) || inventoryRemove.some(item => typeof item !== 'string' || !host.inventory.includes(item)) || inventoryAdd.some(item => typeof item !== 'string' || item.length > 80)) return { ok: false, reason: 'required_item_missing', state };
+  if (effects.laundryDisposition !== undefined) {
+    const event = state.world.livingEventStates?.E04, seller = state.hosts.market_nadezhda;
+    if (!event || event.status !== 'ACTIVE' || event.stage !== 'LINEN_WASHED' || hostId !== 'laundress_mariya'
+      || inventoryItemCount(host, '접은 린넨') < 1 || !seller || host.money?.unit !== seller.money?.unit) {
+      return { ok: false, reason: 'laundry_sale_unavailable', state };
+    }
+    if (effects.laundryDisposition === 'SELL_FOR_CASH' && seller.money.amount < 2)
+      return { ok: false, reason: 'laundry_buyer_cannot_pay', state };
+    if (effects.laundryDisposition === 'BARTER_FOR_BREAD') {
+      const bread = (seller.marketOffers ?? []).find(offer => offer.itemKo === '빵 한 묶음' && offer.category === 'food');
+      if (!bread || (seller.marketStock?.['빵 한 묶음'] ?? 0) < 1 || !isMarketOfferOpen(seller, bread, state.world.clockMinutes))
+        return { ok: false, reason: 'laundry_barter_stock_unavailable', state };
+    }
+  }
   const timed = advanceWorldTime(state, actionDuration, maps, [], { deferLivingEventExpiryId: questId === 'V37_MANUSCRIPT_OFFER_1847' ? 'E30'
     : questId === 'V37_SERFDOM_READING_1847' ? 'E31'
       : questId === 'CIRCLE_INVESTIGATION_1849' ? 'E40'
@@ -5135,6 +5162,51 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
     livingEvents.push(livingCanalTrafficEventRow(next, 'BOAT_TRAFFIC', next.world.clockMinutes % 1440, maps,
       { actionId, resolvedByHostId: hostId, playerDecision: clone(event.playerDecision),
         changeKo: effects.situationKo ?? '티모페이는 운하 정체에 맞춰 오늘의 운송 순서를 정했다.' }));
+  }
+  if (questId === 'V37_LAUNDRY_SALE_CHOICE_1847') {
+    const event = next.world.livingEventStates?.E04, seller = next.hosts.market_nadezhda;
+    const disposition = effects.laundryDisposition;
+    if (!event || event.status !== 'ACTIVE' || event.stage !== 'LINEN_WASHED' || hostId !== 'laundress_mariya'
+      || inventoryItemCount(next.hosts[hostId], '접은 린넨') < 1 || !seller
+      || !['SELL_FOR_CASH', 'BARTER_FOR_BREAD', 'HOLD_UNTIL_TOMORROW'].includes(disposition)) {
+      return { ok: false, reason: 'laundry_event_not_ready', state };
+    }
+    event.playerDecision = { actionId, hostId, disposition, atMinute: next.world.clockMinutes };
+    const taskId = 'MARIYA_LINEN_SALE_TO_NADEZHDA_1847';
+    if (disposition === 'SELL_FOR_CASH') {
+      if (seller.money.amount < 2 || seller.money.unit !== next.hosts[hostId].money.unit)
+        return { ok: false, reason: 'laundry_buyer_cannot_pay', state };
+      seller.money.amount -= 2; next.hosts[hostId].money.amount += 2;
+      seller.inventory.push('접은 린넨');
+      next.hosts[hostId].completedSocialTaskDayById ??= {};
+      next.hosts[hostId].completedSocialTaskDayById[taskId] = Math.floor(next.world.clockMinutes / 1440);
+      event.stage = 'LINEN_EXCHANGED'; event.exchangedAtMinute = next.world.clockMinutes;
+      event.recipientHostId = seller.id; event.payment = 2;
+    } else if (disposition === 'BARTER_FOR_BREAD') {
+      const offer = (seller.marketOffers ?? []).find(item => item.itemKo === '빵 한 묶음' && item.category === 'food');
+      if (!offer || (seller.marketStock?.['빵 한 묶음'] ?? 0) < 1 || !isMarketOfferOpen(seller, offer, next.world.clockMinutes))
+        return { ok: false, reason: 'laundry_barter_stock_unavailable', state };
+      seller.marketStock['빵 한 묶음'] -= 1; seller.inventory.push('접은 린넨');
+      next.hosts[hostId].completedSocialTaskDayById ??= {};
+      next.hosts[hostId].completedSocialTaskDayById[taskId] = Math.floor(next.world.clockMinutes / 1440);
+      event.stage = 'LINEN_EXCHANGED'; event.exchangedAtMinute = next.world.clockMinutes;
+      event.recipientHostId = seller.id; event.payment = 0; event.barterItemKo = '빵 한 묶음';
+    } else {
+      next.hosts[hostId].completedSocialTaskDayById ??= {};
+      next.hosts[hostId].completedSocialTaskDayById[taskId] = Math.floor(next.world.clockMinutes / 1440);
+    }
+    seller.relations[hostId] = disposition === 'HOLD_UNTIL_TOMORROW'
+      ? '린넨을 하루 더 보관하기로 한 이웃'
+      : disposition === 'SELL_FOR_CASH' ? '린넨 값을 치른 장터 이웃' : '린넨과 빵을 맞바꾼 장터 이웃';
+    next.hosts[hostId].relations[seller.id] = disposition === 'HOLD_UNTIL_TOMORROW'
+      ? '린넨을 하루 더 보관하기로 한 장터 상인'
+      : disposition === 'SELL_FOR_CASH' ? '린넨 값을 치른 장터 상인' : '린넨과 빵을 맞바꾼 장터 상인';
+    livingEvents.push(livingLaundryEventRow(next, event.stage, [hostId, seller.id], next.world.currentMapId,
+      next.hosts[hostId].position, next.world.clockMinutes % 1440, maps,
+      { actionId, playerDecision: clone(event.playerDecision), recipientHostId: seller.id,
+        ...(disposition === 'SELL_FOR_CASH' ? { payment: 2, payerHostId: seller.id, recipientHostId: hostId } : {}),
+        ...(disposition === 'BARTER_FOR_BREAD' ? { payment: 0, barterItemKo: '빵 한 묶음' } : {}),
+        changeKo: action.resultKo }));
   }
   if (!literaryQuest && questId === 'CIRCLE_INVESTIGATION_1849') {
     const event = next.world.livingEventStates?.E40;
@@ -7430,13 +7502,18 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
     throw new Error('Save contains invalid E15 sick lodger event state');
   }
   const laundryEvent = state.world.livingEventStates.E04;
+  const invalidLaundryDecision = laundryEvent?.playerDecision && (
+    !['SELL_FOR_CASH', 'BARTER_FOR_BREAD', 'HOLD_UNTIL_TOMORROW'].includes(laundryEvent.playerDecision.disposition)
+    || laundryEvent.playerDecision.hostId !== 'laundress_mariya'
+    || !Number.isInteger(laundryEvent.playerDecision.atMinute));
   if (laundryEvent && (laundryEvent.catalogIdSpace !== 'V37_EVENT_CATALOG_45' || laundryEvent.catalogEventId !== 'E04'
     || !['ACTIVE', 'RESOLVED'].includes(laundryEvent.status) || !['LINEN_WASHED', 'LINEN_EXCHANGED', 'ACCOUNTS_RECONCILED'].includes(laundryEvent.stage)
     || laundryEvent.validationStatus !== 'DESIGN_SEED_NOT_VERIFIED' || laundryEvent.valueStatus !== 'fictional_gameplay_balance'
     || laundryEvent.hostId !== 'laundress_mariya' || laundryEvent.itemKo !== '접은 린넨'
     || !Number.isInteger(laundryEvent.dayIndex) || laundryEvent.dayIndex < 0
     || (laundryEvent.status === 'RESOLVED') !== (laundryEvent.stage === 'ACCOUNTS_RECONCILED')
-    || (laundryEvent.stage === 'LINEN_EXCHANGED' && typeof laundryEvent.recipientHostId !== 'string'))) {
+    || (laundryEvent.stage === 'LINEN_EXCHANGED' && typeof laundryEvent.recipientHostId !== 'string')
+    || invalidLaundryDecision)) {
     throw new Error('Save contains invalid E04 laundry event state');
   }
   state.quests ??= {};

@@ -1,0 +1,85 @@
+{
+  "id": "V37_LAUNDRY_SALE_CHOICE_1847",
+  "titleKo": "린넨을 팔지, 가져갈지",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "requiresLivingEventId": "E04",
+  "requiresLivingEventStage": "LINEN_WASHED",
+  "premiseKo": "마리야가 빨아 접은 린넨을 장터에 가져왔다. 나데즈다가 값을 치를 준비를 한다.",
+  "historicalOutcome": {
+    "id": "V37_LAUNDRY_SALE_FICTIONAL_OUTCOME",
+    "value": "fictional household trade only; no historical public record changes",
+    "sourceIds": []
+  },
+  "entry": { "mapId": "market-quay", "objectId": 1182, "requiredHostId": "laundress_mariya" },
+  "actions": [
+    {
+      "id": "E04_SELL_FOR_CASH",
+      "hostIds": ["laundress_mariya"],
+      "requiredPresentHostIds": ["market_nadezhda"],
+      "requiredParticipantDistance": 2,
+      "durationMinutes": 3,
+      "labelKo": "린넨을 2코페이카에 판다",
+      "subcopyKo": "마리야와 나데즈다가 압니다 · 장터 거래로 남습니다 · 오늘 받을 현금은 2코페이카입니다",
+      "practicalDisclosure": {
+        "audienceKo": "마리야와 나데즈다가 압니다",
+        "recordKo": "장터 거래로 남습니다",
+        "riskKo": "오늘 받을 현금은 2코페이카입니다"
+      },
+      "resultFlag": "V37_E04_SOLD_FOR_CASH",
+      "resultKo": "나데즈다가 린넨 값을 치렀다. 마리야는 두 코페이카를 받아 장작값에 보탤 수 있다.",
+      "followupTitleKo": "린넨을 팔지, 가져갈지",
+      "effects": {
+        "laundryDisposition": "SELL_FOR_CASH",
+        "inventoryRemove": ["접은 린넨"],
+        "relations": { "market_nadezhda": "린넨 값을 치른 장터 이웃" },
+        "situationKo": "린넨을 팔고 받은 돈을 장작값에 보태기로 했다."
+      }
+    },
+    {
+      "id": "E04_BARTER_FOR_BREAD",
+      "hostIds": ["laundress_mariya"],
+      "requiredPresentHostIds": ["market_nadezhda"],
+      "requiredParticipantDistance": 2,
+      "requiredMarketStock": { "sellerHostId": "market_nadezhda", "itemKo": "빵 한 묶음", "quantity": 1 },
+      "durationMinutes": 3,
+      "labelKo": "린넨을 빵 한 묶음과 바꾼다",
+      "subcopyKo": "마리야와 나데즈다가 압니다 · 장터 거래로 남습니다 · 현금 수입 대신 집에 먹을거리를 가져갑니다",
+      "practicalDisclosure": {
+        "audienceKo": "마리야와 나데즈다가 압니다",
+        "recordKo": "장터 거래로 남습니다",
+        "riskKo": "현금 수입 대신 집에 먹을거리를 가져갑니다"
+      },
+      "resultFlag": "V37_E04_BARTERED_FOR_BREAD",
+      "resultKo": "마리야는 린넨을 넘기고 빵 한 묶음을 받았다. 오늘 현금은 생기지 않았지만 집에 먹을거리를 가져간다.",
+      "followupTitleKo": "린넨을 팔지, 가져갈지",
+      "effects": {
+        "laundryDisposition": "BARTER_FOR_BREAD",
+        "inventoryRemove": ["접은 린넨"],
+        "inventoryAdd": ["빵 한 묶음"],
+        "relations": { "market_nadezhda": "린넨과 빵을 맞바꾼 장터 이웃" },
+        "situationKo": "린넨을 빵과 바꾸어 집에 먹을거리를 가져가기로 했다."
+      }
+    },
+    {
+      "id": "E04_HOLD_LINEN_UNTIL_TOMORROW",
+      "hostIds": ["laundress_mariya"],
+      "durationMinutes": 2,
+      "labelKo": "오늘은 팔지 않고 내일 다시 내놓는다",
+      "subcopyKo": "마리야만 알고 장부에는 남기지 않습니다 · 린넨은 마리야가 보관합니다 · 오늘 수입이 없고 내일 살 사람이 없을 수도 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "마리야만 알고 장부에는 남기지 않습니다",
+        "recordKo": "린넨은 마리야가 보관합니다",
+        "riskKo": "오늘 수입이 없고 내일 살 사람이 없을 수도 있습니다"
+      },
+      "resultFlag": "V37_E04_HELD_LINEN",
+      "resultKo": "마리야는 린넨을 들고 돌아갔다. 오늘 받을 돈은 없지만 내일 다시 팔아 보기로 했다.",
+      "followupTitleKo": "린넨을 팔지, 가져갈지",
+      "effects": {
+        "laundryDisposition": "HOLD_UNTIL_TOMORROW",
+        "relations": { "work_or_household": "세탁물을 하루 더 보관했다" },
+        "situationKo": "린넨을 하루 더 보관하고 다음 장날에 다시 내놓기로 했다."
+      }
+    }
+  ]
+}

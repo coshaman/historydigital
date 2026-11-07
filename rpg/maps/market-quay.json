@@ -30,7 +30,7 @@
   "tileheight": 16,
   "infinite": false,
   "nextlayerid": 7,
-  "nextobjectid": 1178,
+  "nextobjectid": 1183,
   "properties": [
     {
       "name": "displayNameKo",
@@ -3291,6 +3291,22 @@
           "properties": [
             { "name": "questId", "type": "string", "value": "V37_MARKET_THEFT_1847" },
             { "name": "requiresLivingEventId", "type": "string", "value": "E36" }
+          ]
+        },
+        {
+          "id": 1182,
+          "name": "린넨 값을 정하는 자리",
+          "type": "quest-object",
+          "x": 224,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            { "name": "questId", "type": "string", "value": "V37_LAUNDRY_SALE_CHOICE_1847" },
+            { "name": "requiresLivingEventId", "type": "string", "value": "E04" },
+            { "name": "requiresLivingEventStage", "type": "string", "value": "LINEN_WASHED" },
+            { "name": "assetTileId", "type": "int", "value": 73 }
           ]
         }
       ]

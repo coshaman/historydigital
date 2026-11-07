@@ -24,6 +24,13 @@ function requiredNearbyAudiencePresent(action, hostId, state, livingEvent) {
     && person.historicalAliveAndPresent !== false && person.mapId === actor.mapId
     && Math.abs(person.position.x - actor.position.x) + Math.abs(person.position.y - actor.position.y) <= distance);
 }
+function requiredMarketStockPresent(action, state) {
+  const requirement = action.requiredMarketStock;
+  if (!requirement) return true;
+  if (typeof requirement.sellerHostId !== 'string' || typeof requirement.itemKo !== 'string'
+    || !Number.isInteger(requirement.quantity) || requirement.quantity < 1) return false;
+  return (state?.hosts?.[requirement.sellerHostId]?.marketStock?.[requirement.itemKo] ?? 0) >= requirement.quantity;
+}
 
 export function questChoices(quest, hostId, knowledge = [], state = null) {
   const chain = quest.lifeChain, priorFlag = chain ? state?.world?.lifeChains?.[chain.id]?.history?.at(-1)?.resultFlag : null;
@@ -34,6 +41,7 @@ export function questChoices(quest, hostId, knowledge = [], state = null) {
     .filter(action => !action.requiredLivingEventDebtStatus || livingEvent?.debt?.status === action.requiredLivingEventDebtStatus)
     .filter(action => requiredParticipantsPresent(action, hostId, state, livingEvent))
     .filter(action => requiredNearbyAudiencePresent(action, hostId, state, livingEvent))
+    .filter(action => requiredMarketStockPresent(action, state))
     .filter(action => action.minimumMoneyAmount === undefined
       || Number.isFinite(state?.hosts?.[hostId]?.money?.amount) && state.hosts[hostId].money.amount >= action.minimumMoneyAmount)
     .filter(action => !action.requiredPriorResultFlags?.length || action.requiredPriorResultFlags.includes(priorFlag)).map(action => ({
