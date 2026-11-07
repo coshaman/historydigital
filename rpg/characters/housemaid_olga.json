@@ -155,7 +155,13 @@
         "id": "V36_HOUSEMAID_PREPARE_WATER",
         "outputKind": "가사 노동",
         "outputKo": "물과 마른 걸레를 챙기고 맡은 방의 청소 순서를 정한다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "payroll": {
+          "payerHostId": "landlady_polina",
+          "amount": 1,
+          "unit": "kopeks",
+          "valueStatus": "fictional_gameplay_balance"
+        }
       }
     },
     {

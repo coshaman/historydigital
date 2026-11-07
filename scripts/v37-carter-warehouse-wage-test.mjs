@@ -42,4 +42,24 @@ assert.equal(payment.counterpartyMapId, 'market-quay');
 assert.ok(Math.abs(payment.position.x - payment.counterpartyPosition.x)
   + Math.abs(payment.position.y - payment.counterpartyPosition.y) <= 1, 'wages require a face-to-face handoff');
 assert.equal(game.stateHash(game.loadGame(game.saveGame(result), { maps, hostCards })), game.stateHash(result));
-console.log('V37 carter/warehouse wage: freight work creates a due claim; the worker routes to the payer and receives a saved, adjacent settlement.');
+
+const householdWork = game.createInitialState({ maps, hostCards, startMapId: 'courtyard' });
+householdWork.world.date = '1847-06-01';
+householdWork.world.clockMinutes = 360;
+for (const host of Object.values(householdWork.hosts)) host.historicalAliveAndPresent = false;
+const maid = householdWork.hosts.housemaid_olga, employer = householdWork.hosts.landlady_polina;
+maid.historicalAliveAndPresent = employer.historicalAliveAndPresent = true;
+maid.money.amount = 14;
+employer.money.amount = 9;
+const paidHouseholdWork = game.advanceNpcWorld(householdWork, 360, maps);
+const householdRows = paidHouseholdWork.ledger.filter(row => row.eventType === 'NPC_SIMULATION');
+const householdTaskId = 'V36_HOUSEMAID_PREPARE_WATER';
+const householdPayment = householdRows.flatMap(row => row.payments ?? []).find(row => row.hostId === maid.id
+  && row.payerHostId === employer.id && row.actionId === householdTaskId);
+assert.ok(householdRows.flatMap(row => row.workOutputs ?? []).some(row => row.hostId === maid.id && row.actionId === householdTaskId),
+  'Olga completes her scheduled household shift');
+assert.ok(householdPayment, 'the landlady settles the maid’s in-world household wage');
+assert.equal(householdPayment.valueStatus, 'fictional_gameplay_balance');
+assert.equal(householdPayment.mapId, 'courtyard');
+assert.equal(game.stateHash(game.loadGame(game.saveGame(paidHouseholdWork), { maps, hostCards })), game.stateHash(paidHouseholdWork));
+console.log('V37 routed wages: freight and household work create due claims, route workers to named payers, and persist face-to-face settlements.');
