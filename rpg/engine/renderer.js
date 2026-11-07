@@ -1,6 +1,13 @@
 import { objectIsPresent, interactionTile } from './world-presentation.mjs';
 import { atmosphereForMap, mapHasAtmosphere, weatherForDate } from './atmosphere.mjs';
 
+export function courtyardFireDamageMark(state, map) {
+  const event = state?.world?.livingEventStates?.E27;
+  if (map?.mapId !== 'courtyard' || event?.stage !== 'DAMAGE_SPREAD' || event.propertyDamage < 1) return null;
+  const scene = event.scenePosition ?? { x: 15, y: 11 };
+  return { x: Math.min(23, scene.x + 1), y: Math.max(0, scene.y - 2), severity: Math.min(2, event.propertyDamage) };
+}
+
 export function calculateCamera({ viewportWidth, viewportHeight, mapWidth, mapHeight, tileSize = 16, position, zoom = 2.25 }) {
   const mapWidthWorld = mapWidth * tileSize, mapHeightWorld = mapHeight * tileSize;
   const fitScale = Math.min(viewportWidth / mapWidthWorld, viewportHeight / mapHeightWorld);
@@ -104,6 +111,26 @@ export function createRenderer(canvas, assets) {
       const index = interactionTile(object) - 1;
       if (tileImage.complete && tileImage.naturalWidth) ctx.drawImage(tileImage, index % 16 * tile, Math.floor(index / 16) * tile, tile, tile, x, y, tile * scale, tile * scale);
       if (state.player.embodiment && p.questId && state.quests[p.questId]?.status === 'open') { ctx.strokeStyle = '#f0d79e'; ctx.lineWidth = 1.5; ctx.strokeRect(x + 1, y + 1, 14 * scale, 14 * scale); }
+    }
+    const fireDamage = courtyardFireDamageMark(state, map);
+    if (fireDamage) {
+      const x = ox + fireDamage.x * tile * scale, y = oy + fireDamage.y * tile * scale;
+      ctx.save();
+      ctx.fillStyle = 'rgba(25,15,11,.68)';
+      ctx.fillRect(x + 2 * scale, y + 5 * scale, 12 * scale, 8 * scale);
+      ctx.fillRect(x + 4 * scale, y + 2 * scale, 7 * scale, 4 * scale);
+      ctx.fillRect(x + 1 * scale, y + 10 * scale, 4 * scale, 4 * scale);
+      ctx.fillStyle = 'rgba(12,9,8,.55)';
+      ctx.fillRect(x + 5 * scale, y + 4 * scale, 5 * scale, 8 * scale);
+      ctx.fillStyle = '#72523a';
+      ctx.fillRect(x + 7 * scale, y + 7 * scale, scale, 5 * scale);
+      ctx.fillRect(x + 10 * scale, y + 9 * scale, scale, 3 * scale);
+      if (fireDamage.severity > 1) {
+        ctx.fillStyle = 'rgba(20,13,10,.5)';
+        ctx.fillRect(x - 2 * scale, y + 11 * scale, 5 * scale, 4 * scale);
+        ctx.fillRect(x + 12 * scale, y + 3 * scale, 4 * scale, 7 * scale);
+      }
+      ctx.restore();
     }
     for (const card of [...hostCards].sort((a, b) => (state.hosts[a.id]?.position.y ?? 0) - (state.hosts[b.id]?.position.y ?? 0))) {
       const host = state.hosts[card.id]; if (!host || host.mapId !== map.mapId || host.historicalAliveAndPresent === false) continue;

@@ -3,6 +3,7 @@ import { createRequire } from 'node:module';
 import { readdir, readFile } from 'node:fs/promises';
 import { objectIsPresent } from '../rpg/engine/world-presentation.mjs';
 import { questChoices } from '../rpg/engine/quest-presentation.mjs';
+import { courtyardFireDamageMark } from '../rpg/engine/renderer.js';
 
 const require = createRequire(import.meta.url);
 require('../rpg/engine/game-state.js');
@@ -114,6 +115,9 @@ for (const [actionId, stage] of [['E27_EVACUATE_RESIDENTS', 'RESIDENTS_EVACUATED
 const ignored = game.advanceNpcWorld(active, 61, maps);
 assert.equal(ignored.world.livingEventStates.E27.stage, 'DAMAGE_SPREAD');
 assert.equal(ignored.world.livingEventStates.E27.propertyDamage, 1);
+assert.deepEqual(courtyardFireDamageMark(ignored, maps.courtyard), { x: 16, y: 9, severity: 1 });
+assert.equal(courtyardFireDamageMark(active, maps.courtyard), null, 'unresolved fire does not leave a permanent mark');
+assert.equal(courtyardFireDamageMark(ignored, maps.nevsky), null, 'damage appears only on the affected courtyard map');
 assert.ok(ignored.hosts.tenant_mikhail.needs.safetyConcern > active.hosts.tenant_mikhail.needs.safetyConcern);
 assert.ok(ignored.ledger.flatMap(row => row.livingEvents ?? []).some(row => row.catalogEventId === 'E27' && row.stage === 'DAMAGE_SPREAD'));
 console.log('V37 E27: conditional fire trigger, physical choices, saved outcomes, and unattended damage passed');

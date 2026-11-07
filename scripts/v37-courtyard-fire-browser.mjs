@@ -60,7 +60,8 @@ try {
       const possessed = game.possessHost(state, tenant.id, maps.courtyard);
       if (!possessed.ok) throw new Error(`Could not possess tenant: ${possessed.reason}`);
       await context.addInitScript(saved => {
-        localStorage.setItem('v33-rpg-save', saved); localStorage.setItem('v33-rpg-tutorial-stage', 'done');
+        if (!localStorage.getItem('v33-rpg-save')) localStorage.setItem('v33-rpg-save', saved);
+        localStorage.setItem('v33-rpg-tutorial-stage', 'done');
       }, game.saveGame(possessed.state));
       await page.goto(`http://127.0.0.1:${port}/index.html#v37-courtyard-fire-${viewport.width}`, { waitUntil: 'domcontentloaded' });
       await page.waitForFunction(() => document.querySelector('#bodyname')?.textContent?.includes('미하일'));
@@ -148,9 +149,40 @@ try {
         throw new Error(`Physical evacuation did not finish cleanly: ${JSON.stringify({ stage: saved.world.livingEventStates.E27.stage,
           actors: saved.world.livingEventStates.E27.actorHostIds.map(id => ({ id, mapId: saved.hosts[id].mapId, position: saved.hosts[id].position })), pageErrors, serverErrors })}`);
       await page.screenshot({ path: path.join(output, `courtyard-fire-evacuated-final-${viewport.width}x${viewport.height}.png`) });
+      const sampleFireWall = () => page.evaluate(() => {
+        const canvas = document.querySelector('#world'), rect = canvas.getBoundingClientRect(), ratio = canvas.width / rect.width;
+        const scale = Math.min(rect.width / (24 * 16), rect.height / (18 * 16)) * 2.25;
+        const visibleWidth = rect.width / scale, visibleHeight = rect.height / scale;
+        const centerX = (15.5) * 16, centerY = (11.5) * 16;
+        const offsetX = 24 * 16 <= visibleWidth ? (rect.width - 24 * 16 * scale) / 2
+          : -Math.max(0, Math.min(24 * 16 - visibleWidth, centerX - visibleWidth / 2)) * scale;
+        const offsetY = 18 * 16 <= visibleHeight ? (rect.height - 18 * 16 * scale) / 2
+          : -Math.max(0, Math.min(18 * 16 - visibleHeight, centerY - visibleHeight / 2)) * scale;
+        const x = Math.floor((offsetX + (16 * 16 + 8) * scale) * ratio);
+        const y = Math.floor((offsetY + (9 * 16 + 8) * scale) * ratio);
+        const pixels = canvas.getContext('2d').getImageData(x - 2, y - 2, 5, 5).data;
+        return [...pixels].filter((_, index) => index % 4 !== 3).reduce((sum, channel) => sum + channel, 0) / 75;
+      });
+      await page.evaluate(saved => localStorage.setItem('v33-rpg-save', saved), game.saveGame(possessed.state));
+      await page.reload({ waitUntil: 'domcontentloaded' });
+      await page.waitForFunction(() => document.querySelector('#bodyname')?.textContent?.includes('미하일'));
+      await page.waitForTimeout(100);
+      const undamagedWallBrightness = await sampleFireWall();
+      const damageState = game.advanceNpcWorld(possessed.state, 61, maps);
+      if (damageState.world.livingEventStates.E27.stage !== 'DAMAGE_SPREAD')
+        throw new Error('Unattended fire did not create the expected damage state for renderer acceptance');
+      await page.evaluate(saved => localStorage.setItem('v33-rpg-save', saved), game.saveGame(damageState));
+      await page.reload({ waitUntil: 'domcontentloaded' });
+      await page.waitForFunction(() => document.querySelector('#bodyname')?.textContent?.includes('미하일'));
+      await page.waitForTimeout(100);
+      const damagedWallBrightness = await sampleFireWall();
+      if (!(damagedWallBrightness < undamagedWallBrightness - 18))
+        throw new Error(`Persistent fire damage is not visible on the map: ${JSON.stringify({ undamagedWallBrightness, damagedWallBrightness })}`);
+      await page.screenshot({ path: path.join(output, `courtyard-fire-damage-aftermath-${viewport.width}x${viewport.height}.png`) });
       results.push({ viewport, choices: surface.choices.length, stageAfterClick: 'EVACUATING',
         stageAfterWalkingToGate: saved.world.livingEventStates.E27.stage, actorsOutside: saved.world.livingEventStates.E27.actorHostIds.length,
-        horizontalOverflow: surface.scrollWidth > surface.width, pageErrors: pageErrors.length });
+        horizontalOverflow: surface.scrollWidth > surface.width, damageVisuallyPersists: true,
+        undamagedWallBrightness, damagedWallBrightness, pageErrors: pageErrors.length });
       await context.close();
     }
   } finally { await browser.close(); }
