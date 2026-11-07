@@ -22,8 +22,12 @@ assert.equal(authoredRestock?.quantity, 6, 'the daily market contract carries th
 assert.equal(authoredRestock?.moneyAmount, 6, 'the wholesaler pays the agreed batch amount');
 assert.ok(cards.find(card => card.id === 'market_nadezhda').marketOffers[0].openWindows.some(window => window.endMinute === 1200),
   'the evening market remains open after the bakery restock');
+assert.ok(cards.find(card => card.id === 'market_nadezhda').marketOffers[0].openWindows.some(window => window.startMinute === 480 && window.endMinute >= 900),
+  'the bakery supplier returns in time to keep the daytime bread stall open through the afternoon');
 const authoredFishSeller = cards.find(card => card.id === 'fishseller_klavdiya');
 assert.equal(authoredFishSeller.marketOffers[0].itemKo, '생선 한 점');
+assert.ok(authoredFishSeller.marketOffers[0].openWindows.some(window => window.startMinute === 480 && window.endMinute >= 900),
+  'the fish seller stays open until late afternoon as residents reach their meal window');
 const authoredFishWork = authoredFishSeller.schedule.find(slot => slot.workAction?.id === 'V36_FISHSELLER_RECEIVE_CATCH')?.workAction;
 assert.equal(authoredFishWork?.restockOfferFromWork, true);
 assert.equal(authoredFishWork?.inventoryQuantity, 4);

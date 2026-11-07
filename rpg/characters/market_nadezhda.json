@@ -133,7 +133,7 @@
       "openWindows": [
         {
           "startMinute": 480,
-          "endMinute": 660
+          "endMinute": 960
         },
         {
           "startMinute": 1020,
@@ -202,6 +202,15 @@
         "durationMinutes": 20,
         "inventoryItemKo": "채소 꾸러미 한 몫"
       }
+    },
+    {
+      "atMinute": 900,
+      "mapId": "market-quay",
+      "position": {
+        "x": 14,
+        "y": 12
+      },
+      "activityKo": "빵집 정산을 마치고 좌판으로 돌아와 오후 빵을 판다"
     },
     {
       "atMinute": 1020,

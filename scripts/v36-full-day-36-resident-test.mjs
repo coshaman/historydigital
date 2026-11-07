@@ -129,7 +129,19 @@ const autonomousGoalTypesByResident = Object.fromEntries(ids.map(id => [id, [...
 const deliveries = first.state.ledger.flatMap(event => event.deliveries ?? []);
 const exchanges = first.state.ledger.flatMap(event => event.exchanges ?? []);
 const wagePayments = first.state.ledger.flatMap(event => event.payments ?? []).filter(payment => payment.kind === 'WAGE');
-const marketMeals = first.state.ledger.flatMap(event => event.meals ?? []).filter(meal => meal.kind === 'PURCHASE_AND_EAT');
+const mealRows = first.state.ledger.flatMap(event => event.meals ?? []);
+const marketMeals = mealRows.filter(meal => meal.kind === 'PURCHASE_AND_EAT');
+const innMealEvents = first.state.ledger.flatMap(event => event.livingEvents ?? [])
+  .filter(event => event.catalogEventId === 'E18');
+const paidInnMeals = innMealEvents.filter(event => ['MEAL_PAID', 'SMALL_MEAL_PAID', 'AUTO_SERVED'].includes(event.stage));
+const residentFoodStates = Object.fromEntries(ids.map(id => {
+  const host = first.state.hosts[id], residentMeals = mealRows.filter(row => row.hostId === id);
+  const innMeals = paidInnMeals.filter(row => row.state?.buyerHostId === id);
+  return [id, { initialHunger: first.initialNeeds[id].hunger, finalHunger: host.needs.hunger,
+    lastMealAtMinute: host.needs.lastMealAtMinute ?? null, mealCount: residentMeals.length + innMeals.length,
+    mealKinds: residentMeals.map(row => row.kind), innMealCount: innMeals.length, cash: host.money.amount,
+    foodInventory: host.inventory.filter(item => /빵|수프|생선|끼니|음식/.test(item)) }];
+}));
 const personalContacts = first.state.ledger.flatMap(event => event.personalContacts ?? []);
 const personalGoalVisits = first.observedPersonalGoalVisits;
 const deferredLifeGoalHosts = {
@@ -171,6 +183,10 @@ assert.ok(Object.values(autonomousGoalTypesByResident).every(types => types.leng
 assert.ok(deliveries.length > 0, 'at least one scheduled item handoff should complete');
 assert.ok(exchanges.length > 0, 'at least one scheduled exchange should complete');
 assert.ok(marketMeals.length > 0, 'a hungry resident should physically buy and eat market food during the day');
+assert.ok(marketMeals.length >= 9,
+  `the daytime market should serve a usable number of residents before shops close; sales=${marketMeals.length}`);
+assert.ok(paidInnMeals.length > 0,
+  `the inn should serve at least one paid evening meal during its authored service window; stages=${JSON.stringify(innMealEvents.map(event => event.stage))}`);
 assert.ok(marketMeals.every(meal => meal.mapId === meal.sellerMapId
   && Math.abs(meal.position.x - meal.sellerPosition.x) + Math.abs(meal.position.y - meal.sellerPosition.y) <= 1
   && meal.price > 0 && meal.valueStatus === 'fictional_gameplay_balance'),
@@ -231,6 +247,11 @@ const report = { schemaVersion:includeEventPerformers ? 'V37_FULL_DAY_37_RUNTIME
     residentsWithAutonomousGoalDecision:Object.values(autonomousGoalTypesByResident).filter(types=>types.length).length,
     autonomousGoalTypesByResident,
     deliveries:deliveries.length, exchanges:exchanges.length, wagePayments:wagePayments.length, paidMarketMeals:marketMeals.length,
+    otherMealActions:mealRows.filter(meal => meal.kind !== 'PURCHASE_AND_EAT').length,
+    innMealEventStages:innMealEvents.map(event => event.stage), paidInnMeals:paidInnMeals.length,
+    residentsEndingAtCriticalHunger:ids.filter(id => first.state.hosts[id].needs.hunger >= 90), residentFoodStates,
+    foodStocksAtEnd:Object.fromEntries(['market_nadezhda','fishseller_klavdiya','innkeeper_irina']
+      .map(id => [id, { ...(first.state.hosts[id].marketStock ?? {}) }])),
     marketMealBuyers:[...new Set(marketMeals.map(meal=>meal.hostId))], personalContacts:personalContacts.length,
     relationshipMemoryPairs:Object.values(first.state.hosts).reduce((sum,host)=>sum+Object.keys(host.relationshipMemory??{}).length,0)/2,
     distinctPersonalContactResidents,
