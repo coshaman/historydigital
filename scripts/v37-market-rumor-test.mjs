@@ -113,6 +113,21 @@ for (const [actionId, hostId, stage] of [
     assert.ok(result.state.hosts.editor_sofia.inventory.includes('editorial-note:E23'));
     assert.ok(result.state.hosts.editor_sofia.knownRumors.some(row => row.eventId === 'E23' && row.status === 'UNVERIFIED'));
     assert.match(newspaperAssignment(result.state, 'editor_sofia', maps)?.actionKo ?? '', /장터/);
+    let autonomousEditor = game.releaseHost(result.state, market).state;
+    for (let elapsed = 0; elapsed < 240 && !autonomousEditor.world.livingEventStates.E23.editorialNote.pressArrivalAtMinute; elapsed += 5) {
+      autonomousEditor = game.advanceNpcWorld(autonomousEditor, 5, maps);
+    }
+    assert.equal(autonomousEditor.hosts.editor_sofia.mapId, 'printshop',
+      `after the player releases her, the editor physically carries the interview note to the press: ${JSON.stringify({map:autonomousEditor.hosts.editor_sofia.mapId,position:autonomousEditor.hosts.editor_sofia.position,goal:autonomousEditor.hosts.editor_sofia.activeGoal,allowed:autonomousEditor.hosts.editor_sofia.allowedMaps,note:autonomousEditor.world.livingEventStates.E23.editorialNote,embodiment:autonomousEditor.player.embodiment})}`);
+    assert.ok(Number.isInteger(autonomousEditor.world.livingEventStates.E23.editorialNote.pressArrivalAtMinute),
+      'the note arrival is recorded as an event stage, not an instantaneous map change');
+    const pressArrival = autonomousEditor.ledger.flatMap(row => row.livingEvents ?? []).find(row => row.catalogEventId === 'E23'
+      && row.stage === 'EDITORIAL_NOTE_AT_PRESS' && row.sourceEventId === 'E13');
+    assert.ok(pressArrival, 'arrival is a distinct E13-linked world event');
+    assert.equal(pressArrival.mapId, 'printshop');
+    assert.deepEqual(pressArrival.actorHostIds, ['editor_sofia']);
+    assert.equal(game.stateHash(game.loadGame(game.saveGame(autonomousEditor), { maps, hostCards: cards })),
+      game.stateHash(autonomousEditor), 'physical press arrival and its event record survive save/load');
     let printing = structuredClone(result.state);
     printing.world.currentMapId = 'nevsky';
     printing.hosts.editor_sofia.mapId = 'nevsky'; printing.hosts.editor_sofia.position = { x: 25, y: 15 };

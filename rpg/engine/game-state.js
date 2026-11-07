@@ -1307,7 +1307,7 @@ function livingMarketRumorEventRow(state, stage, minuteOffset, maps, details = {
   return { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E23', stage,
     stageIndex: ({ RUMOR_ACTIVE: 1, PRICE_CHECKED_UNVERIFIED: 2, FORWARDED_UNVERIFIED: 2,
       CORRECTION_SPREAD: 2, IGNORED_UNCHECKED: 2, SPREAD_UNVERIFIED: 3,
-      EDITORIAL_NOTE_TAKEN: 3, NEWSPAPER_PRINTED: 4 })[stage],
+      EDITORIAL_NOTE_TAKEN: 3, EDITORIAL_NOTE_AT_PRESS: 4, NEWSPAPER_PRINTED: 5 })[stage],
     actorHostIds: [...(event?.actorHostIds ?? [])], witnessHostIds: [...(event?.witnessHostIds ?? [])],
     date: state.world.date, minute: minuteOffset, mapId: 'market-quay', position: { ...position },
     occurrenceType: 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION', validationStatus: 'DESIGN_SEED_NOT_VERIFIED',
@@ -1363,6 +1363,22 @@ function rumorAudienceAtScene(state, event, maps, speakerHostId) {
 }
 function advanceMarketRumorEvent(state, minuteOffset, maps, livingEventRows) {
   const event = state.world.livingEventStates?.E23;
+  const editor = event?.stage === 'EDITORIAL_NOTE_TAKEN' ? state.hosts[event.editorialNote?.editorHostId] : null;
+  const pressDesk = layer(maps?.printshop, 'Interactions')?.objects.find(object => object.name === '거리 신문 편집대');
+  if (editor && !Number.isInteger(event.editorialNote.pressArrivalAtMinute) && pressDesk
+    && editor.historicalAliveAndPresent !== false && editor.mapId === 'printshop'
+    && nearTile(editor.position, objectTile(pressDesk), 2) && editor.inventory.includes('editorial-note:E23')) {
+    const position = { ...editor.position };
+    const witnesses = Object.values(state.hosts).filter(host => host.id !== editor.id && host.historicalAliveAndPresent !== false
+      && host.mapId === 'printshop' && nearTile(host.position, position, 5)).map(host => host.id).sort();
+    event.editorialNote.pressArrivalAtMinute = state.world.clockMinutes;
+    event.editorialNote.pressMapId = 'printshop';
+    event.editorialNote.pressWitnessHostIds = witnesses;
+    livingEventRows.push(livingMarketRumorEventRow(state, 'EDITORIAL_NOTE_AT_PRESS', minuteOffset, maps,
+      { mapId: 'printshop', position, actorHostIds: [editor.id], witnessHostIds: witnesses,
+        sourceEventId: 'E13', witnessedByPlayer: playerCanObserveWorldEvent(state, 'printshop', position, 6, maps),
+        changeKo: '소피야가 장터 취재 메모를 편집대까지 가져왔다. 호외로 낼지, 인쇄하지 않을지는 편집부에서 정할 수 있다.' }));
+  }
   if (!event || event.status !== 'ACTIVE' || event.stage !== 'IGNORED_UNCHECKED'
     || state.world.clockMinutes < event.autoResolveAtMinute) return;
   event.status = 'RESOLVED'; event.stage = 'SPREAD_UNVERIFIED';
@@ -3273,6 +3289,16 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
       goalType: 'LIVING_EVENT_RESPONSE', targetHostId: isCarrier ? marketRumor.clerkHostId : marketRumor.carrierHostId,
       taskId: `V37:E23:${marketRumor.stage}:${host.id}`, reason: isCarrier ? 'market_hawker_carries_unverified_price_rumor_to_the_stall' : 'market_clerk_checks_rumor_against_official_transaction_record',
       selectionBasis: { utilityScore: 179, eventId: 'E23', stage: marketRumor.stage } };
+  }
+  if (marketRumor?.status === 'RESOLVED' && marketRumor.stage === 'EDITORIAL_NOTE_TAKEN'
+    && marketRumor.editorialNote?.editorHostId === host.id && host.id !== state.player.embodiment
+    && host.inventory.includes('editorial-note:E23') && host.allowedMaps.includes('printshop')
+    && npcMapRoute(host.mapId, 'printshop', host, maps, state.world.clockMinutes) !== null) {
+    const pressDesk = layer(maps.printshop, 'Interactions')?.objects.find(object => object.name === '거리 신문 편집대');
+    if (pressDesk) return { slot: { mapId: 'printshop', position: objectTile(pressDesk), activityKo: '장터 취재 메모를 편집대로 가져간다' },
+      goalType: 'LIVING_EVENT_RESPONSE', targetHostId: null, taskId: 'V37:E23:DELIVER_NOTE_TO_PRESS',
+      reason: 'editor_carries_interview_note_to_the_press_before_deciding_whether_to_print',
+      selectionBasis: { utilityScore: 185, eventId: 'E23', stage: marketRumor.stage } };
   }
   const apprenticeFatigue = state.world.livingEventStates?.E33;
   if (apprenticeFatigue?.status === 'ACTIVE' && host.id === apprenticeFatigue.studentHostId
