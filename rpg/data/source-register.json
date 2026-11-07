@@ -196,6 +196,21 @@
       "archive": "ГА РФ manuscript metadata via Presidential Library; 1848 periodical catalogue record via Russian State Library",
       "verificationStatus": "ARCHIVAL_CATALOG_METADATA_AND_ACADEMIC_TRANSCRIPTION_VERIFIED",
       "rights": "The manifesto is an 1848 public-domain text. The game translation is new. The manuscript itself is catalogued as reading-room-only; the displayed Russian passage follows the cited academic transcription, not an inspected manuscript image."
+    },
+    {
+      "sourceId": "OBJ-PUSHKIN-OBITUARY-1837",
+      "type": "CONTEMPORARY_PERIODICAL_TEXT_ACADEMICALLY_COLLATED",
+      "title": "О смерти Пушкина, in Литературные прибавления к Русскому инвалиду, 1837, № 5",
+      "creator": "В. Ф. Одоевский",
+      "date": "1837-01-29 (Julian); issue dated 1837-01-30",
+      "edition": "Final page of issue 5; text collated in I. V. Kudryashov, 2019, pp. 139–140",
+      "url": "https://ru.wikisource.org/wiki/О_смерти_Пушкина_(Пушкин)",
+      "issueCatalogUrl": "https://nlr.ru/res/inv/ukazat55/record_full.php?record_ID=120428",
+      "libraryContextUrl": "https://expositions.nlr.ru/fond/paper/paper_spb.php",
+      "transcriptionLocator": "Kudryashov (2019), pp. 139–140; one complete contiguous obituary paragraph",
+      "archive": "Russian National Library periodical catalogue; public transcription collated against the cited academic publication",
+      "verificationStatus": "PRIMARY_PERIODICAL_TEXT_AND_ACADEMIC_TRANSCRIPTION_VERIFIED",
+      "rights": "The 1837 text is public domain. The project translation is new; no modern Korean translation is used."
     }
   ]
 }

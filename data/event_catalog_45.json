@@ -709,7 +709,7 @@
   {
     "event_id": "E22",
     "title": "신문 발행일",
-    "place": "newsstand",
+    "place": "bookshop-interior",
     "roles": [
       "printer",
       "reader"
@@ -1392,35 +1392,18 @@
     "event_id": "E43",
     "title": "푸시킨의 죽음 소식",
     "place": "newsstand",
-    "roles": [
-      "reader",
-      "clerk",
-      "poet"
-    ],
-    "trigger": "historical_1837_news",
-    "visible_scene": "1837년 푸시킨 사망 보도가 퍼지고 애도 문서가 등장한다",
-    "historical_anchor": "1837년 실제 기사·편지",
-    "player_actions": [
-      "읽기",
-      "애도",
-      "논쟁",
-      "편지"
-    ],
-    "world_consequence": "문학 네트워크 영향",
+    "roles": ["bookseller_lev", "reader_darya", "student_vasily"],
+    "trigger": "1847_bookshop_reading_of_the_1837_obituary",
+    "visible_scene": "책방에서 1837년 부고 원문을 펼쳐 읽고, 그 문장이 남긴 애도를 두고 이야기한다",
+    "historical_anchor": "Литературные прибавления к Русскому инвалиду, 1837, № 5; Russian National Library periodical catalogue; Kudryashov (2019), pp. 139–140",
+    "player_actions": ["부고를 책방에 펼쳐 둔다", "첫 문단을 독서 장부에 옮긴다", "곁에 모인 사람들과 함께 읽는다"],
+    "world_consequence": "책방 안에서 누가 부고를 읽고 어떤 기록으로 남기는지가 달라진다. 1837년 부고의 내용과 역사적 인물의 생애는 고정된다.",
     "occurrence_type": "DOCUMENTED_HISTORICAL_EVENT",
-    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
-    "trigger_class": "HISTORICAL_FIXED",
-    "scene_steps": [
-      "spawn_actor_and_prop",
-      "show_causal_world_change",
-      "perform_interaction",
-      "update_witness_and_private_knowledge",
-      "emit_local_newspaper_or_gossip_if_newsworthy"
-    ],
-    "failure_outcomes": [
-      "nonparticipation_world_continues",
-      "witness_not_omniscient"
-    ]
+    "validation_status": "PRIMARY_PERIODICAL_TEXT_AND_ACADEMIC_TRANSCRIPTION_VERIFIED",
+    "trigger_class": "DATED_SOURCE_READING",
+    "source_ids": ["OBJ-PUSHKIN-OBITUARY-1837"],
+    "scene_steps": ["open_complete_obituary", "read_with_local_residents", "record_choice_and_audience", "preserve_published_text"],
+    "failure_outcomes": ["unread_source_remains_on_shelf", "published_obituary_remains_unchanged"]
   },
   {
     "event_id": "E44",

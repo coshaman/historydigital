@@ -69,7 +69,7 @@
   "tileheight": 16,
   "infinite": false,
   "nextlayerid": 7,
-  "nextobjectid": 4018,
+  "nextobjectid": 4020,
   "properties": [
     {
       "name": "mapId",
@@ -2305,6 +2305,33 @@
           "properties": [
             { "name": "questId", "type": "string", "value": "V37_SALON_INVITATION_1847" },
             { "name": "requiresLivingEventId", "type": "string", "value": "E29" }
+          ]
+        },
+        {
+          "id": 4018,
+          "name": "1837년 부고를 펼쳐 읽다",
+          "type": "quest-object",
+          "x": 208,
+          "y": 208,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            { "name": "questId", "type": "string", "value": "V37_PUSHKIN_OBITUARY_1847" }
+          ]
+        },
+        {
+          "id": 4019,
+          "name": "《문학 증보》 1837년 제5호 · 푸시킨 부고",
+          "type": "source",
+          "x": 192,
+          "y": 208,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            { "name": "sourceId", "type": "string", "value": "OBJ-PUSHKIN-OBITUARY-1837" },
+            { "name": "scope", "type": "string", "value": "public" }
           ]
         }
       ]

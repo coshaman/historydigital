@@ -1,0 +1,49 @@
+{
+  "id": "V37_PUSHKIN_OBITUARY_1847",
+  "catalogEventId": "E43",
+  "titleKo": "부고에 남은 한 문장",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "sourceIds": ["OBJ-PUSHKIN-OBITUARY-1837"],
+  "historicalOutcome": {
+    "id": "PUSHKIN_OBITUARY_TEXT_AND_PUBLICATION",
+    "value": "the 1837 obituary and its publication history remain fixed; only the fictional readers' handling and discussion vary",
+    "sourceIds": ["OBJ-PUSHKIN-OBITUARY-1837"]
+  },
+  "entry": { "mapId": "bookshop-interior", "objectId": 4018, "requiredHostId": "bookseller_lev" },
+  "premiseKo": "레프가 낡은 《문학 증보》 한 장을 펼친다. 다리야가 첫 문장을 읽고 묻는다. “사람이 죽었다는 소식에 왜 해처럼 졌다고 썼을까요?”",
+  "actions": [
+    {
+      "id": "E43_KEEP_FULL_TEXT",
+      "hostIds": ["bookseller_lev"],
+      "requiredKnowledgeId": "OBJ-PUSHKIN-OBITUARY-1837",
+      "labelKo": "부고를 원문 그대로 책방에 둔다",
+      "subcopyKo": "책방에 온 독자들이 볼 수 있습니다 · 문서는 가게 안에 남습니다 · 다른 기록에는 옮기지 않습니다",
+      "resultKo": "레프는 부고를 접지 않고 책상 한쪽에 두었다. 다리야는 ‘우리의 시인’이라는 말에 오래 시선을 두었다.",
+      "resultFlag": "pushkinObituaryKeptOpen",
+      "effects": { "situationKo": "부고 원문을 책방 독자들이 다시 읽을 수 있게 두었다." }
+    },
+    {
+      "id": "E43_COPY_TO_REGISTER",
+      "hostIds": ["bookseller_lev"],
+      "requiredKnowledgeId": "OBJ-PUSHKIN-OBITUARY-1837",
+      "labelKo": "부고의 첫 문단을 독서 장부에 옮긴다",
+      "subcopyKo": "장부를 맡은 레프가 씁니다 · 책방의 독서 기록에 남습니다 · 원문은 가게 안에 둡니다",
+      "resultKo": "레프는 부고의 첫 문단과 발행 날짜를 독서 장부에 옮겼다. 다리야는 날짜 옆에 ‘문학 증보 제5호’라고 덧붙였다.",
+      "resultFlag": "pushkinObituaryLogged",
+      "effects": { "situationKo": "부고 발행일과 첫 문단을 책방 독서 장부에 적었다." }
+    },
+    {
+      "id": "E43_READ_TO_SHOP",
+      "hostIds": ["bookseller_lev"],
+      "requiredKnowledgeId": "OBJ-PUSHKIN-OBITUARY-1837",
+      "requiredPresentHostIds": ["reader_darya", "student_vasily"],
+      "requiredParticipantDistance": 5,
+      "labelKo": "부고를 곁에 모인 사람들과 함께 읽는다",
+      "subcopyKo": "곁에 있는 다리야와 바실리가 듣습니다 · 함께 읽은 일이 책방 기록에 남습니다 · 문서는 가게 밖으로 나가지 않습니다",
+      "resultKo": "레프가 소리 내어 읽자 바실리가 물었다. “이름보다 시를 먼저 애도한 겁니까?” 다리야가 답했다. “아마 둘을 떼어 놓을 수 없었던 거겠지.”",
+      "resultFlag": "pushkinObituaryDiscussed",
+      "effects": { "situationKo": "책방에서 부고를 함께 읽고 애도의 표현을 두고 이야기를 나눴다." }
+    }
+  ]
+}
