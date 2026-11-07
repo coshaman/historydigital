@@ -4033,7 +4033,14 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
           if (typeof workAction.inventoryItemKo === 'string') {
             const quantity = Number.isInteger(workAction.inventoryQuantity) && workAction.inventoryQuantity > 0 && workAction.inventoryQuantity <= 99
               ? workAction.inventoryQuantity : 1;
-            if (Number.isInteger(workAction.inventoryQuantity)) {
+            const ownOffer = workAction.restockOfferFromWork === true
+              ? (host.marketOffers ?? []).find(offer => offer.itemKo === workAction.inventoryItemKo) : null;
+            if (ownOffer) {
+              host.marketStock ??= {};
+              host.marketStock[workAction.inventoryItemKo] = (host.marketStock[workAction.inventoryItemKo] ?? 0) + quantity;
+              record.marketStockAdded = quantity;
+              record.inventoryQuantity = quantity;
+            } else if (Number.isInteger(workAction.inventoryQuantity)) {
               for (let index = 0; index < quantity; index += 1) host.inventory.push(workAction.inventoryItemKo);
               record.inventoryQuantity = quantity;
             } else if (!host.inventory.includes(workAction.inventoryItemKo)) host.inventory.push(workAction.inventoryItemKo);

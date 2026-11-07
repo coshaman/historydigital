@@ -205,9 +205,12 @@
       "activityKo": "여관 안쪽 방의 빈자리와 저녁 손님 명부를 확인한다",
       "workAction": {
         "id": "V36_INNKEEPER_EVENING_REGISTER",
-        "outputKind": "여관 접수",
-        "outputKo": "저녁 손님의 이름과 빈자리 수를 접수 장부에 맞춘다",
-        "durationMinutes": 20
+        "outputKind": "여관 저녁 식사",
+        "outputKo": "저녁 명부를 확인하고 수프 여섯 그릇을 끓여 둔다",
+        "durationMinutes": 20,
+        "inventoryItemKo": "저녁 수프",
+        "inventoryQuantity": 6,
+        "restockOfferFromWork": true
       }
     },
     {

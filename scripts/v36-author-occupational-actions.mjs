@@ -13,9 +13,9 @@ const actionDefinitions = {
   coachman_timofey: [[480,'COACHMAN_CHECK_FARE_BOARD','마차 운송','운임표와 마차 상태를 확인해 오늘 운행표에 표시한다'],[840,'COACHMAN_ROUTE_CONDITION','노상 운송','강변 길의 통행 상태와 바퀴 점검 결과를 운행 메모에 적는다']],
   courier_pavel: [[600,'COURIER_SORT_ROUTE','우편 분류','받을 사람과 전달 순서에 따라 봉투를 가방 칸에 나눈다'],[660,'COURIER_RETURN_RECEIPT','우편 인계','빈 가방과 전달 확인표를 우편 접수 담당에게 돌려준다']],
   editor_sofia: [[540,'EDITOR_ANNOTATE_PROOF','편집 교정','교정쇄에 출처와 날짜가 빠지지 않았는지 표시한다'],[840,'EDITOR_REPLY_REGISTER','편집 회신','들어온 원고의 수신인과 답장을 보낼 시각을 정리한다']],
-  fishseller_klavdiya: [[420,'FISHSELLER_RECEIVE_CATCH','시장 판매','강변에서 들어온 생선의 수량과 받은 시각을 적는다','생선 좌판 한 몫'],[780,'FISHSELLER_STOCK_TALLY','시장 재고','좌판에 남은 물량과 보관 시간을 비교해 손실을 기록한다']],
+  fishseller_klavdiya: [[420,'FISHSELLER_RECEIVE_CATCH','시장 판매','강변 생선 네 점을 받아 시장 좌판에 올린다','생선 한 점',null,4,true],[780,'FISHSELLER_STOCK_TALLY','시장 재고','좌판에 남은 물량과 보관 시간을 비교해 손실을 기록한다']],
   housemaid_olga: [[420,'HOUSEMAID_PREPARE_WATER','가사 노동','물과 마른 걸레를 챙기고 맡은 방의 청소 순서를 정한다'],[960,'HOUSEMAID_CLOSE_ERRANDS','가사 심부름','저녁에 필요한 물품과 끝내지 못한 심부름을 구분해 적는다']],
-  innkeeper_irina: [[420,'INNKEEPER_PREPARE_ROOMS','여관 운영','빈방과 식사 준비를 확인해 손님 명부를 갱신한다'],[960,'INNKEEPER_EVENING_REGISTER','여관 접수','저녁 손님의 이름과 빈자리 수를 접수 장부에 맞춘다']],
+  innkeeper_irina: [[420,'INNKEEPER_PREPARE_ROOMS','여관 운영','빈방과 식사 준비를 확인해 손님 명부를 갱신한다'],[960,'INNKEEPER_EVENING_REGISTER','여관 저녁 식사','저녁 명부를 확인하고 수프 여섯 그릇을 끓여 둔다','저녁 수프',null,6,true]],
   junior_guard_sergey: [[420,'GUARD_CHECK_VISITOR_PASSES','출입 감독','방문증과 방문 목적을 대조해 출입 기록을 남긴다'],[960,'GUARD_HANDOVER_REGISTER','당직 인계','허가된 방문과 대기 인원을 교대 목록에 맞춘다']],
   landlady_polina: [[420,'LANDLADY_COMPARE_RENT','셋방 관리','방세와 공동 장작 비용을 따로 장부에 적는다'],[960,'LANDLADY_CLOSE_SHARED_COSTS','셋방 정산','세입자별 공동 지출과 아직 합의되지 않은 항목을 구분한다']],
   laundress_mariya: [[420,'LAUNDRESS_WASH_LINEN','세탁 노동','린넨을 물에 담그고 세탁물마다 맡긴 사람을 표시한다','접은 린넨 한 벌',{ payerHostId:'baker_fyodor', amount:1, unit:'kopeks', valueStatus:'fictional_gameplay_balance' }],[780,'LAUNDRESS_RECONCILE_PAYMENTS','세탁 정산','받은 세탁값과 아직 받지 못한 값을 장부에서 나눈다']],
@@ -56,7 +56,7 @@ const allPayrolls = [];
 for (const [hostId, definitions] of Object.entries(actionDefinitions)) {
   assert.equal(definitions.length, 2, `${hostId} needs two distinct job actions`);
   const { file, card } = residents.get(hostId);
-  for (const [atMinute, id, outputKind, outputKo, inventoryItemKo, payroll, inventoryQuantity] of definitions) {
+  for (const [atMinute, id, outputKind, outputKo, inventoryItemKo, payroll, inventoryQuantity, restockOfferFromWork] of definitions) {
     const slot = card.schedule.find(item => item.atMinute === atMinute);
     assert.ok(slot, `${hostId} has authored schedule slot ${atMinute}`);
     assert.ok(!slot.task || ['DELIVER','EXCHANGE','CONSUME'].includes(slot.task.type), `${hostId} existing task remains intact`);
@@ -64,6 +64,7 @@ for (const [hostId, definitions] of Object.entries(actionDefinitions)) {
     const resolvedQuantity = inventoryQuantity ?? slot.workAction?.inventoryQuantity;
     slot.workAction = { id: `V36_${id}`, outputKind, outputKo, durationMinutes: 20,
       ...(inventoryItemKo ? { inventoryItemKo } : {}), ...(resolvedQuantity ? { inventoryQuantity: resolvedQuantity } : {}),
+      ...(restockOfferFromWork ? { restockOfferFromWork: true } : {}),
       ...(resolvedPayroll ? { payroll: resolvedPayroll } : {}) };
     if (resolvedPayroll) allPayrolls.push({ hostId, actionId: slot.workAction.id, ...resolvedPayroll });
     allIds.push(slot.workAction.id);

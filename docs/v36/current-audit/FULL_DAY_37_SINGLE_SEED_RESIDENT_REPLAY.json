@@ -9,14 +9,14 @@
   "deterministicReplaySeed": 0,
   "simulatedMinutes": 1440,
   "replayHashes": [
-    "591c178a"
+    "8c678128"
   ],
   "collisionSnapshotsPerReplay": 288,
   "totalCollisionSnapshots": 288,
   "firstReplay": {
-    "movementSteps": 5657,
-    "districtTransitions": 275,
-    "goalEvents": 552,
+    "movementSteps": 5623,
+    "districtTransitions": 271,
+    "goalEvents": 546,
     "newCatalogEventStages": {
       "E20": [
         "RECORD_NOT_FOUND",
@@ -77,43 +77,43 @@
       "missedParcelEventTriggered": false
     },
     "movementStepsByResident": {
-      "clerk_alexei": 96,
-      "printer_ekaterina": 129,
-      "courier_pavel": 198,
-      "seamstress_anna": 128,
-      "bookseller_lev": 121,
+      "clerk_alexei": 97,
+      "printer_ekaterina": 117,
+      "courier_pavel": 186,
+      "seamstress_anna": 130,
+      "bookseller_lev": 115,
       "senior_clerk_konstantin": 107,
-      "reader_darya": 103,
-      "editor_sofia": 100,
-      "police_sergeant_ivan": 134,
-      "print_apprentice_stepan": 124,
-      "bookbinder_elizaveta": 175,
-      "scribal_yuri": 95,
-      "student_vasily": 191,
+      "reader_darya": 99,
+      "editor_sofia": 102,
+      "police_sergeant_ivan": 132,
+      "print_apprentice_stepan": 116,
+      "bookbinder_elizaveta": 177,
+      "scribal_yuri": 96,
+      "student_vasily": 207,
       "minor_noble_andrei": 142,
-      "junior_guard_sergey": 152,
-      "street_vendor_matryona": 210,
-      "typesetter_nikita": 154,
-      "tenant_mikhail": 181,
-      "housemaid_olga": 183,
-      "midwife_avdotya": 114,
-      "innkeeper_irina": 146,
-      "teacher_lyubov": 147,
+      "junior_guard_sergey": 149,
+      "street_vendor_matryona": 195,
+      "typesetter_nikita": 155,
+      "tenant_mikhail": 188,
+      "housemaid_olga": 177,
+      "midwife_avdotya": 144,
+      "innkeeper_irina": 145,
+      "teacher_lyubov": 131,
       "landlady_polina": 165,
-      "watercarrier_luka": 173,
+      "watercarrier_luka": 165,
       "servant_varvara": 188,
-      "lodging_tatyana": 146,
-      "yardkeeper_semyon": 235,
-      "laundress_mariya": 139,
+      "lodging_tatyana": 148,
+      "yardkeeper_semyon": 240,
+      "laundress_mariya": 156,
       "baker_fyodor": 109,
-      "market_nadezhda": 94,
-      "porter_gavrila": 180,
-      "coachman_timofey": 247,
+      "market_nadezhda": 104,
+      "porter_gavrila": 178,
+      "coachman_timofey": 259,
       "apothecary_yakov": 160,
-      "fishseller_klavdiya": 201,
-      "warehouse_pyotr": 154,
-      "carter_roman": 226,
-      "street_musician_ivan": 110
+      "fishseller_klavdiya": 153,
+      "warehouse_pyotr": 152,
+      "carter_roman": 230,
+      "street_musician_ivan": 109
     },
     "residentsWithAutonomousGoalDecision": 37,
     "autonomousGoalTypesByResident": {
@@ -373,7 +373,8 @@
         "SCHEDULED_WORK",
         "LIVING_EVENT_RESPONSE",
         "PERSONAL_LIFE_FOCUS",
-        "NIGHT_REST"
+        "NIGHT_REST",
+        "PURCHASE_MEAL"
       ],
       "porter_gavrila": [
         "PREPARE_SCHEDULED_WORK",
@@ -439,18 +440,20 @@
     "deliveries": 4,
     "exchanges": 4,
     "wagePayments": 15,
-    "paidMarketMeals": 6,
+    "paidMarketMeals": 9,
     "marketMealBuyers": [
       "fishseller_klavdiya",
       "baker_fyodor",
       "watercarrier_luka",
       "coachman_timofey",
-      "carter_roman"
+      "courier_pavel",
+      "porter_gavrila",
+      "market_nadezhda"
     ],
-    "personalContacts": 17,
-    "relationshipMemoryPairs": 14,
-    "distinctPersonalContactResidents": 14,
-    "personalLifeGoalVisits": 28,
+    "personalContacts": 16,
+    "relationshipMemoryPairs": 13,
+    "distinctPersonalContactResidents": 13,
+    "personalLifeGoalVisits": 27,
     "residentsWithPhysicalLifeGoalVisits": 26,
     "residentsWithLockedLifeGoals": 2,
     "lifeGoalCoverage": {
@@ -624,12 +627,12 @@
       }
     },
     "residentsWithDistinctAuthoredObjectives": 37,
-    "finalActivityCount": 10,
+    "finalActivityCount": 9,
     "finalPositions": {
       "clerk_alexei": {
         "mapId": "nevsky",
-        "x": 7,
-        "y": 9
+        "x": 6,
+        "y": 11
       },
       "printer_ekaterina": {
         "mapId": "printshop",
@@ -638,23 +641,23 @@
       },
       "courier_pavel": {
         "mapId": "nevsky",
-        "x": 17,
-        "y": 13
+        "x": 28,
+        "y": 9
       },
       "seamstress_anna": {
         "mapId": "nevsky",
-        "x": 17,
-        "y": 9
+        "x": 16,
+        "y": 10
       },
       "bookseller_lev": {
         "mapId": "nevsky",
-        "x": 15,
-        "y": 13
+        "x": 16,
+        "y": 14
       },
       "senior_clerk_konstantin": {
         "mapId": "chancery",
-        "x": 11,
-        "y": 15
+        "x": 12,
+        "y": 14
       },
       "reader_darya": {
         "mapId": "nevsky",
@@ -663,157 +666,157 @@
       },
       "editor_sofia": {
         "mapId": "nevsky",
-        "x": 22,
-        "y": 10
+        "x": 25,
+        "y": 9
       },
       "police_sergeant_ivan": {
         "mapId": "nevsky",
         "x": 14,
-        "y": 12
+        "y": 10
       },
       "print_apprentice_stepan": {
         "mapId": "nevsky",
-        "x": 26,
-        "y": 9
+        "x": 21,
+        "y": 12
       },
       "bookbinder_elizaveta": {
-        "mapId": "nevsky",
-        "x": 26,
-        "y": 8
+        "mapId": "market-quay",
+        "x": 3,
+        "y": 10
       },
       "scribal_yuri": {
         "mapId": "chancery",
-        "x": 14,
-        "y": 11
+        "x": 13,
+        "y": 14
       },
       "student_vasily": {
         "mapId": "market-quay",
-        "x": 3,
+        "x": 5,
         "y": 9
       },
       "minor_noble_andrei": {
         "mapId": "nevsky",
         "x": 10,
-        "y": 10
+        "y": 8
       },
       "junior_guard_sergey": {
         "mapId": "nevsky",
-        "x": 14,
+        "x": 18,
         "y": 13
       },
       "street_vendor_matryona": {
         "mapId": "market-quay",
-        "x": 4,
-        "y": 12
+        "x": 7,
+        "y": 8
       },
       "typesetter_nikita": {
         "mapId": "market-quay",
-        "x": 6,
-        "y": 12
+        "x": 3,
+        "y": 9
       },
       "tenant_mikhail": {
         "mapId": "nevsky",
-        "x": 21,
-        "y": 9
+        "x": 20,
+        "y": 11
       },
       "housemaid_olga": {
         "mapId": "nevsky",
-        "x": 21,
-        "y": 12
+        "x": 19,
+        "y": 10
       },
       "midwife_avdotya": {
         "mapId": "nevsky",
-        "x": 20,
-        "y": 10
+        "x": 21,
+        "y": 11
       },
       "innkeeper_irina": {
         "mapId": "nevsky",
-        "x": 18,
-        "y": 10
+        "x": 17,
+        "y": 12
       },
       "teacher_lyubov": {
         "mapId": "nevsky",
-        "x": 12,
-        "y": 8
+        "x": 14,
+        "y": 12
       },
       "landlady_polina": {
-        "mapId": "courtyard",
-        "x": 13,
-        "y": 16
+        "mapId": "nevsky",
+        "x": 16,
+        "y": 9
       },
       "watercarrier_luka": {
         "mapId": "market-quay",
-        "x": 8,
+        "x": 10,
         "y": 10
       },
       "servant_varvara": {
         "mapId": "nevsky",
-        "x": 18,
-        "y": 11
+        "x": 19,
+        "y": 14
       },
       "lodging_tatyana": {
         "mapId": "nevsky",
-        "x": 24,
-        "y": 10
+        "x": 26,
+        "y": 12
       },
       "yardkeeper_semyon": {
         "mapId": "nevsky",
-        "x": 14,
-        "y": 10
+        "x": 18,
+        "y": 9
       },
       "laundress_mariya": {
         "mapId": "nevsky",
-        "x": 22,
-        "y": 11
+        "x": 21,
+        "y": 9
       },
       "baker_fyodor": {
         "mapId": "market-quay",
-        "x": 17,
-        "y": 11
+        "x": 25,
+        "y": 12
       },
       "market_nadezhda": {
         "mapId": "market-quay",
-        "x": 13,
-        "y": 12
+        "x": 26,
+        "y": 11
       },
       "porter_gavrila": {
         "mapId": "market-quay",
-        "x": 4,
+        "x": 12,
         "y": 9
       },
       "coachman_timofey": {
         "mapId": "market-quay",
-        "x": 11,
+        "x": 9,
         "y": 9
       },
       "apothecary_yakov": {
         "mapId": "nevsky",
-        "x": 24,
-        "y": 9
+        "x": 27,
+        "y": 10
       },
       "fishseller_klavdiya": {
         "mapId": "market-quay",
-        "x": 8,
-        "y": 11
+        "x": 26,
+        "y": 12
       },
       "warehouse_pyotr": {
         "mapId": "nevsky",
-        "x": 23,
-        "y": 12
+        "x": 25,
+        "y": 10
       },
       "carter_roman": {
         "mapId": "market-quay",
-        "x": 9,
-        "y": 10
+        "x": 6,
+        "y": 9
       },
       "street_musician_ivan": {
         "mapId": "nevsky",
-        "x": 20,
-        "y": 11
+        "x": 18,
+        "y": 14
       }
     }
   },
-  "fullDaySaveReloadStateHash": "591c178a",
+  "fullDaySaveReloadStateHash": "8c678128",
   "autoCompletedPlayerQuests": 0,
-  "runtimeMilliseconds": 72343
+  "runtimeMilliseconds": 57679
 }
