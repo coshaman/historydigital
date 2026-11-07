@@ -1373,37 +1373,20 @@
 },
   {
     "event_id": "E42",
-    "title": "1848년 유럽 소식",
-    "place": "newsstand",
-    "roles": [
-      "reader",
-      "printer",
-      "student"
-    ],
-    "trigger": "foreign_news_1848",
-    "visible_scene": "유럽 정치 변동 기사를 두고 독자들이 언쟁한다",
-    "historical_anchor": "1848년 실제 정기간행물 기사",
-    "player_actions": [
-      "읽기",
-      "질문",
-      "논평",
-      "불매"
-    ],
-    "world_consequence": "소문·사상·검열 변화",
+    "title": "1848년 황제 선언문과 유럽 소식",
+    "place": "printshop",
+    "roles": ["clerk_alexei", "printer_ekaterina", "reader_darya", "student_vasily"],
+    "trigger": "1848-03-15_julian_newspaper_issue_59_arrives",
+    "visible_scene": "3월 15일자 신문에 실린 선언문이 인쇄소에 도착하고, 네 주민이 모여 읽는다",
+    "historical_anchor": "Nicholas I manifesto dated 14 March 1848 (Julian); printed in Северная пчела, 1848, № 59 (15 March Julian)",
+    "player_actions": ["관청 장부에 등록", "개인 수첩에 기록", "작업장 사람들과 소리 내 읽기"],
+    "world_consequence": "사본의 공식·개인·공개 기록 경로가 달라진다. 유럽 혁명과 선언의 역사적 사실은 고정된다.",
     "occurrence_type": "DOCUMENTED_HISTORICAL_EVENT",
-    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "validation_status": "ARCHIVAL_METADATA_AND_ACADEMIC_TRANSCRIPTION_VERIFIED",
     "trigger_class": "HISTORICAL_FIXED",
-    "scene_steps": [
-      "spawn_actor_and_prop",
-      "show_causal_world_change",
-      "perform_interaction",
-      "update_witness_and_private_knowledge",
-      "emit_local_newspaper_or_gossip_if_newsworthy"
-    ],
-    "failure_outcomes": [
-      "nonparticipation_world_continues",
-      "witness_not_omniscient"
-    ]
+    "source_ids": ["OBJ-NICHOLAS-MANIFESTO-1848"],
+    "scene_steps": ["spawn_actor_and_prop", "gather_readers", "read_contiguous_primary_text", "record_audience_and_disposition", "preserve_fixed_history"],
+    "failure_outcomes": ["unattended_notice_left_unrecorded", "fixed_historical_outcome_unchanged"]
   },
   {
     "event_id": "E43",

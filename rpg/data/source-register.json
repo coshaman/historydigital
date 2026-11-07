@@ -181,6 +181,21 @@
       "archive": "Президентская библиотека имени Б. Н. Ельцина",
       "verificationStatus": "ARCHIVAL_CATALOG_METADATA_VERIFIED_DOCUMENTS_NOT_TRANSCRIBED",
       "rights": "Каталог подтверждает существование датированного дела о поимке воров и мошенников в Петербурге; конкретный эпизод игры не приписывается делу."
+    },
+    {
+      "sourceId": "OBJ-NICHOLAS-MANIFESTO-1848",
+      "type": "PRIMARY_PERIODICAL_TEXT_WITH_ARCHIVAL_AND_ACADEMIC_LOCATORS",
+      "title": "Высочайший манифест 14 марта 1848 года, printed in Северная пчела, 1848, № 59 (15 марта, Julian date)",
+      "creator": "Николай I; issue metadata attributed to the newspaper catalogue",
+      "date": "1848-03-14 (manifesto); 1848-03-15 (newspaper issue, Julian calendar)",
+      "issue": "Северная пчела, 1848, № 59; printed text verified in A. S. Minin, 2024, pp. 647–648",
+      "archiveLocator": "ГА РФ. Ф. 672. Оп. 1. Д. 198. Л. 1 (manuscript record catalogued by Presidential Library)",
+      "url": "https://www.prlib.ru/item/1753301?mode=rusmarc",
+      "issueCatalogUrl": "https://search.rsl.ru/ru/record/01004911920",
+      "transcriptionLocator": "А. С. Минин, ‘Высочайший манифест 14 марта 1848 года: к пониманию политики Николая I’, pp. 647–648; consecutive text from ‘Объявляем всенародно’ through ‘Но да не будет так!’",
+      "archive": "ГА РФ manuscript metadata via Presidential Library; 1848 periodical catalogue record via Russian State Library",
+      "verificationStatus": "ARCHIVAL_CATALOG_METADATA_AND_ACADEMIC_TRANSCRIPTION_VERIFIED",
+      "rights": "The manifesto is an 1848 public-domain text. The game translation is new. The manuscript itself is catalogued as reading-room-only; the displayed Russian passage follows the cited academic transcription, not an inspected manuscript image."
     }
   ]
 }

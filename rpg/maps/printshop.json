@@ -91,7 +91,7 @@
   "tileheight": 16,
   "infinite": false,
   "nextlayerid": 7,
-  "nextobjectid": 1176,
+  "nextobjectid": 1185,
   "properties": [
     {
       "name": "mapId",
@@ -2527,6 +2527,35 @@
             { "name": "questId", "type": "string", "value": "V37_APPRENTICE_FATIGUE_1847" },
             { "name": "requiresLivingEventId", "type": "string", "value": "E33" },
             { "name": "assetTileId", "type": "int", "value": 24 }
+          ]
+        },
+        {
+          "id": 1183,
+          "name": "1848년 3월 14일 황제 선언문",
+          "type": "source",
+          "x": 208,
+          "y": 144,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            { "name": "sourceId", "type": "string", "value": "OBJ-NICHOLAS-MANIFESTO-1848" },
+            { "name": "availableChapterId", "type": "string", "value": "V33_1848_PUBLIC" },
+            { "name": "availableDate", "type": "string", "value": "1848-03-15" }
+          ]
+        },
+        {
+          "id": 1184,
+          "name": "선언문을 읽고 남길 자리",
+          "type": "quest-object",
+          "x": 224,
+          "y": 144,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            { "name": "questId", "type": "string", "value": "V37_EUROPE_NEWS_1848" },
+            { "name": "requiresLivingEventId", "type": "string", "value": "E42" }
           ]
         }
       ]

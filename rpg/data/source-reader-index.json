@@ -144,6 +144,18 @@
       "pageLocator": "РВБ 115–117행 · 연속된 두 본문 문단과 수신·발신 표제",
       "contextKo": "도스토옙스키가 동생 미하일에게 보낸 편지다. 편지는 판결을 먼저 전하고, 세묘노프스키 광장으로 호송된 뒤 사형 선고와 처형 준비를 겪은 일, 집행 중지와 감형 통보를 차례로 적는다.",
       "rightsNoteKo": "동생 미하일에게 보낸 사적 편지의 공개 러시아어 전사문을 새로 번역했다."
+    },
+    {
+      "sourceId": "OBJ-NICHOLAS-MANIFESTO-1848",
+      "excerptId": "EX-NICHOLAS-MANIFESTO-1848-NB59-ANNOUNCEMENT-001",
+      "layout": "official",
+      "textStatus": "DIRECT",
+      "renderingStatus": "RECONSTRUCTED",
+      "documentDate": "1848-03-14 (Julian)",
+      "publicationDate": "Северная пчела, 1848, № 59, 1848-03-15 (Julian)",
+      "pageLocator": "Minin (2024), pp. 647–648 · four consecutive blocks from ‘Объявляем всенародно’ through ‘Но да не будет так!’",
+      "contextKo": "선언문은 프랑스에서 시작해 독일과 오스트리아·프로이센으로 번진 변화를 황실의 관점에서 설명하고, 러시아를 향한 위협으로 규정한 뒤 이를 막겠다고 선언합니다.",
+      "rightsNoteKo": "1848년 원문은 공공영역 문서다. 러시아어는 미닌의 학술 전사문에서 옮겼고 번역은 새로 작성했다."
     }
   ]
 }

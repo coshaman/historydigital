@@ -2013,6 +2013,68 @@ function advanceMarketTheftEvent(state, minuteOffset, maps, livingEventRows, opt
   livingEventRows.push(marketTheftEventRow(state, event, event.stage, minuteOffset, maps,
     { actionId: event.resolutionActionId, unattended: true, changeKo: '신고 없이 시간이 지나 나데즈다는 돈주머니 손실을 좌판 장부에 적었다.' }));
 }
+function europeNewsEventRow(state, event, stage, minuteOffset, maps, details = {}) {
+  return { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E42', stage,
+    stageIndex: stage === 'NOTICE_ARRIVED' ? 1 : stage === 'READING_READY' ? 2 : 3,
+    actorHostIds: [...event.actorHostIds], witnessHostIds: [...event.witnessHostIds],
+    date: state.world.date, minute: minuteOffset, mapId: event.venueMapId,
+    position: { ...event.scenePosition }, sourceIds: [...event.sourceIds],
+    occurrenceType: 'DOCUMENTED_HISTORICAL_EVENT',
+    validationStatus: 'ARCHIVAL_METADATA_AND_ACADEMIC_TRANSCRIPTION_VERIFIED',
+    historicalOutcomeId: 'EUROPE_REVOLUTIONS_1848', historicalOutcomeFixed: true,
+    state: clone(event), witnessedByPlayer: playerCanObserveWorldEvent(state, event.venueMapId, event.scenePosition, 6, maps), ...details };
+}
+function advanceEuropeNewsEvent(state, minuteOffset, maps, livingEventRows) {
+  state.world.livingEventStates ??= {};
+  let event = state.world.livingEventStates.E42;
+  if (!event) {
+    const objects = layer(maps?.printshop, 'Interactions')?.objects ?? [];
+    const source = objects.find(item => properties(item).sourceId === 'OBJ-NICHOLAS-MANIFESTO-1848');
+    const stand = objects.find(item => item.id === 1184);
+    const actorHostIds = ['clerk_alexei', 'printer_ekaterina', 'reader_darya', 'student_vasily'];
+    const actors = actorHostIds.map(id => state.hosts[id]);
+    const minute = ((state.world.clockMinutes % 1440) + 1440) % 1440;
+    if (state.world.chapterId !== 'V33_1848_PUBLIC' || state.world.activeRealm
+      || state.world.date !== '1848-03-15' || minute < 540 || minute > 780
+      || !source || !stand || actors.some(host => !host || host.historicalAliveAndPresent === false
+        || !host.allowedMaps.includes('printshop')
+        || npcMapRoute(host.mapId, 'printshop', host, maps, state.world.clockMinutes) === null)) return;
+    const scenePosition = objectTile(stand), witnesses = actorHostIds.filter(id => id !== 'clerk_alexei');
+    event = state.world.livingEventStates.E42 = { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E42',
+      status: 'ACTIVE', stage: 'NOTICE_ARRIVED', trigger: '1848-03-15_northern_bee_issue_59_publishes_manifesto',
+      startedAtMinute: state.world.clockMinutes, resolvesAtMinute: state.world.clockMinutes + 240,
+      actorHostIds, witnessHostIds: witnesses, venueMapId: 'printshop', scenePosition,
+      sourceIds: ['OBJ-NICHOLAS-MANIFESTO-1848'], historicalOutcomeId: 'EUROPE_REVOLUTIONS_1848',
+      historicalOutcomeFixed: true, disposition: null, resolutionActionId: null };
+    state.world.immutableOutcomes ??= {};
+    state.world.immutableOutcomes.EUROPE_REVOLUTIONS_1848 = 'the documented events and dates remain unchanged';
+    livingEventRows.push(europeNewsEventRow(state, event, event.stage, minuteOffset, maps,
+      { changeKo: '3월 15일자 신문에 실린 황제 선언문이 인쇄소에 도착했다. 유럽의 변화를 황실의 말로 규정한 글이다.' }));
+  }
+  if (event.status !== 'ACTIVE') return;
+  const gathered = event.actorHostIds.every(id => {
+    const host = state.hosts[id];
+    return host && host.historicalAliveAndPresent !== false && host.mapId === event.venueMapId
+      && nearTile(host.position, event.scenePosition, 5);
+  });
+  if (gathered && event.stage === 'NOTICE_ARRIVED') {
+    event.stage = 'READING_READY'; event.gatheredAtMinute = state.world.clockMinutes;
+    event.resolvesAtMinute = state.world.clockMinutes + 180;
+    livingEventRows.push(europeNewsEventRow(state, event, event.stage, minuteOffset, maps,
+      { changeKo: '에카테리나와 다리야, 바실리가 곁에 왔다. 선언문을 읽고 장부에 남길 수 있다.' }));
+  }
+  if (state.world.clockMinutes < event.resolvesAtMinute) return;
+  event.status = 'RESOLVED'; event.stage = 'UNRECORDED_NOTICE';
+  event.resolvedAtMinute = state.world.clockMinutes; event.disposition = 'NO_LOCAL_COPY';
+  event.resolutionActionId = 'AUTO_NOTICE_LEFT_UNRECORDED';
+  state.world.europeNewsRecord = { eventId: 'E42', sourceIds: [...event.sourceIds], disposition: event.disposition,
+    historicalOutcomeFixed: true, date: state.world.date, recordedAtMinute: state.world.clockMinutes };
+  for (const id of event.actorHostIds) {
+    const host = state.hosts[id]; if (host?.activeGoal?.taskId?.startsWith('V37:E42:')) host.activeGoal = null;
+  }
+  livingEventRows.push(europeNewsEventRow(state, event, event.stage, minuteOffset, maps,
+    { unattended: true, changeKo: '그날 선언문은 관청 기록이나 인쇄소의 개인 기록으로 옮겨지지 않았다.' }));
+}
 function advanceMarketPriceDispute(state, minuteOffset, maps, livingEventRows, options = {}) {
   state.world.livingEventStates ??= {};
   const event = state.world.livingEventStates.E13;
@@ -2860,6 +2922,18 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
         ? marketTheft.watchmanHostId : marketTheft.sellerHostId,
       taskId: `V37:E36:${marketTheft.stage}:${host.id}`, reason: 'market_loss_witness_and_watchman_gather_at_stall',
       selectionBasis: { utilityScore: 184, eventId: 'E36', stage: marketTheft.stage } };
+  }
+  const europeNews = state.world.livingEventStates?.E42;
+  if (europeNews?.status === 'ACTIVE' && europeNews.actorHostIds.includes(host.id)
+    && host.allowedMaps.includes(europeNews.venueMapId)
+    && npcMapRoute(host.mapId, europeNews.venueMapId, host, maps, state.world.clockMinutes) !== null) {
+    const activities = { clerk_alexei: '황제 선언문의 접수 위치를 살핀다', printer_ekaterina: '선언문 인쇄본을 작업대에 편다',
+      reader_darya: '선언문의 표현을 읽어 본다', student_vasily: '유럽 소식과 선언문을 함께 읽으러 간다' };
+    return { slot: { mapId: europeNews.venueMapId, position: { ...europeNews.scenePosition },
+      activityKo: activities[host.id] ?? '인쇄소에 도착한 선언문을 살핀다' },
+      goalType: 'LIVING_EVENT_RESPONSE', targetHostId: host.id === 'clerk_alexei' ? 'printer_ekaterina' : 'clerk_alexei',
+      taskId: `V37:E42:${europeNews.stage}:${host.id}`, reason: 'read_the_1848_manifesto_with_local_readers',
+      selectionBasis: { utilityScore: 184, eventId: 'E42', stage: europeNews.stage } };
   }
   const marketDayWork = state.world.livingEventStates?.E32;
   if (marketDayWork?.status === 'ACTIVE' && marketDayWork.actorHostIds.includes(host.id)
@@ -3740,6 +3814,7 @@ function advanceNpcWorld(state, elapsedMinutes, maps, options = {}) {
     advanceCanalTraffic(next, [], tick, maps, livingEventLog);
     advanceWarehouseInjury(next, tick, maps, livingEventLog);
     advanceFixedHistoricalEvent(next, tick, maps, livingEventLog);
+    advanceEuropeNewsEvent(next, tick, maps, livingEventLog);
     advanceSickLodger(next, tick, maps, livingEventLog, options);
     advanceLateMealEvent(next, tick, maps, livingEventLog, options);
     advanceApprenticeLiteracy(next, tick, maps, livingEventLog, options);
@@ -3757,6 +3832,7 @@ function advanceNpcWorld(state, elapsedMinutes, maps, options = {}) {
     advanceSalonInvitationEvent(next, tick, maps, result.livingEventRows, options);
     advanceMarketDayWorkEvent(next, tick, maps, result.livingEventRows, options);
     advanceMarketTheftEvent(next, tick, maps, result.livingEventRows, options);
+    advanceEuropeNewsEvent(next, tick, maps, result.livingEventRows);
     advancePoliceDocumentCheck(next, tick, maps, result.livingEventRows);
     advanceRentNoticeEvent(next, tick, maps, result.livingEventRows);
     advanceRoofLeakRepairEvent(next, tick, maps, result.livingEventRows);
@@ -4275,6 +4351,7 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
       : questId === 'V37_PHYSIOLOGY_READING_1847' ? 'E39'
       : questId === 'V37_MARKET_DAY_WORK_1847' ? 'E32'
         : questId === 'V37_MARKET_THEFT_1847' ? 'E36'
+          : questId === 'V37_EUROPE_NEWS_1848' ? 'E42'
     : questId === 'V37_ROOF_LEAK_REPAIR_1847' ? 'E35'
     : questId === 'V37_CENSORED_PAGE_1847' ? 'E06'
     : questId === 'V37_COURTYARD_DISPUTE_1847' ? 'E09'
@@ -4292,7 +4369,7 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
             : questId === 'V37_APPRENTICE_FATIGUE_1847' ? 'E33'
               : questId === 'E41_SEMENOVSKY_1849' ? 'E41'
                 : questId === 'V37_STREET_MUSIC_1847' ? 'E38' : undefined,
-    pausedHostIds: ['CIRCLE_INVESTIGATION_1849', 'V37_MANUSCRIPT_OFFER_1847', 'V37_SERFDOM_READING_1847', 'V37_SALON_DEBATE_1847', 'V37_SALON_INVITATION_1847', 'V37_MARKET_DAY_WORK_1847', 'V37_ROOF_LEAK_REPAIR_1847', 'V37_CHARITY_DAY_1847', 'V37_APPRENTICE_LITERACY_1847', 'STUDENT_CIRCLE_RISK_1847', 'V37_POLICE_DOCUMENT_CHECK_1847', 'V37_SICK_LODGER_1847', 'V37_APPRENTICE_FATIGUE_1847', 'V37_MARKET_RUMOR_1847', 'V37_INN_GUEST_1847', 'V37_NEWSPAPER_RELEASE_1847', 'E41_SEMENOVSKY_1849', 'V37_STREET_MUSIC_1847', 'V37_PHYSIOLOGY_READING_1847', 'V37_HOUSEHOLD_TUTOR_OFFER_1847', 'V37_MARKET_THEFT_1847'].includes(questId) ? [...(requiredLivingEvent?.actorHostIds ?? [])]
+    pausedHostIds: ['CIRCLE_INVESTIGATION_1849', 'V37_MANUSCRIPT_OFFER_1847', 'V37_SERFDOM_READING_1847', 'V37_SALON_DEBATE_1847', 'V37_SALON_INVITATION_1847', 'V37_MARKET_DAY_WORK_1847', 'V37_ROOF_LEAK_REPAIR_1847', 'V37_CHARITY_DAY_1847', 'V37_APPRENTICE_LITERACY_1847', 'STUDENT_CIRCLE_RISK_1847', 'V37_POLICE_DOCUMENT_CHECK_1847', 'V37_SICK_LODGER_1847', 'V37_APPRENTICE_FATIGUE_1847', 'V37_MARKET_RUMOR_1847', 'V37_INN_GUEST_1847', 'V37_NEWSPAPER_RELEASE_1847', 'E41_SEMENOVSKY_1849', 'V37_STREET_MUSIC_1847', 'V37_PHYSIOLOGY_READING_1847', 'V37_HOUSEHOLD_TUTOR_OFFER_1847', 'V37_MARKET_THEFT_1847', 'V37_EUROPE_NEWS_1848'].includes(questId) ? [...(requiredLivingEvent?.actorHostIds ?? [])]
       : ['V37_MARKET_PRICE_DISPUTE_1847', 'V37_LATE_MEAL_1847'].includes(questId)
         ? [requiredLivingEvent?.sellerHostId, requiredLivingEvent?.buyerHostId].filter(Boolean)
             : questId === 'V37_APOTHECARY_ORDER_1847' ? [requiredLivingEvent?.buyerHostId, requiredLivingEvent?.supplierHostId].filter(Boolean)
@@ -4423,6 +4500,35 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
       { actionId, resolvedByHostId: hostId, ...(event.officialRecordNumber ? { officialRecordNumber: event.officialRecordNumber } : {}),
         ...(event.lossCompensation ? { payment: clone(event.lossCompensation) } : {}),
         changeKo: action.resultKo }));
+  }
+  if (questId === 'V37_EUROPE_NEWS_1848') {
+    const event = next.world.livingEventStates?.E42;
+    const outcomes = { E42_COPY_TO_REGISTER: ['clerk_alexei', 'OFFICIAL_REGISTER', 'OFFICIAL_NOTICE_FILED'],
+      E42_KEEP_PRIVATE_NOTE: ['clerk_alexei', 'PRIVATE_NOTE', 'PRIVATE_NOTICE_RECORDED'],
+      E42_READ_TO_SHOP: ['printer_ekaterina', 'SHOP_READING', 'DECLARATION_READ_ALOUD'] };
+    const [requiredHostId, disposition, stage] = outcomes[actionId] ?? [];
+    if (!event || event.status !== 'ACTIVE' || event.stage !== 'READING_READY' || hostId !== requiredHostId
+      || !next.world.discoveredSourceIds?.includes('OBJ-NICHOLAS-MANIFESTO-1848')) {
+      return { ok: false, reason: 'europe_news_event_not_ready', state };
+    }
+    event.status = 'RESOLVED'; event.stage = stage; event.disposition = disposition;
+    event.resolvedAtMinute = next.world.clockMinutes; event.resolvedByHostId = hostId;
+    event.resolutionActionId = actionId; event.playerChoiceActionId = actionId;
+    const record = { eventId: 'E42', sourceIds: [...event.sourceIds], disposition, recordedByHostId: hostId,
+      audienceHostIds: actionId === 'E42_READ_TO_SHOP' ? ['reader_darya', 'student_vasily'] : [],
+      historicalOutcomeFixed: true, date: next.world.date, recordedAtMinute: next.world.clockMinutes };
+    next.world.europeNewsRecord = record;
+    if (actionId === 'E42_KEEP_PRIVATE_NOTE') {
+      next.hosts[hostId].personalEventNotes ??= [];
+      next.hosts[hostId].personalEventNotes.push({ eventId: 'E42', sourceId: event.sourceIds[0],
+        speakerHostId: hostId, atMinute: next.world.clockMinutes,
+        noteKo: '유럽의 소식을 황제의 선언은 어떻게 설명하는지 적었다. 공식 장부에는 옮기지 않았다.' });
+    }
+    for (const id of event.actorHostIds) {
+      const host = next.hosts[id]; if (host?.activeGoal?.taskId?.startsWith('V37:E42:')) host.activeGoal = null;
+    }
+    livingEvents.push(europeNewsEventRow(next, event, stage, next.world.clockMinutes % 1440, maps,
+      { actionId, ...record, changeKo: action.resultKo }));
   }
   if (!literaryQuest && questId === 'V37_STREET_MUSIC_1847') {
     const event = next.world.livingEventStates?.E38, musician = event && next.hosts[event.musicianHostId], listener = next.hosts[hostId];

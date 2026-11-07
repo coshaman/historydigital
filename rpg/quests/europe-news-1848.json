@@ -1,0 +1,51 @@
+{
+  "id": "V37_EUROPE_NEWS_1848",
+  "titleKo": "유럽의 소식, 황제의 선언",
+  "chapterId": "V33_1848_PUBLIC",
+  "date": "1848-03-14",
+  "sourceIds": ["OBJ-NICHOLAS-MANIFESTO-1848"],
+  "requiresLivingEventId": "E42",
+  "historicalOutcome": {
+    "id": "EUROPE_REVOLUTIONS_1848",
+    "value": "the documented events and dates remain unchanged",
+    "sourceIds": ["OBJ-NICHOLAS-MANIFESTO-1848"]
+  },
+  "entry": { "mapId": "printshop", "objectId": 1184 },
+  "actions": [
+    {
+      "id": "E42_COPY_TO_REGISTER",
+      "hostIds": ["clerk_alexei"],
+      "requiredLivingEventStage": "READING_READY",
+      "requiredKnowledgeId": "OBJ-NICHOLAS-MANIFESTO-1848",
+      "labelKo": "선언문 사본을 관청 장부에 붙인다",
+      "subcopyKo": "접수 담당자가 봅니다 · 관청 기록으로 남습니다 · 문서는 작업장을 떠납니다",
+      "resultKo": "선언문 사본을 관청 장부에 붙였다. 유럽에서 벌어진 일과 황제의 대응이 공식 기록에 남았다.",
+      "resultFlag": "officialNoticeFiled",
+      "effects": { "situationKo": "3월 14일 선언문을 공식 장부에 등록했다." }
+    },
+    {
+      "id": "E42_KEEP_PRIVATE_NOTE",
+      "hostIds": ["clerk_alexei"],
+      "requiredLivingEventStage": "READING_READY",
+      "requiredKnowledgeId": "OBJ-NICHOLAS-MANIFESTO-1848",
+      "labelKo": "읽은 대목을 개인 수첩에 적는다",
+      "subcopyKo": "수첩 주인만 봅니다 · 사적인 기록으로 남습니다 · 사본은 작업장에 둡니다",
+      "resultKo": "읽은 대목과 그날 들은 반응을 개인 수첩에 적었다. 공식 장부에는 올리지 않았다.",
+      "resultFlag": "privateNoticeNoted",
+      "effects": { "situationKo": "선언문을 개인 수첩에 기록했다." }
+    },
+    {
+      "id": "E42_READ_TO_SHOP",
+      "hostIds": ["printer_ekaterina"],
+      "requiredLivingEventStage": "READING_READY",
+      "requiredKnowledgeId": "OBJ-NICHOLAS-MANIFESTO-1848",
+      "requiredPresentHostIds": ["reader_darya", "student_vasily"],
+      "requiredParticipantDistance": 6,
+      "labelKo": "작업장 사람들과 선언문을 소리 내 읽는다",
+      "subcopyKo": "곁에 있는 독자와 견습생이 듣습니다 · 함께 읽은 일이 사적인 메모에 남습니다 · 바깥으로 보내지는 않습니다",
+      "resultKo": "에카테리나가 선언문을 소리 내 읽었다. 다리야는 황제가 유럽의 변화를 어떻게 불렀는지 되짚고, 바실리는 그 말이 러시아에 무엇을 요구하는지 물었다.",
+      "resultFlag": "shopReadingHeld",
+      "effects": { "situationKo": "인쇄소에서 선언문을 함께 읽고 내용을 논했다." }
+    }
+  ]
+}
