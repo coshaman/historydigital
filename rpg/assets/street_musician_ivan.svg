@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="96" viewBox="0 0 16 96" shape-rendering="crispEdges">
+  <g transform="translate(0 0)">
+    <path fill="#30262a" d="M5 2h6v2h2v3h-2v2H5V7H3V4h2z"/><path fill="#c18c68" d="M6 5h4v4H6z"/>
+    <path fill="#dfc9a8" d="M5 10h6v2H5z"/><path fill="#474047" d="M4 12h8v7h2v3H2v-3h2z"/>
+    <path fill="#8b6041" d="M5 13h2v6H5z"/><path fill="#312a2e" d="M3 22h4v2H3zm7 0h4v2h-4z"/>
+    <path fill="#795536" d="M0 14h3v5H1v-2H0z"/><path fill="#c49a63" d="M0 15h1v3H0z"/>
+    <path fill="#b68b56" d="M11 13h4v6h-4z"/><path fill="#4c3528" d="M12 14h2v4h-2z"/>
+  </g>
+  <g transform="translate(0 24)">
+    <path fill="#30262a" d="M5 2h6v2h2v3h-2v2H5V7H3V4h2z"/><path fill="#c18c68" d="M6 5h4v4H6z"/>
+    <path fill="#dfc9a8" d="M5 10h6v2H5z"/><path fill="#474047" d="M4 12h8v7h2v3H2v-3h2z"/>
+    <path fill="#8b6041" d="M9 13h2v6H9z"/><path fill="#312a2e" d="M3 22h4v2H3zm7 0h4v2h-4z"/>
+    <path fill="#795536" d="M13 14h3v2h-1v3h-2z"/><path fill="#b68b56" d="M1 13h4v6H1z"/><path fill="#4c3528" d="M2 14h2v4H2z"/>
+  </g>
+  <g transform="translate(0 48)">
+    <path fill="#30262a" d="M5 2h6v2h2v3h-2v2H5V7H3V4h2z"/><path fill="#c18c68" d="M6 5h4v4H6z"/>
+    <path fill="#dfc9a8" d="M5 10h6v2H5z"/><path fill="#474047" d="M4 12h8v7h2v3H2v-3h2z"/>
+    <path fill="#8b6041" d="M5 13h2v6H5z"/><path fill="#312a2e" d="M3 22h4v2H3zm7 0h4v2h-4z"/>
+    <path fill="#795536" d="M0 14h3v5H1v-2H0z"/><path fill="#c49a63" d="M0 15h1v3H0z"/>
+    <path fill="#b68b56" d="M11 13h4v6h-4z"/><path fill="#4c3528" d="M12 14h2v4h-2z"/>
+  </g>
+  <g transform="translate(0 72)">
+    <path fill="#30262a" d="M5 2h6v2h2v3h-2v2H5V7H3V4h2z"/><path fill="#c18c68" d="M6 5h4v4H6z"/>
+    <path fill="#dfc9a8" d="M5 10h6v2H5z"/><path fill="#474047" d="M4 12h8v7h2v3H2v-3h2z"/>
+    <path fill="#8b6041" d="M9 13h2v6H9z"/><path fill="#312a2e" d="M3 22h4v2H3zm7 0h4v2h-4z"/>
+    <path fill="#795536" d="M13 14h3v2h-1v3h-2z"/><path fill="#b68b56" d="M1 13h4v6H1z"/><path fill="#4c3528" d="M2 14h2v4H2z"/>
+  </g>
+</svg>

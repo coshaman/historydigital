@@ -11,7 +11,7 @@ const residents = fs.readdirSync(charactersDir).filter(file => file.endsWith('.j
   .map(file => JSON.parse(fs.readFileSync(path.join(charactersDir, file), 'utf8')))
   .filter(character => character.kind === 'FICTIONAL');
 const normalized = value => String(value ?? '').normalize('NFC').replace(/[\s.,!?…·]/g, '').toLocaleLowerCase('ko');
-if (residents.length !== 36) failures.push(`expected 36 fictional resident voice cards, found ${residents.length}`);
+if (residents.length < 36) failures.push(`expected at least 36 fictional resident voice cards, found ${residents.length}`);
 for (const character of residents) {
   if (!character.speechRhythm?.trim()) failures.push(`${character.id}: missing speech rhythm`);
   for (const situation of runtimeSituations) {

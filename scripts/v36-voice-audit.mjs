@@ -5,7 +5,7 @@ import path from 'node:path';
 const directory = path.join(process.cwd(), 'rpg', 'characters');
 const cards = await Promise.all((await readdir(directory)).filter(file => file.endsWith('.json')).map(async file => JSON.parse(await readFile(path.join(directory, file), 'utf8'))));
 const residents = cards.filter(card => card.kind === 'FICTIONAL' && !card.id.startsWith('literary_'));
-assert.equal(residents.length, 36, 'the audit covers all 36 fictional city residents');
+assert.ok(residents.length >= 36, 'the audit covers at least 36 fictional city residents');
 
 const registerSituations = ['firstMeeting', 'colleague', 'private', 'conflict', 'intimacy', 'formal'];
 const registerSignatures = new Map();

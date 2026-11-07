@@ -12,7 +12,7 @@ const [maps, cards] = await Promise.all([
   Promise.all(mapFiles.map(file => json(`../rpg/maps/${file}`))).then(records => Object.fromEntries(records.map(map => [map.mapId, map]))),
   Promise.all(cardFiles.map(file => json(`../rpg/characters/${file}`))),
 ]);
-const fictionalCards = cards.filter(card => card.kind === 'FICTIONAL');
+const fictionalCards = cards.filter(card => card.kind === 'FICTIONAL' && card.rosterClass !== 'EVENT_PERFORMER');
 const state = game.createInitialState({ maps, hostCards: cards, startMapId: 'nevsky' });
 
 assert.equal(fictionalCards.length, 36);

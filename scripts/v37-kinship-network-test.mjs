@@ -16,7 +16,8 @@ const [maps, cards] = await Promise.all([
     .then(rows => Object.fromEntries(rows.map(map => [map.mapId, map]))),
   Promise.all(cardNames.filter(name => name.endsWith('.json')).map(name => readJson(new URL(`../rpg/characters/${name}`, import.meta.url)))),
 ]);
-const fictional = cards.filter(card => card.kind === 'FICTIONAL');
+const coreResidentIds = new Set(graph.edges.flatMap(edge => [edge.a, edge.b]));
+const fictional = cards.filter(card => coreResidentIds.has(card.id));
 const cardById = new Map(cards.map(card => [card.id, card]));
 assert.equal(graph.historicalClaim, false);
 assert.equal(graph.status, 'FICTIONAL_CHARACTER_DESIGN');

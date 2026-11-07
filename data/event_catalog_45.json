@@ -1234,7 +1234,16 @@
     ],
     "trigger": "street_show",
     "visible_scene": "거리 악사의 연주를 듣고 사람들이 모여든다",
-    "historical_anchor": "1845 풍속 스케치 거리 음악가",
+    "historical_anchor": "1845년 『Физиология Петербурга』 제1부에 실린 드미트리 그리고로비치의 『Петербургские шарманщики』",
+    "source_basis": {
+      "sourceId": "PRLIB-1327533",
+      "recordTitleRu": "Физиология Петербурга, составленная из трудов русских литераторов. Ч. 1",
+      "creator": "Дмитрий Васильевич Григорович",
+      "edition": "Санкт-Петербург: издание книгопродавца А. Иванова, 1845",
+      "recordRange": "Президентская библиотека, bibliographic record and contents listing, lines 45–53",
+      "url": "https://www.prlib.ru/item/1327533",
+      "evidenceScope": "Confirms the publication and essay title. The individual street performance and characters in this game remain a fictional simulation."
+    },
     "player_actions": [
       "동전주기",
       "질문",

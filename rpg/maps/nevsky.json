@@ -3435,9 +3435,31 @@
               "value": true
             }
           ]
+        },
+        {
+          "id": 1183,
+          "name": "손풍금 악사 이반",
+          "type": "quest-object",
+          "x": 320,
+          "y": 240,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "V37_STREET_MUSIC_1847"
+            },
+            {
+              "name": "requiresLivingEventId",
+              "type": "string",
+              "value": "E38"
+            }
+          ]
         }
       ],
-      "nextobjectid": 1183
+      "nextobjectid": 1184
     },
     {
       "id": 6,
@@ -4003,6 +4025,23 @@
               "name": "hostId",
               "type": "string",
               "value": "lodging_tatyana"
+            }
+          ]
+        },
+        {
+          "id": 920,
+          "name": "이반",
+          "type": "npc",
+          "x": 320,
+          "y": 224,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "hostId",
+              "type": "string",
+              "value": "street_musician_ivan"
             }
           ]
         }

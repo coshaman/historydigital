@@ -1512,6 +1512,65 @@ function advancePoliceDocumentCheck(state, minuteOffset, maps, livingEventRows) 
     if (officer.activeGoal?.taskId?.startsWith('V37:E25:')) officer.activeGoal = null;
   }
 }
+function streetMusicEventRow(state, stage, minuteOffset, maps, details = {}) {
+  const event = state.world.livingEventStates?.E38;
+  const position = event?.scenePosition ?? { x: 20, y: 15 };
+  const mapId = event?.venueMapId ?? 'nevsky';
+  return { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E38', stage,
+    date: state.world.date, minute: minuteOffset, actorHostIds: [...(event?.actorHostIds ?? [])],
+    mapId, position: { ...position }, occurrenceType: 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION',
+    validationStatus: 'DESIGN_SEED_NOT_VERIFIED', valueStatus: 'fictional_gameplay_balance',
+    witnessedByPlayer: playerCanObserveWorldEvent(state, mapId, position, 6, maps), ...details };
+}
+function advanceStreetMusicEvent(state, minuteOffset, maps, livingEventRows) {
+  state.world.livingEventStates ??= {};
+  let event = state.world.livingEventStates.E38;
+  const dayIndex = Math.floor(state.world.clockMinutes / 1440);
+  if (event?.status === 'RESOLVED' && event.performanceDayIndex !== dayIndex) {
+    delete state.world.livingEventStates.E38;
+    state.quests.V37_STREET_MUSIC_1847 = { status: 'open', result: null };
+    event = null;
+  }
+  if (event?.status === 'ACTIVE') {
+    if (state.world.clockMinutes < event.endsAtMinute) return;
+    const musician = state.hosts[event.musicianHostId];
+    const listener = ['street_vendor_matryona', 'watercarrier_luka', 'reader_darya', 'market_nadezhda']
+      .map(id => state.hosts[id]).find(host => host && host.id !== musician?.id && host.historicalAliveAndPresent !== false
+        && host.id !== event?.playerTipHostId
+        && host.mapId === event.venueMapId && nearTile(host.position, event.scenePosition, 5)
+        && host.money?.unit === musician?.money?.unit && host.money.amount >= 1);
+    if (listener && musician) {
+      listener.money.amount -= 1; musician.money.amount += 1;
+      listener.relations[musician.id] = '네프스키 거리에서 연주를 듣고 동전 한 푼을 건넨 사람';
+      musician.relations[listener.id] = '연주를 듣고 동전을 건넨 행인';
+      event.tipHostId = listener.id; event.tipAmount = 1; event.stage = 'TIP_RECEIVED';
+    } else event.stage = 'PERFORMANCE_ENDED';
+    event.status = 'RESOLVED'; event.resolvedAtMinute = state.world.clockMinutes;
+    event.resolutionActionId = 'AUTO_PERFORMANCE_ENDED';
+    if (musician?.needs) musician.needs.fatigue = Math.min(100, musician.needs.fatigue + 4);
+    livingEventRows.push(streetMusicEventRow(state, event.stage, minuteOffset, maps,
+      { changeKo: listener ? '연주가 끝나자 행인이 동전 한 푼을 건넸다.' : '연주가 끝났고 악사는 악기를 거두었다.',
+        ...(listener ? { payerHostId: listener.id, recipientHostId: musician.id, paidAmount: 1 } : {}) }));
+    return;
+  }
+  const localMinute = ((state.world.clockMinutes % 1440) + 1440) % 1440;
+  if (event || state.world.activeRealm || state.world.chapterId !== 'V33_1847_PRINT'
+    || state.world.date < '1847-06-01' || localMinute < 600 || localMinute >= 900) return;
+  const musician = state.hosts.street_musician_ivan;
+  if (!musician || musician.historicalAliveAndPresent === false || musician.mapId !== 'nevsky'
+    || !Number.isInteger(musician.position?.x) || !Number.isInteger(musician.position?.y)
+    || !nearTile(musician.position, { x: 20, y: 14 }, 1)) return;
+  const scenePosition = { x: 20, y: 14 };
+  state.world.livingEventStates.E38 = { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E38',
+    status: 'ACTIVE', stage: 'PERFORMING', trigger: 'street_musician_reaches_nevsky_at_performance_hour',
+    startedAtMinute: state.world.clockMinutes, endsAtMinute: state.world.clockMinutes + 60,
+    performanceDayIndex: dayIndex, musicianHostId: musician.id, actorHostIds: [musician.id], venueMapId: 'nevsky', scenePosition,
+    occurrenceType: 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION', validationStatus: 'DESIGN_SEED_NOT_VERIFIED',
+    valueStatus: 'fictional_gameplay_balance' };
+  livingEventRows.push(streetMusicEventRow(state, 'PERFORMING', minuteOffset, maps,
+    { changeKo: '네프스키 거리에서 악사가 연주를 시작했다.' }));
+}
+
 function advanceStudentCircle(state, minuteOffset, maps, livingEventRows) {
   state.world.livingEventStates ??= {};
   let event = state.world.livingEventStates.E24;
@@ -3492,6 +3551,7 @@ function advanceNpcWorld(state, elapsedMinutes, maps, options = {}) {
     advanceFoodDeprivation(next, tick, maps, result.careRows);
     advanceApprenticeLiteracy(next, tick, maps, result.livingEventRows, options);
     advanceStudentCircle(next, tick, maps, result.livingEventRows);
+    advanceStreetMusicEvent(next, tick, maps, result.livingEventRows);
     advanceManuscriptOfferEvent(next, tick, maps, result.livingEventRows, options);
     advanceSerfdomReadingEvent(next, tick, maps, result.livingEventRows, options);
     advanceSalonDebateEvent(next, tick, maps, result.livingEventRows, options);
@@ -3930,8 +3990,9 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
             : questId === 'V37_SICK_LODGER_1847' ? 'E15'
             : questId === 'V37_APOTHECARY_ORDER_1847' ? 'E16'
             : questId === 'V37_APPRENTICE_FATIGUE_1847' ? 'E33'
-              : questId === 'E41_SEMENOVSKY_1849' ? 'E41' : undefined,
-    pausedHostIds: ['V37_MANUSCRIPT_OFFER_1847', 'V37_SERFDOM_READING_1847', 'V37_SALON_DEBATE_1847', 'V37_MARKET_DAY_WORK_1847', 'V37_ROOF_LEAK_REPAIR_1847', 'V37_CHARITY_DAY_1847', 'V37_APPRENTICE_LITERACY_1847', 'STUDENT_CIRCLE_RISK_1847', 'V37_POLICE_DOCUMENT_CHECK_1847', 'V37_SICK_LODGER_1847', 'V37_APPRENTICE_FATIGUE_1847', 'V37_MARKET_RUMOR_1847', 'V37_INN_GUEST_1847', 'V37_NEWSPAPER_RELEASE_1847', 'E41_SEMENOVSKY_1849'].includes(questId) ? [...(requiredLivingEvent?.actorHostIds ?? [])]
+              : questId === 'E41_SEMENOVSKY_1849' ? 'E41'
+                : questId === 'V37_STREET_MUSIC_1847' ? 'E38' : undefined,
+    pausedHostIds: ['V37_MANUSCRIPT_OFFER_1847', 'V37_SERFDOM_READING_1847', 'V37_SALON_DEBATE_1847', 'V37_MARKET_DAY_WORK_1847', 'V37_ROOF_LEAK_REPAIR_1847', 'V37_CHARITY_DAY_1847', 'V37_APPRENTICE_LITERACY_1847', 'STUDENT_CIRCLE_RISK_1847', 'V37_POLICE_DOCUMENT_CHECK_1847', 'V37_SICK_LODGER_1847', 'V37_APPRENTICE_FATIGUE_1847', 'V37_MARKET_RUMOR_1847', 'V37_INN_GUEST_1847', 'V37_NEWSPAPER_RELEASE_1847', 'E41_SEMENOVSKY_1849', 'V37_STREET_MUSIC_1847'].includes(questId) ? [...(requiredLivingEvent?.actorHostIds ?? [])]
       : ['V37_MARKET_PRICE_DISPUTE_1847', 'V37_LATE_MEAL_1847'].includes(questId)
         ? [requiredLivingEvent?.sellerHostId, requiredLivingEvent?.buyerHostId].filter(Boolean)
             : questId === 'V37_APOTHECARY_ORDER_1847' ? [requiredLivingEvent?.buyerHostId, requiredLivingEvent?.supplierHostId].filter(Boolean)
@@ -3957,6 +4018,33 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
       changeKo: actionId === 'KEEP_PRIVATE_NOTE' ? '현장에서 본 일을 개인 수첩에 적었다.' : '현장을 보고도 기록은 남기지 않았다.' });
   }
   if (effects.moneyDelta) next.hosts[hostId].money.amount += effects.moneyDelta;
+  if (!literaryQuest && questId === 'V37_STREET_MUSIC_1847') {
+    const event = next.world.livingEventStates?.E38, musician = event && next.hosts[event.musicianHostId], listener = next.hosts[hostId];
+    if (!event || event.status !== 'ACTIVE' || event.stage !== 'PERFORMING' || !musician || !listener
+      || musician.mapId !== 'nevsky' || listener.mapId !== 'nevsky'
+      || !nearTile(listener.position, event.scenePosition, 5) || !nearTile(musician.position, event.scenePosition, 1)) {
+      return { ok: false, reason: 'street_performance_not_present', state };
+    }
+    const outcomes = { E38_TIP_MUSICIAN: 'TIP_OFFERED', E38_ASK_MUSICIAN: 'ASKED_ABOUT_WORK', E38_PASS_BY: 'PASSED_BY' };
+    if (!outcomes[actionId]) return { ok: false, reason: 'street_performance_action_invalid', state };
+    event.stage = outcomes[actionId]; event.lastListenerHostId = listener.id; event.lastActionId = actionId;
+    if (actionId === 'E38_TIP_MUSICIAN') {
+      if (listener.money.amount < 1 || listener.money.unit !== musician.money.unit) return { ok: false, reason: 'street_tip_unaffordable', state };
+      musician.money.amount += 1; event.playerTipHostId = listener.id; event.playerTipAmount = 1;
+      musician.relations[listener.id] = '연주를 듣고 동전을 건넨 사람';
+    } else if (actionId === 'E38_ASK_MUSICIAN') {
+      listener.knownRumors ??= [];
+      listener.knownRumors.push({ rumorId: `E38_MUSICIAN_WORK_${next.world.clockMinutes}`, sourceHostId: musician.id,
+        sourceEventId: 'E38', confidence: 1, observedAtMinute: next.world.clockMinutes,
+        summaryKo: '이반은 연주로 버는 돈에서 집세와 악기 수리비를 마련한다고 말했다.' });
+      musician.relations[listener.id] = '연주와 벌이를 물어본 행인';
+    }
+    livingEvents.push(streetMusicEventRow(next, event.stage, next.world.clockMinutes % 1440, maps,
+      { playerActionId: actionId, listenerHostId: listener.id,
+        ...(actionId === 'E38_TIP_MUSICIAN' ? { payerHostId: listener.id, recipientHostId: musician.id, paidAmount: 1 } : {}),
+        changeKo: actionId === 'E38_TIP_MUSICIAN' ? '행인이 이반에게 동전 한 푼을 건넸다.'
+          : actionId === 'E38_ASK_MUSICIAN' ? '행인이 이반에게 연주와 벌이를 물었다.' : '행인은 연주를 지나쳤다.' }));
+  }
   if (questId === 'V37_FUNERAL_DEBT_REPAYMENT_1847') {
     const event = next.world.livingEventStates?.E28, debt = event?.debt;
     const amount = action.debtPaymentAmount, debtor = debt && next.hosts[debt.debtorHostId], creditor = debt && next.hosts[debt.creditorHostId];

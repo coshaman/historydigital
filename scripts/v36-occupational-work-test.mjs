@@ -13,7 +13,7 @@ const maps = Object.fromEntries(await Promise.all(mapFiles.map(async file => {
 })));
 const cardFiles = (await readdir(new URL('../rpg/characters/', import.meta.url))).filter(file => file.endsWith('.json'));
 const hostCards = await Promise.all(cardFiles.map(file => readJson(`../rpg/characters/${file}`)));
-const activeResidents = hostCards.filter(card => card.kind === 'FICTIONAL' && !card.id.startsWith('literary_'));
+const activeResidents = hostCards.filter(card => card.kind === 'FICTIONAL' && card.rosterClass !== 'EVENT_PERFORMER' && !card.id.startsWith('literary_'));
 assert.equal(activeResidents.length, 36);
 const workSlots = activeResidents.flatMap(card => card.schedule.filter(slot => slot.workAction).map(slot => ({ card, slot })));
 assert.equal(workSlots.length, 72, 'each active resident has two authored job actions');

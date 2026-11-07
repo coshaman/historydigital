@@ -1,0 +1,57 @@
+{
+  "id": "V37_STREET_MUSIC_1847",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "titleKo": "네프스키 거리의 손풍금",
+  "premiseKo": "이반이 손풍금을 연주한다. 곁에 서서 들을 수 있다.",
+  "requiresLivingEventId": "E38",
+  "entry": { "mapId": "nevsky", "objectId": 1183 },
+  "historicalOutcome": {
+    "id": "E38_FICTIONAL_STREET_PERFORMANCE",
+    "value": "A fictional street performance whose audience, tips, and memory are simulated.",
+    "sourceIds": []
+  },
+  "actions": [
+    {
+      "id": "E38_TIP_MUSICIAN",
+      "labelKo": "동전 한 푼 건넨다",
+      "subcopyKo": "1코페이카를 이반에게 건넵니다. 가까운 행인도 볼 수 있습니다.",
+      "hostIds": ["street_vendor_matryona", "watercarrier_luka", "reader_darya", "market_nadezhda"],
+      "requiredPresentLivingEventHostKey": "musicianHostId",
+      "requiredParticipantDistance": 5,
+      "durationMinutes": 2,
+      "resultFlag": "E38_TIPPED_MUSICIAN",
+      "effects": { "moneyDelta": -1, "relations": { "street_musician_ivan": "연주를 듣고 동전을 건넨 행인" } },
+      "resultKo": "이반이 고개를 끄덕이고 연주를 이었다.",
+      "followupTitleKo": "연주가 이어진다",
+      "followupKo": "그는 동전을 주머니에 넣고 다음 곡을 시작했다."
+    },
+    {
+      "id": "E38_ASK_MUSICIAN",
+      "labelKo": "연주와 일에 관해 묻는다",
+      "subcopyKo": "돈은 들지 않습니다. 가까운 행인은 대화를 들을 수 있습니다.",
+      "hostIds": ["street_vendor_matryona", "watercarrier_luka", "reader_darya", "market_nadezhda"],
+      "requiredPresentLivingEventHostKey": "musicianHostId",
+      "requiredParticipantDistance": 5,
+      "durationMinutes": 3,
+      "resultFlag": "E38_ASKED_MUSICIAN",
+      "effects": { "relations": { "street_musician_ivan": "연주와 벌이를 물어본 행인" } },
+      "resultKo": "이반은 하루 벌이와 악기 수리비를 짧게 이야기했다.",
+      "followupTitleKo": "이반이 다시 연주한다",
+      "followupKo": "말을 마치고 손잡이를 돌렸다."
+    },
+    {
+      "id": "E38_PASS_BY",
+      "labelKo": "지나간다",
+      "subcopyKo": "돈을 쓰지 않고 지나갑니다. 현장에 별도 장부는 남지 않습니다.",
+      "hostIds": ["street_vendor_matryona", "watercarrier_luka", "reader_darya", "market_nadezhda"],
+      "requiredPresentLivingEventHostKey": "musicianHostId",
+      "requiredParticipantDistance": 5,
+      "durationMinutes": 1,
+      "resultFlag": "E38_PASSED_BY",
+      "resultKo": "행인은 걸음을 멈추지 않았다.",
+      "followupTitleKo": "거리가 다시 붐빈다",
+      "followupKo": "이반의 연주가 보행자들 사이로 이어졌다."
+    }
+  ]
+}

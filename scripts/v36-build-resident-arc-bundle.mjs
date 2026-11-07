@@ -4,7 +4,7 @@ import path from 'node:path';
 const root = process.cwd(), questDir = path.join(root, 'rpg', 'quests');
 const cards = await Promise.all((await readdir(path.join(root, 'rpg', 'characters'))).filter(file => file.endsWith('.json'))
   .map(async file => JSON.parse(await readFile(path.join(root, 'rpg', 'characters', file), 'utf8'))));
-const residents = cards.filter(card => card.kind === 'FICTIONAL' && !card.id.startsWith('literary_'));
+const residents = cards.filter(card => card.kind === 'FICTIONAL' && card.rosterClass !== 'EVENT_PERFORMER' && !card.id.startsWith('literary_'));
 const quests = (await Promise.all((await readdir(questDir)).filter(file => file.endsWith('.json') && file !== 'resident-arcs-v36.json' && file !== 'resident-arc-index.json')
   .map(async file => JSON.parse(await readFile(path.join(questDir, file), 'utf8')))));
 const groups = new Map();
