@@ -31,7 +31,7 @@
       "openWindows": [
         {
           "startMinute": 960,
-          "endMinute": 1200
+          "endMinute": 1380
         }
       ],
       "hungerRelief": 32,
@@ -370,7 +370,7 @@
         "y": 1
       }
     },
-    "sleepMinute": 1110,
+    "sleepMinute": 1380,
     "unitLabelKo": "허구의 하숙방",
     "status": "FICTIONAL_CHARACTER_DESIGN",
     "valueStatus": "FICTIONAL_GAMEPLAY_DESIGN",

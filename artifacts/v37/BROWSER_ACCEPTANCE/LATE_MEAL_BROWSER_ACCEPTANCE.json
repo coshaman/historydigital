@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "cases": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "choiceCount": 3,
+      "stage": "MEAL_PAID",
+      "scrollWidth": 1440,
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "choiceCount": 3,
+      "stage": "MEAL_PAID",
+      "scrollWidth": 390,
+      "pageErrors": []
+    }
+  ],
+  "serverErrors": []
+}

@@ -99,8 +99,22 @@ function initialNpcNeeds(card, clockMinutes = 540) {
     lastMealAtMinute: clockMinutes };
 }
 
+function activeMealSeekingCauseEventId(host, state) {
+  const sourceEventId = host.needs?.mealSeekingCauseEventId;
+  if (!sourceEventId) return null;
+  if (sourceEventId !== 'E14' || !Number.isInteger(host.needs.mealSeekingCauseExpiresAtMinute)
+    || state.world.clockMinutes > host.needs.mealSeekingCauseExpiresAtMinute) {
+    delete host.needs.mealSeekingCauseEventId;
+    delete host.needs.mealSeekingCauseExpiresAtMinute;
+    return null;
+  }
+  return sourceEventId;
+}
+
 function noteFoodConsumed(host, state) {
   host.needs.foodDeprivationMinutes = 0;
+  delete host.needs.mealSeekingCauseEventId;
+  delete host.needs.mealSeekingCauseExpiresAtMinute;
   if (host.healthState?.condition === 'UNWELL' && host.healthState.illness?.id === 'FOOD_DEPRIVATION') {
     host.healthState = { condition: 'RECOVERING', injury: null,
       illness: { ...host.healthState.illness, care: 'FOOD_RESTORED' },
@@ -1430,11 +1444,13 @@ function lateMealEventRow(state, stage, minuteOffset, maps, details = {}) {
     stageIndex: ({ MEAL_REQUESTED: 1, MEAL_PAID: 2, SMALL_MEAL_PAID: 2, MEAL_DECLINED: 2, AUTO_SERVED: 2, AUTO_DECLINED: 2 })[stage],
     actorHostIds: [event?.buyerHostId, event?.sellerHostId].filter(Boolean), witnessHostIds: [...(event?.witnessHostIds ?? [])],
     date: state.world.date, minute: minuteOffset, mapId: 'inn-interior', position: { ...position },
+    ...(event?.sourceEventId ? { sourceEventId: event.sourceEventId } : {}),
     occurrenceType: 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION', validationStatus: 'DESIGN_SEED_NOT_VERIFIED',
     valueStatus: 'fictional_gameplay_balance', state: event ? clone(event) : null,
     witnessedByPlayer: playerCanObserveWorldEvent(state, 'inn-interior', position, 6, maps), ...details };
 }
 function beginLateMealEvent(state, buyer, seller, offer, price, minuteOffset, maps, livingEventRows) {
+  const sourceEventId = activeMealSeekingCauseEventId(buyer, state);
   const position = { ...seller.position };
   const witnesses = Object.values(state.hosts).filter(person => person.id !== buyer.id && person.id !== seller.id
     && person.historicalAliveAndPresent !== false && person.mapId === 'inn-interior' && nearTile(person.position, position, 4))
@@ -1443,12 +1459,15 @@ function beginLateMealEvent(state, buyer, seller, offer, price, minuteOffset, ma
     status: 'ACTIVE', stage: 'MEAL_REQUESTED', startedAtMinute: state.world.clockMinutes, resolvesAtMinute: state.world.clockMinutes + 30,
     buyerHostId: buyer.id, sellerHostId: seller.id, actorHostIds: [buyer.id, seller.id], witnessHostIds: witnesses,
     itemKo: offer.itemKo, price, smallPortionPrice: Math.max(1, Math.floor(price / 2)), unit: offer.unit,
+    ...(sourceEventId ? { sourceEventId } : {}),
     fullHungerRelief: offer.hungerRelief, smallHungerRelief: Math.max(1, Math.floor(offer.hungerRelief / 2)),
     scenePosition: { ...position }, stockAtRequest: seller.marketStock[offer.itemKo], resolutionActionId: null,
     occurrenceType: 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION', validationStatus: 'DESIGN_SEED_NOT_VERIFIED',
     valueStatus: 'fictional_gameplay_balance' };
   livingEventRows.push(lateMealEventRow(state, event.stage, minuteOffset, maps,
     { changeKo: '허기가 큰 손님이 여관의 저녁 수프를 주문하고, 지불과 양을 정하기 전 잠시 기다린다.', price, itemKo: offer.itemKo }));
+  delete buyer.needs.mealSeekingCauseEventId;
+  delete buyer.needs.mealSeekingCauseExpiresAtMinute;
 }
 function advanceLateMealEvent(state, minuteOffset, maps, livingEventRows, options = {}) {
   const event = state.world.livingEventStates?.E18;
@@ -3692,10 +3711,14 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
       && isMarketOfferOpen(seller, item, state.world.clockMinutes)
       && item.unit === host.money?.unit && Number.isInteger(marketOfferPrice(state, seller, item)) && host.money.amount >= marketOfferPrice(state, seller, item));
     const price = seller && offer ? marketOfferPrice(state, seller, offer) : null;
-    if (seller && offer) addCandidate({ slot: { mapId: seller.mapId, position: { ...seller.position }, activityKo: '시장 상인에게 빵값을 내고 끼니를 산다' },
-      goalType: 'PURCHASE_MEAL', targetHostId: seller.id, taskId: `FOOD:${seller.id}:${offer.itemKo}`, reason: 'hunger_requires_affordable_market_food',
-      selectionBasis: { hunger: host.needs.hunger, price, unit: offer.unit } },
-      62 + host.needs.hunger * 0.72, 2);
+    if (seller && offer) {
+      const mealSourceEventId = activeMealSeekingCauseEventId(host, state);
+      const unresolvedHungerPriority = mealSourceEventId === 'E14' && host.needs.hunger >= 90 ? 32 : 0;
+      addCandidate({ slot: { mapId: seller.mapId, position: { ...seller.position }, activityKo: '시장 상인에게 빵값을 내고 끼니를 산다' },
+        goalType: 'PURCHASE_MEAL', targetHostId: seller.id, taskId: `FOOD:${seller.id}:${offer.itemKo}`, reason: 'hunger_requires_affordable_market_food',
+        selectionBasis: { hunger: host.needs.hunger, price, unit: offer.unit, ...(mealSourceEventId ? { sourceEventId: mealSourceEventId } : {}) } },
+        62 + host.needs.hunger * 0.72 + unresolvedHungerPriority, 2);
+    }
     if (!seller && host.needs.hunger >= 82) {
       const kinFoodDonor = (host.relationshipEdges ?? []).filter(edge => edge.kind === 'KINSHIP'
         && edge.status === 'FICTIONAL_CHARACTER_DESIGN' && edge.fromHostId === host.id)
@@ -4092,13 +4115,14 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
       || !offer || offer.unit !== host.money?.unit || seller.money?.unit !== offer.unit
       || !Number.isInteger(price) || price <= 0 || host.money.amount < price
       || host.needs.hunger < 60) continue;
-    if (seller.id === 'innkeeper_irina' && !state.world.livingEventStates?.E18) {
+    if (seller.id === 'innkeeper_irina' && state.world.livingEventStates?.E18?.status !== 'ACTIVE') {
       beginLateMealEvent(state, host, seller, offer, price, minuteOffset, maps, livingEventRows);
       continue;
     }
     seller.marketStock[offer.itemKo] -= 1;
     host.money.amount -= price;
     seller.money.amount += price;
+    const mealSourceEventId = activeMealSeekingCauseEventId(host, state);
     const hungerBefore = host.needs.hunger;
     host.needs.hunger = Math.max(0, hungerBefore - (Number.isFinite(offer.hungerRelief) ? offer.hungerRelief : 32));
     host.needs.lastMealAtMinute = state.world.clockMinutes;
@@ -4106,6 +4130,7 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
     host.needs.incomePressure = Math.min(100, host.needs.incomePressure + Math.min(8, price * 2));
     mealRows.push({ kind: 'PURCHASE_AND_EAT', hostId: host.id, sellerHostId: seller.id, itemKo: offer.itemKo,
       price, unit: offer.unit, valueStatus: offer.valueStatus, hungerBefore, hungerAfter: host.needs.hunger,
+      ...(mealSourceEventId ? { sourceEventId: mealSourceEventId } : {}),
       mapId: host.mapId, sellerMapId: seller.mapId, position: { ...host.position }, sellerPosition: { ...seller.position }, minute: minuteOffset,
       witnessedByPlayer: playerCanObserveWorldEvent(state, host.mapId, host.position, 6, maps) });
     beginBreadPriceEvent(state, mealRows.at(-1), minuteOffset, maps, livingEventRows);
@@ -5254,7 +5279,10 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
     if (actionId === 'E14_DECLINE_AID') {
       event.status = 'RESOLVED'; event.stage = 'AID_DECLINED'; event.resolvedAtMinute = next.world.clockMinutes;
       event.resolutionActionId = actionId; event.resolvedByHostId = hostId;
-      next.hosts[event.recipientHostId].needs.safetyConcern = Math.max(0, next.hosts[event.recipientHostId].needs.safetyConcern - 2);
+      const recipient = next.hosts[event.recipientHostId];
+      recipient.needs.safetyConcern = Math.max(0, recipient.needs.safetyConcern - 2);
+      recipient.needs.mealSeekingCauseEventId = 'E14';
+      recipient.needs.mealSeekingCauseExpiresAtMinute = next.world.clockMinutes + 360;
       livingEvents.push(charityMealEventRow(next, event.stage, next.world.clockMinutes % 1440, maps,
         { changeKo: '미하일은 오늘은 줄에서 물러났다. 돈과 빵은 움직이지 않았고, 이 선택은 시장 좌판 곁에 있던 사람들만 안다.',
           resolvedByHostId: hostId, privacyConcernDelta: -2, resolutionActionId: actionId }));
@@ -6757,6 +6785,9 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
     || lateMealEvent.valueStatus !== 'fictional_gameplay_balance'
     || lateMealEvent.sellerHostId !== 'innkeeper_irina' || !state.hosts[lateMealEvent.buyerHostId]
     || lateMealEvent.sellerHostId === lateMealEvent.buyerHostId || lateMealEvent.itemKo !== '저녁 수프'
+    || (lateMealEvent.sourceEventId !== undefined && (lateMealEvent.sourceEventId !== 'E14'
+      || state.world.livingEventStates.E14?.stage !== 'AID_DECLINED'
+      || state.world.livingEventStates.E14?.recipientHostId !== lateMealEvent.buyerHostId))
     || lateMealEvent.unit !== 'kopeks' || !Number.isInteger(lateMealEvent.price) || lateMealEvent.price < 1
     || lateMealEvent.smallPortionPrice !== Math.max(1, Math.floor(lateMealEvent.price / 2))
     || !Number.isInteger(lateMealEvent.startedAtMinute) || !Number.isInteger(lateMealEvent.resolvesAtMinute)

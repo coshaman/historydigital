@@ -108,6 +108,26 @@ assert.equal(unattendedResult.world.livingEventStates.E14.status, 'RESOLVED');
 assert.ok(unattendedResult.hosts.tenant_mikhail.needs.hunger < unattended.hosts.tenant_mikhail.needs.hunger - 25,
   'the autonomous shared-kitchen transaction feeds the waiting resident');
 assert.ok(unattendedResult.ledger.flatMap(row => row.livingEvents ?? []).some(row => row.catalogEventId === 'E14' && row.stage === 'AUTO_SPONSORED'));
+
+const refusedAid = structuredClone(converged);
+actorIds.forEach((id, index) => { refusedAid.hosts[id].mapId = 'market-quay'; refusedAid.hosts[id].position = positions[index]; });
+refusedAid.world.currentMapId = 'market-quay';
+refusedAid.player.embodiment = 'tenant_mikhail';
+refusedAid.player.position = { ...refusedAid.hosts.tenant_mikhail.position };
+const hungerBeforeRefusal = refusedAid.hosts.tenant_mikhail.needs.hunger;
+const refusal = game.performQuestAction(refusedAid, { questId: quest.id, hostId: 'tenant_mikhail',
+  actionId: 'E14_DECLINE_AID', objectId: object.id }, { quests: [quest], maps });
+assert.equal(refusal.ok, true, `the resident can refuse the physical ration (${refusal.reason ?? ''})`);
+assert.equal(refusal.state.hosts.tenant_mikhail.needs.hunger, hungerBeforeRefusal,
+  'declining the relief ration leaves the resident hungry');
+refusal.state.player.embodiment = null;
+const laterThatEvening = game.advanceNpcWorld(refusal.state, 329, maps);
+const mealAfterRefusal = laterThatEvening.ledger.flatMap(row => row.meals ?? []).find(row => row.hostId === 'tenant_mikhail');
+assert.ok(mealAfterRefusal, 'the resident autonomously finds and buys food instead of carrying the hunger through the evening');
+assert.equal(mealAfterRefusal.sourceEventId, 'E14', 'the food transaction records the relief refusal that led to it');
+assert.ok(laterThatEvening.hosts.tenant_mikhail.needs.hunger < 80, 'the later meal prevents his hunger from remaining at a critical level');
+const mealRestored = game.loadGame(game.saveGame(laterThatEvening), { maps, hostCards: cards, quests: [quest] });
+assert.equal(game.stateHash(mealRestored), game.stateHash(laterThatEvening), 'the causal meal outcome survives save/load');
 console.log(JSON.stringify({ status: 'PASS', trigger: 'Sunday + hungry tenant + market bread stock',
   actors: actorIds, actions: actions.map(row => row.id), unattended: 'AUTO_SPONSORED', saveLoad: true,
   historicStatus: event.validationStatus, venue: 'fictional market relief table' }, null, 2));

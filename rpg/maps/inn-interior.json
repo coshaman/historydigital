@@ -45,10 +45,10 @@
         "midwife_avdotya"
       ],
       "opensMinute": 360,
-      "closesMinute": 1200,
+      "closesMinute": 1380,
       "openHours": {
         "opensMinute": 360,
-        "closesMinute": 1200
+        "closesMinute": 1380
       },
       "openingHoursBasis": "게임 시뮬레이션 가정; 특정 1840년대 업소의 영업시간을 주장하지 않음",
       "sourceEvidenceIds": [

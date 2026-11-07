@@ -87,5 +87,16 @@ assert.equal(unattended.hosts[buyer.id].money.amount, openingMoney.buyer - 2);
 assert.equal(unattended.hosts[seller.id].marketStock['저녁 수프'], 2);
 assert.ok(unattended.hosts[buyer.id].needs.hunger < request.hosts[buyer.id].needs.hunger - 30,
   'the 32-point meal relief outweighs the 30-minute background hunger increase');
+const repeat = structuredClone(unattended), repeatBuyer = repeat.hosts[buyer.id];
+repeat.world.currentMapId = 'inn-interior'; repeat.player.embodiment = null;
+seller.mapId = 'inn-interior'; seller.position = { x: 11, y: 14 };
+repeat.hosts[seller.id].mapId = 'inn-interior'; repeat.hosts[seller.id].position = { x: 11, y: 14 };
+repeatBuyer.mapId = 'inn-interior'; repeatBuyer.position = { x: 11, y: 13 };
+repeatBuyer.needs.hunger = 92; repeatBuyer.money.amount = 8;
+repeatBuyer.activeGoal = { type: 'PURCHASE_MEAL', targetHostId: seller.id, taskId: 'TEST_REPEAT_EVENING_SOUP' };
+const secondOrder = game.advanceNpcWorld(repeat, 1, maps);
+assert.equal(secondOrder.world.livingEventStates.E18?.buyerHostId, buyer.id,
+  'a new hungry guest can open E18 after the previous meal transaction resolved');
+assert.equal(secondOrder.world.livingEventStates.E18?.stage, 'MEAL_REQUESTED');
 console.log(JSON.stringify({ status: 'PASS', event: 'E18', trigger: 'hungry-worker-at-open-inn-service',
-  choices: ['full-meal', 'small-portion', 'decline'], unattended: 'automatic-paid-meal', saveLoad: true }, null, 2));
+  choices: ['full-meal', 'small-portion', 'decline'], unattended: 'automatic-paid-meal', repeatTransaction: 'new guest accepted', saveLoad: true }, null, 2));

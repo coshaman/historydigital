@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "cases": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "visibleChoices": 2,
+      "stage": "RATION_PURCHASED",
+      "scrollWidth": 1440,
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "visibleChoices": 2,
+      "stage": "RATION_PURCHASED",
+      "scrollWidth": 390,
+      "pageErrors": []
+    }
+  ],
+  "serverErrors": [],
+  "eventId": "E14",
+  "validationStatus": "DESIGN_SEED_NOT_VERIFIED"
+}
