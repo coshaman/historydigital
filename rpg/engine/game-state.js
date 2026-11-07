@@ -2075,6 +2075,67 @@ function advanceEuropeNewsEvent(state, minuteOffset, maps, livingEventRows) {
   livingEventRows.push(europeNewsEventRow(state, event, event.stage, minuteOffset, maps,
     { unattended: true, changeKo: '그날 선언문은 관청 기록이나 인쇄소의 개인 기록으로 옮겨지지 않았다.' }));
 }
+function pushkinObituaryEventRow(state, event, minuteOffset, maps, details = {}) {
+  return { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E43', stage: event.stage,
+    stageIndex: event.stage === 'NOTICE_ARRIVED' ? 1 : event.stage === 'READING_READY' ? 2 : 3,
+    actorHostIds: [...event.actorHostIds], witnessHostIds: [...event.witnessHostIds],
+    date: state.world.date, minute: minuteOffset, mapId: event.venueMapId,
+    position: { ...event.scenePosition }, sourceIds: [...event.sourceIds],
+    occurrenceType: 'DOCUMENTED_HISTORICAL_EVENT',
+    validationStatus: 'PRIMARY_PERIODICAL_TEXT_AND_ACADEMIC_TRANSCRIPTION_VERIFIED',
+    historicalOutcomeId: 'PUSHKIN_OBITUARY_TEXT_AND_PUBLICATION', historicalOutcomeFixed: true,
+    state: clone(event), witnessedByPlayer: playerCanObserveWorldEvent(state, event.venueMapId, event.scenePosition, 6, maps), ...details };
+}
+function advancePushkinObituaryEvent(state, minuteOffset, maps, livingEventRows) {
+  state.world.livingEventStates ??= {};
+  let event = state.world.livingEventStates.E43;
+  if (!event) {
+    const objects = layer(maps?.['bookshop-interior'], 'Interactions')?.objects ?? [];
+    const source = objects.find(item => properties(item).sourceId === 'OBJ-PUSHKIN-OBITUARY-1837');
+    const stand = objects.find(item => item.id === 4018);
+    const actorHostIds = ['bookseller_lev', 'reader_darya', 'student_vasily'];
+    const actors = actorHostIds.map(id => state.hosts[id]);
+    const minute = ((state.world.clockMinutes % 1440) + 1440) % 1440;
+    if (state.world.chapterId !== 'V33_1847_PRINT' || state.world.activeRealm
+      || state.world.date !== '1847-06-01' || minute < 600 || minute > 780
+      || !source || !stand || actors.some(host => !host || host.historicalAliveAndPresent === false
+        || !host.allowedMaps.includes('bookshop-interior')
+        || npcMapRoute(host.mapId, 'bookshop-interior', host, maps, state.world.clockMinutes) === null)) return;
+    const scenePosition = objectTile(stand), witnesses = actorHostIds.filter(id => id !== 'bookseller_lev');
+    event = state.world.livingEventStates.E43 = { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E43',
+      status: 'ACTIVE', stage: 'NOTICE_ARRIVED', trigger: '1847-06-01_bookseller_opens_1837_pushkin_obituary',
+      startedAtMinute: state.world.clockMinutes, resolvesAtMinute: state.world.clockMinutes + 240,
+      actorHostIds, witnessHostIds: witnesses, venueMapId: 'bookshop-interior', scenePosition,
+      booksellerHostId: 'bookseller_lev', sourceIds: ['OBJ-PUSHKIN-OBITUARY-1837'],
+      historicalOutcomeId: 'PUSHKIN_OBITUARY_TEXT_AND_PUBLICATION', historicalOutcomeFixed: true,
+      disposition: null, resolutionActionId: null };
+    livingEventRows.push(pushkinObituaryEventRow(state, event, minuteOffset, maps,
+      { changeKo: '레프가 1837년 《문학 증보》의 부고를 펼쳤다. 다리야와 바실리가 책방 안으로 모인다.' }));
+  }
+  if (event.status !== 'ACTIVE') return;
+  const gathered = event.actorHostIds.every(id => {
+    const host = state.hosts[id];
+    return host && host.historicalAliveAndPresent !== false && host.mapId === event.venueMapId
+      && nearTile(host.position, event.scenePosition, 5);
+  });
+  if (gathered && event.stage === 'NOTICE_ARRIVED') {
+    event.stage = 'READING_READY'; event.gatheredAtMinute = state.world.clockMinutes;
+    event.resolvesAtMinute = state.world.clockMinutes + 180;
+    livingEventRows.push(pushkinObituaryEventRow(state, event, minuteOffset, maps,
+      { changeKo: '세 사람이 낡은 부고를 둘러싼다. 첫 문장을 함께 읽을 수 있다.' }));
+  }
+  if (state.world.clockMinutes < event.resolvesAtMinute) return;
+  event.status = 'RESOLVED'; event.stage = 'UNREAD_ISSUE'; event.resolvedAtMinute = state.world.clockMinutes;
+  event.disposition = 'NO_LOCAL_READING'; event.resolutionActionId = 'AUTO_READING_ENDED';
+  state.world.pushkinObituaryRecord = { eventId: 'E43', sourceIds: [...event.sourceIds],
+    disposition: event.disposition, historicalOutcomeFixed: true, date: state.world.date,
+    recordedAtMinute: state.world.clockMinutes };
+  for (const id of event.actorHostIds) {
+    const host = state.hosts[id]; if (host?.activeGoal?.taskId?.startsWith('V37:E43:')) host.activeGoal = null;
+  }
+  livingEventRows.push(pushkinObituaryEventRow(state, event, minuteOffset, maps,
+    { unattended: true, changeKo: '책방의 사람들이 흩어졌다. 부고는 펼쳐진 채 책상에 남았다.' }));
+}
 function advanceMarketPriceDispute(state, minuteOffset, maps, livingEventRows, options = {}) {
   state.world.livingEventStates ??= {};
   const event = state.world.livingEventStates.E13;
@@ -2934,6 +2995,18 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
       goalType: 'LIVING_EVENT_RESPONSE', targetHostId: host.id === 'clerk_alexei' ? 'printer_ekaterina' : 'clerk_alexei',
       taskId: `V37:E42:${europeNews.stage}:${host.id}`, reason: 'read_the_1848_manifesto_with_local_readers',
       selectionBasis: { utilityScore: 184, eventId: 'E42', stage: europeNews.stage } };
+  }
+  const pushkinObituary = state.world.livingEventStates?.E43;
+  if (pushkinObituary?.status === 'ACTIVE' && pushkinObituary.actorHostIds.includes(host.id)
+    && host.allowedMaps.includes(pushkinObituary.venueMapId)
+    && npcMapRoute(host.mapId, pushkinObituary.venueMapId, host, maps, state.world.clockMinutes) !== null) {
+    const activities = { bookseller_lev: '책상 위에 푸시킨 부고를 펼친다',
+      reader_darya: '부고의 첫 문장을 읽으러 책방으로 간다', student_vasily: '책방 사람들과 부고를 함께 읽으러 간다' };
+    return { slot: { mapId: pushkinObituary.venueMapId, position: { ...pushkinObituary.scenePosition },
+      activityKo: activities[host.id] ?? '책방의 부고를 읽으러 간다' }, goalType: 'LIVING_EVENT_RESPONSE',
+      targetHostId: host.id === 'bookseller_lev' ? 'reader_darya' : 'bookseller_lev',
+      taskId: `V37:E43:${pushkinObituary.stage}:${host.id}`, reason: 'gather_for_the_1837_pushkin_obituary_reading',
+      selectionBasis: { utilityScore: 184, eventId: 'E43', stage: pushkinObituary.stage } };
   }
   const marketDayWork = state.world.livingEventStates?.E32;
   if (marketDayWork?.status === 'ACTIVE' && marketDayWork.actorHostIds.includes(host.id)
@@ -3815,6 +3888,7 @@ function advanceNpcWorld(state, elapsedMinutes, maps, options = {}) {
     advanceWarehouseInjury(next, tick, maps, livingEventLog);
     advanceFixedHistoricalEvent(next, tick, maps, livingEventLog);
     advanceEuropeNewsEvent(next, tick, maps, livingEventLog);
+    advancePushkinObituaryEvent(next, tick, maps, livingEventLog);
     advanceSickLodger(next, tick, maps, livingEventLog, options);
     advanceLateMealEvent(next, tick, maps, livingEventLog, options);
     advanceApprenticeLiteracy(next, tick, maps, livingEventLog, options);
@@ -3833,6 +3907,7 @@ function advanceNpcWorld(state, elapsedMinutes, maps, options = {}) {
     advanceMarketDayWorkEvent(next, tick, maps, result.livingEventRows, options);
     advanceMarketTheftEvent(next, tick, maps, result.livingEventRows, options);
     advanceEuropeNewsEvent(next, tick, maps, result.livingEventRows);
+    advancePushkinObituaryEvent(next, tick, maps, result.livingEventRows);
     advancePoliceDocumentCheck(next, tick, maps, result.livingEventRows);
     advanceRentNoticeEvent(next, tick, maps, result.livingEventRows);
     advanceRoofLeakRepairEvent(next, tick, maps, result.livingEventRows);
@@ -4528,6 +4603,44 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
       const host = next.hosts[id]; if (host?.activeGoal?.taskId?.startsWith('V37:E42:')) host.activeGoal = null;
     }
     livingEvents.push(europeNewsEventRow(next, event, stage, next.world.clockMinutes % 1440, maps,
+      { actionId, ...record, changeKo: action.resultKo }));
+  }
+  if (questId === 'V37_PUSHKIN_OBITUARY_1847') {
+    const event = next.world.livingEventStates?.E43;
+    const outcomes = { E43_KEEP_FULL_TEXT: 'LEFT_OPEN_FOR_READERS',
+      E43_COPY_TO_REGISTER: 'COPIED_TO_READING_LEDGER', E43_READ_TO_SHOP: 'READ_TO_SHOP' };
+    const disposition = outcomes[actionId];
+    if (!event || event.status !== 'ACTIVE' || event.stage !== 'READING_READY'
+      || hostId !== 'bookseller_lev' || !disposition
+      || !next.world.discoveredSourceIds?.includes('OBJ-PUSHKIN-OBITUARY-1837')) {
+      return { ok: false, reason: 'pushkin_obituary_event_not_ready', state };
+    }
+    event.status = 'RESOLVED'; event.stage = disposition; event.disposition = disposition;
+    event.resolvedAtMinute = next.world.clockMinutes; event.resolvedByHostId = hostId;
+    event.resolutionActionId = actionId; event.playerChoiceActionId = actionId;
+    const record = { eventId: 'E43', sourceIds: [...event.sourceIds], disposition,
+      recordedByHostId: hostId, audienceHostIds: actionId === 'E43_READ_TO_SHOP' ? ['reader_darya', 'student_vasily'] : [],
+      historicalOutcomeFixed: true, date: next.world.date, recordedAtMinute: next.world.clockMinutes };
+    next.world.pushkinObituaryRecord = record;
+    if (actionId === 'E43_COPY_TO_REGISTER') {
+      next.hosts[hostId].readingLedger ??= [];
+      next.hosts[hostId].readingLedger.push({ eventId: 'E43', sourceId: event.sourceIds[0],
+        atMinute: next.world.clockMinutes, entryKo: '《문학 증보》 1837년 제5호 · 푸시킨 부고 첫 문단' });
+    } else if (actionId === 'E43_READ_TO_SHOP') {
+      for (const id of record.audienceHostIds) {
+        const listener = next.hosts[id];
+        listener.knownEvidenceIds ??= [];
+        if (!listener.knownEvidenceIds.includes(event.sourceIds[0])) listener.knownEvidenceIds.push(event.sourceIds[0]);
+        listener.relations[hostId] = '책방에서 부고를 함께 읽은 사람';
+        appendLedgerEvent(next, { eventId: `E43_LISTEN_${next.ledger.length + 1}`,
+          eventType: 'SOURCE_HEARD_ALOUD', catalogEventId: 'E43', date: next.world.date,
+          mapId: next.world.currentMapId, hostId: id, speakerHostId: hostId, sourceId: event.sourceIds[0] });
+      }
+    }
+    for (const id of event.actorHostIds) {
+      const actor = next.hosts[id]; if (actor?.activeGoal?.taskId?.startsWith('V37:E43:')) actor.activeGoal = null;
+    }
+    livingEvents.push(pushkinObituaryEventRow(next, event, next.world.clockMinutes % 1440, maps,
       { actionId, ...record, changeKo: action.resultKo }));
   }
   if (!literaryQuest && questId === 'V37_STREET_MUSIC_1847') {

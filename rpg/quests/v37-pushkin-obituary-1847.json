@@ -4,6 +4,7 @@
   "titleKo": "부고에 남은 한 문장",
   "chapterId": "V33_1847_PRINT",
   "date": "1847-06-01",
+  "requiresLivingEventId": "E43",
   "sourceIds": ["OBJ-PUSHKIN-OBITUARY-1837"],
   "historicalOutcome": {
     "id": "PUSHKIN_OBITUARY_TEXT_AND_PUBLICATION",
@@ -16,6 +17,7 @@
     {
       "id": "E43_KEEP_FULL_TEXT",
       "hostIds": ["bookseller_lev"],
+      "requiredLivingEventStage": "READING_READY",
       "requiredKnowledgeId": "OBJ-PUSHKIN-OBITUARY-1837",
       "labelKo": "부고를 원문 그대로 책방에 둔다",
       "subcopyKo": "책방에 온 독자들이 볼 수 있습니다 · 문서는 가게 안에 남습니다 · 다른 기록에는 옮기지 않습니다",
@@ -26,6 +28,7 @@
     {
       "id": "E43_COPY_TO_REGISTER",
       "hostIds": ["bookseller_lev"],
+      "requiredLivingEventStage": "READING_READY",
       "requiredKnowledgeId": "OBJ-PUSHKIN-OBITUARY-1837",
       "labelKo": "부고의 첫 문단을 독서 장부에 옮긴다",
       "subcopyKo": "장부를 맡은 레프가 씁니다 · 책방의 독서 기록에 남습니다 · 원문은 가게 안에 둡니다",
@@ -36,6 +39,7 @@
     {
       "id": "E43_READ_TO_SHOP",
       "hostIds": ["bookseller_lev"],
+      "requiredLivingEventStage": "READING_READY",
       "requiredKnowledgeId": "OBJ-PUSHKIN-OBITUARY-1837",
       "requiredPresentHostIds": ["reader_darya", "student_vasily"],
       "requiredParticipantDistance": 5,

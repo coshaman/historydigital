@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { readdir, readFile } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 import { questChoices } from '../rpg/engine/quest-presentation.mjs';
+import { objectIsPresent } from '../rpg/engine/world-presentation.mjs';
 
 const require = createRequire(import.meta.url);
 require('../rpg/engine/game-state.js');
@@ -30,14 +31,22 @@ assert.equal(catalog.find(row => row.event_id === 'E43')?.validation_status, 'PR
 assert.equal(map.layers.find(layer => layer.name === 'Interactions').objects.find(row => row.id === 4018)?.name, '1837년 부고를 펼쳐 읽다');
 
 const state = game.createInitialState({ maps, hostCards: cards, quests: [quest], startMapId: 'bookshop-interior' });
-state.world.chapterId = 'V33_1847_PRINT'; state.world.currentMapId = 'bookshop-interior';
+state.world.chapterId = 'V33_1847_PRINT'; state.world.date = '1847-06-01'; state.world.clockMinutes = 600; state.world.currentMapId = 'bookshop-interior';
 state.player.embodiment = 'bookseller_lev';
 for (const [id, x] of [['bookseller_lev', 13], ['reader_darya', 14], ['student_vasily', 15]]) {
   state.hosts[id].mapId = 'bookshop-interior'; state.hosts[id].position = { x, y: 13 };
   state.hosts[id].historicalAliveAndPresent = true;
 }
 state.player.position = { x: 13, y: 13 };
-const readResult = game.recordSourceRead(state, sourceId, maps);
+const eventObject = map.layers.find(layer => layer.name === 'Interactions').objects.find(row => row.id === quest.entry.objectId);
+assert.equal(objectIsPresent(eventObject, state, [quest]), false, 'the reading event is not available before it begins');
+let active = game.advanceNpcWorld(state, 1, maps, { pausedHostIds: ['bookseller_lev', 'reader_darya', 'student_vasily'] });
+const event = active.world.livingEventStates.E43;
+assert.equal(event?.status, 'ACTIVE', 'the dated reading gathers its residents');
+assert.equal(event.stage, 'READING_READY');
+assert.ok(objectIsPresent(eventObject, active, [quest]));
+assert.ok(active.ledger.some(row => row.livingEvents?.some(item => item.catalogEventId === 'E43')));
+const readResult = game.recordSourceRead(active, sourceId, maps);
 assert.equal(readResult.ok, true, readResult.reason);
 const choices = questChoices(quest, 'bookseller_lev', [sourceId], readResult.state);
 assert.deepEqual(choices.map(row => row.action.id), ['E43_KEEP_FULL_TEXT', 'E43_COPY_TO_REGISTER', 'E43_READ_TO_SHOP']);
@@ -46,7 +55,21 @@ for (const actionId of choices.map(row => row.action.id)) {
   const branch = structuredClone(readResult.state);
   const result = game.performQuestAction(branch, { questId: quest.id, hostId: 'bookseller_lev', actionId, objectId: quest.entry.objectId }, { quests: [quest], maps });
   assert.equal(result.ok, true, `${actionId}: ${result.reason ?? ''}`);
+  assert.equal(result.state.world.livingEventStates.E43.status, 'RESOLVED');
+  assert.equal(result.state.world.pushkinObituaryRecord.disposition, {
+    E43_KEEP_FULL_TEXT: 'LEFT_OPEN_FOR_READERS', E43_COPY_TO_REGISTER: 'COPIED_TO_READING_LEDGER',
+    E43_READ_TO_SHOP: 'READ_TO_SHOP',
+  }[actionId]);
+  if (actionId === 'E43_COPY_TO_REGISTER') assert.equal(result.state.hosts.bookseller_lev.readingLedger.at(-1).eventId, 'E43');
+  if (actionId === 'E43_READ_TO_SHOP') assert.ok(result.state.hosts.reader_darya.knownEvidenceIds.includes(sourceId));
   assert.ok(result.state.quests[quest.id]?.completedActionIds?.includes(actionId) || result.state.ledger.length > branch.ledger.length,
     `${actionId} records a player action`);
+  const restored = game.loadGame(game.saveGame(result.state), { maps, hostCards: cards, quests: [quest] });
+  assert.deepEqual(restored.world.pushkinObituaryRecord, result.state.world.pushkinObituaryRecord);
+  assert.equal(restored.world.livingEventStates.E43.stage, result.state.world.livingEventStates.E43.stage);
 }
+const unattended = game.advanceNpcWorld(active, 181, maps, { pausedHostIds: ['bookseller_lev', 'reader_darya', 'student_vasily'] });
+assert.equal(unattended.world.livingEventStates.E43.stage, 'UNREAD_ISSUE');
+assert.equal(unattended.world.pushkinObituaryRecord.disposition, 'NO_LOCAL_READING');
+assert.ok(!objectIsPresent(eventObject, unattended, [quest]), 'the choice surface closes after the residents disperse');
 console.log('E43 Pushkin obituary source, contiguous context, catalog provenance, readable bookshop entry, and three practical choices passed');
