@@ -35,6 +35,7 @@ buyer.mapId = 'market-quay'; buyer.position = { x: stall.x + 1, y: stall.y };
 state.hosts.street_vendor_matryona.mapId = 'market-quay'; state.hosts.street_vendor_matryona.position = { x: 22, y: 10 };
 state.hosts.clerk_alexei.mapId = 'market-quay'; state.hosts.clerk_alexei.position = { x: 21, y: 10 };
 buyer.needs.hunger = 94; buyer.money.amount = 10;
+buyer.needs.lastMealAtMinute = null;
 buyer.activeGoal = { type: 'PURCHASE_MEAL', targetHostId: seller.id, taskId: 'TEST_E23_TRIGGER_SALE' };
 seller.marketStock['빵 한 묶음'] = 1;
 state.world.marketPriceModifiers['market_nadezhda:빵 한 묶음'] = 1;
