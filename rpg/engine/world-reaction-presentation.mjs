@@ -42,7 +42,9 @@ const NPC_REACTION_FAMILIES = Object.freeze([
       : event.catalogEventId === 'E07'
         ? event.stage === 'PROOF_PREPARED' ? '인쇄 마감 · 교정쇄 작성'
           : event.stage === 'TYPESET_CHECKED' ? '인쇄 마감 · 교정쇄 대조'
-            : event.stage === 'WAGE_PAID' ? '인쇄 마감 · 품삯 지급' : null
+            : event.stage === 'WAGE_PAID' ? '인쇄 마감 · 품삯 지급'
+              : event.stage === 'PRINTED_WITHOUT_RECHECK' ? '교정 전 인쇄를 보냄'
+                : event.stage === 'JOB_CANCELLED' ? '인쇄 작업을 중단함' : null
         : event.catalogEventId === 'E08'
           ? event.stage === 'ORDER_ACCEPTED' ? '제본 주문 접수'
             : event.stage === 'BOOK_BOUND' ? '책 제본 완료'

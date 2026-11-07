@@ -2258,6 +2258,16 @@
               "name": "questId",
               "type": "string",
               "value": "TYPESETTER_SPEED_CENSORSHIP_1847"
+          },
+          {
+            "name": "requiresLivingEventId",
+            "type": "string",
+            "value": "E07"
+          },
+          {
+            "name": "requiresLivingEventStage",
+            "type": "string",
+            "value": "PROOF_PREPARED"
             }
           ]
         },

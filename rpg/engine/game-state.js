@@ -764,7 +764,8 @@ function resolveLaundryOnReconciliation(state, work, minuteOffset, maps, livingE
 function livingPrintDeadlineEventRow(state, stage, actorHostIds, mapId, position, minute, maps, details = {}) {
   const event = state.world.livingEventStates?.E07;
   return { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E07', stage,
-    stageIndex: ({ PROOF_PREPARED: 1, TYPESET_CHECKED: 2, WAGE_PAID: 3 })[stage],
+    stageIndex: ({ PROOF_PREPARED: 1, TYPESET_CHECKED: 2, WAGE_PAID: 3, RESOLVED: 3,
+      PRINTED_WITHOUT_RECHECK: 3, JOB_CANCELLED: 3 })[stage],
     actorHostIds: [...new Set(actorHostIds.filter(Boolean))], date: state.world.date, minute, mapId, position: { ...position },
     valueStatus: 'fictional_gameplay_balance', occurrenceType: 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION',
     validationStatus: 'DESIGN_SEED_NOT_VERIFIED', state: event ? { ...event } : null,
@@ -5080,6 +5081,11 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
       || !['SELL_FOR_CASH', 'BARTER_FOR_BREAD', 'HOLD_UNTIL_TOMORROW'].includes(effects.laundryDisposition))) {
     return { ok: false, reason: 'invalid_laundry_disposition', state };
   }
+  if (effects.printDeadlineResponse !== undefined
+    && (questId !== 'TYPESETTER_SPEED_CENSORSHIP_1847'
+      || !['PROOFREAD_NOW', 'PRINT_WITHOUT_CORRECTION', 'STOP_PRESS'].includes(effects.printDeadlineResponse))) {
+    return { ok: false, reason: 'invalid_print_deadline_response', state };
+  }
   if (Object.entries(chainDelta).some(([key, value]) => !/^[a-z][a-zA-Z0-9]{0,39}$/.test(key) || !Number.isInteger(value) || Math.abs(value) > 20)) return { ok: false, reason: 'invalid_life_chain_effect', state };
   if (effects.moneyDelta !== undefined && (!Number.isInteger(effects.moneyDelta) || Math.abs(effects.moneyDelta) > 10000 || !Number.isFinite(host.money?.amount) || host.money.amount + effects.moneyDelta < 0)) return { ok: false, reason: 'invalid_or_unaffordable_effect', state };
   const healthTransition = effects.healthTransition;
@@ -5207,6 +5213,37 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
         ...(disposition === 'SELL_FOR_CASH' ? { payment: 2, payerHostId: seller.id, recipientHostId: hostId } : {}),
         ...(disposition === 'BARTER_FOR_BREAD' ? { payment: 0, barterItemKo: '빵 한 묶음' } : {}),
         changeKo: action.resultKo }));
+  }
+  if (questId === 'TYPESETTER_SPEED_CENSORSHIP_1847') {
+    const event = next.world.livingEventStates?.E07, response = effects.printDeadlineResponse;
+    const printer = next.hosts.printer_ekaterina, typesetter = next.hosts.typesetter_nikita;
+    if (!event || event.status !== 'ACTIVE' || event.stage !== 'PROOF_PREPARED' || !response
+      || !printer || !typesetter || !printer.inventory.includes('수정 표시가 된 교정쇄')) {
+      return { ok: false, reason: 'print_deadline_not_ready', state };
+    }
+    event.playerDecision = { actionId, hostId, response, atMinute: next.world.clockMinutes };
+    if (response === 'PROOFREAD_NOW') {
+      printer.inventory = printer.inventory.filter(item => item !== '수정 표시가 된 교정쇄');
+      if (!typesetter.inventory.includes('교정이 끝난 인쇄 교정쇄')) typesetter.inventory.push('교정이 끝난 인쇄 교정쇄');
+      const work = { hostId: typesetter.id, actionId: 'V36_TYPESETTER_MARK_PROOF_ERRORS',
+        mapId: typesetter.mapId, position: { ...typesetter.position } };
+      advancePrintDeadlineOnProof(next, work, next.world.clockMinutes % 1440, maps, livingEvents);
+      if (event.stage === 'PROOF_PREPARED') return { ok: false, reason: 'print_deadline_proof_failed', state };
+    } else {
+      event.status = 'RESOLVED'; event.resolvedAtMinute = next.world.clockMinutes;
+      event.stage = response === 'PRINT_WITHOUT_CORRECTION' ? 'PRINTED_WITHOUT_RECHECK' : 'JOB_CANCELLED';
+      event.resolution = response;
+      event.proofDisposition = response === 'PRINT_WITHOUT_CORRECTION' ? 'SENT_TO_PRESS_UNCHECKED' : 'HELD_BY_PRINTER';
+      event.itemLocation = response === 'PRINT_WITHOUT_CORRECTION' ? 'PRESS' : 'PRINTER';
+      if (response === 'PRINT_WITHOUT_CORRECTION') {
+        printer.inventory = printer.inventory.filter(item => item !== '수정 표시가 된 교정쇄');
+        printer.inventory.push('교정 전 인쇄용 교정쇄');
+      }
+      livingEvents.push(livingPrintDeadlineEventRow(next, event.stage, [printer.id, typesetter.id],
+        next.world.currentMapId, printer.position, next.world.clockMinutes % 1440, maps,
+        { actionId, playerDecision: clone(event.playerDecision), itemLocation: event.itemLocation,
+          changeKo: action.resultKo }));
+    }
   }
   if (!literaryQuest && questId === 'CIRCLE_INVESTIGATION_1849') {
     const event = next.world.livingEventStates?.E40;
@@ -7333,11 +7370,15 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
   }
   const printEvent = state.world.livingEventStates.E07;
   if (printEvent && (printEvent.catalogIdSpace !== 'V37_EVENT_CATALOG_45' || printEvent.catalogEventId !== 'E07'
-    || !['ACTIVE', 'RESOLVED'].includes(printEvent.status) || !['PROOF_PREPARED', 'TYPESET_CHECKED', 'RESOLVED'].includes(printEvent.stage)
+    || !['ACTIVE', 'RESOLVED'].includes(printEvent.status)
+    || !['PROOF_PREPARED', 'TYPESET_CHECKED', 'RESOLVED', 'PRINTED_WITHOUT_RECHECK', 'JOB_CANCELLED'].includes(printEvent.stage)
     || printEvent.validationStatus !== 'DESIGN_SEED_NOT_VERIFIED' || printEvent.valueStatus !== 'fictional_gameplay_balance'
     || printEvent.typesetterHostId !== 'typesetter_nikita' || printEvent.printerHostId !== 'printer_ekaterina'
     || printEvent.payerHostId !== 'printer_ekaterina' || printEvent.wageActionId !== 'PRINTSHOP_RELATED_WAGE'
-    || (printEvent.status === 'RESOLVED') !== (printEvent.stage === 'RESOLVED'))) {
+    || (printEvent.status === 'RESOLVED') !== ['RESOLVED', 'PRINTED_WITHOUT_RECHECK', 'JOB_CANCELLED'].includes(printEvent.stage)
+    || (printEvent.playerDecision && (!['PROOFREAD_NOW', 'PRINT_WITHOUT_CORRECTION', 'STOP_PRESS'].includes(printEvent.playerDecision.response)
+      || !['printer_ekaterina', 'typesetter_nikita'].includes(printEvent.playerDecision.hostId)
+      || !Number.isInteger(printEvent.playerDecision.atMinute))))) {
     throw new Error('Save contains invalid E07 print deadline event state');
   }
   const censorshipEvent = state.world.livingEventStates.E06;
