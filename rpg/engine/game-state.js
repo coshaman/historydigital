@@ -3664,6 +3664,7 @@ function advanceNpcWorld(state, elapsedMinutes, maps, options = {}) {
     next.world.clockMinutes = startClock + tick;
     const coldWaveRows = [];
     advanceMissingRegisterEvent(next, tick, maps, livingEventLog);
+    advancePetrashevskyReportEvent(next, tick, maps, livingEventLog);
     advanceApprenticeFatigueEvent(next, tick, maps, livingEventLog);
     advanceColdWaveEvent(next, tick, maps, coldWaveRows);
     advanceCensoredPageEvent(next, tick, maps, coldWaveRows, options);
@@ -3768,6 +3769,65 @@ function advanceRentNoticeEvent(state, minuteOffset, maps, livingEventRows) {
     state: clone(event), witnessedByPlayer: playerCanObserveWorldEvent(state, event.venueMapId, event.scenePosition, 6, maps),
     changeKo: '합의가 이뤄지지 않아 다음 납부일부터 새 방세가 적용된다.' });
   beginRoofLeakRepairEvent(state, minuteOffset, maps, livingEventRows);
+}
+
+function petrashevskyReportEventRow(state, stage, minuteOffset, maps, details = {}) {
+  const event = state.world.livingEventStates?.E40, position = event?.scenePosition ?? { x: 12, y: 11 };
+  return { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E40', stage,
+    stageIndex: ({ REPORT_ARRIVED: 1, OFFICIAL_REPORT_FILED: 2, NAMES_WITHHELD: 2,
+      OWNERSHIP_AND_ORDER_SEPARATED: 2, AUTO_FILED: 2 })[stage],
+    actorHostIds: [...(event?.actorHostIds ?? [])], witnessHostIds: [...(event?.witnessHostIds ?? [])],
+    date: state.world.date, minute: minuteOffset, mapId: 'chancery', position: { ...position },
+    sourceIds: [...(event?.sourceIds ?? ['OBJ-WS-PETRASHEVSKY-REPORT-1849'])],
+    occurrenceType: 'DOCUMENTED_HISTORICAL_EVENT', validationStatus: 'CONTEMPORARY_1849_REPORT_RANGE_VERIFIED',
+    historicalOutcomeId: 'PETRASHEVSKY_ARRESTS_1849', historicalOutcomeFixed: true,
+    state: event ? clone(event) : null,
+    witnessedByPlayer: playerCanObserveWorldEvent(state, 'chancery', position, 6, maps), ...details };
+}
+function advancePetrashevskyReportEvent(state, minuteOffset, maps, livingEventRows) {
+  state.world.livingEventStates ??= {};
+  let event = state.world.livingEventStates.E40;
+  if (!event) {
+    const report = layer(maps?.chancery, 'Interactions')?.objects.find(item => item.type === 'source'
+      && properties(item).sourceId === 'OBJ-WS-PETRASHEVSKY-REPORT-1849');
+    const register = layer(maps?.chancery, 'Interactions')?.objects.find(item => item.id === 32);
+    if (state.world.chapterId !== 'V33_1849_CIRCLE' || state.world.date !== '1849-04-22'
+      || state.world.clockMinutes < 540 || !report || !register) return;
+    const witnesses = Object.values(state.hosts).filter(host => host.historicalAliveAndPresent !== false
+      && host.mapId === 'chancery' && nearTile(host.position, { x: 12, y: 11 }, 6))
+      .map(host => host.id).filter(id => id !== 'clerk_alexei').sort();
+    event = state.world.livingEventStates.E40 = { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E40',
+      status: 'ACTIVE', stage: 'REPORT_ARRIVED', trigger: '1849-04-22_state_report_reaches_the_chancery',
+      startedAtMinute: state.world.clockMinutes, resolvesAtMinute: state.world.clockMinutes + 180,
+      actorHostIds: state.hosts.clerk_alexei ? ['clerk_alexei'] : [], witnessHostIds: witnesses,
+      venueMapId: 'chancery', scenePosition: { x: 12, y: 11 },
+      sourceId: 'OBJ-WS-PETRASHEVSKY-REPORT-1849',
+      sourceIds: ['OBJ-WS-PETRASHEVSKY-REPORT-1849', 'OBJ-WS-DOSTOEVSKY-ARREST-ORDER-1849'],
+      outcomeSourceIds: ['OBJ-WS-PETRASHEVSKY-REPORT-1849', 'OBJ-WS-DOSTOEVSKY-ARREST-ORDER-1849'],
+      historicalOutcomeId: 'PETRASHEVSKY_ARRESTS_1849', historicalOutcomeFixed: true,
+      resolutionActionId: null };
+    state.world.immutableOutcomes ??= {};
+    state.world.immutableOutcomes.PETRASHEVSKY_ARRESTS_1849 = 'the documented arrests and sentences remain fixed historical outcomes';
+    livingEventRows.push(petrashevskyReportEventRow(state, event.stage, minuteOffset, maps,
+      { changeKo: '4월 22일자 수사 보고서가 관청에 도착했다. 문서에는 정보원의 보고와 체포 명령, 조사 대상자 명단이 이어져 있다.' }));
+  }
+  if (event.status !== 'ACTIVE' || state.world.clockMinutes < event.resolvesAtMinute) return;
+  const hostId = state.hosts.clerk_alexei ? 'clerk_alexei' : null;
+  event.status = 'RESOLVED'; event.stage = 'AUTO_FILED'; event.resolvedAtMinute = state.world.clockMinutes;
+  event.resolvedByHostId = hostId; event.resolutionActionId = 'AUTO_REGULAR_REPORT_FILING';
+  state.world.petrashevskyCaseRecord = { eventId: 'E40', sourceIds: [...event.sourceIds],
+    disposition: 'AUTOMATIC_OFFICIAL_REGISTER', recordedByHostId: hostId,
+    recordedAtMinute: state.world.clockMinutes, officialRecordNumber: state.ledger.length + 1,
+    namesCopied: true, ownershipClaimsSeparated: false, historicalOutcomeFixed: true };
+  if (hostId) {
+    state.hosts[hostId].personalEventNotes ??= [];
+    state.hosts[hostId].personalEventNotes.push({ eventId: 'E40', sourceId: event.sourceId,
+      speakerHostId: hostId, atMinute: state.world.clockMinutes,
+      noteKo: '응답을 기다리지 못해 보고서의 이름을 공식 등록부에 옮겼다.' });
+  }
+  livingEventRows.push(petrashevskyReportEventRow(state, event.stage, minuteOffset, maps,
+    { actionId: event.resolutionActionId, unattended: true, officialRecordNumber: state.world.petrashevskyCaseRecord.officialRecordNumber,
+      changeKo: '응답 시간이 지나 보고서가 관청 등록부에 접수됐다. 체포와 재판의 역사적 결과는 그대로다.' }));
 }
 
 function advanceFixedHistoricalEvent(state, minuteOffset, maps, livingEventRows) {
@@ -4103,7 +4163,8 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
   if (!Array.isArray(inventoryRemove) || !Array.isArray(inventoryAdd) || inventoryRemove.some(item => typeof item !== 'string' || !host.inventory.includes(item)) || inventoryAdd.some(item => typeof item !== 'string' || item.length > 80)) return { ok: false, reason: 'required_item_missing', state };
   const timed = advanceWorldTime(state, actionDuration, maps, [], { deferLivingEventExpiryId: questId === 'V37_MANUSCRIPT_OFFER_1847' ? 'E30'
     : questId === 'V37_SERFDOM_READING_1847' ? 'E31'
-      : questId === 'V37_SALON_INVITATION_1847' ? 'E29'
+      : questId === 'CIRCLE_INVESTIGATION_1849' ? 'E40'
+        : questId === 'V37_SALON_INVITATION_1847' ? 'E29'
         : questId === 'V37_SALON_DEBATE_1847' ? 'E21'
       : questId === 'V37_PHYSIOLOGY_READING_1847' ? 'E39'
       : questId === 'V37_MARKET_DAY_WORK_1847' ? 'E32'
@@ -4124,7 +4185,7 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
             : questId === 'V37_APPRENTICE_FATIGUE_1847' ? 'E33'
               : questId === 'E41_SEMENOVSKY_1849' ? 'E41'
                 : questId === 'V37_STREET_MUSIC_1847' ? 'E38' : undefined,
-    pausedHostIds: ['V37_MANUSCRIPT_OFFER_1847', 'V37_SERFDOM_READING_1847', 'V37_SALON_DEBATE_1847', 'V37_SALON_INVITATION_1847', 'V37_MARKET_DAY_WORK_1847', 'V37_ROOF_LEAK_REPAIR_1847', 'V37_CHARITY_DAY_1847', 'V37_APPRENTICE_LITERACY_1847', 'STUDENT_CIRCLE_RISK_1847', 'V37_POLICE_DOCUMENT_CHECK_1847', 'V37_SICK_LODGER_1847', 'V37_APPRENTICE_FATIGUE_1847', 'V37_MARKET_RUMOR_1847', 'V37_INN_GUEST_1847', 'V37_NEWSPAPER_RELEASE_1847', 'E41_SEMENOVSKY_1849', 'V37_STREET_MUSIC_1847', 'V37_PHYSIOLOGY_READING_1847'].includes(questId) ? [...(requiredLivingEvent?.actorHostIds ?? [])]
+    pausedHostIds: ['CIRCLE_INVESTIGATION_1849', 'V37_MANUSCRIPT_OFFER_1847', 'V37_SERFDOM_READING_1847', 'V37_SALON_DEBATE_1847', 'V37_SALON_INVITATION_1847', 'V37_MARKET_DAY_WORK_1847', 'V37_ROOF_LEAK_REPAIR_1847', 'V37_CHARITY_DAY_1847', 'V37_APPRENTICE_LITERACY_1847', 'STUDENT_CIRCLE_RISK_1847', 'V37_POLICE_DOCUMENT_CHECK_1847', 'V37_SICK_LODGER_1847', 'V37_APPRENTICE_FATIGUE_1847', 'V37_MARKET_RUMOR_1847', 'V37_INN_GUEST_1847', 'V37_NEWSPAPER_RELEASE_1847', 'E41_SEMENOVSKY_1849', 'V37_STREET_MUSIC_1847', 'V37_PHYSIOLOGY_READING_1847'].includes(questId) ? [...(requiredLivingEvent?.actorHostIds ?? [])]
       : ['V37_MARKET_PRICE_DISPUTE_1847', 'V37_LATE_MEAL_1847'].includes(questId)
         ? [requiredLivingEvent?.sellerHostId, requiredLivingEvent?.buyerHostId].filter(Boolean)
             : questId === 'V37_APOTHECARY_ORDER_1847' ? [requiredLivingEvent?.buyerHostId, requiredLivingEvent?.supplierHostId].filter(Boolean)
@@ -4136,6 +4197,37 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
     ? { status: 'open', result: action.id }
     : { status: 'resolved', result: action.id };
   next.hosts[hostId].questFlags[action.resultFlag] = true;
+  if (!literaryQuest && questId === 'CIRCLE_INVESTIGATION_1849') {
+    const event = next.world.livingEventStates?.E40;
+    const outcomes = {
+      FILE_OFFICIAL_REPORT: ['OFFICIAL_REPORT_FILED', 'OFFICIAL_REGISTER', true, false],
+      REFUSE_NAMING: ['NAMES_WITHHELD', 'PRIVATE_HOLD_NOTE', false, false],
+      REGISTER_SEPARATE_OWNERSHIP: ['OWNERSHIP_AND_ORDER_SEPARATED', 'SEPARATE_OWNERSHIP_INDEX', true, true],
+    };
+    const [stage, disposition, namesCopied, ownershipClaimsSeparated] = outcomes[actionId] ?? [];
+    if (!event || event.status !== 'ACTIVE' || event.stage !== 'REPORT_ARRIVED' || !stage
+      || !next.world.discoveredSourceIds?.includes(event.sourceId)) {
+      return { ok: false, reason: 'petrashevsky_report_not_ready', state };
+    }
+    event.status = 'RESOLVED'; event.stage = stage; event.resolvedAtMinute = next.world.clockMinutes;
+    event.resolvedByHostId = hostId; event.resolutionActionId = actionId; event.playerChoiceActionId = actionId;
+    const record = { eventId: 'E40', sourceIds: actionId === 'REGISTER_SEPARATE_OWNERSHIP'
+      ? [...event.sourceIds] : [event.sourceId], disposition, recordedByHostId: hostId,
+    recordedAtMinute: next.world.clockMinutes, officialRecordNumber: disposition === 'PRIVATE_HOLD_NOTE' ? null : next.ledger.length + 1,
+    namesCopied, ownershipClaimsSeparated, assertionsClassifiedAs: 'INVESTIGATING_REPORT_CLAIMS', historicalOutcomeFixed: true };
+    next.world.petrashevskyCaseRecord = record;
+    if (actionId === 'REFUSE_NAMING') {
+      next.hosts[hostId].personalEventNotes ??= [];
+      next.hosts[hostId].personalEventNotes.push({ eventId: 'E40', sourceId: event.sourceId,
+        speakerHostId: hostId, atMinute: next.world.clockMinutes,
+        noteKo: '정보원 주장을 확인하지 못해 보고서에 적힌 이름을 새 장부에 옮기지 않았다.' });
+    }
+    livingEvents.push(petrashevskyReportEventRow(next, stage, next.world.clockMinutes % 1440, maps,
+      { actionId, resolvedByHostId: hostId, ...record,
+        changeKo: actionId === 'FILE_OFFICIAL_REPORT' ? '알렉세이는 보고서의 기관과 정보원 주장을 구분해 등록부에 접수했다.'
+          : actionId === 'REFUSE_NAMING' ? '알렉세이는 확인되지 않은 이름을 새 장부에 옮기지 않고 개인 보류 메모를 남겼다.'
+            : '알렉세이는 체포 명령과 소유자 주장을 별도 항목으로 접수했다. 수사 보고서의 혐의는 확정 판결과 구분해 두었다.' }));
+  }
   if (questId === 'E41_SEMENOVSKY_1849') {
     const event = next.world.livingEventStates?.E41;
     if (!event || event.status !== 'ACTIVE' || event.historicalOutcomeId !== 'PETRASHEVSKY_SENTENCE_AND_COMMUTATION_1849') return { ok: false, reason: 'fixed_historical_event_closed', state };

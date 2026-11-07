@@ -2093,6 +2093,11 @@
               "name": "assetTileId",
               "type": "int",
               "value": 81
+              },
+              {
+                "name": "requiresLivingEventId",
+                "type": "string",
+                "value": "E40"
             }
           ]
         },

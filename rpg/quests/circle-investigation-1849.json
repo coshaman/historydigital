@@ -3,6 +3,7 @@
   "titleKo": "수사 문서와 남겨진 이름",
   "chapterId": "V33_1849_CIRCLE",
   "date": "1849-04-22",
+  "requiresLivingEventId": "E40",
   "premiseKo": "1849년 4월 22일, 수사 보고서가 도착했다. 문서에는 정보원의 주장이 국가기관의 관점에서 적혀 있다. 5월 5일 편지는 아직 도착하지 않았다.",
   "historicalOutcome": {
     "id": "PETRASHEVSKY_ARRESTS_1849",
@@ -39,8 +40,7 @@
     {
       "id": "REFUSE_NAMING",
       "hostIds": [
-        "clerk_alexei",
-        "courier_pavel"
+        "clerk_alexei"
       ],
       "labelKo": "확인되지 않은 이름은 옮기지 않는다",
       "subcopyKo": "직속 담당자는 알 수 있습니다 · 비공식 보류 메모에 남습니다 · 전달 지연과 문책 위험을 감수합니다",
@@ -58,8 +58,7 @@
     {
       "id": "REGISTER_SEPARATE_OWNERSHIP",
       "hostIds": [
-        "clerk_alexei",
-        "courier_pavel"
+        "clerk_alexei"
       ],
       "labelKo": "봉인 목록과 소유자 주장을 따로 적는다",
       "subcopyKo": "명령서에는 타인 소유 주장도 봉인하라고 적혀 있습니다 · 별도 기록은 상급자가 봅니다 · 처리 지연 책임을 감수합니다",

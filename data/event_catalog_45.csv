@@ -38,7 +38,7 @@ E36,장터 도난,market,theft,상인이 돈주머니가 사라진 걸 알아차
 E37,차별적인 일자리,official_flat,employment_offer,후원자가 가정교사에 새 조건을 내건다,여성 교육·고용 역사 자료,임금·기회 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
 E38,거리 악사 공연,nevsky_road,street_show,거리 악사의 연주를 듣고 사람들이 모여든다,1845 풍속 스케치 거리 음악가,돈·여가·소문 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
 E39,서점 낭독회,bookshop,public_reading,신간을 둘러싸고 독자들의 의견이 갈린다,정확한 작품 판본·호수,사상·구독 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
-E40,페트라솁스키 체포 소식,st_petersburg_1849,historical_1849_arrests,일부 실제 인물이 체포되고 서류와 편지가 조사된다,1849 페트라솁스키 사건 관련 기록,위험·문헌 접근 변화,DOCUMENTED_HISTORICAL_EVENT,DESIGN_SEED_NOT_VERIFIED
+E40,4월 22일 수사 보고서 도착,chancery,1849-04-22_state_report_reaches_the_chancery,국가 조사 보고서와 체포 명령이 관청 접수 장부에 오른다,1849년 4월 22일자 페트라셰프스키 사건 조사 보고서와 체포 명령,공식 장부·개인 보류 메모·별도 소유자 색인,DOCUMENTED_HISTORICAL_EVENT,CONTEMPORARY_1849_REPORT_RANGE_VERIFIED
 E42,1848년 유럽 소식,newsstand,foreign_news_1848,유럽 정치 변동 기사를 두고 독자들이 언쟁한다,1848년 실제 정기간행물 기사,소문·사상·검열 변화,DOCUMENTED_HISTORICAL_EVENT,DESIGN_SEED_NOT_VERIFIED
 E43,푸시킨의 죽음 소식,newsstand,historical_1837_news,1837년 푸시킨 사망 보도가 퍼지고 애도 문서가 등장한다,1837년 실제 기사·편지,문학 네트워크 영향,DOCUMENTED_HISTORICAL_EVENT,DESIGN_SEED_NOT_VERIFIED
 E44,벨린스키의 편지 논쟁,literary_circle,historical_1847_letter,편지 내용이 실제 유통 가능한 경로로 소개되어 토론을 유발한다,1847년 벨린스키 서한·판본,사상·감시·관계 변화,DOCUMENTED_HISTORICAL_EVENT,DESIGN_SEED_NOT_VERIFIED

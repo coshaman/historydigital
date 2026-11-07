@@ -1309,25 +1309,24 @@
   },
   {
     "event_id": "E40",
-    "title": "페트라솁스키 체포 소식",
-    "place": "st_petersburg_1849",
+    "title": "4월 22일 수사 보고서 도착",
+    "place": "chancery",
     "roles": [
       "student",
       "official",
       "police"
     ],
-    "trigger": "historical_1849_arrests",
-    "visible_scene": "일부 실제 인물이 체포되고 서류와 편지가 조사된다",
-    "historical_anchor": "1849 페트라솁스키 사건 관련 기록",
+    "trigger": "1849-04-22_state_report_reaches_the_chancery",
+    "visible_scene": "국가 조사 보고서와 체포 명령이 관청 접수 장부에 오른다",
+    "historical_anchor": "1849년 4월 22일자 페트라셰프스키 사건 조사 보고서와 체포 명령",
     "player_actions": [
-      "증언",
-      "숨김",
-      "서류검토",
-      "거리두기"
+      "출처와 함께 공식 접수",
+      "확인되지 않은 이름 보류",
+      "명령과 소유자 주장 분리 기록"
     ],
-    "world_consequence": "위험·문헌 접근 변화",
+    "world_consequence": "공식 장부·개인 보류 메모·별도 소유자 색인",
     "occurrence_type": "DOCUMENTED_HISTORICAL_EVENT",
-    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
+    "validation_status": "CONTEMPORARY_1849_REPORT_RANGE_VERIFIED",
     "trigger_class": "HISTORICAL_FIXED",
     "scene_steps": [
       "spawn_actor_and_prop",
