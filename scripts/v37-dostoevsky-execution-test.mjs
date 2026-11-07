@@ -33,7 +33,13 @@ assert.equal(quest.date, '1849-12-22');
 assert.deepEqual(campaign.arcs.find(arc => arc.id === quest.chapterId).questIds.slice(-1), [quest.id]);
 assert.deepEqual(quest.historicalOutcome.sourceIds, [sourceId]);
 assert.equal(sources.records.find(record => record.sourceId === sourceId).range,
-  'РВБ, строки 115–117: три последовательных абзаца письма № 37 от 22 декабря 1849 года.');
+  'РВБ, строки 115–117: датировка и два последовательных абзаца письма № 37 от 22 декабря 1849 года.');
+const executionSource = sources.records.find(record => record.sourceId === sourceId);
+assert.equal(executionSource.paragraphs.length, 2, 'the source packet preserves the two consecutive event paragraphs');
+assert.match(executionSource.paragraphs[0].ru, /Сегодня 22 декабря нас отвезли на Семеновский плац/);
+assert.match(executionSource.paragraphs[1].ru, /Наконец ударили отбой.*Затем последовали настоящие приговоры/s);
+assert.match(executionSource.paragraphs[0].ko, /흰 셔츠/);
+assert.doesNotMatch(quest.fixedEvent.trigger, /10:00/);
 assert.ok(sourceIndex.records.some(record => record.sourceId === sourceId));
 assert.equal(maps['semenovsky-square'].metadata.date, quest.date);
 assert.ok(maps['semenovsky-square'].layers.find(layer => layer.name === 'Interactions').objects.some(object => object.type === 'quest-object' && object.properties.some(property => property.name === 'questId' && property.value === quest.id)));

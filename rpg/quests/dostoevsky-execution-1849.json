@@ -49,7 +49,7 @@
     "scenePosition": { "x": 15, "y": 10 },
     "sourceIds": ["OBJ-WS-DOSTOEVSKY-LETTER-1849-DEC22"],
     "historicalOutcomeId": "PETRASHEVSKY_SENTENCE_AND_COMMUTATION_1849",
-    "trigger": "1849-12-22, 10:00, at Semenovsky Parade Ground",
+    "trigger": "1849-12-22, at Semenovsky Parade Ground",
     "startsAtMinute": 600,
     "durationMinutes": 180
   }

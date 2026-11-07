@@ -1349,7 +1349,7 @@
     "sentenced prisoners",
     "imperial messenger"
   ],
-  "trigger": "1849-12-22 historical date and fixed event time",
+  "trigger": "1849-12-22 historical date",
   "visible_scene": "사형 선고와 처형 준비가 진행되고, 중지 신호 뒤 감형된 형량이 발표된다.",
   "historical_anchor": "Dostoevsky letter no. 37 to Mikhail, 22 Dec 1849; RWB lines 115–117",
   "player_actions": [
