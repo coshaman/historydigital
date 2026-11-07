@@ -181,7 +181,13 @@
         "id": "V36_CARTER_QUAY_FREIGHT_TALLY",
         "outputKind": "운임 정산",
         "outputKo": "부두에서 받은 짐의 수량과 운송표를 맞춘다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "payroll": {
+          "payerHostId": "warehouse_pyotr",
+          "amount": 2,
+          "unit": "kopeks",
+          "valueStatus": "fictional_gameplay_balance"
+        }
       }
     },
     {
