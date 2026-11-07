@@ -649,6 +649,76 @@ function advanceCensoredPageEvent(state, minuteOffset, maps, livingEventRows, op
   livingEventRows.push(livingCensoredPageEventRow(state, event.stage, minuteOffset, maps,
     { changeKo: '대답을 기다리던 동안 인쇄소는 표시된 문장을 빼고 교정쇄를 넘겼다.', unattended: true }));
 }
+function smuggledEditionEventRow(state, event, minuteOffset, maps, details = {}) {
+  return { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E34', stage: event.stage,
+    stageIndex: event.stage === 'COPY_CARRIED' ? 1 : event.stage === 'READING_READY' ? 2 : 3,
+    actorHostIds: [...event.actorHostIds], witnessHostIds: [...event.witnessHostIds], date: state.world.date,
+    minute: minuteOffset, mapId: event.venueMapId, position: { ...event.scenePosition }, sourceIds: [],
+    occurrenceType: 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION', validationStatus: 'DESIGN_SEED_NOT_VERIFIED',
+    historicalOutcomeId: 'FICTIONAL_PRINTSHOP_AND_BOOKSHOP_COPY', historicalOutcomeFixed: false,
+    itemLocation: event.itemLocation, state: clone(event),
+    witnessedByPlayer: playerCanObserveWorldEvent(state, event.venueMapId, event.scenePosition, 6, maps), ...details };
+}
+function advanceSmuggledEditionEvent(state, minuteOffset, maps, livingEventRows) {
+  state.world.livingEventStates ??= {};
+  let event = state.world.livingEventStates.E34;
+  const copy = '삭제 표시가 남은 교정쇄 사본';
+  if (!event) {
+    const object = (layer(maps?.['bookshop-interior'], 'Interactions')?.objects ?? [])
+      .find(item => item.id === 4022);
+    const actorHostIds = ['typesetter_nikita', 'bookseller_lev', 'student_vasily', 'junior_guard_sergey'];
+    const actors = actorHostIds.map(id => state.hosts[id]);
+    if (state.world.chapterId !== 'V33_1847_PRINT' || state.world.date < '1847-06-01' || state.world.activeRealm
+      || state.world.livingEventStates.E06?.status !== 'RESOLVED'
+      || state.world.livingEventStates.E06?.stage !== 'COPY_KEPT'
+      || !state.hosts.typesetter_nikita?.inventory?.includes(copy) || !object
+      || actors.some(host => !host || host.historicalAliveAndPresent === false
+        || !host.allowedMaps.includes('bookshop-interior')
+        || npcMapRoute(host.mapId, 'bookshop-interior', host, maps, state.world.clockMinutes) === null)) return;
+    event = state.world.livingEventStates.E34 = { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E34',
+      status: 'ACTIVE', stage: 'COPY_CARRIED', trigger: 'E06_PRIVATE_COPY_REACHES_BOOKSHOP',
+      startedAtMinute: state.world.clockMinutes, resolvesAtMinute: state.world.clockMinutes + 360,
+      actorHostIds, witnessHostIds: ['bookseller_lev', 'student_vasily', 'junior_guard_sergey'],
+      venueMapId: 'bookshop-interior', scenePosition: objectTile(object), carrierHostId: 'typesetter_nikita',
+      booksellerHostId: 'bookseller_lev', studentHostId: 'student_vasily', watchmanHostId: 'junior_guard_sergey',
+      itemName: copy, itemLocation: 'WITH_TYPESETTER', historicalOutcomeId: 'FICTIONAL_PRINTSHOP_AND_BOOKSHOP_COPY',
+      historicalOutcomeFixed: false, occurrenceType: 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION',
+      validationStatus: 'DESIGN_SEED_NOT_VERIFIED' };
+    livingEventRows.push(smuggledEditionEventRow(state, event, minuteOffset, maps,
+      { changeKo: '니키타가 교정쇄 사본을 품고 책방에 들어왔다. 레프와 바실리, 세르게이가 종이를 보았다.' }));
+  }
+  if (event.status !== 'ACTIVE') return;
+  const gathered = event.actorHostIds.every(id => {
+    const host = state.hosts[id];
+    return host && host.historicalAliveAndPresent !== false && host.mapId === event.venueMapId
+      && nearTile(host.position, event.scenePosition, 5);
+  });
+  if (gathered && event.stage === 'COPY_CARRIED') {
+    const carrier = state.hosts[event.carrierHostId];
+    if (!carrier?.inventory?.includes(event.itemName)) return;
+    carrier.inventory = carrier.inventory.filter(item => item !== event.itemName);
+    event.stage = 'READING_READY'; event.itemLocation = 'UNDER_BOOKSHOP_SHELF';
+    event.gatheredAtMinute = state.world.clockMinutes; event.resolvesAtMinute = state.world.clockMinutes + 180;
+    livingEventRows.push(smuggledEditionEventRow(state, event, minuteOffset, maps,
+      { changeKo: '니키타가 사본을 선반 밑에 놓았다. 레프와 바실리가 글자와 인쇄 흔적을 살폈다.' }));
+  }
+  if (state.world.clockMinutes < event.resolvesAtMinute) return;
+  event.status = 'RESOLVED'; event.stage = event.stage === 'READING_READY' ? 'COPY_RETURNED' : 'NO_GATHERING';
+  event.disposition = 'NO_PLAYER_RESPONSE'; event.resolvedAtMinute = state.world.clockMinutes;
+  event.resolutionActionId = 'AUTO_COPY_RETURNED';
+  event.itemLocation = 'WITH_TYPESETTER';
+  const owner = state.hosts[event.carrierHostId];
+  if (owner && !owner.inventory.includes(event.itemName)) owner.inventory.push(event.itemName);
+  state.world.smuggledEditionRecords ??= [];
+  state.world.smuggledEditionRecords.push({ eventId: 'E34', actionId: 'AUTO_COPY_RETURNED',
+    date: state.world.date, recordedAtMinute: state.world.clockMinutes, officialRecord: false,
+    itemHolderHostId: event.carrierHostId, historicalOutcomeFixed: false });
+  for (const id of event.actorHostIds) {
+    const host = state.hosts[id]; if (host?.activeGoal?.taskId?.startsWith('V37:E34:')) host.activeGoal = null;
+  }
+  livingEventRows.push(smuggledEditionEventRow(state, event, minuteOffset, maps,
+    { unattended: true, changeKo: '아무도 나서지 않자 니키타가 종이를 거두어 인쇄소로 돌아갔다.' }));
+}
 function beginPrintDeadlineEvent(state, work, minuteOffset, maps, livingEventRows) {
   if (state.world.livingEventStates?.E07 || work.hostId !== 'printer_ekaterina' || work.actionId !== 'V36_PRINTER_MARK_PROOF') return;
   state.world.livingEventStates ??= {};
@@ -3139,6 +3209,19 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
       taskId: `V37:E45:${procession.stage}:${host.id}`, reason: 'residents_respond_to_blocked_street',
       selectionBasis: { utilityScore: 184, eventId: 'E45', stage: procession.stage } };
   }
+  const smuggledEdition = state.world.livingEventStates?.E34;
+  if (smuggledEdition?.status === 'ACTIVE' && smuggledEdition.actorHostIds.includes(host.id)
+    && host.allowedMaps.includes(smuggledEdition.venueMapId)
+    && npcMapRoute(host.mapId, smuggledEdition.venueMapId, host, maps, state.world.clockMinutes) !== null) {
+    const activities = { typesetter_nikita: '인쇄소에서 가져온 종이를 책방에 펼친다',
+      bookseller_lev: '선반 밑에 놓인 종이를 살핀다', student_vasily: '책방에 나온 종이의 인쇄 흔적을 살핀다',
+      junior_guard_sergey: '책방 안의 종이를 확인하러 간다' };
+    return { slot: { mapId: smuggledEdition.venueMapId, position: { ...smuggledEdition.scenePosition },
+      activityKo: activities[host.id] }, goalType: 'LIVING_EVENT_RESPONSE',
+      targetHostId: host.id === 'typesetter_nikita' ? 'bookseller_lev' : smuggledEdition.carrierHostId,
+      taskId: `V37:E34:${smuggledEdition.stage}:${host.id}`, reason: 'private_proof_copy_draws_readers_and_local_watchman',
+      selectionBasis: { utilityScore: 186, eventId: 'E34', stage: smuggledEdition.stage } };
+  }
   const marketDayWork = state.world.livingEventStates?.E32;
   if (marketDayWork?.status === 'ACTIVE' && marketDayWork.actorHostIds.includes(host.id)
     && host.allowedMaps.includes(marketDayWork.venueMapId)
@@ -4015,6 +4098,7 @@ function advanceNpcWorld(state, elapsedMinutes, maps, options = {}) {
     advanceApprenticeFatigueEvent(next, tick, maps, livingEventLog);
     advanceColdWaveEvent(next, tick, maps, coldWaveRows);
     advanceCensoredPageEvent(next, tick, maps, coldWaveRows, options);
+    advanceSmuggledEditionEvent(next, tick, maps, livingEventLog);
     advanceCanalTraffic(next, [], tick, maps, livingEventLog);
     advanceWarehouseInjury(next, tick, maps, livingEventLog);
     advanceFixedHistoricalEvent(next, tick, maps, livingEventLog);
@@ -4027,6 +4111,7 @@ function advanceNpcWorld(state, elapsedMinutes, maps, options = {}) {
     advanceApprenticeLiteracy(next, tick, maps, livingEventLog, options);
     startPoliceDocumentCheck(next, tick, maps, livingEventLog);
     const result = simulateNpcMinute(next, maps, options, tick, movementLog, stateChanges);
+    advanceSmuggledEditionEvent(next, tick, maps, result.livingEventRows);
     advanceFoodDeprivation(next, tick, maps, result.careRows);
     advanceApprenticeLiteracy(next, tick, maps, result.livingEventRows, options);
     advanceStudentCircle(next, tick, maps, result.livingEventRows);
@@ -5039,6 +5124,48 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
         changeKo: actionId === 'E06_REMOVE_TYPE' ? '예카테리나는 표시된 활자를 빼고 수정 교정쇄를 넘겼다. 공식 이의 기록은 남지 않았다.'
           : actionId === 'E06_FILE_QUERY' ? '소피아는 삭제 표시의 근거를 묻는 메모를 편집부 기록에 남겼다.'
             : '니키타는 삭제 표시가 남은 교정쇄 사본을 작업복 안쪽에 숨겼다. 발견되면 작업자에게 책임이 돌아올 수 있다.' }));
+  }
+  if (!literaryQuest && questId === 'V37_SMUGGLED_EDITION_1847') {
+    const event = next.world.livingEventStates?.E34;
+    const actions = { E34_HIDE_COPY: ['booksellerHostId', 'HIDDEN_BY_BOOKSELLER', false],
+      E34_COMPARE_MARKS: ['studentHostId', 'MARKS_NOTED', false],
+      E34_REPORT_SHEET: ['watchmanHostId', 'TAKEN_FOR_OFFICIAL_RECORD', true] };
+    const [actorKey, stage, officialRecord] = actions[actionId] ?? [];
+    if (!event || event.status !== 'ACTIVE' || event.stage !== 'READING_READY' || !actorKey
+      || event[actorKey] !== hostId) return { ok: false, reason: 'smuggled_edition_event_not_ready', state };
+    const item = event.itemName, carrier = next.hosts[event.carrierHostId];
+    if (event.itemLocation !== 'UNDER_BOOKSHOP_SHELF' || !carrier || carrier.inventory.includes(item)) {
+      return { ok: false, reason: 'smuggled_edition_item_not_on_shelf', state };
+    }
+    const audienceHostIds = actionId === 'E34_HIDE_COPY' ? [hostId, event.carrierHostId]
+      : actionId === 'E34_COMPARE_MARKS' ? [hostId, event.booksellerHostId] : [hostId, event.carrierHostId];
+    if (actionId === 'E34_HIDE_COPY') {
+      next.hosts[event.booksellerHostId].inventory.push(item); event.itemLocation = 'WITH_BOOKSELLER';
+    } else if (actionId === 'E34_REPORT_SHEET') {
+      next.hosts[event.watchmanHostId].inventory.push(item); event.itemLocation = 'WITH_WATCHMAN';
+      next.world.officialBookshopReports ??= [];
+      next.world.officialBookshopReports.push({ eventId: 'E34', date: next.world.date,
+        filedAtMinute: next.world.clockMinutes, filedByHostId: hostId, documentItemName: item,
+        reportKind: 'UNIDENTIFIED_PRINTED_SHEET_RECEIVED', historicalClaim: null });
+    }
+    const notes = { E34_HIDE_COPY: '레프가 책장 밑에서 나온 인쇄물을 다시 숨겼다.',
+      E34_COMPARE_MARKS: '바실리가 종이의 인쇄 자국을 보았지만, 인쇄소나 인쇄자를 확인하지는 못했다.',
+      E34_REPORT_SHEET: '세르게이가 정체를 확인하지 못한 인쇄물을 근무 기록과 함께 맡았다.' };
+    for (const id of audienceHostIds) {
+      const person = next.hosts[id]; person.personalEventNotes ??= [];
+      person.personalEventNotes.push({ eventId: 'E34', atMinute: next.world.clockMinutes, noteKo: notes[actionId] });
+    }
+    event.status = 'RESOLVED'; event.stage = stage; event.disposition = stage;
+    event.resolvedAtMinute = next.world.clockMinutes; event.resolvedByHostId = hostId; event.resolutionActionId = actionId;
+    const record = { eventId: 'E34', actionId, disposition: stage, recordedByHostId: hostId,
+      audienceHostIds, date: next.world.date, recordedAtMinute: next.world.clockMinutes, officialRecord,
+      itemLocation: event.itemLocation, historicalOutcomeFixed: false };
+    next.world.smuggledEditionRecords ??= []; next.world.smuggledEditionRecords.push(record);
+    for (const id of event.actorHostIds) {
+      const actor = next.hosts[id]; if (actor?.activeGoal?.taskId?.startsWith('V37:E34:')) actor.activeGoal = null;
+    }
+    livingEvents.push(smuggledEditionEventRow(next, event, next.world.clockMinutes % 1440, maps,
+      { actionId, ...record, changeKo: action.resultKo }));
   }
   if (!literaryQuest && questId === 'V37_COURTYARD_DISPUTE_1847') {
     const event = next.world.livingEventStates?.E09;
@@ -6095,10 +6222,13 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
   const legacyCensorshipCopy = state.world?.livingEventStates?.E06;
   if (legacyCensorshipCopy?.stage === 'COPY_KEPT' && legacyCensorshipCopy.resolutionActionId === 'E06_KEEP_COPY') {
     const copy = '삭제 표시가 남은 교정쇄 사본';
-    const ownerId = legacyCensorshipCopy.typesetterHostId;
-    for (const host of Object.values(state.hosts)) host.inventory = (host.inventory ?? []).filter(item => item !== copy || host.id === ownerId);
-    if (!state.hosts[ownerId].inventory.includes(copy)) state.hosts[ownerId].inventory.push(copy);
-    legacyCensorshipCopy.privateCopyHostId = ownerId;
+    const edition = state.world?.livingEventStates?.E34;
+    const holderByLocation = { WITH_TYPESETTER: 'typesetter_nikita', WITH_BOOKSELLER: 'bookseller_lev',
+      WITH_WATCHMAN: 'junior_guard_sergey' };
+    const holderId = edition ? holderByLocation[edition.itemLocation] ?? null : legacyCensorshipCopy.typesetterHostId;
+    for (const host of Object.values(state.hosts)) host.inventory = (host.inventory ?? []).filter(item => item !== copy || host.id === holderId);
+    if (holderId && !state.hosts[holderId].inventory.includes(copy)) state.hosts[holderId].inventory.push(copy);
+    legacyCensorshipCopy.privateCopyHostId = legacyCensorshipCopy.typesetterHostId;
   }
   const legacyWarehouseInjury = state.world?.livingEventStates?.E12;
   if (legacyWarehouseInjury && !legacyWarehouseInjury.severity) legacyWarehouseInjury.severity = 'MILD';
@@ -6593,6 +6723,17 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
     throw new Error('Save contains invalid E07 print deadline event state');
   }
   const censorshipEvent = state.world.livingEventStates.E06;
+  const smuggledEdition = state.world.livingEventStates.E34;
+  const copyInExpectedHolder = !smuggledEdition
+    ? state.hosts.typesetter_nikita.inventory.includes('삭제 표시가 남은 교정쇄 사본')
+    : (smuggledEdition.itemLocation === 'WITH_TYPESETTER'
+      ? state.hosts.typesetter_nikita.inventory.includes('삭제 표시가 남은 교정쇄 사본')
+      : smuggledEdition.itemLocation === 'WITH_BOOKSELLER'
+        ? state.hosts.bookseller_lev.inventory.includes('삭제 표시가 남은 교정쇄 사본')
+        : smuggledEdition.itemLocation === 'WITH_WATCHMAN'
+          ? state.hosts.junior_guard_sergey.inventory.includes('삭제 표시가 남은 교정쇄 사본')
+          : ['UNDER_BOOKSHOP_SHELF', 'NO_ITEM'].includes(smuggledEdition.itemLocation)
+            && !Object.values(state.hosts).some(host => host.inventory.includes('삭제 표시가 남은 교정쇄 사본')));
   if (censorshipEvent && (censorshipEvent.catalogIdSpace !== 'V37_EVENT_CATALOG_45' || censorshipEvent.catalogEventId !== 'E06'
     || !['ACTIVE', 'RESOLVED'].includes(censorshipEvent.status)
     || !['CENSOR_MARK_RETURNED', 'TYPE_REMOVED', 'QUERY_FILED', 'COPY_KEPT', 'INSTITUTIONAL_CUT'].includes(censorshipEvent.stage)
@@ -6608,12 +6749,36 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
     || !['NONE', 'OFFICIAL_QUERY'].includes(censorshipEvent.officeRecord)
     || ![0, 1, 2, 3].includes(censorshipEvent.printerRisk)
     || (censorshipEvent.stage === 'COPY_KEPT' && (censorshipEvent.privateCopyHostId !== censorshipEvent.typesetterHostId
-      || !state.hosts[censorshipEvent.typesetterHostId].inventory.includes('삭제 표시가 남은 교정쇄 사본')
-      || state.hosts[censorshipEvent.editorHostId].inventory.includes('삭제 표시가 남은 교정쇄 사본')))
+      || !copyInExpectedHolder || state.hosts[censorshipEvent.editorHostId].inventory.includes('삭제 표시가 남은 교정쇄 사본')))
     || (censorshipEvent.status === 'ACTIVE') !== (censorshipEvent.stage === 'CENSOR_MARK_RETURNED')
     || (censorshipEvent.status === 'RESOLVED' && (!Number.isInteger(censorshipEvent.resolvedAtMinute)
       || !['E06_REMOVE_TYPE', 'E06_FILE_QUERY', 'E06_KEEP_COPY', 'AUTO_INSTITUTIONAL_CUT'].includes(censorshipEvent.resolutionActionId))))) {
     throw new Error('Save contains invalid E06 censored page event state');
+  }
+  const smuggledEditionEvent = state.world.livingEventStates.E34;
+  if (smuggledEditionEvent) {
+    const item = '삭제 표시가 남은 교정쇄 사본';
+    const holders = Object.values(state.hosts).filter(host => host.inventory.includes(item)).map(host => host.id);
+    const expectedHolder = { WITH_TYPESETTER: 'typesetter_nikita', WITH_BOOKSELLER: 'bookseller_lev',
+      WITH_WATCHMAN: 'junior_guard_sergey' }[smuggledEditionEvent.itemLocation] ?? null;
+    const itemLocationValid = expectedHolder ? holders.length === 1 && holders[0] === expectedHolder
+      : smuggledEditionEvent.itemLocation === 'UNDER_BOOKSHOP_SHELF' && holders.length === 0;
+    if (smuggledEditionEvent.catalogIdSpace !== 'V37_EVENT_CATALOG_45' || smuggledEditionEvent.catalogEventId !== 'E34'
+      || !['ACTIVE', 'RESOLVED'].includes(smuggledEditionEvent.status)
+      || !['COPY_CARRIED', 'READING_READY', 'HIDDEN_BY_BOOKSELLER', 'MARKS_NOTED', 'TAKEN_FOR_OFFICIAL_RECORD', 'COPY_RETURNED', 'NO_GATHERING'].includes(smuggledEditionEvent.stage)
+      || smuggledEditionEvent.validationStatus !== 'DESIGN_SEED_NOT_VERIFIED'
+      || smuggledEditionEvent.occurrenceType !== 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION'
+      || smuggledEditionEvent.historicalOutcomeFixed !== false
+      || smuggledEditionEvent.actorHostIds?.join(',') !== 'typesetter_nikita,bookseller_lev,student_vasily,junior_guard_sergey'
+      || smuggledEditionEvent.venueMapId !== 'bookshop-interior' || smuggledEditionEvent.itemName !== item
+      || smuggledEditionEvent.carrierHostId !== 'typesetter_nikita'
+      || !Number.isInteger(smuggledEditionEvent.startedAtMinute) || !Number.isInteger(smuggledEditionEvent.resolvesAtMinute)
+      || !itemLocationValid
+      || (smuggledEditionEvent.status === 'ACTIVE') !== ['COPY_CARRIED', 'READING_READY'].includes(smuggledEditionEvent.stage)
+      || (smuggledEditionEvent.status === 'RESOLVED' && (!Number.isInteger(smuggledEditionEvent.resolvedAtMinute)
+        || !['E34_HIDE_COPY', 'E34_COMPARE_MARKS', 'E34_REPORT_SHEET', 'AUTO_COPY_RETURNED'].includes(smuggledEditionEvent.resolutionActionId)))) {
+      throw new Error('Save contains invalid E34 bookshop copy event state');
+    }
   }
   const bookbindingEvent = state.world.livingEventStates.E08;
   if (bookbindingEvent && (bookbindingEvent.catalogIdSpace !== 'V37_EVENT_CATALOG_45' || bookbindingEvent.catalogEventId !== 'E08'

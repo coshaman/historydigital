@@ -32,7 +32,7 @@ E30,무명 저자의 원고,bookshop,manuscript_offer,작가가 원고를 내밀
 E31,농노제에 관한 편지,salon,serfdom_letter,지역 지주가 보낸 논쟁적 편지가 낭독된다,당대 농노제 문서·사상 원전,사상·관계 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
 E32,농촌에서 온 구직자,market,jobseeker,도착한 사람이 연줄과 일자리를 찾는다,도시 이주·등록 자료,노동 공급·안전 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
 E33,어린 견습의 탈진,printshop,fatigue,견습생이 활자 앞에서 쓰러질 듯하다,도시 노동 풍속,건강·생산 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
-E34,밀수 판본 거래,bookshop,risky_book,책장 밑에서 정체 불명의 인쇄본이 발견된다,실제 압수 기록 존재할 때만 역사 사건 연동,검열 위험·관계 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
+E34,책장 밑의 인쇄물,bookshop-interior,E06_private_copy_reaches_bookshop,인쇄소에서 간직한 교정쇄가 책방으로 옮겨지고 서점 주인·학생·경비가 처리 방식을 정한다,E06 교정쇄 사본의 게임 내 이동,사적 보관·인쇄 흔적 메모·공식 접수,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
 E35,지붕 누수 수리,tenement_courtyard,rain_damage,비가 새는 방 때문에 목수가 방문한다,생활·건축 자료,돈·주거 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
 E36,장터 도난,market-quay,seller_discovers_missing_purse_after_market_trade,나데즈다가 돈주머니가 사라진 걸 알아차리고 짐꾼과 경비가 좌판으로 다가온다,1842년 장터 감시 지침 서지 기록 · 1843–1844년 상트페테르부르크 절도 사건철,좌판 손실·공식 신고 또는 개인 메모·이웃 간 현금 이동,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED
 E37,가정교사 일자리 조건,courtyard,teacher_reaches_courtyard_work_period,가정교사에게 수업 횟수와 품삯이 적힌 쪽지가 도착한다,1834년 가정교사 및 가정교사 직함 규정,고용 조건·첫 주 품삯·후원 관계 변화,HISTORICALLY_PLAUSIBLE_RECONSTRUCTION,DESIGN_SEED_NOT_VERIFIED

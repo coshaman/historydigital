@@ -31,14 +31,17 @@
         "urban_artisan",
         "urban_literate_worker",
         "gentry_household_tutor",
-        "urban_laborer"
+        "urban_laborer",
+        "service_class"
       ],
       "allowedCharacterIds": [
         "bookseller_lev",
         "reader_darya",
         "student_vasily",
         "teacher_lyubov",
-        "editor_sofia"
+        "editor_sofia",
+        "typesetter_nikita",
+        "junior_guard_sergey"
       ],
       "opensMinute": 360,
       "closesMinute": 1200,
@@ -69,7 +72,7 @@
   "tileheight": 16,
   "infinite": false,
   "nextlayerid": 7,
-  "nextobjectid": 4022,
+  "nextobjectid": 4023,
   "properties": [
     {
       "name": "mapId",
@@ -2362,6 +2365,21 @@
           "properties": [
             { "name": "questId", "type": "string", "value": "V37_BELINSKY_LETTER_1848" },
             { "name": "requiresLivingEventId", "type": "string", "value": "E44" }
+          ]
+        },
+        {
+          "id": 4022,
+          "name": "책장 밑의 인쇄물",
+          "type": "quest-object",
+          "x": 240,
+          "y": 208,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            { "name": "questId", "type": "string", "value": "V37_SMUGGLED_EDITION_1847" },
+            { "name": "requiresLivingEventId", "type": "string", "value": "E34" },
+            { "name": "assetTileId", "type": "int", "value": 24 }
           ]
         }
       ]

@@ -113,7 +113,9 @@
     "market-quay",
     "printshop",
     "chancery",
-    "police-station"
+    "police-station",
+    "bookshop-lane",
+    "bookshop-interior"
   ],
   "start": {
     "mapId": "chancery",

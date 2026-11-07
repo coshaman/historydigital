@@ -1094,32 +1094,31 @@
   },
   {
     "event_id": "E34",
-    "title": "밀수 판본 거래",
-    "place": "bookshop",
+    "title": "책장 밑의 인쇄물",
+    "place": "bookshop-interior",
     "roles": [
-      "bookseller",
-      "student",
-      "watchman"
+      "typesetter_nikita",
+      "bookseller_lev",
+      "student_vasily",
+      "junior_guard_sergey"
     ],
-    "trigger": "risky_book",
-    "visible_scene": "책장 밑에서 정체 불명의 인쇄본이 발견된다",
-    "historical_anchor": "실제 압수 기록 존재할 때만 역사 사건 연동",
+    "trigger": "E06_private_copy_reaches_bookshop",
+    "visible_scene": "인쇄소에서 감춰 둔 교정쇄가 책방으로 옮겨지고, 서점 주인·학생·경비가 처리 방식을 정한다",
+    "historical_anchor": "E06에서 이어지는 게임 속 인쇄물 이동",
     "player_actions": [
-      "숨김",
-      "확인",
-      "신고",
-      "거절"
+      "책장 밑에 숨긴다",
+      "인쇄 흔적을 살핀다",
+      "근무 기록과 함께 맡긴다"
     ],
-    "world_consequence": "검열 위험·관계 변화",
+    "world_consequence": "인쇄물의 소지자와 사적 메모 또는 공식 접수 기록이 달라진다",
     "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
     "validation_status": "DESIGN_SEED_NOT_VERIFIED",
     "trigger_class": "EMERGENT_CONDITIONAL",
     "scene_steps": [
-      "spawn_actor_and_prop",
-      "show_causal_world_change",
-      "perform_interaction",
-      "update_witness_and_private_knowledge",
-      "emit_local_newspaper_or_gossip_if_newsworthy"
+      "E06_private_copy_triggers_carrier_travel",
+      "move_page_from_carrier_inventory_to_bookshop_shelf",
+      "bring_local_bookshop_residents_and_watchman_to_scene",
+      "record_private_handling_or_official_receipt"
     ],
     "failure_outcomes": [
       "nonparticipation_world_continues",

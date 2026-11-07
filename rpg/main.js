@@ -42,9 +42,10 @@ const streetMusicQuest = await readJson('./rpg/quests/street-music-1847.json');
 const physiologyReadingQuest = await readJson('./rpg/quests/v37-physiology-reading-1847.json');
 const pushkinObituaryQuest = await readJson('./rpg/quests/v37-pushkin-obituary-1847.json');
 const belinskyLetterQuest = await readJson('./rpg/quests/v37-belinsky-letter-1848.json');
+const smuggledEditionQuest = await readJson('./rpg/quests/smuggled-edition-1847.json');
 const officialProcessionQuest = await readJson('./rpg/quests/v37-official-procession-1847.json');
 const residentArcBundle = await readJson('./rpg/quests/resident-arcs-v36.json');
-const questList = [...new Map([firstQuest, publicQuest, europeNewsQuest, circleQuest, letterQuest, dostoevskyExecutionQuest, literaryQuest, overcoatQuest, ...marketPersonalQuests, ...addedPersonalQuests, manuscriptOfferQuest, serfdomReadingQuest, salonDebateQuest, salonInvitationQuest, streetMusicQuest, physiologyReadingQuest, pushkinObituaryQuest, belinskyLetterQuest, officialProcessionQuest, ...v36PersonalQuestFiles, ...socialQuestFiles, ...residentArcBundle.quests].map(quest => [quest.id, quest])).values()];
+const questList = [...new Map([firstQuest, publicQuest, europeNewsQuest, circleQuest, letterQuest, dostoevskyExecutionQuest, literaryQuest, overcoatQuest, ...marketPersonalQuests, ...addedPersonalQuests, manuscriptOfferQuest, serfdomReadingQuest, salonDebateQuest, salonInvitationQuest, streetMusicQuest, physiologyReadingQuest, pushkinObituaryQuest, belinskyLetterQuest, officialProcessionQuest, smuggledEditionQuest, ...v36PersonalQuestFiles, ...socialQuestFiles, ...residentArcBundle.quests].map(quest => [quest.id, quest])).values()];
 const questsById = new Map(questList.map(item => [item.id, item]));
 const relationHintValues = new Map();
 for (const quest of questList) for (const action of quest.actions ?? []) {
