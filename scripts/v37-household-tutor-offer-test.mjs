@@ -49,6 +49,37 @@ assert.equal(result.state.world.householdTutorContract.weeklyPay, 10);
 assert.ok(result.state.ledger.at(-1)?.livingEvents?.some(row => row.catalogEventId === eventId && row.stage === 'OFFER_ACCEPTED'));
 assert.equal(game.stateHash(game.loadGame(game.saveGame(result.state), { maps, hostCards: cards, quests: [quest] })), game.stateHash(result.state));
 
+const tutorWeekTwo = game.loadGame(game.saveGame(result.state), { maps, hostCards: cards, quests: [quest] });
+tutorWeekTwo.player.embodiment = null;
+for (const resident of Object.values(tutorWeekTwo.hosts)) resident.historicalAliveAndPresent = false;
+const tutor = tutorWeekTwo.hosts.teacher_lyubov, employer = tutorWeekTwo.hosts.minor_noble_andrei;
+for (const [person, position] of [[tutor, { x: 17, y: 13 }], [employer, { x: 18, y: 13 }]]) {
+  person.historicalAliveAndPresent = true; person.mapId = 'courtyard'; person.position = position; person.activeGoal = null;
+}
+tutorWeekTwo.world.clockMinutes = 7 * 1440 + 840;
+tutorWeekTwo.world.date = '1847-06-08';
+const nonSessionDay = game.advanceNpcWorld(tutorWeekTwo, 20, maps);
+assert.ok(!(nonSessionDay.hosts.teacher_lyubov.workRecords ?? []).some(row => row.actionId === 'V37_TUTOR_HOUSEHOLD_LESSON'),
+  'a two-day weekly contract does not create a lesson on its unscheduled day');
+tutorWeekTwo.world.clockMinutes = 8 * 1440 + 840;
+tutorWeekTwo.world.date = '1847-06-09';
+const firstLesson = game.advanceNpcWorld(tutorWeekTwo, 20, maps);
+assert.ok((firstLesson.hosts.teacher_lyubov.workRecords ?? []).some(row => row.actionId === 'V37_TUTOR_HOUSEHOLD_LESSON'),
+  'the first contracted lesson produces a persistent work record');
+assert.equal(firstLesson.hosts.teacher_lyubov.money.amount, result.state.hosts.teacher_lyubov.money.amount + 5,
+  'the completed lesson pays one half of the weekly wage');
+assert.equal(firstLesson.hosts.minor_noble_andrei.money.amount, result.state.hosts.minor_noble_andrei.money.amount - 5);
+assert.ok(firstLesson.ledger.flatMap(row => row.payments ?? []).some(row => row.actionId === 'V37_TUTOR_HOUSEHOLD_LESSON'
+  && row.hostId === tutor.id && row.payerHostId === employer.id && row.amount === 5));
+const firstLessonReload = game.loadGame(game.saveGame(firstLesson), { maps, hostCards: cards, quests: [quest] });
+assert.equal(game.stateHash(firstLessonReload), game.stateHash(firstLesson), 'the paid lesson and contract schedule survive save/load');
+firstLessonReload.world.clockMinutes = 11 * 1440 + 840;
+firstLessonReload.world.date = '1847-06-12';
+const secondLesson = game.advanceNpcWorld(firstLessonReload, 20, maps);
+assert.equal(secondLesson.hosts.teacher_lyubov.money.amount, result.state.hosts.teacher_lyubov.money.amount + 10,
+  'the second weekly lesson pays the remaining half of the contracted wage');
+assert.equal(secondLesson.hosts.minor_noble_andrei.money.amount, result.state.hosts.minor_noble_andrei.money.amount - 10);
+
 for (const [actionId, stage, payment, contract] of [
   ['E37_AGREE_LIGHTER_SCHEDULE', 'SCHEDULE_REDUCED', 6, 1],
   ['E37_DECLINE_OFFER', 'OFFER_DECLINED', 0, undefined],

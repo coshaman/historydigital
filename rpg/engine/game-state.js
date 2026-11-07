@@ -502,6 +502,19 @@ function scheduleEntry(host, clockMinutes) {
   const minute = ((clockMinutes % 1440) + 1440) % 1440;
   return [...schedule].reverse().find(item => item.atMinute <= minute) ?? schedule[0] ?? null;
 }
+function householdTutorSessionDue(state, workAction) {
+  if (workAction?.employmentContractId !== 'HOUSEHOLD_TUTOR_1847') return true;
+  const contract = state.world.householdTutorContract;
+  if (!contract || contract.status !== 'ACTIVE' || contract.hostId !== 'teacher_lyubov'
+    || contract.employerHostId !== 'minor_noble_andrei' || !Number.isInteger(contract.weeklyDays)
+    || !Number.isInteger(contract.weeklyPay) || contract.weeklyPay <= 0 || contract.weeklyPay % contract.weeklyDays !== 0) return false;
+  const dayIndex = Math.floor(state.world.clockMinutes / 1440);
+  const startDayIndex = Number.isInteger(contract.startDayIndex) ? contract.startDayIndex : dayIndex;
+  const dayOffset = dayIndex - startDayIndex;
+  if (dayOffset < 7) return false;
+  const weekDay = dayOffset % 7;
+  return contract.weeklyDays === 2 ? [1, 4].includes(weekDay) : weekDay === 3;
+}
 function taskCompletedForDay(host, task, dayIndex) {
   if (task?.repeatDaily === true) return host.completedSocialTaskDayById?.[task.id] === dayIndex;
   return host.routineTaskCompletedId === task?.id || host.completedSocialTaskIds?.includes(task?.id);
@@ -4014,7 +4027,10 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
   const foodOfferByItem = new Map(hosts.flatMap(person => person.marketOffers ?? [])
     .filter(offer => offer.category === 'food').map(offer => [offer.itemKo, offer]));
   for (const host of hosts) {
-    const scheduledSlot = scheduleEntry(host, state.world.clockMinutes);
+    const authoredSlot = scheduleEntry(host, state.world.clockMinutes);
+    const scheduledSlot = authoredSlot?.workAction?.employmentContractId === 'HOUSEHOLD_TUTOR_1847'
+      && !householdTutorSessionDue(state, authoredSlot.workAction)
+      ? { ...authoredSlot, workAction: undefined, activityKo: '교재와 연습 종이를 정리한다' } : authoredSlot;
     if (!scheduledSlot) continue;
     const scheduleId = `${scheduledSlot.mapId}:${scheduledSlot.atMinute}`;
     if (host.scheduleId !== scheduleId) host.routineTaskCompletedId = null;
@@ -4099,7 +4115,17 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
               record.inventoryQuantity = quantity;
             } else if (!host.inventory.includes(workAction.inventoryItemKo)) host.inventory.push(workAction.inventoryItemKo);
           }
-          const payroll = workAction.payroll;
+          let payroll = workAction.payroll;
+          if (workAction.employmentContractId === 'HOUSEHOLD_TUTOR_1847') {
+            const contract = state.world.householdTutorContract;
+            const sessionAmount = contract?.weeklyDays ? contract.weeklyPay / contract.weeklyDays : null;
+            if (Number.isInteger(sessionAmount) && sessionAmount > 0) {
+              payroll = { payerHostId: contract.employerHostId, amount: sessionAmount,
+                unit: contract.currency, valueStatus: 'fictional_gameplay_balance' };
+              contract.completedSessionDayIndices ??= [];
+              if (!contract.completedSessionDayIndices.includes(dayIndex)) contract.completedSessionDayIndices.push(dayIndex);
+            }
+          }
           if (payroll && typeof payroll.payerHostId === 'string' && Number.isInteger(payroll.amount) && payroll.amount > 0
             && payroll.unit === host.money?.unit && payroll.payerHostId !== host.id) {
             host.pendingWageClaims ??= [];
@@ -4169,15 +4195,23 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
   for (const host of hosts) {
     for (const claim of host.pendingWageClaims ?? []) {
       const payer = state.hosts[claim.payerHostId];
+      const paymentDistance = claim.actionId === 'V37_TUTOR_HOUSEHOLD_LESSON' ? 2 : 1;
       if (claim.status !== 'DUE' || host.id === embodiedId || payer?.id === embodiedId || paused.has(host.id) || paused.has(payer?.id)
         || host.historicalAliveAndPresent === false || payer?.historicalAliveAndPresent === false || !payer
-        || host.mapId !== payer.mapId || !nearTile(host.position, payer.position, 1)
+        || host.mapId !== payer.mapId || !nearTile(host.position, payer.position, paymentDistance)
         || host.money?.unit !== claim.unit || payer.money?.unit !== claim.unit
         || !Number.isFinite(host.money?.amount) || !Number.isFinite(payer.money?.amount) || payer.money.amount < claim.amount) continue;
       payer.money.amount -= claim.amount;
       host.money.amount += claim.amount;
       claim.status = 'PAID';
       claim.paidAtMinute = minuteOffset;
+      if (claim.actionId === 'V37_TUTOR_HOUSEHOLD_LESSON' && state.world.householdTutorContract?.hostId === host.id) {
+        state.world.householdTutorContract.paidSessionDayIndices ??= [];
+        const claimDayIndex = Number(claim.id.split(':', 1)[0]);
+        if (Number.isInteger(claimDayIndex) && !state.world.householdTutorContract.paidSessionDayIndices.includes(claimDayIndex)) {
+          state.world.householdTutorContract.paidSessionDayIndices.push(claimDayIndex);
+        }
+      }
       host.lastWageClaimDayIndex = claim.dueDayIndex;
       host.lastWageClaimId = claim.id;
       host.needs ??= initialNpcNeeds(host, state.world.clockMinutes);
@@ -5362,7 +5396,8 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
       recordedAtMinute: next.world.clockMinutes };
     if (outcome.amount) next.world.householdTutorContract = { hostId, employerHostId: payer.id,
       weeklyDays: outcome.daysPerWeek, weeklyPay: outcome.amount, currency: worker.money.unit,
-      startDate: next.world.date, status: 'ACTIVE', sourceIds: [...event.sourceIds] };
+      startDate: next.world.date, startDayIndex: Math.floor(next.world.clockMinutes / 1440),
+      completedSessionDayIndices: [], paidSessionDayIndices: [], status: 'ACTIVE', sourceIds: [...event.sourceIds] };
     livingEvents.push(householdTutorEventRow(next, event, event.stage, next.world.clockMinutes % 1440, maps,
       { actionId, resolvedByHostId: hostId, payment: clone(event.payment ?? null),
         changeKo: outcome.amount ? `가정교사 일을 주 ${outcome.daysPerWeek}회 맡고 첫 주 품삯 ${outcome.amount}코페이카를 받았다.` : '가정교사 일자리를 사양했다.' }));

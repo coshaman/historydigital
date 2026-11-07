@@ -181,6 +181,19 @@
       "activityKo": "수업에 빌릴 책을 고르고 돌려줄 날짜를 장부에 적는다"
     },
     {
+      "atMinute": 840,
+      "mapId": "courtyard",
+      "position": { "x": 17, "y": 13 },
+      "activityKo": "안뜰에서 가정교사 수업을 한다",
+      "workAction": {
+        "id": "V37_TUTOR_HOUSEHOLD_LESSON",
+        "employmentContractId": "HOUSEHOLD_TUTOR_1847",
+        "outputKind": "가정 수업",
+        "outputKo": "고용 계약에 정한 읽기 수업을 진행한다",
+        "durationMinutes": 20
+      }
+    },
+    {
       "atMinute": 960,
       "mapId": "courtyard",
       "position": {
