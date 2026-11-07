@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "event": "E21",
+  "sourceId": "LIT-BELINSKY-GOGOL-REVIEW-1847",
+  "contextualParagraphs": 9,
+  "results": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "stage": "EUROPEAN_METHOD_DEFENDED",
+      "reader": "reader_darya",
+      "invitation": "INVITATION_ACCEPTED",
+      "sourceLinked": true,
+      "choices": 1,
+      "scrollWidth": 1440,
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "stage": "EUROPEAN_METHOD_DEFENDED",
+      "reader": "reader_darya",
+      "invitation": "INVITATION_ACCEPTED",
+      "sourceLinked": true,
+      "choices": 1,
+      "scrollWidth": 390,
+      "pageErrors": []
+    }
+  ],
+  "serverErrors": []
+}

@@ -6,9 +6,10 @@ import { questChoices } from '../rpg/engine/quest-presentation.mjs';
 const require = createRequire(import.meta.url); require('../rpg/engine/game-state.js');
 const game = globalThis.V33GameState;
 const read = async path => JSON.parse(await readFile(new URL(path, import.meta.url), 'utf8'));
-const [mapFiles, cardFiles, quest, packet, sourceIndex, register] = await Promise.all([
+const [mapFiles, cardFiles, quest, invitationQuest, packet, sourceIndex, register] = await Promise.all([
   readdir(new URL('../rpg/maps/', import.meta.url)), readdir(new URL('../rpg/characters/', import.meta.url)),
-  read('../rpg/quests/v37-salon-debate-1847.json'), read('../rpg/data/historical-source-packets.json'),
+  read('../rpg/quests/v37-salon-debate-1847.json'), read('../rpg/quests/v37-salon-invitation-1847.json'),
+  read('../rpg/data/historical-source-packets.json'),
   read('../rpg/data/source-reader-index.json'), read('../rpg/data/source-register.json'),
 ]);
 const [maps, cards] = await Promise.all([
@@ -31,10 +32,9 @@ const map = maps['bookshop-interior'];
 const interactions = map.layers.find(layer => layer.name === 'Interactions').objects;
 assert.ok(interactions.some(item => item.type === 'source' && item.properties.some(property => property.value === sourceId)));
 assert.equal(interactions.find(item => item.id === 4014).properties[0].value, quest.id);
-const state = game.createInitialState({ maps, hostCards: cards, quests: [quest], startMapId: 'bookshop-interior' });
+const state = game.createInitialState({ maps, hostCards: cards, quests: [quest, invitationQuest], startMapId: 'bookshop-interior' });
 state.world.chapterId = 'V33_1847_PRINT'; state.world.date = '1847-06-01'; state.world.clockMinutes = 600;
 state.world.currentMapId = 'bookshop-interior'; state.player.embodiment = 'reader_darya';
-state.world.livingEventStates.E24 = { status: 'RESOLVED', stage: 'LISTENED_UNLISTED' };
 for (const [id, position] of [['reader_darya', { x: 13, y: 11 }], ['student_vasily', { x: 12, y: 12 }], ['editor_sofia', { x: 13, y: 12 }]]) {
   state.hosts[id].mapId = 'bookshop-interior'; state.hosts[id].position = position;
 }
@@ -46,6 +46,7 @@ let opened = game.advanceWorldTime(readResult.state, 2, maps);
 assert.equal(opened.world.livingEventStates.E21.status, 'ACTIVE');
 opened = game.advanceWorldTime(opened, 90, maps);
 assert.equal(opened.world.livingEventStates.E21.stage, 'DEBATE_READY');
+assert.equal(opened.world.livingEventStates.E24, undefined, 'the courtyard circle waits while the source discussion is active');
 assert.ok(opened.world.livingEventStates.E21.actorHostIds.every(id => opened.hosts[id].mapId === 'bookshop-interior'),
   `the other readers travel to the bookshop without teleporting: ${JSON.stringify(opened.world.livingEventStates.E21.actorHostIds.map(id => ({ id, mapId: opened.hosts[id].mapId, goal: opened.hosts[id].activeGoal, routine: opened.hosts[id].routineState })))}`);
 const choices = questChoices(quest, 'reader_darya', opened.hosts.reader_darya.knownEvidenceIds, opened);
@@ -55,6 +56,16 @@ const resolved = game.performQuestAction(opened, { questId: quest.id, hostId: 'r
 assert.equal(resolved.ok, true, resolved.reason);
 assert.equal(resolved.state.world.livingEventStates.E21.stage, 'EUROPEAN_METHOD_DEFENDED');
 assert.ok(resolved.state.ledger.at(-1).sourceIds.includes(sourceId));
-const restored = game.loadGame(game.saveGame(resolved.state), { maps, hostCards: cards, quests: [quest] });
-assert.equal(game.stateHash(restored), game.stateHash(resolved.state));
-console.log('V37 E21: public review context, physical reading, gathering, distinct ideological choices, outcome, and save/load passed');
+const invitationState = structuredClone(resolved.state);
+invitationState.hosts.reader_darya.position = { x: 13, y: 12 };
+invitationState.player.position = { x: 13, y: 12 };
+assert.equal(invitationState.world.livingEventStates.E29?.stage, 'INVITATION_OFFERED');
+const invite = game.performQuestAction(invitationState, { questId: invitationQuest.id, hostId: 'reader_darya',
+  actionId: 'E29_ACCEPT_INVITATION', objectId: invitationQuest.entry.objectId }, { quests: [quest, invitationQuest], maps });
+assert.equal(invite.ok, true, `the discussion opens the evening invitation (${invite.reason ?? 'unknown reason'})`);
+let continued = game.advanceWorldTime(invite.state, 1, maps);
+assert.equal(continued.world.livingEventStates.E24?.stage, 'INVITATION_POSTED',
+  'the courtyard reading starts after the review discussion and invitation have ended');
+const restored = game.loadGame(game.saveGame(continued), { maps, hostCards: cards, quests: [quest, invitationQuest] });
+assert.equal(game.stateHash(restored), game.stateHash(continued));
+console.log('V37 E21→E29→E24: contextual source, physical discussion, invitation choice, scheduled circle, and save/load passed');

@@ -1806,8 +1806,11 @@ function advanceStudentCircle(state, minuteOffset, maps, livingEventRows) {
   state.world.livingEventStates ??= {};
   let event = state.world.livingEventStates.E24;
   const localMinute = ((state.world.clockMinutes % 1440) + 1440) % 1440;
+  const reviewDiscussion = state.world.livingEventStates.E21;
+  const salonInvitation = state.world.livingEventStates.E29;
   if (!event && state.world.chapterId === 'V33_1847_PRINT' && !state.world.activeRealm
-    && state.world.date === '1847-06-01' && localMinute >= 640 && localMinute < 700) {
+    && state.world.date === '1847-06-01' && localMinute >= 640 && localMinute < 800
+    && reviewDiscussion?.status !== 'ACTIVE' && salonInvitation?.status !== 'ACTIVE') {
     const student = state.hosts.student_vasily, organizer = state.hosts.reader_darya;
     const position = { x: 15, y: 13 };
     const map = maps?.courtyard, meeting = layer(map, 'Interactions')?.objects.find(item => item.id === 1174);

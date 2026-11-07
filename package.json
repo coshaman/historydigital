@@ -284,6 +284,7 @@
     "v37-parcel-browser": "npm run build:v33 && node scripts/v37-parcel-browser-acceptance.mjs",
     "v37-parcel-mobile-browser": "npm run build:v33 && node scripts/v37-parcel-browser-acceptance.mjs --mobile",
     "v37-parcel-police-browser": "npm run build:v33 && node scripts/v37-parcel-police-browser.mjs",
+    "v37-salon-debate-browser": "npm run build:v33 && node scripts/v37-salon-debate-browser.mjs",
     "v37-housing-browser": "npm run build:v33 && node scripts/v37-resident-housing-browser.mjs",
     "v37-seed-residences": "node scripts/v37-author-fictional-residences.mjs --apply",
     "v37-seed-kinship": "node scripts/v37-author-kinship-graph.mjs",
