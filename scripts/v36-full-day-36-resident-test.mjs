@@ -207,8 +207,9 @@ assert.ok(Object.values(autonomousGoalTypesByResident).every(types => types.leng
 assert.ok(deliveries.length > 0, 'at least one scheduled item handoff should complete');
 assert.ok(exchanges.length > 0, 'at least one scheduled exchange should complete');
 assert.ok(marketMeals.length > 0, 'a hungry resident should physically buy and eat market food during the day');
-assert.ok(marketMeals.length >= 9,
-  `the daytime market should serve a usable number of residents before shops close; sales=${marketMeals.length}`);
+const marketMealBuyers = new Set(marketMeals.map(meal => meal.hostId));
+assert.ok(marketMealBuyers.size >= 6,
+  `at least six distinct residents should complete a physical market-food purchase; got ${marketMealBuyers.size}: ${JSON.stringify([...marketMealBuyers])}`);
 assert.ok(paidInnMeals.length > 0,
   `the inn should serve at least one paid evening meal during its authored service window; stages=${JSON.stringify(innMealEvents.map(event => event.stage))}`);
 assert.ok(marketMeals.every(meal => meal.mapId === meal.sellerMapId

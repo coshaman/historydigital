@@ -34,7 +34,7 @@ assert.ok(authoredFishSeller.residence.sleepMinute >= 1320,
   'the fish seller remains available for the full advertised evening shift');
 const authoredFishWork = authoredFishSeller.schedule.find(slot => slot.workAction?.id === 'V36_FISHSELLER_RECEIVE_CATCH')?.workAction;
 assert.equal(authoredFishWork?.restockOfferFromWork, true);
-assert.equal(authoredFishWork?.inventoryQuantity, 4);
+assert.equal(authoredFishWork?.inventoryQuantity, 8);
 assert.equal(authoredFishSeller.schedule.find(slot => slot.task?.id === 'KLAVIYA_MARKET_BREAK_MEAL_1847')?.task?.itemKo, '생선 한 점',
   'the fish seller has an authored meal break supplied from her own counter stock');
 const authoredInnkeeper = cards.find(card => card.id === 'innkeeper_irina');
@@ -105,7 +105,7 @@ fishSeller.marketStock = structuredClone(authoredFishSeller.marketStock);
 const fishWorkAction = structuredClone(authoredFishWork);
 fishSeller.schedule = [{ atMinute: 540, mapId: 'market-quay', position: { ...fishSeller.position }, activityKo: '오늘 들어온 생선을 손질한다', workAction: fishWorkAction }];
 const fishProduced = game.advanceNpcWorld(fishState, 25, maps);
-assert.equal(fishProduced.hosts.fishseller_klavdiya.marketStock['생선 한 점'], 4,
+assert.equal(fishProduced.hosts.fishseller_klavdiya.marketStock['생선 한 점'], 8,
   'a merchant can stock her own stall from a completed food-preparation action');
 assert.equal(fishProduced.hosts.fishseller_klavdiya.inventory.filter(item => item === '생선 한 점').length, 0,
   'prepared portions enter the stall inventory exactly once');
@@ -124,9 +124,9 @@ const fishMeals = fishServed.ledger.flatMap(row => row.meals ?? []).filter(row =
   && row.sellerHostId === fishSeller.id);
 assert.equal(fishMeals.length, 3, 'a second market stall can serve three paid meal customers');
 assert.equal(fishServed.hosts.fishseller_klavdiya.money.amount, 18, 'the fish seller receives each customer payment');
-assert.equal(fishServed.hosts.fishseller_klavdiya.marketStock['생선 한 점'], 1);
+assert.equal(fishServed.hosts.fishseller_klavdiya.marketStock['생선 한 점'], 5);
 const fishRestored = game.loadGame(game.saveGame(fishServed), { maps, hostCards: cards });
-assert.equal(fishRestored.hosts.fishseller_klavdiya.marketStock['생선 한 점'], 1);
+assert.equal(fishRestored.hosts.fishseller_klavdiya.marketStock['생선 한 점'], 5);
 assert.equal(fishRestored.hosts.fishseller_klavdiya.money.amount, 18);
 
 const innState = game.createInitialState({ maps, hostCards: cards, startMapId: 'inn-interior' });

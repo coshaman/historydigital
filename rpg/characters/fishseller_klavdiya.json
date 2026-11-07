@@ -176,10 +176,10 @@
       "workAction": {
         "id": "V36_FISHSELLER_RECEIVE_CATCH",
         "outputKind": "시장 판매",
-        "outputKo": "강변 생선 네 점을 받아 시장 좌판에 올린다",
+        "outputKo": "강변 생선 여덟 점을 받아 시장 좌판에 올린다",
         "durationMinutes": 20,
         "inventoryItemKo": "생선 한 점",
-        "inventoryQuantity": 4,
+        "inventoryQuantity": 8,
         "restockOfferFromWork": true
       }
     },

@@ -3836,26 +3836,32 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
     && (host.marketStock?.[offer.itemKo] ?? 0) > 0
     && isMarketOfferOpen(host, offer, state.world.clockMinutes));
   if (!activelyServingFood && host.needs?.hunger >= 60 && !host.inventory.some(item => foodItems.has(item))) {
-    const foodOffers = Object.values(state.hosts).filter(seller => seller.id !== host.id
-      && seller.id !== state.player.embodiment && seller.historicalAliveAndPresent !== false
-      && seller.mapId && host.allowedMaps.includes(seller.mapId)
-      && seller.money?.unit === host.money?.unit
-      && Number.isFinite(host.money?.amount)
-      && (seller.marketOffers ?? []).some(offer => offer.category === 'food'
-        && Number.isInteger(marketOfferPrice(state, seller, offer)) && marketOfferPrice(state, seller, offer) > 0 && (seller.marketStock?.[offer.itemKo] ?? 0) > 0
-        && seller.money?.unit === offer.unit && host.money.amount >= marketOfferPrice(state, seller, offer)
-        && isMarketOfferOpen(seller, offer, state.world.clockMinutes)))
-      .sort((a, b) => {
-        const lateMealService = localMinute >= 960 && localMinute < 1200;
-        return (lateMealService ? Number(b.id === 'innkeeper_irina') - Number(a.id === 'innkeeper_irina') : 0)
-          || a.id.localeCompare(b.id);
-      });
-    const seller = foodOffers.find(candidate => (candidate.mapId === host.mapId && nearTile(candidate.position, host.position, 1))
-      || npcMapRoute(host.mapId, candidate.mapId, host, maps, state.world.clockMinutes) !== null);
-    const offer = seller?.marketOffers?.find(item => item.category === 'food' && (seller.marketStock?.[item.itemKo] ?? 0) > 0
-      && isMarketOfferOpen(seller, item, state.world.clockMinutes)
-      && item.unit === host.money?.unit && Number.isInteger(marketOfferPrice(state, seller, item)) && host.money.amount >= marketOfferPrice(state, seller, item));
-    const price = seller && offer ? marketOfferPrice(state, seller, offer) : null;
+    const lateMealService = localMinute >= 960 && localMinute < 1200;
+    const currentFoodSellerId = host.activeGoal?.type === 'PURCHASE_MEAL' ? host.activeGoal.targetHostId : null;
+    const foodOffers = Object.values(state.hosts).flatMap(seller => {
+      if (seller.id === host.id || seller.id === state.player.embodiment || seller.historicalAliveAndPresent === false
+        || !seller.mapId || !host.allowedMaps.includes(seller.mapId) || seller.money?.unit !== host.money?.unit
+        || !Number.isFinite(host.money?.amount)) return [];
+      const route = npcMapRoute(host.mapId, seller.mapId, host, maps, state.world.clockMinutes);
+      if (route === null) return [];
+      return (seller.marketOffers ?? []).filter(offer => offer.category === 'food'
+        && Number.isInteger(marketOfferPrice(state, seller, offer)) && marketOfferPrice(state, seller, offer) > 0
+        && (seller.marketStock?.[offer.itemKo] ?? 0) > 0 && seller.money?.unit === offer.unit
+        && host.money.amount >= marketOfferPrice(state, seller, offer)
+        && isMarketOfferOpen(seller, offer, state.world.clockMinutes))
+        .map(offer => ({ seller, offer, routeLength: route.length,
+          distance: seller.mapId === host.mapId && seller.position
+            ? Math.abs(seller.position.x - host.position.x) + Math.abs(seller.position.y - host.position.y) : null,
+          price: marketOfferPrice(state, seller, offer) }));
+    }).sort((a, b) => (lateMealService ? Number(b.seller.id === 'innkeeper_irina') - Number(a.seller.id === 'innkeeper_irina') : 0)
+      || Number(b.seller.id === currentFoodSellerId) - Number(a.seller.id === currentFoodSellerId)
+      || a.routeLength - b.routeLength
+      || (a.distance !== null && b.distance !== null ? a.distance - b.distance : 0)
+      || a.price - b.price || a.seller.id.localeCompare(b.seller.id));
+    const selectedFoodOffer = foodOffers[0];
+    const seller = selectedFoodOffer?.seller;
+    const offer = selectedFoodOffer?.offer;
+    const price = selectedFoodOffer?.price ?? null;
     if (seller && offer) {
       const mealSourceEventId = activeMealSeekingCauseEventId(host, state);
       const unresolvedHungerPriority = mealSourceEventId === 'E14' && host.needs.hunger >= 90 ? 32 : 0;
