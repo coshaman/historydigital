@@ -116,6 +116,61 @@ const extendedContact = extendedVisit.ledger.findLast(row => row.eventType === '
 assert.ok(extendedContact, 'the expanded kinship edge drives an autonomous visit between working relatives');
 assert.equal(extendedContact.effect, 'social_need_relieved');
 
+const siblingAidState = game.createInitialState({ maps, hostCards: cards, startMapId: 'courtyard' });
+siblingAidState.world.currentMapId = 'courtyard';
+siblingAidState.world.clockMinutes = 1020;
+siblingAidState.world.date = '1847-06-01';
+for (const person of Object.values(siblingAidState.hosts)) person.historicalAliveAndPresent = false;
+const sisterGiver = siblingAidState.hosts.innkeeper_irina, sisterRecipient = siblingAidState.hosts.landlady_polina;
+const authoredAid = cards.find(card => card.id === 'innkeeper_irina').schedule.find(slot => slot.task?.id === 'IRINA_SIBLING_SUPPORT_POLINA_1847');
+assert.ok(authoredAid, 'the innkeeper has an authored daily support task for her sister');
+sisterGiver.places.homeLocation.householdId = 'INNKEEPER_ROOM_1847';
+sisterRecipient.places.homeLocation.householdId = 'LANDLADY_ROOM_1847';
+assert.notEqual(sisterGiver.places.homeLocation.householdId, sisterRecipient.places.homeLocation.householdId,
+  'the sisters maintain separate households');
+for (const [person, mapId, position] of [[sisterGiver, 'inn-interior', { x: 11, y: 14 }], [sisterRecipient, 'courtyard', { x: 20, y: 13 }]]) {
+  person.historicalAliveAndPresent = true;
+  person.mapId = mapId;
+  person.position = position;
+  person.money.amount = person.id === sisterGiver.id ? 30 : 4;
+  person.schedule = person.id === sisterGiver.id
+    ? [{ atMinute: 960, mapId: 'inn-interior', position: { ...position }, activityKo: '저녁 장부를 마친다' }, { ...authoredAid, mapId: 'courtyard', position: { x: 18, y: 12 } }]
+    : [{ atMinute: 960, mapId: 'courtyard', position: { ...position }, activityKo: '공동주택에서 쉰다' }];
+}
+const supportedSister = game.advanceNpcWorld(siblingAidState, 90, maps);
+const supportLedger = supportedSister.ledger.findLast(row => row.eventType === 'NPC_SIMULATION');
+const supportTransfer = supportLedger?.careTransfers
+  .find(row => row.taskId === 'IRINA_SIBLING_SUPPORT_POLINA_1847');
+assert.ok(supportTransfer, 'an explicitly permitted sibling transfer works across separate homes');
+assert.equal(supportTransfer.kind, 'KINSHIP_CASH_AID');
+assert.equal(supportTransfer.mapId, 'courtyard', 'the giver travels to her sister before handing over money');
+assert.ok(supportLedger.moves.some(row => row.hostId === sisterGiver.id && row.fromMapId === 'inn-interior'
+  && row.toMapId === 'courtyard'), 'the visit uses the map route instead of teleporting');
+assert.equal(supportedSister.hosts.innkeeper_irina.money.amount, 28);
+assert.equal(supportedSister.hosts.landlady_polina.money.amount, 6);
+const restoredAid = game.loadGame(game.saveGame(supportedSister), { maps, hostCards: cards });
+assert.equal(restoredAid.hosts.innkeeper_irina.money.amount, 28);
+assert.equal(restoredAid.hosts.landlady_polina.money.amount, 6);
+assert.ok(restoredAid.ledger.flatMap(row => row.careTransfers ?? []).some(row => row.taskId === authoredAid.task.id),
+  'the transfer and its causal record survive save/load');
+
+const unapprovedAidState = game.createInitialState({ maps, hostCards: cards, startMapId: 'courtyard' });
+unapprovedAidState.world.currentMapId = 'courtyard';
+unapprovedAidState.world.clockMinutes = 1020;
+unapprovedAidState.world.date = '1847-06-01';
+for (const person of Object.values(unapprovedAidState.hosts)) person.historicalAliveAndPresent = false;
+const unapprovedGiver = unapprovedAidState.hosts.innkeeper_irina, unapprovedRecipient = unapprovedAidState.hosts.landlady_polina;
+for (const [person, position] of [[unapprovedGiver, { x: 10, y: 12 }], [unapprovedRecipient, { x: 11, y: 12 }]]) {
+  person.historicalAliveAndPresent = true;
+  person.mapId = 'courtyard';
+  person.position = position;
+  person.money.amount = person.id === unapprovedGiver.id ? 30 : 4;
+  person.schedule = [{ ...authoredAid, task: { ...authoredAid.task, allowSeparateHousehold: false }, mapId: 'courtyard', position: { ...position } }];
+}
+const deniedSeparateAid = game.advanceNpcWorld(unapprovedAidState, 1, maps);
+assert.equal(deniedSeparateAid.hosts.innkeeper_irina.money.amount, 30, 'cross-household aid requires explicit authoring');
+assert.equal(deniedSeparateAid.hosts.landlady_polina.money.amount, 4);
+
 console.log(JSON.stringify({ status: 'PASS', fictionalResidents: fictional.length, reciprocalKinshipEdges: graph.edges.length,
   scopedKnowledge: true, autonomousVisit: contact.goalId, extendedRelativeVisit: extendedContact.goalId,
-  reciprocalMeetingMemory: true, saveLoad: true }, null, 2));
+  reciprocalMeetingMemory: true, crossHouseholdFamilyAid: true, familyAidSaveLoad: true, saveLoad: true }, null, 2));

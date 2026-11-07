@@ -209,6 +209,27 @@
         "outputKo": "저녁 손님의 이름과 빈자리 수를 접수 장부에 맞춘다",
         "durationMinutes": 20
       }
+    },
+    {
+      "atMinute": 1020,
+      "mapId": "courtyard",
+      "position": {
+        "x": 18,
+        "y": 12
+      },
+      "activityKo": "동생에게 여관 수입 일부를 건넨다",
+      "task": {
+        "type": "CARE_TRANSFER",
+        "id": "IRINA_SIBLING_SUPPORT_POLINA_1847",
+        "repeatDaily": true,
+        "recipientHostId": "landlady_polina",
+        "moneyAmount": 2,
+        "donorReserve": 20,
+        "recipientMaximum": 9,
+        "allowSeparateHousehold": true,
+        "relationshipKo": "동생의 살림에 여관 수입을 보탠 언니",
+        "recipientRelationshipKo": "언니에게 여관 수입을 보탠 돈을 받은 동생"
+      }
     }
   ],
   "portrait": {

@@ -473,10 +473,13 @@ function pendingTaskSlot(host, taskTypes, localMinute, dayIndex = 0) {
 }
 function canMakeAuthoredCareTransfer(state, giver, task) {
   const recipient = state.hosts[task?.recipientHostId], amount = task?.moneyAmount;
-  const kinship = giver?.relationshipEdges?.some(edge => edge.kind === 'KINSHIP' && edge.toHostId === recipient?.id
+  const kinship = giver?.relationshipEdges?.find(edge => edge.kind === 'KINSHIP' && edge.toHostId === recipient?.id
     && edge.relationshipType === 'SIBLING' && edge.status === 'FICTIONAL_CHARACTER_DESIGN');
-  return Boolean(recipient && kinship && giver.places?.homeLocation?.householdId
-    && giver.places.homeLocation.householdId === recipient.places?.homeLocation?.householdId
+  const giverHousehold = giver?.places?.homeLocation?.householdId;
+  const recipientHousehold = recipient?.places?.homeLocation?.householdId;
+  const sharedHousehold = Boolean(giverHousehold && giverHousehold === recipientHousehold);
+  const authoredSeparateHouseholdAid = task?.allowSeparateHousehold === true && Boolean(kinship);
+  return Boolean(recipient && kinship && (sharedHousehold || authoredSeparateHouseholdAid)
     && Number.isInteger(amount) && amount > 0 && Number.isFinite(giver.money?.amount) && Number.isFinite(recipient.money?.amount)
     && giver.money.unit === recipient.money.unit && giver.money.amount - amount >= (task.donorReserve ?? 0)
     && recipient.money.amount <= (task.recipientMaximum ?? 0));
@@ -4269,8 +4272,11 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
     host.completedSocialTaskDayById[task.id] = Math.floor(state.world.clockMinutes / 1440);
     host.completedSocialTaskIds ??= [];
     if (!host.completedSocialTaskIds.includes(task.id)) host.completedSocialTaskIds.push(task.id);
-    careRows.push({ kind: 'HOUSEHOLD_SUPPORT', hostId: host.id, recipientHostId: recipient.id, amount: task.moneyAmount,
-      unit: host.money.unit, taskId: task.id, householdId: host.places.homeLocation.householdId, status: 'FICTIONAL_CHARACTER_DESIGN',
+    const giverHouseholdId = host.places?.homeLocation?.householdId;
+    const recipientHouseholdId = recipient.places?.homeLocation?.householdId;
+    const sharedHouseholdId = giverHouseholdId && giverHouseholdId === recipientHouseholdId ? giverHouseholdId : null;
+    careRows.push({ kind: sharedHouseholdId ? 'HOUSEHOLD_SUPPORT' : 'KINSHIP_CASH_AID', hostId: host.id, recipientHostId: recipient.id, amount: task.moneyAmount,
+      unit: host.money.unit, taskId: task.id, householdId: sharedHouseholdId, status: 'FICTIONAL_CHARACTER_DESIGN',
       mapId: host.mapId, position: { ...host.position }, minute: minuteOffset,
       witnessedByPlayer: playerCanObserveWorldEvent(state, host.mapId, host.position, 6, maps) });
   }

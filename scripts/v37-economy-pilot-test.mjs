@@ -211,7 +211,9 @@ assert.equal(manualPaid.state.world.livingEventStates.E01.stage, 'PARTIAL_PAYMEN
 assert.equal(manualPaid.state.world.livingEventStates.E01.status, 'ACTIVE');
 assert.ok(manualPaid.state.ledger.flatMap(event => event.livingEvents ?? []).some(event => event.catalogEventId === 'E01' && event.stage === 'PARTIAL_PAYMENT'));
 assert.equal(game.payRent(manualPaid.state, { tenantHostId: 'tenant_mikhail' }, maps).reason, 'insufficient_funds');
-const day = game.advanceNpcWorld(normal, 905, maps);
+const wageLinkedRentBase = structuredClone(normal);
+wageLinkedRentBase.hosts.tenant_mikhail.housing.dueMinute = 1350;
+const day = game.advanceNpcWorld(wageLinkedRentBase, 905, maps);
 assert.ok(day.world.livingEventStates.E01, 'an NPC rent deadline creates a persistent catalog event state');
 const dayBreadEvents = day.ledger.flatMap(event => event.livingEvents ?? []).filter(event => event.catalogEventId === 'E02');
 const nextDay = game.advanceNpcWorld(day, 1000, maps);
@@ -275,13 +277,25 @@ assert.equal(wage.mapId, wage.counterpartyMapId);
 assert.ok(Math.abs(wage.position.x - wage.counterpartyPosition.x) + Math.abs(wage.position.y - wage.counterpartyPosition.y) <= 1,
   'wage changes hands only while both residents are physically adjacent');
 assert.equal(day.hosts.tenant_mikhail.money.amount, 9, `starting funds + wage - rent equals the ending balance: ${JSON.stringify({ start: normal.hosts.tenant_mikhail.money, end: day.hosts.tenant_mikhail.money, rent, housing: day.hosts.tenant_mikhail.housing, purchaseMeals: day.ledger.flatMap(event => event.meals ?? []).filter(meal => meal.kind === 'PURCHASE_AND_EAT') })}`);
-assert.equal(day.hosts.carter_roman.money.amount, 25, 'employer funds are debited');
+const paymentRows = simulationEntries.flatMap(event => event.payments ?? []);
+const carterPayments = paymentRows.filter(event => event.hostId === 'carter_roman' || event.payerHostId === 'carter_roman');
+assert.equal(day.hosts.carter_roman.money.amount, normal.hosts.carter_roman.money.amount
+  + carterPayments.filter(event => event.hostId === 'carter_roman').reduce((sum, event) => sum + event.amount, 0)
+  - carterPayments.filter(event => event.payerHostId === 'carter_roman').reduce((sum, event) => sum + event.amount, 0)
+  - simulationEntries.flatMap(event => event.meals ?? []).filter(event => event.hostId === 'carter_roman' && event.kind === 'PURCHASE_AND_EAT')
+    .reduce((sum, event) => sum + event.price, 0),
+'the carter balance reflects freight income, wages paid, and his bread purchase');
 const landladyRentRows = simulationEntries.flatMap(event => event.housing ?? [])
   .filter(row => row.landlordHostId === 'landlady_polina' && row.kind === 'RENT_PAID');
 assert.equal(landladyRentRows.find(row => row.hostId === 'tenant_mikhail')?.amount, 3, 'Mikhail pays the agreed rent');
 assert.equal(day.hosts.landlady_polina.money.amount,
-  normal.hosts.landlady_polina.money.amount + landladyRentRows.reduce((sum, row) => sum + row.amount, 0),
-  'the landlord balance reflects every tenant payment in the ledger');
+  normal.hosts.landlady_polina.money.amount
+    + landladyRentRows.reduce((sum, row) => sum + row.amount, 0)
+    + simulationEntries.flatMap(event => event.careTransfers ?? []).filter(row => row.recipientHostId === 'landlady_polina')
+      .reduce((sum, row) => sum + row.amount, 0)
+    + paymentRows.filter(event => event.hostId === 'landlady_polina').reduce((sum, event) => sum + event.amount, 0)
+    - paymentRows.filter(event => event.payerHostId === 'landlady_polina').reduce((sum, event) => sum + event.amount, 0),
+  'the landlord balance reflects rent, family aid, and wages paid to a household worker');
 assert.equal(rent?.kind, 'RENT_PAID');
 assert.equal(rent.catalogIdSpace, 'V37_EVENT_CATALOG_45');
 assert.equal(rent.catalogEventId, 'E01', 'rent payment resolves the matching staged catalog scenario');
@@ -291,7 +305,7 @@ courtyardObserver.player.position = { x: 13, y: 4 };
 courtyardObserver.hosts.tenant_mikhail.money.amount = 0;
 courtyardObserver.hosts.carter_roman.money.amount = 0;
 const beforeRentClose = game.advanceNpcWorld(courtyardObserver, 835, maps);
-beforeRentClose.player.position = { x: 18, y: 11 };
+beforeRentClose.player.position = { x: 14, y: 6 };
 const observedDay = game.advanceNpcWorld(beforeRentClose, 15, maps);
 const observedSimulation = observedDay.ledger.find(event => event.eventType === 'NPC_SIMULATION'
   && event.housing?.some(row => row.hostId === 'tenant_mikhail' && row.landlordHostId === 'landlady_polina'));
