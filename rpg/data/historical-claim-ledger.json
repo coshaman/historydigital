@@ -211,6 +211,20 @@
         "file": "rpg/maps/chancery.json",
         "objectId": 1158
       }
+    },
+    {
+      "claimId": "DOSTOEVSKY-LETTER-37-EXECUTION-1849",
+      "claimClass": "SOURCE_ASSERTION",
+      "sourceId": "OBJ-WS-DOSTOEVSKY-LETTER-1849-DEC22",
+      "paragraphIndex": 1,
+      "arcId": "V33_1849_CIRCLE",
+      "questId": "E41_SEMENOVSKY_1849",
+      "claimKo": "편지는 사형 선고와 처형 준비, 집행 중지, 감형된 형량 발표를 차례로 전한다.",
+      "useKo": "12월 22일 광장 장면에서 편지의 사건 순서와 고정된 결과를 보여준다.",
+      "useRef": {
+        "file": "rpg/maps/semenovsky-square.json",
+        "objectId": 301
+      }
     }
   ]
 }

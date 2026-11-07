@@ -14,6 +14,7 @@
   "runtime_profiles": {
     "default_fictional": {"layer":"FICTIONAL_1840S","allowedChapterIds":["V33_1847_PRINT","V33_1848_PUBLIC","V33_1849_CIRCLE"],"realmId":null,"sourceIds":[]},
     "nekrasov_reconstruction": {"layer":"HISTORICAL_RECONSTRUCTION","allowedChapterIds":["V33_1848_PUBLIC","V33_1849_CIRCLE"],"realmId":null,"sourceIds":["OBJ-WS-NEKRASOV-EDITORIAL-1848","OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE"]},
+    "dostoevsky_1849": {"layer":"HISTORICAL_RECONSTRUCTION","allowedChapterIds":["V33_1849_CIRCLE"],"realmId":null,"sourceIds":["OBJ-WS-DOSTOEVSKY-LETTER-1849-DEC22"]},
     "literary_chichikov": {"layer":"LITERARY","allowedChapterIds":["LITERARY_DEAD_SOULS"],"realmId":"LITERARY_DEAD_SOULS","mapId":"dead-souls","sourceIds":["LIT-GOGOL-DEAD-SOULS-1842"]},
     "literary_akaky": {"layer":"LITERARY","allowedChapterIds":["LITERARY_OVERCOAT"],"realmId":"LITERARY_OVERCOAT","mapId":"overcoat","sourceIds":["LIT-GOGOL-OVERCOAT-1842"]},
     "literary_petrovich": {"layer":"LITERARY","allowedChapterIds":["LITERARY_OVERCOAT"],"realmId":"LITERARY_OVERCOAT","mapId":"overcoat","sourceIds":["LIT-GOGOL-OVERCOAT-1842"]}

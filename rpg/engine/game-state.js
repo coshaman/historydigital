@@ -325,11 +325,13 @@ function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky
   validateAuthoredHouseholdProfiles(hostCards, maps);
   validateAuthoredResidences(hostCards, maps);
   const map = maps[startMapId];
+  const initialDate = map.metadata?.date ?? '1847-06-01';
   const spawn = map.metadata?.observerStart ?? { x: 2, y: 2 };
   const hosts = Object.fromEntries(hostCards.map(card => [card.id, {
     id: card.id,
     kind: card.kind,
     eraProfile: runtimeEraProfile(card),
+    presenceWindow: card.presenceWindow ? clone(card.presenceWindow) : null,
     socialEstate: card.socialEstate,
     mapId: card.start.mapId,
     position: { x: card.start.x, y: card.start.y },
@@ -343,7 +345,7 @@ function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky
     needs: initialNpcNeeds(card),
     situationNotes: [],
     facing: 'down',
-    historicalAliveAndPresent: true,
+    historicalAliveAndPresent: !card.presenceWindow || (card.presenceWindow.startDate <= initialDate && initialDate <= card.presenceWindow.endDate),
     healthState: { condition: 'FIT', injury: null, recoveryUntilMinute: null, valueStatus: 'FICTIONAL_CHARACTER_DESIGN' },
     skills: clone(card.skills ?? {}),
     skillsValueStatus: card.skillsValueStatus ?? 'FICTIONAL_CHARACTER_DESIGN',
@@ -384,7 +386,7 @@ function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky
     version: SAVE_VERSION,
     world: {
       chapterId: 'V33_1847_PRINT',
-      date: map.metadata?.date ?? '1847-06-01',
+      date: initialDate,
       currentMapId: startMapId,
       clockMinutes: 540,
       discoveredSourceIds: [],
@@ -3481,6 +3483,7 @@ function advanceNpcWorld(state, elapsedMinutes, maps, options = {}) {
     advanceCensoredPageEvent(next, tick, maps, coldWaveRows, options);
     advanceCanalTraffic(next, [], tick, maps, livingEventLog);
     advanceWarehouseInjury(next, tick, maps, livingEventLog);
+    advanceFixedHistoricalEvent(next, tick, maps, livingEventLog);
     advanceSickLodger(next, tick, maps, livingEventLog, options);
     advanceLateMealEvent(next, tick, maps, livingEventLog, options);
     advanceApprenticeLiteracy(next, tick, maps, livingEventLog, options);
@@ -3575,6 +3578,37 @@ function advanceRentNoticeEvent(state, minuteOffset, maps, livingEventRows) {
     state: clone(event), witnessedByPlayer: playerCanObserveWorldEvent(state, event.venueMapId, event.scenePosition, 6, maps),
     changeKo: '합의가 이뤄지지 않아 다음 납부일부터 새 방세가 적용된다.' });
   beginRoofLeakRepairEvent(state, minuteOffset, maps, livingEventRows);
+}
+
+function advanceFixedHistoricalEvent(state, minuteOffset, maps, livingEventRows) {
+  const event = state.world.livingEventStates?.E41;
+  if (!event) return;
+  if (event.status === 'SCHEDULED') {
+    const actor = state.hosts[event.actorHostIds[0]];
+    if (state.world.clockMinutes < event.startsAtMinute || actor?.mapId !== event.venueMapId
+      || !nearTile(actor.position, event.scenePosition, 8)) return;
+    event.status = 'ACTIVE';
+    event.stage = 'MOCK_EXECUTION_PREPARATION';
+    event.startedAtMinute = state.world.clockMinutes;
+    event.closesAtMinute = event.startedAtMinute + event.durationMinutes;
+    state.ledger.push({ eventId: `WORLD_EVENT_${state.ledger.length + 1}`, eventType: 'HISTORICAL_EVENT_STAGE',
+      date: state.world.date, chapterId: 'V33_1849_CIRCLE', questId: 'E41_SEMENOVSKY_1849', catalogEventId: 'E41',
+      stage: event.stage, sourceIds: [...event.outcomeSourceIds], outcomeFixed: true });
+  }
+  if (event.status !== 'ACTIVE' || state.world.clockMinutes < event.closesAtMinute) return;
+  event.status = 'RESOLVED';
+  event.stage = 'COMMUTATION_ANNOUNCED';
+  event.resolvedAtMinute = state.world.clockMinutes;
+  event.resolutionActionId = 'AUTO_FIXED_SENTENCE_AND_COMMUTATION';
+  state.quests.E41_SEMENOVSKY_1849 = { status: 'resolved', result: event.resolutionActionId };
+  livingEventRows.push({ catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E41', stage: event.stage,
+    actorHostIds: [...event.actorHostIds], witnessHostIds: [], date: state.world.date,
+    minute: minuteOffset, mapId: event.venueMapId, position: { ...event.scenePosition },
+    occurrenceType: event.occurrenceType, validationStatus: event.validationStatus,
+    valueStatus: event.valueStatus, sourceIds: [...event.outcomeSourceIds], state: clone(event),
+    witnessedByPlayer: playerCanObserveWorldEvent(state, event.venueMapId, event.scenePosition, 8, maps),
+    unattended: !event.playerChoiceActionId, historicalOutcomeFixed: true,
+    changeKo: '광장에 사형 판결이 낭독되고, 곧 감형 명령이 전해졌다.' });
 }
 
 function advanceWorldTime(state, minutes, maps, reservedTiles = [], options = {}) {
@@ -3719,6 +3753,7 @@ function possessHost(state, hostId, map) {
   if (!state || state.player.embodiment) return { ok: false, reason: 'already_embodied', state };
   const host = state.hosts[hostId];
   if (!host || !host.historicalAliveAndPresent || host.mapId !== state.world.currentMapId || map.mapId !== state.world.currentMapId) return { ok: false, reason: 'host_not_here', state };
+  if (host.presenceWindow && (state.world.date < host.presenceWindow.startDate || state.world.date > host.presenceWindow.endDate)) return { ok: false, reason: 'era_layer_mismatch', state };
   const era = host.eraProfile ?? runtimeEraProfile(host);
   if (era.layer === 'LITERARY') {
     const realm = state.world.activeRealm;
@@ -3894,18 +3929,33 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
               : questId === 'V37_POLICE_DOCUMENT_CHECK_1847' ? 'E25'
             : questId === 'V37_SICK_LODGER_1847' ? 'E15'
             : questId === 'V37_APOTHECARY_ORDER_1847' ? 'E16'
-              : questId === 'V37_APPRENTICE_FATIGUE_1847' ? 'E33' : undefined,
-    pausedHostIds: ['V37_MANUSCRIPT_OFFER_1847', 'V37_SERFDOM_READING_1847', 'V37_SALON_DEBATE_1847', 'V37_MARKET_DAY_WORK_1847', 'V37_ROOF_LEAK_REPAIR_1847', 'V37_CHARITY_DAY_1847', 'V37_APPRENTICE_LITERACY_1847', 'STUDENT_CIRCLE_RISK_1847', 'V37_POLICE_DOCUMENT_CHECK_1847', 'V37_SICK_LODGER_1847', 'V37_APPRENTICE_FATIGUE_1847', 'V37_MARKET_RUMOR_1847', 'V37_INN_GUEST_1847', 'V37_NEWSPAPER_RELEASE_1847'].includes(questId) ? [...(requiredLivingEvent?.actorHostIds ?? [])]
+            : questId === 'V37_APPRENTICE_FATIGUE_1847' ? 'E33'
+              : questId === 'E41_SEMENOVSKY_1849' ? 'E41' : undefined,
+    pausedHostIds: ['V37_MANUSCRIPT_OFFER_1847', 'V37_SERFDOM_READING_1847', 'V37_SALON_DEBATE_1847', 'V37_MARKET_DAY_WORK_1847', 'V37_ROOF_LEAK_REPAIR_1847', 'V37_CHARITY_DAY_1847', 'V37_APPRENTICE_LITERACY_1847', 'STUDENT_CIRCLE_RISK_1847', 'V37_POLICE_DOCUMENT_CHECK_1847', 'V37_SICK_LODGER_1847', 'V37_APPRENTICE_FATIGUE_1847', 'V37_MARKET_RUMOR_1847', 'V37_INN_GUEST_1847', 'V37_NEWSPAPER_RELEASE_1847', 'E41_SEMENOVSKY_1849'].includes(questId) ? [...(requiredLivingEvent?.actorHostIds ?? [])]
       : ['V37_MARKET_PRICE_DISPUTE_1847', 'V37_LATE_MEAL_1847'].includes(questId)
         ? [requiredLivingEvent?.sellerHostId, requiredLivingEvent?.buyerHostId].filter(Boolean)
             : questId === 'V37_APOTHECARY_ORDER_1847' ? [requiredLivingEvent?.buyerHostId, requiredLivingEvent?.supplierHostId].filter(Boolean)
-              : questId === 'V37_FUNERAL_DEBT_REPAYMENT_1847' ? [requiredLivingEvent?.debt?.debtorHostId, requiredLivingEvent?.debt?.creditorHostId].filter(Boolean) : undefined });
+              : questId === 'V37_FUNERAL_DEBT_REPAYMENT_1847' ? [requiredLivingEvent?.debt?.debtorHostId, requiredLivingEvent?.debt?.creditorHostId].filter(Boolean)
+                : questId === 'E41_SEMENOVSKY_1849' ? [...(requiredLivingEvent?.actorHostIds ?? [])] : undefined });
   const next = clone(timed);
   const livingEvents = [];
   next.quests[questId] = questId === 'V37_APOTHECARY_ORDER_1847' && actionId === 'E16_PLACE_ORDER'
     ? { status: 'open', result: action.id }
     : { status: 'resolved', result: action.id };
   next.hosts[hostId].questFlags[action.resultFlag] = true;
+  if (questId === 'E41_SEMENOVSKY_1849') {
+    const event = next.world.livingEventStates?.E41;
+    if (!event || event.status !== 'ACTIVE' || event.historicalOutcomeId !== 'PETRASHEVSKY_SENTENCE_AND_COMMUTATION_1849') return { ok: false, reason: 'fixed_historical_event_closed', state };
+    event.playerChoiceActionId = actionId;
+    livingEvents.push({ catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E41', stage: event.stage,
+      actorHostIds: [...event.actorHostIds], witnessHostIds: [], date: next.world.date,
+      minute: next.world.clockMinutes % 1440, mapId: event.venueMapId, position: { ...event.scenePosition },
+      occurrenceType: event.occurrenceType, validationStatus: event.validationStatus,
+      valueStatus: event.valueStatus, sourceIds: [...event.outcomeSourceIds], state: clone(event),
+      witnessedByPlayer: playerCanObserveWorldEvent(next, event.venueMapId, event.scenePosition, 8, maps),
+      playerActionId: actionId, historicalOutcomeFixed: true,
+      changeKo: actionId === 'KEEP_PRIVATE_NOTE' ? '현장에서 본 일을 개인 수첩에 적었다.' : '현장을 보고도 기록은 남기지 않았다.' });
+  }
   if (effects.moneyDelta) next.hosts[hostId].money.amount += effects.moneyDelta;
   if (questId === 'V37_FUNERAL_DEBT_REPAYMENT_1847') {
     const event = next.world.livingEventStates?.E28, debt = event?.debt;
@@ -4803,6 +4853,34 @@ function advanceCampaignDate(state, date, campaign, quests = []) {
   if (!nextQuest || nextQuest.date !== date || nextQuest.chapterId !== arc.id) return { ok: false, reason: 'date_not_authored_for_campaign', state };
   const next = clone(state);
   next.world.date = date;
+  for (const host of Object.values(next.hosts)) {
+    if (!host.presenceWindow) continue;
+    const present = host.presenceWindow.startDate <= date && date <= host.presenceWindow.endDate;
+    host.historicalAliveAndPresent = present;
+    if (present && host.presenceWindow.start) {
+      host.mapId = host.presenceWindow.start.mapId;
+      host.position = { ...host.presenceWindow.start.position };
+    }
+  }
+  const fixedEvent = nextQuest.fixedEvent;
+  if (fixedEvent) {
+    next.world.livingEventStates ??= {};
+    if (next.world.livingEventStates[fixedEvent.id]) return { ok: false, reason: 'fixed_event_already_started', state };
+    const actorHostIds = [...(fixedEvent.actorHostIds ?? [])];
+    if (actorHostIds.some(id => !next.hosts[id] || next.hosts[id].historicalAliveAndPresent === false)) return { ok: false, reason: 'fixed_event_actor_unavailable', state };
+    const event = next.world.livingEventStates[fixedEvent.id] = {
+      catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: fixedEvent.catalogEventId,
+      status: 'SCHEDULED', stage: 'SCHEDULED', trigger: fixedEvent.trigger,
+      startsAtMinute: fixedEvent.startsAtMinute, durationMinutes: fixedEvent.durationMinutes,
+      actorHostIds, venueMapId: fixedEvent.venueMapId, scenePosition: { ...fixedEvent.scenePosition },
+      outcomeSourceIds: [...fixedEvent.sourceIds], historicalOutcomeId: fixedEvent.historicalOutcomeId,
+      occurrenceType: 'DOCUMENTED_HISTORICAL_EVENT', validationStatus: 'PRIMARY_SOURCE_VERIFIED',
+      valueStatus: 'HISTORICAL_OUTCOME_FIXED', resolutionActionId: null, resolvedAtMinute: null,
+    };
+    next.ledger.push({ eventId: `WORLD_EVENT_${next.ledger.length + 1}`, eventType: 'HISTORICAL_EVENT_TRIGGER', date,
+      chapterId: arc.id, questId: pending, catalogEventId: fixedEvent.catalogEventId,
+      stage: event.stage, sourceIds: [...event.outcomeSourceIds], outcomeFixed: true });
+  }
   next.ledger.push({ eventId: `DATE_${next.ledger.length + 1}`, eventType: 'CAMPAIGN_DATE_ADVANCE', date, chapterId: arc.id, questId: pending });
   return { ok: true, state: next };
 }

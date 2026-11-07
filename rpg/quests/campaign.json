@@ -3,7 +3,7 @@
   "arcs": [
     { "id": "V33_1847_PRINT", "date": "1847-06-01", "startMapId": "nevsky", "questIds": ["PRINTSHOP_PROOF_1847"], "sources": ["OBJ-SOV-1847", "LIT-TURGENEV-KHOR-KALYNYCH-1847", "LIT-GOGOL-RUSSIAN-LANDLORD-1847"], "titleKo": "교정쇄가 건너가는 길" },
     { "id": "V33_1848_PUBLIC", "date": "1848-01-01", "startMapId": "printshop", "questIds": ["PUBLIC_DISCOURSE_1848"], "sources": ["OBJ-WS-NEKRASOV-EDITORIAL-1848", "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE"], "titleKo": "독자에게 닿는 소식" },
-    { "id": "V33_1849_CIRCLE", "date": "1849-04-22", "startMapId": "chancery", "questIds": ["CIRCLE_INVESTIGATION_1849", "CIRCLE_LETTER_1849_MAY"], "sources": ["OBJ-WS-PETRASHEVSKY-REPORT-1849", "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849", "OBJ-WS-DOSTOEVSKY-ARREST-ORDER-1849"], "titleKo": "모임과 수사 기록" }
+    { "id": "V33_1849_CIRCLE", "date": "1849-04-22", "startMapId": "chancery", "questIds": ["CIRCLE_INVESTIGATION_1849", "CIRCLE_LETTER_1849_MAY", "E41_SEMENOVSKY_1849"], "sources": ["OBJ-WS-PETRASHEVSKY-REPORT-1849", "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849", "OBJ-WS-DOSTOEVSKY-ARREST-ORDER-1849", "OBJ-WS-DOSTOEVSKY-LETTER-1849-DEC22"], "titleKo": "모임과 수사 기록" }
   ],
   "literaryRealm": { "id": "LITERARY_DEAD_SOULS", "mapId": "dead-souls", "date": "1842-01-01", "hostId": "literary_chichikov", "sourceId": "LIT-GOGOL-DEAD-SOULS-1842", "realmClass": "LITERARY_REALM", "historicalWitness": false },
   "literaryRealms": [

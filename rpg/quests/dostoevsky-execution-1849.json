@@ -1,0 +1,56 @@
+{
+  "id": "E41_SEMENOVSKY_1849",
+  "titleKo": "세묘노프스키 광장",
+  "chapterId": "V33_1849_CIRCLE",
+  "date": "1849-12-22",
+  "premiseKo": "도스토옙스키가 동생에게 보낸 편지가 광장에서의 일을 전한다. 편지를 읽고, 현장에서 본 일을 개인 기록에 남길지 정한다.",
+  "historicalOutcome": {
+    "id": "PETRASHEVSKY_SENTENCE_AND_COMMUTATION_1849",
+    "value": "The death sentence was read, execution was halted, and the prisoners' sentences were then announced.",
+    "sourceIds": ["OBJ-WS-DOSTOEVSKY-LETTER-1849-DEC22"]
+  },
+  "entry": { "mapId": "semenovsky-square", "objectId": 301 },
+  "requiresLivingEventId": "E41",
+  "actions": [
+    {
+      "id": "KEEP_PRIVATE_NOTE",
+      "hostIds": ["dostoevsky_1849"],
+      "labelKo": "본 일을 개인 수첩에 적는다",
+      "subcopyKo": "자기만 볼 기록으로 남습니다 · 관청 장부에는 옮기지 않습니다",
+      "resultKo": "광장에서 본 일을 개인 수첩에 적었다.",
+      "resultFlag": "executionSeenAndNoted",
+      "requiredKnowledgeId": "OBJ-WS-DOSTOEVSKY-LETTER-1849-DEC22",
+      "durationMinutes": 2,
+      "requiredLivingEventStage": "MOCK_EXECUTION_PREPARATION",
+      "followupTitleKo": "수첩에 남은 장면",
+      "followupKo": "사형 판결이 낭독되고, 처형이 시작되기 직전 중단됐다. 이어 감형된 형량이 알려졌다.",
+      "effects": { "situationKo": "개인 수첩에만 적었다." }
+    },
+    {
+      "id": "LEAVE_NO_NOTE",
+      "hostIds": ["dostoevsky_1849"],
+      "labelKo": "아무 기록도 남기지 않는다",
+      "subcopyKo": "관청 장부와 개인 수첩 모두에 적지 않습니다 · 목격 사실은 기억에만 남습니다",
+      "resultKo": "현장에서 본 일을 기록하지 않았다.",
+      "resultFlag": "executionSeenUnrecorded",
+      "requiredKnowledgeId": "OBJ-WS-DOSTOEVSKY-LETTER-1849-DEC22",
+      "durationMinutes": 2,
+      "requiredLivingEventStage": "MOCK_EXECUTION_PREPARATION",
+      "followupTitleKo": "기록하지 않은 일",
+      "followupKo": "광장에서는 판결이 낭독되고 형 집행이 중단됐다. 그 뒤 감형된 형량이 알려졌다.",
+      "effects": { "situationKo": "목격한 일은 수첩에 남기지 않았다." }
+    }
+  ],
+  "fixedEvent": {
+    "id": "E41",
+    "catalogEventId": "E41",
+    "actorHostIds": ["dostoevsky_1849"],
+    "venueMapId": "semenovsky-square",
+    "scenePosition": { "x": 15, "y": 10 },
+    "sourceIds": ["OBJ-WS-DOSTOEVSKY-LETTER-1849-DEC22"],
+    "historicalOutcomeId": "PETRASHEVSKY_SENTENCE_AND_COMMUTATION_1849",
+    "trigger": "1849-12-22, 10:00, at Semenovsky Parade Ground",
+    "startsAtMinute": 600,
+    "durationMinutes": 180
+  }
+}

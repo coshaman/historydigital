@@ -1,0 +1,135 @@
+{
+  "id": "dostoevsky_1849",
+  "kind": "HISTORICAL_RECONSTRUCTION",
+  "displayNameKo": "표도르 도스토옙스키",
+  "displayNameRu": "Фёдор Михайлович Достоевский",
+  "ageAtDate": {
+    "value": 28,
+    "status": "born 1821; age on 1849-12-22"
+  },
+  "socialEstate": "noble family; former military engineering student",
+  "occupation": "작가, 페트라셰프스키 모임 사건으로 수감 중",
+  "rank": {
+    "value": null,
+    "ru": null,
+    "status": "not_applicable"
+  },
+  "legalMobility": "1849년 12월 22일, 광장으로 호송된 편지 속 시간과 장소에 한정",
+  "wealthBracket": "unknown",
+  "money": {
+    "amount": null,
+    "unit": null,
+    "status": "not established by the selected source"
+  },
+  "literacy": "동생에게 보낸 1849년 12월 22일 편지의 저자",
+  "health": "not represented",
+  "reputationByGroup": {},
+  "risk": "사형 판결을 들은 뒤 집행 직전 감형 통보를 받았다.",
+  "relations": {},
+  "secretKnowledge": [],
+  "knownEvidence": [],
+  "privateKnowledgeIds": [],
+  "knownEvidenceIds": [],
+  "desires": "광장의 일을 동생에게 전하고 가족과의 연락을 이어 간다.",
+  "fears": "편지에 적힌 순간의 두려움과 가족에 대한 걱정으로 한정한다.",
+  "taboos": [
+    "게임 대사를 네크라소프가 실제로 한 말이나 문서의 직접 인용으로 제시하지 않는다.",
+    "1848년 이후 자료를 앞서 알고 있다고 설정하지 않는다."
+  ],
+  "speechRhythm": "자료에 확인되는 편집 책임과 배송 문제만 다루는 가상 재구성 대화다.",
+  "lexicon": [
+    "구독자",
+    "발송",
+    "편집부 공고"
+  ],
+  "emotions": [
+    "업무 집중",
+    "독자에 대한 책임"
+  ],
+  "personalObjective": "세묘노프스키 광장에서 일어난 일을 직접 겪고, 그 뒤의 형량을 듣는다.",
+  "allowedMaps": [
+    "fortress-cell",
+    "semenovsky-square",
+    "nevsky",
+    "police-station"
+  ],
+  "start": {
+    "mapId": "police-station",
+    "x": 5,
+    "y": 4
+  },
+  "inventory": [
+    "편집부 공고 사본"
+  ],
+  "sourceIds": [
+    "OBJ-WS-DOSTOEVSKY-LETTER-1849-DEC22"
+  ],
+  "canonConstraint": "The 22 December 1849 letter fixes the historical sequence: sentence read, execution halted, commuted sentences announced.",
+  "reconstructionDisclaimer": "",
+  "sprite": {
+    "file": "assets/dostoevsky-1849.svg",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "original pixel interpretation",
+    "palette": {
+      "cloth": "#354448",
+      "trim": "#b98c52",
+      "headwear": "#41332b"
+    }
+  },
+  "schedule": [
+    {
+      "atMinute": 540,
+      "mapId": "fortress-cell",
+      "position": {
+        "x": 7,
+        "y": 6
+      },
+      "activityKo": "호송을 기다린다"
+    },
+    {
+      "atMinute": 570,
+      "mapId": "semenovsky-square",
+      "position": {
+        "x": 15,
+        "y": 10
+      },
+      "activityKo": "광장으로 호송된다"
+    }
+  ],
+  "portrait": {
+    "file": "assets/portrait-nekrasov_reconstruction.png",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "SOURCE_CONSTRAINED_HISTORICAL_RECONSTRUCTION"
+  },
+  "spriteAtlas": {
+    "file": "assets/nekrasov.png",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "directions": 4,
+    "framesPerDirection": 3,
+    "directionRows": {
+      "down": 0,
+      "up": 1,
+      "left": 2,
+      "right": 3
+    }
+  },
+  "objectiveByChapter": {
+    "V33_1848_PUBLIC": "1848년 편집부 공고의 발송 문제와 구독자 대응을 검토한다.",
+    "V33_1849_CIRCLE": "1849년 호수 공고에 적힌 발행 정보를 검토한다."
+  },
+  "wealthBracketStatus": "인용한 편집 공고는 개인 재산을 밝히지 않는다.",
+  "presenceWindow": {
+    "startDate": "1849-12-22",
+    "endDate": "1849-12-22",
+    "start": {
+      "mapId": "fortress-cell",
+      "position": {
+        "x": 7,
+        "y": 6
+      }
+    }
+  }
+}

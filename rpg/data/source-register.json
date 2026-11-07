@@ -133,6 +133,18 @@
       "archive": "Печатная транскрипция документа III отделения; редактор указывает дело: III отделение, I экспедиция, 1849, № 214, часть 13.",
       "verificationStatus": "VERIFIED_TRANSCRIPTION",
       "rights": "Текст исторического документа; редакционная публикация 1936 года."
+    },
+    {
+      "sourceId": "OBJ-WS-DOSTOEVSKY-LETTER-1849-DEC22",
+      "type": "CONTEMPORARY_PRIVATE_LETTER_MODERN_TRANSCRIPTION",
+      "title": "Письмо Ф. М. Достоевского брату Михаилу от 22 декабря 1849",
+      "creator": "Ф. М. Достоевский",
+      "date": "1849-12-22",
+      "edition": "Ф. М. Достоевский. Собрание сочинений в 15 томах. СПб.: Наука, 1996. Т. 15. С. 81–85.",
+      "url": "https://rvb.ru/dostoevski/01text/vol15/01text/381.htm",
+      "archive": "Российская виртуальная библиотека; digital transcription of the Nauka scholarly edition",
+      "verificationStatus": "VERIFIED_TRANSCRIPTION",
+      "rights": "Public-domain letter; new Korean project translation."
     }
   ]
 }

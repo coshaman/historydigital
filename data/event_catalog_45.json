@@ -1324,38 +1324,35 @@
     ]
   },
   {
-    "event_id": "E41",
-    "title": "1849년 12월 선고",
-    "place": "semenovsky_square",
-    "roles": [
-      "official",
-      "witness",
-      "prisoner"
-    ],
-    "trigger": "historical_1849_dec",
-    "visible_scene": "사형식 준비와 형 감경 발표가 역사대로 진행된다",
-    "historical_anchor": "1849년 12월 22일 기록·연구",
-    "player_actions": [
-      "목격",
-      "전언",
-      "후일문헌 검토"
-    ],
-    "world_consequence": "개인 트라우마·소문 변화",
-    "occurrence_type": "DOCUMENTED_HISTORICAL_EVENT",
-    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
-    "trigger_class": "HISTORICAL_FIXED",
-    "scene_steps": [
-      "spawn_actor_and_prop",
-      "show_causal_world_change",
-      "perform_interaction",
-      "update_witness_and_private_knowledge",
-      "emit_local_newspaper_or_gossip_if_newsworthy"
-    ],
-    "failure_outcomes": [
-      "nonparticipation_world_continues",
-      "witness_not_omniscient"
-    ]
-  },
+  "event_id": "E41",
+  "title": "세묘노프스키 광장의 사형 선고와 감형",
+  "place": "Semenovsky Parade Ground",
+  "roles": [
+    "Fyodor Dostoevsky",
+    "sentenced prisoners",
+    "imperial messenger"
+  ],
+  "trigger": "1849-12-22 historical date and fixed event time",
+  "visible_scene": "사형 선고와 처형 준비가 진행되고, 중지 신호 뒤 감형된 형량이 발표된다.",
+  "historical_anchor": "Dostoevsky letter no. 37 to Mikhail, 22 Dec 1849; RWB lines 115–117",
+  "player_actions": [
+    "현장에서 본 일을 개인 수첩에 적는다",
+    "아무 기록도 남기지 않는다"
+  ],
+  "world_consequence": "역사적 결과는 고정된다. 플레이어의 목격·개인 기록만 달라진다.",
+  "occurrence_type": "DOCUMENTED_HISTORICAL_EVENT",
+  "validation_status": "PRIMARY_SOURCE_VERIFIED",
+  "trigger_class": "FIXED_HISTORICAL_DATE",
+  "scene_steps": [
+    "도스토옙스키가 감방에서 광장으로 이동한다",
+    "사형 선고와 처형 준비가 진행된다",
+    "집행 중지 신호가 울린다",
+    "감형된 형량이 발표된다"
+  ],
+  "source_ids": [
+    "OBJ-WS-DOSTOEVSKY-LETTER-1849-DEC22"
+  ]
+},
   {
     "event_id": "E42",
     "title": "1848년 유럽 소식",

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="96" viewBox="0 0 48 96" shape-rendering="crispEdges">
+  <defs>
+    <g id="man">
+      <path fill="#262320" d="M5 4h6v2H5zm-1 2h8v2H4zm1 2h6v1H5z"/>
+      <path fill="#c7a17b" d="M5 9h6v5H5z"/>
+      <path fill="#292b2c" d="M4 14h8v2h2v7H2v-7h2z"/>
+      <path fill="#d1bb98" d="M7 14h2v4H7z"/>
+      <path fill="#a88758" d="M7 17h2v1H7zM7 20h2v1H7z"/>
+      <path fill="#252627" d="M3 21h4v2H3zm6 0h4v2H9z"/>
+    </g>
+  </defs>
+  <use href="#man" x="0" y="0"/><use href="#man" x="16" y="0"/><use href="#man" x="32" y="0"/>
+  <use href="#man" x="0" y="24"/><use href="#man" x="16" y="24"/><use href="#man" x="32" y="24"/>
+  <use href="#man" x="0" y="48"/><use href="#man" x="16" y="48"/><use href="#man" x="32" y="48"/>
+  <use href="#man" x="0" y="72"/><use href="#man" x="16" y="72"/><use href="#man" x="32" y="72"/>
+</svg>
