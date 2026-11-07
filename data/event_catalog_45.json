@@ -1161,22 +1161,23 @@
   {
     "event_id": "E36",
     "title": "장터 도난",
-    "place": "market",
+    "place": "market-quay",
     "roles": [
-      "vendor",
-      "thief",
-      "watchman"
+      "seller",
+      "porter_witness",
+      "market_watchman",
+      "neighbor"
     ],
-    "trigger": "theft",
-    "visible_scene": "상인이 돈주머니가 사라진 걸 알아차린다",
-    "historical_anchor": "당대 법률·치안 자료",
+    "trigger": "seller_discovers_missing_purse_after_market_trade",
+    "visible_scene": "나데즈다가 돈주머니가 사라진 걸 알아차리고 짐꾼과 경비가 좌판으로 다가온다",
+    "historical_anchor": "1842년 장터 감시 지침 서지 기록 · 1843–1844년 상트페테르부르크 절도 사건철",
     "player_actions": [
-      "추적",
-      "목격증언",
-      "경찰",
-      "중재"
+      "경비에게 신고",
+      "목격한 범위만 사적으로 전달",
+      "손실을 보태 줌",
+      "신고하지 않고 장사 계속"
     ],
-    "world_consequence": "법적 위험·평판 변화",
+    "world_consequence": "좌판 손실·공식 신고 또는 개인 메모·이웃 간 현금 이동",
     "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
     "validation_status": "DESIGN_SEED_NOT_VERIFIED",
     "trigger_class": "EMERGENT_CONDITIONAL",

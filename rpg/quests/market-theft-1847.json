@@ -1,0 +1,86 @@
+{
+  "id": "V37_MARKET_THEFT_1847",
+  "titleKo": "사라진 돈주머니",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "requiresLivingEventId": "E36",
+  "sourceIds": ["CAT-RSL-BAZAAR-WARDENS-1842", "OBJ-PRLIB-STPETE-THEFT-CASES-1843-44"],
+  "premiseKo": "나데즈다의 좌판에서 돈주머니가 사라졌다. 경비는 근처에 있지만, 가져간 사람은 보이지 않았다.",
+  "historicalOutcome": {
+    "id": "V37_E36_FICTIONAL_MARKET_LOSS",
+    "value": "The missing money, witness choices, and market response belong to this game's residents and do not alter a recorded historical case.",
+    "sourceIds": ["CAT-RSL-BAZAAR-WARDENS-1842", "OBJ-PRLIB-STPETE-THEFT-CASES-1843-44"]
+  },
+  "entry": { "mapId": "market-quay", "objectId": 1181, "requiredHostId": "market_nadezhda" },
+  "actions": [
+    {
+      "id": "E36_FILE_REPORT",
+      "hostIds": ["market_nadezhda"],
+      "requiresLivingEventActorKey": "sellerHostId",
+      "requiredLivingEventStage": "WITNESS_READY",
+      "requiredPresentLivingEventHostKey": "watchmanHostId",
+      "requiredParticipantDistance": 4,
+      "durationMinutes": 10,
+      "labelKo": "경비에게 돈주머니 분실을 신고한다",
+      "subcopyKo": "나데즈다·경비·가브릴라가 압니다 · 장터 기록에 남습니다 · 지목할 사람은 아직 없습니다",
+      "resultKo": "나데즈다는 분실을 신고했다. 경비는 신원을 특정하지 않고 돈주머니가 사라진 시각과 목격 내용을 적었다.",
+      "resultFlag": "E36_MARKET_THEFT_REPORTED",
+      "effects": { "relations": { "police_sergeant_ivan": "장터의 분실 신고를 접수한 경비" }, "situationKo": "장터에서 사라진 돈주머니를 신고했다." }
+    },
+    {
+      "id": "E36_REGISTER_LOSS",
+      "hostIds": ["police_sergeant_ivan"],
+      "requiresLivingEventActorKey": "watchmanHostId",
+      "requiredLivingEventStage": "WITNESS_READY",
+      "requiredPresentLivingEventHostKey": "sellerHostId",
+      "requiredParticipantDistance": 4,
+      "durationMinutes": 10,
+      "labelKo": "나데즈다의 동의를 받고 분실 시각을 장터 장부에 적는다",
+      "subcopyKo": "나데즈다·가브릴라·경비가 압니다 · 장터 기록에 남습니다 · 용의자는 적지 않습니다",
+      "resultKo": "경비는 나데즈다의 동의를 받아 분실 시각과 금액을 적었다. 가져간 사람은 특정하지 않았다.",
+      "resultFlag": "E36_MARKET_LOSS_REGISTERED",
+      "effects": { "relations": { "market_nadezhda": "분실 시각과 금액을 확인해 준 경비" }, "situationKo": "나데즈다의 돈주머니 분실을 장터 장부에 기록했다." }
+    },
+    {
+      "id": "E36_PRIVATE_WITNESS_NOTE",
+      "hostIds": ["porter_gavrila"],
+      "requiresLivingEventActorKey": "witnessHostId",
+      "requiredLivingEventStage": "WITNESS_READY",
+      "requiredPresentLivingEventHostKey": "sellerHostId",
+      "requiredParticipantDistance": 4,
+      "durationMinutes": 5,
+      "labelKo": "나데즈다에게 본 것만 조용히 전한다",
+      "subcopyKo": "가브릴라와 나데즈다만 압니다 · 개인 메모에 남습니다 · 가져간 사람은 확인되지 않습니다",
+      "resultKo": "가브릴라는 붐비는 사이 주머니가 사라진 것만 보았다고 말했다. 누구도 지목하지 않았다.",
+      "resultFlag": "E36_PRIVATE_WITNESS_RECORDED",
+      "effects": { "relations": { "market_nadezhda": "분실을 조용히 알려 준 짐꾼" }, "situationKo": "가브릴라가 목격한 범위만 나데즈다에게 전했다." }
+    },
+    {
+      "id": "E36_REPAY_MISSING_CASH",
+      "hostIds": ["tenant_mikhail"],
+      "requiresLivingEventActorKey": "neighborHostId",
+      "requiredLivingEventStage": "WITNESS_READY",
+      "requiredPresentLivingEventHostKey": "sellerHostId",
+      "requiredParticipantDistance": 4,
+      "minimumMoneyAmount": 2,
+      "durationMinutes": 5,
+      "labelKo": "나데즈다에게 2코페이카를 보태 준다",
+      "subcopyKo": "미하일과 나데즈다가 압니다 · 두 사람의 거래 기록에 남습니다 · 내 주머니에서 2코페이카가 나갑니다",
+      "resultKo": "미하일은 나데즈다에게 2코페이카를 건넸다. 사라진 돈을 누가 가져갔는지는 여전히 알 수 없다.",
+      "resultFlag": "E36_NEIGHBOR_REPAID_LOSS",
+      "effects": { "relations": { "market_nadezhda": "손해를 함께 메워 준 이웃" }, "situationKo": "나데즈다에게 2코페이카를 보태 주었다." }
+    },
+    {
+      "id": "E36_LEAVE_UNREPORTED",
+      "hostIds": ["market_nadezhda"],
+      "requiresLivingEventActorKey": "sellerHostId",
+      "requiredLivingEventStage": "WITNESS_READY",
+      "durationMinutes": 2,
+      "labelKo": "신고하지 않고 장사를 계속한다",
+      "subcopyKo": "나데즈다만 결정합니다 · 장부에는 손실만 남습니다 · 2코페이카는 돌아오지 않습니다",
+      "resultKo": "나데즈다는 신고를 미루고 장사를 이어갔다. 장부에는 맞지 않는 금액만 남았다.",
+      "resultFlag": "E36_MARKET_THEFT_UNREPORTED",
+      "effects": { "relations": { "porter_gavrila": "말없이 장사를 이어간 좌판 주인" }, "situationKo": "돈주머니 분실을 신고하지 않고 장사를 계속했다." }
+    }
+  ]
+}

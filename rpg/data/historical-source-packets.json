@@ -317,6 +317,34 @@
       "contextKo": "가정교사와 가정교사 직함에 관한 1834년 법령의 디지털 스캔 위치를 확인한다. 이 기록은 개별 고용 계약이나 임금 조건을 증명하지 않는다.",
       "paragraphs": [],
       "verificationStatus": "DIGITAL_SCAN_LOCATED_TEXT_NOT_TRANSCRIBED"
+    },
+    {
+      "sourceId": "CAT-RSL-BAZAAR-WARDENS-1842",
+      "titleKo": "상트페테르부르크 장터 감시 지침",
+      "titleRu": "Наставление базарным смотрителям или гласным, наблюдающим за порядком торга на городских площадях в С.-Петербурге",
+      "creator": "Министр внутренних дел Российской империи",
+      "documentDate": "1842-11-28",
+      "edition": "Санкт-Петербург, 1842, 26 страниц; каталог Российской государственной библиотеки",
+      "sourceUrl": "https://search.rsl.ru/ru/record/01003542204",
+      "range": "서지 레코드의 표제·승인일·분량; 본문 미전사",
+      "type": "MARKET_SUPERVISION_MANUAL_CATALOG_RECORD",
+      "contextKo": "상트페테르부르크 장터 질서를 맡은 감시자 지침의 서지 기록이다.",
+      "paragraphs": [],
+      "verificationStatus": "CATALOG_METADATA_VERIFIED_TEXT_NOT_TRANSCRIBED"
+    },
+    {
+      "sourceId": "OBJ-PRLIB-STPETE-THEFT-CASES-1843-44",
+      "titleKo": "상트페테르부르크 절도 사건 기록철",
+      "titleRu": "Дело о поимке воров и мошенников в Санкт-Петербурге",
+      "creator": "Департамент полиции исполнительной МВД",
+      "documentDate": "1843-02-13/1844-12-04",
+      "edition": "Президентская библиотека; дело в четырех частях",
+      "sourceUrl": "https://www.prlib.ru/item/1360895",
+      "range": "Архивная запись дела за 13 февраля 1843 — 4 декабря 1844 года; текст дела не транскрибирован",
+      "type": "POLICE_CASE_FILE_CATALOG_RECORD",
+      "contextKo": "1843년부터 1844년까지 페테르부르크에서 도둑과 사기범을 잡은 사건철의 서지 기록이다.",
+      "paragraphs": [],
+      "verificationStatus": "ARCHIVAL_CATALOG_METADATA_VERIFIED_DOCUMENTS_NOT_TRANSCRIBED"
     }
   ]
 }

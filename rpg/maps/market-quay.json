@@ -3278,6 +3278,20 @@
             { "name": "questId", "type": "string", "value": "V37_MARKET_DAY_WORK_1847" },
             { "name": "requiresLivingEventId", "type": "string", "value": "E32" }
           ]
+        },
+        {
+          "id": 1181,
+          "name": "비어 있는 돈주머니 자리",
+          "type": "quest-object",
+          "x": 256,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            { "name": "questId", "type": "string", "value": "V37_MARKET_THEFT_1847" },
+            { "name": "requiresLivingEventId", "type": "string", "value": "E36" }
+          ]
         }
       ]
     },

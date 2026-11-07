@@ -1958,6 +1958,61 @@ function advanceMarketDayWorkEvent(state, minuteOffset, maps, livingEventRows, o
   livingEventRows.push(marketDayWorkEventRow(state, event.stage, minuteOffset, maps,
     { actionId: event.resolutionActionId, changeKo: '나데즈다는 맡길 일을 정하지 못했고, 미하일은 오늘 다른 일감을 찾아 나섰다.' }));
 }
+function marketTheftEventRow(state, event, stage, minuteOffset, maps, details = {}) {
+  return { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E36', stage,
+    stageIndex: stage === 'LOSS_NOTICED' ? 1 : stage === 'WITNESS_READY' ? 2 : 3,
+    actorHostIds: [...event.actorHostIds], witnessHostIds: [...event.witnessHostIds],
+    date: state.world.date, minute: minuteOffset, mapId: 'market-quay', position: { ...event.scenePosition },
+    sourceIds: [...event.sourceIds], occurrenceType: 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION',
+    validationStatus: 'CATALOGED_MARKET_RULES_AND_CASES_SCENE_RECONSTRUCTION',
+    state: clone(event), witnessedByPlayer: playerCanObserveWorldEvent(state, 'market-quay', event.scenePosition, 6, maps), ...details };
+}
+function advanceMarketTheftEvent(state, minuteOffset, maps, livingEventRows, options = {}) {
+  state.world.livingEventStates ??= {};
+  let event = state.world.livingEventStates.E36;
+  if (!event) {
+    const minute = ((state.world.clockMinutes % 1440) + 1440) % 1440;
+    const seller = state.hosts.market_nadezhda, witness = state.hosts.porter_gavrila;
+    const watchman = state.hosts.police_sergeant_ivan, neighbor = state.hosts.tenant_mikhail;
+    const actors = [seller, witness, watchman, neighbor];
+    const object = layer(maps?.['market-quay'], 'Interactions')?.objects.find(item => item.id === 1181);
+    if (state.world.chapterId !== 'V33_1847_PRINT' || state.world.activeRealm || state.world.date !== '1847-06-01'
+      || minute < 600 || minute > 900 || state.world.livingEventStates.E32?.status === 'ACTIVE'
+      || !object || actors.some(host => !host || host.historicalAliveAndPresent === false
+        || !host.allowedMaps.includes('market-quay')
+        || npcMapRoute(host.mapId, 'market-quay', host, maps, state.world.clockMinutes) === null)
+      || !Number.isFinite(seller.money?.amount) || seller.money.amount < 3) return;
+    const scenePosition = objectTile(object), missingAmount = 2, unit = seller.money.unit;
+    seller.money.amount -= missingAmount;
+    state.world.untracedMarketCash = (state.world.untracedMarketCash ?? 0) + missingAmount;
+    event = state.world.livingEventStates.E36 = { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E36',
+      status: 'ACTIVE', stage: 'LOSS_NOTICED', trigger: 'market_seller_discovers_purse_missing',
+      startedAtMinute: state.world.clockMinutes, resolvesAtMinute: state.world.clockMinutes + 240,
+      sellerHostId: seller.id, witnessHostId: witness.id, watchmanHostId: watchman.id, neighborHostId: neighbor.id,
+      actorHostIds: actors.map(host => host.id), witnessHostIds: [witness.id], venueMapId: 'market-quay', scenePosition,
+      sourceIds: ['CAT-RSL-BAZAAR-WARDENS-1842', 'OBJ-PRLIB-STPETE-THEFT-CASES-1843-44'],
+      unidentifiedLoss: { amount: missingAmount, unit, identified: false }, resolutionActionId: null };
+    livingEventRows.push(marketTheftEventRow(state, event, event.stage, minuteOffset, maps,
+      { changeKo: '나데즈다가 계산대 옆에 둔 돈주머니가 사라진 걸 알아차렸다.' }));
+  }
+  if (event.status !== 'ACTIVE' || options.deferLivingEventExpiryId === 'E36') return;
+  const actors = event.actorHostIds.map(id => state.hosts[id]);
+  const gathered = actors.every(host => host && host.historicalAliveAndPresent !== false
+    && host.mapId === 'market-quay' && nearTile(host.position, event.scenePosition, 5));
+  if (gathered && event.stage === 'LOSS_NOTICED') {
+    event.stage = 'WITNESS_READY'; event.gatheredAtMinute = state.world.clockMinutes;
+    event.resolvesAtMinute = state.world.clockMinutes + 120;
+    livingEventRows.push(marketTheftEventRow(state, event, event.stage, minuteOffset, maps,
+      { changeKo: '가브릴라와 경비가 좌판에 왔다. 누구도 가져간 사람을 알아보지 못했다.' }));
+  }
+  if (state.world.clockMinutes < event.resolvesAtMinute) return;
+  event.status = 'RESOLVED'; event.stage = 'LOSS_UNREPORTED'; event.resolvedAtMinute = state.world.clockMinutes;
+  event.resolutionActionId = 'AUTO_SELLER_RECORDED_SHORTFALL';
+  for (const host of actors) if (host.activeGoal?.taskId?.startsWith('V37:E36:')) host.activeGoal = null;
+  state.hosts[event.sellerHostId].currentActivityKo = '계산대의 부족액을 장부에 적고 장사를 계속한다';
+  livingEventRows.push(marketTheftEventRow(state, event, event.stage, minuteOffset, maps,
+    { actionId: event.resolutionActionId, unattended: true, changeKo: '신고 없이 시간이 지나 나데즈다는 돈주머니 손실을 좌판 장부에 적었다.' }));
+}
 function advanceMarketPriceDispute(state, minuteOffset, maps, livingEventRows, options = {}) {
   state.world.livingEventStates ??= {};
   const event = state.world.livingEventStates.E13;
@@ -2792,6 +2847,19 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
       goalType: 'LIVING_EVENT_RESPONSE', targetHostId: host.id === salonDebate.readerHostId ? salonDebate.studentHostId : salonDebate.readerHostId,
       taskId: `V37:E21:${salonDebate.stage}:${host.id}`, reason: 'readers_gather_to_discuss_a_public_review',
       selectionBasis: { utilityScore: 182, eventId: 'E21', stage: salonDebate.stage } };
+  }
+  const marketTheft = state.world.livingEventStates?.E36;
+  if (marketTheft?.status === 'ACTIVE' && marketTheft.actorHostIds.includes(host.id)
+    && host.allowedMaps.includes(marketTheft.venueMapId)
+    && npcMapRoute(host.mapId, marketTheft.venueMapId, host, maps, state.world.clockMinutes) !== null) {
+    const roleActivity = host.id === marketTheft.sellerHostId ? '좌판의 분실 금액을 다시 확인한다'
+      : host.id === marketTheft.witnessHostId ? '돈주머니가 사라진 때를 떠올려 본다'
+        : host.id === marketTheft.watchmanHostId ? '장터의 분실 신고를 살핀다' : '이웃의 손해를 살펴본다';
+    return { slot: { mapId: marketTheft.venueMapId, position: { ...marketTheft.scenePosition }, activityKo: roleActivity },
+      goalType: 'LIVING_EVENT_RESPONSE', targetHostId: host.id === marketTheft.sellerHostId
+        ? marketTheft.watchmanHostId : marketTheft.sellerHostId,
+      taskId: `V37:E36:${marketTheft.stage}:${host.id}`, reason: 'market_loss_witness_and_watchman_gather_at_stall',
+      selectionBasis: { utilityScore: 184, eventId: 'E36', stage: marketTheft.stage } };
   }
   const marketDayWork = state.world.livingEventStates?.E32;
   if (marketDayWork?.status === 'ACTIVE' && marketDayWork.actorHostIds.includes(host.id)
@@ -3688,6 +3756,7 @@ function advanceNpcWorld(state, elapsedMinutes, maps, options = {}) {
     startSalonInvitationEvent(next, tick, maps, result.livingEventRows);
     advanceSalonInvitationEvent(next, tick, maps, result.livingEventRows, options);
     advanceMarketDayWorkEvent(next, tick, maps, result.livingEventRows, options);
+    advanceMarketTheftEvent(next, tick, maps, result.livingEventRows, options);
     advancePoliceDocumentCheck(next, tick, maps, result.livingEventRows);
     advanceRentNoticeEvent(next, tick, maps, result.livingEventRows);
     advanceRoofLeakRepairEvent(next, tick, maps, result.livingEventRows);
@@ -4205,6 +4274,7 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
         : questId === 'V37_SALON_DEBATE_1847' ? 'E21'
       : questId === 'V37_PHYSIOLOGY_READING_1847' ? 'E39'
       : questId === 'V37_MARKET_DAY_WORK_1847' ? 'E32'
+        : questId === 'V37_MARKET_THEFT_1847' ? 'E36'
     : questId === 'V37_ROOF_LEAK_REPAIR_1847' ? 'E35'
     : questId === 'V37_CENSORED_PAGE_1847' ? 'E06'
     : questId === 'V37_COURTYARD_DISPUTE_1847' ? 'E09'
@@ -4222,7 +4292,7 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
             : questId === 'V37_APPRENTICE_FATIGUE_1847' ? 'E33'
               : questId === 'E41_SEMENOVSKY_1849' ? 'E41'
                 : questId === 'V37_STREET_MUSIC_1847' ? 'E38' : undefined,
-    pausedHostIds: ['CIRCLE_INVESTIGATION_1849', 'V37_MANUSCRIPT_OFFER_1847', 'V37_SERFDOM_READING_1847', 'V37_SALON_DEBATE_1847', 'V37_SALON_INVITATION_1847', 'V37_MARKET_DAY_WORK_1847', 'V37_ROOF_LEAK_REPAIR_1847', 'V37_CHARITY_DAY_1847', 'V37_APPRENTICE_LITERACY_1847', 'STUDENT_CIRCLE_RISK_1847', 'V37_POLICE_DOCUMENT_CHECK_1847', 'V37_SICK_LODGER_1847', 'V37_APPRENTICE_FATIGUE_1847', 'V37_MARKET_RUMOR_1847', 'V37_INN_GUEST_1847', 'V37_NEWSPAPER_RELEASE_1847', 'E41_SEMENOVSKY_1849', 'V37_STREET_MUSIC_1847', 'V37_PHYSIOLOGY_READING_1847', 'V37_HOUSEHOLD_TUTOR_OFFER_1847'].includes(questId) ? [...(requiredLivingEvent?.actorHostIds ?? [])]
+    pausedHostIds: ['CIRCLE_INVESTIGATION_1849', 'V37_MANUSCRIPT_OFFER_1847', 'V37_SERFDOM_READING_1847', 'V37_SALON_DEBATE_1847', 'V37_SALON_INVITATION_1847', 'V37_MARKET_DAY_WORK_1847', 'V37_ROOF_LEAK_REPAIR_1847', 'V37_CHARITY_DAY_1847', 'V37_APPRENTICE_LITERACY_1847', 'STUDENT_CIRCLE_RISK_1847', 'V37_POLICE_DOCUMENT_CHECK_1847', 'V37_SICK_LODGER_1847', 'V37_APPRENTICE_FATIGUE_1847', 'V37_MARKET_RUMOR_1847', 'V37_INN_GUEST_1847', 'V37_NEWSPAPER_RELEASE_1847', 'E41_SEMENOVSKY_1849', 'V37_STREET_MUSIC_1847', 'V37_PHYSIOLOGY_READING_1847', 'V37_HOUSEHOLD_TUTOR_OFFER_1847', 'V37_MARKET_THEFT_1847'].includes(questId) ? [...(requiredLivingEvent?.actorHostIds ?? [])]
       : ['V37_MARKET_PRICE_DISPUTE_1847', 'V37_LATE_MEAL_1847'].includes(questId)
         ? [requiredLivingEvent?.sellerHostId, requiredLivingEvent?.buyerHostId].filter(Boolean)
             : questId === 'V37_APOTHECARY_ORDER_1847' ? [requiredLivingEvent?.buyerHostId, requiredLivingEvent?.supplierHostId].filter(Boolean)
@@ -4308,6 +4378,51 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
     livingEvents.push(householdTutorEventRow(next, event, event.stage, next.world.clockMinutes % 1440, maps,
       { actionId, resolvedByHostId: hostId, payment: clone(event.payment ?? null),
         changeKo: outcome.amount ? `가정교사 일을 주 ${outcome.daysPerWeek}회 맡고 첫 주 품삯 ${outcome.amount}코페이카를 받았다.` : '가정교사 일자리를 사양했다.' }));
+  }
+  if (questId === 'V37_MARKET_THEFT_1847') {
+    const event = next.world.livingEventStates?.E36, seller = next.hosts.market_nadezhda;
+    const witness = next.hosts.porter_gavrila, watchman = next.hosts.police_sergeant_ivan;
+    const neighbor = next.hosts.tenant_mikhail;
+    const outcomes = { E36_FILE_REPORT: 'FORMAL_REPORT_FILED', E36_REGISTER_LOSS: 'FORMAL_REPORT_FILED', E36_PRIVATE_WITNESS_NOTE: 'PRIVATE_WITNESS_NOTE',
+      E36_REPAY_MISSING_CASH: 'LOSS_REPAID_BY_NEIGHBOR', E36_LEAVE_UNREPORTED: 'LOSS_UNREPORTED' };
+    const stage = outcomes[actionId];
+    if (!event || event.status !== 'ACTIVE' || event.stage !== 'WITNESS_READY' || !stage
+      || hostId !== ({ E36_FILE_REPORT: seller?.id, E36_REGISTER_LOSS: watchman?.id, E36_PRIVATE_WITNESS_NOTE: witness?.id,
+        E36_REPAY_MISSING_CASH: neighbor?.id, E36_LEAVE_UNREPORTED: seller?.id })[actionId]
+      || !seller || !witness || !watchman || !neighbor
+      || (actionId === 'E36_REPAY_MISSING_CASH' && neighbor.money.amount < event.unidentifiedLoss.amount)) {
+      return { ok: false, reason: 'market_theft_response_unavailable', state };
+    }
+    if (actionId === 'E36_REPAY_MISSING_CASH') {
+      neighbor.money.amount -= event.unidentifiedLoss.amount;
+      seller.money.amount += event.unidentifiedLoss.amount;
+      event.lossCompensation = { payerHostId: neighbor.id, recipientHostId: seller.id,
+        amount: event.unidentifiedLoss.amount, unit: event.unidentifiedLoss.unit };
+    } else if (actionId === 'E36_PRIVATE_WITNESS_NOTE') {
+      witness.personalEventNotes ??= [];
+      witness.personalEventNotes.push({ eventId: 'E36', speakerHostId: witness.id,
+        atMinute: next.world.clockMinutes, noteKo: '돈주머니가 사라진 시각과 붐비던 좌판만 적었다. 누구도 지목하지 않았다.' });
+      witness.relations[seller.id] = '분실 신고에 본 것만 보탠 짐꾼';
+    } else if (['E36_FILE_REPORT', 'E36_REGISTER_LOSS'].includes(actionId)) {
+      next.world.marketTheftRecords ??= [];
+      const record = { eventId: 'E36', sourceIds: [...event.sourceIds], status: 'OPEN_UNIDENTIFIED_LOSS',
+        sellerHostId: seller.id, witnessHostId: witness.id, watchmanHostId: watchman.id,
+        missingAmount: event.unidentifiedLoss.amount, currency: event.unidentifiedLoss.unit,
+        suspectHostId: null, filedByHostId: hostId, reportedByHostId: seller.id, filedAtMinute: next.world.clockMinutes };
+      next.world.marketTheftRecords.push(record);
+      event.officialRecordNumber = next.world.marketTheftRecords.length;
+      watchman.currentActivityKo = '나데즈다의 분실 신고를 장터 기록에 올린다';
+      watchman.relations[seller.id] = '장터의 분실 신고를 접수한 경비';
+    } else seller.currentActivityKo = '돈주머니의 부족액을 적고 장사를 이어간다';
+    event.status = 'RESOLVED'; event.stage = stage; event.resolvedAtMinute = next.world.clockMinutes;
+    event.resolvedByHostId = hostId; event.resolutionActionId = actionId; event.playerChoiceActionId = actionId;
+    for (const actorId of event.actorHostIds) {
+      const actor = next.hosts[actorId]; if (actor?.activeGoal?.taskId?.startsWith('V37:E36:')) actor.activeGoal = null;
+    }
+    livingEvents.push(marketTheftEventRow(next, event, stage, next.world.clockMinutes % 1440, maps,
+      { actionId, resolvedByHostId: hostId, ...(event.officialRecordNumber ? { officialRecordNumber: event.officialRecordNumber } : {}),
+        ...(event.lossCompensation ? { payment: clone(event.lossCompensation) } : {}),
+        changeKo: action.resultKo }));
   }
   if (!literaryQuest && questId === 'V37_STREET_MUSIC_1847') {
     const event = next.world.livingEventStates?.E38, musician = event && next.hosts[event.musicianHostId], listener = next.hosts[hostId];
@@ -5944,6 +6059,22 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
     || (marketDayWorkEvent.status === 'RESOLVED' && (!Number.isInteger(marketDayWorkEvent.resolvedAtMinute)
       || !['AUTO_DAY_WORK_COMPLETED', 'MARKET_TO_PRINTSHOP_REFERRAL', 'WORKER_DECLINED_MARKET_JOB', 'AUTO_OFFER_WINDOW_CLOSED'].includes(marketDayWorkEvent.resolutionActionId))))) {
     throw new Error('Save contains invalid E32 market day work state');
+  }
+  const marketTheftEvent = state.world.livingEventStates.E36;
+  if (marketTheftEvent && (marketTheftEvent.catalogIdSpace !== 'V37_EVENT_CATALOG_45' || marketTheftEvent.catalogEventId !== 'E36'
+    || !['ACTIVE', 'RESOLVED'].includes(marketTheftEvent.status)
+    || !['LOSS_NOTICED', 'WITNESS_READY', 'FORMAL_REPORT_FILED', 'PRIVATE_WITNESS_NOTE', 'LOSS_REPAID_BY_NEIGHBOR', 'LOSS_UNREPORTED'].includes(marketTheftEvent.stage)
+    || marketTheftEvent.sellerHostId !== 'market_nadezhda' || marketTheftEvent.witnessHostId !== 'porter_gavrila'
+    || marketTheftEvent.watchmanHostId !== 'police_sergeant_ivan' || marketTheftEvent.neighborHostId !== 'tenant_mikhail'
+    || !Array.isArray(marketTheftEvent.actorHostIds) || marketTheftEvent.actorHostIds.join(',') !== 'market_nadezhda,porter_gavrila,police_sergeant_ivan,tenant_mikhail'
+    || !Array.isArray(marketTheftEvent.witnessHostIds) || marketTheftEvent.witnessHostIds.join(',') !== 'porter_gavrila'
+    || marketTheftEvent.venueMapId !== 'market-quay' || marketTheftEvent.scenePosition?.x !== 16 || marketTheftEvent.scenePosition?.y !== 12
+    || !Number.isInteger(marketTheftEvent.startedAtMinute) || !Number.isInteger(marketTheftEvent.resolvesAtMinute)
+    || marketTheftEvent.unidentifiedLoss?.amount !== 2 || marketTheftEvent.unidentifiedLoss.identified !== false
+    || (marketTheftEvent.status === 'ACTIVE') !== ['LOSS_NOTICED', 'WITNESS_READY'].includes(marketTheftEvent.stage)
+    || (marketTheftEvent.stage === 'FORMAL_REPORT_FILED' && (!Number.isInteger(marketTheftEvent.officialRecordNumber)
+      || !state.world.marketTheftRecords?.some(row => row.eventId === 'E36' && row.suspectHostId === null))))) {
+    throw new Error('Save contains invalid E36 market theft state');
   }
   const roofLeakEvent = state.world.livingEventStates.E35;
   if (roofLeakEvent && (roofLeakEvent.catalogIdSpace !== 'V37_EVENT_CATALOG_45' || roofLeakEvent.catalogEventId !== 'E35'
