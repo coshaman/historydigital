@@ -8,9 +8,10 @@ const require = createRequire(import.meta.url);
 require('../rpg/engine/game-state.js');
 const game = globalThis.V33GameState;
 const read = async path => JSON.parse(await readFile(new URL(path, import.meta.url), 'utf8'));
-const [mapFiles, cardFiles, quest] = await Promise.all([
+const [mapFiles, cardFiles, quest, mealQuest] = await Promise.all([
   readdir(new URL('../rpg/maps/', import.meta.url)), readdir(new URL('../rpg/characters/', import.meta.url)),
   read('../rpg/quests/inn-guest-1847.json'),
+  read('../rpg/quests/late-meal-1847.json'),
 ]);
 const [maps, cards] = await Promise.all([
   Promise.all(mapFiles.filter(file => file.endsWith('.json')).map(file => read(`../rpg/maps/${file}`)))
@@ -82,4 +83,30 @@ assert.equal(auto.world.livingEventStates.E17.stage, 'AUTO_LEFT_UNSERVED', 'unat
 assert.equal(auto.world.livingEventStates.E17.resolutionActionId, 'AUTO_NO_AFFORDABLE_ROOM');
 assert.equal(game.stateHash(game.loadGame(game.saveGame(auto), { maps, hostCards: cards })), game.stateHash(auto));
 
-console.log('V37 E17 inn guest: trigger, physical arrival, role-gated choices, payment/negotiation/free room/refusal, unattended fallback, and save/load passed.');
+const lodgingChain = play(arrived, 'E17_RENT_ROOM', 'courier_pavel').state;
+lodgingChain.world.clockMinutes = 1140;
+lodgingChain.hosts.landlady_polina.money.amount = 20;
+const tiredGuest = lodgingChain.hosts.courier_pavel;
+tiredGuest.needs.hunger = 92;
+tiredGuest.activeGoal = { type: 'PURCHASE_MEAL', targetHostId: 'innkeeper_irina', taskId: 'E17_GUEST_SEEKS_SUPPER' };
+lodgingChain.hosts.innkeeper_irina.marketStock['저녁 수프'] = 3;
+const supperRequest = game.advanceNpcWorld(lodgingChain, 1, maps);
+assert.equal(supperRequest.world.livingEventStates.E17.stage, 'ROOM_RENTED');
+assert.equal(supperRequest.world.livingEventStates.E18?.stage, 'MEAL_REQUESTED', 'the hungry overnight guest can order supper');
+assert.equal(supperRequest.world.livingEventStates.E18.sourceEventId, 'E17', 'the supper carries its lodging cause');
+assert.deepEqual(questChoices(mealQuest, 'courier_pavel', [], supperRequest).map(row => row.action.id),
+  ['E18_BUY_FULL_MEAL', 'E18_BUY_SMALL_MEAL', 'E18_DECLINE_MEAL']);
+const nextMorning = game.advanceNpcWorld(supperRequest, 30, maps);
+const linkedSupperRow = nextMorning.ledger.flatMap(row => row.livingEvents ?? [])
+  .find(row => row.catalogEventId === 'E18' && row.stage === 'AUTO_SERVED');
+assert.equal(linkedSupperRow?.sourceEventId, 'E17', 'the autonomous payment preserves the event chain in the ledger');
+assert.equal(nextMorning.hosts.courier_pavel.money.amount, 4, 'the supper deducts two more kopeks from the room guest');
+assert.equal(nextMorning.hosts.innkeeper_irina.money.amount, lodgingChain.hosts.innkeeper_irina.money.amount + 2,
+  'the supper credits two kopeks to the innkeeper');
+const supperReloaded = game.loadGame(game.saveGame(nextMorning), { maps, hostCards: cards, quests: [quest] });
+const changedKeys = Object.keys(nextMorning).filter(key => JSON.stringify(nextMorning[key]) !== JSON.stringify(supperReloaded[key]));
+const changedWorldKeys = Object.keys(nextMorning.world).filter(key => JSON.stringify(nextMorning.world[key]) !== JSON.stringify(supperReloaded.world[key]));
+assert.equal(game.stateHash(supperReloaded), game.stateHash(nextMorning),
+  `the complete lodging-to-supper chain survives save/load: ${JSON.stringify({ changedKeys, changedWorldKeys })}`);
+
+console.log('V37 E17→E18: lodging, hungry guest supper, paid unattended meal, source linkage, and save/load passed.');

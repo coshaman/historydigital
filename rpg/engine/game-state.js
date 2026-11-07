@@ -1453,7 +1453,12 @@ function lateMealEventRow(state, stage, minuteOffset, maps, details = {}) {
     witnessedByPlayer: playerCanObserveWorldEvent(state, 'inn-interior', position, 6, maps), ...details };
 }
 function beginLateMealEvent(state, buyer, seller, offer, price, minuteOffset, maps, livingEventRows) {
-  const sourceEventId = activeMealSeekingCauseEventId(buyer, state);
+  const innGuestEvent = state.world.livingEventStates?.E17;
+  const innStay = state.world.temporaryLodgingStays?.[buyer.id];
+  const followsInnStay = innGuestEvent?.guestHostId === buyer.id && innGuestEvent.status === 'RESOLVED'
+    && ['ROOM_RENTED', 'RATE_REDUCED', 'BED_OFFERED', 'AUTO_ROOM_RENTED'].includes(innGuestEvent.stage)
+    && innStay?.eventId === 'E17' && innStay.mapId === 'inn-interior' && innStay.untilMinute >= state.world.clockMinutes;
+  const sourceEventId = activeMealSeekingCauseEventId(buyer, state) ?? (followsInnStay ? 'E17' : null);
   const position = { ...seller.position };
   const witnesses = Object.values(state.hosts).filter(person => person.id !== buyer.id && person.id !== seller.id
     && person.historicalAliveAndPresent !== false && person.mapId === 'inn-interior' && nearTile(person.position, position, 4))
@@ -4108,17 +4113,21 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
   for (const host of hosts) {
     const localMinute = ((state.world.clockMinutes % 1440) + 1440) % 1440;
     const goal = host.activeGoal;
-    const seller = goal?.type === 'PURCHASE_MEAL' ? state.hosts[goal.targetHostId] : null;
+    const wantsMeal = goal?.type === 'PURCHASE_MEAL' || host.id === embodiedId;
+    const seller = wantsMeal ? state.hosts[goal?.targetHostId ?? 'innkeeper_irina'] : null;
     const offer = seller?.marketOffers?.find(item => item.category === 'food' && (seller.marketStock?.[item.itemKo] ?? 0) > 0
       && isMarketOfferOpen(seller, item, state.world.clockMinutes));
     const price = seller && offer ? marketOfferPrice(state, seller, offer) : null;
-    if (!seller || host.id === embodiedId || seller.id === embodiedId || paused.has(host.id) || paused.has(seller.id)
+    const recentlyAte = Number.isFinite(host.needs?.lastMealAtMinute)
+      && state.world.clockMinutes - host.needs.lastMealAtMinute < 90;
+    if (!seller || seller.id === embodiedId || paused.has(host.id) || paused.has(seller.id)
       || host.historicalAliveAndPresent === false || seller.historicalAliveAndPresent === false
       || host.mapId !== seller.mapId || !nearTile(host.position, seller.position, 1)
       || !offer || offer.unit !== host.money?.unit || seller.money?.unit !== offer.unit
-      || !Number.isInteger(price) || price <= 0 || host.money.amount < price
+      || !Number.isInteger(price) || price <= 0 || host.money.amount < price || recentlyAte
       || host.needs.hunger < 60) continue;
-    if (seller.id === 'innkeeper_irina' && state.world.livingEventStates?.E18?.status !== 'ACTIVE') {
+    if (seller.id === 'innkeeper_irina') {
+      if (state.world.livingEventStates?.E18?.status === 'ACTIVE') continue;
       beginLateMealEvent(state, host, seller, offer, price, minuteOffset, maps, livingEventRows);
       continue;
     }
@@ -6783,6 +6792,17 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
     throw new Error('Save contains invalid E19 apprentice literacy event state');
   }
   const lateMealEvent = state.world.livingEventStates.E18;
+  const e18E14SourceValid = lateMealEvent?.sourceEventId === 'E14'
+    && state.world.livingEventStates.E14?.stage === 'AID_DECLINED'
+    && state.world.livingEventStates.E14?.recipientHostId === lateMealEvent.buyerHostId;
+  const e18E17Source = state.world.livingEventStates.E17;
+  const e18E17Stay = state.world.temporaryLodgingStays?.[lateMealEvent?.buyerHostId];
+  const e18E17SourceValid = lateMealEvent?.sourceEventId === 'E17'
+    && e18E17Source?.status === 'RESOLVED' && e18E17Source.guestHostId === lateMealEvent.buyerHostId
+    && ['ROOM_RENTED', 'RATE_REDUCED', 'BED_OFFERED', 'AUTO_ROOM_RENTED'].includes(e18E17Source.stage)
+    && e18E17Stay?.eventId === 'E17' && e18E17Stay.mapId === 'inn-interior'
+    && e18E17Stay.untilMinute >= lateMealEvent.startedAtMinute;
+  const e18SourceValid = lateMealEvent?.sourceEventId === undefined || e18E14SourceValid || e18E17SourceValid;
   if (lateMealEvent && (lateMealEvent.catalogIdSpace !== 'V37_EVENT_CATALOG_45' || lateMealEvent.catalogEventId !== 'E18'
     || !['ACTIVE', 'RESOLVED'].includes(lateMealEvent.status)
     || !['MEAL_REQUESTED', 'MEAL_PAID', 'SMALL_MEAL_PAID', 'MEAL_DECLINED', 'AUTO_SERVED', 'AUTO_DECLINED'].includes(lateMealEvent.stage)
@@ -6791,9 +6811,7 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
     || lateMealEvent.valueStatus !== 'fictional_gameplay_balance'
     || lateMealEvent.sellerHostId !== 'innkeeper_irina' || !state.hosts[lateMealEvent.buyerHostId]
     || lateMealEvent.sellerHostId === lateMealEvent.buyerHostId || lateMealEvent.itemKo !== '저녁 수프'
-    || (lateMealEvent.sourceEventId !== undefined && (lateMealEvent.sourceEventId !== 'E14'
-      || state.world.livingEventStates.E14?.stage !== 'AID_DECLINED'
-      || state.world.livingEventStates.E14?.recipientHostId !== lateMealEvent.buyerHostId))
+    || !e18SourceValid
     || lateMealEvent.unit !== 'kopeks' || !Number.isInteger(lateMealEvent.price) || lateMealEvent.price < 1
     || lateMealEvent.smallPortionPrice !== Math.max(1, Math.floor(lateMealEvent.price / 2))
     || !Number.isInteger(lateMealEvent.startedAtMinute) || !Number.isInteger(lateMealEvent.resolvesAtMinute)

@@ -87,7 +87,7 @@ assert.equal(unattended.hosts[buyer.id].money.amount, openingMoney.buyer - 2);
 assert.equal(unattended.hosts[seller.id].marketStock['저녁 수프'], 2);
 assert.ok(unattended.hosts[buyer.id].needs.hunger < request.hosts[buyer.id].needs.hunger - 30,
   'the 32-point meal relief outweighs the 30-minute background hunger increase');
-const repeat = structuredClone(unattended), repeatBuyer = repeat.hosts[buyer.id];
+const repeat = game.advanceNpcWorld(unattended, 91, maps), repeatBuyer = repeat.hosts[buyer.id];
 repeat.world.currentMapId = 'inn-interior'; repeat.player.embodiment = null;
 seller.mapId = 'inn-interior'; seller.position = { x: 11, y: 14 };
 repeat.hosts[seller.id].mapId = 'inn-interior'; repeat.hosts[seller.id].position = { x: 11, y: 14 };
