@@ -410,7 +410,8 @@
     "v37-full-day-residents": "node scripts/v36-full-day-36-resident-test.mjs --include-event-performers",
     "v37-survival-mortality": "node scripts/v37-survival-mortality-test.mjs",
     "v37-bulk-food-supply": "node scripts/v37-bulk-food-supply-test.mjs",
-    "v37-bookbinding-choice": "node scripts/v37-bookbinding-choice-test.mjs"
+    "v37-bookbinding-choice": "node scripts/v37-bookbinding-choice-test.mjs",
+    "v37-bookbinding-browser": "node scripts/v37-bookbinding-browser-acceptance.mjs"
   },
   "devDependencies": {
     "playwright": "^1.63.0"

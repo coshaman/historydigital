@@ -1,0 +1,33 @@
+{
+  "status": true,
+  "staticBuild": "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\dist-v33",
+  "scenarios": [
+    {
+      "id": "deliver-desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "actionId": "E08_DELIVER_BOOK_NOW",
+      "stage": "DELIVERED_PAID",
+      "choiceText": "레프에게 책을 넘기고 2코페이카를 받는다\n엘리자베타와 레프가 압니다 · 납품 장부에 남습니다 · 책 한 권이 넘어가고 대금 2코페이카를 받습니다",
+      "visibleButtons": 2,
+      "scrollWidth": 1440,
+      "pageErrors": []
+    },
+    {
+      "id": "defer-mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "actionId": "E08_DEFER_DELIVERY",
+      "stage": "BOOK_BOUND",
+      "choiceText": "오늘은 가져가지 않고 내일 다시 온다\n엘리자베타만 결정합니다 · 오늘은 납품 장부에 오르지 않습니다 · 대금은 미뤄지고 내일 책방이 열려야 합니다",
+      "visibleButtons": 2,
+      "scrollWidth": 390,
+      "pageErrors": []
+    }
+  ],
+  "serverErrors": []
+}

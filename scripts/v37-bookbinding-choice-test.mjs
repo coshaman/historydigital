@@ -66,6 +66,24 @@ assert.equal(deferred.state.hosts.bookbinder_elizaveta.completedSocialTaskDayByI
 const deferralRecord = deferred.state.ledger.at(-1).livingEvents?.[0];
 assert.equal(deferralRecord.witnessedByPlayer, true, 'the defer decision is recorded at the witnessed handover point');
 assert.equal(deferralRecord.changeKo, '엘리자베타는 책을 가지고 돌아가 내일 다시 납품하기로 했다.');
+const tomorrow = game.releaseHost(deferred.state, map).state;
+tomorrow.world.clockMinutes = 1440; tomorrow.world.date = '1847-06-02';
+tomorrow.world.currentMapId = 'market-quay'; tomorrow.player.position = { x: 25, y: 14 };
+const scheduledDelivery = cards.find(card => card.id === 'bookbinder_elizaveta').schedule
+  .find(slot => slot.task?.id === 'ELIZAVETA_BOOKBINDER_ORDER_TO_LEV_1847');
+tomorrow.hosts.bookbinder_elizaveta.schedule = [{ ...structuredClone(scheduledDelivery), atMinute: 1,
+  position: { x: 21, y: 14 } }];
+tomorrow.hosts.bookseller_lev.schedule = [{ atMinute: 1, mapId: 'market-quay', position: { x: 22, y: 14 }, activityKo: '책방 주인을 기다린다' }];
+tomorrow.hosts.bookbinder_elizaveta.mapId = tomorrow.hosts.bookseller_lev.mapId = 'market-quay';
+tomorrow.hosts.bookbinder_elizaveta.position = { x: 21, y: 14 };
+tomorrow.hosts.bookseller_lev.position = { x: 22, y: 14 };
+const resumed = game.advanceNpcWorld(tomorrow, 2, maps);
+assert.equal(resumed.world.livingEventStates.E08.stage, 'DELIVERED_PAID',
+  'the deferred job resumes on the next daily exchange and resolves without a player');
+assert.equal(resumed.world.livingEventStates.E08.status, 'RESOLVED');
+assert.ok(resumed.hosts.bookseller_lev.inventory.includes('제본 중인 책 한 권'));
+assert.ok(!resumed.hosts.bookbinder_elizaveta.inventory.includes('제본 중인 책 한 권'));
+assert.equal(resumed.hosts.bookbinder_elizaveta.money.amount, tomorrow.hosts.bookbinder_elizaveta.money.amount + 2);
 for (const result of [delivered, deferred]) {
   const restored = game.loadGame(game.saveGame(result.state), { maps, hostCards: cards, quests: [quest] });
   assert.deepEqual(restored.world.livingEventStates.E08, result.state.world.livingEventStates.E08,
