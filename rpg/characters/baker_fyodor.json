@@ -183,9 +183,10 @@
       "workAction": {
         "id": "V36_BAKER_PREPARE_DOUGH",
         "outputKind": "제빵 생산",
-        "outputKo": "빵 한 묶음을 구워 시장에 보낼 몫으로 둔다",
+        "outputKo": "장터에 보낼 빵 묶음 여섯 개를 굽는다",
         "durationMinutes": 20,
-        "inventoryItemKo": "빵 한 묶음"
+        "inventoryItemKo": "빵 한 묶음",
+        "inventoryQuantity": 6
       }
     },
     {
@@ -219,7 +220,8 @@
         "recipientHostId": "market_nadezhda",
         "notBeforeMinute": 1080,
         "itemKo": "빵 한 묶음",
-        "moneyAmount": 3,
+        "quantity": 6,
+        "moneyAmount": 6,
         "relationshipKo": "빵값을 치른 거래 이웃",
         "recipientRelationshipKo": "빵을 산 거래 이웃"
       }

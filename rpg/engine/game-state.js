@@ -506,12 +506,19 @@ function taskCompletedForDay(host, task, dayIndex) {
   if (task?.repeatDaily === true) return host.completedSocialTaskDayById?.[task.id] === dayIndex;
   return host.routineTaskCompletedId === task?.id || host.completedSocialTaskIds?.includes(task?.id);
 }
+function taskItemQuantity(task) {
+  return Number.isInteger(task?.quantity) && task.quantity > 0 && task.quantity <= 99 ? task.quantity : 1;
+}
+function inventoryItemCount(host, itemKo) {
+  return (host?.inventory ?? []).filter(item => item === itemKo).length;
+}
 function pendingTaskSlot(host, taskTypes, localMinute, dayIndex = 0) {
   const types = new Set(Array.isArray(taskTypes) ? taskTypes : [taskTypes]);
   return [...(host.schedule ?? [])]
     .filter(slot => slot.atMinute <= localMinute && types.has(slot.task?.type)
       && !taskCompletedForDay(host, slot.task, dayIndex)
-      && (slot.task.type === 'CARE_TRANSFER' || (typeof slot.task.itemKo === 'string' && host.inventory?.includes(slot.task.itemKo))))
+      && (slot.task.type === 'CARE_TRANSFER' || (typeof slot.task.itemKo === 'string'
+        && inventoryItemCount(host, slot.task.itemKo) >= taskItemQuantity(slot.task))))
     .sort((a, b) => b.atMinute - a.atMinute)[0] ?? null;
 }
 function canMakeAuthoredCareTransfer(state, giver, task) {
@@ -3182,7 +3189,8 @@ function upcomingNpcSocialWork(state) {
   for (const sender of Object.values(state.hosts)) for (const slot of sender.schedule ?? []) {
     const task = slot.task;
     if (!task || !['DELIVER', 'EXCHANGE', 'CARE_TRANSFER'].includes(task.type) || taskCompletedForDay(sender, task, dayIndex)
-      || (task.type === 'CARE_TRANSFER' ? !canMakeAuthoredCareTransfer(state, sender, task) : !sender.inventory.includes(task.itemKo))) continue;
+      || (task.type === 'CARE_TRANSFER' ? !canMakeAuthoredCareTransfer(state, sender, task)
+        : inventoryItemCount(sender, task.itemKo) < taskItemQuantity(task))) continue;
     if (task.requiresMarketStockout === true && (state.hosts.market_nadezhda?.marketStock?.[task.itemKo] ?? 0) > 0) continue;
     const wait = (slot.atMinute - localMinute + 1440) % 1440, recipient = state.hosts[task.recipientHostId];
     const overdueToday = slot.atMinute <= localMinute;
@@ -4022,7 +4030,14 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
             minute: minuteOffset, mapId: host.mapId, ...(typeof workAction.inventoryItemKo === 'string' ? { inventoryItemKo: workAction.inventoryItemKo } : {}) };
           host.workRecords.push(record);
           if (host.workRecords.length > 32) host.workRecords.splice(0, host.workRecords.length - 32);
-          if (typeof workAction.inventoryItemKo === 'string' && !host.inventory.includes(workAction.inventoryItemKo)) host.inventory.push(workAction.inventoryItemKo);
+          if (typeof workAction.inventoryItemKo === 'string') {
+            const quantity = Number.isInteger(workAction.inventoryQuantity) && workAction.inventoryQuantity > 0 && workAction.inventoryQuantity <= 99
+              ? workAction.inventoryQuantity : 1;
+            if (Number.isInteger(workAction.inventoryQuantity)) {
+              for (let index = 0; index < quantity; index += 1) host.inventory.push(workAction.inventoryItemKo);
+              record.inventoryQuantity = quantity;
+            } else if (!host.inventory.includes(workAction.inventoryItemKo)) host.inventory.push(workAction.inventoryItemKo);
+          }
           const payroll = workAction.payroll;
           if (payroll && typeof payroll.payerHostId === 'string' && Number.isInteger(payroll.amount) && payroll.amount > 0
             && payroll.unit === host.money?.unit && payroll.payerHostId !== host.id) {
@@ -4318,13 +4333,14 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
     const recipient = state.hosts[task.recipientHostId], moneyAmount = task.moneyAmount;
     const interactionRadius = Number.isInteger(task.interactionRadius) && task.interactionRadius >= 1 && task.interactionRadius <= 3 ? task.interactionRadius : 1;
     if (!recipient || recipient.id === embodiedId || recipient.historicalAliveAndPresent === false || recipient.mapId !== host.mapId || !nearTile(recipient.position, host.position, interactionRadius)) continue;
-    if (typeof task.itemKo !== 'string' || !host.inventory.includes(task.itemKo) || !Number.isInteger(moneyAmount) || moneyAmount <= 0 || !Number.isFinite(host.money?.amount) || !Number.isFinite(recipient.money?.amount) || recipient.money.amount < moneyAmount) continue;
-    host.inventory.splice(host.inventory.indexOf(task.itemKo), 1);
+    const quantity = taskItemQuantity(task);
+    if (typeof task.itemKo !== 'string' || inventoryItemCount(host, task.itemKo) < quantity || !Number.isInteger(moneyAmount) || moneyAmount <= 0 || !Number.isFinite(host.money?.amount) || !Number.isFinite(recipient.money?.amount) || recipient.money.amount < moneyAmount) continue;
+    for (let index = 0; index < quantity; index += 1) host.inventory.splice(host.inventory.indexOf(task.itemKo), 1);
     const stockedOffer = (recipient.marketOffers ?? []).find(offer => offer.itemKo === task.itemKo);
     if (stockedOffer) {
       recipient.marketStock ??= {};
-      recipient.marketStock[task.itemKo] = (recipient.marketStock[task.itemKo] ?? 0) + 1;
-    } else if (!recipient.inventory.includes(task.itemKo)) recipient.inventory.push(task.itemKo);
+      recipient.marketStock[task.itemKo] = (recipient.marketStock[task.itemKo] ?? 0) + quantity;
+    } else for (let index = 0; index < quantity; index += 1) recipient.inventory.push(task.itemKo);
     host.money.amount += moneyAmount;
     recipient.money.amount -= moneyAmount;
     host.needs ??= initialNpcNeeds(host, state.world.clockMinutes);
@@ -4343,7 +4359,7 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
     } else host.routineTaskCompletedId = task.id;
     host.completedSocialTaskIds ??= [];
     if (task.repeatDaily !== true && !host.completedSocialTaskIds.includes(task.id)) host.completedSocialTaskIds.push(task.id);
-    exchangeRows.push({ hostId: host.id, recipientHostId: recipient.id, itemKo: task.itemKo, moneyAmount, taskId: task.id,
+    exchangeRows.push({ hostId: host.id, recipientHostId: recipient.id, itemKo: task.itemKo, quantity, moneyAmount, taskId: task.id,
       ...(stockedOffer ? { marketStockAdded: true, marketStockCount: recipient.marketStock[task.itemKo] } : {}),
       mapId: host.mapId, position: { ...host.position }, minute: minuteOffset, witnessedByPlayer: playerCanObserveWorldEvent(state, host.mapId, host.position, 6, maps) });
     advanceLaundryOnExchange(state, exchangeRows.at(-1), minuteOffset, maps, livingEventRows);

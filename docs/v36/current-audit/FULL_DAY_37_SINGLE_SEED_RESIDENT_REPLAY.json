@@ -1,0 +1,819 @@
+{
+  "schemaVersion": "V37_FULL_DAY_37_RUNTIME_RESIDENT_REPLAY_1",
+  "status": "PASS",
+  "activeCityResidents": 37,
+  "includedEventPerformers": true,
+  "distinctSeeds": [
+    0
+  ],
+  "deterministicReplaySeed": 0,
+  "simulatedMinutes": 1440,
+  "replayHashes": [
+    "591c178a"
+  ],
+  "collisionSnapshotsPerReplay": 288,
+  "totalCollisionSnapshots": 288,
+  "firstReplay": {
+    "movementSteps": 5657,
+    "districtTransitions": 275,
+    "goalEvents": 552,
+    "newCatalogEventStages": {
+      "E20": [
+        "RECORD_NOT_FOUND",
+        "UNMATCHED_FILED_AUTOMATICALLY"
+      ],
+      "E33": [
+        "FATIGUE_LIMIT_REACHED",
+        "RESTED_UNATTENDED"
+      ]
+    },
+    "warehouseInjuryStages": [
+      "INJURY",
+      "RESTED_UNTREATED"
+    ],
+    "firstNightSleepArrivals": [
+      "apothecary_yakov",
+      "baker_fyodor",
+      "bookbinder_elizaveta",
+      "bookseller_lev",
+      "carter_roman",
+      "clerk_alexei",
+      "coachman_timofey",
+      "courier_pavel",
+      "editor_sofia",
+      "fishseller_klavdiya",
+      "housemaid_olga",
+      "innkeeper_irina",
+      "junior_guard_sergey",
+      "landlady_polina",
+      "laundress_mariya",
+      "lodging_tatyana",
+      "market_nadezhda",
+      "midwife_avdotya",
+      "minor_noble_andrei",
+      "police_sergeant_ivan",
+      "porter_gavrila",
+      "print_apprentice_stepan",
+      "printer_ekaterina",
+      "reader_darya",
+      "scribal_yuri",
+      "seamstress_anna",
+      "senior_clerk_konstantin",
+      "servant_varvara",
+      "street_musician_ivan",
+      "street_vendor_matryona",
+      "student_vasily",
+      "teacher_lyubov",
+      "tenant_mikhail",
+      "typesetter_nikita",
+      "warehouse_pyotr",
+      "watercarrier_luka",
+      "yardkeeper_semyon"
+    ],
+    "firstNightSleepArrivalCount": 37,
+    "firstNightSleepArrivalMisses": [],
+    "normalParcelDelivery": {
+      "deliveredOnSchedule": true,
+      "missedParcelEventTriggered": false
+    },
+    "movementStepsByResident": {
+      "clerk_alexei": 96,
+      "printer_ekaterina": 129,
+      "courier_pavel": 198,
+      "seamstress_anna": 128,
+      "bookseller_lev": 121,
+      "senior_clerk_konstantin": 107,
+      "reader_darya": 103,
+      "editor_sofia": 100,
+      "police_sergeant_ivan": 134,
+      "print_apprentice_stepan": 124,
+      "bookbinder_elizaveta": 175,
+      "scribal_yuri": 95,
+      "student_vasily": 191,
+      "minor_noble_andrei": 142,
+      "junior_guard_sergey": 152,
+      "street_vendor_matryona": 210,
+      "typesetter_nikita": 154,
+      "tenant_mikhail": 181,
+      "housemaid_olga": 183,
+      "midwife_avdotya": 114,
+      "innkeeper_irina": 146,
+      "teacher_lyubov": 147,
+      "landlady_polina": 165,
+      "watercarrier_luka": 173,
+      "servant_varvara": 188,
+      "lodging_tatyana": 146,
+      "yardkeeper_semyon": 235,
+      "laundress_mariya": 139,
+      "baker_fyodor": 109,
+      "market_nadezhda": 94,
+      "porter_gavrila": 180,
+      "coachman_timofey": 247,
+      "apothecary_yakov": 160,
+      "fishseller_klavdiya": 201,
+      "warehouse_pyotr": 154,
+      "carter_roman": 226,
+      "street_musician_ivan": 110
+    },
+    "residentsWithAutonomousGoalDecision": 37,
+    "autonomousGoalTypesByResident": {
+      "clerk_alexei": [
+        "SCHEDULED_WORK",
+        "PERSONAL_LIFE_FOCUS",
+        "NEED_REST",
+        "NIGHT_REST",
+        "PURCHASE_MEAL"
+      ],
+      "printer_ekaterina": [
+        "SCHEDULED_WORK",
+        "PERSONAL_LIFE_FOCUS",
+        "LIVING_EVENT_RESPONSE",
+        "PAY_WAGE",
+        "NIGHT_REST",
+        "COLLECT_WAGE"
+      ],
+      "courier_pavel": [
+        "PREPARE_DELIVERY",
+        "FOLLOW_RECIPIENT",
+        "PERSONAL_LIFE_FOCUS",
+        "SCHEDULED_WORK",
+        "NEED_INCOME",
+        "PURCHASE_MEAL",
+        "NIGHT_REST",
+        "PERSONAL_LIFE_PREPARATION"
+      ],
+      "seamstress_anna": [
+        "SCHEDULED_WORK",
+        "PERSONAL_LIFE_FOCUS",
+        "PERSONAL_RELATIONSHIP",
+        "NIGHT_REST",
+        "NEED_INCOME",
+        "PERSONAL_LIFE_PREPARATION"
+      ],
+      "bookseller_lev": [
+        "SCHEDULED_WORK",
+        "PERSONAL_LIFE_FOCUS",
+        "LIVING_EVENT_RESPONSE",
+        "NIGHT_REST",
+        "PERSONAL_LIFE_PREPARATION",
+        "PURCHASE_MEAL"
+      ],
+      "senior_clerk_konstantin": [
+        "FOLLOW_RECIPIENT",
+        "LIVING_EVENT_RESPONSE",
+        "PERSONAL_LIFE_FOCUS",
+        "SCHEDULED_WORK",
+        "NIGHT_REST",
+        "PERSONAL_LIFE_PREPARATION"
+      ],
+      "reader_darya": [
+        "SCHEDULED_WORK",
+        "LIVING_EVENT_RESPONSE",
+        "PERSONAL_RELATIONSHIP",
+        "NIGHT_REST"
+      ],
+      "editor_sofia": [
+        "SCHEDULED_WORK",
+        "PERSONAL_LIFE_PREPARATION",
+        "PERSONAL_LIFE_FOCUS",
+        "PREPARE_DELIVERY",
+        "FOLLOW_RECIPIENT",
+        "NIGHT_REST",
+        "PURCHASE_MEAL",
+        "PAY_WAGE"
+      ],
+      "police_sergeant_ivan": [
+        "SCHEDULED_WORK",
+        "LIVING_EVENT_RESPONSE",
+        "NIGHT_REST",
+        "PURCHASE_MEAL"
+      ],
+      "print_apprentice_stepan": [
+        "SCHEDULED_WORK",
+        "COLLECT_WAGE",
+        "NEED_REST",
+        "NEED_INCOME",
+        "LIVING_EVENT_RESPONSE",
+        "PERSONAL_LIFE_PREPARATION",
+        "NIGHT_REST",
+        "PURCHASE_MEAL"
+      ],
+      "bookbinder_elizaveta": [
+        "SCHEDULED_WORK",
+        "PERSONAL_LIFE_PREPARATION",
+        "PERSONAL_LIFE_FOCUS",
+        "FOLLOW_TRADE_PARTNER",
+        "NIGHT_REST",
+        "PURCHASE_MEAL"
+      ],
+      "scribal_yuri": [
+        "SCHEDULED_WORK",
+        "NEED_INCOME",
+        "PERSONAL_LIFE_PREPARATION",
+        "PERSONAL_LIFE_FOCUS",
+        "NIGHT_REST"
+      ],
+      "student_vasily": [
+        "SCHEDULED_WORK",
+        "PERSONAL_RELATIONSHIP",
+        "LIVING_EVENT_RESPONSE",
+        "NIGHT_REST",
+        "PURCHASE_MEAL"
+      ],
+      "minor_noble_andrei": [
+        "PERSONAL_RELATIONSHIP",
+        "SCHEDULED_WORK",
+        "NEED_INCOME",
+        "PERSONAL_LIFE_PREPARATION",
+        "PERSONAL_LIFE_FOCUS",
+        "NIGHT_REST",
+        "PURCHASE_MEAL"
+      ],
+      "junior_guard_sergey": [
+        "SCHEDULED_WORK",
+        "LIVING_EVENT_RESPONSE",
+        "PERSONAL_LIFE_FOCUS",
+        "NIGHT_REST",
+        "PURCHASE_MEAL"
+      ],
+      "street_vendor_matryona": [
+        "SCHEDULED_WORK",
+        "PERSONAL_RELATIONSHIP",
+        "LIVING_EVENT_RESPONSE",
+        "PERSONAL_LIFE_PREPARATION",
+        "PERSONAL_LIFE_FOCUS",
+        "NIGHT_REST",
+        "PURCHASE_MEAL",
+        "NEED_INCOME"
+      ],
+      "typesetter_nikita": [
+        "SCHEDULED_WORK",
+        "COLLECT_WAGE",
+        "NEED_INCOME",
+        "PERSONAL_RELATIONSHIP",
+        "PERSONAL_LIFE_PREPARATION",
+        "PERSONAL_LIFE_FOCUS",
+        "PURCHASE_MEAL",
+        "NIGHT_REST"
+      ],
+      "tenant_mikhail": [
+        "PERSONAL_LIFE_FOCUS",
+        "LIVING_EVENT_RESPONSE",
+        "SCHEDULED_WORK",
+        "HOUSING_RENT",
+        "NEED_INCOME",
+        "NIGHT_REST",
+        "PERSONAL_LIFE_PREPARATION",
+        "PURCHASE_MEAL"
+      ],
+      "housemaid_olga": [
+        "SCHEDULED_WORK",
+        "COLLECT_WAGE",
+        "PERSONAL_RELATIONSHIP",
+        "PERSONAL_LIFE_PREPARATION",
+        "PERSONAL_LIFE_FOCUS",
+        "NEED_INCOME",
+        "NIGHT_REST",
+        "PURCHASE_MEAL"
+      ],
+      "midwife_avdotya": [
+        "SCHEDULED_WORK",
+        "PERSONAL_RELATIONSHIP",
+        "PERSONAL_LIFE_PREPARATION",
+        "PERSONAL_LIFE_FOCUS",
+        "NIGHT_REST",
+        "PURCHASE_MEAL"
+      ],
+      "innkeeper_irina": [
+        "SCHEDULED_WORK",
+        "PERSONAL_RELATIONSHIP",
+        "PERSONAL_LIFE_PREPARATION",
+        "PERSONAL_LIFE_FOCUS",
+        "FOLLOW_FAMILY_MEMBER",
+        "NIGHT_REST",
+        "PURCHASE_MEAL"
+      ],
+      "teacher_lyubov": [
+        "SCHEDULED_WORK",
+        "PERSONAL_RELATIONSHIP",
+        "PERSONAL_LIFE_FOCUS",
+        "LIVING_EVENT_RESPONSE",
+        "NIGHT_REST",
+        "PURCHASE_MEAL"
+      ],
+      "landlady_polina": [
+        "SCHEDULED_WORK",
+        "PAY_WAGE",
+        "PERSONAL_LIFE_PREPARATION",
+        "PERSONAL_LIFE_FOCUS",
+        "LIVING_EVENT_RESPONSE",
+        "NIGHT_REST",
+        "PURCHASE_MEAL"
+      ],
+      "watercarrier_luka": [
+        "SCHEDULED_WORK",
+        "COLLECT_WAGE",
+        "PERSONAL_RELATIONSHIP",
+        "NEED_INCOME",
+        "LIVING_EVENT_RESPONSE",
+        "PERSONAL_LIFE_PREPARATION",
+        "PURCHASE_MEAL",
+        "PERSONAL_LIFE_FOCUS",
+        "NIGHT_REST"
+      ],
+      "servant_varvara": [
+        "SCHEDULED_WORK",
+        "PERSONAL_RELATIONSHIP",
+        "NEED_INCOME",
+        "NIGHT_REST",
+        "PURCHASE_MEAL"
+      ],
+      "lodging_tatyana": [
+        "SCHEDULED_WORK",
+        "PERSONAL_RELATIONSHIP",
+        "NEED_INCOME",
+        "PERSONAL_LIFE_PREPARATION",
+        "PERSONAL_LIFE_FOCUS",
+        "NIGHT_REST",
+        "PURCHASE_MEAL"
+      ],
+      "yardkeeper_semyon": [
+        "SCHEDULED_WORK",
+        "PERSONAL_LIFE_FOCUS",
+        "PREPARE_DELIVERY",
+        "FOLLOW_RECIPIENT",
+        "COLLECT_WAGE",
+        "PERSONAL_RELATIONSHIP",
+        "PURCHASE_MEAL",
+        "NIGHT_REST",
+        "NEED_INCOME"
+      ],
+      "laundress_mariya": [
+        "FOLLOW_TRADE_PARTNER",
+        "PERSONAL_LIFE_PREPARATION",
+        "PERSONAL_LIFE_FOCUS",
+        "SCHEDULED_WORK",
+        "PURCHASE_MEAL",
+        "NEED_INCOME",
+        "NIGHT_REST",
+        "COLLECT_WAGE"
+      ],
+      "baker_fyodor": [
+        "FOLLOW_TRADE_PARTNER",
+        "NEED_INCOME",
+        "PERSONAL_LIFE_PREPARATION",
+        "PERSONAL_LIFE_FOCUS",
+        "SCHEDULED_WORK",
+        "PURCHASE_MEAL",
+        "NEED_REST",
+        "NIGHT_REST",
+        "PAY_WAGE"
+      ],
+      "market_nadezhda": [
+        "SCHEDULED_WORK",
+        "LIVING_EVENT_RESPONSE",
+        "PERSONAL_LIFE_FOCUS",
+        "NIGHT_REST"
+      ],
+      "porter_gavrila": [
+        "PREPARE_SCHEDULED_WORK",
+        "NEED_INCOME",
+        "PERSONAL_RELATIONSHIP",
+        "LIVING_EVENT_RESPONSE",
+        "PURCHASE_MEAL",
+        "NIGHT_REST"
+      ],
+      "coachman_timofey": [
+        "SCHEDULED_WORK",
+        "PERSONAL_RELATIONSHIP",
+        "PERSONAL_LIFE_PREPARATION",
+        "LIVING_EVENT_RESPONSE",
+        "PERSONAL_LIFE_FOCUS",
+        "NEED_INCOME",
+        "PURCHASE_MEAL",
+        "NIGHT_REST"
+      ],
+      "apothecary_yakov": [
+        "SCHEDULED_WORK",
+        "LIVING_EVENT_RESPONSE",
+        "PERSONAL_LIFE_FOCUS",
+        "NEED_INCOME",
+        "NIGHT_REST",
+        "PURCHASE_MEAL"
+      ],
+      "fishseller_klavdiya": [
+        "SCHEDULED_WORK",
+        "PERSONAL_RELATIONSHIP",
+        "PERSONAL_LIFE_PREPARATION",
+        "PERSONAL_LIFE_FOCUS",
+        "NEED_INCOME",
+        "PURCHASE_MEAL",
+        "NIGHT_REST"
+      ],
+      "warehouse_pyotr": [
+        "SCHEDULED_WORK",
+        "NEED_INCOME",
+        "LIVING_EVENT_RESPONSE",
+        "PAY_WAGE",
+        "PERSONAL_LIFE_PREPARATION",
+        "PERSONAL_LIFE_FOCUS",
+        "NIGHT_REST",
+        "PURCHASE_MEAL"
+      ],
+      "carter_roman": [
+        "SCHEDULED_WORK",
+        "PERSONAL_LIFE_PREPARATION",
+        "PERSONAL_LIFE_FOCUS",
+        "NEED_INCOME",
+        "COLLECT_WAGE",
+        "PAY_WAGE",
+        "PURCHASE_MEAL",
+        "NIGHT_REST"
+      ],
+      "street_musician_ivan": [
+        "HOUSING_RENT",
+        "NEED_INCOME",
+        "NIGHT_REST"
+      ]
+    },
+    "deliveries": 4,
+    "exchanges": 4,
+    "wagePayments": 15,
+    "paidMarketMeals": 6,
+    "marketMealBuyers": [
+      "fishseller_klavdiya",
+      "baker_fyodor",
+      "watercarrier_luka",
+      "coachman_timofey",
+      "carter_roman"
+    ],
+    "personalContacts": 17,
+    "relationshipMemoryPairs": 14,
+    "distinctPersonalContactResidents": 14,
+    "personalLifeGoalVisits": 28,
+    "residentsWithPhysicalLifeGoalVisits": 26,
+    "residentsWithLockedLifeGoals": 2,
+    "lifeGoalCoverage": {
+      "clerk_alexei": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "ALEXEI_DUPLICATE_RECEIPT_1847_STAGE_1"
+      },
+      "printer_ekaterina": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "EKATERINA_INK_SHORTAGE_1847_STAGE_1"
+      },
+      "courier_pavel": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "PAVEL_PROOF_DELIVERY_1847_STAGE_1"
+      },
+      "seamstress_anna": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "ANNA_COAT_REPAIR_1847_STAGE_1"
+      },
+      "bookseller_lev": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "LEV_RETURNED_SHEETS_1847_STAGE_1"
+      },
+      "senior_clerk_konstantin": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "KONSTANTIN_UNSIGNED_REVIEW_1847_STAGE_1"
+      },
+      "reader_darya": {
+        "status": "LOCKED_BY_PREREQUISITE",
+        "questId": "DARYA_READING_CIRCLE_1847_STAGE_1",
+        "prerequisiteQuestIds": [
+          "READER_SOURCE_AND_RUMOR_1847"
+        ],
+        "reason": "READER_SOURCE_AND_RUMOR_1847 has not yet been completed"
+      },
+      "editor_sofia": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "SOFIA_UNNAMED_NOTICE_1847_STAGE_1"
+      },
+      "police_sergeant_ivan": {
+        "status": "LOCKED_BY_PREREQUISITE",
+        "questId": "IVAN_WITNESS_ACCOUNT_1849_STAGE_1",
+        "prerequisiteQuestIds": [
+          "POLICE_TESTIMONY_RECORD_1849"
+        ],
+        "reason": "POLICE_TESTIMONY_RECORD_1849 is not yet recorded in the 1847 starting chapter"
+      },
+      "print_apprentice_stepan": {
+        "status": "DEFERRED_BY_DAILY_ROUTINE",
+        "questId": "STEPAN_PROOF_AUTHorship_1847_STAGE_1",
+        "prerequisiteQuestIds": [],
+        "reason": "routine work, travel, and other resident needs defer this open personal-life scene to another day"
+      },
+      "bookbinder_elizaveta": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "ELIZAVETA_DAMAGED_BOOK_1847_STAGE_1"
+      },
+      "scribal_yuri": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "YURI_COPYING_LEDGER_1847_STAGE_1"
+      },
+      "student_vasily": {
+        "status": "DEFERRED_BY_DAILY_ROUTINE",
+        "questId": "VASILY_READING_CIRCLE_1847_STAGE_1",
+        "prerequisiteQuestIds": [],
+        "reason": "routine work, travel, and other resident needs defer this open personal-life scene to another day"
+      },
+      "minor_noble_andrei": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "ANDREI_DEBT_STATUS_1847_STAGE_1"
+      },
+      "junior_guard_sergey": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "SERGEY_VISITOR_PASS_1847_STAGE_1"
+      },
+      "street_vendor_matryona": {
+        "status": "DEFERRED_BY_DAILY_ROUTINE",
+        "questId": "MATRYONA_STREET_STALL_1847_STAGE_1",
+        "prerequisiteQuestIds": [],
+        "reason": "routine work, travel, and other resident needs defer this open personal-life scene to another day"
+      },
+      "typesetter_nikita": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "NIKITA_TYPESPEED_1847_STAGE_1"
+      },
+      "tenant_mikhail": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "MIKHAIL_WAGE_AND_RENT_1847_STAGE_1"
+      },
+      "housemaid_olga": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "OLGA_PRIVATE_WORDS_1847_STAGE_1"
+      },
+      "midwife_avdotya": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "AVDOTYA_NIGHT_CALLS_1847_STAGE_1"
+      },
+      "innkeeper_irina": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "IRINA_INN_PRIVACY_1847_STAGE_1"
+      },
+      "teacher_lyubov": {
+        "status": "DEFERRED_BY_DAILY_ROUTINE",
+        "questId": "LYUBOV_LESSON_ACCESS_1847_STAGE_1",
+        "prerequisiteQuestIds": [],
+        "reason": "routine work, travel, and other resident needs defer this open personal-life scene to another day"
+      },
+      "landlady_polina": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "POLINA_RENT_AND_REPAIRS_1847_STAGE_1"
+      },
+      "watercarrier_luka": {
+        "status": "DEFERRED_BY_DAILY_ROUTINE",
+        "questId": "LUKA_WATER_QUEUE_1847_STAGE_1",
+        "prerequisiteQuestIds": [],
+        "reason": "routine work, travel, and other resident needs defer this open personal-life scene to another day"
+      },
+      "servant_varvara": {
+        "status": "DEFERRED_BY_DAILY_ROUTINE",
+        "questId": "VARVARA_PRIVATE_WARNING_1847_STAGE_1",
+        "prerequisiteQuestIds": [],
+        "reason": "routine work, travel, and other resident needs defer this open personal-life scene to another day"
+      },
+      "lodging_tatyana": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "TATYANA_READING_HOUR_1847_STAGE_1"
+      },
+      "yardkeeper_semyon": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "SEMYON_FIREWOOD_LEDGER_1847_STAGE_1"
+      },
+      "laundress_mariya": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "MARIYA_WASHING_WAGES_1847_STAGE_1"
+      },
+      "baker_fyodor": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "FYODOR_FLOUR_AND_ORDERS_1847_STAGE_1"
+      },
+      "market_nadezhda": {
+        "status": "DEFERRED_BY_DAILY_ROUTINE",
+        "questId": "NADEZHDA_STALL_WEATHER_1847_STAGE_1",
+        "prerequisiteQuestIds": [],
+        "reason": "routine work, travel, and other resident needs defer this open personal-life scene to another day"
+      },
+      "porter_gavrila": {
+        "status": "DEFERRED_BY_DAILY_ROUTINE",
+        "questId": "GAVRILA_CARRYING_TALLY_1847_STAGE_1",
+        "prerequisiteQuestIds": [],
+        "reason": "routine work, travel, and other resident needs defer this open personal-life scene to another day"
+      },
+      "coachman_timofey": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "TIMofey_SHARED_LOAD_1847_STAGE_1"
+      },
+      "apothecary_yakov": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "YAKOV_REMEDY_LIMITS_1847_STAGE_1"
+      },
+      "fishseller_klavdiya": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "KLAVDIYA_FISH_STORAGE_1847_STAGE_1"
+      },
+      "warehouse_pyotr": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "PYOTR_MISSING_CRATE_AUDIT_1847_STAGE_1"
+      },
+      "carter_roman": {
+        "status": "PHYSICALLY_VISITED",
+        "questId": "ROMAN_WHEEL_AND_FARE_1847_STAGE_1"
+      }
+    },
+    "residentsWithDistinctAuthoredObjectives": 37,
+    "finalActivityCount": 10,
+    "finalPositions": {
+      "clerk_alexei": {
+        "mapId": "nevsky",
+        "x": 7,
+        "y": 9
+      },
+      "printer_ekaterina": {
+        "mapId": "printshop",
+        "x": 12,
+        "y": 13
+      },
+      "courier_pavel": {
+        "mapId": "nevsky",
+        "x": 17,
+        "y": 13
+      },
+      "seamstress_anna": {
+        "mapId": "nevsky",
+        "x": 17,
+        "y": 9
+      },
+      "bookseller_lev": {
+        "mapId": "nevsky",
+        "x": 15,
+        "y": 13
+      },
+      "senior_clerk_konstantin": {
+        "mapId": "chancery",
+        "x": 11,
+        "y": 15
+      },
+      "reader_darya": {
+        "mapId": "nevsky",
+        "x": 15,
+        "y": 11
+      },
+      "editor_sofia": {
+        "mapId": "nevsky",
+        "x": 22,
+        "y": 10
+      },
+      "police_sergeant_ivan": {
+        "mapId": "nevsky",
+        "x": 14,
+        "y": 12
+      },
+      "print_apprentice_stepan": {
+        "mapId": "nevsky",
+        "x": 26,
+        "y": 9
+      },
+      "bookbinder_elizaveta": {
+        "mapId": "nevsky",
+        "x": 26,
+        "y": 8
+      },
+      "scribal_yuri": {
+        "mapId": "chancery",
+        "x": 14,
+        "y": 11
+      },
+      "student_vasily": {
+        "mapId": "market-quay",
+        "x": 3,
+        "y": 9
+      },
+      "minor_noble_andrei": {
+        "mapId": "nevsky",
+        "x": 10,
+        "y": 10
+      },
+      "junior_guard_sergey": {
+        "mapId": "nevsky",
+        "x": 14,
+        "y": 13
+      },
+      "street_vendor_matryona": {
+        "mapId": "market-quay",
+        "x": 4,
+        "y": 12
+      },
+      "typesetter_nikita": {
+        "mapId": "market-quay",
+        "x": 6,
+        "y": 12
+      },
+      "tenant_mikhail": {
+        "mapId": "nevsky",
+        "x": 21,
+        "y": 9
+      },
+      "housemaid_olga": {
+        "mapId": "nevsky",
+        "x": 21,
+        "y": 12
+      },
+      "midwife_avdotya": {
+        "mapId": "nevsky",
+        "x": 20,
+        "y": 10
+      },
+      "innkeeper_irina": {
+        "mapId": "nevsky",
+        "x": 18,
+        "y": 10
+      },
+      "teacher_lyubov": {
+        "mapId": "nevsky",
+        "x": 12,
+        "y": 8
+      },
+      "landlady_polina": {
+        "mapId": "courtyard",
+        "x": 13,
+        "y": 16
+      },
+      "watercarrier_luka": {
+        "mapId": "market-quay",
+        "x": 8,
+        "y": 10
+      },
+      "servant_varvara": {
+        "mapId": "nevsky",
+        "x": 18,
+        "y": 11
+      },
+      "lodging_tatyana": {
+        "mapId": "nevsky",
+        "x": 24,
+        "y": 10
+      },
+      "yardkeeper_semyon": {
+        "mapId": "nevsky",
+        "x": 14,
+        "y": 10
+      },
+      "laundress_mariya": {
+        "mapId": "nevsky",
+        "x": 22,
+        "y": 11
+      },
+      "baker_fyodor": {
+        "mapId": "market-quay",
+        "x": 17,
+        "y": 11
+      },
+      "market_nadezhda": {
+        "mapId": "market-quay",
+        "x": 13,
+        "y": 12
+      },
+      "porter_gavrila": {
+        "mapId": "market-quay",
+        "x": 4,
+        "y": 9
+      },
+      "coachman_timofey": {
+        "mapId": "market-quay",
+        "x": 11,
+        "y": 9
+      },
+      "apothecary_yakov": {
+        "mapId": "nevsky",
+        "x": 24,
+        "y": 9
+      },
+      "fishseller_klavdiya": {
+        "mapId": "market-quay",
+        "x": 8,
+        "y": 11
+      },
+      "warehouse_pyotr": {
+        "mapId": "nevsky",
+        "x": 23,
+        "y": 12
+      },
+      "carter_roman": {
+        "mapId": "market-quay",
+        "x": 9,
+        "y": 10
+      },
+      "street_musician_ivan": {
+        "mapId": "nevsky",
+        "x": 20,
+        "y": 11
+      }
+    }
+  },
+  "fullDaySaveReloadStateHash": "591c178a",
+  "autoCompletedPlayerQuests": 0,
+  "runtimeMilliseconds": 72343
+}

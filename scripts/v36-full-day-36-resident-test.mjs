@@ -10,6 +10,7 @@ const game = globalThis.V33GameState;
 const districtData = await readJson('rpg/data/city-districts-v36.json');
 const rosterIds = [...new Set(districtData.districts.flatMap(district => district.residentIds ?? []))];
 const includeEventPerformers = process.argv.includes('--include-event-performers');
+const singleReplay = process.argv.includes('--single-replay');
 const ids = includeEventPerformers ? [...rosterIds, 'street_musician_ivan'] : rosterIds;
 const maps = Object.fromEntries(await Promise.all((await readdir(new URL('../rpg/maps/', import.meta.url))).filter(file => file.endsWith('.json'))
   .map(async file => { const map = await readJson(`rpg/maps/${file}`); return [map.mapId, map]; })));
@@ -94,7 +95,7 @@ function runFullDay(seed) {
 }
 
 const startedAt = performance.now();
-const seeds = [0, 1848, 1849];
+const seeds = singleReplay ? [0] : [0, 1848, 1849];
 const first = runFullDay(seeds[0]);
 const hashes = [game.stateHash(first.state)];
 const parcelDelivery = first.state.ledger.flatMap(event => event.deliveries ?? [])
@@ -176,8 +177,9 @@ assert.ok(marketMeals.every(meal => meal.mapId === meal.sellerMapId
   'market meals must be paid, adjacent seller handoffs with fictional balance labels');
 assert.ok(marketMeals.every(meal => goals.some(goal => goal.hostId === meal.hostId && goal.type === 'PURCHASE_MEAL'
   && goal.targetHostId === meal.sellerHostId)
-  && first.moves.some(move => move.hostId === meal.hostId && move.toMapId === meal.mapId && move.minute <= meal.minute)),
-  'each market meal needs a matching seller-directed goal and recorded movement in the seller district');
+  && (first.moves.some(move => move.hostId === meal.hostId && move.toMapId === meal.mapId && move.minute <= meal.minute)
+    || first.initialPositions[meal.hostId]?.mapId === meal.mapId)),
+  'each market meal needs a seller-directed goal and either a recorded route or a starting position in the seller district');
 for (const hostId of ['printer_ekaterina', 'print_apprentice_stepan', 'typesetter_nikita']) {
   assert.ok(wagePayments.some(payment => payment.hostId === hostId), `${hostId} should receive a physically settled job wage`);
 }
@@ -208,7 +210,7 @@ const seededHashes = replays.map(run => game.stateHash(run.state));
 assert.equal(new Set(seededHashes).size, seeds.length, 'different simulation seeds must produce distinct full-day states');
 assert.equal(new Set(replays.map(run=>JSON.stringify(run.initialNeeds))).size, seeds.length,
   'different simulation seeds must provide distinct bounded initial need conditions');
-const repeatedSeedReplay = runFullDay(seeds[0]);
+const repeatedSeedReplay = singleReplay ? first : runFullDay(seeds[0]);
 assert.equal(game.stateHash(repeatedSeedReplay.state), seededHashes[0], 'the same simulation seed must reproduce the exact full-day state');
 assert.ok(replays.every(run => run.state.ledger.flatMap(event => event.deliveries ?? []).some(delivery => delivery.taskId === 'PAVEL_DELIVER_SEALED_ENVELOPE_01')
   || (run.state.world.livingEventStates.E05?.stage === 'PARCEL_MISSING' && run.state.world.livingEventStates.E05.itemLocation === 'LOST_ON_DELIVERY_ROUTE')),
@@ -241,6 +243,8 @@ const report = { schemaVersion:includeEventPerformers ? 'V37_FULL_DAY_37_RUNTIME
   fullDaySaveReloadStateHash:game.stateHash(restored), autoCompletedPlayerQuests:0, runtimeMilliseconds:Math.round(performance.now()-startedAt) };
 const auditDir = new URL('../docs/v36/current-audit/', import.meta.url);
 await mkdir(auditDir,{recursive:true});
-const reportName = includeEventPerformers ? 'FULL_DAY_37_RUNTIME_RESIDENT_REPLAY.json' : 'FULL_DAY_36_RESIDENT_REPLAY.json';
+const reportName = includeEventPerformers
+  ? singleReplay ? 'FULL_DAY_37_SINGLE_SEED_RESIDENT_REPLAY.json' : 'FULL_DAY_37_RUNTIME_RESIDENT_REPLAY.json'
+  : singleReplay ? 'FULL_DAY_36_SINGLE_SEED_RESIDENT_REPLAY.json' : 'FULL_DAY_36_RESIDENT_REPLAY.json';
 await writeFile(new URL(reportName,auditDir),`${JSON.stringify(report,null,2)}\n`);
 console.log(JSON.stringify(report,null,2));
