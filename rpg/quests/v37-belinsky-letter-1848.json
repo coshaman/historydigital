@@ -1,0 +1,53 @@
+{
+  "id": "V37_BELINSKY_LETTER_1848",
+  "catalogEventId": "E44",
+  "titleKo": "돌아다니는 편지",
+  "chapterId": "V33_1848_PUBLIC",
+  "date": "1848-01-02",
+  "requiresLivingEventId": "E44",
+  "sourceIds": ["OBJ-BELINSKY-LETTER-GOGOL-1847"],
+  "historicalOutcome": {
+    "id": "BELINSKY_LETTER_GOGOL_1847",
+    "value": "the letter's authorship, date, argument, and manuscript circulation remain fixed; only the fictional readers' handling varies",
+    "sourceIds": ["OBJ-BELINSKY-LETTER-GOGOL-1847"]
+  },
+  "entry": { "mapId": "bookshop-interior", "objectId": 4021, "requiredHostId": "bookseller_lev" },
+  "premiseKo": "레프가 접힌 필사본을 책상에 내려놓는다. “신문에 난 글이 아니야. 벨린스키가 고골에게 보낸 편지래.” 다리야가 종이를 살핀다. “이런 글이 사람들 손을 타고 도는군요.”",
+  "actions": [
+    {
+      "id": "E44_KEEP_COPY_PRIVATE",
+      "hostIds": ["bookseller_lev"],
+      "requiredLivingEventStage": "READING_READY",
+      "requiredKnowledgeId": "OBJ-BELINSKY-LETTER-GOGOL-1847",
+      "labelKo": "필사본을 책방 안에 감춰 둔다",
+      "subcopyKo": "레프와 곁에 있는 두 독자만 압니다 · 사적인 보관으로 기록됩니다 · 필사본은 책방을 나가지 않습니다",
+      "resultKo": "레프는 편지를 장부 뒤에 넣었다. “읽은 건 읽은 거고, 더 많은 사람을 끌어들일 일은 아니야.”",
+      "resultFlag": "belinskyCopyKeptPrivate",
+      "effects": { "situationKo": "벨린스키의 편지 필사본을 책방 안에 보관했다." }
+    },
+    {
+      "id": "E44_COPY_ARGUMENTS",
+      "hostIds": ["bookseller_lev"],
+      "requiredLivingEventStage": "READING_READY",
+      "requiredKnowledgeId": "OBJ-BELINSKY-LETTER-GOGOL-1847",
+      "labelKo": "농노제와 체벌을 비판한 대목을 독서 장부에 옮긴다",
+      "subcopyKo": "장부를 맡은 레프가 씁니다 · 책방 기록에 남습니다 · 요지를 옮긴 사본은 가게 안에 둡니다",
+      "resultKo": "레프는 농노제 폐지와 체벌 금지를 요구한 대목을 장부에 옮겼다. 다리야는 원문과 베껴 쓴 문장을 다시 맞춰 보았다.",
+      "resultFlag": "belinskyArgumentCopied",
+      "effects": { "situationKo": "편지의 농노제·체벌 비판 대목을 독서 장부에 기록했다." }
+    },
+    {
+      "id": "E44_READ_TO_CIRCLE",
+      "hostIds": ["bookseller_lev"],
+      "requiredLivingEventStage": "READING_READY",
+      "requiredKnowledgeId": "OBJ-BELINSKY-LETTER-GOGOL-1847",
+      "requiredPresentHostIds": ["reader_darya", "student_vasily"],
+      "requiredParticipantDistance": 5,
+      "labelKo": "편지를 곁에 모인 독자들에게 읽어 준다",
+      "subcopyKo": "곁에 있는 다리야와 바실리가 듣습니다 · 함께 읽은 일이 남습니다 · 사람을 더 모을수록 필사본이 알려질 위험이 커집니다",
+      "resultKo": "레프가 ‘농노제를 없애고 체벌을 금지해야 한다’는 대목까지 읽었다. 바실리가 물었다. “그 말에 동의해도, 편지를 돌리는 일까지 감당할 수 있겠습니까?”",
+      "resultFlag": "belinskyLetterReadAloud",
+      "effects": { "situationKo": "책방 독자들이 벨린스키의 편지를 함께 읽었다." }
+    }
+  ]
+}

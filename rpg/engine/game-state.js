@@ -2136,6 +2136,67 @@ function advancePushkinObituaryEvent(state, minuteOffset, maps, livingEventRows)
   livingEventRows.push(pushkinObituaryEventRow(state, event, minuteOffset, maps,
     { unattended: true, changeKo: '책방의 사람들이 흩어졌다. 부고는 펼쳐진 채 책상에 남았다.' }));
 }
+function belinskyLetterEventRow(state, event, minuteOffset, maps, details = {}) {
+  return { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E44', stage: event.stage,
+    stageIndex: event.stage === 'COPY_ARRIVED' ? 1 : event.stage === 'READING_READY' ? 2 : 3,
+    actorHostIds: [...event.actorHostIds], witnessHostIds: [...event.witnessHostIds],
+    date: state.world.date, minute: minuteOffset, mapId: event.venueMapId,
+    position: { ...event.scenePosition }, sourceIds: [...event.sourceIds],
+    occurrenceType: 'RECONSTRUCTED_COPY_ARRIVAL_OF_DOCUMENTED_LETTER',
+    validationStatus: 'PRIMARY_LETTER_AND_CIRCULATION_HISTORY_VERIFIED',
+    historicalOutcomeId: 'BELINSKY_LETTER_GOGOL_1847', historicalOutcomeFixed: true,
+    state: clone(event), witnessedByPlayer: playerCanObserveWorldEvent(state, event.venueMapId, event.scenePosition, 6, maps), ...details };
+}
+function advanceBelinskyLetterEvent(state, minuteOffset, maps, livingEventRows) {
+  state.world.livingEventStates ??= {};
+  let event = state.world.livingEventStates.E44;
+  if (!event) {
+    const objects = layer(maps?.['bookshop-interior'], 'Interactions')?.objects ?? [];
+    const source = objects.find(item => properties(item).sourceId === 'OBJ-BELINSKY-LETTER-GOGOL-1847');
+    const stand = objects.find(item => item.id === 4021);
+    const actorHostIds = ['bookseller_lev', 'reader_darya', 'student_vasily'];
+    const actors = actorHostIds.map(id => state.hosts[id]);
+    const minute = ((state.world.clockMinutes % 1440) + 1440) % 1440;
+    if (state.world.chapterId !== 'V33_1848_PUBLIC' || state.world.activeRealm
+      || state.world.date !== '1848-01-02' || minute < 600 || minute > 780
+      || !source || !stand || actors.some(host => !host || host.historicalAliveAndPresent === false
+        || !host.allowedMaps.includes('bookshop-interior')
+        || npcMapRoute(host.mapId, 'bookshop-interior', host, maps, state.world.clockMinutes) === null)) return;
+    const scenePosition = objectTile(stand), witnesses = actorHostIds.filter(id => id !== 'bookseller_lev');
+    event = state.world.livingEventStates.E44 = { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E44',
+      status: 'ACTIVE', stage: 'COPY_ARRIVED', trigger: '1848-01-02_handwritten_copy_of_the_1847_belinsky_letter_reaches_readers',
+      startedAtMinute: state.world.clockMinutes, resolvesAtMinute: state.world.clockMinutes + 240,
+      actorHostIds, witnessHostIds: witnesses, venueMapId: 'bookshop-interior', scenePosition,
+      booksellerHostId: 'bookseller_lev', sourceIds: ['OBJ-BELINSKY-LETTER-GOGOL-1847'],
+      historicalOutcomeId: 'BELINSKY_LETTER_GOGOL_1847', historicalOutcomeFixed: true,
+      disposition: null, resolutionActionId: null };
+    livingEventRows.push(belinskyLetterEventRow(state, event, minuteOffset, maps,
+      { changeKo: '레프가 벨린스키가 고골에게 보낸 편지의 필사본을 책방으로 가져왔다.' }));
+  }
+  if (event.status !== 'ACTIVE') return;
+  const gathered = event.actorHostIds.every(id => {
+    const host = state.hosts[id];
+    return host && host.historicalAliveAndPresent !== false && host.mapId === event.venueMapId
+      && nearTile(host.position, event.scenePosition, 5);
+  });
+  if (gathered && event.stage === 'COPY_ARRIVED') {
+    event.stage = 'READING_READY'; event.gatheredAtMinute = state.world.clockMinutes;
+    event.resolvesAtMinute = state.world.clockMinutes + 180;
+    livingEventRows.push(belinskyLetterEventRow(state, event, minuteOffset, maps,
+      { changeKo: '다리야와 바실리가 책방에 왔다. 필사본을 펼쳐 읽을 수 있다.' }));
+  }
+  if (state.world.clockMinutes < event.resolvesAtMinute) return;
+  event.status = 'RESOLVED'; event.stage = 'COPY_STORED_UNREAD'; event.resolvedAtMinute = state.world.clockMinutes;
+  event.disposition = 'NO_PUBLIC_READING'; event.resolutionActionId = 'AUTO_COPY_STORED';
+  const record = { eventId: 'E44', sourceIds: [...event.sourceIds], disposition: event.disposition,
+    historicalOutcomeFixed: true, date: state.world.date, recordedAtMinute: state.world.clockMinutes };
+  state.world.belinskyLetterRecords ??= []; state.world.belinskyLetterRecords.push(record);
+  for (const id of event.actorHostIds) {
+    const host = state.hosts[id]; if (host?.activeGoal?.taskId?.startsWith('V37:E44:')) host.activeGoal = null;
+  }
+  livingEventRows.push(belinskyLetterEventRow(state, event, minuteOffset, maps,
+    { unattended: true, changeKo: '독자들이 흩어지고 필사본은 책방 안에 보관됐다.' }));
+}
 function advanceMarketPriceDispute(state, minuteOffset, maps, livingEventRows, options = {}) {
   state.world.livingEventStates ??= {};
   const event = state.world.livingEventStates.E13;
@@ -3007,6 +3068,18 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
       targetHostId: host.id === 'bookseller_lev' ? 'reader_darya' : 'bookseller_lev',
       taskId: `V37:E43:${pushkinObituary.stage}:${host.id}`, reason: 'gather_for_the_1837_pushkin_obituary_reading',
       selectionBasis: { utilityScore: 184, eventId: 'E43', stage: pushkinObituary.stage } };
+  }
+  const belinskyLetter = state.world.livingEventStates?.E44;
+  if (belinskyLetter?.status === 'ACTIVE' && belinskyLetter.actorHostIds.includes(host.id)
+    && host.allowedMaps.includes(belinskyLetter.venueMapId)
+    && npcMapRoute(host.mapId, belinskyLetter.venueMapId, host, maps, state.world.clockMinutes) !== null) {
+    const activities = { bookseller_lev: '고골에게 온 벨린스키의 편지 필사본을 펼친다',
+      reader_darya: '편지에 적힌 농노제 비판을 읽으러 간다', student_vasily: '책방 사람들과 편지를 읽으러 간다' };
+    return { slot: { mapId: belinskyLetter.venueMapId, position: { ...belinskyLetter.scenePosition },
+      activityKo: activities[host.id] ?? '책방의 편지를 읽으러 간다' }, goalType: 'LIVING_EVENT_RESPONSE',
+      targetHostId: host.id === 'bookseller_lev' ? 'reader_darya' : 'bookseller_lev',
+      taskId: `V37:E44:${belinskyLetter.stage}:${host.id}`, reason: 'gather_to_read_the_handwritten_belinsky_letter',
+      selectionBasis: { utilityScore: 184, eventId: 'E44', stage: belinskyLetter.stage } };
   }
   const marketDayWork = state.world.livingEventStates?.E32;
   if (marketDayWork?.status === 'ACTIVE' && marketDayWork.actorHostIds.includes(host.id)
@@ -3889,6 +3962,7 @@ function advanceNpcWorld(state, elapsedMinutes, maps, options = {}) {
     advanceFixedHistoricalEvent(next, tick, maps, livingEventLog);
     advanceEuropeNewsEvent(next, tick, maps, livingEventLog);
     advancePushkinObituaryEvent(next, tick, maps, livingEventLog);
+    advanceBelinskyLetterEvent(next, tick, maps, livingEventLog);
     advanceSickLodger(next, tick, maps, livingEventLog, options);
     advanceLateMealEvent(next, tick, maps, livingEventLog, options);
     advanceApprenticeLiteracy(next, tick, maps, livingEventLog, options);
@@ -3908,6 +3982,7 @@ function advanceNpcWorld(state, elapsedMinutes, maps, options = {}) {
     advanceMarketTheftEvent(next, tick, maps, result.livingEventRows, options);
     advanceEuropeNewsEvent(next, tick, maps, result.livingEventRows);
     advancePushkinObituaryEvent(next, tick, maps, result.livingEventRows);
+    advanceBelinskyLetterEvent(next, tick, maps, result.livingEventRows);
     advancePoliceDocumentCheck(next, tick, maps, result.livingEventRows);
     advanceRentNoticeEvent(next, tick, maps, result.livingEventRows);
     advanceRoofLeakRepairEvent(next, tick, maps, result.livingEventRows);
@@ -4641,6 +4716,43 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
       const actor = next.hosts[id]; if (actor?.activeGoal?.taskId?.startsWith('V37:E43:')) actor.activeGoal = null;
     }
     livingEvents.push(pushkinObituaryEventRow(next, event, next.world.clockMinutes % 1440, maps,
+      { actionId, ...record, changeKo: action.resultKo }));
+  }
+  if (questId === 'V37_BELINSKY_LETTER_1848') {
+    const event = next.world.livingEventStates?.E44;
+    const outcomes = { E44_KEEP_COPY_PRIVATE: 'KEPT_PRIVATE', E44_COPY_ARGUMENTS: 'ARGUMENTS_COPIED', E44_READ_TO_CIRCLE: 'READ_TO_CIRCLE' };
+    const disposition = outcomes[actionId];
+    if (!event || event.status !== 'ACTIVE' || event.stage !== 'READING_READY'
+      || hostId !== 'bookseller_lev' || !disposition
+      || !next.world.discoveredSourceIds?.includes('OBJ-BELINSKY-LETTER-GOGOL-1847')) {
+      return { ok: false, reason: 'belinsky_letter_event_not_ready', state };
+    }
+    event.status = 'RESOLVED'; event.stage = disposition; event.disposition = disposition;
+    event.resolvedAtMinute = next.world.clockMinutes; event.resolvedByHostId = hostId;
+    event.resolutionActionId = actionId; event.playerChoiceActionId = actionId;
+    const record = { eventId: 'E44', sourceIds: [...event.sourceIds], disposition,
+      recordedByHostId: hostId, audienceHostIds: actionId === 'E44_READ_TO_CIRCLE' ? ['reader_darya', 'student_vasily'] : [],
+      historicalOutcomeFixed: true, date: next.world.date, recordedAtMinute: next.world.clockMinutes };
+    next.world.belinskyLetterRecords ??= []; next.world.belinskyLetterRecords.push(record);
+    if (actionId === 'E44_COPY_ARGUMENTS') {
+      next.hosts[hostId].readingLedger ??= [];
+      next.hosts[hostId].readingLedger.push({ eventId: 'E44', sourceId: event.sourceIds[0],
+        atMinute: next.world.clockMinutes, entryKo: '농노제 폐지·체벌 금지·기존 법의 엄격한 집행을 요구한 대목' });
+    } else if (actionId === 'E44_READ_TO_CIRCLE') {
+      for (const id of record.audienceHostIds) {
+        const listener = next.hosts[id];
+        listener.knownEvidenceIds ??= [];
+        if (!listener.knownEvidenceIds.includes(event.sourceIds[0])) listener.knownEvidenceIds.push(event.sourceIds[0]);
+        listener.relations[hostId] = '책방에서 벨린스키의 편지를 들은 사람';
+        appendLedgerEvent(next, { eventId: `E44_LISTEN_${next.ledger.length + 1}`,
+          eventType: 'SOURCE_HEARD_ALOUD', catalogEventId: 'E44', date: next.world.date,
+          mapId: next.world.currentMapId, hostId: id, speakerHostId: hostId, sourceId: event.sourceIds[0] });
+      }
+    }
+    for (const id of event.actorHostIds) {
+      const actor = next.hosts[id]; if (actor?.activeGoal?.taskId?.startsWith('V37:E44:')) actor.activeGoal = null;
+    }
+    livingEvents.push(belinskyLetterEventRow(next, event, next.world.clockMinutes % 1440, maps,
       { actionId, ...record, changeKo: action.resultKo }));
   }
   if (!literaryQuest && questId === 'V37_STREET_MUSIC_1847') {

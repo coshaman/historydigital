@@ -211,6 +211,22 @@
       "archive": "Russian National Library periodical catalogue; public transcription collated against the cited academic publication",
       "verificationStatus": "PRIMARY_PERIODICAL_TEXT_AND_ACADEMIC_TRANSCRIPTION_VERIFIED",
       "rights": "The 1837 text is public domain. The project translation is new; no modern Korean translation is used."
+    },
+    {
+      "sourceId": "OBJ-BELINSKY-LETTER-GOGOL-1847",
+      "type": "PRIVATE_LETTER_WITH_CRITICALLY_EDITED_MANUSCRIPT_WITNESSES",
+      "title": "Письмо В. Г. Белинского к Н. В. Гоголю от 15/3 июля 1847 г.",
+      "creator": "В. Г. Белинский",
+      "date": "1847-07-03 (Julian) / 1847-07-15 (Gregorian)",
+      "edition": "Гоголь, Полное собрание сочинений, т. 8, 1952, pp. 500–510; manuscript-witness study in Литературное наследство, т. 56, 1950, pp. 570–581",
+      "url": "https://feb-web.ru/feb/gogol/texts/ps0/ps8/ps8-5002.htm?cmd=p",
+      "criticalWitnessUrl": "https://old-imli.imli.ru/old.old.imli.ru/litnasledstvo/Tom%2056/16_%D0%9F%D0%B8%D1%81%D1%8C%D0%BC%D0%BE%20%D0%91%D0%B5%D0%BB%D0%B8%D0%BD%D1%81%D0%BA%D0%BE%D0%B3%D0%BE_vol56.pdf",
+      "firstPrint": "А. И. Герцен, Полярная звезда, 1855, книга I, London",
+      "transcriptionLocator": "Academic complete works, vol. 8, pp. 500–502, seven contiguous paragraphs; 1950 critical collation identifies twenty manuscript copies",
+      "circulationEvidence": "Гоголь, Письма 1846–1847 гг., comment 178; Литературное наследство, т. 56, pp. 570–581",
+      "archive": "FEB digitization of the 1952 Academy of Sciences edition; critical edition documents manuscript witnesses",
+      "verificationStatus": "PRIMARY_LETTER_TEXT_AND_CIRCULATION_HISTORY_VERIFIED",
+      "rights": "1847 public-domain letter; project translation is new. Its first printed publication was 1855, so the 1848 gameplay copy is handwritten."
     }
   ]
 }

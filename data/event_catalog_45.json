@@ -1407,37 +1407,20 @@
   },
   {
     "event_id": "E44",
-    "title": "벨린스키의 편지 논쟁",
-    "place": "literary_circle",
-    "roles": [
-      "critic",
-      "reader",
-      "clerk"
-    ],
-    "trigger": "historical_1847_letter",
-    "visible_scene": "편지 내용이 실제 유통 가능한 경로로 소개되어 토론을 유발한다",
-    "historical_anchor": "1847년 벨린스키 서한·판본",
-    "player_actions": [
-      "대조",
-      "반론",
-      "침묵",
-      "전달"
-    ],
-    "world_consequence": "사상·감시·관계 변화",
-    "occurrence_type": "DOCUMENTED_HISTORICAL_EVENT",
-    "validation_status": "DESIGN_SEED_NOT_VERIFIED",
-    "trigger_class": "HISTORICAL_FIXED",
-    "scene_steps": [
-      "spawn_actor_and_prop",
-      "show_causal_world_change",
-      "perform_interaction",
-      "update_witness_and_private_knowledge",
-      "emit_local_newspaper_or_gossip_if_newsworthy"
-    ],
-    "failure_outcomes": [
-      "nonparticipation_world_continues",
-      "witness_not_omniscient"
-    ]
+    "title": "필사본으로 퍼진 벨린스키의 편지",
+    "place": "bookshop-interior",
+    "roles": ["bookseller_lev", "reader_darya", "student_vasily"],
+    "trigger": "1848-01-02_handwritten_copy_of_the_1847_belinsky_letter_reaches_readers",
+    "visible_scene": "책방에 필사본이 도착하고 독자들이 농노제와 체벌을 비판한 대목을 읽는다",
+    "historical_anchor": "Belinsky to Gogol, 3/15 July 1847; critical text in Gogol, Complete Works, vol. 8 (1952), pp. 500–502; circulation and witness study in Литературное наследство, vol. 56 (1950), pp. 570–581",
+    "player_actions": ["필사본을 책방에 보관", "농노제·체벌 비판을 장부에 기록", "곁에 모인 독자들과 낭독"],
+    "world_consequence": "책방의 보관·필사·낭독 기록과 독자들의 관계·지식이 달라진다. 실제 편지의 내용과 연대는 변하지 않는다.",
+    "occurrence_type": "DOCUMENTED_HISTORICAL_TEXT_WITH_RECONSTRUCTED_LOCAL_COPY_ARRIVAL",
+    "validation_status": "PRIMARY_LETTER_AND_CIRCULATION_HISTORY_VERIFIED",
+    "trigger_class": "DATED_MANUSCRIPT_CIRCULATION",
+    "source_ids": ["OBJ-BELINSKY-LETTER-GOGOL-1847"],
+    "scene_steps": ["copy_reaches_bookshop", "residents_gather", "read_contiguous_letter_passage", "record_handling_and_audience"],
+    "failure_outcomes": ["unread_copy_is_stored_privately", "letter_text_and_historical_dates_remain_fixed"]
   },
   {
     "event_id": "E45",
