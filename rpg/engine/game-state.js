@@ -518,7 +518,10 @@ function pendingTaskSlot(host, taskTypes, localMinute, dayIndex = 0) {
     .filter(slot => slot.atMinute <= localMinute && types.has(slot.task?.type)
       && !taskCompletedForDay(host, slot.task, dayIndex)
       && (slot.task.type === 'CARE_TRANSFER' || (typeof slot.task.itemKo === 'string'
-        && inventoryItemCount(host, slot.task.itemKo) >= taskItemQuantity(slot.task))))
+        && (inventoryItemCount(host, slot.task.itemKo) >= taskItemQuantity(slot.task)
+          || (slot.task.type === 'CONSUME' && (host.marketStock?.[slot.task.itemKo] ?? 0) >= taskItemQuantity(slot.task)
+            && (host.marketOffers ?? []).some(offer => offer.category === 'food' && offer.itemKo === slot.task.itemKo
+              && isMarketOfferOpen(host, offer, localMinute)))))))
     .sort((a, b) => b.atMinute - a.atMinute)[0] ?? null;
 }
 function canMakeAuthoredCareTransfer(state, giver, task) {
@@ -3776,10 +3779,13 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
       addCandidate({ slot: restCandidate.slot, goalType: 'NEED_REST', targetHostId: null, taskId: `REST:${host.id}:${restCandidate.slot.atMinute}`, reason: 'fatigue_threshold_before_authored_rest_window' },
         55 + urgency * 0.55 + restWeight * 8 + (todayGoalKinds.has('care') ? 3 : 0), 1);
     }
-    const mealCandidates = (host.schedule ?? []).filter(slot => slot.task?.type === 'CONSUME' && slot.task.itemKo && host.inventory.includes(slot.task.itemKo))
+    const hasScheduledMealPortion = itemKo => host.inventory.includes(itemKo)
+      || ((host.marketStock?.[itemKo] ?? 0) > 0 && (host.marketOffers ?? []).some(offer => offer.category === 'food'
+        && offer.itemKo === itemKo && isMarketOfferOpen(host, offer, state.world.clockMinutes)));
+    const mealCandidates = (host.schedule ?? []).filter(slot => slot.task?.type === 'CONSUME' && slot.task.itemKo && hasScheduledMealPortion(slot.task.itemKo))
       .map(slot => ({ slot, wait: (slot.atMinute - localMinute + 1440) % 1440 }))
       .filter(goal => goal.wait <= 60);
-    if (scheduledTask?.type === 'CONSUME' && scheduledTask.itemKo && host.inventory.includes(scheduledTask.itemKo)) mealCandidates.push({ slot: scheduledSlot, wait: 0 });
+    if (scheduledTask?.type === 'CONSUME' && scheduledTask.itemKo && hasScheduledMealPortion(scheduledTask.itemKo)) mealCandidates.push({ slot: scheduledSlot, wait: 0 });
     const meal = mealCandidates.filter(goal => host.needs.hunger >= (Number.isFinite(goal.slot.task.minimumHunger) ? goal.slot.task.minimumHunger : 40)).sort((a, b) => a.wait - b.wait)[0];
     if (meal) {
       const mealWeight = Number.isFinite(host.plannerPolicy?.mealPriority) ? host.plannerPolicy.mealPriority : 0.5;
@@ -4404,14 +4410,23 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
     if (!task || host.id === embodiedId || paused.has(host.id) || host.historicalAliveAndPresent === false) continue;
     host.needs ??= initialNpcNeeds(host, state.world.clockMinutes);
     const minimumHunger = Number.isFinite(task.minimumHunger) ? task.minimumHunger : 40;
-    if (host.mapId !== slot.mapId || !nearTile(host.position, slot.position, 1) || host.needs.hunger < minimumHunger || !host.inventory.includes(task.itemKo)) continue;
-    host.inventory.splice(host.inventory.indexOf(task.itemKo), 1);
+    const carriedPortionIndex = host.inventory.indexOf(task.itemKo);
+    const ownMarketPortion = carriedPortionIndex < 0 && (host.marketStock?.[task.itemKo] ?? 0) > 0
+      && (host.marketOffers ?? []).some(offer => offer.category === 'food' && offer.itemKo === task.itemKo
+        && isMarketOfferOpen(host, offer, state.world.clockMinutes));
+    if (host.mapId !== slot.mapId || !nearTile(host.position, slot.position, 1) || host.needs.hunger < minimumHunger
+      || (carriedPortionIndex < 0 && !ownMarketPortion)) continue;
+    if (ownMarketPortion) host.marketStock[task.itemKo] -= 1;
+    else host.inventory.splice(carriedPortionIndex, 1);
     const hungerBefore = host.needs.hunger;
     host.needs.hunger = Math.max(0, hungerBefore - (Number.isFinite(task.hungerRelief) ? task.hungerRelief : 32));
     host.needs.lastMealAtMinute = state.world.clockMinutes;
     noteFoodConsumed(host, state);
     host.routineTaskCompletedId = task.id;
-    mealRows.push({ hostId: host.id, itemKo: task.itemKo, hungerBefore, hungerAfter: host.needs.hunger, taskId: task.id, mapId: host.mapId, position: { ...host.position }, minute: minuteOffset, witnessedByPlayer: playerCanObserveWorldEvent(state, host.mapId, host.position, 6, maps) });
+    mealRows.push({ kind: ownMarketPortion ? 'SELLER_STOCK_MEAL' : 'SCHEDULED_MEAL', hostId: host.id, itemKo: task.itemKo,
+      ...(ownMarketPortion ? { sellerHostId: host.id, remainingMarketStock: host.marketStock[task.itemKo] } : {}),
+      hungerBefore, hungerAfter: host.needs.hunger, taskId: task.id, mapId: host.mapId, position: { ...host.position }, minute: minuteOffset,
+      witnessedByPlayer: playerCanObserveWorldEvent(state, host.mapId, host.position, 6, maps) });
   }
   return { moveRows, deliveryRows, exchangeRows, careRows, paymentRows, housingRows, mealRows, goalRows, personalContactRows, restRecoveryRows, personalGoalRows, workRows, livingEventRows };
 }

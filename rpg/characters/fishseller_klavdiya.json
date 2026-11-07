@@ -208,6 +208,22 @@
       }
     },
     {
+      "atMinute": 900,
+      "mapId": "market-quay",
+      "position": {
+        "x": 26,
+        "y": 14
+      },
+      "activityKo": "잠시 숨을 돌리며 생선 한 점을 먹는다",
+      "task": {
+        "type": "CONSUME",
+        "id": "KLAVIYA_MARKET_BREAK_MEAL_1847",
+        "itemKo": "생선 한 점",
+        "minimumHunger": 45,
+        "hungerRelief": 32
+      }
+    },
+    {
       "atMinute": 960,
       "mapId": "courtyard",
       "position": {

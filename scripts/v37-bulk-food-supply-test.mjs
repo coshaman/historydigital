@@ -35,6 +35,8 @@ assert.ok(authoredFishSeller.residence.sleepMinute >= 1320,
 const authoredFishWork = authoredFishSeller.schedule.find(slot => slot.workAction?.id === 'V36_FISHSELLER_RECEIVE_CATCH')?.workAction;
 assert.equal(authoredFishWork?.restockOfferFromWork, true);
 assert.equal(authoredFishWork?.inventoryQuantity, 4);
+assert.equal(authoredFishSeller.schedule.find(slot => slot.task?.id === 'KLAVIYA_MARKET_BREAK_MEAL_1847')?.task?.itemKo, '생선 한 점',
+  'the fish seller has an authored meal break supplied from her own counter stock');
 const authoredInnkeeper = cards.find(card => card.id === 'innkeeper_irina');
 const authoredSupper = authoredInnkeeper.schedule.find(slot => slot.workAction?.id === 'V36_INNKEEPER_EVENING_REGISTER')?.workAction;
 assert.equal(authoredSupper?.restockOfferFromWork, true,
@@ -143,6 +145,23 @@ assert.equal(supperPrepared.hosts.innkeeper_irina.inventory.filter(item => item 
 const supperRestored = game.loadGame(game.saveGame(supperPrepared), { maps, hostCards: cards });
 assert.equal(supperRestored.hosts.innkeeper_irina.marketStock['저녁 수프'], 9);
 
+const vendorMealState = game.createInitialState({ maps, hostCards: cards, startMapId: 'market-quay' });
+vendorMealState.world.date = '1847-06-01'; vendorMealState.world.clockMinutes = 1020; vendorMealState.world.currentMapId = 'market-quay';
+for (const host of Object.values(vendorMealState.hosts)) host.historicalAliveAndPresent = false;
+const eatingVendor = vendorMealState.hosts.market_nadezhda;
+eatingVendor.historicalAliveAndPresent = true; eatingVendor.mapId = 'market-quay'; eatingVendor.position = { x: 14, y: 12 };
+eatingVendor.needs.hunger = 82; eatingVendor.needs.lastMealAtMinute = 500;
+eatingVendor.marketStock['빵 한 묶음'] = 2;
+eatingVendor.schedule = [{ atMinute: 1020, mapId: 'market-quay', position: { ...eatingVendor.position }, activityKo: '잠시 쉬며 빵을 먹는다', task: { type: 'CONSUME', id: 'TEST_VENDOR_MEAL', itemKo: '빵 한 묶음', minimumHunger: 45, hungerRelief: 32 } }];
+const vendorAte = game.advanceNpcWorld(vendorMealState, 1, maps);
+assert.equal(vendorAte.hosts.market_nadezhda.marketStock['빵 한 묶음'], 1,
+  'a vendor meal consumes one portion from the stall stock when no personal portion is carried');
+assert.ok(vendorAte.hosts.market_nadezhda.needs.hunger < 82, 'the vendor meal reduces hunger');
+assert.ok(vendorAte.ledger.flatMap(row => row.meals ?? []).some(meal => meal.hostId === eatingVendor.id),
+  'vendor food consumption is recorded in the meal ledger');
+const vendorAteReloaded = game.loadGame(game.saveGame(vendorAte), { maps, hostCards: cards });
+assert.equal(vendorAteReloaded.hosts.market_nadezhda.marketStock['빵 한 묶음'], 1,
+  'seller meal stock and hunger outcomes persist through save/load');
 const vendorServiceState = game.createInitialState({ maps, hostCards: cards, startMapId: 'market-quay' });
 vendorServiceState.world.date = '1847-06-01'; vendorServiceState.world.clockMinutes = 1080; vendorServiceState.world.currentMapId = 'market-quay';
 for (const host of Object.values(vendorServiceState.hosts)) host.historicalAliveAndPresent = false;

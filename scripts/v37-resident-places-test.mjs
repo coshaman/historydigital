@@ -52,8 +52,8 @@ for (const card of fictionalCards) {
 const householdCards = fictionalCards.filter(card => card.household);
 const careTasks = fictionalCards.flatMap(card => card.schedule.filter(slot => slot.task?.type === 'CARE_TRANSFER').map(slot => ({ card, task: slot.task })));
 assert.equal(householdCards.length, 2, 'the current sample household has two explicitly named members');
-assert.equal(careTasks.length, 1, 'the household pilot has one explicitly authored conditional care task');
-assert.equal(careTasks[0].task.recipientHostId, 'seamstress_anna');
+assert.ok(careTasks.some(({ card, task }) => card.id === 'laundress_mariya' && task.recipientHostId === 'seamstress_anna'),
+  'the shared household retains its explicitly authored conditional care transfer alongside other households’ support tasks');
 assert.ok(householdCards.every(card => state.hosts[card.id].places.homeLocationStatus === 'AUTHORED_FICTIONAL_HOUSEHOLD'));
 assert.equal(new Set(householdCards.map(card => card.household.id)).size, 1, 'both sisters share one authored household');
 
