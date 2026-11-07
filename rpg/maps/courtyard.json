@@ -2662,6 +2662,20 @@
             { "name": "questId", "type": "string", "value": "V37_COURTYARD_FIRE_1847" },
             { "name": "requiresLivingEventId", "type": "string", "value": "E27" }
           ]
+        },
+        {
+          "id": 1186,
+          "name": "가정교사 일자리 쪽지",
+          "type": "quest-object",
+          "x": 272,
+          "y": 208,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            { "name": "questId", "type": "string", "value": "V37_HOUSEHOLD_TUTOR_OFFER_1847" },
+            { "name": "requiresLivingEventId", "type": "string", "value": "E37" }
+          ]
         }
       ]
     },

@@ -3665,6 +3665,7 @@ function advanceNpcWorld(state, elapsedMinutes, maps, options = {}) {
     const coldWaveRows = [];
     advanceMissingRegisterEvent(next, tick, maps, livingEventLog);
     advancePetrashevskyReportEvent(next, tick, maps, livingEventLog);
+    advanceHouseholdTutorOffer(next, tick, maps, livingEventLog);
     advanceApprenticeFatigueEvent(next, tick, maps, livingEventLog);
     advanceColdWaveEvent(next, tick, maps, coldWaveRows);
     advanceCensoredPageEvent(next, tick, maps, coldWaveRows, options);
@@ -3828,6 +3829,42 @@ function advancePetrashevskyReportEvent(state, minuteOffset, maps, livingEventRo
   livingEventRows.push(petrashevskyReportEventRow(state, event.stage, minuteOffset, maps,
     { actionId: event.resolutionActionId, unattended: true, officialRecordNumber: state.world.petrashevskyCaseRecord.officialRecordNumber,
       changeKo: '응답 시간이 지나 보고서가 관청 등록부에 접수됐다. 체포와 재판의 역사적 결과는 그대로다.' }));
+}
+
+function householdTutorEventRow(state, event, stage, minuteOffset, maps, details = {}) {
+  return { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E37', stage,
+    stageIndex: stage === 'OFFER_DELIVERED' ? 1 : 2, actorHostIds: [...event.actorHostIds],
+    witnessHostIds: [...event.witnessHostIds], date: state.world.date, minute: minuteOffset,
+    mapId: event.venueMapId, position: { ...event.scenePosition }, sourceIds: [...event.sourceIds],
+    occurrenceType: 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION', validationStatus: 'DESIGN_SEED_NOT_VERIFIED',
+    state: clone(event), witnessedByPlayer: playerCanObserveWorldEvent(state, event.venueMapId, event.scenePosition, 6, maps), ...details };
+}
+function advanceHouseholdTutorOffer(state, minuteOffset, maps, livingEventRows) {
+  state.world.livingEventStates ??= {};
+  let event = state.world.livingEventStates.E37;
+  if (!event) {
+    const teacher = state.hosts.teacher_lyubov;
+    const object = layer(maps?.courtyard, 'Interactions')?.objects.find(item => item.id === 1186);
+    if (state.world.chapterId !== 'V33_1847_PRINT' || state.world.date !== '1847-06-01'
+      || state.world.clockMinutes < 960 || !object || teacher?.historicalAliveAndPresent === false
+      || teacher?.mapId !== 'courtyard' || !nearTile(teacher.position, { x: 17, y: 13 }, 3)) return;
+    const witnesses = Object.values(state.hosts).filter(host => host.id !== teacher.id
+      && host.historicalAliveAndPresent !== false && host.mapId === 'courtyard'
+      && nearTile(host.position, { x: 17, y: 13 }, 5)).map(host => host.id).sort();
+    event = state.world.livingEventStates.E37 = { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E37',
+      status: 'ACTIVE', stage: 'OFFER_DELIVERED', trigger: 'teacher_reaches_courtyard_work_period',
+      startedAtMinute: state.world.clockMinutes, resolvesAtMinute: state.world.clockMinutes + 180,
+      teacherHostId: teacher.id, actorHostIds: [teacher.id], witnessHostIds: witnesses,
+      venueMapId: 'courtyard', scenePosition: { x: 17, y: 13 }, sourceIds: ['OBJ-WS-HOME-TEACHERS-1834'],
+      resolutionActionId: null, valueStatus: 'FICTIONAL_GAMEPLAY_BALANCE' };
+    livingEventRows.push(householdTutorEventRow(state, event, event.stage, minuteOffset, maps,
+      { changeKo: '가정교사 일자리를 제안하는 쪽지가 안뜰에 도착했다.' }));
+  }
+  if (event.status !== 'ACTIVE' || state.world.clockMinutes < event.resolvesAtMinute) return;
+  event.status = 'RESOLVED'; event.stage = 'OFFER_EXPIRED'; event.resolvedAtMinute = state.world.clockMinutes;
+  event.resolutionActionId = 'UNANSWERED_OFFER_EXPIRED';
+  livingEventRows.push(householdTutorEventRow(state, event, event.stage, minuteOffset, maps,
+    { actionId: event.resolutionActionId, unattended: true, changeKo: '쪽지에 정한 시각이 지나 일자리 제안이 거두어졌다.' }));
 }
 
 function advanceFixedHistoricalEvent(state, minuteOffset, maps, livingEventRows) {
@@ -4185,7 +4222,7 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
             : questId === 'V37_APPRENTICE_FATIGUE_1847' ? 'E33'
               : questId === 'E41_SEMENOVSKY_1849' ? 'E41'
                 : questId === 'V37_STREET_MUSIC_1847' ? 'E38' : undefined,
-    pausedHostIds: ['CIRCLE_INVESTIGATION_1849', 'V37_MANUSCRIPT_OFFER_1847', 'V37_SERFDOM_READING_1847', 'V37_SALON_DEBATE_1847', 'V37_SALON_INVITATION_1847', 'V37_MARKET_DAY_WORK_1847', 'V37_ROOF_LEAK_REPAIR_1847', 'V37_CHARITY_DAY_1847', 'V37_APPRENTICE_LITERACY_1847', 'STUDENT_CIRCLE_RISK_1847', 'V37_POLICE_DOCUMENT_CHECK_1847', 'V37_SICK_LODGER_1847', 'V37_APPRENTICE_FATIGUE_1847', 'V37_MARKET_RUMOR_1847', 'V37_INN_GUEST_1847', 'V37_NEWSPAPER_RELEASE_1847', 'E41_SEMENOVSKY_1849', 'V37_STREET_MUSIC_1847', 'V37_PHYSIOLOGY_READING_1847'].includes(questId) ? [...(requiredLivingEvent?.actorHostIds ?? [])]
+    pausedHostIds: ['CIRCLE_INVESTIGATION_1849', 'V37_MANUSCRIPT_OFFER_1847', 'V37_SERFDOM_READING_1847', 'V37_SALON_DEBATE_1847', 'V37_SALON_INVITATION_1847', 'V37_MARKET_DAY_WORK_1847', 'V37_ROOF_LEAK_REPAIR_1847', 'V37_CHARITY_DAY_1847', 'V37_APPRENTICE_LITERACY_1847', 'STUDENT_CIRCLE_RISK_1847', 'V37_POLICE_DOCUMENT_CHECK_1847', 'V37_SICK_LODGER_1847', 'V37_APPRENTICE_FATIGUE_1847', 'V37_MARKET_RUMOR_1847', 'V37_INN_GUEST_1847', 'V37_NEWSPAPER_RELEASE_1847', 'E41_SEMENOVSKY_1849', 'V37_STREET_MUSIC_1847', 'V37_PHYSIOLOGY_READING_1847', 'V37_HOUSEHOLD_TUTOR_OFFER_1847'].includes(questId) ? [...(requiredLivingEvent?.actorHostIds ?? [])]
       : ['V37_MARKET_PRICE_DISPUTE_1847', 'V37_LATE_MEAL_1847'].includes(questId)
         ? [requiredLivingEvent?.sellerHostId, requiredLivingEvent?.buyerHostId].filter(Boolean)
             : questId === 'V37_APOTHECARY_ORDER_1847' ? [requiredLivingEvent?.buyerHostId, requiredLivingEvent?.supplierHostId].filter(Boolean)
@@ -4242,6 +4279,36 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
       changeKo: actionId === 'KEEP_PRIVATE_NOTE' ? '현장에서 본 일을 개인 수첩에 적었다.' : '현장을 보고도 기록은 남기지 않았다.' });
   }
   if (effects.moneyDelta) next.hosts[hostId].money.amount += effects.moneyDelta;
+  if (questId === 'V37_HOUSEHOLD_TUTOR_OFFER_1847') {
+    const event = next.world.livingEventStates?.E37, payer = next.hosts.minor_noble_andrei, worker = next.hosts.teacher_lyubov;
+    const outcomes = {
+      E37_ACCEPT_OFFER: { stage: 'OFFER_ACCEPTED', amount: 10, daysPerWeek: 2 },
+      E37_AGREE_LIGHTER_SCHEDULE: { stage: 'SCHEDULE_REDUCED', amount: 6, daysPerWeek: 1 },
+      E37_DECLINE_OFFER: { stage: 'OFFER_DECLINED', amount: 0, daysPerWeek: 0 },
+    };
+    const outcome = outcomes[actionId];
+    if (!event || event.status !== 'ACTIVE' || event.stage !== 'OFFER_DELIVERED'
+      || hostId !== event.teacherHostId || !payer || !worker || !outcome
+      || payer.money.unit !== worker.money.unit || payer.money.amount < outcome.amount) {
+      return { ok: false, reason: 'household_tutor_offer_unavailable', state };
+    }
+    if (outcome.amount) {
+      payer.money.amount -= outcome.amount; worker.money.amount += outcome.amount;
+      event.payment = { payerHostId: payer.id, workerHostId: worker.id, amount: outcome.amount, unit: worker.money.unit, kind: 'FIRST_WEEK_WAGE' };
+    }
+    event.status = 'RESOLVED'; event.stage = outcome.stage; event.resolvedAtMinute = next.world.clockMinutes;
+    event.resolvedByHostId = hostId; event.resolutionActionId = actionId; event.playerChoiceActionId = actionId;
+    next.world.householdTutorRecord = { eventId: 'E37', sourceIds: [...event.sourceIds], hostId,
+      disposition: actionId, weeklyDays: outcome.daysPerWeek, weeklyPay: outcome.amount,
+      firstWeekPaid: outcome.amount > 0, employerHostId: payer.id, date: next.world.date,
+      recordedAtMinute: next.world.clockMinutes };
+    if (outcome.amount) next.world.householdTutorContract = { hostId, employerHostId: payer.id,
+      weeklyDays: outcome.daysPerWeek, weeklyPay: outcome.amount, currency: worker.money.unit,
+      startDate: next.world.date, status: 'ACTIVE', sourceIds: [...event.sourceIds] };
+    livingEvents.push(householdTutorEventRow(next, event, event.stage, next.world.clockMinutes % 1440, maps,
+      { actionId, resolvedByHostId: hostId, payment: clone(event.payment ?? null),
+        changeKo: outcome.amount ? `가정교사 일을 주 ${outcome.daysPerWeek}회 맡고 첫 주 품삯 ${outcome.amount}코페이카를 받았다.` : '가정교사 일자리를 사양했다.' }));
+  }
   if (!literaryQuest && questId === 'V37_STREET_MUSIC_1847') {
     const event = next.world.livingEventStates?.E38, musician = event && next.hosts[event.musicianHostId], listener = next.hosts[hostId];
     if (!event || event.status !== 'ACTIVE' || event.stage !== 'PERFORMING' || !musician || !listener

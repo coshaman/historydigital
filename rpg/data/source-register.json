@@ -145,6 +145,18 @@
       "archive": "Российская виртуальная библиотека; digital transcription of the Nauka scholarly edition",
       "verificationStatus": "VERIFIED_TRANSCRIPTION",
       "rights": "Public-domain letter; new Korean project translation."
+    },
+    {
+      "sourceId": "OBJ-WS-HOME-TEACHERS-1834",
+      "type": "PRIMARY_LEGISLATION_DIGITAL_SCAN",
+      "title": "Высочайше утвержденное Положение о домашних наставниках и учителях",
+      "creator": "Российская империя; утверждено 1 июля 1834 года",
+      "date": "1834-07-01",
+      "edition": "Полное собрание законов Российской империи, собрание II, том IX, № 7240; цифровой скан, стр. 671 и далее",
+      "url": "https://www.runivers.ru/bookreader/book9875/#page/671/mode/1up",
+      "archive": "Цифровой скан печатного тома; каталог ЭБИД подтверждает название, дату, ведомство и печатный источник",
+      "verificationStatus": "DIGITAL_SCAN_LOCATED_TEXT_NOT_TRANSCRIBED",
+      "rights": "Имперский законодательный акт; в игре не цитируется и не приписывается персонажам."
     }
   ]
 }

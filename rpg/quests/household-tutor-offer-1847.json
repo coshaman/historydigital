@@ -1,0 +1,53 @@
+{
+  "id": "V37_HOUSEHOLD_TUTOR_OFFER_1847",
+  "titleKo": "가정교사 일자리 조건",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "requiresLivingEventId": "E37",
+  "sourceIds": ["OBJ-WS-HOME-TEACHERS-1834"],
+  "premiseKo": "아이들에게 글과 산수를 가르칠 자리가 생겼다. 수업 횟수와 품삯을 정해야 한다.",
+  "historicalOutcome": {
+    "id": "V37_E37_FICTIONAL_EMPLOYMENT_TERMS",
+    "value": "Only this fictional worker's employment choice and first payment are simulated.",
+    "sourceIds": ["OBJ-WS-HOME-TEACHERS-1834"]
+  },
+  "entry": { "mapId": "courtyard", "objectId": 1186, "requiredHostId": "teacher_lyubov" },
+  "actions": [
+    {
+      "id": "E37_ACCEPT_OFFER",
+      "hostIds": ["teacher_lyubov"],
+      "requiresLivingEventActorKey": "teacherHostId",
+      "requiredLivingEventStage": "OFFER_DELIVERED",
+      "durationMinutes": 5,
+      "labelKo": "주 2회 수업하고 첫 주 품삯 10코페이카를 받는다",
+      "subcopyKo": "고용주와 류보프가 조건을 압니다 · 개인 고용 약속이 남습니다 · 아이들의 수업을 맡습니다",
+      "resultKo": "주 2회 수업하기로 하고 첫 주 품삯을 받았다.",
+      "resultFlag": "E37_TUTOR_OFFER_ACCEPTED",
+      "effects": { "relations": { "minor_noble_andrei": "가정교사 일자리를 연결한 후원자" }, "situationKo": "가정교사 일을 맡고 첫 주 품삯을 받았다." }
+    },
+    {
+      "id": "E37_AGREE_LIGHTER_SCHEDULE",
+      "hostIds": ["teacher_lyubov"],
+      "requiresLivingEventActorKey": "teacherHostId",
+      "requiredLivingEventStage": "OFFER_DELIVERED",
+      "durationMinutes": 5,
+      "labelKo": "주 1회 수업하고 첫 주 품삯 6코페이카를 받는다",
+      "subcopyKo": "고용주와 류보프가 조건을 압니다 · 개인 고용 약속이 남습니다 · 수입은 적지만 다른 수업을 이어갑니다",
+      "resultKo": "수업을 주 한 번으로 줄이는 조건을 택하고 첫 주 품삯을 받았다.",
+      "resultFlag": "E37_TUTOR_REDUCED_SCHEDULE_ACCEPTED",
+      "effects": { "relations": { "minor_noble_andrei": "수업 시간을 조정한 후원자" }, "situationKo": "주 1회 가정교사 일을 맡고 첫 주 품삯을 받았다." }
+    },
+    {
+      "id": "E37_DECLINE_OFFER",
+      "hostIds": ["teacher_lyubov"],
+      "requiresLivingEventActorKey": "teacherHostId",
+      "requiredLivingEventStage": "OFFER_DELIVERED",
+      "durationMinutes": 5,
+      "labelKo": "일자리를 사양한다",
+      "subcopyKo": "고용주와 류보프가 압니다 · 개인 고용 장부에 사양이 남습니다 · 이 자리의 품삯은 받지 않습니다",
+      "resultKo": "이번 자리는 사양하고 다른 수업을 이어가기로 했다.",
+      "resultFlag": "E37_TUTOR_OFFER_DECLINED",
+      "effects": { "relations": { "minor_noble_andrei": "가정교사 일자리를 사양한 사람" }, "situationKo": "가정교사 일자리를 사양했다." }
+    }
+  ]
+}

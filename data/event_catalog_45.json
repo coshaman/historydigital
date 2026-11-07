@@ -1194,21 +1194,21 @@
   },
   {
     "event_id": "E37",
-    "title": "차별적인 일자리",
-    "place": "official_flat",
+    "title": "가정교사 일자리 조건",
+    "place": "courtyard",
     "roles": [
       "governess",
       "patron"
     ],
     "trigger": "employment_offer",
-    "visible_scene": "후원자가 가정교사에 새 조건을 내건다",
-    "historical_anchor": "여성 교육·고용 역사 자료",
+    "visible_scene": "가정교사에게 수업 횟수와 품삯이 적힌 쪽지가 도착한다",
+    "historical_anchor": "1834년 가정교사 및 가정교사 직함 규정",
     "player_actions": [
-      "수락",
-      "협상",
-      "거절"
+      "주 2회 수업 조건 수락",
+      "주 1회 수업 조건 수락",
+      "사양"
     ],
-    "world_consequence": "임금·기회 변화",
+    "world_consequence": "고용 조건·첫 주 품삯·후원 관계 변화",
     "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
     "validation_status": "DESIGN_SEED_NOT_VERIFIED",
     "trigger_class": "EMERGENT_CONDITIONAL",

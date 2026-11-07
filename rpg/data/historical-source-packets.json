@@ -303,6 +303,20 @@
         }
       ],
       "translationNoteKo": "러시아어 원문을 따라 새로 옮겼다. 문단의 순서와 편지의 화자를 유지했다."
+    },
+    {
+      "sourceId": "OBJ-WS-HOME-TEACHERS-1834",
+      "titleKo": "가정교사와 가정교사 직함 규정",
+      "titleRu": "Положение о домашних наставниках и учителях",
+      "creator": "Российская империя",
+      "documentDate": "1834-07-01",
+      "edition": "Полное собрание законов Российской империи, собрание II, том IX, № 7240, стр. 671 и далее.",
+      "sourceUrl": "https://www.runivers.ru/bookreader/book9875/#page/671/mode/1up",
+      "range": "Дигитализованный экземпляр ПСЗРИ, № 7240; страница 671 и следующие. Полный текст здесь не транскрибирован.",
+      "type": "IMPERIAL_REGULATION_DIGITAL_SCAN",
+      "contextKo": "가정교사와 가정교사 직함에 관한 1834년 법령의 디지털 스캔 위치를 확인한다. 이 기록은 개별 고용 계약이나 임금 조건을 증명하지 않는다.",
+      "paragraphs": [],
+      "verificationStatus": "DIGITAL_SCAN_LOCATED_TEXT_NOT_TRANSCRIBED"
     }
   ]
 }
