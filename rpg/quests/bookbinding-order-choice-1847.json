@@ -1,0 +1,47 @@
+{
+  "id": "V37_BOOKBINDING_ORDER_CHOICE_1847",
+  "titleKo": "제본품 인수와 대금",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "requiresLivingEventId": "E08",
+  "requiresLivingEventStage": "BOOK_BOUND",
+  "premiseKo": "책 한 권을 다 묶었다. 지금 책방에 넘길지, 하루 더 가지고 있을지 정한다.",
+  "historicalOutcome": {
+    "id": "V37_BOOKBINDING_FICTIONAL_OUTCOME",
+    "value": "fictional printshop and household trade only",
+    "sourceIds": []
+  },
+  "entry": { "mapId": "market-quay", "objectId": 1183, "requiredHostId": "bookbinder_elizaveta" },
+  "actions": [
+    {
+      "id": "E08_DELIVER_BOOK_NOW",
+      "hostIds": ["bookbinder_elizaveta"],
+      "requiredPresentHostIds": ["bookseller_lev"],
+      "requiredParticipantDistance": 3,
+      "durationMinutes": 3,
+      "labelKo": "레프에게 책을 넘기고 2코페이카를 받는다",
+      "subcopyKo": "엘리자베타와 레프가 압니다 · 납품 장부에 남습니다 · 책 한 권이 넘어가고 대금 2코페이카를 받습니다",
+      "resultFlag": "V37_E08_DELIVERED_FOR_CASH",
+      "resultKo": "레프가 책을 받아 보관하고 엘리자베타에게 제본값을 치렀다.",
+      "followupTitleKo": "제본품 인수와 대금",
+      "effects": {
+        "bookbindingDisposition": "DELIVER_NOW",
+        "situationKo": "책을 넘기고 제본값을 받았다."
+      }
+    },
+    {
+      "id": "E08_DEFER_DELIVERY",
+      "hostIds": ["bookbinder_elizaveta"],
+      "durationMinutes": 2,
+      "labelKo": "오늘은 가져가지 않고 내일 다시 온다",
+      "subcopyKo": "엘리자베타만 결정합니다 · 오늘은 납품 장부에 오르지 않습니다 · 대금은 미뤄지고 내일 책방이 열려야 합니다",
+      "resultFlag": "V37_E08_DELIVERY_DEFERRED",
+      "resultKo": "엘리자베타는 책을 가지고 돌아가 내일 다시 납품하기로 했다.",
+      "followupTitleKo": "제본품 인수와 대금",
+      "effects": {
+        "bookbindingDisposition": "DEFER_UNTIL_TOMORROW",
+        "situationKo": "책을 하루 더 보관하고 다음 날 납품하기로 했다."
+      }
+    }
+  ]
+}

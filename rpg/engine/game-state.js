@@ -5086,6 +5086,11 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
       || !['PROOFREAD_NOW', 'PRINT_WITHOUT_CORRECTION', 'STOP_PRESS'].includes(effects.printDeadlineResponse))) {
     return { ok: false, reason: 'invalid_print_deadline_response', state };
   }
+  if (effects.bookbindingDisposition !== undefined
+    && (questId !== 'V37_BOOKBINDING_ORDER_CHOICE_1847'
+      || !['DELIVER_NOW', 'DEFER_UNTIL_TOMORROW'].includes(effects.bookbindingDisposition))) {
+    return { ok: false, reason: 'invalid_bookbinding_disposition', state };
+  }
   if (Object.entries(chainDelta).some(([key, value]) => !/^[a-z][a-zA-Z0-9]{0,39}$/.test(key) || !Number.isInteger(value) || Math.abs(value) > 20)) return { ok: false, reason: 'invalid_life_chain_effect', state };
   if (effects.moneyDelta !== undefined && (!Number.isInteger(effects.moneyDelta) || Math.abs(effects.moneyDelta) > 10000 || !Number.isFinite(host.money?.amount) || host.money.amount + effects.moneyDelta < 0)) return { ok: false, reason: 'invalid_or_unaffordable_effect', state };
   const healthTransition = effects.healthTransition;
@@ -5114,6 +5119,15 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
       if (!bread || (seller.marketStock?.['빵 한 묶음'] ?? 0) < 1 || !isMarketOfferOpen(seller, bread, state.world.clockMinutes))
         return { ok: false, reason: 'laundry_barter_stock_unavailable', state };
     }
+  }
+  if (effects.bookbindingDisposition !== undefined) {
+    const event = state.world.livingEventStates?.E08, seller = state.hosts.bookseller_lev;
+    if (!event || event.status !== 'ACTIVE' || event.stage !== 'BOOK_BOUND' || hostId !== 'bookbinder_elizaveta'
+      || !host.inventory.includes('제본 중인 책 한 권') || !seller || host.money?.unit !== seller.money?.unit) {
+      return { ok: false, reason: 'bookbinding_order_not_ready', state };
+    }
+    if (effects.bookbindingDisposition === 'DELIVER_NOW' && seller.money.amount < 2)
+      return { ok: false, reason: 'bookseller_cannot_pay', state };
   }
   const timed = advanceWorldTime(state, actionDuration, maps, [], { deferLivingEventExpiryId: questId === 'V37_MANUSCRIPT_OFFER_1847' ? 'E30'
     : questId === 'V37_SERFDOM_READING_1847' ? 'E31'
@@ -5146,7 +5160,8 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
         ? [requiredLivingEvent?.sellerHostId, requiredLivingEvent?.buyerHostId].filter(Boolean)
             : questId === 'V37_APOTHECARY_ORDER_1847' ? [requiredLivingEvent?.buyerHostId, requiredLivingEvent?.supplierHostId].filter(Boolean)
               : questId === 'V37_FUNERAL_DEBT_REPAYMENT_1847' ? [requiredLivingEvent?.debt?.debtorHostId, requiredLivingEvent?.debt?.creditorHostId].filter(Boolean)
-                : questId === 'E41_SEMENOVSKY_1849' ? [...(requiredLivingEvent?.actorHostIds ?? [])] : undefined });
+                : questId === 'E41_SEMENOVSKY_1849' ? [...(requiredLivingEvent?.actorHostIds ?? [])]
+                  : questId === 'V37_BOOKBINDING_ORDER_CHOICE_1847' ? ['bookseller_lev'] : undefined });
   const next = clone(timed);
   const livingEvents = [];
   next.quests[questId] = questId === 'V37_APOTHECARY_ORDER_1847' && actionId === 'E16_PLACE_ORDER'
@@ -5244,6 +5259,31 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
         { actionId, playerDecision: clone(event.playerDecision), itemLocation: event.itemLocation,
           changeKo: action.resultKo }));
     }
+  }
+  if (questId === 'V37_BOOKBINDING_ORDER_CHOICE_1847') {
+    const event = next.world.livingEventStates?.E08, binder = next.hosts.bookbinder_elizaveta;
+    const seller = next.hosts.bookseller_lev, disposition = effects.bookbindingDisposition;
+    if (!event || event.status !== 'ACTIVE' || event.stage !== 'BOOK_BOUND' || hostId !== binder.id
+      || !binder.inventory.includes(event.itemKo) || !seller) {
+      return { ok: false, reason: 'bookbinding_order_not_ready', state };
+    }
+    const taskId = event.contractTaskId;
+    binder.completedSocialTaskDayById ??= {};
+    binder.completedSocialTaskDayById[taskId] = Math.floor(next.world.clockMinutes / 1440);
+    event.playerDecision = { actionId, hostId, disposition, atMinute: next.world.clockMinutes };
+    if (disposition === 'DELIVER_NOW') {
+      if (seller.money.amount < 2 || seller.money.unit !== binder.money.unit)
+        return { ok: false, reason: 'bookseller_cannot_pay', state };
+      seller.money.amount -= 2; binder.money.amount += 2;
+      binder.inventory = binder.inventory.filter(item => item !== event.itemKo);
+      seller.inventory.push(event.itemKo);
+      event.stage = 'DELIVERED_PAID'; event.status = 'RESOLVED';
+      event.resolvedAtMinute = next.world.clockMinutes; event.recipientHostId = seller.id; event.payment = 2;
+    }
+    livingEvents.push(livingBookbindingEventRow(next, event.stage, [binder.id, seller.id],
+      next.world.currentMapId, binder.position, next.world.clockMinutes % 1440, maps,
+      { actionId, playerDecision: clone(event.playerDecision), ...(disposition === 'DELIVER_NOW' ? { payment: 2 } : {}),
+        changeKo: action.resultKo }));
   }
   if (!literaryQuest && questId === 'CIRCLE_INVESTIGATION_1849') {
     const event = next.world.livingEventStates?.E40;
@@ -7446,7 +7486,9 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
     || bookbindingEvent.binderHostId !== 'bookbinder_elizaveta' || bookbindingEvent.booksellerHostId !== 'bookseller_lev'
     || bookbindingEvent.itemKo !== '제본 중인 책 한 권' || bookbindingEvent.contractTaskId !== 'ELIZAVETA_BOOKBINDER_ORDER_TO_LEV_1847'
     || !Number.isInteger(bookbindingEvent.dayIndex) || bookbindingEvent.dayIndex < 0
-    || (bookbindingEvent.status === 'RESOLVED') !== (bookbindingEvent.stage === 'DELIVERED_PAID'))) {
+    || (bookbindingEvent.status === 'RESOLVED') !== (bookbindingEvent.stage === 'DELIVERED_PAID')
+    || (bookbindingEvent.playerDecision && (!['DELIVER_NOW', 'DEFER_UNTIL_TOMORROW'].includes(bookbindingEvent.playerDecision.disposition)
+      || bookbindingEvent.playerDecision.hostId !== 'bookbinder_elizaveta' || !Number.isInteger(bookbindingEvent.playerDecision.atMinute))))) {
     throw new Error('Save contains invalid E08 bookbinding contract event state');
   }
   const coachFareEvent = state.world.livingEventStates.E10;
