@@ -15,9 +15,11 @@
       "requiresLivingEventActorKey": "tenantHostId",
       "durationMinutes": 2,
       "labelKo": "방 안의 사람들을 안뜰 밖으로 이끈다",
-      "subcopyKo": "이웃들이 알게 됩니다 · 방에서 물건을 챙길 시간은 없습니다 · 안뜰 밖에 모이게 됩니다",
-      "resultKo": "미하일은 이웃들을 먼저 문밖으로 이끌었다.",
-      "effects": { "situationKo": "안뜰의 불길이 번지기 전에 주민들을 밖으로 대피시켰다." }
+      "requiredPresentHostIds": ["landlady_polina", "porter_gavrila"],
+      "requiredParticipantDistance": 4,
+      "subcopyKo": "집주인과 짐꾼이 곁에 있어야 합니다 · 네 사람이 거리까지 이동해야 대피가 끝납니다 · 방 안의 물건은 두고 나갑니다",
+      "resultKo": "미하일은 집주인과 짐꾼, 경비를 거리 쪽으로 이끌기 시작했다. 안뜰 문까지 함께 가야 한다.",
+      "effects": { "situationKo": "주민들이 문을 지나 거리의 안전한 곳까지 나가면 대피가 끝난다." }
     },
     {
       "id": "E27_RAISE_NEIGHBOR_ALARM",

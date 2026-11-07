@@ -996,14 +996,36 @@ function courtyardFireEventRow(state, stage, minuteOffset, maps, details = {}) {
     valueStatus: 'fictional_gameplay_balance', state: event ? clone(event) : null,
     witnessedByPlayer: playerCanObserveWorldEvent(state, 'courtyard', position, 7, maps), ...details };
 }
+const COURTYARD_FIRE_EVACUATION_TARGETS = Object.freeze({
+  tenant_mikhail: { mapId: 'nevsky', position: { x: 16, y: 9 } },
+  landlady_polina: { mapId: 'nevsky', position: { x: 15, y: 9 } },
+  porter_gavrila: { mapId: 'nevsky', position: { x: 16, y: 10 } },
+  junior_guard_sergey: { mapId: 'nevsky', position: { x: 17, y: 9 } },
+});
 function advanceCourtyardFireEvent(state, minuteOffset, maps, livingEventRows) {
   state.world.livingEventStates ??= {};
   const event = state.world.livingEventStates.E27;
   if (event?.status === 'ACTIVE') {
+    if (event.stage === 'EVACUATING') {
+      const allEvacuated = event.actorHostIds.every(id => {
+        const host = state.hosts[id], target = event.evacuationTargets?.[id];
+        return host && target && host.mapId === target.mapId;
+      });
+      if (allEvacuated) {
+        event.status = 'RESOLVED'; event.stage = 'RESIDENTS_EVACUATED'; event.resolvedAtMinute = state.world.clockMinutes;
+        event.propertyDamage = 0; event.evacuatedHostIds = [...event.actorHostIds];
+        livingEventRows.push(courtyardFireEventRow(state, event.stage, minuteOffset, maps,
+          { actionId: event.resolutionActionId, resolvedByHostId: event.resolvedByHostId,
+            changeKo: '미하일은 집주인과 짐꾼, 경비를 안뜰 문을 지나 거리까지 이끌었다. 네 사람은 문밖에 모였고 불길은 더 번지지 않았다.',
+            evacuatedHostIds: [...event.evacuatedHostIds], propertyDamage: 0, witnessedByPlayer: true }));
+        return;
+      }
+    }
     if (state.world.clockMinutes < event.deadlineMinute) return;
     event.status = 'RESOLVED'; event.stage = 'DAMAGE_SPREAD'; event.resolvedAtMinute = state.world.clockMinutes;
     event.resolutionActionId = 'AUTO_FIRE_SPREAD';
     event.propertyDamage = 1;
+    event.evacuatedHostIds = event.actorHostIds.filter(id => state.hosts[id]?.mapId === 'nevsky');
     const tenant = state.hosts[event.tenantHostId];
     if (tenant) tenant.needs.safetyConcern = Math.min(100, tenant.needs.safetyConcern + 18);
     livingEventRows.push(courtyardFireEventRow(state, event.stage, minuteOffset, maps,
@@ -3428,10 +3450,14 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
   const courtyardFire = state.world.livingEventStates?.E27;
   if (courtyardFire?.status === 'ACTIVE' && courtyardFire.actorHostIds.includes(host.id)
     && !scheduledSlot?.workAction && host.allowedMaps.includes('courtyard')
-    && npcMapRoute(host.mapId, 'courtyard', host, maps, state.world.clockMinutes) !== null) {
-    return { slot: { mapId: 'courtyard', position: { ...courtyardFire.scenePosition }, activityKo: '안뜰의 연기를 보고 이웃을 돕는다' },
+    && npcMapRoute(host.mapId, courtyardFire.stage === 'EVACUATING'
+      ? courtyardFire.evacuationTargets?.[host.id]?.mapId ?? 'nevsky' : 'courtyard', host, maps, state.world.clockMinutes) !== null) {
+    const evacuationTarget = courtyardFire.stage === 'EVACUATING' ? courtyardFire.evacuationTargets?.[host.id] : null;
+    return { slot: { mapId: evacuationTarget?.mapId ?? 'courtyard',
+      position: { ...(evacuationTarget?.position ?? courtyardFire.scenePosition) },
+      activityKo: evacuationTarget ? '안뜰 문을 지나 거리의 안전한 곳으로 이동한다' : '안뜰의 연기를 보고 이웃을 돕는다' },
       goalType: 'LIVING_EVENT_RESPONSE', targetHostId: null, taskId: `V37:E27:${courtyardFire.stage}:${host.id}`,
-      reason: 'courtyard_fire_requires_nearby_residents_to_respond',
+      reason: evacuationTarget ? 'evacuation_route_to_safe_street_position' : 'courtyard_fire_requires_nearby_residents_to_respond',
       selectionBasis: { utilityScore: 184, eventId: 'E27', stage: courtyardFire.stage } };
   }
   const funeralCosts = state.world.livingEventStates?.E28;
@@ -5914,7 +5940,7 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
   if (!literaryQuest && questId === 'V37_COURTYARD_FIRE_1847') {
     const event = next.world.livingEventStates?.E27;
     const outcomes = {
-      E27_EVACUATE_RESIDENTS: ['RESIDENTS_EVACUATED', '미하일은 이웃을 밖으로 이끌어 인명 피해 없이 불길을 막았다.'],
+      E27_EVACUATE_RESIDENTS: ['EVACUATING', '미하일은 집주인과 짐꾼, 경비를 거리 쪽으로 이끌기 시작했다. 안뜰 문을 지나 안전한 곳까지 함께 나가야 한다.'],
       E27_RAISE_NEIGHBOR_ALARM: ['ALARM_RAISED', '종소리에 이웃들이 모여 불길을 막았고, 안뜰에는 경보 기록이 남았다.'],
       E27_REPORT_TO_WATCH: ['FIRE_REPORTED_TO_WATCH', '경비가 현장에 와 불길을 막았고 집주인이 방을 확인했다.']
     };
@@ -5925,9 +5951,15 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
       || (actionId === 'E27_REPORT_TO_WATCH' && (!guard || guard.mapId !== 'courtyard' || !nearTile(guard.position, event.scenePosition, 4)))) {
       return { ok: false, reason: 'courtyard_fire_not_ready', state };
     }
-    event.status = 'RESOLVED'; event.stage = outcome[0]; event.resolvedAtMinute = next.world.clockMinutes;
-    event.resolvedByHostId = hostId; event.resolutionActionId = actionId;
+    event.stage = outcome[0]; event.resolvedByHostId = hostId; event.resolutionActionId = actionId;
     event.propertyDamage = 0; event.witnessHostIds = event.actorHostIds.filter(id => id !== hostId);
+    if (actionId === 'E27_EVACUATE_RESIDENTS') {
+      event.protocolVersion = 2;
+      event.status = 'ACTIVE';
+      event.evacuationTargets = Object.fromEntries(event.actorHostIds.map(id => [id, clone(COURTYARD_FIRE_EVACUATION_TARGETS[id])]));
+    } else {
+      event.status = 'RESOLVED'; event.resolvedAtMinute = next.world.clockMinutes;
+    }
     tenant.needs.safetyConcern = Math.max(0, tenant.needs.safetyConcern - 12);
     tenant.relations.landlady_polina = actionId === 'E27_REPORT_TO_WATCH'
       ? '화재를 경비에 알려 준 세입자' : '불길을 막고 이웃을 대피시킨 세입자';
@@ -6727,7 +6759,7 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
   const courtyardFireEvent = state.world.livingEventStates.E27;
   if (courtyardFireEvent && (courtyardFireEvent.catalogIdSpace !== 'V37_EVENT_CATALOG_45' || courtyardFireEvent.catalogEventId !== 'E27'
     || !['ACTIVE', 'RESOLVED'].includes(courtyardFireEvent.status)
-    || !['FIRE_REPORTED', 'RESIDENTS_EVACUATED', 'ALARM_RAISED', 'FIRE_REPORTED_TO_WATCH', 'DAMAGE_SPREAD'].includes(courtyardFireEvent.stage)
+    || !['FIRE_REPORTED', 'EVACUATING', 'RESIDENTS_EVACUATED', 'ALARM_RAISED', 'FIRE_REPORTED_TO_WATCH', 'DAMAGE_SPREAD'].includes(courtyardFireEvent.stage)
     || courtyardFireEvent.validationStatus !== 'DESIGN_SEED_NOT_VERIFIED'
     || courtyardFireEvent.occurrenceType !== 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION'
     || courtyardFireEvent.valueStatus !== 'fictional_gameplay_balance'
@@ -6739,7 +6771,19 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
     || courtyardFireEvent.deadlineMinute !== courtyardFireEvent.startedAtMinute + 60
     || !Number.isInteger(courtyardFireEvent.scenePosition?.x) || !Number.isInteger(courtyardFireEvent.scenePosition?.y)
     || ![0, 1].includes(courtyardFireEvent.propertyDamage)
-    || (courtyardFireEvent.status === 'ACTIVE') !== (courtyardFireEvent.stage === 'FIRE_REPORTED')
+    || (courtyardFireEvent.status === 'ACTIVE') !== ['FIRE_REPORTED', 'EVACUATING'].includes(courtyardFireEvent.stage)
+    || (courtyardFireEvent.stage === 'EVACUATING' && (courtyardFireEvent.protocolVersion !== 2
+      || courtyardFireEvent.resolutionActionId !== 'E27_EVACUATE_RESIDENTS'
+      || !courtyardFireEvent.evacuationTargets || courtyardFireEvent.actorHostIds.some(id => {
+        const target = courtyardFireEvent.evacuationTargets[id];
+        const expected = COURTYARD_FIRE_EVACUATION_TARGETS[id];
+        return !target || target.mapId !== expected?.mapId || target.position?.x !== expected?.position?.x
+          || target.position?.y !== expected?.position?.y;
+      })))
+    || (courtyardFireEvent.protocolVersion === 2 && courtyardFireEvent.status === 'RESOLVED'
+      && courtyardFireEvent.stage === 'RESIDENTS_EVACUATED'
+      && (!Array.isArray(courtyardFireEvent.evacuatedHostIds)
+        || courtyardFireEvent.actorHostIds.some(id => !courtyardFireEvent.evacuatedHostIds.includes(id))))
     || (courtyardFireEvent.status === 'RESOLVED' && (!Number.isInteger(courtyardFireEvent.resolvedAtMinute)
       || !['E27_EVACUATE_RESIDENTS', 'E27_RAISE_NEIGHBOR_ALARM', 'E27_REPORT_TO_WATCH', 'AUTO_FIRE_SPREAD'].includes(courtyardFireEvent.resolutionActionId))))) {
     throw new Error('Save contains invalid E27 courtyard fire state');

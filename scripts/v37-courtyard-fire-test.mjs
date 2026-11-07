@@ -27,7 +27,10 @@ function setup({ weather = 'wind', hasFirewood = true } = {}) {
   state.player.embodiment = 'tenant_mikhail'; state.player.position = { x: 15, y: 11 };
   const tenant = state.hosts.tenant_mikhail;
   tenant.mapId = 'courtyard'; tenant.position = { x: 15, y: 11 };
-  state.hosts.junior_guard_sergey.mapId = 'courtyard'; state.hosts.junior_guard_sergey.position = { x: 16, y: 11 };
+  for (const [id, position] of [['landlady_polina', { x: 16, y: 11 }], ['porter_gavrila', { x: 14, y: 11 }],
+    ['junior_guard_sergey', { x: 15, y: 12 }]]) {
+    state.hosts[id].mapId = 'courtyard'; state.hosts[id].position = position;
+  }
   if (hasFirewood) tenant.inventory.push('장작 한 단');
   state.world.livingEventStates.E03 = { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E03',
     status: 'RESOLVED', stage: 'FIREWOOD_BOUGHT', resolutionActionId: 'E03_BUY_FIREWOOD', resolvedAtMinute: 1005,
@@ -57,10 +60,55 @@ for (const [actionId, stage] of [['E27_EVACUATE_RESIDENTS', 'RESIDENTS_EVACUATED
   const result = game.performQuestAction(active, { questId: fireQuest.id, hostId: 'tenant_mikhail', actionId,
     objectId: fireObject.id }, { quests, maps });
   assert.equal(result.ok, true, `${actionId} can be carried out (${result.reason ?? ''})`);
-  assert.equal(result.state.world.livingEventStates.E27.stage, stage);
-  assert.equal(result.state.world.livingEventStates.E27.propertyDamage, 0);
+  const evacuation = actionId === 'E27_EVACUATE_RESIDENTS';
+  assert.equal(result.state.world.livingEventStates.E27.stage, evacuation ? 'EVACUATING' : stage);
+  assert.equal(result.state.world.livingEventStates.E27.status, evacuation ? 'ACTIVE' : 'RESOLVED');
+  if (evacuation) {
+    assert.equal(result.state.hosts.tenant_mikhail.mapId, 'courtyard', 'the player must guide the tenant through the real courtyard gate');
+    assert.equal(result.state.world.livingEventStates.E27.propertyDamage, 0);
+  } else assert.equal(result.state.world.livingEventStates.E27.propertyDamage, 0);
   const saved = game.loadGame(game.saveGame(result.state), { maps, hostCards: cards, quests });
-  assert.equal(saved.world.livingEventStates.E27.stage, stage, `${actionId} persists across save/load`);
+  assert.equal(saved.world.livingEventStates.E27.stage, evacuation ? 'EVACUATING' : stage, `${actionId} persists across save/load`);
+  if (evacuation) {
+    let guided = game.advanceNpcWorld(saved, 30, maps);
+    const gateTile = { x: 12, y: 16 };
+    assert.ok(['landlady_polina', 'porter_gavrila', 'junior_guard_sergey'].every(id => guided.hosts[id].mapId === 'courtyard'
+      && Math.abs(guided.hosts[id].position.x - gateTile.x) + Math.abs(guided.hosts[id].position.y - gateTile.y) <= 4),
+    `the landlord, porter, and watchman physically move toward the real courtyard gate: ${JSON.stringify(['landlady_polina', 'porter_gavrila', 'junior_guard_sergey'].map(id => ({ id, mapId: guided.hosts[id].mapId, position: guided.hosts[id].position })))}`);
+    const gate = maps.courtyard.layers.find(layer => layer.name === 'Interactions').objects.find(object => object.name === '거리로 나가는 안뜰 문');
+    const collision = maps.courtyard.layers.find(layer => layer.name === 'Collision').data;
+    const open = (x, y) => x >= 0 && y >= 0 && x < maps.courtyard.width && y < maps.courtyard.height
+      && collision[y * maps.courtyard.width + x] === 0;
+    const exitPosition = { x: gate.x / 16, y: gate.y / 16 };
+    const adjacent = [[0, -1], [1, 0], [0, 1], [-1, 0]].map(([dx, dy]) => ({ x: exitPosition.x + dx, y: exitPosition.y + dy })).filter(tile => open(tile.x, tile.y));
+    const directions = [[0, -1, 'up'], [1, 0, 'right'], [0, 1, 'down'], [-1, 0, 'left']];
+    for (let steps = 0; steps < 120 && Math.abs(guided.player.position.x - exitPosition.x) + Math.abs(guided.player.position.y - exitPosition.y) > 1; steps += 1) {
+      const start = guided.player.position, queue = [start], previous = new Map([[`${start.x},${start.y}`, null]]);
+      let target = null;
+      for (let cursor = 0; cursor < queue.length && !target; cursor += 1) {
+        const here = queue[cursor];
+        if (adjacent.some(tile => tile.x === here.x && tile.y === here.y)) { target = here; break; }
+        for (const [dx, dy] of directions) {
+          const next = { x: here.x + dx, y: here.y + dy }, key = `${next.x},${next.y}`;
+          if (open(next.x, next.y) && !previous.has(key)) { previous.set(key, { prior: `${here.x},${here.y}`, direction: dy < 0 ? 'up' : dy > 0 ? 'down' : dx < 0 ? 'left' : 'right' }); queue.push(next); }
+        }
+      }
+      assert.ok(target, 'the player can find a walkable route from the courtyard to its public gate');
+      let key = `${target.x},${target.y}`, firstDirection = null;
+      while (previous.get(key)?.prior) { firstDirection = previous.get(key).direction; key = previous.get(key).prior; }
+      const step = game.moveActor(guided, firstDirection, maps.courtyard, maps);
+      guided = step.moved ? step.state : game.advanceNpcWorld(guided, 1, maps);
+    }
+    const transitioned = game.transitionMap(guided, 'courtyard-nevsky-gate', maps);
+    assert.equal(transitioned.ok, true, 'the embodied tenant leaves through the actual map exit');
+    guided = game.advanceNpcWorld(transitioned.state, 5, maps);
+    assert.equal(guided.world.livingEventStates.E27.stage, 'RESIDENTS_EVACUATED');
+    assert.equal(guided.world.livingEventStates.E27.status, 'RESOLVED');
+    assert.equal(guided.world.livingEventStates.E27.propertyDamage, 0);
+    assert.ok(guided.world.livingEventStates.E27.actorHostIds.every(id => guided.hosts[id].mapId === 'nevsky'));
+    const evacuatedSave = game.loadGame(game.saveGame(guided), { maps, hostCards: cards, quests });
+    assert.equal(game.stateHash(evacuatedSave), game.stateHash(guided), 'the completed physical evacuation survives save/load');
+  }
 }
 
 const ignored = game.advanceNpcWorld(active, 61, maps);
