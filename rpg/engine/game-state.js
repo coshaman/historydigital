@@ -122,19 +122,59 @@ function noteFoodConsumed(host, state) {
   }
 }
 
+function markFictionalResidentDead(state, host, causeId, possessionReason) {
+  if (!host || host.kind !== 'FICTIONAL' || host.historicalAliveAndPresent === false || host.lifeStatus === 'DECEASED') return false;
+  host.historicalAliveAndPresent = false;
+  host.lifeStatus = 'DECEASED';
+  host.deathRecord = { causeId, minute: state.world.clockMinutes, date: state.world.date,
+    mapId: host.mapId, valueStatus: 'fictional_gameplay_outcome' };
+  if (state.player.embodiment === host.id) {
+    state.player.embodiment = null;
+    state.player.position = { ...host.position };
+    state.world.possessionHistory.push({ eventId: `RELEASE_DEATH_${state.world.possessionHistory.length + 1}`,
+      date: state.world.date, hostId: host.id, mapId: host.mapId, reason: possessionReason });
+  }
+  state.world.deathRecords ??= [];
+  state.world.deathRecords.push({ hostId: host.id, ...host.deathRecord });
+  return true;
+}
+
 function advanceFoodDeprivation(state, minuteOffset, maps, careRows) {
   for (const host of Object.values(state.hosts)) {
+    if (host.kind !== 'FICTIONAL' || host.historicalAliveAndPresent === false || host.lifeStatus === 'DECEASED') continue;
     host.needs ??= initialNpcNeeds(host, state.world.clockMinutes);
     if (host.needs.hunger < 100) { host.needs.foodDeprivationMinutes = 0; continue; }
-    host.needs.foodDeprivationMinutes = Math.min(360, (host.needs.foodDeprivationMinutes ?? 0) + 1);
-    if (host.needs.foodDeprivationMinutes < 360 || host.healthState?.condition !== 'FIT') continue;
-    host.healthState = { condition: 'UNWELL', injury: null,
-      illness: { id: 'FOOD_DEPRIVATION', severity: 'MILD', onsetMinute: state.world.clockMinutes,
-        care: 'NEEDS_FOOD', valueStatus: 'FICTIONAL_CHARACTER_DESIGN' }, recoveryUntilMinute: null,
-      valueStatus: 'FICTIONAL_CHARACTER_DESIGN' };
-    careRows.push({ kind: 'FOOD_DEPRIVATION', hostId: host.id, hunger: host.needs.hunger,
-      deprivationMinutes: host.needs.foodDeprivationMinutes, minute: minuteOffset, mapId: host.mapId,
-      position: { ...host.position }, witnessedByPlayer: playerCanObserveWorldEvent(state, host.mapId, host.position, 6, maps) });
+    host.needs.foodDeprivationMinutes = Math.min(2880, (host.needs.foodDeprivationMinutes ?? 0) + 1);
+    const deprivationMinutes = host.needs.foodDeprivationMinutes;
+    if (deprivationMinutes >= 2880) {
+      if (markFictionalResidentDead(state, host, 'FOOD_DEPRIVATION', 'host_died_after_food_deprivation')) {
+        careRows.push({ kind: 'FOOD_DEPRIVATION_FATALITY', hostId: host.id, hunger: host.needs.hunger,
+          deprivationMinutes, minute: minuteOffset, mapId: host.mapId, position: { ...host.position },
+          witnessedByPlayer: playerCanObserveWorldEvent(state, host.mapId, host.position, 6, maps) });
+      }
+      continue;
+    }
+    const foodIllness = host.healthState?.illness?.id === 'FOOD_DEPRIVATION';
+    if (deprivationMinutes >= 1440 && foodIllness && host.healthState.illness.severity !== 'CRITICAL') {
+      host.healthState.condition = 'UNWELL';
+      host.healthState.injury = null;
+      host.healthState.recoveryUntilMinute = null;
+      host.healthState.illness.severity = 'CRITICAL';
+      host.healthState.illness.care = 'URGENT_FOOD_AND_REST';
+      careRows.push({ kind: 'FOOD_DEPRIVATION_CRITICAL', hostId: host.id, hunger: host.needs.hunger,
+        deprivationMinutes, minute: minuteOffset, mapId: host.mapId, position: { ...host.position },
+        witnessedByPlayer: playerCanObserveWorldEvent(state, host.mapId, host.position, 6, maps) });
+      continue;
+    }
+    if (deprivationMinutes >= 360 && (host.healthState?.condition === 'FIT' || foodIllness)) {
+      host.healthState = { condition: 'UNWELL', injury: null,
+        illness: { id: 'FOOD_DEPRIVATION', severity: 'MILD', onsetMinute: state.world.clockMinutes,
+          care: 'NEEDS_FOOD', valueStatus: 'FICTIONAL_CHARACTER_DESIGN' }, recoveryUntilMinute: null,
+        valueStatus: 'FICTIONAL_CHARACTER_DESIGN' };
+      careRows.push({ kind: 'FOOD_DEPRIVATION', hostId: host.id, hunger: host.needs.hunger,
+        deprivationMinutes, minute: minuteOffset, mapId: host.mapId,
+        position: { ...host.position }, witnessedByPlayer: playerCanObserveWorldEvent(state, host.mapId, host.position, 6, maps) });
+    }
   }
 }
 
@@ -2675,17 +2715,7 @@ function advanceWarehouseInjury(state, minuteOffset, maps, livingEventRows) {
   if (event.status === 'RESOLVED' && event.stage === 'RESTED_UNTREATED' && event.severity === 'CRITICAL'
     && state.world.clockMinutes >= event.fatalityDeadlineMinute) {
     const porter = state.hosts[event.porterHostId];
-    if (porter?.kind === 'FICTIONAL' && porter.historicalAliveAndPresent !== false) {
-      porter.historicalAliveAndPresent = false; porter.lifeStatus = 'DECEASED';
-      porter.deathRecord = { causeId: event.injuryId, minute: state.world.clockMinutes, date: state.world.date,
-        mapId: event.mapId, valueStatus: 'fictional_gameplay_outcome' };
-      if (state.player.embodiment === porter.id) {
-        state.player.embodiment = null; state.player.position = { ...porter.position };
-        state.world.possessionHistory.push({ eventId: `RELEASE_DEATH_${state.world.possessionHistory.length + 1}`,
-          date: state.world.date, hostId: porter.id, mapId: porter.mapId, reason: 'host_died_after_untreated_critical_injury' });
-      }
-      state.world.deathRecords ??= [];
-      state.world.deathRecords.push({ hostId: porter.id, ...porter.deathRecord });
+    if (markFictionalResidentDead(state, porter, event.injuryId, 'host_died_after_untreated_critical_injury')) {
       event.stage = 'FATALITY'; event.resolutionActionId = 'AUTO_UNTREATED_CRITICAL_INJURY';
       event.resolvedAtMinute = state.world.clockMinutes;
       livingEventRows.push(livingWarehouseInjuryEventRow(state, 'FATALITY', minuteOffset, maps,
@@ -7357,7 +7387,7 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
       for (const key of ['hunger', 'fatigue', 'incomePressure', 'safetyConcern', 'socialNeed', 'restThreshold']) {
         if (!Number.isFinite(host.needs[key]) || host.needs[key] < 0 || host.needs[key] > 100) throw new Error(`Save contains invalid NPC need: ${card.id}.${key}`);
       }
-      if (!Number.isInteger(host.needs.foodDeprivationMinutes) || host.needs.foodDeprivationMinutes < 0 || host.needs.foodDeprivationMinutes > 360) throw new Error(`Save contains invalid food deprivation state: ${card.id}`);
+      if (!Number.isInteger(host.needs.foodDeprivationMinutes) || host.needs.foodDeprivationMinutes < 0 || host.needs.foodDeprivationMinutes > 2880) throw new Error(`Save contains invalid food deprivation state: ${card.id}`);
       const slot = scheduleEntry(host, state.world.clockMinutes);
       host.scheduleId ??= slot ? `${slot.mapId}:${slot.atMinute}` : null;
       host.currentActivityKo ??= slot?.activityKo ?? '';
