@@ -3,6 +3,23 @@
 const SAVE_VERSION = 37;
 const DIRECTIONS = Object.freeze({ up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] });
 const RENT_LIVING_EVENT = Object.freeze({ catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E01', occurrenceType: 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION', validationStatus: 'DESIGN_SEED_NOT_VERIFIED' });
+const WEATHER_EXPOSED_MAPS = new Set(['nevsky', 'courtyard', 'market-quay', 'canal-road', 'workyard', 'bookshop-lane']);
+const WEATHER_BY_SEASON = Object.freeze({
+  winter: ['snow', 'snow', 'fog', 'wind', 'overcast'], spring: ['drizzle', 'fog', 'overcast', 'overcast', 'clear'],
+  summer: ['drizzle', 'overcast', 'clear', 'clear', 'fog'], autumn: ['drizzle', 'fog', 'fog', 'overcast', 'wind'],
+});
+function outdoorWeatherForState(state) {
+  const date = state.world.date, month = Number(date?.slice?.(5, 7));
+  const season = month === 12 || month <= 2 ? 'winter' : month <= 5 ? 'spring' : month <= 8 ? 'summer' : 'autumn';
+  const day = Math.max(0, Math.floor((state.world.clockMinutes ?? 0) / 1440));
+  let seed = 17 + day * 31 + month * 13;
+  for (const char of String(date ?? '')) seed = (seed * 33 + char.charCodeAt(0)) % 104729;
+  return WEATHER_BY_SEASON[season][seed % WEATHER_BY_SEASON[season].length];
+}
+function outdoorWeatherFatiguePerMinute(state, host) {
+  if (!WEATHER_EXPOSED_MAPS.has(host.mapId)) return 0;
+  return ({ snow: 0.025, wind: 0.02, drizzle: 0.01, fog: 0.004, overcast: 0.002 })[outdoorWeatherForState(state)] ?? 0;
+}
 
 function runtimeEraProfile(card) {
   if (card.eraProfile) return clone(card.eraProfile);
@@ -3897,7 +3914,9 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
       }
     }
     host.needs.hunger = Math.min(100, host.needs.hunger + host.needs.hungerPerMinute);
-    host.needs.fatigue = Math.max(0, Math.min(100, host.needs.fatigue + (routine === 'RESTING' ? -host.needs.restFatigueReliefPerMinute : routine === 'TRAVELLING' ? 0.01 : host.needs.workFatiguePerMinute)));
+    const routineFatigue = routine === 'RESTING' ? -host.needs.restFatigueReliefPerMinute
+      : routine === 'TRAVELLING' ? 0.01 : host.needs.workFatiguePerMinute;
+    host.needs.fatigue = Math.max(0, Math.min(100, host.needs.fatigue + routineFatigue + outdoorWeatherFatiguePerMinute(state, host)));
     if (routine === 'RESTING' && previousRoutine !== 'RESTING' && host.needs.fatigue < fatigueBeforeRoutine) restRecoveryRows.push({ hostId: host.id, minute: minuteOffset, mapId: host.mapId, position: { ...host.position }, fatigueBefore: fatigueBeforeRoutine, fatigueAfter: host.needs.fatigue, witnessedByPlayer: playerCanObserveWorldEvent(state, host.mapId, host.position, 6, maps) });
     if (routine === 'SOCIALIZING') host.needs.socialNeed = Math.max(0, (host.needs.socialNeed ?? 0) - 0.05);
     else host.needs.socialNeed = Math.min(100, (host.needs.socialNeed ?? 0) + 0.004);
