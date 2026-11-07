@@ -10,12 +10,12 @@ const json = async file => JSON.parse(await readFile(new URL(file, import.meta.u
 const [registry, files] = await Promise.all([json('../data/era_character_registry.json'), readdir(new URL('../rpg/characters/', import.meta.url))]);
 const rawCards = await Promise.all(files.filter(file => file.endsWith('.json')).map(file => json(`../rpg/characters/${file}`)));
 const cards = decorateCardsWithEraProfiles(rawCards, registry);
-const maps = Object.fromEntries(await Promise.all(['nevsky','printshop','chancery','courtyard','market-quay','police-station','dead-souls','overcoat'].map(async id => [id, await json(`../rpg/maps/${id}.json`)])));
+const maps = Object.fromEntries(await Promise.all(['nevsky','printshop','chancery','courtyard','market-quay','police-station','dead-souls','overcoat','raskolnikov-tavern'].map(async id => [id, await json(`../rpg/maps/${id}.json`)])));
 const byId = Object.fromEntries(cards.map(card => [card.id, card]));
 
 assert.equal(cards.length, rawCards.length);
 assert.ok(cards.every(card => card.eraProfile?.layer && card.eraProfile.allowedChapterIds.length), 'every runtime host has an era boundary');
-for (const id of ['literary_chichikov','literary_akaky','literary_petrovich']) {
+for (const id of ['literary_chichikov','literary_akaky','literary_petrovich','literary_raskolnikov','literary_marmeladov']) {
   const profile = byId[id].eraProfile;
   assert.equal(profile.layer, 'LITERARY');
   assert.ok(profile.realmId && profile.sourceIds.length);
@@ -54,4 +54,4 @@ for (const card of cards.filter(item => item.kind === 'LITERARY')) {
   assert.equal(game.possessHost(realmState, card.id, maps[host.mapId]).ok, true, `${card.id} is possessable in its exact realm`);
 }
 
-console.log(JSON.stringify({ status: 'PASS', runtimeHosts: cards.length, profiles: Object.fromEntries([...new Set(cards.map(card => card.eraProfile.layer))].map(layer => [layer, cards.filter(card => card.eraProfile.layer === layer).length])), checks: ['registry coverage','all 36 fictional campaign hosts possessable','1847 historical reconstruction block','1848 scenario gate','all three literary realm gates','cross-realm block'] }, null, 2));
+console.log(JSON.stringify({ status: 'PASS', runtimeHosts: cards.length, profiles: Object.fromEntries([...new Set(cards.map(card => card.eraProfile.layer))].map(layer => [layer, cards.filter(card => card.eraProfile.layer === layer).length])), checks: ['registry coverage','all 36 fictional campaign hosts possessable','1847 historical reconstruction block','1848 scenario gate','all five literary realm character gates','cross-realm block'] }, null, 2));

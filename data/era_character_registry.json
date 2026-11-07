@@ -9,7 +9,8 @@
     {"id":"PETER_I","name_ko":"표트르 대제","category":"HISTORICAL_PERSON","era":"1700s","presence":"HISTORICAL_FLASHBACK_ONLY","possession":"SCENARIO_GATED","constraints":["not contemporaneous with Nicholas I","major historical outcomes immutable"],"reference":"reign 1682-1725"},
     {"id":"RASKOLNIKOV","name_ko":"라스콜리니코프","category":"LITERARY_CHARACTER","era":"1860s","presence":"LITERARY_INSTANCE_ONLY","possession":"SCENARIO_GATED","constraints":["Crime and Punishment published 1866","novel canonical facts differentiated from player deviation"],"reference":"Dostoevsky Crime and Punishment original text"},
     {"id":"ALYOSHA_KARAMAZOV","name_ko":"알료샤 카라마조프","category":"LITERARY_CHARACTER","era":"1870s","presence":"LITERARY_INSTANCE_ONLY","possession":"SCENARIO_GATED","constraints":["Brothers Karamazov setting later nineteenth century","not a contemporary Peter I/Nicholas I citizen"],"reference":"Dostoevsky Brothers Karamazov original text"},
-    {"id":"AKAKY_AKAKIEVICH","name_ko":"아카키 아카키예비치","category":"LITERARY_CHARACTER","era":"1840s_literary","presence":"LITERARY_INSTANCE_ONLY","possession":"SCENARIO_GATED","constraints":["The Overcoat story, literary reconstruction","fictional office environment marked"],"reference":"Gogol The Overcoat 1842"}
+    {"id":"AKAKY_AKAKIEVICH","name_ko":"아카키 아카키예비치","category":"LITERARY_CHARACTER","era":"1840s_literary","presence":"LITERARY_INSTANCE_ONLY","possession":"SCENARIO_GATED","constraints":["The Overcoat story, literary reconstruction","fictional office environment marked"],"reference":"Gogol The Overcoat 1842"},
+    {"id":"MARMELADOV","name_ko":"세묜 자하로비치 마르멜라도프","category":"LITERARY_CHARACTER","era":"1860s_literary","presence":"LITERARY_INSTANCE_ONLY","possession":"SCENARIO_GATED","constraints":["Crime and Punishment novel character","scene-bound literary instance"],"reference":"Dostoevsky Crime and Punishment, Part I, Chapter II"}
   ],
   "runtime_profiles": {
     "default_fictional": {"layer":"FICTIONAL_1840S","allowedChapterIds":["V33_1847_PRINT","V33_1848_PUBLIC","V33_1849_CIRCLE"],"realmId":null,"sourceIds":[]},
@@ -17,7 +18,9 @@
     "dostoevsky_1849": {"layer":"HISTORICAL_RECONSTRUCTION","allowedChapterIds":["V33_1849_CIRCLE"],"realmId":null,"sourceIds":["OBJ-WS-DOSTOEVSKY-LETTER-1849-DEC22"]},
     "literary_chichikov": {"layer":"LITERARY","allowedChapterIds":["LITERARY_DEAD_SOULS"],"realmId":"LITERARY_DEAD_SOULS","mapId":"dead-souls","sourceIds":["LIT-GOGOL-DEAD-SOULS-1842"]},
     "literary_akaky": {"layer":"LITERARY","allowedChapterIds":["LITERARY_OVERCOAT"],"realmId":"LITERARY_OVERCOAT","mapId":"overcoat","sourceIds":["LIT-GOGOL-OVERCOAT-1842"]},
-    "literary_petrovich": {"layer":"LITERARY","allowedChapterIds":["LITERARY_OVERCOAT"],"realmId":"LITERARY_OVERCOAT","mapId":"overcoat","sourceIds":["LIT-GOGOL-OVERCOAT-1842"]}
+    "literary_petrovich": {"layer":"LITERARY","allowedChapterIds":["LITERARY_OVERCOAT"],"realmId":"LITERARY_OVERCOAT","mapId":"overcoat","sourceIds":["LIT-GOGOL-OVERCOAT-1842"]},
+    "literary_raskolnikov": {"layer":"LITERARY","allowedChapterIds":["LITERARY_RASKOLNIKOV_1866"],"realmId":"LITERARY_RASKOLNIKOV_1866","mapId":"raskolnikov-tavern","sourceIds":["LIT-DOSTOEVSKY-CRIME-PUNISHMENT-1866-CH2"]},
+    "literary_marmeladov": {"layer":"LITERARY","allowedChapterIds":["LITERARY_RASKOLNIKOV_1866"],"realmId":"LITERARY_RASKOLNIKOV_1866","mapId":"raskolnikov-tavern","sourceIds":["LIT-DOSTOEVSKY-CRIME-PUNISHMENT-1866-CH2"]}
   },
   "era_layer_policy": {"default_historical_era":"1836-1849","historical_era_transition":"ONLY_VIA_DOCUMENTED_FLASHBACK_AND_SELECTION","literary_transition":"ONLY_VIA_LABELED_LITERARY_GATE","memory_crossover":"PLAYER_META_KNOWLEDGE_ONLY, NOT_HOST_KNOWLEDGE","news_generation":"NO_FUTURE_OR_LITERARY_EVENT_AS_HISTORICAL_NEWSPAPER"}
 }

@@ -86,6 +86,18 @@
       "rightsNoteKo": "1951년 학술 전집의 현대 전사문. 문학 세계의 허구 텍스트."
     },
     {
+      "sourceId": "LIT-DOSTOEVSKY-CRIME-PUNISHMENT-1866-CH2",
+        "excerptId": "EX-DOSTOEVSKY-CRIME-PUNISHMENT-1866-P1-CH2-L121-146",
+      "layout": "book",
+      "textStatus": "DIRECT",
+      "renderingStatus": "RECONSTRUCTED",
+      "documentDate": "1866",
+      "publicationDate": "1866 · Русский вестник, т. 61, № 1/2 · 첫 연재",
+        "pageLocator": "제1부 제2장 · RVB 전사문 121–146행 · 인쇄본 13–15쪽 · 마르멜라도프가 라스콜리니코프에게 말을 거는 장면부터 딸에 관한 이야기까지 이어지는 대목",
+        "contextKo": "술집에서 마르멜라도프는 처음 만난 라스콜리니코프에게 자신이 관리였다고 소개합니다. 이어 가난과 궁핍, 아내가 맞은 일, 네바강의 건초 운반선에서 보낸 밤을 말하고, 받을 가망이 없다는 걸 알면서도 돈을 빌리러 가는 마음을 묻습니다.",
+      "rightsNoteKo": "1866년 초판 간행물은 대통령도서관 서지 항목으로 확인했다. 러시아어 본문은 학술 전사문이며 한국어는 이 프로젝트의 새 번역이다."
+    },
+    {
       "sourceId": "LIT-GOGOL-OVERCOAT-1842",
       "excerptId": "EX-GOGOL-OVERCOAT-1842-COAT-L151-156",
       "layout": "book",

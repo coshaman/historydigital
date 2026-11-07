@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="라스콜리니코프">
+  <defs><linearGradient id="wall" x2="0" y2="1"><stop stop-color="#665244"/><stop offset="1" stop-color="#211a17"/></linearGradient></defs>
+  <rect width="64" height="64" fill="url(#wall)"/><path d="M7 64V51q4-10 14-12h20q11 3 16 12v13" fill="#302721"/>
+  <path d="M21 23q0-15 12-16 13 1 13 17l-3 13-8 8-12-8z" fill="#c39b78"/>
+  <path d="M18 26Q15 8 32 5q15 2 17 19l-7-6-6-8-9 7z" fill="#514136"/>
+  <path d="M23 26q4-3 8 0m5 0q4-3 8 0" fill="none" stroke="#30251f" stroke-width="2"/><path d="M31 37q4 2 8-1" fill="none" stroke="#65453b" stroke-width="1.5"/>
+  <path d="M16 64q1-16 10-20l7 6 8-6q9 5 10 20" fill="#47382f"/><path d="m27 44 6 7 7-7 3 20H24z" fill="#b4a28b"/>
+  <path d="M3 3h58v58H3z" fill="none" stroke="#ad895b" stroke-width="1"/>
+</svg>

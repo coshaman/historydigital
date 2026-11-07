@@ -20,10 +20,14 @@ const [street, shop, chancery, courtyard, marketMap, literaryMap, overcoatMap, p
 const [sourceReaderIndex, caseContextData, discussionQuestData, districtRegistry] = await Promise.all([readJson('./rpg/data/source-reader-index.json'), readJson('./rpg/data/case-contexts.json'), readJson('./rpg/data/discussion-quests.json'), readJson('./rpg/data/city-districts-v36.json')]);
 const [dostoevskyExecutionQuest, historicalSceneMaps] = await Promise.all([readJson('./rpg/quests/dostoevsky-execution-1849.json'), Promise.all(['fortress-cell','semenovsky-square'].map(async id => [id, await readJson(`./rpg/maps/${id}.json`)]))]);
 const [rawCards, eraCharacterRegistry] = await Promise.all([Promise.all(['clerk_alexei','printer_ekaterina','courier_pavel','seamstress_anna','tenant_mikhail','bookseller_lev','senior_clerk_konstantin','reader_darya','editor_sofia','police_sergeant_ivan','yardkeeper_semyon','laundress_mariya','baker_fyodor','market_nadezhda','porter_gavrila','coachman_timofey','housemaid_olga','midwife_avdotya','apothecary_yakov','print_apprentice_stepan','bookbinder_elizaveta','scribal_yuri','innkeeper_irina','student_vasily','teacher_lyubov','minor_noble_andrei','landlady_polina','watercarrier_luka','fishseller_klavdiya','warehouse_pyotr','servant_varvara','junior_guard_sergey','carter_roman','street_vendor_matryona','street_musician_ivan','typesetter_nikita','lodging_tatyana','nekrasov_reconstruction','dostoevsky_1849','literary_chichikov','literary_akaky','literary_petrovich'].map(id => readJson(`./rpg/characters/${id}.json`))), readJson('./data/era_character_registry.json')]);
-const cards = decorateCardsWithEraProfiles(rawCards, eraCharacterRegistry);
+const raskolnikovMap = await readJson('./rpg/maps/raskolnikov-tavern.json');
+const raskolnikovSource = await readJson('./rpg/data/raskolnikov-source.json');
+const raskolnikovQuest = await readJson('./rpg/quests/literary-raskolnikov.json');
+const [raskolnikovCard, marmeladovCard] = await Promise.all([readJson('./rpg/characters/literary_raskolnikov.json'), readJson('./rpg/characters/literary_marmeladov.json')]);
+const cards = decorateCardsWithEraProfiles([...rawCards, raskolnikovCard, marmeladovCard], eraCharacterRegistry);
 const expansionMapIds = ['bookshop-lane','canal-road','workyard','bookshop-interior','bakery-interior','inn-interior','sewing-room','communal-room'];
 const expansionMaps = Object.fromEntries(await Promise.all(expansionMapIds.map(async id => [id, await readJson(`./rpg/maps/${id}.json`)])));
-const maps = { nevsky: street, printshop: shop, chancery, courtyard, 'market-quay': marketMap, 'dead-souls': literaryMap, overcoat: overcoatMap, 'police-station': policeMap, ...expansionMaps, ...Object.fromEntries(historicalSceneMaps) }, hostCards = cards;
+const maps = { nevsky: street, printshop: shop, chancery, courtyard, 'market-quay': marketMap, 'dead-souls': literaryMap, overcoat: overcoatMap, 'raskolnikov-tavern': raskolnikovMap, 'police-station': policeMap, ...expansionMaps, ...Object.fromEntries(historicalSceneMaps) }, hostCards = cards;
 const residentQuestBatchTwo = ['market-nadezhda-life-extra-1-1847','market-nadezhda-life-extra-2-1847','market-nadezhda-life-extra-3-1847','porter-gavrila-life-extra-1-1847','porter-gavrila-life-extra-2-1847','porter-gavrila-life-extra-3-1847','warehouse-pyotr-life-extra-1-1847','warehouse-pyotr-life-extra-2-1847','warehouse-pyotr-life-extra-3-1847','baker-fyodor-life-extra-1-1847','baker-fyodor-life-extra-2-1847','baker-fyodor-life-extra-3-1847','landlady-polina-life-extra-1-1847','landlady-polina-life-extra-2-1847','landlady-polina-life-extra-3-1847','carter-roman-life-extra-1-1847','carter-roman-life-extra-2-1847','carter-roman-life-extra-3-1847'];
 const addedPersonalQuests = await Promise.all(['editor-publication-record-1847','police-testimony-record-1849','reader-source-and-rumor-1847','senior-clerk-review-and-signature-1847','tenant-rent-and-firewood-1847','cold-wave-firewood-1847','censored-page-1847','courtyard-dispute-1847','market-price-dispute-1847','market-rumor-1847','inn-guest-1847','late-meal-1847','charity-day-1847','apprentice-literacy-1847','sick-lodger-1847','apothecary-order-1847','missing-record-1847','apprentice-fatigue-1847','newspaper-release-1847','police-document-check-1847','rent-notice-1847','courtyard-fire-1847','funeral-costs-1847','funeral-debt-repayment-1847','market-day-work-1847','roof-leak-repair-1847',
   'editor-sofia-chain-1-stage-1-1847','editor-sofia-chain-1-stage-2-1847','editor-sofia-chain-1-stage-3-1847',
@@ -45,7 +49,7 @@ const belinskyLetterQuest = await readJson('./rpg/quests/v37-belinsky-letter-184
 const smuggledEditionQuest = await readJson('./rpg/quests/smuggled-edition-1847.json');
 const officialProcessionQuest = await readJson('./rpg/quests/v37-official-procession-1847.json');
 const residentArcBundle = await readJson('./rpg/quests/resident-arcs-v36.json');
-const questList = [...new Map([firstQuest, publicQuest, europeNewsQuest, circleQuest, letterQuest, dostoevskyExecutionQuest, literaryQuest, overcoatQuest, ...marketPersonalQuests, ...addedPersonalQuests, manuscriptOfferQuest, serfdomReadingQuest, salonDebateQuest, salonInvitationQuest, streetMusicQuest, physiologyReadingQuest, pushkinObituaryQuest, belinskyLetterQuest, officialProcessionQuest, smuggledEditionQuest, ...v36PersonalQuestFiles, ...socialQuestFiles, ...residentArcBundle.quests].map(quest => [quest.id, quest])).values()];
+const questList = [...new Map([firstQuest, publicQuest, europeNewsQuest, circleQuest, letterQuest, dostoevskyExecutionQuest, literaryQuest, overcoatQuest, raskolnikovQuest, ...marketPersonalQuests, ...addedPersonalQuests, manuscriptOfferQuest, serfdomReadingQuest, salonDebateQuest, salonInvitationQuest, streetMusicQuest, physiologyReadingQuest, pushkinObituaryQuest, belinskyLetterQuest, officialProcessionQuest, smuggledEditionQuest, ...v36PersonalQuestFiles, ...socialQuestFiles, ...residentArcBundle.quests].map(quest => [quest.id, quest])).values()];
 const questsById = new Map(questList.map(item => [item.id, item]));
 const relationHintValues = new Map();
 for (const quest of questList) for (const action of quest.actions ?? []) {
@@ -66,12 +70,12 @@ function playerActionHintsFor(hostId) {
   return state.ledger.filter(entry => entry.hostId === hostId && ['HISTORICAL_ACTION', 'LITERARY_ACTION'].includes(entry.eventType))
     .slice(-12).map(({ questId, actionId }) => ({ questId, actionId }));
 }
-const sourceRecords = new Map([source, firstIssue, ...historicalSources.records, literarySource, overcoatSource].map(record => [record.sourceId, record]));
+const sourceRecords = new Map([source, firstIssue, ...historicalSources.records, literarySource, overcoatSource, raskolnikovSource].map(record => [record.sourceId, record]));
 const sourceReaderRecords = new Map(sourceReaderIndex.records.map(record => [record.sourceId, record]));
 const caseContextsByQuest = new Map(caseContextData.cases.map(item => [item.questId, item]));
 const discussionQuestById = new Map(discussionQuestData.quests.map(item => [item.id, item]));
 const districtById = new Map(districtRegistry.districts.map(item => [item.id, item]));
-const currentDiscussionQuests = () => availableDiscussionQuests(state, discussionQuestData);
+const currentDiscussionQuests = () => state.world.activeRealm ? [] : availableDiscussionQuests(state, discussionQuestData);
 const initial = () => createInitialState({ maps, hostCards, quests: questList });
 let state;
 try { state = localStorage.getItem('v33-rpg-save') ? loadGame(localStorage.getItem('v33-rpg-save'), { maps, hostCards, quests: questList, learningExam }) : initial(); }
@@ -168,7 +172,7 @@ const tutorialCopy = [
 ];
 function updateTutorial() {
   const card = $('#tutorial-card');
-  const active = tutorialStage !== 'done' && Number(tutorialStage) < tutorialCopy.length;
+  const active = !state.world.activeRealm && tutorialStage !== 'done' && Number(tutorialStage) < tutorialCopy.length;
   card.hidden = !active;
   if (active) { $('#tutorial-step').textContent = `처음 안내 · ${Number(tutorialStage) + 1} / ${tutorialCopy.length} · ${tutorialCopy[Number(tutorialStage)]}`; $('#tutorial-skip').textContent = '건너뛰기'; }
 }
@@ -401,10 +405,11 @@ function updateHud() {
   $('#place').textContent = districtById.get(map.metadata.districtId)?.nameKo ?? map.metadata.displayNameKo; $('#mapname').textContent = map.metadata.displayNameKo;
   document.body.classList.toggle('literary-world', Boolean(state.world.activeRealm));
   const [year, month, day] = state.world.date.split('-').map(Number);
-  $('#world-date').textContent = state.world.activeRealm ? '문학 속 1842년' : `${year}년 ${month}월`;
-  $('#calendar-date').textContent = state.world.activeRealm ? '소설 속 장면' : `${year}년 ${month}월 ${day}일`;
+  const yearOnlyRealm = state.world.activeRealm && currentMap().metadata.datePrecision === 'YEAR';
+  $('#world-date').textContent = yearOnlyRealm ? currentMap().metadata.dateDisplayKo : `${year}년 ${month}월`;
+  $('#calendar-date').textContent = yearOnlyRealm ? currentMap().metadata.dateDisplayKo : `${year}년 ${month}월 ${day}일`;
   const dayMinute = ((state.world.clockMinutes ?? 540) % 1440 + 1440) % 1440;
-  $('#clock').textContent = state.world.activeRealm ? '문학 세계 · 1842' : `${String(Math.floor(dayMinute / 60)).padStart(2, '0')}:${String(dayMinute % 60).padStart(2, '0')}`;
+  $('#clock').textContent = `${String(Math.floor(dayMinute / 60)).padStart(2, '0')}:${String(dayMinute % 60).padStart(2, '0')}`;
   $('#bodyname').textContent = state.player.civic?.custody?.active ? `경찰 접수실 · 조사 대기 · ${cards.find(card => card.id === state.player.civic.custody.hostId)?.displayNameKo ?? '당사자'}` : host ? `몸을 빌림 · ${host.displayNameKo}` : '바깥에서 바라보는 중';
   $('#coins').textContent = host ? (state.hosts[host.id].money.amount == null ? '자금 기록 없음' : `${state.hosts[host.id].money.amount} 코페이카`) : '몸을 빌리면 주머니를 확인할 수 있습니다';
   $('#release').disabled = !host || Boolean(activeDialogueHost);
@@ -413,8 +418,11 @@ function updateHud() {
   $('#talk').disabled = !host || !conversationPartner || Boolean(activeDialogueHost);
   document.querySelectorAll('.touch-pad button').forEach(button => { button.disabled = Boolean(activeDialogueHost && !button.hasAttribute('data-move')); });
   $('#load').disabled = !localStorage.getItem('v33-rpg-save');
-  missionGuidance = resolveQuestGuidance({ state, quests: questList, maps, hostCards: cards });
-  const tracker = $('#mission-tracker'); tracker.hidden = Boolean(state.endingId);
+  const inLiteraryScene = Boolean(state.world.activeRealm);
+  missionGuidance = inLiteraryScene
+    ? { questTitleKo: '', actionKo: '', placeKo: '', reasonKo: '', howKo: '', target: null, progress: { completedSteps: 0, totalSteps: 0 }, blocked: false }
+    : resolveQuestGuidance({ state, quests: questList, maps, hostCards: cards });
+  const tracker = $('#mission-tracker'); tracker.hidden = Boolean(state.endingId) || inLiteraryScene;
   $('#mission-identity').textContent = host ? `현재 빙의: ${host.displayNameKo} · ${host.occupation}` : '현재 인물: 관찰자';
   $('#mission-title').textContent = missionGuidance.questTitleKo ?? '지금 할 일';
   $('#mission-action').textContent = `${missionGuidance.actionKo}${missionGuidance.placeKo ? ` · ${missionGuidance.placeKo}` : ''}`;
@@ -434,7 +442,7 @@ function updateHud() {
       $('#mission-method').textContent = press.howKo;
     }
   }
-  if (queuedDiscussionInquiry) {
+  if (queuedDiscussionInquiry && !inLiteraryScene) {
     const targetHost = state.hosts[queuedDiscussionInquiry.hostId];
     const targetGuide = targetHost ? guideToResident({ state, maps, hostCards: cards, targetHostId: targetHost.id }) : null;
     const nextAction = !host ? '먼저 질문할 인물과 다른 주민의 몸을 빌리세요' : host.id === queuedDiscussionInquiry.hostId ? '다른 주민의 몸을 빌린 뒤 이 인물에게 말을 거세요' : '표시된 상대에게 가까이 가서 말을 거세요';
@@ -472,7 +480,7 @@ function updateHud() {
   const reflectionPrompts = discussionHost ? discussionReflectionPromptsForHost(discussionHost.id, state, discussionQuests) : [];
   const discussionView = discussionBoardView(discussionQuests, discussionHost?.id ?? null,
     Object.fromEntries(cards.map(card => [card.id, card.displayNameKo])), discussionQuestData.quests.length);
-  discussionBoard.hidden = (!discussionView.visible && !reflectionPrompts.length) || Boolean(state.endingId);
+  discussionBoard.hidden = (!discussionView.visible && !reflectionPrompts.length) || Boolean(state.endingId) || inLiteraryScene;
   $('#discussion-quest-progress').textContent = discussionView.progressKo;
   $('#discussion-quest-guidance').textContent = queuedDiscussionInquiry
     ? `선택한 질문 · ${queuedDiscussionInquiry.titleKo} — ${queuedDiscussionInquiry.hostNameKo}에게 “${queuedDiscussionInquiry.promptKo}”라고 물어보세요. 현재 위치: ${state.hosts[queuedDiscussionInquiry.hostId]?.mapId === map.mapId ? '이 구역' : maps[state.hosts[queuedDiscussionInquiry.hostId]?.mapId]?.metadata.displayNameKo ?? '다른 구역'}. ${host ? '가까이 다가가 말을 걸면 대화 선택지 맨 앞에 나타납니다.' : '그 인물 가까이서 E를 눌러 몸을 빌린 뒤, 다시 가까이서 말을 거세요.'}`
@@ -830,6 +838,12 @@ function sourceRead(sourceId, archiveSourceIds = [], readingMode = 'PHYSICAL_COP
   if (!prepared.ok) { sayRecord(prepared.reason === 'source_not_present' ? '이 장소나 시점에는 아직 열람할 수 없는 자료다.' : '이 자료를 지금은 읽을 수 없다.'); return; }
   openSourceReader(record, { nextState: prepared.state, readingMode });
 }
+function leaveCurrentLiteraryScene() {
+  const result = leaveLiteraryRealm(state, maps);
+  if (!result.ok) return;
+  setState(result.state);
+  say('거리로 돌아왔다', `${result.state.world.date.slice(0, 4)}년의 거리다.`, []);
+}
 function openSourceReader(record, { nextState = null, readingMode = null } = {}) {
   const dialog = $('#source-reader'), index = sourceReaderRecords.get(record.sourceId), isTurgenev = record.sourceId === source.sourceId;
   if (!index) { sayRecord('이 자료의 서지 표시 정보를 찾지 못했다.'); return; }
@@ -840,13 +854,17 @@ function openSourceReader(record, { nextState = null, readingMode = null } = {})
   dialog.className = `source-reader source-reader--${index.layout}`;
   const layoutLabel = ({ catalog: '서지 자료', book: '책 원문', periodical: '잡지 자료', official: '관청 문서', letter: '편지' })[index.layout] ?? '사료';
   const sourceYear = String(index.documentDate ?? index.creationDate ?? index.publicationDate ?? record.documentDate ?? '연도 미상').slice(0, 4);
+  const sourceRealm = Object.values(maps).find(map => map.metadata?.mapClass === 'LITERARY_REALM' && map.metadata.sourceIds?.includes(record.sourceId));
+  const sceneDate = sourceRealm?.metadata.datePrecision === 'YEAR'
+    ? sourceRealm.metadata.dateDisplayKo
+    : state.world.activeRealm?.sourceIds?.includes(record.sourceId) ? state.world.date : sourceRealm?.metadata.date ?? state.world.date;
   $('#source-reader-meta').textContent = `${sourceYear}년 · ${layoutLabel} · 발췌 ${index.excerptId}`;
   $('#source-reader-title').textContent = record.titleKo;
   $('#source-reader-title-ru').textContent = record.titleRu ?? '';
   $('#source-reader-context').textContent = context;
   $('#source-reader-provenance-text').textContent = provenance;
   $('#source-reader-ids').textContent = `${record.sourceId} · ${index.excerptId}`;
-  $('#source-reader-dates').textContent = `작성·문서: ${index.documentDate ?? index.creationDate ?? record.documentDate ?? record.dateCreated ?? '확인된 날짜 없음'} · 최초 간행: ${index.publicationDate ?? record.firstPublication ?? '확인된 간행일 없음'} · 이 장면의 날짜: ${state.world.date}`;
+  $('#source-reader-dates').textContent = `작성·문서: ${index.documentDate ?? index.creationDate ?? record.documentDate ?? record.dateCreated ?? '확인된 날짜 없음'} · 최초 간행: ${index.publicationDate ?? record.firstPublication ?? '확인된 간행일 없음'} · 장면 날짜: ${sceneDate}`;
   $('#source-reader-passages').replaceChildren(...record.paragraphs.map((paragraph, index) => {
     const section = document.createElement('section'); section.className = 'source-passage';
     const label = document.createElement('h3'); label.textContent = `문단 ${index + 1} · 원문과 번역`;
@@ -895,16 +913,20 @@ function openSourceDrawer() {
     const availableDate = sourceObject?.properties?.find(property => property.name === 'availableDate')?.value;
     return !availableDate || availableDate <= state.world.date;
   });
-  const sourceButtons = unlocked.map(id => sourceRecords.get(id)).map(record => ({ label: record.titleKo, subcopy: `${record.documentDate ?? '1847'} · ${record.type ?? '문학 원문'} · ${record.range ?? record.witness.range}`, run: () => sourceRead(record.sourceId, unlocked, 'PLAYER_ARCHIVE') }));
+  const sourceKindLabel = record => {
+    if (record.realmClass === 'LITERARY_REALM' || record.sourceId.startsWith('LIT-')) return '문학 원문';
+    return ({ catalog: '서지 자료', book: '원문', periodical: '신문·잡지', official: '공문서', letter: '편지' })[sourceReaderRecords.get(record.sourceId)?.layout] ?? '자료';
+  };
+  const sourceButtons = unlocked.map(id => sourceRecords.get(id)).map(record => ({ label: record.titleKo, subcopy: `${record.documentDate ?? record.date ?? '1847'} · ${sourceKindLabel(record)} · ${sourceReaderRecords.get(record.sourceId)?.pageLocator ?? record.range ?? record.witness?.range ?? ''}`, run: () => sourceRead(record.sourceId, unlocked, 'PLAYER_ARCHIVE') }));
   const realmActions = state.world.activeRealm
-    ? [{ label: '문학 세계에서 돌아오기', subcopy: '1847–1849 역사 연표로 돌아갑니다 · 문학 속 사건은 역사 기록에 합쳐지지 않습니다', run: () => { const result = leaveLiteraryRealm(state, maps); if (result.ok) { setState(result.state); say('현실의 거리로 돌아오다', '도청 소재지의 여관은 소설 속에 남아 있다. 이곳에서 본 것은 역사 속 사람의 기억이 되지 않는다.', [{ label: '자료철 열기', run: openSourceDrawer }]); } } }]
-    : campaign.literaryRealms.map(realm => ({ label: realm.entryLabelKo, subcopy: `먼저 자료철에서 작품 원문을 읽습니다 · 1842년 소설의 장면이며 역사 연표와 분리됩니다`, run: () => { const card = cards.find(item => item.id === realm.hostId); const result = enterLiteraryRealm(state, maps[realm.mapId], card); if (result.ok) { setState(result.state); say(realm.titleKo, `${card.displayNameKo}의 작품 속 장면이다. 이곳의 인물과 선택은 문학 세계에만 남는다.`, [{ label: '자료철 열기', run: openSourceDrawer }]); } else sayRecord(result.reason === 'literary_source_unread' ? '자료철에서 해당 작품의 원문을 먼저 읽어야 한다.' : '먼저 빌린 몸을 놓아주고 다시 시도하자.'); } }));
-  say(state.world.activeRealm ? '문학 세계의 자료' : '지금까지 열린 자료', state.world.activeRealm
-    ? '소설 속에 놓인 책을 직접 읽으면 그 장면의 인물이 알게 된다.'
+    ? [{ label: '장면에서 나가기', subcopy: '거리로 돌아갑니다', run: leaveCurrentLiteraryScene }]
+    : campaign.literaryRealms.map(realm => ({ label: realm.entryLabelKo, subcopy: `${realm.date.slice(0, 4)}년 · 자료철에서 원문을 읽은 뒤 입장`, run: () => { const card = cards.find(item => item.id === realm.hostId); const result = enterLiteraryRealm(state, maps[realm.mapId], card); if (result.ok) { setState(result.state); say(realm.titleKo, `${card.displayNameKo}가 술집 안쪽에 앉아 있다.`, [{ label: '자료철 열기', run: openSourceDrawer }]); } else sayRecord(result.reason === 'literary_source_unread' ? '자료철에서 해당 작품의 원문을 먼저 읽어야 한다.' : '먼저 빌린 몸을 놓아주고 다시 시도하자.'); } }));
+  say(state.world.activeRealm ? '주변 자료' : '지금까지 열린 자료', state.world.activeRealm
+    ? '자료를 읽으면 현재 인물의 기록에 남는다.'
     : '자료철은 기록의 손님이 살펴보는 목록이다. 빌린 몸의 지식에는 그 사람이 현장에서 직접 읽거나 전달받은 자료만 남는다. 날짜가 오지 않은 문서는 연표가 진행된 뒤 열린다.', [...sourceButtons, ...realmActions]);
 }
 function continuationFor(activeQuest) {
-  if (activeQuest.realmId || activeQuest.chapterId?.startsWith('LITERARY_')) return [{ label: '문학 세계 자료철 열기', run: openSourceDrawer }];
+  if (activeQuest.realmId || activeQuest.chapterId?.startsWith('LITERARY_')) return [{ label: '장면에서 나가기', run: leaveCurrentLiteraryScene }, { label: '자료철 열기', run: openSourceDrawer }];
   const arcIndex = campaign.arcs.findIndex(arc => arc.id === state.world.chapterId), arc = campaign.arcs[arcIndex];
   const questIndex = arc?.questIds.indexOf(activeQuest.id) ?? -1;
   const returnToCurrentGoal = () => {

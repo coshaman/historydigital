@@ -4661,9 +4661,10 @@ function enterLiteraryRealm(state, map, card) {
   const requiredSources = map.metadata.sourceIds ?? [];
   if (requiredSources.some(sourceId => !(state.world.discoveredSourceIds ?? []).includes(sourceId))) return { ok: false, reason: 'literary_source_unread', state };
   const next = clone(state);
-  next.world.returnLocation = { mapId: next.world.currentMapId, position: { ...next.player.position } };
+  next.world.returnLocation = { mapId: next.world.currentMapId, position: { ...next.player.position }, date: next.world.date };
   next.world.activeRealm = { id: map.metadata.realmId, mapClass: 'LITERARY_REALM', sourceIds: [...(map.metadata.sourceIds ?? [])] };
   next.world.currentMapId = map.mapId;
+  if (map.metadata.date) next.world.date = map.metadata.date;
   next.player.position = { ...(map.metadata.observerStart ?? card.start) };
   next.hosts[card.id].mapId = map.mapId;
   next.hosts[card.id].position = { ...card.start };
@@ -4677,6 +4678,7 @@ function leaveLiteraryRealm(state, maps = {}) {
   const next = clone(state);
   next.player.embodiment = null;
   next.world.currentMapId = location.mapId;
+  if (location.date) next.world.date = location.date;
   next.player.position = { ...location.position };
   next.world.activeRealm = null;
   delete next.world.returnLocation;
@@ -6363,8 +6365,15 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
   const envelope = typeof raw === 'string' ? JSON.parse(raw) : raw;
   if (![1, 2, 3, 36, SAVE_VERSION].includes(envelope?.saveVersion) || !envelope.state || envelope.checksum !== stateHash(envelope.state)) throw new Error('Invalid or corrupted V37 save');
   const state = clone(envelope.state);
+  state.hosts ??= {};
+  const missingHostIds = hostCards.filter(card => !state.hosts[card.id]).map(card => card.id);
+  const runtimeSeed = missingHostIds.length ? createInitialState({ maps, hostCards, quests, startMapId: 'nevsky' }) : null;
   for (const card of hostCards) {
-    if (!state.hosts?.[card.id]) throw new Error(`Save is missing registered runtime host ${card.id}`);
+    if (!state.hosts[card.id]) {
+      const addedHost = runtimeSeed.hosts?.[card.id];
+      if (!addedHost) throw new Error(`Runtime host migration could not initialize ${card.id}`);
+      state.hosts[card.id] = clone(addedHost);
+    }
     state.hosts[card.id].eraProfile = runtimeEraProfile(card);
     state.hosts[card.id].healthState ??= { condition: 'FIT', injury: null, recoveryUntilMinute: null, valueStatus: 'FICTIONAL_CHARACTER_DESIGN' };
     state.hosts[card.id].knownRumors ??= [];

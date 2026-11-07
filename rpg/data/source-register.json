@@ -101,6 +101,19 @@
       "rights": "Public-domain original; new Korean project translation."
     },
     {
+      "sourceId": "LIT-DOSTOEVSKY-CRIME-PUNISHMENT-1866-CH2",
+        "excerptId": "EX-DOSTOEVSKY-CRIME-PUNISHMENT-1866-P1-CH2-L121-146",
+      "type": "LITERARY_TEXT_ACADEMIC_TRANSCRIPTION",
+      "title": "Преступление и наказание. Часть первая. II",
+      "creator": "Ф. М. Достоевский",
+      "date": "1866",
+      "edition": "Text: Достоевский Ф. М. Собрание сочинений в 15 томах. Ленинград: Наука, 1989. Т. 5, с. 5–520; electronic publication by RVB, version 3. First publication: Русский вестник, т. 61, № 1/2, January–February 1866.",
+        "range": "Part I, chapter II; RVB digital transcription lines 121–146, printed pages 13–15; continuous encounter and exchange from Marmeladov addressing Raskolnikov through the account of his daughter.",
+      "url": "https://rvb.ru/dostoevski/01text/vol5/27-02.htm",
+      "catalogUrl": "https://www.prlib.ru/item/750572",
+      "rights": "Public-domain Russian original; new Korean project translation. The 1866 issue entry confirms Part I chapters I–VII on pp. 35–120."
+    },
+    {
       "sourceId": "LIT-GOGOL-DEAD-SOULS-1842",
       "type": "LITERARY_SOURCE_WITNESS_MODERN_TRANSCRIPTION",
       "title": "Мертвые души. Том первый",

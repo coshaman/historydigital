@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="마르멜라도프">
+  <defs><linearGradient id="room" x2="0" y2="1"><stop stop-color="#665244"/><stop offset="1" stop-color="#211a17"/></linearGradient></defs>
+  <rect width="64" height="64" fill="url(#room)"/><path d="M5 64V50q5-9 17-11h20q11 3 17 12v13" fill="#30251f"/>
+  <path d="M18 24q1-14 14-15 15 1 15 18l-3 13-11 9-12-11z" fill="#b39578"/>
+  <path d="M18 22Q20 6 33 7q13 1 15 17l-5-7-7-5-11 4-6 9z" fill="#51443a"/>
+  <path d="M22 27q4-3 8 0m5 0q4-3 8 0" fill="none" stroke="#49382f" stroke-width="2"/><path d="M29 39q4-3 9 0" fill="none" stroke="#705247" stroke-width="2"/>
+  <path d="M12 64q2-16 12-20l9 7 8-7q10 5 11 20" fill="#211d1a"/><path d="M27 44 33 51l7-7 3 20H24z" fill="#89765f"/>
+  <path d="M3 3h58v58H3z" fill="none" stroke="#ad895b" stroke-width="1"/>
+</svg>
