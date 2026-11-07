@@ -1087,7 +1087,9 @@ function advanceCourtyardFireEvent(state, minuteOffset, maps, livingEventRows) {
         livingEventRows.push(courtyardFireEventRow(state, event.stage, minuteOffset, maps,
           { actionId: event.resolutionActionId, resolvedByHostId: event.resolvedByHostId,
             changeKo: '미하일은 집주인과 짐꾼, 경비를 안뜰 문을 지나 거리까지 이끌었다. 네 사람은 문밖에 모였고 불길은 더 번지지 않았다.',
-            evacuatedHostIds: [...event.evacuatedHostIds], propertyDamage: 0, witnessedByPlayer: true }));
+            evacuatedHostIds: [...event.evacuatedHostIds], propertyDamage: 0,
+            witnessedByPlayer: event.resolvedByHostId === state.player.embodiment
+              || playerCanObserveWorldEvent(state, 'courtyard', event.scenePosition, 7, maps) }));
         return;
       }
     }

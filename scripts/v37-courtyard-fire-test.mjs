@@ -72,6 +72,17 @@ for (const [actionId, stage] of [['E27_EVACUATE_RESIDENTS', 'RESIDENTS_EVACUATED
   assert.equal(saved.world.livingEventStates.E27.stage, evacuation ? 'EVACUATING' : stage, `${actionId} persists across save/load`);
   if (evacuation) {
     let guided = game.advanceNpcWorld(saved, 30, maps);
+    const remoteObserver = structuredClone(saved);
+    remoteObserver.world.currentMapId = 'printshop'; remoteObserver.player.position = { x: 14, y: 9 };
+    remoteObserver.player.embodiment = null;
+    let remoteOutcome = remoteObserver;
+    for (let elapsed = 0; elapsed < 240 && remoteOutcome.world.livingEventStates.E27.stage === 'EVACUATING'; elapsed += 5) {
+      remoteOutcome = game.advanceNpcWorld(remoteOutcome, 5, maps);
+    }
+    const remoteEvacuation = remoteOutcome.ledger.flatMap(row => row.livingEvents ?? [])
+      .find(row => row.catalogEventId === 'E27' && row.stage === 'RESIDENTS_EVACUATED');
+    assert.equal(remoteEvacuation?.witnessedByPlayer, false,
+      'evacuation remains unseen when the player is in another district');
     const gateTile = { x: 12, y: 16 };
     assert.ok(['landlady_polina', 'porter_gavrila', 'junior_guard_sergey'].every(id => guided.hosts[id].mapId === 'courtyard'
       && Math.abs(guided.hosts[id].position.x - gateTile.x) + Math.abs(guided.hosts[id].position.y - gateTile.y) <= 4),
@@ -105,6 +116,10 @@ for (const [actionId, stage] of [['E27_EVACUATE_RESIDENTS', 'RESIDENTS_EVACUATED
     guided = game.advanceNpcWorld(transitioned.state, 5, maps);
     assert.equal(guided.world.livingEventStates.E27.stage, 'RESIDENTS_EVACUATED');
     assert.equal(guided.world.livingEventStates.E27.status, 'RESOLVED');
+    const playerEvacuation = guided.ledger.flatMap(row => row.livingEvents ?? [])
+      .find(row => row.catalogEventId === 'E27' && row.stage === 'RESIDENTS_EVACUATED');
+    assert.equal(playerEvacuation?.witnessedByPlayer, true,
+      'the player retains direct knowledge of the evacuation they personally led');
     assert.equal(guided.world.livingEventStates.E27.propertyDamage, 0);
     assert.ok(guided.world.livingEventStates.E27.actorHostIds.every(id => guided.hosts[id].mapId === 'nevsky'));
     const evacuatedSave = game.loadGame(game.saveGame(guided), { maps, hostCards: cards, quests });

@@ -55,6 +55,8 @@ const NPC_REACTION_FAMILIES = Object.freeze([
               : event.stage === 'TREATED' ? '하역 부상 · 조산사 처치'
                 : event.stage === 'RESTED' ? '하역 부상 · 휴식 선택'
                   : event.stage === 'RESTED_UNTREATED' ? '하역 부상 · 치료 없이 휴식' : null
+        : event.catalogEventId === 'E23'
+          ? event.stage === 'EDITORIAL_NOTE_AT_PRESS' ? '장터 취재 메모가 편집대에 도착' : null
         : event.catalogEventId === 'E16'
           ? event.stage === 'SHORTAGE_FOUND' ? '약방 재고 부족 확인'
             : event.stage === 'ORDER_PLACED' ? '약방 물품 주문 메모'

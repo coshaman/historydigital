@@ -76,6 +76,8 @@ const visibleNpcReactions = formatObservedNpcReactions([{
   meals: [{ hostId: 'market_nadezhda', itemKo: '빵', witnessedByPlayer: true }],
   restRecoveries: [{ hostId: 'porter_gavrila', witnessedByPlayer: true }],
   workOutputs: [{ hostId: 'clerk_alexei', outputKo: '접수부에 문서 번호와 도착 시각을 적음', witnessedByPlayer: true }],
+  livingEvents: [{ catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E23', stage: 'EDITORIAL_NOTE_AT_PRESS',
+    validationStatus: 'DESIGN_SEED_NOT_VERIFIED', actorHostIds: ['editor_sofia'], witnessedByPlayer: true }],
   goals: [{ hostId: 'clerk_alexei', activityKo: '내부 목표일 뿐 세계 행동은 아님', witnessedByPlayer: true }],
 }, {
   date: '1847-06-01', eventType: 'NPC_SIMULATION',
@@ -83,9 +85,11 @@ const visibleNpcReactions = formatObservedNpcReactions([{
 }], reactionResidents);
 assert.equal(OBSERVED_NPC_REACTION_FAMILY_COUNT, 13,
   'only witnessed physical or social resident outcomes count; internal plan selection is excluded');
-assert.equal(visibleNpcReactions.length, 11,
+assert.equal(visibleNpcReactions.length, 12,
   'the same formatter used by the journal renders each witnessed outcome family once');
 assert.ok(visibleNpcReactions.some(line => line.includes('접수 장부를 편다')));
+assert.ok(visibleNpcReactions.some(line => line.includes('편집대') && line.includes('소피야')),
+  'a witnessed E23 press arrival appears in the observation journal');
 assert.ok(!visibleNpcReactions.some(line => line.includes('내부 목표일 뿐') || line.includes('비공개 행동')),
   'internal goal selection and events outside player observation are neither counted nor disclosed');
 
