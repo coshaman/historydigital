@@ -80,4 +80,31 @@ for (const [hostId, actionId, disposition] of [
 const unattended = game.advanceNpcWorld(active, 181, maps, { pausedHostIds: ['clerk_alexei', 'printer_ekaterina', 'reader_darya', 'student_vasily'] });
 assert.equal(unattended.world.livingEventStates.E42.stage, 'UNRECORDED_NOTICE');
 assert.equal(unattended.world.immutableOutcomes.EUROPE_REVOLUTIONS_1848, 'the documented events and dates remain unchanged');
+
+const missed = structuredClone(state);
+missed.world.date = '1848-03-16'; missed.world.clockMinutes = 540;
+const missedWindow = game.advanceNpcWorld(missed, 1, maps, { pausedHostIds: ['clerk_alexei', 'printer_ekaterina', 'reader_darya', 'student_vasily'] });
+assert.equal(missedWindow.world.livingEventStates.E42, undefined, 'a missed local reading does not fabricate attendance');
+assert.equal(missedWindow.world.fixedHistoricalOutcomes.E42.status, 'FIXED_OUTCOME_SCENE_MISSED');
+assert.equal(missedWindow.world.fixedHistoricalOutcomes.E42.historicalOutcomeFixed, true);
+assert.deepEqual(missedWindow.world.fixedHistoricalOutcomes.E42.sourceIds, [sourceId]);
+assert.equal(missedWindow.world.immutableOutcomes.EUROPE_REVOLUTIONS_1848, 'the documented events and dates remain unchanged');
+assert.deepEqual(game.loadGame(game.saveGame(missedWindow), { maps, hostCards: cards, quests: [quest] }).world.fixedHistoricalOutcomes.E42,
+  missedWindow.world.fixedHistoricalOutcomes.E42, 'the fixed outcome record survives save/load');
+
+const missedSameDay = structuredClone(state); missedSameDay.world.clockMinutes = 781;
+const afterWindow = game.advanceNpcWorld(missedSameDay, 1, maps,
+  { pausedHostIds: ['clerk_alexei', 'printer_ekaterina', 'reader_darya', 'student_vasily'] });
+assert.equal(afterWindow.world.fixedHistoricalOutcomes.E42.status, 'FIXED_OUTCOME_SCENE_MISSED');
+assert.deepEqual(game.loadGame(game.saveGame(afterWindow), { maps, hostCards: cards, quests: [quest] }).world.fixedHistoricalOutcomes.E42,
+  afterWindow.world.fixedHistoricalOutcomes.E42, 'a same-day missed window is also valid after reload');
+
+const unreachable = structuredClone(state);
+unreachable.hosts['printer_ekaterina'].mapId = 'courtyard';
+unreachable.hosts['printer_ekaterina'].allowedMaps = unreachable.hosts['printer_ekaterina'].allowedMaps.filter(mapId => mapId !== 'printshop');
+const unreachableWindow = game.advanceNpcWorld(unreachable, 242, maps,
+  { pausedHostIds: ['clerk_alexei', 'printer_ekaterina', 'reader_darya', 'student_vasily'] });
+assert.equal(unreachableWindow.world.livingEventStates.E42?.stage, 'UNRECORDED_NOTICE', 'the fixed publication resolves even when its local readers cannot gather');
+assert.equal(unreachableWindow.world.europeNewsRecord?.disposition, 'NO_LOCAL_COPY');
+assert.equal(unreachableWindow.world.immutableOutcomes.EUROPE_REVOLUTIONS_1848, 'the documented events and dates remain unchanged');
 console.log('V37 E42 manifesto notice, source context, physical choices, immutable history, unattended resolution, and save/load passed');

@@ -481,6 +481,7 @@ function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky
       eventKnowledgeLog: [],
       foodAidRecords: [],
       immutableOutcomes,
+      fixedHistoricalOutcomes: {},
       literaryOutcomes,
       possessionHistory: [],
       completedChapterIds: [],
@@ -2309,21 +2310,40 @@ function europeNewsEventRow(state, event, stage, minuteOffset, maps, details = {
     historicalOutcomeId: 'EUROPE_REVOLUTIONS_1848', historicalOutcomeFixed: true,
     state: clone(event), witnessedByPlayer: playerCanObserveWorldEvent(state, event.venueMapId, event.scenePosition, 6, maps), ...details };
 }
+function retainMissedEuropeNewsOutcome(state) {
+  state.world.fixedHistoricalOutcomes ??= {};
+  if (state.world.fixedHistoricalOutcomes.E42) return;
+  const record = { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E42',
+    historicalOutcomeId: 'EUROPE_REVOLUTIONS_1848', historicalOutcomeFixed: true,
+    sourceIds: ['OBJ-NICHOLAS-MANIFESTO-1848'], outcomeDate: '1848-03-15',
+    status: 'FIXED_OUTCOME_SCENE_MISSED', localSceneOccurred: false,
+    noticedOnDate: state.world.date, noticedAtMinute: state.world.clockMinutes };
+  state.world.fixedHistoricalOutcomes.E42 = record;
+  state.world.immutableOutcomes ??= {};
+  state.world.immutableOutcomes.EUROPE_REVOLUTIONS_1848 = 'the documented events and dates remain unchanged';
+  state.ledger.push({ eventId: `WORLD_EVENT_${state.ledger.length + 1}`, eventType: 'HISTORICAL_OUTCOME_RETAINED',
+    date: record.outcomeDate, noticedOnDate: record.noticedOnDate, chapterId: 'V33_1848_PUBLIC', catalogEventId: 'E42',
+    status: record.status, sourceIds: [...record.sourceIds], outcomeFixed: true, localSceneOccurred: false });
+}
 function advanceEuropeNewsEvent(state, minuteOffset, maps, livingEventRows) {
   state.world.livingEventStates ??= {};
   let event = state.world.livingEventStates.E42;
   if (!event) {
+    const eventDate = '1848-03-15';
+    const minute = ((state.world.clockMinutes % 1440) + 1440) % 1440;
+    if (state.world.chapterId === 'V33_1848_PUBLIC' && (state.world.date > eventDate
+      || state.world.date === eventDate && minute > 780)) {
+      retainMissedEuropeNewsOutcome(state);
+      return;
+    }
     const objects = layer(maps?.printshop, 'Interactions')?.objects ?? [];
     const source = objects.find(item => properties(item).sourceId === 'OBJ-NICHOLAS-MANIFESTO-1848');
     const stand = objects.find(item => item.id === 1184);
     const actorHostIds = ['clerk_alexei', 'printer_ekaterina', 'reader_darya', 'student_vasily'];
     const actors = actorHostIds.map(id => state.hosts[id]);
-    const minute = ((state.world.clockMinutes % 1440) + 1440) % 1440;
     if (state.world.chapterId !== 'V33_1848_PUBLIC' || state.world.activeRealm
-      || state.world.date !== '1848-03-15' || minute < 540 || minute > 780
-      || !source || !stand || actors.some(host => !host || host.historicalAliveAndPresent === false
-        || !host.allowedMaps.includes('printshop')
-        || npcMapRoute(host.mapId, 'printshop', host, maps, state.world.clockMinutes) === null)) return;
+      || state.world.date !== eventDate || minute < 540 || minute > 780
+      || !source || !stand || actors.some(host => !host)) return;
     const scenePosition = objectTile(stand), witnesses = actorHostIds.filter(id => id !== 'clerk_alexei');
     event = state.world.livingEventStates.E42 = { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E42',
       status: 'ACTIVE', stage: 'NOTICE_ARRIVED', trigger: '1848-03-15_northern_bee_issue_59_publishes_manifesto',
@@ -6649,6 +6669,21 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
   }
   state.world.clockMinutes ??= 540;
   state.world.immutableOutcomes ??= {};
+  state.world.fixedHistoricalOutcomes ??= {};
+  const missedEuropeOutcome = state.world.fixedHistoricalOutcomes.E42;
+  if (Object.keys(state.world.fixedHistoricalOutcomes).some(id => id !== 'E42')
+    || (missedEuropeOutcome && (missedEuropeOutcome.catalogIdSpace !== 'V37_EVENT_CATALOG_45'
+      || missedEuropeOutcome.catalogEventId !== 'E42' || missedEuropeOutcome.historicalOutcomeId !== 'EUROPE_REVOLUTIONS_1848'
+      || missedEuropeOutcome.historicalOutcomeFixed !== true || missedEuropeOutcome.outcomeDate !== '1848-03-15'
+      || missedEuropeOutcome.status !== 'FIXED_OUTCOME_SCENE_MISSED' || missedEuropeOutcome.localSceneOccurred !== false
+      || !Array.isArray(missedEuropeOutcome.sourceIds) || missedEuropeOutcome.sourceIds.length !== 1
+      || missedEuropeOutcome.sourceIds[0] !== 'OBJ-NICHOLAS-MANIFESTO-1848'
+      || typeof missedEuropeOutcome.noticedOnDate !== 'string' || missedEuropeOutcome.noticedOnDate < missedEuropeOutcome.outcomeDate
+      || !Number.isInteger(missedEuropeOutcome.noticedAtMinute) || missedEuropeOutcome.noticedAtMinute < 0
+      || (missedEuropeOutcome.noticedOnDate === missedEuropeOutcome.outcomeDate && missedEuropeOutcome.noticedAtMinute <= 780)
+      || state.world.immutableOutcomes.EUROPE_REVOLUTIONS_1848 !== 'the documented events and dates remain unchanged'))) {
+    throw new Error('Save contains an invalid missed fixed historical outcome');
+  }
   state.world.literaryOutcomes ??= {};
   state.world.marketPriceModifiers ??= {};
   state.world.livingEventStates ??= {};
