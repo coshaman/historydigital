@@ -155,6 +155,7 @@
       "task": {
         "type": "EXCHANGE",
         "id": "BAKER_MARKET_EXCHANGE_1847",
+        "repeatDaily": true,
         "recipientHostId": "market_nadezhda",
         "notBeforeMinute": 600,
         "itemKo": "빵 한 묶음",

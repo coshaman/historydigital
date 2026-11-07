@@ -2702,6 +2702,22 @@
           ]
         },
         {
+          "id": 4007,
+          "name": "운하 정체에 대응한다",
+          "type": "quest-object",
+          "x": 208,
+          "y": 208,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            { "name": "questId", "type": "string", "value": "V37_CANAL_TRAFFIC_RESPONSE_1847" },
+            { "name": "requiresLivingEventId", "type": "string", "value": "E11" },
+            { "name": "requiresLivingEventStage", "type": "string", "value": "BOAT_TRAFFIC" },
+            { "name": "assetTileId", "type": "int", "value": 68 }
+          ]
+        },
+        {
           "id": 4005,
           "name": "늦은 운임을 누가 감당하나",
           "type": "quest-object",

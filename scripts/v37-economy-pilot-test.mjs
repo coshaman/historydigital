@@ -245,7 +245,8 @@ assert.equal(completedLaundry.world.livingEventStates.E04.status, 'RESOLVED');
 assert.equal(completedLaundry.world.livingEventStates.E04.stage, 'ACCOUNTS_RECONCILED');
 assert.equal(game.stateHash(game.loadGame(game.saveGame(completedLaundry), { maps, hostCards: cards })), game.stateHash(completedLaundry),
   'the resolved linen event stage survives save/load');
-assert.deepEqual(dayBreadEvents.map(event => event.stage), ['PRICE_NOTICE', 'RESTOCKED'], 'stockout and conditional bakery restock are observed in causal order');
+assert.deepEqual(dayBreadEvents.map(event => event.stage), ['PRICE_NOTICE', 'RESTOCKED'],
+  `stockout and conditional bakery restock are observed in causal order: ${JSON.stringify({ stock: day.hosts.market_nadezhda.marketStock['빵 한 묶음'], baker: { mapId: day.hosts.baker_fyodor.mapId, position: day.hosts.baker_fyodor.position, inventory: day.hosts.baker_fyodor.inventory.filter(item => item === '빵 한 묶음') }, exchanges: day.ledger.flatMap(row => row.exchanges ?? []).filter(row => row.itemKo === '빵 한 묶음') })}`);
 assert.equal(day.world.livingEventStates.E02.stage, 'RESTOCKED');
 assert.ok(nextDayBreadEvents.some(event => event.stage === 'FIRST_PURCHASE' && event.currentPrice === event.basePrice + 1 && event.pricePaid === event.currentPrice),
   'a later customer pays the displayed game-only surcharge and resolves the event');
@@ -276,7 +277,11 @@ assert.equal(wage.amount, 3);
 assert.equal(wage.mapId, wage.counterpartyMapId);
 assert.ok(Math.abs(wage.position.x - wage.counterpartyPosition.x) + Math.abs(wage.position.y - wage.counterpartyPosition.y) <= 1,
   'wage changes hands only while both residents are physically adjacent');
-assert.equal(day.hosts.tenant_mikhail.money.amount, 9, `starting funds + wage - rent equals the ending balance: ${JSON.stringify({ start: normal.hosts.tenant_mikhail.money, end: day.hosts.tenant_mikhail.money, rent, housing: day.hosts.tenant_mikhail.housing, purchaseMeals: day.ledger.flatMap(event => event.meals ?? []).filter(meal => meal.kind === 'PURCHASE_AND_EAT') })}`);
+const mikhailMealSpend = simulationEntries.flatMap(event => event.meals ?? [])
+  .filter(meal => meal.hostId === 'tenant_mikhail' && meal.kind === 'PURCHASE_AND_EAT')
+  .reduce((sum, meal) => sum + meal.price, 0);
+assert.equal(day.hosts.tenant_mikhail.money.amount, normal.hosts.tenant_mikhail.money.amount + wage.amount - rent.amount - mikhailMealSpend,
+  'the tenant balance includes wages, rent, and meals actually bought during the day');
 const paymentRows = simulationEntries.flatMap(event => event.payments ?? []);
 const carterPayments = paymentRows.filter(event => event.hostId === 'carter_roman' || event.payerHostId === 'carter_roman');
 assert.equal(day.hosts.carter_roman.money.amount, normal.hosts.carter_roman.money.amount
@@ -362,11 +367,21 @@ const partial = game.createInitialState({ maps, hostCards: cards, startMapId: 'm
 partial.hosts.carter_roman.money.amount = 0;
 partial.hosts.tenant_mikhail.money.amount = 4;
 partial.hosts.tenant_mikhail.housing.arrears = 3;
+partial.hosts.tenant_mikhail.mapId = partial.hosts.landlady_polina.mapId = 'courtyard';
+partial.hosts.tenant_mikhail.position = { x: 20, y: 13 };
+partial.hosts.landlady_polina.position = { x: 20, y: 14 };
+partial.hosts.tenant_mikhail.schedule = [{ atMinute: 0, mapId: 'courtyard', position: { x: 20, y: 13 }, activityKo: '방세를 마련한다' }];
+partial.hosts.landlady_polina.schedule = [{ atMinute: 0, mapId: 'courtyard', position: { x: 20, y: 14 }, activityKo: '세입자의 방세를 기다린다' }];
 const partialState = game.advanceNpcWorld(partial, 840, maps);
 const partialEvents = partialState.ledger.flatMap(event => event.housing ?? []).filter(event => event.hostId === 'tenant_mikhail');
-assert.ok(partialEvents.some(event => event.kind === 'RENT_PARTIAL' && event.amount === 4 && event.amountDueRemaining === 2),
-  'available funds partially pay the rent and reduce outstanding arrears');
-assert.equal(partialState.hosts.tenant_mikhail.housing.arrears, 2);
+const partialMealSpend = partialState.ledger.flatMap(row => row.meals ?? [])
+  .filter(meal => meal.hostId === 'tenant_mikhail' && meal.kind === 'PURCHASE_AND_EAT')
+  .reduce((sum, meal) => sum + meal.price, 0);
+const partialRent = partialEvents.find(event => event.kind === 'RENT_PARTIAL');
+assert.ok(partialRent, `the nearby landlord accepts a partial payment: ${JSON.stringify({ partialEvents, partialMealSpend })}`);
+assert.equal(partialRent.amount, 4 - partialMealSpend, 'food bought before rent reduces the available payment');
+assert.equal(partialRent.amountDueRemaining, 6 - partialRent.amount, 'unpaid current rent and arrears remain due');
+assert.equal(partialState.hosts.tenant_mikhail.housing.arrears, partialRent.amountDueRemaining);
 assert.equal(partialState.hosts.tenant_mikhail.money.amount, 0);
 
 const marketMeal = game.createInitialState({ maps, hostCards: cards, startMapId: 'market-quay' });

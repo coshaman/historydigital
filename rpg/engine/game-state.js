@@ -1176,6 +1176,14 @@ function beginBreadPriceEvent(state, meal, minuteOffset, maps, livingEventRows) 
   state.world.livingEventStates ??= {};
   state.world.marketPriceModifiers ??= {};
   const offer = seller.marketOffers.find(item => item.itemKo === meal.itemKo);
+  const supplier = state.hosts.baker_fyodor;
+  for (const slot of supplier?.schedule ?? []) {
+    const task = slot.task;
+    if (task?.type !== 'EXCHANGE' || task.recipientHostId !== seller.id || task.itemKo !== meal.itemKo) continue;
+    if (supplier.completedSocialTaskDayById) delete supplier.completedSocialTaskDayById[task.id];
+    if (supplier.routineTaskCompletedId === task.id) supplier.routineTaskCompletedId = null;
+    if (supplier.completedSocialTaskIds) supplier.completedSocialTaskIds = supplier.completedSocialTaskIds.filter(id => id !== task.id);
+  }
   state.world.marketPriceModifiers[`${seller.id}:${meal.itemKo}`] = 1;
   state.world.livingEventStates.E02 = { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E02', status: 'ACTIVE', stage: 'PRICE_NOTICE', startedAtMinute: state.world.clockMinutes,
     trigger: 'market_stock_depleted_after_sale', buyerHostId: meal.hostId, sellerHostId: seller.id, supplierHostId: 'baker_fyodor',
@@ -4028,7 +4036,8 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
     recordNpcGoal(state, host, goal, state.world.clockMinutes, minuteOffset, goalRows, maps);
     const canalTraffic = state.world.livingEventStates?.E11;
     const heldByCanalTraffic = canalTraffic?.status === 'ACTIVE' && state.world.clockMinutes < canalTraffic.clearsAtMinute
-      && canalTraffic.actorHostIds.includes(host.id) && host.mapId === 'canal-road';
+      && canalTraffic.actorHostIds.includes(host.id) && host.mapId === 'canal-road'
+      && !(canalTraffic.reroutedHostIds ?? []).includes(host.id);
     const medicallyRestricted = ['INJURED', 'UNWELL'].includes(host.healthState?.condition)
       && host.healthState?.illness?.id !== 'FOOD_DEPRIVATION'
       || host.healthState?.condition === 'RECOVERING' && state.world.clockMinutes < host.healthState.recoveryUntilMinute;
@@ -5016,6 +5025,8 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
   if (quest.requiresLivingEventId && (requiredDebtStatuses
     ? !requiredDebtStatuses.includes(requiredLivingEvent?.debt?.status)
     : requiredLivingEvent?.status !== 'ACTIVE')) return { ok: false, reason: 'living_event_not_active', state };
+  if (quest.requiresLivingEventStage && requiredLivingEvent?.stage !== quest.requiresLivingEventStage)
+    return { ok: false, reason: 'living_event_stage_not_ready', state };
   const literaryQuest = Boolean(quest.realmId) || quest.chapterId?.startsWith('LITERARY_');
   const requiredRealmId = quest.realmId ?? quest.chapterId;
   if (literaryQuest ? state.world.activeRealm?.id !== requiredRealmId : (quest.chapterId !== state.world.chapterId || Boolean(state.world.activeRealm))) return { ok: false, reason: 'quest_outside_chapter', state };
@@ -5052,6 +5063,10 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
   if (action.requiredKnowledgeId && !knowledgeForHost(state, hostId).includes(action.requiredKnowledgeId)) return { ok: false, reason: 'host_lacks_knowledge', state };
   const effects = action.effects ?? {}, relationEffects = effects.relations ?? {}, inventoryRemove = effects.inventoryRemove ?? [], inventoryAdd = effects.inventoryAdd ?? [];
   const chainDelta = effects.lifeChainDelta ?? {};
+  if (effects.canalTrafficResponse !== undefined
+    && !['WAIT_FOR_PASSAGE', 'TAKE_CONFIRMED_DETOUR', 'REORDER_DELIVERIES'].includes(effects.canalTrafficResponse)) {
+    return { ok: false, reason: 'invalid_canal_traffic_response', state };
+  }
   if (Object.entries(chainDelta).some(([key, value]) => !/^[a-z][a-zA-Z0-9]{0,39}$/.test(key) || !Number.isInteger(value) || Math.abs(value) > 20)) return { ok: false, reason: 'invalid_life_chain_effect', state };
   if (effects.moneyDelta !== undefined && (!Number.isInteger(effects.moneyDelta) || Math.abs(effects.moneyDelta) > 10000 || !Number.isFinite(host.money?.amount) || host.money.amount + effects.moneyDelta < 0)) return { ok: false, reason: 'invalid_or_unaffordable_effect', state };
   const healthTransition = effects.healthTransition;
@@ -5105,6 +5120,22 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
     ? { status: 'open', result: action.id }
     : { status: 'resolved', result: action.id };
   next.hosts[hostId].questFlags[action.resultFlag] = true;
+  if (questId === 'V37_CANAL_TRAFFIC_RESPONSE_1847') {
+    const event = next.world.livingEventStates?.E11, response = effects.canalTrafficResponse;
+    if (!event || event.status !== 'ACTIVE' || event.stage !== 'BOAT_TRAFFIC'
+      || !event.actorHostIds.includes(hostId) || !response) return { ok: false, reason: 'canal_traffic_not_ready', state };
+    event.playerDecision = { actionId, hostId, response, atMinute: next.world.clockMinutes };
+    if (response === 'WAIT_FOR_PASSAGE') {
+      event.waitMinutesByHost ??= {};
+      event.waitMinutesByHost[hostId] = (event.waitMinutesByHost[hostId] ?? 0) + actionDuration;
+    } else if (response === 'TAKE_CONFIRMED_DETOUR') {
+      event.reroutedHostIds = [...new Set([...(event.reroutedHostIds ?? []), hostId])];
+      event.routeAdviceFromHostId = 'carter_roman';
+    } else event.deliveryOrderPreference = 'NEAR_DELIVERIES_FIRST';
+    livingEvents.push(livingCanalTrafficEventRow(next, 'BOAT_TRAFFIC', next.world.clockMinutes % 1440, maps,
+      { actionId, resolvedByHostId: hostId, playerDecision: clone(event.playerDecision),
+        changeKo: effects.situationKo ?? '티모페이는 운하 정체에 맞춰 오늘의 운송 순서를 정했다.' }));
+  }
   if (!literaryQuest && questId === 'CIRCLE_INVESTIGATION_1849') {
     const event = next.world.livingEventStates?.E40;
     const outcomes = {
@@ -7327,6 +7358,15 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
     || canalTrafficEvent.occurrenceType !== 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION'
     || !Array.isArray(canalTrafficEvent.actorHostIds) || canalTrafficEvent.actorHostIds.length !== 2
     || canalTrafficEvent.actorHostIds[0] !== 'coachman_timofey' || canalTrafficEvent.actorHostIds[1] !== 'watercarrier_luka'
+    || (canalTrafficEvent.reroutedHostIds !== undefined && (!Array.isArray(canalTrafficEvent.reroutedHostIds)
+      || canalTrafficEvent.reroutedHostIds.some(id => !canalTrafficEvent.actorHostIds.includes(id))
+      || new Set(canalTrafficEvent.reroutedHostIds).size !== canalTrafficEvent.reroutedHostIds.length))
+    || (canalTrafficEvent.playerDecision !== undefined && (!canalTrafficEvent.playerDecision
+      || !canalTrafficEvent.actorHostIds.includes(canalTrafficEvent.playerDecision.hostId)
+      || !['WAIT_FOR_PASSAGE', 'TAKE_CONFIRMED_DETOUR', 'REORDER_DELIVERIES'].includes(canalTrafficEvent.playerDecision.response)
+      || !Number.isInteger(canalTrafficEvent.playerDecision.atMinute)))
+    || (canalTrafficEvent.routeAdviceFromHostId !== undefined && canalTrafficEvent.routeAdviceFromHostId !== 'carter_roman')
+    || (canalTrafficEvent.deliveryOrderPreference !== undefined && canalTrafficEvent.deliveryOrderPreference !== 'NEAR_DELIVERIES_FIRST')
     || canalTrafficEvent.triggerHostId !== 'coachman_timofey' && canalTrafficEvent.triggerHostId !== 'watercarrier_luka'
     || !Number.isInteger(canalTrafficEvent.startedAtMinute) || !Number.isInteger(canalTrafficEvent.clearsAtMinute)
     || (canalTrafficEvent.stage === 'WAITING_FOR_PARTNER' && (!Number.isInteger(canalTrafficEvent.partnerWaitStartedAtMinute)

@@ -1,0 +1,72 @@
+{
+  "id": "V37_CANAL_TRAFFIC_RESPONSE_1847",
+  "titleKo": "운하 길목에 배가 들어섰다",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-01-01",
+  "requiresLivingEventId": "E11",
+  "requiresLivingEventStage": "BOAT_TRAFFIC",
+  "premiseKo": "배가 운하를 지나는 동안 티모페이와 물 나르는 인부의 길이 막혔다.",
+  "historicalOutcome": {
+    "id": "V37_CANAL_TRAFFIC_FICTIONAL_OUTCOME",
+    "value": "fictional resident transport outcome; no historical event or public record changes",
+    "sourceIds": []
+  },
+  "entry": { "mapId": "canal-road", "objectId": 4007, "requiredHostId": "coachman_timofey" },
+  "actions": [
+    {
+      "id": "E11_WAIT_FOR_PASSAGE",
+      "hostIds": ["coachman_timofey"],
+      "requiredLivingEventStage": "BOAT_TRAFFIC",
+      "durationMinutes": 5,
+      "labelKo": "배가 지나갈 때까지 기다린다",
+      "subcopyKo": "운송 동료와 곁의 일꾼이 압니다 · 기다린 시간이 운송 기록에 남습니다 · 다음 일감이 늦어질 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "운송 동료와 곁의 일꾼이 압니다",
+        "recordKo": "기다린 시간이 운송 기록에 남습니다",
+        "riskKo": "다음 일감이 늦어질 수 있습니다"
+      },
+      "resultFlag": "V37_E11_WAITED_FOR_BOAT",
+      "resultKo": "티모페이는 배가 지나갈 때까지 마차를 세웠다.",
+      "followupTitleKo": "운하 길목에 배가 들어섰다",
+      "effects": { "situationKo": "티모페이는 배가 지나갈 때까지 마차를 세웠다.", "canalTrafficResponse": "WAIT_FOR_PASSAGE" }
+    },
+    {
+      "id": "E11_TAKE_CONFIRMED_DETOUR",
+      "hostIds": ["coachman_timofey"],
+      "requiredLivingEventStage": "BOAT_TRAFFIC",
+      "requiredPresentHostIds": ["carter_roman"],
+      "requiredParticipantDistance": 5,
+      "durationMinutes": 4,
+      "labelKo": "로만에게 우회 길을 확인하고 돌아간다",
+      "subcopyKo": "로만과 운송 동료가 압니다 · 확인한 우회가 운송 기록에 남습니다 · 길이 막혀 있으면 더 늦어집니다",
+      "practicalDisclosure": {
+        "audienceKo": "로만과 운송 동료가 압니다",
+        "recordKo": "확인한 우회가 운송 기록에 남습니다",
+        "riskKo": "길이 막혀 있으면 더 늦어집니다"
+      },
+      "resultFlag": "V37_E11_CONFIRMED_DETOUR",
+      "resultKo": "로만이 길을 살핀 뒤 우회로를 짚어 주었다. 티모페이는 배가 지나는 동안 그쪽 길로 마차를 몰았다.",
+      "followupTitleKo": "운하 길목에 배가 들어섰다",
+      "effects": { "situationKo": "로만이 길을 살핀 뒤 우회로를 짚어 주었다. 티모페이는 배가 지나는 동안 그쪽 길로 마차를 몰았다.", "canalTrafficResponse": "TAKE_CONFIRMED_DETOUR" }
+    },
+    {
+      "id": "E11_REORDER_DELIVERIES",
+      "hostIds": ["coachman_timofey"],
+      "requiredLivingEventStage": "BOAT_TRAFFIC",
+      "requiredPresentHostIds": ["carter_roman"],
+      "requiredParticipantDistance": 5,
+      "durationMinutes": 3,
+      "labelKo": "가까운 짐부터 먼저 나른다",
+      "subcopyKo": "로만과 운송 동료가 압니다 · 바뀐 순서가 운송 기록에 남습니다 · 먼 곳의 짐은 다음 운송으로 밀릴 수 있습니다",
+      "practicalDisclosure": {
+        "audienceKo": "로만과 운송 동료가 압니다",
+        "recordKo": "바뀐 순서가 운송 기록에 남습니다",
+        "riskKo": "먼 곳의 짐은 다음 운송으로 밀릴 수 있습니다"
+      },
+      "resultFlag": "V37_E11_REORDERED_DELIVERIES",
+      "resultKo": "티모페이와 로만은 가까운 짐부터 보내기로 했다.",
+      "followupTitleKo": "운하 길목에 배가 들어섰다",
+      "effects": { "situationKo": "티모페이와 로만은 가까운 짐부터 보내기로 했다.", "canalTrafficResponse": "REORDER_DELIVERIES" }
+    }
+  ]
+}
