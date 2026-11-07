@@ -1808,8 +1808,17 @@ function advanceStudentCircle(state, minuteOffset, maps, livingEventRows) {
   const localMinute = ((state.world.clockMinutes % 1440) + 1440) % 1440;
   const reviewDiscussion = state.world.livingEventStates.E21;
   const salonInvitation = state.world.livingEventStates.E29;
+  const reviewHasBeenRead = ['reader_darya', 'student_vasily', 'editor_sofia']
+    .some(id => state.hosts[id]?.knownEvidenceIds?.includes('LIT-BELINSKY-GOGOL-REVIEW-1847'));
+  const reviewObject = layer(maps?.['bookshop-interior'], 'Interactions')?.objects.find(item => item.type === 'source'
+    && properties(item).sourceId === 'LIT-BELINSKY-GOGOL-REVIEW-1847');
+  const embodiedReader = state.hosts[state.player.embodiment];
+  const reviewReadInProgress = state.world.currentMapId === 'bookshop-interior' && reviewObject && embodiedReader
+    && ['reader_darya', 'student_vasily', 'editor_sofia'].includes(embodiedReader.id)
+    && embodiedReader.mapId === 'bookshop-interior' && nearTile(embodiedReader.position, objectTile(reviewObject), 1);
   if (!event && state.world.chapterId === 'V33_1847_PRINT' && !state.world.activeRealm
-    && state.world.date === '1847-06-01' && localMinute >= 640 && localMinute < 800
+    && state.world.date >= '1847-06-01' && localMinute >= 640 && localMinute < 1200
+    && (reviewDiscussion || (!reviewHasBeenRead && !reviewReadInProgress))
     && reviewDiscussion?.status !== 'ACTIVE' && salonInvitation?.status !== 'ACTIVE') {
     const student = state.hosts.student_vasily, organizer = state.hosts.reader_darya;
     const position = { x: 15, y: 13 };

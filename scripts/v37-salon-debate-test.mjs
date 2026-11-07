@@ -49,6 +49,12 @@ assert.equal(opened.world.livingEventStates.E21.stage, 'DEBATE_READY');
 assert.equal(opened.world.livingEventStates.E24, undefined, 'the courtyard circle waits while the source discussion is active');
 assert.ok(opened.world.livingEventStates.E21.actorHostIds.every(id => opened.hosts[id].mapId === 'bookshop-interior'),
   `the other readers travel to the bookshop without teleporting: ${JSON.stringify(opened.world.livingEventStates.E21.actorHostIds.map(id => ({ id, mapId: opened.hosts[id].mapId, goal: opened.hosts[id].activeGoal, routine: opened.hosts[id].routineState })))}`);
+const lateDiscussion = structuredClone(opened);
+lateDiscussion.world.clockMinutes = 810;
+const lateCircle = game.advanceWorldTime(lateDiscussion, 2, maps);
+assert.equal(lateCircle.world.livingEventStates.E24?.stage, 'INVITATION_POSTED',
+  `the courtyard circle remains scheduled after the review window passes: ${JSON.stringify({ date: lateCircle.world.date,
+    minute: lateCircle.world.clockMinutes, e21: lateCircle.world.livingEventStates.E21, e24: lateCircle.world.livingEventStates.E24 })}`);
 const choices = questChoices(quest, 'reader_darya', opened.hosts.reader_darya.knownEvidenceIds, opened);
 assert.deepEqual(choices.map(item => item.action.id), ['E21_DEFEND_EUROPEAN_METHOD']);
 const resolved = game.performQuestAction(opened, { questId: quest.id, hostId: 'reader_darya',

@@ -37,7 +37,9 @@ state = game.advanceWorldTime(state, 90, maps);
 assert.equal(state.world.livingEventStates.E21?.stage, 'DEBATE_READY', 'the three readers gather after a verified source is opened');
 const debate = game.performQuestAction(state, { questId: discussionQuest.id, hostId: 'reader_darya',
   actionId: 'E21_DEFEND_EUROPEAN_METHOD', objectId: discussionQuest.entry.objectId }, { quests: [discussionQuest, quest], maps });
-assert.equal(debate.ok, true, debate.reason);
+assert.equal(debate.ok, true, `${debate.reason}: ${JSON.stringify({ event: state.world.livingEventStates.E21,
+  actors: ['reader_darya', 'student_vasily', 'editor_sofia'].map(id => ({ id, mapId: state.hosts[id].mapId,
+    position: state.hosts[id].position })), e24: state.world.livingEventStates.E24 })}`);
 const triggered = debate.state;
 assert.equal(triggered.world.livingEventStates.E29?.status, 'ACTIVE', 'the source-based discussion causes the invitation');
 assert.equal(triggered.world.livingEventStates.E29.trigger, 'sofia_invites_the_readers_after_belinsky_review_discussion');
