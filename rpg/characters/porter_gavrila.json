@@ -212,7 +212,13 @@
         "outputKind": "짐 운반",
         "outputKo": "밀가루 포대를 빵집 안으로 옮기고 인수표를 받아 둔다",
         "durationMinutes": 20,
-        "inventoryItemKo": "인수 확인표 한 장"
+        "inventoryItemKo": "인수 확인표 한 장",
+        "payroll": {
+          "payerHostId": "market_nadezhda",
+          "amount": 1,
+          "unit": "kopeks",
+          "valueStatus": "fictional_gameplay_balance"
+        }
       }
     },
     {
