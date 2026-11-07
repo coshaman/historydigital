@@ -4,6 +4,7 @@ import { readdir, readFile } from 'node:fs/promises';
 import { questChoices } from '../rpg/engine/quest-presentation.mjs';
 import { objectIsPresent } from '../rpg/engine/world-presentation.mjs';
 import { dialogueSceneContext } from '../rpg/engine/dialogue-context.mjs';
+import { newspaperAssignment, purchaseCityProduct, publishNewspaperIssue, circulateNewspaperIssue, readNewspaperIssue } from '../rpg/engine/civic-life.mjs';
 
 const require = createRequire(import.meta.url);
 require('../rpg/engine/game-state.js');
@@ -81,9 +82,11 @@ for (const [actionId, hostId, stage] of [
   ['E23_CHECK_MARKET_RECORD', 'clerk_alexei', 'PRICE_CHECKED_UNVERIFIED'],
   ['E23_REPEAT_RUMOR', 'street_vendor_matryona', 'FORWARDED_UNVERIFIED'],
   ['E23_CORRECT_RUMOR', 'street_vendor_matryona', 'CORRECTION_SPREAD'],
+  ['E23_SEND_TO_PRESS', 'editor_sofia', 'EDITORIAL_NOTE_TAKEN'],
   ['E23_IGNORE_RUMOR', 'clerk_alexei', 'IGNORED_UNCHECKED'],
 ]) {
   const branch = atRumorScene(moved, hostId);
+  if (hostId === 'editor_sofia') { branch.hosts.editor_sofia.mapId = 'market-quay'; branch.hosts.editor_sofia.position = { ...event.scenePosition }; }
   const result = game.performQuestAction(branch, { questId: e23Quest.id, hostId, actionId, objectId: e23Quest.entry.objectId }, { quests: [e13Quest, e23Quest], maps });
   assert.equal(result.ok, true, `${actionId} is available at the rumor object (${result.reason ?? ''})`);
   assert.equal(result.state.world.livingEventStates.E23.stage, stage);
@@ -103,6 +106,41 @@ for (const [actionId, hostId, stage] of [
   }
   if (actionId === 'E23_CORRECT_RUMOR') for (const recipientId of result.state.world.livingEventStates.E23.correctionReachedHostIds) {
     assert.ok(result.state.hosts[recipientId].knownRumors.some(row => row.status === 'CORRECTED' && row.fromHostId === 'street_vendor_matryona'));
+  }
+  if (actionId === 'E23_SEND_TO_PRESS') {
+    assert.equal(result.state.world.livingEventStates.E23.editorialNote.claimStatus, 'UNVERIFIED');
+    assert.ok(result.state.hosts.editor_sofia.inventory.includes('editorial-note:E23'));
+    assert.ok(result.state.hosts.editor_sofia.knownRumors.some(row => row.eventId === 'E23' && row.status === 'UNVERIFIED'));
+    assert.match(newspaperAssignment(result.state, 'editor_sofia', maps)?.actionKo ?? '', /장터/);
+    let printing = structuredClone(result.state);
+    printing.world.currentMapId = 'nevsky';
+    printing.hosts.editor_sofia.mapId = 'nevsky'; printing.hosts.editor_sofia.position = { x: 25, y: 15 };
+    printing.hosts.bookseller_lev.mapId = 'nevsky'; printing.hosts.bookseller_lev.position = { x: 25, y: 15 };
+    for (const productId of ['newsprint_sheet', 'printing_ink']) {
+      const purchase = purchaseCityProduct(printing, { hostId: 'editor_sofia', productId });
+      assert.equal(purchase.ok, true, `${productId} is bought before printing`); printing = purchase.state;
+    }
+    printing.world.currentMapId = 'printshop'; printing.hosts.editor_sofia.mapId = 'printshop';
+    const issueResult = publishNewspaperIssue(printing, { hostId: 'editor_sofia', storyId: 'MARKET_RUMOR_NOTE_E23' });
+    assert.equal(issueResult.ok, true, `editor can print a note from the interview (${issueResult.reason ?? ''})`);
+    assert.equal(issueResult.issue.sourceEventId, 'E13');
+    assert.deepEqual(issueResult.issue.witnessHostIds, result.state.world.livingEventStates.E23.editorialNote.witnessHostIds);
+    assert.match(issueResult.issue.bodyKo, /확인되지 않은 소문/);
+    assert.equal(issueResult.state.world.livingEventStates.E23.stage, 'NEWSPAPER_PRINTED');
+    let circulated = structuredClone(issueResult.state);
+    circulated.world.currentMapId = 'nevsky'; circulated.hosts.editor_sofia.mapId = 'nevsky';
+    const issueId = issueResult.issue.id;
+    const circulation = circulateNewspaperIssue(circulated, { hostId: 'editor_sofia', issueId, route: 'street' });
+    assert.equal(circulation.ok, true);
+    circulated = circulation.state; circulated.world.currentMapId = 'nevsky';
+    circulated.hosts.reader_darya.mapId = 'nevsky';
+    const readIssue = readNewspaperIssue(circulated, { hostId: 'reader_darya', issueId });
+    assert.equal(readIssue.ok, true);
+    assert.ok(readIssue.state.hosts.reader_darya.knownRumors.some(row => row.eventId === 'E23'
+      && row.status === 'UNVERIFIED' && row.newspaperIssueId === issueId));
+    assert.ok(readIssue.state.world.livingEventStates.E23.newspaperReaderHostIds.includes('reader_darya'));
+    const restoredIssue = game.loadGame(game.saveGame(readIssue.state), { maps, hostCards: cards });
+    assert.equal(game.stateHash(restoredIssue), game.stateHash(readIssue.state), 'interview, publication, circulation, and reading persist together');
   }
   const restored = game.loadGame(game.saveGame(result.state), { maps, hostCards: cards });
   assert.equal(game.stateHash(restored), game.stateHash(result.state), `${actionId} state survives save/load`);

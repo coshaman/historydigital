@@ -56,6 +56,19 @@
       "effects": { "situationKo": "가격 조정은 기록에서 확인됐지만 재고를 숨겼다는 의혹은 입증되지 않았다고 정정했다." }
     },
     {
+      "id": "E23_SEND_TO_PRESS",
+      "hostIds": ["editor_sofia"],
+      "requiredLivingEventStage": "RUMOR_ACTIVE",
+      "requiredPresentLivingEventHostKey": "carrierHostId",
+      "requiredParticipantDistance": 5,
+      "durationMinutes": 6,
+      "labelKo": "장터에서 들은 말을 취재 메모로 옮긴다",
+      "subcopyKo": "마트료나와 곁사람이 압니다 · 취재 메모가 소피야의 소지품에 남습니다 · 공식 장부는 바뀌지 않습니다 · 소문은 확인된 사실처럼 싣지 않습니다",
+      "resultFlag": "v37MarketRumorSentToPress",
+      "resultKo": "소피야는 장터에서 들은 소문과 확인이 필요한 범위를 메모했다. 인쇄 여부는 편집대에서 정할 수 있다.",
+      "effects": { "situationKo": "소피야는 가격 기록 신청 뒤에 퍼진 말을 취재 메모로 남겼다." }
+    },
+    {
       "id": "E23_IGNORE_RUMOR",
       "hostIds": ["clerk_alexei", "street_vendor_matryona"],
       "requiredLivingEventStage": "RUMOR_ACTIVE",

@@ -1001,17 +1001,27 @@ function showPrintedIssue(issue, hostId) {
   const read = readNewspaperIssue(state, { hostId, issueId: issue.id });
   if (!read.ok) { sayRecord('그 호를 가진 사람만 펼쳐 볼 수 있습니다.'); return; }
   if (!read.alreadyRead) setState(read.state);
-  say(issue.titleKo, `${issue.editorialKo}\n\n${issue.bodyKo}\n\n근거 자료 · ${issue.sourceId} · 발행일 ${issue.publishedDate}`, [
+  const marketInterview = issue.eventId === 'E23';
+  const provenance = marketInterview ? `취재원 · ${cards.find(card => card.id === 'street_vendor_matryona')?.displayNameKo ?? '마트료나'} · 발행일 ${issue.publishedDate}`
+    : `자료 · ${issue.sourceId} · 발행일 ${issue.publishedDate}`;
+  const actions = marketInterview ? [] : [
     { label: '근거 원문을 함께 읽는다', subcopy: '인쇄한 기사의 바탕이 된 자료를 엽니다.', run: () => sourceRead(issue.sourceId, [issue.sourceId], 'PLAYER_ARCHIVE') },
-  ]);
-  sayRecord(read.alreadyRead ? '이미 읽은 호입니다.' : '신문을 읽었다 · 근거 자료가 수첩에 기록됐다.');
+  ];
+  say(issue.titleKo, `${issue.editorialKo}\n\n${issue.bodyKo}\n\n${provenance}`, actions);
+  $('#mission-tracker').hidden = true;
+  if (marketInterview) {
+    const journal = $('.journal'), article = $('#journal-text');
+    const overflow = article.getBoundingClientRect().bottom - journal.getBoundingClientRect().bottom;
+    if (overflow > 0) journal.scrollTop += overflow;
+  }
+  sayRecord(read.alreadyRead ? '이미 읽은 호입니다.' : marketInterview ? '신문을 읽었다 · 마트료나의 전언을 알게 됐다.' : '신문을 읽었다 · 근거 자료가 수첩에 기록됐다.');
 }
 function circulateIssue(hostId, issueId, route) {
   const result = circulateNewspaperIssue(state, { hostId, issueId, route });
   if (!result.ok) { sayRecord(({ envelope_missing: '먼저 발송용 봉투를 사세요.', insufficient_postage: '우편료 4코페이카가 부족합니다.', issue_not_owned: '그 신문은 지금 소지품에 없습니다.' })[result.reason] ?? '이 경로로 보낼 수 없습니다.'); return; }
   setState(result.state);
   const resultText = route === 'postal' ? '한 부를 봉투에 넣어 지방행 묶음에 맡겼습니다. 도착 여부는 아직 알 수 없습니다.' : '한 부를 가판에 놓아 거리 독자에게 건넸습니다.';
-  say('호외를 배포했다', `${resultText} 실제 간행 기록을 바꾸는 일은 아닙니다.`, []);
+  say('호외를 배포했다', resultText, []);
   sayRecord(route === 'postal' ? '발송료 4 코페이카 · 봉투 1개 사용' : '거리 배포 기록 · 신문 1부 사용');
 }
 function openNewsstand() {
@@ -1022,7 +1032,9 @@ function openNewsstand() {
   const issues = civic.publishedIssues.filter(issue => host.inventory.includes(`newspaper_issue:${issue.id}`) || civic.circulatedIssues.some(entry => entry.issueId === issue.id && entry.route === 'street'));
   const actions = issues.flatMap(issue => {
     const ownsIssue = host.inventory.includes(`newspaper_issue:${issue.id}`);
-    const read = { label: `${ownsIssue ? '소장한 호 읽기' : '거리 독자가 놓고 간 호 읽기'} · ${issue.titleKo}`, subcopy: `${issue.sourceId}에 근거한 기사 · 읽은 자료가 이 인물의 수첩에 남습니다.`, run: () => showPrintedIssue(issue, hostId) };
+    const read = { label: `${ownsIssue ? '소장한 호 읽기' : '거리 독자가 놓고 간 호 읽기'} · ${issue.titleKo}`, subcopy: issue.eventId === 'E23'
+      ? '마트료나가 전한 말을 실었습니다 · 읽으면 이 인물이 소문을 듣습니다.'
+      : '기사의 바탕이 된 자료를 함께 확인할 수 있습니다 · 읽은 자료가 수첩에 남습니다.', run: () => showPrintedIssue(issue, hostId) };
     if (!ownsIssue) return [read];
     return [read,
       { label: `거리 독자에게 나눈다 · ${issue.titleKo}`, subcopy: '가판에 공개합니다 · 이 거리의 다른 인물이 읽고 근거를 확인할 수 있습니다.', run: () => circulateIssue(hostId, issue.id, 'street') },
@@ -1039,8 +1051,9 @@ function printIssue(story, hostId) {
     sayRecord(missing); return;
   }
   setState(result.state);
-  say('거리 신문을 인쇄했다', `${story.titleKo} · 종이와 잉크를 사용했습니다. 기사에는 확인한 자료와 인쇄 날짜를 함께 남겼습니다.`, [{ label: '새 호를 읽는다', subcopy: '인쇄한 문장과 근거를 확인합니다.', run: () => showPrintedIssue(result.issue, hostId) }]);
-  sayRecord(`신문 발행 · ${story.sourceId}`);
+  const printRecord = story.id === 'MARKET_RUMOR_NOTE_E23' ? '마트료나의 전언과 인쇄 날짜를 남겼습니다.' : '확인한 자료와 인쇄 날짜를 함께 남겼습니다.';
+  say('거리 신문을 인쇄했다', `${story.titleKo} · 종이와 잉크를 사용했습니다. ${printRecord}`, [{ label: '새 호를 읽는다', subcopy: '인쇄한 문장을 펼쳐 봅니다.', run: () => showPrintedIssue(result.issue, hostId) }]);
+  sayRecord(`신문 발행 · ${story.titleKo}`);
 }
 function shareEditorialSource(story, hostId) {
   const result = shareSourceWithEditor(state, { hostId, sourceId: story.sourceId });
@@ -1052,11 +1065,17 @@ function shareEditorialSource(story, hostId) {
 function openNewsroomDesk() {
   const hostId = requireCivicHost('거리 신문 편집대');
   if (!hostId) return;
-  const host = state.hosts[hostId], stories = NEWSPAPER_STORIES.filter(story => story.date <= state.world.date);
+  const host = state.hosts[hostId], stories = NEWSPAPER_STORIES.filter(story => story.date <= state.world.date
+    && (story.id !== 'MARKET_RUMOR_NOTE_E23' || (state.world.livingEventStates?.E23?.stage === 'EDITORIAL_NOTE_TAKEN'
+      && state.world.livingEventStates.E23.editorialNote?.editorHostId === hostId)));
   const actions = stories.map(story => {
-    const hasSource = host.knownEvidenceIds.includes(story.sourceId), hasSupplies = host.inventory.includes('newsprint_sheet') && host.inventory.includes('printing_ink');
+    const hasSource = story.id === 'MARKET_RUMOR_NOTE_E23' ? host.inventory.includes('editorial-note:E23')
+      : host.knownEvidenceIds.includes(story.sourceId);
+    const hasSupplies = host.inventory.includes('newsprint_sheet') && host.inventory.includes('printing_ink');
     const allowedEditor = ['printer_ekaterina', 'editor_sofia', 'nekrasov_reconstruction'].includes(hostId);
-    return { label: `호외 인쇄 · ${story.titleKo}`, subcopy: !allowedEditor ? '교정·편집을 맡은 사람과 함께 오세요.' : !hasSource ? `먼저 편집자가 근거를 읽어야 합니다 · ${story.sourceId}` : !hasSupplies ? '신문용 종이 한 묶음과 인쇄용 잉크가 필요합니다.' : `${story.sourceId}에 근거한 기사 · 신문 1부와 종이, 잉크를 씁니다.`, disabled: !allowedEditor || !hasSource || !hasSupplies, run: () => printIssue(story, hostId) };
+    const sourceContext = story.id === 'MARKET_RUMOR_NOTE_E23' ? '마트료나에게 직접 들은 말입니다 · 신문 한 부와 종이, 잉크를 씁니다.'
+      : `${story.sourceId}에 근거한 기사 · 신문 1부와 종이, 잉크를 씁니다.`;
+    return { label: `호외 인쇄 · ${story.titleKo}`, subcopy: !allowedEditor ? '교정·편집을 맡은 사람과 함께 오세요.' : !hasSource ? `먼저 편집자가 근거를 읽어야 합니다 · ${story.sourceId}` : !hasSupplies ? '신문용 종이 한 묶음과 인쇄용 잉크가 필요합니다.' : sourceContext, disabled: !allowedEditor || !hasSource || !hasSupplies, run: () => printIssue(story, hostId) };
   });
   const remoteSources = stories.filter(item => !host.knownEvidenceIds.includes(item.sourceId)).filter(story => {
     if (state.player.observedEvidenceIds?.includes(story.sourceId)) return false;
@@ -1074,7 +1093,7 @@ function openNewsroomDesk() {
   const sealed = currentNearby().find(item => mapObjectProperties(item).serviceId === 'sealed-dispatch');
   if (sealed) actions.push({ label: '봉인된 발송 묶음을 허락 없이 연다', subcopy: '편집자와 배달원이 알 수 있습니다 · 발각되면 경찰 접수실로 연행됩니다.', run: () => performSuspiciousAct('OPEN_SEALED_DISPATCH', hostId, sealed) });
   const remoteNote = remoteSources.length ? `\n\n다음 원문은 ${remoteSources.map(story => `${mapWithSource(story.sourceId)?.metadata.displayNameKo ?? '다른 장소'}에서 직접 읽으세요.`).join(' ')}` : '';
-  say('거리 신문 편집대', `출처를 확인한 기사만 인쇄할 수 있습니다. 실제 자료를 요약할 때도 소설 속 인물과 역사적 증언은 구분합니다.${remoteNote}\n\n현재 가진 종이 ${host.inventory.filter(item => item === 'newsprint_sheet').length}묶음 · 잉크 ${host.inventory.filter(item => item === 'printing_ink').length}병`, actions);
+  say('거리 신문 편집대', `자료를 읽고 종이와 잉크를 준비하면 호외를 인쇄할 수 있습니다.${remoteNote}\n\n현재 가진 종이 ${host.inventory.filter(item => item === 'newsprint_sheet').length}묶음 · 잉크 ${host.inventory.filter(item => item === 'printing_ink').length}병`, actions);
 }
 function performSuspiciousAct(actId, hostId, object) {
   if (!object) { sayRecord('현장을 찾지 못했습니다.'); return; }

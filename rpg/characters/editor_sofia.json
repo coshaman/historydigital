@@ -98,6 +98,7 @@
   },
   "allowedMaps": [
     "nevsky",
+    "market-quay",
     "printshop",
     "police-station",
     "bookshop-lane",

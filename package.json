@@ -248,6 +248,7 @@
     "v37-courtyard-dispute": "node scripts/v37-courtyard-dispute-test.mjs",
     "v37-market-price-dispute": "node scripts/v37-market-price-dispute-test.mjs",
     "v37-market-rumor": "node scripts/v37-market-rumor-test.mjs",
+    "v37-market-rumor-browser": "npm run build:v33 && node scripts/v37-market-rumor-browser.mjs",
     "v37-market-day-work-browser": "npm run build:v33 && node scripts/v37-market-day-work-browser.mjs",
     "v37-roof-leak-repair": "node scripts/v37-roof-leak-repair-test.mjs",
     "v37-inn-guest": "node scripts/v37-inn-guest-test.mjs",

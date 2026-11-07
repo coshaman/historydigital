@@ -1236,7 +1236,8 @@ function livingMarketRumorEventRow(state, stage, minuteOffset, maps, details = {
   const event = state.world.livingEventStates?.E23, position = event?.scenePosition ?? { x: 15, y: 10 };
   return { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E23', stage,
     stageIndex: ({ RUMOR_ACTIVE: 1, PRICE_CHECKED_UNVERIFIED: 2, FORWARDED_UNVERIFIED: 2,
-      CORRECTION_SPREAD: 2, IGNORED_UNCHECKED: 2, SPREAD_UNVERIFIED: 3 })[stage],
+      CORRECTION_SPREAD: 2, IGNORED_UNCHECKED: 2, SPREAD_UNVERIFIED: 3,
+      EDITORIAL_NOTE_TAKEN: 3, NEWSPAPER_PRINTED: 4 })[stage],
     actorHostIds: [...(event?.actorHostIds ?? [])], witnessHostIds: [...(event?.witnessHostIds ?? [])],
     date: state.world.date, minute: minuteOffset, mapId: 'market-quay', position: { ...position },
     occurrenceType: 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION', validationStatus: 'DESIGN_SEED_NOT_VERIFIED',
@@ -5547,6 +5548,22 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
       livingEvents.push(livingMarketRumorEventRow(next, event.stage, next.world.clockMinutes % 1440, maps,
         { changeKo: '마트료나는 가격 조정 기록과 확인되지 않은 의혹을 구분해 주변 손님에게 알렸다.',
           correctionReachedHostIds: [...event.correctionReachedHostIds], resolutionActionId: actionId }));
+    } else if (actionId === 'E23_SEND_TO_PRESS' && hostId === 'editor_sofia'
+      && hostId !== event.carrierHostId && hostId !== event.clerkHostId) {
+      const editor = next.hosts[hostId];
+      if (!editor || editor.mapId !== 'market-quay' || !nearTile(editor.position, carrier.position, 5))
+        return { ok: false, reason: 'editorial_interview_not_present', state };
+      const sourceId = 'V37-E23-MARKET-RUMOR';
+      event.stage = 'EDITORIAL_NOTE_TAKEN'; event.status = 'RESOLVED'; event.resolvedAtMinute = next.world.clockMinutes;
+      event.resolutionActionId = actionId; event.editorialNote = { sourceId, editorHostId: editor.id,
+        witnessHostIds: [...new Set([carrier.id, ...event.witnessHostIds])].sort(), claimStatus: 'UNVERIFIED',
+        takenAtMinute: next.world.clockMinutes };
+      editor.inventory ??= [];
+      if (!editor.inventory.includes('editorial-note:E23')) editor.inventory.push('editorial-note:E23');
+      recordRumorHearing(next, { recipientHostId: editor.id, fromHostId: carrier.id, status: 'UNVERIFIED' });
+      livingEvents.push(livingMarketRumorEventRow(next, event.stage, next.world.clockMinutes % 1440, maps,
+        { changeKo: '소피야는 마트료나와 곁사람에게 들은 말을 취재 메모에 옮겼다. 소문은 확인되지 않은 채 남았다.',
+          witnessHostIds: [...event.editorialNote.witnessHostIds], resolutionActionId: actionId }));
     } else if (actionId === 'E23_IGNORE_RUMOR' && [event.carrierHostId, event.clerkHostId].includes(hostId)) {
       event.stage = 'IGNORED_UNCHECKED'; event.resolutionActionId = actionId;
       event.autoResolveAtMinute = next.world.clockMinutes + 90;
@@ -6607,7 +6624,7 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
   const marketRumorEvent = state.world.livingEventStates.E23;
   if (marketRumorEvent && (marketRumorEvent.catalogIdSpace !== 'V37_EVENT_CATALOG_45' || marketRumorEvent.catalogEventId !== 'E23'
     || !['ACTIVE', 'RESOLVED'].includes(marketRumorEvent.status)
-    || !['RUMOR_ACTIVE', 'PRICE_CHECKED_UNVERIFIED', 'FORWARDED_UNVERIFIED', 'CORRECTION_SPREAD', 'IGNORED_UNCHECKED', 'SPREAD_UNVERIFIED'].includes(marketRumorEvent.stage)
+    || !['RUMOR_ACTIVE', 'PRICE_CHECKED_UNVERIFIED', 'FORWARDED_UNVERIFIED', 'CORRECTION_SPREAD', 'IGNORED_UNCHECKED', 'SPREAD_UNVERIFIED', 'EDITORIAL_NOTE_TAKEN', 'NEWSPAPER_PRINTED'].includes(marketRumorEvent.stage)
     || marketRumorEvent.validationStatus !== 'DESIGN_SEED_NOT_VERIFIED'
     || marketRumorEvent.occurrenceType !== 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION'
     || marketRumorEvent.valueStatus !== 'fictional_gameplay_balance'
@@ -6619,12 +6636,25 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
     || !Array.isArray(marketRumorEvent.witnessHostIds) || marketRumorEvent.witnessHostIds.some(id => !state.hosts[id])
     || !Array.isArray(marketRumorEvent.rumorReachedHostIds) || marketRumorEvent.rumorReachedHostIds.some(id => !state.hosts[id])
     || !Array.isArray(marketRumorEvent.correctionReachedHostIds) || marketRumorEvent.correctionReachedHostIds.some(id => !state.hosts[id])
+    || (marketRumorEvent.editorialNote && (marketRumorEvent.editorialNote.sourceId !== 'V37-E23-MARKET-RUMOR'
+      || marketRumorEvent.editorialNote.editorHostId !== 'editor_sofia'
+      || !Array.isArray(marketRumorEvent.editorialNote.witnessHostIds)
+      || marketRumorEvent.editorialNote.witnessHostIds.some(id => !state.hosts[id])
+      || marketRumorEvent.editorialNote.claimStatus !== 'UNVERIFIED'
+      || !Number.isInteger(marketRumorEvent.editorialNote.takenAtMinute)))
+    || (marketRumorEvent.stage === 'EDITORIAL_NOTE_TAKEN' && (!marketRumorEvent.editorialNote
+      || marketRumorEvent.status !== 'RESOLVED' || !state.hosts.editor_sofia?.inventory?.includes('editorial-note:E23')))
+    || (marketRumorEvent.newspaperReaderHostIds && (!Array.isArray(marketRumorEvent.newspaperReaderHostIds)
+      || marketRumorEvent.newspaperReaderHostIds.some(id => !state.hosts[id])))
+    || (marketRumorEvent.stage === 'NEWSPAPER_PRINTED' && (!marketRumorEvent.editorialNote
+      || typeof marketRumorEvent.newspaperIssueId !== 'string' || !marketRumorEvent.newspaperIssueId
+      || !Number.isInteger(marketRumorEvent.newspaperPublishedAtMinute) || marketRumorEvent.status !== 'RESOLVED'))
     || marketRumorEvent.rumorClaimKo !== '상인이 빵을 숨기고 값을 두 배로 받았다는 말'
     || !Number.isInteger(marketRumorEvent.startedAtMinute) || !Number.isInteger(marketRumorEvent.autoResolveAtMinute)
     || !Number.isInteger(marketRumorEvent.scenePosition?.x) || !Number.isInteger(marketRumorEvent.scenePosition?.y)
     || (marketRumorEvent.status === 'ACTIVE') !== ['RUMOR_ACTIVE', 'IGNORED_UNCHECKED'].includes(marketRumorEvent.stage)
     || (marketRumorEvent.status === 'RESOLVED' && (!Number.isInteger(marketRumorEvent.resolvedAtMinute)
-      || !['E23_CHECK_MARKET_RECORD', 'E23_REPEAT_RUMOR', 'E23_CORRECT_RUMOR', 'AUTO_RUMOR_SPREAD'].includes(marketRumorEvent.resolutionActionId))))) {
+      || !['E23_CHECK_MARKET_RECORD', 'E23_REPEAT_RUMOR', 'E23_CORRECT_RUMOR', 'E23_SEND_TO_PRESS', 'AUTO_RUMOR_SPREAD'].includes(marketRumorEvent.resolutionActionId))))) {
     throw new Error('Save contains invalid E23 market rumor state');
   }
   const innGuestEvent = state.world.livingEventStates.E17;
