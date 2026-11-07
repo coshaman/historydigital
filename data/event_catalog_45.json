@@ -17,7 +17,7 @@
       "거절"
     ],
     "world_consequence": "퇴거 위험·새 거처 찾기",
-    "occurrence_type": "DOCUMENTED_HISTORICAL_EVENT",
+    "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
     "validation_status": "DESIGN_SEED_NOT_VERIFIED",
     "trigger_class": "EMERGENT_CONDITIONAL",
     "scene_steps": [
