@@ -320,8 +320,9 @@ function syncPersistentPersonalGoals(state, hostId) {
   }
 }
 
-function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky' }) {
+function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky', simulationSeed = 0 }) {
   if (!maps?.[startMapId] || !Array.isArray(hostCards) || hostCards.length < 1) throw new Error('A known start map and host cards are required');
+  const seed = Number.isSafeInteger(simulationSeed) ? simulationSeed : 0;
   validateAuthoredHouseholdProfiles(hostCards, maps);
   validateAuthoredResidences(hostCards, maps);
   const map = maps[startMapId];
@@ -342,7 +343,15 @@ function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky
     currentActivityKo: '',
     routineState: { state: 'IDLE', activityKo: '', targetMapId: card.start.mapId, targetPosition: { x: card.start.x, y: card.start.y }, changedAtMinute: 540, minutesInState: 0 },
     activeGoal: null,
-    needs: initialNpcNeeds(card),
+    needs: (() => {
+      const needs = initialNpcNeeds(card);
+      if (seed === 0) return needs;
+      for (const key of ['hunger', 'fatigue', 'socialNeed']) {
+        const offset = Number.parseInt(hashText(`${seed}:${card.id}:${key}`), 16) % 3 - 1;
+        needs[key] = Math.max(0, Math.min(100, needs[key] + offset));
+      }
+      return needs;
+    })(),
     situationNotes: [],
     facing: 'down',
     historicalAliveAndPresent: !card.presenceWindow || (card.presenceWindow.startDate <= initialDate && initialDate <= card.presenceWindow.endDate),
@@ -387,6 +396,7 @@ function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky
     world: {
       chapterId: 'V33_1847_PRINT',
       date: initialDate,
+      simulationSeed: seed,
       currentMapId: startMapId,
       clockMinutes: 540,
       discoveredSourceIds: [],
@@ -2871,7 +2881,11 @@ function plannedMapRoute(host, targetMapId, maps, absoluteMinute) {
   const routeOptions = host.activeGoal?.taskId === 'V37:E19:REACH_READING_PRACTICE' && targetMapId === 'printshop'
     ? { allowClosedMapIds: ['printshop'] }
     : host.activeGoal?.taskId?.startsWith('V37:E24:') && targetMapId === 'courtyard'
-      ? { allowUnlistedMapIds: ['courtyard'] } : {};
+      ? { allowUnlistedMapIds: ['courtyard'] }
+      : host.activeGoal?.taskId?.startsWith('V37:E28:DEBT:') && targetMapId === 'inn-interior'
+        ? { allowClosedMapIds: ['inn-interior'] }
+      : host.activeGoal?.type === 'NIGHT_REST' && host.residence?.sleepLocation?.mapId === targetMapId
+        ? { allowClosedMapIds: [targetMapId] } : {};
   const route = npcMapRoute(host.mapId, targetMapId, host, maps, absoluteMinute, routeOptions);
   host.mapRoutePlan = { key, route: route?.map(step => ({ fromMapId: step.fromMapId, toMapId: step.toMapId, exitId: step.exit.data.exitId })) ?? null };
   return route;
@@ -3309,7 +3323,7 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
     && state.world.clockMinutes >= funeralDebt.nextPaymentAtMinute
     && [funeralDebt.debtorHostId, funeralDebt.creditorHostId].includes(host.id)
     && host.allowedMaps.includes('inn-interior')
-    && npcMapRoute(host.mapId, 'inn-interior', host, maps, state.world.clockMinutes) !== null) {
+    && npcMapRoute(host.mapId, 'inn-interior', host, maps, state.world.clockMinutes, { allowClosedMapIds: ['inn-interior'] }) !== null) {
     const debtor = host.id === funeralDebt.debtorHostId;
     const otherHostId = debtor ? funeralDebt.creditorHostId : funeralDebt.debtorHostId;
     const position = debtor ? { x: 12, y: 10 } : { x: 14, y: 10 };
@@ -3398,7 +3412,7 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
       reason: host.residence?.kind === 'STREET_SLEEPER' ? 'seek_the_authored_outdoor_sleeping_place' : 'follow_authored_night_rest_routine',
       selectionBasis: { sleepMinute: scheduledSlot.atMinute, fatigue: host.needs?.fatigue ?? 0,
         residenceKind: host.residence?.kind ?? host.places?.residenceKind ?? null } },
-      90 + Math.min(8, (host.needs?.fatigue ?? 0) * 0.08), 7);
+      108 + Math.min(8, (host.needs?.fatigue ?? 0) * 0.08), 9);
   }
   if (scheduledSlot?.workAction?.loadClass === 'HEAVY' && !imminentSocialTask && !['INJURED', 'UNWELL'].includes(host.healthState?.condition)
     && !(host.healthState?.condition === 'RECOVERING' && state.world.clockMinutes < host.healthState.recoveryUntilMinute)) {
