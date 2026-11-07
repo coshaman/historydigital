@@ -23,10 +23,12 @@ assert.ok(object, 'the detour choice uses the existing canal-side scene');
 const state = game.createInitialState({ maps, hostCards: cards, quests: [quest], startMapId: 'canal-road' });
 state.world.chapterId = 'V33_1847_PRINT'; state.world.date = '1847-06-01'; state.world.clockMinutes = 600;
 state.world.currentMapId = 'canal-road'; state.player.embodiment = 'coachman_timofey';
-state.player.position = { x: 13, y: 13 };
+const position = { x: object.x / 16, y: object.y / 16 };
+state.player.position = { ...position };
 state.quests[quest.id] = { status: 'open' };
-for (const [id, position] of Object.entries({ coachman_timofey: { x: 13, y: 13 }, watercarrier_luka: { x: 14, y: 13 }, carter_roman: { x: 12, y: 13 } })) {
-  state.hosts[id].mapId = 'canal-road'; state.hosts[id].position = position;
+for (const [id, hostPosition] of Object.entries({ coachman_timofey: position,
+  watercarrier_luka: { x: position.x + 1, y: position.y }, carter_roman: { x: position.x - 1, y: position.y } })) {
+  state.hosts[id].mapId = 'canal-road'; state.hosts[id].position = hostPosition;
 }
 state.hosts.coachman_timofey.schedule = [{ atMinute: 600, mapId: 'canal-road', position: { x: 11, y: 10 }, activityKo: '다음 운송을 향해 간다' }];
 state.world.livingEventStates.E11 = { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E11', status: 'ACTIVE',

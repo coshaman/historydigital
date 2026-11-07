@@ -6,10 +6,17 @@
         "width": 1440,
         "height": 900
       },
-      "choiceCount": 3,
-      "rerouted": [
-        "coachman_timofey"
-      ],
+      "naturalTrigger": {
+        "minute": 5,
+        "mapId": "canal-road",
+        "position": {
+          "x": 11,
+          "y": 15
+        },
+        "witnessedByPlayer": true
+      },
+      "choiceCount": 1,
+      "response": "WAIT_FOR_PASSAGE",
       "scrollWidth": 1440,
       "pageErrors": []
     },
@@ -18,10 +25,17 @@
         "width": 390,
         "height": 844
       },
-      "choiceCount": 3,
-      "rerouted": [
-        "coachman_timofey"
-      ],
+      "naturalTrigger": {
+        "minute": 5,
+        "mapId": "canal-road",
+        "position": {
+          "x": 11,
+          "y": 15
+        },
+        "witnessedByPlayer": true
+      },
+      "choiceCount": 1,
+      "response": "WAIT_FOR_PASSAGE",
       "scrollWidth": 390,
       "pageErrors": []
     }
