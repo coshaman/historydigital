@@ -15,12 +15,16 @@ for (const file of files) {
 }
 const fictionalIds = new Set([...cards].filter(([, item]) => item.card.kind === 'FICTIONAL').map(([id]) => id));
 const coverage = new Map();
+const changedCards = new Set();
+const edgeIds = new Set(), pairs = new Set();
 for (const edge of graph.edges) {
   if (!edge.id || !fictionalIds.has(edge.a) || !fictionalIds.has(edge.b) || edge.a === edge.b
-    || !['SIBLING', 'OTHER_KIN'].includes(edge.kind) || !edge.basisKo) throw new Error(`Invalid kinship edge: ${edge.id}`);
+    || !['SIBLING', 'OTHER_KIN'].includes(edge.kind) || !edge.basisKo || edgeIds.has(edge.id)) throw new Error(`Invalid kinship edge: ${edge.id}`);
+  const pairId = [edge.a, edge.b].sort().join(':');
+  if (pairs.has(pairId)) throw new Error(`Duplicate kinship pair: ${pairId}`);
+  edgeIds.add(edge.id); pairs.add(pairId);
   for (const id of [edge.a, edge.b]) {
     coverage.set(id, [...(coverage.get(id) ?? []), edge.id]);
-    if (coverage.get(id).length > 1) throw new Error(`Duplicate kinship assignment for ${id}`);
   }
 }
 const uncovered = [...fictionalIds].filter(id => !coverage.has(id));
@@ -29,13 +33,13 @@ if (uncovered.length) throw new Error(`Missing fictional family ties: ${uncovere
 for (const edge of graph.edges) {
   const a = cards.get(edge.a), b = cards.get(edge.b);
   const profiles = [
-    [a, b, edge.aCallsB],
-    [b, a, edge.bCallsA],
+    [a, b, edge.aCallsB, edge.aRelationshipKo],
+    [b, a, edge.bCallsA, edge.bRelationshipKo],
   ];
-  for (const [owner, relative, kinLabel] of profiles) {
+  for (const [owner, relative, kinLabel, authoredRelationship] of profiles) {
     if (!kinLabel) throw new Error(`Missing kin label in ${edge.id}`);
     const relation = { targetHostId: relative.card.id, kind: edge.kind,
-      relationshipKo: `${relative.card.displayNameKo}는 내 ${kinLabel}다. ${edge.basisKo} (게임용 허구 설정).`,
+      relationshipKo: authoredRelationship ?? `${relative.card.displayNameKo}는 내 ${kinLabel}다. ${edge.basisKo} (게임용 허구 설정).`,
       status: 'FICTIONAL_CHARACTER_DESIGN', graphEdgeId: edge.id };
     owner.card.kinshipRelations ??= [];
     const existing = owner.card.kinshipRelations.find(item => item.targetHostId === relative.card.id);
@@ -43,18 +47,29 @@ for (const edge of graph.edges) {
       throw new Error(`Authored kinship conflict: ${owner.card.id} -> ${relative.card.id}`);
     }
     if (existing) {
-      existing.status ??= relation.status;
-      existing.graphEdgeId ??= edge.id;
-    } else owner.card.kinshipRelations.push(relation);
+      if (authoredRelationship && existing.relationshipKo !== authoredRelationship) {
+        existing.relationshipKo = authoredRelationship;
+        changedCards.add(owner.card.id);
+      }
+      if (!existing.status) { existing.status = relation.status; changedCards.add(owner.card.id); }
+      if (!existing.graphEdgeId) { existing.graphEdgeId = edge.id; changedCards.add(owner.card.id); }
+    } else {
+      owner.card.kinshipRelations.push(relation);
+      changedCards.add(owner.card.id);
+    }
     const priorSocialTie = owner.card.relations?.[relative.card.id];
-    if (priorSocialTie === relation.relationshipKo) delete owner.card.relations[relative.card.id];
+    if (priorSocialTie === relation.relationshipKo) {
+      delete owner.card.relations[relative.card.id];
+      changedCards.add(owner.card.id);
+    }
     else if (typeof priorSocialTie === 'string' && priorSocialTie.endsWith(` · ${kinLabel}`)) {
       owner.card.relations[relative.card.id] = priorSocialTie.slice(0, -(` · ${kinLabel}`).length);
+      changedCards.add(owner.card.id);
     }
   }
 }
 for (const { file, card } of cards.values()) {
-  await writeFile(path.join(root, 'rpg/characters', file), `${JSON.stringify(card, null, 2)}\n`, 'utf8');
+  if (changedCards.has(card.id)) await writeFile(path.join(root, 'rpg/characters', file), `${JSON.stringify(card, null, 2)}\n`, 'utf8');
 }
 console.log(JSON.stringify({ status: 'PASS', fictionalResidents: fictionalIds.size, authoredKinshipEdges: graph.edges.length,
   residentsWithFamily: coverage.size, historicalClaim: graph.historicalClaim,

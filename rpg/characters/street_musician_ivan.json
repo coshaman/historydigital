@@ -100,5 +100,14 @@
     "directions": 4, "framesPerDirection": 1,
     "palette": { "skin": "#c28c66", "coat": "#454044", "trim": "#a4794c", "headwear": "#383036" }
   },
-  "speechStatus": "FICTIONAL_DESIGN"
+  "speechStatus": "FICTIONAL_DESIGN",
+  "kinshipRelations": [
+    {
+      "targetHostId": "street_vendor_matryona",
+      "kind": "OTHER_KIN",
+      "relationshipKo": "마트료나는 내 사촌 누이다. 장사와 연주를 하며 거리에서 자주 만난다.",
+      "status": "FICTIONAL_CHARACTER_DESIGN",
+      "graphEdgeId": "KIN-IVAN-MATRYONA"
+    }
+  ]
 }

@@ -17,13 +17,20 @@ const [maps, cards] = await Promise.all([
   Promise.all(cardNames.filter(name => name.endsWith('.json')).map(name => readJson(new URL(`../rpg/characters/${name}`, import.meta.url)))),
 ]);
 const coreResidentIds = new Set(graph.edges.flatMap(edge => [edge.a, edge.b]));
-const fictional = cards.filter(card => coreResidentIds.has(card.id));
+const fictional = cards.filter(card => card.kind === 'FICTIONAL');
 const cardById = new Map(cards.map(card => [card.id, card]));
 assert.equal(graph.historicalClaim, false);
 assert.equal(graph.status, 'FICTIONAL_CHARACTER_DESIGN');
-assert.equal(fictional.length, 36);
-assert.equal(graph.edges.length, 18);
-assert.equal(new Set(graph.edges.flatMap(edge => [edge.a, edge.b])).size, 36, 'each fictional resident appears exactly once');
+assert.equal(fictional.length, 37, 'the runtime population includes the street musician');
+assert.ok(graph.edges.length > 18, 'the family graph includes extended relatives beyond isolated pairs');
+assert.equal(coreResidentIds.size, fictional.length, 'every fictional resident has a family edge');
+assert.deepEqual([...coreResidentIds].sort(), fictional.map(card => card.id).sort(), 'kinship covers the full runtime population');
+const kinshipDegree = new Map();
+for (const edge of graph.edges) for (const id of [edge.a, edge.b]) kinshipDegree.set(id, (kinshipDegree.get(id) ?? 0) + 1);
+assert.ok([...kinshipDegree.values()].some(degree => degree > 1), 'at least one resident has multiple autonomous family ties');
+assert.equal(kinshipDegree.get('tenant_mikhail'), 2, 'Mikhail has both a sibling and an extended cousin tie');
+assert.equal(kinshipDegree.get('laundress_mariya'), 2, 'Mariya has her sister and a cousin in the courtyard network');
+assert.equal(kinshipDegree.get('street_musician_ivan'), 1, 'the previously omitted runtime resident now has a family relationship');
 
 for (const edge of graph.edges) {
   const a = cardById.get(edge.a), b = cardById.get(edge.b);
@@ -36,6 +43,8 @@ for (const edge of graph.edges) {
   assert.equal(bRelation?.graphEdgeId, edge.id);
   assert.equal(aRelation?.status, 'FICTIONAL_CHARACTER_DESIGN');
   assert.equal(bRelation?.status, 'FICTIONAL_CHARACTER_DESIGN');
+  if (edge.aRelationshipKo) assert.equal(aRelation.relationshipKo, edge.aRelationshipKo, `${edge.id}: authored Korean relation for ${edge.a}`);
+  if (edge.bRelationshipKo) assert.equal(bRelation.relationshipKo, edge.bRelationshipKo, `${edge.id}: authored Korean relation for ${edge.b}`);
 }
 
 const state = game.createInitialState({ maps, hostCards: cards, startMapId: 'nevsky' });
@@ -84,5 +93,29 @@ for (const endpoint of [family.a, family.b]) {
   assert.ok(restored.hosts[endpoint].relationshipEdges.some(row => row.kind === 'KINSHIP'));
 }
 
+const extendedFamilyState = game.createInitialState({ maps, hostCards: cards, startMapId: 'courtyard' });
+extendedFamilyState.world.currentMapId = 'courtyard';
+extendedFamilyState.world.clockMinutes = 600;
+extendedFamilyState.world.date = '1847-06-01';
+for (const person of Object.values(extendedFamilyState.hosts)) person.historicalAliveAndPresent = false;
+const cousin = extendedFamilyState.hosts.tenant_mikhail, relative = extendedFamilyState.hosts.laundress_mariya;
+for (const [person, position] of [[cousin, { x: 11, y: 13 }], [relative, { x: 12, y: 13 }]]) {
+  person.historicalAliveAndPresent = true;
+  person.mapId = 'courtyard';
+  person.position = position;
+  person.schedule = [{ atMinute: 0, mapId: 'courtyard', position: { ...position }, activityKo: '안뜰에서 잠시 쉰다' }];
+  person.needs.socialNeed = 100;
+  person.needs.fatigue = 0;
+  person.lastPersonalContactTaskId = null;
+  person.activeGoal = null;
+  person.personalGoals = [];
+}
+const extendedVisit = game.advanceNpcWorld(extendedFamilyState, 1, maps);
+const extendedContact = extendedVisit.ledger.findLast(row => row.eventType === 'NPC_SIMULATION')?.personalContacts
+  .find(row => [row.hostId, row.partnerHostId].includes(cousin.id) && [row.hostId, row.partnerHostId].includes(relative.id));
+assert.ok(extendedContact, 'the expanded kinship edge drives an autonomous visit between working relatives');
+assert.equal(extendedContact.effect, 'social_need_relieved');
+
 console.log(JSON.stringify({ status: 'PASS', fictionalResidents: fictional.length, reciprocalKinshipEdges: graph.edges.length,
-  scopedKnowledge: true, autonomousVisit: contact.goalId, reciprocalMeetingMemory: true, saveLoad: true }, null, 2));
+  scopedKnowledge: true, autonomousVisit: contact.goalId, extendedRelativeVisit: extendedContact.goalId,
+  reciprocalMeetingMemory: true, saveLoad: true }, null, 2));

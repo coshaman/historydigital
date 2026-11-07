@@ -389,6 +389,13 @@
       "relationshipKo": "올가는 내 누이다. 수입과 주거 사정이 다른 허구 남매 (게임용 허구 설정).",
       "status": "FICTIONAL_CHARACTER_DESIGN",
       "graphEdgeId": "KIN-MIKHAIL-OLGA"
+    },
+    {
+      "targetHostId": "laundress_mariya",
+      "kind": "OTHER_KIN",
+      "relationshipKo": "마리야는 내 사촌 누이다. 안뜰에서 다시 만나 서로의 일감과 생활비 사정을 안다.",
+      "status": "FICTIONAL_CHARACTER_DESIGN",
+      "graphEdgeId": "KIN-MIKHAIL-MARIYA"
     }
   ]
 }

@@ -360,6 +360,13 @@
       "relationshipKo": "티모페이는 내 오라버니다. 거리에서 생계를 잇는 허구 남매 (게임용 허구 설정).",
       "status": "FICTIONAL_CHARACTER_DESIGN",
       "graphEdgeId": "KIN-TIMOFEY-MATRYONA"
+    },
+    {
+      "targetHostId": "street_musician_ivan",
+      "kind": "OTHER_KIN",
+      "relationshipKo": "이반은 내 사촌이다. 장사와 연주를 하며 거리에서 자주 만난다.",
+      "status": "FICTIONAL_CHARACTER_DESIGN",
+      "graphEdgeId": "KIN-IVAN-MATRYONA"
     }
   ]
 }

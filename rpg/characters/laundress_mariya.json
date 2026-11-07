@@ -38,6 +38,13 @@
       "relationshipKo": "안나는 내 여동생이다. 우리는 안뜰 공동 셋방을 함께 쓴다.",
       "status": "FICTIONAL_CHARACTER_DESIGN",
       "graphEdgeId": "KIN-ANNA-MARIYA"
+    },
+    {
+      "targetHostId": "tenant_mikhail",
+      "kind": "OTHER_KIN",
+      "relationshipKo": "미하일은 내 사촌이다. 안뜰에서 다시 만나 서로의 일감과 생활비 사정을 안다.",
+      "status": "FICTIONAL_CHARACTER_DESIGN",
+      "graphEdgeId": "KIN-MIKHAIL-MARIYA"
     }
   ],
   "household": {

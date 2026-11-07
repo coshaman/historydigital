@@ -8,25 +8,38 @@ const require = createRequire(import.meta.url);
 require('../rpg/engine/game-state.js');
 const game = globalThis.V33GameState;
 const districtData = await readJson('rpg/data/city-districts-v36.json');
-const ids = [...new Set(districtData.districts.flatMap(district => district.residentIds ?? []))];
+const rosterIds = [...new Set(districtData.districts.flatMap(district => district.residentIds ?? []))];
+const includeEventPerformers = process.argv.includes('--include-event-performers');
+const ids = includeEventPerformers ? [...rosterIds, 'street_musician_ivan'] : rosterIds;
 const maps = Object.fromEntries(await Promise.all((await readdir(new URL('../rpg/maps/', import.meta.url))).filter(file => file.endsWith('.json'))
   .map(async file => { const map = await readJson(`rpg/maps/${file}`); return [map.mapId, map]; })));
-const cards = await Promise.all(ids.map(id => readJson(`rpg/characters/${id}.json`)));
+const cardIds = includeEventPerformers ? ids : [...new Set([...ids, 'street_musician_ivan'])];
+const cards = await Promise.all(cardIds.map(id => readJson(`rpg/characters/${id}.json`)));
 const cardsById = new Map(cards.map(card => [card.id, card]));
 const quests = (await Promise.all((await readdir(new URL('../rpg/quests/', import.meta.url))).filter(file => file.endsWith('.json'))
   .map(file => readJson(`rpg/quests/${file}`)))).filter(quest => quest.historicalOutcome?.id);
-assert.equal(ids.length, 36);
+assert.equal(rosterIds.length, 36);
+assert.equal(ids.length, includeEventPerformers ? 37 : 36);
 
 function runFullDay(seed) {
   let state = game.createInitialState({ maps, hostCards: cards, quests, startMapId: 'nevsky', simulationSeed: seed });
+  if (!includeEventPerformers) state.hosts.street_musician_ivan.historicalAliveAndPresent = false;
   const initialPositions = Object.fromEntries(ids.map(id => [id, { mapId: state.hosts[id].mapId, ...state.hosts[id].position }]));
   const initialNeeds = Object.fromEntries(ids.map(id => [id, { hunger:state.hosts[id].needs.hunger, fatigue:state.hosts[id].needs.fatigue, socialNeed:state.hosts[id].needs.socialNeed }]));
   const observedPersonalGoalVisits = [];
   const nightlySleepArrivals = new Set();
+  const romanNightSnapshots = [];
   let collisionSnapshots = 0;
   for (let interval = 0; interval < 288; interval += 1) {
     const priorLedgerLength = state.ledger.length;
     state = game.advanceNpcWorld(state, 5, maps);
+    if (includeEventPerformers && state.world.clockMinutes >= 1380 && state.world.clockMinutes <= 1620
+      && state.world.clockMinutes % 15 === 0) {
+      const host = state.hosts.carter_roman;
+      romanNightSnapshots.push({ clockMinutes: state.world.clockMinutes, mapId: host.mapId, position: { ...host.position },
+        activity: host.currentActivityKo, goal: host.activeGoal?.type, targetMapId: host.activeGoal?.targetMapId,
+        targetPosition: host.routineState?.targetPosition, routine: host.routineState?.state });
+    }
     if (state.world.clockMinutes >= 1380 && state.world.clockMinutes < 1620) {
       for (const id of ids) {
         const host = state.hosts[id], sleepSlot = host.schedule.find(slot => slot.routineKind === 'FICTIONAL_HOME_SLEEP');
@@ -46,8 +59,15 @@ function runFullDay(seed) {
     collisionSnapshots += 1;
   }
   const moves = state.ledger.flatMap(event => event.moves ?? []);
+  const missedSleepHosts = ids.filter(id => !nightlySleepArrivals.has(id));
   assert.equal(nightlySleepArrivals.size, ids.length,
-    `all residents must reach their authored home/street sleeping location by 03:00 for seed ${seed}; missed=${JSON.stringify(ids.filter(id => !nightlySleepArrivals.has(id)))}`);
+    `all residents must reach their authored home/street sleeping location by 03:00 for seed ${seed}; missed=${JSON.stringify(missedSleepHosts.map(id => {
+      const host = state.hosts[id];
+      return { id, mapId: host.mapId, position: host.position, goal: host.activeGoal, routine: host.routineState,
+        pathLength: host.plannedPath?.length, route: host.mapRoutePlan, sleepTarget: host.schedule.find(slot => slot.routineKind === 'FICTIONAL_HOME_SLEEP'),
+        recentMoves: moves.filter(move => move.hostId === id).slice(-12), nightSnapshots: id === 'carter_roman' ? romanNightSnapshots : undefined,
+        recentGoals: state.ledger.flatMap(event => event.goals ?? []).filter(goal => goal.hostId === id).slice(-12) };
+    }))}`);
   const movementStepsByResident = Object.fromEntries(ids.map(id => [id, moves.filter(item => item.hostId === id).length]));
   for (const [id, start] of Object.entries(initialPositions)) {
     let previous = start;
@@ -117,7 +137,8 @@ const deferredLifeGoalHosts = {
 };
 const lifeGoalQuestById = new Map(quests.map(quest => [quest.id, quest]));
 const visitedLifeGoalHosts = new Set(personalGoalVisits.map(visit => visit.hostId));
-const goalCoverage = Object.fromEntries(ids.map(hostId => {
+const lifeGoalIds = rosterIds;
+const goalCoverage = Object.fromEntries(lifeGoalIds.map(hostId => {
   const visits = personalGoalVisits.filter(visit => visit.hostId === hostId);
   if (visits.length) return [hostId, { status: 'PHYSICALLY_VISITED', questId: visits[0].questId }];
   const authoredGoal = cardsById.get(hostId).persistentPersonalGoals.find(goal => goal.kind === 'LIFE');
@@ -135,9 +156,9 @@ const goalCoverage = Object.fromEntries(ids.map(hostId => {
   assert.equal(visitedLifeGoalHosts.has(hostId), false, `${hostId} cannot be marked deferred after visiting its task`);
   return [hostId, { status: prerequisiteQuestIds.length ? 'LOCKED_BY_PREREQUISITE' : 'DEFERRED_BY_DAILY_ROUTINE', questId: deferred.questId, prerequisiteQuestIds, reason: deferred.reason }];
 }));
-assert.equal(Object.keys(goalCoverage).length, 36, 'all city residents must be accounted for in life-goal coverage');
+assert.equal(Object.keys(goalCoverage).length, rosterIds.length, 'all city residents must be accounted for in life-goal coverage');
 assert.ok(Object.values(goalCoverage).filter(row => row.status === 'PHYSICALLY_VISITED').length >= 24,
-  `at least two thirds of residents should physically pursue a life arc each day; got ${Object.values(goalCoverage).filter(row => row.status === 'PHYSICALLY_VISITED').length}/36`);
+  `at least two thirds of residents should physically pursue a life arc each day; got ${Object.values(goalCoverage).filter(row => row.status === 'PHYSICALLY_VISITED').length}/${rosterIds.length}`);
 assert.equal(Object.values(goalCoverage).filter(row => row.status === 'LOCKED_BY_PREREQUISITE').length, 2);
 assert.ok(Object.values(goalCoverage).filter(row => row.status === 'DEFERRED_BY_DAILY_ROUTINE').length <= 12);
 const mapTransitions = first.moves.filter(move => move.viaExit);
@@ -161,6 +182,11 @@ for (const hostId of ['printer_ekaterina', 'print_apprentice_stepan', 'typesette
   assert.ok(wagePayments.some(payment => payment.hostId === hostId), `${hostId} should receive a physically settled job wage`);
 }
 assert.ok(goals.some(goal => goal.type === 'COLLECT_WAGE'), 'a resident with a due wage claim should travel to meet the payer');
+assert.ok(goals.some(goal => goal.type === 'PAY_WAGE'), 'an employer with a due claim should also travel to meet the worker');
+const romanFreightWage = wagePayments.find(payment => payment.hostId === 'carter_roman'
+  && payment.actionId === 'V36_CARTER_QUAY_FREIGHT_TALLY');
+assert.ok(romanFreightWage && romanFreightWage.minute < 1320,
+  'the worker and employer should settle the freight wage before the late-night sleep window');
 assert.ok(wagePayments.every(payment => payment.mapId === payment.counterpartyMapId
   && Math.abs(payment.position.x - payment.counterpartyPosition.x) + Math.abs(payment.position.y - payment.counterpartyPosition.y) <= 1),
   'additional payroll contracts must settle only at a physical adjacent handoff');
@@ -188,7 +214,8 @@ assert.ok(replays.every(run => run.state.ledger.flatMap(event => event.deliverie
   || (run.state.world.livingEventStates.E05?.stage === 'PARCEL_MISSING' && run.state.world.livingEventStates.E05.itemLocation === 'LOST_ON_DELIVERY_ROUTE')),
   'each seeded courier outcome is either a completed delivery or a recoverable authored parcel event');
 const finalHashes = seededHashes;
-const report = { schemaVersion:'V36_FULL_DAY_36_RESIDENT_REPLAY_1', status:'PASS', activeCityResidents:ids.length,
+const report = { schemaVersion:includeEventPerformers ? 'V37_FULL_DAY_37_RUNTIME_RESIDENT_REPLAY_1' : 'V36_FULL_DAY_36_RESIDENT_REPLAY_1',
+  status:'PASS', activeCityResidents:ids.length, includedEventPerformers:includeEventPerformers,
   distinctSeeds:seeds, deterministicReplaySeed:seeds[0], simulatedMinutes:1440, replayHashes:finalHashes,
   collisionSnapshotsPerReplay:first.collisionSnapshots, totalCollisionSnapshots:replays.reduce((sum,run)=>sum+run.collisionSnapshots,0),
   firstReplay:{ movementSteps:first.moves.length, districtTransitions:mapTransitions.length, goalEvents:goals.length,
@@ -214,5 +241,6 @@ const report = { schemaVersion:'V36_FULL_DAY_36_RESIDENT_REPLAY_1', status:'PASS
   fullDaySaveReloadStateHash:game.stateHash(restored), autoCompletedPlayerQuests:0, runtimeMilliseconds:Math.round(performance.now()-startedAt) };
 const auditDir = new URL('../docs/v36/current-audit/', import.meta.url);
 await mkdir(auditDir,{recursive:true});
-await writeFile(new URL('FULL_DAY_36_RESIDENT_REPLAY.json',auditDir),`${JSON.stringify(report,null,2)}\n`);
+const reportName = includeEventPerformers ? 'FULL_DAY_37_RUNTIME_RESIDENT_REPLAY.json' : 'FULL_DAY_36_RESIDENT_REPLAY.json';
+await writeFile(new URL(reportName,auditDir),`${JSON.stringify(report,null,2)}\n`);
 console.log(JSON.stringify(report,null,2));

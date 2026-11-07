@@ -3579,6 +3579,21 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
         goalType: 'COLLECT_WAGE', targetHostId: payer.id, taskId: `WAGE:${wageClaim.id}`, reason: 'travel_to_payer_for_due_wage' }, 146, 6);
     }
   }
+  const wageToPay = Object.values(state.hosts).flatMap(worker => (worker.pendingWageClaims ?? [])
+    .filter(claim => claim.status === 'DUE' && claim.payerHostId === host.id)
+    .map(claim => ({ worker, claim })))
+    .filter(({ worker, claim }) => worker.id !== host.id && worker.id !== state.player.embodiment
+      && host.id !== state.player.embodiment
+      && worker.historicalAliveAndPresent !== false && worker.money?.unit === claim.unit
+      && host.money?.unit === claim.unit && Number.isFinite(host.money?.amount) && host.money.amount >= claim.amount
+      && host.allowedMaps.includes(worker.mapId)
+      && npcMapRoute(host.mapId, worker.mapId, host, maps, state.world.clockMinutes) !== null)
+    .sort((a, b) => a.claim.dueMinute - b.claim.dueMinute || a.worker.id.localeCompare(b.worker.id))[0];
+  if (wageToPay && !imminentSocialTask) {
+    const { worker, claim } = wageToPay;
+    addCandidate({ slot: { mapId: worker.mapId, position: { ...worker.position }, activityKo: '밀린 품삯을 건네러 일꾼을 찾아간다' },
+      goalType: 'PAY_WAGE', targetHostId: worker.id, taskId: `WAGE:${claim.id}`, reason: 'travel_to_worker_for_due_payroll' }, 146, 5);
+  }
 
   const housing = host.housing, rentDay = Math.floor(state.world.clockMinutes / 1440);
   const rentDueMinute = Number.isInteger(housing?.dueMinute) ? housing.dueMinute : 1020;

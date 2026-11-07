@@ -12,17 +12,20 @@ const [maps, cards] = await Promise.all([
   Promise.all(mapFiles.map(file => json(`../rpg/maps/${file}`))).then(records => Object.fromEntries(records.map(map => [map.mapId, map]))),
   Promise.all(cardFiles.map(file => json(`../rpg/characters/${file}`))),
 ]);
-const fictionalCards = cards.filter(card => card.kind === 'FICTIONAL' && card.rosterClass !== 'EVENT_PERFORMER');
+const fictionalCards = cards.filter(card => card.kind === 'FICTIONAL');
 const state = game.createInitialState({ maps, hostCards: cards, startMapId: 'nevsky' });
 
-assert.equal(fictionalCards.length, 36);
+assert.equal(fictionalCards.length, 37, 'include the event performer as a resident in the world population');
 let workLocationCount = 0, scheduledHomeCueCount = 0, sleepLocationCount = 0, explicitResidenceCount = 0, streetSleeperCount = 0;
 for (const card of fictionalCards) {
   const host = state.hosts[card.id], places = host.places;
   const workSlots = card.schedule.filter(slot => slot.workAction || slot.task?.type === 'WORK');
   assert.equal(places.status, 'FICTIONAL_GAMEPLAY_PROFILE', `${card.id}: provenance status`);
   assert.equal(places.workLocations.length, workSlots.length, `${card.id}: every authored work activity has a place`);
-  assert.ok(places.workLocations.length, `${card.id}: work destination is authored in schedule`);
+  if (card.rosterClass === 'EVENT_PERFORMER') {
+    assert.ok(card.schedule.some(slot => /연주/.test(slot.activityKo ?? '') && slot.mapId === 'nevsky'),
+      `${card.id}: performance routine is authored in the public street scene`);
+  } else assert.ok(places.workLocations.length, `${card.id}: work destination is authored in schedule`);
   const hasResidenceOrHomelessness = Boolean(card.residence || card.housing || card.household || places.homeLocation);
   assert.ok(hasResidenceOrHomelessness, `${card.id}: explicit fictional residence or homelessness state`);
   assert.notEqual(places.homeLocationStatus, 'NOT_AUTHORED', `${card.id}: no silently missing home record`);
