@@ -1,0 +1,36 @@
+{
+  "status": "PASS",
+  "causalChain": [
+    "E05",
+    "E25"
+  ],
+  "cases": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "e05": "LOSS_REPORTED",
+      "e25": "ROUTE_ENTERED",
+      "sourceEventId": "E05",
+      "recordScope": "POLICE_INTAKE_REGISTER",
+      "choiceCount": 3,
+      "scrollWidth": 1440,
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "e05": "LOSS_REPORTED",
+      "e25": "ROUTE_ENTERED",
+      "sourceEventId": "E05",
+      "recordScope": "POLICE_INTAKE_REGISTER",
+      "choiceCount": 3,
+      "scrollWidth": 390,
+      "pageErrors": []
+    }
+  ],
+  "serverErrors": []
+}

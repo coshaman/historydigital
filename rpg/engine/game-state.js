@@ -3322,6 +3322,19 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
       taskId: `V37:E21:${salonDebate.stage}:${host.id}`, reason: 'readers_gather_to_discuss_a_public_review',
       selectionBasis: { utilityScore: 182, eventId: 'E21', stage: salonDebate.stage } };
   }
+  const documentCheck = state.world.livingEventStates?.E25;
+  if (documentCheck?.status === 'ACTIVE' && documentCheck.actorHostIds.includes(host.id)
+    && host.allowedMaps.includes(documentCheck.venueMapId)
+    && npcMapRoute(host.mapId, documentCheck.venueMapId, host, maps, state.world.clockMinutes) !== null) {
+    const courier = host.id === documentCheck.courierHostId;
+    return { slot: { mapId: documentCheck.venueMapId, position: { ...documentCheck.scenePosition },
+      activityKo: courier ? '분실 신고에 적은 배달 경로를 확인하러 경찰 접수실로 간다'
+        : '분실 신고를 낸 배달부와 접수 장부를 대조한다' },
+      goalType: 'LIVING_EVENT_RESPONSE', targetHostId: courier ? documentCheck.officerHostId : documentCheck.courierHostId,
+      taskId: `V37:E25:${documentCheck.stage}:${host.id}`,
+      reason: 'follow_up_to_courier_loss_report_requires_both_people_at_station',
+      selectionBasis: { utilityScore: 180, eventId: 'E25', stage: documentCheck.stage } };
+  }
   const marketTheft = state.world.livingEventStates?.E36;
   const unfinishedNeighborShift = host.activeGoal?.type === 'SCHEDULED_WORK' && (host.schedule ?? []).some(slot => slot.workAction?.id === host.activeGoal.taskId
       && !(host.completedWorkActionKeys ?? []).includes(`${Math.floor(state.world.clockMinutes / 1440)}:${slot.workAction.id}`))
@@ -3423,19 +3436,6 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
       goalType: 'LIVING_EVENT_RESPONSE', targetHostId: worker ? marketDayWork.employerHostId : marketDayWork.workerHostId,
       taskId: `V37:E32:${marketDayWork.stage}:${host.id}`, reason: 'day_laborer_and_market_employer_meet_to_set_work_terms',
       selectionBasis: { utilityScore: 183, eventId: 'E32', stage: marketDayWork.stage } };
-  }
-  const documentCheck = state.world.livingEventStates?.E25;
-  if (documentCheck?.status === 'ACTIVE' && documentCheck.actorHostIds.includes(host.id)
-    && host.allowedMaps.includes(documentCheck.venueMapId)
-    && npcMapRoute(host.mapId, documentCheck.venueMapId, host, maps, state.world.clockMinutes) !== null) {
-    const courier = host.id === documentCheck.courierHostId;
-    return { slot: { mapId: documentCheck.venueMapId, position: { ...documentCheck.scenePosition },
-      activityKo: courier ? '분실 신고에 적은 배달 경로를 확인하러 경찰 접수실로 간다'
-        : '분실 신고를 낸 배달부와 접수 장부를 대조한다' },
-      goalType: 'LIVING_EVENT_RESPONSE', targetHostId: courier ? documentCheck.officerHostId : documentCheck.courierHostId,
-      taskId: `V37:E25:${documentCheck.stage}:${host.id}`,
-      reason: 'follow_up_to_courier_loss_report_requires_both_people_at_station',
-      selectionBasis: { utilityScore: 180, eventId: 'E25', stage: documentCheck.stage } };
   }
   const courtyardReport = state.world.livingEventStates?.E09;
   if (courtyardReport?.status === 'ACTIVE' && courtyardReport.stage === 'REPORT_FILED'
@@ -3563,6 +3563,25 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
       : activeSocialTask.type !== 'EXCHANGE' || (Number.isInteger(activeSocialTask.moneyAmount) && activeSocialTask.moneyAmount > 0 && Number.isFinite(recipient?.money?.amount) && recipient.money.amount >= activeSocialTask.moneyAmount);
     if (recipient && canPay && recipient.id !== state.player.embodiment && recipient.historicalAliveAndPresent !== false && host.allowedMaps.includes(recipient.mapId) && npcMapRoute(host.mapId, recipient.mapId, host, maps, state.world.clockMinutes) !== null) {
       return { slot: { ...activeSocialSlot, mapId: recipient.mapId, position: { ...recipient.position } }, goalType: activeSocialTask.type === 'DELIVER' ? 'FOLLOW_RECIPIENT' : activeSocialTask.type === 'CARE_TRANSFER' ? 'FOLLOW_FAMILY_MEMBER' : 'FOLLOW_TRADE_PARTNER', targetHostId: recipient.id, taskId: activeSocialTask.id, reason: activeSocialTask.type === 'CARE_TRANSFER' ? 'conditional_household_support' : 'committed_social_task', selectionBasis: { utilityScore: 100, committedTask: true } };
+    }
+  }
+
+  const nextDelivery = (host.schedule ?? []).filter(slot => slot.task?.type === 'DELIVER'
+    && slot.atMinute > localMinute && slot.atMinute - localMinute <= 90
+    && !taskCompletedForDay(host, slot.task, Math.floor(state.world.clockMinutes / 1440))
+    && host.inventory.includes(slot.task.itemKo))
+    .sort((a, b) => a.atMinute - b.atMinute)[0];
+  if (nextDelivery) {
+    const recipient = state.hosts[nextDelivery.task.recipientHostId];
+    if (recipient && recipient.id !== state.player.embodiment && recipient.historicalAliveAndPresent !== false
+      && host.allowedMaps.includes(recipient.mapId)
+      && npcMapRoute(host.mapId, recipient.mapId, host, maps, state.world.clockMinutes) !== null) {
+      return { slot: { ...nextDelivery, mapId: recipient.mapId, position: { ...recipient.position },
+        activityKo: `맡은 물건을 ${recipient.displayNameKo ?? '수취인'}에게 전할 길을 간다` },
+        goalType: 'PREPARE_DELIVERY', targetHostId: recipient.id, taskId: nextDelivery.task.id,
+        reason: 'start_the_authored_delivery_route_before_its_fixed_deadline',
+        selectionBasis: { utilityScore: 132, deliveryDueMinute: nextDelivery.task.deadlineMinute,
+          minutesUntilHandoff: nextDelivery.atMinute - localMinute } };
     }
   }
 

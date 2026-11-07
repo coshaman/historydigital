@@ -82,3 +82,5 @@ The era registry is now connected to runtime possession and save migration. The 
 
 
 \n
+
+E05 → E25 now forms a browser-playable causal route: reporting the missing parcel releases Pavel to resume autonomous travel, then both Pavel and Sergeant Ivan travel to the police station for the document check. The player can enter the linked intake record there. `npm run v37-parcel-police-browser` clicks through the route at 1440×900 and 390×844, verifies three disclosed choices, save/reload, source link `E05`, and no overflow or browser errors. Delivery planning now routes a courier toward the recipient up to 90 minutes before a scheduled handoff; the parcel pilot confirms the normal handoff completes on time while a possessed courier can still miss it and create E05. Internal validation metadata remains in event state; the journal line stays focused on the event.

@@ -70,7 +70,10 @@ for (const actionCase of actionCases) {
   assert.equal(game.stateHash(game.loadGame(game.saveGame(result.state), { maps, hostCards: cards, quests: [quest] })), game.stateHash(result.state));
 }
 
-const witnessedRow = { ...missed.ledger.at(-1), livingEvents: [{ ...missed.ledger.at(-1).livingEvents?.find(row => row.catalogEventId === 'E05'), witnessedByPlayer: true }] };
-assert.ok(formatObservedNpcReactions([witnessedRow], cards).some(line => line.includes('배달 봉투가 인쇄소 문 앞에 남음') && line.includes('역사 미검증')));
+const witnessedEvent = missed.ledger.flatMap(row => row.livingEvents ?? []).find(row => row.catalogEventId === 'E05' && row.stage === 'PARCEL_MISSING');
+assert.ok(witnessedEvent, 'the missed-delivery trigger remains in the event ledger after later ticks');
+const witnessedRow = { ...missed.ledger.find(row => row.livingEvents?.includes(witnessedEvent)),
+  livingEvents: [{ ...witnessedEvent, witnessedByPlayer: true }] };
+assert.ok(formatObservedNpcReactions([witnessedRow], cards).some(line => line.includes('배달 봉투가 인쇄소 문 앞에 남음')));
 console.log(JSON.stringify({ status: 'PASS', normalDelivery: 'ON_TIME_NO_EVENT', missedDelivery: event.stage,
   unattended: continued.world.livingEventStates.E05.stage, playerResolutions: actionCases.map(row => row.stage), saveLoad: true }));
