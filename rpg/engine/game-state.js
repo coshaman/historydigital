@@ -2197,6 +2197,51 @@ function advanceBelinskyLetterEvent(state, minuteOffset, maps, livingEventRows) 
   livingEventRows.push(belinskyLetterEventRow(state, event, minuteOffset, maps,
     { unattended: true, changeKo: '독자들이 흩어지고 필사본은 책방 안에 보관됐다.' }));
 }
+function processionEventRow(state, event, minuteOffset, maps, details = {}) {
+  return { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E45', stage: event.stage,
+    stageIndex: event.stage === 'CLEARANCE_READY' ? 1 : 2, actorHostIds: [...event.actorHostIds],
+    witnessHostIds: [...event.witnessHostIds], date: state.world.date, minute: minuteOffset,
+    mapId: event.venueMapId, position: { ...event.scenePosition }, sourceIds: [],
+    occurrenceType: 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION', validationStatus: 'DESIGN_SEED_NOT_VERIFIED',
+    historicalOutcomeId: 'FICTIONAL_LOCAL_STREET_ENCOUNTER', historicalOutcomeFixed: false,
+    state: clone(event), witnessedByPlayer: playerCanObserveWorldEvent(state, event.venueMapId, event.scenePosition, 6, maps), ...details };
+}
+function advanceProcessionEvent(state, minuteOffset, maps, livingEventRows) {
+  state.world.livingEventStates ??= {};
+  let event = state.world.livingEventStates.E45;
+  if (!event) {
+    const object = (layer(maps?.nevsky, 'Interactions')?.objects ?? []).find(row => row.id === 1184);
+    const actorHostIds = ['street_vendor_matryona', 'junior_guard_sergey', 'coachman_timofey'];
+    const actors = actorHostIds.map(id => state.hosts[id]);
+    const minute = ((state.world.clockMinutes % 1440) + 1440) % 1440;
+    if (state.world.chapterId !== 'V33_1847_PRINT' || state.world.activeRealm || state.world.date !== '1847-06-01'
+      || minute < 690 || minute > 780 || !object || actors.some(host => !host || host.historicalAliveAndPresent === false
+        || !host.allowedMaps.includes('nevsky') || npcMapRoute(host.mapId, 'nevsky', host, maps, state.world.clockMinutes) === null)) return;
+    const scenePosition = objectTile(object);
+    event = state.world.livingEventStates.E45 = { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E45',
+      status: 'ACTIVE', stage: 'CLEARANCE_READY', trigger: '1847_conditional_local_carriage_blockage',
+      startedAtMinute: state.world.clockMinutes, resolvesAtMinute: state.world.clockMinutes + 180,
+      actorHostIds, witnessHostIds: actorHostIds.filter(id => id !== 'street_vendor_matryona'),
+      venueMapId: 'nevsky', scenePosition, vendorHostId: 'street_vendor_matryona', guardHostId: 'junior_guard_sergey',
+      coachmanHostId: 'coachman_timofey', stallPosition: { ...state.hosts.street_vendor_matryona.position },
+      historicalOutcomeId: 'FICTIONAL_LOCAL_STREET_ENCOUNTER', historicalOutcomeFixed: false };
+    livingEventRows.push(processionEventRow(state, event, minuteOffset, maps,
+      { changeKo: '마차가 길목을 막았다. 경비가 좌판 주인과 마부를 불러 세웠다.' }));
+  }
+  if (event.status !== 'ACTIVE') return;
+  if (state.world.clockMinutes < event.resolvesAtMinute) return;
+  event.status = 'RESOLVED'; event.stage = 'CARRIAGE_PASSED'; event.disposition = 'NO_PLAYER_INTERVENTION';
+  event.resolvedAtMinute = state.world.clockMinutes;
+  state.world.processionRecords ??= [];
+  state.world.processionRecords.push({ eventId: 'E45', disposition: event.disposition,
+    actorHostIds: [...event.actorHostIds], date: state.world.date, recordedAtMinute: state.world.clockMinutes,
+    historicalOutcomeFixed: false });
+  for (const id of event.actorHostIds) {
+    const host = state.hosts[id]; if (host?.activeGoal?.taskId?.startsWith('V37:E45:')) host.activeGoal = null;
+  }
+  livingEventRows.push(processionEventRow(state, event, minuteOffset, maps,
+    { unattended: true, changeKo: '마차가 지나갔다. 좌판 주인은 장사를 이어갔다.' }));
+}
 function advanceMarketPriceDispute(state, minuteOffset, maps, livingEventRows, options = {}) {
   state.world.livingEventStates ??= {};
   const event = state.world.livingEventStates.E13;
@@ -3081,6 +3126,19 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
       taskId: `V37:E44:${belinskyLetter.stage}:${host.id}`, reason: 'gather_to_read_the_handwritten_belinsky_letter',
       selectionBasis: { utilityScore: 184, eventId: 'E44', stage: belinskyLetter.stage } };
   }
+  const procession = state.world.livingEventStates?.E45;
+  if (procession?.status === 'ACTIVE' && procession.actorHostIds.includes(host.id)
+    && host.allowedMaps.includes('nevsky')
+    && npcMapRoute(host.mapId, 'nevsky', host, maps, state.world.clockMinutes) !== null) {
+    const activities = { street_vendor_matryona: '막힌 길목에서 좌판을 지킨다',
+      junior_guard_sergey: '통행 지시를 전하러 네프스키 거리로 간다',
+      coachman_timofey: '마차를 세우고 길을 살핀다' };
+    return { slot: { mapId: 'nevsky', position: { ...procession.scenePosition }, activityKo: activities[host.id] },
+      goalType: 'LIVING_EVENT_RESPONSE', targetHostId: host.id === 'street_vendor_matryona'
+        ? 'junior_guard_sergey' : 'street_vendor_matryona',
+      taskId: `V37:E45:${procession.stage}:${host.id}`, reason: 'residents_respond_to_blocked_street',
+      selectionBasis: { utilityScore: 184, eventId: 'E45', stage: procession.stage } };
+  }
   const marketDayWork = state.world.livingEventStates?.E32;
   if (marketDayWork?.status === 'ACTIVE' && marketDayWork.actorHostIds.includes(host.id)
     && host.allowedMaps.includes(marketDayWork.venueMapId)
@@ -3963,6 +4021,7 @@ function advanceNpcWorld(state, elapsedMinutes, maps, options = {}) {
     advanceEuropeNewsEvent(next, tick, maps, livingEventLog);
     advancePushkinObituaryEvent(next, tick, maps, livingEventLog);
     advanceBelinskyLetterEvent(next, tick, maps, livingEventLog);
+    advanceProcessionEvent(next, tick, maps, livingEventLog);
     advanceSickLodger(next, tick, maps, livingEventLog, options);
     advanceLateMealEvent(next, tick, maps, livingEventLog, options);
     advanceApprenticeLiteracy(next, tick, maps, livingEventLog, options);
@@ -3983,6 +4042,7 @@ function advanceNpcWorld(state, elapsedMinutes, maps, options = {}) {
     advanceEuropeNewsEvent(next, tick, maps, result.livingEventRows);
     advancePushkinObituaryEvent(next, tick, maps, result.livingEventRows);
     advanceBelinskyLetterEvent(next, tick, maps, result.livingEventRows);
+    advanceProcessionEvent(next, tick, maps, result.livingEventRows);
     advancePoliceDocumentCheck(next, tick, maps, result.livingEventRows);
     advanceRentNoticeEvent(next, tick, maps, result.livingEventRows);
     advanceRoofLeakRepairEvent(next, tick, maps, result.livingEventRows);
@@ -4753,6 +4813,51 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
       const actor = next.hosts[id]; if (actor?.activeGoal?.taskId?.startsWith('V37:E44:')) actor.activeGoal = null;
     }
     livingEvents.push(belinskyLetterEventRow(next, event, next.world.clockMinutes % 1440, maps,
+      { actionId, ...record, changeKo: action.resultKo }));
+  }
+  if (questId === 'V37_OFFICIAL_PROCESSION_1847') {
+    const event = next.world.livingEventStates?.E45;
+    const dispositions = { E45_MOVE_STALL_TO_EDGE: 'STALL_MOVED_ASIDE',
+      E45_CLEAR_ROUTE_OFFICIALLY: 'DUTY_BOOK_ENTRY', E45_TURN_CARRIAGE_BACK: 'CARRIAGE_REROUTED' };
+    const disposition = dispositions[actionId];
+    if (!event || event.status !== 'ACTIVE' || event.stage !== 'CLEARANCE_READY'
+      || event.actorHostIds.includes(hostId) === false || !disposition) {
+      return { ok: false, reason: 'procession_event_not_ready', state };
+    }
+    if ((actionId === 'E45_MOVE_STALL_TO_EDGE' && hostId !== event.vendorHostId)
+      || (actionId === 'E45_CLEAR_ROUTE_OFFICIALLY' && hostId !== event.guardHostId)
+      || (actionId === 'E45_TURN_CARRIAGE_BACK' && hostId !== event.coachmanHostId)) {
+      return { ok: false, reason: 'procession_action_wrong_actor', state };
+    }
+    const vendor = next.hosts[event.vendorHostId], guard = next.hosts[event.guardHostId], coachman = next.hosts[event.coachmanHostId];
+    if (actionId !== 'E45_TURN_CARRIAGE_BACK') {
+      vendor.position = { x: event.scenePosition.x - 2, y: event.scenePosition.y };
+      event.stallPosition = { ...vendor.position };
+    }
+    if (actionId === 'E45_TURN_CARRIAGE_BACK') {
+      coachman.position = { x: event.scenePosition.x + 2, y: event.scenePosition.y - 1 };
+      event.carriageRoute = 'SIDE_STREET';
+    }
+    if (actionId === 'E45_CLEAR_ROUTE_OFFICIALLY') {
+      next.world.dutyRecords ??= [];
+      next.world.dutyRecords.push({ eventId: 'E45', hostId, date: next.world.date,
+        recordedAtMinute: next.world.clockMinutes, entryKo: '마차 통행 지시와 좌판 이동' });
+    }
+    event.status = 'RESOLVED'; event.stage = disposition; event.disposition = disposition;
+    event.resolvedAtMinute = next.world.clockMinutes; event.resolvedByHostId = hostId; event.resolutionActionId = actionId;
+    const audienceHostIds = event.actorHostIds.filter(id => id !== hostId);
+    const record = { eventId: 'E45', disposition, recordedByHostId: hostId, audienceHostIds,
+      date: next.world.date, recordedAtMinute: next.world.clockMinutes, historicalOutcomeFixed: false,
+      officialRecord: actionId === 'E45_CLEAR_ROUTE_OFFICIALLY' };
+    next.world.processionRecords ??= []; next.world.processionRecords.push(record);
+    if (actionId === 'E45_CLEAR_ROUTE_OFFICIALLY') {
+      guard.personalEventNotes ??= []; guard.personalEventNotes.push({ eventId: 'E45', atMinute: next.world.clockMinutes,
+        noteKo: '마차 통행 지시와 좌판 이동을 근무 장부에 적었다.' });
+    }
+    for (const id of event.actorHostIds) {
+      const actor = next.hosts[id]; if (actor?.activeGoal?.taskId?.startsWith('V37:E45:')) actor.activeGoal = null;
+    }
+    livingEvents.push(processionEventRow(next, event, next.world.clockMinutes % 1440, maps,
       { actionId, ...record, changeKo: action.resultKo }));
   }
   if (!literaryQuest && questId === 'V37_STREET_MUSIC_1847') {

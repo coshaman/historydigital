@@ -29,7 +29,7 @@
   "tileheight": 16,
   "infinite": false,
   "nextlayerid": 7,
-  "nextobjectid": null,
+  "nextobjectid": 1185,
   "properties": [
     {
       "name": "mapId",
@@ -3457,9 +3457,23 @@
               "value": "E38"
             }
           ]
+        },
+        {
+          "id": 1184,
+          "name": "길을 막은 마차",
+          "type": "quest-object",
+          "x": 384,
+          "y": 240,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            { "name": "questId", "type": "string", "value": "V37_OFFICIAL_PROCESSION_1847" },
+            { "name": "requiresLivingEventId", "type": "string", "value": "E45" }
+          ]
         }
       ],
-      "nextobjectid": 1184
+      "nextobjectid": 1185
     },
     {
       "id": 6,

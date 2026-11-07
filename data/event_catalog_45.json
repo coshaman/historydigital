@@ -1424,36 +1424,34 @@
   },
   {
     "event_id": "E45",
-    "title": "공식 행렬과 경계",
+    "title": "길을 막은 마차",
     "place": "nevsky_road",
     "roles": [
-      "officer",
-      "coachman",
-      "hawker"
+      "street_vendor_matryona",
+      "junior_guard_sergey",
+      "coachman_timofey"
     ],
-    "trigger": "state_procession",
-    "visible_scene": "공식 마차 이동으로 길이 막히고 상인들이 치워진다",
-    "historical_anchor": "당대 의전·통행 규정",
+    "trigger": "conditional_local_carriage_blockage_at_the_market_street",
+    "visible_scene": "마차가 좁은 길목을 막고, 상인과 경비와 마부가 통행 방식을 정한다",
+    "historical_anchor": "특정 날짜의 행렬에 관한 주장이 아닌, 당대 도시 통행의 조건부 재구성",
     "player_actions": [
-      "우회",
-      "관찰",
-      "항의",
-      "영업중단"
+      "좌판을 가장자리로 옮긴다",
+      "근무 장부에 통행 지시를 남긴다",
+      "마차를 옆길로 돌린다"
     ],
-    "world_consequence": "시간·평판 변화",
+    "world_consequence": "좌판·인물 위치와 근무 기록이 선택에 따라 달라진다",
     "occurrence_type": "HISTORICALLY_PLAUSIBLE_RECONSTRUCTION",
     "validation_status": "DESIGN_SEED_NOT_VERIFIED",
     "trigger_class": "EMERGENT_CONDITIONAL",
     "scene_steps": [
-      "spawn_actor_and_prop",
-      "show_causal_world_change",
-      "perform_interaction",
-      "update_witness_and_private_knowledge",
-      "emit_local_newspaper_or_gossip_if_newsworthy"
+      "actor_arrives",
+      "street_is_blocked",
+      "player_selects_route_response",
+      "update_positions_and_optional_duty_record"
     ],
     "failure_outcomes": [
       "nonparticipation_world_continues",
-      "witness_not_omniscient"
+      "no_claim_about_a_specific_historical_procession"
     ]
   }
 ]

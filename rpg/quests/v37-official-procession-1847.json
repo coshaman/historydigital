@@ -1,0 +1,47 @@
+{
+  "id": "V37_OFFICIAL_PROCESSION_1847",
+  "catalogEventId": "E45",
+  "titleKo": "길을 비우라는 호각",
+  "chapterId": "V33_1847_PRINT",
+  "date": "1847-06-01",
+  "requiresLivingEventId": "E45",
+  "historicalOutcome": {
+    "id": "E45_FICTIONAL_STREET_CLEARANCE",
+    "value": "only this reconstructed street encounter and the residents' choices vary",
+    "sourceIds": []
+  },
+  "entry": { "mapId": "nevsky", "objectId": 1184 },
+  "premiseKo": "호각이 울리고 마차가 다가온다. 경비가 손짓하자 마트료나가 좌판을 붙든다. “손님이 오는 길인데, 지금 치우라고요?”",
+  "actions": [
+    {
+      "id": "E45_MOVE_STALL_TO_EDGE",
+      "hostIds": ["street_vendor_matryona"],
+      "requiredLivingEventStage": "CLEARANCE_READY",
+      "labelKo": "물건을 거두어 길 가장자리로 옮긴다",
+      "subcopyKo": "경비와 마부가 봅니다 · 좌판 위치가 바뀝니다 · 통행이 끝날 때까지 장사를 멈춥니다",
+      "resultKo": "마트료나가 바구니를 들고 건물 쪽으로 물러났다. 마차가 지나갈 폭이 열렸다.",
+      "resultFlag": "stallMovedAside",
+      "effects": { "situationKo": "좌판을 길 가장자리로 옮겨 통행을 열었다." }
+    },
+    {
+      "id": "E45_CLEAR_ROUTE_OFFICIALLY",
+      "hostIds": ["junior_guard_sergey"],
+      "requiredLivingEventStage": "CLEARANCE_READY",
+      "labelKo": "통행 지시와 좌판 이동을 근무 기록에 적는다",
+      "subcopyKo": "경비 상관과 당사자들이 알게 됩니다 · 근무 기록으로 남습니다 · 좌판은 옮겨지고 문책 위험을 감수합니다",
+      "resultKo": "세르게이가 통행 지시와 좌판 위치를 근무 기록에 적었다. 마트료나는 바구니를 옮겼고 마차가 지나갔다.",
+      "resultFlag": "clearanceEnteredInDutyBook",
+      "effects": { "situationKo": "통행을 위해 좌판을 옮기고 근무 장부에 지시를 기록했다." }
+    },
+    {
+      "id": "E45_TURN_CARRIAGE_BACK",
+      "hostIds": ["coachman_timofey"],
+      "requiredLivingEventStage": "CLEARANCE_READY",
+      "labelKo": "마차를 돌려 옆길로 간다",
+      "subcopyKo": "경비와 좌판 주인이 봅니다 · 공식 기록은 남기지 않습니다 · 손님을 늦추고 운임을 잃을 수 있습니다",
+      "resultKo": "티모페이가 말을 돌려 옆길로 향했다. 마트료나는 좌판을 그대로 두었고 길은 곧 다시 열렸다.",
+      "resultFlag": "carriageRerouted",
+      "effects": { "situationKo": "마차가 옆길로 돌아 통행 충돌을 피했다." }
+    }
+  ]
+}
