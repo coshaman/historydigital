@@ -6,10 +6,20 @@ import { questChoices } from '../rpg/engine/quest-presentation.mjs';
 const require = createRequire(import.meta.url); require('../rpg/engine/game-state.js');
 const game = globalThis.V33GameState;
 const read = async url => JSON.parse(await readFile(url, 'utf8'));
-const [mapFiles, cardFiles, quest] = await Promise.all([
+const [mapFiles, cardFiles, quest, literarySource, sourceReaderIndex] = await Promise.all([
   readdir(new URL('../rpg/maps/', import.meta.url)), readdir(new URL('../rpg/characters/', import.meta.url)),
   read(new URL('../rpg/quests/v37-physiology-reading-1847.json', import.meta.url)),
+  read(new URL('../rpg/data/khor-kalynych-source.json', import.meta.url)),
+  read(new URL('../rpg/data/source-reader-index.json', import.meta.url)),
 ]);
+const sourceIndex = sourceReaderIndex.records.find(row => row.sourceId === literarySource.sourceId);
+const literaryExcerptRu = literarySource.paragraphs.map(row => row.ru).join('\n');
+assert.ok(literaryExcerptRu.includes('Хорь понималъ дѣйствительность')
+  && literaryExcerptRu.includes('Калинычъ ходилъ въ лаптяхъ')
+  && literaryExcerptRu.includes('благоговѣлъ передъ своимъ господиномъ'),
+'the readable source must include Turgenev’s consecutive comparison of living conditions and each man’s relation to the landowner');
+assert.ok(sourceIndex?.contextKo.includes('살림') && sourceIndex.contextKo.includes('지주'),
+  'the source drawer should frame the immediately relevant comparison in concise Korean');
 const [maps, cards] = await Promise.all([
   Promise.all(mapFiles.filter(file => file.endsWith('.json')).map(file => read(new URL(`../rpg/maps/${file}`, import.meta.url))))
     .then(rows => Object.fromEntries(rows.map(map => [map.mapId, map]))),
