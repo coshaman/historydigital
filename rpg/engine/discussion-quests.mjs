@@ -26,8 +26,9 @@ export function availableDiscussionQuests(state, definitions) {
   });
 }
 
-export function discussionPromptsForHost(hostId, quests) {
-  return (quests ?? []).filter(quest => !quest.completed && quest.hosts?.[hostId] && !quest.perspectiveHostIds?.includes(hostId)).map(quest => ({
+export function discussionPromptsForHost(hostId, quests, { contextQuestId = null, requireContext = false } = {}) {
+  return (quests ?? []).filter(quest => !quest.completed && quest.hosts?.[hostId] && !quest.perspectiveHostIds?.includes(hostId)
+    && (!requireContext || Boolean(contextQuestId && quest.contextQuestId === contextQuestId))).map(quest => ({
     discussionId: quest.id,
     topicId: quest.topicId,
     questTitleKo: quest.titleKo,

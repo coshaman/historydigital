@@ -203,7 +203,11 @@ export function resolveQuestGuidance({ state, quests, maps, hostCards }) {
   const completed = state.ledger.filter(entry => entry.questId === quest.id && ['HISTORICAL_ACTION','LITERARY_ACTION'].includes(entry.eventType)).length;
   const total = (quest.actions ?? []).length;
   const chain = quest.lifeChain;
-  const base = { questId: quest.id, phaseId: state.quests[quest.id]?.status ?? 'open', hostId: host.id, questTitleKo: chain ? `${quest.socialChain ? '이웃 연쇄 · ' : ''}${chain.titleKo} · ${chain.stage}/${chain.stageCount} — ${quest.titleKo}` : questLabel(quest),
+  const chainPrefix = quest.socialChain ? '이웃 연쇄 · ' : '';
+  const chainTitle = chain && quest.titleKo.includes(chain.titleKo)
+    ? `${chainPrefix}${chain.titleKo} · ${chain.stage}/${chain.stageCount}`
+    : chain ? `${chainPrefix}${chain.titleKo} · ${chain.stage}/${chain.stageCount} — ${quest.titleKo}` : questLabel(quest);
+  const base = { questId: quest.id, phaseId: state.quests[quest.id]?.status ?? 'open', hostId: host.id, questTitleKo: chainTitle,
     progress: { completedSteps: Math.min(completed, total), totalSteps: Math.max(1,total) }, known: true };
 
   if (!allowed.length) {

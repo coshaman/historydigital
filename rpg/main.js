@@ -383,7 +383,7 @@ function say(title, text, actions = []) {
   const visibleActions = actions.filter(action => action.label !== persistentLabel);
   $('.lower').classList.toggle('has-actions', visibleActions.length > 0);
   $('.actions').classList.remove('roster-options');
-  $('#mission-tracker').hidden = Boolean(state.endingId) || visibleActions.length > 0;
+  $('#mission-tracker').hidden = Boolean(state.endingId);
   $('#actions').replaceChildren(...visibleActions.map(({ label, subcopy, run, disabled = false }) => {
     const button = document.createElement('button');
     button.type = 'button'; button.disabled = disabled;
@@ -470,7 +470,7 @@ function updateHud() {
       phaseId: 'opinion-inquiry',
       hostId: queuedDiscussionInquiry.hostId,
       taskType: host?.id === queuedDiscussionInquiry.hostId ? 'TALK' : host ? 'TRAVEL' : 'POSSESS',
-      questTitleKo: `생각·사건 임무 · ${queuedDiscussionInquiry.titleKo}`,
+      questTitleKo: queuedDiscussionInquiry.titleKo,
       actionKo: `${queuedDiscussionInquiry.hostNameKo}에게 물어보기 · ${queuedDiscussionInquiry.progressKo}`,
       reasonKo: queuedDiscussionInquiry.stakesKo,
       howKo: `${nextAction}. ${targetGuide?.howKo ?? ''} 준비한 질문은 대화 선택지 맨 앞에 놓입니다.`,
@@ -1420,11 +1420,15 @@ function openCharacterList() {
     return !state.world.activeRealm && (!era || era.allowedChapterIds.includes(state.world.chapterId))
       && (!host.presenceWindow || state.world.date >= host.presenceWindow.startDate && state.world.date <= host.presenceWindow.endDate);
   });
+  entries.sort((a, b) => {
+    const aHost = state.hosts[a.id], bHost = state.hosts[b.id];
+    return Number(bHost.mapId === state.world.currentMapId) - Number(aHost.mapId === state.world.currentMapId)
+      || a.displayNameKo.localeCompare(b.displayNameKo, 'ko');
+  });
   const options = entries.map(card => {
     const host = state.hosts[card.id];
-    const goal = host.activeGoal?.descriptionKo ?? host.currentActivityKo ?? card.personalObjective;
-    const introduction = card.worldview?.stanceKo?.split(/[.!?。！？]/u)[0]?.trim() || card.personalObjective;
-    return { label: `${card.displayNameKo} · ${card.occupation}`, subcopy: `${introduction} · 지금은 ${goal} · ${maps[host.mapId].metadata.displayNameKo}`, run: () => {
+    const activity = host.currentActivityKo || host.activeGoal?.descriptionKo || card.personalObjective;
+    return { card, host, activity, run: () => {
       const result = possessHostFromRoster(state, card.id, maps);
       if (!result.ok) { sayRecord(result.reason === 'era_layer_mismatch' ? '지금은 그 시기의 사람이 아니다.' : '지금은 그 사람의 몸으로 들어갈 수 없다.'); return; }
       setState(result.state); tutorialAdvance('possess');
@@ -1432,8 +1436,22 @@ function openCharacterList() {
       sayRecord(`시야 전환 · ${card.displayNameKo}`);
     } };
   });
-  say('인물과 그날의 일', '소개를 고르면 곧바로 그 사람의 자리에서 시작합니다.', options);
+  say('누구의 하루로 들어갈까요?', '이름을 누르면 곧바로 그 인물로 시작합니다.', []);
   $('.actions').classList.add('roster-options');
+  $('#mission-tracker').hidden = true;
+  $('.actions').replaceChildren(...options.map(({ card, host, activity, run }) => {
+    const button = document.createElement('button');
+    button.type = 'button'; button.className = 'roster-card'; button.addEventListener('click', run);
+    const portrait = document.createElement('img');
+    portrait.src = `./rpg/${card.portrait.file}`; portrait.alt = ''; portrait.loading = 'lazy';
+    const copy = document.createElement('span'); copy.className = 'roster-card-copy';
+    const name = document.createElement('strong'); name.textContent = card.displayNameKo;
+    const occupation = document.createElement('span'); occupation.textContent = card.occupation;
+    const current = document.createElement('small'); current.textContent = `지금 · ${activity}`;
+    const place = document.createElement('small'); place.className = 'roster-card-place';
+    place.textContent = maps[host.mapId].metadata.displayNameKo;
+    copy.append(name, occupation, current, place); button.append(portrait, copy); return button;
+  }));
 }
 function move(direction) {
   if (activeDialogueHost) finishConversation(activeDialogueHost);
@@ -1580,7 +1598,7 @@ async function sendConversation(card, playerText, replyId = null) {
         : inquiry && questList.find(quest => (quest.sourceIds ?? []).some(id => (inquiry.sourceIds ?? []).includes(id))
           && quest.actions?.some(action => action.hostIds.includes(card.id)) && questIsAvailable(quest)
           && state.quests[quest.id]?.status !== 'resolved');
-      const inquiryQuestId = discussionPrompt ? inquiryQuest?.id ?? missionGuidance?.questId ?? null : null;
+      const inquiryQuestId = discussionPrompt ? inquiryQuest?.id ?? null : null;
       const requestDialogue = currentSession => fetch(`${aiBaseUrl}/api/rpg/dialogue`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ sessionToken: currentSession.token, requestId: crypto.randomUUID(), playerInput: playerText, actorRelations: relationshipHintsFor(actorCard.id), actorActions: playerActionHintsFor(actorCard.id), sceneContext: dialogueSceneContext(card, state.hosts[card.id], state.world.date, state.world.currentMapId, discussionPrompt ? inquiryQuestId : missionGuidance?.questId ?? null) }), signal: controller.signal });
       let response = await requestDialogue(session);
       if (response.status === 401) {
@@ -1639,7 +1657,10 @@ async function sendConversation(card, playerText, replyId = null) {
   let ordinaryExchangeCount = dialogueOrdinaryExchanges.get(key) ?? 0;
   if (!discussionPrompt && !reflectionPrompt) dialogueOrdinaryExchanges.set(key, ordinaryExchangeCount += 1);
   if (!discussionPrompt && !reflectionPrompt && mayOfferDiscussionPrompt(ordinaryExchangeCount)) {
-    const contextualQuestion = discussionPromptsForHost(card.id, currentDiscussionQuests())[0];
+    const contextualQuestion = discussionPromptsForHost(card.id, currentDiscussionQuests(), {
+      contextQuestId: missionGuidance?.questId,
+      requireContext: true,
+    })[0];
     if (contextualQuestion && replies.length < 3) replies.push({ textKo: contextualQuestion.promptKo });
   }
   const reward = recorded.ok ? recorded.state.ledger.at(-1)?.dialogueReward : null;

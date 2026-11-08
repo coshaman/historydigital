@@ -366,7 +366,10 @@ function normalizeRelationshipHints(value) {
   // context as null. That is equivalent to no relationship hints; it should
   // not prevent an otherwise valid conversation from starting.
   if (value === undefined || value === null) return {};
-  if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
+  // Relationship hints are optional decoration. Old saves and stale clients
+  // may serialize them in an obsolete shape; discard that shape instead of
+  // making the whole conversation fail with HTTP 400.
+  if (typeof value !== 'object' || Array.isArray(value)) return {};
   const normalized = {};
   for (const [group, status] of Object.entries(value).sort(([a], [b]) => a.localeCompare(b))) {
     // Saves can outlive the authored relationship vocabulary. Discard stale or

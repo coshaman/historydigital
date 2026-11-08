@@ -76,6 +76,11 @@ test('dialogue accepts relationship outcomes from every quest bundle used by the
     requestId: 'all-quests-0002', playerInput: '아까 보던 물건은 어떻게 됐습니까?', actorRelations: null, actorActions: [],
     sceneContext: { date: '1847-06-01', mapId: 'market-quay', questId: 'FYODOR_FLOUR_AND_ORDERS_1847_STAGE_1' } }));
   assert.equal(nullRelationshipContext.status, 200, 'an empty/null relationship context must not block AI dialogue');
+  const staleRelationshipContext = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken,
+    requestId: 'all-quests-0003', playerInput: '아까 보던 물건은 어떻게 됐습니까?', actorRelations: ['old-save-value'], actorActions: [],
+    sceneContext: { date: '1847-06-01', mapId: 'market-quay', questId: 'FYODOR_FLOUR_AND_ORDERS_1847_STAGE_1' } }));
+  assert.equal(staleRelationshipContext.status, 200, 'stale non-object relationship context is optional and must not prevent a dialogue turn');
+  assert.equal(staleRelationshipContext.body.aiGenerated, true);
 });
 
 test('dialogue register is selected from the relationship, privacy, conflict, and institutional scene', () => {

@@ -7,16 +7,14 @@ import definitions from '../rpg/data/discussion-quests.json' with { type: 'json'
 const require = createRequire(import.meta.url);
 const game = require('../rpg/engine/game-state.js');
 
-test('discussion quests unlock by campaign date and preserve fictional viewpoint boundaries', () => {
+test('discussion quests unlock only on or before the campaign date and preserve viewpoint boundaries', () => {
   const state = { world: { date: '1847-06-01' }, ledger: [] };
   const quests = availableDiscussionQuests(state, definitions);
-  assert.equal(quests.length, 16, 'sixteen philosophy, event, and daily-life viewpoint missions are available from the opening date');
+  assert.equal(quests.length, 14, 'only the fourteen inquiries dated by June 1847 are available');
   assert.deepEqual(quests.map(quest => quest.id), [
-    'INQUIRY_OFFICIAL_DUTY_AND_MORALITY',
     'INQUIRY_IDEAS_AND_LIVED_LIFE',
     'INQUIRY_LITERATURE_AND_SERFDOM',
     'INQUIRY_CENSORSHIP_AND_LABOR',
-    'INQUIRY_CENSORSHIP_AND_PUBLIC_ORDER',
     'INQUIRY_REFORM_AND_LIVED_COST',
     'INQUIRY_WAGES_AND_NEIGHBORHOOD_1847',
     'INQUIRY_PRICE_AND_WORK_1847',
@@ -79,35 +77,39 @@ test('new philosophy and event inquiries have actionable questions for distinct 
   assert.equal(witness.sourceIds.every(sourceId => typeof sourceId === 'string'), true);
 });
 
+test('automatic opinion prompts stay attached to the live document or event that gives them context', () => {
+  const quests = availableDiscussionQuests({ world: { date: '1847-06-01' }, ledger: [] }, definitions);
+  const anchored = quests.find(item => item.id === 'INQUIRY_CENSORSHIP_AND_LABOR');
+  assert.equal(discussionPromptsForHost('printer_ekaterina', [anchored], { contextQuestId: 'MATRYONA_STREET_STALL_1847_STAGE_1', requireContext: true }).length, 0);
+  assert.equal(discussionPromptsForHost('printer_ekaterina', [anchored], { contextQuestId: 'PRINTSHOP_PROOF_1847', requireContext: true }).length, 1);
+  const unanchored = quests.find(item => item.id === 'INQUIRY_IDEAS_AND_LIVED_LIFE');
+  assert.equal(discussionPromptsForHost('reader_darya', [unanchored], { contextQuestId: 'MATRYONA_STREET_STALL_1847_STAGE_1', requireContext: true }).length, 0);
+});
+
 test('the opening opinion quests tell a first-time player what to do before possession', () => {
   const quests = availableDiscussionQuests({ world: { date: '1847-06-01' }, ledger: [] }, definitions);
   const board = discussionBoardView(quests, null, { clerk_alexei: '알렉세이', senior_clerk_konstantin: '콘스탄틴' });
   assert.equal(board.visible, true);
-  assert.match(board.progressKo, /사건·철학·이념 임무/);
-  assert.match(board.guidanceKo, /질문 담기.*질문할 인물과 다른 주민의 몸.*표시된 상대.*같은 쟁점/);
+  assert.match(board.progressKo, /쟁점 0\/14/);
+  assert.match(board.guidanceKo, /질문을 골라 두 사람의 관점을 듣고/);
   assert.match(board.rows[0], /먼저 묻기/);
-  assert.match(board.rows[0], /명령이 절차에 맞더라도 결과가 부당/);
-  assert.match(board.rows.join(' '), /알렉세이|콘스탄틴/);
+  assert.match(board.rows[0], /책에서 배운 원칙/);
   assert.equal(board.rows.length, quests.length, 'the board exposes every currently available inquiry, not only the first three');
   assert.equal(board.recommendations.length, quests.length, 'each inquiry has a concrete next character and exact question');
   assert.ok(board.recommendations[0].hostId);
   assert.ok(board.recommendations[0].promptKo);
   assert.match(board.recommendations[0].progressKo, /0\/2 관점/);
-  assert.match(board.guidanceKo, /사건·이념 임무/);
-  assert.match(board.guidanceKo, /다른 주민의 몸/);
-  assert.match(board.guidanceKo, /비교 메모/);
-  const active = quests.find(item => item.id === 'INQUIRY_OFFICIAL_DUTY_AND_MORALITY');
-  const inConversation = discussionBoardView([active], 'clerk_alexei', { clerk_alexei: '알렉세이' });
-  assert.match(inConversation.rows[0], /지금 대화 중인 알렉세이에게/);
-  assert.match(inConversation.rows[0], /결재선/);
-  assert.equal(inConversation.recommendations[0].hostId, 'clerk_alexei');
-  assert.match(inConversation.recommendations[0].promptKo, /결재선/);
-  const firstPerspective = { ...active, perspectiveHostIds: ['clerk_alexei'] };
+  const active = quests.find(item => item.id === 'INQUIRY_CENSORSHIP_AND_LABOR');
+  const inConversation = discussionBoardView([active], 'printer_ekaterina', { printer_ekaterina: '예카테리나' });
+  assert.match(inConversation.rows[0], /지금 대화 중인 예카테리나에게/);
+  assert.match(inConversation.rows[0], /투르게네프/);
+  assert.equal(inConversation.recommendations[0].hostId, 'printer_ekaterina');
+  assert.match(inConversation.recommendations[0].promptKo, /호리와 칼리니치/);
+  const firstPerspective = { ...active, perspectiveHostIds: ['printer_ekaterina'] };
   const nextPerspective = discussionBoardView([firstPerspective], 'clerk_alexei', { clerk_alexei: '알렉세이', senior_clerk_konstantin: '콘스탄틴' });
   assert.match(nextPerspective.rows[0], /1\/2 관점/);
-  assert.match(nextPerspective.rows[0], /콘스탄틴에게 같은 쟁점을 물어보세요/);
-  assert.match(nextPerspective.guidanceKo, /첫 관점을 기록했습니다.*콘스탄틴에게 같은 쟁점을 물어보세요/);
-  assert.match(nextPerspective.guidanceKo, /질문할 인물과 다른 주민의 몸/);
+  assert.match(nextPerspective.rows[0], /seamstress_anna에게 같은 쟁점을 물어보세요/);
+  assert.match(nextPerspective.guidanceKo, /다음은 seamstress_anna에게 물어보세요/);
 });
 
 test('an authored offline answer still records the asked perspective without claiming AI generation', () => {

@@ -35,6 +35,10 @@ try {
     await page.waitForFunction(() => document.documentElement.dataset.gameReady === 'true');
     await page.locator('#roster-open').click();
     await page.waitForFunction(() => document.querySelectorAll('#actions button').length > 0);
+    const rosterCard = await page.locator('#actions .roster-card').filter({ hasText: '마트료나' }).first();
+    if (!(await rosterCard.isVisible()) || !(await rosterCard.locator('img').count())
+      || !(await rosterCard.innerText()).includes('지금 ·'))
+      throw new Error('Character roster must show Matryona’s portrait, current work, and a one-click possession control');
     await page.getByRole('button', { name: /마트료나/ }).click();
     await page.waitForFunction(() => document.querySelector('#bodyname')?.textContent?.includes('마트료나'));
     await page.locator('#save').click();
@@ -63,6 +67,13 @@ try {
     await page.getByRole('button', { name: stageOne.actions[0].labelKo }).click();
     let afterStageOne = game.loadGame(await page.evaluate(() => localStorage.getItem('v33-rpg-save')), { maps, hostCards: cards, quests });
     if (afterStageOne.quests[stageOne.id]?.status !== 'resolved') throw new Error('Matryona stage one did not resolve through the real stall object');
+    const nextObjective = await page.evaluate(() => ({
+      title: document.querySelector('#mission-title')?.textContent,
+      action: document.querySelector('#mission-action')?.textContent,
+      hidden: document.querySelector('#mission-tracker')?.hidden,
+    }));
+    if (nextObjective.hidden || !nextObjective.title?.includes('2/3') || !nextObjective.action?.includes('E'))
+      throw new Error(`Matryona’s next goal must appear immediately after choosing: ${JSON.stringify(nextObjective)}`);
     await page.keyboard.press('e');
     const stageTwo = quests.find(quest => quest.id === 'MATRYONA_STREET_STALL_1847_STAGE_2');
     await page.getByRole('button', { name: stageTwo.actions[0].labelKo }).waitFor({ state: 'visible' });
