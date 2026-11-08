@@ -2262,11 +2262,20 @@ function advanceMarketDayWorkEvent(state, minuteOffset, maps, livingEventRows, o
   let event = state.world.livingEventStates.E32;
   if (!event) {
     const minute = ((state.world.clockMinutes % 1440) + 1440) % 1440;
+    const dayIndex = Math.floor(state.world.clockMinutes / 1440);
     const worker = state.hosts.tenant_mikhail, employer = state.hosts.market_nadezhda;
     const entry = layer(maps?.['market-quay'], 'Interactions')?.objects.find(item => item.id === 1180);
+    const workShiftSoon = (worker?.schedule ?? []).some(slot => {
+      if (!slot.workAction || !Number.isInteger(slot.atMinute)) return false;
+      const shiftOffset = slot.atMinute - minute;
+      const shiftDay = shiftOffset >= -180 ? dayIndex : dayIndex + 1;
+      return shiftOffset >= -180 && shiftOffset <= 300
+        && !worker.completedWorkActionKeys?.includes(`${shiftDay}:${slot.workAction.id}`);
+    });
     if (state.world.chapterId !== 'V33_1847_PRINT' || state.world.activeRealm || state.world.date < '1847-06-01'
       || minute < 540 || minute > 960 || !entry || !worker || !employer || worker.historicalAliveAndPresent === false
       || employer.historicalAliveAndPresent === false || worker.money?.amount > 9 && (worker.needs?.incomePressure ?? 0) < 65
+      || workShiftSoon
       || !worker.allowedMaps.includes('market-quay')
       || !employer.allowedMaps.includes('market-quay') || employer.money?.amount < 3
       || npcMapRoute(worker.mapId, 'market-quay', worker, maps, state.world.clockMinutes) === null
@@ -3471,6 +3480,28 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
       selectionBasis: { utilityScore: 180, eventId: 'E25', stage: documentCheck.stage } };
   }
   const marketTheft = state.world.livingEventStates?.E36;
+  const shiftDayIndex = Math.floor(state.world.clockMinutes / 1440);
+  const recentWorkSlot = (host.schedule ?? []).filter(slot => slot.workAction
+    && householdTutorSessionDue(state, slot.workAction)
+    && slot.atMinute <= localMinute && localMinute - slot.atMinute <= 180
+    && !(host.schedule ?? []).some(later => later.workAction && later.atMinute > slot.atMinute && later.atMinute <= localMinute
+      && host.completedWorkActionKeys?.includes(`${shiftDayIndex}:${later.workAction.id}`))
+    && !host.completedWorkActionKeys?.includes(`${shiftDayIndex}:${slot.workAction.id}`))
+    .sort((a, b) => b.atMinute - a.atMinute)[0];
+  if (recentWorkSlot
+    && !(host.needs?.hunger >= 90 && host.money?.amount <= 0)
+    && !['PURCHASE_MEAL', 'SEEK_FOOD_AID', 'SEEK_MEDICAL_AID'].includes(host.activeGoal?.type)
+    && !(state.world.livingEventStates?.E27?.status === 'ACTIVE'
+      && state.world.livingEventStates.E27.stage === 'EVACUATING'
+      && state.world.livingEventStates.E27.actorHostIds.includes(host.id))
+    && !(state.world.livingEventStates?.E34?.status === 'ACTIVE'
+      && state.world.livingEventStates.E34.actorHostIds.includes(host.id))
+    && !['INJURED', 'UNWELL'].includes(host.healthState?.condition)
+    && !(host.healthState?.condition === 'RECOVERING' && state.world.clockMinutes < host.healthState.recoveryUntilMinute)) {
+    return { slot: recentWorkSlot, goalType: 'SCHEDULED_WORK', targetHostId: null, taskId: recentWorkSlot.workAction.id,
+      reason: 'resume_due_work_after_a_noncritical_world_event',
+      selectionBasis: { workActionId: recentWorkSlot.workAction.id, overdueMinutes: localMinute - recentWorkSlot.atMinute } };
+  }
   const unfinishedNeighborShift = host.activeGoal?.type === 'SCHEDULED_WORK' && (host.schedule ?? []).some(slot => slot.workAction?.id === host.activeGoal.taskId
       && !(host.completedWorkActionKeys ?? []).includes(`${Math.floor(state.world.clockMinutes / 1440)}:${slot.workAction.id}`))
       || (host.schedule ?? []).some(slot => {
@@ -3612,7 +3643,7 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
   }
   const courtyardFire = state.world.livingEventStates?.E27;
   if (courtyardFire?.status === 'ACTIVE' && courtyardFire.actorHostIds.includes(host.id)
-    && !scheduledSlot?.workAction && host.allowedMaps.includes('courtyard')
+    && (courtyardFire.stage === 'EVACUATING' || !scheduledSlot?.workAction) && host.allowedMaps.includes('courtyard')
     && npcMapRoute(host.mapId, courtyardFire.stage === 'EVACUATING'
       ? courtyardFire.evacuationTargets?.[host.id]?.mapId ?? 'nevsky' : 'courtyard', host, maps, state.world.clockMinutes) !== null) {
     const evacuationTarget = courtyardFire.stage === 'EVACUATING' ? courtyardFire.evacuationTargets?.[host.id] : null;
@@ -3701,8 +3732,9 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
     }
   }
 
-  const nextDelivery = (host.schedule ?? []).filter(slot => slot.task?.type === 'DELIVER'
+  const nextDelivery = (host.schedule ?? []).filter(slot => ['DELIVER', 'EXCHANGE'].includes(slot.task?.type)
     && slot.atMinute > localMinute && slot.atMinute - localMinute <= 90
+    && !(host.needs?.hunger >= 90 && host.money?.amount <= 0)
     && !taskCompletedForDay(host, slot.task, Math.floor(state.world.clockMinutes / 1440))
     && host.inventory.includes(slot.task.itemKo))
     .sort((a, b) => a.atMinute - b.atMinute)[0];
@@ -3712,9 +3744,14 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
       && host.allowedMaps.includes(recipient.mapId)
       && npcMapRoute(host.mapId, recipient.mapId, host, maps, state.world.clockMinutes) !== null) {
       return { slot: { ...nextDelivery, mapId: recipient.mapId, position: { ...recipient.position },
-        activityKo: `맡은 물건을 ${recipient.displayNameKo ?? '수취인'}에게 전할 길을 간다` },
-        goalType: 'PREPARE_DELIVERY', targetHostId: recipient.id, taskId: nextDelivery.task.id,
-        reason: 'start_the_authored_delivery_route_before_its_fixed_deadline',
+        activityKo: nextDelivery.task.type === 'EXCHANGE'
+          ? `${recipient.displayNameKo ?? '거래 상대'}와 약속한 물건과 값을 맞추러 간다`
+          : `맡은 물건을 ${recipient.displayNameKo ?? '수취인'}에게 전할 길을 간다` },
+        goalType: nextDelivery.task.type === 'EXCHANGE' ? 'PREPARE_TRADE' : 'PREPARE_DELIVERY',
+        targetHostId: recipient.id, taskId: nextDelivery.task.id,
+        reason: nextDelivery.task.type === 'EXCHANGE'
+          ? 'arrive_before_the_authored_trade_time_to_complete_a_physical_exchange'
+          : 'start_the_authored_delivery_route_before_its_fixed_deadline',
         selectionBasis: { utilityScore: 132, deliveryDueMinute: nextDelivery.task.deadlineMinute,
           minutesUntilHandoff: nextDelivery.atMinute - localMinute } };
     }
@@ -6559,8 +6596,35 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
     };
     const stage = fareStages[actionId];
     if (stage) {
+      const fareKopeks = actionId === 'COACHMAN_TIMOFEY_CHOICE_1' ? 3
+        : actionId === 'COACHMAN_TIMOFEY_CHOICE_2' ? 5 : 0;
+      const coachman = next.hosts[hostId];
+      const passenger = fareKopeks ? Object.values(next.hosts).filter(person => person.id !== hostId
+        && person.historicalAliveAndPresent !== false && person.mapId === coachman.mapId
+        && person.money?.unit === coachman.money?.unit && person.money.amount >= fareKopeks
+        && nearTile(person.position, coachman.position, 3))
+        .sort((a, b) => Math.abs(a.position.x - coachman.position.x) + Math.abs(a.position.y - coachman.position.y)
+          - Math.abs(b.position.x - coachman.position.x) - Math.abs(b.position.y - coachman.position.y)
+          || a.id.localeCompare(b.id))[0] : null;
+      if (fareKopeks && !passenger) return { ok: false, reason: 'fare_passenger_not_present_or_cannot_pay', state };
+      if (passenger) {
+        passenger.money.amount -= fareKopeks;
+        coachman.money.amount += fareKopeks;
+        passenger.relations[coachman.id] = '운임을 지불하고 마차에 오른 손님';
+        coachman.relations[passenger.id] = '운임을 받고 먼 길을 맡은 손님';
+        const receipt = `마차 운임 영수증 · ${fareKopeks}코페이카`;
+        coachman.inventory.push(receipt);
+        for (const [person, noteKo] of [[passenger, `티모페이에게 ${fareKopeks}코페이카를 내고 마차를 맡겼다.`],
+          [coachman, `${passenger.nameKo ?? passenger.id}에게서 운임 ${fareKopeks}코페이카를 받았다.`]]) {
+          person.personalEventNotes ??= [];
+          person.personalEventNotes.push({ eventId: 'E10', atMinute: next.world.clockMinutes, noteKo });
+        }
+      }
+      const actorHostIds = passenger ? [hostId, passenger.id] : [hostId];
       const fareEvent = { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E10', status: 'RESOLVED', stage,
-        actorHostIds: [hostId], hostId, questId, actionId, date: next.world.date, mapId: next.world.currentMapId,
+        actorHostIds, hostId, ...(passenger ? { passengerHostId: passenger.id } : {}), fareKopeks,
+        ...(passenger ? { farePaid: true, timeCommitmentMinutes: actionId === 'COACHMAN_TIMOFEY_CHOICE_1' ? 45 : 90 } : { farePaid: false, timeCommitmentMinutes: 30 }),
+        questId, actionId, date: next.world.date, mapId: next.world.currentMapId,
         valueStatus: 'fictional_gameplay_balance', validationStatus: 'DESIGN_SEED_NOT_VERIFIED', witnessedByPlayer: true };
       next.world.livingEventStates ??= {};
       next.world.livingEventStates.E10 = fareEvent;
@@ -7554,11 +7618,21 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
     COACHMAN_TIMOFEY_CHOICE_2: 'FARE_ACCEPTED_WITH_RISK_DISCLOSED',
     COACHMAN_TIMOFEY_CHOICE_3: 'FARE_DECLINED_FOR_REPAIR',
   };
+  const coachFarePrice = {
+    COACHMAN_TIMOFEY_CHOICE_1: 3, COACHMAN_TIMOFEY_CHOICE_2: 5, COACHMAN_TIMOFEY_CHOICE_3: 0,
+  };
   if (coachFareEvent && (coachFareEvent.catalogIdSpace !== 'V37_EVENT_CATALOG_45' || coachFareEvent.catalogEventId !== 'E10'
     || coachFareEvent.status !== 'RESOLVED' || coachFareEvent.validationStatus !== 'DESIGN_SEED_NOT_VERIFIED'
     || coachFareEvent.valueStatus !== 'fictional_gameplay_balance' || coachFareEvent.hostId !== 'coachman_timofey'
-    || coachFareEvent.questId !== 'COACH_FARE_1847' || coachFareEvent.actorHostIds?.length !== 1
+    || coachFareEvent.questId !== 'COACH_FARE_1847'
+    || coachFareEvent.actorHostIds?.length !== (coachFareEvent.actionId === 'COACHMAN_TIMOFEY_CHOICE_3' ? 1 : 2)
     || coachFareEvent.actorHostIds[0] !== 'coachman_timofey' || coachFareStages[coachFareEvent.actionId] !== coachFareEvent.stage
+    || coachFareEvent.fareKopeks !== coachFarePrice[coachFareEvent.actionId]
+    || (coachFareEvent.actionId === 'COACHMAN_TIMOFEY_CHOICE_3'
+      ? coachFareEvent.farePaid !== false || coachFareEvent.passengerHostId !== undefined
+      : coachFareEvent.farePaid !== true || !state.hosts[coachFareEvent.passengerHostId]
+        || coachFareEvent.actorHostIds[1] !== coachFareEvent.passengerHostId
+        || !Number.isInteger(coachFareEvent.timeCommitmentMinutes) || coachFareEvent.timeCommitmentMinutes <= 0)
     || coachFareEvent.witnessedByPlayer !== true || typeof coachFareEvent.date !== 'string' || coachFareEvent.mapId !== 'market-quay')) {
     throw new Error('Save contains invalid E10 carriage fare event state');
   }

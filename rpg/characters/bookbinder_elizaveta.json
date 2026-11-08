@@ -170,12 +170,12 @@
     },
     {
       "atMinute": 780,
-      "mapId": "market-quay",
+      "mapId": "nevsky",
       "position": {
-        "x": 21,
+        "x": 24,
         "y": 14
       },
-      "activityKo": "책방에 제본한 묶음을 전달한다",
+      "activityKo": "가로등 거리에서 책방 주인에게 제본한 책을 건넨다",
       "task": {
         "type": "EXCHANGE",
         "id": "ELIZAVETA_BOOKBINDER_ORDER_TO_LEV_1847",

@@ -29,6 +29,12 @@ const injuryQuest = await json('../rpg/quests/warehouse-injury-1847.json');
 const coachFareStart = game.createInitialState({ maps, hostCards: cards, quests: [coachFareQuest], startMapId: 'market-quay' });
 coachFareStart.hosts.coachman_timofey.position = { x: 25, y: 14 };
 coachFareStart.player.position = { ...coachFareStart.hosts.coachman_timofey.position };
+coachFareStart.hosts.minor_noble_andrei.mapId = 'market-quay';
+coachFareStart.hosts.minor_noble_andrei.position = { x: 24, y: 14 };
+for (const person of Object.values(coachFareStart.hosts)) if (!['coachman_timofey', 'minor_noble_andrei'].includes(person.id)
+  && person.mapId === 'market-quay') person.position = { x: 10, y: 10 };
+const passengerMoneyBefore = coachFareStart.hosts.minor_noble_andrei.money.amount;
+const coachmanMoneyBefore = coachFareStart.hosts.coachman_timofey.money.amount;
 const embodiedCoach = game.possessHost(coachFareStart, 'coachman_timofey', maps['market-quay']);
 assert.equal(embodiedCoach.ok, true);
 const fareChoice = game.performQuestAction(embodiedCoach.state, {
@@ -39,6 +45,15 @@ const fareEvent = fareChoice.state.world.livingEventStates.E10;
 assert.equal(fareEvent.catalogIdSpace, 'V37_EVENT_CATALOG_45');
 assert.equal(fareEvent.stage, 'FARE_ACCEPTED_WITH_RISK_DISCLOSED');
 assert.equal(fareEvent.witnessedByPlayer, true);
+assert.deepEqual(fareEvent.actorHostIds, ['coachman_timofey', 'minor_noble_andrei']);
+assert.equal(fareEvent.passengerHostId, 'minor_noble_andrei');
+assert.equal(fareEvent.fareKopeks, 5);
+assert.equal(fareChoice.state.hosts.minor_noble_andrei.money.amount, passengerMoneyBefore - 5,
+  'the physically present passenger pays the agreed fare');
+assert.equal(fareChoice.state.hosts.coachman_timofey.money.amount, coachmanMoneyBefore + 5,
+  'the coachman receives the same fare');
+assert.ok(fareChoice.state.hosts.minor_noble_andrei.personalEventNotes.some(note => note.eventId === 'E10'));
+assert.ok(fareChoice.state.hosts.coachman_timofey.inventory.some(item => /운임 영수증/.test(item)));
 assert.equal(fareChoice.state.ledger.at(-1).livingEvents[0].actionId, 'COACHMAN_TIMOFEY_CHOICE_2');
 const fareReloaded = game.loadGame(game.saveGame(fareChoice.state), { maps, hostCards: cards });
 assert.equal(game.stateHash(fareReloaded), game.stateHash(fareChoice.state), 'the carriage choice and visible event record survive save/load');
@@ -212,7 +227,7 @@ assert.equal(manualPaid.state.world.livingEventStates.E01.status, 'ACTIVE');
 assert.ok(manualPaid.state.ledger.flatMap(event => event.livingEvents ?? []).some(event => event.catalogEventId === 'E01' && event.stage === 'PARTIAL_PAYMENT'));
 assert.equal(game.payRent(manualPaid.state, { tenantHostId: 'tenant_mikhail' }, maps).reason, 'insufficient_funds');
 const wageLinkedRentBase = structuredClone(normal);
-wageLinkedRentBase.hosts.tenant_mikhail.housing.dueMinute = 1350;
+wageLinkedRentBase.hosts.tenant_mikhail.housing.dueMinute = 1200;
 const day = game.advanceNpcWorld(wageLinkedRentBase, 905, maps);
 assert.ok(day.world.livingEventStates.E01, 'an NPC rent deadline creates a persistent catalog event state');
 const dayBreadEvents = day.ledger.flatMap(event => event.livingEvents ?? []).filter(event => event.catalogEventId === 'E02');
@@ -245,11 +260,17 @@ assert.equal(completedLaundry.world.livingEventStates.E04.status, 'RESOLVED');
 assert.equal(completedLaundry.world.livingEventStates.E04.stage, 'ACCOUNTS_RECONCILED');
 assert.equal(game.stateHash(game.loadGame(game.saveGame(completedLaundry), { maps, hostCards: cards })), game.stateHash(completedLaundry),
   'the resolved linen event stage survives save/load');
-assert.deepEqual(dayBreadEvents.map(event => event.stage), ['PRICE_NOTICE', 'RESTOCKED'],
+assert.deepEqual(dayBreadEvents.slice(0, 2).map(event => event.stage), ['PRICE_NOTICE', 'RESTOCKED'],
   `stockout and conditional bakery restock are observed in causal order: ${JSON.stringify({ stock: day.hosts.market_nadezhda.marketStock['빵 한 묶음'], baker: { mapId: day.hosts.baker_fyodor.mapId, position: day.hosts.baker_fyodor.position, inventory: day.hosts.baker_fyodor.inventory.filter(item => item === '빵 한 묶음') }, exchanges: day.ledger.flatMap(row => row.exchanges ?? []).filter(row => row.itemKo === '빵 한 묶음') })}`);
-assert.equal(day.world.livingEventStates.E02.stage, 'RESTOCKED');
-assert.ok(nextDayBreadEvents.some(event => event.stage === 'FIRST_PURCHASE' && event.currentPrice === event.basePrice + 1 && event.pricePaid === event.currentPrice),
-  'a later customer pays the displayed game-only surcharge and resolves the event');
+const sameDayBreadPurchase = dayBreadEvents.find(event => event.stage === 'FIRST_PURCHASE');
+if (sameDayBreadPurchase) assert.ok(sameDayBreadPurchase.minute >= dayBreadEvents[1].minute,
+  'a market buyer can purchase only after the bakery physically restocks the stall');
+assert.equal(day.world.livingEventStates.E02.stage, sameDayBreadPurchase ? 'RESOLVED' : 'RESTOCKED');
+const firstBreadPurchase = sameDayBreadPurchase
+  ?? nextDayBreadEvents.find(event => event.stage === 'FIRST_PURCHASE');
+assert.ok(firstBreadPurchase && firstBreadPurchase.currentPrice === firstBreadPurchase.basePrice + 1
+  && firstBreadPurchase.pricePaid === firstBreadPurchase.currentPrice,
+  'the first customer pays the displayed game-only surcharge after the bakery restocks');
 assert.equal(nextDay.world.livingEventStates.E02.status, 'RESOLVED');
 assert.equal(nextDay.hosts.market_nadezhda.marketStock['빵 한 묶음'], 0, 'the later purchase consumes the restocked bread');
 const rentNoticeRows = nextDay.ledger.flatMap(event => event.livingEvents ?? [])
@@ -271,7 +292,8 @@ assert.equal(game.stateHash(eventReplay), game.stateHash(nextDay), 'saving betwe
 const simulation = day.ledger.find(event => event.eventType === 'NPC_SIMULATION');
 const simulationEntries = day.ledger.filter(event => event.eventType === 'NPC_SIMULATION');
 const wage = simulationEntries.flatMap(event => event.payments ?? []).find(event => event.hostId === 'tenant_mikhail' && event.payerHostId === 'carter_roman');
-const rent = simulationEntries.flatMap(event => event.housing ?? []).find(event => event.hostId === 'tenant_mikhail' && event.landlordHostId === 'landlady_polina');
+const rent = simulationEntries.flatMap(event => event.housing ?? []).find(event => event.hostId === 'tenant_mikhail'
+  && event.landlordHostId === 'landlady_polina' && ['RENT_PAID', 'RENT_PARTIAL'].includes(event.kind));
 assert.ok(wage, 'Mikhail receives the completed day-labor wage from Roman');
 assert.equal(wage.amount, 3);
 assert.equal(wage.mapId, wage.counterpartyMapId);
@@ -280,7 +302,10 @@ assert.ok(Math.abs(wage.position.x - wage.counterpartyPosition.x) + Math.abs(wag
 const mikhailMealSpend = simulationEntries.flatMap(event => event.meals ?? [])
   .filter(meal => meal.hostId === 'tenant_mikhail' && meal.kind === 'PURCHASE_AND_EAT')
   .reduce((sum, meal) => sum + meal.price, 0);
-assert.equal(day.hosts.tenant_mikhail.money.amount, normal.hosts.tenant_mikhail.money.amount + wage.amount - rent.amount - mikhailMealSpend,
+const mikhailRentPaid = simulationEntries.flatMap(event => event.housing ?? [])
+  .filter(row => row.hostId === 'tenant_mikhail' && row.landlordHostId === 'landlady_polina' && ['RENT_PAID', 'RENT_PARTIAL'].includes(row.kind))
+  .reduce((sum, row) => sum + row.amount, 0);
+assert.equal(day.hosts.tenant_mikhail.money.amount, normal.hosts.tenant_mikhail.money.amount + wage.amount - mikhailRentPaid - mikhailMealSpend,
   'the tenant balance includes wages, rent, and meals actually bought during the day');
 const paymentRows = simulationEntries.flatMap(event => event.payments ?? []);
 const carterPayments = paymentRows.filter(event => event.hostId === 'carter_roman' || event.payerHostId === 'carter_roman');
@@ -292,7 +317,8 @@ assert.equal(day.hosts.carter_roman.money.amount, normal.hosts.carter_roman.mone
 'the carter balance reflects freight income, wages paid, and his bread purchase');
 const landladyRentRows = simulationEntries.flatMap(event => event.housing ?? [])
   .filter(row => row.landlordHostId === 'landlady_polina' && row.kind === 'RENT_PAID');
-assert.equal(landladyRentRows.find(row => row.hostId === 'tenant_mikhail')?.amount, 3, 'Mikhail pays the agreed rent');
+assert.equal(landladyRentRows.find(row => row.hostId === 'tenant_mikhail')?.amount, 3,
+  'Mikhail pays the rent due before the later market notice changes the next rent period');
 assert.equal(day.hosts.landlady_polina.money.amount,
   normal.hosts.landlady_polina.money.amount
     + landladyRentRows.reduce((sum, row) => sum + row.amount, 0)
@@ -321,7 +347,8 @@ assert.equal(observedRent.witnessedByPlayer, true, 'nearby observer receives a r
 assert.equal(observedRent.validationStatus, rentSeed.validation_status);
 assert.equal(observedDay.world.livingEventStates.E01.stage, 'OVERDUE');
 assert.ok(observedSimulation.livingEvents.some(event => event.catalogEventId === 'E01' && event.stage === 'OVERDUE' && event.witnessedByPlayer));
-assert.equal(rent.causedByClaimId, wage.claimId, 'rent settlement links back to the same-day paid work claim');
+assert.equal(rent.causedByClaimId, wage.minute <= rent.minute ? wage.claimId : null,
+  'rent settlement links to the work claim only when that wage was paid before rent');
 assert.equal(day.hosts.tenant_mikhail.housing.arrears, 0);
 assert.equal(day.hosts.tenant_mikhail.pendingWageClaims[0]?.status, 'PAID');
 const visibleEconomy = formatObservedNpcReactions([observedSimulation], cards);
