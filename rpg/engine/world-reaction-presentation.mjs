@@ -2,6 +2,7 @@ const NPC_REACTION_FAMILIES = Object.freeze([
   ['stateChanges', (change, name) => `일과 변화: ${name(change.hostId)}이(가) ${change.from === 'IDLE' ? '일을 시작해' : '하던 일을 바꾸어'} ${change.activityKo || ({ TRAVELLING: '길을 나섬', WORKING: '일을 시작함', TRADING: '거래를 시작함', RESTING: '잠시 쉼', SOCIALIZING: '사람들과 어울림', DELIVERING: '물건을 전함' })[change.to] || '새 일과에 들어감'}`],
   ['moves', (move, name) => `길 위의 변화: ${name(move.hostId)}이(가) ${move.viaExit ? '다른 구역으로 길을 건너' : '골목을 따라'} ${move.activityKo || '목적지'}로 향함`],
   ['personalGoalVisits', (visit, name) => `목격한 생활 목표: ${name(visit.hostId)}이(가) ${visit.activityKo} (${visit.stage}/3)`],
+  ['personalLifeOutcomes', (outcome, name) => `목격한 선택: ${name(outcome.hostId)}이(가) ${outcome.activityKo}`],
   ['personalContacts', (contact, name) => `목격한 이웃 만남: ${name(contact.hostId)}가 ${name(contact.partnerHostId, '이웃')}와 이야기를 나눔 · ${contact.meetingCount}번째 만남, ${contact.familiarity}`],
   ['deliveries', (delivery, name) => `목격한 배달: ${name(delivery.hostId)}가 ${name(delivery.recipientHostId, '이웃')}에게 ${delivery.itemKo} 전달`],
   ['exchanges', (exchange, name) => `목격한 거래: ${name(exchange.hostId)}와 ${name(exchange.recipientHostId, '이웃')}가 ${exchange.itemKo} 거래`],

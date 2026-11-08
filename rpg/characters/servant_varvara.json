@@ -271,8 +271,8 @@
           "date": "1847-06-01",
           "mapId": "courtyard",
           "position": {
-            "x": 10,
-            "y": 2
+            "x": 3,
+            "y": 13
           },
           "activityKo": "생활 문제 · 들어버린 말과 전할 경고 · 1막",
           "prerequisiteQuestIds": [],
@@ -286,8 +286,8 @@
           "date": "1847-06-01",
           "mapId": "courtyard",
           "position": {
-            "x": 10,
-            "y": 2
+            "x": 3,
+            "y": 13
           },
           "activityKo": "생활 문제 · 들어버린 말과 전할 경고 · 2막",
           "prerequisiteQuestIds": [],
@@ -301,8 +301,8 @@
           "date": "1847-06-01",
           "mapId": "courtyard",
           "position": {
-            "x": 10,
-            "y": 2
+            "x": 3,
+            "y": 13
           },
           "activityKo": "생활 문제 · 들어버린 말과 전할 경고 · 3막",
           "prerequisiteQuestIds": [],

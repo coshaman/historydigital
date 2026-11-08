@@ -385,10 +385,68 @@ function syncPersistentPersonalGoals(state, hostId) {
   for(const goal of host.personalGoals??[]){
     const condition=goal.successCondition??{},progress=host.personalGoalProgress[goal.id]??{status:'ACTIVE'};
     let satisfied=progress.status==='SATISFIED';
-    if(condition.type==='LIFE_CHAIN_COMPLETED')satisfied ||= (state.world.lifeChains?.[condition.chainId]?.stage??0)>=condition.stageCount;
+    if(condition.type==='LIFE_CHAIN_COMPLETED')satisfied ||= Math.max(state.world.lifeChains?.[condition.chainId]?.stage??0, progress.autonomousStage??0)>=condition.stageCount;
     if(condition.type==='RELATION_CHANGED')satisfied ||= Boolean(host.relations?.[condition.targetHostId]&&host.relations[condition.targetHostId]!==condition.baseline);
     host.personalGoalProgress[goal.id]=satisfied?{...progress,status:'SATISFIED',satisfiedAt:progress.satisfiedAt??state.world.date}:{...progress,status:'ACTIVE'};
   }
+}
+
+function authoredAutonomousLifeStages(card, quests) {
+  const stageIds = new Set((card.persistentPersonalGoals ?? []).filter(goal => goal.kind === 'LIFE')
+    .flatMap(goal => goal.autonomyStages ?? []).map(stage => stage.questId));
+  return Object.fromEntries(quests.filter(quest => stageIds.has(quest.id) && quest.lifeChain && Array.isArray(quest.actions))
+    .map(quest => [quest.id, { lifeChain: clone(quest.lifeChain), actions: quest.actions.map(action => ({
+      id: action.id, resultFlag: action.resultFlag ?? null, resultKo: action.resultKo ?? action.effects?.situationKo ?? '',
+      effects: { relations: clone(action.effects?.relations ?? {}), lifeChainDelta: clone(action.effects?.lifeChainDelta ?? {}),
+        situationKo: action.effects?.situationKo ?? null },
+    })) }]));
+}
+
+function selectAutonomousLifeAction(host, actions, stage) {
+  const policy = host.plannerPolicy ?? {};
+  const weights = {
+    work: Math.max(0, Math.min(1, policy.workPriority ?? 0.5)),
+    social: Math.max(0, Math.min(1, ((policy.socialPriority ?? 0.5) + (policy.personalPriority ?? 0.5)) / 2)),
+    risk: Math.max(0, Math.min(1, 1 - (policy.riskTolerance ?? 0.5))),
+  };
+  const score = action => Object.entries(action.effects?.lifeChainDelta ?? {}).reduce((total, [metric, delta]) => {
+    const key = metric.toLowerCase();
+    const weight = /risk|exposure|delay|loss|waste|cost/.test(key) ? -weights.risk
+      : /care|trust|promise|share|fair|neighbor|deliverycare/.test(key) ? weights.social : weights.work;
+    return total + delta * weight;
+  }, 0);
+  return [...actions].sort((a, b) => score(b) - score(a)
+    || `${host.plannerPolicy?.deterministicSeed ?? host.id}:${stage}:${a.id}`.localeCompare(`${host.plannerPolicy?.deterministicSeed ?? host.id}:${stage}:${b.id}`))[0] ?? null;
+}
+
+function resolveAutonomousLifeStage(state, host, maps) {
+  const goalId = host.activeGoal?.lifeGoalId, stage = host.activeGoal?.lifeStage, questId = host.activeGoal?.lifeQuestId;
+  const goal = (host.personalGoals ?? []).find(item => item.id === goalId && item.kind === 'LIFE');
+  const progress = goal && host.personalGoalProgress?.[goal.id];
+  const chainStage = Math.max(state.world.lifeChains?.[goal?.successCondition?.chainId]?.stage ?? 0, progress?.autonomousStage ?? 0);
+  if (!goal || !progress || !Number.isInteger(stage) || stage !== chainStage + 1
+    || host.autonomousLifeResolvedTaskId === host.activeGoal.taskId) return null;
+  const definition = host.autonomousLifeStages?.[questId];
+  const action = definition && selectAutonomousLifeAction(host, definition.actions ?? [], stage);
+  if (!action) return null;
+  const metrics = { ...(progress.autonomousMetrics ?? {}) };
+  for (const [key, delta] of Object.entries(action.effects?.lifeChainDelta ?? {})) {
+    metrics[key] = Math.max(-100, Math.min(100, (metrics[key] ?? 0) + delta));
+  }
+  Object.assign(host.relations, action.effects?.relations ?? {});
+  if (action.effects?.situationKo && !host.situationNotes.includes(action.effects.situationKo)) {
+    host.situationNotes.push(action.effects.situationKo);
+    if (host.situationNotes.length > 12) host.situationNotes.shift();
+  }
+  const history = [...(progress.autonomousHistory ?? []), { stage, questId, actionId: action.id,
+    resultFlag: action.resultFlag, resultKo: action.resultKo, date: state.world.date }];
+  host.autonomousLifeResolvedTaskId = host.activeGoal.taskId;
+  host.personalGoalProgress[goal.id] = { ...progress, autonomousStage: stage, autonomousMetrics: metrics,
+    autonomousHistory: history, status: stage >= (goal.successCondition?.stageCount ?? definition.lifeChain.stageCount) ? 'SATISFIED' : 'ACTIVE',
+    ...(stage >= (goal.successCondition?.stageCount ?? definition.lifeChain.stageCount) ? { satisfiedAt: state.world.date } : {}) };
+  syncPersistentPersonalGoals(state, host.id);
+  return { hostId: host.id, goalId: goal.id, questId, stage, actionId: action.id, resultFlag: action.resultFlag,
+    activityKo: action.resultKo, witnessedByPlayer: playerCanObserveWorldEvent(state, host.mapId, host.position, 6, maps) };
 }
 
 function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky', simulationSeed = 0 }) {
@@ -451,7 +509,9 @@ function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky
     todayGoals: clone(card.todayGoals ?? []),
     plannerPolicy: clone(card.plannerPolicy ?? {}),
     personalGoals: clone(card.persistentPersonalGoals ?? []),
-    personalGoalProgress: Object.fromEntries((card.persistentPersonalGoals ?? []).map(goal => [goal.id, { status: 'ACTIVE' }])),
+    personalGoalProgress: Object.fromEntries((card.persistentPersonalGoals ?? []).map(goal => [goal.id, { status: 'ACTIVE', autonomousStage: 0,
+      autonomousMetrics: {}, autonomousHistory: [] }])),
+    autonomousLifeStages: authoredAutonomousLifeStages(card, quests),
     questFlags: {},
     timeBudget: card.timeBudget ?? 4,
     allowedMaps: [...card.allowedMaps],
@@ -4072,11 +4132,13 @@ function selectPersonalLifeFocus(state, host, maps, localMinute, imminentSocialT
     && host.personalGoalProgress?.[item.id]?.status !== 'SATISFIED' && Array.isArray(item.autonomyStages));
   if (!goal) return null;
   const chainId = goal.successCondition?.chainId;
-  const stageNumber = (state.world.lifeChains?.[chainId]?.stage ?? 0) + 1;
+  const stageNumber = Math.max(state.world.lifeChains?.[chainId]?.stage ?? 0,
+    host.personalGoalProgress?.[goal.id]?.autonomousStage ?? 0) + 1;
   const plan = goal.autonomyStages.find(item => item.stage === stageNumber);
   if (!plan || plan.date > state.world.date || !maps?.[plan.mapId]
     || !host.allowedMaps.includes(plan.mapId)
-    || (plan.prerequisiteQuestIds ?? []).some(id => !state.ledger.some(entry => entry.questId === id))) return null;
+    || (plan.prerequisiteQuestIds ?? []).some((id, index) => (host.personalGoalProgress?.[goal.id]?.autonomousStage ?? 0) < index + 1
+      && !state.ledger.some(entry => entry.questId === id && entry.hostId === host.id))) return null;
   const day = Math.floor((state.world.clockMinutes ?? 540) / 1440);
   const taskId = `${goal.id}:STAGE_${stageNumber}:DAY_${day}`;
   const visited = host.personalGoalLastVisitKey === taskId;
@@ -4095,7 +4157,8 @@ function selectPersonalLifeFocus(state, host, maps, localMinute, imminentSocialT
 }
 function recordNpcGoal(state, host, goal, absoluteMinute, minuteOffset, goalRows, maps) {
   const next = { type: goal.goalType, taskId: goal.taskId, targetHostId: goal.targetHostId, targetMapId: goal.slot?.mapId ?? null,
-    reason: goal.reason, ...(goal.selectionBasis ? { selectionBasis: clone(goal.selectionBasis) } : {}) };
+    reason: goal.reason, ...(goal.selectionBasis ? { selectionBasis: clone(goal.selectionBasis) } : {}),
+    ...(goal.lifeGoalId ? { lifeGoalId: goal.lifeGoalId, lifeQuestId: goal.lifeQuestId, lifeStage: goal.lifeStage } : {}) };
   const previous = host.activeGoal;
   if (!previous || previous.type !== next.type || previous.taskId !== next.taskId || previous.targetHostId !== next.targetHostId || previous.targetMapId !== next.targetMapId) {
     host.activeGoal = { ...next, selectedAtMinute: absoluteMinute };
@@ -4106,7 +4169,7 @@ function recordNpcGoal(state, host, goal, absoluteMinute, minuteOffset, goalRows
 function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stateChanges) {
   const embodiedId = state.player.embodiment, paused = new Set(options.pausedHostIds ?? []), reservedTiles = [...(options.reservedTiles ?? [])];
   if (!state.player.embodiment) reservedTiles.push({ mapId: state.world.currentMapId, position: state.player.position });
-  const moveRows = [], deliveryRows = [], exchangeRows = [], careRows = [], paymentRows = [], housingRows = [], mealRows = [], goalRows = [], personalContactRows = [], restRecoveryRows = [], personalGoalRows = [], workRows = [], livingEventRows = [];
+  const moveRows = [], deliveryRows = [], exchangeRows = [], careRows = [], paymentRows = [], housingRows = [], mealRows = [], goalRows = [], personalContactRows = [], restRecoveryRows = [], personalGoalRows = [], personalLifeOutcomeRows = [], workRows = [], livingEventRows = [];
   const contactedPairs = new Set();
   const hosts = Object.values(state.hosts).sort((a, b) => a.id.localeCompare(b.id));
   const foodOfferByItem = new Map(hosts.flatMap(person => person.marketOffers ?? [])
@@ -4140,6 +4203,11 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
     }
     if (paused.has(host.id) || host.historicalAliveAndPresent === false || inActiveRealm !== Boolean(state.world.activeRealm)) continue;
     host.needs ??= initialNpcNeeds(host, state.world.clockMinutes);
+    if (host.activeGoal?.type === 'PERSONAL_LIFE_FOCUS' && host.personalGoalLastVisitKey === host.activeGoal.taskId
+      && (host.personalGoalFocusUntilMinute ?? Infinity) <= state.world.clockMinutes) {
+      const outcome = resolveAutonomousLifeStage(state, host, maps);
+      if (outcome) personalLifeOutcomeRows.push(outcome);
+    }
     const goal = selectNpcRoutineGoal(state, host, scheduledSlot, maps), slot = goal.slot;
     if (!slot || !maps?.[slot.mapId]) continue;
     recordNpcGoal(state, host, goal, state.world.clockMinutes, minuteOffset, goalRows, maps);
@@ -4632,7 +4700,7 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
       hungerBefore, hungerAfter: host.needs.hunger, taskId: task.id, mapId: host.mapId, position: { ...host.position }, minute: minuteOffset,
       witnessedByPlayer: playerCanObserveWorldEvent(state, host.mapId, host.position, 6, maps) });
   }
-  return { moveRows, deliveryRows, exchangeRows, careRows, paymentRows, housingRows, mealRows, goalRows, personalContactRows, restRecoveryRows, personalGoalRows, workRows, livingEventRows };
+  return { moveRows, deliveryRows, exchangeRows, careRows, paymentRows, housingRows, mealRows, goalRows, personalContactRows, restRecoveryRows, personalGoalRows, personalLifeOutcomeRows, workRows, livingEventRows };
 }
 
 function rememberAndShareEventReports(state, eventRows, personalContacts) {
@@ -4689,7 +4757,7 @@ function advanceNpcWorld(state, elapsedMinutes, maps, options = {}) {
   if (!Number.isFinite(elapsedMinutes) || elapsedMinutes <= 0) return state;
   const next = clone(state);
   const tickCount = Math.min(10080, Math.max(1, Math.floor(elapsedMinutes))), movementLog = [], deliveryLog = [];
-  const startClock = next.world.clockMinutes ?? 540, stateChanges = [], exchangeLog = [], careLog = [], paymentLog = [], housingLog = [], mealLog = [], goalLog = [], personalContactLog = [], restRecoveryLog = [], personalGoalLog = [], workLog = [], livingEventLog = [];
+  const startClock = next.world.clockMinutes ?? 540, stateChanges = [], exchangeLog = [], careLog = [], paymentLog = [], housingLog = [], mealLog = [], goalLog = [], personalContactLog = [], restRecoveryLog = [], personalGoalLog = [], personalLifeOutcomeLog = [], workLog = [], livingEventLog = [];
   for (let tick = 1; tick <= tickCount; tick += 1) {
     next.world.clockMinutes = startClock + tick;
     const coldWaveRows = [];
@@ -4753,11 +4821,12 @@ function advanceNpcWorld(state, elapsedMinutes, maps, options = {}) {
     personalContactLog.push(...result.personalContactRows);
     restRecoveryLog.push(...result.restRecoveryRows);
     personalGoalLog.push(...result.personalGoalRows);
+    personalLifeOutcomeLog.push(...result.personalLifeOutcomeRows);
     workLog.push(...result.workRows);
     livingEventLog.push(...result.livingEventRows);
   }
-  if (movementLog.length || deliveryLog.length || stateChanges.length || exchangeLog.length || careLog.length || paymentLog.length || housingLog.length || mealLog.length || goalLog.length || personalContactLog.length || restRecoveryLog.length || personalGoalLog.length || workLog.length || livingEventLog.length) {
-    const entry = { eventId: `NPC_SIM_${next.ledger.length + 1}`, eventType: 'NPC_SIMULATION', date: next.world.date, mapId: next.world.currentMapId, startClockMinutes: startClock, endClockMinutes: next.world.clockMinutes, simulatedMinutes: tickCount, moves: movementLog, deliveries: deliveryLog, exchanges: exchangeLog, careTransfers: careLog, payments: paymentLog, housing: housingLog, meals: mealLog, goals: goalLog, personalContacts: personalContactLog, restRecoveries: restRecoveryLog, personalGoalVisits: personalGoalLog, workOutputs: workLog, livingEvents: livingEventLog, stateChanges };
+  if (movementLog.length || deliveryLog.length || stateChanges.length || exchangeLog.length || careLog.length || paymentLog.length || housingLog.length || mealLog.length || goalLog.length || personalContactLog.length || restRecoveryLog.length || personalGoalLog.length || personalLifeOutcomeLog.length || workLog.length || livingEventLog.length) {
+    const entry = { eventId: `NPC_SIM_${next.ledger.length + 1}`, eventType: 'NPC_SIMULATION', date: next.world.date, mapId: next.world.currentMapId, startClockMinutes: startClock, endClockMinutes: next.world.clockMinutes, simulatedMinutes: tickCount, moves: movementLog, deliveries: deliveryLog, exchanges: exchangeLog, careTransfers: careLog, payments: paymentLog, housing: housingLog, meals: mealLog, goals: goalLog, personalContacts: personalContactLog, restRecoveries: restRecoveryLog, personalGoalVisits: personalGoalLog, personalLifeOutcomes: personalLifeOutcomeLog, workOutputs: workLog, livingEvents: livingEventLog, stateChanges };
     appendLedgerEvent(next, entry, state);
   }
   return next;
@@ -5181,8 +5250,18 @@ function transitionMap(state, exitId, maps) {
 function performQuestAction(state, { questId, hostId, actionId, objectId }, { quests = [], maps = {} } = {}) {
   const quest = quests.find(item => item.id === questId), current = state.quests?.[questId], action = quest?.actions.find(item => item.id === actionId);
   if (!quest || !current || current.status !== 'open' || !action) return { ok: false, reason: 'unknown_or_closed_action', state };
-  if ((quest.prerequisiteQuestIds ?? []).some(id => state.quests?.[id]?.status !== 'resolved')) return { ok: false, reason: 'quest_chain_locked', state };
-  const chain = quest.lifeChain, chainProgress = chain ? state.world.lifeChains?.[chain.id] : null;
+  const chain = quest.lifeChain;
+  const actor = state.hosts?.[hostId];
+  const actorLifeGoal = chain && actor?.personalGoals?.find(goal => goal.kind === 'LIFE' && goal.successCondition?.chainId === chain.id);
+  const actorLifeProgress = actorLifeGoal ? actor.personalGoalProgress?.[actorLifeGoal.id] : null;
+  const autonomousPreviousCompleted = Boolean(chain?.stage > 1 && actorLifeProgress?.autonomousStage >= chain.stage - 1
+    && actorLifeProgress.autonomousHistory?.some(entry => entry.questId === chain.previousQuestId));
+  const missingQuestPrerequisites = (quest.prerequisiteQuestIds ?? []).filter(id => state.quests?.[id]?.status !== 'resolved');
+  if (missingQuestPrerequisites.length
+    && !(autonomousPreviousCompleted && missingQuestPrerequisites.every(id => id === chain.previousQuestId))) return { ok: false, reason: 'quest_chain_locked', state };
+  const actorChainProgress = actorLifeProgress?.autonomousStage ? { stage: actorLifeProgress.autonomousStage,
+    metrics: actorLifeProgress.autonomousMetrics ?? {}, history: actorLifeProgress.autonomousHistory ?? [] } : null;
+  const chainProgress = chain ? state.world.lifeChains?.[chain.id] ?? actorChainProgress : null;
   if (chain && (chain.stage === 1 ? Boolean(chainProgress) : chainProgress?.stage !== chain.stage - 1 || chainProgress?.history?.at(-1)?.questId !== chain.previousQuestId)) return { ok: false, reason: 'quest_chain_locked', state };
   if (action.requiredPriorResultFlags?.length && !action.requiredPriorResultFlags.includes(chainProgress?.history?.at(-1)?.resultFlag)) return { ok: false, reason: 'prior_choice_not_available', state };
   if (quest.date && quest.date > state.world.date) return { ok: false, reason: 'quest_not_yet_available', state };
@@ -5849,7 +5928,7 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
   } else next.world.immutableOutcomes[quest.historicalOutcome.id] = quest.historicalOutcome.value;
   if (chain) {
     next.world.lifeChains ??= {};
-    const currentProgress = next.world.lifeChains[chain.id] ?? { stage: 0, metrics: {}, history: [] };
+    const currentProgress = next.world.lifeChains[chain.id] ?? actorChainProgress ?? { stage: 0, metrics: {}, history: [] };
     const metrics = { ...currentProgress.metrics };
     for (const [key, delta] of Object.entries(chainDelta)) metrics[key] = Math.max(-100, Math.min(100, (metrics[key] ?? 0) + delta));
     next.world.lifeChains[chain.id] = { stage: chain.stage, metrics, history: [...currentProgress.history, { stage: chain.stage, questId, hostId, actionId, resultFlag: action.resultFlag, date: next.world.date }] };
@@ -7103,6 +7182,11 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
     }
     state.hosts[card.id].eraProfile = runtimeEraProfile(card);
     state.hosts[card.id].healthState ??= { condition: 'FIT', injury: null, recoveryUntilMinute: null, valueStatus: 'FICTIONAL_CHARACTER_DESIGN' };
+    state.hosts[card.id].autonomousLifeStages ??= authoredAutonomousLifeStages(card, quests);
+    state.hosts[card.id].personalGoalProgress ??= {};
+    for (const goal of card.persistentPersonalGoals ?? []) state.hosts[card.id].personalGoalProgress[goal.id] ??= {
+      status: 'ACTIVE', autonomousStage: 0, autonomousMetrics: {}, autonomousHistory: [],
+    };
     state.hosts[card.id].knownRumors ??= [];
     state.hosts[card.id].heardEventReports ??= [];
   }
