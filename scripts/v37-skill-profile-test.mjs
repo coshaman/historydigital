@@ -39,6 +39,7 @@ const workFatigueAfter = skillLevel => {
   const worker = workerState.hosts.printer_ekaterina;
   worker.historicalAliveAndPresent = true;
   worker.mapId = 'printshop'; worker.position = { x: 11, y: 13 }; worker.needs.fatigue = 40;
+  if (skillLevel === 0) for (const skill of Object.keys(worker.skills)) worker.skills[skill] = 0;
   worker.skills.proofReading = skillLevel;
   const result = game.advanceNpcWorld(workerState, 20, maps);
   return { fatigue: result.hosts.printer_ekaterina.needs.fatigue,
@@ -48,5 +49,7 @@ const skilledWork = workFatigueAfter(4), unskilledWork = workFatigueAfter(0);
 assert.ok(skilledWork.fatigue < unskilledWork.fatigue, 'greater proof-reading skill reduces fatigue during its scheduled work');
 assert.deepEqual([skilledWork.workRecord.skillId, skilledWork.workRecord.skillLevel], ['proofReading', 4],
   'completed work records the capability used');
+assert.equal(skilledWork.workRecord.effectiveDurationMinutes, 20, 'skill does not change the authored work schedule duration');
+assert.equal(unskilledWork.workRecord.effectiveDurationMinutes, 20, 'unskilled work keeps the authored schedule duration');
 console.log(JSON.stringify({ status: 'PASS', fictionalResidents: residents.length, distinctSkills: skillNames.size,
   allRuntimeProfiles: true, saveLoadSamples: 3 }, null, 2));

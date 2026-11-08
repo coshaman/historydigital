@@ -29,6 +29,7 @@ const event = found.world.livingEventStates.E16;
 assert.equal(event.status, 'ACTIVE');
 assert.equal(event.stage, 'SHORTAGE_FOUND');
 assert.equal(event.startedAtMinute, 560, 'the shortage follows Yakov completing his scheduled stock check');
+assert.equal(found.hosts.apothecary_yakov.workRecords.find(row => row.actionId === 'V36_APOTHECARY_CHECK_STOCK')?.effectiveDurationMinutes, 20);
 assert.equal(event.validationStatus, 'DESIGN_SEED_NOT_VERIFIED');
 assert.equal(event.itemStatus, 'generic_gameplay_supply_no_medical_effect_claim');
 assert.equal(objectIsPresent(object, found, [quest]), true, 'the physical order desk appears after the witnessed stock check');

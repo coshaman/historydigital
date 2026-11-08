@@ -515,6 +515,15 @@ function householdTutorSessionDue(state, workAction) {
   const weekDay = dayOffset % 7;
   return contract.weeklyDays === 2 ? [1, 4].includes(weekDay) : weekDay === 3;
 }
+function workSkillFor(host, workAction) {
+  const skills = host.skills ?? {};
+  if (typeof workAction?.skillId === 'string' && Number.isInteger(skills[workAction.skillId])) {
+    return { skillId: workAction.skillId, level: skills[workAction.skillId] };
+  }
+  const [skillId, level] = Object.entries(skills).filter(([, value]) => Number.isInteger(value) && value >= 0 && value <= 5)
+    .sort((a, b) => b[1] - a[1])[0] ?? [];
+  return skillId ? { skillId, level } : null;
+}
 function taskCompletedForDay(host, task, dayIndex) {
   if (task?.repeatDaily === true) return host.completedSocialTaskDayById?.[task.id] === dayIndex;
   return host.routineTaskCompletedId === task?.id || host.completedSocialTaskIds?.includes(task?.id);
@@ -4089,6 +4098,8 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
       host.workActionProgress ??= {};
       if (!host.completedWorkActionKeys.includes(completionKey)) {
         for (const key of Object.keys(host.workActionProgress)) if (!key.startsWith(`${dayIndex}:`)) delete host.workActionProgress[key];
+        const workSkill = workSkillFor(host, workAction);
+        const effectiveDurationMinutes = workAction.durationMinutes;
         host.workActionProgress[completionKey] = (host.workActionProgress[completionKey] ?? 0) + 1;
         const injuryStarted = beginWarehouseInjury(state, host, workAction, minuteOffset, maps, livingEventRows);
         if (!injuryStarted && host.workActionProgress[completionKey] >= workAction.durationMinutes) {
@@ -4096,10 +4107,9 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
           host.completedWorkActionKeys.push(completionKey);
           if (host.completedWorkActionKeys.length > 64) host.completedWorkActionKeys.splice(0, host.completedWorkActionKeys.length - 64);
           host.workRecords ??= [];
-          const skillId = typeof workAction.skillId === 'string' ? workAction.skillId : Object.keys(host.skills ?? {})[0];
-          const skillLevel = Number.isInteger(host.skills?.[skillId]) ? host.skills[skillId] : null;
           const record = { dayIndex, actionId: workAction.id, outputKind: workAction.outputKind ?? 'WORK_PRODUCT', outputKo: workAction.outputKo,
-            ...(skillLevel !== null ? { skillId, skillLevel } : {}),
+            ...(workSkill ? { skillId: workSkill.skillId, skillLevel: workSkill.level } : {}),
+            baseDurationMinutes: workAction.durationMinutes, effectiveDurationMinutes,
             minute: minuteOffset, mapId: host.mapId, ...(typeof workAction.inventoryItemKo === 'string' ? { inventoryItemKo: workAction.inventoryItemKo } : {}) };
           host.workRecords.push(record);
           if (host.workRecords.length > 32) host.workRecords.splice(0, host.workRecords.length - 32);
@@ -4175,8 +4185,7 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
       }
     }
     host.needs.hunger = Math.min(100, host.needs.hunger + host.needs.hungerPerMinute);
-    const workSkillId = typeof workAction?.skillId === 'string' ? workAction.skillId : Object.keys(host.skills ?? {})[0];
-    const workSkillLevel = Number.isInteger(host.skills?.[workSkillId]) ? host.skills[workSkillId] : 0;
+    const workSkillLevel = workSkillFor(host, workAction)?.level ?? 0;
     const workStrainMultiplier = routine === 'WORKING' && workAction ? 1 - Math.min(0.3, workSkillLevel * 0.06) : 1;
     const routineFatigue = routine === 'RESTING' ? -host.needs.restFatigueReliefPerMinute
       : routine === 'TRAVELLING' ? 0.01 : host.needs.workFatiguePerMinute * workStrainMultiplier;
