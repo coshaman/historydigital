@@ -1,0 +1,49 @@
+{
+  "id": "LITERARY_ALYOSHA_ILYUSHA_1879",
+  "titleKo": "주치카는 돌아왔을까",
+  "chapterId": "LITERARY_KARAMAZOV_1879",
+  "realmId": "LITERARY_KARAMAZOV_1879",
+  "date": "1879-01-01",
+  "premiseKo": "콜랴가 이유샤의 침상 곁에 앉아 주치카 이야기를 꺼낸다. 알료샤는 친구의 기쁨과 걱정 사이에서 말을 고른다.",
+  "historicalOutcome": {
+    "id": "DOSTOEVSKY_KARAMAZOV_ILYUSHA_VISIT",
+    "value": "Novel scene in Book X, Chapter V; player responses stay within this literary route.",
+    "sourceIds": ["LIT-DOSTOEVSKY-BROTHERS-KARAMAZOV-1879-ILYUSHA"]
+  },
+  "entry": { "mapId": "alyosha-snegiryov-room", "objectId": 4000, "requiredHostId": "literary_alyosha" },
+  "actions": [
+    {
+      "id": "WARN_KOLYA_GENTLY",
+      "hostIds": ["literary_alyosha"],
+      "labelKo": "콜랴에게 이유샤의 표정을 살피라고 낮게 말한다",
+      "subcopyKo": "콜랴와 이유샤가 듣습니다 · 주치카 이야기가 잠시 멈출 수 있습니다",
+      "resultKo": "알료샤는 콜랴의 팔을 가볍게 건드렸다. “잠깐. 이유샤 얼굴을 봐.” 콜랴는 말끝을 삼키고 친구를 다시 바라봤다.",
+      "followupTitleKo": "잠깐 멈춘 말",
+      "resultFlag": "warnedKolyaGently",
+      "requiredKnowledgeId": "LIT-DOSTOEVSKY-BROTHERS-KARAMAZOV-1879-ILYUSHA",
+      "effects": { "situationKo": "알료샤가 이유샤의 상태를 살피도록 콜랴에게 조용히 말했다." }
+    },
+    {
+      "id": "LET_KOLYA_EXPLAIN",
+      "hostIds": ["literary_alyosha"],
+      "labelKo": "콜랴가 주치카를 찾아낸 이야기를 끝까지 하게 둔다",
+      "subcopyKo": "이유샤와 가족이 듣습니다 · 기쁨을 서두르는 콜랴를 지켜봅니다",
+      "resultKo": "알료샤는 고개를 끄덕였다. 콜랴는 페레즈본의 찢어진 귀와 비뚤어진 눈을 가리켰다. 이유샤가 기억하던 주치카의 모습이었다.",
+      "followupTitleKo": "돌아온 주치카",
+      "resultFlag": "letKolyaExplain",
+      "requiredKnowledgeId": "LIT-DOSTOEVSKY-BROTHERS-KARAMAZOV-1879-ILYUSHA",
+      "effects": { "situationKo": "콜랴가 주치카를 찾은 과정을 가족에게 설명했다." }
+    },
+    {
+      "id": "KEEP_KOLYA_PROMISE",
+      "hostIds": ["literary_alyosha"],
+      "labelKo": "콜랴에게 오늘 저녁 다시 오겠다는 약속을 지키라고 한다",
+      "subcopyKo": "콜랴가 듣습니다 · 이유샤가 다음 방문을 기다리게 됩니다",
+      "resultKo": "알료샤가 콜랴를 붙들었다. “오늘 저녁엔 꼭 와야 해. 네가 안 오면 이유샤가 몹시 서운해할 거야.” 콜랴는 반드시 오겠다고 답했다.",
+      "followupTitleKo": "저녁에 다시",
+      "resultFlag": "keptKolyaPromise",
+      "requiredKnowledgeId": "LIT-DOSTOEVSKY-BROTHERS-KARAMAZOV-1879-ILYUSHA",
+      "effects": { "situationKo": "알료샤가 콜랴에게 저녁에 다시 오겠다는 약속을 지키라고 당부했다." }
+    }
+  ]
+}

@@ -114,6 +114,18 @@
       "rights": "Public-domain Russian original; new Korean project translation. The 1866 issue entry confirms Part I chapters I–VII on pp. 35–120."
     },
     {
+      "sourceId": "LIT-DOSTOEVSKY-BROTHERS-KARAMAZOV-1879-ILYUSHA",
+      "type": "LITERARY_TEXT_ACADEMIC_TRANSCRIPTION",
+      "title": "Братья Карамазовы. Книга десятая. V. У Илюшиной постельки",
+      "creator": "Ф. М. Достоевский",
+      "date": "1879–1880",
+      "edition": "Достоевский Ф. М. Собрание сочинений в 15 томах. Ленинград: Наука, 1991. Т. 10, с. 5–295; электронная публикация РВБ, версия 3.",
+      "range": "Part IV, Book X, Chapter V, RVB transcription lines 153–205; consecutive dialogue and narration from Kolya greeting Ilyusha through the recognition of Zhuchka.",
+      "url": "https://rvb.ru/dostoevski/01text/vol10/01br_karamazov/35_2-04.htm",
+      "rights": "Public-domain Russian original; Korean translation newly written for this project.",
+      "verificationStatus": "ACADEMIC_TEXT_AND_CONTIGUOUS_RANGE_CHECKED"
+    },
+    {
       "sourceId": "LIT-GOGOL-DEAD-SOULS-1842",
       "type": "LITERARY_SOURCE_WITNESS_MODERN_TRANSCRIPTION",
       "title": "Мертвые души. Том первый",

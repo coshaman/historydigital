@@ -10,12 +10,12 @@ const json = async file => JSON.parse(await readFile(new URL(file, import.meta.u
 const [registry, files] = await Promise.all([json('../data/era_character_registry.json'), readdir(new URL('../rpg/characters/', import.meta.url))]);
 const rawCards = await Promise.all(files.filter(file => file.endsWith('.json')).map(file => json(`../rpg/characters/${file}`)));
 const cards = decorateCardsWithEraProfiles(rawCards, registry);
-const maps = Object.fromEntries(await Promise.all(['nevsky','printshop','chancery','courtyard','market-quay','police-station','dead-souls','overcoat','raskolnikov-tavern'].map(async id => [id, await json(`../rpg/maps/${id}.json`)])));
+const maps = Object.fromEntries(await Promise.all(['nevsky','printshop','chancery','courtyard','market-quay','police-station','dead-souls','overcoat','raskolnikov-tavern','alyosha-snegiryov-room'].map(async id => [id, await json(`../rpg/maps/${id}.json`)])));
 const byId = Object.fromEntries(cards.map(card => [card.id, card]));
 
 assert.equal(cards.length, rawCards.length);
 assert.ok(cards.every(card => card.eraProfile?.layer && card.eraProfile.allowedChapterIds.length), 'every runtime host has an era boundary');
-for (const id of ['literary_chichikov','literary_akaky','literary_petrovich','literary_raskolnikov','literary_marmeladov']) {
+for (const id of ['literary_chichikov','literary_akaky','literary_petrovich','literary_raskolnikov','literary_marmeladov','literary_alyosha','literary_ilyusha','literary_kolya','literary_snegiryov']) {
   const profile = byId[id].eraProfile;
   assert.equal(profile.layer, 'LITERARY');
   assert.ok(profile.realmId && profile.sourceIds.length);

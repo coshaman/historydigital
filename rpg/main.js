@@ -24,10 +24,12 @@ const raskolnikovMap = await readJson('./rpg/maps/raskolnikov-tavern.json');
 const raskolnikovSource = await readJson('./rpg/data/raskolnikov-source.json');
 const raskolnikovQuest = await readJson('./rpg/quests/literary-raskolnikov.json');
 const [raskolnikovCard, marmeladovCard] = await Promise.all([readJson('./rpg/characters/literary_raskolnikov.json'), readJson('./rpg/characters/literary_marmeladov.json')]);
-const cards = decorateCardsWithEraProfiles([...rawCards, raskolnikovCard, marmeladovCard], eraCharacterRegistry);
+const [alyoshaMap, alyoshaSource, alyoshaQuest] = await Promise.all([readJson('./rpg/maps/alyosha-snegiryov-room.json'), readJson('./rpg/data/alyosha-source.json'), readJson('./rpg/quests/literary-alyosha-1879.json')]);
+const alyoshaCards = await Promise.all(['literary_alyosha','literary_ilyusha','literary_kolya','literary_snegiryov'].map(id => readJson(`./rpg/characters/${id}.json`)));
+const cards = decorateCardsWithEraProfiles([...rawCards, raskolnikovCard, marmeladovCard, ...alyoshaCards], eraCharacterRegistry);
 const expansionMapIds = ['bookshop-lane','canal-road','workyard','bookshop-interior','bakery-interior','inn-interior','sewing-room','communal-room'];
 const expansionMaps = Object.fromEntries(await Promise.all(expansionMapIds.map(async id => [id, await readJson(`./rpg/maps/${id}.json`)])));
-const maps = { nevsky: street, printshop: shop, chancery, courtyard, 'market-quay': marketMap, 'dead-souls': literaryMap, overcoat: overcoatMap, 'raskolnikov-tavern': raskolnikovMap, 'police-station': policeMap, ...expansionMaps, ...Object.fromEntries(historicalSceneMaps) }, hostCards = cards;
+const maps = { nevsky: street, printshop: shop, chancery, courtyard, 'market-quay': marketMap, 'dead-souls': literaryMap, overcoat: overcoatMap, 'raskolnikov-tavern': raskolnikovMap, 'alyosha-snegiryov-room': alyoshaMap, 'police-station': policeMap, ...expansionMaps, ...Object.fromEntries(historicalSceneMaps) }, hostCards = cards;
 const residentQuestBatchTwo = ['market-nadezhda-life-extra-1-1847','market-nadezhda-life-extra-2-1847','market-nadezhda-life-extra-3-1847','porter-gavrila-life-extra-1-1847','porter-gavrila-life-extra-2-1847','porter-gavrila-life-extra-3-1847','warehouse-pyotr-life-extra-1-1847','warehouse-pyotr-life-extra-2-1847','warehouse-pyotr-life-extra-3-1847','baker-fyodor-life-extra-1-1847','baker-fyodor-life-extra-2-1847','baker-fyodor-life-extra-3-1847','landlady-polina-life-extra-1-1847','landlady-polina-life-extra-2-1847','landlady-polina-life-extra-3-1847','carter-roman-life-extra-1-1847','carter-roman-life-extra-2-1847','carter-roman-life-extra-3-1847'];
 const addedPersonalQuests = await Promise.all(['editor-publication-record-1847','police-testimony-record-1849','reader-source-and-rumor-1847','senior-clerk-review-and-signature-1847','tenant-rent-and-firewood-1847','cold-wave-firewood-1847','censored-page-1847','courtyard-dispute-1847','market-price-dispute-1847','market-rumor-1847','inn-guest-1847','late-meal-1847','charity-day-1847','apprentice-literacy-1847','sick-lodger-1847','apothecary-order-1847','missing-record-1847','apprentice-fatigue-1847','newspaper-release-1847','police-document-check-1847','rent-notice-1847','courtyard-fire-1847','funeral-costs-1847','funeral-debt-repayment-1847','market-day-work-1847','roof-leak-repair-1847',
   'editor-sofia-chain-1-stage-1-1847','editor-sofia-chain-1-stage-2-1847','editor-sofia-chain-1-stage-3-1847',
@@ -52,7 +54,7 @@ const laundrySaleChoiceQuest = await readJson('./rpg/quests/laundry-sale-choice-
 const bookbindingOrderChoiceQuest = await readJson('./rpg/quests/bookbinding-order-choice-1847.json');
 const officialProcessionQuest = await readJson('./rpg/quests/v37-official-procession-1847.json');
 const residentArcBundle = await readJson('./rpg/quests/resident-arcs-v36.json');
-const questList = [...new Map([firstQuest, publicQuest, europeNewsQuest, circleQuest, letterQuest, dostoevskyExecutionQuest, literaryQuest, overcoatQuest, raskolnikovQuest, ...marketPersonalQuests, ...addedPersonalQuests, manuscriptOfferQuest, serfdomReadingQuest, salonDebateQuest, salonInvitationQuest, streetMusicQuest, physiologyReadingQuest, pushkinObituaryQuest, belinskyLetterQuest, officialProcessionQuest, smuggledEditionQuest, canalTrafficResponseQuest, laundrySaleChoiceQuest, bookbindingOrderChoiceQuest, ...v36PersonalQuestFiles, ...socialQuestFiles, ...residentArcBundle.quests].map(quest => [quest.id, quest])).values()];
+const questList = [...new Map([firstQuest, publicQuest, europeNewsQuest, circleQuest, letterQuest, dostoevskyExecutionQuest, literaryQuest, overcoatQuest, raskolnikovQuest, alyoshaQuest, ...marketPersonalQuests, ...addedPersonalQuests, manuscriptOfferQuest, serfdomReadingQuest, salonDebateQuest, salonInvitationQuest, streetMusicQuest, physiologyReadingQuest, pushkinObituaryQuest, belinskyLetterQuest, officialProcessionQuest, smuggledEditionQuest, canalTrafficResponseQuest, laundrySaleChoiceQuest, bookbindingOrderChoiceQuest, ...v36PersonalQuestFiles, ...socialQuestFiles, ...residentArcBundle.quests].map(quest => [quest.id, quest])).values()];
 const questsById = new Map(questList.map(item => [item.id, item]));
 const relationHintValues = new Map();
 for (const quest of questList) for (const action of quest.actions ?? []) {
@@ -73,7 +75,7 @@ function playerActionHintsFor(hostId) {
   return state.ledger.filter(entry => entry.hostId === hostId && ['HISTORICAL_ACTION', 'LITERARY_ACTION'].includes(entry.eventType))
     .slice(-12).map(({ questId, actionId }) => ({ questId, actionId }));
 }
-const sourceRecords = new Map([source, firstIssue, ...historicalSources.records, literarySource, overcoatSource, raskolnikovSource].map(record => [record.sourceId, record]));
+const sourceRecords = new Map([source, firstIssue, ...historicalSources.records, literarySource, overcoatSource, raskolnikovSource, alyoshaSource].map(record => [record.sourceId, record]));
 const sourceReaderRecords = new Map(sourceReaderIndex.records.map(record => [record.sourceId, record]));
 const caseContextsByQuest = new Map(caseContextData.cases.map(item => [item.questId, item]));
 const discussionQuestById = new Map(discussionQuestData.quests.map(item => [item.id, item]));
@@ -925,10 +927,10 @@ function openSourceDrawer() {
   const sourceButtons = unlocked.map(id => sourceRecords.get(id)).map(record => ({ label: record.titleKo, subcopy: `${record.documentDate ?? record.date ?? '1847'} · ${sourceKindLabel(record)} · ${sourceReaderRecords.get(record.sourceId)?.pageLocator ?? record.range ?? record.witness?.range ?? ''}`, run: () => sourceRead(record.sourceId, unlocked, 'PLAYER_ARCHIVE') }));
   const realmActions = state.world.activeRealm
     ? [{ label: '장면에서 나가기', subcopy: '거리로 돌아갑니다', run: leaveCurrentLiteraryScene }]
-    : campaign.literaryRealms.map(realm => ({ label: realm.entryLabelKo, subcopy: `${realm.date.slice(0, 4)}년 · 자료철에서 원문을 읽은 뒤 입장`, run: () => { const card = cards.find(item => item.id === realm.hostId); const result = enterLiteraryRealm(state, maps[realm.mapId], card); if (result.ok) { setState(result.state); say(realm.titleKo, `${card.displayNameKo}가 술집 안쪽에 앉아 있다.`, [{ label: '자료철 열기', run: openSourceDrawer }]); } else sayRecord(result.reason === 'literary_source_unread' ? '자료철에서 해당 작품의 원문을 먼저 읽어야 한다.' : '먼저 빌린 몸을 놓아주고 다시 시도하자.'); } }));
+    : campaign.literaryRealms.map(realm => ({ label: realm.entryLabelKo, subcopy: `${realm.date.slice(0, 4)}년 · 원문을 읽고 입장`, run: () => { const card = cards.find(item => item.id === realm.hostId); const result = enterLiteraryRealm(state, maps[realm.mapId], card); if (result.ok) { setState(result.state); say(realm.titleKo, realm.introKo ?? `${card.displayNameKo}가 장면 안에 있다.`, [{ label: '자료철 열기', run: openSourceDrawer }]); } else sayRecord(result.reason === 'literary_source_unread' ? '자료철에서 해당 작품의 원문을 먼저 읽어야 한다.' : '먼저 빌린 몸을 놓아주고 다시 시도하자.'); } }));
   say(state.world.activeRealm ? '주변 자료' : '지금까지 열린 자료', state.world.activeRealm
-    ? '자료를 읽으면 현재 인물의 기록에 남는다.'
-    : '자료철은 기록의 손님이 살펴보는 목록이다. 빌린 몸의 지식에는 그 사람이 현장에서 직접 읽거나 전달받은 자료만 남는다. 날짜가 오지 않은 문서는 연표가 진행된 뒤 열린다.', [...sourceButtons, ...realmActions]);
+    ? '읽은 자료가 현재 인물의 기록에 남는다.'
+    : '읽은 자료가 기록에 남는다.', [...sourceButtons, ...realmActions]);
 }
 function continuationFor(activeQuest) {
   if (activeQuest.realmId || activeQuest.chapterId?.startsWith('LITERARY_')) return [{ label: '장면에서 나가기', run: leaveCurrentLiteraryScene }, { label: '자료철 열기', run: openSourceDrawer }];
@@ -1367,7 +1369,7 @@ function interact() {
     return;
   }
   const activeQuestObject = near.find(item => {
-      if (item.type !== 'quest-object') return false;
+      if (!['quest-object', 'inspectable'].includes(item.type)) return false;
       const questId = Object.fromEntries((item.properties ?? []).map(property => [property.name, property.value])).questId;
       const quest = questsById.get(questId);
       return questIsAvailable(quest) && state.quests[questId]?.status !== 'resolved'

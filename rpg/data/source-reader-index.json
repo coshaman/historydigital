@@ -98,6 +98,18 @@
       "rightsNoteKo": "1866년 초판 간행물은 대통령도서관 서지 항목으로 확인했다. 러시아어 본문은 학술 전사문이며 한국어는 이 프로젝트의 새 번역이다."
     },
     {
+      "sourceId": "LIT-DOSTOEVSKY-BROTHERS-KARAMAZOV-1879-ILYUSHA",
+      "excerptId": "EX-DOSTOEVSKY-KARAMAZOV-BOOK-X-CH-V-RVB-L153-205",
+      "layout": "book",
+      "textStatus": "DIRECT",
+      "renderingStatus": "RECONSTRUCTED",
+      "documentDate": "1879–1880",
+      "publicationDate": "1879–1880 · Русский вестник, parts IV–V",
+      "pageLocator": "Часть IV, книга X, глава V · RVB 전사문 153–205행 · 콜랴가 침상 곁에 와서 주치카를 알아보는 대목",
+      "contextKo": "콜랴가 병상에 누운 이유샤에게 새 개 페레즈본을 데려옵니다. 이유샤가 죽었다고 여긴 주치카를 떠올리자 알료샤는 콜랴에게 말을 아끼라고 눈짓하지만, 콜랴는 주치카가 살아 있음을 보여 줍니다.",
+      "rightsNoteKo": "도스토옙스키의 19세기 문학 원문을 RVB 학술 전사문에서 옮겼고, 한국어는 프로젝트 새 번역이다."
+    },
+    {
       "sourceId": "LIT-GOGOL-OVERCOAT-1842",
       "excerptId": "EX-GOGOL-OVERCOAT-1842-COAT-L151-156",
       "layout": "book",

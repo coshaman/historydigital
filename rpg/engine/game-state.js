@@ -426,7 +426,8 @@ function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky
     situationNotes: [],
     facing: 'down',
     historicalAliveAndPresent: !card.presenceWindow || (card.presenceWindow.startDate <= initialDate && initialDate <= card.presenceWindow.endDate),
-    healthState: { condition: 'FIT', injury: null, recoveryUntilMinute: null, valueStatus: 'FICTIONAL_CHARACTER_DESIGN' },
+    healthState: card.initialHealthState ? clone(card.initialHealthState)
+      : { condition: 'FIT', injury: null, recoveryUntilMinute: null, valueStatus: 'FICTIONAL_CHARACTER_DESIGN' },
     skills: clone(card.skills ?? {}),
     skillsValueStatus: card.skillsValueStatus ?? 'FICTIONAL_CHARACTER_DESIGN',
     money: { ...card.money },
@@ -7927,7 +7928,7 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
         || Object.entries(host.skills).some(([skill, level]) => !/^[a-z][A-Za-z0-9]{0,39}$/.test(skill)
           || !Number.isInteger(level) || level < 0 || level > 5)) throw new Error(`Save contains invalid resident skill: ${card.id}`);
       if (!['FIT', 'INJURED', 'UNWELL', 'RECOVERING'].includes(host.healthState.condition)
-        || host.healthState.valueStatus !== 'FICTIONAL_CHARACTER_DESIGN'
+        || !['FICTIONAL_CHARACTER_DESIGN', 'LITERARY_TEXT_CANON'].includes(host.healthState.valueStatus)
         || (host.healthState.condition === 'FIT' && (host.healthState.injury !== null || host.healthState.illness != null || host.healthState.recoveryUntilMinute !== null))
         || (host.healthState.condition === 'INJURED' && (!host.healthState.injury || host.healthState.illness != null || !Number.isInteger(host.healthState.injury.onsetMinute) || host.healthState.recoveryUntilMinute !== null))
         || (host.healthState.condition === 'UNWELL' && (host.healthState.injury !== null || !host.healthState.illness || !Number.isInteger(host.healthState.illness.onsetMinute) || host.healthState.recoveryUntilMinute !== null))
