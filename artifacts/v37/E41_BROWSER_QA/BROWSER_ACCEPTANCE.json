@@ -1,0 +1,92 @@
+{
+  "status": "PASS",
+  "base": "http://127.0.0.1:4173/",
+  "results": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "document": {
+        "width": 1440,
+        "height": 900
+      },
+      "reader": {
+        "x": 200,
+        "y": 36,
+        "width": 1040,
+        "height": 828,
+        "right": 1240,
+        "bottom": 864,
+        "scrollHeight": 2504,
+        "clientHeight": 824
+      },
+      "passages": {
+        "x": 236,
+        "y": 431.15625,
+        "width": 968,
+        "height": 1891.9375,
+        "right": 1204,
+        "bottom": 2323.09375,
+        "scrollHeight": 1892,
+        "clientHeight": 1892
+      },
+      "complete": {
+        "x": 1083,
+        "y": 784,
+        "width": 121,
+        "height": 44,
+        "right": 1204,
+        "bottom": 828,
+        "scrollHeight": 42,
+        "clientHeight": 42
+      },
+      "sourceLoaded": true,
+      "choiceSaved": true,
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "document": {
+        "width": 390,
+        "height": 844
+      },
+      "reader": {
+        "x": 19,
+        "y": 7,
+        "width": 352,
+        "height": 830,
+        "right": 371,
+        "bottom": 837,
+        "scrollHeight": 3635,
+        "clientHeight": 826
+      },
+      "passages": {
+        "x": 34,
+        "y": 697.625,
+        "width": 322,
+        "height": 2685.6875,
+        "right": 356,
+        "bottom": 3383.3125,
+        "scrollHeight": 2686,
+        "clientHeight": 2686
+      },
+      "complete": {
+        "x": 34,
+        "y": 775,
+        "width": 322,
+        "height": 44,
+        "right": 356,
+        "bottom": 819,
+        "scrollHeight": 42,
+        "clientHeight": 42
+      },
+      "sourceLoaded": true,
+      "choiceSaved": true,
+      "pageErrors": []
+    }
+  ]
+}

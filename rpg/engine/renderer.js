@@ -8,6 +8,42 @@ export function courtyardFireDamageMark(state, map) {
   return { x: Math.min(23, scene.x + 1), y: Math.max(0, scene.y - 2), severity: Math.min(2, event.propertyDamage) };
 }
 
+function drawE41Scene(ctx, state, map, ox, oy, scale, reducedMotion) {
+  const event = state?.world?.livingEventStates?.E41;
+  if (map?.mapId !== 'semenovsky-square' || event?.status !== 'ACTIVE') return;
+  const px = x => ox + x * 16 * scale, py = y => oy + y * 16 * scale;
+  const block = (x, y, dx, dy, w, h, color) => {
+    ctx.fillStyle = color;
+    ctx.fillRect(px(x) + dx * scale, py(y) + dy * scale, w * scale, h * scale);
+  };
+  const person = (x, y, coat, shirt = '#d8d0ba', offset = 0) => {
+    block(x, y, 6, offset, 4, 4, '#bd9878');
+    block(x, y, 4, 4 + offset, 8, 7, coat);
+    block(x, y, 6, 5 + offset, 4, 5, shirt);
+    block(x, y, 4, 11 + offset, 3, 4, '#302923');
+    block(x, y, 9, 11 + offset, 3, 4, '#302923');
+  };
+  ctx.save();
+  // The letter describes three men already at the posts and a large crowd seen on the way in.
+  // The assembled crowd and order reader are stage dressing; no unnamed face is given a biography.
+  for (const [x, y, color] of [[3,5,'#4f4140'],[6,6,'#625143'],[9,5,'#37464a'],[12,6,'#61504a'],
+    [18,5,'#3c4842'],[21,6,'#5c493e'],[4,12,'#514a40'],[7,13,'#394348'],[18,12,'#5b5048'],[21,13,'#44454a']]) {
+    person(x, y, color, '#d0c4ad', reducedMotion ? 0 : ((x + y) % 3 === 0 ? 0 : 1));
+  }
+  // Three posts and the waiting row keep the documented three-at-a-time sequence legible.
+  for (const x of [12, 13, 14]) {
+    block(x, 8, 7, 0, 2, 18, '#503b2a');
+    block(x, 8, 5, 0, 6, 2, '#755638');
+    person(x + 0.5, 9.2, '#f0e8d7', '#f0e8d7');
+  }
+  person(16, 10, '#f0e8d7', '#f0e8d7');
+  // An unnamed officer reads the order, as the letter says it was read aloud.
+  person(18, 7, '#403d39', '#d8d0ba');
+  block(18, 7, 11, -14, 7, 5, '#eadbb8');
+  block(18, 7, 13, -13, 4, 0.8, '#9b7546');
+  ctx.restore();
+}
+
 export function calculateCamera({ viewportWidth, viewportHeight, mapWidth, mapHeight, tileSize = 16, position, zoom = 2.25 }) {
   const mapWidthWorld = mapWidth * tileSize, mapHeightWorld = mapHeight * tileSize;
   const fitScale = Math.min(viewportWidth / mapWidthWorld, viewportHeight / mapHeightWorld);
@@ -117,6 +153,7 @@ export function createRenderer(canvas, assets) {
         ctx.fillStyle = '#f0d79e'; ctx.beginPath(); ctx.arc(x + 14 * scale, y + 2 * scale, Math.max(1.5, scale * 1.7), 0, Math.PI * 2); ctx.fill(); ctx.restore();
       }
     }
+    drawE41Scene(ctx, state, map, ox, oy, scale, reducedMotion);
     const procession = state.world.livingEventStates?.E45;
     if (procession?.status === 'ACTIVE' && procession.carriageMapId === map.mapId && procession.carriagePosition) {
       const carriage = getImage(new URL('../assets/carriage-blocking.svg', import.meta.url));

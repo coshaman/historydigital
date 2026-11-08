@@ -33,16 +33,23 @@ assert.equal(quest.date, '1849-12-22');
 assert.deepEqual(campaign.arcs.find(arc => arc.id === quest.chapterId).questIds.slice(-1), [quest.id]);
 assert.deepEqual(quest.historicalOutcome.sourceIds, [sourceId]);
 assert.equal(sources.records.find(record => record.sourceId === sourceId).range,
-  'РВБ, строки 115–117: датировка и два последовательных абзаца письма № 37 от 22 декабря 1849 года.');
+  'РВБ, строки 115–121: датировка и три последовательных абзаца письма № 37; приговор, казнь остановлена, объявление помилования и толпа, увиденная из кареты.');
 const executionSource = sources.records.find(record => record.sourceId === sourceId);
-assert.equal(executionSource.paragraphs.length, 2, 'the source packet preserves the two consecutive event paragraphs');
+assert.equal(executionSource.paragraphs.length, 3, 'the source packet preserves the event and letter-context paragraphs');
 assert.match(executionSource.paragraphs[0].ru, /Сегодня 22 декабря нас отвезли на Семеновский плац/);
 assert.match(executionSource.paragraphs[1].ru, /Наконец ударили отбой.*Затем последовали настоящие приговоры/s);
 assert.match(executionSource.paragraphs[0].ko, /흰 셔츠/);
+assert.match(executionSource.paragraphs[2].ru, /Из окон кареты.*я видел бездну народа/s);
+assert.match(executionSource.paragraphs[2].ko, /마차 창밖으로 엄청난 군중을 보았습니다/);
 assert.doesNotMatch(quest.fixedEvent.trigger, /10:00/);
 assert.ok(sourceIndex.records.some(record => record.sourceId === sourceId));
 assert.equal(maps['semenovsky-square'].metadata.date, quest.date);
-assert.ok(maps['semenovsky-square'].layers.find(layer => layer.name === 'Interactions').objects.some(object => object.type === 'quest-object' && object.properties.some(property => property.name === 'questId' && property.value === quest.id)));
+const square = maps['semenovsky-square'];
+assert.equal(square.metadata.displayNameKo, '세묘노프스키 열병장');
+assert.equal(square.metadata.districtId, 'SEMENOVSKY_PARADE_GROUND');
+assert.notEqual(JSON.stringify(square.layers.find(layer => layer.name === 'Ground').data), JSON.stringify(maps.courtyard.layers.find(layer => layer.name === 'Ground').data), 'the parade ground uses an open outdoor surface, not courtyard ground');
+assert.deepEqual(square.layers.find(layer => layer.name === 'NPCs').objects.map(item => item.properties.find(property => property.name === 'hostId')?.value), ['dostoevsky_1849'], 'unrelated 1847 residents are not staged as the historical crowd');
+assert.ok(square.layers.find(layer => layer.name === 'Interactions').objects.some(object => object.type === 'quest-object' && object.properties.some(property => property.name === 'questId' && property.value === quest.id)));
 const squareExit = maps.nevsky.layers.find(layer => layer.name === 'Interactions').objects.find(object => object.name === '세묘노프스키 광장으로');
 assert.ok(squareExit, 'the player has a physical route to the dated scene');
 

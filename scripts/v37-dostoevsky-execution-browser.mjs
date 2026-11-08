@@ -55,16 +55,18 @@ for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 
   await page.waitForFunction(() => document.querySelector('#calendar-date')?.textContent.includes('1849년 12월 22일')
     && document.querySelector('#clock')?.textContent === '10:00');
   await page.locator('#use').click();
-  await page.waitForFunction(() => document.querySelector('#mapname')?.textContent.includes('세묘노프스키 광장'));
+  await page.waitForFunction(() => document.querySelector('#mapname')?.textContent.includes('세묘노프스키 열병장'));
+  await page.screenshot({ path: path.join(out, `parade-ground-${viewport.width}x${viewport.height}.png`) });
   await page.locator('#use').click();
   await page.locator('#actions button').filter({ hasText: '도스토옙스키 살펴보기' }).click();
   await page.getByRole('button', { name: '몸을 빌린다' }).click();
   await page.locator('[data-move="left"]').click();
   await page.locator('[data-move="up"]').click();
   await page.locator('#use').click();
-  await page.locator('#actions button').filter({ hasText: '자료 읽기 · 세묘노프스키 광장에서의 사형 선고와 감형' }).click();
+  await page.locator('#actions button').filter({ hasText: '자료 읽기 · 세묘노프스키 열병장에서의 사형 선고와 감형' }).click();
   await page.locator('#source-reader').waitFor({ state: 'visible' });
   await page.locator('#source-reader-passages').getByText('사랑하는 형, 모든 것이 결정됐습니다.', { exact: false }).waitFor();
+  await page.locator('#source-reader-passages').getByText('마차 창밖으로 엄청난 군중을 보았습니다', { exact: false }).waitFor();
   const layout = await page.evaluate(() => {
     const rect = selector => {
       const element = document.querySelector(selector), box = element.getBoundingClientRect();

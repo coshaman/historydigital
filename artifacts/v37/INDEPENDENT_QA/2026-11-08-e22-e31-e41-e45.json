@@ -37,10 +37,22 @@
       "status": "OPEN"
     },
     {
-      "id": "E41-staged-crowd-and-messenger",
+      "id": "E41-staged-execution-ground",
       "severity": "VERIFICATION_GAP",
-      "finding": "Browser evidence reads the source and makes a choice but does not show the staged crowd and imperial messenger.",
-      "status": "OPEN"
+      "finding": "The scene now uses an open parade-ground map and browser evidence shows the staged crowd, three posts, white-shirt row, and an unnamed official reading an order. Desktop/mobile source-reading and choice flow pass. The browser pilot seeds the historical date and prerequisite quests, so the natural campaign route remains unverified.",
+      "status": "STAGING_ADDED_BROWSER_ACCEPTED_NATURAL_ROUTE_REMAINS_OPEN",
+      "evidence": [
+        "rpg/maps/semenovsky-square.json",
+        "rpg/engine/renderer.js",
+        "rpg/data/historical-source-packets.json",
+        "scripts/v37-dostoevsky-execution-test.mjs",
+        "scripts/v37-dostoevsky-execution-browser.mjs",
+        "artifacts/v37/E41_BROWSER_QA/BROWSER_ACCEPTANCE.json",
+        "artifacts/v37/E41_BROWSER_QA/parade-ground-1440x900.png",
+        "artifacts/v37/E41_BROWSER_QA/parade-ground-390x844.png",
+        "artifacts/v37/E41_BROWSER_QA/source-1440x900.png",
+        "artifacts/v37/E41_BROWSER_QA/source-390x844.png"
+      ]
     }
   ],
   "testCommandsThatPassedButDidNotCoverTheseGaps": [

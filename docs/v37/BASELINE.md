@@ -1,6 +1,6 @@
 # V37 baseline inventory
 
-Checked 2026-11-07 (Asia/Seoul) in the `history` worktree.
+Checked 2026-11-09 (Asia/Seoul) in the `history` worktree.
 
 ## Repository and deployment
 
@@ -55,7 +55,13 @@ V37 is in progress. Phase 0 inventory/save migration and a narrow Phase 1 econom
 
 - Independent event review found E45's initial version had no moving carriage object, and its test manually placed all participants at the scene. The corrected event now starts from the coachman's scheduled route, keeps the carriage attached to his actual map position, routes Matryona and the guard into Nevsky, and offers decisions only after all three are physically present. The carriage blocks its two road tiles only once stopped; during travel it moves as part of the coachman's pathing and cannot trap itself. E45 takes priority over routine schedules and the canal's coachman route, while the higher-priority E34 scene keeps its shared guard. Active legacy E45 saves recover missing carriage position from the coachman's saved location.
 - `npm run v37-procession` passes from the natural initial NPC state through `CARRIAGE_APPROACHING` and `CLEARANCE_READY`; checks actor presence, road collision, event availability, three distinct role choices, physical aftermath, and current/legacy save-load. `npm run v37-procession-browser` passes real clicks at 1440×900 and 390×844. Matryona's action records `STALL_MOVED_ASIDE`; both sizes show the carriage scene and choice without horizontal overflow or browser errors. Screenshots: `artifacts/v37/BROWSER_ACCEPTANCE/procession-ready-{1440x900,390x844}.png` and `procession-stall-moved-{1440x900,390x844}.png`. The full `npm run check` passed, including E34 and E45 together.
-- Independent QA findings retained at `artifacts/v37/INDEPENDENT_QA/2026-11-08-e22-e31-e41-e45.json`: E45 physical blockage is fixed and browser-accepted. E22 now has real-click browser evidence at desktop/mobile widths for the sale-generated discussion, checked bibliographic record, four choices, and saved outcome; its exact street-sale date and issue-content reading remain unverified and are not asserted. Browser evidence for E31/E41 without directly injecting an intermediate stage remains open; the 45-event completion gate is not met.
+- Independent QA findings retained at `artifacts/v37/INDEPENDENT_QA/2026-11-08-e22-e31-e41-e45.json`: E45 physical blockage is fixed and browser-accepted. E22 has real-click browser evidence at desktop/mobile widths for the sale-generated discussion, checked bibliographic record, four choices, and saved outcome; its exact street-sale date and issue-content reading remain unverified and are not asserted. E41 now has a distinct open parade-ground map, source-backed stage dressing, and desktop/mobile browser evidence for reading the three-paragraph letter and saving a choice. Its browser pilot still seeds the date and prior quests, so natural-route evidence remains open. E31's browser chain remains unverified. The 45-event completion gate is not met.
+
+## Additional validation — 2026-11-09
+
+- `npm run v37-dostoevsky-execution` passes with assertions for the three contiguous paragraphs of Dostoevsky's letter, the open parade-ground map, event timing, required reading, choice resolution, and persistence.
+- `node scripts/v37-dostoevsky-execution-browser.mjs` passes real clicks at 1440×900 and 390×844. Both viewports show the staged E41 scene, load the letter through its reader, unlock and save the private-note choice, have no horizontal overflow, and report zero page errors. The source reader is intentionally scrollable because the verified contextual range exceeds the available height. Screenshots and viewport measurements are in `artifacts/v37/E41_BROWSER_QA/`.
+- The supplied character-chat references are recorded in `docs/v37/CHARACTER_CHAT_REFERENCE_NOTES.md`. The runtime already separates character identity/voice, relationship register, scene case context, and recent dialogue. DCInside content and the Univers guide index were reviewed as practitioner guidance. Direct retrieval of the Univers example page and the supplied Arca Live post was unavailable; no specific claims are attributed to those inaccessible contents.
 
 ## Additional validation — 2026-11-06
 

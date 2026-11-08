@@ -1,9 +1,9 @@
 {
   "id": "E41_SEMENOVSKY_1849",
-  "titleKo": "세묘노프스키 광장",
+  "titleKo": "세묘노프스키 열병장",
   "chapterId": "V33_1849_CIRCLE",
   "date": "1849-12-22",
-  "premiseKo": "도스토옙스키가 동생에게 보낸 편지가 광장에서의 일을 전한다. 편지를 읽고, 현장에서 본 일을 개인 기록에 남길지 정한다.",
+  "premiseKo": "도스토옙스키는 동생에게 쓴 편지에서 열병장에서 겪은 일을 전한다. 편지를 읽고, 현장에서 본 일을 개인 기록에 남길지 정한다.",
   "historicalOutcome": {
     "id": "PETRASHEVSKY_SENTENCE_AND_COMMUTATION_1849",
     "value": "The death sentence was read, execution was halted, and the prisoners' sentences were then announced.",
