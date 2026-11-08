@@ -9,7 +9,7 @@ import { ownsKeyboardInput, observationText } from './engine/player-presentation
 import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHost, discussionReflectionPromptsForHost } from './engine/discussion-quests.mjs';
 import { dialogueSessionNeedsReconnect, dialogueSpeakerLabel, mayOfferDiscussionPrompt, selectDialogueTurn } from './engine/dialogue-response.mjs';
 import { dialogueSceneContext } from './engine/dialogue-context.mjs';
-import { beginHistoricalSession, exitHistoricalSession, performHistoricalAction, recordHistoricalChoice } from './engine/historical-session.mjs';
+import { beginHistoricalSession, canConcludeHistoricalSession, exitHistoricalSession, performHistoricalAction, recordHistoricalChoice } from './engine/historical-session.mjs';
 import { appendApiDiagnostic, clearApiDiagnostics, readApiDiagnostics } from './engine/api-diagnostics.mjs';
 import { CITY_PRODUCTS, NEWSPAPER_STORIES, newspaperAssignment, purchaseCityProduct, publishNewspaperIssue, shareSourceWithEditor, readNewspaperIssue, circulateNewspaperIssue, commitSuspiciousAct, resolvePoliceCustody, publishedIssueLabel } from './engine/civic-life.mjs';
 import { contextualOpening } from './ai/authored-dialogue.mjs';
@@ -526,7 +526,7 @@ function updateHud() {
   const inLiteraryScene = Boolean(state.world.activeRealm);
   missionGuidance = state.historicalSession
     ? { questTitleKo: state.historicalSession.eventTitleKo, actionKo: '사람들과 이야기하고 현장의 일을 직접 처리한다', placeKo: map.metadata.displayNameKo,
-        reasonKo: `대화 ${Math.min(state.historicalSession.spokenActorIds?.length ?? 0, 8)}/8 · 현장 일 ${Math.min(state.historicalSession.completedObjectives?.length ?? 0, 5)}/5 · 구역 ${state.historicalSession.visitedMapIds?.length ?? 0}/3`,
+        reasonKo: `대화 ${Math.min(state.historicalSession.spokenActorIds?.length ?? 0, 8)}/8 · 현장 일 ${Math.min(state.historicalSession.completedObjectives?.length ?? 0, 5)}/5 · 역할 임무 ${(historicalSceneForState()?.fieldActions ?? []).filter(action => action.requiredActorId && state.historicalSession.actionOutcomes?.[action.id]).length}/3 · 구역 ${state.historicalSession.visitedMapIds?.length ?? 0}/3`,
         howKo: '가까이 다가가 말하기 · 인물 목록에서 다른 사람의 시야로 들어가기 · 출구를 따라 다음 구역으로 걷기', target: null,
         progress: { completedSteps: state.historicalSession.completedObjectives?.length ?? 0, totalSteps: 5 }, blocked: false }
     : inLiteraryScene
@@ -1061,7 +1061,7 @@ function openHistoricalEventMenu() {
   eventButton.textContent = '역사 현장 3';
   say('역사 현장', '걸어서 사람들을 만나고, 그날의 일을 직접 겪어 보세요.', historicalEvents.map(event => ({
     label: event.titleKo,
-    subcopy: `${event.dateLabelKo} · 예상 4~5분 · 세 구역을 걷고 사람들과 이야기하며 결정합니다`,
+    subcopy: `${event.dateLabelKo} · 예상 4~5분 · 세 구역, 15명의 현장 인물 · 세 사람의 시야로 맡는 역할 임무`,
     run: () => beginHistoricalEvent(event),
   })));
 }
@@ -1078,7 +1078,7 @@ function beginHistoricalEvent(event) {
   result.session.historicalSession.eventTitleKo = event.titleKo;
   setState(result.session);
   $('#history-events-open').textContent = `현장 · ${event.alertKo}`;
-  say(event.titleKo, `${scene.introKo ?? event.openingKo}\n\n여덟 사람과 이야기하고 다섯 가지 일을 직접 처리하며 세 구역을 오갑니다. 필요하면 인물 목록에서 다른 사람의 몸을 빌려 현장에 끼어드세요.`, [
+  say(event.titleKo, `${scene.introKo ?? event.openingKo}\n\n사람들을 만나고 각 구역의 일을 맡으세요. 몇몇 일은 그곳 사람의 몸으로 들어가야 처리할 수 있습니다.`, [
     { label: '인물 목록 · 바로 빙의', subcopy: '현장에 있는 사람을 골라 그 사람의 시야로 걷습니다', run: openCharacterList },
     { label: '현장을 나간다', subcopy: '원래 캠페인으로 돌아갑니다', run: () => leaveHistoricalSession(false) },
   ]);
@@ -1142,8 +1142,8 @@ function startHistoricalConversation(card) {
   const playerPosition = state.player.position;
   const joiningVoices = scene.actors.filter(other => other.id !== person.id && other.mapId === state.world.currentMapId)
     .map(other => ({ other, host: state.hosts[`historical:${scene.eventId}:${other.id}`] }))
-    .filter(({ host }) => host && Math.abs(host.position.x - playerPosition.x) + Math.abs(host.position.y - playerPosition.y) <= 5)
-    .slice(0, 2).map(({ other }) => `${other.nameKo}  ${other.lines[0]}`);
+    .filter(({ host }) => host && Math.abs(host.position.x - playerPosition.x) + Math.abs(host.position.y - playerPosition.y) <= 8)
+    .slice(0, 4).map(({ other }) => `${other.nameKo}  ${other.lines[0]}`);
   if (joiningVoices.length) line += `\n\n${joiningVoices.join('\n')}`;
   const objective = scene.objectives.find(item => item.id === person.objectiveId);
   const choices = historicalConversationChoices(scene.eventId, person.objectiveId);
@@ -1171,7 +1171,7 @@ function resolveHistoricalConversation(scene, person, response) {
   next = recordHistoricalChoice(next, { id: dialogueChoiceId, textKo: `${person.nameKo}에게 “${response.labelKo}”라고 답했다` });
   setState(next);
   const completed = new Set(next.historicalSession.completedObjectives), visited = new Set(next.historicalSession.visitedMapIds ?? []);
-  const unlocked = next.historicalSession.spokenActorIds.length >= 8 && completed.size >= 5 && visited.size === scene.maps.length;
+  const unlocked = canConcludeHistoricalSession(next, scene);
   const actions = unlocked ? scene.choices.map(choice => ({ label: choice.label, subcopy: choice.directionKo, run: () => {
     setState(recordHistoricalChoice(state, { id: choice.id, textKo: choice.textKo })); leaveHistoricalSession(true);
   } })) : [
@@ -1192,9 +1192,17 @@ function startHistoricalAction(scene, action) {
     say(action.propKo, priorChoice?.textKo ?? '이미 이 일은 처리했다.', []);
     return;
   }
+  const requiredActor = scene.actors.find(person => person.id === action.requiredActorId);
+  if (requiredActor && state.player.embodiment !== `historical:${scene.eventId}:${requiredActor.id}`) {
+    say(action.propKo, `${action.promptKo}\n\n${requiredActor.nameKo}의 몸으로 현장에 들어가야 이 일을 맡을 수 있습니다.`, [
+      { label: `${requiredActor.nameKo}로 전환`, subcopy: '현장 인물 목록에서 몸을 바꿉니다', run: openCharacterList },
+      { label: '현장을 계속 걷는다', subcopy: '이 결정은 보류됩니다', run: () => say(event.titleKo, '사람들과 이야기를 나누고 현장을 계속 살펴보자.', []) },
+    ]);
+    return;
+  }
   say(action.propKo, action.promptKo, action.options.map(option => ({ label: option.labelKo, subcopy: option.directionKo, run: () => {
     const result = performHistoricalAction(state, scene, action.id, option.id);
-    if (!result.ok) { sayRecord(result.reason === 'wrong_historical_area' ? '먼저 그 장소로 걸어가야 합니다.' : '이 일은 이미 처리했거나 지금 선택할 수 없습니다.'); return; }
+    if (!result.ok) { sayRecord(result.reason === 'wrong_historical_area' ? '먼저 그 장소로 걸어가야 합니다.' : result.reason === 'wrong_historical_actor' ? `${requiredActor?.nameKo ?? '현장 인물'}의 몸으로 바꿔야 합니다.` : '이 일은 이미 처리했거나 지금 선택할 수 없습니다.'); return; }
     const next = result.state;
     const responders = scene.actors.filter(person => person.mapId === action.mapId && person.objectiveId === action.objectiveId)
       .map(person => ({ person, host: next.hosts[`historical:${scene.eventId}:${person.id}`] })).filter(({ host }) => host);
@@ -1206,8 +1214,7 @@ function startHistoricalAction(scene, action) {
     setState(next);
     const completed = next.historicalSession.completedObjectives.length;
     const nextAction = scene.fieldActions.find(item => item.objectiveId !== action.objectiveId && !next.historicalSession.actionOutcomes?.[item.id]);
-    const unlocked = next.historicalSession.spokenActorIds.length >= 8 && completed >= 5
-      && new Set(next.historicalSession.visitedMapIds ?? []).size === scene.maps.length;
+    const unlocked = canConcludeHistoricalSession(next, scene);
     const followups = unlocked ? scene.choices.map(choice => ({ label: choice.label, subcopy: choice.directionKo, run: () => {
       setState(recordHistoricalChoice(state, { id: choice.id, textKo: choice.textKo })); leaveHistoricalSession(true);
     } })) : [

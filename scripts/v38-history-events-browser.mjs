@@ -69,6 +69,20 @@ async function completeFieldAction(page, scene, zoneIndex) {
   const { map, positions, actions } = actionPositions(scene, zoneIndex);
   const action = actions.find(item => item.objectiveId === scene.nextObjectiveId), position = positions[actions.indexOf(action)];
   assert.ok(action && position, `${scene.eventId} has a walkable physical action in area ${zoneIndex + 1}`);
+  if (action.requiredActorId) {
+    const actor = scene.actors.find(item => item.id === action.requiredActorId);
+    assert.ok(actor, `${action.id} names an on-scene person to embody`);
+    if (!(await page.locator('#bodyname').textContent()).includes(actor.nameKo)) {
+      await page.locator('#roster-open').click();
+      const roleCard = page.locator('.roster-card').filter({ hasText: actor.nameKo });
+      try { await roleCard.waitFor({ timeout: 5000 }); }
+      catch { throw new Error(`Required event role is not available in this zone: ${JSON.stringify({ actor: actor.nameKo,
+        map: await page.locator('#mapname').textContent(), body: await page.locator('#bodyname').textContent(),
+        roster: await page.locator('.roster-card strong').allTextContents() })}`); }
+      await roleCard.click();
+    }
+    assert.ok((await page.locator('#bodyname').textContent()).includes(actor.nameKo), `${actor.nameKo} is embodied before the role task`);
+  }
   const startPosition = await playerPosition(page);
   await walk(page, pathToExit(map, startPosition, position));
   await page.waitForTimeout(380);
@@ -108,7 +122,10 @@ async function speakTwo(page, scene, zoneIndex, spokenNames) {
       const partner = (await talk.innerText()).replace(/^말 걸기 ·\s*/, '').trim();
       await talk.click();
       assert.equal(await page.locator('#headline').textContent(), partner);
-      assert.ok((await page.locator('#journal-text').textContent()).length > 35);
+      const dialogueText = await page.locator('#journal-text').textContent();
+      assert.ok(dialogueText.length > 35);
+      const nearbyParticipants = scene.actors.filter(actor => dialogueText.includes(actor.nameKo)).length;
+      assert.ok(nearbyParticipants >= 4, `${scene.eventId} has a five-person nearby conversation, found ${nearbyParticipants}`);
       const interlocutor = scene.actors.find(actor => actor.nameKo === partner);
       assert.ok(interlocutor, `${partner} is an actor in the current historical scene`);
       const branch = getHistoricalConversationChoices(conversationChoices, scene.eventId, interlocutor.objectiveId)[0];
@@ -124,8 +141,11 @@ async function speakTwo(page, scene, zoneIndex, spokenNames) {
       spokenNames.add(partner); spokenNames.currentBody = bodyName; found = true;
       break;
     }
-    if (!found && usedBodies.size >= zoneActors.length) break;
+    if (!found && zoneActors.every(({ actor }) => usedBodies.has(actor.nameKo))) break;
   }
+  assert.ok(spokenNames.size >= targetCount, `${scene.eventId} walk-up conversations stalled: ${JSON.stringify({ zone: zoneIndex,
+    targetCount, spoken: spokenNames.size, used: [...usedBodies], actors: zoneActors.map(({ actor }) => actor.nameKo),
+    roster: await page.locator('.roster-card strong').allTextContents() })}`);
   assert.ok(spokenNames.size >= zoneIndex + 1, `${scene.eventId} must permit a conversation in area ${zoneIndex + 1}`);
 }
 
@@ -161,8 +181,10 @@ try {
       for (let zoneIndex = 0; zoneIndex < scene.maps.length; zoneIndex++) {
         const zones = actorPositions(scene, zoneIndex);
         await speakTwo(page, scene, zoneIndex, spokenNames);
-        for (const action of scene.fieldActions.filter(item => item.mapId === scene.maps[zoneIndex]
-          && !finishedObjectives.has(item.objectiveId)).slice(0, Math.max(0, 5 - finishedObjectives.size))) {
+        const zoneActions = [...scene.fieldActions.filter(item => item.mapId === scene.maps[zoneIndex] && item.requiredActorId),
+          ...scene.fieldActions.filter(item => item.mapId === scene.maps[zoneIndex] && !item.requiredActorId)];
+        for (const action of zoneActions.filter(item => !finishedObjectives.has(item.objectiveId))
+          .slice(0, Math.max(0, 5 - finishedObjectives.size))) {
           scene.nextObjectiveId = action.objectiveId;
           spokenNames.currentPosition = await completeFieldAction(page, scene, zoneIndex);
           finishedObjectives.add(action.objectiveId);
@@ -220,6 +242,10 @@ try {
         `${event.id} persists the selected closing strategy ${finalChoice.id}`);
       assert.equal(Object.keys(saved[event.id]?.actionOutcomes ?? {}).length, 5, `${event.id} records five physical tasks`);
       assert.ok(saved[event.id]?.completedObjectives?.length >= 5, `${event.id} closes only after varied scene work`);
+      assert.equal(saved[event.id]?.choices?.filter(choice => choice.performedByActorId).length, 3,
+        `${event.id} requires three different on-scene bodies for its role missions`);
+      assert.equal(new Set(saved[event.id]?.choices?.filter(choice => choice.performedByActorId).map(choice => choice.performedByActorId)).size, 3,
+        `${event.id} requires three distinct embodied roles`);
       assert.equal(await page.locator('#mapname').textContent(), '네프스키 거리', 'campaign map is restored after the event');
       assert.equal(await page.evaluate(() => localStorage.getItem('v33-rpg-save')), campaignSnapshot, 'campaign save stays untouched');
       totalConversations += spokenNames.size;

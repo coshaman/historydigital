@@ -277,6 +277,25 @@ test('open-ended recent-event questions receive a concrete known incident and ar
     'the dialogue remembers the player’s event-specific conversation judgment');
   assert.match(providerRequest.instructions, /흥미로운 사건이 있는지 물으면/);
   assert.match(providerRequest.instructions, /첫 문장부터 구체적으로 답한다/);
+  assert.match(providerRequest.instructions, /현재 사건의 사람·장소·행동부터 말한다/);
+  assert.match(providerRequest.instructions, /출처 ID나 재구성 표시는 대사로 옮기지 않는다/);
+});
+
+test('Ivan can answer a 1849 event question from the dated Petrashevsky investigation source packet', async () => {
+  let providerRequest;
+  const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store: new MemorySessionStore(),
+    allowedOrigins: ['https://game.example'], provider: { generate: async request => {
+      providerRequest = request; return validTurn(request.input.scene.id, request.input.character.id);
+    } } });
+  const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'police_sergeant_ivan' }));
+  const result = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken,
+    requestId: 'ivan-circle-event-1849', playerInput: '요즘 무슨 일이 있소?', actorRelations: {}, actorActions: [],
+    sceneContext: { date: '1849-04-22', mapId: 'police-station', questId: null, heardEvents: [] } }));
+  assert.equal(result.status, 200);
+  assert.equal(providerRequest.input.caseContext.questId, 'CIRCLE_INVESTIGATION_1849');
+  assert.ok(providerRequest.input.sourceEvidence.some(source => source.sourceId === 'OBJ-WS-PETRASHEVSKY-REPORT-1849'));
+  assert.ok(providerRequest.input.sourceClaims.some(claim => claim.claimId === 'REPORT-APRIL22'));
+  assert.match(providerRequest.instructions, /보고서가 적은 사건의 사람·장소·행동부터 자연스럽게 답한다/);
 });
 
 test('the client dialogue context exposes current needs and only authored activities and aims', async () => {

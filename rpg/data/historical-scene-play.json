@@ -123,6 +123,56 @@
             "들였다가 군인들이 들이닥치면… 그래도 문을 잠가 버릴 순 없겠지요."
           ],
           "objectiveId": "shelter_neighbors"
+        },
+        {
+          "id": "messenger",
+          "templateId": "courier_pavel",
+          "nameKo": "전령 파벨",
+          "objectiveId": "follow_order_route",
+          "lines": [
+            "장교에게서 쪽지를 받아 왔습니다. 어느 부대에 먼저 전해야 합니까?",
+            "같은 말도 전달한 순서가 다르면 명령이 달라집니다. 한 번 더 확인해 주세요."
+          ]
+        },
+        {
+          "id": "apothecary",
+          "templateId": "apothecary_yakov",
+          "nameKo": "약방 주인 야코프",
+          "objectiveId": "aid_wounded",
+          "lines": [
+            "천과 물은 내놓겠소. 다만 가게 앞을 막으면 다른 사람도 다칩니다.",
+            "상처를 씻길 물을 가져왔습니다. 들것이 지나갈 틈을 먼저 내 주시오."
+          ]
+        },
+        {
+          "id": "baker",
+          "templateId": "baker_fyodor",
+          "nameKo": "빵집 주인 표도르",
+          "objectiveId": "guide_civilians",
+          "lines": [
+            "빵 굽는 문을 닫아야겠소. 사람들을 어느 골목으로 보내면 되겠습니까?",
+            "아이들부터 안쪽으로 들이시오. 가게 문은 내가 지키겠소."
+          ]
+        },
+        {
+          "id": "servant",
+          "templateId": "servant_varvara",
+          "nameKo": "하녀 바르바라",
+          "objectiveId": "shelter_neighbors",
+          "lines": [
+            "안뜰에 물과 담요를 두었어요. 문을 열면 더 많은 사람이 들어올 텐데요.",
+            "문을 열어 두더라도 누가 들어왔는지 묻지 맙시다. 다들 겁에 질렸어요."
+          ]
+        },
+        {
+          "id": "warehouseman",
+          "templateId": "warehouse_pyotr",
+          "nameKo": "강변 창고지기 표트르",
+          "objectiveId": "find_side_route",
+          "lines": [
+            "창고 뒷길은 수레 한 대가 겨우 지나갑니다. 사람부터 보내면 길을 쓸 수 있어요.",
+            "문을 열어 두겠소. 다만 짐을 쌓아 둔 곳은 밟지 않게 알려 주시오."
+          ]
         }
       ],
       "objectives": [
@@ -210,6 +260,7 @@
         },
         {
           "id": "senate-order-post",
+          "requiredActorId": "copyist",
           "mapId": "senate-approach",
           "propKo": "젖은 명령 쪽지",
           "objectiveId": "clarify_orders",
@@ -239,6 +290,7 @@
         },
         {
           "id": "senate-square-bandage",
+          "requiredActorId": "guardsman",
           "mapId": "senate-square",
           "propKo": "의학생의 응급 보자기",
           "objectiveId": "aid_wounded",
@@ -297,6 +349,7 @@
         },
         {
           "id": "senate-river-gate",
+          "requiredActorId": "medical_student",
           "mapId": "senate-river",
           "propKo": "안뜰의 빗장",
           "objectiveId": "shelter_neighbors",
@@ -477,6 +530,56 @@
             "친구는 재미있었다는데 난 객석의 관리들 얼굴이 자꾸 떠올라요."
           ],
           "objectiveId": "audience_reaction"
+        },
+        {
+          "id": "printer",
+          "templateId": "printer_ekaterina",
+          "nameKo": "극장 인쇄공 예카테리나",
+          "objectiveId": "compare_versions",
+          "lines": [
+            "초대장에 적힌 작품 소개만 보고 온 사람도 많아요. 공연을 본 뒤엔 말이 달라지겠죠.",
+            "인쇄된 대사와 무대에서 들은 말을 나란히 적어 두면 좋겠습니다."
+          ]
+        },
+        {
+          "id": "official",
+          "templateId": "senior_clerk_konstantin",
+          "nameKo": "관객 중 관청 서기 콘스탄틴",
+          "objectiveId": "audience_reaction",
+          "lines": [
+            "웃음이 났다고 모두가 같은 뜻으로 웃은 건 아닙니다. 제 옆 사람은 내내 얼굴을 굳히더군요.",
+            "공연 얘기를 하려면 어느 장면인지 먼저 말합시다. 소문만으로는 판단하기 어렵소."
+          ]
+        },
+        {
+          "id": "lodger",
+          "templateId": "landlady_polina",
+          "nameKo": "극장 근처 하숙집 주인 폴리나",
+          "objectiveId": "clear_exit",
+          "lines": [
+            "객석 사람들까지 우리 골목으로 쏟아져 나와요. 마차부터 세우면 길이 막힙니다.",
+            "배우들은 뒤뜰로 보내고 관객은 큰길로 돌립시다. 오늘 밤 장사는 접어야겠군요."
+          ]
+        },
+        {
+          "id": "vendor",
+          "templateId": "baker_fyodor",
+          "nameKo": "극장 앞 과자 장수 표도르",
+          "objectiveId": "audience_reaction",
+          "lines": [
+            "막이 오르기 전엔 다들 웃을 준비를 하더니, 끝나고는 서로 눈치를 보더군요.",
+            "학생들은 대사를 흉내 내고 관리들은 서둘러 마차를 찾았소."
+          ]
+        },
+        {
+          "id": "porter",
+          "templateId": "porter_gavrila",
+          "nameKo": "극장 짐꾼 가브릴라",
+          "objectiveId": "clear_exit",
+          "lines": [
+            "무대 장치가 아직 통로를 막고 있소. 사람을 먼저 보낼지 짐을 먼저 옮길지 정해 주시오.",
+            "배우들이 나올 뒷문은 열어 두었소. 관객과 마주치지 않게 길을 나눌 수 있습니다."
+          ]
         }
       ],
       "objectives": [
@@ -535,6 +638,7 @@
       "fieldActions": [
         {
           "id": "inspector-entry-side-door",
+          "requiredActorId": "usher",
           "mapId": "theatre-approach",
           "propKo": "옆문 걸쇠",
           "objectiveId": "seat_late_guests",
@@ -623,6 +727,7 @@
         },
         {
           "id": "inspector-lobby-script-copy",
+          "requiredActorId": "actor",
           "mapId": "theatre-lobby",
           "propKo": "배우가 고친 대사 쪽지",
           "objectiveId": "backstage_choice",
@@ -681,6 +786,7 @@
         },
         {
           "id": "inspector-street-review-notes",
+          "requiredActorId": "merchant",
           "mapId": "theatre-street",
           "propKo": "관객들이 남긴 짧은 평",
           "objectiveId": "compare_versions",
@@ -832,6 +938,56 @@
             "옆 마을 사람은 조건이 다르다더군. 누구 말이 맞는지 모르겠소."
           ],
           "objectiveId": "land_terms"
+        },
+        {
+          "id": "former_servant",
+          "templateId": "servant_varvara",
+          "nameKo": "전직 하녀 바르바라",
+          "objectiveId": "work_and_lodging",
+          "lines": [
+            "해방 소식은 들었어요. 그래도 내일도 같은 집에 가서 일할 수 있을지는 따로 물어야겠죠.",
+            "방과 품삯을 한꺼번에 정하자고 하면 주인이 말을 돌릴 거예요. 오늘 잘 곳부터 찾읍시다."
+          ]
+        },
+        {
+          "id": "apothecary",
+          "templateId": "apothecary_yakov",
+          "nameKo": "약방 주인 야코프",
+          "objectiveId": "petition_questions",
+          "lines": [
+            "읽으러 모인 사람이 많아 약을 사러 오는 손님이 발길을 돌립니다. 질문은 한데 모아 주시오.",
+            "몸이 아픈 일도 새 규정과 따로 놓을 수 없소. 이름을 적을지 먼저 물어야 합니다."
+          ]
+        },
+        {
+          "id": "printer",
+          "templateId": "warehouse_pyotr",
+          "nameKo": "인쇄물 장수 표트르",
+          "objectiveId": "carry_copies",
+          "lines": [
+            "이 묶음은 강 건너까지 갈 수 있소. 하지만 여기 남은 사람들은 작은 글씨를 읽어 달라 하오.",
+            "다섯 장만 들고 가까운 집부터 가겠소. 모르는 조항은 그 자리에서 함께 보지요."
+          ]
+        },
+        {
+          "id": "midwife",
+          "templateId": "midwife_avdotya",
+          "nameKo": "산파 아브도티야",
+          "objectiveId": "work_and_lodging",
+          "lines": [
+            "새로운 규정이 나와도 아이를 낳는 날은 기다려 주지 않아요. 오늘 밤 잘 곳부터 걱정하는 사람이 있어요.",
+            "방을 구하고 나면 그 집의 일 조건도 함께 물어봅시다. 혼자 보내지 마세요."
+          ]
+        },
+        {
+          "id": "apprentice",
+          "templateId": "print_apprentice_stepan",
+          "nameKo": "인쇄소 견습공 스테판",
+          "objectiveId": "read_full_text",
+          "lines": [
+            "큰 제목만 박힌 종이는 벌써 다 팔렸습니다. 뒷면의 작은 글씨도 읽어야 해요.",
+            "읽지 못한 조항이 있으면 돌아가서 활자본을 더 찍겠습니다. 어느 대목이 가장 급합니까?"
+          ]
         }
       ],
       "objectives": [
@@ -885,6 +1041,7 @@
       "fieldActions": [
         {
           "id": "emancipation-street-broadside",
+          "requiredActorId": "typesetter",
           "mapId": "manifesto-street",
           "propKo": "공고를 읽는 낭독대",
           "objectiveId": "read_full_text",
@@ -943,6 +1100,7 @@
         },
         {
           "id": "emancipation-square-wage-board",
+          "requiredActorId": "maid",
           "mapId": "manifesto-square",
           "propKo": "내일 일감과 잠자리를 적은 판",
           "objectiveId": "work_and_lodging",
@@ -1001,6 +1159,7 @@
         },
         {
           "id": "emancipation-lane-question-box",
+          "requiredActorId": "washer",
           "mapId": "manifesto-lane",
           "propKo": "관청에 보낼 생활 질문 꾸러미",
           "objectiveId": "petition_questions",

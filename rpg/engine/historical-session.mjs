@@ -48,6 +48,15 @@ export function exitHistoricalSession(session) {
   return clone(session?.historicalSession?.returnState ?? session);
 }
 
+export function canConcludeHistoricalSession(session, scene) {
+  const active = session?.historicalSession;
+  if (!active || active.eventId !== scene?.eventId) return false;
+  if ((active.spokenActorIds?.length ?? 0) < 8 || (active.completedObjectives?.length ?? 0) < 5) return false;
+  if (!Array.isArray(scene?.maps) || scene.maps.some(mapId => !(active.visitedMapIds ?? []).includes(mapId))) return false;
+  return (scene.fieldActions ?? []).filter(action => action.requiredActorId)
+    .every(action => Boolean(active.actionOutcomes?.[action.id]));
+}
+
 export function completeHistoricalObjective(session, objectiveId) {
   if (!session?.historicalSession || !objectiveId) return session;
   const next = clone(session);
@@ -62,6 +71,8 @@ export function performHistoricalAction(session, scene, actionId, choiceId) {
     return { ok: false, reason: 'invalid_historical_action', state: session };
   if (session.world?.currentMapId !== action.mapId)
     return { ok: false, reason: 'wrong_historical_area', state: session };
+  if (action.requiredActorId && session.player?.embodiment !== actorKey(scene.eventId, action.requiredActorId))
+    return { ok: false, reason: 'wrong_historical_actor', state: session };
   if (session.historicalSession.actionOutcomes?.[action.id])
     return { ok: false, reason: 'action_already_resolved', state: session };
 
@@ -72,7 +83,8 @@ export function performHistoricalAction(session, scene, actionId, choiceId) {
   if (action.objectiveId && !next.historicalSession.completedObjectives.includes(action.objectiveId))
     next.historicalSession.completedObjectives.push(action.objectiveId);
   next.historicalSession.choices ??= [];
-  next.historicalSession.choices.push({ id: `${action.id}:${option.id}`, textKo: option.textKo });
+  next.historicalSession.choices.push({ id: `${action.id}:${option.id}`, textKo: option.textKo,
+    ...(action.requiredActorId ? { performedByActorId: action.requiredActorId } : {}) });
   next.world.historicalEventEffects ??= {};
   next.world.historicalEventEffects[scene.eventId] ??= {};
   Object.assign(next.world.historicalEventEffects[scene.eventId], clone(option.effects ?? {}));
