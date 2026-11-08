@@ -47,6 +47,21 @@ stillWaiting.world.livingEventStates.E11.stage = 'WAITING_FOR_PARTNER';
 assert.equal(objectIsPresent(object, stillWaiting, [quest]), false, 'the crossing choice waits until the boat arrives');
 assert.deepEqual(questChoices(quest, 'coachman_timofey', [], stillWaiting), [], 'no action appears before the blocked crossing');
 
+const wornCrossing = structuredClone(state);
+wornCrossing.world.clockMinutes = 590;
+wornCrossing.player.embodiment = null;
+wornCrossing.hosts.coachman_timofey.transportState.carriageCondition = 'AT_RISK';
+wornCrossing.hosts.coachman_timofey.transportState.horseCondition = 'FATIGUED';
+const repairedAtCanal = game.advanceNpcWorld(wornCrossing, 36, maps);
+assert.equal(repairedAtCanal.world.livingEventStates.E11.resolvedAtMinute, 626,
+  'a carriage left at risk by E10 needs fifteen additional minutes to secure at the canal');
+assert.equal(repairedAtCanal.world.livingEventStates.E11.carriageRepairMinutes, 15);
+assert.equal(repairedAtCanal.hosts.coachman_timofey.transportState.carriageCondition, 'SERVICEABLE');
+assert.equal(repairedAtCanal.world.livingEventStates.E11.waitMinutesByHost.coachman_timofey, 35);
+const restoredWornCrossing = game.loadGame(game.saveGame(repairedAtCanal), { maps, hostCards: cards, quests: [quest] });
+assert.deepEqual(restoredWornCrossing.world.livingEventStates.E11, repairedAtCanal.world.livingEventStates.E11,
+  'the E10-to-E11 carriage repair chain survives save/load');
+
 const result = game.performQuestAction(state, { questId: quest.id, hostId: 'coachman_timofey',
   actionId: 'E11_TAKE_CONFIRMED_DETOUR', objectId: object.id }, { quests: [quest], maps });
 assert.equal(result.ok, true, `a verified detour can be chosen at the canal (${result.reason ?? ''})`);

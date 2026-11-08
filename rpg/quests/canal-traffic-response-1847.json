@@ -19,7 +19,7 @@
       "requiredLivingEventStage": "BOAT_TRAFFIC",
       "durationMinutes": 5,
       "labelKo": "배가 지나갈 때까지 기다린다",
-      "subcopyKo": "운송 동료와 곁의 일꾼이 압니다 · 기다린 시간이 운송 기록에 남습니다 · 다음 일감이 늦어질 수 있습니다",
+      "subcopyKo": "운송 동료와 곁의 일꾼이 압니다 · 기다린 시간이 운송 기록에 남습니다 · 바퀴 점검이 필요하면 더 지체될 수 있습니다",
       "practicalDisclosure": {
         "audienceKo": "운송 동료와 곁의 일꾼이 압니다",
         "recordKo": "기다린 시간이 운송 기록에 남습니다",

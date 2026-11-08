@@ -1166,10 +1166,27 @@ function advanceCanalTraffic(state, moveRows, minuteOffset, maps, livingEventRow
     }
   }
   event = state.world.livingEventStates.E11;
+  if (event?.status === 'ACTIVE' && event.stage === 'BOAT_TRAFFIC' && event.carriageRepairMinutes === undefined
+    && state.hosts.coachman_timofey?.transportState?.carriageCondition === 'AT_RISK') {
+    event.carriageRepairMinutes = 15;
+    event.transportSourceEventId = 'E10';
+    event.clearsAtMinute += event.carriageRepairMinutes;
+    livingEventRows.push(livingCanalTrafficEventRow(state, 'BOAT_TRAFFIC', minuteOffset, maps,
+      { changeKo: '바퀴가 풀리지 않도록 묶는 동안 운하 길목의 지체가 길어졌다', sourceEventId: 'E10',
+        delayMinutes: event.carriageRepairMinutes }));
+  }
   if (event?.status === 'ACTIVE' && state.world.clockMinutes >= event.clearsAtMinute) {
     event.status = 'RESOLVED'; event.stage = 'CLEARED'; event.resolvedAtMinute = state.world.clockMinutes;
+    if (event.carriageRepairMinutes === 15) {
+      const coachman = state.hosts.coachman_timofey;
+      coachman.transportState = { ...coachman.transportState, carriageCondition: 'SERVICEABLE', horseCondition: 'WORKING',
+        lastCheckedAtMinute: state.world.clockMinutes, valueStatus: 'FICTIONAL_CHARACTER_DESIGN' };
+      event.carriageRepairCompletedAtMinute = state.world.clockMinutes;
+    }
     livingEventRows.push(livingCanalTrafficEventRow(state, 'CLEARED', minuteOffset, maps,
-      { changeKo: '배가 지나가고 운하 길의 통행이 다시 열린다', waitMinutesByHost: { ...event.waitMinutesByHost } }));
+      { changeKo: event.carriageRepairMinutes === 15 ? '배가 지나고 마차 바퀴를 고정한 뒤 길이 다시 열렸다'
+        : '배가 지나가고 운하 길의 통행이 다시 열린다', waitMinutesByHost: { ...event.waitMinutesByHost },
+        ...(event.transportSourceEventId ? { sourceEventId: event.transportSourceEventId } : {}) }));
   }
   if (state.world.livingEventStates.E11) return;
   const arrivals = moveRows.filter(move => move.fromMapId !== 'canal-road' && move.toMapId === 'canal-road'
@@ -7733,7 +7750,13 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
       || canalTrafficEvent.partnerDeadlineMinute !== canalTrafficEvent.partnerWaitStartedAtMinute + 360
       || canalTrafficEvent.clearsAtMinute !== canalTrafficEvent.partnerDeadlineMinute))
     || (['BOAT_TRAFFIC', 'CLEARED'].includes(canalTrafficEvent.stage)
-      && canalTrafficEvent.clearsAtMinute !== canalTrafficEvent.startedAtMinute + 21)
+      && canalTrafficEvent.clearsAtMinute !== canalTrafficEvent.startedAtMinute + 21 + (canalTrafficEvent.carriageRepairMinutes ?? 0))
+    || (canalTrafficEvent.carriageRepairMinutes !== undefined
+      && (canalTrafficEvent.carriageRepairMinutes !== 15 || canalTrafficEvent.transportSourceEventId !== 'E10'
+        || (canalTrafficEvent.status === 'RESOLVED' && (!Number.isInteger(canalTrafficEvent.carriageRepairCompletedAtMinute)
+          || canalTrafficEvent.carriageRepairCompletedAtMinute !== canalTrafficEvent.resolvedAtMinute))
+        || (canalTrafficEvent.carriageRepairCompletedAtMinute !== undefined
+          && canalTrafficEvent.carriageRepairCompletedAtMinute !== canalTrafficEvent.resolvedAtMinute)))
     || (canalTrafficEvent.status === 'ACTIVE') !== ['WAITING_FOR_PARTNER', 'BOAT_TRAFFIC'].includes(canalTrafficEvent.stage)
     || (canalTrafficEvent.status === 'RESOLVED' && (!Number.isInteger(canalTrafficEvent.resolvedAtMinute)
       || canalTrafficEvent.resolvedAtMinute < canalTrafficEvent.clearsAtMinute)))) {
