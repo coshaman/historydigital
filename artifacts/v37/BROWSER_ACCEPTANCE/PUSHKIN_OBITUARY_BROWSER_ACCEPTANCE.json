@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "cases": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "sourceId": "OBJ-PUSHKIN-OBITUARY-1837",
+      "excerptId": "EX-PUSHKIN-OBITUARY-1837-LP-NO5-001",
+      "stage": "READ_TO_SHOP",
+      "choiceCount": 3,
+      "listenerEvidence": true,
+      "sourceScrollable": true,
+      "translationReachable": true,
+      "horizontalOverflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sourceId": "OBJ-PUSHKIN-OBITUARY-1837",
+      "excerptId": "EX-PUSHKIN-OBITUARY-1837-LP-NO5-001",
+      "stage": "READ_TO_SHOP",
+      "choiceCount": 3,
+      "listenerEvidence": true,
+      "sourceScrollable": true,
+      "translationReachable": true,
+      "horizontalOverflow": false,
+      "pageErrors": []
+    }
+  ]
+}
