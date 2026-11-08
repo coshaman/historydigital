@@ -3856,6 +3856,29 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
     }
   }
 
+  const dayIndex = Math.floor(state.world.clockMinutes / 1440);
+  const incomingDelivery = Object.values(state.hosts).flatMap(sender => (sender.schedule ?? [])
+    .filter(slot => slot.task?.type === 'DELIVER' && slot.task.recipientHostId === host.id
+      && sender.historicalAliveAndPresent !== false && sender.inventory.includes(slot.task.itemKo)
+      && !taskCompletedForDay(sender, slot.task, dayIndex)
+      && ((slot.atMinute > localMinute && slot.atMinute - localMinute <= 90)
+        || (slot.atMinute <= localMinute && localMinute < slot.task.deadlineMinute))
+      && host.allowedMaps.includes(slot.mapId)
+      && npcMapRoute(host.mapId, slot.mapId, host, maps, state.world.clockMinutes) !== null)
+    .map(slot => ({ sender, slot })))
+    .sort((a, b) => a.slot.atMinute - b.slot.atMinute || a.sender.id.localeCompare(b.sender.id))[0];
+  if (incomingDelivery) {
+    const { sender, slot } = incomingDelivery;
+    const waitingForCourier = slot.atMinute <= localMinute;
+    return { slot: { ...slot, position: { ...slot.position }, activityKo: waitingForCourier
+      ? `${sender.displayNameKo ?? '배달원'}가 가져올 봉투를 인쇄소에서 기다린다`
+      : `${sender.displayNameKo ?? '배달원'}가 올 인계 장소로 향한다` },
+      goalType: 'RECEIVE_DELIVERY', targetHostId: sender.id, taskId: slot.task.id,
+      reason: 'prepare_at_the_authored_handoff_point_for_an_incoming_courier',
+      selectionBasis: { utilityScore: 145, eventId: slot.task.missedDeadlineEventId ?? null,
+        handoffMinute: slot.atMinute, senderHostId: sender.id } };
+  }
+
   const todayGoalKinds = new Set((host.todayGoals ?? []).map(goal => goal.kind));
   const personalPriority = Number.isFinite(host.plannerPolicy?.personalPriority) ? host.plannerPolicy.personalPriority : 0.5;
   addCandidate({ slot: scheduledSlot, goalType: 'SCHEDULE', targetHostId: null, taskId: scheduledTask?.id ?? null, reason: 'authored_daily_schedule' },

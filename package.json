@@ -408,6 +408,7 @@
     "v37-porter-wage": "node scripts/v37-porter-wage-test.mjs",
     "v37-carter-warehouse-wage": "node scripts/v37-carter-warehouse-wage-test.mjs",
     "v37-weather-impact": "node scripts/v37-weather-impact-test.mjs",
+    "v37-delivery-rendezvous": "node scripts/v37-delivery-rendezvous-test.mjs",
     "v37-full-day-residents": "node scripts/v36-full-day-36-resident-test.mjs --include-event-performers",
     "v37-survival-mortality": "node scripts/v37-survival-mortality-test.mjs",
     "v37-bulk-food-supply": "node scripts/v37-bulk-food-supply-test.mjs",
