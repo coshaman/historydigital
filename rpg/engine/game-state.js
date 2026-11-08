@@ -4096,7 +4096,10 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
           host.completedWorkActionKeys.push(completionKey);
           if (host.completedWorkActionKeys.length > 64) host.completedWorkActionKeys.splice(0, host.completedWorkActionKeys.length - 64);
           host.workRecords ??= [];
+          const skillId = typeof workAction.skillId === 'string' ? workAction.skillId : Object.keys(host.skills ?? {})[0];
+          const skillLevel = Number.isInteger(host.skills?.[skillId]) ? host.skills[skillId] : null;
           const record = { dayIndex, actionId: workAction.id, outputKind: workAction.outputKind ?? 'WORK_PRODUCT', outputKo: workAction.outputKo,
+            ...(skillLevel !== null ? { skillId, skillLevel } : {}),
             minute: minuteOffset, mapId: host.mapId, ...(typeof workAction.inventoryItemKo === 'string' ? { inventoryItemKo: workAction.inventoryItemKo } : {}) };
           host.workRecords.push(record);
           if (host.workRecords.length > 32) host.workRecords.splice(0, host.workRecords.length - 32);
@@ -4172,8 +4175,11 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
       }
     }
     host.needs.hunger = Math.min(100, host.needs.hunger + host.needs.hungerPerMinute);
+    const workSkillId = typeof workAction?.skillId === 'string' ? workAction.skillId : Object.keys(host.skills ?? {})[0];
+    const workSkillLevel = Number.isInteger(host.skills?.[workSkillId]) ? host.skills[workSkillId] : 0;
+    const workStrainMultiplier = routine === 'WORKING' && workAction ? 1 - Math.min(0.3, workSkillLevel * 0.06) : 1;
     const routineFatigue = routine === 'RESTING' ? -host.needs.restFatigueReliefPerMinute
-      : routine === 'TRAVELLING' ? 0.01 : host.needs.workFatiguePerMinute;
+      : routine === 'TRAVELLING' ? 0.01 : host.needs.workFatiguePerMinute * workStrainMultiplier;
     host.needs.fatigue = Math.max(0, Math.min(100, host.needs.fatigue + routineFatigue + outdoorWeatherFatiguePerMinute(state, host)));
     if (routine === 'RESTING' && previousRoutine !== 'RESTING' && host.needs.fatigue < fatigueBeforeRoutine) restRecoveryRows.push({ hostId: host.id, minute: minuteOffset, mapId: host.mapId, position: { ...host.position }, fatigueBefore: fatigueBeforeRoutine, fatigueAfter: host.needs.fatigue, witnessedByPlayer: playerCanObserveWorldEvent(state, host.mapId, host.position, 6, maps) });
     if (routine === 'SOCIALIZING') host.needs.socialNeed = Math.max(0, (host.needs.socialNeed ?? 0) - 0.05);

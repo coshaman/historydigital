@@ -33,5 +33,20 @@ const reloaded = game.loadGame(game.saveGame(state), { maps, hostCards: cards })
 for (const id of ['clerk_alexei', 'printer_ekaterina', 'street_musician_ivan']) {
   assert.deepEqual(reloaded.hosts[id].skills, state.hosts[id].skills, `${id} skills survive save/load`);
 }
+const workFatigueAfter = skillLevel => {
+  const workerState = game.createInitialState({ maps, hostCards: cards, startMapId: 'courtyard' });
+  for (const resident of Object.values(workerState.hosts)) resident.historicalAliveAndPresent = false;
+  const worker = workerState.hosts.printer_ekaterina;
+  worker.historicalAliveAndPresent = true;
+  worker.mapId = 'printshop'; worker.position = { x: 11, y: 13 }; worker.needs.fatigue = 40;
+  worker.skills.proofReading = skillLevel;
+  const result = game.advanceNpcWorld(workerState, 20, maps);
+  return { fatigue: result.hosts.printer_ekaterina.needs.fatigue,
+    workRecord: result.hosts.printer_ekaterina.workRecords.find(record => record.actionId === 'V36_PRINTER_MARK_PROOF') };
+};
+const skilledWork = workFatigueAfter(4), unskilledWork = workFatigueAfter(0);
+assert.ok(skilledWork.fatigue < unskilledWork.fatigue, 'greater proof-reading skill reduces fatigue during its scheduled work');
+assert.deepEqual([skilledWork.workRecord.skillId, skilledWork.workRecord.skillLevel], ['proofReading', 4],
+  'completed work records the capability used');
 console.log(JSON.stringify({ status: 'PASS', fictionalResidents: residents.length, distinctSkills: skillNames.size,
   allRuntimeProfiles: true, saveLoadSamples: 3 }, null, 2));
