@@ -4057,11 +4057,13 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
           : host.needs.hunger >= 70 ? 166
             : host.needs.hunger >= 60 ? Math.min(154, 108 + host.needs.hunger * 0.72)
               : Math.min(105, 80 + host.needs.hunger * 0.3 + travelLead * 0.45);
-        const protectedObligation = (activeSocialTask || scheduledWorkSlot) && host.needs.hunger < 75;
+        const committedMealTrip = host.activeGoal?.type === 'PURCHASE_MEAL' && host.activeGoal.targetHostId === seller.id;
+        const protectedObligation = (activeSocialTask || scheduledWorkSlot) && host.needs.hunger < 75 && !committedMealTrip;
+        const commitmentBonus = committedMealTrip ? 12 : 0;
         addCandidate({ slot: { mapId: seller.mapId, position: { ...seller.position }, activityKo: '시장 상인에게 빵값을 내고 끼니를 산다' },
           goalType: 'PURCHASE_MEAL', targetHostId: seller.id, taskId: `FOOD:${seller.id}:${offer.itemKo}`, reason: 'plan_a_market_meal_before_hunger_becomes_severe',
-          selectionBasis: { hunger: host.needs.hunger, price, unit: offer.unit, travelLead, ...(mealSourceEventId ? { sourceEventId: mealSourceEventId } : {}) } },
-          (protectedObligation ? Math.min(mealUtility, 98) : mealUtility) + unresolvedHungerPriority, 2);
+          selectionBasis: { hunger: host.needs.hunger, price, unit: offer.unit, travelLead, commitmentBonus, ...(mealSourceEventId ? { sourceEventId: mealSourceEventId } : {}) } },
+          (protectedObligation ? Math.min(mealUtility, 98) : mealUtility) + commitmentBonus + unresolvedHungerPriority, 2);
       }
     }
     if (!seller && host.needs.hunger >= 82) {

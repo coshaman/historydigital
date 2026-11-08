@@ -50,6 +50,23 @@ assert.equal(earlyMealTrip.hosts.typesetter_nikita.activeGoal.type, 'PURCHASE_ME
 assert.equal(earlyMealTrip.hosts.typesetter_nikita.activeGoal.targetHostId, 'market_nadezhda');
 assert.ok(earlyMealTrip.hosts.typesetter_nikita.needs.hunger > 50 && earlyMealTrip.hosts.typesetter_nikita.needs.hunger < 60,
   'starting a meal trip does not create or consume food before the resident reaches the seller');
+const continuedMealTrip = game.advanceNpcWorld(earlyMealTrip, 20, maps);
+assert.equal(continuedMealTrip.hosts.typesetter_nikita.activeGoal.type, 'PURCHASE_MEAL',
+  'once a resident starts a meal trip, a lower-priority personal goal must not send them away before they reach food');
+assert.equal(continuedMealTrip.hosts.typesetter_nikita.activeGoal.targetHostId, 'market_nadezhda');
+const committedMeal = game.createInitialState({ maps, hostCards: cards, startMapId: 'printshop' });
+for (const host of Object.values(committedMeal.hosts)) host.historicalAliveAndPresent = ['seamstress_anna', 'fishseller_klavdiya'].includes(host.id);
+const anna = committedMeal.hosts.seamstress_anna, annaFishSeller = committedMeal.hosts.fishseller_klavdiya;
+committedMeal.world.clockMinutes = 806;
+anna.mapId = 'printshop'; anna.position = { x: 13, y: 15 }; anna.needs.hunger = 58; anna.needs.lastMealAtMinute = 540;
+anna.needs.incomePressure = 0; anna.money.amount = 18; anna.plannerPolicy.personalPriority = 1;
+anna.activeGoal = { type: 'PURCHASE_MEAL', targetHostId: annaFishSeller.id, taskId: `FOOD:${annaFishSeller.id}:생선 한 점`,
+  reason: 'plan_a_market_meal_before_hunger_becomes_severe', selectionBasis: { utilityScore: 101.62 } };
+annaFishSeller.mapId = 'market-quay'; annaFishSeller.position = { x: 26, y: 15 }; annaFishSeller.marketStock['생선 한 점'] = 8;
+const retainedMealGoal = game.advanceNpcWorld(committedMeal, 15, maps);
+assert.equal(retainedMealGoal.hosts.seamstress_anna.activeGoal.type, 'PURCHASE_MEAL',
+  'an ongoing meal trip must remain selected when the competing personal-life stage scores slightly higher');
+assert.equal(retainedMealGoal.hosts.seamstress_anna.activeGoal.targetHostId, 'fishseller_klavdiya');
 const authoredFishSeller = cards.find(card => card.id === 'fishseller_klavdiya');
 assert.equal(authoredFishSeller.marketOffers[0].itemKo, '생선 한 점');
 assert.ok(authoredFishSeller.marketOffers[0].openWindows.some(window => window.startMinute === 480 && window.endMinute >= 1320),
