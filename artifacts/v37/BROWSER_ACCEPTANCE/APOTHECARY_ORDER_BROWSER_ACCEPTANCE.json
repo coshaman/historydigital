@@ -1,0 +1,31 @@
+{
+  "status": "PASS",
+  "cases": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "stage": "ORDER_PLACED",
+      "orderMethod": "PRIVATE_ORDER_NOTE",
+      "choiceCount": 2,
+      "journalScrollHeight": 256,
+      "secondChoiceReachable": true,
+      "horizontalOverflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "stage": "ORDER_PLACED",
+      "orderMethod": "PRIVATE_ORDER_NOTE",
+      "choiceCount": 2,
+      "journalScrollHeight": 390,
+      "secondChoiceReachable": true,
+      "horizontalOverflow": false,
+      "pageErrors": []
+    }
+  ]
+}

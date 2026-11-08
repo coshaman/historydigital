@@ -417,7 +417,8 @@
     "v37-bookbinding-choice": "node scripts/v37-bookbinding-choice-test.mjs",
     "v37-bookbinding-browser": "node scripts/v37-bookbinding-browser-acceptance.mjs",
     "v37-skill-profiles": "node scripts/v37-skill-profile-test.mjs",
-    "v37-household-tutor-browser": "npm run build:v33 && node scripts/v37-household-tutor-browser.mjs"
+    "v37-household-tutor-browser": "npm run build:v33 && node scripts/v37-household-tutor-browser.mjs",
+    "v37-apothecary-order-browser": "npm run build:v33 && node scripts/v37-apothecary-order-browser.mjs"
   },
   "devDependencies": {
     "playwright": "^1.63.0"
