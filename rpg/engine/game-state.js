@@ -491,6 +491,7 @@ function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky
     money: { ...card.money },
     marketOffers: clone(card.marketOffers ?? []),
     marketStock: clone(card.marketStock ?? {}),
+    marketServiceShifts: clone(card.marketServiceShifts ?? []),
     housing: card.housing ? clone(card.housing) : null,
     residence: card.residence ? clone(card.residence) : null,
     places: authoredRoutinePlaces(card),
@@ -3785,6 +3786,26 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
     return { slot: { mapId: 'inn-interior', position: { ...lateMeal.scenePosition }, activityKo: '저녁 식사 주문을 마무리한다' },
       goalType: 'LIVING_EVENT_RESPONSE', targetHostId: null, taskId: 'V37:E18:WAIT_FOR_MEAL_DECISION',
       reason: 'late_meal_transaction_waits_for_customer_choice', selectionBasis: { utilityScore: 171, eventId: 'E18' } };
+  }
+  const serviceShift = (host.marketServiceShifts ?? []).find(shift => {
+    if (!shift || !Number.isInteger(shift.startMinute) || !Number.isInteger(shift.endMinute)
+      || localMinute < shift.startMinute || localMinute >= shift.endMinute
+      || !host.allowedMaps.includes(shift.mapId) || !Number.isInteger(shift.position?.x) || !Number.isInteger(shift.position?.y)
+      || typeof shift.offerItemKo !== 'string' || !Number.isFinite(host.marketStock?.[shift.offerItemKo])
+      || host.marketStock[shift.offerItemKo] <= 0) return false;
+    const offer = (host.marketOffers ?? []).find(item => item.itemKo === shift.offerItemKo && item.category === 'food'
+      && item.mapId === shift.mapId && item.openWindows?.some(window => window.startMinute <= localMinute && localMinute < window.endMinute));
+    const prepDone = !shift.preparationWorkActionId || (host.completedWorkActionKeys ?? [])
+      .includes(`${Math.floor(state.world.clockMinutes / 1440)}:${shift.preparationWorkActionId}`);
+    return Boolean(offer && prepDone
+      && npcMapRoute(host.mapId, shift.mapId, host, maps, state.world.clockMinutes) !== null);
+  });
+  if (serviceShift) {
+    return { slot: { mapId: serviceShift.mapId, position: { ...serviceShift.position },
+      activityKo: serviceShift.activityKo ?? '영업 자리를 지키며 손님을 기다린다' },
+      goalType: 'MARKET_SERVICE', targetHostId: null, taskId: `SERVICE:${host.id}:${serviceShift.offerItemKo}:${serviceShift.startMinute}`,
+      reason: 'remain_at_food_service_during_authored_opening',
+      selectionBasis: { utilityScore: 150, offerItemKo: serviceShift.offerItemKo, serviceEndsAt: serviceShift.endMinute } };
   }
   const charityMeal = state.world.livingEventStates?.E14;
   const charityWorkSoon = (host.schedule ?? []).some(slot => slot.workAction && slot.atMinute > localMinute

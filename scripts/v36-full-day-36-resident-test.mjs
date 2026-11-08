@@ -195,7 +195,7 @@ const goalCoverage = Object.fromEntries(lifeGoalIds.map(hostId => {
 }));
 assert.equal(Object.keys(goalCoverage).length, rosterIds.length, 'all city residents must be accounted for in life-goal coverage');
 assert.ok(Object.values(goalCoverage).filter(row => row.status === 'PHYSICALLY_VISITED').length >= 24,
-  `at least two thirds of residents should physically pursue a life arc each day; got ${Object.values(goalCoverage).filter(row => row.status === 'PHYSICALLY_VISITED').length}/${rosterIds.length}`);
+  `at least two thirds of residents should physically pursue a life arc each day; got ${Object.values(goalCoverage).filter(row => row.status === 'PHYSICALLY_VISITED').length}/${rosterIds.length}; deferred=${JSON.stringify(Object.entries(goalCoverage).filter(([, row]) => row.status !== 'PHYSICALLY_VISITED'))}`);
 assert.equal(Object.values(goalCoverage).filter(row => row.status === 'LOCKED_BY_PREREQUISITE').length, 2);
 assert.ok(Object.values(goalCoverage).filter(row => row.status === 'DEFERRED_BY_DAILY_ROUTINE').length <= 12);
 const mapTransitions = first.moves.filter(move => move.viaExit);

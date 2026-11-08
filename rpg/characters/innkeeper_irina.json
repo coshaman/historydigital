@@ -31,7 +31,7 @@
       "openWindows": [
         {
           "startMinute": 960,
-          "endMinute": 1380
+          "endMinute": 1200
         }
       ],
       "hungerRelief": 32,
@@ -41,6 +41,21 @@
   "marketStock": {
     "저녁 수프": 3
   },
+  "marketServiceShifts": [
+    {
+      "offerItemKo": "저녁 수프",
+      "startMinute": 960,
+      "endMinute": 1200,
+      "mapId": "inn-interior",
+      "position": {
+        "x": 11,
+        "y": 14
+      },
+      "preparationWorkActionId": "V36_INNKEEPER_EVENING_REGISTER",
+      "activityKo": "여관 문을 열고 저녁 수프를 내놓는다",
+      "status": "FICTIONAL_GAMEPLAY_SCHEDULE"
+    }
+  ],
   "literacy": "러시아어 인쇄물과 거래 장부를 읽는다",
   "health": "working",
   "reputationByGroup": {
@@ -197,26 +212,7 @@
       "activityKo": "새로 온 손님의 짐을 확인한다"
     },
     {
-      "atMinute": 960,
-      "mapId": "inn-interior",
-      "position": {
-        "x": 11,
-        "y": 14
-      },
-      "activityKo": "여관 안쪽 방의 빈자리와 저녁 손님 명부를 확인한다",
-      "workAction": {
-        "id": "V36_INNKEEPER_EVENING_REGISTER",
-        "outputKind": "여관 저녁 식사",
-        "outputKo": "저녁 명부를 확인하고 수프 여섯 그릇을 끓여 둔다",
-        "durationMinutes": 20,
-        "inventoryItemKo": "저녁 수프",
-        "inventoryQuantity": 6,
-        "restockOfferFromWork": true,
-        "skillId": "cooking"
-      }
-    },
-    {
-      "atMinute": 900,
+      "atMinute": 840,
       "mapId": "courtyard",
       "position": {
         "x": 18,
@@ -234,6 +230,25 @@
         "allowSeparateHousehold": true,
         "relationshipKo": "동생의 살림에 여관 수입을 보탠 언니",
         "recipientRelationshipKo": "언니에게 여관 수입을 보탠 돈을 받은 동생"
+      }
+    },
+    {
+      "atMinute": 960,
+      "mapId": "inn-interior",
+      "position": {
+        "x": 11,
+        "y": 14
+      },
+      "activityKo": "여관 안쪽 방의 빈자리와 저녁 손님 명부를 확인한다",
+      "workAction": {
+        "id": "V36_INNKEEPER_EVENING_REGISTER",
+        "outputKind": "여관 저녁 식사",
+        "outputKo": "저녁 명부를 확인하고 수프 여섯 그릇을 끓여 둔다",
+        "durationMinutes": 20,
+        "inventoryItemKo": "저녁 수프",
+        "inventoryQuantity": 6,
+        "restockOfferFromWork": true,
+        "skillId": "cooking"
       }
     }
   ],

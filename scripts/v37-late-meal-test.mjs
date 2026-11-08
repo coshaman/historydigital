@@ -25,11 +25,12 @@ assert.equal(catalog.find(row => row.event_id === 'E18').validation_status, 'DES
 const state = game.createInitialState({ maps, hostCards: cards, quests: [quest], startMapId: 'inn-interior' });
 state.world.chapterId = 'V33_1847_PRINT';
 state.world.date = '1847-06-01';
-state.world.clockMinutes = 1140;
+state.world.clockMinutes = 1020;
 state.world.currentMapId = 'inn-interior';
 state.player.position = { x: 10, y: 12 };
 state.player.embodiment = null;
 const seller = state.hosts.innkeeper_irina, buyer = state.hosts.lodging_tatyana;
+seller.completedWorkActionKeys = ['0:V36_INNKEEPER_EVENING_REGISTER'];
 seller.mapId = 'inn-interior'; seller.position = { x: 11, y: 14 };
 buyer.mapId = 'inn-interior'; buyer.position = { x: 11, y: 13 };
 buyer.needs.hunger = 92; buyer.money.amount = 8;
