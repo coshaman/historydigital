@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "cases": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "actionId": "E37_ACCEPT_OFFER",
+      "stage": "OFFER_ACCEPTED",
+      "weeklyPay": 10,
+      "choiceCount": 3,
+      "horizontalOverflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "actionId": "E37_AGREE_LIGHTER_SCHEDULE",
+      "stage": "SCHEDULE_REDUCED",
+      "weeklyPay": 6,
+      "choiceCount": 3,
+      "horizontalOverflow": false,
+      "pageErrors": []
+    }
+  ]
+}
