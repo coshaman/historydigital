@@ -15,6 +15,10 @@ export function dialogueSessionNeedsReconnect(session) {
   return !session?.token || session.mode !== 'AI';
 }
 
+export function mayOfferDiscussionPrompt(ordinaryExchangeCount) {
+  return Number.isInteger(ordinaryExchangeCount) && ordinaryExchangeCount >= 2;
+}
+
 export function shouldUseAuthoredOfflineReply({ apiFailureCode = '', sessionWasLive = false } = {}) {
   // The game must never present authored text as an answer to a player question.
   // Missing credentials and provider failures are shown as actionable errors.

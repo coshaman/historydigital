@@ -5,7 +5,7 @@ import { questChoices, continuationQuest, resolveObjectQuest } from './engine/qu
 import { guideToResident, resolveQuestGuidance } from './engine/quest-guidance.mjs';
 import { ownsKeyboardInput, observationText } from './engine/player-presentation.mjs';
 import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHost, discussionReflectionPromptsForHost } from './engine/discussion-quests.mjs';
-import { dialogueSessionNeedsReconnect, dialogueSpeakerLabel, selectDialogueTurn } from './engine/dialogue-response.mjs';
+import { dialogueSessionNeedsReconnect, dialogueSpeakerLabel, mayOfferDiscussionPrompt, selectDialogueTurn } from './engine/dialogue-response.mjs';
 import { dialogueSceneContext } from './engine/dialogue-context.mjs';
 import { appendApiDiagnostic, clearApiDiagnostics, readApiDiagnostics } from './engine/api-diagnostics.mjs';
 import { CITY_PRODUCTS, NEWSPAPER_STORIES, newspaperAssignment, purchaseCityProduct, publishNewspaperIssue, shareSourceWithEditor, readNewspaperIssue, circulateNewspaperIssue, commitSuspiciousAct, resolvePoliceCustody, publishedIssueLabel } from './engine/civic-life.mjs';
@@ -118,7 +118,7 @@ caseContextButton.addEventListener('click', () => {
 $('.mission-controls').append(caseContextButton);
 $('#roster-open').addEventListener('click', openCharacterList);
 let lastMoveAt = 0, renderFrame = null, renderTimer = null, activeDialogueHost = null, activeDialogueKey = null, activeDialogueController = null, dialogueGeneration = 0, dialogueRequestPending = false;
-const dialogueSessions = new Map(), dialogueTranscripts = new Map();
+const dialogueSessions = new Map(), dialogueTranscripts = new Map(), dialogueOrdinaryExchanges = new Map();
 const dialogueCurrentLines = new Map();
 const dialogueFailedQuestions = new Map();
 const hasLiveDialogue = key => !dialogueSessionNeedsReconnect(dialogueSessions.get(key));
@@ -131,6 +131,7 @@ function recordApiFailure(endpoint, error) {
   else if (!error?.status) saveApiError({ endpoint, kind: error?.name === 'SyntaxError' ? 'client_error' : 'network_error', code: error?.name === 'AbortError' ? 'timeout' : error?.name === 'SyntaxError' ? 'invalid_response_json' : 'network_error' });
 }
 function dialogueApiFailure(error) {
+  if (error?.status === 400 && error?.apiCode === 'invalid_relationship_context') return '대화 관계 정보를 읽지 못했습니다. 빈 관계 정보로 다시 연결해도 진행할 수 있습니다.';
   if (error?.apiCode === 'invalid_scene_context') return '현재 목표 문맥을 확인하지 못했습니다. 질문은 기록되지 않았으니 다시 시도해 주세요.';
   if (error?.apiCode === 'client_response_invalid') return 'API가 응답했지만 대화 형식 검증에 실패했습니다. 설정의 오류 기록과 Vercel Function 로그를 확인해 주세요.';
   if (error?.apiCode === 'invalid_response_json' || error?.name === 'SyntaxError') return 'API 응답을 JSON으로 읽지 못했습니다. 설정의 오류 기록과 Vercel Function 로그를 확인해 주세요.';
@@ -1422,7 +1423,8 @@ function openCharacterList() {
   const options = entries.map(card => {
     const host = state.hosts[card.id];
     const goal = host.activeGoal?.descriptionKo ?? host.currentActivityKo ?? card.personalObjective;
-    return { label: `${card.displayNameKo} · ${card.occupation}`, subcopy: `${goal} · ${maps[host.mapId].metadata.displayNameKo}`, run: () => {
+    const introduction = card.worldview?.stanceKo?.split(/[.!?。！？]/u)[0]?.trim() || card.personalObjective;
+    return { label: `${card.displayNameKo} · ${card.occupation}`, subcopy: `${introduction} · 지금은 ${goal} · ${maps[host.mapId].metadata.displayNameKo}`, run: () => {
       const result = possessHostFromRoster(state, card.id, maps);
       if (!result.ok) { sayRecord(result.reason === 'era_layer_mismatch' ? '지금은 그 시기의 사람이 아니다.' : '지금은 그 사람의 몸으로 들어갈 수 없다.'); return; }
       setState(result.state); tutorialAdvance('possess');
@@ -1498,6 +1500,7 @@ async function startConversation(card) {
   if (!actorCard || partner?.id !== card.id || activeDialogueHost) { sayRecord('말을 건넬 사람이 가까이 있지 않다.'); return; }
   const key = dialogueKey(actorCard.id, card.id);
   const generation = ++dialogueGeneration;
+  dialogueOrdinaryExchanges.set(key, 0);
   dialogueRequestPending = false;
   activeDialogueHost = card.id; activeDialogueKey = key; updateHud();
   tutorialAdvance('talk');
@@ -1633,7 +1636,9 @@ async function sendConversation(card, playerText, replyId = null) {
   if (recorded.ok && queuedDiscussionInquiry?.hostId === card.id && queuedDiscussionInquiry?.promptKo === playerText) queuedDiscussionInquiry = null;
   if (recorded.ok) setState(recorded.state);
   const replies = (turn.suggestedReplies ?? []).slice(0, 3);
-  if (!discussionPrompt && !reflectionPrompt) {
+  let ordinaryExchangeCount = dialogueOrdinaryExchanges.get(key) ?? 0;
+  if (!discussionPrompt && !reflectionPrompt) dialogueOrdinaryExchanges.set(key, ordinaryExchangeCount += 1);
+  if (!discussionPrompt && !reflectionPrompt && mayOfferDiscussionPrompt(ordinaryExchangeCount)) {
     const contextualQuestion = discussionPromptsForHost(card.id, currentDiscussionQuests())[0];
     if (contextualQuestion && replies.length < 3) replies.push({ textKo: contextualQuestion.promptKo });
   }

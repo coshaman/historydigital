@@ -64,6 +64,25 @@ test('a host barred from the current quest is routed to a reachable eligible wor
   assert.equal(guide.taskType,'TRAVEL');assert.equal(guide.target.kind,'exit');assert.equal(guide.target.finalMapId,'nevsky');assert.match(guide.actionKo,/안나/);
 });
 
+test('a completed Matryona stall choice routes back to the next life-chain stage before unrelated errands',()=>{
+  const matryona=read('rpg/characters/street_vendor_matryona.json');
+  const chain=[read('rpg/quests/street-vendor-weather-1847.json'),read('rpg/quests/matryona-stall-life-1-1847.json'),read('rpg/quests/matryona-stall-life-2-1847.json'),read('rpg/quests/matryona-stall-life-3-1847.json')];
+  const unrelated={id:'MATRYONA_UNRELATED_ERRAND',chapterId:'V33_1847_PRINT',date:'1847-06-01',titleKo:'다른 심부름',entry:{mapId:'nevsky',objectId:1042},actions:[{hostIds:['street_vendor_matryona']} ]};
+  const all=[chain[0],unrelated,...chain.slice(1)];
+  const state={world:{date:'1847-06-01',chapterId:'V33_1847_PRINT',currentMapId:'nevsky',lifeChains:{},livingEventStates:{}},
+    player:{embodiment:'street_vendor_matryona',position:{...matryona.start}},
+    hosts:{street_vendor_matryona:{...matryona,position:{...matryona.start},mapId:'nevsky',historicalAliveAndPresent:true,allowedMaps:matryona.allowedMaps}},
+    quests:{STREET_VENDOR_WEATHER_1847:{status:'resolved'},MATRYONA_STREET_STALL_1847_STAGE_1:{status:'open'}},ledger:[]};
+  let guide=resolveQuestGuidance({state,quests:all,maps,hostCards:[matryona]});
+  assert.equal(guide.questId,'MATRYONA_STREET_STALL_1847_STAGE_1');
+  state.quests.MATRYONA_STREET_STALL_1847_STAGE_1.status='resolved';
+  state.quests.MATRYONA_STREET_STALL_1847_STAGE_2={status:'open'};
+  state.world.lifeChains.MATRYONA_STREET_STALL_1847={stage:1,stageCount:3,history:[{questId:'MATRYONA_STREET_STALL_1847_STAGE_1'}],metrics:{care:1,record:0,trust:0}};
+  guide=resolveQuestGuidance({state,quests:all,maps,hostCards:[matryona]});
+  assert.equal(guide.questId,'MATRYONA_STREET_STALL_1847_STAGE_2');
+  assert.equal(guide.target.objectId,1017);
+});
+
 test('a wrong host with lawful map access is directed to the nearest eligible host by a real exit',()=>{
   const state=stateAt('chancery');state.player.position={...state.hosts.clerk_alexei.position};const embodied=embody(state,'clerk_alexei');
   const guide=resolveQuestGuidance({state:embodied,quests,maps,hostCards});

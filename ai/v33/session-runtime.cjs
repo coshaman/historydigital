@@ -362,7 +362,10 @@ function speechSituationFor({ character, actor, actorRelations, sceneContext, re
   return 'firstMeeting';
 }
 function normalizeRelationshipHints(value) {
-  if (value === undefined) return {};
+  // Older saves and clients may explicitly serialize an empty relationship
+  // context as null. That is equivalent to no relationship hints; it should
+  // not prevent an otherwise valid conversation from starting.
+  if (value === undefined || value === null) return {};
   if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
   const normalized = {};
   for (const [group, status] of Object.entries(value).sort(([a], [b]) => a.localeCompare(b))) {

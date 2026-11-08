@@ -140,6 +140,12 @@ export function resolveQuestGuidance({ state, quests, maps, hostCards }) {
   const playableCandidates = candidates.filter(item => (!item.date || item.date <= state.world.date)
     && (!item.requiresLivingEventId || state.world.livingEventStates?.[item.requiresLivingEventId]?.status === 'ACTIVE')
     && state.quests[item.id]?.status !== 'resolved' && questPrerequisitesMet(state, item));
+  const linkedLifeStage = playableCandidates.find(item => item.lifeChain
+    && item.actions?.some(action => action.hostIds.includes(host.id))
+    && (state.world.lifeChains?.[item.lifeChain.id]
+      || (item.lifeChain.previousQuestId && state.quests[item.lifeChain.previousQuestId]?.status === 'resolved')
+      || candidates.some(anchor => !anchor.lifeChain && anchor.entry?.mapId === item.entry?.mapId
+        && anchor.entry?.objectId === item.entry?.objectId && state.quests[anchor.id]?.status === 'resolved')));
   // A resident who belongs to a later stage of a personal chain should be
   // directed to the next stage owner, instead of receiving an unrelated
   // fallback campaign objective that makes the chain look broken.
@@ -179,7 +185,7 @@ export function resolveQuestGuidance({ state, quests, maps, hostCards }) {
     }
   }
   const canHostQuest = item => item.actions?.some(action => action.hostIds.includes(host.id));
-  const quest = playableCandidates.find(item => item.entry?.mapId === mapId && canHostQuest(item))
+  const quest = linkedLifeStage ?? playableCandidates.find(item => item.entry?.mapId === mapId && canHostQuest(item))
     ?? playableCandidates.find(canHostQuest) ?? playableCandidates[0];
   if (!quest) {
     const nextDateQuest = candidates.find(item => item.date > state.world.date && state.quests[item.id]?.status !== 'resolved');

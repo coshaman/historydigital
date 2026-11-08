@@ -72,6 +72,10 @@ test('dialogue accepts relationship outcomes from every quest bundle used by the
     sceneContext: { date: '1847-06-01', mapId: 'market-quay', questId: 'FYODOR_FLOUR_AND_ORDERS_1847_STAGE_1' } }));
   assert.equal(turn.status, 200, JSON.stringify(turn.body));
   assert.equal(providerInput.conversation.relationshipHints.market_nadezhda, '밀가루 자루의 무게에서 표도르와 함께 선택한 일');
+  const nullRelationshipContext = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken,
+    requestId: 'all-quests-0002', playerInput: '아까 보던 물건은 어떻게 됐습니까?', actorRelations: null, actorActions: [],
+    sceneContext: { date: '1847-06-01', mapId: 'market-quay', questId: 'FYODOR_FLOUR_AND_ORDERS_1847_STAGE_1' } }));
+  assert.equal(nullRelationshipContext.status, 200, 'an empty/null relationship context must not block AI dialogue');
 });
 
 test('dialogue register is selected from the relationship, privacy, conflict, and institutional scene', () => {

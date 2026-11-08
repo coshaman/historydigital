@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { dialogueSessionNeedsReconnect, dialogueSpeakerLabel, selectDialogueTurn, shouldUseAuthoredOfflineReply } from '../rpg/engine/dialogue-response.mjs';
+import { dialogueSessionNeedsReconnect, dialogueSpeakerLabel, mayOfferDiscussionPrompt, selectDialogueTurn, shouldUseAuthoredOfflineReply } from '../rpg/engine/dialogue-response.mjs';
 
 test('a validated AI-mode response is the turn shown and recorded by the game', () => {
   const turn = { sceneId: 'SCENE_A', beats: [{ speakerId: 'editor_sofia', textKo: '원문을 먼저 볼게요.' }], suggestedReplies: [] };
@@ -29,6 +29,12 @@ test('a transient authored fallback session must reconnect instead of pinning la
   assert.equal(dialogueSessionNeedsReconnect({ token: 'signed-session', mode: 'AUTHORED' }), true);
   assert.equal(dialogueSessionNeedsReconnect({ token: 'signed-session', mode: 'AI' }), false);
   assert.equal(dialogueSessionNeedsReconnect(null), true);
+});
+
+test('opinion prompts wait until two ordinary exchanges have grounded the conversation', () => {
+  assert.equal(mayOfferDiscussionPrompt(0), false);
+  assert.equal(mayOfferDiscussionPrompt(1), false);
+  assert.equal(mayOfferDiscussionPrompt(2), true);
 });
 
 test('missing credentials and provider failures never substitute authored offline answers', () => {
