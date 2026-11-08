@@ -490,10 +490,10 @@ function normalizeSceneContext(value, actorHostId, speakerCard = null) {
         ...(historicalConversationChoices[scene.eventId]?.[objective.id] ?? []).map(option => [`${objective.id}:${option.id}`, option.labelKo]),
         [`${objective.id}:defer`, '더 듣고 결정은 미뤘다'],
       ])]);
-    if (!scene || !event || !Array.isArray(memory.choices) || memory.choices.length < 1 || memory.choices.length > 3
+    if (!scene || !event || !Array.isArray(memory.choices) || memory.choices.length < 1 || memory.choices.length > 12
       || memory.choices.some(id => typeof id !== 'string' || !authoredChoices.has(id))) return null;
     normalizedHistoricalMemories.push({ eventId: scene.eventId, titleKo: event.titleKo,
-      choices: [...new Set(memory.choices)].map(id => ({ id, textKo: authoredChoices.get(id) })) });
+      choices: [...new Set(memory.choices)].slice(-6).map(id => ({ id, textKo: authoredChoices.get(id) })) });
   }
   return { date, mapId: map.mapId, placeKo: map.metadata.displayNameKo, questId: quest?.id ?? null, questTitleKo: quest?.titleKo ?? null,
     activityKo: value.activityKo ?? null, currentAimKo: value.currentAimKo ?? null, hungerBand: value.hungerBand ?? null,

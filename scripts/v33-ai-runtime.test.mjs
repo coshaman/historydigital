@@ -58,6 +58,14 @@ test('session is server-bound to one host; client cannot choose scene, inject me
   assert.match(providerInstructions, /질문을 플레이어에게 되돌리지 말고/);
   assert.equal(providerInput.endingId, undefined);
   assert.equal(JSON.stringify(providerInput).includes('test-signing-secret'), false);
+  const fieldChoiceMemory = { eventId: 'SENATE_SQUARE_1825', choices: ['open_route', 'senate-route-horse:turn-cart',
+    'senate-order-post:ask-messenger', 'guide_civilians:turn-the-cart', 'senate-square-bandage:make-human-chain',
+    'senate-river-shelter-roll:open-courtyard'] };
+  const memoryTurn = await service.handle(request('POST', '/api/rpg/dialogue', { ...body,
+    requestId: 'history-memory-0001', sceneContext: { ...body.sceneContext, playerHistoricalEvents: [fieldChoiceMemory] } }));
+  assert.equal(memoryTurn.status, 200, 'source-authored historical event choices can be carried into later character dialogue');
+  assert.deepEqual(providerInput.conversation.playerHistoricalEvents[0].choices.map(choice => choice.id), fieldChoiceMemory.choices,
+    'later conversation receives multiple specific field decisions, including its closeout choice');
   for (const extra of [{ hostId: 'clerk_alexei' }, { memories: [{ summaryKo: 'fake' }] }, { endingId: 'HERZEN' }, { state: { ideology: 999 } }, { actorResources: { money: { amount: 9999 }, inventory: ['교정쇄 사본'] } }]) {
     assert.equal((await service.handle(request('POST', '/api/rpg/dialogue', { ...body, requestId: `request-${Math.random()}`, ...extra }))).status, 400);
   }

@@ -66,7 +66,7 @@ for (const scene of historicalPlay) {
     const exits = index < 2 ? [[scene.maps[index + 1], '계속 걷기', 1]] : [];
     if (index > 0) exits.unshift([scene.maps[index - 1], '되돌아가기', -1]);
     for (const [targetMapId, label, direction] of exits) {
-      const x = Math.max(1, Math.min(map.width - 2, Math.floor(map.width / 2) + direction * 3)), y = Math.max(1, Math.min(map.height - 2, map.height - 3));
+      const x = direction > 0 ? map.width - 3 : 1, y = Math.max(1, Math.min(map.height - 2, map.height - 3));
       interactions.objects.push({ id: 7000 + index * 10 + direction, name: `${label} · ${scene.zoneTitlesKo[scene.maps.indexOf(targetMapId)]}`,
         type: 'map-exit', x: x * 16, y: y * 16, width: 16, height: 16, properties: [
           { name: 'exitId', type: 'string', value: `${mapId}:${targetMapId}` }, { name: 'targetMapId', type: 'string', value: targetMapId },
@@ -526,9 +526,11 @@ function updateHud() {
   const inLiteraryScene = Boolean(state.world.activeRealm);
   missionGuidance = state.historicalSession
     ? { questTitleKo: state.historicalSession.eventTitleKo, actionKo: '사람들과 이야기하고 현장의 일을 직접 처리한다', placeKo: map.metadata.displayNameKo,
-        reasonKo: `대화 ${Math.min(state.historicalSession.spokenActorIds?.length ?? 0, 8)}/8 · 현장 일 ${Math.min(state.historicalSession.completedObjectives?.length ?? 0, 5)}/5 · 역할 임무 ${(historicalSceneForState()?.fieldActions ?? []).filter(action => action.requiredActorId && state.historicalSession.actionOutcomes?.[action.id]).length}/3 · 구역 ${state.historicalSession.visitedMapIds?.length ?? 0}/3`,
+        reasonKo: (() => { const scene = historicalSceneForState(), req = scene?.conclusionRequirements ?? { spokenActors: 8, completedObjectives: 5, requiredRoleActions: 3 };
+          const roles = (scene?.fieldActions ?? []).filter(action => action.requiredActorId && state.historicalSession.actionOutcomes?.[action.id]).length;
+          return `대화 ${Math.min(state.historicalSession.spokenActorIds?.length ?? 0, req.spokenActors)}/${req.spokenActors} · 현장 일 ${Math.min(state.historicalSession.completedObjectives?.length ?? 0, req.completedObjectives)}/${req.completedObjectives} · 맡은 역할 ${Math.min(roles, req.requiredRoleActions)}/${req.requiredRoleActions} · 구역 ${state.historicalSession.visitedMapIds?.length ?? 0}/3`; })(),
         howKo: '가까이 다가가 말하기 · 인물 목록에서 다른 사람의 시야로 들어가기 · 출구를 따라 다음 구역으로 걷기', target: null,
-        progress: { completedSteps: state.historicalSession.completedObjectives?.length ?? 0, totalSteps: 5 }, blocked: false }
+        progress: { completedSteps: state.historicalSession.completedObjectives?.length ?? 0, totalSteps: historicalSceneForState()?.conclusionRequirements?.completedObjectives ?? 5 }, blocked: false }
     : inLiteraryScene
     ? { questTitleKo: '', actionKo: '', placeKo: '', reasonKo: '', howKo: '', target: null, progress: { completedSteps: 0, totalSteps: 0 }, blocked: false }
     : resolveQuestGuidance({ state, quests: questList, maps, hostCards: cards });
@@ -1061,7 +1063,7 @@ function openHistoricalEventMenu() {
   eventButton.textContent = '역사 현장 3';
   say('역사 현장', '걸어서 사람들을 만나고, 그날의 일을 직접 겪어 보세요.', historicalEvents.map(event => ({
     label: event.titleKo,
-    subcopy: `${event.dateLabelKo} · 예상 4~5분 · 세 구역, 15명의 현장 인물 · 세 사람의 시야로 맡는 역할 임무`,
+    subcopy: `${event.dateLabelKo} · 세 구역을 걸으며 18명과 대화 · 아홉 가지 현장 일 · 여섯 인물로 직접 맡는 판단`,
     run: () => beginHistoricalEvent(event),
   })));
 }
@@ -1111,7 +1113,7 @@ function readPlayerHistoricalChoices() {
         && (record.choices ?? []).some(choice => allowedChoiceIds.has(choice.id)))
       .sort((a, b) => String(b.record.completedAt).localeCompare(String(a.record.completedAt))).slice(0, 3)
       .map(({ eventId, record, allowedChoiceIds }) => ({ eventId,
-        choices: [...new Set((record.choices ?? []).filter(choice => allowedChoiceIds.has(choice.id)).map(choice => choice.id))] }));
+        choices: [...new Set((record.choices ?? []).filter(choice => allowedChoiceIds.has(choice.id)).map(choice => choice.id))].slice(-12) }));
   } catch { return []; }
 }
 function leaveHistoricalSession(record = true) {
@@ -1175,7 +1177,7 @@ function resolveHistoricalConversation(scene, person, response) {
   const actions = unlocked ? scene.choices.map(choice => ({ label: choice.label, subcopy: choice.directionKo, run: () => {
     setState(recordHistoricalChoice(state, { id: choice.id, textKo: choice.textKo })); leaveHistoricalSession(true);
   } })) : [
-    { label: '현장 인물 목록', subcopy: `대화 ${next.historicalSession.spokenActorIds.length}/8 · 서로 다른 현장 일 ${completed.size}/5 · 구역 ${visited.size}/${scene.maps.length}`, run: openCharacterList },
+    { label: '현장 인물 목록', subcopy: `대화 ${next.historicalSession.spokenActorIds.length}/${scene.conclusionRequirements?.spokenActors ?? 8} · 서로 다른 현장 일 ${completed.size}/${scene.conclusionRequirements?.completedObjectives ?? 5} · 구역 ${visited.size}/${scene.maps.length}`, run: openCharacterList },
     { label: '현장을 나간다', subcopy: '원래 자리로 돌아갑니다', run: () => leaveHistoricalSession(false) },
   ];
   const actionHint = scene.fieldActions.find(action => action.objectiveId === person.objectiveId && !next.historicalSession.actionOutcomes?.[action.id]);
@@ -1200,11 +1202,15 @@ function startHistoricalAction(scene, action) {
     ]);
     return;
   }
-  say(action.propKo, action.promptKo, action.options.map(option => ({ label: option.labelKo, subcopy: option.directionKo, run: () => {
+  const priorEffects = state.world.historicalEventEffects?.[scene.eventId] ?? {};
+  const availableOptions = action.options.filter(option => !option.requiresEffects
+    || Object.entries(option.requiresEffects).every(([key, value]) => priorEffects[key] === value));
+  say(action.propKo, action.promptKo, availableOptions.map(option => ({ label: option.labelKo, subcopy: option.directionKo, run: () => {
     const result = performHistoricalAction(state, scene, action.id, option.id);
     if (!result.ok) { sayRecord(result.reason === 'wrong_historical_area' ? '먼저 그 장소로 걸어가야 합니다.' : result.reason === 'wrong_historical_actor' ? `${requiredActor?.nameKo ?? '현장 인물'}의 몸으로 바꿔야 합니다.` : '이 일은 이미 처리했거나 지금 선택할 수 없습니다.'); return; }
     const next = result.state;
-    const responders = scene.actors.filter(person => person.mapId === action.mapId && person.objectiveId === action.objectiveId)
+    const responderIds = new Set([...scene.actors.filter(person => person.mapId === action.mapId && person.objectiveId === action.objectiveId).map(person => person.id), ...(action.gatherActorIds ?? [])]);
+    const responders = scene.actors.filter(person => person.mapId === action.mapId && responderIds.has(person.id))
       .map(person => ({ person, host: next.hosts[`historical:${scene.eventId}:${person.id}`] })).filter(({ host }) => host);
     const responseMap = maps[action.mapId], responseTiles = openHistoricalTiles(responseMap, responders.length + 1, action.position);
     responders.forEach(({ person, host }, index) => {
@@ -1221,7 +1227,10 @@ function startHistoricalAction(scene, action) {
       { label: '현장 인물 목록', subcopy: '다른 사람의 시야로 바꾸어 직접 움직입니다', run: openCharacterList },
       { label: '계속 걷기', subcopy: '주변 사람과 다른 현장 물건을 살펴봅니다', run: () => say(event.titleKo, '사람들과 이야기를 나누고 현장을 계속 살펴보자.', []) },
     ];
-    say(action.propKo, `${option.textKo}.${responders.length ? ` ${responders.map(item => item.person.nameKo).join('과 ')}가 곁으로 다가와 거든다.` : ''}\n\n현장 일 ${Math.min(completed, 5)}/5${nextAction && !unlocked ? ` · 다음에는 ${nextAction.propKo} 쪽을 살펴볼 수 있다.` : ''}${unlocked ? '\n\n세 구역을 돌고 사람들의 부탁을 실제로 처리했다. 오늘 현장에서 무엇을 먼저 할지 고를 수 있다.' : ''}`, followups);
+    const requirements = scene.conclusionRequirements ?? { spokenActors: 8, completedObjectives: 5, requiredRoleActions: 3 };
+    const roleCount = scene.fieldActions.filter(item => item.requiredActorId && next.historicalSession.actionOutcomes?.[item.id]).length;
+    const groupReaction = option.groupReactionKo ? `\n\n${option.groupReactionKo}` : '';
+    say(action.propKo, `${option.textKo}.${responders.length ? ` ${responders.map(item => item.person.nameKo).join('과 ')}가 곁으로 다가와 거든다.` : ''}${groupReaction}\n\n현장 일 ${Math.min(completed, requirements.completedObjectives)}/${requirements.completedObjectives} · 맡은 역할 ${Math.min(roleCount, requirements.requiredRoleActions)}/${requirements.requiredRoleActions}${nextAction && !unlocked ? ` · 다음에는 ${nextAction.propKo} 쪽을 살펴볼 수 있다.` : ''}${unlocked ? '\n\n세 구역을 돌고 여러 사람의 부탁을 맡았다. 이제 오늘 현장에서 무엇을 먼저 할지 고를 수 있다.' : ''}`, followups);
   } })));
 }
 function continuationFor(activeQuest) {

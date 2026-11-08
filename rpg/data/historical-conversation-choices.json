@@ -137,6 +137,75 @@
         "reactionKo": "세르게이는 대열을 유지하고 마차꾼은 사람들을 반대편으로 돌립니다.",
         "stance": "delay"
       }
+    ],
+    "carry_family_supplies": [
+      {
+        "id": "bread-first",
+        "labelKo": "빵과 물을 아이들 몫으로 먼저 챙긴다",
+        "directionKo": "짐꾼과 가게 식구들이 압니다 · 아이들의 끼니를 먼저 확보합니다 · 어른 몫은 나중에 다시 나눠야 합니다",
+        "reactionKo": "안드레이가 빵 꾸러미를 건넸다. 클라브디야는 아이들과 함께 걷겠다고 했다.",
+        "stance": "support"
+      },
+      {
+        "id": "blankets-first",
+        "labelKo": "다친 사람에게 담요를 먼저 보낸다",
+        "directionKo": "짐꾼과 산파가 압니다 · 추위와 쇼크를 막습니다 · 가족에게 돌아갈 물건이 줄어듭니다",
+        "reactionKo": "다리야가 담요를 받아 부상자 곁으로 갔다. 남은 사람들은 수레를 기다렸다.",
+        "stance": "question"
+      },
+      {
+        "id": "ask-families",
+        "labelKo": "가족에게 필요한 물건을 직접 묻는다",
+        "directionKo": "피난 가족과 짐꾼이 압니다 · 각자 필요한 것을 고릅니다 · 배분이 늦어집니다",
+        "reactionKo": "안드레이는 기다렸다가 가족별로 짐을 나눴다. 급한 사람은 먼저 길을 떠났다.",
+        "stance": "defer"
+      }
+    ],
+    "organize_aid": [
+      {
+        "id": "carry-wounded",
+        "labelKo": "퇴역병과 주민을 모아 들것부터 든다",
+        "directionKo": "퇴역병과 의학생이 압니다 · 광장 안 부상자를 옮깁니다 · 가족 피난을 도울 손이 줄어듭니다",
+        "reactionKo": "루카가 들것 앞을 들었다. 바실리는 길이 비는 동안 상태를 살폈다.",
+        "stance": "support"
+      },
+      {
+        "id": "guide-children",
+        "labelKo": "산파에게 아이와 노인의 이동을 맡긴다",
+        "directionKo": "산파와 피난 가족이 압니다 · 가족이 함께 강변으로 갑니다 · 부상자는 더 기다려야 합니다",
+        "reactionKo": "다리야가 보호자를 짝지어 보냈다. 루카는 남은 들것을 준비했다.",
+        "stance": "question"
+      },
+      {
+        "id": "divide-the-route",
+        "labelKo": "들것 한 조와 피난 안내 한 조로 나눈다",
+        "directionKo": "산파·퇴역병·의학생이 압니다 · 두 일을 함께 시작합니다 · 어느 쪽도 충분한 인원은 아닙니다",
+        "reactionKo": "세 사람은 인원을 나눴다. 광장 길목은 느렸지만 한쪽에만 사람이 몰리진 않았다.",
+        "stance": "defer"
+      }
+    ],
+    "decide_shelter_limit": [
+      {
+        "id": "prioritize-neighbors",
+        "labelKo": "세든 가족과 아이를 먼저 들인다",
+        "directionKo": "집주인과 세입자가 압니다 · 아는 사람부터 피신합니다 · 낯선 피난민은 밖에 남습니다",
+        "reactionKo": "마트료나는 세든 가족부터 불렀다. 바르바라는 문 앞에 남은 사람에게 물을 가져갔다.",
+        "stance": "support"
+      },
+      {
+        "id": "open-for-all",
+        "labelKo": "안뜰을 열고 순서대로 들인다",
+        "directionKo": "집주인과 피난민이 압니다 · 더 많은 사람이 몸을 피합니다 · 방과 식량이 모자랄 수 있습니다",
+        "reactionKo": "문이 열리자 사람들이 한 줄로 섰다. 안나는 쉴 자리를 살피며 수를 세었다.",
+        "stance": "question"
+      },
+      {
+        "id": "route-only",
+        "labelKo": "집은 지키고 다른 대피처를 찾는다",
+        "directionKo": "집주인과 길 안내를 맡은 사람이 압니다 · 안뜰 혼잡을 막습니다 · 피난민은 더 걸어야 합니다",
+        "reactionKo": "마트료나는 강변 길을 직접 가리켰다. 짐꾼은 수레를 돌려 길을 비웠다.",
+        "stance": "defer"
+      }
     ]
   },
   "GOGOL_INSPECTOR_1836": {
@@ -277,6 +346,75 @@
         "reactionKo": "소피야는 기록장을 덮고 이리나는 마지막 관객을 문밖으로 배웅합니다.",
         "stance": "close"
       }
+    ],
+    "settle_ticket_dispute": [
+      {
+        "id": "compare-stubs",
+        "labelKo": "두 사람의 표를 나란히 확인한다",
+        "directionKo": "표 장수와 관객, 안내원이 압니다 · 좌석 배정 근거를 봅니다 · 줄이 늦어집니다",
+        "reactionKo": "나데즈다는 표를 다시 펼쳤다. 안내원은 좌석판에서 번호를 찾았다.",
+        "stance": "support"
+      },
+      {
+        "id": "seat-oldest",
+        "labelKo": "먼저 온 관객에게 자리를 내준다",
+        "directionKo": "입구에 선 관객들이 압니다 · 줄이 빠르게 움직입니다 · 표 문제는 남습니다",
+        "reactionKo": "먼저 온 관객은 안으로 들어갔다. 다른 관객은 표를 손에 쥔 채 기다렸다.",
+        "stance": "question"
+      },
+      {
+        "id": "ask-for-another-seat",
+        "labelKo": "빈자리를 찾아 두 관객을 따로 앉힌다",
+        "directionKo": "안내원과 표를 가진 두 사람이 압니다 · 공연을 볼 수 있습니다 · 일행이 갈라질 수 있습니다",
+        "reactionKo": "이리나는 빈자리를 찾아 둘을 다른 줄에 앉혔다. 표 장수는 남은 표를 다시 세었다.",
+        "stance": "defer"
+      }
+    ],
+    "protect_company": [
+      {
+        "id": "hear-the-actor",
+        "labelKo": "배우에게 바꾼 이유를 직접 묻는다",
+        "directionKo": "배우와 무대 뒤 사람들이 압니다 · 수정한 대사의 까닭을 듣습니다 · 준비 시간이 줄어듭니다",
+        "reactionKo": "니콜라이는 대사가 무대에서 어떻게 들리는지 설명했다. 견습공은 소품을 옮기기 시작했다.",
+        "stance": "support"
+      },
+      {
+        "id": "ask-the-company",
+        "labelKo": "배우와 무대 사람들 의견을 함께 듣는다",
+        "directionKo": "배우·재봉사·견습공이 함께 압니다 · 준비 문제를 나눠 봅니다 · 막이 늦어질 수 있습니다",
+        "reactionKo": "서로 말이 달랐지만 막이 오르기 전에 결정할 수 있었다.",
+        "stance": "question"
+      },
+      {
+        "id": "keep-the-schedule",
+        "labelKo": "예정대로 시작하고 공연 뒤 다시 이야기한다",
+        "directionKo": "배우와 관객이 압니다 · 공연 시각을 지킵니다 · 무대 뒤 질문이 남습니다",
+        "reactionKo": "안내원은 시작 신호를 보냈다. 배우는 대본을 들고 무대에 올랐다.",
+        "stance": "defer"
+      }
+    ],
+    "hold_public_discussion": [
+      {
+        "id": "keep-a-seat",
+        "labelKo": "관객 몇 명을 남겨 장면을 이야기한다",
+        "directionKo": "남은 관객과 극장 사람들이 압니다 · 장면별 반응을 듣습니다 · 마차가 늦게 빠집니다",
+        "reactionKo": "학생은 웃음이 멈춘 장면을 말했고 상인은 다른 대목을 꼽았다.",
+        "stance": "support"
+      },
+      {
+        "id": "send-a-summary",
+        "labelKo": "밖에서 기다리는 사람에게 서로 다른 반응을 전한다",
+        "directionKo": "낭독자와 극장 밖 시민이 압니다 · 공연을 못 본 사람도 소식을 듣습니다 · 짧은 말로 전해야 합니다",
+        "reactionKo": "파벨은 한쪽 평만 고르지 않고 두 관객의 말을 이어 전했다.",
+        "stance": "question"
+      },
+      {
+        "id": "close-the-street",
+        "labelKo": "길을 비우고 관객을 먼저 보낸다",
+        "directionKo": "안내원과 마차꾼이 압니다 · 출구가 막히지 않습니다 · 토론은 다음으로 미뤄집니다",
+        "reactionKo": "안내원은 사람들을 둘로 나눠 내보냈다. 질문은 극장 문을 닫은 뒤에도 남았다.",
+        "stance": "defer"
+      }
     ]
   },
   "EMANCIPATION_1861": {
@@ -393,6 +531,98 @@
         "directionKo": "대표단과 관청이 압니다 · 질문과 원문이 함께 갑니다 · 사본이 돌아오지 않을 수 있습니다",
         "reactionKo": "대표들은 묶음을 받아들고 서기는 전달할 문구를 확인합니다.",
         "stance": "petition"
+      }
+    ],
+    "trace_copy_routes": [
+      {
+        "id": "ask-distance",
+        "labelKo": "가장 먼 마을부터 전달할 수 있는지 묻는다",
+        "directionKo": "심부름꾼과 마차꾼이 압니다 · 전달 범위를 넓힙니다 · 가까운 주민의 낭독은 늦어집니다",
+        "reactionKo": "파벨은 큰길과 걸어서 가는 길을 나눠 지도를 짚었다.",
+        "stance": "support"
+      },
+      {
+        "id": "ask-reader",
+        "labelKo": "인쇄본을 받아 읽어 줄 사람을 먼저 찾는다",
+        "directionKo": "인쇄소와 서점 주인이 압니다 · 문장을 함께 확인할 수 있습니다 · 배포가 하루 늦어집니다",
+        "reactionKo": "니키타는 낭독할 사람에게 작은 활자 조항도 전해 달라고 했다.",
+        "stance": "question"
+      },
+      {
+        "id": "ask-return",
+        "labelKo": "전달 뒤 각 마을의 질문을 받아 오게 한다",
+        "directionKo": "심부름꾼과 기다리는 주민이 압니다 · 다음 대화를 이어갈 수 있습니다 · 왕복 시간이 더 듭니다",
+        "reactionKo": "파벨은 전달 확인과 질문을 한 장에 적어 돌아오기로 했다.",
+        "stance": "defer"
+      }
+    ],
+    "negotiate_work_terms": [
+      {
+        "id": "ask-wage",
+        "labelKo": "품삯부터 얼마로 정할지 묻는다",
+        "directionKo": "하녀들과 고용주가 압니다 · 금액을 먼저 협상합니다 · 잠자리는 따로 구해야 합니다",
+        "reactionKo": "소피야는 품삯 이야기를 꺼냈다. 고용주는 대답을 미루지 못했다.",
+        "stance": "support"
+      },
+      {
+        "id": "ask-room",
+        "labelKo": "오늘 밤과 다음 주 잠자리를 먼저 묻는다",
+        "directionKo": "하녀·집주인과 세탁부가 압니다 · 거처 문제를 확인합니다 · 품삯 결정은 다음으로 넘어갑니다",
+        "reactionKo": "하녀들은 머물 방을 확인하고 품삯을 다시 물을 날짜를 정했다.",
+        "stance": "question"
+      },
+      {
+        "id": "write-both",
+        "labelKo": "품삯과 방 조건을 한 장에 적어 함께 요구한다",
+        "directionKo": "하녀와 고용주가 압니다 · 조건을 빠짐없이 봅니다 · 고용주가 협상을 거절할 수 있습니다",
+        "reactionKo": "바르바라는 요구를 한 장에 적고 모두가 본 뒤 건넸다.",
+        "stance": "defer"
+      }
+    ],
+    "prepare_petition_route": [
+      {
+        "id": "representative-only",
+        "labelKo": "대표 한 사람의 이름으로 접수한다",
+        "directionKo": "대표단과 서기가 압니다 · 서류가 간단해집니다 · 각자 사정은 따로 실리지 않습니다",
+        "reactionKo": "이반은 대표 이름을 적고 질문을 묶었다. 나머지는 내용을 다시 읽었다.",
+        "stance": "support"
+      },
+      {
+        "id": "every-name",
+        "labelKo": "질문한 사람의 이름과 질문을 함께 적는다",
+        "directionKo": "질문자와 관청 서기가 압니다 · 개인별 회신을 요청할 수 있습니다 · 공개 서명자가 늘어납니다",
+        "reactionKo": "서기는 이름을 하나씩 확인했다. 사람들이 문구와 순서를 고쳤다.",
+        "stance": "question"
+      },
+      {
+        "id": "wait-for-copy",
+        "labelKo": "규정을 다시 읽고 제출을 하루 미룬다",
+        "directionKo": "서기와 질문자들이 압니다 · 잘못된 질문을 줄입니다 · 답변 요청은 늦어집니다",
+        "reactionKo": "대표단은 인쇄본을 다시 읽은 뒤 다음 날 접수하기로 했다.",
+        "stance": "defer"
+      }
+    ],
+    "read_terms_together": [
+      {
+        "id": "read-all-lines",
+        "labelKo": "제목과 조건문을 모두 소리 내어 읽는다",
+        "directionKo": "낭독을 들은 하녀와 인쇄물 장수가 압니다 · 조항을 함께 확인합니다 · 시간이 더 걸리고 질문이 이어집니다",
+        "reactionKo": "표트르는 작은 활자까지 읽었다. 하녀들은 고향에 물어볼 대목을 따로 적었다.",
+        "stance": "support"
+      },
+      {
+        "id": "collect-questions",
+        "labelKo": "먼저 생활에 닿는 질문부터 모은다",
+        "directionKo": "하녀와 주민들이 압니다 · 일자리와 토지 질문을 모읍니다 · 문서 전체를 읽는 일은 미뤄집니다",
+        "reactionKo": "올가는 오늘 밤 머물 곳부터 물었다. 다른 사람들은 고향에 보낼 질문을 보탰다.",
+        "stance": "question"
+      },
+      {
+        "id": "ask-for-reprint",
+        "labelKo": "조건문을 읽기 쉽게 다시 인쇄해 달라고 한다",
+        "directionKo": "인쇄소와 기다리는 주민이 압니다 · 더 읽기 쉬운 사본을 요청합니다 · 배포가 늦어질 수 있습니다",
+        "reactionKo": "니키타는 활자 크기와 종이 수를 계산했다. 표트르는 필요한 부수를 물었다.",
+        "stance": "defer"
       }
     ]
   }

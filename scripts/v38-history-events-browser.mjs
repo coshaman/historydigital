@@ -87,11 +87,20 @@ async function completeFieldAction(page, scene, zoneIndex) {
   await walk(page, pathToExit(map, startPosition, position));
   await page.waitForTimeout(380);
   await page.locator('#use').click();
-  const optionButton = page.getByRole('button', { name: new RegExp(`^${action.options[0].labelKo.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&')}`) });
+  const effects = scene.nextEffects ??= {};
+  const available = action.options.filter(option => !option.requiresEffects
+    || Object.entries(option.requiresEffects).every(([key, value]) => effects[key] === value));
+  const downstreamRequirement = scene.fieldActions.flatMap(later => later.options.map(option => option.requiresEffects))
+    .find(requirement => requirement && Object.entries(requirement).every(([key, value]) =>
+      Object.entries(effects).every(([existingKey, existingValue]) => existingKey !== key || existingValue === value)));
+  const option = available.find(candidate => downstreamRequirement
+    && Object.entries(downstreamRequirement).every(([key, value]) => candidate.effects?.[key] === value)) ?? available[0];
+  const optionButton = page.getByRole('button', { name: new RegExp(`^${option.labelKo.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&')}`) });
   await optionButton.waitFor({ timeout: 5000 });
   await optionButton.click();
   await page.waitForFunction(name => document.querySelector('#headline')?.textContent === name, action.propKo);
-  assert.ok((await page.locator('#journal-text').textContent()).includes(action.options[0].textKo));
+  assert.ok((await page.locator('#journal-text').textContent()).includes(option.textKo));
+  Object.assign(effects, option.effects ?? {});
   const actual = await playerPosition(page);
   assert.ok(Math.abs(actual.x - position.x) + Math.abs(actual.y - position.y) <= 2,
     `${action.id} was completed beside its physical object: ${JSON.stringify({ actual, position })}`);
@@ -104,7 +113,7 @@ async function speakTwo(page, scene, zoneIndex, spokenNames) {
   const { positions } = actorPositions(scene, zoneIndex);
   const usedBodies = spokenNames.usedBodies ??= new Set();
   let attempts = 0;
-  const targetCount = Math.min(8, Math.max(spokenNames.size + 1, (zoneIndex + 1) * 3 - (zoneIndex === 2 ? 1 : 0)));
+  const targetCount = Math.min(12, Math.max(spokenNames.size + 1, (zoneIndex + 1) * 4));
   while (spokenNames.size < targetCount && attempts++ < 24) {
     await page.locator('#roster-open').click();
     const cards = page.locator('.roster-card');
@@ -178,13 +187,15 @@ try {
       assert.equal(await page.locator('#mapname').textContent(), scene.zoneTitlesKo[0]);
 
       const finishedObjectives = new Set();
+      scene.nextEffects = {};
       for (let zoneIndex = 0; zoneIndex < scene.maps.length; zoneIndex++) {
         const zones = actorPositions(scene, zoneIndex);
         await speakTwo(page, scene, zoneIndex, spokenNames);
         const zoneActions = [...scene.fieldActions.filter(item => item.mapId === scene.maps[zoneIndex] && item.requiredActorId),
           ...scene.fieldActions.filter(item => item.mapId === scene.maps[zoneIndex] && !item.requiredActorId)];
-        for (const action of zoneActions.filter(item => !finishedObjectives.has(item.objectiveId))
-          .slice(0, Math.max(0, 5 - finishedObjectives.size))) {
+        const requiredHere = zoneActions.filter(item => item.requiredActorId && !finishedObjectives.has(item.objectiveId));
+        const extraHere = zoneActions.filter(item => !item.requiredActorId && !finishedObjectives.has(item.objectiveId));
+        for (const action of [...requiredHere, ...extraHere.slice(0, Math.max(0, 7 - finishedObjectives.size - requiredHere.length))]) {
           scene.nextObjectiveId = action.objectiveId;
           spokenNames.currentPosition = await completeFieldAction(page, scene, zoneIndex);
           finishedObjectives.add(action.objectiveId);
@@ -201,7 +212,7 @@ try {
             `mobile touch controls remain inside viewport: ${JSON.stringify(touch)}`);
         }
         if (zoneIndex < scene.maps.length - 1) {
-          const exit = { x: Math.floor(zones.map.width / 2) + 3, y: zones.map.height - 3 };
+          const exit = { x: zones.map.width - 3, y: zones.map.height - 3 };
           const startPosition = await playerPosition(page);
           const movement = pathToExit(zones.map, startPosition, exit);
           await walk(page, movement);
@@ -240,12 +251,14 @@ try {
       assert.ok(saved[event.id]?.completedAt, `${event.id} records its scene choices`);
       assert.ok(saved[event.id]?.choices?.some(choice => choice.id === finalChoice.id),
         `${event.id} persists the selected closing strategy ${finalChoice.id}`);
-      assert.equal(Object.keys(saved[event.id]?.actionOutcomes ?? {}).length, 5, `${event.id} records five physical tasks`);
-      assert.ok(saved[event.id]?.completedObjectives?.length >= 5, `${event.id} closes only after varied scene work`);
-      assert.equal(saved[event.id]?.choices?.filter(choice => choice.performedByActorId).length, 3,
-        `${event.id} requires three different on-scene bodies for its role missions`);
-      assert.equal(new Set(saved[event.id]?.choices?.filter(choice => choice.performedByActorId).map(choice => choice.performedByActorId)).size, 3,
-        `${event.id} requires three distinct embodied roles`);
+      const roleActionCount = scene.fieldActions.filter(action => action.requiredActorId).length;
+      assert.ok(Object.keys(saved[event.id]?.actionOutcomes ?? {}).length >= roleActionCount + 1,
+        `${event.id} records all body-specific actions and at least one additional field choice`);
+      assert.ok(saved[event.id]?.completedObjectives?.length >= 7, `${event.id} closes only after several subquests`);
+      const performedRoles = saved[event.id]?.choices?.filter(choice => choice.performedByActorId) ?? [];
+      assert.equal(performedRoles.length, roleActionCount, `${event.id} requires each authored on-scene role mission`);
+      assert.equal(new Set(performedRoles.map(choice => choice.performedByActorId)).size, roleActionCount,
+        `${event.id} requires switching into every assigned role`);
       assert.equal(await page.locator('#mapname').textContent(), '네프스키 거리', 'campaign map is restored after the event');
       assert.equal(await page.evaluate(() => localStorage.getItem('v33-rpg-save')), campaignSnapshot, 'campaign save stays untouched');
       totalConversations += spokenNames.size;
