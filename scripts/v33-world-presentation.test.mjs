@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import test from 'node:test';
-import { objectIsPresent, interactionTile } from '../rpg/engine/world-presentation.mjs';
+import { objectIsPresent, interactionTile, isActionableInteraction, ambientBubbleFor } from '../rpg/engine/world-presentation.mjs';
 import { addVisibleBoundaries } from './v33-map-boundaries.mjs';
 
 const read = async file => JSON.parse(await fs.readFile(new URL(`../${file}`, import.meta.url), 'utf8'));
@@ -33,6 +33,38 @@ test('map cues follow chapter/date gates, including May letter and literary scop
 test('paper, drawer and door cues use distinct authored tile silhouettes', () => {
   assert.notEqual(interactionTile(byName('신문 가판대')), interactionTile(byName('인쇄소 문')));
   assert.notEqual(interactionTile(byName('활자 서랍')), interactionTile(byName('작업 장부')));
+});
+
+test('interaction emphasis excludes unavailable quest props, self, and exits the current body cannot use', () => {
+  const active = state('V33_1847_PRINT', '1847-06-01');
+  active.world.currentMapId = 'printshop';
+  active.player = { embodiment: 'printer_ekaterina', position: { x: 1, y: 1 } };
+  active.hosts = { printer_ekaterina: { id: 'printer_ekaterina', mapId: 'printshop', historicalAliveAndPresent: true, allowedMaps: ['printshop'] },
+    street_vendor_matryona: { id: 'street_vendor_matryona', mapId: 'printshop', historicalAliveAndPresent: true, allowedMaps: ['printshop'] } };
+  active.quests = { 'PRINTSHOP_PROOF_1847': { status: 'open' } };
+  const map = maps.find(item => item.mapId === 'printshop');
+  const proof = map.layers.find(layer => layer.name === 'Interactions').objects.find(item => item.type === 'quest-object');
+  assert.equal(isActionableInteraction(proof, active, map, quests), true);
+  active.player.embodiment = 'street_vendor_matryona';
+  assert.equal(isActionableInteraction(proof, active, map, quests), false, 'a different body cannot perform the action');
+  const npc = { type: 'npc', properties: [{ name: 'hostId', value: 'street_vendor_matryona' }] };
+  assert.equal(isActionableInteraction(npc, active, map, quests), false, 'the embodied character is not an interaction target');
+  const exit = { type: 'map-exit', properties: [{ name: 'targetMapId', value: 'chancery' }, { name: 'publicAccess', value: false }] };
+  assert.equal(isActionableInteraction(exit, active, map, quests), false, 'the current body has no access to that map');
+});
+
+test('ambient speech is infrequent, local to present residents, and pauses during player dialogue', () => {
+  const world = state('V33_1847_PRINT', '1847-06-01');
+  world.world.currentMapId = 'printshop';
+  world.player = { embodiment: 'clerk_alexei' };
+  world.hosts = { clerk_alexei: { mapId: 'printshop' }, printer_ekaterina: { mapId: 'printshop', historicalAliveAndPresent: true } };
+  const roster = [{ id: 'clerk_alexei', ambientLines: ['I am the player'] }, { id: 'printer_ekaterina', ambientLines: ['잉크가 묻었어.'] }];
+  const map = { mapId: 'printshop' };
+  assert.deepEqual(ambientBubbleFor(world, roster, map, 1000), { hostId: 'printer_ekaterina', line: '잉크가 묻었어.' });
+  assert.equal(ambientBubbleFor(world, roster, map, 4000), null, 'bubble stays absent for most of the interval');
+  assert.equal(ambientBubbleFor(world, roster, map, 1000, true), null, 'never overlaps player conversation');
+  world.hosts.printer_ekaterina.mapId = 'chancery';
+  assert.equal(ambientBubbleFor(world, roster, map, 1000), null, 'off-screen residents cannot speak here');
 });
 
 test('all blocked tiles have visible architecture or set dressing in the shipped maps', () => {

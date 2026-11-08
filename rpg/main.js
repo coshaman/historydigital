@@ -18,6 +18,7 @@ const { createInitialState, moveActor, possessHost, possessHostFromRoster, relea
 const readJson = async path => (await fetch(path)).json();
 const [street, shop, chancery, courtyard, marketMap, literaryMap, overcoatMap, policeMap, firstQuest, marketPersonalQuests, source, firstIssue, historicalSources, literarySource, overcoatSource, campaign, publicQuest, europeNewsQuest, circleQuest, letterQuest, literaryQuest, overcoatQuest, sceneObservations, aiScenes, learningExam, learningSourceData, lifeTemplates] = await Promise.all([readJson('./rpg/maps/nevsky.json'), readJson('./rpg/maps/printshop.json'), readJson('./rpg/maps/chancery.json'), readJson('./rpg/maps/courtyard.json'), readJson('./rpg/maps/market-quay.json'), readJson('./rpg/maps/dead-souls.json'), readJson('./rpg/maps/overcoat.json'), readJson('./rpg/maps/police-station.json'), readJson('./rpg/quests/printshop-article.json'), Promise.all(['yard-ledger-1847','laundry-wages-1847','bakery-flour-1847','market-prices-1847','porter-load-1847','coach-fare-1847','warehouse-injury-1847','pavel-missing-parcel-1847','household-privacy-1847','midwife-care-cost-1847','apothecary-limits-1847','apprentice-authorship-1847','bookbinder-damage-1847','scribal-copy-1847','inn-debt-rumor-1847','student-circle-risk-1847','teacher-access-cost-1847','household-tutor-offer-1847','market-theft-1847','noble-status-debt-1847','landlady-rent-commons-1847','water-access-queue-1847','fish-storage-time-1847','warehouse-loss-record-1847','servant-private-warning-1847','guard-entry-bribe-1847','carter-delivery-delay-1847','street-vendor-weather-1847','typesetter-speed-censorship-1847','lodging-reading-income-1847','clerk-alexei-life-1-1847','clerk-alexei-life-2-1847','clerk-alexei-life-3-1847','courier-pavel-life-1-1847','courier-pavel-life-2-1847','courier-pavel-life-3-1847','seamstress-anna-life-1-1847','seamstress-anna-life-2-1847','seamstress-anna-life-3-1847','bookseller-lev-life-1-1847','bookseller-lev-life-2-1847','bookseller-lev-life-3-1847'].map(id => readJson(`./rpg/quests/${id}.json`))), readJson('./rpg/data/khor-kalynych-source.json'), readJson('./rpg/data/sovremennik-1847-issue.json'), readJson('./rpg/data/historical-source-packets.json'), readJson('./rpg/data/dead-souls-source.json'), readJson('./rpg/data/overcoat-source.json'), readJson('./rpg/quests/campaign.json'), readJson('./rpg/quests/public-discourse-1848.json'), readJson('./rpg/quests/europe-news-1848.json'), readJson('./rpg/quests/circle-investigation-1849.json'), readJson('./rpg/quests/circle-letter-1849-may.json'), readJson('./rpg/quests/literary-dead-souls.json'), readJson('./rpg/quests/literary-overcoat.json'), readJson('./rpg/data/scene-observations.json'), readJson('./rpg/ai/scenes.json'), readJson('./rpg/data/learning-exam.json'), readJson('./rpg/data/learning-sources.json'), readJson('./rpg/data/life-simulation.json')]);
 const [sourceReaderIndex, caseContextData, discussionQuestData, districtRegistry] = await Promise.all([readJson('./rpg/data/source-reader-index.json'), readJson('./rpg/data/case-contexts.json'), readJson('./rpg/data/discussion-quests.json'), readJson('./rpg/data/city-districts-v36.json')]);
+const historicalEvents = (await readJson('./rpg/data/v38-historical-events.json')).events;
 const [dostoevskyExecutionQuest, historicalSceneMaps] = await Promise.all([readJson('./rpg/quests/dostoevsky-execution-1849.json'), Promise.all(['fortress-cell','semenovsky-square'].map(async id => [id, await readJson(`./rpg/maps/${id}.json`)]))]);
 const [rawCards, eraCharacterRegistry] = await Promise.all([Promise.all(['clerk_alexei','printer_ekaterina','courier_pavel','seamstress_anna','tenant_mikhail','bookseller_lev','senior_clerk_konstantin','reader_darya','editor_sofia','police_sergeant_ivan','yardkeeper_semyon','laundress_mariya','baker_fyodor','market_nadezhda','porter_gavrila','coachman_timofey','housemaid_olga','midwife_avdotya','apothecary_yakov','print_apprentice_stepan','bookbinder_elizaveta','scribal_yuri','innkeeper_irina','student_vasily','teacher_lyubov','minor_noble_andrei','landlady_polina','watercarrier_luka','fishseller_klavdiya','warehouse_pyotr','servant_varvara','junior_guard_sergey','carter_roman','street_vendor_matryona','street_musician_ivan','typesetter_nikita','lodging_tatyana','nekrasov_reconstruction','dostoevsky_1849','literary_chichikov','literary_akaky','literary_petrovich'].map(id => readJson(`./rpg/characters/${id}.json`))), readJson('./data/era_character_registry.json')]);
 const raskolnikovMap = await readJson('./rpg/maps/raskolnikov-tavern.json');
@@ -373,7 +374,7 @@ const relationLabels = { editorial_office: '편집부', workshop: '작업장 동
 function render(now) {
   renderFrame = null;
   const map = currentMap();
-  renderer.draw(state, map, now, lastMoveAt, { ...missionGuidance, pinned: destinationPinned });
+  renderer.draw(state, map, now, lastMoveAt, { ...missionGuidance, pinned: destinationPinned, dialogueActive: Boolean(activeDialogueHost) });
   const animate = renderer.needsAmbientFrames(map) && document.visibilityState !== 'hidden';
   if (now - lastMoveAt < 360 || animate) renderTimer = window.setTimeout(() => { renderTimer = null; requestRender(); }, animate ? 80 : 40);
 }
@@ -968,6 +969,47 @@ function openSourceDrawer() {
     ? '읽은 자료가 현재 인물의 기록에 남는다.'
     : '읽은 자료가 기록에 남는다.', [...sourceButtons, ...realmActions]);
 }
+const eventButton = $('#history-events-open');
+function openHistoricalEventMenu() {
+  eventButton.textContent = '역사 현장 3';
+  say('러시아의 역사 현장', '어느 날의 일을 살펴보겠습니까?', historicalEvents.map(event => ({
+    label: event.titleKo,
+    subcopy: `${event.dateLabelKo} · ${event.cast.length}명이 모인 현장 · 사료와 실제 결과 포함`,
+    run: () => beginHistoricalEvent(event),
+  })));
+}
+function beginHistoricalEvent(event) {
+  const eventButton = $('#history-events-open');
+  eventButton.textContent = `현장 · ${event.alertKo}`;
+  const playRound = (roundIndex, intervention = null, priorReaction = null) => {
+    const round = event.rounds[roundIndex];
+    const lines = round.beats.map(([speaker, text]) => `${speaker}  ${text}`).join('\n');
+    const sceneLead = round.joinKo ?? (roundIndex ? '앞서 듣던 사람들 곁으로 새 목소리가 다가왔다.' : event.openingKo);
+    say(event.titleKo, `${sceneLead}${priorReaction ? `\n\n${priorReaction}` : ''}\n\n${lines}`, round.choices.map(choice => ({
+      label: choice.label,
+      subcopy: choice.directionKo,
+      run: () => {
+        const nextIntervention = [...(intervention ?? []), choice.recordKo];
+        if (roundIndex + 1 < event.rounds.length) playRound(roundIndex + 1, nextIntervention, choice.reactionKo);
+        else finishHistoricalEvent(event, nextIntervention, choice.reactionKo);
+      },
+    })));
+  };
+  playRound(0);
+}
+function finishHistoricalEvent(event, interventions, finalReaction) {
+  const key = 'v38-historical-event-records';
+  let records = {};
+  try { records = JSON.parse(localStorage.getItem(key) ?? '{}'); } catch { /* ignore malformed local progress */ }
+  records[event.id] = { date: event.date, interventions, completedAt: new Date().toISOString() };
+  localStorage.setItem(key, JSON.stringify(records));
+  $('#history-events-open').textContent = '역사 현장 3';
+  const sourceActions = [{ label: '사료 원문 열기', subcopy: `${event.sourceLabelKo} · ${event.sourceRangeKo}`, run: () => window.open(event.sourceUrl, '_blank', 'noopener,noreferrer') }];
+  if (event.secondarySourceUrl) sourceActions.push({ label: '초연 기록 열기', subcopy: '고골의 집 연구 자료 · 알렉산드린스키 극장 초연', run: () => window.open(event.secondarySourceUrl, '_blank', 'noopener,noreferrer') });
+  sourceActions.unshift({ label: '다른 현장 보기', subcopy: '새로운 장면을 고릅니다', run: openHistoricalEventMenu });
+  say('그날 뒤에 남은 것', `당신이 남긴 기록\n${interventions.map(item => `· ${item}`).join('\n')}\n\n${finalReaction}\n\n${event.historyKo}\n\n${event.sourceLabelKo}\n${event.sourceRangeKo}`, sourceActions);
+}
+eventButton.addEventListener('click', openHistoricalEventMenu);
 function continuationFor(activeQuest) {
   if (activeQuest.realmId || activeQuest.chapterId?.startsWith('LITERARY_')) return [{ label: '장면에서 나가기', run: leaveCurrentLiteraryScene }, { label: '자료철 열기', run: openSourceDrawer }];
   const arcIndex = campaign.arcs.findIndex(arc => arc.id === state.world.chapterId), arc = campaign.arcs[arcIndex];

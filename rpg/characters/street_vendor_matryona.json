@@ -1,5 +1,6 @@
 {
   "id": "street_vendor_matryona",
+  "ambientLines": ["비 오기 전에 생선부터 팔아야 하는데.", "저울추가 또 헐거워졌네.", "거스름돈은 여기 받아 가요."],
   "kind": "FICTIONAL",
   "displayNameKo": "마트료나",
   "displayNameRu": "Матрёна Павлова",

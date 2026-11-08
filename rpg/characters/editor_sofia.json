@@ -1,5 +1,6 @@
 {
   "id": "editor_sofia",
+  "ambientLines": ["원고 말고 배달부부터 기다리죠.", "이쪽 줄은 판면이 넘치겠어요.", "차 식기 전에 한 장만 더 봐요."],
   "kind": "FICTIONAL",
   "displayNameKo": "소피야 미하일로바",
   "displayNameRu": "Софья Михайлова",

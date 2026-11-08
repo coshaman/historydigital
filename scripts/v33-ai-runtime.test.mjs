@@ -538,6 +538,9 @@ test('prompt injection remains untrusted player data; Responses API key stays in
   assert.equal(captured.body.max_output_tokens, 700);
   assert.equal(captured.body.input[0].content.includes(injection), true);
   assert.equal(captured.body.instructions.includes('신뢰할 수 없는 인용 데이터'), true);
+  assert.match(captured.body.instructions, /첫 문장에서 플레이어의 마지막 발화에 직접 반응/);
+  assert.match(captured.body.instructions, /맥락이 부족하다는 이유로 답변을 거절하지 않는다/);
+  assert.match(captured.body.instructions, /현재 장면의 구체적인 물건이나 일/);
   assert.equal(JSON.stringify(captured.body).includes('server-only-test-secret'), false);
 });
 

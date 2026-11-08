@@ -1,5 +1,17 @@
 const chapters = ['V33_1847_PRINT', 'V33_1848_PUBLIC', 'V33_1849_CIRCLE'];
 
+export function ambientBubbleFor(state, hostCards, map, time, paused = false) {
+  const period = 18000, phase = time % period;
+  if (paused || phase >= 3600) return null;
+  const residents = hostCards.filter(card => card.ambientLines?.length
+    && card.id !== state.player.embodiment && state.hosts?.[card.id]?.mapId === map.mapId
+    && state.hosts[card.id]?.historicalAliveAndPresent !== false);
+  if (!residents.length) return null;
+  const offset = [...map.mapId].reduce((sum, char) => sum + char.charCodeAt(0), 0);
+  const card = residents[(Math.floor(time / period) + offset) % residents.length];
+  return { hostId: card.id, line: card.ambientLines[Math.floor(time / 7000) % card.ambientLines.length] };
+}
+
 export function objectIsPresent(object, state, quests = []) {
   if (object.visible === false) return false;
   const p = Object.fromEntries((object.properties ?? []).map(item => [item.name, item.value]));
@@ -18,6 +30,33 @@ export function objectIsPresent(object, state, quests = []) {
   const realm = quest.realmId ?? (quest.chapterId?.startsWith('LITERARY_') ? quest.chapterId : null);
   return realm ? state.world.activeRealm?.id === realm
     : quest.chapterId === state.world.chapterId && (!quest.date || quest.date <= state.world.date);
+}
+
+// Keep map emphasis aligned with the actions inspect() can actually perform.
+// This deliberately excludes scenery and objects whose current gate is closed.
+export function isActionableInteraction(object, state, map, quests = []) {
+  if (!object || !state || !map || map.mapId !== state.world.currentMapId
+    || !objectIsPresent(object, state, quests)) return false;
+  const p = Object.fromEntries((object.properties ?? []).map(item => [item.name, item.value]));
+  const hostId = state.player.embodiment;
+  if (object.type === 'npc') {
+    const id = p.hostId;
+    return Boolean(id && id !== hostId && state.hosts?.[id]?.historicalAliveAndPresent
+      && state.hosts[id].mapId === map.mapId);
+  }
+  if (object.type === 'quest-object') {
+    const quest = quests.find(item => item.id === p.questId);
+    return Boolean(hostId && quest && state.quests?.[quest.id]?.status !== 'resolved'
+      && quest.actions?.some(action => action.hostIds?.includes(hostId)));
+  }
+  if (object.type === 'source') return Boolean(p.sourceId);
+  if (object.type === 'map-exit') {
+    if (state.player.civic?.custody?.active && p.targetMapId !== 'police-station') return false;
+    if (!hostId) return p.publicAccess === true || p.publicAccess === 'true';
+    return Boolean(state.hosts?.[hostId]?.allowedMaps?.includes(p.targetMapId));
+  }
+  // Service desks and authored scene props are interpreted by inspect().
+  return Boolean(object.type || p.serviceId || p.evidenceId || p.sourceId);
 }
 
 export function questPrerequisitesMet(state, quest) {

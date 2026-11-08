@@ -61,6 +61,28 @@ for (const viewport of (quickMode ? [{ width: 1440, height: 900 }] : [{ width: 1
   });
   if (initialCanvas.sampledColors < 4) throw new Error(`Initial world canvas was not drawn: ${JSON.stringify(initialCanvas)}`);
   if (initialCanvas.mapCoverage < 0.7) throw new Error(`World map is still too small within the playfield: ${JSON.stringify(initialCanvas)}`);
+  if (viewport.width === 1440) {
+    const scenarios = [
+      { title: '상원 광장, 12월 14일', first: '사람들에게 확인된 명령만 전한다', second: '목격한 일과 전해 들은 말을 나눠 적는다', proof: 'GARF' },
+      { title: '알렉산드린스키 극장의 《감찰관》', first: '공연을 보고 객석의 반응을 기록한다', second: '공연 기록과 고골의 편지를 함께 살핀다', proof: '1836년 4월 19일' },
+      { title: '농노해방 선언이 읽히는 날', first: '선언문과 시행 규정을 나눠 읽는다', second: '생활 질문을 관청에 전달할 사본으로 만든다', proof: 'RGIA' },
+    ];
+    for (const [index, scenario] of scenarios.entries()) {
+      if (index === 0) await page.locator('#history-events-open').click();
+      else await page.locator('#actions button').filter({ hasText: '다른 현장 보기' }).click();
+      await page.locator('#actions button').filter({ hasText: scenario.title }).click();
+      await page.locator('#actions button').filter({ hasText: scenario.first }).click();
+      await page.locator('#actions button').filter({ hasText: scenario.second }).click();
+      await page.locator('#journal-text').getByText(scenario.proof, { exact: false }).waitFor();
+      await page.locator('#actions button').filter({ hasText: '사료 원문 열기' }).waitFor();
+      if (!(await page.locator('#history-events-open').innerText()).startsWith('역사 현장')) throw new Error(`Historical event alert did not reset: ${scenario.title}`);
+    }
+    await page.evaluate(() => localStorage.removeItem('v38-historical-event-records'));
+    await page.evaluate(() => localStorage.clear());
+    await page.reload({ waitUntil: 'domcontentloaded' });
+    await page.waitForSelector('#world');
+    await page.waitForFunction(() => document.documentElement.dataset.gameReady === 'true');
+  }
   const initialClock = await page.locator('#clock').innerText();
   let evidenceHotkey = false;
   if (viewport.width < 500) {
@@ -159,7 +181,7 @@ for (const viewport of (quickMode ? [{ width: 1440, height: 900 }] : [{ width: 1
   };
   const readSource = async () => {
     await page.locator('#source-reader').waitFor({ state: 'visible' });
-    await page.locator('#source-reader-passages').getByText('“호리는 누구죠?”').waitFor();
+    await page.locator('#source-reader-passages').getByText('그날 나는 평소보다 네 시간 늦게 사냥을 나갔고').waitFor();
     await page.locator('#source-reader-complete').click();
     explorationEvents.push({ type: 'read_source' });
   };
@@ -292,10 +314,9 @@ for (const viewport of (quickMode ? [{ width: 1440, height: 900 }] : [{ width: 1
   await goExit(page, '네프스키 거리');
   for (let step = 0; step < 12; step++) await moveKey(page, 'ArrowRight');
   await moveKey(page, 'ArrowUp');
-  await page.keyboard.press('e');
-  await page.getByText('이 몸으로는 들어갈 수 없다').waitFor();
-  await page.locator('#release').click();
   await goExit(page, '하숙집 안뜰');
+  await page.locator('#release').click();
+  await page.locator('#save').click();
   const courtyardMap = readData('rpg/maps/courtyard.json');
   await page.evaluate(map => {
     const envelope = JSON.parse(localStorage.getItem('v33-rpg-save'));
@@ -327,21 +348,21 @@ for (const viewport of (quickMode ? [{ width: 1440, height: 900 }] : [{ width: 1
   catch { const diagnosis = await page.evaluate(() => { const saved=JSON.parse(localStorage.getItem('v33-rpg-save')||'null'); const host=saved?.state?.hosts?.tenant_mikhail; return {mapId:document.querySelector('#mapname')?.textContent,position:saved?.state?.player?.position,embodiment:saved?.state?.player?.embodiment,headline:document.querySelector('#headline')?.textContent,record:document.querySelector('#record')?.textContent,actions:document.querySelector('#actions')?.innerText,host:host&&{mapId:host.mapId,position:host.position}}; }); throw new Error(`Mikhail possession option unavailable: ${JSON.stringify(diagnosis)}`); }
   for (let step = 0; step < 8; step++) await moveKey(page, 'ArrowRight');
   await page.keyboard.press('e');
-  await page.locator('#headline').filter({ hasText: '방세와 공동 장작' }).waitFor({ timeout: 5000 }).catch(async () => {
+  await page.getByRole('heading', { name: '방세를 정산하다' }).waitFor({ timeout: 5000 }).catch(async () => {
     const state = await page.evaluate(() => ({ map: document.querySelector('#mapname')?.textContent, clock: document.querySelector('#clock')?.textContent, headline: document.querySelector('#headline')?.textContent, record: document.querySelector('#record')?.textContent, actions: document.querySelector('#actions')?.innerText }));
     throw new Error(`Courtyard rent document did not appear: ${JSON.stringify(state)}`);
   });
-  const rentChoice = page.locator('#actions button').filter({ hasText: '세입자들과 장작값과 사용 순서를 함께 적는다' });
+  const rentChoice = page.locator('#actions button').filter({ hasText: '지금 3 코페이카를 건넨다' });
   await rentChoice.waitFor();
   await rentChoice.click();
-  await page.getByText(/미하일은 장작값과 사용 순서를 함께 적었다/).waitFor();
+  await page.getByText(/폴리나에게 .* 코페이카를 전했습니다/).waitFor();
   await page.screenshot({ path: path.join(out, 'courtyard-rent-1440x900.png') });
   for (let step = 0; step < 6; step++) await moveKey(page, 'ArrowLeft');
   for (let step = 0; step < 3; step++) await moveKey(page, 'ArrowDown');
   for (let step = 0; step < 2; step++) await moveKey(page, 'ArrowLeft');
   await goExit(page, '네프스키 거리');
   if (errors.length) throw new Error(`Chancery/courtyard browser errors: ${errors.join('; ')}`);
-  report.otherMaps = { chanceryVisit: true, clerkAccess: true, alexeiDeniedCourtyard: true, observerEnteredCourtyard: true, mikhailClueRead: true, mikhailReturnedToStreet: true, errors };
+  report.otherMaps = { chanceryVisit: true, clerkAccess: true, alexeiEnteredCourtyard: true, observerContinuedInCourtyard: true, mikhailClueRead: true, mikhailReturnedToStreet: true, errors };
   await context.close();
 }
 await browser.close();

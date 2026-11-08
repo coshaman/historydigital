@@ -1,4 +1,4 @@
-import { objectIsPresent, interactionTile } from './world-presentation.mjs';
+import { objectIsPresent, interactionTile, isActionableInteraction, ambientBubbleFor } from './world-presentation.mjs';
 import { atmosphereForMap, mapHasAtmosphere, weatherForDate } from './atmosphere.mjs';
 
 export function courtyardFireDamageMark(state, map) {
@@ -110,7 +110,12 @@ export function createRenderer(canvas, assets) {
       const x = ox + object.x * scale, y = oy + object.y * scale;
       const index = interactionTile(object) - 1;
       if (tileImage.complete && tileImage.naturalWidth) ctx.drawImage(tileImage, index % 16 * tile, Math.floor(index / 16) * tile, tile, tile, x, y, tile * scale, tile * scale);
-      if (state.player.embodiment && p.questId && state.quests[p.questId]?.status === 'open') { ctx.strokeStyle = '#f0d79e'; ctx.lineWidth = 1.5; ctx.strokeRect(x + 1, y + 1, 14 * scale, 14 * scale); }
+      if (isActionableInteraction(object, state, map, assets.quests)) {
+        const pulse = reducedMotion ? .72 : .62 + (Math.sin(time / 520) + 1) * .12;
+        ctx.save(); ctx.globalAlpha = pulse; ctx.strokeStyle = '#f0d79e'; ctx.lineWidth = Math.max(1.5, 1.5 * scale);
+        ctx.strokeRect(x + scale, y + scale, 14 * scale, 14 * scale);
+        ctx.fillStyle = '#f0d79e'; ctx.beginPath(); ctx.arc(x + 14 * scale, y + 2 * scale, Math.max(1.5, scale * 1.7), 0, Math.PI * 2); ctx.fill(); ctx.restore();
+      }
     }
     const procession = state.world.livingEventStates?.E45;
     if (procession?.status === 'ACTIVE' && procession.carriageMapId === map.mapId && procession.carriagePosition) {
@@ -151,6 +156,23 @@ export function createRenderer(canvas, assets) {
       const dir = atlas.directionRows?.[host.facing] ?? ({ down: 0, up: 1, left: 2, right: 3 })[host.facing] ?? 0, px = ox + host.position.x * tile * scale, tileY = oy + host.position.y * tile * scale, py = Math.max(tileY, oy + 8 * scale);
       if (sprite.complete && sprite.naturalWidth) ctx.drawImage(sprite, frame * frameWidth, dir * frameHeight, frameWidth, frameHeight, px, py - 8 * scale, frameWidth * scale, frameHeight * scale);
       if (state.player.embodiment === card.id) { ctx.strokeStyle = '#f2d38b'; ctx.lineWidth = 1; ctx.beginPath(); ctx.ellipse(px + 8 * scale, py + 15 * scale, 8 * scale, 3 * scale, 0, 0, Math.PI * 2); ctx.stroke(); }
+    }
+    const ambient = ambientBubbleFor(state, hostCards, map, time, Boolean(objective?.dialogueActive));
+    if (ambient) {
+          const host = state.hosts[ambient.hostId], line = ambient.line;
+          const x = ox + host.position.x * tile * scale, y = oy + host.position.y * tile * scale;
+          const fontSize = Math.max(9, Math.min(11, 10 * scale));
+          const chunks = line.match(/.{1,13}/gu) ?? [line], rows = chunks.slice(0, 2);
+          ctx.save(); ctx.font = `${fontSize}px 'Noto Serif KR', serif`;
+          const width = Math.min(138 * scale, Math.max(...rows.map(row => ctx.measureText(row).width)) + 14 * scale);
+          const height = (rows.length * (fontSize + 2)) + 9 * scale;
+          const bx = Math.max(ox, Math.min(x + 8 * scale - width / 2, ox + map.width * tile * scale - width));
+          const by = Math.max(oy, y - height - 12 * scale);
+          ctx.fillStyle = 'rgba(29,22,17,.94)'; ctx.strokeStyle = 'rgba(196,156,98,.9)'; ctx.lineWidth = Math.max(1, scale * .7);
+          ctx.beginPath(); ctx.roundRect(bx, by, width, height, 4 * scale); ctx.fill(); ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(x + 7 * scale, by + height); ctx.lineTo(x + 12 * scale, by + height); ctx.lineTo(x + 8 * scale, by + height + 5 * scale); ctx.closePath(); ctx.fill(); ctx.stroke();
+          ctx.fillStyle = '#f0dfbd'; rows.forEach((row, index) => ctx.fillText(row, bx + 7 * scale, by + (index + 1) * (fontSize + 2)));
+          ctx.restore();
     }
     const px = ox + actor.position.x * tile * scale, py = oy + actor.position.y * tile * scale;
     if (!state.player.embodiment) { ctx.fillStyle = '#efe0b5'; ctx.fillRect(px + 7 * scale, py + 5 * scale, 3 * scale, 8 * scale); ctx.fillRect(px + 5 * scale, py + 3 * scale, 7 * scale, 3 * scale); }

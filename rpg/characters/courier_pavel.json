@@ -1,5 +1,6 @@
 {
   "id": "courier_pavel",
+  "ambientLines": ["강 쪽 길이 막혔습니다.", "봉투는 젖기 전에 넣어 두세요.", "다음 배달은 종탑 모퉁이에서 받겠습니다."],
   "kind": "FICTIONAL",
   "displayNameKo": "파벨 안토노프",
   "displayNameRu": "Павел Антонов",
