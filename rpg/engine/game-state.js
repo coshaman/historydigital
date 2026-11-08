@@ -5193,6 +5193,27 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
     || !['MIDWIFE_TREATED', 'RESTED_WITHOUT_TREATMENT'].includes(healthTransition.care))) return { ok: false, reason: 'invalid_health_effect', state };
   if (questId === 'V37_APPRENTICE_LITERACY_1847' && ['E19_OFFER_KOPEK', 'E19_REQUEST_KOPEK'].includes(actionId)
     && state.hosts.print_apprentice_stepan.money.amount < 1) return { ok: false, reason: 'lesson_unaffordable', state };
+  const coachFareKopeks = questId === 'COACH_FARE_1847'
+    ? ({ COACHMAN_TIMOFEY_CHOICE_1: 3, COACHMAN_TIMOFEY_CHOICE_2: 5, COACHMAN_TIMOFEY_CHOICE_3: 0 })[actionId]
+    : null;
+  const farePassengerAtStart = coachFareKopeks > 0
+    ? Object.values(state.hosts).filter(person => person.id !== hostId
+      && person.historicalAliveAndPresent !== false && person.mapId === host.mapId
+      && person.money?.unit === host.money?.unit && person.money.amount >= coachFareKopeks
+      && nearTile(person.position, host.position, 3))
+      .sort((a, b) => Math.abs(a.position.x - host.position.x) + Math.abs(a.position.y - host.position.y)
+        - Math.abs(b.position.x - host.position.x) - Math.abs(b.position.y - host.position.y)
+        || a.id.localeCompare(b.id))[0] ?? null
+    : null;
+  if (coachFareKopeks > 0 && !farePassengerAtStart) return { ok: false, reason: 'fare_passenger_not_present_or_cannot_pay', state };
+  const fareDestinationMapId = questId === 'COACH_FARE_1847' && coachFareKopeks > 0
+    ? (actionId === 'COACHMAN_TIMOFEY_CHOICE_1' ? 'nevsky' : 'courtyard') : null;
+  const fareRoute = fareDestinationMapId
+    ? npcMapRoute(host.mapId, fareDestinationMapId, host, maps, state.world.clockMinutes) : null;
+  if (fareDestinationMapId && (!fareRoute
+    || !npcMapRoute(farePassengerAtStart.mapId, fareDestinationMapId, farePassengerAtStart, maps, state.world.clockMinutes))) {
+    return { ok: false, reason: 'fare_route_unavailable', state };
+  }
   const actionDuration = action.durationMinutes ?? 5;
   if (!Number.isInteger(actionDuration) || actionDuration < 1 || actionDuration > 120) return { ok: false, reason: 'invalid_action_duration', state };
   if (Object.values(relationEffects).some(value => typeof value !== 'string' || value.length > 160)
@@ -5248,7 +5269,8 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
             : questId === 'V37_APPRENTICE_FATIGUE_1847' ? 'E33'
               : questId === 'E41_SEMENOVSKY_1849' ? 'E41'
                 : questId === 'V37_STREET_MUSIC_1847' ? 'E38' : undefined,
-    pausedHostIds: ['CIRCLE_INVESTIGATION_1849', 'V37_MANUSCRIPT_OFFER_1847', 'V37_SERFDOM_READING_1847', 'V37_SALON_DEBATE_1847', 'V37_SALON_INVITATION_1847', 'V37_MARKET_DAY_WORK_1847', 'V37_ROOF_LEAK_REPAIR_1847', 'V37_CHARITY_DAY_1847', 'V37_APPRENTICE_LITERACY_1847', 'STUDENT_CIRCLE_RISK_1847', 'V37_POLICE_DOCUMENT_CHECK_1847', 'V37_SICK_LODGER_1847', 'V37_APPRENTICE_FATIGUE_1847', 'V37_MARKET_RUMOR_1847', 'V37_INN_GUEST_1847', 'V37_NEWSPAPER_RELEASE_1847', 'E41_SEMENOVSKY_1849', 'V37_STREET_MUSIC_1847', 'V37_PHYSIOLOGY_READING_1847', 'V37_HOUSEHOLD_TUTOR_OFFER_1847', 'V37_MARKET_THEFT_1847', 'V37_EUROPE_NEWS_1848'].includes(questId) ? [...(requiredLivingEvent?.actorHostIds ?? [])]
+    pausedHostIds: questId === 'COACH_FARE_1847' ? [farePassengerAtStart?.id].filter(Boolean)
+      : ['CIRCLE_INVESTIGATION_1849', 'V37_MANUSCRIPT_OFFER_1847', 'V37_SERFDOM_READING_1847', 'V37_SALON_DEBATE_1847', 'V37_SALON_INVITATION_1847', 'V37_MARKET_DAY_WORK_1847', 'V37_ROOF_LEAK_REPAIR_1847', 'V37_CHARITY_DAY_1847', 'V37_APPRENTICE_LITERACY_1847', 'STUDENT_CIRCLE_RISK_1847', 'V37_POLICE_DOCUMENT_CHECK_1847', 'V37_SICK_LODGER_1847', 'V37_APPRENTICE_FATIGUE_1847', 'V37_MARKET_RUMOR_1847', 'V37_INN_GUEST_1847', 'V37_NEWSPAPER_RELEASE_1847', 'E41_SEMENOVSKY_1849', 'V37_STREET_MUSIC_1847', 'V37_PHYSIOLOGY_READING_1847', 'V37_HOUSEHOLD_TUTOR_OFFER_1847', 'V37_MARKET_THEFT_1847', 'V37_EUROPE_NEWS_1848'].includes(questId) ? [...(requiredLivingEvent?.actorHostIds ?? [])]
       : ['V37_MARKET_PRICE_DISPUTE_1847', 'V37_LATE_MEAL_1847'].includes(questId)
         ? [requiredLivingEvent?.sellerHostId, requiredLivingEvent?.buyerHostId].filter(Boolean)
             : questId === 'V37_APOTHECARY_ORDER_1847' ? [requiredLivingEvent?.buyerHostId, requiredLivingEvent?.supplierHostId].filter(Boolean)
@@ -6596,17 +6618,9 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
     };
     const stage = fareStages[actionId];
     if (stage) {
-      const fareKopeks = actionId === 'COACHMAN_TIMOFEY_CHOICE_1' ? 3
-        : actionId === 'COACHMAN_TIMOFEY_CHOICE_2' ? 5 : 0;
+      const fareKopeks = coachFareKopeks;
       const coachman = next.hosts[hostId];
-      const passenger = fareKopeks ? Object.values(next.hosts).filter(person => person.id !== hostId
-        && person.historicalAliveAndPresent !== false && person.mapId === coachman.mapId
-        && person.money?.unit === coachman.money?.unit && person.money.amount >= fareKopeks
-        && nearTile(person.position, coachman.position, 3))
-        .sort((a, b) => Math.abs(a.position.x - coachman.position.x) + Math.abs(a.position.y - coachman.position.y)
-          - Math.abs(b.position.x - coachman.position.x) - Math.abs(b.position.y - coachman.position.y)
-          || a.id.localeCompare(b.id))[0] : null;
-      if (fareKopeks && !passenger) return { ok: false, reason: 'fare_passenger_not_present_or_cannot_pay', state };
+      const passenger = farePassengerAtStart ? next.hosts[farePassengerAtStart.id] : null;
       if (passenger) {
         passenger.money.amount -= fareKopeks;
         coachman.money.amount += fareKopeks;
@@ -6619,12 +6633,31 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
           person.personalEventNotes ??= [];
           person.personalEventNotes.push({ eventId: 'E10', atMinute: next.world.clockMinutes, noteKo });
         }
+        const finalExit = fareRoute.at(-1)?.exit;
+        const arrivalData = finalExit?.data ?? properties(finalExit);
+        const targetMap = maps[fareDestinationMapId];
+        const preferredArrival = { x: Number(arrivalData.arrivalX), y: Number(arrivalData.arrivalY) };
+        const driverArrival = nearestOpenArrival(targetMap, preferredArrival, coachman.id, next.hosts);
+        if (!driverArrival) return { ok: false, reason: 'fare_arrival_unavailable', state };
+        coachman.mapId = fareDestinationMapId;
+        coachman.position = { ...driverArrival };
+        const passengerArrival = nearestOpenArrival(targetMap, driverArrival, passenger.id, next.hosts);
+        if (!passengerArrival) return { ok: false, reason: 'fare_arrival_unavailable', state };
+        passenger.mapId = fareDestinationMapId;
+        passenger.position = { ...passengerArrival };
+        next.world.currentMapId = fareDestinationMapId;
+        next.player.position = { ...driverArrival };
+        coachman.currentActivityKo = `마차를 몰고 ${targetMap.metadata.displayNameKo}에 도착했다`;
+        passenger.currentActivityKo = `마차를 타고 ${targetMap.metadata.displayNameKo}에 도착했다`;
       }
       const actorHostIds = passenger ? [hostId, passenger.id] : [hostId];
       const fareEvent = { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E10', status: 'RESOLVED', stage,
         actorHostIds, hostId, ...(passenger ? { passengerHostId: passenger.id } : {}), fareKopeks,
-        ...(passenger ? { farePaid: true, timeCommitmentMinutes: actionId === 'COACHMAN_TIMOFEY_CHOICE_1' ? 45 : 90 } : { farePaid: false, timeCommitmentMinutes: 30 }),
-        questId, actionId, date: next.world.date, mapId: next.world.currentMapId,
+        ...(passenger ? { farePaid: true, timeCommitmentMinutes: actionDuration } : { farePaid: false, timeCommitmentMinutes: actionDuration }),
+        ...(passenger ? { tripStatus: 'ARRIVED', destinationMapId: fareDestinationMapId,
+          routeMapIds: [host.mapId, ...fareRoute.map(step => step.toMapId)] } : { tripStatus: 'REPAIR' }),
+        elapsedMinutes: next.world.clockMinutes - state.world.clockMinutes, resolvedAtMinute: next.world.clockMinutes,
+        questId, actionId, date: next.world.date, mapId: host.mapId,
         valueStatus: 'fictional_gameplay_balance', validationStatus: 'DESIGN_SEED_NOT_VERIFIED', witnessedByPlayer: true };
       next.world.livingEventStates ??= {};
       next.world.livingEventStates.E10 = fareEvent;
@@ -7621,6 +7654,9 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
   const coachFarePrice = {
     COACHMAN_TIMOFEY_CHOICE_1: 3, COACHMAN_TIMOFEY_CHOICE_2: 5, COACHMAN_TIMOFEY_CHOICE_3: 0,
   };
+  const coachFareMinutes = {
+    COACHMAN_TIMOFEY_CHOICE_1: 45, COACHMAN_TIMOFEY_CHOICE_2: 90, COACHMAN_TIMOFEY_CHOICE_3: 30,
+  };
   if (coachFareEvent && (coachFareEvent.catalogIdSpace !== 'V37_EVENT_CATALOG_45' || coachFareEvent.catalogEventId !== 'E10'
     || coachFareEvent.status !== 'RESOLVED' || coachFareEvent.validationStatus !== 'DESIGN_SEED_NOT_VERIFIED'
     || coachFareEvent.valueStatus !== 'fictional_gameplay_balance' || coachFareEvent.hostId !== 'coachman_timofey'
@@ -7628,11 +7664,19 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
     || coachFareEvent.actorHostIds?.length !== (coachFareEvent.actionId === 'COACHMAN_TIMOFEY_CHOICE_3' ? 1 : 2)
     || coachFareEvent.actorHostIds[0] !== 'coachman_timofey' || coachFareStages[coachFareEvent.actionId] !== coachFareEvent.stage
     || coachFareEvent.fareKopeks !== coachFarePrice[coachFareEvent.actionId]
+    || coachFareEvent.timeCommitmentMinutes !== coachFareMinutes[coachFareEvent.actionId]
+    || coachFareEvent.elapsedMinutes !== coachFareMinutes[coachFareEvent.actionId]
+    || !Number.isInteger(coachFareEvent.resolvedAtMinute)
     || (coachFareEvent.actionId === 'COACHMAN_TIMOFEY_CHOICE_3'
-      ? coachFareEvent.farePaid !== false || coachFareEvent.passengerHostId !== undefined
+      ? coachFareEvent.farePaid !== false || coachFareEvent.passengerHostId !== undefined || coachFareEvent.tripStatus !== 'REPAIR'
       : coachFareEvent.farePaid !== true || !state.hosts[coachFareEvent.passengerHostId]
         || coachFareEvent.actorHostIds[1] !== coachFareEvent.passengerHostId
-        || !Number.isInteger(coachFareEvent.timeCommitmentMinutes) || coachFareEvent.timeCommitmentMinutes <= 0)
+        || coachFareEvent.tripStatus !== 'ARRIVED'
+        || coachFareEvent.destinationMapId !== (coachFareEvent.actionId === 'COACHMAN_TIMOFEY_CHOICE_1' ? 'nevsky' : 'courtyard')
+        || coachFareEvent.routeMapIds?.[0] !== 'market-quay'
+        || coachFareEvent.routeMapIds?.at(-1) !== coachFareEvent.destinationMapId
+        || state.hosts.coachman_timofey.mapId !== coachFareEvent.destinationMapId
+        || state.hosts[coachFareEvent.passengerHostId]?.mapId !== coachFareEvent.destinationMapId)
     || coachFareEvent.witnessedByPlayer !== true || typeof coachFareEvent.date !== 'string' || coachFareEvent.mapId !== 'market-quay')) {
     throw new Error('Save contains invalid E10 carriage fare event state');
   }

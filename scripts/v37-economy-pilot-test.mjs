@@ -35,6 +35,7 @@ for (const person of Object.values(coachFareStart.hosts)) if (!['coachman_timofe
   && person.mapId === 'market-quay') person.position = { x: 10, y: 10 };
 const passengerMoneyBefore = coachFareStart.hosts.minor_noble_andrei.money.amount;
 const coachmanMoneyBefore = coachFareStart.hosts.coachman_timofey.money.amount;
+const fareStartMinute = coachFareStart.world.clockMinutes;
 const embodiedCoach = game.possessHost(coachFareStart, 'coachman_timofey', maps['market-quay']);
 assert.equal(embodiedCoach.ok, true);
 const fareChoice = game.performQuestAction(embodiedCoach.state, {
@@ -48,6 +49,18 @@ assert.equal(fareEvent.witnessedByPlayer, true);
 assert.deepEqual(fareEvent.actorHostIds, ['coachman_timofey', 'minor_noble_andrei']);
 assert.equal(fareEvent.passengerHostId, 'minor_noble_andrei');
 assert.equal(fareEvent.fareKopeks, 5);
+assert.equal(fareChoice.state.world.clockMinutes - fareStartMinute, 90,
+  'the long route consumes its disclosed 90 minutes of world time');
+assert.equal(fareEvent.elapsedMinutes, 90);
+assert.equal(fareEvent.tripStatus, 'ARRIVED');
+assert.equal(fareEvent.destinationMapId, 'courtyard');
+assert.equal(fareChoice.state.world.currentMapId, 'courtyard');
+assert.equal(fareChoice.state.hosts.coachman_timofey.mapId, 'courtyard');
+assert.equal(fareChoice.state.hosts.minor_noble_andrei.mapId, 'courtyard');
+const invalidFarePositions = Object.values(fareChoice.state.hosts).filter(person => !maps[person.mapId]
+  || !Number.isInteger(person.position?.x) || !Number.isInteger(person.position?.y)
+  || person.position.x < 0 || person.position.y < 0 || person.position.x >= maps[person.mapId].width || person.position.y >= maps[person.mapId].height).map(person => ({ id: person.id, mapId: person.mapId, position: person.position }));
+assert.deepEqual(invalidFarePositions, []);
 assert.equal(fareChoice.state.hosts.minor_noble_andrei.money.amount, passengerMoneyBefore - 5,
   'the physically present passenger pays the agreed fare');
 assert.equal(fareChoice.state.hosts.coachman_timofey.money.amount, coachmanMoneyBefore + 5,
