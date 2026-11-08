@@ -4,12 +4,13 @@
   "chapterId": "V33_1847_PRINT",
   "date": "1847-01-01",
   "requiresLivingEventId": "E22",
-  "premiseKo": "레프의 가판에서 《현대인》 1847년 제1호를 샀습니다. 확인된 자료는 잡지의 제목과 연도, 권호, 발행인에 관한 서지 기록입니다. 잡지 본문 전체를 읽은 것처럼 다루지 않습니다.",
+  "premiseKo": "레프가 《현대인》 한 권을 내민다. 문학면에는 투르게네프의 「호리와 칼리니치」가 실려 있다.",
   "historicalOutcome": {
     "id": "V37_NEWSPAPER_RELEASE_FICTIONAL_TRANSACTION",
     "value": "fictional purchase and reader discussion attached to a verified 1847 bibliographic record; no date-specific release or street sale is asserted",
     "sourceIds": [
-      "OBJ-SOV-1847"
+      "OBJ-SOV-1847",
+      "LIT-TURGENEV-KHOR-KALYNYCH-1847"
     ]
   },
   "entry": {
@@ -61,14 +62,14 @@
       "requiredLivingEventStage": "DISCUSSION_OPEN",
       "requiredPresentLivingEventHostKey": "sellerHostId",
       "requiredParticipantDistance": 3,
-      "requiredKnowledgeId": "OBJ-SOV-1847",
+      "requiredKnowledgeId": "LIT-TURGENEV-KHOR-KALYNYCH-1847",
       "durationMinutes": 3,
-      "labelKo": "호차와 발행인 정보를 곁사람에게 읽어 준다",
-      "subcopyKo": "레프와 가판 가까이에 있는 사람만 듣습니다 · 사적인 판매 장부에는 독서 내용이 남지 않습니다 · 돈은 더 들지 않습니다 · 확인된 서지 정보만 알리고 잡지 본문이나 논평을 대신 읽었다고 하지 않습니다",
+      "labelKo": "호리와 칼리니치의 대목을 곁사람에게 읽어 준다",
+      "subcopyKo": "가판 곁에 있는 사람만 듣습니다 · 들은 사람의 기록에 남습니다 · 비용은 없습니다 · 투르게네프의 소설 속 대목을 읽습니다",
       "resultFlag": "v37NewspaperMetadataReadAloud",
-      "resultKo": "구매자는 확인한 서지 기록에서 제목과 호차, 발행인 정보를 읽어 주었다.",
+      "resultKo": "구매자는 호리와 칼리니치를 그린 대목을 곁사람에게 읽어 주었다.",
       "effects": {
-        "situationKo": "1847년 잡지의 서지 기록을 주변 사람에게 읽었다. 잡지 본문 전체를 읽은 것은 아니다."
+        "situationKo": "투르게네프의 소설 속 호리와 칼리니치에 관한 대목을 주변 사람에게 읽었다."
       }
     },
     {
@@ -115,14 +116,14 @@
       "requiredLivingEventStage": "DISCUSSION_OPEN",
       "requiredPresentLivingEventHostKey": "sellerHostId",
       "requiredParticipantDistance": 3,
-      "requiredKnowledgeId": "OBJ-SOV-1847",
+      "requiredKnowledgeId": "LIT-TURGENEV-KHOR-KALYNYCH-1847",
       "durationMinutes": 4,
-      "labelKo": "가판의 서지 정보를 자료 기록과 대조한다",
-      "subcopyKo": "레프와 가까이 있는 사람만 압니다 · 개인 자료 읽기 기록에 남습니다 · 추가 비용은 없습니다 · 제목·연도·권호·발행인만 대조하며 본문 주장을 판정하지 않습니다",
-      "resultFlag": "v37NewspaperMetadataCompared",
-      "resultKo": "구매자는 가판의 호차 표기와 자료 기록을 대조했다. 확인 범위는 서지 정보에 한정됐다.",
+      "labelKo": "두 사람의 삶을 두고 레프와 이야기를 나눈다",
+      "subcopyKo": "레프와 가판 곁의 사람만 듣습니다 · 대화한 사람의 기록에 남습니다 · 비용은 없습니다 · 소설 속 인물에 대한 이야기입니다",
+      "resultFlag": "v37NewspaperPassageDiscussed",
+      "resultKo": "구매자와 레프는 호리와 칼리니치가 서로 다른 삶을 사는 모습을 두고 이야기를 나눴다.",
       "effects": {
-        "situationKo": "자료 기록에서 확인한 제목·연도·권호·발행인만 대조했다. 본문을 검토하거나 기사 주장을 판정하지 않았다."
+        "situationKo": "소설 속 호리와 칼리니치의 처지와 관계를 두고 의견을 나눴다."
       }
     },
     {
@@ -169,14 +170,14 @@
       "requiredLivingEventStage": "DISCUSSION_OPEN",
       "requiredPresentLivingEventHostKey": "sellerHostId",
       "requiredParticipantDistance": 3,
-      "requiredKnowledgeId": "OBJ-SOV-1847",
+      "requiredKnowledgeId": "LIT-TURGENEV-KHOR-KALYNYCH-1847",
       "durationMinutes": 3,
-      "labelKo": "확인한 서지 정보에 관해 짧게 의견을 말한다",
-      "subcopyKo": "레프와 가까운 사람만 듣습니다 · 레프의 의견이 대화 기록에 남습니다 · 비용은 없습니다",
-      "resultFlag": "v37NewspaperMetadataCommented",
-      "resultKo": "구매자는 자료에서 확인한 서지 정보만 두고 레프와 짧은 의견을 나눴다.",
+      "labelKo": "읽은 대목에서 떠오른 생각을 레프에게 말한다",
+      "subcopyKo": "레프만 듣습니다 · 둘의 대화 기록에 남습니다 · 비용은 없습니다 · 소설 속 두 인물에 대한 감상을 나눕니다",
+      "resultFlag": "v37NewspaperPassageCommented",
+      "resultKo": "구매자는 호리와 칼리니치에 대한 감상을 레프에게 말했다.",
       "effects": {
-        "situationKo": "레프는 서지 기록을 살펴본 뒤 자기 의견을 말했다."
+        "situationKo": "읽은 대목에서 떠오른 생각을 레프에게 말했다."
       }
     },
     {
@@ -221,13 +222,14 @@
       "requiredLivingEventStage": "DISCUSSION_OPEN",
       "requiredPresentLivingEventHostKey": "sellerHostId",
       "requiredParticipantDistance": 3,
+      "requiredKnowledgeId": "LIT-TURGENEV-KHOR-KALYNYCH-1847",
       "durationMinutes": 1,
-      "labelKo": "호를 챙겨 조용히 읽는다",
-      "subcopyKo": "구매자만 독서 내용을 압니다 · 다른 사람에게 알리거나 공식 기록을 남기지 않습니다 · 추가 비용은 없습니다 · 주변 대화 없이 가판을 떠납니다",
+      "labelKo": "읽은 대목을 혼자 간직한다",
+      "subcopyKo": "구매자만 읽은 내용을 압니다 · 다른 사람에게 알리거나 공식 기록을 남기지 않습니다 · 비용은 없습니다",
       "resultFlag": "v37NewspaperReadPrivately",
-      "resultKo": "구매자는 잡지를 챙겨 다른 사람에게 읽어 주지 않고 가판을 떠났다.",
+      "resultKo": "구매자는 읽은 대목을 다른 사람에게 알리지 않고 혼자 간직했다.",
       "effects": {
-        "situationKo": "구입한 잡지를 사적으로 읽기로 했다. 주변 독자에게 들려준 내용은 없다."
+        "situationKo": "구입한 잡지에서 읽은 소설 대목을 사적으로 간직했다."
       }
     }
   ],

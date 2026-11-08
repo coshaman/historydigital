@@ -17,8 +17,18 @@
     {
       "id": "E22-newspaper-release-reading",
       "severity": "P1",
-      "finding": "The implemented event is a newspaper purchase rather than a staged issue release and reading; the decision checks metadata rather than reading the issue content.",
-      "status": "OPEN"
+      "finding": "The earlier build resolved E22 from catalog metadata alone. The current implementation requires reading Turgenev’s verified excerpt before any reader response; it remains a fictional purchase encounter and does not provide the complete issue.",
+      "status": "IMPLEMENTATION_FIXED_BROWSER_ACCEPTED_PENDING_INDEPENDENT_REVIEW",
+      "evidence": [
+        "rpg/data/khor-kalynych-source.json",
+        "rpg/maps/nevsky.json",
+        "rpg/quests/newspaper-release-1847.json",
+        "scripts/v37-newspaper-release-test.mjs",
+        "scripts/v37-newspaper-release-browser.mjs",
+        "artifacts/v37/BROWSER_ACCEPTANCE/NEWSPAPER_RELEASE_BROWSER_ACCEPTANCE.json",
+        "artifacts/v37/BROWSER_ACCEPTANCE/newspaper-release-literary-passage-1440x900.png",
+        "artifacts/v37/BROWSER_ACCEPTANCE/newspaper-release-literary-passage-390x844.png"
+      ]
     },
     {
       "id": "E31-intermediate-stage-evidence",
@@ -34,7 +44,6 @@
     }
   ],
   "testCommandsThatPassedButDidNotCoverTheseGaps": [
-    "npm run v37-newspaper-release",
     "npm run v37-procession",
     "npm run v37-serfdom-reading",
     "npm run v37-dostoevsky-execution"

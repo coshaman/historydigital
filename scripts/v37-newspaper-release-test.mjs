@@ -23,6 +23,9 @@ const nevsky = maps.nevsky, receipt = nevsky.layers.find(layer => layer.name ===
 assert.ok(receipt, 'the E22 discussion uses a physical bibliographic card at Lev’s counter');
 const sourceCard = nevsky.layers.find(layer => layer.name === 'Interactions').objects.find(item => item.properties?.some(property => property.name === 'sourceId' && property.value === 'OBJ-SOV-1847'));
 assert.ok(sourceCard, 'the verified bibliographic record is physically readable at the counter');
+const passageCard = nevsky.layers.find(layer => layer.name === 'Interactions').objects.find(item => item.name === '호리와 칼리니치가 나오는 문학면'
+  && item.properties?.some(property => property.name === 'sourceId' && property.value === 'LIT-TURGENEV-KHOR-KALYNYCH-1847'));
+assert.ok(passageCard, 'the actual literary passage is physically readable beside the counter');
 function setup() {
   const state = game.createInitialState({ maps, hostCards: cards, quests: [quest], startMapId: 'nevsky' });
   state.world.chapterId = 'V33_1847_PRINT'; state.world.date = '1847-06-01'; state.world.clockMinutes = 540;
@@ -43,21 +46,23 @@ function setup() {
   assert.equal(objectIsPresent(receipt, arrived, [quest]), true);
   return arrived;
 }
-function atCounter(source, readCatalog = true) {
+function atCounter(source, readPassage = true) {
   const state = structuredClone(source), event = state.world.livingEventStates.E22, position = { ...event.scenePosition };
   state.world.currentMapId = 'nevsky'; state.player.embodiment = event.buyerHostId; state.player.position = { ...position };
   for (const id of event.actorHostIds) { state.hosts[id].mapId = 'nevsky'; state.hosts[id].position = { ...position }; }
-  if (readCatalog) {
-    const sourcePosition = { x: sourceCard.x / 16, y: sourceCard.y / 16 };
-    state.player.position = { ...sourcePosition }; state.hosts[buyerId].position = { ...sourcePosition };
-    const result = game.recordSourceRead(state, 'OBJ-SOV-1847', maps, [], 'PHYSICAL_COPY');
-    assert.equal(result.ok, true, `buyer can read the checked bibliographic record in-world (${result.reason ?? ''})`);
-    return result.state;
+  if (readPassage) {
+    for (const [sourceId, object] of [['OBJ-SOV-1847', sourceCard], ['LIT-TURGENEV-KHOR-KALYNYCH-1847', passageCard]]) {
+      const sourcePosition = { x: object.x / 16, y: object.y / 16 };
+      state.player.position = { ...sourcePosition }; state.hosts[buyerId].position = { ...sourcePosition };
+      const result = game.recordSourceRead(state, sourceId, maps, [], 'PHYSICAL_COPY');
+      assert.equal(result.ok, true, `buyer can read ${sourceId} in-world (${result.reason ?? ''})`);
+      Object.assign(state, result.state);
+    }
   }
   return state;
 }
-function choose(source, actionId, readCatalog = true) {
-  const state = atCounter(source, readCatalog), actionPosition = { x: receipt.x / 16, y: receipt.y / 16 };
+function choose(source, actionId, readPassage = true) {
+  const state = atCounter(source, readPassage), actionPosition = { x: receipt.x / 16, y: receipt.y / 16 };
   state.world.currentMapId = 'nevsky'; state.player.embodiment = state.world.livingEventStates.E22.buyerHostId;
   state.player.position = { ...actionPosition }; state.hosts[state.player.embodiment].position = { ...actionPosition };
   const result = game.performQuestAction(state, { questId: quest.id,
@@ -67,19 +72,28 @@ function choose(source, actionId, readCatalog = true) {
 }
 
 const open = setup();
-const choices = questChoices(quest, buyerId, ['OBJ-SOV-1847'], open).map(row => row.action.id);
+const unreadChoices = questChoices(quest, buyerId, ['OBJ-SOV-1847'], open);
+assert.ok(unreadChoices.every(row => row.missingSourceId === 'LIT-TURGENEV-KHOR-KALYNYCH-1847'), 'all narrative choices require reading the actual excerpt first');
+const unreadState = atCounter(open, false), actionPosition = { x: receipt.x / 16, y: receipt.y / 16 };
+unreadState.world.currentMapId = 'nevsky'; unreadState.player.position = { ...actionPosition };
+unreadState.hosts[buyerId].position = { ...actionPosition };
+const blockedUntilRead = game.performQuestAction(unreadState, { questId: quest.id, hostId: buyerId,
+  actionId: 'E22_KEEP_PRIVATE', objectId: quest.entry.objectId }, { quests: [quest], maps });
+assert.equal(blockedUntilRead.reason, 'host_lacks_knowledge', 'the reducer blocks consequential choices until the passage is read');
+const choices = questChoices(quest, buyerId, ['OBJ-SOV-1847', 'LIT-TURGENEV-KHOR-KALYNYCH-1847'], open).map(row => row.action.id);
 assert.deepEqual(choices, ['E22_READ_ALOUD', 'E22_COMPARE_SOURCE', 'E22_COMMENT', 'E22_KEEP_PRIVATE']);
-assert.deepEqual(questChoices(quest, 'clerk_alexei', ['OBJ-SOV-1847'], open), [], 'only the actual buyer can choose the reading response');
+assert.deepEqual(questChoices(quest, 'clerk_alexei', ['OBJ-SOV-1847', 'LIT-TURGENEV-KHOR-KALYNYCH-1847'], open), [], 'only the actual buyer can choose the reading response');
 assert.equal(game.stateHash(game.loadGame(game.saveGame(open), { maps, hostCards: cards })), game.stateHash(open));
 for (const [actionId, stage, scope] of [
-  ['E22_READ_ALOUD', 'READ_ALOUD', 'FICTIONAL_GAMEPLAY_RECONSTRUCTION'],
-  ['E22_COMPARE_SOURCE', 'SOURCE_METADATA_COMPARED', 'BIBLIOGRAPHIC_METADATA_ONLY'],
-  ['E22_COMMENT', 'PUBLIC_COMMENT', 'FICTIONAL_GAMEPLAY_RECONSTRUCTION'],
-  ['E22_KEEP_PRIVATE', 'PRIVATE_READING', 'FICTIONAL_GAMEPLAY_RECONSTRUCTION'],
+  ['E22_READ_ALOUD', 'READ_ALOUD', 'FICTIONAL_READER_RESPONSE_TO_VERIFIED_LITERARY_EXCERPT'],
+  ['E22_COMPARE_SOURCE', 'PASSAGE_DISCUSSION', 'FICTIONAL_READER_RESPONSE_TO_VERIFIED_LITERARY_EXCERPT'],
+  ['E22_COMMENT', 'PUBLIC_COMMENT', 'FICTIONAL_READER_RESPONSE_TO_VERIFIED_LITERARY_EXCERPT'],
+  ['E22_KEEP_PRIVATE', 'PRIVATE_READING', 'FICTIONAL_READER_RESPONSE_TO_VERIFIED_LITERARY_EXCERPT'],
 ]) {
   const result = choose(open, actionId);
   assert.equal(result.world.livingEventStates.E22.stage, stage);
   assert.equal(result.world.periodicalDiscussionRecords.at(-1).scope, scope);
+  assert.equal(result.world.periodicalDiscussionRecords.at(-1).passageSourceId, 'LIT-TURGENEV-KHOR-KALYNYCH-1847');
   assert.equal(game.stateHash(game.loadGame(game.saveGame(result), { maps, hostCards: cards })), game.stateHash(result));
 }
 const unread = game.advanceNpcWorld(setup(), 61, maps);
@@ -92,4 +106,4 @@ assert.equal(purchaseCityProduct(away, { hostId: buyerId, productId: 'newspaper_
 const outOfStock = setup(); outOfStock.hosts.bookseller_lev.inventory = outOfStock.hosts.bookseller_lev.inventory.filter(item => item !== 'newspaper_1847_01');
 assert.equal(purchaseCityProduct(outOfStock, { hostId: buyerId, productId: 'newspaper_1847_01' }).reason, 'periodical_out_of_stock');
 
-console.log('V37 E22 newspaper issue: physical sale, money transfer, role-gated metadata reading, comparison scope, private/public responses, unattended closure, and save/load passed.');
+console.log('V37 E22 newspaper issue: physical sale, actual bilingual literary reading prerequisite, audience choices, private/public responses, unattended closure, and save/load passed.');

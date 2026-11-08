@@ -3395,6 +3395,22 @@
           ]
         },
         {
+          "id": 1190,
+          "name": "호리와 칼리니치가 나오는 문학면",
+          "type": "source",
+          "x": 368,
+          "y": 224,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            { "name": "sourceId", "type": "string", "value": "LIT-TURGENEV-KHOR-KALYNYCH-1847" },
+            { "name": "actionId", "type": "string", "value": "READ_PUBLIC_PRINT" },
+            { "name": "scope", "type": "string", "value": "public" },
+            { "name": "availableDate", "type": "string", "value": "1847-01-01" }
+          ]
+        },
+        {
           "id": 1182,
           "name": "세묘노프스키 광장으로",
           "type": "map-exit",

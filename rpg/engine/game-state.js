@@ -6316,27 +6316,28 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
       && nearTile(person.position, event.scenePosition, 5)).map(person => person.id).sort();
     next.world.periodicalDiscussionRecords ??= [];
     const outcomes = {
-      E22_READ_ALOUD: ['READ_ALOUD', 'BIBLIOGRAPHIC_METADATA_READ_TO_NEARBY_LISTENERS'],
-      E22_COMPARE_SOURCE: ['SOURCE_METADATA_COMPARED', 'BIBLIOGRAPHIC_FIELDS_CROSS_CHECKED'],
-      E22_COMMENT: ['PUBLIC_COMMENT', 'FICTIONAL_READER_COMMENTED_ON_ISSUE_METADATA'],
-      E22_KEEP_PRIVATE: ['PRIVATE_READING', 'PURCHASER_KEPT_COPY_PRIVATE'],
+      E22_READ_ALOUD: ['READ_ALOUD', 'LITERARY_PASSAGE_READ_TO_NEARBY_LISTENERS'],
+      E22_COMPARE_SOURCE: ['PASSAGE_DISCUSSION', 'FICTIONAL_READER_DISCUSSION_OF_PASSAGE'],
+      E22_COMMENT: ['PUBLIC_COMMENT', 'FICTIONAL_READER_SHARED_PASSAGE_RESPONSE'],
+      E22_KEEP_PRIVATE: ['PRIVATE_READING', 'PURCHASER_KEPT_PASSAGE_PRIVATE'],
     };
     const outcome = outcomes[actionId];
     if (!outcome) return { ok: false, reason: 'host_not_authorized', state };
     if (actionId === 'E22_READ_ALOUD') event.heardHostIds = heardHostIds;
     event.status = 'RESOLVED'; event.stage = outcome[0]; event.resolvedAtMinute = next.world.clockMinutes;
     event.resolutionActionId = actionId;
-    const record = { eventId: 'E22', issueId: event.issueId, sourceId: event.sourceId, buyerHostId: buyer.id,
+    const record = { eventId: 'E22', issueId: event.issueId, sourceId: event.sourceId,
+      passageSourceId: 'LIT-TURGENEV-KHOR-KALYNYCH-1847', buyerHostId: buyer.id,
       sellerHostId: seller.id, date: next.world.date, minute: next.world.clockMinutes,
       actionId, audienceHostIds: actionId === 'E22_READ_ALOUD' ? heardHostIds : [],
-      scope: actionId === 'E22_COMPARE_SOURCE' ? 'BIBLIOGRAPHIC_METADATA_ONLY' : 'FICTIONAL_GAMEPLAY_RECONSTRUCTION' };
+      scope: 'FICTIONAL_READER_RESPONSE_TO_VERIFIED_LITERARY_EXCERPT' };
     next.world.periodicalDiscussionRecords.push(record);
     if (next.world.periodicalDiscussionRecords.length > 32) next.world.periodicalDiscussionRecords.shift();
     livingEvents.push(newspaperIssueEventRow(next, event.stage, next.world.clockMinutes % 1440, maps,
-      { changeKo: actionId === 'E22_READ_ALOUD' ? '구매자가 자료에서 확인한 제목·연도·권호·발행인 정보를 가까운 사람에게 읽어 주었다.'
-        : actionId === 'E22_COMPARE_SOURCE' ? '구매자가 잡지 본문이 아닌 서지 항목만 자료 기록과 대조했다.'
-          : actionId === 'E22_COMMENT' ? '구매자와 레프가 서지 정보를 두고 의견을 나눴다.'
-            : '구매자가 잡지를 다른 이에게 읽어 주지 않고 가져갔다.',
+      { changeKo: actionId === 'E22_READ_ALOUD' ? '구매자가 투르게네프의 소설에서 호리와 칼리니치를 그린 대목을 가까운 사람에게 읽어 주었다.'
+        : actionId === 'E22_COMPARE_SOURCE' ? '구매자와 레프가 호리와 칼리니치의 삶과 관계를 두고 이야기를 나눴다.'
+          : actionId === 'E22_COMMENT' ? '구매자가 읽은 소설 대목에 대한 생각을 레프에게 말했다.'
+            : '구매자가 읽은 소설 대목을 다른 이에게 알리지 않고 간직했다.',
       audienceHostIds: [...record.audienceHostIds], recordScope: record.scope, resolutionActionId: actionId }));
   }
   if (!literaryQuest && questId === 'V37_MARKET_RUMOR_1847') {
@@ -7513,7 +7514,7 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
     throw new Error('Save contains invalid E13 market price dispute state');
   }
   const newspaperIssueEvent = state.world.livingEventStates.E22;
-  const newspaperStages = ['ISSUE_SOLD', 'DISCUSSION_OPEN', 'READ_ALOUD', 'SOURCE_METADATA_COMPARED', 'PUBLIC_COMMENT', 'PRIVATE_READING', 'AUTO_CLOSED'];
+  const newspaperStages = ['ISSUE_SOLD', 'DISCUSSION_OPEN', 'READ_ALOUD', 'PASSAGE_DISCUSSION', 'SOURCE_METADATA_COMPARED', 'PUBLIC_COMMENT', 'PRIVATE_READING', 'AUTO_CLOSED'];
   const newspaperActions = ['E22_READ_ALOUD', 'E22_COMPARE_SOURCE', 'E22_COMMENT', 'E22_KEEP_PRIVATE', 'AUTO_ISSUE_LEFT_UNREAD'];
   if (newspaperIssueEvent && (newspaperIssueEvent.catalogIdSpace !== 'V37_EVENT_CATALOG_45'
     || newspaperIssueEvent.catalogEventId !== 'E22' || !['ACTIVE', 'RESOLVED'].includes(newspaperIssueEvent.status)
@@ -7543,10 +7544,11 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
   const periodicalDiscussionRecords = state.world.periodicalDiscussionRecords ?? [];
   if (!Array.isArray(periodicalDiscussionRecords) || periodicalDiscussionRecords.length > 32
     || periodicalDiscussionRecords.some(record => record.eventId !== 'E22' || record.issueId !== 'newspaper_1847_01'
-      || record.sourceId !== 'OBJ-SOV-1847' || record.sellerHostId !== 'bookseller_lev' || !state.hosts[record.buyerHostId]
+      || record.sourceId !== 'OBJ-SOV-1847' || (record.passageSourceId !== undefined && record.passageSourceId !== 'LIT-TURGENEV-KHOR-KALYNYCH-1847')
+      || record.sellerHostId !== 'bookseller_lev' || !state.hosts[record.buyerHostId]
       || !Number.isInteger(record.minute) || !['E22_READ_ALOUD', 'E22_COMPARE_SOURCE', 'E22_COMMENT', 'E22_KEEP_PRIVATE'].includes(record.actionId)
       || !Array.isArray(record.audienceHostIds) || record.audienceHostIds.some(id => !state.hosts[id])
-      || !['BIBLIOGRAPHIC_METADATA_ONLY', 'FICTIONAL_GAMEPLAY_RECONSTRUCTION'].includes(record.scope))) {
+      || !['BIBLIOGRAPHIC_METADATA_ONLY', 'FICTIONAL_GAMEPLAY_RECONSTRUCTION', 'FICTIONAL_READER_RESPONSE_TO_VERIFIED_LITERARY_EXCERPT'].includes(record.scope))) {
     throw new Error('Save contains invalid E22 newspaper discussion record');
   }
   const marketRumorEvent = state.world.livingEventStates.E23;
