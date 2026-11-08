@@ -548,7 +548,7 @@ function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky
       possessionHistory: [],
       completedChapterIds: [],
     },
-    player: { position: { x: spawn.x, y: spawn.y }, facing: 'down', embodiment: null, currentGoals: [], observedEvidenceIds: [], crossPerspectiveNotes: [], civic: { suspicion: 0, custody: null, publishedIssues: [], readIssueIds: [], circulatedIssues: [] }, dialogueGrowth: { insight: 0, aiReplies: 0, perspectiveNotes: [], comparisonNotes: [], reflectionIds: [], playerPositions: [] }, gameSaveVersion: SAVE_VERSION },
+    player: { position: { x: spawn.x, y: spawn.y }, facing: 'down', embodiment: null, currentGoals: [], observedEvidenceIds: [], observerMemory: [], crossPerspectiveNotes: [], civic: { suspicion: 0, custody: null, publishedIssues: [], readIssueIds: [], circulatedIssues: [] }, dialogueGrowth: { insight: 0, aiReplies: 0, perspectiveNotes: [], comparisonNotes: [], reflectionIds: [], playerPositions: [] }, gameSaveVersion: SAVE_VERSION },
     hosts,
     quests: Object.fromEntries(quests.map(quest => [quest.id, { status: 'open', result: null }])),
     learning: initialLearningState(),
@@ -5231,6 +5231,17 @@ function releaseHost(state, map) {
   if (!host || host.releaseLocked || state.activeDialogue) return { ok: false, reason: 'host_action_in_progress', state };
   if (host.mapId !== state.world.currentMapId || map?.mapId !== state.world.currentMapId) return { ok: false, reason: 'host_not_here', state };
   const next = clone(state);
+  next.player.observerMemory ??= [];
+  const snapshot = {
+    hostId, date: next.world.date,
+    evidenceIds: [...new Set(host.knownEvidenceIds ?? [])],
+    rumors: (host.knownRumors ?? []).map(row => ({ eventId: row.eventId, sourceEventId: row.sourceEventId, status: row.status, fromHostId: row.fromHostId, recordNumber: row.recordNumber ?? null })),
+    eventReports: (host.heardEventReports ?? []).map(row => ({ reportId: row.reportId, catalogEventId: row.catalogEventId, stage: row.stage,
+      summaryKo: row.summaryKo, sourceIds: [...row.sourceIds], date: row.date, knowledgeKind: row.knowledgeKind,
+      occurrenceType: row.occurrenceType, validationStatus: row.validationStatus })),
+  };
+  const hasMemory = snapshot.evidenceIds.length || snapshot.rumors.length || snapshot.eventReports.length;
+  if (hasMemory) next.player.observerMemory.push(snapshot);
   next.player.embodiment = null;
   next.player.position = { ...host.position };
   return { ok: true, state: next };
@@ -7245,6 +7256,7 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
   state.player.dialogueGrowth.comparisonNotes ??= [];
   state.player.dialogueGrowth.reflectionIds ??= [];
   state.player.dialogueGrowth.playerPositions ??= [];
+  state.player.observerMemory ??= [];
   state.player.civic ??= { suspicion: 0, custody: null, publishedIssues: [], readIssueIds: [], circulatedIssues: [] };
   state.player.civic.suspicion ??= 0;
   state.player.civic.publishedIssues ??= [];
@@ -8124,6 +8136,16 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
   const sourceIds = new Set(Object.values(maps).flatMap(map => (layer(map, 'Interactions')?.objects ?? []).map(properties).map(item => item.sourceId).filter(Boolean)));
   const evidenceIds = new Set(Object.values(maps).flatMap(map => (layer(map, 'Interactions')?.objects ?? []).map(properties).map(item => item.evidenceId).filter(Boolean)));
   const recordIds = new Set([...sourceIds, ...evidenceIds]);
+  if (!Array.isArray(state.player.observerMemory) || state.player.observerMemory.some(memory => !memory
+    || !ids.has(memory.hostId) || typeof memory.date !== 'string'
+    || !Array.isArray(memory.evidenceIds) || memory.evidenceIds.some(id => !recordIds.has(id))
+    || !Array.isArray(memory.rumors) || memory.rumors.some(row => !row || row.eventId !== 'E23' || row.sourceEventId !== 'E13'
+      || !['UNVERIFIED', 'CHECKED', 'CORRECTED'].includes(row.status) || !ids.has(row.fromHostId))
+    || !Array.isArray(memory.eventReports) || memory.eventReports.some(report => !report || typeof report.reportId !== 'string'
+      || !/^E\d{2}$/.test(report.catalogEventId) || typeof report.stage !== 'string' || typeof report.summaryKo !== 'string'
+      || report.summaryKo.length > 300 || !Array.isArray(report.sourceIds) || report.sourceIds.some(id => !recordIds.has(id))
+      || typeof report.date !== 'string' || typeof report.knowledgeKind !== 'string' || typeof report.occurrenceType !== 'string'
+      || typeof report.validationStatus !== 'string'))) throw new Error('Save contains invalid observer memory');
   const cataloguedFoodItems = new Set(hostCards.flatMap(card => (card.marketOffers ?? [])
     .filter(offer => offer.category === 'food').map(offer => offer.itemKo)));
   if (!Array.isArray(state.world.foodAidRecords) || state.world.foodAidRecords.some(row => !row

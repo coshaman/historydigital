@@ -167,6 +167,25 @@ test('possession requires a nearby present body; release preserves both position
   assert.deepEqual(knowledgeForHost(state, farId), cards.find(card => card.id === farId).privateKnowledgeIds);
 });
 
+test('knowledge seen through one host becomes observer memory on release without entering another host', async () => {
+  const maps = await loadMaps();
+  const cards = await Promise.all((await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)));
+  const sourceId = 'LIT-TURGENEV-KHOR-KALYNYCH-1847';
+  let state = createInitialState({ maps, hostCards: cards, startMapId: 'printshop' });
+  const host = state.hosts.printer_ekaterina;
+  host.mapId = 'printshop'; state.player.position = { ...host.position };
+  state = possessHost(state, host.id, maps.printshop).state;
+  const read = recordSourceRead(state, sourceId, maps);
+  assert.equal(read.ok, true);
+  state = releaseHost(read.state, maps.printshop).state;
+  assert.ok(state.player.observerMemory.some(memory => memory.hostId === host.id && memory.evidenceIds.includes(sourceId)));
+  const otherHost = state.hosts.seamstress_anna;
+  assert.ok(!knowledgeForHost(state, otherHost.id).includes(sourceId));
+  const restored = loadGame(saveGame(state), { maps, hostCards: cards });
+  assert.ok(restored.player.observerMemory.some(memory => memory.hostId === host.id && memory.evidenceIds.includes(sourceId)));
+  assert.ok(!knowledgeForHost(restored, otherHost.id).includes(sourceId));
+});
+
 test('crossing a map boundary requires the nearby physical exit and preserves the possessed host', async () => {
   const maps = await loadMaps();
   const cards = await Promise.all((await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json')).map(file => json(`rpg/characters/${file}`)));

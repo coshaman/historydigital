@@ -591,7 +591,7 @@ function updateHud() {
   $('#journal-pin').disabled = !missionGuidance.target;
   $('#journal-pin').textContent = destinationPinned ? '목적지 표시 중' : '목적지 표시';
   const fill = (selector, rows, tag = 'li') => { const list = $(selector); list.replaceChildren(...rows.map(value => { const item = document.createElement(tag); item.textContent = value; return item; })); };
-  for (const selector of ['#journal-inventory','#journal-skills','#journal-relations','#journal-sources','#journal-history','#journal-perspective-notes','#journal-today-goals']) $(selector).replaceChildren();
+  for (const selector of ['#journal-inventory','#journal-skills','#journal-relations','#journal-sources','#journal-memory','#journal-history','#journal-perspective-notes','#journal-today-goals']) $(selector).replaceChildren();
   if (host) {
     const live = state.hosts[host.id], known = host.secretKnowledge.filter(item => live.privateKnowledgeIds.includes(item.id)).map(item => item.summaryKo);
     const goalList = $('#journal-today-goals');
@@ -620,6 +620,17 @@ function updateHud() {
     fill('#journal-sources', known.length ? known : ['이 몸으로 확인한 자료와 단서가 없습니다.']);
   }
   if (!host) fill('#journal-inventory', ['따로 기록된 물건이 없습니다.']);
+  const remembered = [];
+  for (const memory of state.player.observerMemory ?? []) {
+    const name = cards.find(item => item.id === memory.hostId)?.displayNameKo ?? '한 사람';
+    for (const id of memory.evidenceIds ?? []) {
+      const record = sourceRecords.get(id), clue = sceneObservations.entries[id];
+      remembered.push(`${memory.date} · ${name} · ${record?.titleKo ?? clue?.titleKo ?? id}`);
+    }
+    for (const rumor of memory.rumors ?? []) remembered.push(`${memory.date} · ${name} · 시장 소문 · ${({ UNVERIFIED: '확인 전', CHECKED: '확인함', CORRECTED: '바로잡음' })[rumor.status] ?? rumor.status}`);
+    for (const report of memory.eventReports ?? []) remembered.push(`${report.date} · ${name} · ${report.summaryKo}`);
+  }
+  fill('#journal-memory', remembered.length ? remembered : ['아직 기억해 둔 자료가 없습니다.']);
   const dialogueGrowth = state.player.dialogueGrowth ?? { insight: 0, aiReplies: 0, perspectiveNotes: [] };
   $('#journal-growth-stats').textContent = `AI 대화 ${dialogueGrowth.aiReplies}회 · 모은 관점 ${dialogueGrowth.insight}개 · 대조 메모 ${dialogueGrowth.comparisonNotes?.length ?? 0}개 · 내 입장 ${dialogueGrowth.playerPositions?.length ?? 0}개`;
   const reflectionRows = (dialogueGrowth.perspectiveNotes ?? []).map(note => {
@@ -656,7 +667,7 @@ function updateHud() {
 function setJournalTab(name) {
   document.querySelectorAll('[data-journal-tab]').forEach(button => button.setAttribute('aria-selected', String(button.dataset.journalTab === name)));
   document.querySelectorAll('[data-journal-panel]').forEach(panel => { panel.hidden = panel.dataset.journalPanel !== name; });
-  $('#journal-title').textContent = ({ goal: '해야 할 일', inventory: '지금 가진 것', people: '인물과 관계', sources: '읽은 자료', reflections: '관점 노트', history: '지난 기록' })[name] ?? '해야 할 일';
+  $('#journal-title').textContent = ({ goal: '해야 할 일', inventory: '지금 가진 것', people: '인물과 관계', sources: '읽은 자료와 기억', reflections: '관점 노트', history: '지난 기록' })[name] ?? '해야 할 일';
   if (name === 'people') renderJournalRelations();
 }
 function renderJournalRelations() {
