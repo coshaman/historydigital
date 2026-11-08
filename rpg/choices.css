@@ -176,7 +176,7 @@ kbd{font:11px 'IBM Plex Mono',monospace;color:#d8c59f}
 .source-reader-provenance p{white-space:pre-line;line-height:1.7}
 .source-reader-links{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0}
 .source-reader-links a{color:#5b4026;text-decoration-thickness:1px;text-underline-offset:3px;padding:6px}
-.source-reader-actions{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:12px 0 0;padding:12px 0 0;border-top:1px solid #b99c69;background:transparent}
+.source-reader-actions{position:sticky;bottom:calc(-1 * clamp(16px,3vw,34px));z-index:2;display:flex;align-items:center;justify-content:space-between;gap:16px;margin:12px calc(-1 * clamp(16px,3vw,34px)) calc(-1 * clamp(16px,3vw,34px));padding:12px clamp(16px,3vw,34px) clamp(16px,3vw,34px);border-top:1px solid #b99c69;background:linear-gradient(180deg,#eadcbae8 0%,#eadcba 18%);box-shadow:0 -8px 16px #6a513122}
 .source-reader-actions span{font-size:14px;line-height:1.5}
 .source-reader-actions button{flex:0 0 auto;font-weight:600}
 .source-reader button:focus-visible,.source-reader a:focus-visible{outline:3px solid #a37335;outline-offset:3px}

@@ -3818,6 +3818,7 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
   const socialForecast = upcomingNpcSocialWork(state);
   const imminentSocialTask = socialForecast.hostIds.has(host.id);
   const candidates = [];
+  let hasImmediateScheduledMeal = false;
   const addCandidate = (goal, utility, priority) => {
     if (!goal?.slot || !Number.isFinite(utility)) return;
     candidates.push({ ...goal, selectionBasis: { ...(goal.selectionBasis ?? {}), utilityScore: Math.round(utility * 100) / 100 }, _priority: priority });
@@ -4007,6 +4008,7 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
     if (scheduledTask?.type === 'CONSUME' && scheduledTask.itemKo && hasScheduledMealPortion(scheduledTask.itemKo)) mealCandidates.push({ slot: scheduledSlot, wait: 0 });
     const meal = mealCandidates.filter(goal => host.needs.hunger >= (Number.isFinite(goal.slot.task.minimumHunger) ? goal.slot.task.minimumHunger : 40)).sort((a, b) => a.wait - b.wait)[0];
     if (meal) {
+      hasImmediateScheduledMeal = true;
       const mealWeight = Number.isFinite(host.plannerPolicy?.mealPriority) ? host.plannerPolicy.mealPriority : 0.5;
       addCandidate({ slot: meal.slot, goalType: 'NEED_MEAL', targetHostId: null, taskId: meal.slot.task.id, reason: 'hunger_threshold_before_meal_window' },
         35 + host.needs.hunger * 0.55 + mealWeight * 8 + Math.max(0, 60 - meal.wait) * 0.35 + (meal.wait === 0 ? 8 : 0), 2);
@@ -4017,7 +4019,8 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
   const activelyServingFood = (host.marketOffers ?? []).some(offer => offer.category === 'food'
     && (host.marketStock?.[offer.itemKo] ?? 0) > 0
     && isMarketOfferOpen(host, offer, state.world.clockMinutes));
-  if (!activelyServingFood && host.needs?.hunger >= 60 && !host.inventory.some(item => foodItems.has(item))) {
+  const carriesFood = host.inventory.some(item => foodItems.has(item));
+  if (!activelyServingFood && host.needs?.hunger >= 40 && (!carriesFood || !hasImmediateScheduledMeal)) {
     const lateMealService = localMinute >= 960 && localMinute < 1200;
     const currentFoodSellerId = host.activeGoal?.type === 'PURCHASE_MEAL' ? host.activeGoal.targetHostId : null;
     const foodOffers = Object.values(state.hosts).flatMap(seller => {
@@ -4045,12 +4048,21 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
     const offer = selectedFoodOffer?.offer;
     const price = selectedFoodOffer?.price ?? null;
     if (seller && offer) {
-      const mealSourceEventId = activeMealSeekingCauseEventId(host, state);
-      const unresolvedHungerPriority = mealSourceEventId === 'E14' && host.needs.hunger >= 90 ? 32 : 0;
-      addCandidate({ slot: { mapId: seller.mapId, position: { ...seller.position }, activityKo: '시장 상인에게 빵값을 내고 끼니를 산다' },
-        goalType: 'PURCHASE_MEAL', targetHostId: seller.id, taskId: `FOOD:${seller.id}:${offer.itemKo}`, reason: 'hunger_requires_affordable_market_food',
-        selectionBasis: { hunger: host.needs.hunger, price, unit: offer.unit, ...(mealSourceEventId ? { sourceEventId: mealSourceEventId } : {}) } },
-        Math.min(154, 108 + host.needs.hunger * 0.72) + unresolvedHungerPriority, 2);
+      const travelLead = Math.min(20, selectedFoodOffer.routeLength * 8);
+      const mealStartThreshold = Math.max(40, 60 - travelLead);
+      if (host.needs.hunger >= mealStartThreshold) {
+        const mealSourceEventId = activeMealSeekingCauseEventId(host, state);
+        const unresolvedHungerPriority = mealSourceEventId === 'E14' && host.needs.hunger >= 90 ? 32 : 0;
+        const mealUtility = host.needs.hunger >= 80 ? 190
+          : host.needs.hunger >= 70 ? 166
+            : host.needs.hunger >= 60 ? Math.min(154, 108 + host.needs.hunger * 0.72)
+              : Math.min(105, 80 + host.needs.hunger * 0.3 + travelLead * 0.45);
+        const protectedObligation = (activeSocialTask || scheduledWorkSlot) && host.needs.hunger < 75;
+        addCandidate({ slot: { mapId: seller.mapId, position: { ...seller.position }, activityKo: '시장 상인에게 빵값을 내고 끼니를 산다' },
+          goalType: 'PURCHASE_MEAL', targetHostId: seller.id, taskId: `FOOD:${seller.id}:${offer.itemKo}`, reason: 'plan_a_market_meal_before_hunger_becomes_severe',
+          selectionBasis: { hunger: host.needs.hunger, price, unit: offer.unit, travelLead, ...(mealSourceEventId ? { sourceEventId: mealSourceEventId } : {}) } },
+          (protectedObligation ? Math.min(mealUtility, 98) : mealUtility) + unresolvedHungerPriority, 2);
+      }
     }
     if (!seller && host.needs.hunger >= 82) {
       const kinFoodDonor = (host.relationshipEdges ?? []).filter(edge => edge.kind === 'KINSHIP'

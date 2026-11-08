@@ -26,6 +26,30 @@ assert.ok(cards.find(card => card.id === 'market_nadezhda').residence.sleepMinut
   'the bread seller remains at work until the advertised closing time');
 assert.ok(cards.find(card => card.id === 'market_nadezhda').marketOffers[0].openWindows.some(window => window.startMinute === 480 && window.endMinute >= 900),
   'the bakery supplier returns in time to keep the daytime bread stall open through the afternoon');
+const bakerCanEat = game.createInitialState({ maps, hostCards: cards, startMapId: 'market-quay' });
+for (const host of Object.values(bakerCanEat.hosts)) host.historicalAliveAndPresent = ['baker_fyodor', 'market_nadezhda'].includes(host.id);
+const breadBaker = bakerCanEat.hosts.baker_fyodor, breadSellerHost = bakerCanEat.hosts.market_nadezhda;
+breadBaker.mapId = breadSellerHost.mapId = 'market-quay'; breadBaker.position = { x: 13, y: 12 }; breadSellerHost.position = { x: 14, y: 12 };
+breadBaker.schedule = [{ atMinute: 600, mapId: 'market-quay', position: { ...breadBaker.position }, activityKo: '장터 일을 살핀다' }];
+breadBaker.activeGoal = null; breadBaker.needs.hunger = 90; breadBaker.needs.lastMealAtMinute = 0; breadBaker.money.amount = 20;
+breadSellerHost.marketStock['빵 한 묶음'] = 5;
+const bakerFed = game.advanceNpcWorld(bakerCanEat, 10, maps);
+assert.ok(bakerFed.hosts.baker_fyodor.needs.hunger < 90,
+  'bread reserved for sale must not prevent a baker without a personal meal schedule from buying and eating');
+const remoteMealTrip = game.createInitialState({ maps, hostCards: cards, startMapId: 'printshop' });
+for (const host of Object.values(remoteMealTrip.hosts)) host.historicalAliveAndPresent = ['typesetter_nikita', 'market_nadezhda'].includes(host.id);
+const remoteWorker = remoteMealTrip.hosts.typesetter_nikita, remoteSeller = remoteMealTrip.hosts.market_nadezhda;
+remoteWorker.mapId = 'printshop'; remoteWorker.position = { x: 15, y: 10 }; remoteWorker.inventory = [];
+remoteWorker.schedule = [{ atMinute: 600, mapId: 'printshop', position: { ...remoteWorker.position }, activityKo: '인쇄소 일을 정리한다' }];
+remoteWorker.activeGoal = null; remoteWorker.needs.hunger = 50; remoteWorker.needs.lastMealAtMinute = 0;
+remoteWorker.needs.incomePressure = 0; remoteWorker.money.amount = 20;
+remoteSeller.mapId = 'market-quay'; remoteSeller.position = { x: 14, y: 12 }; remoteSeller.marketStock['빵 한 묶음'] = 5;
+const earlyMealTrip = game.advanceNpcWorld(remoteMealTrip, 1, maps);
+assert.equal(earlyMealTrip.hosts.typesetter_nikita.activeGoal.type, 'PURCHASE_MEAL',
+  'a distant resident starts the trip before hunger becomes severe');
+assert.equal(earlyMealTrip.hosts.typesetter_nikita.activeGoal.targetHostId, 'market_nadezhda');
+assert.ok(earlyMealTrip.hosts.typesetter_nikita.needs.hunger > 50 && earlyMealTrip.hosts.typesetter_nikita.needs.hunger < 60,
+  'starting a meal trip does not create or consume food before the resident reaches the seller');
 const authoredFishSeller = cards.find(card => card.id === 'fishseller_klavdiya');
 assert.equal(authoredFishSeller.marketOffers[0].itemKo, '생선 한 점');
 assert.ok(authoredFishSeller.marketOffers[0].openWindows.some(window => window.startMinute === 480 && window.endMinute >= 1320),
