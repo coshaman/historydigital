@@ -46,7 +46,7 @@ test('session is server-bound to one host; client cannot choose scene, inject me
   assert.match(providerInput.character.worldview.designBasisKo, /실제 견해나 발언을 재현하지 않는다/);
   assert.deepEqual(providerInput.conversation.sceneContext, { date: '1847-06-01', mapId: 'printshop', placeKo: '네프스키 인쇄소', questId: 'PRINTSHOP_PROOF_1847', questTitleKo: '교정쇄의 행선지',
     activityKo: '교정쇄와 활자를 살핀다', currentAimKo: '작업한 교정쇄의 전달처와 책임자를 확인한다', hungerBand: 'HUNGRY', fatigueBand: 'TIRED', healthCondition: 'FIT', heardRumors: [], heardEvents: [],
-    playerHistoricalEvents: [{ eventId: 'SENATE_SQUARE_1825', titleKo: '상원 광장, 12월 14일', choices: [{ id: 'open_route', textKo: '마차와 행인에게 강변 우회로를 열어 주었다' }] }] });
+    playerHistoricalEvents: [{ eventId: 'SENATE_SQUARE_1825', titleKo: '상원 광장, 12월 14일', choices: [{ id: 'open_route', textKo: '세탁부와 마차꾼에게 강변 골목을 피난길로 맡겼다' }] }] });
   assert.deepEqual(providerInput.conversation.playerHistoricalEvents, providerInput.conversation.sceneContext.playerHistoricalEvents);
   assert.equal(providerInput.character.relationshipToEmbodiedPlayer?.nameKo, '알렉세이 오를로프');
   assert.match(providerInput.character.relationshipToEmbodiedPlayer?.descriptionKo ?? '', /교정쇄/);
@@ -249,6 +249,28 @@ test('AI dialogue receives only the speaker’s authored family and relationship
     summaryKo: '장터에서 돈주머니가 사라졌다는 말을 들었다.', sourceIds: ['CAT-RSL-BAZAAR-WARDENS-1842', 'OBJ-PRLIB-STPETE-THEFT-CASES-1843-44'],
     knowledgeKind: 'HEARD_FROM_PERSON', occurrenceType: 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION',
     validationStatus: 'DESIGN_SEED_NOT_VERIFIED', historicalOutcomeFixed: false, fromHostKo: '가브릴라' }]);
+});
+
+test('open-ended recent-event questions receive a concrete known incident and are instructed to answer it directly', async () => {
+  let providerRequest;
+  const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store: new MemorySessionStore(),
+    allowedOrigins: ['https://game.example'], provider: { generate: async request => {
+      providerRequest = request; return validTurn(request.input.scene.id, request.input.character.id);
+    } } });
+  const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'police_sergeant_ivan' }));
+  const result = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken,
+    requestId: 'ivan-recent-event-0001', playerInput: '요즘 흥미로운 사건이 있소?', actorRelations: {}, actorActions: [],
+    sceneContext: { date: '1847-06-01', mapId: 'market-quay', questId: null,
+      playerHistoricalEvents: [{ eventId: 'SENATE_SQUARE_1825', choices: ['senate-route-horse:turn-cart'] }],
+      heardEvents: [{ catalogEventId: 'E36', stage: 'LOSS_NOTICED', summaryKo: '나데즈다가 계산대 옆에 둔 돈주머니가 사라진 걸 알아차렸다.',
+        sourceIds: ['CAT-RSL-BAZAAR-WARDENS-1842', 'OBJ-PRLIB-STPETE-THEFT-CASES-1843-44'], knowledgeKind: 'PARTICIPANT',
+        occurrenceType: 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION', validationStatus: 'DESIGN_SEED_NOT_VERIFIED', historicalOutcomeFixed: false, fromHostId: null }] } }));
+  assert.equal(result.status, 200);
+  assert.equal(providerRequest.input.conversation.sceneContext.heardEvents[0].eventTitleKo, '장터 도난');
+  assert.match(providerRequest.input.conversation.sceneContext.heardEvents[0].summaryKo, /돈주머니/);
+  assert.equal(providerRequest.input.conversation.sceneContext.playerHistoricalEvents[0].choices[0].textKo, '마차를 강변 길로 돌려 행인과 떨어뜨렸다');
+  assert.match(providerRequest.instructions, /흥미로운 사건이 있는지 물으면/);
+  assert.match(providerRequest.instructions, /첫 문장에 구체적으로 답한다/);
 });
 
 test('the client dialogue context exposes current needs and only authored activities and aims', async () => {

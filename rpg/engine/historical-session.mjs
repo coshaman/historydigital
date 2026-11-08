@@ -5,7 +5,7 @@ export function beginHistoricalSession(campaignState, event, maps, cards) {
   if (!campaignState || !event?.id || !maps?.[event.entryMapId] || !Array.isArray(event.actors))
     return { ok: false, reason: 'invalid_historical_event' };
   const session = clone(campaignState), returnState = clone(campaignState), nextCards = [...cards];
-  session.historicalSession = { eventId: event.id, returnState, choices: [], completedObjectives: [], stage: 0 };
+  session.historicalSession = { eventId: event.id, returnState, choices: [], completedObjectives: [], actionOutcomes: {}, pledgedActorIds: [], stage: 0 };
   session.world.currentMapId = event.entryMapId;
   session.world.date = event.date;
   session.world.clockMinutes = event.startMinute ?? 600;
@@ -53,4 +53,28 @@ export function completeHistoricalObjective(session, objectiveId) {
   const next = clone(session);
   if (!next.historicalSession.completedObjectives.includes(objectiveId)) next.historicalSession.completedObjectives.push(objectiveId);
   return next;
+}
+
+export function performHistoricalAction(session, scene, actionId, choiceId) {
+  const action = scene?.fieldActions?.find(item => item.id === actionId);
+  const option = action?.options?.find(item => item.id === choiceId);
+  if (!session?.historicalSession || session.historicalSession.eventId !== scene?.eventId || !action || !option)
+    return { ok: false, reason: 'invalid_historical_action', state: session };
+  if (session.world?.currentMapId !== action.mapId)
+    return { ok: false, reason: 'wrong_historical_area', state: session };
+  if (session.historicalSession.actionOutcomes?.[action.id])
+    return { ok: false, reason: 'action_already_resolved', state: session };
+
+  const next = clone(session);
+  next.historicalSession.actionOutcomes ??= {};
+  next.historicalSession.actionOutcomes[action.id] = option.id;
+  next.historicalSession.completedObjectives ??= [];
+  if (action.objectiveId && !next.historicalSession.completedObjectives.includes(action.objectiveId))
+    next.historicalSession.completedObjectives.push(action.objectiveId);
+  next.historicalSession.choices ??= [];
+  next.historicalSession.choices.push({ id: `${action.id}:${option.id}`, textKo: option.textKo });
+  next.world.historicalEventEffects ??= {};
+  next.world.historicalEventEffects[scene.eventId] ??= {};
+  Object.assign(next.world.historicalEventEffects[scene.eventId], clone(option.effects ?? {}));
+  return { ok: true, state: next, action, option };
 }

@@ -11,6 +11,19 @@
 .touch-pad button:disabled{opacity:.4;cursor:not-allowed}
 @media(max-width:760px){.lower.has-actions .touch-pad{display:none}}
 @media(max-width:760px){body.historical-event-active .lower.has-actions .touch-pad{display:grid}}
+@media(max-width:760px){
+  body.historical-event-active .game-shell{padding:8px;gap:7px;grid-template-rows:auto minmax(185px,.72fr) minmax(360px,1.28fr)}
+  body.historical-event-active .topline{align-items:center;padding-bottom:6px;gap:6px}
+  body.historical-event-active .top-meta{gap:5px;max-width:65%;font-size:8px}
+  body.historical-event-active #calendar-date,body.historical-event-active #clock{display:none}
+  body.historical-event-active .top-meta button{padding:5px 7px;font-size:9px}
+  body.historical-event-active .playfield{min-height:185px}
+  body.historical-event-active .lower{padding:7px 8px;gap:6px}
+  body.historical-event-active .journal h2{font-size:15px;margin:3px 0}
+  body.historical-event-active .journal p{font-size:12px;line-height:1.4}
+  body.historical-event-active .touch-pad{grid-template-rows:32px 32px}
+  body.historical-event-active .touch-pad button{font-size:15px}
+}
 .dialogue-speaker{display:flex;align-items:center;gap:10px;margin:6px 0 4px;color:#d5b579;font-size:13px}.dialogue-speaker[hidden]{display:none}.dialogue-speaker img{width:64px;height:64px;flex:none;object-fit:cover;image-rendering:pixelated;border:1px solid #9b774e;box-shadow:3px 3px 0 #100c09}.lower.is-talking .journal p{max-height:22vh;overflow-y:auto;overscroll-behavior:contain}@media(max-width:760px){.dialogue-speaker{margin:4px 0}.dialogue-speaker img{width:48px;height:48px}}
 .actions.roster-options{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:7px;max-height:min(40dvh,390px);overflow:auto;overscroll-behavior:contain;padding:3px 7px 4px 0}
 .actions .roster-card{display:grid;grid-template-columns:42px minmax(0,1fr);align-items:center;gap:10px;min-width:0;max-width:none;padding:8px;text-align:left;background:#2a211b;border-color:#735637}

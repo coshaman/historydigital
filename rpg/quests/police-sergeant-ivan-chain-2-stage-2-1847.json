@@ -1,13 +1,16 @@
 {
   "id": "IVAN_WITNESS_ACCOUNT_1849_STAGE_2",
-  "titleKo": "목격과 전언 사이",
+  "titleKo": "수레가 지난 골목",
   "chapterId": "V33_1849_CIRCLE",
   "date": "1849-04-22",
-  "premiseKo": "출처를 나누자 진술 사이에 시간이 맞지 않는 부분이 보인다. 누가 직접 확인할 수 있는지 정해야 한다.",
+  "premiseKo": "가브릴라가 장터를 가로지른 수레 한 대를 기억했다. 나데즈다는 손님이 빠지기 전에 좌판을 접을지 기다릴지 묻는다.",
   "historicalOutcome": {
     "id": "IVAN_WITNESS_ACCOUNT_1849_STAGE_2_FICTIONAL_OUTCOME",
-    "value": "fictional resident daily life choice only; no historical public record is altered",
-    "sourceIds": []
+    "value": "fictional resident choices follow the game’s E36 market-loss scene; they do not identify a real suspect or alter a historical case",
+    "sourceIds": [
+      "CAT-RSL-BAZAAR-WARDENS-1842",
+      "OBJ-PRLIB-STPETE-THEFT-CASES-1843-44"
+    ]
   },
   "entry": {
     "mapId": "police-station",
@@ -20,74 +23,84 @@
       "hostIds": [
         "police_sergeant_ivan"
       ],
-      "labelKo": "각 진술자에게 시각을 따로 묻는다",
-      "subcopyKo": "진술자와 기록 담당자가 압니다 · 개별 확인표에 답변 시각이 남습니다 · 접수 처리가 늦어질 수 있습니다",
-      "resultKo": "각자 기억하는 시각을 따로 확인하기로 했다. 서로의 말을 맞추기 전에 차이를 보존한다.",
-      "resultFlag": "separateTimes",
-      "followupTitleKo": "추가 확인 요청서",
+      "labelKo": "가브릴라와 수레가 간 골목을 돈다",
+      "subcopyKo": "가브릴라와 주변 상인이 압니다 · 순찰 시간이 길어집니다 · 다른 길목은 잠시 비게 됩니다",
+      "resultKo": "이반은 가브릴라와 골목을 한 바퀴 돌았다. 수레 자국은 창고 쪽에서 끊겼고, 장터 순찰은 늦어졌다.",
+      "resultFlag": "IVAN_MARKET_WALK_LANE",
+      "followupTitleKo": "수레가 지난 골목",
       "effects": {
-        "situationKo": "각자 기억하는 시각을 따로 확인하기로 했다. 서로의 말을 맞추기 전에 차이를 보존한다.",
+        "situationKo": "이반은 가브릴라와 골목을 한 바퀴 돌았다. 수레 자국은 창고 쪽에서 끊겼고, 장터 순찰은 늦어졌다.",
         "relations": {
-          "junior_guard_sergey": "오늘 함께 확인한 일: 추가 확인 요청서"
+          "market_nadezhda": "이반과 함께 겪은 장터 일: 수레가 지난 골목",
+          "porter_gavrila": "함께 살핀 장터 일: 수레가 지난 골목"
         },
         "lifeChainDelta": {
-          "verifiedAccounts": 2
+          "marketLoss": 2
         }
-      }
+      },
+      "followupKo": "이 일은 장터의 이웃과 이반의 순찰에 이어진다."
     },
     {
       "id": "IVAN_WITNESS_ACCOUNT_1849_STAGE_2_CHOICE_2",
       "hostIds": [
         "police_sergeant_ivan"
       ],
-      "labelKo": "거리 순찰 기록과 대조한다",
-      "subcopyKo": "접수실과 순찰 담당자가 압니다 · 대조 요청서와 회신이 남습니다 · 기록이 없으면 결론을 못 낼 수 있습니다",
-      "resultKo": "순찰 기록에 확인을 요청했다. 자료가 없으면 빈칸을 그대로 둘 생각이다.",
-      "resultFlag": "patrolCheck",
-      "followupTitleKo": "추가 확인 요청서",
+      "labelKo": "상인들에게 수레 주인인지 직접 물어본다",
+      "subcopyKo": "주변 상인과 수레꾼이 압니다 · 공개적으로 확인합니다 · 잘못 묻는다면 장터 분위기가 험해집니다",
+      "resultKo": "이반은 수레꾼에게 차례로 물었다. 한 사람은 화를 냈지만, 나데즈다는 자기 좌판을 계속 지켰다.",
+      "resultFlag": "IVAN_MARKET_ASK_CARTMEN",
+      "followupTitleKo": "수레가 지난 골목",
       "effects": {
-        "situationKo": "순찰 기록에 확인을 요청했다. 자료가 없으면 빈칸을 그대로 둘 생각이다.",
+        "situationKo": "이반은 수레꾼에게 차례로 물었다. 한 사람은 화를 냈지만, 나데즈다는 자기 좌판을 계속 지켰다.",
         "relations": {
-          "junior_guard_sergey": "오늘 함께 확인한 일: 추가 확인 요청서"
+          "market_nadezhda": "이반과 함께 겪은 장터 일: 수레가 지난 골목",
+          "porter_gavrila": "함께 살핀 장터 일: 수레가 지난 골목"
         },
         "lifeChainDelta": {
-          "verifiedAccounts": 1
+          "marketLoss": 1
         }
-      }
+      },
+      "followupKo": "이 일은 장터의 이웃과 이반의 순찰에 이어진다."
     },
     {
       "id": "IVAN_WITNESS_ACCOUNT_1849_STAGE_2_CHOICE_3",
       "hostIds": [
         "police_sergeant_ivan"
       ],
-      "labelKo": "상급자에게 현재 진술만 올린다",
-      "subcopyKo": "상급자가 봅니다 · 검토 상신서에 미확인 부분이 남습니다 · 성급한 판단을 막지만 결정이 늦어집니다",
-      "resultKo": "확인하지 못한 시각을 표시해 상급자에게 올렸다. 판단은 넘어가지만 모르는 부분은 숨기지 않았다.",
-      "resultFlag": "escalateUnclear",
-      "followupTitleKo": "추가 확인 요청서",
+      "labelKo": "장터 출구에 순찰 둘을 남긴다",
+      "subcopyKo": "장터 경비와 상인들이 압니다 · 출구를 살핍니다 · 다른 골목 순찰은 줄어듭니다",
+      "resultKo": "이반은 출구 두 곳에 경비를 세웠다. 장터는 안심했지만 좁은 골목에는 순찰이 뜸해졌다.",
+      "resultFlag": "IVAN_MARKET_WATCH_EXITS",
+      "followupTitleKo": "수레가 지난 골목",
       "effects": {
-        "situationKo": "확인하지 못한 시각을 표시해 상급자에게 올렸다. 판단은 넘어가지만 모르는 부분은 숨기지 않았다.",
+        "situationKo": "이반은 출구 두 곳에 경비를 세웠다. 장터는 안심했지만 좁은 골목에는 순찰이 뜸해졌다.",
         "relations": {
-          "junior_guard_sergey": "오늘 함께 확인한 일: 추가 확인 요청서"
+          "market_nadezhda": "이반과 함께 겪은 장터 일: 수레가 지난 골목",
+          "porter_gavrila": "함께 살핀 장터 일: 수레가 지난 골목"
         },
         "lifeChainDelta": {
-          "verifiedAccounts": 1
+          "marketLoss": 0
         }
-      }
+      },
+      "followupKo": "이 일은 장터의 이웃과 이반의 순찰에 이어진다."
     }
   ],
   "completion": "one authorized choice at the named physical work object",
   "lifeChain": {
     "id": "IVAN_WITNESS_ACCOUNT_1849",
-    "titleKo": "목격과 전언 사이",
+    "titleKo": "장터의 빈 돈주머니",
     "stage": 2,
     "stageCount": 3,
     "metricsKo": {
-      "verifiedAccounts": "이 문제를 처리하며 남긴 결과"
+      "marketLoss": "장터 손실을 함께 처리한 방식"
     },
     "previousQuestId": "IVAN_WITNESS_ACCOUNT_1849_STAGE_1"
   },
   "prerequisiteQuestIds": [
     "IVAN_WITNESS_ACCOUNT_1849_STAGE_1"
+  ],
+  "sourceIds": [
+    "CAT-RSL-BAZAAR-WARDENS-1842",
+    "OBJ-PRLIB-STPETE-THEFT-CASES-1843-44"
   ]
 }

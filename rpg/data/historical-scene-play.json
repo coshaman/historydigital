@@ -2,96 +2,1062 @@
   "schemaVersion": "V38_WALKABLE_HISTORY_1",
   "events": [
     {
-      "eventId": "SENATE_SQUARE_1825", "maps": ["senate-approach", "senate-square", "senate-river"],
-      "backgrounds": ["nevsky", "semenovsky-square", "market-quay"], "zoneTitlesKo": ["광장으로 가는 길", "상원 광장", "강변 피난길"],
-      "entryPosition": {"x": 4,"y": 14}, "startMinute": 600,
+      "eventId": "SENATE_SQUARE_1825",
+      "maps": [
+        "senate-approach",
+        "senate-square",
+        "senate-river"
+      ],
+      "backgrounds": [
+        "nevsky",
+        "semenovsky-square",
+        "market-quay"
+      ],
+      "zoneTitlesKo": [
+        "광장으로 가는 길",
+        "상원 광장",
+        "강변 피난길"
+      ],
+      "entryPosition": {
+        "x": 4,
+        "y": 14
+      },
+      "startMinute": 600,
       "actors": [
-        {"id":"cobbler","templateId":"clerk_alexei","nameKo":"구두장이 미하일","lines":["새 선서를 하러 가는 병사가 왜 저쪽으로 갑니까? 아침부터 말이 다 달라요.","가게를 닫고 가족부터 강 쪽으로 데려가야겠소."],"objectiveId":"guide_civilians"},
-        {"id":"guardsman","templateId":"junior_guard_sergey","nameKo":"근위병 세르게이","lines":["부대마다 받은 명령이 다릅니다. 지휘관을 기다리라는 말만 들었습니다.","광장 앞 대열은 움직이지 않습니다. 민간인 길을 비워 주십시오."],"objectiveId":"clarify_orders"},
-        {"id":"coachman","templateId":"carter_roman","nameKo":"마차꾼 로만","lines":["말이 군중 소리에 놀랐소. 이대로면 수레가 사람을 칠 거요.","말을 돌릴 공간만 내주시오. 마차는 강 쪽으로 빼겠소."],"objectiveId":"guide_civilians"},
-        {"id":"copyist","templateId":"scribal_yuri","nameKo":"필사원 유리","lines":["장교가 읽은 문구는 들었지만, 병사들이 무엇을 들었는지는 다릅니다.","이 종이를 누구에게 가져가야 하는지부터 정해야 합니다."],"objectiveId":"follow_order_route"},
-        {"id":"fishseller","templateId":"fishseller_klavdiya","nameKo":"생선 장수 클라브디야","lines":["강변 길로 가면 집에 갈 수 있나요? 사람들 사이에 아이가 있어요.","대열이 움직이기 전에 이 골목으로 빠져야 해요."],"objectiveId":"guide_civilians"},
-        {"id":"medical_student","templateId":"student_vasily","nameKo":"의학생 바실리","lines":["다친 사람이 저쪽에 있습니다. 다만 광장으로 뛰어들면 우리까지 막힙니다.","수레를 부를까요, 아니면 먼저 통로를 열까요?"],"objectiveId":"aid_wounded"},
-        {"id":"laundress","templateId":"laundress_mariya","nameKo":"세탁부 마리야","lines":["집에 돌아갈 길이 막혔어요. 군인들 사이로 아이를 데리고 갈 순 없어요.","제가 아는 안뜰 길이 있어요. 누가 같이 와 주겠어요?"],"objectiveId":"find_side_route"},
-        {"id":"student","templateId":"teacher_lyubov","nameKo":"가정교사 류보프","lines":["사람들은 각자 다른 말을 들었어요. 누가 선서했고 누가 거부했는지조차 뒤섞입니다.","소문을 더 퍼뜨리기 전에 당사자에게 확인해야 해요."],"objectiveId":"clarify_orders"},
-        {"id":"veteran","templateId":"watercarrier_luka","nameKo":"퇴역병 루카","lines":["군복을 입었다고 다 같은 명령을 받은 건 아니오. 옛 동료가 저기 있소.","대열을 가로막으면 더 다칠 수 있소. 물과 들것부터 가져옵시다."],"objectiveId":"aid_wounded"},
-        {"id":"widow","templateId":"housemaid_olga","nameKo":"하숙집 주인 안나","lines":["방에 세든 사람들이 아직 광장 쪽에 있어요. 문을 열어 두면 숨을 곳은 됩니다.","사람을 들이면 군인들이 찾아올 수도 있겠지요."],"objectiveId":"shelter_neighbors"}
+        {
+          "id": "cobbler",
+          "templateId": "clerk_alexei",
+          "nameKo": "구두장이 미하일",
+          "lines": [
+            "방금은 선서하러 간다더니, 왜 저 병사들은 반대쪽으로 가요?",
+            "가게는 닫겠소. 식구부터 강 쪽으로 데려가야지."
+          ],
+          "objectiveId": "guide_civilians"
+        },
+        {
+          "id": "guardsman",
+          "templateId": "junior_guard_sergey",
+          "nameKo": "근위병 세르게이",
+          "lines": [
+            "대열 앞을 막지 마십시오. 지휘관의 명령을 기다리고 있습니다.",
+            "저도 지금 들은 명령만 압니다. 길을 비우고 물러나 주십시오."
+          ],
+          "objectiveId": "clarify_orders"
+        },
+        {
+          "id": "coachman",
+          "templateId": "carter_roman",
+          "nameKo": "마차꾼 로만",
+          "lines": [
+            "이 말, 더는 못 붙들겠소. 사람 쪽으로 뛰면 큰일이오.",
+            "앞길만 터 주시오. 수레는 강변으로 돌리겠소."
+          ],
+          "objectiveId": "guide_civilians"
+        },
+        {
+          "id": "copyist",
+          "templateId": "scribal_yuri",
+          "nameKo": "필사원 유리",
+          "lines": [
+            "장교가 읽은 건 들었습니다. 다만 병사들 귀에 똑같이 들어갔는지는 모르겠군요.",
+            "이 쪽지를 먼저 받은 사람이 누구인지 찾아야겠습니다."
+          ],
+          "objectiveId": "follow_order_route"
+        },
+        {
+          "id": "fishseller",
+          "templateId": "fishseller_klavdiya",
+          "nameKo": "생선 장수 클라브디야",
+          "lines": [
+            "저 강 쪽으로 가면 빠져나갈 수 있어요? 아이 손을 놓치겠어요.",
+            "대열이 더 오기 전에 골목으로 갑시다. 내가 길은 알아요."
+          ],
+          "objectiveId": "guide_civilians"
+        },
+        {
+          "id": "medical_student",
+          "templateId": "student_vasily",
+          "nameKo": "의학생 바실리",
+          "lines": [
+            "저기 쓰러진 사람이 있어요. 광장 안으로 뛰어들면 더 다칠 겁니다.",
+            "들것부터 만들까요? 길부터 비워야 옮길 수 있어요."
+          ],
+          "objectiveId": "aid_wounded"
+        },
+        {
+          "id": "laundress",
+          "templateId": "laundress_mariya",
+          "nameKo": "세탁부 마리야",
+          "lines": [
+            "아이를 데리고 군인들 틈을 지날 순 없어요. 돌아갈 길도 막혔고요.",
+            "안뜰로 빠지는 길을 알아요. 혼자 보내진 말아 주세요."
+          ],
+          "objectiveId": "find_side_route"
+        },
+        {
+          "id": "student",
+          "templateId": "teacher_lyubov",
+          "nameKo": "가정교사 류보프",
+          "lines": [
+            "누군 선서를 거부했다 하고, 누군 아직 오지도 않았다네요. 말이 너무 빨리 돌아요.",
+            "저기 서 있는 병사에게 직접 물어보면 안 될까요?"
+          ],
+          "objectiveId": "clarify_orders"
+        },
+        {
+          "id": "veteran",
+          "templateId": "watercarrier_luka",
+          "nameKo": "퇴역병 루카",
+          "lines": [
+            "군복만 보고 같은 명령을 받았다고 생각하면 안 되오. 옛 동료가 저기 있소.",
+            "대열 앞을 가로막지 맙시다. 물하고 들것을 먼저 가져오시오."
+          ],
+          "objectiveId": "aid_wounded"
+        },
+        {
+          "id": "widow",
+          "templateId": "housemaid_olga",
+          "nameKo": "하숙집 주인 안나",
+          "lines": [
+            "세든 사람들이 아직 광장 쪽에 있어요. 안뜰 문은 열어 둘 수 있습니다.",
+            "들였다가 군인들이 들이닥치면… 그래도 문을 잠가 버릴 순 없겠지요."
+          ],
+          "objectiveId": "shelter_neighbors"
+        }
       ],
       "objectives": [
-        {"id":"guide_civilians","titleKo":"마차와 행인에게 우회로를 알려준다","actionKo":"사람들을 강변 길로 안내하거나 마차를 먼저 돌린다"},
-        {"id":"clarify_orders","titleKo":"서로 다른 명령을 들은 사람들을 만난다","actionKo":"병사와 필사원의 말을 듣고 현재 위치를 확인한다"},
-        {"id":"aid_wounded","titleKo":"다친 사람에게 도움을 보낸다","actionKo":"의학생과 퇴역병에게 필요한 것을 묻는다"},
-        {"id":"find_side_route","titleKo":"광장을 피해 가는 길을 찾는다","actionKo":"세탁부가 아는 안뜰길을 따라 강 쪽으로 간다"},
-        {"id":"shelter_neighbors","titleKo":"이웃을 들일지 결정한다","actionKo":"하숙집 문을 열지, 문을 닫고 가족을 피신시킬지 정한다"},
-        {"id":"follow_order_route","titleKo":"명령이 광장에 이른 경로를 따라간다","actionKo":"필사원에게 종이를 누가 전달했는지 묻는다"}
+        {
+          "id": "guide_civilians",
+          "titleKo": "마차와 행인에게 우회로를 알려준다",
+          "actionKo": "사람들을 강변 길로 안내하거나 마차를 먼저 돌린다"
+        },
+        {
+          "id": "clarify_orders",
+          "titleKo": "서로 다른 명령을 들은 사람들을 만난다",
+          "actionKo": "병사와 필사원의 말을 듣고 현재 위치를 확인한다"
+        },
+        {
+          "id": "aid_wounded",
+          "titleKo": "다친 사람에게 도움을 보낸다",
+          "actionKo": "의학생과 퇴역병에게 필요한 것을 묻는다"
+        },
+        {
+          "id": "find_side_route",
+          "titleKo": "광장을 피해 가는 길을 찾는다",
+          "actionKo": "세탁부가 아는 안뜰길을 따라 강 쪽으로 간다"
+        },
+        {
+          "id": "shelter_neighbors",
+          "titleKo": "이웃을 들일지 결정한다",
+          "actionKo": "하숙집 문을 열지, 문을 닫고 가족을 피신시킬지 정한다"
+        },
+        {
+          "id": "follow_order_route",
+          "titleKo": "명령이 광장에 이른 경로를 따라간다",
+          "actionKo": "필사원에게 종이를 누가 전달했는지 묻는다"
+        }
       ],
       "choices": [
-        {"id":"open_route","label":"민간인 우회로를 먼저 연다","directionKo":"마차꾼과 주민들이 함께 움직입니다 · 광장 양쪽에서 보입니다 · 대열의 진행을 늦출 수 있습니다","textKo":"마차와 행인에게 강변 우회로를 열어 주었다"},
-        {"id":"carry_order","label":"확인된 명령을 기다린다","directionKo":"필사원과 병사에게만 알립니다 · 광장 안쪽에 기록이 남습니다 · 피신이 늦어질 수 있습니다","textKo":"확인된 지시가 올 때까지 병사와 주민을 기다리게 했다"},
-        {"id":"shelter_people","label":"하숙집 안뜰을 임시 대피처로 연다","directionKo":"이웃과 집주인이 알게 됩니다 · 민간인을 보호합니다 · 수색에 집이 노출될 수 있습니다","textKo":"안뜰을 열어 이웃들을 잠시 피신시켰다"}
+        {
+          "id": "open_route",
+          "label": "강변 골목을 피난길로 열어 둔다",
+          "directionKo": "마차꾼과 세탁부가 사람들을 이끕니다 · 광장 양쪽에서 보입니다 · 군중이 길목에 몰릴 수 있습니다",
+          "textKo": "세탁부와 마차꾼에게 강변 골목을 피난길로 맡겼다"
+        },
+        {
+          "id": "carry_order",
+          "label": "병사 일부를 들것과 피난에 보낸다",
+          "directionKo": "하사와 근위병들이 압니다 · 부상자와 주민을 돕습니다 · 지휘가 약해졌다는 문책을 감수합니다",
+          "textKo": "하사에게 병사 일부를 민간인과 부상자 지원에 보내도록 했다"
+        },
+        {
+          "id": "shelter_people",
+          "label": "안뜰 문을 열어 가족을 숨긴다",
+          "directionKo": "집주인과 피신한 가족이 압니다 · 당장의 위험에서 벗어납니다 · 병사들이 집을 찾을 수 있습니다",
+          "textKo": "하숙집 안뜰을 열어 가족들을 잠시 숨겼다"
+        }
       ],
-      "closingKo":"광장에서는 군사적 대치와 충돌이 이어졌다. 네가 도운 사람들의 이동과 안전은 달라졌지만 봉기의 패배와 뒤이은 체포는 바뀌지 않았다."
+      "closingKo": "광장에서는 군사적 대치와 충돌이 이어졌다. 네가 도운 사람들의 이동과 안전은 달라졌지만 봉기의 패배와 뒤이은 체포는 바뀌지 않았다.",
+      "fieldActions": [
+        {
+          "id": "senate-route-horse",
+          "mapId": "senate-approach",
+          "propKo": "놀란 말의 굴레",
+          "objectiveId": "guide_civilians",
+          "promptKo": "말이 군중 쪽으로 몸을 틉니다. 마차가 돌아설 길부터 내야 합니다.",
+          "options": [
+            {
+              "id": "turn-cart",
+              "labelKo": "마차를 강변 쪽으로 돌린다",
+              "directionKo": "마차꾼과 길가 사람들이 움직입니다 · 광장 진입로는 잠시 좁아집니다",
+              "textKo": "마차를 강변 길로 돌려 행인과 떨어뜨렸다",
+              "effects": {
+                "crowdRoute": "river",
+                "cartMoved": true
+              }
+            },
+            {
+              "id": "hold-cart",
+              "labelKo": "말을 진정시키고 행인부터 물린다",
+              "directionKo": "가까운 사람들은 안전해집니다 · 마차는 당분간 길을 막습니다",
+              "textKo": "말을 진정시키는 동안 행인들을 길가로 물렸다",
+              "effects": {
+                "crowdRoute": "curb",
+                "cartHeld": true
+              }
+            }
+          ]
+        },
+        {
+          "id": "senate-order-post",
+          "mapId": "senate-approach",
+          "propKo": "젖은 명령 쪽지",
+          "objectiveId": "clarify_orders",
+          "promptKo": "서로 다른 부대에서 받은 짧은 명령이 한 장에 섞여 있습니다. 병사들은 어느 말을 따라야 할지 기다립니다.",
+          "options": [
+            {
+              "id": "ask-messenger",
+              "labelKo": "전령에게 어느 부대가 받았는지 확인한다",
+              "directionKo": "전령과 근위병이 확인에 참여합니다 · 출발이 늦어집니다",
+              "textKo": "전령에게 명령을 받은 부대와 전달 시각을 확인했다",
+              "effects": {
+                "orders": "checked",
+                "delay": true
+              }
+            },
+            {
+              "id": "relay-as-heard",
+              "labelKo": "들린 말을 그대로 병사들에게 전한다",
+              "directionKo": "근위병들은 즉시 움직입니다 · 말이 잘못 전해졌다면 바로잡기 어렵습니다",
+              "textKo": "전해 들은 명령을 확인 전 상태로 병사들에게 옮겼다",
+              "effects": {
+                "orders": "unverified_relay",
+                "risk": "misdirection"
+              }
+            }
+          ]
+        },
+        {
+          "id": "senate-square-bandage",
+          "mapId": "senate-square",
+          "propKo": "의학생의 응급 보자기",
+          "objectiveId": "aid_wounded",
+          "promptKo": "사람 하나가 넘어져 일어나지 못합니다. 의학생은 도움을 청하지만 광장 안쪽은 더 붐빕니다.",
+          "options": [
+            {
+              "id": "make-human-chain",
+              "labelKo": "사람을 이어 세워 들것 길을 만든다",
+              "directionKo": "주변 주민과 퇴역병이 힘을 보탭니다 · 대열 옆을 지나야 합니다",
+              "textKo": "주민들과 통로를 만들어 부상자를 광장 밖으로 옮겼다",
+              "effects": {
+                "wounded": "evacuated",
+                "crowd": "human_chain"
+              }
+            },
+            {
+              "id": "send-for-cart",
+              "labelKo": "마차꾼에게 수레를 불러 달라고 한다",
+              "directionKo": "부상자는 안전하게 옮겨질 수 있습니다 · 마차가 도착할 때까지 기다립니다",
+              "textKo": "마차꾼에게 부상자를 옮길 수레를 부탁했다",
+              "effects": {
+                "wounded": "cart_requested",
+                "crowd": "wait"
+              }
+            }
+          ]
+        },
+        {
+          "id": "senate-square-dispatch",
+          "mapId": "senate-square",
+          "propKo": "전달이 끊긴 명령 봉투",
+          "objectiveId": "follow_order_route",
+          "promptKo": "봉투 겉면에는 전달 경로가 적혀 있지만 마지막 수령 표시는 비어 있습니다. 필사원은 어느 길에서 끊겼는지 살펴봅니다.",
+          "options": [
+            {
+              "id": "trace-route",
+              "labelKo": "필사원과 전달 경로를 거슬러 확인한다",
+              "directionKo": "필사원과 전령이 함께 살핍니다 · 대열은 결정을 기다립니다",
+              "textKo": "명령 봉투의 전달 경로를 필사원과 전령에게 확인했다",
+              "effects": {
+                "dispatch": "traced",
+                "delay": true
+              }
+            },
+            {
+              "id": "leave-envelope",
+              "labelKo": "봉투를 건드리지 않고 군중을 먼저 물린다",
+              "directionKo": "민간인은 뒤로 빠집니다 · 명령 전달 과정은 확인되지 않습니다",
+              "textKo": "봉투를 남겨 둔 채 주변 주민을 먼저 물렸다",
+              "effects": {
+                "dispatch": "unresolved",
+                "crowd": "withdrawn"
+              }
+            }
+          ]
+        },
+        {
+          "id": "senate-river-gate",
+          "mapId": "senate-river",
+          "propKo": "안뜰의 빗장",
+          "objectiveId": "shelter_neighbors",
+          "promptKo": "강변으로 빠져나온 가족들이 안뜰에 모였습니다. 문을 열면 몸을 피할 곳은 생기지만 집주인도 책임을 져야 합니다.",
+          "options": [
+            {
+              "id": "open-gate",
+              "labelKo": "안뜰을 잠시 대피처로 연다",
+              "directionKo": "집주인과 피신한 이웃들이 압니다 · 안뜰에 사람이 모입니다",
+              "textKo": "안뜰을 열어 이웃들이 잠시 몸을 피하도록 했다",
+              "effects": {
+                "shelter": "open",
+                "neighbors": "sheltered"
+              }
+            },
+            {
+              "id": "guide-through",
+              "labelKo": "안뜰은 닫고 골목길을 안내한다",
+              "directionKo": "집주인은 모이지 않습니다 · 가족들은 더 먼 길을 걸어야 합니다",
+              "textKo": "안뜰을 닫아 두고 이웃들에게 골목 우회로를 알려 주었다",
+              "effects": {
+                "shelter": "closed",
+                "crowdRoute": "lane"
+              }
+            }
+          ]
+        },
+        {
+          "id": "senate-river-lane",
+          "mapId": "senate-river",
+          "propKo": "강변으로 난 골목 표식",
+          "objectiveId": "find_side_route",
+          "promptKo": "세탁부가 아는 골목은 강변으로 이어집니다. 마차를 함께 보내면 빠르지만 길이 비좁습니다.",
+          "options": [
+            {
+              "id": "walk-guides",
+              "labelKo": "세탁부와 행인들을 걸어서 안내한다",
+              "directionKo": "세탁부와 가족들이 함께 이동합니다 · 길을 아는 사람이 앞장섭니다",
+              "textKo": "세탁부가 앞장서 행인들을 강변 골목으로 안내했다",
+              "effects": {
+                "sideRoute": "guided",
+                "neighbors": "moved"
+              }
+            },
+            {
+              "id": "mark-route",
+              "labelKo": "갈림길에 표식을 두고 돌아와 다른 이도 알린다",
+              "directionKo": "더 많은 사람이 길을 찾습니다 · 안내는 늦게 시작됩니다",
+              "textKo": "강변 골목의 갈림길에 표식을 두어 뒤따르는 사람도 길을 찾게 했다",
+              "effects": {
+                "sideRoute": "marked",
+                "information": "spread"
+              }
+            }
+          ]
+        }
+      ]
     },
     {
-      "eventId": "GOGOL_INSPECTOR_1836", "maps": ["theatre-approach", "theatre-lobby", "theatre-street"],
-      "backgrounds": ["nevsky", "inn-interior", "bookshop-lane"], "zoneTitlesKo": ["극장 앞 거리", "극장 안쪽 복도", "공연 뒤의 거리"],
-      "entryPosition": {"x": 4,"y": 14}, "startMinute": 1020,
+      "eventId": "GOGOL_INSPECTOR_1836",
+      "maps": [
+        "theatre-approach",
+        "theatre-lobby",
+        "theatre-street"
+      ],
+      "backgrounds": [
+        "nevsky",
+        "inn-interior",
+        "bookshop-lane"
+      ],
+      "zoneTitlesKo": [
+        "극장 앞 거리",
+        "극장 안쪽 복도",
+        "공연 뒤의 거리"
+      ],
+      "entryPosition": {
+        "x": 4,
+        "y": 14
+      },
+      "startMinute": 1020,
       "actors": [
-        {"id":"usher","templateId":"innkeeper_irina","nameKo":"안내원 이리나","lines":["표를 찾는 분들이 입구에 몰렸어요. 마차까지 겹치면 통행이 막힙니다.","공연은 곧 시작해요. 늦게 오신 분은 옆문으로 모실게요."],"objectiveId":"seat_late_guests"},
-        {"id":"student","templateId":"student_vasily","nameKo":"학생 바실리","lines":["웃음이 터질 때마다 관리들이 서로 얼굴을 봅니다. 저 대목이 그렇게 불편한가요?","친구는 웃었지만, 옆자리 관리는 한마디도 안 했어요."],"objectiveId":"audience_reaction"},
-        {"id":"dresser","templateId":"seamstress_anna","nameKo":"의상 담당 안나","lines":["주인공 외투의 단추가 공연 직전에 떨어졌어요. 무대 뒤에서 다시 달았죠.","옷 하나 때문에 대사가 늦어지면 배우들까지 곤란해져요."],"objectiveId":"repair_costume"},
-        {"id":"copyist","templateId":"scribal_yuri","nameKo":"극장 필사원 유리","lines":["대본은 이미 여러 손을 거쳤습니다. 배우가 오늘 밤 어느 말을 강조할지는 또 다르지요.","무대에서 들은 말과 밖에서 옮겨 적은 말을 섞지 마세요."],"objectiveId":"compare_versions"},
-        {"id":"actor","templateId":"street_musician_ivan","nameKo":"배우 니콜라이","lines":["객석이 웃으면 안심이 되다가도, 어디서 웃는지 귀가 곤두서요.","작가가 원하는 박자와 관객이 받는 박자가 꼭 같지는 않습니다."],"objectiveId":"backstage_choice"},
-        {"id":"merchant","templateId":"bookseller_lev","nameKo":"서점 주인 레프","lines":["관객들이 극장 문을 나서며 각자 다른 장면을 말하더군요.","내일 가게에 희곡을 찾는 사람이 올까요, 아니면 항의부터 들을까요?"],"objectiveId":"audience_reaction"},
-        {"id":"critic","templateId":"editor_sofia","nameKo":"평론을 쓰는 소피야","lines":["한 사람은 관청을 조롱했다고 하고, 다른 사람은 그저 우스운 인물극이라더군요.","나는 웃음소리보다 어떤 대사가 객석을 멈추게 했는지 적고 싶어요."],"objectiveId":"compare_versions"},
-        {"id":"tailor","templateId":"bookbinder_elizaveta","nameKo":"재봉사 엘리자베타","lines":["무대 의상은 내가 꿰맸지만 그 인물이 누구를 닮았는지는 모르겠어요.","관객들이 옷차림을 보고 먼저 웃더군요. 대사보다 빨랐어요."],"objectiveId":"repair_costume"},
-        {"id":"carter","templateId":"carter_roman","nameKo":"마차꾼 로만","lines":["공연 끝나면 마차가 한꺼번에 나옵니다. 출구를 나눠야 다치지 않아요.","관객을 먼저 내보낼지, 배우들이 빠져나갈 길을 먼저 열지 정해 주시오."],"objectiveId":"clear_exit"},
-        {"id":"reader","templateId":"reader_darya","nameKo":"관객 다리야","lines":["웃긴 장면인데 마음이 편하진 않았어요. 객석 사람들은 왜 웃었을까요?","친구는 그저 우스운 희극이라는데, 나는 무대 밖 얼굴들이 더 신경 쓰여요."],"objectiveId":"audience_reaction"}
+        {
+          "id": "usher",
+          "templateId": "innkeeper_irina",
+          "nameKo": "안내원 이리나",
+          "lines": [
+            "표 확인하느라 입구가 꽉 막혔어요. 마차까지 들어오면 못 지나갑니다.",
+            "곧 시작해요. 늦은 분은 옆문으로 들일게요. 잠깐만 비켜 주세요."
+          ],
+          "objectiveId": "seat_late_guests"
+        },
+        {
+          "id": "student",
+          "templateId": "student_vasily",
+          "nameKo": "학생 바실리",
+          "lines": [
+            "저 대목에서 웃음이 났는데, 관리들은 서로 눈치만 보네요.",
+            "내 친구는 배꼽을 잡았어요. 옆에 앉은 관리는 끝까지 조용했고요."
+          ],
+          "objectiveId": "audience_reaction"
+        },
+        {
+          "id": "dresser",
+          "templateId": "seamstress_anna",
+          "nameKo": "의상 담당 안나",
+          "lines": [
+            "외투 단추가 또 떨어졌어요. 실 좀 줘요, 지금 꿰맬게요.",
+            "이대로 올렸다가 무대에서 벌어지면 배우가 곤란해져요."
+          ],
+          "objectiveId": "repair_costume"
+        },
+        {
+          "id": "copyist",
+          "templateId": "scribal_yuri",
+          "nameKo": "극장 필사원 유리",
+          "lines": [
+            "대본은 여러 번 고쳐졌습니다. 배우가 오늘 어디에 힘을 줄지는 아직 모르지요.",
+            "들은 대사와 나중에 적은 문장은 따로 두는 편이 좋겠습니다."
+          ],
+          "objectiveId": "compare_versions"
+        },
+        {
+          "id": "actor",
+          "templateId": "street_musician_ivan",
+          "nameKo": "배우 니콜라이",
+          "lines": [
+            "웃어 주면 좋죠. 그런데 어떤 말에 웃는지 모르면 더 떨립니다.",
+            "한 줄 고쳐 봤어요. 그대로 말할까요, 인쇄된 대본대로 갈까요?"
+          ],
+          "objectiveId": "backstage_choice"
+        },
+        {
+          "id": "merchant",
+          "templateId": "bookseller_lev",
+          "nameKo": "서점 주인 레프",
+          "lines": [
+            "나오는 길마다 다른 장면을 얘기하네요. 다들 같은 공연을 본 게 맞나 싶소.",
+            "내일은 희곡 찾는 손님이 늘겠지요. 불평부터 들으러 오는 사람도 있겠지만."
+          ],
+          "objectiveId": "audience_reaction"
+        },
+        {
+          "id": "critic",
+          "templateId": "editor_sofia",
+          "nameKo": "평론을 쓰는 소피야",
+          "lines": [
+            "관청을 흉봤다는 사람도 있고, 허풍쟁이 이야기일 뿐이라는 사람도 있군요.",
+            "웃음이 멎은 대목을 적어 두겠습니다. 거기서 생각이 갈렸을 테니까요."
+          ],
+          "objectiveId": "compare_versions"
+        },
+        {
+          "id": "tailor",
+          "templateId": "bookbinder_elizaveta",
+          "nameKo": "재봉사 엘리자베타",
+          "lines": [
+            "외투는 내가 지었소. 누구를 닮게 만들었는지는 배우가 정할 일이오.",
+            "대사보다 옷을 보고 먼저 웃더군. 단추가 떨어진 것도 그 옷이오."
+          ],
+          "objectiveId": "repair_costume"
+        },
+        {
+          "id": "carter",
+          "templateId": "carter_roman",
+          "nameKo": "마차꾼 로만",
+          "lines": [
+            "막이 내리면 마차가 한꺼번에 쏟아져요. 사람부터 빼야 안 다칩니다.",
+            "배우들 길도 열어 둬야 하오. 누구부터 내보낼지 정해 주시오."
+          ],
+          "objectiveId": "clear_exit"
+        },
+        {
+          "id": "reader",
+          "templateId": "reader_darya",
+          "nameKo": "관객 다리야",
+          "lines": [
+            "웃긴 건 맞는데, 왜인지 웃고 나니 속이 편치 않네요.",
+            "친구는 재미있었다는데 난 객석의 관리들 얼굴이 자꾸 떠올라요."
+          ],
+          "objectiveId": "audience_reaction"
+        }
       ],
       "objectives": [
-        {"id":"seat_late_guests","titleKo":"입구에 몰린 늦은 관객을 들인다","actionKo":"안내원과 옆문을 열지 의논한다"},
-        {"id":"repair_costume","titleKo":"공연을 멈출지 의상 문제를 해결할지 정한다","actionKo":"재봉사와 의상 담당의 손을 빌린다"},
-        {"id":"backstage_choice","titleKo":"배우가 고친 대사를 그대로 둘지 듣는다","actionKo":"무대 뒤에서 배우의 고민을 듣는다"},
-        {"id":"audience_reaction","titleKo":"서로 다른 관객의 반응을 듣는다","actionKo":"학생·서점 주인·관객에게 공연을 묻는다"},
-        {"id":"clear_exit","titleKo":"공연 뒤 출구와 마차를 정리한다","actionKo":"마차꾼과 극장 안내원이 통로를 나누도록 돕는다"},
-        {"id":"compare_versions","titleKo":"무대의 반응과 작가의 편지를 함께 살핀다","actionKo":"필사원과 평론가에게 자료를 비교한다"}
+        {
+          "id": "seat_late_guests",
+          "titleKo": "입구에 몰린 늦은 관객을 들인다",
+          "actionKo": "안내원과 옆문을 열지 의논한다"
+        },
+        {
+          "id": "repair_costume",
+          "titleKo": "공연을 멈출지 의상 문제를 해결할지 정한다",
+          "actionKo": "재봉사와 의상 담당의 손을 빌린다"
+        },
+        {
+          "id": "backstage_choice",
+          "titleKo": "배우가 고친 대사를 그대로 둘지 듣는다",
+          "actionKo": "무대 뒤에서 배우의 고민을 듣는다"
+        },
+        {
+          "id": "audience_reaction",
+          "titleKo": "서로 다른 관객의 반응을 듣는다",
+          "actionKo": "학생·서점 주인·관객에게 공연을 묻는다"
+        },
+        {
+          "id": "clear_exit",
+          "titleKo": "공연 뒤 출구와 마차를 정리한다",
+          "actionKo": "마차꾼과 극장 안내원이 통로를 나누도록 돕는다"
+        },
+        {
+          "id": "compare_versions",
+          "titleKo": "무대의 반응과 작가의 편지를 함께 살핀다",
+          "actionKo": "필사원과 평론가에게 자료를 비교한다"
+        }
       ],
       "choices": [
-        {"id":"publish_reactions","label":"관객의 서로 다른 평을 이름 없이 모은다","directionKo":"관객 반응을 극장 안에서 공유합니다 · 이름은 남지 않습니다 · 발언의 맥락이 빠질 수 있습니다","textKo":"관객의 평을 이름 없이 모아 극장 안에 남겼다"},
-        {"id":"protect_performers","label":"배우와 무대 뒤 사람들의 안전을 먼저 챙긴다","directionKo":"극장 관계자와 출연진이 알게 됩니다 · 대본 논의는 미뤄집니다 · 관객의 평이 기록에서 빠집니다","textKo":"출연진이 안전하게 극장을 나가도록 출구를 정리했다"},
-        {"id":"compare_play","label":"공연 기록과 고골의 편지를 나란히 보관한다","directionKo":"공연 관찰과 작가의 편지가 함께 남습니다 · 편집자와 필사원이 확인합니다 · 한쪽 자료가 다른 쪽을 대신할 수 없습니다","textKo":"객석에서 본 반응과 고골의 편지를 구분해 함께 보관했다"}
+        {
+          "id": "publish_reactions",
+          "label": "배우를 무대로 불러 관객과 이야기를 잇는다",
+          "directionKo": "배우와 객석 전체가 함께합니다 · 극장 안에 목소리가 퍼집니다 · 출연진이 즉석 질문을 감당해야 합니다",
+          "textKo": "공연 뒤 배우를 무대로 불러 관객과 작품 이야기를 나누게 했다"
+        },
+        {
+          "id": "protect_performers",
+          "label": "마차와 관객을 나눠 출연진부터 내보낸다",
+          "directionKo": "안내원과 출연진이 압니다 · 무대 뒤 통로를 비웁니다 · 관객의 항의와 늦은 마차를 감수합니다",
+          "textKo": "관객 줄과 마차를 갈라 출연진이 먼저 극장을 나가게 했다"
+        },
+        {
+          "id": "compare_play",
+          "label": "학생·관리·상인을 한 자리에 남겨 평을 듣는다",
+          "directionKo": "서로 다른 관객이 직접 마주 앉습니다 · 극장 안에서 공개 대화가 이어집니다 · 말다툼을 중재해야 합니다",
+          "textKo": "학생과 관리, 상인을 남겨 공연의 어느 대목이 불편했는지 함께 들었다"
+        }
       ],
-      "closingKo":"《감찰관》 초연은 예정대로 마쳤다. 고골은 며칠 뒤 셰프킨에게 편지를 보냈다. 네가 정한 것은 그날 함께 있던 사람들의 대응과 기억의 방식이다."
+      "closingKo": "《감찰관》 초연은 예정대로 마쳤다. 고골은 며칠 뒤 셰프킨에게 편지를 보냈다. 네가 정한 것은 그날 함께 있던 사람들의 대응과 기억의 방식이다.",
+      "fieldActions": [
+        {
+          "id": "inspector-entry-side-door",
+          "mapId": "theatre-approach",
+          "propKo": "옆문 걸쇠",
+          "objectiveId": "seat_late_guests",
+          "promptKo": "표를 쥔 관객이 입구에 몰렸습니다. 안내원은 옆문을 열면 자리를 더 채울 수 있지만 통로가 좁아진다고 합니다.",
+          "options": [
+            {
+              "id": "open-side-door",
+              "labelKo": "옆문으로 늦은 관객을 나눠 들인다",
+              "directionKo": "안내원과 늦은 관객이 압니다 · 입구는 한산해집니다 · 안쪽 통로가 붐빕니다",
+              "textKo": "옆문을 열어 늦은 관객을 나누어 들였다",
+              "effects": {
+                "audience": "seated",
+                "entry": "side_door"
+              }
+            },
+            {
+              "id": "keep-main-entry",
+              "labelKo": "정문 줄을 정리한 뒤 차례로 들인다",
+              "directionKo": "안쪽 통로는 비워 둡니다 · 일부 관객은 첫 장면을 놓칩니다",
+              "textKo": "정문 줄을 정리하고 관객을 차례로 입장시켰다",
+              "effects": {
+                "audience": "delayed",
+                "entry": "main_door"
+              }
+            }
+          ]
+        },
+        {
+          "id": "inspector-entry-ticket-board",
+          "mapId": "theatre-approach",
+          "propKo": "공연표와 좌석 배치판",
+          "objectiveId": "audience_reaction",
+          "promptKo": "관객마다 다른 자리를 요구합니다. 학생은 뒤쪽에서 표정을 살피고, 상인은 팔리지 않은 표를 걱정합니다.",
+          "options": [
+            {
+              "id": "seat-mixed-groups",
+              "labelKo": "서로 다른 관객을 섞어 앉힌다",
+              "directionKo": "학생·상인·관리들이 같은 장면을 봅니다 · 객석의 반응이 엇갈릴 수 있습니다",
+              "textKo": "관객을 한 무리에 몰지 않고 자리를 나누어 배치했다",
+              "effects": {
+                "audience": "mixed",
+                "reactions": "contrasting"
+              }
+            },
+            {
+              "id": "seat-by-arrival",
+              "labelKo": "먼저 온 관객부터 빈자리에 앉힌다",
+              "directionKo": "입장은 빨라집니다 · 서로 다른 관객의 반응을 비교하기 어렵습니다",
+              "textKo": "먼저 도착한 관객부터 빈자리에 앉혔다",
+              "effects": {
+                "audience": "arrival_order",
+                "reactions": "uncompared"
+              }
+            }
+          ]
+        },
+        {
+          "id": "inspector-lobby-costume-box",
+          "mapId": "theatre-lobby",
+          "propKo": "단추가 떨어진 무대 외투",
+          "objectiveId": "repair_costume",
+          "promptKo": "공연 전 외투 단추가 떨어졌습니다. 재봉사는 바로 꿰맬 수 있지만, 배우는 무대에 늦을 수 있다고 걱정합니다.",
+          "options": [
+            {
+              "id": "sew-button",
+              "labelKo": "재봉사와 함께 단추를 꿰맨다",
+              "directionKo": "배우와 재봉사가 압니다 · 공연 준비가 잠시 늦어집니다 · 옷은 제 모양을 찾습니다",
+              "textKo": "재봉사와 함께 외투 단추를 꿰매 무대 준비를 마쳤다",
+              "effects": {
+                "costume": "repaired",
+                "show": "brief_delay"
+              }
+            },
+            {
+              "id": "pin-costume",
+              "labelKo": "안쪽에 핀을 대고 공연 뒤에 고친다",
+              "directionKo": "공연은 예정대로 시작합니다 · 배우가 움직일 때 옷이 벌어질 수 있습니다",
+              "textKo": "외투 안쪽을 핀으로 고정하고 공연 뒤에 고치기로 했다",
+              "effects": {
+                "costume": "pinned",
+                "show": "on_time",
+                "risk": "wardrobe"
+              }
+            }
+          ]
+        },
+        {
+          "id": "inspector-lobby-script-copy",
+          "mapId": "theatre-lobby",
+          "propKo": "배우가 고친 대사 쪽지",
+          "objectiveId": "backstage_choice",
+          "promptKo": "배우가 연습 때 바꾼 한 줄을 쪽지에 적어 두었습니다. 원래 대사로 돌아갈지, 오늘 관객 앞에서 고친 말로 할지 묻습니다.",
+          "options": [
+            {
+              "id": "keep-authored-line",
+              "labelKo": "배우가 고친 대사를 오늘 무대에서 말한다",
+              "directionKo": "배우와 가까이 있는 관객이 듣습니다 · 공연 기록에는 인쇄 대본과 다른 말이 남습니다",
+              "textKo": "배우가 고친 대사를 그대로 무대에 올리기로 했다",
+              "effects": {
+                "performance": "actor-variant",
+                "record": "stage-note"
+              }
+            },
+            {
+              "id": "return-to-script",
+              "labelKo": "인쇄된 대본대로 진행하자고 한다",
+              "directionKo": "배우와 무대 감독이 따릅니다 · 연습 쪽지는 공연에 반영되지 않습니다",
+              "textKo": "오늘 공연은 인쇄된 대본에 따라 진행하기로 했다",
+              "effects": {
+                "performance": "printed-script",
+                "record": "no-variant"
+              }
+            }
+          ]
+        },
+        {
+          "id": "inspector-street-carriage-rail",
+          "mapId": "theatre-street",
+          "propKo": "마차를 막은 관객 줄",
+          "objectiveId": "clear_exit",
+          "promptKo": "공연이 끝나고 관객이 한꺼번에 나옵니다. 마차가 길을 막고 있고, 안내원은 출구를 나누자고 합니다.",
+          "options": [
+            {
+              "id": "separate-carriages",
+              "labelKo": "마차를 한 대씩 보내고 보행자를 먼저 통과시킨다",
+              "directionKo": "마부와 관객이 이동 순서를 압니다 · 마차 출발이 늦어집니다",
+              "textKo": "보행자를 먼저 내보내고 마차를 한 대씩 통과시켰다",
+              "effects": {
+                "exit": "separated",
+                "carriages": "delayed"
+              }
+            },
+            {
+              "id": "release-carriages",
+              "labelKo": "마차를 먼저 보내고 관객을 잠시 기다리게 한다",
+              "directionKo": "마차는 빨리 빠집니다 · 문 앞에 관객이 더 오래 모입니다",
+              "textKo": "마차를 먼저 보내고 관객은 출구 안쪽에서 기다리게 했다",
+              "effects": {
+                "exit": "carriages_first",
+                "crowd": "waiting"
+              }
+            }
+          ]
+        },
+        {
+          "id": "inspector-street-review-notes",
+          "mapId": "theatre-street",
+          "propKo": "관객들이 남긴 짧은 평",
+          "objectiveId": "compare_versions",
+          "promptKo": "평론가와 필사원이 공연을 두고 서로 다른 말을 합니다. 어느 쪽도 오늘 객석 전체를 대신하지는 못합니다.",
+          "options": [
+            {
+              "id": "compare-voices",
+              "labelKo": "학생·상인·평론가의 반응을 나란히 묻는다",
+              "directionKo": "서로 다른 관객이 듣고 답합니다 · 의견 차이가 그대로 남습니다",
+              "textKo": "학생과 상인, 평론가의 반응을 나란히 들어 두었다",
+              "effects": {
+                "reactions": "compared",
+                "record": "multiple_views"
+              }
+            },
+            {
+              "id": "keep-critic-note",
+              "labelKo": "평론가의 메모만 출구에서 받아 둔다",
+              "directionKo": "평론가의 기록은 남습니다 · 다른 관객의 말은 수집되지 않습니다",
+              "textKo": "평론가의 메모만 받아 공연 뒤 기록으로 남겼다",
+              "effects": {
+                "reactions": "critic_only",
+                "record": "single_view"
+              }
+            }
+          ]
+        }
+      ]
     },
     {
-      "eventId": "EMANCIPATION_1861", "maps": ["manifesto-street", "manifesto-square", "manifesto-lane"],
-      "backgrounds": ["nevsky", "market-quay", "workyard"], "zoneTitlesKo": ["공고가 붙은 거리", "선언 낭독 자리", "주민들의 골목"],
-      "entryPosition": {"x": 4,"y": 14}, "startMinute": 660,
+      "eventId": "EMANCIPATION_1861",
+      "maps": [
+        "manifesto-street",
+        "manifesto-square",
+        "manifesto-lane"
+      ],
+      "backgrounds": [
+        "nevsky",
+        "market-quay",
+        "workyard"
+      ],
+      "zoneTitlesKo": [
+        "공고가 붙은 거리",
+        "선언 낭독 자리",
+        "주민들의 골목"
+      ],
+      "entryPosition": {
+        "x": 4,
+        "y": 14
+      },
+      "startMinute": 660,
       "actors": [
-        {"id":"typesetter","templateId":"typesetter_nikita","nameKo":"식자공 니키타","lines":["제목은 크게 찍혔지만 적용 규정은 여러 장입니다. 낭독본이 빠지면 곤란해요.","인쇄본이 도착했습니다. 어느 쪽부터 읽어 드릴까요?"],"objectiveId":"read_full_text"},
-        {"id":"maid","templateId":"housemaid_olga","nameKo":"하녀 올가","lines":["해방이 됐다는 말을 들었어요. 하지만 오늘 저녁엔 어디서 자야 하죠?","일을 그만둘 수 있는지보다 내일 품삯이 얼마인지 먼저 알아야 해요."],"objectiveId":"work_and_lodging"},
-        {"id":"veteran","templateId":"watercarrier_luka","nameKo":"퇴역병 루카","lines":["선언만 읽어선 토지와 의무가 어떻게 달라지는지 다 나오지 않소.","마을에서 온 편지에는 아직 공동체의 결정이 남았다고 적혔소."],"objectiveId":"land_terms"},
-        {"id":"clerk","templateId":"senior_clerk_konstantin","nameKo":"관청 서기 콘스탄틴","lines":["선언문과 시행 규정은 따로 묶여 있습니다. 한 문서만으로 각 집의 조건을 답할 수 없어요.","질문을 모아 관청에 보낼지, 현장에서 다시 읽을지 정해야 합니다."],"objectiveId":"petition_questions"},
-        {"id":"porter","templateId":"porter_gavrila","nameKo":"짐꾼 가브릴라","lines":["인쇄 묶음을 나르다 보니 배포처마다 줄이 다릅니다. 어느 골목에도 같은 설명이 필요하오.","한 장만 더 가져가면 강변 일꾼들에게 읽어줄 수 있소."],"objectiveId":"carry_copies"},
-        {"id":"washer","templateId":"laundress_mariya","nameKo":"세탁부 마리야","lines":["주인집을 떠날 수 있는지 아직 모르겠어요. 함께 일한 사람들은 어디로 가야 하나요?","품삯과 잠자리 얘기를 먼저 해 주세요. 긴 선언은 나중에도 들을 수 있어요."],"objectiveId":"work_and_lodging"},
-        {"id":"bookseller","templateId":"bookseller_lev","nameKo":"서점 주인 레프","lines":["사람들이 ‘자유’라는 제목만 읽고 돌아가려 합니다. 작은 글씨도 함께 봐야겠어요.","규정을 읽어 줄 사람이 필요합니까? 책상은 이쪽에 비워 두었소."],"objectiveId":"read_full_text"},
-        {"id":"messenger","templateId":"courier_pavel","nameKo":"심부름꾼 파벨","lines":["관청에 갈 질문을 한데 묶으면 오늘 안에 보내 보겠소. 다만 답이 언제 올지는 모르오.","이름을 적어 보내면 답을 받기 쉽지만, 적히는 걸 꺼리는 분들도 있소."],"objectiveId":"petition_questions"},
-        {"id":"carter","templateId":"carter_roman","nameKo":"마차꾼 로만","lines":["공고를 읽으려는 사람이 몰려 길을 막았소. 사람과 수레가 부딪치기 전에 자리를 나눠야겠소.","인쇄물을 싣고 외곽으로 갈 수는 있지만, 여기 질문을 맡을 사람이 필요하오."],"objectiveId":"carry_copies"},
-        {"id":"tenant","templateId":"tenant_mikhail","nameKo":"도시 하숙인 미하일","lines":["나도 시골에서 올라왔소. 고향의 누이가 땅을 받는지부터 알고 싶소.","이 공고가 모든 마을에 똑같이 적용되는 건 아니라고 들었소."],"objectiveId":"land_terms"}
+        {
+          "id": "typesetter",
+          "templateId": "typesetter_nikita",
+          "nameKo": "식자공 니키타",
+          "lines": [
+            "큰 글씨만 읽고 돌아서면 안 돼요. 뒤에 규정이 몇 장 더 붙어 있습니다.",
+            "인쇄본은 왔어요. 선언부터 읽을까요, 농민 관련 조항부터 볼까요?"
+          ],
+          "objectiveId": "read_full_text"
+        },
+        {
+          "id": "maid",
+          "templateId": "housemaid_olga",
+          "nameKo": "하녀 올가",
+          "lines": [
+            "해방 소식은 들었어요. 그런데 오늘 밤 잘 곳은 누가 정해 주나요?",
+            "내일 품삯부터 알아야 해요. 그만둘 수 있는지는 그 다음이고요."
+          ],
+          "objectiveId": "work_and_lodging"
+        },
+        {
+          "id": "veteran",
+          "templateId": "watercarrier_luka",
+          "nameKo": "퇴역병 루카",
+          "lines": [
+            "선언 하나 읽었다고 땅 문제가 끝나는 건 아니오.",
+            "고향 편지에도 공동체에서 정할 일이 남았다고 쓰였소."
+          ],
+          "objectiveId": "land_terms"
+        },
+        {
+          "id": "clerk",
+          "templateId": "senior_clerk_konstantin",
+          "nameKo": "관청 서기 콘스탄틴",
+          "lines": [
+            "선언하고 시행 규정은 따로 왔습니다. 어느 집에 뭐가 적용되는지는 한 장만 보고 못 답해요.",
+            "질문을 모아 보내시겠습니까, 아니면 여기서 조항을 다시 읽을까요?"
+          ],
+          "objectiveId": "petition_questions"
+        },
+        {
+          "id": "porter",
+          "templateId": "porter_gavrila",
+          "nameKo": "짐꾼 가브릴라",
+          "lines": [
+            "묶음마다 갈 곳이 다르오. 어느 골목에 먼저 가져다둘까요?",
+            "강변 일꾼들도 기다리고 있어. 한 묶음만 더 있으면 읽어 주겠소."
+          ],
+          "objectiveId": "carry_copies"
+        },
+        {
+          "id": "washer",
+          "templateId": "laundress_mariya",
+          "nameKo": "세탁부 마리야",
+          "lines": [
+            "주인집에서 나갈 수 있는지보다 오늘 밤 어디서 잘지가 먼저예요.",
+            "같이 일하던 사람들도 있어요. 품삯하고 잠자리, 그 얘기부터 해 주세요."
+          ],
+          "objectiveId": "work_and_lodging"
+        },
+        {
+          "id": "bookseller",
+          "templateId": "bookseller_lev",
+          "nameKo": "서점 주인 레프",
+          "lines": [
+            "‘자유’라는 제목만 보고들 가네요. 작은 글씨에 조건이 더 적혀 있는데.",
+            "읽어 드릴까요? 책상은 치워 두었소."
+          ],
+          "objectiveId": "read_full_text"
+        },
+        {
+          "id": "messenger",
+          "templateId": "courier_pavel",
+          "nameKo": "심부름꾼 파벨",
+          "lines": [
+            "질문을 한데 모으면 오늘 관청으로 가져갈 수 있습니다. 답은 며칠 걸릴지 모르겠지만요.",
+            "이름을 써야 회신이 오기 쉽습니다. 이름 남기기 싫은 분은 따로 말씀해 주세요."
+          ],
+          "objectiveId": "petition_questions"
+        },
+        {
+          "id": "carter",
+          "templateId": "carter_roman",
+          "nameKo": "마차꾼 로만",
+          "lines": [
+            "공고 읽는 사람들 때문에 길이 막혔소. 마차랑 행인이 부딪치기 전에 나눠야겠소.",
+            "다른 구역까지 나를 수는 있소. 대신 여기 남아 질문 받을 사람은 줄겠지."
+          ],
+          "objectiveId": "carry_copies"
+        },
+        {
+          "id": "tenant",
+          "templateId": "tenant_mikhail",
+          "nameKo": "도시 하숙인 미하일",
+          "lines": [
+            "고향 누이가 땅을 받을 수 있는지 알고 싶소. 여기 올라온 뒤론 소식이 없었네.",
+            "옆 마을 사람은 조건이 다르다더군. 누구 말이 맞는지 모르겠소."
+          ],
+          "objectiveId": "land_terms"
+        }
       ],
       "objectives": [
-        {"id":"read_full_text","titleKo":"선언과 농민 관련 규정을 함께 읽는다","actionKo":"식자공과 서점 주인에게 빠진 쪽이 없는지 묻는다"},
-        {"id":"work_and_lodging","titleKo":"일자리와 잠자리를 걱정하는 사람을 돕는다","actionKo":"하녀와 세탁부에게 당장 필요한 조건을 묻는다"},
-        {"id":"land_terms","titleKo":"토지와 공동체 규정을 묻는다","actionKo":"퇴역병과 하숙인에게 고향 소식을 듣는다"},
-        {"id":"petition_questions","titleKo":"생활 질문을 관청에 보낼지 결정한다","actionKo":"서기와 심부름꾼에게 전달 방법을 묻는다"},
-        {"id":"carry_copies","titleKo":"다른 동네에도 인쇄물을 전달한다","actionKo":"짐꾼과 마차꾼에게 배포 경로를 맡긴다"}
+        {
+          "id": "read_full_text",
+          "titleKo": "선언과 농민 관련 규정을 함께 읽는다",
+          "actionKo": "식자공과 서점 주인에게 빠진 쪽이 없는지 묻는다"
+        },
+        {
+          "id": "work_and_lodging",
+          "titleKo": "일자리와 잠자리를 걱정하는 사람을 돕는다",
+          "actionKo": "하녀와 세탁부에게 당장 필요한 조건을 묻는다"
+        },
+        {
+          "id": "land_terms",
+          "titleKo": "토지와 공동체 규정을 묻는다",
+          "actionKo": "퇴역병과 하숙인에게 고향 소식을 듣는다"
+        },
+        {
+          "id": "petition_questions",
+          "titleKo": "생활 질문을 관청에 보낼지 결정한다",
+          "actionKo": "서기와 심부름꾼에게 전달 방법을 묻는다"
+        },
+        {
+          "id": "carry_copies",
+          "titleKo": "다른 동네에도 인쇄물을 전달한다",
+          "actionKo": "짐꾼과 마차꾼에게 배포 경로를 맡긴다"
+        }
       ],
       "choices": [
-        {"id":"send_questions","label":"이름을 적은 질문을 관청에 보낸다","directionKo":"관청 서기와 심부름꾼이 전달 내용을 압니다 · 답을 받을 길이 생깁니다 · 질문한 사람의 이름도 기록됩니다","textKo":"이름을 적은 생활 질문을 관청에 보냈다"},
-        {"id":"public_reading","label":"사람들이 모인 자리에서 규정을 다시 읽는다","directionKo":"현장에 있는 주민들이 듣습니다 · 서명은 남지 않습니다 · 개별 답변을 받기 어렵습니다","textKo":"낭독 자리에서 생활 규정을 다시 읽고 질문을 받았다"},
-        {"id":"distribute_copies","label":"인쇄본을 여러 동네에 나눠 보낸다","directionKo":"짐꾼과 마차꾼이 배포를 맡습니다 · 더 많은 사람이 내용을 듣습니다 · 이 자리의 질문을 맡을 사람이 줄어듭니다","textKo":"인쇄본을 여러 동네에 나눠 보냈다"}
+        {
+          "id": "send_questions",
+          "label": "하녀들과 함께 고용주에게 새 품삯을 요구한다",
+          "directionKo": "하녀·세탁부와 고용주가 마주합니다 · 다음 일주일의 조건을 협상합니다 · 일감을 잃을 위험을 나눠 집니다",
+          "textKo": "하녀와 세탁부가 함께 고용주를 찾아가 다음 주 품삯과 잠자리를 요구했다"
+        },
+        {
+          "id": "public_reading",
+          "label": "토지 조항을 읽고 마을 대표를 모은다",
+          "directionKo": "낭독을 들은 주민과 고향 대표들이 참여합니다 · 마을별 사정을 함께 논의합니다 · 결론이 나기까지 오래 걸립니다",
+          "textKo": "토지 조항을 다시 읽고 마을 대표들을 모아 공동체의 다음 절차를 논의했다"
+        },
+        {
+          "id": "distribute_copies",
+          "label": "관청에 대표단을 보내 적용 조건을 묻는다",
+          "directionKo": "서기와 대표단이 질문을 압니다 · 답변을 요청할 수 있습니다 · 대표로 나선 사람에게 책임이 모입니다",
+          "textKo": "서기와 함께 대표단을 꾸려 토지와 노동 조건을 관청에 물었다"
+        }
       ],
-      "closingKo":"선언은 1861년 2월 19일 당시 역법(새 역법 3월 3일)에 서명됐다. 개인의 해방, 토지 배분, 의무의 정리는 같은 절차가 아니었다. 네 선택은 현장 사람들의 질문과 이동을 바꾸었지만, 제국의 개혁 조건은 바뀌지 않았다."
+      "closingKo": "선언은 1861년 2월 19일 당시 역법(새 역법 3월 3일)에 서명됐다. 개인의 해방, 토지 배분, 의무의 정리는 같은 절차가 아니었다. 네 선택은 현장 사람들의 질문과 이동을 바꾸었지만, 제국의 개혁 조건은 바뀌지 않았다.",
+      "fieldActions": [
+        {
+          "id": "emancipation-street-broadside",
+          "mapId": "manifesto-street",
+          "propKo": "공고를 읽는 낭독대",
+          "objectiveId": "read_full_text",
+          "promptKo": "큰 제목만으로는 개별 규정이 보이지 않습니다. 식자공은 낭독본과 인쇄된 조항을 함께 펼치자고 합니다.",
+          "options": [
+            {
+              "id": "read-clauses",
+              "labelKo": "선언과 농민 관련 조항을 차례로 읽는다",
+              "directionKo": "식자공과 가까이 모인 주민이 듣습니다 · 질문을 받느라 배포는 늦어집니다",
+              "textKo": "선언과 농민 관련 조항을 차례로 읽고 질문을 받았다",
+              "effects": {
+                "reading": "full-clauses",
+                "distribution": "slower"
+              }
+            },
+            {
+              "id": "read-heading",
+              "labelKo": "먼저 선언의 제목과 핵심 문구를 알린다",
+              "directionKo": "더 많은 사람이 소식을 빨리 듣습니다 · 세부 조항은 따로 확인해야 합니다",
+              "textKo": "선언의 제목과 핵심 문구를 먼저 알렸다",
+              "effects": {
+                "reading": "summary",
+                "distribution": "faster"
+              }
+            }
+          ]
+        },
+        {
+          "id": "emancipation-street-print-bundle",
+          "mapId": "manifesto-street",
+          "propKo": "배포를 기다리는 인쇄 묶음",
+          "objectiveId": "carry_copies",
+          "promptKo": "짐꾼은 가까운 골목부터 나를 수 있고, 마차꾼은 멀리 여러 장을 보낼 수 있지만 오늘 이 자리의 사람은 줄어듭니다.",
+          "options": [
+            {
+              "id": "local-distribution",
+              "labelKo": "짐꾼과 가까운 골목부터 나눈다",
+              "directionKo": "짐꾼과 골목 주민이 함께 움직입니다 · 전달 범위는 좁고 질문을 받기 쉽습니다",
+              "textKo": "인쇄물을 짐꾼에게 맡겨 가까운 골목부터 나누었다",
+              "effects": {
+                "copies": "local",
+                "questions": "heard"
+              }
+            },
+            {
+              "id": "carriage-distribution",
+              "labelKo": "마차에 실어 다른 구역으로 보낸다",
+              "directionKo": "마차꾼이 여러 묶음을 옮깁니다 · 넓게 퍼지지만 현장 질문은 남습니다",
+              "textKo": "인쇄물을 마차에 실어 다른 구역으로 보냈다",
+              "effects": {
+                "copies": "wide",
+                "questions": "unanswered"
+              }
+            }
+          ]
+        },
+        {
+          "id": "emancipation-square-wage-board",
+          "mapId": "manifesto-square",
+          "propKo": "내일 일감과 잠자리를 적은 판",
+          "objectiveId": "work_and_lodging",
+          "promptKo": "하녀와 세탁부는 해방 소식만으로 오늘 저녁 방과 내일 품삯이 정해지지 않는다고 말합니다. 주변 일터에서 빈자리를 물을 수 있습니다.",
+          "options": [
+            {
+              "id": "ask-for-work",
+              "labelKo": "주변 집과 세탁소에 내일 일감을 묻는다",
+              "directionKo": "하녀와 세탁부, 고용인들이 알게 됩니다 · 일감은 생겨도 조건은 협상해야 합니다",
+              "textKo": "주변 일터에 내일 일감을 물어 하녀와 세탁부에게 전했다",
+              "effects": {
+                "work": "sought",
+                "lodging": "unchanged"
+              }
+            },
+            {
+              "id": "share-lodging",
+              "labelKo": "먼저 오늘 밤 함께 묵을 방을 찾는다",
+              "directionKo": "하녀와 세탁부가 안전하게 쉴 곳을 찾습니다 · 내일 일감은 아직 정해지지 않습니다",
+              "textKo": "하녀와 세탁부가 함께 묵을 방을 찾도록 도왔다",
+              "effects": {
+                "work": "pending",
+                "lodging": "shared"
+              }
+            }
+          ]
+        },
+        {
+          "id": "emancipation-square-land-letter",
+          "mapId": "manifesto-square",
+          "propKo": "고향에서 온 토지 편지",
+          "objectiveId": "land_terms",
+          "promptKo": "퇴역병의 편지에는 토지 사용과 공동체 논의가 남았다고 적혀 있습니다. 하숙인은 그 말이 고향마다 같은지 묻습니다.",
+          "options": [
+            {
+              "id": "compare-villages",
+              "labelKo": "서로 다른 고향에서 온 편지를 비교한다",
+              "directionKo": "하숙인과 퇴역병이 각자 아는 범위를 말합니다 · 차이를 남겨 둡니다",
+              "textKo": "두 사람의 고향 편지를 비교해 토지 조건의 차이를 확인했다",
+              "effects": {
+                "land": "compared",
+                "claims": "qualified"
+              }
+            },
+            {
+              "id": "announce-one-rule",
+              "labelKo": "한 가지 규정으로 요약해 사람들에게 알린다",
+              "directionKo": "소식은 빨리 퍼집니다 · 마을마다 다른 조건이 빠질 수 있습니다",
+              "textKo": "토지 규정을 한 문장으로 요약해 사람들에게 알렸다",
+              "effects": {
+                "land": "oversimplified",
+                "claims": "spread"
+              }
+            }
+          ]
+        },
+        {
+          "id": "emancipation-lane-question-box",
+          "mapId": "manifesto-lane",
+          "propKo": "관청에 보낼 생활 질문 꾸러미",
+          "objectiveId": "petition_questions",
+          "promptKo": "서기는 이름을 적어 보내면 답을 받을 수 있다고 합니다. 심부름꾼은 이름 없이 여러 질문을 모을 수 있지만 회신을 받을 사람은 없습니다.",
+          "options": [
+            {
+              "id": "named-petition",
+              "labelKo": "질문한 사람의 이름을 적어 보낸다",
+              "directionKo": "서기와 전달 담당자가 이름을 압니다 · 답변을 받을 수 있습니다 · 질문한 사람도 기록됩니다",
+              "textKo": "이름을 적은 생활 질문을 관청에 보냈다",
+              "effects": {
+                "petition": "named",
+                "reply": "possible"
+              }
+            },
+            {
+              "id": "anonymous-questions",
+              "labelKo": "이름 없이 질문을 모아 낭독한다",
+              "directionKo": "현장 주민이 함께 듣습니다 · 개인 이름은 적히지 않습니다 · 답변을 받을 사람도 정하지 않습니다",
+              "textKo": "이름 없이 생활 질문을 모아 현장에서 읽었다",
+              "effects": {
+                "petition": "anonymous",
+                "reply": "none"
+              }
+            }
+          ]
+        },
+        {
+          "id": "emancipation-lane-route-map",
+          "mapId": "manifesto-lane",
+          "propKo": "인쇄본을 나를 골목 지도",
+          "objectiveId": "carry_copies",
+          "promptKo": "마차꾼은 큰길로 여러 묶음을 옮길 수 있고, 세탁부는 걸어서 가까운 집에 전달할 수 있다고 합니다.",
+          "options": [
+            {
+              "id": "send-by-cart",
+              "labelKo": "여러 묶음을 마차에 싣는다",
+              "directionKo": "마차꾼이 넓은 구역에 배포합니다 · 오늘 이 골목의 주민과 대화할 시간은 줄어듭니다",
+              "textKo": "마차에 인쇄물을 실어 여러 구역으로 보냈다",
+              "effects": {
+                "copies": "wide",
+                "localTalk": "reduced"
+              }
+            },
+            {
+              "id": "walk-copies",
+              "labelKo": "세탁부와 걸어서 집집마다 전한다",
+              "directionKo": "가까운 주민은 내용을 묻고 답할 수 있습니다 · 배포 범위는 좁습니다",
+              "textKo": "세탁부와 함께 인쇄물을 가까운 집마다 전했다",
+              "effects": {
+                "copies": "local",
+                "localTalk": "open"
+              }
+            }
+          ]
+        }
+      ]
     }
   ]
 }

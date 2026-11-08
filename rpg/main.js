@@ -7,7 +7,7 @@ import { ownsKeyboardInput, observationText } from './engine/player-presentation
 import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHost, discussionReflectionPromptsForHost } from './engine/discussion-quests.mjs';
 import { dialogueSessionNeedsReconnect, dialogueSpeakerLabel, mayOfferDiscussionPrompt, selectDialogueTurn } from './engine/dialogue-response.mjs';
 import { dialogueSceneContext } from './engine/dialogue-context.mjs';
-import { beginHistoricalSession, exitHistoricalSession, recordHistoricalChoice } from './engine/historical-session.mjs';
+import { beginHistoricalSession, exitHistoricalSession, performHistoricalAction, recordHistoricalChoice } from './engine/historical-session.mjs';
 import { appendApiDiagnostic, clearApiDiagnostics, readApiDiagnostics } from './engine/api-diagnostics.mjs';
 import { CITY_PRODUCTS, NEWSPAPER_STORIES, newspaperAssignment, purchaseCityProduct, publishNewspaperIssue, shareSourceWithEditor, readNewspaperIssue, circulateNewspaperIssue, commitSuspiciousAct, resolvePoliceCustody, publishedIssueLabel } from './engine/civic-life.mjs';
 import { contextualOpening } from './ai/authored-dialogue.mjs';
@@ -35,13 +35,13 @@ const expansionMaps = Object.fromEntries(await Promise.all(expansionMapIds.map(a
 const maps = { nevsky: street, printshop: shop, chancery, courtyard, 'market-quay': marketMap, 'dead-souls': literaryMap, overcoat: overcoatMap, 'raskolnikov-tavern': raskolnikovMap, 'alyosha-snegiryov-room': alyoshaMap, 'police-station': policeMap, ...expansionMaps, ...Object.fromEntries(historicalSceneMaps) }, hostCards = cards;
 const historicalScenes = new Map();
 const copy = value => structuredClone(value);
-function openHistoricalTiles(map, count, origin = map.metadata.observerStart) {
+function openHistoricalTiles(map, count, origin = map.metadata.observerStart, minimumDistance = 2) {
   const collision = map.layers.find(layer => layer.name === 'Collision')?.data ?? [];
   const candidates = Array.from({ length: map.width * map.height }, (_, index) => ({ x: index % map.width, y: Math.floor(index / map.width) }))
     .filter(point => collision[point.y * map.width + point.x] === 0 && (point.x !== origin.x || point.y !== origin.y))
     .sort((a, b) => Math.abs(a.x - origin.x) + Math.abs(a.y - origin.y) - Math.abs(b.x - origin.x) - Math.abs(b.y - origin.y));
   const result = [];
-  for (const point of candidates) { if (result.every(other => Math.abs(point.x - other.x) + Math.abs(point.y - other.y) >= 2)) result.push(point); if (result.length === count) break; }
+  for (const point of candidates) { if (result.every(other => Math.abs(point.x - other.x) + Math.abs(point.y - other.y) >= minimumDistance)) result.push(point); if (result.length === count) break; }
   return result;
 }
 for (const scene of historicalPlay) {
@@ -70,6 +70,14 @@ for (const scene of historicalPlay) {
           { name: 'arrivalY', type: 'int', value: map.metadata.observerStart.y }, { name: 'publicAccess', type: 'bool', value: true },
         ] });
     }
+    const fieldActions = (scene.fieldActions ?? []).filter(action => action.mapId === mapId);
+    const actionTiles = openHistoricalTiles(map, fieldActions.length + 1, map.metadata.observerStart, 4);
+    fieldActions.forEach((action, actionIndex) => {
+      action.position = actionTiles[actionIndex] ?? { x: Math.max(1, Math.min(map.width - 2, map.metadata.observerStart.x + actionIndex + 1)), y: map.metadata.observerStart.y };
+      interactions.objects.push({ id: 7200 + index * 100 + actionIndex, name: action.propKo, type: 'inspectable',
+        x: action.position.x * 16, y: action.position.y * 16, width: 16, height: 16,
+        properties: [{ name: 'historicalActionId', type: 'string', value: action.id }, { name: 'storyTextKo', type: 'string', value: action.promptKo }] });
+    });
     maps[mapId] = map; mapIds.push(mapId);
   });
   scene.mapIds = mapIds; scene.actors.forEach((person, index) => {
@@ -460,7 +468,12 @@ const setState = next => {
     next.historicalSession.visitedMapIds ??= [];
     if (!next.historicalSession.visitedMapIds.includes(next.world.currentMapId)) next.historicalSession.visitedMapIds.push(next.world.currentMapId);
   }
-  state = next; document.body.classList.toggle('historical-event-active', Boolean(state.historicalSession)); updateHud();
+  state = next;
+  const currentActor = state.player.embodiment ? state.hosts[state.player.embodiment] : state.player;
+  document.body.dataset.worldMap = state.world.currentMapId;
+  document.body.dataset.playerX = String(currentActor.position.x);
+  document.body.dataset.playerY = String(currentActor.position.y);
+  document.body.classList.toggle('historical-event-active', Boolean(state.historicalSession)); updateHud();
   if (oldHost !== state.player.embodiment || oldQuest !== missionGuidance?.questId) { destinationPinned = false; updateHud(); }
   requestRender();
 };
@@ -508,10 +521,10 @@ function updateHud() {
   $('#load').disabled = !localStorage.getItem('v33-rpg-save');
   const inLiteraryScene = Boolean(state.world.activeRealm);
   missionGuidance = state.historicalSession
-    ? { questTitleKo: state.historicalSession.eventTitleKo, actionKo: '현장 인물과 대화하고 각 구역을 살펴본다', placeKo: map.metadata.displayNameKo,
-        reasonKo: `${Math.min(state.historicalSession.spokenActorIds?.length ?? 0, 6)}/6명 · ${state.historicalSession.visitedMapIds?.length ?? 0}/3구역`,
+    ? { questTitleKo: state.historicalSession.eventTitleKo, actionKo: '사람들과 이야기하고 현장의 일을 직접 처리한다', placeKo: map.metadata.displayNameKo,
+        reasonKo: `대화 ${Math.min(state.historicalSession.spokenActorIds?.length ?? 0, 8)}/8 · 현장 일 ${Math.min(state.historicalSession.completedObjectives?.length ?? 0, 5)}/5 · 구역 ${state.historicalSession.visitedMapIds?.length ?? 0}/3`,
         howKo: '가까이 다가가 말하기 · 인물 목록에서 다른 사람의 시야로 들어가기 · 출구를 따라 다음 구역으로 걷기', target: null,
-        progress: { completedSteps: state.historicalSession.completedObjectives?.length ?? 0, totalSteps: 3 }, blocked: false }
+        progress: { completedSteps: state.historicalSession.completedObjectives?.length ?? 0, totalSteps: 5 }, blocked: false }
     : inLiteraryScene
     ? { questTitleKo: '', actionKo: '', placeKo: '', reasonKo: '', howKo: '', target: null, progress: { completedSteps: 0, totalSteps: 0 }, blocked: false }
     : resolveQuestGuidance({ state, quests: questList, maps, hostCards: cards });
@@ -1061,8 +1074,7 @@ function beginHistoricalEvent(event) {
   result.session.historicalSession.eventTitleKo = event.titleKo;
   setState(result.session);
   $('#history-events-open').textContent = `현장 · ${event.alertKo}`;
-  const firstObjective = scene.objectives.map((item, index) => `${index + 1}. ${item.titleKo}`).join('\n');
-  say(event.titleKo, `${scene.introKo ?? event.openingKo}\n\n현장을 걸으며 6명 이상과 이야기를 나누고 세 구역을 모두 둘러보세요.\n\n${firstObjective}`, [
+  say(event.titleKo, `${scene.introKo ?? event.openingKo}\n\n세 구역을 돌며 여덟 사람과 이야기하고, 서로 다른 현장 일 다섯 가지를 직접 처리하세요. 인물 목록에서 다른 사람의 몸을 빌릴 수 있습니다.`, [
     { label: '인물 목록 · 바로 빙의', subcopy: '현장에 있는 사람을 골라 그 사람의 시야로 걷습니다', run: openCharacterList },
     { label: '현장을 나간다', subcopy: '원래 캠페인으로 돌아갑니다', run: () => leaveHistoricalSession(false) },
   ]);
@@ -1084,8 +1096,12 @@ function historicalSceneForState() { return historicalScenes.get(state.historica
 function readPlayerHistoricalChoices() {
   try {
     const records = JSON.parse(localStorage.getItem('v38-historical-event-records') ?? '{}');
-    return Object.entries(records).map(([eventId, record]) => ({ eventId, record,
-      allowedChoiceIds: new Set(historicalPlay.find(event => event.eventId === eventId)?.choices.map(choice => choice.id) ?? []) }))
+    return Object.entries(records).map(([eventId, record]) => {
+      const scene = historicalPlay.find(event => event.eventId === eventId);
+      const allowedChoiceIds = new Set([...(scene?.choices.map(choice => choice.id) ?? []),
+        ...(scene?.fieldActions ?? []).flatMap(action => action.options.map(option => `${action.id}:${option.id}`))]);
+      return { eventId, record, allowedChoiceIds };
+    })
       .filter(({ record, allowedChoiceIds }) => record?.completedAt && allowedChoiceIds.size
         && (record.choices ?? []).some(choice => allowedChoiceIds.has(choice.id)))
       .sort((a, b) => String(b.record.completedAt).localeCompare(String(a.record.completedAt))).slice(0, 3)
@@ -1099,7 +1115,8 @@ function leaveHistoricalSession(record = true) {
   if (record) {
     let records = {};
     try { records = JSON.parse(localStorage.getItem('v38-historical-event-records') ?? '{}'); } catch { /* ignore malformed local progress */ }
-    records[event.id] = { date: event.date, choices: session.choices, visitedMapIds: session.visitedMapIds ?? [],
+    records[event.id] = { date: event.date, choices: session.choices, actionOutcomes: session.actionOutcomes ?? {},
+      effects: state.world.historicalEventEffects?.[event.id] ?? {}, visitedMapIds: session.visitedMapIds ?? [],
       spokenActorIds: session.spokenActorIds ?? [], completedObjectives: session.completedObjectives ?? [], completedAt: new Date().toISOString() };
     localStorage.setItem('v38-historical-event-records', JSON.stringify(records));
   }
@@ -1135,20 +1152,56 @@ function resolveHistoricalConversation(scene, person, response) {
   if (!(next.historicalSession.spokenActorIds ?? []).includes(person.id)) {
     next = copy(next); next.historicalSession.spokenActorIds.push(person.id);
   }
-  if (response === 'help' && person.objectiveId && !next.historicalSession.completedObjectives.includes(person.objectiveId))
-    next.historicalSession.completedObjectives.push(person.objectiveId);
+  if (response === 'help') {
+    next.historicalSession.pledgedActorIds ??= [];
+    if (!next.historicalSession.pledgedActorIds.includes(person.id)) next.historicalSession.pledgedActorIds.push(person.id);
+  }
   next = recordHistoricalChoice(next, { id: `${person.id}:${response}`, textKo: `${person.nameKo}에게 ${response === 'help' ? '도움을 약속했다' : response === 'listen' ? '다른 사람의 의견도 듣기로 했다' : '이야기를 듣고 다음 장소로 갔다'}` });
   setState(next);
   const completed = new Set(next.historicalSession.completedObjectives), visited = new Set(next.historicalSession.visitedMapIds ?? []);
-  const unlocked = next.historicalSession.spokenActorIds.length >= 6 && completed.size >= 3 && visited.size === scene.maps.length;
+  const unlocked = next.historicalSession.spokenActorIds.length >= 8 && completed.size >= 5 && visited.size === scene.maps.length;
   const actions = unlocked ? scene.choices.map(choice => ({ label: choice.label, subcopy: choice.directionKo, run: () => {
     setState(recordHistoricalChoice(state, { id: choice.id, textKo: choice.textKo })); leaveHistoricalSession(true);
   } })) : [
-    { label: '현장 인물 목록', subcopy: `대화 ${next.historicalSession.spokenActorIds.length}/6 · 서로 다른 부탁 ${completed.size}/3 · 구역 ${visited.size}/${scene.maps.length}`, run: openCharacterList },
+    { label: '현장 인물 목록', subcopy: `대화 ${next.historicalSession.spokenActorIds.length}/8 · 서로 다른 현장 일 ${completed.size}/5 · 구역 ${visited.size}/${scene.maps.length}`, run: openCharacterList },
     { label: '현장을 나간다', subcopy: '원래 자리로 돌아갑니다', run: () => leaveHistoricalSession(false) },
   ];
-  const reaction = response === 'help' ? '그 사람은 고개를 끄덕이고 주변의 다른 이에게도 말을 건넸다.' : response === 'listen' ? '그 사람은 결정을 서두르지 말자며 다른 사람의 이름을 알려 주었다.' : '그 사람은 다시 자기 일로 돌아갔다.';
-  say(person.nameKo, `${reaction}\n\n${unlocked ? '세 구역을 모두 둘러보고 여러 사람의 말을 들었다. 이제 현장에서 무엇을 먼저 할지 결정할 수 있다.' : '다른 이들의 이야기를 더 들어보자. 구역을 걸어가면 새로운 사람들이 보인다.'}`, actions);
+  const actionHint = scene.fieldActions.find(action => action.objectiveId === person.objectiveId && !next.historicalSession.actionOutcomes?.[action.id]);
+  const reaction = response === 'help' ? `그 사람은 고개를 끄덕였다. ${actionHint ? `${actionHint.propKo}를 함께 살펴야 일이 움직인다.` : '먼저 현장 상황을 확인하자.'}` : response === 'listen' ? '그 사람은 결정을 서두르지 말자며 다른 사람의 이름을 알려 주었다.' : '그 사람은 다시 자기 일로 돌아갔다.';
+  say(person.nameKo, `${reaction}\n\n${unlocked ? '세 구역을 돌고 사람들의 부탁을 실제로 처리했다. 이제 오늘 현장에서 무엇을 먼저 남길지 정할 수 있다.' : '주변 사람의 말을 듣고, 부탁과 이어진 물건을 찾아 직접 처리해 보자.'}`, actions);
+}
+function startHistoricalAction(scene, action) {
+  const event = historicalEvents.find(item => item.id === scene.eventId);
+  const selected = state.historicalSession.actionOutcomes?.[action.id];
+  if (selected) {
+    const priorChoice = action.options.find(option => option.id === selected);
+    say(action.propKo, priorChoice?.textKo ?? '이미 이 일은 처리했다.', []);
+    return;
+  }
+  say(action.propKo, action.promptKo, action.options.map(option => ({ label: option.labelKo, subcopy: option.directionKo, run: () => {
+    const result = performHistoricalAction(state, scene, action.id, option.id);
+    if (!result.ok) { sayRecord(result.reason === 'wrong_historical_area' ? '먼저 그 장소로 걸어가야 합니다.' : '이 일은 이미 처리했거나 지금 선택할 수 없습니다.'); return; }
+    const next = result.state;
+    const responders = scene.actors.filter(person => person.mapId === action.mapId && person.objectiveId === action.objectiveId)
+      .map(person => ({ person, host: next.hosts[`historical:${scene.eventId}:${person.id}`] })).filter(({ host }) => host);
+    const responseMap = maps[action.mapId], responseTiles = openHistoricalTiles(responseMap, responders.length + 1, action.position);
+    responders.forEach(({ person, host }, index) => {
+      if (!responseTiles[index]) return;
+      host.position = responseTiles[index]; host.currentActivityKo = `${action.propKo} 곁에서 사람들과 의논한다`;
+    });
+    setState(next);
+    const completed = next.historicalSession.completedObjectives.length;
+    const nextAction = scene.fieldActions.find(item => item.objectiveId !== action.objectiveId && !next.historicalSession.actionOutcomes?.[item.id]);
+    const unlocked = next.historicalSession.spokenActorIds.length >= 8 && completed >= 5
+      && new Set(next.historicalSession.visitedMapIds ?? []).size === scene.maps.length;
+    const followups = unlocked ? scene.choices.map(choice => ({ label: choice.label, subcopy: choice.directionKo, run: () => {
+      setState(recordHistoricalChoice(state, { id: choice.id, textKo: choice.textKo })); leaveHistoricalSession(true);
+    } })) : [
+      { label: '현장 인물 목록', subcopy: '다른 사람의 시야로 바꾸어 직접 움직입니다', run: openCharacterList },
+      { label: '계속 걷기', subcopy: '주변 사람과 다른 현장 물건을 살펴봅니다', run: () => say(event.titleKo, '사람들과 이야기를 나누고 현장을 계속 살펴보자.', []) },
+    ];
+    say(action.propKo, `${option.textKo}.${responders.length ? ` ${responders.map(item => item.person.nameKo).join('과 ')}가 곁으로 다가와 거든다.` : ''}\n\n현장 일 ${Math.min(completed, 5)}/5${nextAction && !unlocked ? ` · 다음에는 ${nextAction.propKo} 쪽을 살펴볼 수 있다.` : ''}${unlocked ? '\n\n세 구역을 돌고 사람들의 부탁을 실제로 처리했다. 오늘 현장에서 무엇을 먼저 할지 고를 수 있다.' : ''}`, followups);
+  } })));
 }
 function continuationFor(activeQuest) {
   if (activeQuest.realmId || activeQuest.chapterId?.startsWith('LITERARY_')) return [{ label: '장면에서 나가기', run: leaveCurrentLiteraryScene }, { label: '자료철 열기', run: openSourceDrawer }];
@@ -1429,6 +1482,10 @@ function inspect(object) {
     say(clue.titleKo, observationText(clue, state.player.embodiment), []);
     sayRecord(`조사 · ${clue.titleKo} · ${state.player.embodiment ? '현재 몸의 수첩에 기록' : '관찰 기록에 저장'}`);
   }
+  else if (props.historicalActionId && state.historicalSession) {
+    const scene = historicalSceneForState(), action = scene?.fieldActions.find(item => item.id === props.historicalActionId);
+    if (action) startHistoricalAction(scene, action);
+  }
   else if (props.storyTextKo && !props.questId) { say(object.name || '주변의 물건', props.storyTextKo, []); sayRecord(`살펴봄 · ${object.name || '주변의 물건'}`); }
   else if (props.questId) {
     const activeQuest = resolveObjectQuest(props.questId, state, questList);
@@ -1598,6 +1655,7 @@ function interact() {
   if (!activeQuestObject && !state.player.embodiment && civicService && !nearbyPeople.length) { inspect(civicService); return; }
   const object = activeQuestObject
     ?? near.find(item => item.type === 'source')
+    ?? (state.historicalSession ? near.find(item => item.type === 'inspectable' && mapObjectProperties(item).historicalActionId) : null)
     ?? (state.player.embodiment ? near.find(item => item.type === 'map-exit') : null)
     ?? near.find(item => item.type === 'npc' && mapObjectProperties(item).hostId !== state.player.embodiment)
     ?? near.find(item => item.type === 'map-exit')

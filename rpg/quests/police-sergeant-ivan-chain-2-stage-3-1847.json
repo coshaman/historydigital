@@ -1,13 +1,16 @@
 {
   "id": "IVAN_WITNESS_ACCOUNT_1849_STAGE_3",
-  "titleKo": "목격과 전언 사이",
+  "titleKo": "저녁 장터의 선택",
   "chapterId": "V33_1849_CIRCLE",
   "date": "1849-04-22",
-  "premiseKo": "진술과 대조 기록을 모았다. 이반은 어떤 사본을 남기고 누구에게 보일지 정해야 한다.",
+  "premiseKo": "주머니는 아직 돌아오지 않았다. 나데즈다는 문을 닫기 전, 오늘 손해와 내일 장사를 어떻게 할지 이반에게 묻는다.",
   "historicalOutcome": {
     "id": "IVAN_WITNESS_ACCOUNT_1849_STAGE_3_FICTIONAL_OUTCOME",
-    "value": "fictional resident daily life choice only; no historical public record is altered",
-    "sourceIds": []
+    "value": "fictional resident choices follow the game’s E36 market-loss scene; they do not identify a real suspect or alter a historical case",
+    "sourceIds": [
+      "CAT-RSL-BAZAAR-WARDENS-1842",
+      "OBJ-PRLIB-STPETE-THEFT-CASES-1843-44"
+    ]
   },
   "entry": {
     "mapId": "police-station",
@@ -20,74 +23,84 @@
       "hostIds": [
         "police_sergeant_ivan"
       ],
-      "labelKo": "이름이 든 원본은 접수실에 두고 요약만 회람한다",
-      "subcopyKo": "접수 담당자와 결재자가 압니다 · 원본 보관표와 요약본이 남습니다 · 요약에서 중요한 맥락이 빠질 수 있습니다",
-      "resultKo": "원본은 접수실에 두고 출처 구분을 적은 요약만 돌렸다. 신원 노출은 줄었지만 요약이 전부는 아니다.",
-      "resultFlag": "restrictedOriginal",
-      "followupTitleKo": "접수 결과와 보관 범위",
+      "labelKo": "나데즈다와 함께 정식 신고를 접수한다",
+      "subcopyKo": "나데즈다·가브릴라·경비가 압니다 · 장터 순찰 장부에 접수됩니다 · 확인 절차 동안 좌판을 비울 수 있습니다",
+      "resultKo": "나데즈다는 분실을 신고했다. 이반은 본 사람을 지목하지 않고 시각과 장소부터 적었다.",
+      "resultFlag": "IVAN_MARKET_FORMAL_REPORT",
+      "followupTitleKo": "저녁 장터의 선택",
       "effects": {
-        "situationKo": "원본은 접수실에 두고 출처 구분을 적은 요약만 돌렸다. 신원 노출은 줄었지만 요약이 전부는 아니다.",
+        "situationKo": "나데즈다는 분실을 신고했다. 이반은 본 사람을 지목하지 않고 시각과 장소부터 적었다.",
         "relations": {
-          "junior_guard_sergey": "오늘 함께 확인한 일: 접수 결과와 보관 범위"
+          "market_nadezhda": "이반과 함께 겪은 장터 일: 저녁 장터의 선택",
+          "porter_gavrila": "함께 살핀 장터 일: 저녁 장터의 선택"
         },
         "lifeChainDelta": {
-          "verifiedAccounts": 2
+          "marketLoss": 2
         }
-      }
+      },
+      "followupKo": "이 일은 장터의 이웃과 이반의 순찰에 이어진다."
     },
     {
       "id": "IVAN_WITNESS_ACCOUNT_1849_STAGE_3_CHOICE_2",
       "hostIds": [
         "police_sergeant_ivan"
       ],
-      "labelKo": "진술자 확인을 받은 뒤 관련자에게 사본을 준다",
-      "subcopyKo": "진술자와 지정 수취인이 압니다 · 교부 서명과 사본 번호가 남습니다 · 전달이 늦어질 수 있습니다",
-      "resultKo": "진술자가 확인한 사본만 지정된 사람에게 건넸다. 널리 돌리진 않지만 필요한 확인은 가능하다.",
-      "resultFlag": "signedCopy",
-      "followupTitleKo": "접수 결과와 보관 범위",
+      "labelKo": "상인들이 조금씩 보태 내일 잔돈을 마련한다",
+      "subcopyKo": "장터 상인들이 압니다 · 모금한 액수가 공개됩니다 · 나눠 낸 사람마다 부담이 생깁니다",
+      "resultKo": "상인들은 조금씩 돈을 모아 나데즈다에게 건넸다. 손실은 메웠지만, 장터 사람들은 다음에도 서로 도울지 고민하게 됐다.",
+      "resultFlag": "IVAN_MARKET_SHARED_LOSS",
+      "followupTitleKo": "저녁 장터의 선택",
       "effects": {
-        "situationKo": "진술자가 확인한 사본만 지정된 사람에게 건넸다. 널리 돌리진 않지만 필요한 확인은 가능하다.",
+        "situationKo": "상인들은 조금씩 돈을 모아 나데즈다에게 건넸다. 손실은 메웠지만, 장터 사람들은 다음에도 서로 도울지 고민하게 됐다.",
         "relations": {
-          "junior_guard_sergey": "오늘 함께 확인한 일: 접수 결과와 보관 범위"
+          "market_nadezhda": "이반과 함께 겪은 장터 일: 저녁 장터의 선택",
+          "porter_gavrila": "함께 살핀 장터 일: 저녁 장터의 선택"
         },
         "lifeChainDelta": {
-          "verifiedAccounts": 1
+          "marketLoss": 1
         }
-      }
+      },
+      "followupKo": "이 일은 장터의 이웃과 이반의 순찰에 이어진다."
     },
     {
       "id": "IVAN_WITNESS_ACCOUNT_1849_STAGE_3_CHOICE_3",
       "hostIds": [
         "police_sergeant_ivan"
       ],
-      "labelKo": "모든 이름과 전언을 접수 장부에 공개한다",
-      "subcopyKo": "접수실을 드나드는 담당자들이 봅니다 · 공식 장부에 전체 기록이 남습니다 · 확인되지 않은 말이 당사자를 해칠 수 있습니다",
-      "resultKo": "이름과 전언을 장부에 함께 남겼다. 추적은 쉽지만 잘못된 말도 오래 기록된다.",
-      "resultFlag": "fullRegister",
-      "followupTitleKo": "접수 결과와 보관 범위",
+      "labelKo": "신고는 미루고 함께 좌판을 정리한다",
+      "subcopyKo": "나데즈다와 가브릴라만 압니다 · 순찰 장부에는 분실이 남지 않습니다 · 손해를 돌려받을 길이 멀어집니다",
+      "resultKo": "나데즈다는 그날 신고하지 않기로 했다. 가브릴라는 짐을 날랐고 이반은 어두워질 때까지 근처를 돌았다.",
+      "resultFlag": "IVAN_MARKET_CLOSE_STALL",
+      "followupTitleKo": "저녁 장터의 선택",
       "effects": {
-        "situationKo": "이름과 전언을 장부에 함께 남겼다. 추적은 쉽지만 잘못된 말도 오래 기록된다.",
+        "situationKo": "나데즈다는 그날 신고하지 않기로 했다. 가브릴라는 짐을 날랐고 이반은 어두워질 때까지 근처를 돌았다.",
         "relations": {
-          "junior_guard_sergey": "오늘 함께 확인한 일: 접수 결과와 보관 범위"
+          "market_nadezhda": "이반과 함께 겪은 장터 일: 저녁 장터의 선택",
+          "porter_gavrila": "함께 살핀 장터 일: 저녁 장터의 선택"
         },
         "lifeChainDelta": {
-          "verifiedAccounts": 0
+          "marketLoss": 0
         }
-      }
+      },
+      "followupKo": "이 일은 장터의 이웃과 이반의 순찰에 이어진다."
     }
   ],
   "completion": "one authorized choice at the named physical work object",
   "lifeChain": {
     "id": "IVAN_WITNESS_ACCOUNT_1849",
-    "titleKo": "목격과 전언 사이",
+    "titleKo": "장터의 빈 돈주머니",
     "stage": 3,
     "stageCount": 3,
     "metricsKo": {
-      "verifiedAccounts": "이 문제를 처리하며 남긴 결과"
+      "marketLoss": "장터 손실을 함께 처리한 방식"
     },
     "previousQuestId": "IVAN_WITNESS_ACCOUNT_1849_STAGE_2"
   },
   "prerequisiteQuestIds": [
     "IVAN_WITNESS_ACCOUNT_1849_STAGE_2"
+  ],
+  "sourceIds": [
+    "CAT-RSL-BAZAAR-WARDENS-1842",
+    "OBJ-PRLIB-STPETE-THEFT-CASES-1843-44"
   ]
 }

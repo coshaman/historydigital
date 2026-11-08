@@ -453,7 +453,7 @@
         },
         {
           "id": 1020,
-          "name": "목격·전언 대조표",
+          "name": "장터 순찰 교대",
           "type": "quest-object",
           "x": 112,
           "y": 80,
@@ -470,7 +470,7 @@
         },
         {
           "id": 1110,
-          "name": "진술의 출처 구분표",
+          "name": "장터 분실 신고",
           "type": "quest-object",
           "x": 112,
           "y": 16,
@@ -487,7 +487,7 @@
         },
         {
           "id": 1111,
-          "name": "추가 확인 요청서",
+          "name": "수레가 지난 길",
           "type": "quest-object",
           "x": 96,
           "y": 32,
@@ -504,7 +504,7 @@
         },
         {
           "id": 1112,
-          "name": "접수 결과와 보관 범위",
+          "name": "저녁 순찰 메모",
           "type": "quest-object",
           "x": 128,
           "y": 32,
@@ -573,8 +573,16 @@
           "height": 16,
           "visible": true,
           "properties": [
-            { "name": "questId", "type": "string", "value": "V37_POLICE_DOCUMENT_CHECK_1847" },
-            { "name": "eventId", "type": "string", "value": "E25" }
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "V37_POLICE_DOCUMENT_CHECK_1847"
+            },
+            {
+              "name": "eventId",
+              "type": "string",
+              "value": "E25"
+            }
           ]
         }
       ]

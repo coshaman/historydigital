@@ -1,13 +1,16 @@
 {
   "id": "IVAN_WITNESS_ACCOUNT_1849_STAGE_1",
-  "titleKo": "목격과 전언 사이",
+  "titleKo": "장터의 빈 돈주머니",
   "chapterId": "V33_1849_CIRCLE",
   "date": "1849-04-22",
-  "premiseKo": "접수된 말에는 직접 본 내용과 다른 사람에게 들은 내용이 섞여 있다. 이반은 이름을 적기 전에 출처부터 나눠야 한다.",
+  "premiseKo": "장터에서 나데즈다의 돈주머니가 사라졌다. 이반은 장사를 멈추게 하지 않으면서 무슨 일이 있었는지 확인하려 한다.",
   "historicalOutcome": {
     "id": "IVAN_WITNESS_ACCOUNT_1849_STAGE_1_FICTIONAL_OUTCOME",
-    "value": "fictional resident daily life choice only; no historical public record is altered",
-    "sourceIds": []
+    "value": "fictional resident choices follow the game’s E36 market-loss scene; they do not identify a real suspect or alter a historical case",
+    "sourceIds": [
+      "CAT-RSL-BAZAAR-WARDENS-1842",
+      "OBJ-PRLIB-STPETE-THEFT-CASES-1843-44"
+    ]
   },
   "entry": {
     "mapId": "police-station",
@@ -20,72 +23,82 @@
       "hostIds": [
         "police_sergeant_ivan"
       ],
-      "labelKo": "직접 본 사람의 말만 별도 기록한다",
-      "subcopyKo": "진술자와 접수 담당자가 압니다 · 진술서에 직접 목격 범위가 남습니다 · 다른 전언은 확인이 늦어집니다",
-      "resultKo": "직접 본 내용만 먼저 적었다. 전해 들은 말을 목격으로 바꾸진 않았다.",
-      "resultFlag": "directOnly",
-      "followupTitleKo": "진술의 출처 구분표",
+      "labelKo": "나데즈다와 분실 시각을 확인한다",
+      "subcopyKo": "나데즈다와 장터 경비가 압니다 · 장터 순찰 장부에 시각이 남습니다 · 잃어버린 돈은 돌아오지 않습니다",
+      "resultKo": "나데즈다와 분실 시각을 맞췄다. 그녀는 다시 좌판을 열었고, 이반은 장터 끝을 살폈다.",
+      "resultFlag": "IVAN_MARKET_SELLER_TIME",
+      "followupTitleKo": "장터의 빈 돈주머니",
       "effects": {
-        "situationKo": "직접 본 내용만 먼저 적었다. 전해 들은 말을 목격으로 바꾸진 않았다.",
+        "situationKo": "나데즈다와 분실 시각을 맞췄다. 그녀는 다시 좌판을 열었고, 이반은 장터 끝을 살폈다.",
         "relations": {
-          "junior_guard_sergey": "오늘 함께 확인한 일: 진술의 출처 구분표"
+          "market_nadezhda": "이반과 함께 겪은 장터 일: 장터의 빈 돈주머니",
+          "porter_gavrila": "함께 살핀 장터 일: 장터의 빈 돈주머니"
         },
         "lifeChainDelta": {
-          "verifiedAccounts": 2
+          "marketLoss": 2
         }
-      }
+      },
+      "followupKo": "이 일은 장터의 이웃과 이반의 순찰에 이어진다."
     },
     {
       "id": "IVAN_WITNESS_ACCOUNT_1849_STAGE_1_CHOICE_2",
       "hostIds": [
         "police_sergeant_ivan"
       ],
-      "labelKo": "전해 들은 말은 이름 없이 첨부한다",
-      "subcopyKo": "접수 담당자와 검토자가 압니다 · 익명 참고 메모에 남습니다 · 확인할 사람이 부족할 수 있습니다",
-      "resultKo": "전언은 이름을 빼고 참고 메모에 붙였다. 단서는 남지만 사실로 확정하진 않았다.",
-      "resultFlag": "anonymousRumor",
-      "followupTitleKo": "진술의 출처 구분표",
+      "labelKo": "가브릴라가 수레 곁에서 본 일을 묻는다",
+      "subcopyKo": "가브릴라와 이반만 압니다 · 순찰 메모에 남습니다 · 사람을 지목할 만한 단서는 아직 없습니다",
+      "resultKo": "가브릴라는 붐비는 사이 주머니가 사라졌다고 했다. 얼굴은 보지 못했으니 누구 이름도 대지 않았다.",
+      "resultFlag": "IVAN_MARKET_PORTER_ROUTE",
+      "followupTitleKo": "장터의 빈 돈주머니",
       "effects": {
-        "situationKo": "전언은 이름을 빼고 참고 메모에 붙였다. 단서는 남지만 사실로 확정하진 않았다.",
+        "situationKo": "가브릴라는 붐비는 사이 주머니가 사라졌다고 했다. 얼굴은 보지 못했으니 누구 이름도 대지 않았다.",
         "relations": {
-          "junior_guard_sergey": "오늘 함께 확인한 일: 진술의 출처 구분표"
+          "market_nadezhda": "이반과 함께 겪은 장터 일: 장터의 빈 돈주머니",
+          "porter_gavrila": "함께 살핀 장터 일: 장터의 빈 돈주머니"
         },
         "lifeChainDelta": {
-          "verifiedAccounts": 1
+          "marketLoss": 1
         }
-      }
+      },
+      "followupKo": "이 일은 장터의 이웃과 이반의 순찰에 이어진다."
     },
     {
       "id": "IVAN_WITNESS_ACCOUNT_1849_STAGE_1_CHOICE_3",
       "hostIds": [
         "police_sergeant_ivan"
       ],
-      "labelKo": "두 내용을 한 진술서에 함께 적는다",
-      "subcopyKo": "접수실과 상급자가 봅니다 · 단일 진술서에 직접 목격과 전언이 함께 남습니다 · 출처가 뒤섞여 책임이 흐려질 수 있습니다",
-      "resultKo": "두 종류의 말을 한 서류에 적되 출처를 표시하기로 했다. 읽는 사람이 구분하지 못하면 다시 확인해야 한다.",
-      "resultFlag": "combinedStatement",
-      "followupTitleKo": "진술의 출처 구분표",
+      "labelKo": "나데즈다에게 장사할 돈을 먼저 보탠다",
+      "subcopyKo": "나데즈다와 이반이 압니다 · 두 사람의 거래 기록에 남습니다 · 내 돈이 줄고 찾기는 미뤄집니다",
+      "resultKo": "이반은 주머니에서 돈을 꺼내 나데즈다의 잔돈을 채웠다. 장사는 이어졌지만 누가 가져갔는지는 그대로였다.",
+      "resultFlag": "IVAN_MARKET_ADVANCE_CASH",
+      "followupTitleKo": "장터의 빈 돈주머니",
       "effects": {
-        "situationKo": "두 종류의 말을 한 서류에 적되 출처를 표시하기로 했다. 읽는 사람이 구분하지 못하면 다시 확인해야 한다.",
+        "situationKo": "이반은 주머니에서 돈을 꺼내 나데즈다의 잔돈을 채웠다. 장사는 이어졌지만 누가 가져갔는지는 그대로였다.",
         "relations": {
-          "junior_guard_sergey": "오늘 함께 확인한 일: 진술의 출처 구분표"
+          "market_nadezhda": "이반과 함께 겪은 장터 일: 장터의 빈 돈주머니",
+          "porter_gavrila": "함께 살핀 장터 일: 장터의 빈 돈주머니"
         },
         "lifeChainDelta": {
-          "verifiedAccounts": 0
+          "marketLoss": 0
         }
-      }
+      },
+      "followupKo": "이 일은 장터의 이웃과 이반의 순찰에 이어진다."
     }
   ],
   "completion": "one authorized choice at the named physical work object",
   "lifeChain": {
     "id": "IVAN_WITNESS_ACCOUNT_1849",
-    "titleKo": "목격과 전언 사이",
+    "titleKo": "장터의 빈 돈주머니",
     "stage": 1,
     "stageCount": 3,
     "metricsKo": {
-      "verifiedAccounts": "이 문제를 처리하며 남긴 결과"
+      "marketLoss": "장터 손실을 함께 처리한 방식"
     }
   },
+  "sourceIds": [
+    "CAT-RSL-BAZAAR-WARDENS-1842",
+    "OBJ-PRLIB-STPETE-THEFT-CASES-1843-44"
+  ],
   "prerequisiteQuestIds": [
     "POLICE_TESTIMONY_RECORD_1849"
   ]

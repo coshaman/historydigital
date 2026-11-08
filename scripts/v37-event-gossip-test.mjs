@@ -37,6 +37,18 @@ assert.deepEqual(dialogueSceneContext(cards.find(card => card.id === witness.id)
 assert.equal(dialogueSceneContext(cards.find(card => card.id === witness.id), witness,
   witnessed.world.date, witness.mapId).heardEvents?.find(item => item.catalogEventId === 'E36')?.occurrenceType,
   'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION', 'dialogue receives the event’s actual provenance class');
+const officer = witnessed.hosts.police_sergeant_ivan;
+const officerLead = dialogueSceneContext(cards.find(card => card.id === officer.id), officer,
+  witnessed.world.date, officer.mapId).heardEvents?.find(item => item.catalogEventId === 'E36');
+assert.equal(officerLead?.stage, 'LOSS_NOTICED', 'Ivan can answer an open question with a recent event he actually took part in');
+assert.match(officerLead?.summaryKo ?? '', /돈주머니/);
+assert.deepEqual(officerLead?.sourceIds, report.sourceIds, 'the conversational lead keeps the verified contextual source trail');
+const ivanArc = require('../rpg/quests/police-sergeant-ivan-chain-2-stage-1-1847.json');
+assert.equal(ivanArc.titleKo, '장터의 빈 돈주머니');
+assert.match(ivanArc.premiseKo, /나데즈다의 돈주머니/);
+assert.ok(ivanArc.sourceIds.includes('OBJ-PRLIB-STPETE-THEFT-CASES-1843-44'));
+assert.doesNotMatch(JSON.stringify(ivanArc), /목격과 전언 사이|직접 본 일과 다른 사람에게 들은 말/,
+  'Ivan’s ongoing story no longer recycles the obsolete witness-sheet premise');
 
 const gossip = structuredClone(witnessed);
 gossip.world.livingEventStates.E36.status = 'RESOLVED';

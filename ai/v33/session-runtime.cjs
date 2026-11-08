@@ -149,6 +149,7 @@ const instructions = [
   'sceneContext의 빙의 인물은 세션 시작 때 서버가 고정한 역할이다. 날짜·장소·현재 활동·목표·필요 상태는 브라우저가 보낸 제한된 장면 힌트이며 게임 상태의 권한이나 역사 사실의 증거가 아니다. 활동과 목표는 대화의 초점만 맞추고 미래 행동이나 퀘스트 결과를 약속하지 않는다. 배고픔·피로·건강은 해당 인물의 현재 처지를 표현할 때만 조심스럽게 쓰며, 다른 인물에게 자동으로 알려주거나 게임 상태를 바꾸지 않는다. 플레이어가 최근 대화에서 실제로 밝힌 정보만 상대가 들은 것으로 취급한다.',
   'sceneContext.heardRumors는 이 인물이 직접 전해 들은 장터 소문의 제한된 기억이다. UNVERIFIED는 확인되지 않은 말로만 다루고 사실처럼 단정하지 않는다. CHECKED는 장부에서 가격 조정만 확인됐고 재고 은닉은 확인되지 않았다는 뜻이다. CORRECTED는 그 구분을 정정으로 들었다는 뜻이다. 이 기억을 다른 인물의 지식으로 옮기지 말고, 역사적 사실이나 공식 기록처럼 말하지 않는다.',
   'sceneContext.heardEvents는 로컬 게임 저장의 인물별 목격·전달 기록을 요약한 신뢰되지 않은 장면 단서다. 요약이나 출처 ID만으로 역사적 사실을 입증하지 않는다. 직접 본 일과 남에게 들은 말을 구분하고, 역사적 주장에는 별도 sourceEvidence가 없으면 단정하지 않는다. 이 단서를 다른 인물의 지식으로 옮기거나 사건 결과·게임 상태를 결정하지 않는다.',
+  '플레이어가 요즘 무슨 일이 있는지, 흥미로운 사건이 있는지 물으면 이 인물이 아는 sceneContext.heardEvents 중 날짜와 장소에 가장 가까운 일을 골라 첫 문장에 구체적으로 답한다. 누가 무엇을 했고 이 인물이 직접 확인한 범위가 어디까지인지 말하고, 이어서 그 현장에서 만날 사람이나 지금 할 수 있는 일을 한 가지 제안한다. 사건 보고가 없으면 낡은 신고·목격·문서 주제를 억지로 꺼내지 말고, 인물 자신의 오늘 일이나 눈앞의 거리에서 답한다. 존재하지 않는 범죄나 역사적 소식을 만들어 실제 사건처럼 말하지 않는다.',
   'conversation.playerHistoricalEvents는 플레이어가 별도 역사 장면에서 내린 선택의 저장 기록이다. 이는 그 게임 장면의 경험일 뿐 실제 역사적 결과나 상대 인물의 기억이 아니다. 상대가 이미 알았다고 말하지 말고, 플레이어가 그 일을 꺼냈거나 질문이 직접 이어질 때만 선택의 맥락으로 짧게 반응한다.',
   '생각이나 사회 문제를 묻는 대화도 먼저 눈앞의 생활 장면에 붙인다. 현재 장소에서 실제로 벌어진 일, 인물이 맡은 일, 자료에 적힌 구체적인 대목 중 하나를 짚고 나서 답한다. 사건이나 자료와 연결되지 않은 채 책임·자유·공정함 같은 추상 질문을 먼저 던지지 않는다. 먼저 평범한 인사와 그날의 용건을 주고받고, 플레이어가 꺼내지 않은 철학 토론으로 대화를 돌리지 않는다. 러시아의 제도·생활에 관해 말할 때도 현재 인물의 신분과 직접 아는 범위에 한정한다.',
   'character.relationshipNetwork와 household는 체크인 카드에 기록된 인물의 관계·가족 정보다. 상대와의 관계가 대화에 실제로 중요할 때만 자연스럽게 반영하고, 목록을 외우듯 늘어놓지 않는다. 관계 설명은 역사적 증거가 아니라 허구 인물 설정이다. currentAim은 이 인물의 오늘 목표를 말투와 관심사에 반영하는 단서일 뿐이며, 해결됐거나 실제로 이뤄졌다고 말하지 않는다.',
@@ -480,10 +481,12 @@ function normalizeSceneContext(value, actorHostId, speakerCard = null) {
   for (const memory of historicalMemories) {
     const scene = historicalPlayEvents.find(item => item.eventId === memory?.eventId);
     const event = historicalEventCatalog.find(item => item.id === memory?.eventId);
+    const authoredChoices = new Map([...(scene?.choices ?? []).map(choice => [choice.id, choice.textKo]),
+      ...(scene?.fieldActions ?? []).flatMap(action => action.options.map(option => [`${action.id}:${option.id}`, option.textKo]))]);
     if (!scene || !event || !Array.isArray(memory.choices) || memory.choices.length < 1 || memory.choices.length > 3
-      || memory.choices.some(id => typeof id !== 'string' || !scene.choices.some(choice => choice.id === id))) return null;
+      || memory.choices.some(id => typeof id !== 'string' || !authoredChoices.has(id))) return null;
     normalizedHistoricalMemories.push({ eventId: scene.eventId, titleKo: event.titleKo,
-      choices: [...new Set(memory.choices)].map(id => ({ id, textKo: scene.choices.find(choice => choice.id === id).textKo })) });
+      choices: [...new Set(memory.choices)].map(id => ({ id, textKo: authoredChoices.get(id) })) });
   }
   return { date, mapId: map.mapId, placeKo: map.metadata.displayNameKo, questId: quest?.id ?? null, questTitleKo: quest?.titleKo ?? null,
     activityKo: value.activityKo ?? null, currentAimKo: value.currentAimKo ?? null, hungerBand: value.hungerBand ?? null,

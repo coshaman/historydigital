@@ -167,9 +167,9 @@
       },
       "activityKo": "아침 교대 뒤 약방을 들를 시간을 가늠한다",
       "workAction": {
-        "id": "V36_POLICE_COMPARE_WITNESS_STATEMENTS",
+        "id": "V36_POLICE_MARKET_PATROL",
         "outputKind": "경찰 기록",
-        "outputKo": "순찰 구역의 길목과 귀가 인파를 살핀다",
+        "outputKo": "장터 좌판과 귀가 인파를 살핀다",
         "durationMinutes": 20,
         "skillId": "inquiryTaking"
       }
@@ -192,9 +192,9 @@
       },
       "activityKo": "시장 쪽에서 귀가하는 사람들을 살핀다",
       "workAction": {
-        "id": "V36_POLICE_SORT_EVIDENCE_REGISTER",
+        "id": "V36_POLICE_MARKET_PATROL",
         "outputKind": "경찰 기록",
-        "outputKo": "순찰 구역의 길목과 귀가 인파를 살핀다",
+        "outputKo": "장터 좌판과 귀가 인파를 살핀다",
         "durationMinutes": 20,
         "skillId": "patrol"
       }
@@ -271,14 +271,14 @@
     {
       "id": "police_sergeant_ivan:life-arc",
       "kind": "LIFE",
-      "titleKo": "이어 가는 생활 문제",
-      "descriptionKo": "순찰을 마치고 동생이 부탁한 약을 사 간다",
+      "titleKo": "장터의 빈 돈주머니",
+      "descriptionKo": "장터에서 사라진 나데즈다의 돈주머니와 저녁 순찰을 챙긴다",
       "successCondition": {
         "type": "LIFE_CHAIN_COMPLETED",
         "chainId": "IVAN_WITNESS_ACCOUNT_1849",
         "stageCount": 3
       },
-      "fallbackKo": "연쇄 임무가 지금 열리지 않으면 오늘의 일과를 이어가고, 다음 단계를 확인할 수 있을 때 다시 돌아온다.",
+      "fallbackKo": "장터가 한산해지면 순찰을 이어가고, 나데즈다와 가브릴라를 만나 손실을 어떻게 처리할지 묻는다",
       "autonomyStages": [
         {
           "stage": 1,
@@ -289,10 +289,7 @@
             "x": 7,
             "y": 1
           },
-          "activityKo": "순찰을 마친 뒤 약방을 들른다",
-          "prerequisiteQuestIds": [
-            "POLICE_TESTIMONY_RECORD_1849"
-          ],
+          "activityKo": "나데즈다의 좌판과 장터 끝을 살핀다",
           "windowStartMinute": 600,
           "windowEndMinute": 1380,
           "focusMinutes": 12
@@ -306,9 +303,9 @@
             "x": 6,
             "y": 2
           },
-          "activityKo": "순찰을 마친 뒤 약방을 들른다",
+          "activityKo": "가브릴라와 수레가 지난 골목을 돈다",
           "prerequisiteQuestIds": [
-            "IVAN_WITNESS_ACCOUNT_1849_STAGE_1"
+            "IVAN_MARKET_LOSS_1847_STAGE_1"
           ],
           "windowStartMinute": 600,
           "windowEndMinute": 1380,
@@ -323,9 +320,9 @@
             "x": 8,
             "y": 2
           },
-          "activityKo": "순찰을 마친 뒤 약방을 들른다",
+          "activityKo": "저녁 장터를 돌고 약방에 들른다",
           "prerequisiteQuestIds": [
-            "IVAN_WITNESS_ACCOUNT_1849_STAGE_2"
+            "IVAN_MARKET_LOSS_1847_STAGE_2"
           ],
           "windowStartMinute": 600,
           "windowEndMinute": 1380,
