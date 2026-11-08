@@ -13,9 +13,9 @@ function validTurn(sceneId, speakerId = 'printer_ekaterina') {
 const request = (method, path, body, origin = 'https://game.example') => ({ method, path, body, origin });
 
 test('session is server-bound to one host; client cannot choose scene, inject memory, or mutate the RPG', async () => {
-  let providerInput;
+  let providerInput, providerInstructions;
   const store = new MemorySessionStore();
-  const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store, allowedOrigins: ['https://game.example'], provider: { generate: async request => { providerInput = request.input; return validTurn(request.input.scene.id, request.input.character.id); } } });
+  const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store, allowedOrigins: ['https://game.example'], provider: { generate: async request => { providerInput = request.input; providerInstructions = request.instructions; return validTurn(request.input.scene.id, request.input.character.id); } } });
   const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'printer_ekaterina', actorHostId: 'clerk_alexei' }));
   assert.equal(opened.status, 201);
   assert.equal(opened.body.hostId, undefined);
@@ -52,6 +52,10 @@ test('session is server-bound to one host; client cannot choose scene, inject me
   assert.match(providerInput.character.relationshipToEmbodiedPlayer?.descriptionKo ?? '', /교정쇄/);
   assert.ok(providerInput.character.todayGoals.some(goal => goal.textKo === '작업한 교정쇄의 전달처와 책임자를 확인한다'));
   assert.equal(providerInput.playerInput, body.playerInput);
+  assert.match(providerInstructions, /흥미로운 사건|무슨 일이 있냐/);
+  assert.match(providerInstructions, /첫 문장부터 구체적으로 답/);
+  assert.match(providerInstructions, /범용 문장.*쓰지 않는다/);
+  assert.match(providerInstructions, /질문을 플레이어에게 되돌리지 말고/);
   assert.equal(providerInput.endingId, undefined);
   assert.equal(JSON.stringify(providerInput).includes('test-signing-secret'), false);
   for (const extra of [{ hostId: 'clerk_alexei' }, { memories: [{ summaryKo: 'fake' }] }, { endingId: 'HERZEN' }, { state: { ideology: 999 } }, { actorResources: { money: { amount: 9999 }, inventory: ['교정쇄 사본'] } }]) {
@@ -261,7 +265,7 @@ test('open-ended recent-event questions receive a concrete known incident and ar
   const result = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken,
     requestId: 'ivan-recent-event-0001', playerInput: '요즘 흥미로운 사건이 있소?', actorRelations: {}, actorActions: [],
     sceneContext: { date: '1847-06-01', mapId: 'market-quay', questId: null,
-      playerHistoricalEvents: [{ eventId: 'SENATE_SQUARE_1825', choices: ['senate-route-horse:turn-cart'] }],
+      playerHistoricalEvents: [{ eventId: 'SENATE_SQUARE_1825', choices: ['senate-route-horse:turn-cart', 'guide_civilians:turn-the-cart'] }],
       heardEvents: [{ catalogEventId: 'E36', stage: 'LOSS_NOTICED', summaryKo: '나데즈다가 계산대 옆에 둔 돈주머니가 사라진 걸 알아차렸다.',
         sourceIds: ['CAT-RSL-BAZAAR-WARDENS-1842', 'OBJ-PRLIB-STPETE-THEFT-CASES-1843-44'], knowledgeKind: 'PARTICIPANT',
         occurrenceType: 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION', validationStatus: 'DESIGN_SEED_NOT_VERIFIED', historicalOutcomeFixed: false, fromHostId: null }] } }));
@@ -269,8 +273,10 @@ test('open-ended recent-event questions receive a concrete known incident and ar
   assert.equal(providerRequest.input.conversation.sceneContext.heardEvents[0].eventTitleKo, '장터 도난');
   assert.match(providerRequest.input.conversation.sceneContext.heardEvents[0].summaryKo, /돈주머니/);
   assert.equal(providerRequest.input.conversation.sceneContext.playerHistoricalEvents[0].choices[0].textKo, '마차를 강변 길로 돌려 행인과 떨어뜨렸다');
+  assert.equal(providerRequest.input.conversation.sceneContext.playerHistoricalEvents[0].choices[1].textKo, '마차부터 돌려 길을 열자',
+    'the dialogue remembers the player’s event-specific conversation judgment');
   assert.match(providerRequest.instructions, /흥미로운 사건이 있는지 물으면/);
-  assert.match(providerRequest.instructions, /첫 문장에 구체적으로 답한다/);
+  assert.match(providerRequest.instructions, /첫 문장부터 구체적으로 답한다/);
 });
 
 test('the client dialogue context exposes current needs and only authored activities and aims', async () => {

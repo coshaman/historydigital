@@ -1,0 +1,399 @@
+{
+  "SENATE_SQUARE_1825": {
+    "guide_civilians": [
+      {
+        "id": "turn-the-cart",
+        "labelKo": "마차부터 돌려 길을 열자",
+        "directionKo": "마차꾼과 길가 사람들이 압니다 · 행인 이동이 먼저 시작됩니다 · 광장 쪽 수레는 줄어듭니다",
+        "reactionKo": "마차꾼이 고삐를 잡고, 제화공은 가족을 찾으러 강변 골목으로 달려갑니다.",
+        "stance": "evacuation"
+      },
+      {
+        "id": "move-the-children",
+        "labelKo": "아이들과 노인을 골목으로 먼저 보내자",
+        "directionKo": "세탁부와 가족들이 압니다 · 걷는 피난이 빨라집니다 · 마차는 잠시 길에 남습니다",
+        "reactionKo": "세탁부가 아이들을 모으고 퇴역병이 좁은 길목을 비웁니다.",
+        "stance": "evacuation"
+      },
+      {
+        "id": "wait-for-the-order",
+        "labelKo": "병사 명령이 올 때까지 길을 막지 말자",
+        "directionKo": "근위병과 필사원이 기다립니다 · 대열은 유지됩니다 · 군중은 우회로를 찾아야 합니다",
+        "reactionKo": "하사는 대열을 세우고, 마차꾼은 말이 놀라지 않도록 사람들을 물립니다.",
+        "stance": "delay"
+      }
+    ],
+    "clarify_orders": [
+      {
+        "id": "ask-the-guardsman",
+        "labelKo": "근위병에게 받은 명령을 직접 묻자",
+        "directionKo": "근위병과 하사가 답합니다 · 대열의 움직임이 늦어집니다 · 답이 다르면 더 기다려야 합니다",
+        "reactionKo": "세르게이는 자기 부대가 들은 말만 답하고, 유리는 전달 시각을 적습니다.",
+        "stance": "verify"
+      },
+      {
+        "id": "send-the-copyist",
+        "labelKo": "필사원을 보내 지휘관에게 확인하자",
+        "directionKo": "필사원과 전령이 압니다 · 확인 경로가 생깁니다 · 돌아올 때까지 대열은 멈춥니다",
+        "reactionKo": "유리가 봉투를 챙겨 광장 안쪽으로 향하고 하사는 부하들을 붙듭니다.",
+        "stance": "verify"
+      },
+      {
+        "id": "repeat-the-rumor",
+        "labelKo": "들리는 말을 병사들에게 그대로 전하자",
+        "directionKo": "주변 병사와 행인에게 퍼집니다 · 즉시 움직일 수 있습니다 · 잘못 전해진 명령일 위험이 있습니다",
+        "reactionKo": "하사는 말을 다시 확인하려 하고 필사원은 아직 서명되지 않은 쪽지를 가리킵니다.",
+        "stance": "relay"
+      }
+    ],
+    "aid_wounded": [
+      {
+        "id": "form-a-carrying-line",
+        "labelKo": "주민과 퇴역병을 이어 들것 길을 만들자",
+        "directionKo": "주변 주민과 퇴역병이 압니다 · 부상자를 옮깁니다 · 대열 가까이를 지나야 합니다",
+        "reactionKo": "퇴역병이 사람들을 세우고 의학생이 쓰러진 이를 살핍니다.",
+        "stance": "aid"
+      },
+      {
+        "id": "clear-the-cart-route",
+        "labelKo": "마차를 불러 광장 밖으로 옮기자",
+        "directionKo": "마차꾼과 의학생이 움직입니다 · 들것보다 빠를 수 있습니다 · 말이 놀라면 길이 더 막힙니다",
+        "reactionKo": "로만이 말을 진정시키고 의학생은 이동할 자리를 고릅니다.",
+        "stance": "aid"
+      },
+      {
+        "id": "fetch-water-first",
+        "labelKo": "물과 천을 가져와 상태부터 살피자",
+        "directionKo": "의학생과 퇴역병이 압니다 · 응급 처치를 시작합니다 · 안전한 이동은 늦어집니다",
+        "reactionKo": "루카가 물을 가져오고 바실리는 상처를 확인한 뒤 들것을 부탁합니다.",
+        "stance": "aid"
+      }
+    ],
+    "find_side_route": [
+      {
+        "id": "follow-the-laundress",
+        "labelKo": "세탁부가 아는 안뜰길로 간다",
+        "directionKo": "세탁부와 피난민이 압니다 · 광장 앞을 피합니다 · 좁은 길에 사람이 몰릴 수 있습니다",
+        "reactionKo": "마리야가 골목의 막힌 곳을 알려 주고 먼저 길을 확인합니다.",
+        "stance": "route"
+      },
+      {
+        "id": "mark-the-turns",
+        "labelKo": "갈림길마다 표식을 두고 뒤따르게 한다",
+        "directionKo": "뒤에 오는 주민도 길을 찾습니다 · 안내가 늦게 시작됩니다 · 표식이 지워질 수 있습니다",
+        "reactionKo": "필사원이 종잇조각을 챙기고 마차꾼은 가장 잘 보이는 모퉁이를 가리킵니다.",
+        "stance": "route"
+      },
+      {
+        "id": "keep-the-gate-open",
+        "labelKo": "안뜰을 열어 우회하는 사람을 받는다",
+        "directionKo": "집주인과 이웃이 압니다 · 잠시 피할 곳이 생깁니다 · 집주인에게 책임이 남습니다",
+        "reactionKo": "안나가 빗장을 열고 세탁부는 아이들을 안쪽으로 데려갑니다.",
+        "stance": "shelter"
+      }
+    ],
+    "shelter_neighbors": [
+      {
+        "id": "open-the-courtyard",
+        "labelKo": "안뜰 문을 열어 사람들을 들인다",
+        "directionKo": "집주인과 피난민이 압니다 · 바로 몸을 숨길 수 있습니다 · 병사들이 집을 찾을 수 있습니다",
+        "reactionKo": "집주인은 문가를 지키고 하숙인들은 담요와 물을 안으로 옮깁니다.",
+        "stance": "shelter"
+      },
+      {
+        "id": "guide-them-away",
+        "labelKo": "집은 닫고 강변길을 안내한다",
+        "directionKo": "마차꾼과 피난민이 압니다 · 집 안에 사람이 모이지 않습니다 · 더 먼 길을 걸어야 합니다",
+        "reactionKo": "세탁부가 아이들을 데리고 골목으로 먼저 나섭니다.",
+        "stance": "route"
+      },
+      {
+        "id": "ask-the-landlady",
+        "labelKo": "집주인에게 가족 수를 확인하고 정한다",
+        "directionKo": "집주인과 가족들이 함께 압니다 · 수용 인원을 정할 수 있습니다 · 결정이 늦어집니다",
+        "reactionKo": "안나는 들어올 사람을 세고, 밖에서는 더 많은 이웃이 기다립니다.",
+        "stance": "shelter"
+      }
+    ],
+    "follow_order_route": [
+      {
+        "id": "trace-the-envelope",
+        "labelKo": "봉투를 따라 전달 경로를 확인한다",
+        "directionKo": "필사원과 전령이 살핍니다 · 명령이 끊긴 곳을 찾습니다 · 민간인 이동이 늦어집니다",
+        "reactionKo": "유리가 빈 수령란을 살피고 전령은 마지막으로 본 장교를 찾으러 갑니다.",
+        "stance": "verify"
+      },
+      {
+        "id": "secure-the-courtyard",
+        "labelKo": "명령 확인보다 피난처부터 마련한다",
+        "directionKo": "집주인과 주민이 압니다 · 당장 숨을 곳이 생깁니다 · 대열의 퇴로는 확인되지 않습니다",
+        "reactionKo": "안나는 빗장을 열고 하사는 골목 입구에 병사 한 명을 세웁니다.",
+        "stance": "shelter"
+      },
+      {
+        "id": "hold-the-line",
+        "labelKo": "추가 명령 전까지 대열과 거리를 둔다",
+        "directionKo": "하사와 근위병이 압니다 · 충돌을 피합니다 · 광장에 남은 이들이 고립될 수 있습니다",
+        "reactionKo": "세르게이는 대열을 유지하고 마차꾼은 사람들을 반대편으로 돌립니다.",
+        "stance": "delay"
+      }
+    ]
+  },
+  "GOGOL_INSPECTOR_1836": {
+    "seat_late_guests": [
+      {
+        "id": "use-the-side-door",
+        "labelKo": "늦은 관객을 옆문으로 나눠 들인다",
+        "directionKo": "안내원과 객석이 압니다 · 더 많은 사람이 입장합니다 · 복도가 붐빌 수 있습니다",
+        "reactionKo": "이리나가 줄을 나누고 마차꾼은 극장 앞 수레를 다른 길로 돌립니다.",
+        "stance": "admit"
+      },
+      {
+        "id": "start-on-time",
+        "labelKo": "입구를 비우고 예정대로 막을 올린다",
+        "directionKo": "배우와 입장한 관객이 압니다 · 통로를 확보합니다 · 늦은 관객은 첫 장면을 놓칩니다",
+        "reactionKo": "문이 닫히고 바실리는 바깥에 남은 친구에게 자리를 맡깁니다.",
+        "stance": "start"
+      },
+      {
+        "id": "hold-the-curtain",
+        "labelKo": "몇 분만 늦춰 복도부터 정리한다",
+        "directionKo": "배우와 안내원이 압니다 · 통로가 안전해집니다 · 객석의 기다림이 길어집니다",
+        "reactionKo": "배우는 막 뒤에서 기다리고 이리나는 마차가 빠질 때까지 문을 엽니다.",
+        "stance": "delay"
+      }
+    ],
+    "repair_costume": [
+      {
+        "id": "repair-the-button",
+        "labelKo": "안나가 단추를 꿰매는 동안 막을 늦춘다",
+        "directionKo": "배우와 의상 담당이 압니다 · 의상 파손을 막습니다 · 공연 시작이 늦어집니다",
+        "reactionKo": "안나는 실을 물고 매듭을 조이고 배우는 무대 옆에서 대사를 맞춰 봅니다.",
+        "stance": "repair"
+      },
+      {
+        "id": "change-the-costume",
+        "labelKo": "재봉사에게 겉옷을 바꾸게 한다",
+        "directionKo": "배우와 의상 담당이 압니다 · 수선 시간을 아낍니다 · 준비한 무대 모양이 달라집니다",
+        "reactionKo": "엘리자베타가 여벌 옷을 꺼내고 배우는 거울 앞에서 소매를 확인합니다.",
+        "stance": "change"
+      },
+      {
+        "id": "let-the-actor-decide",
+        "labelKo": "배우가 의상 그대로 무대에 설지 정하게 한다",
+        "directionKo": "배우와 무대 뒤 사람들이 압니다 · 공연을 멈추지 않습니다 · 단추가 무대에서 떨어질 수 있습니다",
+        "reactionKo": "니콜라이는 소매를 살핀 뒤 막이 오르면 손을 조심하겠다고 합니다.",
+        "stance": "perform"
+      }
+    ],
+    "backstage_choice": [
+      {
+        "id": "keep-the-revised-line",
+        "labelKo": "배우가 고친 대사를 그대로 말하게 둔다",
+        "directionKo": "배우와 첫 관객이 듣습니다 · 현장 반응을 살핍니다 · 대본과 공연이 달라집니다",
+        "reactionKo": "니콜라이는 바뀐 문장을 낮게 읽고 유리는 기록장을 덮지 않습니다.",
+        "stance": "improvise"
+      },
+      {
+        "id": "follow-the-printed-script",
+        "labelKo": "인쇄 대본대로 공연하게 한다",
+        "directionKo": "배우와 필사원이 압니다 · 공연의 흐름이 분명해집니다 · 배우는 새 표현을 시험하지 못합니다",
+        "reactionKo": "배우는 대본의 줄을 짚고 안나는 소매를 다시 여밉니다.",
+        "stance": "script"
+      },
+      {
+        "id": "ask-the-company",
+        "labelKo": "배우들과 한 번 더 읽고 정한다",
+        "directionKo": "출연진이 함께 압니다 · 여러 의견을 들을 수 있습니다 · 막이 늦게 오릅니다",
+        "reactionKo": "배우들이 대사를 나눠 읽고 무대감독이 시작 신호를 미룹니다.",
+        "stance": "consult"
+      }
+    ],
+    "audience_reaction": [
+      {
+        "id": "listen-outside",
+        "labelKo": "극장 밖으로 나가 관객 반응을 듣는다",
+        "directionKo": "거리의 관객도 말합니다 · 다양한 감상을 듣습니다 · 소문이 공연보다 앞설 수 있습니다",
+        "reactionKo": "레프는 웃은 대목을 묻고 학생은 옆자리 관리가 조용했다고 전합니다.",
+        "stance": "listen"
+      },
+      {
+        "id": "ask-the-critic",
+        "labelKo": "소피야에게 서로 다른 평을 함께 적게 한다",
+        "directionKo": "평론가와 관객이 압니다 · 차이를 남깁니다 · 기록에 이름이 실릴 수 있습니다",
+        "reactionKo": "소피야는 찬사와 불평을 나란히 적고 학생은 자기 말을 보탭니다.",
+        "stance": "record"
+      },
+      {
+        "id": "keep-the-discussion-inside",
+        "labelKo": "배우를 불러 객석에서 바로 묻는다",
+        "directionKo": "배우와 객석 전체가 듣습니다 · 질문을 직접 받습니다 · 출연진이 즉석 답변을 감당해야 합니다",
+        "reactionKo": "니콜라이는 무대 앞에 서고 객석에서 여러 목소리가 동시에 나옵니다.",
+        "stance": "confront"
+      }
+    ],
+    "clear_exit": [
+      {
+        "id": "open-both-doors",
+        "labelKo": "양쪽 출구를 열어 관객을 나눈다",
+        "directionKo": "안내원과 관객이 움직입니다 · 퇴장이 빨라집니다 · 바깥 마차길이 복잡해집니다",
+        "reactionKo": "이리나가 문마다 안내원을 세우고 로만은 마차를 한 줄로 돌립니다.",
+        "stance": "evacuate"
+      },
+      {
+        "id": "release-rows-in-turn",
+        "labelKo": "객석을 줄마다 차례로 내보낸다",
+        "directionKo": "객석과 안내원이 압니다 · 복도 충돌을 줄입니다 · 퇴장이 늦어집니다",
+        "reactionKo": "학생들이 앞줄부터 나가고 필사원은 출입문을 막지 않게 기록장을 치웁니다.",
+        "stance": "order"
+      },
+      {
+        "id": "hold-the-carriages",
+        "labelKo": "마차를 잠시 세우고 보행자를 먼저 보낸다",
+        "directionKo": "마차꾼과 관객이 압니다 · 길을 건너기 쉽습니다 · 마차 손님이 기다려야 합니다",
+        "reactionKo": "로만이 말을 돌려 세우고 레프가 보행자들을 큰길 쪽으로 안내합니다.",
+        "stance": "pedestrians"
+      }
+    ],
+    "compare_versions": [
+      {
+        "id": "compare-the-letter",
+        "labelKo": "고골의 편지와 오늘 공연의 반응을 함께 본다",
+        "directionKo": "필사원과 평론가가 압니다 · 다른 판단의 근거를 나란히 둡니다 · 정리가 늦어집니다",
+        "reactionKo": "유리와 소피야가 문장을 펼쳐 놓고 관객이 기억한 대목을 맞춥니다.",
+        "stance": "compare"
+      },
+      {
+        "id": "keep-the-audience-notes",
+        "labelKo": "관객이 기억한 장면부터 적는다",
+        "directionKo": "관객과 필사원이 압니다 · 실제 반응을 남깁니다 · 작가의 뜻은 따로 확인해야 합니다",
+        "reactionKo": "바실리가 웃음이 멎은 대목을 말하고 유리는 그대로 받아 적습니다.",
+        "stance": "audience"
+      },
+      {
+        "id": "close-the-notebook",
+        "labelKo": "오늘은 평을 정리하지 않고 극장을 닫는다",
+        "directionKo": "극장 직원들만 압니다 · 출구 정리에 집중합니다 · 감상은 흩어질 수 있습니다",
+        "reactionKo": "소피야는 기록장을 덮고 이리나는 마지막 관객을 문밖으로 배웅합니다.",
+        "stance": "close"
+      }
+    ]
+  },
+  "EMANCIPATION_1861": {
+    "read_full_text": [
+      {
+        "id": "read-the-land-clause",
+        "labelKo": "토지 조항까지 소리 내어 읽는다",
+        "directionKo": "농민과 마을 대표가 듣습니다 · 권리와 의무를 함께 압니다 · 낭독이 길어집니다",
+        "reactionKo": "마을 대표가 토지 문구를 다시 묻고 서기는 다음 장을 펼칩니다.",
+        "stance": "read"
+      },
+      {
+        "id": "read-the-decree-first",
+        "labelKo": "해방 선언부터 읽고 질문을 받는다",
+        "directionKo": "모인 주민이 듣습니다 · 핵심 발표가 빨라집니다 · 세부 조항은 뒤에 남습니다",
+        "reactionKo": "주민들은 서로 얼굴을 보고, 대표가 토지 문구를 다시 확인해 달라고 합니다.",
+        "stance": "announce"
+      },
+      {
+        "id": "split-the-copies",
+        "labelKo": "한 부는 읽고 다른 부는 마을 대표에게 맡긴다",
+        "directionKo": "낭독자와 대표가 압니다 · 여러 곳에서 확인할 수 있습니다 · 문구가 다르게 전해질 수 있습니다",
+        "reactionKo": "대표들은 각자 맡은 장을 확인하고 서기는 전달할 사람을 정합니다.",
+        "stance": "distribute"
+      }
+    ],
+    "work_and_lodging": [
+      {
+        "id": "find-paid-work",
+        "labelKo": "오늘 품삯을 받을 일부터 찾아본다",
+        "directionKo": "농민과 고용주가 압니다 · 당장 벌이를 찾습니다 · 조건을 흥정해야 합니다",
+        "reactionKo": "마구간 주인이 일손을 묻고 하녀는 숙식 조건부터 확인합니다.",
+        "stance": "work"
+      },
+      {
+        "id": "secure-a-bed",
+        "labelKo": "오늘 밤 잘 곳을 먼저 구한다",
+        "directionKo": "여관 주인과 일행이 압니다 · 잠자리를 확보합니다 · 일감 찾기가 늦어집니다",
+        "reactionKo": "여관 주인이 남은 자리를 알려 주고 세탁부는 함께 묵을 사람을 셉니다.",
+        "stance": "shelter"
+      },
+      {
+        "id": "keep-the-household-together",
+        "labelKo": "가족이 함께 움직일 방도를 찾는다",
+        "directionKo": "가족과 농촌 대표가 압니다 · 떨어질 위험을 줄입니다 · 더 많은 방과 돈이 듭니다",
+        "reactionKo": "하녀는 동생을 기다리고 대표는 머물 곳을 함께 알아보겠다고 합니다.",
+        "stance": "family"
+      }
+    ],
+    "land_terms": [
+      {
+        "id": "ask-about-allotments",
+        "labelKo": "농가별 토지 배정부터 확인한다",
+        "directionKo": "대표와 서기가 압니다 · 받을 땅의 범위를 묻습니다 · 답을 기다려야 합니다",
+        "reactionKo": "대표는 마을마다 달랐던 경작지를 말하고 서기는 조항을 다시 찾습니다.",
+        "stance": "land"
+      },
+      {
+        "id": "ask-about-redemption",
+        "labelKo": "토지 대금과 상환 조건을 묻는다",
+        "directionKo": "마을 대표와 서기가 압니다 · 빚의 규모를 가늠합니다 · 당장 결론이 나지 않을 수 있습니다",
+        "reactionKo": "서기는 계산을 다시 하고 농민은 첫 납부가 언제인지 묻습니다.",
+        "stance": "debt"
+      },
+      {
+        "id": "ask-the-community",
+        "labelKo": "공동체가 함께 정할 수 있는 일을 묻는다",
+        "directionKo": "대표와 마을 사람들이 압니다 · 여러 가구의 의견을 모읍니다 · 결정이 늦어집니다",
+        "reactionKo": "대표들은 서로 다른 집의 형편을 말하며 한 번 더 모이기로 합니다.",
+        "stance": "community"
+      }
+    ],
+    "petition_questions": [
+      {
+        "id": "send-a-delegation",
+        "labelKo": "대표단을 꾸려 관청에 조건을 묻는다",
+        "directionKo": "서기와 대표단이 압니다 · 공식 답변을 청합니다 · 대표로 나선 사람이 책임집니다",
+        "reactionKo": "서기는 질문을 적고 대표들은 어느 집의 이름을 올릴지 의논합니다.",
+        "stance": "petition"
+      },
+      {
+        "id": "ask-the-clerk-first",
+        "labelKo": "서기에게 문구를 확인하고 질문을 고친다",
+        "directionKo": "서기와 낭독자가 압니다 · 오해를 줄입니다 · 제출이 늦어집니다",
+        "reactionKo": "서기는 원문을 다시 읽고 질문에서 빠진 조건을 표시합니다.",
+        "stance": "verify"
+      },
+      {
+        "id": "wait-for-local-guidance",
+        "labelKo": "마을 대표가 돌아올 때까지 제출을 미룬다",
+        "directionKo": "모인 주민이 압니다 · 성급한 제출을 피합니다 · 답을 얻는 시점이 늦어집니다",
+        "reactionKo": "대표는 현지 사정을 알아보고 오겠다고 하고 주민들은 기다립니다.",
+        "stance": "wait"
+      }
+    ],
+    "carry_copies": [
+      {
+        "id": "take-copies-to-neighbors",
+        "labelKo": "이웃 마을에도 인쇄물을 가져간다",
+        "directionKo": "전달자와 이웃 마을이 압니다 · 더 많은 사람이 읽습니다 · 이동과 인쇄 비용이 듭니다",
+        "reactionKo": "전달자는 묶음을 나누고 대표는 어느 마을부터 갈지 정합니다.",
+        "stance": "share"
+      },
+      {
+        "id": "keep-a-copy-here",
+        "labelKo": "이곳에 한 부를 두고 함께 읽는다",
+        "directionKo": "현장 주민이 압니다 · 원문을 다시 확인할 수 있습니다 · 다른 마을엔 늦게 전해집니다",
+        "reactionKo": "서기는 읽은 부수를 적고 농민들은 장을 넘겨 다시 묻습니다.",
+        "stance": "local"
+      },
+      {
+        "id": "send-with-the-delegation",
+        "labelKo": "대표단 편에 사본을 맡긴다",
+        "directionKo": "대표단과 관청이 압니다 · 질문과 원문이 함께 갑니다 · 사본이 돌아오지 않을 수 있습니다",
+        "reactionKo": "대표들은 묶음을 받아들고 서기는 전달할 문구를 확인합니다.",
+        "stance": "petition"
+      }
+    ]
+  }
+}

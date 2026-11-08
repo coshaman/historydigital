@@ -3,6 +3,7 @@ import fs from 'node:fs/promises';
 import test from 'node:test';
 import { objectIsPresent, interactionTile, isActionableInteraction, ambientBubbleFor } from '../rpg/engine/world-presentation.mjs';
 import { addVisibleBoundaries } from './v33-map-boundaries.mjs';
+import { ambientConversations } from '../rpg/data/ambient-conversations.mjs';
 
 const read = async file => JSON.parse(await fs.readFile(new URL(`../${file}`, import.meta.url), 'utf8'));
 const maps = await Promise.all(['nevsky', 'printshop', 'chancery', 'courtyard', 'dead-souls', 'overcoat'].map(id => read(`rpg/maps/${id}.json`)));
@@ -65,6 +66,37 @@ test('ambient speech is infrequent, local to present residents, and pauses durin
   assert.equal(ambientBubbleFor(world, roster, map, 1000, true), null, 'never overlaps player conversation');
   world.hosts.printer_ekaterina.mapId = 'chancery';
   assert.equal(ambientBubbleFor(world, roster, map, 1000), null, 'off-screen residents cannot speak here');
+});
+
+test('ambient exchanges show two nearby residents responding to each other with authored mood', () => {
+  const world = state('V33_1847_PRINT', '1847-06-01');
+  world.world.currentMapId = 'market-quay';
+  world.player = { embodiment: 'clerk_alexei', position: { x: 2, y: 2 } };
+  world.hosts = {
+    market_nadezhda: { mapId: 'market-quay', position: { x: 2, y: 2 }, historicalAliveAndPresent: true },
+    porter_gavrila: { mapId: 'market-quay', position: { x: 7, y: 2 }, historicalAliveAndPresent: true },
+    fishseller_klavdiya: { mapId: 'market-quay', position: { x: 21, y: 13 }, historicalAliveAndPresent: true },
+  };
+  const roster = [{ id: 'market_nadezhda' }, { id: 'porter_gavrila' }, { id: 'fishseller_klavdiya' }];
+  const exchange = { mapIds: ['market-quay'], speakers: [
+    { hostId: 'market_nadezhda', lineKo: '로만이 수레를 빼면 다시 물건을 펴겠어요.', mood: 'focused' },
+    { hostId: 'porter_gavrila', lineKo: '그럼 자루부터 이쪽으로 옮깁시다.', mood: 'helpful' },
+  ] };
+  assert.deepEqual(ambientBubbleFor(world, roster, { mapId: 'market-quay' }, 1000, false, [exchange]), {
+    exchange: exchange.speakers,
+  });
+  world.hosts.porter_gavrila.mapId = 'nevsky';
+  assert.equal(ambientBubbleFor(world, roster, { mapId: 'market-quay' }, 1000, false, [exchange]), null,
+    'both speakers must be present together');
+  world.hosts.porter_gavrila.mapId = 'market-quay';
+  world.hosts.porter_gavrila.position = { x: 18, y: 13 };
+  assert.equal(ambientBubbleFor(world, roster, { mapId: 'market-quay' }, 1000, false, [exchange]), null,
+    'distant residents do not exchange a visible line');
+  const authored = ambientConversations.find(item => item.mapIds.includes('market-quay')
+    && item.speakers.every(speaker => ['market_nadezhda', 'porter_gavrila'].includes(speaker.hostId)));
+  assert.ok(authored, 'the shipped city includes at least one authored market exchange');
+  world.hosts.porter_gavrila.position = { x: 3, y: 2 };
+  assert.deepEqual(ambientBubbleFor(world, roster, { mapId: 'market-quay' }, 1000, false, [authored]), { exchange: authored.speakers });
 });
 
 test('all blocked tiles have visible architecture or set dressing in the shipped maps', () => {

@@ -2,15 +2,21 @@ import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import fs from 'node:fs';
 import path from 'node:path';
+import { spawn } from 'node:child_process';
 import { chromium } from 'playwright';
+import { historicalConversationChoices as getHistoricalConversationChoices } from '../rpg/data/historical-conversation-choices.mjs';
 
 const require = createRequire(import.meta.url);
 const play = require('../rpg/data/historical-scene-play.json').events;
 const catalog = require('../rpg/data/v38-historical-events.json').events;
-const base = process.env.V33_RPG_URL || 'http://127.0.0.1:4173/';
+const conversationChoices = require('../rpg/data/historical-conversation-choices.json');
+const previewPort = 4218;
+const base = process.env.V33_RPG_URL || `http://127.0.0.1:${previewPort}/`;
 const evidenceDir = path.resolve('artifacts/v38/HISTORICAL_LIVING_SCENES');
 fs.mkdirSync(evidenceDir, { recursive: true });
 const browser = await chromium.launch({ headless: true, executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe' });
+const preview = process.env.V33_RPG_URL ? null : spawn(process.execPath, ['server.mjs'], { cwd: process.cwd(), env: { ...process.env,
+  CHANCERY_PORT: String(previewPort), CHANCERY_STATIC_ONLY: '1', CHANCERY_STATIC_ROOT: path.resolve('dist-v33') }, stdio: ['ignore', 'pipe', 'pipe'] });
 const evidence = [];
 
 function actorPositions(scene, zoneIndex) {
@@ -82,7 +88,7 @@ async function speakTwo(page, scene, zoneIndex, spokenNames) {
   const zoneActors = scene.actors.map((actor, index) => ({ actor, index }))
     .filter(({ index }) => index % 3 === zoneIndex);
   const { positions } = actorPositions(scene, zoneIndex);
-  const usedBodies = spokenNames;
+  const usedBodies = spokenNames.usedBodies ??= new Set();
   let attempts = 0;
   const targetCount = Math.min(8, Math.max(spokenNames.size + 1, (zoneIndex + 1) * 3 - (zoneIndex === 2 ? 1 : 0)));
   while (spokenNames.size < targetCount && attempts++ < 24) {
@@ -103,8 +109,19 @@ async function speakTwo(page, scene, zoneIndex, spokenNames) {
       await talk.click();
       assert.equal(await page.locator('#headline').textContent(), partner);
       assert.ok((await page.locator('#journal-text').textContent()).length > 35);
-      await page.locator('#actions button').filter({ hasText: '같이 해결할 방법을 찾는다' }).click();
-      spokenNames.add(bodyName); spokenNames.currentBody = bodyName; found = true;
+      const interlocutor = scene.actors.find(actor => actor.nameKo === partner);
+      assert.ok(interlocutor, `${partner} is an actor in the current historical scene`);
+      const branch = getHistoricalConversationChoices(conversationChoices, scene.eventId, interlocutor.objectiveId)[0];
+      const branchButton = page.locator('#actions button').filter({ hasText: branch.labelKo });
+      try { await branchButton.waitFor({ timeout: 5000 }); }
+      catch { throw new Error(`Event dialogue branch missing for ${scene.eventId}/${candidate.actor.objectiveId}: ${JSON.stringify(await page.evaluate(() => ({
+        headline: document.querySelector('#headline')?.textContent, journal: document.querySelector('#journal-text')?.textContent,
+        actions: [...document.querySelectorAll('#actions button')].map(button => button.innerText),
+        body: document.querySelector('#bodyname')?.textContent,
+      })))}`); }
+      await branchButton.click();
+      assert.ok((await page.locator('#journal-text').textContent()).includes(branch.reactionKo));
+      spokenNames.add(partner); spokenNames.currentBody = bodyName; found = true;
       break;
     }
     if (!found && usedBodies.size >= zoneActors.length) break;
@@ -113,6 +130,15 @@ async function speakTwo(page, scene, zoneIndex, spokenNames) {
 }
 
 try {
+  if (preview) {
+    const deadline = Date.now() + 10000;
+    let ready = false;
+    while (Date.now() < deadline && !ready) {
+      try { ready = (await fetch(base)).ok; } catch {}
+      if (!ready) await new Promise(resolve => setTimeout(resolve, 100));
+    }
+    if (!ready) throw new Error('V38 production preview did not start');
+  }
   for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 }]) {
     const context = await browser.newContext({ viewport });
     const page = await context.newPage(), errors = [];
@@ -169,7 +195,11 @@ try {
       }
       const finalChoice = scene.choices[catalog.indexOf(event) % scene.choices.length];
       const visibleChoiceCounts = await Promise.all(scene.choices.map(choice => page.locator('#actions button').filter({ hasText: choice.label }).count()));
-      assert.deepEqual(visibleChoiceCounts, scene.choices.map(() => 1), `${event.id} exposes every closing strategy exactly once`);
+      assert.deepEqual(visibleChoiceCounts, scene.choices.map(() => 1), `${event.id} exposes every closing strategy exactly once: ${JSON.stringify(await page.evaluate(() => ({
+        map: document.querySelector('#mapname')?.textContent, headline: document.querySelector('#headline')?.textContent,
+        journal: document.querySelector('#journal-text')?.textContent, actions: [...document.querySelectorAll('#actions button')].map(button => button.innerText),
+        mission: document.querySelector('#mission-reason')?.textContent,
+      })))}`);
       const closing = page.locator('#actions button').filter({ hasText: finalChoice.label });
       try { await closing.waitFor({ timeout: 5000 }); }
       catch { throw new Error(`Closing choice did not unlock: ${JSON.stringify(await page.evaluate(() => ({
@@ -199,4 +229,4 @@ try {
     await context.close();
   }
   console.log(JSON.stringify({ status: 'PASS', evidence }, null, 2));
-} finally { await browser.close(); }
+} finally { await browser.close(); preview?.kill(); }

@@ -1,4 +1,6 @@
 import { createRenderer } from './engine/renderer.js';
+import { ambientConversations } from './data/ambient-conversations.mjs';
+import { historicalConversationChoices as getHistoricalConversationChoices } from './data/historical-conversation-choices.mjs';
 import { decorateCardsWithEraProfiles } from './engine/era-profiles.mjs';
 import { objectIsPresent, questPrerequisitesMet } from './engine/world-presentation.mjs';
 import { questChoices, continuationQuest, resolveObjectQuest } from './engine/quest-presentation.mjs';
@@ -21,6 +23,8 @@ const [street, shop, chancery, courtyard, marketMap, literaryMap, overcoatMap, p
 const [sourceReaderIndex, caseContextData, discussionQuestData, districtRegistry] = await Promise.all([readJson('./rpg/data/source-reader-index.json'), readJson('./rpg/data/case-contexts.json'), readJson('./rpg/data/discussion-quests.json'), readJson('./rpg/data/city-districts-v36.json')]);
 const historicalEvents = (await readJson('./rpg/data/v38-historical-events.json')).events;
 const historicalPlay = (await readJson('./rpg/data/historical-scene-play.json')).events;
+const historicalConversationChoiceData = await readJson('./rpg/data/historical-conversation-choices.json');
+const historicalConversationChoices = (eventId, objectiveId) => getHistoricalConversationChoices(historicalConversationChoiceData, eventId, objectiveId);
 const [dostoevskyExecutionQuest, historicalSceneMaps] = await Promise.all([readJson('./rpg/quests/dostoevsky-execution-1849.json'), Promise.all(['fortress-cell','semenovsky-square'].map(async id => [id, await readJson(`./rpg/maps/${id}.json`)]))]);
 const [rawCards, eraCharacterRegistry] = await Promise.all([Promise.all(['clerk_alexei','printer_ekaterina','courier_pavel','seamstress_anna','tenant_mikhail','bookseller_lev','senior_clerk_konstantin','reader_darya','editor_sofia','police_sergeant_ivan','yardkeeper_semyon','laundress_mariya','baker_fyodor','market_nadezhda','porter_gavrila','coachman_timofey','housemaid_olga','midwife_avdotya','apothecary_yakov','print_apprentice_stepan','bookbinder_elizaveta','scribal_yuri','innkeeper_irina','student_vasily','teacher_lyubov','minor_noble_andrei','landlady_polina','watercarrier_luka','fishseller_klavdiya','warehouse_pyotr','servant_varvara','junior_guard_sergey','carter_roman','street_vendor_matryona','street_musician_ivan','typesetter_nikita','lodging_tatyana','nekrasov_reconstruction','dostoevsky_1849','literary_chichikov','literary_akaky','literary_petrovich'].map(id => readJson(`./rpg/characters/${id}.json`))), readJson('./data/era_character_registry.json')]);
 const raskolnikovMap = await readJson('./rpg/maps/raskolnikov-tavern.json');
@@ -163,7 +167,7 @@ const initial = () => createInitialState({ maps, hostCards, quests: questList })
 let state;
 try { state = localStorage.getItem('v33-rpg-save') ? loadGame(localStorage.getItem('v33-rpg-save'), { maps, hostCards, quests: questList, learningExam }) : initial(); }
 catch (error) { console.warn('저장 기록을 불러오지 못했습니다.', error); state = initial(); }
-const canvas = document.querySelector('#world'), renderer = createRenderer(canvas, { hostCards, quests: questList });
+const canvas = document.querySelector('#world'), renderer = createRenderer(canvas, { hostCards, quests: questList, ambientConversations });
 const $ = selector => document.querySelector(selector);
 const caseContextButton = document.createElement('button');
 caseContextButton.id = 'case-context-open'; caseContextButton.type = 'button'; caseContextButton.hidden = true; caseContextButton.textContent = '사건 맥락 보기';
@@ -1057,7 +1061,7 @@ function openHistoricalEventMenu() {
   eventButton.textContent = '역사 현장 3';
   say('역사 현장', '걸어서 사람들을 만나고, 그날의 일을 직접 겪어 보세요.', historicalEvents.map(event => ({
     label: event.titleKo,
-    subcopy: `${event.dateLabelKo} · 세 구역을 걷고 인물들을 만나 판단합니다`,
+    subcopy: `${event.dateLabelKo} · 예상 4~5분 · 세 구역을 걷고 사람들과 이야기하며 결정합니다`,
     run: () => beginHistoricalEvent(event),
   })));
 }
@@ -1074,7 +1078,7 @@ function beginHistoricalEvent(event) {
   result.session.historicalSession.eventTitleKo = event.titleKo;
   setState(result.session);
   $('#history-events-open').textContent = `현장 · ${event.alertKo}`;
-  say(event.titleKo, `${scene.introKo ?? event.openingKo}\n\n세 구역을 돌며 여덟 사람과 이야기하고, 서로 다른 현장 일 다섯 가지를 직접 처리하세요. 인물 목록에서 다른 사람의 몸을 빌릴 수 있습니다.`, [
+  say(event.titleKo, `${scene.introKo ?? event.openingKo}\n\n여덟 사람과 이야기하고 다섯 가지 일을 직접 처리하며 세 구역을 오갑니다. 필요하면 인물 목록에서 다른 사람의 몸을 빌려 현장에 끼어드세요.`, [
     { label: '인물 목록 · 바로 빙의', subcopy: '현장에 있는 사람을 골라 그 사람의 시야로 걷습니다', run: openCharacterList },
     { label: '현장을 나간다', subcopy: '원래 캠페인으로 돌아갑니다', run: () => leaveHistoricalSession(false) },
   ]);
@@ -1099,7 +1103,8 @@ function readPlayerHistoricalChoices() {
     return Object.entries(records).map(([eventId, record]) => {
       const scene = historicalPlay.find(event => event.eventId === eventId);
       const allowedChoiceIds = new Set([...(scene?.choices.map(choice => choice.id) ?? []),
-        ...(scene?.fieldActions ?? []).flatMap(action => action.options.map(option => `${action.id}:${option.id}`))]);
+        ...(scene?.fieldActions ?? []).flatMap(action => action.options.map(option => `${action.id}:${option.id}`)),
+        ...(scene?.objectives ?? []).flatMap(objective => [...historicalConversationChoices(eventId, objective.id).map(option => `${objective.id}:${option.id}`), `${objective.id}:defer`])]);
       return { eventId, record, allowedChoiceIds };
     })
       .filter(({ record, allowedChoiceIds }) => record?.completedAt && allowedChoiceIds.size
@@ -1141,10 +1146,12 @@ function startHistoricalConversation(card) {
     .slice(0, 2).map(({ other }) => `${other.nameKo}  ${other.lines[0]}`);
   if (joiningVoices.length) line += `\n\n${joiningVoices.join('\n')}`;
   const objective = scene.objectives.find(item => item.id === person.objectiveId);
+  const choices = historicalConversationChoices(scene.eventId, person.objectiveId);
   say(card.displayNameKo, line, [
-    { label: '같이 해결할 방법을 찾는다', subcopy: `${objective?.actionKo ?? '그 사람의 부탁을 돕습니다'} · 주변 사람도 알게 됩니다`, run: () => resolveHistoricalConversation(scene, person, 'help') },
-    { label: '다른 사람의 생각도 듣고 정한다', subcopy: '아직 약속하지 않습니다 · 다른 인물에게도 물어볼 수 있습니다', run: () => resolveHistoricalConversation(scene, person, 'listen') },
-    { label: '이야기를 듣고 자리를 옮긴다', subcopy: '정보를 듣습니다 · 현장 선택은 미룹니다', run: () => resolveHistoricalConversation(scene, person, 'leave') },
+    ...choices.map(option => ({ label: option.labelKo, subcopy: option.directionKo,
+      run: () => resolveHistoricalConversation(scene, person, option) })),
+    { label: '더 듣고 결정은 미룬다', subcopy: `${objective?.actionKo ?? '현장 일을 확인합니다'} · 아직 누구에게도 약속하지 않습니다`,
+      run: () => resolveHistoricalConversation(scene, person, { id: 'defer', labelKo: '더 듣고 결정은 미뤘다', stance: 'defer', reactionKo: '그 사람은 고개를 끄덕이고 현장으로 돌아갔다.' }) },
   ]);
 }
 function resolveHistoricalConversation(scene, person, response) {
@@ -1152,11 +1159,16 @@ function resolveHistoricalConversation(scene, person, response) {
   if (!(next.historicalSession.spokenActorIds ?? []).includes(person.id)) {
     next = copy(next); next.historicalSession.spokenActorIds.push(person.id);
   }
-  if (response === 'help') {
+  if (response.stance && !['defer', 'wait', 'close'].includes(response.stance)) {
     next.historicalSession.pledgedActorIds ??= [];
     if (!next.historicalSession.pledgedActorIds.includes(person.id)) next.historicalSession.pledgedActorIds.push(person.id);
   }
-  next = recordHistoricalChoice(next, { id: `${person.id}:${response}`, textKo: `${person.nameKo}에게 ${response === 'help' ? '도움을 약속했다' : response === 'listen' ? '다른 사람의 의견도 듣기로 했다' : '이야기를 듣고 다음 장소로 갔다'}` });
+  next = copy(next);
+  next.historicalSession.conversationOutcomes ??= {};
+  next.historicalSession.conversationOutcomes[person.id] = { choiceId: response.id,
+    stance: response.stance ?? 'defer', objectiveId: person.objectiveId };
+  const dialogueChoiceId = `${person.objectiveId}:${response.id}`;
+  next = recordHistoricalChoice(next, { id: dialogueChoiceId, textKo: `${person.nameKo}에게 “${response.labelKo}”라고 답했다` });
   setState(next);
   const completed = new Set(next.historicalSession.completedObjectives), visited = new Set(next.historicalSession.visitedMapIds ?? []);
   const unlocked = next.historicalSession.spokenActorIds.length >= 8 && completed.size >= 5 && visited.size === scene.maps.length;
@@ -1167,8 +1179,10 @@ function resolveHistoricalConversation(scene, person, response) {
     { label: '현장을 나간다', subcopy: '원래 자리로 돌아갑니다', run: () => leaveHistoricalSession(false) },
   ];
   const actionHint = scene.fieldActions.find(action => action.objectiveId === person.objectiveId && !next.historicalSession.actionOutcomes?.[action.id]);
-  const reaction = response === 'help' ? `그 사람은 고개를 끄덕였다. ${actionHint ? `${actionHint.propKo}를 함께 살펴야 일이 움직인다.` : '먼저 현장 상황을 확인하자.'}` : response === 'listen' ? '그 사람은 결정을 서두르지 말자며 다른 사람의 이름을 알려 주었다.' : '그 사람은 다시 자기 일로 돌아갔다.';
-  say(person.nameKo, `${reaction}\n\n${unlocked ? '세 구역을 돌고 사람들의 부탁을 실제로 처리했다. 이제 오늘 현장에서 무엇을 먼저 남길지 정할 수 있다.' : '주변 사람의 말을 듣고, 부탁과 이어진 물건을 찾아 직접 처리해 보자.'}`, actions);
+  const reaction = response.reactionKo ?? '그 사람은 고개를 끄덕이고 현장으로 돌아갔다.';
+  const nextHint = response.stance === 'defer' ? '조금 더 돌아본 뒤 판단을 바꿀 수 있다.'
+    : actionHint ? `이제 ${actionHint.propKo} 곁에서 실제로 처리할 수 있다.` : '다른 현장 일을 이어서 살펴보자.';
+  say(person.nameKo, `${reaction}\n\n${nextHint}${unlocked ? '\n\n현장 사람들의 말과 부탁을 들었다. 이제 오늘 무엇을 먼저 할지 정할 수 있다.' : ''}`, actions);
 }
 function startHistoricalAction(scene, action) {
   const event = historicalEvents.find(item => item.id === scene.eventId);

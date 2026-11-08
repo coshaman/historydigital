@@ -1,8 +1,23 @@
 const chapters = ['V33_1847_PRINT', 'V33_1848_PUBLIC', 'V33_1849_CIRCLE'];
 
-export function ambientBubbleFor(state, hostCards, map, time, paused = false) {
+export function ambientBubbleFor(state, hostCards, map, time, paused = false, exchanges = []) {
   const period = 18000, phase = time % period;
   if (paused || phase >= 3600) return null;
+  const presentIds = new Set(hostCards.filter(card => card.id !== state.player.embodiment
+    && state.hosts?.[card.id]?.mapId === map.mapId && state.hosts[card.id]?.historicalAliveAndPresent !== false).map(card => card.id));
+  const available = exchanges.filter(item => (item.mapIds ?? []).includes(map.mapId)
+    && item.speakers?.length === 2 && item.speakers.every(speaker => presentIds.has(speaker.hostId))
+    && item.speakers.every(speaker => {
+      const position = state.hosts[speaker.hostId]?.position;
+      return Number.isFinite(position?.x) && Number.isFinite(position?.y);
+    })
+    && Math.abs(state.hosts[item.speakers[0].hostId].position.x - state.hosts[item.speakers[1].hostId].position.x)
+      + Math.abs(state.hosts[item.speakers[0].hostId].position.y - state.hosts[item.speakers[1].hostId].position.y) <= 10);
+  if (available.length) {
+    const offset = [...map.mapId].reduce((sum, char) => sum + char.charCodeAt(0), 0);
+    const exchange = available[(Math.floor(time / period) + offset) % available.length];
+    return { exchange: exchange.speakers };
+  }
   const residents = hostCards.filter(card => card.ambientLines?.length
     && card.id !== state.player.embodiment && state.hosts?.[card.id]?.mapId === map.mapId
     && state.hosts[card.id]?.historicalAliveAndPresent !== false);
