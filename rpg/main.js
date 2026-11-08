@@ -83,6 +83,15 @@ const districtById = new Map(districtRegistry.districts.map(item => [item.id, it
 const currentDiscussionQuests = () => {
   if (state.world.activeRealm) return [];
   return availableDiscussionQuests(state, discussionQuestData).flatMap(quest => {
+    // Keep event-linked questions out of the board until the player has
+    // actually reached that case. Reading a related title alone must not
+    // launch a free-floating ethics prompt before the scene exists.
+    if (quest.contextQuestId) {
+      const contextReached = missionGuidance?.questId === quest.contextQuestId
+        || queuedDiscussionInquiry?.questId === quest.id
+        || (state.ledger ?? []).some(entry => entry.questId === quest.contextQuestId);
+      if (!contextReached) return [];
+    }
     const hosts = Object.fromEntries(Object.entries(quest.hosts ?? {}).filter(([hostId]) => {
       const host = state.hosts[hostId];
       const knownSources = new Set([...(knowledgeForHost(state, hostId) ?? []), ...(host?.heardEventReports ?? []).flatMap(report => report.sourceIds ?? [])]);
@@ -498,7 +507,11 @@ function updateHud() {
   const reflectionPrompts = discussionHost ? discussionReflectionPromptsForHost(discussionHost.id, state, discussionQuests) : [];
   const discussionView = discussionBoardView(discussionQuests, discussionHost?.id ?? null,
     Object.fromEntries(cards.map(card => [card.id, card.displayNameKo])), discussionQuestData.quests.length);
-  discussionBoard.hidden = (!discussionView.visible && !reflectionPrompts.length) || Boolean(state.endingId) || inLiteraryScene;
+  const ordinaryExchanges = activeDialogueKey ? dialogueOrdinaryExchanges.get(activeDialogueKey) ?? 0 : 0;
+  const sceneConversationEstablished = Boolean(activeDialogueHost && ordinaryExchanges >= 2);
+  discussionBoard.hidden = ((!discussionView.visible && !reflectionPrompts.length)
+    || (!sceneConversationEstablished && !discussionView.positionPrompts?.length && !queuedDiscussionInquiry))
+    || Boolean(state.endingId) || inLiteraryScene;
   if (queuedDiscussionInquiry || discussionView.positionPrompts?.length) discussionBoard.open = true;
   $('#discussion-quest-progress').textContent = discussionView.progressKo;
   $('#discussion-quest-guidance').textContent = queuedDiscussionInquiry
@@ -1447,10 +1460,11 @@ function openCharacterList() {
     const copy = document.createElement('span'); copy.className = 'roster-card-copy';
     const name = document.createElement('strong'); name.textContent = card.displayNameKo;
     const occupation = document.createElement('span'); occupation.textContent = card.occupation;
+    const introduction = document.createElement('span'); introduction.className = 'roster-card-intro'; introduction.textContent = card.personalObjective;
     const current = document.createElement('small'); current.textContent = `지금 · ${activity}`;
     const place = document.createElement('small'); place.className = 'roster-card-place';
     place.textContent = maps[host.mapId].metadata.displayNameKo;
-    copy.append(name, occupation, current, place); button.append(portrait, copy); return button;
+    copy.append(name, occupation, introduction, current, place); button.append(portrait, copy); return button;
   }));
 }
 function move(direction) {
@@ -1599,13 +1613,21 @@ async function sendConversation(card, playerText, replyId = null) {
           && quest.actions?.some(action => action.hostIds.includes(card.id)) && questIsAvailable(quest)
           && state.quests[quest.id]?.status !== 'resolved');
       const inquiryQuestId = discussionPrompt ? inquiryQuest?.id ?? null : null;
-      const requestDialogue = currentSession => fetch(`${aiBaseUrl}/api/rpg/dialogue`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ sessionToken: currentSession.token, requestId: crypto.randomUUID(), playerInput: playerText, actorRelations: relationshipHintsFor(actorCard.id), actorActions: playerActionHintsFor(actorCard.id), sceneContext: dialogueSceneContext(card, state.hosts[card.id], state.world.date, state.world.currentMapId, discussionPrompt ? inquiryQuestId : missionGuidance?.questId ?? null) }), signal: controller.signal });
-      let response = await requestDialogue(session);
+      const requestDialogue = (currentSession, relationshipHints) => fetch(`${aiBaseUrl}/api/rpg/dialogue`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ sessionToken: currentSession.token, requestId: crypto.randomUUID(), playerInput: playerText, actorRelations: relationshipHints, actorActions: playerActionHintsFor(actorCard.id), sceneContext: dialogueSceneContext(card, state.hosts[card.id], state.world.date, state.world.currentMapId, discussionPrompt ? inquiryQuestId : missionGuidance?.questId ?? null) }), signal: controller.signal });
+      let response = await requestDialogue(session, relationshipHintsFor(actorCard.id));
       if (response.status === 401) {
         sessionStorage.removeItem(sessionStorageKey); dialogueSessions.delete(key);
         session = await openDialogueSession(card, actorCard, controller.signal);
         dialogueSessions.set(key, session); sessionStorage.setItem(sessionStorageKey, session.token);
-        response = await requestDialogue(session);
+        response = await requestDialogue(session, relationshipHintsFor(actorCard.id));
+      }
+      if (response.status === 400) {
+        const firstFailure = await response.clone().json().catch(() => ({}));
+        if (firstFailure.error === 'invalid_relationship_context') {
+          // Relationship notes are optional tone hints. Drop stale local
+          // vocabulary and retry the same player turn once without them.
+          response = await requestDialogue(session, {});
+        }
       }
       if (!response.ok) {
         if (response.status === 429) {
@@ -1657,12 +1679,15 @@ async function sendConversation(card, playerText, replyId = null) {
   let ordinaryExchangeCount = dialogueOrdinaryExchanges.get(key) ?? 0;
   if (!discussionPrompt && !reflectionPrompt) dialogueOrdinaryExchanges.set(key, ordinaryExchangeCount += 1);
   if (!discussionPrompt && !reflectionPrompt && mayOfferDiscussionPrompt(ordinaryExchangeCount)) {
-    const contextualQuestion = discussionPromptsForHost(card.id, currentDiscussionQuests(), {
-      contextQuestId: missionGuidance?.questId,
-      requireContext: true,
-    })[0];
+    const contextualQuestion = queuedDiscussionInquiry?.hostId === card.id
+      ? queuedDiscussionInquiry
+      : discussionPromptsForHost(card.id, currentDiscussionQuests(), {
+        contextQuestId: missionGuidance?.questId,
+        requireContext: true,
+      })[0];
     if (contextualQuestion && replies.length < 3) replies.push({ textKo: contextualQuestion.promptKo });
   }
+  updateHud();
   const reward = recorded.ok ? recorded.state.ledger.at(-1)?.dialogueReward : null;
   const rewardStatus = reward === 'COMPARISON_NOTE' ? ' · 관점 대조 메모 획득 · 다른 인물에게 후속 질문 가능' : reward === 'PERSPECTIVE_NOTE' ? ' · 관점 메모와 통찰 +1' : '';
   const recordFailure = recorded.ok ? '' : `대화 기록 실패 · ${recorded.reason}`;

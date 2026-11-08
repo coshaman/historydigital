@@ -2000,7 +2000,7 @@ function advanceStudentCircle(state, minuteOffset, maps, livingEventRows) {
     && ['reader_darya', 'student_vasily', 'editor_sofia'].includes(embodiedReader.id)
     && embodiedReader.mapId === 'bookshop-interior' && nearTile(embodiedReader.position, objectTile(reviewObject), 1);
   if (!event && state.world.chapterId === 'V33_1847_PRINT' && !state.world.activeRealm
-    && state.world.date >= '1847-06-01' && localMinute >= 640 && localMinute < 1200
+    && state.world.date >= '1847-06-01' && localMinute >= 540 && localMinute < 1200
     && (reviewDiscussion || (!reviewHasBeenRead && !reviewReadInProgress))
     && reviewDiscussion?.status !== 'ACTIVE' && salonInvitation?.status !== 'ACTIVE') {
     const student = state.hosts.student_vasily, organizer = state.hosts.reader_darya;
@@ -2037,7 +2037,7 @@ function advanceStudentCircle(state, minuteOffset, maps, livingEventRows) {
     livingEventRows.push(studentCircleEventRow(state, event.stage, minuteOffset, maps,
       { changeKo: '바실리와 다리야가 안뜰에 모여 책을 펴고, 참석 장부는 아직 비어 있다.' }));
   }
-  if (event.stage === 'INVITATION_POSTED' && state.world.clockMinutes >= event.startedAtMinute + 120) {
+  if (event.stage === 'INVITATION_POSTED' && state.world.clockMinutes >= event.startedAtMinute + 240) {
     event.status = 'RESOLVED'; event.stage = 'CIRCLE_POSTPONED'; event.resolvedAtMinute = state.world.clockMinutes;
     event.resolutionActionId = 'AUTO_GATHERING_POSTPONED';
     livingEventRows.push(studentCircleEventRow(state, event.stage, minuteOffset, maps,

@@ -271,6 +271,7 @@
     "v37-manuscript-offer": "node scripts/v37-manuscript-offer-test.mjs",
     "v37-manuscript-offer-browser": "npm run build:v33 && node scripts/v37-manuscript-offer-browser.mjs",
     "v37-serfdom-reading": "node scripts/v37-serfdom-reading-test.mjs",
+    "v37-serfdom-reading-browser": "npm run build:v33 && node scripts/v37-serfdom-reading-browser.mjs",
     "v37-salon-debate": "node scripts/v37-salon-debate-test.mjs",
     "v37-salon-invitation": "node scripts/v37-salon-invitation-test.mjs",
     "v37-petrashevsky-report-event": "node scripts/v37-petrashevsky-report-event-test.mjs",

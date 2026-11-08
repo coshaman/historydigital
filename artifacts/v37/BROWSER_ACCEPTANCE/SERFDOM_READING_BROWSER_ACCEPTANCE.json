@@ -1,0 +1,78 @@
+{
+  "status": "PASS",
+  "chain": [
+    {
+      "id": "E24",
+      "stage": "UNATTENDED_DISCUSSION",
+      "status": "RESOLVED"
+    },
+    {
+      "id": "E30",
+      "stage": "OFFER_WITHDRAWN_UNATTENDED",
+      "status": "RESOLVED"
+    },
+    {
+      "id": "E31",
+      "stage": "DISCUSSION_READY",
+      "status": "ACTIVE"
+    }
+  ],
+  "results": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "naturalChain": [
+        {
+          "id": "E24",
+          "stage": "UNATTENDED_DISCUSSION",
+          "status": "RESOLVED"
+        },
+        {
+          "id": "E30",
+          "stage": "OFFER_WITHDRAWN_UNATTENDED",
+          "status": "RESOLVED"
+        },
+        {
+          "id": "E31",
+          "stage": "DISCUSSION_READY",
+          "status": "ACTIVE"
+        }
+      ],
+      "choices": 1,
+      "sourceReadInBrowser": true,
+      "resolution": "LANDLORD_DUTY_DISCUSSION",
+      "horizontalOverflow": false,
+      "pageErrors": 0
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "naturalChain": [
+        {
+          "id": "E24",
+          "stage": "UNATTENDED_DISCUSSION",
+          "status": "RESOLVED"
+        },
+        {
+          "id": "E30",
+          "stage": "OFFER_WITHDRAWN_UNATTENDED",
+          "status": "RESOLVED"
+        },
+        {
+          "id": "E31",
+          "stage": "DISCUSSION_READY",
+          "status": "ACTIVE"
+        }
+      ],
+      "choices": 1,
+      "sourceReadInBrowser": true,
+      "resolution": "LANDLORD_DUTY_DISCUSSION",
+      "horizontalOverflow": false,
+      "pageErrors": 0
+    }
+  ]
+}
