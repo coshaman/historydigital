@@ -484,9 +484,10 @@ function updateHud() {
   const discussionView = discussionBoardView(discussionQuests, discussionHost?.id ?? null,
     Object.fromEntries(cards.map(card => [card.id, card.displayNameKo])), discussionQuestData.quests.length);
   discussionBoard.hidden = (!discussionView.visible && !reflectionPrompts.length) || Boolean(state.endingId) || inLiteraryScene;
+  if (queuedDiscussionInquiry || discussionView.positionPrompts?.length) discussionBoard.open = true;
   $('#discussion-quest-progress').textContent = discussionView.progressKo;
   $('#discussion-quest-guidance').textContent = queuedDiscussionInquiry
-    ? `선택한 질문 · ${queuedDiscussionInquiry.titleKo} — ${queuedDiscussionInquiry.hostNameKo}에게 “${queuedDiscussionInquiry.promptKo}”라고 물어보세요. 현재 위치: ${state.hosts[queuedDiscussionInquiry.hostId]?.mapId === map.mapId ? '이 구역' : maps[state.hosts[queuedDiscussionInquiry.hostId]?.mapId]?.metadata.displayNameKo ?? '다른 구역'}. ${host ? '가까이 다가가 말을 걸면 대화 선택지 맨 앞에 나타납니다.' : '그 인물 가까이서 E를 눌러 몸을 빌린 뒤, 다시 가까이서 말을 거세요.'}`
+    ? `“${queuedDiscussionInquiry.promptKo}” · ${queuedDiscussionInquiry.hostNameKo}에게 물어보세요.`
     : discussionView.guidanceKo;
   const inquiryRows = discussionView.recommendations ?? [];
   const followUpRows = reflectionPrompts.slice(0, 2).map(prompt => `비교 메모 후속 대화 · ${discussionHost.displayNameKo}에게: “${prompt.promptKo}”`);
@@ -513,6 +514,7 @@ function updateHud() {
   }));
   inquiryList.replaceChildren(...(visibleInquiries.length || followUpRows.length
     ? [
+      ...positionRows,
       ...visibleInquiries.map(item => {
         const li = document.createElement('li');
         const detail = document.createElement('div');
@@ -549,6 +551,7 @@ function updateHud() {
         choose.addEventListener('click', () => {
           queuedDiscussionInquiry = item;
           destinationPinned = true;
+          discussionBoard.open = true;
           updateHud();
           const target = state.hosts[item.hostId];
           const place = maps[target?.mapId]?.metadata.displayNameKo ?? '현재 위치';
@@ -558,12 +561,11 @@ function updateHud() {
         return li;
       }),
       ...followUpRows.map(text => Object.assign(document.createElement('li'), { textContent: text })),
-      ...positionRows,
     ]
     : positionRows.length ? positionRows : [Object.assign(document.createElement('li'), { textContent: discussionHost ? '이 인물에게 남은 관점 질문이 없습니다. 다른 사람에게 같은 쟁점을 묻거나 수첩의 관점 노트를 살펴보세요.' : '생각·이념·역사 사건을 살피려면 질문을 담고, 표시된 인물에게 다가가 말을 거세요.' })]));
   const moreQuestions = $('#discussion-quest-more');
   moreQuestions.hidden = inquiryRows.length <= 8;
-  moreQuestions.textContent = showAllDiscussionQuestions ? '임무 목록 접기' : `남은 사건·이념 임무 ${inquiryRows.length - 8}개 보기`;
+  moreQuestions.textContent = showAllDiscussionQuestions ? '질문 접기' : '질문 더 보기';
   moreQuestions.onclick = () => { showAllDiscussionQuestions = !showAllDiscussionQuestions; updateHud(); };
   $('#mission-progress').textContent = missionGuidance.progress?.totalSteps ? `${missionGuidance.progress.completedSteps} / ${missionGuidance.progress.totalSteps}` : '';
   $('#mission-pin').disabled = !missionGuidance.target;

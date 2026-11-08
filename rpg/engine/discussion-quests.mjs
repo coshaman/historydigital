@@ -96,14 +96,12 @@ export function discussionBoardView(quests, hostId = null, hostNames = {}, total
     };
   }).filter(Boolean);
   return {
-    progressKo: `사건·철학·이념 임무 · 쟁점 비교 ${completedCount}/${(quests ?? []).length} · 지금 할 수 있는 임무 ${(quests ?? []).length}개 / 전체 ${totalQuestCount}개${positionPrompts.length ? ` · 내 입장 기록 ${positionPrompts.length}개 남음` : ''}`,
+    progressKo: `쟁점 ${completedCount}/${(quests ?? []).length}${positionPrompts.length ? ` · 내 입장 ${positionPrompts.length}개` : ''}`,
     guidanceKo: positionPrompts.length
-      ? `두 사람의 관점을 모았습니다. 아래에서 이 사건을 볼 때 당신이 먼저 따질 기준을 골라 수첩에 남기세요.`
+      ? `두 관점을 모았습니다. 내 입장을 골라 수첩에 남기세요.`
       : nextComparison
-      ? `첫 관점을 기록했습니다. 다음은 ${nextComparisonName}에게 같은 쟁점을 물어보세요: “${nextComparisonQuestion}” 질문할 인물과 다른 주민의 몸을 빌린 뒤, 표시된 상대에게 가까이 가서 말 걸기를 누르세요. 두 관점을 모으면 수첩에 비교 메모가 남습니다.`
-      : hostId
-        ? '쟁점 하나를 골라 표시된 주민에게 먼저 물으세요. 다른 주민에게 같은 질문을 해 답을 비교한 뒤, 내 판단을 수첩에 남기면 끝납니다.'
-        : '사건·철학·이념 임무입니다. 질문 하나를 담고 표시된 사람에게 가세요. 그와 다른 주민의 몸을 빌려 가까이서 말을 걸면 질문 선택지가 나타납니다. 두 번째 주민에게 같은 질문을 하고 답을 비교한 뒤, 내 판단을 수첩에 남기세요. 다음 사람과 장소는 목록에 표시됩니다.',
+      ? `다음은 ${nextComparisonName}에게 물어보세요: “${nextComparisonQuestion}”`
+      : '질문을 골라 두 사람의 관점을 듣고, 내 판단을 수첩에 남기세요.',
     rows,
     recommendations,
     positionPrompts: positionPrompts.map(quest => ({

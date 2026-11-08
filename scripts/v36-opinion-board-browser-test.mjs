@@ -13,7 +13,7 @@ const readJson = async file => JSON.parse(await readFile(path.join(root, file), 
 const mapFiles = (await readdir(path.join(root, 'rpg/maps'))).filter(name => name.endsWith('.json'));
 const maps = Object.fromEntries(await Promise.all(mapFiles.map(async name => [name.slice(0, -5), await readJson(`rpg/maps/${name}`)])));
 const hostIds = ['clerk_alexei','printer_ekaterina','courier_pavel','seamstress_anna','tenant_mikhail','bookseller_lev','senior_clerk_konstantin','reader_darya','editor_sofia','police_sergeant_ivan','yardkeeper_semyon','laundress_mariya','baker_fyodor','market_nadezhda','porter_gavrila','coachman_timofey','housemaid_olga','midwife_avdotya','apothecary_yakov','print_apprentice_stepan','bookbinder_elizaveta','scribal_yuri','innkeeper_irina','student_vasily','teacher_lyubov','minor_noble_andrei','landlady_polina','watercarrier_luka','fishseller_klavdiya','warehouse_pyotr','servant_varvara','junior_guard_sergey','carter_roman','street_vendor_matryona','typesetter_nikita','lodging_tatyana','nekrasov_reconstruction','literary_chichikov','literary_akaky','literary_petrovich'];
-const hostCards = await Promise.all(hostIds.map(id => readJson(`rpg/characters/${id}.json`)));
+const hostCards = await Promise.all((await readdir(path.join(root, 'rpg/characters'))).filter(name => name.endsWith('.json')).map(name => readJson(`rpg/characters/${name}`)));
 const quests = (await Promise.all((await readdir(path.join(root, 'rpg/quests'))).filter(file => file.endsWith('.json')).map(file => readJson(`rpg/quests/${file}`))))
   .filter(quest => Array.isArray(quest.actions) && quest.historicalOutcome?.id);
 const probe = createServer();
@@ -36,11 +36,14 @@ try {
     const page = await context.newPage();
     const errors = [];
     page.on('pageerror', error => errors.push(String(error)));
-    await page.goto(url, { waitUntil: 'networkidle' });
+    await page.goto(url, { waitUntil: 'domcontentloaded' });
+    await page.locator('#discussion-quest-board:not([hidden])').waitFor();
     const result = await page.evaluate(() => ({
       viewport: { width: innerWidth, height: innerHeight },
       documentWidth: document.documentElement.scrollWidth,
       boardVisible: !document.querySelector('#discussion-quest-board')?.hidden,
+      boardOpen: document.querySelector('#discussion-quest-board')?.open,
+      boardSummary: document.querySelector('#discussion-quest-board summary')?.textContent,
       missionVisible: !document.querySelector('#mission-tracker')?.hidden,
       progress: document.querySelector('#discussion-quest-progress')?.textContent,
       guidance: document.querySelector('#discussion-quest-guidance')?.textContent,
@@ -48,20 +51,22 @@ try {
       inquiryTitles: document.querySelectorAll('.discussion-inquiry-title').length,
       inquiryTargets: document.querySelectorAll('.discussion-inquiry-target').length,
       inquiryQuestions: document.querySelectorAll('.discussion-inquiry-question').length,
-      questSteps: [...document.querySelectorAll('.discussion-quest-steps li')].map(item => item.textContent.trim()),
       overflowX: document.documentElement.scrollWidth > innerWidth,
     }));
-    if (!result.boardVisible || !result.missionVisible || !/쟁점 비교 0\/16/.test(result.progress) || !/지금 할 수 있는 임무 16개/.test(result.progress) || !/다른 주민의 몸을 빌려/.test(result.guidance) || !/같은 질문/.test(result.guidance) || !/답을 비교한 뒤.*내 판단/.test(result.guidance) || result.questSteps.length !== 3 || !/질문을 담고/.test(result.questSteps[0]) || !/같은 쟁점/.test(result.questSteps[1]) || !/내 입장을/.test(result.questSteps[2]) || result.rows.length !== 8 || result.inquiryTitles !== 8 || result.inquiryTargets !== 8 || result.inquiryQuestions !== 8 || result.overflowX || errors.length) {
+    if (!result.boardVisible || result.boardOpen || !/생각거리/.test(result.boardSummary) || !result.missionVisible || result.overflowX || errors.length) {
       throw new Error(`opinion_board_not_actionable:${JSON.stringify({ result, errors })}`);
     }
+    await page.locator('#discussion-quest-board summary').click();
+    const openResult = await page.evaluate(() => ({ rows: document.querySelectorAll('#discussion-quest-items li').length, guidance: document.querySelector('#discussion-quest-guidance')?.textContent, progress: document.querySelector('#discussion-quest-progress')?.textContent }));
+    if (openResult.rows !== 8 || !/질문/.test(openResult.guidance) || !/쟁점/.test(openResult.progress)) throw new Error(`opinion_board_not_expandable:${JSON.stringify(openResult)}`);
     await page.locator('#discussion-quest-more').click();
     const expandedRows = await page.locator('#discussion-quest-items li').count();
     if (expandedRows < 16 || await page.locator('.discussion-inquiry-select').count() < 16) throw new Error(`opinion_questions_not_expandable:${expandedRows}`);
     await page.locator('.discussion-inquiry-select').first().click();
-    if (!/선택한 질문/.test(await page.locator('#discussion-quest-guidance').textContent())) throw new Error('selected_opinion_question_not_guided');
+    if (!/에게 물어보세요/.test(await page.locator('#discussion-quest-guidance').textContent())) throw new Error('selected_opinion_question_not_guided');
     const selectedMission = { title: await page.locator('#mission-title').textContent(), action: await page.locator('#mission-action').textContent(), method: await page.locator('#mission-method').textContent(), pinDisabled: await page.locator('#mission-pin').isDisabled(), pinPressed: await page.locator('#mission-pin').getAttribute('aria-pressed') };
     if (selectedMission.pinDisabled || selectedMission.pinPressed !== 'true' || !/몸/.test(selectedMission.method)) throw new Error(`opinion_target_not_actionable:${JSON.stringify(selectedMission)}`);
-    checks.push({ ...result, expandedRows, selectedQuestionGuided: true, selectedMission, pageErrors: errors });
+    checks.push({ ...result, openResult, expandedRows, selectedQuestionGuided: true, selectedMission, pageErrors: errors });
     await context.close();
   }
   const playState = createInitialState({ maps, hostCards, quests, startMapId: 'nevsky' });
@@ -92,9 +97,12 @@ try {
       turn: { schemaVersion: 'V33_RPG_DIALOGUE_V2', sceneId, beats: [{ speakerId: hostId, textKo: hostId === 'clerk_alexei' ? '확인한 내용과 전해 들은 말은 장부에서 나눠 적어야 합니다.' : '그 줄을 찍은 손과 문장을 정한 사람은 같지 않아요.' , emotion: 'focused', claimIds: [] }], suggestedReplies: [{ id: 'R1', textKo: '그 차이를 기록에 어떻게 남기면 좋을까요?', tone: 'curious' }, { id: 'R2', textKo: '직접 확인할 수 있는 자료부터 찾아볼게요.', tone: 'direct' }] },
     }) });
   });
-  await page.goto(url, { waitUntil: 'networkidle' });
+  await page.goto(url, { waitUntil: 'domcontentloaded' });
+  await page.locator('#discussion-quest-board:not([hidden])').waitFor();
   await page.evaluate(value => { localStorage.clear(); localStorage.setItem('v33-rpg-save', value); localStorage.setItem('v34-tutorial-stage', 'done'); }, saveGame(playState));
-  await page.reload({ waitUntil: 'networkidle' });
+  await page.reload({ waitUntil: 'domcontentloaded' });
+  await page.locator('#discussion-quest-board:not([hidden])').waitFor();
+  await page.locator('#discussion-quest-board summary').click();
   const laborInquiry = page.locator('#discussion-quest-items li').filter({ hasText: '인쇄 노동자는 문장의 뜻까지 책임져야 할까' });
   await laborInquiry.getByRole('button', { name: '이 질문 담기' }).click();
   if (!/예카테리나 벨로바에게/.test(await page.locator('#discussion-quest-guidance').textContent())) throw new Error('selected_question_did_not_name_first_speaker');
@@ -117,7 +125,7 @@ try {
     const event = [...state.ledger].reverse().find(item => item.discussionId === 'INQUIRY_CENSORSHIP_AND_LABOR');
     return { aiGenerated: event?.aiGenerated === true, discussionId: event?.discussionId, perspectiveHostIds: state.ledger.filter(item => item.discussionId === event?.discussionId).map(item => item.hostId), lastLedgerEvent: state.ledger.at(-1), perspectiveCount: state.player.dialogueGrowth.perspectiveNotes.filter(note => note.discussionId === event?.discussionId).length, aiReplyCount: state.player.dialogueGrowth.aiReplies, boardRows: [...document.querySelectorAll('#discussion-quest-items li')].map(item => item.textContent), boardGuidance: document.querySelector('#discussion-quest-guidance')?.textContent, recordText: document.querySelector('#record')?.textContent, answerText: document.querySelector('#journal-text')?.textContent, dialogueHistory: document.querySelector('#dialogue-history-lines')?.textContent, remainingButtons: [...document.querySelectorAll('#actions button')].map(button => button.textContent) };
   });
-  if (firstResult.aiGenerated !== true || firstResult.discussionId !== 'INQUIRY_CENSORSHIP_AND_LABOR' || firstResult.perspectiveCount !== 1 || firstResult.aiReplyCount !== 1 || !firstResult.boardRows.some(row => /1\/2 관점/.test(row)) || !/첫 관점을 기록했습니다.*알렉세이 오를로프에게 같은 쟁점을 물어보세요/.test(firstResult.boardGuidance) || !firstResult.answerText.includes('그 줄을 찍은 손') || errors.length) {
+  if (firstResult.aiGenerated !== true || firstResult.discussionId !== 'INQUIRY_CENSORSHIP_AND_LABOR' || firstResult.perspectiveCount !== 1 || firstResult.aiReplyCount !== 1 || !firstResult.boardRows.some(row => /1\/2 관점/.test(row)) || !/다음은 알렉세이 오를로프에게 물어보세요/.test(firstResult.boardGuidance) || !firstResult.answerText.includes('그 줄을 찍은 손') || errors.length) {
     throw new Error(`ai_opinion_turn_did_not_progress:${JSON.stringify({ firstResult, conversationProbe, errors })}`);
   }
   if (dialogueSceneContexts.length !== 1 || dialogueSceneContexts[0]?.questId !== null) {
@@ -133,7 +141,7 @@ try {
   await secondQuestion.waitFor({ state: 'visible', timeout: 5000 });
   if (await secondQuestion.count() !== 1) throw new Error(`second_perspective_question_not_offered:${JSON.stringify({ actor: await page.evaluate(() => JSON.parse(localStorage.getItem('v33-rpg-save')).state.player.embodiment), ledger: await page.evaluate(() => JSON.parse(localStorage.getItem('v33-rpg-save')).state.ledger.filter(item => item.discussionId === 'INQUIRY_CENSORSHIP_AND_LABOR').map(item => ({ hostId: item.hostId, actorHostId: item.actorHostId }))), buttons: await page.locator('#actions button').allTextContents() })}`);
   await secondQuestion.click();
-  await page.waitForTimeout(1200);
+  await page.waitForFunction(() => document.querySelector('#journal-text')?.textContent.includes('확인한 내용과 전해 들은 말'), null, { timeout: 5000 });
   await page.locator('#save').click();
   const completedPair = await page.evaluate(() => {
     const state = JSON.parse(localStorage.getItem('v33-rpg-save')).state;
@@ -141,12 +149,13 @@ try {
     const note = state.player.dialogueGrowth.comparisonNotes.find(item => item.discussionId === 'INQUIRY_CENSORSHIP_AND_LABOR');
     return { hostIds: [...new Set(turns.map(turn => turn.hostId))].sort(), aiGeneratedTurns: turns.filter(turn => turn.aiGenerated).length, aiReplies: state.player.dialogueGrowth.aiReplies, comparisonNoteHostIds: note?.hostIds?.sort(), boardProgress: document.querySelector('#discussion-quest-progress')?.textContent };
   });
-  if (completedPair.hostIds.join(',') !== 'clerk_alexei,printer_ekaterina' || completedPair.aiGeneratedTurns !== 2 || completedPair.aiReplies !== 2 || completedPair.comparisonNoteHostIds?.join(',') !== 'clerk_alexei,printer_ekaterina' || !completedPair.boardProgress?.includes('쟁점 비교 1/16') || errors.length) {
+  if (completedPair.hostIds.join(',') !== 'clerk_alexei,printer_ekaterina' || completedPair.aiGeneratedTurns !== 2 || completedPair.aiReplies !== 2 || completedPair.comparisonNoteHostIds?.join(',') !== 'clerk_alexei,printer_ekaterina' || !completedPair.boardProgress?.includes('쟁점 1/16') || errors.length) {
     throw new Error(`two_person_ai_inquiry_did_not_complete:${JSON.stringify({ completedPair, errors })}`);
   }
   if (dialogueSceneContexts.length !== 2 || dialogueSceneContexts.some(context => context?.questId !== null)) {
     throw new Error(`discussion_inquiry_id_must_not_be_sent_as_historical_quest:${JSON.stringify(dialogueSceneContexts)}`);
   }
+  await page.getByRole('button', { name: '대화 마치기' }).click();
   const positionButtons = page.locator('.discussion-position-select');
   if (await positionButtons.count() !== 3) throw new Error(`player_should_get_three_stance_choices_after_both_views:${await positionButtons.count()}`);
   const stanceLabels = await page.locator('#discussion-quest-items li').filter({ has: positionButtons }).allTextContents();

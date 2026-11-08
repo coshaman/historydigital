@@ -72,9 +72,10 @@ try {
     await page.getByText('서버 키 확인됨 · 모델 응답은 미검증', { exact: true }).waitFor();
     const settingsLayout = await page.locator('#api-settings').evaluate(element => { const rect=element.getBoundingClientRect(); return { width:rect.width,height:rect.height,right:rect.right,bottom:rect.bottom }; });
     assert.ok(settingsLayout.width <= viewport.width && settingsLayout.height <= viewport.height, `API settings dialog fits viewport ${viewport.width}`);
+    await page.locator('#discussion-quest-board').evaluate(element => { element.open = true; });
     const initialInquiryBoard = await page.locator('#discussion-quest-board').innerText();
-    assert.match(initialInquiryBoard, /사건·철학·이념 임무/);
-    assert.match(initialInquiryBoard, /직업이 다른 사람에게도 같은 쟁점/);
+    assert.match(initialInquiryBoard, /생각거리/);
+    assert.match(initialInquiryBoard, /질문을 골라 두 사람의 관점을 듣고/);
     assert.match(initialInquiryBoard, /0\/2 관점/);
     assert.match(initialInquiryBoard, /검열|책에서|명령/);
     assert.equal(dialogueRequests.length, dialogueCountBeforeHealth, 'health probe does not create an AI dialogue');
