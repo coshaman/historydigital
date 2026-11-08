@@ -116,8 +116,8 @@ const hashes = [game.stateHash(first.state)];
 const parcelDelivery = first.state.ledger.flatMap(event => event.deliveries ?? [])
   .some(delivery => delivery.taskId === 'PAVEL_DELIVER_SEALED_ENVELOPE_01');
 const parcelEvent = first.state.world.livingEventStates.E05;
-assert.ok(parcelDelivery || (parcelEvent?.stage === 'PARCEL_MISSING' && parcelEvent.itemLocation === 'LOST_ON_DELIVERY_ROUTE'),
-  'the courier either transfers the parcel or creates its authored missing-parcel event');
+assert.ok(parcelDelivery && parcelEvent?.stage !== 'PARCEL_MISSING',
+  'the courier must deliver the sealed parcel on the authored normal route before its deadline');
 const injuryStages = first.state.ledger.flatMap(event => event.livingEvents ?? [])
   .filter(event => event.catalogIdSpace === 'V37_EVENT_CATALOG_45' && event.catalogEventId === 'E12').map(event => event.stage);
 assert.deepEqual(injuryStages, ['INJURY', 'RESTED_UNTREATED'],
@@ -254,8 +254,8 @@ assert.equal(new Set(replays.map(run=>JSON.stringify(run.initialNeeds))).size, s
 const repeatedSeedReplay = singleReplay ? first : runFullDay(seeds[0]);
 assert.equal(game.stateHash(repeatedSeedReplay.state), seededHashes[0], 'the same simulation seed must reproduce the exact full-day state');
 assert.ok(replays.every(run => run.state.ledger.flatMap(event => event.deliveries ?? []).some(delivery => delivery.taskId === 'PAVEL_DELIVER_SEALED_ENVELOPE_01')
-  || (run.state.world.livingEventStates.E05?.stage === 'PARCEL_MISSING' && run.state.world.livingEventStates.E05.itemLocation === 'LOST_ON_DELIVERY_ROUTE')),
-  'each seeded courier outcome is either a completed delivery or a recoverable authored parcel event');
+  && run.state.world.livingEventStates.E05?.stage !== 'PARCEL_MISSING'),
+  'each seeded courier completes the sealed parcel delivery on the normal route');
 const finalHashes = seededHashes;
 const report = { schemaVersion:includeEventPerformers ? 'V37_FULL_DAY_37_RUNTIME_RESIDENT_REPLAY_1' : 'V36_FULL_DAY_36_RESIDENT_REPLAY_1',
   status:'PASS', activeCityResidents:ids.length, includedEventPerformers:includeEventPerformers,

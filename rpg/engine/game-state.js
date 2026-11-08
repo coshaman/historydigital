@@ -3522,7 +3522,12 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
       && host.completedWorkActionKeys?.includes(`${shiftDayIndex}:${later.workAction.id}`))
     && !host.completedWorkActionKeys?.includes(`${shiftDayIndex}:${slot.workAction.id}`))
     .sort((a, b) => b.atMinute - a.atMinute)[0];
+  const committedDelivery = ['PREPARE_DELIVERY', 'FOLLOW_RECIPIENT'].includes(host.activeGoal?.type)
+    ? (host.schedule ?? []).find(slot => slot.task?.id === host.activeGoal.taskId
+      && slot.task.type === 'DELIVER' && slot.task.deadlineMinute > localMinute
+      && !taskCompletedForDay(host, slot.task, shiftDayIndex)) : null;
   if (recentWorkSlot
+    && !committedDelivery
     && !(host.needs?.hunger >= 90 && host.money?.amount <= 0)
     && !['PURCHASE_MEAL', 'SEEK_FOOD_AID', 'SEEK_MEDICAL_AID'].includes(host.activeGoal?.type)
     && !(state.world.livingEventStates?.E27?.status === 'ACTIVE'
@@ -3757,7 +3762,7 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
     if (!goal?.slot || !Number.isFinite(utility)) return;
     candidates.push({ ...goal, selectionBasis: { ...(goal.selectionBasis ?? {}), utilityScore: Math.round(utility * 100) / 100 }, _priority: priority });
   };
-  if (activeSocialTask) {
+  if (activeSocialTask && (activeSocialTask.type !== 'DELIVER' || activeSocialSlot.atMinute <= localMinute)) {
     const recipient = state.hosts[activeSocialTask.recipientHostId];
     const canPay = activeSocialTask.type === 'CARE_TRANSFER' ? canMakeAuthoredCareTransfer(state, host, activeSocialTask)
       : activeSocialTask.type !== 'EXCHANGE' || (Number.isInteger(activeSocialTask.moneyAmount) && activeSocialTask.moneyAmount > 0 && Number.isFinite(recipient?.money?.amount) && recipient.money.amount >= activeSocialTask.moneyAmount);
@@ -3767,7 +3772,7 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
   }
 
   const nextDelivery = (host.schedule ?? []).filter(slot => ['DELIVER', 'EXCHANGE'].includes(slot.task?.type)
-    && slot.atMinute > localMinute && slot.atMinute - localMinute <= 90
+    && slot.atMinute > localMinute && slot.atMinute - localMinute <= 150
     && !(host.needs?.hunger >= 90 && host.money?.amount <= 0)
     && !taskCompletedForDay(host, slot.task, Math.floor(state.world.clockMinutes / 1440))
     && host.inventory.includes(slot.task.itemKo))
