@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "cases": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "rosterOneClick": true,
+      "resolvedOldMarker": true,
+      "stageOneResolved": true,
+      "stageTwoVisible": true,
+      "stageTwoTitle": "비 그친 뒤의 좌판 자리 · 2/3",
+      "scrollWidth": 1440,
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "rosterOneClick": true,
+      "resolvedOldMarker": true,
+      "stageOneResolved": true,
+      "stageTwoVisible": true,
+      "stageTwoTitle": "비 그친 뒤의 좌판 자리 · 2/3",
+      "scrollWidth": 390,
+      "pageErrors": []
+    }
+  ],
+  "serverErrors": []
+}

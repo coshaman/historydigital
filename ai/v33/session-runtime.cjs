@@ -364,11 +364,12 @@ function speechSituationFor({ character, actor, actorRelations, sceneContext, re
 function normalizeRelationshipHints(value) {
   if (value === undefined) return {};
   if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
-  const entries = Object.entries(value);
-  if (entries.length > relationshipHintValues.size) return null;
   const normalized = {};
-  for (const [group, status] of entries.sort(([a], [b]) => a.localeCompare(b))) {
-    if (typeof status !== 'string' || !relationshipHintValues.get(group)?.has(status)) return null;
+  for (const [group, status] of Object.entries(value).sort(([a], [b]) => a.localeCompare(b))) {
+    // Saves can outlive the authored relationship vocabulary. Discard stale or
+    // unrecognized hints so they cannot block an otherwise valid conversation.
+    if (typeof status !== 'string' || !relationshipHintValues.get(group)?.has(status)) continue;
+    if (Object.keys(normalized).length >= relationshipHintValues.size) break;
     normalized[group] = status;
   }
   return normalized;

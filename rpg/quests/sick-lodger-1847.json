@@ -11,6 +11,14 @@
     "sourceIds": []
   },
   "entry": { "mapId": "inn-interior", "objectId": 4000 },
+  "economicEvidence": {
+    "class": "BALANCE_ESTIMATE",
+    "currency": "kopeks",
+    "actionId": "E15_REQUEST_NEIGHBOR_HELP",
+    "amount": 2,
+    "sourceIds": [],
+    "notes": "게임 진행용 금액이며 1847년 산파 방문료의 역사적 가격 근거로 사용하지 않음"
+  },
   "actions": [
     {
       "id": "E15_REQUEST_AUNT_COMPANY",
@@ -31,7 +39,7 @@
       "requiredLivingEventStage": "CARE_REQUESTED",
       "durationMinutes": 3,
       "labelKo": "산파 아브도티야를 불러 2코페이카를 건넨다",
-      "subcopyKo": "아브도티야에게 부탁이 전해지고, 도착하면 둘이 대화합니다 · 공식 장부는 남지 않습니다 · 문서는 방 밖으로 나가지 않습니다 · 2코페이카와 산파의 다음 호출 전 시간을 씁니다",
+      "subcopyKo": "아브도티야에게 부탁이 전해지고, 도착하면 둘이 대화합니다 · 비용 2코페이카 · 공식 장부는 남지 않습니다 · 문서는 방 밖으로 나가지 않습니다",
       "resultFlag": "v37TatyanaRequestsNeighborHelp",
       "resultKo": "“아브도티야를 불러 주세요. 오늘 재봉은 늦어져도 괜찮아요. 지금은 누가 곁에 와 줬으면 해요.”",
       "effects": { "moneyDelta": -2, "situationKo": "아브도티야에게 방문을 청하고 2코페이카를 건넸다." }

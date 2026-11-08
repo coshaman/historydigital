@@ -51,7 +51,6 @@ try {
       const lastChoiceRect = await lastButton.evaluate(element => { const rect = element.getBoundingClientRect(); return { top: rect.top, bottom: rect.bottom, height: window.innerHeight }; });
       if (lastChoiceRect.top < 0 || lastChoiceRect.bottom > lastChoiceRect.height) throw new Error(`E15 last choice is clipped: ${JSON.stringify(lastChoiceRect)}`);
       await page.screenshot({ path: path.join(output, `sick-lodger-last-choice-${viewport.width}x${viewport.height}.png`) });
-      await page.screenshot({ path: path.join(output, `sick-lodger-${filename}-${viewport.width}x${viewport.height}.png`) });
       const before = await page.locator('#record').textContent(); await button.click();
       await page.waitForFunction(value => document.querySelector('#record')?.textContent !== value, before);
       const saved = await page.evaluate(() => localStorage.getItem('v33-rpg-save'));
@@ -64,6 +63,7 @@ try {
         throw new Error(`E15 character voice/result was not shown after selection: ${visibleUiText.slice(-1000)}`);
       if (actionId === 'E15_REQUEST_AUNT_COMPANY' && !visibleUiText.includes('이모를 불러 줄래요'))
         throw new Error(`E15 family choice result was not shown after selection: ${visibleUiText.slice(-1000)}`);
+      await page.screenshot({ path: path.join(output, `sick-lodger-${filename}-${viewport.width}x${viewport.height}.png`) });
       cases.push({ viewport, actionId, stage, choicesVisible: ui.choices.length, disclosureVisible: true,
         lastChoiceReachable: true, lastChoiceRect, scrollWidth: ui.scrollWidth, pageErrors });
       await context.close();

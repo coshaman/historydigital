@@ -16,6 +16,10 @@ const [maps, cards] = await Promise.all([
   Promise.all(cardFiles.filter(name => name.endsWith('.json')).map(name => readJson(new URL(`../rpg/characters/${name}`, import.meta.url)))),
 ]);
 assert.equal(catalog.find(row => row.event_id === 'E15').validation_status, 'DESIGN_SEED_NOT_VERIFIED');
+assert.deepEqual(quest.economicEvidence, { class: 'BALANCE_ESTIMATE', currency: 'kopeks', actionId: 'E15_REQUEST_NEIGHBOR_HELP',
+  amount: 2, sourceIds: [], notes: '게임 진행용 금액이며 1847년 산파 방문료의 역사적 가격 근거로 사용하지 않음' });
+assert.match(quest.actions.find(action => action.id === 'E15_REQUEST_NEIGHBOR_HELP').subcopyKo, /비용 2코페이카/,
+  'the player sees the immediate cost');
 const bed = maps['inn-interior'].layers.find(layer => layer.name === 'Interactions').objects.find(item => item.id === quest.entry.objectId);
 assert.ok(bed, 'the scene uses the shared room bed as its physical focal object');
 

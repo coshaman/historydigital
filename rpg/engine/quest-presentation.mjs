@@ -52,12 +52,20 @@ export function questChoices(quest, hostId, knowledge = [], state = null) {
 
 export function resolveObjectQuest(questId, state, quests) {
   const quest = quests.find(item => item.id === questId);
-  if (!quest?.lifeChain) return quest ?? null;
-  const chain = quests.filter(item => item.lifeChain?.id === quest.lifeChain.id)
+  if (!quest) return null;
+  const chain = quest.lifeChain
+    ? quests.filter(item => item.lifeChain?.id === quest.lifeChain.id)
+    : quests.filter(item => item.lifeChain && item.entry?.mapId === quest.entry?.mapId
+      && item.entry?.objectId === quest.entry?.objectId && item.entry?.requiredHostId === quest.entry?.requiredHostId);
+  if (!chain.length) return quest;
+  const hasAdvancedPastMarker = state.quests[quest.id]?.status === 'resolved'
+    || chain.some(item => state.quests[item.id]?.status === 'resolved');
+  if (!hasAdvancedPastMarker) return quest;
+  const orderedChain = chain
     .sort((a, b) => a.lifeChain.stage - b.lifeChain.stage);
   const hostId = state?.player?.embodiment;
-  return chain.find(item => state.quests[item.id]?.status !== 'resolved'
-    && (!hostId || item.actions?.some(action => action.hostIds.includes(hostId)))) ?? quest;
+  return orderedChain.find(item => state.quests[item.id]?.status !== 'resolved'
+    && (!hostId || item.actions?.some(action => action.hostIds.includes(hostId)))) ?? orderedChain.at(-1);
 }
 
 // Keep continuation available after reading, conversation, movement and save/reload.

@@ -9,7 +9,7 @@ import { dialogueSessionNeedsReconnect, dialogueSpeakerLabel, selectDialogueTurn
 import { dialogueSceneContext } from './engine/dialogue-context.mjs';
 import { appendApiDiagnostic, clearApiDiagnostics, readApiDiagnostics } from './engine/api-diagnostics.mjs';
 import { CITY_PRODUCTS, NEWSPAPER_STORIES, newspaperAssignment, purchaseCityProduct, publishNewspaperIssue, shareSourceWithEditor, readNewspaperIssue, circulateNewspaperIssue, commitSuspiciousAct, resolvePoliceCustody, publishedIssueLabel } from './engine/civic-life.mjs';
-import { availableTopics, contextualOpening } from './ai/authored-dialogue.mjs';
+import { contextualOpening } from './ai/authored-dialogue.mjs';
 import { formatCivicReaction, formatObservedNpcReactions, recentJournalEntries } from './engine/world-reaction-presentation.mjs';
 import { advanceStudy, beginExam, buildLifeTimeline, chooseCirclePath, completeLearning, getExamQuestions, selectExamAnswer, submitExam } from './engine/learning-life.mjs';
 import './engine/game-state.js';
@@ -1253,7 +1253,8 @@ function inspect(object) {
       const chain = activeQuest.lifeChain, chainProgress = chain ? result.state.world.lifeChains?.[chain.id] : null;
       const changedMetrics = chainProgress ? Object.entries(chainProgress.metrics).filter(([, value]) => value !== 0).map(([key, value]) => `${chain.metricsKo?.[key] ?? key} ${value > 0 ? '+' : ''}${value}`).join(' · ') : '';
       const chainNote = chain ? `\n\n${chain.titleKo} · ${chainProgress.stage}/${chain.stageCount}${changedMetrics ? `\n이어진 장부: ${changedMetrics}` : ''}` : '';
-      say(action.followupTitleKo ?? activeQuest.titleKo, `${action.resultKo}${action.followupKo ? `\n\n${action.followupKo}` : ''}${chainNote}`, actions);
+      say(chain ? activeQuest.titleKo : action.followupTitleKo ?? activeQuest.titleKo,
+        `${action.resultKo}${action.followupKo ? `\n\n${action.followupKo}` : ''}${chainNote}`, actions);
       sayRecord('현장 행동을 장부에 기록했다.');
     } }));
     let guidance = '';
@@ -1277,7 +1278,7 @@ function inspect(object) {
     const priorQuest = priorEntry ? questsById.get(priorEntry.questId) : null;
     const priorAction = priorEntry ? priorQuest?.actions.find(item => item.id === priorEntry.actionId) : null;
     const chainContext = priorAction ? `\n\n앞선 일 · ${priorAction.resultKo}` : '';
-    const title = chain ? `${chain.titleKo} · ${chain.stage}/${chain.stageCount} — ${activeQuest.titleKo}` : activeQuest.titleKo;
+    const title = chain ? `${chain.titleKo} · ${chain.stage}/${chain.stageCount}` : activeQuest.titleKo;
     say(title, `${activeQuest.premiseKo}${chainContext}${guidance}`, opts);
   } else {
     const title = object.name || '작업장';
@@ -1506,7 +1507,9 @@ async function startConversation(card) {
     sessionStorage.removeItem(dialogueStorageKey(key));
     session = null;
   }
-  const remaining = availableTopics(card.id);
+  // Let the player hear about the resident's day before offering abstract
+  // questions. The authored issue prompts appear after the first AI exchange.
+  const remaining = ['오늘은 무슨 일로 바쁘세요?', '요즘 지내는 이야기를 들려주세요.', '잠깐 이야기 나눠도 될까요?'];
   dialogueCurrentLines.set(key, contextualOpening(card.id, actorCard.id));
   showConversation(card, dialogueCurrentLines.get(key), remaining, '선택지는 빠른 대답입니다. 직접 입력해도 됩니다.');
   if (!session) {
@@ -1568,9 +1571,12 @@ async function sendConversation(card, playerText, replyId = null) {
     showConversation(card, dialogueCurrentLines.get(key), [], '답변을 기다리는 중 · Esc로 대화를 마칠 수 있습니다.');
     try {
       const inquiry = discussionPrompt && discussionQuestById.get(discussionPrompt.discussionId);
-      const inquiryQuest = inquiry && questList.find(quest => (quest.sourceIds ?? []).some(id => (inquiry.sourceIds ?? []).includes(id))
-        && quest.actions?.some(action => action.hostIds.includes(card.id)) && questIsAvailable(quest)
-        && state.quests[quest.id]?.status !== 'resolved');
+      const linkedContextQuest = inquiry?.contextQuestId ? questsById.get(inquiry.contextQuestId) : null;
+      const inquiryQuest = linkedContextQuest?.actions?.some(action => action.hostIds.includes(card.id))
+        && questIsAvailable(linkedContextQuest) ? linkedContextQuest
+        : inquiry && questList.find(quest => (quest.sourceIds ?? []).some(id => (inquiry.sourceIds ?? []).includes(id))
+          && quest.actions?.some(action => action.hostIds.includes(card.id)) && questIsAvailable(quest)
+          && state.quests[quest.id]?.status !== 'resolved');
       const inquiryQuestId = discussionPrompt ? inquiryQuest?.id ?? missionGuidance?.questId ?? null : null;
       const requestDialogue = currentSession => fetch(`${aiBaseUrl}/api/rpg/dialogue`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ sessionToken: currentSession.token, requestId: crypto.randomUUID(), playerInput: playerText, actorRelations: relationshipHintsFor(actorCard.id), actorActions: playerActionHintsFor(actorCard.id), sceneContext: dialogueSceneContext(card, state.hosts[card.id], state.world.date, state.world.currentMapId, discussionPrompt ? inquiryQuestId : missionGuidance?.questId ?? null) }), signal: controller.signal });
       let response = await requestDialogue(session);
@@ -1720,3 +1726,5 @@ $('#route-continue').addEventListener('click', () => {
   const quest = continuationQuest(state, campaign, questList);
   if (quest && !activeDialogueHost) continuationFor(quest)[0].run();
 });
+$('#roster-open').disabled = false;
+document.documentElement.dataset.gameReady = 'true';
