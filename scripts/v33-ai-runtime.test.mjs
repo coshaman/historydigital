@@ -265,6 +265,47 @@ test('AI dialogue receives only the speaker’s authored family and relationship
     validationStatus: 'DESIGN_SEED_NOT_VERIFIED', historicalOutcomeFixed: false, fromHostKo: '가브릴라' }]);
 });
 
+test('AI dialogue receives only the current host’s read-source knowledge, never the observer’s previous-host notes', async () => {
+  const observed = [];
+  const provider = { lastFailureCode: '', generate: async request => {
+    observed.push(request.input);
+    return validTurn(request.input.scene.id, request.input.character.id);
+  } };
+  const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store: new MemorySessionStore(),
+    allowedOrigins: ['https://game.example'], provider });
+  const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'printer_ekaterina', actorHostId: 'reader_darya' }));
+  assert.equal(opened.status, 201);
+  const currentHost = { privateKnowledgeIds: ['DARYA_PRIVATE_MARGIN'], witnessedKnowledgeIds: [],
+    knownEvidenceIds: ['LIT-TURGENEV-KHOR-KALYNYCH-1847'],
+    observerMemory: [{ hostId: 'courier_pavel', evidenceIds: [], privateKnowledgeIds: ['PAVEL_CLOSED_ENVELOPE'] }] };
+  const sceneContext = dialogueSceneContext({ id: 'printer_ekaterina' }, { id: 'printer_ekaterina' },
+    '1847-06-01', 'printshop', null, [], currentHost);
+  assert.deepEqual(sceneContext.playerKnowledgeIds, ['DARYA_PRIVATE_MARGIN', 'LIT-TURGENEV-KHOR-KALYNYCH-1847']);
+  sceneContext.playerKnowledgeIds.push('ALEXEI_OFFICE_ROUTING', 'LIT-DOSTOEVSKY-CRIME-PUNISHMENT-1866-CH2');
+  const result = await service.handle(request('POST', '/api/rpg/dialogue', {
+    sessionToken: opened.body.sessionToken, requestId: 'host-knowledge-isolation-0001',
+    playerInput: '이 이야기는 읽어 두었어요. 그 대목을 떠올려 봅시다.', sceneContext,
+  }));
+  assert.equal(result.status, 200, JSON.stringify(result.body));
+  const embodied = observed[0].conversation.embodiedPlayer;
+  assert.ok(embodied.playerKnownFacts.some(fact => fact.includes('호리와 칼리니치')),
+    'a source read by the current host reaches the dialogue context');
+  assert.ok(observed[0].sourceEvidence.some(source => source.sourceId === 'LIT-TURGENEV-KHOR-KALYNYCH-1847'),
+    'the matching verified passage is available when the current host has read it');
+  assert.ok(embodied.playerKnownFacts.some(fact => fact.includes('여백')),
+    'the current host keeps their authored private fact');
+  assert.equal(embodied.playerKnownFacts.some(fact => fact.includes('ALEXEI_OFFICE_ROUTING')),
+    false, 'another host’s private ID is rejected');
+  assert.equal(embodied.playerKnownFacts.some(fact => fact.includes('죄와 벌')), false,
+    'a source from a later literary year is not exposed to an 1847 host');
+  assert.equal(observed[0].sourceEvidence.some(source => source.sourceId === 'LIT-DOSTOEVSKY-CRIME-PUNISHMENT-1866-CH2'), false,
+    'future source passages are not admitted into the conversation');
+  assert.equal(JSON.stringify(observed[0].conversation).includes('PAVEL_CLOSED_ENVELOPE'), false,
+    'previous-host observer notes are not copied into the current host context');
+  assert.equal(JSON.stringify(observed[0].conversation.sceneContext).includes('playerKnowledgeIds'), false,
+    'the model receives resolved, allowlisted facts rather than client-supplied IDs');
+});
+
 test('open-ended recent-event questions receive a concrete known incident and are instructed to answer it directly', async () => {
   let providerRequest;
   const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store: new MemorySessionStore(),

@@ -5,6 +5,7 @@ const { readdirSync } = require('node:fs');
 const { join } = require('node:path');
 const scenes = require('../../rpg/ai/scenes.json').sessions;
 const historicalSources = require('../../rpg/data/historical-source-packets.json').records;
+const sceneObservations = require('../../rpg/data/scene-observations.json').entries;
 const historicalPlayEvents = require('../../rpg/data/historical-scene-play.json').events;
 const historicalConversationChoices = require('../../rpg/data/historical-conversation-choices.json');
 const historicalEventCatalog = require('../../rpg/data/v38-historical-events.json').events;
@@ -335,7 +336,20 @@ function safeProfile(card, actorHostId = null, speechSituation = 'firstMeeting')
   const relationshipToEmbodiedPlayer = actorHostId ? relationshipNetwork.find(item => item.hostId === actorHostId) ?? null : null;
   return { id: card.id, nameKo: card.displayNameKo, occupation: card.occupation, socialEstate: card.socialEstate, rank: card.rank, wealthBracket: card.wealthBracket ? { value: card.wealthBracket, status: card.wealthBracketStatus ?? 'unspecified' } : null, legalMobility: card.legalMobility, literacy: card.literacy, skills, skillsValueStatus: card.skillsValueStatus ?? 'FICTIONAL_CHARACTER_DESIGN', risk: card.risk, speechRhythm: card.speechRhythm, speechRegister, voiceSamples: (card.voiceSamples ?? []).slice(0, 3).map(item => cleanText(item, 180)), lexicon: (card.lexicon ?? []).slice(0, 8), speechDelivery: speechDeliveryFor(card, speechSituation), desires: card.desires, fears: card.fears, personalObjective: cleanText(card.personalObjective, 240), todayGoals, relationshipNetwork, relationshipToEmbodiedPlayer, household, worldview, topicStances, knownPrivateFacts: (card.secretKnowledge ?? []).slice(0, 6).map(item => cleanText(item.summaryKo, 180)) };
 }
-function safeEmbodiedProfile(card, speechSituation = 'firstMeeting') {
+function playerKnownFactSummary(card, id) {
+  const privateFact = (card.secretKnowledge ?? []).find(item => item.id === id);
+  if (privateFact) return cleanText(privateFact.summaryKo, 180);
+  const source = sourceRecords.get(id);
+  if (source) {
+    const sourceYear = String(source.documentDate ?? source.dateCreated ?? source.firstPublication ?? '').match(/18\d{2}/)?.[0] ?? '';
+    const context = source.contextKo ?? source.witness?.contextKo ?? source.witness?.descriptionKo ?? source.paragraphs?.[0]?.ko ?? '';
+    return cleanText(`읽은 자료 · ${sourceYear} · ${source.titleKo} · ${context}`, 240);
+  }
+  const observation = sceneObservations[id];
+  if (observation) return cleanText(`직접 살펴본 흔적 · ${observation.titleKo} · ${observation.hostLines?.[card.id] ?? observation.textKo}`, 220);
+  return null;
+}
+function safeEmbodiedProfile(card, speechSituation = 'firstMeeting', playerKnowledgeIds = card.privateKnowledgeIds ?? []) {
   return {
     id: card.id,
     nameKo: card.displayNameKo,
@@ -354,7 +368,7 @@ function safeEmbodiedProfile(card, speechSituation = 'firstMeeting') {
     risk: card.risk,
     taboos: (card.taboos ?? []).slice(0, 6).map(item => cleanText(item, 160)),
     personalObjective: card.personalObjective,
-    playerKnownFacts: (card.secretKnowledge ?? []).filter(item => card.privateKnowledgeIds?.includes(item.id)).slice(0, 6).map(item => cleanText(item.summaryKo, 180)),
+    playerKnownFacts: [...new Set(playerKnowledgeIds)].map(id => playerKnownFactSummary(card, id)).filter(Boolean).slice(0, 12),
     speechRhythm: card.speechRhythm,
     speechRegister: Object.fromEntries(Object.entries(card.speechRegister ?? {}).slice(0, 8).map(([situation, register]) => [situation, cleanText(register, 180)])),
     voiceSamples: (card.voiceSamples ?? []).slice(0, 3).map(item => cleanText(item, 180)),
@@ -416,13 +430,15 @@ function authoredDialogueCues(card) {
   return { activities, aims };
 }
 function normalizeSceneContext(value, actorHostId, speakerCard = null) {
+  const embodiedCard = actorHostId ? cards.get(actorHostId) : null;
   const empty = { date: null, mapId: null, placeKo: null, questId: null, questTitleKo: null,
-    activityKo: null, currentAimKo: null, hungerBand: null, fatigueBand: null, healthCondition: null, heardRumors: [], heardEvents: [], playerHistoricalEvents: [] };
+    activityKo: null, currentAimKo: null, hungerBand: null, fatigueBand: null, healthCondition: null, heardRumors: [], heardEvents: [], playerHistoricalEvents: [],
+    playerKnowledgeIds: [...(embodiedCard?.privateKnowledgeIds ?? [])] };
   if (value === undefined) return empty;
-  if (!value || typeof value !== 'object' || Array.isArray(value) || Object.keys(value).some(key => !['date','mapId','questId','activityKo','currentAimKo','hungerBand','fatigueBand','healthCondition','heardRumors','heardEvents','playerHistoricalEvents'].includes(key))) return null;
+  if (!value || typeof value !== 'object' || Array.isArray(value) || Object.keys(value).some(key => !['date','mapId','questId','activityKo','currentAimKo','hungerBand','fatigueBand','healthCondition','heardRumors','heardEvents','playerHistoricalEvents','playerKnowledgeIds'].includes(key))) return null;
   const date = value.date;
   if (typeof date !== 'string' || !/^18(?:42|47|48|49)-\d{2}-\d{2}$/.test(date) || Number(date.slice(5,7)) < 1 || Number(date.slice(5,7)) > 12 || Number(date.slice(8,10)) < 1 || Number(date.slice(8,10)) > 31) return null;
-  const map = mapRecords.get(value.mapId), actor = actorHostId ? cards.get(actorHostId) : null;
+  const map = mapRecords.get(value.mapId), actor = embodiedCard;
   if (!map || (actor && !actor.allowedMaps.includes(value.mapId))) return null;
   let quest = null;
   if (value.questId !== null && value.questId !== undefined) {
@@ -495,10 +511,17 @@ function normalizeSceneContext(value, actorHostId, speakerCard = null) {
     normalizedHistoricalMemories.push({ eventId: scene.eventId, titleKo: event.titleKo,
       choices: [...new Set(memory.choices)].slice(-6).map(id => ({ id, textKo: authoredChoices.get(id) })) });
   }
+  const submittedKnowledgeIds = value.playerKnowledgeIds ?? actor?.privateKnowledgeIds ?? [];
+  if (!Array.isArray(submittedKnowledgeIds) || submittedKnowledgeIds.length > 24
+    || submittedKnowledgeIds.some(id => typeof id !== 'string' || id.length < 1 || id.length > 100)) return null;
+  const validKnowledgeIds = new Set([...(actor?.secretKnowledge ?? []).map(item => item.id), ...sourceRecords.keys(), ...Object.keys(sceneObservations)]);
+  const normalizedPlayerKnowledgeIds = actor ? [...new Set(submittedKnowledgeIds)].filter(id => validKnowledgeIds.has(id)
+    && (!sourceRecords.has(id) || !String(sourceRecords.get(id).documentDate ?? sourceRecords.get(id).dateCreated ?? sourceRecords.get(id).firstPublication ?? '').match(/18\d{2}/)?.[0]
+      || Number(String(sourceRecords.get(id).documentDate ?? sourceRecords.get(id).dateCreated ?? sourceRecords.get(id).firstPublication).match(/18\d{2}/)[0]) <= Number(date.slice(0, 4)))) : [];
   return { date, mapId: map.mapId, placeKo: map.metadata.displayNameKo, questId: quest?.id ?? null, questTitleKo: quest?.titleKo ?? null,
     activityKo: value.activityKo ?? null, currentAimKo: value.currentAimKo ?? null, hungerBand: value.hungerBand ?? null,
     fatigueBand: value.fatigueBand ?? null, healthCondition: value.healthCondition ?? null, heardRumors: normalizedRumors,
-    heardEvents: normalizedEvents, playerHistoricalEvents: normalizedHistoricalMemories };
+    heardEvents: normalizedEvents, playerHistoricalEvents: normalizedHistoricalMemories, playerKnowledgeIds: normalizedPlayerKnowledgeIds };
 }
 function derivePlayerResources(actorHostId, playerActions) {
   const card = cards.get(actorHostId);
@@ -620,7 +643,8 @@ function createRpgAiService({ secret, store, allowedOrigins = [], provider = nul
       sourceIds: caseRecord.sourceIds,
     } : null;
     const caseSourceIds = dialogueCase?.sourceIds ?? [];
-    const scene = { ...configuration, hostId: card.id, allowedSourceIds: [...new Set([...(configuration.allowedSourceIds ?? []), ...caseSourceIds])].filter(id => sourceRecords.has(id)) };
+    const playerSourceIds = (sceneContext.playerKnowledgeIds ?? []).filter(id => sourceRecords.has(id));
+    const scene = { ...configuration, hostId: card.id, allowedSourceIds: [...new Set([...(configuration.allowedSourceIds ?? []), ...caseSourceIds, ...playerSourceIds])].filter(id => sourceRecords.has(id)) };
     const sourceEvidence = (scene.allowedSourceIds ?? []).map(sourceId => sourceRecords.get(sourceId)).filter(source => {
       const sourceYear = String(source.documentDate ?? source.firstPublication ?? '').match(/18\d{2}/)?.[0];
       return !sceneContext.date || !sourceYear || Number(sourceYear) <= Number(sceneContext.date.slice(0, 4));
@@ -629,7 +653,8 @@ function createRpgAiService({ secret, store, allowedOrigins = [], provider = nul
     const sourceClaims = claimsForScene(scene).map(({ claimId, sourceId, paragraphIndex, claimKo }) => ({ claimId, sourceId, paragraphIndex, claimKo }));
     const actor = context.actorHostId ? cards.get(context.actorHostId) : null;
     const speechSituation = speechSituationFor({ character: card, actor, actorRelations, sceneContext, recentTurns: context.recentTurns, playerInput: inputKo });
-    const input = { scene: { id: scene.sceneId, objective: scene.dialogueObjective, focusKo: scene.focusKo, allowedTopics: scene.allowedTopics, forbiddenTopics: scene.forbiddenTopics, allowedSourceIds: scene.allowedSourceIds, knownFactIds: scene.allowedSourceIds }, caseContext: dialogueCase, conversation: { embodiedPlayer: actor ? safeEmbodiedProfile(actor, speechSituation) : null, sceneContext, speechSituation, playerResources, relationshipHints: context.actorHostId ? actorRelations : {}, playerActions: context.actorHostId ? actorActions : [], playerHistoricalEvents: sceneContext.playerHistoricalEvents }, sourceEvidence, sourceClaims, character: safeProfile(card, context.actorHostId, speechSituation), recentTurns: context.recentTurns.slice(-8), playerInput: inputKo };
+    const { playerKnowledgeIds, ...publicSceneContext } = sceneContext;
+    const input = { scene: { id: scene.sceneId, objective: scene.dialogueObjective, focusKo: scene.focusKo, allowedTopics: scene.allowedTopics, forbiddenTopics: scene.forbiddenTopics, allowedSourceIds: scene.allowedSourceIds, knownFactIds: scene.allowedSourceIds }, caseContext: dialogueCase, conversation: { embodiedPlayer: actor ? safeEmbodiedProfile(actor, speechSituation, playerKnowledgeIds) : null, sceneContext: publicSceneContext, speechSituation, playerResources, relationshipHints: context.actorHostId ? actorRelations : {}, playerActions: context.actorHostId ? actorActions : [], playerHistoricalEvents: publicSceneContext.playerHistoricalEvents }, sourceEvidence, sourceClaims, character: safeProfile(card, context.actorHostId, speechSituation), recentTurns: context.recentTurns.slice(-8), playerInput: inputKo };
     if (!provider) { await store.release(sessionId, body.requestId, time); return response(503, { error: 'ai_not_configured', mode: 'BLOCKED_NO_KEY' }, request.origin, allowedOrigins); }
     provider.lastFailureCode = '';
     let responseBody;
