@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "results": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "choiceCount": 4,
+      "immediateScopeVisible": true,
+      "resolution": "PRIVATE_READING",
+      "persisted": true,
+      "horizontalOverflow": false,
+      "pageErrors": 0
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "choiceCount": 4,
+      "immediateScopeVisible": true,
+      "resolution": "PRIVATE_READING",
+      "persisted": true,
+      "horizontalOverflow": false,
+      "pageErrors": 0
+    }
+  ]
+}

@@ -259,6 +259,7 @@
     "v37-roof-leak-repair": "node scripts/v37-roof-leak-repair-test.mjs",
     "v37-inn-guest": "node scripts/v37-inn-guest-test.mjs",
     "v37-newspaper-release": "node scripts/v37-newspaper-release-test.mjs",
+    "v37-newspaper-release-browser": "npm run build:v33 && node scripts/v37-newspaper-release-browser.mjs",
     "v37-student-circle": "node scripts/v37-student-circle-test.mjs",
     "v37-police-document-check": "node scripts/v37-police-document-check-test.mjs",
     "v37-rent-notice-browser": "npm run build:v33 && node scripts/v37-rent-notice-browser.mjs",
