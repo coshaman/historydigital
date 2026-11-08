@@ -20,3 +20,7 @@ When revising a character, preserve one recognizable attention pattern and sever
 - Per-character voice and register data: `rpg/characters/*.json`
 - Prompt contract tests: `scripts/v33-ai-runtime.test.mjs`
 - Character register and voice audits: `scripts/v36-voice-audit.mjs`, `scripts/v42-speech-register-audit.mjs`
+
+## Applied dialogue correction — 2026-11-09
+
+An open conversation with Ivan no longer receives the Petrashevsky investigation just because the campaign date is after 1849-04-22. His ordinary scene centers on street patrol, market traffic, residents, and his trip to the apothecary; the report and its claims enter the prompt when `CIRCLE_INVESTIGATION_1849` is explicitly active. The runtime tests cover both paths so a general question cannot inherit a case dossier while source-backed investigation dialogue remains available.
