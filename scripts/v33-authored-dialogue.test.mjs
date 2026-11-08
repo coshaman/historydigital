@@ -87,9 +87,10 @@ test('editor and police personas have separate registers, viewpoints and discuss
   const sofia = authoredReply('editor_sofia', conversations.editor_sofia.topics[0][0]);
   const ivan = authoredReply('police_sergeant_ivan', conversations.police_sergeant_ivan.topics[0][0]);
   assert.match(sofia.text, /제목|편집/);
-  assert.match(ivan.text, /위험|감시/);
+  assert.match(ivan.text, /시장|수레|좌판/);
+  assert.doesNotMatch(ivan.text, /보고서|진술|목격|정보원/);
   assert.notEqual(sofia.text, ivan.text);
   assert.match(conversations.editor_sofia.opening, /인쇄/);
-  assert.match(conversations.police_sergeant_ivan.opening, /보신 일인지/);
+  assert.match(conversations.police_sergeant_ivan.opening, /시장|마차/);
   assert.ok(conversations.editor_sofia.provenance.length && conversations.police_sergeant_ivan.provenance.length);
 });

@@ -115,8 +115,10 @@ test('Ivan answers an open question from his current street life instead of forc
   assert.ok(instructions.includes('마지막 플레이어 발화에 먼저 답한다'));
   assert.ok(instructions.includes('caseContext와 currentAim은 참고 맥락일 뿐'));
   assert.ok(input.conversation.sceneContext.date.startsWith('1849-'));
-  assert.equal(input.caseContext.questId, 'CIRCLE_INVESTIGATION_1849');
-  assert.ok(input.sourceEvidence.some(source => source.sourceId === 'OBJ-WS-PETRASHEVSKY-REPORT-1849'));
+  assert.equal(input.caseContext, null, 'an ordinary conversation must not inherit an unrelated investigation from the calendar date');
+  assert.ok(!input.sourceEvidence.some(source => source.sourceId === 'OBJ-WS-PETRASHEVSKY-REPORT-1849'),
+    'the Petrashevsky report is supplied only while its investigation is the active quest');
+  assert.match(instructions, /이반 세묘노프의 평상시 대화에서는 순찰 중인 거리/);
 });
 
 test('live dialogue rejects meta commentary, narrator-only replies, and summary-style prose', async () => {
@@ -281,7 +283,7 @@ test('open-ended recent-event questions receive a concrete known incident and ar
   assert.match(providerRequest.instructions, /출처 ID나 재구성 표시는 대사로 옮기지 않는다/);
 });
 
-test('Ivan can answer a 1849 event question from the dated Petrashevsky investigation source packet', async () => {
+test('Ivan receives the Petrashevsky source packet only in its explicitly active investigation', async () => {
   let providerRequest;
   const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store: new MemorySessionStore(),
     allowedOrigins: ['https://game.example'], provider: { generate: async request => {
@@ -290,7 +292,7 @@ test('Ivan can answer a 1849 event question from the dated Petrashevsky investig
   const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'police_sergeant_ivan' }));
   const result = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken,
     requestId: 'ivan-circle-event-1849', playerInput: '요즘 무슨 일이 있소?', actorRelations: {}, actorActions: [],
-    sceneContext: { date: '1849-04-22', mapId: 'police-station', questId: null, heardEvents: [] } }));
+    sceneContext: { date: '1849-04-22', mapId: 'police-station', questId: 'CIRCLE_INVESTIGATION_1849', heardEvents: [] } }));
   assert.equal(result.status, 200);
   assert.equal(providerRequest.input.caseContext.questId, 'CIRCLE_INVESTIGATION_1849');
   assert.ok(providerRequest.input.sourceEvidence.some(source => source.sourceId === 'OBJ-WS-PETRASHEVSKY-REPORT-1849'));
