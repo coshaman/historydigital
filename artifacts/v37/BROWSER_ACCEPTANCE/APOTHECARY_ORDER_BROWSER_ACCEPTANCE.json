@@ -11,6 +11,8 @@
       "choiceCount": 2,
       "journalScrollHeight": 256,
       "secondChoiceReachable": true,
+      "supplierChoice": "꾸러미를 건네고 3코페이카를 받는다",
+      "supplierStage": "DELIVERED",
       "horizontalOverflow": false,
       "pageErrors": []
     },
@@ -24,6 +26,8 @@
       "choiceCount": 2,
       "journalScrollHeight": 390,
       "secondChoiceReachable": true,
+      "supplierChoice": "꾸러미를 내주지 않고 거래를 접는다",
+      "supplierStage": "SUPPLY_WITHHELD",
       "horizontalOverflow": false,
       "pageErrors": []
     }
