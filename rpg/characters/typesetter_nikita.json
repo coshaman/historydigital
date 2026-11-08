@@ -159,7 +159,8 @@
           "amount": 1,
           "unit": "kopeks",
           "valueStatus": "fictional_gameplay_balance"
-        }
+        },
+        "skillId": "typesetting"
       }
     },
     {
@@ -192,7 +193,8 @@
         "id": "V36_TYPESETTER_MARK_PROOF_ERRORS",
         "outputKind": "활자 교정",
         "outputKo": "교정쇄의 오자를 표시해 재인쇄할 줄을 정리한다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "letterSpacing"
       }
     },
     {

@@ -156,7 +156,8 @@
         "id": "V36_SENIOR_CLERK_REVIEW_MEMO",
         "outputKind": "관청 검토",
         "outputKo": "검토 메모와 결재 문서를 서로 다른 묶음으로 나눈다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "documentReview"
       }
     },
     {
@@ -180,7 +181,8 @@
         "id": "V36_SENIOR_CLERK_COMPARE_STATEMENT",
         "outputKind": "관청 검토",
         "outputKo": "경찰 연락실 진술서의 접수 날짜와 서명을 대조한다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "committeeRecords"
       }
     },
     {

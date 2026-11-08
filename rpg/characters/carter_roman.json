@@ -157,7 +157,8 @@
         "id": "V36_CARTER_LOAD_MANIFEST",
         "outputKind": "운송 적재",
         "outputKo": "시장 창고의 종이 묶음 수와 마차 적재 순서를 기록한다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "loadHandling"
       }
     },
     {
@@ -187,7 +188,8 @@
           "amount": 2,
           "unit": "kopeks",
           "valueStatus": "fictional_gameplay_balance"
-        }
+        },
+        "skillId": "routeFinding"
       }
     },
     {

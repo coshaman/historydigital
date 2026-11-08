@@ -175,7 +175,8 @@
         "id": "V36_MARKET_CHECK_SCALE",
         "outputKind": "시장 좌판",
         "outputKo": "저울과 채소 꾸러미의 상태를 확인해 좌판 목록을 고친다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "stockManagement"
       }
     },
     {
@@ -200,7 +201,8 @@
         "outputKind": "시장 거래",
         "outputKo": "빵집에 넘긴 채소와 젖은 물량의 값을 정산한다",
         "durationMinutes": 20,
-        "inventoryItemKo": "채소 꾸러미 한 몫"
+        "inventoryItemKo": "채소 꾸러미 한 몫",
+        "skillId": "trade"
       }
     },
     {

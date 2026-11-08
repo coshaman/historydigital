@@ -187,7 +187,8 @@
         "outputKo": "린넨을 물에 담그고 세탁물마다 맡긴 사람을 표시한다",
         "durationMinutes": 20,
         "inventoryItemKo": "접은 린넨",
-        "payroll": { "payerHostId": "baker_fyodor", "amount": 1, "unit": "kopeks", "valueStatus": "fictional_gameplay_balance" }
+        "payroll": { "payerHostId": "baker_fyodor", "amount": 1, "unit": "kopeks", "valueStatus": "fictional_gameplay_balance" },
+        "skillId": "laundry"
       }
     },
     {
@@ -230,7 +231,8 @@
         "id": "V36_LAUNDRESS_RECONCILE_PAYMENTS",
         "outputKind": "세탁 정산",
         "outputKo": "받은 세탁값과 아직 받지 못한 값을 장부에서 나눈다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "ironing"
       }
     },
     {

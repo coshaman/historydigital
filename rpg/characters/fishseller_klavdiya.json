@@ -180,7 +180,8 @@
         "durationMinutes": 20,
         "inventoryItemKo": "생선 한 점",
         "inventoryQuantity": 8,
-        "restockOfferFromWork": true
+        "restockOfferFromWork": true,
+        "skillId": "fishHandling"
       }
     },
     {
@@ -204,7 +205,8 @@
         "id": "V36_FISHSELLER_STOCK_TALLY",
         "outputKind": "시장 재고",
         "outputKo": "좌판에 남은 물량과 보관 시간을 비교해 손실을 기록한다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "foodPreservation"
       }
     },
     {

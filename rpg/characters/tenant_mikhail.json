@@ -201,7 +201,8 @@
         "id": "V36_TENANT_SEEK_DAY_WORK",
         "outputKind": "품일 찾기",
         "outputKo": "강변 장터에서 오늘 맡을 짐일과 시작 시각을 확인한다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "routeFinding"
       }
     },
     {
@@ -231,7 +232,8 @@
           "amount": 3,
           "unit": "kopeks",
           "valueStatus": "fictional_gameplay_balance"
-        }
+        },
+        "skillId": "loadHandling"
       }
     },
     {

@@ -177,7 +177,8 @@
         "id": "V36_COURIER_SORT_ROUTE",
         "outputKind": "우편 분류",
         "outputKo": "받을 사람과 전달 순서에 따라 봉투를 가방 칸에 나눈다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "parcelHandling"
       }
     },
     {
@@ -209,7 +210,8 @@
         "id": "V36_COURIER_RETURN_RECEIPT",
         "outputKind": "우편 인계",
         "outputKo": "빈 가방과 전달 확인표를 우편 접수 담당에게 돌려준다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "deliveryTiming"
       }
     },
     {

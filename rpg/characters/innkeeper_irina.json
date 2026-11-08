@@ -174,7 +174,8 @@
         "id": "V36_INNKEEPER_PREPARE_ROOMS",
         "outputKind": "여관 운영",
         "outputKo": "빈방과 식사 준비를 확인해 손님 명부를 갱신한다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "lodgingManagement"
       }
     },
     {
@@ -210,7 +211,8 @@
         "durationMinutes": 20,
         "inventoryItemKo": "저녁 수프",
         "inventoryQuantity": 6,
-        "restockOfferFromWork": true
+        "restockOfferFromWork": true,
+        "skillId": "cooking"
       }
     },
     {

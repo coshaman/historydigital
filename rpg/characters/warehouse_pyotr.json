@@ -153,7 +153,8 @@
         "id": "V36_WAREHOUSE_CHECK_INTAKE",
         "outputKind": "창고 관리",
         "outputKo": "입고표와 물품 번호를 대조해 창고 장부를 갱신한다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "freightInspection"
       }
     },
     {
@@ -195,7 +196,8 @@
         "id": "V36_WAREHOUSE_CLOSE_STOCK",
         "outputKind": "창고 관리",
         "outputKo": "남은 물량과 비어 있는 장부 칸을 다시 확인한다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "cargoTally"
       }
     }
   ],

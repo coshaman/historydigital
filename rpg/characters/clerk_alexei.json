@@ -166,7 +166,8 @@
         "id": "V36_CLERK_REGISTER_INTAKE",
         "outputKind": "관청 접수",
         "outputKo": "접수 문서의 번호와 도착 시각을 접수부에 적는다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "documentSorting"
       }
     },
     {
@@ -190,7 +191,8 @@
         "id": "V36_CLERK_COMPARE_ORIGINALS",
         "outputKind": "원본 대조",
         "outputKo": "접수부와 원본의 이름·쪽수를 한 줄씩 대조한다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "copying"
       }
     },
     {

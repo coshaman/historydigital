@@ -192,7 +192,8 @@
         "id": "V36_SEAMSTRESS_FIND_ORDER",
         "outputKind": "수선 노동",
         "outputKo": "맡길 옷과 수선 기한을 확인해 작업 순서를 적는다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "sewing"
       }
     },
     {
@@ -217,7 +218,8 @@
         "outputKind": "수선 정산",
         "outputKo": "수선한 소매의 값과 아직 남은 손질을 주문표에 적는다",
         "durationMinutes": 20,
-        "inventoryItemKo": "수선 완료한 소매 한 점"
+        "inventoryItemKo": "수선 완료한 소매 한 점",
+        "skillId": "priceNegotiation"
       }
     },
     {

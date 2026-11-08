@@ -161,7 +161,8 @@
           "amount": 1,
           "unit": "kopeks",
           "valueStatus": "fictional_gameplay_balance"
-        }
+        },
+        "skillId": "householdCare"
       }
     },
     {
@@ -194,7 +195,8 @@
         "id": "V36_HOUSEMAID_CLOSE_ERRANDS",
         "outputKind": "가사 심부름",
         "outputKo": "저녁에 필요한 물품과 끝내지 못한 심부름을 구분해 적는다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "errands"
       }
     }
   ],

@@ -154,7 +154,8 @@
         "id": "V36_LANDLADY_COMPARE_RENT",
         "outputKind": "셋방 관리",
         "outputKo": "방세와 공동 장작 비용을 따로 장부에 적는다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "rentAccounts"
       }
     },
     {
@@ -187,7 +188,8 @@
         "id": "V36_LANDLADY_CLOSE_SHARED_COSTS",
         "outputKind": "셋방 정산",
         "outputKo": "세입자별 공동 지출과 아직 합의되지 않은 항목을 구분한다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "negotiation"
       }
     }
   ],

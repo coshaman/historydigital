@@ -152,7 +152,8 @@
         "id": "V36_READER_COMPARE_NEW_PRINT",
         "outputKind": "독서 기록",
         "outputKo": "새로 나온 글에서 확인할 문장과 질문을 독서 수첩에 적는다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "reading"
       }
     },
     {
@@ -194,7 +195,8 @@
         "id": "V36_READER_RETURN_PROOF",
         "outputKind": "자료 반환",
         "outputKo": "빌린 교정쇄를 돌려주고 다음에 읽을 쪽을 장부에 남긴다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "teaching"
       }
     }
   ],

@@ -176,7 +176,8 @@
           "amount": 1,
           "unit": "kopeks",
           "valueStatus": "fictional_gameplay_balance"
-        }
+        },
+        "skillId": "proofReading"
       }
     },
     {
@@ -200,7 +201,8 @@
         "id": "V36_PRINTER_RECONCILE_COST",
         "outputKind": "인쇄 회계",
         "outputKo": "활자 정리와 인쇄비 항목을 주문 장부에 맞춘다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "typesetting"
       }
     },
     {

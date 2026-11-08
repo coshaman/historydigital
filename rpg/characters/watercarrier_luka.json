@@ -159,7 +159,8 @@
         "outputKo": "물동이를 채우고 안뜰의 배달 순서를 확인한다",
         "durationMinutes": 20,
         "inventoryItemKo": "물동이 한 개",
-        "payroll": { "payerHostId": "landlady_polina", "amount": 1, "unit": "kopeks", "valueStatus": "fictional_gameplay_balance" }
+        "payroll": { "payerHostId": "landlady_polina", "amount": 1, "unit": "kopeks", "valueStatus": "fictional_gameplay_balance" },
+        "skillId": "waterDelivery"
       }
     },
     {
@@ -183,7 +184,8 @@
         "id": "V36_WATERCARRIER_PLAN_DELIVERIES",
         "outputKind": "물 운반",
         "outputKo": "물통을 채울 순서와 안뜰까지의 운반량을 기록한다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "routeFinding"
       }
     },
     {

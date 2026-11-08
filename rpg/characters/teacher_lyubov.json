@@ -161,7 +161,8 @@
         "id": "V36_TEACHER_PREPARE_LESSON",
         "outputKind": "수업 준비",
         "outputKo": "수업할 글과 학생별 연습 분량을 준비한다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "lessonPlanning"
       }
     },
     {
@@ -192,7 +193,8 @@
         "employmentContractId": "HOUSEHOLD_TUTOR_1847",
         "outputKind": "가정 수업",
         "outputKo": "고용 계약에 정한 읽기 수업을 진행한다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "childInstruction"
       }
     },
     {
@@ -207,7 +209,8 @@
         "id": "V36_TEACHER_REVIEW_EXERCISES",
         "outputKind": "수업 정리",
         "outputKo": "학생별 연습 종이를 확인하고 다음 수업의 분량을 정한다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "basicReading"
       }
     },
     {

@@ -187,7 +187,8 @@
         "outputKo": "장터에 보낼 빵 묶음 여섯 개를 굽는다",
         "durationMinutes": 20,
         "inventoryItemKo": "빵 한 묶음",
-        "inventoryQuantity": 6
+        "inventoryQuantity": 6,
+        "skillId": "breadMaking"
       }
     },
     {
@@ -202,7 +203,8 @@
         "id": "V36_BAKER_CLOSE_BAKERY",
         "outputKind": "제빵 마감",
         "outputKo": "남은 밀가루와 오늘 주문의 인수 여부를 장부에 맞춘다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "ovenManagement"
       }
     },
     {

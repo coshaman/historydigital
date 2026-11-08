@@ -155,7 +155,8 @@
         "id": "V36_POLICE_COMPARE_WITNESS_STATEMENTS",
         "outputKind": "경찰 기록",
         "outputKo": "신고 장부의 목격자 진술과 접수 시각을 대조한다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "inquiryTaking"
       }
     },
     {
@@ -179,7 +180,8 @@
         "id": "V36_POLICE_SORT_EVIDENCE_REGISTER",
         "outputKind": "경찰 기록",
         "outputKo": "진술서와 압수 목록을 섞이지 않게 별도 묶음으로 정리한다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "patrol"
       }
     },
     {

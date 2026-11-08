@@ -160,7 +160,8 @@
         "id": "V36_NOBLE_PREPARE_PAPERS",
         "outputKind": "개인 서류",
         "outputKo": "면담에 필요한 서류와 약속 어음의 날짜를 대조한다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "documentCopying"
       }
     },
     {
@@ -184,7 +185,8 @@
         "id": "V36_NOBLE_REVIEW_PAYMENT_DATE",
         "outputKind": "채무 관리",
         "outputKo": "늦어진 지급 날짜를 다시 확인해 가족 지출표에 적는다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "accounts"
       }
     }
   ],

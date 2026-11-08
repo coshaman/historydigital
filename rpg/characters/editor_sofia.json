@@ -165,7 +165,8 @@
         "id": "V36_EDITOR_ANNOTATE_PROOF",
         "outputKind": "편집 교정",
         "outputKo": "교정쇄에 출처와 날짜가 빠지지 않았는지 표시한다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "proofreading"
       }
     },
     {
@@ -204,7 +205,8 @@
         "id": "V36_EDITOR_REPLY_REGISTER",
         "outputKind": "편집 회신",
         "outputKo": "들어온 원고의 수신인과 답장을 보낼 시각을 정리한다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "editing"
       }
     },
     {

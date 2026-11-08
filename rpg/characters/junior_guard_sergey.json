@@ -158,7 +158,8 @@
         "id": "V36_GUARD_CHECK_VISITOR_PASSES",
         "outputKind": "출입 감독",
         "outputKo": "방문증과 방문 목적을 대조해 출입 기록을 남긴다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "accessControl"
       }
     },
     {
@@ -200,7 +201,8 @@
         "id": "V36_GUARD_HANDOVER_REGISTER",
         "outputKind": "당직 인계",
         "outputKo": "허가된 방문과 대기 인원을 교대 목록에 맞춘다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "observation"
       }
     }
   ],

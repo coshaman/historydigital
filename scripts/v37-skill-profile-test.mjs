@@ -8,6 +8,7 @@ const cards = await Promise.all(characterFiles.map(file => readJson(new URL(`../
 const residents = cards.filter(card => card.kind === 'FICTIONAL');
 assert.ok(residents.length >= 36);
 const skillNames = new Set();
+let mappedWorkActions = 0;
 for (const card of residents) {
   assert.equal(card.skillsValueStatus, 'FICTIONAL_CHARACTER_DESIGN', `${card.id} skill profile provenance`);
   assert.ok(card.skills && Object.keys(card.skills).length >= 2, `${card.id} needs distinct occupational capabilities`);
@@ -16,8 +17,14 @@ for (const card of residents) {
     assert.ok(Number.isInteger(level) && level >= 0 && level <= 5, `${card.id}.${skill} must be a 0–5 gameplay value`);
     skillNames.add(skill);
   }
+  for (const slot of (card.schedule ?? []).filter(slot => slot.workAction)) {
+    assert.ok(Object.hasOwn(card.skills, slot.workAction.skillId),
+      `${card.id}.${slot.workAction.id} must name the skill used by this kind of work`);
+    mappedWorkActions += 1;
+  }
 }
 assert.ok(skillNames.size >= 30, `resident professions need differentiated capabilities, found ${skillNames.size}`);
+assert.ok(mappedWorkActions >= 70, `every scheduled occupation should connect to an authored skill; mapped ${mappedWorkActions}`);
 
 const require = createRequire(import.meta.url);
 require('../rpg/engine/game-state.js');
@@ -52,4 +59,4 @@ assert.deepEqual([skilledWork.workRecord.skillId, skilledWork.workRecord.skillLe
 assert.equal(skilledWork.workRecord.effectiveDurationMinutes, 20, 'skill does not change the authored work schedule duration');
 assert.equal(unskilledWork.workRecord.effectiveDurationMinutes, 20, 'unskilled work keeps the authored schedule duration');
 console.log(JSON.stringify({ status: 'PASS', fictionalResidents: residents.length, distinctSkills: skillNames.size,
-  allRuntimeProfiles: true, saveLoadSamples: 3 }, null, 2));
+  mappedWorkActions, allRuntimeProfiles: true, saveLoadSamples: 3 }, null, 2));

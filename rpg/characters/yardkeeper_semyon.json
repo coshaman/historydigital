@@ -155,7 +155,8 @@
         "outputKind": "안뜰 관리",
         "outputKo": "안뜰 문을 열고 공동 장작의 남은 수량을 센다",
         "durationMinutes": 20,
-        "payroll": { "payerHostId": "landlady_polina", "amount": 1, "unit": "kopeks", "valueStatus": "fictional_gameplay_balance" }
+        "payroll": { "payerHostId": "landlady_polina", "amount": 1, "unit": "kopeks", "valueStatus": "fictional_gameplay_balance" },
+        "skillId": "buildingMaintenance"
       }
     },
     {
@@ -188,7 +189,8 @@
         "id": "V36_YARDKEEPER_RECONCILE_WOOD",
         "outputKind": "안뜰 관리",
         "outputKo": "작업 뜰 장작 수량을 세입자 장부와 대조한다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "tenancyRecords"
       }
     },
     {

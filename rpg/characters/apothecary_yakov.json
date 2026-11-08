@@ -151,7 +151,8 @@
         "id": "V36_APOTHECARY_CHECK_STOCK",
         "outputKind": "재고 대조",
         "outputKo": "약병과 꾸러미 수를 확인해 약방 재고표의 빈칸을 채운다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "stockRecords"
       }
     },
     {
@@ -193,7 +194,8 @@
         "id": "V36_APOTHECARY_CLOSE_ACCOUNTS",
         "outputKind": "약방 장부",
         "outputKo": "남은 재고와 미수금 항목을 나눠 마감 메모를 남긴다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "remedyPreparation"
       }
     }
   ],

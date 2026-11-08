@@ -41,6 +41,26 @@ const profiles = {
   watercarrier_luka: { waterDelivery: 4, routeFinding: 3, loadHandling: 3 },
   yardkeeper_semyon: { buildingMaintenance: 4, tenancyRecords: 3, conflictMediation: 3 },
 };
+const workSkillAssignments = {
+  apothecary_yakov: ['stockRecords', 'remedyPreparation'], baker_fyodor: ['breadMaking', 'ovenManagement'],
+  bookbinder_elizaveta: ['bookbinding', 'reading'], bookseller_lev: ['trade', 'accounts'],
+  carter_roman: ['loadHandling', 'routeFinding'], clerk_alexei: ['documentSorting', 'copying'],
+  coachman_timofey: ['horseDriving', 'routeFinding'], courier_pavel: ['parcelHandling', 'deliveryTiming'],
+  editor_sofia: ['proofreading', 'editing'], fishseller_klavdiya: ['fishHandling', 'foodPreservation'],
+  housemaid_olga: ['householdCare', 'errands'], innkeeper_irina: ['lodgingManagement', 'cooking'],
+  junior_guard_sergey: ['accessControl', 'observation'], landlady_polina: ['rentAccounts', 'negotiation'],
+  laundress_mariya: ['laundry', 'ironing'], lodging_tatyana: ['sewing', 'garmentRepair'],
+  market_nadezhda: ['stockManagement', 'trade'], midwife_avdotya: ['birthCare', 'attentiveListening'],
+  minor_noble_andrei: ['documentCopying', 'accounts'], police_sergeant_ivan: ['inquiryTaking', 'patrol'],
+  porter_gavrila: ['loadHandling', 'loadHandling', 'loadHandling'], printer_ekaterina: ['proofReading', 'typesetting'],
+  print_apprentice_stepan: ['typesetting', 'basicReading'], reader_darya: ['reading', 'teaching'],
+  scribal_yuri: ['handwriting', 'copying'], seamstress_anna: ['sewing', 'priceNegotiation'],
+  senior_clerk_konstantin: ['documentReview', 'committeeRecords'], servant_varvara: ['cleaning', 'errands'],
+  street_vendor_matryona: ['trade', 'stockManagement'], student_vasily: ['reading', 'translation'],
+  teacher_lyubov: ['lessonPlanning', 'childInstruction', 'basicReading'], tenant_mikhail: ['routeFinding', 'loadHandling'],
+  typesetter_nikita: ['typesetting', 'letterSpacing'], warehouse_pyotr: ['freightInspection', 'cargoTally'],
+  watercarrier_luka: ['waterDelivery', 'routeFinding'], yardkeeper_semyon: ['buildingMaintenance', 'tenancyRecords'],
+};
 const files = (await readdir(path.join(root, 'rpg/characters'))).filter(file => file.endsWith('.json'));
 const cards = await Promise.all(files.map(async file => {
   const filePath = path.join(root, 'rpg/characters', file);
@@ -54,7 +74,17 @@ for (const { filePath, card } of cards) {
   if (card.kind !== 'FICTIONAL') continue;
   const skills = { ...profiles[card.id], ...(card.skills ?? {}) };
   const status = 'FICTIONAL_CHARACTER_DESIGN';
-  if (JSON.stringify(card.skills) === JSON.stringify(skills) && card.skillsValueStatus === status) continue;
+  const workActions = (card.schedule ?? []).filter(slot => slot.workAction);
+  const assignedSkills = workSkillAssignments[card.id] ?? [];
+  if (assignedSkills.length !== workActions.length) throw new Error(`${card.id}: expected ${workActions.length} work skill assignments, received ${assignedSkills.length}`);
+  const skillsAlreadyAuthored = JSON.stringify(card.skills) === JSON.stringify(skills)
+    && card.skillsValueStatus === status;
+  const workSkillsAlreadyAuthored = workActions.every((action, index) => action.workAction.skillId === assignedSkills[index]);
+  for (const [index, skillId] of assignedSkills.entries()) {
+    if (!Number.isInteger(skills[skillId])) throw new Error(`${card.id}: unknown work skill ${skillId}`);
+    workActions[index].workAction.skillId = skillId;
+  }
+  if (skillsAlreadyAuthored && workSkillsAlreadyAuthored) continue;
   card.skills = skills;
   card.skillsValueStatus = status;
   await writeFile(filePath, `${JSON.stringify(card, null, 2)}\n`, 'utf8');

@@ -172,7 +172,8 @@
         "outputKo": "밀가루 자루를 내려 인수 확인표를 받는다",
         "durationMinutes": 20,
         "inventoryItemKo": "하역 확인표 한 장",
-        "loadClass": "HEAVY"
+        "loadClass": "HEAVY",
+        "skillId": "loadHandling"
       }
     },
     {
@@ -196,7 +197,8 @@
         "id": "V36_PORTER_RECORD_LOAD_AND_FEE",
         "outputKind": "짐 운반",
         "outputKo": "짐의 무게와 합의한 품삯을 운송표에 적는다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "loadHandling"
       }
     },
     {
@@ -218,7 +220,8 @@
           "amount": 1,
           "unit": "kopeks",
           "valueStatus": "fictional_gameplay_balance"
-        }
+        },
+        "skillId": "loadHandling"
       }
     },
     {

@@ -151,7 +151,8 @@
         "id": "V36_SCRIBAL_PREPARE_COPY",
         "outputKind": "필사 작업",
         "outputKo": "원본과 베낄 종이를 나누고 필사 순서를 표시한다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "handwriting"
       }
     },
     {
@@ -184,7 +185,8 @@
         "id": "V36_SCRIBAL_COMPARE_COPIES",
         "outputKind": "필사 검토",
         "outputKo": "원본과 사본의 다른 글자를 한 줄씩 대조한다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "copying"
       }
     }
   ],

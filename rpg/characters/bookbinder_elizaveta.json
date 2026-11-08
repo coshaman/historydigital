@@ -155,7 +155,8 @@
         "outputKind": "제본 작업",
         "outputKo": "속장을 꿰매고 실이 느슨한 쪽을 다시 고정한다",
         "durationMinutes": 20,
-        "inventoryItemKo": "제본 중인 책 한 권"
+        "inventoryItemKo": "제본 중인 책 한 권",
+        "skillId": "bookbinding"
       }
     },
     {
@@ -190,7 +191,8 @@
         "id": "V36_BOOKBINDER_DELIVERY_REGISTER",
         "outputKind": "제본 인수",
         "outputKo": "책방에 보낼 묶음의 수와 인수 시각을 기록한다",
-        "durationMinutes": 20
+        "durationMinutes": 20,
+        "skillId": "reading"
       }
     },
     {
