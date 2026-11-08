@@ -10,7 +10,7 @@ import { dialogueSceneContext } from './engine/dialogue-context.mjs';
 import { appendApiDiagnostic, clearApiDiagnostics, readApiDiagnostics } from './engine/api-diagnostics.mjs';
 import { CITY_PRODUCTS, NEWSPAPER_STORIES, newspaperAssignment, purchaseCityProduct, publishNewspaperIssue, shareSourceWithEditor, readNewspaperIssue, circulateNewspaperIssue, commitSuspiciousAct, resolvePoliceCustody, publishedIssueLabel } from './engine/civic-life.mjs';
 import { availableTopics, contextualOpening } from './ai/authored-dialogue.mjs';
-import { formatCivicReaction, formatObservedNpcReactions } from './engine/world-reaction-presentation.mjs';
+import { formatCivicReaction, formatObservedNpcReactions, recentJournalEntries } from './engine/world-reaction-presentation.mjs';
 import { advanceStudy, beginExam, buildLifeTimeline, chooseCirclePath, completeLearning, getExamQuestions, selectExamAnswer, submitExam } from './engine/learning-life.mjs';
 import './engine/game-state.js';
 const { createInitialState, moveActor, possessHost, releaseHost, transitionMap, performQuestAction, payRent, saveGame, loadGame, nearTile, knowledgeForHost, recordSourceRead, recordEvidenceRead, recordDialogueTurn, recordDiscussionPosition, enterLiteraryRealm, leaveLiteraryRealm, advanceChapter, advanceCampaignDate, resolveEnding, describeHostMoney } = globalThis.V33GameState;
@@ -644,8 +644,7 @@ function updateHud() {
   }
   for (const note of dialogueGrowth.playerPositions ?? []) reflectionRows.push(`${note.date} · 내 입장: ${note.titleKo} · ${note.labelKo}`);
   fill('#journal-perspective-notes', reflectionRows.length ? reflectionRows : ['사건이나 생각에 관한 질문을 AI와 나누면 이곳에 관점 메모와 통찰이 쌓입니다.']);
-  const logs = state.ledger.slice(-12).reverse().map(entry => {
-    if (entry.eventType === 'NPC_SIMULATION') return null;
+  const logs = recentJournalEntries(state.ledger).map(entry => {
     if (entry.eventType === 'DIALOGUE_TURN') return `${entry.date} · ${entry.discussionId ? `견해 질문 · ${discussionQuestById.get(entry.discussionId)?.titleKo ?? '주제 대화'}` : `${cards.find(item=>item.id===entry.hostId)?.displayNameKo ?? '대화'}와 이야기함`}`;
     if (entry.eventType === 'HISTORICAL_ACTION' || entry.eventType === 'LITERARY_ACTION') { const q=questsById.get(entry.questId), a=q?.actions.find(item=>item.id===entry.actionId); const fare=entry.livingEvents?.find(event=>event.catalogIdSpace==='V37_EVENT_CATALOG_45'&&event.catalogEventId==='E10'); const fareLabel=({FARE_ACCEPTED_WITH_INSPECTION:'마차 운임 · 점검 뒤 제한 운행',FARE_ACCEPTED_WITH_RISK_DISCLOSED:'마차 운임 · 위험을 알리고 운행',FARE_DECLINED_FOR_REPAIR:'마차 운임 · 수리를 위해 운행 연기'})[fare?.stage]; return `${entry.date} · ${fareLabel ? `${fareLabel} · ` : ''}${a?.labelKo ?? '문서에 선택을 남김'}`; }
     if (entry.eventType === 'READ_SOURCE') return `${entry.date} · 자료를 읽음`;

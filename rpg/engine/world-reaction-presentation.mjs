@@ -89,6 +89,10 @@ export function formatObservedNpcReactions(entries, residents) {
     (entry[field] ?? []).filter(event => event.witnessedByPlayer === true).map(event => format(event, name)).filter(Boolean).map(line => `${entry.date} · ${line}`)));
 }
 
+export function recentJournalEntries(entries, limit = 12) {
+  return entries.filter(entry => entry.eventType !== 'NPC_SIMULATION').slice(-limit).reverse();
+}
+
 export function formatCivicReaction(entry, { productName, storyName, residentName }) {
   if (!CIVIC_REACTION_TYPES.includes(entry?.eventType)) return null;
   if (entry.eventType === 'CITY_PURCHASE') return `${entry.date} · 가판대에서 ${productName(entry.productId)} 구입 · ${entry.priceKopeks} 코페이카`;

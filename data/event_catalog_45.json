@@ -1328,6 +1328,10 @@
     "occurrence_type": "DOCUMENTED_HISTORICAL_EVENT",
     "validation_status": "CONTEMPORARY_1849_REPORT_RANGE_VERIFIED",
     "trigger_class": "HISTORICAL_FIXED",
+    "source_ids": [
+      "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+      "OBJ-WS-DOSTOEVSKY-ARREST-ORDER-1849"
+    ],
     "scene_steps": [
       "spawn_actor_and_prop",
       "show_causal_world_change",

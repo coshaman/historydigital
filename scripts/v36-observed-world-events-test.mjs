@@ -6,7 +6,7 @@ const require = createRequire(import.meta.url);
 require('../rpg/engine/game-state.js');
 const game = globalThis.V33GameState;
 const { purchaseCityProduct, publishNewspaperIssue, circulateNewspaperIssue, commitSuspiciousAct } = await import('../rpg/engine/civic-life.mjs');
-const { CIVIC_REACTION_FAMILY_COUNT, formatCivicReaction, formatObservedNpcReactions, OBSERVED_NPC_REACTION_FAMILY_COUNT } = await import('../rpg/engine/world-reaction-presentation.mjs');
+const { CIVIC_REACTION_FAMILY_COUNT, formatCivicReaction, formatObservedNpcReactions, OBSERVED_NPC_REACTION_FAMILY_COUNT, recentJournalEntries } = await import('../rpg/engine/world-reaction-presentation.mjs');
 const readJson = async file => JSON.parse(await readFile(new URL(file, import.meta.url), 'utf8'));
 const mapFiles = (await readdir(new URL('../rpg/maps/', import.meta.url))).filter(file => file.endsWith('.json'));
 const maps = Object.fromEntries(await Promise.all(mapFiles.map(async file => {
@@ -83,8 +83,8 @@ const visibleNpcReactions = formatObservedNpcReactions([{
   date: '1847-06-01', eventType: 'NPC_SIMULATION',
   stateChanges: [{ hostId: 'clerk_alexei', activityKo: '다른 구역의 비공개 행동', witnessedByPlayer: false }],
 }], reactionResidents);
-assert.equal(OBSERVED_NPC_REACTION_FAMILY_COUNT, 13,
-  'only witnessed physical or social resident outcomes count; internal plan selection is excluded');
+assert.equal(OBSERVED_NPC_REACTION_FAMILY_COUNT, 14,
+  'witnessed resident outcome families include the current personal-life results');
 assert.equal(visibleNpcReactions.length, 12,
   'the same formatter used by the journal renders each witnessed outcome family once');
 assert.ok(visibleNpcReactions.some(line => line.includes('접수 장부를 편다')));
@@ -92,6 +92,11 @@ assert.ok(visibleNpcReactions.some(line => line.includes('편집대') && line.in
   'a witnessed E23 press arrival appears in the observation journal');
 assert.ok(!visibleNpcReactions.some(line => line.includes('내부 목표일 뿐') || line.includes('비공개 행동')),
   'internal goal selection and events outside player observation are neither counted nor disclosed');
+assert.deepEqual(recentJournalEntries([
+  { eventType: 'HISTORICAL_ACTION', id: 'important-choice' },
+  ...Array.from({ length: 12 }, (_, index) => ({ eventType: 'NPC_SIMULATION', id: `routine-${index}` })),
+]), [{ eventType: 'HISTORICAL_ACTION', id: 'important-choice' }],
+'routine simulation rows do not push a meaningful action out of the journal history');
 
 const purchaseWorld = game.createInitialState({ maps, hostCards, startMapId: 'nevsky' });
 const purchaseHost = purchaseWorld.hosts.clerk_alexei, moneyBeforePurchase = purchaseHost.money.amount;
