@@ -192,9 +192,9 @@
       },
       "activityKo": "시장 쪽에서 귀가하는 사람들을 살핀다",
       "workAction": {
-        "id": "V36_POLICE_MARKET_PATROL",
+        "id": "V36_POLICE_EVENING_RETURN_PATROL",
         "outputKind": "경찰 기록",
-        "outputKo": "장터 좌판과 귀가 인파를 살핀다",
+        "outputKo": "귀가 인파의 통행을 살피고 저녁 순찰 기록을 남긴다",
         "durationMinutes": 20,
         "skillId": "patrol"
       }

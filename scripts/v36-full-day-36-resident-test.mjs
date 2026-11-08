@@ -17,6 +17,11 @@ const maps = Object.fromEntries(await Promise.all((await readdir(new URL('../rpg
 const cardIds = includeEventPerformers ? ids : [...new Set([...ids, 'street_musician_ivan'])];
 const cards = await Promise.all(cardIds.map(id => readJson(`rpg/characters/${id}.json`)));
 const cardsById = new Map(cards.map(card => [card.id, card]));
+for (const card of cardsById.values()) for (const slot of card.schedule ?? []) {
+  if (slot.task?.type !== 'EXCHANGE' || slot.task.repeatDaily !== true) continue;
+  assert.ok(Number.isInteger(slot.task.deadlineMinute) && slot.task.deadlineMinute > (slot.task.notBeforeMinute ?? slot.atMinute),
+    `${card.id}.${slot.task.id} needs an authored end time so missed daily trades release the resident's schedule`);
+}
 const quests = (await Promise.all((await readdir(new URL('../rpg/quests/', import.meta.url))).filter(file => file.endsWith('.json'))
   .map(file => readJson(`rpg/quests/${file}`)))).filter(quest => quest.historicalOutcome?.id);
 assert.equal(rosterIds.length, 36);

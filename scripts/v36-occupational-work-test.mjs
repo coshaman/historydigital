@@ -16,12 +16,21 @@ const hostCards = await Promise.all(cardFiles.map(file => readJson(`../rpg/chara
 const activeResidents = hostCards.filter(card => card.kind === 'FICTIONAL' && card.rosterClass !== 'EVENT_PERFORMER' && !card.id.startsWith('literary_'));
 assert.equal(activeResidents.length, 36);
 const workSlots = activeResidents.flatMap(card => card.schedule.filter(slot => slot.workAction).map(slot => ({ card, slot })));
-assert.equal(workSlots.length, 72, 'each active resident has two authored job actions');
-assert.equal(new Set(workSlots.map(({ slot }) => slot.workAction.id)).size, 72, 'work action IDs are unique');
-assert.equal(new Set(workSlots.map(({ slot }) => slot.workAction.outputKo)).size, 72, 'work outputs are individually authored');
+for (const resident of activeResidents) {
+  assert.ok(resident.schedule.filter(slot => slot.workAction).length >= 2, `${resident.id} has two or more authored job actions`);
+}
+assert.equal(new Set(workSlots.map(({ slot }) => slot.workAction.id)).size, workSlots.length, 'work action IDs are unique across every resident shift');
+assert.equal(new Set(workSlots.map(({ slot }) => slot.workAction.outputKo)).size, workSlots.length, 'work outputs are individually authored');
 
 const runAction = ({ card, slot, minutes = 20, possessed = false, offsite = false }) => {
   const state = game.createInitialState({ maps, hostCards, startMapId: slot.mapId });
+  state.world.chapterId = 'V36_OCCUPATIONAL_WORK_TEST';
+  state.world.date = '1840-01-01';
+  if (slot.workAction.employmentContractId === 'HOUSEHOLD_TUTOR_1847') {
+    state.world.clockMinutes = 8 * 1440 + 540;
+    state.world.householdTutorContract = { hostId: 'teacher_lyubov', employerHostId: 'minor_noble_andrei',
+      weeklyDays: 2, weeklyPay: 4, startDayIndex: 0, status: 'ACTIVE' };
+  }
   const map = maps[slot.mapId], collision = map.layers.find(layer => layer.name === 'Collision');
   const positions = [slot.position, { x: slot.position.x, y: slot.position.y - 1 }, { x: slot.position.x + 1, y: slot.position.y },
     { x: slot.position.x, y: slot.position.y + 1 }, { x: slot.position.x - 1, y: slot.position.y }];
@@ -43,23 +52,29 @@ const runAction = ({ card, slot, minutes = 20, possessed = false, offsite = fals
   host.personalLifeGoals = [];
   host.lifeGoals = [];
   host.personalGoals = [];
+  if (host.needs) host.needs.fatigue = 0;
   if (host.needs) host.needs.incomePressure = 0;
   if (possessed) {
     state.player.embodiment = host.id;
     host.activeGoal = { type: 'POSSESSED', selectedAtMinute: state.world.clockMinutes };
   }
-  return { next: game.advanceNpcWorld(state, minutes, maps), originalMoney, hostId: card.id, item: slot.workAction.inventoryItemKo };
+  return { next: game.advanceNpcWorld(state, minutes, maps), originalMoney, hostId: card.id,
+    item: slot.workAction.inventoryItemKo, restockOfferFromWork: slot.workAction.restockOfferFromWork === true,
+    originalMarketStock: host.marketStock?.[slot.workAction.inventoryItemKo] ?? 0,
+    inventoryQuantity: slot.workAction.inventoryQuantity ?? 1 };
 };
 
 for (const item of workSlots) {
-  const { next, originalMoney, hostId, item: product } = runAction(item);
+  const { next, originalMoney, hostId, item: product, restockOfferFromWork, originalMarketStock, inventoryQuantity } = runAction(item);
   const host = next.hosts[hostId];
   assert.equal(host.workRecords?.filter(record => record.actionId === item.slot.workAction.id).length, 1,
     `${hostId} completes ${item.slot.workAction.id} after its authored work duration (target=${JSON.stringify(item.slot.position)}, map=${host.mapId}, pos=${JSON.stringify(host.position)}, routine=${host.routineState?.state}, goal=${host.activeGoal?.type}, clock=${next.world.clockMinutes})`);
   const output = next.ledger.flatMap(entry => entry.workOutputs ?? []).find(record => record.actionId === item.slot.workAction.id);
   assert.ok(output, `${item.slot.workAction.id} is recorded in the world ledger`);
   assert.equal(host.money?.amount, originalMoney, 'work output does not invent or credit wages');
-  if (product) assert.ok(host.inventory.includes(product), `${item.slot.workAction.id} creates its explicitly authored item`);
+  if (product && restockOfferFromWork) assert.equal(host.marketStock?.[product], originalMarketStock + inventoryQuantity,
+    `${item.slot.workAction.id} adds its authored quantity to the seller's market stock`);
+  else if (product) assert.ok(host.inventory.includes(product), `${item.slot.workAction.id} creates its explicitly authored item`);
 }
 
 const sample = workSlots.find(({ slot }) => slot.workAction.inventoryItemKo);

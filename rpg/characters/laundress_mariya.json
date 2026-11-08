@@ -205,6 +205,7 @@
         "repeatDaily": true,
         "itemKo": "접은 린넨",
         "recipientHostId": "market_nadezhda",
+        "deadlineMinute": 720,
         "moneyAmount": 2,
         "relationshipKo": "린넨 값을 치른 손님",
         "recipientRelationshipKo": "세탁한 린넨을 판 이웃"

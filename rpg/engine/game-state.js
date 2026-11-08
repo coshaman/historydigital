@@ -602,6 +602,7 @@ function pendingTaskSlot(host, taskTypes, localMinute, dayIndex = 0) {
   return [...(host.schedule ?? [])]
     .filter(slot => slot.atMinute <= localMinute && types.has(slot.task?.type)
       && !taskCompletedForDay(host, slot.task, dayIndex)
+      && (!Number.isInteger(slot.task.deadlineMinute) || localMinute <= slot.task.deadlineMinute)
       && (slot.task.type === 'CARE_TRANSFER' || (typeof slot.task.itemKo === 'string'
         && (inventoryItemCount(host, slot.task.itemKo) >= taskItemQuantity(slot.task)
           || (slot.task.type === 'CONSUME' && (host.marketStock?.[slot.task.itemKo] ?? 0) >= taskItemQuantity(slot.task)
@@ -3904,6 +3905,7 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
 
   const nextDelivery = (host.schedule ?? []).filter(slot => ['DELIVER', 'EXCHANGE'].includes(slot.task?.type)
     && slot.atMinute > localMinute && slot.atMinute - localMinute <= 150
+    && (!Number.isInteger(slot.task.deadlineMinute) || localMinute < slot.task.deadlineMinute)
     && !(host.needs?.hunger >= 90 && host.money?.amount <= 0)
     && !taskCompletedForDay(host, slot.task, Math.floor(state.world.clockMinutes / 1440))
     && host.inventory.includes(slot.task.itemKo))

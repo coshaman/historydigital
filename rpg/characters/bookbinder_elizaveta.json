@@ -181,6 +181,7 @@
         "id": "ELIZAVETA_BOOKBINDER_ORDER_TO_LEV_1847",
         "repeatDaily": true,
         "recipientHostId": "bookseller_lev",
+        "deadlineMinute": 960,
         "itemKo": "제본 중인 책 한 권",
         "moneyAmount": 2,
         "interactionRadius": 3,
