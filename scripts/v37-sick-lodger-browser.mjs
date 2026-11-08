@@ -24,6 +24,7 @@ try {
   const bed = maps['inn-interior'].layers.find(layer => layer.name === 'Interactions').objects.find(item => item.id === quest.entry.objectId);
   for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 }]) {
     for (const [actionId, label, stage, filename] of [
+      ['E15_REQUEST_AUNT_COMPANY', '이모 류보프를 부른다', 'FAMILY_COMPANION_REQUESTED', 'family'],
       ['E15_REQUEST_NEIGHBOR_HELP', '산파 아브도티야를 불러 2코페이카를 건넨다', 'MIDWIFE_REQUESTED', 'help'],
       ['E15_KEEP_PRIVATE', '문을 닫고 혼자 쉬겠다고 한다', 'PRIVACY_CHOSEN', 'privacy'],
     ]) {
@@ -43,7 +44,7 @@ try {
       const button = page.getByRole('button', { name: label }); await button.waitFor({ state: 'visible', timeout: 2000 }); await button.scrollIntoViewIfNeeded();
       const ui = await page.evaluate(() => ({ choices: [...document.querySelectorAll('#actions button')].map(item => item.innerText),
         width: document.documentElement.clientWidth, scrollWidth: document.documentElement.scrollWidth }));
-      if (ui.choices.length !== 2 || ui.scrollWidth > ui.width + 1 || !ui.choices.some(choice => choice.includes('공식 장부') || choice.includes('공식 기록'))) {
+      if (ui.choices.length !== 3 || ui.scrollWidth > ui.width + 1 || !ui.choices.some(choice => choice.includes('공식 장부') || choice.includes('공식 기록'))) {
         throw new Error(`E15 choice disclosure/layout failed: ${JSON.stringify(ui)}`);
       }
       const lastButton = page.getByRole('button', { name: '문을 닫고 혼자 쉬겠다고 한다' }); await lastButton.scrollIntoViewIfNeeded();
@@ -61,6 +62,8 @@ try {
       const visibleUiText = await page.locator('body').innerText();
       if (actionId === 'E15_REQUEST_NEIGHBOR_HELP' && !visibleUiText.includes('아브도티야를 불러 주세요'))
         throw new Error(`E15 character voice/result was not shown after selection: ${visibleUiText.slice(-1000)}`);
+      if (actionId === 'E15_REQUEST_AUNT_COMPANY' && !visibleUiText.includes('이모를 불러 줄래요'))
+        throw new Error(`E15 family choice result was not shown after selection: ${visibleUiText.slice(-1000)}`);
       cases.push({ viewport, actionId, stage, choicesVisible: ui.choices.length, disclosureVisible: true,
         lastChoiceReachable: true, lastChoiceRect, scrollWidth: ui.scrollWidth, pageErrors });
       await context.close();

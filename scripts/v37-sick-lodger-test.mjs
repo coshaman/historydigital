@@ -36,15 +36,32 @@ assert.equal(event?.status, 'ACTIVE'); assert.equal(event.stage, 'CARE_REQUESTED
 assert.match(event.triggerMechanism, /NO_MEDICAL_CAUSATION_CLAIM/);
 assert.equal(active.hosts.lodging_tatyana.healthState.condition, 'UNWELL');
 assert.equal(objectIsPresent(bed, active, [quest]), true, 'the bed appears as the event object');
-assert.equal(questChoices(quest, 'lodging_tatyana', [], active).length, 2, 'both immediate choices are available');
+assert.equal(questChoices(quest, 'lodging_tatyana', [], active).length, 3, 'family company, a midwife visit, and privacy are available');
+const unavailableFamily = structuredClone(active);
+unavailableFamily.hosts.teacher_lyubov.historicalAliveAndPresent = false;
+unavailableFamily.player.embodiment = 'lodging_tatyana';
+unavailableFamily.player.position = { ...event.scenePosition };
+unavailableFamily.hosts.lodging_tatyana.position = { ...event.scenePosition };
+const rejectedFamilyCall = game.performQuestAction(unavailableFamily, { questId: quest.id, hostId: 'lodging_tatyana',
+  actionId: 'E15_REQUEST_AUNT_COMPANY', objectId: quest.entry.objectId }, { quests: [quest], maps });
+assert.equal(rejectedFamilyCall.ok, false, 'the family route cannot call an absent relative');
+assert.equal(rejectedFamilyCall.reason, 'family_companion_unavailable');
 active.player.embodiment = 'lodging_tatyana'; active.player.position = { ...event.scenePosition };
 active.hosts.lodging_tatyana.position = { ...event.scenePosition };
 
 for (const [actionId, expectedStage, expectedCare] of [
   ['E15_REQUEST_NEIGHBOR_HELP', 'MIDWIFE_REQUESTED', 'MIDWIFE_VISIT_REQUESTED_GAMEPLAY'],
+  ['E15_REQUEST_AUNT_COMPANY', 'FAMILY_COMPANION_REQUESTED', 'FAMILY_COMPANION_REQUESTED_GAMEPLAY'],
   ['E15_KEEP_PRIVATE', 'PRIVACY_CHOSEN', 'PRIVATE_REST'],
 ]) {
-  const choice = game.performQuestAction(structuredClone(active), { questId: quest.id, hostId: 'lodging_tatyana', actionId,
+  const choiceState = structuredClone(active);
+  if (actionId === 'E15_REQUEST_AUNT_COMPANY') {
+    const aunt = choiceState.hosts.teacher_lyubov;
+    aunt.mapId = 'courtyard'; aunt.position = { x: 17, y: 13 };
+    aunt.schedule = [{ atMinute: 0, mapId: 'courtyard', position: { x: 17, y: 13 }, activityKo: '집에서 수업 준비를 한다' }];
+    aunt.activeGoal = null;
+  }
+  const choice = game.performQuestAction(choiceState, { questId: quest.id, hostId: 'lodging_tatyana', actionId,
     objectId: quest.entry.objectId }, { quests: [quest], maps });
   assert.equal(choice.ok, true, `player can choose ${actionId}: ${choice.reason ?? ''}`);
   const afterAction = choice.state.world.livingEventStates.E15;
@@ -56,9 +73,17 @@ for (const [actionId, expectedStage, expectedCare] of [
     assert.match(quest.actions.find(item => item.id === actionId).resultKo, /재봉은 늦어져도 괜찮아요.*와 줬으면 해요/,
       'Tatyana speaks hesitantly and politely about the immediate cost to her work');
   }
+  if (actionId === 'E15_REQUEST_AUNT_COMPANY') {
+    assert.equal(afterAction.caregiverHostId, 'teacher_lyubov');
+    assert.equal(choice.state.hosts.lodging_tatyana.money.amount, active.hosts.lodging_tatyana.money.amount,
+      'asking family to sit with her costs no money');
+    assert.equal(choice.state.hosts.teacher_lyubov.money.amount, active.hosts.teacher_lyubov.money.amount);
+    assert.equal(choice.state.hosts.lodging_tatyana.healthState.illness.care, 'FAMILY_COMPANION_REQUESTED_GAMEPLAY');
+    assert.equal(afterAction.carePrice, 0);
+  }
   const restored = game.loadGame(game.saveGame(choice.state), { maps, hostCards: cards, quests: [quest] });
   assert.equal(restored.world.livingEventStates.E15.stage, expectedStage, 'the selected route survives save and reload');
-  const finished = game.advanceNpcWorld(restored, actionId === 'E15_REQUEST_NEIGHBOR_HELP' ? 120 : 45, maps);
+  const finished = game.advanceNpcWorld(restored, actionId === 'E15_KEEP_PRIVATE' ? 45 : 120, maps);
   assert.equal(finished.world.livingEventStates.E15.status, 'RESOLVED');
   assert.ok(['RECOVERING', 'FIT'].includes(finished.hosts.lodging_tatyana.healthState.condition));
   if (actionId === 'E15_REQUEST_NEIGHBOR_HELP') {
@@ -69,6 +94,19 @@ for (const [actionId, expectedStage, expectedCare] of [
     assert.ok(arrival, 'the physical arrival is recorded in the event ledger');
     assert.match(arrival.changeKo, /어디가 제일 불편해\?.*여기 앉아 있을게/,
       'Avdotya answers in short, familiar speech, distinct from Tatyana’s polite request');
+  }
+  if (actionId === 'E15_REQUEST_AUNT_COMPANY') {
+    const aunt = finished.hosts.teacher_lyubov;
+    assert.equal(finished.world.livingEventStates.E15.stage, 'CARE_COMPLETED');
+    assert.ok(finished.world.livingEventStates.E15.actorHostIds.includes('teacher_lyubov'), 'her aunt travels to the lodging room');
+    assert.equal(finished.hosts.lodging_tatyana.healthState.illness.care, 'FAMILY_COMPANION_REST_GAMEPLAY');
+    assert.ok(aunt.needs.fatigue > active.hosts.teacher_lyubov.needs.fatigue, 'the visit costs the aunt time and energy');
+    assert.equal(finished.world.livingEventStates.E15.carePrice, 0);
+    assert.equal(finished.world.livingEventStates.E15.resolutionActionId, 'AUTO_FAMILY_COMPANION_VISIT_COMPLETED');
+    assert.ok(finished.hosts.lodging_tatyana.relations.teacher_lyubov, 'the visit updates their relationship');
+    const visit = finished.ledger.flatMap(row => row.livingEvents ?? []).find(row => row.catalogEventId === 'E15' && row.stage === 'FAMILY_COMPANION_PRESENT');
+    assert.ok(visit, 'the aunt’s physical arrival is recorded');
+    assert.match(visit.changeKo, /수업은 조금 미루면 돼/);
   }
   if (actionId === 'E15_KEEP_PRIVATE') assert.deepEqual(finished.world.livingEventStates.E15.witnessHostIds, []);
 }

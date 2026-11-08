@@ -13,6 +13,18 @@
   "entry": { "mapId": "inn-interior", "objectId": 4000 },
   "actions": [
     {
+      "id": "E15_REQUEST_AUNT_COMPANY",
+      "hostIds": ["lodging_tatyana"],
+      "requiresLivingEventActorKey": "patientHostId",
+      "requiredLivingEventStage": "CARE_REQUESTED",
+      "durationMinutes": 3,
+      "labelKo": "이모 류보프를 부른다",
+      "subcopyKo": "류보프가 알게 되고 수업 준비를 미룹니다 · 돈은 들지 않고 공식 기록도 남지 않습니다",
+      "resultFlag": "v37TatyanaRequestsAuntCompany",
+      "resultKo": "“이모를 불러 줄래요? 잠깐 곁에 있어 달라고 하고 싶어요.”",
+      "effects": { "situationKo": "타티야나는 이모에게 곁에 있어 달라고 부탁했다." }
+    },
+    {
       "id": "E15_REQUEST_NEIGHBOR_HELP",
       "hostIds": ["lodging_tatyana"],
       "requiresLivingEventActorKey": "patientHostId",

@@ -1,0 +1,116 @@
+{
+  "status": "PASS",
+  "eventId": "E15",
+  "validationStatus": "DESIGN_SEED_NOT_VERIFIED",
+  "cases": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "actionId": "E15_REQUEST_AUNT_COMPANY",
+      "stage": "FAMILY_COMPANION_REQUESTED",
+      "choicesVisible": 3,
+      "disclosureVisible": true,
+      "lastChoiceReachable": true,
+      "lastChoiceRect": {
+        "top": 677.34375,
+        "bottom": 764.15625,
+        "height": 900
+      },
+      "scrollWidth": 1440,
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "actionId": "E15_REQUEST_NEIGHBOR_HELP",
+      "stage": "MIDWIFE_REQUESTED",
+      "choicesVisible": 3,
+      "disclosureVisible": true,
+      "lastChoiceReachable": true,
+      "lastChoiceRect": {
+        "top": 677.34375,
+        "bottom": 764.15625,
+        "height": 900
+      },
+      "scrollWidth": 1440,
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "actionId": "E15_KEEP_PRIVATE",
+      "stage": "PRIVACY_CHOSEN",
+      "choicesVisible": 3,
+      "disclosureVisible": true,
+      "lastChoiceReachable": true,
+      "lastChoiceRect": {
+        "top": 677.34375,
+        "bottom": 764.15625,
+        "height": 900
+      },
+      "scrollWidth": 1440,
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "actionId": "E15_REQUEST_AUNT_COMPANY",
+      "stage": "FAMILY_COMPANION_REQUESTED",
+      "choicesVisible": 3,
+      "disclosureVisible": true,
+      "lastChoiceReachable": true,
+      "lastChoiceRect": {
+        "top": 672.96875,
+        "bottom": 759.78125,
+        "height": 844
+      },
+      "scrollWidth": 390,
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "actionId": "E15_REQUEST_NEIGHBOR_HELP",
+      "stage": "MIDWIFE_REQUESTED",
+      "choicesVisible": 3,
+      "disclosureVisible": true,
+      "lastChoiceReachable": true,
+      "lastChoiceRect": {
+        "top": 672.96875,
+        "bottom": 759.78125,
+        "height": 844
+      },
+      "scrollWidth": 390,
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "actionId": "E15_KEEP_PRIVATE",
+      "stage": "PRIVACY_CHOSEN",
+      "choicesVisible": 3,
+      "disclosureVisible": true,
+      "lastChoiceReachable": true,
+      "lastChoiceRect": {
+        "top": 672.96875,
+        "bottom": 759.78125,
+        "height": 844
+      },
+      "scrollWidth": 390,
+      "pageErrors": []
+    }
+  ],
+  "serverErrors": []
+}

@@ -2961,38 +2961,48 @@ function advanceSickLodger(state, minuteOffset, maps, livingEventRows, options =
     && state.world.clockMinutes >= patient.healthState.recoveryUntilMinute && patient.healthState.illness) {
     patient.healthState = { condition: 'FIT', injury: null, recoveryUntilMinute: null, valueStatus: patient.healthState.valueStatus };
   }
-  if (event?.status === 'ACTIVE' && event.stage === 'MIDWIFE_REQUESTED') {
+  if (event?.status === 'ACTIVE' && ['MIDWIFE_REQUESTED', 'FAMILY_COMPANION_REQUESTED'].includes(event.stage)) {
     const caregiver = state.hosts[event.caregiverHostId];
     if (caregiver?.historicalAliveAndPresent !== false && caregiver.mapId === event.mapId
       && nearTile(caregiver.position, event.scenePosition, 2)) {
-      event.stage = 'MIDWIFE_PRESENT'; event.arrivedAtMinute = state.world.clockMinutes;
+      const familyCompanion = event.caregiverHostId === 'teacher_lyubov';
+      event.stage = familyCompanion ? 'FAMILY_COMPANION_PRESENT' : 'MIDWIFE_PRESENT';
+      event.arrivedAtMinute = state.world.clockMinutes;
       event.actorHostIds = [event.patientHostId, caregiver.id]; event.resolvesAtMinute = state.world.clockMinutes + 20;
       event.witnessHostIds = Object.values(state.hosts).filter(host => !event.actorHostIds.includes(host.id)
         && host.historicalAliveAndPresent !== false && host.mapId === event.mapId
         && nearTile(host.position, event.scenePosition, 5)).map(host => host.id).sort();
-      caregiver.currentActivityKo = '타티야나의 곁에서 다음 호출 전까지 이야기를 듣는다';
-      if (patient?.healthState?.condition === 'UNWELL') patient.healthState.illness.care = 'CAREGIVER_PRESENT_GAMEPLAY';
+      caregiver.currentActivityKo = familyCompanion ? '조카 타티야나의 곁에 앉아 잠시 쉰다' : '타티야나의 곁에서 다음 호출 전까지 이야기를 듣는다';
+      if (patient?.healthState?.condition === 'UNWELL') patient.healthState.illness.care = familyCompanion
+        ? 'FAMILY_COMPANION_PRESENT_GAMEPLAY' : 'CAREGIVER_PRESENT_GAMEPLAY';
       livingEventRows.push(sickLodgerEventRow(state, event.stage, minuteOffset, maps,
-        { changeKo: '아브도티야는 문턱에서 먼저 물었다. “타티야나, 어디가 제일 불편해? 내가 다음 호출 전까지 여기 앉아 있을게.”',
+        { changeKo: familyCompanion
+          ? '류보프는 문턱에서 외투를 벗었다. “수업은 조금 미루면 돼. 내가 여기 있을게. 눈 좀 붙여.”'
+          : '아브도티야는 문턱에서 먼저 물었다. “타티야나, 어디가 제일 불편해? 내가 다음 호출 전까지 여기 앉아 있을게.”',
           caregiverHostId: caregiver.id, arrivedAtMinute: event.arrivedAtMinute, witnessHostIds: [...event.witnessHostIds] }));
     }
   }
-  if (event?.status === 'ACTIVE' && event.stage === 'MIDWIFE_PRESENT' && state.world.clockMinutes >= event.resolvesAtMinute) {
+  if (event?.status === 'ACTIVE' && ['MIDWIFE_PRESENT', 'FAMILY_COMPANION_PRESENT'].includes(event.stage)
+    && state.world.clockMinutes >= event.resolvesAtMinute) {
     event.status = 'RESOLVED'; event.stage = 'CARE_COMPLETED'; event.resolvedAtMinute = state.world.clockMinutes;
-    event.requestActionId = event.resolutionActionId; event.resolutionActionId = 'AUTO_MIDWIFE_VISIT_COMPLETED';
+    event.requestActionId = event.resolutionActionId;
+    event.resolutionActionId = event.caregiverHostId === 'teacher_lyubov'
+      ? 'AUTO_FAMILY_COMPANION_VISIT_COMPLETED' : 'AUTO_MIDWIFE_VISIT_COMPLETED';
     const caregiver = state.hosts[event.caregiverHostId];
+    const familyCompanion = event.caregiverHostId === 'teacher_lyubov';
     if (patient?.healthState?.condition === 'UNWELL') {
       patient.healthState = { condition: 'RECOVERING', injury: null,
-        illness: { ...patient.healthState.illness, care: 'COMPANION_REST_GAMEPLAY' },
+        illness: { ...patient.healthState.illness, care: familyCompanion ? 'FAMILY_COMPANION_REST_GAMEPLAY' : 'COMPANION_REST_GAMEPLAY' },
         recoveryUntilMinute: state.world.clockMinutes + 180, valueStatus: 'FICTIONAL_CHARACTER_DESIGN' };
     }
     if (caregiver) caregiver.needs.fatigue = Math.min(100, caregiver.needs.fatigue + 3);
     if (patient && caregiver) {
-      patient.relations[caregiver.id] = '몸이 불편할 때 곁에 와 준 산파';
-      caregiver.relations[patient.id] = '곁에서 다음 호출 전까지 쉰 하숙인';
+      patient.relations[caregiver.id] = familyCompanion ? '몸이 불편할 때 곁에 있어 준 이모' : '몸이 불편할 때 곁에 와 준 산파';
+      caregiver.relations[patient.id] = familyCompanion ? '잠시 곁에 있어 준 조카' : '곁에서 다음 호출 전까지 쉰 하숙인';
     }
     livingEventRows.push(sickLodgerEventRow(state, event.stage, minuteOffset, maps,
-      { changeKo: '아브도티야는 다음 호출을 위해 일어섰다. 타티야나는 조금 더 누워 있기로 했다.',
+      { changeKo: familyCompanion ? '류보프는 미뤄 둔 수업 준비로 돌아갔다. 타티야나는 조금 더 누워 있기로 했다.'
+        : '아브도티야는 다음 호출을 위해 일어섰다. 타티야나는 조금 더 누워 있기로 했다.',
         resolutionActionId: event.resolutionActionId, caregiverHostId: event.caregiverHostId,
         caregiverFatigueAfter: caregiver?.needs.fatigue ?? null, paidAmount: event.carePrice,
         witnessHostIds: [...event.witnessHostIds] }));
@@ -3028,24 +3038,28 @@ function advanceSickLodger(state, minuteOffset, maps, livingEventRows, options =
   }
   if (!event || event.status !== 'ACTIVE' || options.deferLivingEventExpiryId === 'E15') return;
   if (state.world.clockMinutes < event.resolvesAtMinute) return;
-  const visitMissed = event.stage === 'MIDWIFE_REQUESTED';
+  const visitMissed = ['MIDWIFE_REQUESTED', 'FAMILY_COMPANION_REQUESTED'].includes(event.stage);
   event.status = 'RESOLVED'; event.stage = event.stage === 'PRIVACY_CHOSEN' ? 'RESTED_IN_PRIVACY'
-    : event.stage === 'MIDWIFE_REQUESTED' ? 'RESTED_AFTER_MISSED_VISIT'
+      : ['MIDWIFE_REQUESTED', 'FAMILY_COMPANION_REQUESTED'].includes(event.stage) ? 'RESTED_AFTER_MISSED_VISIT'
       : event.stage === 'CARE_ACCEPTED' ? 'RESTED_AFTER_HELP_REQUEST' : 'RESTED_UNATTENDED';
   event.resolvedAtMinute = state.world.clockMinutes;
-  if (visitMissed) { event.requestActionId = event.resolutionActionId; event.resolutionActionId = 'AUTO_MIDWIFE_MISSED_VISIT'; }
+  if (visitMissed) {
+    event.requestActionId = event.resolutionActionId;
+    event.resolutionActionId = event.caregiverHostId === 'teacher_lyubov'
+      ? 'AUTO_FAMILY_COMPANION_MISSED_VISIT' : 'AUTO_MIDWIFE_MISSED_VISIT';
+  }
   else event.resolutionActionId ??= 'AUTO_REST';
   const resolvedPatient = state.hosts[event.patientHostId];
   if (resolvedPatient?.healthState?.condition === 'UNWELL') {
     resolvedPatient.healthState = { condition: 'RECOVERING', injury: null, illness: { ...resolvedPatient.healthState.illness,
       care: event.stage === 'RESTED_IN_PRIVACY' ? 'PRIVATE_REST'
-        : event.stage === 'RESTED_AFTER_MISSED_VISIT' ? 'REQUESTED_VISIT_DID_NOT_ARRIVE'
+      : event.stage === 'RESTED_AFTER_MISSED_VISIT' ? 'REQUESTED_VISIT_DID_NOT_ARRIVE'
           : event.stage === 'RESTED_AFTER_HELP_REQUEST' ? 'NEIGHBOR_HELP_REQUESTED' : 'RESTED_UNATTENDED' },
       recoveryUntilMinute: state.world.clockMinutes + 180, valueStatus: 'FICTIONAL_CHARACTER_DESIGN' };
   }
   livingEventRows.push(sickLodgerEventRow(state, event.stage, minuteOffset, maps,
     { changeKo: event.stage === 'RESTED_IN_PRIVACY' ? '타티야나는 문을 닫고 한동안 쉬었다. 하숙집에 상태를 알리지 않았다.'
-      : event.stage === 'RESTED_AFTER_MISSED_VISIT' ? '아브도티야는 제시간에 오지 못했다. 타티야나는 침상에서 더 쉬었다.'
+      : event.stage === 'RESTED_AFTER_MISSED_VISIT' ? '부탁한 방문이 닿지 않았다. 타티야나는 침상에서 더 쉬었다.'
         : event.stage === 'RESTED_AFTER_HELP_REQUEST' ? '타티야나는 이웃에게 도움을 청한 뒤 침상에서 쉬었다.'
           : '타티야나는 한동안 쉬었다.', resolutionActionId: event.resolutionActionId }));
 }
@@ -3405,14 +3419,15 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
   const imminentScheduledWork = (host.schedule ?? []).some(slot => slot.workAction && slot.atMinute > localMinute
     && slot.atMinute - localMinute <= 120);
   const sickLodger = state.world.livingEventStates?.E15;
-  if (sickLodger?.status === 'ACTIVE' && ['MIDWIFE_REQUESTED', 'MIDWIFE_PRESENT'].includes(sickLodger.stage)
+  if (sickLodger?.status === 'ACTIVE' && ['MIDWIFE_REQUESTED', 'MIDWIFE_PRESENT', 'FAMILY_COMPANION_REQUESTED', 'FAMILY_COMPANION_PRESENT'].includes(sickLodger.stage)
     && host.id === sickLodger.caregiverHostId && host.allowedMaps.includes(sickLodger.mapId)
     && npcMapRoute(host.mapId, sickLodger.mapId, host, maps, state.world.clockMinutes) !== null) {
     return { slot: { mapId: sickLodger.mapId, position: { ...sickLodger.scenePosition },
-      activityKo: sickLodger.stage === 'MIDWIFE_PRESENT' ? '다음 호출 전까지 타티야나의 곁에 앉아 이야기를 듣는다'
-        : '타티야나의 부탁을 확인하러 하숙집으로 간다' },
+      activityKo: ['MIDWIFE_PRESENT', 'FAMILY_COMPANION_PRESENT'].includes(sickLodger.stage)
+        ? '타티야나의 곁에 앉아 잠시 이야기를 듣는다' : '타티야나의 부탁을 확인하러 하숙집으로 간다' },
     goalType: 'LIVING_EVENT_RESPONSE', targetHostId: sickLodger.patientHostId,
-    taskId: `V37:E15:${sickLodger.stage}`, reason: 'resident_requested_midwife_visit_at_lodging_house',
+    taskId: `V37:E15:${sickLodger.stage}`, reason: sickLodger.caregiverHostId === 'teacher_lyubov'
+      ? 'niece_requested_family_company_at_lodging_house' : 'resident_requested_midwife_visit_at_lodging_house',
     selectionBasis: { utilityScore: 178, eventId: 'E15', stage: sickLodger.stage } };
   }
   const eveningLesson = state.world.livingEventStates?.E19;
@@ -6637,7 +6652,7 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
     const event = next.world.livingEventStates?.E15, patient = next.hosts.lodging_tatyana;
     const caregiver = next.hosts.midwife_avdotya;
     if (!event || event.status !== 'ACTIVE' || event.stage !== 'CARE_REQUESTED'
-      || hostId !== event.patientHostId || !['E15_REQUEST_NEIGHBOR_HELP', 'E15_KEEP_PRIVATE'].includes(actionId)
+      || hostId !== event.patientHostId || !['E15_REQUEST_NEIGHBOR_HELP', 'E15_REQUEST_AUNT_COMPANY', 'E15_KEEP_PRIVATE'].includes(actionId)
       || patient.mapId !== 'inn-interior' || !nearTile(patient.position, event.scenePosition, 2)) {
       return { ok: false, reason: 'living_event_not_active', state };
     }
@@ -6650,7 +6665,21 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
       event.resolvesAtMinute = next.world.clockMinutes + 120;
       event.actorHostIds = [patient.id];
       patient.healthState.illness.care = 'MIDWIFE_VISIT_REQUESTED_GAMEPLAY';
+    } else if (actionId === 'E15_REQUEST_AUNT_COMPANY') {
+      const aunt = next.hosts.teacher_lyubov;
+      const familyEdge = (patient.relationshipEdges ?? []).find(edge => edge.kind === 'KINSHIP'
+        && edge.status === 'FICTIONAL_CHARACTER_DESIGN' && edge.toHostId === 'teacher_lyubov'
+        && edge.relationshipType === 'OTHER_KIN');
+      if (!aunt || aunt.historicalAliveAndPresent === false || !familyEdge || !aunt.allowedMaps.includes(event.mapId)) {
+        return { ok: false, reason: 'family_companion_unavailable', state };
+      }
+      event.caregiverHostId = aunt.id; event.carePrice = 0;
+      event.stage = 'FAMILY_COMPANION_REQUESTED'; event.requestedAtMinute = next.world.clockMinutes;
+      event.resolvesAtMinute = next.world.clockMinutes + 120;
+      event.actorHostIds = [patient.id];
+      patient.healthState.illness.care = 'FAMILY_COMPANION_REQUESTED_GAMEPLAY';
     } else {
+      event.caregiverHostId = 'midwife_avdotya';
       event.stage = 'PRIVACY_CHOSEN'; event.resolvesAtMinute = next.world.clockMinutes + 45;
       patient.healthState.illness.care = 'PRIVATE_REST'; event.witnessHostIds = [];
     }
@@ -6658,9 +6687,11 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
     livingEvents.push(sickLodgerEventRow(next, event.stage, next.world.clockMinutes % 1440, maps,
       { changeKo: actionId === 'E15_KEEP_PRIVATE'
         ? '타티야나: “문은 닫아 주세요. 잠깐 혼자 누워 있을게요.”'
-        : '타티야나가 아브도티야를 불러 달라며 2코페이카를 건넸다.',
+        : actionId === 'E15_REQUEST_AUNT_COMPANY' ? '타티야나는 이모에게 곁에 있어 달라고 부탁했다.'
+          : '타티야나가 아브도티야를 불러 달라며 2코페이카를 건넸다.',
       actionId, resolvedByHostId: hostId, ...(actionId === 'E15_REQUEST_NEIGHBOR_HELP'
-        ? { caregiverHostId: caregiver.id, payerHostId: patient.id, paidAmount: event.carePrice } : {}) }));
+        ? { caregiverHostId: caregiver.id, payerHostId: patient.id, paidAmount: event.carePrice }
+        : actionId === 'E15_REQUEST_AUNT_COMPANY' ? { caregiverHostId: 'teacher_lyubov', paidAmount: 0 } : {}) }));
   }
   if (!literaryQuest && questId === 'COACH_FARE_1847') {
     const fareStages = {
@@ -7806,14 +7837,16 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
   const sickLodgerEvent = state.world.livingEventStates.E15;
   if (sickLodgerEvent && (sickLodgerEvent.catalogIdSpace !== 'V37_EVENT_CATALOG_45' || sickLodgerEvent.catalogEventId !== 'E15'
     || !['ACTIVE', 'RESOLVED'].includes(sickLodgerEvent.status)
-    || !['CARE_REQUESTED', 'CARE_ACCEPTED', 'MIDWIFE_REQUESTED', 'MIDWIFE_PRESENT', 'PRIVACY_CHOSEN',
+    || !['CARE_REQUESTED', 'CARE_ACCEPTED', 'MIDWIFE_REQUESTED', 'MIDWIFE_PRESENT', 'FAMILY_COMPANION_REQUESTED', 'FAMILY_COMPANION_PRESENT', 'PRIVACY_CHOSEN',
       'CARE_COMPLETED', 'RESTED_IN_PRIVACY', 'RESTED_AFTER_HELP_REQUEST', 'RESTED_AFTER_MISSED_VISIT', 'RESTED_UNATTENDED'].includes(sickLodgerEvent.stage)
     || sickLodgerEvent.validationStatus !== 'DESIGN_SEED_NOT_VERIFIED' || sickLodgerEvent.valueStatus !== 'fictional_gameplay_balance'
     || sickLodgerEvent.occurrenceType !== 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION'
-    || sickLodgerEvent.patientHostId !== 'lodging_tatyana' || sickLodgerEvent.caregiverHostId !== 'midwife_avdotya'
+    || sickLodgerEvent.patientHostId !== 'lodging_tatyana'
+    || !['midwife_avdotya', 'teacher_lyubov'].includes(sickLodgerEvent.caregiverHostId)
     || !Array.isArray(sickLodgerEvent.actorHostIds)
-    || !['lodging_tatyana', 'lodging_tatyana,midwife_avdotya'].includes(sickLodgerEvent.actorHostIds.join(','))
-    || (['MIDWIFE_PRESENT', 'CARE_COMPLETED'].includes(sickLodgerEvent.stage) !== (sickLodgerEvent.actorHostIds.join(',') === 'lodging_tatyana,midwife_avdotya'))
+    || !['lodging_tatyana', 'lodging_tatyana,midwife_avdotya', 'lodging_tatyana,teacher_lyubov'].includes(sickLodgerEvent.actorHostIds.join(','))
+    || (['MIDWIFE_PRESENT', 'FAMILY_COMPANION_PRESENT', 'CARE_COMPLETED'].includes(sickLodgerEvent.stage)
+      !== (sickLodgerEvent.actorHostIds.join(',') === `lodging_tatyana,${sickLodgerEvent.caregiverHostId}`))
     || !Array.isArray(sickLodgerEvent.witnessHostIds)
     || sickLodgerEvent.witnessHostIds.some(id => !state.hosts[id])
     || sickLodgerEvent.mapId !== 'inn-interior' || !Number.isInteger(sickLodgerEvent.startedAtMinute)
@@ -7822,13 +7855,19 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
     || (sickLodgerEvent.stage === 'MIDWIFE_REQUESTED' && (!Number.isInteger(sickLodgerEvent.requestedAtMinute)
       || sickLodgerEvent.resolvesAtMinute !== sickLodgerEvent.requestedAtMinute + 120
       || sickLodgerEvent.payerHostId !== 'lodging_tatyana' || sickLodgerEvent.carePrice !== 2))
-    || (['MIDWIFE_PRESENT', 'CARE_COMPLETED'].includes(sickLodgerEvent.stage) && (!Number.isInteger(sickLodgerEvent.arrivedAtMinute)
+    || (sickLodgerEvent.stage === 'FAMILY_COMPANION_REQUESTED' && (!Number.isInteger(sickLodgerEvent.requestedAtMinute)
+      || sickLodgerEvent.resolvesAtMinute !== sickLodgerEvent.requestedAtMinute + 120
+      || sickLodgerEvent.caregiverHostId !== 'teacher_lyubov' || sickLodgerEvent.carePrice !== 0))
+    || (['MIDWIFE_PRESENT', 'FAMILY_COMPANION_PRESENT', 'CARE_COMPLETED'].includes(sickLodgerEvent.stage) && (!Number.isInteger(sickLodgerEvent.arrivedAtMinute)
       || sickLodgerEvent.resolvesAtMinute !== sickLodgerEvent.arrivedAtMinute + 20
-      || sickLodgerEvent.payerHostId !== 'lodging_tatyana' || sickLodgerEvent.carePrice !== 2))
-    || (sickLodgerEvent.status === 'ACTIVE') !== ['CARE_REQUESTED', 'CARE_ACCEPTED', 'MIDWIFE_REQUESTED', 'MIDWIFE_PRESENT', 'PRIVACY_CHOSEN'].includes(sickLodgerEvent.stage)
+      || (sickLodgerEvent.caregiverHostId === 'teacher_lyubov' ? sickLodgerEvent.carePrice !== 0
+        : sickLodgerEvent.payerHostId !== 'lodging_tatyana' || sickLodgerEvent.carePrice !== 2)))
+    || (sickLodgerEvent.status === 'ACTIVE') !== ['CARE_REQUESTED', 'CARE_ACCEPTED', 'MIDWIFE_REQUESTED', 'MIDWIFE_PRESENT',
+      'FAMILY_COMPANION_REQUESTED', 'FAMILY_COMPANION_PRESENT', 'PRIVACY_CHOSEN'].includes(sickLodgerEvent.stage)
     || (sickLodgerEvent.status === 'RESOLVED' && (!Number.isInteger(sickLodgerEvent.resolvedAtMinute)
-      || !['E15_REQUEST_NEIGHBOR_HELP', 'E15_KEEP_PRIVATE', 'AUTO_REST_WITHOUT_DIAGNOSIS', 'AUTO_REST',
-        'AUTO_MIDWIFE_MISSED_VISIT', 'AUTO_MIDWIFE_VISIT_COMPLETED'].includes(sickLodgerEvent.resolutionActionId))))) {
+      || !['E15_REQUEST_NEIGHBOR_HELP', 'E15_REQUEST_AUNT_COMPANY', 'E15_KEEP_PRIVATE', 'AUTO_REST_WITHOUT_DIAGNOSIS', 'AUTO_REST',
+        'AUTO_MIDWIFE_MISSED_VISIT', 'AUTO_MIDWIFE_VISIT_COMPLETED', 'AUTO_FAMILY_COMPANION_MISSED_VISIT',
+        'AUTO_FAMILY_COMPANION_VISIT_COMPLETED'].includes(sickLodgerEvent.resolutionActionId))))) {
     throw new Error('Save contains invalid E15 sick lodger event state');
   }
   const laundryEvent = state.world.livingEventStates.E04;
