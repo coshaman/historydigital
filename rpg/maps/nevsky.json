@@ -3469,7 +3469,8 @@
           "visible": true,
           "properties": [
             { "name": "questId", "type": "string", "value": "V37_OFFICIAL_PROCESSION_1847" },
-            { "name": "requiresLivingEventId", "type": "string", "value": "E45" }
+            { "name": "requiresLivingEventId", "type": "string", "value": "E45" },
+            { "name": "requiresLivingEventStage", "type": "string", "value": "CLEARANCE_READY" }
           ]
         }
       ],

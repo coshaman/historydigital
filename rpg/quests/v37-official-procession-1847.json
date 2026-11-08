@@ -16,6 +16,8 @@
     {
       "id": "E45_MOVE_STALL_TO_EDGE",
       "hostIds": ["street_vendor_matryona"],
+      "requiredPresentHostIds": ["junior_guard_sergey", "coachman_timofey"],
+      "requiredParticipantDistance": 3,
       "requiredLivingEventStage": "CLEARANCE_READY",
       "labelKo": "물건을 거두어 길 가장자리로 옮긴다",
       "subcopyKo": "경비와 마부가 봅니다 · 좌판 위치가 바뀝니다 · 통행이 끝날 때까지 장사를 멈춥니다",
@@ -26,6 +28,8 @@
     {
       "id": "E45_CLEAR_ROUTE_OFFICIALLY",
       "hostIds": ["junior_guard_sergey"],
+      "requiredPresentHostIds": ["street_vendor_matryona", "coachman_timofey"],
+      "requiredParticipantDistance": 3,
       "requiredLivingEventStage": "CLEARANCE_READY",
       "labelKo": "통행 지시와 좌판 이동을 근무 기록에 적는다",
       "subcopyKo": "경비 상관과 당사자들이 알게 됩니다 · 근무 기록으로 남습니다 · 좌판은 옮겨지고 문책 위험을 감수합니다",
@@ -36,6 +40,8 @@
     {
       "id": "E45_TURN_CARRIAGE_BACK",
       "hostIds": ["coachman_timofey"],
+      "requiredPresentHostIds": ["street_vendor_matryona", "junior_guard_sergey"],
+      "requiredParticipantDistance": 3,
       "requiredLivingEventStage": "CLEARANCE_READY",
       "labelKo": "마차를 돌려 옆길로 간다",
       "subcopyKo": "경비와 좌판 주인이 봅니다 · 공식 기록은 남기지 않습니다 · 손님을 늦추고 운임을 잃을 수 있습니다",

@@ -20,6 +20,36 @@ const cards = await Promise.all(cardFiles.filter(file => file.endsWith('.json'))
 assert.equal(catalog.find(row => row.event_id === 'E45')?.validation_status, 'DESIGN_SEED_NOT_VERIFIED');
 const object = map.layers.find(layer => layer.name === 'Interactions').objects.find(row => row.id === quest.entry.objectId);
 assert.ok(object);
+const naturalStart = game.createInitialState({ maps, hostCards: cards, quests: [quest], startMapId: 'nevsky' });
+naturalStart.world.chapterId = 'V33_1847_PRINT'; naturalStart.world.date = '1847-06-01'; naturalStart.world.clockMinutes = 660;
+naturalStart.world.currentMapId = 'nevsky';
+naturalStart.player.position = { x: 2, y: 2 };
+const approaching = game.advanceNpcWorld(naturalStart, 30, maps);
+const approachEvent = approaching.world.livingEventStates.E45;
+assert.equal(approachEvent?.stage, 'CARRIAGE_APPROACHING', 'the scheduled carriage must enter a visible travel stage first');
+assert.deepEqual(approachEvent.carriagePosition, approaching.hosts[approachEvent.coachmanHostId].position,
+  'the cart position follows the actual coachman rather than appearing at the destination');
+assert.equal(objectIsPresent(object, approaching, [quest]), false, 'clearance choices stay closed until the carriage and witnesses arrive');
+const gathered = game.advanceNpcWorld(approaching, 210, maps);
+const gatheredEvent = gathered.world.livingEventStates.E45;
+assert.equal(gatheredEvent.stage, 'CLEARANCE_READY', 'the road scene opens only after all three residents reach it');
+for (const id of gatheredEvent.actorHostIds) assert.ok(gathered.hosts[id].mapId === 'nevsky'
+  && Math.abs(gathered.hosts[id].position.x - gatheredEvent.scenePosition.x) + Math.abs(gathered.hosts[id].position.y - gatheredEvent.scenePosition.y) <= 3,
+'each participant must be physically present before an action is offered');
+const blockTile = gatheredEvent.carriagePosition;
+assert.equal(game.canOccupy(map, blockTile.x, blockTile.y, null, null, gathered.world), false,
+  'the carriage physically blocks its occupied road tile');
+assert.equal(game.canOccupy(map, blockTile.x, blockTile.y, null, null), true,
+  'the same tile is walkable when no live carriage is blocking it');
+const savedGathering = game.loadGame(game.saveGame(gathered), { maps, hostCards: cards, quests: [quest] });
+assert.deepEqual(savedGathering.world.livingEventStates.E45.carriagePosition, blockTile, 'the live blockage survives save/load');
+const legacySave = structuredClone(gathered);
+delete legacySave.world.livingEventStates.E45.carriagePosition;
+delete legacySave.world.livingEventStates.E45.carriageMapId;
+const migratedLegacySave = game.loadGame(game.saveGame(legacySave), { maps, hostCards: cards, quests: [quest] });
+assert.deepEqual(migratedLegacySave.world.livingEventStates.E45.carriagePosition,
+  gathered.hosts.coachman_timofey.position, 'older active procession saves restore the carriage from the coachman');
+
 const state = game.createInitialState({ maps, hostCards: cards, quests: [quest], startMapId: 'nevsky' });
 state.world.chapterId = 'V33_1847_PRINT'; state.world.date = '1847-06-01'; state.world.clockMinutes = 690;
 state.world.currentMapId = 'nevsky'; state.player.embodiment = 'street_vendor_matryona';

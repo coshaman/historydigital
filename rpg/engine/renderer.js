@@ -112,6 +112,15 @@ export function createRenderer(canvas, assets) {
       if (tileImage.complete && tileImage.naturalWidth) ctx.drawImage(tileImage, index % 16 * tile, Math.floor(index / 16) * tile, tile, tile, x, y, tile * scale, tile * scale);
       if (state.player.embodiment && p.questId && state.quests[p.questId]?.status === 'open') { ctx.strokeStyle = '#f0d79e'; ctx.lineWidth = 1.5; ctx.strokeRect(x + 1, y + 1, 14 * scale, 14 * scale); }
     }
+    const procession = state.world.livingEventStates?.E45;
+    if (procession?.status === 'ACTIVE' && procession.carriageMapId === map.mapId && procession.carriagePosition) {
+      const carriage = getImage(new URL('../assets/carriage-blocking.svg', import.meta.url));
+      if (carriage.complete && carriage.naturalWidth) {
+        const x = ox + procession.carriagePosition.x * tile * scale;
+        const y = oy + (procession.carriagePosition.y - 0.5) * tile * scale;
+        ctx.drawImage(carriage, x, y, 32 * scale, 24 * scale);
+      }
+    }
     const fireDamage = courtyardFireDamageMark(state, map);
     if (fireDamage) {
       const x = ox + fireDamage.x * tile * scale, y = oy + fireDamage.y * tile * scale;

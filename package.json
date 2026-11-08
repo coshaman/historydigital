@@ -406,6 +406,7 @@
     "v35-browser-acceptance": "npm run build:v33 && npm run v33-browser-acceptance",
     "acceptance:v35": "npm run v35-build-matrices && npm run v35-content-audit && npm run v35-npc-replay && npm run v35-ai-mock-audit && node --test scripts/v35-discussion-quests.test.mjs scripts/v33-authored-dialogue.test.mjs && npm run v35-civic-life-test && npm run build:v33 && npm run v35-civic-browser-acceptance && npm run api-diagnostics-test && npm run acceptance:v33",
     "v37-procession": "node scripts/v37-procession-test.mjs",
+    "v37-procession-browser": "npm run build:v33 && node scripts/v37-procession-browser.mjs",
     "v37-smuggled-edition": "node scripts/v37-smuggled-edition-test.mjs",
     "v37-porter-wage": "node scripts/v37-porter-wage-test.mjs",
     "v37-carter-warehouse-wage": "node scripts/v37-carter-warehouse-wage-test.mjs",

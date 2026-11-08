@@ -1,0 +1,43 @@
+{
+  "reviewer": "Halley",
+  "reviewType": "independent vertical-slice audit",
+  "reviewedAt": "2026-11-08",
+  "findings": [
+    {
+      "id": "E45-physical-blockage",
+      "severity": "P1",
+      "finding": "The event had no actual carriage in the world; its test seeded participants at the scene, so it did not prove natural arrival or blocking.",
+      "status": "FIXED_AND_BROWSER_ACCEPTED",
+      "evidence": [
+        "scripts/v37-procession-test.mjs",
+        "scripts/v37-procession-browser.mjs",
+        "artifacts/v37/BROWSER_ACCEPTANCE/PROCESSION_BROWSER_ACCEPTANCE.json"
+      ]
+    },
+    {
+      "id": "E22-newspaper-release-reading",
+      "severity": "P1",
+      "finding": "The implemented event is a newspaper purchase rather than a staged issue release and reading; the decision checks metadata rather than reading the issue content.",
+      "status": "OPEN"
+    },
+    {
+      "id": "E31-intermediate-stage-evidence",
+      "severity": "VERIFICATION_GAP",
+      "finding": "The current test directly injects DISCUSSION_READY instead of observing the natural preceding chain in the browser.",
+      "status": "OPEN"
+    },
+    {
+      "id": "E41-staged-crowd-and-messenger",
+      "severity": "VERIFICATION_GAP",
+      "finding": "Browser evidence reads the source and makes a choice but does not show the staged crowd and imperial messenger.",
+      "status": "OPEN"
+    }
+  ],
+  "testCommandsThatPassedButDidNotCoverTheseGaps": [
+    "npm run v37-newspaper-release",
+    "npm run v37-procession",
+    "npm run v37-serfdom-reading",
+    "npm run v37-dostoevsky-execution"
+  ],
+  "completionGate": "V37 remains in progress; the 45-event and final evidence gates are not met."
+}

@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "cases": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "embodiment": "street_vendor_matryona",
+      "stageBeforeChoice": "CLEARANCE_READY",
+      "stageAfterChoice": "STALL_MOVED_ASIDE",
+      "disposition": "STALL_MOVED_ASIDE",
+      "carriageVisible": true,
+      "visibleChoices": 1,
+      "horizontalOverflow": false,
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "embodiment": "street_vendor_matryona",
+      "stageBeforeChoice": "CLEARANCE_READY",
+      "stageAfterChoice": "STALL_MOVED_ASIDE",
+      "disposition": "STALL_MOVED_ASIDE",
+      "carriageVisible": true,
+      "visibleChoices": 1,
+      "horizontalOverflow": false,
+      "pageErrors": []
+    }
+  ]
+}

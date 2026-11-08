@@ -698,7 +698,7 @@ function evictFictionalTenant(state, host, contract, minute, maps) {
   let sleepPosition = null;
   for (let y = courtyard.height - 2; y >= 1 && !sleepPosition; y--) {
     for (let x = 1; x < courtyard.width - 1; x++) {
-      if (canOccupy(courtyard, x, y, host.id, state.hosts)) { sleepPosition = { x, y }; break; }
+      if (canOccupy(courtyard, x, y, host.id, state.hosts, state.world)) { sleepPosition = { x, y }; break; }
     }
   }
   if (!sleepPosition) return;
@@ -2653,7 +2653,7 @@ function advanceBelinskyLetterEvent(state, minuteOffset, maps, livingEventRows) 
 }
 function processionEventRow(state, event, minuteOffset, maps, details = {}) {
   return { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E45', stage: event.stage,
-    stageIndex: event.stage === 'CLEARANCE_READY' ? 1 : 2, actorHostIds: [...event.actorHostIds],
+    stageIndex: ({ CARRIAGE_APPROACHING: 1, CLEARANCE_READY: 2 })[event.stage] ?? 3, actorHostIds: [...event.actorHostIds],
     witnessHostIds: [...event.witnessHostIds], date: state.world.date, minute: minuteOffset,
     mapId: event.venueMapId, position: { ...event.scenePosition }, sourceIds: [],
     occurrenceType: 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION', validationStatus: 'DESIGN_SEED_NOT_VERIFIED',
@@ -2667,22 +2667,42 @@ function advanceProcessionEvent(state, minuteOffset, maps, livingEventRows) {
     const object = (layer(maps?.nevsky, 'Interactions')?.objects ?? []).find(row => row.id === 1184);
     const actorHostIds = ['street_vendor_matryona', 'junior_guard_sergey', 'coachman_timofey'];
     const actors = actorHostIds.map(id => state.hosts[id]);
+    const coachman = state.hosts.coachman_timofey;
     const minute = ((state.world.clockMinutes % 1440) + 1440) % 1440;
     if (state.world.chapterId !== 'V33_1847_PRINT' || state.world.activeRealm || state.world.date !== '1847-06-01'
-      || minute < 690 || minute > 780 || !object || actors.some(host => !host || host.historicalAliveAndPresent === false
+      || minute < 690 || minute > 780 || !object || !coachman || coachman.historicalAliveAndPresent === false
+      || coachman.transportState?.carriageCondition === 'BROKEN' || actors.some(host => !host || host.historicalAliveAndPresent === false
         || !host.allowedMaps.includes('nevsky') || npcMapRoute(host.mapId, 'nevsky', host, maps, state.world.clockMinutes) === null)) return;
     const scenePosition = objectTile(object);
     event = state.world.livingEventStates.E45 = { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E45',
-      status: 'ACTIVE', stage: 'CLEARANCE_READY', trigger: '1847_conditional_local_carriage_blockage',
-      startedAtMinute: state.world.clockMinutes, resolvesAtMinute: state.world.clockMinutes + 180,
+      status: 'ACTIVE', stage: 'CARRIAGE_APPROACHING', trigger: 'coachman_route_reaches_narrow_nevsky_lane',
+      startedAtMinute: state.world.clockMinutes, resolvesAtMinute: state.world.clockMinutes + 420,
       actorHostIds, witnessHostIds: actorHostIds.filter(id => id !== 'street_vendor_matryona'),
       venueMapId: 'nevsky', scenePosition, vendorHostId: 'street_vendor_matryona', guardHostId: 'junior_guard_sergey',
-      coachmanHostId: 'coachman_timofey', stallPosition: { ...state.hosts.street_vendor_matryona.position },
+      coachmanHostId: 'coachman_timofey', carriageMapId: coachman.mapId, carriagePosition: { ...coachman.position },
+      stallPosition: { ...state.hosts.street_vendor_matryona.position },
       historicalOutcomeId: 'FICTIONAL_LOCAL_STREET_ENCOUNTER', historicalOutcomeFixed: false };
     livingEventRows.push(processionEventRow(state, event, minuteOffset, maps,
-      { changeKo: '마차가 길목을 막았다. 경비가 좌판 주인과 마부를 불러 세웠다.' }));
+      { changeKo: '마부가 네프스키의 좁은 길목으로 수레를 몬다. 길목에 닿으면 경비와 좌판 주인이 통행을 살핀다.' }));
   }
   if (event.status !== 'ACTIVE') return;
+  const coachman = state.hosts[event.coachmanHostId];
+  if (event.stage === 'CARRIAGE_APPROACHING' && coachman) {
+    event.carriageMapId = coachman.mapId;
+    event.carriagePosition = { ...coachman.position };
+    const gathered = event.actorHostIds.every(id => {
+      const host = state.hosts[id];
+      return host?.historicalAliveAndPresent !== false && host?.mapId === event.venueMapId
+        && nearTile(host.position, event.scenePosition, 3);
+    });
+    if (coachman.mapId === event.venueMapId && nearTile(coachman.position, event.scenePosition, 1) && gathered) {
+      event.stage = 'CLEARANCE_READY';
+      event.carriageMapId = event.venueMapId;
+      event.carriagePosition = { ...event.scenePosition };
+      livingEventRows.push(processionEventRow(state, event, minuteOffset, maps,
+        { changeKo: '마차가 좁은 길목에서 멈췄다. 마트료나와 세르게이가 다가와 통행을 의논한다.' }));
+    }
+  }
   if (state.world.clockMinutes < event.resolvesAtMinute) return;
   event.status = 'RESOLVED'; event.stage = 'CARRIAGE_PASSED'; event.disposition = 'NO_PLAYER_INTERVENTION';
   event.resolvedAtMinute = state.world.clockMinutes;
@@ -3156,7 +3176,7 @@ const exitClearanceCache = new WeakMap();
 const mapRouteCache = new WeakMap();
 function npcCanOccupy(state, hostId, mapId, position, maps, reservedTiles) {
   const map = maps?.[mapId];
-  if (!canOccupy(map, position.x, position.y, hostId, state.hosts) || isReserved(mapId, position, reservedTiles)) return false;
+  if (!canOccupy(map, position.x, position.y, hostId, state.hosts, state.world) || isReserved(mapId, position, reservedTiles)) return false;
   if (!state.player.embodiment && state.world.currentMapId === mapId && state.player.position.x === position.x && state.player.position.y === position.y) return false;
   return true;
 }
@@ -3247,7 +3267,8 @@ function plannedGridStep(state, host, map, goals, cacheKey, maps, reservedTiles,
 }
 function plannedMapRoute(host, targetMapId, maps, absoluteMinute) {
   const accessPhase = host.allowedMaps.filter(id => maps?.[id]?.metadata?.access).map(id => `${id}:${mapAccessFailure(maps[id], host, absoluteMinute) ?? 'open'}`).join(',');
-  const eventAccess = (host.activeGoal?.taskId === 'V37:E19:REACH_READING_PRACTICE' && targetMapId === 'printshop')
+  const eventAccess = (host.activeGoal?.taskId?.startsWith('V37:E45:') && targetMapId === 'nevsky')
+    || (host.activeGoal?.taskId === 'V37:E19:REACH_READING_PRACTICE' && targetMapId === 'printshop')
     || (host.activeGoal?.taskId?.startsWith('V37:E24:') && targetMapId === 'courtyard');
   const key = `${host.mapId}>${targetMapId}:${host.allowedMaps.join('|')}:${accessPhase}:${eventAccess ? host.activeGoal.taskId.split(':')[1] : ''}`;
   if (host.mapRoutePlan?.key === key && Array.isArray(host.mapRoutePlan.route)) {
@@ -3256,7 +3277,9 @@ function plannedMapRoute(host, targetMapId, maps, absoluteMinute) {
       return exit ? { ...step, exit } : null;
     }).filter(Boolean);
   }
-  const routeOptions = host.activeGoal?.taskId === 'V37:E19:REACH_READING_PRACTICE' && targetMapId === 'printshop'
+  const routeOptions = host.activeGoal?.taskId?.startsWith('V37:E45:') && targetMapId === 'nevsky'
+    ? { allowClosedMapIds: ['nevsky'] }
+    : host.activeGoal?.taskId === 'V37:E19:REACH_READING_PRACTICE' && targetMapId === 'printshop'
     ? { allowClosedMapIds: ['printshop'] }
     : host.activeGoal?.taskId?.startsWith('V37:E24:') && targetMapId === 'courtyard'
       ? { allowUnlistedMapIds: ['courtyard'] }
@@ -3361,9 +3384,28 @@ function upcomingNpcSocialWork(state) {
 
 function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
   const localMinute = ((state.world.clockMinutes % 1440) + 1440) % 1440;
+  const procession = state.world.livingEventStates?.E45;
+  const smuggledEdition = state.world.livingEventStates?.E34;
+  if (procession?.status === 'ACTIVE' && procession.actorHostIds.includes(host.id)
+    && host.allowedMaps.includes('nevsky')
+    && !(smuggledEdition?.status === 'ACTIVE' && smuggledEdition.actorHostIds.includes(host.id))) {
+    const activities = { street_vendor_matryona: '좌판을 옮길 수 있도록 마차 옆으로 간다',
+      junior_guard_sergey: '통행 지시를 확인하러 마차 옆으로 간다',
+      coachman_timofey: procession.stage === 'CARRIAGE_APPROACHING' ? '마차를 네프스키 좁은 길목으로 몬다' : '마차를 세우고 길을 살핀다' };
+    const stagingPositions = { street_vendor_matryona: { x: procession.scenePosition.x - 1, y: procession.scenePosition.y },
+      junior_guard_sergey: { x: procession.scenePosition.x + 2, y: procession.scenePosition.y },
+      coachman_timofey: { ...procession.scenePosition } };
+    return { slot: { mapId: 'nevsky', position: stagingPositions[host.id], activityKo: activities[host.id] },
+      goalType: 'LIVING_EVENT_RESPONSE', targetHostId: host.id === 'street_vendor_matryona'
+        ? 'junior_guard_sergey' : 'street_vendor_matryona',
+      taskId: `V37:E45:${procession.stage}:${host.id}`, reason: 'residents_respond_to_blocked_street',
+      selectionBasis: { utilityScore: 194, eventId: 'E45', stage: procession.stage } };
+  }
   const canalEvent = state.world.livingEventStates?.E11;
   if (canalEvent?.status === 'ACTIVE' && canalEvent.stage === 'WAITING_FOR_PARTNER'
-    && canalEvent.actorHostIds.includes(host.id) && host.allowedMaps.includes('canal-road')) {
+    && canalEvent.actorHostIds.includes(host.id) && host.allowedMaps.includes('canal-road')
+    && !(state.world.livingEventStates?.E45?.status === 'ACTIVE'
+      && state.world.livingEventStates.E45.actorHostIds.includes(host.id))) {
     return { slot: { mapId: 'canal-road', position: { x: 11, y: 14 }, activityKo: '운하 물가에서 만나기로 한 사람을 기다린다' },
       goalType: 'LIVING_EVENT_RESPONSE', targetHostId: canalEvent.actorHostIds.find(id => id !== host.id),
       taskId: 'V37:E11:MEET_AT_CANAL', reason: 'arrive_for_the_canal_crossing_and_wait_for_the_other_carrier',
@@ -3666,20 +3708,6 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
       taskId: `V37:E44:${belinskyLetter.stage}:${host.id}`, reason: 'gather_to_read_the_handwritten_belinsky_letter',
       selectionBasis: { utilityScore: 184, eventId: 'E44', stage: belinskyLetter.stage } };
   }
-  const procession = state.world.livingEventStates?.E45;
-  if (procession?.status === 'ACTIVE' && procession.actorHostIds.includes(host.id)
-    && host.allowedMaps.includes('nevsky')
-    && npcMapRoute(host.mapId, 'nevsky', host, maps, state.world.clockMinutes) !== null) {
-    const activities = { street_vendor_matryona: '막힌 길목에서 좌판을 지킨다',
-      junior_guard_sergey: '통행 지시를 전하러 네프스키 거리로 간다',
-      coachman_timofey: '마차를 세우고 길을 살핀다' };
-    return { slot: { mapId: 'nevsky', position: { ...procession.scenePosition }, activityKo: activities[host.id] },
-      goalType: 'LIVING_EVENT_RESPONSE', targetHostId: host.id === 'street_vendor_matryona'
-        ? 'junior_guard_sergey' : 'street_vendor_matryona',
-      taskId: `V37:E45:${procession.stage}:${host.id}`, reason: 'residents_respond_to_blocked_street',
-      selectionBasis: { utilityScore: 184, eventId: 'E45', stage: procession.stage } };
-  }
-  const smuggledEdition = state.world.livingEventStates?.E34;
   if (smuggledEdition?.status === 'ACTIVE' && smuggledEdition.actorHostIds.includes(host.id)
     && host.allowedMaps.includes(smuggledEdition.venueMapId)
     && npcMapRoute(host.mapId, smuggledEdition.venueMapId, host, maps, state.world.clockMinutes) !== null) {
@@ -5142,8 +5170,17 @@ function payRent(state, { tenantHostId = state?.player?.embodiment } = {}, maps 
   return { ok: true, state: next, paidAmount, amountDueRemaining: nextContract.amountDueRemaining, kind: row.kind };
 }
 
-function canOccupy(map, x, y, ignoreHostId = null, hostStates = null) {
-  if (!map || tileAt(layer(map, 'Collision'), x, y) !== 0) return false;
+function hasLiveCarriageAt(world, mapId, x, y) {
+  const event = world?.livingEventStates?.E45;
+  // While approaching, the coachman and carriage are one moving actor. Treating
+  // the carriage's current footprint as an obstacle traps its own pathfinder.
+  // The road becomes physically blocked only after the carriage stops.
+  return event?.status === 'ACTIVE' && event.stage === 'CLEARANCE_READY' && event.carriageMapId === mapId
+    && event.carriagePosition?.y === y && x >= event.carriagePosition.x && x < event.carriagePosition.x + 2;
+}
+
+function canOccupy(map, x, y, ignoreHostId = null, hostStates = null, world = null) {
+  if (!map || tileAt(layer(map, 'Collision'), x, y) !== 0 || hasLiveCarriageAt(world, map.mapId, x, y)) return false;
   if (hostStates) return !Object.values(hostStates).some(host => host.id !== ignoreHostId && host.historicalAliveAndPresent !== false && host.mapId === map.mapId && host.position.x === x && host.position.y === y);
   const npcLayer = layer(map, 'NPCs');
   return !(npcLayer?.objects ?? []).some(npc => {
@@ -5153,7 +5190,7 @@ function canOccupy(map, x, y, ignoreHostId = null, hostStates = null) {
   });
 }
 
-function nearestOpenArrival(map, preferred, hostId, hosts) {
+function nearestOpenArrival(map, preferred, hostId, hosts, world = null) {
   const maxRadius = map.width + map.height;
   for (let radius = 0; radius <= maxRadius; radius++) {
     for (let dy = -radius; dy <= radius; dy++) {
@@ -5161,7 +5198,7 @@ function nearestOpenArrival(map, preferred, hostId, hosts) {
       const candidates = dx === 0
         ? [{ x: preferred.x, y: preferred.y + dy }]
         : [{ x: preferred.x - dx, y: preferred.y + dy }, { x: preferred.x + dx, y: preferred.y + dy }];
-      const open = candidates.find(tile => canOccupy(map, tile.x, tile.y, hostId, hosts));
+      const open = candidates.find(tile => canOccupy(map, tile.x, tile.y, hostId, hosts, world));
       if (open) return open;
     }
   }
@@ -5195,13 +5232,17 @@ function moveActor(state, direction, map, maps = { [map?.mapId]: map }) {
   if (tileAt(layer(map, 'Collision'), x, y) !== 0) return { state, moved: false, reason: 'collision' };
   const timed = advanceWorldTime(state, 1, maps, [{ mapId: map.mapId, position: { x, y } }]);
   let yielded = null;
-  if (!canOccupy(map, x, y, hostId, timed.hosts)) yielded = yieldBlockingResident(timed, map, x, y, hostId);
-  if (!canOccupy(map, x, y, hostId, timed.hosts)) return { state, moved: false, reason: 'collision' };
+  if (!canOccupy(map, x, y, hostId, timed.hosts, timed.world)) yielded = yieldBlockingResident(timed, map, x, y, hostId);
+  if (!canOccupy(map, x, y, hostId, timed.hosts, timed.world)) return { state, moved: false, reason: 'collision' };
   const next = clone(timed);
   const nextActor = hostId ? next.hosts[hostId] : next.player;
   nextActor.position = { x, y };
   nextActor.facing = direction;
   next.player.position = { x, y };
+  const carriageEvent = next.world.livingEventStates?.E45;
+  if (hostId === carriageEvent?.coachmanHostId && carriageEvent.status === 'ACTIVE') {
+    carriageEvent.carriageMapId = map.mapId; carriageEvent.carriagePosition = { x, y };
+  }
   if (yielded) next.ledger.push({ eventId: `NPC_YIELD_${next.ledger.length + 1}`, eventType: 'NPC_YIELD', date: next.world.date, mapId: map.mapId, movingHostId: hostId, hostId: yielded.hostId, from: yielded.from, to: yielded.to, reason: 'resident_makes_room_for_player' });
   return { state: next, moved: true, reason: null };
 }
@@ -5325,7 +5366,7 @@ function transitionMap(state, exitId, maps) {
   if (accessFailure) return { ok: false, reason: accessFailure, state };
   const preferredArrival = { x: Number(data.arrivalX), y: Number(data.arrivalY) };
   if (!Number.isInteger(preferredArrival.x) || !Number.isInteger(preferredArrival.y)) return { ok: false, reason: 'invalid_arrival', state };
-  const arrival = nearestOpenArrival(targetMap, preferredArrival, hostId, state.hosts);
+  const arrival = nearestOpenArrival(targetMap, preferredArrival, hostId, state.hosts, state.world);
   if (!arrival) return { ok: false, reason: 'invalid_arrival', state };
   const timed = advanceWorldTime(state, 5, maps, [{ mapId: data.targetMapId, position: arrival }]);
   const next = clone(timed);
@@ -5884,6 +5925,10 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
       || (actionId === 'E45_TURN_CARRIAGE_BACK' && hostId !== event.coachmanHostId)) {
       return { ok: false, reason: 'procession_action_wrong_actor', state };
     }
+    if (event.actorHostIds.some(id => {
+      const person = next.hosts[id];
+      return !person || person.mapId !== event.venueMapId || !nearTile(person.position, event.scenePosition, 3);
+    })) return { ok: false, reason: 'procession_participants_not_present', state };
     const vendor = next.hosts[event.vendorHostId], guard = next.hosts[event.guardHostId], coachman = next.hosts[event.coachmanHostId];
     if (actionId !== 'E45_TURN_CARRIAGE_BACK') {
       vendor.position = { x: event.scenePosition.x - 2, y: event.scenePosition.y };
@@ -6898,11 +6943,11 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
         const arrivalData = finalExit?.data ?? properties(finalExit);
         const targetMap = maps[fareDestinationMapId];
         const preferredArrival = { x: Number(arrivalData.arrivalX), y: Number(arrivalData.arrivalY) };
-        const driverArrival = nearestOpenArrival(targetMap, preferredArrival, coachman.id, next.hosts);
+        const driverArrival = nearestOpenArrival(targetMap, preferredArrival, coachman.id, next.hosts, next.world);
         if (!driverArrival) return { ok: false, reason: 'fare_arrival_unavailable', state };
         coachman.mapId = fareDestinationMapId;
         coachman.position = { ...driverArrival };
-        const passengerArrival = nearestOpenArrival(targetMap, driverArrival, passenger.id, next.hosts);
+        const passengerArrival = nearestOpenArrival(targetMap, driverArrival, passenger.id, next.hosts, next.world);
         if (!passengerArrival) return { ok: false, reason: 'fare_arrival_unavailable', state };
         passenger.mapId = fareDestinationMapId;
         passenger.position = { ...passengerArrival };
@@ -7366,6 +7411,16 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
   state.world.literaryOutcomes ??= {};
   state.world.marketPriceModifiers ??= {};
   state.world.livingEventStates ??= {};
+  const savedProcession = state.world.livingEventStates.E45;
+  if (savedProcession?.status === 'ACTIVE') {
+    const coachman = state.hosts?.[savedProcession.coachmanHostId ?? 'coachman_timofey'];
+    savedProcession.stage ??= 'CARRIAGE_APPROACHING';
+    if (savedProcession.stage === 'ACTIVE') savedProcession.stage = 'CARRIAGE_APPROACHING';
+    savedProcession.carriageMapId ??= coachman?.mapId ?? savedProcession.venueMapId;
+    savedProcession.carriagePosition ??= { ...(coachman?.position ?? savedProcession.scenePosition) };
+    savedProcession.resolvesAtMinute ??= (savedProcession.startedAtMinute ?? state.world.clockMinutes) + 420;
+    savedProcession.stallPosition ??= { ...(state.hosts?.[savedProcession.vendorHostId ?? 'street_vendor_matryona']?.position ?? savedProcession.scenePosition) };
+  }
   state.world.rumorPropagationLog ??= [];
   state.world.foodAidRecords ??= [];
   for (const row of state.world.foodAidRecords) if (!row.debt) {
