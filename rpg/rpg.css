@@ -5,6 +5,7 @@
   .lower{min-height:0;grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto;gap:8px;padding:8px 10px;overflow:hidden;align-items:stretch}
   .journal{min-height:0;overflow-y:auto;overscroll-behavior:contain;padding-right:4px}
   .actions{max-height:none;overflow:visible}
+  .actions.roster-options{max-height:min(54dvh,520px);overflow:auto;overscroll-behavior:contain;padding-right:6px}
   .touch-pad{grid-row:2}
 }
 .touch-pad button:disabled{opacity:.4;cursor:not-allowed}

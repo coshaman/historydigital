@@ -1,6 +1,8 @@
 'use strict';
 
 const { createHmac, timingSafeEqual, randomUUID } = require('node:crypto');
+const { readdirSync } = require('node:fs');
+const { join } = require('node:path');
 const scenes = require('../../rpg/ai/scenes.json').sessions;
 const historicalSources = require('../../rpg/data/historical-source-packets.json').records;
 const literarySources = [require('../../rpg/data/khor-kalynych-source.json'), require('../../rpg/data/sovremennik-1847-issue.json'), require('../../rpg/data/dead-souls-source.json'), require('../../rpg/data/overcoat-source.json')];
@@ -103,21 +105,33 @@ const relationshipQuests = [
   ...residentQuestBatchTwo.map(file => require(`../../rpg/quests/${file}.json`)),
 ];
 const dialogueQuests = [...relationshipQuests, require('../../rpg/quests/literary-dead-souls.json'), require('../../rpg/quests/literary-overcoat.json')];
+const allAuthoredQuests = readdirSync(join(__dirname, '../../rpg/quests'))
+  .filter(file => file.endsWith('.json'))
+  .map(file => require(join(__dirname, '../../rpg/quests', file)));
 const actorActionRecords = new Map();
 for (const quest of dialogueQuests) for (const action of quest.actions ?? []) {
   actorActionRecords.set(`${quest.id}:${action.id}`, { questId: quest.id, actionId: action.id, hostIds: action.hostIds, situationKo: action.effects?.situationKo ?? action.resultKo, effects: action.effects ?? {} });
 }
+for (const quest of allAuthoredQuests) {
+  questRecords.set(quest.id, quest);
+  for (const action of quest.actions ?? []) actorActionRecords.set(`${quest.id}:${action.id}`,
+    { questId: quest.id, actionId: action.id, hostIds: action.hostIds, situationKo: action.effects?.situationKo ?? action.resultKo, effects: action.effects ?? {} });
+}
 const relationshipHintValues = new Map();
-for (const quest of relationshipQuests) for (const action of quest.actions ?? []) {
+for (const quest of allAuthoredQuests) for (const action of quest.actions ?? []) {
   for (const [group, status] of Object.entries(action.effects?.relations ?? {})) {
     if (!relationshipHintValues.has(group)) relationshipHintValues.set(group, new Set());
     relationshipHintValues.get(group).add(status);
   }
 }
-relationshipHintValues.set('reading_circle', new Set(['초대에 응해 독서 모임에 다녀왔다.', '모임에 참석해 책 제목만 수첩에 남겼다.', '독서 모임 초대를 사양했다.']));
-relationshipHintValues.set('examPreparation', new Set(['시험 대신 함께 공부했다']));
-relationshipHintValues.set('market_nadezhda', new Set(['빵값을 치른 거래 이웃']));
-relationshipHintValues.set('baker_fyodor', new Set(['빵을 산 거래 이웃']));
+const addRelationshipHintValues = (group, values) => {
+  if (!relationshipHintValues.has(group)) relationshipHintValues.set(group, new Set());
+  for (const value of values) relationshipHintValues.get(group).add(value);
+};
+addRelationshipHintValues('reading_circle', ['초대에 응해 독서 모임에 다녀왔다.', '모임에 참석해 책 제목만 수첩에 남겼다.', '독서 모임 초대를 사양했다.']);
+addRelationshipHintValues('examPreparation', ['시험 대신 함께 공부했다']);
+addRelationshipHintValues('market_nadezhda', ['빵값을 치른 거래 이웃']);
+addRelationshipHintValues('baker_fyodor', ['빵을 산 거래 이웃']);
 const TURN_SCHEMA_VERSION = 'V33_RPG_DIALOGUE_V2';
 const SESSION_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 const MAX_TURNS = 80;

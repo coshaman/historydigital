@@ -5208,6 +5208,30 @@ function possessHost(state, hostId, map) {
   return { ok: true, state: next };
 }
 
+function possessHostFromRoster(state, hostId, maps) {
+  const host = state?.hosts?.[hostId], map = host && maps?.[host.mapId];
+  if (!host || !map || host.historicalAliveAndPresent === false || host.presenceWindow
+    && (state.world.date < host.presenceWindow.startDate || state.world.date > host.presenceWindow.endDate)) {
+    return { ok: false, reason: 'host_unavailable', state };
+  }
+  let next = state;
+  if (state.player.embodiment) {
+    const released = releaseHost(state, maps[state.world.currentMapId]);
+    if (!released.ok) return released;
+    next = released.state;
+  }
+  const era = host.eraProfile ?? runtimeEraProfile(host);
+  const inAllowedRealm = era.layer !== 'LITERARY' || next.world.activeRealm?.id === era.realmId
+    && map.metadata.mapClass === 'LITERARY_REALM' && era.mapId === map.mapId;
+  if (!inAllowedRealm || era.layer !== 'LITERARY' && (next.world.activeRealm || !era.allowedChapterIds.includes(next.world.chapterId))) {
+    return { ok: false, reason: 'era_layer_mismatch', state };
+  }
+  const positioned = clone(next);
+  positioned.world.currentMapId = host.mapId;
+  positioned.player.position = { ...host.position };
+  return possessHost(positioned, hostId, map);
+}
+
 function enterLiteraryRealm(state, map, card) {
   if (!state || state.player.embodiment || state.world.activeRealm || map?.metadata?.mapClass !== 'LITERARY_REALM' || card?.kind !== 'LITERARY' || !card.allowedMaps.includes(map.mapId) || !state.hosts[card.id]) return { ok: false, reason: 'literary_realm_unavailable', state };
   const requiredSources = map.metadata.sourceIds ?? [];
@@ -8227,6 +8251,6 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
   return state;
 }
 
-const V33GameState = { describeHostMoney, createInitialState, moveActor, possessHost, enterLiteraryRealm, leaveLiteraryRealm, releaseHost, transitionMap, performQuestAction, payRent, knowledgeForHost, recordSourceRead, recordEvidenceRead, recordDialogueTurn, recordDiscussionPosition, advanceNpcWorld, advanceWorldTime, advanceChapter, advanceCampaignDate, resolveEnding, saveGame, loadGame, stateHash, canOccupy, nearTile, playerCanObserveWorldEvent };
+const V33GameState = { describeHostMoney, createInitialState, moveActor, possessHost, possessHostFromRoster, enterLiteraryRealm, leaveLiteraryRealm, releaseHost, transitionMap, performQuestAction, payRent, knowledgeForHost, recordSourceRead, recordEvidenceRead, recordDialogueTurn, recordDiscussionPosition, advanceNpcWorld, advanceWorldTime, advanceChapter, advanceCampaignDate, resolveEnding, saveGame, loadGame, stateHash, canOccupy, nearTile, playerCanObserveWorldEvent };
 if (typeof module !== 'undefined' && module.exports) module.exports = V33GameState;
 if (typeof globalThis !== 'undefined') globalThis.V33GameState = V33GameState;

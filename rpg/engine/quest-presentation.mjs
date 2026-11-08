@@ -50,6 +50,16 @@ export function questChoices(quest, hostId, knowledge = [], state = null) {
   }));
 }
 
+export function resolveObjectQuest(questId, state, quests) {
+  const quest = quests.find(item => item.id === questId);
+  if (!quest?.lifeChain) return quest ?? null;
+  const chain = quests.filter(item => item.lifeChain?.id === quest.lifeChain.id)
+    .sort((a, b) => a.lifeChain.stage - b.lifeChain.stage);
+  const hostId = state?.player?.embodiment;
+  return chain.find(item => state.quests[item.id]?.status !== 'resolved'
+    && (!hostId || item.actions?.some(action => action.hostIds.includes(hostId)))) ?? quest;
+}
+
 // Keep continuation available after reading, conversation, movement and save/reload.
 // A current playable quest still needs to be completed at its physical object.
 export function continuationQuest(state, campaign, quests) {

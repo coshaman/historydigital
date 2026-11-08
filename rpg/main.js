@@ -1,7 +1,7 @@
 import { createRenderer } from './engine/renderer.js';
 import { decorateCardsWithEraProfiles } from './engine/era-profiles.mjs';
 import { objectIsPresent, questPrerequisitesMet } from './engine/world-presentation.mjs';
-import { questChoices, continuationQuest } from './engine/quest-presentation.mjs';
+import { questChoices, continuationQuest, resolveObjectQuest } from './engine/quest-presentation.mjs';
 import { guideToResident, resolveQuestGuidance } from './engine/quest-guidance.mjs';
 import { ownsKeyboardInput, observationText } from './engine/player-presentation.mjs';
 import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHost, discussionReflectionPromptsForHost } from './engine/discussion-quests.mjs';
@@ -13,7 +13,7 @@ import { availableTopics, contextualOpening } from './ai/authored-dialogue.mjs';
 import { formatCivicReaction, formatObservedNpcReactions, recentJournalEntries } from './engine/world-reaction-presentation.mjs';
 import { advanceStudy, beginExam, buildLifeTimeline, chooseCirclePath, completeLearning, getExamQuestions, selectExamAnswer, submitExam } from './engine/learning-life.mjs';
 import './engine/game-state.js';
-const { createInitialState, moveActor, possessHost, releaseHost, transitionMap, performQuestAction, payRent, saveGame, loadGame, nearTile, knowledgeForHost, recordSourceRead, recordEvidenceRead, recordDialogueTurn, recordDiscussionPosition, enterLiteraryRealm, leaveLiteraryRealm, advanceChapter, advanceCampaignDate, resolveEnding, describeHostMoney } = globalThis.V33GameState;
+const { createInitialState, moveActor, possessHost, possessHostFromRoster, releaseHost, transitionMap, performQuestAction, payRent, saveGame, loadGame, nearTile, knowledgeForHost, recordSourceRead, recordEvidenceRead, recordDialogueTurn, recordDiscussionPosition, enterLiteraryRealm, leaveLiteraryRealm, advanceChapter, advanceCampaignDate, resolveEnding, describeHostMoney } = globalThis.V33GameState;
 
 const readJson = async path => (await fetch(path)).json();
 const [street, shop, chancery, courtyard, marketMap, literaryMap, overcoatMap, policeMap, firstQuest, marketPersonalQuests, source, firstIssue, historicalSources, literarySource, overcoatSource, campaign, publicQuest, europeNewsQuest, circleQuest, letterQuest, literaryQuest, overcoatQuest, sceneObservations, aiScenes, learningExam, learningSourceData, lifeTemplates] = await Promise.all([readJson('./rpg/maps/nevsky.json'), readJson('./rpg/maps/printshop.json'), readJson('./rpg/maps/chancery.json'), readJson('./rpg/maps/courtyard.json'), readJson('./rpg/maps/market-quay.json'), readJson('./rpg/maps/dead-souls.json'), readJson('./rpg/maps/overcoat.json'), readJson('./rpg/maps/police-station.json'), readJson('./rpg/quests/printshop-article.json'), Promise.all(['yard-ledger-1847','laundry-wages-1847','bakery-flour-1847','market-prices-1847','porter-load-1847','coach-fare-1847','warehouse-injury-1847','pavel-missing-parcel-1847','household-privacy-1847','midwife-care-cost-1847','apothecary-limits-1847','apprentice-authorship-1847','bookbinder-damage-1847','scribal-copy-1847','inn-debt-rumor-1847','student-circle-risk-1847','teacher-access-cost-1847','household-tutor-offer-1847','market-theft-1847','noble-status-debt-1847','landlady-rent-commons-1847','water-access-queue-1847','fish-storage-time-1847','warehouse-loss-record-1847','servant-private-warning-1847','guard-entry-bribe-1847','carter-delivery-delay-1847','street-vendor-weather-1847','typesetter-speed-censorship-1847','lodging-reading-income-1847','clerk-alexei-life-1-1847','clerk-alexei-life-2-1847','clerk-alexei-life-3-1847','courier-pavel-life-1-1847','courier-pavel-life-2-1847','courier-pavel-life-3-1847','seamstress-anna-life-1-1847','seamstress-anna-life-2-1847','seamstress-anna-life-3-1847','bookseller-lev-life-1-1847','bookseller-lev-life-2-1847','bookseller-lev-life-3-1847'].map(id => readJson(`./rpg/quests/${id}.json`))), readJson('./rpg/data/khor-kalynych-source.json'), readJson('./rpg/data/sovremennik-1847-issue.json'), readJson('./rpg/data/historical-source-packets.json'), readJson('./rpg/data/dead-souls-source.json'), readJson('./rpg/data/overcoat-source.json'), readJson('./rpg/quests/campaign.json'), readJson('./rpg/quests/public-discourse-1848.json'), readJson('./rpg/quests/europe-news-1848.json'), readJson('./rpg/quests/circle-investigation-1849.json'), readJson('./rpg/quests/circle-letter-1849-may.json'), readJson('./rpg/quests/literary-dead-souls.json'), readJson('./rpg/quests/literary-overcoat.json'), readJson('./rpg/data/scene-observations.json'), readJson('./rpg/ai/scenes.json'), readJson('./rpg/data/learning-exam.json'), readJson('./rpg/data/learning-sources.json'), readJson('./rpg/data/life-simulation.json')]);
@@ -80,7 +80,17 @@ const sourceReaderRecords = new Map(sourceReaderIndex.records.map(record => [rec
 const caseContextsByQuest = new Map(caseContextData.cases.map(item => [item.questId, item]));
 const discussionQuestById = new Map(discussionQuestData.quests.map(item => [item.id, item]));
 const districtById = new Map(districtRegistry.districts.map(item => [item.id, item]));
-const currentDiscussionQuests = () => state.world.activeRealm ? [] : availableDiscussionQuests(state, discussionQuestData);
+const currentDiscussionQuests = () => {
+  if (state.world.activeRealm) return [];
+  return availableDiscussionQuests(state, discussionQuestData).flatMap(quest => {
+    const hosts = Object.fromEntries(Object.entries(quest.hosts ?? {}).filter(([hostId]) => {
+      const host = state.hosts[hostId];
+      const knownSources = new Set([...(knowledgeForHost(state, hostId) ?? []), ...(host?.heardEventReports ?? []).flatMap(report => report.sourceIds ?? [])]);
+      return (quest.sourceIds ?? []).some(sourceId => knownSources.has(sourceId));
+    }));
+    return Object.keys(hosts).length ? [{ ...quest, hosts }] : [];
+  });
+};
 const initial = () => createInitialState({ maps, hostCards, quests: questList });
 let state;
 try { state = localStorage.getItem('v33-rpg-save') ? loadGame(localStorage.getItem('v33-rpg-save'), { maps, hostCards, quests: questList, learningExam }) : initial(); }
@@ -106,6 +116,7 @@ caseContextButton.addEventListener('click', () => {
   say(context.playerFacing.sceneTitleKo, text, sourceActions);
 });
 $('.mission-controls').append(caseContextButton);
+$('#roster-open').addEventListener('click', openCharacterList);
 let lastMoveAt = 0, renderFrame = null, renderTimer = null, activeDialogueHost = null, activeDialogueKey = null, activeDialogueController = null, dialogueGeneration = 0, dialogueRequestPending = false;
 const dialogueSessions = new Map(), dialogueTranscripts = new Map();
 const dialogueCurrentLines = new Map();
@@ -370,6 +381,7 @@ function say(title, text, actions = []) {
   const persistentLabel = readyQuest ? continuationFor(readyQuest)[0].label : null;
   const visibleActions = actions.filter(action => action.label !== persistentLabel);
   $('.lower').classList.toggle('has-actions', visibleActions.length > 0);
+  $('.actions').classList.remove('roster-options');
   $('#mission-tracker').hidden = Boolean(state.endingId) || visibleActions.length > 0;
   $('#actions').replaceChildren(...visibleActions.map(({ label, subcopy, run, disabled = false }) => {
     const button = document.createElement('button');
@@ -1223,7 +1235,7 @@ function inspect(object) {
   }
   else if (props.storyTextKo && !props.questId) { say(object.name || '주변의 물건', props.storyTextKo, []); sayRecord(`살펴봄 · ${object.name || '주변의 물건'}`); }
   else if (props.questId) {
-    const activeQuest = questsById.get(props.questId);
+    const activeQuest = resolveObjectQuest(props.questId, state, questList);
     if (!questIsAvailable(activeQuest)) { say('아직 시작할 때가 아니다', '이 장의 사건이 열리면 여기서 이어진다.', []); return; }
     if (state.quests[activeQuest.id]?.status === 'resolved') {
       say(activeQuest.titleKo, '이 장의 선택은 이미 기록되어 있다. 다음으로 이어갈 수 있다.', continuationFor(activeQuest));
@@ -1381,8 +1393,8 @@ function interact() {
   const activeQuestObject = near.find(item => {
       if (!['quest-object', 'inspectable'].includes(item.type)) return false;
       const questId = Object.fromEntries((item.properties ?? []).map(property => [property.name, property.value])).questId;
-      const quest = questsById.get(questId);
-      return questIsAvailable(quest) && state.quests[questId]?.status !== 'resolved'
+      const quest = resolveObjectQuest(questId, state, questList);
+      return questIsAvailable(quest) && state.quests[quest.id]?.status !== 'resolved'
         && (!state.player.embodiment || quest.actions.some(action => action.hostIds.includes(state.player.embodiment)));
     });
   if (!activeQuestObject && state.player.embodiment && civicService) { inspect(civicService); return; }
@@ -1393,9 +1405,32 @@ function interact() {
     ?? near.find(item => item.type === 'npc' && mapObjectProperties(item).hostId !== state.player.embodiment)
     ?? near.find(item => item.type === 'map-exit')
     ?? near.find(item => item.type === 'inspectable')
-    ?? near.find(item => item.type === 'quest-object' && questIsAvailable(questsById.get(mapObjectProperties(item).questId)))
+    ?? near.find(item => item.type === 'quest-object' && questIsAvailable(resolveObjectQuest(mapObjectProperties(item).questId, state, questList)))
     ?? near[0];
   inspect(object);
+}
+function openCharacterList() {
+  const entries = cards.filter(card => {
+    const host = state.hosts[card.id];
+    if (!host?.historicalAliveAndPresent || !maps[host.mapId]) return false;
+    if (card.kind === 'LITERARY') return Boolean(state.world.activeRealm?.id && host.eraProfile?.realmId === state.world.activeRealm.id);
+    const era = host.eraProfile;
+    return !state.world.activeRealm && (!era || era.allowedChapterIds.includes(state.world.chapterId))
+      && (!host.presenceWindow || state.world.date >= host.presenceWindow.startDate && state.world.date <= host.presenceWindow.endDate);
+  });
+  const options = entries.map(card => {
+    const host = state.hosts[card.id];
+    const goal = host.activeGoal?.descriptionKo ?? host.currentActivityKo ?? card.personalObjective;
+    return { label: `${card.displayNameKo} · ${card.occupation}`, subcopy: `${goal} · ${maps[host.mapId].metadata.displayNameKo}`, run: () => {
+      const result = possessHostFromRoster(state, card.id, maps);
+      if (!result.ok) { sayRecord(result.reason === 'era_layer_mismatch' ? '지금은 그 시기의 사람이 아니다.' : '지금은 그 사람의 몸으로 들어갈 수 없다.'); return; }
+      setState(result.state); tutorialAdvance('possess');
+      say(card.displayNameKo, `${card.occupation}. ${card.personalObjective}`, []);
+      sayRecord(`시야 전환 · ${card.displayNameKo}`);
+    } };
+  });
+  say('인물과 그날의 일', '소개를 고르면 곧바로 그 사람의 자리에서 시작합니다.', options);
+  $('.actions').classList.add('roster-options');
 }
 function move(direction) {
   if (activeDialogueHost) finishConversation(activeDialogueHost);
@@ -1492,10 +1527,7 @@ async function startConversation(card) {
   }
 
   const liveDiscussionQuests = currentDiscussionQuests();
-  const topicalQuestions = discussionPromptsForHost(card.id, liveDiscussionQuests).map(item => item.promptKo);
-  const reflectionQuestions = discussionReflectionPromptsForHost(card.id, state, liveDiscussionQuests).map(item => item.promptKo);
-  const queuedQuestion = queuedDiscussionInquiry?.hostId === card.id ? queuedDiscussionInquiry.promptKo : null;
-  const starterReplies = [...new Set([queuedQuestion, ...topicalQuestions, ...reflectionQuestions, ...remaining].filter(Boolean))].slice(0, 3);
+  const starterReplies = remaining.slice(0, 3);
   showConversation(card, dialogueCurrentLines.get(key), starterReplies,
     sessionFailure ? `AI 연결 실패 · ${sessionFailure}` : hasLiveDialogue(key)
       ? '첫마디는 장면용 대사입니다. 아래에서 질문을 고르거나 직접 말하면 AI 생성 답변을 표시합니다.'
@@ -1535,7 +1567,12 @@ async function sendConversation(card, playerText, replyId = null) {
     dialogueCurrentLines.set(key, '말을 들었어요. 잠시 생각하고 있어요.');
     showConversation(card, dialogueCurrentLines.get(key), [], '답변을 기다리는 중 · Esc로 대화를 마칠 수 있습니다.');
     try {
-      const requestDialogue = currentSession => fetch(`${aiBaseUrl}/api/rpg/dialogue`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ sessionToken: currentSession.token, requestId: crypto.randomUUID(), playerInput: playerText, actorRelations: relationshipHintsFor(actorCard.id), actorActions: playerActionHintsFor(actorCard.id), sceneContext: dialogueSceneContext(card, state.hosts[card.id], state.world.date, state.world.currentMapId, discussionPrompt ? null : missionGuidance?.questId ?? null) }), signal: controller.signal });
+      const inquiry = discussionPrompt && discussionQuestById.get(discussionPrompt.discussionId);
+      const inquiryQuest = inquiry && questList.find(quest => (quest.sourceIds ?? []).some(id => (inquiry.sourceIds ?? []).includes(id))
+        && quest.actions?.some(action => action.hostIds.includes(card.id)) && questIsAvailable(quest)
+        && state.quests[quest.id]?.status !== 'resolved');
+      const inquiryQuestId = discussionPrompt ? inquiryQuest?.id ?? missionGuidance?.questId ?? null : null;
+      const requestDialogue = currentSession => fetch(`${aiBaseUrl}/api/rpg/dialogue`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ sessionToken: currentSession.token, requestId: crypto.randomUUID(), playerInput: playerText, actorRelations: relationshipHintsFor(actorCard.id), actorActions: playerActionHintsFor(actorCard.id), sceneContext: dialogueSceneContext(card, state.hosts[card.id], state.world.date, state.world.currentMapId, discussionPrompt ? inquiryQuestId : missionGuidance?.questId ?? null) }), signal: controller.signal });
       let response = await requestDialogue(session);
       if (response.status === 401) {
         sessionStorage.removeItem(sessionStorageKey); dialogueSessions.delete(key);
@@ -1590,6 +1627,10 @@ async function sendConversation(card, playerText, replyId = null) {
   if (recorded.ok && queuedDiscussionInquiry?.hostId === card.id && queuedDiscussionInquiry?.promptKo === playerText) queuedDiscussionInquiry = null;
   if (recorded.ok) setState(recorded.state);
   const replies = (turn.suggestedReplies ?? []).slice(0, 3);
+  if (!discussionPrompt && !reflectionPrompt) {
+    const contextualQuestion = discussionPromptsForHost(card.id, currentDiscussionQuests())[0];
+    if (contextualQuestion && replies.length < 3) replies.push({ textKo: contextualQuestion.promptKo });
+  }
   const reward = recorded.ok ? recorded.state.ledger.at(-1)?.dialogueReward : null;
   const rewardStatus = reward === 'COMPARISON_NOTE' ? ' · 관점 대조 메모 획득 · 다른 인물에게 후속 질문 가능' : reward === 'PERSPECTIVE_NOTE' ? ' · 관점 메모와 통찰 +1' : '';
   const recordFailure = recorded.ok ? '' : `대화 기록 실패 · ${recorded.reason}`;
