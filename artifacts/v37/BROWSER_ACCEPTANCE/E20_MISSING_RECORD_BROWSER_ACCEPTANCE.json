@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "eventId": "E20",
+  "validationStatus": "DESIGN_SEED_NOT_VERIFIED",
+  "cases": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "choiceCount": 2,
+      "stage": "CROSS_REFERENCE_CREATED",
+      "status": "RESOLVED",
+      "document": "CROSS_REFERENCED_COPY",
+      "scrollWidth": 1440,
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "choiceCount": 2,
+      "stage": "CROSS_REFERENCE_CREATED",
+      "status": "RESOLVED",
+      "document": "CROSS_REFERENCED_COPY",
+      "scrollWidth": 390,
+      "pageErrors": []
+    }
+  ],
+  "serverErrors": []
+}

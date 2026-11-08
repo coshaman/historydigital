@@ -34,8 +34,14 @@ assert.equal(event.startedAtMinute, 560, 'Alexei triggers the event only after c
 assert.equal(triggered.hosts.senior_clerk_konstantin.activeGoal?.reason, 'supervisor_reviews_unmatched_register_slip', 'the supervisor autonomously responds to the incident');
 assert.equal(event.document.isHistoricalDocument, false);
 assert.equal(objectIsPresent(object, triggered, [quest]), true, 'the physical review paper appears only while the event is active');
-assert.deepEqual(questChoices(quest, 'clerk_alexei', [], triggered).map(row => row.action.id), ['E20_SEARCH_RETURNED_STACK', 'E20_CROSS_REFERENCE']);
-assert.deepEqual(questChoices(quest, 'senior_clerk_konstantin', [], triggered).map(row => row.action.id), ['E20_FILE_UNMATCHED', 'E20_HOLD_FOR_REVIEW']);
+assert.equal(questChoices(quest, 'clerk_alexei', [], triggered).length, 0, 'cooperative actions remain unavailable until the supervisor arrives');
+const arrived = game.advanceNpcWorld(triggered, 30, maps);
+assert.equal(arrived.hosts.senior_clerk_konstantin.mapId, 'chancery');
+const arrivedAtDesk = structuredClone(arrived), deskTile = { x: 14, y: 12 };
+arrivedAtDesk.world.currentMapId = 'chancery'; arrivedAtDesk.player.position = { ...deskTile };
+arrivedAtDesk.player.embodiment = 'clerk_alexei'; arrivedAtDesk.hosts.clerk_alexei.position = { ...deskTile };
+assert.deepEqual(questChoices(quest, 'clerk_alexei', [], arrivedAtDesk).map(row => row.action.id), ['E20_SEARCH_RETURNED_STACK', 'E20_CROSS_REFERENCE']);
+assert.deepEqual(questChoices(quest, 'senior_clerk_konstantin', [], arrivedAtDesk).map(row => row.action.id), ['E20_FILE_UNMATCHED', 'E20_HOLD_FOR_REVIEW']);
 const possessedClerk = structuredClone(initial);
 possessedClerk.world.currentMapId = 'chancery'; possessedClerk.player.embodiment = 'clerk_alexei';
 possessedClerk.player.position = { x: 11, y: 13 }; possessedClerk.hosts.clerk_alexei.mapId = 'chancery';
@@ -55,7 +61,7 @@ for (const [hostId, actionId, expectedStage, expectedLocation] of [
   ['clerk_alexei', 'E20_CROSS_REFERENCE', 'CROSS_REFERENCE_CREATED', '별도 대조표'],
   ['senior_clerk_konstantin', 'E20_HOLD_FOR_REVIEW', 'HELD_FOR_REVIEW', '상급자 검토함'],
 ]) {
-  const chosen = game.performQuestAction(atDesk(triggered, hostId), { questId: quest.id, hostId, actionId, objectId: object.id }, { quests: [quest], maps });
+  const chosen = game.performQuestAction(atDesk(arrivedAtDesk, hostId), { questId: quest.id, hostId, actionId, objectId: object.id }, { quests: [quest], maps });
   assert.equal(chosen.ok, true, `${actionId}: ${chosen.reason ?? ''}`);
   assert.equal(chosen.state.world.livingEventStates.E20.stage, expectedStage);
   assert.equal(chosen.state.world.livingEventStates.E20.document.location, expectedLocation);
