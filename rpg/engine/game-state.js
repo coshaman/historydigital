@@ -4174,6 +4174,26 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
             ...(workSkill ? { skillId: workSkill.skillId, skillLevel: workSkill.level } : {}),
             baseDurationMinutes: scheduledWorkAction?.durationMinutes ?? workAction.durationMinutes, effectiveDurationMinutes,
             minute: minuteOffset, mapId: host.mapId, ...(typeof workAction.inventoryItemKo === 'string' ? { inventoryItemKo: workAction.inventoryItemKo } : {}) };
+          const marketReturn = workAction.marketStockReturn;
+          if (marketReturn) {
+            const seller = state.hosts[marketReturn.sellerHostId];
+            const available = Math.min(marketReturn.maximumQuantity, seller?.marketStock?.[marketReturn.itemKo] ?? 0,
+              Math.floor((seller?.money?.amount ?? 0) / marketReturn.refundPerItem));
+            const returned = seller && seller.mapId === host.mapId
+              && nearTile(seller.position, host.position, marketReturn.interactionRadius) ? available : 0;
+            if (returned > 0) {
+              seller.marketStock[marketReturn.itemKo] -= returned;
+              for (let index = 0; index < returned; index += 1) host.inventory.push(marketReturn.itemKo);
+              const refund = returned * marketReturn.refundPerItem;
+              seller.money.amount -= refund; host.money.amount += refund;
+              record.marketStockReturned = returned;
+              record.stockReturnRefund = refund;
+              exchangeRows.push({ hostId: seller.id, recipientHostId: host.id, itemKo: marketReturn.itemKo, quantity: returned,
+                moneyAmount: refund, taskId: workAction.id, marketStockReturned: true,
+                marketStockRemaining: seller.marketStock[marketReturn.itemKo], mapId: host.mapId, position: { ...host.position },
+                minute: minuteOffset, witnessedByPlayer: playerCanObserveWorldEvent(state, host.mapId, host.position, 6, maps) });
+            }
+          }
           if (repairingCarriage) {
             host.transportState = { ...host.transportState, carriageCondition: 'SERVICEABLE', horseCondition: 'WORKING',
               lastCheckedAtMinute: state.world.clockMinutes, valueStatus: 'FICTIONAL_CHARACTER_DESIGN' };

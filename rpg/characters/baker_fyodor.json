@@ -202,9 +202,16 @@
       "workAction": {
         "id": "V36_BAKER_CLOSE_BAKERY",
         "outputKind": "제빵 마감",
-        "outputKo": "남은 밀가루와 오늘 주문의 인수 여부를 장부에 맞춘다",
+        "outputKo": "남은 빵을 거두고 반품 대금을 맞춰 장부를 마감한다",
         "durationMinutes": 20,
-        "skillId": "ovenManagement"
+        "skillId": "ovenManagement",
+        "marketStockReturn": {
+          "sellerHostId": "market_nadezhda",
+          "itemKo": "빵 한 묶음",
+          "maximumQuantity": 6,
+          "refundPerItem": 3,
+          "interactionRadius": 1
+        }
       }
     },
     {

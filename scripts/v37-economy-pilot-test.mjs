@@ -494,6 +494,26 @@ assert.equal(breadEventRows.find(event => event.catalogEventId === 'E02')?.valid
 assert.ok(formatObservedNpcReactions([fed.ledger.find(event => event.eventType === 'NPC_SIMULATION')], cards)
   .some(line => line.includes('빵 재고 소진 · 가격표 조정')),
   'the witnessed stock change is readable without an extra status notice');
+const bakeryClose = game.createInitialState({ maps, hostCards: cards, startMapId: 'market-quay' });
+bakeryClose.world.clockMinutes = 1020;
+bakeryClose.player.position = { x: 10, y: 10 };
+const closingBaker = bakeryClose.hosts.baker_fyodor, closingSeller = bakeryClose.hosts.market_nadezhda;
+closingBaker.mapId = 'market-quay'; closingBaker.position = { x: 13, y: 12 };
+closingSeller.mapId = 'market-quay'; closingSeller.position = { x: 14, y: 12 };
+closingSeller.marketStock = { '빵 한 묶음': 2 }; closingSeller.money.amount = 8;
+closingBaker.money.amount = 10; closingBaker.inventory = closingBaker.inventory.filter(item => item !== '빵 한 묶음');
+const closeResult = game.advanceNpcWorld(bakeryClose, 20, maps);
+const returnedBread = closeResult.ledger.flatMap(row => row.exchanges ?? []).find(row => row.marketStockReturned === true);
+assert.equal(closeResult.hosts.market_nadezhda.marketStock['빵 한 묶음'], 0,
+  'the closing baker withdraws unsold bread from the market stock');
+assert.equal(closeResult.hosts.baker_fyodor.inventory.filter(item => item === '빵 한 묶음').length, 2);
+assert.equal(closeResult.hosts.market_nadezhda.money.amount, 2, 'the stall receives the wholesale refund for returned bread');
+assert.equal(closeResult.hosts.baker_fyodor.money.amount, 16);
+assert.equal(returnedBread.quantity, 2);
+assert.equal(returnedBread.moneyAmount, 6);
+assert.equal(returnedBread.taskId, 'V36_BAKER_CLOSE_BAKERY');
+assert.equal(game.stateHash(game.loadGame(game.saveGame(closeResult), { maps, hostCards: cards })),
+  game.stateHash(closeResult), 'returned stock, refund, and work record survive save/load');
 const fedReloaded = game.loadGame(game.saveGame(fed), { maps, hostCards: cards });
 assert.equal(game.stateHash(fedReloaded), game.stateHash(fed), 'market stock, wallets and hunger survive save/load');
 assert.equal(fedReloaded.world.livingEventStates.E02.catalogIdSpace, 'V37_EVENT_CATALOG_45');

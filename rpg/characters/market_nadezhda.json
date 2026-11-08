@@ -221,6 +221,22 @@
         "x": 14,
         "y": 12
       },
+      "activityKo": "남은 빵과 오늘 매상을 맞춰 장부를 닫는다",
+      "workAction": {
+        "id": "V36_MARKET_CLOSE_BREAD_STOCK",
+        "outputKind": "시장 마감",
+        "outputKo": "남은 빵 수와 판매 대금을 맞춰 좌판 장부를 마감한다",
+        "durationMinutes": 20,
+        "skillId": "stockManagement"
+      }
+    },
+    {
+      "atMinute": 1080,
+      "mapId": "market-quay",
+      "position": {
+        "x": 14,
+        "y": 12
+      },
       "activityKo": "저녁 식사를 하고 장부를 덮는다",
       "task": {
         "type": "CONSUME",
