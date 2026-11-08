@@ -21,7 +21,11 @@ for (const scene of play.events) {
   assert.equal(scene.maps.length, 3, `${scene.eventId} has three physically connected areas`);
   assert.equal(scene.backgrounds.length, scene.maps.length);
   assert.equal(scene.zoneTitlesKo.length, scene.maps.length);
-  assert.ok(scene.actors.length >= 8, `${scene.eventId} has a living crowd beyond four speaking roles`);
+  assert.equal(scene.actors.length, 15, `${scene.eventId} has fifteen movable scene participants`);
+  assert.deepEqual(scene.actors.reduce((counts, _actor, index) => { counts[index % scene.maps.length]++; return counts; }, [0, 0, 0]), [5, 5, 5],
+    `${scene.eventId} places five participants in each zone`);
+  assert.equal(catalogEvent.playableParticipantCount, 15);
+  assert.deepEqual(catalogEvent.cast, scene.actors.map(actor => actor.nameKo));
   assert.ok(new Set(scene.actors.map(person => person.id)).size === scene.actors.length);
   const endingOf = line => line.match(/(습니다|십시오|군요|겠지요|겠소|어요|아요|네요|까요|게요|소|오|네|지|다|요)(?:[.!?…]+)?$/)?.[1] ?? 'unmatched';
   const voiceSignatures = scene.actors.map(actor => `${actor.lines.map(endingOf).join('/')}:${Math.round(actor.lines.reduce((sum, line) => sum + line.length, 0) / actor.lines.length / 10) * 10}`);
@@ -29,6 +33,14 @@ for (const scene of play.events) {
   assert.ok(new Set(voiceSignatures).size >= 8, `${scene.eventId} speakers need distinguishable rhythm and endings`);
   assert.ok(scene.objectives.length >= 5, `${scene.eventId} has several side objectives`);
   assert.ok(scene.fieldActions?.length >= 6, `${scene.eventId} needs six physical, walkable action beats`);
+  const roleActions = scene.fieldActions.filter(action => action.requiredActorId);
+  assert.equal(roleActions.length, 3, `${scene.eventId} has one body-specific mission per zone`);
+  assert.deepEqual(new Set(roleActions.map(action => action.mapId)), new Set(scene.maps));
+  for (const action of roleActions) {
+    const actorIndex = scene.actors.findIndex(actor => actor.id === action.requiredActorId);
+    assert.ok(actorIndex >= 0 && actorIndex % scene.maps.length === scene.maps.indexOf(action.mapId),
+      `${scene.eventId}/${action.id} actor can appear in the mission's zone`);
+  }
   assert.deepEqual(scene.choices.map(({ id, label, directionKo, textKo }) => ({ id, label, directionKo, textKo })),
     catalogEvent.choices.map(({ id, label, directionKo, textKo }) => ({ id, label, directionKo, textKo })),
     `${scene.eventId} final choices are the authored, visible consequential decisions`);
@@ -55,4 +67,4 @@ for (const scene of play.events) {
     assert.ok(map.layers.some(layer => layer.name === 'Collision' && Array.isArray(layer.data)));
   }
 }
-console.log('V38 walkable historical event catalog passed: three connected, multi-area scenes, 10 speaking composites each, side objectives, sourced fixed outcomes, and corrected 1861 date.');
+console.log('V38 walkable historical event catalog passed: three connected scenes, 15 movable participants per scene, body-specific missions in every zone, and sourced fixed outcomes.');
