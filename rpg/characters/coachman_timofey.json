@@ -123,6 +123,11 @@
     "마차 고삐",
     "말 먹이 주머니"
   ],
+  "transportState": {
+    "carriageCondition": "CHECK_REQUIRED",
+    "horseCondition": "WORKING",
+    "valueStatus": "FICTIONAL_CHARACTER_DESIGN"
+  },
   "sourceIds": [],
   "canonConstraint": "fictional citizen; never treated as an attested historical individual or witness",
   "reconstructionDisclaimer": "시민과 일상 갈등은 게임을 위해 만든 허구 설정이다.",

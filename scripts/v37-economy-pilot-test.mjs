@@ -57,6 +57,9 @@ assert.equal(fareEvent.destinationMapId, 'courtyard');
 assert.equal(fareChoice.state.world.currentMapId, 'courtyard');
 assert.equal(fareChoice.state.hosts.coachman_timofey.mapId, 'courtyard');
 assert.equal(fareChoice.state.hosts.minor_noble_andrei.mapId, 'courtyard');
+assert.equal(fareChoice.state.hosts.coachman_timofey.transportState.carriageCondition, 'AT_RISK',
+  'the disclosed long trip leaves a persistent carriage condition for later work');
+assert.equal(fareEvent.transportResult.carriageCondition, 'AT_RISK');
 const invalidFarePositions = Object.values(fareChoice.state.hosts).filter(person => !maps[person.mapId]
   || !Number.isInteger(person.position?.x) || !Number.isInteger(person.position?.y)
   || person.position.x < 0 || person.position.y < 0 || person.position.x >= maps[person.mapId].width || person.position.y >= maps[person.mapId].height).map(person => ({ id: person.id, mapId: person.mapId, position: person.position }));
@@ -70,6 +73,36 @@ assert.ok(fareChoice.state.hosts.coachman_timofey.inventory.some(item => /운임
 assert.equal(fareChoice.state.ledger.at(-1).livingEvents[0].actionId, 'COACHMAN_TIMOFEY_CHOICE_2');
 const fareReloaded = game.loadGame(game.saveGame(fareChoice.state), { maps, hostCards: cards });
 assert.equal(game.stateHash(fareReloaded), game.stateHash(fareChoice.state), 'the carriage choice and visible event record survive save/load');
+const legacyFareSave = JSON.parse(game.saveGame(fareChoice.state));
+delete legacyFareSave.state.hosts.coachman_timofey.transportState;
+delete legacyFareSave.state.world.livingEventStates.E10.transportResult;
+legacyFareSave.checksum = game.stateHash(legacyFareSave.state);
+const migratedFare = game.loadGame(JSON.stringify(legacyFareSave), { maps, hostCards: cards });
+assert.equal(migratedFare.hosts.coachman_timofey.transportState.carriageCondition, 'AT_RISK',
+  'older E10 saves recover the carriage state from the recorded long-trip choice');
+const repairPossession = game.possessHost(structuredClone(coachFareStart), 'coachman_timofey', maps['market-quay']);
+const repairStartMinute = repairPossession.state.world.clockMinutes;
+const repairChoice = game.performQuestAction(repairPossession.state, { questId: coachFareQuest.id, hostId: 'coachman_timofey',
+  actionId: 'COACHMAN_TIMOFEY_CHOICE_3', objectId: coachFareQuest.entry.objectId }, { quests: [coachFareQuest], maps });
+assert.equal(repairChoice.ok, true, 'the coachman can choose the repair response without a paying passenger');
+assert.equal(repairChoice.state.world.clockMinutes - repairStartMinute, 30);
+assert.equal(repairChoice.state.hosts.coachman_timofey.transportState.carriageCondition, 'SERVICEABLE');
+assert.equal(repairChoice.state.hosts.coachman_timofey.transportState.horseCondition, 'RESTED');
+assert.equal(repairChoice.state.world.livingEventStates.E10.transportResult.carriageCondition, 'SERVICEABLE');
+assert.equal(game.stateHash(game.loadGame(game.saveGame(repairChoice.state), { maps, hostCards: cards })),
+  game.stateHash(repairChoice.state), 'the completed repair and service state survive save/load');
+const maintenanceStart = game.createInitialState({ maps, hostCards: cards, quests: [coachFareQuest], startMapId: 'market-quay' });
+maintenanceStart.world.clockMinutes = 480;
+maintenanceStart.hosts.coachman_timofey.mapId = 'market-quay';
+maintenanceStart.hosts.coachman_timofey.position = { x: 25, y: 13 };
+maintenanceStart.hosts.coachman_timofey.scheduleId = 'market-quay:480';
+maintenanceStart.hosts.coachman_timofey.transportState.carriageCondition = 'AT_RISK';
+maintenanceStart.hosts.coachman_timofey.transportState.horseCondition = 'FATIGUED';
+const maintainedWorld = game.advanceNpcWorld(maintenanceStart, 30, maps);
+assert.ok(maintainedWorld.hosts.coachman_timofey.completedWorkActionKeys.includes('0:V36_COACHMAN_CHECK_FARE_BOARD'),
+  'a risky carriage sends Timofey through his next scheduled maintenance shift');
+assert.equal(maintainedWorld.hosts.coachman_timofey.workRecords.at(-1).effectiveDurationMinutes, 30);
+assert.equal(maintainedWorld.hosts.coachman_timofey.transportState.carriageCondition, 'SERVICEABLE');
 const injuryObject = maps['market-quay'].layers.find(layer => layer.name === 'Interactions').objects.find(object => object.id === injuryQuest.entry.objectId);
 const injuryStart = game.createInitialState({ maps, hostCards: cards, quests: [injuryQuest], startMapId: 'market-quay' });
 assert.equal(objectIsPresent(injuryObject, injuryStart, [injuryQuest]), false, 'the injury scene is not visible before its physical trigger');

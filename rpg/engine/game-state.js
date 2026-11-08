@@ -437,6 +437,7 @@ function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky
     places: authoredRoutinePlaces(card),
     pendingWageClaims: [],
     inventory: [...card.inventory],
+    ...(card.transportState ? { transportState: clone(card.transportState) } : {}),
     privateKnowledgeIds: [...card.privateKnowledgeIds],
     witnessedKnowledgeIds: [],
     knownEvidenceIds: [...card.knownEvidenceIds],
@@ -4116,8 +4117,16 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
       host.currentActivityKo = '배가 지나는 동안 운하 길목에서 기다린다';
     } else if (medicallyRestricted) host.currentActivityKo = host.healthState?.condition === 'UNWELL'
       ? '몸이 좋지 않아 일을 쉬고 있다' : '어깨를 다쳐 무거운 일을 쉬고 있다';
-    else host.currentActivityKo = slot.activityKo ?? '';
-    const workAction = slot.workAction;
+    else host.currentActivityKo = host.id === 'coachman_timofey' && host.transportState?.carriageCondition === 'AT_RISK'
+      && slot.workAction?.id === 'V36_COACHMAN_CHECK_FARE_BOARD'
+      ? '말굽과 마차 바퀴를 손봐 다시 운행할 수 있게 한다' : slot.activityKo ?? '';
+    const scheduledWorkAction = slot.workAction;
+    const repairingCarriage = host.id === 'coachman_timofey'
+      && host.transportState?.carriageCondition === 'AT_RISK'
+      && scheduledWorkAction?.id === 'V36_COACHMAN_CHECK_FARE_BOARD';
+    const workAction = repairingCarriage
+      ? { ...scheduledWorkAction, durationMinutes: 30, outputKo: '말굽과 마차 바퀴를 손봐 운행 가능한 상태로 돌려놓는다' }
+      : scheduledWorkAction;
     const atWorkplace = host.mapId === slot.mapId && nearTile(host.position, slot.position, workAction ? 2 : 1);
     const routine = medicallyRestricted ? 'RESTING' : heldByCanalTraffic ? 'TRAVELLING'
       : atWorkplace ? (goal.goalType === 'PERSONAL_LIFE_FOCUS' || workAction ? 'WORKING' : routineActivityState(host.currentActivityKo, slot.task)) : 'TRAVELLING';
@@ -4146,8 +4155,14 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
           host.workRecords ??= [];
           const record = { dayIndex, actionId: workAction.id, outputKind: workAction.outputKind ?? 'WORK_PRODUCT', outputKo: workAction.outputKo,
             ...(workSkill ? { skillId: workSkill.skillId, skillLevel: workSkill.level } : {}),
-            baseDurationMinutes: workAction.durationMinutes, effectiveDurationMinutes,
+            baseDurationMinutes: scheduledWorkAction?.durationMinutes ?? workAction.durationMinutes, effectiveDurationMinutes,
             minute: minuteOffset, mapId: host.mapId, ...(typeof workAction.inventoryItemKo === 'string' ? { inventoryItemKo: workAction.inventoryItemKo } : {}) };
+          if (repairingCarriage) {
+            host.transportState = { ...host.transportState, carriageCondition: 'SERVICEABLE', horseCondition: 'WORKING',
+              lastCheckedAtMinute: state.world.clockMinutes, valueStatus: 'FICTIONAL_CHARACTER_DESIGN' };
+            record.carriageConditionAfter = 'SERVICEABLE';
+            record.maintenanceMinutes = workAction.durationMinutes;
+          }
           host.workRecords.push(record);
           if (host.workRecords.length > 32) host.workRecords.splice(0, host.workRecords.length - 32);
           if (typeof workAction.inventoryItemKo === 'string') {
@@ -6650,12 +6665,21 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
         coachman.currentActivityKo = `마차를 몰고 ${targetMap.metadata.displayNameKo}에 도착했다`;
         passenger.currentActivityKo = `마차를 타고 ${targetMap.metadata.displayNameKo}에 도착했다`;
       }
+      const transportResult = {
+        carriageCondition: actionId === 'COACHMAN_TIMOFEY_CHOICE_2' ? 'AT_RISK'
+          : actionId === 'COACHMAN_TIMOFEY_CHOICE_3' ? 'SERVICEABLE' : 'INSPECTED',
+        horseCondition: actionId === 'COACHMAN_TIMOFEY_CHOICE_2' ? 'FATIGUED'
+          : actionId === 'COACHMAN_TIMOFEY_CHOICE_3' ? 'RESTED' : 'WORKING',
+      };
+      coachman.transportState = { ...coachman.transportState, ...transportResult,
+        lastCheckedAtMinute: next.world.clockMinutes, valueStatus: 'FICTIONAL_CHARACTER_DESIGN' };
       const actorHostIds = passenger ? [hostId, passenger.id] : [hostId];
       const fareEvent = { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E10', status: 'RESOLVED', stage,
         actorHostIds, hostId, ...(passenger ? { passengerHostId: passenger.id } : {}), fareKopeks,
         ...(passenger ? { farePaid: true, timeCommitmentMinutes: actionDuration } : { farePaid: false, timeCommitmentMinutes: actionDuration }),
         ...(passenger ? { tripStatus: 'ARRIVED', destinationMapId: fareDestinationMapId,
           routeMapIds: [host.mapId, ...fareRoute.map(step => step.toMapId)] } : { tripStatus: 'REPAIR' }),
+        transportResult,
         elapsedMinutes: next.world.clockMinutes - state.world.clockMinutes, resolvedAtMinute: next.world.clockMinutes,
         questId, actionId, date: next.world.date, mapId: host.mapId,
         valueStatus: 'fictional_gameplay_balance', validationStatus: 'DESIGN_SEED_NOT_VERIFIED', witnessedByPlayer: true };
@@ -7667,6 +7691,11 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
     || coachFareEvent.timeCommitmentMinutes !== coachFareMinutes[coachFareEvent.actionId]
     || coachFareEvent.elapsedMinutes !== coachFareMinutes[coachFareEvent.actionId]
     || !Number.isInteger(coachFareEvent.resolvedAtMinute)
+    || (coachFareEvent.transportResult !== undefined
+      && (coachFareEvent.transportResult.carriageCondition !== (coachFareEvent.actionId === 'COACHMAN_TIMOFEY_CHOICE_2' ? 'AT_RISK'
+        : coachFareEvent.actionId === 'COACHMAN_TIMOFEY_CHOICE_3' ? 'SERVICEABLE' : 'INSPECTED')
+        || coachFareEvent.transportResult.horseCondition !== (coachFareEvent.actionId === 'COACHMAN_TIMOFEY_CHOICE_2' ? 'FATIGUED'
+          : coachFareEvent.actionId === 'COACHMAN_TIMOFEY_CHOICE_3' ? 'RESTED' : 'WORKING')))
     || (coachFareEvent.actionId === 'COACHMAN_TIMOFEY_CHOICE_3'
       ? coachFareEvent.farePaid !== false || coachFareEvent.passengerHostId !== undefined || coachFareEvent.tripStatus !== 'REPAIR'
       : coachFareEvent.farePaid !== true || !state.hosts[coachFareEvent.passengerHostId]
@@ -7789,6 +7818,25 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
   for (const card of hostCards) {
     const host = state.hosts?.[card.id];
     if (host) {
+      if (card.transportState) {
+        host.transportState ??= clone(card.transportState);
+        const savedFare = state.world.livingEventStates?.E10;
+        if (card.id === 'coachman_timofey' && savedFare && !host.transportState.lastCheckedAtMinute) {
+          const condition = savedFare.actionId === 'COACHMAN_TIMOFEY_CHOICE_2'
+            ? { carriageCondition: 'AT_RISK', horseCondition: 'FATIGUED' }
+            : savedFare.actionId === 'COACHMAN_TIMOFEY_CHOICE_3'
+              ? { carriageCondition: 'SERVICEABLE', horseCondition: 'RESTED' }
+              : { carriageCondition: 'INSPECTED', horseCondition: 'WORKING' };
+          host.transportState = { ...host.transportState, ...condition,
+            lastCheckedAtMinute: savedFare.resolvedAtMinute, valueStatus: 'FICTIONAL_CHARACTER_DESIGN' };
+        }
+        if (card.id === 'coachman_timofey' && (!['CHECK_REQUIRED', 'INSPECTED', 'AT_RISK', 'SERVICEABLE'].includes(host.transportState.carriageCondition)
+          || !['WORKING', 'FATIGUED', 'RESTED'].includes(host.transportState.horseCondition)
+          || host.transportState.valueStatus !== 'FICTIONAL_CHARACTER_DESIGN'
+          || (host.transportState.lastCheckedAtMinute !== undefined && !Number.isInteger(host.transportState.lastCheckedAtMinute)))) {
+          throw new Error('Save contains invalid carriage and horse condition');
+        }
+      }
       host.healthState ??= { condition: 'FIT', injury: null, recoveryUntilMinute: null, valueStatus: 'FICTIONAL_CHARACTER_DESIGN' };
       host.skills ??= clone(card.skills ?? {});
       host.skillsValueStatus ??= card.skillsValueStatus ?? 'FICTIONAL_CHARACTER_DESIGN';
