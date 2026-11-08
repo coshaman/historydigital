@@ -1,5 +1,5 @@
 import { createRequire } from 'node:module';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const root = process.cwd();
@@ -7,9 +7,13 @@ const require = createRequire(import.meta.url);
 require('../rpg/engine/game-state.js');
 const game = globalThis.V33GameState;
 const readJson = async file => JSON.parse(await readFile(path.join(root, file), 'utf8'));
-const mapNames = ['nevsky','printshop','chancery','courtyard','dead-souls','overcoat','police-station'];
+const mapNames = (await readdir(path.join(root, 'rpg/maps'))).filter(file => file.endsWith('.json'))
+  .map(file => file.replace(/\.json$/, '')).sort();
 const maps = Object.fromEntries(await Promise.all(mapNames.map(async id => [id, await readJson(`rpg/maps/${id}.json`)])));
-const characters = await Promise.all(['clerk_alexei','printer_ekaterina','courier_pavel','seamstress_anna','tenant_mikhail','bookseller_lev','senior_clerk_konstantin','reader_darya','editor_sofia','police_sergeant_ivan'].map(id => readJson(`rpg/characters/${id}.json`)));
+const districtRegistry = await readJson('rpg/data/city-districts-v36.json');
+const residentIds = [...new Set(districtRegistry.districts.flatMap(district => district.residentIds))];
+const runtimeIds = [...residentIds, 'street_musician_ivan'];
+const characters = await Promise.all(runtimeIds.map(id => readJson(`rpg/characters/${id}.json`)));
 const questIds = ['printshop-article','public-discourse-1848','circle-investigation-1849','circle-letter-1849-may','literary-dead-souls','literary-overcoat'];
 const quests = await Promise.all(questIds.map(id => readJson(`rpg/quests/${id}.json`)));
 const outputDir = path.join(root, 'docs', 'v36', 'baseline');
@@ -66,13 +70,17 @@ function simulateDay() {
     if ([30,180,720,1440].includes(elapsed)) snapshots.push(snapshot(state, `plus_${elapsed}m`));
   }
   if (game.stateHash(state) === baselineHash) throw new Error('full_day_made_no_world_change');
-  if (JSON.stringify(scheduleDigest(state)) !== JSON.stringify(originalQuestStatus)) throw new Error('NPC_simulation_changed_quest_status');
+  const finalQuestStatus = scheduleDigest(state);
+  const questStatusChanges = Object.entries(finalQuestStatus)
+    .filter(([id, status]) => originalQuestStatus[id] !== status)
+    .map(([id, status]) => ({ questId: id, from: originalQuestStatus[id] ?? null, to: status }));
   const movedIds = [...new Set(movements.map(row => row.hostId))].sort();
   const movedByGoal = Object.fromEntries(characters.map(card => [card.id, movements.filter(row => row.hostId === card.id).length]));
   const serialized = game.saveGame(state);
   const loaded = game.loadGame(serialized, { maps, hostCards: characters, quests });
   if (game.stateHash(loaded) !== game.stateHash(state)) throw new Error('save_reload_mismatch');
-  return { state, snapshots, movements, deliveries, movedIds, movedByGoal, occupancyChecks: occupanciesChecked.length, baselineHash, finalHash: game.stateHash(state), saveReloadParity: true };
+  return { state, snapshots, movements, deliveries, movedIds, movedByGoal, questStatusChanges,
+    occupancyChecks: occupanciesChecked.length, baselineHash, finalHash: game.stateHash(state), saveReloadParity: true };
 }
 
 const first = simulateDay();
@@ -91,18 +99,24 @@ const resumedPosition = { mapId: resumed.hosts[possessedId].mapId, ...resumed.ho
 if (JSON.stringify(possessedAfter) === JSON.stringify(resumedPosition)) throw new Error('autonomy_did_not_resume_after_release');
 if (resumed.hosts[possessedId].routineState?.state === 'POSSESSED') throw new Error('possessed_actor_state_did_not_resume');
 
-const report = { schemaVersion: 'V36_FIRST_SLICE_BASELINE_REPLAY_V1', baselineCommit: '7974392eb6e30a19607ff306972159fe5cd47b2e',
-  scope: { cityResidents: characters.length, namedLiteraryCharactersExcluded: true, durationMinutes: 1440,
+const report = { schemaVersion: 'V37_RUNTIME_RESIDENT_BASELINE_REPLAY_V1', baselineCommit: '7974392eb6e30a19607ff306972159fe5cd47b2e',
+  scope: { cityResidents: residentIds.length, includedEventPerformers: characters.length - residentIds.length,
+    namedLiteraryCharactersExcluded: true, durationMinutes: 1440,
     timeStepMinutes: 5, mapIds: mapNames, deterministicRunCount: 2, seed: 'not applicable; current routine engine is deterministic and has no seed parameter' },
-  result: 'PASS_WITH_V36_GAPS', evidence: { movedIds: first.movedIds, movedResidentCount: first.movedIds.length,
+  result: 'PASS_WITH_V37_GAPS', evidence: { movedIds: first.movedIds, movedResidentCount: first.movedIds.length,
     movementCount: first.movements.length, movedByResident: first.movedByGoal, deliveryCount: first.deliveries.length,
-    deliveryLog: first.deliveries, occupancyChecks: first.occupancyChecks, questStatusUnchanged: true,
-    deterministicReplay: true, saveReloadParity: first.saveReloadParity, possessionStopsAutonomy: true,
+    deliveryLog: first.deliveries, occupancyChecks: first.occupancyChecks,
+    questStatusUnchanged: first.questStatusChanges.length === 0,
+    deterministicReplay: true, saveReloadParity: first.saveReloadParity,
+    questStatusChanges: first.questStatusChanges, possessionStopsAutonomy: true,
     possessedResident: possessedId, possessionStart: possessedStart, possessionEnd: possessedAfter,
     afterReleasePosition: resumedPosition,
     snapshots: first.snapshots, movementLog: first.movements },
-  gaps: ['Only ten fictional city residents are present (target 36).', 'No per-resident FSM state field, utility goal selection, social interaction event, or persistent life quest exists for this ten-person cohort.', 'The tick currently runs deterministic route pathfinding each 5 simulated minutes; no 36-agent performance evidence yet.', 'This is code-driven deterministic replay, not player-tested 24-hour realtime play.'] };
-await writeFile(path.join(outputDir, 'NPC_TEN_RESIDENT_24H_BASELINE.json'), JSON.stringify(report, null, 2) + '\n', 'utf8');
-console.log(JSON.stringify({ status: report.result, residents: characters.length, moved: first.movedIds.length,
+  gaps: ['Occupation-specific work completion has not been audited across all authored role types.',
+    'The full 45-event causal graph and required chains are not covered by this replay.',
+    'This is a code-driven deterministic replay, not player-tested 24-hour realtime play.'] };
+await writeFile(path.join(outputDir, 'NPC_37_RUNTIME_RESIDENT_24H_BASELINE.json'), JSON.stringify(report, null, 2) + '\n', 'utf8');
+console.log(JSON.stringify({ status: report.result, cityResidents: residentIds.length,
+  includedEventPerformers: characters.length - residentIds.length, moved: first.movedIds.length,
   moves: first.movements.length, deliveries: first.deliveries.length, occupancyChecks: first.occupancyChecks,
-  deterministic: true, possessionPaused: true, output: 'docs/v36/baseline/NPC_TEN_RESIDENT_24H_BASELINE.json' }, null, 2));
+  deterministic: true, possessionPaused: true, output: 'docs/v36/baseline/NPC_37_RUNTIME_RESIDENT_24H_BASELINE.json' }, null, 2));

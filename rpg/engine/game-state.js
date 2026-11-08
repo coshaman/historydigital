@@ -3618,9 +3618,14 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
   }
   const marketTheft = state.world.livingEventStates?.E36;
   const shiftDayIndex = Math.floor(state.world.clockMinutes / 1440);
-  const recentWorkSlot = (host.schedule ?? []).filter(slot => slot.workAction
+  const workWindowOpen = slot => {
+    const nextScheduledMinute = (host.schedule ?? []).filter(next => next.atMinute > slot.atMinute)
+      .reduce((nearest, next) => Math.min(nearest, next.atMinute), 1440);
+    return localMinute >= slot.atMinute && localMinute < nextScheduledMinute;
+  };
+  const recentWorkSlot = (host.schedule ?? []).filter(slot => slot.workAction && workWindowOpen(slot)
     && householdTutorSessionDue(state, slot.workAction)
-    && slot.atMinute <= localMinute && localMinute - slot.atMinute <= 180
+    && localMinute - slot.atMinute <= 180
     && !(host.schedule ?? []).some(later => later.workAction && later.atMinute > slot.atMinute && later.atMinute <= localMinute
       && host.completedWorkActionKeys?.includes(`${shiftDayIndex}:${later.workAction.id}`))
     && !host.completedWorkActionKeys?.includes(`${shiftDayIndex}:${slot.workAction.id}`))
@@ -3934,7 +3939,7 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
   addCandidate({ slot: scheduledSlot, goalType: 'SCHEDULE', targetHostId: null, taskId: scheduledTask?.id ?? null, reason: 'authored_daily_schedule' },
     43 + (scheduledTask ? 3 : 0), 0);
   const dayWorkIndex = Math.floor(state.world.clockMinutes / 1440);
-  const unfinishedWorkSlot = (host.schedule ?? []).filter(slot => slot.workAction
+  const unfinishedWorkSlot = (host.schedule ?? []).filter(slot => slot.workAction && workWindowOpen(slot)
     && (slot === scheduledSlot || (host.activeGoal?.type === 'SCHEDULED_WORK' && host.activeGoal.taskId === slot.workAction.id))
     && !(host.completedWorkActionKeys ?? []).includes(`${dayWorkIndex}:${slot.workAction.id}`))
     .sort((a, b) => b.atMinute - a.atMinute)[0];

@@ -131,6 +131,7 @@ assert.equal(circulation.state.player.civic.circulatedIssues.at(-1).route, 'stre
 
 const custodyWorld = game.createInitialState({ maps, hostCards, startMapId: 'nevsky' });
 const custodyHost = custodyWorld.hosts.courier_pavel;
+custodyWorld.player.position = { ...custodyHost.position };
 const embodied = game.possessHost(custodyWorld, custodyHost.id, maps.nevsky);
 assert.equal(embodied.ok, true);
 const custody = commitSuspiciousAct(embodied.state, { hostId: custodyHost.id, actId: 'OPEN_SEALED_DISPATCH', witnessIds: ['printer_ekaterina'], maps });
