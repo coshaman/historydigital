@@ -79,22 +79,22 @@ export function purchaseCityProduct(state, { hostId, productId } = {}) {
     const seller = next.hosts.bookseller_lev;
     seller.inventory.splice(seller.inventory.indexOf(product.id), 1);
     seller.money.amount += product.priceKopeks;
-    next.world.livingEventStates ??= {};
-    if (product.id === 'newspaper_1847_01' && !next.world.livingEventStates.E22) {
+    const release = next.world.livingEventStates?.E22;
+    if (product.id === 'newspaper_1847_01' && release?.status === 'ACTIVE' && release.stage === 'ISSUE_RELEASED') {
       const scenePosition = { ...host.position };
-      const witnessHostIds = Object.values(next.hosts).filter(person => ![host.id, seller.id].includes(person.id)
-        && person.historicalAliveAndPresent !== false && person.mapId === 'nevsky'
-        && Math.abs(person.position.x - scenePosition.x) + Math.abs(person.position.y - scenePosition.y) <= 4)
-        .map(person => person.id).sort();
-      next.world.livingEventStates.E22 = { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E22',
-        status: 'ACTIVE', stage: 'ISSUE_SOLD', trigger: 'verified_1847_periodical_copy_sold_at_nevsky_counter',
-        occurrenceType: 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION', validationStatus: 'DESIGN_SEED_NOT_VERIFIED',
-        valueStatus: 'fictional_gameplay_balance', sourceId: product.sourceId, sourceKind: 'PRIMARY_BIBLIOGRAPHIC_RECORD',
-        sourceUrl: 'https://rusneb.ru/catalog/000199_000009_007828983/', issueId: product.id,
-        issueTitleKo: product.titleKo, sellerHostId: seller.id, buyerHostId: host.id,
-        actorHostIds: [seller.id, host.id], witnessHostIds: witnessHostIds,
-        scenePosition, startedAtMinute: state.world.clockMinutes, autoResolveAtMinute: state.world.clockMinutes + 60,
-        paidAmount: product.priceKopeks, currency: 'kopeks', resolutionActionId: null };
+      const witnessHostIds = new Set(release.witnessHostIds ?? []);
+      for (const person of Object.values(next.hosts)) {
+        if (![host.id, seller.id].includes(person.id) && person.historicalAliveAndPresent !== false
+          && person.mapId === 'nevsky'
+          && Math.abs(person.position.x - scenePosition.x) + Math.abs(person.position.y - scenePosition.y) <= 4)
+          witnessHostIds.add(person.id);
+      }
+      release.releasedAtMinute ??= release.startedAtMinute;
+      Object.assign(release, { stage: 'ISSUE_SOLD', sceneMapId: 'nevsky', scenePosition,
+        sellerHostId: seller.id, buyerHostId: host.id, actorHostIds: [seller.id, host.id],
+        witnessHostIds: [...witnessHostIds].sort(), startedAtMinute: state.world.clockMinutes,
+        soldAtMinute: state.world.clockMinutes,
+        autoResolveAtMinute: state.world.clockMinutes + 60, paidAmount: product.priceKopeks });
     }
   }
   record(next, 'CITY_PURCHASE', hostId, { productId, priceKopeks: product.priceKopeks });
@@ -133,6 +133,27 @@ export function publishNewspaperIssue(state, { hostId, storyId, mapId = 'printsh
     next.hosts[hostId].inventory.splice(next.hosts[hostId].inventory.indexOf('editorial-note:E23'), 1);
   }
   civic.publishedIssues.push(issue);
+  if (story.id === 'LITERARY_RURAL_LIFE_1847' && !next.world.livingEventStates?.E22) {
+    next.world.livingEventStates ??= {};
+    const scenePosition = { ...host.position };
+    const witnessHostIds = Object.values(next.hosts).filter(person => person.id !== host.id
+      && person.historicalAliveAndPresent !== false && person.mapId === mapId
+      && Math.abs(person.position.x - scenePosition.x) + Math.abs(person.position.y - scenePosition.y) <= 4)
+      .map(person => person.id).sort();
+    next.world.livingEventStates.E22 = { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E22',
+      status: 'ACTIVE', stage: 'ISSUE_RELEASED', trigger: 'source_checked_issue_printed_at_press',
+      occurrenceType: 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION', validationStatus: 'DESIGN_SEED_NOT_VERIFIED',
+      valueStatus: 'fictional_gameplay_balance', sourceId: 'OBJ-SOV-1847', storySourceId: story.sourceId,
+      sourceKind: 'PRIMARY_BIBLIOGRAPHIC_RECORD', sourceUrl: 'https://rusneb.ru/catalog/000199_000009_007828983/',
+      issueId: 'newspaper_1847_01', printedIssueId: nextId, issueTitleKo: '《현대인》 1847년 제1호',
+      storyId: story.id, publisherHostId: hostId, sellerHostId: null, buyerHostId: null,
+      actorHostIds: [hostId], witnessHostIds, sceneMapId: mapId, scenePosition,
+      startedAtMinute: state.world.clockMinutes, releasedAtMinute: state.world.clockMinutes,
+      autoResolveAtMinute: state.world.clockMinutes + 180,
+      paidAmount: 0, currency: 'kopeks', resolutionActionId: null };
+    record(next, 'NEWSPAPER_ISSUE_RELEASED', hostId, { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E22',
+      printedIssueId: nextId, issueId: 'newspaper_1847_01', sourceId: story.sourceId, sceneMapId: mapId });
+  }
   record(next, 'NEWSPAPER_PUBLISHED', hostId, { issueId: nextId, storyId, sourceId: story.sourceId,
     ...(issue.eventId ? { eventId: issue.eventId, sourceEventId: issue.sourceEventId, witnessHostIds: [...issue.witnessHostIds], claimStatus: issue.claimStatus } : {}) });
   return { ok: true, state: next, issue };

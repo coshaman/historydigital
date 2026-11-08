@@ -16,7 +16,7 @@ const output = path.join('artifacts', 'v37', 'BROWSER_ACCEPTANCE');
 fs.mkdirSync(output, { recursive: true });
 const port = 4212;
 const server = spawn(process.execPath, ['server.mjs'], { cwd: process.cwd(), env: { ...process.env,
-  CHANCERY_PORT: String(port), CHANCERY_STATIC_ONLY: '1', CHANCERY_STATIC_ROOT: path.resolve('dist') }, stdio: ['ignore', 'pipe', 'pipe'] });
+  CHANCERY_PORT: String(port), CHANCERY_STATIC_ONLY: '1', CHANCERY_STATIC_ROOT: path.resolve('dist-v33') }, stdio: ['ignore', 'pipe', 'pipe'] });
 const serverErrors = [];
 server.stderr.on('data', chunk => serverErrors.push(String(chunk)));
 try {
@@ -30,15 +30,28 @@ try {
   const browser = await chromium.launch({ headless: true }), results = [];
   try {
     for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 }]) {
-      const state = game.createInitialState({ maps, hostCards: cards, quests: [quest], startMapId: 'nevsky' });
+      let state = game.createInitialState({ maps, hostCards: cards, quests: [quest], startMapId: 'nevsky' });
       state.world.chapterId = 'V33_1847_PRINT'; state.world.date = '1847-06-01'; state.world.clockMinutes = 540;
-      state.world.currentMapId = 'nevsky';
+      state.world.currentMapId = 'printshop';
+      const printer = state.hosts.printer_ekaterina;
+      printer.mapId = 'printshop'; printer.position = { x: 12, y: 10 };
+      printer.knownEvidenceIds.push('LIT-TURGENEV-KHOR-KALYNYCH-1847');
+      printer.inventory.push('newsprint_sheet', 'printing_ink');
+      state.player.embodiment = printer.id; state.player.position = { ...printer.position };
+      const civicLife = await import('../rpg/engine/civic-life.mjs');
+      const published = civicLife.publishNewspaperIssue(state, { hostId: printer.id, storyId: 'LITERARY_RURAL_LIFE_1847' });
+      if (!published.ok || published.state.world.livingEventStates.E22?.stage !== 'ISSUE_RELEASED')
+        throw new Error(`The press did not release E22: ${published.reason ?? published.state.world.livingEventStates.E22?.stage}`);
+      state = game.advanceNpcWorld(published.state, 1, maps);
+      if (!state.ledger.at(-1).livingEvents.some(event => event.catalogEventId === 'E22' && event.stage === 'ISSUE_RELEASED'))
+        throw new Error('The printed issue did not appear as an in-world release event');
+      state.world.currentMapId = 'nevsky'; state.player.embodiment = null;
       const buyer = state.hosts.seamstress_anna, seller = state.hosts.bookseller_lev;
       buyer.mapId = seller.mapId = 'nevsky'; buyer.position = { x: 24, y: 14 }; seller.position = { x: 25, y: 15 };
       state.player.position = { ...buyer.position };
       const possessed = game.possessHost(state, buyer.id, maps.nevsky);
       if (!possessed.ok) throw new Error(`Could not possess buyer: ${possessed.reason}`);
-      const sold = (await import('../rpg/engine/civic-life.mjs')).purchaseCityProduct(possessed.state,
+      const sold = civicLife.purchaseCityProduct(possessed.state,
         { hostId: buyer.id, productId: 'newspaper_1847_01' });
       if (!sold.ok) throw new Error(`The physical newspaper sale failed: ${sold.reason}`);
       let staged = game.advanceNpcWorld(sold.state, 1, maps);
@@ -47,12 +60,28 @@ try {
       const context = await browser.newContext({ viewport, isMobile: viewport.width < 600, hasTouch: viewport.width < 600 });
       const page = await context.newPage(), pageErrors = [];
       page.on('pageerror', error => pageErrors.push(String(error)));
+      const requestFailures = [], badResponses = [];
+      page.on('requestfailed', request => requestFailures.push({ url: request.url(), error: request.failure()?.errorText }));
+      page.on('response', response => { if (response.status() >= 400) badResponses.push({ url: response.url(), status: response.status() }); });
+      const consoleWarnings = [];
+      page.on('console', message => { if (message.type() === 'warning' || message.type() === 'error') consoleWarnings.push(message.text()); });
+      const savedState = game.saveGame(staged);
+      const directReload = game.loadGame(savedState, { maps, hostCards: cards, quests: [quest] });
+      if (directReload.player.embodiment !== buyer.id)
+        throw new Error(`E22 browser fixture lost its player before navigation: ${directReload.player.embodiment}`);
       await page.addInitScript(saved => {
         localStorage.setItem('v33-rpg-save', saved);
         localStorage.setItem('v34-tutorial-stage', 'done');
-      }, game.saveGame(staged));
+      }, savedState);
       await page.goto(`http://127.0.0.1:${port}/index.html#v37-newspaper-${viewport.width}`, { waitUntil: 'domcontentloaded' });
-      await page.waitForFunction(() => document.querySelector('#bodyname')?.textContent?.includes('안나'));
+      await page.waitForTimeout(1000);
+      await page.waitForFunction(() => document.querySelector('#bodyname')?.textContent);
+      const loadedBody = await page.locator('#bodyname').textContent();
+      if (!loadedBody?.includes('안나')) throw new Error(`The saved newspaper route did not restore Anna: ${JSON.stringify({
+        loadedBody, map: await page.locator('#mapname').textContent(), title: await page.title(), pageErrors, consoleWarnings,
+        requestFailures, badResponses, resources: await page.evaluate(() => performance.getEntriesByType('resource').map(row => row.name).filter(name => /main\.js|game-state\.js/.test(name))),
+        storedSaveLength: await page.evaluate(() => localStorage.getItem('v33-rpg-save')?.length ?? 0),
+      })}`);
       await page.keyboard.press('e');
       await page.getByRole('button', { name: /자료 읽기.*호리와 칼리니치/ }).click();
       await page.locator('#source-reader').waitFor({ state: 'visible' });

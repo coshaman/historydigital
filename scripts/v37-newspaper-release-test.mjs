@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { readdir, readFile } from 'node:fs/promises';
-import { purchaseCityProduct } from '../rpg/engine/civic-life.mjs';
+import { publishNewspaperIssue, purchaseCityProduct } from '../rpg/engine/civic-life.mjs';
 import { questChoices } from '../rpg/engine/quest-presentation.mjs';
 import { objectIsPresent } from '../rpg/engine/world-presentation.mjs';
 
@@ -29,6 +29,25 @@ assert.ok(passageCard, 'the actual literary passage is physically readable besid
 function setup() {
   const state = game.createInitialState({ maps, hostCards: cards, quests: [quest], startMapId: 'nevsky' });
   state.world.chapterId = 'V33_1847_PRINT'; state.world.date = '1847-06-01'; state.world.clockMinutes = 540;
+  state.world.currentMapId = 'printshop';
+  const printer = state.hosts.printer_ekaterina;
+  printer.mapId = 'printshop'; printer.position = { x: 12, y: 10 };
+  printer.knownEvidenceIds.push('LIT-TURGENEV-KHOR-KALYNYCH-1847');
+  printer.inventory.push('newsprint_sheet', 'printing_ink');
+  state.player.embodiment = printer.id; state.player.position = { ...printer.position };
+  const released = publishNewspaperIssue(state, { hostId: printer.id, storyId: 'LITERARY_RURAL_LIFE_1847' });
+  assert.equal(released.ok, true, 'press staff can publish the source-backed literary issue');
+  assert.equal(released.state.world.livingEventStates?.E22?.stage, 'ISSUE_RELEASED',
+    'E22 starts when the new issue is physically printed, before a reader buys it');
+  assert.equal(released.state.world.livingEventStates?.E22?.sceneMapId, 'printshop');
+  assert.ok(released.state.hosts[printer.id].inventory.includes(`newspaper_issue:${released.issue.id}`));
+  assert.equal(game.stateHash(game.loadGame(game.saveGame(released.state), { maps, hostCards: cards, quests: [quest] })),
+    game.stateHash(released.state), 'the release-stage event and physical issue survive save/load');
+  const observedRelease = game.advanceNpcWorld(released.state, 1, maps);
+  assert.ok(observedRelease.ledger.at(-1).livingEvents.some(event => event.catalogEventId === 'E22'
+    && event.stage === 'ISSUE_RELEASED' && event.mapId === 'printshop'),
+  'the release appears as an in-world event at the press');
+  Object.assign(state, released.state);
   state.world.currentMapId = 'nevsky';
   const seller = state.hosts.bookseller_lev, buyer = state.hosts[buyerId];
   seller.mapId = buyer.mapId = 'nevsky'; seller.position = { x: 25, y: 15 }; buyer.position = { x: 24, y: 15 };
@@ -106,4 +125,21 @@ assert.equal(purchaseCityProduct(away, { hostId: buyerId, productId: 'newspaper_
 const outOfStock = setup(); outOfStock.hosts.bookseller_lev.inventory = outOfStock.hosts.bookseller_lev.inventory.filter(item => item !== 'newspaper_1847_01');
 assert.equal(purchaseCityProduct(outOfStock, { hostId: buyerId, productId: 'newspaper_1847_01' }).reason, 'periodical_out_of_stock');
 
-console.log('V37 E22 newspaper issue: physical sale, actual bilingual literary reading prerequisite, audience choices, private/public responses, unattended closure, and save/load passed.');
+const unattendedRelease = game.createInitialState({ maps, hostCards: cards, quests: [quest], startMapId: 'printshop' });
+unattendedRelease.world.chapterId = 'V33_1847_PRINT'; unattendedRelease.world.date = '1847-06-01'; unattendedRelease.world.clockMinutes = 540;
+const unattendedPrinter = unattendedRelease.hosts.printer_ekaterina;
+unattendedPrinter.mapId = 'printshop'; unattendedPrinter.position = { x: 12, y: 10 };
+unattendedPrinter.knownEvidenceIds.push('LIT-TURGENEV-KHOR-KALYNYCH-1847');
+unattendedPrinter.inventory.push('newsprint_sheet', 'printing_ink');
+unattendedRelease.player.embodiment = unattendedPrinter.id; unattendedRelease.player.position = { ...unattendedPrinter.position };
+const unbought = publishNewspaperIssue(unattendedRelease, { hostId: unattendedPrinter.id, storyId: 'LITERARY_RURAL_LIFE_1847' });
+assert.equal(unbought.state.world.livingEventStates.E22.stage, 'ISSUE_RELEASED');
+const unattendedClose = game.advanceNpcWorld(unbought.state, 181, maps);
+assert.equal(unattendedClose.world.livingEventStates.E22.stage, 'UNSOLD', 'the unbought release resolves without player intervention');
+assert.equal(unattendedClose.world.livingEventStates.E22.resolutionActionId, 'AUTO_ISSUE_REMAINS_UNSOLD');
+assert.ok(unattendedClose.hosts.printer_ekaterina.inventory.includes(`newspaper_issue:${unbought.issue.id}`),
+  'an unattended release leaves the printed copy with its publisher');
+assert.equal(game.stateHash(game.loadGame(game.saveGame(unattendedClose), { maps, hostCards: cards, quests: [quest] })),
+  game.stateHash(unattendedClose), 'the unattended release resolution survives save/load');
+
+console.log('V37 E22 newspaper issue: physical press release, counter sale, bilingual reading prerequisite, audience choices, unattended resolution, and save/load passed.');

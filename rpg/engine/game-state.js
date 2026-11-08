@@ -1597,17 +1597,32 @@ function advanceInnGuestEvent(state, minuteOffset, maps, livingEventRows) {
 function newspaperIssueEventRow(state, stage, minuteOffset, maps, details = {}) {
   const event = state.world.livingEventStates?.E22, position = event?.scenePosition ?? { x: 25, y: 15 };
   return { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E22', stage,
-    stageIndex: ({ ISSUE_SOLD: 1, DISCUSSION_OPEN: 2, READ_ALOUD: 3, SOURCE_METADATA_COMPARED: 3,
-      PUBLIC_COMMENT: 3, PRIVATE_READING: 3, AUTO_CLOSED: 3 })[stage],
+    stageIndex: ({ ISSUE_RELEASED: 1, ISSUE_SOLD: 2, DISCUSSION_OPEN: 3, READ_ALOUD: 4, SOURCE_METADATA_COMPARED: 4,
+      PUBLIC_COMMENT: 4, PRIVATE_READING: 4, AUTO_CLOSED: 4, UNSOLD: 2 })[stage],
     actorHostIds: [...(event?.actorHostIds ?? [])], witnessHostIds: [...(event?.witnessHostIds ?? [])],
-    date: state.world.date, minute: minuteOffset, mapId: 'nevsky', position: { ...position },
+    date: state.world.date, minute: minuteOffset, mapId: event?.sceneMapId ?? 'nevsky', position: { ...position },
     occurrenceType: 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION', validationStatus: 'DESIGN_SEED_NOT_VERIFIED',
     valueStatus: 'fictional_gameplay_balance', sourceId: event?.sourceId ?? null,
-    witnessedByPlayer: playerCanObserveWorldEvent(state, 'nevsky', position, 6, maps), state: event ? clone(event) : null, ...details };
+    witnessedByPlayer: playerCanObserveWorldEvent(state, event?.sceneMapId ?? 'nevsky', position, 6, maps),
+    state: event ? clone(event) : null, ...details };
 }
 function advanceNewspaperIssueEvent(state, minuteOffset, maps, livingEventRows, options = {}) {
   const event = state.world.livingEventStates?.E22;
   if (!event || event.status !== 'ACTIVE' || options.deferLivingEventExpiryId === 'E22') return;
+  if (event.stage === 'ISSUE_RELEASED') {
+    if (!event.releaseObserved) {
+      event.releaseObserved = true;
+      livingEventRows.push(newspaperIssueEventRow(state, 'ISSUE_RELEASED', minuteOffset, maps,
+        { changeKo: '인쇄소에서 투르게네프의 문학면을 실은 새 호를 찍었다. 인쇄한 한 부는 편집자의 손에 남아 있다.' }));
+    }
+    if (state.world.clockMinutes < event.autoResolveAtMinute) return;
+    event.status = 'RESOLVED'; event.stage = 'UNSOLD'; event.resolvedAtMinute = state.world.clockMinutes;
+    event.resolutionActionId = 'AUTO_ISSUE_REMAINS_UNSOLD';
+    livingEventRows.push(newspaperIssueEventRow(state, event.stage, minuteOffset, maps,
+      { changeKo: '새 호를 사러 온 이가 없어 인쇄한 부는 편집자의 재고에 남았다.',
+        resolutionActionId: event.resolutionActionId }));
+    return;
+  }
   const seller = state.hosts[event.sellerHostId], buyer = state.hosts[event.buyerHostId];
   const present = [seller, buyer].every(person => person && person.historicalAliveAndPresent !== false
     && person.mapId === 'nevsky' && nearTile(person.position, event.scenePosition, 3));
@@ -3442,6 +3457,7 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
   }
   const newspaperIssue = state.world.livingEventStates?.E22;
   if (newspaperIssue?.status === 'ACTIVE' && newspaperIssue.actorHostIds.includes(host.id)
+    && ['ISSUE_SOLD', 'DISCUSSION_OPEN'].includes(newspaperIssue.stage)
     && host.allowedMaps.includes('nevsky')
     && npcMapRoute(host.mapId, 'nevsky', host, maps, state.world.clockMinutes) !== null) {
     const isBuyer = host.id === newspaperIssue.buyerHostId;
@@ -7519,28 +7535,47 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
     throw new Error('Save contains invalid E13 market price dispute state');
   }
   const newspaperIssueEvent = state.world.livingEventStates.E22;
-  const newspaperStages = ['ISSUE_SOLD', 'DISCUSSION_OPEN', 'READ_ALOUD', 'PASSAGE_DISCUSSION', 'SOURCE_METADATA_COMPARED', 'PUBLIC_COMMENT', 'PRIVATE_READING', 'AUTO_CLOSED'];
-  const newspaperActions = ['E22_READ_ALOUD', 'E22_COMPARE_SOURCE', 'E22_COMMENT', 'E22_KEEP_PRIVATE', 'AUTO_ISSUE_LEFT_UNREAD'];
+  const newspaperStages = ['ISSUE_RELEASED', 'ISSUE_SOLD', 'DISCUSSION_OPEN', 'READ_ALOUD', 'PASSAGE_DISCUSSION', 'SOURCE_METADATA_COMPARED', 'PUBLIC_COMMENT', 'PRIVATE_READING', 'UNSOLD', 'AUTO_CLOSED'];
+  const newspaperActions = ['E22_READ_ALOUD', 'E22_COMPARE_SOURCE', 'E22_COMMENT', 'E22_KEEP_PRIVATE', 'AUTO_ISSUE_LEFT_UNREAD', 'AUTO_ISSUE_REMAINS_UNSOLD'];
+  const releaseOnlyStage = ['ISSUE_RELEASED', 'UNSOLD'].includes(newspaperIssueEvent?.stage);
+  const releaseFieldsValid = newspaperIssueEvent?.trigger === 'source_checked_issue_printed_at_press'
+    && newspaperIssueEvent.sceneMapId === 'printshop'
+    && newspaperIssueEvent.publisherHostId !== 'bookseller_lev' && !!state.hosts[newspaperIssueEvent.publisherHostId]
+    && newspaperIssueEvent.storyId === 'LITERARY_RURAL_LIFE_1847'
+    && newspaperIssueEvent.storySourceId === 'LIT-TURGENEV-KHOR-KALYNYCH-1847'
+    && newspaperIssueEvent.issueId === 'newspaper_1847_01'
+    && typeof newspaperIssueEvent.printedIssueId === 'string'
+    && newspaperIssueEvent.actorHostIds?.join(',') === newspaperIssueEvent.publisherHostId
+    && newspaperIssueEvent.paidAmount === 0 && newspaperIssueEvent.currency === 'kopeks'
+    && Number.isInteger(newspaperIssueEvent.startedAtMinute)
+    && newspaperIssueEvent.autoResolveAtMinute === newspaperIssueEvent.startedAtMinute + 180;
+  const soldFieldsValid = ['verified_1847_periodical_copy_sold_at_nevsky_counter', 'source_checked_issue_printed_at_press'].includes(newspaperIssueEvent?.trigger)
+    && newspaperIssueEvent.sourceId === 'OBJ-SOV-1847'
+    && newspaperIssueEvent.sourceKind === 'PRIMARY_BIBLIOGRAPHIC_RECORD'
+    && newspaperIssueEvent.sourceUrl === 'https://rusneb.ru/catalog/000199_000009_007828983/'
+    && newspaperIssueEvent.issueId === 'newspaper_1847_01'
+    && newspaperIssueEvent.sellerHostId === 'bookseller_lev'
+    && newspaperIssueEvent.buyerHostId !== 'bookseller_lev' && !!state.hosts[newspaperIssueEvent.buyerHostId]
+    && newspaperIssueEvent.actorHostIds?.join(',') === `bookseller_lev,${newspaperIssueEvent.buyerHostId}`
+    && newspaperIssueEvent.paidAmount === 4 && newspaperIssueEvent.currency === 'kopeks'
+    && Number.isInteger(newspaperIssueEvent.startedAtMinute)
+    && Number.isInteger(newspaperIssueEvent.autoResolveAtMinute)
+    && newspaperIssueEvent.autoResolveAtMinute === newspaperIssueEvent.startedAtMinute + 60;
   if (newspaperIssueEvent && (newspaperIssueEvent.catalogIdSpace !== 'V37_EVENT_CATALOG_45'
     || newspaperIssueEvent.catalogEventId !== 'E22' || !['ACTIVE', 'RESOLVED'].includes(newspaperIssueEvent.status)
     || !newspaperStages.includes(newspaperIssueEvent.stage)
     || newspaperIssueEvent.validationStatus !== 'DESIGN_SEED_NOT_VERIFIED'
     || newspaperIssueEvent.occurrenceType !== 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION'
     || newspaperIssueEvent.valueStatus !== 'fictional_gameplay_balance'
-    || newspaperIssueEvent.trigger !== 'verified_1847_periodical_copy_sold_at_nevsky_counter'
     || newspaperIssueEvent.sourceId !== 'OBJ-SOV-1847' || newspaperIssueEvent.sourceKind !== 'PRIMARY_BIBLIOGRAPHIC_RECORD'
     || newspaperIssueEvent.sourceUrl !== 'https://rusneb.ru/catalog/000199_000009_007828983/'
-    || newspaperIssueEvent.issueId !== 'newspaper_1847_01' || newspaperIssueEvent.sellerHostId !== 'bookseller_lev'
-    || newspaperIssueEvent.buyerHostId === 'bookseller_lev' || !state.hosts[newspaperIssueEvent.buyerHostId]
+    || newspaperIssueEvent.issueId !== 'newspaper_1847_01'
     || !Array.isArray(newspaperIssueEvent.actorHostIds)
-    || newspaperIssueEvent.actorHostIds.join(',') !== `bookseller_lev,${newspaperIssueEvent.buyerHostId}`
+    || (releaseOnlyStage ? !releaseFieldsValid : !soldFieldsValid)
     || !Array.isArray(newspaperIssueEvent.witnessHostIds) || newspaperIssueEvent.witnessHostIds.some(id => !state.hosts[id])
-    || !Number.isInteger(newspaperIssueEvent.startedAtMinute) || !Number.isInteger(newspaperIssueEvent.autoResolveAtMinute)
-    || newspaperIssueEvent.autoResolveAtMinute !== newspaperIssueEvent.startedAtMinute + 60
     || !Number.isInteger(newspaperIssueEvent.scenePosition?.x) || !Number.isInteger(newspaperIssueEvent.scenePosition?.y)
     || newspaperIssueEvent.scenePosition.mapId !== undefined
-    || newspaperIssueEvent.paidAmount !== 4 || newspaperIssueEvent.currency !== 'kopeks'
-    || (newspaperIssueEvent.status === 'ACTIVE') !== ['ISSUE_SOLD', 'DISCUSSION_OPEN'].includes(newspaperIssueEvent.stage)
+    || (newspaperIssueEvent.status === 'ACTIVE') !== ['ISSUE_RELEASED', 'ISSUE_SOLD', 'DISCUSSION_OPEN'].includes(newspaperIssueEvent.stage)
     || (newspaperIssueEvent.stage === 'DISCUSSION_OPEN' && !Number.isInteger(newspaperIssueEvent.gatheredAtMinute))
     || (newspaperIssueEvent.status === 'RESOLVED' && (!Number.isInteger(newspaperIssueEvent.resolvedAtMinute)
       || !newspaperActions.includes(newspaperIssueEvent.resolutionActionId))))) {
