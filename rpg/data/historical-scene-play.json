@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "V38_WALKABLE_HISTORY_1",
+  "events": [
+    {
+      "eventId": "SENATE_SQUARE_1825", "maps": ["senate-approach", "senate-square", "senate-river"],
+      "backgrounds": ["nevsky", "semenovsky-square", "market-quay"], "zoneTitlesKo": ["광장으로 가는 길", "상원 광장", "강변 피난길"],
+      "entryPosition": {"x": 4,"y": 14}, "startMinute": 600,
+      "actors": [
+        {"id":"cobbler","templateId":"clerk_alexei","nameKo":"구두장이 미하일","lines":["새 선서를 하러 가는 병사가 왜 저쪽으로 갑니까? 아침부터 말이 다 달라요.","가게를 닫고 가족부터 강 쪽으로 데려가야겠소."],"objectiveId":"guide_civilians"},
+        {"id":"guardsman","templateId":"junior_guard_sergey","nameKo":"근위병 세르게이","lines":["부대마다 받은 명령이 다릅니다. 지휘관을 기다리라는 말만 들었습니다.","광장 앞 대열은 움직이지 않습니다. 민간인 길을 비워 주십시오."],"objectiveId":"clarify_orders"},
+        {"id":"coachman","templateId":"carter_roman","nameKo":"마차꾼 로만","lines":["말이 군중 소리에 놀랐소. 이대로면 수레가 사람을 칠 거요.","말을 돌릴 공간만 내주시오. 마차는 강 쪽으로 빼겠소."],"objectiveId":"guide_civilians"},
+        {"id":"copyist","templateId":"scribal_yuri","nameKo":"필사원 유리","lines":["장교가 읽은 문구는 들었지만, 병사들이 무엇을 들었는지는 다릅니다.","이 종이를 누구에게 가져가야 하는지부터 정해야 합니다."],"objectiveId":"follow_order_route"},
+        {"id":"fishseller","templateId":"fishseller_klavdiya","nameKo":"생선 장수 클라브디야","lines":["강변 길로 가면 집에 갈 수 있나요? 사람들 사이에 아이가 있어요.","대열이 움직이기 전에 이 골목으로 빠져야 해요."],"objectiveId":"guide_civilians"},
+        {"id":"medical_student","templateId":"student_vasily","nameKo":"의학생 바실리","lines":["다친 사람이 저쪽에 있습니다. 다만 광장으로 뛰어들면 우리까지 막힙니다.","수레를 부를까요, 아니면 먼저 통로를 열까요?"],"objectiveId":"aid_wounded"},
+        {"id":"laundress","templateId":"laundress_mariya","nameKo":"세탁부 마리야","lines":["집에 돌아갈 길이 막혔어요. 군인들 사이로 아이를 데리고 갈 순 없어요.","제가 아는 안뜰 길이 있어요. 누가 같이 와 주겠어요?"],"objectiveId":"find_side_route"},
+        {"id":"student","templateId":"teacher_lyubov","nameKo":"가정교사 류보프","lines":["사람들은 각자 다른 말을 들었어요. 누가 선서했고 누가 거부했는지조차 뒤섞입니다.","소문을 더 퍼뜨리기 전에 당사자에게 확인해야 해요."],"objectiveId":"clarify_orders"},
+        {"id":"veteran","templateId":"watercarrier_luka","nameKo":"퇴역병 루카","lines":["군복을 입었다고 다 같은 명령을 받은 건 아니오. 옛 동료가 저기 있소.","대열을 가로막으면 더 다칠 수 있소. 물과 들것부터 가져옵시다."],"objectiveId":"aid_wounded"},
+        {"id":"widow","templateId":"housemaid_olga","nameKo":"하숙집 주인 안나","lines":["방에 세든 사람들이 아직 광장 쪽에 있어요. 문을 열어 두면 숨을 곳은 됩니다.","사람을 들이면 군인들이 찾아올 수도 있겠지요."],"objectiveId":"shelter_neighbors"}
+      ],
+      "objectives": [
+        {"id":"guide_civilians","titleKo":"마차와 행인에게 우회로를 알려준다","actionKo":"사람들을 강변 길로 안내하거나 마차를 먼저 돌린다"},
+        {"id":"clarify_orders","titleKo":"서로 다른 명령을 들은 사람들을 만난다","actionKo":"병사와 필사원의 말을 듣고 현재 위치를 확인한다"},
+        {"id":"aid_wounded","titleKo":"다친 사람에게 도움을 보낸다","actionKo":"의학생과 퇴역병에게 필요한 것을 묻는다"},
+        {"id":"find_side_route","titleKo":"광장을 피해 가는 길을 찾는다","actionKo":"세탁부가 아는 안뜰길을 따라 강 쪽으로 간다"},
+        {"id":"shelter_neighbors","titleKo":"이웃을 들일지 결정한다","actionKo":"하숙집 문을 열지, 문을 닫고 가족을 피신시킬지 정한다"},
+        {"id":"follow_order_route","titleKo":"명령이 광장에 이른 경로를 따라간다","actionKo":"필사원에게 종이를 누가 전달했는지 묻는다"}
+      ],
+      "choices": [
+        {"id":"open_route","label":"민간인 우회로를 먼저 연다","directionKo":"마차꾼과 주민들이 함께 움직입니다 · 광장 양쪽에서 보입니다 · 대열의 진행을 늦출 수 있습니다","textKo":"마차와 행인에게 강변 우회로를 열어 주었다"},
+        {"id":"carry_order","label":"확인된 명령을 기다린다","directionKo":"필사원과 병사에게만 알립니다 · 광장 안쪽에 기록이 남습니다 · 피신이 늦어질 수 있습니다","textKo":"확인된 지시가 올 때까지 병사와 주민을 기다리게 했다"},
+        {"id":"shelter_people","label":"하숙집 안뜰을 임시 대피처로 연다","directionKo":"이웃과 집주인이 알게 됩니다 · 민간인을 보호합니다 · 수색에 집이 노출될 수 있습니다","textKo":"안뜰을 열어 이웃들을 잠시 피신시켰다"}
+      ],
+      "closingKo":"광장에서는 군사적 대치와 충돌이 이어졌다. 네가 도운 사람들의 이동과 안전은 달라졌지만 봉기의 패배와 뒤이은 체포는 바뀌지 않았다."
+    },
+    {
+      "eventId": "GOGOL_INSPECTOR_1836", "maps": ["theatre-approach", "theatre-lobby", "theatre-street"],
+      "backgrounds": ["nevsky", "inn-interior", "bookshop-lane"], "zoneTitlesKo": ["극장 앞 거리", "극장 안쪽 복도", "공연 뒤의 거리"],
+      "entryPosition": {"x": 4,"y": 14}, "startMinute": 1020,
+      "actors": [
+        {"id":"usher","templateId":"innkeeper_irina","nameKo":"안내원 이리나","lines":["표를 찾는 분들이 입구에 몰렸어요. 마차까지 겹치면 통행이 막힙니다.","공연은 곧 시작해요. 늦게 오신 분은 옆문으로 모실게요."],"objectiveId":"seat_late_guests"},
+        {"id":"student","templateId":"student_vasily","nameKo":"학생 바실리","lines":["웃음이 터질 때마다 관리들이 서로 얼굴을 봅니다. 저 대목이 그렇게 불편한가요?","친구는 웃었지만, 옆자리 관리는 한마디도 안 했어요."],"objectiveId":"audience_reaction"},
+        {"id":"dresser","templateId":"seamstress_anna","nameKo":"의상 담당 안나","lines":["주인공 외투의 단추가 공연 직전에 떨어졌어요. 무대 뒤에서 다시 달았죠.","옷 하나 때문에 대사가 늦어지면 배우들까지 곤란해져요."],"objectiveId":"repair_costume"},
+        {"id":"copyist","templateId":"scribal_yuri","nameKo":"극장 필사원 유리","lines":["대본은 이미 여러 손을 거쳤습니다. 배우가 오늘 밤 어느 말을 강조할지는 또 다르지요.","무대에서 들은 말과 밖에서 옮겨 적은 말을 섞지 마세요."],"objectiveId":"compare_versions"},
+        {"id":"actor","templateId":"street_musician_ivan","nameKo":"배우 니콜라이","lines":["객석이 웃으면 안심이 되다가도, 어디서 웃는지 귀가 곤두서요.","작가가 원하는 박자와 관객이 받는 박자가 꼭 같지는 않습니다."],"objectiveId":"backstage_choice"},
+        {"id":"merchant","templateId":"bookseller_lev","nameKo":"서점 주인 레프","lines":["관객들이 극장 문을 나서며 각자 다른 장면을 말하더군요.","내일 가게에 희곡을 찾는 사람이 올까요, 아니면 항의부터 들을까요?"],"objectiveId":"audience_reaction"},
+        {"id":"critic","templateId":"editor_sofia","nameKo":"평론을 쓰는 소피야","lines":["한 사람은 관청을 조롱했다고 하고, 다른 사람은 그저 우스운 인물극이라더군요.","나는 웃음소리보다 어떤 대사가 객석을 멈추게 했는지 적고 싶어요."],"objectiveId":"compare_versions"},
+        {"id":"tailor","templateId":"bookbinder_elizaveta","nameKo":"재봉사 엘리자베타","lines":["무대 의상은 내가 꿰맸지만 그 인물이 누구를 닮았는지는 모르겠어요.","관객들이 옷차림을 보고 먼저 웃더군요. 대사보다 빨랐어요."],"objectiveId":"repair_costume"},
+        {"id":"carter","templateId":"carter_roman","nameKo":"마차꾼 로만","lines":["공연 끝나면 마차가 한꺼번에 나옵니다. 출구를 나눠야 다치지 않아요.","관객을 먼저 내보낼지, 배우들이 빠져나갈 길을 먼저 열지 정해 주시오."],"objectiveId":"clear_exit"},
+        {"id":"reader","templateId":"reader_darya","nameKo":"관객 다리야","lines":["웃긴 장면인데 마음이 편하진 않았어요. 객석 사람들은 왜 웃었을까요?","친구는 그저 우스운 희극이라는데, 나는 무대 밖 얼굴들이 더 신경 쓰여요."],"objectiveId":"audience_reaction"}
+      ],
+      "objectives": [
+        {"id":"seat_late_guests","titleKo":"입구에 몰린 늦은 관객을 들인다","actionKo":"안내원과 옆문을 열지 의논한다"},
+        {"id":"repair_costume","titleKo":"공연을 멈출지 의상 문제를 해결할지 정한다","actionKo":"재봉사와 의상 담당의 손을 빌린다"},
+        {"id":"backstage_choice","titleKo":"배우가 고친 대사를 그대로 둘지 듣는다","actionKo":"무대 뒤에서 배우의 고민을 듣는다"},
+        {"id":"audience_reaction","titleKo":"서로 다른 관객의 반응을 듣는다","actionKo":"학생·서점 주인·관객에게 공연을 묻는다"},
+        {"id":"clear_exit","titleKo":"공연 뒤 출구와 마차를 정리한다","actionKo":"마차꾼과 극장 안내원이 통로를 나누도록 돕는다"},
+        {"id":"compare_versions","titleKo":"무대의 반응과 작가의 편지를 함께 살핀다","actionKo":"필사원과 평론가에게 자료를 비교한다"}
+      ],
+      "choices": [
+        {"id":"publish_reactions","label":"관객의 서로 다른 평을 이름 없이 모은다","directionKo":"관객 반응을 극장 안에서 공유합니다 · 이름은 남지 않습니다 · 발언의 맥락이 빠질 수 있습니다","textKo":"관객의 평을 이름 없이 모아 극장 안에 남겼다"},
+        {"id":"protect_performers","label":"배우와 무대 뒤 사람들의 안전을 먼저 챙긴다","directionKo":"극장 관계자와 출연진이 알게 됩니다 · 대본 논의는 미뤄집니다 · 관객의 평이 기록에서 빠집니다","textKo":"출연진이 안전하게 극장을 나가도록 출구를 정리했다"},
+        {"id":"compare_play","label":"공연 기록과 고골의 편지를 나란히 보관한다","directionKo":"공연 관찰과 작가의 편지가 함께 남습니다 · 편집자와 필사원이 확인합니다 · 한쪽 자료가 다른 쪽을 대신할 수 없습니다","textKo":"객석에서 본 반응과 고골의 편지를 구분해 함께 보관했다"}
+      ],
+      "closingKo":"《감찰관》 초연은 예정대로 마쳤다. 고골은 며칠 뒤 셰프킨에게 편지를 보냈다. 네가 정한 것은 그날 함께 있던 사람들의 대응과 기억의 방식이다."
+    },
+    {
+      "eventId": "EMANCIPATION_1861", "maps": ["manifesto-street", "manifesto-square", "manifesto-lane"],
+      "backgrounds": ["nevsky", "market-quay", "workyard"], "zoneTitlesKo": ["공고가 붙은 거리", "선언 낭독 자리", "주민들의 골목"],
+      "entryPosition": {"x": 4,"y": 14}, "startMinute": 660,
+      "actors": [
+        {"id":"typesetter","templateId":"typesetter_nikita","nameKo":"식자공 니키타","lines":["제목은 크게 찍혔지만 적용 규정은 여러 장입니다. 낭독본이 빠지면 곤란해요.","인쇄본이 도착했습니다. 어느 쪽부터 읽어 드릴까요?"],"objectiveId":"read_full_text"},
+        {"id":"maid","templateId":"housemaid_olga","nameKo":"하녀 올가","lines":["해방이 됐다는 말을 들었어요. 하지만 오늘 저녁엔 어디서 자야 하죠?","일을 그만둘 수 있는지보다 내일 품삯이 얼마인지 먼저 알아야 해요."],"objectiveId":"work_and_lodging"},
+        {"id":"veteran","templateId":"watercarrier_luka","nameKo":"퇴역병 루카","lines":["선언만 읽어선 토지와 의무가 어떻게 달라지는지 다 나오지 않소.","마을에서 온 편지에는 아직 공동체의 결정이 남았다고 적혔소."],"objectiveId":"land_terms"},
+        {"id":"clerk","templateId":"senior_clerk_konstantin","nameKo":"관청 서기 콘스탄틴","lines":["선언문과 시행 규정은 따로 묶여 있습니다. 한 문서만으로 각 집의 조건을 답할 수 없어요.","질문을 모아 관청에 보낼지, 현장에서 다시 읽을지 정해야 합니다."],"objectiveId":"petition_questions"},
+        {"id":"porter","templateId":"porter_gavrila","nameKo":"짐꾼 가브릴라","lines":["인쇄 묶음을 나르다 보니 배포처마다 줄이 다릅니다. 어느 골목에도 같은 설명이 필요하오.","한 장만 더 가져가면 강변 일꾼들에게 읽어줄 수 있소."],"objectiveId":"carry_copies"},
+        {"id":"washer","templateId":"laundress_mariya","nameKo":"세탁부 마리야","lines":["주인집을 떠날 수 있는지 아직 모르겠어요. 함께 일한 사람들은 어디로 가야 하나요?","품삯과 잠자리 얘기를 먼저 해 주세요. 긴 선언은 나중에도 들을 수 있어요."],"objectiveId":"work_and_lodging"},
+        {"id":"bookseller","templateId":"bookseller_lev","nameKo":"서점 주인 레프","lines":["사람들이 ‘자유’라는 제목만 읽고 돌아가려 합니다. 작은 글씨도 함께 봐야겠어요.","규정을 읽어 줄 사람이 필요합니까? 책상은 이쪽에 비워 두었소."],"objectiveId":"read_full_text"},
+        {"id":"messenger","templateId":"courier_pavel","nameKo":"심부름꾼 파벨","lines":["관청에 갈 질문을 한데 묶으면 오늘 안에 보내 보겠소. 다만 답이 언제 올지는 모르오.","이름을 적어 보내면 답을 받기 쉽지만, 적히는 걸 꺼리는 분들도 있소."],"objectiveId":"petition_questions"},
+        {"id":"carter","templateId":"carter_roman","nameKo":"마차꾼 로만","lines":["공고를 읽으려는 사람이 몰려 길을 막았소. 사람과 수레가 부딪치기 전에 자리를 나눠야겠소.","인쇄물을 싣고 외곽으로 갈 수는 있지만, 여기 질문을 맡을 사람이 필요하오."],"objectiveId":"carry_copies"},
+        {"id":"tenant","templateId":"tenant_mikhail","nameKo":"도시 하숙인 미하일","lines":["나도 시골에서 올라왔소. 고향의 누이가 땅을 받는지부터 알고 싶소.","이 공고가 모든 마을에 똑같이 적용되는 건 아니라고 들었소."],"objectiveId":"land_terms"}
+      ],
+      "objectives": [
+        {"id":"read_full_text","titleKo":"선언과 농민 관련 규정을 함께 읽는다","actionKo":"식자공과 서점 주인에게 빠진 쪽이 없는지 묻는다"},
+        {"id":"work_and_lodging","titleKo":"일자리와 잠자리를 걱정하는 사람을 돕는다","actionKo":"하녀와 세탁부에게 당장 필요한 조건을 묻는다"},
+        {"id":"land_terms","titleKo":"토지와 공동체 규정을 묻는다","actionKo":"퇴역병과 하숙인에게 고향 소식을 듣는다"},
+        {"id":"petition_questions","titleKo":"생활 질문을 관청에 보낼지 결정한다","actionKo":"서기와 심부름꾼에게 전달 방법을 묻는다"},
+        {"id":"carry_copies","titleKo":"다른 동네에도 인쇄물을 전달한다","actionKo":"짐꾼과 마차꾼에게 배포 경로를 맡긴다"}
+      ],
+      "choices": [
+        {"id":"send_questions","label":"이름을 적은 질문을 관청에 보낸다","directionKo":"관청 서기와 심부름꾼이 전달 내용을 압니다 · 답을 받을 길이 생깁니다 · 질문한 사람의 이름도 기록됩니다","textKo":"이름을 적은 생활 질문을 관청에 보냈다"},
+        {"id":"public_reading","label":"사람들이 모인 자리에서 규정을 다시 읽는다","directionKo":"현장에 있는 주민들이 듣습니다 · 서명은 남지 않습니다 · 개별 답변을 받기 어렵습니다","textKo":"낭독 자리에서 생활 규정을 다시 읽고 질문을 받았다"},
+        {"id":"distribute_copies","label":"인쇄본을 여러 동네에 나눠 보낸다","directionKo":"짐꾼과 마차꾼이 배포를 맡습니다 · 더 많은 사람이 내용을 듣습니다 · 이 자리의 질문을 맡을 사람이 줄어듭니다","textKo":"인쇄본을 여러 동네에 나눠 보냈다"}
+      ],
+      "closingKo":"선언은 1861년 2월 19일 당시 역법(새 역법 3월 3일)에 서명됐다. 개인의 해방, 토지 배분, 의무의 정리는 같은 절차가 아니었다. 네 선택은 현장 사람들의 질문과 이동을 바꾸었지만, 제국의 개혁 조건은 바뀌지 않았다."
+    }
+  ]
+}

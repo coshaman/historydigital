@@ -6,7 +6,7 @@ function authoredCueSets(card) {
   return { activities, aims };
 }
 
-export function dialogueSceneContext(card, host, date, mapId, questId = null) {
+export function dialogueSceneContext(card, host, date, mapId, questId = null, playerHistoricalEvents = []) {
   const cues = authoredCueSets(card), activeGoal = host?.activeGoal, taskId = activeGoal?.taskId ?? '';
   const activityKo = cues.activities.has(host?.currentActivityKo) ? host.currentActivityKo : null;
   const persistentGoal = (card.persistentPersonalGoals ?? []).find(goal => taskId === goal.id || taskId.startsWith(`${goal.id}:`));
@@ -29,5 +29,5 @@ export function dialogueSceneContext(card, host, date, mapId, questId = null) {
       occurrenceType: row.occurrenceType, validationStatus: row.validationStatus,
       historicalOutcomeFixed: row.historicalOutcomeFixed, fromHostId: row.fromHostId })) : [];
   return { date, mapId, questId, activityKo, currentAimKo: cues.aims.has(currentAimKo) ? currentAimKo : null,
-    hungerBand, fatigueBand, healthCondition, heardRumors, heardEvents };
+    hungerBand, fatigueBand, healthCondition, heardRumors, heardEvents, playerHistoricalEvents };
 }

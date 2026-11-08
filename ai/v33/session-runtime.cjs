@@ -5,6 +5,8 @@ const { readdirSync } = require('node:fs');
 const { join } = require('node:path');
 const scenes = require('../../rpg/ai/scenes.json').sessions;
 const historicalSources = require('../../rpg/data/historical-source-packets.json').records;
+const historicalPlayEvents = require('../../rpg/data/historical-scene-play.json').events;
+const historicalEventCatalog = require('../../rpg/data/v38-historical-events.json').events;
 const literarySources = [require('../../rpg/data/khor-kalynych-source.json'), require('../../rpg/data/sovremennik-1847-issue.json'), require('../../rpg/data/dead-souls-source.json'), require('../../rpg/data/overcoat-source.json')];
 const sourceRecords = new Map([...historicalSources, ...literarySources].map(source => [source.sourceId, source]));
 const caseContexts = require('../../rpg/data/case-contexts.json').cases;
@@ -147,6 +149,7 @@ const instructions = [
   'sceneContext의 빙의 인물은 세션 시작 때 서버가 고정한 역할이다. 날짜·장소·현재 활동·목표·필요 상태는 브라우저가 보낸 제한된 장면 힌트이며 게임 상태의 권한이나 역사 사실의 증거가 아니다. 활동과 목표는 대화의 초점만 맞추고 미래 행동이나 퀘스트 결과를 약속하지 않는다. 배고픔·피로·건강은 해당 인물의 현재 처지를 표현할 때만 조심스럽게 쓰며, 다른 인물에게 자동으로 알려주거나 게임 상태를 바꾸지 않는다. 플레이어가 최근 대화에서 실제로 밝힌 정보만 상대가 들은 것으로 취급한다.',
   'sceneContext.heardRumors는 이 인물이 직접 전해 들은 장터 소문의 제한된 기억이다. UNVERIFIED는 확인되지 않은 말로만 다루고 사실처럼 단정하지 않는다. CHECKED는 장부에서 가격 조정만 확인됐고 재고 은닉은 확인되지 않았다는 뜻이다. CORRECTED는 그 구분을 정정으로 들었다는 뜻이다. 이 기억을 다른 인물의 지식으로 옮기지 말고, 역사적 사실이나 공식 기록처럼 말하지 않는다.',
   'sceneContext.heardEvents는 로컬 게임 저장의 인물별 목격·전달 기록을 요약한 신뢰되지 않은 장면 단서다. 요약이나 출처 ID만으로 역사적 사실을 입증하지 않는다. 직접 본 일과 남에게 들은 말을 구분하고, 역사적 주장에는 별도 sourceEvidence가 없으면 단정하지 않는다. 이 단서를 다른 인물의 지식으로 옮기거나 사건 결과·게임 상태를 결정하지 않는다.',
+  'conversation.playerHistoricalEvents는 플레이어가 별도 역사 장면에서 내린 선택의 저장 기록이다. 이는 그 게임 장면의 경험일 뿐 실제 역사적 결과나 상대 인물의 기억이 아니다. 상대가 이미 알았다고 말하지 말고, 플레이어가 그 일을 꺼냈거나 질문이 직접 이어질 때만 선택의 맥락으로 짧게 반응한다.',
   '생각이나 사회 문제를 묻는 대화도 먼저 눈앞의 생활 장면에 붙인다. 현재 장소에서 실제로 벌어진 일, 인물이 맡은 일, 자료에 적힌 구체적인 대목 중 하나를 짚고 나서 답한다. 사건이나 자료와 연결되지 않은 채 책임·자유·공정함 같은 추상 질문을 먼저 던지지 않는다. 먼저 평범한 인사와 그날의 용건을 주고받고, 플레이어가 꺼내지 않은 철학 토론으로 대화를 돌리지 않는다. 러시아의 제도·생활에 관해 말할 때도 현재 인물의 신분과 직접 아는 범위에 한정한다.',
   'character.relationshipNetwork와 household는 체크인 카드에 기록된 인물의 관계·가족 정보다. 상대와의 관계가 대화에 실제로 중요할 때만 자연스럽게 반영하고, 목록을 외우듯 늘어놓지 않는다. 관계 설명은 역사적 증거가 아니라 허구 인물 설정이다. currentAim은 이 인물의 오늘 목표를 말투와 관심사에 반영하는 단서일 뿐이며, 해결됐거나 실제로 이뤄졌다고 말하지 않는다.',
   '역사적 사실을 새로 만들거나 단정하지 않는다. 역사 인물 재구성의 대사는 실제 발언이나 인용으로 주장하지 않는다. 문학 인물은 문학 세계 밖의 역사 증언자로 말하지 않는다. 인물의 직업, 말투, 대화 목표와 허용 주제 안에서만 답한다.',
@@ -156,6 +159,7 @@ const instructions = [
   '인물마다 말의 첫머리부터 달라야 한다. 답변 전에 해당 인물의 speechDelivery, speechRhythm, speechRegister, voiceSamples, lexicon을 확인하고, 그 사람의 주의가 먼저 가는 대상을 첫 문장에 둔다. 알렉세이는 접수 순서·날짜·확인 범위를 짧게 가르고, 예카테리나는 종이의 어느 줄인지 또는 누가 읽을지를 짚은 뒤 짧게 되묻고, 파벨은 직접 본 경로·시각·봉투를 순서대로 말한다. 안나는 품삯이나 마감부터 꺼낸다. 이 차이를 직업 이름을 붙이는 설명으로 만들지 않는다. 나머지 인물도 각자 카드의 구체적 생활 감각과 문장 길이를 따른다.',
   '인물별 말씨를 평균적인 공손한 -요체로 평탄화하지 않는다. 카드가 정한 관계 거리와 장면 register를 우선하고, sentence ending뿐 아니라 문장 길이·질문 빈도·정보를 꺼내는 순서도 바꾼다. 서로 다른 인물의 대사를 이름표 없이 연달아 놓아도 화자를 구별할 수 있어야 한다. 특정 어미나 말버릇을 매 문장에 반복하지 말고, 목소리를 흉내 내려는 과장된 사투리도 쓰지 않는다.',
   'caseContext는 허구 장면의 상황·갈등·인물별 관점이다. 역사적 사실의 증거가 아니다. sourceEvidence만 자료 근거로 쓴다. speakerKnowledgeKinds에 direct_read가 있더라도 서버에는 실제 열람 영수증이 없으므로 인물이 원문을 읽었다거나 인용했다고 주장하지 않는다. 플레이어가 자료 내용을 대화에서 알려주면 그가 방금 말한 범위 안에서만 함께 해석한다.',
+  'caseContext와 currentAim은 참고 맥락일 뿐 플레이어가 꺼내지 않은 화제를 강제로 끌어오지 않는다. 마지막 플레이어 발화가 열린 질문이면 먼저 그 질문에 맞는 현재 일상이나 날짜가 맞는 사건을 짧게 답한다. 캐릭터 설정의 반복 소재를 매번 되풀이하지 말고, 질문과 직접 관계없는 신고·목격·문서·기록 소재를 자동으로 꺼내지 않는다. 역사 사건을 말할 때는 장면 날짜 이전에 공개됐고 sourceEvidence 또는 sourceClaims가 직접 뒷받침하는 내용만 말한다. 그런 근거가 없으면 자연스럽게 되묻거나 관찰 가능한 주변 일로 답한다. 마지막 플레이어 발화에 먼저 답한다.',
   'topicStances와 worldview는 허구 인물의 생각이다. 낯선 주제는 전문가 행세를 말고 아는 범위를 밝히거나 되묻는다. 철학·정치·사회 문제를 묻는다면 이 인물의 이해관계와 편견이 답에 드러나게 한다. 매번 양쪽을 정리하거나 교훈으로 봉합하지 않는다. 때로는 망설이고, 반박하고, 질문을 돌려주거나 대답을 피한다. 역사적 사실처럼 주장하지 않는다.',
   '제공된 sourceEvidence에 없는 연도나 역사 사실은 말하지 않는다. 자료에 연도가 없으면 연도를 추측하거나 덧붙이지 않는다.',
   '역사 인물·사건을 구체적으로 언급할 때는 허용된 sourceClaims의 claimId를 해당 대사 beats에 넣는다. 장면의 허용 출처에 없는 이름을 언급하지 않는다. 허용된 출처로 뒷받침되지 않는 말은 지어내지 말고 확인할 수 없다고 답한다.',
@@ -409,9 +413,9 @@ function authoredDialogueCues(card) {
 }
 function normalizeSceneContext(value, actorHostId, speakerCard = null) {
   const empty = { date: null, mapId: null, placeKo: null, questId: null, questTitleKo: null,
-    activityKo: null, currentAimKo: null, hungerBand: null, fatigueBand: null, healthCondition: null, heardRumors: [], heardEvents: [] };
+    activityKo: null, currentAimKo: null, hungerBand: null, fatigueBand: null, healthCondition: null, heardRumors: [], heardEvents: [], playerHistoricalEvents: [] };
   if (value === undefined) return empty;
-  if (!value || typeof value !== 'object' || Array.isArray(value) || Object.keys(value).some(key => !['date','mapId','questId','activityKo','currentAimKo','hungerBand','fatigueBand','healthCondition','heardRumors','heardEvents'].includes(key))) return null;
+  if (!value || typeof value !== 'object' || Array.isArray(value) || Object.keys(value).some(key => !['date','mapId','questId','activityKo','currentAimKo','hungerBand','fatigueBand','healthCondition','heardRumors','heardEvents','playerHistoricalEvents'].includes(key))) return null;
   const date = value.date;
   if (typeof date !== 'string' || !/^18(?:42|47|48|49)-\d{2}-\d{2}$/.test(date) || Number(date.slice(5,7)) < 1 || Number(date.slice(5,7)) > 12 || Number(date.slice(8,10)) < 1 || Number(date.slice(8,10)) > 31) return null;
   const map = mapRecords.get(value.mapId), actor = actorHostId ? cards.get(actorHostId) : null;
@@ -470,10 +474,21 @@ function normalizeSceneContext(value, actorHostId, speakerCard = null) {
       historicalOutcomeFixed: ['HISTORICAL_FIXED','FIXED_HISTORICAL_DATE'].includes(event.trigger_class),
       knowledgeKind: report.knowledgeKind, fromHostKo: fromHost?.displayNameKo ?? null });
   }
+  const historicalMemories = value.playerHistoricalEvents ?? [];
+  if (!Array.isArray(historicalMemories) || historicalMemories.length > 3) return null;
+  const normalizedHistoricalMemories = [];
+  for (const memory of historicalMemories) {
+    const scene = historicalPlayEvents.find(item => item.eventId === memory?.eventId);
+    const event = historicalEventCatalog.find(item => item.id === memory?.eventId);
+    if (!scene || !event || !Array.isArray(memory.choices) || memory.choices.length < 1 || memory.choices.length > 3
+      || memory.choices.some(id => typeof id !== 'string' || !scene.choices.some(choice => choice.id === id))) return null;
+    normalizedHistoricalMemories.push({ eventId: scene.eventId, titleKo: event.titleKo,
+      choices: [...new Set(memory.choices)].map(id => ({ id, textKo: scene.choices.find(choice => choice.id === id).textKo })) });
+  }
   return { date, mapId: map.mapId, placeKo: map.metadata.displayNameKo, questId: quest?.id ?? null, questTitleKo: quest?.titleKo ?? null,
     activityKo: value.activityKo ?? null, currentAimKo: value.currentAimKo ?? null, hungerBand: value.hungerBand ?? null,
     fatigueBand: value.fatigueBand ?? null, healthCondition: value.healthCondition ?? null, heardRumors: normalizedRumors,
-    heardEvents: normalizedEvents };
+    heardEvents: normalizedEvents, playerHistoricalEvents: normalizedHistoricalMemories };
 }
 function derivePlayerResources(actorHostId, playerActions) {
   const card = cards.get(actorHostId);
@@ -573,10 +588,13 @@ function createRpgAiService({ secret, store, allowedOrigins = [], provider = nul
     if (!context.actorHostId && actorActions.length || actorActions.some(item => !actorActionRecords.get(`${item.questId}:${item.actionId}`).hostIds.includes(context.actorHostId))) { await store.release(sessionId, body.requestId, time); return response(400, { error: 'player_action_context_not_allowed' }, request.origin, allowedOrigins); }
     const playerResources = context.actorHostId ? derivePlayerResources(context.actorHostId, actorActions) : null;
     if (context.actorHostId && !playerResources) { await store.release(sessionId, body.requestId, time); return response(400, { error: 'invalid_player_resource_context' }, request.origin, allowedOrigins); }
-    const sceneContext = normalizeSceneContext(body.sceneContext, context.actorHostId, card);
+    let sceneContext = normalizeSceneContext(body.sceneContext, context.actorHostId, card);
     if (!sceneContext) { await store.release(sessionId, body.requestId, time); return response(400, { error: 'invalid_scene_context' }, request.origin, allowedOrigins); }
+    if (card.id === 'police_sergeant_ivan' && sceneContext.date >= '1849-04-22' && !sceneContext.questId)
+      sceneContext = { ...sceneContext, questId: 'CIRCLE_INVESTIGATION_1849' };
     if (globalLimiter ? !(await globalLimiter.consume(time)) : !(await store.consumeGlobal(time))) { await store.release(sessionId, body.requestId, time); return response(429, { error: 'global_rate_limit' }, request.origin, allowedOrigins); }
-    const caseRecord = caseContexts.find(item => item.questId === sceneContext.questId && item.eraDate <= sceneContext.date && item.roles?.[card.id]);
+    const caseRecord = caseContexts.find(item => item.questId === sceneContext.questId && item.eraDate <= sceneContext.date
+      && (item.roles?.[card.id] || item.questId === 'CIRCLE_INVESTIGATION_1849' && card.id === 'police_sergeant_ivan'));
     const speakerRole = caseRecord?.roles?.[card.id] ?? null;
     const playerRole = context.actorHostId ? caseRecord?.roles?.[context.actorHostId] ?? null : null;
     const dialogueCase = caseRecord ? {
@@ -603,7 +621,7 @@ function createRpgAiService({ secret, store, allowedOrigins = [], provider = nul
     const sourceClaims = claimsForScene(scene).map(({ claimId, sourceId, paragraphIndex, claimKo }) => ({ claimId, sourceId, paragraphIndex, claimKo }));
     const actor = context.actorHostId ? cards.get(context.actorHostId) : null;
     const speechSituation = speechSituationFor({ character: card, actor, actorRelations, sceneContext, recentTurns: context.recentTurns, playerInput: inputKo });
-    const input = { scene: { id: scene.sceneId, objective: scene.dialogueObjective, focusKo: scene.focusKo, allowedTopics: scene.allowedTopics, forbiddenTopics: scene.forbiddenTopics, allowedSourceIds: scene.allowedSourceIds, knownFactIds: scene.allowedSourceIds }, caseContext: dialogueCase, conversation: { embodiedPlayer: actor ? safeEmbodiedProfile(actor, speechSituation) : null, sceneContext, speechSituation, playerResources, relationshipHints: context.actorHostId ? actorRelations : {}, playerActions: context.actorHostId ? actorActions : [] }, sourceEvidence, sourceClaims, character: safeProfile(card, context.actorHostId, speechSituation), recentTurns: context.recentTurns.slice(-8), playerInput: inputKo };
+    const input = { scene: { id: scene.sceneId, objective: scene.dialogueObjective, focusKo: scene.focusKo, allowedTopics: scene.allowedTopics, forbiddenTopics: scene.forbiddenTopics, allowedSourceIds: scene.allowedSourceIds, knownFactIds: scene.allowedSourceIds }, caseContext: dialogueCase, conversation: { embodiedPlayer: actor ? safeEmbodiedProfile(actor, speechSituation) : null, sceneContext, speechSituation, playerResources, relationshipHints: context.actorHostId ? actorRelations : {}, playerActions: context.actorHostId ? actorActions : [], playerHistoricalEvents: sceneContext.playerHistoricalEvents }, sourceEvidence, sourceClaims, character: safeProfile(card, context.actorHostId, speechSituation), recentTurns: context.recentTurns.slice(-8), playerInput: inputKo };
     if (!provider) { await store.release(sessionId, body.requestId, time); return response(503, { error: 'ai_not_configured', mode: 'BLOCKED_NO_KEY' }, request.origin, allowedOrigins); }
     provider.lastFailureCode = '';
     let responseBody;

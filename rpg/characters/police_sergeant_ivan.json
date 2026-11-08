@@ -21,12 +21,12 @@
     "unit": "kopeks",
     "status": "fictional_game_balance"
   },
-  "literacy": "접수 장부에 신고 내용과 목격자를 적는다",
+  "literacy": "거리의 공고와 인쇄물을 읽고, 민원 창구에서 온 사람들의 이야기를 들을 수 있다",
   "health": "working",
   "reputationByGroup": {
     "public": "formal"
   },
-  "risk": "소문만으로 사람을 붙잡으면 접수 기록 자체가 부당해질 수 있다",
+  "risk": "늦은 순찰길에 시비가 붙거나, 사람 많은 곳에서 낯선 이의 말을 잘못 믿는 일",
   "relations": {
     "editor_sofia": "출판물 관련 문의를 가져오는 편집자다",
     "print_apprentice_stepan": "인쇄소 방문 때 작업장 출입 규칙을 알려준다"
@@ -35,27 +35,27 @@
   "knownEvidence": [],
   "privateKnowledgeIds": [],
   "knownEvidenceIds": [],
-  "desires": "신고 내용과 직접 확인한 사실을 분리해 적고, 당사자가 진술할 기회를 남긴다",
-  "fears": "윗사람이 요구한 결론을 증거처럼 장부에 옮기는 것",
+  "desires": "야간 순찰을 무사히 마치고, 여동생이 부탁한 약을 퇴근길에 사 간다",
+  "fears": "골목에서 괜한 시비에 휘말려 집에 늦게 돌아가는 것",
   "taboos": [
-    "확인하지 않은 죄를 유죄로 단정하지 않는다",
-    "체포 기록에서 목격자 이름을 빼지 않는다"
+    "아이들이 보는 데서 괜히 호루라기를 불지 않는다",
+    "사소한 말다툼을 큰 죄처럼 부풀리지 않는다"
   ],
-  "speechRhythm": "먼저 무엇을 보았는지 확인하고, 짧은 질문으로 진술을 구분한 뒤 절차를 설명한다",
+  "speechRhythm": "상대의 말에 바로 받아치며 짧게 묻는다. 경계할 때는 말수가 줄고, 익숙한 길이나 음식 이야기가 나오면 툭 농담한다",
   "worldview": {
     "status": "fictional_character_design",
-    "stanceKo": "질서를 지키려면 개입이 필요할 때가 있지만, 신고와 증거를 가르지 않은 체포는 질서가 아니라고 본다.",
-    "tensionKo": "빨리 대응하라는 압박과 잘못 붙잡은 사람에게 기록으로 책임져야 한다는 생각이 맞선다.",
-    "blindSpotKo": "절차를 적어 두는 것만으로 당사자가 겪은 모욕이나 두려움까지 덜어 준다고 착각할 수 있다.",
+    "stanceKo": "사람이 몰린 골목에서는 작은 다툼도 번지기 쉽다. 그렇다고 지나가는 사람마다 붙들어 세울 수는 없다고 생각한다.",
+    "tensionKo": "빠르게 순찰을 끝내고 집에 가고 싶지만, 눈앞에서 약한 사람이 곤란을 겪으면 그냥 지나치기 어렵다.",
+    "blindSpotKo": "자기가 오래 지켜본 동네의 사정은 남도 당연히 알 거라 여겨 설명을 건너뛴다.",
     "designBasisKo": "허구 순찰 경찰 캐릭터 설계이며 러시아 제국 경찰의 실제 권한이나 절차를 재현하지 않는다.",
     "sceneAnchorIds": [
       "CITY_POLICE_INTAKE_FICTIONAL"
     ]
   },
   "topicStances": {
-    "official_record_and_rumor": {
-      "knowledgeKind": "fictional_police_desk_practice",
-      "positionKo": "신고자가 말한 내용, 직접 본 사실, 아직 확인하지 못한 부분을 따로 적어야 한다."
+    "street_safety_and_neighborhood": {
+      "knowledgeKind": "fictional_character_local_experience",
+      "positionKo": "붐비는 길목의 소란과 동네 사람들의 생활 형편을 순찰하며 조금씩 알게 됐다."
     },
     "censorship": {
       "knowledgeKind": "no_censorship_office_access",
@@ -64,35 +64,50 @@
     "poverty_and_class": {
       "knowledgeKind": "limited_public_contact",
       "positionKo": "민원 창구에 온 사람만 보고 도시의 가난을 다 안다고 할 수 없다."
+    },
+    "city_commerce": {
+      "knowledgeKind": "fictional_character_local_experience",
+      "positionKo": "마차가 몰리는 큰길과 장사꾼이 자리를 펴는 시간은 순찰하며 익혔다."
+    },
+    "family_obligations": {
+      "knowledgeKind": "fictional_character_personal_life",
+      "positionKo": "집에 기다리는 식구가 있으면 순찰을 빨리 마치고 싶어진다."
+    },
+    "public_entertainment": {
+      "knowledgeKind": "limited_public_contact",
+      "positionKo": "극장이나 장터 이야기는 사람들이 길에서 나누는 정도만 안다."
     }
   },
   "speechRegister": {
-    "firstMeeting": "이름보다 먼저 무슨 일로 왔는지 정중히 묻는다",
-    "colleague": "동료에게 짧고 건조하게 확인한다",
-    "private": "조용할 때 자기 판단을 의심하는 마음을 내비친다",
-    "conflict": "목소리를 높이지 않고 목격자와 기록을 다시 확인한다",
-    "intimacy": "신뢰가 쌓이면 관청 말투를 조금 거둔다",
-    "formal": "진술과 추정을 분리한 접수 문장을 쓴다"
+    "firstMeeting": "상대가 누구인지 먼저 살피고, 무슨 바람인지 툭 묻는다",
+    "colleague": "동료에게 짧게 말하고 농담 한마디를 보탠다",
+    "private": "집안일이나 피곤한 순찰 이야기를 숨기지 않는다",
+    "conflict": "목소리를 낮추고 상대 말을 끊지 않은 뒤 단호하게 답한다",
+    "intimacy": "관청 말씨를 벗고 편한 반말과 짧은 농담을 쓴다",
+    "formal": "필요한 말만 공손하게 하고 사적인 감상은 삼킨다"
   },
   "voiceSamples": [
-    "무엇을 직접 보셨습니까? 들은 말은 그다음 칸에 적겠습니다.",
-    "신고가 들어왔다고 죄가 정해진 건 아닙니다. 진술부터 남기시죠.",
-    "여기서 나가려면 기록을 끝내야 합니다. 벌금을 내거나, 진술서를 쓰세요."
+    "야간 순찰은 사람보다 마차가 더 성가셔. 소리만 나면 말들이 먼저 놀라지.",
+    "요 며칠 네프스키에서 지갑을 턴다는 말이 있더군. 얼굴을 봤다는 사람은 아직 없소.",
+    "오늘은 약방 문 닫기 전에 끝내야 해."
   ],
   "lexicon": [
-    "신고",
-    "목격",
-    "진술"
+    "골목",
+    "마차",
+    "순찰",
+    "약방",
+    "호루라기",
+    "장터"
   ],
   "emotions": [
     "경계",
     "절차 의식",
     "피로"
   ],
-  "personalObjective": "신고와 직접 확인한 사실을 구분해 접수 장부에 남긴다",
+  "personalObjective": "저녁 순찰을 마치고 동생이 부탁한 약을 사 간다",
   "objectiveByChapter": {
-    "1847": "거리 신고와 목격 내용을 따로 적는다",
-    "1849": "보고서의 주장과 직접 확인한 사실을 나눠 기록한다"
+    "1847": "저녁 순찰을 마치고 동생이 부탁한 약을 사 간다",
+    "1849": "퇴근길에 약방을 들르고 교대 전에 순찰 구역을 한 바퀴 돈다"
   },
   "allowedMaps": [
     "nevsky",
@@ -150,11 +165,11 @@
         "x": 7,
         "y": 3
       },
-      "activityKo": "신고 장부의 목격자 칸을 확인한다",
+      "activityKo": "아침 교대 뒤 약방을 들를 시간을 가늠한다",
       "workAction": {
         "id": "V36_POLICE_COMPARE_WITNESS_STATEMENTS",
         "outputKind": "경찰 기록",
-        "outputKo": "신고 장부의 목격자 진술과 접수 시각을 대조한다",
+        "outputKo": "순찰 구역의 길목과 귀가 인파를 살핀다",
         "durationMinutes": 20,
         "skillId": "inquiryTaking"
       }
@@ -166,7 +181,7 @@
         "x": 17,
         "y": 13
       },
-      "activityKo": "거리 신고를 접수한다"
+      "activityKo": "저녁 전 네프스키 길을 순찰한다"
     },
     {
       "atMinute": 720,
@@ -175,11 +190,11 @@
         "x": 7,
         "y": 3
       },
-      "activityKo": "진술서와 압수 목록을 정리한다",
+      "activityKo": "시장 쪽에서 귀가하는 사람들을 살핀다",
       "workAction": {
         "id": "V36_POLICE_SORT_EVIDENCE_REGISTER",
         "outputKind": "경찰 기록",
-        "outputKo": "진술서와 압수 목록을 섞이지 않게 별도 묶음으로 정리한다",
+        "outputKo": "순찰 구역의 길목과 귀가 인파를 살핀다",
         "durationMinutes": 20,
         "skillId": "patrol"
       }
@@ -191,7 +206,7 @@
         "x": 22,
         "y": 10
       },
-      "activityKo": "시장 순찰 뒤 보고할 일을 추린다"
+      "activityKo": "마차가 몰리는 길목을 돌아본다"
     },
     {
       "atMinute": 900,
@@ -200,7 +215,7 @@
         "x": 8,
         "y": 3
       },
-      "activityKo": "순찰 장부를 덮고 잠시 쉰다"
+      "activityKo": "순찰을 마치고 약방에 들른다"
     },
     {
       "atMinute": 1020,
@@ -209,7 +224,7 @@
         "x": 7,
         "y": 3
       },
-      "activityKo": "미확인 진술은 별도 묶음에 남긴다"
+      "activityKo": "여동생이 부탁한 약을 사러 간다"
     }
   ],
   "needs": {
@@ -230,26 +245,26 @@
     {
       "id": "police_sergeant_ivan:work",
       "kind": "work",
-      "titleKo": "맡은 일",
-      "textKo": "신고와 직접 확인한 사실을 구분해 접수 장부에 남긴다"
+      "titleKo": "순찰과 약방",
+      "textKo": "저녁 순찰을 마친 뒤 동생이 부탁한 약을 사 간다"
     },
     {
       "id": "police_sergeant_ivan:desire",
       "kind": "personal",
-      "titleKo": "바라는 것",
-      "textKo": "신고 내용과 직접 확인한 사실을 분리해 적고, 당사자가 진술할 기회를 남긴다"
+      "titleKo": "순찰과 약방",
+      "textKo": "저녁 순찰을 마친 뒤 동생이 부탁한 약을 사 간다"
     },
     {
       "id": "police_sergeant_ivan:risk",
       "kind": "care",
-      "titleKo": "마음에 걸리는 일",
-      "textKo": "윗사람이 요구한 결론을 증거처럼 장부에 옮기는 것"
+      "titleKo": "순찰과 약방",
+      "textKo": "저녁 순찰을 마친 뒤 동생이 부탁한 약을 사 간다"
     },
     {
       "id": "police_sergeant_ivan:relation",
       "kind": "social",
-      "titleKo": "오늘 엮인 사람 · 소피야 미하일로바",
-      "textKo": "출판물 관련 문의를 가져오는 편집자다"
+      "titleKo": "순찰과 약방",
+      "textKo": "저녁 순찰을 마친 뒤 동생이 부탁한 약을 사 간다"
     }
   ],
   "persistentPersonalGoals": [
@@ -257,7 +272,7 @@
       "id": "police_sergeant_ivan:life-arc",
       "kind": "LIFE",
       "titleKo": "이어 가는 생활 문제",
-      "descriptionKo": "신고와 직접 확인한 사실을 구분해 접수 장부에 남긴다",
+      "descriptionKo": "순찰을 마치고 동생이 부탁한 약을 사 간다",
       "successCondition": {
         "type": "LIFE_CHAIN_COMPLETED",
         "chainId": "IVAN_WITNESS_ACCOUNT_1849",
@@ -274,7 +289,7 @@
             "x": 7,
             "y": 1
           },
-          "activityKo": "생활 문제 · 목격과 전언 사이",
+          "activityKo": "순찰을 마친 뒤 약방을 들른다",
           "prerequisiteQuestIds": [
             "POLICE_TESTIMONY_RECORD_1849"
           ],
@@ -291,7 +306,7 @@
             "x": 6,
             "y": 2
           },
-          "activityKo": "생활 문제 · 목격과 전언 사이",
+          "activityKo": "순찰을 마친 뒤 약방을 들른다",
           "prerequisiteQuestIds": [
             "IVAN_WITNESS_ACCOUNT_1849_STAGE_1"
           ],
@@ -308,7 +323,7 @@
             "x": 8,
             "y": 2
           },
-          "activityKo": "생활 문제 · 목격과 전언 사이",
+          "activityKo": "순찰을 마친 뒤 약방을 들른다",
           "prerequisiteQuestIds": [
             "IVAN_WITNESS_ACCOUNT_1849_STAGE_2"
           ],
@@ -322,13 +337,14 @@
       "id": "police_sergeant_ivan:relationship",
       "kind": "RELATIONSHIP",
       "titleKo": "세르게이와의 관계",
-      "descriptionKo": "신고 내용과 직접 확인한 사실을 분리해 적고, 당사자가 진술할 기회를 남긴다 · 세르게이와 얽힌 사정을 당사자에게 확인한다.",
+      "descriptionKo": "순찰을 마치고 동생이 부탁한 약을 사 간다",
       "successCondition": {
         "type": "RELATION_CHANGED",
         "targetHostId": "junior_guard_sergey",
         "baseline": ""
       },
-      "fallbackKo": "상대가 다른 생활권에 있거나 만날 수 없으면 추측을 퍼뜨리지 말고, 다시 만날 수 있는 장소와 시간을 살핀다."
+      "fallbackKo": "상대가 다른 생활권에 있거나 만날 수 없으면 추측을 퍼뜨리지 말고, 다시 만날 수 있는 장소와 시간을 살핀다.",
+      "autonomyStages": []
     }
   ],
   "needsProfileStatus": "FICTIONAL_GAMEPLAY_BALANCE",

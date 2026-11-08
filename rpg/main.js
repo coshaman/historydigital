@@ -7,6 +7,7 @@ import { ownsKeyboardInput, observationText } from './engine/player-presentation
 import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHost, discussionReflectionPromptsForHost } from './engine/discussion-quests.mjs';
 import { dialogueSessionNeedsReconnect, dialogueSpeakerLabel, mayOfferDiscussionPrompt, selectDialogueTurn } from './engine/dialogue-response.mjs';
 import { dialogueSceneContext } from './engine/dialogue-context.mjs';
+import { beginHistoricalSession, exitHistoricalSession, recordHistoricalChoice } from './engine/historical-session.mjs';
 import { appendApiDiagnostic, clearApiDiagnostics, readApiDiagnostics } from './engine/api-diagnostics.mjs';
 import { CITY_PRODUCTS, NEWSPAPER_STORIES, newspaperAssignment, purchaseCityProduct, publishNewspaperIssue, shareSourceWithEditor, readNewspaperIssue, circulateNewspaperIssue, commitSuspiciousAct, resolvePoliceCustody, publishedIssueLabel } from './engine/civic-life.mjs';
 import { contextualOpening } from './ai/authored-dialogue.mjs';
@@ -19,6 +20,7 @@ const readJson = async path => (await fetch(path)).json();
 const [street, shop, chancery, courtyard, marketMap, literaryMap, overcoatMap, policeMap, firstQuest, marketPersonalQuests, source, firstIssue, historicalSources, literarySource, overcoatSource, campaign, publicQuest, europeNewsQuest, circleQuest, letterQuest, literaryQuest, overcoatQuest, sceneObservations, aiScenes, learningExam, learningSourceData, lifeTemplates] = await Promise.all([readJson('./rpg/maps/nevsky.json'), readJson('./rpg/maps/printshop.json'), readJson('./rpg/maps/chancery.json'), readJson('./rpg/maps/courtyard.json'), readJson('./rpg/maps/market-quay.json'), readJson('./rpg/maps/dead-souls.json'), readJson('./rpg/maps/overcoat.json'), readJson('./rpg/maps/police-station.json'), readJson('./rpg/quests/printshop-article.json'), Promise.all(['yard-ledger-1847','laundry-wages-1847','bakery-flour-1847','market-prices-1847','porter-load-1847','coach-fare-1847','warehouse-injury-1847','pavel-missing-parcel-1847','household-privacy-1847','midwife-care-cost-1847','apothecary-limits-1847','apprentice-authorship-1847','bookbinder-damage-1847','scribal-copy-1847','inn-debt-rumor-1847','student-circle-risk-1847','teacher-access-cost-1847','household-tutor-offer-1847','market-theft-1847','noble-status-debt-1847','landlady-rent-commons-1847','water-access-queue-1847','fish-storage-time-1847','warehouse-loss-record-1847','servant-private-warning-1847','guard-entry-bribe-1847','carter-delivery-delay-1847','street-vendor-weather-1847','typesetter-speed-censorship-1847','lodging-reading-income-1847','clerk-alexei-life-1-1847','clerk-alexei-life-2-1847','clerk-alexei-life-3-1847','courier-pavel-life-1-1847','courier-pavel-life-2-1847','courier-pavel-life-3-1847','seamstress-anna-life-1-1847','seamstress-anna-life-2-1847','seamstress-anna-life-3-1847','bookseller-lev-life-1-1847','bookseller-lev-life-2-1847','bookseller-lev-life-3-1847'].map(id => readJson(`./rpg/quests/${id}.json`))), readJson('./rpg/data/khor-kalynych-source.json'), readJson('./rpg/data/sovremennik-1847-issue.json'), readJson('./rpg/data/historical-source-packets.json'), readJson('./rpg/data/dead-souls-source.json'), readJson('./rpg/data/overcoat-source.json'), readJson('./rpg/quests/campaign.json'), readJson('./rpg/quests/public-discourse-1848.json'), readJson('./rpg/quests/europe-news-1848.json'), readJson('./rpg/quests/circle-investigation-1849.json'), readJson('./rpg/quests/circle-letter-1849-may.json'), readJson('./rpg/quests/literary-dead-souls.json'), readJson('./rpg/quests/literary-overcoat.json'), readJson('./rpg/data/scene-observations.json'), readJson('./rpg/ai/scenes.json'), readJson('./rpg/data/learning-exam.json'), readJson('./rpg/data/learning-sources.json'), readJson('./rpg/data/life-simulation.json')]);
 const [sourceReaderIndex, caseContextData, discussionQuestData, districtRegistry] = await Promise.all([readJson('./rpg/data/source-reader-index.json'), readJson('./rpg/data/case-contexts.json'), readJson('./rpg/data/discussion-quests.json'), readJson('./rpg/data/city-districts-v36.json')]);
 const historicalEvents = (await readJson('./rpg/data/v38-historical-events.json')).events;
+const historicalPlay = (await readJson('./rpg/data/historical-scene-play.json')).events;
 const [dostoevskyExecutionQuest, historicalSceneMaps] = await Promise.all([readJson('./rpg/quests/dostoevsky-execution-1849.json'), Promise.all(['fortress-cell','semenovsky-square'].map(async id => [id, await readJson(`./rpg/maps/${id}.json`)]))]);
 const [rawCards, eraCharacterRegistry] = await Promise.all([Promise.all(['clerk_alexei','printer_ekaterina','courier_pavel','seamstress_anna','tenant_mikhail','bookseller_lev','senior_clerk_konstantin','reader_darya','editor_sofia','police_sergeant_ivan','yardkeeper_semyon','laundress_mariya','baker_fyodor','market_nadezhda','porter_gavrila','coachman_timofey','housemaid_olga','midwife_avdotya','apothecary_yakov','print_apprentice_stepan','bookbinder_elizaveta','scribal_yuri','innkeeper_irina','student_vasily','teacher_lyubov','minor_noble_andrei','landlady_polina','watercarrier_luka','fishseller_klavdiya','warehouse_pyotr','servant_varvara','junior_guard_sergey','carter_roman','street_vendor_matryona','street_musician_ivan','typesetter_nikita','lodging_tatyana','nekrasov_reconstruction','dostoevsky_1849','literary_chichikov','literary_akaky','literary_petrovich'].map(id => readJson(`./rpg/characters/${id}.json`))), readJson('./data/era_character_registry.json')]);
 const raskolnikovMap = await readJson('./rpg/maps/raskolnikov-tavern.json');
@@ -31,6 +33,54 @@ const cards = decorateCardsWithEraProfiles([...rawCards, raskolnikovCard, marmel
 const expansionMapIds = ['bookshop-lane','canal-road','workyard','bookshop-interior','bakery-interior','inn-interior','sewing-room','communal-room'];
 const expansionMaps = Object.fromEntries(await Promise.all(expansionMapIds.map(async id => [id, await readJson(`./rpg/maps/${id}.json`)])));
 const maps = { nevsky: street, printshop: shop, chancery, courtyard, 'market-quay': marketMap, 'dead-souls': literaryMap, overcoat: overcoatMap, 'raskolnikov-tavern': raskolnikovMap, 'alyosha-snegiryov-room': alyoshaMap, 'police-station': policeMap, ...expansionMaps, ...Object.fromEntries(historicalSceneMaps) }, hostCards = cards;
+const historicalScenes = new Map();
+const copy = value => structuredClone(value);
+function openHistoricalTiles(map, count, origin = map.metadata.observerStart) {
+  const collision = map.layers.find(layer => layer.name === 'Collision')?.data ?? [];
+  const candidates = Array.from({ length: map.width * map.height }, (_, index) => ({ x: index % map.width, y: Math.floor(index / map.width) }))
+    .filter(point => collision[point.y * map.width + point.x] === 0 && (point.x !== origin.x || point.y !== origin.y))
+    .sort((a, b) => Math.abs(a.x - origin.x) + Math.abs(a.y - origin.y) - Math.abs(b.x - origin.x) - Math.abs(b.y - origin.y));
+  const result = [];
+  for (const point of candidates) { if (result.every(other => Math.abs(point.x - other.x) + Math.abs(point.y - other.y) >= 2)) result.push(point); if (result.length === count) break; }
+  return result;
+}
+for (const scene of historicalPlay) {
+  const event = historicalEvents.find(item => item.id === scene.eventId);
+  if (!event) continue;
+  const mapIds = [];
+  scene.maps.forEach((mapId, index) => {
+    const map = copy(maps[scene.backgrounds[index]]);
+    map.mapId = mapId; map.name = mapId;
+    map.metadata = { ...map.metadata, displayNameKo: scene.zoneTitlesKo[index], date: event.date,
+      observerStart: index === 0 ? scene.entryPosition : map.metadata.observerStart, mapClass: 'HISTORICAL_EVENT_SCENE', historicalEventId: event.id,
+      districtId: null, sourceIds: [], access: undefined, note: undefined };
+    map.properties = (map.properties ?? []).filter(property => property.name !== 'mapId' && property.name !== 'date');
+    map.properties.push({ name: 'mapId', type: 'string', value: JSON.stringify(mapId) }, { name: 'date', type: 'string', value: JSON.stringify(event.date) });
+    let interactions = map.layers.find(layer => layer.name === 'Interactions');
+    if (!interactions) { interactions = { id: map.layers.length + 1, name: 'Interactions', type: 'objectgroup', draworder: 'topdown', objects: [] }; map.layers.push(interactions); }
+    interactions.objects = [];
+    const exits = index < 2 ? [[scene.maps[index + 1], '계속 걷기', 1]] : [];
+    if (index > 0) exits.unshift([scene.maps[index - 1], '되돌아가기', -1]);
+    for (const [targetMapId, label, direction] of exits) {
+      const x = Math.max(1, Math.min(map.width - 2, Math.floor(map.width / 2) + direction * 3)), y = Math.max(1, Math.min(map.height - 2, map.height - 3));
+      interactions.objects.push({ id: 7000 + index * 10 + direction, name: `${label} · ${scene.zoneTitlesKo[scene.maps.indexOf(targetMapId)]}`,
+        type: 'map-exit', x: x * 16, y: y * 16, width: 16, height: 16, properties: [
+          { name: 'exitId', type: 'string', value: `${mapId}:${targetMapId}` }, { name: 'targetMapId', type: 'string', value: targetMapId },
+          { name: 'arrivalX', type: 'int', value: Math.max(1, Math.min(map.width - 2, Math.floor(map.width / 2) - direction * 3)) },
+          { name: 'arrivalY', type: 'int', value: map.metadata.observerStart.y }, { name: 'publicAccess', type: 'bool', value: true },
+        ] });
+    }
+    maps[mapId] = map; mapIds.push(mapId);
+  });
+  scene.mapIds = mapIds; scene.actors.forEach((person, index) => {
+    person.mapId = mapIds[index % mapIds.length];
+    const map = maps[person.mapId], actorIndex = Math.floor(index / mapIds.length);
+    person.position = openHistoricalTiles(map, actorIndex + 2)[actorIndex] ?? map.metadata.observerStart;
+    person.stops = [person.position, { x: Math.min(map.width - 2, person.position.x + 1), y: person.position.y },
+      { x: person.position.x, y: Math.min(map.height - 2, person.position.y + 1) }];
+  });
+  historicalScenes.set(event.id, scene);
+}
 const residentQuestBatchTwo = ['market-nadezhda-life-extra-1-1847','market-nadezhda-life-extra-2-1847','market-nadezhda-life-extra-3-1847','porter-gavrila-life-extra-1-1847','porter-gavrila-life-extra-2-1847','porter-gavrila-life-extra-3-1847','warehouse-pyotr-life-extra-1-1847','warehouse-pyotr-life-extra-2-1847','warehouse-pyotr-life-extra-3-1847','baker-fyodor-life-extra-1-1847','baker-fyodor-life-extra-2-1847','baker-fyodor-life-extra-3-1847','landlady-polina-life-extra-1-1847','landlady-polina-life-extra-2-1847','landlady-polina-life-extra-3-1847','carter-roman-life-extra-1-1847','carter-roman-life-extra-2-1847','carter-roman-life-extra-3-1847'];
 const addedPersonalQuests = await Promise.all(['editor-publication-record-1847','police-testimony-record-1849','reader-source-and-rumor-1847','senior-clerk-review-and-signature-1847','tenant-rent-and-firewood-1847','cold-wave-firewood-1847','censored-page-1847','courtyard-dispute-1847','market-price-dispute-1847','market-rumor-1847','inn-guest-1847','late-meal-1847','charity-day-1847','apprentice-literacy-1847','sick-lodger-1847','apothecary-order-1847','missing-record-1847','apprentice-fatigue-1847','newspaper-release-1847','police-document-check-1847','rent-notice-1847','courtyard-fire-1847','funeral-costs-1847','funeral-debt-repayment-1847','market-day-work-1847','roof-leak-repair-1847',
   'editor-sofia-chain-1-stage-1-1847','editor-sofia-chain-1-stage-2-1847','editor-sofia-chain-1-stage-3-1847',
@@ -406,7 +456,11 @@ function say(title, text, actions = []) {
 }
 const setState = next => {
   const oldHost = state?.player?.embodiment, oldQuest = missionGuidance?.questId;
-  state = next; updateHud();
+  if (next?.historicalSession && next.world.currentMapId !== state?.world?.currentMapId) {
+    next.historicalSession.visitedMapIds ??= [];
+    if (!next.historicalSession.visitedMapIds.includes(next.world.currentMapId)) next.historicalSession.visitedMapIds.push(next.world.currentMapId);
+  }
+  state = next; document.body.classList.toggle('historical-event-active', Boolean(state.historicalSession)); updateHud();
   if (oldHost !== state.player.embodiment || oldQuest !== missionGuidance?.questId) { destinationPinned = false; updateHud(); }
   requestRender();
 };
@@ -421,10 +475,16 @@ function nearbyConversationPartner() {
   const actorId = state.player.embodiment;
   if (!actorId) return null;
   const position = state.hosts[actorId].position;
+  const spokenHistoricalActors = new Set(state.historicalSession?.spokenActorIds ?? []);
   return Object.values(state.hosts).map(person => ({ person, card: cards.find(card => card.id === person.id) })).filter(({ person, card }) => {
     return card && person.historicalAliveAndPresent && card.id !== actorId && person.mapId === state.world.currentMapId && Math.abs(person.position.x - position.x) + Math.abs(person.position.y - position.y) <= 2;
   }).sort((a, b) => {
     const aPosition = a.person.position, bPosition = b.person.position;
+    if (state.historicalSession) {
+      const aSpoken = spokenHistoricalActors.has(a.card.id.split(':').at(-1));
+      const bSpoken = spokenHistoricalActors.has(b.card.id.split(':').at(-1));
+      if (aSpoken !== bSpoken) return Number(aSpoken) - Number(bSpoken);
+    }
     return Math.abs(aPosition.x - position.x) + Math.abs(aPosition.y - position.y) - Math.abs(bPosition.x - position.x) - Math.abs(bPosition.y - position.y);
   })[0]?.card ?? null;
 }
@@ -447,7 +507,12 @@ function updateHud() {
   document.querySelectorAll('.touch-pad button').forEach(button => { button.disabled = Boolean(activeDialogueHost && !button.hasAttribute('data-move')); });
   $('#load').disabled = !localStorage.getItem('v33-rpg-save');
   const inLiteraryScene = Boolean(state.world.activeRealm);
-  missionGuidance = inLiteraryScene
+  missionGuidance = state.historicalSession
+    ? { questTitleKo: state.historicalSession.eventTitleKo, actionKo: '현장 인물과 대화하고 각 구역을 살펴본다', placeKo: map.metadata.displayNameKo,
+        reasonKo: `${Math.min(state.historicalSession.spokenActorIds?.length ?? 0, 6)}/6명 · ${state.historicalSession.visitedMapIds?.length ?? 0}/3구역`,
+        howKo: '가까이 다가가 말하기 · 인물 목록에서 다른 사람의 시야로 들어가기 · 출구를 따라 다음 구역으로 걷기', target: null,
+        progress: { completedSteps: state.historicalSession.completedObjectives?.length ?? 0, totalSteps: 3 }, blocked: false }
+    : inLiteraryScene
     ? { questTitleKo: '', actionKo: '', placeKo: '', reasonKo: '', howKo: '', target: null, progress: { completedSteps: 0, totalSteps: 0 }, blocked: false }
     : resolveQuestGuidance({ state, quests: questList, maps, hostCards: cards });
   const tracker = $('#mission-tracker'); tracker.hidden = Boolean(state.endingId) || inLiteraryScene;
@@ -456,7 +521,12 @@ function updateHud() {
   $('#mission-action').textContent = `${missionGuidance.actionKo}${missionGuidance.placeKo ? ` · ${missionGuidance.placeKo}` : ''}`;
   $('#mission-reason').textContent = missionGuidance.reasonKo ?? '';
   $('#mission-method').textContent = missionGuidance.blocked ? `막힘 · ${missionGuidance.blockedReasonKo ?? '조건을 확인하세요.'}` : missionGuidance.howKo ?? '';
-  if (state.player.civic?.custody?.active) {
+  if (state.historicalSession) {
+    $('#mission-title').textContent = missionGuidance.questTitleKo;
+    $('#mission-action').textContent = missionGuidance.actionKo;
+    $('#mission-reason').textContent = missionGuidance.reasonKo;
+    $('#mission-method').textContent = missionGuidance.howKo;
+  } else if (state.player.civic?.custody?.active) {
     $('#mission-title').textContent = '경찰 접수실에서 진술하기';
     $('#mission-action').textContent = `접수 사유 · ${state.player.civic.custody.reasonKo}`;
     $('#mission-reason').textContent = '진술서를 쓰거나 8코페이카를 내야 거리로 돌아갈 수 있습니다.';
@@ -972,30 +1042,30 @@ function openSourceDrawer() {
 const eventButton = $('#history-events-open');
 function openHistoricalEventMenu() {
   eventButton.textContent = '역사 현장 3';
-  say('러시아의 역사 현장', '어느 날의 일을 살펴보겠습니까?', historicalEvents.map(event => ({
+  say('역사 현장', '걸어서 사람들을 만나고, 그날의 일을 직접 겪어 보세요.', historicalEvents.map(event => ({
     label: event.titleKo,
-    subcopy: `${event.dateLabelKo} · ${event.cast.length}명이 모인 현장 · 사료와 실제 결과 포함`,
+    subcopy: `${event.dateLabelKo} · 세 구역을 걷고 인물들을 만나 판단합니다`,
     run: () => beginHistoricalEvent(event),
   })));
 }
 function beginHistoricalEvent(event) {
-  const eventButton = $('#history-events-open');
-  eventButton.textContent = `현장 · ${event.alertKo}`;
-  const playRound = (roundIndex, intervention = null, priorReaction = null) => {
-    const round = event.rounds[roundIndex];
-    const lines = round.beats.map(([speaker, text]) => `${speaker}  ${text}`).join('\n');
-    const sceneLead = round.joinKo ?? (roundIndex ? '앞서 듣던 사람들 곁으로 새 목소리가 다가왔다.' : event.openingKo);
-    say(event.titleKo, `${sceneLead}${priorReaction ? `\n\n${priorReaction}` : ''}\n\n${lines}`, round.choices.map(choice => ({
-      label: choice.label,
-      subcopy: choice.directionKo,
-      run: () => {
-        const nextIntervention = [...(intervention ?? []), choice.recordKo];
-        if (roundIndex + 1 < event.rounds.length) playRound(roundIndex + 1, nextIntervention, choice.reactionKo);
-        else finishHistoricalEvent(event, nextIntervention, choice.reactionKo);
-      },
-    })));
-  };
-  playRound(0);
+  const scene = historicalScenes.get(event.id);
+  if (!scene) { sayRecord('이 현장을 지금 열 수 없습니다.'); return; }
+  const result = beginHistoricalSession(state, { ...scene, id: scene.eventId, entryMapId: scene.maps[0], date: event.date }, maps, cards);
+  if (!result.ok) { say('현장을 열 수 없다', `준비가 끝나지 않은 인물이나 장소가 있습니다 · ${result.reason}`, [{ label: '다시 고르기', run: openHistoricalEventMenu }]); return; }
+  result.cards.slice(cards.length).forEach(card => cards.push(card));
+  result.session.world.chapterId = 'V33_1847_PRINT';
+  result.session.historicalSession.visitedMapIds = [scene.maps[0]];
+  result.session.historicalSession.spokenActorIds = [];
+  result.session.historicalSession.completedObjectives = [];
+  result.session.historicalSession.eventTitleKo = event.titleKo;
+  setState(result.session);
+  $('#history-events-open').textContent = `현장 · ${event.alertKo}`;
+  const firstObjective = scene.objectives.map((item, index) => `${index + 1}. ${item.titleKo}`).join('\n');
+  say(event.titleKo, `${scene.introKo ?? event.openingKo}\n\n현장을 걸으며 6명 이상과 이야기를 나누고 세 구역을 모두 둘러보세요.\n\n${firstObjective}`, [
+    { label: '인물 목록 · 바로 빙의', subcopy: '현장에 있는 사람을 골라 그 사람의 시야로 걷습니다', run: openCharacterList },
+    { label: '현장을 나간다', subcopy: '원래 캠페인으로 돌아갑니다', run: () => leaveHistoricalSession(false) },
+  ]);
 }
 function finishHistoricalEvent(event, interventions, finalReaction) {
   const key = 'v38-historical-event-records';
@@ -1010,6 +1080,76 @@ function finishHistoricalEvent(event, interventions, finalReaction) {
   say('그날 뒤에 남은 것', `당신이 남긴 기록\n${interventions.map(item => `· ${item}`).join('\n')}\n\n${finalReaction}\n\n${event.historyKo}\n\n${event.sourceLabelKo}\n${event.sourceRangeKo}`, sourceActions);
 }
 eventButton.addEventListener('click', openHistoricalEventMenu);
+function historicalSceneForState() { return historicalScenes.get(state.historicalSession?.eventId) ?? null; }
+function readPlayerHistoricalChoices() {
+  try {
+    const records = JSON.parse(localStorage.getItem('v38-historical-event-records') ?? '{}');
+    return Object.entries(records).map(([eventId, record]) => ({ eventId, record,
+      allowedChoiceIds: new Set(historicalPlay.find(event => event.eventId === eventId)?.choices.map(choice => choice.id) ?? []) }))
+      .filter(({ record, allowedChoiceIds }) => record?.completedAt && allowedChoiceIds.size
+        && (record.choices ?? []).some(choice => allowedChoiceIds.has(choice.id)))
+      .sort((a, b) => String(b.record.completedAt).localeCompare(String(a.record.completedAt))).slice(0, 3)
+      .map(({ eventId, record, allowedChoiceIds }) => ({ eventId,
+        choices: [...new Set((record.choices ?? []).filter(choice => allowedChoiceIds.has(choice.id)).map(choice => choice.id))] }));
+  } catch { return []; }
+}
+function leaveHistoricalSession(record = true) {
+  const session = state.historicalSession, event = historicalEvents.find(item => item.id === session?.eventId);
+  if (!session || !event) return;
+  if (record) {
+    let records = {};
+    try { records = JSON.parse(localStorage.getItem('v38-historical-event-records') ?? '{}'); } catch { /* ignore malformed local progress */ }
+    records[event.id] = { date: event.date, choices: session.choices, visitedMapIds: session.visitedMapIds ?? [],
+      spokenActorIds: session.spokenActorIds ?? [], completedObjectives: session.completedObjectives ?? [], completedAt: new Date().toISOString() };
+    localStorage.setItem('v38-historical-event-records', JSON.stringify(records));
+  }
+  setState(exitHistoricalSession(state));
+  $('#history-events-open').textContent = '역사 현장 3';
+  if (!record) { say('거리로 돌아왔다', '현장을 나와 원래 자리로 돌아왔습니다.', []); return; }
+  const sources = [{ label: '사료 원문 열기', subcopy: `${event.sourceLabelKo} · ${event.sourceRangeKo}`, run: () => window.open(event.sourceUrl, '_blank', 'noopener,noreferrer') }];
+  if (event.secondarySourceUrl) sources.push({ label: '초연 자료 열기', run: () => window.open(event.secondarySourceUrl, '_blank', 'noopener,noreferrer') });
+  sources.unshift({ label: '다른 현장 보기', subcopy: '새로운 장소로 들어갑니다', run: openHistoricalEventMenu });
+  say('그날의 선택', `${event.titleKo}\n\n${session.choices.map(choice => `· ${choice.textKo}`).join('\n')}\n\n${historicalScenes.get(event.id)?.closingKo ?? event.historyKo}\n\n${event.sourceLabelKo} · ${event.sourceRangeKo}`, sources);
+}
+function startHistoricalConversation(card) {
+  const scene = historicalSceneForState(), session = state.historicalSession;
+  const actorId = card.id.split(':').at(-1), person = scene?.actors.find(item => item.id === actorId);
+  if (!scene || !person) { sayRecord('지금은 그 사람과 이야기할 수 없습니다.'); return; }
+  const alreadySpoken = (session.spokenActorIds ?? []).includes(person.id);
+  let line = person.lines[alreadySpoken ? Math.min(1, person.lines.length - 1) : 0];
+  const playerPosition = state.player.position;
+  const joiningVoices = scene.actors.filter(other => other.id !== person.id && other.mapId === state.world.currentMapId)
+    .map(other => ({ other, host: state.hosts[`historical:${scene.eventId}:${other.id}`] }))
+    .filter(({ host }) => host && Math.abs(host.position.x - playerPosition.x) + Math.abs(host.position.y - playerPosition.y) <= 5)
+    .slice(0, 2).map(({ other }) => `${other.nameKo}  ${other.lines[0]}`);
+  if (joiningVoices.length) line += `\n\n${joiningVoices.join('\n')}`;
+  const objective = scene.objectives.find(item => item.id === person.objectiveId);
+  say(card.displayNameKo, line, [
+    { label: '같이 해결할 방법을 찾는다', subcopy: `${objective?.actionKo ?? '그 사람의 부탁을 돕습니다'} · 주변 사람도 알게 됩니다`, run: () => resolveHistoricalConversation(scene, person, 'help') },
+    { label: '다른 사람의 생각도 듣고 정한다', subcopy: '아직 약속하지 않습니다 · 다른 인물에게도 물어볼 수 있습니다', run: () => resolveHistoricalConversation(scene, person, 'listen') },
+    { label: '이야기를 듣고 자리를 옮긴다', subcopy: '정보를 듣습니다 · 현장 선택은 미룹니다', run: () => resolveHistoricalConversation(scene, person, 'leave') },
+  ]);
+}
+function resolveHistoricalConversation(scene, person, response) {
+  let next = state;
+  if (!(next.historicalSession.spokenActorIds ?? []).includes(person.id)) {
+    next = copy(next); next.historicalSession.spokenActorIds.push(person.id);
+  }
+  if (response === 'help' && person.objectiveId && !next.historicalSession.completedObjectives.includes(person.objectiveId))
+    next.historicalSession.completedObjectives.push(person.objectiveId);
+  next = recordHistoricalChoice(next, { id: `${person.id}:${response}`, textKo: `${person.nameKo}에게 ${response === 'help' ? '도움을 약속했다' : response === 'listen' ? '다른 사람의 의견도 듣기로 했다' : '이야기를 듣고 다음 장소로 갔다'}` });
+  setState(next);
+  const completed = new Set(next.historicalSession.completedObjectives), visited = new Set(next.historicalSession.visitedMapIds ?? []);
+  const unlocked = next.historicalSession.spokenActorIds.length >= 6 && completed.size >= 3 && visited.size === scene.maps.length;
+  const actions = unlocked ? scene.choices.map(choice => ({ label: choice.label, subcopy: choice.directionKo, run: () => {
+    setState(recordHistoricalChoice(state, { id: choice.id, textKo: choice.textKo })); leaveHistoricalSession(true);
+  } })) : [
+    { label: '현장 인물 목록', subcopy: `대화 ${next.historicalSession.spokenActorIds.length}/6 · 서로 다른 부탁 ${completed.size}/3 · 구역 ${visited.size}/${scene.maps.length}`, run: openCharacterList },
+    { label: '현장을 나간다', subcopy: '원래 자리로 돌아갑니다', run: () => leaveHistoricalSession(false) },
+  ];
+  const reaction = response === 'help' ? '그 사람은 고개를 끄덕이고 주변의 다른 이에게도 말을 건넸다.' : response === 'listen' ? '그 사람은 결정을 서두르지 말자며 다른 사람의 이름을 알려 주었다.' : '그 사람은 다시 자기 일로 돌아갔다.';
+  say(person.nameKo, `${reaction}\n\n${unlocked ? '세 구역을 모두 둘러보고 여러 사람의 말을 들었다. 이제 현장에서 무엇을 먼저 할지 결정할 수 있다.' : '다른 이들의 이야기를 더 들어보자. 구역을 걸어가면 새로운 사람들이 보인다.'}`, actions);
+}
 function continuationFor(activeQuest) {
   if (activeQuest.realmId || activeQuest.chapterId?.startsWith('LITERARY_')) return [{ label: '장면에서 나가기', run: leaveCurrentLiteraryScene }, { label: '자료철 열기', run: openSourceDrawer }];
   const arcIndex = campaign.arcs.findIndex(arc => arc.id === state.world.chapterId), arc = campaign.arcs[arcIndex];
@@ -1470,6 +1610,11 @@ function openCharacterList() {
   const entries = cards.filter(card => {
     const host = state.hosts[card.id];
     if (!host?.historicalAliveAndPresent || !maps[host.mapId]) return false;
+    if (state.historicalSession && (!card.id.startsWith(`historical:${state.historicalSession.eventId}:`) || host.mapId !== state.world.currentMapId)) return false;
+    if (state.historicalSession && card.id.startsWith(`historical:${state.historicalSession.eventId}:`)) {
+      const eventActor = historicalSceneForState()?.actors.find(person => card.id.endsWith(`:${person.id}`));
+      if (!eventActor) return false;
+    }
     if (card.kind === 'LITERARY') return Boolean(state.world.activeRealm?.id && host.eraProfile?.realmId === state.world.activeRealm.id);
     const era = host.eraProfile;
     return !state.world.activeRealm && (!era || era.allowedChapterIds.includes(state.world.chapterId))
@@ -1572,6 +1717,9 @@ function showConversation(card, promptText, replies, statusText = '') {
 async function startConversation(card) {
   const actorCard = cards.find(item => item.id === state.player.embodiment), partner = nearbyConversationPartner();
   if (!actorCard || partner?.id !== card.id || activeDialogueHost) { sayRecord('말을 건넬 사람이 가까이 있지 않다.'); return; }
+  if (state.historicalSession && card.id.startsWith(`historical:${state.historicalSession.eventId}:`)) {
+    startHistoricalConversation(card); return;
+  }
   const key = dialogueKey(actorCard.id, card.id);
   const generation = ++dialogueGeneration;
   dialogueOrdinaryExchanges.set(key, 0);
@@ -1655,7 +1803,7 @@ async function sendConversation(card, playerText, replyId = null) {
           && quest.actions?.some(action => action.hostIds.includes(card.id)) && questIsAvailable(quest)
           && state.quests[quest.id]?.status !== 'resolved');
       const inquiryQuestId = discussionPrompt ? inquiryQuest?.id ?? null : null;
-      const requestDialogue = (currentSession, relationshipHints) => fetch(`${aiBaseUrl}/api/rpg/dialogue`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ sessionToken: currentSession.token, requestId: crypto.randomUUID(), playerInput: playerText, actorRelations: relationshipHints, actorActions: playerActionHintsFor(actorCard.id), sceneContext: dialogueSceneContext(card, state.hosts[card.id], state.world.date, state.world.currentMapId, discussionPrompt ? inquiryQuestId : missionGuidance?.questId ?? null) }), signal: controller.signal });
+      const requestDialogue = (currentSession, relationshipHints) => fetch(`${aiBaseUrl}/api/rpg/dialogue`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ sessionToken: currentSession.token, requestId: crypto.randomUUID(), playerInput: playerText, actorRelations: relationshipHints, actorActions: playerActionHintsFor(actorCard.id), sceneContext: dialogueSceneContext(card, state.hosts[card.id], state.world.date, state.world.currentMapId, discussionPrompt ? inquiryQuestId : missionGuidance?.questId ?? null, readPlayerHistoricalChoices()) }), signal: controller.signal });
       let response = await requestDialogue(session, relationshipHintsFor(actorCard.id));
       if (response.status === 401) {
         sessionStorage.removeItem(sessionStorageKey); dialogueSessions.delete(key);
