@@ -118,10 +118,11 @@ export function performHistoricalAction(session, scene, actionId, choiceId) {
     for (const actorId of gatheringActorIds) {
       const host = next.hosts[actorKey(scene.eventId, actorId)];
       if (!host) continue;
+      const gatheringPosition = action.gatherPositions?.find(item => item.actorId === actorId)?.position ?? action.position;
       host.currentActivityKo = '현장 일에 참여하러 모인다';
       host.activeGoal = null; host.plannedPath = { key: null, tiles: [] }; host.mapRoutePlan = { key: null, route: null };
       host.schedule = [1, 31, 61].map(offset => ({ atMinute: atMinute + offset, mapId: action.mapId,
-        position: clone(action.position), activityKo: '사람들과 현장 일을 살핀다' }));
+        position: clone(gatheringPosition), activityKo: '사람들과 현장 일을 살핀다' }));
     }
   }
   for (const move of sceneMoves) {

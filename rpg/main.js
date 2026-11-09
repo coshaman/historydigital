@@ -10,6 +10,7 @@ import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHos
 import { dialogueSessionNeedsReconnect, dialogueSpeakerLabel, mayOfferDiscussionPrompt, selectDialogueTurn } from './engine/dialogue-response.mjs';
 import { dialogueSceneContext } from './engine/dialogue-context.mjs';
 import { beginHistoricalSession, canConcludeHistoricalSession, exitHistoricalSession, performHistoricalAction, recordHistoricalChoice } from './engine/historical-session.mjs';
+import { buildHistoricalSceneLayout } from './engine/historical-scene-layout.mjs';
 import { appendApiDiagnostic, clearApiDiagnostics, readApiDiagnostics } from './engine/api-diagnostics.mjs';
 import { CITY_PRODUCTS, NEWSPAPER_STORIES, newspaperAssignment, purchaseCityProduct, publishNewspaperIssue, shareSourceWithEditor, readNewspaperIssue, circulateNewspaperIssue, commitSuspiciousAct, resolvePoliceCustody, publishedIssueLabel } from './engine/civic-life.mjs';
 import { contextualOpening } from './ai/authored-dialogue.mjs';
@@ -39,59 +40,12 @@ const expansionMaps = Object.fromEntries(await Promise.all(expansionMapIds.map(a
 const maps = { nevsky: street, printshop: shop, chancery, courtyard, 'market-quay': marketMap, 'dead-souls': literaryMap, overcoat: overcoatMap, 'raskolnikov-tavern': raskolnikovMap, 'alyosha-snegiryov-room': alyoshaMap, 'police-station': policeMap, ...expansionMaps, ...Object.fromEntries(historicalSceneMaps) }, hostCards = cards;
 const historicalScenes = new Map();
 const copy = value => structuredClone(value);
-function openHistoricalTiles(map, count, origin = map.metadata.observerStart, minimumDistance = 2) {
-  const collision = map.layers.find(layer => layer.name === 'Collision')?.data ?? [];
-  const candidates = Array.from({ length: map.width * map.height }, (_, index) => ({ x: index % map.width, y: Math.floor(index / map.width) }))
-    .filter(point => collision[point.y * map.width + point.x] === 0 && (point.x !== origin.x || point.y !== origin.y))
-    .sort((a, b) => Math.abs(a.x - origin.x) + Math.abs(a.y - origin.y) - Math.abs(b.x - origin.x) - Math.abs(b.y - origin.y));
-  const result = [];
-  for (const point of candidates) { if (result.every(other => Math.abs(point.x - other.x) + Math.abs(point.y - other.y) >= minimumDistance)) result.push(point); if (result.length === count) break; }
-  return result;
-}
 for (const scene of historicalPlay) {
   const event = historicalEvents.find(item => item.id === scene.eventId);
   if (!event) continue;
-  const mapIds = [];
-  scene.maps.forEach((mapId, index) => {
-    const map = copy(maps[scene.backgrounds[index]]);
-    map.mapId = mapId; map.name = mapId;
-    map.metadata = { ...map.metadata, displayNameKo: scene.zoneTitlesKo[index], date: event.date,
-      observerStart: index === 0 ? scene.entryPosition : map.metadata.observerStart, mapClass: 'HISTORICAL_EVENT_SCENE', historicalEventId: event.id,
-      districtId: null, sourceIds: [], access: undefined, note: undefined };
-    map.properties = (map.properties ?? []).filter(property => property.name !== 'mapId' && property.name !== 'date');
-    map.properties.push({ name: 'mapId', type: 'string', value: JSON.stringify(mapId) }, { name: 'date', type: 'string', value: JSON.stringify(event.date) });
-    let interactions = map.layers.find(layer => layer.name === 'Interactions');
-    if (!interactions) { interactions = { id: map.layers.length + 1, name: 'Interactions', type: 'objectgroup', draworder: 'topdown', objects: [] }; map.layers.push(interactions); }
-    interactions.objects = [];
-    const exits = index < 2 ? [[scene.maps[index + 1], '계속 걷기', 1]] : [];
-    if (index > 0) exits.unshift([scene.maps[index - 1], '되돌아가기', -1]);
-    for (const [targetMapId, label, direction] of exits) {
-      const x = direction > 0 ? map.width - 3 : 1, y = Math.max(1, Math.min(map.height - 2, map.height - 3));
-      interactions.objects.push({ id: 7000 + index * 10 + direction, name: `${label} · ${scene.zoneTitlesKo[scene.maps.indexOf(targetMapId)]}`,
-        type: 'map-exit', x: x * 16, y: y * 16, width: 16, height: 16, properties: [
-          { name: 'exitId', type: 'string', value: `${mapId}:${targetMapId}` }, { name: 'targetMapId', type: 'string', value: targetMapId },
-          { name: 'arrivalX', type: 'int', value: Math.max(1, Math.min(map.width - 2, Math.floor(map.width / 2) - direction * 3)) },
-          { name: 'arrivalY', type: 'int', value: map.metadata.observerStart.y }, { name: 'publicAccess', type: 'bool', value: true },
-        ] });
-    }
-    const fieldActions = (scene.fieldActions ?? []).filter(action => action.mapId === mapId);
-    const actionTiles = openHistoricalTiles(map, fieldActions.length + 1, map.metadata.observerStart, 4);
-    fieldActions.forEach((action, actionIndex) => {
-      action.position = actionTiles[actionIndex] ?? { x: Math.max(1, Math.min(map.width - 2, map.metadata.observerStart.x + actionIndex + 1)), y: map.metadata.observerStart.y };
-      interactions.objects.push({ id: 7200 + index * 100 + actionIndex, name: action.propKo, type: 'inspectable',
-        x: action.position.x * 16, y: action.position.y * 16, width: 16, height: 16,
-        properties: [{ name: 'historicalEventId', type: 'string', value: scene.eventId },
-          { name: 'historicalActionId', type: 'string', value: action.id }, { name: 'storyTextKo', type: 'string', value: action.promptKo }] });
-    });
-    maps[mapId] = map; mapIds.push(mapId);
-  });
-  scene.mapIds = mapIds; scene.actors.forEach((person, index) => {
-    person.mapId = mapIds[index % mapIds.length];
-    const map = maps[person.mapId], actorIndex = Math.floor(index / mapIds.length);
-    person.position = openHistoricalTiles(map, actorIndex + 2)[actorIndex] ?? map.metadata.observerStart;
-    person.stops = [person.position, { x: Math.min(map.width - 2, person.position.x + 1), y: person.position.y },
-      { x: person.position.x, y: Math.min(map.height - 2, person.position.y + 1) }];
-  });
+  const layout = buildHistoricalSceneLayout(scene, event, maps);
+  Object.assign(maps, layout.maps);
+  scene.mapIds = layout.mapIds;
   historicalScenes.set(event.id, scene);
 }
 const residentQuestBatchTwo = ['market-nadezhda-life-extra-1-1847','market-nadezhda-life-extra-2-1847','market-nadezhda-life-extra-3-1847','porter-gavrila-life-extra-1-1847','porter-gavrila-life-extra-2-1847','porter-gavrila-life-extra-3-1847','warehouse-pyotr-life-extra-1-1847','warehouse-pyotr-life-extra-2-1847','warehouse-pyotr-life-extra-3-1847','baker-fyodor-life-extra-1-1847','baker-fyodor-life-extra-2-1847','baker-fyodor-life-extra-3-1847','landlady-polina-life-extra-1-1847','landlady-polina-life-extra-2-1847','landlady-polina-life-extra-3-1847','carter-roman-life-extra-1-1847','carter-roman-life-extra-2-1847','carter-roman-life-extra-3-1847'];
@@ -1229,12 +1183,13 @@ function startHistoricalAction(scene, action) {
     const gatheringMinute = next.world.clockMinutes ?? 0;
     for (const { person, host } of responders) {
       if (movingActorIds.has(person.id) || host.id === next.player.embodiment) continue;
+      const stagingPosition = action.gatherPositions?.find(item => item.actorId === person.id)?.position ?? action.position;
       host.currentActivityKo = `${action.propKo} 쪽으로 걸어간다`;
       host.activeGoal = null;
       host.plannedPath = { key: null, tiles: [] };
       host.mapRoutePlan = { key: null, route: null };
       host.schedule = [1, 31, 61].map(offset => ({ atMinute: gatheringMinute + offset, mapId: action.mapId,
-        position: { ...action.position }, activityKo: `${action.propKo}에서 사람들과 의논한다` }));
+        position: { ...stagingPosition }, activityKo: `${action.propKo}에서 사람들과 의논한다` }));
     }
     setState(next);
     const completed = next.historicalSession.completedObjectives.length;

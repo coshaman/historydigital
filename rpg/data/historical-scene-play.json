@@ -302,7 +302,8 @@
                   "targetActionId": "senate-river-lane",
                   "activityKo": "수레를 강변 쪽으로 돌려 피난길을 열고 있다"
                 }
-              ]
+              ],
+              "groupReactionKo": "로만이 고삐를 강변 쪽으로 당기자 미하일이 말 앞에서 물러납니다. 클라브디야는 아이 둘을 난간 옆으로 데려가고, 세르게이는 대열 끝을 한 걸음 늦춥니다."
             },
             {
               "id": "hold-cart",
@@ -312,8 +313,18 @@
               "effects": {
                 "crowdRoute": "curb",
                 "cartHeld": true
-              }
+              },
+              "groupReactionKo": "바실리가 말의 눈을 가리고 류보프가 행인들을 골목으로 부릅니다. 수레는 잠시 서 있지만, 아이들이 지나갈 틈이 먼저 생깁니다."
             }
+          ],
+          "groupEncounter": true,
+          "gatherActorIds": [
+            "cobbler",
+            "copyist",
+            "laundress",
+            "widow",
+            "baker",
+            "bread_carrier"
           ]
         },
         {
@@ -391,7 +402,8 @@
               "effects": {
                 "dispatch": "traced",
                 "delay": true
-              }
+              },
+              "groupReactionKo": "유리는 봉투의 접힌 자리를 따라가고 파벨은 전령에게 어느 초소를 거쳤는지 묻습니다. 세르게이는 답이 돌아올 동안 사람들을 광장 가장자리로 물립니다."
             },
             {
               "id": "leave-envelope",
@@ -401,8 +413,18 @@
               "effects": {
                 "dispatch": "unresolved",
                 "crowd": "withdrawn"
-              }
+              },
+              "groupReactionKo": "안나가 아이들을 담장 안으로 들이고 루카는 마차를 뒤로 돌립니다. 봉투를 확인하진 못했지만 광장 입구는 조금 비었습니다."
             }
+          ],
+          "groupEncounter": true,
+          "gatherActorIds": [
+            "guardsman",
+            "fishseller",
+            "student",
+            "messenger",
+            "servant",
+            "medical_runner"
           ]
         },
         {
@@ -450,7 +472,8 @@
               "effects": {
                 "sideRoute": "guided",
                 "neighbors": "moved"
-              }
+              },
+              "groupReactionKo": "마리야가 먼저 골목 끝을 확인하고 표트르는 창고 문을 열어 둡니다. 안드레이가 빵 꾸러미를 나누는 동안 클라브디야는 아이들을 난간에서 떼어 놓습니다."
             },
             {
               "id": "mark-route",
@@ -460,8 +483,18 @@
               "effects": {
                 "sideRoute": "marked",
                 "information": "spread"
-              }
+              },
+              "groupReactionKo": "유리가 갈림길마다 종이 표식을 묶고 로만은 수레 한 대가 지날 폭을 남깁니다. 뒤따르던 주민들도 길을 찾지만, 안내에 시간이 듭니다."
             }
+          ],
+          "groupEncounter": true,
+          "gatherActorIds": [
+            "coachman",
+            "medical_student",
+            "veteran",
+            "apothecary",
+            "warehouseman",
+            "courtyard_keeper"
           ]
         },
         {
@@ -472,8 +505,12 @@
           "propKo": "빵과 담요가 든 수레",
           "promptKo": "짐꾼은 남은 가게 물품을 가족들에게 나눌 수 있지만, 어느 골목으로 옮길지 기다리고 있습니다.",
           "gatherActorIds": [
-            "bread_carrier",
             "cobbler",
+            "copyist",
+            "laundress",
+            "widow",
+            "baker",
+            "bread_carrier",
             "coachman",
             "fishseller"
           ],
@@ -486,7 +523,7 @@
               "effects": {
                 "familySupplies": "split"
               },
-              "groupReactionKo": "짐꾼 안드레이  빵은 아이들 쪽으로 먼저 보내겠소.\n구두장이 미하일  담요는 안뜰에 두고, 돌아오는 사람에게 나눠 줍시다."
+              "groupReactionKo": "짐꾼 안드레이가 빵을 아이들 쪽으로 보내고 미하일은 담요를 안뜰에 둡니다. 루카가 돌아오는 사람에게 나눠 줄 자리를 비워 둡니다."
             },
             {
               "id": "keep-load-together",
@@ -496,7 +533,7 @@
               "effects": {
                 "familySupplies": "guarded"
               },
-              "groupReactionKo": "마차꾼 로만  수레를 세울 자리는 강변 쪽에 있소.\n생선 장수 클라브디야  아이들 몫은 따로 표시해 둬요."
+              "groupReactionKo": "로만이 수레를 강변 쪽에 세우고 클라브디야는 아이들 몫을 따로 표시합니다. 짐이 한데 모여 길은 좁아지지만 잃어버릴 염려는 줄었습니다."
             }
           ],
           "groupEncounter": true
@@ -509,10 +546,14 @@
           "propKo": "들것과 붕대가 놓인 자리",
           "promptKo": "다친 사람, 아이를 잃은 가족, 광장을 빠져나가려는 행인이 한 길목에 몰렸습니다. 누가 먼저 움직일지 정해야 합니다.",
           "gatherActorIds": [
+            "guardsman",
+            "fishseller",
+            "student",
+            "messenger",
+            "servant",
             "medical_runner",
             "medical_student",
-            "veteran",
-            "guardsman"
+            "veteran"
           ],
           "options": [
             {
@@ -546,10 +587,14 @@
           "propKo": "안뜰 문에 걸린 명단판",
           "promptKo": "사람들이 안뜰 문 앞에서 기다립니다. 문을 열지, 세든 가족만 받을지 집주인이 결정을 기다립니다.",
           "gatherActorIds": [
+            "coachman",
+            "medical_student",
+            "veteran",
+            "apothecary",
+            "warehouseman",
             "courtyard_keeper",
             "widow",
-            "servant",
-            "warehouseman"
+            "servant"
           ],
           "options": [
             {
@@ -882,7 +927,8 @@
               "effects": {
                 "audience": "seated",
                 "entry": "side_door"
-              }
+              },
+              "groupReactionKo": "이리나가 옆문을 열고 바실리는 늦게 온 학생들을 두 줄로 나눕니다. 나데즈다는 표를 내민 관객에게 번호를 다시 보여 달라며 목소리를 낮춥니다."
             },
             {
               "id": "keep-main-entry",
@@ -892,8 +938,18 @@
               "effects": {
                 "audience": "delayed",
                 "entry": "main_door"
-              }
+              },
+              "groupReactionKo": "정문 줄을 한 칸씩 당기는 동안 레프가 빈자리를 세어 줍니다. 폴리나는 늦게 온 손님을 붙들어 두고, 객석 안쪽은 잠시 조용해집니다."
             }
+          ],
+          "groupEncounter": true,
+          "gatherActorIds": [
+            "usher",
+            "copyist",
+            "critic",
+            "reader",
+            "lodger",
+            "ticket_broker"
           ]
         },
         {
@@ -971,7 +1027,8 @@
               "effects": {
                 "performance": "actor-variant",
                 "record": "stage-note"
-              }
+              },
+              "groupReactionKo": "니콜라이가 쪽지를 손에 든 채 견습공 표트르를 바라봅니다. 엘리자베타는 떨어진 단추를 꿰매고, 유리는 인쇄된 대본과 고친 줄을 나란히 펼칩니다."
             },
             {
               "id": "return-to-script",
@@ -981,8 +1038,18 @@
               "effects": {
                 "performance": "printed-script",
                 "record": "no-variant"
-              }
+              },
+              "groupReactionKo": "콘스탄틴이 인쇄본을 읽는 동안 다리야는 객석에서 들은 반응을 전합니다. 배우는 무대에 오를 준비를 하지만, 견습공은 쪽지를 아직 접지 않습니다."
             }
+          ],
+          "groupEncounter": true,
+          "gatherActorIds": [
+            "student",
+            "actor",
+            "tailor",
+            "printer",
+            "vendor",
+            "backstage_helper"
           ]
         },
         {
@@ -1000,7 +1067,8 @@
               "effects": {
                 "exit": "separated",
                 "carriages": "delayed"
-              }
+              },
+              "groupReactionKo": "로만이 마차 한 대씩 움직이고 가브릴라는 바퀴 앞에서 관객을 물립니다. 파벨은 극장 벽 쪽 통로를 비우고 다리야는 노인 한 사람을 부축합니다."
             },
             {
               "id": "release-carriages",
@@ -1010,8 +1078,18 @@
               "effects": {
                 "exit": "carriages_first",
                 "crowd": "waiting"
-              }
+              },
+              "groupReactionKo": "마차가 먼저 지나가자 관객 줄은 벽을 따라 길게 늘어섭니다. 레프가 뒤쪽 사람들에게 기다리라 알리고, 이리나는 아이들을 수레에서 떨어뜨립니다."
             }
+          ],
+          "groupEncounter": true,
+          "gatherActorIds": [
+            "dresser",
+            "merchant",
+            "carter",
+            "official",
+            "porter",
+            "street_reader"
           ]
         },
         {
@@ -1052,10 +1130,13 @@
           "propKo": "서로 다른 번호가 적힌 공연표",
           "promptKo": "두 관객이 같은 좌석 번호가 적힌 표를 내밉니다. 표 장수는 한 장을 더 팔았다고 주장하고 안내원은 입구를 비우라 재촉합니다.",
           "gatherActorIds": [
-            "ticket_broker",
             "usher",
-            "student",
-            "reader"
+            "copyist",
+            "critic",
+            "reader",
+            "lodger",
+            "ticket_broker",
+            "student"
           ],
           "options": [
             {
@@ -1089,10 +1170,13 @@
           "propKo": "배우와 견습공이 펼친 대본",
           "promptKo": "배우는 고친 대사로 무대에 서겠다고 하고, 견습공은 소품과 다음 장면이 바뀌어야 한다고 말합니다. 안내원은 막을 늦출 수 있는 시간이 얼마 남지 않았다고 알립니다.",
           "gatherActorIds": [
-            "backstage_helper",
+            "student",
             "actor",
-            "dresser",
-            "printer"
+            "tailor",
+            "printer",
+            "vendor",
+            "backstage_helper",
+            "dresser"
           ],
           "options": [
             {
@@ -1133,10 +1217,13 @@
           "propKo": "극장 벽에 놓인 빈 벤치",
           "promptKo": "공연을 본 관객과 표만 사서 돌아간 사람들이 극장 앞에 남았습니다. 한 줄짜리 평으로는 서로 다른 반응을 전하기 어렵습니다.",
           "gatherActorIds": [
-            "street_reader",
-            "critic",
+            "dresser",
             "merchant",
-            "official"
+            "carter",
+            "official",
+            "porter",
+            "street_reader",
+            "critic"
           ],
           "options": [
             {
@@ -1467,7 +1554,8 @@
               "effects": {
                 "reading": "full-clauses",
                 "distribution": "slower"
-              }
+              },
+              "groupReactionKo": "니키타가 첫 문장을 천천히 읽고 올가는 내일 일감이 적힌 판을 펼칩니다. 루카는 듣지 못한 사람을 앞으로 부르고, 마리야는 뒤쪽 줄이 밀리지 않게 자리를 잡습니다."
             },
             {
               "id": "read-heading",
@@ -1477,8 +1565,18 @@
               "effects": {
                 "reading": "summary",
                 "distribution": "faster"
-              }
+              },
+              "groupReactionKo": "제목과 핵심 구절이 먼저 퍼집니다. 콘스탄틴은 질문을 받아 적고 가브릴라는 다음 인쇄 묶음을 내리지만, 토지 조건을 묻는 사람들은 그대로 남아 있습니다."
             }
+          ],
+          "groupEncounter": true,
+          "gatherActorIds": [
+            "typesetter",
+            "clerk",
+            "bookseller",
+            "tenant",
+            "printer",
+            "rural-copy-carrier"
           ]
         },
         {
@@ -1555,7 +1653,8 @@
               "effects": {
                 "land": "compared",
                 "claims": "qualified"
-              }
+              },
+              "groupReactionKo": "레프가 서로 다른 고향에서 온 편지를 탁자 위에 펼칩니다. 미하일은 자기 집에 온 문구와 다르다고 짚고, 바르바라는 땅을 받는 조건이 어디에 적혔는지 찾습니다."
             },
             {
               "id": "announce-one-rule",
@@ -1565,8 +1664,18 @@
               "effects": {
                 "land": "oversimplified",
                 "claims": "spread"
-              }
+              },
+              "groupReactionKo": "콘스탄틴이 한 장으로 요약하자 파벨은 아직 편지가 오지 않은 마을을 걱정합니다. 올가는 일자리를 묻는 사람들을 세고, 아브도티야는 오늘 밤 머물 곳부터 확인합니다."
             }
+          ],
+          "groupEncounter": true,
+          "gatherActorIds": [
+            "maid",
+            "porter",
+            "messenger",
+            "former_servant",
+            "midwife",
+            "wage_delegate"
           ]
         },
         {
@@ -1614,7 +1723,8 @@
               "effects": {
                 "copies": "wide",
                 "localTalk": "reduced"
-              }
+              },
+              "groupReactionKo": "로만이 마차에 실을 묶음을 세고 마리야와 아브도티야는 걸어서 갈 집들을 나눕니다. 이반은 질문 꾸러미를 챙기며 어느 집에 먼저 들를지 묻습니다."
             },
             {
               "id": "walk-copies",
@@ -1624,8 +1734,18 @@
               "effects": {
                 "copies": "local",
                 "localTalk": "open"
-              }
+              },
+              "groupReactionKo": "바르바라가 골목 안쪽으로 인쇄본을 들고 갑니다. 루카는 큰길 쪽 마차가 돌아오는 시간을 살피고 파벨은 다음 묶음을 맡을 사람을 찾습니다."
             }
+          ],
+          "groupEncounter": true,
+          "gatherActorIds": [
+            "veteran",
+            "washer",
+            "carter",
+            "apothecary",
+            "apprentice",
+            "petition_copyist"
           ]
         },
         {
@@ -1636,9 +1756,12 @@
           "propKo": "마차에 실을 인쇄본 꾸러미",
           "promptKo": "서로 다른 고을에서 온 사람들이 인쇄본을 기다립니다. 가까운 마을부터 보낼지, 큰길을 따라 여러 곳에 한꺼번에 보낼지 정해야 합니다.",
           "gatherActorIds": [
-            "rural-copy-carrier",
             "typesetter",
+            "clerk",
             "bookseller",
+            "tenant",
+            "printer",
+            "rural-copy-carrier",
             "porter"
           ],
           "options": [
@@ -1673,10 +1796,13 @@
           "propKo": "하녀들이 적은 품삯과 잠자리 목록",
           "promptKo": "하녀들은 다음 주에도 같은 집에서 일할지, 품삯과 잠자리를 다시 정할지 망설입니다. 혼자 가면 고용주가 대화를 거절할 수 있습니다.",
           "gatherActorIds": [
-            "wage_delegate",
             "maid",
-            "washer",
-            "former_servant"
+            "porter",
+            "messenger",
+            "former_servant",
+            "midwife",
+            "wage_delegate",
+            "washer"
           ],
           "options": [
             {
@@ -1717,8 +1843,12 @@
           "propKo": "대표 이름을 적을 청원 용지",
           "promptKo": "토지 조건과 품삯을 묻는 사람들이 답을 기다립니다. 질문한 사람 모두의 이름을 쓸지, 대표단 이름으로만 접수할지 서기가 묻습니다.",
           "gatherActorIds": [
-            "petition_copyist",
+            "veteran",
             "washer",
+            "carter",
+            "apothecary",
+            "apprentice",
+            "petition_copyist",
             "messenger",
             "midwife"
           ],
@@ -1758,10 +1888,12 @@
           "propKo": "선언과 조건이 인쇄된 두 장",
           "promptKo": "선언의 제목은 이미 널리 읽혔지만, 함께 온 조건문은 작은 글씨로 인쇄돼 있습니다. 인쇄물 장수와 하녀들이 어느 대목부터 들을지 기다립니다.",
           "gatherActorIds": [
-            "former_servant",
             "maid",
-            "wage_delegate",
-            "porter"
+            "porter",
+            "messenger",
+            "former_servant",
+            "midwife",
+            "wage_delegate"
           ],
           "options": [
             {

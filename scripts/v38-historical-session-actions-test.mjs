@@ -104,6 +104,7 @@ assert.equal(routed.state.historicalSession.physicalMoves.at(-1).status, 'EN_ROU
 const senateGroupAction = senateScene.fieldActions.find(item => item.gatherActorIds?.length);
 senateGroupAction.position = { x: 11, y: 8 };
 const groupActors = senateGroupAction.gatherActorIds.filter(id => id !== senateGroupAction.requiredActorId);
+senateGroupAction.gatherPositions = groupActors.map((actorId, index) => ({ actorId, position: { x: 12 + index, y: 8 } }));
 const groupSession = { historicalSession: { eventId: senateScene.eventId, choices: [], completedObjectives: [], actionOutcomes: {} },
   player: { embodiment: `historical:${senateScene.eventId}:${senateGroupAction.requiredActorId}`, position: { x: 4, y: 14 } },
   world: { currentMapId: senateGroupAction.mapId, clockMinutes: 620, historicalEventEffects: {} },
@@ -119,7 +120,8 @@ assert.equal(gathered.ok, true);
 for (const actorId of groupActors) {
   const resident = gathered.state.hosts[`historical:${senateScene.eventId}:${actorId}`];
   assert.equal(resident.schedule[0].mapId, senateGroupAction.mapId, `${actorId} walks toward the group decision`);
-  assert.deepEqual(resident.schedule[0].position, senateGroupAction.position, `${actorId} gathers at the physical event prop`);
+  assert.deepEqual(resident.schedule[0].position, senateGroupAction.gatherPositions.find(item => item.actorId === actorId).position,
+    `${actorId} gets a distinct nearby position instead of stacking on the event prop`);
   assert.equal(resident.mapId, groupSession.hosts[resident.id].mapId, `${actorId} remains at their starting map until they walk there`);
 }
 
