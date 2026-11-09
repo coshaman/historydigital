@@ -101,6 +101,27 @@ assert.deepEqual(routed.state.hosts[`historical:${senateScene.eventId}:coachman`
 assert.equal(routed.state.hosts[`historical:${senateScene.eventId}:coachman`].schedule[0].atMinute, 601,
   'the journey begins on the next world tick');
 assert.equal(routed.state.historicalSession.physicalMoves.at(-1).status, 'EN_ROUTE');
+const senateGroupAction = senateScene.fieldActions.find(item => item.gatherActorIds?.length);
+senateGroupAction.position = { x: 11, y: 8 };
+const groupActors = senateGroupAction.gatherActorIds.filter(id => id !== senateGroupAction.requiredActorId);
+const groupSession = { historicalSession: { eventId: senateScene.eventId, choices: [], completedObjectives: [], actionOutcomes: {} },
+  player: { embodiment: `historical:${senateScene.eventId}:${senateGroupAction.requiredActorId}`, position: { x: 4, y: 14 } },
+  world: { currentMapId: senateGroupAction.mapId, clockMinutes: 620, historicalEventEffects: {} },
+  hosts: Object.fromEntries(groupActors.map((actorId, index) => [`historical:${senateScene.eventId}:${actorId}`,
+    { id: `historical:${senateScene.eventId}:${actorId}`, mapId: senateScene.maps[index % senateScene.maps.length],
+      position: { x: 3 + index, y: 4 }, schedule: [], allowedMaps: senateScene.maps }])) };
+groupSession.hosts[`historical:${senateScene.eventId}:${senateGroupAction.requiredActorId}`] = {
+  id: `historical:${senateScene.eventId}:${senateGroupAction.requiredActorId}`, mapId: senateGroupAction.mapId,
+  position: { x: 5, y: 5 }, schedule: [], allowedMaps: senateScene.maps };
+const groupChoice = senateGroupAction.options.find(option => !option.sceneMoves?.length);
+const gathered = performHistoricalAction(groupSession, senateScene, senateGroupAction.id, groupChoice.id);
+assert.equal(gathered.ok, true);
+for (const actorId of groupActors) {
+  const resident = gathered.state.hosts[`historical:${senateScene.eventId}:${actorId}`];
+  assert.equal(resident.schedule[0].mapId, senateGroupAction.mapId, `${actorId} walks toward the group decision`);
+  assert.deepEqual(resident.schedule[0].position, senateGroupAction.position, `${actorId} gathers at the physical event prop`);
+  assert.equal(resident.mapId, groupSession.hosts[resident.id].mapId, `${actorId} remains at their starting map until they walk there`);
+}
 
 for (const [eventId, actionId, optionId, actorId, targetId, expectedMap] of [
   ['GOGOL_INSPECTOR_1836', 'inspector-lobby-company-vote', 'company-decides', 'actor', 'inspector-street-open-forum', 'theatre-street'],

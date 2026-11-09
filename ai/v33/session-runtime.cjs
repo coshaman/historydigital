@@ -156,6 +156,7 @@ const instructions = [
   '요즘 사건을 묻는 열린 질문에는 현재 사건의 사람·장소·행동부터 말한다. 날짜가 맞는 caseContext와 sourceEvidence/sourceClaims가 있으면 그 보고서가 적은 사건의 사람·장소·행동부터 자연스럽게 답한다. 조사 보고서의 혐의는 보고서가 그렇게 주장했다고 귀속하며 확정된 사실로 바꾸지 않는다. 출처 ID나 재구성 표시는 대사로 옮기지 않는다. 특정 사건의 맥락이 있는데도 문서 처리 일반론이나 과거의 반복 소재로 대화를 돌리지 않는다.',
   '경찰 하사관 이반 세묘노프의 평상시 대화에서는 순찰 중인 거리, 시장의 통행, 주민 사이의 시비, 마차와 약방처럼 그가 실제로 접하는 일을 먼저 말한다. 플레이어가 조사 보고서나 특정 역사 사건을 꺼내지 않았고 caseContext도 없으면 보고서·진술·정보원·기록 구분을 먼저 화제로 꺼내지 않는다. 날짜만으로 페트라솁스키 사건을 현재 대화에 끌어오지 않는다. heardEvents가 있으면 그중 자신이 실제로 들은 사건 하나를 사람·장소·행동과 함께 말하고, 없으면 현재 활동이나 눈앞의 일에 답한다. 근거 없이 강도·체포·정치 사건을 새로 만들어 역사 사실처럼 말하지 않는다.',
   'conversation.playerHistoricalEvents는 플레이어가 별도 역사 장면에서 내린 선택의 저장 기록이다. 이는 그 게임 장면의 경험일 뿐 실제 역사적 결과나 상대 인물의 기억이 아니다. 상대가 이미 알았다고 말하지 말고, 플레이어가 그 일을 꺼냈거나 질문이 직접 이어질 때만 선택의 맥락으로 짧게 반응한다.',
+  'playerHistoricalEvents.groupGatherings는 현장 물건에서 플레이어의 선택 뒤 실제로 그 자리에 모이도록 움직인 사람들의 기록이다. 플레이어의 경험으로만 다루고, 대화 상대가 그 자리에 있었다는 근거가 없으면 그들이 이를 알았다고 말하지 않는다.',
   '생각이나 사회 문제를 묻는 대화도 먼저 눈앞의 생활 장면에 붙인다. 현재 장소에서 실제로 벌어진 일, 인물이 맡은 일, 자료에 적힌 구체적인 대목 중 하나를 짚고 나서 답한다. 사건이나 자료와 연결되지 않은 채 책임·자유·공정함 같은 추상 질문을 먼저 던지지 않는다. 먼저 평범한 인사와 그날의 용건을 주고받고, 플레이어가 꺼내지 않은 철학 토론으로 대화를 돌리지 않는다. 러시아의 제도·생활에 관해 말할 때도 현재 인물의 신분과 직접 아는 범위에 한정한다.',
   'character.relationshipNetwork와 household는 체크인 카드에 기록된 인물의 관계·가족 정보다. 상대와의 관계가 대화에 실제로 중요할 때만 자연스럽게 반영하고, 목록을 외우듯 늘어놓지 않는다. 관계 설명은 역사적 증거가 아니라 허구 인물 설정이다. currentAim은 이 인물의 오늘 목표를 말투와 관심사에 반영하는 단서일 뿐이며, 해결됐거나 실제로 이뤄졌다고 말하지 않는다.',
   '역사적 사실을 새로 만들거나 단정하지 않는다. 역사 인물 재구성의 대사는 실제 발언이나 인용으로 주장하지 않는다. 문학 인물은 문학 세계 밖의 역사 증언자로 말하지 않는다. 인물의 직업, 말투, 대화 목표와 허용 주제 안에서만 답한다.',
@@ -543,10 +544,21 @@ function normalizeSceneContext(value, actorHostId, speakerCard = null) {
         ...(historicalConversationChoices[scene.eventId]?.[objective.id] ?? []).map(option => [`${objective.id}:${option.id}`, option.labelKo]),
         [`${objective.id}:defer`, '더 듣고 결정은 미뤘다'],
       ])]);
+    const groupGatherings = memory.groupGatherings ?? [];
     if (!scene || !event || !Array.isArray(memory.choices) || memory.choices.length < 1 || memory.choices.length > 12
-      || memory.choices.some(id => typeof id !== 'string' || !authoredChoices.has(id))) return null;
+      || memory.choices.some(id => typeof id !== 'string' || !authoredChoices.has(id))
+      || !Array.isArray(groupGatherings) || groupGatherings.length > 4) return null;
+    const normalizedGatherings = [];
+    for (const gathering of groupGatherings) {
+      const action = scene.fieldActions.find(item => item.id === gathering?.actionId && Array.isArray(item.gatherActorIds));
+      if (!action || !Array.isArray(gathering.actorIds) || gathering.actorIds.length < 1 || gathering.actorIds.length > 4
+        || gathering.actorIds.some(id => typeof id !== 'string' || !action.gatherActorIds.includes(id))) return null;
+      normalizedGatherings.push({ actionId: action.id, actionKo: action.propKo,
+        participantsKo: [...new Set(gathering.actorIds)].map(id => scene.actors.find(actor => actor.id === id)?.nameKo).filter(Boolean) });
+    }
     normalizedHistoricalMemories.push({ eventId: scene.eventId, titleKo: event.titleKo,
-      choices: [...new Set(memory.choices)].slice(-6).map(id => ({ id, textKo: authoredChoices.get(id) })) });
+      choices: [...new Set(memory.choices)].slice(-6).map(id => ({ id, textKo: authoredChoices.get(id) })),
+      ...(memory.groupGatherings !== undefined ? { groupGatherings: normalizedGatherings } : {}) });
   }
   const submittedKnowledgeIds = value.playerKnowledgeIds ?? actor?.privateKnowledgeIds ?? [];
   if (!Array.isArray(submittedKnowledgeIds) || submittedKnowledgeIds.length > 24

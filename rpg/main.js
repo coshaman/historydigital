@@ -1073,7 +1073,12 @@ function beginHistoricalEvent(event) {
   if (!scene) { sayRecord('이 현장을 지금 열 수 없습니다.'); return; }
   const result = beginHistoricalSession(state, { ...scene, id: scene.eventId, entryMapId: scene.maps[0], date: event.date }, maps, cards);
   if (!result.ok) { say('현장을 열 수 없다', `준비가 끝나지 않은 인물이나 장소가 있습니다 · ${result.reason}`, [{ label: '다시 고르기', run: openHistoricalEventMenu }]); return; }
-  result.cards.slice(cards.length).forEach(card => cards.push(card));
+  const knownCardIds = new Set(cards.map(card => card.id));
+  for (const card of result.cards) {
+    if (knownCardIds.has(card.id)) continue;
+    cards.push(card);
+    knownCardIds.add(card.id);
+  }
   result.session.world.chapterId = 'V33_1847_PRINT';
   result.session.historicalSession.visitedMapIds = [scene.maps[0]];
   result.session.historicalSession.spokenActorIds = [];
@@ -1108,13 +1113,19 @@ function readPlayerHistoricalChoices() {
       const allowedChoiceIds = new Set([...(scene?.choices.map(choice => choice.id) ?? []),
         ...(scene?.fieldActions ?? []).flatMap(action => action.options.map(option => `${action.id}:${option.id}`)),
         ...(scene?.objectives ?? []).flatMap(objective => [...historicalConversationChoices(eventId, objective.id).map(option => `${objective.id}:${option.id}`), `${objective.id}:defer`])]);
-      return { eventId, record, allowedChoiceIds };
+      return { eventId, record, allowedChoiceIds, scene };
     })
       .filter(({ record, allowedChoiceIds }) => record?.completedAt && allowedChoiceIds.size
         && (record.choices ?? []).some(choice => allowedChoiceIds.has(choice.id)))
       .sort((a, b) => String(b.record.completedAt).localeCompare(String(a.record.completedAt))).slice(0, 3)
-      .map(({ eventId, record, allowedChoiceIds }) => ({ eventId,
-        choices: [...new Set((record.choices ?? []).filter(choice => allowedChoiceIds.has(choice.id)).map(choice => choice.id))].slice(-12) }));
+      .map(({ eventId, record, allowedChoiceIds, scene }) => ({ eventId,
+        choices: [...new Set((record.choices ?? []).filter(choice => allowedChoiceIds.has(choice.id)).map(choice => choice.id))].slice(-12),
+        groupGatherings: (record.groupGatherings ?? []).flatMap(gathering => {
+          const action = scene?.fieldActions.find(item => item.id === gathering?.actionId && Array.isArray(item.gatherActorIds));
+          if (!action || !Array.isArray(gathering.actorIds)) return [];
+          const actorIds = [...new Set(gathering.actorIds)].filter(id => action.gatherActorIds.includes(id));
+          return actorIds.length ? [{ actionId: action.id, actorIds }] : [];
+        }).slice(-4) }));
   } catch { return []; }
 }
 function leaveHistoricalSession(record = true) {
@@ -1124,6 +1135,7 @@ function leaveHistoricalSession(record = true) {
     let records = {};
     try { records = JSON.parse(localStorage.getItem('v38-historical-event-records') ?? '{}'); } catch { /* ignore malformed local progress */ }
     records[event.id] = { date: event.date, choices: session.choices, actionOutcomes: session.actionOutcomes ?? {},
+      groupGatherings: session.groupGatherings ?? [], physicalMoves: session.physicalMoves ?? [],
       effects: state.world.historicalEventEffects?.[event.id] ?? {}, visitedMapIds: session.visitedMapIds ?? [],
       spokenActorIds: session.spokenActorIds ?? [], completedObjectives: session.completedObjectives ?? [], completedAt: new Date().toISOString() };
     localStorage.setItem('v38-historical-event-records', JSON.stringify(records));

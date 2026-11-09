@@ -1,9 +1,9 @@
 {
   "schemaVersion": "V38_HISTORICAL_LIVING_SCENE_ACCEPTANCE_1",
-  "status": "PASS",
+  "status": "INCOMPLETE",
   "build": {
     "command": "npm run build:v33",
-    "staticFiles": 500
+    "staticFiles": 503
   },
   "checks": {
     "command": "npm run check",
@@ -19,55 +19,21 @@
   },
   "browser": {
     "command": "node scripts/v38-history-events-browser.mjs",
-    "status": "PASS",
-    "viewports": [
-      {
-        "width": 1440,
-        "height": 900,
-        "events": 3,
-        "uniqueConversations": 24,
-        "fieldActionsPerEvent": 5,
-        "campaignSaveRestored": true,
-        "horizontalOverflow": false,
-        "pageErrors": []
-      },
-      {
-        "width": 390,
-        "height": 844,
-        "events": 3,
-        "uniqueConversations": 24,
-        "fieldActionsPerEvent": 5,
-        "campaignSaveRestored": true,
-        "horizontalOverflow": false,
-        "pageErrors": []
-      }
-    ],
-    "closingChoicesUnlockedBy": {
-      "distinctResidentConversations": 8,
-      "distinctFieldObjectives": 5,
-      "visitedAreas": 3
+    "status": "BLOCKED_ENVIRONMENT",
+    "reason": "Playwright reports net::ERR_NETWORK_ACCESS_DENIED for the working local preview.",
+    "manualUi": {
+      "status": "PASS",
+      "event": "SENATE_SQUARE_1825",
+      "reopenedSameEvent": true,
+      "uniqueResidentsInEntryArea": 6,
+      "rosterDuplicates": false
     },
-    "closingStrategiesDisclosed": 3,
-    "closingChoiceSaveVerified": true,
     "humanPlaytimeMinutes": "NOT_TIMED"
   },
   "limitations": [
     "The renderer uses the existing top-down tile world; it is not a 3D reconstruction.",
     "The browser run validates pacing gates and interactions, not a timed 4–5 minute human session.",
-    "Historical outcomes stay fixed; player choices affect local fictional residents and scene consequences only."
-  ],
-  "screenshots": [
-    "emancipation_1861-closing-choices-1440x900.png",
-    "emancipation_1861-closing-choices-390x844.png",
-    "emancipation_1861-first-field-action-1440x900.png",
-    "emancipation_1861-first-field-action-390x844.png",
-    "gogol_inspector_1836-closing-choices-1440x900.png",
-    "gogol_inspector_1836-closing-choices-390x844.png",
-    "gogol_inspector_1836-first-field-action-1440x900.png",
-    "gogol_inspector_1836-first-field-action-390x844.png",
-    "senate_square_1825-closing-choices-1440x900.png",
-    "senate_square_1825-closing-choices-390x844.png",
-    "senate_square_1825-first-field-action-1440x900.png",
-    "senate_square_1825-first-field-action-390x844.png"
+    "Historical outcomes stay fixed; player choices affect local fictional residents and scene consequences only.",
+    "The scripted viewport and full-scene browser run remains unverified; the prior PASS output was stale and has been removed."
   ]
 }

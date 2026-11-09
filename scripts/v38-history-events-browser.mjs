@@ -106,17 +106,26 @@ async function completeFieldAction(page, scene, zoneIndex) {
   assert.ok((await page.locator('#journal-text').textContent()).includes(option.textKo));
   if (option.sceneMoves?.length) {
     await page.locator('#save').click();
-    const savedMoves = await page.evaluate(() => JSON.parse(localStorage.getItem('v33-rpg-save') ?? '{}').state?.historicalSession?.physicalMoves ?? []);
+    const savedState = await page.evaluate(() => JSON.parse(localStorage.getItem('v33-rpg-save') ?? '{}').state ?? {});
+    const savedMoves = savedState.historicalSession?.physicalMoves ?? [];
     for (const move of option.sceneMoves) {
       const target = scene.fieldActions.find(item => item.id === move.targetActionId);
       const targetZone = scene.maps.indexOf(target.mapId), targetArea = actionPositions(scene, targetZone);
       const targetPosition = targetArea.positions[targetArea.actions.indexOf(target)];
       const actorMove = savedMoves.find(item => item.actorId === move.actorId && item.choiceId === option.id);
       assert.ok(actorMove, `${action.id}/${option.id} saves its physical resident movement`);
-      assert.equal(actorMove.mapId, target.mapId);
-      assert.deepEqual(actorMove.position, targetPosition);
+      assert.equal(actorMove.fromMapId, action.mapId, `${action.id}/${option.id} records its actual departure map`);
+      assert.equal(actorMove.targetMapId, target.mapId, `${action.id}/${option.id} records the destination map`);
+      assert.deepEqual(actorMove.targetPosition, targetPosition, `${action.id}/${option.id} records the destination tile`);
+      assert.equal(actorMove.status, 'EN_ROUTE', `${action.id}/${option.id} starts a visible journey instead of teleporting`);
+      const resident = savedState.hosts?.[`historical:${scene.eventId}:${move.actorId}`];
+      assert.ok(resident, `${action.id}/${option.id} persists the moving resident`);
+      assert.equal(resident.mapId, actorMove.fromMapId, `${action.id}/${option.id} leaves the resident at the departure map`);
+      assert.deepEqual(resident.position, actorMove.fromPosition, `${action.id}/${option.id} leaves the resident at the departure tile`);
+      assert.equal(resident.schedule?.[0]?.mapId, actorMove.targetMapId, `${action.id}/${option.id} schedules travel to the destination`);
       scene.observedPhysicalMoves ??= [];
-      scene.observedPhysicalMoves.push({ actorId: move.actorId, mapId: actorMove.mapId, choiceId: option.id });
+      scene.observedPhysicalMoves.push({ actorId: move.actorId, targetMapId: actorMove.targetMapId,
+        choiceId: option.id, status: actorMove.status });
     }
   }
   Object.assign(effects, option.effects ?? {});
@@ -248,13 +257,13 @@ try {
         }
       }
       if (scene.eventId === 'SENATE_SQUARE_1825') assert.deepEqual(scene.observedPhysicalMoves, [
-        { actorId: 'coachman', mapId: 'senate-river', choiceId: 'turn-cart' },
+        { actorId: 'coachman', targetMapId: 'senate-river', choiceId: 'turn-cart', status: 'EN_ROUTE' },
       ], 'the evacuation-route choice moves the coachman across the field scene and persists that movement');
       if (scene.eventId === 'GOGOL_INSPECTOR_1836') assert.deepEqual(scene.observedPhysicalMoves, [
-        { actorId: 'actor', mapId: 'theatre-street', choiceId: 'company-decides' },
+        { actorId: 'actor', targetMapId: 'theatre-street', choiceId: 'company-decides', status: 'EN_ROUTE' },
       ], 'the shared backstage decision sends the actor into the public street discussion without interrupting unfinished lobby work');
       if (scene.eventId === 'EMANCIPATION_1861') assert.deepEqual(scene.observedPhysicalMoves, [
-        { actorId: 'porter', mapId: 'manifesto-lane', choiceId: 'collective-terms' },
+        { actorId: 'porter', targetMapId: 'manifesto-lane', choiceId: 'collective-terms', status: 'EN_ROUTE' },
       ], 'the collective wage decision sends the petition bundle into the neighborhood meeting');
       const finalChoice = scene.choices[catalog.indexOf(event) % scene.choices.length];
       const visibleChoiceCounts = await Promise.all(scene.choices.map(choice => page.locator('#actions button').filter({ hasText: choice.label }).count()));
@@ -293,6 +302,17 @@ try {
       await page.locator('#save').click();
       assert.equal(await page.evaluate(() => localStorage.getItem('v33-rpg-save')), campaignSnapshot, 'campaign save stays untouched');
       totalConversations += spokenNames.size;
+    }
+    if (viewport.width === 1440) {
+      const repeatEvent = catalog[0], repeatScene = play.find(item => item.eventId === repeatEvent.id);
+      await page.locator('#history-events-open').click();
+      await page.locator('#actions button').filter({ hasText: repeatEvent.titleKo }).click();
+      await page.locator('#roster-open').click();
+      const repeatRoster = await page.locator('.roster-card strong').allTextContents();
+      assert.equal(repeatRoster.length, repeatScene.actors.length, 'replaying an event does not duplicate its residents in the roster');
+      assert.equal(new Set(repeatRoster).size, repeatRoster.length, 'each event resident appears once after replay');
+      await page.locator('#actions button').filter({ hasText: '현장을 나간다' }).click();
+      assert.equal(await page.locator('#mapname').textContent(), '네프스키 거리', 'leaving a replay returns to the campaign');
     }
     assert.deepEqual(errors, [], `browser errors at ${viewport.width}px`);
     evidence.push({ viewport, eventScenesEntered: 3, uniqueConversations: totalConversations, campaignSaveRestored: true, errors });

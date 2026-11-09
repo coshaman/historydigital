@@ -83,7 +83,9 @@ export function performHistoricalAction(session, scene, actionId, choiceId) {
   if (session.historicalSession.actionOutcomes?.[action.id])
     return { ok: false, reason: 'action_already_resolved', state: session };
   const sceneMoves = option.sceneMoves ?? [];
-  if (!Array.isArray(sceneMoves) || sceneMoves.some(move => {
+  if (!Array.isArray(sceneMoves) || (action.gatherActorIds !== undefined
+    && (!Array.isArray(action.gatherActorIds) || action.gatherActorIds.some(id => !scene.actors?.some(actor => actor.id === id))))
+    || sceneMoves.some(move => {
     const actor = scene?.actors?.find(person => person.id === move.actorId);
     const target = scene?.fieldActions?.find(item => item.id === move.targetActionId);
     return !actor || !target || !scene.maps?.includes(target.mapId)
@@ -106,6 +108,22 @@ export function performHistoricalAction(session, scene, actionId, choiceId) {
   next.world.historicalEventEffects ??= {};
   next.world.historicalEventEffects[scene.eventId] ??= {};
   Object.assign(next.world.historicalEventEffects[scene.eventId], clone(option.effects ?? {}));
+  const gatheringActorIds = (action.gatherActorIds ?? []).filter(actorId =>
+    next.player?.embodiment !== actorKey(scene.eventId, actorId));
+  if (gatheringActorIds.length && Number.isInteger(action.position?.x) && Number.isInteger(action.position?.y)) {
+    const atMinute = Number.isInteger(next.world.clockMinutes) ? next.world.clockMinutes : 0;
+    next.historicalSession.groupGatherings ??= [];
+    next.historicalSession.groupGatherings.push({ actionId: action.id, choiceId: option.id, mapId: action.mapId,
+      position: clone(action.position), actorIds: clone(gatheringActorIds), atMinute });
+    for (const actorId of gatheringActorIds) {
+      const host = next.hosts[actorKey(scene.eventId, actorId)];
+      if (!host) continue;
+      host.currentActivityKo = '현장 일에 참여하러 모인다';
+      host.activeGoal = null; host.plannedPath = { key: null, tiles: [] }; host.mapRoutePlan = { key: null, route: null };
+      host.schedule = [1, 31, 61].map(offset => ({ atMinute: atMinute + offset, mapId: action.mapId,
+        position: clone(action.position), activityKo: '사람들과 현장 일을 살핀다' }));
+    }
+  }
   for (const move of sceneMoves) {
     const target = scene.fieldActions.find(item => item.id === move.targetActionId), host = next.hosts[actorKey(scene.eventId, move.actorId)];
     const destination = { mapId: target.mapId, position: clone(target.position), activityKo: move.activityKo };
