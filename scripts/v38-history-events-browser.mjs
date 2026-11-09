@@ -100,6 +100,21 @@ async function completeFieldAction(page, scene, zoneIndex) {
   await optionButton.click();
   await page.waitForFunction(name => document.querySelector('#headline')?.textContent === name, action.propKo);
   assert.ok((await page.locator('#journal-text').textContent()).includes(option.textKo));
+  if (option.sceneMoves?.length) {
+    await page.locator('#save').click();
+    const savedMoves = await page.evaluate(() => JSON.parse(localStorage.getItem('v33-rpg-save') ?? '{}').state?.historicalSession?.physicalMoves ?? []);
+    for (const move of option.sceneMoves) {
+      const target = scene.fieldActions.find(item => item.id === move.targetActionId);
+      const targetZone = scene.maps.indexOf(target.mapId), targetArea = actionPositions(scene, targetZone);
+      const targetPosition = targetArea.positions[targetArea.actions.indexOf(target)];
+      const actorMove = savedMoves.find(item => item.actorId === move.actorId && item.choiceId === option.id);
+      assert.ok(actorMove, `${action.id}/${option.id} saves its physical resident movement`);
+      assert.equal(actorMove.mapId, target.mapId);
+      assert.deepEqual(actorMove.position, targetPosition);
+      scene.observedPhysicalMoves ??= [];
+      scene.observedPhysicalMoves.push({ actorId: move.actorId, mapId: actorMove.mapId, choiceId: option.id });
+    }
+  }
   Object.assign(effects, option.effects ?? {});
   const actual = await playerPosition(page);
   assert.ok(Math.abs(actual.x - position.x) + Math.abs(actual.y - position.y) <= 2,
@@ -177,6 +192,7 @@ try {
     await page.waitForFunction(() => !document.querySelector('#roster-open')?.disabled);
     const layout = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
     assert.ok(layout.scrollWidth <= layout.width, `horizontal overflow at ${viewport.width}px`);
+    await page.locator('#save').click();
     const campaignSnapshot = await page.evaluate(() => localStorage.getItem('v33-rpg-save'));
     let totalConversations = 0;
     for (const event of catalog) {
@@ -188,6 +204,7 @@ try {
 
       const finishedObjectives = new Set();
       scene.nextEffects = {};
+      scene.observedPhysicalMoves = [];
       for (let zoneIndex = 0; zoneIndex < scene.maps.length; zoneIndex++) {
         const zones = actorPositions(scene, zoneIndex);
         await speakTwo(page, scene, zoneIndex, spokenNames);
@@ -226,6 +243,9 @@ try {
           spokenNames.currentPosition = await playerPosition(page);
         }
       }
+      if (scene.eventId === 'SENATE_SQUARE_1825') assert.deepEqual(scene.observedPhysicalMoves, [
+        { actorId: 'coachman', mapId: 'senate-river', choiceId: 'turn-cart' },
+      ], 'the evacuation-route choice moves the coachman across the field scene and persists that movement');
       const finalChoice = scene.choices[catalog.indexOf(event) % scene.choices.length];
       const visibleChoiceCounts = await Promise.all(scene.choices.map(choice => page.locator('#actions button').filter({ hasText: choice.label }).count()));
       assert.deepEqual(visibleChoiceCounts, scene.choices.map(() => 1), `${event.id} exposes every closing strategy exactly once: ${JSON.stringify(await page.evaluate(() => ({
@@ -260,6 +280,7 @@ try {
       assert.equal(new Set(performedRoles.map(choice => choice.performedByActorId)).size, roleActionCount,
         `${event.id} requires switching into every assigned role`);
       assert.equal(await page.locator('#mapname').textContent(), '네프스키 거리', 'campaign map is restored after the event');
+      await page.locator('#save').click();
       assert.equal(await page.evaluate(() => localStorage.getItem('v33-rpg-save')), campaignSnapshot, 'campaign save stays untouched');
       totalConversations += spokenNames.size;
     }

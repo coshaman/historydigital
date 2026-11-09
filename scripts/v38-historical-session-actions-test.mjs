@@ -20,7 +20,7 @@ for (const scene of play.events) {
     assert.equal(actorIndex % scene.maps.length, scene.maps.indexOf(action.mapId), `${action.id} can be done by a person physically in its zone`);
   }
   const action = scene.fieldActions[0];
-  const option = action.options[0];
+  const option = action.options.find(item => !item.sceneMoves?.length) ?? action.options[0];
   const session = { historicalSession: { eventId: scene.eventId, choices: [], completedObjectives: [], actionOutcomes: {} },
     player: { embodiment: action.requiredActorId ? `historical:${scene.eventId}:${action.requiredActorId}` : null },
     world: { currentMapId: action.mapId, historicalEventEffects: {} } };
@@ -74,4 +74,23 @@ for (const scene of play.events) {
   assert.equal(performHistoricalAction(blocked, scene, conditionalAction.id, conditionalOption.id).ok, true,
     `${scene.eventId} unlocks its later group decision after the required earlier action`);
 }
+const senateScene = structuredClone(play.events.find(scene => scene.eventId === 'SENATE_SQUARE_1825'));
+const horseRoute = senateScene.fieldActions.find(action => action.id === 'senate-route-horse');
+const riverAction = senateScene.fieldActions.find(action => action.id === 'senate-river-lane');
+riverAction.position = { x: 12, y: 9 };
+const turnCart = horseRoute.options.find(option => option.id === 'turn-cart');
+assert.deepEqual(turnCart.sceneMoves, [{ actorId: 'coachman', targetActionId: riverAction.id,
+  activityKo: '수레를 강변 쪽으로 돌려 피난길을 열고 있다' }], 'the route decision authors a physical resident move');
+const movingSession = { historicalSession: { eventId: senateScene.eventId, choices: [], completedObjectives: [], actionOutcomes: {} },
+  player: { embodiment: null, position: { x: 4, y: 14 } },
+  world: { currentMapId: horseRoute.mapId, clockMinutes: 600, historicalEventEffects: {} },
+  hosts: { [`historical:${senateScene.eventId}:coachman`]: { id: `historical:${senateScene.eventId}:coachman`,
+    mapId: horseRoute.mapId, position: { x: 8, y: 8 }, schedule: [], allowedMaps: senateScene.maps } } };
+const routed = performHistoricalAction(movingSession, senateScene, horseRoute.id, turnCart.id);
+assert.equal(routed.ok, true);
+assert.equal(routed.state.hosts[`historical:${senateScene.eventId}:coachman`].mapId, riverAction.mapId);
+assert.deepEqual(routed.state.hosts[`historical:${senateScene.eventId}:coachman`].position, riverAction.position);
+assert.match(routed.state.hosts[`historical:${senateScene.eventId}:coachman`].currentActivityKo, /강변/);
+assert.equal(routed.state.hosts[`historical:${senateScene.eventId}:coachman`].schedule[0].mapId, riverAction.mapId,
+  'the route change survives subsequent deterministic schedule ticks');
 console.log('Historical field actions persist consequences, complete real objectives once, and reject invalid/repeated choices.');

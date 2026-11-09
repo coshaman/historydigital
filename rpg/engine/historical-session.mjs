@@ -82,6 +82,14 @@ export function performHistoricalAction(session, scene, actionId, choiceId) {
     return { ok: false, reason: 'wrong_historical_actor', state: session };
   if (session.historicalSession.actionOutcomes?.[action.id])
     return { ok: false, reason: 'action_already_resolved', state: session };
+  const sceneMoves = option.sceneMoves ?? [];
+  if (!Array.isArray(sceneMoves) || sceneMoves.some(move => {
+    const actor = scene?.actors?.find(person => person.id === move.actorId);
+    const target = scene?.fieldActions?.find(item => item.id === move.targetActionId);
+    return !actor || !target || !scene.maps?.includes(target.mapId)
+      || !Number.isInteger(target.position?.x) || !Number.isInteger(target.position?.y)
+      || typeof move.activityKo !== 'string' || !session.hosts?.[actorKey(scene.eventId, actor.id)];
+  })) return { ok: false, reason: 'invalid_historical_action', state: session };
   const priorEffects = session.world?.historicalEventEffects?.[scene.eventId] ?? {};
   if (option.requiresEffects && Object.entries(option.requiresEffects).some(([key, value]) => priorEffects[key] !== value))
     return { ok: false, reason: 'historical_choice_locked', state: session };
@@ -98,5 +106,21 @@ export function performHistoricalAction(session, scene, actionId, choiceId) {
   next.world.historicalEventEffects ??= {};
   next.world.historicalEventEffects[scene.eventId] ??= {};
   Object.assign(next.world.historicalEventEffects[scene.eventId], clone(option.effects ?? {}));
+  for (const move of sceneMoves) {
+    const target = scene.fieldActions.find(item => item.id === move.targetActionId), host = next.hosts[actorKey(scene.eventId, move.actorId)];
+    const destination = { mapId: target.mapId, position: clone(target.position), activityKo: move.activityKo };
+    host.mapId = destination.mapId; host.position = clone(destination.position); host.currentActivityKo = destination.activityKo;
+    host.activeGoal = null; host.plannedPath = { key: null, tiles: [] }; host.mapRoutePlan = { key: null, route: null };
+    const atMinute = Number.isInteger(next.world.clockMinutes) ? next.world.clockMinutes : 0;
+    host.schedule = [0, 30, 60].map(offset => ({ atMinute: atMinute + offset, mapId: destination.mapId,
+      position: clone(destination.position), activityKo: destination.activityKo }));
+    next.historicalSession.physicalMoves ??= [];
+    next.historicalSession.physicalMoves.push({ actorId: move.actorId, mapId: destination.mapId,
+      position: clone(destination.position), activityKo: destination.activityKo, choiceId: option.id, atMinute });
+    if (next.player.embodiment === host.id) {
+      next.player.position = clone(destination.position);
+      next.world.currentMapId = destination.mapId;
+    }
+  }
   return { ok: true, state: next, action, option };
 }

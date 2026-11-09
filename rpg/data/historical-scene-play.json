@@ -295,7 +295,14 @@
               "effects": {
                 "crowdRoute": "river",
                 "cartMoved": true
-              }
+              },
+              "sceneMoves": [
+                {
+                  "actorId": "coachman",
+                  "targetActionId": "senate-river-lane",
+                  "activityKo": "수레를 강변 쪽으로 돌려 피난길을 열고 있다"
+                }
+              ]
             },
             {
               "id": "hold-cart",
