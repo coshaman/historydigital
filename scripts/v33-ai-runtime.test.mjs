@@ -46,7 +46,7 @@ test('session is server-bound to one host; client cannot choose scene, inject me
   assert.match(providerInput.character.worldview.designBasisKo, /실제 견해나 발언을 재현하지 않는다/);
   assert.deepEqual(providerInput.conversation.sceneContext, { date: '1847-06-01', mapId: 'printshop', placeKo: '네프스키 인쇄소', questId: 'PRINTSHOP_PROOF_1847', questTitleKo: '교정쇄의 행선지',
     activityKo: '교정쇄와 활자를 살핀다', currentAimKo: '작업한 교정쇄의 전달처와 책임자를 확인한다', hungerBand: 'HUNGRY', fatigueBand: 'TIRED', healthCondition: 'FIT', heardRumors: [], heardEvents: [],
-    playerHistoricalEvents: [{ eventId: 'SENATE_SQUARE_1825', titleKo: '상원 광장, 12월 14일', choices: [{ id: 'open_route', textKo: '세탁부와 마차꾼에게 강변 골목을 피난길로 맡겼다' }] }] });
+    playerHistoricalEvents: [{ eventId: 'SENATE_SQUARE_1825', titleKo: '상원 광장, 12월 14일', choices: [{ id: 'open_route', textKo: '세탁부와 마차꾼을 이끌고 주민들의 피난을 택했다' }] }] });
   assert.deepEqual(providerInput.conversation.playerHistoricalEvents, providerInput.conversation.sceneContext.playerHistoricalEvents);
   assert.equal(providerInput.character.relationshipToEmbodiedPlayer?.nameKo, '알렉세이 오를로프');
   assert.match(providerInput.character.relationshipToEmbodiedPlayer?.descriptionKo ?? '', /교정쇄/);

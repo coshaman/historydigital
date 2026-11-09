@@ -33,5 +33,5 @@
 .roster-card-copy>span,.roster-card-copy small{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;font:12px/1.4 'Noto Serif KR',serif;color:#cfbd9c;overflow-wrap:anywhere}
 .roster-card-copy small{font-size:12px;color:#a99472}
 .roster-card-copy .roster-card-place{color:#d1ad70}
-.roster-card-copy .roster-card-task{font-size:11px;color:#e2c88c}
+.roster-card-copy .roster-card-task{font-size:13px;line-height:1.45;color:#e2c88c}
 @media(max-width:760px){.actions.roster-options{grid-template-columns:minmax(0,1fr);max-height:min(38dvh,310px)}}

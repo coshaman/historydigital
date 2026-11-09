@@ -155,9 +155,9 @@ async function speakTwo(page, scene, zoneIndex, spokenNames) {
     const cards = page.locator('.roster-card');
     await cards.first().waitFor();
     const rosterGuide = await cards.first().innerText();
-    assert.match(rosterGuide, /목표/);
+    assert.match(rosterGuide, /의뢰/);
     assert.match(rosterGuide, /말 걸 사람/);
-    assert.match(rosterGuide, /할 일|완료/);
+    assert.match(rosterGuide, /순서|완료/);
     let found = false;
     for (let index = 0; index < await cards.count(); index++) {
       const card = cards.nth(index), bodyName = await card.locator('strong').textContent();

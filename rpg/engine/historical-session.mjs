@@ -1,14 +1,21 @@
 const clone = value => structuredClone(value);
 const actorKey = (eventId, actorId) => `historical:${eventId}:${actorId}`;
 
+export function historicalReplyText(actor, response) {
+  return [actor?.lines?.[1], response?.reactionKo].filter(Boolean).join('\n\n');
+}
+
 export function historicalParticipantGuide(scene, actorId, activeSession = {}) {
   const actor = scene?.actors?.find(person => person.id === actorId);
   if (!actor) return null;
   const objective = scene.objectives?.find(item => item.id === actor.objectiveId);
   const actions = (scene.fieldActions ?? []).filter(item => item.objectiveId === actor.objectiveId);
   const ownAction = actions.find(item => item.requiredActorId === actor.id);
+  const involvedAction = actions.find(item => item.gatherActorIds?.includes(actor.id)
+    && !activeSession.actionOutcomes?.[item.id]);
   const pendingAction = actions.find(item => !activeSession.actionOutcomes?.[item.id]);
-  const action = ownAction && !activeSession.actionOutcomes?.[ownAction.id] ? ownAction : pendingAction ?? ownAction ?? actions[0];
+  const action = ownAction && !activeSession.actionOutcomes?.[ownAction.id]
+    ? ownAction : involvedAction ?? pendingAction ?? ownAction ?? actions[0];
   const partners = (scene.actors ?? []).filter(person => person.objectiveId === actor.objectiveId && person.id !== actor.id);
   const partnerIds = partners.map(person => person.id);
   const fallbackIds = (action?.gatherActorIds ?? []).filter(id => id !== actor.id);
@@ -21,13 +28,20 @@ export function historicalParticipantGuide(scene, actorId, activeSession = {}) {
     return person.mapId === action?.mapId || !zone ? person.nameKo : `${person.nameKo} · ${zone}`;
   }).filter(Boolean))].slice(0, 3);
   const mapIndex = action ? scene.maps.indexOf(action.mapId) : -1;
+  const placeKo = mapIndex >= 0 ? scene.zoneTitlesKo?.[mapIndex] ?? action.mapId : actor.mapId;
+  const firstContactKo = talkToNamesKo[0]?.split(' · ')[0] ?? '현장 인물';
   return {
     actorNameKo: actor.nameKo,
     objectiveTitleKo: objective?.titleKo ?? actor.introductionKo ?? actor.lines?.[0] ?? '현장 사람들과 이야기를 나눈다',
     actionKo: objective?.actionKo ?? '가까운 사람에게 오늘 일을 물어본다',
     talkToNamesKo,
     propKo: action?.propKo ?? '주변 사람과 이야기',
-    placeKo: mapIndex >= 0 ? scene.zoneTitlesKo?.[mapIndex] ?? action.mapId : actor.mapId,
+    placeKo,
+    questStepsKo: [
+      `${placeKo}로 간다`,
+      `${firstContactKo}에게 말 건다`,
+      `${action?.propKo ?? '주변 사람'}에서 ${action?.promptKo ?? objective?.actionKo ?? '맡은 일을 처리한다'}`,
+    ],
     requiredActorNameKo: action?.requiredActorId
       ? scene.actors.find(person => person.id === action.requiredActorId)?.nameKo ?? null : null,
     completed: Boolean(activeSession.completedObjectives?.includes(actor.objectiveId)),
@@ -53,7 +67,7 @@ export function beginHistoricalSession(campaignState, event, maps, cards) {
     const id = actorKey(event.id, actor.id), card = clone(templateCard), host = clone(templateHost);
     card.id = id; card.displayNameKo = actor.nameKo; card.kind = 'FICTIONAL';
     card.eraProfile = null;
-    card.occupation = actor.occupationKo ?? '현장에 모인 사람';
+    card.occupation = actor.occupationKo ?? templateCard.occupation ?? '현장 인물';
     card.personalObjective = actor.introductionKo ?? actor.lines?.[0] ?? '사람들과 오늘의 일을 의논한다';
     const allowedMaps = event.mapIds ?? [event.entryMapId];
     card.allowedMaps = [...new Set([...(card.allowedMaps ?? []), ...allowedMaps])];

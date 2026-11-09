@@ -9,7 +9,7 @@ import { ownsKeyboardInput, observationText } from './engine/player-presentation
 import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHost, discussionReflectionPromptsForHost } from './engine/discussion-quests.mjs';
 import { dialogueSessionNeedsReconnect, dialogueSpeakerLabel, mayOfferDiscussionPrompt, selectDialogueTurn } from './engine/dialogue-response.mjs';
 import { dialogueSceneContext } from './engine/dialogue-context.mjs';
-import { advanceHistoricalSessionTime, beginHistoricalSession, canConcludeHistoricalSession, exitHistoricalSession, historicalParticipantGuide, performHistoricalAction, recordHistoricalChoice } from './engine/historical-session.mjs';
+import { advanceHistoricalSessionTime, beginHistoricalSession, canConcludeHistoricalSession, exitHistoricalSession, historicalParticipantGuide, historicalReplyText, performHistoricalAction, recordHistoricalChoice } from './engine/historical-session.mjs';
 import { buildHistoricalSceneLayout } from './engine/historical-scene-layout.mjs';
 import { appendApiDiagnostic, clearApiDiagnostics, readApiDiagnostics } from './engine/api-diagnostics.mjs';
 import { CITY_PRODUCTS, NEWSPAPER_STORIES, newspaperAssignment, purchaseCityProduct, publishNewspaperIssue, shareSourceWithEditor, readNewspaperIssue, circulateNewspaperIssue, commitSuspiciousAct, resolvePoliceCustody, publishedIssueLabel } from './engine/civic-life.mjs';
@@ -489,7 +489,7 @@ function updateHud() {
           const roles = (scene?.fieldActions ?? []).filter(action => action.requiredActorId && state.historicalSession.actionOutcomes?.[action.id]).length;
           const progress = `대화 ${Math.min(state.historicalSession.spokenActorIds?.length ?? 0, req.spokenActors)}/${req.spokenActors} · 현장 일 ${Math.min(state.historicalSession.completedObjectives?.length ?? 0, req.completedObjectives)}/${req.completedObjectives} · 역할 ${Math.min(roles, req.requiredRoleActions)}/${req.requiredRoleActions} · 구역 ${state.historicalSession.visitedMapIds?.length ?? 0}/3`;
           return activeHistoricalGuide ? `말 걸 사람 · ${activeHistoricalGuide.talkToNamesKo.join(' · ') || '주변 인물'} · ${progress}` : progress; })(),
-        howKo: activeHistoricalGuide ? `${activeHistoricalGuide.completed ? '완료' : `할 일 · ${activeHistoricalGuide.propKo}`} · ${activeHistoricalGuide.placeKo}${activeHistoricalGuide.requiredActorNameKo && activeHistoricalGuide.requiredActorNameKo !== host.displayNameKo ? ` · ${activeHistoricalGuide.requiredActorNameKo}로 맡기` : ''}`
+        howKo: activeHistoricalGuide ? `${activeHistoricalGuide.completed ? '완료' : '다음 순서'} · ${(activeHistoricalGuide.questStepsKo ?? []).join(' → ')}${activeHistoricalGuide.requiredActorNameKo && activeHistoricalGuide.requiredActorNameKo !== host.displayNameKo ? ` · ${activeHistoricalGuide.requiredActorNameKo}로 맡기` : ''}`
           : '가까이 가서 말 걸기 · 인물 목록에서 시야 바꾸기 · 출구를 따라 다음 구역으로 걷기', target: null,
         progress: { completedSteps: state.historicalSession.completedObjectives?.length ?? 0, totalSteps: historicalSceneForState()?.conclusionRequirements?.completedObjectives ?? 5 }, blocked: false }
     : inLiteraryScene
@@ -1153,7 +1153,7 @@ function resolveHistoricalConversation(scene, person, response) {
     { label: '현장을 나간다', subcopy: '원래 자리로 돌아갑니다', run: () => leaveHistoricalSession(false) },
   ];
   const actionHint = scene.fieldActions.find(action => action.objectiveId === person.objectiveId && !next.historicalSession.actionOutcomes?.[action.id]);
-  const reaction = response.reactionKo ?? '그 사람은 고개를 끄덕이고 현장으로 돌아갔다.';
+  const reaction = historicalReplyText(person, response) || '그 사람은 고개를 끄덕이고 현장으로 돌아갔다.';
   const nextHint = response.stance === 'defer' ? '조금 더 돌아본 뒤 판단을 바꿀 수 있다.'
     : actionHint ? `이제 ${actionHint.propKo} 곁에서 실제로 처리할 수 있다.` : '다른 현장 일을 이어서 살펴보자.';
   say(person.nameKo, `${reaction}\n\n${nextHint}\n\n현장에 ${next.historicalSession.elapsedMinutes}분이 흘렀다.${unlocked ? '\n\n세 구역을 돌고 사람들의 부탁을 맡았다. 이제 오늘 현장에서 무엇을 먼저 할지 고를 수 있다.' : ''}`, actions);
@@ -1717,11 +1717,11 @@ function openCharacterList() {
     const name = document.createElement('strong'); name.textContent = card.displayNameKo;
     const occupation = document.createElement('span'); occupation.textContent = card.occupation;
     const introduction = document.createElement('span'); introduction.className = 'roster-card-intro';
-    introduction.textContent = guide ? `목표 · ${guide.objectiveTitleKo}` : card.personalObjective;
+    introduction.textContent = guide ? `의뢰 · ${guide.objectiveTitleKo}` : card.personalObjective;
     const current = document.createElement('small'); current.textContent = guide
       ? `말 걸 사람 · ${guide.talkToNamesKo.join(' · ') || '주변 인물'}` : `지금 · ${activity}`;
     const task = document.createElement('small'); task.className = 'roster-card-task';
-    task.textContent = guide ? `${guide.completed ? '완료' : '할 일'} · ${guide.actionKo} · ${guide.propKo} · ${guide.placeKo}${guide.requiredActorNameKo ? ` · 담당 ${guide.requiredActorNameKo}` : ''}` : '';
+    task.textContent = guide ? `${guide.completed ? '완료' : '순서'} · ${(guide.questStepsKo ?? []).join(' → ')}${guide.requiredActorNameKo ? ` · 담당 ${guide.requiredActorNameKo}` : ''}` : '';
     const place = document.createElement('small'); place.className = 'roster-card-place';
     place.textContent = maps[host.mapId].metadata.displayNameKo;
     copy.append(name, occupation, introduction, current);

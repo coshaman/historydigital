@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { historicalConversationChoices } from '../rpg/data/historical-conversation-choices.mjs';
+import { historicalReplyText } from '../rpg/engine/historical-session.mjs';
 import { readFile } from 'node:fs/promises';
 
 const scenes = JSON.parse(await readFile(new URL('../rpg/data/historical-scene-play.json', import.meta.url), 'utf8')).events;
@@ -16,5 +17,10 @@ for (const scene of scenes) {
       assert.ok(!/같이 해결할 방법|다른 사람의 생각도 듣고 정한다|이야기를 듣고 자리를 옮긴다/.test(option.labelKo));
     }
   }
+  const speaker = scene.actors[0];
+  const option = historicalConversationChoices(data, scene.eventId, speaker.objectiveId)[0];
+  const reply = historicalReplyText(speaker, option);
+  assert.ok(reply.startsWith(speaker.lines[1]), `${scene.eventId}/${speaker.id} answers in their own authored voice`);
+  assert.ok(reply.includes(option.reactionKo), `${scene.eventId}/${speaker.id} choice still moves the group scene`);
 }
 console.log('Historical conversations expose distinct event-specific judgments for every field objective.');
