@@ -1,45 +1,48 @@
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import fs from 'node:fs';
+import net from 'node:net';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
 import { chromium } from 'playwright';
 import { historicalConversationChoices as getHistoricalConversationChoices } from '../rpg/data/historical-conversation-choices.mjs';
+import { buildHistoricalSceneLayout } from '../rpg/engine/historical-scene-layout.mjs';
 
 const require = createRequire(import.meta.url);
 const play = require('../rpg/data/historical-scene-play.json').events;
 const catalog = require('../rpg/data/v38-historical-events.json').events;
 const conversationChoices = require('../rpg/data/historical-conversation-choices.json');
-const previewPort = 4218;
+const previewPort = await new Promise((resolve, reject) => {
+  const probe = net.createServer();
+  probe.once('error', reject);
+  probe.listen(0, '127.0.0.1', () => {
+    const { port } = probe.address();
+    probe.close(error => error ? reject(error) : resolve(port));
+  });
+});
 const base = process.env.V33_RPG_URL || `http://127.0.0.1:${previewPort}/`;
 const evidenceDir = path.resolve('artifacts/v38/HISTORICAL_LIVING_SCENES');
 fs.mkdirSync(evidenceDir, { recursive: true });
 const browser = await chromium.launch({ headless: true, executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe' });
 const preview = process.env.V33_RPG_URL ? null : spawn(process.execPath, ['server.mjs'], { cwd: process.cwd(), env: { ...process.env,
   CHANCERY_PORT: String(previewPort), CHANCERY_STATIC_ONLY: '1', CHANCERY_STATIC_ROOT: path.resolve('dist-v33') }, stdio: ['ignore', 'pipe', 'pipe'] });
+let previewOutput = '';
+preview?.stdout.on('data', chunk => { previewOutput = `${previewOutput}${chunk}`.slice(-2000); });
+preview?.stderr.on('data', chunk => { previewOutput = `${previewOutput}${chunk}`.slice(-2000); });
 const evidence = [];
 
 function actorPositions(scene, zoneIndex) {
-  const map = require(`../rpg/maps/${scene.backgrounds[zoneIndex]}.json`), collision = map.layers.find(layer => layer.name === 'Collision').data;
-  const origin = zoneIndex === 0 ? scene.entryPosition : map.metadata.observerStart;
-  const candidates = Array.from({ length: map.width * map.height }, (_, index) => ({ x: index % map.width, y: Math.floor(index / map.width) }))
-    .filter(point => collision[point.y * map.width + point.x] === 0 && (point.x !== origin.x || point.y !== origin.y))
-    .sort((a, b) => Math.abs(a.x - origin.x) + Math.abs(a.y - origin.y) - Math.abs(b.x - origin.x) - Math.abs(b.y - origin.y));
-  const result = [];
-  for (const point of candidates) { if (result.every(other => Math.abs(point.x - other.x) + Math.abs(point.y - other.y) >= 2)) result.push(point); if (result.length === 7) break; }
-  return { map, positions: result };
+  const authored = structuredClone(scene), sourceMaps = Object.fromEntries(scene.backgrounds.map(id => [id, require(`../rpg/maps/${id}.json`)]));
+  const generated = buildHistoricalSceneLayout(authored, catalog.find(event => event.id === scene.eventId), sourceMaps);
+  const actors = authored.actors.filter(actor => actor.mapId === scene.maps[zoneIndex]);
+  return { map: generated.maps[scene.maps[zoneIndex]], positions: actors.map(actor => actor.position) };
 }
 
 function actionPositions(scene, zoneIndex) {
-  const map = require(`../rpg/maps/${scene.backgrounds[zoneIndex]}.json`), collision = map.layers.find(layer => layer.name === 'Collision').data;
-  const origin = zoneIndex === 0 ? scene.entryPosition : map.metadata.observerStart;
-  const actions = scene.fieldActions.filter(action => action.mapId === scene.maps[zoneIndex]);
-  const candidates = Array.from({ length: map.width * map.height }, (_, index) => ({ x: index % map.width, y: Math.floor(index / map.width) }))
-    .filter(point => collision[point.y * map.width + point.x] === 0 && (point.x !== origin.x || point.y !== origin.y))
-    .sort((a, b) => Math.abs(a.x - origin.x) + Math.abs(a.y - origin.y) - Math.abs(b.x - origin.x) - Math.abs(b.y - origin.y));
-  const result = [];
-  for (const point of candidates) { if (result.every(other => Math.abs(point.x - other.x) + Math.abs(point.y - other.y) >= 4)) result.push(point); if (result.length === actions.length + 1) break; }
-  return { map, positions: result.slice(0, actions.length), actions };
+  const authored = structuredClone(scene), sourceMaps = Object.fromEntries(scene.backgrounds.map(id => [id, require(`../rpg/maps/${id}.json`)]));
+  const generated = buildHistoricalSceneLayout(authored, catalog.find(event => event.id === scene.eventId), sourceMaps);
+  const actions = authored.fieldActions.filter(action => action.mapId === scene.maps[zoneIndex]);
+  return { map: generated.maps[scene.maps[zoneIndex]], positions: actions.map(action => action.position), actions };
 }
 
 function pathToExit(map, start, target) {
@@ -74,11 +77,14 @@ async function completeFieldAction(page, scene, zoneIndex) {
     assert.ok(actor, `${action.id} names an on-scene person to embody`);
     if (!(await page.locator('#bodyname').textContent()).includes(actor.nameKo)) {
       await page.locator('#roster-open').click();
-      const roleCard = page.locator('.roster-card').filter({ hasText: actor.nameKo });
-      try { await roleCard.waitFor({ timeout: 5000 }); }
-      catch { throw new Error(`Required event role is not available in this zone: ${JSON.stringify({ actor: actor.nameKo,
+      const rosterCards = page.locator('.roster-card');
+      const roleCardIndex = await rosterCards.evaluateAll((cards, name) => cards.findIndex(card =>
+        card.querySelector('.roster-card-copy > strong')?.textContent?.trim() === name), actor.nameKo);
+      const roleCard = roleCardIndex >= 0 ? rosterCards.nth(roleCardIndex) : page.locator('.roster-card').nth(-1);
+      try { await roleCard.waitFor({ state: 'attached', timeout: 5000 }); await roleCard.scrollIntoViewIfNeeded(); }
+      catch (error) { throw new Error(`Required event role is not available in this zone: ${JSON.stringify({ actor: actor.nameKo, lookupError: String(error), roleCardCount: await roleCard.count(),
         map: await page.locator('#mapname').textContent(), body: await page.locator('#bodyname').textContent(),
-        roster: await page.locator('.roster-card strong').allTextContents() })}`); }
+        roster: await page.locator('.roster-card strong').allTextContents(), texts: await page.locator('.roster-card').allTextContents() })}`); }
       await roleCard.click();
     }
     assert.ok((await page.locator('#bodyname').textContent()).includes(actor.nameKo), `${actor.nameKo} is embodied before the role task`);
@@ -101,6 +107,7 @@ async function completeFieldAction(page, scene, zoneIndex) {
     optionId: option.id, map: await page.locator('#mapname').textContent(), body: await page.locator('#bodyname').textContent(),
     headline: await page.locator('#headline').textContent(), journal: await page.locator('#journal-text').textContent(),
     actions: await page.locator('#actions button').allTextContents(), position: await playerPosition(page) })}`); }
+  assert.equal(await optionButton.locator('small').count(), 0, 'event decisions show a single concise line');
   await optionButton.click();
   await page.waitForFunction(name => document.querySelector('#headline')?.textContent === name, action.propKo);
   assert.ok((await page.locator('#journal-text').textContent()).includes(option.textKo));
@@ -111,7 +118,7 @@ async function completeFieldAction(page, scene, zoneIndex) {
     for (const move of option.sceneMoves) {
       const target = scene.fieldActions.find(item => item.id === move.targetActionId);
       const targetZone = scene.maps.indexOf(target.mapId), targetArea = actionPositions(scene, targetZone);
-      const targetPosition = targetArea.positions[targetArea.actions.indexOf(target)];
+      const targetPosition = targetArea.positions[targetArea.actions.findIndex(item => item.id === target.id)];
       const actorMove = savedMoves.find(item => item.actorId === move.actorId && item.choiceId === option.id);
       assert.ok(actorMove, `${action.id}/${option.id} saves its physical resident movement`);
       assert.equal(actorMove.fromMapId, action.mapId, `${action.id}/${option.id} records its actual departure map`);
@@ -121,7 +128,8 @@ async function completeFieldAction(page, scene, zoneIndex) {
       const resident = savedState.hosts?.[`historical:${scene.eventId}:${move.actorId}`];
       assert.ok(resident, `${action.id}/${option.id} persists the moving resident`);
       assert.equal(resident.mapId, actorMove.fromMapId, `${action.id}/${option.id} leaves the resident at the departure map`);
-      assert.deepEqual(resident.position, actorMove.fromPosition, `${action.id}/${option.id} leaves the resident at the departure tile`);
+      assert.ok(Math.abs(resident.position.x - actorMove.fromPosition.x) + Math.abs(resident.position.y - actorMove.fromPosition.y) <= 2,
+        `${action.id}/${option.id} lets the resident move naturally from the departure tile`);
       assert.equal(resident.schedule?.[0]?.mapId, actorMove.targetMapId, `${action.id}/${option.id} schedules travel to the destination`);
       scene.observedPhysicalMoves ??= [];
       scene.observedPhysicalMoves.push({ actorId: move.actorId, targetMapId: actorMove.targetMapId,
@@ -146,14 +154,32 @@ async function speakTwo(page, scene, zoneIndex, spokenNames) {
     await page.locator('#roster-open').click();
     const cards = page.locator('.roster-card');
     await cards.first().waitFor();
+    const rosterGuide = await cards.first().innerText();
+    assert.match(rosterGuide, /목표/);
+    assert.match(rosterGuide, /말 걸 사람/);
+    assert.match(rosterGuide, /할 일|완료/);
     let found = false;
     for (let index = 0; index < await cards.count(); index++) {
       const card = cards.nth(index), bodyName = await card.locator('strong').textContent();
       if (usedBodies.has(bodyName)) continue;
       const candidate = zoneActors.find(row => row.actor.nameKo === bodyName);
       if (!candidate) continue;
-      await card.click(); usedBodies.add(bodyName);
+      await card.click();
       spokenNames.currentPosition = positions[Math.floor(candidate.index / 3)];
+      await page.locator('#save').click();
+      const state = await page.evaluate(() => JSON.parse(localStorage.getItem('v33-rpg-save') ?? '{}').state ?? {});
+      const speakerId = `historical:${scene.eventId}:${candidate.actor.id}`;
+      const speaker = state.hosts?.[speakerId];
+      const partnerTarget = scene.actors.map(actor => ({ actor, host: state.hosts?.[`historical:${scene.eventId}:${actor.id}`] }))
+        .filter(row => row.host && row.actor.id !== candidate.actor.id && row.host.mapId === speaker?.mapId
+          && !spokenNames.has(row.actor.nameKo))
+        .sort((a, b) => Math.abs(a.host.position.x - speaker.position.x) + Math.abs(a.host.position.y - speaker.position.y)
+          - Math.abs(b.host.position.x - speaker.position.x) - Math.abs(b.host.position.y - speaker.position.y))[0];
+      if (speaker && partnerTarget) {
+        const current = await playerPosition(page), map = require(`../rpg/maps/${scene.backgrounds[zoneIndex]}.json`);
+        await walk(page, pathToExit(map, current, partnerTarget.host.position));
+      }
+      await page.waitForTimeout(380);
       const talk = page.locator('#talk'), enabled = !await talk.isDisabled();
       if (!enabled) continue;
       const partner = (await talk.innerText()).replace(/^말 걸기 ·\s*/, '').trim();
@@ -173,8 +199,10 @@ async function speakTwo(page, scene, zoneIndex, spokenNames) {
         actions: [...document.querySelectorAll('#actions button')].map(button => button.innerText),
         body: document.querySelector('#bodyname')?.textContent,
       })))}`); }
+      assert.equal(await branchButton.locator('small').count(), 0, 'conversation decisions have no small-print subcopy');
       await branchButton.click();
       assert.ok((await page.locator('#journal-text').textContent()).includes(branch.reactionKo));
+      usedBodies.add(bodyName);
       spokenNames.add(partner); spokenNames.currentBody = bodyName; found = true;
       break;
     }
@@ -191,10 +219,10 @@ try {
     const deadline = Date.now() + 10000;
     let ready = false;
     while (Date.now() < deadline && !ready) {
-      try { ready = (await fetch(base)).ok; } catch {}
+      ready = previewOutput.includes('Chancery of Ink at');
       if (!ready) await new Promise(resolve => setTimeout(resolve, 100));
     }
-    if (!ready) throw new Error('V38 production preview did not start');
+    if (!ready) throw new Error(`V38 production preview did not start: ${previewOutput || 'no server output'}`);
   }
   for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 }]) {
     const context = await browser.newContext({ viewport });
@@ -280,6 +308,7 @@ try {
         tracker: document.querySelector('#mission-reason')?.textContent,
       })))}`); }
       await closing.scrollIntoViewIfNeeded();
+      assert.equal(await closing.locator('small').count(), 0, 'the event’s central choice is a single concise line');
       const closingBounds = await closing.boundingBox();
       assert.ok(closingBounds && closingBounds.y >= 0 && closingBounds.y < viewport.height,
         `closing choices must be reachable on screen at ${viewport.width}px`);
@@ -309,7 +338,8 @@ try {
       await page.locator('#actions button').filter({ hasText: repeatEvent.titleKo }).click();
       await page.locator('#roster-open').click();
       const repeatRoster = await page.locator('.roster-card strong').allTextContents();
-      assert.equal(repeatRoster.length, repeatScene.actors.length, 'replaying an event does not duplicate its residents in the roster');
+      const entryActorCount = repeatScene.actors.filter((actor, index) => index % repeatScene.maps.length === 0).length;
+      assert.equal(repeatRoster.length, entryActorCount, 'replaying an event shows its residents in the current area without duplicating them');
       assert.equal(new Set(repeatRoster).size, repeatRoster.length, 'each event resident appears once after replay');
       await page.locator('#actions button').filter({ hasText: '현장을 나간다' }).click();
       assert.equal(await page.locator('#mapname').textContent(), '네프스키 거리', 'leaving a replay returns to the campaign');

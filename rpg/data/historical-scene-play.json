@@ -25,12 +25,12 @@
       "startMinute": 600,
       "actors": [
         {
-          "id": "cobbler",
-          "templateId": "clerk_alexei",
-          "nameKo": "구두장이 미하일",
+          "id": "coachman",
+          "templateId": "carter_roman",
+          "nameKo": "마차꾼 로만",
           "lines": [
-            "방금은 선서하러 간다더니, 왜 저 병사들은 반대쪽으로 가요?",
-            "가게는 닫겠소. 식구부터 강 쪽으로 데려가야지."
+            "고삐가 말을 안 들어요. 군중 쪽으로 틀면 사람부터 다칩니다.",
+            "비켜 주시오. 수레를 강변길로 빼겠소."
           ],
           "objectiveId": "guide_civilians"
         },
@@ -39,18 +39,18 @@
           "templateId": "junior_guard_sergey",
           "nameKo": "근위병 세르게이",
           "lines": [
-            "대열 앞을 막지 마십시오. 지휘관의 명령을 기다리고 있습니다.",
-            "저도 지금 들은 명령만 압니다. 길을 비우고 물러나 주십시오."
+            "대열 앞에서 물러나십시오. 아직 지휘관의 명령이 없습니다.",
+            "저도 들은 것 이상은 모릅니다. 통로부터 비워 주십시오."
           ],
           "objectiveId": "clarify_orders"
         },
         {
-          "id": "coachman",
-          "templateId": "carter_roman",
-          "nameKo": "마차꾼 로만",
+          "id": "cobbler",
+          "templateId": "clerk_alexei",
+          "nameKo": "구두장이 미하일",
           "lines": [
-            "이 말, 더는 못 붙들겠소. 사람 쪽으로 뛰면 큰일이오.",
-            "앞길만 터 주시오. 수레는 강변으로 돌리겠소."
+            "아까는 선서하러 간다더니, 저 병사들은 왜 총을 겨누고 있죠?",
+            "가게는 닫겠소. 가족부터 강 쪽으로 데려가야겠소."
           ],
           "objectiveId": "guide_civilians"
         },
@@ -59,8 +59,8 @@
           "templateId": "scribal_yuri",
           "nameKo": "필사원 유리",
           "lines": [
-            "장교가 읽은 건 들었습니다. 다만 병사들 귀에 똑같이 들어갔는지는 모르겠군요.",
-            "이 쪽지를 먼저 받은 사람이 누구인지 찾아야겠습니다."
+            "장교가 읽은 말은 들었소. 병사들도 같은 말을 들었는지는 모르겠군.",
+            "봉투를 누가 먼저 받았는지부터 찾아봅시다."
           ],
           "objectiveId": "follow_order_route"
         },
@@ -69,8 +69,8 @@
           "templateId": "fishseller_klavdiya",
           "nameKo": "생선 장수 클라브디야",
           "lines": [
-            "저 강 쪽으로 가면 빠져나갈 수 있어요? 아이 손을 놓치겠어요.",
-            "대열이 더 오기 전에 골목으로 갑시다. 내가 길은 알아요."
+            "강 쪽으로 가면 빠져나갈 수 있나요? 아이 손을 놓치겠어요!",
+            "더 몰려오기 전에 골목으로 갑시다. 이 근방은 내가 잘 알아요."
           ],
           "objectiveId": "guide_civilians"
         },
@@ -261,20 +261,17 @@
       "choices": [
         {
           "id": "open_route",
-          "label": "강변 골목을 피난길로 열어 둔다",
-          "directionKo": "마차꾼과 세탁부가 사람들을 이끕니다 · 광장 양쪽에서 보입니다 · 군중이 길목에 몰릴 수 있습니다",
+          "label": "광장을 비우고 주민을 강변으로 이끈다",
           "textKo": "세탁부와 마차꾼에게 강변 골목을 피난길로 맡겼다"
         },
         {
           "id": "carry_order",
-          "label": "병사 일부를 들것과 피난에 보낸다",
-          "directionKo": "하사와 근위병들이 압니다 · 부상자와 주민을 돕습니다 · 지휘가 약해졌다는 문책을 감수합니다",
+          "label": "명령을 거슬러 병사들을 민간인 곁에 보낸다",
           "textKo": "하사에게 병사 일부를 민간인과 부상자 지원에 보내도록 했다"
         },
         {
           "id": "shelter_people",
-          "label": "안뜰 문을 열어 가족을 숨긴다",
-          "directionKo": "집주인과 피신한 가족이 압니다 · 당장의 위험에서 벗어납니다 · 병사들이 집을 찾을 수 있습니다",
+          "label": "안뜰 문을 열어 피난처로 내준다",
           "textKo": "하숙집 안뜰을 열어 가족들을 잠시 숨겼다"
         }
       ],
@@ -319,13 +316,14 @@
           ],
           "groupEncounter": true,
           "gatherActorIds": [
-            "cobbler",
+            "coachman",
             "copyist",
             "laundress",
             "widow",
             "baker",
             "bread_carrier"
-          ]
+          ],
+          "durationMinutes": 3
         },
         {
           "id": "senate-order-post",
@@ -355,7 +353,8 @@
                 "risk": "misdirection"
               }
             }
-          ]
+          ],
+          "durationMinutes": 4
         },
         {
           "id": "senate-square-bandage",
@@ -385,7 +384,8 @@
                 "crowd": "wait"
               }
             }
-          ]
+          ],
+          "durationMinutes": 4
         },
         {
           "id": "senate-square-dispatch",
@@ -425,7 +425,8 @@
             "messenger",
             "servant",
             "medical_runner"
-          ]
+          ],
+          "durationMinutes": 3
         },
         {
           "id": "senate-river-gate",
@@ -455,7 +456,8 @@
                 "crowdRoute": "lane"
               }
             }
-          ]
+          ],
+          "durationMinutes": 4
         },
         {
           "id": "senate-river-lane",
@@ -489,13 +491,14 @@
           ],
           "groupEncounter": true,
           "gatherActorIds": [
-            "coachman",
+            "cobbler",
             "medical_student",
             "veteran",
             "apothecary",
             "warehouseman",
             "courtyard_keeper"
-          ]
+          ],
+          "durationMinutes": 3
         },
         {
           "id": "senate-approach-family-load",
@@ -505,14 +508,12 @@
           "propKo": "빵과 담요가 든 수레",
           "promptKo": "짐꾼은 남은 가게 물품을 가족들에게 나눌 수 있지만, 어느 골목으로 옮길지 기다리고 있습니다.",
           "gatherActorIds": [
-            "cobbler",
+            "coachman",
             "copyist",
             "laundress",
             "widow",
             "baker",
-            "bread_carrier",
-            "coachman",
-            "fishseller"
+            "bread_carrier"
           ],
           "options": [
             {
@@ -536,7 +537,8 @@
               "groupReactionKo": "로만이 수레를 강변 쪽에 세우고 클라브디야는 아이들 몫을 따로 표시합니다. 짐이 한데 모여 길은 좁아지지만 잃어버릴 염려는 줄었습니다."
             }
           ],
-          "groupEncounter": true
+          "groupEncounter": true,
+          "durationMinutes": 4
         },
         {
           "id": "senate-square-aid-line",
@@ -551,9 +553,7 @@
             "student",
             "messenger",
             "servant",
-            "medical_runner",
-            "medical_student",
-            "veteran"
+            "medical_runner"
           ],
           "options": [
             {
@@ -577,7 +577,8 @@
               "groupReactionKo": "산파 다리야  아이를 혼자 보내지 마세요. 보호자와 함께 걷게 해요.\n근위병 세르게이  길이 열리면 다음 들것을 통과시키겠습니다."
             }
           ],
-          "groupEncounter": true
+          "groupEncounter": true,
+          "durationMinutes": 4
         },
         {
           "id": "senate-river-shelter-roll",
@@ -587,14 +588,12 @@
           "propKo": "안뜰 문에 걸린 명단판",
           "promptKo": "사람들이 안뜰 문 앞에서 기다립니다. 문을 열지, 세든 가족만 받을지 집주인이 결정을 기다립니다.",
           "gatherActorIds": [
-            "coachman",
+            "cobbler",
             "medical_student",
             "veteran",
             "apothecary",
             "warehouseman",
-            "courtyard_keeper",
-            "widow",
-            "servant"
+            "courtyard_keeper"
           ],
           "options": [
             {
@@ -623,13 +622,15 @@
               "groupReactionKo": "하숙집 주인 마트료나  문은 닫겠습니다. 대신 길을 알려 드리죠.\n강변 창고지기 표트르  뒤쪽 골목은 수레가 못 갑니다. 걸어서 가야 해요."
             }
           ],
-          "groupEncounter": true
+          "groupEncounter": true,
+          "durationMinutes": 4
         }
       ],
       "conclusionRequirements": {
         "spokenActors": 12,
         "completedObjectives": 7,
-        "requiredRoleActions": 6
+        "requiredRoleActions": 6,
+        "minimumElapsedMinutes": 24
       }
     },
     {
@@ -750,8 +751,8 @@
           "templateId": "reader_darya",
           "nameKo": "관객 다리야",
           "lines": [
-            "웃긴 건 맞는데, 왜인지 웃고 나니 속이 편치 않네요.",
-            "친구는 재미있었다는데 난 객석의 관리들 얼굴이 자꾸 떠올라요."
+            "웃긴 장면이었어요. 그런데 웃고 나니까 객석이 더 신경 쓰이네요.",
+            "친구는 통쾌했다는데, 나는 옆자리 관리 얼굴만 떠올라요."
           ],
           "objectiveId": "audience_reaction"
         },
@@ -771,8 +772,8 @@
           "nameKo": "관객 중 관청 서기 콘스탄틴",
           "objectiveId": "audience_reaction",
           "lines": [
-            "웃음이 났다고 모두가 같은 뜻으로 웃은 건 아닙니다. 제 옆 사람은 내내 얼굴을 굳히더군요.",
-            "공연 얘기를 하려면 어느 장면인지 먼저 말합시다. 소문만으로는 판단하기 어렵소."
+            "객석에선 웃음이 났습니다. 제 옆자리는 끝까지 웃지 않더군요.",
+            "어느 장면이었는지부터 말씀하시죠. 공연을 보지도 않은 사람 말까지 보탤 필요는 없소."
           ]
         },
         {
@@ -791,8 +792,8 @@
           "nameKo": "극장 앞 과자 장수 표도르",
           "objectiveId": "audience_reaction",
           "lines": [
-            "막이 오르기 전엔 다들 웃을 준비를 하더니, 끝나고는 서로 눈치를 보더군요.",
-            "학생들은 대사를 흉내 내고 관리들은 서둘러 마차를 찾았소."
+            "막 오르기 전엔 웃을 준비가 다 된 얼굴이더니, 끝나고는 서로 표정만 살피더군요.",
+            "학생들은 대사를 따라 하고, 관리들은 마차부터 찾았소."
           ]
         },
         {
@@ -892,20 +893,17 @@
       "choices": [
         {
           "id": "publish_reactions",
-          "label": "배우를 무대로 불러 관객과 이야기를 잇는다",
-          "directionKo": "배우와 객석 전체가 함께합니다 · 극장 안에 목소리가 퍼집니다 · 출연진이 즉석 질문을 감당해야 합니다",
+          "label": "배우를 무대에 세워 관객의 질문을 받는다",
           "textKo": "공연 뒤 배우를 무대로 불러 관객과 작품 이야기를 나누게 했다"
         },
         {
           "id": "protect_performers",
-          "label": "마차와 관객을 나눠 출연진부터 내보낸다",
-          "directionKo": "안내원과 출연진이 압니다 · 무대 뒤 통로를 비웁니다 · 관객의 항의와 늦은 마차를 감수합니다",
+          "label": "출연진을 먼저 내보내고 극장을 닫는다",
           "textKo": "관객 줄과 마차를 갈라 출연진이 먼저 극장을 나가게 했다"
         },
         {
           "id": "compare_play",
-          "label": "학생·관리·상인을 한 자리에 남겨 평을 듣는다",
-          "directionKo": "서로 다른 관객이 직접 마주 앉습니다 · 극장 안에서 공개 대화가 이어집니다 · 말다툼을 중재해야 합니다",
+          "label": "학생과 관리 앞에서 공연의 뜻을 묻는다",
           "textKo": "학생과 관리, 상인을 남겨 공연의 어느 대목이 불편했는지 함께 들었다"
         }
       ],
@@ -950,7 +948,8 @@
             "reader",
             "lodger",
             "ticket_broker"
-          ]
+          ],
+          "durationMinutes": 4
         },
         {
           "id": "inspector-entry-ticket-board",
@@ -979,7 +978,8 @@
                 "reactions": "uncompared"
               }
             }
-          ]
+          ],
+          "durationMinutes": 2
         },
         {
           "id": "inspector-lobby-costume-box",
@@ -1009,7 +1009,8 @@
                 "risk": "wardrobe"
               }
             }
-          ]
+          ],
+          "durationMinutes": 2
         },
         {
           "id": "inspector-lobby-script-copy",
@@ -1050,7 +1051,8 @@
             "printer",
             "vendor",
             "backstage_helper"
-          ]
+          ],
+          "durationMinutes": 4
         },
         {
           "id": "inspector-street-carriage-rail",
@@ -1090,7 +1092,8 @@
             "official",
             "porter",
             "street_reader"
-          ]
+          ],
+          "durationMinutes": 3
         },
         {
           "id": "inspector-street-review-notes",
@@ -1120,7 +1123,8 @@
                 "record": "single_view"
               }
             }
-          ]
+          ],
+          "durationMinutes": 4
         },
         {
           "id": "inspector-approach-seat-dispute",
@@ -1135,8 +1139,7 @@
             "critic",
             "reader",
             "lodger",
-            "ticket_broker",
-            "student"
+            "ticket_broker"
           ],
           "options": [
             {
@@ -1160,7 +1163,8 @@
               "groupReactionKo": "학생 바실리  자리를 먼저 잡았다고 표가 맞는 건 아니잖아요.\n안내원 이리나  알겠어요. 입구를 비우고 공연 뒤에 확인하죠."
             }
           ],
-          "groupEncounter": true
+          "groupEncounter": true,
+          "durationMinutes": 4
         },
         {
           "id": "inspector-lobby-company-vote",
@@ -1175,8 +1179,7 @@
             "tailor",
             "printer",
             "vendor",
-            "backstage_helper",
-            "dresser"
+            "backstage_helper"
           ],
           "options": [
             {
@@ -1207,7 +1210,8 @@
               "groupReactionKo": "재봉사 안나  옷은 준비됐어요. 대사는 배우가 정하면 좋겠는데요.\n배우 니콜라이  오늘은 대본대로 하죠. 관객 앞에서 다시 생각하겠습니다."
             }
           ],
-          "groupEncounter": true
+          "groupEncounter": true,
+          "durationMinutes": 4
         },
         {
           "id": "inspector-street-open-forum",
@@ -1222,8 +1226,7 @@
             "carter",
             "official",
             "porter",
-            "street_reader",
-            "critic"
+            "street_reader"
           ],
           "options": [
             {
@@ -1250,13 +1253,15 @@
               "groupReactionKo": "평론가 소피야  오늘은 결론을 적지 않겠어요. 어떤 장면을 말했는지만 남기죠.\n낭독자 파벨  그 정도면 밖에 기다린 사람들에게 전할 수 있겠습니다."
             }
           ],
-          "groupEncounter": true
+          "groupEncounter": true,
+          "durationMinutes": 4
         }
       ],
       "conclusionRequirements": {
         "spokenActors": 12,
         "completedObjectives": 7,
-        "requiredRoleActions": 6
+        "requiredRoleActions": 6,
+        "minimumElapsedMinutes": 24
       }
     },
     {
@@ -1287,8 +1292,8 @@
           "templateId": "typesetter_nikita",
           "nameKo": "식자공 니키타",
           "lines": [
-            "큰 글씨만 읽고 돌아서면 안 돼요. 뒤에 규정이 몇 장 더 붙어 있습니다.",
-            "인쇄본은 왔어요. 선언부터 읽을까요, 농민 관련 조항부터 볼까요?"
+            "제목만 읽고 가면 곤란해요. 땅과 의무는 뒤쪽 조항에 적혀 있어요.",
+            "인쇄본 왔어요. 먼저 선언을 볼까요, 토지 조항부터 읽을까요?"
           ],
           "objectiveId": "read_full_text"
         },
@@ -1297,8 +1302,8 @@
           "templateId": "housemaid_olga",
           "nameKo": "하녀 올가",
           "lines": [
-            "해방 소식은 들었어요. 그런데 오늘 밤 잘 곳은 누가 정해 주나요?",
-            "내일 품삯부터 알아야 해요. 그만둘 수 있는지는 그 다음이고요."
+            "자유가 됐다는데 오늘 밤 잘 방은 누가 구해 주죠?",
+            "내일 품삯부터 정해야 해요. 떠날지는 그다음에 생각할래요."
           ],
           "objectiveId": "read_terms_together"
         },
@@ -1307,8 +1312,8 @@
           "templateId": "watercarrier_luka",
           "nameKo": "퇴역병 루카",
           "lines": [
-            "선언 하나 읽었다고 땅 문제가 끝나는 건 아니오.",
-            "고향 편지에도 공동체에서 정할 일이 남았다고 쓰였소."
+            "선언에 이름을 올렸다고 밭 경계까지 바뀌는 건 아니오.",
+            "고향 편지엔 공동체가 나눌 몫을 정해야 한다고 왔소. 어느 땅인지부터 알아야지."
           ],
           "objectiveId": "land_terms"
         },
@@ -1317,8 +1322,8 @@
           "templateId": "senior_clerk_konstantin",
           "nameKo": "관청 서기 콘스탄틴",
           "lines": [
-            "선언하고 시행 규정은 따로 왔습니다. 어느 집에 뭐가 적용되는지는 한 장만 보고 못 답해요.",
-            "질문을 모아 보내시겠습니까, 아니면 여기서 조항을 다시 읽을까요?"
+            "선언문과 시행 규정은 따로입니다. 한 장만 보고 어느 집에 땅이 가는지 답할 순 없어요.",
+            "질문을 받아 적을까요? 여기서 조항을 다시 읽어도 됩니다."
           ],
           "objectiveId": "petition_questions"
         },
@@ -1357,8 +1362,8 @@
           "templateId": "courier_pavel",
           "nameKo": "심부름꾼 파벨",
           "lines": [
-            "질문을 한데 모으면 오늘 관청으로 가져갈 수 있습니다. 답은 며칠 걸릴지 모르겠지만요.",
-            "이름을 써야 회신이 오기 쉽습니다. 이름 남기기 싫은 분은 따로 말씀해 주세요."
+            "질문을 모아 오늘 관청에 가져가겠소. 답은 바로 안 올 수도 있소.",
+            "회신을 받으려면 이름이 필요합니다. 이름 없이 낼 질문은 따로 모으죠."
           ],
           "objectiveId": "petition_questions"
         },
@@ -1519,20 +1524,17 @@
       "choices": [
         {
           "id": "send_questions",
-          "label": "하녀들과 함께 고용주에게 새 품삯을 요구한다",
-          "directionKo": "하녀·세탁부와 고용주가 마주합니다 · 다음 일주일의 조건을 협상합니다 · 일감을 잃을 위험을 나눠 집니다",
+          "label": "하녀들과 고용주 앞에 서서 조건을 요구한다",
           "textKo": "하녀와 세탁부가 함께 고용주를 찾아가 다음 주 품삯과 잠자리를 요구했다"
         },
         {
           "id": "public_reading",
-          "label": "토지 조항을 읽고 마을 대표를 모은다",
-          "directionKo": "낭독을 들은 주민과 고향 대표들이 참여합니다 · 마을별 사정을 함께 논의합니다 · 결론이 나기까지 오래 걸립니다",
+          "label": "농민 대표를 모아 땅의 몫을 정한다",
           "textKo": "토지 조항을 다시 읽고 마을 대표들을 모아 공동체의 다음 절차를 논의했다"
         },
         {
           "id": "distribute_copies",
-          "label": "관청에 대표단을 보내 적용 조건을 묻는다",
-          "directionKo": "서기와 대표단이 질문을 압니다 · 답변을 요청할 수 있습니다 · 대표로 나선 사람에게 책임이 모입니다",
+          "label": "대표단을 꾸려 관청에 답을 요구한다",
           "textKo": "서기와 함께 대표단을 꾸려 토지와 노동 조건을 관청에 물었다"
         }
       ],
@@ -1577,7 +1579,8 @@
             "tenant",
             "printer",
             "rural-copy-carrier"
-          ]
+          ],
+          "durationMinutes": 4
         },
         {
           "id": "emancipation-street-print-bundle",
@@ -1606,7 +1609,8 @@
                 "questions": "unanswered"
               }
             }
-          ]
+          ],
+          "durationMinutes": 2
         },
         {
           "id": "emancipation-square-wage-board",
@@ -1636,7 +1640,8 @@
                 "lodging": "shared"
               }
             }
-          ]
+          ],
+          "durationMinutes": 4
         },
         {
           "id": "emancipation-square-land-letter",
@@ -1676,7 +1681,8 @@
             "former_servant",
             "midwife",
             "wage_delegate"
-          ]
+          ],
+          "durationMinutes": 3
         },
         {
           "id": "emancipation-lane-question-box",
@@ -1706,7 +1712,8 @@
                 "reply": "none"
               }
             }
-          ]
+          ],
+          "durationMinutes": 4
         },
         {
           "id": "emancipation-lane-route-map",
@@ -1746,7 +1753,8 @@
             "apothecary",
             "apprentice",
             "petition_copyist"
-          ]
+          ],
+          "durationMinutes": 3
         },
         {
           "id": "emancipation-street-copy-route",
@@ -1761,8 +1769,7 @@
             "bookseller",
             "tenant",
             "printer",
-            "rural-copy-carrier",
-            "porter"
+            "rural-copy-carrier"
           ],
           "options": [
             {
@@ -1786,7 +1793,8 @@
               "groupReactionKo": "마차꾼 로만  큰길이라면 여러 묶음을 실어 나를 수 있소.\n서점 주인 레프  받는 마을에 읽어 줄 사람도 적어 보내겠습니다."
             }
           ],
-          "groupEncounter": true
+          "groupEncounter": true,
+          "durationMinutes": 4
         },
         {
           "id": "emancipation-square-wage-meeting",
@@ -1801,8 +1809,7 @@
             "messenger",
             "former_servant",
             "midwife",
-            "wage_delegate",
-            "washer"
+            "wage_delegate"
           ],
           "options": [
             {
@@ -1833,7 +1840,8 @@
               "groupReactionKo": "세탁부 마리야  내가 아는 집에 자리를 물어볼게요.\n하녀 소피야  잠자리부터 정하고, 내일 함께 고용주를 찾아갑시다."
             }
           ],
-          "groupEncounter": true
+          "groupEncounter": true,
+          "durationMinutes": 4
         },
         {
           "id": "emancipation-lane-petition",
@@ -1848,9 +1856,7 @@
             "carter",
             "apothecary",
             "apprentice",
-            "petition_copyist",
-            "messenger",
-            "midwife"
+            "petition_copyist"
           ],
           "options": [
             {
@@ -1877,7 +1883,8 @@
               "groupReactionKo": "심부름꾼 파벨  제가 대표단의 회신을 받아 오겠습니다.\n세탁부 마리야  우리 집 사정도 질문에 넣어야 해요. 대표가 빠뜨리지 않게 읽어 주세요."
             }
           ],
-          "groupEncounter": true
+          "groupEncounter": true,
+          "durationMinutes": 4
         },
         {
           "id": "emancipation-square-terms-reading",
@@ -1916,13 +1923,15 @@
               },
               "groupReactionKo": "인쇄물 장수 표트르  먼저 모인 사람들에게 핵심을 읽어 주겠소.\n하녀 소피야  조건은 나중에라도 꼭 같이 읽어요. 우리 질문도 받아 적어 주세요."
             }
-          ]
+          ],
+          "durationMinutes": 4
         }
       ],
       "conclusionRequirements": {
         "spokenActors": 12,
         "completedObjectives": 7,
-        "requiredRoleActions": 6
+        "requiredRoleActions": 6,
+        "minimumElapsedMinutes": 24
       }
     }
   ]

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import '../rpg/engine/game-state.js';
-import { canConcludeHistoricalSession, performHistoricalAction } from '../rpg/engine/historical-session.mjs';
+import { advanceHistoricalSessionTime, canConcludeHistoricalSession, performHistoricalAction } from '../rpg/engine/historical-session.mjs';
 import { beginHistoricalSession } from '../rpg/engine/historical-session.mjs';
 
 const play = JSON.parse(await fs.readFile(new URL('../rpg/data/historical-scene-play.json', import.meta.url), 'utf8'));
@@ -15,6 +15,8 @@ for (const scene of play.events) {
   assert.equal(event.playableParticipantCount, 18, `${scene.eventId} reports its full on-map cast`);
   assert.deepEqual(event.cast, scene.actors.map(actor => actor.nameKo), `${scene.eventId} cast matches the moving characters`);
   const roleActions = scene.fieldActions.filter(item => item.requiredActorId);
+  assert.ok(scene.fieldActions.every(item => Number.isInteger(item.durationMinutes) && item.durationMinutes >= 2),
+    `${scene.eventId} actions consume time so residents can move while the event unfolds`);
   assert.ok(roleActions.length >= 6, `${scene.eventId} requires at least six event roles`);
   assert.equal(new Set(roleActions.map(item => item.mapId)).size, 3, `${scene.eventId} makes the player change roles across all three zones`);
   for (const action of roleActions) {
@@ -53,8 +55,8 @@ for (const scene of play.events) {
 }
 const conclusionScene = { eventId: 'test-event', maps: ['one', 'two', 'three'], fieldActions: [
   { id: 'role-a', requiredActorId: 'a' }, { id: 'role-b', requiredActorId: 'b' }, { id: 'role-c', requiredActorId: 'c' },
-] , conclusionRequirements: { spokenActors: 12, completedObjectives: 7, requiredRoleActions: 2 } };
-const nearEnd = { historicalSession: { eventId: 'test-event', spokenActorIds: Array.from({ length: 7 }, (_, i) => String(i)),
+] , conclusionRequirements: { spokenActors: 12, completedObjectives: 7, requiredRoleActions: 2, minimumElapsedMinutes: 24 } };
+const nearEnd = { historicalSession: { eventId: 'test-event', elapsedMinutes: 0, spokenActorIds: Array.from({ length: 7 }, (_, i) => String(i)),
   completedObjectives: ['a', 'b', 'c', 'd', 'e', 'f'], visitedMapIds: ['one', 'two', 'three'], actionOutcomes: { 'role-a': 'x' } } };
 assert.equal(canConcludeHistoricalSession(nearEnd, conclusionScene), false, 'multiple subquests and roles remain before the finale');
 nearEnd.historicalSession.actionOutcomes['role-b'] = 'y';
@@ -62,7 +64,19 @@ nearEnd.historicalSession.spokenActorIds = Array.from({ length: 11 }, (_, i) => 
 nearEnd.historicalSession.completedObjectives.push('g');
 assert.equal(canConcludeHistoricalSession(nearEnd, conclusionScene), false, 'the expanded gathering requires twelve distinct conversations');
 nearEnd.historicalSession.spokenActorIds.push('eleven');
-assert.equal(canConcludeHistoricalSession(nearEnd, conclusionScene), true, 'the extended walk, subquests and role-switch route unlock the final event decision');
+assert.equal(canConcludeHistoricalSession(nearEnd, conclusionScene), false, 'the ending waits for the active incident to unfold in world time');
+nearEnd.historicalSession.elapsedMinutes = 24;
+assert.equal(canConcludeHistoricalSession(nearEnd, conclusionScene), true, 'the extended walk, subquests, role-switch route and elapsed scene time unlock the final event decision');
+
+const timedSession = { world: { clockMinutes: 600 }, historicalSession: { elapsedMinutes: 0 } };
+let advancedBy = 0;
+const advancedSession = advanceHistoricalSessionTime(timedSession, 3, {}, (session, minutes) => {
+  advancedBy += minutes;
+  return { ...session, world: { ...session.world, clockMinutes: session.world.clockMinutes + minutes } };
+});
+assert.equal(advancedBy, 3, 'a historical beat runs the normal world simulation');
+assert.equal(advancedSession.world.clockMinutes, 603);
+assert.equal(advancedSession.historicalSession.elapsedMinutes, 3);
 
 for (const scene of play.events) {
   const conditionalAction = scene.fieldActions.find(item => item.options.some(option => option.requiresEffects));
@@ -190,7 +204,16 @@ assert.equal(travelChoice.ok, true, `the test event accepts its travel decision:
 const departurePosition = { ...travelChoice.state.hosts[walkerId].position };
 assert.deepEqual(departurePosition, { x: 2, y: 5 }, 'the actor starts from their current tile');
 travelChoice.state.player.embodiment = null;
-const movedState = globalThis.V33GameState.advanceWorldTime(travelChoice.state, 60, travelMaps);
+const inSceneState = advanceHistoricalSessionTime(travelChoice.state, 60, travelMaps,
+  globalThis.V33GameState.advanceWorldTime);
+assert.equal(inSceneState.world.clockMinutes, 660, 'a scene beat advances the shared world clock');
+assert.ok(inSceneState.historicalSession.elapsedMinutes >= 60);
+assert.equal(inSceneState.hosts[walkerId].mapId, 'travel-b',
+  'a participant traverses connected maps during elapsed scene time');
+assert.notDeepEqual(inSceneState.hosts[walkerId].position, departurePosition,
+  'a participant physically moves while a playable scene unfolds');
+inSceneState.player.embodiment = null;
+const movedState = globalThis.V33GameState.advanceWorldTime(inSceneState, 60, travelMaps);
 const walkerAfterTravel = movedState.hosts[walkerId];
 assert.equal(walkerAfterTravel.mapId, 'travel-b', 'world ticks carry the character through the connected exit');
 assert.notDeepEqual(walkerAfterTravel.position, departurePosition, 'the traveler continues moving after entering the next map');

@@ -42,11 +42,11 @@ for (const scene of play.events) {
     assert.ok(actorIndex >= 0 && actorIndex % scene.maps.length === scene.maps.indexOf(action.mapId),
       `${scene.eventId}/${action.id} actor can appear in the mission's zone`);
   }
-  assert.deepEqual(scene.choices.map(({ id, label, directionKo, textKo }) => ({ id, label, directionKo, textKo })),
-    catalogEvent.choices.map(({ id, label, directionKo, textKo }) => ({ id, label, directionKo, textKo })),
+  assert.deepEqual(scene.choices.map(({ id, label, textKo }) => ({ id, label, textKo })),
+    catalogEvent.choices.map(({ id, label, textKo }) => ({ id, label, textKo })),
     `${scene.eventId} final choices are the authored, visible consequential decisions`);
   assert.ok([...catalogEvent.rounds.flatMap(round => round.choices), ...scene.choices].every(choice =>
-    !/목격과 전언|목격한 일과 전해 들은 말|신고와 목격이 섞인 종이/.test(`${choice.label} ${choice.directionKo} ${choice.reactionKo ?? ''}`)),
+    !/목격과 전언|목격한 일과 전해 들은 말|신고와 목격이 섞인 종이/.test(`${choice.label} ${choice.directionKo ?? ''} ${choice.reactionKo ?? ''}`)),
     `${scene.eventId} does not fall back to the obsolete report/witness meta motif`);
   assert.ok(scene.choices.length >= 3, `${scene.eventId} offers consequential closeout decisions`);
   assert.equal(new Set(scene.fieldActions.map(action => action.id)).size, scene.fieldActions.length);
@@ -64,13 +64,16 @@ for (const scene of play.events) {
       assert.ok(action.gatherActorIds.every(id => scene.actors.some(actor => actor.id === id)));
     }
   }
-  assert.deepEqual(scene.conclusionRequirements, { spokenActors: 12, completedObjectives: 7, requiredRoleActions: 6 });
+  assert.deepEqual(scene.conclusionRequirements, { spokenActors: 12, completedObjectives: 7, requiredRoleActions: 6, minimumElapsedMinutes: 24 });
   for (const actor of scene.actors) {
     assert.ok(actor.nameKo && actor.templateId && actor.lines.length >= 2);
     assert.ok(scene.objectives.some(objective => objective.id === actor.objectiveId));
     assert.ok(actor.lines.every(line => line.length > 18));
   }
-  for (const choice of scene.choices) assert.ok(choice.directionKo && choice.textKo);
+  for (const choice of scene.choices) {
+    assert.ok(choice.label && choice.textKo);
+    assert.equal(choice.directionKo, undefined, `${scene.eventId}/${choice.id} has no small-print choice subcopy`);
+  }
   for (const background of scene.backgrounds) {
     const map = JSON.parse(await read(`../rpg/maps/${background}.json`));
     assert.ok(map.layers.some(layer => layer.name === 'Collision' && Array.isArray(layer.data)));

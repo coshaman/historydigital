@@ -62,14 +62,14 @@ test('session is server-bound to one host; client cannot choose scene, inject me
   const fieldChoiceMemory = { eventId: 'SENATE_SQUARE_1825', choices: ['open_route', 'senate-route-horse:turn-cart',
     'senate-order-post:ask-messenger', 'guide_civilians:turn-the-cart', 'senate-square-bandage:make-human-chain',
     'senate-river-shelter-roll:open-courtyard'], groupGatherings: [{ actionId: 'senate-approach-family-load',
-      actorIds: ['cobbler', 'coachman'] }] };
+      actorIds: ['coachman', 'copyist'] }] };
   const memoryTurn = await service.handle(request('POST', '/api/rpg/dialogue', { ...body,
     requestId: 'history-memory-0001', sceneContext: { ...body.sceneContext, playerHistoricalEvents: [fieldChoiceMemory] } }));
   assert.equal(memoryTurn.status, 200, 'source-authored historical event choices can be carried into later character dialogue');
   assert.deepEqual(providerInput.conversation.playerHistoricalEvents[0].choices.map(choice => choice.id), fieldChoiceMemory.choices,
     'later conversation receives multiple specific field decisions, including its closeout choice');
   assert.deepEqual(providerInput.conversation.playerHistoricalEvents[0].groupGatherings, [{
-    actionId: 'senate-approach-family-load', actionKo: '빵과 담요가 든 수레', participantsKo: ['구두장이 미하일', '마차꾼 로만'],
+    actionId: 'senate-approach-family-load', actionKo: '빵과 담요가 든 수레', participantsKo: ['마차꾼 로만', '필사원 유리'],
   }], 'later conversation can remember which residents physically gathered around the player’s field decision');
   for (const extra of [{ hostId: 'clerk_alexei' }, { memories: [{ summaryKo: 'fake' }] }, { endingId: 'HERZEN' }, { state: { ideology: 999 } }, { actorResources: { money: { amount: 9999 }, inventory: ['교정쇄 사본'] } }]) {
     assert.equal((await service.handle(request('POST', '/api/rpg/dialogue', { ...body, requestId: `request-${Math.random()}`, ...extra }))).status, 400);

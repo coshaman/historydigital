@@ -1,11 +1,46 @@
 const clone = value => structuredClone(value);
 const actorKey = (eventId, actorId) => `historical:${eventId}:${actorId}`;
 
+export function historicalParticipantGuide(scene, actorId, activeSession = {}) {
+  const actor = scene?.actors?.find(person => person.id === actorId);
+  if (!actor) return null;
+  const objective = scene.objectives?.find(item => item.id === actor.objectiveId);
+  const actions = (scene.fieldActions ?? []).filter(item => item.objectiveId === actor.objectiveId);
+  const ownAction = actions.find(item => item.requiredActorId === actor.id);
+  const pendingAction = actions.find(item => !activeSession.actionOutcomes?.[item.id]);
+  const action = ownAction && !activeSession.actionOutcomes?.[ownAction.id] ? ownAction : pendingAction ?? ownAction ?? actions[0];
+  const partners = (scene.actors ?? []).filter(person => person.objectiveId === actor.objectiveId && person.id !== actor.id);
+  const partnerIds = partners.map(person => person.id);
+  const fallbackIds = (action?.gatherActorIds ?? []).filter(id => id !== actor.id);
+  const localFallbackIds = fallbackIds.filter(id => scene.actors.find(person => person.id === id)?.mapId === action?.mapId);
+  const talkToIds = partnerIds.length ? partnerIds : localFallbackIds.length ? localFallbackIds : fallbackIds;
+  const talkToNamesKo = [...new Set(talkToIds.map(id => {
+    const person = scene.actors.find(item => item.id === id);
+    if (!person) return null;
+    const zone = scene.zoneTitlesKo?.[scene.maps.indexOf(person.mapId)];
+    return person.mapId === action?.mapId || !zone ? person.nameKo : `${person.nameKo} · ${zone}`;
+  }).filter(Boolean))].slice(0, 3);
+  const mapIndex = action ? scene.maps.indexOf(action.mapId) : -1;
+  return {
+    actorNameKo: actor.nameKo,
+    objectiveTitleKo: objective?.titleKo ?? actor.introductionKo ?? actor.lines?.[0] ?? '현장 사람들과 이야기를 나눈다',
+    actionKo: objective?.actionKo ?? '가까운 사람에게 오늘 일을 물어본다',
+    talkToNamesKo,
+    propKo: action?.propKo ?? '주변 사람과 이야기',
+    placeKo: mapIndex >= 0 ? scene.zoneTitlesKo?.[mapIndex] ?? action.mapId : actor.mapId,
+    requiredActorNameKo: action?.requiredActorId
+      ? scene.actors.find(person => person.id === action.requiredActorId)?.nameKo ?? null : null,
+    completed: Boolean(activeSession.completedObjectives?.includes(actor.objectiveId)),
+    actionCompleted: Boolean(action && activeSession.actionOutcomes?.[action.id]),
+  };
+}
+
 export function beginHistoricalSession(campaignState, event, maps, cards) {
   if (!campaignState || !event?.id || !maps?.[event.entryMapId] || !Array.isArray(event.actors))
     return { ok: false, reason: 'invalid_historical_event' };
   const session = clone(campaignState), returnState = clone(campaignState), nextCards = [...cards];
-  session.historicalSession = { eventId: event.id, returnState, choices: [], completedObjectives: [], actionOutcomes: {}, pledgedActorIds: [], stage: 0 };
+  session.historicalSession = { eventId: event.id, returnState, choices: [], completedObjectives: [], actionOutcomes: {}, pledgedActorIds: [], stage: 0,
+    startedAtMinute: event.startMinute ?? 600, elapsedMinutes: 0 };
   session.world.currentMapId = event.entryMapId;
   session.world.date = event.date;
   session.world.clockMinutes = event.startMinute ?? 600;
@@ -40,6 +75,16 @@ export function beginHistoricalSession(campaignState, event, maps, cards) {
   return { ok: true, session, returnState, cards: nextCards };
 }
 
+export function advanceHistoricalSessionTime(session, minutes, maps, advanceWorldTime) {
+  if (!session?.historicalSession || !Number.isFinite(minutes) || minutes <= 0 || typeof advanceWorldTime !== 'function') return session;
+  const spent = Math.min(10080, Math.max(1, Math.floor(minutes)));
+  const reservations = session.world?.currentMapId && session.player?.position
+    ? [{ mapId: session.world.currentMapId, position: clone(session.player.position) }] : [];
+  const next = advanceWorldTime(session, spent, maps, reservations);
+  next.historicalSession.elapsedMinutes = (next.historicalSession.elapsedMinutes ?? 0) + spent;
+  return next;
+}
+
 export function recordHistoricalChoice(session, choice) {
   if (!session?.historicalSession || !choice?.id || !choice?.textKo) return session;
   const next = clone(session);
@@ -57,6 +102,7 @@ export function canConcludeHistoricalSession(session, scene) {
   const requirements = scene.conclusionRequirements ?? { spokenActors: 8, completedObjectives: 5 };
   if ((active.spokenActorIds?.length ?? 0) < requirements.spokenActors
     || (active.completedObjectives?.length ?? 0) < requirements.completedObjectives) return false;
+  if ((active.elapsedMinutes ?? 0) < (requirements.minimumElapsedMinutes ?? 0)) return false;
   if (!Array.isArray(scene?.maps) || scene.maps.some(mapId => !(active.visitedMapIds ?? []).includes(mapId))) return false;
   const requiredActions = (scene.fieldActions ?? []).filter(action => action.requiredActorId);
   if (Number.isInteger(requirements.requiredRoleActions)) return requiredActions
