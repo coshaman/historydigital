@@ -239,6 +239,39 @@ function hasMetaOrSummaryDialogue(turn) {
   const disallowed = /(?:인공지능|언어\s*모델|시스템\s*프롬프트|개발자\s*지침|API\s*키|OpenAI|ChatGPT|게임\s*엔진|숨은\s*(?:수치|점수|설정)|엔딩\s*조건|요약하자면|이야기를\s*정리하면|이\s*장면에서는|플레이어는|주인공은|해당\s*캐릭터는|이\s*인물은)/i;
   return turn.beats.some(beat => disallowed.test(beat.textKo));
 }
+function recentStoryAnchors(input) {
+  if (!/(흥미로운|재미있는|무슨\s*(?:일|사건|소식)|새로운\s*(?:일|소식)|최근\s*(?:사건|소식|동네|근황)|요즘\s*(?:동네|근처|시장|거리|무슨\s*(?:일|사건|소식)))/.test(input.playerInput ?? '')) return null;
+  const context = input.conversation?.sceneContext ?? {};
+  const storyText = [
+    ...(context.heardEvents ?? []).flatMap(event => [event.eventTitleKo, event.summaryKo]),
+    ...(input.character?.conversationHooks ?? []).flatMap(hook => [hook.titleKo, hook.summaryKo, hook.nextStepKo]),
+  ].filter(Boolean).join(' ');
+  if (!storyText) return null;
+
+  const names = [];
+  for (const card of cards.values()) {
+    const parts = String(card.displayNameKo ?? '').split(/[\s·]+/).filter(part => part.length >= 2);
+    for (const part of parts) if (storyText.includes(part)) names.push(part);
+  }
+  const places = [];
+  for (const map of mapRecords.values()) {
+    const name = map.metadata?.displayNameKo;
+    if (name && name.length >= 2 && storyText.includes(name)) places.push(name);
+    const firstNamePart = String(name ?? '').split(/[\s·]+/)[0];
+    if (firstNamePart && firstNamePart.length >= 3 && storyText.includes(firstNamePart)) places.push(firstNamePart);
+  }
+  const distinctiveWords = storyText.match(/[가-힣]{2,}/g) ?? [];
+  const generic = new Set(['요즘','최근','오늘','흥미로운','재미있는','새로운','무슨','사건','소식','이야기','사람','사람들','일','것','그','이','저','여기','저기','근처','모양','말','내용','상황','때문','관련','먼저','정도','일이','있다','없다','했다','한다','하는','하고','있는','있던','모두','아직','다시','그냥','정말','다들','다른','누구','무엇','어떤','곳','쪽','한쪽','저쪽','그쪽','이쪽']);
+  const primary = [...new Set([...names, ...places])].filter(anchor => anchor.length >= 2).slice(0, 16);
+  const secondary = [...new Set(distinctiveWords.filter(word => !generic.has(word)))].slice(0, 16);
+  return { primary, secondary };
+}
+function lacksRecentStoryAnchor(turn, anchors, speakerId) {
+  if (!anchors) return false;
+  const spoken = turn.beats.filter(beat => beat.speakerId === speakerId).map(beat => beat.textKo).join(' ');
+  const required = anchors.primary.length ? anchors.primary : anchors.secondary;
+  return !required.some(anchor => spoken.includes(anchor));
+}
 function claimsForScene(scene) {
   const allowedSourceIds = new Set(scene.allowedSourceIds ?? []);
   return historicalClaims.filter(claim => allowedSourceIds.has(claim.sourceId));
@@ -663,9 +696,17 @@ function createRpgAiService({ secret, store, allowedOrigins = [], provider = nul
     provider.lastFailureCode = '';
     let responseBody;
     try {
-      const output = await provider.generate({ input, instructions, format: responseFormat(scene), model: dialogueModel, maxOutputTokens: 700 });
+      const format = responseFormat(scene), recentStory = recentStoryAnchors(input);
+      let output = await provider.generate({ input, instructions, format, model: dialogueModel, maxOutputTokens: 700 });
+      if (validateTurn(output, scene) && recentStory && lacksRecentStoryAnchor(output, recentStory, card.id)) {
+        const repairAnchors = [...recentStory.primary, ...recentStory.secondary].slice(0, 8);
+        const repairInstructions = `${instructions}\n이번 질문에는 이 인물이 아는 구체적인 소식이 있다. 첫 답변은 너무 막연했다. ${repairAnchors.join('·')} 가운데 실제 장면에 맞는 이름이나 장소 하나를 넣어, 인물 말씨로 짧게 다시 답하라. 소식의 목록이나 시스템 설명은 쓰지 않는다.`;
+        provider.lastFailureCode = 'non_concrete_recent_event';
+        output = await provider.generate({ input, instructions: repairInstructions, format, model: dialogueModel, maxOutputTokens: 700 });
+      }
       if (!validateTurn(output, scene)) { provider.lastFailureCode = 'response_schema_invalid'; throw new Error('invalid provider response schema'); }
       if (hasMetaOrSummaryDialogue(output)) { provider.lastFailureCode = 'non_conversational_dialogue'; throw new Error('non-conversational dialogue'); }
+      if (lacksRecentStoryAnchor(output, recentStory, card.id)) { provider.lastFailureCode = 'non_concrete_recent_event'; throw new Error('non-concrete recent-event answer'); }
       if (hasUnsupportedHistoricalYear(output, scene)) { provider.lastFailureCode = 'unsupported_historical_year'; throw new Error('unsupported historical year'); }
       if (hasUncitedHistoricalPerson(output, scene)) { provider.lastFailureCode = 'uncited_historical_person'; throw new Error('uncited historical person'); }
       if (hasUndisclosedPlayerContext(output, input)) { provider.lastFailureCode = 'undisclosed_player_context'; throw new Error('undisclosed player context'); }

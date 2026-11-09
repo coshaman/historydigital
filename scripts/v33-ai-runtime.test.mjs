@@ -80,7 +80,9 @@ test('AI receives Semyon’s authored neighborhood story hook for an open recent
     store: new MemorySessionStore(), allowedOrigins: ['https://game.example'],
     provider: { generate: async request => {
       providerInput = request.input; providerInstructions = request.instructions;
-      return validTurn(request.input.scene.id, request.input.character.id);
+      const turn = validTurn(request.input.scene.id, request.input.character.id);
+      turn.beats[0].textKo = '바실리 학생이 넵스키에서 읽을 모임을 꾸린다더군. 참석자 이름을 적을지 망설이고 있소.';
+      return turn;
     } } });
   const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'yardkeeper_semyon' }));
   assert.equal(opened.status, 201);
@@ -98,6 +100,30 @@ test('AI receives Semyon’s authored neighborhood story hook for an open recent
   assert.equal(providerInput.character.conversationHooks[0].questId, undefined, 'internal quest identifiers stay out of spoken context');
   assert.match(providerInstructions, /conversationHooks/);
   assert.match(providerInstructions, /사람·장소·하고 있는 일/);
+});
+
+test('a generic recent-events answer is regenerated once when the resident has a concrete local story', async () => {
+  let attempts = 0;
+  const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long',
+    store: new MemorySessionStore(), allowedOrigins: ['https://game.example'],
+    provider: { generate: async request => {
+      attempts++;
+      const turn = validTurn(request.input.scene.id, request.input.character.id);
+      turn.beats[0].textKo = attempts === 1
+        ? '요즘은 다들 조용히 지내오. 특별한 일은 없소.'
+        : '바실리 학생이 넵스키에서 친구들과 읽을 모임을 꾸리고 있소. 참석자 이름을 적을지 아직 망설이는 모양이오.';
+      return turn;
+    } } });
+  const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'yardkeeper_semyon' }));
+  const result = await service.handle(request('POST', '/api/rpg/dialogue', {
+    sessionToken: opened.body.sessionToken, requestId: 'semyon-story-retry-01',
+    playerInput: '요즘 이 근처에 흥미로운 일 있소?', actorRelations: {}, actorActions: [],
+    sceneContext: { date: '1847-06-01', mapId: 'courtyard', questId: null },
+  }));
+  assert.equal(result.status, 200, JSON.stringify(result.body));
+  assert.equal(attempts, 2, 'the first generic response is rejected and receives one focused retry');
+  assert.equal(result.body.aiGenerated, true);
+  assert.match(result.body.turn.beats[0].textKo, /바실리/);
 });
 
 test('dialogue accepts relationship outcomes from every quest bundle used by the game client', async () => {
@@ -266,7 +292,9 @@ test('AI dialogue receives only the speaker’s authored family and relationship
   const store = new MemorySessionStore();
   const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store, allowedOrigins: ['https://game.example'], provider: { generate: async request => {
     observed = request.input;
-    return validTurn(request.input.scene.id, request.input.character.id);
+    const turn = validTurn(request.input.scene.id, request.input.character.id);
+    turn.beats[0].textKo = '그 일도 들었어요. 다만 집에서는 오늘 저녁 밥부터 챙겨야겠네요.';
+    return turn;
   } } });
   const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'laundress_mariya', actorHostId: 'seamstress_anna' }));
   const result = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken, requestId: 'mariya-family-0001',
@@ -277,7 +305,7 @@ test('AI dialogue receives only the speaker’s authored family and relationship
         sourceIds: ['CAT-RSL-BAZAAR-WARDENS-1842', 'OBJ-PRLIB-STPETE-THEFT-CASES-1843-44'],
         knowledgeKind: 'HEARD_FROM_PERSON', occurrenceType: 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION',
         validationStatus: 'DESIGN_SEED_NOT_VERIFIED', historicalOutcomeFixed: false, fromHostId: 'porter_gavrila' }] } }));
-  assert.equal(result.status, 200);
+  assert.equal(result.status, 200, JSON.stringify(result.body));
   assert.equal(observed.character.relationshipToEmbodiedPlayer?.kind, 'SIBLING');
   assert.equal(observed.character.relationshipToEmbodiedPlayer?.status, 'FICTIONAL_CHARACTER_DESIGN');
   assert.equal(observed.character.household?.unitLabelKo, '안뜰 공동 셋방');
@@ -336,7 +364,10 @@ test('open-ended recent-event questions receive a concrete known incident and ar
   let providerRequest;
   const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store: new MemorySessionStore(),
     allowedOrigins: ['https://game.example'], provider: { generate: async request => {
-      providerRequest = request; return validTurn(request.input.scene.id, request.input.character.id);
+      providerRequest = request;
+      const turn = validTurn(request.input.scene.id, request.input.character.id);
+      turn.beats[0].textKo = '장터에서 나데즈다의 돈주머니가 사라진 걸 가브릴라가 봤다더군.';
+      return turn;
     } } });
   const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'police_sergeant_ivan' }));
   const result = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken,
@@ -362,13 +393,17 @@ test('Ivan receives the Petrashevsky source packet only in its explicitly active
   let providerRequest;
   const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store: new MemorySessionStore(),
     allowedOrigins: ['https://game.example'], provider: { generate: async request => {
-      providerRequest = request; return validTurn(request.input.scene.id, request.input.character.id);
+      providerRequest = request;
+      const turn = validTurn(request.input.scene.id, request.input.character.id);
+      turn.beats[0].textKo = '4월 22일 모임에서 검열과 문필가의 대중 영향 얘기가 있었다는 보고를 확인하는 일이오.';
+      turn.beats[0].claimIds = ['REPORT-APRIL22'];
+      return turn;
     } } });
   const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'police_sergeant_ivan' }));
   const result = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken,
     requestId: 'ivan-circle-event-1849', playerInput: '요즘 무슨 일이 있소?', actorRelations: {}, actorActions: [],
     sceneContext: { date: '1849-04-22', mapId: 'police-station', questId: 'CIRCLE_INVESTIGATION_1849', heardEvents: [] } }));
-  assert.equal(result.status, 200);
+  assert.equal(result.status, 200, JSON.stringify(result.body));
   assert.equal(providerRequest.input.caseContext.questId, 'CIRCLE_INVESTIGATION_1849');
   assert.ok(providerRequest.input.sourceEvidence.some(source => source.sourceId === 'OBJ-WS-PETRASHEVSKY-REPORT-1849'));
   assert.ok(providerRequest.input.sourceClaims.some(claim => claim.claimId === 'REPORT-APRIL22'));
