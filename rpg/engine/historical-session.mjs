@@ -109,18 +109,18 @@ export function performHistoricalAction(session, scene, actionId, choiceId) {
   for (const move of sceneMoves) {
     const target = scene.fieldActions.find(item => item.id === move.targetActionId), host = next.hosts[actorKey(scene.eventId, move.actorId)];
     const destination = { mapId: target.mapId, position: clone(target.position), activityKo: move.activityKo };
-    host.mapId = destination.mapId; host.position = clone(destination.position); host.currentActivityKo = destination.activityKo;
-    host.activeGoal = null; host.plannedPath = { key: null, tiles: [] }; host.mapRoutePlan = { key: null, route: null };
     const atMinute = Number.isInteger(next.world.clockMinutes) ? next.world.clockMinutes : 0;
-    host.schedule = [0, 30, 60].map(offset => ({ atMinute: atMinute + offset, mapId: destination.mapId,
+    // Keep the actor in the world and let the regular NPC pathfinder carry them
+    // through the scene's exits. A choice sets their next appointment; it does
+    // not teleport them (or a player controlling them) to its destination.
+    host.currentActivityKo = `${destination.activityKo} · 그쪽으로 향한다`;
+    host.activeGoal = null; host.plannedPath = { key: null, tiles: [] }; host.mapRoutePlan = { key: null, route: null };
+    host.schedule = [1, 31, 61].map(offset => ({ atMinute: atMinute + offset, mapId: destination.mapId,
       position: clone(destination.position), activityKo: destination.activityKo }));
     next.historicalSession.physicalMoves ??= [];
-    next.historicalSession.physicalMoves.push({ actorId: move.actorId, mapId: destination.mapId,
-      position: clone(destination.position), activityKo: destination.activityKo, choiceId: option.id, atMinute });
-    if (next.player.embodiment === host.id) {
-      next.player.position = clone(destination.position);
-      next.world.currentMapId = destination.mapId;
-    }
+    next.historicalSession.physicalMoves.push({ actorId: move.actorId, fromMapId: host.mapId,
+      fromPosition: clone(host.position), targetMapId: destination.mapId, targetPosition: clone(destination.position),
+      activityKo: destination.activityKo, choiceId: option.id, atMinute, status: 'EN_ROUTE' });
   }
   return { ok: true, state: next, action, option };
 }

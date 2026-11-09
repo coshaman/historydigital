@@ -1213,11 +1213,17 @@ function startHistoricalAction(scene, action) {
     const responderIds = new Set([...scene.actors.filter(person => person.mapId === action.mapId && person.objectiveId === action.objectiveId).map(person => person.id), ...(action.gatherActorIds ?? [])]);
     const responders = scene.actors.filter(person => person.mapId === action.mapId && responderIds.has(person.id))
       .map(person => ({ person, host: next.hosts[`historical:${scene.eventId}:${person.id}`] })).filter(({ host }) => host);
-    const responseMap = maps[action.mapId], responseTiles = openHistoricalTiles(responseMap, responders.length + 1, action.position);
-    responders.forEach(({ person, host }, index) => {
-      if (!responseTiles[index]) return;
-      host.position = responseTiles[index]; host.currentActivityKo = `${action.propKo} 곁에서 사람들과 의논한다`;
-    });
+    const movingActorIds = new Set((option.sceneMoves ?? []).map(move => move.actorId));
+    const gatheringMinute = next.world.clockMinutes ?? 0;
+    for (const { person, host } of responders) {
+      if (movingActorIds.has(person.id) || host.id === next.player.embodiment) continue;
+      host.currentActivityKo = `${action.propKo} 쪽으로 걸어간다`;
+      host.activeGoal = null;
+      host.plannedPath = { key: null, tiles: [] };
+      host.mapRoutePlan = { key: null, route: null };
+      host.schedule = [1, 31, 61].map(offset => ({ atMinute: gatheringMinute + offset, mapId: action.mapId,
+        position: { ...action.position }, activityKo: `${action.propKo}에서 사람들과 의논한다` }));
+    }
     setState(next);
     const completed = next.historicalSession.completedObjectives.length;
     const nextAction = scene.fieldActions.find(item => item.objectiveId !== action.objectiveId && !next.historicalSession.actionOutcomes?.[item.id]);
@@ -1231,7 +1237,7 @@ function startHistoricalAction(scene, action) {
     const requirements = scene.conclusionRequirements ?? { spokenActors: 8, completedObjectives: 5, requiredRoleActions: 3 };
     const roleCount = scene.fieldActions.filter(item => item.requiredActorId && next.historicalSession.actionOutcomes?.[item.id]).length;
     const groupReaction = option.groupReactionKo ? `\n\n${option.groupReactionKo}` : '';
-    say(action.propKo, `${option.textKo}.${responders.length ? ` ${responders.map(item => item.person.nameKo).join('과 ')}가 곁으로 다가와 거든다.` : ''}${groupReaction}\n\n현장 일 ${Math.min(completed, requirements.completedObjectives)}/${requirements.completedObjectives} · 맡은 역할 ${Math.min(roleCount, requirements.requiredRoleActions)}/${requirements.requiredRoleActions}${nextAction && !unlocked ? ` · 다음에는 ${nextAction.propKo} 쪽을 살펴볼 수 있다.` : ''}${unlocked ? '\n\n세 구역을 돌고 여러 사람의 부탁을 맡았다. 이제 오늘 현장에서 무엇을 먼저 할지 고를 수 있다.' : ''}`, followups);
+    say(action.propKo, `${option.textKo}.${responders.length ? ` ${responders.map(item => item.person.nameKo).join('과 ')}는 ${action.propKo} 쪽으로 발걸음을 옮긴다.` : ''}${groupReaction}\n\n현장 일 ${Math.min(completed, requirements.completedObjectives)}/${requirements.completedObjectives} · 맡은 역할 ${Math.min(roleCount, requirements.requiredRoleActions)}/${requirements.requiredRoleActions}${nextAction && !unlocked ? ` · 다음에는 ${nextAction.propKo} 쪽을 살펴볼 수 있다.` : ''}${unlocked ? '\n\n세 구역을 돌고 여러 사람의 부탁을 맡았다. 이제 오늘 현장에서 무엇을 먼저 할지 고를 수 있다.' : ''}`, followups);
   } })));
 }
 function continuationFor(activeQuest) {

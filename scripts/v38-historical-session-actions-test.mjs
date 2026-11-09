@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
+import '../rpg/engine/game-state.js';
 import { canConcludeHistoricalSession, performHistoricalAction } from '../rpg/engine/historical-session.mjs';
+import { beginHistoricalSession } from '../rpg/engine/historical-session.mjs';
 
 const play = JSON.parse(await fs.readFile(new URL('../rpg/data/historical-scene-play.json', import.meta.url), 'utf8'));
 const catalog = JSON.parse(await fs.readFile(new URL('../rpg/data/v38-historical-events.json', import.meta.url), 'utf8'));
@@ -88,11 +90,17 @@ const movingSession = { historicalSession: { eventId: senateScene.eventId, choic
     mapId: horseRoute.mapId, position: { x: 8, y: 8 }, schedule: [], allowedMaps: senateScene.maps } } };
 const routed = performHistoricalAction(movingSession, senateScene, horseRoute.id, turnCart.id);
 assert.equal(routed.ok, true);
-assert.equal(routed.state.hosts[`historical:${senateScene.eventId}:coachman`].mapId, riverAction.mapId);
-assert.deepEqual(routed.state.hosts[`historical:${senateScene.eventId}:coachman`].position, riverAction.position);
+assert.equal(routed.state.hosts[`historical:${senateScene.eventId}:coachman`].mapId, horseRoute.mapId,
+  'a scene choice starts a journey without teleporting its participant');
+assert.deepEqual(routed.state.hosts[`historical:${senateScene.eventId}:coachman`].position, { x: 8, y: 8 },
+  'the participant remains on the tile where the decision was made');
 assert.match(routed.state.hosts[`historical:${senateScene.eventId}:coachman`].currentActivityKo, /강변/);
 assert.equal(routed.state.hosts[`historical:${senateScene.eventId}:coachman`].schedule[0].mapId, riverAction.mapId,
-  'the route change survives subsequent deterministic schedule ticks');
+  'the NPC schedule sends them toward the next playable scene');
+assert.deepEqual(routed.state.hosts[`historical:${senateScene.eventId}:coachman`].schedule[0].position, riverAction.position);
+assert.equal(routed.state.hosts[`historical:${senateScene.eventId}:coachman`].schedule[0].atMinute, 601,
+  'the journey begins on the next world tick');
+assert.equal(routed.state.historicalSession.physicalMoves.at(-1).status, 'EN_ROUTE');
 
 for (const [eventId, actionId, optionId, actorId, targetId, expectedMap] of [
   ['GOGOL_INSPECTOR_1836', 'inspector-lobby-company-vote', 'company-decides', 'actor', 'inspector-street-open-forum', 'theatre-street'],
@@ -116,8 +124,51 @@ for (const [eventId, actionId, optionId, actorId, targetId, expectedMap] of [
     })) };
   const result = performHistoricalAction(session, scene, actionId, optionId);
   assert.equal(result.ok, true, `${eventId}/${optionId} resolves for the assigned person: ${result.reason}`);
-  assert.equal(result.state.hosts[hostId].mapId, expectedMap, `${eventId}/${optionId} changes the participant's actual map`);
-  assert.deepEqual(result.state.player.position, { x: 4, y: 12 }, `${eventId}/${optionId} leaves the player in place so remaining local tasks stay reachable`);
+  assert.equal(result.state.hosts[hostId].mapId, action.mapId, `${eventId}/${optionId} keeps the participant at the point of departure`);
+  assert.equal(result.state.hosts[hostId].schedule[0].mapId, expectedMap, `${eventId}/${optionId} schedules a real journey to the next group scene`);
+  assert.deepEqual(result.state.player.position, { x: 4, y: 12 }, `${eventId}/${optionId} does not teleport an embodied player`);
   assert.equal(result.state.historicalSession.physicalMoves.at(-1).choiceId, optionId, `${eventId}/${optionId} is retained in the event history`);
 }
+
+const movementMap = (mapId, exits = []) => ({ mapId, width: 12, height: 12,
+  metadata: { date: '1825-12-14', observerStart: { x: 10, y: 10 }, mapClass: 'REAL_WORLD_RECONSTRUCTION' },
+  layers: [
+    { name: 'Collision', data: Array(144).fill(0) },
+    { name: 'Interactions', objects: exits.map(({ x, targetMapId, arrivalX, exitId }) => ({
+      type: 'map-exit', x: x * 16, y: 5 * 16, width: 16, height: 16,
+      properties: [
+        { name: 'exitId', value: exitId }, { name: 'targetMapId', value: targetMapId },
+        { name: 'arrivalX', value: arrivalX }, { name: 'arrivalY', value: 5 },
+      ],
+    })) },
+  ] });
+const travelMaps = {
+  'travel-a': movementMap('travel-a', [{ x: 9, targetMapId: 'travel-b', arrivalX: 2, exitId: 'a-to-b' }]),
+  'travel-b': movementMap('travel-b', [{ x: 1, targetMapId: 'travel-a', arrivalX: 8, exitId: 'b-to-a' }]),
+};
+const templateCard = { id: 'clerk_alexei', kind: 'FICTIONAL', start: { mapId: 'travel-a', x: 2, y: 5 },
+  allowedMaps: ['travel-a', 'travel-b'], money: { amount: 10 }, schedule: [], relations: {}, skills: {},
+  marketOffers: [], marketStock: {}, inventory: [], personalGoal: null, privateKnowledgeIds: [], knownEvidenceIds: [] };
+const baseState = globalThis.V33GameState.createInitialState({ maps: travelMaps, hostCards: [templateCard], startMapId: 'travel-a' });
+const travelEvent = { id: 'TRAVEL_TEST', date: '1825-12-14', startMinute: 600, entryMapId: 'travel-a',
+  entryPosition: { x: 10, y: 10 }, mapIds: ['travel-a', 'travel-b'], actors: [{ id: 'walker', templateId: 'clerk_alexei',
+    nameKo: '시험 인물', mapId: 'travel-a', position: { x: 2, y: 5 }, lines: ['길을 나선다.'] }] };
+const travelAction = { id: 'start-walk', mapId: 'travel-a', objectiveId: 'walk', requiredActorId: 'walker',
+  position: { x: 8, y: 8 }, options: [{ id: 'go', textKo: '길을 나섰다.', sceneMoves: [{ actorId: 'walker',
+    targetActionId: 'next-place', activityKo: '강 건너편으로 향한다' }] }] };
+const travelScene = { eventId: 'TRAVEL_TEST', maps: travelEvent.mapIds, fieldActions: [travelAction,
+  { id: 'next-place', mapId: 'travel-b', position: { x: 8, y: 8 } }], actors: travelEvent.actors };
+const startedTravel = beginHistoricalSession(baseState, travelEvent, travelMaps, [templateCard]);
+assert.equal(startedTravel.ok, true);
+startedTravel.session.player.embodiment = 'historical:TRAVEL_TEST:walker';
+const travelChoice = performHistoricalAction(startedTravel.session, travelScene, 'start-walk', 'go');
+const walkerId = 'historical:TRAVEL_TEST:walker';
+assert.equal(travelChoice.ok, true, `the test event accepts its travel decision: ${travelChoice.reason}`);
+const departurePosition = { ...travelChoice.state.hosts[walkerId].position };
+assert.deepEqual(departurePosition, { x: 2, y: 5 }, 'the actor starts from their current tile');
+travelChoice.state.player.embodiment = null;
+const movedState = globalThis.V33GameState.advanceWorldTime(travelChoice.state, 60, travelMaps);
+const walkerAfterTravel = movedState.hosts[walkerId];
+assert.equal(walkerAfterTravel.mapId, 'travel-b', 'world ticks carry the character through the connected exit');
+assert.notDeepEqual(walkerAfterTravel.position, departurePosition, 'the traveler continues moving after entering the next map');
 console.log('Historical field actions persist consequences, complete real objectives once, and reject invalid/repeated choices.');
