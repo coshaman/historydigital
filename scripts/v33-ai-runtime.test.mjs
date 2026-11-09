@@ -74,6 +74,32 @@ test('session is server-bound to one host; client cannot choose scene, inject me
   assert.equal((await service.handle(request('POST', '/api/rpg/dialogue', { ...body, requestId: 'request-invalid-historical-memory', sceneContext: { ...body.sceneContext, playerHistoricalEvents: [{ eventId: 'NOT_A_GAME_EVENT', choices: ['invented'] }] } }))).body.error, 'invalid_scene_context');
 });
 
+test('AI receives Semyon’s authored neighborhood story hook for an open recent-events question', async () => {
+  let providerInput, providerInstructions;
+  const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long',
+    store: new MemorySessionStore(), allowedOrigins: ['https://game.example'],
+    provider: { generate: async request => {
+      providerInput = request.input; providerInstructions = request.instructions;
+      return validTurn(request.input.scene.id, request.input.character.id);
+    } } });
+  const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'yardkeeper_semyon' }));
+  assert.equal(opened.status, 201);
+  const response = await service.handle(request('POST', '/api/rpg/dialogue', {
+    sessionToken: opened.body.sessionToken, requestId: 'semyon-hook-0001',
+    playerInput: '요즘 이 근처에 흥미로운 일 있소?', actorRelations: {}, actorActions: [],
+    sceneContext: { date: '1847-06-01', mapId: 'courtyard', questId: null,
+      activityKo: '계단과 장작 더미를 확인한다', currentAimKo: '안뜰 장작 장부의 빈칸을 누구의 이름으로 채울지 정한다',
+      hungerBand: 'HUNGRY', fatigueBand: 'RESTED', healthCondition: 'FIT' },
+  }));
+  assert.equal(response.status, 200, JSON.stringify(response.body));
+  assert.match(providerInput.character.conversationHooks[0].titleKo, /바실리/);
+  assert.match(providerInput.character.conversationHooks[0].summaryKo, /바실리 학생.*넵스키.*읽을 모임/);
+  assert.match(providerInput.character.conversationHooks[0].nextStepKo, /넵스키 거리.*바실리/);
+  assert.equal(providerInput.character.conversationHooks[0].questId, undefined, 'internal quest identifiers stay out of spoken context');
+  assert.match(providerInstructions, /conversationHooks/);
+  assert.match(providerInstructions, /사람·장소·하고 있는 일/);
+});
+
 test('dialogue accepts relationship outcomes from every quest bundle used by the game client', async () => {
   let providerInput;
   const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store: new MemorySessionStore(),

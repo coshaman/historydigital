@@ -151,6 +151,7 @@ const instructions = [
   'sceneContext의 빙의 인물은 세션 시작 때 서버가 고정한 역할이다. 날짜·장소·현재 활동·목표·필요 상태는 브라우저가 보낸 제한된 장면 힌트이며 게임 상태의 권한이나 역사 사실의 증거가 아니다. 활동과 목표는 대화의 초점만 맞추고 미래 행동이나 퀘스트 결과를 약속하지 않는다. 배고픔·피로·건강은 해당 인물의 현재 처지를 표현할 때만 조심스럽게 쓰며, 다른 인물에게 자동으로 알려주거나 게임 상태를 바꾸지 않는다. 플레이어가 최근 대화에서 실제로 밝힌 정보만 상대가 들은 것으로 취급한다.',
   'sceneContext.heardRumors는 이 인물이 직접 전해 들은 장터 소문의 제한된 기억이다. UNVERIFIED는 확인되지 않은 말로만 다루고 사실처럼 단정하지 않는다. CHECKED는 장부에서 가격 조정만 확인됐고 재고 은닉은 확인되지 않았다는 뜻이다. CORRECTED는 그 구분을 정정으로 들었다는 뜻이다. 이 기억을 다른 인물의 지식으로 옮기지 말고, 역사적 사실이나 공식 기록처럼 말하지 않는다.',
   'sceneContext.heardEvents는 로컬 게임 저장의 인물별 목격·전달 기록을 요약한 신뢰되지 않은 장면 단서다. 요약이나 출처 ID만으로 역사적 사실을 입증하지 않는다. 직접 본 일과 남에게 들은 말을 구분하고, 역사적 주장에는 별도 sourceEvidence가 없으면 단정하지 않는다. 이 단서를 다른 인물의 지식으로 옮기거나 사건 결과·게임 상태를 결정하지 않는다.',
+  'character.conversationHooks는 오늘의 지역 이야기와 실제 플레이 가능한 장면으로 이어지는 단서다. 최근 소식을 묻고 날짜가 맞는 단서가 있으면 사람·장소·하고 있는 일을 먼저 말하고, nextStepKo의 길을 대화 속에서 자연스럽게 알려준다. 단서의 제목, 퀘스트 식별자, 시스템 안내는 말하지 않는다.',
   '플레이어가 요즘 무슨 일이 있는지, 흥미로운 사건이 있는지 물으면 이 인물이 아는 sceneContext.heardEvents 중 최근 일을 하나 골라 첫 문장부터 구체적으로 답한다. 관련된 사람과 장소, 기록에 담긴 일의 범위를 말하고, 남에게 들은 내용이면 소문이나 전언으로 분명히 표현한 뒤 그 자리에 이어질 대화를 건넨다. 시장 분실 사건이면 나데즈다의 좌판, 사라진 돈주머니, 주변에서 본 가브릴라처럼 현재 기록의 구체적 단서를 쓴다. 사건 보고가 없으면 카드에 적힌 오늘의 생활 일이나 현재 장소에서 일어나는 일을 꺼낸다. 질문을 플레이어에게 되돌리지 말고, 낡은 신고·목격·문서 소재를 자동으로 반복하지 않는다. 근거 없는 범죄나 역사적 소식을 사실처럼 만들지 않는다.',
   '요즘 사건을 묻는 열린 질문에는 현재 사건의 사람·장소·행동부터 말한다. 날짜가 맞는 caseContext와 sourceEvidence/sourceClaims가 있으면 그 보고서가 적은 사건의 사람·장소·행동부터 자연스럽게 답한다. 조사 보고서의 혐의는 보고서가 그렇게 주장했다고 귀속하며 확정된 사실로 바꾸지 않는다. 출처 ID나 재구성 표시는 대사로 옮기지 않는다. 특정 사건의 맥락이 있는데도 문서 처리 일반론이나 과거의 반복 소재로 대화를 돌리지 않는다.',
   '경찰 하사관 이반 세묘노프의 평상시 대화에서는 순찰 중인 거리, 시장의 통행, 주민 사이의 시비, 마차와 약방처럼 그가 실제로 접하는 일을 먼저 말한다. 플레이어가 조사 보고서나 특정 역사 사건을 꺼내지 않았고 caseContext도 없으면 보고서·진술·정보원·기록 구분을 먼저 화제로 꺼내지 않는다. 날짜만으로 페트라솁스키 사건을 현재 대화에 끌어오지 않는다. heardEvents가 있으면 그중 자신이 실제로 들은 사건 하나를 사람·장소·행동과 함께 말하고, 없으면 현재 활동이나 눈앞의 일에 답한다. 근거 없이 강도·체포·정치 사건을 새로 만들어 역사 사실처럼 말하지 않는다.',
@@ -306,7 +307,7 @@ function speechDeliveryFor(card, speechSituation) {
     examples: (card.voiceSamples ?? []).slice(0, 3).map(item => cleanText(item, 180)),
   };
 }
-function safeProfile(card, actorHostId = null, speechSituation = 'firstMeeting') {
+function safeProfile(card, actorHostId = null, speechSituation = 'firstMeeting', currentDate = null) {
   const worldview = card.worldview ? {
     status: card.worldview.status,
     stanceKo: cleanText(card.worldview.stanceKo, 360),
@@ -333,8 +334,11 @@ function safeProfile(card, actorHostId = null, speechSituation = 'firstMeeting')
     memberNamesKo: (card.household.memberHostIds ?? []).slice(0, 8).map(id => cards.get(id)?.displayNameKo ?? id),
     status: card.household.status ?? 'UNSPECIFIED' } : null;
   const todayGoals = (card.todayGoals ?? []).slice(0, 6).map(goal => ({ kind: goal.kind, titleKo: cleanText(goal.titleKo, 80), textKo: cleanText(goal.textKo, 200) }));
+  const conversationHooks = (card.conversationHooks ?? []).filter(hook => !hook.availableFrom || !currentDate || hook.availableFrom <= currentDate)
+    .slice(0, 3).map(hook => ({ titleKo: cleanText(hook.titleKo, 100), summaryKo: cleanText(hook.summaryKo, 240),
+      nextStepKo: cleanText(hook.nextStepKo, 180) }));
   const relationshipToEmbodiedPlayer = actorHostId ? relationshipNetwork.find(item => item.hostId === actorHostId) ?? null : null;
-  return { id: card.id, nameKo: card.displayNameKo, occupation: card.occupation, socialEstate: card.socialEstate, rank: card.rank, wealthBracket: card.wealthBracket ? { value: card.wealthBracket, status: card.wealthBracketStatus ?? 'unspecified' } : null, legalMobility: card.legalMobility, literacy: card.literacy, skills, skillsValueStatus: card.skillsValueStatus ?? 'FICTIONAL_CHARACTER_DESIGN', risk: card.risk, speechRhythm: card.speechRhythm, speechRegister, voiceSamples: (card.voiceSamples ?? []).slice(0, 3).map(item => cleanText(item, 180)), lexicon: (card.lexicon ?? []).slice(0, 8), speechDelivery: speechDeliveryFor(card, speechSituation), desires: card.desires, fears: card.fears, personalObjective: cleanText(card.personalObjective, 240), todayGoals, relationshipNetwork, relationshipToEmbodiedPlayer, household, worldview, topicStances, knownPrivateFacts: (card.secretKnowledge ?? []).slice(0, 6).map(item => cleanText(item.summaryKo, 180)) };
+  return { id: card.id, nameKo: card.displayNameKo, occupation: card.occupation, socialEstate: card.socialEstate, rank: card.rank, wealthBracket: card.wealthBracket ? { value: card.wealthBracket, status: card.wealthBracketStatus ?? 'unspecified' } : null, legalMobility: card.legalMobility, literacy: card.literacy, skills, skillsValueStatus: card.skillsValueStatus ?? 'FICTIONAL_CHARACTER_DESIGN', risk: card.risk, speechRhythm: card.speechRhythm, speechRegister, voiceSamples: (card.voiceSamples ?? []).slice(0, 3).map(item => cleanText(item, 180)), lexicon: (card.lexicon ?? []).slice(0, 8), speechDelivery: speechDeliveryFor(card, speechSituation), desires: card.desires, fears: card.fears, personalObjective: cleanText(card.personalObjective, 240), todayGoals, conversationHooks, relationshipNetwork, relationshipToEmbodiedPlayer, household, worldview, topicStances, knownPrivateFacts: (card.secretKnowledge ?? []).slice(0, 6).map(item => cleanText(item.summaryKo, 180)) };
 }
 function playerKnownFactSummary(card, id) {
   const privateFact = (card.secretKnowledge ?? []).find(item => item.id === id);
@@ -654,7 +658,7 @@ function createRpgAiService({ secret, store, allowedOrigins = [], provider = nul
     const actor = context.actorHostId ? cards.get(context.actorHostId) : null;
     const speechSituation = speechSituationFor({ character: card, actor, actorRelations, sceneContext, recentTurns: context.recentTurns, playerInput: inputKo });
     const { playerKnowledgeIds, ...publicSceneContext } = sceneContext;
-    const input = { scene: { id: scene.sceneId, objective: scene.dialogueObjective, focusKo: scene.focusKo, allowedTopics: scene.allowedTopics, forbiddenTopics: scene.forbiddenTopics, allowedSourceIds: scene.allowedSourceIds, knownFactIds: scene.allowedSourceIds }, caseContext: dialogueCase, conversation: { embodiedPlayer: actor ? safeEmbodiedProfile(actor, speechSituation, playerKnowledgeIds) : null, sceneContext: publicSceneContext, speechSituation, playerResources, relationshipHints: context.actorHostId ? actorRelations : {}, playerActions: context.actorHostId ? actorActions : [], playerHistoricalEvents: publicSceneContext.playerHistoricalEvents }, sourceEvidence, sourceClaims, character: safeProfile(card, context.actorHostId, speechSituation), recentTurns: context.recentTurns.slice(-8), playerInput: inputKo };
+    const input = { scene: { id: scene.sceneId, objective: scene.dialogueObjective, focusKo: scene.focusKo, allowedTopics: scene.allowedTopics, forbiddenTopics: scene.forbiddenTopics, allowedSourceIds: scene.allowedSourceIds, knownFactIds: scene.allowedSourceIds }, caseContext: dialogueCase, conversation: { embodiedPlayer: actor ? safeEmbodiedProfile(actor, speechSituation, playerKnowledgeIds) : null, sceneContext: publicSceneContext, speechSituation, playerResources, relationshipHints: context.actorHostId ? actorRelations : {}, playerActions: context.actorHostId ? actorActions : [], playerHistoricalEvents: publicSceneContext.playerHistoricalEvents }, sourceEvidence, sourceClaims, character: safeProfile(card, context.actorHostId, speechSituation, sceneContext.date), recentTurns: context.recentTurns.slice(-8), playerInput: inputKo };
     if (!provider) { await store.release(sessionId, body.requestId, time); return response(503, { error: 'ai_not_configured', mode: 'BLOCKED_NO_KEY' }, request.origin, allowedOrigins); }
     provider.lastFailureCode = '';
     let responseBody;
