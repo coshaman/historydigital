@@ -398,15 +398,15 @@
     "homeLocation": {
       "mapId": "courtyard",
       "position": {
-        "x": 7,
-        "y": 5
+        "x": 14,
+        "y": 9
       }
     },
     "sleepLocation": {
       "mapId": "courtyard",
       "position": {
-        "x": 7,
-        "y": 5
+        "x": 14,
+        "y": 9
       }
     },
     "sleepMinute": 1380,
@@ -414,6 +414,22 @@
     "status": "FICTIONAL_CHARACTER_DESIGN",
     "valueStatus": "FICTIONAL_GAMEPLAY_DESIGN",
     "designBasisKo": "역사적 주소나 실제 동거 관계가 아닌 허구 생활 시뮬레이션용 거처. 지도 타일은 게임 내 귀가·취침 동선의 목적지다."
+  },
+  "household": {
+    "id": "FYODOR_NADEZHDA_ROOM_1847",
+    "unitLabelKo": "시장 남매의 공동 셋방",
+    "homeLocation": {
+      "mapId": "courtyard",
+      "position": {
+        "x": 14,
+        "y": 9
+      }
+    },
+    "memberHostIds": [
+      "baker_fyodor",
+      "market_nadezhda"
+    ],
+    "status": "FICTIONAL_CHARACTER_DESIGN"
   },
   "kinshipRelations": [
     {

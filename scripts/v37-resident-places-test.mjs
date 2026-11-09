@@ -51,12 +51,20 @@ for (const card of fictionalCards) {
 }
 const householdCards = fictionalCards.filter(card => card.household);
 const careTasks = fictionalCards.flatMap(card => card.schedule.filter(slot => slot.task?.type === 'CARE_TRANSFER').map(slot => ({ card, task: slot.task })));
-assert.equal(householdCards.length, 4, 'two households each have two explicitly named members');
+assert.equal(householdCards.length, 6, 'three households each have two explicitly named members');
 assert.ok(careTasks.some(({ card, task }) => card.id === 'laundress_mariya' && task.recipientHostId === 'seamstress_anna'),
   'the shared household retains its explicitly authored conditional care transfer alongside other households’ support tasks');
 assert.ok(householdCards.every(card => state.hosts[card.id].places.homeLocationStatus === 'AUTHORED_FICTIONAL_HOUSEHOLD'));
 assert.deepEqual([...new Set(householdCards.map(card => card.household.id))].sort(),
-  ['COURTYARD_SISTERS_1847', 'LYUBOV_TATYANA_ROOM_1847'], 'both authored households have stable identifiers');
+  ['COURTYARD_SISTERS_1847', 'FYODOR_NADEZHDA_ROOM_1847', 'LYUBOV_TATYANA_ROOM_1847'], 'all authored households have stable identifiers');
+const marketSiblings = fictionalCards.filter(card => ['baker_fyodor', 'market_nadezhda'].includes(card.id));
+assert.equal(marketSiblings.length, 2, 'both market siblings are part of the runtime population');
+assert.ok(marketSiblings.every(card => card.household?.id === 'FYODOR_NADEZHDA_ROOM_1847'),
+  'the baker and market seller share their authored fictional home');
+assert.deepEqual(marketSiblings[0].household.memberHostIds, ['baker_fyodor', 'market_nadezhda']);
+assert.deepEqual(marketSiblings[1].household.memberHostIds, ['baker_fyodor', 'market_nadezhda']);
+assert.deepEqual(state.hosts.baker_fyodor.places.homeLocation, state.hosts.market_nadezhda.places.homeLocation,
+  'both siblings resolve to one shared household location');
 
 const serialized = game.saveGame(state);
 const restored = game.loadGame(serialized, { maps, hostCards: cards });
