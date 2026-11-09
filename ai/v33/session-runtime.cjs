@@ -9,6 +9,7 @@ const sceneObservations = require('../../rpg/data/scene-observations.json').entr
 const historicalPlayEvents = require('../../rpg/data/historical-scene-play.json').events;
 const historicalConversationChoices = require('../../rpg/data/historical-conversation-choices.json');
 const historicalEventCatalog = require('../../rpg/data/v38-historical-events.json').events;
+const historicalEventActors = new Map(historicalPlayEvents.flatMap(event => event.actors.map(actor => [`${event.eventId}:${actor.id}`, { event, actor }])));
 const literarySources = [require('../../rpg/data/khor-kalynych-source.json'), require('../../rpg/data/sovremennik-1847-issue.json'), require('../../rpg/data/dead-souls-source.json'), require('../../rpg/data/overcoat-source.json')];
 const sourceRecords = new Map([...historicalSources, ...literarySources].map(source => [source.sourceId, source]));
 const caseContexts = require('../../rpg/data/case-contexts.json').cases;
@@ -374,6 +375,36 @@ function safeProfile(card, actorHostId = null, speechSituation = 'firstMeeting',
   const relationshipToEmbodiedPlayer = actorHostId ? relationshipNetwork.find(item => item.hostId === actorHostId) ?? null : null;
   return { id: card.id, nameKo: card.displayNameKo, occupation: card.occupation, socialEstate: card.socialEstate, rank: card.rank, wealthBracket: card.wealthBracket ? { value: card.wealthBracket, status: card.wealthBracketStatus ?? 'unspecified' } : null, legalMobility: card.legalMobility, literacy: card.literacy, skills, skillsValueStatus: card.skillsValueStatus ?? 'FICTIONAL_CHARACTER_DESIGN', risk: card.risk, speechRhythm: card.speechRhythm, speechRegister, voiceSamples: (card.voiceSamples ?? []).slice(0, 3).map(item => cleanText(item, 180)), lexicon: (card.lexicon ?? []).slice(0, 8), speechDelivery: speechDeliveryFor(card, speechSituation), desires: card.desires, fears: card.fears, personalObjective: cleanText(card.personalObjective, 240), todayGoals, conversationHooks, relationshipNetwork, relationshipToEmbodiedPlayer, household, worldview, topicStances, knownPrivateFacts: (card.secretKnowledge ?? []).slice(0, 6).map(item => cleanText(item.summaryKo, 180)) };
 }
+function historicalDialogueContext(eventId, actorId, playerActorId = null) {
+  const found = historicalEventActors.get(`${eventId}:${actorId}`);
+  const event = historicalEventCatalog.find(item => item.id === eventId);
+  const playerActor = playerActorId ? historicalEventActors.get(`${eventId}:${playerActorId}`) : null;
+  if (!found || !event || playerActorId && (!playerActor || playerActorId === actorId)) return null;
+  const { event: play, actor } = found;
+  const actorMapId = actor.mapId ?? play.maps[play.actors.indexOf(actor) % play.maps.length];
+  const template = cards.get(actor.templateId);
+  if (!template) return null;
+  const objective = play.objectives.find(item => item.id === actor.objectiveId);
+  const sceneId = `V38_HISTORICAL_${eventId}_${actorId}`;
+  const character = { ...template, displayNameKo: actor.nameKo, occupation: actor.occupationKo ?? template.occupation,
+    personalObjective: actor.introductionKo ?? objective?.actionKo ?? objective?.titleKo ?? actor.lines?.[0] ?? template.personalObjective,
+    voiceSamples: [...(actor.lines ?? []), ...(template.voiceSamples ?? [])].slice(0, 3),
+    relations: {}, kinshipRelations: [], secretKnowledge: [], privateKnowledgeIds: [], todayGoals: [], conversationHooks: [] };
+  const playerMapId = playerActor ? playerActor.actor.mapId ?? playerActor.event.maps[playerActor.event.actors.indexOf(playerActor.actor) % playerActor.event.maps.length] : null;
+  const player = playerActor ? { ...cards.get(playerActor.actor.templateId), displayNameKo: playerActor.actor.nameKo,
+    occupation: playerActor.actor.occupationKo ?? cards.get(playerActor.actor.templateId)?.occupation,
+    personalObjective: playerActor.actor.introductionKo ?? playerActor.actor.lines?.[0] ?? '',
+    secretKnowledge: [], privateKnowledgeIds: [], todayGoals: [], conversationHooks: [] } : null;
+  const placeIndex = play.maps.indexOf(actorMapId);
+  const placeKo = play.zoneTitlesKo?.[placeIndex] ?? event.titleKo;
+  const configuration = { sceneId, dialogueObjective: `${objective?.titleKo ?? '오늘 현장'}에서 ${actor.nameKo}의 사정과 판단을 듣는다.`,
+    focusKo: `${event.titleKo}의 ${placeKo}. ${actor.nameKo}가 맡은 일: ${objective?.actionKo ?? actor.introductionKo ?? ''}`,
+    allowedTopics: [event.titleKo, placeKo, objective?.titleKo, objective?.actionKo, ...(actor.lines ?? [])].filter(Boolean).slice(0, 8),
+    forbiddenTopics: ['장면 밖의 역사적 사실을 지어내기', '다른 인물의 비밀이나 알 수 없는 정보', '실제 역사의 결과를 바꾸었다고 단정하기'],
+    allowedSourceIds: [], turnLimit: 8, hostId: template.id };
+  return { event, play, actor: { ...actor, mapId: actorMapId }, playerActor: playerActor ? { ...playerActor.actor, mapId: playerMapId } : null,
+    character, player, objective, placeKo, configuration, sceneId };
+}
 function playerKnownFactSummary(card, id) {
   const privateFact = (card.secretKnowledge ?? []).find(item => item.id === id);
   if (privateFact) return cleanText(privateFact.summaryKo, 180);
@@ -637,13 +668,20 @@ function createRpgAiService({ secret, store, allowedOrigins = [], provider = nul
     if (request.method !== 'POST') return response(405, { error: 'method_not_allowed' }, request.origin, allowedOrigins);
     if (!secret || Buffer.byteLength(secret, 'utf8') < 32) return response(503, { error: 'BLOCKED_SESSION_SECRET' }, request.origin, allowedOrigins);
     const body = request.body;
-    if (!body || Array.isArray(body) || typeof body !== 'object' || Object.keys(body).some(key => !['hostId','actorHostId'].includes(key))) return response(400, { error: 'invalid_request' }, request.origin, allowedOrigins);
-    const card = cards.get(body.hostId), configuration = scenes[body.hostId];
+    if (!body || Array.isArray(body) || typeof body !== 'object' || Object.keys(body).some(key => !['hostId','actorHostId','historicalEventId','historicalActorId','historicalPlayerActorId'].includes(key))) return response(400, { error: 'invalid_request' }, request.origin, allowedOrigins);
+    const card = cards.get(body.hostId);
+    const hasHistoricalContext = body.historicalEventId !== undefined || body.historicalActorId !== undefined || body.historicalPlayerActorId !== undefined;
+    const historical = hasHistoricalContext ? historicalDialogueContext(body.historicalEventId, body.historicalActorId, body.historicalPlayerActorId ?? null) : null;
+    const configuration = historical?.configuration ?? scenes[body.hostId];
     if (!card || !configuration) return response(400, { error: 'unsupported_host' }, request.origin, allowedOrigins);
+    if (hasHistoricalContext && (!historical || historical.actor.templateId !== body.hostId || body.actorHostId !== undefined)) return response(400, { error: 'invalid_historical_context' }, request.origin, allowedOrigins);
     if (body.actorHostId !== undefined && (!cards.has(body.actorHostId) || body.actorHostId === body.hostId)) return response(400, { error: 'invalid_actor' }, request.origin, allowedOrigins);
     const sessionId = randomUUID(), scene = { ...configuration, hostId: card.id };
     const createdAt = now();
-    const stored = { hostId: card.id, actorHostId: body.actorHostId ?? null, sceneId: scene.sceneId, turnLimit: scene.turnLimit ?? 8, createdAt, expiresAt: createdAt + SESSION_TTL_MS, usedTurns: 0, windowStart: createdAt, windowCount: 0, recentTurns: [], requests: {} };
+    const stored = { hostId: card.id, actorHostId: body.actorHostId ?? null,
+      ...(historical ? { historicalEventId: body.historicalEventId, historicalActorId: body.historicalActorId,
+        historicalPlayerActorId: body.historicalPlayerActorId ?? null } : {}),
+      sceneId: scene.sceneId, turnLimit: scene.turnLimit ?? 8, createdAt, expiresAt: createdAt + SESSION_TTL_MS, usedTurns: 0, windowStart: createdAt, windowCount: 0, recentTurns: [], requests: {} };
     if (await store.create(sessionId, stored) === false) return response(503, { error: 'session_unavailable' }, request.origin, allowedOrigins);
     return response(201, { sessionToken: issueToken(sessionId, secret), mode: provider ? 'AI' : 'BLOCKED_NO_KEY', expiresAt: stored.expiresAt }, request.origin, allowedOrigins);
   };
@@ -665,19 +703,41 @@ function createRpgAiService({ secret, store, allowedOrigins = [], provider = nul
     if (claim.kind === 'busy') return response(409, { error: 'request_in_progress' }, request.origin, allowedOrigins);
     if (claim.kind === 'conflict') return response(409, { error: 'idempotency_conflict' }, request.origin, allowedOrigins);
     if (claim.kind === 'session_limit' || claim.kind === 'rate_limit') return response(429, { error: 'session_rate_limit' }, request.origin, allowedOrigins);
-    const context = claim.context, card = cards.get(context.hostId), configuration = scenes[context.hostId];
+    const context = claim.context, baseCard = cards.get(context.hostId);
+    const historical = context.historicalEventId
+      ? historicalDialogueContext(context.historicalEventId, context.historicalActorId, context.historicalPlayerActorId ?? null) : null;
+    if (context.historicalEventId && !historical) { await store.release(sessionId, body.requestId, time); return response(400, { error: 'invalid_historical_context' }, request.origin, allowedOrigins); }
+    const card = historical?.character ?? baseCard, configuration = historical?.configuration ?? scenes[context.hostId];
+    if (!card || !configuration) { await store.release(sessionId, body.requestId, time); return response(400, { error: 'unsupported_host' }, request.origin, allowedOrigins); }
     if (!context.actorHostId && Object.keys(actorRelations).length) { await store.release(sessionId, body.requestId, time); return response(400, { error: 'relationship_context_requires_actor' }, request.origin, allowedOrigins); }
     if (!context.actorHostId && actorActions.length || actorActions.some(item => !actorActionRecords.get(`${item.questId}:${item.actionId}`).hostIds.includes(context.actorHostId))) { await store.release(sessionId, body.requestId, time); return response(400, { error: 'player_action_context_not_allowed' }, request.origin, allowedOrigins); }
     const playerResources = context.actorHostId ? derivePlayerResources(context.actorHostId, actorActions) : null;
     if (context.actorHostId && !playerResources) { await store.release(sessionId, body.requestId, time); return response(400, { error: 'invalid_player_resource_context' }, request.origin, allowedOrigins); }
-    let sceneContext = normalizeSceneContext(body.sceneContext, context.actorHostId, card);
+    let sceneContext = historical ? { date: historical.event.date, mapId: historical.actor.mapId, placeKo: historical.placeKo,
+      questId: null, questTitleKo: historical.objective?.titleKo ?? null, activityKo: null,
+      currentAimKo: historical.objective?.actionKo ?? null, hungerBand: null, fatigueBand: null, healthCondition: null,
+      heardRumors: [], heardEvents: [], playerHistoricalEvents: [], playerKnowledgeIds: [] }
+      : normalizeSceneContext(body.sceneContext, context.actorHostId, card);
     if (!sceneContext) { await store.release(sessionId, body.requestId, time); return response(400, { error: 'invalid_scene_context' }, request.origin, allowedOrigins); }
     if (globalLimiter ? !(await globalLimiter.consume(time)) : !(await store.consumeGlobal(time))) { await store.release(sessionId, body.requestId, time); return response(429, { error: 'global_rate_limit' }, request.origin, allowedOrigins); }
     const caseRecord = caseContexts.find(item => item.questId === sceneContext.questId && item.eraDate <= sceneContext.date
       && (item.roles?.[card.id] || item.questId === 'CIRCLE_INVESTIGATION_1849' && card.id === 'police_sergeant_ivan'));
     const speakerRole = caseRecord?.roles?.[card.id] ?? null;
     const playerRole = context.actorHostId ? caseRecord?.roles?.[context.actorHostId] ?? null : null;
-    const dialogueCase = caseRecord ? {
+    const dialogueCase = historical ? {
+      questId: historical.event.id,
+      sceneTitleKo: historical.event.titleKo,
+      premiseKo: historical.event.historyKo,
+      stakesKo: historical.objective?.titleKo ?? historical.actor.introductionKo ?? '',
+      decisionQuestionKo: historical.objective?.actionKo ?? '',
+      historicalBoundaryKo: `현장 인물의 대화는 확인된 범위 안에서만 말한다. 근거 정보: ${historical.event.sourceLabelKo}; ${historical.event.sourceRangeKo}. 모르는 사실은 모른다고 답한다.`,
+      speakerPerspectiveKo: historical.actor.introductionKo ?? historical.actor.lines?.[0] ?? null,
+      speakerPersonalStakesKo: historical.objective?.actionKo ?? null,
+      speakerKnowledgeKinds: ['SCENE_EXPERIENCE', 'AUTHORED_EVENT_CONTEXT'],
+      playerPerspectiveKo: historical.playerActor?.introductionKo ?? historical.playerActor?.lines?.[0] ?? null,
+      discussionQuestions: [historical.objective?.titleKo, historical.objective?.actionKo].filter(Boolean),
+      sourceIds: [],
+    } : caseRecord ? {
       questId: caseRecord.questId,
       sceneTitleKo: caseRecord.playerFacing.sceneTitleKo,
       premiseKo: caseRecord.playerFacing.premiseKo,
@@ -700,7 +760,7 @@ function createRpgAiService({ secret, store, allowedOrigins = [], provider = nul
     }).map(source => ({ sourceId: source.sourceId, titleKo: source.titleKo, titleRu: source.titleRu, documentDate: source.documentDate, contextKo: source.contextKo, paragraphs: (source.paragraphs ?? []).map(paragraph => ({ ru: paragraph.ru, ko: paragraph.ko })) }));
     scene.allowedSourceIds = sourceEvidence.map(source => source.sourceId);
     const sourceClaims = claimsForScene(scene).map(({ claimId, sourceId, paragraphIndex, claimKo }) => ({ claimId, sourceId, paragraphIndex, claimKo }));
-    const actor = context.actorHostId ? cards.get(context.actorHostId) : null;
+    const actor = historical?.player ?? (context.actorHostId ? cards.get(context.actorHostId) : null);
     const speechSituation = speechSituationFor({ character: card, actor, actorRelations, sceneContext, recentTurns: context.recentTurns, playerInput: inputKo });
     const { playerKnowledgeIds, ...publicSceneContext } = sceneContext;
     const input = { scene: { id: scene.sceneId, objective: scene.dialogueObjective, focusKo: scene.focusKo, allowedTopics: scene.allowedTopics, forbiddenTopics: scene.forbiddenTopics, allowedSourceIds: scene.allowedSourceIds, knownFactIds: scene.allowedSourceIds }, caseContext: dialogueCase, conversation: { embodiedPlayer: actor ? safeEmbodiedProfile(actor, speechSituation, playerKnowledgeIds) : null, sceneContext: publicSceneContext, speechSituation, playerResources, relationshipHints: context.actorHostId ? actorRelations : {}, playerActions: context.actorHostId ? actorActions : [], playerHistoricalEvents: publicSceneContext.playerHistoricalEvents }, sourceEvidence, sourceClaims, character: safeProfile(card, context.actorHostId, speechSituation, sceneContext.date), recentTurns: context.recentTurns.slice(-8), playerInput: inputKo };

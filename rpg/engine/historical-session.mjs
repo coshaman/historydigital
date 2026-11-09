@@ -13,9 +13,9 @@ export function historicalParticipantGuide(scene, actorId, activeSession = {}) {
   const ownAction = actions.find(item => item.requiredActorId === actor.id);
   const involvedAction = actions.find(item => item.gatherActorIds?.includes(actor.id)
     && !activeSession.actionOutcomes?.[item.id]);
-  const pendingAction = actions.find(item => !activeSession.actionOutcomes?.[item.id]);
+  const pendingAction = actions.find(item => !activeSession.actionOutcomes?.[item.id]) ?? actions[0];
   const action = ownAction && !activeSession.actionOutcomes?.[ownAction.id]
-    ? ownAction : involvedAction ?? pendingAction ?? ownAction ?? actions[0];
+    ? ownAction : involvedAction ?? pendingAction ?? ownAction;
   const partners = (scene.actors ?? []).filter(person => person.objectiveId === actor.objectiveId && person.id !== actor.id);
   const partnerIds = partners.map(person => person.id);
   const fallbackIds = (action?.gatherActorIds ?? []).filter(id => id !== actor.id);
@@ -34,13 +34,14 @@ export function historicalParticipantGuide(scene, actorId, activeSession = {}) {
     actorNameKo: actor.nameKo,
     objectiveTitleKo: objective?.titleKo ?? actor.introductionKo ?? actor.lines?.[0] ?? '현장 사람들과 이야기를 나눈다',
     actionKo: objective?.actionKo ?? '가까운 사람에게 오늘 일을 물어본다',
+    actionId: action?.id ?? null,
     talkToNamesKo,
     propKo: action?.propKo ?? '주변 사람과 이야기',
     placeKo,
     questStepsKo: [
-      `${placeKo}로 간다`,
-      `${firstContactKo}에게 말 건다`,
-      `${action?.propKo ?? '주변 사람'}에서 ${action?.promptKo ?? objective?.actionKo ?? '맡은 일을 처리한다'}`,
+      `이동 · ${placeKo}`,
+      `대화 · ${firstContactKo}에게 말 걸기`,
+      `행동 · ${action?.propKo ?? '주변 사람'} · ${objective?.actionKo ?? action?.promptKo ?? '맡은 일을 처리한다'}`,
     ],
     requiredActorNameKo: action?.requiredActorId
       ? scene.actors.find(person => person.id === action.requiredActorId)?.nameKo ?? null : null,

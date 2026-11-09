@@ -79,6 +79,36 @@ test('session is server-bound to one host; client cannot choose scene, inject me
   assert.equal((await service.handle(request('POST', '/api/rpg/dialogue', { ...body, requestId: 'request-invalid-historical-memory', sceneContext: { ...body.sceneContext, playerHistoricalEvents: [{ eventId: 'NOT_A_GAME_EVENT', choices: ['invented'] }] } }))).body.error, 'invalid_scene_context');
 });
 
+test('historical field dialogue binds both event actors server-side and gives AI the character voice and dated scene', async () => {
+  let providerInput;
+  const store = new MemorySessionStore();
+  const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store,
+    allowedOrigins: ['https://game.example'],
+    provider: { generate: async request => { providerInput = request.input; return validTurn(request.input.scene.id, request.input.character.id); } } });
+  const invalid = await service.handle(request('POST', '/api/rpg/session/start', {
+    hostId: 'printer_ekaterina', historicalEventId: 'EMANCIPATION_1861', historicalActorId: 'maid', historicalPlayerActorId: 'washer' }));
+  assert.equal(invalid.status, 400, 'the server rejects an actor/template mismatch');
+  const opened = await service.handle(request('POST', '/api/rpg/session/start', {
+    hostId: 'typesetter_nikita', historicalEventId: 'EMANCIPATION_1861', historicalActorId: 'typesetter', historicalPlayerActorId: 'maid' }));
+  assert.equal(opened.status, 201);
+  const result = await service.handle(request('POST', '/api/rpg/dialogue', {
+    sessionToken: opened.body.sessionToken, requestId: 'historical-turn-0001', playerInput: '왜 뒷장까지 읽어야 해요?', actorRelations: {}, actorActions: [] }));
+  assert.equal(result.status, 200, JSON.stringify(result.body));
+  assert.equal(providerInput.scene.id, 'V38_HISTORICAL_EMANCIPATION_1861_typesetter');
+  assert.equal(providerInput.character.nameKo, '식자공 니키타');
+  assert.match(providerInput.character.personalObjective, /식자공과 서점 주인/);
+  assert.deepEqual(providerInput.character.voiceSamples.slice(0, 2), [
+    '제목만 읽고 가면 안 돼요. 땅 얘기는 뒤쪽에 있어요.',
+    '인쇄본 가져왔어요. 선언부터 볼까요, 토지 조항부터 볼까요?',
+  ]);
+  assert.equal(providerInput.conversation.embodiedPlayer.nameKo, '하녀 올가');
+  assert.deepEqual(providerInput.character.knownPrivateFacts, [], 'an 1847 template secret cannot leak into the 1861 role');
+  assert.equal(providerInput.conversation.sceneContext.date, '1861-03-03');
+  assert.equal(providerInput.conversation.sceneContext.placeKo, '공고가 붙은 거리');
+  assert.match(providerInput.caseContext.historicalBoundaryKo, /RGIA/);
+  assert.deepEqual(providerInput.sourceEvidence, [], 'the event packet is not misrepresented as a verified source excerpt');
+});
+
 test('AI receives Semyon’s authored neighborhood story hook for an open recent-events question', async () => {
   let providerInput, providerInstructions;
   const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long',

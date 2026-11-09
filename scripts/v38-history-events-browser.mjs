@@ -149,15 +149,17 @@ async function speakTwo(page, scene, zoneIndex, spokenNames) {
   const { positions } = actorPositions(scene, zoneIndex);
   const usedBodies = spokenNames.usedBodies ??= new Set();
   let attempts = 0;
-  const targetCount = Math.min(12, Math.max(spokenNames.size + 1, (zoneIndex + 1) * 4));
+  const targetCount = Math.min(12, (zoneIndex + 1) * 4);
   while (spokenNames.size < targetCount && attempts++ < 24) {
     await page.locator('#roster-open').click();
     const cards = page.locator('.roster-card');
     await cards.first().waitFor();
     const rosterGuide = await cards.first().innerText();
     assert.match(rosterGuide, /의뢰/);
-    assert.match(rosterGuide, /말 걸 사람/);
-    assert.match(rosterGuide, /순서|완료/);
+    assert.match(rosterGuide, /먼저 말 걸기/);
+    assert.match(rosterGuide, /이동 ·/);
+    assert.match(rosterGuide, /대화 ·/);
+    assert.match(rosterGuide, /행동 ·/);
     let found = false;
     for (let index = 0; index < await cards.count(); index++) {
       const card = cards.nth(index), bodyName = await card.locator('strong').textContent();
@@ -184,13 +186,20 @@ async function speakTwo(page, scene, zoneIndex, spokenNames) {
       if (!enabled) continue;
       const partner = (await talk.innerText()).replace(/^말 걸기 ·\s*/, '').trim();
       await talk.click();
-      assert.equal(await page.locator('#headline').textContent(), partner);
+      assert.equal(await page.locator('#dialogue-speaker-name').textContent(), partner);
       const dialogueText = await page.locator('#journal-text').textContent();
       assert.ok(dialogueText.length > 35);
       const nearbyParticipants = scene.actors.filter(actor => dialogueText.includes(actor.nameKo)).length;
       assert.ok(nearbyParticipants >= 4, `${scene.eventId} has a five-person nearby conversation, found ${nearbyParticipants}`);
       const interlocutor = scene.actors.find(actor => actor.nameKo === partner);
       assert.ok(interlocutor, `${partner} is an actor in the current historical scene`);
+      const chatInput = page.locator('.dialogue-input input');
+      await chatInput.fill('그 일에서 무엇이 가장 걱정스럽소?');
+      await page.locator('.dialogue-input button[type="submit"]').click();
+      await page.waitForFunction(() => document.querySelector('#dialogue-history-lines')?.innerText.includes('현장에선 사람마다')
+        || document.querySelector('#journal-text')?.innerText.includes('현장에선 사람마다'));
+      assert.match(await page.locator('#journal-text').innerText(), /현장에선 사람마다/,
+        'a typed player question receives the event-bound AI answer');
       const branch = getHistoricalConversationChoices(conversationChoices, scene.eventId, interlocutor.objectiveId)[0];
       const branchButton = page.locator('#actions button').filter({ hasText: branch.labelKo });
       try { await branchButton.waitFor({ timeout: 5000 }); }
@@ -227,6 +236,23 @@ try {
   for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 }]) {
     const context = await browser.newContext({ viewport });
     const page = await context.newPage(), errors = [];
+    let historicalSession = null;
+    await page.route('**/api/rpg/session/start', async route => {
+      const body = route.request().postDataJSON();
+      historicalSession = body;
+      await route.fulfill({ status: 201, contentType: 'application/json', body: JSON.stringify({ sessionToken: 'v38-browser-session', mode: 'AI' }) });
+    });
+    await page.route('**/api/rpg/dialogue', async route => {
+      const body = route.request().postDataJSON(), actor = play.find(event => event.eventId === historicalSession?.historicalEventId)?.actors.find(item => item.id === historicalSession?.historicalActorId);
+      assert.ok(actor, 'the browser binds the AI turn to an event actor');
+      assert.ok(body.playerInput.includes('무엇이 가장 걱정스럽소'));
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
+        aiGenerated: true, fallback: false, mode: 'AI',
+        turn: { schemaVersion: 'V33_RPG_DIALOGUE_V2', sceneId: `V38_HISTORICAL_${historicalSession.historicalEventId}_${actor.id}`,
+          beats: [{ speakerId: actor.templateId, textKo: '현장에선 사람마다 걱정이 다르오. 나는 맡은 일부터 끝내고 싶소.', emotion: 'focused', claimIds: [] }],
+          suggestedReplies: [{ id: 'R1', textKo: '그 문제부터 묻겠소.', tone: 'curious' }, { id: 'R2', textKo: '내가 돕겠소.', tone: 'direct' }] },
+      }) });
+    });
     page.on('pageerror', error => errors.push(String(error)));
     await page.goto(base, { waitUntil: 'domcontentloaded' });
     await page.evaluate(() => localStorage.clear()); await page.reload({ waitUntil: 'domcontentloaded' });

@@ -146,6 +146,7 @@ $('.mission-controls').append(caseContextButton);
 $('#roster-open').addEventListener('click', openCharacterList);
 let lastMoveAt = 0, renderFrame = null, renderTimer = null, activeDialogueHost = null, activeDialogueKey = null, activeDialogueController = null, dialogueGeneration = 0, dialogueRequestPending = false;
 const dialogueSessions = new Map(), dialogueTranscripts = new Map(), dialogueOrdinaryExchanges = new Map();
+const historicalDialogueChoicesByKey = new Map();
 const dialogueCurrentLines = new Map();
 const dialogueFailedQuestions = new Map();
 const hasLiveDialogue = key => !dialogueSessionNeedsReconnect(dialogueSessions.get(key));
@@ -1112,6 +1113,9 @@ function startHistoricalConversation(card) {
   const scene = historicalSceneForState(), session = state.historicalSession;
   const actorId = card.id.split(':').at(-1), person = scene?.actors.find(item => item.id === actorId);
   if (!scene || !person) { sayRecord('지금은 그 사람과 이야기할 수 없습니다.'); return; }
+  const speakerKey = dialogueKey(state.player.embodiment, card.id); ++dialogueGeneration;
+  activeDialogueHost = card.id; activeDialogueKey = speakerKey; dialogueRequestPending = false; updateHud();
+  tutorialAdvance('talk');
   const alreadySpoken = (session.spokenActorIds ?? []).includes(person.id);
   let line = person.lines[alreadySpoken ? Math.min(1, person.lines.length - 1) : 0];
   const playerPosition = state.player.position;
@@ -1120,13 +1124,8 @@ function startHistoricalConversation(card) {
     .filter(({ host }) => host && Math.abs(host.position.x - playerPosition.x) + Math.abs(host.position.y - playerPosition.y) <= 8)
     .slice(0, 4).map(({ other }) => `${other.nameKo}  ${other.lines[0]}`);
   if (joiningVoices.length) line += `\n\n${joiningVoices.join('\n')}`;
-  const choices = historicalConversationChoices(scene.eventId, person.objectiveId);
-  say(card.displayNameKo, line, [
-    ...choices.map(option => ({ label: option.labelKo,
-      run: () => resolveHistoricalConversation(scene, person, option) })),
-    { label: '조금 더 듣는다',
-      run: () => resolveHistoricalConversation(scene, person, { id: 'defer', labelKo: '더 듣고 결정은 미뤘다', stance: 'defer', reactionKo: '그 사람은 고개를 끄덕이고 현장으로 돌아갔다.' }) },
-  ]);
+  dialogueCurrentLines.set(speakerKey, line);
+  showConversation(card, line, [], '직접 물어보면 이 인물이 지금 처한 일에 답합니다.');
 }
 function resolveHistoricalConversation(scene, person, response) {
   let next = advanceHistoricalSessionTime(state, response.stance === 'defer' ? 1 : 2, maps, advanceWorldTime);
@@ -1200,7 +1199,7 @@ function startHistoricalAction(scene, action) {
     const completed = next.historicalSession.completedObjectives.length;
     const nextAction = scene.fieldActions.find(item => item.objectiveId !== action.objectiveId && !next.historicalSession.actionOutcomes?.[item.id]);
     const unlocked = canConcludeHistoricalSession(next, scene);
-    const followups = unlocked ? scene.choices.map(choice => ({ label: choice.label, subcopy: choice.directionKo, run: () => {
+    const followups = unlocked ? scene.choices.map(choice => ({ label: choice.label, run: () => {
       setState(recordHistoricalChoice(state, { id: choice.id, textKo: choice.textKo })); leaveHistoricalSession(true);
     } })) : [
       { label: '현장 인물 목록', subcopy: '다른 사람의 시야로 바꾸어 직접 움직입니다', run: openCharacterList },
@@ -1719,9 +1718,15 @@ function openCharacterList() {
     const introduction = document.createElement('span'); introduction.className = 'roster-card-intro';
     introduction.textContent = guide ? `의뢰 · ${guide.objectiveTitleKo}` : card.personalObjective;
     const current = document.createElement('small'); current.textContent = guide
-      ? `말 걸 사람 · ${guide.talkToNamesKo.join(' · ') || '주변 인물'}` : `지금 · ${activity}`;
-    const task = document.createElement('small'); task.className = 'roster-card-task';
-    task.textContent = guide ? `${guide.completed ? '완료' : '순서'} · ${(guide.questStepsKo ?? []).join(' → ')}${guide.requiredActorNameKo ? ` · 담당 ${guide.requiredActorNameKo}` : ''}` : '';
+      ? `먼저 말 걸기 · ${guide.talkToNamesKo.join(' · ') || '주변 인물'}` : `지금 · ${activity}`;
+    const task = document.createElement('ol'); task.className = 'roster-card-task';
+    if (guide) for (const step of guide.questStepsKo ?? []) {
+      const item = document.createElement('li'); item.textContent = step; task.append(item);
+    }
+    if (guide?.requiredActorNameKo) {
+      const role = document.createElement('small'); role.className = 'roster-card-role';
+      role.textContent = `직접 맡을 인물 · ${guide.requiredActorNameKo}`; task.append(role);
+    }
     const place = document.createElement('small'); place.className = 'roster-card-place';
     place.textContent = maps[host.mapId].metadata.displayNameKo;
     copy.append(name, occupation, introduction, current);
@@ -1750,12 +1755,21 @@ function finishConversation(hostId) {
   activeDialogueController?.abort(); activeDialogueController = null; activeDialogueHost = null; activeDialogueKey = null; updateHud();
   $('.lower').classList.remove('is-talking');
   $('#dialogue-speaker').hidden = true;
+  if (key) historicalDialogueChoicesByKey.delete(key);
   if (key && interruptedTurn) { dialogueSessions.delete(key); sessionStorage.removeItem(dialogueStorageKey(key)); }
   if (key && dialogueSessions.get(key)?.mode === 'BLOCKED_LIMIT') { dialogueSessions.delete(key); sessionStorage.removeItem(dialogueStorageKey(key)); }
   const card = cards.find(item => item.id === hostId);
   tutorialAdvance('finish');
   say(card.displayNameKo, '대화를 마쳤다. 그 사람은 지금 하던 일을 이어간다.', []);
   sayRecord('대화 기록을 남기고 현장으로 돌아왔다.');
+}
+function clearHistoricalDialogue() {
+  const key = activeDialogueKey;
+  dialogueGeneration += 1; dialogueRequestPending = false;
+  activeDialogueController?.abort(); activeDialogueController = null;
+  if (key) { dialogueSessions.delete(key); historicalDialogueChoicesByKey.delete(key); }
+  activeDialogueHost = null; activeDialogueKey = null;
+  $('.lower').classList.remove('is-talking'); $('#dialogue-speaker').hidden = true; updateHud();
 }
 function showConversation(card, promptText, replies, statusText = '') {
   $('.lower').classList.add('is-talking');
@@ -1767,7 +1781,15 @@ function showConversation(card, promptText, replies, statusText = '') {
   const lines = dialogueTranscripts.get(activeDialogueKey) ?? [];
   const history = $('#dialogue-history'), historyLines = $('#dialogue-history-lines');
   history.hidden = !lines.length; historyLines.replaceChildren(...lines.slice(-12).map(line => { const li=document.createElement('li'); li.textContent=`${line.speaker} · ${line.text}`; return li; }));
-  const replyActions = replies.slice(0, 3).map((label, index) => ({ label, run: () => sendConversation(card, label, `R${index + 1}`) }));
+  const historicalChoices = historicalDialogueChoicesByKey.get(activeDialogueKey);
+  const replyActions = historicalChoices
+    ? historicalChoices.map(option => ({ label: option.labelKo, run: () => {
+      const scene = historicalSceneForState(), actor = scene?.actors.find(item => card.id.endsWith(`:${item.id}`));
+      historicalDialogueChoicesByKey.delete(activeDialogueKey);
+      clearHistoricalDialogue();
+      if (scene && actor) resolveHistoricalConversation(scene, actor, option);
+    } }))
+    : replies.slice(0, 3).map((label, index) => ({ label, run: () => sendConversation(card, label, `R${index + 1}`) }));
   replyActions.push({ label: '대화 마치기', run: () => finishConversation(card.id) });
   say('대화 중', promptText || dialogueCurrentLines.get(activeDialogueKey) || '', replyActions);
   if (dialogueRequestPending) $('#actions').querySelectorAll('.dialogue-input button').forEach(button => { button.disabled = true; });
@@ -1843,7 +1865,80 @@ async function startConversation(card) {
       ? '첫마디는 장면용 대사입니다. 아래에서 질문을 고르거나 직접 말하면 AI 생성 답변을 표시합니다.'
       : 'AI 답변 대기 · 인물에게 질문을 보내면 서버에서 답변을 생성합니다.');
 }
+async function sendHistoricalConversation(card, playerText) {
+  const key = activeDialogueKey, scene = historicalSceneForState(), actorId = card.id.split(':').at(-1);
+  const person = scene?.actors.find(item => item.id === actorId);
+  const playerActorId = state.player.embodiment?.split(':').at(-1);
+  if (!key || !scene || !person || !playerActorId || playerActorId === actorId || dialogueRequestPending) return;
+  const generation = dialogueGeneration, actorCard = cards.find(item => item.id === state.player.embodiment);
+  const lines = dialogueTranscripts.get(key) ?? [];
+  lines.push({ speaker: actorCard?.displayNameKo ?? '나', text: playerText });
+  dialogueTranscripts.set(key, lines.slice(-24)); dialogueFailedQuestions.set(key, playerText);
+  dialogueRequestPending = true; dialogueCurrentLines.set(key, '잠시 생각하고 있어요.');
+  showConversation(card, dialogueCurrentLines.get(key), [], '답변을 기다리는 중');
+  const controller = new AbortController(); activeDialogueController = controller;
+  const timer = setTimeout(() => controller.abort(), 20000);
+  try {
+    let session = dialogueSessions.get(key);
+    if (!session?.token) {
+      const startResponse = await fetch(`${aiBaseUrl}/api/rpg/session/start`, { method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ hostId: person.templateId, historicalEventId: scene.eventId, historicalActorId: person.id, historicalPlayerActorId: playerActorId }),
+        cache: 'no-store', signal: controller.signal });
+      const startData = await startResponse.json().catch(() => ({}));
+      if (!startResponse.ok || startData.mode !== 'AI' || !startData.sessionToken) {
+        const code = startData.error || (startData.mode === 'BLOCKED_NO_KEY' ? 'BLOCKED_NO_KEY' : 'historical_session_start_failed');
+        throw Object.assign(new Error('historical dialogue session failed'), { status: startResponse.status, apiCode: code });
+      }
+      session = { token: startData.sessionToken, mode: 'AI' }; dialogueSessions.set(key, session);
+    }
+    const requestTurn = current => fetch(`${aiBaseUrl}/api/rpg/dialogue`, { method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ sessionToken: current.token, requestId: crypto.randomUUID(), playerInput: playerText, actorRelations: {}, actorActions: [] }),
+      cache: 'no-store', signal: controller.signal });
+    let response = await requestTurn(session);
+    if (response.status === 401) {
+      dialogueSessions.delete(key);
+      const startResponse = await fetch(`${aiBaseUrl}/api/rpg/session/start`, { method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ hostId: person.templateId, historicalEventId: scene.eventId, historicalActorId: person.id, historicalPlayerActorId: playerActorId }),
+        cache: 'no-store', signal: controller.signal });
+      const startData = await startResponse.json().catch(() => ({}));
+      if (!startResponse.ok || startData.mode !== 'AI' || !startData.sessionToken)
+        throw Object.assign(new Error('historical dialogue session failed'), { status: startResponse.status, apiCode: startData.error || 'historical_session_start_failed' });
+      session = { token: startData.sessionToken, mode: 'AI' }; dialogueSessions.set(key, session);
+      response = await requestTurn(session);
+    }
+    const result = await response.json().catch(() => ({}));
+    if (activeDialogueHost !== card.id || activeDialogueKey !== key || dialogueGeneration !== generation) return;
+    if (!response.ok) throw Object.assign(new Error('historical dialogue request failed'), { status: response.status,
+      apiCode: result.providerErrorCode || result.error || 'historical_dialogue_failed' });
+    const expectedSceneId = `V38_HISTORICAL_${scene.eventId}_${person.id}`;
+    const beats = result.turn?.beats;
+    if (result.turn?.sceneId !== expectedSceneId || !Array.isArray(beats) || !beats.length
+      || beats.some(beat => !beat || ![person.templateId, 'NARRATION'].includes(beat.speakerId) || typeof beat.textKo !== 'string' || !beat.textKo.trim() || beat.textKo.length > 420))
+      throw Object.assign(new Error('invalid historical dialogue response'), { apiCode: 'client_response_invalid' });
+    const answer = beats.map(beat => beat.textKo.trim()).join('\n\n');
+    lines.push({ speaker: card.displayNameKo, text: answer }); dialogueTranscripts.set(key, lines.slice(-24));
+    const options = historicalConversationChoices(scene.eventId, person.objectiveId);
+    historicalDialogueChoicesByKey.set(key, [...options, { id: 'defer', labelKo: '일단 더 알아본다', stance: 'defer', reactionKo: '그 사람은 자리를 뜨기 전, 아직 답하지 못한 일을 다시 살폈다.' }]);
+    dialogueCurrentLines.set(key, answer);
+    dialogueRequestPending = false;
+    showConversation(card, answer, [], '');
+    $('.journal').scrollTop = $('.journal').scrollHeight;
+  } catch (error) {
+    if (activeDialogueHost !== card.id || activeDialogueKey !== key || dialogueGeneration !== generation) return;
+    recordApiFailure('/api/rpg/dialogue', error);
+    const label = error?.apiCode ? providerFailureLabel(error.apiCode) : dialogueApiFailure(error);
+    dialogueCurrentLines.set(key, '이번 질문에 대한 생성 답변을 받지 못했습니다. 연결을 확인한 뒤 같은 질문을 다시 보낼 수 있습니다.');
+    dialogueRequestPending = false;
+    showConversation(card, dialogueCurrentLines.get(key), [], `AI 응답 생성 실패 · ${label}`);
+  } finally {
+    clearTimeout(timer);
+    if (activeDialogueController === controller) activeDialogueController = null;
+    if (dialogueGeneration === generation) dialogueRequestPending = false;
+  }
+}
 async function sendConversation(card, playerText, replyId = null) {
+  if (state.historicalSession && card.id.startsWith(`historical:${state.historicalSession.eventId}:`))
+    return sendHistoricalConversation(card, playerText);
   const key = activeDialogueKey;
   const generation = dialogueGeneration;
   // Proximity is checked when the conversation opens. Keep the opened turn
