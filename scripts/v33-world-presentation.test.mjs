@@ -36,6 +36,17 @@ test('paper, drawer and door cues use distinct authored tile silhouettes', () =>
   assert.notEqual(interactionTile(byName('활자 서랍')), interactionTile(byName('작업 장부')));
 });
 
+test('a completed historical field-action prop leaves the scene instead of looking reusable', () => {
+  const field = state('V33_1847_PRINT', '1847-06-01');
+  field.world.currentMapId = 'senate-approach';
+  field.historicalSession = { eventId: 'SENATE_SQUARE_1825', actionOutcomes: {} };
+  const prop = { type: 'inspectable', properties: [{ name: 'historicalEventId', value: 'SENATE_SQUARE_1825' },
+    { name: 'historicalActionId', value: 'senate-route-horse' }] };
+  assert.equal(objectIsPresent(prop, field, []), true, 'unresolved scene action remains available');
+  field.historicalSession.actionOutcomes['senate-route-horse'] = 'turn-cart';
+  assert.equal(objectIsPresent(prop, field, []), false, 'resolved physical action no longer appears interactive');
+});
+
 test('interaction emphasis excludes unavailable quest props, self, and exits the current body cannot use', () => {
   const active = state('V33_1847_PRINT', '1847-06-01');
   active.world.currentMapId = 'printshop';

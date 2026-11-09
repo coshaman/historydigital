@@ -80,7 +80,8 @@ for (const scene of historicalPlay) {
       action.position = actionTiles[actionIndex] ?? { x: Math.max(1, Math.min(map.width - 2, map.metadata.observerStart.x + actionIndex + 1)), y: map.metadata.observerStart.y };
       interactions.objects.push({ id: 7200 + index * 100 + actionIndex, name: action.propKo, type: 'inspectable',
         x: action.position.x * 16, y: action.position.y * 16, width: 16, height: 16,
-        properties: [{ name: 'historicalActionId', type: 'string', value: action.id }, { name: 'storyTextKo', type: 'string', value: action.promptKo }] });
+        properties: [{ name: 'historicalEventId', type: 'string', value: scene.eventId },
+          { name: 'historicalActionId', type: 'string', value: action.id }, { name: 'storyTextKo', type: 'string', value: action.promptKo }] });
     });
     maps[mapId] = map; mapIds.push(mapId);
   });

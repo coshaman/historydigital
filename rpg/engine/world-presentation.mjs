@@ -30,6 +30,10 @@ export function ambientBubbleFor(state, hostCards, map, time, paused = false, ex
 export function objectIsPresent(object, state, quests = []) {
   if (object.visible === false) return false;
   const p = Object.fromEntries((object.properties ?? []).map(item => [item.name, item.value]));
+  if (p.historicalActionId) {
+    const active = state.historicalSession;
+    if (!active || active.eventId !== p.historicalEventId || active.actionOutcomes?.[p.historicalActionId]) return false;
+  }
   if (p.availableChapterId && (chapters.indexOf(p.availableChapterId) < 0 || chapters.indexOf(state.world.chapterId) < chapters.indexOf(p.availableChapterId))) return false;
   if (p.availableDate && p.availableDate > state.world.date) return false;
   if (object.type !== 'quest-object') return true;
