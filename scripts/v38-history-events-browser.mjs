@@ -96,7 +96,11 @@ async function completeFieldAction(page, scene, zoneIndex) {
   const option = available.find(candidate => downstreamRequirement
     && Object.entries(downstreamRequirement).every(([key, value]) => candidate.effects?.[key] === value)) ?? available[0];
   const optionButton = page.getByRole('button', { name: new RegExp(`^${option.labelKo.replace(/[.*+?^${}()|[\\]\\]/g, '\\$&')}`) });
-  await optionButton.waitFor({ timeout: 5000 });
+  try { await optionButton.waitFor({ timeout: 5000 }); }
+  catch { throw new Error(`Historical field choice did not render: ${JSON.stringify({ eventId: scene.eventId, actionId: action.id,
+    optionId: option.id, map: await page.locator('#mapname').textContent(), body: await page.locator('#bodyname').textContent(),
+    headline: await page.locator('#headline').textContent(), journal: await page.locator('#journal-text').textContent(),
+    actions: await page.locator('#actions button').allTextContents(), position: await playerPosition(page) })}`); }
   await optionButton.click();
   await page.waitForFunction(name => document.querySelector('#headline')?.textContent === name, action.propKo);
   assert.ok((await page.locator('#journal-text').textContent()).includes(option.textKo));
@@ -246,6 +250,12 @@ try {
       if (scene.eventId === 'SENATE_SQUARE_1825') assert.deepEqual(scene.observedPhysicalMoves, [
         { actorId: 'coachman', mapId: 'senate-river', choiceId: 'turn-cart' },
       ], 'the evacuation-route choice moves the coachman across the field scene and persists that movement');
+      if (scene.eventId === 'GOGOL_INSPECTOR_1836') assert.deepEqual(scene.observedPhysicalMoves, [
+        { actorId: 'actor', mapId: 'theatre-street', choiceId: 'company-decides' },
+      ], 'the shared backstage decision sends the actor into the public street discussion without interrupting unfinished lobby work');
+      if (scene.eventId === 'EMANCIPATION_1861') assert.deepEqual(scene.observedPhysicalMoves, [
+        { actorId: 'porter', mapId: 'manifesto-lane', choiceId: 'collective-terms' },
+      ], 'the collective wage decision sends the petition bundle into the neighborhood meeting');
       const finalChoice = scene.choices[catalog.indexOf(event) % scene.choices.length];
       const visibleChoiceCounts = await Promise.all(scene.choices.map(choice => page.locator('#actions button').filter({ hasText: choice.label }).count()));
       assert.deepEqual(visibleChoiceCounts, scene.choices.map(() => 1), `${event.id} exposes every closing strategy exactly once: ${JSON.stringify(await page.evaluate(() => ({

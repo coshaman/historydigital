@@ -94,3 +94,14 @@ test('editor and police personas have separate registers, viewpoints and discuss
   assert.match(conversations.police_sergeant_ivan.opening, /시장|마차/);
   assert.ok(conversations.editor_sofia.provenance.length && conversations.police_sergeant_ivan.provenance.length);
 });
+
+test('Semyon answers a question about current events with the actual Vasily reading-circle lead-in', () => {
+  const question = '요즘 동네에 재미있는 일 없습니까?';
+  const line = conversations.yardkeeper_semyon.topics.find(([prompt]) => prompt === question)?.[1];
+  assert.ok(line, 'the player can ask Semyon an open, ordinary question about the neighborhood');
+  assert.match(line, /바실리 학생/);
+  assert.match(line, /읽을 모임/);
+  assert.match(line, /넵스키 거리/);
+  assert.doesNotMatch(line, /신고|목격|기록|장부/);
+  assert.equal(authoredReply('yardkeeper_semyon', question).text, line);
+});

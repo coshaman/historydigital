@@ -1103,6 +1103,13 @@
               "effects": {
                 "companyChoice": "shared"
               },
+              "sceneMoves": [
+                {
+                  "actorId": "actor",
+                  "targetActionId": "inspector-street-open-forum",
+                  "activityKo": "공연 뒤 거리에서 관객들과 대화를 잇는다"
+                }
+              ],
               "groupReactionKo": "배우 니콜라이  이 줄은 제가 책임지겠습니다.\n무대 견습공 표트르  그럼 소품을 바꾸겠습니다. 다음 신호는 제가 줄게요."
             },
             {
@@ -1680,6 +1687,13 @@
               "effects": {
                 "workNegotiation": "collective"
               },
+              "sceneMoves": [
+                {
+                  "actorId": "porter",
+                  "targetActionId": "emancipation-lane-petition",
+                  "activityKo": "품삯 협상에 함께한 이들의 질문 꾸러미를 골목으로 나른다"
+                }
+              ],
               "groupReactionKo": "하녀 소피야  한 사람씩 부르지 말고, 우리 모두의 조건을 말해요.\n전직 하녀 바르바라  방과 품삯을 한꺼번에 적어 두세요. 그래야 말을 바꾸지 못해요."
             },
             {

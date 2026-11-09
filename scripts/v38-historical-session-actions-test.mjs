@@ -93,4 +93,31 @@ assert.deepEqual(routed.state.hosts[`historical:${senateScene.eventId}:coachman`
 assert.match(routed.state.hosts[`historical:${senateScene.eventId}:coachman`].currentActivityKo, /강변/);
 assert.equal(routed.state.hosts[`historical:${senateScene.eventId}:coachman`].schedule[0].mapId, riverAction.mapId,
   'the route change survives subsequent deterministic schedule ticks');
+
+for (const [eventId, actionId, optionId, actorId, targetId, expectedMap] of [
+  ['GOGOL_INSPECTOR_1836', 'inspector-lobby-company-vote', 'company-decides', 'actor', 'inspector-street-open-forum', 'theatre-street'],
+  ['EMANCIPATION_1861', 'emancipation-square-wage-meeting', 'collective-terms', 'porter', 'emancipation-lane-petition', 'manifesto-lane'],
+]) {
+  const scene = structuredClone(play.events.find(item => item.eventId === eventId));
+  const action = scene.fieldActions.find(item => item.id === actionId);
+  const target = scene.fieldActions.find(item => item.id === targetId);
+  target.position = { x: 12, y: 9 };
+  const option = action.options.find(item => item.id === optionId);
+  assert.ok(option.sceneMoves?.some(move => move.actorId === actorId && move.targetActionId === targetId),
+    `${eventId}/${optionId} physically sends a participant to the next playable group scene`);
+  const playerHostId = `historical:${eventId}:${action.requiredActorId}`;
+  const hostId = `historical:${eventId}:${actorId}`;
+  const session = { historicalSession: { eventId, choices: [], completedObjectives: [], actionOutcomes: {} },
+    player: { embodiment: playerHostId, position: { x: 4, y: 12 } },
+    world: { currentMapId: action.mapId, clockMinutes: 720, historicalEventEffects: {} },
+    hosts: Object.fromEntries([...new Set([...option.sceneMoves.map(move => move.actorId), action.requiredActorId])].map(id => {
+      const idKey = `historical:${eventId}:${id}`;
+      return [idKey, { id: idKey, mapId: action.mapId, position: { x: 4, y: 12 }, schedule: [], allowedMaps: scene.maps }];
+    })) };
+  const result = performHistoricalAction(session, scene, actionId, optionId);
+  assert.equal(result.ok, true, `${eventId}/${optionId} resolves for the assigned person: ${result.reason}`);
+  assert.equal(result.state.hosts[hostId].mapId, expectedMap, `${eventId}/${optionId} changes the participant's actual map`);
+  assert.deepEqual(result.state.player.position, { x: 4, y: 12 }, `${eventId}/${optionId} leaves the player in place so remaining local tasks stay reachable`);
+  assert.equal(result.state.historicalSession.physicalMoves.at(-1).choiceId, optionId, `${eventId}/${optionId} is retained in the event history`);
+}
 console.log('Historical field actions persist consequences, complete real objectives once, and reject invalid/repeated choices.');
