@@ -111,13 +111,13 @@ test('AI excludes the April 22 Petrashevsky investigation report until its Decem
   const result = await service.handle(request('POST', '/api/rpg/dialogue', {
     sessionToken: opened.body.sessionToken, requestId: 'v47-report-date-gate-0001',
     playerInput: '이 보고는 언제 접수됐습니까?', actorRelations: {}, actorActions: [],
-    sceneContext: { date: '1849-05-02', mapId: 'chancery', questId: 'V47_MAIN03_P07', playerKnowledgeIds: ['OBJ-WS-PETRASHEVSKY-REPORT-1849'] },
+    sceneContext: { date: '1849-05-04', mapId: 'chancery', questId: 'V47_MAIN03_P07', playerKnowledgeIds: ['OBJ-WS-PETRASHEVSKY-REPORT-1849'] },
   }));
   assert.equal(result.status, 200, JSON.stringify(result.body));
   assert.equal(providerInput.sourceEvidence.some(source => source.sourceId === 'OBJ-WS-PETRASHEVSKY-REPORT-1849'), false,
-    'a source dated to become accessible on December 22 is absent from an April 20 conversation even when named by the client');
+    'a source dated to become accessible on December 22 is absent from a May 4 conversation even when named by the client');
   assert.equal(providerInput.scene.allowedSourceIds.includes('OBJ-WS-PETRASHEVSKY-REPORT-1849'), false,
-    'future report text and claims are not authorized to the model in April');
+    'future report text and claims are not authorized to the model before its access date');
 });
 
 test('historical field dialogue binds both event actors server-side and gives AI the character voice and dated scene', async () => {

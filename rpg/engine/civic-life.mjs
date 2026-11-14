@@ -9,7 +9,7 @@ export const NEWSPAPER_STORIES = Object.freeze([
   { id: 'MARKET_RUMOR_NOTE_E23', titleKo: '장터의 빵값, 말과 장부', date: '1847-01-01', sourceId: 'V37-E23-MARKET-RUMOR', bodyKo: '가격 확인 신청이 접수된 뒤, 빵을 감췄다는 말이 장터에 퍼졌다. 그 말을 전한 행상 마트료나는 장터에서 들었다고 편집부에 전했다. 알렉세이는 가격 확인 신청만 접수했다. 장부 대조 전이라, 빵을 숨겼다는 말은 아직 확인되지 않은 소문이다.', editorialKo: '소문이 전해진 경로와 확인된 절차를 나누어 싣는다.' },
   { id: 'LITERARY_RURAL_LIFE_1847', titleKo: '농촌의 두 사람을 그린 글', date: '1847-06-01', sourceId: 'LIT-TURGENEV-KHOR-KALYNYCH-1847', bodyKo: '이번 문학면은 지주 폴루티킨과 농노 호리·칼리니치를 그린 투르게네프의 글을 다룹니다. 작품 속 인물의 묘사를 실제 농촌 전체의 증언으로 바꾸지 않고, 문학이 누구의 삶을 보여주며 누구의 말을 대신하지 못하는지 묻습니다.', editorialKo: '소설 속 인물의 모습과 실제 농촌 사람들의 경험을 구분해 싣는다.' },
   { id: 'DELIVERY_NOTICE_1848', titleKo: '지방 구독자에게 늦어진 소식', date: '1848-01-01', sourceId: 'OBJ-WS-NEKRASOV-EDITORIAL-1848', bodyKo: '편집부 공고는 지방 구독자에게 잡지가 도착하는 경로와 수령 확인, 분실 뒤 재발송 절차를 알립니다. 확인된 공고의 범위를 넘어 지연 원인을 추측하지 않고, 편집부와 우체국이 독자에게 무엇을 약속했는지 살핍니다.', editorialKo: '발송 안내에 적힌 절차와 독자에게 한 약속을 나란히 보여준다.' },
-  { id: 'CIRCLE_REPORT_1849', titleKo: '보고서에는 누가 말했는가', date: '1849-04-22', sourceId: 'OBJ-WS-PETRASHEVSKY-REPORT-1849', bodyKo: '관청 수사 보고서가 모임과 체포 지시를 어떤 출처로 엮었는지 살펴봅니다. 보고서에 적힌 주장은 보고서가 그렇게 기록했다는 사실과 구분해 싣고, 목격·전달·추정이 한 문장에 섞이지 않았는지 묻습니다.', editorialKo: '주장의 출처와 문서의 기록 방식을 함께 밝힌다.' },
+  { id: 'CIRCLE_REPORT_1849', titleKo: '보고서에는 누가 말했는가', date: '1849-12-22', sourceId: 'OBJ-WS-PETRASHEVSKY-REPORT-1849', bodyKo: '4월 22일자 조사 보고서가 열람 가능해졌습니다. 문서에 적힌 조사기관의 주장과 정보원의 말을 구분해 읽고, 체포 명령과 명단이 어떤 문맥으로 이어지는지 살펴봅니다.', editorialKo: '보고서의 서술과 그 안에 옮겨 적힌 주장을 나누어 읽는다.' },
 ]);
 
 const PRESS_STAFF = new Set(['printer_ekaterina', 'editor_sofia', 'nekrasov_reconstruction']);

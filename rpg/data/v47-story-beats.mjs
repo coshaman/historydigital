@@ -55,6 +55,7 @@ const beat = ({ storyId, beatId, date, titleKo, objectiveKo, mapId, objectId, so
   id: `V47_${storyId}_${beatId}`,
   storyId,
   beatId,
+  originalJulianDate: date,
   date: julianToGregorian(date),
   titleKo,
   objectiveKo,
@@ -151,7 +152,7 @@ export const v47StoryBeats = [
     choice('V47_P06_LOG_SOURCED_REPORT', ['courier_pavel', 'police_sergeant_ivan', 'student_vasily', 'antonelli_1849'], '들은 말과 제보자를 따로 적는다', '파벨은 직접 들은 말과 익명으로 전해진 내용을 구분해 기록한다. 경찰 서기는 확인 전인 제보에 표시를 남긴다.', { inventory: [{ fromHostId: 'courier_pavel', toHostId: 'police_sergeant_ivan', itemKo: '출처를 적은 비공개 제보', quantity: 1 }], moves: [{ hostId: 'police_sergeant_ivan', mapId: 'police-station', x: 128, y: 96 }], relationships: [{ fromHostId: 'police_sergeant_ivan', toHostId: 'courier_pavel', trustDelta: 1 }], rumor: { id: 'V47_TIP_SOURCE_RECORDED', fromHostId: 'courier_pavel', hostIds: ['police_sergeant_ivan'] }, flags: { V47_P06_SOURCED_TIP_RECORDED: true } }),
     choice('V47_P06_ASSERT_UNVERIFIED_SUSPICION', ['courier_pavel', 'police_sergeant_ivan', 'student_vasily', 'antonelli_1849', 'clerk_alexei'], '확인되지 않은 정황을 확신처럼 적는다', '서기는 추측을 사실로 적은 보고서를 올린다. 바실리에게 의심이 쏠리고, 뒤늦게 바로잡으려면 누가 무엇을 봤는지 다시 찾아야 한다.', { inventory: [{ fromHostId: 'clerk_alexei', toHostId: 'police_sergeant_ivan', itemKo: '확인 전 감시 보고서', quantity: 1 }], relationships: [{ fromHostId: 'clerk_alexei', toHostId: 'student_vasily', trustDelta: -2 }], rumor: { id: 'V47_UNVERIFIED_SUSPICION_REPORTED_AS_FACT', fromHostId: 'police_sergeant_ivan', hostIds: ['student_vasily', 'courier_pavel'] }, flags: { V47_P06_UNVERIFIED_SUSPICION_ASSERTED: true } }),
   ]}),
-  beat({ storyId: 'MAIN03', beatId: 'P07', date: '1849-04-20', titleKo: '관청으로 넘어간 자료', objectiveKo: '정보 보고와 체포 관련 서류의 작성 시점을 대조한다', mapId: 'chancery', objectId: 9075, sourceContextKo: '체포 작전과 수사 기록은 실제 문서로 확인되는 범위에서만 말한다. 이 문서철의 전달 과정과 서기들의 대화는 허구 장면이다.', hosts: ['clerk_alexei', 'senior_clerk_konstantin', 'scribal_yuri', 'liprandi_1849'], choices: [
+  beat({ storyId: 'MAIN03', beatId: 'P07', date: '1849-04-22', titleKo: '관청으로 넘어간 자료', objectiveKo: '정보 보고와 체포 관련 서류의 작성 시점을 대조한다', mapId: 'chancery', objectId: 9075, sourceIds: [sources.dostoevskyArrestOrder], sourceContextKo: '4월 22일자 체포 명령서를 읽고, 전달된 보고와 작성 시점을 나란히 확인한다. 관청 서기들의 접수와 대화는 이 사건을 바탕으로 한 장면이다.', hosts: ['clerk_alexei', 'senior_clerk_konstantin', 'scribal_yuri', 'liprandi_1849'], choices: [
     choice('V47_P07_SEPARATE_REPORTS', ['clerk_alexei', 'senior_clerk_konstantin', 'scribal_yuri', 'liprandi_1849'], '보고서와 명령을 따로 묶는다', '접수 날짜와 작성자를 분리해 적는다. 문서가 한꺼번에 전달되며 서기 한 명이 심부름을 맡는다.', { money: [{ fromHostId: 'clerk_alexei', toHostId: 'scribal_yuri', amount: 1 }], inventory: [{ fromHostId: 'clerk_alexei', toHostId: 'senior_clerk_konstantin', itemKo: '분리 정리한 문서철', quantity: 1 }], moves: [{ hostId: 'scribal_yuri', mapId: 'police-station', x: 128, y: 96 }], relationships: [{ fromHostId: 'clerk_alexei', toHostId: 'scribal_yuri', trustDelta: 1 }], rumor: { id: 'V47_SEPARATE_REPORTS', fromHostId: 'scribal_yuri', hostIds: ['police_sergeant_ivan'] }, flags: { V47_P07_RECORDS_SEPARATED: true } }),
     choice('V47_P07_COPY_NAMES', ['clerk_alexei', 'senior_clerk_konstantin', 'scribal_yuri', 'liprandi_1849'], '열람한 이름을 개인 메모에 옮긴다', '메모는 서기 개인에게 남는다. 유출되면 허구 인물의 위험이 커진다.', { money: [{ fromHostId: 'clerk_alexei', toHostId: 'scribal_yuri', amount: 1 }], inventory: [{ fromHostId: 'scribal_yuri', toHostId: 'clerk_alexei', itemKo: '이름을 적은 개인 메모', quantity: 1 }], moves: [{ hostId: 'clerk_alexei', mapId: 'chancery', x: 176, y: 144 }], relationships: [{ fromHostId: 'clerk_alexei', toHostId: 'senior_clerk_konstantin', trustDelta: -1 }], rumor: { id: 'V47_PRIVATE_NAMES_NOTE', fromHostId: 'scribal_yuri', hostIds: ['student_vasily'] }, flags: { V47_P07_PRIVATE_NOTE: true } }),
   ]}),
@@ -329,7 +330,7 @@ for (const beatData of v47StoryBeats) {
 export function toV47StoryQuests() {
   return v47StoryBeats.map(beatData => {
     const chapterId = beatData.date <= '1848-12-31' ? 'V33_1848_PUBLIC'
-      : beatData.date <= '1849-05-03' ? 'V33_1849_PRELUDE' : 'V33_1849_CIRCLE';
+      : beatData.date <= '1849-05-04' ? 'V33_1849_PRELUDE' : 'V33_1849_CIRCLE';
     return {
       ...beatData,
       prerequisiteQuestIds: beatData.prerequisiteQuestIds,

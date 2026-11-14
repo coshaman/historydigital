@@ -34,14 +34,18 @@ const register = interactions.find(item => item.id === quest.entry.objectId);
 assert.ok(register);
 assert.equal(objectIsPresent(register, state, [quest]), false, 'case register is unavailable before the fixed report reaches the office');
 
+const beforeAccess = game.advanceNpcWorld(state, 1, maps, { pausedHostIds: ['clerk_alexei'] });
+assert.equal(beforeAccess.world.livingEventStates.E40, undefined, 'the later-published report is not surfaced in April');
+assert.equal(objectIsPresent(register, beforeAccess, [quest]), false, 'the report register stays closed before source access');
+state.world.date = '1849-12-22'; state.world.clockMinutes = 540;
 const ongoing = game.advanceNpcWorld(state, 1, maps, { pausedHostIds: ['clerk_alexei'] });
 assert.equal(ongoing.world.livingEventStates.E40?.status, 'ACTIVE', 'the historical report event opens on its documented date');
-assert.equal(ongoing.world.livingEventStates.E40.stage, 'REPORT_ARRIVED');
+assert.equal(ongoing.world.livingEventStates.E40.stage, 'REPORT_AVAILABLE_TO_PLAYER');
 assert.equal(ongoing.world.livingEventStates.E40.historicalOutcomeFixed, true);
 assert.deepEqual(ongoing.world.livingEventStates.E40.outcomeSourceIds, [reportId, orderId]);
 assert.equal(objectIsPresent(register, ongoing, [quest]), true);
 assert.ok(ongoing.ledger.some(row => row.livingEvents?.some(event => event.catalogEventId === 'E40'
-  && event.stage === 'REPORT_ARRIVED' && event.historicalOutcomeFixed)));
+  && event.stage === 'REPORT_AVAILABLE_TO_PLAYER' && event.historicalOutcomeFixed)));
 
 let readable = game.recordSourceRead(ongoing, reportId, maps);
 assert.equal(readable.ok, true, readable.reason);

@@ -5348,7 +5348,7 @@ function advanceRentNoticeEvent(state, minuteOffset, maps, livingEventRows) {
 function petrashevskyReportEventRow(state, stage, minuteOffset, maps, details = {}) {
   const event = state.world.livingEventStates?.E40, position = event?.scenePosition ?? { x: 12, y: 11 };
   return { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E40', stage,
-    stageIndex: ({ REPORT_ARRIVED: 1, OFFICIAL_REPORT_FILED: 2, NAMES_WITHHELD: 2,
+    stageIndex: ({ REPORT_ARRIVED: 1, REPORT_AVAILABLE_TO_PLAYER: 1, OFFICIAL_REPORT_FILED: 2, NAMES_WITHHELD: 2,
       OWNERSHIP_AND_ORDER_SEPARATED: 2, AUTO_FILED: 2 })[stage],
     actorHostIds: [...(event?.actorHostIds ?? [])], witnessHostIds: [...(event?.witnessHostIds ?? [])],
     date: state.world.date, minute: minuteOffset, mapId: 'chancery', position: { ...position },
@@ -5365,13 +5365,13 @@ function advancePetrashevskyReportEvent(state, minuteOffset, maps, livingEventRo
     const report = layer(maps?.chancery, 'Interactions')?.objects.find(item => item.type === 'source'
       && properties(item).sourceId === 'OBJ-WS-PETRASHEVSKY-REPORT-1849');
     const register = layer(maps?.chancery, 'Interactions')?.objects.find(item => item.id === 32);
-    if (state.world.chapterId !== 'V33_1849_CIRCLE' || state.world.date !== '1849-04-22'
+    if (state.world.chapterId !== 'V33_1849_CIRCLE' || state.world.date !== '1849-12-22'
       || state.world.clockMinutes < 540 || !report || !register) return;
     const witnesses = Object.values(state.hosts).filter(host => host.historicalAliveAndPresent !== false
       && host.mapId === 'chancery' && nearTile(host.position, { x: 12, y: 11 }, 6))
       .map(host => host.id).filter(id => id !== 'clerk_alexei').sort();
     event = state.world.livingEventStates.E40 = { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E40',
-      status: 'ACTIVE', stage: 'REPORT_ARRIVED', trigger: '1849-04-22_state_report_reaches_the_chancery',
+      status: 'ACTIVE', stage: 'REPORT_AVAILABLE_TO_PLAYER', trigger: '1849-12-22_source_access_date',
       startedAtMinute: state.world.clockMinutes, resolvesAtMinute: state.world.clockMinutes + 180,
       actorHostIds: state.hosts.clerk_alexei ? ['clerk_alexei'] : [], witnessHostIds: witnesses,
       venueMapId: 'chancery', scenePosition: { x: 12, y: 11 },
@@ -5383,7 +5383,7 @@ function advancePetrashevskyReportEvent(state, minuteOffset, maps, livingEventRo
     state.world.immutableOutcomes ??= {};
     state.world.immutableOutcomes.PETRASHEVSKY_ARRESTS_1849 = 'the documented arrests and sentences remain fixed historical outcomes';
     livingEventRows.push(petrashevskyReportEventRow(state, event.stage, minuteOffset, maps,
-      { changeKo: '4월 22일자 수사 보고서가 관청에 도착했다. 문서에는 정보원의 보고와 체포 명령, 조사 대상자 명단이 이어져 있다.' }));
+      { changeKo: '4월 22일자 수사 보고서를 읽을 수 있게 됐다. 문서에는 정보원의 보고와 체포 명령, 조사 대상자 명단이 이어져 있다.' }));
   }
   if (event.status !== 'ACTIVE' || state.world.clockMinutes < event.resolvesAtMinute) return;
   const hostId = state.hosts.clerk_alexei ? 'clerk_alexei' : null;
@@ -6270,7 +6270,7 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
       REGISTER_SEPARATE_OWNERSHIP: ['OWNERSHIP_AND_ORDER_SEPARATED', 'SEPARATE_OWNERSHIP_INDEX', true, true],
     };
     const [stage, disposition, namesCopied, ownershipClaimsSeparated] = outcomes[actionId] ?? [];
-    if (!event || event.status !== 'ACTIVE' || event.stage !== 'REPORT_ARRIVED' || !stage
+    if (!event || event.status !== 'ACTIVE' || event.stage !== 'REPORT_AVAILABLE_TO_PLAYER' || !stage
       || !next.world.discoveredSourceIds?.includes(event.sourceId)) {
       return { ok: false, reason: 'petrashevsky_report_not_ready', state };
     }

@@ -2,15 +2,15 @@
   "id": "CIRCLE_INVESTIGATION_1849",
   "titleKo": "수사 문서와 남겨진 이름",
   "chapterId": "V33_1849_CIRCLE",
-  "date": "1849-04-22",
+  "date": "1849-12-22",
   "requiresLivingEventId": "E40",
-  "premiseKo": "1849년 4월 22일, 수사 보고서가 도착했다. 문서에는 정보원의 주장이 국가기관의 관점에서 적혀 있다. 5월 5일 편지는 아직 도착하지 않았다.",
+  "premiseKo": "4월 22일자 수사 보고서와 5월 5일 체포 명령서를 나란히 놓았다. 작성 날짜와 전달 경로를 살펴보고, 보고서에 옮겨 적힌 정보원의 말과 조사기관의 판단을 구분한다.",
   "historicalOutcome": {
     "id": "PETRASHEVSKY_ARRESTS_1849",
     "value": "the documented arrests and sentences remain fixed historical outcomes",
     "sourceIds": [
       "OBJ-WS-PETRASHEVSKY-REPORT-1849",
-      "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      "OBJ-WS-DOSTOEVSKY-ARREST-ORDER-1849"
     ]
   },
   "entry": {
