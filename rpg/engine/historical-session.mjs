@@ -45,6 +45,8 @@ export function historicalParticipantGuide(scene, actorId, activeSession = {}) {
     actionKo: authoredGuide?.actionId === action?.id ? authoredGuide.taskKo : objective?.actionKo ?? '가까운 사람에게 오늘 일을 물어본다',
     actionId: action?.id ?? null,
     talkToNamesKo,
+    conversationTopicsKo: actor.sceneTopicsKo ?? [],
+    taskKo,
     propKo: action?.propKo ?? '주변 사람과 이야기',
     placeKo,
     questStepsKo: [

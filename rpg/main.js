@@ -517,7 +517,7 @@ function updateHud() {
           return firstContact ? `먼저 말 걸기 · ${firstContact}` : `이 구역에서 사람을 찾아 말을 건다 · 대화 ${Math.min(state.historicalSession.spokenActorIds?.length ?? 0, req.spokenActors)}/${req.spokenActors}`; })(),
         howKo: activeHistoricalGuide ? activeHistoricalGuide.completed
           ? '인물 목록을 열고 아직 맡지 않은 부탁을 고른다.'
-          : `이동 · ${activeHistoricalGuide.placeKo}\n말 걸기 · ${activeHistoricalGuide.talkToNamesKo[0] ?? '현장 인물'}\n살펴보기 · ${activeHistoricalGuide.propKo}${activeHistoricalGuide.requiredActorNameKo && activeHistoricalGuide.requiredActorNameKo !== host.displayNameKo ? `\n맡을 인물 · ${activeHistoricalGuide.requiredActorNameKo}` : ''}`
+          : `이동 · ${activeHistoricalGuide.placeKo}\n말 걸기 · ${activeHistoricalGuide.talkToNamesKo[0] ?? '현장 인물'}\n대화할 내용 · ${activeHistoricalGuide.conversationTopicsKo.join(' · ') || activeHistoricalGuide.actionKo}\n할 일 · ${activeHistoricalGuide.taskKo}\n살펴보기 · ${activeHistoricalGuide.propKo}에서 현장 선택지를 골라 기록하세요.${activeHistoricalGuide.requiredActorNameKo && activeHistoricalGuide.requiredActorNameKo !== host.displayNameKo ? `\n맡을 인물 · ${activeHistoricalGuide.requiredActorNameKo}` : ''}`
           : '가까이 가서 말 걸기 · 인물 목록에서 시야 바꾸기 · 출구를 따라 다음 구역으로 걷기', target: null,
         progress: { completedSteps: state.historicalSession.completedObjectives?.length ?? 0, totalSteps: historicalSceneForState()?.conclusionRequirements?.completedObjectives ?? 5 }, blocked: false }
     : inLiteraryScene
