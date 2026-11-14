@@ -1166,10 +1166,11 @@ function selectV47Story(storyId) {
         ? `본편 전 준비 · ${guide.currentTitleKo}\n${guide.currentContextKo || guide.currentTaskKo}`
         : '이 이야기는 끝났습니다. 수첩에서 남긴 선택을 확인하거나 다른 현장을 고르세요.';
   const activities = entry.activitiesKo?.length
-    ? `\n\n이 현장에서 할 수 있는 일 · ${entry.activitiesKo.map(item => item.labelKo).join(' · ')}` : '';
+    ? `\n\n현장 활동\n${entry.activitiesKo.map(item => `· ${item.labelKo} — ${item.startKo}`).join('\n')}` : '';
   const nextActions = [
-    { label: '현재 목표 위치 표시', disabled: !missionGuidance?.target,
-      subcopy: missionGuidance?.target ? '지도에 목적지를 표시해 길을 따라갑니다' : '현재 목표에 표시할 위치가 없습니다',
+    { label: `${guide.status === 'READY' ? '첫 임무' : '준비 퀘스트'} 위치 표시 · ${guide.currentTitleKo}`,
+      disabled: !missionGuidance?.target,
+      subcopy: missionGuidance?.target ? `${guide.currentTaskKo} · 지도에 목적지를 표시합니다` : '이 목표는 목적지 표시 없이 수첩의 방법을 따라 진행합니다',
       run: () => { if (!missionGuidance?.target) return; destinationPinned = true; updateHud(); requestRender(); } },
     { label: '인물 목록 열기', subcopy: '이 장면에 맞는 사람을 골라 직접 움직입니다', run: openCharacterList },
     { label: '수첩에서 해야 할 일 보기', subcopy: '목표 장소와 조사 방법을 다시 확인합니다', run: openJournal },
@@ -1181,7 +1182,8 @@ function openHistoricalEventMenu() {
   eventButton.textContent = '역사 현장';
   const storyActions = resolveV47StoryMenuEntries(state, questList, campaign).map(entry => ({
     label: `${entry.titleKo} · ${entry.statusLabelKo}`,
-    subcopy: `${entry.dateKo}\n${entry.menuTaskKo}${entry.activitiesKo.length ? `\n가능한 활동 · ${entry.activitiesKo.map(item => item.labelKo).join(' · ')}` : ''}`,
+    subcopy: `${entry.dateKo}\n${entry.menuTaskKo}${entry.activitiesKo.length
+      ? `\n현장 활동\n${entry.activitiesKo.map(item => `· ${item.labelKo} — ${item.startKo}`).join('\n')}` : ''}`,
     run: () => selectV47Story(entry.id),
   }));
   const historicalActions = historicalEvents.map(event => ({

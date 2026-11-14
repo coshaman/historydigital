@@ -51,7 +51,10 @@ try {
   for (const activity of ['날짜 퀴즈', '파벨 추격', '현장 문서 탐색', '신문 종이·잉크 구매']) {
     assert.ok(selectedStory.includes(activity), `MAIN01 selection surfaces its playable ${activity} activity`);
   }
-  await page.locator('#actions button').filter({ hasText: '현재 목표 위치 표시' }).click();
+  for (const direction of ['인쇄소 날짜 대조판', '파벨로 빙의해 책방 골목', '종이 모양 자료나 책', '레프의 가판']) {
+    assert.ok(selectedStory.includes(direction), `MAIN01 activity explains where or how to start: ${direction}`);
+  }
+  await page.locator('#actions button').filter({ hasText: '준비 퀘스트 위치 표시 · 교정쇄의 행선지' }).click();
   assert.equal(await page.locator('#mission-pin').getAttribute('aria-pressed'), 'true', 'the first required task can be pinned directly from story selection');
   assert.ok(errors.length === 0, `browser has no page errors: ${errors.join('; ')}`);
   await page.screenshot({ path: path.join(output, 'MAIN01-SELECTED.png'), fullPage: true });

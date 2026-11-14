@@ -58,6 +58,12 @@ test('ready MAIN01 menu gives a direct first objective and lists playable activi
   assert.equal(entry.status, 'READY');
   assert.match(entry.menuTaskKo, /구독 장부/);
   assert.deepEqual(entry.activitiesKo.map(item => item.type), ['quiz', 'chase', 'exploration', 'purchase']);
+  assert.deepEqual(entry.activitiesKo.map(item => item.startKo), [
+    '1848년 11월 30일 · 인쇄소 날짜 대조판에서 기록 네 장을 순서대로 놓는다',
+    '1848년 10월 25일 · 파벨로 빙의해 책방 골목에서 세 흔적을 45분 안에 쫓는다',
+    '각 장면 · 종이 모양 자료나 책 가까이에서 살펴보기를 눌러 읽는다',
+    '네프스키 거리 · 레프의 가판을 살펴보고 종이와 잉크를 산다',
+  ], 'every listed activity tells the player when, where, and how to begin');
   assert.ok(CITY_PRODUCTS.some(product => product.id === 'newsprint_sheet'));
   assert.ok(CITY_PRODUCTS.some(product => product.id === 'printing_ink'));
 });
