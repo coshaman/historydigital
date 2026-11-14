@@ -67,7 +67,18 @@ function initialMainStorySave(routeName = 'NORMAL') {
   const state = game.createInitialState({ maps, hostCards: runtimeCards, quests: questList, startMapId: arc.startMapId });
   state.world.chapterId = arc.id;
   state.world.date = arc.date;
-  if (main01Only && routeName === 'ALTERNATE') state.world.date = '1848-05-18';
+  if (main01Only && routeName === 'ALTERNATE') {
+    state.world.date = '1848-05-18';
+    for (const host of Object.values(state.hosts)) {
+      if (!host.presenceWindow) continue;
+      const present = host.presenceWindow.startDate <= state.world.date && state.world.date <= host.presenceWindow.endDate;
+      host.historicalAliveAndPresent = present;
+      if (present && host.presenceWindow.start) {
+        host.mapId = host.presenceWindow.start.mapId;
+        host.position = { ...host.presenceWindow.start.position };
+      }
+    }
+  }
   state.world.clockMinutes = 540;
   state.world.currentMapId = arc.startMapId;
   state.player.embodiment = null;
@@ -250,6 +261,7 @@ async function runRoute(browser, base, routeName) {
   async function possess(hostId) {
     const card = runtimeCards.find(item => item.id === hostId);
     assert.ok(card, `${hostId} role card exists`);
+    if ((await currentState()).player.embodiment === hostId) return card;
     await page.locator('#roster-open').click();
     const rosterEntry = page.locator('.roster-card').filter({ hasText: card.displayNameKo }).first();
     try { await rosterEntry.waitFor({ state: 'visible', timeout: 3000 }); }
@@ -560,6 +572,8 @@ async function runRoute(browser, base, routeName) {
               await walkTo(targetObject, `${quest.id} return to press`);
             }
             if (quest.id === 'V47_MAIN01_A03') {
+              const authorId = routeName === 'NORMAL' ? 'panaev_1848' : 'panaeva_1848';
+              await possess(authorId);
               const physicalBook = interactions(targetMap).find(object => propertyMap(object).sourceId === 'V47-PANAEVA-TALNIKOV-CH1-1848');
               assert.ok(physicalBook, 'MAIN01 A03 has a physical copy of the source in the workshop');
               await walkTo(physicalBook, `${quest.id} physical book`);
@@ -813,8 +827,13 @@ async function runRoute(browser, base, routeName) {
       };
       assert.equal(row.ledgerSaved, true, `${quest.id} action is in the real browser save ledger`);
       if (quest.id === 'V47_MAIN01_A03') {
-        assert.ok(['V47_A03_PANAEV_CATALOGUE_NOTE','V47_A03_PANAEVA_READING_NOTE'].includes(selected.action.id),
-          `${routeName} MAIN01 route completes a lead character's individual objective`);
+        const expectedAuthor = routeName === 'NORMAL'
+          ? { hostId: 'panaev_1848', actionId: 'V47_A03_PANAEV_CATALOGUE_NOTE' }
+          : { hostId: 'panaeva_1848', actionId: 'V47_A03_PANAEVA_READING_NOTE' };
+        assert.equal(selected.host.id, expectedAuthor.hostId,
+          `${routeName} MAIN01 A03 enters the intended author through the in-game possession roster (selected ${selected.action.id})`);
+        assert.equal(selected.action.id, expectedAuthor.actionId,
+          `${routeName} MAIN01 A03 performs that author's own physical reading decision`);
         assert.equal(row.personalStoryGoal.length, 1, `${selected.host.id} exposes its A03 individual objective`);
         assert.equal(row.personalStoryGoal[0].status, 'SATISFIED', `${selected.host.id}'s A03 objective completes in the saved browser state`);
       }

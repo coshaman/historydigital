@@ -421,6 +421,45 @@ assert.ok(['V47_A10_HOST_READING','V47_A10_STORE_COPY'].every(actionId => sofiya
   'Sofiya can conclude her objective through either documented in-game disposition');
 attachV47StoryObjects(maps);
 attachV47StoryBeatObjects(maps, storyBeatQuests);
+for (const [hostId, actionId] of [
+  ['panaev_1848', 'V47_A03_PANAEV_CATALOGUE_NOTE'],
+  ['panaeva_1848', 'V47_A03_PANAEVA_READING_NOTE'],
+]) {
+  let authorRoute = game.createInitialState({ maps, hostCards, quests: allV47StoryQuests, startMapId: 'printshop' });
+  const campaignData = await readJson(new URL('../rpg/quests/campaign.json', import.meta.url));
+  const publicArc = campaignData.arcs.find(arc => arc.id === 'V33_1848_PUBLIC');
+  const beatIndex = publicArc.questIds.indexOf('V47_MAIN01_A03');
+  for (const questId of publicArc.questIds.slice(0, beatIndex)) authorRoute.quests[questId] = { status: 'resolved' };
+  authorRoute.quests.V47_MAIN01_A03 = { status: 'open' };
+  authorRoute.world.chapterId = publicArc.id;
+  authorRoute.world.currentMapId = 'printshop';
+  const dateAdvance = game.advanceCampaignDate(authorRoute, almanacA03.date, campaignData, allV47StoryQuests);
+  assert.equal(dateAdvance.ok, true, `the author route enters the screenplay date through the shared campaign clock: ${dateAdvance.reason}`);
+  authorRoute = dateAdvance.state;
+  const rosterPossession = game.possessHostFromRoster(authorRoute, hostId, maps);
+  assert.equal(rosterPossession.ok, true, `${hostId} can be entered from the dated possession roster: ${rosterPossession.reason}`);
+  authorRoute = rosterPossession.state;
+  assert.equal(authorRoute.player.embodiment, hostId, `${hostId} is the actual embodied author after roster selection`);
+  const sourceRead = game.recordSourceRead(authorRoute, 'V47-PANAEVA-TALNIKOV-CH1-1848', maps);
+  assert.equal(sourceRead.ok, true, `${hostId} can read the physical story before choosing`);
+  authorRoute = sourceRead.state;
+  const decision = maps.printshop.layers.find(layer => layer.name === 'Interactions').objects
+    .find(object => object.id === 9062);
+  const tile = { x: Math.floor(decision.x / 16), y: Math.floor(decision.y / 16) };
+  const adjacent = [[tile.x - 1, tile.y], [tile.x + 1, tile.y], [tile.x, tile.y - 1], [tile.x, tile.y + 1]]
+    .find(([x, y]) => game.canOccupy(maps.printshop, x, y));
+  assert.ok(adjacent, `${hostId} can reach the A03 decision object`);
+  authorRoute.player.position = { x: adjacent[0], y: adjacent[1] };
+  authorRoute.hosts[hostId].position = { ...authorRoute.player.position };
+  const result = game.performQuestAction(authorRoute, { questId: 'V47_MAIN01_A03', hostId, actionId, objectId: decision.id },
+    { quests: allV47StoryQuests, maps });
+  assert.equal(result.ok, true, `${hostId} completes their own A03 action after roster possession: ${result.reason}`);
+  const personalGoal = result.state.hosts[hostId].personalGoals.find(goal => goal.successCondition?.questId === 'V47_MAIN01_A03');
+  assert.equal(result.state.hosts[hostId].personalGoalProgress[personalGoal.id].status, 'SATISFIED',
+    `${hostId}'s personal objective completes through the actual reducer path`);
+  assert.ok(result.state.ledger.some(row => row.hostId === hostId && row.actionId === actionId),
+    `${hostId}'s chosen author action is attributed in the saved event ledger`);
+}
 const talnikovPhysicalBook = maps.printshop.layers.find(layer => layer.name === 'Interactions').objects.find(object => object.id === 4010);
 const talnikovA03Quest = maps.printshop.layers.find(layer => layer.name === 'Interactions').objects.find(object => object.id === 9062);
 assert.ok(Math.abs(talnikovPhysicalBook.x / 16 - talnikovA03Quest.x / 16)

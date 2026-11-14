@@ -49,6 +49,15 @@ test('MAIN01 author voices are distinct and stay within the almanac work', async
     assert.match(profile.v47DialogueContext.voiceKo, /창작 말투/);
   }
   assert.notDeepEqual(panaeva.voiceSamples, panaev.voiceSamples);
+  assert.notDeepEqual(panaeva.speechRegister, panaev.speechRegister,
+    'the actual runtime character cards must give each author a different relationship-and-situation voice matrix');
+  for (const situation of ['firstMeeting', 'colleague', 'private', 'conflict', 'intimacy', 'formal']) {
+    assert.ok(panaeva.speechRegister[situation] && panaev.speechRegister[situation], `${situation} has a register for both authors`);
+    assert.notEqual(panaeva.speechRegister[situation], panaev.speechRegister[situation],
+      `${situation} separates Panaeva’s scene-first voice from Panaev’s editorial-practical voice`);
+  }
+  assert.match(panaeva.speechRegister.conflict, /장면|인물|아이|지우/);
+  assert.match(panaev.speechRegister.conflict, /부수|비용|판매|선금/);
   assert.match(panaeva.voiceSamples.join(' '), /인물|장면|이름/);
   assert.match(panaev.voiceSamples.join(' '), /인쇄|판매처|부수/);
 });
