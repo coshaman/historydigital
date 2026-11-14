@@ -74,6 +74,8 @@ const scenarios = [
   { story: 'MAIN03', questId: 'V47_MAIN03_ARRESTS', actionId: 'V47_P08_RECORD_WITNESSES', hostId: 'clerk_alexei', viewport: { width: 390, height: 844 } },
   { story: 'MAIN03', questId: 'V47_MAIN03_P01', actionId: 'V47_P01_OPEN_DISCUSSION', viewport: { width: 390, height: 844 } },
   { story: 'MAIN03', questId: 'V47_MAIN03_P01', actionId: 'V47_P01_READ_NEWS_FIRST', viewport: { width: 390, height: 844 } },
+  { story: 'MAIN03', questId: 'V47_MAIN03_P02', actionId: 'V47_P02_LEND_BOOK', preReadSourceId: 'V47-PETRASHESKY-FOURIER-NOVATORSTVO-1846', viewport: { width: 1440, height: 900 } },
+  { story: 'MAIN03', questId: 'V47_MAIN03_P02', actionId: 'V47_P02_COPY_NOTES', preReadSourceId: 'V47-PETRASHESKY-FOURIER-NOVATORSTVO-1846', viewport: { width: 390, height: 844 } },
   { story: 'MAIN05', questId: 'V47_MAIN05_C01', actionId: 'V47_C01_SUPPLY_LODGING', viewport: { width: 1440, height: 900 } },
   { story: 'MAIN05', questId: 'V47_MAIN05_C01', actionId: 'V47_C01_SUPPLY_BAKERY', viewport: { width: 390, height: 844 } },
   { story: 'MAIN05', questId: 'V47_MAIN05_WATER_NOTICE', actionId: 'V47_C00_CLEAN_WATER', viewport: { width: 390, height: 844 } },
@@ -98,12 +100,14 @@ const scenarios = [
   { story: 'MAIN05', questId: 'V47_MAIN05_C08', actionId: 'V47_C08_ASK_NEIGHBOR_HELP', hostId: 'doctor_mikhail_1848', viewport: { width: 390, height: 844 } },
 ];
 const directionDelta = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
-async function walkAndConfirm(page, directions, label) {
+async function walkAndConfirm(page, directions, label, useKeyboard = false) {
+  const keyForDirection = { up: 'ArrowUp', down: 'ArrowDown', left: 'ArrowLeft', right: 'ArrowRight' };
   for (const direction of directions) {
     const before = await page.evaluate(() => ({ x: Number(document.body.dataset.playerX), y: Number(document.body.dataset.playerY) }));
     const [dx, dy] = directionDelta[direction];
     const expected = { x: before.x + dx, y: before.y + dy };
-    await page.locator(`[data-move="${direction}"]`).click();
+    if (useKeyboard) await page.keyboard.press(keyForDirection[direction]);
+    else await page.locator(`[data-move="${direction}"]`).click();
     try {
       await page.waitForFunction(position => {
         return Number(document.body.dataset.playerX) === position.x
@@ -309,6 +313,38 @@ try {
           record: await page.locator('#record').textContent().catch(() => ''),
           availableMaps: state?.hosts?.[hostId]?.allowedMaps })}`);
       }
+    }
+    if (scenario.preReadSourceId) {
+      const sourceObject = maps[mapId].layers.flatMap(layer => layer.objects ?? []).find(item =>
+        item.type === 'source' && item.properties.some(property => property.name === 'sourceId' && property.value === scenario.preReadSourceId));
+      assert.ok(sourceObject, `${scenario.preReadSourceId} is placed as a physical source in ${mapId}`);
+      const sourceTile = { x: Math.floor(sourceObject.x / 16), y: Math.floor(sourceObject.y / 16) };
+      const sourceCollision = maps[mapId].layers.find(layer => layer.name === 'Collision').data;
+      const sourceStart = await page.evaluate(() => ({ x: Number(document.body.dataset.playerX), y: Number(document.body.dataset.playerY) }));
+      const sourceQueue = [{ ...sourceStart, path: [] }], sourceSeen = new Set([`${sourceStart.x},${sourceStart.y}`]);
+      let sourceRoute = null;
+      while (sourceQueue.length) {
+        const node = sourceQueue.shift();
+        if (Math.abs(node.x - sourceTile.x) + Math.abs(node.y - sourceTile.y) === 1) { sourceRoute = node.path; break; }
+        for (const [direction, dx, dy] of [['up', 0, -1], ['right', 1, 0], ['down', 0, 1], ['left', -1, 0]]) {
+          const x = node.x + dx, y = node.y + dy, key = `${x},${y}`;
+          if (x < 0 || y < 0 || x >= maps[mapId].width || y >= maps[mapId].height
+            || sourceCollision[y * maps[mapId].width + x] !== 0 || sourceSeen.has(key)) continue;
+          sourceSeen.add(key); sourceQueue.push({ x, y, path: [...node.path, direction] });
+        }
+      }
+      assert.ok(sourceRoute, `${scenario.preReadSourceId} can be reached on foot before the quest choice`);
+      await walkAndConfirm(page, sourceRoute, `${mapId} source route`, true);
+      await page.keyboard.press('e');
+      const sourceReader = page.locator('#source-reader');
+      if (!(await sourceReader.evaluate(dialog => dialog.open))) {
+        const readChoice = page.locator('#actions button').filter({ hasText: '자료 읽기 ·' });
+        await readChoice.waitFor({ state: 'visible' });
+        await readChoice.click();
+      }
+      assert.ok((await page.locator('#source-reader-title').innerText()).includes('새로운 사회 개혁'),
+        'the physical source opens the expected dictionary article before the quest choice');
+      await page.locator('#source-reader-complete').click();
     }
     const runtimePosition = await page.evaluate(() => ({ x: Number(document.body.dataset.playerX), y: Number(document.body.dataset.playerY) }));
     const targetTile = { x: Math.floor(object.x / 16), y: Math.floor(object.y / 16) };

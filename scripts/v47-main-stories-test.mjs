@@ -378,6 +378,23 @@ for (const beatId of ['P02', 'P04', 'P07', 'P09', 'P10', 'P11']) {
   assert.equal(scene.dialogueStatus, 'NEWLY_AUTHORED_FROM_V47_SCENARIO',
     `${scene.id} dialogue is distinguished from a historical verbatim quotation`);
 }
+const owenismId = 'V47-PETRASHESKY-FOURIER-NOVATORSTVO-1846';
+const p02 = main03Beats.find(quest => quest.id === 'V47_MAIN03_P02');
+const owenismPacket = sourcePackets.records.find(row => row.sourceId === owenismId);
+const owenismIndex = sourceIndex.records.find(row => row.sourceId === owenismId);
+assert.ok(p02.sourceIds.includes(owenismId), 'the Fourierist dictionary scene links its dated source');
+assert.ok(p02.actions.every(action => action.requiredKnowledgeId === owenismId),
+  'both dictionary-scene choices require reading the source first');
+assert.ok(owenismPacket?.paragraphs?.length >= 4 && owenismPacket.paragraphs.every(row => row.ru && row.ko),
+  'the dictionary reader contains aligned contiguous Russian text and Korean translation');
+assert.equal(owenismIndex?.accessibleToPlayerAt, '1848-05-02', 'the source enters play on the P02 date');
+const bookshopMap = await readJson(new URL('../rpg/maps/bookshop-interior.json', import.meta.url));
+const bookshopObjectIds = bookshopMap.layers.flatMap(layer => layer.objects ?? []).map(object => object.id);
+assert.equal(new Set(bookshopObjectIds).size, bookshopObjectIds.length,
+  'adding the source to the bookshop preserves unique Tiled object identifiers');
+assert.ok(bookshopMap.layers.flatMap(layer => layer.objects ?? []).some(object =>
+  (object.properties ?? []).some(property => property.name === 'sourceId' && property.value === owenismId)),
+'the dictionary is a physical bookshop interaction, not a dialogue-only source card');
 for (const beat of main03Beats) for (const sourceId of beat.sourceIds) {
   const source = sourceIndex.records.find(row => row.sourceId === sourceId);
   assert.ok(source, `${beat.id} resolves its player-facing source ${sourceId}`);

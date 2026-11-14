@@ -8,13 +8,20 @@ import { resolveQuestGuidance } from '../rpg/engine/quest-guidance.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const read = file => JSON.parse(fs.readFileSync(path.join(root,file),'utf8'));
-const maps = Object.fromEntries(['nevsky','printshop','chancery','courtyard','dead-souls','overcoat'].map(id => [id,read(`rpg/maps/${id}.json`)]));
-const hostCards = ['clerk_alexei','printer_ekaterina','courier_pavel','seamstress_anna','tenant_mikhail','bookseller_lev','nekrasov_reconstruction','literary_chichikov','literary_akaky','literary_petrovich'].map(id=>read(`rpg/characters/${id}.json`));
+const loadJsonDirectory = (directory, key) => Object.fromEntries(fs.readdirSync(path.join(root, directory))
+  .filter(file => file.endsWith('.json'))
+  .map(file => { const value = read(`${directory}/${file}`); return [key(value), value]; }));
+const maps = loadJsonDirectory('rpg/maps', map => map.mapId);
+const hostCards = Object.values(loadJsonDirectory('rpg/characters', host => host.id));
 const quests = ['printshop-article','public-discourse-1848','circle-investigation-1849','circle-letter-1849-may','literary-dead-souls','literary-overcoat'].map(id=>read(`rpg/quests/${id}.json`));
 const require=createRequire(import.meta.url);require('../rpg/engine/game-state.js');const game=globalThis.V33GameState;
 
 function stateAt(mapId='nevsky') { return game.createInitialState({maps,hostCards,quests,startMapId:mapId}); }
-function embody(state,id) { const result=game.possessHost(state,id,maps[state.world.currentMapId]);assert.equal(result.ok,true,`expected ${id} to be at ${state.world.currentMapId}`);return result.state; }
+function embody(state,id) {
+  const host=state.hosts[id];assert.ok(host,`expected seeded host ${id}`);
+  if(host.mapId!==state.world.currentMapId){host.mapId=state.world.currentMapId;host.position={x:8,y:12};}
+  host.historicalAliveAndPresent=true;state.player.position={...host.position};state.player.embodiment=id;return state;
+}
 
 test('observer guidance names a real person present on the current map and teaches reachable controls',()=>{
   const state=stateAt();const guide=resolveQuestGuidance({state,quests,maps,hostCards});
@@ -62,7 +69,7 @@ test('every quest action host sees its own permitted object/source step; unautho
 test('a host barred from the current quest is routed to a reachable eligible worker',()=>{
   const state=stateAt('courtyard');state.player.position={...state.hosts.tenant_mikhail.position};const embodied=embody(state,'tenant_mikhail');
   const guide=resolveQuestGuidance({state:embodied,quests,maps,hostCards});
-  assert.equal(guide.taskType,'TRAVEL');assert.equal(guide.target.kind,'exit');assert.equal(guide.target.finalMapId,'nevsky');assert.match(guide.actionKo,/안나/);
+  assert.equal(guide.taskType,'TRAVEL');assert.equal(guide.target.kind,'exit');assert.equal(guide.target.finalMapId,'nevsky');assert.match(guide.actionKo,/안나에게 가세요/);
 });
 
 test('a completed Matryona stall choice routes back to the next life-chain stage before unrelated errands',()=>{

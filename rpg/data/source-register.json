@@ -508,6 +508,30 @@
       "rights": "1848 public-domain English text; fresh Korean translation. The report's period medical interpretation is not presented as current medical advice."
     },
     {
+      "sourceId": "V47-PETRASHESKY-DICTIONARY-1846-CATALOG",
+      "type": "PRIMARY_DICTIONARY_BIBLIOGRAPHIC_RECORD",
+      "title": "Карманный словарь иностранных слов, вошедших в состав русского языка",
+      "creator": "Н. С. Кирилов, издатель; выпуск 2",
+      "date": "1845–1846",
+      "edition": "Санкт-Петербург: Типография Губернского правления, выпуски 1–2; каталог электронной копии Российской государственной библиотеки",
+      "url": "https://www.prlib.ru/item/335952",
+      "range": "Каталожное описание издания в двух выпусках; отдельно от текста статьи «Новаторство».",
+      "verificationStatus": "PRIMARY_EDITION_BIBLIOGRAPHY_CHECKED; DIGITAL_COPY_READER_REQUIRES_LIBRARY_ACCESS",
+      "rights": "Каталог подтверждает издание 1845 года в двух выпусках; страницы оригинального экземпляра требуют визуальной сверки."
+    },
+    {
+      "sourceId": "V47-PETRASHESKY-FOURIER-NOVATORSTVO-1846",
+      "type": "1846_DICTIONARY_ENTRY_SCHOLARLY_TRANSCRIPTION",
+      "title": "«Новаторство» · второй выпуск словаря иностранных слов",
+      "creator": "Н. С. Кирилов, издатель; attribution to М. В. Буташевич-Петрашевский by П. Е. Щёголев",
+      "date": "1846",
+      "edition": "«Петрашевцы», т. II, под редакцией П. Е. Щёголева, 1927; transcription of the second dictionary issue",
+      "url": "https://ru.wikisource.org/wiki/Статьи_из_2-го_выпуска_«Словаря_иностранных_слов»_(Петрашевский)",
+      "range": "Статья «Новаторство», восемь последовательных абзацев · строки 299–306 электронной транскрипции.",
+      "verificationStatus": "CONTIGUOUS_1927_EDITORIAL_TRANSCRIPTION_CHECKED; 1846_PAGE_IMAGE_NOT_INSPECTED; AUTHOR_ATTRIBUTION_IS_EDITORIAL",
+      "rights": "1846 Russian text is public domain; Korean translation newly written by the project. Digital witness preserves editorial insertions."
+    },
+    {
       "sourceId": "V47-ECONOMIST-PETERSBURG-1848-06-24",
       "type": "CONTEMPORARY_NEWSPAPER_DISPATCH_DIGITIZED_ISSUE",
       "title": "Petersburg dispatch on cholera",

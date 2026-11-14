@@ -74,7 +74,7 @@
   "tileheight": 16,
   "infinite": false,
   "nextlayerid": 7,
-  "nextobjectid": 4023,
+  "nextobjectid": 4024,
   "properties": [
     {
       "name": "mapId",
@@ -2396,6 +2396,33 @@
               "name": "scope",
               "type": "string",
               "value": "public"
+            }
+          ]
+        },
+        {
+          "id": 4023,
+          "name": "1846년 외래어 소사전 · ‘Новаторство’",
+          "type": "source",
+          "x": 144,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "sourceId",
+              "type": "string",
+              "value": "V47-PETRASHESKY-FOURIER-NOVATORSTVO-1846"
+            },
+            {
+              "name": "scope",
+              "type": "string",
+              "value": "public"
+            },
+            {
+              "name": "availableDate",
+              "type": "string",
+              "value": "1848-05-02"
             }
           ]
         },

@@ -409,6 +409,26 @@
       "originalSourceLanguageNameKo": "영어"
     },
     {
+      "sourceId": "V47-PETRASHESKY-FOURIER-NOVATORSTVO-1846",
+      "excerptId": "EX-V47-PETRASHESKY-NOVATORSTVO-1846-L299-306",
+      "layout": "book",
+      "textStatus": "DIRECT",
+      "renderingStatus": "RECONSTRUCTED",
+      "documentDate": "1846",
+      "accessibleToPlayerAt": "1848-05-02",
+      "publicationDate": "Dictionary issue 2, 1846; transcribed in the 1927 Petraševtsy collection",
+      "pageLocator": "«Новаторство», eight consecutive paragraphs · digital transcription lines 299–306",
+      "contextKo": "사전은 사회 개혁을 기존의 이해관계를 흔드는 변화로 설명하고, 오언·생시몽·푸리에의 체계를 예로 듭니다.",
+      "rightsNoteKo": "1927년 편집 자료집의 전사문이며, 푸리에 사상의 개별 항목으로 오인하지 않도록 원문 제목을 표시한다. 1846년 원본 페이지와 대조하지 못했다.",
+      "catalogLinks": [
+        {
+          "sourceId": "V47-PETRASHESKY-DICTIONARY-1846-CATALOG",
+          "label": "1845–1846년 사전 서지 · 옐친 대통령 도서관",
+          "href": "https://www.prlib.ru/item/335952"
+        }
+      ]
+    },
+    {
       "sourceId": "V47-NEKRASOV-SUBSCRIBER-LETTER-1848",
       "excerptId": "EX-V47-NEKRASOV-SUBSCRIBER-LETTER-1848-FULL",
       "layout": "letter",
