@@ -26,13 +26,18 @@ export function resolveV47StoryMenuEntries(state, quests = [], campaign = { arcs
     const statusLabelKo = guide.status === 'READY' ? '지금 시작'
       : guide.status === 'WAITING_FOR_DATE' ? '날짜를 기다리는 중'
         : guide.status === 'COMPLETE' ? '완료'
-          : '먼저 할 일';
+          : '시작 준비';
     const menuTaskKo = guide.status === 'WAITING_FOR_CAMPAIGN'
-      ? `${guide.currentTitleKo} · ${guide.currentTaskKo}`
+      ? `본편 전 준비 · ${guide.currentTitleKo}\n${guide.currentTaskKo}`
       : guide.status === 'WAITING_FOR_DATE' ? guide.currentTaskKo
         : guide.status === 'COMPLETE' ? '기록된 선택과 후일담을 다시 볼 수 있습니다.'
           : `${guide.currentTitleKo} · ${guide.currentTaskKo}`;
-    return { ...guide, statusLabelKo, menuTaskKo,
+    const introKo = guide.status === 'WAITING_FOR_CAMPAIGN'
+      ? `이 이야기를 시작하기 전에 현재 맡은 일을 먼저 마쳐야 합니다. 지금은 ‘${guide.currentTitleKo}’ 차례입니다.`
+      : guide.status === 'WAITING_FOR_DATE'
+        ? `${guide.currentTaskKo} 그동안 표시된 목표를 따라 도시를 둘러보세요.`
+        : guide.status === 'COMPLETE' ? '남긴 선택과 후일담을 수첩에서 다시 볼 수 있습니다.' : entry.introKo;
+    return { ...guide, statusLabelKo, menuTaskKo, introKo,
       activitiesKo: (entry.activitiesKo ?? []).map(activity => ({ ...activity })) };
   });
 }
@@ -55,6 +60,7 @@ export function resolveV47StoryEntry(state, storyId, quests = [], campaign = { a
     const currentQuest = quests.find(quest => quest.id === currentQuestId);
     return { ...entry, status: 'WAITING_FOR_CAMPAIGN', storyQuestId: storyQuest.id, currentQuestId,
       currentTaskKo: currentQuest?.objectiveKo ?? currentQuest?.titleKo ?? '현재 열린 퀘스트를 진행한다.',
+      currentContextKo: currentQuest?.premiseKo ?? currentQuest?.sourceContextKo ?? '',
       currentTitleKo: currentQuest?.titleKo ?? '현재 퀘스트', currentMapId: currentQuest?.entry?.mapId ?? null,
       currentChapterId: currentQuest?.chapterId ?? null };
   }
@@ -71,5 +77,6 @@ export function resolveV47StoryEntry(state, storyId, quests = [], campaign = { a
   }
   return { ...entry, status: 'READY', storyQuestId: storyQuest.id, currentQuestId: storyQuest.id,
     currentTaskKo: storyQuest.objectiveKo ?? entry.firstTaskKo, currentTitleKo: storyQuest.titleKo,
+    currentContextKo: storyQuest.premiseKo ?? storyQuest.sourceContextKo ?? '',
     currentMapId: storyQuest.entry?.mapId ?? null, currentChapterId: storyQuest.chapterId };
 }

@@ -4,6 +4,7 @@
 .actions{max-height:min(22dvh,240px);overflow-y:auto;overscroll-behavior:contain}
 .actions button{display:grid;gap:4px;text-align:left;font:13px 'Noto Serif KR',serif;max-width:min(330px,100%)}
 .actions small{font:11px/1.45 'Noto Serif KR',serif;color:#c8b58f}
+.actions.history-event-options small{white-space:pre-line;font-size:12px}
 .journal #journal-text{white-space:pre-wrap}
 .journal-tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:9px}
 .journal-tools button{border:1px solid #806242;background:#30251d;color:#ead9b8;padding:8px 11px;font:13px 'Noto Serif KR',serif;cursor:pointer}

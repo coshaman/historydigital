@@ -8,7 +8,7 @@ import { mimeTypeFor } from '../server-mime.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staticRoot = path.join(root, 'dist-v33');
-const output = path.join(root, 'artifacts/v47/STORY_ENTRY');
+const output = path.resolve(process.env.V47_STORY_ENTRY_OUTPUT ?? path.join(root, 'artifacts/v47/STORY_ENTRY'));
 const require = createRequire(import.meta.url);
 const executablePath = process.env.PLAYWRIGHT_EXECUTABLE_PATH || 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 const browser = await chromium.launch({ headless: true, executablePath });
@@ -31,11 +31,13 @@ try {
   assert.equal(await page.locator('#source-reader').evaluate(element => element.open), false, 'a fresh game does not open an empty source reader');
   assert.equal(await page.locator('#source-reader').evaluate(element => getComputedStyle(element).display), 'none', 'closed source reader stays visually hidden');
   await page.locator('#history-events-open').click();
+  assert.equal(await page.locator('#actions button small').first().evaluate(element => getComputedStyle(element).whiteSpace), 'pre-line',
+    'scenario menu separates the date, current task, and available activities into readable lines');
   const menu = (await page.locator('#actions button').allTextContents()).join('\n');
   for (const label of ['금지된 삽화 연감', '혁명의 소식과 마지막 금요일', '콜레라가 도는 도시']) assert.ok(menu.includes(label), `history menu offers ${label}`);
   await page.screenshot({ path: path.join(output, 'HISTORY-MENU.png'), fullPage: true });
   await page.locator('#actions button').filter({ hasText: '금지된 삽화 연감' }).click();
-  await page.waitForFunction(() => document.querySelector('#headline')?.textContent === '금지된 삽화 연감');
+  await page.waitForFunction(() => document.querySelector('#headline')?.textContent?.startsWith('금지된 삽화 연감 ·'));
   const sourceDialogAfterSelection = await page.locator('#source-reader').evaluate(element => ({ open: element.open, title: element.querySelector('#source-reader-title')?.textContent, passageCount: element.querySelectorAll('.source-passage').length }));
   assert.equal(sourceDialogAfterSelection.open, false, 'scenario selection does not open a blank source reader');
   assert.equal(await page.locator('#source-reader').evaluate(element => getComputedStyle(element).display), 'none', 'scenario selection does not reveal closed source reader content');
@@ -43,8 +45,14 @@ try {
   const mission = [await page.locator('#mission-title').textContent(), await page.locator('#mission-action').textContent(),
     await page.locator('#mission-reason').textContent(), await page.locator('#mission-method').textContent()].join('\n');
   assert.match(mission, /금지된 삽화 연감/);
-  assert.match(mission, /먼저 할 일/);
+  assert.match(mission, /시작 준비|본편 전 준비/);
   assert.match(mission, /인쇄|교정|구독|부록/);
+  const selectedStory = await page.locator('#journal-text').textContent();
+  for (const activity of ['날짜 퀴즈', '파벨 추격', '현장 문서 탐색', '신문 종이·잉크 구매']) {
+    assert.ok(selectedStory.includes(activity), `MAIN01 selection surfaces its playable ${activity} activity`);
+  }
+  await page.locator('#actions button').filter({ hasText: '현재 목표 위치 표시' }).click();
+  assert.equal(await page.locator('#mission-pin').getAttribute('aria-pressed'), 'true', 'the first required task can be pinned directly from story selection');
   assert.ok(errors.length === 0, `browser has no page errors: ${errors.join('; ')}`);
   await page.screenshot({ path: path.join(output, 'MAIN01-SELECTED.png'), fullPage: true });
   await page.setViewportSize({ width: 390, height: 844 });

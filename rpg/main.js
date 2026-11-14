@@ -429,8 +429,9 @@ function say(title, text, actions = []) {
   const visibleActions = actions.filter(action => action.label !== persistentLabel);
   $('.lower').classList.toggle('has-actions', visibleActions.length > 0);
   $('.lower').classList.remove('has-typesetter');
-  $('.actions').classList.remove('roster-options', 'type-setter-active', 'timeline-puzzle-active');
-  $('#mission-tracker').hidden = Boolean(state.endingId) || visibleActions.length > 0;
+  $('.actions').classList.remove('roster-options', 'type-setter-active', 'timeline-puzzle-active', 'history-event-options');
+  const focusedStory = Boolean(state.world.v47?.focusStoryId && !state.endingId);
+  $('#mission-tracker').hidden = Boolean(state.endingId) || (visibleActions.length > 0 && !focusedStory);
   $('#actions').replaceChildren(...visibleActions.map(({ label, subcopy, run, disabled = false }) => {
     const button = document.createElement('button');
     button.type = 'button'; button.disabled = disabled;
@@ -555,9 +556,9 @@ function updateHud() {
     const gateGuide = gateQuest ? resolveQuestGuidance({ state, quests: [gateQuest], maps, hostCards: cards }) : null;
     if (gateGuide) {
       missionGuidance = { ...gateGuide, questId: gateQuest.id, phaseId: 'v47-story-entry',
-        questTitleKo: `${storyEntry.titleKo} · 시작`,
-        actionKo: `먼저 할 일 · ${storyEntry.currentTitleKo}`,
-        reasonKo: `${storyEntry.firstTaskKo} 현재 장의 이 일을 마치면 첫 장면으로 이어집니다.`,
+        questTitleKo: `${storyEntry.titleKo} · 시작 준비`,
+        actionKo: `먼저 마칠 일 · ${storyEntry.currentTitleKo}`,
+        reasonKo: storyEntry.currentContextKo || storyEntry.currentTaskKo,
         howKo: gateGuide.howKo };
       $('#mission-title').textContent = missionGuidance.questTitleKo;
       $('#mission-action').textContent = missionGuidance.actionKo;
@@ -1162,14 +1163,16 @@ function selectV47Story(storyId) {
     : guide.status === 'WAITING_FOR_DATE'
       ? `첫 장면 · ${guide.currentTaskKo}`
       : guide.status === 'WAITING_FOR_CAMPAIGN'
-        ? `먼저 할 일 · ${guide.currentTitleKo}\n${guide.currentTaskKo}`
+        ? `본편 전 준비 · ${guide.currentTitleKo}\n${guide.currentContextKo || guide.currentTaskKo}`
         : '이 이야기는 끝났습니다. 수첩에서 남긴 선택을 확인하거나 다른 현장을 고르세요.';
   const activities = entry.activitiesKo?.length
-    ? `\n\n현장 활동 · ${entry.activitiesKo.map(item => item.labelKo).join(' · ')}` : '';
+    ? `\n\n이 현장에서 할 수 있는 일 · ${entry.activitiesKo.map(item => item.labelKo).join(' · ')}` : '';
   const nextActions = [
+    { label: '현재 목표 위치 표시', disabled: !missionGuidance?.target,
+      subcopy: missionGuidance?.target ? '지도에 목적지를 표시해 길을 따라갑니다' : '현재 목표에 표시할 위치가 없습니다',
+      run: () => { if (!missionGuidance?.target) return; destinationPinned = true; updateHud(); requestRender(); } },
     { label: '인물 목록 열기', subcopy: '이 장면에 맞는 사람을 골라 직접 움직입니다', run: openCharacterList },
-    { label: guide.status === 'READY' ? '수첩에서 현재 목표 보기' : '수첩에서 먼저 할 일 보기',
-      subcopy: '장소와 조사 방법을 확인합니다', run: openJournal },
+    { label: '수첩에서 해야 할 일 보기', subcopy: '목표 장소와 조사 방법을 다시 확인합니다', run: openJournal },
     { label: '다른 현장 고르기', run: openHistoricalEventMenu },
   ];
   say(`${entry.titleKo} · ${entry.statusLabelKo}`, `${entry.introKo}\n\n${activeTask}${activities}`, nextActions);
@@ -1178,7 +1181,7 @@ function openHistoricalEventMenu() {
   eventButton.textContent = '역사 현장';
   const storyActions = resolveV47StoryMenuEntries(state, questList, campaign).map(entry => ({
     label: `${entry.titleKo} · ${entry.statusLabelKo}`,
-    subcopy: `${entry.dateKo} · ${entry.menuTaskKo}${entry.activitiesKo.length ? ` · ${entry.activitiesKo.map(item => item.labelKo).join(' · ')}` : ''}`,
+    subcopy: `${entry.dateKo}\n${entry.menuTaskKo}${entry.activitiesKo.length ? `\n가능한 활동 · ${entry.activitiesKo.map(item => item.labelKo).join(' · ')}` : ''}`,
     run: () => selectV47Story(entry.id),
   }));
   const historicalActions = historicalEvents.map(event => ({
@@ -1187,6 +1190,7 @@ function openHistoricalEventMenu() {
     run: () => beginHistoricalEvent(event),
   }));
   say('역사 현장', '이야기를 고르면 지금 할 일과 다음 행동을 확인할 수 있습니다.', [...storyActions, ...historicalActions]);
+  $('.actions').classList.add('history-event-options');
 }
 function beginHistoricalEvent(event) {
   const scene = historicalScenes.get(event.id);
