@@ -26,14 +26,14 @@ export function resolveV47StoryMenuEntries(state, quests = [], campaign = { arcs
     const statusLabelKo = guide.status === 'READY' ? '지금 시작'
       : guide.status === 'WAITING_FOR_DATE' ? '날짜를 기다리는 중'
         : guide.status === 'COMPLETE' ? '완료'
-          : '시작 준비';
+          : '도입 퀘스트';
     const menuTaskKo = guide.status === 'WAITING_FOR_CAMPAIGN'
-      ? `본편 전 준비 · ${guide.currentTitleKo}\n${guide.currentTaskKo}`
+      ? `먼저 할 퀘스트 · ${guide.currentTitleKo}\n${guide.currentTaskKo}`
       : guide.status === 'WAITING_FOR_DATE' ? guide.currentTaskKo
         : guide.status === 'COMPLETE' ? '기록된 선택과 후일담을 다시 볼 수 있습니다.'
           : `${guide.currentTitleKo} · ${guide.currentTaskKo}`;
     const introKo = guide.status === 'WAITING_FOR_CAMPAIGN'
-      ? `이 이야기를 시작하기 전에 현재 맡은 일을 먼저 마쳐야 합니다. 지금은 ‘${guide.currentTitleKo}’ 차례입니다.`
+      ? `먼저 ‘${guide.currentTitleKo}’ 일을 마치자.\n${guide.currentTaskKo}`
       : guide.status === 'WAITING_FOR_DATE'
         ? `${guide.currentTaskKo} 그동안 표시된 목표를 따라 도시를 둘러보세요.`
         : guide.status === 'COMPLETE' ? '남긴 선택과 후일담을 수첩에서 다시 볼 수 있습니다.' : entry.introKo;

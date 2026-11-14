@@ -41,11 +41,11 @@ test('historical locations menu tells the player whether MAIN01 can start and wh
   const state = { world: { chapterId: 'V33_1847_PRINT', date: '1847-06-01' }, quests: {} };
   const entry = resolveV47StoryMenuEntries(state, [...quests, printshopQuest], campaign).find(item => item.id === 'MAIN01');
   assert.equal(entry.status, 'WAITING_FOR_CAMPAIGN');
-  assert.equal(entry.statusLabelKo, '시작 준비');
+  assert.equal(entry.statusLabelKo, '도입 퀘스트');
   assert.equal(entry.currentTitleKo, '교정쇄의 행선지');
   assert.match(entry.menuTaskKo, /교정쇄|인쇄소/);
   assert.match(entry.currentContextKo, /편집부 공고와 교정쇄/);
-  assert.match(entry.introKo, /교정쇄의 행선지/);
+  assert.match(entry.introKo, /먼저.*교정쇄의 행선지/);
   assert.doesNotMatch(entry.introKo, /구독 장부에서 이름을 찾고/,
     'a gated story must not tell the player to do a later MAIN01 objective before the current campaign gate');
 });

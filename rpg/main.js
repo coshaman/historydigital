@@ -427,11 +427,12 @@ function say(title, text, actions = []) {
   const readyQuest = continuationQuest(state, campaign, questList);
   const persistentLabel = readyQuest ? continuationFor(readyQuest)[0].label : null;
   const visibleActions = actions.filter(action => action.label !== persistentLabel);
+  const storyOverview = /^(금지된 삽화 연감|혁명의 소식과 마지막 금요일|콜레라가 도는 도시) ·/.test(title);
   $('.lower').classList.toggle('has-actions', visibleActions.length > 0);
+  $('.lower').classList.toggle('story-overview', storyOverview);
   $('.lower').classList.remove('has-typesetter');
   $('.actions').classList.remove('roster-options', 'type-setter-active', 'timeline-puzzle-active', 'history-event-options');
-  const focusedStory = Boolean(state.world.v47?.focusStoryId && !state.endingId);
-  $('#mission-tracker').hidden = Boolean(state.endingId) || (visibleActions.length > 0 && !focusedStory);
+  $('#mission-tracker').hidden = Boolean(state.endingId) || (visibleActions.length > 0 && !storyOverview);
   $('#actions').replaceChildren(...visibleActions.map(({ label, subcopy, run, disabled = false }) => {
     const button = document.createElement('button');
     button.type = 'button'; button.disabled = disabled;
@@ -519,7 +520,8 @@ function updateHud() {
     : inLiteraryScene
     ? { questTitleKo: '', actionKo: '', placeKo: '', reasonKo: '', howKo: '', target: null, progress: { completedSteps: 0, totalSteps: 0 }, blocked: false }
     : resolveQuestGuidance({ state, quests: questList, maps, hostCards: cards });
-  const tracker = $('#mission-tracker'); tracker.hidden = Boolean(state.endingId) || inLiteraryScene;
+  const tracker = $('#mission-tracker'); tracker.hidden = Boolean(state.endingId) || inLiteraryScene
+    || ($('.lower').classList.contains('has-actions') && !$('.lower').classList.contains('story-overview'));
   $('#mission-identity').textContent = host ? `현재 빙의: ${host.displayNameKo} · ${host.occupation}` : '현재 인물: 관찰자';
   $('#mission-title').textContent = missionGuidance.questTitleKo ?? '지금 할 일';
   $('#mission-action').textContent = `${missionGuidance.actionKo}${missionGuidance.placeKo ? ` · ${missionGuidance.placeKo}` : ''}`;
@@ -556,15 +558,15 @@ function updateHud() {
     const gateGuide = gateQuest ? resolveQuestGuidance({ state, quests: [gateQuest], maps, hostCards: cards }) : null;
     if (gateGuide) {
       missionGuidance = { ...gateGuide, questId: gateQuest.id, phaseId: 'v47-story-entry',
-        questTitleKo: `${storyEntry.titleKo} · 시작 준비`,
-        actionKo: `먼저 마칠 일 · ${storyEntry.currentTitleKo}`,
+        questTitleKo: `${storyEntry.titleKo} · 도입 퀘스트`,
+        actionKo: `먼저 할 퀘스트 · ${storyEntry.currentTitleKo}`,
         reasonKo: storyEntry.currentContextKo || storyEntry.currentTaskKo,
         howKo: gateGuide.howKo };
       $('#mission-title').textContent = missionGuidance.questTitleKo;
       $('#mission-action').textContent = missionGuidance.actionKo;
       $('#mission-reason').textContent = missionGuidance.reasonKo;
       $('#mission-method').textContent = missionGuidance.howKo;
-      $('#mission-progress').textContent = '이야기 시작 준비';
+      $('#mission-progress').textContent = '도입 퀘스트';
       $('#mission-pin').disabled = !missionGuidance.target;
     }
   } else if (focusedV47Quest && !questIsAvailable(focusedV47Quest) && storyEntry?.status === 'WAITING_FOR_DATE'
@@ -1163,17 +1165,16 @@ function selectV47Story(storyId) {
     : guide.status === 'WAITING_FOR_DATE'
       ? `첫 장면 · ${guide.currentTaskKo}`
       : guide.status === 'WAITING_FOR_CAMPAIGN'
-        ? `본편 전 준비 · ${guide.currentTitleKo}\n${guide.currentContextKo || guide.currentTaskKo}`
+        ? `먼저 할 퀘스트 · ${guide.currentTitleKo}\n${guide.currentContextKo || guide.currentTaskKo}`
         : '이 이야기는 끝났습니다. 수첩에서 남긴 선택을 확인하거나 다른 현장을 고르세요.';
   const activities = entry.activitiesKo?.length
     ? `\n\n현장 활동\n${entry.activitiesKo.map(item => `· ${item.labelKo} — ${item.startKo}`).join('\n')}` : '';
   const nextActions = [
-    { label: `${guide.status === 'READY' ? '첫 임무' : '준비 퀘스트'} 위치 표시 · ${guide.currentTitleKo}`,
-      disabled: !missionGuidance?.target,
-      subcopy: missionGuidance?.target ? `${guide.currentTaskKo} · 지도에 목적지를 표시합니다` : '이 목표는 목적지 표시 없이 수첩의 방법을 따라 진행합니다',
-      run: () => { if (!missionGuidance?.target) return; destinationPinned = true; updateHud(); requestRender(); } },
-    { label: '인물 목록 열기', subcopy: '이 장면에 맞는 사람을 골라 직접 움직입니다', run: openCharacterList },
-    { label: '수첩에서 해야 할 일 보기', subcopy: '목표 장소와 조사 방법을 다시 확인합니다', run: openJournal },
+    { label: `현재 퀘스트 확인 · ${guide.currentTitleKo}`,
+      subcopy: `${guide.currentTaskKo} · 수첩에서 장소와 다음 행동을 확인합니다`, run: openJournal },
+    { label: '퀘스트에 맞는 인물 고르기', subcopy: '인물 목록에서 이름을 누르면 그 사람으로 바로 움직입니다', run: openCharacterList },
+    ...(missionGuidance?.target ? [{ label: '지도에 현재 목표 표시', subcopy: '목적지 표시를 켜서 갈 곳을 확인합니다',
+      run: () => { destinationPinned = true; updateHud(); requestRender(); } }] : []),
     { label: '다른 현장 고르기', run: openHistoricalEventMenu },
   ];
   say(`${entry.titleKo} · ${entry.statusLabelKo}`, `${entry.introKo}\n\n${activeTask}${activities}`, nextActions);
@@ -1191,7 +1192,7 @@ function openHistoricalEventMenu() {
     subcopy: `${event.dateLabelKo} · ${event.openingKo}`,
     run: () => beginHistoricalEvent(event),
   }));
-  say('역사 현장', '이야기를 고르면 지금 할 일과 다음 행동을 확인할 수 있습니다.', [...storyActions, ...historicalActions]);
+  say('역사 현장', '이야기를 고르세요. 선택하면 지금 할 일과 맡을 인물을 바로 안내합니다.', [...storyActions, ...historicalActions]);
   $('.actions').classList.add('history-event-options');
 }
 function beginHistoricalEvent(event) {

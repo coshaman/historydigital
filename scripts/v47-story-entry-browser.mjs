@@ -30,6 +30,9 @@ try {
   await page.waitForFunction(() => document.documentElement.dataset.gameReady === 'true');
   assert.equal(await page.locator('#source-reader').evaluate(element => element.open), false, 'a fresh game does not open an empty source reader');
   assert.equal(await page.locator('#source-reader').evaluate(element => getComputedStyle(element).display), 'none', 'closed source reader stays visually hidden');
+  const topButtons = await page.locator('.top-meta button').allTextContents();
+  assert.ok(topButtons.indexOf('역사 현장') === topButtons.indexOf('인물 목록') + 1,
+    'the history-story picker sits immediately beside the character roster');
   await page.locator('#history-events-open').click();
   assert.equal(await page.locator('#actions button small').first().evaluate(element => getComputedStyle(element).whiteSpace), 'pre-line',
     'scenario menu separates the date, current task, and available activities into readable lines');
@@ -45,7 +48,7 @@ try {
   const mission = [await page.locator('#mission-title').textContent(), await page.locator('#mission-action').textContent(),
     await page.locator('#mission-reason').textContent(), await page.locator('#mission-method').textContent()].join('\n');
   assert.match(mission, /금지된 삽화 연감/);
-  assert.match(mission, /시작 준비|본편 전 준비/);
+  assert.match(mission, /도입 퀘스트|먼저 할 퀘스트/);
   assert.match(mission, /인쇄|교정|구독|부록/);
   const selectedStory = await page.locator('#journal-text').textContent();
   for (const activity of ['날짜 퀴즈', '파벨 추격', '현장 문서 탐색', '신문 종이·잉크 구매']) {
@@ -54,8 +57,16 @@ try {
   for (const direction of ['인쇄소 날짜 대조판', '파벨로 빙의해 책방 골목', '종이 모양 자료나 책', '레프의 가판']) {
     assert.ok(selectedStory.includes(direction), `MAIN01 activity explains where or how to start: ${direction}`);
   }
-  await page.locator('#actions button').filter({ hasText: '준비 퀘스트 위치 표시 · 교정쇄의 행선지' }).click();
-  assert.equal(await page.locator('#mission-pin').getAttribute('aria-pressed'), 'true', 'the first required task can be pinned directly from story selection');
+  await page.locator('#actions button').filter({ hasText: '현재 퀘스트 확인 · 교정쇄의 행선지' }).click();
+  assert.equal(await page.locator('#quest-journal').evaluate(element => element.open), true,
+    'the story selection opens the notebook directly on its current required task');
+  assert.match(await page.locator('#journal-goal-action').textContent(), /교정쇄의 행선지/);
+  await page.locator('#journal-close').click();
+  await page.locator('#history-events-open').click();
+  await page.locator('#actions button').filter({ hasText: '금지된 삽화 연감' }).click();
+  await page.locator('#actions button').filter({ hasText: '퀘스트에 맞는 인물 고르기' }).click();
+  assert.equal(await page.locator('.roster-card').count() > 0, true,
+    'the selected scenario can open the roster immediately to choose its quest character');
   assert.ok(errors.length === 0, `browser has no page errors: ${errors.join('; ')}`);
   await page.screenshot({ path: path.join(output, 'MAIN01-SELECTED.png'), fullPage: true });
   await page.setViewportSize({ width: 390, height: 844 });

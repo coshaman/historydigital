@@ -1,7 +1,10 @@
-.lower{max-height:40dvh;overflow:hidden}
+.lower{max-height:48dvh;overflow:hidden}
 .lower.has-typesetter{max-height:min(48dvh,440px)}
 .journal{min-height:0;max-height:100%;overflow:auto;overscroll-behavior:contain}
 .actions{max-height:min(22dvh,240px);overflow-y:auto;overscroll-behavior:contain}
+.lower.has-actions .journal{display:flex;min-height:0;max-height:100%;flex-direction:column;overflow:hidden}
+.lower.has-actions #journal-text{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain}
+.lower.has-actions .actions{flex:0 0 auto;max-height:min(22dvh,240px);overflow-y:auto;overscroll-behavior:contain}
 .actions button{display:grid;gap:4px;text-align:left;font:13px 'Noto Serif KR',serif;max-width:min(330px,100%)}
 .actions small{font:11px/1.45 'Noto Serif KR',serif;color:#c8b58f}
 .actions.history-event-options small{white-space:pre-line;font-size:12px}
