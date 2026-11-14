@@ -2435,12 +2435,12 @@
             {
               "name": "availableChapterId",
               "type": "string",
-              "value": "V33_1849_CIRCLE"
+              "value": "V33_1849_PRELUDE"
             },
             {
               "name": "availableDate",
               "type": "string",
-              "value": "1849-04-22"
+              "value": "1849-05-04"
             }
           ]
         }

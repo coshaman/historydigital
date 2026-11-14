@@ -715,6 +715,53 @@ async function runRoute(browser, base, routeName) {
               assert.ok(physicalBook, 'MAIN01 A03 has a physical copy of the source in the workshop');
               await walkTo(physicalBook, `${quest.id} physical book`);
             }
+            if (action.requiredKnowledgeId) {
+              const state = await currentState();
+              const readerHostId = state.player.embodiment;
+              if (!state.hosts[readerHostId]?.knownEvidenceIds?.includes(action.requiredKnowledgeId)) {
+                const sourceObject = interactions(targetMap).find(object => propertyMap(object).sourceId === action.requiredKnowledgeId);
+                const packet = historicalPacketMap.get(action.requiredKnowledgeId);
+                const sourceRecord = sourceMap.get(action.requiredKnowledgeId);
+                assert.ok(sourceObject && packet?.paragraphs?.length,
+                  `${quest.id}/${action.id} has a physical source object and contiguous reader text`);
+                assert.ok(sourceRecord, `${action.requiredKnowledgeId} has a provenance record`);
+                await walkTo(sourceObject, `${quest.id} required source ${action.requiredKnowledgeId}`);
+                await use();
+                const readerDialog = page.locator('#source-reader');
+                const readButton = page.locator('#actions button')
+                  .filter({ hasText: `자료 읽기 · ${packet.titleKo}` }).first();
+                await page.waitForFunction(() => document.querySelector('#source-reader')?.open
+                  || [...document.querySelectorAll('#actions button')].some(button => button.textContent.startsWith('자료 읽기 ·')),
+                null, { timeout: 5000 });
+                if (!await readerDialog.evaluate(element => element.open)) await readButton.click();
+                await page.locator('#source-reader-complete').waitFor({ state: 'visible', timeout: 5000 });
+                const sourceView = await page.evaluate(() => ({
+                  title: document.querySelector('#source-reader-title')?.textContent ?? '',
+                  paragraphs: document.querySelectorAll('#source-reader-passages .source-passage').length,
+                  russian: [...document.querySelectorAll('#source-reader-passages .source-passage-ru')]
+                    .map(node => node.textContent).join('\n'),
+                  korean: [...document.querySelectorAll('#source-reader-passages .source-passage-ko')]
+                    .map(node => node.textContent).join('\n'),
+                }));
+                assert.equal(sourceView.title, packet.titleKo, `${action.requiredKnowledgeId} opens in the physical source reader`);
+                assert.equal(sourceView.paragraphs, packet.paragraphs.length,
+                  `${action.requiredKnowledgeId} displays the complete checked excerpt`);
+                assert.ok(sourceView.russian.length > 80 && sourceView.korean.length > 80,
+                  `${action.requiredKnowledgeId} keeps Russian and Korean text aligned`);
+                const sourceShot = path.join(outputDir,
+                  `${routeName}-${quest.id}-${action.requiredKnowledgeId}-${viewport.width}x${viewport.height}.png`);
+                await page.screenshot({ path: sourceShot, fullPage: false }); screenshots.push(sourceShot);
+                await page.locator('#source-reader-complete').click();
+                await page.locator('#save').click();
+                const readState = await currentState();
+                assert.ok(readState.hosts[readerHostId].knownEvidenceIds.includes(action.requiredKnowledgeId),
+                  `${readerHostId} personally reads ${action.requiredKnowledgeId} before the choice`);
+                sourceReads.push({ sourceId: action.requiredKnowledgeId, excerptId: sourceRecord.excerptId,
+                  date: readState.world.date, hostId: readerHostId, mapId: quest.entry.mapId,
+                  paragraphCount: sourceView.paragraphs, questId: quest.id, beforeActionId: action.id, screenshot: sourceShot });
+                await walkTo(targetObject, `${quest.id} return after reading required source`);
+              }
+            }
             await use();
             if (quest.id === 'V37_EUROPE_NEWS_1848') {
               const inspectEvent = page.locator('#actions button').filter({ hasText: `사건 살펴보기 · ${quest.titleKo}` }).first();
@@ -1121,6 +1168,15 @@ async function runRoute(browser, base, routeName) {
       'the main route logs the full five-paragraph subscriber letter before its related choice');
     }
     else for (const [storyId, result] of Object.entries(storySummary)) assert.equal(result.status, 'PASS', `${routeName}: full browser route completes ${storyId}`);
+    if (!main01Only && !e41Only) for (const [questId, sourceId] of [
+      ['V47_MAIN03_P05', 'OBJ-BELINSKY-LETTER-GOGOL-1847'],
+      ['V47_MAIN03_P07', 'OBJ-WS-DOSTOEVSKY-ARREST-ORDER-1849'],
+    ]) {
+      const sourceRead = sourceReads.find(row => row.questId === questId && row.sourceId === sourceId);
+      assert.ok(sourceRead, `${routeName}: ${questId} logs physical reading of ${sourceId} before its choice`);
+      assert.ok(sourceRead.paragraphCount >= 4 && sourceRead.screenshot,
+        `${routeName}: ${sourceId} has a complete reader view and screenshot`);
+    }
     assert.deepEqual(pageErrors, [], `${routeName}: continuous browser route has no page errors`);
     await page.locator('#save').click();
     const finalSave = await page.evaluate(() => localStorage.getItem('v33-rpg-save'));

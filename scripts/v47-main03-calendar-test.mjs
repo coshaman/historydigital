@@ -5,8 +5,10 @@ import { v47StoryBeats, toV47StoryQuests } from '../rpg/data/v47-story-beats.mjs
 import { v47StoryQuests } from '../rpg/data/v47-main-stories.mjs';
 import { sourceAvailableOn } from '../rpg/engine/source-availability.mjs';
 import { resolveV47StoryEntry, storyIdForQuest } from '../rpg/engine/v47-story-entry.mjs';
+import { questChoices } from '../rpg/engine/quest-presentation.mjs';
 
 const sourceIndex = JSON.parse(await readFile(new URL('../rpg/data/source-reader-index.json', import.meta.url), 'utf8'));
+const chancery = JSON.parse(await readFile(new URL('../rpg/maps/chancery.json', import.meta.url), 'utf8'));
 const campaign = JSON.parse(await readFile(new URL('../rpg/quests/campaign.json', import.meta.url), 'utf8'));
 const europeNewsQuest = JSON.parse(await readFile(new URL('../rpg/quests/europe-news-1848.json', import.meta.url), 'utf8'));
 const sourceById = new Map(sourceIndex.records.map(record => [record.sourceId, record]));
@@ -69,4 +71,36 @@ test('MAIN03 uses one Gregorian world clock for Russian Julian scene dates and s
   assert.equal(v47StoryBeats.find(beat => beat.id === 'V47_MAIN03_P07')?.originalJulianDate, '1849-04-22');
   assert.equal(v47StoryBeats.find(beat => beat.id === 'V47_MAIN03_P09')?.originalJulianDate, '1849-04-25');
   assert.equal(sourceById.get('OBJ-WS-DOSTOEVSKY-LETTER-1849-DEC22')?.accessibleToPlayerAt, '1850-01-03');
+});
+
+test('MAIN03 requires reading the Belinsky letter and arrest order before their related choices', () => {
+  for (const [questId, sourceId] of [
+    ['V47_MAIN03_P05', 'OBJ-BELINSKY-LETTER-GOGOL-1847'],
+    ['V47_MAIN03_P07', 'OBJ-WS-DOSTOEVSKY-ARREST-ORDER-1849'],
+  ]) {
+    const quest = beatById.get(questId);
+    assert.ok(quest.actions.length > 0, `${questId} has consequential choices`);
+    assert.ok(quest.actions.every(action => action.requiredKnowledgeId === sourceId),
+      `${questId} requires the player to read ${sourceId} before choosing`);
+    const hostId = quest.actions[0].hostIds[0];
+    assert.ok(questChoices(quest, hostId, [], null).every(action => action.missingSourceId === sourceId),
+      `${questId} keeps its choices locked for a character who has not read ${sourceId}`);
+    assert.ok(questChoices(quest, hostId, [sourceId], null).every(action => action.missingSourceId === null),
+      `${questId} unlocks its choices for a character who has read ${sourceId}`);
+  }
+  const arrestObject = chancery.layers.flatMap(layer => layer.objects ?? [])
+    .find(object => object.properties?.some(property => property.name === 'sourceId'
+      && property.value === 'OBJ-WS-DOSTOEVSKY-ARREST-ORDER-1849'));
+  const properties = Object.fromEntries((arrestObject?.properties ?? []).map(property => [property.name, property.value]));
+  assert.equal(properties.availableDate, sourceById.get('OBJ-WS-DOSTOEVSKY-ARREST-ORDER-1849').accessibleToPlayerAt,
+    'the physical arrest order appears on its documented player-access date');
+  assert.equal(properties.availableChapterId, 'V33_1849_PRELUDE',
+    'the physical arrest order appears before the fixed arrest chapter begins');
+});
+
+test('MAIN03 follow-up report choices remain possible after the register correction costs money', () => {
+  const followUp = beatById.get('V47_MAIN03_P10');
+  assert.ok(followUp.actions.every(action => !action.effects.v47WorldChange.money
+    .some(transfer => transfer.fromHostId === 'clerk_alexei')),
+  'P10 cannot charge Alexei again after P09 correction has spent the clerk’s available coin');
 });

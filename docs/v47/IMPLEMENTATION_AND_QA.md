@@ -2,6 +2,13 @@
 
 **Status: playable implementation verified; historical-source acceptance remains partial.** The V47 campaign was played through in the browser on normal and alternate routes. Source provenance still contains explicit archival/image-collation qualifications; no human playtest is claimed.
 
+## 2026-11-15 MAIN03 source gates and route repair
+
+- P05 now requires the embodied character to read the physical Belinsky-to-Gogol letter before choosing how to handle its copy. P07 similarly requires reading the arrest order; its chancery object now appears on the verified 1849-05-04 player-access date in the pre-arrest chapter, while the fixed arrest chapter still begins 1849-05-05.
+- Removed the extra clerk-funded fee from both P10 report choices so a prior register correction cannot make the follow-up report unaffordable. Both outcomes still change the record, inventory, movement, relationships, and rumor.
+- Normal and alternate continuous browser replays each completed 36/36 story beats across MAIN01, MAIN03, and MAIN05, with zero page errors. Both routes physically opened the 7-paragraph Belinsky letter before P05 and the 4-paragraph arrest order before P07; screenshots and logs are under `artifacts/v47/CONTINUOUS_STORY_REPLAY/MAIN03_SOURCE_GATES_20261115/` and `MAIN03_SOURCE_GATES_ALT_RECHECK_20261115/`.
+- Focused checks: `node --test scripts/v47-main03-calendar-test.mjs`, `node --check scripts/v47-browser-campaign-replay.mjs`, and `npm run build:v33` pass. Overall historical-source acceptance remains partial; these route passes do not close the archival-image collation or human-playtest gaps.
+
 ## 2026-11-13 sequential MAIN01 focus
 
 - Work order: finish MAIN01 and its acceptance gaps first, then give MAIN03 a separate full pass; MAIN05 remains last. MAIN01 has a playable 12-beat route, but story/source/branch acceptance and final visual review remain open.
