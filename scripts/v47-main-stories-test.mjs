@@ -753,21 +753,30 @@ assert.equal(unattendedArrest.world.v47.events.MAIN03_PETRASHEVSKY_ARREST.npcAut
 for (const id of ['petrashevsky_1849', 'dostoevsky_1849']) {
   assert.ok(unattendedArrest.world.v47.events.MAIN03_PETRASHEVSKY_ARREST.actorHostIds.includes(id),
     `${id} is staged as a named historical detainee in the arrest operation`);
-  assert.ok(['TRANSFERRED_AFTER_FIXED_ARREST', 'ARRIVED_AFTER_FIXED_ARREST'].includes(unattendedArrest.hosts[id].v47Assignment.status),
+  assert.ok(['EN_ROUTE_TO_ARREST_ADDRESS', 'TRANSFERRED_AFTER_FIXED_ARREST', 'ARRIVED_AFTER_FIXED_ARREST'].includes(unattendedArrest.hosts[id].v47Assignment.status),
     `${id}'s fixed arrest outcome is represented in the on-map operation`);
 }
 const arrestMovement = structuredClone(unattendedArrest);
 arrestMovement.world.clockMinutes = 600;
-const arrestActors = new Set(['police_sergeant_ivan', 'student_vasily', 'petrashevsky_1849', 'dostoevsky_1849']);
+arrestMovement.world.date = '1849-05-05';
+const arrestActors = new Set(['police_sergeant_ivan', 'junior_guard_sergey', 'student_vasily', 'petrashevsky_1849', 'dostoevsky_1849']);
 for (const host of Object.values(arrestMovement.hosts)) host.historicalAliveAndPresent = arrestActors.has(host.id);
 arrestMovement.hosts.police_sergeant_ivan.mapId = 'police-station';
+arrestMovement.hosts.junior_guard_sergey.mapId = 'police-station';
 arrestMovement.hosts.student_vasily.mapId = 'courtyard';
 arrestMovement.hosts.petrashevsky_1849.mapId = 'inn-interior';
 arrestMovement.hosts.dostoevsky_1849.mapId = 'inn-interior';
-const arrestRouteReplay = game.advanceNpcWorld(arrestMovement, 240, maps);
+const arrestRouteReplay = game.advanceNpcWorld(arrestMovement, 720, maps);
 const arrestMoves = arrestRouteReplay.ledger.filter(row => row.eventType === 'NPC_SIMULATION').flatMap(row => row.moves);
-for (const id of ['petrashevsky_1849', 'dostoevsky_1849']) assert.ok(arrestMoves.some(move => move.hostId === id),
-  `${id} physically travels into the arrest scene rather than remaining a dialogue-only name`);
+assert.ok(arrestMoves.some(move => move.hostId === 'dostoevsky_1849' && move.toMapId === 'morskaya-intersection'),
+  'Dostoevsky physically reaches the address in the contemporary order before the documented seizure');
+assert.ok(['TRANSFERRED_AFTER_FIXED_ARREST', 'ARRIVED_AFTER_FIXED_ARREST'].includes(arrestRouteReplay.hosts.dostoevsky_1849.v47Assignment.status));
+assert.equal(arrestRouteReplay.hosts.dostoevsky_1849.v47Assignment.arrestedDate, '1849-05-05');
+assert.ok(arrestRouteReplay.hosts.police_sergeant_ivan.inventory.includes('봉인된 책과 서류 꾸러미'),
+  'the arrest team takes the books and papers named by the order and carries them from the address');
+assert.ok(arrestRouteReplay.world.v47.events.MAIN03_PETRASHEVSKY_ARREST.npcAutonomy.assignedHostIds.includes('junior_guard_sergey')
+  && ['morskaya-intersection', 'police-station'].includes(arrestRouteReplay.hosts.junior_guard_sergey.v47TravelGoal.targetMapId),
+  'the second guard receives an authored physical route for the operation and its escort');
 unattendedArrest = advanceV47World(unattendedArrest, { date: '1849-05-06', clockMinutes: 420 });
 assert.equal(unattendedArrest.hosts.student_vasily.v47Questioning.status, 'MOVING_WITH_SEARCH_TEAM',
   'the date alone cannot release a character who has not physically reached the station');

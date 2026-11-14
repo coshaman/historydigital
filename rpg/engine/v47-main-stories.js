@@ -350,13 +350,30 @@ function fireAnchors(v47, date, clockMinutes, hosts) {
         delete police.plannedPath;
         delete police.mapRoutePlan;
       }
+      const supportGuard = hosts?.junior_guard_sergey;
+      if (supportGuard?.kind === 'FICTIONAL' && supportGuard.historicalAliveAndPresent !== false) {
+        supportGuard.v47Assignment = { eventId: anchor.id, status: 'EN_ROUTE_TO_SEARCH', date };
+        supportGuard.v47TravelGoal = { status: 'EN_ROUTE', targetMapId: 'morskaya-intersection',
+          targetPosition: { x: 19, y: 12 }, arrivalRadius: 2, storyId: 'MAIN03', questId: anchor.id,
+          actionId: 'JOIN_ARREST_OPERATION', taskId: `V47:ARREST_SUPPORT:${supportGuard.id}`,
+          activityKo: '말라야 모르스카야 교차로로 이동해 체포 작전을 돕는다', startedDate: date };
+        destinationMapByHost[supportGuard.id] = 'morskaya-intersection';
+        delete supportGuard.plannedPath;
+        delete supportGuard.mapRoutePlan;
+      }
       for (const detainee of historicalDetainees) {
-        detainee.v47Assignment = { eventId: anchor.id, status: 'TRANSFERRED_AFTER_FIXED_ARREST', date,
+        const atDocumentedAddress = detainee.id === 'dostoevsky_1849';
+        detainee.v47Assignment = { eventId: anchor.id,
+          status: atDocumentedAddress ? 'EN_ROUTE_TO_ARREST_ADDRESS' : 'TRANSFERRED_AFTER_FIXED_ARREST', date,
           historicalOutcomeFixed: true };
-        detainee.v47TravelGoal = { status: 'EN_ROUTE', targetMapId: 'police-station', targetPosition: { x: 3, y: 4 },
-          arrivalRadius: 2, storyId: 'MAIN03', questId: anchor.id, actionId: 'FIXED_HISTORICAL_ARREST_TRANSFER',
-          taskId: `V47:ARREST_TRANSFER:${detainee.id}:POLICE_STATION`, activityKo: '체포 뒤 관서로 호송된다', startedDate: date };
-        destinationMapByHost[detainee.id] = 'police-station';
+        detainee.v47TravelGoal = { status: 'EN_ROUTE',
+          targetMapId: atDocumentedAddress ? 'morskaya-intersection' : 'police-station',
+          targetPosition: atDocumentedAddress ? { x: 17, y: 12 } : { x: 3, y: 4 },
+          arrivalRadius: 2, storyId: 'MAIN03', questId: anchor.id,
+          actionId: atDocumentedAddress ? 'FIXED_HISTORICAL_ARREST_AT_DOCUMENTED_ADDRESS' : 'FIXED_HISTORICAL_ARREST_TRANSFER',
+          taskId: `V47:ARREST_TRANSFER:${detainee.id}:${atDocumentedAddress ? 'MORSKAYA' : 'POLICE_STATION'}`,
+          activityKo: atDocumentedAddress ? '명령서에 적힌 주소로 향한다' : '체포 뒤 관서로 호송된다', startedDate: date };
+        destinationMapByHost[detainee.id] = detainee.v47TravelGoal.targetMapId;
         delete detainee.plannedPath;
         delete detainee.mapRoutePlan;
       }
@@ -378,9 +395,9 @@ function fireAnchors(v47, date, clockMinutes, hosts) {
         delete student.plannedPath;
         delete student.mapRoutePlan;
       }
-      event.actorHostIds = [police?.id, ...historicalDetainees.map(host => host.id), student?.id].filter(Boolean);
+      event.actorHostIds = [police?.id, supportGuard?.id, ...historicalDetainees.map(host => host.id), student?.id].filter(Boolean);
       event.playerIntervened = false;
-      event.npcAutonomy = { status: 'ASSEMBLING', assignedHostIds: [police?.id, ...historicalDetainees.map(host => host.id),
+      event.npcAutonomy = { status: 'ASSEMBLING', assignedHostIds: [police?.id, supportGuard?.id, ...historicalDetainees.map(host => host.id),
         student?.id].filter(id => hosts?.[id]
           && hosts[id].historicalAliveAndPresent !== false), arrivedHostIds: [],
         dispatchedHostIds: [police?.id].filter(Boolean), questionedHostIds: [],
@@ -398,6 +415,45 @@ function fireAnchors(v47, date, clockMinutes, hosts) {
 function resolveAutonomousArrestRoute(v47, hosts, date) {
   const event = v47.events.MAIN03_PETRASHEVSKY_ARREST, student = hosts?.student_vasily;
   if (!event) return;
+  const dostoevsky = hosts?.dostoevsky_1849;
+  const police = hosts?.police_sergeant_ivan;
+  const supportGuard = hosts?.junior_guard_sergey;
+  if (dostoevsky?.v47Assignment?.status === 'EN_ROUTE_TO_ARREST_ADDRESS'
+    && dostoevsky.mapId === 'morskaya-intersection' && dostoevsky.v47TravelGoal?.status === 'ARRIVED'
+    && police?.mapId === 'morskaya-intersection' && police.v47TravelGoal?.status === 'ARRIVED') {
+    dostoevsky.v47Assignment = { ...dostoevsky.v47Assignment, status: 'ARRESTED_AT_DOCUMENTED_ADDRESS', arrestedDate: date,
+      historicalOutcomeFixed: true };
+    police.inventory ??= [];
+    if (!police.inventory.includes('봉인된 책과 서류 꾸러미')) police.inventory.push('봉인된 책과 서류 꾸러미');
+    v47.worldChanges ??= [];
+    if (!v47.worldChanges.some(row => row.questId === event.id && row.actionId === 'NPC_ARREST_AT_DOCUMENTED_ADDRESS')) {
+      v47.worldChanges.push({ questId: event.id, actionId: 'NPC_ARREST_AT_DOCUMENTED_ADDRESS', date,
+        assignedHostIds: [dostoevsky.id, police.id, ...(supportGuard ? [supportGuard.id] : [])],
+        destination: { mapId: 'morskaya-intersection' }, moves: [],
+        resources: { police_sergeant_ivan: { inventoryAdded: ['봉인된 책과 서류 꾸러미'] } },
+        rumorId: null, unattended: true, historicalOutcomeFixed: true,
+        provenanceSourceIds: ['OBJ-WS-DOSTOEVSKY-ARREST-ORDER-1849'] });
+    }
+    dostoevsky.v47Assignment = { ...dostoevsky.v47Assignment, status: 'TRANSFERRED_AFTER_FIXED_ARREST' };
+    for (const host of [dostoevsky, police]) {
+      if (host === police && police.v47TravelGoal?.actionId === 'SEARCH_LAST_KNOWN_PUBLIC_LOCATION') continue;
+      host.v47TravelGoal = { status: 'EN_ROUTE', targetMapId: 'police-station', targetPosition: { x: 3, y: 4 },
+        arrivalRadius: 2, storyId: 'MAIN03', questId: event.id, actionId: 'FIXED_HISTORICAL_ARREST_TRANSFER',
+        taskId: `V47:ARREST_ESCORT:${host.id}:POLICE_STATION`, activityKo: '압수물을 가지고 관서로 이동한다', startedDate: date };
+      delete host.plannedPath;
+      delete host.mapRoutePlan;
+    }
+    event.npcAutonomy.arrestAddressResolved = true;
+  }
+  if (event.npcAutonomy?.arrestAddressResolved && supportGuard?.mapId === 'morskaya-intersection'
+    && supportGuard.v47TravelGoal?.actionId === 'JOIN_ARREST_OPERATION'
+    && supportGuard.v47TravelGoal.status === 'ARRIVED') {
+    supportGuard.v47TravelGoal = { status: 'EN_ROUTE', targetMapId: 'police-station', targetPosition: { x: 3, y: 4 },
+      arrivalRadius: 2, storyId: 'MAIN03', questId: event.id, actionId: 'FIXED_HISTORICAL_ARREST_TRANSFER',
+      taskId: `V47:ARREST_ESCORT:${supportGuard.id}:POLICE_STATION`, activityKo: '압수물을 가지고 관서로 이동한다', startedDate: date };
+    delete supportGuard.plannedPath;
+    delete supportGuard.mapRoutePlan;
+  }
   for (const hostId of event.npcAutonomy?.historicalDetaineeHostIds ?? []) {
     const detainee = hosts?.[hostId];
     if (detainee?.v47Assignment?.status === 'TRANSFERRED_AFTER_FIXED_ARREST'
@@ -405,7 +461,6 @@ function resolveAutonomousArrestRoute(v47, hosts, date) {
       detainee.v47Assignment = { ...detainee.v47Assignment, status: 'ARRIVED_AFTER_FIXED_ARREST', arrivedDate: date };
     }
   }
-  const dostoevsky = hosts?.dostoevsky_1849;
   if (date > '1849-05-05' && dostoevsky?.v47Assignment?.status === 'ARRIVED_AFTER_FIXED_ARREST'
     && dostoevsky.allowedMaps?.includes('fortress-cell')) {
     dostoevsky.v47Assignment = { ...dostoevsky.v47Assignment, status: 'EN_ROUTE_TO_FORTRESS_AFTER_FIXED_ARREST', transferDate: date,
@@ -429,7 +484,6 @@ function resolveAutonomousArrestRoute(v47, hosts, date) {
     event.npcAutonomy = { ...event.npcAutonomy, status: 'RESOLVED', closedDate: date,
       historicalDetaineeTransferComplete: true };
   }
-  const police = hosts?.police_sergeant_ivan;
   if (police?.v47Assignment?.eventId === event.id && police.v47TravelGoal?.actionId === 'SEARCH_LAST_KNOWN_PUBLIC_LOCATION'
     && police.mapId === 'morskaya-intersection' && police.v47TravelGoal.status === 'ARRIVED'
     && event.npcAutonomy.searchOutcome !== 'EMPTY_PUBLIC_LOCATION') {

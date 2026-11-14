@@ -81,6 +81,11 @@ assert.ok(arrestOpened.world.v47.events.MAIN03_PETRASHEVSKY_ARREST.npcAutonomy.a
   'the arrest dispatch is recorded as a moving world event');
 assert.equal(arrestOpened.hosts.police_sergeant_ivan.v47TravelGoal.targetMapId, 'morskaya-intersection',
   'the police sergeant walks from the station to the actual street operation');
+assert.equal(arrestOpened.hosts.junior_guard_sergey.v47TravelGoal?.targetMapId, 'morskaya-intersection',
+  'the sergeant is accompanied by a second uniformed guard who physically joins the operation');
+assert.equal(arrestOpened.hosts.dostoevsky_1849.v47Assignment.status, 'EN_ROUTE_TO_ARREST_ADDRESS',
+  'Dostoevsky is brought to the address named in the arrest order before custody transfer');
+assert.equal(arrestOpened.hosts.dostoevsky_1849.v47TravelGoal.targetMapId, 'morskaya-intersection');
 
 const warnedArrest = game.createInitialState({ maps, hostCards, quests: [...v47StoryQuests, ...beats], startMapId: 'communal-room' });
 warnedArrest.world.chapterId = 'V33_1849_CIRCLE';
@@ -100,7 +105,7 @@ assert.equal(warnedOpen.hosts.student_vasily.v47TravelGoal.targetMapId, 'communa
   'the warned student receives a physical route to a hiding place');
 assert.equal(warnedOpen.hosts.police_sergeant_ivan.v47TravelGoal.targetMapId, 'morskaya-intersection',
   'police search the last public location through the world map');
-assert.equal(warnedOpen.hosts.dostoevsky_1849.v47Assignment.status, 'TRANSFERRED_AFTER_FIXED_ARREST',
+assert.equal(warnedOpen.hosts.dostoevsky_1849.v47Assignment.status, 'EN_ROUTE_TO_ARREST_ADDRESS',
   'warning a fictional witness cannot change the fixed historical arrest');
 const warnedTravel = game.advanceNpcWorld(warnedOpen, 360, maps);
 assert.equal(warnedTravel.hosts.student_vasily.mapId, 'communal-room', 'the student physically reaches the hiding place');
@@ -114,20 +119,23 @@ assert.equal(warnedTravel.world.v47.events.MAIN03_PETRASHEVSKY_ARREST.npcAutonom
   'EMPTY_PUBLIC_LOCATION', 'the police search resolves as an empty search after the student reaches shelter');
 assert.ok(warnedTravel.world.v47.worldChanges.some(row => row.actionId === 'NPC_SEARCH_FINDS_NO_WITNESS'),
   'the empty search is recorded for later quest and epilogue context');
-assert.equal(warnedTravel.hosts.dostoevsky_1849.v47Assignment.status, 'ARRIVED_AFTER_FIXED_ARREST',
-  'the historical arrest transfer still completes on the same timeline');
+assert.ok(['TRANSFERRED_AFTER_FIXED_ARREST', 'ARRIVED_AFTER_FIXED_ARREST'].includes(warnedTravel.hosts.dostoevsky_1849.v47Assignment.status),
+  'the historical address route advances independently of the fictional witness escape');
+assert.equal(warnedTravel.hosts.dostoevsky_1849.v47Assignment.arrestedDate, '1849-05-05');
 for (const id of Object.keys(historicalDetaineeOrigins)) {
   assert.deepEqual({ mapId: arrestOpened.hosts[id].mapId, position: arrestOpened.hosts[id].position }, historicalDetaineeOrigins[id],
     `${id} is not teleported when the historically fixed arrest begins`);
-  assert.equal(arrestOpened.hosts[id].v47Assignment.status, 'TRANSFERRED_AFTER_FIXED_ARREST',
-    `${id} remains assigned to the fixed historical transfer`);
-  assert.notEqual(game.npcMapRoute(arrestOpened.hosts[id].mapId, 'police-station', arrestOpened.hosts[id], maps,
+  assert.equal(arrestOpened.hosts[id].v47Assignment.status,
+    id === 'dostoevsky_1849' ? 'EN_ROUTE_TO_ARREST_ADDRESS' : 'TRANSFERRED_AFTER_FIXED_ARREST',
+    `${id} follows the route authorized by the verified arrest order`);
+  const routeDestination = id === 'dostoevsky_1849' ? 'morskaya-intersection' : 'police-station';
+  assert.notEqual(game.npcMapRoute(arrestOpened.hosts[id].mapId, routeDestination, arrestOpened.hosts[id], maps,
     arrestOpened.world.clockMinutes, { allowClosedMapIds: ['police-station'], allowEventAccess: true,
       allowUnlistedMapIds: ['courtyard', 'workyard'] }), null,
-  `${id} can reach the arrest location through the authored public transit maps`);
+    `${id} can reach their historically grounded route through the authored public transit maps`);
 }
 const firstDetaineeTravelMinute = game.advanceNpcWorld(arrestOpened, 1, maps);
-for (const id of Object.keys(historicalDetaineeOrigins)) {
+for (const id of ['petrashevsky_1849']) {
   assert.equal(firstDetaineeTravelMinute.hosts[id].activeGoal?.type, 'V47_EVENT_RETURN',
     `${id} leaves the authored arrest scene for custody using the ordinary travel path`);
   assert.equal(firstDetaineeTravelMinute.hosts[id].activeGoal?.targetMapId, 'police-station',
@@ -136,7 +144,7 @@ for (const id of Object.keys(historicalDetaineeOrigins)) {
 const detaineesAtStation = game.advanceNpcWorld(firstDetaineeTravelMinute, 359, maps);
 assert.equal(detaineesAtStation.hosts.police_sergeant_ivan.mapId, 'morskaya-intersection',
   'the sergeant physically reaches the operation street during the arrest');
-for (const id of Object.keys(historicalDetaineeOrigins)) {
+for (const id of ['petrashevsky_1849']) {
   const movement = detaineesAtStation.ledger.flatMap(row => row.moves ?? []).filter(row => row.hostId === id);
   assert.ok(movement.length > 0, `${id} walks through the ordinary NPC pathfinder during the arrest transfer: ${JSON.stringify({ origin: historicalDetaineeOrigins[id], current: { mapId: detaineesAtStation.hosts[id].mapId, position: detaineesAtStation.hosts[id].position, activeGoal: detaineesAtStation.hosts[id].activeGoal, alive: detaineesAtStation.hosts[id].historicalAliveAndPresent }, assigned: detaineesAtStation.world.v47.events.MAIN03_PETRASHEVSKY_ARREST.npcAutonomy.assignedHostIds, routes: movement })}`);
   assert.ok(movement.some(row => row.toMapId === 'police-station'), `${id} has a recorded physical arrival at the station: ${JSON.stringify({ movement, current: { mapId: detaineesAtStation.hosts[id].mapId, position: detaineesAtStation.hosts[id].position, goal: detaineesAtStation.hosts[id].activeGoal, travel: detaineesAtStation.hosts[id].v47TravelGoal }, event: detaineesAtStation.world.v47.events.MAIN03_PETRASHEVSKY_ARREST })}`);
@@ -144,8 +152,17 @@ for (const id of Object.keys(historicalDetaineeOrigins)) {
   assert.equal(detaineesAtStation.hosts[id].v47Assignment.status, 'ARRIVED_AFTER_FIXED_ARREST',
     `${id}'s fixed historical transfer is acknowledged only after arriving`);
 }
-const postArrestTransfer = runtime.advanceV47World(detaineesAtStation,
-  { date: '1849-05-06', clockMinutes: detaineesAtStation.world.clockMinutes });
+const dostoevskyAtAddress = game.advanceNpcWorld(arrestOpened, 720, maps);
+assert.ok(['TRANSFERRED_AFTER_FIXED_ARREST', 'ARRIVED_AFTER_FIXED_ARREST'].includes(dostoevskyAtAddress.hosts.dostoevsky_1849.v47Assignment.status));
+assert.equal(dostoevskyAtAddress.hosts.dostoevsky_1849.v47Assignment.arrestedDate, '1849-05-05');
+assert.ok(dostoevskyAtAddress.hosts.police_sergeant_ivan.inventory.includes('봉인된 책과 서류 꾸러미'));
+assert.ok(dostoevskyAtAddress.ledger.flatMap(row => row.moves ?? []).some(row => row.hostId === 'dostoevsky_1849'
+  && row.toMapId === 'morskaya-intersection'), 'the documented address appears in Dostoevsky’s physical route');
+const dostoevskyAtStation = game.advanceNpcWorld(dostoevskyAtAddress, 600, maps);
+assert.equal(dostoevskyAtStation.hosts.dostoevsky_1849.mapId, 'police-station');
+assert.equal(dostoevskyAtStation.hosts.dostoevsky_1849.v47Assignment.status, 'ARRIVED_AFTER_FIXED_ARREST');
+const postArrestTransfer = runtime.advanceV47World(dostoevskyAtStation,
+  { date: '1849-05-06', clockMinutes: dostoevskyAtStation.world.clockMinutes });
 postArrestTransfer.world.date = '1849-05-06';
 assert.equal(postArrestTransfer.hosts.dostoevsky_1849.v47Assignment.status, 'EN_ROUTE_TO_FORTRESS_AFTER_FIXED_ARREST',
   'after reaching the station, Dostoevsky receives the historically fixed transfer to the fortress');
