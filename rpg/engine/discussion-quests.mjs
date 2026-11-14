@@ -67,8 +67,17 @@ export function discussionQuestInstruction(quest, hostNames = {}) {
   const promptKo = quest.hosts[hostId].promptKo;
   return {
     phase: 'ASK', hostId, hostNameKo, promptKo,
-    howKo: `대상 · ${hostNameKo}에게 가까이 가서 말 걸기\n물어볼 말 · “${promptKo}”\n진행 · ${heard.length}/${required}명 답변\n대화창에서 이 질문을 선택하고 답변을 받아야 진행됩니다. 일반 인사나 다른 대화는 진행에 반영되지 않습니다.\n완료 조건 · 서로 다른 ${required}명의 답을 들은 뒤 수첩에서 내 입장을 선택하세요.`,
+    howKo: `대상 · ${hostNameKo}에게 말 걸기\n가까이 가서 대화창을 여세요.\n물어볼 말 · “${promptKo}”\n진행 · ${heard.length}/${required}명 답변\n대화창에서 이 질문을 누르면 답변과 함께 관점 1개가 기록됩니다. 일반 대화는 반영되지 않습니다.\n완료 조건 · 서로 다른 ${required}명의 답을 들은 뒤 수첩에서 내 입장을 선택하세요.`,
   };
+}
+
+export function nextDiscussionInstructionForQuest(questId, quests, hostNames = {}, sourceIds = []) {
+  if (!questId) return null;
+  const sources = new Set(sourceIds);
+  const quest = (quests ?? []).find(item => !item.completed && (item.contextQuestId === questId
+    || (item.sourceIds ?? []).some(id => sources.has(id))));
+  if (!quest) return null;
+  return { quest, ...discussionQuestInstruction(quest, hostNames) };
 }
 
 export function discussionReplyChoices(queuedPrompt, suggestedReplies = []) {
@@ -152,7 +161,7 @@ export function discussionBoardView(quests, hostId = null, hostNames = {}, total
     guidanceKo: positionPrompts.length
       ? `완료 조건 · 수첩에서 내 입장을 골라 기록하세요. 선택을 마치면 이 쟁점 퀘스트가 끝납니다.`
       : nextComparison
-      ? `대상 · ${nextComparisonName}에게 가까이 가서 말 걸기\n물어볼 말 · “${nextComparisonQuestion}”\n진행 · ${nextComparison.perspectiveHostIds?.length ?? 1}/${nextComparison.requiredPerspectiveCount ?? 2}명 답변\n대화창에서 질문을 선택해 답변을 받아야 진행됩니다. 일반적인 인사나 다른 대화는 진행에 반영되지 않습니다.\n완료 조건 · 서로 다른 ${nextComparison.requiredPerspectiveCount ?? 2}명의 답을 들은 뒤 수첩에서 내 입장을 선택하세요.`
+      ? discussionQuestInstruction(nextComparison, hostNames)?.howKo
       : active.length
         ? discussionQuestInstruction(active[0], hostNames)?.howKo
         : '질문을 담고 표시된 인물에게 말을 거세요. 대화에서 제시된 질문을 고르고, 서로 다른 두 사람의 답을 들은 뒤 수첩에서 내 입장을 기록하면 끝납니다.',

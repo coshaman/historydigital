@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { availableDiscussionQuests, discussionBoardView, discussionQuestInstruction, shouldOpenDiscussionBoard, shouldShowQuestTracker } from '../rpg/engine/discussion-quests.mjs';
+import { availableDiscussionQuests, discussionBoardView, discussionQuestInstruction, nextDiscussionInstructionForQuest, shouldOpenDiscussionBoard, shouldShowQuestTracker } from '../rpg/engine/discussion-quests.mjs';
 
 const names = { reader_darya: '다리야', seamstress_anna: '안나' };
 const quest = ({ perspectiveHostIds = [], positionPending = false } = {}) => ({
@@ -20,9 +20,9 @@ test('conversation quest names first person, exact question, and the action that
   assert.match(view.guidanceKo, /완료 조건 · 서로 다른 2명의 답을 들은 뒤 수첩에서 내 입장을 선택/);
   assert.match(view.steps.map(step => step.textKo).join(' '), /안나/);
   assert.match(view.steps.map(step => step.textKo).join(' '), /수첩/);
-  assert.match(view.guidanceKo, /가까이 가서 말 걸기/);
-  assert.match(view.guidanceKo, /이 질문을 선택하고 답변을 받아야 진행됩니다/);
-  assert.match(view.guidanceKo, /일반 인사나 다른 대화는 진행에 반영되지 않습니다/);
+  assert.match(view.guidanceKo, /가까이 가서 대화창을 여세요/);
+  assert.match(view.guidanceKo, /이 질문을 누르면 답변과 함께 관점 1개가 기록됩니다/);
+  assert.match(view.guidanceKo, /일반 대화는 반영되지 않습니다/);
 });
 
 test('after first perspective, guidance advances to a different named person and their question', () => {
@@ -39,11 +39,38 @@ test('after two conversations, guidance says to record a position to finish the 
   assert.equal(view.positionPrompts.length, 1);
 });
 
+test('the active story mission exposes its next exact conversation and its final completion action', () => {
+  const linked = { ...quest(), contextQuestId: 'V47_MAIN01_A03' };
+  const first = nextDiscussionInstructionForQuest('V47_MAIN01_A03', [linked], names);
+  assert.equal(first.quest.id, 'INQUIRY_TEST');
+  assert.equal(first.hostNameKo, '다리야');
+  assert.equal(first.promptKo, '책의 원칙이 생활과 어긋나면 무엇을 바꿔야 할까요?');
+  assert.match(first.howKo, /대화창에서 이 질문을 누르면 답변과 함께 관점 1개가 기록됩니다/);
+  const second = nextDiscussionInstructionForQuest('V47_MAIN01_A03', [{ ...linked, perspectiveHostIds: ['reader_darya'] }], names);
+  assert.equal(second.hostNameKo, '안나');
+  const finish = nextDiscussionInstructionForQuest('V47_MAIN01_A03', [{ ...linked, perspectiveHostIds: ['reader_darya', 'seamstress_anna'], positionPending: true }], names);
+  assert.equal(finish.phase, 'RECORD_POSITION');
+  assert.match(finish.howKo, /기록하면 퀘스트가 끝납니다/);
+  const sourceLinked = nextDiscussionInstructionForQuest('V47_MAIN01_A03', [{ ...quest(), sourceIds: ['TALNIKOV'] }], names, ['TALNIKOV']);
+  assert.equal(sourceLinked.promptKo, quest().hosts.reader_darya.promptKo);
+  assert.equal(nextDiscussionInstructionForQuest('UNRELATED_QUEST', [linked], names), null);
+});
+
+test('the tracker and notebook both provide a direct button to carry the linked question', async () => {
+  const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
+  const runtime = await readFile(new URL('../rpg/main.js', import.meta.url), 'utf8');
+  assert.match(html, /id="mission-queue-discussion"/);
+  assert.match(html, /id="journal-queue-discussion"/);
+  assert.match(runtime, /mission-queue-discussion'\)\.addEventListener\('click', queueActiveMissionDiscussion\)/);
+  assert.match(runtime, /journal-queue-discussion'\)\.addEventListener\('click', queueActiveMissionDiscussion\)/);
+  assert.match(runtime, /대화창에서 이 질문을 선택해 답변을 받으세요/);
+});
+
 test('a normal conversation does not count; only selecting the exact prompt records a perspective', () => {
   const instruction = discussionQuestInstruction(quest(), names);
   assert.equal(instruction.promptKo, quest().hosts.reader_darya.promptKo);
-  assert.match(instruction.howKo, /대화창에서 이 질문을 선택하고 답변을 받아야 진행됩니다/);
-  assert.match(instruction.howKo, /일반 인사나 다른 대화는 진행에 반영되지 않습니다/);
+  assert.match(instruction.howKo, /대화창에서 이 질문을 누르면 답변과 함께 관점 1개가 기록됩니다/);
+  assert.match(instruction.howKo, /일반 대화는 반영되지 않습니다/);
   const state = { world: { date: '1848-01-01' }, ledger: [{ eventType: 'DIALOGUE_TURN', hostId: 'reader_darya' }], player: { dialogueGrowth: { comparisonNotes: [], playerPositions: [] } } };
   const definitions = { quests: [{ ...quest(), date: '1848-01-01' }] };
   assert.deepEqual(availableDiscussionQuests(state, definitions)[0].perspectiveHostIds, [], 'ordinary conversation is not tagged as an answer to the quest prompt');
