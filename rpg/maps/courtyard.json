@@ -81,7 +81,7 @@
       "imageheight": 160,
       "tilewidth": 16,
       "tileheight": 16,
-      "tilecount": 85,
+      "tilecount": 115,
       "columns": 16
     }
   ],
@@ -2603,8 +2603,16 @@
           "height": 16,
           "visible": true,
           "properties": [
-            { "name": "questId", "type": "string", "value": "V37_COURTYARD_DISPUTE_1847" },
-            { "name": "requiresLivingEventId", "type": "string", "value": "E09" }
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "V37_COURTYARD_DISPUTE_1847"
+            },
+            {
+              "name": "requiresLivingEventId",
+              "type": "string",
+              "value": "E09"
+            }
           ]
         },
         {
@@ -2617,8 +2625,16 @@
           "height": 16,
           "visible": true,
           "properties": [
-            { "name": "questId", "type": "string", "value": "STUDENT_CIRCLE_RISK_1847" },
-            { "name": "requiresLivingEventId", "type": "string", "value": "E24" }
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "STUDENT_CIRCLE_RISK_1847"
+            },
+            {
+              "name": "requiresLivingEventId",
+              "type": "string",
+              "value": "E24"
+            }
           ]
         },
         {
@@ -2631,8 +2647,16 @@
           "height": 16,
           "visible": true,
           "properties": [
-            { "name": "questId", "type": "string", "value": "V37_ROOF_LEAK_REPAIR_1847" },
-            { "name": "requiresLivingEventId", "type": "string", "value": "E35" }
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "V37_ROOF_LEAK_REPAIR_1847"
+            },
+            {
+              "name": "requiresLivingEventId",
+              "type": "string",
+              "value": "E35"
+            }
           ]
         },
         {
@@ -2645,8 +2669,16 @@
           "height": 16,
           "visible": true,
           "properties": [
-            { "name": "questId", "type": "string", "value": "V37_RENT_NOTICE_1847" },
-            { "name": "requiresLivingEventId", "type": "string", "value": "E26" }
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "V37_RENT_NOTICE_1847"
+            },
+            {
+              "name": "requiresLivingEventId",
+              "type": "string",
+              "value": "E26"
+            }
           ]
         },
         {
@@ -2659,8 +2691,16 @@
           "height": 16,
           "visible": true,
           "properties": [
-            { "name": "questId", "type": "string", "value": "V37_COURTYARD_FIRE_1847" },
-            { "name": "requiresLivingEventId", "type": "string", "value": "E27" }
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "V37_COURTYARD_FIRE_1847"
+            },
+            {
+              "name": "requiresLivingEventId",
+              "type": "string",
+              "value": "E27"
+            }
           ]
         },
         {
@@ -2673,8 +2713,16 @@
           "height": 16,
           "visible": true,
           "properties": [
-            { "name": "questId", "type": "string", "value": "V37_HOUSEHOLD_TUTOR_OFFER_1847" },
-            { "name": "requiresLivingEventId", "type": "string", "value": "E37" }
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "V37_HOUSEHOLD_TUTOR_OFFER_1847"
+            },
+            {
+              "name": "requiresLivingEventId",
+              "type": "string",
+              "value": "E37"
+            }
           ]
         }
       ]

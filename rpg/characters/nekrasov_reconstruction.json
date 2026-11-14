@@ -50,7 +50,8 @@
   "allowedMaps": [
     "printshop",
     "nevsky",
-    "police-station"
+    "police-station",
+    "bookshop-interior"
   ],
   "start": {
     "mapId": "printshop",

@@ -39,8 +39,7 @@ for (const scene of play.events) {
     `${scene.eventId} provides multiple role missions in every zone`);
   for (const action of roleActions) {
     const actorIndex = scene.actors.findIndex(actor => actor.id === action.requiredActorId);
-    assert.ok(actorIndex >= 0 && actorIndex % scene.maps.length === scene.maps.indexOf(action.mapId),
-      `${scene.eventId}/${action.id} actor can appear in the mission's zone`);
+    assert.ok(actorIndex >= 0, `${scene.eventId}/${action.id} uses a person in the scene cast`);
   }
   assert.deepEqual(scene.choices.map(({ id, label, textKo }) => ({ id, label, textKo })),
     catalogEvent.choices.map(({ id, label, textKo }) => ({ id, label, textKo })),
@@ -64,11 +63,18 @@ for (const scene of play.events) {
       assert.ok(action.gatherActorIds.every(id => scene.actors.some(actor => actor.id === id)));
     }
   }
-  assert.deepEqual(scene.conclusionRequirements, { spokenActors: 12, completedObjectives: 7, requiredRoleActions: 6, minimumElapsedMinutes: 24 });
+  assert.deepEqual(scene.conclusionRequirements, {
+    spokenActors: scene.eventId === 'EMANCIPATION_1861' ? 10 : 12,
+    completedObjectives: 7, requiredRoleActions: 6, minimumElapsedMinutes: 24,
+  });
   for (const actor of scene.actors) {
     assert.ok(actor.nameKo && actor.templateId && actor.lines.length >= 2);
     assert.ok(scene.objectives.some(objective => objective.id === actor.objectiveId));
     assert.ok(actor.lines.every(line => line.length > 18));
+  }
+  if (scene.eventId === 'EMANCIPATION_1861') {
+    assert.ok(scene.actors.every(actor => actor.voiceProfileKo?.length >= 24), 'each emancipation participant gives AI a distinct voice direction');
+    assert.ok(new Set(scene.actors.map(actor => actor.voiceProfileKo)).size >= 16, 'the cast has individually authored speech styles');
   }
   for (const choice of scene.choices) {
     assert.ok(choice.label && choice.textKo);
@@ -79,4 +85,7 @@ for (const scene of play.events) {
     assert.ok(map.layers.some(layer => layer.name === 'Collision' && Array.isArray(layer.data)));
   }
 }
+const emancipationChoices = catalog.events.find(event => event.id === 'EMANCIPATION_1861').choices;
+assert.ok(emancipationChoices.every(choice => choice.aftermathKo?.length >= 30), 'each pivotal choice changes the fictional community’s immediate future');
+assert.ok(emancipationChoices.every(choice => !choice.directionKo && !choice.subcopy), 'pivotal choices have no small-print explanation');
 console.log('V38 walkable historical event catalog passed: three connected scenes, 18 movable participants per scene, extended body-specific missions, group encounters, and sourced fixed outcomes.');

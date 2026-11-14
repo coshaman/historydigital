@@ -1,0 +1,4232 @@
+{
+  "days": [
+    {
+      "simulatedDate": "1848-06-15",
+      "stateDate": "1848-06-15",
+      "clockMinutes": 1980,
+      "dayIndex": -44393,
+      "counts": {
+        "S": 37,
+        "E": 0,
+        "I": 1,
+        "R": 0,
+        "D": 0
+      },
+      "counters": {
+        "exposures": 1,
+        "recoveries": 0,
+        "deaths": 0
+      },
+      "patients": [
+        {
+          "hostId": "tenant_mikhail",
+          "state": "I",
+          "exposedDays": 2,
+          "infectiousDays": 0,
+          "aliveAndPresent": true,
+          "hostCondition": "UNWELL",
+          "deathCause": null
+        }
+      ],
+      "starvationDeaths": [],
+      "meals": {
+        "count": 25,
+        "byKind": {
+          "PURCHASE_AND_EAT": 23,
+          "SELLER_STOCK_MEAL": 2
+        },
+        "bySeller": {
+          "fishseller_klavdiya": 14,
+          "market_nadezhda": 11
+        }
+      },
+      "mealMarket": [
+        {
+          "sellerId": "fishseller_klavdiya",
+          "alive": true,
+          "mapId": "market-quay",
+          "stock": {
+            "생선 한 점": 14
+          },
+          "servingGoal": "MARKET_SERVICE",
+          "openFoodOffers": [
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "market-quay"
+            }
+          ]
+        },
+        {
+          "sellerId": "innkeeper_irina",
+          "alive": true,
+          "mapId": "nevsky",
+          "stock": {
+            "저녁 수프": 7
+          },
+          "servingGoal": "PURCHASE_MEAL",
+          "openFoodOffers": []
+        },
+        {
+          "sellerId": "market_nadezhda",
+          "alive": true,
+          "mapId": "market-quay",
+          "stock": {
+            "빵 한 묶음": 7
+          },
+          "servingGoal": "MARKET_SERVICE",
+          "openFoodOffers": [
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "market-quay"
+            }
+          ]
+        }
+      ],
+      "reservedMealTrips": [
+        {
+          "hostId": "apothecary_yakov",
+          "sellerHostId": "fishseller_klavdiya",
+          "mapId": "market-quay",
+          "targetMapId": "market-quay",
+          "position": {
+            "x": 11,
+            "y": 10
+          },
+          "targetPosition": {
+            "x": 26,
+            "y": 13
+          },
+          "hunger": 82.5200000000018,
+          "goalSinceMinute": 1921,
+          "routineState": "TRAVELLING",
+          "route": {
+            "key": "nevsky>market-quay:nevsky|courtyard|market-quay|printshop|chancery|inn-interior|bakery-interior:printshop:open,chancery:open,inn-interior:host_lacks_access,bakery-interior:host_lacks_access:",
+            "route": [
+              {
+                "fromMapId": "nevsky",
+                "toMapId": "market-quay",
+                "exitId": "nevsky-market-gate"
+              }
+            ]
+          },
+          "plannedPathLength": null
+        },
+        {
+          "hostId": "carter_roman",
+          "sellerHostId": "market_nadezhda",
+          "mapId": "market-quay",
+          "targetMapId": "market-quay",
+          "position": {
+            "x": 5,
+            "y": 11
+          },
+          "targetPosition": {
+            "x": 14,
+            "y": 11
+          },
+          "hunger": 77.80000000000246,
+          "goalSinceMinute": 1920,
+          "routineState": "TRAVELLING",
+          "route": {
+            "key": "nevsky>market-quay:nevsky|courtyard|market-quay|printshop|chancery|canal-road:printshop:open,chancery:open:",
+            "route": [
+              {
+                "fromMapId": "nevsky",
+                "toMapId": "market-quay",
+                "exitId": "nevsky-market-gate"
+              }
+            ]
+          },
+          "plannedPathLength": null
+        },
+        {
+          "hostId": "courier_pavel",
+          "sellerHostId": "fishseller_klavdiya",
+          "mapId": "nevsky",
+          "targetMapId": "market-quay",
+          "position": {
+            "x": 19,
+            "y": 11
+          },
+          "targetPosition": {
+            "x": 26,
+            "y": 13
+          },
+          "hunger": 73.92000000000098,
+          "goalSinceMinute": 1920,
+          "routineState": "TRAVELLING",
+          "route": {
+            "key": "nevsky>market-quay:nevsky|printshop|courtyard|police-station|inn-interior|market-quay|communal-room|workyard|bookshop-interior|chancery|bookshop-lane|semenovsky-square:printshop:open,police-station:open,inn-interior:open,communal-room:open,bookshop-interior:host_lacks_access,chancery:host_lacks_access:",
+            "route": [
+              {
+                "fromMapId": "nevsky",
+                "toMapId": "market-quay",
+                "exitId": "nevsky-market-gate"
+              }
+            ]
+          },
+          "plannedPathLength": null
+        },
+        {
+          "hostId": "editor_sofia",
+          "sellerHostId": "fishseller_klavdiya",
+          "mapId": "nevsky",
+          "targetMapId": "market-quay",
+          "position": {
+            "x": 28,
+            "y": 9
+          },
+          "targetPosition": {
+            "x": 26,
+            "y": 13
+          },
+          "hunger": 74.20000000000164,
+          "goalSinceMinute": 1920,
+          "routineState": "TRAVELLING",
+          "route": {
+            "key": "nevsky>market-quay:nevsky|market-quay|printshop|police-station|bookshop-lane|bookshop-interior|inn-interior|communal-room|semenovsky-square:printshop:open,police-station:open,bookshop-interior:open,inn-interior:host_lacks_access,communal-room:host_lacks_access:",
+            "route": [
+              {
+                "fromMapId": "nevsky",
+                "toMapId": "market-quay",
+                "exitId": "nevsky-market-gate"
+              }
+            ]
+          },
+          "plannedPathLength": null
+        },
+        {
+          "hostId": "housemaid_olga",
+          "sellerHostId": "market_nadezhda",
+          "mapId": "market-quay",
+          "targetMapId": "market-quay",
+          "position": {
+            "x": 2,
+            "y": 9
+          },
+          "targetPosition": {
+            "x": 14,
+            "y": 11
+          },
+          "hunger": 82.96000000000241,
+          "goalSinceMinute": 1920,
+          "routineState": "TRAVELLING",
+          "route": {
+            "key": "nevsky>market-quay:nevsky|courtyard|market-quay|printshop|chancery|workyard|sewing-room|communal-room:printshop:open,chancery:open,sewing-room:open,communal-room:open:",
+            "route": [
+              {
+                "fromMapId": "nevsky",
+                "toMapId": "market-quay",
+                "exitId": "nevsky-market-gate"
+              }
+            ]
+          },
+          "plannedPathLength": null
+        },
+        {
+          "hostId": "innkeeper_irina",
+          "sellerHostId": "fishseller_klavdiya",
+          "mapId": "nevsky",
+          "targetMapId": "market-quay",
+          "position": {
+            "x": 20,
+            "y": 9
+          },
+          "targetPosition": {
+            "x": 26,
+            "y": 13
+          },
+          "hunger": 79.07999999999493,
+          "goalSinceMinute": 1920,
+          "routineState": "TRAVELLING",
+          "route": {
+            "key": "nevsky>market-quay:nevsky|courtyard|market-quay|printshop|chancery|inn-interior|communal-room|workyard|bakery-interior:printshop:open,chancery:open,inn-interior:open,communal-room:open,bakery-interior:host_lacks_access:",
+            "route": [
+              {
+                "fromMapId": "nevsky",
+                "toMapId": "market-quay",
+                "exitId": "nevsky-market-gate"
+              }
+            ]
+          },
+          "plannedPathLength": null
+        },
+        {
+          "hostId": "landlady_polina",
+          "sellerHostId": "fishseller_klavdiya",
+          "mapId": "nevsky",
+          "targetMapId": "market-quay",
+          "position": {
+            "x": 16,
+            "y": 9
+          },
+          "targetPosition": {
+            "x": 26,
+            "y": 13
+          },
+          "hunger": 81.5200000000018,
+          "goalSinceMinute": 1920,
+          "routineState": "TRAVELLING",
+          "route": {
+            "key": "nevsky>market-quay:nevsky|courtyard|market-quay|printshop|chancery|workyard|communal-room|sewing-room:printshop:open,chancery:open,communal-room:open,sewing-room:host_lacks_access:",
+            "route": [
+              {
+                "fromMapId": "nevsky",
+                "toMapId": "market-quay",
+                "exitId": "nevsky-market-gate"
+              }
+            ]
+          },
+          "plannedPathLength": null
+        },
+        {
+          "hostId": "lodging_tatyana",
+          "sellerHostId": "fishseller_klavdiya",
+          "mapId": "nevsky",
+          "targetMapId": "market-quay",
+          "position": {
+            "x": 26,
+            "y": 11
+          },
+          "targetPosition": {
+            "x": 26,
+            "y": 13
+          },
+          "hunger": 58.27999999999861,
+          "goalSinceMinute": 1920,
+          "routineState": "TRAVELLING",
+          "route": {
+            "key": "nevsky>market-quay:nevsky|courtyard|market-quay|printshop|chancery|inn-interior:printshop:open,chancery:open,inn-interior:open:",
+            "route": [
+              {
+                "fromMapId": "nevsky",
+                "toMapId": "market-quay",
+                "exitId": "nevsky-market-gate"
+              }
+            ]
+          },
+          "plannedPathLength": null
+        },
+        {
+          "hostId": "midwife_avdotya",
+          "sellerHostId": "fishseller_klavdiya",
+          "mapId": "nevsky",
+          "targetMapId": "market-quay",
+          "position": {
+            "x": 23,
+            "y": 10
+          },
+          "targetPosition": {
+            "x": 26,
+            "y": 13
+          },
+          "hunger": 78.07999999999493,
+          "goalSinceMinute": 1920,
+          "routineState": "TRAVELLING",
+          "route": {
+            "key": "nevsky>market-quay:nevsky|courtyard|market-quay|printshop|chancery|workyard|communal-room|inn-interior:printshop:open,chancery:open,communal-room:open,inn-interior:open:",
+            "route": [
+              {
+                "fromMapId": "nevsky",
+                "toMapId": "market-quay",
+                "exitId": "nevsky-market-gate"
+              }
+            ]
+          },
+          "plannedPathLength": null
+        },
+        {
+          "hostId": "police_sergeant_ivan",
+          "sellerHostId": "fishseller_klavdiya",
+          "mapId": "nevsky",
+          "targetMapId": "market-quay",
+          "position": {
+            "x": 14,
+            "y": 12
+          },
+          "targetPosition": {
+            "x": 26,
+            "y": 13
+          },
+          "hunger": 55.959999999999035,
+          "goalSinceMinute": 1920,
+          "routineState": "TRAVELLING",
+          "route": {
+            "key": "nevsky>market-quay:nevsky|police-station|market-quay|chancery:police-station:open,chancery:host_lacks_access:",
+            "route": [
+              {
+                "fromMapId": "nevsky",
+                "toMapId": "market-quay",
+                "exitId": "nevsky-market-gate"
+              }
+            ]
+          },
+          "plannedPathLength": null
+        },
+        {
+          "hostId": "porter_gavrila",
+          "sellerHostId": "market_nadezhda",
+          "mapId": "market-quay",
+          "targetMapId": "market-quay",
+          "position": {
+            "x": 14,
+            "y": 10
+          },
+          "targetPosition": {
+            "x": 14,
+            "y": 11
+          },
+          "hunger": 52.12000000000262,
+          "goalSinceMinute": 1920,
+          "routineState": "TRADING",
+          "route": {
+            "key": "nevsky>market-quay:market-quay|nevsky|courtyard|canal-road|bakery-interior:bakery-interior:open:",
+            "route": [
+              {
+                "fromMapId": "nevsky",
+                "toMapId": "market-quay",
+                "exitId": "nevsky-market-gate"
+              }
+            ]
+          },
+          "plannedPathLength": null
+        },
+        {
+          "hostId": "seamstress_anna",
+          "sellerHostId": "market_nadezhda",
+          "mapId": "nevsky",
+          "targetMapId": "market-quay",
+          "position": {
+            "x": 21,
+            "y": 12
+          },
+          "targetPosition": {
+            "x": 14,
+            "y": 11
+          },
+          "hunger": 60.71999999999525,
+          "goalSinceMinute": 1920,
+          "routineState": "TRAVELLING",
+          "route": {
+            "key": "nevsky>market-quay:nevsky|courtyard|printshop|police-station|workyard|sewing-room|market-quay|bookshop-interior|communal-room:printshop:open,police-station:open,sewing-room:open,bookshop-interior:host_lacks_access,communal-room:host_lacks_access:",
+            "route": [
+              {
+                "fromMapId": "nevsky",
+                "toMapId": "market-quay",
+                "exitId": "nevsky-market-gate"
+              }
+            ]
+          },
+          "plannedPathLength": null
+        },
+        {
+          "hostId": "servant_varvara",
+          "sellerHostId": "fishseller_klavdiya",
+          "mapId": "nevsky",
+          "targetMapId": "market-quay",
+          "position": {
+            "x": 23,
+            "y": 12
+          },
+          "targetPosition": {
+            "x": 26,
+            "y": 13
+          },
+          "hunger": 55.840000000001965,
+          "goalSinceMinute": 1920,
+          "routineState": "TRAVELLING",
+          "route": {
+            "key": "nevsky>market-quay:nevsky|courtyard|market-quay|printshop|chancery|workyard|sewing-room:printshop:open,chancery:open,sewing-room:open:",
+            "route": [
+              {
+                "fromMapId": "nevsky",
+                "toMapId": "market-quay",
+                "exitId": "nevsky-market-gate"
+              }
+            ]
+          },
+          "plannedPathLength": null
+        },
+        {
+          "hostId": "street_musician_ivan",
+          "sellerHostId": "market_nadezhda",
+          "mapId": "nevsky",
+          "targetMapId": "market-quay",
+          "position": {
+            "x": 27,
+            "y": 9
+          },
+          "targetPosition": {
+            "x": 14,
+            "y": 11
+          },
+          "hunger": 60.39999999999509,
+          "goalSinceMinute": 1920,
+          "routineState": "TRAVELLING",
+          "route": {
+            "key": "nevsky>market-quay:courtyard|nevsky|market-quay::",
+            "route": [
+              {
+                "fromMapId": "nevsky",
+                "toMapId": "market-quay",
+                "exitId": "nevsky-market-gate"
+              }
+            ]
+          },
+          "plannedPathLength": null
+        },
+        {
+          "hostId": "street_vendor_matryona",
+          "sellerHostId": "market_nadezhda",
+          "mapId": "market-quay",
+          "targetMapId": "market-quay",
+          "position": {
+            "x": 4,
+            "y": 11
+          },
+          "targetPosition": {
+            "x": 14,
+            "y": 11
+          },
+          "hunger": 75.35999999999558,
+          "goalSinceMinute": 1920,
+          "routineState": "TRAVELLING",
+          "route": {
+            "key": "nevsky>market-quay:nevsky|courtyard|market-quay|printshop|chancery:printshop:open,chancery:open:",
+            "route": [
+              {
+                "fromMapId": "nevsky",
+                "toMapId": "market-quay",
+                "exitId": "nevsky-market-gate"
+              }
+            ]
+          },
+          "plannedPathLength": null
+        },
+        {
+          "hostId": "student_vasily",
+          "sellerHostId": "market_nadezhda",
+          "mapId": "market-quay",
+          "targetMapId": "market-quay",
+          "position": {
+            "x": 8,
+            "y": 10
+          },
+          "targetPosition": {
+            "x": 14,
+            "y": 11
+          },
+          "hunger": 77.64000000000141,
+          "goalSinceMinute": 1920,
+          "routineState": "TRAVELLING",
+          "route": {
+            "key": "nevsky>market-quay:nevsky|courtyard|market-quay|printshop|chancery|bookshop-lane|bookshop-interior|inn-interior|communal-room|workyard|police-station|semenovsky-square:printshop:open,chancery:open,bookshop-interior:open,inn-interior:host_lacks_access,communal-room:host_lacks_access,police-station:host_lacks_access:",
+            "route": [
+              {
+                "fromMapId": "nevsky",
+                "toMapId": "market-quay",
+                "exitId": "nevsky-market-gate"
+              }
+            ]
+          },
+          "plannedPathLength": null
+        },
+        {
+          "hostId": "teacher_lyubov",
+          "sellerHostId": "fishseller_klavdiya",
+          "mapId": "nevsky",
+          "targetMapId": "market-quay",
+          "position": {
+            "x": 18,
+            "y": 10
+          },
+          "targetPosition": {
+            "x": 26,
+            "y": 13
+          },
+          "hunger": 73.20000000000164,
+          "goalSinceMinute": 1920,
+          "routineState": "TRAVELLING",
+          "route": {
+            "key": "nevsky>market-quay:nevsky|courtyard|market-quay|printshop|chancery|bookshop-lane|bookshop-interior|inn-interior|communal-room:printshop:open,chancery:open,bookshop-interior:open,inn-interior:open,communal-room:host_lacks_access:",
+            "route": [
+              {
+                "fromMapId": "nevsky",
+                "toMapId": "market-quay",
+                "exitId": "nevsky-market-gate"
+              }
+            ]
+          },
+          "plannedPathLength": null
+        },
+        {
+          "hostId": "tenant_mikhail",
+          "sellerHostId": "fishseller_klavdiya",
+          "mapId": "courtyard",
+          "targetMapId": "market-quay",
+          "position": {
+            "x": 14,
+            "y": 15
+          },
+          "targetPosition": {
+            "x": 26,
+            "y": 13
+          },
+          "hunger": 83.67999999999601,
+          "goalSinceMinute": 1920,
+          "routineState": "RESTING",
+          "route": {
+            "key": "nevsky>courtyard:nevsky|courtyard|police-station|inn-interior|communal-room|workyard|market-quay|sewing-room:police-station:open,inn-interior:open,communal-room:open,sewing-room:host_lacks_access:",
+            "route": [
+              {
+                "fromMapId": "nevsky",
+                "toMapId": "courtyard",
+                "exitId": "nevsky-courtyard-gate"
+              }
+            ]
+          },
+          "plannedPathLength": null
+        },
+        {
+          "hostId": "warehouse_pyotr",
+          "sellerHostId": "fishseller_klavdiya",
+          "mapId": "nevsky",
+          "targetMapId": "market-quay",
+          "position": {
+            "x": 21,
+            "y": 10
+          },
+          "targetPosition": {
+            "x": 26,
+            "y": 13
+          },
+          "hunger": 60.71999999999554,
+          "goalSinceMinute": 1920,
+          "routineState": "TRAVELLING",
+          "route": {
+            "key": "nevsky>market-quay:nevsky|courtyard|market-quay|printshop|chancery|canal-road:printshop:open,chancery:open:",
+            "route": [
+              {
+                "fromMapId": "nevsky",
+                "toMapId": "market-quay",
+                "exitId": "nevsky-market-gate"
+              }
+            ]
+          },
+          "plannedPathLength": null
+        },
+        {
+          "hostId": "watercarrier_luka",
+          "sellerHostId": "fishseller_klavdiya",
+          "mapId": "nevsky",
+          "targetMapId": "market-quay",
+          "position": {
+            "x": 22,
+            "y": 9
+          },
+          "targetPosition": {
+            "x": 26,
+            "y": 13
+          },
+          "hunger": 80.24000000000362,
+          "goalSinceMinute": 1920,
+          "routineState": "TRAVELLING",
+          "route": {
+            "key": "nevsky>market-quay:nevsky|courtyard|market-quay|printshop|chancery|canal-road|communal-room|bakery-interior:printshop:open,chancery:open,communal-room:open,bakery-interior:host_lacks_access:",
+            "route": [
+              {
+                "fromMapId": "nevsky",
+                "toMapId": "market-quay",
+                "exitId": "nevsky-market-gate"
+              }
+            ]
+          },
+          "plannedPathLength": null
+        },
+        {
+          "hostId": "yardkeeper_semyon",
+          "sellerHostId": "fishseller_klavdiya",
+          "mapId": "nevsky",
+          "targetMapId": "market-quay",
+          "position": {
+            "x": 18,
+            "y": 12
+          },
+          "targetPosition": {
+            "x": 26,
+            "y": 13
+          },
+          "hunger": 65.5999999999997,
+          "goalSinceMinute": 1920,
+          "routineState": "TRAVELLING",
+          "route": {
+            "key": "nevsky>market-quay:market-quay|nevsky|courtyard|workyard|communal-room:communal-room:open:",
+            "route": [
+              {
+                "fromMapId": "nevsky",
+                "toMapId": "market-quay",
+                "exitId": "nevsky-market-gate"
+              }
+            ]
+          },
+          "plannedPathLength": null
+        }
+      ]
+    }
+  ],
+  "foodTrace": [
+    {
+      "day": 1,
+      "clockMinute": 600,
+      "sellers": [
+        {
+          "id": "fishseller_klavdiya",
+          "mapId": "market-quay",
+          "position": {
+            "x": 26,
+            "y": 14
+          },
+          "goal": "MARKET_SERVICE",
+          "targetMapId": "market-quay",
+          "taskId": "SERVICE:fishseller_klavdiya:생선 한 점:480",
+          "stock": {
+            "생선 한 점": 14
+          },
+          "preparedWork": [
+            "0:V36_FISHSELLER_RECEIVE_CATCH"
+          ],
+          "offers": [
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "market-quay",
+              "open": true,
+              "stock": 14
+            },
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "courtyard",
+              "open": false,
+              "stock": 14
+            }
+          ]
+        },
+        {
+          "id": "innkeeper_irina",
+          "mapId": "courtyard",
+          "position": {
+            "x": 8,
+            "y": 10
+          },
+          "goal": "SCHEDULE",
+          "targetMapId": "market-quay",
+          "taskId": null,
+          "stock": {
+            "저녁 수프": 3
+          },
+          "preparedWork": [
+            "0:V36_INNKEEPER_PREPARE_ROOMS"
+          ],
+          "offers": [
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "inn-interior",
+              "open": false,
+              "stock": 3
+            },
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 3
+            }
+          ]
+        },
+        {
+          "id": "market_nadezhda",
+          "mapId": "market-quay",
+          "position": {
+            "x": 14,
+            "y": 12
+          },
+          "goal": "SCHEDULE",
+          "targetMapId": "market-quay",
+          "taskId": null,
+          "stock": {
+            "빵 한 묶음": 1
+          },
+          "preparedWork": [
+            "0:V36_MARKET_CHECK_SCALE"
+          ],
+          "offers": [
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "market-quay",
+              "open": true,
+              "stock": 1
+            },
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 1
+            }
+          ]
+        }
+      ],
+      "buyers": [],
+      "meals": []
+    },
+    {
+      "day": 1,
+      "clockMinute": 660,
+      "sellers": [
+        {
+          "id": "fishseller_klavdiya",
+          "mapId": "market-quay",
+          "position": {
+            "x": 26,
+            "y": 14
+          },
+          "goal": "MARKET_SERVICE",
+          "targetMapId": "market-quay",
+          "taskId": "SERVICE:fishseller_klavdiya:생선 한 점:480",
+          "stock": {
+            "생선 한 점": 14
+          },
+          "preparedWork": [
+            "0:V36_FISHSELLER_RECEIVE_CATCH"
+          ],
+          "offers": [
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "market-quay",
+              "open": true,
+              "stock": 14
+            },
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "courtyard",
+              "open": false,
+              "stock": 14
+            }
+          ]
+        },
+        {
+          "id": "innkeeper_irina",
+          "mapId": "nevsky",
+          "position": {
+            "x": 19,
+            "y": 9
+          },
+          "goal": "SCHEDULE",
+          "targetMapId": "market-quay",
+          "taskId": null,
+          "stock": {
+            "저녁 수프": 3
+          },
+          "preparedWork": [
+            "0:V36_INNKEEPER_PREPARE_ROOMS"
+          ],
+          "offers": [
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "inn-interior",
+              "open": false,
+              "stock": 3
+            },
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 3
+            }
+          ]
+        },
+        {
+          "id": "market_nadezhda",
+          "mapId": "market-quay",
+          "position": {
+            "x": 14,
+            "y": 11
+          },
+          "goal": "MARKET_SERVICE",
+          "targetMapId": "nevsky",
+          "taskId": "SERVICE:market_nadezhda:빵 한 묶음:660",
+          "stock": {
+            "빵 한 묶음": 1
+          },
+          "preparedWork": [
+            "0:V36_MARKET_CHECK_SCALE"
+          ],
+          "offers": [
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "market-quay",
+              "open": false,
+              "stock": 1
+            },
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "nevsky",
+              "open": true,
+              "stock": 1
+            }
+          ]
+        }
+      ],
+      "buyers": [],
+      "meals": []
+    },
+    {
+      "day": 1,
+      "clockMinute": 720,
+      "sellers": [
+        {
+          "id": "fishseller_klavdiya",
+          "mapId": "market-quay",
+          "position": {
+            "x": 26,
+            "y": 14
+          },
+          "goal": "MARKET_SERVICE",
+          "targetMapId": "market-quay",
+          "taskId": "SERVICE:fishseller_klavdiya:생선 한 점:480",
+          "stock": {
+            "생선 한 점": 14
+          },
+          "preparedWork": [
+            "0:V36_FISHSELLER_RECEIVE_CATCH"
+          ],
+          "offers": [
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "market-quay",
+              "open": true,
+              "stock": 14
+            },
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "courtyard",
+              "open": false,
+              "stock": 14
+            }
+          ]
+        },
+        {
+          "id": "innkeeper_irina",
+          "mapId": "market-quay",
+          "position": {
+            "x": 2,
+            "y": 9
+          },
+          "goal": "SCHEDULE",
+          "targetMapId": "market-quay",
+          "taskId": null,
+          "stock": {
+            "저녁 수프": 3
+          },
+          "preparedWork": [
+            "0:V36_INNKEEPER_PREPARE_ROOMS"
+          ],
+          "offers": [
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "inn-interior",
+              "open": false,
+              "stock": 3
+            },
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 3
+            }
+          ]
+        },
+        {
+          "id": "market_nadezhda",
+          "mapId": "market-quay",
+          "position": {
+            "x": 3,
+            "y": 10
+          },
+          "goal": "MARKET_SERVICE",
+          "targetMapId": "nevsky",
+          "taskId": "SERVICE:market_nadezhda:빵 한 묶음:660",
+          "stock": {
+            "빵 한 묶음": 1
+          },
+          "preparedWork": [
+            "0:V36_MARKET_CHECK_SCALE"
+          ],
+          "offers": [
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "market-quay",
+              "open": false,
+              "stock": 1
+            },
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "nevsky",
+              "open": true,
+              "stock": 1
+            }
+          ]
+        }
+      ],
+      "buyers": [],
+      "meals": []
+    },
+    {
+      "day": 1,
+      "clockMinute": 780,
+      "sellers": [
+        {
+          "id": "fishseller_klavdiya",
+          "mapId": "market-quay",
+          "position": {
+            "x": 26,
+            "y": 14
+          },
+          "goal": "SCHEDULED_WORK",
+          "targetMapId": "market-quay",
+          "taskId": "V36_FISHSELLER_STOCK_TALLY",
+          "stock": {
+            "생선 한 점": 14
+          },
+          "preparedWork": [
+            "0:V36_FISHSELLER_RECEIVE_CATCH"
+          ],
+          "offers": [
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "market-quay",
+              "open": true,
+              "stock": 14
+            },
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "courtyard",
+              "open": false,
+              "stock": 14
+            }
+          ]
+        },
+        {
+          "id": "innkeeper_irina",
+          "mapId": "nevsky",
+          "position": {
+            "x": 27,
+            "y": 9
+          },
+          "goal": "PERSONAL_LIFE_PREPARATION",
+          "targetMapId": "courtyard",
+          "taskId": "innkeeper_irina:life-arc:STAGE_1:DAY_0",
+          "stock": {
+            "저녁 수프": 3
+          },
+          "preparedWork": [
+            "0:V36_INNKEEPER_PREPARE_ROOMS"
+          ],
+          "offers": [
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "inn-interior",
+              "open": false,
+              "stock": 3
+            },
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 3
+            }
+          ]
+        },
+        {
+          "id": "market_nadezhda",
+          "mapId": "nevsky",
+          "position": {
+            "x": 22,
+            "y": 12
+          },
+          "goal": "SCHEDULED_WORK",
+          "targetMapId": "bakery-interior",
+          "taskId": "V36_MARKET_SETTLE_BREAD_ORDER",
+          "stock": {
+            "빵 한 묶음": 1
+          },
+          "preparedWork": [
+            "0:V36_MARKET_CHECK_SCALE"
+          ],
+          "offers": [
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "market-quay",
+              "open": false,
+              "stock": 1
+            },
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 1
+            }
+          ]
+        }
+      ],
+      "buyers": [],
+      "meals": []
+    },
+    {
+      "day": 1,
+      "clockMinute": 840,
+      "sellers": [
+        {
+          "id": "fishseller_klavdiya",
+          "mapId": "market-quay",
+          "position": {
+            "x": 26,
+            "y": 14
+          },
+          "goal": "MARKET_SERVICE",
+          "targetMapId": "market-quay",
+          "taskId": "SERVICE:fishseller_klavdiya:생선 한 점:480",
+          "stock": {
+            "생선 한 점": 13
+          },
+          "preparedWork": [
+            "0:V36_FISHSELLER_RECEIVE_CATCH",
+            "0:V36_FISHSELLER_STOCK_TALLY"
+          ],
+          "offers": [
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "market-quay",
+              "open": true,
+              "stock": 13
+            },
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "courtyard",
+              "open": false,
+              "stock": 13
+            }
+          ]
+        },
+        {
+          "id": "innkeeper_irina",
+          "mapId": "nevsky",
+          "position": {
+            "x": 20,
+            "y": 10
+          },
+          "goal": "FOLLOW_FAMILY_MEMBER",
+          "targetMapId": "nevsky",
+          "taskId": "IRINA_SIBLING_SUPPORT_POLINA_1847",
+          "stock": {
+            "저녁 수프": 3
+          },
+          "preparedWork": [
+            "0:V36_INNKEEPER_PREPARE_ROOMS"
+          ],
+          "offers": [
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "inn-interior",
+              "open": false,
+              "stock": 3
+            },
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 3
+            }
+          ]
+        },
+        {
+          "id": "market_nadezhda",
+          "mapId": "market-quay",
+          "position": {
+            "x": 6,
+            "y": 9
+          },
+          "goal": "SCHEDULED_WORK",
+          "targetMapId": "bakery-interior",
+          "taskId": "V36_MARKET_SETTLE_BREAD_ORDER",
+          "stock": {
+            "빵 한 묶음": 1
+          },
+          "preparedWork": [
+            "0:V36_MARKET_CHECK_SCALE"
+          ],
+          "offers": [
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "market-quay",
+              "open": false,
+              "stock": 1
+            },
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 1
+            }
+          ]
+        }
+      ],
+      "buyers": [],
+      "meals": [
+        {
+          "hostId": "tenant_mikhail",
+          "seller": "fishseller_klavdiya",
+          "kind": "PURCHASE_AND_EAT",
+          "minute": 25
+        }
+      ]
+    },
+    {
+      "day": 1,
+      "clockMinute": 900,
+      "sellers": [
+        {
+          "id": "fishseller_klavdiya",
+          "mapId": "market-quay",
+          "position": {
+            "x": 26,
+            "y": 14
+          },
+          "goal": "PREPARE_FOOD_SERVICE",
+          "targetMapId": "market-quay",
+          "taskId": "PREPARE_SERVICE:fishseller_klavdiya:생선 한 점:901",
+          "stock": {
+            "생선 한 점": 12
+          },
+          "preparedWork": [
+            "0:V36_FISHSELLER_RECEIVE_CATCH",
+            "0:V36_FISHSELLER_STOCK_TALLY"
+          ],
+          "offers": [
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "market-quay",
+              "open": true,
+              "stock": 12
+            },
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "courtyard",
+              "open": false,
+              "stock": 12
+            }
+          ]
+        },
+        {
+          "id": "innkeeper_irina",
+          "mapId": "courtyard",
+          "position": {
+            "x": 10,
+            "y": 12
+          },
+          "goal": "PREPARE_FOOD_SERVICE",
+          "targetMapId": "inn-interior",
+          "taskId": "PREPARE_SERVICE:innkeeper_irina:저녁 수프:960",
+          "stock": {
+            "저녁 수프": 3
+          },
+          "preparedWork": [
+            "0:V36_INNKEEPER_PREPARE_ROOMS"
+          ],
+          "offers": [
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "inn-interior",
+              "open": false,
+              "stock": 3
+            },
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 3
+            }
+          ]
+        },
+        {
+          "id": "market_nadezhda",
+          "mapId": "market-quay",
+          "position": {
+            "x": 16,
+            "y": 11
+          },
+          "goal": "MARKET_SERVICE",
+          "targetMapId": "market-quay",
+          "taskId": "SERVICE:market_nadezhda:빵 한 묶음:900",
+          "stock": {
+            "빵 한 묶음": 1
+          },
+          "preparedWork": [
+            "0:V36_MARKET_CHECK_SCALE"
+          ],
+          "offers": [
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "market-quay",
+              "open": true,
+              "stock": 1
+            },
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 1
+            }
+          ]
+        }
+      ],
+      "buyers": [],
+      "meals": [
+        {
+          "hostId": "fishseller_klavdiya",
+          "seller": "fishseller_klavdiya",
+          "kind": "SELLER_STOCK_MEAL",
+          "minute": 60
+        }
+      ]
+    },
+    {
+      "day": 1,
+      "clockMinute": 960,
+      "sellers": [
+        {
+          "id": "fishseller_klavdiya",
+          "mapId": "market-quay",
+          "position": {
+            "x": 26,
+            "y": 13
+          },
+          "goal": "MARKET_SERVICE",
+          "targetMapId": "courtyard",
+          "taskId": "SERVICE:fishseller_klavdiya:생선 한 점:960",
+          "stock": {
+            "생선 한 점": 11
+          },
+          "preparedWork": [
+            "0:V36_FISHSELLER_RECEIVE_CATCH",
+            "0:V36_FISHSELLER_STOCK_TALLY"
+          ],
+          "offers": [
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "market-quay",
+              "open": false,
+              "stock": 11
+            },
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "courtyard",
+              "open": true,
+              "stock": 11
+            }
+          ]
+        },
+        {
+          "id": "innkeeper_irina",
+          "mapId": "inn-interior",
+          "position": {
+            "x": 11,
+            "y": 12
+          },
+          "goal": "SCHEDULED_WORK",
+          "targetMapId": "inn-interior",
+          "taskId": "V36_INNKEEPER_EVENING_REGISTER",
+          "stock": {
+            "저녁 수프": 3
+          },
+          "preparedWork": [
+            "0:V36_INNKEEPER_PREPARE_ROOMS"
+          ],
+          "offers": [
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "inn-interior",
+              "open": true,
+              "stock": 3
+            },
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 3
+            }
+          ]
+        },
+        {
+          "id": "market_nadezhda",
+          "mapId": "market-quay",
+          "position": {
+            "x": 15,
+            "y": 12
+          },
+          "goal": "NEED_INCOME",
+          "targetMapId": "market-quay",
+          "taskId": "LIVELIHOOD:market_nadezhda:0:900",
+          "stock": {
+            "빵 한 묶음": 1
+          },
+          "preparedWork": [
+            "0:V36_MARKET_CHECK_SCALE"
+          ],
+          "offers": [
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "market-quay",
+              "open": false,
+              "stock": 1
+            },
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 1
+            }
+          ]
+        }
+      ],
+      "buyers": [],
+      "meals": [
+        {
+          "hostId": "porter_gavrila",
+          "seller": "fishseller_klavdiya",
+          "kind": "PURCHASE_AND_EAT",
+          "minute": 15
+        }
+      ]
+    },
+    {
+      "day": 1,
+      "clockMinute": 1020,
+      "sellers": [
+        {
+          "id": "fishseller_klavdiya",
+          "mapId": "market-quay",
+          "position": {
+            "x": 17,
+            "y": 10
+          },
+          "goal": "MARKET_SERVICE",
+          "targetMapId": "courtyard",
+          "taskId": "SERVICE:fishseller_klavdiya:생선 한 점:960",
+          "stock": {
+            "생선 한 점": 11
+          },
+          "preparedWork": [
+            "0:V36_FISHSELLER_RECEIVE_CATCH",
+            "0:V36_FISHSELLER_STOCK_TALLY"
+          ],
+          "offers": [
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "market-quay",
+              "open": false,
+              "stock": 11
+            },
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "courtyard",
+              "open": true,
+              "stock": 11
+            }
+          ]
+        },
+        {
+          "id": "innkeeper_irina",
+          "mapId": "inn-interior",
+          "position": {
+            "x": 11,
+            "y": 12
+          },
+          "goal": "MARKET_SERVICE",
+          "targetMapId": "inn-interior",
+          "taskId": "SERVICE:innkeeper_irina:저녁 수프:960",
+          "stock": {
+            "저녁 수프": 9
+          },
+          "preparedWork": [
+            "0:V36_INNKEEPER_PREPARE_ROOMS",
+            "0:V36_INNKEEPER_EVENING_REGISTER"
+          ],
+          "offers": [
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "inn-interior",
+              "open": true,
+              "stock": 9
+            },
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 9
+            }
+          ]
+        },
+        {
+          "id": "market_nadezhda",
+          "mapId": "market-quay",
+          "position": {
+            "x": 15,
+            "y": 12
+          },
+          "goal": "SCHEDULED_WORK",
+          "targetMapId": "market-quay",
+          "taskId": "V36_MARKET_CLOSE_BREAD_STOCK",
+          "stock": {
+            "빵 한 묶음": 1
+          },
+          "preparedWork": [
+            "0:V36_MARKET_CHECK_SCALE"
+          ],
+          "offers": [
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "market-quay",
+              "open": true,
+              "stock": 1
+            },
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 1
+            }
+          ]
+        }
+      ],
+      "buyers": [],
+      "meals": []
+    },
+    {
+      "day": 1,
+      "clockMinute": 1080,
+      "sellers": [
+        {
+          "id": "fishseller_klavdiya",
+          "mapId": "market-quay",
+          "position": {
+            "x": 7,
+            "y": 10
+          },
+          "goal": "MARKET_SERVICE",
+          "targetMapId": "courtyard",
+          "taskId": "SERVICE:fishseller_klavdiya:생선 한 점:960",
+          "stock": {
+            "생선 한 점": 11
+          },
+          "preparedWork": [
+            "0:V36_FISHSELLER_RECEIVE_CATCH",
+            "0:V36_FISHSELLER_STOCK_TALLY"
+          ],
+          "offers": [
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "market-quay",
+              "open": false,
+              "stock": 11
+            },
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "courtyard",
+              "open": true,
+              "stock": 11
+            }
+          ]
+        },
+        {
+          "id": "innkeeper_irina",
+          "mapId": "inn-interior",
+          "position": {
+            "x": 11,
+            "y": 12
+          },
+          "goal": "MARKET_SERVICE",
+          "targetMapId": "inn-interior",
+          "taskId": "SERVICE:innkeeper_irina:저녁 수프:960",
+          "stock": {
+            "저녁 수프": 8
+          },
+          "preparedWork": [
+            "0:V36_INNKEEPER_PREPARE_ROOMS",
+            "0:V36_INNKEEPER_EVENING_REGISTER"
+          ],
+          "offers": [
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "inn-interior",
+              "open": true,
+              "stock": 8
+            },
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 8
+            }
+          ]
+        },
+        {
+          "id": "market_nadezhda",
+          "mapId": "market-quay",
+          "position": {
+            "x": 13,
+            "y": 9
+          },
+          "goal": "PERSONAL_LIFE_FOCUS",
+          "targetMapId": "market-quay",
+          "taskId": "market_nadezhda:life-arc:STAGE_1:DAY_0",
+          "stock": {
+            "빵 한 묶음": 0
+          },
+          "preparedWork": [
+            "0:V36_MARKET_CHECK_SCALE",
+            "0:V36_MARKET_CLOSE_BREAD_STOCK"
+          ],
+          "offers": [
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "market-quay",
+              "open": true,
+              "stock": 0
+            },
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 0
+            }
+          ]
+        }
+      ],
+      "buyers": [
+        {
+          "id": "watercarrier_luka",
+          "hunger": 70.84000000000071,
+          "mapId": "nevsky",
+          "goal": "PERSONAL_LIFE_FOCUS",
+          "seller": null,
+          "selectedAtMinute": 1080,
+          "routine": "TRAVELLING"
+        }
+      ],
+      "meals": []
+    },
+    {
+      "day": 1,
+      "clockMinute": 1140,
+      "sellers": [
+        {
+          "id": "fishseller_klavdiya",
+          "mapId": "nevsky",
+          "position": {
+            "x": 26,
+            "y": 11
+          },
+          "goal": "MARKET_SERVICE",
+          "targetMapId": "courtyard",
+          "taskId": "SERVICE:fishseller_klavdiya:생선 한 점:960",
+          "stock": {
+            "생선 한 점": 11
+          },
+          "preparedWork": [
+            "0:V36_FISHSELLER_RECEIVE_CATCH",
+            "0:V36_FISHSELLER_STOCK_TALLY"
+          ],
+          "offers": [
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "market-quay",
+              "open": false,
+              "stock": 11
+            },
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "courtyard",
+              "open": true,
+              "stock": 11
+            }
+          ]
+        },
+        {
+          "id": "innkeeper_irina",
+          "mapId": "inn-interior",
+          "position": {
+            "x": 11,
+            "y": 12
+          },
+          "goal": "MARKET_SERVICE",
+          "targetMapId": "inn-interior",
+          "taskId": "SERVICE:innkeeper_irina:저녁 수프:960",
+          "stock": {
+            "저녁 수프": 8
+          },
+          "preparedWork": [
+            "0:V36_INNKEEPER_PREPARE_ROOMS",
+            "0:V36_INNKEEPER_EVENING_REGISTER"
+          ],
+          "offers": [
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "inn-interior",
+              "open": true,
+              "stock": 8
+            },
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 8
+            }
+          ]
+        },
+        {
+          "id": "market_nadezhda",
+          "mapId": "market-quay",
+          "position": {
+            "x": 13,
+            "y": 8
+          },
+          "goal": "MARKET_SERVICE",
+          "targetMapId": "market-quay",
+          "taskId": "SERVICE:market_nadezhda:빵 한 묶음:1100",
+          "stock": {
+            "빵 한 묶음": 18
+          },
+          "preparedWork": [
+            "0:V36_MARKET_CHECK_SCALE",
+            "0:V36_MARKET_CLOSE_BREAD_STOCK"
+          ],
+          "offers": [
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "market-quay",
+              "open": true,
+              "stock": 18
+            },
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 18
+            }
+          ]
+        }
+      ],
+      "buyers": [
+        {
+          "id": "carter_roman",
+          "hunger": 72.00000000000102,
+          "mapId": "nevsky",
+          "goal": "PURCHASE_MEAL",
+          "seller": "market_nadezhda",
+          "selectedAtMinute": 1116,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "street_vendor_matryona",
+          "hunger": 70.39999999999816,
+          "mapId": "nevsky",
+          "goal": "PURCHASE_MEAL",
+          "seller": "market_nadezhda",
+          "selectedAtMinute": 1116,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "watercarrier_luka",
+          "hunger": 73.6000000000011,
+          "mapId": "nevsky",
+          "goal": "PURCHASE_MEAL",
+          "seller": "market_nadezhda",
+          "selectedAtMinute": 1116,
+          "routine": "TRAVELLING"
+        }
+      ],
+      "meals": []
+    },
+    {
+      "day": 1,
+      "clockMinute": 1200,
+      "sellers": [
+        {
+          "id": "fishseller_klavdiya",
+          "mapId": "nevsky",
+          "position": {
+            "x": 16,
+            "y": 9
+          },
+          "goal": "MARKET_SERVICE",
+          "targetMapId": "courtyard",
+          "taskId": "SERVICE:fishseller_klavdiya:생선 한 점:960",
+          "stock": {
+            "생선 한 점": 11
+          },
+          "preparedWork": [
+            "0:V36_FISHSELLER_RECEIVE_CATCH",
+            "0:V36_FISHSELLER_STOCK_TALLY"
+          ],
+          "offers": [
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "market-quay",
+              "open": false,
+              "stock": 11
+            },
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "courtyard",
+              "open": true,
+              "stock": 11
+            }
+          ]
+        },
+        {
+          "id": "innkeeper_irina",
+          "mapId": "inn-interior",
+          "position": {
+            "x": 11,
+            "y": 13
+          },
+          "goal": "PREPARE_FOOD_SERVICE",
+          "targetMapId": "nevsky",
+          "taskId": "PREPARE_SERVICE:innkeeper_irina:저녁 수프:1201",
+          "stock": {
+            "저녁 수프": 8
+          },
+          "preparedWork": [
+            "0:V36_INNKEEPER_PREPARE_ROOMS",
+            "0:V36_INNKEEPER_EVENING_REGISTER"
+          ],
+          "offers": [
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "inn-interior",
+              "open": false,
+              "stock": 8
+            },
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 8
+            }
+          ]
+        },
+        {
+          "id": "market_nadezhda",
+          "mapId": "market-quay",
+          "position": {
+            "x": 14,
+            "y": 11
+          },
+          "goal": "MARKET_SERVICE",
+          "targetMapId": "market-quay",
+          "taskId": "SERVICE:market_nadezhda:빵 한 묶음:1100",
+          "stock": {
+            "빵 한 묶음": 16
+          },
+          "preparedWork": [
+            "0:V36_MARKET_CHECK_SCALE",
+            "0:V36_MARKET_CLOSE_BREAD_STOCK"
+          ],
+          "offers": [
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "market-quay",
+              "open": true,
+              "stock": 16
+            },
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 16
+            }
+          ]
+        }
+      ],
+      "buyers": [
+        {
+          "id": "carter_roman",
+          "hunger": 74.70000000000113,
+          "mapId": "market-quay",
+          "goal": "PURCHASE_MEAL",
+          "seller": "market_nadezhda",
+          "selectedAtMinute": 1116,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "laundress_mariya",
+          "hunger": 71.03999999999797,
+          "mapId": "courtyard",
+          "goal": "NEED_INCOME",
+          "seller": null,
+          "selectedAtMinute": 1080,
+          "routine": "TRADING"
+        },
+        {
+          "id": "street_vendor_matryona",
+          "hunger": 73.03999999999797,
+          "mapId": "nevsky",
+          "goal": "PURCHASE_MEAL",
+          "seller": "market_nadezhda",
+          "selectedAtMinute": 1116,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "watercarrier_luka",
+          "hunger": 76.36000000000149,
+          "mapId": "market-quay",
+          "goal": "PURCHASE_MEAL",
+          "seller": "market_nadezhda",
+          "selectedAtMinute": 1116,
+          "routine": "TRAVELLING"
+        }
+      ],
+      "meals": [
+        {
+          "hostId": "warehouse_pyotr",
+          "seller": "market_nadezhda",
+          "kind": "PURCHASE_AND_EAT",
+          "minute": 5
+        },
+        {
+          "hostId": "market_nadezhda",
+          "seller": "market_nadezhda",
+          "kind": "SELLER_STOCK_MEAL",
+          "minute": 20
+        }
+      ]
+    },
+    {
+      "day": 1,
+      "clockMinute": 1260,
+      "sellers": [
+        {
+          "id": "fishseller_klavdiya",
+          "mapId": "courtyard",
+          "position": {
+            "x": 13,
+            "y": 13
+          },
+          "goal": "MARKET_SERVICE",
+          "targetMapId": "courtyard",
+          "taskId": "SERVICE:fishseller_klavdiya:생선 한 점:960",
+          "stock": {
+            "생선 한 점": 3
+          },
+          "preparedWork": [
+            "0:V36_FISHSELLER_RECEIVE_CATCH",
+            "0:V36_FISHSELLER_STOCK_TALLY"
+          ],
+          "offers": [
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "market-quay",
+              "open": false,
+              "stock": 3
+            },
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "courtyard",
+              "open": true,
+              "stock": 3
+            }
+          ]
+        },
+        {
+          "id": "innkeeper_irina",
+          "mapId": "nevsky",
+          "position": {
+            "x": 16,
+            "y": 10
+          },
+          "goal": "MARKET_SERVICE",
+          "targetMapId": "nevsky",
+          "taskId": "SERVICE:innkeeper_irina:저녁 수프:1201",
+          "stock": {
+            "저녁 수프": 8
+          },
+          "preparedWork": [
+            "0:V36_INNKEEPER_PREPARE_ROOMS",
+            "0:V36_INNKEEPER_EVENING_REGISTER"
+          ],
+          "offers": [
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "inn-interior",
+              "open": false,
+              "stock": 8
+            },
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "nevsky",
+              "open": true,
+              "stock": 8
+            }
+          ]
+        },
+        {
+          "id": "market_nadezhda",
+          "mapId": "market-quay",
+          "position": {
+            "x": 14,
+            "y": 11
+          },
+          "goal": "MARKET_SERVICE",
+          "targetMapId": "market-quay",
+          "taskId": "SERVICE:market_nadezhda:빵 한 묶음:1100",
+          "stock": {
+            "빵 한 묶음": 10
+          },
+          "preparedWork": [
+            "0:V36_MARKET_CHECK_SCALE",
+            "0:V36_MARKET_CLOSE_BREAD_STOCK"
+          ],
+          "offers": [
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "market-quay",
+              "open": true,
+              "stock": 10
+            },
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 10
+            }
+          ]
+        }
+      ],
+      "buyers": [
+        {
+          "id": "street_vendor_matryona",
+          "hunger": 75.67999999999779,
+          "mapId": "market-quay",
+          "goal": "PURCHASE_MEAL",
+          "seller": "market_nadezhda",
+          "selectedAtMinute": 1116,
+          "routine": "TRAVELLING"
+        }
+      ],
+      "meals": [
+        {
+          "hostId": "coachman_timofey",
+          "seller": "market_nadezhda",
+          "kind": "PURCHASE_AND_EAT",
+          "minute": 5
+        },
+        {
+          "hostId": "laundress_mariya",
+          "seller": "fishseller_klavdiya",
+          "kind": "PURCHASE_AND_EAT",
+          "minute": 5
+        },
+        {
+          "hostId": "lodging_tatyana",
+          "seller": "fishseller_klavdiya",
+          "kind": "PURCHASE_AND_EAT",
+          "minute": 5
+        },
+        {
+          "hostId": "print_apprentice_stepan",
+          "seller": "market_nadezhda",
+          "kind": "PURCHASE_AND_EAT",
+          "minute": 10
+        },
+        {
+          "hostId": "printer_ekaterina",
+          "seller": "fishseller_klavdiya",
+          "kind": "PURCHASE_AND_EAT",
+          "minute": 10
+        },
+        {
+          "hostId": "watercarrier_luka",
+          "seller": "market_nadezhda",
+          "kind": "PURCHASE_AND_EAT",
+          "minute": 15
+        },
+        {
+          "hostId": "street_musician_ivan",
+          "seller": "fishseller_klavdiya",
+          "kind": "PURCHASE_AND_EAT",
+          "minute": 30
+        },
+        {
+          "hostId": "yardkeeper_semyon",
+          "seller": "fishseller_klavdiya",
+          "kind": "PURCHASE_AND_EAT",
+          "minute": 30
+        },
+        {
+          "hostId": "carter_roman",
+          "seller": "market_nadezhda",
+          "kind": "PURCHASE_AND_EAT",
+          "minute": 35
+        },
+        {
+          "hostId": "junior_guard_sergey",
+          "seller": "fishseller_klavdiya",
+          "kind": "PURCHASE_AND_EAT",
+          "minute": 40
+        },
+        {
+          "hostId": "seamstress_anna",
+          "seller": "market_nadezhda",
+          "kind": "PURCHASE_AND_EAT",
+          "minute": 45
+        },
+        {
+          "hostId": "baker_fyodor",
+          "seller": "fishseller_klavdiya",
+          "kind": "PURCHASE_AND_EAT",
+          "minute": 50
+        },
+        {
+          "hostId": "typesetter_nikita",
+          "seller": "market_nadezhda",
+          "kind": "PURCHASE_AND_EAT",
+          "minute": 50
+        },
+        {
+          "hostId": "bookbinder_elizaveta",
+          "seller": "fishseller_klavdiya",
+          "kind": "PURCHASE_AND_EAT",
+          "minute": 55
+        }
+      ]
+    },
+    {
+      "day": 1,
+      "clockMinute": 1320,
+      "sellers": [
+        {
+          "id": "fishseller_klavdiya",
+          "mapId": "courtyard",
+          "position": {
+            "x": 13,
+            "y": 16
+          },
+          "goal": "PERSONAL_LIFE_FOCUS",
+          "targetMapId": "market-quay",
+          "taskId": "fishseller_klavdiya:life-arc:STAGE_1:DAY_0",
+          "stock": {
+            "생선 한 점": 0
+          },
+          "preparedWork": [
+            "0:V36_FISHSELLER_RECEIVE_CATCH",
+            "0:V36_FISHSELLER_STOCK_TALLY"
+          ],
+          "offers": [
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "market-quay",
+              "open": false,
+              "stock": 0
+            },
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "courtyard",
+              "open": true,
+              "stock": 0
+            }
+          ]
+        },
+        {
+          "id": "innkeeper_irina",
+          "mapId": "nevsky",
+          "position": {
+            "x": 21,
+            "y": 11
+          },
+          "goal": "MARKET_SERVICE",
+          "targetMapId": "nevsky",
+          "taskId": "SERVICE:innkeeper_irina:저녁 수프:1201",
+          "stock": {
+            "저녁 수프": 8
+          },
+          "preparedWork": [
+            "0:V36_INNKEEPER_PREPARE_ROOMS",
+            "0:V36_INNKEEPER_EVENING_REGISTER"
+          ],
+          "offers": [
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "inn-interior",
+              "open": false,
+              "stock": 8
+            },
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "nevsky",
+              "open": true,
+              "stock": 8
+            }
+          ]
+        },
+        {
+          "id": "market_nadezhda",
+          "mapId": "market-quay",
+          "position": {
+            "x": 14,
+            "y": 10
+          },
+          "goal": "NEED_REST",
+          "targetMapId": "courtyard",
+          "taskId": "REST:market_nadezhda:1380",
+          "stock": {
+            "빵 한 묶음": 9
+          },
+          "preparedWork": [
+            "0:V36_MARKET_CHECK_SCALE",
+            "0:V36_MARKET_CLOSE_BREAD_STOCK"
+          ],
+          "offers": [
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "market-quay",
+              "open": false,
+              "stock": 9
+            },
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 9
+            }
+          ]
+        }
+      ],
+      "buyers": [],
+      "meals": [
+        {
+          "hostId": "bookseller_lev",
+          "seller": "fishseller_klavdiya",
+          "kind": "PURCHASE_AND_EAT",
+          "minute": 5
+        },
+        {
+          "hostId": "street_vendor_matryona",
+          "seller": "market_nadezhda",
+          "kind": "PURCHASE_AND_EAT",
+          "minute": 15
+        },
+        {
+          "hostId": "servant_varvara",
+          "seller": "fishseller_klavdiya",
+          "kind": "PURCHASE_AND_EAT",
+          "minute": 35
+        },
+        {
+          "hostId": "minor_noble_andrei",
+          "seller": "fishseller_klavdiya",
+          "kind": "PURCHASE_AND_EAT",
+          "minute": 45
+        }
+      ]
+    },
+    {
+      "day": 1,
+      "clockMinute": 1380,
+      "sellers": [
+        {
+          "id": "fishseller_klavdiya",
+          "mapId": "nevsky",
+          "position": {
+            "x": 21,
+            "y": 11
+          },
+          "goal": "NIGHT_REST",
+          "targetMapId": "courtyard",
+          "taskId": "SLEEP:fishseller_klavdiya:0",
+          "stock": {
+            "생선 한 점": 0
+          },
+          "preparedWork": [
+            "0:V36_FISHSELLER_RECEIVE_CATCH",
+            "0:V36_FISHSELLER_STOCK_TALLY"
+          ],
+          "offers": [
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "market-quay",
+              "open": false,
+              "stock": 0
+            },
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "courtyard",
+              "open": false,
+              "stock": 0
+            }
+          ]
+        },
+        {
+          "id": "innkeeper_irina",
+          "mapId": "nevsky",
+          "position": {
+            "x": 19,
+            "y": 11
+          },
+          "goal": "MARKET_SERVICE",
+          "targetMapId": "nevsky",
+          "taskId": "SERVICE:innkeeper_irina:저녁 수프:1201",
+          "stock": {
+            "저녁 수프": 7
+          },
+          "preparedWork": [
+            "0:V36_INNKEEPER_PREPARE_ROOMS",
+            "0:V36_INNKEEPER_EVENING_REGISTER"
+          ],
+          "offers": [
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "inn-interior",
+              "open": false,
+              "stock": 7
+            },
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "nevsky",
+              "open": true,
+              "stock": 7
+            }
+          ]
+        },
+        {
+          "id": "market_nadezhda",
+          "mapId": "market-quay",
+          "position": {
+            "x": 2,
+            "y": 10
+          },
+          "goal": "NIGHT_REST",
+          "targetMapId": "courtyard",
+          "taskId": "SLEEP:market_nadezhda:0",
+          "stock": {
+            "빵 한 묶음": 9
+          },
+          "preparedWork": [
+            "0:V36_MARKET_CHECK_SCALE",
+            "0:V36_MARKET_CLOSE_BREAD_STOCK"
+          ],
+          "offers": [
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "market-quay",
+              "open": false,
+              "stock": 9
+            },
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 9
+            }
+          ]
+        }
+      ],
+      "buyers": [],
+      "meals": []
+    },
+    {
+      "day": 1,
+      "clockMinute": 0,
+      "sellers": [
+        {
+          "id": "fishseller_klavdiya",
+          "mapId": "courtyard",
+          "position": {
+            "x": 12,
+            "y": 12
+          },
+          "goal": "NIGHT_REST",
+          "targetMapId": "courtyard",
+          "taskId": "SLEEP:fishseller_klavdiya:0",
+          "stock": {
+            "생선 한 점": 0
+          },
+          "preparedWork": [
+            "0:V36_FISHSELLER_RECEIVE_CATCH",
+            "0:V36_FISHSELLER_STOCK_TALLY"
+          ],
+          "offers": [
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "market-quay",
+              "open": false,
+              "stock": 0
+            },
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "courtyard",
+              "open": false,
+              "stock": 0
+            }
+          ]
+        },
+        {
+          "id": "innkeeper_irina",
+          "mapId": "nevsky",
+          "position": {
+            "x": 17,
+            "y": 10
+          },
+          "goal": "NIGHT_REST",
+          "targetMapId": "courtyard",
+          "taskId": "SLEEP:innkeeper_irina:0",
+          "stock": {
+            "저녁 수프": 7
+          },
+          "preparedWork": [
+            "0:V36_INNKEEPER_PREPARE_ROOMS",
+            "0:V36_INNKEEPER_EVENING_REGISTER"
+          ],
+          "offers": [
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "inn-interior",
+              "open": false,
+              "stock": 7
+            },
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 7
+            }
+          ]
+        },
+        {
+          "id": "market_nadezhda",
+          "mapId": "nevsky",
+          "position": {
+            "x": 18,
+            "y": 9
+          },
+          "goal": "NIGHT_REST",
+          "targetMapId": "courtyard",
+          "taskId": "SLEEP:market_nadezhda:0",
+          "stock": {
+            "빵 한 묶음": 9
+          },
+          "preparedWork": [
+            "0:V36_MARKET_CHECK_SCALE",
+            "0:V36_MARKET_CLOSE_BREAD_STOCK"
+          ],
+          "offers": [
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "market-quay",
+              "open": false,
+              "stock": 9
+            },
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 9
+            }
+          ]
+        }
+      ],
+      "buyers": [],
+      "meals": []
+    },
+    {
+      "day": 1,
+      "clockMinute": 60,
+      "sellers": [
+        {
+          "id": "fishseller_klavdiya",
+          "mapId": "courtyard",
+          "position": {
+            "x": 9,
+            "y": 9
+          },
+          "goal": "NIGHT_REST",
+          "targetMapId": "courtyard",
+          "taskId": "SLEEP:fishseller_klavdiya:0",
+          "stock": {
+            "생선 한 점": 0
+          },
+          "preparedWork": [
+            "0:V36_FISHSELLER_RECEIVE_CATCH",
+            "0:V36_FISHSELLER_STOCK_TALLY"
+          ],
+          "offers": [
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "market-quay",
+              "open": false,
+              "stock": 0
+            },
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "courtyard",
+              "open": false,
+              "stock": 0
+            }
+          ]
+        },
+        {
+          "id": "innkeeper_irina",
+          "mapId": "courtyard",
+          "position": {
+            "x": 11,
+            "y": 6
+          },
+          "goal": "NIGHT_REST",
+          "targetMapId": "courtyard",
+          "taskId": "SLEEP:innkeeper_irina:0",
+          "stock": {
+            "저녁 수프": 7
+          },
+          "preparedWork": [
+            "0:V36_INNKEEPER_PREPARE_ROOMS",
+            "0:V36_INNKEEPER_EVENING_REGISTER"
+          ],
+          "offers": [
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "inn-interior",
+              "open": false,
+              "stock": 7
+            },
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 7
+            }
+          ]
+        },
+        {
+          "id": "market_nadezhda",
+          "mapId": "courtyard",
+          "position": {
+            "x": 12,
+            "y": 9
+          },
+          "goal": "SCHEDULED_WORK",
+          "targetMapId": "market-quay",
+          "taskId": "V36_MARKET_CHECK_SCALE",
+          "stock": {
+            "빵 한 묶음": 9
+          },
+          "preparedWork": [
+            "0:V36_MARKET_CHECK_SCALE",
+            "0:V36_MARKET_CLOSE_BREAD_STOCK"
+          ],
+          "offers": [
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "market-quay",
+              "open": false,
+              "stock": 9
+            },
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 9
+            }
+          ]
+        }
+      ],
+      "buyers": [],
+      "meals": []
+    },
+    {
+      "day": 1,
+      "clockMinute": 120,
+      "sellers": [
+        {
+          "id": "fishseller_klavdiya",
+          "mapId": "courtyard",
+          "position": {
+            "x": 10,
+            "y": 16
+          },
+          "goal": "SCHEDULED_WORK",
+          "targetMapId": "market-quay",
+          "taskId": "V36_FISHSELLER_RECEIVE_CATCH",
+          "stock": {
+            "생선 한 점": 0
+          },
+          "preparedWork": [
+            "0:V36_FISHSELLER_RECEIVE_CATCH",
+            "0:V36_FISHSELLER_STOCK_TALLY"
+          ],
+          "offers": [
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "market-quay",
+              "open": false,
+              "stock": 0
+            },
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "courtyard",
+              "open": false,
+              "stock": 0
+            }
+          ]
+        },
+        {
+          "id": "innkeeper_irina",
+          "mapId": "courtyard",
+          "position": {
+            "x": 11,
+            "y": 8
+          },
+          "goal": "SCHEDULED_WORK",
+          "targetMapId": "courtyard",
+          "taskId": "V36_INNKEEPER_PREPARE_ROOMS",
+          "stock": {
+            "저녁 수프": 7
+          },
+          "preparedWork": [
+            "0:V36_INNKEEPER_PREPARE_ROOMS",
+            "0:V36_INNKEEPER_EVENING_REGISTER"
+          ],
+          "offers": [
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "inn-interior",
+              "open": false,
+              "stock": 7
+            },
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 7
+            }
+          ]
+        },
+        {
+          "id": "market_nadezhda",
+          "mapId": "nevsky",
+          "position": {
+            "x": 19,
+            "y": 9
+          },
+          "goal": "SCHEDULED_WORK",
+          "targetMapId": "market-quay",
+          "taskId": "V36_MARKET_CHECK_SCALE",
+          "stock": {
+            "빵 한 묶음": 9
+          },
+          "preparedWork": [
+            "0:V36_MARKET_CHECK_SCALE",
+            "0:V36_MARKET_CLOSE_BREAD_STOCK"
+          ],
+          "offers": [
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "market-quay",
+              "open": false,
+              "stock": 9
+            },
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 9
+            }
+          ]
+        }
+      ],
+      "buyers": [],
+      "meals": []
+    },
+    {
+      "day": 1,
+      "clockMinute": 180,
+      "sellers": [
+        {
+          "id": "fishseller_klavdiya",
+          "mapId": "nevsky",
+          "position": {
+            "x": 19,
+            "y": 11
+          },
+          "goal": "SCHEDULED_WORK",
+          "targetMapId": "market-quay",
+          "taskId": "V36_FISHSELLER_RECEIVE_CATCH",
+          "stock": {
+            "생선 한 점": 0
+          },
+          "preparedWork": [
+            "0:V36_FISHSELLER_RECEIVE_CATCH",
+            "0:V36_FISHSELLER_STOCK_TALLY"
+          ],
+          "offers": [
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "market-quay",
+              "open": false,
+              "stock": 0
+            },
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "courtyard",
+              "open": false,
+              "stock": 0
+            }
+          ]
+        },
+        {
+          "id": "innkeeper_irina",
+          "mapId": "courtyard",
+          "position": {
+            "x": 8,
+            "y": 10
+          },
+          "goal": "SCHEDULE",
+          "targetMapId": "courtyard",
+          "taskId": null,
+          "stock": {
+            "저녁 수프": 7
+          },
+          "preparedWork": [
+            "0:V36_INNKEEPER_PREPARE_ROOMS",
+            "0:V36_INNKEEPER_EVENING_REGISTER",
+            "1:V36_INNKEEPER_PREPARE_ROOMS"
+          ],
+          "offers": [
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "inn-interior",
+              "open": false,
+              "stock": 7
+            },
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 7
+            }
+          ]
+        },
+        {
+          "id": "market_nadezhda",
+          "mapId": "market-quay",
+          "position": {
+            "x": 4,
+            "y": 9
+          },
+          "goal": "SCHEDULED_WORK",
+          "targetMapId": "market-quay",
+          "taskId": "V36_MARKET_CHECK_SCALE",
+          "stock": {
+            "빵 한 묶음": 9
+          },
+          "preparedWork": [
+            "0:V36_MARKET_CHECK_SCALE",
+            "0:V36_MARKET_CLOSE_BREAD_STOCK"
+          ],
+          "offers": [
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "market-quay",
+              "open": false,
+              "stock": 9
+            },
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 9
+            }
+          ]
+        }
+      ],
+      "buyers": [
+        {
+          "id": "apothecary_yakov",
+          "hunger": 70.64000000000135,
+          "mapId": "market-quay",
+          "goal": "SCHEDULED_WORK",
+          "seller": null,
+          "selectedAtMinute": 1440,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "housemaid_olga",
+          "hunger": 70.72000000000024,
+          "mapId": "courtyard",
+          "goal": "COLLECT_WAGE",
+          "seller": "landlady_polina",
+          "selectedAtMinute": 1536,
+          "routine": "TRAVELLING"
+        }
+      ],
+      "meals": []
+    },
+    {
+      "day": 1,
+      "clockMinute": 240,
+      "sellers": [
+        {
+          "id": "fishseller_klavdiya",
+          "mapId": "nevsky",
+          "position": {
+            "x": 26,
+            "y": 10
+          },
+          "goal": "SCHEDULED_WORK",
+          "targetMapId": "market-quay",
+          "taskId": "V36_FISHSELLER_RECEIVE_CATCH",
+          "stock": {
+            "생선 한 점": 0
+          },
+          "preparedWork": [
+            "0:V36_FISHSELLER_RECEIVE_CATCH",
+            "0:V36_FISHSELLER_STOCK_TALLY"
+          ],
+          "offers": [
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "market-quay",
+              "open": false,
+              "stock": 0
+            },
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "courtyard",
+              "open": false,
+              "stock": 0
+            }
+          ]
+        },
+        {
+          "id": "innkeeper_irina",
+          "mapId": "courtyard",
+          "position": {
+            "x": 8,
+            "y": 10
+          },
+          "goal": "SCHEDULE",
+          "targetMapId": "courtyard",
+          "taskId": null,
+          "stock": {
+            "저녁 수프": 7
+          },
+          "preparedWork": [
+            "0:V36_INNKEEPER_PREPARE_ROOMS",
+            "0:V36_INNKEEPER_EVENING_REGISTER",
+            "1:V36_INNKEEPER_PREPARE_ROOMS"
+          ],
+          "offers": [
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "inn-interior",
+              "open": false,
+              "stock": 7
+            },
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 7
+            }
+          ]
+        },
+        {
+          "id": "market_nadezhda",
+          "mapId": "market-quay",
+          "position": {
+            "x": 14,
+            "y": 11
+          },
+          "goal": "SCHEDULED_WORK",
+          "targetMapId": "market-quay",
+          "taskId": "V36_MARKET_CHECK_SCALE",
+          "stock": {
+            "빵 한 묶음": 9
+          },
+          "preparedWork": [
+            "0:V36_MARKET_CHECK_SCALE",
+            "0:V36_MARKET_CLOSE_BREAD_STOCK"
+          ],
+          "offers": [
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "market-quay",
+              "open": false,
+              "stock": 9
+            },
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 9
+            }
+          ]
+        }
+      ],
+      "buyers": [
+        {
+          "id": "apothecary_yakov",
+          "hunger": 72.62000000000143,
+          "mapId": "market-quay",
+          "goal": "NEED_INCOME",
+          "seller": null,
+          "selectedAtMinute": 1680,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "housemaid_olga",
+          "hunger": 72.7600000000006,
+          "mapId": "courtyard",
+          "goal": "PERSONAL_RELATIONSHIP",
+          "seller": "servant_varvara",
+          "selectedAtMinute": 1626,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "landlady_polina",
+          "hunger": 71.62000000000143,
+          "mapId": "courtyard",
+          "goal": "SCHEDULED_WORK",
+          "seller": null,
+          "selectedAtMinute": 1626,
+          "routine": "WORKING"
+        }
+      ],
+      "meals": []
+    },
+    {
+      "day": 1,
+      "clockMinute": 300,
+      "sellers": [
+        {
+          "id": "fishseller_klavdiya",
+          "mapId": "market-quay",
+          "position": {
+            "x": 12,
+            "y": 9
+          },
+          "goal": "SCHEDULED_WORK",
+          "targetMapId": "market-quay",
+          "taskId": "V36_FISHSELLER_RECEIVE_CATCH",
+          "stock": {
+            "생선 한 점": 0
+          },
+          "preparedWork": [
+            "0:V36_FISHSELLER_RECEIVE_CATCH",
+            "0:V36_FISHSELLER_STOCK_TALLY"
+          ],
+          "offers": [
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "market-quay",
+              "open": false,
+              "stock": 0
+            },
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "courtyard",
+              "open": false,
+              "stock": 0
+            }
+          ]
+        },
+        {
+          "id": "innkeeper_irina",
+          "mapId": "courtyard",
+          "position": {
+            "x": 8,
+            "y": 10
+          },
+          "goal": "SCHEDULE",
+          "targetMapId": "courtyard",
+          "taskId": null,
+          "stock": {
+            "저녁 수프": 7
+          },
+          "preparedWork": [
+            "0:V36_INNKEEPER_PREPARE_ROOMS",
+            "0:V36_INNKEEPER_EVENING_REGISTER",
+            "1:V36_INNKEEPER_PREPARE_ROOMS"
+          ],
+          "offers": [
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "inn-interior",
+              "open": false,
+              "stock": 7
+            },
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 7
+            }
+          ]
+        },
+        {
+          "id": "market_nadezhda",
+          "mapId": "market-quay",
+          "position": {
+            "x": 14,
+            "y": 11
+          },
+          "goal": "SCHEDULE",
+          "targetMapId": "market-quay",
+          "taskId": null,
+          "stock": {
+            "빵 한 묶음": 9
+          },
+          "preparedWork": [
+            "0:V36_MARKET_CHECK_SCALE",
+            "0:V36_MARKET_CLOSE_BREAD_STOCK",
+            "1:V36_MARKET_CHECK_SCALE"
+          ],
+          "offers": [
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "market-quay",
+              "open": false,
+              "stock": 9
+            },
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 9
+            }
+          ]
+        }
+      ],
+      "buyers": [
+        {
+          "id": "apothecary_yakov",
+          "hunger": 74.6000000000015,
+          "mapId": "market-quay",
+          "goal": "NEED_INCOME",
+          "seller": null,
+          "selectedAtMinute": 1680,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "housemaid_olga",
+          "hunger": 74.80000000000096,
+          "mapId": "courtyard",
+          "goal": "NEED_INCOME",
+          "seller": null,
+          "selectedAtMinute": 1692,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "innkeeper_irina",
+          "hunger": 71.39999999999577,
+          "mapId": "courtyard",
+          "goal": "SCHEDULE",
+          "seller": null,
+          "selectedAtMinute": 1601,
+          "routine": "WORKING"
+        },
+        {
+          "id": "landlady_polina",
+          "hunger": 73.6000000000015,
+          "mapId": "courtyard",
+          "goal": "SCHEDULE",
+          "seller": null,
+          "selectedAtMinute": 1686,
+          "routine": "WORKING"
+        },
+        {
+          "id": "midwife_avdotya",
+          "hunger": 70.39999999999577,
+          "mapId": "courtyard",
+          "goal": "SCHEDULE",
+          "seller": null,
+          "selectedAtMinute": 1591,
+          "routine": "WORKING"
+        },
+        {
+          "id": "porter_gavrila",
+          "hunger": 72.60000000000218,
+          "mapId": "market-quay",
+          "goal": "NEED_INCOME",
+          "seller": null,
+          "selectedAtMinute": 1740,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "student_vasily",
+          "hunger": 70.19999999999999,
+          "mapId": "nevsky",
+          "goal": "SCHEDULE",
+          "seller": null,
+          "selectedAtMinute": 1616,
+          "routine": "WORKING"
+        },
+        {
+          "id": "tenant_mikhail",
+          "hunger": 72.39999999999672,
+          "mapId": "courtyard",
+          "goal": "NEED_INCOME",
+          "seller": null,
+          "selectedAtMinute": 1740,
+          "routine": "RESTING"
+        }
+      ],
+      "meals": []
+    },
+    {
+      "day": 1,
+      "clockMinute": 360,
+      "sellers": [
+        {
+          "id": "fishseller_klavdiya",
+          "mapId": "market-quay",
+          "position": {
+            "x": 22,
+            "y": 11
+          },
+          "goal": "SCHEDULED_WORK",
+          "targetMapId": "market-quay",
+          "taskId": "V36_FISHSELLER_RECEIVE_CATCH",
+          "stock": {
+            "생선 한 점": 0
+          },
+          "preparedWork": [
+            "0:V36_FISHSELLER_RECEIVE_CATCH",
+            "0:V36_FISHSELLER_STOCK_TALLY"
+          ],
+          "offers": [
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "market-quay",
+              "open": false,
+              "stock": 0
+            },
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "courtyard",
+              "open": false,
+              "stock": 0
+            }
+          ]
+        },
+        {
+          "id": "innkeeper_irina",
+          "mapId": "courtyard",
+          "position": {
+            "x": 8,
+            "y": 10
+          },
+          "goal": "SCHEDULE",
+          "targetMapId": "courtyard",
+          "taskId": null,
+          "stock": {
+            "저녁 수프": 7
+          },
+          "preparedWork": [
+            "0:V36_INNKEEPER_PREPARE_ROOMS",
+            "0:V36_INNKEEPER_EVENING_REGISTER",
+            "1:V36_INNKEEPER_PREPARE_ROOMS"
+          ],
+          "offers": [
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "inn-interior",
+              "open": false,
+              "stock": 7
+            },
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 7
+            }
+          ]
+        },
+        {
+          "id": "market_nadezhda",
+          "mapId": "market-quay",
+          "position": {
+            "x": 14,
+            "y": 11
+          },
+          "goal": "SCHEDULE",
+          "targetMapId": "market-quay",
+          "taskId": null,
+          "stock": {
+            "빵 한 묶음": 9
+          },
+          "preparedWork": [
+            "0:V36_MARKET_CHECK_SCALE",
+            "0:V36_MARKET_CLOSE_BREAD_STOCK",
+            "1:V36_MARKET_CHECK_SCALE"
+          ],
+          "offers": [
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "market-quay",
+              "open": false,
+              "stock": 9
+            },
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 9
+            }
+          ]
+        }
+      ],
+      "buyers": [
+        {
+          "id": "apothecary_yakov",
+          "hunger": 76.58000000000158,
+          "mapId": "nevsky",
+          "goal": "NEED_INCOME",
+          "seller": null,
+          "selectedAtMinute": 1680,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "clerk_alexei",
+          "hunger": 71.06000000000012,
+          "mapId": "courtyard",
+          "goal": "SCHEDULED_WORK",
+          "seller": null,
+          "selectedAtMinute": 1440,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "doctor_mikhail_1848",
+          "hunger": 72.09999999999611,
+          "mapId": "communal-room",
+          "goal": "SCHEDULE",
+          "seller": null,
+          "selectedAtMinute": 541,
+          "routine": "WORKING"
+        },
+        {
+          "id": "housemaid_olga",
+          "hunger": 76.84000000000133,
+          "mapId": "nevsky",
+          "goal": "NEED_INCOME",
+          "seller": null,
+          "selectedAtMinute": 1692,
+          "routine": "WORKING"
+        },
+        {
+          "id": "innkeeper_irina",
+          "hunger": 73.31999999999556,
+          "mapId": "courtyard",
+          "goal": "SCHEDULE",
+          "seller": null,
+          "selectedAtMinute": 1601,
+          "routine": "WORKING"
+        },
+        {
+          "id": "landlady_polina",
+          "hunger": 75.58000000000158,
+          "mapId": "courtyard",
+          "goal": "SCHEDULE",
+          "seller": null,
+          "selectedAtMinute": 1686,
+          "routine": "WORKING"
+        },
+        {
+          "id": "midwife_avdotya",
+          "hunger": 72.31999999999556,
+          "mapId": "courtyard",
+          "goal": "SCHEDULE",
+          "seller": null,
+          "selectedAtMinute": 1591,
+          "routine": "WORKING"
+        },
+        {
+          "id": "nekrasov_reconstruction",
+          "hunger": 72.09999999999611,
+          "mapId": "printshop",
+          "goal": "SCHEDULE",
+          "seller": null,
+          "selectedAtMinute": 541,
+          "routine": "WORKING"
+        },
+        {
+          "id": "panaeva_1848",
+          "hunger": 72.09999999999611,
+          "mapId": "printshop",
+          "goal": "SCHEDULE",
+          "seller": null,
+          "selectedAtMinute": 541,
+          "routine": "WORKING"
+        },
+        {
+          "id": "panaev_1848",
+          "hunger": 72.09999999999611,
+          "mapId": "printshop",
+          "goal": "SCHEDULE",
+          "seller": null,
+          "selectedAtMinute": 541,
+          "routine": "WORKING"
+        },
+        {
+          "id": "porter_gavrila",
+          "hunger": 75.48000000000229,
+          "mapId": "market-quay",
+          "goal": "NEED_INCOME",
+          "seller": null,
+          "selectedAtMinute": 1740,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "student_vasily",
+          "hunger": 72.06000000000034,
+          "mapId": "nevsky",
+          "goal": "SCHEDULE",
+          "seller": null,
+          "selectedAtMinute": 1616,
+          "routine": "WORKING"
+        },
+        {
+          "id": "tenant_mikhail",
+          "hunger": 75.21999999999655,
+          "mapId": "courtyard",
+          "goal": "NEED_INCOME",
+          "seller": null,
+          "selectedAtMinute": 1740,
+          "routine": "RESTING"
+        },
+        {
+          "id": "watercarrier_luka",
+          "hunger": 71.96000000000245,
+          "mapId": "courtyard",
+          "goal": "SCHEDULE",
+          "seller": null,
+          "selectedAtMinute": 1620,
+          "routine": "WORKING"
+        }
+      ],
+      "meals": []
+    },
+    {
+      "day": 1,
+      "clockMinute": 420,
+      "sellers": [
+        {
+          "id": "fishseller_klavdiya",
+          "mapId": "market-quay",
+          "position": {
+            "x": 26,
+            "y": 13
+          },
+          "goal": "PREPARE_FOOD_SERVICE",
+          "targetMapId": "market-quay",
+          "taskId": "PREPARE_SERVICE:fishseller_klavdiya:생선 한 점:480",
+          "stock": {
+            "생선 한 점": 14
+          },
+          "preparedWork": [
+            "0:V36_FISHSELLER_RECEIVE_CATCH",
+            "0:V36_FISHSELLER_STOCK_TALLY",
+            "1:V36_FISHSELLER_RECEIVE_CATCH"
+          ],
+          "offers": [
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "market-quay",
+              "open": false,
+              "stock": 14
+            },
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "courtyard",
+              "open": false,
+              "stock": 14
+            }
+          ]
+        },
+        {
+          "id": "innkeeper_irina",
+          "mapId": "courtyard",
+          "position": {
+            "x": 8,
+            "y": 10
+          },
+          "goal": "SCHEDULE",
+          "targetMapId": "courtyard",
+          "taskId": null,
+          "stock": {
+            "저녁 수프": 7
+          },
+          "preparedWork": [
+            "0:V36_INNKEEPER_PREPARE_ROOMS",
+            "0:V36_INNKEEPER_EVENING_REGISTER",
+            "1:V36_INNKEEPER_PREPARE_ROOMS"
+          ],
+          "offers": [
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "inn-interior",
+              "open": false,
+              "stock": 7
+            },
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 7
+            }
+          ]
+        },
+        {
+          "id": "market_nadezhda",
+          "mapId": "market-quay",
+          "position": {
+            "x": 14,
+            "y": 11
+          },
+          "goal": "SCHEDULE",
+          "targetMapId": "market-quay",
+          "taskId": null,
+          "stock": {
+            "빵 한 묶음": 9
+          },
+          "preparedWork": [
+            "0:V36_MARKET_CHECK_SCALE",
+            "0:V36_MARKET_CLOSE_BREAD_STOCK",
+            "1:V36_MARKET_CHECK_SCALE"
+          ],
+          "offers": [
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "market-quay",
+              "open": false,
+              "stock": 9
+            },
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 9
+            }
+          ]
+        }
+      ],
+      "buyers": [
+        {
+          "id": "apothecary_yakov",
+          "hunger": 78.56000000000165,
+          "mapId": "nevsky",
+          "goal": "NEED_INCOME",
+          "seller": null,
+          "selectedAtMinute": 1680,
+          "routine": "WORKING"
+        },
+        {
+          "id": "carter_roman",
+          "hunger": 72.40000000000225,
+          "mapId": "market-quay",
+          "goal": "NEED_INCOME",
+          "seller": null,
+          "selectedAtMinute": 1800,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "clerk_alexei",
+          "hunger": 72.92000000000047,
+          "mapId": "courtyard",
+          "goal": "SCHEDULED_WORK",
+          "seller": null,
+          "selectedAtMinute": 1440,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "doctor_mikhail_1848",
+          "hunger": 74.19999999999591,
+          "mapId": "communal-room",
+          "goal": "SCHEDULE",
+          "seller": null,
+          "selectedAtMinute": 541,
+          "routine": "WORKING"
+        },
+        {
+          "id": "editor_sofia",
+          "hunger": 70.6000000000015,
+          "mapId": "printshop",
+          "goal": "SCHEDULE",
+          "seller": null,
+          "selectedAtMinute": 1471,
+          "routine": "WORKING"
+        },
+        {
+          "id": "housemaid_olga",
+          "hunger": 78.88000000000169,
+          "mapId": "nevsky",
+          "goal": "NEED_INCOME",
+          "seller": null,
+          "selectedAtMinute": 1692,
+          "routine": "WORKING"
+        },
+        {
+          "id": "innkeeper_irina",
+          "hunger": 75.23999999999535,
+          "mapId": "courtyard",
+          "goal": "SCHEDULE",
+          "seller": null,
+          "selectedAtMinute": 1601,
+          "routine": "WORKING"
+        },
+        {
+          "id": "landlady_polina",
+          "hunger": 77.56000000000165,
+          "mapId": "courtyard",
+          "goal": "SCHEDULE",
+          "seller": null,
+          "selectedAtMinute": 1686,
+          "routine": "WORKING"
+        },
+        {
+          "id": "midwife_avdotya",
+          "hunger": 74.23999999999535,
+          "mapId": "courtyard",
+          "goal": "SCHEDULE",
+          "seller": null,
+          "selectedAtMinute": 1591,
+          "routine": "WORKING"
+        },
+        {
+          "id": "nekrasov_reconstruction",
+          "hunger": 74.19999999999591,
+          "mapId": "printshop",
+          "goal": "SCHEDULE",
+          "seller": null,
+          "selectedAtMinute": 541,
+          "routine": "WORKING"
+        },
+        {
+          "id": "panaeva_1848",
+          "hunger": 74.19999999999591,
+          "mapId": "printshop",
+          "goal": "SCHEDULE",
+          "seller": null,
+          "selectedAtMinute": 541,
+          "routine": "WORKING"
+        },
+        {
+          "id": "panaev_1848",
+          "hunger": 74.19999999999591,
+          "mapId": "printshop",
+          "goal": "SCHEDULE",
+          "seller": null,
+          "selectedAtMinute": 541,
+          "routine": "WORKING"
+        },
+        {
+          "id": "porter_gavrila",
+          "hunger": 78.3600000000024,
+          "mapId": "nevsky",
+          "goal": "NEED_INCOME",
+          "seller": null,
+          "selectedAtMinute": 1740,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "scribal_yuri",
+          "hunger": 70.6000000000015,
+          "mapId": "courtyard",
+          "goal": "SCHEDULED_WORK",
+          "seller": null,
+          "selectedAtMinute": 1440,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "street_vendor_matryona",
+          "hunger": 70.07999999999595,
+          "mapId": "nevsky",
+          "goal": "NEED_INCOME",
+          "seller": null,
+          "selectedAtMinute": 1611,
+          "routine": "WORKING"
+        },
+        {
+          "id": "student_vasily",
+          "hunger": 73.9200000000007,
+          "mapId": "nevsky",
+          "goal": "SCHEDULE",
+          "seller": null,
+          "selectedAtMinute": 1616,
+          "routine": "WORKING"
+        },
+        {
+          "id": "tenant_mikhail",
+          "hunger": 78.03999999999637,
+          "mapId": "courtyard",
+          "goal": "PERSONAL_LIFE_PREPARATION",
+          "seller": null,
+          "selectedAtMinute": 1830,
+          "routine": "RESTING"
+        },
+        {
+          "id": "watercarrier_luka",
+          "hunger": 74.72000000000284,
+          "mapId": "courtyard",
+          "goal": "NEED_INCOME",
+          "seller": null,
+          "selectedAtMinute": 1860,
+          "routine": "TRAVELLING"
+        }
+      ],
+      "meals": []
+    },
+    {
+      "day": 1,
+      "clockMinute": 480,
+      "sellers": [
+        {
+          "id": "fishseller_klavdiya",
+          "mapId": "market-quay",
+          "position": {
+            "x": 26,
+            "y": 13
+          },
+          "goal": "MARKET_SERVICE",
+          "targetMapId": "market-quay",
+          "taskId": "SERVICE:fishseller_klavdiya:생선 한 점:480",
+          "stock": {
+            "생선 한 점": 14
+          },
+          "preparedWork": [
+            "0:V36_FISHSELLER_RECEIVE_CATCH",
+            "0:V36_FISHSELLER_STOCK_TALLY",
+            "1:V36_FISHSELLER_RECEIVE_CATCH"
+          ],
+          "offers": [
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "market-quay",
+              "open": true,
+              "stock": 14
+            },
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "courtyard",
+              "open": false,
+              "stock": 14
+            }
+          ]
+        },
+        {
+          "id": "innkeeper_irina",
+          "mapId": "courtyard",
+          "position": {
+            "x": 9,
+            "y": 10
+          },
+          "goal": "PURCHASE_MEAL",
+          "targetMapId": "market-quay",
+          "taskId": "FOOD:fishseller_klavdiya:생선 한 점",
+          "stock": {
+            "저녁 수프": 7
+          },
+          "preparedWork": [
+            "0:V36_INNKEEPER_PREPARE_ROOMS",
+            "0:V36_INNKEEPER_EVENING_REGISTER",
+            "1:V36_INNKEEPER_PREPARE_ROOMS"
+          ],
+          "offers": [
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "inn-interior",
+              "open": false,
+              "stock": 7
+            },
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 7
+            }
+          ]
+        },
+        {
+          "id": "market_nadezhda",
+          "mapId": "market-quay",
+          "position": {
+            "x": 14,
+            "y": 11
+          },
+          "goal": "PREPARE_FOOD_SERVICE",
+          "targetMapId": "market-quay",
+          "taskId": "PREPARE_SERVICE:market_nadezhda:빵 한 묶음:500",
+          "stock": {
+            "빵 한 묶음": 8
+          },
+          "preparedWork": [
+            "0:V36_MARKET_CHECK_SCALE",
+            "0:V36_MARKET_CLOSE_BREAD_STOCK",
+            "1:V36_MARKET_CHECK_SCALE"
+          ],
+          "offers": [
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "market-quay",
+              "open": true,
+              "stock": 8
+            },
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 8
+            }
+          ]
+        }
+      ],
+      "buyers": [
+        {
+          "id": "apothecary_yakov",
+          "hunger": 80.54000000000173,
+          "mapId": "nevsky",
+          "goal": "PURCHASE_MEAL",
+          "seller": "market_nadezhda",
+          "selectedAtMinute": 1920,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "carter_roman",
+          "hunger": 75.10000000000235,
+          "mapId": "printshop",
+          "goal": "PURCHASE_MEAL",
+          "seller": "market_nadezhda",
+          "selectedAtMinute": 1920,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "clerk_alexei",
+          "hunger": 74.78000000000083,
+          "mapId": "nevsky",
+          "goal": "SCHEDULED_WORK",
+          "seller": null,
+          "selectedAtMinute": 1440,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "courier_pavel",
+          "hunger": 71.3400000000006,
+          "mapId": "courtyard",
+          "goal": "PURCHASE_MEAL",
+          "seller": "fishseller_klavdiya",
+          "selectedAtMinute": 1920,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "doctor_mikhail_1848",
+          "hunger": 76.2999999999957,
+          "mapId": "communal-room",
+          "goal": "SCHEDULE",
+          "seller": null,
+          "selectedAtMinute": 541,
+          "routine": "WORKING"
+        },
+        {
+          "id": "editor_sofia",
+          "hunger": 72.40000000000157,
+          "mapId": "printshop",
+          "goal": "PURCHASE_MEAL",
+          "seller": "fishseller_klavdiya",
+          "selectedAtMinute": 1920,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "housemaid_olga",
+          "hunger": 80.92000000000205,
+          "mapId": "nevsky",
+          "goal": "PURCHASE_MEAL",
+          "seller": "market_nadezhda",
+          "selectedAtMinute": 1920,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "innkeeper_irina",
+          "hunger": 77.15999999999514,
+          "mapId": "courtyard",
+          "goal": "PURCHASE_MEAL",
+          "seller": "fishseller_klavdiya",
+          "selectedAtMinute": 1920,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "landlady_polina",
+          "hunger": 79.54000000000173,
+          "mapId": "courtyard",
+          "goal": "PURCHASE_MEAL",
+          "seller": "fishseller_klavdiya",
+          "selectedAtMinute": 1920,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "laundress_mariya",
+          "hunger": 70.71999999999576,
+          "mapId": "nevsky",
+          "goal": "PREPARE_TRADE",
+          "seller": "market_nadezhda",
+          "selectedAtMinute": 1830,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "midwife_avdotya",
+          "hunger": 76.15999999999514,
+          "mapId": "courtyard",
+          "goal": "PURCHASE_MEAL",
+          "seller": "fishseller_klavdiya",
+          "selectedAtMinute": 1920,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "nekrasov_reconstruction",
+          "hunger": 76.2999999999957,
+          "mapId": "printshop",
+          "goal": "SCHEDULE",
+          "seller": null,
+          "selectedAtMinute": 541,
+          "routine": "WORKING"
+        },
+        {
+          "id": "panaeva_1848",
+          "hunger": 76.2999999999957,
+          "mapId": "printshop",
+          "goal": "SCHEDULE",
+          "seller": null,
+          "selectedAtMinute": 541,
+          "routine": "WORKING"
+        },
+        {
+          "id": "panaev_1848",
+          "hunger": 76.2999999999957,
+          "mapId": "printshop",
+          "goal": "SCHEDULE",
+          "seller": null,
+          "selectedAtMinute": 541,
+          "routine": "WORKING"
+        },
+        {
+          "id": "porter_gavrila",
+          "hunger": 81.24000000000251,
+          "mapId": "market-quay",
+          "goal": "PURCHASE_MEAL",
+          "seller": "market_nadezhda",
+          "selectedAtMinute": 1920,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "scribal_yuri",
+          "hunger": 72.40000000000157,
+          "mapId": "nevsky",
+          "goal": "SCHEDULED_WORK",
+          "seller": null,
+          "selectedAtMinute": 1440,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "senior_clerk_konstantin",
+          "hunger": 70.02000000000307,
+          "mapId": "chancery",
+          "goal": "SCHEDULE",
+          "seller": null,
+          "selectedAtMinute": 1906,
+          "routine": "WORKING"
+        },
+        {
+          "id": "street_vendor_matryona",
+          "hunger": 72.71999999999576,
+          "mapId": "nevsky",
+          "goal": "PURCHASE_MEAL",
+          "seller": "market_nadezhda",
+          "selectedAtMinute": 1920,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "student_vasily",
+          "hunger": 75.78000000000105,
+          "mapId": "nevsky",
+          "goal": "PURCHASE_MEAL",
+          "seller": "market_nadezhda",
+          "selectedAtMinute": 1920,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "teacher_lyubov",
+          "hunger": 71.40000000000157,
+          "mapId": "courtyard",
+          "goal": "PURCHASE_MEAL",
+          "seller": "fishseller_klavdiya",
+          "selectedAtMinute": 1920,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "tenant_mikhail",
+          "hunger": 80.85999999999619,
+          "mapId": "courtyard",
+          "goal": "PURCHASE_MEAL",
+          "seller": "fishseller_klavdiya",
+          "selectedAtMinute": 1920,
+          "routine": "RESTING"
+        },
+        {
+          "id": "watercarrier_luka",
+          "hunger": 77.48000000000323,
+          "mapId": "courtyard",
+          "goal": "PURCHASE_MEAL",
+          "seller": "fishseller_klavdiya",
+          "selectedAtMinute": 1920,
+          "routine": "TRAVELLING"
+        }
+      ],
+      "meals": [
+        {
+          "hostId": "coachman_timofey",
+          "seller": "market_nadezhda",
+          "kind": "PURCHASE_AND_EAT",
+          "minute": 60
+        }
+      ]
+    },
+    {
+      "day": 1,
+      "clockMinute": 540,
+      "sellers": [
+        {
+          "id": "fishseller_klavdiya",
+          "mapId": "market-quay",
+          "position": {
+            "x": 26,
+            "y": 13
+          },
+          "goal": "MARKET_SERVICE",
+          "targetMapId": "market-quay",
+          "taskId": "SERVICE:fishseller_klavdiya:생선 한 점:480",
+          "stock": {
+            "생선 한 점": 14
+          },
+          "preparedWork": [
+            "0:V36_FISHSELLER_RECEIVE_CATCH",
+            "0:V36_FISHSELLER_STOCK_TALLY",
+            "1:V36_FISHSELLER_RECEIVE_CATCH"
+          ],
+          "offers": [
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "market-quay",
+              "open": true,
+              "stock": 14
+            },
+            {
+              "itemKo": "생선 한 점",
+              "mapId": "courtyard",
+              "open": false,
+              "stock": 14
+            }
+          ]
+        },
+        {
+          "id": "innkeeper_irina",
+          "mapId": "nevsky",
+          "position": {
+            "x": 20,
+            "y": 9
+          },
+          "goal": "PURCHASE_MEAL",
+          "targetMapId": "market-quay",
+          "taskId": "FOOD:fishseller_klavdiya:생선 한 점",
+          "stock": {
+            "저녁 수프": 7
+          },
+          "preparedWork": [
+            "0:V36_INNKEEPER_PREPARE_ROOMS",
+            "0:V36_INNKEEPER_EVENING_REGISTER",
+            "1:V36_INNKEEPER_PREPARE_ROOMS"
+          ],
+          "offers": [
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "inn-interior",
+              "open": false,
+              "stock": 7
+            },
+            {
+              "itemKo": "저녁 수프",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 7
+            }
+          ]
+        },
+        {
+          "id": "market_nadezhda",
+          "mapId": "market-quay",
+          "position": {
+            "x": 14,
+            "y": 11
+          },
+          "goal": "MARKET_SERVICE",
+          "targetMapId": "market-quay",
+          "taskId": "SERVICE:market_nadezhda:빵 한 묶음:500",
+          "stock": {
+            "빵 한 묶음": 7
+          },
+          "preparedWork": [
+            "0:V36_MARKET_CHECK_SCALE",
+            "0:V36_MARKET_CLOSE_BREAD_STOCK",
+            "1:V36_MARKET_CHECK_SCALE"
+          ],
+          "offers": [
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "market-quay",
+              "open": true,
+              "stock": 7
+            },
+            {
+              "itemKo": "빵 한 묶음",
+              "mapId": "nevsky",
+              "open": false,
+              "stock": 7
+            }
+          ]
+        }
+      ],
+      "buyers": [
+        {
+          "id": "apothecary_yakov",
+          "hunger": 82.5200000000018,
+          "mapId": "market-quay",
+          "goal": "PURCHASE_MEAL",
+          "seller": "fishseller_klavdiya",
+          "selectedAtMinute": 1921,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "carter_roman",
+          "hunger": 77.80000000000246,
+          "mapId": "market-quay",
+          "goal": "PURCHASE_MEAL",
+          "seller": "market_nadezhda",
+          "selectedAtMinute": 1920,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "clerk_alexei",
+          "hunger": 76.64000000000118,
+          "mapId": "chancery",
+          "goal": "SCHEDULED_WORK",
+          "seller": null,
+          "selectedAtMinute": 1440,
+          "routine": "WORKING"
+        },
+        {
+          "id": "courier_pavel",
+          "hunger": 73.92000000000098,
+          "mapId": "nevsky",
+          "goal": "PURCHASE_MEAL",
+          "seller": "fishseller_klavdiya",
+          "selectedAtMinute": 1920,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "doctor_mikhail_1848",
+          "hunger": 78.3999999999955,
+          "mapId": "communal-room",
+          "goal": "SCHEDULE",
+          "seller": null,
+          "selectedAtMinute": 541,
+          "routine": "WORKING"
+        },
+        {
+          "id": "editor_sofia",
+          "hunger": 74.20000000000164,
+          "mapId": "nevsky",
+          "goal": "PURCHASE_MEAL",
+          "seller": "fishseller_klavdiya",
+          "selectedAtMinute": 1920,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "fishseller_klavdiya",
+          "hunger": 71.48000000000229,
+          "mapId": "market-quay",
+          "goal": "MARKET_SERVICE",
+          "seller": null,
+          "selectedAtMinute": 1920,
+          "routine": "WORKING"
+        },
+        {
+          "id": "housemaid_olga",
+          "hunger": 82.96000000000241,
+          "mapId": "market-quay",
+          "goal": "PURCHASE_MEAL",
+          "seller": "market_nadezhda",
+          "selectedAtMinute": 1920,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "innkeeper_irina",
+          "hunger": 79.07999999999493,
+          "mapId": "nevsky",
+          "goal": "PURCHASE_MEAL",
+          "seller": "fishseller_klavdiya",
+          "selectedAtMinute": 1920,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "landlady_polina",
+          "hunger": 81.5200000000018,
+          "mapId": "nevsky",
+          "goal": "PURCHASE_MEAL",
+          "seller": "fishseller_klavdiya",
+          "selectedAtMinute": 1920,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "laundress_mariya",
+          "hunger": 73.35999999999558,
+          "mapId": "market-quay",
+          "goal": "FOLLOW_TRADE_PARTNER",
+          "seller": "market_nadezhda",
+          "selectedAtMinute": 1980,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "market_nadezhda",
+          "hunger": 71.92000000000101,
+          "mapId": "market-quay",
+          "goal": "MARKET_SERVICE",
+          "seller": null,
+          "selectedAtMinute": 1940,
+          "routine": "WORKING"
+        },
+        {
+          "id": "midwife_avdotya",
+          "hunger": 78.07999999999493,
+          "mapId": "nevsky",
+          "goal": "PURCHASE_MEAL",
+          "seller": "fishseller_klavdiya",
+          "selectedAtMinute": 1920,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "nekrasov_reconstruction",
+          "hunger": 78.3999999999955,
+          "mapId": "printshop",
+          "goal": "SCHEDULE",
+          "seller": null,
+          "selectedAtMinute": 541,
+          "routine": "WORKING"
+        },
+        {
+          "id": "panaeva_1848",
+          "hunger": 78.3999999999955,
+          "mapId": "printshop",
+          "goal": "SCHEDULE",
+          "seller": null,
+          "selectedAtMinute": 541,
+          "routine": "WORKING"
+        },
+        {
+          "id": "panaev_1848",
+          "hunger": 78.3999999999955,
+          "mapId": "printshop",
+          "goal": "SCHEDULE",
+          "seller": null,
+          "selectedAtMinute": 541,
+          "routine": "WORKING"
+        },
+        {
+          "id": "scribal_yuri",
+          "hunger": 74.20000000000164,
+          "mapId": "chancery",
+          "goal": "SCHEDULED_WORK",
+          "seller": null,
+          "selectedAtMinute": 1440,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "senior_clerk_konstantin",
+          "hunger": 71.76000000000285,
+          "mapId": "chancery",
+          "goal": "PERSONAL_LIFE_PREPARATION",
+          "seller": null,
+          "selectedAtMinute": 1950,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "street_vendor_matryona",
+          "hunger": 75.35999999999558,
+          "mapId": "market-quay",
+          "goal": "PURCHASE_MEAL",
+          "seller": "market_nadezhda",
+          "selectedAtMinute": 1920,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "student_vasily",
+          "hunger": 77.64000000000141,
+          "mapId": "market-quay",
+          "goal": "PURCHASE_MEAL",
+          "seller": "market_nadezhda",
+          "selectedAtMinute": 1920,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "teacher_lyubov",
+          "hunger": 73.20000000000164,
+          "mapId": "nevsky",
+          "goal": "PURCHASE_MEAL",
+          "seller": "fishseller_klavdiya",
+          "selectedAtMinute": 1920,
+          "routine": "TRAVELLING"
+        },
+        {
+          "id": "tenant_mikhail",
+          "hunger": 83.67999999999601,
+          "mapId": "courtyard",
+          "goal": "PURCHASE_MEAL",
+          "seller": "fishseller_klavdiya",
+          "selectedAtMinute": 1920,
+          "routine": "RESTING"
+        },
+        {
+          "id": "watercarrier_luka",
+          "hunger": 80.24000000000362,
+          "mapId": "nevsky",
+          "goal": "PURCHASE_MEAL",
+          "seller": "fishseller_klavdiya",
+          "selectedAtMinute": 1920,
+          "routine": "TRAVELLING"
+        }
+      ],
+      "meals": [
+        {
+          "hostId": "porter_gavrila",
+          "seller": "market_nadezhda",
+          "kind": "PURCHASE_AND_EAT",
+          "minute": 10
+        }
+      ]
+    }
+  ],
+  "hash": "4f03ab4a"
+}

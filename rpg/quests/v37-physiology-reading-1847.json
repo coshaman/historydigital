@@ -5,12 +5,12 @@
   "chapterId": "V33_1847_PRINT",
   "date": "1847-06-01",
   "requiresLivingEventId": "E39",
-  "sourceIds": ["LIT-TURGENEV-KHOR-KALYNYCH-1847"],
+  "sourceIds": ["LIT-TURGENEV-KHOR-KALYNYCH-1847", "V37-SOVREMENNIK-1847-T1-1-2", "MOD-RVB-TURGENEV-KHOR-1847"],
   "premiseKo": "다리야가 투르게네프의 글을 펼친다. 호리와 칼리니치, 두 농노의 다른 삶을 두고 독자들이 말을 보탠다.",
   "historicalOutcome": {
     "id": "E39_FICTIONAL_READING_AND_SALE",
     "value": "A fictional reading and book transaction; the text and its 1847 publication remain unchanged.",
-    "sourceIds": ["LIT-TURGENEV-KHOR-KALYNYCH-1847"]
+    "sourceIds": ["LIT-TURGENEV-KHOR-KALYNYCH-1847", "V37-SOVREMENNIK-1847-T1-1-2", "MOD-RVB-TURGENEV-KHOR-1847"]
   },
   "entry": { "mapId": "bookshop-interior", "objectId": 4015, "requiredHostId": "reader_darya" },
   "actions": [
@@ -26,6 +26,7 @@
       "subcopyKo": "레프에게 돈을 내고 책 한 부를 가져갑니다 · 다리야도 거래를 봅니다 · 장부에 판매가 남습니다",
       "resultKo": "바실리가 책값을 치르고 한 부를 샀다. 레프는 값을 받아 장부에 적었다.",
       "resultFlag": "e39_copy_purchased",
+      "balanceEstimate": { "field": "effects.moneyDelta", "amount": 2, "unit": "kopeks", "evidenceClass": "BALANCE_ESTIMATE" },
       "effects": { "moneyDelta": -2, "inventoryAdd": ["《현대인》 1847년 제1호 · 「호리와 칼리니치」"], "relations": { "bookseller_lev": "책을 산 독자" } }
     },
     {

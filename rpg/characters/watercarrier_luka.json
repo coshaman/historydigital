@@ -113,7 +113,9 @@
     "market-quay",
     "printshop",
     "chancery",
-    "canal-road"
+    "canal-road",
+    "communal-room",
+    "bakery-interior"
   ],
   "start": {
     "mapId": "courtyard",
@@ -159,7 +161,12 @@
         "outputKo": "물동이를 채우고 안뜰의 배달 순서를 확인한다",
         "durationMinutes": 20,
         "inventoryItemKo": "물동이 한 개",
-        "payroll": { "payerHostId": "landlady_polina", "amount": 1, "unit": "kopeks", "valueStatus": "fictional_gameplay_balance" },
+        "payroll": {
+          "payerHostId": "landlady_polina",
+          "amount": 1,
+          "unit": "kopeks",
+          "valueStatus": "fictional_gameplay_balance"
+        },
         "skillId": "waterDelivery"
       }
     },

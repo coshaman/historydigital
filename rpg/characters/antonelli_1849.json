@@ -1,0 +1,130 @@
+{
+  "id": "antonelli_1849",
+  "kind": "HISTORICAL_RECONSTRUCTION",
+  "displayNameKo": "안토넬리",
+  "displayNameRu": "Антонелли",
+  "ageAtDate": {
+    "value": null,
+    "status": "not established in this scenario data"
+  },
+  "socialEstate": "not asserted beyond checked source records",
+  "occupation": "페트라솁스키 모임 사건의 정보원으로 기록된 인물",
+  "rank": {
+    "value": null,
+    "ru": null,
+    "status": "not_applicable"
+  },
+  "wealthBracket": "unknown",
+  "money": {
+    "amount": null,
+    "unit": null,
+    "status": "not established"
+  },
+  "literacy": "not established beyond cited records",
+  "health": "not represented",
+  "reputationByGroup": {},
+  "risk": "Personal circumstances beyond the cited record are not asserted.",
+  "relations": {},
+  "secretKnowledge": [],
+  "knownEvidence": [],
+  "privateKnowledgeIds": [],
+  "knownEvidenceIds": [],
+  "desires": "현장에서 들은 말과 직접 본 일을 구분한다.",
+  "fears": "No private fear is asserted without a source.",
+  "taboos": [
+    "대사를 실제 발언이나 사료 인용으로 제시하지 않는다.",
+    "허용된 날짜 이후의 자료를 미리 알지 않는다.",
+    "확인되지 않은 사적 지식을 사실처럼 말하지 않는다."
+  ],
+  "speechRhythm": "관찰 가능한 일과 추측을 나누어 짧게 말한다. 내면과 동기는 사료 범위를 넘겨 단정하지 않는다.",
+  "lexicon": [],
+  "emotions": [],
+  "personalObjective": "현장에서 들은 말과 직접 본 일을 구분한다.",
+  "speechRegister": {
+    "firstMeeting": "낯선 사람에게는 용건부터 묻습니다.",
+    "colleague": "함께 일하는 사람에게 짧고 구체적으로 부탁합니다.",
+    "private": "둘만 있으면 걱정되는 일을 솔직히 꺼냅니다.",
+    "conflict": "목소리를 높이기보다 지금 필요한 일을 따집니다.",
+    "intimacy": "가까운 이에게는 안부와 피로를 먼저 묻습니다.",
+    "formal": "기관이나 책임자 앞에서는 존칭을 지키고 보고합니다."
+  },
+  "voiceSamples": [
+    "그 물은 어디서 길어 왔어요?",
+    "깨끗한 천이 더 필요하오.",
+    "오늘은 문을 닫고 환자 곁에 있겠소."
+  ],
+  "worldview": {
+    "blindSpotKo": "급한 환자를 돌보다 보면 집안의 생계가 얼마나 버티는지 놓치기 쉽다."
+  },
+  "allowedMaps": [
+    "nevsky",
+    "morskaya-intersection"
+  ],
+  "start": {
+    "mapId": "nevsky",
+    "x": 20,
+    "y": 8
+  },
+  "inventory": [],
+  "sourceIds": [
+    "OBJ-WS-PETRASHEVSKY-REPORT-1849"
+  ],
+  "canonConstraint": "The person is a source-bounded reconstruction; scene dialogue is newly authored and not a historical quotation.",
+  "sprite": {
+    "file": "assets/v47-role-sprite.svg",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "original generic role silhouette"
+  },
+  "spriteAtlas": {
+    "file": "assets/v47-role-sprite.svg",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "directions": 4,
+    "framesPerDirection": 3,
+    "directionRows": {
+      "down": 0,
+      "up": 1,
+      "left": 2,
+      "right": 3
+    }
+  },
+  "portrait": {
+    "file": "assets/v47-role-portrait.svg",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "ORIGINAL_GENERIC_GAME_ART"
+  },
+  "schedule": [
+    {
+      "atMinute": 540,
+      "mapId": "nevsky",
+      "position": {
+        "x": 20,
+        "y": 8
+      },
+      "activityKo": "현장에서 들은 말과 직접 본 일을 구분한다."
+    }
+  ],
+  "objectiveByChapter": {
+    "V33_1849_PRELUDE": "현장에서 들은 말과 직접 본 일을 구분한다.",
+    "V33_1849_CIRCLE": "현장에서 들은 말과 직접 본 일을 구분한다."
+  },
+  "presenceWindow": {
+    "startDate": "1849-04-27",
+    "endDate": "1849-05-04",
+    "start": {
+      "mapId": "nevsky",
+      "position": {
+        "x": 20,
+        "y": 8
+      }
+    }
+  },
+  "v47DialogueContext": {
+    "voiceKo": "관찰 가능한 일과 추측을 나누어 짧게 말한다. 내면과 동기는 사료 범위를 넘겨 단정하지 않는다.",
+    "sourceBoundKnowledge": [
+      "수사 문서가 다루는 모임과 감시의 범위"
+    ]
+  }
+}

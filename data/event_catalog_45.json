@@ -1242,7 +1242,14 @@
       "edition": "Санкт-Петербург: издание книгопродавца А. Иванова, 1845",
       "recordRange": "Президентская библиотека, bibliographic record and contents listing, lines 45–53",
       "url": "https://www.prlib.ru/item/1327533",
-      "evidenceScope": "Confirms the publication and essay title. The individual street performance and characters in this game remain a fictional simulation."
+      "evidenceScope": "Confirms the publication and essay title. The individual street performance and characters in this game remain a fictional simulation.",
+      "textSourceId": "LIT-GRIGOROVICH-SHARMANSCHIKI-1845",
+      "textRange": {
+        "sections": ["II. Разряды шарманщиков", "III. Итальянские шарманщики", "IV. Русские и немецкие шарманщики"],
+        "transcriptionLocator": "The web transcription uses these exact section headings; in its page text they appear at lines 106, 124, and 148.",
+        "editionCollation": "NOT_COLLATION_CHECKED_AGAINST_1845_SCAN",
+        "scope": "Contemporary literary description of street musicians, their equipment, performance, housing, and precarious earnings; not a statistical record or proof of the game character's biography."
+      }
     },
     "player_actions": [
       "동전주기",

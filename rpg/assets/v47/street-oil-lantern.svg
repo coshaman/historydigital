@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="36" height="64" viewBox="0 0 36 64" shape-rendering="crispEdges">
+  <defs>
+    <linearGradient id="glow" x2="0" y2="1"><stop stop-color="#f4d783" stop-opacity=".48"/><stop offset="1" stop-color="#f4d783" stop-opacity="0"/></linearGradient>
+  </defs>
+  <path d="M9 9h18v13H9z" fill="url(#glow)"/>
+  <path d="M16 55h5v5h-5zM17 27h3v29h-3z" fill="#302b27"/>
+  <path d="M15 57h7v2h-7zM15 61h7v2h-7z" fill="#625443"/>
+  <path d="M17 10V7h7v2h4v3h-2v11h-2v4h-8v-4h-2V12h-2V9h5z" fill="#332f2a"/>
+  <path d="M17 12h8v9h-8z" fill="#bba66e"/>
+  <path d="M18 13h2v7h-2zM22 13h2v7h-2z" fill="#e8d38e"/>
+  <path d="M16 22h10v2H16zM18 24h6v2h-6z" fill="#51483a"/>
+  <path d="M24 8h4v2h-4zM12 9h4v2h-4z" fill="#51483a"/>
+  <path d="M17 5h7v2h-7zM18 3h5v2h-5z" fill="#695841"/>
+</svg>

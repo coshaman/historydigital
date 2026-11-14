@@ -111,7 +111,8 @@
     "market-quay",
     "nevsky",
     "courtyard",
-    "bakery-interior"
+    "bakery-interior",
+    "inn-interior"
   ],
   "start": {
     "mapId": "market-quay",
@@ -185,10 +186,10 @@
       "workAction": {
         "id": "V36_BAKER_PREPARE_DOUGH",
         "outputKind": "제빵 생산",
-        "outputKo": "장터에 보낼 빵 묶음 여섯 개를 굽는다",
+        "outputKo": "장터에 보낼 빵 묶음 열여덟 개를 굽는다",
         "durationMinutes": 20,
         "inventoryItemKo": "빵 한 묶음",
-        "inventoryQuantity": 6,
+        "inventoryQuantity": 18,
         "skillId": "breadMaking"
       }
     },
@@ -209,7 +210,7 @@
         "marketStockReturn": {
           "sellerHostId": "market_nadezhda",
           "itemKo": "빵 한 묶음",
-          "maximumQuantity": 6,
+          "maximumQuantity": 18,
           "refundPerItem": 3,
           "interactionRadius": 1
         }
@@ -232,8 +233,8 @@
         "notBeforeMinute": 1080,
         "deadlineMinute": 1260,
         "itemKo": "빵 한 묶음",
-        "quantity": 6,
-        "moneyAmount": 6,
+        "quantity": 18,
+        "moneyAmount": 18,
         "relationshipKo": "빵값을 치른 거래 이웃",
         "recipientRelationshipKo": "빵을 산 거래 이웃"
       }

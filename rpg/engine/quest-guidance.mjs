@@ -79,7 +79,7 @@ function destination({ state, maps, host, target }) {
     const exitTarget = path[0], exitMap = maps[exitTarget.mapId];
     const directions = walkPath(state, exitMap, exitTarget, { radius: 1 });
     if (!directions) return { target: null, route: path, blocked: true, blockedReasonKo: '출구까지 갈 수 있는 길을 찾지 못했습니다.' };
-    return { target: { ...exitTarget, kind: 'exit', finalMapId: target.mapId }, route: path, walkDirections: directions, blocked: false, placeKo: `${maps[target.mapId]?.metadata.displayNameKo ?? target.mapId}로 가는 길` };
+    return { target: { ...exitTarget, kind: 'exit', finalMapId: target.mapId }, route: path, walkDirections: directions, blocked: false, placeKo: maps[target.mapId]?.metadata.displayNameKo ?? target.mapId };
   }
   const objectMap = maps[target.mapId], directions = walkPath(state, objectMap, target, { radius: target.kind === 'npc' ? 2 : 1, targetHostId: target.npcId });
   if (!directions) return { target: null, route: [], blocked: true, blockedReasonKo: '목적지까지 이어지는 걸을 수 있는 길이 없습니다.' };
@@ -99,6 +99,12 @@ export function guideToResident({ state, maps, hostCards, targetHostId }) {
   }
   if (place.blocked) return place;
   return { ...place, howKo: `${pathKo(place.walkDirections)}${place.target?.kind === 'exit' ? ' 출구를 지나 표시된 구역으로 가세요.' : ' 인물 곁에서 말을 거세요.'}` };
+}
+
+export function formatMissionActionKo(guidance, fallback = '') {
+  const action = guidance?.actionKo ?? fallback;
+  const place = guidance?.placeKo?.trim();
+  return place && !action.includes(place) ? `${action} · ${place}` : action;
 }
 
 export function resolveQuestGuidance({ state, quests, maps, hostCards }) {
@@ -232,7 +238,7 @@ export function resolveQuestGuidance({ state, quests, maps, hostCards }) {
     if (targetHost && available) return { ...base, taskType: 'SWITCH', actionKo: `${targetHost.card.displayNameKo}에게 몸을 맡기세요`, reasonKo: `${quest.titleKo}은(는) ${targetHost.card.displayNameKo}가 맡을 수 있습니다.`, howKo: `${pathKo(available.walkDirections)} 가까이서 E로 살펴보세요.`, placeKo: map.metadata.displayNameKo, target: { mapId, kind: 'npc', npcId: targetHost.person.id, x: targetHost.person.position.x, y: targetHost.person.position.y }, blocked: false };
     if (targetHost?.person && targetHost.person.mapId !== mapId) {
       const route = targetHost.route ?? routeFrom(mapId, targetHost.person.mapId, embodied, maps);
-      if (route?.length && targetHost.walkDirections) return { ...base, taskType: 'TRAVEL', actionKo: `${targetHost.card.displayNameKo}가 있는 ${maps[targetHost.person.mapId]?.metadata.displayNameKo}로 가세요`, reasonKo: `${quest.titleKo}은(는) ${targetHost.card.displayNameKo}가 맡을 수 있습니다.`, howKo: `${pathKo(targetHost.walkDirections)} 현재 몸이 통과할 수 있는 길입니다.`, placeKo: `${maps[targetHost.person.mapId]?.metadata.displayNameKo}로 가는 길`, target: { ...route[0], kind: 'exit', finalMapId: targetHost.person.mapId }, route, blocked: false };
+      if (route?.length && targetHost.walkDirections) return { ...base, taskType: 'TRAVEL', actionKo: `표시된 출구로 이동하세요`, reasonKo: `${quest.titleKo}은(는) ${targetHost.card.displayNameKo}가 맡을 수 있습니다.`, howKo: `${pathKo(targetHost.walkDirections)} 현재 몸이 통과할 수 있는 길입니다.`, placeKo: maps[targetHost.person.mapId]?.metadata.displayNameKo, target: { ...route[0], kind: 'exit', finalMapId: targetHost.person.mapId }, route, blocked: false };
       const publicRoute = targetHost.publicRoute ?? routeFrom(mapId, targetHost.person.mapId, null, maps);
       if (publicRoute?.length) return { ...base, taskType: 'RELEASE', actionKo: `현재 몸을 놓아주세요`, reasonKo: `${quest.titleKo}은(는) ${targetHost.card.displayNameKo}가 맡을 수 있습니다.`, howKo: '화면의 놓아주기를 누르세요. 관찰자가 되면 공개된 길로 그 사람을 찾아갈 수 있습니다.', placeKo: maps[targetHost.person.mapId]?.metadata.displayNameKo, target: null, blocked: false };
     }
@@ -253,7 +259,7 @@ export function resolveQuestGuidance({ state, quests, maps, hostCards }) {
   }
   if (!entryTarget) return { ...base, taskType: 'COMPLETE', actionKo: '이 사건 자료를 열 수 없습니다', reasonKo: '목표 문서가 지도에 연결되지 않았습니다.', howKo: '수첩에서 다른 인물의 일을 확인하세요.', placeKo: map.metadata.displayNameKo, target: null, blocked: true };
   const place = destination({ state, maps, host: embodied, target: entryTarget });
-  const stepAction = place.target?.kind === 'exit' ? `표시된 출구로 가서 ${place.placeKo}로 이동하세요` : `「${entryTarget.name}」 곁에서 E를 눌러 살펴보세요`;
+  const stepAction = place.target?.kind === 'exit' ? '표시된 출구로 이동하세요' : `「${entryTarget.name}」 곁에서 E를 눌러 살펴보세요`;
   return { ...base, taskType: place.target?.kind === 'exit' ? 'TRAVEL' : 'INSPECT', actionKo: stepAction,
     reasonKo: '이 자료를 확인해야 이 사건에서 할 수 있는 선택을 알 수 있습니다.',
     howKo: place.target?.kind === 'exit' ? `${pathKo(place.walkDirections)} 인물이 갈 수 있는 곳만 이동합니다.` : `${pathKo(place.walkDirections)}${place.target?.kind === 'object' ? ' E를 누르세요.' : ''}`,

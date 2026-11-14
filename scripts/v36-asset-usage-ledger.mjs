@@ -94,11 +94,37 @@ const definitions = [
   ['SHARED_FIREWOOD_STACK','장작 더미','HOUSEHOLD_FUEL'],
   ['CART_WHEEL_REPAIR_TOOLS','수레 수리 공구','TRANSPORT_EQUIPMENT'],
   ['RIVER_WATER_PIXEL_SURFACE','강과 운하를 나타내는 게임용 물 표면','WATER_SURFACE'],
+  ['PRINTSHOP_HAND_PRESS_LEFT','인쇄 작업대와 나사식 압판의 왼쪽 부분','PRINTSHOP_EQUIPMENT'],
+  ['PRINTSHOP_HAND_PRESS_RIGHT','인쇄 작업대와 나사식 압판의 오른쪽 부분','PRINTSHOP_EQUIPMENT'],
+  ['PRINTSHOP_HAND_PRESS_BOTTOM_LEFT','인쇄기 받침과 종이 놓는 판','PRINTSHOP_EQUIPMENT'],
+  ['PRINTSHOP_HAND_PRESS_BOTTOM_RIGHT','인쇄기의 오른쪽 받침과 잉크판','PRINTSHOP_EQUIPMENT'],
+  ['ALMANAC_UNBOUND_SHEETS','끈으로 묶은 미제본 연감 인쇄지','PRINTSHOP_STOCK'],
+  ['ALMANAC_COVER_AND_TITLEPAGE','연감 표제면을 본뜬 게임용 책 표지','PRINTED_MATTER'],
+  ['PRINTSHOP_TYPE_CASE_DRAWERS','금속 활자를 나누어 둔 서랍장','PRINTSHOP_EQUIPMENT'],
+  ['PRINTSHOP_OIL_LAMP','작업대 위 등잔','PRINTSHOP_FIXTURE'],
+  ['PRINTSHOP_INK_AND_DABBER','인쇄용 잉크와 문지르는 도구','PRINTSHOP_EQUIPMENT'],
+  ['PRINTSHOP_DRYING_RACK','마른 종이를 올려두는 선반','PRINTSHOP_EQUIPMENT'],
+  ['NEVSKY_OCHRE_ARCADE_FACADE','아치형 상가를 참고한 황토빛 외벽','STREET_FACADE'],
+  ['NEVSKY_ARCADE_BAY','상점가 아치 한 칸','STREET_FACADE'],
+  ['NEVSKY_SASH_WINDOW','키 큰 격자창과 창틀','STREET_WINDOW'],
+  ['NEVSKY_IRON_LANTERN','거리의 철제 등불','STREET_FIXTURE'],
+  ['NEVSKY_STRIPED_AWNING','가게 앞 차양','SHOP_FIXTURE'],
+  ['PRINTSHOP_PLASTER_WAINSCOT','회벽과 낮은 목재 벽널','PRINTSHOP_WALL'],
+  ['PRINTSHOP_WORN_WORK_FLOOR','작업대 주변이 닳은 나무 바닥','PRINTSHOP_FLOOR'],
+  ['PRINTSHOP_BINDING_CORD_PAPER','제본 끈과 포장 종이 묶음','PRINTSHOP_SUPPLY'],
+  ['PRINTSHOP_TYPE_SORT_TRAY','활자를 정리하는 낮은 서랍','PRINTSHOP_EQUIPMENT'],
+  ['PRINTSHOP_PROOF_DRYING_RACK','교정쇄를 말리는 걸이 선반','PRINTSHOP_EQUIPMENT'],
+  ['PRINTSHOP_HAND_PRESS','손으로 누르는 나무 인쇄기','PRINTSHOP_EQUIPMENT'],
+  ['PRINTSHOP_PROOF_STACK','검토 중인 교정쇄 묶음','PRINTSHOP_SUPPLY'],
+  ['PRINTSHOP_BOUND_ALMANACS','제본된 연감 묶음','PRINTED_MATTER'],
+  ['PRINTSHOP_WORN_PLANKS','오래 밟아 닳은 작업장 널판','PRINTSHOP_FLOOR'],
+  ['PRINTSHOP_REPLACED_PLANKS','새로 갈아 끼운 바닥 널판','PRINTSHOP_FLOOR'],
+  ['PRINTSHOP_INK_STAINED_FLOOR','인쇄기 곁에 밴 잉크 자국','PRINTSHOP_FLOOR'],
 ];
 
 const lines = (await readFile(file, 'utf8')).trimEnd().split(/\r?\n/);
 const headers = lines[0];
-if (lines.length !== 86 || definitions.length !== 85) throw new Error('expected a header and exactly 85 atlas entries');
+if (lines.length !== 112 || definitions.length !== 111) throw new Error('expected a header and exactly 111 atlas entries');
 const quote = value => `"${String(value).replaceAll('"','""')}"`;
 const rows = lines.slice(1).map((line, index) => {
   const columns = [...line.matchAll(/"((?:[^"]|"")*)"/g)].map(match => match[1].replaceAll('""','"'));
@@ -151,6 +177,15 @@ const rows = lines.slice(1).map((line, index) => {
     columns[6] = 'https://rusneb.ru/catalog/000199_000009_009492648/';
     columns[7] = '창작 픽셀 타일의 제한적 장면 참고: Щедровский의 1845년 집단 석판화 판 8에서 짧은 나무 조각이 쌓인 모습을 확인했다. 도판 목록은 물장수와 장작 운반인을 함께 열거하지만, 구체적 목재 종류·치수·보관 관행·게임 좌표를 입증하지 않는다.';
     if (!columns[7].includes('입증하지 않는다')) throw new Error('GID 83 must state its evidence limits.');
+  } else if (gid >= 96 && gid <= 100) {
+    const sourceId = 'V47-ART-SADOVNIKOV-PASSAGE-1848';
+    const sourceUrl = 'https://rusmuseumvrm.ru/data/collections/drawings/r-42572/index.php?lang=en';
+    requireSource(sourceId, sourceUrl);
+    columns[4] = 'CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE';
+    columns[5] = sourceId;
+    columns[6] = sourceUrl;
+    columns[7] = '창작 픽셀 타일의 제한적 장면 참고: 러시아 박물관의 사도브니코프 「네프스키 거리. 파사주」는 1848년보다 이르지 않은 작품이다. 상가 외벽·아치형 개구부·거리의 마차와 보행자라는 넓은 장면 구성만 참고한다. 타일의 정확한 건축 세부·재료·색·게임 좌표·1848년 특정 날짜의 외관을 입증하지 않으며, 박물관 이미지 복제본은 배포하지 않는다.';
+    if (!columns[7].includes('복제본은 배포하지') || !columns[7].includes('게임 좌표')) throw new Error(`GID ${gid} must bound the 1848 street reference and reproduction rights.`);
   } else if (gid >= 61) {
     if (columns[4] !== 'UNVERIFIED_RECONSTRUCTION' || columns[5] || columns[6] || !columns[7].includes('UNVERIFIED_RECONSTRUCTION')) {
       throw new Error(`GID ${gid} must not imply direct historical support without an inspected item-level source.`);
@@ -170,8 +205,8 @@ const rows = lines.slice(1).map((line, index) => {
 });
 const serialized = `${headers}\n${rows.join('\n')}\n`;
 const parsedRows = serialized.trimEnd().split(/\r?\n/).slice(1).map(line => [...line.matchAll(/"((?:[^"]|"")*)"/g)].map(match => match[1].replaceAll('""','"')));
-if (parsedRows.filter(row => row[4] === 'CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE').length !== 5) throw new Error('expected exactly five bounded source-inspired environmental tiles');
-for (const gid of [19, 46, 47, 48, 49]) {
+if (parsedRows.filter(row => row[4] === 'CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE').length !== 10) throw new Error('expected ten bounded source-inspired environmental tiles');
+for (const gid of [19, 46, 47, 48, 49, 96, 97, 98, 99, 100]) {
   const row = parsedRows[gid - 1];
   if (!row[5] || !row[6] || !sourceById.has(row[5])) throw new Error(`GID ${gid} lost its registered source context`);
 }

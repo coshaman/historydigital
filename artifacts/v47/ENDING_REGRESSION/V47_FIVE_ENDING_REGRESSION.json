@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "V47_FIVE_ENDING_REGRESSION_V1",
+  "status": "PASS",
+  "scope": "one reducer route per authored ending; the exhaustive 121-vector matrix was not rerun",
+  "routes": [
+    {
+      "endingId": "UVAROV",
+      "routeVariant": 0,
+      "resultingEnding": "UVAROV",
+      "hostCount": 5,
+      "sourceCount": 7,
+      "circleLearning": "attended",
+      "examOutcome": "passed",
+      "promotionStatus": "promoted",
+      "finalDate": "1849-05-05"
+    },
+    {
+      "endingId": "BELINSKY",
+      "routeVariant": 0,
+      "resultingEnding": "BELINSKY",
+      "hostCount": 5,
+      "sourceCount": 7,
+      "circleLearning": "attended",
+      "examOutcome": "failed",
+      "promotionStatus": "not-promoted",
+      "finalDate": "1849-05-05"
+    },
+    {
+      "endingId": "HERZEN",
+      "routeVariant": 0,
+      "resultingEnding": "HERZEN",
+      "hostCount": 5,
+      "sourceCount": 7,
+      "circleLearning": "declined",
+      "examOutcome": "deferred",
+      "promotionStatus": "pending",
+      "finalDate": "1849-05-05"
+    },
+    {
+      "endingId": "KHOMYAKOV",
+      "routeVariant": 0,
+      "resultingEnding": "KHOMYAKOV",
+      "hostCount": 6,
+      "sourceCount": 7,
+      "circleLearning": "attended",
+      "examOutcome": "helped-peer",
+      "promotionStatus": "pending",
+      "finalDate": "1849-05-05"
+    },
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "routeVariant": 0,
+      "resultingEnding": "DOSTOEVSKY_PETRASHEVSKY",
+      "hostCount": 5,
+      "sourceCount": 7,
+      "circleLearning": "attended",
+      "examOutcome": "passed",
+      "promotionStatus": "promoted",
+      "finalDate": "1849-05-05"
+    }
+  ]
+}

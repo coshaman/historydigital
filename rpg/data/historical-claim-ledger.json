@@ -225,6 +225,104 @@
         "file": "rpg/maps/semenovsky-square.json",
         "objectId": 301
       }
+    },
+    {
+      "claimId": "V47-PANAEV-ALMANAC-REQUEST",
+      "claimClass": "SOURCE_ASSERTION",
+      "sourceId": "V47-PANAEV-LETTER-1848-08-20",
+      "paragraphIndex": 3,
+      "arcId": "V33_1848_PUBLIC",
+      "questId": "V47_MAIN01_A05",
+      "claimKo": "1848년 8월 20일 편지에서 파나예프는 연감을 9월호 또는 10월호와 함께 발행하도록 허가해 달라고 요청했다.",
+      "useKo": "연감의 수록 내용과 발행 허가 요청을 두고 관청에서 대응하는 장면",
+      "useRef": {
+        "file": "rpg/data/v47-story-beats.mjs",
+        "questId": "V47_MAIN01_A05"
+      }
+    },
+    {
+      "claimId": "V47-KRYLOV-ALMANAC-ASSESSMENT",
+      "claimClass": "PRIMARY_ARCHIVAL_ASSESSMENT_SCHOLARLY_TRANSCRIPTION",
+      "sourceId": "V47-KRYLOV-ASSESSMENT-1848-09-06",
+      "sourceLocator": "RGIA ф. 772, оп. 1, ед. хр. 2157, л. 11–14; cited and transcribed at Wikisource lines 232–234",
+      "arcId": "V33_1848_PUBLIC",
+      "questId": "V47_MAIN01_A05",
+      "claimKo": "크릴로프의 1848년 9월 6일 심사 의견은 연감의 작품 구성이 독자에게 미칠 영향을 문제 삼고 「탈니코프 가족」 등을 지목했다.",
+      "useKo": "심사 의견의 실제 논거를 읽고 허가 요청과 비교한다. 보관소 원본 이미지는 대조하지 않았다.",
+      "useRef": {
+        "file": "rpg/data/historical-source-packets.json",
+        "sourceId": "V47-KRYLOV-ASSESSMENT-1848-09-06"
+      }
+    },
+    {
+      "claimId": "V47-MUSIN-PUSHKIN-UNSIGNED-BAN-MARGIN-NOTE",
+      "claimClass": "UNSIGNED_ARCHIVAL_MARGIN_NOTE_SCHOLARLY_TRANSCRIPTION",
+      "sourceId": "V47-MUSIN-PUSHKIN-REPORT-MARGIN-NOTE-1848-10-15",
+      "sourceLocator": "RGIA ф. 772, оп. 1, ед. хр. 2157, л. 8–9; Wikisource lines 239–240",
+      "arcId": "V33_1848_PUBLIC",
+      "questId": "V47_MAIN01_DISTRIBUTION_BAN",
+      "claimKo": "10월 15일 보고서 여백에는 서명 없는 금지 메모가 남아 있고, 10월 20일 정식 배포 금지는 별도로 기록되어 있다.",
+      "useKo": "여백 메모와 정식 금지 결정을 구별해 보여준다.",
+      "useRef": {
+        "file": "rpg/data/source-register.json",
+        "sourceId": "V47-MUSIN-PUSHKIN-REPORT-MARGIN-NOTE-1848-10-15"
+      }
+    },
+    {
+      "claimId": "V47-NEKRASOV-ALMANAC-ANNOUNCED-CONTENTS",
+      "claimClass": "SOURCE_ASSERTION",
+      "sourceId": "V47-NEKRASOV-ALMANAC-CONTENTS-1848",
+      "paragraphIndex": 1,
+      "arcId": "V33_1848_PUBLIC",
+      "questId": "V47_MAIN01_A01",
+      "claimKo": "1848년 편집부 공고는 《삽화 연감》에 「탈니코프 가족」과 여러 작품·그림이 실릴 예정이라고 예고했다.",
+      "useKo": "연감의 기획 목차를 확인하고 인쇄소에서 예고와 실제 판본을 구분한다.",
+      "useRef": {
+        "file": "rpg/data/historical-source-packets.json",
+        "sourceId": "V47-NEKRASOV-ALMANAC-CONTENTS-1848"
+      }
+    },
+    {
+      "claimId": "V47-ALMANAC-DISTRIBUTION-BAN-DATE",
+      "claimClass": "LATER_SCHOLARLY_EDITORIAL_NOTE",
+      "sourceId": "V47-ALMANAC-CENSORSHIP-EDITORIAL",
+      "sourceLocator": "Wikisource editorial note lines 119–120; 1997 collected edition, vol. 13, book 1, pp. 369–373",
+      "arcId": "V33_1848_PUBLIC",
+      "questId": "V47_MAIN01_DISTRIBUTION_BAN",
+      "claimKo": "1997년 학술 전집의 편집 주석은 1848년 2월 26일 검열 허가와 10월 20일 배포 금지를 기록한다.",
+      "useKo": "연표의 날짜 검증용 근거다. 1848년 등장인물이 이 후대 주석을 읽은 것처럼 다루지 않는다.",
+      "useRef": {
+        "file": "rpg/data/source-register.json",
+        "sourceId": "V47-ALMANAC-CENSORSHIP-EDITORIAL"
+      }
+    },
+    {
+      "claimId": "V47-CRAWFORD-PETERSBURG-WATER-OBSERVATION",
+      "claimClass": "CONTEMPORARY_OBSERVER_ACCOUNT",
+      "sourceId": "V47-CRAWFORD-CHO-OBS-1848",
+      "paragraphIndex": 2,
+      "arcId": "V33_1848_PUBLIC",
+      "questId": "V47_MAIN05_C11",
+      "claimKo": "1848년 보고서에서 크로퍼드는 페테르부르크의 낮은 지형과 운하, 배수, 일부 저지대 주거의 습기 및 물 이용 상황을 기술했다.",
+      "useKo": "도시 환경에 대한 당시 외국인 의사의 관찰을 후기 자료철에서 읽는다.",
+      "useRef": {
+        "file": "rpg/data/historical-source-packets.json",
+        "sourceId": "V47-CRAWFORD-CHO-OBS-1848"
+      }
+    },
+    {
+      "claimId": "V47-ECONOMIST-CHOLERA-ARRIVAL-REPORT",
+      "claimClass": "CONTEMPORARY_NEWSPAPER_REPORT",
+      "sourceId": "V47-ECONOMIST-PETERSBURG-1848-06-24",
+      "paragraphIndex": 1,
+      "arcId": "V33_1848_PUBLIC",
+      "questId": "V47_MAIN05_C08",
+      "claimKo": "1848년 7월 8일자 이코노미스트는 6월 24일자 페테르부르크발 소식에서 콜레라가 도시에 닿았다고 보도하고 날씨를 한 요인으로 추정했다.",
+      "useKo": "발행일이 지난 뒤 읽는 동시대 보도. 날씨 설명과 모스크바 사망 수치는 신문 보도자의 주장으로만 제시한다.",
+      "useRef": {
+        "file": "rpg/data/historical-source-packets.json",
+        "sourceId": "V47-ECONOMIST-PETERSBURG-1848-06-24"
+      }
     }
   ]
 }

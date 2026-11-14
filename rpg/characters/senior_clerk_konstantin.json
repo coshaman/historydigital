@@ -113,7 +113,8 @@
     "chancery",
     "nevsky",
     "police-station",
-    "market-quay"
+    "market-quay",
+    "morskaya-intersection"
   ],
   "start": {
     "mapId": "chancery",

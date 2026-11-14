@@ -31,12 +31,32 @@
       "openWindows": [
         {
           "startMinute": 480,
-          "endMinute": 1320
+          "endMinute": 960
+        }
+      ],
+      "hungerRelief": 32,
+      "valueStatus": "fictional_gameplay_balance"
+    },
+    {
+      "itemKo": "생선 한 점",
+      "category": "food",
+      "price": 2,
+      "unit": "kopeks",
+      "mapId": "courtyard",
+      "openWindows": [
+        {
+          "startMinute": 960,
+          "endMinute": 1380
         }
       ],
       "hungerRelief": 32,
       "valueStatus": "fictional_gameplay_balance"
     }
+  ],
+  "marketServiceShifts": [
+    { "offerItemKo": "생선 한 점", "startMinute": 480, "endMinute": 900, "mapId": "market-quay", "position": { "x": 26, "y": 14 }, "activityKo": "강변 좌판에서 생선을 판다", "status": "FICTIONAL_GAMEPLAY_SCHEDULE" },
+    { "offerItemKo": "생선 한 점", "startMinute": 901, "endMinute": 960, "mapId": "market-quay", "position": { "x": 26, "y": 14 }, "activityKo": "휴식 뒤 좌판으로 돌아와 남은 생선을 판다", "status": "FICTIONAL_GAMEPLAY_SCHEDULE" },
+    { "offerItemKo": "생선 한 점", "startMinute": 960, "endMinute": 1380, "mapId": "courtyard", "position": { "x": 13, "y": 14 }, "activityKo": "안뜰에서 남은 생선을 판다", "status": "FICTIONAL_GAMEPLAY_SCHEDULE" }
   ],
   "marketStock": {
     "생선 한 점": 0
@@ -176,11 +196,12 @@
       "workAction": {
         "id": "V36_FISHSELLER_RECEIVE_CATCH",
         "outputKind": "시장 판매",
-        "outputKo": "강변 생선 여덟 점을 받아 시장 좌판에 올린다",
+        "outputKo": "강변에서 받은 생선을 시장 좌판에 올린다",
         "durationMinutes": 20,
         "inventoryItemKo": "생선 한 점",
-        "inventoryQuantity": 8,
+        "inventoryQuantity": 14,
         "restockOfferFromWork": true,
+        "valueStatus": "fictional_gameplay_balance",
         "skillId": "fishHandling"
       }
     },

@@ -1,0 +1,8 @@
+{
+  "status": "RESOLVED_AND_REVERIFIED",
+  "routeName": "ALTERNATE",
+  "initiallyBlockedAt": "V47_MAIN01_A05",
+  "rootCause": "The browser replay pathfinder incorrectly treated occupied residents as static blockers, while moveActor yields residents when the player steps into their tile.",
+  "correction": "Changed the replay pathfinder to plan against map collision only and attempt actual UI movement through occupied resident tiles.",
+  "verification": "The latest full alternate browser replay crossed Nevsky-to-Chancery at A05, completed 36/36 story beats, recorded 89 transitions, and had zero page errors."
+}

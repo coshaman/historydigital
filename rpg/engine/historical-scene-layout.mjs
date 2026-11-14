@@ -90,8 +90,20 @@ export function buildHistoricalSceneLayout(scene, event, sourceMaps) {
   for (const { mapId, point, description } of arrivalPoints) reservePoint(maps[mapId], reservedByMap[mapId], point, description);
 
   const actorsByMap = Object.fromEntries(mapIds.map(mapId => [mapId, []]));
+  const preferredMapByActor = new Map();
+  for (const [actorId, guide] of Object.entries(scene.actorQuestGuides ?? {})) {
+    const action = scene.fieldActions.find(item => item.id === guide.actionId);
+    if (!action) throw new Error(`Historical quest guide has no field action: ${scene.eventId}/${actorId}`);
+    for (const participantId of [actorId, ...(guide.talkToActorIds ?? [])]) {
+      const priorMap = preferredMapByActor.get(participantId);
+      if (priorMap && priorMap !== action.mapId)
+        throw new Error(`Historical quest guide places ${participantId} in two zones: ${priorMap}, ${action.mapId}`);
+      preferredMapByActor.set(participantId, action.mapId);
+    }
+  }
   scene.actors.forEach((actor, actorIndex) => {
-    actor.mapId = mapIds[actorIndex % mapIds.length];
+    actor.mapId = preferredMapByActor.get(actor.id) ?? mapIds[actorIndex % mapIds.length];
+    if (!actorsByMap[actor.mapId]) throw new Error(`Historical quest guide uses an unknown map: ${scene.eventId}/${actor.id}`);
     actorsByMap[actor.mapId].push(actor);
   });
   for (const [index, mapId] of mapIds.entries()) {

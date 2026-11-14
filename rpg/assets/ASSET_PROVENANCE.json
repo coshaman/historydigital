@@ -2,6 +2,70 @@
   "schemaVersion": "V33_ASSET_PROVENANCE_V1",
   "assets": [
     {
+      "id": "v47-authored-morskaya-oil-lantern",
+      "path": "rpg/assets/v47/street-oil-lantern.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Hand-authored SVG based on 1830s Petersburg street views",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "VISUAL_RECONSTRUCTION_NOT_HISTORICAL_OBJECT_IMAGE",
+      "intendedScene": ["Malaya Morskaya street · MAIN03"],
+      "sourceIds": ["V36-ART-SADOVNIKOV-NEVSKY-PANORAMA"],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:1830-1835_V-S_Sadovnikov_Nevsky.jpg",
+        "https://expositions.nlr.ru/eng/ex_map/mozaika_Saint-Petersburg/plans_19_century.php"
+      ],
+      "sha256": "47B46E97CB5B3A66C1EF4423EACCA317698E04E1FE05F23DF3305B42E2DF431D",
+      "notes": "Original project pixel prop. The 1830–1835 panorama is used as a period street-design reference, not as evidence that this exact lamp or map junction existed at this location."
+    },
+    {
+      "id": "v47-authored-bookshop-cyrillic-sign",
+      "path": "rpg/assets/v47/bookshop-sign.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Hand-authored vector sign based on 1830s Petersburg commercial facade references",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "FICTIONAL_SCENE_PROP_WITH_PERIOD_DESIGN_REFERENCE",
+      "intendedScene": ["bookshop lane · MAIN01"],
+      "sourceIds": ["V36-ART-SADOVNIKOV-NEVSKY-PANORAMA"],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:1830-1835_V-S_Sadovnikov_Nevsky.jpg",
+        "https://expositions.nlr.ru/eng/ex_map/mozaika_Saint-Petersburg/plans_19_century.php"
+      ],
+      "sha256": "1A9D2DF1DFB8607914DD1406A2D8C9362646D579808D94BA213942B69E277095",
+      "notes": "Cyrillic КНИЖНАЯ ЛАВКА storefront prop authored for this fictional shop. The panorama informs facade rhythm and sign scale; this exact shop or wording is not claimed as documented."
+    },
+    {
+      "id": "v47-authored-letterpress-handpress",
+      "path": "rpg/assets/letterpress-handpress.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Hand-authored SVG based on period printing-process references",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "VISUAL_RECONSTRUCTION_NOT_HISTORICAL_OBJECT_IMAGE",
+      "intendedScene": ["printshop · MAIN01"],
+      "sourceIds": [],
+      "sourceUrls": [
+        "https://www.si.edu/object/ramage-foolscap-press:nmah_829645",
+        "https://technikmuseum.berlin/en/program/permanent-exhibitions/printing",
+        "https://publishing.cdlib.org/ucpressebooks/public/book/moral-communities-the-culture-of-class-relations-in-the-russian-printing-industry-1867-1907.html"
+      ],
+      "notes": "AUTHORED pixel illustration informed by a Ramage foolscap press dated ca. 1840 and museum descriptions of historical hand printing. It is a scene prop, NOT a historical object image or evidence that this exact press stood in a Russian shop."
+    },
+    {
+      "id": "v47-authored-printshop-compositor-shelf",
+      "path": "rpg/assets/v47/printshop-compositor-shelf.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Hand-authored SVG; palette and forms matched to the original project pixel atlas",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "FICTIONAL_INTERIOR_RECONSTRUCTION",
+      "intendedScene": ["printshop · MAIN01"],
+      "sourceIds": [],
+      "sourceUrls": [
+        "https://www.si.edu/object/ramage-foolscap-press:nmah_829645",
+        "https://technikmuseum.berlin/en/program/permanent-exhibitions/printing"
+      ],
+      "sha256": "0DD40731B8DF76CC4616BF617BC159BF8525FE529768D75F93A6477AE5BF0FBB",
+      "notes": "Project-authored wall shelf depicting paper quires, loose sorts, a composing stick, and an ink pot. Museum material informs printing-process details only; the shelf, exact tools, shop, and wall placement are fictional scene dressing, not a documented Russian interior."
+    },
+    {
       "id": "petersburg-tiles",
       "path": "rpg/assets/petersburg-tiles.png",
       "type": "ORIGINAL_PIXEL_TILE_ATLAS",
@@ -16,30 +80,39 @@
         "V36-MAP-NLR-19C-PLANS",
         "V36-GUIDE-PUSHKAREV-1843",
         "V36-MAP-TSYLOV-1849",
-        "V36-ART-WESTERLING-NEVSKY-1847",
-        "V36-ART-FEDOTOV-FLUG-CHAIR-1846",
         "V36-ART-RUSSIAN-MUSEUM-COLLMANN-1840S",
         "V36-PHYSIOLOGY-PETERSBURG-1845",
+        "V36-ART-WESTERLING-NEVSKY-1847",
+        "V36-ART-FEDOTOV-FLUG-CHAIR-1846",
         "V36-ART-KOLLMAN-FISH-SELLERS-1830S",
         "V36-ART-LABASTIDE-HAWKER-TRAY-1845",
         "V36-ART-LABASTIDE-KALACH-SELLER-1845",
-        "V36-ART-SHCHEDROVSKY-WATER-CARRIER-1845"
+        "V36-ART-SHCHEDROVSKY-WATER-CARRIER-1845",
+        "V47-PRLIB-PETERSBURG-MAP-1842",
+        "V47-ART-SADOVNIKOV-PASSAGE-1848",
+        "V47-ART-CHARLEMAGNE-GOSTINY-DVOR-1850S",
+        "V47-ART-DURAND-NEVSKY-1839"
       ],
       "sourceUrls": [
         "https://expositions.nlr.ru/eng/ex_map/mozaika_Saint-Petersburg/plans_19_century.php",
         "https://www.prlib.ru/item/441202",
         "https://rusneb.ru/catalog/000200_000018_v19_rc_1287364/",
-        "https://rusmuseumvrm.ru/data/collections/drawings/r-60382/index.php",
-        "https://rusmuseumvrm.ru/data/collections/drawings/r-7740/index.php",
         "https://rusmuseumvrm.ru/online_resources/art_gallery/spb._gorod_i_gorozhane/index.php?lang=en&p=0&page=3&ps=60&show=desc&t=830",
         "https://www.prlib.ru/section/1327906",
+        "https://rusmuseumvrm.ru/data/collections/drawings/r-60382/index.php",
+        "https://rusmuseumvrm.ru/data/collections/drawings/r-7740/index.php",
         "https://rusmuseumvrm.ru/data/collections/drawings/r-5783/index.php",
         "https://rusmuseumvrm.ru/data/collections/drawings/r-24373/index.php",
         "https://rusmuseumvrm.ru/data/collections/drawings/r-24382/index.php",
         "https://rusneb.ru/catalog/000199_000009_009492648/",
-        "https://compuart.ru/article/23289"
+        "https://compuart.ru/article/23289",
+        "https://novgorodmuseum.ru/muzej-onlajn/virtualnye-vystavkii/illyustrirovannyi%CC%86-almanah-izdannyi%CC%86-i.-panaevym-i-n.-nekrasovym",
+        "https://www.prlib.ru/item/1030062",
+        "https://rusmuseumvrm.ru/data/collections/drawings/r-42572/index.php?lang=en",
+        "https://commons.wikimedia.org/wiki/File:Nevskii_prospect_and_Gostinii_dvor.jpg",
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg"
       ],
-      "notes": "Original project pixel art. Row-level evidence in ASSET_USAGE_V36.csv records five bounded period-art inspirations, including GID 19's limited chair-silhouette reference. The 1847 Westerling view informs the Nevsky scene's broad facade scale and carriage-rich street activity only; GID 46–49 remain unverified as cobblestone patterns, materials, wear, and pixel colors. The Fedotov drawing informs only the presence of a raised-back chair; GID 19's exact shape, color, material, upholstery, and writing function remain project-authored interpretations. Russian Museum records for market assets support only depicted subjects, not exact pixel shapes, materials, coordinates, or a fixed 1847 location. The 1849 atlas is later comparison, not direct proof of 1847 paving. Water tile GID 85 indicates map geography only and does not establish a historical water color or texture; no museum scan is embedded."
+      "notes": "Original project pixel art. Row-level evidence in ASSET_USAGE_V36.csv separates bounded period-art references from unverified surface tiles and props. Russian Museum records support only the depicted market subjects, not exact pixel shapes, materials, coordinates, or a fixed 1847 location. The 1849 atlas is later comparison, not direct proof of 1847 paving. Water tile GID 85 indicates map geography only and does not establish a historical water color or texture. MAIN01 printshop prop composition also consults the Novgorod Museum digital exhibit for the actual almanac title page, permission mark and printed layout; the exhibit images are not copied or packaged. The 1842 Petersburg plan in the Presidential Library (RGIA 1487/4/94) is a spatial reference only; its digital scan is restricted to electronic reading rooms and is not republished. The Sadovnikov Passage watercolor (not earlier than 1848) informs broad arcade frontage and street bustle only; the museum scan is not copied or republished. Charlemagne’s mid-19th-century Nevsky and Gostiny Dvor lithograph and Durand’s 1839 Nevsky view inform broad storefront rhythm, avenue scale and perspective only. They do not verify exact 1848 paving, storefronts, materials, or map coordinates; the project-authored pixel map remains a broad visual interpretation."
     },
     {
       "id": "sprite-clerk_alexei",
@@ -1119,6 +1192,238 @@
       "intendedScene": "chancery",
       "sourceIds": [],
       "notes": "Original project-authored 16×24 pixel sprite frames with a role-specific everyday prop for fictional citizen senior_clerk_konstantin; not a documented likeness or evidence of a specific individual's clothing. The 푸른 표지 분류 장부 is a gameplay readability icon only; it is not evidence that this fictional person historically carried that item."
+    },
+    {
+      "id": "reference-nevsky-gostiny-dvor-1850s",
+      "path": "docs/v47/research-assets/nevsky-gostiny-dvor-1850s.jpg",
+      "type": "HISTORICAL_VISUAL_REFERENCE_ONLY",
+      "generatedBy": "Wikimedia Commons download",
+      "license": "Public domain; Wikimedia Commons marks the file PDM 1.0",
+      "historicalConfidence": "MID_19TH_CENTURY_REFERENCE_NOT_1848_SCENE_EVIDENCE",
+      "intendedScene": [],
+      "sourceIds": [],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Nevskii_prospect_and_Gostinii_dvor.jpg",
+        "https://rusmuseumvrm.ru/data/collections/engraving/gr.-1929_15/index.php?lang=ru"
+      ],
+      "sha256": "EB7BEB40B1ED9FEF5A34BC5167379B262FE59A838FB387C908A5005AEEA5D1E8",
+      "notes": "J.-M. Charlemagne-Baudet lithograph dated to the 1850s. Kept outside deploy assets as offline visual research only and not loaded by the game: it postdates the MAIN01 1848 scenes and must not be presented as their exact view. The official Russian Museum's 1835 Sadovnikov panorama is also linked as the period-appropriate architecture and street-life reference for the authored map, not used as a direct in-game image."
+    },
+    {
+      "id": "v47-illustrated-almanac-titlepage",
+      "path": "rpg/assets/v47-illustrated-almanac-titlepage.jpg",
+      "type": "HISTORICAL_PRIMARY_BOOK_TITLE_PAGE_FACSIMILE",
+      "generatedBy": "Wikimedia Commons original file download",
+      "license": "Public domain (PD-RusEmpire / title pages from Russia, 1848)",
+      "historicalConfidence": "CONTEMPORARY_1848_ALMANAC_TITLE_PAGE",
+      "intendedScene": [
+        "source-reader · V47-NEKRASOV-ALMANAC-CONTENTS-1848"
+      ],
+      "sourceIds": [
+        "V47-ART-ILLUSTRATED-ALMANAC-TITLEPAGE-1848"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Almanac_illustrated.jpg"
+      ],
+      "sha256": "C56EBC72DB6031AFAFAD7338ABF292CD9EDD1328CDBA48F6C87C4C8376B9C13C",
+      "notes": "Genuine 1848 title page of the Illustrated Almanac, visually inspected. The exact file is served from the project asset path and captioned as the book's title page. It is not evidence that any specific inner illustration or Talnikov page was inspected."
+    },
+    {
+      "id": "v47-sovremennik-v7-page-215",
+      "path": "rpg/assets/v47-almanac/sovremennik-1848-v7-page-215.png",
+      "type": "PUBLIC_DOMAIN_PRIMARY_PERIODICAL_PAGE_SCAN",
+      "generatedBy": "Google Books scanned volume page image RA5-PT215",
+      "license": "Public domain underlying periodical, published 1848",
+      "historicalConfidence": "CONTEMPORARY_1848_EDITORIAL_NOTICE_PRECEDING_PAGE",
+      "intendedScene": ["source-reader · V47-NEKRASOV-ALMANAC-CONTENTS-1848"],
+      "sourceIds": ["V47-GOOGLE-SOVREMENNIK-V7-1848-SCAN"],
+      "sourceUrls": ["https://books.google.com/books?id=yyoYAAAAYAAJ&hl=ru&pg=RA5-PT215"],
+      "sha256": "FEF1B505258C82FF01634D339DB7B49F2A7778A10711FBCEE45EC3BCF0B311E1",
+      "notes": "Page 215 begins an editorial notice to subscribers. Shown together with pages 216–217 as contiguous issue context."
+    },
+    {
+      "id": "v47-sovremennik-v7-page-216",
+      "path": "rpg/assets/v47-almanac/sovremennik-1848-v7-page-216.png",
+      "type": "PUBLIC_DOMAIN_PRIMARY_PERIODICAL_PAGE_SCAN",
+      "generatedBy": "Google Books scanned volume page image RA5-PT216",
+      "license": "Public domain underlying periodical, published 1848",
+      "historicalConfidence": "CONTEMPORARY_1848_ALMANAC_CONTENTS_NOTICE_PAGE",
+      "intendedScene": ["source-reader · V47-NEKRASOV-ALMANAC-CONTENTS-1848"],
+      "sourceIds": ["V47-GOOGLE-SOVREMENNIK-V7-1848-SCAN"],
+      "sourceUrls": ["https://books.google.com/books?id=yyoYAAAAYAAJ&hl=ru&pg=RA5-PT216"],
+      "sha256": "C8F50CEE770B4432A6172DCDB027E79250693B8ECAF7545BD00E688BEB60CA5E",
+      "notes": "The original page containing the ‘Скоро отпечатается’ announcement, almanac contents and illustration list. The wording is visually collated with the checked-in transcription."
+    },
+    {
+      "id": "v47-sovremennik-v7-page-217",
+      "path": "rpg/assets/v47-almanac/sovremennik-1848-v7-page-217.png",
+      "type": "PUBLIC_DOMAIN_PRIMARY_PERIODICAL_PAGE_SCAN",
+      "generatedBy": "Google Books scanned volume page image RA5-PT217",
+      "license": "Public domain underlying periodical, published 1848",
+      "historicalConfidence": "CONTEMPORARY_1848_VOLUME_TABLE_OF_CONTENTS_PAGE",
+      "intendedScene": ["source-reader · V47-NEKRASOV-ALMANAC-CONTENTS-1848"],
+      "sourceIds": ["V47-GOOGLE-SOVREMENNIK-V7-1848-SCAN"],
+      "sourceUrls": ["https://books.google.com/books?id=yyoYAAAAYAAJ&hl=ru&pg=RA5-PT217"],
+      "sha256": "F6EEA0BE4B132AE49F8C22DC37F922602DCEA1A17D4017B62D18E1522E9C967A",
+      "notes": "Page 217 continues with the volume contents and is displayed with pages 215–216 to preserve the contiguous periodical context."
+    },
+    {
+      "id": "v47-almanac-talnikov-leaf-009",
+      "path": "rpg/assets/v47-almanac/talnikov-1848-leaf-009.jpg",
+      "type": "PUBLIC_DOMAIN_PRIMARY_SOURCE_PAGE_SCAN",
+      "generatedBy": "Internet Archive 1848 volume PDF page render, 1200px",
+      "license": "Public domain underlying work, published 1848",
+      "historicalConfidence": "CONTEMPORARY_1848_TALNIKOV_CHAPTER_OPENING",
+      "intendedScene": ["source-reader · V47-PANAEVA-TALNIKOV-CH1-1848"],
+      "sourceIds": ["V47-IA-ILLUSTRATED-ALMANAC-1848-SCAN"],
+      "sourceUrls": ["https://archive.org/details/1848_20240901"],
+      "sha256": "499D5A3F085BC435C63D87201DCA40F34358608B7FA87A0AE95BB6B606D720B6",
+      "notes": "Scan leaf 9 contains the chapter heading and opening paragraphs. Visually inspected against the reader transcription."
+    },
+    {
+      "id": "v47-almanac-talnikov-leaf-010",
+      "path": "rpg/assets/v47-almanac/talnikov-1848-leaf-010.jpg",
+      "type": "PUBLIC_DOMAIN_PRIMARY_SOURCE_PAGE_SCAN",
+      "generatedBy": "Internet Archive 1848 volume PDF page render, 1200px",
+      "license": "Public domain underlying work, published 1848",
+      "historicalConfidence": "CONTEMPORARY_1848_TALNIKOV_CHAPTER_PAGE",
+      "intendedScene": ["source-reader · V47-PANAEVA-TALNIKOV-CH1-1848"],
+      "sourceIds": ["V47-IA-ILLUSTRATED-ALMANAC-1848-SCAN"],
+      "sourceUrls": ["https://archive.org/details/1848_20240901"],
+      "sha256": "EC752ADFF6B7E39F8AEA939E02C81B25D406D3BD8AC67C506066C053EA90E94C",
+      "notes": "Scan leaf 10 continues the chapter excerpt. Visually inspected against the reader transcription."
+    },
+    {
+      "id": "v47-almanac-talnikov-leaf-011",
+      "path": "rpg/assets/v47-almanac/talnikov-1848-leaf-011.jpg",
+      "type": "PUBLIC_DOMAIN_PRIMARY_SOURCE_PAGE_SCAN",
+      "generatedBy": "Internet Archive 1848 volume PDF page render, 1200px",
+      "license": "Public domain underlying work, published 1848",
+      "historicalConfidence": "CONTEMPORARY_1848_TALNIKOV_CHAPTER_PAGE",
+      "intendedScene": ["source-reader · V47-PANAEVA-TALNIKOV-CH1-1848"],
+      "sourceIds": ["V47-IA-ILLUSTRATED-ALMANAC-1848-SCAN"],
+      "sourceUrls": ["https://archive.org/details/1848_20240901"],
+      "sha256": "A1D121CAE740FB42C2A140E71C5FC23D439E907794921B0618BFE0F7FB900D8A",
+      "notes": "Scan leaf 11 contains the final paragraph in the selected thirteen-paragraph range. Visually inspected against the reader transcription."
+    },
+    {
+      "id": "v47-nekrasov-panaev-caricature",
+      "path": "rpg/assets/v47-nekrasov-panaev-caricature.jpg",
+      "type": "HISTORICAL_CARICATURE_DISPLAYED_IN_SOURCE_READER",
+      "generatedBy": "Wikimedia Commons original file download",
+      "license": "Public Domain Mark 1.0",
+      "historicalConfidence": "CONTEMPORARY_1848_CARICATURE_NOT_ALMANAC_PAGE",
+      "intendedScene": [
+        "source-reader · V47-NEKRASOV-ALMANAC-CONTENTS-1848"
+      ],
+      "sourceIds": [
+        "V47-ART-STEPANOV-NEKRASOV-PANAEV-1848"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Nekrasov%40Panaev.jpg"
+      ],
+      "sha256": "B05EE4E131C1C8232DDB70D66FB43B1DBE31687184EACE3188BDDBDE483DA9EF",
+      "notes": "N. A. Stepanov caricature from 1848, 400×478. Displayed only after the 1848 almanac contents notice is in-world accessible (1848-02-12). It is explicitly captioned as a separate caricature of the editors, never as a scan, illustration, or page of the almanac."
+    },
+    {
+      "id": "weather-rain-particle-cc0",
+      "path": "rpg/assets/weather/rain_drop_{frame}.png",
+      "type": "CC0_PIXEL_WEATHER_ANIMATION",
+      "generatedBy": "donte, Rain Particle Animated (five-frame sprite sequence)",
+      "license": "CC0 1.0; attribution not required",
+      "historicalConfidence": "VISUAL_WEATHER_EFFECT_ONLY",
+      "intendedScene": ["outdoor maps during drizzle"],
+      "sourceIds": [],
+      "sourceUrls": [
+        "https://opengameart.org/content/rain-particle-animated",
+        "https://opengameart.org/sites/default/files/rain_drop.zip"
+      ],
+      "sha256ByFrame": [
+        "5DC386FB1C9367DD964CE714627EA2858EEC9268580E024BE973B677DCCD96C0",
+        "27CF501E37D477F39FB3EF3CC098D6E7883173B79C6A8724D1025CCA8D618545",
+        "E532336E99DD4F26CD09B2E5CA5604AE5AC0609FAC5D9B2E1708FDEDB89FE207",
+        "1B7947BDAF5BA121EF2BB9057634F0F77E5788F541B7292F9D35D3074121A7D7",
+        "D812BD2BA57D392E24B72FD0F406094EC04D9CF505407ABD81752F5B58025454"
+      ],
+      "notes": "The five locally packaged 40×40 PNG frames are used only as small animated drizzle particles; they do not claim to depict a historically recorded Petersburg weather event. The archive page identifies the author as donte, five frames, and CC0 reuse."
+    }
+    ,{
+      "id": "v47-authored-sofiya-salon-portrait",
+      "path": "rpg/assets/v47/sofiya-salon-portrait.svg",
+      "type": "AUTHORED_FICTIONAL_CHARACTER_PORTRAIT",
+      "generatedBy": "Original project-authored SVG illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "FICTIONAL_CHARACTER_ART",
+      "intendedScene": ["sofiya-salon · MAIN01"],
+      "sourceIds": [],
+      "sourceUrls": [],
+      "sha256": "EF3E0A6938B5CF1E736AA83EDCDBE760EBB67E19EC1F97E0C144F435EBD652F6",
+      "notes": "Original portrait for the fictional salon host Sofiya Mikhailova; not a depiction of a historical person."
+    },
+    {
+      "id": "v47-authored-sofiya-salon-sprite",
+      "path": "rpg/assets/v47/sofiya-salon-sprite.svg",
+      "type": "AUTHORED_FICTIONAL_CHARACTER_SPRITE",
+      "generatedBy": "Original project-authored SVG pixel sprite",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "FICTIONAL_CHARACTER_ART",
+      "intendedScene": ["sofiya-salon · MAIN01"],
+      "sourceIds": [],
+      "sourceUrls": [],
+      "sha256": "EEA08A37E0C6DB57D4032AB217F9AAD4028D79FC31EB43D456E0E548D44625C6",
+      "notes": "Original sprite for the fictional salon host Sofiya Mikhailova; not a depiction of a historical person."
+    },
+    {
+      "id": "v47-authored-sofiya-salon-interior-props",
+      "path": "rpg/assets/v47/sofiya-samovar.svg",
+      "type": "AUTHORED_FICTIONAL_SCENE_PROP",
+      "generatedBy": "Original project-authored SVG illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "STYLIZED_PERIOD_INSPIRED_ART_NOT_HISTORICAL_OBJECT_IMAGE",
+      "intendedScene": ["sofiya-salon · MAIN01"],
+      "sourceIds": [],
+      "sourceUrls": [],
+      "sha256": "BDDF94086C6592C39C7564D27FA565F5240EC95B571908FD1C6A1DEDE690A6B7",
+      "notes": "Original scene prop for a fictional household."
+    },
+    {
+      "id": "v47-authored-sofiya-salon-window",
+      "path": "rpg/assets/v47/sofiya-curtained-window.svg",
+      "type": "AUTHORED_FICTIONAL_SCENE_PROP",
+      "generatedBy": "Original project-authored SVG illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "STYLIZED_PERIOD_INSPIRED_ART_NOT_HISTORICAL_OBJECT_IMAGE",
+      "intendedScene": ["sofiya-salon · MAIN01"],
+      "sourceIds": [],
+      "sourceUrls": [],
+      "sha256": "8A5ADA85BC3877C81E53AA16BA9D7DFC968A51609E0D9364F0175EFB67E93014",
+      "notes": "Original curtains and window for a fictional household."
+    },
+    {
+      "id": "v47-authored-sofiya-salon-rug",
+      "path": "rpg/assets/v47/sofiya-reading-rug.svg",
+      "type": "AUTHORED_FICTIONAL_SCENE_PROP",
+      "generatedBy": "Original project-authored SVG illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "STYLIZED_PERIOD_INSPIRED_ART_NOT_HISTORICAL_OBJECT_IMAGE",
+      "intendedScene": ["sofiya-salon · MAIN01"],
+      "sourceIds": [],
+      "sourceUrls": [],
+      "sha256": "A5DD9F6AF61DFDDD8BF4BE3F59A5F63213BCFD3B5A045B84B772740B2C715E45",
+      "notes": "Original woven rug for a fictional salon interior."
+    },
+    {
+      "id": "v47-authored-sofiya-parlor-furniture",
+      "path": "rpg/assets/v47/sofiya-parlor-furniture.svg",
+      "type": "AUTHORED_FICTIONAL_SCENE_SET_DRESSING",
+      "generatedBy": "Original project-authored pixel SVG illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "STYLIZED_PERIOD_INSPIRED_ART_NOT_HISTORICAL_OBJECT_IMAGE",
+      "intendedScene": ["sofiya-salon · MAIN01"],
+      "sourceIds": [],
+      "sourceUrls": [],
+      "sha256": "B4BEAC2D3BCA4C1B6017CBD039C541CCB73548A434EF2DF49902185F8A1B65FD",
+      "notes": "Original fictional parlor group with a low table, upholstered seating, and lamp."
     }
   ]
 }

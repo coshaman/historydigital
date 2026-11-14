@@ -1,0 +1,254 @@
+{
+  "error": "exit nevsky → chancery: could not walk to map object after replanning",
+  "mapId": "nevsky",
+  "position": {
+    "x": 6,
+    "y": 9
+  },
+  "chapter": "V33_1848_PUBLIC",
+  "date": "1848-09-14",
+  "clockMinutes": 1163,
+  "embodiment": "clerk_alexei",
+  "quest": {
+    "status": "open",
+    "result": null
+  },
+  "exit": [
+    {
+      "name": "인쇄소 문",
+      "tile": {
+        "x": 22,
+        "y": 8
+      },
+      "props": {
+        "exitId": "nevsky-printshop-door",
+        "targetMapId": "printshop",
+        "arrivalX": 12,
+        "arrivalY": 14,
+        "returnExitId": "printshop-nevsky-door",
+        "publicAccess": true
+      }
+    },
+    {
+      "name": "관청 쪽 출입문",
+      "tile": {
+        "x": 4,
+        "y": 8
+      },
+      "props": {
+        "exitId": "nevsky-chancery-door",
+        "targetMapId": "chancery",
+        "arrivalX": 12,
+        "arrivalY": 14,
+        "returnExitId": "chancery-nevsky-door",
+        "publicAccess": true
+      }
+    },
+    {
+      "name": "안뜰로 드는 문",
+      "tile": {
+        "x": 16,
+        "y": 8
+      },
+      "props": {
+        "exitId": "nevsky-courtyard-gate",
+        "targetMapId": "courtyard",
+        "arrivalX": 11,
+        "arrivalY": 13,
+        "returnExitId": "courtyard-nevsky-gate",
+        "publicAccess": true
+      }
+    },
+    {
+      "name": "경찰 접수실 문",
+      "tile": {
+        "x": 6,
+        "y": 8
+      },
+      "props": {
+        "exitId": "nevsky-police-door",
+        "targetMapId": "police-station",
+        "arrivalX": 4,
+        "arrivalY": 6,
+        "returnExitId": "police-station-nevsky-door",
+        "publicAccess": true
+      }
+    },
+    {
+      "name": "강변 장터 입구",
+      "tile": {
+        "x": 28,
+        "y": 10
+      },
+      "props": {
+        "exitId": "nevsky-market-gate",
+        "targetMapId": "market-quay",
+        "arrivalX": 2,
+        "arrivalY": 10,
+        "returnExitId": "market-nevsky-gate",
+        "publicAccess": true
+      }
+    },
+    {
+      "name": "책방 골목으로 가는 길",
+      "tile": {
+        "x": 12,
+        "y": 17
+      },
+      "props": {
+        "exitId": "nevsky-bookshop-lane",
+        "targetMapId": "bookshop-lane",
+        "arrivalX": 11,
+        "arrivalY": 14,
+        "returnExitId": "bookshop-lane-nevsky",
+        "publicAccess": true,
+        "doorId": "door-nevsky-bookshop-lane",
+        "districtId": "BOOKS_AND_READING"
+      }
+    },
+    {
+      "name": "세묘노프스키 광장으로",
+      "tile": {
+        "x": 14,
+        "y": 16
+      },
+      "props": {
+        "exitId": "nevsky-semenovsky-square",
+        "targetMapId": "semenovsky-square",
+        "arrivalX": "15",
+        "arrivalY": "10",
+        "availableDate": "1849-12-22",
+        "publicAccess": true
+      }
+    }
+  ],
+  "occupants": [
+    {
+      "id": "bookbinder_elizaveta",
+      "position": {
+        "x": 21,
+        "y": 11
+      },
+      "kind": "FICTIONAL",
+      "alive": true
+    },
+    {
+      "id": "carter_roman",
+      "position": {
+        "x": 15,
+        "y": 9
+      },
+      "kind": "FICTIONAL",
+      "alive": true
+    },
+    {
+      "id": "clerk_alexei",
+      "position": {
+        "x": 6,
+        "y": 9
+      },
+      "kind": "FICTIONAL",
+      "alive": true
+    },
+    {
+      "id": "coachman_timofey",
+      "position": {
+        "x": 12,
+        "y": 13
+      },
+      "kind": "FICTIONAL",
+      "alive": true
+    },
+    {
+      "id": "fishseller_klavdiya",
+      "position": {
+        "x": 16,
+        "y": 10
+      },
+      "kind": "FICTIONAL",
+      "alive": true
+    },
+    {
+      "id": "junior_guard_sergey",
+      "position": {
+        "x": 8,
+        "y": 8
+      },
+      "kind": "FICTIONAL",
+      "alive": true
+    },
+    {
+      "id": "lodging_tatyana",
+      "position": {
+        "x": 12,
+        "y": 10
+      },
+      "kind": "FICTIONAL",
+      "alive": true
+    },
+    {
+      "id": "minor_noble_andrei",
+      "position": {
+        "x": 5,
+        "y": 10
+      },
+      "kind": "FICTIONAL",
+      "alive": true
+    },
+    {
+      "id": "print_apprentice_stepan",
+      "position": {
+        "x": 21,
+        "y": 9
+      },
+      "kind": "FICTIONAL",
+      "alive": true
+    },
+    {
+      "id": "scribal_yuri",
+      "position": {
+        "x": 7,
+        "y": 10
+      },
+      "kind": "FICTIONAL",
+      "alive": true
+    },
+    {
+      "id": "senior_clerk_konstantin",
+      "position": {
+        "x": 5,
+        "y": 9
+      },
+      "kind": "FICTIONAL",
+      "alive": true
+    },
+    {
+      "id": "street_vendor_matryona",
+      "position": {
+        "x": 9,
+        "y": 16
+      },
+      "kind": "FICTIONAL",
+      "alive": true
+    },
+    {
+      "id": "typesetter_nikita",
+      "position": {
+        "x": 24,
+        "y": 10
+      },
+      "kind": "FICTIONAL",
+      "alive": true
+    },
+    {
+      "id": "watercarrier_luka",
+      "position": {
+        "x": 27,
+        "y": 9
+      },
+      "kind": "FICTIONAL",
+      "alive": true
+    }
+  ],
+  "actions": []
+}

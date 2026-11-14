@@ -121,7 +121,8 @@
     "chancery",
     "bookshop-lane",
     "bookshop-interior",
-    "inn-interior"
+    "inn-interior",
+    "communal-room"
   ],
   "start": {
     "mapId": "courtyard",
@@ -186,7 +187,10 @@
     {
       "atMinute": 840,
       "mapId": "courtyard",
-      "position": { "x": 17, "y": 13 },
+      "position": {
+        "x": 17,
+        "y": 13
+      },
       "activityKo": "안뜰에서 가정교사 수업을 한다",
       "workAction": {
         "id": "V37_TUTOR_HOUSEHOLD_LESSON",
@@ -216,7 +220,10 @@
     {
       "atMinute": 1080,
       "mapId": "courtyard",
-      "position": { "x": 10, "y": 11 },
+      "position": {
+        "x": 10,
+        "y": 11
+      },
       "activityKo": "조카와 장작값과 다음 수업 준비를 의논한다",
       "task": {
         "type": "CARE_TRANSFER",
@@ -376,8 +383,17 @@
   "plannerPolicyBasisKo": "류보프의 경계심·생계 우선도·관계 필요를 반영한 결정론적 게임 성향.",
   "household": {
     "id": "LYUBOV_TATYANA_ROOM_1847",
-    "memberHostIds": ["teacher_lyubov", "lodging_tatyana"],
-    "homeLocation": { "mapId": "courtyard", "position": { "x": 10, "y": 11 } },
+    "memberHostIds": [
+      "teacher_lyubov",
+      "lodging_tatyana"
+    ],
+    "homeLocation": {
+      "mapId": "courtyard",
+      "position": {
+        "x": 10,
+        "y": 11
+      }
+    },
     "unitLabelKo": "허구의 안뜰 셋방",
     "status": "FICTIONAL_CHARACTER_DESIGN"
   },

@@ -17,15 +17,45 @@ const [maps, cards] = await Promise.all([
 const authoredBaker = cards.find(card => card.id === 'baker_fyodor');
 const authoredBatch = authoredBaker.schedule.find(slot => slot.workAction?.id === 'V36_BAKER_PREPARE_DOUGH')?.workAction;
 const authoredRestock = authoredBaker.schedule.find(slot => slot.task?.id === 'BAKER_DAILY_MARKET_RESTOCK_1847')?.task;
-assert.equal(authoredBatch?.inventoryQuantity, 6, 'the baker produces six tracked bread portions');
-assert.equal(authoredRestock?.quantity, 6, 'the daily market contract carries the whole batch');
-assert.equal(authoredRestock?.moneyAmount, 6, 'the wholesaler pays the agreed batch amount');
+assert.equal(authoredBatch?.inventoryQuantity, 18, 'the baker produces enough tracked bread portions for a citywide morning and evening service');
+assert.equal(authoredRestock?.quantity, 18, 'the daily market contract carries the whole batch');
+assert.equal(authoredRestock?.moneyAmount, 18, 'the wholesaler pays the agreed batch amount');
 assert.ok(cards.find(card => card.id === 'market_nadezhda').marketOffers[0].openWindows.some(window => window.startMinute === 1020 && window.endMinute >= 1320),
-  'the evening bread stall stays open long enough for residents to reach it after the 18:00 restock');
-assert.ok(cards.find(card => card.id === 'market_nadezhda').residence.sleepMinute >= 1320,
+  'the evening bread stall remains available after its wholesale restock');
+assert.ok(cards.find(card => card.id === 'market_nadezhda').residence.sleepMinute >= 1380,
   'the bread seller remains at work until the advertised closing time');
-assert.ok(cards.find(card => card.id === 'market_nadezhda').marketOffers[0].openWindows.some(window => window.startMinute === 480 && window.endMinute >= 900),
-  'the bakery supplier returns in time to keep the daytime bread stall open through the afternoon');
+const breadSellerCard = cards.find(card => card.id === 'market_nadezhda');
+assert.ok(breadSellerCard.residence.sleepMinute >= 1320,
+  'the bread seller leaves enough time to return to her authored sleep location');
+assert.deepEqual(breadSellerCard.marketServiceShifts.map(shift => [shift.startMinute, shift.endMinute]),
+  [[500, 660], [660, 780], [900, 960], [1040, 1080], [1100, 1320]],
+  'the bread seller covers the quay, a daytime Nevsky counter, and her evening stall');
+assert.ok(breadSellerCard.marketOffers.some(offer => offer.mapId === 'nevsky'
+  && offer.openWindows.some(window => window.startMinute === 660 && window.endMinute === 780)),
+  'the Nevsky sale window matches the seller\'s authored daytime location');
+const fishSellerCard = cards.find(card => card.id === 'fishseller_klavdiya');
+assert.deepEqual(fishSellerCard.marketServiceShifts.map(shift => [shift.startMinute, shift.endMinute]),
+  [[480, 900], [901, 960], [960, 1380]], 'the fish seller serves at the quay, takes her break, then sells remaining stock in the courtyard until her rest window');
+const serviceShiftState = game.createInitialState({ maps, hostCards: cards, startMapId: 'market-quay' });
+serviceShiftState.world.date = '1847-06-01'; serviceShiftState.world.clockMinutes = 600;
+for (const host of Object.values(serviceShiftState.hosts)) host.historicalAliveAndPresent = false;
+const serviceSeller = serviceShiftState.hosts.market_nadezhda;
+serviceSeller.historicalAliveAndPresent = true; serviceSeller.mapId = 'market-quay';
+serviceSeller.position = { x: 8, y: 8 }; serviceSeller.marketStock['빵 한 묶음'] = 3;
+serviceSeller.schedule = [{ atMinute: 480, mapId: 'market-quay', position: { x: 14, y: 12 }, activityKo: '좌판을 연다' }];
+const sellerOnShift = game.advanceNpcWorld(serviceShiftState, 1, maps).hosts.market_nadezhda;
+assert.equal(sellerOnShift.activeGoal.type, 'MARKET_SERVICE', 'the seller uses the deterministic food service routine during published hours');
+assert.deepEqual(sellerOnShift.routineState.targetPosition, { x: 14, y: 12 }, 'the seller travels toward and stays at the authored fixed stall');
+const streetServiceState = game.createInitialState({ maps, hostCards: cards, startMapId: 'nevsky' });
+streetServiceState.world.date = '1847-06-01'; streetServiceState.world.clockMinutes = 700;
+for (const host of Object.values(streetServiceState.hosts)) host.historicalAliveAndPresent = false;
+const streetSeller = streetServiceState.hosts.market_nadezhda;
+streetSeller.historicalAliveAndPresent = true; streetSeller.mapId = 'nevsky'; streetSeller.position = { x: 8, y: 8 };
+streetSeller.marketStock['빵 한 묶음'] = 2;
+streetSeller.schedule = [{ atMinute: 660, mapId: 'nevsky', position: { x: 14, y: 12 }, activityKo: '거리 좌판을 지킨다' }];
+const streetSellerOnShift = game.advanceNpcWorld(streetServiceState, 1, maps).hosts.market_nadezhda;
+assert.equal(streetSellerOnShift.activeGoal.type, 'MARKET_SERVICE');
+assert.deepEqual(streetSellerOnShift.routineState.targetPosition, { x: 14, y: 12 }, 'the second public counter is a real mapped seller route');
 const bakerCanEat = game.createInitialState({ maps, hostCards: cards, startMapId: 'market-quay' });
 for (const host of Object.values(bakerCanEat.hosts)) host.historicalAliveAndPresent = ['baker_fyodor', 'market_nadezhda'].includes(host.id);
 const breadBaker = bakerCanEat.hosts.baker_fyodor, breadSellerHost = bakerCanEat.hosts.market_nadezhda;
@@ -37,11 +67,12 @@ const bakerFed = game.advanceNpcWorld(bakerCanEat, 10, maps);
 assert.ok(bakerFed.hosts.baker_fyodor.needs.hunger < 90,
   'bread reserved for sale must not prevent a baker without a personal meal schedule from buying and eating');
 const remoteMealTrip = game.createInitialState({ maps, hostCards: cards, startMapId: 'printshop' });
+remoteMealTrip.world.clockMinutes = 480;
 for (const host of Object.values(remoteMealTrip.hosts)) host.historicalAliveAndPresent = ['typesetter_nikita', 'market_nadezhda'].includes(host.id);
 const remoteWorker = remoteMealTrip.hosts.typesetter_nikita, remoteSeller = remoteMealTrip.hosts.market_nadezhda;
 remoteWorker.mapId = 'printshop'; remoteWorker.position = { x: 15, y: 10 }; remoteWorker.inventory = [];
-remoteWorker.schedule = [{ atMinute: 600, mapId: 'printshop', position: { ...remoteWorker.position }, activityKo: '인쇄소 일을 정리한다' }];
-remoteWorker.activeGoal = null; remoteWorker.needs.hunger = 50; remoteWorker.needs.lastMealAtMinute = 0;
+remoteWorker.schedule = [{ atMinute: 720, mapId: 'printshop', position: { ...remoteWorker.position }, activityKo: '인쇄소 일을 정리한다' }];
+remoteWorker.activeGoal = null; remoteWorker.needs.hunger = 55; remoteWorker.needs.lastMealAtMinute = 0;
 remoteWorker.needs.incomePressure = 0; remoteWorker.money.amount = 20;
 remoteSeller.mapId = 'market-quay'; remoteSeller.position = { x: 14, y: 12 }; remoteSeller.marketStock['빵 한 묶음'] = 5;
 const earlyMealTrip = game.advanceNpcWorld(remoteMealTrip, 1, maps);
@@ -57,25 +88,29 @@ assert.equal(continuedMealTrip.hosts.typesetter_nikita.activeGoal.targetHostId, 
 const committedMeal = game.createInitialState({ maps, hostCards: cards, startMapId: 'printshop' });
 for (const host of Object.values(committedMeal.hosts)) host.historicalAliveAndPresent = ['seamstress_anna', 'fishseller_klavdiya'].includes(host.id);
 const anna = committedMeal.hosts.seamstress_anna, annaFishSeller = committedMeal.hosts.fishseller_klavdiya;
-committedMeal.world.clockMinutes = 806;
+committedMeal.world.clockMinutes = 600;
 anna.mapId = 'printshop'; anna.position = { x: 13, y: 15 }; anna.needs.hunger = 58; anna.needs.lastMealAtMinute = 540;
 anna.needs.incomePressure = 0; anna.money.amount = 18; anna.plannerPolicy.personalPriority = 1;
+anna.schedule = [{ atMinute: 600, mapId: 'printshop', position: { x: 13, y: 15 }, activityKo: '재봉 도구를 정리한다',
+  workAction: { id: 'TEST_DUE_SHIFT', kind: 'WORK', loadClass: 'LIGHT', durationMinutes: 45, wage: 1 } }];
 anna.activeGoal = { type: 'PURCHASE_MEAL', targetHostId: annaFishSeller.id, taskId: `FOOD:${annaFishSeller.id}:생선 한 점`,
   reason: 'plan_a_market_meal_before_hunger_becomes_severe', selectionBasis: { utilityScore: 101.62 } };
 annaFishSeller.mapId = 'market-quay'; annaFishSeller.position = { x: 26, y: 15 }; annaFishSeller.marketStock['생선 한 점'] = 8;
 const retainedMealGoal = game.advanceNpcWorld(committedMeal, 15, maps);
 assert.equal(retainedMealGoal.hosts.seamstress_anna.activeGoal.type, 'PURCHASE_MEAL',
-  'an ongoing meal trip must remain selected when the competing personal-life stage scores slightly higher');
+  'an ongoing meal trip must remain selected over a personal-life stage and due shift');
 assert.equal(retainedMealGoal.hosts.seamstress_anna.activeGoal.targetHostId, 'fishseller_klavdiya');
 const authoredFishSeller = cards.find(card => card.id === 'fishseller_klavdiya');
 assert.equal(authoredFishSeller.marketOffers[0].itemKo, '생선 한 점');
-assert.ok(authoredFishSeller.marketOffers[0].openWindows.some(window => window.startMinute === 480 && window.endMinute >= 1320),
-  'the fish seller stays open into evening while late-shift residents reach the market');
-assert.ok(authoredFishSeller.residence.sleepMinute >= 1320,
-  'the fish seller remains available for the full advertised evening shift');
+assert.ok(authoredFishSeller.marketOffers[0].openWindows.some(window => window.startMinute === 480 && window.endMinute === 960),
+  'the fish seller advertises food only while she is scheduled at the quay');
+assert.ok(authoredFishSeller.marketOffers.some(offer => offer.mapId === 'courtyard'
+  && offer.openWindows.some(window => window.startMinute === 960 && window.endMinute === 1380)),
+  'remaining fish can be sold at the courtyard where the seller works after leaving the quay');
 const authoredFishWork = authoredFishSeller.schedule.find(slot => slot.workAction?.id === 'V36_FISHSELLER_RECEIVE_CATCH')?.workAction;
 assert.equal(authoredFishWork?.restockOfferFromWork, true);
-assert.equal(authoredFishWork?.inventoryQuantity, 8);
+assert.equal(authoredFishWork?.inventoryQuantity, 14, 'the daily fish delivery must carry enough game-balanced portions for the routed afternoon stall');
+assert.equal(authoredFishWork?.valueStatus, 'fictional_gameplay_balance');
 assert.equal(authoredFishSeller.schedule.find(slot => slot.task?.id === 'KLAVIYA_MARKET_BREAK_MEAL_1847')?.task?.itemKo, '생선 한 점',
   'the fish seller has an authored meal break supplied from her own counter stock');
 const authoredInnkeeper = cards.find(card => card.id === 'innkeeper_irina');
@@ -146,7 +181,7 @@ fishSeller.marketStock = structuredClone(authoredFishSeller.marketStock);
 const fishWorkAction = structuredClone(authoredFishWork);
 fishSeller.schedule = [{ atMinute: 540, mapId: 'market-quay', position: { ...fishSeller.position }, activityKo: '오늘 들어온 생선을 손질한다', workAction: fishWorkAction }];
 const fishProduced = game.advanceNpcWorld(fishState, 25, maps);
-assert.equal(fishProduced.hosts.fishseller_klavdiya.marketStock['생선 한 점'], 8,
+assert.equal(fishProduced.hosts.fishseller_klavdiya.marketStock['생선 한 점'], 14,
   'a merchant can stock her own stall from a completed food-preparation action');
 assert.equal(fishProduced.hosts.fishseller_klavdiya.inventory.filter(item => item === '생선 한 점').length, 0,
   'prepared portions enter the stall inventory exactly once');
@@ -165,9 +200,9 @@ const fishMeals = fishServed.ledger.flatMap(row => row.meals ?? []).filter(row =
   && row.sellerHostId === fishSeller.id);
 assert.equal(fishMeals.length, 3, 'a second market stall can serve three paid meal customers');
 assert.equal(fishServed.hosts.fishseller_klavdiya.money.amount, 18, 'the fish seller receives each customer payment');
-assert.equal(fishServed.hosts.fishseller_klavdiya.marketStock['생선 한 점'], 5);
+assert.equal(fishServed.hosts.fishseller_klavdiya.marketStock['생선 한 점'], 11);
 const fishRestored = game.loadGame(game.saveGame(fishServed), { maps, hostCards: cards });
-assert.equal(fishRestored.hosts.fishseller_klavdiya.marketStock['생선 한 점'], 5);
+assert.equal(fishRestored.hosts.fishseller_klavdiya.marketStock['생선 한 점'], 11);
 assert.equal(fishRestored.hosts.fishseller_klavdiya.money.amount, 18);
 
 const innState = game.createInitialState({ maps, hostCards: cards, startMapId: 'inn-interior' });
@@ -187,13 +222,13 @@ const supperRestored = game.loadGame(game.saveGame(supperPrepared), { maps, host
 assert.equal(supperRestored.hosts.innkeeper_irina.marketStock['저녁 수프'], 9);
 
 const vendorMealState = game.createInitialState({ maps, hostCards: cards, startMapId: 'market-quay' });
-vendorMealState.world.date = '1847-06-01'; vendorMealState.world.clockMinutes = 1020; vendorMealState.world.currentMapId = 'market-quay';
+vendorMealState.world.date = '1847-06-01'; vendorMealState.world.clockMinutes = 1080; vendorMealState.world.currentMapId = 'market-quay';
 for (const host of Object.values(vendorMealState.hosts)) host.historicalAliveAndPresent = false;
 const eatingVendor = vendorMealState.hosts.market_nadezhda;
 eatingVendor.historicalAliveAndPresent = true; eatingVendor.mapId = 'market-quay'; eatingVendor.position = { x: 14, y: 12 };
 eatingVendor.needs.hunger = 82; eatingVendor.needs.lastMealAtMinute = 500;
 eatingVendor.marketStock['빵 한 묶음'] = 2;
-eatingVendor.schedule = [{ atMinute: 1020, mapId: 'market-quay', position: { ...eatingVendor.position }, activityKo: '잠시 쉬며 빵을 먹는다', task: { type: 'CONSUME', id: 'TEST_VENDOR_MEAL', itemKo: '빵 한 묶음', minimumHunger: 45, hungerRelief: 32 } }];
+eatingVendor.schedule = [{ atMinute: 1080, mapId: 'market-quay', position: { ...eatingVendor.position }, activityKo: '잠시 쉬며 빵을 먹는다', task: { type: 'CONSUME', id: 'TEST_VENDOR_MEAL', itemKo: '빵 한 묶음', minimumHunger: 45, hungerRelief: 32 } }];
 const vendorAte = game.advanceNpcWorld(vendorMealState, 1, maps);
 assert.equal(vendorAte.hosts.market_nadezhda.marketStock['빵 한 묶음'], 1,
   'a vendor meal consumes one portion from the stall stock when no personal portion is carried');

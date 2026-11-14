@@ -34,6 +34,23 @@ function makeState() {
   return state;
 }
 
+const possessedWorker = game.createInitialState({ maps, hostCards: cards, quests: [quest], startMapId: 'market-quay' });
+possessedWorker.world.chapterId = 'V33_1847_PRINT';
+possessedWorker.world.date = '1847-06-01';
+possessedWorker.world.clockMinutes = 600;
+possessedWorker.world.currentMapId = 'market-quay';
+possessedWorker.hosts.porter_gavrila.mapId = 'market-quay';
+possessedWorker.hosts.porter_gavrila.position = { x: 11, y: 13 };
+possessedWorker.hosts.porter_gavrila.needs.fatigue = 90;
+possessedWorker.player.embodiment = 'porter_gavrila';
+possessedWorker.player.position = { x: 11, y: 13 };
+const playerAtWork = game.advanceNpcWorld(possessedWorker, 1, maps);
+assert.equal(playerAtWork.world.livingEventStates.E12?.status, 'ACTIVE',
+  'the possessed porter can trigger the injury through his scheduled heavy-lifting work');
+assert.equal(playerAtWork.hosts.porter_gavrila.healthState.condition, 'INJURED');
+assert.ok(playerAtWork.ledger.some(row => row.livingEvents?.some(event => event.catalogEventId === 'E12' && event.stage === 'INJURY')),
+  'the injury is recorded in the event ledger while the player controls its worker');
+
 const unattended = game.advanceNpcWorld(makeState(), 1441, maps);
 assert.equal(unattended.hosts.porter_gavrila.lifeStatus, 'DECEASED');
 assert.equal(unattended.hosts.porter_gavrila.historicalAliveAndPresent, false);

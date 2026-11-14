@@ -1,5 +1,7 @@
 import { objectIsPresent, interactionTile, isActionableInteraction, ambientBubbleFor } from './world-presentation.mjs';
 import { atmosphereForMap, mapHasAtmosphere, weatherForDate } from './atmosphere.mjs';
+import { drawPetersburgStreetLife } from './petersburg-street-life.mjs';
+import { drawGroundShadow, sortSceneByGroundDepth } from './depth-rendering.mjs';
 
 export function courtyardFireDamageMark(state, map) {
   const event = state?.world?.livingEventStates?.E27;
@@ -91,6 +93,8 @@ export function createRenderer(canvas, assets) {
     return images.get(url);
   }
   const tileImage = getImage(new URL('../assets/petersburg-tiles.png', import.meta.url));
+  const rainSprites = Array.from({ length: 5 }, (_, frame) =>
+    getImage(new URL(`../assets/weather/rain_drop_${frame}.png`, import.meta.url)));
   const hostCards = assets.hostCards;
   const tile = 16;
   const motionPreference = window.matchMedia?.('(prefers-reduced-motion: reduce)');
@@ -125,11 +129,14 @@ export function createRenderer(canvas, assets) {
     ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
     const w = canvas.clientWidth, h = canvas.clientHeight;
     const actor = state.player.embodiment ? state.hosts[state.player.embodiment] : state.player;
-    const camera = calculateCamera({ viewportWidth: w, viewportHeight: h, mapWidth: map.width, mapHeight: map.height, tileSize: tile, position: actor.position });
+    const camera = calculateCamera({ viewportWidth: w, viewportHeight: h, mapWidth: map.width, mapHeight: map.height,
+      tileSize: tile, position: actor.position, zoom: Number(map.metadata?.cameraZoom) || 2.25 });
     const { scale, offsetX: ox, offsetY: oy } = camera;
-    ctx.fillStyle = '#62564b'; ctx.fillRect(0, 0, w, h);
+    const weather = weatherForDate(state.world.date, Math.floor((state.world.clockMinutes ?? 0) / 1440));
+    ctx.fillStyle = map.metadata?.canvasGutterColor ?? '#62564b'; ctx.fillRect(0, 0, w, h);
     const background = mapCanvas(map);
     if (background) ctx.drawImage(background, ox, oy, background.width * scale, background.height * scale);
+    drawPetersburgStreetLife(ctx, map.mapId, ox, oy, scale, time, reducedMotion, map.width, weather);
     if (map.metadata?.mapClass === 'LITERARY_REALM') {
       ctx.save();
       ctx.fillStyle = '#9a6b3822';
@@ -140,19 +147,11 @@ export function createRenderer(canvas, assets) {
       ctx.restore();
     }
     const objectLayer = map.layers.find(item => item.name === 'Interactions');
-    for (const object of objectLayer?.objects ?? []) {
-      if (!objectIsPresent(object, state, assets.quests)) continue;
-      const p = Object.fromEntries((object.properties ?? []).map(v => [v.name, v.value]));
-      const x = ox + object.x * scale, y = oy + object.y * scale;
-      const index = interactionTile(object) - 1;
-      if (tileImage.complete && tileImage.naturalWidth) ctx.drawImage(tileImage, index % 16 * tile, Math.floor(index / 16) * tile, tile, tile, x, y, tile * scale, tile * scale);
-      if (isActionableInteraction(object, state, map, assets.quests)) {
-        const pulse = reducedMotion ? .72 : .62 + (Math.sin(time / 520) + 1) * .12;
-        ctx.save(); ctx.globalAlpha = pulse; ctx.strokeStyle = '#f0d79e'; ctx.lineWidth = Math.max(1.5, 1.5 * scale);
-        ctx.strokeRect(x + scale, y + scale, 14 * scale, 14 * scale);
-        ctx.fillStyle = '#f0d79e'; ctx.beginPath(); ctx.arc(x + 14 * scale, y + 2 * scale, Math.max(1.5, scale * 1.7), 0, Math.PI * 2); ctx.fill(); ctx.restore();
-      }
-    }
+    const visibleObjects = (objectLayer?.objects ?? []).filter(object => objectIsPresent(object, state, assets.quests));
+    const visibleActors = [...hostCards].filter(card => {
+      const host = state.hosts[card.id];
+      return host && host.mapId === map.mapId && host.historicalAliveAndPresent !== false;
+    });
     drawE41Scene(ctx, state, map, ox, oy, scale, reducedMotion);
     const procession = state.world.livingEventStates?.E45;
     if (procession?.status === 'ACTIVE' && procession.carriageMapId === map.mapId && procession.carriagePosition) {
@@ -183,16 +182,71 @@ export function createRenderer(canvas, assets) {
       }
       ctx.restore();
     }
-    for (const card of [...hostCards].sort((a, b) => (state.hosts[a.id]?.position.y ?? 0) - (state.hosts[b.id]?.position.y ?? 0))) {
-      const host = state.hosts[card.id]; if (!host || host.mapId !== map.mapId || host.historicalAliveAndPresent === false) continue;
+    const sceneEntries = sortSceneByGroundDepth([
+      ...visibleObjects.map((object, index) => {
+        const p = Object.fromEntries((object.properties ?? []).map(property => [property.name, property.value]));
+        const height = Number(p.displayHeight) || tile;
+        return { kind: 'object', object, properties: p, stableOrder: index, depthOrder: 0,
+          groundY: object.y + (Number(p.displayOffsetY) || 0) + height };
+      }),
+      ...visibleActors.map((card, index) => ({ kind: 'actor', card, stableOrder: index, depthOrder: 1,
+        groundY: state.hosts[card.id].position.y * tile + tile })),
+    ]);
+    for (const entry of sceneEntries) {
+      if (entry.kind === 'object') {
+        const { object, properties: p } = entry;
+        const x = ox + object.x * scale, y = oy + object.y * scale;
+        const index = interactionTile(object) - 1;
+        const width = Number(p.displayWidth) || tile, height = Number(p.displayHeight) || tile;
+        const imageX = x + (Number(p.displayOffsetX) || 0) * scale;
+        const imageY = y + (Number(p.displayOffsetY) || 0) * scale;
+        const baseY = oy + entry.groundY * scale;
+        if (p.castShadow !== false) drawGroundShadow(ctx, { x: imageX, baseY, width, scale, strength: Number(p.shadowStrength) || 1 });
+        if (p.displayAsset) {
+          const display = getImage(new URL(p.displayAsset, import.meta.url));
+          if (display.complete && display.naturalWidth) ctx.drawImage(display, imageX, imageY, width * scale, height * scale);
+        } else if (tileImage.complete && tileImage.naturalWidth) {
+          ctx.drawImage(tileImage, index % 16 * tile, Math.floor(index / 16) * tile, tile, tile, x, y, tile * scale, tile * scale);
+        }
+        if (p.ambientEffect === 'samovar-steam') {
+          ctx.save();
+          for (let wisp = 0; wisp < 3; wisp += 1) {
+            const phase = reducedMotion ? 0.45 : ((time / 1700 + wisp / 3) % 1);
+            const rise = phase * 12 * scale;
+            ctx.globalAlpha = (1 - phase) * 0.55;
+            ctx.strokeStyle = '#f1e5cf'; ctx.lineWidth = Math.max(1.5, scale * 1.15);
+            ctx.beginPath();
+            ctx.moveTo(x + (8 + wisp * 5) * scale, y - 47 * scale - rise);
+            ctx.bezierCurveTo(x + (4 + wisp * 5) * scale, y - 50 * scale - rise,
+              x + (14 + wisp * 5) * scale, y - 54 * scale - rise,
+              x + (9 + wisp * 5) * scale, y - 58 * scale - rise);
+            ctx.stroke();
+          }
+          ctx.restore();
+        }
+        continue;
+      }
+      const { card } = entry;
+      const host = state.hosts[card.id];
       const atlas = card.spriteAtlas ?? card.sprite;
       const sprite = getImage(new URL(`../${atlas.file}`, import.meta.url));
       const active = state.player.embodiment === card.id;
       const frameCount = atlas.framesPerDirection ?? 3, frameWidth = atlas.frameWidth ?? 16, frameHeight = atlas.frameHeight ?? 24;
       const frame = !reducedMotion && active && time - lastMoveAt < 360 ? Math.floor(time / 120) % frameCount : 0;
-      const dir = atlas.directionRows?.[host.facing] ?? ({ down: 0, up: 1, left: 2, right: 3 })[host.facing] ?? 0, px = ox + host.position.x * tile * scale, tileY = oy + host.position.y * tile * scale, py = Math.max(tileY, oy + 8 * scale);
+      const dir = atlas.directionRows?.[host.facing] ?? ({ down: 0, up: 1, left: 2, right: 3 })[host.facing] ?? 0;
+      const px = ox + host.position.x * tile * scale, tileY = oy + host.position.y * tile * scale;
+      const py = Math.max(tileY, oy + 8 * scale);
+      drawGroundShadow(ctx, { x: px + 2 * scale, baseY: py + 15 * scale, width: 12, scale, strength: 1.05 });
       if (sprite.complete && sprite.naturalWidth) ctx.drawImage(sprite, frame * frameWidth, dir * frameHeight, frameWidth, frameHeight, px, py - 8 * scale, frameWidth * scale, frameHeight * scale);
-      if (state.player.embodiment === card.id) { ctx.strokeStyle = '#f2d38b'; ctx.lineWidth = 1; ctx.beginPath(); ctx.ellipse(px + 8 * scale, py + 15 * scale, 8 * scale, 3 * scale, 0, 0, Math.PI * 2); ctx.stroke(); }
+      if (active) { ctx.strokeStyle = '#f2d38b'; ctx.lineWidth = 1; ctx.beginPath(); ctx.ellipse(px + 8 * scale, py + 15 * scale, 8 * scale, 3 * scale, 0, 0, Math.PI * 2); ctx.stroke(); }
+    }
+    for (const object of visibleObjects) {
+      if (!isActionableInteraction(object, state, map, assets.quests)) continue;
+      const x = ox + object.x * scale, y = oy + object.y * scale;
+      const pulse = reducedMotion ? .72 : .62 + (Math.sin(time / 520) + 1) * .12;
+      ctx.save(); ctx.globalAlpha = pulse; ctx.strokeStyle = '#f0d79e'; ctx.lineWidth = Math.max(1.5, 1.5 * scale);
+      ctx.strokeRect(x + scale, y + scale, 14 * scale, 14 * scale);
+      ctx.fillStyle = '#f0d79e'; ctx.beginPath(); ctx.arc(x + 14 * scale, y + 2 * scale, Math.max(1.5, scale * 1.7), 0, Math.PI * 2); ctx.fill(); ctx.restore();
     }
     const ambient = ambientBubbleFor(state, hostCards, map, time, Boolean(objective?.dialogueActive), assets.ambientConversations ?? []);
     if (ambient) {
@@ -222,7 +276,6 @@ export function createRenderer(canvas, assets) {
     const glow = ctx.createRadialGradient(px + 8 * scale, py + 8 * scale, 2, px + 8 * scale, py + 8 * scale, 46 * scale);
     const pulse = reducedMotion ? 0.5 : (Math.sin(time / 850) + 1) / 2;
     glow.addColorStop(0, `rgba(212,163,93,${0.055 + pulse * 0.025})`); glow.addColorStop(1, '#d4a35d00'); ctx.globalCompositeOperation = 'screen'; ctx.fillStyle = glow; ctx.fillRect(ox, oy, map.width * tile * scale, map.height * tile * scale); ctx.globalCompositeOperation = 'source-over';
-    const weather = weatherForDate(state.world.date, Math.floor((state.world.clockMinutes ?? 0) / 1440));
     const atmosphere = atmosphereForMap(map.mapId, map.width * tile * scale, map.height * tile * scale, time, reducedMotion, weather);
     if (atmosphere) {
       ctx.save();
@@ -233,16 +286,42 @@ export function createRenderer(canvas, assets) {
         haze.addColorStop(0, 'rgba(182,198,202,0)'); haze.addColorStop(0.5, 'rgba(182,198,202,0.055)'); haze.addColorStop(1, 'rgba(182,198,202,0)');
         ctx.fillStyle = haze; ctx.fillRect(ox, hazeY, map.width * tile * scale, map.height * tile * scale * 0.16);
         ctx.lineWidth = 1;
-        for (const drop of atmosphere.particles) {
+        for (const [index, drop] of atmosphere.particles.entries()) {
+          if (index % 3 === 0) {
+            const spriteFrame = reducedMotion ? 0 : (Math.floor(time / 110) + index) % rainSprites.length;
+            const rainSprite = rainSprites[spriteFrame];
+            if (rainSprite?.complete && rainSprite.naturalWidth) {
+              ctx.globalAlpha = drop.alpha;
+              ctx.drawImage(rainSprite, ox + drop.x - 3, oy + drop.y - 2, 9, 11);
+              ctx.globalAlpha = 1;
+              continue;
+            }
+          }
           ctx.strokeStyle = `rgba(190,204,204,${drop.alpha})`;
           ctx.beginPath(); ctx.moveTo(ox + drop.x, oy + drop.y); ctx.lineTo(ox + drop.x - 1.5, oy + drop.y + drop.length); ctx.stroke();
         }
+        for (const glint of atmosphere.pavingGlints ?? []) {
+          ctx.strokeStyle = `rgba(222,214,188,${glint.alpha})`;
+          ctx.beginPath();
+          ctx.moveTo(ox + glint.x, oy + glint.y);
+          ctx.lineTo(ox + glint.x + glint.width, oy + glint.y + 0.5);
+          ctx.stroke();
+        }
       } else if (atmosphere.kind === 'fog' || atmosphere.kind === 'overcast') {
         const haze = ctx.createLinearGradient(0, oy, 0, oy + map.height * tile * scale);
-        haze.addColorStop(0, atmosphere.kind === 'fog' ? 'rgba(198,207,207,0.02)' : 'rgba(93,108,119,0.055)');
-        haze.addColorStop(0.58, atmosphere.kind === 'fog' ? 'rgba(198,207,207,0.15)' : 'rgba(93,108,119,0.025)');
+        haze.addColorStop(0, atmosphere.kind === 'fog' ? 'rgba(198,207,207,0.035)' : 'rgba(93,108,119,0.055)');
+        haze.addColorStop(0.58, atmosphere.kind === 'fog' ? 'rgba(198,207,207,0.25)' : 'rgba(93,108,119,0.025)');
         haze.addColorStop(1, 'rgba(198,207,207,0.01)');
         ctx.fillStyle = haze; ctx.fillRect(ox, oy, map.width * tile * scale, map.height * tile * scale);
+        for (const bank of atmosphere.fogBanks ?? []) {
+          const left = ox + bank.x, top = oy + bank.y, width = bank.width, height = bank.height;
+          const mist = ctx.createLinearGradient(0, top, 0, top + height);
+          mist.addColorStop(0, 'rgba(211,218,213,0)');
+          mist.addColorStop(0.48, `rgba(211,218,213,${bank.alpha})`);
+          mist.addColorStop(1, 'rgba(211,218,213,0)');
+          ctx.fillStyle = mist;
+          ctx.fillRect(left, top, width, height);
+        }
       } else if (atmosphere.kind === 'wind') {
         ctx.lineWidth = 1;
         for (const gust of atmosphere.particles) {
@@ -250,6 +329,12 @@ export function createRenderer(canvas, assets) {
           ctx.beginPath(); ctx.moveTo(ox + gust.x, oy + gust.y); ctx.lineTo(ox + gust.x + gust.length, oy + gust.y - 1); ctx.stroke();
         }
       } else if (atmosphere.kind === 'snow') {
+        ctx.fillStyle = 'rgba(177,196,209,0.045)';
+        ctx.fillRect(ox, oy, map.width * tile * scale, map.height * tile * scale);
+        for (const band of atmosphere.snowBands ?? []) {
+          ctx.fillStyle = `rgba(231,235,229,${band.alpha ?? 0.32})`;
+          ctx.fillRect(ox + band.x, oy + band.y, band.width, band.height);
+        }
         for (const flake of atmosphere.particles) {
           ctx.fillStyle = `rgba(237,239,230,${flake.alpha})`;
           ctx.fillRect(ox + flake.x, oy + flake.y, flake.size, flake.size);
@@ -273,5 +358,10 @@ export function createRenderer(canvas, assets) {
       }
     }
   }
-  return { draw, needsAmbientFrames: map => mapHasAtmosphere(map.mapId) && !reducedMotion };
+  return {
+    draw,
+    needsAmbientFrames: map => !reducedMotion && (mapHasAtmosphere(map.mapId)
+      || map.layers.some(layer => layer.objects?.some(object => object.properties?.some(property =>
+        property.name === 'ambientEffect' && property.value === 'samovar-steam')))),
+  };
 }

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" shape-rendering="crispEdges">
+  <!-- Authored scene prop: a compact wooden hand press with iron screw and inked bed. -->
+  <path fill="#211711" d="M9 57h46v4H9z"/>
+  <path fill="#51331f" d="M14 53h8v6h-8zm28 0h8v6h-8zM18 12h8v42h-8zm24 0h8v42h-8z"/>
+  <path fill="#8b5c32" d="M12 8h40v8H12zM14 25h36v7H14zM11 48h42v8H11z"/>
+  <path fill="#bd8950" d="M15 9h34v3H15zm3 18h30v2H18zm-3 22h34v3H15z"/>
+  <path fill="#30221a" d="M24 14h16v5H24zm5 5h6v18h-6z"/>
+  <path fill="#a9a39a" d="M29 21h6v10h-6zm-2 10h10v4H27z"/>
+  <path fill="#5e5145" d="M26 34h12v4H26z"/>
+  <path fill="#9e6535" d="M13 38h38v8H13z"/>
+  <path fill="#d8c49b" d="M19 38h26v3H19z"/>
+  <path fill="#35251c" d="M15 42h34v3H15z"/>
+  <path fill="#8f4e31" d="M22 46h20v2H22z"/>
+  <path fill="#d1ad68" d="M8 6h48v3H8zM10 16h4v33h-4zm40 0h4v33h-4z"/>
+  <path fill="#473020" d="M25 12h14v3H25zm-5 4h4v8h-4zm20 0h4v8h-4z"/>
+  <path fill="#78604a" d="M16 54h4v3h-4zm28 0h4v3h-4z"/>
+  <path fill="#d5bd8d" d="M26 39h12v1H26z"/>
+  <path fill="#4d6a64" d="M49 43h7v7h-7z"/>
+  <path fill="#a7b4a0" d="M50 44h4v2h-4z"/>
+  <path fill="#231813" d="M48 50h9v2h-9z"/>
+  <path fill="#d3c5a3" d="M13 32h4v5h-4z"/>
+  <path fill="#4e3727" d="M12 36h7v2h-7z"/>
+</svg>

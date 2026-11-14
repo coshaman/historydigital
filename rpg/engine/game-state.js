@@ -1,6 +1,8 @@
 'use strict';
 
 const SAVE_VERSION = 37;
+const V47Runtime = typeof require === 'function' ? require('./v47-main-stories.js') : globalThis.V47MainStories;
+const { createV47State, advanceV47World, applyCholeraIntervention } = V47Runtime;
 const DIRECTIONS = Object.freeze({ up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] });
 const RENT_LIVING_EVENT = Object.freeze({ catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E01', occurrenceType: 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION', validationStatus: 'DESIGN_SEED_NOT_VERIFIED' });
 const WEATHER_EXPOSED_MAPS = new Set(['nevsky', 'courtyard', 'market-quay', 'canal-road', 'workyard', 'bookshop-lane']);
@@ -30,7 +32,7 @@ function runtimeEraProfile(card) {
   if (card.kind === 'HISTORICAL_RECONSTRUCTION') {
     return { layer: 'HISTORICAL_RECONSTRUCTION', allowedChapterIds: Object.keys(card.objectiveByChapter ?? {}).filter(id => id.startsWith('V33_')), realmId: null, mapId: null, sourceIds: [] };
   }
-  return { layer: 'FICTIONAL_1840S', allowedChapterIds: ['V33_1847_PRINT', 'V33_1848_PUBLIC', 'V33_1849_CIRCLE'], realmId: null, mapId: null, sourceIds: [] };
+  return { layer: 'FICTIONAL_1840S', allowedChapterIds: ['V33_1847_PRINT', 'V33_1848_PUBLIC', 'V33_1849_PRELUDE', 'V33_1849_CIRCLE'], realmId: null, mapId: null, sourceIds: [] };
 }
 
 function layer(map, name) { return map?.layers?.find(item => item.name === name); }
@@ -68,8 +70,9 @@ function mapAccessFailure(map, host, absoluteMinute) {
   const access = map?.metadata?.access;
   if (!access) return null;
   if (!host) return 'person_required';
-  if (Array.isArray(access.allowedCharacterIds) && !access.allowedCharacterIds.includes(host.id)) return 'host_lacks_access';
-  if (Array.isArray(access.allowedEstates) && !access.allowedEstates.includes(host.socialEstate)) return 'host_lacks_access';
+  const explicitlyAllowed = Array.isArray(access.allowedCharacterIds) && access.allowedCharacterIds.includes(host.id);
+  if (Array.isArray(access.allowedCharacterIds) && !explicitlyAllowed) return 'host_lacks_access';
+  if (Array.isArray(access.allowedEstates) && !access.allowedEstates.includes(host.socialEstate) && !explicitlyAllowed) return 'host_lacks_access';
   if (Number.isInteger(access.opensMinute) && Number.isInteger(access.closesMinute)) {
     const minute = ((absoluteMinute % 1440) + 1440) % 1440;
     const open = access.opensMinute <= access.closesMinute
@@ -139,14 +142,16 @@ function markFictionalResidentDead(state, host, causeId, possessionReason) {
   return true;
 }
 
+const FOOD_DEPRIVATION_FATAL_MINUTES = 10080;
+
 function advanceFoodDeprivation(state, minuteOffset, maps, careRows) {
   for (const host of Object.values(state.hosts)) {
     if (host.kind !== 'FICTIONAL' || host.historicalAliveAndPresent === false || host.lifeStatus === 'DECEASED') continue;
     host.needs ??= initialNpcNeeds(host, state.world.clockMinutes);
     if (host.needs.hunger < 100) { host.needs.foodDeprivationMinutes = 0; continue; }
-    host.needs.foodDeprivationMinutes = Math.min(2880, (host.needs.foodDeprivationMinutes ?? 0) + 1);
+    host.needs.foodDeprivationMinutes = Math.min(FOOD_DEPRIVATION_FATAL_MINUTES, (host.needs.foodDeprivationMinutes ?? 0) + 1);
     const deprivationMinutes = host.needs.foodDeprivationMinutes;
-    if (deprivationMinutes >= 2880) {
+    if (deprivationMinutes >= FOOD_DEPRIVATION_FATAL_MINUTES) {
       if (markFictionalResidentDead(state, host, 'FOOD_DEPRIVATION', 'host_died_after_food_deprivation')) {
         careRows.push({ kind: 'FOOD_DEPRIVATION_FATALITY', hostId: host.id, hunger: host.needs.hunger,
           deprivationMinutes, minute: minuteOffset, mapId: host.mapId, position: { ...host.position },
@@ -387,6 +392,9 @@ function syncPersistentPersonalGoals(state, hostId) {
     let satisfied=progress.status==='SATISFIED';
     if(condition.type==='LIFE_CHAIN_COMPLETED')satisfied ||= Math.max(state.world.lifeChains?.[condition.chainId]?.stage??0, progress.autonomousStage??0)>=condition.stageCount;
     if(condition.type==='RELATION_CHANGED')satisfied ||= Boolean(host.relations?.[condition.targetHostId]&&host.relations[condition.targetHostId]!==condition.baseline);
+    if(condition.type==='QUEST_ACTION')satisfied ||= (state.ledger??[]).some(entry => entry.eventType==='HISTORICAL_ACTION'
+      && entry.hostId===hostId && entry.questId===condition.questId
+      && (condition.actionIds??[condition.actionId]).includes(entry.actionId));
     host.personalGoalProgress[goal.id]=satisfied?{...progress,status:'SATISFIED',satisfiedAt:progress.satisfiedAt??state.world.date}:{...progress,status:'ACTIVE'};
   }
 }
@@ -519,7 +527,7 @@ function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky
     releaseLocked: false,
   }]));
   for (const host of Object.values(hosts)) {
-    const slot = scheduleEntry(host, 540);
+    const slot = scheduleEntry(host, 540, host.presenceWindow?.startDate ?? null);
     if (slot) { host.scheduleId = `${slot.mapId}:${slot.atMinute}`; host.currentActivityKo = slot.activityKo ?? ''; }
   }
   const isLiteraryQuest = quest => Boolean(quest.realmId) || quest.chapterId?.startsWith('LITERARY_');
@@ -548,6 +556,7 @@ function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky
       literaryOutcomes,
       possessionHistory: [],
       completedChapterIds: [],
+      v47: createV47State(),
     },
     player: { position: { x: spawn.x, y: spawn.y }, facing: 'down', embodiment: null, currentGoals: [], observedEvidenceIds: [], observerMemory: [], crossPerspectiveNotes: [], civic: { suspicion: 0, custody: null, publishedIssues: [], readIssueIds: [], circulatedIssues: [] }, dialogueGrowth: { insight: 0, aiReplies: 0, perspectiveNotes: [], comparisonNotes: [], reflectionIds: [], playerPositions: [] }, gameSaveVersion: SAVE_VERSION },
     hosts,
@@ -560,8 +569,11 @@ function createInitialState({ maps, hostCards, quests = [], startMapId = 'nevsky
   };
 }
 
-function scheduleEntry(host, clockMinutes) {
-  const schedule = [...(host.schedule ?? [])].sort((a, b) => a.atMinute - b.atMinute);
+function scheduleEntry(host, clockMinutes, date = null) {
+  const schedule = [...(host.schedule ?? [])].filter(item => !date
+    || (!item.activeFromDate || date >= item.activeFromDate)
+      && (!item.activeThroughDate || date <= item.activeThroughDate))
+    .sort((a, b) => a.atMinute - b.atMinute);
   const minute = ((clockMinutes % 1440) + 1440) % 1440;
   return [...schedule].reverse().find(item => item.atMinute <= minute) ?? schedule[0] ?? null;
 }
@@ -633,6 +645,13 @@ function isMarketOfferOpen(seller, offer, absoluteMinute) {
 function marketOfferPrice(state, seller, offer) {
   const surcharge = Number(state?.world?.marketPriceModifiers?.[`${seller?.id}:${offer?.itemKo}`] ?? 0);
   return Number.isInteger(offer?.price) && Number.isInteger(surcharge) && surcharge >= 0 ? offer.price + surcharge : Number.NaN;
+}
+function reservedMealPortions(state, sellerHostId, itemKo, exceptHostId) {
+  return Object.values(state.hosts ?? {}).filter(host => host.id !== exceptHostId
+    && host.id !== state.player?.embodiment && host.historicalAliveAndPresent !== false
+    && host.activeGoal?.type === 'PURCHASE_MEAL'
+    && host.activeGoal.targetHostId === sellerHostId
+    && host.activeGoal.taskId === `FOOD:${sellerHostId}:${itemKo}`).length;
 }
 function livingMarketEventRow(state, stage, actorHostIds, mapId, position, minute, maps, details = {}) {
   const seller = state.hosts.market_nadezhda;
@@ -2771,20 +2790,23 @@ function advanceMarketPriceDispute(state, minuteOffset, maps, livingEventRows, o
   if (event || state.world.activeRealm || state.world.chapterId !== 'V33_1847_PRINT' || !sale
     || sale.status !== 'RESOLVED' || sale.stage !== 'RESOLVED') return;
   const seller = state.hosts[sale.sellerHostId], buyer = state.hosts[priceRow.buyerHostId];
+  const sellerPosition = priceRow.sellerPosition ?? seller?.position;
+  const buyerPosition = priceRow.position ?? buyer?.position;
   if (!seller || !buyer || seller.mapId !== 'market-quay' || buyer.mapId !== 'market-quay'
-    || !nearTile(seller.position, buyer.position, 2)) return;
+    || !nearTile(sellerPosition, buyerPosition, 3)) return;
   const watchman = state.hosts.junior_guard_sergey;
   const witnessHostIds = [];
   if (watchman?.historicalAliveAndPresent !== false && watchman?.mapId === 'market-quay'
-    && nearTile(watchman.position, seller.position, 6)) witnessHostIds.push(watchman.id);
+    && nearTile(watchman.position, sellerPosition, 6)) witnessHostIds.push(watchman.id);
   const surcharge = priceRow.pricePaid - priceRow.basePrice;
   if (!Number.isInteger(surcharge) || surcharge <= 0) return;
   state.world.livingEventStates.E13 = { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E13',
     status: 'ACTIVE', stage: 'PRICE_CHALLENGE', trigger: 'supply_shock', triggerMechanism: 'adjusted_price_paid_after_documented_game_stockout',
     sourceCatalogEventId: 'E02', startedAtMinute: state.world.clockMinutes, resolvesAtMinute: state.world.clockMinutes + 180,
     sellerHostId: seller.id, buyerHostId: buyer.id, watchmanHostId: watchman?.id ?? 'junior_guard_sergey',
-    actorHostIds: [seller.id, buyer.id], witnessHostIds, scenePosition: { ...seller.position }, itemKo: '빵 한 묶음', basePrice: priceRow.basePrice,
+    actorHostIds: [seller.id, buyer.id], witnessHostIds, scenePosition: { ...sellerPosition }, itemKo: '빵 한 묶음', basePrice: priceRow.basePrice,
     pricePaid: priceRow.pricePaid, surcharge, reportFiled: false,
+    sellerSalePosition: { ...sellerPosition }, buyerSalePosition: { ...buyerPosition },
     valueStatus: 'fictional_gameplay_balance', occurrenceType: 'HISTORICALLY_PLAUSIBLE_RECONSTRUCTION',
     validationStatus: 'DESIGN_SEED_NOT_VERIFIED' };
   livingEventRows.push(livingMarketDisputeEventRow(state, 'PRICE_CHALLENGE', minuteOffset, maps,
@@ -3183,6 +3205,7 @@ function setRoutineState(worldState, host, state, activityKo, targetMapId, targe
 }
 
 const NPC_STEPS = Object.freeze([[0, -1, 'up'], [1, 0, 'right'], [0, 1, 'down'], [-1, 0, 'left']]);
+const V47_PUBLIC_TRAVEL_TRANSIT_MAPS = ['courtyard', 'workyard'];
 function tileKey(position) { return `${position.x},${position.y}`; }
 function isReserved(mapId, position, reservedTiles) {
   return reservedTiles.some(tile => tile.mapId === mapId && tile.position.x === position.x && tile.position.y === position.y);
@@ -3190,6 +3213,8 @@ function isReserved(mapId, position, reservedTiles) {
 const mapExitObjectCache = new WeakMap();
 const exitClearanceCache = new WeakMap();
 const mapRouteCache = new WeakMap();
+const mealReturnEstimateCache = new WeakMap();
+const MEAL_MARKET_ARRIVAL_RESERVE_MINUTES = 30;
 function npcCanOccupy(state, hostId, mapId, position, maps, reservedTiles) {
   const map = maps?.[mapId];
   if (!canOccupy(map, position.x, position.y, hostId, state.hosts, state.world) || isReserved(mapId, position, reservedTiles)) return false;
@@ -3235,7 +3260,9 @@ function npcMapRoute(startMapId, targetMapId, host, maps, absoluteMinute = 540, 
       if (!nextMap || prior.has(nextId)
         || (!host.allowedMaps.includes(nextId) && !options.allowUnlistedMapIds?.includes(nextId))) continue;
       const accessFailure = mapAccessFailure(nextMap, host, absoluteMinute);
-      if (accessFailure && !(accessFailure === 'closed_hours' && options.allowClosedMapIds?.includes(nextId))) continue;
+      const approvedEventArrival = options.allowEventAccess === true && nextId === targetMapId;
+      if (accessFailure && !approvedEventArrival
+        && !(accessFailure === 'closed_hours' && options.allowClosedMapIds?.includes(nextId))) continue;
       const currentLiterary = map.metadata?.mapClass === 'LITERARY_REALM', nextLiterary = nextMap.metadata?.mapClass === 'LITERARY_REALM';
       if (currentLiterary !== nextLiterary || (currentLiterary && map.metadata.realmId !== nextMap.metadata.realmId)) continue;
       prior.set(nextId, { previous: mapId, exit });
@@ -3252,6 +3279,78 @@ function npcMapRoute(startMapId, targetMapId, host, maps, absoluteMinute = 540, 
 function exitApproachTiles(map, exitTile) {
   const candidates = [exitTile, ...NPC_STEPS.map(([dx, dy]) => ({ x: exitTile.x + dx, y: exitTile.y + dy }))];
   return candidates.filter(tile => tileAt(layer(map, 'Collision'), tile.x, tile.y) === 0);
+}
+function staticArrivalTile(map, preferred) {
+  for (let radius = 0; radius <= map.width + map.height; radius += 1) {
+    for (let y = Math.max(0, preferred.y - radius); y <= Math.min(map.height - 1, preferred.y + radius); y += 1) {
+      const dx = radius - Math.abs(y - preferred.y);
+      for (const x of dx === 0 ? [preferred.x] : [preferred.x - dx, preferred.x + dx]) {
+        if (x >= 0 && x < map.width && tileAt(layer(map, 'Collision'), x, y) === 0) return { x, y };
+      }
+    }
+  }
+  return null;
+}
+function estimateNpcWalkingMinutes(host, targetMapId, targetPosition, maps, absoluteMinute) {
+  const route = npcMapRoute(host.mapId, targetMapId, host, maps, absoluteMinute);
+  if (route === null) return Infinity;
+  let mapId = host.mapId, position = { ...host.position }, steps = 0;
+  for (const segment of route) {
+    const map = maps[mapId], approachTiles = exitApproachTiles(map, segment.exit.tile);
+    const path = findGridPath(map, position, approachTiles, tile => tileAt(layer(map, 'Collision'), tile.x, tile.y) === 0);
+    if (!path) return Infinity;
+    steps += path.length + 1;
+    const nextMap = maps[segment.toMapId];
+    const arrival = staticArrivalTile(nextMap, { x: Number(segment.exit.data.arrivalX), y: Number(segment.exit.data.arrivalY) });
+    if (!arrival) return Infinity;
+    mapId = segment.toMapId;
+    position = arrival;
+  }
+  const targetMap = maps[targetMapId];
+  const serviceTiles = [];
+  for (let dy = -3; dy <= 3; dy += 1) for (let dx = -3; dx <= 3; dx += 1) {
+    if (Math.abs(dx) + Math.abs(dy) > 3) continue;
+    const tile = { x: targetPosition.x + dx, y: targetPosition.y + dy };
+    if (tileAt(layer(targetMap, 'Collision'), tile.x, tile.y) === 0) serviceTiles.push(tile);
+  }
+  const finalPath = findGridPath(targetMap, position, serviceTiles, tile => tileAt(layer(targetMap, 'Collision'), tile.x, tile.y) === 0);
+  if (!finalPath) return Infinity;
+  steps += finalPath.length;
+  return steps * 5;
+}
+function estimateMealWalkingMinutes(host, targetMapId, targetPosition, maps, absoluteMinute) {
+  return estimateNpcWalkingMinutes(host, targetMapId, targetPosition, maps, absoluteMinute);
+}
+function estimateMealReturnMinutes(host, seller, sleepSlot, maps, absoluteMinute) {
+  let cache = mealReturnEstimateCache.get(maps);
+  if (!cache) { cache = new Map(); mealReturnEstimateCache.set(maps, cache); }
+  const accessSignature = (host.allowedMaps ?? []).map(mapId => {
+    const failure = mapAccessFailure(maps?.[mapId], host, absoluteMinute);
+    return `${mapId}:${failure ?? 'open'}`;
+  }).join(',');
+  const key = [host.id, host.allowedMaps?.join(','), seller.mapId, seller.position?.x, seller.position?.y,
+    sleepSlot.mapId, sleepSlot.position?.x, sleepSlot.position?.y, accessSignature].join('|');
+  if (cache.has(key)) return cache.get(key);
+  const estimate = estimateMealWalkingMinutes({ ...host, mapId: seller.mapId, position: seller.position },
+    sleepSlot.mapId, sleepSlot.position, maps, absoluteMinute);
+  if (cache.size >= 12000) cache.clear();
+  cache.set(key, estimate);
+  return estimate;
+}
+function foodServiceDeadlineMinute(seller, offer, absoluteMinute) {
+  const minute = ((absoluteMinute % 1440) + 1440) % 1440;
+  const dayStart = absoluteMinute - minute;
+  const openWindow = offer.openWindows?.find(window => window.startMinute <= minute && minute < window.endMinute);
+  if (!openWindow) return absoluteMinute;
+  let deadline = dayStart + openWindow.endMinute;
+  for (let day = Math.floor(absoluteMinute / 1440); day <= Math.floor(absoluteMinute / 1440) + 1; day += 1) {
+    for (const slot of seller.schedule ?? []) {
+      const slotMinute = Number.isInteger(slot.atMinute) ? slot.atMinute : null;
+      const atMinute = slotMinute === null ? null : day * 1440 + slotMinute;
+      if (atMinute !== null && atMinute > absoluteMinute && atMinute < deadline && slot.mapId !== offer.mapId) deadline = atMinute;
+    }
+  }
+  return deadline;
 }
 function exitClearanceTiles(map) {
   const cached = exitClearanceCache.get(map);
@@ -3283,9 +3382,12 @@ function plannedGridStep(state, host, map, goals, cacheKey, maps, reservedTiles,
 }
 function plannedMapRoute(host, targetMapId, maps, absoluteMinute) {
   const accessPhase = host.allowedMaps.filter(id => maps?.[id]?.metadata?.access).map(id => `${id}:${mapAccessFailure(maps[id], host, absoluteMinute) ?? 'open'}`).join(',');
+  const v47StoryAccess = ['V47_STORY_GATHERING', 'V47_EVENT_RETURN'].includes(host.activeGoal?.type)
+    && targetMapId === host.activeGoal?.targetMapId;
   const eventAccess = (host.activeGoal?.taskId?.startsWith('V37:E45:') && targetMapId === 'nevsky')
     || (host.activeGoal?.taskId === 'V37:E19:REACH_READING_PRACTICE' && targetMapId === 'printshop')
-    || (host.activeGoal?.taskId?.startsWith('V37:E24:') && targetMapId === 'courtyard');
+    || (host.activeGoal?.taskId?.startsWith('V37:E24:') && targetMapId === 'courtyard')
+    || v47StoryAccess;
   const key = `${host.mapId}>${targetMapId}:${host.allowedMaps.join('|')}:${accessPhase}:${eventAccess ? host.activeGoal.taskId.split(':')[1] : ''}`;
   if (host.mapRoutePlan?.key === key && Array.isArray(host.mapRoutePlan.route)) {
     return host.mapRoutePlan.route.map(step => {
@@ -3302,7 +3404,9 @@ function plannedMapRoute(host, targetMapId, maps, absoluteMinute) {
       : host.activeGoal?.taskId?.startsWith('V37:E28:DEBT:') && targetMapId === 'inn-interior'
         ? { allowClosedMapIds: ['inn-interior'] }
       : host.activeGoal?.type === 'NIGHT_REST' && host.residence?.sleepLocation?.mapId === targetMapId
-        ? { allowClosedMapIds: [targetMapId] } : {};
+        ? { allowClosedMapIds: [targetMapId] }
+        : eventAccess ? { allowClosedMapIds: [targetMapId], ...(v47StoryAccess
+          ? { allowEventAccess: true, allowUnlistedMapIds: V47_PUBLIC_TRAVEL_TRANSIT_MAPS } : {}) } : {};
   const route = npcMapRoute(host.mapId, targetMapId, host, maps, absoluteMinute, routeOptions);
   host.mapRoutePlan = { key, route: route?.map(step => ({ fromMapId: step.fromMapId, toMapId: step.toMapId, exitId: step.exit.data.exitId })) ?? null };
   return route;
@@ -3400,10 +3504,66 @@ function upcomingNpcSocialWork(state) {
 
 function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
   const localMinute = ((state.world.clockMinutes % 1440) + 1440) % 1440;
+  const v47Travel = host.v47TravelGoal;
+  if (v47Travel?.status === 'EN_ROUTE' && host.historicalAliveAndPresent !== false
+    && host.allowedMaps.includes(v47Travel.targetMapId) && maps?.[v47Travel.targetMapId]
+    && npcMapRoute(host.mapId, v47Travel.targetMapId, host, maps, state.world.clockMinutes,
+      { allowClosedMapIds: [v47Travel.targetMapId], allowEventAccess: true,
+        allowUnlistedMapIds: V47_PUBLIC_TRAVEL_TRANSIT_MAPS }) !== null) {
+    const targetMap = maps[v47Travel.targetMapId];
+    const candidates = [v47Travel.targetPosition,
+      { x: v47Travel.targetPosition.x - 1, y: v47Travel.targetPosition.y },
+      { x: v47Travel.targetPosition.x + 1, y: v47Travel.targetPosition.y },
+      { x: v47Travel.targetPosition.x, y: v47Travel.targetPosition.y - 1 },
+      { x: v47Travel.targetPosition.x, y: v47Travel.targetPosition.y + 1 }];
+    if (v47Travel.destinationPosition && !canOccupy(targetMap, v47Travel.destinationPosition.x,
+      v47Travel.destinationPosition.y, host.id, state.hosts, state.world)) delete v47Travel.destinationPosition;
+    const destination = v47Travel.destinationPosition ?? candidates.find(position => canOccupy(targetMap,
+      position.x, position.y, host.id, state.hosts, state.world));
+    if (destination && !v47Travel.destinationPosition) v47Travel.destinationPosition = { ...destination };
+    const arrivalRadius = Number.isInteger(v47Travel.arrivalRadius) ? Math.max(1, Math.min(3, v47Travel.arrivalRadius)) : 1;
+    if (host.mapId === v47Travel.targetMapId && destination && nearTile(host.position, destination, arrivalRadius)) {
+      v47Travel.status = 'ARRIVED';
+      v47Travel.arrivedDate = state.world.date;
+      host.v47LastMove = { questId: v47Travel.questId, actionId: v47Travel.actionId, date: state.world.date };
+      if (host.activeGoal?.type === 'V47_STORY_GATHERING' || host.activeGoal?.type === 'V47_EVENT_RETURN') {
+        host.activeGoal = null;
+        delete host.plannedPath;
+        delete host.mapRoutePlan;
+      }
+      if (v47Travel.actionId === 'FIXED_HISTORICAL_TRANSFER_TO_FORTRESS' && host.id === 'dostoevsky_1849') {
+        host.v47Assignment = { ...host.v47Assignment, status: 'IN_FORTRESS_AFTER_FIXED_ARREST', arrivedAtFortressDate: state.world.date };
+        const arrest = state.world.v47?.events?.MAIN03_PETRASHEVSKY_ARREST;
+        if (arrest) {
+          arrest.status = 'RESOLVED';
+          arrest.stage = 'FIXED_ARREST_AND_FORTRESS_TRANSFER_COMPLETE';
+          arrest.npcAutonomy = { ...arrest.npcAutonomy, status: 'RESOLVED', closedDate: state.world.date,
+            historicalDetaineeTransferComplete: true };
+        }
+      }
+    } else if (destination) {
+      return { slot: { mapId: v47Travel.targetMapId, position: destination,
+        activityKo: v47Travel.activityKo ?? '맡은 물건을 전하러 길을 간다' },
+      goalType: 'V47_EVENT_RETURN', targetHostId: null, taskId: v47Travel.taskId,
+      reason: 'v47_authored_delivery_or_escape_uses_world_pathfinder',
+      selectionBasis: { utilityScore: 196, storyId: v47Travel.storyId, questId: v47Travel.questId } };
+    }
+  }
+  if (v47Travel?.status === 'ARRIVED' && host.mapId === v47Travel.targetMapId
+    && host.v47Questioning?.status !== 'RELEASED_TO_FAMILY') {
+    return { slot: { mapId: host.mapId, position: { ...host.position },
+      activityKo: host.v47Questioning?.status === 'HELD_FOR_QUESTIONING' ? '관서에서 조사를 기다린다'
+        : v47Travel.activityKo ?? '맡은 목적지에 도착해 다음 지시를 기다린다' },
+    goalType: 'V47_EVENT_RETURN', targetHostId: null, taskId: `${v47Travel.taskId}:ARRIVED`,
+    reason: 'remain_at_the_authored_event_destination_until_the_next_story_stage',
+    selectionBasis: { utilityScore: 196, storyId: v47Travel.storyId, questId: v47Travel.questId } };
+  }
   const procession = state.world.livingEventStates?.E45;
   const smuggledEdition = state.world.livingEventStates?.E34;
   if (procession?.status === 'ACTIVE' && procession.actorHostIds.includes(host.id)
     && host.allowedMaps.includes('nevsky')
+    && !(host.id === state.world.livingEventStates?.E13?.watchmanHostId
+      && state.world.livingEventStates.E13.status === 'ACTIVE' && state.world.livingEventStates.E13.stage === 'REPORT_FILED')
     && !(smuggledEdition?.status === 'ACTIVE' && smuggledEdition.actorHostIds.includes(host.id))) {
     const activities = { street_vendor_matryona: '좌판을 옮길 수 있도록 마차 옆으로 간다',
       junior_guard_sergey: '통행 지시를 확인하러 마차 옆으로 간다',
@@ -3469,11 +3629,28 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
       selectionBasis: { utilityScore: 177, eventId: 'E22', stage: newspaperIssue.stage } };
   }
   const activeSleepSlot = (host.schedule ?? []).find(slot => slot.routineKind === 'FICTIONAL_HOME_SLEEP');
-  if (host.activeGoal?.type === 'NIGHT_REST' && activeSleepSlot && localMinute < activeSleepSlot.atMinute
-    && !(host.mapId === activeSleepSlot.mapId && nearTile(host.position, activeSleepSlot.position, 1))) {
+  const morningWakeSlot = activeSleepSlot && (host.schedule ?? [])
+    .filter(slot => slot !== activeSleepSlot && slot.routineKind !== 'FICTIONAL_HOME_SLEEP'
+      && Number.isInteger(slot.atMinute) && slot.atMinute < activeSleepSlot.atMinute)
+    .sort((a, b) => a.atMinute - b.atMinute)[0];
+  const atSleepLocation = activeSleepSlot
+    && host.mapId === activeSleepSlot.mapId && nearTile(host.position, activeSleepSlot.position, 1);
+  const morningCommuteStart = morningWakeSlot?.workAction
+    ? Math.max(0, morningWakeSlot.atMinute - 240) : null;
+  if (host.activeGoal?.type === 'NIGHT_REST' && morningWakeSlot?.workAction
+    && !atSleepLocation && localMinute >= morningCommuteStart && localMinute < morningWakeSlot.atMinute
+    && npcMapRoute(host.mapId, morningWakeSlot.mapId, host, maps, state.world.clockMinutes) !== null) {
+    return { slot: morningWakeSlot, goalType: 'SCHEDULED_WORK', targetHostId: null,
+      taskId: morningWakeSlot.workAction.id, reason: 'leave_overnight_route_early_for_first_morning_shift',
+      selectionBasis: { sleepMinute: activeSleepSlot.atMinute, wakeMinute: morningWakeSlot.atMinute,
+        commuteLeadMinutes: morningWakeSlot.atMinute - localMinute } };
+  }
+  if (host.activeGoal?.type === 'NIGHT_REST' && activeSleepSlot && morningWakeSlot
+    && localMinute < morningWakeSlot.atMinute
+    && !atSleepLocation) {
     return { slot: activeSleepSlot, goalType: 'NIGHT_REST', targetHostId: null,
       taskId: host.activeGoal.taskId, reason: 'finish_overnight_return_after_midnight',
-      selectionBasis: { sleepMinute: activeSleepSlot.atMinute, continuingPriorNightGoal: true } };
+      selectionBasis: { sleepMinute: activeSleepSlot.atMinute, wakeMinute: morningWakeSlot.atMinute, continuingPriorNightGoal: true } };
   }
   const coldWave = state.world.livingEventStates?.E03;
   const marketRumor = state.world.livingEventStates?.E23;
@@ -3777,7 +3954,7 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
     if (host.id === marketComplaint.watchmanHostId && !scheduledSlot?.workAction && host.allowedMaps.includes('market-quay')) {
       return { slot: { mapId: 'market-quay', position: { ...scenePosition }, activityKo: '좌판의 가격 신고를 확인하러 간다' },
         goalType: 'LIVING_EVENT_RESPONSE', targetHostId: null, taskId: 'V37:E13:REVIEW_PRICE_COMPLAINT',
-        reason: 'filed_market_price_report_requires_both_parties', selectionBasis: { utilityScore: 168, eventId: 'E13' } };
+        reason: 'filed_market_price_report_requires_both_parties', selectionBasis: { utilityScore: 200, eventId: 'E13' } };
     }
   }
   const rentNotice = state.world.livingEventStates?.E26;
@@ -3857,6 +4034,28 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
       reason: 'remain_at_food_service_during_authored_opening',
       selectionBasis: { utilityScore: 150, offerItemKo: serviceShift.offerItemKo, serviceEndsAt: serviceShift.endMinute } };
   }
+  const approachingServiceShift = (host.marketServiceShifts ?? []).find(shift => {
+    if (!shift || !Number.isInteger(shift.startMinute) || localMinute >= shift.startMinute
+      || shift.startMinute - localMinute > 60 || localMinute >= shift.endMinute
+      || !host.allowedMaps.includes(shift.mapId) || !Number.isInteger(shift.position?.x) || !Number.isInteger(shift.position?.y)
+      || typeof shift.offerItemKo !== 'string') return false;
+    const offer = (host.marketOffers ?? []).find(item => item.itemKo === shift.offerItemKo && item.category === 'food'
+      && item.mapId === shift.mapId && item.openWindows?.some(window => window.startMinute <= shift.startMinute && shift.startMinute < window.endMinute));
+    const canPrepareAtOpening = shift.preparationWorkActionId && (host.schedule ?? []).some(slot => slot.atMinute === shift.startMinute
+      && slot.workAction?.id === shift.preparationWorkActionId);
+    const hasFoodReady = (host.marketStock?.[shift.offerItemKo] ?? 0) > 0 || canPrepareAtOpening;
+    return Boolean(offer && hasFoodReady
+      && npcMapRoute(host.mapId, shift.mapId, host, maps, state.world.clockMinutes) !== null);
+  });
+  if (approachingServiceShift) {
+    return { slot: { mapId: approachingServiceShift.mapId, position: { ...approachingServiceShift.position },
+      activityKo: '영업을 준비하러 미리 자리를 잡는다' },
+      goalType: 'PREPARE_FOOD_SERVICE', targetHostId: null,
+      taskId: `PREPARE_SERVICE:${host.id}:${approachingServiceShift.offerItemKo}:${approachingServiceShift.startMinute}`,
+      reason: 'travel_to_food_service_before_opening',
+      selectionBasis: { utilityScore: 152, offerItemKo: approachingServiceShift.offerItemKo,
+        serviceStartsAt: approachingServiceShift.startMinute } };
+  }
   const charityMeal = state.world.livingEventStates?.E14;
   const charityWorkSoon = (host.schedule ?? []).some(slot => slot.workAction && slot.atMinute > localMinute
     && slot.atMinute - localMinute <= 30);
@@ -3894,6 +4093,56 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
     if (!goal?.slot || !Number.isFinite(utility)) return;
     candidates.push({ ...goal, selectionBasis: { ...(goal.selectionBasis ?? {}), utilityScore: Math.round(utility * 100) / 100 }, _priority: priority });
   };
+  const v47Questioning = host.v47Questioning;
+  if (v47Questioning?.status === 'RELEASED_TO_FAMILY' && v47Questioning.returnMapId
+    && host.allowedMaps.includes(v47Questioning.returnMapId)
+    && npcMapRoute(host.mapId, v47Questioning.returnMapId, host, maps, state.world.clockMinutes,
+      { allowClosedMapIds: [v47Questioning.returnMapId], allowEventAccess: true }) !== null) {
+    addCandidate({ slot: { mapId: v47Questioning.returnMapId, position: { ...v47Questioning.returnPosition },
+      activityKo: '조사 뒤 집으로 돌아간다' }, goalType: 'V47_EVENT_RETURN', targetHostId: null,
+    taskId: `V47:ARREST_RETURN:${host.id}`, reason: 'fictional_detainee_walks_home_after_questioning',
+    selectionBasis: { eventId: 'MAIN03_PETRASHEVSKY_ARREST' } }, 190, 0);
+  }
+  const arrestEvent = state.world.v47?.events?.MAIN03_PETRASHEVSKY_ARREST;
+  const v47Gathering = Object.values(state.world.v47?.events ?? {}).filter(event => event.status === 'ACTIVE'
+    && event.npcAutonomy?.assignedHostIds?.includes(host.id)
+    && (!event.npcAutonomy.destinationMapByHost?.[host.id]
+      || host.mapId !== event.npcAutonomy.destinationMapByHost[host.id])
+    && !event.npcAutonomy.arrivedHostIds?.includes(host.id)
+    && (host.kind === 'FICTIONAL' || event.id === arrestEvent?.id
+      && ['petrashevsky_1849', 'dostoevsky_1849'].includes(host.id))
+    && host.allowedMaps.includes(event.mapId)
+    && !(event.id === arrestEvent?.id && host.id === 'student_vasily'
+      && ['RELEASED_TO_FAMILY', 'RETURNED_TO_FAMILY', 'ESCAPED_BEFORE_QUESTIONING'].includes(host.v47Questioning?.status))
+    && npcMapRoute(host.mapId, event.mapId, host, maps, state.world.clockMinutes,
+      { allowClosedMapIds: [event.mapId], allowEventAccess: true,
+        allowUnlistedMapIds: V47_PUBLIC_TRAVEL_TRANSIT_MAPS }) !== null)
+    .sort((a, b) => a.scheduledGameDate.localeCompare(b.scheduledGameDate) || a.id.localeCompare(b.id))[0];
+  if (v47Gathering) {
+    const eventMap = maps[v47Gathering.mapId];
+    const prop = layer(eventMap, 'Interactions')?.objects?.find(object => object.id === v47Gathering.objectId);
+    const anchor = prop ? objectTile(prop) : null;
+    const orderedSteps = host.id.split('').reduce((sum, char) => sum + char.charCodeAt(0), 0) % NPC_STEPS.length;
+    const spots = anchor ? Array.from({ length: eventMap.width * eventMap.height }, (_, index) => ({
+      x: index % eventMap.width, y: Math.floor(index / eventMap.width),
+    }))
+      .sort((a, b) => Math.abs(a.x - anchor.x) + Math.abs(a.y - anchor.y)
+        - (Math.abs(b.x - anchor.x) + Math.abs(b.y - anchor.y))
+        || ((a.x * 31 + a.y * 17 + orderedSteps) % 97) - ((b.x * 31 + b.y * 17 + orderedSteps) % 97)) : [];
+    v47Gathering.npcAutonomy.targetPositions ??= {};
+    const reservedByOthers = new Set(Object.entries(v47Gathering.npcAutonomy.targetPositions)
+      .filter(([id]) => id !== host.id).map(([, position]) => `${position.x},${position.y}`));
+    let target = v47Gathering.npcAutonomy.targetPositions[host.id];
+    if (!target || !canOccupy(eventMap, target.x, target.y, host.id, state.hosts, state.world)) {
+      target = spots.find(position => !reservedByOthers.has(`${position.x},${position.y}`)
+        && canOccupy(eventMap, position.x, position.y, host.id, state.hosts, state.world));
+      if (target) v47Gathering.npcAutonomy.targetPositions[host.id] = { ...target };
+    }
+    if (target) addCandidate({ slot: { mapId: eventMap.mapId, position: target,
+      activityKo: `${v47Gathering.titleKo} 현장으로 가서 맡은 일을 준비한다` }, goalType: 'V47_STORY_GATHERING',
+    targetHostId: null, taskId: `V47:${v47Gathering.id}:${host.id}`, reason: 'dated_story_event_draws_participants_to_the_physical_scene',
+    selectionBasis: { eventId: v47Gathering.id, storyId: v47Gathering.story, phase: v47Gathering.npcAutonomy.status } }, 190, 0);
+  }
   if (activeSocialTask && (activeSocialTask.type !== 'DELIVER' || activeSocialSlot.atMinute <= localMinute)) {
     const recipient = state.hosts[activeSocialTask.recipientHostId];
     const canPay = activeSocialTask.type === 'CARE_TRANSFER' ? canMakeAuthoredCareTransfer(state, host, activeSocialTask)
@@ -4101,18 +4350,42 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
         || !Number.isFinite(host.money?.amount)) return [];
       const route = npcMapRoute(host.mapId, seller.mapId, host, maps, state.world.clockMinutes);
       if (route === null) return [];
+      const routeMapIds = new Set([host.mapId, ...route.flatMap(segment => [segment.fromMapId, segment.toMapId])]);
+      const routeCrowd = Object.values(state.hosts).filter(person => person.id !== host.id && person.id !== seller.id
+        && person.historicalAliveAndPresent !== false && routeMapIds.has(person.mapId)).length;
+      const congestionReserveMinutes = Math.min(30, routeCrowd * 5);
       return (seller.marketOffers ?? []).filter(offer => offer.category === 'food'
         && Number.isInteger(marketOfferPrice(state, seller, offer)) && marketOfferPrice(state, seller, offer) > 0
-        && (seller.marketStock?.[offer.itemKo] ?? 0) > 0 && seller.money?.unit === offer.unit
+        && (seller.marketStock?.[offer.itemKo] ?? 0) - reservedMealPortions(state, seller.id, offer.itemKo, host.id) > 0
+        && seller.money?.unit === offer.unit
         && host.money.amount >= marketOfferPrice(state, seller, offer)
-        && isMarketOfferOpen(seller, offer, state.world.clockMinutes))
+        && (isMarketOfferOpen(seller, offer, state.world.clockMinutes)
+          || host.activeGoal?.type === 'PURCHASE_MEAL' && host.activeGoal.targetHostId === seller.id
+            && host.activeGoal.taskId === `FOOD:${seller.id}:${offer.itemKo}` && seller.mapId === offer.mapId))
         .map(offer => ({ seller, offer, routeLength: route.length,
+          travelMinutes: estimateMealWalkingMinutes(host, seller.mapId, seller.position, maps, state.world.clockMinutes),
           distance: seller.mapId === host.mapId && seller.position
             ? Math.abs(seller.position.x - host.position.x) + Math.abs(seller.position.y - host.position.y) : null,
-          price: marketOfferPrice(state, seller, offer) }));
+          price: marketOfferPrice(state, seller, offer) }))
+        .map(selected => {
+          const { seller, offer, travelMinutes } = selected;
+          const serviceDeadline = foodServiceDeadlineMinute(seller, offer, state.world.clockMinutes);
+          const committedMealTrip = host.activeGoal?.type === 'PURCHASE_MEAL' && host.activeGoal.targetHostId === seller.id;
+          if (!committedMealTrip && state.world.clockMinutes + travelMinutes + MEAL_MARKET_ARRIVAL_RESERVE_MINUTES
+            + congestionReserveMinutes >= serviceDeadline) return null;
+          const nextSleep = (host.schedule ?? []).filter(slot => slot.routineKind === 'FICTIONAL_HOME_SLEEP')
+            .map(slot => ({ slot, minutes: (slot.atMinute - localMinute + 1440) % 1440 }))
+            .sort((a, b) => a.minutes - b.minutes)[0];
+          if (!committedMealTrip && seller.id !== 'innkeeper_irina' && host.needs.hunger < 90 && nextSleep) {
+            const sellerToSleepMinutes = estimateMealReturnMinutes(host, seller, nextSleep.slot, maps,
+              state.world.clockMinutes + travelMinutes);
+            if (nextSleep.minutes <= travelMinutes + sellerToSleepMinutes + 5) return null;
+          }
+          return selected;
+        }).filter(Boolean);
     }).sort((a, b) => (lateMealService ? Number(b.seller.id === 'innkeeper_irina') - Number(a.seller.id === 'innkeeper_irina') : 0)
       || Number(b.seller.id === currentFoodSellerId) - Number(a.seller.id === currentFoodSellerId)
-      || a.routeLength - b.routeLength
+      || a.travelMinutes - b.travelMinutes
       || (a.distance !== null && b.distance !== null ? a.distance - b.distance : 0)
       || a.price - b.price || a.seller.id.localeCompare(b.seller.id));
     const selectedFoodOffer = foodOffers[0];
@@ -4120,18 +4393,19 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
     const offer = selectedFoodOffer?.offer;
     const price = selectedFoodOffer?.price ?? null;
     if (seller && offer) {
-      const travelLead = Math.min(20, selectedFoodOffer.routeLength * 8);
-      const mealStartThreshold = Math.max(40, 60 - travelLead);
-      if (host.needs.hunger >= mealStartThreshold) {
+      const travelLead = Math.min(20, selectedFoodOffer.travelMinutes);
+      const expectedHungerGainDuringTravel = (host.needs.hungerPerMinute ?? 0.03) * selectedFoodOffer.travelMinutes;
+      const mealStartThreshold = Math.max(40, 60 - expectedHungerGainDuringTravel);
+      const committedMealTrip = host.activeGoal?.type === 'PURCHASE_MEAL' && host.activeGoal.targetHostId === seller.id;
+      if (host.needs.hunger >= mealStartThreshold || committedMealTrip) {
         const mealSourceEventId = activeMealSeekingCauseEventId(host, state);
         const unresolvedHungerPriority = mealSourceEventId === 'E14' && host.needs.hunger >= 90 ? 32 : 0;
         const mealUtility = host.needs.hunger >= 80 ? 190
           : host.needs.hunger >= 70 ? 166
             : host.needs.hunger >= 60 ? Math.min(154, 108 + host.needs.hunger * 0.72)
               : Math.min(105, 80 + host.needs.hunger * 0.3 + travelLead * 0.45);
-        const committedMealTrip = host.activeGoal?.type === 'PURCHASE_MEAL' && host.activeGoal.targetHostId === seller.id;
         const protectedObligation = (activeSocialTask || scheduledWorkSlot) && host.needs.hunger < 75 && !committedMealTrip;
-        const commitmentBonus = committedMealTrip ? 12 : 0;
+        const commitmentBonus = 0;
         addCandidate({ slot: { mapId: seller.mapId, position: { ...seller.position }, activityKo: '시장 상인에게 빵값을 내고 끼니를 산다' },
           goalType: 'PURCHASE_MEAL', targetHostId: seller.id, taskId: `FOOD:${seller.id}:${offer.itemKo}`, reason: 'plan_a_market_meal_before_hunger_becomes_severe',
           selectionBasis: { hunger: host.needs.hunger, price, unit: offer.unit, travelLead, commitmentBonus, ...(mealSourceEventId ? { sourceEventId: mealSourceEventId } : {}) } },
@@ -4159,7 +4433,10 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
   const lifeFocus = selectPersonalLifeFocus(state, host, maps, localMinute, imminentSocialTask);
   if (lifeFocus) {
     const activeStage = host.activeGoal?.type === lifeFocus.goalType && host.activeGoal?.taskId === lifeFocus.taskId;
-    addCandidate(lifeFocus, 90 + personalPriority * 14 + (todayGoalKinds.has('personal') ? 4 : 0) + (activeStage ? 9 : 0), 3);
+    const atLifeFocusSite = !scheduledWorkSlot && !imminentSocialTask && host.mapId === lifeFocus.slot.mapId
+      && nearTile(host.position, lifeFocus.slot.position, 1);
+    addCandidate(lifeFocus, 90 + personalPriority * 14 + (todayGoalKinds.has('personal') ? 4 : 0)
+      + (activeStage ? 9 : 0) + (atLifeFocusSite ? 24 : 0), 3);
   }
   const workPriority = Number.isFinite(host.plannerPolicy?.workPriority) ? host.plannerPolicy.workPriority : 0.9;
   const incomeGoalThreshold = Math.max(42, Math.min(74, Math.round(82 - workPriority * 30)));
@@ -4211,7 +4488,7 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
     : relationshipGoal?.successCondition?.autonomyNeedThreshold ?? riskAdjustedSocialThreshold;
   const contactTaskId = relationshipTaskId;
   const awaitingIncomingGoods = Object.values(state.hosts).some(sender => {
-    const task=scheduleEntry(sender,state.world.clockMinutes)?.task;
+    const task=scheduleEntry(sender,state.world.clockMinutes,state.world.date)?.task;
     return ['DELIVER','EXCHANGE'].includes(task?.type)&&task.recipientHostId===host.id
       &&sender.id!==state.player.embodiment&&sender.historicalAliveAndPresent!==false&&!taskCompletedForDay(sender,task,Math.floor(state.world.clockMinutes/1440));
   });
@@ -4229,7 +4506,19 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
       selectionBasis: { socialNeed: host.needs.socialNeed, threshold: socialNeedThreshold, socialPriority, optionalTravelRisk, riskTolerance } },
       familyVisit
         ? 42 + host.needs.socialNeed * 0.25 + socialPriority * 8 - optionalTravelRisk * 0.15
-        : 60 + host.needs.socialNeed * 0.5 + socialPriority * 16 - optionalTravelRisk * 0.2 + (todayGoalKinds.has('social') ? 4 : 0), 5);
+        : 62 + host.needs.socialNeed * 0.5 + socialPriority * 16 - optionalTravelRisk * 0.2 + (todayGoalKinds.has('social') ? 4 : 0), 5);
+  }
+  const committedMealCandidate = host.activeGoal?.type === 'PURCHASE_MEAL'
+    ? candidates.find(candidate => candidate.goalType === 'PURCHASE_MEAL' && candidate.targetHostId === host.activeGoal.targetHostId)
+    : null;
+  const mealTripInterruptions = new Set(['PERSONAL_LIFE_FOCUS', 'NEED_INCOME', 'HOUSING_RENT', 'PERSONAL_RELATIONSHIP',
+    'NEED_REST', 'SCHEDULE', 'SCHEDULED_WORK', 'PREPARE_SCHEDULED_WORK', 'COLLECT_WAGE', 'PAY_WAGE']);
+  if (committedMealCandidate) {
+    for (const candidate of candidates) {
+      if (!mealTripInterruptions.has(candidate.goalType)) continue;
+      candidate.selectionBasis.utilityScore = Math.min(candidate.selectionBasis.utilityScore,
+        committedMealCandidate.selectionBasis.utilityScore - 0.01);
+    }
   }
   candidates.sort((a, b) => b.selectionBasis.utilityScore - a.selectionBasis.utilityScore || a._priority - b._priority || a.goalType.localeCompare(b.goalType));
   const selected = candidates[0] ?? { slot: scheduledSlot, goalType: 'SCHEDULE', targetHostId: null, taskId: scheduledTask?.id ?? null, reason: 'authored_daily_schedule' };
@@ -4284,7 +4573,7 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
   const foodOfferByItem = new Map(hosts.flatMap(person => person.marketOffers ?? [])
     .filter(offer => offer.category === 'food').map(offer => [offer.itemKo, offer]));
   for (const host of hosts) {
-    const authoredSlot = scheduleEntry(host, state.world.clockMinutes);
+    const authoredSlot = scheduleEntry(host, state.world.clockMinutes, state.world.date);
     const scheduledSlot = authoredSlot?.workAction?.employmentContractId === 'HOUSEHOLD_TUTOR_1847'
       && !householdTutorSessionDue(state, authoredSlot.workAction)
       ? { ...authoredSlot, workAction: undefined, activityKo: '교재와 연습 종이를 정리한다' } : authoredSlot;
@@ -4305,6 +4594,10 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
         && state.world.clockMinutes >= scheduledSlot.atMinute + embodiedWork.durationMinutes
         && host.mapId === scheduledSlot.mapId && nearTile(host.position, scheduledSlot.position, 2)) {
         beginMissingRegisterEvent(state, { hostId: host.id, actionId: embodiedWork.id, position: host.position }, minuteOffset, maps, livingEventRows);
+      }
+      if (host.id === 'porter_gavrila' && embodiedWork?.id === 'V37_PORTER_UNLOAD_HEAVY_SACK'
+        && host.mapId === scheduledSlot.mapId && nearTile(host.position, scheduledSlot.position, 2)) {
+        beginWarehouseInjury(state, host, embodiedWork, minuteOffset, maps, livingEventRows);
       }
       if (host.activeGoal?.type !== 'POSSESSED') host.activeGoal = { type: 'POSSESSED', taskId: null, targetHostId: null, targetMapId: host.mapId, reason: 'player_controls_embodied_host', selectedAtMinute: state.world.clockMinutes };
       setRoutineState(state, host, 'POSSESSED', host.currentActivityKo, host.mapId, host.position, state.world.clockMinutes, stateChanges, minuteOffset, maps);
@@ -4629,6 +4922,23 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
     seller.marketStock[offer.itemKo] -= 1;
     host.money.amount -= price;
     seller.money.amount += price;
+    const marketContactPair = [host.id, seller.id].sort().join(':');
+    if (!contactedPairs.has(marketContactPair)) {
+      contactedPairs.add(marketContactPair);
+      host.needs.socialNeed = Math.max(0, (host.needs.socialNeed ?? 0) - 2);
+      seller.needs ??= initialNpcNeeds(seller, state.world.clockMinutes);
+      seller.needs.socialNeed = Math.max(0, (seller.needs.socialNeed ?? 0) - 1);
+      const meetings = recordRelationshipMeeting(host, seller, state.world.clockMinutes, state.world.date, host.mapId);
+      const interactionGoalId = host.activeGoal?.taskId ?? `FOOD:${seller.id}:${offer.itemKo}`;
+      personalContactRows.push({ hostId: host.id, partnerHostId: seller.id, goalId: interactionGoalId,
+        interactionKind: 'BRIEF_MARKET_TRADE', mapId: host.mapId, position: { ...host.position }, minute: minuteOffset,
+        meetingCount: meetings.host.meetingCount, familiarity: meetings.host.familiarity, effect: 'social_need_relieved',
+        witnessedByPlayer: playerCanObserveWorldEvent(state, host.mapId, host.position, 6, maps) });
+      personalContactRows.push({ hostId: seller.id, partnerHostId: host.id, goalId: interactionGoalId,
+        interactionKind: 'BRIEF_MARKET_TRADE', mapId: seller.mapId, position: { ...seller.position }, minute: minuteOffset,
+        meetingCount: meetings.partner.meetingCount, familiarity: meetings.partner.familiarity, effect: 'social_need_relieved',
+        witnessedByPlayer: playerCanObserveWorldEvent(state, seller.mapId, seller.position, 6, maps) });
+    }
     const mealSourceEventId = activeMealSeekingCauseEventId(host, state);
     const hungerBefore = host.needs.hunger;
     host.needs.hunger = Math.max(0, hungerBefore - (Number.isFinite(offer.hungerRelief) ? offer.hungerRelief : 32));
@@ -4637,6 +4947,8 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
     host.needs.incomePressure = Math.min(100, host.needs.incomePressure + Math.min(8, price * 2));
     mealRows.push({ kind: 'PURCHASE_AND_EAT', hostId: host.id, sellerHostId: seller.id, itemKo: offer.itemKo,
       price, unit: offer.unit, valueStatus: offer.valueStatus, hungerBefore, hungerAfter: host.needs.hunger,
+      goalType: host.activeGoal?.type ?? null, goalTaskId: host.activeGoal?.taskId ?? null,
+      goalTargetHostId: host.activeGoal?.targetHostId ?? null,
       ...(mealSourceEventId ? { sourceEventId: mealSourceEventId } : {}),
       mapId: host.mapId, sellerMapId: seller.mapId, position: { ...host.position }, sellerPosition: { ...seller.position }, minute: minuteOffset,
       witnessedByPlayer: playerCanObserveWorldEvent(state, host.mapId, host.position, 6, maps) });
@@ -4938,6 +5250,45 @@ function advanceNpcWorld(state, elapsedMinutes, maps, options = {}) {
     const entry = { eventId: `NPC_SIM_${next.ledger.length + 1}`, eventType: 'NPC_SIMULATION', date: next.world.date, mapId: next.world.currentMapId, startClockMinutes: startClock, endClockMinutes: next.world.clockMinutes, simulatedMinutes: tickCount, moves: movementLog, deliveries: deliveryLog, exchanges: exchangeLog, careTransfers: careLog, payments: paymentLog, housing: housingLog, meals: mealLog, goals: goalLog, personalContacts: personalContactLog, restRecoveries: restRecoveryLog, personalGoalVisits: personalGoalLog, personalLifeOutcomes: personalLifeOutcomeLog, workOutputs: workLog, livingEvents: livingEventLog, stateChanges };
     appendLedgerEvent(next, entry, state);
   }
+  const previousV47Events = new Set(Object.keys(next.world.v47?.events ?? {}));
+  const v47Next = advanceV47World(next, { date: next.world.date, clockMinutes: next.world.clockMinutes });
+  if (v47Next !== next) Object.assign(next, v47Next);
+  for (const event of Object.values(next.world.v47?.events ?? {}).filter(row => row.npcAutonomy?.status === 'UNATTENDED_PENDING'
+    && !row.npcAutonomy.outcomeApplied && row.autonomousOutcome?.worldChange)) {
+    const authored = event.autonomousOutcome.worldChange;
+    const worldChange = structuredClone(authored);
+    worldChange.money = (worldChange.money ?? []).filter(item => next.hosts[item.fromHostId]?.money?.unit === next.hosts[item.toHostId]?.money?.unit
+      && next.hosts[item.fromHostId].money.amount >= item.amount);
+    worldChange.inventory = (worldChange.inventory ?? []).filter(item => item.produceIfAbsent === true
+      || (next.hosts[item.fromHostId]?.inventory ?? []).filter(name => name === item.itemKo).length >= item.quantity);
+    worldChange.moves = (worldChange.moves ?? []).filter(item => next.hosts[item.hostId]?.kind === 'FICTIONAL'
+      && maps?.[item.mapId] && item.x < maps[item.mapId].width && item.y < maps[item.mapId].height);
+    worldChange.relationships = (worldChange.relationships ?? []).filter(item => next.hosts[item.fromHostId] && next.hosts[item.toHostId]);
+    if (!validateV47WorldChange(worldChange, next, maps)) {
+      event.npcAutonomy.status = 'UNATTENDED_EFFECT_REJECTED';
+      event.npcAutonomy.outcomeApplied = true;
+      event.npcAutonomy.rejectionReason = 'invalid_authored_effect';
+      continue;
+    }
+    applyV47WorldChange(next, worldChange, maps, event.id, event.autonomousOutcome.actionId, true);
+    event.npcAutonomy.status = 'RESOLVED_UNATTENDED';
+    event.npcAutonomy.outcomeApplied = true;
+    event.npcAutonomy.defaultActionId = event.autonomousOutcome.actionId;
+    appendLedgerEvent(next, { eventId: `V47_AUTO_${next.ledger.length + 1}`, eventType: 'V47_AUTONOMOUS_STORY_OUTCOME',
+      date: next.world.date, storyId: event.story, questId: event.id, actionId: event.autonomousOutcome.actionId,
+      mapId: event.mapId, sourceIds: [...event.sourceIds], moves: worldChange.moves, money: worldChange.money,
+      inventory: worldChange.inventory, rumorId: worldChange.rumor?.id ?? null, unattended: true }, state);
+  }
+  const newV47Events = Object.values(next.world.v47?.events ?? {}).filter(event => !previousV47Events.has(event.id));
+  for (const event of newV47Events) appendLedgerEvent(next, {
+    eventId: `V47_EVENT_${next.ledger.length + 1}`, eventType: 'V47_WORLD_EVENT',
+    date: next.world.date, mapId: next.world.currentMapId, storyId: event.story,
+    eventIdRef: event.id, stage: event.stage, sourceIds: [...event.sourceIds],
+    externalSourceRefs: [...event.sourceRefs], sourceStatus: event.sourceStatus,
+    calendarSystem: event.calendarSystem, originalDateText: event.originalDateText,
+    convertedGregorianDate: event.convertedGregorianDate, sceneDateIsFictional: event.sceneDateIsFictional,
+    historicalOutcomeFixed: event.historicalOutcomeFixed, unattended: true,
+  }, state);
   return next;
 }
 
@@ -5262,6 +5613,13 @@ function moveActor(state, direction, map, maps = { [map?.mapId]: map }) {
   nextActor.position = { x, y };
   nextActor.facing = direction;
   next.player.position = { x, y };
+  const travel = nextActor.v47TravelGoal;
+  if (hostId && travel?.status === 'PLAYER_TRAVEL_REQUIRED'
+    && travel.targetMapId === map.mapId && nearTile({ x, y }, travel.targetPosition, 1)) {
+    travel.status = 'ARRIVED';
+    travel.arrivedDate = next.world.date;
+    nextActor.v47LastMove = { questId: travel.questId, actionId: travel.actionId, date: next.world.date };
+  }
   const carriageEvent = next.world.livingEventStates?.E45;
   if (hostId === carriageEvent?.coachmanHostId && carriageEvent.status === 'ACTIVE') {
     carriageEvent.carriageMapId = map.mapId; carriageEvent.carriagePosition = { x, y };
@@ -5404,9 +5762,157 @@ function transitionMap(state, exitId, maps) {
   return { ok: true, state: next };
 }
 
+function validateV47WorldChange(change, state, maps) {
+  if (!change || typeof change !== 'object' || Array.isArray(change)) return false;
+  const arrays = ['money', 'inventory', 'moves', 'relationships'];
+  if (arrays.some(key => change[key] !== undefined && !Array.isArray(change[key]))) return false;
+  for (const transfer of change.money ?? []) {
+    const from = state.hosts?.[transfer.fromHostId], to = state.hosts?.[transfer.toHostId];
+    if (!from || !to || from.id === to.id || !Number.isInteger(transfer.amount) || transfer.amount < 1
+      || from.money?.unit !== to.money?.unit || from.money.amount < transfer.amount) return false;
+  }
+  for (const transfer of change.inventory ?? []) {
+    const from = state.hosts?.[transfer.fromHostId], to = state.hosts?.[transfer.toHostId];
+    if (!from || !to || from.id === to.id || typeof transfer.itemKo !== 'string' || !transfer.itemKo.trim()
+      || transfer.itemKo.length > 80 || !Number.isInteger(transfer.quantity) || transfer.quantity < 1
+      || typeof transfer.produceIfAbsent !== 'boolean'
+      || (!transfer.produceIfAbsent && (from.inventory ?? []).filter(item => item === transfer.itemKo).length < transfer.quantity)) return false;
+  }
+  for (const move of change.moves ?? []) {
+    if (!state.hosts?.[move.hostId] || state.hosts[move.hostId].kind !== 'FICTIONAL'
+      || state.hosts[move.hostId].historicalAliveAndPresent === false || !maps?.[move.mapId]
+      || !Number.isInteger(move.x) || !Number.isInteger(move.y) || move.x < 0 || move.y < 0) return false;
+  }
+  for (const edge of change.relationships ?? []) {
+    if (!state.hosts?.[edge.fromHostId] || !state.hosts?.[edge.toHostId] || edge.fromHostId === edge.toHostId
+      || !Number.isInteger(edge.trustDelta) || Math.abs(edge.trustDelta) > 20) return false;
+  }
+  if (change.resources !== undefined) {
+    const r = change.resources;
+    if (!r || typeof r !== 'object' || Object.entries(r).some(([key, value]) =>
+      !['waterRiskDelta', 'foodRiskDelta', 'bedsDelta', 'medicineDelta'].includes(key)
+      || typeof value !== 'number' || !Number.isFinite(value)
+      || Math.abs(value) > (key === 'bedsDelta' || key === 'medicineDelta' ? 10 : 1))) return false;
+  }
+  if (change.rumor !== undefined) {
+    const rumor = change.rumor;
+    if (!rumor || typeof rumor.id !== 'string' || !/^[A-Z0-9_]{3,60}$/.test(rumor.id)
+      || (rumor.fromHostId !== undefined && !state.hosts?.[rumor.fromHostId])
+      || !Array.isArray(rumor.hostIds) || rumor.hostIds.some(id => !state.hosts?.[id])) return false;
+  }
+  if (change.flags !== undefined && (!change.flags || typeof change.flags !== 'object'
+    || Array.isArray(change.flags) || Object.entries(change.flags).some(([key, value]) =>
+      !/^V47_[A-Z0-9_]{2,50}$/.test(key) || typeof value !== 'boolean'))) return false;
+  return true;
+}
+
+function applyV47WorldChange(state, change, maps, questId, actionId, autonomous = false, actorHostId = state.player.embodiment) {
+  const v47 = state.world.v47;
+  for (const transfer of change.money ?? []) {
+    state.hosts[transfer.fromHostId].money.amount -= transfer.amount;
+    state.hosts[transfer.toHostId].money.amount += transfer.amount;
+  }
+  for (const transfer of change.inventory ?? []) {
+    const bag = state.hosts[transfer.fromHostId].inventory;
+    let produced = 0;
+    while (transfer.produceIfAbsent && bag.filter(item => item === transfer.itemKo).length < transfer.quantity) {
+      bag.push(transfer.itemKo); produced += 1;
+    }
+    for (let n = 0; n < transfer.quantity; n += 1) bag.splice(bag.indexOf(transfer.itemKo), 1);
+    state.hosts[transfer.toHostId].inventory.push(...Array(transfer.quantity).fill(transfer.itemKo));
+    if (produced) {
+      v47.worldChanges ??= [];
+      v47.worldChanges.push({ questId, actionId, date: state.world.date, producedItemKo: transfer.itemKo, producedQuantity: produced });
+    }
+  }
+  for (const move of change.moves ?? []) {
+    const host = state.hosts[move.hostId];
+    const storyId = questId.startsWith('V47_MAIN01_') ? 'MAIN01'
+      : questId.startsWith('V47_MAIN03_') ? 'MAIN03' : 'MAIN05';
+    const playerControlled = !autonomous && state.player.embodiment === move.hostId;
+    host.v47TravelGoal = { status: playerControlled ? 'PLAYER_TRAVEL_REQUIRED' : 'EN_ROUTE',
+      targetMapId: move.mapId, targetPosition: { x: move.x, y: move.y }, storyId, questId, actionId,
+      taskId: `V47:TRAVEL:${questId}:${actionId}:${move.hostId}`,
+      activityKo: questId.startsWith('V47_MAIN05_') ? '물품을 목적지까지 직접 나른다'
+        : questId.includes('P07') ? '골목길을 따라 약속한 곳까지 간다' : '맡은 물건을 목적지까지 가져간다',
+      startedDate: state.world.date };
+    delete host.plannedPath;
+    delete host.mapRoutePlan;
+  }
+  if (!autonomous && questId === 'V47_MAIN03_ARRESTS' && actionId === 'V47_P07_WARN_FICTIONAL') {
+    const student = state.hosts.student_vasily;
+    if (student) student.v47Questioning = { status: 'WARNED_TO_HIDE', warnedDate: state.world.date, canVary: true };
+    const event = v47.events.MAIN03_PETRASHEVSKY_ARREST;
+    if (event) {
+      event.playerIntervened = true;
+      event.npcAutonomy = { ...event.npcAutonomy, branch: 'WARNED_AND_ESCAPED' };
+    }
+  }
+  for (const edge of change.relationships ?? []) {
+    const relationId = `${edge.fromHostId}::${edge.toHostId}`;
+    const relation = v47.relationships[relationId] ??= { fromHostId: edge.fromHostId, toHostId: edge.toHostId, trust: 0 };
+    relation.trust = Math.max(-100, Math.min(100, relation.trust + edge.trustDelta));
+    relation.lastChangedAt = state.world.date;
+    relation.lastQuestId = questId;
+    relation.lastActionId = actionId;
+  }
+  if (change.resources) {
+    v47.resources ??= { waterRisk: 0.72, foodRisk: 0.38, beds: 2, medicine: 3 };
+    const r = v47.resources;
+    const hostHealth = v47.cholera.hosts?.[actorHostId];
+    const updateLocalRisk = (key, sourceId, delta, fallback) => {
+      const sources = v47.cholera[key];
+      if (!delta || !sources || !Object.keys(sources).length) return fallback + delta;
+      const targetIds = sourceId && sources[sourceId] ? [sourceId] : Object.keys(sources);
+      for (const id of targetIds) sources[id].risk = Math.max(0, Math.min(1, Number(sources[id].risk ?? fallback) + delta));
+      return Object.values(sources).reduce((sum, source) => sum + Number(source.risk ?? fallback), 0) / Object.keys(sources).length;
+    };
+    if (change.resources.waterRiskDelta) r.waterRisk = updateLocalRisk('waterSources', hostHealth?.waterSourceId,
+      change.resources.waterRiskDelta, r.waterRisk);
+    if (change.resources.foodRiskDelta) r.foodRisk = updateLocalRisk('foodSources', hostHealth?.foodSourceId,
+      change.resources.foodRiskDelta, r.foodRisk);
+    if (change.resources.bedsDelta) r.beds = Math.max(0, Math.min(40, r.beds + change.resources.bedsDelta));
+    if (change.resources.medicineDelta) r.medicine = Math.max(0, Math.min(100, r.medicine + change.resources.medicineDelta));
+    Object.assign(v47.cholera, { waterRisk: r.waterRisk, foodRisk: r.foodRisk, beds: r.beds, medicineStock: r.medicine });
+  }
+  if (change.rumor) {
+    v47.rumors ??= [];
+    const witnessedHostIds = [...new Set(change.rumor.hostIds)];
+    v47.rumors.push({ id: change.rumor.id, sourceHostId: change.rumor.fromHostId ?? null,
+      witnessedHostIds, date: state.world.date, questId, actionId });
+    for (const hostId of witnessedHostIds) {
+      const host = state.hosts[hostId];
+      host.v47KnownRumors ??= [];
+      if (!host.v47KnownRumors.includes(change.rumor.id)) host.v47KnownRumors.push(change.rumor.id);
+    }
+  }
+  Object.assign(state.world.worldFlags ??= {}, change.flags ?? {});
+  v47.worldChanges ??= [];
+  v47.worldChanges.push({ questId, actionId, date: state.world.date, mapId: state.world.currentMapId,
+    money: change.money ?? [], inventory: change.inventory ?? [], moves: change.moves ?? [],
+    resources: change.resources ?? null, rumorId: change.rumor?.id ?? null });
+  const sceneEvent = v47.events?.[questId];
+  if (sceneEvent?.autonomousOutcome) {
+    sceneEvent.playerIntervened = !autonomous;
+    sceneEvent.status = 'RESOLVED';
+    sceneEvent.stage = autonomous ? `UNATTENDED_${actionId}` : `PLAYER_${actionId}`;
+    sceneEvent.npcAutonomy = autonomous
+      ? { ...sceneEvent.npcAutonomy, status: 'RESOLVED_UNATTENDED', defaultActionId: actionId, outcomeApplied: true }
+      : { ...sceneEvent.npcAutonomy, status: 'PLAYER_CHOSEN', selectedActionId: actionId };
+  }
+}
+
 function performQuestAction(state, { questId, hostId, actionId, objectId }, { quests = [], maps = {} } = {}) {
   const quest = quests.find(item => item.id === questId), current = state.quests?.[questId], action = quest?.actions.find(item => item.id === actionId);
   if (!quest || !current || current.status !== 'open' || !action) return { ok: false, reason: 'unknown_or_closed_action', state };
+  if (questId === 'V47_MAIN01_PERMISSION' && actionId === 'V47_A01_COLLATE_PROOFS'
+    && (state.world.v47?.printwork?.schemaVersion !== 'V47_PRINTWORK_V2'
+      || state.world.v47?.printwork?.status !== 'COMPLETE')) return { ok: false, reason: 'printwork_incomplete', state };
+  const resolvedV47Event = state.world.v47?.events?.[questId];
+  if (questId.startsWith('V47_MAIN0') && resolvedV47Event?.status === 'RESOLVED'
+    && resolvedV47Event.npcAutonomy?.outcomeApplied) {
+    return { ok: false, reason: 'v47_event_already_resolved', state };
+  }
   const chain = quest.lifeChain;
   const actor = state.hosts?.[hostId];
   const actorLifeGoal = chain && actor?.personalGoals?.find(goal => goal.kind === 'LIFE' && goal.successCondition?.chainId === chain.id);
@@ -5492,6 +5998,22 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
     && (questId !== 'V37_BOOKBINDING_ORDER_CHOICE_1847'
       || !['DELIVER_NOW', 'DEFER_UNTIL_TOMORROW'].includes(effects.bookbindingDisposition))) {
     return { ok: false, reason: 'invalid_bookbinding_disposition', state };
+  }
+  const v47CholeraAction = effects.v47CholeraAction;
+  const v47StoryAction = effects.v47StoryAction;
+  const v47WorldChange = effects.v47WorldChange;
+  if (v47StoryAction !== undefined && (!/^V47_MAIN0[135]_[A-Z0-9_]+$/.test(questId)
+    || v47StoryAction !== action.id || typeof v47StoryAction !== 'string')) {
+    return { ok: false, reason: 'invalid_v47_story_action', state };
+  }
+  if (v47WorldChange !== undefined && (!v47StoryAction || !validateV47WorldChange(v47WorldChange, state, maps))) {
+    return { ok: false, reason: 'invalid_v47_world_change', state };
+  }
+  if (v47CholeraAction !== undefined && (!questId.startsWith('V47_MAIN05_')
+    || !['CLEAN_WATER', 'CLOSE_CONTAMINATED_FOOD', 'ADD_BEDS', 'RESTOCK_MEDICINE', 'CARE_PATIENT', 'DRINK_CONTAMINATED_WATER', 'EAT_CONTAMINATED_FOOD'].includes(v47CholeraAction)
+    || (effects.v47TargetHostId !== undefined && (typeof effects.v47TargetHostId !== 'string' || !state.hosts[effects.v47TargetHostId]))
+    || (effects.v47Amount !== undefined && (!Number.isInteger(effects.v47Amount) || effects.v47Amount < 1 || effects.v47Amount > 5)))) {
+    return { ok: false, reason: 'invalid_v47_cholera_action', state };
   }
   if (Object.entries(chainDelta).some(([key, value]) => !/^[a-z][a-zA-Z0-9]{0,39}$/.test(key) || !Number.isInteger(value) || Math.abs(value) > 20)) return { ok: false, reason: 'invalid_life_chain_effect', state };
   if (effects.moneyDelta !== undefined && (!Number.isInteger(effects.moneyDelta) || Math.abs(effects.moneyDelta) > 10000 || !Number.isFinite(host.money?.amount) || host.money.amount + effects.moneyDelta < 0)) return { ok: false, reason: 'invalid_or_unaffordable_effect', state };
@@ -5588,6 +6110,35 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
                   : questId === 'V37_BOOKBINDING_ORDER_CHOICE_1847' ? ['bookseller_lev'] : undefined });
   const next = clone(timed);
   const livingEvents = [];
+  if (v47CholeraAction) {
+    const intervention = applyCholeraIntervention(next, { actionId: v47CholeraAction, hostId,
+      targetHostId: effects.v47TargetHostId,
+      amount: effects.v47Amount ?? 1 });
+    if (!intervention.ok) return { ok: false, reason: intervention.reason, state };
+    Object.assign(next, intervention.state);
+    livingEvents.push({ catalogIdSpace: 'V47_MAIN_STORIES', catalogEventId: 'MAIN05', stage: v47CholeraAction,
+      actorHostIds: [hostId, effects.v47TargetHostId].filter(Boolean), witnessHostIds: Object.values(next.hosts).filter(person => person.id !== hostId
+        && person.mapId === next.world.currentMapId && person.historicalAliveAndPresent !== false
+        && nearTile(person.position, next.hosts[hostId].position, 5)).map(person => person.id),
+      date: next.world.date, minute: next.world.clockMinutes % 1440, mapId: next.world.currentMapId,
+      position: { ...next.hosts[hostId].position }, sourceIds: [...(quest.sourceIds ?? [])],
+      valueStatus: 'FICTIONAL_GAMEPLAY_BALANCE', intervention: next.world.v47.cholera.interventions.at(-1),
+      changeKo: effects.situationKo ?? action.resultKo ?? '환자와 이웃의 상태가 바뀌었다.' });
+  }
+  if (v47StoryAction) {
+    const storyId = questId.startsWith('V47_MAIN01_') ? 'MAIN01' : questId.startsWith('V47_MAIN03_') ? 'MAIN03' : 'MAIN05';
+    next.world.v47.focusStoryId = storyId;
+    const story = next.world.v47.stories[storyId];
+    story.focusHostId = hostId;
+    story.completedBeatIds ??= [];
+    if (!story.completedBeatIds.includes(questId)) story.completedBeatIds.push(questId);
+    story.consequences.push({ questId, actionId: action.id, hostId, date: next.world.date,
+      mapId: next.world.currentMapId, resultKo: action.resultKo, sourceIds: [...(quest.sourceIds ?? [])] });
+    next.world.v47.events[questId] = { id: questId, story: storyId, status: 'RESOLVED',
+      stage: action.id, observedDate: next.world.date, minute: next.world.clockMinutes,
+      sourceIds: [...(quest.sourceIds ?? [])], playerIntervened: true, historicalOutcomeFixed: false };
+    if (v47WorldChange) applyV47WorldChange(next, v47WorldChange, maps, questId, action.id, false, hostId);
+  }
   next.quests[questId] = questId === 'V37_APOTHECARY_ORDER_1847' && actionId === 'E16_PLACE_ORDER'
     ? { status: 'open', result: action.id }
     : { status: 'resolved', result: action.id };
@@ -6083,10 +6634,12 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
           : '파벨의 분실 보고와 설명이 업무 기록에 남는다', resolutionActionId: actionId,
         ...(event.officialRecordNumber ? { officialRecordNumber: event.officialRecordNumber } : {}) }));
   }
-  if (literaryQuest) {
-    next.world.literaryOutcomes ??= {};
-    next.world.literaryOutcomes[quest.historicalOutcome.id] = quest.historicalOutcome.value;
-  } else next.world.immutableOutcomes[quest.historicalOutcome.id] = quest.historicalOutcome.value;
+  if (quest.historicalOutcome) {
+    if (literaryQuest) {
+      next.world.literaryOutcomes ??= {};
+      next.world.literaryOutcomes[quest.historicalOutcome.id] = quest.historicalOutcome.value;
+    } else next.world.immutableOutcomes[quest.historicalOutcome.id] = quest.historicalOutcome.value;
+  }
   if (chain) {
     next.world.lifeChains ??= {};
     const currentProgress = next.world.lifeChains[chain.id] ?? actorChainProgress ?? { stage: 0, metrics: {}, history: [] };
@@ -6775,6 +7328,8 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
     landlord.relations.tenant_mikhail = actionId === 'E26_KEEP_OLD_RENT'
       ? '이전 방세를 한 번 더 받기로 한 세입자' : actionId === 'E26_ACCEPT_NEW_RENT'
         ? '새 방세를 받아들이기로 한 세입자' : '안나에게 방세 분담을 제안하려는 세입자';
+    syncPersistentPersonalGoals(next, tenant.id);
+    syncPersistentPersonalGoals(next, landlord.id);
     for (const id of event.actorHostIds) if (next.hosts[id]?.activeGoal?.taskId?.startsWith('V37:E26:')) next.hosts[id].activeGoal = null;
     livingEvents.push({ catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E26', stage: event.stage,
       stageIndex: 2, actorHostIds: [...event.actorHostIds], witnessHostIds: [], date: next.world.date,
@@ -7081,12 +7636,13 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
         resolutionActionId: actionId, resolvedByHostId: hostId,
         ...(event.officialRecordNumber ? { officialRecordNumber: event.officialRecordNumber } : {}) }));
   }
-  const entry = { eventId: `ACTION_${next.ledger.length + 1}`, eventType: literaryQuest ? 'LITERARY_ACTION' : 'HISTORICAL_ACTION', ...(literaryQuest ? { realmId: state.world.activeRealm.id } : {}), ...(chain ? { lifeChainId: chain.id, lifeChainStage: chain.stage, lifeChainDelta: chainDelta } : {}), ...(quest.socialChain ? { socialChainId: quest.socialChain.id, socialPartnerHostId: socialPartnerId } : {}), date: next.world.date, mapId: next.world.currentMapId, hostId, questId, actionId, objectId, witnesses: [], ...(livingEvents.length ? { livingEvents } : {}), effectsApplied: { moneyDelta: effects.moneyDelta ?? 0, inventoryRemove, inventoryAdd, relations: relationEffects, ...(quest.socialChain ? { reciprocalPartnerRelationKo: effects.partnerRelationKo ?? null } : {}), situationKo: effects.situationKo ?? null }, sourceIds: action.requiredKnowledgeId ? [action.requiredKnowledgeId] : [...(quest.sourceIds ?? [])] };
+  const entry = { eventId: `ACTION_${next.ledger.length + 1}`, eventType: literaryQuest ? 'LITERARY_ACTION' : 'HISTORICAL_ACTION', ...(literaryQuest ? { realmId: state.world.activeRealm.id } : {}), ...(chain ? { lifeChainId: chain.id, lifeChainStage: chain.stage, lifeChainDelta: chainDelta } : {}), ...(quest.socialChain ? { socialChainId: quest.socialChain.id, socialPartnerHostId: socialPartnerId } : {}), date: next.world.date, mapId: next.world.currentMapId, hostId, questId, actionId, objectId, witnesses: [], ...(livingEvents.length ? { livingEvents } : {}), effectsApplied: { moneyDelta: effects.moneyDelta ?? 0, inventoryRemove, inventoryAdd, relations: relationEffects, ...(quest.socialChain ? { reciprocalPartnerRelationKo: effects.partnerRelationKo ?? null } : {}), ...(v47WorldChange ? { v47WorldChange } : {}), situationKo: effects.situationKo ?? null }, sourceIds: action.requiredKnowledgeId ? [action.requiredKnowledgeId] : [...(quest.sourceIds ?? [])] };
   if (questId === 'V37_FUNERAL_DEBT_REPAYMENT_1847') {
     next.ledgerDigest = digestLedger(next.ledger);
     next.ledgerDigestCount = next.ledger.length;
   }
   appendLedgerEvent(next, entry, timed);
+  syncPersistentPersonalGoals(next, hostId);
   return { ok: true, state: next };
 }
 
@@ -7113,10 +7669,17 @@ function advanceChapter(state, chapterId, campaign, maps = {}) {
 function advanceCampaignDate(state, date, campaign, quests = []) {
   const arc = campaign?.arcs?.find(item => item.id === state?.world?.chapterId);
   if (!arc || state.world.activeRealm || typeof date !== 'string' || date <= state.world.date) return { ok: false, reason: 'invalid_campaign_date', state };
-  const pending = arc.questIds.find(id => state.quests?.[id]?.status !== 'resolved');
-  if (!pending || state.quests[pending].status !== 'open') return { ok: false, reason: 'campaign_stage_incomplete', state };
-  const pendingIndex = arc.questIds.indexOf(pending);
-  if (pendingIndex === 0 || arc.questIds.slice(0, pendingIndex).some(id => state.quests?.[id]?.status !== 'resolved')) return { ok: false, reason: 'campaign_stage_incomplete', state };
+  const requiredQuestIds = arc.questIds.filter(id => state.quests?.[id] || quests.some(item => item.id === id));
+  const optionalQuestIds = (arc.optionalQuestIds ?? []).filter(id => {
+    const quest = quests.find(item => item.id === id);
+    return quest && (state.quests?.[id] || quests.some(item => item.id === id))
+      && (quest.prerequisiteQuestIds ?? []).every(prerequisiteId => state.quests?.[prerequisiteId]?.status === 'resolved');
+  });
+  const authoredQuestIds = [...requiredQuestIds, ...optionalQuestIds];
+  const pending = authoredQuestIds.find(id => state.quests?.[id]?.status !== 'resolved');
+  if (!pending || state.quests?.[pending]?.status !== 'open') return { ok: false, reason: 'campaign_stage_incomplete', state };
+  const pendingIndex = authoredQuestIds.indexOf(pending);
+  if (authoredQuestIds.slice(0, pendingIndex).some(id => state.quests?.[id]?.status !== 'resolved')) return { ok: false, reason: 'campaign_stage_incomplete', state };
   const nextQuest = quests.find(item => item.id === pending);
   if (!nextQuest || nextQuest.date !== date || nextQuest.chapterId !== arc.id) return { ok: false, reason: 'date_not_authored_for_campaign', state };
   const next = clone(state);
@@ -7150,7 +7713,18 @@ function advanceCampaignDate(state, date, campaign, quests = []) {
       stage: event.stage, sourceIds: [...event.outcomeSourceIds], outcomeFixed: true });
   }
   next.ledger.push({ eventId: `DATE_${next.ledger.length + 1}`, eventType: 'CAMPAIGN_DATE_ADVANCE', date, chapterId: arc.id, questId: pending });
+  const v47Advanced = advanceV47World(next, { date, clockMinutes: next.world.clockMinutes ?? 0 });
+  Object.assign(next, v47Advanced);
   return { ok: true, state: next };
+}
+
+function getV47EndingConsequences(state) {
+  return Object.entries(state.world.v47?.stories ?? {}).map(([storyId, story]) => ({
+    storyId,
+    choices: (story.consequences ?? []).filter(row => row.actionId).map(({ questId, actionId, hostId, date, resultKo }) => ({
+      questId, actionId, hostId, date, resultKo,
+    })),
+  })).filter(story => story.choices.length);
 }
 
 function resolveEnding(state, endingId, campaign) {
@@ -7169,7 +7743,9 @@ function resolveEnding(state, endingId, campaign) {
     : item.actionId === requirement.actionId && item.questId === requirement.questId))) return { ok: false, reason: 'route_evidence_missing', state };
   const next = clone(state);
   next.endingId = ending.id;
-  next.ledger.push({ eventId: `ENDING_${next.ledger.length + 1}`, eventType: 'ENDING_RESOLVED', endingId: ending.id, date: next.world.date, sourceIds: [...sources] });
+  next.endingStoryConsequences = getV47EndingConsequences(state);
+  next.ledger.push({ eventId: `ENDING_${next.ledger.length + 1}`, eventType: 'ENDING_RESOLVED', endingId: ending.id, date: next.world.date,
+    sourceIds: [...sources], storyConsequences: clone(next.endingStoryConsequences) });
   return { ok: true, state: next };
 }
 
@@ -7193,7 +7769,7 @@ function recordSourceRead(state, sourceId, maps, archiveSourceIds = [], readingM
   const inPlace = readingMode === 'PHYSICAL_COPY' && allSourceObjects.some(object => layer(map, 'Interactions')?.objects.includes(object));
   const archiveAccess = readingMode === 'PLAYER_ARCHIVE' && archiveSourceIds.includes(sourceId);
   const sourceChapter = properties(target ?? {}).availableChapterId;
-  const chronology = ['V33_1847_PRINT', 'V33_1848_PUBLIC', 'V33_1849_CIRCLE'];
+  const chronology = ['V33_1847_PRINT', 'V33_1848_PUBLIC', 'V33_1849_PRELUDE', 'V33_1849_CIRCLE'];
   const chapterAvailable = !sourceChapter || chronology.indexOf(state.world.chapterId) >= chronology.indexOf(sourceChapter);
   const literaryScope = sourceMap?.metadata?.mapClass === 'LITERARY_REALM';
   const scopeAllowed = literaryScope
@@ -8279,8 +8855,8 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
       for (const key of ['hunger', 'fatigue', 'incomePressure', 'safetyConcern', 'socialNeed', 'restThreshold']) {
         if (!Number.isFinite(host.needs[key]) || host.needs[key] < 0 || host.needs[key] > 100) throw new Error(`Save contains invalid NPC need: ${card.id}.${key}`);
       }
-      if (!Number.isInteger(host.needs.foodDeprivationMinutes) || host.needs.foodDeprivationMinutes < 0 || host.needs.foodDeprivationMinutes > 2880) throw new Error(`Save contains invalid food deprivation state: ${card.id}`);
-      const slot = scheduleEntry(host, state.world.clockMinutes);
+      if (!Number.isInteger(host.needs.foodDeprivationMinutes) || host.needs.foodDeprivationMinutes < 0 || host.needs.foodDeprivationMinutes > FOOD_DEPRIVATION_FATAL_MINUTES) throw new Error(`Save contains invalid food deprivation state: ${card.id}`);
+      const slot = scheduleEntry(host, state.world.clockMinutes, state.world.date);
       host.scheduleId ??= slot ? `${slot.mapId}:${slot.atMinute}` : null;
       host.currentActivityKo ??= slot?.activityKo ?? '';
       host.routineState ??= { state: 'IDLE', activityKo: host.currentActivityKo, targetMapId: slot?.mapId ?? host.mapId, targetPosition: slot?.position ? { ...slot.position } : { ...host.position }, changedAtMinute: state.world.clockMinutes, minutesInState: 0 };
@@ -8329,7 +8905,14 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
       && circleEvent.organizerHostId === card.id
       && circleEvent.actorHostIds?.includes(card.id)
       && circleEvent.venueMapId === host.mapId;
-    if (!maps[host.mapId] || (!card.allowedMaps.includes(host.mapId) && !eventVenueAccess)
+    const activeV47TransitAccess = host.v47TravelGoal?.status === 'EN_ROUTE'
+      && V47_PUBLIC_TRAVEL_TRANSIT_MAPS.includes(host.mapId)
+      && host.allowedMaps.includes(host.v47TravelGoal.targetMapId)
+      && maps[host.v47TravelGoal.targetMapId]
+      && npcMapRoute(host.mapId, host.v47TravelGoal.targetMapId, host, maps, state.world.clockMinutes,
+        { allowClosedMapIds: [host.v47TravelGoal.targetMapId], allowEventAccess: true,
+          allowUnlistedMapIds: V47_PUBLIC_TRAVEL_TRANSIT_MAPS }) !== null;
+    if (!maps[host.mapId] || (!card.allowedMaps.includes(host.mapId) && !eventVenueAccess && !activeV47TransitAccess)
       || !Array.isArray(host.privateKnowledgeIds) || host.privateKnowledgeIds.some(id => !card.privateKnowledgeIds.includes(id))) throw new Error('Save contains invalid host state');
     if (!host.relationshipMemory || typeof host.relationshipMemory !== 'object' || Array.isArray(host.relationshipMemory)) throw new Error(`Save contains invalid relationship memory: ${card.id}`);
     if (!Array.isArray(host.knownRumors) || host.knownRumors.some(row => !row || row.eventId !== 'E23' || row.sourceEventId !== 'E13'
@@ -8371,6 +8954,6 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
   return state;
 }
 
-const V33GameState = { describeHostMoney, createInitialState, moveActor, possessHost, possessHostFromRoster, enterLiteraryRealm, leaveLiteraryRealm, releaseHost, transitionMap, performQuestAction, payRent, knowledgeForHost, recordSourceRead, recordEvidenceRead, recordDialogueTurn, recordDiscussionPosition, advanceNpcWorld, advanceWorldTime, advanceChapter, advanceCampaignDate, resolveEnding, saveGame, loadGame, stateHash, canOccupy, nearTile, playerCanObserveWorldEvent };
+const V33GameState = { describeHostMoney, createInitialState, moveActor, possessHost, possessHostFromRoster, enterLiteraryRealm, leaveLiteraryRealm, releaseHost, transitionMap, performQuestAction, payRent, knowledgeForHost, recordSourceRead, recordEvidenceRead, recordDialogueTurn, recordDiscussionPosition, advanceNpcWorld, advanceWorldTime, advanceChapter, advanceCampaignDate, getV47EndingConsequences, resolveEnding, saveGame, loadGame, stateHash, canOccupy, nearTile, npcMapRoute, playerCanObserveWorldEvent, applyCholeraIntervention };
 if (typeof module !== 'undefined' && module.exports) module.exports = V33GameState;
 if (typeof globalThis !== 'undefined') globalThis.V33GameState = V33GameState;

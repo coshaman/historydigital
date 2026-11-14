@@ -37,7 +37,11 @@ assert.equal(next.hosts[resident.id].lifeStatus, undefined, 'critical illness st
 next.hosts[resident.id].needs.foodDeprivationMinutes = 2879;
 next.hosts[resident.id].needs.hunger = 100;
 next = game.advanceNpcWorld(next, 1, maps, { pausedHostIds });
-assert.equal(next.hosts[resident.id].lifeStatus, 'DECEASED', 'two days without food can kill a fictional resident');
+assert.notEqual(next.hosts[resident.id].lifeStatus, 'DECEASED', 'two days without food remain survivable despite critical illness');
+next.hosts[resident.id].needs.foodDeprivationMinutes = 10079;
+next.hosts[resident.id].needs.hunger = 100;
+next = game.advanceNpcWorld(next, 1, maps, { pausedHostIds });
+assert.equal(next.hosts[resident.id].lifeStatus, 'DECEASED', 'seven days without food can kill a fictional resident');
 assert.equal(next.hosts[resident.id].historicalAliveAndPresent, false);
 assert.equal(next.hosts[resident.id].deathRecord.causeId, 'FOOD_DEPRIVATION');
 assert.equal(next.world.deathRecords.filter(row => row.hostId === resident.id).length, 1);
@@ -49,9 +53,9 @@ assert.equal(game.stateHash(restored), game.stateHash(next), 'food fatality and 
 const protectedHistorical = game.createInitialState({ maps, hostCards: cards, startMapId: 'market-quay' });
 const historical = protectedHistorical.hosts.dostoevsky_1849;
 assert.equal(historical.kind, 'HISTORICAL_RECONSTRUCTION');
-historical.needs.hunger = 100; historical.needs.foodDeprivationMinutes = 2879;
+historical.needs.hunger = 100; historical.needs.foodDeprivationMinutes = 10079;
 const historicalNext = game.advanceNpcWorld(protectedHistorical, 1, maps, { pausedHostIds: Object.keys(protectedHistorical.hosts) });
-assert.equal(historicalNext.hosts[historical.id].needs.foodDeprivationMinutes, 2879, 'historical reconstructions do not enter fictional survival simulation');
+assert.equal(historicalNext.hosts[historical.id].needs.foodDeprivationMinutes, 10079, 'historical reconstructions do not enter fictional survival simulation');
 assert.notEqual(historicalNext.hosts[historical.id].lifeStatus, 'DECEASED');
 
 console.log('V37 survival mortality: illness progression, intervention window, fictional fatality, possession release, historical-person immunity, and save/load passed');

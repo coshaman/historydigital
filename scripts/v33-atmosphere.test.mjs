@@ -23,3 +23,13 @@ test('ambient particles stay inside map bounds and movement stops under reduced 
     assert.notDeepEqual(atmosphereForMap(mapId, 600, 300, 1000), atmosphereForMap(mapId, 600, 300, 9000));
   }
 });
+
+test('outdoor fog has low moving banks that pause under reduced motion', () => {
+  const still = atmosphereForMap('nevsky', 600, 300, 1000, true, 'fog');
+  const moving = atmosphereForMap('nevsky', 600, 300, 1000, false, 'fog');
+  assert.equal(still.kind, 'fog');
+  assert.equal(still.fogBanks.length, 3);
+  assert.deepEqual(still.fogBanks, atmosphereForMap('nevsky', 600, 300, 9000, true, 'fog').fogBanks);
+  assert.notDeepEqual(moving.fogBanks, atmosphereForMap('nevsky', 600, 300, 9000, false, 'fog').fogBanks);
+  assert.ok(still.fogBanks.every(bank => bank.y > 120 && bank.y < 300 && bank.alpha > 0 && bank.alpha <= 0.35));
+});

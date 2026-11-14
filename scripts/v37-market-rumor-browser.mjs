@@ -69,11 +69,17 @@ try {
         })))}`);
       }
       await print.waitFor({ state: 'visible' });
+      await print.scrollIntoViewIfNeeded();
       const surface = await page.evaluate(() => ({ width: document.documentElement.clientWidth,
         scrollWidth: document.documentElement.scrollWidth, buttonCount: document.querySelectorAll('#actions button').length,
+        actionsRect: (() => { const r = document.querySelector('#actions')?.getBoundingClientRect();
+          return r ? { top: r.top, bottom: r.bottom, clientHeight: document.querySelector('#actions').clientHeight,
+            scrollHeight: document.querySelector('#actions').scrollHeight, scrollTop: document.querySelector('#actions').scrollTop } : null; })(),
         printRect: (() => { const r = [...document.querySelectorAll('#actions button')].find(button => button.innerText.includes('장터의 빵값'))?.getBoundingClientRect();
           return r ? { top: r.top, bottom: r.bottom } : null; })() }));
-      if (surface.scrollWidth > surface.width + 1 || !surface.printRect || surface.printRect.top < 0 || surface.printRect.bottom > viewport.height)
+      if (surface.scrollWidth > surface.width + 1 || !surface.printRect || !surface.actionsRect
+        || surface.printRect.top < surface.actionsRect.top - 1 || surface.printRect.bottom > surface.actionsRect.bottom + 1
+        || surface.printRect.top < 0 || surface.printRect.bottom > viewport.height)
         throw new Error(`Market-note print choice overflowed: ${JSON.stringify(surface)}`);
       await page.screenshot({ path: path.join(output, `market-rumor-press-${viewport.width}x${viewport.height}.png`) });
       await print.click();

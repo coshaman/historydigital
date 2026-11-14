@@ -2,29 +2,328 @@
   "world_default": "ST_PETERSBURG_1840s",
   "historical_fixed_history": true,
   "character_layers": [
-    {"id":"NICHOLAS_I","name_ko":"니콜라이 1세","category":"HISTORICAL_PERSON","era":"1825-1855","default_1840s_presence":"IMPERIAL_REMOTE_OR_RARE_OFFICIAL_SCENE","possession":"SCENARIO_GATED","constraints":["no player-modified real decrees","access limited to documented or clearly reconstructed court situation"],"reference":"historical biography and period administrative records"},
-    {"id":"DOSTOEVSKY_1849","name_ko":"표도르 도스토옙스키","category":"HISTORICAL_PERSON","era":"1840s","default_1840s_presence":"LIMITED_DOCUMENTED_EPISODES","possession":"SCENARIO_GATED","constraints":["1849 arrest and mock execution immutable","fictional internal dialogue explicitly reconstructed"],"reference":"St Petersburg Encyclopaedia Petrashevsky; contemporary archive records"},
-    {"id":"BELINSKY","name_ko":"비사리온 벨린스키","category":"HISTORICAL_PERSON","era":"1840s","presence":"BOUND_TO_LIFETIME_1811_1848","possession":"SCENARIO_GATED","constraints":["no invented direct quotation","no appearance after death"],"reference":"1847 letter and contemporary literary periodicals"},
-    {"id":"HERZEN","name_ko":"알렉산드르 게르첸","category":"HISTORICAL_PERSON","era":"1840s","presence":"LOCATION_AND_TRAVEL_RESTRICTED","possession":"SCENARIO_GATED","constraints":["location restrictions and travel historically checked"],"reference":"letters and memoir editions"},
-    {"id":"PETER_I","name_ko":"표트르 대제","category":"HISTORICAL_PERSON","era":"1700s","presence":"HISTORICAL_FLASHBACK_ONLY","possession":"SCENARIO_GATED","constraints":["not contemporaneous with Nicholas I","major historical outcomes immutable"],"reference":"reign 1682-1725"},
-    {"id":"RASKOLNIKOV","name_ko":"라스콜리니코프","category":"LITERARY_CHARACTER","era":"1860s","presence":"LITERARY_INSTANCE_ONLY","possession":"SCENARIO_GATED","constraints":["Crime and Punishment published 1866","novel canonical facts differentiated from player deviation"],"reference":"Dostoevsky Crime and Punishment original text"},
-    {"id":"ALYOSHA_KARAMAZOV","name_ko":"알료샤 카라마조프","category":"LITERARY_CHARACTER","era":"1879-1880","presence":"LITERARY_INSTANCE_ONLY","possession":"SCENARIO_GATED","constraints":["Brothers Karamazov setting later nineteenth century","not a contemporary Peter I/Nicholas I citizen"],"reference":"Dostoevsky Brothers Karamazov, Book X, Chapter V"},
-    {"id":"AKAKY_AKAKIEVICH","name_ko":"아카키 아카키예비치","category":"LITERARY_CHARACTER","era":"1840s_literary","presence":"LITERARY_INSTANCE_ONLY","possession":"SCENARIO_GATED","constraints":["The Overcoat story, literary reconstruction","fictional office environment marked"],"reference":"Gogol The Overcoat 1842"},
-    {"id":"MARMELADOV","name_ko":"세묜 자하로비치 마르멜라도프","category":"LITERARY_CHARACTER","era":"1860s_literary","presence":"LITERARY_INSTANCE_ONLY","possession":"SCENARIO_GATED","constraints":["Crime and Punishment novel character","scene-bound literary instance"],"reference":"Dostoevsky Crime and Punishment, Part I, Chapter II"}
+    {
+      "id": "NICHOLAS_I",
+      "name_ko": "니콜라이 1세",
+      "category": "HISTORICAL_PERSON",
+      "era": "1825-1855",
+      "default_1840s_presence": "IMPERIAL_REMOTE_OR_RARE_OFFICIAL_SCENE",
+      "possession": "SCENARIO_GATED",
+      "constraints": [
+        "no player-modified real decrees",
+        "access limited to documented or clearly reconstructed court situation"
+      ],
+      "reference": "historical biography and period administrative records"
+    },
+    {
+      "id": "DOSTOEVSKY_1849",
+      "name_ko": "표도르 도스토옙스키",
+      "category": "HISTORICAL_PERSON",
+      "era": "1840s",
+      "default_1840s_presence": "LIMITED_DOCUMENTED_EPISODES",
+      "possession": "SCENARIO_GATED",
+      "constraints": [
+        "1849 arrest and mock execution immutable",
+        "fictional internal dialogue explicitly reconstructed"
+      ],
+      "reference": "St Petersburg Encyclopaedia Petrashevsky; contemporary archive records"
+    },
+    {
+      "id": "BELINSKY",
+      "name_ko": "비사리온 벨린스키",
+      "category": "HISTORICAL_PERSON",
+      "era": "1840s",
+      "presence": "BOUND_TO_LIFETIME_1811_1848",
+      "possession": "SCENARIO_GATED",
+      "constraints": [
+        "no invented direct quotation",
+        "no appearance after death"
+      ],
+      "reference": "1847 letter and contemporary literary periodicals"
+    },
+    {
+      "id": "HERZEN",
+      "name_ko": "알렉산드르 게르첸",
+      "category": "HISTORICAL_PERSON",
+      "era": "1840s",
+      "presence": "LOCATION_AND_TRAVEL_RESTRICTED",
+      "possession": "SCENARIO_GATED",
+      "constraints": [
+        "location restrictions and travel historically checked"
+      ],
+      "reference": "letters and memoir editions"
+    },
+    {
+      "id": "PETER_I",
+      "name_ko": "표트르 대제",
+      "category": "HISTORICAL_PERSON",
+      "era": "1700s",
+      "presence": "HISTORICAL_FLASHBACK_ONLY",
+      "possession": "SCENARIO_GATED",
+      "constraints": [
+        "not contemporaneous with Nicholas I",
+        "major historical outcomes immutable"
+      ],
+      "reference": "reign 1682-1725"
+    },
+    {
+      "id": "RASKOLNIKOV",
+      "name_ko": "라스콜리니코프",
+      "category": "LITERARY_CHARACTER",
+      "era": "1860s",
+      "presence": "LITERARY_INSTANCE_ONLY",
+      "possession": "SCENARIO_GATED",
+      "constraints": [
+        "Crime and Punishment published 1866",
+        "novel canonical facts differentiated from player deviation"
+      ],
+      "reference": "Dostoevsky Crime and Punishment original text"
+    },
+    {
+      "id": "ALYOSHA_KARAMAZOV",
+      "name_ko": "알료샤 카라마조프",
+      "category": "LITERARY_CHARACTER",
+      "era": "1879-1880",
+      "presence": "LITERARY_INSTANCE_ONLY",
+      "possession": "SCENARIO_GATED",
+      "constraints": [
+        "Brothers Karamazov setting later nineteenth century",
+        "not a contemporary Peter I/Nicholas I citizen"
+      ],
+      "reference": "Dostoevsky Brothers Karamazov, Book X, Chapter V"
+    },
+    {
+      "id": "AKAKY_AKAKIEVICH",
+      "name_ko": "아카키 아카키예비치",
+      "category": "LITERARY_CHARACTER",
+      "era": "1840s_literary",
+      "presence": "LITERARY_INSTANCE_ONLY",
+      "possession": "SCENARIO_GATED",
+      "constraints": [
+        "The Overcoat story, literary reconstruction",
+        "fictional office environment marked"
+      ],
+      "reference": "Gogol The Overcoat 1842"
+    },
+    {
+      "id": "MARMELADOV",
+      "name_ko": "세묜 자하로비치 마르멜라도프",
+      "category": "LITERARY_CHARACTER",
+      "era": "1860s_literary",
+      "presence": "LITERARY_INSTANCE_ONLY",
+      "possession": "SCENARIO_GATED",
+      "constraints": [
+        "Crime and Punishment novel character",
+        "scene-bound literary instance"
+      ],
+      "reference": "Dostoevsky Crime and Punishment, Part I, Chapter II"
+    }
   ],
   "runtime_profiles": {
-    "default_fictional": {"layer":"FICTIONAL_1840S","allowedChapterIds":["V33_1847_PRINT","V33_1848_PUBLIC","V33_1849_CIRCLE"],"realmId":null,"sourceIds":[]},
-    "nekrasov_reconstruction": {"layer":"HISTORICAL_RECONSTRUCTION","allowedChapterIds":["V33_1848_PUBLIC","V33_1849_CIRCLE"],"realmId":null,"sourceIds":["OBJ-WS-NEKRASOV-EDITORIAL-1848","OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE"]},
-    "dostoevsky_1849": {"layer":"HISTORICAL_RECONSTRUCTION","allowedChapterIds":["V33_1849_CIRCLE"],"realmId":null,"sourceIds":["OBJ-WS-DOSTOEVSKY-LETTER-1849-DEC22"]},
-    "literary_chichikov": {"layer":"LITERARY","allowedChapterIds":["LITERARY_DEAD_SOULS"],"realmId":"LITERARY_DEAD_SOULS","mapId":"dead-souls","sourceIds":["LIT-GOGOL-DEAD-SOULS-1842"]},
-    "literary_akaky": {"layer":"LITERARY","allowedChapterIds":["LITERARY_OVERCOAT"],"realmId":"LITERARY_OVERCOAT","mapId":"overcoat","sourceIds":["LIT-GOGOL-OVERCOAT-1842"]},
-    "literary_petrovich": {"layer":"LITERARY","allowedChapterIds":["LITERARY_OVERCOAT"],"realmId":"LITERARY_OVERCOAT","mapId":"overcoat","sourceIds":["LIT-GOGOL-OVERCOAT-1842"]},
-    "literary_raskolnikov": {"layer":"LITERARY","allowedChapterIds":["LITERARY_RASKOLNIKOV_1866"],"realmId":"LITERARY_RASKOLNIKOV_1866","mapId":"raskolnikov-tavern","sourceIds":["LIT-DOSTOEVSKY-CRIME-PUNISHMENT-1866-CH2"]},
-    "literary_marmeladov": {"layer":"LITERARY","allowedChapterIds":["LITERARY_RASKOLNIKOV_1866"],"realmId":"LITERARY_RASKOLNIKOV_1866","mapId":"raskolnikov-tavern","sourceIds":["LIT-DOSTOEVSKY-CRIME-PUNISHMENT-1866-CH2"]},
-    "literary_alyosha": {"layer":"LITERARY","allowedChapterIds":["LITERARY_KARAMAZOV_1879"],"realmId":"LITERARY_KARAMAZOV_1879","mapId":"alyosha-snegiryov-room","sourceIds":["LIT-DOSTOEVSKY-BROTHERS-KARAMAZOV-1879-ILYUSHA"]},
-    "literary_ilyusha": {"layer":"LITERARY","allowedChapterIds":["LITERARY_KARAMAZOV_1879"],"realmId":"LITERARY_KARAMAZOV_1879","mapId":"alyosha-snegiryov-room","sourceIds":["LIT-DOSTOEVSKY-BROTHERS-KARAMAZOV-1879-ILYUSHA"]},
-    "literary_kolya": {"layer":"LITERARY","allowedChapterIds":["LITERARY_KARAMAZOV_1879"],"realmId":"LITERARY_KARAMAZOV_1879","mapId":"alyosha-snegiryov-room","sourceIds":["LIT-DOSTOEVSKY-BROTHERS-KARAMAZOV-1879-ILYUSHA"]},
-    "literary_snegiryov": {"layer":"LITERARY","allowedChapterIds":["LITERARY_KARAMAZOV_1879"],"realmId":"LITERARY_KARAMAZOV_1879","mapId":"alyosha-snegiryov-room","sourceIds":["LIT-DOSTOEVSKY-BROTHERS-KARAMAZOV-1879-ILYUSHA"]}
+    "default_fictional": {
+      "layer": "FICTIONAL_1840S",
+      "allowedChapterIds": [
+        "V33_1847_PRINT",
+        "V33_1848_PUBLIC",
+        "V33_1849_PRELUDE",
+        "V33_1849_CIRCLE"
+      ],
+      "realmId": null,
+      "sourceIds": []
+    },
+    "nekrasov_reconstruction": {
+      "layer": "HISTORICAL_RECONSTRUCTION",
+      "allowedChapterIds": [
+        "V33_1848_PUBLIC",
+        "V33_1849_CIRCLE"
+      ],
+      "realmId": null,
+      "sourceIds": [
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE"
+      ]
+    },
+    "dostoevsky_1849": {
+      "layer": "HISTORICAL_RECONSTRUCTION",
+      "allowedChapterIds": [
+        "V33_1849_PRELUDE",
+        "V33_1849_CIRCLE"
+      ],
+      "realmId": null,
+      "sourceIds": [
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-DOSTOEVSKY-ARREST-ORDER-1849",
+        "OBJ-WS-DOSTOEVSKY-LETTER-1849-DEC22"
+      ]
+    },
+    "literary_chichikov": {
+      "layer": "LITERARY",
+      "allowedChapterIds": [
+        "LITERARY_DEAD_SOULS"
+      ],
+      "realmId": "LITERARY_DEAD_SOULS",
+      "mapId": "dead-souls",
+      "sourceIds": [
+        "LIT-GOGOL-DEAD-SOULS-1842"
+      ]
+    },
+    "literary_akaky": {
+      "layer": "LITERARY",
+      "allowedChapterIds": [
+        "LITERARY_OVERCOAT"
+      ],
+      "realmId": "LITERARY_OVERCOAT",
+      "mapId": "overcoat",
+      "sourceIds": [
+        "LIT-GOGOL-OVERCOAT-1842"
+      ]
+    },
+    "literary_petrovich": {
+      "layer": "LITERARY",
+      "allowedChapterIds": [
+        "LITERARY_OVERCOAT"
+      ],
+      "realmId": "LITERARY_OVERCOAT",
+      "mapId": "overcoat",
+      "sourceIds": [
+        "LIT-GOGOL-OVERCOAT-1842"
+      ]
+    },
+    "literary_raskolnikov": {
+      "layer": "LITERARY",
+      "allowedChapterIds": [
+        "LITERARY_RASKOLNIKOV_1866"
+      ],
+      "realmId": "LITERARY_RASKOLNIKOV_1866",
+      "mapId": "raskolnikov-tavern",
+      "sourceIds": [
+        "LIT-DOSTOEVSKY-CRIME-PUNISHMENT-1866-CH2"
+      ]
+    },
+    "literary_marmeladov": {
+      "layer": "LITERARY",
+      "allowedChapterIds": [
+        "LITERARY_RASKOLNIKOV_1866"
+      ],
+      "realmId": "LITERARY_RASKOLNIKOV_1866",
+      "mapId": "raskolnikov-tavern",
+      "sourceIds": [
+        "LIT-DOSTOEVSKY-CRIME-PUNISHMENT-1866-CH2"
+      ]
+    },
+    "literary_alyosha": {
+      "layer": "LITERARY",
+      "allowedChapterIds": [
+        "LITERARY_KARAMAZOV_1879"
+      ],
+      "realmId": "LITERARY_KARAMAZOV_1879",
+      "mapId": "alyosha-snegiryov-room",
+      "sourceIds": [
+        "LIT-DOSTOEVSKY-BROTHERS-KARAMAZOV-1879-ILYUSHA"
+      ]
+    },
+    "literary_ilyusha": {
+      "layer": "LITERARY",
+      "allowedChapterIds": [
+        "LITERARY_KARAMAZOV_1879"
+      ],
+      "realmId": "LITERARY_KARAMAZOV_1879",
+      "mapId": "alyosha-snegiryov-room",
+      "sourceIds": [
+        "LIT-DOSTOEVSKY-BROTHERS-KARAMAZOV-1879-ILYUSHA"
+      ]
+    },
+    "literary_kolya": {
+      "layer": "LITERARY",
+      "allowedChapterIds": [
+        "LITERARY_KARAMAZOV_1879"
+      ],
+      "realmId": "LITERARY_KARAMAZOV_1879",
+      "mapId": "alyosha-snegiryov-room",
+      "sourceIds": [
+        "LIT-DOSTOEVSKY-BROTHERS-KARAMAZOV-1879-ILYUSHA"
+      ]
+    },
+    "literary_snegiryov": {
+      "layer": "LITERARY",
+      "allowedChapterIds": [
+        "LITERARY_KARAMAZOV_1879"
+      ],
+      "realmId": "LITERARY_KARAMAZOV_1879",
+      "mapId": "alyosha-snegiryov-room",
+      "sourceIds": [
+        "LIT-DOSTOEVSKY-BROTHERS-KARAMAZOV-1879-ILYUSHA"
+      ]
+    },
+    "panaev_1848": {
+      "layer": "HISTORICAL_RECONSTRUCTION",
+      "allowedChapterIds": [
+        "V33_1848_PUBLIC"
+      ],
+      "realmId": null,
+      "sourceIds": [
+        "V47-NEKRASOV-ALMANAC-CONTENTS-1848"
+      ]
+    },
+    "panaeva_1848": {
+      "layer": "HISTORICAL_RECONSTRUCTION",
+      "allowedChapterIds": [
+        "V33_1848_PUBLIC"
+      ],
+      "realmId": null,
+      "sourceIds": [
+        "V47-NEKRASOV-ALMANAC-CONTENTS-1848"
+      ]
+    },
+    "petrashevsky_1849": {
+      "layer": "HISTORICAL_RECONSTRUCTION",
+      "allowedChapterIds": [
+        "V33_1849_PRELUDE",
+        "V33_1849_CIRCLE"
+      ],
+      "realmId": null,
+      "sourceIds": [
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849"
+      ]
+    },
+    "antonelli_1849": {
+      "layer": "HISTORICAL_RECONSTRUCTION",
+      "allowedChapterIds": [
+        "V33_1849_PRELUDE",
+        "V33_1849_CIRCLE"
+      ],
+      "realmId": null,
+      "sourceIds": [
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849"
+      ]
+    },
+    "liprandi_1849": {
+      "layer": "HISTORICAL_RECONSTRUCTION",
+      "allowedChapterIds": [
+        "V33_1849_PRELUDE",
+        "V33_1849_CIRCLE"
+      ],
+      "realmId": null,
+      "sourceIds": [
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849"
+      ]
+    },
+    "doctor_mikhail_1848": {
+      "layer": "FICTIONAL_1840S",
+      "allowedChapterIds": [
+        "V33_1848_PUBLIC"
+      ],
+      "realmId": null,
+      "sourceIds": [
+        "V47-CRAWFORD-CHO-OBS-1848"
+      ]
+    }
   },
-  "era_layer_policy": {"default_historical_era":"1836-1849","historical_era_transition":"ONLY_VIA_DOCUMENTED_FLASHBACK_AND_SELECTION","literary_transition":"ONLY_VIA_LABELED_LITERARY_GATE","memory_crossover":"PLAYER_META_KNOWLEDGE_ONLY, NOT_HOST_KNOWLEDGE","news_generation":"NO_FUTURE_OR_LITERARY_EVENT_AS_HISTORICAL_NEWSPAPER"}
+  "era_layer_policy": {
+    "default_historical_era": "1836-1849",
+    "historical_era_transition": "ONLY_VIA_DOCUMENTED_FLASHBACK_AND_SELECTION",
+    "literary_transition": "ONLY_VIA_LABELED_LITERARY_GATE",
+    "memory_crossover": "PLAYER_META_KNOWLEDGE_ONLY, NOT_HOST_KNOWLEDGE",
+    "news_generation": "NO_FUTURE_OR_LITERARY_EVENT_AS_HISTORICAL_NEWSPAPER"
+  }
 }

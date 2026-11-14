@@ -1,0 +1,12 @@
+
+> chancery-of-ink@1.0.0 build:v33
+> node scripts/v33-static-build.mjs
+
+{"status":"PASS","residents":36,"chains":36,"questRecords":108}
+{
+  "status": "PASS",
+  "artifact": "dist-v33/",
+  "entry": "index.html",
+  "preservedEntry": "chancery.html",
+  "fileCount": 508
+}

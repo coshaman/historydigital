@@ -115,7 +115,9 @@
     "printshop",
     "chancery",
     "workyard",
-    "communal-room"
+    "communal-room",
+    "sewing-room",
+    "morskaya-intersection"
   ],
   "start": {
     "mapId": "courtyard",

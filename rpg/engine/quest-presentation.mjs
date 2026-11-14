@@ -77,8 +77,17 @@ export function continuationQuest(state, campaign, quests) {
   for (const id of arc?.questIds ?? []) {
     const quest = quests.find(item => item.id === id);
     if (!quest) return null;
-    if (state.quests[id]?.status !== 'resolved') return previous && quest.date > state.world.date ? previous : null;
+    if (state.quests[id]?.status !== 'resolved') return quest.date > state.world.date ? previous ?? quest : null;
     previous = quest;
+  }
+  for (const id of arc?.optionalQuestIds ?? []) {
+    const quest = quests.find(item => item.id === id);
+    if (!quest) continue;
+    const prerequisitesMet = (quest.prerequisiteQuestIds ?? [])
+      .every(prerequisiteId => state.quests[prerequisiteId]?.status === 'resolved');
+    if (state.quests[id]?.status !== 'resolved' && prerequisitesMet) {
+      return quest.date > state.world.date ? previous : quest;
+    }
   }
   return previous;
 }

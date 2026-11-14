@@ -9,43 +9,54 @@ export function historicalParticipantGuide(scene, actorId, activeSession = {}) {
   const actor = scene?.actors?.find(person => person.id === actorId);
   if (!actor) return null;
   const objective = scene.objectives?.find(item => item.id === actor.objectiveId);
+  const authoredGuide = scene.actorQuestGuides?.[actor.id];
   const actions = (scene.fieldActions ?? []).filter(item => item.objectiveId === actor.objectiveId);
+  const authoredAction = (scene.fieldActions ?? []).find(item => item.id === authoredGuide?.actionId);
   const ownAction = actions.find(item => item.requiredActorId === actor.id);
   const involvedAction = actions.find(item => item.gatherActorIds?.includes(actor.id)
     && !activeSession.actionOutcomes?.[item.id]);
   const pendingAction = actions.find(item => !activeSession.actionOutcomes?.[item.id]) ?? actions[0];
-  const action = ownAction && !activeSession.actionOutcomes?.[ownAction.id]
+  const action = authoredGuide && authoredAction
+    ? authoredAction : ownAction && !activeSession.actionOutcomes?.[ownAction.id]
     ? ownAction : involvedAction ?? pendingAction ?? ownAction;
   const partners = (scene.actors ?? []).filter(person => person.objectiveId === actor.objectiveId && person.id !== actor.id);
   const partnerIds = partners.map(person => person.id);
   const fallbackIds = (action?.gatherActorIds ?? []).filter(id => id !== actor.id);
+  const localPartnerIds = partnerIds.filter(id => scene.actors.find(person => person.id === id)?.mapId === action?.mapId);
   const localFallbackIds = fallbackIds.filter(id => scene.actors.find(person => person.id === id)?.mapId === action?.mapId);
-  const talkToIds = partnerIds.length ? partnerIds : localFallbackIds.length ? localFallbackIds : fallbackIds;
+  const authoredTargets = (authoredGuide?.actionId === action?.id ? authoredGuide.talkToActorIds : null) ?? [];
+  const talkToIds = authoredTargets.length ? authoredTargets : localPartnerIds.length ? localPartnerIds : localFallbackIds.length ? localFallbackIds : partnerIds.length ? partnerIds : fallbackIds;
   const talkToNamesKo = [...new Set(talkToIds.map(id => {
     const person = scene.actors.find(item => item.id === id);
     if (!person) return null;
     const zone = scene.zoneTitlesKo?.[scene.maps.indexOf(person.mapId)];
     return person.mapId === action?.mapId || !zone ? person.nameKo : `${person.nameKo} · ${zone}`;
-  }).filter(Boolean))].slice(0, 3);
+  }).filter(Boolean))].slice(0, 1);
   const mapIndex = action ? scene.maps.indexOf(action.mapId) : -1;
   const placeKo = mapIndex >= 0 ? scene.zoneTitlesKo?.[mapIndex] ?? action.mapId : actor.mapId;
   const firstContactKo = talkToNamesKo[0]?.split(' · ')[0] ?? '현장 인물';
+  const taskKo = authoredGuide?.actionId === action?.id
+    ? authoredGuide.taskKo : objective?.actionKo ?? action?.promptKo ?? '맡은 일을 처리한다';
+  const roleStep = action?.requiredActorId && action.requiredActorId !== actor.id
+    ? [`인물 바꾸기 · ${scene.actors.find(person => person.id === action.requiredActorId)?.nameKo ?? '맡을 인물'}로 전환`] : [];
   return {
     actorNameKo: actor.nameKo,
-    objectiveTitleKo: objective?.titleKo ?? actor.introductionKo ?? actor.lines?.[0] ?? '현장 사람들과 이야기를 나눈다',
-    actionKo: objective?.actionKo ?? '가까운 사람에게 오늘 일을 물어본다',
+    objectiveTitleKo: authoredGuide?.actionId === action?.id ? authoredGuide.titleKo : objective?.titleKo ?? actor.introductionKo ?? actor.lines?.[0] ?? '현장 사람들과 이야기를 나눈다',
+    actionKo: authoredGuide?.actionId === action?.id ? authoredGuide.taskKo : objective?.actionKo ?? '가까운 사람에게 오늘 일을 물어본다',
     actionId: action?.id ?? null,
     talkToNamesKo,
     propKo: action?.propKo ?? '주변 사람과 이야기',
     placeKo,
     questStepsKo: [
-      `이동 · ${placeKo}`,
-      `대화 · ${firstContactKo}에게 말 걸기`,
-      `행동 · ${action?.propKo ?? '주변 사람'} · ${objective?.actionKo ?? action?.promptKo ?? '맡은 일을 처리한다'}`,
+      `갈 곳 · ${placeKo}`,
+      `말 걸기 · ${firstContactKo}`,
+      ...roleStep,
+      `할 일 · ${action?.propKo ?? '주변 사람'} · ${taskKo}`,
     ],
     requiredActorNameKo: action?.requiredActorId
       ? scene.actors.find(person => person.id === action.requiredActorId)?.nameKo ?? null : null,
-    completed: Boolean(activeSession.completedObjectives?.includes(actor.objectiveId)),
+    completed: Boolean((action && activeSession.actionOutcomes?.[action.id])
+      || activeSession.completedObjectives?.includes(actor.objectiveId)),
     actionCompleted: Boolean(action && activeSession.actionOutcomes?.[action.id]),
   };
 }

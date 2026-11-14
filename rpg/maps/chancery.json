@@ -135,7 +135,7 @@
       "imageheight": 160,
       "tilewidth": 16,
       "tileheight": 16,
-      "tilecount": 85,
+      "tilecount": 115,
       "columns": 16
     }
   ],
@@ -2093,11 +2093,11 @@
               "name": "assetTileId",
               "type": "int",
               "value": 81
-              },
-              {
-                "name": "requiresLivingEventId",
-                "type": "string",
-                "value": "E40"
+            },
+            {
+              "name": "requiresLivingEventId",
+              "type": "string",
+              "value": "E40"
             }
           ]
         },

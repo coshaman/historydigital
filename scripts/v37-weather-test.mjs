@@ -19,6 +19,12 @@ for (const mapId of ['nevsky', 'courtyard', 'market-quay', 'canal-road', 'workya
   assert.equal(mapHasAtmosphere(mapId), true);
   const snow = atmosphereForMap(mapId, 640, 360, 4000, false, 'snow');
   assert.equal(snow.kind, 'snow');
+  assert.ok(snow.particles.length >= 64, `${mapId}: winter snow should read clearly across the street-scale canvas`);
+  if (mapId === 'nevsky') {
+    assert.ok(snow.snowBands?.length, 'Nevsky snow should gather visibly along the street edge');
+    assert.ok(snow.snowBands.length >= 8 && snow.snowBands.every(band => band.width < 0.8 * 640),
+      'street-edge snow should gather in broken curbside patches, not a painted line');
+  }
   assert.ok(snow.particles.every(flake => Number.isFinite(flake.x) && Number.isFinite(flake.y) && flake.size > 0));
   assert.deepEqual(atmosphereForMap(mapId, 640, 360, 0, true, 'snow'), atmosphereForMap(mapId, 640, 360, 9000, true, 'snow'),
     'reduced motion keeps weather particles stationary');

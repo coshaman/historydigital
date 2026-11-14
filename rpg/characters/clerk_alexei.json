@@ -1,6 +1,10 @@
 {
   "id": "clerk_alexei",
-  "ambientLines": ["접수 번호가 하나 빠졌군.", "이 잉크로는 오래 못 버티겠어.", "점심 전에 서명부터 받아야지."],
+  "ambientLines": [
+    "접수 번호가 하나 빠졌군.",
+    "이 잉크로는 오래 못 버티겠어.",
+    "점심 전에 서명부터 받아야지."
+  ],
   "kind": "FICTIONAL",
   "displayNameKo": "알렉세이 오를로프",
   "displayNameRu": "Алексей Орлов",
@@ -128,7 +132,9 @@
     "chancery",
     "police-station",
     "courtyard",
-    "market-quay"
+    "market-quay",
+    "inn-interior",
+    "morskaya-intersection"
   ],
   "start": {
     "mapId": "chancery",

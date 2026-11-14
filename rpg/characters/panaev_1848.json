@@ -1,0 +1,138 @@
+{
+  "id": "panaev_1848",
+  "kind": "HISTORICAL_RECONSTRUCTION",
+  "displayNameKo": "이반 파나예프",
+  "displayNameRu": "Иван Иванович Панаев",
+  "ageAtDate": {
+    "value": null,
+    "status": "not established in this scenario data"
+  },
+  "socialEstate": "not asserted beyond checked source records",
+  "occupation": "작가·《현대인》 편집자",
+  "rank": {
+    "value": null,
+    "ru": null,
+    "status": "not_applicable"
+  },
+  "wealthBracket": "unknown",
+  "money": {
+    "amount": null,
+    "unit": null,
+    "status": "not established"
+  },
+  "literacy": "not established beyond cited records",
+  "health": "not represented",
+  "reputationByGroup": {},
+  "risk": "Personal circumstances beyond the cited record are not asserted.",
+  "relations": {},
+  "secretKnowledge": [],
+  "knownEvidence": [],
+  "privateKnowledgeIds": [],
+  "knownEvidenceIds": [],
+  "desires": "연감의 작품과 발행 순서를 편집자 관점에서 살핀다.",
+  "fears": "No private fear is asserted without a source.",
+  "taboos": [
+    "대사를 실제 발언이나 사료 인용으로 제시하지 않는다.",
+    "허용된 날짜 이후의 자료를 미리 알지 않는다.",
+    "확인되지 않은 사적 지식을 사실처럼 말하지 않는다."
+  ],
+  "speechRhythm": "먼저 사람과 인쇄 일정부터 확인한 뒤 판단을 내린다. 편집회의에서는 짧은 질문과 실무적인 지시를 이어가고, 농담도 한 문장으로 끝낸다.",
+  "lexicon": [],
+  "emotions": [],
+  "personalObjective": "연감의 작품과 발행 순서를 편집자 관점에서 살핀다.",
+  "persistentPersonalGoals": [
+    {
+      "id": "V47_PANAEV_EDITORIAL_RECORD",
+      "kind": "STORY",
+      "titleKo": "편집자의 장부",
+      "descriptionKo": "본문의 작품과 저자 표기를 확인하고, 편집 장부에 남긴다.",
+      "fallbackKo": "인쇄소에서 탈니코프 가족의 첫 장을 읽고, 작품·저자 대조 메모를 서기에게 전한다.",
+      "successCondition": { "type": "QUEST_ACTION", "questId": "V47_MAIN01_A03", "actionId": "V47_A03_PANAEV_CATALOGUE_NOTE" }
+    }
+  ],
+  "speechRegister": {
+    "firstMeeting": "낯선 사람에게는 용건부터 묻습니다.",
+    "colleague": "함께 일하는 사람에게 짧고 구체적으로 부탁합니다.",
+    "private": "둘만 있으면 걱정되는 일을 솔직히 꺼냅니다.",
+    "conflict": "목소리를 높이기보다 지금 필요한 일을 따집니다.",
+    "intimacy": "가까운 이에게는 안부와 피로를 먼저 묻습니다.",
+    "formal": "기관이나 책임자 앞에서는 존칭을 지키고 보고합니다."
+  },
+  "voiceSamples": [
+    "활자는 준비됐습니까? 원고가 늦으면 오늘 밤 인쇄는 접어야 해요.",
+    "판매처부터 정하지 맙시다. 먼저 몇 부가 남았는지 세어 보죠.",
+    "이 대목은 그대로 두고, 제목만 다시 보겠습니다."
+  ],
+  "worldview": {
+    "blindSpotKo": "마감과 유통을 서두르다 보면 작품이 독자에게 어떻게 읽힐지 충분히 기다리지 못할 수 있다."
+  },
+  "allowedMaps": [
+    "printshop"
+  ],
+  "start": {
+    "mapId": "printshop",
+    "x": 12,
+    "y": 8
+  },
+  "inventory": [],
+  "sourceIds": [
+    "V47-NEKRASOV-ALMANAC-CONTENTS-1848"
+  ],
+  "canonConstraint": "The person is a source-bounded reconstruction; scene dialogue is newly authored and not a historical quotation.",
+  "sprite": {
+    "file": "assets/v47-role-sprite.svg",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "original generic role silhouette"
+  },
+  "spriteAtlas": {
+    "file": "assets/v47-role-sprite.svg",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "directions": 4,
+    "framesPerDirection": 3,
+    "directionRows": {
+      "down": 0,
+      "up": 1,
+      "left": 2,
+      "right": 3
+    }
+  },
+  "portrait": {
+    "file": "assets/v47-role-portrait.svg",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "ORIGINAL_GENERIC_GAME_ART"
+  },
+  "schedule": [
+    {
+      "atMinute": 540,
+      "mapId": "printshop",
+      "position": {
+        "x": 12,
+        "y": 8
+      },
+      "activityKo": "연감의 작품과 발행 순서를 편집자 관점에서 살핀다."
+    }
+  ],
+  "objectiveByChapter": {
+    "V33_1848_PUBLIC": "연감의 작품과 발행 순서를 편집자 관점에서 살핀다."
+  },
+  "presenceWindow": {
+    "startDate": "1848-01-31",
+    "endDate": "1848-12-31",
+    "start": {
+      "mapId": "printshop",
+      "position": {
+        "x": 12,
+        "y": 8
+      }
+    }
+  },
+  "v47DialogueContext": {
+    "voiceKo": "인쇄 부수와 일정, 판매처처럼 편집 실무부터 따져 묻는다. 짧은 질문과 지시를 주로 쓰며, 아래 예시는 이 장면을 위한 창작 말투이지 실제 발언 인용이 아니다.",
+    "sourceBoundKnowledge": [
+      "연감의 수록 작품을 밝힌 편집부 예고"
+    ]
+  }
+}

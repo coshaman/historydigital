@@ -4,15 +4,28 @@
   "rosterClass": "EVENT_PERFORMER",
   "displayNameKo": "이반",
   "displayNameRu": "Иван",
-  "ageAtDate": { "value": 34, "status": "fictional_character_design" },
+  "ageAtDate": {
+    "value": 34,
+    "status": "fictional_character_design"
+  },
   "socialEstate": "urban_laborer",
   "occupation": "네프스키 거리에서 손풍금을 연주하는 악사",
-  "rank": { "value": null, "ru": null, "status": "not_applicable" },
+  "rank": {
+    "value": null,
+    "ru": null,
+    "status": "not_applicable"
+  },
   "wealthBracket": "poor",
-  "money": { "amount": 7, "unit": "kopeks", "status": "designedEstimate" },
+  "money": {
+    "amount": 7,
+    "unit": "kopeks",
+    "status": "designedEstimate"
+  },
   "literacy": "악기와 품삯을 셈하는 데 필요한 표식을 안다.",
   "health": "working",
-  "reputationByGroup": { "neighbors": "known_by_daily_work" },
+  "reputationByGroup": {
+    "neighbors": "known_by_daily_work"
+  },
   "risk": "사람이 모이면 연주를 이어 가고, 비어 있으면 자리를 옮긴다.",
   "relations": {
     "street_vendor_matryona": "좌판 옆에서 연주할 때 통행을 막지 말라고 서로 살핀다",
@@ -24,7 +37,9 @@
   "knownEvidenceIds": [],
   "desires": "오늘 연주로 집세와 악기 수리비를 마련한다.",
   "fears": "비가 오거나 순찰이 다가오면 악기와 수입을 함께 잃을 수 있다.",
-  "taboos": [ "지나가는 이의 사정을 지어내지 않는다." ],
+  "taboos": [
+    "지나가는 이의 사정을 지어내지 않는다."
+  ],
   "speechRhythm": "짧게 말을 건네고, 연주와 생계 이야기는 구체적으로 답한다.",
   "speechRegister": {
     "firstMeeting": "낯선 청중에게는 거리 두는 존대를 쓴다.",
@@ -45,35 +60,93 @@
     "tensionKo": "사람을 모아야 벌이가 생기지만 통행을 막으면 쫓겨날 수 있다.",
     "blindSpotKo": "연주에 몰두하면 주변 행인의 불편을 늦게 알아챈다.",
     "designBasisKo": "생활 시뮬레이션을 위한 허구 시민 설정이다.",
-    "sceneAnchorIds": [ "E38" ]
+    "sceneAnchorIds": [
+      "E38"
+    ]
   },
   "topicStances": {
-    "serfdom": { "knowledgeKind": "unfamiliar_terms", "positionKo": "농촌 제도에 관해 아는 바가 없다." },
-    "censorship": { "knowledgeKind": "street_limited", "positionKo": "자신의 거리 연주와 순찰 경험만 말한다." },
-    "literature": { "knowledgeKind": "reader_limited", "positionKo": "작품 해석을 대신하지 않고 들은 노래와 이야기를 나눈다." },
-    "poverty_and_class": { "knowledgeKind": "fictional_lived_experience", "positionKo": "연주에 쓴 시간과 악기 수리비만큼은 벌어야 한다고 본다." },
-    "slavophilism_and_westernism": { "knowledgeKind": "unfamiliar_terms", "positionKo": "그 논쟁을 아는 체하지 않는다." }
+    "serfdom": {
+      "knowledgeKind": "unfamiliar_terms",
+      "positionKo": "농촌 제도에 관해 아는 바가 없다."
+    },
+    "censorship": {
+      "knowledgeKind": "street_limited",
+      "positionKo": "자신의 거리 연주와 순찰 경험만 말한다."
+    },
+    "literature": {
+      "knowledgeKind": "reader_limited",
+      "positionKo": "작품 해석을 대신하지 않고 들은 노래와 이야기를 나눈다."
+    },
+    "poverty_and_class": {
+      "knowledgeKind": "fictional_lived_experience",
+      "positionKo": "연주에 쓴 시간과 악기 수리비만큼은 벌어야 한다고 본다."
+    },
+    "slavophilism_and_westernism": {
+      "knowledgeKind": "unfamiliar_terms",
+      "positionKo": "그 논쟁을 아는 체하지 않는다."
+    }
   },
-  "lexicon": [ "연주", "자리", "품삯", "악기" ],
-  "emotions": [ "경계", "기대", "피로" ],
+  "lexicon": [
+    "연주",
+    "자리",
+    "품삯",
+    "악기"
+  ],
+  "emotions": [
+    "경계",
+    "기대",
+    "피로"
+  ],
   "personalObjective": "연주로 오늘 집세와 악기 수리비를 마련한다.",
-  "objectiveByChapter": { "V33_1847_PRINT": "네프스키 거리에서 연주하고 벌이를 챙긴다." },
-  "allowedMaps": [ "courtyard", "nevsky", "market-quay" ],
-  "start": { "mapId": "courtyard", "x": 20, "y": 5 },
+  "objectiveByChapter": {
+    "V33_1847_PRINT": "네프스키 거리에서 연주하고 벌이를 챙긴다."
+  },
+  "allowedMaps": [
+    "courtyard",
+    "nevsky",
+    "market-quay"
+  ],
+  "start": {
+    "mapId": "courtyard",
+    "x": 20,
+    "y": 5
+  },
   "wealthBracketStatus": "fictional_gameplay_estimate",
-  "inventory": [ "손풍금", "악기 수리용 끈" ],
+  "inventory": [
+    "손풍금",
+    "악기 수리용 끈"
+  ],
   "sourceIds": [],
   "canonConstraint": "허구의 1840년대 주민이며 실제 개인이나 증언자로 취급하지 않는다.",
   "needs": {
-    "hunger": 42, "fatigue": 24, "income": 76, "safety": 44, "socialBelonging": 36,
-    "restThreshold": 70, "workFatiguePerMinute": 0.03, "restFatigueReliefPerMinute": 0.06,
-    "hungerPerMinute": 0.035, "incomeReliefPerMinute": 0.001,
+    "hunger": 42,
+    "fatigue": 24,
+    "income": 76,
+    "safety": 44,
+    "socialBelonging": 36,
+    "restThreshold": 70,
+    "workFatiguePerMinute": 0.03,
+    "restFatigueReliefPerMinute": 0.06,
+    "hungerPerMinute": 0.035,
+    "incomeReliefPerMinute": 0.001,
     "status": "fictional_character_simulation_profile"
   },
   "residence": {
     "kind": "TENEMENT_ROOM",
-    "homeLocation": { "mapId": "courtyard", "position": { "x": 20, "y": 5 } },
-    "sleepLocation": { "mapId": "courtyard", "position": { "x": 20, "y": 5 } },
+    "homeLocation": {
+      "mapId": "courtyard",
+      "position": {
+        "x": 20,
+        "y": 5
+      }
+    },
+    "sleepLocation": {
+      "mapId": "courtyard",
+      "position": {
+        "x": 20,
+        "y": 5
+      }
+    },
     "sleepMinute": 1320,
     "unitLabelKo": "허구의 공동주택 셋방",
     "status": "FICTIONAL_CHARACTER_DESIGN",
@@ -81,24 +154,95 @@
     "designBasisKo": "게임의 귀가·취침을 위한 허구 거처이며 실제 주소가 아니다."
   },
   "housing": {
-    "kind": "RENT", "landlordHostId": "landlady_polina", "mapId": "courtyard",
-    "position": { "x": 20, "y": 5 }, "amount": 2, "unit": "kopeks", "dueMinute": 1200,
-    "travelLeadMinutes": 240, "closeMinute": 1380, "arrears": 0,
+    "kind": "RENT",
+    "landlordHostId": "landlady_polina",
+    "mapId": "courtyard",
+    "position": {
+      "x": 20,
+      "y": 5
+    },
+    "amount": 2,
+    "unit": "kopeks",
+    "dueMinute": 1200,
+    "travelLeadMinutes": 240,
+    "closeMinute": 1380,
+    "arrears": 0,
     "valueStatus": "fictional_gameplay_balance"
   },
   "schedule": [
-    { "atMinute": 420, "mapId": "courtyard", "position": { "x": 20, "y": 5 }, "activityKo": "악기를 챙기고 끈을 살핀다" },
-    { "atMinute": 540, "mapId": "nevsky", "position": { "x": 20, "y": 14 }, "activityKo": "네프스키 거리로 나가 연주 자리를 찾는다" },
-    { "atMinute": 600, "mapId": "nevsky", "position": { "x": 20, "y": 14 }, "activityKo": "사람이 모이는 곳에서 손풍금을 연주한다" },
-    { "atMinute": 720, "mapId": "nevsky", "position": { "x": 20, "y": 14 }, "activityKo": "사람 흐름을 보고 자리를 옮겨 연주한다" },
-    { "atMinute": 900, "mapId": "courtyard", "position": { "x": 20, "y": 5 }, "activityKo": "안뜰에서 쉬고 악기를 손본다" },
-    { "atMinute": 1020, "mapId": "courtyard", "position": { "x": 20, "y": 5 }, "activityKo": "셋방으로 돌아와 수입과 집세를 셈한다" }
+    {
+      "atMinute": 420,
+      "mapId": "courtyard",
+      "position": {
+        "x": 20,
+        "y": 5
+      },
+      "activityKo": "악기를 챙기고 끈을 살핀다"
+    },
+    {
+      "atMinute": 540,
+      "mapId": "nevsky",
+      "position": {
+        "x": 20,
+        "y": 14
+      },
+      "activityKo": "네프스키 거리로 나가 연주 자리를 찾는다"
+    },
+    {
+      "atMinute": 600,
+      "mapId": "nevsky",
+      "position": {
+        "x": 20,
+        "y": 14
+      },
+      "activityKo": "사람이 모이는 곳에서 손풍금을 연주한다"
+    },
+    {
+      "atMinute": 720,
+      "mapId": "nevsky",
+      "position": {
+        "x": 20,
+        "y": 14
+      },
+      "activityKo": "사람 흐름을 보고 자리를 옮겨 연주한다"
+    },
+    {
+      "atMinute": 900,
+      "mapId": "courtyard",
+      "position": {
+        "x": 20,
+        "y": 5
+      },
+      "activityKo": "안뜰에서 쉬고 악기를 손본다"
+    },
+    {
+      "atMinute": 1020,
+      "mapId": "courtyard",
+      "position": {
+        "x": 20,
+        "y": 5
+      },
+      "activityKo": "셋방으로 돌아와 수입과 집세를 셈한다"
+    }
   ],
-  "portrait": { "file": "assets/portrait-street_musician_ivan.svg", "width": 64, "height": 64, "historicalConfidence": "ORIGINAL_GAME_ART" },
+  "portrait": {
+    "file": "assets/portrait-street_musician_ivan.svg",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "ORIGINAL_GAME_ART"
+  },
   "spriteAtlas": {
-    "file": "assets/street_musician_ivan.svg", "frameWidth": 16, "frameHeight": 24,
-    "directions": 4, "framesPerDirection": 1,
-    "palette": { "skin": "#c28c66", "coat": "#454044", "trim": "#a4794c", "headwear": "#383036" }
+    "file": "assets/street_musician_ivan.svg",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "directions": 4,
+    "framesPerDirection": 1,
+    "palette": {
+      "skin": "#c28c66",
+      "coat": "#454044",
+      "trim": "#a4794c",
+      "headwear": "#383036"
+    }
   },
   "speechStatus": "FICTIONAL_DESIGN",
   "kinshipRelations": [

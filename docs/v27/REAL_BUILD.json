@@ -1,7 +1,7 @@
 {
   "schemaVersion": "REAL-BUILD-1",
   "kind": "static-deployment-artifact",
-  "generatedAt": "2026-11-06T11:21:22.859Z",
+  "generatedAt": "2026-11-13T04:47:16.820Z",
   "bundler": "none",
   "sourceRoot": ".",
   "entry": "index.html",
@@ -15,7 +15,7 @@
   "files": {
     "index.html": {
       "path": "index.html",
-      "sha256": "87d723707271d32eb470463067d39c21726fa45aaf3fb987129dbe6ea607119f"
+      "sha256": "ea7114649ad7047311b22cf33636ee929b2612122bce9b4c0a0dffab29f572d3"
     },
     "styles.css": {
       "path": "styles.css",

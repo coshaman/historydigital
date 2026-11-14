@@ -128,7 +128,8 @@
     "courtyard",
     "police-station",
     "bookshop-lane",
-    "bookshop-interior"
+    "bookshop-interior",
+    "morskaya-intersection"
   ],
   "start": {
     "mapId": "nevsky",

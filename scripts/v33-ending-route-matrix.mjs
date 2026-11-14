@@ -55,6 +55,24 @@ function parkNear(state, hostId, mapId) {
   return possessed.state;
 }
 
+function parkAtSource(state, hostId, sourceId, mapId) {
+  const map = maps[mapId], target = map.layers.find(layer => layer.name === 'Interactions').objects.find(object =>
+    Object.fromEntries((object.properties ?? []).map(property => [property.name, property.value])).sourceId === sourceId);
+  assert.ok(target, `${sourceId} must be physically placed on ${mapId}`);
+  const tile = { x: Math.floor(target.x / 16), y: Math.floor(target.y / 16) };
+  const arrival = [[tile.x - 1, tile.y], [tile.x + 1, tile.y], [tile.x, tile.y - 1], [tile.x, tile.y + 1]]
+    .find(([x, y]) => engine.canOccupy(map, x, y));
+  assert.ok(arrival, `${sourceId} has an adjacent walkable tile`);
+  state.world.currentMapId = mapId;
+  state.player.embodiment = null;
+  state.player.position = { x: arrival[0], y: arrival[1] };
+  state.hosts[hostId].mapId = mapId;
+  state.hosts[hostId].position = { ...state.player.position };
+  const possessed = engine.possessHost(state, hostId, map);
+  assert.equal(possessed.ok, true, `${hostId} can read ${sourceId} in ${state.world.chapterId}`);
+  return possessed.state;
+}
+
 function readForHost(state, sourceId, archiveSourceIds) {
   const result = engine.recordSourceRead(state, sourceId, maps, archiveSourceIds);
   assert.equal(result.ok, true, `source ${sourceId} available in chapter ${state.world.chapterId}`);
@@ -69,9 +87,16 @@ function takeAction(state, questId, actionId) {
   const position = { x: Math.floor(target.x / 16), y: Math.floor(target.y / 16) };
   state.player.position = position; state.hosts[hostId].position = { ...position };
   const result = engine.performQuestAction(state, { questId, hostId, actionId, objectId: target.id }, { quests, maps });
-  assert.equal(result.ok, true, `perform ${questId}/${actionId}`);
+  assert.equal(result.ok, true, `perform ${questId}/${actionId}: ${result.reason ?? ''}`);
   assert.equal(result.state.quests[questId].status, 'resolved');
   return result.state;
+}
+
+function resolveFixtureArcRemainder(state, arc) {
+  for (const id of arc.questIds) {
+    state.quests[id] ??= { status: 'resolved' };
+    state.quests[id].status = 'resolved';
+  }
 }
 
 export function buildRoute(endingId, variant, choiceOverrides = {}) {
@@ -86,9 +111,11 @@ export function buildRoute(endingId, variant, choiceOverrides = {}) {
   const action1 = choiceOverrides.action1 ?? (endingId === 'BELINSKY' || variant % 2 ? 'ASK_FOR_SOURCE' : 'HOLD_FOR_CORRECTION');
   if (action1 === 'ASK_FOR_SOURCE' && !engine.knowledgeForHost(state, 'printer_ekaterina').includes('LIT-TURGENEV-KHOR-KALYNYCH-1847')) state = readForHost(state, 'LIT-TURGENEV-KHOR-KALYNYCH-1847', arc1.sources);
   state = takeAction(state, 'PRINTSHOP_PROOF_1847', action1);
+  resolveFixtureArcRemainder(state, arc1);
   state = engine.advanceChapter(state, historicalArcs[1].id, campaign, maps).state;
 
   const arc2 = historicalArcs[1];
+  state.world.date = '1848-01-31';
   state = parkNear(state, 'courier_pavel', 'printshop');
   state = readForHost(state, arc2.sources[0], arc2.sources);
   state = readForHost(state, arc2.sources[1], arc2.sources);
@@ -104,17 +131,30 @@ export function buildRoute(endingId, variant, choiceOverrides = {}) {
     state = parkNear(state, 'printer_ekaterina', 'printshop');
   }
   state = takeAction(state, 'PUBLIC_DISCOURSE_1848', action2);
+  resolveFixtureArcRemainder(state, arc2);
   state = engine.advanceChapter(state, historicalArcs[2].id, campaign, maps).state;
 
   const arc3 = historicalArcs[2];
-  state = parkNear(state, 'clerk_alexei', 'chancery');
+  state = engine.releaseHost(state, maps.printshop).state;
+  state.world.date = '1849-03-20';
+  state = parkAtSource(state, 'reader_darya', arc3.sources[0], 'bookshop-interior');
   state = readForHost(state, arc3.sources[0], [arc3.sources[0]]);
+  state = engine.releaseHost(state, maps['bookshop-interior']).state;
+  resolveFixtureArcRemainder(state, arc3);
+  state = engine.advanceChapter(state, historicalArcs[3].id, campaign, maps).state;
+  const arc4 = historicalArcs[3];
+  state = engine.advanceNpcWorld(state, 1, maps, { pausedHostIds: Object.keys(state.hosts) });
+  state = parkNear(state, 'clerk_alexei', 'chancery');
+  state = readForHost(state, arc4.sources[0], arc4.sources);
   const action3 = choiceOverrides.action3 ?? (endingId === 'UVAROV' || Math.floor(variant / 6) % 2 ? 'FILE_OFFICIAL_REPORT' : 'REFUSE_NAMING');
   state = takeAction(state, 'CIRCLE_INVESTIGATION_1849', action3);
+  for (const id of ['V47_MAIN03_ARRESTS', 'V47_MAIN03_P09']) state.quests[id] = { ...(state.quests[id] ?? {}), status: 'resolved' };
+  state.quests.CIRCLE_LETTER_1849_MAY = { ...(state.quests.CIRCLE_LETTER_1849_MAY ?? {}), status: 'open' };
   state = engine.advanceCampaignDate(state, '1849-05-05', campaign, quests).state;
-  state = readForHost(state, arc3.sources[1], [arc3.sources[1]]);
+  state = readForHost(state, arc4.sources[1], [arc4.sources[1]]);
   const action4 = choiceOverrides.action4 ?? (endingId === 'DOSTOEVSKY_PETRASHEVSKY' ? 'REFUSE_NAMING' : Math.floor(variant / 12) % 2 ? 'PRESERVE_LETTER' : 'REFUSE_NAMING');
   state = takeAction(state, 'CIRCLE_LETTER_1849_MAY', action4);
+  resolveFixtureArcRemainder(state, arc4);
   state = finishLearning(state, endingId, variant);
   const stateBeforeEnding = state;
   assert.doesNotThrow(() => engine.loadGame(engine.saveGame(stateBeforeEnding), { maps, hostCards: cards, quests, learningExam }), `${endingId} route must survive a browser save/reload`);

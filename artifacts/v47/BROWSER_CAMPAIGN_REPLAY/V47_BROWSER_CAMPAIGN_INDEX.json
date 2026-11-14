@@ -1,0 +1,125 @@
+{
+  "status": "PASS",
+  "scope": "V47 browser routes from V47 entry through MAIN03 aftermath; prior non-V47 campaign arcs are seeded as resolved context",
+  "routes": [
+    {
+      "routeName": "NORMAL",
+      "stories": {
+        "MAIN01": {
+          "resolved": 12,
+          "uniqueHosts": 9,
+          "maps": [
+            "printshop",
+            "bookshop-interior",
+            "chancery",
+            "communal-room",
+            "bookshop-lane"
+          ],
+          "status": "PASS",
+          "sourceRun": "latest full browser run"
+        },
+        "MAIN03": {
+          "resolved": 12,
+          "uniqueHosts": 11,
+          "maps": [
+            "printshop",
+            "inn-interior",
+            "bookshop-interior",
+            "nevsky",
+            "chancery",
+            "police-station",
+            "semenovsky-square"
+          ],
+          "status": "PASS",
+          "sourceRun": "latest full browser run"
+        },
+        "MAIN05": {
+          "resolved": 12,
+          "uniqueHosts": 8,
+          "maps": [
+            "inn-interior",
+            "market-quay",
+            "bakery-interior",
+            "communal-room",
+            "sewing-room"
+          ],
+          "status": "PASS",
+          "sourceRun": "latest full browser run"
+        }
+      },
+      "questCount": 36,
+      "transitions": 95,
+      "screenshots": 6,
+      "fixedHistoricalEvent": "COMMUTATION_ANNOUNCED",
+      "pageErrors": 0
+    },
+    {
+      "routeName": "ALTERNATE",
+      "stories": {
+        "MAIN01": {
+          "resolved": 12,
+          "uniqueHosts": 9,
+          "maps": [
+            "printshop",
+            "bookshop-interior",
+            "chancery",
+            "communal-room",
+            "bookshop-lane"
+          ],
+          "status": "PASS",
+          "sourceRun": "latest full browser run with resident yielding"
+        },
+        "MAIN03": {
+          "resolved": 12,
+          "uniqueHosts": 10,
+          "maps": [
+            "printshop",
+            "inn-interior",
+            "bookshop-interior",
+            "nevsky",
+            "chancery",
+            "police-station",
+            "semenovsky-square"
+          ],
+          "status": "PASS",
+          "sourceRun": "latest full browser run with resident yielding"
+        },
+        "MAIN05": {
+          "resolved": 12,
+          "uniqueHosts": 8,
+          "maps": [
+            "inn-interior",
+            "market-quay",
+            "bakery-interior",
+            "communal-room",
+            "sewing-room"
+          ],
+          "status": "PASS",
+          "sourceRun": "latest full browser run with resident yielding"
+        }
+      },
+      "questCount": 36,
+      "transitions": 89,
+      "screenshots": 6,
+      "fixedHistoricalEvent": "COMMUTATION_ANNOUNCED",
+      "pageErrors": 0,
+      "latestHarnessRetry": "PASS; prior A05 failure was caused by the replay pathfinder treating residents as static blockers"
+    }
+  ],
+  "notes": [
+    "MAIN03 eligible story-role IDs: 15; normal route embodied 11 distinct residents and alternate route embodied 10.",
+    "The pathfinder now plans through occupied resident tiles because moveActor lets residents yield; the alternate route crossed Nevsky’s Chancery exit and completed all chapters.",
+    "Both full route reports include the unattended MAIN03 arrest dispatch on 1849-05-05."
+  ],
+  "autonomousNpcEvent": {
+    "questId": "MAIN03_PETRASHEVSKY_ARREST",
+    "actionId": "NPC_SEARCH_TEAM_DISPATCHED",
+    "date": "1849-05-05",
+    "assignedHostIds": [
+      "police_sergeant_ivan",
+      "petrashevsky_1849",
+      "dostoevsky_1849",
+      "student_vasily"
+    ]
+  }
+}

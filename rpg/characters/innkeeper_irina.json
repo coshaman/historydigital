@@ -36,6 +36,21 @@
       ],
       "hungerRelief": 32,
       "valueStatus": "fictional_gameplay_balance"
+    },
+    {
+      "itemKo": "저녁 수프",
+      "category": "food",
+      "price": 2,
+      "unit": "kopeks",
+      "mapId": "nevsky",
+      "openWindows": [
+        {
+          "startMinute": 1201,
+          "endMinute": 1420
+        }
+      ],
+      "hungerRelief": 32,
+      "valueStatus": "fictional_gameplay_balance"
     }
   ],
   "marketStock": {
@@ -53,6 +68,19 @@
       },
       "preparationWorkActionId": "V36_INNKEEPER_EVENING_REGISTER",
       "activityKo": "여관 문을 열고 저녁 수프를 내놓는다",
+      "status": "FICTIONAL_GAMEPLAY_SCHEDULE"
+    },
+    {
+      "offerItemKo": "저녁 수프",
+      "startMinute": 1201,
+      "endMinute": 1420,
+      "mapId": "nevsky",
+      "position": {
+        "x": 21,
+        "y": 12
+      },
+      "preparationWorkActionId": "V36_INNKEEPER_EVENING_REGISTER",
+      "activityKo": "네프스키 거리에서 저녁 수프를 판다",
       "status": "FICTIONAL_GAMEPLAY_SCHEDULE"
     }
   ],
@@ -150,7 +178,8 @@
     "chancery",
     "inn-interior",
     "communal-room",
-    "workyard"
+    "workyard",
+    "bakery-interior"
   ],
   "start": {
     "mapId": "courtyard",

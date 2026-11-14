@@ -83,7 +83,7 @@
       "imageheight": 160,
       "tilewidth": 16,
       "tileheight": 16,
-      "tilecount": 85,
+      "tilecount": 115,
       "columns": 16
     }
   ],
@@ -2711,10 +2711,26 @@
           "height": 16,
           "visible": true,
           "properties": [
-            { "name": "questId", "type": "string", "value": "V37_CANAL_TRAFFIC_RESPONSE_1847" },
-            { "name": "requiresLivingEventId", "type": "string", "value": "E11" },
-            { "name": "requiresLivingEventStage", "type": "string", "value": "BOAT_TRAFFIC" },
-            { "name": "assetTileId", "type": "int", "value": 68 }
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "V37_CANAL_TRAFFIC_RESPONSE_1847"
+            },
+            {
+              "name": "requiresLivingEventId",
+              "type": "string",
+              "value": "E11"
+            },
+            {
+              "name": "requiresLivingEventStage",
+              "type": "string",
+              "value": "BOAT_TRAFFIC"
+            },
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 68
+            }
           ]
         },
         {

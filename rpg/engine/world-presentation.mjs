@@ -1,4 +1,4 @@
-const chapters = ['V33_1847_PRINT', 'V33_1848_PUBLIC', 'V33_1849_CIRCLE'];
+const chapters = ['V33_1847_PRINT', 'V33_1848_PUBLIC', 'V33_1849_PRELUDE', 'V33_1849_CIRCLE'];
 
 export function ambientBubbleFor(state, hostCards, map, time, paused = false, exchanges = []) {
   const period = 18000, phase = time % period;
@@ -66,9 +66,12 @@ export function isActionableInteraction(object, state, map, quests = []) {
   if (object.type === 'quest-object') {
     const quest = quests.find(item => item.id === p.questId);
     return Boolean(hostId && quest && state.quests?.[quest.id]?.status !== 'resolved'
+      && (!quest.date || quest.date <= state.world.date)
+      && (!quest.chapterId || quest.chapterId === state.world.chapterId)
+      && !state.world.activeRealm
       && quest.actions?.some(action => action.hostIds?.includes(hostId)));
   }
-  if (object.type === 'source') return Boolean(p.sourceId);
+  if (object.type === 'source') return Boolean(p.sourceId && (!p.availableDate || p.availableDate <= state.world.date));
   if (object.type === 'map-exit') {
     if (state.player.civic?.custody?.active && p.targetMapId !== 'police-station') return false;
     if (!hostId) return p.publicAccess === true || p.publicAccess === 'true';
@@ -92,7 +95,7 @@ export function questPrerequisitesMet(state, quest) {
 export function interactionTile(object) {
   const p = Object.fromEntries((object.properties ?? []).map(item => [item.name, item.value]));
   const assetTileId = Number(p.assetTileId);
-  if (Number.isInteger(assetTileId) && assetTileId >= 1 && assetTileId <= 85) return assetTileId;
+  if (Number.isInteger(assetTileId) && assetTileId >= 1 && assetTileId <= 115) return assetTileId;
   if (object.type === 'map-exit') return 13;
   if (object.type === 'source') return 29;
   if (object.type === 'quest-object') return 24;

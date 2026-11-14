@@ -1,0 +1,42 @@
+{
+  "status": "PASS",
+  "scope": "seeded physical-scene UI branch acceptance and two chronological date continuations; this is not a full human-length campaign completion",
+  "base": "http://127.0.0.1:4174/",
+  "branches": [
+    {
+      "story": "MAIN01",
+      "questId": "V47_MAIN01_A01",
+      "actionId": "V47_A01_REASSIGN_PRESS",
+      "hostId": "printer_ekaterina",
+      "mapId": "printshop",
+      "objectId": 9060,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "visibleChoices": [
+        "비용 장부를 펴고 밀린 품삯을 준다",
+        "지난달 약속과 인쇄 일정을 확인한다",
+        "묶지 못한 인쇄지를 먼저 읽는다"
+      ],
+      "selectedChoiceInViewport": true,
+      "materialChangesPersisted": true,
+      "overflow": false,
+      "pageErrors": []
+    }
+  ],
+  "optionalCoda": {
+    "action": "advance to optional post-arrest coda",
+    "dateBefore": "1849-12-22",
+    "dateAfter": "1850-01-03",
+    "questStatus": "open",
+    "pageErrors": []
+  },
+  "firstDateAdvance": {
+    "action": "advance to first dated MAIN03 beat",
+    "dateBefore": "1849-03-20",
+    "dateAfter": "1849-04-01",
+    "questStatus": "open",
+    "pageErrors": []
+  }
+}

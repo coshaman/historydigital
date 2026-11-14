@@ -1,0 +1,12 @@
+{
+  "status": "BLOCKED",
+  "scope": "11 seeded physical-scene branches for the updated build; no full campaign run",
+  "plannedScenarios": 11,
+  "attemptedScenarios": 1,
+  "completedScenarios": 0,
+  "blocker": "Playwright launched Chrome, but navigation to the local preview at 127.0.0.1:4203 timed out from the browser sandbox. The current 4173 browser tab could not be confirmed as serving this build.",
+  "previousReport": "V47_BROWSER_ACCEPTANCE.json records six successful seeded UI branches from an earlier build; those screenshots are not current-build proof.",
+  "fullCampaignStatus": "NOT_RUN",
+  "npcAutonomyTranscript": "NOT_GENERATED",
+  "recordedAt": "2026-11-11"
+}

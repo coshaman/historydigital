@@ -1,0 +1,147 @@
+{
+  "routeName": "E41_ONLY",
+  "status": "PASS",
+  "stories": {
+    "MAIN01": {
+      "resolved": 0,
+      "uniqueHosts": 0,
+      "maps": [],
+      "status": "INCOMPLETE"
+    },
+    "MAIN03": {
+      "resolved": 1,
+      "uniqueHosts": 1,
+      "maps": [
+        "semenovsky-square"
+      ],
+      "status": "INCOMPLETE"
+    },
+    "MAIN05": {
+      "resolved": 0,
+      "uniqueHosts": 0,
+      "maps": [],
+      "status": "INCOMPLETE"
+    }
+  },
+  "quests": [
+    {
+      "storyId": "HISTORICAL_GATE",
+      "questId": "E41_SEMENOVSKY_1849",
+      "date": "1849-12-22",
+      "hostId": "dostoevsky_1849",
+      "mapId": "semenovsky-square",
+      "actionId": "본 일을 개인 수첩에 적는다",
+      "status": "resolved",
+      "fixedOutcome": "COMMUTATION_ANNOUNCED"
+    },
+    {
+      "storyId": "MAIN03",
+      "questId": "V47_MAIN03_P11",
+      "beatId": "P11",
+      "dateBefore": "1850-01-03",
+      "dateAfter": "1850-01-03",
+      "hostId": "student_vasily",
+      "mapId": "semenovsky-square",
+      "arrivalPosition": {
+        "x": 19,
+        "y": 3
+      },
+      "actionId": "V47_P11_GUIDE_FAMILIES",
+      "status": "resolved",
+      "ledgerSaved": true,
+      "worldChange": {
+        "questId": "V47_MAIN03_P11",
+        "actionId": "V47_P11_GUIDE_FAMILIES",
+        "date": "1850-01-03",
+        "mapId": "semenovsky-square",
+        "money": [
+          {
+            "fromHostId": "editor_sofia",
+            "toHostId": "innkeeper_irina",
+            "amount": 2
+          }
+        ],
+        "inventory": [
+          {
+            "fromHostId": "courier_pavel",
+            "toHostId": "student_vasily",
+            "itemKo": "대기 장소 쪽지",
+            "quantity": 1,
+            "produceIfAbsent": true
+          }
+        ],
+        "moves": [
+          {
+            "hostId": "student_vasily",
+            "mapId": "inn-interior",
+            "x": 9,
+            "y": 9
+          },
+          {
+            "hostId": "courier_pavel",
+            "mapId": "inn-interior",
+            "x": 10,
+            "y": 10
+          }
+        ],
+        "resources": {
+          "waterRiskDelta": 0,
+          "foodRiskDelta": 0,
+          "bedsDelta": 0,
+          "medicineDelta": 0
+        },
+        "rumorId": "V47_FAMILY_WAITING_PLACE"
+      },
+      "cholera": {
+        "counters": {
+          "exposures": 0,
+          "recoveries": 0,
+          "deaths": 0
+        },
+        "waterRisk": 0.72,
+        "foodRisk": 0.38
+      }
+    }
+  ],
+  "transitions": [
+    {
+      "hostId": "dostoevsky_1849",
+      "from": "fortress-cell",
+      "to": "semenovsky-square",
+      "exitId": "fortress-square",
+      "date": "1849-12-22"
+    },
+    {
+      "kind": "DATE",
+      "from": "1849-12-22",
+      "to": "1850-01-03",
+      "questId": "V47_MAIN03_P11",
+      "button": "1850년 1월 3일 자료로 이어가기"
+    },
+    {
+      "hostId": "student_vasily",
+      "from": "nevsky",
+      "to": "semenovsky-square",
+      "exitId": "nevsky-semenovsky-square",
+      "date": "1850-01-03"
+    }
+  ],
+  "screenshots": [
+    "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\BROWSER_CAMPAIGN_REPLAY\\E41_ONLY-MAIN03-entry.png"
+  ],
+  "fixedHistoricalEvent": {
+    "storyId": "HISTORICAL_GATE",
+    "questId": "E41_SEMENOVSKY_1849",
+    "date": "1849-12-22",
+    "hostId": "dostoevsky_1849",
+    "mapId": "semenovsky-square",
+    "actionId": "본 일을 개인 수첩에 적는다",
+    "status": "resolved",
+    "fixedOutcome": "COMMUTATION_ANNOUNCED"
+  },
+  "pageErrors": [],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  }
+}

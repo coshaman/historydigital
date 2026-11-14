@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="48" viewBox="0 0 80 48" shape-rendering="crispEdges">
+  <!-- Project-authored scene illustration; not a photograph or a documented shop interior. -->
+  <path fill="#211710" d="M3 9h74v4H3zm2 31h70v4H5z"/>
+  <path fill="#604027" d="M5 5h70v5H5zm4 7h4v26H9zm54 0h4v26h-4zM5 39h70v4H5z"/>
+  <path fill="#a97843" d="M7 6h66v2H7zm0 6h66v2H7zm0 25h66v2H7z"/>
+  <!-- tied paper quires -->
+  <path fill="#d8c49b" d="M15 17h17v14H15zm2-3h17v14H17zm2-3h17v14H19z"/>
+  <path fill="#b89b69" d="M20 11h16v2H20zm-3 4h16v2H17zm-3 4h16v2H14z"/>
+  <path fill="#7b5531" d="M14 31h19v2H14z"/>
+  <!-- composing stick and loose sorts -->
+  <path fill="#32271e" d="M39 17h22v8H39z"/>
+  <path fill="#b98a50" d="M41 18h18v2H41zm0 4h18v1H41z"/>
+  <path fill="#d5b579" d="M43 15h4v2h-4zm7 0h4v2h-4zm7 0h4v2h-4zM43 25h4v3h-4zm7 0h4v3h-4zm7 0h4v3h-4z"/>
+  <!-- ink pot and brayer -->
+  <path fill="#25211e" d="M67 25h8v9h-8zm-1-3h10v3H66z"/>
+  <path fill="#52605b" d="M69 26h4v5h-4z"/>
+  <path fill="#b98a50" d="M39 31h21v3H39zm2-3h12v2H41z"/>
+  <!-- pinned proof slips -->
+  <path fill="#e2d2ad" d="M43 7h8v7h-8zm12 0h8v7h-8z"/>
+  <path fill="#9a7950" d="M45 9h4v1h-4zm0 2h5v1h-5zm12-2h4v1h-4zm0 2h5v1h-5z"/>
+  <path fill="#b84532" d="M51 7h2v2h-2z"/>
+</svg>

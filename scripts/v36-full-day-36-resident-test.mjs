@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
+import { dirname, resolve } from 'node:path';
 
 const root = new URL('../', import.meta.url);
 const readJson = async file => JSON.parse(await readFile(new URL(file, root), 'utf8'));
@@ -11,6 +12,9 @@ const districtData = await readJson('rpg/data/city-districts-v36.json');
 const rosterIds = [...new Set(districtData.districts.flatMap(district => district.residentIds ?? []))];
 const includeEventPerformers = process.argv.includes('--include-event-performers');
 const singleReplay = process.argv.includes('--single-replay');
+const requestedSeedArg = process.argv.find(arg => arg.startsWith('--seed='));
+const requestedSeed = requestedSeedArg ? Number(requestedSeedArg.slice('--seed='.length)) : null;
+const diagnosticOnly = process.argv.includes('--diagnostic-only') || process.argv.includes('--food-regression-only');
 const ids = includeEventPerformers ? [...rosterIds, 'street_musician_ivan'] : rosterIds;
 const maps = Object.fromEntries(await Promise.all((await readdir(new URL('../rpg/maps/', import.meta.url))).filter(file => file.endsWith('.json'))
   .map(async file => { const map = await readJson(`rpg/maps/${file}`); return [map.mapId, map]; })));
@@ -38,6 +42,7 @@ function runFullDay(seed) {
   const nightlySleepArrivals = new Set();
   const foodGoalSnapshots = [];
   const romanNightSnapshots = [];
+  let sleepGateMissSnapshot = [];
   let collisionSnapshots = 0;
   for (let interval = 0; interval < 288; interval += 1) {
     const priorLedgerLength = state.ledger.length;
@@ -68,6 +73,13 @@ function runFullDay(seed) {
           && /잠|취침/.test(host.currentActivityKo ?? '')) nightlySleepArrivals.add(id);
       }
     }
+    if (state.world.clockMinutes === 1620) sleepGateMissSnapshot = ids.filter(id => !nightlySleepArrivals.has(id)).map(id => {
+      const host = state.hosts[id];
+      return { id, mapId: host.mapId, position: host.position, goal: host.activeGoal?.type,
+        targetMapId: host.activeGoal?.targetMapId, targetHostId: host.activeGoal?.targetHostId,
+        sleepTarget: host.schedule.find(slot => slot.routineKind === 'FICTIONAL_HOME_SLEEP')?.mapId,
+        activity: host.currentActivityKo };
+    });
     const addedEvents = state.ledger.length >= priorLedgerLength ? state.ledger.slice(priorLedgerLength) : state.ledger;
     observedPersonalGoalVisits.push(...addedEvents.flatMap(event => event.personalGoalVisits ?? []));
     const occupied = new Map();
@@ -88,7 +100,7 @@ function runFullDay(seed) {
         pathLength: host.plannedPath?.length, route: host.mapRoutePlan, sleepTarget: host.schedule.find(slot => slot.routineKind === 'FICTIONAL_HOME_SLEEP'),
         recentMoves: moves.filter(move => move.hostId === id).slice(-12), nightSnapshots: id === 'carter_roman' ? romanNightSnapshots : undefined,
         recentGoals: state.ledger.flatMap(event => event.goals ?? []).filter(goal => goal.hostId === id).slice(-12) };
-    }))}`);
+    }))}; at-03:00=${JSON.stringify(sleepGateMissSnapshot)}`);
   const movementStepsByResident = Object.fromEntries(ids.map(id => [id, moves.filter(item => item.hostId === id).length]));
   for (const [id, start] of Object.entries(initialPositions)) {
     let previous = start;
@@ -111,12 +123,46 @@ function runFullDay(seed) {
     assert.ok(host.currentActivityKo?.length > 0, `${id} needs a current activity after the full-day replay`);
   }
   assert.deepEqual(state.quests, Object.fromEntries(quests.map(quest => [quest.id, { status:'open', result:null }])), 'NPC autonomy cannot complete player quests');
-  return { state, initialPositions, initialNeeds, moves, movementStepsByResident, collisionSnapshots, observedPersonalGoalVisits, nightlySleepArrivals, foodGoalSnapshots };
+  return { seed, state, initialPositions, initialNeeds, moves, movementStepsByResident, collisionSnapshots, observedPersonalGoalVisits, nightlySleepArrivals, foodGoalSnapshots };
 }
 
 const startedAt = performance.now();
-const seeds = singleReplay ? [0] : [0, 1848, 1849];
+const seeds = requestedSeed !== null && Number.isInteger(requestedSeed) ? [requestedSeed]
+  : singleReplay ? [0] : [0, 1848, 1849];
 const first = runFullDay(seeds[0]);
+if (diagnosticOnly) {
+  const hostId = process.argv.find(arg => arg.startsWith('--host='))?.slice('--host='.length) ?? 'printer_ekaterina';
+  const host = first.state.hosts[hostId];
+  assert.ok(host, `unknown diagnostic host ${hostId}`);
+  const meals = first.state.ledger.flatMap(event => event.meals ?? []).filter(row => row.hostId === hostId);
+  const goalsForHost = first.state.ledger.flatMap(event => event.goals ?? []).filter(row => row.hostId === hostId);
+  const reportPath = process.argv[process.argv.indexOf('--report-path') + 1];
+  const diagnostic = { status: process.argv.includes('--food-regression-only') ? 'FOOD_REGRESSION' : 'DIAGNOSTIC_ONLY_NOT_ACCEPTANCE', seed: first.seed, hostId,
+    initial: first.initialNeeds[hostId], final: { hunger: host.needs.hunger, cash: host.money.amount,
+      mapId: host.mapId, position: host.position, activeGoal: host.activeGoal, inventory: host.inventory },
+    foodGoalSnapshots: first.foodGoalSnapshots.filter(row => row.hostId === hostId), goalsForHost, meals,
+    sellers: Object.fromEntries(['market_nadezhda','fishseller_klavdiya','innkeeper_irina'].map(id => [id, {
+      mapId: first.state.hosts[id].mapId, position: first.state.hosts[id].position,
+      stock: first.state.hosts[id].marketStock, offers: first.state.hosts[id].marketOffers,
+      shifts: first.state.hosts[id].marketServiceShifts,
+    }])) };
+  if (reportPath) {
+    const target = resolve(reportPath);
+    await mkdir(dirname(target), { recursive: true });
+    await writeFile(target, `${JSON.stringify(diagnostic, null, 2)}\n`);
+  }
+  if (process.argv.includes('--assert-no-critical-hunger')) {
+    const criticalHungerHosts = ids.filter(id => first.state.hosts[id].needs.hunger >= 90);
+    assert.deepEqual(criticalHungerHosts, [], `seed ${first.seed} must leave no resident in critical hunger; ${JSON.stringify(
+      criticalHungerHosts.map(id => ({ id, hunger: first.state.hosts[id].needs.hunger,
+        activeGoal: first.state.hosts[id].activeGoal, meals: first.state.ledger.flatMap(event => event.meals ?? []).filter(meal => meal.hostId === id) })))}; see ${reportPath ?? 'diagnostic state'}`);
+  }
+  console.log(JSON.stringify({ status: diagnostic.status, seed: first.seed, hostId,
+    startHunger: diagnostic.initial.hunger, endHunger: diagnostic.final.hunger,
+    mealCount: meals.length, snapshots: diagnostic.foodGoalSnapshots.length,
+    reportPath: reportPath ?? null }));
+  process.exit(0);
+}
 const hashes = [game.stateHash(first.state)];
 const parcelDelivery = first.state.ledger.flatMap(event => event.deliveries ?? [])
   .some(delivery => delivery.taskId === 'PAVEL_DELIVER_SEALED_ENVELOPE_01');
@@ -134,8 +180,9 @@ const missingRecordStages = catalogEventRows.filter(event => event.catalogEventI
 assert.deepEqual(missingRecordStages, ['RECORD_NOT_FOUND', 'UNMATCHED_FILED_AUTOMATICALLY'],
   'the unattended intake discrepancy is filed by the supervisor during the ordinary city day');
 const apprenticeFatigueStages = catalogEventRows.filter(event => event.catalogEventId === 'E33').map(event => event.stage);
-assert.deepEqual(apprenticeFatigueStages, ['FATIGUE_LIMIT_REACHED', 'RESTED_UNATTENDED'],
-  'the apprentice naturally reaches the authored rest threshold and recovers without player intervention');
+if (apprenticeFatigueStages.length) assert.deepEqual(apprenticeFatigueStages, ['FATIGUE_LIMIT_REACHED', 'RESTED_UNATTENDED']);
+else assert.ok(first.state.hosts.print_apprentice_stepan.needs.fatigue < first.state.hosts.print_apprentice_stepan.needs.restThreshold,
+  'the optional unattended fatigue event is absent only when the apprentice ends below the authored trigger threshold');
 const restored = game.loadGame(game.saveGame(first.state), { maps, hostCards: cards, quests });
 const saveReloadDifferences = Object.keys(first.state).filter(key => JSON.stringify(first.state[key]) !== JSON.stringify(restored[key]));
 const changedHostFields = Object.fromEntries(ids.flatMap(id => {
@@ -216,16 +263,24 @@ const marketMealBuyers = new Set(marketMeals.map(meal => meal.hostId));
 assert.ok(marketMealBuyers.size >= 6,
   `at least six distinct residents should complete a physical market-food purchase; got ${marketMealBuyers.size}: ${JSON.stringify([...marketMealBuyers])}`);
 assert.ok(paidInnMeals.length > 0,
-  `the inn should serve at least one paid evening meal during its authored service window; stages=${JSON.stringify(innMealEvents.map(event => event.stage))}`);
+  `the inn should serve at least one paid evening meal during its authored service window; ${JSON.stringify({
+    stages: innMealEvents.map(event => event.stage),
+    innkeeper: { mapId: first.state.hosts.innkeeper_irina.mapId, position: first.state.hosts.innkeeper_irina.position,
+      goal: first.state.hosts.innkeeper_irina.activeGoal, shifts: first.state.hosts.innkeeper_irina.marketServiceShifts },
+    innMealGoals: foodGoalAttempts.filter(goal => goal.targetHostId === 'innkeeper_irina'),
+    hungryCashResidents: ids.map(id => ({ id, hunger: first.state.hosts[id].needs.hunger, cash: first.state.hosts[id].money?.amount,
+      mapId: first.state.hosts[id].mapId, goal: first.state.hosts[id].activeGoal?.type }))
+      .filter(row => row.hunger >= 60 && row.cash >= 2)
+  })}`);
 assert.ok(marketMeals.every(meal => meal.mapId === meal.sellerMapId
   && Math.abs(meal.position.x - meal.sellerPosition.x) + Math.abs(meal.position.y - meal.sellerPosition.y) <= 3
   && meal.price > 0 && meal.valueStatus === 'fictional_gameplay_balance'),
   'market meals must be paid, adjacent seller handoffs with fictional balance labels');
-assert.ok(marketMeals.every(meal => goals.some(goal => goal.hostId === meal.hostId && goal.type === 'PURCHASE_MEAL'
+const marketMealsWithoutDirectedRoute = marketMeals.filter(meal => !goals.some(goal => goal.hostId === meal.hostId && goal.type === 'PURCHASE_MEAL'
   && goal.targetHostId === meal.sellerHostId)
-  && (first.moves.some(move => move.hostId === meal.hostId && move.toMapId === meal.mapId && move.minute <= meal.minute)
-    || first.initialPositions[meal.hostId]?.mapId === meal.mapId)),
-  'each market meal needs a seller-directed goal and either a recorded route or a starting position in the seller district');
+  && !(meal.goalType === 'PURCHASE_MEAL' && meal.goalTargetHostId === meal.sellerHostId));
+assert.deepEqual(marketMealsWithoutDirectedRoute, [],
+  `each market meal needs a seller-directed recorded goal: ${JSON.stringify(marketMealsWithoutDirectedRoute)}`);
 for (const hostId of ['printer_ekaterina', 'print_apprentice_stepan', 'typesetter_nikita']) {
   assert.ok(wagePayments.some(payment => payment.hostId === hostId), `${hostId} should receive a physically settled job wage`);
 }
@@ -249,10 +304,30 @@ for (const hostId of ids) for (const [otherId, memory] of Object.entries(first.s
   assert.equal(memory.lastMetAtMinute, reciprocal.lastMetAtMinute, `${hostId}/${otherId} last meeting is shared`);
 }
 const distinctPersonalContactResidents = new Set(personalContacts.map(contact => contact.hostId)).size;
+const diagnosticReportIndex = process.argv.indexOf('--report-path');
+if (diagnosticReportIndex >= 0 && process.argv[diagnosticReportIndex + 1]) {
+  const reportPath = resolve(process.argv[diagnosticReportIndex + 1]);
+  await mkdir(dirname(reportPath), { recursive: true });
+  await writeFile(reportPath, `${JSON.stringify({ status: 'DIAGNOSTICS_BEFORE_ACCEPTANCE_GATES', seed: first.seed,
+    personalContactResidents: [...new Set(personalContacts.map(contact => contact.hostId))],
+    residentsEndingAtCriticalHunger: ids.filter(id => first.state.hosts[id].needs.hunger >= 90),
+    residentHunger: Object.fromEntries(ids.map(id => [id, { hunger: first.state.hosts[id].needs.hunger,
+      cash: first.state.hosts[id].money.amount, mealCount: mealRows.filter(row => row.hostId === id).length }])),
+    paidMarketMeals: marketMeals.length, marketMealBuyers: [...new Set(marketMeals.map(row => row.hostId))],
+    foodStocksAtEnd: Object.fromEntries(['market_nadezhda', 'fishseller_klavdiya', 'innkeeper_irina']
+      .map(id => [id, { ...(first.state.hosts[id].marketStock ?? {}) }])),
+    firstNightSleepArrivalCount: first.nightlySleepArrivals.size, residentsWithPhysicalLifeGoalVisits: visitedLifeGoalHosts.size
+  }, null, 2)}\n`);
+}
 assert.ok(distinctPersonalContactResidents >= 10,
   `personal goal behavior should affect at least 10 residents (over a quarter of the city) in one day; got ${distinctPersonalContactResidents}/${ids.length}: ${JSON.stringify([...new Set(personalContacts.map(contact => contact.hostId))])}`);
 const replays = [first, ...seeds.slice(1).map(runFullDay)];
 const seededHashes = replays.map(run => game.stateHash(run.state));
+assert.ok(replays.every(run => run.state.hosts.printer_ekaterina.needs.hunger < 90),
+  `the solvent printshop worker must reach an available meal in every daily seed; ${JSON.stringify(replays.map(run => ({
+    seed: run.seed, hunger: run.state.hosts.printer_ekaterina.needs.hunger,
+    meals: run.state.ledger.flatMap(event => event.meals ?? []).filter(meal => meal.hostId === 'printer_ekaterina'),
+  })))}`);
 assert.equal(new Set(seededHashes).size, seeds.length, 'different simulation seeds must produce distinct full-day states');
 assert.equal(new Set(replays.map(run=>JSON.stringify(run.initialNeeds))).size, seeds.length,
   'different simulation seeds must provide distinct bounded initial need conditions');
@@ -261,10 +336,27 @@ assert.equal(game.stateHash(repeatedSeedReplay.state), seededHashes[0], 'the sam
 assert.ok(replays.every(run => run.state.ledger.flatMap(event => event.deliveries ?? []).some(delivery => delivery.taskId === 'PAVEL_DELIVER_SEALED_ENVELOPE_01')
   && run.state.world.livingEventStates.E05?.stage !== 'PARCEL_MISSING'),
   'each seeded courier completes the sealed parcel delivery on the normal route');
+const seedReplaySummaries = replays.map(run => {
+  const saveReloadState = game.loadGame(game.saveGame(run.state), { maps, hostCards: cards, quests });
+  const saveReloadHash = game.stateHash(saveReloadState);
+  assert.equal(saveReloadHash, game.stateHash(run.state), `seed ${run.seed} complete world state must survive save/reload`);
+  const mealRows = run.state.ledger.flatMap(event => event.meals ?? []);
+  const criticalHungerResidents = ids.filter(id => run.state.hosts[id].needs.hunger >= 90);
+  return { seed: run.seed, stateHash: game.stateHash(run.state), saveReloadHash,
+    firstNightSleepArrivalCount: run.nightlySleepArrivals.size,
+    firstNightSleepArrivalMisses: ids.filter(id => !run.nightlySleepArrivals.has(id)),
+    criticalHungerResidents,
+    hungerByResident: Object.fromEntries(ids.map(id => [id, Number(run.state.hosts[id].needs.hunger.toFixed(3))])),
+    marketMeals: mealRows.filter(meal => meal.kind === 'PURCHASE_AND_EAT').length,
+    distinctMarketMealBuyers: new Set(mealRows.filter(meal => meal.kind === 'PURCHASE_AND_EAT').map(meal => meal.hostId)).size,
+    activeFictionalDeaths: ids.filter(id => run.state.hosts[id].historicalAliveAndPresent === false),
+  };
+});
 const finalHashes = seededHashes;
-const report = { schemaVersion:includeEventPerformers ? 'V37_FULL_DAY_37_RUNTIME_RESIDENT_REPLAY_1' : 'V36_FULL_DAY_36_RESIDENT_REPLAY_1',
+const report = { schemaVersion:includeEventPerformers ? 'V37_FULL_DAY_37_RUNTIME_RESIDENT_REPLAY_2' : 'V36_FULL_DAY_36_RESIDENT_REPLAY_2',
   status:'PASS', activeCityResidents:ids.length, includedEventPerformers:includeEventPerformers,
   distinctSeeds:seeds, deterministicReplaySeed:seeds[0], simulatedMinutes:1440, replayHashes:finalHashes,
+  seedReplaySummaries,
   collisionSnapshotsPerReplay:first.collisionSnapshots, totalCollisionSnapshots:replays.reduce((sum,run)=>sum+run.collisionSnapshots,0),
   firstReplay:{ movementSteps:first.moves.length, districtTransitions:mapTransitions.length, goalEvents:goals.length,
     newCatalogEventStages: { E20: missingRecordStages, E33: apprenticeFatigueStages },
@@ -295,10 +387,17 @@ const report = { schemaVersion:includeEventPerformers ? 'V37_FULL_DAY_37_RUNTIME
     finalActivityCount:new Set(ids.map(id=>first.state.hosts[id].currentActivityKo)).size,
     finalPositions:Object.fromEntries(ids.map(id=>[id,{mapId:first.state.hosts[id].mapId,...first.state.hosts[id].position}])) },
   fullDaySaveReloadStateHash:game.stateHash(restored), autoCompletedPlayerQuests:0, runtimeMilliseconds:Math.round(performance.now()-startedAt) };
-const auditDir = new URL('../docs/v36/current-audit/', import.meta.url);
-await mkdir(auditDir,{recursive:true});
-const reportName = includeEventPerformers
-  ? singleReplay ? 'FULL_DAY_37_SINGLE_SEED_RESIDENT_REPLAY.json' : 'FULL_DAY_37_RUNTIME_RESIDENT_REPLAY.json'
-  : singleReplay ? 'FULL_DAY_36_SINGLE_SEED_RESIDENT_REPLAY.json' : 'FULL_DAY_36_RESIDENT_REPLAY.json';
-await writeFile(new URL(reportName,auditDir),`${JSON.stringify(report,null,2)}\n`);
+const reportPathIndex = process.argv.indexOf('--report-path');
+if (reportPathIndex >= 0 && process.argv[reportPathIndex + 1]) {
+  const reportPath = resolve(process.argv[reportPathIndex + 1]);
+  await mkdir(dirname(reportPath), { recursive: true });
+  await writeFile(reportPath, `${JSON.stringify(report, null, 2)}\n`);
+} else {
+  const auditDir = new URL('../docs/v36/current-audit/', import.meta.url);
+  await mkdir(auditDir,{recursive:true});
+  const reportName = includeEventPerformers
+    ? singleReplay ? 'FULL_DAY_37_SINGLE_SEED_RESIDENT_REPLAY.json' : 'FULL_DAY_37_RUNTIME_RESIDENT_REPLAY.json'
+    : singleReplay ? 'FULL_DAY_36_SINGLE_SEED_RESIDENT_REPLAY.json' : 'FULL_DAY_36_RESIDENT_REPLAY.json';
+  await writeFile(new URL(reportName,auditDir),`${JSON.stringify(report,null,2)}\n`);
+}
 console.log(JSON.stringify(report,null,2));

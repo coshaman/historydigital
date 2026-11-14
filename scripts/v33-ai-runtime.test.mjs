@@ -79,12 +79,53 @@ test('session is server-bound to one host; client cannot choose scene, inject me
   assert.equal((await service.handle(request('POST', '/api/rpg/dialogue', { ...body, requestId: 'request-invalid-historical-memory', sceneContext: { ...body.sceneContext, playerHistoricalEvents: [{ eventId: 'NOT_A_GAME_EVENT', choices: ['invented'] }] } }))).body.error, 'invalid_scene_context');
 });
 
-test('historical field dialogue binds both event actors server-side and gives AI the character voice and dated scene', async () => {
+test('V47 story conversations load the active beat, source context, and character-specific role on the server', async () => {
   let providerInput;
+  const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long',
+    store: new MemorySessionStore(), allowedOrigins: ['https://game.example'],
+    provider: { generate: async request => { providerInput = request.input; return validTurn(request.input.scene.id, request.input.character.id); } } });
+  const opened = await service.handle(request('POST', '/api/rpg/session/start', {
+    hostId: 'printer_ekaterina', actorHostId: 'print_apprentice_stepan',
+  }));
+  const result = await service.handle(request('POST', '/api/rpg/dialogue', {
+    sessionToken: opened.body.sessionToken, requestId: 'v47-dialogue-context-0001',
+    playerInput: '인쇄소에 확인하러 가면 무엇부터 물어볼까요?', actorRelations: {}, actorActions: [],
+    sceneContext: { date: '1848-08-01', mapId: 'printshop', questId: 'V47_MAIN01_A04' },
+  }));
+  assert.equal(result.status, 200, JSON.stringify(result.body));
+  assert.equal(providerInput.caseContext.questId, 'V47_MAIN01_A04');
+  assert.equal(providerInput.caseContext.sceneTitleKo, '마감 비용은 누가 낼까');
+  assert.match(providerInput.caseContext.premiseKo, /허구/);
+  assert.match(providerInput.caseContext.speakerPerspectiveKo, /임금 체불/);
+  assert.match(providerInput.caseContext.playerPerspectiveKo, /임금 체불/);
+  assert.equal(providerInput.conversation.sceneContext.questId, 'V47_MAIN01_A04');
+  assert.equal(providerInput.conversation.embodiedPlayer.id, 'print_apprentice_stepan');
+});
+
+test('AI excludes the April 22 Petrashevsky investigation report until its December 22 in-game access date', async () => {
+  let providerInput;
+  const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long',
+    store: new MemorySessionStore(), allowedOrigins: ['https://game.example'],
+    provider: { generate: async request => { providerInput = request.input; return validTurn(request.input.scene.id, request.input.character.id); } } });
+  const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'liprandi_1849', actorHostId: 'clerk_alexei' }));
+  const result = await service.handle(request('POST', '/api/rpg/dialogue', {
+    sessionToken: opened.body.sessionToken, requestId: 'v47-report-date-gate-0001',
+    playerInput: '이 보고는 언제 접수됐습니까?', actorRelations: {}, actorActions: [],
+    sceneContext: { date: '1849-05-02', mapId: 'chancery', questId: 'V47_MAIN03_P07', playerKnowledgeIds: ['OBJ-WS-PETRASHEVSKY-REPORT-1849'] },
+  }));
+  assert.equal(result.status, 200, JSON.stringify(result.body));
+  assert.equal(providerInput.sourceEvidence.some(source => source.sourceId === 'OBJ-WS-PETRASHEVSKY-REPORT-1849'), false,
+    'a source dated to become accessible on December 22 is absent from an April 20 conversation even when named by the client');
+  assert.equal(providerInput.scene.allowedSourceIds.includes('OBJ-WS-PETRASHEVSKY-REPORT-1849'), false,
+    'future report text and claims are not authorized to the model in April');
+});
+
+test('historical field dialogue binds both event actors server-side and gives AI the character voice and dated scene', async () => {
+  let providerInput, providerInstructions;
   const store = new MemorySessionStore();
   const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store,
     allowedOrigins: ['https://game.example'],
-    provider: { generate: async request => { providerInput = request.input; return validTurn(request.input.scene.id, request.input.character.id); } } });
+    provider: { generate: async request => { providerInput = request.input; providerInstructions = request.instructions; return validTurn(request.input.scene.id, request.input.character.id); } } });
   const invalid = await service.handle(request('POST', '/api/rpg/session/start', {
     hostId: 'printer_ekaterina', historicalEventId: 'EMANCIPATION_1861', historicalActorId: 'maid', historicalPlayerActorId: 'washer' }));
   assert.equal(invalid.status, 400, 'the server rejects an actor/template mismatch');
@@ -96,17 +137,45 @@ test('historical field dialogue binds both event actors server-side and gives AI
   assert.equal(result.status, 200, JSON.stringify(result.body));
   assert.equal(providerInput.scene.id, 'V38_HISTORICAL_EMANCIPATION_1861_typesetter');
   assert.equal(providerInput.character.nameKo, '식자공 니키타');
-  assert.match(providerInput.character.personalObjective, /식자공과 서점 주인/);
+  assert.match(providerInput.character.personalObjective, /‘토지’ 뒤 글자가 번졌어요/);
   assert.deepEqual(providerInput.character.voiceSamples.slice(0, 2), [
-    '제목만 읽고 가면 안 돼요. 땅 얘기는 뒤쪽에 있어요.',
-    '인쇄본 가져왔어요. 선언부터 볼까요, 토지 조항부터 볼까요?',
+    '‘토지’ 뒤 글자가 번졌어요. 이대로 찍으면 조건을 잘못 읽겠어요.',
+    '레프 씨, 인쇄본하고 편지를 나란히 놓아 주세요. 어느 고을 얘긴지부터 볼게요.',
   ]);
+  assert.match(providerInput.character.speechDelivery.rhythm, /활자와 인쇄 순서/);
+  assert.match(providerInput.caseContext.speakerVoiceKo, /빠진 줄/);
+  assert.equal(providerInput.caseContext.decisionQuestionKo, null, 'the AI receives personal stakes without being forced to repeat the quest prompt');
+  assert.match(providerInput.caseContext.speakerPersonalStakesKo, /‘토지’ 뒤 글자가 번졌어요/);
+  assert.match(providerInstructions, /speakerVoiceKo/);
+  assert.match(providerInstructions, /마지막 말에 먼저 직접 답한다/);
+  assert.match(providerInstructions, /퀘스트 목표를 그대로 되풀이하지 않는다/);
   assert.equal(providerInput.conversation.embodiedPlayer.nameKo, '하녀 올가');
   assert.deepEqual(providerInput.character.knownPrivateFacts, [], 'an 1847 template secret cannot leak into the 1861 role');
   assert.equal(providerInput.conversation.sceneContext.date, '1861-03-03');
   assert.equal(providerInput.conversation.sceneContext.placeKo, '공고가 붙은 거리');
   assert.match(providerInput.caseContext.historicalBoundaryKo, /RGIA/);
   assert.deepEqual(providerInput.sourceEvidence, [], 'the event packet is not misrepresented as a verified source excerpt');
+});
+
+test('emancipation dialogue gives the model a character want, private tension, and specific scene hooks', async () => {
+  let providerInput, providerInstructions;
+  const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long',
+    store: new MemorySessionStore(), allowedOrigins: ['https://game.example'],
+    provider: { generate: async request => { providerInput = request.input; providerInstructions = request.instructions;
+      return validTurn(request.input.scene.id, request.input.character.id); } } });
+  const opened = await service.handle(request('POST', '/api/rpg/session/start', {
+    hostId: 'typesetter_nikita', historicalEventId: 'EMANCIPATION_1861', historicalActorId: 'typesetter', historicalPlayerActorId: 'maid' }));
+  assert.equal(opened.status, 201);
+  const result = await service.handle(request('POST', '/api/rpg/dialogue', {
+    sessionToken: opened.body.sessionToken, requestId: 'emancipation-persona-0001',
+    playerInput: '왜 지금 그걸 다시 읽어야 해요?', actorRelations: {}, actorActions: [] }));
+  assert.equal(result.status, 200);
+  assert.ok(providerInput.caseContext.speakerImmediateWantKo?.length >= 12);
+  assert.ok(providerInput.caseContext.speakerPrivateTensionKo?.length >= 12);
+  assert.ok(providerInput.caseContext.speakerSceneTopicsKo?.length >= 2);
+  assert.match(providerInstructions, /플레이어의 마지막 말에 먼저 직접 답한다/);
+  assert.match(providerInstructions, /장면 단서 하나/);
+  assert.match(providerInstructions, /목표나 성격을 설명하지 않는다/);
 });
 
 test('AI receives Semyon’s authored neighborhood story hook for an open recent-events question', async () => {
@@ -368,7 +437,7 @@ test('AI dialogue receives only the current host’s read-source knowledge, neve
     knownEvidenceIds: ['LIT-TURGENEV-KHOR-KALYNYCH-1847'],
     observerMemory: [{ hostId: 'courier_pavel', evidenceIds: [], privateKnowledgeIds: ['PAVEL_CLOSED_ENVELOPE'] }] };
   const sceneContext = dialogueSceneContext({ id: 'printer_ekaterina' }, { id: 'printer_ekaterina' },
-    '1847-06-01', 'printshop', null, [], currentHost);
+    '1848-01-01', 'printshop', null, [], currentHost);
   assert.deepEqual(sceneContext.playerKnowledgeIds, ['DARYA_PRIVATE_MARGIN', 'LIT-TURGENEV-KHOR-KALYNYCH-1847']);
   sceneContext.playerKnowledgeIds.push('ALEXEI_OFFICE_ROUTING', 'LIT-DOSTOEVSKY-CRIME-PUNISHMENT-1866-CH2');
   const result = await service.handle(request('POST', '/api/rpg/dialogue', {
@@ -424,7 +493,7 @@ test('open-ended recent-event questions receive a concrete known incident and ar
   assert.match(providerRequest.instructions, /출처 ID나 재구성 표시는 대사로 옮기지 않는다/);
 });
 
-test('Ivan receives the Petrashevsky source packet only in its explicitly active investigation', async () => {
+test('Ivan receives the Petrashevsky report only after its in-game access date', async () => {
   let providerRequest;
   const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store: new MemorySessionStore(),
     allowedOrigins: ['https://game.example'], provider: { generate: async request => {
@@ -437,7 +506,7 @@ test('Ivan receives the Petrashevsky source packet only in its explicitly active
   const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'police_sergeant_ivan' }));
   const result = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken,
     requestId: 'ivan-circle-event-1849', playerInput: '요즘 무슨 일이 있소?', actorRelations: {}, actorActions: [],
-    sceneContext: { date: '1849-04-22', mapId: 'police-station', questId: 'CIRCLE_INVESTIGATION_1849', heardEvents: [] } }));
+    sceneContext: { date: '1849-12-22', mapId: 'police-station', questId: 'CIRCLE_INVESTIGATION_1849', heardEvents: [] } }));
   assert.equal(result.status, 200, JSON.stringify(result.body));
   assert.equal(providerRequest.input.caseContext.questId, 'CIRCLE_INVESTIGATION_1849');
   assert.ok(providerRequest.input.sourceEvidence.some(source => source.sourceId === 'OBJ-WS-PETRASHEVSKY-REPORT-1849'));
@@ -515,9 +584,9 @@ test('new editor, police, and market cohort characters receive their own validat
 test('V35 runs three contextual mock turns for each of eight fictional character voices', async () => {
   const cases = [
     ['seamstress_anna', '1847-06-01', 'nevsky', 'PRINTSHOP_PROOF_1847', 'printer_ekaterina'],
-    ['printer_ekaterina', '1847-06-01', 'printshop', 'PRINTSHOP_PROOF_1847', 'seamstress_anna'],
-    ['clerk_alexei', '1849-04-22', 'chancery', 'CIRCLE_INVESTIGATION_1849', null],
-    ['courier_pavel', '1849-04-22', 'nevsky', 'CIRCLE_INVESTIGATION_1849', null],
+    ['printer_ekaterina', '1848-01-01', 'printshop', 'PRINTSHOP_PROOF_1847', 'seamstress_anna'],
+    ['clerk_alexei', '1849-12-22', 'chancery', 'CIRCLE_INVESTIGATION_1849', null],
+    ['courier_pavel', '1849-12-22', 'nevsky', 'CIRCLE_INVESTIGATION_1849', null],
     ['tenant_mikhail', '1847-06-01', 'courtyard', null, null],
     ['bookseller_lev', '1848-01-01', 'nevsky', null, null],
     ['senior_clerk_konstantin', '1847-06-01', 'chancery', null, null],
@@ -564,7 +633,7 @@ test('1848 public-delivery case context reaches the editorial reconstruction wit
   let input;
   const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store: new MemorySessionStore(), allowedOrigins: ['https://game.example'], provider: { generate: async request => { input = request.input; return validTurn(request.input.scene.id, request.input.character.id); } } });
   const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'nekrasov_reconstruction' }));
-  const result = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken, requestId: 'v35-public-case-0001', playerInput: '지방 구독자가 잡지를 늦게 받았다고 합니다. 공고에는 뭐라고 적혔나요?', sceneContext: { date: '1848-01-01', mapId: 'printshop', questId: 'PUBLIC_DISCOURSE_1848' } }));
+  const result = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken, requestId: 'v35-public-case-0001', playerInput: '지방 구독자가 잡지를 늦게 받았다고 합니다. 공고에는 뭐라고 적혔나요?', sceneContext: { date: '1848-12-31', mapId: 'printshop', questId: 'PUBLIC_DISCOURSE_1848' } }));
   assert.equal(result.status, 200);
   assert.equal(result.body.fallback, false);
   assert.equal(input.caseContext.questId, 'PUBLIC_DISCOURSE_1848');

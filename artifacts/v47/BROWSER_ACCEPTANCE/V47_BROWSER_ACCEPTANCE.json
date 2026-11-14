@@ -1,0 +1,42 @@
+{
+  "status": "PASS",
+  "scope": "seeded physical-scene UI branch acceptance and two chronological date continuations; this is not a full human-length campaign completion",
+  "base": "http://127.0.0.1:4174/",
+  "branches": [
+    {
+      "story": "MAIN01",
+      "questId": "V47_MAIN01_A05",
+      "actionId": "V47_A05_COPY_LEDGER",
+      "hostId": "clerk_alexei",
+      "mapId": "chancery",
+      "objectId": 9064,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "visibleChoices": [
+        "보고서가 지적한 장면을 그대로 적는다",
+        "단어만 지우면 그 집의 일이 없어집니까?",
+        "제 이름으로는 그 문장을 지우지 않는다"
+      ],
+      "selectedChoiceInViewport": true,
+      "materialChangesPersisted": true,
+      "overflow": false,
+      "pageErrors": []
+    }
+  ],
+  "optionalCoda": {
+    "action": "advance to optional post-arrest coda",
+    "dateBefore": "1849-12-22",
+    "dateAfter": "1850-01-03",
+    "questStatus": "open",
+    "pageErrors": []
+  },
+  "firstDateAdvance": {
+    "action": "advance to first dated MAIN03 beat",
+    "dateBefore": "1849-03-20",
+    "dateAfter": "1849-04-01",
+    "questStatus": "open",
+    "pageErrors": []
+  }
+}

@@ -75,7 +75,7 @@
   "tileheight": 16,
   "infinite": false,
   "nextlayerid": 4,
-  "nextobjectid": 1021,
+  "nextobjectid": 1201,
   "tilesets": [
     {
       "firstgid": 1,
@@ -85,7 +85,7 @@
       "imageheight": 160,
       "tilewidth": 16,
       "tileheight": 16,
-      "tilecount": 85,
+      "tilecount": 115,
       "columns": 16
     }
   ],
@@ -582,6 +582,49 @@
               "name": "eventId",
               "type": "string",
               "value": "E25"
+            }
+          ]
+        },
+        {
+          "id": 1200,
+          "name": "체포 현장으로 가는 출구",
+          "type": "map-exit",
+          "x": 112,
+          "y": 48,
+          "width": 16,
+          "height": 16,
+          "rotation": 0,
+          "visible": true,
+          "properties": [
+            {
+              "name": "exitId",
+              "type": "string",
+              "value": "police-morskaya"
+            },
+            {
+              "name": "targetMapId",
+              "type": "string",
+              "value": "morskaya-intersection"
+            },
+            {
+              "name": "arrivalX",
+              "type": "int",
+              "value": 7
+            },
+            {
+              "name": "arrivalY",
+              "type": "int",
+              "value": 13
+            },
+            {
+              "name": "returnExitId",
+              "type": "string",
+              "value": "morskaya-police"
+            },
+            {
+              "name": "publicAccess",
+              "type": "bool",
+              "value": true
             }
           ]
         }

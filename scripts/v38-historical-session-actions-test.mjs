@@ -3,14 +3,13 @@ import fs from 'node:fs/promises';
 import '../rpg/engine/game-state.js';
 import { advanceHistoricalSessionTime, canConcludeHistoricalSession, performHistoricalAction } from '../rpg/engine/historical-session.mjs';
 import { beginHistoricalSession } from '../rpg/engine/historical-session.mjs';
+import { buildHistoricalSceneLayout } from '../rpg/engine/historical-scene-layout.mjs';
 
 const play = JSON.parse(await fs.readFile(new URL('../rpg/data/historical-scene-play.json', import.meta.url), 'utf8'));
 const catalog = JSON.parse(await fs.readFile(new URL('../rpg/data/v38-historical-events.json', import.meta.url), 'utf8'));
 for (const scene of play.events) {
   assert.equal(scene.actors.length, 18, `${scene.eventId} has six movable participants in each zone`);
   assert.equal(new Set(scene.actors.map(actor => actor.id)).size, 18, `${scene.eventId} assigns each participant a distinct body`);
-  assert.deepEqual(scene.actors.reduce((counts, _actor, index) => { counts[index % scene.maps.length]++; return counts; }, [0, 0, 0]), [6, 6, 6],
-    `${scene.eventId} places six actors on each playable map`);
   const event = catalog.events.find(item => item.id === scene.eventId);
   assert.equal(event.playableParticipantCount, 18, `${scene.eventId} reports its full on-map cast`);
   assert.deepEqual(event.cast, scene.actors.map(actor => actor.nameKo), `${scene.eventId} cast matches the moving characters`);
@@ -19,9 +18,15 @@ for (const scene of play.events) {
     `${scene.eventId} actions consume time so residents can move while the event unfolds`);
   assert.ok(roleActions.length >= 6, `${scene.eventId} requires at least six event roles`);
   assert.equal(new Set(roleActions.map(item => item.mapId)).size, 3, `${scene.eventId} makes the player change roles across all three zones`);
+  const sourceMaps = Object.fromEntries(await Promise.all(scene.backgrounds.map(async id => [id,
+    JSON.parse(await fs.readFile(new URL(`../rpg/maps/${id}.json`, import.meta.url), 'utf8'))])));
+  const laidOut = structuredClone(scene);
+  buildHistoricalSceneLayout(laidOut, event, sourceMaps);
+  assert.ok(scene.maps.every(mapId => laidOut.actors.filter(actor => actor.mapId === mapId).length >= 4),
+    `${scene.eventId} keeps several people in every event area`);
   for (const action of roleActions) {
-    const actorIndex = scene.actors.findIndex(actor => actor.id === action.requiredActorId);
-    assert.equal(actorIndex % scene.maps.length, scene.maps.indexOf(action.mapId), `${action.id} can be done by a person physically in its zone`);
+    const actor = laidOut.actors.find(person => person.id === action.requiredActorId);
+    assert.equal(actor?.mapId, action.mapId, `${action.id} can be done by a person physically in its zone`);
   }
   const action = scene.fieldActions[0];
   const option = action.options.find(item => !item.sceneMoves?.length) ?? action.options[0];

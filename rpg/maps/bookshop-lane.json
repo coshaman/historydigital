@@ -83,7 +83,7 @@
       "imageheight": 160,
       "tilewidth": 16,
       "tileheight": 16,
-      "tilecount": 85,
+      "tilecount": 115,
       "columns": 16
     }
   ],
@@ -2583,6 +2583,26 @@
           "height": 16,
           "visible": true,
           "properties": [
+              {
+                "name": "displayAsset",
+                "type": "string",
+                "value": "../assets/v47/bookshop-sign.svg"
+              },
+              {
+                "name": "displayWidth",
+                "type": "int",
+                "value": 80
+              },
+              {
+                "name": "displayHeight",
+                "type": "int",
+                "value": 30
+              },
+              {
+                "name": "displayOffsetY",
+                "type": "int",
+                "value": -27
+              },
             {
               "name": "assetTileId",
               "type": "int",
@@ -2772,6 +2792,58 @@
               "name": "personalLifeQuest",
               "type": "bool",
               "value": true
+            }
+          ]
+        },
+        {
+          "id": 6106,
+          "name": "소피야의 응접실 문",
+          "type": "map-exit",
+          "x": 96,
+          "y": 144,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "exitId",
+              "type": "string",
+              "value": "bookshop-lane-sofiya-salon"
+            },
+            {
+              "name": "targetMapId",
+              "type": "string",
+              "value": "sofiya-salon"
+            },
+            {
+              "name": "arrivalX",
+              "type": "int",
+              "value": 11
+            },
+            {
+              "name": "arrivalY",
+              "type": "int",
+              "value": 14
+            },
+            {
+              "name": "returnExitId",
+              "type": "string",
+              "value": "sofiya-salon-lane"
+            },
+            {
+              "name": "publicAccess",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "doorId",
+              "type": "string",
+              "value": "door-sofiya-salon"
+            },
+            {
+              "name": "districtId",
+              "type": "string",
+              "value": "BOOKS_AND_READING"
             }
           ]
         }

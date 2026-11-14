@@ -123,7 +123,7 @@
       "imageheight": 160,
       "tilewidth": 16,
       "tileheight": 16,
-      "tilecount": 85,
+      "tilecount": 115,
       "columns": 16
     }
   ],
@@ -2172,8 +2172,16 @@
           "height": 16,
           "visible": true,
           "properties": [
-            { "name": "questId", "type": "string", "value": "V37_FUNERAL_COSTS_1847" },
-            { "name": "requiresLivingEventId", "type": "string", "value": "E28" }
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "V37_FUNERAL_COSTS_1847"
+            },
+            {
+              "name": "requiresLivingEventId",
+              "type": "string",
+              "value": "E28"
+            }
           ]
         }
       ]

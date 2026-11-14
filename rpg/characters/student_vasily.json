@@ -117,7 +117,13 @@
     "printshop",
     "chancery",
     "bookshop-lane",
-    "bookshop-interior"
+    "bookshop-interior",
+    "inn-interior",
+    "communal-room",
+    "workyard",
+    "police-station",
+    "semenovsky-square",
+    "morskaya-intersection"
   ],
   "start": {
     "mapId": "nevsky",

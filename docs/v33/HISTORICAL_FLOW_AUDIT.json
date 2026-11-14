@@ -15,9 +15,9 @@
       "date": "1849-04-22"
     }
   ],
-  "sourceCount": 7,
-  "historicalPacketCount": 4,
-  "questCount": 176,
+  "sourceCount": 12,
+  "historicalPacketCount": 7,
+  "questCount": 202,
   "endingIds": [
     "UVAROV",
     "BELINSKY",
@@ -27,8 +27,8 @@
   ],
   "claimLedger": {
     "status": "PASS",
-    "claimCount": 13,
-    "uniqueExcerptCount": 13,
+    "claimCount": 15,
+    "uniqueExcerptCount": 15,
     "minimumUniqueExcerpts": 12,
     "failures": []
   },

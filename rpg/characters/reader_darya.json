@@ -115,7 +115,10 @@
     "police-station",
     "bookshop-lane",
     "bookshop-interior",
-    "market-quay"
+    "market-quay",
+    "inn-interior",
+    "communal-room",
+    "sofiya-salon"
   ],
   "start": {
     "mapId": "nevsky",

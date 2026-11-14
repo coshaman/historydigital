@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "scope": "updated seeded UI branches and complete normal/alternate V47 browser routes using an intercepted local static build",
+  "plannedScenarios": 23,
+  "attemptedScenarios": 23,
+  "completedScenarios": 23,
+  "selectedChoiceInViewport": "PASS_23_OF_23",
+  "horizontalOverflow": 0,
+  "pageErrors": 0,
+  "dateContinuations": ["1849-03-20_TO_1849-04-01", "1849-12-22_TO_1850-01-03"],
+  "fullCampaign": { "normal": "PASS_36_OF_36", "alternate": "PASS_36_OF_36", "normalPageErrors": 0, "alternatePageErrors": 0 },
+  "staticBuildDelivery": "Playwright route interception serves files from dist-v33; no localhost server connection is required.",
+  "priorBlockerResolution": "The browser network restriction was avoided by fulfilling page requests from checked-in local build files.",
+  "evidence": ["V47_BROWSER_ACCEPTANCE.json", "../BROWSER_CAMPAIGN_REPLAY/V47_BROWSER_CAMPAIGN_INDEX.json"],
+  "recordedAt": "2026-11-12"
+}

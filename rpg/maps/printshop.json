@@ -17,6 +17,7 @@
     "mapClass": "REAL_WORLD_RECONSTRUCTION",
     "districtId": "NEVSKY_COMMERCIAL",
     "geography": "fictional shop interior, not a documented named address",
+    "canvasGutterColor": "#30231c",
     "sourceIds": [
       "OBJ-SOV-1847",
       "OBJ-PETERSBURG-PLAN-1840"
@@ -91,7 +92,7 @@
   "tileheight": 16,
   "infinite": false,
   "nextlayerid": 7,
-  "nextobjectid": 1185,
+  "nextobjectid": 4020,
   "properties": [
     {
       "name": "mapId",
@@ -143,7 +144,7 @@
       "imageheight": 160,
       "tilewidth": 16,
       "tileheight": 16,
-      "tilecount": 85,
+      "tilecount": 115,
       "columns": 16
     }
   ],
@@ -285,55 +286,43 @@
         6,
         5,
         6,
-        5,
-        6,
-        5,
-        6,
-        5,
-        6,
-        5,
-        6,
-        5,
-        6,
-        5,
-        6,
-        5,
+        110,
         6,
-        5,
+        109,
         6,
         5,
         6,
         5,
-        6,
+        110,
         5,
-        6,
+        109,
         5,
         6,
         5,
         6,
-        5,
+        110,
         6,
         5,
         6,
         5,
         6,
-        5,
+        110,
         6,
-        5,
+        109,
         6,
         5,
         6,
         5,
-        6,
+        110,
         5,
-        6,
+        109,
         5,
         6,
         5,
         6,
-        5,
+        110,
         6,
-        5,
+        109,
         6,
         5,
         6,
@@ -344,43 +333,43 @@
         5,
         6,
         5,
-        6,
+        110,
         5,
-        6,
+        109,
         5,
         6,
         5,
         6,
-        5,
+        110,
         6,
-        5,
+        109,
         6,
         5,
         6,
         5,
-        6,
+        110,
         5,
-        6,
+        109,
         5,
         6,
         5,
         6,
         5,
-        6,
+        109,
         5,
         6,
         5,
         6,
-        5,
+        111,
         6,
-        5,
+        111,
         6,
         5,
         6,
         5,
-        6,
+        110,
         5,
-        6,
+        109,
         5,
         6,
         5,
@@ -391,58 +380,70 @@
         6,
         5,
         6,
-        5,
+        110,
         6,
+        109,
+        111,
         5,
-        6,
+        102,
         5,
-        6,
+        110,
         5,
-        6,
+        109,
         5,
         6,
         5,
         6,
-        5,
+        110,
         6,
-        5,
+        109,
         6,
         5,
         6,
         5,
         6,
-        5,
+        109,
         6,
         5,
         6,
         5,
+        110,
+        111,
+        109,
+        111,
         6,
         5,
         6,
-        5,
+        110,
         6,
-        5,
+        109,
         6,
         5,
         6,
         5,
-        6,
+        110,
         5,
         6,
         5,
         6,
         5,
-        6,
+        110,
         5,
-        6,
+        109,
         5,
+        111,
+        111,
+        111,
+        110,
         6,
-        5,
+        109,
         6,
         5,
         6,
         5,
-        6,
+        110,
+        110,
+        109,
         5,
         6,
         5,
@@ -453,43 +454,43 @@
         6,
         5,
         6,
-        5,
+        110,
         6,
-        5,
+        111,
         6,
-        5,
+        111,
         6,
         5,
-        6,
+        110,
         5,
-        6,
+        109,
         5,
         6,
         5,
         6,
-        5,
+        110,
         6,
         5,
         6,
         5,
         6,
-        5,
+        110,
         6,
-        5,
+        109,
         6,
         5,
         6,
         5,
-        6,
+        110,
         5,
-        6,
+        109,
         5,
         6,
         5,
         6,
-        5,
+        110,
         6,
-        5,
+        109,
         6,
         5,
         6,
@@ -500,43 +501,43 @@
         5,
         6,
         5,
-        6,
+        110,
         5,
-        6,
+        109,
         5,
         6,
         5,
         6,
-        5,
+        109,
         6,
-        5,
+        109,
         6,
         5,
         6,
         5,
-        6,
+        110,
         5,
-        6,
+        109,
         5,
         6,
         5,
         6,
         5,
-        6,
+        109,
         5,
         6,
         5,
         6,
-        5,
+        110,
         6,
-        5,
+        109,
         6,
         5,
         6,
         5,
-        6,
+        110,
         5,
-        6,
+        109,
         5,
         6,
         5,
@@ -653,35 +654,35 @@
         8,
         8,
         8,
+        101,
+        112,
+        9,
+        101,
         8,
+        112,
+        112,
         8,
+        9,
         8,
+        112,
+        101,
+        8,
+        113,
+        8,
+        9,
+        112,
         25,
+        101,
+        8,
+        101,
+        112,
         8,
         8,
         8,
         8,
         8,
         8,
-        8,
-        8,
-        8,
-        8,
-        8,
-        8,
-        8,
-        25,
-        8,
-        8,
-        8,
-        8,
-        8,
-        8,
-        8,
-        8,
-        8,
-        8,
-        8,
+        11,
         8,
         8,
         8,
@@ -696,33 +697,33 @@
         8,
         8,
         8,
+        11,
         8,
         8,
         8,
         8,
-        8,
-        9,
-        9,
-        9,
-        9,
-        14,
-        9,
-        9,
-        9,
-        9,
-        9,
-        9,
-        9,
-        9,
-        9,
-        9,
-        9,
-        9,
-        9,
-        9,
-        9,
-        9,
-        9,
+        101,
+        101,
+        101,
+        101,
+        101,
+        101,
+        101,
+        101,
+        101,
+        101,
+        101,
+        101,
+        101,
+        101,
+        101,
+        101,
+        101,
+        101,
+        101,
+        101,
+        101,
+        101,
         8,
         8,
         0,
@@ -1597,6 +1598,19 @@
         0,
         0,
         0,
+        86,
+        87,
+        0,
+        0,
+        0,
+        0,
+        0,
+        95,
+        0,
+        0,
+        0,
+        0,
+        93,
         0,
         0,
         0,
@@ -1608,35 +1622,22 @@
         0,
         0,
         0,
+        88,
+        89,
+        0,
+        94,
         0,
         0,
         0,
         0,
         0,
         0,
+        90,
         0,
         0,
         0,
         0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
+        92,
         0,
         0,
         0,
@@ -1740,6 +1741,15 @@
         0,
         0,
         0,
+        86,
+        87,
+        0,
+        0,
+        0,
+        0,
+        0,
+        114,
+        115,
         0,
         0,
         0,
@@ -1755,17 +1765,8 @@
         0,
         0,
         0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
+        88,
+        89,
         0,
         0,
         0,
@@ -1938,7 +1939,7 @@
           "id": 20,
           "name": "교정쇄가 놓인 작업대",
           "type": "quest-object",
-          "x": 176,
+          "x": 224,
           "y": 192,
           "width": 16,
           "height": 16,
@@ -1962,7 +1963,7 @@
             {
               "name": "assetTileId",
               "type": "int",
-              "value": 79
+              "value": 91
             }
           ]
         },
@@ -2258,16 +2259,16 @@
               "name": "questId",
               "type": "string",
               "value": "TYPESETTER_SPEED_CENSORSHIP_1847"
-          },
-          {
-            "name": "requiresLivingEventId",
-            "type": "string",
-            "value": "E07"
-          },
-          {
-            "name": "requiresLivingEventStage",
-            "type": "string",
-            "value": "PROOF_PREPARED"
+            },
+            {
+              "name": "requiresLivingEventId",
+              "type": "string",
+              "value": "E07"
+            },
+            {
+              "name": "requiresLivingEventStage",
+              "type": "string",
+              "value": "PROOF_PREPARED"
             }
           ]
         },
@@ -2488,12 +2489,24 @@
           "height": 16,
           "visible": true,
           "properties": [
-            {"name": "questId", "type": "string", "value": "PAVEL_MISSING_PARCEL_1847"},
-            {"name": "requiresLivingEventId", "type": "string", "value": "E05"},
-            {"name": "assetTileId", "type": "int", "value": 24}
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "PAVEL_MISSING_PARCEL_1847"
+            },
+            {
+              "name": "requiresLivingEventId",
+              "type": "string",
+              "value": "E05"
+            },
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 24
+            }
           ]
-        }
-        ,{
+        },
+        {
           "id": 1174,
           "name": "삭제 표시가 남은 교정쇄",
           "type": "quest-object",
@@ -2504,9 +2517,21 @@
           "rotation": 0,
           "visible": true,
           "properties": [
-            { "name": "questId", "type": "string", "value": "V37_CENSORED_PAGE_1847" },
-            { "name": "requiresLivingEventId", "type": "string", "value": "E06" },
-            { "name": "assetTileId", "type": "int", "value": 79 }
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "V37_CENSORED_PAGE_1847"
+            },
+            {
+              "name": "requiresLivingEventId",
+              "type": "string",
+              "value": "E06"
+            },
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 79
+            }
           ]
         },
         {
@@ -2520,8 +2545,16 @@
           "rotation": 0,
           "visible": true,
           "properties": [
-            { "name": "questId", "type": "string", "value": "V37_APPRENTICE_LITERACY_1847" },
-            { "name": "requiresLivingEventId", "type": "string", "value": "E19" }
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "V37_APPRENTICE_LITERACY_1847"
+            },
+            {
+              "name": "requiresLivingEventId",
+              "type": "string",
+              "value": "E19"
+            }
           ]
         },
         {
@@ -2534,9 +2567,21 @@
           "height": 16,
           "visible": true,
           "properties": [
-            { "name": "questId", "type": "string", "value": "V37_APPRENTICE_FATIGUE_1847" },
-            { "name": "requiresLivingEventId", "type": "string", "value": "E33" },
-            { "name": "assetTileId", "type": "int", "value": 24 }
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "V37_APPRENTICE_FATIGUE_1847"
+            },
+            {
+              "name": "requiresLivingEventId",
+              "type": "string",
+              "value": "E33"
+            },
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 24
+            }
           ]
         },
         {
@@ -2549,9 +2594,21 @@
           "height": 16,
           "visible": true,
           "properties": [
-            { "name": "sourceId", "type": "string", "value": "OBJ-NICHOLAS-MANIFESTO-1848" },
-            { "name": "availableChapterId", "type": "string", "value": "V33_1848_PUBLIC" },
-            { "name": "availableDate", "type": "string", "value": "1848-03-15" }
+            {
+              "name": "sourceId",
+              "type": "string",
+              "value": "OBJ-NICHOLAS-MANIFESTO-1848"
+            },
+            {
+              "name": "availableChapterId",
+              "type": "string",
+              "value": "V33_1848_PUBLIC"
+            },
+            {
+              "name": "availableDate",
+              "type": "string",
+              "value": "1848-03-15"
+            }
           ]
         },
         {
@@ -2564,8 +2621,263 @@
           "height": 16,
           "visible": true,
           "properties": [
-            { "name": "questId", "type": "string", "value": "V37_EUROPE_NEWS_1848" },
-            { "name": "requiresLivingEventId", "type": "string", "value": "E42" }
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "V37_EUROPE_NEWS_1848"
+            },
+            {
+              "name": "requiresLivingEventId",
+              "type": "string",
+              "value": "E42"
+            }
+          ]
+        },
+        {
+          "id": 4010,
+          "name": "「탈니코프 가족」 인쇄본",
+          "type": "source",
+          "x": 160,
+          "y": 112,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "sourceId",
+              "type": "string",
+              "value": "V47-PANAEVA-TALNIKOV-CH1-1848"
+            },
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "V47_MAIN01_A03"
+            },
+            {
+              "name": "availableDate",
+              "type": "string",
+              "value": "1848-05-06"
+            },
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 90
+            }
+          ]
+        },
+        {
+          "id": 4011,
+          "name": "조판용 활자함",
+          "type": "inspectable",
+          "x": 80,
+          "y": 128,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 104
+            },
+            {
+              "name": "storyTextKo",
+              "type": "string",
+              "value": "낮은 서랍마다 활자가 나뉘어 있다. 글자 몇 개는 손에 바로 닿도록 앞쪽에 놓였다."
+            }
+          ]
+        },
+        {
+          "id": 4012,
+          "name": "교정쇄 건조대",
+          "type": "inspectable",
+          "x": 240,
+          "y": 112,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 105
+            },
+            {
+              "name": "storyTextKo",
+              "type": "string",
+              "value": "잉크가 번지지 않도록 교정쇄를 띄워 말린다. 맨 위 종이는 아직 만지지 않는 편이 좋겠다."
+            }
+          ]
+        },
+        {
+          "id": 4013,
+          "name": "연감 포장 끈과 종이",
+          "type": "inspectable",
+          "x": 288,
+          "y": 176,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 103
+            },
+            {
+              "name": "storyTextKo",
+              "type": "string",
+              "value": "얇은 종이와 묶음 끈이 함께 놓여 있다. 인쇄물을 포장할 때 쓸 수 있다."
+            }
+          ]
+        },
+        {
+          "id": 4014,
+          "name": "손으로 누르는 인쇄기",
+          "type": "inspectable",
+          "x": 128,
+          "y": 176,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 106
+            },
+        {
+          "name": "displayAsset",
+          "type": "string",
+          "value": "../assets/letterpress-handpress.svg"
+        },
+        {
+          "name": "displayWidth",
+          "type": "int",
+          "value": 64
+        },
+        {
+          "name": "displayHeight",
+          "type": "int",
+          "value": 64
+        },
+        {
+          "name": "displayOffsetX",
+          "type": "int",
+          "value": -32
+        },
+        {
+          "name": "displayOffsetY",
+          "type": "int",
+          "value": 0
+        },
+            {
+              "name": "storyTextKo",
+              "type": "string",
+              "value": "나무 틀 안에 압판과 나사가 놓여 있다. 한 번에 찍히는 장수보다 압력과 잉크 상태가 중요하다."
+            }
+          ]
+        },
+        {
+          "id": 4015,
+          "name": "교정쇄 묶음",
+          "type": "inspectable",
+          "x": 176,
+          "y": 160,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 107
+            },
+            {
+              "name": "storyTextKo",
+              "type": "string",
+              "value": "여러 장의 교정쇄가 모서리를 맞춰 쌓여 있다. 아직 인쇄본과 바꾸어 놓아서는 안 된다."
+            }
+          ]
+        },
+        {
+          "id": 4016,
+          "name": "제본된 연감",
+          "type": "inspectable",
+          "x": 352,
+          "y": 160,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 108
+            },
+            {
+              "name": "storyTextKo",
+              "type": "string",
+              "value": "가죽빛 표지의 연감 몇 권이 끈 옆에 놓여 있다. 배포할 수량은 주문 장부와 대조해야 한다."
+            }
+          ]
+        },
+        {
+          "id": 4017,
+          "name": "《삽화 연감》 편집부 공고와 풍자화",
+          "type": "source",
+          "x": 288,
+          "y": 128,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "sourceId",
+              "type": "string",
+              "value": "V47-NEKRASOV-ALMANAC-CONTENTS-1848"
+            },
+            {
+              "name": "availableDate",
+              "type": "string",
+              "value": "1848-02-12"
+            },
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 108
+            },
+            {
+              "name": "storyTextKo",
+              "type": "string",
+              "value": "편집부의 연감 예고와 두 편집자를 그린 풍자화를 함께 볼 수 있다."
+            }
+          ]
+        },
+        {
+          "id": 4019,
+          "name": "뒷벽의 조판 선반",
+          "x": 176,
+          "y": 16,
+          "width": 80,
+          "height": 48,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/printshop-compositor-shelf.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 80
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            }
           ]
         }
       ]

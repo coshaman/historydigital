@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "scope": "continuous chronological state replay; not browser playthrough",
+  "normalBeats": 36,
+  "alternateBeats": 36,
+  "autonomousEvents": [
+    {
+      "questId": "V47_MAIN01_A03",
+      "status": "RESOLVED_UNATTENDED",
+      "movedHostIds": 2,
+      "outcomeActionId": "V47_A03_HOST_READING"
+    },
+    {
+      "questId": "V47_MAIN03_P03",
+      "status": "RESOLVED_UNATTENDED",
+      "movedHostIds": 3,
+      "outcomeActionId": "V47_P03_FOURIER_AND_LIVELIHOOD"
+    },
+    {
+      "questId": "V47_MAIN05_C01",
+      "status": "RESOLVED_UNATTENDED",
+      "movedHostIds": 3,
+      "outcomeActionId": "V47_C01_SUPPLY_LODGING"
+    }
+  ],
+  "finalDate": "1850-01-03",
+  "log": "artifacts/v47/CONTINUOUS_STORY_REPLAY/V47_CONTINUOUS_REPLAY.json"
+}

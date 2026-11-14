@@ -119,6 +119,43 @@ const tileDrawers = [
   // Original game-art water pattern. It denotes navigable geography in the map,
   // not the historically attested color or surface of any particular canal.
   ({ rect, line, put }) => { rect(0, 0, 16, 16, '#354b50'); rect(0, 2, 16, 3, '#415c60'); rect(0, 10, 16, 4, '#3b5559'); line(1, 3, 6, 3, '#78908b'); line(9, 11, 14, 11, '#718985'); put(8, 4, '#9ba69a'); put(3, 12, '#8e9b90'); put(14, 6, '#617c7e'); },
+  // MAIN01 printshop props, authored from scratch. Novgorod Museum's object
+  // photographs guide the composition only; their photographs are not reused.
+  ({ rect, line, put }) => { rect(0,0,16,16,'#3d3027'); rect(1,1,14,2,'#b38955'); rect(2,3,2,12,'#9c754a'); rect(12,3,2,12,'#9c754a'); rect(4,5,8,5,'#775136'); rect(5,6,6,3,'#bf965b'); line(7,3,7,5,'#d0ad70'); line(9,3,9,5,'#d0ad70'); put(5,12,'#d1b176'); put(10,12,'#d1b176'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#3b2f26'); rect(1,1,14,2,'#a07b4c'); rect(12,3,2,12,'#a07b4c'); rect(3,5,9,5,'#745238'); rect(4,6,7,3,'#c19b62'); line(8,3,8,5,'#d6b774'); rect(7,3,5,1,'#b58c53'); put(13,5,'#d8bd88'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#42362b'); rect(2,0,12,2,'#8a6842'); rect(3,2,10,4,'#342a24'); line(4,3,11,3,'#d5c7a6'); line(4,5,10,5,'#d5c7a6'); rect(2,7,12,4,'#765238'); rect(3,8,10,2,'#bd965e'); put(3,13,'#d6b578'); put(12,13,'#d6b578'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#3b3028'); rect(3,0,10,2,'#6c4933'); rect(4,2,8,5,'#b78950'); rect(5,3,6,3,'#dfc58e'); line(6,4,9,4,'#765237'); rect(3,8,10,3,'#7b5937'); rect(4,9,8,1,'#d0ac6b'); rect(4,12,8,2,'#5b402d'); put(12,4,'#e8d6a9'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#42362b'); rect(2,4,12,9,'#8a6842'); rect(3,3,10,2,'#c09b62'); rect(4,6,8,5,'#342a24'); line(5,7,10,7,'#d5c7a6'); line(5,9,9,9,'#d5c7a6'); rect(3,13,10,1,'#bd965e'); put(2,5,'#d6b578'); put(13,5,'#d6b578'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#3b3028'); rect(3,2,10,12,'#6c4933'); rect(4,3,8,10,'#b78950'); rect(5,4,6,8,'#dfc58e'); rect(6,5,4,1,'#765237'); line(6,8,9,8,'#795638'); line(6,10,9,10,'#795638'); rect(4,13,8,1,'#d0ac6b'); put(12,4,'#e8d6a9'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#40342a'); rect(3,3,10,9,'#9a754a'); rect(4,4,8,7,'#604630'); for(let y=5;y<10;y+=2) for(let x=5;x<11;x+=2) put(x,y,'#c6a36a'); rect(4,12,8,2,'#4c3929'); put(12,11,'#d6bb7e'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#3a3028'); rect(6,2,4,9,'#795736'); rect(5,3,6,2,'#c09c5f'); rect(7,4,2,5,'#e1c278'); rect(4,11,8,2,'#4b392b'); rect(3,13,10,1,'#bc9459'); put(7,1,'#f0d59a'); put(6,6,'#f0d59a'); put(9,8,'#f0d59a'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#3e332a'); rect(2,2,12,10,'#65503b'); rect(3,3,10,8,'#c9ad78'); line(4,4,11,4,'#ece0bd'); line(4,6,11,6,'#756347'); line(4,8,10,8,'#756347'); rect(3,12,10,2,'#46382b'); rect(12,11,2,2,'#843c30'); put(4,13,'#d2b781'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#403329'); rect(2,2,12,3,'#795b3d'); rect(3,5,10,2,'#cdb888'); rect(4,8,8,2,'#eee4ca'); line(4,11,11,11,'#8f8064'); line(3,13,12,13,'#ad8958'); put(2,12,'#30271f'); put(13,12,'#30271f'); },
+  // MAIN01 streetscape and printshop work surfaces, newly authored from scratch.
+  // The 1848 Passage watercolor informs only the arcade's broad street rhythm.
+  ({ rect, line, put }) => { rect(0,0,16,16,'#9d7953'); rect(0,0,16,3,'#59483a'); rect(1,4,14,10,'#c3a176'); rect(2,5,12,8,'#d0b58a'); line(0,14,15,14,'#514238'); line(3,4,3,13,'#ad8a61'); line(12,4,12,13,'#ad8a61'); put(7,6,'#e1c99e'); put(8,11,'#bea17a'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#624837'); rect(2,1,12,14,'#c6a67a'); rect(4,3,8,11,'#574637'); rect(5,4,6,9,'#8b7153'); rect(6,6,4,7,'#c5a982'); line(3,2,12,2,'#e2c89c'); put(2,5,'#e0c89e'); put(13,5,'#e0c89e'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#9c7953'); rect(2,1,12,14,'#4d4034'); rect(3,2,10,12,'#c9b28c'); rect(4,3,8,10,'#718087'); line(8,3,8,12,'#d5bd91'); line(4,7,11,7,'#d5bd91'); rect(1,1,14,1,'#e0c99e'); rect(1,14,14,1,'#6a513a'); put(5,4,'#9eafb0'); put(10,9,'#9eafb0'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#302a25'); rect(7,7,2,8,'#4d4235'); rect(6,5,4,3,'#9e7c4f'); rect(5,4,6,2,'#d2b77f'); rect(6,2,4,2,'#d9c89f'); rect(7,1,2,1,'#f0dfb7'); put(5,8,'#a98858'); put(10,8,'#a98858'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#47382d'); rect(1,6,14,8,'#b79059'); rect(2,7,12,6,'#e0c58c'); for(let x=3;x<14;x+=4) line(x,7,x+1,12,(x%2)?'#a94e38':'#f0e1bd'); line(1,14,14,14,'#372b23'); put(2,5,'#d4b57b'); put(13,5,'#d4b57b'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#88765d'); rect(0,1,16,7,'#c1a77d'); rect(1,9,14,6,'#594332'); line(0,8,15,8,'#e0c799'); line(3,2,3,6,'#d4bd92'); line(12,1,12,6,'#d4bd92'); put(5,4,'#dbc69d'); put(10,5,'#b89768'); put(7,11,'#73563c'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#55402f'); for(let y=1;y<16;y+=4){line(1,y,14,y,'#76563a');line(2,y+1,12,y+1,'#392b22');} rect(2,3,1,1,'#a47b4d'); rect(11,10,2,1,'#9a7147'); put(5,14,'#b18a5c'); put(13,5,'#b18a5c'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#6d5138'); rect(2,2,12,11,'#a47745'); rect(3,3,10,9,'#d2b479'); for(let x=5;x<12;x+=3)line(x,4,x,10,'#55402e'); line(4,11,12,11,'#49372a'); put(4,4,'#ead4a2'); put(11,8,'#ead4a2'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#45362a'); rect(2,6,12,7,'#b99b6e'); rect(3,5,10,2,'#dec89c'); for(let y=8;y<13;y+=2){line(4,y,12,y,'#ece2cb');line(3,y+1,13,y+1,'#8d7656');} line(3,14,13,14,'#302820'); put(2,8,'#c6a16b'); put(13,8,'#c6a16b'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#3d3027'); rect(2,2,12,10,'#79583a'); rect(3,3,10,8,'#c6a976'); line(4,4,11,4,'#eee2c4'); line(4,6,10,6,'#786449'); line(5,8,11,8,'#786449'); rect(2,12,12,2,'#4c3929'); line(4,13,12,13,'#b79561'); put(3,10,'#e1cfaa'); put(13,4,'#d9bf8e'); },
+  // MAIN01 print-production props are independent game art, not copied from a period printshop.
+  ({ rect, line, put }) => { rect(0,0,16,16,'#443329'); rect(2,1,3,14,'#79583a'); rect(11,1,3,14,'#79583a'); rect(4,2,8,3,'#a9824d'); rect(7,4,2,6,'#b38d55'); rect(3,10,10,2,'#5f452f'); rect(4,12,8,2,'#9a7548'); line(6,3,10,3,'#e1c384'); put(8,1,'#d0af72'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#49382b'); rect(2,4,12,9,'#c9b487'); rect(3,3,12,8,'#eee0bd'); rect(4,2,10,8,'#d9c59a'); line(5,4,12,4,'#876c4d'); line(5,6,11,6,'#9c8060'); rect(4,12,10,2,'#76563a'); put(2,11,'#b89968'); put(13,10,'#b89968'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#433026'); rect(2,3,12,11,'#6d3029'); rect(3,2,10,10,'#8d4334'); rect(4,3,8,8,'#d2bd8b'); rect(5,4,6,6,'#e8d8ad'); line(5,5,10,5,'#98714a'); line(5,7,9,7,'#98714a'); rect(3,12,10,2,'#c39a58'); line(5,13,11,13,'#ead6a3'); put(12,4,'#e5c783'); },
+  // Three original floor variations break the large printshop's uniform plank field.
+  ({ rect, line, put }) => { rect(0,0,16,16,'#4a3829'); rect(0,2,16,5,'#6b4d34'); rect(0,8,16,5,'#59412e'); line(1,3,14,3,'#826043'); line(2,10,13,10,'#76573a'); put(3,5,'#a17b4e'); put(11,12,'#ae8957'); put(5,14,'#362a21'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#443329'); rect(1,1,14,14,'#715238'); for(let y=3;y<15;y+=4){line(2,y,13,y,'#99754d');line(3,y+1,12,y+1,'#5a422e');} line(7,2,7,13,'#392a20'); put(4,6,'#b18a57'); put(10,11,'#c29a5f'); put(13,4,'#30251e'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#443126'); rect(1,1,14,14,'#62462f'); rect(5,4,6,2,'#221b18'); rect(3,7,4,3,'#30201a'); rect(9,8,4,2,'#241a17'); put(6,5,'#171514'); put(4,8,'#191514'); put(10,9,'#171514'); line(2,13,13,13,'#8e6941'); put(13,3,'#a98453'); },
+  // MAIN01 workshop detail: a plaster bay, a pegged tool wall, loose proofs, and an ink tray.
+  ({ rect, line, put }) => { rect(0,0,16,16,'#46372b'); rect(1,1,14,14,'#b9a27b'); rect(2,2,12,10,'#cdbb98'); rect(0,12,16,3,'#6a4b33'); line(0,11,15,11,'#3b3027'); line(3,2,3,11,'#8d714e'); line(12,2,12,11,'#8d714e'); put(7,5,'#d9c9a9'); put(9,8,'#b09a76'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#49382b'); rect(1,1,14,14,'#a9926e'); rect(2,2,12,9,'#c4b18b'); line(0,11,15,11,'#44362b'); rect(3,4,1,3,'#5c4833'); rect(7,3,1,4,'#5c4833'); rect(12,5,1,3,'#5c4833'); line(3,8,4,9,'#bf8d53'); line(7,7,8,9,'#9e7950'); line(12,8,13,9,'#d1b579'); rect(0,12,16,3,'#76563b'); put(5,3,'#dfcfaa'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#3d3027'); rect(1,2,14,11,'#d7c69f'); rect(2,1,13,10,'#eadbb9'); line(3,4,12,4,'#8b7657'); line(4,6,12,6,'#a28a63'); line(3,8,10,8,'#9d845e'); rect(2,12,12,2,'#62472f'); put(13,3,'#9e4434'); put(11,9,'#6d4b32'); },
+  ({ rect, line, put }) => { rect(0,0,16,16,'#403128'); rect(2,3,12,10,'#715238'); rect(3,2,10,2,'#b38c56'); rect(4,5,8,6,'#28231f'); rect(5,6,6,4,'#3b3430'); rect(3,12,10,2,'#987044'); line(5,7,10,7,'#d0aa6b'); line(6,9,9,9,'#c6a164'); put(4,5,'#dfc78f'); put(12,11,'#b48a51'); },
 ];
 function drawText({ put, text, x, y, color }) {
   const glyphs = { 'К': ['101','110','100','110','101'], 'Н': ['101','101','111','101','101'], 'И': ['101','101','111','111','101'], 'Г': ['111','100','100','100','100'], 'П': ['111','101','101','101','101'], 'Е': ['111','100','110','100','111'], 'Ч': ['101','101','111','001','001'], 'Ь': ['100','100','110','101','110'], 'А': ['010','101','111','101','101'], 'Я': ['011','101','011','101','101'], 'О': ['111','101','101','101','111'], 'В': ['110','101','110','101','110'] };
@@ -217,7 +254,7 @@ function buildMaps() {
     obj(14,'미하일','npc',27,15,{hostId:'tenant_mikhail'}),
     obj(15,'레프','npc',25,16,{hostId:'bookseller_lev'}),
   ];
-  const street = makeMap({ id:'nevsky', name:'네프스키 거리', width:streetW,height:streetH,baseGid:1,observerStart:{x:11,y:16},architecture:streetArch,collision:streetCollision,objects:streetObjects,npcs:streetNpcs, mapProperties:{ date:'1847-06-01', mapClass:'REAL_WORLD_RECONSTRUCTION', geography:'stylized, not georeferenced', sourceIds:['OBJ-PETERSBURG-PLAN-1840','OBJ-SADOVNIKOV-1835'], note:'1830–1835 panorama informs the continuous facade rhythm and active main-street scene; paving, curb widths, and exact shop positions are stylized reconstructions, not surveyed details.', decorations:streetDecor, groundTiles:streetGround }});
+  const street = makeMap({ id:'nevsky', name:'네프스키 거리', width:streetW,height:streetH,baseGid:1,observerStart:{x:11,y:16},architecture:streetArch,collision:streetCollision,objects:streetObjects,npcs:streetNpcs, mapProperties:{ date:'1847-06-01', mapClass:'REAL_WORLD_RECONSTRUCTION', geography:'stylized, not georeferenced', sourceIds:['OBJ-PETERSBURG-PLAN-1840','OBJ-SADOVNIKOV-1835','V47-ART-SADOVNIKOV-PASSAGE-1848'], note:'Sadovnikov’s 1835 panorama informs the broader Nevsky street frontage. His Passage watercolor, dated no earlier than 1848, informs the later commercial arcade rhythm and street bustle only; the map is not georeferenced, and paving, curb widths, shop positions, and exact facades are original reconstruction.', decorations:streetDecor, groundTiles:streetGround }});
 
   const shopW=24,shopH=18,shopArch=[],shopCollision=[],shopDecor=[];
   for (let x=0;x<shopW;x++) shopCollision.push([x,0,1],[x,17,1]);
@@ -328,7 +365,7 @@ const quest = {
 const provenance = {
   schemaVersion:'V33_ASSET_PROVENANCE_V1',
   assets:[
-    {id:'petersburg-tiles',path:'rpg/assets/petersburg-tiles.png',type:'ORIGINAL_PIXEL_ART',generatedBy:'scripts/v33-generate-rpg-content.mjs',license:'original project-authored pixels',historicalConfidence:'RECONSTRUCTED',intendedScene:['nevsky','printshop'],sourceIds:['OBJ-PETERSBURG-PLAN-1840','OBJ-SADOVNIKOV-1835'],sourceUrls:['https://expositions.nlr.ru/ex_map/mozaika_Saint-Petersburg/historic_plans.php','https://rusmuseumvrm.ru/data/collections/engraving/gr.-1929_15/index.php?lang=ru'],notes:'The panorama informs continuous facade rhythm and an active main-street scene. Paving, curb widths, and exact shop positions are stylized reconstructions, not surveyed details.'},
+    {id:'petersburg-tiles',path:'rpg/assets/petersburg-tiles.png',type:'ORIGINAL_PIXEL_ART',generatedBy:'scripts/v33-generate-rpg-content.mjs',license:'original project-authored pixels',historicalConfidence:'RECONSTRUCTED',intendedScene:['nevsky','printshop'],sourceIds:['OBJ-PETERSBURG-PLAN-1840','OBJ-SADOVNIKOV-1835','V47-ART-SADOVNIKOV-PASSAGE-1848'],sourceUrls:['https://expositions.nlr.ru/ex_map/mozaika_Saint-Petersburg/historic_plans.php','https://rusmuseumvrm.ru/data/collections/engraving/gr.-1929_15/index.php?lang=ru','https://rusmuseumvrm.ru/data/collections/drawings/r-42572/index.php?lang=en'],notes:'The 1835 panorama informs the broader Nevsky street scene; Sadovnikov’s Passage watercolor (not earlier than 1848) informs broad arcade frontage and street bustle for later scenes. Exact facades, paving, curb widths, and shop positions are original reconstruction, not surveyed details; no museum image is copied.'},
     ...characters.map(card=>({id:`sprite-${card.id}`,path:`rpg/${card.sprite.file}`,type:'ORIGINAL_PIXEL_SPRITE_SHEET',generatedBy:'scripts/v33-generate-rpg-content.mjs',license:'original project-authored pixels',historicalConfidence:'FICTIONAL_CHARACTER_RECONSTRUCTION',intendedScene:card.allowedMaps,sourceIds:card.sourceIds,notes:card.reconstructionDisclaimer})),
   ],
 };
@@ -366,7 +403,7 @@ const sceneObservations = {
 
 function putGridRow(grid,y,x0,x1,gid) { for(let x=x0;x<=x1;x++) grid.push([x,y,gid]); }
 if (process.argv.includes('--v36-tiles-only')) {
-  if (tileDrawers.length !== 85) throw new Error(`expected 85 tile types, got ${tileDrawers.length}`);
+  if (tileDrawers.length !== 115) throw new Error(`expected 115 tile types, got ${tileDrawers.length}`);
   const assetPath = path.join(out, 'assets', 'petersburg-tiles.png');
   await writeFile(assetPath, buildTileset());
   const mapIds = (await readdir(path.join(out, 'maps'))).filter(file => file.endsWith('.json')).map(file => file.slice(0, -5));
@@ -381,6 +418,17 @@ if (process.argv.includes('--v36-tiles-only')) {
     const ground = map.layers.find(layer => layer.name === 'Ground')?.data;
     if (ground && mapId === 'nevsky') {
       for (let y = 11; y <= 17; y++) for (let x = 1; x <= 28; x++) ground[y * map.width + x] = 46 + ((x * 3 + y * 5) % 4);
+      const architecture = map.layers.find(layer => layer.name === 'Architecture')?.data;
+      if (architecture) {
+        for (let y = 2; y <= 6; y++) for (let x = 1; x <= 28; x++) architecture[y * map.width + x] = 96;
+        for (const [x,y,gid] of [
+          [3,3,98],[8,3,98],[15,3,98],[24,3,98],
+          [4,5,97],[5,5,97],[10,5,97],[11,5,97],[16,5,97],[17,5,97],[22,5,97],[23,5,97],
+          [2,4,100],[3,4,100],[12,4,100],[13,4,100],[25,4,100],[26,4,100],[11,2,100],[12,2,100],[21,4,99],
+        ]) architecture[y * map.width + x] = gid;
+      }
+      const detail = map.layers.find(layer => layer.name === 'StreetDetail')?.data;
+      if (detail) for (const [x,y,gid] of [[4,8,99],[25,8,99]]) detail[y * map.width + x] = gid;
     }
     if (ground && mapId === 'market-quay') {
       for (let y = 8; y <= 11; y++) for (let x = 0; x < map.width; x++) ground[y * map.width + x] = 50 + ((x + y * 3) % 4);
@@ -401,7 +449,34 @@ if (process.argv.includes('--v36-tiles-only')) {
     if (ground && mapId === 'printshop') {
       for (let y = 4; y <= 16; y++) for (let x = 3; x <= 26; x++) {
         const at = y * map.width + x;
-        if (ground[at] === 5 || ground[at] === 6 || (ground[at] >= 58 && ground[at] <= 60)) ground[at] = 5 + ((x + y * 2) % 2);
+        if (ground[at] === 5 || ground[at] === 6 || (ground[at] >= 58 && ground[at] <= 60)
+          || [102,109,110,111].includes(ground[at])) ground[at] = 5 + ((x + y * 2) % 2);
+      }
+      for (let y = 5; y <= 15; y++) for (let x = 2; x <= 21; x++) {
+        const wear = (x * 3 + y * 5) % 7;
+        const nearPress = x >= 7 && x <= 10 && y >= 8 && y <= 12;
+        ground[y * map.width + x] = nearPress && (x + y) % 2 === 0 ? 111
+          : nearPress && wear === 2 ? 102
+            : wear === 0 ? 109 : wear === 1 ? 110 : ground[y * map.width + x];
+      }
+      ground[11 * map.width + 8] = 111;
+      ground[9 * map.width + 9] = 102;
+      ground[11 * map.width + 18] = 110;
+      ground[14 * map.width + 12] = 109;
+      const architecture = map.layers.find(layer => layer.name === 'Architecture')?.data;
+      if (architecture) {
+        for (let x = 1; x <= 22; x++) architecture[4 * map.width + x] = 101;
+      for (let x = 1; x <= 22; x++) {
+        const variation = x % 5;
+        if (variation === 1 || variation === 2) architecture[2 * map.width + x] = 112;
+        else if (variation === 4) architecture[2 * map.width + x] = 113;
+      }
+      for (const [x,y,gid] of [[1,2,101],[4,2,101],[12,2,101],[19,2,101],[21,2,101]]) architecture[y * map.width + x] = gid;
+        for (const [x,y,gid] of [[3,2,9],[9,2,9],[16,2,9],[5,3,11],[20,3,11]]) architecture[y * map.width + x] = gid;
+      }
+      const detail = map.layers.find(layer => layer.name === 'StreetDetail')?.data;
+      for (const [x, y, gid] of [[6,10,86],[7,10,87],[6,11,88],[7,11,89],[10,5,94],[14,4,95],[17,5,90],[19,4,93],[22,5,92],[13,10,114],[14,10,115]]) {
+        if (detail) detail[y * map.width + x] = gid;
       }
     }
     if (ground && mapId === 'courtyard') {
@@ -420,7 +495,7 @@ if (process.argv.includes('--v36-tiles-only')) {
       'bookshop-lane': [['책을 내놓은 가판',33]],
       'market-quay': [['좌판 마감과 남은 바구니',63],['생선 입고와 판매 시각표',65],['창고 반출과 분실 대장',62],['짐 인수와 배달 지연표',66],['약방 재고와 외상 장부',82],['세탁값 계산표',73],['마차에 실을 짐의 순서',69],['금 간 바퀴살',84]],
       nevsky: [['거리의 수취 확인',67]],
-      printshop: [['모자란 잉크와 교정쇄',77],['활자 서랍',78],['교정쇄가 놓인 작업대',79],['지방행 우편 묶음',80],['작업 장부',81]],
+      printshop: [['모자란 잉크와 교정쇄',77],['활자 서랍',78],['교정쇄가 놓인 작업대',91],['지방행 우편 묶음',80],['작업 장부',81]],
       'sewing-room': [['바느질 틀',75],['실·단추 함',74],['옷감 작업대',32]],
       workyard: [['공용 물동이',72],['수선 작업대',31]],
     };
@@ -435,12 +510,37 @@ if (process.argv.includes('--v36-tiles-only')) {
     const extraInspectableProps = {
       'bookshop-interior': [{ id: 4009, name: '서가 앞 발판 사다리', x: 7, y: 5, assetTileId: 71, storyTextKo: '높은 칸에 닿으려고 둔 낮은 사다리다. 손잡이와 발판이 닳았지만, 이것만으로 누가 어떤 책을 찾았는지는 알 수 없다.' }],
       'sewing-room': [{ id: 4004, name: '나무 실패에 감긴 실', x: 11, y: 10, assetTileId: 76, storyTextKo: '손바닥만 한 실패에 실을 감아 두었다. 색과 길이는 그날 맡은 수선에 따라 달라진다.' }],
+      printshop: [
+        { id: 4011, name: '조판용 활자함', x: 5, y: 8, assetTileId: 104, storyTextKo: '낮은 서랍마다 활자가 나뉘어 있다. 글자 몇 개는 손에 바로 닿도록 앞쪽에 놓였다.' },
+        { id: 4012, name: '교정쇄 건조대', x: 15, y: 7, assetTileId: 105, storyTextKo: '잉크가 번지지 않도록 교정쇄를 띄워 말린다. 맨 위 종이는 아직 만지지 않는 편이 좋겠다.' },
+        { id: 4013, name: '연감 포장 끈과 종이', x: 18, y: 11, assetTileId: 103, storyTextKo: '얇은 종이와 묶음 끈이 함께 놓여 있다. 인쇄물을 포장할 때 쓸 수 있다.' },
+        { id: 4014, name: '손으로 누르는 인쇄기', x: 8, y: 11, assetTileId: 106, storyTextKo: '나무 틀 안에 압판과 나사가 놓여 있다. 한 번에 찍히는 장수보다 압력과 잉크 상태가 중요하다.' },
+        { id: 4015, name: '교정쇄 묶음', x: 11, y: 10, assetTileId: 107, storyTextKo: '여러 장의 교정쇄가 모서리를 맞춰 쌓여 있다. 아직 인쇄본과 바꾸어 놓아서는 안 된다.' },
+        { id: 4016, name: '제본된 연감', x: 22, y: 10, assetTileId: 108, storyTextKo: '가죽빛 표지의 연감 몇 권이 끈 옆에 놓여 있다. 배포할 수량은 주문 장부와 대조해야 한다.' },
+      ],
     };
     for (const prop of extraInspectableProps[mapId] ?? []) if (!map.layers.find(layer => layer.name === 'Interactions').objects.some(object => object.id === prop.id)) {
       map.layers.find(layer => layer.name === 'Interactions').objects.push({
         id: prop.id, name: prop.name, type: 'inspectable', x: prop.x * 16, y: prop.y * 16, width: 16, height: 16, visible: true,
         properties: [{ name: 'assetTileId', type: 'int', value: prop.assetTileId }, { name: 'storyTextKo', type: 'string', value: prop.storyTextKo }],
       });
+    }
+    if (mapId === 'printshop') {
+      const interactions = map.layers.find(layer => layer.name === 'Interactions').objects;
+      if (!interactions.some(object => object.id === 4010)) interactions.push({
+        id: 4010, name: '「탈니코프 가족」 인쇄본', type: 'source', x: 160, y: 112, width: 16, height: 16, visible: true,
+        properties: [
+          { name: 'sourceId', type: 'string', value: 'V47-PANAEVA-TALNIKOV-CH1-1848' },
+          { name: 'questId', type: 'string', value: 'V47_MAIN01_A03' },
+          { name: 'availableDate', type: 'string', value: '1848-05-06' },
+          { name: 'assetTileId', type: 'int', value: 90 },
+        ],
+      });
+      const talnikovBook = interactions.find(object => object.id === 4010);
+      talnikovBook.properties ??= [];
+      if (!talnikovBook.properties.some(property => property.name === 'questId')) {
+        talnikovBook.properties.push({ name: 'questId', type: 'string', value: 'V47_MAIN01_A03' });
+      }
     }
     await writeFile(mapPath, `${JSON.stringify(map, null, 2)}\n`.replace(/\n/g, '\r\n'));
   }
@@ -451,13 +551,15 @@ if (process.argv.includes('--v36-tiles-only')) {
   atlas.type = 'ORIGINAL_PIXEL_TILE_ATLAS';
   atlas.generatedBy = 'scripts/v33-generate-rpg-content.mjs --v36-tiles-only';
   atlas.historicalConfidence = 'UNVERIFIED_RECONSTRUCTION';
-  atlas.sourceIds = ['V36-MAP-NLR-19C-PLANS','V36-GUIDE-PUSHKAREV-1843','V36-MAP-TSYLOV-1849','V36-ART-RUSSIAN-MUSEUM-COLLMANN-1840S','V36-PHYSIOLOGY-PETERSBURG-1845'];
+  atlas.sourceIds = ['V36-MAP-NLR-19C-PLANS','V36-GUIDE-PUSHKAREV-1843','V36-MAP-TSYLOV-1849','V36-ART-RUSSIAN-MUSEUM-COLLMANN-1840S','V36-PHYSIOLOGY-PETERSBURG-1845','V36-ART-WESTERLING-NEVSKY-1847','V36-ART-FEDOTOV-FLUG-CHAIR-1846'];
   atlas.sourceUrls = [
     'https://expositions.nlr.ru/eng/ex_map/mozaika_Saint-Petersburg/plans_19_century.php',
     'https://www.prlib.ru/item/441202',
     'https://rusneb.ru/catalog/000200_000018_v19_rc_1287364/',
     'https://rusmuseumvrm.ru/online_resources/art_gallery/spb._gorod_i_gorozhane/index.php?lang=en&p=0&page=3&ps=60&show=desc&t=830',
     'https://www.prlib.ru/section/1327906',
+    'https://rusmuseumvrm.ru/data/collections/drawings/r-60382/index.php',
+    'https://rusmuseumvrm.ru/data/collections/drawings/r-7740/index.php',
   ];
   atlas.sourceIds.push('V36-ART-KOLLMAN-FISH-SELLERS-1830S');
   atlas.sourceUrls.push('https://rusmuseumvrm.ru/data/collections/drawings/r-5783/index.php');
@@ -465,14 +567,21 @@ if (process.argv.includes('--v36-tiles-only')) {
   atlas.sourceUrls.push('https://rusmuseumvrm.ru/data/collections/drawings/r-24373/index.php','https://rusmuseumvrm.ru/data/collections/drawings/r-24382/index.php');
   atlas.sourceIds.push('V36-ART-SHCHEDROVSKY-WATER-CARRIER-1845');
   atlas.sourceUrls.push('https://rusneb.ru/catalog/000199_000009_009492648/','https://compuart.ru/article/23289');
-  atlas.notes = 'Original project pixel art. Row-level evidence in ASSET_USAGE_V36.csv separates four bounded period-art references from 15 unverified surface tiles and 20 unverified props. Russian Museum records support only the depicted market subjects, not exact pixel shapes, materials, coordinates, or a fixed 1847 location. The 1849 atlas is later comparison, not direct proof of 1847 paving. Water tile GID 85 indicates map geography only and does not establish a historical water color or texture; no museum scan is embedded.';
+  atlas.sourceUrls.push('https://novgorodmuseum.ru/muzej-onlajn/virtualnye-vystavkii/illyustrirovannyi%CC%86-almanah-izdannyi%CC%86-i.-panaevym-i-n.-nekrasovym');
+  atlas.sourceIds.push('V47-PRLIB-PETERSBURG-MAP-1842');
+  atlas.sourceUrls.push('https://www.prlib.ru/item/1030062');
+  atlas.sourceIds.push('V47-ART-SADOVNIKOV-PASSAGE-1848');
+  atlas.sourceUrls.push('https://rusmuseumvrm.ru/data/collections/drawings/r-42572/index.php?lang=en');
+  atlas.sourceIds.push('V47-ART-CHARLEMAGNE-GOSTINY-DVOR-1850S','V47-ART-DURAND-NEVSKY-1839');
+  atlas.sourceUrls.push('https://commons.wikimedia.org/wiki/File:Nevskii_prospect_and_Gostinii_dvor.jpg','https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg');
+  atlas.notes = 'Original project pixel art. Row-level evidence in ASSET_USAGE_V36.csv separates bounded period-art references from unverified surface tiles and props. Russian Museum records support only the depicted market subjects, not exact pixel shapes, materials, coordinates, or a fixed 1847 location. The 1849 atlas is later comparison, not direct proof of 1847 paving. Water tile GID 85 indicates map geography only and does not establish a historical water color or texture. MAIN01 printshop prop composition also consults the Novgorod Museum digital exhibit for the actual almanac title page, permission mark and printed layout; the exhibit images are not copied or packaged. The 1842 Petersburg plan in the Presidential Library (RGIA 1487/4/94) is a spatial reference only; its digital scan is restricted to electronic reading rooms and is not republished. The Sadovnikov Passage watercolor (not earlier than 1848) informs broad arcade frontage and street bustle only; the museum scan is not copied or republished. Charlemagne’s mid-19th-century Nevsky and Gostiny Dvor lithograph and Durand’s 1839 Nevsky view inform broad storefront rhythm, avenue scale and perspective only. They do not verify exact 1848 paving, storefronts, materials, or map coordinates; the project-authored pixel map remains a broad visual interpretation.';
   await writeFile(provenancePath, `${JSON.stringify(provenance, null, 2)}\n`.replace(/\n/g, '\r\n'));
 
   const additions = [
-    ['NEVSKY_COBBLE_A','네프스키 보행로의 무늬진 회색 포석','PAVED_STREET','V36-MAP-NLR-19C-PLANS'],
-    ['NEVSKY_COBBLE_B','네프스키 보행로의 밝은 포석 변형','PAVED_STREET','V36-MAP-NLR-19C-PLANS'],
-    ['NEVSKY_COBBLE_C','발길에 닳은 어두운 포석','PAVED_STREET','V36-GUIDE-PUSHKAREV-1843'],
-    ['NEVSKY_COBBLE_D','수선 흔적이 섞인 포석','PAVED_STREET','V36-MAP-NLR-19C-PLANS'],
+    ['NEVSKY_COBBLE_A','네프스키 보행로의 무늬진 회색 포석','PAVED_STREET','V36-ART-WESTERLING-NEVSKY-1847'],
+    ['NEVSKY_COBBLE_B','네프스키 보행로의 밝은 포석 변형','PAVED_STREET','V36-ART-WESTERLING-NEVSKY-1847'],
+    ['NEVSKY_COBBLE_C','발길에 닳은 어두운 포석','PAVED_STREET','V36-ART-WESTERLING-NEVSKY-1847'],
+    ['NEVSKY_COBBLE_D','수선 흔적이 섞인 포석','PAVED_STREET','V36-ART-WESTERLING-NEVSKY-1847'],
     ['MARKET_PACKED_EARTH_A','장터의 다져진 흙바닥','MARKET_GROUND','V36-ART-RUSSIAN-MUSEUM-COLLMANN-1840S'],
     ['MARKET_PACKED_EARTH_B','장터 발자국 자국','MARKET_GROUND','V36-ART-RUSSIAN-MUSEUM-COLLMANN-1840S'],
     ['MARKET_STRAW_EARTH','짚 조각이 흩어진 흙바닥','MARKET_GROUND','V36-PHYSIOLOGY-PETERSBURG-1845'],
@@ -508,11 +617,47 @@ if (process.argv.includes('--v36-tiles-only')) {
     ['PRINTING_PAPER_STACK','인쇄할 종이 묶음','PRINTSHOP_SUPPLY','UNVERIFIED_RECONSTRUCTION'],
     ['LEDGER_AND_QUILL','장부와 깃펜','OFFICE_EQUIPMENT','UNVERIFIED_RECONSTRUCTION'],
     ['APOTHECARY_STOPPERED_JAR','마개가 있는 약병','APOTHECARY_GOODS','UNVERIFIED_RECONSTRUCTION'],
-    ['SHARED_FIREWOOD_STACK','장작 더미','HOUSEHOLD_FUEL','UNVERIFIED_RECONSTRUCTION'],
+    ['SHARED_FIREWOOD_STACK','장작 더미','HOUSEHOLD_FUEL','V36-ART-SHCHEDROVSKY-WATER-CARRIER-1845'],
     ['CART_WHEEL_REPAIR_TOOLS','수레 수리 공구','TRANSPORT_EQUIPMENT','UNVERIFIED_RECONSTRUCTION'],
   ];
-  const oldTiles = Array.from({ length: 45 }, (_, i) => [i + 1, 'EXISTING_TILE', `기존 타일 ${i + 1} · 기존 도심 세트`, 'EXISTING_RECONSTRUCTION', 'V36-MAP-NLR-19C-PLANS']);
-  const newTiles = [...additions.map(([key,description,category,sourceId], i) => [i + 46, key, description, category, sourceId]), ...householdTradeProps.map(([key,description,category,sourceId], i) => [i + 61, key, description, category, sourceId]), [85, 'RIVER_WATER_PIXEL_SURFACE', '강과 운하를 나타내는 게임용 물 표면', 'WATER_SURFACE', 'UNVERIFIED_RECONSTRUCTION']];
+  const main01VisualProps = [
+    ['NEVSKY_OCHRE_ARCADE_FACADE','아치형 상가를 참고한 황토빛 외벽','STREET_FACADE','V47-ART-SADOVNIKOV-PASSAGE-1848'],
+    ['NEVSKY_ARCADE_BAY','상점가 아치 한 칸','STREET_FACADE','V47-ART-SADOVNIKOV-PASSAGE-1848'],
+    ['NEVSKY_SASH_WINDOW','키 큰 격자창과 창틀','STREET_WINDOW','V47-ART-SADOVNIKOV-PASSAGE-1848'],
+    ['NEVSKY_IRON_LANTERN','거리의 철제 등불','STREET_FIXTURE','V47-ART-SADOVNIKOV-PASSAGE-1848'],
+    ['NEVSKY_STRIPED_AWNING','가게 앞 차양','SHOP_FIXTURE','V47-ART-SADOVNIKOV-PASSAGE-1848'],
+    ['PRINTSHOP_PLASTER_WAINSCOT','회벽과 낮은 목재 벽널','PRINTSHOP_WALL','UNVERIFIED_RECONSTRUCTION'],
+    ['PRINTSHOP_WORN_WORK_FLOOR','작업대 주변이 닳은 나무 바닥','PRINTSHOP_FLOOR','UNVERIFIED_RECONSTRUCTION'],
+    ['PRINTSHOP_BINDING_CORD_PAPER','제본 끈과 포장 종이 묶음','PRINTSHOP_SUPPLY','UNVERIFIED_RECONSTRUCTION'],
+    ['PRINTSHOP_TYPE_SORT_TRAY','활자를 정리하는 낮은 서랍','PRINTSHOP_EQUIPMENT','UNVERIFIED_RECONSTRUCTION'],
+    ['PRINTSHOP_PROOF_DRYING_RACK','교정쇄를 말리는 걸이 선반','PRINTSHOP_EQUIPMENT','UNVERIFIED_RECONSTRUCTION'],
+    ['PRINTSHOP_HAND_PRESS','손으로 누르는 나무 인쇄기','PRINTSHOP_EQUIPMENT','UNVERIFIED_RECONSTRUCTION'],
+    ['PRINTSHOP_PROOF_STACK','검토 중인 교정쇄 묶음','PRINTSHOP_SUPPLY','UNVERIFIED_RECONSTRUCTION'],
+    ['PRINTSHOP_BOUND_ALMANACS','제본된 연감 묶음','PRINTED_MATTER','UNVERIFIED_RECONSTRUCTION'],
+  ];
+  const oldTiles = Array.from({ length: 45 }, (_, i) => i + 1 === 19
+    ? [19, 'CHAIR_WRITING', '둥근 열린 등받이 의자', 'UNVERIFIED_RECONSTRUCTION', 'V36-ART-FEDOTOV-FLUG-CHAIR-1846']
+    : [i + 1, `CITY_TILE_${String(i + 1).padStart(3, '0')}`, `기존 도심 타일 ${i + 1}`, 'UNVERIFIED_RECONSTRUCTION', '']);
+  const newTiles = [...additions.map(([key,description,category,sourceId], i) => [i + 46, key, description, category, sourceId]), ...householdTradeProps.map(([key,description,category,sourceId], i) => [i + 61, key, description, category, sourceId]), [85, 'RIVER_WATER_PIXEL_SURFACE', '강과 운하를 나타내는 게임용 물 표면', 'WATER_SURFACE', 'UNVERIFIED_RECONSTRUCTION'],
+    [86, 'PRINTSHOP_HAND_PRESS_LEFT', '인쇄 작업대와 나사식 압판의 왼쪽 부분', 'PRINTSHOP_EQUIPMENT', 'UNVERIFIED_RECONSTRUCTION'],
+    [87, 'PRINTSHOP_HAND_PRESS_RIGHT', '인쇄 작업대와 나사식 압판의 오른쪽 부분', 'PRINTSHOP_EQUIPMENT', 'UNVERIFIED_RECONSTRUCTION'],
+    [88, 'PRINTSHOP_HAND_PRESS_BOTTOM_LEFT', '인쇄기 받침과 종이 놓는 판', 'PRINTSHOP_EQUIPMENT', 'UNVERIFIED_RECONSTRUCTION'],
+    [89, 'PRINTSHOP_HAND_PRESS_BOTTOM_RIGHT', '인쇄기의 오른쪽 받침과 잉크판', 'PRINTSHOP_EQUIPMENT', 'UNVERIFIED_RECONSTRUCTION'],
+    [90, 'ALMANAC_UNBOUND_SHEETS', '끈으로 묶은 미제본 연감 인쇄지', 'PRINTSHOP_STOCK', 'UNVERIFIED_RECONSTRUCTION'],
+    [91, 'ALMANAC_COVER_AND_TITLEPAGE', '연감 표제면을 본뜬 게임용 책 표지', 'PRINTED_MATTER', 'UNVERIFIED_RECONSTRUCTION'],
+    [92, 'PRINTSHOP_TYPE_CASE_DRAWERS', '금속 활자를 나누어 둔 서랍장', 'PRINTSHOP_EQUIPMENT', 'UNVERIFIED_RECONSTRUCTION'],
+    [93, 'PRINTSHOP_OIL_LAMP', '작업대 위 등잔', 'PRINTSHOP_FIXTURE', 'UNVERIFIED_RECONSTRUCTION'],
+    [94, 'PRINTSHOP_INK_AND_DABBER', '인쇄용 잉크와 문지르는 도구', 'PRINTSHOP_EQUIPMENT', 'UNVERIFIED_RECONSTRUCTION'],
+    [95, 'PRINTSHOP_DRYING_RACK', '마른 종이를 올려두는 선반', 'PRINTSHOP_EQUIPMENT', 'UNVERIFIED_RECONSTRUCTION'],
+    ...main01VisualProps.map(([key,description,category,sourceId], index) => [96 + index, key, description, category, sourceId]),
+    [109, 'PRINTSHOP_WORN_PLANKS', '오래 밟아 닳은 작업장 널판', 'PRINTSHOP_FLOOR', 'UNVERIFIED_RECONSTRUCTION'],
+    [110, 'PRINTSHOP_REPLACED_PLANKS', '새로 갈아 끼운 바닥 널판', 'PRINTSHOP_FLOOR', 'UNVERIFIED_RECONSTRUCTION'],
+    [111, 'PRINTSHOP_INK_STAINED_FLOOR', '인쇄기 곁에 밴 잉크 자국', 'PRINTSHOP_FLOOR', 'UNVERIFIED_RECONSTRUCTION'],
+    [112, 'PRINTSHOP_PLASTER_BAY', '회벽과 목재 기둥이 드러난 인쇄소 벽면', 'PRINTSHOP_WALL', 'UNVERIFIED_RECONSTRUCTION'],
+    [113, 'PRINTSHOP_PEGGED_TOOL_WALL', '도구를 걸어 둔 벽면', 'PRINTSHOP_WALL', 'UNVERIFIED_RECONSTRUCTION'],
+    [114, 'PRINTSHOP_LOOSE_PROOFS', '작업대 위에 펼친 교정쇄', 'PRINTSHOP_SUPPLY', 'UNVERIFIED_RECONSTRUCTION'],
+    [115, 'PRINTSHOP_INK_TRAY_AND_DABBER', '잉크와 문지르는 도구', 'PRINTSHOP_EQUIPMENT', 'UNVERIFIED_RECONSTRUCTION'],
+  ];
   const sourceUrlById = {
     'V36-MAP-NLR-19C-PLANS': atlas.sourceUrls[0],
     'V36-GUIDE-PUSHKAREV-1843': atlas.sourceUrls[1],
@@ -523,15 +668,23 @@ if (process.argv.includes('--v36-tiles-only')) {
     'V36-ART-LABASTIDE-HAWKER-TRAY-1845': 'https://rusmuseumvrm.ru/data/collections/drawings/r-24373/index.php',
     'V36-ART-LABASTIDE-KALACH-SELLER-1845': 'https://rusmuseumvrm.ru/data/collections/drawings/r-24382/index.php',
     'V36-ART-SHCHEDROVSKY-WATER-CARRIER-1845': 'https://rusneb.ru/catalog/000199_000009_009492648/',
+    'V36-ART-WESTERLING-NEVSKY-1847': 'https://rusmuseumvrm.ru/data/collections/drawings/r-60382/index.php',
+    'V47-ART-SADOVNIKOV-PASSAGE-1848': 'https://rusmuseumvrm.ru/data/collections/drawings/r-42572/index.php?lang=en',
   };
   const csv = [['gid','tile_key','description_ko','category','source_type','source_id','source_url','historical_note','file','atlas_x','atlas_y'],
-    ...oldTiles.map(([gid,key,description,category,sourceId]) => [gid,key,description,category,'CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE',sourceId,'https://expositions.nlr.ru/eng/ex_map/mozaika_Saint-Petersburg/plans_19_century.php','기존 프로젝트 재구성 타일; 실측 표면 아님','rpg/assets/petersburg-tiles.png',((gid-1)%16)*16,Math.floor((gid-1)/16)*16]),
+    ...oldTiles.map(([gid,key,description,category,sourceId]) => [gid,key,description,category,
+      gid === 19 ? 'CUSTOM_ASSET_INSPIRED_BY_PERIOD_SOURCE' : 'UNVERIFIED_RECONSTRUCTION', sourceId,
+      gid === 19 ? 'https://rusmuseumvrm.ru/data/collections/drawings/r-7740/index.php' : '',
+      gid === 19 ? 'Fedotov의 1846–1847년 그림에서 높은 등받이와 가는 지지대의 일반적 형태만 참고. 의자 기능은 미검증.' : 'UNVERIFIED_RECONSTRUCTION: 원본 프로젝트에서 만든 타일이며 확인한 사료가 구체적 모양·재료·위치를 입증하지 않는다.',
+      'rpg/assets/petersburg-tiles.png',((gid-1)%16)*16,Math.floor((gid-1)/16)*16]),
     ...newTiles.map(([gid,key,description,category,sourceId]) => {
       const verifiedVisualReferences = {
+        'V36-ART-WESTERLING-NEVSKY-1847': '장면 참고: 러시아 박물관의 1847년 네프스키 거리 그림은 가로 풍경만 보여 준다. 포석의 모양·재료·색은 미검증 재구성이다.',
         'V36-ART-KOLLMAN-FISH-SELLERS-1830S': '창작 픽셀 타일의 장면 참고: 러시아 박물관 R-5783은 1830년대 페테르부르크 강변의 생선·달걀 장수를 기록한다. 정확한 생선 진열 모양·게임 좌표·1847년 동일 장소를 입증하지 않는다.',
         'V36-ART-LABASTIDE-HAWKER-TRAY-1845': '창작 픽셀 타일의 장면 참고: 러시아 박물관 R-24373은 약 1845년 페테르부르크 도시 유형화 연작의 쟁반 든 행상인을 기록한다. 타일의 정확한 쟁반 모양·게임 좌표·개별 행상인의 실재를 입증하지 않는다.',
         'V36-ART-LABASTIDE-KALACH-SELLER-1845': '창작 픽셀 타일의 장면 참고: 러시아 박물관 R-24382는 약 1845년 페테르부르크 도시 유형화 연작의 칼라치 판매인을 기록한다. 빵의 정확한 형태·재료·게임 좌표·개별 판매인의 실재를 입증하지 않는다.',
         'V36-ART-SHCHEDROVSKY-WATER-CARRIER-1845': '창작 픽셀 타일의 제한적 장면 참고: Щедровский의 1845년 집단 석판화 판 8에서 짧은 나무 조각이 쌓인 모습을 확인했다. 도판 목록은 물장수와 장작 운반인을 함께 열거하지만, 구체적 목재 종류·치수·보관 관행·게임 좌표를 입증하지 않는다.',
+        'V47-ART-SADOVNIKOV-PASSAGE-1848': '창작 픽셀 타일의 제한적 장면 참고: 러시아 박물관의 사도브니코프 「네프스키 거리. 파사주」는 1848년보다 이르지 않은 작품이다. 상가 외벽·아치형 개구부·거리의 마차와 보행자라는 넓은 장면 구성만 참고한다. 타일의 정확한 건축 세부·재료·색·게임 좌표·1848년 특정 날짜의 외관을 입증하지 않으며, 박물관 이미지 복제본은 배포하지 않는다.',
       };
       const verifiedVisualReference = Object.hasOwn(verifiedVisualReferences, sourceId);
       const surfaceReconstruction = gid >= 46 && gid <= 60;

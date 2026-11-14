@@ -133,6 +133,10 @@
       "openWindows": [
         {
           "startMinute": 480,
+          "endMinute": 660
+        },
+        {
+          "startMinute": 900,
           "endMinute": 960
         },
         {
@@ -142,6 +146,83 @@
       ],
       "hungerRelief": 32,
       "valueStatus": "fictional_gameplay_balance"
+    },
+    {
+      "itemKo": "빵 한 묶음",
+      "category": "food",
+      "price": 1,
+      "unit": "kopeks",
+      "mapId": "nevsky",
+      "openWindows": [
+        {
+          "startMinute": 660,
+          "endMinute": 780
+        }
+      ],
+      "hungerRelief": 32,
+      "valueStatus": "fictional_gameplay_balance"
+    }
+  ],
+  "marketServiceShifts": [
+    {
+      "offerItemKo": "빵 한 묶음",
+      "startMinute": 500,
+      "endMinute": 660,
+      "mapId": "market-quay",
+      "position": {
+        "x": 14,
+        "y": 12
+      },
+      "activityKo": "좌판을 지키며 빵을 판다",
+      "status": "FICTIONAL_GAMEPLAY_SCHEDULE"
+    },
+    {
+      "offerItemKo": "빵 한 묶음",
+      "startMinute": 660,
+      "endMinute": 780,
+      "mapId": "nevsky",
+      "position": {
+        "x": 14,
+        "y": 12
+      },
+      "activityKo": "네프스키 거리에서 구운 빵을 판다",
+      "status": "FICTIONAL_GAMEPLAY_SCHEDULE"
+    },
+    {
+      "offerItemKo": "빵 한 묶음",
+      "startMinute": 900,
+      "endMinute": 960,
+      "mapId": "market-quay",
+      "position": {
+        "x": 14,
+        "y": 12
+      },
+      "activityKo": "오후 좌판으로 돌아와 빵을 판다",
+      "status": "FICTIONAL_GAMEPLAY_SCHEDULE"
+    },
+    {
+      "offerItemKo": "빵 한 묶음",
+      "startMinute": 1040,
+      "endMinute": 1080,
+      "mapId": "market-quay",
+      "position": {
+        "x": 14,
+        "y": 12
+      },
+      "activityKo": "저녁 좌판을 열어 빵을 판다",
+      "status": "FICTIONAL_GAMEPLAY_SCHEDULE"
+    },
+    {
+      "offerItemKo": "빵 한 묶음",
+      "startMinute": 1100,
+      "endMinute": 1320,
+      "mapId": "market-quay",
+      "position": {
+        "x": 14,
+        "y": 12
+      },
+      "activityKo": "저녁 장사를 이어간다",
+      "status": "FICTIONAL_GAMEPLAY_SCHEDULE"
     }
   ],
   "sourceIds": [],

@@ -17,6 +17,14 @@ const [maps, cards] = await Promise.all([
 const quests = (await Promise.all((await readdir(new URL('../rpg/quests/', import.meta.url)))
   .filter(file => file.endsWith('.json')).map(file => json(`../rpg/quests/${file}`))))
   .filter(quest => quest.historicalOutcome?.id);
+const fullShiftState = game.createInitialState({ maps, hostCards: cards, quests, startMapId: 'nevsky', simulationSeed: 0 });
+fullShiftState.world.clockMinutes = 899;
+const preOpeningKeeper = fullShiftState.hosts.innkeeper_irina;
+preOpeningKeeper.mapId = 'courtyard'; preOpeningKeeper.position = { x: 18, y: 12 };
+preOpeningKeeper.money.amount = 80; preOpeningKeeper.marketStock['저녁 수프'] = 6;
+const openingArrival = game.advanceNpcWorld(fullShiftState, 81, maps).hosts.innkeeper_irina;
+assert.equal(openingArrival.mapId, 'inn-interior', 'the keeper travels to the inn before the evening service opens');
+assert.equal(openingArrival.activeGoal.type, 'MARKET_SERVICE', 'the keeper is already holding the supper service post at opening');
 const state = game.createInitialState({ maps, hostCards: cards, quests, startMapId: 'nevsky', simulationSeed: 0 });
 state.world.clockMinutes = 1020;
 const innkeeper = state.hosts.innkeeper_irina, sister = state.hosts.landlady_polina;

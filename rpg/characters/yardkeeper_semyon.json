@@ -164,7 +164,12 @@
         "outputKind": "안뜰 관리",
         "outputKo": "안뜰 문을 열고 공동 장작의 남은 수량을 센다",
         "durationMinutes": 20,
-        "payroll": { "payerHostId": "landlady_polina", "amount": 1, "unit": "kopeks", "valueStatus": "fictional_gameplay_balance" },
+        "payroll": {
+          "payerHostId": "landlady_polina",
+          "amount": 1,
+          "unit": "kopeks",
+          "valueStatus": "fictional_gameplay_balance"
+        },
         "skillId": "buildingMaintenance"
       }
     },

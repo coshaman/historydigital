@@ -17,11 +17,12 @@ const [maps, cards] = await Promise.all([
   Promise.all(cardNames.filter(name => name.endsWith('.json')).map(name => readJson(new URL(`../rpg/characters/${name}`, import.meta.url)))),
 ]);
 const coreResidentIds = new Set(graph.edges.flatMap(edge => [edge.a, edge.b]));
-const fictional = cards.filter(card => card.kind === 'FICTIONAL');
+const fictional = cards.filter(card => card.kind === 'FICTIONAL' && card.populationClass !== 'SCENARIO_GUEST');
 const cardById = new Map(cards.map(card => [card.id, card]));
 assert.equal(graph.historicalClaim, false);
 assert.equal(graph.status, 'FICTIONAL_CHARACTER_DESIGN');
 assert.equal(fictional.length, 37, 'the runtime population includes the street musician');
+assert.ok(cards.some(card => card.id === 'doctor_mikhail_1848' && card.populationClass === 'SCENARIO_GUEST'), 'temporary V47 event guests are not misrepresented as members of the permanent kinship network');
 assert.ok(graph.edges.length > 18, 'the family graph includes extended relatives beyond isolated pairs');
 assert.equal(coreResidentIds.size, fictional.length, 'every fictional resident has a family edge');
 assert.deepEqual([...coreResidentIds].sort(), fictional.map(card => card.id).sort(), 'kinship covers the full runtime population');

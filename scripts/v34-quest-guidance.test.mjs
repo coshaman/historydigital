@@ -12,6 +12,7 @@ const maps = Object.fromEntries(['nevsky','printshop','chancery','courtyard','de
 const hostCards = ['clerk_alexei','printer_ekaterina','courier_pavel','seamstress_anna','tenant_mikhail','bookseller_lev','nekrasov_reconstruction','literary_chichikov','literary_akaky','literary_petrovich'].map(id=>read(`rpg/characters/${id}.json`));
 const quests = ['printshop-article','public-discourse-1848','circle-investigation-1849','circle-letter-1849-may','literary-dead-souls','literary-overcoat'].map(id=>read(`rpg/quests/${id}.json`));
 const require=createRequire(import.meta.url);require('../rpg/engine/game-state.js');const game=globalThis.V33GameState;
+
 function stateAt(mapId='nevsky') { return game.createInitialState({maps,hostCards,quests,startMapId:mapId}); }
 function embody(state,id) { const result=game.possessHost(state,id,maps[state.world.currentMapId]);assert.equal(result.ok,true,`expected ${id} to be at ${state.world.currentMapId}`);return result.state; }
 

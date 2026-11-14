@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="60" viewBox="0 0 160 60" shape-rendering="crispEdges">
+  <path d="M18 7h124v43H18z" fill="#241a15" stroke="#120e0c" stroke-width="4"/>
+  <path d="M21 9h118v38H21z" fill="#65452b" stroke="#bd9560" stroke-width="2"/>
+  <path d="M25 13h110v30H25z" fill="#4a3222" stroke="#8c6740" stroke-width="1"/>
+  <path d="M12 14h8v5h-8zm128 0h8v5h-8z" fill="#b18b58"/>
+  <path d="M16 18h4v5h-4zm124 0h4v5h-4z" fill="#d0a86b"/>
+  <text x="80" y="31" text-anchor="middle" fill="#ead2a2" font-family="Georgia,'Times New Roman',serif" font-size="15" letter-spacing=".3">КНИЖНАЯ</text>
+  <text x="80" y="42" text-anchor="middle" fill="#d7bd8c" font-family="Georgia,'Times New Roman',serif" font-size="8" letter-spacing="1.1">ЛАВКА</text>
+</svg>

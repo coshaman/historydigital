@@ -1364,6 +1364,204 @@
       "fallbackReplies": [
         "배움의 시간을 얻기 위해 생계 수입을 포기해야 한다면 그 기회는 누구의 것일까요?"
       ]
+    },
+    "panaev_1848": {
+      "sceneId": "V47_TALK_PANAEV_1848",
+      "dialogueObjective": "연감의 작품과 발행 순서를 편집자 관점에서 살핀다.",
+      "focusKo": "이반 파나예프의 당시 역할과 눈앞의 이해관계를 중심으로 한 대화",
+      "turnLimit": 8,
+      "allowedTopics": [
+        "연감의 작품과 발행 순서를 편집자 관점에서 살핀다.",
+        "연감의 수록 작품을 밝힌 편집부 예고"
+      ],
+      "forbiddenTopics": [
+        "확인되지 않은 사적 발언을 역사적 사실로 꾸미기",
+        "미래 사건이나 자료를 미리 알기",
+        "현대 의학 지식을 당대 인물에게 부여하기"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "guarded",
+        "focused",
+        "worried"
+      ],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": [
+        "V47-NEKRASOV-ALMANAC-CONTENTS-1848"
+      ],
+      "fallbackKo": "연감의 작품과 발행 순서를 편집자 관점에서 살핀다.부터 확인해 봅시다.",
+      "fallbackReplies": [
+        "그 대목은 제가 확인한 기록으로 말하기 어렵습니다.",
+        "지금 확인할 수 있는 자료부터 보지요.",
+        "눈앞의 일을 먼저 정리합시다."
+      ]
+    },
+    "panaeva_1848": {
+      "sceneId": "V47_TALK_PANAEVA_1848",
+      "dialogueObjective": "연감 예고에 수록된 「탈니코프 가족」의 서지 정보를 확인한다.",
+      "focusKo": "아브도티야 파나예바의 당시 역할과 눈앞의 이해관계를 중심으로 한 대화",
+      "turnLimit": 8,
+      "allowedTopics": [
+        "연감 예고에 수록된 「탈니코프 가족」의 서지 정보를 확인한다.",
+        "1848년 편집부 예고의 저자 표기 N. N. 스타니츠키"
+      ],
+      "forbiddenTopics": [
+        "확인되지 않은 사적 발언을 역사적 사실로 꾸미기",
+        "미래 사건이나 자료를 미리 알기",
+        "현대 의학 지식을 당대 인물에게 부여하기"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "guarded",
+        "focused",
+        "worried"
+      ],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": [
+        "V47-NEKRASOV-ALMANAC-CONTENTS-1848"
+      ],
+      "fallbackKo": "연감 예고에 수록된 「탈니코프 가족」의 서지 정보를 확인한다.부터 확인해 봅시다.",
+      "fallbackReplies": [
+        "그 대목은 제가 확인한 기록으로 말하기 어렵습니다.",
+        "지금 확인할 수 있는 자료부터 보지요.",
+        "눈앞의 일을 먼저 정리합시다."
+      ]
+    },
+    "petrashevsky_1849": {
+      "sceneId": "V47_TALK_PETRASHEVSKY_1849",
+      "dialogueObjective": "모임 참석자들의 논점과 서로 다른 이해관계를 듣는다.",
+      "focusKo": "미하일 페트라솁스키의 당시 역할과 눈앞의 이해관계를 중심으로 한 대화",
+      "turnLimit": 8,
+      "allowedTopics": [
+        "모임 참석자들의 논점과 서로 다른 이해관계를 듣는다.",
+        "1849년 모임 수사 자료에 기록된 사건 범위"
+      ],
+      "forbiddenTopics": [
+        "확인되지 않은 사적 발언을 역사적 사실로 꾸미기",
+        "미래 사건이나 자료를 미리 알기",
+        "현대 의학 지식을 당대 인물에게 부여하기"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "guarded",
+        "focused",
+        "worried"
+      ],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": [
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849"
+      ],
+      "fallbackKo": "모임 참석자들의 논점과 서로 다른 이해관계를 듣는다.부터 확인해 봅시다.",
+      "fallbackReplies": [
+        "그 대목은 제가 확인한 기록으로 말하기 어렵습니다.",
+        "지금 확인할 수 있는 자료부터 보지요.",
+        "눈앞의 일을 먼저 정리합시다."
+      ]
+    },
+    "antonelli_1849": {
+      "sceneId": "V47_TALK_ANTONELLI_1849",
+      "dialogueObjective": "현장에서 들은 말과 직접 본 일을 구분한다.",
+      "focusKo": "안토넬리의 당시 역할과 눈앞의 이해관계를 중심으로 한 대화",
+      "turnLimit": 8,
+      "allowedTopics": [
+        "현장에서 들은 말과 직접 본 일을 구분한다.",
+        "수사 문서가 다루는 모임과 감시의 범위"
+      ],
+      "forbiddenTopics": [
+        "확인되지 않은 사적 발언을 역사적 사실로 꾸미기",
+        "미래 사건이나 자료를 미리 알기",
+        "현대 의학 지식을 당대 인물에게 부여하기"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "guarded",
+        "focused",
+        "worried"
+      ],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": [
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849"
+      ],
+      "fallbackKo": "현장에서 들은 말과 직접 본 일을 구분한다.부터 확인해 봅시다.",
+      "fallbackReplies": [
+        "그 대목은 제가 확인한 기록으로 말하기 어렵습니다.",
+        "지금 확인할 수 있는 자료부터 보지요.",
+        "눈앞의 일을 먼저 정리합시다."
+      ]
+    },
+    "liprandi_1849": {
+      "sceneId": "V47_TALK_LIPRANDI_1849",
+      "dialogueObjective": "수사 보고서가 기록한 체포 절차와 시점을 확인한다.",
+      "focusKo": "이반 리프란디의 당시 역할과 눈앞의 이해관계를 중심으로 한 대화",
+      "turnLimit": 8,
+      "allowedTopics": [
+        "수사 보고서가 기록한 체포 절차와 시점을 확인한다.",
+        "1849년 수사·체포 기록의 확인된 날짜와 범위"
+      ],
+      "forbiddenTopics": [
+        "확인되지 않은 사적 발언을 역사적 사실로 꾸미기",
+        "미래 사건이나 자료를 미리 알기",
+        "현대 의학 지식을 당대 인물에게 부여하기"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "guarded",
+        "focused",
+        "worried"
+      ],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": [
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849"
+      ],
+      "fallbackKo": "수사 보고서가 기록한 체포 절차와 시점을 확인한다.부터 확인해 봅시다.",
+      "fallbackReplies": [
+        "그 대목은 제가 확인한 기록으로 말하기 어렵습니다.",
+        "지금 확인할 수 있는 자료부터 보지요.",
+        "눈앞의 일을 먼저 정리합시다."
+      ]
+    },
+    "doctor_mikhail_1848": {
+      "sceneId": "V47_TALK_DOCTOR_MIKHAIL_1848",
+      "dialogueObjective": "환자 돌봄과 깨끗한 물, 약재 부족을 이웃과 조정한다.",
+      "focusKo": "미하일 의사의 당시 역할과 눈앞의 이해관계를 중심으로 한 대화",
+      "turnLimit": 8,
+      "allowedTopics": [
+        "환자 돌봄과 깨끗한 물, 약재 부족을 이웃과 조정한다.",
+        "관찰된 증상, 환자 수, 확보한 물품"
+      ],
+      "forbiddenTopics": [
+        "확인되지 않은 사적 발언을 역사적 사실로 꾸미기",
+        "미래 사건이나 자료를 미리 알기",
+        "현대 의학 지식을 당대 인물에게 부여하기"
+      ],
+      "allowedEmotions": [
+        "neutral",
+        "curious",
+        "guarded",
+        "focused",
+        "worried"
+      ],
+      "allowedSceneActions": [],
+      "possibleQuestEvents": [],
+      "allowedSourceIds": [
+        "V47-CRAWFORD-CHO-OBS-1848"
+      ],
+      "fallbackKo": "환자 돌봄과 깨끗한 물, 약재 부족을 이웃과 조정한다.부터 확인해 봅시다.",
+      "fallbackReplies": [
+        "그 대목은 제가 확인한 기록으로 말하기 어렵습니다.",
+        "지금 확인할 수 있는 자료부터 보지요.",
+        "눈앞의 일을 먼저 정리합시다."
+      ]
     }
   }
 }

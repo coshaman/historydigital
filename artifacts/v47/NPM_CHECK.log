@@ -1,0 +1,571 @@
+
+> chancery-of-ink@1.0.0 check
+> node scripts/v47-main-stories-test.mjs && node scripts/v47-autonomous-travel.test.mjs && node scripts/v38-historical-scene-layout-test.mjs && node scripts/v38-history-events-test.mjs && node scripts/v38-historical-dialogue-branches.test.mjs && node scripts/v38-historical-session-test.mjs && node scripts/v38-historical-session-actions-test.mjs && node scripts/historical-lint.mjs && node scripts/v37-event-catalog-provenance-test.mjs && node scripts/v36-voice-audit.mjs && node scripts/v38-context-register-choice-audit.mjs && node scripts/v42-speech-register-audit.mjs && node scripts/v37-player-surface-copy-lint.mjs && node scripts/v37-discussion-context-test.mjs && node --test scripts/v33-ai-runtime.test.mjs scripts/v33-world-presentation.test.mjs scripts/main20-branch-graph-test.mjs scripts/v37-stale-chain-object.test.mjs && node scripts/v37-missing-record-test.mjs && node scripts/v37-inn-service-shift-test.mjs && node scripts/v37-apothecary-order-test.mjs && node scripts/v37-food-aid-test.mjs && node scripts/v37-survival-mortality-test.mjs && node scripts/v37-neighborhood-service-wages-test.mjs && node scripts/v37-bulk-food-supply-test.mjs && node scripts/v37-food-allocation-test.mjs && node scripts/v37-meal-reachability-test.mjs && node scripts/v37-kinship-network-test.mjs && node scripts/v37-market-price-dispute-test.mjs && node scripts/v37-natural-price-rent-chain-test.mjs && node scripts/v37-market-rumor-test.mjs && node scripts/v37-canal-traffic-intervention-test.mjs && node scripts/v37-laundry-sale-choice-test.mjs && node scripts/v37-print-deadline-choice-test.mjs && node scripts/v37-bookbinding-choice-test.mjs && node scripts/v36-observed-world-events-test.mjs && node scripts/v37-market-day-work-test.mjs && node scripts/v37-weather-impact-test.mjs && node scripts/v37-porter-wage-test.mjs && node scripts/v37-carter-warehouse-wage-test.mjs && node scripts/v37-roof-leak-repair-test.mjs && node scripts/v37-inn-guest-test.mjs && node scripts/v37-newspaper-release-test.mjs && node scripts/v37-student-circle-test.mjs && node scripts/v37-police-document-check-test.mjs && node scripts/v37-rent-notice-test.mjs && node scripts/v37-eviction-recovery-test.mjs && node scripts/v37-courtyard-fire-test.mjs && node scripts/v37-critical-injury-test.mjs && node scripts/v37-funeral-costs-test.mjs && node scripts/v37-manuscript-offer-test.mjs && node scripts/v37-serfdom-reading-test.mjs && node scripts/v37-salon-debate-test.mjs && node scripts/v37-salon-invitation-test.mjs && node scripts/v37-petrashevsky-report-event-test.mjs && node scripts/v37-dostoevsky-execution-test.mjs && node scripts/v37-street-musician-test.mjs && node scripts/v37-physiology-reading-event-test.mjs && node scripts/v37-e39-publication-provenance-test.mjs && node scripts/v37-household-tutor-offer-test.mjs && node scripts/v37-market-theft-test.mjs && node scripts/v37-event-gossip-test.mjs && node scripts/v37-player-free-event-discovery-test.mjs && node scripts/v37-europe-news-test.mjs && node scripts/v37-pushkin-obituary-test.mjs && node scripts/v37-belinsky-circulation-test.mjs && node scripts/v37-procession-test.mjs && node scripts/v37-smuggled-edition-test.mjs && npm run v37-raskolnikov-realm && npm run v37-alyosha-realm && npm run v37-skill-profiles
+
+V47 physical quest wiring, campaign date gates, autonomous cholera, intervention, and save/load passed
+V47 autonomous event participant walks through the NPC pathfinder without a map teleport
+Historical event maps reserve entry, arrival, exit, background interaction, event prop, and actor route tiles without overlaps.
+V38 walkable historical event catalog passed: three connected scenes, 18 movable participants per scene, extended body-specific missions, group encounters, and sourced fixed outcomes.
+Historical conversations expose distinct event-specific judgments for every field objective.
+V38 historical session isolation passed
+Historical field actions persist consequences, complete real objectives once, and reject invalid/repeated choices.
+historical-lint: 9 sources, 3 core scenes + 7 Act III packets, 3 dialogue lines, 4 claims, 2 voice sheets, 8 assets, exactly 5 endings — PASS
+V37 event catalog: 45 IDs and historical-evidence classifications are internally consistent
+{
+  "schemaVersion": "V36_VOICE_AUDIT_V1",
+  "status": "PASS",
+  "residents": 38,
+  "uniqueBlindSpots": 38,
+  "distinctEndingAndRhythmSignatures": 38,
+  "uniqueRelationshipRegisterMatrices": 38,
+  "conversationalThirdSamples": 38,
+  "rejectedNarrativeSummarySamples": true,
+  "registerSituations": 6,
+  "duplicateRegisterGroups": [],
+  "duplicateBlindSpotGroups": [],
+  "indistinctVoiceGroups": []
+}
+V38_CONTEXT_REGISTER_CHOICE_AUDIT: PASS
+{
+  "scenes": 5,
+  "characters": 4,
+  "situations": 6,
+  "literaryBorrowings": 0
+}
+V42 speech register audit: PASS
+v37-player-surface-copy-lint: visible copy has no reconstruction, fiction, or gameplay-balance disclaimers — PASS
+PASS: 23 discussion topics; source, era, case, and character links agree.
+TAP version 13
+# Subtest: accepts four three-option hubs and a complete minimal graph
+ok 1 - accepts four three-option hubs and a complete minimal graph
+  ---
+  duration_ms: 7.4358
+  type: 'test'
+  ...
+# Subtest: rejects duplicate graph identifiers
+ok 2 - rejects duplicate graph identifiers
+  ---
+  duration_ms: 1.3981
+  type: 'test'
+  ...
+# Subtest: rejects missing targets, sources, immediate directions, and branch events
+ok 3 - rejects missing targets, sources, immediate directions, and branch events
+  ---
+  duration_ms: 0.7456
+  type: 'test'
+  ...
+# Subtest: rejects incomplete choice disclosure, duplicate callbacks, and missing reactions
+ok 4 - rejects incomplete choice disclosure, duplicate callbacks, and missing reactions
+  ---
+  duration_ms: 3.4886
+  type: 'test'
+  ...
+# Subtest: enumerates all 81 distinct four-choice vectors
+ok 5 - enumerates all 81 distinct four-choice vectors
+  ---
+  duration_ms: 30.2066
+  type: 'test'
+  ...
+# Subtest: resolves the immediate branch and preserves prior choices and immutable historical anchors
+ok 6 - resolves the immediate branch and preserves prior choices and immutable historical anchors
+  ---
+  duration_ms: 1.1783
+  type: 'test'
+  ...
+# Subtest: uses an explicit valid next-hub fallback when predicates do not match
+ok 7 - uses an explicit valid next-hub fallback when predicates do not match
+  ---
+  duration_ms: 1.1102
+  type: 'test'
+  ...
+# Subtest: resolves the interleaved historical scene order without going backward in time
+ok 8 - resolves the interleaved historical scene order without going backward in time
+  ---
+  duration_ms: 1.025
+  type: 'test'
+  ...
+# Subtest: project graph has 81 vectors and every option has its own event, reaction, callback and resolvable source
+ok 9 - project graph has 81 vectors and every option has its own event, reaction, callback and resolvable source
+  ---
+  duration_ms: 6.5734
+  type: 'test'
+  ...
+# Subtest: E02 and E04 remain in the active chronological player route
+ok 10 - E02 and E04 remain in the active chronological player route
+  ---
+  duration_ms: 21.7453
+  type: 'test'
+  ...
+# Subtest: every immediate branch choice carries auditable, non-terminal ending evidence into saved history
+ok 11 - every immediate branch choice carries auditable, non-terminal ending evidence into saved history
+  ---
+  duration_ms: 13.2067
+  type: 'test'
+  ...
+# Subtest: literature choice source is displayed before selection and again in its selected event
+ok 12 - literature choice source is displayed before selection and again in its selected event
+  ---
+  duration_ms: 16.0502
+  type: 'test'
+  ...
+# Subtest: session is server-bound to one host; client cannot choose scene, inject memory, or mutate the RPG
+ok 13 - session is server-bound to one host; client cannot choose scene, inject memory, or mutate the RPG
+  ---
+  duration_ms: 63.9725
+  type: 'test'
+  ...
+# Subtest: V47 story conversations load the active beat, source context, and character-specific role on the server
+ok 14 - V47 story conversations load the active beat, source context, and character-specific role on the server
+  ---
+  duration_ms: 2.9564
+  type: 'test'
+  ...
+# Subtest: AI excludes the April 22 Petrashevsky investigation report until its December 22 in-game access date
+ok 15 - AI excludes the April 22 Petrashevsky investigation report until its December 22 in-game access date
+  ---
+  duration_ms: 2.1724
+  type: 'test'
+  ...
+# Subtest: historical field dialogue binds both event actors server-side and gives AI the character voice and dated scene
+ok 16 - historical field dialogue binds both event actors server-side and gives AI the character voice and dated scene
+  ---
+  duration_ms: 4.0273
+  type: 'test'
+  ...
+# Subtest: emancipation dialogue gives the model a character want, private tension, and specific scene hooks
+ok 17 - emancipation dialogue gives the model a character want, private tension, and specific scene hooks
+  ---
+  duration_ms: 2.1669
+  type: 'test'
+  ...
+# Subtest: AI receives Semyon’s authored neighborhood story hook for an open recent-events question
+ok 18 - AI receives Semyon’s authored neighborhood story hook for an open recent-events question
+  ---
+  duration_ms: 3.8849
+  type: 'test'
+  ...
+# Subtest: a generic recent-events answer is regenerated once when the resident has a concrete local story
+ok 19 - a generic recent-events answer is regenerated once when the resident has a concrete local story
+  ---
+  duration_ms: 2.5041
+  type: 'test'
+  ...
+# Subtest: dialogue accepts relationship outcomes from every quest bundle used by the game client
+ok 20 - dialogue accepts relationship outcomes from every quest bundle used by the game client
+  ---
+  duration_ms: 8.2482
+  type: 'test'
+  ...
+# Subtest: dialogue register is selected from the relationship, privacy, conflict, and institutional scene
+ok 21 - dialogue register is selected from the relationship, privacy, conflict, and institutional scene
+  ---
+  duration_ms: 1.0701
+  type: 'test'
+  ...
+# Subtest: Ivan answers an open question from his current street life instead of forcing the old report-and-witness motif
+ok 22 - Ivan answers an open question from his current street life instead of forcing the old report-and-witness motif
+  ---
+  duration_ms: 4.143
+  type: 'test'
+  ...
+# Subtest: live dialogue rejects meta commentary, narrator-only replies, and summary-style prose
+ok 23 - live dialogue rejects meta commentary, narrator-only replies, and summary-style prose
+  ---
+  duration_ms: 4.1161
+  type: 'test'
+  ...
+# Subtest: AI dialogue receives the embodied public character context and keeps each speaker-pair memory separate
+ok 24 - AI dialogue receives the embodied public character context and keeps each speaker-pair memory separate
+  ---
+  duration_ms: 15.352
+  type: 'test'
+  ...
+# Subtest: AI dialogue receives only the speaker’s authored family and relationship network
+ok 25 - AI dialogue receives only the speaker’s authored family and relationship network
+  ---
+  duration_ms: 3.3268
+  type: 'test'
+  ...
+# Subtest: AI dialogue receives only the current host’s read-source knowledge, never the observer’s previous-host notes
+ok 26 - AI dialogue receives only the current host’s read-source knowledge, never the observer’s previous-host notes
+  ---
+  duration_ms: 4.2748
+  type: 'test'
+  ...
+# Subtest: open-ended recent-event questions receive a concrete known incident and are instructed to answer it directly
+ok 27 - open-ended recent-event questions receive a concrete known incident and are instructed to answer it directly
+  ---
+  duration_ms: 2.4095
+  type: 'test'
+  ...
+# Subtest: Ivan receives the Petrashevsky report only after its in-game access date
+ok 28 - Ivan receives the Petrashevsky report only after its in-game access date
+  ---
+  duration_ms: 2.0314
+  type: 'test'
+  ...
+# Subtest: the client dialogue context exposes current needs and only authored activities and aims
+ok 29 - the client dialogue context exposes current needs and only authored activities and aims
+  ---
+  duration_ms: 2.1661
+  type: 'test'
+  ...
+# Subtest: new editor, police, and market cohort characters receive their own validated live dialogue scenes
+ok 30 - new editor, police, and market cohort characters receive their own validated live dialogue scenes
+  ---
+  duration_ms: 37.1546
+  type: 'test'
+  ...
+# Subtest: V35 runs three contextual mock turns for each of eight fictional character voices
+ok 31 - V35 runs three contextual mock turns for each of eight fictional character voices
+  ---
+  duration_ms: 25.3525
+  type: 'test'
+  ...
+# Subtest: 1848 public-delivery case context reaches the editorial reconstruction with dated source claims
+ok 32 - 1848 public-delivery case context reaches the editorial reconstruction with dated source claims
+  ---
+  duration_ms: 1.3261
+  type: 'test'
+  ...
+# Subtest: Petrovich can discuss only the sourced Overcoat passage with Akaky in the literary realm
+ok 33 - Petrovich can discuss only the sourced Overcoat passage with Akaky in the literary realm
+  ---
+  duration_ms: 2.2593
+  type: 'test'
+  ...
+# Subtest: derived starting resources stay character-specific and preserve unknown historical amounts
+ok 34 - derived starting resources stay character-specific and preserve unknown historical amounts
+  ---
+  duration_ms: 19.565
+  type: 'test'
+  ...
+# Subtest: NPC output is rejected when it discloses undisclosed player-only facts or resources
+ok 35 - NPC output is rejected when it discloses undisclosed player-only facts or resources
+  ---
+  duration_ms: 3.7419
+  type: 'test'
+  ...
+# Subtest: dialogue requests within one session serialize so a later turn cannot overwrite stale memory
+ok 36 - dialogue requests within one session serialize so a later turn cannot overwrite stale memory
+  ---
+  duration_ms: 1.8559
+  type: 'test'
+  ...
+# Subtest: signed opaque sessions reject forgery and foreign origins, while missing AI credentials block dialogue
+ok 37 - signed opaque sessions reject forgery and foreign origins, while missing AI credentials block dialogue
+  ---
+  duration_ms: 0.4875
+  type: 'test'
+  ...
+# Subtest: historical reconstruction and literary hosts have bounded scene IDs and no-key dialogue is blocked
+ok 38 - historical reconstruction and literary hosts have bounded scene IDs and no-key dialogue is blocked
+  ---
+  duration_ms: 2.5991
+  type: 'test'
+  ...
+# Subtest: idempotent replay returns the cached reply and does not call the provider twice
+ok 39 - idempotent replay returns the cached reply and does not call the provider twice
+  ---
+  duration_ms: 1.1715
+  type: 'test'
+  ...
+# Subtest: host sessions never share dialogue memory and personal identifiers are redacted before the provider
+ok 40 - host sessions never share dialogue memory and personal identifiers are redacted before the provider
+  ---
+  duration_ms: 2.8553
+  type: 'test'
+  ...
+# Subtest: session memory retention is fixed from creation and is not extended by dialogue
+ok 41 - session memory retention is fixed from creation and is not extended by dialogue
+  ---
+  duration_ms: 1.2155
+  type: 'test'
+  ...
+# Subtest: prompt injection remains untrusted player data; Responses API key stays in the server authorization header
+ok 42 - prompt injection remains untrusted player data; Responses API key stays in the server authorization header
+  ---
+  duration_ms: 43.3425
+  type: 'test'
+  ...
+# Subtest: incomplete Responses API output reports the specific token limit cause without exposing provider text
+ok 43 - incomplete Responses API output reports the specific token limit cause without exposing provider text
+  ---
+  duration_ms: 2.1141
+  type: 'test'
+  ...
+# Subtest: schema-invalid model output is rejected without authored dialogue
+ok 44 - schema-invalid model output is rejected without authored dialogue
+  ---
+  duration_ms: 1.1129
+  type: 'test'
+  ...
+# Subtest: historical AI dialogue is rejected when it introduces a year absent from its authorized source packet
+ok 45 - historical AI dialogue is rejected when it introduces a year absent from its authorized source packet
+  ---
+  duration_ms: 1.1773
+  type: 'test'
+  ...
+# Subtest: historical AI dialogue is rejected when it invents a real-person claim without a year or source claim ID
+ok 46 - historical AI dialogue is rejected when it invents a real-person claim without a year or source claim ID
+  ---
+  duration_ms: 1.4246
+  type: 'test'
+  ...
+# Subtest: historical AI dialogue retains claims whose dates are present in the authorized source packet
+ok 47 - historical AI dialogue retains claims whose dates are present in the authorized source packet
+  ---
+  duration_ms: 1.4131
+  type: 'test'
+  ...
+# Subtest: historical AI dialogue rejects claim IDs outside the scene source allowlist
+ok 48 - historical AI dialogue rejects claim IDs outside the scene source allowlist
+  ---
+  duration_ms: 1.1713
+  type: 'test'
+  ...
+# Subtest: provider response rejection reports a safe validation category for local diagnosis
+    # Subtest: schema
+    ok 1 - schema
+      ---
+      duration_ms: 1.7524
+      type: 'test'
+      ...
+    # Subtest: unsupported year
+    ok 2 - unsupported year
+      ---
+      duration_ms: 1.4769
+      type: 'test'
+      ...
+    # Subtest: uncited person
+    ok 3 - uncited person
+      ---
+      duration_ms: 2.0151
+      type: 'test'
+      ...
+    # Subtest: undisclosed private context
+    ok 4 - undisclosed private context
+      ---
+      duration_ms: 4.211
+      type: 'test'
+      ...
+    1..4
+ok 49 - provider response rejection reports a safe validation category for local diagnosis
+  ---
+  duration_ms: 11.7961
+  type: 'test'
+  ...
+# Subtest: 429, 500, and timeout from the provider return safe errors without authored dialogue
+    # Subtest: 429
+    ok 1 - 429
+      ---
+      duration_ms: 2.1692
+      type: 'test'
+      ...
+    # Subtest: 500
+    ok 2 - 500
+      ---
+      duration_ms: 1.058
+      type: 'test'
+      ...
+    # Subtest: timeout
+    ok 3 - timeout
+      ---
+      duration_ms: 0.7325
+      type: 'test'
+      ...
+    1..3
+ok 50 - 429, 500, and timeout from the provider return safe errors without authored dialogue
+  ---
+  duration_ms: 5.5602
+  type: 'test'
+  ...
+# Subtest: failed generation releases its turn claim so the player can retry and receive the real AI turn
+ok 51 - failed generation releases its turn claim so the player can retry and receive the real AI turn
+  ---
+  duration_ms: 1.7155
+  type: 'test'
+  ...
+# Subtest: Responses provider classifies transport failures without exposing the thrown error
+ok 52 - Responses provider classifies transport failures without exposing the thrown error
+  ---
+  duration_ms: 0.6188
+  type: 'test'
+  ...
+# Subtest: map cues follow chapter/date gates, including May letter and literary scope
+ok 53 - map cues follow chapter/date gates, including May letter and literary scope
+  ---
+  duration_ms: 4.8294
+  type: 'test'
+  ...
+# Subtest: paper, drawer and door cues use distinct authored tile silhouettes
+ok 54 - paper, drawer and door cues use distinct authored tile silhouettes
+  ---
+  duration_ms: 0.8832
+  type: 'test'
+  ...
+# Subtest: a completed historical field-action prop leaves the scene instead of looking reusable
+ok 55 - a completed historical field-action prop leaves the scene instead of looking reusable
+  ---
+  duration_ms: 0.4944
+  type: 'test'
+  ...
+# Subtest: interaction emphasis excludes unavailable quest props, self, and exits the current body cannot use
+ok 56 - interaction emphasis excludes unavailable quest props, self, and exits the current body cannot use
+  ---
+  duration_ms: 1.7263
+  type: 'test'
+  ...
+# Subtest: ambient speech is infrequent, local to present residents, and pauses during player dialogue
+ok 57 - ambient speech is infrequent, local to present residents, and pauses during player dialogue
+  ---
+  duration_ms: 3.1442
+  type: 'test'
+  ...
+# Subtest: ambient exchanges show two nearby residents responding to each other with authored mood
+ok 58 - ambient exchanges show two nearby residents responding to each other with authored mood
+  ---
+  duration_ms: 2.7164
+  type: 'test'
+  ...
+# Subtest: all blocked tiles have visible architecture or set dressing in the shipped maps
+ok 59 - all blocked tiles have visible architecture or set dressing in the shipped maps
+  ---
+  duration_ms: 15.2533
+  type: 'test'
+  ...
+# Subtest: visual repair preserves movement, existing artwork and interactions
+ok 60 - visual repair preserves movement, existing artwork and interactions
+  ---
+  duration_ms: 2.2123
+  type: 'test'
+  ...
+# Subtest: the completed Matryona weather marker opens her first unfinished stall-life stage
+ok 61 - the completed Matryona weather marker opens her first unfinished stall-life stage
+  ---
+  duration_ms: 3.1398
+  type: 'test'
+  ...
+# Subtest: the static Matryona weather marker advances to her next unresolved personal stage
+ok 62 - the static Matryona weather marker advances to her next unresolved personal stage
+  ---
+  duration_ms: 0.6744
+  type: 'test'
+  ...
+1..62
+# tests 69
+# suites 0
+# pass 69
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2269.9404
+V37 E20 missing-record event: PASS (autonomous trigger, physical object, four interventions, unattended resolution, save/load)
+V37 inn service shift: PASS (keeper remains available while family support waits for closing time)
+V37 apothecary supply event: PASS (stock trigger, private order, deterministic travel, money/inventory transfer, decline/withhold, save/load, no health claim)
+V37 food survival: kin meal loan, repayment, six-hour hunger illness, recovery, relationship, route commitment and stall-window feasibility passed.
+V37 survival mortality: illness progression, intervention window, fictional fatality, possession release, historical-person immunity, and save/load passed
+V37 neighborhood service wages: laundry, water delivery, and courtyard woodwork move real kopeks between nearby residents and persist through save/load
+V37 food supply: bakery wholesale, fish-stall and inn-kitchen production, paid meals, and save/load passed
+V37 food allocation: scarce market stock is reserved once per autonomous buyer and survives save/load.
+V37 meal reachability: avoids a meal route that cannot reach the open stall before closing.
+{
+  "status": "PASS",
+  "fictionalResidents": 37,
+  "reciprocalKinshipEdges": 20,
+  "scopedKnowledge": true,
+  "autonomousVisit": "KINSHIP:minor_noble_andrei:clerk_alexei:DAY_0",
+  "extendedRelativeVisit": "KINSHIP:laundress_mariya:tenant_mikhail:DAY_0",
+  "reciprocalMeetingMemory": true,
+  "crossHouseholdFamilyAid": true,
+  "auntNieceHouseholdAid": true,
+  "familyAidSaveLoad": true,
+  "saveLoad": true
+}
+V37 E13 market price dispute: adjusted purchase trigger, role-gated choices, refund, official watchman visit, timeout, and save/load passed.
+V37 natural event chains E02→E13→E23 and E02→E26: stockout, restock, adjusted sale, complaint, rumor arrival, rent choice, and save/load passed.
+V37 E23 market rumor: E13 causal trigger, moving carrier, role-gated evidence/check/correction/spread, unattended consequence, and save/load passed.
+V37 E11 canal intervention: scene gating, witnessed detour, resumed travel during boat passage, and save/load passed.
+V37 E04 laundry choice: witnessed wash, buyer-gated cash/barter, held inventory, deferred repeat sale, and save/load passed.
+V37 E07 print deadline choice: event-gated workboard, correction, dispatch, cancellation, linked censorship, and save/load passed.
+V37 E08 bookbinding choice: event-gated physical handover, real payment/item transfer, deferred sale, and save/load passed.
+{"status":"PASS","currentDistrictAndRangeRequired":true,"embodiedPlayerPositionUsed":true,"witnessedDelivery":true,"remoteDeliveryWithheld":true,"witnessedRoutineChange":true,"internalGoalsExcludedFromWorldChangeCount":true,"witnessedNpcOutcomeFamilies":14,"reducerProducedAndJournalFormattedCivicOutcomeFamilies":4,"independentlyFormattedVisibleWorldChangeFamilies":18}
+V37 E32 market day work: conditional trigger, autonomous travel, physical role choices, wage/fatigue effects, referral, unattended outcome, and save/load passed
+{"status":"PASS","outdoorWeatherFatigueByKind":{"clear":3.0779999999999745,"snow":4.577999999999889,"wind":4.278000000000162,"drizzle":3.677999999999855,"fog":3.3179999999998415,"overcast":3.198000000000121},"indoorSnowFatigue":1.2734999999999097}
+V37 porter wage: scheduled flour delivery creates a due claim and transfers the seller’s money at close range.
+V37 routed wages: freight and household work create due claims, route workers to named payers, and persist face-to-face settlements.
+V37 E35 roof repair: follows rent decision, reveals physical choices, applies money and housing effects, saves outcomes, and resolves unattended passed
+V37 E17→E18: lodging, hungry guest supper, paid unattended meal, source linkage, and save/load passed.
+V37 E22 newspaper issue: physical press release, counter sale, bilingual reading prerequisite, audience choices, unattended resolution, and save/load passed.
+V37 E24 reading circle: scheduled trigger, physical NPC travel, role-gated roster choices, unattended outcome, and save/load passed.
+V37 E25 police document check: causal trigger from E05, autonomous travel, three record outcomes, unattended closure, and save/load passed.
+V37 rent notice: physical trigger surface, choices, housing update, and save/load passed
+{
+  "status": "PASS",
+  "missedRentPeriods": 2,
+  "arrearsBeforeRecovery": 6,
+  "evictionAffectsHomeAndSleep": true,
+  "rentAndHousingRecovery": "PASS",
+  "saveLoadParity": true
+}
+(node:35568) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/owner/.codex/worktrees/v33-possession-rpg/history/rpg/engine/renderer.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to C:\Users\owner\.codex\worktrees\v33-possession-rpg\history\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+V37 E27: conditional fire trigger, physical choices, saved outcomes, and unattended damage passed
+V37 critical injury: deadline, intervention, fictional-only death, possession release, and save/load passed
+V37 E28: funeral costs, two real debt installments, settlement, legacy-save migration, unattended continuation, and save/load passed
+V37 E30: circle-to-manuscript trigger, physical gathering, purchase/payment, holder transfer, unattended withdrawal, and save/load passed
+V37 E31: verified contiguous source, physical reading, source-gated choice, social outcome, and save/load passed
+V37 E21→E29→E24: contextual source, physical discussion, invitation choice, scheduled circle, and save/load passed
+V37 E29 source-based invitation, physical note, distinct responses, audience, and save/load passed
+V37 E40 fixed arrest report, contiguous source, three clerk records, unattended filing, and save/load passed
+V37 E41 execution scene: PASS (date gate, host era, live scene, choices, unattended outcome, save/load)
+V37 E38 street performance: scheduled scene, live choice, real tip transfer, unattended audience tip, and save/load passed
+V37 E39 public reading: verified source trigger, physical gathering, player interpretation, private knowledge, relationship, and save/load passed
+V37 E39 provenance: first issue, scholarly publication range, edition boundary, scene chronology, and estimated gameplay price are linked.
+V37 E37 household teaching offer, located regulation scan, choices, contract payment, timeout and save/load passed
+V37 E36 market loss, witness and police response, cash transfer, no false accusation, unattended outcome and save/load passed
+V37 event gossip: scene witnesses retain source-linked knowledge; in-person NPC contact shares only that knowledge and saves exactly
+V37 player-free event discovery: PASS (18 events occurred, 17 remain available in dialogue, 9 spread between residents, save/load exact)
+V37 E42 manifesto notice, source context, physical choices, immutable history, unattended resolution, and save/load passed
+E43 Pushkin obituary source, contiguous context, catalog provenance, readable bookshop entry, and three practical choices passed
+E44 Belinsky letter circulation, period-accurate manuscript access, contiguous source, physical choices and persistence passed
+E45 conditional carriage obstruction, role-specific route choices, physical changes and persistence passed
+E34 E06-causal copy travel, role-specific handling, local/official records and save/load passed
+
+> chancery-of-ink@1.0.0 v37-raskolnikov-realm
+> node scripts/v37-raskolnikov-realm-test.mjs
+
+{"status":"PASS","realm":"LITERARY_RASKOLNIKOV_1866","contiguousSourceParagraphs":17,"choices":4,"checks":["source gated entry","1866 realm date","possession","source-backed response","campaign date restored","older save roster migration"]}
+
+> chancery-of-ink@1.0.0 v37-alyosha-realm
+> node scripts/v37-alyosha-realm-test.mjs
+
+{
+  "status": "PASS",
+  "realm": "LITERARY_KARAMAZOV_1879",
+  "sourceParagraphs": 29,
+  "possessableActors": 4,
+  "actions": 3,
+  "checks": [
+    "separate literary era",
+    "source-gated entry",
+    "Alyosha possession",
+    "source-backed scene response",
+    "campaign return"
+  ]
+}
+
+> chancery-of-ink@1.0.0 v37-skill-profiles
+> node scripts/v37-skill-profile-test.mjs
+
+{
+  "status": "PASS",
+  "fictionalResidents": 38,
+  "distinctSkills": 76,
+  "mappedWorkActions": 75,
+  "allRuntimeProfiles": true,
+  "saveLoadSamples": 3
+}

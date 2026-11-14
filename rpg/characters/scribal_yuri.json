@@ -112,7 +112,9 @@
     "courtyard",
     "market-quay",
     "printshop",
-    "chancery"
+    "chancery",
+    "police-station",
+    "morskaya-intersection"
   ],
   "start": {
     "mapId": "chancery",

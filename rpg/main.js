@@ -4,7 +4,8 @@ import { historicalConversationChoices as getHistoricalConversationChoices } fro
 import { decorateCardsWithEraProfiles } from './engine/era-profiles.mjs';
 import { objectIsPresent, questPrerequisitesMet } from './engine/world-presentation.mjs';
 import { questChoices, continuationQuest, resolveObjectQuest } from './engine/quest-presentation.mjs';
-import { guideToResident, resolveQuestGuidance } from './engine/quest-guidance.mjs';
+import { questOutcomeSummary } from './engine/quest-outcome-summary.mjs';
+import { formatMissionActionKo, guideToResident, resolveQuestGuidance } from './engine/quest-guidance.mjs';
 import { ownsKeyboardInput, observationText } from './engine/player-presentation.mjs';
 import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHost, discussionReflectionPromptsForHost } from './engine/discussion-quests.mjs';
 import { dialogueSessionNeedsReconnect, dialogueSpeakerLabel, mayOfferDiscussionPrompt, selectDialogueTurn } from './engine/dialogue-response.mjs';
@@ -14,8 +15,15 @@ import { buildHistoricalSceneLayout } from './engine/historical-scene-layout.mjs
 import { appendApiDiagnostic, clearApiDiagnostics, readApiDiagnostics } from './engine/api-diagnostics.mjs';
 import { CITY_PRODUCTS, NEWSPAPER_STORIES, newspaperAssignment, purchaseCityProduct, publishNewspaperIssue, shareSourceWithEditor, readNewspaperIssue, circulateNewspaperIssue, commitSuspiciousAct, resolvePoliceCustody, publishedIssueLabel } from './engine/civic-life.mjs';
 import { contextualOpening } from './ai/authored-dialogue.mjs';
+import { attachV47StoryObjects, v47StoryQuests } from './data/v47-main-stories.mjs';
+import { createMain01PrintworkState, main01PrintworkStage, resolveMain01Printwork } from './engine/v47-printwork.mjs';
+import { createMain01TimelineState, main01TimelineSources, main01TimelineStage, resolveMain01Timeline } from './engine/v47-main01-timeline.mjs';
+import { attachV47StoryBeatObjects, toV47StoryQuests } from './data/v47-story-beats.mjs';
+import { v47RoleProfiles } from './data/v47-character-roles.mjs';
+import { sourceAvailableOn } from './engine/source-availability.mjs';
 import { formatCivicReaction, formatObservedNpcReactions, recentJournalEntries } from './engine/world-reaction-presentation.mjs';
 import { advanceStudy, beginExam, buildLifeTimeline, chooseCirclePath, completeLearning, getExamQuestions, selectExamAnswer, submitExam } from './engine/learning-life.mjs';
+import './engine/v47-main-stories.js';
 import './engine/game-state.js';
 const { createInitialState, moveActor, possessHost, possessHostFromRoster, releaseHost, transitionMap, performQuestAction, payRent, saveGame, loadGame, nearTile, knowledgeForHost, recordSourceRead, recordEvidenceRead, recordDialogueTurn, recordDiscussionPosition, enterLiteraryRealm, leaveLiteraryRealm, advanceChapter, advanceCampaignDate, advanceWorldTime, resolveEnding, describeHostMoney } = globalThis.V33GameState;
 
@@ -32,12 +40,17 @@ const raskolnikovMap = await readJson('./rpg/maps/raskolnikov-tavern.json');
 const raskolnikovSource = await readJson('./rpg/data/raskolnikov-source.json');
 const raskolnikovQuest = await readJson('./rpg/quests/literary-raskolnikov.json');
 const [raskolnikovCard, marmeladovCard] = await Promise.all([readJson('./rpg/characters/literary_raskolnikov.json'), readJson('./rpg/characters/literary_marmeladov.json')]);
+const v47StoryBeatQuests = toV47StoryQuests();
+globalThis.V47MainStories.registerStoryBeats(v47StoryBeatQuests);
 const [alyoshaMap, alyoshaSource, alyoshaQuest] = await Promise.all([readJson('./rpg/maps/alyosha-snegiryov-room.json'), readJson('./rpg/data/alyosha-source.json'), readJson('./rpg/quests/literary-alyosha-1879.json')]);
 const alyoshaCards = await Promise.all(['literary_alyosha','literary_ilyusha','literary_kolya','literary_snegiryov'].map(id => readJson(`./rpg/characters/${id}.json`)));
-const cards = decorateCardsWithEraProfiles([...rawCards, raskolnikovCard, marmeladovCard, ...alyoshaCards], eraCharacterRegistry);
-const expansionMapIds = ['bookshop-lane','canal-road','workyard','bookshop-interior','bakery-interior','inn-interior','sewing-room','communal-room'];
+const v47ExtraCards = await Promise.all(['panaev_1848','panaeva_1848','sofiya_salon_1848','petrashevsky_1849','antonelli_1849','liprandi_1849','doctor_mikhail_1848'].map(id => readJson(`./rpg/characters/${id}.json`)));
+const cards = decorateCardsWithEraProfiles([...rawCards, ...v47ExtraCards, raskolnikovCard, marmeladovCard, ...alyoshaCards], { ...eraCharacterRegistry, runtime_profiles: { ...eraCharacterRegistry.runtime_profiles, ...v47RoleProfiles } });
+const expansionMapIds = ['bookshop-lane','canal-road','workyard','bookshop-interior','bakery-interior','inn-interior','sewing-room','communal-room','morskaya-intersection','sofiya-salon'];
 const expansionMaps = Object.fromEntries(await Promise.all(expansionMapIds.map(async id => [id, await readJson(`./rpg/maps/${id}.json`)])));
 const maps = { nevsky: street, printshop: shop, chancery, courtyard, 'market-quay': marketMap, 'dead-souls': literaryMap, overcoat: overcoatMap, 'raskolnikov-tavern': raskolnikovMap, 'alyosha-snegiryov-room': alyoshaMap, 'police-station': policeMap, ...expansionMaps, ...Object.fromEntries(historicalSceneMaps) }, hostCards = cards;
+attachV47StoryObjects(maps);
+attachV47StoryBeatObjects(maps, v47StoryBeatQuests);
 const historicalScenes = new Map();
 const copy = value => structuredClone(value);
 for (const scene of historicalPlay) {
@@ -72,7 +85,7 @@ const laundrySaleChoiceQuest = await readJson('./rpg/quests/laundry-sale-choice-
 const bookbindingOrderChoiceQuest = await readJson('./rpg/quests/bookbinding-order-choice-1847.json');
 const officialProcessionQuest = await readJson('./rpg/quests/v37-official-procession-1847.json');
 const residentArcBundle = await readJson('./rpg/quests/resident-arcs-v36.json');
-const questList = [...new Map([firstQuest, publicQuest, europeNewsQuest, circleQuest, letterQuest, dostoevskyExecutionQuest, literaryQuest, overcoatQuest, raskolnikovQuest, alyoshaQuest, ...marketPersonalQuests, ...addedPersonalQuests, manuscriptOfferQuest, serfdomReadingQuest, salonDebateQuest, salonInvitationQuest, streetMusicQuest, physiologyReadingQuest, pushkinObituaryQuest, belinskyLetterQuest, officialProcessionQuest, smuggledEditionQuest, canalTrafficResponseQuest, laundrySaleChoiceQuest, bookbindingOrderChoiceQuest, ...v36PersonalQuestFiles, ...socialQuestFiles, ...residentArcBundle.quests].map(quest => [quest.id, quest])).values()];
+const questList = [...new Map([firstQuest, publicQuest, europeNewsQuest, circleQuest, letterQuest, dostoevskyExecutionQuest, literaryQuest, overcoatQuest, raskolnikovQuest, alyoshaQuest, ...marketPersonalQuests, ...addedPersonalQuests, manuscriptOfferQuest, serfdomReadingQuest, salonDebateQuest, salonInvitationQuest, streetMusicQuest, physiologyReadingQuest, pushkinObituaryQuest, belinskyLetterQuest, officialProcessionQuest, smuggledEditionQuest, canalTrafficResponseQuest, laundrySaleChoiceQuest, bookbindingOrderChoiceQuest, ...v36PersonalQuestFiles, ...socialQuestFiles, ...residentArcBundle.quests, ...v47StoryQuests, ...v47StoryBeatQuests].map(quest => [quest.id, quest])).values()];
 const questsById = new Map(questList.map(item => [item.id, item]));
 const relationHintValues = new Map();
 for (const quest of questList) for (const action of quest.actions ?? []) {
@@ -410,8 +423,9 @@ function say(title, text, actions = []) {
   const persistentLabel = readyQuest ? continuationFor(readyQuest)[0].label : null;
   const visibleActions = actions.filter(action => action.label !== persistentLabel);
   $('.lower').classList.toggle('has-actions', visibleActions.length > 0);
-  $('.actions').classList.remove('roster-options');
-  $('#mission-tracker').hidden = Boolean(state.endingId);
+  $('.lower').classList.remove('has-typesetter');
+  $('.actions').classList.remove('roster-options', 'type-setter-active', 'timeline-puzzle-active');
+  $('#mission-tracker').hidden = Boolean(state.endingId) || visibleActions.length > 0;
   $('#actions').replaceChildren(...visibleActions.map(({ label, subcopy, run, disabled = false }) => {
     const button = document.createElement('button');
     button.type = 'button'; button.disabled = disabled;
@@ -421,6 +435,7 @@ function say(title, text, actions = []) {
     return button;
   }));
   $('.journal').scrollTop = 0;
+  $('#journal-text').scrollTop = 0;
 }
 const setState = next => {
   const oldHost = state?.player?.embodiment, oldQuest = missionGuidance?.questId;
@@ -484,13 +499,15 @@ function updateHud() {
     ? historicalParticipantGuide(historicalSceneForState(), host.id.split(':').at(-1), state.historicalSession) : null;
   missionGuidance = state.historicalSession
     ? { questTitleKo: activeHistoricalGuide?.objectiveTitleKo ?? state.historicalSession.eventTitleKo,
-        actionKo: activeHistoricalGuide?.completed ? '이 부탁은 처리했다. 주변 인물의 다음 일을 살펴보자.' : activeHistoricalGuide?.actionKo ?? '사람들과 이야기하고 현장의 일을 직접 처리한다',
+        actionKo: activeHistoricalGuide?.completed ? '완료 · 다른 인물의 부탁을 맡자.' : activeHistoricalGuide?.actionKo ?? '사람들과 이야기하고 현장의 일을 직접 처리한다',
         placeKo: activeHistoricalGuide?.placeKo ?? map.metadata.displayNameKo,
         reasonKo: (() => { const scene = historicalSceneForState(), req = scene?.conclusionRequirements ?? { spokenActors: 8, completedObjectives: 5, requiredRoleActions: 3 };
-          const roles = (scene?.fieldActions ?? []).filter(action => action.requiredActorId && state.historicalSession.actionOutcomes?.[action.id]).length;
-          const progress = `대화 ${Math.min(state.historicalSession.spokenActorIds?.length ?? 0, req.spokenActors)}/${req.spokenActors} · 현장 일 ${Math.min(state.historicalSession.completedObjectives?.length ?? 0, req.completedObjectives)}/${req.completedObjectives} · 역할 ${Math.min(roles, req.requiredRoleActions)}/${req.requiredRoleActions} · 구역 ${state.historicalSession.visitedMapIds?.length ?? 0}/3`;
-          return activeHistoricalGuide ? `말 걸 사람 · ${activeHistoricalGuide.talkToNamesKo.join(' · ') || '주변 인물'} · ${progress}` : progress; })(),
-        howKo: activeHistoricalGuide ? `${activeHistoricalGuide.completed ? '완료' : '다음 순서'} · ${(activeHistoricalGuide.questStepsKo ?? []).join(' → ')}${activeHistoricalGuide.requiredActorNameKo && activeHistoricalGuide.requiredActorNameKo !== host.displayNameKo ? ` · ${activeHistoricalGuide.requiredActorNameKo}로 맡기` : ''}`
+          const firstContact = activeHistoricalGuide?.talkToNamesKo[0];
+          if (activeHistoricalGuide?.completed) return '다음 인물 · 목록에서 골라 맡는다';
+          return firstContact ? `먼저 말 걸기 · ${firstContact}` : `이 구역에서 사람을 찾아 말을 건다 · 대화 ${Math.min(state.historicalSession.spokenActorIds?.length ?? 0, req.spokenActors)}/${req.spokenActors}`; })(),
+        howKo: activeHistoricalGuide ? activeHistoricalGuide.completed
+          ? '인물 목록을 열고 아직 맡지 않은 부탁을 고른다.'
+          : `이동 · ${activeHistoricalGuide.placeKo}\n말 걸기 · ${activeHistoricalGuide.talkToNamesKo[0] ?? '현장 인물'}\n살펴보기 · ${activeHistoricalGuide.propKo}${activeHistoricalGuide.requiredActorNameKo && activeHistoricalGuide.requiredActorNameKo !== host.displayNameKo ? `\n맡을 인물 · ${activeHistoricalGuide.requiredActorNameKo}` : ''}`
           : '가까이 가서 말 걸기 · 인물 목록에서 시야 바꾸기 · 출구를 따라 다음 구역으로 걷기', target: null,
         progress: { completedSteps: state.historicalSession.completedObjectives?.length ?? 0, totalSteps: historicalSceneForState()?.conclusionRequirements?.completedObjectives ?? 5 }, blocked: false }
     : inLiteraryScene
@@ -519,6 +536,27 @@ function updateHud() {
       $('#mission-action').textContent = `${press.actionKo} · ${press.placeKo}`;
       $('#mission-reason').textContent = press.reasonKo;
       $('#mission-method').textContent = press.howKo;
+    }
+  }
+  const focusedV47Quest = globalThis.V47MainStories?.getV47MissionQuest(state, questList);
+  const activeStoryId = state.world.v47?.focusStoryId ?? 'MAIN01';
+  document.querySelectorAll('[data-v47-story]').forEach(button => {
+    button.setAttribute('aria-pressed', String(button.dataset.v47Story === activeStoryId));
+  });
+  if (focusedV47Quest && !inLiteraryScene && !state.player.civic?.custody?.active) {
+    missionGuidance = resolveQuestGuidance({ state, quests: [focusedV47Quest], maps, hostCards: cards });
+    $('#mission-title').textContent = missionGuidance.questTitleKo ?? focusedV47Quest.titleKo;
+    $('#mission-action').textContent = formatMissionActionKo(missionGuidance, focusedV47Quest.objectiveKo);
+    $('#mission-reason').textContent = missionGuidance.reasonKo ?? focusedV47Quest.sourceContextKo ?? '';
+    $('#mission-method').textContent = missionGuidance.blocked ? `막힘 · ${missionGuidance.blockedReasonKo ?? '조건을 확인하세요.'}` : missionGuidance.howKo ?? '';
+  } else if (!inLiteraryScene && !state.player.civic?.custody?.active) {
+    const completedStory = globalThis.V47MainStories?.getV47CompletionGuidance(state, questList);
+    if (completedStory) {
+      missionGuidance = completedStory;
+      $('#mission-title').textContent = completedStory.questTitleKo;
+      $('#mission-action').textContent = completedStory.actionKo;
+      $('#mission-reason').textContent = completedStory.reasonKo;
+      $('#mission-method').textContent = completedStory.howKo;
     }
   }
   if (queuedDiscussionInquiry && !inLiteraryScene) {
@@ -647,7 +685,11 @@ function updateHud() {
   moreQuestions.hidden = inquiryRows.length <= 8;
   moreQuestions.textContent = showAllDiscussionQuestions ? '질문 접기' : '질문 더 보기';
   moreQuestions.onclick = () => { showAllDiscussionQuestions = !showAllDiscussionQuestions; updateHud(); };
-  $('#mission-progress').textContent = missionGuidance.progress?.totalSteps ? `${missionGuidance.progress.completedSteps} / ${missionGuidance.progress.totalSteps}` : '';
+  $('#mission-progress').textContent = state.historicalSession
+    ? (() => { const scene = historicalSceneForState(), req = scene?.conclusionRequirements ?? { spokenActors: 8, completedObjectives: 5, requiredRoleActions: 3 };
+      const roles = (scene?.fieldActions ?? []).filter(action => action.requiredActorId && state.historicalSession.actionOutcomes?.[action.id]).length;
+      return `대화 ${Math.min(state.historicalSession.spokenActorIds?.length ?? 0, req.spokenActors)}/${req.spokenActors} · 일 ${Math.min(state.historicalSession.completedObjectives?.length ?? 0, req.completedObjectives)}/${req.completedObjectives} · 구역 ${state.historicalSession.visitedMapIds?.length ?? 0}/3`; })()
+    : missionGuidance.progress?.totalSteps ? `${missionGuidance.progress.completedSteps} / ${missionGuidance.progress.totalSteps}` : '';
   $('#mission-pin').disabled = !missionGuidance.target;
   $('#mission-pin').setAttribute('aria-pressed', String(destinationPinned && Boolean(missionGuidance.target)));
   $('#mission-pin').textContent = destinationPinned && missionGuidance.target ? '목적지 표시 중' : '목적지 표시';
@@ -679,9 +721,30 @@ function updateHud() {
     }
     for (const goal of live.personalGoals ?? []) {
       const item=document.createElement('li'),title=document.createElement('strong'),body=document.createElement('span'),progress=live.personalGoalProgress?.[goal.id]?.status==='SATISFIED'?'확인됨':'이어가는 중';
-      title.textContent=`삶의 방향 · ${goal.titleKo} · ${progress} · `;body.textContent=goal.descriptionKo;item.append(title,body);
+      title.textContent=`${goal.kind==='STORY'?'개인 임무':'삶의 방향'} · ${goal.titleKo} · ${progress} · `;body.textContent=goal.descriptionKo;item.append(title,body);
       if(progress!=='확인됨'&&goal.fallbackKo){const fallback=document.createElement('small');fallback.textContent=` ${goal.fallbackKo}`;item.append(fallback);}
       goalList.append(item);
+    }
+    const v47Stories = state.world.v47?.stories ?? {};
+    for (const [storyId, story] of Object.entries(v47Stories)) {
+      if (!story.currentEventId || !['ACTIVE', 'AFTERMATH'].includes(story.status)) continue;
+      const event = state.world.v47?.events?.[story.currentEventId];
+      if (!event || event.status !== 'ACTIVE') continue;
+      const item = document.createElement('li'), title = document.createElement('strong'), body = document.createElement('span');
+      title.textContent = `${event.titleKo ?? story.titleKo} · `;
+      const location = event.mapId ? maps[event.mapId]?.metadata?.displayNameKo : null;
+      body.textContent = ({
+        MAIN01_PERMISSION: '인쇄 허가가 난 연감의 다음 작업을 확인한다.',
+        MAIN01_DISTRIBUTION_BAN: '배포를 멈추고 인쇄소와 서점의 사람들을 살핀다.',
+        MAIN01_SUBSCRIBER_REPLY: '편집부의 구독자 답신을 읽을 수 있다.',
+        MAIN03_REVOLUTION_NEWS: '서점과 살롱에 도착한 유럽 소식을 살핀다.',
+        MAIN03_BELINSKY_LETTER_READING: '모임에서 편지를 읽은 사람들의 이야기를 듣는다.',
+        MAIN03_PETRASHEVSKY_ARREST: '새벽의 체포 작전이 시작됐다. 가까운 사람과 현장을 확인한다.',
+        MAIN03_SEMENOVSKY_CONCLUSION: '광장에 선 사람들의 마지막 순간을 확인한다.',
+        MAIN05_CHOLERA_SCENE_OPEN: '여관과 시장에서 환자와 급수 사정을 살핀다.',
+      })[event.id] ?? event.objectiveKo ?? '현장의 변화를 살핀다.';
+      if (location) body.textContent = `${body.textContent} · ${location}`;
+      item.append(title, body); goalList.append(item);
     }
     if (live.knownEvidenceIds.includes(source.sourceId)) known.push('투르게네프 「호리와 칼리니치」 원문');
     for (const record of historicalSources.records) if (live.knownEvidenceIds.includes(record.sourceId)) known.push(`${record.documentDate} · ${record.titleKo}`);
@@ -723,6 +786,13 @@ function updateHud() {
   for (const note of dialogueGrowth.playerPositions ?? []) reflectionRows.push(`${note.date} · 내 입장: ${note.titleKo} · ${note.labelKo}`);
   fill('#journal-perspective-notes', reflectionRows.length ? reflectionRows : ['사건이나 생각에 관한 질문을 AI와 나누면 이곳에 관점 메모와 통찰이 쌓입니다.']);
   const logs = recentJournalEntries(state.ledger).map(entry => {
+    if (entry.eventType === 'V47_WORLD_EVENT') {
+      const storyName = ({ MAIN01: '금지된 삽화 연감', MAIN03: '금요일의 문이 닫히는 날', MAIN05: '물을 마시는 도시' })[entry.storyId] ?? '도시의 사건';
+      const stageName = ({ PERMISSION_RECORDED: '인쇄 허가', NEWS_REACHES_CITY: '유럽 소식이 도착함', WATER_NOTICE: '여관에서 환자가 생김',
+        DISTRIBUTION_BANNED: '배포 금지 명령', SUBSCRIBER_REPLY_AVAILABLE: '구독자 답신 도착', LETTER_IN_CIRCULATION: '편지 낭독',
+        ARREST_OPERATION: '체포 작전', SENTENCE_COMMUTED: '광장의 선고와 감형' })[entry.stage] ?? '새 소식';
+      return `${entry.date} · ${storyName} · ${stageName}`;
+    }
     if (entry.eventType === 'DIALOGUE_TURN') return `${entry.date} · ${entry.discussionId ? `견해 질문 · ${discussionQuestById.get(entry.discussionId)?.titleKo ?? '주제 대화'}` : `${cards.find(item=>item.id===entry.hostId)?.displayNameKo ?? '대화'}와 이야기함`}`;
     if (entry.eventType === 'HISTORICAL_ACTION' || entry.eventType === 'LITERARY_ACTION') { const q=questsById.get(entry.questId), a=q?.actions.find(item=>item.id===entry.actionId); const fare=entry.livingEvents?.find(event=>event.catalogIdSpace==='V37_EVENT_CATALOG_45'&&event.catalogEventId==='E10'); const fareLabel=({FARE_ACCEPTED_WITH_INSPECTION:'마차 운임 · 점검 뒤 제한 운행',FARE_ACCEPTED_WITH_RISK_DISCLOSED:'마차 운임 · 위험을 알리고 운행',FARE_DECLINED_FOR_REPAIR:'마차 운임 · 수리를 위해 운행 연기'})[fare?.stage]; return `${entry.date} · ${fareLabel ? `${fareLabel} · ` : ''}${a?.labelKo ?? '문서에 선택을 남김'}`; }
     if (entry.eventType === 'READ_SOURCE') return `${entry.date} · 자료를 읽음`;
@@ -930,7 +1000,7 @@ function sourceRead(sourceId, archiveSourceIds = [], readingMode = 'PHYSICAL_COP
   const record = sourceRecords.get(sourceId);
   if (!record) { sayRecord('자료 목록에서 확인되지 않는 문서다.'); return; }
   const prepared = recordSourceRead(state, sourceId, maps, archiveSourceIds, readingMode);
-  if (!prepared.ok) { sayRecord(prepared.reason === 'source_not_present' ? '이 장소나 시점에는 아직 열람할 수 없는 자료다.' : '이 자료를 지금은 읽을 수 없다.'); return; }
+  if (!prepared.ok) { pendingQuestReadRefresh = null; sayRecord(prepared.reason === 'source_not_present' ? '이 장소나 시점에는 아직 열람할 수 없는 자료다.' : '이 자료를 지금은 읽을 수 없다.'); return; }
   openSourceReader(record, { nextState: prepared.state, readingMode });
 }
 function leaveCurrentLiteraryScene() {
@@ -943,32 +1013,52 @@ function openSourceReader(record, { nextState = null, readingMode = null } = {})
   const dialog = $('#source-reader'), index = sourceReaderRecords.get(record.sourceId), isTurgenev = record.sourceId === source.sourceId;
   if (!index) { sayRecord('이 자료의 서지 표시 정보를 찾지 못했다.'); return; }
   const context = isTurgenev ? index.contextKo : index.contextKo ?? record.contextKo;
-  const provenance = `${record.creator ?? record.author ?? ''}\n${index.pageLocator ?? record.range ?? record.witness?.range ?? ''}`;
+  const originalLanguage = index.originalLanguage ?? 'ru';
+  const originalLanguageLabel = index.originalSourceLanguageNameKo ?? (originalLanguage === 'en' ? '영어' : '러시아어');
+  const provenance = [
+    record.creator ?? record.author ?? '',
+    record.edition ?? '',
+    index.pageLocator ?? record.range ?? record.witness?.range ?? '',
+  ].filter(Boolean).join('\n');
   const url = isTurgenev ? record.witness.stableRevisionUrl : record.sourceUrl;
   pendingSourceRead = nextState ? { nextState, readingMode, record } : null;
   dialog.className = `source-reader source-reader--${index.layout}`;
-  const layoutLabel = ({ catalog: '서지 자료', book: '책 원문', periodical: '잡지 자료', official: '관청 문서', letter: '편지' })[index.layout] ?? '사료';
+  const layoutLabel = index.readerLabelKo ?? ({ catalog: '서지 자료', book: '책 원문', periodical: '잡지 자료', official: '관청 문서', letter: '편지' })[index.layout] ?? '사료';
   const sourceYear = String(index.documentDate ?? index.creationDate ?? index.publicationDate ?? record.documentDate ?? '연도 미상').slice(0, 4);
   const sourceRealm = Object.values(maps).find(map => map.metadata?.mapClass === 'LITERARY_REALM' && map.metadata.sourceIds?.includes(record.sourceId));
   const sceneDate = sourceRealm?.metadata.datePrecision === 'YEAR'
     ? sourceRealm.metadata.dateDisplayKo
     : state.world.activeRealm?.sourceIds?.includes(record.sourceId) ? state.world.date : sourceRealm?.metadata.date ?? state.world.date;
-  $('#source-reader-meta').textContent = `${sourceYear}년 · ${layoutLabel} · 발췌 ${index.excerptId}`;
+  $('#source-reader-meta').textContent = `${sourceYear}년 · ${layoutLabel}`;
   $('#source-reader-title').textContent = record.titleKo;
+  $('#source-reader-title-ru').lang = originalLanguage;
   $('#source-reader-title-ru').textContent = record.titleRu ?? '';
   $('#source-reader-context').textContent = context;
   $('#source-reader-provenance-text').textContent = provenance;
-  $('#source-reader-ids').textContent = `${record.sourceId} · ${index.excerptId}`;
-  $('#source-reader-dates').textContent = `작성·문서: ${index.documentDate ?? index.creationDate ?? record.documentDate ?? record.dateCreated ?? '확인된 날짜 없음'} · 최초 간행: ${index.publicationDate ?? record.firstPublication ?? '확인된 간행일 없음'} · 장면 날짜: ${sceneDate}`;
+  $('#source-reader-ids').textContent = '';
+  $('#source-reader-ids').hidden = true;
+  $('#source-reader-dates').textContent = `문서 날짜: ${index.documentDate ?? index.creationDate ?? record.documentDate ?? record.dateCreated ?? '날짜 미상'} · 장면 날짜: ${sceneDate}`;
+  const artworkItems = [...(index.artworks ?? []), ...(index.artwork ? [index.artwork] : [])]
+    .filter(artwork => sourceAvailableOn({ accessibleToPlayerAt: artwork.availableToPlayerAt }, record, null, state.world.date));
+  const artworkShelf = $('#source-reader-artworks');
+  artworkShelf.hidden = artworkItems.length === 0;
+  artworkShelf.replaceChildren(...artworkItems.map(artwork => {
+    const figure = document.createElement('figure'); figure.className = 'source-reader-artwork';
+    const image = document.createElement('img'); image.src = artwork.path; image.alt = artwork.altKo;
+    const caption = document.createElement('figcaption'); caption.textContent = artwork.captionKo;
+    figure.append(image, caption); return figure;
+  }));
   $('#source-reader-passages').replaceChildren(...record.paragraphs.map((paragraph, index) => {
     const section = document.createElement('section'); section.className = 'source-passage';
-    const label = document.createElement('h3'); label.textContent = `문단 ${index + 1} · 원문과 번역`;
-    const ru = document.createElement('p'); ru.className = 'source-passage-ru'; ru.lang = 'ru'; ru.textContent = paragraph.ru;
+    const label = document.createElement('h3'); label.textContent = `문단 ${index + 1} · ${originalLanguageLabel} 원문과 번역`;
+    const ru = document.createElement('p'); ru.className = 'source-passage-ru'; ru.lang = originalLanguage;
+    ru.textContent = paragraph.originalText ?? paragraph[originalLanguage] ?? paragraph.ru ?? '';
     const ko = document.createElement('p'); ko.className = 'source-passage-ko'; ko.lang = 'ko'; ko.textContent = paragraph.ko;
     section.append(label, ru, ko); return section;
   }));
   const links = [
-    { label: '확인한 러시아어 원문 열기', href: url, detail: index.pageLocator ?? record.range ?? record.witness?.range },
+    { label: `확인한 ${originalLanguageLabel} 원문 열기`, href: url, detail: index.pageLocator ?? record.range ?? record.witness?.range },
+    ...(index.catalogLinks ?? []),
     ...(isTurgenev ? [{ label: '첫 간행 기록', href: record.firstPublicationSourceUrl }, { label: '잡지 서지', href: record.catalogUrl }] : []),
   ].filter(item => item.href);
   $('#source-reader-links').replaceChildren(...links.map(item => { const a = document.createElement('a'); a.href = item.href; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = item.detail ? `${item.label} · ${item.detail}` : item.label; return a; }));
@@ -976,6 +1066,7 @@ function openSourceReader(record, { nextState = null, readingMode = null } = {})
   $('#source-reader-complete').hidden = !pendingSourceRead;
   applySourceReaderMode(sourceReaderMode);
   if (dialog.open) dialog.close();
+  dialog.querySelector('.source-reader-scroll').scrollTop = 0;
   dialog.showModal();
 }
 $('#source-reader-close').addEventListener('click', () => $('#source-reader').close());
@@ -1005,8 +1096,7 @@ function openSourceDrawer() {
   const unlocked = [...new Set(available)].filter(id => {
     if (!sourceRecords.has(id)) return false;
     const sourceObject = Object.values(maps).flatMap(map => map.layers.find(layer => layer.name === 'Interactions')?.objects ?? []).find(object => object.properties?.some(property => property.name === 'sourceId' && property.value === id));
-    const availableDate = sourceObject?.properties?.find(property => property.name === 'availableDate')?.value;
-    return !availableDate || availableDate <= state.world.date;
+    return sourceAvailableOn(sourceReaderRecords.get(id), sourceRecords.get(id), sourceObject, state.world.date);
   });
   const sourceKindLabel = record => {
     if (record.realmClass === 'LITERARY_REALM' || record.sourceId.startsWith('LIT-')) return '문학 원문';
@@ -1066,6 +1156,9 @@ function finishHistoricalEvent(event, interventions, finalReaction) {
 }
 eventButton.addEventListener('click', openHistoricalEventMenu);
 function historicalSceneForState() { return historicalScenes.get(state.historicalSession?.eventId) ?? null; }
+function historicalClimaxText(scene) {
+  return scene?.climaxKo ?? '세 구역을 돌고 여러 사람의 부탁을 맡았다. 이제 오늘 현장에서 무엇을 먼저 할지 고를 수 있다.';
+}
 function readPlayerHistoricalChoices() {
   try {
     const records = JSON.parse(localStorage.getItem('v38-historical-event-records') ?? '{}');
@@ -1107,7 +1200,9 @@ function leaveHistoricalSession(record = true) {
   const sources = [{ label: '사료 원문 열기', subcopy: `${event.sourceLabelKo} · ${event.sourceRangeKo}`, run: () => window.open(event.sourceUrl, '_blank', 'noopener,noreferrer') }];
   if (event.secondarySourceUrl) sources.push({ label: '초연 자료 열기', run: () => window.open(event.secondarySourceUrl, '_blank', 'noopener,noreferrer') });
   sources.unshift({ label: '다른 현장 보기', subcopy: '새로운 장소로 들어갑니다', run: openHistoricalEventMenu });
-  say('그날의 선택', `${event.titleKo}\n\n${session.choices.map(choice => `· ${choice.textKo}`).join('\n')}\n\n${historicalScenes.get(event.id)?.closingKo ?? event.historyKo}\n\n${event.sourceLabelKo} · ${event.sourceRangeKo}`, sources);
+  const finalChoice = [...(session.choices ?? [])].reverse().map(choice => event.choices?.find(item => item.id === choice.id)).find(Boolean);
+  const personalAftermath = finalChoice?.aftermathKo ? `\n\n${finalChoice.aftermathKo}` : '';
+  say('그날의 선택', `${event.titleKo}\n\n${session.choices.map(choice => `· ${choice.textKo}`).join('\n')}${personalAftermath}\n\n${historicalScenes.get(event.id)?.closingKo ?? event.historyKo}\n\n${event.sourceLabelKo} · ${event.sourceRangeKo}`, sources);
 }
 function startHistoricalConversation(card) {
   const scene = historicalSceneForState(), session = state.historicalSession;
@@ -1121,7 +1216,9 @@ function startHistoricalConversation(card) {
   const playerPosition = state.player.position;
   const joiningVoices = scene.actors.filter(other => other.id !== person.id && other.mapId === state.world.currentMapId)
     .map(other => ({ other, host: state.hosts[`historical:${scene.eventId}:${other.id}`] }))
-    .filter(({ host }) => host && Math.abs(host.position.x - playerPosition.x) + Math.abs(host.position.y - playerPosition.y) <= 8)
+    .filter(({ host }) => Boolean(host))
+    .sort((a, b) => Math.abs(a.host.position.x - playerPosition.x) + Math.abs(a.host.position.y - playerPosition.y)
+      - Math.abs(b.host.position.x - playerPosition.x) - Math.abs(b.host.position.y - playerPosition.y))
     .slice(0, 4).map(({ other }) => `${other.nameKo}  ${other.lines[0]}`);
   if (joiningVoices.length) line += `\n\n${joiningVoices.join('\n')}`;
   dialogueCurrentLines.set(speakerKey, line);
@@ -1155,7 +1252,7 @@ function resolveHistoricalConversation(scene, person, response) {
   const reaction = historicalReplyText(person, response) || '그 사람은 고개를 끄덕이고 현장으로 돌아갔다.';
   const nextHint = response.stance === 'defer' ? '조금 더 돌아본 뒤 판단을 바꿀 수 있다.'
     : actionHint ? `이제 ${actionHint.propKo} 곁에서 실제로 처리할 수 있다.` : '다른 현장 일을 이어서 살펴보자.';
-  say(person.nameKo, `${reaction}\n\n${nextHint}\n\n현장에 ${next.historicalSession.elapsedMinutes}분이 흘렀다.${unlocked ? '\n\n세 구역을 돌고 사람들의 부탁을 맡았다. 이제 오늘 현장에서 무엇을 먼저 할지 고를 수 있다.' : ''}`, actions);
+  say(person.nameKo, `${reaction}\n\n${nextHint}\n\n현장에 ${next.historicalSession.elapsedMinutes}분이 흘렀다.${unlocked ? `\n\n${historicalClimaxText(scene)}` : ''}`, actions);
 }
 function startHistoricalAction(scene, action) {
   const event = historicalEvents.find(item => item.id === scene.eventId);
@@ -1208,7 +1305,7 @@ function startHistoricalAction(scene, action) {
     const requirements = scene.conclusionRequirements ?? { spokenActors: 8, completedObjectives: 5, requiredRoleActions: 3 };
     const roleCount = scene.fieldActions.filter(item => item.requiredActorId && next.historicalSession.actionOutcomes?.[item.id]).length;
     const groupReaction = option.groupReactionKo ? `\n\n${option.groupReactionKo}` : '';
-    say(action.propKo, `${option.textKo}.${responders.length ? ` ${responders.map(item => item.person.nameKo).join('과 ')}는 ${action.propKo} 쪽으로 발걸음을 옮긴다.` : ''}${groupReaction}\n\n현장에 ${next.historicalSession.elapsedMinutes}분이 흘렀다. 사람들은 다음 자리로 움직이고 있다.\n현장 일 ${Math.min(completed, requirements.completedObjectives)}/${requirements.completedObjectives} · 맡은 역할 ${Math.min(roleCount, requirements.requiredRoleActions)}/${requirements.requiredRoleActions}${nextAction && !unlocked ? ` · 다음에는 ${nextAction.propKo} 쪽을 살펴볼 수 있다.` : ''}${unlocked ? '\n\n세 구역을 돌고 여러 사람의 부탁을 맡았다. 이제 오늘 현장에서 무엇을 먼저 할지 고를 수 있다.' : ''}`, followups);
+    say(action.propKo, `${option.textKo}.${responders.length ? ` ${responders.map(item => item.person.nameKo).join('과 ')}는 ${action.propKo} 쪽으로 발걸음을 옮긴다.` : ''}${groupReaction}\n\n현장에 ${next.historicalSession.elapsedMinutes}분이 흘렀다. 사람들은 다음 자리로 움직이고 있다.\n현장 일 ${Math.min(completed, requirements.completedObjectives)}/${requirements.completedObjectives} · 맡은 역할 ${Math.min(roleCount, requirements.requiredRoleActions)}/${requirements.requiredRoleActions}${nextAction && !unlocked ? ` · 다음에는 ${nextAction.propKo} 쪽을 살펴볼 수 있다.` : ''}${unlocked ? `\n\n${historicalClimaxText(scene)}` : ''}`, followups);
   } })));
 }
 function continuationFor(activeQuest) {
@@ -1221,6 +1318,17 @@ function continuationFor(activeQuest) {
     say(missionGuidance.questTitleKo ?? activeQuest.titleKo, `${missionGuidance.actionKo ?? ''}${missionGuidance.placeKo ? ` · ${missionGuidance.placeKo}` : ''}\n${missionGuidance.howKo ?? ''}`, []);
   };
   if (state.quests[activeQuest.id]?.status !== 'resolved') {
+    if (activeQuest.date > state.world.date) {
+      const [nextYear, nextMonth, nextDay] = activeQuest.date.split('-').map(Number);
+      const dateLabel = nextYear !== Number(state.world.date.slice(0, 4)) ? `${nextYear}년 ${nextMonth}월 ${nextDay}일` : `${nextMonth}월 ${nextDay}일`;
+      return [{ label: `${dateLabel} 자료로 이어가기`, subcopy: `연표 ${state.world.date} → ${activeQuest.date} · 다음 문서가 만들어진 뒤로 진행합니다`, run: () => {
+        const advanced = advanceCampaignDate(state, activeQuest.date, campaign, questList);
+        if (!advanced.ok) { sayRecord(`날짜를 진행할 수 없음 · ${advanced.reason}`); return; }
+        setState(advanced.state);
+        localStorage.setItem('v33-rpg-save', saveGame(advanced.state));
+        say(activeQuest.titleKo, activeQuest.premiseKo, [{ label: '열람 가능한 자료 확인', run: openSourceDrawer }]);
+      } }];
+    }
     return [{ label: '현재 목표로 돌아가기', subcopy: '표시된 장소와 다음 행동을 다시 확인합니다 · 연표 날짜는 그대로 둡니다', run: returnToCurrentGoal }];
   }
   if (questIndex < 0) {
@@ -1238,12 +1346,20 @@ function continuationFor(activeQuest) {
     }
     return [{ label: '현재 인물의 다음 목표 확인하기', subcopy: '이 사람의 생활 기록은 역사 연표와 별도로 이어집니다', run: returnToCurrentGoal }];
   }
-  const laterQuest = arc?.questIds.slice(questIndex + 1).map(id => questsById.get(id)).find(quest => state.quests[quest.id]?.status !== 'resolved');
-  if (laterQuest) { const [nextMonth, nextDay] = laterQuest.date.slice(5).split('-').map(Number); return [{ label: laterQuest.date > state.world.date ? `${nextMonth}월 ${nextDay}일 자료로 이어가기` : '같은 날의 다음 기록 열기', subcopy: `연표 ${state.world.date} → ${laterQuest.date} · 다음 문서가 만들어진 뒤로 진행합니다`, run: () => {
+  const optionalQuestIds = (arc?.optionalQuestIds ?? []).filter(id => {
+    const quest = questsById.get(id);
+    return quest && (quest.prerequisiteQuestIds ?? []).every(id => state.quests[id]?.status === 'resolved');
+  });
+  const laterQuest = [...(arc?.questIds.slice(questIndex + 1) ?? []), ...optionalQuestIds]
+    .map(id => questsById.get(id)).find(quest => quest && state.quests[quest.id]?.status !== 'resolved');
+  if (laterQuest) { const [nextYear, nextMonth, nextDay] = laterQuest.date.split('-').map(Number);
+    const dateLabel = nextYear !== Number(state.world.date.slice(0, 4)) ? `${nextYear}년 ${nextMonth}월 ${nextDay}일` : `${nextMonth}월 ${nextDay}일`;
+    return [{ label: laterQuest.date > state.world.date ? `${dateLabel} 자료로 이어가기` : '같은 날의 다음 기록 열기', subcopy: `연표 ${state.world.date} → ${laterQuest.date} · 다음 문서가 만들어진 뒤로 진행합니다`, run: () => {
     if (laterQuest.date > state.world.date) {
       const advanced = advanceCampaignDate(state, laterQuest.date, campaign, questList);
       if (!advanced.ok) { sayRecord(`날짜를 진행할 수 없음 · ${advanced.reason}`); return; }
       setState(advanced.state);
+      localStorage.setItem('v33-rpg-save', saveGame(advanced.state));
     }
     say(laterQuest.titleKo, laterQuest.premiseKo, [{ label: '열람 가능한 자료 확인', run: openSourceDrawer }]);
   } }]; }
@@ -1252,6 +1368,7 @@ function continuationFor(activeQuest) {
     const advanced = advanceChapter(state, nextArc.id, campaign, maps);
     if (!advanced.ok) { sayRecord(`다음 장을 열 수 없음 · ${advanced.reason}`); return; }
     setState(advanced.state);
+    localStorage.setItem('v33-rpg-save', saveGame(advanced.state));
     say(nextArc.titleKo, `기록은 다음 연도로 이어졌다. ${nextArc.date.slice(0, 4)}년의 거리에서 새 사건을 살펴보자.`, [{ label: '자료철 열기', run: openSourceDrawer }]);
   } }];
   if (nextArc) return [{ label: '현재 장의 남은 목표 확인하기', subcopy: '이 장의 기록을 마친 뒤에만 다음 해로 이동합니다', run: returnToCurrentGoal }];
@@ -1430,6 +1547,171 @@ function openCivicService(serviceId, object) {
 function inspect(object) {
   const props = Object.fromEntries((object.properties ?? []).map(p => [p.name, p.value]));
   if (props.serviceId) { openCivicService(props.serviceId, object); return; }
+  if (props.v47PuzzleId === 'MAIN01_TIMELINE') {
+    if (state.quests?.V47_MAIN01_A11?.status !== 'resolved') {
+      say('연감 날짜 대조판', '마지막 인쇄 묶음과 품삯을 정리한 뒤 돌아오세요.', []); return;
+    }
+    if (state.world.date < '1848-11-29') {
+      say('아직 도착하지 않은 편지', '구독자에게서 답장이 오면 날짜를 맞출 수 있다.', []); return;
+    }
+    const timeline = state.world.v47?.main01Timeline?.schemaVersion === 'V47_MAIN01_TIMELINE_V1'
+      ? state.world.v47.main01Timeline : createMain01TimelineState();
+    const stage = main01TimelineStage(timeline);
+    if (!stage) {
+      say('연감 날짜 대조판', '정리한 대조표는 소피아의 편집 장부에 남아 있다.', [
+        { label: '확인', run: () => say('마감 기록', '연감의 날짜를 맞춘 대조표가 편집 장부에 들어갔다.', []) },
+      ]); return;
+    }
+    const runTimelineAction = actionId => {
+      const next = copy(state), prior = next.world.v47.main01Timeline?.schemaVersion === 'V47_MAIN01_TIMELINE_V1'
+        ? next.world.v47.main01Timeline : createMain01TimelineState();
+      const result = resolveMain01Timeline(prior, actionId);
+      next.world.v47.main01Timeline = result.state;
+      if (result.effects?.item) next.hosts[result.effects.item.hostId].inventory.push(result.effects.item.itemKo);
+      next.ledger.push({ eventType: 'V47_MAIN01_TIMELINE_STEP', questId: 'V47_MAIN01_A11', actorHostId: next.player.embodiment,
+        actionId, accepted: result.accepted, reason: result.reason ?? null, orderedSourceIds: result.state.order
+          .map(id => main01TimelineSources.find(card => card.id === id)?.sourceId).filter(Boolean),
+        date: next.world.date, effects: result.effects ?? null });
+      setState(next); localStorage.setItem('v33-rpg-save', saveGame(next)); $('#load').disabled = false;
+      if (!result.accepted) say('날짜를 다시 살피다', result.reason === 'dates_out_of_order'
+        ? '앞선 기록이 뒤에 놓였다. 날짜를 다시 맞춰 보자.' : '남은 기록을 모두 놓은 뒤 확인할 수 있다.',
+      [{ label: '날짜표를 다시 맞춘다', run: () => inspect(object) }]);
+      else inspect(object);
+    };
+    const panel = document.createElement('div'); panel.className = 'timeline-puzzle-board';
+    const placed = document.createElement('ol'); placed.className = 'timeline-puzzle-placed';
+    for (const [index, card] of stage.placed.entries()) {
+      const row = document.createElement('li'); row.textContent = `${index + 1}. ${card.dateJulian} · ${card.titleKo} · ${card.sourceKindKo}`; placed.append(row);
+    }
+    for (let index = stage.placed.length; index < 4; index += 1) {
+      const row = document.createElement('li'); row.textContent = `${index + 1}. 빈 칸`; placed.append(row);
+    }
+    const available = document.createElement('div'); available.className = 'timeline-puzzle-cards';
+    for (const card of stage.cards) {
+      const button = document.createElement('button'); button.type = 'button'; button.className = 'timeline-date-card';
+      const heading = document.createElement('span'); heading.textContent = `${card.dateJulian} · ${card.titleKo}`;
+      const detail = document.createElement('small'); detail.textContent = `${card.dateGregorian} · ${card.sourceKindKo}`;
+      button.append(heading, detail); button.addEventListener('click', () => runTimelineAction(`V47_TIMELINE_PLACE:${card.id}`));
+      available.append(button);
+    }
+    panel.append(placed, available);
+    say(stage.title, stage.prompt, [
+      { label: '마지막 기록을 빼기', disabled: stage.order.length === 0, run: () => runTimelineAction('V47_TIMELINE_UNDO') },
+      { label: '처음부터 놓기', disabled: stage.order.length === 0, run: () => runTimelineAction('V47_TIMELINE_RESET') },
+      { label: '순서 확인', disabled: !stage.canConfirm, run: () => runTimelineAction('V47_TIMELINE_CHECK') },
+    ]);
+    $('.lower').classList.add('has-typesetter'); $('.actions').classList.add('timeline-puzzle-active'); $('#actions').append(panel);
+    return;
+  }
+  if (props.v47PuzzleId === 'MAIN01_PRINTWORK') {
+    const savedPrintwork = state.world.v47?.printwork;
+    const printwork = savedPrintwork?.schemaVersion === 'V47_PRINTWORK_V2' ? savedPrintwork : createMain01PrintworkState();
+    const stage = main01PrintworkStage(printwork);
+    if (!stage) {
+      const questObject = { ...object, properties: object.properties.filter(item => item.name !== 'v47PuzzleId') };
+      inspect(questObject); return;
+    }
+    if (stage.typeSetter) {
+      const runTypeAction = actionId => {
+        const next = copy(state), previous = next.world.v47.printwork?.schemaVersion === 'V47_PRINTWORK_V2'
+          ? next.world.v47.printwork : createMain01PrintworkState();
+        const result = resolveMain01Printwork(previous, actionId);
+        next.world.v47.printwork = result.state;
+        next.ledger.push({ eventType: 'V47_PRINTWORK_STEP', questId: 'V47_MAIN01_PERMISSION', actorHostId: next.player.embodiment,
+          actionId, stage: previous.step, accepted: result.accepted, reason: result.reason ?? null,
+          effects: result.effects ?? null, clockMinutes: next.world.clockMinutes, date: next.world.date });
+        setState(next); localStorage.setItem('v33-rpg-save', saveGame(next)); $('#load').disabled = false;
+        if (!result.accepted) {
+          say('교정쇄를 다시 보다', result.reason === 'title_mismatch'
+            ? '표제에 잘못 놓인 활자가 있다. 종이 한 장을 버리고 다시 찍는다.'
+            : '표제 칸을 모두 채워야 인쇄할 수 있다.',
+          [{ label: '활자판을 다시 맞춘다', run: () => inspect(object) }]);
+        } else inspect(object);
+      };
+      const slots = [...stage.typeSetter.composition];
+      const empty = stage.typeSetter.targetLength - slots.length;
+      const diagram = document.createElement('div'); diagram.className = 'type-setter-board';
+      const composed = document.createElement('div'); composed.className = 'type-setter-composition';
+      composed.setAttribute('aria-label', `표제 활자 ${slots.length}/${stage.typeSetter.targetLength}개`);
+      composed.textContent = `${slots.map(glyph => glyph === ' ' ? '　' : glyph).join('')}${'□'.repeat(Math.max(0, empty))}`;
+      const caption = document.createElement('div'); caption.className = 'type-setter-caption';
+      caption.textContent = `활자대 · ${slots.length}/${stage.typeSetter.targetLength}`;
+      const rack = document.createElement('div'); rack.className = 'type-setter-rack';
+      for (const tile of stage.typeSetter.rack) {
+        const button = document.createElement('button'); button.type = 'button'; button.className = 'type-tile';
+        button.textContent = tile.glyph === ' ' ? '간격' : tile.glyph;
+        button.setAttribute('aria-label', tile.glyph === ' ' ? '띄어쓰기 활자' : `활자 ${tile.glyph}`);
+        button.addEventListener('click', () => runTypeAction(`V47_PRINT_TYPE_TILE:${tile.id}`)); rack.append(button);
+      }
+      diagram.append(caption, composed, rack);
+      say(stage.title, stage.prompt, [
+        { label: '한 활자 되돌리기', run: () => runTypeAction('V47_PRINT_TYPE_UNDO') },
+        { label: '활자대를 비우기', run: () => runTypeAction('V47_PRINT_TYPE_RESET') },
+        { label: '교정 인쇄', disabled: !stage.typeSetter.canImpress, run: () => runTypeAction('V47_PRINT_IMPRESS_TITLE') },
+      ]);
+      $('.lower').classList.add('has-typesetter'); $('.actions').classList.add('type-setter-active'); $('#actions').append(diagram);
+      return;
+    }
+    say(stage.title, stage.prompt, stage.choices.map(choice => ({
+      label: choice.label, subcopy: choice.detail,
+      disabled: (['V47_PRINT_CHECK_PROOF', 'V47_PRINT_RUSH_PROOF', 'V47_PRINT_USE_DRY_STOCK'].includes(choice.id)
+        && (printwork.inventory.dryPaper < 1 || printwork.inventory.ink < 1))
+        || (choice.id === 'V47_PRINT_USE_DAMP_STOCK' && (printwork.inventory.dampPaper < 1 || printwork.inventory.ink < 2))
+        || (choice.id === 'V47_PRINT_CONSIGN_BOOKSHOP' && state.hosts.bookseller_lev.money.amount < 1),
+      run: () => {
+      const next = copy(state), saved = next.world.v47.printwork;
+      const priorPrintwork = saved?.schemaVersion === 'V47_PRINTWORK_V2' ? saved : createMain01PrintworkState();
+      const result = resolveMain01Printwork(priorPrintwork, choice.id);
+      next.world.v47.printwork = result.state;
+      if (result.accepted) {
+        for (const item of result.effects.items) next.hosts[item.hostId].inventory.push(item.itemKo);
+        for (const transfer of result.effects.money) {
+          next.hosts[transfer.fromHostId].money.amount -= transfer.amount;
+          next.hosts[transfer.toHostId].money.amount += transfer.amount;
+        }
+        next.world.v47.relationships ??= {};
+        for (const edge of result.effects.relationships) {
+          const relationId = `${edge.fromHostId}::${edge.toHostId}`;
+          const relation = next.world.v47.relationships[relationId] ??= { fromHostId: edge.fromHostId, toHostId: edge.toHostId, trust: 0 };
+          relation.trust = Math.max(-100, Math.min(100, relation.trust + edge.trustDelta));
+        }
+        for (const move of result.effects.moves) {
+          const host = next.hosts[move.hostId], playerControlled = next.player.embodiment === move.hostId;
+          host.v47TravelGoal = { status: playerControlled ? 'PLAYER_TRAVEL_REQUIRED' : 'EN_ROUTE', targetMapId: move.mapId,
+            targetPosition: { x: move.x, y: move.y }, storyId: 'MAIN01', questId: 'V47_MAIN01_PERMISSION',
+            actionId: choice.id, taskId: `V47:TRAVEL:V47_MAIN01_PERMISSION:${choice.id}:${move.hostId}`,
+            activityKo: move.activityKo, startedDate: next.world.date };
+          delete host.plannedPath; delete host.mapRoutePlan;
+        }
+        next.world.v47.worldChanges ??= [];
+        next.world.v47.worldChanges.push({ questId: 'V47_MAIN01_PERMISSION', actionId: choice.id, date: next.world.date,
+          mapId: next.world.currentMapId, items: result.effects.items, money: result.effects.money, moves: result.effects.moves,
+          wastedSheets: result.effects.wasteDelta, riskDelta: result.effects.riskDelta });
+        next.world.v47.stories.MAIN01.consequences.push({ actionId: choice.id, actorHostId: next.player.embodiment,
+          date: next.world.date, itemRecipients: result.effects.items.map(item => item.hostId),
+          money: result.effects.money, risk: result.state.risk, wastedSheets: result.effects.wasteDelta });
+      }
+      next.ledger.push({ eventType: 'V47_PRINTWORK_STEP', questId: 'V47_MAIN01_PERMISSION', actorHostId: next.player.embodiment,
+        actionId: choice.id, stage: priorPrintwork.step, accepted: result.accepted, reason: result.reason ?? null,
+        effects: result.effects ?? null, clockMinutes: next.world.clockMinutes, date: next.world.date });
+      setState(next); localStorage.setItem('v33-rpg-save', saveGame(next)); $('#load').disabled = false;
+      if (!result.accepted) {
+        say(stage.title, result.reason === 'title_mismatch'
+          ? '활자 한 곳이 다르다. 종이를 한 장 버리고 처음부터 제목을 다시 맞춘다.'
+          : '이 재료는 남아 있지 않다. 다른 방법을 골라야 한다.',
+        [{ label: '활자와 재료를 다시 본다', run: () => inspect(object) }]);
+      } else if (result.state.status === 'COMPLETE') {
+        const recipients = result.state.outgoingItems.map(item => item.itemKo).join(' · ');
+        say('인쇄 작업을 마쳤다', `품삯과 납기를 따져 작업을 끝냈다. 장부와 인물 소지품에 남은 것: ${recipients}`,
+          [{ label: '연감 작업을 계속한다', run: () => inspect({ ...object, properties: object.properties.filter(item => item.name !== 'v47PuzzleId') }) }]);
+      } else {
+        say('작업을 이어간다', `다음 · ${main01PrintworkStage(result.state).title}`,
+          [{ label: '다음 작업', run: () => inspect(object) }]);
+      }
+      sayRecord(`인쇄 작업 · ${choice.label}`);
+    } })));
+    return;
+  }
   if (object.type === 'npc') {
     tutorialAdvance('inspect');
     const card = cards.find(item => item.id === props.hostId), host = state.hosts[props.hostId];
@@ -1477,10 +1759,24 @@ function inspect(object) {
     const result = transitionMap(state, props.exitId, maps);
     if (result.ok) { setState(result.state); say('문을 나서다', `${currentMap().metadata.displayNameKo}의 공기와 소리가 바뀐다. 다른 사람들은 각자 있던 자리에 남아 있다.`, []); sayRecord('직접 문을 지나 장소를 옮겼다.'); }
     else if (result.reason === 'host_lacks_access') { say('이 몸으로는 들어갈 수 없다', '맡은 일과 신분에 따라 드나들 수 있는 곳이 다르다. 다른 공개 길을 찾아보자.', []); sayRecord('현재 인물에게 이 장소의 출입 권한이 없다.'); }
-    else if (result.reason === 'closed_hours') { say('문이 잠겨 있다', '이곳은 문을 여는 시간에만 들어갈 수 있다. 지금은 거리에서 다른 일을 찾아보자.', []); sayRecord('이 장소의 영업 시간이 끝났다.'); }
+    else if (result.reason === 'closed_hours') {
+      const access = maps[props.targetMapId]?.metadata?.access, now = ((state.world.clockMinutes % 1440) + 1440) % 1440;
+      const minutesUntilOpen = access?.opensMinute == null ? 0 : (access.opensMinute - now + 1440) % 1440 || 1440;
+      const hours = Math.floor(minutesUntilOpen / 60), minutes = minutesUntilOpen % 60;
+      say('문이 잠겨 있다', '아직 문을 열기 전이다. 바깥에서 기다렸다가 다시 들어갈 수 있다.', minutesUntilOpen ? [{
+        label: '문 열릴 때까지 기다린다', subcopy: `${hours ? `${hours}시간 ` : ''}${minutes ? `${minutes}분` : ''}이 흐릅니다.`, run: () => {
+          const waited = advanceWorldTime(state, minutesUntilOpen, maps);
+          setState(waited); say('문이 열렸다', `${maps[props.targetMapId]?.metadata?.displayNameKo ?? '안쪽'}에 들어갈 수 있다.`, []);
+          sayRecord('문이 열릴 때까지 거리에서 기다렸다.');
+        },
+      }] : []); sayRecord('이 장소의 영업시간이 끝났다.');
+    }
     else if (result.reason === 'person_required') { say('사람을 통해서만 들어갈 수 있다', '이 문은 관찰자 혼자 통과할 수 없다. 이곳을 오갈 수 있는 사람을 찾아보자.', []); sayRecord('이 출입문은 특정 인물의 권한이 필요하다.'); }
     else { say('문까지 아직 남았다', '문이 보이지만 가까이 가야 한다. 길을 따라 걸어가 보자.', []); sayRecord('출구와 한 타일 거리까지 이동해야 한다.'); }
-  } else if (object.type === 'source') sourceRead(props.sourceId);
+  } else if (object.type === 'source') {
+    pendingQuestReadRefresh = props.questId ?? null;
+    sourceRead(props.sourceId);
+  }
   else if (props.evidenceId) {
     const clue = sceneObservations.entries[props.evidenceId];
     const recorded = recordEvidenceRead(state, props.evidenceId, maps);
@@ -1503,7 +1799,8 @@ function inspect(object) {
       return;
     }
     const choiceStates = questChoices(activeQuest, state.player.embodiment, knowledgeForHost(state, state.player.embodiment), state);
-    const opts = choiceStates.map(({ action, missingSourceId }) => ({ label: action.labelKo, disabled: Boolean(missingSourceId), subcopy: `${missingSourceId ? `먼저 이 몸으로 「${sourceRecords.get(missingSourceId)?.titleKo ?? '관련 자료'}」을 현장에서 읽어야 합니다.\n` : ''}${action.subcopyKo}`, run: () => {
+    const opts = choiceStates.map(({ action, missingSourceId }) => ({ label: action.labelKo, disabled: Boolean(missingSourceId),
+      subcopy: [missingSourceId ? `먼저 이 몸으로 「${sourceRecords.get(missingSourceId)?.titleKo ?? '관련 자료'}」을 현장에서 읽어야 합니다.` : '', action.subcopyKo].filter(Boolean).join('\n'), run: () => {
       const result = performQuestAction(state, { questId: activeQuest.id, hostId: state.player.embodiment, actionId: action.id, objectId: object.id }, { quests: questList, maps });
       if (!result.ok) { sayRecord(result.reason === 'social_partner_not_present' || result.reason === 'required_participant_not_present' ? '이 선택은 이름이 적힌 사람과 직접 확인해야 합니다. 그 사람이 같은 장소 가까이에 있을 때 다시 해 보세요.' : `처리할 수 없음 · ${result.reason}`); return; }
       setState(result.state);
@@ -1515,7 +1812,10 @@ function inspect(object) {
       const changedMetrics = chainProgress ? Object.entries(chainProgress.metrics).filter(([, value]) => value !== 0).map(([key, value]) => `${chain.metricsKo?.[key] ?? key} ${value > 0 ? '+' : ''}${value}`).join(' · ') : '';
       const chainNote = chain ? `\n\n${chain.titleKo} · ${chainProgress.stage}/${chain.stageCount}${changedMetrics ? `\n이어진 장부: ${changedMetrics}` : ''}` : '';
       say(chain ? activeQuest.titleKo : action.followupTitleKo ?? activeQuest.titleKo,
-        `${action.resultKo}${action.followupKo ? `\n\n${action.followupKo}` : ''}${chainNote}`, actions);
+        `${action.resultKo}${action.followupKo ? `\n\n${action.followupKo}` : ''}${questOutcomeSummary(action, {
+          hostNames: new Map(cards.map(card => [card.id, card.displayNameKo])),
+          mapNames: new Map(Object.entries(maps).map(([id, map]) => [id, map.metadata?.displayNameKo ?? id])),
+        })}${chainNote}`, actions);
       sayRecord('현장 행동을 장부에 기록했다.');
     } }));
     let guidance = '';
@@ -1540,7 +1840,9 @@ function inspect(object) {
     const priorAction = priorEntry ? priorQuest?.actions.find(item => item.id === priorEntry.actionId) : null;
     const chainContext = priorAction ? `\n\n앞선 일 · ${priorAction.resultKo}` : '';
     const title = chain ? `${chain.titleKo} · ${chain.stage}/${chain.stageCount}` : activeQuest.titleKo;
-    say(title, `${activeQuest.premiseKo}${chainContext}${guidance}`, opts);
+    const authoredExchange = activeQuest.dialogue?.length
+      ? `\n\n${activeQuest.dialogue.map(line => `${line.speakerKo} · ${line.lineKo}`).join('\n')}` : '';
+    say(title, `${activeQuest.premiseKo ?? activeQuest.objectiveKo ?? ''}${authoredExchange}${chainContext}${guidance}`, opts);
   } else {
     const title = object.name || '작업장';
     say(title, '종이와 활자에 손이 닿은 흔적이 남아 있다. 여기서 보이는 물건은 한 사람이 확인한 만큼만 기록할 수 있다.', []);
@@ -1586,6 +1888,16 @@ function renderEnding(ending) {
   $('#ending-date').textContent = `${state.world.date.replaceAll('-', '.')} · 보존 기록`;
   $('#ending-title').textContent = ending.titleKo;
   $('#ending-epilogue').textContent = ending.epilogueKo;
+  const storySection = $('#ending-story-section'), storyList = $('#ending-story-choices');
+  storyList.replaceChildren();
+  const storyTitles = { MAIN01: '삽화 연감', MAIN03: '페트라솁스키 모임', MAIN05: '콜레라가 돈 도시' };
+  for (const story of state.endingStoryConsequences ?? []) for (const choice of story.choices) {
+    const item = document.createElement('li');
+    const actor = cards.find(card => card.id === choice.hostId)?.displayNameKo;
+    item.textContent = `${storyTitles[story.storyId] ?? story.storyId} · ${actor ? `${actor}: ` : ''}${choice.resultKo ?? choice.actionId}`;
+    storyList.append(item);
+  }
+  storySection.hidden = storyList.childElementCount === 0;
   const actionLines = state.ledger.filter(item => item.actionId).map(item => {
     const quest = questsById.get(item.questId), action = quest?.actions.find(entry => entry.id === item.actionId);
     const card = cards.find(entry => entry.id === item.hostId);
@@ -1623,7 +1935,11 @@ function interact() {
   if (!near.length) { say('아직 손이 닿지 않는다', '주변을 조금 더 걸어 가까이 가 보자. 사람에게 다가가면 그 사람의 자리에서 도시를 볼 수 있다.', []); return; }
   const civicService = near.find(item => mapObjectProperties(item).serviceId);
   const nearbyPeople = near.filter(item => item.type === 'npc');
-  if (!state.player.embodiment && nearbyPeople.length > 0 && (nearbyPeople.length > 1 || Boolean(civicService) || near.some(item => ['source', 'map-exit', 'quest-object','inspectable'].includes(item.type)))) {
+  const actionableNearby = near.filter(item => ['source', 'map-exit', 'quest-object', 'inspectable'].includes(item.type)
+    || Boolean(mapObjectProperties(item).serviceId));
+  const hasCompetingInteractables = Boolean(state.player.embodiment) && actionableNearby.length > 1;
+  if ((!state.player.embodiment && nearbyPeople.length > 0 && (nearbyPeople.length > 1 || Boolean(civicService) || near.some(item => ['source', 'map-exit', 'quest-object','inspectable'].includes(item.type))))
+    || hasCompetingInteractables) {
     const peopleChoices = nearbyPeople.map(item => {
       const hostId = mapObjectProperties(item).hostId, card = cards.find(character => character.id === hostId), person = state.hosts[hostId];
       const routineStateKo = ({ TRAVELLING: '이동 중', WORKING: '일하는 중', TRADING: '거래 중', RESTING: '쉬는 중', SOCIALIZING: '사람들과 이야기하는 중', DELIVERING: '물건을 전하는 중', POSSESSED: '다른 이의 시야에 들어와 있음' })[person.routineState?.state] ?? '자기 일과를 보내는 중';
@@ -1676,7 +1992,7 @@ function openCharacterList() {
   const entries = cards.filter(card => {
     const host = state.hosts[card.id];
     if (!host?.historicalAliveAndPresent || !maps[host.mapId]) return false;
-    if (state.historicalSession && (!card.id.startsWith(`historical:${state.historicalSession.eventId}:`) || host.mapId !== state.world.currentMapId)) return false;
+    if (state.historicalSession && !card.id.startsWith(`historical:${state.historicalSession.eventId}:`)) return false;
     if (state.historicalSession && card.id.startsWith(`historical:${state.historicalSession.eventId}:`)) {
       const eventActor = historicalSceneForState()?.actors.find(person => card.id.endsWith(`:${person.id}`));
       if (!eventActor) return false;
@@ -1716,12 +2032,21 @@ function openCharacterList() {
     const name = document.createElement('strong'); name.textContent = card.displayNameKo;
     const occupation = document.createElement('span'); occupation.textContent = card.occupation;
     const introduction = document.createElement('span'); introduction.className = 'roster-card-intro';
-    introduction.textContent = guide ? `의뢰 · ${guide.objectiveTitleKo}` : card.personalObjective;
+    introduction.textContent = guide ? `${guide.completed ? '완료' : '의뢰'} · ${guide.objectiveTitleKo}` : card.personalObjective;
     const current = document.createElement('small'); current.textContent = guide
-      ? `먼저 말 걸기 · ${guide.talkToNamesKo.join(' · ') || '주변 인물'}` : `지금 · ${activity}`;
+      ? guide.completed ? '완료' : `먼저 말 걸기 · ${guide.talkToNamesKo.join(' · ') || '주변 인물'}` : `지금 · ${activity}`;
     const task = document.createElement('ol'); task.className = 'roster-card-task';
-    if (guide) for (const step of guide.questStepsKo ?? []) {
-      const item = document.createElement('li'); item.textContent = step; task.append(item);
+    if (guide?.completed) {
+      const item = document.createElement('li');
+      const key = document.createElement('b'); key.textContent = '진행';
+      const value = document.createElement('span'); value.textContent = '이 부탁은 끝났습니다';
+      item.append(key, value); task.append(item);
+    } else if (guide) for (const step of guide.questStepsKo ?? []) {
+      const item = document.createElement('li');
+      const [label, ...detail] = step.split(' · ');
+      const key = document.createElement('b'); key.textContent = label;
+      const value = document.createElement('span'); value.textContent = detail.join(' · ');
+      item.append(key, value); task.append(item);
     }
     if (guide?.requiredActorNameKo) {
       const role = document.createElement('small'); role.className = 'roster-card-role';
@@ -2097,6 +2422,13 @@ $('#load').addEventListener('click', () => {
   catch { sayRecord('저장 기록을 읽지 못했다. 새 기록으로 시작해 주세요.'); }
 });
 $('#ending-restart').addEventListener('click', () => { localStorage.removeItem('v33-rpg-save'); location.reload(); });
+document.querySelectorAll('[data-v47-story]').forEach(button => button.addEventListener('click', () => {
+  const next = copy(state);
+  next.world.v47 ??= globalThis.V47MainStories.createV47State();
+  next.world.v47.focusStoryId = button.dataset.v47Story;
+  setState(next);
+  localStorage.setItem('v33-rpg-save', saveGame(next));
+}));
 $('#mission-pin').addEventListener('click', toggleDestinationPin);
 $('#journal-pin').addEventListener('click', toggleDestinationPin);
 $('#journal-open').addEventListener('click', openJournal);

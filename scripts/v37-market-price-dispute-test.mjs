@@ -31,7 +31,7 @@ const seller = start.hosts.market_nadezhda, buyer = start.hosts.porter_gavrila;
 const sellerTile = { x: object.x / 16, y: object.y / 16 };
 seller.mapId = 'market-quay'; seller.position = { ...sellerTile };
 buyer.mapId = 'market-quay'; buyer.position = { x: sellerTile.x + 1, y: sellerTile.y };
-buyer.needs.hunger = 94; buyer.money.amount = 10;
+buyer.needs.hunger = 94; buyer.needs.lastMealAtMinute = null; buyer.money.amount = 10;
 buyer.activeGoal = { type: 'PURCHASE_MEAL', targetHostId: seller.id, taskId: 'TEST_ADJUSTED_PRICE_PURCHASE' };
 seller.marketStock['빵 한 묶음'] = 1;
 start.world.marketPriceModifiers['market_nadezhda:빵 한 묶음'] = 1;

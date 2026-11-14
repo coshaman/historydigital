@@ -52,18 +52,24 @@
   ],
   "personalObjective": "광장에서 겪은 일을 기억하고 형에게 전한다.",
   "allowedMaps": [
+    "inn-interior",
     "fortress-cell",
     "semenovsky-square",
     "nevsky",
-    "police-station"
+    "police-station",
+    "courtyard",
+    "bookshop-interior",
+    "morskaya-intersection"
   ],
   "start": {
-    "mapId": "police-station",
-    "x": 5,
-    "y": 4
+    "mapId": "inn-interior",
+    "x": 13,
+    "y": 8
   },
   "inventory": [],
   "sourceIds": [
+    "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+    "OBJ-WS-DOSTOEVSKY-ARREST-ORDER-1849",
     "OBJ-WS-DOSTOEVSKY-LETTER-1849-DEC22"
   ],
   "canonConstraint": "The 22 December 1849 letter fixes the historical sequence: sentence read, execution halted, commuted sentences announced.",
@@ -82,21 +88,46 @@
   "schedule": [
     {
       "atMinute": 540,
+      "mapId": "inn-interior",
+      "position": {
+        "x": 13,
+        "y": 8
+      },
+      "activityKo": "모임의 문학 토론을 듣는다",
+      "activeThroughDate": "1849-05-04"
+    },
+    {
+      "atMinute": 540,
+      "mapId": "inn-interior",
+      "position": {
+        "x": 13,
+        "y": 8
+      },
+      "activityKo": "마지막 모임을 마치고 참석자들과 헤어진다",
+      "activeFromDate": "1849-05-05",
+      "activeThroughDate": "1849-05-05"
+    },
+    {
+      "atMinute": 540,
       "mapId": "fortress-cell",
       "position": {
         "x": 7,
         "y": 6
       },
-      "activityKo": "호송을 기다린다"
+      "activityKo": "수감 생활을 이어 간다",
+      "activeFromDate": "1849-05-06",
+      "activeThroughDate": "1849-12-21"
     },
     {
-      "atMinute": 570,
+      "atMinute": 420,
       "mapId": "semenovsky-square",
       "position": {
         "x": 15,
         "y": 10
       },
-      "activityKo": "광장으로 호송된다"
+      "activityKo": "광장으로 호송된다",
+      "activeFromDate": "1849-12-22",
+      "activeThroughDate": "1849-12-22"
     }
   ],
   "portrait": {
@@ -119,17 +150,18 @@
     }
   },
   "objectiveByChapter": {
-    "V33_1849_CIRCLE": "광장에서 겪은 일을 기억하고 형에게 전한다."
+    "V33_1849_CIRCLE": "광장에서 겪은 일을 기억하고 형에게 전한다.",
+    "V33_1849_PRELUDE": "서클의 문학 토론에 참여하고 서로 다른 판단을 듣는다."
   },
   "wealthBracketStatus": "인용한 편집 공고는 개인 재산을 밝히지 않는다.",
   "presenceWindow": {
-    "startDate": "1849-12-22",
+    "startDate": "1849-04-27",
     "endDate": "1849-12-22",
     "start": {
-      "mapId": "fortress-cell",
+      "mapId": "inn-interior",
       "position": {
-        "x": 7,
-        "y": 6
+        "x": 13,
+        "y": 8
       }
     }
   }

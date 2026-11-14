@@ -100,7 +100,7 @@ try {
       || !roundTrip.hosts.landlady_polina.inventory.includes('장작 한 단')
       || pageErrors.length || serverErrors.length) throw new Error(`Cold-wave purchase did not persist: ${JSON.stringify({ stage: roundTrip.world.livingEventStates.E03.stage,
         record: stateAfter.record, title: stateAfter.title, text: stateAfter.text, pageErrors, serverErrors })}`);
-    results.push({ viewport, choicesVisible: before.choices.length, lastChoiceReachable: lastChoiceVisible,
+    results.push({ viewport, choiceCount: before.choices.length, lastChoiceReachable: lastChoiceVisible,
       stageAfterClick: roundTrip.world.livingEventStates.E03.stage, firewoodInInventory: true,
       scrollWidth: before.viewport.scrollWidth, pageErrors });
     await context.close();

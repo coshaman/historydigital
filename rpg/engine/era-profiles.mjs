@@ -1,6 +1,6 @@
 const DEFAULT_PROFILE = Object.freeze({
   layer: 'FICTIONAL_1840S',
-  allowedChapterIds: ['V33_1847_PRINT', 'V33_1848_PUBLIC', 'V33_1849_CIRCLE'],
+  allowedChapterIds: ['V33_1847_PRINT', 'V33_1848_PUBLIC', 'V33_1849_PRELUDE', 'V33_1849_CIRCLE'],
   realmId: null,
   mapId: null,
   sourceIds: [],

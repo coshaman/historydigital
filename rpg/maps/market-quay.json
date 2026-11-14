@@ -82,7 +82,7 @@
       "imageheight": 160,
       "tilewidth": 16,
       "tileheight": 16,
-      "tilecount": 85,
+      "tilecount": 115,
       "columns": 16
     }
   ],
@@ -3191,8 +3191,16 @@
           "height": 16,
           "visible": true,
           "properties": [
-            {"name": "questId", "type": "string", "value": "WAREHOUSE_INJURY_1847"},
-            {"name": "requiresLivingEventId", "type": "string", "value": "E12"}
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "WAREHOUSE_INJURY_1847"
+            },
+            {
+              "name": "requiresLivingEventId",
+              "type": "string",
+              "value": "E12"
+            }
           ]
         },
         {
@@ -3205,8 +3213,16 @@
           "height": 16,
           "visible": true,
           "properties": [
-            {"name": "questId", "type": "string", "value": "V37_COLD_WAVE_FIREWOOD_1847"},
-            {"name": "requiresLivingEventId", "type": "string", "value": "E03"}
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "V37_COLD_WAVE_FIREWOOD_1847"
+            },
+            {
+              "name": "requiresLivingEventId",
+              "type": "string",
+              "value": "E03"
+            }
           ]
         },
         {
@@ -3219,8 +3235,16 @@
           "height": 16,
           "visible": true,
           "properties": [
-            { "name": "questId", "type": "string", "value": "V37_MARKET_PRICE_DISPUTE_1847" },
-            { "name": "requiresLivingEventId", "type": "string", "value": "E13" }
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "V37_MARKET_PRICE_DISPUTE_1847"
+            },
+            {
+              "name": "requiresLivingEventId",
+              "type": "string",
+              "value": "E13"
+            }
           ]
         },
         {
@@ -3233,8 +3257,16 @@
           "height": 16,
           "visible": true,
           "properties": [
-            { "name": "questId", "type": "string", "value": "V37_CHARITY_DAY_1847" },
-            { "name": "requiresLivingEventId", "type": "string", "value": "E14" }
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "V37_CHARITY_DAY_1847"
+            },
+            {
+              "name": "requiresLivingEventId",
+              "type": "string",
+              "value": "E14"
+            }
           ]
         },
         {
@@ -3247,8 +3279,16 @@
           "height": 16,
           "visible": true,
           "properties": [
-            { "name": "questId", "type": "string", "value": "V37_APOTHECARY_ORDER_1847" },
-            { "name": "requiresLivingEventId", "type": "string", "value": "E16" }
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "V37_APOTHECARY_ORDER_1847"
+            },
+            {
+              "name": "requiresLivingEventId",
+              "type": "string",
+              "value": "E16"
+            }
           ]
         },
         {
@@ -3261,8 +3301,16 @@
           "height": 16,
           "visible": true,
           "properties": [
-            { "name": "questId", "type": "string", "value": "V37_MARKET_RUMOR_1847" },
-            { "name": "requiresLivingEventId", "type": "string", "value": "E23" }
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "V37_MARKET_RUMOR_1847"
+            },
+            {
+              "name": "requiresLivingEventId",
+              "type": "string",
+              "value": "E23"
+            }
           ]
         },
         {
@@ -3275,8 +3323,16 @@
           "height": 16,
           "visible": true,
           "properties": [
-            { "name": "questId", "type": "string", "value": "V37_MARKET_DAY_WORK_1847" },
-            { "name": "requiresLivingEventId", "type": "string", "value": "E32" }
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "V37_MARKET_DAY_WORK_1847"
+            },
+            {
+              "name": "requiresLivingEventId",
+              "type": "string",
+              "value": "E32"
+            }
           ]
         },
         {
@@ -3289,8 +3345,16 @@
           "height": 16,
           "visible": true,
           "properties": [
-            { "name": "questId", "type": "string", "value": "V37_MARKET_THEFT_1847" },
-            { "name": "requiresLivingEventId", "type": "string", "value": "E36" }
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "V37_MARKET_THEFT_1847"
+            },
+            {
+              "name": "requiresLivingEventId",
+              "type": "string",
+              "value": "E36"
+            }
           ]
         },
         {
@@ -3303,10 +3367,26 @@
           "height": 16,
           "visible": true,
           "properties": [
-            { "name": "questId", "type": "string", "value": "V37_LAUNDRY_SALE_CHOICE_1847" },
-            { "name": "requiresLivingEventId", "type": "string", "value": "E04" },
-            { "name": "requiresLivingEventStage", "type": "string", "value": "LINEN_WASHED" },
-            { "name": "assetTileId", "type": "int", "value": 73 }
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "V37_LAUNDRY_SALE_CHOICE_1847"
+            },
+            {
+              "name": "requiresLivingEventId",
+              "type": "string",
+              "value": "E04"
+            },
+            {
+              "name": "requiresLivingEventStage",
+              "type": "string",
+              "value": "LINEN_WASHED"
+            },
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 73
+            }
           ]
         },
         {
@@ -3319,10 +3399,26 @@
           "height": 16,
           "visible": true,
           "properties": [
-            { "name": "questId", "type": "string", "value": "V37_BOOKBINDING_ORDER_CHOICE_1847" },
-            { "name": "requiresLivingEventId", "type": "string", "value": "E08" },
-            { "name": "requiresLivingEventStage", "type": "string", "value": "BOOK_BOUND" },
-            { "name": "assetTileId", "type": "int", "value": 73 }
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "V37_BOOKBINDING_ORDER_CHOICE_1847"
+            },
+            {
+              "name": "requiresLivingEventId",
+              "type": "string",
+              "value": "E08"
+            },
+            {
+              "name": "requiresLivingEventStage",
+              "type": "string",
+              "value": "BOOK_BOUND"
+            },
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 73
+            }
           ]
         }
       ]

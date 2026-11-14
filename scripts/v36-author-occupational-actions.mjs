@@ -5,7 +5,7 @@ import path from 'node:path';
 const root = process.cwd();
 const actionDefinitions = {
   apothecary_yakov: [[420,'APOTHECARY_CHECK_STOCK','재고 대조','약병과 꾸러미 수를 확인해 약방 재고표의 빈칸을 채운다'],[960,'APOTHECARY_CLOSE_ACCOUNTS','약방 장부','남은 재고와 미수금 항목을 나눠 마감 메모를 남긴다']],
-  baker_fyodor: [[780,'BAKER_PREPARE_DOUGH','제빵 생산','장터에 보낼 빵 묶음 여섯 개를 굽는다','빵 한 묶음',null,6],[1020,'BAKER_CLOSE_BAKERY','제빵 마감','남은 밀가루와 오늘 주문의 인수 여부를 장부에 맞춘다']],
+  baker_fyodor: [[780,'BAKER_PREPARE_DOUGH','제빵 생산','장터에 보낼 빵 묶음 열여덟 개를 굽는다','빵 한 묶음',null,18],[1020,'BAKER_CLOSE_BAKERY','제빵 마감','남은 밀가루와 오늘 주문의 인수 여부를 장부에 맞춘다']],
   bookbinder_elizaveta: [[420,'BOOKBINDER_SEW_SIGNATURES','제본 작업','속장을 꿰매고 실이 느슨한 쪽을 다시 고정한다','제본 중인 책 한 권'],[780,'BOOKBINDER_DELIVERY_REGISTER','제본 인수','책방에 보낼 묶음의 수와 인수 시각을 기록한다']],
   bookseller_lev: [[540,'BOOKSELLER_SORT_STOCK','서점 재고','책과 잡지를 주제별로 나누고 가판 목록을 고친다'],[660,'BOOKSELLER_RESERVATION_LEDGER','예약 관리','예약한 독자의 이름과 인도 순서를 장부에 대조한다']],
   carter_roman: [[420,'CARTER_LOAD_MANIFEST','운송 적재','시장 창고의 종이 묶음 수와 마차 적재 순서를 기록한다'],[780,'CARTER_QUAY_FREIGHT_TALLY','운임 정산','부두에서 받은 짐의 수량과 운송표를 맞춘다']],

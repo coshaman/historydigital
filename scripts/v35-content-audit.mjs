@@ -29,9 +29,13 @@ assert.equal(indexById.size, sourceIndex.records.length, 'source index IDs must 
 for (const item of sourceIndex.records) {
   assert.ok(sources.has(item.sourceId), `source reader record exists: ${item.sourceId}`);
   assert.ok(item.excerptId && item.pageLocator && item.contextKo && item.rightsNoteKo, `source reader provenance/context complete: ${item.sourceId}`);
-  assert.equal(item.textStatus, 'DIRECT', `${item.sourceId} direct-text status`);
   assert.equal(item.renderingStatus, 'RECONSTRUCTED', `${item.sourceId} rendering status`);
   const source = sources.get(item.sourceId);
+  const verificationStatus = source.verificationStatus ?? '';
+  const expectedTextStatus = /1928_REPRINT_OCR_TEXT_COLLATION_CHECKED/.test(verificationStatus) ? 'REPRINT_TRANSCRIPTION'
+    : /PAGE_IMAGE_COLLATION_PENDING|ORIGINAL_1848_PAGE_(?:NOT_COLLATION_CHECKED|IMAGE_NOT_CHECKED)/.test(verificationStatus) ? 'TRANSCRIPTION' : 'DIRECT';
+  assert.equal(item.textStatus, expectedTextStatus,
+    `${item.sourceId} text status matches its page-image verification status`);
   for (const [index, paragraph] of (source.paragraphs ?? []).entries()) {
     assert.ok(paragraph.ru?.trim() && paragraph.ko?.trim(), `${item.sourceId} paragraph ${index + 1} has aligned RU and KO`);
   }

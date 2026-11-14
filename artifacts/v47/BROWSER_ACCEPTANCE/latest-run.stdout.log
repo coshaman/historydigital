@@ -1,0 +1,459 @@
+{
+  "status": "PASS",
+  "scope": "seeded physical-scene UI branch acceptance and two chronological date continuations; this is not a full human-length campaign completion",
+  "base": "http://127.0.0.1:51611/",
+  "branches": [
+    {
+      "story": "MAIN01",
+      "questId": "V47_MAIN01_DISTRIBUTION_BAN",
+      "actionId": "V47_A06_KEEP_COPY",
+      "hostId": "bookseller_lev",
+      "mapId": "printshop",
+      "objectId": 9048,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "visibleChoices": [
+        "창고의 묶음과 주문 장부를 맞춘다",
+        "한 부를 따로 보관한다"
+      ],
+      "materialChangesPersisted": true,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "story": "MAIN01",
+      "questId": "V47_MAIN01_SUBSCRIBER_REPLY",
+      "actionId": "V47_A08_SEND_LETTER",
+      "hostId": "courier_pavel",
+      "mapId": "bookshop-interior",
+      "objectId": 9049,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "visibleChoices": [
+        "답신을 우편으로 보낸다"
+      ],
+      "materialChangesPersisted": true,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "story": "MAIN01",
+      "questId": "V47_MAIN01_A05",
+      "actionId": "V47_A05_COPY_LEDGER",
+      "hostId": "clerk_alexei",
+      "mapId": "chancery",
+      "objectId": 9064,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "visibleChoices": [
+        "허가 기록의 사본을 남긴다",
+        "담당 서기에게 처리 순서를 묻는다"
+      ],
+      "materialChangesPersisted": true,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "story": "MAIN01",
+      "questId": "V47_MAIN01_A11",
+      "actionId": "V47_A11_SETTLE_WORKERS",
+      "hostId": "nekrasov_reconstruction",
+      "mapId": "printshop",
+      "objectId": 9068,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "visibleChoices": [
+        "남은 돈을 작업자에게 나눈다",
+        "환불 명단을 서점에 넘긴다"
+      ],
+      "materialChangesPersisted": true,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "story": "MAIN01",
+      "questId": "V47_MAIN01_A01",
+      "actionId": "V47_A01_REASSIGN_PRESS",
+      "hostId": "printer_ekaterina",
+      "mapId": "printshop",
+      "objectId": 9060,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "visibleChoices": [
+        "삽화 판을 먼저 맡긴다",
+        "교정쇄를 다시 대조한다"
+      ],
+      "materialChangesPersisted": true,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "story": "MAIN01",
+      "questId": "V47_MAIN01_A01",
+      "actionId": "V47_A01_COMPARE_PROOFS",
+      "hostId": "printer_ekaterina",
+      "mapId": "printshop",
+      "objectId": 9060,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "visibleChoices": [
+        "삽화 판을 먼저 맡긴다",
+        "교정쇄를 다시 대조한다"
+      ],
+      "materialChangesPersisted": true,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "story": "MAIN03",
+      "questId": "V47_MAIN03_ARRESTS",
+      "actionId": "V47_P07_WARN_FICTIONAL",
+      "hostId": "courier_pavel",
+      "mapId": "police-station",
+      "objectId": 9051,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "visibleChoices": [
+        "바실리에게 뒷문을 알린다"
+      ],
+      "materialChangesPersisted": true,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "story": "MAIN03",
+      "questId": "V47_MAIN03_ARRESTS",
+      "actionId": "V47_P07_SEAL_ROOM",
+      "hostId": "police_sergeant_ivan",
+      "mapId": "police-station",
+      "objectId": 9051,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "visibleChoices": [
+        "직접 본 일과 전해 들은 말을 나눈다",
+        "수색 뒤 방을 봉인한다"
+      ],
+      "materialChangesPersisted": true,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "story": "MAIN03",
+      "questId": "V47_MAIN03_P01",
+      "actionId": "V47_P01_OPEN_DISCUSSION",
+      "hostId": "editor_sofia",
+      "mapId": "inn-interior",
+      "objectId": 9069,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "visibleChoices": [
+        "신문을 펴고 모두의 말을 듣는다",
+        "두 사람과 조용히 이야기한다"
+      ],
+      "materialChangesPersisted": true,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "story": "MAIN05",
+      "questId": "V47_MAIN05_C01",
+      "actionId": "V47_C01_SUPPLY_LODGING",
+      "hostId": "watercarrier_luka",
+      "mapId": "market-quay",
+      "objectId": 9080,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "visibleChoices": [
+        "하숙집 물통부터 채운다",
+        "빵집 주문부터 채운다"
+      ],
+      "materialChangesPersisted": true,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "story": "MAIN05",
+      "questId": "V47_MAIN05_C01",
+      "actionId": "V47_C01_SUPPLY_BAKERY",
+      "hostId": "watercarrier_luka",
+      "mapId": "market-quay",
+      "objectId": 9080,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "visibleChoices": [
+        "하숙집 물통부터 채운다",
+        "빵집 주문부터 채운다"
+      ],
+      "materialChangesPersisted": true,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "story": "MAIN05",
+      "questId": "V47_MAIN05_WATER_NOTICE",
+      "actionId": "V47_C00_CLEAN_WATER",
+      "hostId": "watercarrier_luka",
+      "mapId": "market-quay",
+      "objectId": 9052,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "visibleChoices": [
+        "물통을 씻고 새 물을 받는다"
+      ],
+      "materialChangesPersisted": true,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "story": "MAIN05",
+      "questId": "V47_MAIN05_C03",
+      "actionId": "V47_C03_SELL_ON_CREDIT",
+      "hostId": "apothecary_yakov",
+      "mapId": "market-quay",
+      "objectId": 9081,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "visibleChoices": [
+        "병원 몫을 따로 둔다",
+        "가난한 이웃에게 외상으로 판다"
+      ],
+      "materialChangesPersisted": true,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "story": "MAIN05",
+      "questId": "V47_MAIN05_C05",
+      "actionId": "V47_C05_OPEN_BEDS",
+      "hostId": "midwife_avdotya",
+      "mapId": "inn-interior",
+      "objectId": 9083,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "visibleChoices": [
+        "여관 방을 임시 침상으로 쓴다",
+        "가족 돌봄을 위해 방문 인력을 보낸다"
+      ],
+      "materialChangesPersisted": true,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "story": "MAIN05",
+      "questId": "V47_MAIN05_C06",
+      "actionId": "V47_C06_PROTECT_CART",
+      "hostId": "police_sergeant_ivan",
+      "mapId": "market-quay",
+      "objectId": 9084,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "visibleChoices": [
+        "수레를 보호하고 주문표를 다시 확인한다",
+        "사람들을 흩어지게 하고 수레를 옮긴다"
+      ],
+      "materialChangesPersisted": true,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "story": "MAIN05",
+      "questId": "V47_MAIN05_C11",
+      "actionId": "V47_C11_REOPEN_ROOM",
+      "hostId": "innkeeper_irina",
+      "mapId": "inn-interior",
+      "objectId": 9089,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "visibleChoices": [
+        "객실을 정리해 다시 연다",
+        "방 하나를 며칠 더 돌봄에 남긴다"
+      ],
+      "materialChangesPersisted": true,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "story": "MAIN01",
+      "questId": "V47_MAIN01_A03",
+      "actionId": "V47_A03_HOST_READING",
+      "hostId": "panaeva_1848",
+      "mapId": "printshop",
+      "objectId": 9062,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "visibleChoices": [
+        "작업이 끝난 뒤 함께 읽는다",
+        "원고를 편집실에 돌려놓는다"
+      ],
+      "materialChangesPersisted": true,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "story": "MAIN03",
+      "questId": "V47_MAIN03_P05",
+      "actionId": "V47_P05_SHARE_COPY",
+      "hostId": "petrashevsky_1849",
+      "mapId": "communal-room",
+      "objectId": 9073,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "visibleChoices": [
+        "필사본을 참석자에게 돌린다",
+        "사본을 맡은 사람에게 돌려준다"
+      ],
+      "materialChangesPersisted": true,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "story": "MAIN03",
+      "questId": "V47_MAIN03_P03",
+      "actionId": "V47_P03_SERFDOM_AND_LAND",
+      "hostId": "student_vasily",
+      "mapId": "inn-interior",
+      "objectId": 9071,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "visibleChoices": [
+        "공동 노동과 생계를 따져 묻는다",
+        "농노의 노동과 토지를 묻는다",
+        "신앙과 자유의 경계를 묻는다",
+        "언론과 국가 질서를 묻는다",
+        "작업자와 학생도 토론에 부른다",
+        "초대된 사람끼리만 계속한다"
+      ],
+      "materialChangesPersisted": true,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "story": "MAIN03",
+      "questId": "V47_MAIN03_P06",
+      "actionId": "V47_P06_ASK_DIRECTLY",
+      "hostId": "antonelli_1849",
+      "mapId": "nevsky",
+      "objectId": 9074,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "visibleChoices": [
+        "방문자의 이동을 멀리서 살핀다",
+        "방문자에게 용건을 묻는다"
+      ],
+      "materialChangesPersisted": true,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "story": "MAIN03",
+      "questId": "V47_MAIN03_P07",
+      "actionId": "V47_P07_SEPARATE_REPORTS",
+      "hostId": "liprandi_1849",
+      "mapId": "chancery",
+      "objectId": 9075,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "visibleChoices": [
+        "보고서와 명령을 따로 묶는다",
+        "열람한 이름을 개인 메모에 옮긴다"
+      ],
+      "materialChangesPersisted": true,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "story": "MAIN03",
+      "questId": "V47_MAIN03_P11",
+      "actionId": "V47_P11_GUIDE_FAMILIES",
+      "hostId": "student_vasily",
+      "mapId": "semenovsky-square",
+      "objectId": 9079,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "visibleChoices": [
+        "가족들을 대기 장소로 안내한다",
+        "목격한 일을 사적인 기록으로 남긴다"
+      ],
+      "materialChangesPersisted": true,
+      "overflow": false,
+      "pageErrors": []
+    },
+    {
+      "story": "MAIN05",
+      "questId": "V47_MAIN05_C08",
+      "actionId": "V47_C08_ASK_NEIGHBOR_HELP",
+      "hostId": "doctor_mikhail_1848",
+      "mapId": "communal-room",
+      "objectId": 9086,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "visibleChoices": [
+        "이웃에게 하루씩 돌봄을 부탁한다",
+        "환자를 여관의 임시 침상으로 옮긴다"
+      ],
+      "materialChangesPersisted": true,
+      "overflow": false,
+      "pageErrors": []
+    }
+  ],
+  "optionalCoda": {
+    "action": "advance to optional post-arrest coda",
+    "dateBefore": "1849-12-22",
+    "dateAfter": "1850-01-03",
+    "questStatus": "open",
+    "pageErrors": []
+  },
+  "firstDateAdvance": {
+    "action": "advance to first dated MAIN03 beat",
+    "dateBefore": "1849-03-20",
+    "dateAfter": "1849-04-01",
+    "questStatus": "open",
+    "pageErrors": []
+  }
+}

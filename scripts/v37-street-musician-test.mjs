@@ -8,6 +8,19 @@ const require = createRequire(import.meta.url);
 require('../rpg/engine/game-state.js');
 const game = globalThis.V33GameState;
 const read = async path => JSON.parse(await readFile(new URL(path, import.meta.url), 'utf8'));
+const [eventCatalog, sourceRegister] = await Promise.all([
+  read('../data/event_catalog_45.json'), read('../rpg/data/source-register.json'),
+]);
+const e38Source = eventCatalog.find(event => event.event_id === 'E38')?.source_basis;
+const transcription = sourceRegister.sources.find(source => source.sourceId === e38Source?.textSourceId);
+assert.equal(e38Source?.sourceId, 'PRLIB-1327533', 'E38 retains its primary bibliographic witness');
+assert.equal(transcription?.title, 'Петербургские шарманщики');
+assert.equal(transcription?.creator, 'Дмитрий Васильевич Григорович');
+assert.equal(transcription?.transcriptionSourceUrl, 'https://azbyka.ru/fiction/peterburgskie-sharmanshhiki/');
+assert.deepEqual(e38Source?.textRange?.sections, ['II. Разряды шарманщиков', 'III. Итальянские шарманщики', 'IV. Русские и немецкие шарманщики']);
+assert.equal(e38Source?.textRange?.editionCollation, 'NOT_COLLATION_CHECKED_AGAINST_1845_SCAN');
+assert.equal(eventCatalog.find(event => event.event_id === 'E38')?.validation_status, 'DESIGN_SEED_NOT_VERIFIED',
+  'a contemporary literary description does not verify the fictional individual performance');
 const [mapFiles, cardFiles, quest] = await Promise.all([
   readdir(new URL('../rpg/maps/', import.meta.url)), readdir(new URL('../rpg/characters/', import.meta.url)),
   read('../rpg/quests/street-music-1847.json'),

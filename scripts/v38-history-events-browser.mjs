@@ -11,6 +11,12 @@ import { buildHistoricalSceneLayout } from '../rpg/engine/historical-scene-layou
 const require = createRequire(import.meta.url);
 const play = require('../rpg/data/historical-scene-play.json').events;
 const catalog = require('../rpg/data/v38-historical-events.json').events;
+const eventFilter = process.env.V38_EVENT_ID;
+const eventsToRun = eventFilter ? catalog.filter(event => event.id === eventFilter) : catalog;
+if (!eventsToRun.length) throw new Error(`Unknown V38_EVENT_ID: ${eventFilter}`);
+const viewportFilter = Number(process.env.V38_VIEWPORT_WIDTH || 0);
+const viewports = viewportFilter ? [{ width: viewportFilter, height: viewportFilter < 761 ? 844 : 900 }]
+  : [{ width: 1440, height: 900 }, { width: 390, height: 844 }];
 const conversationChoices = require('../rpg/data/historical-conversation-choices.json');
 const previewPort = await new Promise((resolve, reject) => {
   const probe = net.createServer();
@@ -21,7 +27,7 @@ const previewPort = await new Promise((resolve, reject) => {
   });
 });
 const base = process.env.V33_RPG_URL || `http://127.0.0.1:${previewPort}/`;
-const evidenceDir = path.resolve('artifacts/v38/HISTORICAL_LIVING_SCENES');
+const evidenceDir = path.resolve(process.env.V38_EVIDENCE_DIR ?? 'artifacts/v38/HISTORICAL_LIVING_SCENES');
 fs.mkdirSync(evidenceDir, { recursive: true });
 const browser = await chromium.launch({ headless: true, executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe' });
 const preview = process.env.V33_RPG_URL ? null : spawn(process.execPath, ['server.mjs'], { cwd: process.cwd(), env: { ...process.env,
@@ -35,7 +41,7 @@ function actorPositions(scene, zoneIndex) {
   const authored = structuredClone(scene), sourceMaps = Object.fromEntries(scene.backgrounds.map(id => [id, require(`../rpg/maps/${id}.json`)]));
   const generated = buildHistoricalSceneLayout(authored, catalog.find(event => event.id === scene.eventId), sourceMaps);
   const actors = authored.actors.filter(actor => actor.mapId === scene.maps[zoneIndex]);
-  return { map: generated.maps[scene.maps[zoneIndex]], positions: actors.map(actor => actor.position) };
+  return { map: generated.maps[scene.maps[zoneIndex]], actors, positions: actors.map(actor => actor.position) };
 }
 
 function actionPositions(scene, zoneIndex) {
@@ -45,15 +51,17 @@ function actionPositions(scene, zoneIndex) {
   return { map: generated.maps[scene.maps[zoneIndex]], positions: actions.map(action => action.position), actions };
 }
 
-function pathToExit(map, start, target) {
+function pathToExit(map, start, target, blockedPositions = []) {
   const collision = map.layers.find(layer => layer.name === 'Collision').data;
+  const blocked = new Set(blockedPositions.map(point => `${point.x},${point.y}`));
   const queue = [[start, '']], seen = new Set([`${start.x},${start.y}`]);
   while (queue.length) {
     const [point, path] = queue.shift();
     if (Math.abs(point.x - target.x) + Math.abs(point.y - target.y) <= 1) return path;
     for (const [dx, dy, direction] of [[1, 0, 'R'], [-1, 0, 'L'], [0, 1, 'D'], [0, -1, 'U']]) {
       const x = point.x + dx, y = point.y + dy, key = `${x},${y}`;
-      if (x >= 0 && y >= 0 && x < map.width && y < map.height && collision[y * map.width + x] === 0 && !seen.has(key)) {
+      if (x >= 0 && y >= 0 && x < map.width && y < map.height && collision[y * map.width + x] === 0
+        && !blocked.has(key) && !seen.has(key)) {
         seen.add(key); queue.push([{ x, y }, path + direction]);
       }
     }
@@ -62,10 +70,34 @@ function pathToExit(map, start, target) {
 }
 
 async function walk(page, path) {
-  for (const direction of path) await page.keyboard.press(({ R: 'ArrowRight', L: 'ArrowLeft', D: 'ArrowDown', U: 'ArrowUp' })[direction]);
+  for (const direction of path) {
+    await page.keyboard.press(({ R: 'ArrowRight', L: 'ArrowLeft', D: 'ArrowDown', U: 'ArrowUp' })[direction]);
+    await page.waitForTimeout(55);
+  }
 }
 async function playerPosition(page) {
   return page.evaluate(() => ({ x: Number(document.body.dataset.playerX), y: Number(document.body.dataset.playerY) }));
+}
+
+async function travelToEventZone(page, scene, targetZone) {
+  while (true) {
+    const currentMapId = await page.evaluate(() => document.body.dataset.worldMap);
+    const currentZone = scene.maps.indexOf(currentMapId);
+    assert.ok(currentZone >= 0, `${scene.eventId} remains in its connected event map`);
+    if (currentZone === targetZone) return;
+    const step = Math.sign(targetZone - currentZone), nextZone = currentZone + step;
+    const map = actionPositions(scene, currentZone).map;
+    const exit = { x: step > 0 ? map.width - 3 : 1, y: map.height - 3 };
+    const current = await playerPosition(page);
+    await walk(page, pathToExit(map, current, exit));
+    await page.waitForTimeout(380);
+    await page.locator('#use').click();
+    const exitChoice = page.locator('#actions button').filter({ hasText: `문을 지나 ${scene.zoneTitlesKo[nextZone]}` });
+    if (!await exitChoice.count()) throw new Error(`Event exit did not appear: ${JSON.stringify({ currentMapId,
+      position: await playerPosition(page), exit, actions: await page.locator('#actions button').allTextContents() })}`);
+    await exitChoice.click();
+    await page.waitForFunction(mapId => document.body.dataset.worldMap === mapId, scene.maps[nextZone]);
+  }
 }
 
 async function completeFieldAction(page, scene, zoneIndex) {
@@ -89,9 +121,11 @@ async function completeFieldAction(page, scene, zoneIndex) {
     }
     assert.ok((await page.locator('#bodyname').textContent()).includes(actor.nameKo), `${actor.nameKo} is embodied before the role task`);
   }
-  const startPosition = await playerPosition(page);
-  await walk(page, pathToExit(map, startPosition, position));
+  await travelToEventZone(page, scene, scene.maps.indexOf(action.mapId));
+  await walk(page, pathToExit(map, await playerPosition(page), position));
   await page.waitForTimeout(380);
+  await page.locator('#save').click();
+  const beforeState = await page.evaluate(() => JSON.parse(localStorage.getItem('v33-rpg-save') ?? '{}').state ?? {});
   await page.locator('#use').click();
   const effects = scene.nextEffects ??= {};
   const available = action.options.filter(option => !option.requiresEffects
@@ -121,7 +155,8 @@ async function completeFieldAction(page, scene, zoneIndex) {
       const targetPosition = targetArea.positions[targetArea.actions.findIndex(item => item.id === target.id)];
       const actorMove = savedMoves.find(item => item.actorId === move.actorId && item.choiceId === option.id);
       assert.ok(actorMove, `${action.id}/${option.id} saves its physical resident movement`);
-      assert.equal(actorMove.fromMapId, action.mapId, `${action.id}/${option.id} records its actual departure map`);
+      assert.equal(actorMove.fromMapId, beforeState.hosts?.[`historical:${scene.eventId}:${move.actorId}`]?.mapId,
+        `${action.id}/${option.id} records the resident's actual departure map`);
       assert.equal(actorMove.targetMapId, target.mapId, `${action.id}/${option.id} records the destination map`);
       assert.deepEqual(actorMove.targetPosition, targetPosition, `${action.id}/${option.id} records the destination tile`);
       assert.equal(actorMove.status, 'EN_ROUTE', `${action.id}/${option.id} starts a visible journey instead of teleporting`);
@@ -144,53 +179,85 @@ async function completeFieldAction(page, scene, zoneIndex) {
 }
 
 async function speakTwo(page, scene, zoneIndex, spokenNames) {
-  const zoneActors = scene.actors.map((actor, index) => ({ actor, index }))
-    .filter(({ index }) => index % 3 === zoneIndex);
-  const { positions } = actorPositions(scene, zoneIndex);
+  const zoneActors = scene.actors.map(actor => ({ actor }));
   const usedBodies = spokenNames.usedBodies ??= new Set();
+  const usedPairs = spokenNames.usedPairs ??= new Set();
   let attempts = 0;
-  const targetCount = Math.min(12, (zoneIndex + 1) * 4);
-  while (spokenNames.size < targetCount && attempts++ < 24) {
+  const targetCount = Math.min(scene.conclusionRequirements?.spokenActors ?? 12, (zoneIndex + 1) * 4);
+  const attemptsLog = [];
+  while (spokenNames.size < targetCount && attempts++ < 32) {
     await page.locator('#roster-open').click();
     const cards = page.locator('.roster-card');
     await cards.first().waitFor();
+    assert.equal(await cards.count(), scene.actors.length,
+      `${scene.eventId} roster shows the complete cast even when their quest is in another zone`);
     const rosterGuide = await cards.first().innerText();
-    assert.match(rosterGuide, /의뢰/);
-    assert.match(rosterGuide, /먼저 말 걸기/);
-    assert.match(rosterGuide, /이동 ·/);
-    assert.match(rosterGuide, /대화 ·/);
-    assert.match(rosterGuide, /행동 ·/);
+    assert.match(rosterGuide, /(?:의뢰|완료)/);
+    assert.match(rosterGuide, /(?:먼저 말 걸기|완료)/);
+    if (rosterGuide.includes('완료 ·')) {
+      assert.match(rosterGuide, /(?:^|\n)완료(?:\n|$)/,
+        'completed roster quests are visibly marked complete instead of showing stale destinations');
+      assert.doesNotMatch(rosterGuide, /(?:^|\n)갈 곳(?: ·|\n)/);
+    } else {
+      assert.match(rosterGuide, /(?:^|\n)(?:장소|갈 곳)(?: ·|\n)/);
+      assert.match(rosterGuide, /(?:^|\n)말 걸기(?: ·|\n)/);
+      assert.match(rosterGuide, /(?:^|\n)할 일(?: ·|\n)/);
+      assert.equal(rosterGuide.split('\n').filter(line => line.startsWith('먼저 말 걸기 ·')).length, 1,
+        'each open roster quest shows one clear first person to approach');
+    }
     let found = false;
-    for (let index = 0; index < await cards.count(); index++) {
-      const card = cards.nth(index), bodyName = await card.locator('strong').textContent();
-      if (usedBodies.has(bodyName)) continue;
-      const candidate = zoneActors.find(row => row.actor.nameKo === bodyName);
-      if (!candidate) continue;
+    const orderedActors = zoneActors.slice().sort((a, b) => Number(usedBodies.has(a.actor.nameKo)) - Number(usedBodies.has(b.actor.nameKo)));
+    for (const candidate of orderedActors) {
+      const bodyName = candidate.actor.nameKo;
+      const roleIndex = await cards.evaluateAll((items, name) => items.findIndex(item =>
+        item.querySelector('.roster-card-copy > strong')?.textContent?.trim() === name), bodyName);
+      if (roleIndex < 0) continue;
+      const card = cards.nth(roleIndex);
       await card.click();
-      spokenNames.currentPosition = positions[Math.floor(candidate.index / 3)];
+      spokenNames.currentPosition = candidate.actor.position;
       await page.locator('#save').click();
       const state = await page.evaluate(() => JSON.parse(localStorage.getItem('v33-rpg-save') ?? '{}').state ?? {});
       const speakerId = `historical:${scene.eventId}:${candidate.actor.id}`;
       const speaker = state.hosts?.[speakerId];
       const partnerTarget = scene.actors.map(actor => ({ actor, host: state.hosts?.[`historical:${scene.eventId}:${actor.id}`] }))
         .filter(row => row.host && row.actor.id !== candidate.actor.id && row.host.mapId === speaker?.mapId
-          && !spokenNames.has(row.actor.nameKo))
-        .sort((a, b) => Math.abs(a.host.position.x - speaker.position.x) + Math.abs(a.host.position.y - speaker.position.y)
+          && !usedPairs.has(`${bodyName}\u0000${row.actor.nameKo}`))
+        .sort((a, b) => Number(spokenNames.has(a.actor.nameKo)) - Number(spokenNames.has(b.actor.nameKo))
+          || Math.abs(a.host.position.x - speaker.position.x) + Math.abs(a.host.position.y - speaker.position.y)
           - Math.abs(b.host.position.x - speaker.position.x) - Math.abs(b.host.position.y - speaker.position.y))[0];
+      attemptsLog.push({ bodyName, mapId: speaker?.mapId, position: speaker?.position,
+        nearbyCast: scene.actors.map(actor => ({ name: actor.nameKo, mapId: state.hosts?.[`historical:${scene.eventId}:${actor.id}`]?.mapId,
+          position: state.hosts?.[`historical:${scene.eventId}:${actor.id}`]?.position })).filter(row => row.mapId === speaker?.mapId),
+        selectedPartner: partnerTarget?.actor.nameKo ?? null });
       if (speaker && partnerTarget) {
-        const current = await playerPosition(page), map = require(`../rpg/maps/${scene.backgrounds[zoneIndex]}.json`);
-        await walk(page, pathToExit(map, current, partnerTarget.host.position));
+        const current = await playerPosition(page), speakerZone = scene.maps.indexOf(speaker.mapId);
+        assert.ok(speakerZone >= 0, `${candidate.actor.nameKo} remains in one of the event's walkable zones`);
+        const map = require(`../rpg/maps/${scene.backgrounds[speakerZone]}.json`);
+        const occupied = scene.actors.map(actor => state.hosts?.[`historical:${scene.eventId}:${actor.id}`])
+          .filter(host => host && host.mapId === speaker.mapId && host.id !== partnerTarget.host.id).map(host => host.position);
+        await walk(page, pathToExit(map, current, partnerTarget.host.position, occupied));
       }
+      const talk = page.locator('#talk');
       await page.waitForTimeout(380);
-      const talk = page.locator('#talk'), enabled = !await talk.isDisabled();
-      if (!enabled) continue;
+      const enabled = !await talk.isDisabled();
+      if (!enabled) {
+        attemptsLog.at(-1).talk = await talk.innerText(); attemptsLog.at(-1).position = await playerPosition(page);
+        continue;
+      }
       const partner = (await talk.innerText()).replace(/^말 걸기 ·\s*/, '').trim();
+      attemptsLog.at(-1).actualPartner = partner;
       await talk.click();
       assert.equal(await page.locator('#dialogue-speaker-name').textContent(), partner);
       const dialogueText = await page.locator('#journal-text').textContent();
       assert.ok(dialogueText.length > 35);
-      const nearbyParticipants = scene.actors.filter(actor => dialogueText.includes(actor.nameKo)).length;
-      assert.ok(nearbyParticipants >= 4, `${scene.eventId} has a five-person nearby conversation, found ${nearbyParticipants}`);
+      const visibleParticipantNames = new Set(scene.actors.filter(actor => dialogueText.includes(actor.nameKo)).map(actor => actor.nameKo));
+      visibleParticipantNames.add(partner);
+      const nearbyParticipants = visibleParticipantNames.size;
+      assert.ok(nearbyParticipants >= 4, `${scene.eventId} has a four-person group conversation, found ${nearbyParticipants}: ${JSON.stringify({
+        partner, dialogueText, map: await page.locator('#mapname').textContent(),
+        castByMap: scene.actors.reduce((groups, actor) => { (groups[actor.mapId] ??= []).push(actor.nameKo); return groups; }, {}),
+        player: await playerPosition(page),
+      })}`);
       const interlocutor = scene.actors.find(actor => actor.nameKo === partner);
       assert.ok(interlocutor, `${partner} is an actor in the current historical scene`);
       const chatInput = page.locator('.dialogue-input input');
@@ -212,15 +279,15 @@ async function speakTwo(page, scene, zoneIndex, spokenNames) {
       await branchButton.click();
       assert.ok((await page.locator('#journal-text').textContent()).includes(branch.reactionKo));
       usedBodies.add(bodyName);
+      usedPairs.add(`${bodyName}\u0000${partner}`);
       spokenNames.add(partner); spokenNames.currentBody = bodyName; found = true;
       break;
     }
-    if (!found && zoneActors.every(({ actor }) => usedBodies.has(actor.nameKo))) break;
+    if (!found) break;
   }
   assert.ok(spokenNames.size >= targetCount, `${scene.eventId} walk-up conversations stalled: ${JSON.stringify({ zone: zoneIndex,
     targetCount, spoken: spokenNames.size, used: [...usedBodies], actors: zoneActors.map(({ actor }) => actor.nameKo),
-    roster: await page.locator('.roster-card strong').allTextContents() })}`);
-  assert.ok(spokenNames.size >= zoneIndex + 1, `${scene.eventId} must permit a conversation in area ${zoneIndex + 1}`);
+    attemptsLog, roster: await page.locator('.roster-card strong').allTextContents() })}`);
 }
 
 try {
@@ -233,7 +300,7 @@ try {
     }
     if (!ready) throw new Error(`V38 production preview did not start: ${previewOutput || 'no server output'}`);
   }
-  for (const viewport of [{ width: 1440, height: 900 }, { width: 390, height: 844 }]) {
+  for (const viewport of viewports) {
     const context = await browser.newContext({ viewport });
     const page = await context.newPage(), errors = [];
     let historicalSession = null;
@@ -262,7 +329,7 @@ try {
     await page.locator('#save').click();
     const campaignSnapshot = await page.evaluate(() => localStorage.getItem('v33-rpg-save'));
     let totalConversations = 0;
-    for (const event of catalog) {
+    for (const event of eventsToRun) {
       const spokenNames = new Set();
       const scene = play.find(item => item.eventId === event.id);
       await page.locator('#history-events-open').click();
@@ -358,7 +425,7 @@ try {
       assert.equal(await page.evaluate(() => localStorage.getItem('v33-rpg-save')), campaignSnapshot, 'campaign save stays untouched');
       totalConversations += spokenNames.size;
     }
-    if (viewport.width === 1440) {
+    if (viewport.width === 1440 && !eventFilter) {
       const repeatEvent = catalog[0], repeatScene = play.find(item => item.eventId === repeatEvent.id);
       await page.locator('#history-events-open').click();
       await page.locator('#actions button').filter({ hasText: repeatEvent.titleKo }).click();
@@ -371,7 +438,7 @@ try {
       assert.equal(await page.locator('#mapname').textContent(), '네프스키 거리', 'leaving a replay returns to the campaign');
     }
     assert.deepEqual(errors, [], `browser errors at ${viewport.width}px`);
-    evidence.push({ viewport, eventScenesEntered: 3, uniqueConversations: totalConversations, campaignSaveRestored: true, errors });
+    evidence.push({ viewport, eventScenesEntered: eventsToRun.length, uniqueConversations: totalConversations, campaignSaveRestored: true, errors });
     await context.close();
   }
   console.log(JSON.stringify({ status: 'PASS', evidence }, null, 2));

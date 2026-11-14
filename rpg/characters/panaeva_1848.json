@@ -1,0 +1,139 @@
+{
+  "id": "panaeva_1848",
+  "kind": "HISTORICAL_RECONSTRUCTION",
+  "displayNameKo": "아브도티야 파나예바",
+  "displayNameRu": "Авдотья Яковлевна Панаева",
+  "ageAtDate": {
+    "value": null,
+    "status": "not established in this scenario data"
+  },
+  "socialEstate": "not asserted beyond checked source records",
+  "occupation": "작가",
+  "rank": {
+    "value": null,
+    "ru": null,
+    "status": "not_applicable"
+  },
+  "wealthBracket": "unknown",
+  "money": {
+    "amount": null,
+    "unit": null,
+    "status": "not established"
+  },
+  "literacy": "not established beyond cited records",
+  "health": "not represented",
+  "reputationByGroup": {},
+  "risk": "Personal circumstances beyond the cited record are not asserted.",
+  "relations": {},
+  "secretKnowledge": [],
+  "knownEvidence": [],
+  "privateKnowledgeIds": [],
+  "knownEvidenceIds": [],
+  "desires": "연감 예고에 수록된 「탈니코프 가족」의 서지 정보를 확인한다.",
+  "fears": "No private fear is asserted without a source.",
+  "taboos": [
+    "대사를 실제 발언이나 사료 인용으로 제시하지 않는다.",
+    "허용된 날짜 이후의 자료를 미리 알지 않는다.",
+    "확인되지 않은 사적 지식을 사실처럼 말하지 않는다."
+  ],
+  "speechRhythm": "작품의 인물과 장면을 먼저 짚고, 편집상의 판단은 짧고 단정하게 덧붙인다. 질문을 받으면 추상적인 원칙보다 원고의 구체적인 대목으로 답한다.",
+  "lexicon": [],
+  "emotions": [],
+  "personalObjective": "연감 예고에 수록된 「탈니코프 가족」의 서지 정보를 확인한다.",
+  "persistentPersonalGoals": [
+    {
+      "id": "V47_PANAEVA_TALNIKOV_READING",
+      "kind": "STORY",
+      "titleKo": "작가의 첫 장",
+      "descriptionKo": "탈니코프 가족의 첫 장을 읽고 독자에게 전할 메모를 남긴다.",
+      "fallbackKo": "인쇄소에서 본문을 읽은 뒤 첫 장 메모를 독자에게 맡긴다.",
+      "successCondition": { "type": "QUEST_ACTION", "questId": "V47_MAIN01_A03", "actionId": "V47_A03_PANAEVA_READING_NOTE" }
+    }
+  ],
+  "speechRegister": {
+    "firstMeeting": "낯선 사람에게는 용건부터 묻습니다.",
+    "colleague": "함께 일하는 사람에게 짧고 구체적으로 부탁합니다.",
+    "private": "둘만 있으면 걱정되는 일을 솔직히 꺼냅니다.",
+    "conflict": "목소리를 높이기보다 지금 필요한 일을 따집니다.",
+    "intimacy": "가까운 이에게는 안부와 피로를 먼저 묻습니다.",
+    "formal": "기관이나 책임자 앞에서는 존칭을 지키고 보고합니다."
+  },
+  "voiceSamples": [
+    "그 장면은 빼지 말아요. 인물들이 왜 떠나는지 이제야 보이니까.",
+    "여기 이름은 다시 확인해 주세요. 인쇄된 뒤에는 고치기 어려워요.",
+    "줄거리를 줄이는 것과 사람을 지우는 건 다른 일이에요."
+  ],
+  "worldview": {
+    "blindSpotKo": "원고 속 인물의 처지를 먼저 헤아리느라 편집 일정이 사람들에게 주는 압박을 늦게 볼 수 있다."
+  },
+  "allowedMaps": [
+    "printshop",
+    "sofiya-salon"
+  ],
+  "start": {
+    "mapId": "printshop",
+    "x": 14,
+    "y": 8
+  },
+  "inventory": [],
+  "sourceIds": [
+    "V47-NEKRASOV-ALMANAC-CONTENTS-1848"
+  ],
+  "canonConstraint": "The person is a source-bounded reconstruction; scene dialogue is newly authored and not a historical quotation.",
+  "sprite": {
+    "file": "assets/v47-role-sprite.svg",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "original generic role silhouette"
+  },
+  "spriteAtlas": {
+    "file": "assets/v47-role-sprite.svg",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "directions": 4,
+    "framesPerDirection": 3,
+    "directionRows": {
+      "down": 0,
+      "up": 1,
+      "left": 2,
+      "right": 3
+    }
+  },
+  "portrait": {
+    "file": "assets/v47-role-portrait.svg",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "ORIGINAL_GENERIC_GAME_ART"
+  },
+  "schedule": [
+    {
+      "atMinute": 540,
+      "mapId": "printshop",
+      "position": {
+        "x": 14,
+        "y": 8
+      },
+      "activityKo": "연감 예고에 수록된 「탈니코프 가족」의 서지 정보를 확인한다."
+    }
+  ],
+  "objectiveByChapter": {
+    "V33_1848_PUBLIC": "연감 예고에 수록된 「탈니코프 가족」의 서지 정보를 확인한다."
+  },
+  "presenceWindow": {
+    "startDate": "1848-01-31",
+    "endDate": "1848-12-31",
+    "start": {
+      "mapId": "printshop",
+      "position": {
+        "x": 14,
+        "y": 8
+      }
+    }
+  },
+  "v47DialogueContext": {
+    "voiceKo": "작품의 인물과 장면을 구체적으로 짚고, 편집상의 판단은 짧고 단정하게 말한다. 아래 예시는 이 장면을 위한 창작 말투이며 실제 발언 인용이 아니다.",
+    "sourceBoundKnowledge": [
+      "1848년 편집부 예고의 저자 표기 N. N. 스타니츠키"
+    ]
+  }
+}

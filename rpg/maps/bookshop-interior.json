@@ -42,7 +42,8 @@
         "editor_sofia",
         "typesetter_nikita",
         "bookbinder_elizaveta",
-        "junior_guard_sergey"
+        "junior_guard_sergey",
+        "petrashevsky_1849"
       ],
       "opensMinute": 360,
       "closesMinute": 1200,
@@ -125,7 +126,7 @@
       "imageheight": 160,
       "tilewidth": 16,
       "tileheight": 16,
-      "tilecount": 85,
+      "tilecount": 115,
       "columns": 16
     }
   ],
@@ -2228,7 +2229,11 @@
           "height": 16,
           "visible": true,
           "properties": [
-            { "name": "questId", "type": "string", "value": "V37_SERFDOM_READING_1847" }
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "V37_SERFDOM_READING_1847"
+            }
           ]
         },
         {
@@ -2241,8 +2246,16 @@
           "height": 16,
           "visible": true,
           "properties": [
-            { "name": "sourceId", "type": "string", "value": "LIT-GOGOL-RUSSIAN-LANDLORD-1847" },
-            { "name": "scope", "type": "string", "value": "public" }
+            {
+              "name": "sourceId",
+              "type": "string",
+              "value": "LIT-GOGOL-RUSSIAN-LANDLORD-1847"
+            },
+            {
+              "name": "scope",
+              "type": "string",
+              "value": "public"
+            }
           ]
         },
         {
@@ -2255,8 +2268,16 @@
           "height": 16,
           "visible": true,
           "properties": [
-            { "name": "sourceId", "type": "string", "value": "LIT-BELINSKY-GOGOL-REVIEW-1847" },
-            { "name": "scope", "type": "string", "value": "public" }
+            {
+              "name": "sourceId",
+              "type": "string",
+              "value": "LIT-BELINSKY-GOGOL-REVIEW-1847"
+            },
+            {
+              "name": "scope",
+              "type": "string",
+              "value": "public"
+            }
           ]
         },
         {
@@ -2269,7 +2290,11 @@
           "height": 16,
           "visible": true,
           "properties": [
-            { "name": "questId", "type": "string", "value": "V37_SALON_DEBATE_1847" }
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "V37_SALON_DEBATE_1847"
+            }
           ]
         },
         {
@@ -2282,8 +2307,16 @@
           "height": 16,
           "visible": true,
           "properties": [
-            { "name": "questId", "type": "string", "value": "V37_PHYSIOLOGY_READING_1847" },
-            { "name": "requiresLivingEventId", "type": "string", "value": "E39" }
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "V37_PHYSIOLOGY_READING_1847"
+            },
+            {
+              "name": "requiresLivingEventId",
+              "type": "string",
+              "value": "E39"
+            }
           ]
         },
         {
@@ -2296,8 +2329,16 @@
           "height": 16,
           "visible": true,
           "properties": [
-            { "name": "sourceId", "type": "string", "value": "LIT-TURGENEV-KHOR-KALYNYCH-1847" },
-            { "name": "scope", "type": "string", "value": "public" }
+            {
+              "name": "sourceId",
+              "type": "string",
+              "value": "LIT-TURGENEV-KHOR-KALYNYCH-1847"
+            },
+            {
+              "name": "scope",
+              "type": "string",
+              "value": "public"
+            }
           ]
         },
         {
@@ -2307,8 +2348,16 @@
           "x": 224,
           "y": 192,
           "properties": [
-            { "name": "questId", "type": "string", "value": "V37_SALON_INVITATION_1847" },
-            { "name": "requiresLivingEventId", "type": "string", "value": "E29" }
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "V37_SALON_INVITATION_1847"
+            },
+            {
+              "name": "requiresLivingEventId",
+              "type": "string",
+              "value": "E29"
+            }
           ]
         },
         {
@@ -2321,7 +2370,11 @@
           "height": 16,
           "visible": true,
           "properties": [
-            { "name": "questId", "type": "string", "value": "V37_PUSHKIN_OBITUARY_1847" }
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "V37_PUSHKIN_OBITUARY_1847"
+            }
           ]
         },
         {
@@ -2334,8 +2387,16 @@
           "height": 16,
           "visible": true,
           "properties": [
-            { "name": "sourceId", "type": "string", "value": "OBJ-PUSHKIN-OBITUARY-1837" },
-            { "name": "scope", "type": "string", "value": "public" }
+            {
+              "name": "sourceId",
+              "type": "string",
+              "value": "OBJ-PUSHKIN-OBITUARY-1837"
+            },
+            {
+              "name": "scope",
+              "type": "string",
+              "value": "public"
+            }
           ]
         },
         {
@@ -2348,10 +2409,26 @@
           "height": 16,
           "visible": true,
           "properties": [
-            { "name": "sourceId", "type": "string", "value": "OBJ-BELINSKY-LETTER-GOGOL-1847" },
-            { "name": "scope", "type": "string", "value": "public" },
-            { "name": "availableChapterId", "type": "string", "value": "V33_1848_PUBLIC" },
-            { "name": "availableDate", "type": "string", "value": "1848-01-02" }
+            {
+              "name": "sourceId",
+              "type": "string",
+              "value": "OBJ-BELINSKY-LETTER-GOGOL-1847"
+            },
+            {
+              "name": "scope",
+              "type": "string",
+              "value": "public"
+            },
+            {
+              "name": "availableChapterId",
+              "type": "string",
+              "value": "V33_1848_PUBLIC"
+            },
+            {
+              "name": "availableDate",
+              "type": "string",
+              "value": "1848-01-02"
+            }
           ]
         },
         {
@@ -2364,8 +2441,16 @@
           "height": 16,
           "visible": true,
           "properties": [
-            { "name": "questId", "type": "string", "value": "V37_BELINSKY_LETTER_1848" },
-            { "name": "requiresLivingEventId", "type": "string", "value": "E44" }
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "V37_BELINSKY_LETTER_1848"
+            },
+            {
+              "name": "requiresLivingEventId",
+              "type": "string",
+              "value": "E44"
+            }
           ]
         },
         {
@@ -2378,9 +2463,21 @@
           "height": 16,
           "visible": true,
           "properties": [
-            { "name": "questId", "type": "string", "value": "V37_SMUGGLED_EDITION_1847" },
-            { "name": "requiresLivingEventId", "type": "string", "value": "E34" },
-            { "name": "assetTileId", "type": "int", "value": 24 }
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "V37_SMUGGLED_EDITION_1847"
+            },
+            {
+              "name": "requiresLivingEventId",
+              "type": "string",
+              "value": "E34"
+            },
+            {
+              "name": "assetTileId",
+              "type": "int",
+              "value": 24
+            }
           ]
         }
       ]

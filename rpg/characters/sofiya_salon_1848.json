@@ -1,0 +1,204 @@
+{
+  "id": "sofiya_salon_1848",
+  "kind": "FICTIONAL",
+  "populationClass": "SCENARIO_GUEST",
+  "displayNameKo": "소피야",
+  "displayNameRu": "Софья Михайлова",
+  "ageAtDate": {
+    "value": null,
+    "status": "not established in the scenario seed"
+  },
+  "socialEstate": "fictional urban gentry household",
+  "occupation": "귀족 후원자·독서회 주최자",
+  "rank": {
+    "value": null,
+    "ru": null,
+    "status": "not a state-service rank"
+  },
+  "wealthBracket": "comfortable household; fictional gameplay design",
+  "wealthBracketStatus": "FICTIONAL_SCENARIO_DESIGN",
+  "money": {
+    "amount": 96,
+    "unit": "kopeks",
+    "status": "fictional_game_balance"
+  },
+  "literacy": "러시아어 신문과 문학 작품을 읽고 손님을 초대한다",
+  "health": "working",
+  "reputationByGroup": {
+    "literary readers": "patron"
+  },
+  "risk": "초대 명단과 사적인 낭독이 다른 사람에게 알려질 수 있다",
+  "relations": {
+    "printer_ekaterina": "후원 계약을 맺고 인쇄 노동의 비용을 놓고 의견이 부딪힌다",
+    "bookseller_lev": "책을 구입하고 반품·입고 날짜를 확인한다",
+    "seamstress_anna": "후원받는 사람으로만 대하지 말라는 요구를 듣는다",
+    "panaeva_1848": "작품의 생활 묘사와 문학적 가치에 대해 의견을 나눈다"
+  },
+  "secretKnowledge": [],
+  "knownEvidence": [],
+  "privateKnowledgeIds": [],
+  "knownEvidenceIds": [],
+  "desires": "자신이 후원한 작가가 독자에게서 밀려나지 않길 바라지만, 초대와 후원으로 타인의 선택까지 정하려는 버릇이 있다",
+  "fears": "자신은 안전한 방 안에 남겨 둔 채 다른 사람에게 위험을 떠넘길 수 있다는 점",
+  "taboos": [
+    "금지 결정의 공식 권한이 있는 것처럼 말하지 않는다",
+    "읽지 않은 책의 내용을 안다고 하지 않는다",
+    "허구의 초대와 대화를 역사적 사실이나 실제 발언으로 제시하지 않는다"
+  ],
+  "speechRhythm": "부드럽게 말을 돌려 상대의 생각을 먼저 묻고, 결정할 때는 이름을 정확히 부른다",
+  "speechRegister": {
+    "firstMeeting": "손님의 신분보다 읽은 대목과 방문 이유를 먼저 묻는다",
+    "colleague": "교정자와 서점 주인에게 비용과 날짜를 확인하며 친근한 존댓말을 쓴다",
+    "private": "둘만 있으면 후원으로 사람을 통제하려는 자신의 습관을 인정한다",
+    "conflict": "작업자의 항의를 미담으로 돌리지 않고 누구에게 비용을 넘겼는지 되묻는다",
+    "intimacy": "가까운 사람에게는 초대장을 접으며 말끝을 낮춘다",
+    "formal": "공식 기관 앞에서는 권한을 주장하지 않고 확인한 문서만 말한다"
+  },
+  "voiceSamples": [
+    "그 대목을 읽고 어떻게 생각하셨어요? 제 생각부터 말하면 또 초대장처럼 들릴까 봐요.",
+    "안나 씨, 후원 얘기 전에 받아야 할 품삯부터 적어 주세요.",
+    "오늘은 이름을 적지 말죠. 모임을 열지 않는 것도 제가 감당할 일이고요."
+  ],
+  "worldview": {
+    "status": "fictional_character_design",
+    "stanceKo": "문학을 함께 읽을 자리를 지키고 싶지만 후원자가 정한 자리가 모두에게 안전하거나 편한 것은 아니라고 배워 간다.",
+    "tensionKo": "작가를 보호하고 싶으면서도 자신은 초대 명단과 비용을 통해 사람들의 관계를 좌우하려 든다.",
+    "blindSpotKo": "자신에게는 작은 비용과 평판 위험이 노동자에게는 당장 필요한 생계와 연결된다는 점을 늦게 알아챈다.",
+    "designBasisKo": "제공된 MAIN01 시나리오의 허구 인물 설정이며 실제 인물이나 증언이 아니다.",
+    "sceneAnchorIds": [
+      "V47_MAIN01_A10"
+    ]
+  },
+  "topicStances": {
+    "literature": {
+      "knowledgeKind": "fictional_reader_and_patron_experience",
+      "positionKo": "읽은 작품과 자신의 감상을 말하되 작가의 의도를 대신 설명하지 않는다."
+    },
+    "censorship": {
+      "knowledgeKind": "source_bounded_public_information",
+      "positionKo": "공식 권한은 없다. 공문을 읽지 않았다면 정확한 절차와 날짜를 단정하지 않는다."
+    },
+    "poverty_and_class": {
+      "knowledgeKind": "fictional_patron_blind_spot",
+      "positionKo": "자신이 낸 후원금이 충분하다고 여기기 쉽지만, 작업자의 임금과 시간부터 확인해야 한다."
+    }
+  },
+  "lexicon": [
+    "초대장",
+    "손님",
+    "차",
+    "읽은 대목"
+  ],
+  "emotions": [
+    "호기심",
+    "사교적 긴장",
+    "후원자로서의 방어심",
+    "책임을 자각하는 망설임"
+  ],
+  "personalObjective": "남은 연감 한 권을 어떻게 둘지 정하고, 초대와 후원의 비용을 직접 감당한다",
+  "persistentPersonalGoals": [
+    {
+      "id": "V47_SOFIYA_COPY_AND_INVITATION",
+      "kind": "STORY",
+      "titleKo": "남은 한 권",
+      "descriptionKo": "독서회를 열거나 책을 보관하고, 그 선택의 비용과 위험을 감당한다.",
+      "fallbackKo": "살롱에서 독서회를 열거나 남은 연감을 잠가 둔다.",
+      "successCondition": { "type": "QUEST_ACTION", "questId": "V47_MAIN01_A10", "actionIds": ["V47_A10_HOST_READING", "V47_A10_STORE_COPY"] }
+    }
+  ],
+  "objectiveByChapter": {
+    "V33_1848_PUBLIC": "작은 독서회를 열거나 초대를 거두고, 책과 초대 명단의 행방을 정한다",
+    "V33_1849_PRELUDE": "사람을 돕는 일이 보호인지 통제인지 자신의 선택으로 확인한다",
+    "V33_1849_CIRCLE": "연결된 사람들의 안전과 독서 모임을 이어 갈지 결정한다"
+  },
+  "allowedMaps": [
+    "sofiya-salon",
+    "bookshop-lane",
+    "bookshop-interior",
+    "nevsky",
+    "printshop",
+    "inn-interior",
+    "communal-room"
+  ],
+  "start": {
+    "mapId": "sofiya-salon",
+    "x": 12,
+    "y": 14
+  },
+  "inventory": [
+    "연감 독서회 초대장",
+    "찻잎 봉투"
+  ],
+  "sourceIds": [],
+  "canonConstraint": "Fictional patron designed from the supplied scenario seed; scene dialogue is newly authored.",
+  "sprite": {
+    "file": "assets/v47/sofiya-salon-sprite.svg",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "original fictional gentry woman"
+  },
+  "spriteAtlas": {
+    "file": "assets/v47/sofiya-salon-sprite.svg",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "directions": 4,
+    "framesPerDirection": 3,
+    "directionRows": {
+      "down": 0,
+      "up": 1,
+      "left": 2,
+      "right": 3
+    }
+  },
+  "portrait": {
+    "file": "assets/v47/sofiya-salon-portrait.svg",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "ORIGINAL_FICTIONAL_GAME_ART"
+  },
+  "schedule": [
+    {
+      "atMinute": 540,
+      "mapId": "sofiya-salon",
+      "position": {
+        "x": 12,
+        "y": 14
+      },
+      "activityKo": "책과 초대장을 살핀다"
+    },
+    {
+      "atMinute": 960,
+      "mapId": "sofiya-salon",
+      "position": {
+        "x": 12,
+        "y": 14
+      },
+      "activityKo": "저녁 독서회에 올 손님을 기다린다"
+    }
+  ],
+  "presenceWindow": {
+    "startDate": "1848-10-21",
+    "endDate": "1849-05-05",
+    "start": {
+      "mapId": "sofiya-salon",
+      "position": {
+        "x": 12,
+        "y": 14
+      }
+    }
+  },
+  "v47DialogueContext": {
+    "voiceKo": "상대의 감상을 먼저 물으며 완곡하게 말한다. 임금과 안전을 요구받으면 후원자다운 칭찬으로 넘기지 말고 구체적인 비용과 책임을 인정한다.",
+    "sourceBoundKnowledge": [
+      "1848-10-21 이후 배포 금지 소식을 들은 경우에만 자신의 초대와 보관 결정을 설명한다.",
+      "검열 명령의 번호나 작가의 사적 생각은 직접 문서를 읽지 않으면 모른다.",
+      "독서회와 대사는 허구이며 실제 인물의 발언이 아니다."
+    ]
+  },
+  "skills": {
+    "reading": 4,
+    "hosting": 3,
+    "accounts": 2
+  },
+  "skillsValueStatus": "FICTIONAL_CHARACTER_DESIGN"
+}

@@ -32,6 +32,7 @@
       "textStatus": "DIRECT",
       "renderingStatus": "RECONSTRUCTED",
       "documentDate": "1848",
+      "accessibleToPlayerAt": "1848-01-31",
       "publicationDate": "1848",
       "pageLocator": "Wikisource 117–119행 · 연속된 세 문단",
       "contextKo": "편집부 공지는 지방 구독자에게 첫 호가 늦게 도착한 사정과 이후 발행 일정을 설명합니다. 같은 글에서 미뤄 둔 기사와 라마르틴 관련 소식도 알립니다.",
@@ -44,10 +45,24 @@
       "textStatus": "DIRECT",
       "renderingStatus": "RECONSTRUCTED",
       "documentDate": "1848 · 1849년 발행분을 예고",
+      "accessibleToPlayerAt": "1848-12-31",
       "publicationDate": "1848",
       "pageLocator": "Wikisource 182–190행 · 연속된 여덟 문단 블록",
       "contextKo": "이 공고는 1849년에 나올 《현대인》의 발행 계획과 구독 조건을 미리 알립니다. 제목에 적힌 1849년은 공고 작성 연도가 아니라 예고하는 발행 연도입니다.",
       "rightsNoteKo": "제목의 1849년은 안내 대상 발행 연도다. 문서는 1848년에 작성·공표된 공고다. 1997년 학술 전집 전사문."
+    },
+    {
+      "sourceId": "V47-NIKITENKO-DIARY-1848-08-22",
+      "excerptId": "EX-NIKITENKO-DIARY-1848-08-22-L4394-4397",
+      "layout": "diary",
+      "textStatus": "DIRECT",
+      "renderingStatus": "RECONSTRUCTED",
+      "documentDate": "1848-08-22",
+      "publicationDate": "1889–1892 serial publication; 1955 collected edition",
+      "accessibleToPlayerAt": "1889-01-01",
+      "pageLocator": "1848년 8월 22일 항목 첫 네 연속 문단 · Wikisource lines 4394–4397",
+      "contextKo": "니키텐코는 일기 공백을 언급한 뒤 그해 여름 콜레라와 도시에서 전해진 소식을 기록합니다. 인원 수는 그의 당시 기록에 적힌 추산입니다.",
+      "rightsNoteKo": "19세기 사적 일기의 러시아어 전사문을 바탕으로 새로 번역했다. 8월 22일 이전 날짜의 장면에서는 열 수 없다."
     },
     {
       "sourceId": "OBJ-WS-PETRASHEVSKY-REPORT-1849",
@@ -56,6 +71,7 @@
       "textStatus": "DIRECT",
       "renderingStatus": "RECONSTRUCTED",
       "documentDate": "1849-04-22부터 이어지는 보고 부분",
+      "accessibleToPlayerAt": "1849-12-22",
       "publicationDate": "1928년 자료집 수록",
       "pageLocator": "Wikisource 388–394행 · 같은 보고서의 연속된 일곱 문단",
       "contextKo": "조사기관의 보고서는 4월 22일 모임에서 검열을 논의했다는 기록 뒤에 정보원의 보고와 체포 명령을 이어 적습니다. 아래 문단에서 보고서의 서술과 정보원 주장을 구분해 읽을 수 있습니다.",
@@ -87,14 +103,14 @@
     },
     {
       "sourceId": "LIT-DOSTOEVSKY-CRIME-PUNISHMENT-1866-CH2",
-        "excerptId": "EX-DOSTOEVSKY-CRIME-PUNISHMENT-1866-P1-CH2-L121-146",
+      "excerptId": "EX-DOSTOEVSKY-CRIME-PUNISHMENT-1866-P1-CH2-L121-146",
       "layout": "book",
       "textStatus": "DIRECT",
       "renderingStatus": "RECONSTRUCTED",
       "documentDate": "1866",
       "publicationDate": "1866 · Русский вестник, т. 61, № 1/2 · 첫 연재",
-        "pageLocator": "제1부 제2장 · RVB 전사문 121–146행 · 인쇄본 13–15쪽 · 마르멜라도프가 라스콜리니코프에게 말을 거는 장면부터 딸에 관한 이야기까지 이어지는 대목",
-        "contextKo": "술집에서 마르멜라도프는 처음 만난 라스콜리니코프에게 자신이 관리였다고 소개합니다. 이어 가난과 궁핍, 아내가 맞은 일, 네바강의 건초 운반선에서 보낸 밤을 말하고, 받을 가망이 없다는 걸 알면서도 돈을 빌리러 가는 마음을 묻습니다.",
+      "pageLocator": "제1부 제2장 · RVB 전사문 121–146행 · 인쇄본 13–15쪽 · 마르멜라도프가 라스콜리니코프에게 말을 거는 장면부터 딸에 관한 이야기까지 이어지는 대목",
+      "contextKo": "술집에서 마르멜라도프는 처음 만난 라스콜리니코프에게 자신이 관리였다고 소개합니다. 이어 가난과 궁핍, 아내가 맞은 일, 네바강의 건초 운반선에서 보낸 밤을 말하고, 받을 가망이 없다는 걸 알면서도 돈을 빌리러 가는 마음을 묻습니다.",
       "rightsNoteKo": "1866년 초판 간행물은 대통령도서관 서지 항목으로 확인했다. 러시아어 본문은 학술 전사문이며 한국어는 이 프로젝트의 새 번역이다."
     },
     {
@@ -152,6 +168,7 @@
       "textStatus": "DIRECT",
       "renderingStatus": "RECONSTRUCTED",
       "documentDate": "1849-04-22",
+      "accessibleToPlayerAt": "1849-05-04",
       "publicationDate": "1936년 학술 자료집 수록",
       "pageLocator": "Бельчиков, стр. 169–170 · электронная транскрипция 2779–2810행 · 명령서 전문의 연속 네 문단",
       "contextKo": "4월 22일 명령서에는 다음 날 새벽의 체포 시각과 주소, 책과 서류의 봉인·인계, 집행 담당자의 책임이 차례로 적혀 있습니다.",
@@ -164,6 +181,7 @@
       "textStatus": "DIRECT",
       "renderingStatus": "RECONSTRUCTED",
       "documentDate": "1849-12-22",
+      "accessibleToPlayerAt": "1850-01-03",
       "publicationDate": "15권 학술 전집 수록",
       "pageLocator": "РВБ 115–121행 · 연속된 세 본문 문단과 수신·발신 표제",
       "contextKo": "도스토옙스키가 동생 미하일에게 쓴 편지다. 사형 선고와 처형 준비, 집행 중지와 황제의 사면 통보를 적은 뒤, 광장으로 호송될 때 마차에서 본 군중과 형에게 편지를 쓰는 까닭을 덧붙인다.",
@@ -176,6 +194,7 @@
       "textStatus": "DIRECT",
       "renderingStatus": "RECONSTRUCTED",
       "documentDate": "1848-03-14 (Julian)",
+      "accessibleToPlayerAt": "1848-03-27",
       "publicationDate": "Северная пчела, 1848, № 59, 1848-03-15 (Julian)",
       "pageLocator": "Minin (2024), pp. 647–648 · four consecutive blocks from ‘Объявляем всенародно’ through ‘Но да не будет так!’",
       "contextKo": "선언문은 프랑스에서 시작해 독일과 오스트리아·프로이센으로 번진 변화를 황실의 관점에서 설명하고, 러시아를 향한 위협으로 규정한 뒤 이를 막겠다고 선언합니다.",
@@ -188,6 +207,7 @@
       "textStatus": "DIRECT",
       "renderingStatus": "RECONSTRUCTED",
       "documentDate": "1837-01-29 (Julian)",
+      "accessibleToPlayerAt": "1837-02-11",
       "publicationDate": "Литературные прибавления к Русскому инвалиду, 1837, № 5 · 30 January (Julian)",
       "pageLocator": "Issue 5, final page · complete obituary; Kudryashov (2019), pp. 139–140",
       "contextKo": "푸시킨의 죽음을 알리고 그의 시와 독자들이 느낄 상실을 애도하는 부고 전문입니다.",
@@ -200,10 +220,208 @@
       "textStatus": "DIRECT",
       "renderingStatus": "RECONSTRUCTED",
       "documentDate": "1847-07-03 Julian / 1847-07-15 Gregorian",
+      "accessibleToPlayerAt": "1849-04-27",
       "publicationDate": "First print: Герцен, Полярная звезда, 1855, book I; manuscript copies circulated earlier",
       "pageLocator": "Академический ПСС Гоголя, т. 8 (1952), с. 500–502 · seven consecutive paragraphs",
       "contextKo": "고골의 새 책에 관한 논쟁에서 벨린스키가 답장을 보냅니다. 책이 종교와 체벌을 내세워 농노제를 정당화한다고 비판하고, 농노제 폐지와 체벌 금지, 기존 법 집행을 요구합니다.",
       "rightsNoteKo": "원문은 1847년의 사적 편지다. 생전에 필사본으로 퍼졌으며, 1855년에 런던에서 처음 인쇄됐다. 한국어는 새 번역이다."
+    },
+    {
+      "sourceId": "V47-PANAEV-LETTER-1848-08-20",
+      "excerptId": "EX-PANAEV-LETTER-1848-08-20-RGIA-772-1-2157-L10",
+      "layout": "letter",
+      "textStatus": "DIRECT",
+      "renderingStatus": "RECONSTRUCTED",
+      "documentDate": "1848-08-20 (Julian)",
+      "eraCalendar": "JULIAN",
+      "convertedGregorianDate": "1848-09-01",
+      "accessibleToPlayerAt": "1848-09-01",
+      "publicationDate": "Quoted in a 1977 scholarly article; archive letter dated 20 August 1848",
+      "pageLocator": "RGIA ф. 772, оп. 1, ед. хр. 2157, л. 10 · 학술 전사 위치: Wikisource 227–231행",
+      "contextKo": "연감의 수록 작품을 둘러싼 수정 사항을 알리고 발행 허가를 청하는 편지입니다.",
+      "rightsNoteKo": "학술 논문에 수록된 인용 전사문이다. 아카이브 원본 이미지는 대조하지 못했다."
+    },
+    {
+      "sourceId": "V47-KRYLOV-ASSESSMENT-1848-09-06",
+      "excerptId": "EX-V47-KRYLOV-ASSESSMENT-1848-09-06-RGIA-772-1-2157-L11-14",
+      "layout": "letter",
+      "textStatus": "DIRECT",
+      "renderingStatus": "RECONSTRUCTED",
+      "documentDate": "1848-09-06 (Julian)",
+      "eraCalendar": "JULIAN",
+      "convertedGregorianDate": "1848-09-18",
+      "accessibleToPlayerAt": "1848-09-18",
+      "publicationDate": "Quoted in a 1977 scholarly article; archival assessment dated 6 September 1848",
+      "pageLocator": "RGIA ф. 772, оп. 1, ед. хр. 2157, л. 11–14 · 학술 전사 위치: Wikisource 232–234행",
+      "contextKo": "크릴로프는 개별 작품과 한 권으로 묶인 연감의 인상이 다르다고 보고하고 「탈니코프 가족」 등 네 작품을 지목합니다.",
+      "rightsNoteKo": "학술 논문에 인용된 공식 심사 의견의 전사문이다. 보관소 원본 이미지는 대조하지 못했고 한국어는 새 번역이다."
+    },
+    {
+      "sourceId": "V47-MUSIN-PUSHKIN-REPORT-MARGIN-NOTE-1848-10-15",
+      "excerptId": "EX-V47-MUSIN-PUSHKIN-REPORT-MARGIN-NOTE-1848-10-15-RGIA-772-1-2157-L8-9",
+      "layout": "letter",
+      "textStatus": "DIRECT",
+      "renderingStatus": "RECONSTRUCTED",
+      "documentDate": "1848-10-15 (Julian)",
+      "eraCalendar": "JULIAN",
+      "convertedGregorianDate": "1848-10-27",
+      "accessibleToPlayerAt": "1848-11-01",
+      "publicationDate": "Unsigned marginal note transcribed in the 1997 scholarly edition; formal ban followed on 20 October 1848 Julian",
+      "pageLocator": "RGIA ф. 772, оп. 1, ед. хр. 2157, л. 8–9 · 학술 전사 위치: Wikisource 239–240행",
+      "contextKo": "1848년 10월 15일 무신푸시킨은 우바로프에게 연감의 심사 경위를 보고하고 파나예프의 편지와 크릴로프의 의견을 함께 냈습니다. 보고서 여백에는 서명 없는 연필 메모가 남았습니다. 닷새 뒤인 10월 20일, 중앙 검열 총국은 연감의 배포를 금하고 인쇄 부수를 폐기하도록 했습니다.",
+      "rightsNoteKo": "1997년 학술 전집이 전사한 여백 메모다. 원본 문서와 서명은 확인되지 않았다."
+    },
+    {
+      "sourceId": "V47-NEKRASOV-ALMANAC-CONTENTS-1848",
+      "excerptId": "EX-V47-NEKRASOV-ALMANAC-CONTENTS-1848-L121-178",
+      "layout": "periodical",
+      "textStatus": "DIRECT",
+      "renderingStatus": "RECONSTRUCTED",
+      "documentDate": "1848-01-31 (Julian)",
+      "accessibleToPlayerAt": "1848-02-12",
+      "publicationDate": "1848년 2월 《소브레멘니크》 제7권 제2호. 1월 31일은 이 잡지 호의 검열 허가일이며, 연감 허가일은 아닙니다.",
+      "pageLocator": "《소브레멘니크》 1848년 제7권 제2호, pp. 215–217 · Google Books scan RA5-PT215–217; 공고 본문 216면",
+      "contextKo": "이 잡지 호의 발행 허가는 1848년 1월 31일에 났습니다. 편집부는 구독자에게 첫 호 발송이 늦어진 까닭을 알린 뒤, 다음 글에서 아직 발행 전인 연감의 작품과 그림을 소개합니다. 「탈니코프 가족」은 N. N. 스타니츠키라는 필명으로 예고되어 있습니다.",
+      "rightsNoteKo": "1848년 잡지의 연속된 세 면을 수록했다. 러시아어 공고를 216면 원판과 대조했고, 한국어는 새 번역이다.",
+      "artworks": [
+        {
+          "path": "/rpg/assets/v47-almanac/sovremennik-1848-v7-page-215.png",
+          "availableToPlayerAt": "1848-02-12",
+          "altKo": "《소브레멘니크》 1848년 제7권 215면. 편집부가 구독자에게 첫 호 발송이 늦어진 까닭과 이후 발송 계획을 알린다.",
+          "captionKo": "《소브레멘니크》 제7권 215면 · 구독자에게 보낸 편집부 안내"
+        },
+        {
+          "path": "/rpg/assets/v47-almanac/sovremennik-1848-v7-page-216.png",
+          "availableToPlayerAt": "1848-02-12",
+          "altKo": "《소브레멘니크》 1848년 제7권 216면. ‘곧 인쇄될 《삽화 연감》’ 아래 「탈니코프 가족」과 수록작, 그림 목록이 인쇄되어 있다.",
+          "captionKo": "《소브레멘니크》 제7권 216면 · 《삽화 연감》 목차와 그림 공고"
+        },
+        {
+          "path": "/rpg/assets/v47-almanac/sovremennik-1848-v7-page-217.png",
+          "availableToPlayerAt": "1848-02-12",
+          "altKo": "《소브레멘니크》 1848년 제7권 217면. 제7권에 실린 글과 저자를 정리한 차례가 이어진다.",
+          "captionKo": "《소브레멘니크》 제7권 217면 · 잡지 권차례"
+        },
+        {
+          "path": "/rpg/assets/v47-illustrated-almanac-titlepage.jpg",
+          "availableToPlayerAt": "1848-02-12",
+          "altKo": "1848년 상트페테르부르크에서 출판된 《삽화 연감》의 실제 표제지. 네크라소프와 파나예프의 이름, 에두아르트 프라츠 출판사와 발행지가 적혀 있다.",
+          "captionKo": "《삽화 연감》 표제지, 상트페테르부르크, 1848년. 실제 책의 표제면입니다."
+        }
+      ],
+      "artwork": {
+        "path": "/rpg/assets/v47-nekrasov-panaev-caricature.jpg",
+        "availableToPlayerAt": "1848-02-12",
+        "altKo": "1848년 니콜라이 스테파노프의 흑백 풍자화. 니콜라이 네크라소프와 이반 파나예프가 탁자 곁에 앉아 있다.",
+        "captionKo": "니콜라이 스테파노프, 네크라소프와 파나예프를 그린 풍자화, 1848년. 연감의 실제 판면이나 탈니코프 가족 삽화가 아니라 두 편집자의 별도 초상 풍자화입니다."
+      },
+      "eraCalendar": "JULIAN",
+      "convertedGregorianDate": "1848-02-12"
+    },
+    {
+      "sourceId": "V47-PANAEVA-TALNIKOV-CH1-1848",
+      "excerptId": "EX-V47-PANAEVA-TALNIKOV-CH1-BIBRA-L27-40",
+      "layout": "book",
+      "readerLabelKo": "책 원문",
+      "textStatus": "DIRECT",
+      "renderingStatus": "RECONSTRUCTED",
+      "documentDate": "1848",
+      "accessibleToPlayerAt": "1848-05-06",
+      "publicationDate": "1848년 《삽화 연감》 수록",
+      "pageLocator": "제1장 연속 13개 문단 · 인터넷 아카이브 1848년판 스캔 낱장 9–11 · Bibra.ru lines 27–40",
+      "catalogLinks": [
+        {
+          "sourceId": "V47-RSL-ILLUSTRATED-ALMANAC-FACSIMILE-CATALOG",
+          "label": "1848년 판본 영인본 서지 · 러시아 국립도서관",
+          "href": "https://search.rsl.ru/ru/record/01008627015"
+        },
+        {
+          "sourceId": "V47-CINII-ILLUSTRATED-ALMANAC-HATHITRUST-CATALOG",
+          "label": "1848년 소장·전자자료 기록 · CiNii / HathiTrust",
+          "href": "https://ci.nii.ac.jp/ncid/BB0860830X"
+        },
+        {
+          "sourceId": "V47-IA-ILLUSTRATED-ALMANAC-1848-SCAN",
+          "label": "1848년 원판 스캔 · Internet Archive",
+          "href": "https://archive.org/details/1848_20240901"
+        },
+        {
+          "sourceId": "V47-PANAEVA-ACADEMIA-REPRINT-1928",
+          "label": "1928년 재수록본과 주석 · 러시아어 스캔",
+          "href": "https://imwerden.de/pdf/panaeva_semejstvo_talnikovykh_academia_1928_text.pdf"
+        }
+      ],
+      "contextKo": "어린 화자는 여동생의 죽음 앞에서 무심한 어른들과 돈·식량을 둘러싼 다툼을 봅니다. 이어 부모의 무관심과 아버지의 폭력이 아이들에게 남기는 상처를 구체적으로 들려줍니다.",
+      "rightsNoteKo": "원판과 대조해 러시아어 표기를 현대 맞춤법으로 정리했습니다. 한국어는 새 번역입니다.",
+      "originalLanguage": "ru",
+      "originalTextLabelKo": "러시아어 원문",
+      "artworks": [
+        {
+          "path": "/rpg/assets/v47-almanac/talnikov-1848-leaf-009.jpg",
+          "availableToPlayerAt": "1848-05-06",
+          "altKo": "1848년 《삽화 연감》 스캔. 「탈니코프 가족」 제1장 제목과 첫 문단이 보이는 낱장.",
+          "captionKo": "「탈니코프 가족」 첫 장 · 원판 스캔 낱장 9"
+        },
+        {
+          "path": "/rpg/assets/v47-almanac/talnikov-1848-leaf-010.jpg",
+          "availableToPlayerAt": "1848-05-06",
+          "altKo": "1848년 《삽화 연감》 스캔. 「탈니코프 가족」 제1장의 이어지는 본문.",
+          "captionKo": "「탈니코프 가족」 첫 장 · 원판 스캔 낱장 10"
+        },
+        {
+          "path": "/rpg/assets/v47-almanac/talnikov-1848-leaf-011.jpg",
+          "availableToPlayerAt": "1848-05-06",
+          "altKo": "1848년 《삽화 연감》 스캔. 「탈니코프 가족」 제1장의 이어지는 본문과 발췌 마지막 문단.",
+          "captionKo": "「탈니코프 가족」 첫 장 · 원판 스캔 낱장 11"
+        }
+      ]
+    },
+    {
+      "sourceId": "V47-CRAWFORD-CHO-OBS-1848",
+      "excerptId": "EX-V47-CRAWFORD-CHO-OBS-1848-PDF6-7",
+      "layout": "book",
+      "textStatus": "DIRECT",
+      "renderingStatus": "RECONSTRUCTED",
+      "documentDate": "1848-08-31 (Gregorian, preface date)",
+      "accessibleToPlayerAt": "1849-01-01",
+      "originalLanguage": "en",
+      "publicationDate": "London: W. Clowes & Sons for Her Majesty’s Stationery Office, 1848",
+      "pageLocator": "NLM digital PDF pp. 6–7 · two consecutive paragraphs, ‘Topography and Climate of St. Petersburg’",
+      "contextKo": "페테르부르크에 머물렀던 크로퍼드가 런던에서 쓴 보고서입니다. 지형과 운하, 배수, 낮은 주거와 물을 구하는 형편을 관찰합니다.",
+      "rightsNoteKo": "영국 의사의 1848년 관찰 기록이며 당시 해석은 현대 의학 지식과 다를 수 있습니다. 러시아 도착일은 확인되지 않아 게임 자료철은 1849년부터 엽니다.",
+      "originalTextLabelKo": "영어 원문",
+      "originalSourceLanguageNameKo": "영어"
+    },
+    {
+      "sourceId": "V47-ECONOMIST-PETERSBURG-1848-06-24",
+      "excerptId": "EX-V47-ECONOMIST-1848-07-08-PETERSBURG-DISPATCH",
+      "layout": "newspaper",
+      "textStatus": "DIRECT",
+      "renderingStatus": "RECONSTRUCTED",
+      "documentDate": "1848-06-24 (dispatch date; calendar basis as printed)",
+      "accessibleToPlayerAt": "1848-07-08",
+      "originalLanguage": "en",
+      "publicationDate": "The Economist, 8 July 1848, vol. 6, no. 254",
+      "pageLocator": "digitized issue, Petersburg dispatch dated June 24; contiguous dispatch paragraph",
+      "contextKo": "페테르부르크발 소식은 콜레라가 도시에 닿았다고 전하고, 날씨와 사망 소식을 덧붙입니다. 날씨를 원인으로 든 문장은 당시 보도의 추정입니다.",
+      "rightsNoteKo": "1848년 영문 신문 원문을 새로 번역했다. 당시 보도의 주장과 오늘날 의학적 설명을 구분한다.",
+      "originalTextLabelKo": "영어 원문",
+      "originalSourceLanguageNameKo": "영어"
+    },
+    {
+      "sourceId": "V47-NEKRASOV-SUBSCRIBER-LETTER-1848",
+      "excerptId": "EX-V47-NEKRASOV-SUBSCRIBER-LETTER-1848-FULL",
+      "layout": "letter",
+      "textStatus": "DIRECT",
+      "renderingStatus": "RECONSTRUCTED",
+      "documentDate": "1848-11-17 (Julian)",
+      "eraCalendar": "JULIAN",
+      "convertedGregorianDate": "1848-11-29",
+      "accessibleToPlayerAt": "1848-11-29",
+      "publicationDate": "Authorized copies dated 17 November 1848; later scholarly transcription",
+      "pageLocator": "편지 전체(인사말부터 두 서명까지) · RGALI ф. 338, оп. 1, ед. хр. 74 · RGB ф. 195, картон 1, ед. хр. 16",
+      "contextKo": "편집부는 연감이 인쇄를 마쳤지만 새 검열 지시로 재심사 중이라고 설명하며 구독자에게 지연을 이해해 달라고 청합니다.",
+      "rightsNoteKo": "동시대 편지의 학술 전사문이며, 한국어는 새 번역이다. 원본 필사본 스캔은 이번 검수에서 대조하지 못했다."
     }
   ]
 }

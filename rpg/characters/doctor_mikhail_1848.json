@@ -1,0 +1,143 @@
+{
+  "id": "doctor_mikhail_1848",
+  "kind": "FICTIONAL",
+  "displayNameKo": "미하일 의사",
+  "displayNameRu": "Михаил",
+  "populationClass": "SCENARIO_GUEST",
+  "skillsValueStatus": "FICTIONAL_CHARACTER_DESIGN",
+  "skills": {
+    "clinicalObservation": 4,
+    "patientCare": 3,
+    "remedyPreparation": 2,
+    "carePatients": 4,
+    "manageSupplies": 2,
+    "recordObservations": 2
+  },
+  "ageAtDate": {
+    "value": null,
+    "status": "not established in this scenario data"
+  },
+  "socialEstate": "not asserted beyond checked source records",
+  "occupation": "빈민가 진료소 의사",
+  "rank": {
+    "value": null,
+    "ru": null,
+    "status": "not_applicable"
+  },
+  "wealthBracket": "unknown",
+  "money": {
+    "amount": null,
+    "unit": null,
+    "status": "not established"
+  },
+  "literacy": "not established beyond cited records",
+  "health": "not represented",
+  "reputationByGroup": {},
+  "risk": "Personal circumstances beyond the cited record are not asserted.",
+  "relations": {},
+  "secretKnowledge": [],
+  "knownEvidence": [],
+  "privateKnowledgeIds": [],
+  "knownEvidenceIds": [],
+  "desires": "환자 돌봄과 깨끗한 물, 약재 부족을 이웃과 조정한다.",
+  "fears": "No private fear is asserted without a source.",
+  "taboos": [
+    "대사를 실제 발언이나 사료 인용으로 제시하지 않는다.",
+    "허용된 날짜 이후의 자료를 미리 알지 않는다.",
+    "확인되지 않은 사적 지식을 사실처럼 말하지 않는다."
+  ],
+  "speechRhythm": "당대에 관찰할 수 있는 증상과 돌봄만 말한다. 현대 병원체·전파 이론을 알지 못한다.",
+  "lexicon": [
+    "깨끗한 물",
+    "환자의 맥",
+    "약재"
+  ],
+  "emotions": [],
+  "personalObjective": "환자 돌봄과 깨끗한 물, 약재 부족을 이웃과 조정한다.",
+  "speechRegister": {
+    "firstMeeting": "낯선 사람에게는 용건부터 묻습니다.",
+    "colleague": "함께 일하는 사람에게 짧고 구체적으로 부탁합니다.",
+    "private": "둘만 있으면 걱정되는 일을 솔직히 꺼냅니다.",
+    "conflict": "목소리를 높이기보다 지금 필요한 일을 따집니다.",
+    "intimacy": "가까운 이에게는 안부와 피로를 먼저 묻습니다.",
+    "formal": "기관이나 책임자 앞에서는 존칭을 지키고 보고합니다."
+  },
+  "voiceSamples": [
+    "그 물은 어디서 길어 왔어요?",
+    "깨끗한 천이 더 필요하오.",
+    "오늘은 문을 닫고 환자 곁에 있겠소."
+  ],
+  "worldview": {
+    "blindSpotKo": "급한 환자를 돌보다 보면 집안의 생계가 얼마나 버티는지 놓치기 쉽다."
+  },
+  "allowedMaps": [
+    "communal-room",
+    "inn-interior"
+  ],
+  "start": {
+    "mapId": "communal-room",
+    "x": 10,
+    "y": 8
+  },
+  "inventory": [],
+  "sourceIds": [
+    "V47-CRAWFORD-CHO-OBS-1848"
+  ],
+  "canonConstraint": "The person is a source-bounded reconstruction; scene dialogue is newly authored and not a historical quotation.",
+  "sprite": {
+    "file": "assets/v47-role-sprite.svg",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "style": "original generic role silhouette"
+  },
+  "spriteAtlas": {
+    "file": "assets/v47-role-sprite.svg",
+    "frameWidth": 16,
+    "frameHeight": 24,
+    "directions": 4,
+    "framesPerDirection": 3,
+    "directionRows": {
+      "down": 0,
+      "up": 1,
+      "left": 2,
+      "right": 3
+    }
+  },
+  "portrait": {
+    "file": "assets/v47-role-portrait.svg",
+    "width": 64,
+    "height": 64,
+    "historicalConfidence": "ORIGINAL_GENERIC_GAME_ART"
+  },
+  "schedule": [
+    {
+      "atMinute": 540,
+      "mapId": "communal-room",
+      "position": {
+        "x": 10,
+        "y": 8
+      },
+      "activityKo": "환자 돌봄과 깨끗한 물, 약재 부족을 이웃과 조정한다."
+    }
+  ],
+  "objectiveByChapter": {
+    "V33_1848_PUBLIC": "환자 돌봄과 깨끗한 물, 약재 부족을 이웃과 조정한다."
+  },
+  "presenceWindow": {
+    "startDate": "1848-06-04",
+    "endDate": "1848-09-30",
+    "start": {
+      "mapId": "communal-room",
+      "position": {
+        "x": 10,
+        "y": 8
+      }
+    }
+  },
+  "v47DialogueContext": {
+    "voiceKo": "당대에 관찰할 수 있는 증상과 돌봄만 말한다. 현대 병원체·전파 이론을 알지 못한다.",
+    "sourceBoundKnowledge": [
+      "관찰된 증상, 환자 수, 확보한 물품"
+    ]
+  }
+}

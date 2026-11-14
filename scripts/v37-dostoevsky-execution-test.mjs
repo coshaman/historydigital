@@ -25,9 +25,11 @@ const sourceId = 'OBJ-WS-DOSTOEVSKY-LETTER-1849-DEC22';
 const actor = cards.find(card => card.id === 'dostoevsky_1849');
 assert.ok(actor, 'the historical scene has a dedicated runtime host');
 assert.equal(actor.kind, 'HISTORICAL_RECONSTRUCTION');
-assert.equal(actor.presenceWindow.startDate, '1849-12-22');
+assert.equal(actor.presenceWindow.startDate, '1849-04-27', 'the historical reconstruction enters the timeline from the verified spring source range');
+assert.equal(actor.presenceWindow.endDate, '1849-12-22', 'the execution scene remains fixed to its dated primary letter');
 assert.equal(registry.runtime_profiles.dostoevsky_1849.layer, 'HISTORICAL_RECONSTRUCTION');
 assert.ok(registry.runtime_profiles.dostoevsky_1849.sourceIds.includes(sourceId));
+assert.ok(registry.runtime_profiles.dostoevsky_1849.sourceIds.includes('OBJ-WS-PETRASHEVSKY-REPORT-1849'));
 assert.ok(decorateCardsWithEraProfiles(cards, registry).some(card => card.id === actor.id && card.eraProfile.allowedChapterIds.includes(quest.chapterId)));
 assert.equal(quest.date, '1849-12-22');
 assert.deepEqual(campaign.arcs.find(arc => arc.id === quest.chapterId).questIds.slice(-1), [quest.id]);
@@ -57,8 +59,13 @@ const quests = [investigation, letter, quest];
 const state = game.createInitialState({ maps, hostCards: cards, quests, startMapId: 'nevsky' });
 state.world.chapterId = quest.chapterId;
 state.world.date = '1849-05-05';
+state.world.clockMinutes = 360;
 state.world.currentMapId = 'semenovsky-square';
 state.player.position = { x: 14, y: 15 };
+// This fixture jumps the world date directly to the execution day. Stage the absent historical character
+// at his fixed incarceration location so the test does not rely on the skipped months to move him there.
+state.hosts.dostoevsky_1849.mapId = 'fortress-cell';
+state.hosts.dostoevsky_1849.position = { x: 7, y: 6 };
 state.quests[investigation.id].status = 'resolved';
 state.quests[letter.id].status = 'resolved';
 assert.equal(game.recordSourceRead(state, sourceId, maps).ok, false, 'the letter is not accessible before its date');
@@ -73,8 +80,12 @@ assert.equal(objectIsPresent(squareExit, advanced.state, quests), true, 'the rou
 const reachedSquare = game.transitionMap(advanced.state, 'nevsky-semenovsky-square', maps);
 assert.equal(reachedSquare.ok, true, reachedSquare.reason);
 assert.equal(reachedSquare.state.world.currentMapId, 'semenovsky-square');
-const started = game.advanceNpcWorld(advanced.state, 60, maps);
-assert.equal(started.world.livingEventStates.E41.status, 'ACTIVE');
+const started = game.advanceNpcWorld(advanced.state, 240, maps);
+assert.equal(started.world.livingEventStates.E41.status, 'ACTIVE', JSON.stringify({ clock: started.world.clockMinutes,
+  host: started.hosts.dostoevsky_1849 && { mapId: started.hosts.dostoevsky_1849.mapId,
+    position: started.hosts.dostoevsky_1849.position, goal: started.hosts.dostoevsky_1849.activeGoal,
+    scheduleId: started.hosts.dostoevsky_1849.scheduleId, travel: started.hosts.dostoevsky_1849.mapRoutePlan },
+  event: started.world.livingEventStates.E41 }));
 assert.equal(started.world.livingEventStates.E41.stage, 'MOCK_EXECUTION_PREPARATION');
 const object = maps['semenovsky-square'].layers.find(layer => layer.name === 'Interactions').objects.find(item => item.type === 'quest-object');
 assert.equal(objectIsPresent(object, started, [quest]), true);

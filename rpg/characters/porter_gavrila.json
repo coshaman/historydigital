@@ -112,7 +112,8 @@
     "nevsky",
     "courtyard",
     "canal-road",
-    "bakery-interior"
+    "bakery-interior",
+    "morskaya-intersection"
   ],
   "start": {
     "mapId": "market-quay",

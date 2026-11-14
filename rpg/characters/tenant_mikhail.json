@@ -144,7 +144,8 @@
     "inn-interior",
     "communal-room",
     "workyard",
-    "market-quay"
+    "market-quay",
+    "sewing-room"
   ],
   "start": {
     "mapId": "courtyard",
@@ -202,7 +203,7 @@
         "outputKind": "품일 찾기",
         "outputKo": "강변 장터에서 오늘 맡을 짐일과 시작 시각을 확인한다",
         "durationMinutes": 20,
-        "skillId": "routeFinding"
+        "skillId": "bargaining"
       }
     },
     {

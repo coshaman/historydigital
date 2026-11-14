@@ -152,7 +152,9 @@
     "police-station",
     "workyard",
     "sewing-room",
-    "market-quay"
+    "market-quay",
+    "bookshop-interior",
+    "communal-room"
   ],
   "start": {
     "mapId": "nevsky",

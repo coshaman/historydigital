@@ -114,7 +114,8 @@
     "bookshop-lane",
     "printshop",
     "bookshop-interior",
-    "chancery"
+    "chancery",
+    "morskaya-intersection"
   ],
   "start": {
     "mapId": "printshop",
