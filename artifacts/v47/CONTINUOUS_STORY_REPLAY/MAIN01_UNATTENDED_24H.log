@@ -1,0 +1,155 @@
+[autonomy] V47_MAIN01_A01: initialize at 1848-02-12
+[autonomy] V47_MAIN01_A01: event tick complete; 3 NPCs assigned
+[autonomy] V47_MAIN01_A01: simulating 24h without player
+[autonomy] V47_MAIN01_A01: 24h simulation complete
+[autonomy] V47_MAIN01_A03: initialize at 1848-05-18
+[autonomy] V47_MAIN01_A03: event tick complete; 2 NPCs assigned
+[autonomy] V47_MAIN01_A03: simulating 24h without player
+[autonomy] V47_MAIN01_A03: 24h simulation complete
+[autonomy] V47_MAIN01_A05: initialize at 1848-09-18
+[autonomy] V47_MAIN01_A05: event tick complete; 2 NPCs assigned
+[autonomy] V47_MAIN01_A05: simulating 24h without player
+[autonomy] V47_MAIN01_A05: 24h simulation complete
+{
+  "status": "PASS",
+  "scope": "unattended 24-hour V47 NPC simulation",
+  "unattendedEvents": [
+    {
+      "questId": "V47_MAIN01_A01",
+      "date": "1848-02-12",
+      "status": "RESOLVED_UNATTENDED",
+      "assignedHostIds": [
+        "bookseller_lev",
+        "reader_darya",
+        "courier_pavel"
+      ],
+      "arrivedHostIds": [
+        "bookseller_lev",
+        "reader_darya",
+        "courier_pavel"
+      ],
+      "movedHostIds": [
+        "bookseller_lev",
+        "courier_pavel",
+        "reader_darya"
+      ],
+      "outcomeActionId": "V47_A01_OPEN_SUBSCRIBER_LEDGER",
+      "hostStatesAtResolution": {
+        "bookseller_lev": {
+          "mapId": "bookshop-interior",
+          "position": {
+            "x": 20,
+            "y": 5
+          },
+          "activeGoal": "V47:V47_MAIN01_A01:bookseller_lev"
+        },
+        "reader_darya": {
+          "mapId": "bookshop-interior",
+          "position": {
+            "x": 20,
+            "y": 7
+          },
+          "activeGoal": "V47:V47_MAIN01_A01:reader_darya"
+        },
+        "courier_pavel": {
+          "mapId": "bookshop-interior",
+          "position": {
+            "x": 21,
+            "y": 6
+          },
+          "activeGoal": "V47:V47_MAIN01_A01:courier_pavel"
+        }
+      },
+      "materialEffects": {
+        "money": 0,
+        "inventory": 1,
+        "moves": 0,
+        "rumorId": "V47_SUBSCRIBER_LEDGER_CHECKED"
+      }
+    },
+    {
+      "questId": "V47_MAIN01_A03",
+      "date": "1848-05-18",
+      "status": "RESOLVED_UNATTENDED",
+      "assignedHostIds": [
+        "midwife_avdotya",
+        "editor_sofia"
+      ],
+      "arrivedHostIds": [
+        "midwife_avdotya",
+        "editor_sofia"
+      ],
+      "movedHostIds": [
+        "editor_sofia",
+        "midwife_avdotya"
+      ],
+      "outcomeActionId": "V47_A03_HOST_READING",
+      "hostStatesAtResolution": {
+        "midwife_avdotya": {
+          "mapId": "printshop",
+          "position": {
+            "x": 11,
+            "y": 7
+          },
+          "activeGoal": "V47:V47_MAIN01_A03:midwife_avdotya"
+        },
+        "editor_sofia": {
+          "mapId": "printshop",
+          "position": {
+            "x": 12,
+            "y": 7
+          },
+          "activeGoal": "V47:V47_MAIN01_A03:editor_sofia"
+        }
+      },
+      "materialEffects": {
+        "money": 0,
+        "inventory": 1,
+        "moves": 1,
+        "rumorId": "V47_TALNIKOV_READING"
+      }
+    },
+    {
+      "questId": "V47_MAIN01_A05",
+      "date": "1848-09-18",
+      "status": "RESOLVED_UNATTENDED",
+      "assignedHostIds": [
+        "clerk_alexei",
+        "senior_clerk_konstantin"
+      ],
+      "arrivedHostIds": [
+        "clerk_alexei",
+        "senior_clerk_konstantin"
+      ],
+      "movedHostIds": [
+        "clerk_alexei",
+        "senior_clerk_konstantin"
+      ],
+      "outcomeActionId": "V47_A05_COPY_LEDGER",
+      "hostStatesAtResolution": {
+        "clerk_alexei": {
+          "mapId": "chancery",
+          "position": {
+            "x": 5,
+            "y": 4
+          },
+          "activeGoal": "V47:V47_MAIN01_A05:clerk_alexei"
+        },
+        "senior_clerk_konstantin": {
+          "mapId": "chancery",
+          "position": {
+            "x": 5,
+            "y": 5
+          },
+          "activeGoal": "V47:V47_MAIN01_A05:senior_clerk_konstantin"
+        }
+      },
+      "materialEffects": {
+        "money": 1,
+        "inventory": 1,
+        "moves": 1,
+        "rumorId": "V47_REVIEW_COPY"
+      }
+    }
+  ]
+}

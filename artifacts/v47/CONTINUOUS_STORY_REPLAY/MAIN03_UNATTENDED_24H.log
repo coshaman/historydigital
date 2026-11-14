@@ -1,0 +1,177 @@
+[autonomy] V47_MAIN03_P01: initialize at 1848-04-27
+[autonomy] V47_MAIN03_P01: event tick complete; 3 NPCs assigned
+[autonomy] V47_MAIN03_P01: simulating 24h without player
+[autonomy] V47_MAIN03_P01: 24h simulation complete
+[autonomy] V47_MAIN03_P03: initialize at 1848-10-02
+[autonomy] V47_MAIN03_P03: event tick complete; 3 NPCs assigned
+[autonomy] V47_MAIN03_P03: simulating 24h without player
+[autonomy] V47_MAIN03_P03: 24h simulation complete
+[autonomy] V47_MAIN03_P05: initialize at 1849-04-27
+[autonomy] V47_MAIN03_P05: event tick complete; 3 NPCs assigned
+[autonomy] V47_MAIN03_P05: simulating 24h without player
+[autonomy] V47_MAIN03_P05: 24h simulation complete
+{
+  "status": "PASS",
+  "scope": "unattended 24-hour V47 NPC simulation",
+  "unattendedEvents": [
+    {
+      "questId": "V47_MAIN03_P01",
+      "date": "1848-04-27",
+      "status": "RESOLVED_UNATTENDED",
+      "assignedHostIds": [
+        "editor_sofia",
+        "student_vasily",
+        "minor_noble_andrei"
+      ],
+      "arrivedHostIds": [
+        "editor_sofia",
+        "student_vasily",
+        "minor_noble_andrei"
+      ],
+      "movedHostIds": [
+        "editor_sofia",
+        "minor_noble_andrei",
+        "student_vasily"
+      ],
+      "outcomeActionId": "V47_P01_OPEN_DISCUSSION",
+      "hostStatesAtResolution": {
+        "editor_sofia": {
+          "mapId": "inn-interior",
+          "position": {
+            "x": 15,
+            "y": 10
+          },
+          "activeGoal": "V47:V47_MAIN03_P01:editor_sofia"
+        },
+        "student_vasily": {
+          "mapId": "inn-interior",
+          "position": {
+            "x": 17,
+            "y": 9
+          },
+          "activeGoal": "V47:V47_MAIN03_P01:student_vasily"
+        },
+        "minor_noble_andrei": {
+          "mapId": "inn-interior",
+          "position": {
+            "x": 15,
+            "y": 11
+          },
+          "activeGoal": "V47:V47_MAIN03_P01:minor_noble_andrei"
+        }
+      },
+      "materialEffects": {
+        "money": 1,
+        "inventory": 1,
+        "moves": 2,
+        "rumorId": "V47_SALON_NEWS_DISCUSSION"
+      }
+    },
+    {
+      "questId": "V47_MAIN03_P03",
+      "date": "1848-10-02",
+      "status": "RESOLVED_UNATTENDED",
+      "assignedHostIds": [
+        "printer_ekaterina",
+        "minor_noble_andrei",
+        "student_vasily"
+      ],
+      "arrivedHostIds": [
+        "printer_ekaterina",
+        "minor_noble_andrei",
+        "student_vasily"
+      ],
+      "movedHostIds": [
+        "minor_noble_andrei",
+        "printer_ekaterina",
+        "student_vasily"
+      ],
+      "outcomeActionId": "V47_P03_FOURIER_AND_LIVELIHOOD",
+      "hostStatesAtResolution": {
+        "printer_ekaterina": {
+          "mapId": "inn-interior",
+          "position": {
+            "x": 3,
+            "y": 15
+          },
+          "activeGoal": "V47:V47_MAIN03_P03:printer_ekaterina"
+        },
+        "minor_noble_andrei": {
+          "mapId": "inn-interior",
+          "position": {
+            "x": 4,
+            "y": 16
+          },
+          "activeGoal": "V47:V47_MAIN03_P03:minor_noble_andrei"
+        },
+        "student_vasily": {
+          "mapId": "inn-interior",
+          "position": {
+            "x": 4,
+            "y": 14
+          },
+          "activeGoal": "V47:V47_MAIN03_P03:student_vasily"
+        }
+      },
+      "materialEffects": {
+        "money": 0,
+        "inventory": 1,
+        "moves": 0,
+        "rumorId": "V47_DEBATE_LIVELIHOOD"
+      }
+    },
+    {
+      "questId": "V47_MAIN03_P05",
+      "date": "1849-04-27",
+      "status": "RESOLVED_UNATTENDED",
+      "assignedHostIds": [
+        "student_vasily",
+        "editor_sofia",
+        "teacher_lyubov"
+      ],
+      "arrivedHostIds": [
+        "student_vasily",
+        "editor_sofia",
+        "teacher_lyubov"
+      ],
+      "movedHostIds": [
+        "editor_sofia",
+        "student_vasily",
+        "teacher_lyubov"
+      ],
+      "outcomeActionId": "V47_P05_SHARE_COPY",
+      "hostStatesAtResolution": {
+        "student_vasily": {
+          "mapId": "bookshop-interior",
+          "position": {
+            "x": 7,
+            "y": 9
+          },
+          "activeGoal": "V47:V47_MAIN03_P05:student_vasily"
+        },
+        "editor_sofia": {
+          "mapId": "bookshop-interior",
+          "position": {
+            "x": 8,
+            "y": 10
+          },
+          "activeGoal": "V47:V47_MAIN03_P05:editor_sofia"
+        },
+        "teacher_lyubov": {
+          "mapId": "bookshop-interior",
+          "position": {
+            "x": 8,
+            "y": 8
+          },
+          "activeGoal": "V47:V47_MAIN03_P05:teacher_lyubov"
+        }
+      },
+      "materialEffects": {
+        "money": 1,
+        "inventory": 1,
+        "moves": 1,
+        "rumorId": "V47_LETTER_COPIED"
+      }
+    }
+  ]
+}

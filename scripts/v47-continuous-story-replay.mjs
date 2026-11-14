@@ -39,7 +39,8 @@ const replayCampaign = { arcs: campaign.arcs.filter(arc => arc.questIds.some(id 
   ...arc,
   optionalQuestIds: (arc.optionalQuestIds ?? []).filter(id => v47Ids.has(id)),
 })) };
-const storyIds = ['MAIN01', 'MAIN03', 'MAIN05'];
+const storyOnlyFlags = ['MAIN01', 'MAIN03', 'MAIN05'].filter(id => process.argv.includes(`--${id.toLowerCase()}-only`));
+const storyIds = storyOnlyFlags.length ? storyOnlyFlags : ['MAIN01', 'MAIN03', 'MAIN05'];
 const publicTransitMapIds = new Set(['courtyard', 'workyard']);
 const alternateActions = {
   V47_MAIN01_A01: 'V47_A01_SEND_PAVEL_TO_PRINTSHOP',
@@ -69,6 +70,11 @@ async function replay(routeName) {
   for (const arc of replayCampaign.arcs) for (const questId of arc.questIds) {
     if (!v47Ids.has(questId)) state.quests[questId] = { status: 'resolved', result: 'PRIOR_CAMPAIGN_GATE' };
   }
+  if (storyIds.length === 1) for (const quest of quests) {
+    if (!storyIds.includes(storyIdForQuest(quest))) {
+      state.quests[quest.id] = { status: 'resolved', result: `FOCUSED_REPLAY_OTHER_STORY:${storyIdForQuest(quest)}` };
+    }
+  }
   const rows = [];
   const autonomousIds = new Set();
   const logsByStory = Object.fromEntries(storyIds.map(id => [id, []]));
@@ -84,6 +90,8 @@ async function replay(routeName) {
     for (const questId of orderedIds) {
       const quest = questById.get(questId);
       if (!quest) continue;
+      const storyId = storyIdForQuest(quest);
+      if (!storyIds.includes(storyId)) continue;
       if (quest.date > state.world.date) {
         if (questId === 'V47_MAIN03_P11' && !state.quests.E41_SEMENOVSKY_1849) {
           state.quests.E41_SEMENOVSKY_1849 = { status: 'resolved', result: 'FIXED_HISTORICAL_EVENT_RECORDED' };
@@ -95,7 +103,6 @@ async function replay(routeName) {
       for (const prerequisiteId of quest.prerequisiteQuestIds ?? []) {
         if (state.quests[prerequisiteId]?.status !== 'resolved') state.quests[prerequisiteId] = { status: 'resolved', result: 'FIXED_HISTORICAL_GATE' };
       }
-      const storyId = storyIdForQuest(quest);
       assert.ok(storyIds.includes(storyId), `${quest.id} is assigned to a V47 story`);
       state.world.v47.focusStoryId = storyId;
       const map = maps[quest.entry.mapId];
@@ -134,6 +141,12 @@ async function replay(routeName) {
             state.hosts[participantId].historicalAliveAndPresent = true;
             state.hosts[participantId].mapId = map.mapId;
             state.hosts[participantId].position = position;
+          }
+          if (quest.id === 'V47_MAIN01_A03' && action.requiredKnowledgeId) {
+            const sourceRead = game.recordSourceRead(state, action.requiredKnowledgeId, maps);
+            assert.equal(sourceRead.ok, true,
+              `${routeName}: ${hostId} reads the physical Talnikov source before making the A03 decision`);
+            state = sourceRead.state;
           }
           const result = game.performQuestAction(state, { questId, hostId, actionId: action.id, objectId: target.id }, { quests, maps });
           if (result.ok) { accepted = { action, hostId, result }; break; }
@@ -194,6 +207,7 @@ async function replay(routeName) {
 
 function replayUnattendedEvent(questId) {
   const quest = questById.get(questId);
+  console.error(`[autonomy] ${questId}: initialize at ${quest.date}`);
   const state = game.createInitialState({ maps, hostCards, quests, startMapId: quest.entry.mapId });
   state.world.chapterId = quest.chapterId;
   state.world.date = quest.date;
@@ -208,14 +222,19 @@ function replayUnattendedEvent(questId) {
     }
   }
   const opened = game.advanceNpcWorld(state, 1, maps);
+  console.error(`[autonomy] ${questId}: event tick complete; ${opened.world.v47.events[questId]?.npcAutonomy?.assignedHostIds?.length ?? 0} NPCs assigned`);
   const event = opened.world.v47.events[questId];
   assert.ok(event?.status === 'ACTIVE' && event.npcAutonomy?.assignedHostIds?.length,
     `${questId} starts a live NPC event on its authored date`);
-  const progressed = game.advanceNpcWorld(opened, 2881, maps);
+  console.error(`[autonomy] ${questId}: simulating 24h without player`);
+  const progressed = game.advanceNpcWorld(opened, 1440, maps);
+  console.error(`[autonomy] ${questId}: 24h simulation complete`);
   const resolved = progressed.world.v47.events[questId];
   const outcome = progressed.ledger.find(row => row.eventType === 'V47_AUTONOMOUS_STORY_OUTCOME' && row.questId === questId);
   assert.equal(resolved.npcAutonomy.status, 'RESOLVED_UNATTENDED', `${questId} resolves after no player arrives`);
   assert.equal(resolved.npcAutonomy.outcomeApplied, true, `${questId} applies its authored NPC outcome`);
+  assert.deepEqual(event.npcAutonomy.assignedHostIds.filter(id => !resolved.npcAutonomy.arrivedHostIds.includes(id)), [],
+    `${questId} assigned participants physically reach the scene before its unattended outcome`);
   assert.ok(outcome, `${questId} records the autonomous outcome in the ledger`);
   const movementRows = progressed.ledger.filter(row => row.eventType === 'NPC_SIMULATION').flatMap(row => row.moves ?? [])
     .filter(move => event.npcAutonomy.assignedHostIds.includes(move.hostId));
@@ -226,18 +245,37 @@ function replayUnattendedEvent(questId) {
   return { questId, date: quest.date, status: resolved.npcAutonomy.status,
     assignedHostIds: event.npcAutonomy.assignedHostIds, arrivedHostIds: resolved.npcAutonomy.arrivedHostIds,
     movedHostIds: [...new Set(movementRows.map(move => move.hostId))], outcomeActionId: outcome.actionId,
+    hostStatesAtResolution: Object.fromEntries(event.npcAutonomy.assignedHostIds.map(id => [id, {
+      mapId: progressed.hosts[id]?.mapId, position: progressed.hosts[id]?.position,
+      activeGoal: progressed.hosts[id]?.activeGoal?.taskId ?? null,
+    }])),
     materialEffects: { money: outcome.money?.length ?? 0, inventory: outcome.inventory?.length ?? 0,
       moves: outcome.moves?.length ?? 0, rumorId: outcome.rumorId ?? null } };
+}
+
+if (process.argv.includes('--unattended-only')) {
+  const candidates = {
+    MAIN01: ['V47_MAIN01_A01', 'V47_MAIN01_A03', 'V47_MAIN01_A05'],
+    MAIN03: ['V47_MAIN03_P01', 'V47_MAIN03_P03', 'V47_MAIN03_P05'],
+    MAIN05: ['V47_MAIN05_C01', 'V47_MAIN05_C03', 'V47_MAIN05_C05'],
+  };
+  const requested = process.argv.find(argument => argument.startsWith('--quest='))?.slice('--quest='.length);
+  const questIds = requested ? [requested] : storyIds.flatMap(storyId => candidates[storyId]);
+  const unattendedEvents = questIds.map(replayUnattendedEvent);
+  console.log(JSON.stringify({ status: 'PASS', scope: 'unattended 24-hour V47 NPC simulation', unattendedEvents }, null, 2));
+  process.exit(0);
 }
 
 const normal = await replay('NORMAL');
 const alternate = await replay('ALTERNATE');
 for (const storyId of storyIds) assert.ok(alternate.byStory[storyId].some(row => row.selectedAuthoredAlternative), `${storyId} has an alternate authored choice run`);
-const unattendedEvents = [
-  replayUnattendedEvent('V47_MAIN01_A03'),
-  replayUnattendedEvent('V47_MAIN03_P03'),
-  replayUnattendedEvent('V47_MAIN05_C01'),
-];
+const unattendedCandidates = {
+  MAIN01: ['V47_MAIN01_A01', 'V47_MAIN01_A03', 'V47_MAIN01_A05'],
+  MAIN03: ['V47_MAIN03_P01', 'V47_MAIN03_P03', 'V47_MAIN03_P05'],
+  MAIN05: ['V47_MAIN05_C01', 'V47_MAIN05_C03', 'V47_MAIN05_C05'],
+};
+const unattendedQuestIds = storyIds.flatMap(storyId => unattendedCandidates[storyId]);
+const unattendedEvents = unattendedQuestIds.map(replayUnattendedEvent);
 const outputDir = path.join(root, 'artifacts/v47/CONTINUOUS_STORY_REPLAY');
 await mkdir(outputDir, { recursive: true });
 await writeFile(path.join(outputDir, 'V47_CONTINUOUS_REPLAY.json'), `${JSON.stringify({

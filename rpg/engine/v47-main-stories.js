@@ -303,9 +303,8 @@ function fireAnchors(v47, date, clockMinutes, hosts) {
       playerIntervened: false,
       ...(anchor.autonomousOutcome ? { autonomousOutcome: structuredClone(anchor.autonomousOutcome),
         npcAutonomy: date === anchor.gameDate ? { status: 'ASSEMBLING', assignedHostIds: (anchor.hostIds ?? []).filter(id => hosts?.[id]?.kind === 'FICTIONAL'),
-          // Give a player time to travel across Petersburg and wait through a closed venue.
-          // Unattended scenes still resolve automatically after two in-world days.
-          arrivedHostIds: [], opensAtMinute: clockMinutes, deadlineMinute: clockMinutes + 2880 } :
+          // Give a player one in-world day to reach the scene; unattended scenes then resolve.
+          arrivedHostIds: [], opensAtMinute: clockMinutes, deadlineMinute: clockMinutes + 1440 } :
           { status: 'SKIPPED_OFFSCREEN', assignedHostIds: [], arrivedHostIds: [] } } : {}),
     };
     v47.events[anchor.id] = event;
@@ -387,7 +386,7 @@ function fireAnchors(v47, date, clockMinutes, hosts) {
         dispatchedHostIds: [police?.id].filter(Boolean), questionedHostIds: [],
         historicalDetaineeHostIds: historicalDetainees.map(host => host.id), opensAtMinute: clockMinutes,
         destinationMapByHost,
-        deadlineMinute: clockMinutes + 2880, branch: previouslyWarned ? 'WARNED_FICTIONAL_WITNESS; HISTORICAL_ARRESTS_FIXED' : 'BASE_OPERATION' };
+        deadlineMinute: clockMinutes + 1440, branch: previouslyWarned ? 'WARNED_FICTIONAL_WITNESS; HISTORICAL_ARRESTS_FIXED' : 'BASE_OPERATION' };
       v47.worldChanges ??= [];
       v47.worldChanges.push({ questId: anchor.id, actionId: 'NPC_SEARCH_TEAM_DISPATCHED', date,
         moves: [], assignedHostIds: [...event.npcAutonomy.assignedHostIds], mapId: event.mapId,

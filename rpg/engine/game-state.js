@@ -3502,6 +3502,46 @@ function upcomingNpcSocialWork(state) {
   return forecast;
 }
 
+function selectV47GatheringGoal(state, host, maps) {
+  const arrestEvent = state.world.v47?.events?.MAIN03_PETRASHEVSKY_ARREST;
+  const event = Object.values(state.world.v47?.events ?? {}).filter(row => row.status === 'ACTIVE'
+    && row.npcAutonomy?.assignedHostIds?.includes(host.id)
+    && (!row.npcAutonomy.destinationMapByHost?.[host.id]
+      || host.mapId !== row.npcAutonomy.destinationMapByHost[host.id])
+    && (host.kind === 'FICTIONAL' || row.id === arrestEvent?.id
+      && ['petrashevsky_1849', 'dostoevsky_1849'].includes(host.id))
+    && host.allowedMaps.includes(row.mapId)
+    && !(row.id === arrestEvent?.id && host.id === 'student_vasily'
+      && ['RELEASED_TO_FAMILY', 'RETURNED_TO_FAMILY', 'ESCAPED_BEFORE_QUESTIONING'].includes(host.v47Questioning?.status))
+    && npcMapRoute(host.mapId, row.mapId, host, maps, state.world.clockMinutes,
+      { allowClosedMapIds: [row.mapId], allowEventAccess: true,
+        allowUnlistedMapIds: V47_PUBLIC_TRAVEL_TRANSIT_MAPS }) !== null)
+    .sort((a, b) => a.scheduledGameDate.localeCompare(b.scheduledGameDate) || a.id.localeCompare(b.id))[0];
+  if (!event) return null;
+  const eventMap = maps[event.mapId];
+  const prop = layer(eventMap, 'Interactions')?.objects?.find(object => object.id === event.objectId);
+  const anchor = prop ? objectTile(prop) : null;
+  const orderedSteps = host.id.split('').reduce((sum, char) => sum + char.charCodeAt(0), 0) % NPC_STEPS.length;
+  const spots = anchor ? Array.from({ length: eventMap.width * eventMap.height }, (_, index) => ({
+    x: index % eventMap.width, y: Math.floor(index / eventMap.width),
+  })).sort((a, b) => Math.abs(a.x - anchor.x) + Math.abs(a.y - anchor.y)
+    - (Math.abs(b.x - anchor.x) + Math.abs(b.y - anchor.y))
+    || ((a.x * 31 + a.y * 17 + orderedSteps) % 97) - ((b.x * 31 + b.y * 17 + orderedSteps) % 97)) : [];
+  event.npcAutonomy.targetPositions ??= {};
+  const reservedByOthers = new Set(Object.entries(event.npcAutonomy.targetPositions)
+    .filter(([id]) => id !== host.id).map(([, position]) => `${position.x},${position.y}`));
+  let target = event.npcAutonomy.targetPositions[host.id];
+  if (!target || !canOccupy(eventMap, target.x, target.y, host.id, state.hosts, state.world)) {
+    target = spots.find(position => !reservedByOthers.has(`${position.x},${position.y}`)
+      && canOccupy(eventMap, position.x, position.y, host.id, state.hosts, state.world));
+    if (target) event.npcAutonomy.targetPositions[host.id] = { ...target };
+  }
+  return target ? { slot: { mapId: eventMap.mapId, position: target,
+    activityKo: `${event.titleKo} 현장으로 가서 맡은 일을 준비한다` }, goalType: 'V47_STORY_GATHERING',
+  targetHostId: null, taskId: `V47:${event.id}:${host.id}`, reason: 'dated_story_event_draws_participants_to_the_physical_scene',
+  selectionBasis: { utilityScore: 500, eventId: event.id, storyId: event.story, phase: event.npcAutonomy.status } } : null;
+}
+
 function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
   const localMinute = ((state.world.clockMinutes % 1440) + 1440) % 1440;
   const v47Travel = host.v47TravelGoal;
@@ -3558,6 +3598,8 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
     reason: 'remain_at_the_authored_event_destination_until_the_next_story_stage',
     selectionBasis: { utilityScore: 196, storyId: v47Travel.storyId, questId: v47Travel.questId } };
   }
+  const storyGatheringGoal = selectV47GatheringGoal(state, host, maps);
+  if (storyGatheringGoal) return storyGatheringGoal;
   const procession = state.world.livingEventStates?.E45;
   const smuggledEdition = state.world.livingEventStates?.E34;
   if (procession?.status === 'ACTIVE' && procession.actorHostIds.includes(host.id)
@@ -4102,46 +4144,6 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
       activityKo: '조사 뒤 집으로 돌아간다' }, goalType: 'V47_EVENT_RETURN', targetHostId: null,
     taskId: `V47:ARREST_RETURN:${host.id}`, reason: 'fictional_detainee_walks_home_after_questioning',
     selectionBasis: { eventId: 'MAIN03_PETRASHEVSKY_ARREST' } }, 190, 0);
-  }
-  const arrestEvent = state.world.v47?.events?.MAIN03_PETRASHEVSKY_ARREST;
-  const v47Gathering = Object.values(state.world.v47?.events ?? {}).filter(event => event.status === 'ACTIVE'
-    && event.npcAutonomy?.assignedHostIds?.includes(host.id)
-    && (!event.npcAutonomy.destinationMapByHost?.[host.id]
-      || host.mapId !== event.npcAutonomy.destinationMapByHost[host.id])
-    && !event.npcAutonomy.arrivedHostIds?.includes(host.id)
-    && (host.kind === 'FICTIONAL' || event.id === arrestEvent?.id
-      && ['petrashevsky_1849', 'dostoevsky_1849'].includes(host.id))
-    && host.allowedMaps.includes(event.mapId)
-    && !(event.id === arrestEvent?.id && host.id === 'student_vasily'
-      && ['RELEASED_TO_FAMILY', 'RETURNED_TO_FAMILY', 'ESCAPED_BEFORE_QUESTIONING'].includes(host.v47Questioning?.status))
-    && npcMapRoute(host.mapId, event.mapId, host, maps, state.world.clockMinutes,
-      { allowClosedMapIds: [event.mapId], allowEventAccess: true,
-        allowUnlistedMapIds: V47_PUBLIC_TRAVEL_TRANSIT_MAPS }) !== null)
-    .sort((a, b) => a.scheduledGameDate.localeCompare(b.scheduledGameDate) || a.id.localeCompare(b.id))[0];
-  if (v47Gathering) {
-    const eventMap = maps[v47Gathering.mapId];
-    const prop = layer(eventMap, 'Interactions')?.objects?.find(object => object.id === v47Gathering.objectId);
-    const anchor = prop ? objectTile(prop) : null;
-    const orderedSteps = host.id.split('').reduce((sum, char) => sum + char.charCodeAt(0), 0) % NPC_STEPS.length;
-    const spots = anchor ? Array.from({ length: eventMap.width * eventMap.height }, (_, index) => ({
-      x: index % eventMap.width, y: Math.floor(index / eventMap.width),
-    }))
-      .sort((a, b) => Math.abs(a.x - anchor.x) + Math.abs(a.y - anchor.y)
-        - (Math.abs(b.x - anchor.x) + Math.abs(b.y - anchor.y))
-        || ((a.x * 31 + a.y * 17 + orderedSteps) % 97) - ((b.x * 31 + b.y * 17 + orderedSteps) % 97)) : [];
-    v47Gathering.npcAutonomy.targetPositions ??= {};
-    const reservedByOthers = new Set(Object.entries(v47Gathering.npcAutonomy.targetPositions)
-      .filter(([id]) => id !== host.id).map(([, position]) => `${position.x},${position.y}`));
-    let target = v47Gathering.npcAutonomy.targetPositions[host.id];
-    if (!target || !canOccupy(eventMap, target.x, target.y, host.id, state.hosts, state.world)) {
-      target = spots.find(position => !reservedByOthers.has(`${position.x},${position.y}`)
-        && canOccupy(eventMap, position.x, position.y, host.id, state.hosts, state.world));
-      if (target) v47Gathering.npcAutonomy.targetPositions[host.id] = { ...target };
-    }
-    if (target) addCandidate({ slot: { mapId: eventMap.mapId, position: target,
-      activityKo: `${v47Gathering.titleKo} 현장으로 가서 맡은 일을 준비한다` }, goalType: 'V47_STORY_GATHERING',
-    targetHostId: null, taskId: `V47:${v47Gathering.id}:${host.id}`, reason: 'dated_story_event_draws_participants_to_the_physical_scene',
-    selectionBasis: { eventId: v47Gathering.id, storyId: v47Gathering.story, phase: v47Gathering.npcAutonomy.status } }, 190, 0);
   }
   if (activeSocialTask && (activeSocialTask.type !== 'DELIVER' || activeSocialSlot.atMinute <= localMinute)) {
     const recipient = state.hosts[activeSocialTask.recipientHostId];

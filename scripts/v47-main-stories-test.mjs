@@ -747,6 +747,9 @@ unattendedArrest = advanceV47World(unattendedArrest, { date: '1849-05-05', clock
 assert.equal(unattendedArrest.hosts.police_sergeant_ivan.v47Assignment.status, 'EN_ROUTE_TO_SEARCH');
 assert.equal(unattendedArrest.hosts.student_vasily.v47Questioning.status, 'MOVING_WITH_SEARCH_TEAM');
 assert.ok(unattendedArrest.world.v47.events.MAIN03_PETRASHEVSKY_ARREST.npcAutonomy.assignedHostIds.includes('police_sergeant_ivan'));
+assert.equal(unattendedArrest.world.v47.events.MAIN03_PETRASHEVSKY_ARREST.npcAutonomy.deadlineMinute
+  - unattendedArrest.world.v47.events.MAIN03_PETRASHEVSKY_ARREST.npcAutonomy.opensAtMinute, 1440,
+  'the autonomous historical arrest scene uses the same one-day player response window');
 for (const id of ['petrashevsky_1849', 'dostoevsky_1849']) {
   assert.ok(unattendedArrest.world.v47.events.MAIN03_PETRASHEVSKY_ARREST.actorHostIds.includes(id),
     `${id} is staged as a named historical detainee in the arrest operation`);
@@ -833,8 +836,10 @@ unattendedStory.world.date = '1848-06-16';
 unattendedStory = advanceV47World(unattendedStory, { date: '1848-06-16', clockMinutes: 540 });
 const autoEventBefore = unattendedStory.world.v47.events.V47_MAIN05_C01;
 assert.ok(['ASSEMBLING', 'ASSEMBLED'].includes(autoEventBefore.npcAutonomy.status));
+assert.equal(autoEventBefore.npcAutonomy.deadlineMinute - autoEventBefore.npcAutonomy.opensAtMinute, 1440,
+  'unattended story events give NPCs one in-world day to assemble and resolve');
 const autoStartHostPositions = Object.fromEntries(autoEventBefore.npcAutonomy.assignedHostIds.map(id => [id, unattendedStory.hosts[id].mapId]));
-unattendedStory = game.advanceNpcWorld(unattendedStory, 2880, maps, { pausedHostIds: [unattendedStory.player.embodiment] });
+unattendedStory = game.advanceNpcWorld(unattendedStory, 1440, maps, { pausedHostIds: [unattendedStory.player.embodiment] });
 const autoEventAfter = unattendedStory.world.v47.events.V47_MAIN05_C01;
 assert.equal(autoEventAfter.npcAutonomy.status, 'RESOLVED_UNATTENDED', 'an unattended dated story resolves at its deadline');
 assert.equal(autoEventAfter.playerIntervened, false, 'an automatic outcome is never recorded as player intervention');

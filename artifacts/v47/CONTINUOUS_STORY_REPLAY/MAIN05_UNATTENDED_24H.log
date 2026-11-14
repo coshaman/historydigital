@@ -1,0 +1,199 @@
+[autonomy] V47_MAIN05_C01: initialize at 1848-06-16
+[autonomy] V47_MAIN05_C01: event tick complete; 3 NPCs assigned
+[autonomy] V47_MAIN05_C01: simulating 24h without player
+[autonomy] V47_MAIN05_C01: 24h simulation complete
+[autonomy] V47_MAIN05_C03: initialize at 1848-06-24
+[autonomy] V47_MAIN05_C03: event tick complete; 4 NPCs assigned
+[autonomy] V47_MAIN05_C03: simulating 24h without player
+[autonomy] V47_MAIN05_C03: 24h simulation complete
+[autonomy] V47_MAIN05_C05: initialize at 1848-07-05
+[autonomy] V47_MAIN05_C05: event tick complete; 4 NPCs assigned
+[autonomy] V47_MAIN05_C05: simulating 24h without player
+[autonomy] V47_MAIN05_C05: 24h simulation complete
+{
+  "status": "PASS",
+  "scope": "unattended 24-hour V47 NPC simulation",
+  "unattendedEvents": [
+    {
+      "questId": "V47_MAIN05_C01",
+      "date": "1848-06-16",
+      "status": "RESOLVED_UNATTENDED",
+      "assignedHostIds": [
+        "watercarrier_luka",
+        "baker_fyodor",
+        "landlady_polina"
+      ],
+      "arrivedHostIds": [
+        "watercarrier_luka",
+        "baker_fyodor",
+        "landlady_polina"
+      ],
+      "movedHostIds": [
+        "baker_fyodor",
+        "landlady_polina",
+        "watercarrier_luka"
+      ],
+      "outcomeActionId": "V47_C01_SUPPLY_LODGING",
+      "hostStatesAtResolution": {
+        "watercarrier_luka": {
+          "mapId": "market-quay",
+          "position": {
+            "x": 23,
+            "y": 15
+          },
+          "activeGoal": "V47:V47_MAIN05_C01:watercarrier_luka"
+        },
+        "baker_fyodor": {
+          "mapId": "market-quay",
+          "position": {
+            "x": 21,
+            "y": 15
+          },
+          "activeGoal": "V47:V47_MAIN05_C01:baker_fyodor"
+        },
+        "landlady_polina": {
+          "mapId": "market-quay",
+          "position": {
+            "x": 22,
+            "y": 16
+          },
+          "activeGoal": "V47:V47_MAIN05_C01:landlady_polina"
+        }
+      },
+      "materialEffects": {
+        "money": 1,
+        "inventory": 1,
+        "moves": 1,
+        "rumorId": "V47_WATER_LODGING_FIRST"
+      }
+    },
+    {
+      "questId": "V47_MAIN05_C03",
+      "date": "1848-06-24",
+      "status": "RESOLVED_UNATTENDED",
+      "assignedHostIds": [
+        "apothecary_yakov",
+        "midwife_avdotya",
+        "tenant_mikhail",
+        "market_nadezhda"
+      ],
+      "arrivedHostIds": [
+        "apothecary_yakov",
+        "midwife_avdotya",
+        "tenant_mikhail",
+        "market_nadezhda"
+      ],
+      "movedHostIds": [
+        "apothecary_yakov",
+        "market_nadezhda",
+        "midwife_avdotya",
+        "tenant_mikhail"
+      ],
+      "outcomeActionId": "V47_C03_RESERVE_CLINIC",
+      "hostStatesAtResolution": {
+        "apothecary_yakov": {
+          "mapId": "market-quay",
+          "position": {
+            "x": 15,
+            "y": 16
+          },
+          "activeGoal": "V47:V47_MAIN05_C03:apothecary_yakov"
+        },
+        "midwife_avdotya": {
+          "mapId": "market-quay",
+          "position": {
+            "x": 17,
+            "y": 16
+          },
+          "activeGoal": "V47:V47_MAIN05_C03:midwife_avdotya"
+        },
+        "tenant_mikhail": {
+          "mapId": "market-quay",
+          "position": {
+            "x": 16,
+            "y": 16
+          },
+          "activeGoal": "V47:V47_MAIN05_C03:tenant_mikhail"
+        },
+        "market_nadezhda": {
+          "mapId": "market-quay",
+          "position": {
+            "x": 17,
+            "y": 18
+          },
+          "activeGoal": "V47:V47_MAIN05_C03:market_nadezhda"
+        }
+      },
+      "materialEffects": {
+        "money": 1,
+        "inventory": 1,
+        "moves": 1,
+        "rumorId": "V47_MEDICINE_CLINIC_RESERVE"
+      }
+    },
+    {
+      "questId": "V47_MAIN05_C05",
+      "date": "1848-07-05",
+      "status": "RESOLVED_UNATTENDED",
+      "assignedHostIds": [
+        "midwife_avdotya",
+        "doctor_mikhail_1848",
+        "innkeeper_irina",
+        "tenant_mikhail"
+      ],
+      "arrivedHostIds": [
+        "midwife_avdotya",
+        "doctor_mikhail_1848",
+        "innkeeper_irina",
+        "tenant_mikhail"
+      ],
+      "movedHostIds": [
+        "doctor_mikhail_1848",
+        "innkeeper_irina",
+        "midwife_avdotya",
+        "tenant_mikhail"
+      ],
+      "outcomeActionId": "V47_C05_OPEN_BEDS",
+      "hostStatesAtResolution": {
+        "midwife_avdotya": {
+          "mapId": "inn-interior",
+          "position": {
+            "x": 7,
+            "y": 13
+          },
+          "activeGoal": "V47:V47_MAIN05_C05:midwife_avdotya"
+        },
+        "doctor_mikhail_1848": {
+          "mapId": "inn-interior",
+          "position": {
+            "x": 7,
+            "y": 12
+          },
+          "activeGoal": "V47:V47_MAIN05_C05:doctor_mikhail_1848"
+        },
+        "innkeeper_irina": {
+          "mapId": "inn-interior",
+          "position": {
+            "x": 7,
+            "y": 10
+          },
+          "activeGoal": "V47:V47_MAIN05_C05:innkeeper_irina"
+        },
+        "tenant_mikhail": {
+          "mapId": "inn-interior",
+          "position": {
+            "x": 6,
+            "y": 11
+          },
+          "activeGoal": "V47:V47_MAIN05_C05:tenant_mikhail"
+        }
+      },
+      "materialEffects": {
+        "money": 1,
+        "inventory": 1,
+        "moves": 2,
+        "rumorId": "V47_INN_BEDS_OPEN"
+      }
+    }
+  ]
+}

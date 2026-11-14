@@ -41,6 +41,25 @@ assert.ok(moves.some(row => row.toMapId === 'market-quay'), 'the event travel tr
 assert.ok(travelled.world.v47.events.V47_MAIN05_C01.npcAutonomy.assignedHostIds.includes(participantId),
   'the moving resident is an assigned participant in the physical event');
 
+const printshopReading = game.createInitialState({ maps, hostCards, quests: [...v47StoryQuests, ...beats], startMapId: 'printshop' });
+printshopReading.world.chapterId = 'V33_1848_PUBLIC';
+printshopReading.world.date = '1848-05-18';
+printshopReading.world.clockMinutes = 540;
+for (const host of Object.values(printshopReading.hosts)) {
+  if (host.presenceWindow) host.historicalAliveAndPresent = host.presenceWindow.startDate <= printshopReading.world.date
+    && printshopReading.world.date <= host.presenceWindow.endDate;
+}
+const readingOpened = game.advanceNpcWorld(printshopReading, 1, maps);
+const readingParticipant = readingOpened.world.v47.events.V47_MAIN01_A03.npcAutonomy.assignedHostIds[0];
+const readingTravel = game.advanceNpcWorld(readingOpened, 1, maps);
+assert.equal(readingTravel.hosts[readingParticipant].activeGoal.type, 'V47_STORY_GATHERING',
+  `a dated MAIN01 reading takes priority over an unrelated daily routine: ${JSON.stringify({
+    event: readingTravel.world.v47.events.V47_MAIN01_A03,
+    host: readingTravel.hosts[readingParticipant],
+  })}`);
+assert.equal(readingTravel.hosts[readingParticipant].activeGoal.targetMapId, 'printshop',
+  'the reading participant starts a physical route to the printshop scene');
+
 const arrest = game.createInitialState({ maps, hostCards, quests: [...v47StoryQuests, ...beats], startMapId: 'communal-room' });
 arrest.world.chapterId = 'V33_1849_CIRCLE';
 arrest.world.date = '1849-05-05';
