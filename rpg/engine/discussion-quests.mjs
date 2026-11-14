@@ -50,6 +50,27 @@ export function discussionReflectionPromptsForHost(hostId, state, quests) {
     }));
 }
 
+export function discussionQuestInstruction(quest, hostNames = {}) {
+  if (!quest) return null;
+  const required = quest.requiredPerspectiveCount ?? 2;
+  const heard = quest.perspectiveHostIds ?? [];
+  if (quest.positionPending || heard.length >= required) return {
+    phase: 'RECORD_POSITION', hostId: null, hostNameKo: null, promptKo: null,
+    howKo: '수첩에서 내 입장을 하나 고르면 이 퀘스트가 끝납니다.',
+  };
+  const hostId = Object.keys(quest.hosts ?? {}).find(id => !heard.includes(id));
+  if (!hostId) return {
+    phase: 'WAIT', hostId: null, hostNameKo: null, promptKo: null,
+    howKo: '수첩의 쟁점 목록을 확인하세요.',
+  };
+  const hostNameKo = hostNames[hostId] ?? hostId;
+  const promptKo = quest.hosts[hostId].promptKo;
+  return {
+    phase: 'ASK', hostId, hostNameKo, promptKo,
+    howKo: `${hostNameKo}에게 말을 거세요. 대화에서 “${promptKo}”를 선택하면 관점이 기록됩니다. 서로 다른 두 사람의 답을 들은 뒤 수첩에서 내 입장을 하나 고르면 이 퀘스트가 끝납니다.`,
+  };
+}
+
 export function discussionBoardView(quests, hostId = null, hostNames = {}, totalQuestCount = quests?.length ?? 0) {
   const active = (quests ?? []).filter(quest => !quest.completed)
     .sort((a, b) => (b.perspectiveHostIds?.length ?? 0) - (a.perspectiveHostIds?.length ?? 0));
@@ -114,7 +135,9 @@ export function discussionBoardView(quests, hostId = null, hostNames = {}, total
       ? `두 사람의 관점을 모았습니다. 아래에서 내 입장을 골라 수첩에 남기면 이 쟁점 퀘스트가 끝납니다.`
       : nextComparison
       ? `${nextComparison?.perspectiveHostIds?.length ?? 1}/${nextComparison?.requiredPerspectiveCount ?? 2} 관점 · 다음은 ${nextComparisonName}에게 물어보세요: “${nextComparisonQuestion}” 다음에 수첩에서 내 입장을 고르면 끝납니다.`
-      : steps[0]?.textKo ?? '질문을 골라 서로 다른 두 인물의 관점을 듣고, 수첩에서 내 입장을 선택하면 끝납니다.',
+      : active.length
+        ? discussionQuestInstruction(active[0], hostNames)?.howKo
+        : '질문을 담고 표시된 인물에게 말을 거세요. 대화에서 제시된 질문을 고르고, 서로 다른 두 사람의 답을 들은 뒤 수첩에서 내 입장을 기록하면 끝납니다.',
     rows,
     recommendations,
     steps: positionPrompts.length

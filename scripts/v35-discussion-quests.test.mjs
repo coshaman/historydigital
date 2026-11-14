@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
-import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHost, discussionReflectionPromptsForHost } from '../rpg/engine/discussion-quests.mjs';
+import { readFile } from 'node:fs/promises';
+import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHost, discussionQuestInstruction, discussionReflectionPromptsForHost } from '../rpg/engine/discussion-quests.mjs';
 import definitions from '../rpg/data/discussion-quests.json' with { type: 'json' };
 
 const require = createRequire(import.meta.url);
@@ -91,7 +92,7 @@ test('the opening opinion quests tell a first-time player what to do before poss
   const board = discussionBoardView(quests, null, { clerk_alexei: '알렉세이', senior_clerk_konstantin: '콘스탄틴' });
   assert.equal(board.visible, true);
   assert.match(board.progressKo, /쟁점 0\/14/);
-  assert.match(board.guidanceKo, /질문을 골라 두 사람의 관점을 듣고/);
+  assert.match(board.guidanceKo, /reader_darya에게 말을 거세요/);
   assert.match(board.rows[0], /먼저 묻기/);
   assert.match(board.rows[0], /책에서 배운 원칙/);
   assert.equal(board.rows.length, quests.length, 'the board exposes every currently available inquiry, not only the first three');
@@ -110,6 +111,35 @@ test('the opening opinion quests tell a first-time player what to do before poss
   assert.match(nextPerspective.rows[0], /1\/2 관점/);
   assert.match(nextPerspective.rows[0], /seamstress_anna에게 같은 쟁점을 물어보세요/);
   assert.match(nextPerspective.guidanceKo, /다음은 seamstress_anna에게 물어보세요/);
+});
+
+test('a dialogue quest names the next person, exact question, and the action that ends it', () => {
+  const quest = {
+    id: 'INQUIRY_TEST', titleKo: '빵값을 둘러싼 말', requiredPerspectiveCount: 2,
+    perspectiveHostIds: [], positionPending: false,
+    hosts: { baker_fyodor: { promptKo: '밀가루 값이 오르면 빵값도 바로 올려야 할까요?' }, buyer_anna: { promptKo: '품삯이 그대로인데 빵값이 오르면 어떻게 버텨야 할까요?' } },
+  };
+  const first = discussionQuestInstruction(quest, { baker_fyodor: '표도르', buyer_anna: '안나' });
+  assert.equal(first.phase, 'ASK');
+  assert.equal(first.hostId, 'baker_fyodor');
+  assert.match(first.howKo, /표도르에게 말을 거세요/);
+  assert.match(first.howKo, /“밀가루 값이 오르면 빵값도 바로 올려야 할까요\?”/);
+  assert.match(first.howKo, /두 사람의 답을 들은 뒤 수첩에서 내 입장을 하나 고르면 이 퀘스트가 끝납니다/);
+
+  const second = discussionQuestInstruction({ ...quest, perspectiveHostIds: ['baker_fyodor'] }, { baker_fyodor: '표도르', buyer_anna: '안나' });
+  assert.equal(second.hostId, 'buyer_anna');
+  assert.match(second.howKo, /안나에게 말을 거세요/);
+
+  const stance = discussionQuestInstruction({ ...quest, perspectiveHostIds: ['baker_fyodor', 'buyer_anna'], positionPending: true });
+  assert.equal(stance.phase, 'RECORD_POSITION');
+  assert.match(stance.howKo, /수첩에서 내 입장을 하나 고르면 이 퀘스트가 끝납니다/);
+});
+
+test('mobile mission tracker keeps the concrete conversation steps visible and scrollable', async () => {
+  const css = await readFile(new URL('../rpg/choices.css', import.meta.url), 'utf8');
+  const mobileRules = css.split('@media(max-width:760px)')[1]?.split('@media(')[0] ?? '';
+  assert.match(mobileRules, /#mission-method\{display:block/);
+  assert.match(mobileRules, /#mission-method\{[^}]*overflow-y:auto/);
 });
 
 test('an authored offline answer still records the asked perspective without claiming AI generation', () => {

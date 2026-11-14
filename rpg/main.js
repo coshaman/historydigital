@@ -7,7 +7,7 @@ import { questChoices, continuationQuest, resolveObjectQuest } from './engine/qu
 import { questOutcomeSummary } from './engine/quest-outcome-summary.mjs';
 import { formatMissionActionKo, guideToResident, resolveQuestGuidance } from './engine/quest-guidance.mjs';
 import { ownsKeyboardInput, observationText } from './engine/player-presentation.mjs';
-import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHost, discussionReflectionPromptsForHost } from './engine/discussion-quests.mjs';
+import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHost, discussionQuestInstruction, discussionReflectionPromptsForHost } from './engine/discussion-quests.mjs';
 import { dialogueSessionNeedsReconnect, dialogueSpeakerLabel, mayOfferDiscussionPrompt, selectDialogueTurn } from './engine/dialogue-response.mjs';
 import { dialogueSceneContext } from './engine/dialogue-context.mjs';
 import { advanceHistoricalSessionTime, beginHistoricalSession, canConcludeHistoricalSession, exitHistoricalSession, historicalParticipantGuide, historicalReplyText, performHistoricalAction, recordHistoricalChoice } from './engine/historical-session.mjs';
@@ -601,6 +601,8 @@ function updateHud() {
     const targetHost = state.hosts[queuedDiscussionInquiry.hostId];
     const targetGuide = targetHost ? guideToResident({ state, maps, hostCards: cards, targetHostId: targetHost.id }) : null;
     const nextAction = !host ? '먼저 질문할 인물과 다른 주민의 몸을 빌리세요' : host.id === queuedDiscussionInquiry.hostId ? '다른 주민의 몸을 빌린 뒤 이 인물에게 말을 거세요' : '표시된 상대에게 가까이 가서 말을 거세요';
+    const liveInquiry = currentDiscussionQuests().find(item => item.id === queuedDiscussionInquiry.questId);
+    const inquiryInstruction = discussionQuestInstruction(liveInquiry, Object.fromEntries(cards.map(card => [card.id, card.displayNameKo])));
     missionGuidance = {
       ...missionGuidance,
       questId: queuedDiscussionInquiry.questId,
@@ -610,7 +612,7 @@ function updateHud() {
       questTitleKo: queuedDiscussionInquiry.titleKo,
       actionKo: `${queuedDiscussionInquiry.hostNameKo}에게 물어보기 · ${queuedDiscussionInquiry.progressKo}`,
       reasonKo: queuedDiscussionInquiry.stakesKo,
-      howKo: `${nextAction}. ${targetGuide?.howKo ?? ''} 가까이서 말 걸기를 누른 뒤 준비된 질문을 고르세요. 서로 다른 두 인물의 답을 모으고 수첩에서 내 입장을 선택하면 끝납니다.`,
+      howKo: `${nextAction}. ${targetGuide?.howKo ?? ''}\n${inquiryInstruction?.howKo ?? `대화에서 “${queuedDiscussionInquiry.promptKo}”를 선택하세요.`}`,
       placeKo: targetGuide?.placeKo ?? (targetHost ? maps[targetHost.mapId]?.metadata.displayNameKo : '위치를 확인할 수 없음'),
       target: targetGuide?.target ?? null,
       progress: { completedSteps: queuedDiscussionInquiry.completedPerspectives, totalSteps: queuedDiscussionInquiry.requiredPerspectives },
@@ -640,8 +642,27 @@ function updateHud() {
   if (queuedDiscussionInquiry || discussionView.positionPrompts?.length) discussionBoard.open = true;
   $('#discussion-quest-progress').textContent = discussionView.progressKo;
   $('#discussion-quest-guidance').textContent = queuedDiscussionInquiry
-    ? `“${queuedDiscussionInquiry.promptKo}” · ${queuedDiscussionInquiry.hostNameKo}에게 물어보세요.`
+    ? `다음 사람 · ${queuedDiscussionInquiry.hostNameKo}\n물어볼 말 · “${queuedDiscussionInquiry.promptKo}”\n두 사람의 답을 들은 뒤 수첩에서 내 입장을 기록하면 끝납니다.`
     : discussionView.guidanceKo;
+  if (!queuedDiscussionInquiry && discussionView.positionPrompts?.length && !inLiteraryScene && !state.endingId) {
+    const pending = discussionView.positionPrompts[0];
+    const pendingQuest = discussionQuests.find(item => item.id === pending.questId);
+    const perspectiveCount = pendingQuest?.requiredPerspectiveCount ?? 2;
+    missionGuidance = { ...missionGuidance, questId: pending.questId, taskType: 'RECORD_POSITION',
+      questTitleKo: pending.titleKo, actionKo: '수첩에서 내 입장을 기록하세요',
+      reasonKo: '서로 다른 두 사람의 답을 모았습니다.',
+      howKo: discussionQuestInstruction(pendingQuest,
+        Object.fromEntries(cards.map(card => [card.id, card.displayNameKo])))?.howKo
+        ?? '수첩을 열고 입장 하나를 선택하면 이 퀘스트가 끝납니다.',
+      target: null, progress: { completedSteps: perspectiveCount, totalSteps: perspectiveCount + 1 }, blocked: false };
+    for (const [selector, value] of [['#mission-title', missionGuidance.questTitleKo], ['#mission-action', missionGuidance.actionKo],
+      ['#mission-reason', missionGuidance.reasonKo], ['#mission-method', missionGuidance.howKo],
+      ['#journal-quest-title', missionGuidance.questTitleKo], ['#journal-goal-action', missionGuidance.actionKo],
+      ['#journal-goal-reason', missionGuidance.reasonKo], ['#journal-goal-how', missionGuidance.howKo]]) $(selector).textContent = value;
+    $('#mission-progress').textContent = `${perspectiveCount} / ${perspectiveCount + 1} · 입장 기록`;
+    $('#journal-completed').textContent = `${perspectiveCount} / ${perspectiveCount + 1} · 입장 기록`;
+    $('#mission-pin').disabled = true;
+  }
   const discussionSteps = $('#discussion-quest-steps');
   discussionSteps.replaceChildren(...(discussionView.steps ?? []).map(step => {
     const item = document.createElement('li');
@@ -2543,8 +2564,18 @@ async function sendConversation(card, playerText, replyId = null) {
   dialogueTranscripts.set(key, lines.slice(-24));
   dialogueCurrentLines.set(key, turn.beats.map(beat => beat.textKo).join('\n'));
   const recorded = recordDialogueTurn(state, { hostId: card.id, actorHostId: actorCard.id, sceneId: local.sceneId, intentClass, discussionId: discussionPrompt?.discussionId ?? null, discussionTitleKo: discussionPrompt?.questTitleKo, reflectionId: reflectionPrompt?.reflectionId ?? null, aiGenerated }, maps);
-  if (recorded.ok && queuedDiscussionInquiry?.hostId === card.id && queuedDiscussionInquiry?.promptKo === playerText) queuedDiscussionInquiry = null;
   if (recorded.ok) setState(recorded.state);
+  if (recorded.ok && queuedDiscussionInquiry?.hostId === card.id && queuedDiscussionInquiry?.promptKo === playerText) {
+    const inquiryId = queuedDiscussionInquiry.questId;
+    const nextInquiry = currentDiscussionQuests().find(item => item.id === inquiryId);
+    const instruction = discussionQuestInstruction(nextInquiry, Object.fromEntries(cards.map(item => [item.id, item.displayNameKo])));
+    queuedDiscussionInquiry = instruction?.phase === 'ASK' ? {
+      questId: inquiryId, hostId: instruction.hostId, hostNameKo: instruction.hostNameKo,
+      titleKo: nextInquiry.titleKo, promptKo: instruction.promptKo, progressKo: `${nextInquiry.perspectiveHostIds.length}/${nextInquiry.requiredPerspectiveCount} 관점`,
+      completedPerspectives: nextInquiry.perspectiveHostIds.length, requiredPerspectives: nextInquiry.requiredPerspectiveCount,
+      stakesKo: nextInquiry.stakesKo ?? '',
+    } : null;
+  }
   const replies = (turn.suggestedReplies ?? []).slice(0, 3);
   let ordinaryExchangeCount = dialogueOrdinaryExchanges.get(key) ?? 0;
   if (!discussionPrompt && !reflectionPrompt) dialogueOrdinaryExchanges.set(key, ordinaryExchangeCount += 1);
