@@ -17,9 +17,12 @@ test('conversation quest names first person, exact question, and the action that
   const view = discussionBoardView([quest()], null, names);
   assert.match(view.guidanceKo, /대상 · 다리야/);
   assert.match(view.guidanceKo, /물어볼 말 · “책의 원칙이 생활과 어긋나면 무엇을 바꿔야 할까요/);
-  assert.match(view.guidanceKo, /완료 조건 · 서로 다른 두 사람의 답을 기록하고 수첩에서 내 입장을 선택/);
+  assert.match(view.guidanceKo, /완료 조건 · 서로 다른 2명의 답을 들은 뒤 수첩에서 내 입장을 선택/);
   assert.match(view.steps.map(step => step.textKo).join(' '), /안나/);
   assert.match(view.steps.map(step => step.textKo).join(' '), /수첩/);
+  assert.match(view.guidanceKo, /가까이 가서 말 걸기/);
+  assert.match(view.guidanceKo, /이 질문을 선택하고 답변을 받아야 진행됩니다/);
+  assert.match(view.guidanceKo, /일반 인사나 다른 대화는 진행에 반영되지 않습니다/);
 });
 
 test('after first perspective, guidance advances to a different named person and their question', () => {
@@ -32,14 +35,18 @@ test('after first perspective, guidance advances to a different named person and
 test('after two conversations, guidance says to record a position to finish the quest', () => {
   const view = discussionBoardView([quest({ perspectiveHostIds: ['reader_darya', 'seamstress_anna'], positionPending: true })], null, names);
   assert.match(view.guidanceKo, /완료 조건 · 수첩에서 내 입장을 골라 기록/);
+  assert.match(discussionQuestInstruction(quest({ perspectiveHostIds: ['reader_darya', 'seamstress_anna'], positionPending: true }), names).howKo, /기록하면 퀘스트가 끝납니다/);
   assert.equal(view.positionPrompts.length, 1);
 });
 
 test('a normal conversation does not count; only selecting the exact prompt records a perspective', () => {
   const instruction = discussionQuestInstruction(quest(), names);
   assert.equal(instruction.promptKo, quest().hosts.reader_darya.promptKo);
-  assert.match(instruction.howKo, /대화 선택지에서 이 질문을 골라 답을 들으세요/);
-  assert.match(instruction.howKo, /일반 대화만으로는 진행되지 않습니다/);
+  assert.match(instruction.howKo, /대화창에서 이 질문을 선택하고 답변을 받아야 진행됩니다/);
+  assert.match(instruction.howKo, /일반 인사나 다른 대화는 진행에 반영되지 않습니다/);
+  const state = { world: { date: '1848-01-01' }, ledger: [{ eventType: 'DIALOGUE_TURN', hostId: 'reader_darya' }], player: { dialogueGrowth: { comparisonNotes: [], playerPositions: [] } } };
+  const definitions = { quests: [{ ...quest(), date: '1848-01-01' }] };
+  assert.deepEqual(availableDiscussionQuests(state, definitions)[0].perspectiveHostIds, [], 'ordinary conversation is not tagged as an answer to the quest prompt');
 });
 
 test('two answers leave the quest active until the player records a position', () => {

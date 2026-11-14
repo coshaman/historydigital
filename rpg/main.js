@@ -618,7 +618,7 @@ function updateHud() {
       questTitleKo: queuedDiscussionInquiry.titleKo,
       actionKo: `${queuedDiscussionInquiry.hostNameKo}에게 물어보기 · ${queuedDiscussionInquiry.progressKo}`,
       reasonKo: queuedDiscussionInquiry.stakesKo,
-      howKo: `대상 · ${queuedDiscussionInquiry.hostNameKo}\n${nextAction}${targetGuide?.howKo ? ` · ${targetGuide.howKo}` : ''}\n물어볼 말 · “${queuedDiscussionInquiry.promptKo}”\n대화 선택지에서 이 질문을 골라 답을 들으세요. 일반 대화만으로는 진행되지 않습니다.\n완료 조건 · 서로 다른 두 사람의 답을 기록한 뒤 수첩에서 내 입장을 선택하세요.${inquiryInstruction?.phase === 'RECORD_POSITION' ? '\n지금 할 일 · 수첩에서 입장을 선택하면 이 퀘스트가 끝납니다.' : ''}`,
+      howKo: `대상 · ${queuedDiscussionInquiry.hostNameKo}\n${nextAction}${targetGuide?.howKo ? ` · ${targetGuide.howKo}` : ''}\n대화 · 가까이서 말 걸기 → 열린 대화창에서 아래 질문을 선택 → 답변 확인\n질문 · “${queuedDiscussionInquiry.promptKo}”\n진행 · ${queuedDiscussionInquiry.completedPerspectives}/${queuedDiscussionInquiry.requiredPerspectives}명 답변\n일반 인사나 다른 대화는 진행되지 않습니다. 답변 생성에 실패하면 다시 연결해 같은 질문을 보내세요.\n완료 조건 · 서로 다른 ${queuedDiscussionInquiry.requiredPerspectives}명의 답을 들은 뒤 수첩에서 내 입장을 선택하면 끝납니다.${inquiryInstruction?.phase === 'RECORD_POSITION' ? '\n지금 할 일 · 수첩에서 입장을 선택하면 이 퀘스트가 끝납니다.' : ''}`,
       placeKo: targetGuide?.placeKo ?? (targetHost ? maps[targetHost.mapId]?.metadata.displayNameKo : '위치를 확인할 수 없음'),
       target: targetGuide?.target ?? null,
       progress: { completedSteps: queuedDiscussionInquiry.completedPerspectives, totalSteps: queuedDiscussionInquiry.requiredPerspectives },
@@ -648,7 +648,7 @@ function updateHud() {
   if (shouldOpenDiscussionBoard({ queuedInquiry: Boolean(queuedDiscussionInquiry), positionPending: Boolean(discussionView.positionPrompts?.length), activeDialogue: Boolean(activeDialogueHost) })) discussionBoard.open = true;
   $('#discussion-quest-progress').textContent = discussionView.progressKo;
   $('#discussion-quest-guidance').textContent = queuedDiscussionInquiry
-    ? `다음 사람 · ${queuedDiscussionInquiry.hostNameKo}\n물어볼 말 · “${queuedDiscussionInquiry.promptKo}”\n질문을 대화 선택지에서 골라 답을 들으세요.\n완료 조건 · 서로 다른 두 사람의 답을 모은 뒤 수첩에서 내 입장을 선택하세요.`
+    ? `다음 사람 · ${queuedDiscussionInquiry.hostNameKo}\n물어볼 말 · “${queuedDiscussionInquiry.promptKo}”\n가까이서 말 걸기를 누르고 열린 대화창에서 이 질문을 선택해 답변을 받으세요. 일반 대화는 진행에 반영되지 않습니다.\n완료 조건 · 서로 다른 ${queuedDiscussionInquiry.requiredPerspectives}명의 답을 모은 뒤 수첩에서 내 입장을 선택하세요.`
     : discussionView.guidanceKo;
   if (!queuedDiscussionInquiry && discussionView.positionPrompts?.length && !inLiteraryScene && !state.endingId) {
     const pending = discussionView.positionPrompts[0];
@@ -718,7 +718,10 @@ function updateHud() {
         const question = document.createElement('span');
         question.className = 'discussion-inquiry-question';
         question.textContent = `물어볼 것 · “${item.promptKo}”`;
-        detail.append(title, target, question);
+        const completion = document.createElement('span');
+        completion.className = 'discussion-inquiry-completion';
+        completion.textContent = `끝내기 · 서로 다른 ${item.requiredPerspectives}명의 답을 받은 뒤 수첩에서 내 입장을 선택`;
+        detail.append(title, target, question, completion);
         if (item.stakesKo) {
           const stakes = document.createElement('small');
           stakes.className = 'discussion-inquiry-stakes';
