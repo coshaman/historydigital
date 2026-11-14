@@ -371,6 +371,13 @@ assert.doesNotMatch(mayFollowupBeat.sourceContextKo, /허구|창작|실제|열�
 assert.equal(sourceAvailableOn(sourceIndex.records.find(row => row.sourceId === 'OBJ-WS-PETRASHEVSKY-REPORT-1849'), null, null, mayFollowupBeat.date), false,
   'the December retrospective report remains unavailable during the May follow-up');
 const main03Beats = storyBeatQuests.filter(quest => quest.storyId === 'MAIN03');
+for (const beatId of ['P02', 'P04', 'P07', 'P09', 'P10', 'P11']) {
+  const scene = main03Beats.find(quest => quest.beatId === beatId);
+  assert.ok(scene?.dialogue?.length >= 3,
+    `${scene?.id ?? `MAIN03 ${beatId}`} opens with a contextual authored exchange before its action choices`);
+  assert.equal(scene.dialogueStatus, 'NEWLY_AUTHORED_FROM_V47_SCENARIO',
+    `${scene.id} dialogue is distinguished from a historical verbatim quotation`);
+}
 for (const beat of main03Beats) for (const sourceId of beat.sourceIds) {
   const source = sourceIndex.records.find(row => row.sourceId === sourceId);
   assert.ok(source, `${beat.id} resolves its player-facing source ${sourceId}`);
