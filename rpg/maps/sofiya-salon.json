@@ -2148,6 +2148,11 @@
               "name": "storyTextKo",
               "type": "string",
               "value": "낮은 독서대와 의자를 둘 자리를 비워 둔 융단이다."
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 0
             }
           ]
         },

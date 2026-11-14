@@ -1,7 +1,7 @@
 import { objectIsPresent, interactionTile, isActionableInteraction, ambientBubbleFor } from './world-presentation.mjs';
 import { atmosphereForMap, mapHasAtmosphere, weatherForDate } from './atmosphere.mjs';
 import { drawPetersburgStreetLife } from './petersburg-street-life.mjs';
-import { actorStepLift, drawElevatedSprite, drawGroundShadow, sortSceneByGroundDepth } from './depth-rendering.mjs';
+import { actorStepLift, drawElevatedSprite, drawGroundShadow, objectShadowElevation, sortSceneByGroundDepth } from './depth-rendering.mjs';
 
 export function courtyardFireDamageMark(state, map) {
   const event = state?.world?.livingEventStates?.E27;
@@ -201,7 +201,11 @@ export function createRenderer(canvas, assets) {
         const imageX = x + (Number(p.displayOffsetX) || 0) * scale;
         const imageY = y + (Number(p.displayOffsetY) || 0) * scale;
         const baseY = oy + entry.groundY * scale;
-        if (p.castShadow !== false) drawGroundShadow(ctx, { x: imageX, baseY, width, scale, strength: Number(p.shadowStrength) || 1 });
+        if (p.castShadow !== false) drawGroundShadow(ctx, {
+          x: imageX, baseY, width, scale,
+          strength: Number(p.shadowStrength) || 1,
+          elevation: objectShadowElevation(height, tile, p.shadowElevation),
+        });
         if (p.displayAsset) {
           const display = getImage(new URL(p.displayAsset, import.meta.url));
           if (display.complete && display.naturalWidth) ctx.drawImage(display, imageX, imageY, width * scale, height * scale);
@@ -236,7 +240,7 @@ export function createRenderer(canvas, assets) {
       const dir = atlas.directionRows?.[host.facing] ?? ({ down: 0, up: 1, left: 2, right: 3 })[host.facing] ?? 0;
       const px = ox + host.position.x * tile * scale, tileY = oy + host.position.y * tile * scale;
       const py = Math.max(tileY, oy + 8 * scale);
-      drawGroundShadow(ctx, { x: px + 2 * scale, baseY: py + 15 * scale, width: 12, scale, strength: 1.05 });
+      drawGroundShadow(ctx, { x: px + 2 * scale, baseY: py + 15 * scale, width: 12, scale, strength: 1.05, elevation: 9 });
       const lift = actorStepLift({ time, lastMoveAt, active, reducedMotion });
       if (sprite.complete && sprite.naturalWidth) drawElevatedSprite(ctx, sprite,
         frame * frameWidth, dir * frameHeight, frameWidth, frameHeight,
