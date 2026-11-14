@@ -5,11 +5,13 @@ import { v47StoryBeats } from '../rpg/data/v47-story-beats.mjs';
 
 test('MAIN01 chronology sorts only dated source-backed records across Julian and Gregorian calendars', () => {
   assert.deepEqual(main01TimelineSources.map(card => card.dateJulian), [
-    '31 января 1848', '20 августа 1848', '20 октября 1848', '17 ноября 1848',
+    '31 января 1848 · 허가', '20 августа 1848', '20 октября 1848', '17 ноября 1848',
   ]);
   assert.deepEqual(main01TimelineSources.map(card => card.dateGregorian), [
     '1848-02-12', '1848-09-01', '1848-11-01', '1848-11-29',
   ]);
+  assert.equal(main01TimelineSources.find(card => card.id === 'announcement').titleKo, '2월호에 실린 연감 공고',
+    'the timeline does not mislabel the magazine issue approval date as the almanac publication date');
   assert.equal(main01TimelineSources.find(card => card.id === 'ban').sourceKindKo, '1997년 편집 주기',
     'the ban date is identified as a later editorial chronology, not an 1848 document');
   assert.ok(main01TimelineSources.every(card => card.sourceId), 'each card has a checked-in provenance ID');

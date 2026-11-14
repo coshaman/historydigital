@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
 import { v47StoryBeats } from '../rpg/data/v47-story-beats.mjs';
-import { v47RoleProfiles } from '../rpg/data/v47-character-roles.mjs';
+import { v47RoleCards, v47RoleProfiles } from '../rpg/data/v47-character-roles.mjs';
 
 const readJson = async path => JSON.parse(await readFile(new URL(`../${path}`, import.meta.url), 'utf8'));
 
@@ -51,4 +51,22 @@ test('MAIN01 author voices are distinct and stay within the almanac work', async
   assert.notDeepEqual(panaeva.voiceSamples, panaev.voiceSamples);
   assert.match(panaeva.voiceSamples.join(' '), /인물|장면|이름/);
   assert.match(panaev.voiceSamples.join(' '), /인쇄|판매처|부수/);
+});
+
+test('every MAIN01 beat opens with a scene-specific exchange before its decision', () => {
+  const beats = v47StoryBeats.filter(beat => beat.storyId === 'MAIN01');
+  assert.ok(beats.length >= 8, 'the chapter has a substantial sequence of playable scenes');
+  for (const beat of beats) {
+    assert.ok((beat.dialogue?.length ?? 0) >= 3, `${beat.id} needs contextual dialogue before its decision`);
+    assert.ok(beat.dialogue.every(line => line.lineKo?.trim() && line.speakerKo?.trim()), `${beat.id} has attributed, nonempty lines`);
+  }
+});
+
+test('MAIN01 historical authors have distinct sentence rhythms and relationship registers', () => {
+  const panaeva = v47RoleCards.find(card => card.id === 'panaeva_1848');
+  const panaev = v47RoleCards.find(card => card.id === 'panaev_1848');
+  assert.notDeepEqual(panaeva.speechRegister, panaev.speechRegister);
+  assert.notDeepEqual(panaeva.voiceSamples, panaev.voiceSamples);
+  assert.match(panaeva.speechRegister.conflict, /단호히|직접|분명/);
+  assert.match(panaev.speechRegister.conflict, /손님|부수|비용|판매/);
 });

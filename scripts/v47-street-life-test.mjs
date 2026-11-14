@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
-import { streetLifeFrame } from '../rpg/engine/petersburg-street-life.mjs';
+import { streetLifeFrame, streetCartFrame } from '../rpg/engine/petersburg-street-life.mjs';
 
 assert.equal(streetLifeFrame('printshop', 1000), null, 'street traffic is only drawn on the mapped street');
 assert.equal(streetLifeFrame('market-quay', 1000), null, 'street traffic does not appear on the waterfront map without a mapped route');
@@ -17,6 +17,11 @@ assert.notEqual(laneCartEarly.cartX, laneCartLater.cartX, 'a smaller street cart
 assert.equal(laneCartEarly.cartY, 192, 'the lane cart stays in its own roadway band');
 assert.equal(streetLifeFrame('bookshop-lane', 0, true, 30).cartX,
   streetLifeFrame('bookshop-lane', 9000, true, 30).cartX, 'the lane cart also stops under reduced motion');
+const animatedCart = streetCartFrame(800, false);
+const stillCart = streetCartFrame(800, true);
+assert.ok(animatedCart.wheelAngle > 0 && animatedCart.bodyBob !== 0 && animatedCart.horseStep !== 0,
+  'the cart wheels, sprung body, and horse legs animate together');
+assert.deepEqual(stillCart, streetCartFrame(0, true), 'reduced motion freezes every carriage detail');
 
 const provenance = JSON.parse(await readFile(new URL('../rpg/assets/ASSET_PROVENANCE.json', import.meta.url), 'utf8'));
 const reference = provenance.assets.find(asset => asset.id === 'reference-nevsky-gostiny-dvor-1850s');

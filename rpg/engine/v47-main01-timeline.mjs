@@ -1,5 +1,5 @@
 const sourceCards = [
-  { id: 'announcement', titleKo: '연감 발행 예고', dateJulian: '31 января 1848', dateGregorian: '1848-02-12',
+  { id: 'announcement', titleKo: '2월호에 실린 연감 공고', dateJulian: '31 января 1848 · 허가', dateGregorian: '1848-02-12',
     sourceId: 'V47-NEKRASOV-ALMANAC-CONTENTS-1848', sourceKindKo: '1848년 잡지 공고' },
   { id: 'request', titleKo: '수정 원고를 다시 맡기다', dateJulian: '20 августа 1848', dateGregorian: '1848-09-01',
     sourceId: 'V47-PANAEV-LETTER-1848-08-20', sourceKindKo: '파나예프의 편지' },
