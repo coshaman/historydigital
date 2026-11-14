@@ -59,6 +59,49 @@ function clearLineOfSight(map, from, to) {
   }
   return true;
 }
+function hostCanObserveHost(observer, subject, map, maxDistance = 6) {
+  if (!observer || !subject || observer.id === subject.id || observer.historicalAliveAndPresent === false
+    || subject.historicalAliveAndPresent === false || observer.mapId !== subject.mapId
+    || !observer.position || !subject.position || !nearTile(observer.position, subject.position, maxDistance)
+    || !clearLineOfSight(map, observer.position, subject.position)) return false;
+  const dx = subject.position.x - observer.position.x, dy = subject.position.y - observer.position.y;
+  if (dx === 0 && dy === 0) return false;
+  switch (observer.facing) {
+    case 'up': return dy < 0 && Math.abs(dx) <= Math.abs(dy);
+    case 'down': return dy > 0 && Math.abs(dx) <= Math.abs(dy);
+    case 'left': return dx < 0 && Math.abs(dy) <= Math.abs(dx);
+    case 'right': return dx > 0 && Math.abs(dy) <= Math.abs(dx);
+    default: return false;
+  }
+}
+function hostCanHearHost(listener, speaker, map, maxDistance = 3) {
+  return Boolean(listener && speaker && listener.id !== speaker.id
+    && listener.historicalAliveAndPresent !== false && speaker.historicalAliveAndPresent !== false
+    && listener.mapId === speaker.mapId && listener.position && speaker.position
+    && nearTile(listener.position, speaker.position, maxDistance)
+    && clearLineOfSight(map, listener.position, speaker.position));
+}
+function v47FollowObservation(state, maps, questId, actionId) {
+  if (questId !== 'V47_MAIN03_P06' || !['V47_P06_FOLLOW_VISITOR', 'V47_P06_ASK_DIRECTLY'].includes(actionId)) return null;
+  const observer = state.hosts?.[state.player?.embodiment];
+  const observedHosts = [state.hosts?.student_vasily];
+  const canWitness = actionId === 'V47_P06_FOLLOW_VISITOR'
+    ? observedHosts.every(host => hostCanObserveHost(observer, host, maps?.nevsky))
+    : observedHosts.every(host => hostCanHearHost(observer, host, maps?.nevsky));
+  if (!observer || !canWitness) return null;
+  return {
+    id: `V47:${questId}:${observer.id}:${state.world.v47?.observations?.length ?? 0}`,
+    questId, actionId, mode: actionId === 'V47_P06_FOLLOW_VISITOR' ? 'SIGHT' : 'HEARING',
+    observerHostId: observer.id, observedHostIds: observedHosts.map(host => host.id), mapId: observer.mapId,
+    observerPosition: { ...observer.position }, observerFacing: observer.facing,
+    observedPositions: Object.fromEntries(observedHosts.map(host => [host.id, { ...host.position }])),
+    distances: Object.fromEntries(observedHosts.map(host => [host.id,
+      Math.abs(observer.position.x - host.position.x) + Math.abs(observer.position.y - host.position.y)])),
+    lineOfSight: Object.fromEntries(observedHosts.map(host => [host.id, true])),
+    audible: Object.fromEntries(observedHosts.map(host => [host.id, hostCanHearHost(observer, host, maps?.nevsky)])),
+    valueStatus: 'FICTIONAL_SCENE_OBSERVATION', sourceIds: [],
+  };
+}
 function playerCanObserveWorldEvent(state, mapId, position, maxDistance = 6, maps = null) {
   return Boolean(state?.world?.currentMapId === mapId && state?.player?.position
     && position && nearTile(state.player.position, position, maxDistance)
@@ -5808,8 +5851,11 @@ function validateV47WorldChange(change, state, maps) {
   return true;
 }
 
-function applyV47WorldChange(state, change, maps, questId, actionId, autonomous = false, actorHostId = state.player.embodiment) {
+function applyV47WorldChange(state, change, maps, questId, actionId, autonomous = false, actorHostId = state.player.embodiment,
+  sceneObservation = null) {
   const v47 = state.world.v47;
+  v47.observations ??= [];
+  if (sceneObservation && !v47.observations.some(row => row.id === sceneObservation.id)) v47.observations.push(sceneObservation);
   for (const transfer of change.money ?? []) {
     state.hosts[transfer.fromHostId].money.amount -= transfer.amount;
     state.hosts[transfer.toHostId].money.amount += transfer.amount;
@@ -5890,9 +5936,13 @@ function applyV47WorldChange(state, change, maps, questId, actionId, autonomous 
   }
   Object.assign(state.world.worldFlags ??= {}, change.flags ?? {});
   v47.worldChanges ??= [];
+  const observationIds = v47.observations.filter(row => row.questId === questId && row.actionId === actionId)
+    .map(row => row.id);
+  const sourceObservationIds = actionId === 'V47_P06_LOG_SOURCED_REPORT'
+    ? v47.observations.filter(row => row.questId === questId).map(row => row.id) : [];
   v47.worldChanges.push({ questId, actionId, date: state.world.date, mapId: state.world.currentMapId,
     money: change.money ?? [], inventory: change.inventory ?? [], moves: change.moves ?? [],
-    resources: change.resources ?? null, rumorId: change.rumor?.id ?? null });
+    resources: change.resources ?? null, rumorId: change.rumor?.id ?? null, observationIds, sourceObservationIds });
   const sceneEvent = v47.events?.[questId];
   if (sceneEvent?.autonomousOutcome) {
     sceneEvent.playerIntervened = !autonomous;
@@ -6076,6 +6126,7 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
     if (effects.bookbindingDisposition === 'DELIVER_NOW' && seller.money.amount < 2)
       return { ok: false, reason: 'bookseller_cannot_pay', state };
   }
+  const sceneObservation = v47FollowObservation(state, maps, questId, v47StoryAction);
   const timed = advanceWorldTime(state, actionDuration, maps, [], { deferLivingEventExpiryId: questId === 'V37_MANUSCRIPT_OFFER_1847' ? 'E30'
     : questId === 'V37_SERFDOM_READING_1847' ? 'E31'
       : questId === 'CIRCLE_INVESTIGATION_1849' ? 'E40'
@@ -6139,7 +6190,7 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
     next.world.v47.events[questId] = { id: questId, story: storyId, status: 'RESOLVED',
       stage: action.id, observedDate: next.world.date, minute: next.world.clockMinutes,
       sourceIds: [...(quest.sourceIds ?? [])], playerIntervened: true, historicalOutcomeFixed: false };
-    if (v47WorldChange) applyV47WorldChange(next, v47WorldChange, maps, questId, action.id, false, hostId);
+    if (v47WorldChange) applyV47WorldChange(next, v47WorldChange, maps, questId, action.id, false, hostId, sceneObservation);
   }
   next.quests[questId] = questId === 'V37_APOTHECARY_ORDER_1847' && actionId === 'E16_PLACE_ORDER'
     ? { status: 'open', result: action.id }
@@ -8956,6 +9007,6 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
   return state;
 }
 
-const V33GameState = { describeHostMoney, createInitialState, moveActor, possessHost, possessHostFromRoster, enterLiteraryRealm, leaveLiteraryRealm, releaseHost, transitionMap, performQuestAction, payRent, knowledgeForHost, recordSourceRead, recordEvidenceRead, recordDialogueTurn, recordDiscussionPosition, advanceNpcWorld, advanceWorldTime, advanceChapter, advanceCampaignDate, getV47EndingConsequences, resolveEnding, saveGame, loadGame, stateHash, canOccupy, nearTile, npcMapRoute, playerCanObserveWorldEvent, applyCholeraIntervention };
+const V33GameState = { describeHostMoney, createInitialState, moveActor, possessHost, possessHostFromRoster, enterLiteraryRealm, leaveLiteraryRealm, releaseHost, transitionMap, performQuestAction, payRent, knowledgeForHost, recordSourceRead, recordEvidenceRead, recordDialogueTurn, recordDiscussionPosition, advanceNpcWorld, advanceWorldTime, advanceChapter, advanceCampaignDate, getV47EndingConsequences, resolveEnding, saveGame, loadGame, stateHash, canOccupy, nearTile, npcMapRoute, hostCanObserveHost, hostCanHearHost, playerCanObserveWorldEvent, applyCholeraIntervention };
 if (typeof module !== 'undefined' && module.exports) module.exports = V33GameState;
 if (typeof globalThis !== 'undefined') globalThis.V33GameState = V33GameState;

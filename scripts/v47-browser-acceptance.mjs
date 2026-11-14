@@ -13,7 +13,7 @@ import { v47RoleProfiles } from '../rpg/data/v47-character-roles.mjs';
 const root = process.cwd();
 const port = Number(process.env.V47_PREVIEW_PORT ?? 4174);
 const base = process.env.V47_APP_URL ?? `http://127.0.0.1:${port}/`;
-const localStaticRoot = path.resolve(root, 'dist');
+const localStaticRoot = path.resolve(root, 'dist-v33');
 const serveLocalBuild = async page => {
   if (process.env.V47_APP_URL) return;
   await page.route('**/*', async route => {
@@ -88,8 +88,8 @@ const scenarios = [
   { story: 'MAIN03', questId: 'V47_MAIN03_P05', actionId: 'V47_P05_SHARE_COPY', hostId: 'petrashevsky_1849', viewport: { width: 1440, height: 900 } },
   { story: 'MAIN03', questId: 'V47_MAIN03_P05', actionId: 'V47_P05_DISCUSS_ARGUMENT', hostId: 'petrashevsky_1849', viewport: { width: 390, height: 844 } },
   { story: 'MAIN03', questId: 'V47_MAIN03_P03', actionId: 'V47_P03_SERFDOM_AND_LAND', hostId: 'student_vasily', viewport: { width: 1440, height: 900 } },
-  { story: 'MAIN03', questId: 'V47_MAIN03_P06', actionId: 'V47_P06_ASK_DIRECTLY', hostId: 'antonelli_1849', viewport: { width: 390, height: 844 } },
-  { story: 'MAIN03', questId: 'V47_MAIN03_P06', actionId: 'V47_P06_LOG_SOURCED_REPORT', hostId: 'antonelli_1849', viewport: { width: 390, height: 844 } },
+  { story: 'MAIN03', questId: 'V47_MAIN03_P06', actionId: 'V47_P06_ASK_DIRECTLY', hostId: 'courier_pavel', viewport: { width: 390, height: 844 } },
+  { story: 'MAIN03', questId: 'V47_MAIN03_P06', actionId: 'V47_P06_LOG_SOURCED_REPORT', hostId: 'courier_pavel', viewport: { width: 390, height: 844 } },
   { story: 'MAIN03', questId: 'V47_MAIN03_P06', actionId: 'V47_P06_ASSERT_UNVERIFIED_SUSPICION', hostId: 'clerk_alexei', viewport: { width: 390, height: 844 } },
   { story: 'MAIN03', questId: 'V47_MAIN03_P07', actionId: 'V47_P07_SEPARATE_REPORTS', hostId: 'liprandi_1849', viewport: { width: 1440, height: 900 } },
   { story: 'MAIN03', questId: 'V47_MAIN03_P11', actionId: 'V47_P11_GUIDE_FAMILIES', hostId: 'student_vasily', viewport: { width: 390, height: 844 } },
@@ -175,6 +175,17 @@ const makeSave = (quest, action, scenario) => {
   state.hosts[hostId].historicalAliveAndPresent = true;
   state.hosts[hostId].mapId = startMapId;
   state.hosts[hostId].position = { ...state.player.position };
+  if (quest.id === 'V47_MAIN03_P06' && ['V47_P06_ASK_DIRECTLY', 'V47_P06_FOLLOW_VISITOR'].includes(action.id)) {
+    const visitor = state.hosts.student_vasily;
+    const visitorTile = [[state.player.position.x + 1, state.player.position.y],
+      [state.player.position.x, state.player.position.y - 1], [state.player.position.x, state.player.position.y + 1],
+      [state.player.position.x - 1, state.player.position.y]].map(([x, y]) => ({ x, y }))
+      .find(position => game.canOccupy(map, position.x, position.y));
+    assert.ok(visitorTile, `${quest.id} can place the visitor beside the acting host in the seeded scene`);
+    visitor.historicalAliveAndPresent = true;
+    visitor.mapId = map.mapId;
+    visitor.position = visitorTile;
+  }
   state.quests[quest.id] = { ...state.quests[quest.id], status: 'open' };
   const arc = campaign.arcs.find(item => item.id === quest.chapterId);
   const questIndex = arc?.questIds.indexOf(quest.id) ?? -1;
@@ -377,6 +388,11 @@ try {
     const ledgerRow = restored.ledger.find(row => row.questId === quest.id && row.actionId === action.id);
     assert.ok(ledgerRow, `${scenario.actionId} persists in the saved world ledger`);
     assert.ok(ledgerRow.effectsApplied?.v47WorldChange, `${scenario.actionId} stores its material world changes`);
+    if (quest.id === 'V47_MAIN03_P06' && action.id === 'V47_P06_ASK_DIRECTLY' && hostId === 'courier_pavel') {
+      assert.ok(restored.world.v47?.observations?.some(row => row.observerHostId === hostId
+        && row.questId === quest.id && row.actionId === action.id && row.mode === 'HEARING'),
+      'the browser route records the actor hearing the nearby exchange from his actual scene position');
+    }
     assert.deepEqual(errors, [], `${scenario.story} browser runtime has no page errors`);
     await page.screenshot({ path: path.join(output, `${scenario.story}-${scenario.actionId}-after-${scenario.viewport.width}.png`) });
     rows.push({ story: scenario.story, questId: quest.id, actionId: action.id, hostId, mapId, objectId: object.id,

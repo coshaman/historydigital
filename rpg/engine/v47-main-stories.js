@@ -130,6 +130,7 @@ function createV47State() {
   return {
     schemaVersion: 'V47_RUNTIME_1',
     events: {},
+    observations: [],
     relationships: {},
     stories: Object.fromEntries(Object.entries(STORY_GUIDANCE).map(([id, story]) => [id, {
       status: 'AVAILABLE', titleKo: story.title, questId: story.questId, focusHostId: null,
@@ -151,6 +152,7 @@ function ensureV47State(state) {
   state.world.v47 ??= createV47State();
   const v47 = state.world.v47;
   v47.events ??= {};
+  v47.observations ??= [];
   v47.relationships ??= {};
   v47.stories ??= createV47State().stories;
   for (const [id, story] of Object.entries(createV47State().stories)) {

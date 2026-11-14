@@ -554,6 +554,72 @@ for (const actionId of ['V47_P04_CARRY_INVITATION', 'V47_P04_RETURN_INVITATION']
     assert.equal(selected.ok, true, `${action.id} resolves even when the student's purse is empty`);
   }
 }
+{
+  const scene = storyBeatQuests.find(quest => quest.id === 'V47_MAIN03_P06');
+  const marker = maps.nevsky.layers.flatMap(layer => layer.objects ?? []).find(object => object.id === scene.entry.objectId);
+  const markerTile = { x: Math.floor(marker.x / 16), y: Math.floor(marker.y / 16) };
+  const pavelTile = [[markerTile.x - 1, markerTile.y], [markerTile.x + 1, markerTile.y],
+    [markerTile.x, markerTile.y - 1], [markerTile.x, markerTile.y + 1]]
+    .map(([x, y]) => ({ x, y })).find(tile => game.canOccupy(maps.nevsky, tile.x, tile.y));
+  const makeFollowState = observer => {
+    const state = game.createInitialState({ maps, hostCards, quests: allV47StoryQuests, startMapId: 'nevsky' });
+    state.world.chapterId = scene.chapterId; state.world.date = scene.date; state.world.currentMapId = 'nevsky';
+    state.player.embodiment = 'courier_pavel'; state.player.position = { ...pavelTile };
+    state.hosts.courier_pavel.mapId = 'nevsky'; state.hosts.courier_pavel.position = { ...pavelTile };
+    state.hosts.student_vasily.mapId = 'nevsky'; state.hosts.student_vasily.position = { x: pavelTile.x + 1, y: pavelTile.y };
+    state.hosts.courier_pavel.facing = observer.facing;
+    for (const id of ['courier_pavel', 'student_vasily']) state.hosts[id].historicalAliveAndPresent = true;
+    state.quests[scene.id] = { status: 'open', result: null };
+    return state;
+  };
+  const observing = makeFollowState({ facing: 'right' });
+  assert.equal(game.hostCanObserveHost(observing.hosts.courier_pavel, observing.hosts.student_vasily, maps.nevsky), true,
+    'Pavel can see the visitor from his actual in-range forward position');
+  assert.equal(game.hostCanHearHost(observing.hosts.courier_pavel, observing.hosts.student_vasily, maps.nevsky), true,
+    'Pavel can hear the nearby answer from his actual position');
+  const followed = game.performQuestAction(observing, { questId: scene.id, hostId: 'courier_pavel',
+    actionId: 'V47_P06_FOLLOW_VISITOR', objectId: marker.id }, { quests: allV47StoryQuests, maps });
+  assert.equal(followed.ok, true);
+  assert.deepEqual(followed.state.world.v47.observations[0], {
+    id: 'V47:V47_MAIN03_P06:courier_pavel:0', questId: 'V47_MAIN03_P06', actionId: 'V47_P06_FOLLOW_VISITOR', mode: 'SIGHT',
+    observerHostId: 'courier_pavel', observedHostIds: ['student_vasily'], mapId: 'nevsky',
+    observerPosition: pavelTile, observerFacing: 'right',
+    observedPositions: { student_vasily: { x: pavelTile.x + 1, y: pavelTile.y } },
+    distances: { student_vasily: 1 }, lineOfSight: { student_vasily: true },
+    audible: { student_vasily: true },
+    valueStatus: 'FICTIONAL_SCENE_OBSERVATION', sourceIds: [],
+  }, `the sourced observation records who saw whom, where, from which direction, and with what provenance: ${JSON.stringify({ observations: followed.state.world.v47.observations, changes: followed.state.world.v47.worldChanges?.slice(-1) })}`);
+  assert.deepEqual(followed.state.world.v47.worldChanges.at(-1).observationIds,
+    ['V47:V47_MAIN03_P06:courier_pavel:0'], 'the follow action retains its observer record in the world-change log');
+  assert.deepEqual(game.loadGame(game.saveGame(followed.state), { maps, hostCards, quests: allV47StoryQuests })
+    .world.v47.observations, followed.state.world.v47.observations,
+  'sight, location, facing, and source classification persist through a save and reload');
+  const sourceReport = makeFollowState({ facing: 'right' });
+  sourceReport.world.v47.observations = structuredClone(followed.state.world.v47.observations);
+  const report = game.performQuestAction(sourceReport, { questId: scene.id, hostId: 'courier_pavel',
+    actionId: 'V47_P06_LOG_SOURCED_REPORT', objectId: marker.id }, { quests: allV47StoryQuests, maps });
+  assert.deepEqual(report.state.world.v47.worldChanges.at(-1).sourceObservationIds,
+    ['V47:V47_MAIN03_P06:courier_pavel:0'], 'the filed report points back to the observation that supports it');
+  const hearing = makeFollowState({ facing: 'left' });
+  const heard = game.performQuestAction(hearing, { questId: scene.id, hostId: 'courier_pavel',
+    actionId: 'V47_P06_ASK_DIRECTLY', objectId: marker.id }, { quests: allV47StoryQuests, maps });
+  assert.equal(heard.state.world.v47.observations[0]?.mode, 'HEARING',
+    'Pavel’s direct exchange is recorded only when he can physically hear the nearby answer');
+  const facingAway = makeFollowState({ facing: 'left' });
+  assert.equal(game.hostCanObserveHost(facingAway.hosts.courier_pavel, facingAway.hosts.student_vasily, maps.nevsky), false,
+    'a nearby person facing away does not count as a witness');
+  const occluded = makeFollowState({ facing: 'right' });
+  occluded.hosts.courier_pavel.position = { x: 1, y: 8 };
+  occluded.hosts.student_vasily.position = { x: 4, y: 8 };
+  assert.equal(game.hostCanObserveHost(occluded.hosts.courier_pavel, occluded.hosts.student_vasily, maps.nevsky), false,
+    'a wall blocks an otherwise close observation');
+  const distant = makeFollowState({ facing: 'left' });
+  distant.hosts.courier_pavel.position = { x: 25, y: 16 };
+  const distantFollow = game.performQuestAction(distant, { questId: scene.id, hostId: 'courier_pavel',
+    actionId: 'V47_P06_FOLLOW_VISITOR', objectId: marker.id }, { quests: allV47StoryQuests, maps });
+  assert.equal(distantFollow.state.world.v47.observations.length, 0,
+    'an out-of-range actor cannot create a scene observation');
+}
 const campaign = await readJson(new URL('../rpg/quests/campaign.json', import.meta.url));
 for (const quest of allV47StoryQuests) {
   const arc = campaign.arcs.find(item => item.id === quest.chapterId);
