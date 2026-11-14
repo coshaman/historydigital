@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { discussionBoardView } from '../rpg/engine/discussion-quests.mjs';
+import { discussionBoardView, shouldOpenDiscussionBoard, shouldShowQuestTracker } from '../rpg/engine/discussion-quests.mjs';
 
 const names = { reader_darya: '다리야', seamstress_anna: '안나' };
 const quest = ({ perspectiveHostIds = [], positionPending = false } = {}) => ({
@@ -32,4 +32,14 @@ test('after two conversations, guidance says to record a position to finish the 
   assert.match(view.guidanceKo, /두 사람의 관점/);
   assert.match(view.guidanceKo, /입장을 골라 수첩에 남기면/);
   assert.equal(view.positionPrompts.length, 1);
+});
+
+test('quest tracker and conversation questions stay visible while dialogue choices are open', () => {
+  assert.equal(shouldShowQuestTracker({ hasActions: true, activeDialogue: true }), true);
+  assert.equal(shouldShowQuestTracker({ hasActions: true }), false);
+  assert.equal(shouldShowQuestTracker({ hasActions: true, storyOverview: true }), true);
+  assert.equal(shouldShowQuestTracker({ hasActions: true, activeDialogue: true, ending: true }), false);
+  assert.equal(shouldShowQuestTracker({ activeDialogue: true, literaryScene: true }), false);
+  assert.equal(shouldOpenDiscussionBoard({ activeDialogue: true }), true);
+  assert.equal(shouldOpenDiscussionBoard({}), false);
 });

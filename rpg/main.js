@@ -7,7 +7,7 @@ import { questChoices, continuationQuest, resolveObjectQuest } from './engine/qu
 import { questOutcomeSummary } from './engine/quest-outcome-summary.mjs';
 import { formatMissionActionKo, guideToResident, resolveQuestGuidance } from './engine/quest-guidance.mjs';
 import { ownsKeyboardInput, observationText } from './engine/player-presentation.mjs';
-import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHost, discussionQuestInstruction, discussionReflectionPromptsForHost } from './engine/discussion-quests.mjs';
+import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHost, discussionQuestInstruction, discussionReflectionPromptsForHost, shouldOpenDiscussionBoard, shouldShowQuestTracker } from './engine/discussion-quests.mjs';
 import { dialogueSessionNeedsReconnect, dialogueSpeakerLabel, mayOfferDiscussionPrompt, selectDialogueTurn } from './engine/dialogue-response.mjs';
 import { dialogueSceneContext } from './engine/dialogue-context.mjs';
 import { advanceHistoricalSessionTime, beginHistoricalSession, canConcludeHistoricalSession, exitHistoricalSession, historicalParticipantGuide, historicalReplyText, performHistoricalAction, recordHistoricalChoice } from './engine/historical-session.mjs';
@@ -520,8 +520,8 @@ function updateHud() {
     : inLiteraryScene
     ? { questTitleKo: '', actionKo: '', placeKo: '', reasonKo: '', howKo: '', target: null, progress: { completedSteps: 0, totalSteps: 0 }, blocked: false }
     : resolveQuestGuidance({ state, quests: questList, maps, hostCards: cards });
-  const tracker = $('#mission-tracker'); tracker.hidden = Boolean(state.endingId) || inLiteraryScene
-    || ($('.lower').classList.contains('has-actions') && !$('.lower').classList.contains('story-overview'));
+  const tracker = $('#mission-tracker'); tracker.hidden = !shouldShowQuestTracker({ ending: Boolean(state.endingId), literaryScene: inLiteraryScene,
+    hasActions: $('.lower').classList.contains('has-actions'), storyOverview: $('.lower').classList.contains('story-overview'), activeDialogue: Boolean(activeDialogueHost) });
   $('#mission-identity').textContent = host ? `현재 빙의: ${host.displayNameKo} · ${host.occupation}` : '현재 인물: 관찰자';
   $('#mission-title').textContent = missionGuidance.questTitleKo ?? '지금 할 일';
   $('#mission-action').textContent = `${missionGuidance.actionKo}${missionGuidance.placeKo ? ` · ${missionGuidance.placeKo}` : ''}`;
@@ -633,13 +633,13 @@ function updateHud() {
   caseContextButton.hidden = !caseContext?.roles?.[host.id] || Boolean(state.endingId);
   const discussionQuests = currentDiscussionQuests();
   const discussionBoard = $('#discussion-quest-board');
-  const discussionHost = conversationPartner;
+  const discussionHost = (activeDialogueHost && cards.find(card => card.id === activeDialogueHost)) || conversationPartner;
   const reflectionPrompts = discussionHost ? discussionReflectionPromptsForHost(discussionHost.id, state, discussionQuests) : [];
   const discussionView = discussionBoardView(discussionQuests, discussionHost?.id ?? null,
     Object.fromEntries(cards.map(card => [card.id, card.displayNameKo])), discussionQuestData.quests.length);
   discussionBoard.hidden = (!discussionView.visible && !reflectionPrompts.length)
     || Boolean(state.endingId) || inLiteraryScene;
-  if (queuedDiscussionInquiry || discussionView.positionPrompts?.length) discussionBoard.open = true;
+  if (shouldOpenDiscussionBoard({ queuedInquiry: Boolean(queuedDiscussionInquiry), positionPending: Boolean(discussionView.positionPrompts?.length), activeDialogue: Boolean(activeDialogueHost) })) discussionBoard.open = true;
   $('#discussion-quest-progress').textContent = discussionView.progressKo;
   $('#discussion-quest-guidance').textContent = queuedDiscussionInquiry
     ? `다음 사람 · ${queuedDiscussionInquiry.hostNameKo}\n물어볼 말 · “${queuedDiscussionInquiry.promptKo}”\n두 사람의 답을 들은 뒤 수첩에서 내 입장을 기록하면 끝납니다.`

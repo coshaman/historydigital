@@ -71,6 +71,14 @@ export function discussionQuestInstruction(quest, hostNames = {}) {
   };
 }
 
+export function shouldShowQuestTracker({ ending = false, literaryScene = false, hasActions = false, storyOverview = false, activeDialogue = false } = {}) {
+  return !ending && !literaryScene && (!hasActions || storyOverview || activeDialogue);
+}
+
+export function shouldOpenDiscussionBoard({ queuedInquiry = false, positionPending = false, activeDialogue = false } = {}) {
+  return queuedInquiry || positionPending || activeDialogue;
+}
+
 export function discussionBoardView(quests, hostId = null, hostNames = {}, totalQuestCount = quests?.length ?? 0) {
   const active = (quests ?? []).filter(quest => !quest.completed)
     .sort((a, b) => (b.perspectiveHostIds?.length ?? 0) - (a.perspectiveHostIds?.length ?? 0));
