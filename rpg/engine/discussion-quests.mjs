@@ -79,6 +79,18 @@ export function discussionBoardView(quests, hostId = null, hostNames = {}, total
   const nextComparisonHost = nextComparison ? eligibleFor(nextComparison)[0] : null;
   const nextComparisonName = hostNames[nextComparisonHost] ?? nextComparisonHost;
   const nextComparisonQuestion = nextComparison?.hosts?.[nextComparisonHost]?.promptKo;
+  const steps = active.flatMap(quest => {
+    const count = quest.perspectiveHostIds?.length ?? 0;
+    const required = quest.requiredPerspectiveCount ?? 2;
+    const heard = (quest.perspectiveHostIds ?? []).map(id => ({ questId: quest.id, done: true,
+      textKo: `${hostNames[id] ?? id}의 관점을 들었습니다.` }));
+    const remaining = eligibleFor(quest).slice(0, Math.max(0, required - count)).map((id, index) => ({
+      questId: quest.id, done: false,
+      textKo: `${count + index + 1}/${required} · ${hostNames[id] ?? id}에게 “${quest.hosts?.[id]?.promptKo ?? quest.reflectionPromptKo ?? quest.titleKo}”라고 물으세요.`,
+    }));
+    return [...heard, ...remaining, { questId: quest.id, done: false,
+      textKo: `${required}명의 답을 들은 뒤 수첩에서 내 입장을 선택하면 이 쟁점이 끝납니다.` }];
+  });
   const recommendations = active.map(quest => {
     const eligible = eligibleFor(quest);
     const selectedHostId = hostId && eligible.includes(hostId) ? hostId : eligible[0];
@@ -99,12 +111,15 @@ export function discussionBoardView(quests, hostId = null, hostNames = {}, total
   return {
     progressKo: `쟁점 ${completedCount}/${(quests ?? []).length}${positionPrompts.length ? ` · 내 입장 ${positionPrompts.length}개` : ''}`,
     guidanceKo: positionPrompts.length
-      ? `두 관점을 모았습니다. 내 입장을 골라 수첩에 남기세요.`
+      ? `두 사람의 관점을 모았습니다. 아래에서 내 입장을 골라 수첩에 남기면 이 쟁점 퀘스트가 끝납니다.`
       : nextComparison
-      ? `다음은 ${nextComparisonName}에게 물어보세요: “${nextComparisonQuestion}”`
-      : '질문을 골라 두 사람의 관점을 듣고, 내 판단을 수첩에 남기세요.',
+      ? `${nextComparison?.perspectiveHostIds?.length ?? 1}/${nextComparison?.requiredPerspectiveCount ?? 2} 관점 · 다음은 ${nextComparisonName}에게 물어보세요: “${nextComparisonQuestion}” 다음에 수첩에서 내 입장을 고르면 끝납니다.`
+      : steps[0]?.textKo ?? '질문을 골라 서로 다른 두 인물의 관점을 듣고, 수첩에서 내 입장을 선택하면 끝납니다.',
     rows,
     recommendations,
+    steps: positionPrompts.length
+      ? [{ done: true, textKo: '서로 다른 두 인물의 답을 들었습니다.' }, { done: false, textKo: '아래에서 내 입장을 골라 수첩에 남기면 퀘스트가 끝납니다.' }]
+      : steps,
     positionPrompts: positionPrompts.map(quest => ({
       questId: quest.id,
       titleKo: quest.titleKo,

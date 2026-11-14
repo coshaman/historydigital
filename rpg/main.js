@@ -610,7 +610,7 @@ function updateHud() {
       questTitleKo: queuedDiscussionInquiry.titleKo,
       actionKo: `${queuedDiscussionInquiry.hostNameKo}에게 물어보기 · ${queuedDiscussionInquiry.progressKo}`,
       reasonKo: queuedDiscussionInquiry.stakesKo,
-      howKo: `${nextAction}. ${targetGuide?.howKo ?? ''} 준비한 질문은 대화 선택지 맨 앞에 놓입니다.`,
+      howKo: `${nextAction}. ${targetGuide?.howKo ?? ''} 가까이서 말 걸기를 누른 뒤 준비된 질문을 고르세요. 서로 다른 두 인물의 답을 모으고 수첩에서 내 입장을 선택하면 끝납니다.`,
       placeKo: targetGuide?.placeKo ?? (targetHost ? maps[targetHost.mapId]?.metadata.displayNameKo : '위치를 확인할 수 없음'),
       target: targetGuide?.target ?? null,
       progress: { completedSteps: queuedDiscussionInquiry.completedPerspectives, totalSteps: queuedDiscussionInquiry.requiredPerspectives },
@@ -635,16 +635,20 @@ function updateHud() {
   const reflectionPrompts = discussionHost ? discussionReflectionPromptsForHost(discussionHost.id, state, discussionQuests) : [];
   const discussionView = discussionBoardView(discussionQuests, discussionHost?.id ?? null,
     Object.fromEntries(cards.map(card => [card.id, card.displayNameKo])), discussionQuestData.quests.length);
-  const ordinaryExchanges = activeDialogueKey ? dialogueOrdinaryExchanges.get(activeDialogueKey) ?? 0 : 0;
-  const sceneConversationEstablished = Boolean(activeDialogueHost && ordinaryExchanges >= 2);
-  discussionBoard.hidden = ((!discussionView.visible && !reflectionPrompts.length)
-    || (!sceneConversationEstablished && !discussionView.positionPrompts?.length && !queuedDiscussionInquiry))
+  discussionBoard.hidden = (!discussionView.visible && !reflectionPrompts.length)
     || Boolean(state.endingId) || inLiteraryScene;
   if (queuedDiscussionInquiry || discussionView.positionPrompts?.length) discussionBoard.open = true;
   $('#discussion-quest-progress').textContent = discussionView.progressKo;
   $('#discussion-quest-guidance').textContent = queuedDiscussionInquiry
     ? `“${queuedDiscussionInquiry.promptKo}” · ${queuedDiscussionInquiry.hostNameKo}에게 물어보세요.`
     : discussionView.guidanceKo;
+  const discussionSteps = $('#discussion-quest-steps');
+  discussionSteps.replaceChildren(...(discussionView.steps ?? []).map(step => {
+    const item = document.createElement('li');
+    item.textContent = `${step.done ? '완료 · ' : ''}${step.textKo}`;
+    if (step.done) item.setAttribute('aria-label', `완료: ${step.textKo}`);
+    return item;
+  }));
   const inquiryRows = discussionView.recommendations ?? [];
   const followUpRows = reflectionPrompts.slice(0, 2).map(prompt => `비교 메모 후속 대화 · ${discussionHost.displayNameKo}에게: “${prompt.promptKo}”`);
   const inquiryList = $('#discussion-quest-items');
@@ -2358,11 +2362,11 @@ async function startConversation(card) {
     if (activeDialogueHost !== card.id || activeDialogueKey !== key || dialogueGeneration !== generation) return;
   }
 
-  const liveDiscussionQuests = currentDiscussionQuests();
-  const starterReplies = remaining.slice(0, 3);
+  const queuedPrompt = queuedDiscussionInquiry?.hostId === card.id ? queuedDiscussionInquiry.promptKo : null;
+  const starterReplies = queuedPrompt ? [queuedPrompt, ...remaining].slice(0, 3) : remaining.slice(0, 3);
   showConversation(card, dialogueCurrentLines.get(key), starterReplies,
     sessionFailure ? `AI 연결 실패 · ${sessionFailure}` : hasLiveDialogue(key)
-      ? '첫마디는 장면용 대사입니다. 아래에서 질문을 고르거나 직접 말하면 AI 생성 답변을 표시합니다.'
+      ? queuedPrompt ? '준비한 질문을 골라 답을 들으세요. 대화가 기록되면 다음 인물과 질문을 수첩에 표시합니다.' : '첫마디는 장면용 대사입니다. 아래에서 질문을 고르거나 직접 말하면 AI 생성 답변을 표시합니다.'
       : 'AI 답변 대기 · 인물에게 질문을 보내면 서버에서 답변을 생성합니다.');
 }
 async function sendHistoricalConversation(card, playerText) {
