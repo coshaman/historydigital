@@ -20,7 +20,9 @@ const e41Only = process.argv.includes('--e41-only');
 const alternateOnly = process.argv.includes('--alternate-only');
 const normalOnly = process.argv.includes('--normal-only');
 const main01Only = process.argv.includes('--main01-only');
-const outputDir = path.join(root, main01Only ? 'artifacts/v47/MAIN01_ONLY_REPLAY' : 'artifacts/v47/BROWSER_CAMPAIGN_REPLAY');
+const outputDir = process.env.V47_REPLAY_OUTPUT
+  ? path.resolve(root, process.env.V47_REPLAY_OUTPUT)
+  : path.join(root, main01Only ? 'artifacts/v47/MAIN01_ONLY_REPLAY' : 'artifacts/v47/BROWSER_CAMPAIGN_REPLAY');
 const readJson = async relative => JSON.parse(await readFile(path.join(root, relative), 'utf8'));
 const require = createRequire(import.meta.url);
 require('../rpg/engine/game-state.js');
@@ -209,7 +211,12 @@ async function runRoute(browser, base, routeName) {
         await page.waitForFunction(previous => Number(document.body.dataset.playerX) !== previous.x
           || Number(document.body.dataset.playerY) !== previous.y, before, { timeout: 1800 }).catch(() => {});
         const after = await currentPosition();
-        if (after.x === before.x && after.y === before.y) { occupied.add(`${before.x},${before.y}`); blocked = true; break; }
+        if (after.x === before.x && after.y === before.y) {
+          const [dx, dy] = deltas[direction];
+          occupied.add(`${before.x + dx},${before.y + dy}`);
+          blocked = true;
+          break;
+        }
       }
       if (!blocked) return;
     }
@@ -264,14 +271,8 @@ async function runRoute(browser, base, routeName) {
     const card = runtimeCards.find(item => item.id === hostId);
     assert.ok(card, `${hostId} role card exists`);
     if ((await currentState()).player.embodiment === hostId) return card;
-    if (main01Only && hostId === 'sofiya_salon_1848') {
-      const hostState = (await currentState()).hosts[hostId];
-      if (hostState?.mapId && hostState.mapId !== await currentMapId()) {
-        const currentHostId = (await currentState()).player.embodiment;
-        const currentCard = runtimeCards.find(item => item.id === currentHostId);
-        if (currentCard) await travelTo(hostState.mapId, currentCard);
-      }
-    }
+    // The in-game roster transfers the observer to the selected host's map.
+    // Do not require the previously embodied character to have a route there.
     await page.locator('#roster-open').click();
     const rosterEntry = page.locator('.roster-card').filter({ hasText: card.displayNameKo }).first();
     try { await rosterEntry.waitFor({ state: 'visible', timeout: 3000 }); }
@@ -455,7 +456,9 @@ async function runRoute(browser, base, routeName) {
           firstParagraphClear: (() => {
             const paragraph = document.querySelector('#source-reader-passages .source-passage')?.getBoundingClientRect();
             const footer = document.querySelector('.source-reader-actions')?.getBoundingClientRect();
-            return Boolean(paragraph && footer && paragraph.bottom <= footer.top);
+            const scroll = document.querySelector('.source-reader-scroll')?.getBoundingClientRect();
+            return Boolean(paragraph && footer && scroll && paragraph.top >= scroll.top
+              && scroll.bottom <= footer.top && document.querySelector('.source-reader-scroll')?.scrollTop === 0);
           })(),
           visibleResearchNote: /스캔 상태|대조하지 못|원본 .*확인/.test(document.querySelector('#source-reader-provenance-text')?.textContent ?? ''),
         }));
@@ -780,6 +783,8 @@ async function runRoute(browser, base, routeName) {
           missionHidden: document.querySelector('#mission-tracker')?.hidden ?? false,
           overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth,
         }));
+        const sceneShot = path.join(outputDir, `${routeName}-MAIN01-TALNIKOV-CHOICE-${viewport.width}x${viewport.height}.png`);
+        await page.screenshot({ path: sceneShot, fullPage: false }); screenshots.push(sceneShot);
         assert.ok(sceneView.journal.includes('첫 장부터 어머니가') && sceneView.journal.includes('줄어들 독자'),
           'the Talnikov choice screen keeps its contextual four-person conversation visible');
         assert.ok(sceneView.selectedChoice?.text.includes('작업자') && sceneView.selectedChoice.text.includes('서점'),
@@ -789,8 +794,6 @@ async function runRoute(browser, base, routeName) {
         assert.equal(sceneView.missionHidden, true, 'the redundant mission panel gives the scene dialogue and choice room');
         assert.equal(sceneView.journalTextScrollTop, 0, 'the dialogue starts at its first line while choices stay visible');
         assert.equal(sceneView.overflow, false, 'the Talnikov choice screen fits the desktop viewport');
-        const sceneShot = path.join(outputDir, `${routeName}-MAIN01-TALNIKOV-CHOICE-${viewport.width}x${viewport.height}.png`);
-        await page.screenshot({ path: sceneShot, fullPage: false }); screenshots.push(sceneShot);
       }
       const positionBefore = await currentPosition();
       const mapBefore = await currentMapId();
@@ -1016,5 +1019,6 @@ try {
       fixedHistoricalEvent: route.fixedHistoricalEvent?.fixedOutcome ?? null, pageErrors: route.pageErrors.length })) }, null, 2)}\n`);
   console.log(JSON.stringify({ status: 'PASS', routes: routes.map(route => ({ routeName: route.routeName,
     stories: route.stories, questCount: route.quests.filter(row => row.storyId?.startsWith('MAIN')).length,
-    transitions: route.transitions.length, pageErrors: route.pageErrors.length })), report: 'artifacts/v47/BROWSER_CAMPAIGN_REPLAY/V47_BROWSER_CAMPAIGN_INDEX.json' }, null, 2));
+    transitions: route.transitions.length, pageErrors: route.pageErrors.length })),
+    report: main01Only ? outputDir : path.join(outputDir, 'V47_BROWSER_CAMPAIGN_INDEX.json') }, null, 2));
 } finally { await browser.close(); }
