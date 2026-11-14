@@ -1,7 +1,7 @@
 import { objectIsPresent, interactionTile, isActionableInteraction, ambientBubbleFor } from './world-presentation.mjs';
 import { atmosphereForMap, mapHasAtmosphere, weatherForDate } from './atmosphere.mjs';
 import { drawPetersburgStreetLife } from './petersburg-street-life.mjs';
-import { drawGroundShadow, sortSceneByGroundDepth } from './depth-rendering.mjs';
+import { actorStepLift, drawElevatedSprite, drawGroundShadow, sortSceneByGroundDepth } from './depth-rendering.mjs';
 
 export function courtyardFireDamageMark(state, map) {
   const event = state?.world?.livingEventStates?.E27;
@@ -237,7 +237,10 @@ export function createRenderer(canvas, assets) {
       const px = ox + host.position.x * tile * scale, tileY = oy + host.position.y * tile * scale;
       const py = Math.max(tileY, oy + 8 * scale);
       drawGroundShadow(ctx, { x: px + 2 * scale, baseY: py + 15 * scale, width: 12, scale, strength: 1.05 });
-      if (sprite.complete && sprite.naturalWidth) ctx.drawImage(sprite, frame * frameWidth, dir * frameHeight, frameWidth, frameHeight, px, py - 8 * scale, frameWidth * scale, frameHeight * scale);
+      const lift = actorStepLift({ time, lastMoveAt, active, reducedMotion });
+      if (sprite.complete && sprite.naturalWidth) drawElevatedSprite(ctx, sprite,
+        frame * frameWidth, dir * frameHeight, frameWidth, frameHeight,
+        px, py - 8 * scale, frameWidth * scale, frameHeight * scale, scale, lift);
       if (active) { ctx.strokeStyle = '#f2d38b'; ctx.lineWidth = 1; ctx.beginPath(); ctx.ellipse(px + 8 * scale, py + 15 * scale, 8 * scale, 3 * scale, 0, 0, Math.PI * 2); ctx.stroke(); }
     }
     for (const object of visibleObjects) {

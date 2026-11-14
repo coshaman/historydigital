@@ -21,6 +21,24 @@ export function drawGroundShadow(ctx, { x, baseY, width = 16, scale = 1, strengt
   ctx.restore();
 }
 
+export function actorStepLift({ time = 0, lastMoveAt = -Infinity, active = false, reducedMotion = false } = {}) {
+  const moveAge = time - lastMoveAt;
+  if (!active || reducedMotion || moveAge < 0 || moveAge >= 360) return 0;
+  return Math.abs(Math.sin(time / 90)) * 1.2;
+}
+
+export function drawElevatedSprite(ctx, image, sourceX, sourceY, sourceWidth, sourceHeight,
+  x, y, width, height, scale = 1, lift = 0) {
+  ctx.save();
+  ctx.shadowColor = 'rgba(15, 12, 10, .52)';
+  ctx.shadowBlur = scale * (0.7 + lift * 0.25);
+  ctx.shadowOffsetX = scale * 0.45;
+  ctx.shadowOffsetY = scale * (2.1 + lift);
+  ctx.drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight,
+    x, y - lift * scale, width, height);
+  ctx.restore();
+}
+
 export function sortSceneByGroundDepth(entries) {
   return [...entries].sort((a, b) => a.groundY - b.groundY || a.depthOrder - b.depthOrder || a.stableOrder - b.stableOrder);
 }
