@@ -1,6 +1,12 @@
 const STORY_ENTRIES = Object.freeze([
   { id: 'MAIN01', titleKo: '금지된 삽화 연감', dateKo: '1848년', firstTaskKo: '구독 장부에서 이름을 찾고 인쇄소에서 부록을 확인한다.',
-    introKo: '기다리는 손님은 늘고, 인쇄소에서는 아직 책이 나가지 못했다는 말만 들린다. 구독 장부부터 확인해 보자.' },
+    introKo: '기다리는 손님은 늘고, 인쇄소에서는 아직 책이 나가지 못했다는 말만 들린다. 구독 장부부터 확인해 보자.',
+    activitiesKo: [
+      { type: 'quiz', labelKo: '날짜 퀴즈' },
+      { type: 'chase', labelKo: '파벨 추격' },
+      { type: 'exploration', labelKo: '현장 문서 탐색' },
+      { type: 'purchase', labelKo: '신문 종이·잉크 구매' },
+    ] },
   { id: 'MAIN03', titleKo: '혁명의 소식과 마지막 금요일', dateKo: '1848–1849년', firstTaskKo: '유럽에서 온 신문을 펼쳐 소식을 읽는다.',
     introKo: '유럽에서 전해진 소식이 서점과 모임에 닿는다. 누가 무엇을 읽고 어디서 들었는지부터 살펴보자.' },
   { id: 'MAIN05', titleKo: '콜레라가 도는 도시', dateKo: '1848년', firstTaskKo: '여관의 물통과 환자 기록을 확인한다.',
@@ -12,6 +18,23 @@ const storyIdFor = quest => quest?.storyId ?? (quest?.id?.includes('MAIN01') ? '
 
 export function v47StoryMenuEntries() {
   return STORY_ENTRIES.map(entry => ({ ...entry }));
+}
+
+export function resolveV47StoryMenuEntries(state, quests = [], campaign = { arcs: [] }) {
+  return STORY_ENTRIES.map(entry => {
+    const guide = resolveV47StoryEntry(state, entry.id, quests, campaign);
+    const statusLabelKo = guide.status === 'READY' ? '지금 시작'
+      : guide.status === 'WAITING_FOR_DATE' ? '날짜를 기다리는 중'
+        : guide.status === 'COMPLETE' ? '완료'
+          : '먼저 할 일';
+    const menuTaskKo = guide.status === 'WAITING_FOR_CAMPAIGN'
+      ? `${guide.currentTitleKo} · ${guide.currentTaskKo}`
+      : guide.status === 'WAITING_FOR_DATE' ? guide.currentTaskKo
+        : guide.status === 'COMPLETE' ? '기록된 선택과 후일담을 다시 볼 수 있습니다.'
+          : `${guide.currentTitleKo} · ${guide.currentTaskKo}`;
+    return { ...guide, statusLabelKo, menuTaskKo,
+      activitiesKo: (entry.activitiesKo ?? []).map(activity => ({ ...activity })) };
+  });
 }
 
 export function resolveV47StoryEntry(state, storyId, quests = [], campaign = { arcs: [] }) {

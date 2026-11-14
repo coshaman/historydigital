@@ -18,7 +18,7 @@ import { contextualOpening } from './ai/authored-dialogue.mjs';
 import { attachV47StoryObjects, v47StoryQuests } from './data/v47-main-stories.mjs';
 import { createMain01PrintworkState, main01PrintworkStage, resolveMain01Printwork } from './engine/v47-printwork.mjs';
 import { createMain01TimelineState, main01TimelineSources, main01TimelineStage, resolveMain01Timeline } from './engine/v47-main01-timeline.mjs';
-import { resolveV47StoryEntry, v47StoryMenuEntries } from './engine/v47-story-entry.mjs';
+import { resolveV47StoryEntry, resolveV47StoryMenuEntries } from './engine/v47-story-entry.mjs';
 import { attachMain01PursuitObjects, createMain01PursuitState, MAIN01_PURSUIT_CHECKPOINTS, reachMain01PursuitCheckpoint, startMain01Pursuit } from './engine/v47-main01-pursuit.mjs';
 import { attachV47StoryBeatObjects, toV47StoryQuests } from './data/v47-story-beats.mjs';
 import { v47RoleProfiles } from './data/v47-character-roles.mjs';
@@ -1098,8 +1098,10 @@ function openSourceReader(record, { nextState = null, readingMode = null } = {})
   $('#source-reader-complete').hidden = !pendingSourceRead;
   applySourceReaderMode(sourceReaderMode);
   if (dialog.open) dialog.close();
-  dialog.querySelector('.source-reader-scroll').scrollTop = 0;
   dialog.showModal();
+  const readerScroll = dialog.querySelector('.source-reader-scroll');
+  readerScroll.scrollTop = 0;
+  requestAnimationFrame(() => { if (dialog.open) readerScroll.scrollTop = 0; });
 }
 $('#source-reader-close').addEventListener('click', () => $('#source-reader').close());
 $('#source-reader-complete').addEventListener('click', () => {
@@ -1145,7 +1147,7 @@ function openSourceDrawer() {
 const eventButton = $('#history-events-open');
 function selectV47Story(storyId) {
   if (state.historicalSession) { sayRecord('먼저 지금 진행 중인 현장을 나가야 다른 이야기를 고를 수 있습니다.'); return; }
-  const entry = v47StoryMenuEntries().find(item => item.id === storyId);
+  const entry = resolveV47StoryMenuEntries(state, questList, campaign).find(item => item.id === storyId);
   const guide = resolveV47StoryEntry(state, storyId, questList, campaign);
   if (!entry || !guide) return;
   const next = copy(state);
@@ -1153,19 +1155,28 @@ function selectV47Story(storyId) {
   next.world.v47.focusStoryId = storyId;
   setState(next);
   localStorage.setItem('v33-rpg-save', saveGame(next));
-  const currentTask = guide.currentQuestId
-    ? `\n\n지금 할 일 · ${guide.currentTitleKo}\n${guide.currentTaskKo}`
-    : guide.status === 'WAITING_FOR_DATE' ? `\n\n첫 장면 · ${guide.currentTaskKo}` : '';
-  const openingTask = guide.status === 'READY'
-    ? `현재 목표 · ${guide.currentTitleKo}\n${guide.currentTaskKo}`
-    : `첫 임무 · ${entry.firstTaskKo}`;
-  say(entry.titleKo, `${entry.introKo}\n\n${openingTask}${currentTask}`, []);
+  const activeTask = guide.status === 'READY'
+    ? `지금 할 일 · ${guide.currentTitleKo}\n${guide.currentTaskKo}`
+    : guide.status === 'WAITING_FOR_DATE'
+      ? `첫 장면 · ${guide.currentTaskKo}`
+      : guide.status === 'WAITING_FOR_CAMPAIGN'
+        ? `먼저 할 일 · ${guide.currentTitleKo}\n${guide.currentTaskKo}`
+        : '이 이야기는 끝났습니다. 수첩에서 남긴 선택을 확인하거나 다른 현장을 고르세요.';
+  const activities = entry.activitiesKo?.length
+    ? `\n\n현장 활동 · ${entry.activitiesKo.map(item => item.labelKo).join(' · ')}` : '';
+  const nextActions = [
+    { label: '인물 목록 열기', subcopy: '이 장면에 맞는 사람을 골라 직접 움직입니다', run: openCharacterList },
+    { label: guide.status === 'READY' ? '수첩에서 현재 목표 보기' : '수첩에서 먼저 할 일 보기',
+      subcopy: '장소와 조사 방법을 확인합니다', run: openJournal },
+    { label: '다른 현장 고르기', run: openHistoricalEventMenu },
+  ];
+  say(`${entry.titleKo} · ${entry.statusLabelKo}`, `${entry.introKo}\n\n${activeTask}${activities}`, nextActions);
 }
 function openHistoricalEventMenu() {
   eventButton.textContent = '역사 현장';
-  const storyActions = v47StoryMenuEntries().map(entry => ({
-    label: entry.titleKo,
-    subcopy: `${entry.dateKo} · ${entry.firstTaskKo}`,
+  const storyActions = resolveV47StoryMenuEntries(state, questList, campaign).map(entry => ({
+    label: `${entry.titleKo} · ${entry.statusLabelKo}`,
+    subcopy: `${entry.dateKo} · ${entry.menuTaskKo}${entry.activitiesKo.length ? ` · ${entry.activitiesKo.map(item => item.labelKo).join(' · ')}` : ''}`,
     run: () => selectV47Story(entry.id),
   }));
   const historicalActions = historicalEvents.map(event => ({
@@ -1173,7 +1184,7 @@ function openHistoricalEventMenu() {
     subcopy: `${event.dateLabelKo} · ${event.openingKo}`,
     run: () => beginHistoricalEvent(event),
   }));
-  say('역사 현장', '이야기를 고르면 수첩에 지금 할 일과 첫 장면이 표시됩니다.', [...storyActions, ...historicalActions]);
+  say('역사 현장', '이야기를 고르면 지금 할 일과 다음 행동을 확인할 수 있습니다.', [...storyActions, ...historicalActions]);
 }
 function beginHistoricalEvent(event) {
   const scene = historicalScenes.get(event.id);
