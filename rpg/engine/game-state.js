@@ -6064,7 +6064,8 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
     if ((seller.marketStock?.[requirement.itemKo] ?? 0) < requirement.quantity)
       return { ok: false, reason: 'required_market_stock_unavailable', state };
   }
-  if (action.requiredKnowledgeId && !knowledgeForHost(state, hostId).includes(action.requiredKnowledgeId)) return { ok: false, reason: 'host_lacks_knowledge', state };
+  const requiredKnowledgeIds = [...new Set([...(Array.isArray(action.requiredKnowledgeIds) ? action.requiredKnowledgeIds : []), ...(action.requiredKnowledgeId ? [action.requiredKnowledgeId] : [])])];
+  if (requiredKnowledgeIds.some(id => !knowledgeForHost(state, hostId).includes(id))) return { ok: false, reason: 'host_lacks_knowledge', state };
   const effects = action.effects ?? {}, relationEffects = effects.relations ?? {}, inventoryRemove = effects.inventoryRemove ?? [], inventoryAdd = effects.inventoryAdd ?? [];
   const chainDelta = effects.lifeChainDelta ?? {};
   if (effects.canalTrafficResponse !== undefined
@@ -7724,7 +7725,7 @@ function performQuestAction(state, { questId, hostId, actionId, objectId }, { qu
         resolutionActionId: actionId, resolvedByHostId: hostId,
         ...(event.officialRecordNumber ? { officialRecordNumber: event.officialRecordNumber } : {}) }));
   }
-  const entry = { eventId: `ACTION_${next.ledger.length + 1}`, eventType: literaryQuest ? 'LITERARY_ACTION' : 'HISTORICAL_ACTION', ...(literaryQuest ? { realmId: state.world.activeRealm.id } : {}), ...(chain ? { lifeChainId: chain.id, lifeChainStage: chain.stage, lifeChainDelta: chainDelta } : {}), ...(quest.socialChain ? { socialChainId: quest.socialChain.id, socialPartnerHostId: socialPartnerId } : {}), date: next.world.date, mapId: next.world.currentMapId, hostId, questId, actionId, objectId, witnesses: [], ...(livingEvents.length ? { livingEvents } : {}), effectsApplied: { moneyDelta: effects.moneyDelta ?? 0, inventoryRemove, inventoryAdd, relations: relationEffects, ...(quest.socialChain ? { reciprocalPartnerRelationKo: effects.partnerRelationKo ?? null } : {}), ...(v47WorldChange ? { v47WorldChange } : {}), situationKo: effects.situationKo ?? null }, sourceIds: action.requiredKnowledgeId ? [action.requiredKnowledgeId] : [...(quest.sourceIds ?? [])] };
+  const entry = { eventId: `ACTION_${next.ledger.length + 1}`, eventType: literaryQuest ? 'LITERARY_ACTION' : 'HISTORICAL_ACTION', ...(literaryQuest ? { realmId: state.world.activeRealm.id } : {}), ...(chain ? { lifeChainId: chain.id, lifeChainStage: chain.stage, lifeChainDelta: chainDelta } : {}), ...(quest.socialChain ? { socialChainId: quest.socialChain.id, socialPartnerHostId: socialPartnerId } : {}), date: next.world.date, mapId: next.world.currentMapId, hostId, questId, actionId, objectId, witnesses: [], ...(livingEvents.length ? { livingEvents } : {}), effectsApplied: { moneyDelta: effects.moneyDelta ?? 0, inventoryRemove, inventoryAdd, relations: relationEffects, ...(quest.socialChain ? { reciprocalPartnerRelationKo: effects.partnerRelationKo ?? null } : {}), ...(v47WorldChange ? { v47WorldChange } : {}), situationKo: effects.situationKo ?? null }, sourceIds: requiredKnowledgeIds.length ? requiredKnowledgeIds : [...(quest.sourceIds ?? [])] };
   if (questId === 'V37_FUNERAL_DEBT_REPAYMENT_1847') {
     next.ledgerDigest = digestLedger(next.ledger);
     next.ledgerDigestCount = next.ledger.length;

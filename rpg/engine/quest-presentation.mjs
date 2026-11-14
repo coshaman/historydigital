@@ -46,7 +46,8 @@ export function questChoices(quest, hostId, knowledge = [], state = null) {
       || Number.isFinite(state?.hosts?.[hostId]?.money?.amount) && state.hosts[hostId].money.amount >= action.minimumMoneyAmount)
     .filter(action => !action.requiredPriorResultFlags?.length || action.requiredPriorResultFlags.includes(priorFlag)).map(action => ({
     action,
-    missingSourceId: action.requiredKnowledgeId && !knowledge.includes(action.requiredKnowledgeId) ? action.requiredKnowledgeId : null,
+    missingSourceId: [...new Set([...(action.requiredKnowledgeIds ?? []), ...(action.requiredKnowledgeId ? [action.requiredKnowledgeId] : [])])]
+      .find(sourceId => !knowledge.includes(sourceId)) ?? null,
   }));
 }
 

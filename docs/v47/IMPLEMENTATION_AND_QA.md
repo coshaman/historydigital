@@ -278,3 +278,11 @@
 - Verification: full `npm run check` passed (exit 0); `npm run build:v33` passed (549 deploy files); `git diff --check` passed.
 - Browser visual verification of the new shadow treatment is outstanding: the local server started, but the in-app browser tab remained on its stale connection-refused page and Browser Use blocked its navigation. Existing MAIN01 captures predate this shadow update.
 - Do not treat the three-story goal as complete: MAIN01 remains partial on archival image collation and the independent visual pass; MAIN03 and MAIN05 are incomplete, and cholera remains deferred.
+
+## 2026-11-15 MAIN01 source-gated decision and mobile choice check
+
+- A05 now requires the player to read both the earlier Panaev request and Krylov's later assessment before any of its three decisions can be selected. The physical source objects become available on their recorded access dates (1848-09-01 and 1848-09-18 Gregorian); quest guidance points to the first unread source, then advances to the next.
+- Normal and alternate MAIN01 browser campaigns each completed 12/12 beats and captured both A05 source reads. Reports and screenshots: `artifacts/v47/MAIN01_ONLY_REPLAY/`.
+- Strengthened browser acceptance to verify every choice button is fully on-screen and receives pointer hit-tests after scrolling. The additional 360×800 MAIN01 A03 run passed with three choices visible, no horizontal overflow, no page errors, and the selected physical action persisted.
+- Verification: `node scripts/v47-main-stories-test.mjs`, `node --test scripts/v47-main03-calendar-test.mjs`, `npm run build:v33`, and `git diff --check` pass. These are focused results; they do not substitute for the complete project suite.
+- Historical-source acceptance remains PARTIAL: Talnikov scan leaves 9–11 are visually collated, while cited RGIA folios and subscriber-letter authorized copies remain checked against scholarly transcription but not collated from archival images. MAIN03 and MAIN05 remain incomplete; final package and full-goal acceptance remain open.

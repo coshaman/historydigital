@@ -85,6 +85,17 @@ for (const [sceneId, questId, lineFragment] of screenplayDialogueCoverage) {
     `${sceneId} remains attributed as authored scene dialogue rather than historical quotation`);
 }
 const reviewChoices = storyBeatQuests.find(quest => quest.id === 'V47_MAIN01_A05').actions;
+assert.equal(storyBeatQuests.find(quest => quest.id === 'V47_MAIN01_A05').date, '1848-09-18',
+  'the review beat opens only when the 6 September Julian assessment becomes available on the Gregorian game clock');
+assert.ok(reviewChoices.every(action => action.requiredKnowledgeIds?.includes('V47-PANAEV-LETTER-1848-08-20')
+  && action.requiredKnowledgeIds?.includes('V47-KRYLOV-ASSESSMENT-1848-09-06')),
+'every A05 choice requires personally reading both the earlier permission request and the newly arrived assessment');
+assert.equal(questChoices(storyBeatQuests.find(quest => quest.id === 'V47_MAIN01_A05'), 'clerk_alexei', []).every(row => row.missingSourceId === 'V47-PANAEV-LETTER-1848-08-20'), true,
+  'A05 first directs the player to the earlier letter');
+assert.equal(questChoices(storyBeatQuests.find(quest => quest.id === 'V47_MAIN01_A05'), 'clerk_alexei', ['V47-PANAEV-LETTER-1848-08-20']).every(row => row.missingSourceId === 'V47-KRYLOV-ASSESSMENT-1848-09-06'), true,
+  'reading only the earlier letter still leaves the new assessment required');
+assert.equal(questChoices(storyBeatQuests.find(quest => quest.id === 'V47_MAIN01_A05'), 'clerk_alexei', ['V47-PANAEV-LETTER-1848-08-20', 'V47-KRYLOV-ASSESSMENT-1848-09-06']).every(row => row.missingSourceId === null), true,
+  'A05 decisions unlock after both sources are read');
 assert.ok(reviewChoices.some(action => action.labelKo === '보고서가 지적한 장면을 그대로 적는다')
   && reviewChoices.some(action => action.labelKo === '단어만 지우면 그 집의 일이 없어집니까?'),
 'D-A2 choices follow the screenplay conflict about the scene under review, not generic office procedure');
@@ -421,6 +432,32 @@ assert.ok(['V47_A10_HOST_READING','V47_A10_STORE_COPY'].every(actionId => sofiya
   'Sofiya can conclude her objective through either documented in-game disposition');
 attachV47StoryObjects(maps);
 attachV47StoryBeatObjects(maps, storyBeatQuests);
+const reviewMapObjects = maps.chancery.layers.find(layer => layer.name === 'Interactions').objects;
+for (const [sourceId, availableDate] of [
+  ['V47-PANAEV-LETTER-1848-08-20', '1848-09-01'],
+  ['V47-KRYLOV-ASSESSMENT-1848-09-06', '1848-09-18'],
+]) {
+  const physical = reviewMapObjects.find(object => object.properties.some(property => property.name === 'sourceId' && property.value === sourceId));
+  assert.ok(physical, `${sourceId} is physically present in the chancery map`);
+  assert.equal(physical.properties.find(property => property.name === 'availableDate')?.value, availableDate,
+    `${sourceId} is gated to its checked Gregorian availability date`);
+}
+let reviewReadState = game.createInitialState({ maps, hostCards, quests: allV47StoryQuests, startMapId: 'chancery' });
+reviewReadState.world.chapterId = 'V33_1848_PUBLIC';
+reviewReadState.world.date = '1848-09-17';
+reviewReadState.player.embodiment = 'clerk_alexei';
+reviewReadState.hosts.clerk_alexei.mapId = 'chancery';
+assert.equal(game.recordSourceRead(reviewReadState, 'V47-KRYLOV-ASSESSMENT-1848-09-06', maps).reason, 'source_not_present',
+  'the assessment is physically unavailable before 18 September');
+reviewReadState.world.date = '1848-09-18';
+for (const sourceId of ['V47-PANAEV-LETTER-1848-08-20', 'V47-KRYLOV-ASSESSMENT-1848-09-06']) {
+  const read = game.recordSourceRead(reviewReadState, sourceId, maps);
+  assert.equal(read.ok, true, `${sourceId} can be read physically on the A05 scene date`);
+  reviewReadState = read.state;
+}
+assert.ok(reviewReadState.hosts.clerk_alexei.knownEvidenceIds.includes('V47-PANAEV-LETTER-1848-08-20')
+  && reviewReadState.hosts.clerk_alexei.knownEvidenceIds.includes('V47-KRYLOV-ASSESSMENT-1848-09-06'),
+'the clerk retains personal knowledge of both documents after reading them');
 for (const [hostId, actionId] of [
   ['panaev_1848', 'V47_A03_PANAEV_CATALOGUE_NOTE'],
   ['panaeva_1848', 'V47_A03_PANAEVA_READING_NOTE'],
@@ -756,9 +793,13 @@ for (const quest of storyBeatQuests) for (const action of quest.actions) {
   actionState.player.position = { x: adjacent[0], y: adjacent[1] };
   actionState.hosts[hostId].mapId = map.mapId;
   actionState.hosts[hostId].position = { ...actionState.player.position };
-  if (action.requiredKnowledgeId) {
-    const read = game.recordSourceRead(actionState, action.requiredKnowledgeId, maps);
-    assert.equal(read.ok, true, `${quest.id}/${action.id} source prerequisite is physically readable first`);
+  if (quest.id === 'V47_MAIN01_A05') assert.equal(game.performQuestAction(actionState, {
+    questId: quest.id, hostId, actionId: action.id, objectId: object.id,
+  }, { quests: allV47StoryQuests, maps }).reason, 'host_lacks_knowledge',
+  'the reducer blocks A05 even if the UI prerequisite is bypassed');
+  for (const sourceId of [...new Set([...(action.requiredKnowledgeIds ?? []), ...(action.requiredKnowledgeId ? [action.requiredKnowledgeId] : [])])]) {
+    const read = game.recordSourceRead(actionState, sourceId, maps);
+    assert.equal(read.ok, true, `${quest.id}/${action.id}/${sourceId} prerequisite is physically readable first`);
     actionState = read.state;
   }
   const applied = game.performQuestAction(actionState, { questId: quest.id, hostId,
@@ -766,6 +807,8 @@ for (const quest of storyBeatQuests) for (const action of quest.actions) {
   assert.equal(applied.ok, true, `${quest.id}/${action.id} must execute through the production reducer: ${applied.reason}`);
   assert.ok(applied.state.ledger.some(row => row.questId === quest.id && row.actionId === action.id
     && row.effectsApplied?.v47WorldChange), `${quest.id}/${action.id} must persist its world effects`);
+  if (action.requiredKnowledgeIds) assert.deepEqual(applied.state.ledger.at(-1).sourceIds, action.requiredKnowledgeIds,
+    `${quest.id}/${action.id} records every source required for the decision`);
   const personalGoal = applied.state.hosts[hostId].personalGoals?.find(goal => goal.successCondition?.questId === quest.id
     && (goal.successCondition.actionId === action.id || goal.successCondition.actionIds?.includes(action.id)));
   if (personalGoal) assert.equal(applied.state.hosts[hostId].personalGoalProgress[personalGoal.id]?.status, 'SATISFIED',

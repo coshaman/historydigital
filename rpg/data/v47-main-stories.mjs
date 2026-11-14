@@ -135,4 +135,40 @@ export function attachV47StoryObjects(maps) {
         ...(puzzleId ? [{ name: 'v47PuzzleId', type: 'string', value: puzzleId }] : [])] });
     map.nextobjectid = Math.max(map.nextobjectid ?? 1, id + 1);
   }
+
+  const reviewSources = [
+    ['V47-PANAEV-LETTER-1848-08-20', '파나예프의 허가 요청서', '1848-09-01', 208, 128],
+    ['V47-KRYLOV-ASSESSMENT-1848-09-06', '크릴로프의 심사 의견', '1848-09-18', 224, 128],
+  ];
+  const mapId = 'chancery', map = maps[mapId];
+  const layer = map?.layers?.find(item => item.name === 'Interactions') ?? map?.layers?.find(item => item.type === 'objectgroup');
+  if (map && layer) for (const [sourceId, name, availableDate, preferredX, preferredY] of reviewSources) {
+    if (layer.objects.some(object => (object.properties ?? []).some(property => property.name === 'sourceId' && property.value === sourceId))) continue;
+    const collision = map.layers.find(item => item.name === 'Collision')?.data ?? [];
+    const reachable = walkableTilesReachableFromArrivals(mapId, maps);
+    const npcTiles = new Set((map.layers.find(item => item.name === 'NPCs')?.objects ?? []).map(npc =>
+      `${Math.floor(npc.x / map.tilewidth)},${Math.floor(npc.y / map.tileheight)}`));
+    const occupied = map.layers.flatMap(item => item.objects ?? []).map(object => ({
+      x: Math.floor(object.x / map.tilewidth), y: Math.floor(object.y / map.tileheight),
+    }));
+    const preferred = { x: Math.floor(preferredX / map.tilewidth), y: Math.floor(preferredY / map.tileheight) };
+    const tiles = [];
+    for (let y = 1; y < map.height - 1; y += 1) for (let x = 1; x < map.width - 1; x += 1) {
+      if (collision[y * map.width + x] !== 0 || !reachable.has(`${x},${y}`) || npcTiles.has(`${x},${y}`)
+        || occupied.some(point => Math.abs(point.x - x) + Math.abs(point.y - y) <= 1)) continue;
+      tiles.push({ x, y, distance: Math.abs(preferred.x - x) + Math.abs(preferred.y - y) });
+    }
+    tiles.sort((a, b) => a.distance - b.distance || a.y - b.y || a.x - b.x);
+    const tile = tiles[0];
+    if (!tile) throw new Error(`No reachable chancery shelf for source ${sourceId}`);
+    const id = Math.max(map.nextobjectid ?? 1, ...layer.objects.map(object => object.id + 1));
+    layer.objects.push({ id, name, type: 'source', x: tile.x * map.tilewidth, y: tile.y * map.tileheight,
+      width: map.tilewidth, height: map.tileheight, visible: true,
+      properties: [
+        { name: 'sourceId', type: 'string', value: sourceId },
+        { name: 'availableChapterId', type: 'string', value: 'V33_1848_PUBLIC' },
+        { name: 'availableDate', type: 'string', value: availableDate },
+      ] });
+    map.nextobjectid = id + 1;
+  }
 }

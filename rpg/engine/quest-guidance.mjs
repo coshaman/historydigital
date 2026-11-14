@@ -246,15 +246,17 @@ export function resolveQuestGuidance({ state, quests, maps, hostCards }) {
   }
 
   const known = new Set([...(embodied.privateKnowledgeIds ?? []), ...(embodied.knownEvidenceIds ?? [])]);
-  const sourceActions = allowed.filter(action => action.requiredKnowledgeId && !known.has(action.requiredKnowledgeId));
-  const feasibleAction = allowed.find(action => !action.requiredKnowledgeId || known.has(action.requiredKnowledgeId));
+  const requiredSources = action => [...new Set([...(action.requiredKnowledgeIds ?? []), ...(action.requiredKnowledgeId ? [action.requiredKnowledgeId] : [])])];
+  const sourceActions = allowed.flatMap(action => requiredSources(action).filter(id => !known.has(id)).map(id => ({ action, id })));
+  const feasibleAction = allowed.find(action => requiredSources(action).every(id => known.has(id)));
   if (!feasibleAction && sourceActions.length) {
-    const source = findSource(sourceActions[0].requiredKnowledgeId, host, maps, mapId);
+    const missingSourceId = sourceActions[0].id;
+    const source = findSource(missingSourceId, host, maps, mapId);
     if (source) {
       const place = destination({ state, maps, host: embodied, target: source });
       return { ...base, taskType: place.target?.kind === 'exit' ? 'TRAVEL' : 'READ', actionKo: place.target?.kind === 'exit' ? `자료가 있는 ${place.placeKo}로 가세요` : `${source.name}에서 자료를 읽으세요`,
         reasonKo: '이 자료를 읽어야 다음 선택지를 판단할 수 있습니다.', howKo: `${pathKo(place.walkDirections)}${place.target?.kind === 'exit' ? ' 문서를 살펴보세요.' : ' E를 누른 뒤 열린 문서에서 읽기를 선택하세요.'}`,
-        placeKo: place.placeKo, target: place.target, blocked: place.blocked, blockedReasonKo: place.blockedReasonKo, requiredKnowledgeId: sourceActions[0].requiredKnowledgeId };
+        placeKo: place.placeKo, target: place.target, blocked: place.blocked, blockedReasonKo: place.blockedReasonKo, requiredKnowledgeId: missingSourceId };
     }
   }
   if (!entryTarget) return { ...base, taskType: 'COMPLETE', actionKo: '이 사건 자료를 열 수 없습니다', reasonKo: '목표 문서가 지도에 연결되지 않았습니다.', howKo: '수첩에서 다른 인물의 일을 확인하세요.', placeKo: map.metadata.displayNameKo, target: null, blocked: true };

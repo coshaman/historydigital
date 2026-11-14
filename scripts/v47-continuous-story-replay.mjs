@@ -142,10 +142,10 @@ async function replay(routeName) {
             state.hosts[participantId].mapId = map.mapId;
             state.hosts[participantId].position = position;
           }
-          if (quest.id === 'V47_MAIN01_A03' && action.requiredKnowledgeId) {
-            const sourceRead = game.recordSourceRead(state, action.requiredKnowledgeId, maps);
+          for (const sourceId of [...new Set([...(action.requiredKnowledgeIds ?? []), ...(action.requiredKnowledgeId ? [action.requiredKnowledgeId] : [])])]) {
+            const sourceRead = game.recordSourceRead(state, sourceId, maps);
             assert.equal(sourceRead.ok, true,
-              `${routeName}: ${hostId} reads the physical Talnikov source before making the A03 decision`);
+              `${routeName}: ${hostId} reads physical source ${sourceId} before ${quest.id}/${action.id}`);
             state = sourceRead.state;
           }
           const result = game.performQuestAction(state, { questId, hostId, actionId: action.id, objectId: target.id }, { quests, maps });

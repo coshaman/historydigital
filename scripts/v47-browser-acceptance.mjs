@@ -36,6 +36,7 @@ const serveLocalBuild = async page => {
 const output = process.env.V47_BROWSER_OUTPUT
   ? path.resolve(root, process.env.V47_BROWSER_OUTPUT)
   : path.join(root, 'artifacts/v47/BROWSER_ACCEPTANCE');
+const scenarioFilter = process.env.V47_BROWSER_SCENARIO_FILTER;
 const read = async file => JSON.parse(await readFile(path.join(root, file), 'utf8'));
 const require = createRequire(import.meta.url);
 require('../rpg/engine/game-state.js');
@@ -85,6 +86,7 @@ const scenarios = [
   { story: 'MAIN05', questId: 'V47_MAIN05_C06', actionId: 'V47_C06_REPEAT_RUMOR', viewport: { width: 390, height: 844 } },
   { story: 'MAIN05', questId: 'V47_MAIN05_C11', actionId: 'V47_C11_REOPEN_ROOM', viewport: { width: 390, height: 844 } },
   { story: 'MAIN01', questId: 'V47_MAIN01_A03', actionId: 'V47_A03_HOST_READING', hostId: 'panaeva_1848', viewport: { width: 390, height: 844 } },
+  { story: 'MAIN01', questId: 'V47_MAIN01_A03', actionId: 'V47_A03_HOST_READING', hostId: 'panaeva_1848', viewport: { width: 360, height: 800 } },
   { story: 'MAIN03', questId: 'V47_MAIN03_P05', actionId: 'V47_P05_SHARE_COPY', hostId: 'petrashevsky_1849', viewport: { width: 1440, height: 900 } },
   { story: 'MAIN03', questId: 'V47_MAIN03_P05', actionId: 'V47_P05_DISCUSS_ARGUMENT', hostId: 'petrashevsky_1849', viewport: { width: 390, height: 844 } },
   { story: 'MAIN03', questId: 'V47_MAIN03_P03', actionId: 'V47_P03_SERFDOM_AND_LAND', hostId: 'student_vasily', viewport: { width: 1440, height: 900 } },
@@ -132,8 +134,10 @@ async function walkAndConfirm(page, directions, label) {
 }
 if (process.env.V47_CODA_ONLY === '1') scenarios.length = 0;
 if (process.env.V47_SCENARIO_ID) {
+  const requestedViewport = process.env.V47_SCENARIO_VIEWPORT;
   const selectedScenario = scenarios.find(item => item.questId === process.env.V47_SCENARIO_ID
-    && (!process.env.V47_SCENARIO_ACTION_ID || item.actionId === process.env.V47_SCENARIO_ACTION_ID));
+    && (!process.env.V47_SCENARIO_ACTION_ID || item.actionId === process.env.V47_SCENARIO_ACTION_ID)
+    && (!requestedViewport || `${item.viewport.width}x${item.viewport.height}` === requestedViewport));
   assert.ok(selectedScenario, `unknown V47_SCENARIO_ID/action ${process.env.V47_SCENARIO_ID}/${process.env.V47_SCENARIO_ACTION_ID ?? ''}`);
   scenarios.splice(0, scenarios.length, selectedScenario);
 }
@@ -233,7 +237,8 @@ const rows = [];
 let optionalCoda = null;
 let firstDateAdvance = null;
 try {
-  for (const scenario of scenarios) {
+  for (const scenario of scenarios.filter(item => !scenarioFilter
+    || `${item.questId}/${item.actionId}/${item.viewport.width}x${item.viewport.height}` === scenarioFilter)) {
     const quest = allQuests.find(item => item.id === scenario.questId);
     const action = quest?.actions.find(item => item.id === scenario.actionId);
     assert.ok(quest && action, `${scenario.questId}/${scenario.actionId} is registered`);
@@ -324,6 +329,11 @@ try {
     assert.ok(route, `${scenario.questId} has a walkable route to the physical object`);
     await walkAndConfirm(page, route, `${mapId} event route`);
     await page.keyboard.press('e');
+    const sourceReadChoice = page.locator('#actions button').filter({ hasText: '자료 읽기 ·' });
+    if (await sourceReadChoice.count()) {
+      await sourceReadChoice.first().click();
+      await page.locator('#source-reader-complete').click();
+    }
     const choice = page.locator('#actions button').filter({ hasText: action.labelKo });
     try { await choice.waitFor({ state: 'visible', timeout: 4000 }); }
     catch {
@@ -343,6 +353,25 @@ try {
       throw new Error(`${scenario.questId}/${scenario.actionId} physical action did not appear: ${JSON.stringify(debug)}`);
     }
     assert.equal(await choice.isEnabled(), true, `${scenario.actionId} is enabled at its physical object`);
+    const allChoices = page.locator('#actions button');
+    for (let index = 0; index < await allChoices.count(); index++) {
+      const candidate = allChoices.nth(index);
+      await candidate.scrollIntoViewIfNeeded();
+      const hitTest = await candidate.evaluate(button => {
+        const rect = button.getBoundingClientRect();
+        const points = [
+          [rect.left + 5, rect.top + 5], [rect.right - 5, rect.top + 5],
+          [rect.left + 5, rect.bottom - 5], [rect.right - 5, rect.bottom - 5],
+          [(rect.left + rect.right) / 2, (rect.top + rect.bottom) / 2],
+        ];
+        return rect.left >= 0 && rect.top >= 0 && rect.right <= innerWidth && rect.bottom <= innerHeight
+          && points.every(([x, y]) => {
+            const hit = document.elementFromPoint(x, y);
+            return hit === button || button.contains(hit);
+          });
+      });
+      assert.ok(hitTest, `choice ${index + 1} is fully visible and receives pointer input at ${scenario.viewport.width}x${scenario.viewport.height}`);
+    }
     await choice.scrollIntoViewIfNeeded();
     const before = await page.evaluate(selectedLabel => ({
       title: document.querySelector('#headline')?.textContent ?? '',

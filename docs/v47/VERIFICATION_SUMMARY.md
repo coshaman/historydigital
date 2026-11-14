@@ -1,5 +1,12 @@
 # V47 verification snapshot — 2026-11-13
 
+## 2026-11-15 focused MAIN01 update
+
+- A05 choices now require reading the dated Panaev request and the later Krylov assessment in order; quest guidance directs the player to the next unread physical source.
+- Normal and alternate MAIN01 browser campaigns pass 12/12 beats with both A05 source reads. The focused 360×800 choice run verifies all three choices are visible and pointer-accessible, without horizontal overflow or page errors.
+- `node scripts/v47-main-stories-test.mjs`, `node --test scripts/v47-main03-calendar-test.mjs`, and `npm run build:v33` pass. This is not a fresh full `npm run check` result.
+- Overall status remains **PARTIAL**. MAIN01 archive-image collation for cited RGIA folios and subscriber-letter copies remains open; MAIN03/MAIN05 implementation and the final deliverable remain open.
+
 ## 2026-11-14 follow-up
 
 - Grounding pass: added a soft cast shadow and tight contact shadow under world props and characters, and ordered map actors/props by their ground baseline so foreground overlaps read consistently. `scripts/v47-depth-rendering-test.mjs` is part of `npm run check`.
