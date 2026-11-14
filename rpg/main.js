@@ -7,7 +7,7 @@ import { questChoices, continuationQuest, resolveObjectQuest } from './engine/qu
 import { questOutcomeSummary } from './engine/quest-outcome-summary.mjs';
 import { formatMissionActionKo, guideToResident, resolveQuestGuidance } from './engine/quest-guidance.mjs';
 import { ownsKeyboardInput, observationText } from './engine/player-presentation.mjs';
-import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHost, discussionQuestInstruction, discussionReflectionPromptsForHost, discussionReplyChoices, nextDiscussionInstructionForQuest, shouldOpenDiscussionBoard, shouldShowQuestTracker } from './engine/discussion-quests.mjs';
+import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHost, discussionQuestInstruction, discussionReflectionPromptsForHost, discussionReplyChoices, formatDiscussionQuestTaskKo, nextDiscussionInstructionForQuest, shouldOpenDiscussionBoard, shouldShowQuestTracker } from './engine/discussion-quests.mjs';
 import { dialogueSessionNeedsReconnect, dialogueSpeakerLabel, mayOfferDiscussionPrompt, selectDialogueTurn } from './engine/dialogue-response.mjs';
 import { dialogueSceneContext } from './engine/dialogue-context.mjs';
 import { advanceHistoricalSessionTime, beginHistoricalSession, canConcludeHistoricalSession, exitHistoricalSession, historicalParticipantGuide, historicalReplyText, performHistoricalAction, recordHistoricalChoice } from './engine/historical-session.mjs';
@@ -651,6 +651,19 @@ function updateHud() {
       button.textContent = `질문 담기 · ${missionDiscussion.hostNameKo}: “${missionDiscussion.promptKo}”`;
       button.setAttribute('aria-label', `${missionDiscussion.hostNameKo}에게 묻기: ${missionDiscussion.promptKo}. 서로 다른 두 사람의 답을 듣고 수첩에서 입장을 고르면 대화 퀘스트가 끝납니다.`);
     }
+  }
+  if (missionDiscussion?.phase === 'ASK' && !queuedDiscussionInquiry && !inLiteraryScene && !state.endingId) {
+    const target = state.hosts[missionDiscussion.hostId];
+    const targetGuide = target ? guideToResident({ state, maps, hostCards: cards, targetHostId: target.id }) : null;
+    const task = formatDiscussionQuestTaskKo(missionDiscussion, {
+      placeKo: target ? maps[target.mapId]?.metadata.displayNameKo ?? '' : '',
+      travelHowKo: host?.id === missionDiscussion.hostId
+        ? '현재 빌린 몸이 질문 대상입니다. 다른 인물의 몸을 빌린 뒤 말을 거세요.'
+        : targetGuide?.howKo ?? '',
+    });
+    missionGuidance = { ...missionGuidance, howKo: [missionGuidance.howKo, task].filter(Boolean).join('\n\n') };
+    $('#mission-method').textContent = missionGuidance.howKo;
+    $('#journal-goal-how').textContent = missionGuidance.howKo;
   }
   const discussionBoard = $('#discussion-quest-board');
   const discussionHost = (activeDialogueHost && cards.find(card => card.id === activeDialogueHost)) || conversationPartner;

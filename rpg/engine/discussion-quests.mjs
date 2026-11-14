@@ -71,6 +71,23 @@ export function discussionQuestInstruction(quest, hostNames = {}) {
   };
 }
 
+export function formatDiscussionQuestTaskKo(instruction, { placeKo = '', travelHowKo = '' } = {}) {
+  if (!instruction) return '';
+  if (instruction.phase === 'RECORD_POSITION')
+    return '지금 할 일 · 수첩에서 이 쟁점에 대한 입장 하나를 기록하세요. 기록하면 퀘스트가 끝납니다.';
+  if (instruction.phase !== 'ASK') return '';
+  const required = instruction.quest?.requiredPerspectiveCount ?? 2;
+  const count = instruction.quest?.perspectiveHostIds?.length ?? 0;
+  return [
+    `대화 목표 · ${instruction.hostNameKo}에게 말 걸기${placeKo ? ` · ${placeKo}` : ''}`,
+    travelHowKo ? `이동 · ${travelHowKo}` : '',
+    `물어볼 말 · “${instruction.promptKo}”`,
+    '진행 방법 · 가까이서 말 걸기를 누른 뒤, 대화창에서 이 질문을 선택해 답변을 받으세요. 일반 대화만으로는 진행되지 않습니다.',
+    '답변 생성에 실패하면 관점이 기록되지 않습니다. 연결을 확인하고 같은 질문을 다시 선택하세요.',
+    `완료 조건 · 서로 다른 ${required}명의 답을 듣고 수첩에서 내 입장 하나를 기록하세요 (${count}/${required}).`,
+  ].filter(Boolean).join('\n');
+}
+
 export function nextDiscussionInstructionForQuest(questId, quests, hostNames = {}, sourceIds = []) {
   if (!questId) return null;
   const sources = new Set(sourceIds);
