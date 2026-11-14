@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { readFile } from 'node:fs/promises';
-import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHost, discussionQuestInstruction, discussionReflectionPromptsForHost } from '../rpg/engine/discussion-quests.mjs';
+import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHost, discussionQuestInstruction, discussionReflectionPromptsForHost, discussionReplyChoices } from '../rpg/engine/discussion-quests.mjs';
 import definitions from '../rpg/data/discussion-quests.json' with { type: 'json' };
 
 const require = createRequire(import.meta.url);
@@ -43,8 +43,12 @@ test('opinion quests collect two distinct character perspectives before comparis
   assert.equal(inProgress.perspectiveHostIds.length, 1);
   assert.equal(discussionPromptsForHost('clerk_alexei', [inProgress]).length, 0, 'the same character cannot be counted twice');
   assert.equal(discussionPromptsForHost('courier_pavel', [inProgress]).length, 1, 'the second perspective remains available');
-  const completed = availableDiscussionQuests({ ...firstView, ledger: [...firstView.ledger, { eventType: 'DIALOGUE_TURN', hostId: 'senior_clerk_konstantin', discussionId: prompt.discussionId }] }, definitions).find(item => item.id === prompt.discussionId);
-  assert.equal(completed.completed, true);
+  const twoPerspectives = { ...firstView, ledger: [...firstView.ledger, { eventType: 'DIALOGUE_TURN', hostId: 'senior_clerk_konstantin', discussionId: prompt.discussionId }], player: { dialogueGrowth: { comparisonNotes: [{ discussionId: prompt.discussionId }], playerPositions: [], reflectionIds: [] } } };
+  const pendingPosition = availableDiscussionQuests(twoPerspectives, definitions).find(item => item.id === prompt.discussionId);
+  assert.equal(pendingPosition.completed, false, 'hearing two people opens the final notebook step');
+  assert.equal(pendingPosition.positionPending, true);
+  const completed = availableDiscussionQuests({ ...twoPerspectives, player: { dialogueGrowth: { ...twoPerspectives.player.dialogueGrowth, playerPositions: [{ discussionId: prompt.discussionId, positionId: 'TEST_POSITION' }] } } }, definitions).find(item => item.id === prompt.discussionId);
+  assert.equal(completed.completed, true, 'the quest ends after recording a position');
   const stateWithNote = { ...state, player: { dialogueGrowth: { comparisonNotes: [{ discussionId: prompt.discussionId }], reflectionIds: [] } } };
   assert.equal(discussionReflectionPromptsForHost('clerk_alexei', stateWithNote, [completed]).length, 1);
   stateWithNote.player.dialogueGrowth.reflectionIds.push(`${prompt.discussionId}::clerk_alexei`);
@@ -92,7 +96,7 @@ test('the opening opinion quests tell a first-time player what to do before poss
   const board = discussionBoardView(quests, null, { clerk_alexei: '알렉세이', senior_clerk_konstantin: '콘스탄틴' });
   assert.equal(board.visible, true);
   assert.match(board.progressKo, /쟁점 0\/14/);
-  assert.match(board.guidanceKo, /reader_darya에게 말을 거세요/);
+  assert.match(board.guidanceKo, /reader_darya에게 말 걸기/);
   assert.match(board.rows[0], /먼저 묻기/);
   assert.match(board.rows[0], /책에서 배운 원칙/);
   assert.equal(board.rows.length, quests.length, 'the board exposes every currently available inquiry, not only the first three');
@@ -110,7 +114,8 @@ test('the opening opinion quests tell a first-time player what to do before poss
   const nextPerspective = discussionBoardView([firstPerspective], 'clerk_alexei', { clerk_alexei: '알렉세이', senior_clerk_konstantin: '콘스탄틴' });
   assert.match(nextPerspective.rows[0], /1\/2 관점/);
   assert.match(nextPerspective.rows[0], /seamstress_anna에게 같은 쟁점을 물어보세요/);
-  assert.match(nextPerspective.guidanceKo, /다음은 seamstress_anna에게 물어보세요/);
+  assert.match(nextPerspective.guidanceKo, /대상 · seamstress_anna에게 말 걸기/);
+  assert.match(nextPerspective.guidanceKo, /물어볼 말 · “호리는 살림을 꾸리고 지주와도 잘 지내지만/);
 });
 
 test('a dialogue quest names the next person, exact question, and the action that ends it', () => {
@@ -122,17 +127,31 @@ test('a dialogue quest names the next person, exact question, and the action tha
   const first = discussionQuestInstruction(quest, { baker_fyodor: '표도르', buyer_anna: '안나' });
   assert.equal(first.phase, 'ASK');
   assert.equal(first.hostId, 'baker_fyodor');
-  assert.match(first.howKo, /표도르에게 말을 거세요/);
+  assert.match(first.howKo, /표도르에게 말 걸기/);
   assert.match(first.howKo, /“밀가루 값이 오르면 빵값도 바로 올려야 할까요\?”/);
-  assert.match(first.howKo, /두 사람의 답을 들은 뒤 수첩에서 내 입장을 하나 고르면 이 퀘스트가 끝납니다/);
+  assert.match(first.howKo, /대화창에서 이 질문을 눌러 답을 들으면 관점이 기록됩니다/);
+  assert.match(first.howKo, /퀘스트 끝내기 · 서로 다른 두 사람의 답을 들은 뒤 수첩에서 내 입장을 고르세요/);
 
   const second = discussionQuestInstruction({ ...quest, perspectiveHostIds: ['baker_fyodor'] }, { baker_fyodor: '표도르', buyer_anna: '안나' });
   assert.equal(second.hostId, 'buyer_anna');
-  assert.match(second.howKo, /안나에게 말을 거세요/);
+  assert.match(second.howKo, /안나에게 말 걸기/);
 
   const stance = discussionQuestInstruction({ ...quest, perspectiveHostIds: ['baker_fyodor', 'buyer_anna'], positionPending: true });
   assert.equal(stance.phase, 'RECORD_POSITION');
   assert.match(stance.howKo, /수첩에서 내 입장을 하나 고르면 이 퀘스트가 끝납니다/);
+});
+
+test('a queued quest question remains selectable when AI already suggests three replies', () => {
+  const prompt = '신문에 적힌 소식이 이 골목 사람들에게 어떤 영향을 줄까요?';
+  const replies = discussionReplyChoices(prompt, [
+    { textKo: '신문을 먼저 읽어보죠.' },
+    { textKo: '사람들 반응부터 살펴봅시다.' },
+    { textKo: '다른 이야기를 해보죠.' },
+  ]);
+  assert.equal(replies.length, 3);
+  assert.equal(replies.some(reply => reply.textKo === prompt), true);
+  assert.equal(discussionReplyChoices(prompt, replies).filter(reply => reply.textKo === prompt).length, 1);
+  assert.equal(discussionReplyChoices(null, replies).length, 3);
 });
 
 test('mobile mission tracker keeps the concrete conversation steps visible and scrollable', async () => {

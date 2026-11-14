@@ -67,9 +67,19 @@ export function discussionQuestInstruction(quest, hostNames = {}) {
   const promptKo = quest.hosts[hostId].promptKo;
   return {
     phase: 'ASK', hostId, hostNameKo, promptKo,
-    howKo: `대상 · ${hostNameKo}에게 말 걸기\n물어볼 말 · “${promptKo}”\n진행 · ${heard.length}/${required}명\n대화 선택지에서 이 질문을 골라 답을 들으세요. 일반 대화만으로는 진행되지 않습니다.\n완료 조건 · 서로 다른 두 사람의 답을 기록하고 수첩에서 내 입장을 선택하세요.`,
+    howKo: `대상 · ${hostNameKo}에게 말 걸기\n물어볼 말 · “${promptKo}”\n진행 · ${heard.length}/${required}명\n대화창에서 이 질문을 눌러 답을 들으면 관점이 기록됩니다. 그냥 말을 거는 것만으로는 기록되지 않습니다.\n퀘스트 끝내기 · 서로 다른 두 사람의 답을 들은 뒤 수첩에서 내 입장을 고르세요.`,
   };
 }
+
+export function discussionReplyChoices(queuedPrompt, suggestedReplies = []) {
+  const choices = (Array.isArray(suggestedReplies) ? suggestedReplies : []).slice(0, 3);
+  if (!queuedPrompt) return choices;
+  if (choices.some(choice => choice?.textKo === queuedPrompt)) return choices;
+  // Keep the quest's actionable question visible when the model fills all
+  // three reply slots.
+  return [...choices.slice(0, 2), { textKo: queuedPrompt }];
+}
+
 
 export function shouldShowQuestTracker({ ending = false, literaryScene = false, hasActions = false, storyOverview = false, activeDialogue = false, keepVisible = false } = {}) {
   return !ending && !literaryScene && (!hasActions || storyOverview || activeDialogue || keepVisible);

@@ -7,7 +7,7 @@ import { questChoices, continuationQuest, resolveObjectQuest } from './engine/qu
 import { questOutcomeSummary } from './engine/quest-outcome-summary.mjs';
 import { formatMissionActionKo, guideToResident, resolveQuestGuidance } from './engine/quest-guidance.mjs';
 import { ownsKeyboardInput, observationText } from './engine/player-presentation.mjs';
-import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHost, discussionQuestInstruction, discussionReflectionPromptsForHost, shouldOpenDiscussionBoard, shouldShowQuestTracker } from './engine/discussion-quests.mjs';
+import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHost, discussionQuestInstruction, discussionReflectionPromptsForHost, discussionReplyChoices, shouldOpenDiscussionBoard, shouldShowQuestTracker } from './engine/discussion-quests.mjs';
 import { dialogueSessionNeedsReconnect, dialogueSpeakerLabel, mayOfferDiscussionPrompt, selectDialogueTurn } from './engine/dialogue-response.mjs';
 import { dialogueSceneContext } from './engine/dialogue-context.mjs';
 import { advanceHistoricalSessionTime, beginHistoricalSession, canConcludeHistoricalSession, exitHistoricalSession, historicalParticipantGuide, historicalReplyText, performHistoricalAction, recordHistoricalChoice } from './engine/historical-session.mjs';
@@ -2571,6 +2571,7 @@ async function sendConversation(card, playerText, replyId = null) {
   dialogueCurrentLines.set(key, turn.beats.map(beat => beat.textKo).join('\n'));
   const recorded = recordDialogueTurn(state, { hostId: card.id, actorHostId: actorCard.id, sceneId: local.sceneId, intentClass, discussionId: discussionPrompt?.discussionId ?? null, discussionTitleKo: discussionPrompt?.questTitleKo, reflectionId: reflectionPrompt?.reflectionId ?? null, aiGenerated }, maps);
   if (recorded.ok) setState(recorded.state);
+  let discussionProgressStatus = '';
   if (recorded.ok && queuedDiscussionInquiry?.hostId === card.id && queuedDiscussionInquiry?.promptKo === playerText) {
     const inquiryId = queuedDiscussionInquiry.questId;
     const nextInquiry = currentDiscussionQuests().find(item => item.id === inquiryId);
@@ -2581,8 +2582,11 @@ async function sendConversation(card, playerText, replyId = null) {
       completedPerspectives: nextInquiry.perspectiveHostIds.length, requiredPerspectives: nextInquiry.requiredPerspectiveCount,
       stakesKo: nextInquiry.stakesKo ?? '',
     } : null;
+    discussionProgressStatus = instruction?.phase === 'ASK'
+      ? `질문 답변 기록 · ${nextInquiry.perspectiveHostIds.length}/${nextInquiry.requiredPerspectiveCount}명. 다음은 ${instruction.hostNameKo}에게 “${instruction.promptKo}”라고 물어보세요.`
+      : '두 사람의 답을 기록했습니다. 수첩에서 내 입장을 고르면 이 퀘스트가 끝납니다.';
   }
-  const replies = (turn.suggestedReplies ?? []).slice(0, 3);
+  let replies = (turn.suggestedReplies ?? []).slice(0, 3);
   let ordinaryExchangeCount = dialogueOrdinaryExchanges.get(key) ?? 0;
   if (!discussionPrompt && !reflectionPrompt) dialogueOrdinaryExchanges.set(key, ordinaryExchangeCount += 1);
   if (!discussionPrompt && !reflectionPrompt && mayOfferDiscussionPrompt(ordinaryExchangeCount)) {
@@ -2592,13 +2596,13 @@ async function sendConversation(card, playerText, replyId = null) {
         contextQuestId: missionGuidance?.questId,
         requireContext: true,
       })[0];
-    if (contextualQuestion && replies.length < 3) replies.push({ textKo: contextualQuestion.promptKo });
+    if (contextualQuestion) replies = discussionReplyChoices(contextualQuestion.promptKo, replies);
   }
   updateHud();
   const reward = recorded.ok ? recorded.state.ledger.at(-1)?.dialogueReward : null;
   const rewardStatus = reward === 'COMPARISON_NOTE' ? ' · 관점 대조 메모 획득 · 다른 인물에게 후속 질문 가능' : reward === 'PERSPECTIVE_NOTE' ? ' · 관점 메모와 통찰 +1' : '';
   const recordFailure = recorded.ok ? '' : `대화 기록 실패 · ${recorded.reason}`;
-  const conversationStatus = [generationFailure, recordFailure].filter(Boolean).join(' · ') || `AI 생성 답변 · ${card.displayNameKo}의 처지와 견해가 반영되었습니다.${rewardStatus}`;
+  const conversationStatus = [generationFailure, recordFailure].filter(Boolean).join(' · ') || `AI 생성 답변 · ${card.displayNameKo}의 처지와 견해가 반영되었습니다.${rewardStatus}${discussionProgressStatus ? ` · ${discussionProgressStatus}` : ''}`;
   showConversation(card, dialogueCurrentLines.get(key), replies.map(reply => reply.textKo), conversationStatus);
   $('.journal').scrollTop = $('.journal').scrollHeight;
 }
