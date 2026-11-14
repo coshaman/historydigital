@@ -46,15 +46,6 @@ export const v47StoryQuests = [
     ],
   },
   {
-    id: 'V47_MAIN03_REVOLUTION_NEWS', titleKo: '유럽에서 온 신문', chapterId: 'V33_1848_PUBLIC', date: '1848-03-26',
-    entry: { mapId: 'printshop', objectId: 9050 }, sourceIds: ['OBJ-NICHOLAS-MANIFESTO-1848'],
-    actions: [
-      action('V47_P00_READ_ALOUD', ['printer_ekaterina', 'student_vasily'], '작업장 사람들과 공고를 읽는다', '작업장에 있던 사람들이 공고를 함께 읽었다. 바실리는 유럽의 소식이 이곳의 검열과 어떤 관계인지 물었고, 각자는 자기 일과 위험을 먼저 이야기했다.', { situationKo: '유럽 혁명 소식과 황제의 대응을 함께 읽었다.', flags: { V47_MAIN03_NEWS_SHARED: true }, v47WorldChange: { rumor: { id: 'V47_EUROPE_NEWS_PUBLIC_READING', fromHostId: 'student_vasily', hostIds: ['student_vasily', 'printer_ekaterina', 'bookseller_lev'] }, relationships: [{ fromHostId: 'student_vasily', toHostId: 'printer_ekaterina', trustDelta: 2 }] } }),
-      action('V47_P00_PRIVATE_NOTE', ['clerk_alexei'], '읽은 날짜와 출처를 수첩에 적는다', '읽은 날짜와 출처를 사적인 수첩에 남겼다. 관청 장부나 다른 인물의 기억에는 자동으로 옮겨지지 않는다.', { situationKo: '유럽 소식의 출처를 개인 수첩에 기록했다.', flags: { V47_MAIN03_NEWS_PRIVATE: true } }),
-      action('V47_P00_FILE_NOTICE', ['clerk_alexei'], '선언문을 관청 장부에 접수한다', '선언문 사본을 공식 장부에 접수했다. 접수 기록에는 유럽의 사건과 러시아 당국의 대응 문구가 나란히 남았다.', { situationKo: '유럽 소식과 황제의 대응을 공식 장부에 접수했다.', flags: { officialNoticeFiled: true, V47_MAIN03_NEWS_FILED: true } }),
-    ],
-  },
-  {
     id: 'V47_MAIN03_ARRESTS', titleKo: '닫힌 문 앞의 금요일', chapterId: 'V33_1849_CIRCLE', date: '1849-05-05',
     entry: { mapId: 'morskaya-intersection', objectId: 9051 }, sourceIds: ['OBJ-WS-DOSTOEVSKY-ARREST-ORDER-1849'],
     dialogueStatus: 'NEWLY_AUTHORED_FROM_V47_SCENARIO', dialogue: sceneDialogue(
@@ -105,7 +96,6 @@ const objectSpec = [
   ['printshop', 9047, '연감 교정쇄와 인쇄 장부', 'V47_MAIN01_PERMISSION', 208, 176],
   ['printshop', 9048, '배포 중지 뒤 남은 인쇄 묶음', 'V47_MAIN01_DISTRIBUTION_BAN', 224, 176],
   ['bookshop-interior', 9049, '구독자 답신과 주문 장부', 'V47_MAIN01_SUBSCRIBER_REPLY', 160, 176],
-  ['printshop', 9050, '유럽에서 온 공고 사본', 'V47_MAIN03_REVOLUTION_NEWS', 192, 192],
   ['morskaya-intersection', 9051, '닫힌 문 앞의 체포 명령', 'V47_MAIN03_ARRESTS', 224, 128],
   ['inn-interior', 9052, '여관의 첫 환자와 물통 장부', 'V47_MAIN05_WATER_NOTICE', 240, 208],
   ['inn-interior', 9053, '하숙집 환자 방문부', 'V47_MAIN05_MARKET_RESPONSE', 192, 144],

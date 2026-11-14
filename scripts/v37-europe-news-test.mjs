@@ -29,7 +29,7 @@ assert.equal(sourceIndex.records.find(row => row.sourceId === sourceId)?.excerpt
 assert.equal(catalog.find(row => row.event_id === eventId)?.validation_status, 'ARCHIVAL_METADATA_AND_ACADEMIC_TRANSCRIPTION_VERIFIED');
 
 const state = game.createInitialState({ maps, hostCards: cards, quests: [quest], startMapId: 'printshop' });
-state.world.chapterId = 'V33_1848_PUBLIC'; state.world.date = '1848-03-15'; state.world.clockMinutes = 539;
+state.world.chapterId = 'V33_1848_PUBLIC'; state.world.date = '1848-03-26'; state.world.clockMinutes = 539;
 state.world.currentMapId = 'printshop'; state.player.embodiment = 'clerk_alexei';
 for (const person of Object.values(state.hosts)) person.historicalAliveAndPresent = false;
 for (const [id, x] of [['clerk_alexei', 11], ['printer_ekaterina', 12], ['reader_darya', 13], ['student_vasily', 14]]) {
@@ -40,6 +40,11 @@ for (const [id, x] of [['clerk_alexei', 11], ['printer_ekaterina', 12], ['reader
 state.player.position = { ...state.hosts.clerk_alexei.position };
 const object = maps.printshop.layers.find(layer => layer.name === 'Interactions').objects.find(item => item.id === quest.entry.objectId);
 assert.ok(object); assert.equal(objectIsPresent(object, state, [quest]), false);
+const sourceObject = maps.printshop.layers.find(layer => layer.name === 'Interactions').objects.find(item => item.properties?.some(property => property.name === 'sourceId' && property.value === sourceId));
+assert.ok(sourceObject);
+assert.equal(objectIsPresent(sourceObject, state, [quest]), false, 'the physical manifesto stays hidden until the Gregorian publication/arrival date');
+assert.equal(game.recordSourceRead(state, sourceId, maps).reason, 'source_not_present', 'the reducer rejects a direct early read attempt');
+state.world.date = '1848-03-27';
 let active = game.advanceNpcWorld(state, 1, maps, { pausedHostIds: ['clerk_alexei', 'printer_ekaterina', 'reader_darya', 'student_vasily'] });
 const event = active.world.livingEventStates.E42;
 assert.equal(event?.status, 'ACTIVE', 'the fixed notice appears on the recorded date');
@@ -82,7 +87,7 @@ assert.equal(unattended.world.livingEventStates.E42.stage, 'UNRECORDED_NOTICE');
 assert.equal(unattended.world.immutableOutcomes.EUROPE_REVOLUTIONS_1848, 'the documented events and dates remain unchanged');
 
 const missed = structuredClone(state);
-missed.world.date = '1848-03-16'; missed.world.clockMinutes = 540;
+missed.world.date = '1848-03-28'; missed.world.clockMinutes = 540;
 const missedWindow = game.advanceNpcWorld(missed, 1, maps, { pausedHostIds: ['clerk_alexei', 'printer_ekaterina', 'reader_darya', 'student_vasily'] });
 assert.equal(missedWindow.world.livingEventStates.E42, undefined, 'a missed local reading does not fabricate attendance');
 assert.equal(missedWindow.world.fixedHistoricalOutcomes.E42.status, 'FIXED_OUTCOME_SCENE_MISSED');

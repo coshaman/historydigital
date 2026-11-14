@@ -1,8 +1,9 @@
 {
   "id": "V37_EUROPE_NEWS_1848",
   "titleKo": "유럽의 소식, 황제의 선언",
+  "storyId": "MAIN03",
   "chapterId": "V33_1848_PUBLIC",
-  "date": "1848-03-14",
+  "date": "1848-03-27",
   "sourceIds": ["OBJ-NICHOLAS-MANIFESTO-1848"],
   "requiresLivingEventId": "E42",
   "historicalOutcome": {

@@ -779,7 +779,6 @@ function updateHud() {
         MAIN01_PERMISSION: '인쇄 허가가 난 연감의 다음 작업을 확인한다.',
         MAIN01_DISTRIBUTION_BAN: '배포를 멈추고 인쇄소와 서점의 사람들을 살핀다.',
         MAIN01_SUBSCRIBER_REPLY: '편집부의 구독자 답신을 읽을 수 있다.',
-        MAIN03_REVOLUTION_NEWS: '서점과 살롱에 도착한 유럽 소식을 살핀다.',
         MAIN03_BELINSKY_LETTER_READING: '모임에서 편지를 읽은 사람들의 이야기를 듣는다.',
         MAIN03_PETRASHEVSKY_ARREST: '새벽의 체포 작전이 시작됐다. 가까운 사람과 현장을 확인한다.',
         MAIN03_SEMENOVSKY_CONCLUSION: '광장에 선 사람들의 마지막 순간을 확인한다.',

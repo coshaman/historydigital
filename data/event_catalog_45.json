@@ -1386,7 +1386,7 @@
     "title": "1848년 황제 선언문과 유럽 소식",
     "place": "printshop",
     "roles": ["clerk_alexei", "printer_ekaterina", "reader_darya", "student_vasily"],
-    "trigger": "1848-03-15_julian_newspaper_issue_59_arrives",
+    "trigger": "1848-03-27_gregorian_arrival_of_issue_59_(1848-03-15_julian)",
     "visible_scene": "3월 15일자 신문에 실린 선언문이 인쇄소에 도착하고, 네 주민이 모여 읽는다",
     "historical_anchor": "Nicholas I manifesto dated 14 March 1848 (Julian); printed in Северная пчела, 1848, № 59 (15 March Julian)",
     "player_actions": ["관청 장부에 등록", "개인 수첩에 기록", "작업장 사람들과 소리 내 읽기"],

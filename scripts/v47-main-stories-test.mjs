@@ -512,7 +512,8 @@ preludePossession.hosts.clerk_alexei.position = { x: Math.floor(clerkTile.x / 16
 preludePossession.player.position = { ...preludePossession.hosts.clerk_alexei.position };
 assert.equal(game.possessHost(preludePossession, 'clerk_alexei', maps.chancery).ok, true,
   'the chapter-specific possession gate accepts a living 1840s resident during the 1849 buildup');
-assert.equal(v47StoryQuests.length + storyBeatQuests.length, 36, 'all 36 scenario beats become runtime quests');
+assert.equal(v47StoryQuests.length + storyBeatQuests.length + 1, 36,
+  'the live E42 newspaper scene supplies MAIN03 P00 while the remaining 35 V47 beats stay registered');
 assert.ok(v47StoryBeatIds.MAIN01.length === 12 && v47StoryBeatIds.MAIN03.length === 12 && v47StoryBeatIds.MAIN05.length === 12,
   'the three stories each have twelve dated beats');
 assert.ok(allV47StoryQuests.every(quest => quest.actions.every(action => action.hostIds.every(id => integrated.hosts[id]))),

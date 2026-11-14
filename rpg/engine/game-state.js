@@ -652,6 +652,13 @@ function taskItemQuantity(task) {
 function inventoryItemCount(host, itemKo) {
   return (host?.inventory ?? []).filter(item => item === itemKo).length;
 }
+function marketRestockTriggerOpen(state, task) {
+  if (task?.type !== 'EXCHANGE') return true;
+  const stock = state.hosts[task.recipientHostId]?.marketStock?.[task.itemKo] ?? 0;
+  if (Number.isInteger(task.requiresMarketStockAtMost) && task.requiresMarketStockAtMost >= 0)
+    return stock <= task.requiresMarketStockAtMost;
+  return task.requiresMarketStockout !== true || stock === 0;
+}
 function pendingTaskSlot(host, taskTypes, localMinute, dayIndex = 0) {
   const types = new Set(Array.isArray(taskTypes) ? taskTypes : [taskTypes]);
   return [...(host.schedule ?? [])]
@@ -2542,7 +2549,7 @@ function retainMissedEuropeNewsOutcome(state) {
   if (state.world.fixedHistoricalOutcomes.E42) return;
   const record = { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E42',
     historicalOutcomeId: 'EUROPE_REVOLUTIONS_1848', historicalOutcomeFixed: true,
-    sourceIds: ['OBJ-NICHOLAS-MANIFESTO-1848'], outcomeDate: '1848-03-15',
+    sourceIds: ['OBJ-NICHOLAS-MANIFESTO-1848'], outcomeDate: '1848-03-27',
     status: 'FIXED_OUTCOME_SCENE_MISSED', localSceneOccurred: false,
     noticedOnDate: state.world.date, noticedAtMinute: state.world.clockMinutes };
   state.world.fixedHistoricalOutcomes.E42 = record;
@@ -2556,7 +2563,7 @@ function advanceEuropeNewsEvent(state, minuteOffset, maps, livingEventRows) {
   state.world.livingEventStates ??= {};
   let event = state.world.livingEventStates.E42;
   if (!event) {
-    const eventDate = '1848-03-15';
+    const eventDate = '1848-03-27';
     const minute = ((state.world.clockMinutes % 1440) + 1440) % 1440;
     if (state.world.chapterId === 'V33_1848_PUBLIC' && (state.world.date > eventDate
       || state.world.date === eventDate && minute > 780)) {
@@ -2573,7 +2580,7 @@ function advanceEuropeNewsEvent(state, minuteOffset, maps, livingEventRows) {
       || !source || !stand || actors.some(host => !host)) return;
     const scenePosition = objectTile(stand), witnesses = actorHostIds.filter(id => id !== 'clerk_alexei');
     event = state.world.livingEventStates.E42 = { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E42',
-      status: 'ACTIVE', stage: 'NOTICE_ARRIVED', trigger: '1848-03-15_northern_bee_issue_59_publishes_manifesto',
+      status: 'ACTIVE', stage: 'NOTICE_ARRIVED', trigger: '1848-03-27_Gregorian_arrival_of_issue_59_(1848-03-15_Julian)',
       startedAtMinute: state.world.clockMinutes, resolvesAtMinute: state.world.clockMinutes + 240,
       actorHostIds, witnessHostIds: witnesses, venueMapId: 'printshop', scenePosition,
       sourceIds: ['OBJ-NICHOLAS-MANIFESTO-1848'], historicalOutcomeId: 'EUROPE_REVOLUTIONS_1848',
@@ -2581,7 +2588,7 @@ function advanceEuropeNewsEvent(state, minuteOffset, maps, livingEventRows) {
     state.world.immutableOutcomes ??= {};
     state.world.immutableOutcomes.EUROPE_REVOLUTIONS_1848 = 'the documented events and dates remain unchanged';
     livingEventRows.push(europeNewsEventRow(state, event, event.stage, minuteOffset, maps,
-      { changeKo: '3월 15일자 신문에 실린 황제 선언문이 인쇄소에 도착했다. 유럽의 변화를 황실의 말로 규정한 글이다.' }));
+      { changeKo: '《북방의 꿀벌》 59호가 인쇄소에 도착했다. 선언문은 유럽의 변화를 황실의 말로 규정한다.' }));
   }
   if (event.status !== 'ACTIVE') return;
   const gathered = event.actorHostIds.every(id => {
@@ -3533,7 +3540,7 @@ function upcomingNpcSocialWork(state) {
     if (!task || !['DELIVER', 'EXCHANGE', 'CARE_TRANSFER'].includes(task.type) || taskCompletedForDay(sender, task, dayIndex)
       || (task.type === 'CARE_TRANSFER' ? !canMakeAuthoredCareTransfer(state, sender, task)
         : inventoryItemCount(sender, task.itemKo) < taskItemQuantity(task))) continue;
-    if (task.requiresMarketStockout === true && (state.hosts.market_nadezhda?.marketStock?.[task.itemKo] ?? 0) > 0) continue;
+    if (!marketRestockTriggerOpen(state, task)) continue;
     const wait = (slot.atMinute - localMinute + 1440) % 1440, recipient = state.hosts[task.recipientHostId];
     const overdueToday = slot.atMinute <= localMinute;
     if ((!overdueToday && wait > 360) || !recipient || recipient.historicalAliveAndPresent === false || sender.historicalAliveAndPresent === false) continue;
@@ -4161,8 +4168,8 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
   }
   const scheduledTask = scheduledSlot?.task;
   const activeSocialSlot = pendingTaskSlot(host, ['DELIVER', 'EXCHANGE', 'CARE_TRANSFER'], localMinute, Math.floor(state.world.clockMinutes / 1440));
-  const activeSocialTask = activeSocialSlot?.task?.requiresMarketStockout === true
-    && (state.hosts.market_nadezhda?.marketStock?.[activeSocialSlot.task.itemKo] ?? 0) > 0 ? null : activeSocialSlot?.task;
+  const activeSocialTask = activeSocialSlot && marketRestockTriggerOpen(state, activeSocialSlot.task)
+    ? activeSocialSlot.task : null;
   const activeLaundryEvent = state.world.livingEventStates?.E04;
   if (activeLaundryEvent?.status === 'ACTIVE' && activeLaundryEvent.stage === 'LINEN_EXCHANGED'
     && activeLaundryEvent.hostId === host.id && scheduledSlot?.workAction?.id === 'V36_LAUNDRESS_RECONCILE_PAYMENTS') {
@@ -5082,7 +5089,7 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
     const localMinute = ((state.world.clockMinutes % 1440) + 1440) % 1440;
     const slot = pendingTaskSlot(host, 'EXCHANGE', localMinute, Math.floor(state.world.clockMinutes / 1440)), task = slot?.task;
     if (!task || host.id === embodiedId || paused.has(host.id) || host.historicalAliveAndPresent === false) continue;
-    if (task.requiresMarketStockout === true && (state.hosts.market_nadezhda?.marketStock?.[task.itemKo] ?? 0) > 0) continue;
+    if (!marketRestockTriggerOpen(state, task)) continue;
     if (Number.isInteger(task.notBeforeMinute) && localMinute < task.notBeforeMinute) continue;
     const recipient = state.hosts[task.recipientHostId], moneyAmount = task.moneyAmount;
     const interactionRadius = Number.isInteger(task.interactionRadius) && task.interactionRadius >= 1 && task.interactionRadius <= 3 ? task.interactionRadius : 1;
@@ -8051,7 +8058,7 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
   if (Object.keys(state.world.fixedHistoricalOutcomes).some(id => id !== 'E42')
     || (missedEuropeOutcome && (missedEuropeOutcome.catalogIdSpace !== 'V37_EVENT_CATALOG_45'
       || missedEuropeOutcome.catalogEventId !== 'E42' || missedEuropeOutcome.historicalOutcomeId !== 'EUROPE_REVOLUTIONS_1848'
-      || missedEuropeOutcome.historicalOutcomeFixed !== true || missedEuropeOutcome.outcomeDate !== '1848-03-15'
+      || missedEuropeOutcome.historicalOutcomeFixed !== true || missedEuropeOutcome.outcomeDate !== '1848-03-27'
       || missedEuropeOutcome.status !== 'FIXED_OUTCOME_SCENE_MISSED' || missedEuropeOutcome.localSceneOccurred !== false
       || !Array.isArray(missedEuropeOutcome.sourceIds) || missedEuropeOutcome.sourceIds.length !== 1
       || missedEuropeOutcome.sourceIds[0] !== 'OBJ-NICHOLAS-MANIFESTO-1848'
