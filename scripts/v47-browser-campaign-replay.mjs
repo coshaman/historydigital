@@ -9,6 +9,7 @@ import { main01TimelineSources } from '../rpg/engine/v47-main01-timeline.mjs';
 import { attachV47StoryBeatObjects, toV47StoryQuests } from '../rpg/data/v47-story-beats.mjs';
 import { v47RoleProfiles } from '../rpg/data/v47-character-roles.mjs';
 import { decorateCardsWithEraProfiles } from '../rpg/engine/era-profiles.mjs';
+import { attachMain01StorageShelves, MAIN01_STORAGE_PACKETS, MAIN01_STORAGE_SHELVES } from '../rpg/engine/v47-main01-storage.mjs';
 
 const root = process.cwd();
 const previewPort = Number(process.env.V47_PREVIEW_PORT ?? 4175);
@@ -47,6 +48,7 @@ const questList = [...storyQuests, ...await Promise.all((await readdir(path.join
 const questsById = new Map(questList.map(quest => [quest.id, quest]));
 attachV47StoryObjects(maps);
 attachV47StoryBeatObjects(maps, storyQuests);
+attachMain01StorageShelves(maps);
 const storyQuestIds = new Set(storyQuests.map(quest => quest.id));
 const sourceMap = new Map(sourceIndex.records.map(record => [record.sourceId, record]));
 const historicalPacketMap = new Map(historicalPackets.records.map(record => [record.sourceId, record]));
@@ -262,6 +264,14 @@ async function runRoute(browser, base, routeName) {
     const card = runtimeCards.find(item => item.id === hostId);
     assert.ok(card, `${hostId} role card exists`);
     if ((await currentState()).player.embodiment === hostId) return card;
+    if (main01Only && hostId === 'sofiya_salon_1848') {
+      const hostState = (await currentState()).hosts[hostId];
+      if (hostState?.mapId && hostState.mapId !== await currentMapId()) {
+        const currentHostId = (await currentState()).player.embodiment;
+        const currentCard = runtimeCards.find(item => item.id === currentHostId);
+        if (currentCard) await travelTo(hostState.mapId, currentCard);
+      }
+    }
     await page.locator('#roster-open').click();
     const rosterEntry = page.locator('.roster-card').filter({ hasText: card.displayNameKo }).first();
     try { await rosterEntry.waitFor({ state: 'visible', timeout: 3000 }); }
@@ -489,6 +499,8 @@ async function runRoute(browser, base, routeName) {
         const eligible = action.hostIds.map(hostId => runtimeCards.find(card => card.id === hostId))
           .filter(card => card && card.allowedMaps.includes(quest.entry.mapId)
             && (!card.presenceWindow || quest.date >= card.presenceWindow.startDate && quest.date <= card.presenceWindow.endDate));
+        if (quest.id === 'V47_MAIN01_A10') eligible.sort((a, b) =>
+          Number(b.id === 'sofiya_salon_1848') - Number(a.id === 'sofiya_salon_1848'));
         const storyId = quest.storyId ?? quest.id.match(/MAIN0[135]/)?.[0];
         const exercised = exercisedHostsByStory.get(storyId) ?? new Set();
         if (storyId === 'MAIN03') eligible.sort((a, b) => Number(exercised.has(a.id)) - Number(exercised.has(b.id)));
@@ -838,9 +850,20 @@ async function runRoute(browser, base, routeName) {
         assert.equal(row.personalStoryGoal[0].status, 'SATISFIED', `${selected.host.id}'s A03 objective completes in the saved browser state`);
       }
       if (quest.id === 'V47_MAIN01_A10') {
-        assert.equal(selected.host.id, 'sofiya_salon_1848', `${routeName} gives Sofiya control of her own disposition choice`);
-        assert.equal(row.personalStoryGoal.length, 1, 'Sofiya’s A10 individual objective is tracked');
-        assert.equal(row.personalStoryGoal[0].status, 'SATISFIED', 'Sofiya’s chosen reading or storage outcome completes her objective');
+        assert.ok(['sofiya_salon_1848', 'reader_darya'].includes(selected.host.id),
+          `${routeName} resolves the disposition through the patron or the reader who returns her copy`);
+        if (selected.host.id === 'sofiya_salon_1848') {
+          assert.equal(row.personalStoryGoal.length, 1, 'Sofiya’s A10 individual objective is tracked');
+          assert.equal(row.personalStoryGoal[0].status, 'SATISFIED', 'Sofiya’s chosen reading or storage outcome completes her objective');
+        } else if (selected.action.id === 'V47_A10_STORE_COPY') {
+          assert.equal(row.worldChange.inventory.filter(item => item.fromHostId === 'reader_darya'
+            && item.toHostId === 'sofiya_salon_1848').length, 2,
+          'Darya physically returns the book and invitation to Sofiya when she makes this choice');
+        } else {
+          assert.equal(selected.action.id, 'V47_A10_HOST_READING');
+          assert.ok(questsById.get(quest.id).actions.find(action => action.id === selected.action.id)?.hostIds.includes('reader_darya'),
+            'Darya is an authored host for the reading-room branch as well as the storage branch');
+        }
       }
       if (quest.id === 'V47_MAIN01_PERMISSION') {
         assert.equal(row.printwork.schemaVersion, 'V47_PRINTWORK_V2');
@@ -863,6 +886,32 @@ async function runRoute(browser, base, routeName) {
       assert.ok(row.autonomousStoryOutcomes.every(item => item.unattended === true),
         `${quest.id}/${selected.action.id} reports unattended story outcomes separately`);
       rows.push(row);
+      if (quest.id === 'V47_MAIN01_DISTRIBUTION_BAN') {
+        const host = await possess('printer_ekaterina');
+        await travelTo('printshop', host);
+        for (const packet of MAIN01_STORAGE_PACKETS) {
+          const shelfDefinition = MAIN01_STORAGE_SHELVES.find(item => item.id === packet.shelfId);
+          const shelfObject = interactions(maps.printshop).find(object => propertyMap(object).v47StorageShelf === packet.shelfId);
+          assert.ok(shelfObject && shelfDefinition, `${packet.shelfId}: physical shelf is on the printshop map`);
+          await walkTo(shelfObject, `MAIN01 storage ${shelfDefinition.labelKo}`);
+          await use();
+          const packetAction = page.locator('#actions button').filter({ hasText: packet.labelKo }).first();
+          await packetAction.waitFor({ state: 'visible', timeout: 3000 });
+          await packetAction.click();
+          const placed = await currentState();
+          assert.equal(placed.world.v47.main01Storage.placements[packet.id]?.correct, true,
+            `${packet.labelKo} is placed through the in-game shelf action`);
+          await page.locator('#save').click();
+        }
+        const storageResult = await currentState();
+        assert.equal(storageResult.world.v47.main01Storage.status, 'COMPLETE', 'the physical four-shelf task completes in browser play');
+        assert.ok(storageResult.hosts.printer_ekaterina.inventory.includes('연감 창고 분류표'),
+          'the browser interaction gives its earned sorting record to the embodied worker');
+        assert.equal(storageResult.ledger.filter(item => item.eventType === 'V47_MAIN01_STORAGE_PLACE').length, 4,
+          'each physical placement is persisted in the actual game ledger');
+        const storageShot = path.join(outputDir, `${routeName}-MAIN01-STORAGE-SHELVES-${viewport.width}x${viewport.height}.png`);
+        await page.screenshot({ path: storageShot, fullPage: false }); screenshots.push(storageShot);
+      }
       const progressName = main01Only ? `V47_${routeName}_MAIN01_BROWSER_PROGRESS.json` : `V47_${routeName}_BROWSER_PROGRESS.json`;
       await writeFile(path.join(outputDir, progressName), `${JSON.stringify({ routeName, lastResolved: row, count: rows.length, rows, transitions }, null, 2)}\n`);
       console.log(`${routeName} ${row.storyId} ${row.questId} ${row.actionId}`);
@@ -882,8 +931,9 @@ async function runRoute(browser, base, routeName) {
     }
     let timelinePuzzle = null;
     if (main01Only) {
-      await possess('clerk_alexei');
-      await travelTo('printshop', runtimeCards.find(card => card.id === 'clerk_alexei'));
+      const timelineHost = runtimeCards.find(card => card.id === 'printer_ekaterina');
+      await possess(timelineHost.id);
+      if (await currentMapId() !== 'printshop') await travelTo('printshop', timelineHost);
       const board = interactions(maps.printshop).find(object => object.id === 9054);
       assert.ok(board, 'the physical MAIN01 date board exists on the printshop map');
       await walkTo(board, 'MAIN01 chronology board'); await use();

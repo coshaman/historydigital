@@ -20,6 +20,7 @@ import { createMain01PrintworkState, main01PrintworkStage, resolveMain01Printwor
 import { createMain01TimelineState, main01TimelineSources, main01TimelineStage, resolveMain01Timeline } from './engine/v47-main01-timeline.mjs';
 import { resolveV47StoryEntry, resolveV47StoryMenuEntries } from './engine/v47-story-entry.mjs';
 import { attachMain01PursuitObjects, createMain01PursuitState, MAIN01_PURSUIT_CHECKPOINTS, reachMain01PursuitCheckpoint, startMain01Pursuit } from './engine/v47-main01-pursuit.mjs';
+import { attachMain01StorageShelves, createMain01StorageState, MAIN01_STORAGE_PACKETS, MAIN01_STORAGE_SHELVES, placeMain01StoragePacket } from './engine/v47-main01-storage.mjs';
 import { attachV47StoryBeatObjects, toV47StoryQuests } from './data/v47-story-beats.mjs';
 import { v47RoleProfiles } from './data/v47-character-roles.mjs';
 import { sourceAvailableOn } from './engine/source-availability.mjs';
@@ -54,6 +55,7 @@ const maps = { nevsky: street, printshop: shop, chancery, courtyard, 'market-qua
 attachV47StoryObjects(maps);
 attachV47StoryBeatObjects(maps, v47StoryBeatQuests);
 attachMain01PursuitObjects(maps);
+attachMain01StorageShelves(maps);
 const historicalScenes = new Map();
 const copy = value => structuredClone(value);
 for (const scene of historicalPlay) {
@@ -1639,8 +1641,69 @@ function inspectMain01PursuitCheckpoint(object, checkpointId) {
   } else say('잘못 든 골목', '운송표에 적힌 방향과 다르다. 먼저 표시된 흔적을 찾아가자.', []);
 }
 
+function inspectMain01StorageShelf(shelfId) {
+  if (!state.player.embodiment) {
+    say('선반을 살피다', '인쇄소에서 일하는 사람의 몸으로 들어와야 묶음을 옮길 수 있다.', [
+      { label: '인물 목록 열기', run: openCharacterList },
+    ]);
+    return;
+  }
+  if (state.quests?.V47_MAIN01_DISTRIBUTION_BAN?.status !== 'resolved') {
+    say('창고 선반', '배포 중지 뒤 남은 인쇄 묶음을 먼저 확인해야 한다.', []);
+    return;
+  }
+  const shelf = MAIN01_STORAGE_SHELVES.find(item => item.id === shelfId);
+  if (!shelf) return;
+  const current = state.world.v47?.main01Storage?.schemaVersion === 'V47_MAIN01_STORAGE_V1'
+    ? state.world.v47.main01Storage : createMain01StorageState();
+  if (current.status === 'COMPLETE') {
+    say('창고 정리를 마쳤다', `네 선반의 기록을 맞췄다. 분류표는 ${cards.find(card => card.id === current.completedBy)?.displayNameKo ?? '작업자'}의 수첩에 있다.`, []);
+    return;
+  }
+  const placedCount = Object.keys(current.placements).length;
+  say(shelf.labelKo, `${shelf.promptKo}\n\n정리한 묶음 · ${placedCount}/${MAIN01_STORAGE_PACKETS.length}`, MAIN01_STORAGE_PACKETS.map(packet => ({
+    label: packet.labelKo,
+    subcopy: current.placements[packet.id]?.shelfId === shelfId ? '이 선반에 놓여 있다' : '이 묶음을 이 선반에 둔다',
+    run: () => {
+      const next = copy(state);
+      next.world.v47.main01Storage = next.world.v47?.main01Storage?.schemaVersion === 'V47_MAIN01_STORAGE_V1'
+        ? next.world.v47.main01Storage : createMain01StorageState();
+      const before = next.world.v47.main01Storage;
+      const result = placeMain01StoragePacket(before, shelfId, packet.id, next.player.embodiment, next.world.date);
+      if (!result.accepted) { sayRecord(`창고 분류 실패 · ${result.reason}`); return; }
+      next.world.v47.main01Storage = result.state;
+      if (result.effects.item) next.hosts[result.effects.item.hostId].inventory.push(result.effects.item.itemKo);
+      next.world.v47.stories.MAIN01.consequences.push({ actionId: 'V47_MAIN01_STORAGE_PLACE',
+        actorHostId: next.player.embodiment, packetId: packet.id, shelfId, correct: result.correct,
+        risk: result.state.risk, date: next.world.date, mapId: next.world.currentMapId });
+      next.world.v47.worldChanges ??= [];
+      next.world.v47.worldChanges.push({ questId: 'V47_MAIN01_DISTRIBUTION_BAN', actionId: 'V47_MAIN01_STORAGE_PLACE',
+        actorHostId: next.player.embodiment, packetId: packet.id, shelfId, correct: result.correct,
+        riskDelta: result.effects.riskDelta, date: next.world.date, mapId: next.world.currentMapId });
+      next.ledger.push({ eventType: 'V47_MAIN01_STORAGE_PLACE', questId: 'V47_MAIN01_DISTRIBUTION_BAN',
+        actorHostId: next.player.embodiment, packetId: packet.id, shelfId, correct: result.correct,
+        risk: result.state.risk, status: result.state.status, date: next.world.date, clockMinutes: next.world.clockMinutes });
+      setState(next); localStorage.setItem('v33-rpg-save', saveGame(next)); $('#load').disabled = false;
+      if (result.complete) {
+        say('창고 분류를 마쳤다', '묶음마다 돌아갈 자리를 정했다. 분류표에는 네가 놓은 순서와 확인한 날짜가 남는다.', []);
+        sayRecord('창고 분류 완료 · 분류표를 수첩에 넣었다.');
+      } else if (!result.correct) {
+        say('묶음을 잘못 놓았다', '잘못 놓인 묶음이 그대로 남고, 그 자리를 본 사람도 있다. 선반을 다시 살펴 옮겨 놓을 수 있다.', []);
+        sayRecord(`잘못 놓인 묶음 · ${packet.labelKo}`);
+      } else {
+        const remainingShelf = MAIN01_STORAGE_SHELVES.find(item => !Object.values(result.state.placements).some(placement =>
+          placement.shelfId === item.id && placement.correct));
+        say('묶음을 선반에 놓았다', remainingShelf
+          ? `다음에는 ${remainingShelf.labelKo}로 가서 남은 묶음을 정리하자.`
+          : '선반에 놓인 묶음을 다시 확인하자.', []);
+        sayRecord(`창고 분류 · ${packet.labelKo}`);
+      }
+    },
+  })));
+}
 function inspect(object) {
   const props = Object.fromEntries((object.properties ?? []).map(p => [p.name, p.value]));
+  if (props.v47StorageShelf) { inspectMain01StorageShelf(props.v47StorageShelf); return; }
   if (props.v47PursuitCheckpoint) { inspectMain01PursuitCheckpoint(object, props.v47PursuitCheckpoint); return; }
   if (props.serviceId) { openCivicService(props.serviceId, object); return; }
   if (props.v47PuzzleId === 'MAIN01_TIMELINE') {
