@@ -56,6 +56,56 @@ assert.equal(readResult.ok, true, readResult.reason); active = readResult.state;
 assert.deepEqual(questChoices(quest, 'clerk_alexei', [sourceId], active).map(row => row.action.id), ['E42_COPY_TO_REGISTER', 'E42_KEEP_PRIVATE_NOTE']);
 assert.deepEqual(questChoices(quest, 'printer_ekaterina', [sourceId], active).map(row => row.action.id), ['E42_READ_TO_SHOP']);
 
+const scheduledGather = game.createInitialState({ maps, hostCards: cards, quests: [quest], startMapId: 'printshop' });
+scheduledGather.world.chapterId = 'V33_1848_PUBLIC'; scheduledGather.world.date = '1848-03-27';
+scheduledGather.world.clockMinutes = 659; scheduledGather.world.currentMapId = 'printshop';
+scheduledGather.player.embodiment = 'clerk_alexei';
+for (const id of ['clerk_alexei', 'printer_ekaterina', 'reader_darya', 'student_vasily']) {
+  const host = scheduledGather.hosts[id]; host.historicalAliveAndPresent = true; host.mapId = 'printshop';
+  host.position = { x: 14, y: 9 };
+}
+scheduledGather.world.livingEventStates.E42 = { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E42',
+  status: 'ACTIVE', stage: 'NOTICE_ARRIVED', startedAtMinute: 540, resolvesAtMinute: 780,
+  actorHostIds: ['clerk_alexei', 'printer_ekaterina', 'reader_darya', 'student_vasily'],
+  witnessHostIds: ['printer_ekaterina', 'reader_darya', 'student_vasily'], venueMapId: 'printshop',
+  scenePosition: { x: 14, y: 9 }, sourceIds: [sourceId], historicalOutcomeId: 'EUROPE_REVOLUTIONS_1848',
+  historicalOutcomeFixed: true, disposition: null, resolutionActionId: null };
+const scheduledMinute = game.advanceNpcWorld(scheduledGather, 1, maps);
+assert.equal(scheduledMinute.world.livingEventStates.E42.stage, 'READING_READY');
+assert.match(scheduledMinute.hosts.printer_ekaterina.activeGoal?.taskId ?? '', /^V37:E42:/,
+  'the imminent printer work shift cannot replace her active event gathering goal');
+
+const closedShopArrival = game.createInitialState({ maps, hostCards: cards, quests: [quest], startMapId: 'printshop' });
+closedShopArrival.world.chapterId = 'V33_1848_PUBLIC'; closedShopArrival.world.date = '1848-03-27';
+closedShopArrival.world.clockMinutes = 850; closedShopArrival.world.currentMapId = 'printshop';
+closedShopArrival.player.embodiment = 'clerk_alexei';
+for (const id of ['clerk_alexei', 'printer_ekaterina', 'reader_darya', 'student_vasily']) {
+  const host = closedShopArrival.hosts[id]; host.historicalAliveAndPresent = true; host.mapId = 'printshop';
+  host.position = { x: 14, y: 9 };
+}
+closedShopArrival.hosts.reader_darya.mapId = 'nevsky';
+closedShopArrival.hosts.reader_darya.position = { x: 22, y: 9 };
+closedShopArrival.world.livingEventStates.E42 = { catalogIdSpace: 'V37_EVENT_CATALOG_45', catalogEventId: 'E42',
+  status: 'ACTIVE', stage: 'NOTICE_ARRIVED', startedAtMinute: 619, resolvesAtMinute: 1000,
+  actorHostIds: ['clerk_alexei', 'printer_ekaterina', 'reader_darya', 'student_vasily'],
+  witnessHostIds: ['printer_ekaterina', 'reader_darya', 'student_vasily'], venueMapId: 'printshop',
+  scenePosition: { x: 14, y: 9 }, sourceIds: [sourceId], historicalOutcomeId: 'EUROPE_REVOLUTIONS_1848',
+  historicalOutcomeFixed: true, disposition: null, resolutionActionId: null };
+const closedShopMinute = game.advanceNpcWorld(closedShopArrival, 5, maps);
+assert.equal(closedShopMinute.hosts.reader_darya.mapId, 'printshop',
+  `an assigned E42 reader can enter through the Nevsky exit while the printshop is closed to ordinary visitors: ${JSON.stringify({
+    host: closedShopMinute.hosts.reader_darya, event: closedShopMinute.world.livingEventStates.E42,
+  })}`);
+
+const delayedReader = structuredClone(closedShopArrival);
+delayedReader.world.clockMinutes = 857;
+delayedReader.world.livingEventStates.E42.resolvesAtMinute = 859;
+const lateGather = game.advanceNpcWorld(delayedReader, 30, maps);
+assert.equal(lateGather.world.livingEventStates.E42.stage, 'READING_READY',
+  'the local reading remains open while a living assigned participant is still travelling to the player');
+assert.ok(lateGather.world.livingEventStates.E42.gatheringGraceExtensions > 0,
+  'the event records its bounded, travel-driven gathering extension');
+
 for (const [hostId, actionId, disposition] of [
   ['clerk_alexei', 'E42_COPY_TO_REGISTER', 'OFFICIAL_REGISTER'],
   ['clerk_alexei', 'E42_KEEP_PRIVATE_NOTE', 'PRIVATE_NOTE'],

@@ -13,7 +13,7 @@ const STORY_ENTRIES = Object.freeze([
     introKo: '여관 손님 하나가 물을 찾고, 집주인은 물통과 방 안을 살핀다. 환자가 마신 물과 처음 아팠던 때를 확인하자.' },
 ]);
 
-const storyIdFor = quest => quest?.storyId ?? (quest?.id?.includes('MAIN01') ? 'MAIN01'
+export const storyIdForQuest = quest => quest?.storyId ?? (quest?.id?.includes('MAIN01') ? 'MAIN01'
   : quest?.id?.includes('MAIN03') ? 'MAIN03' : quest?.id?.includes('MAIN05') ? 'MAIN05' : null);
 const yearMonthKo = date => {
   if (!/^\d{4}-\d{2}/.test(date ?? '')) return null;
@@ -55,7 +55,7 @@ export function resolveV47StoryMenuEntries(state, quests = [], campaign = { arcs
 export function resolveV47StoryEntry(state, storyId, quests = [], campaign = { arcs: [] }) {
   const entry = STORY_ENTRIES.find(item => item.id === storyId);
   if (!entry) return null;
-  const storyQuest = quests.filter(quest => storyIdFor(quest) === storyId
+  const storyQuest = quests.filter(quest => storyIdForQuest(quest) === storyId
       && state?.quests?.[quest.id]?.status !== 'resolved')
     .sort((a, b) => String(a.date ?? '').localeCompare(String(b.date ?? '')))[0];
   if (!storyQuest) return { ...entry, status: 'COMPLETE', storyQuestId: null, currentQuestId: null };

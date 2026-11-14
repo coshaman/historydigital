@@ -2602,6 +2602,30 @@ function advanceEuropeNewsEvent(state, minuteOffset, maps, livingEventRows) {
     livingEventRows.push(europeNewsEventRow(state, event, event.stage, minuteOffset, maps,
       { changeKo: '에카테리나와 다리야, 바실리가 곁에 왔다. 선언문을 읽고 장부에 남길 수 있다.' }));
   }
+  if (state.world.clockMinutes >= event.resolvesAtMinute && event.stage === 'NOTICE_ARRIVED') {
+    const embodiedHost = state.hosts[state.player.embodiment];
+    const playerAtScene = embodiedHost?.mapId === event.venueMapId
+      && nearTile(embodiedHost.position, event.scenePosition, 5);
+    const participantStillTravelling = event.actorHostIds.some(id => {
+      if (id === state.player.embodiment) return false;
+      const host = state.hosts[id];
+      return host?.historicalAliveAndPresent !== false
+        && host.activeGoal?.taskId?.startsWith('V37:E42:')
+        && !(host.mapId === event.venueMapId && nearTile(host.position, event.scenePosition, 5))
+        && npcMapRoute(host.mapId, event.venueMapId, host, maps, state.world.clockMinutes,
+          { allowClosedMapIds: [event.venueMapId] }) !== null;
+    });
+    const maxGatheringMinute = event.startedAtMinute + 360;
+    if (playerAtScene && participantStillTravelling && state.world.clockMinutes < maxGatheringMinute) {
+      const previousDeadline = event.resolvesAtMinute;
+      event.resolvesAtMinute = Math.min(maxGatheringMinute, state.world.clockMinutes + 60);
+      event.gatheringGraceExtensions = (event.gatheringGraceExtensions ?? 0) + 1;
+      livingEventRows.push(europeNewsEventRow(state, event, event.stage, minuteOffset, maps,
+        { gatheringGraceMinutes: event.resolvesAtMinute - previousDeadline,
+          changeKo: '선언문을 읽으려던 사람들이 인쇄소로 오고 있다. 잠시 더 기다린다.' }));
+      return;
+    }
+  }
   if (state.world.clockMinutes < event.resolvesAtMinute) return;
   event.status = 'RESOLVED'; event.stage = 'UNRECORDED_NOTICE';
   event.resolvedAtMinute = state.world.clockMinutes; event.disposition = 'NO_LOCAL_COPY';
@@ -3434,7 +3458,8 @@ function plannedMapRoute(host, targetMapId, maps, absoluteMinute) {
   const accessPhase = host.allowedMaps.filter(id => maps?.[id]?.metadata?.access).map(id => `${id}:${mapAccessFailure(maps[id], host, absoluteMinute) ?? 'open'}`).join(',');
   const v47StoryAccess = ['V47_STORY_GATHERING', 'V47_EVENT_RETURN'].includes(host.activeGoal?.type)
     && targetMapId === host.activeGoal?.targetMapId;
-  const eventAccess = (host.activeGoal?.taskId?.startsWith('V37:E45:') && targetMapId === 'nevsky')
+  const eventAccess = (host.activeGoal?.taskId?.startsWith('V37:E42:') && targetMapId === 'printshop')
+    || (host.activeGoal?.taskId?.startsWith('V37:E45:') && targetMapId === 'nevsky')
     || (host.activeGoal?.taskId === 'V37:E19:REACH_READING_PRACTICE' && targetMapId === 'printshop')
     || (host.activeGoal?.taskId?.startsWith('V37:E24:') && targetMapId === 'courtyard')
     || v47StoryAccess;
@@ -3929,6 +3954,8 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
       && state.world.livingEventStates.E27.actorHostIds.includes(host.id))
     && !(state.world.livingEventStates?.E34?.status === 'ACTIVE'
       && state.world.livingEventStates.E34.actorHostIds.includes(host.id))
+    && !(state.world.livingEventStates?.E42?.status === 'ACTIVE'
+      && state.world.livingEventStates.E42.actorHostIds.includes(host.id))
     && !['INJURED', 'UNWELL'].includes(host.healthState?.condition)
     && !(host.healthState?.condition === 'RECOVERING' && state.world.clockMinutes < host.healthState.recoveryUntilMinute)) {
     return { slot: recentWorkSlot, goalType: 'SCHEDULED_WORK', targetHostId: null, taskId: recentWorkSlot.workAction.id,
@@ -3966,7 +3993,8 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
   const europeNews = state.world.livingEventStates?.E42;
   if (europeNews?.status === 'ACTIVE' && europeNews.actorHostIds.includes(host.id)
     && host.allowedMaps.includes(europeNews.venueMapId)
-    && npcMapRoute(host.mapId, europeNews.venueMapId, host, maps, state.world.clockMinutes) !== null) {
+    && npcMapRoute(host.mapId, europeNews.venueMapId, host, maps, state.world.clockMinutes,
+      { allowClosedMapIds: [europeNews.venueMapId] }) !== null) {
     const activities = { clerk_alexei: '황제 선언문의 접수 위치를 살핀다', printer_ekaterina: '선언문 인쇄본을 작업대에 편다',
       reader_darya: '선언문의 표현을 읽어 본다', student_vasily: '유럽 소식과 선언문을 함께 읽으러 간다' };
     return { slot: { mapId: europeNews.venueMapId, position: { ...europeNews.scenePosition },

@@ -35,6 +35,10 @@ for (const file of ['index.html', 'rpg/main.js', 'rpg/engine/world-reaction-pres
   if (file === 'index.html') text = text.replace(/<dialog id="api-settings"[\s\S]*?<\/dialog>/, '');
   forbidden.lastIndex = 0;
   if (forbidden.test(text)) failures.push(`${file}: forbidden player-facing meta copy`);
+  if ((file === 'index.html' && /journal-growth-stats|journal-growth-note/.test(text))
+    || (file === 'rpg/main.js' && /journal-growth-stats|AI 대화 \$\{dialogueGrowth\.aiReplies\}/.test(text))) {
+    failures.push(`${file}: conversation journal exposes AI counters or collection instructions`);
+  }
 }
 const authoredDialogue = await readFile(new URL('rpg/ai/authored-dialogue.mjs', root), 'utf8');
 for (const phrase of ['실제 역사와 같다고 말하는 건 아닙니다', '실제 관청 절차의 설명이 아닙니다', '이 허구 인물', '이 이야기 안에서만 통하는 허구']) {

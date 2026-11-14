@@ -10,6 +10,7 @@ import { attachV47StoryBeatObjects, toV47StoryQuests } from '../rpg/data/v47-sto
 import { v47RoleProfiles } from '../rpg/data/v47-character-roles.mjs';
 import { decorateCardsWithEraProfiles } from '../rpg/engine/era-profiles.mjs';
 import { attachMain01StorageShelves, MAIN01_STORAGE_PACKETS, MAIN01_STORAGE_SHELVES } from '../rpg/engine/v47-main01-storage.mjs';
+import { storyIdForQuest } from '../rpg/engine/v47-story-entry.mjs';
 
 const root = process.cwd();
 const previewPort = Number(process.env.V47_PREVIEW_PORT ?? 4175);
@@ -47,11 +48,12 @@ const questList = [...storyQuests, ...await Promise.all((await readdir(path.join
   .map(name => readJson(`rpg/quests/${name}`))),
   ...await Promise.all(['printshop-article', 'public-discourse-1848', 'europe-news-1848',
     'circle-investigation-1849', 'circle-letter-1849-may'].map(name => readJson(`rpg/quests/${name}.json`)))];
+const campaignStoryQuests = questList.filter(quest => storyIdForQuest(quest));
 const questsById = new Map(questList.map(quest => [quest.id, quest]));
 attachV47StoryObjects(maps);
 attachV47StoryBeatObjects(maps, storyQuests);
 attachMain01StorageShelves(maps);
-const storyQuestIds = new Set(storyQuests.map(quest => quest.id));
+const storyQuestIds = new Set(campaignStoryQuests.map(quest => quest.id));
 const sourceMap = new Map(sourceIndex.records.map(record => [record.sourceId, record]));
 const historicalPacketMap = new Map(historicalPackets.records.map(record => [record.sourceId, record]));
 const alternativeActions = {
@@ -92,8 +94,7 @@ function initialMainStorySave(routeName = 'NORMAL') {
       state.quests[questId] = { status: 'resolved', result: 'PRIOR_CAMPAIGN_CONTEXT' };
     }
   }
-  if (main01Only) for (const quest of storyQuests.filter(item =>
-    (item.storyId ?? item.id.match(/MAIN0[135]/)?.[0]) && (item.storyId ?? item.id.match(/MAIN0[135]/)?.[0]) !== 'MAIN01')) {
+  if (main01Only) for (const quest of campaignStoryQuests.filter(item => storyIdForQuest(item) !== 'MAIN01')) {
     state.quests[quest.id] = { status: 'resolved', result: 'SEQUENTIAL_MAIN01_BROWSER_SCOPE' };
   }
   if (e41Only) {
@@ -109,8 +110,7 @@ function initialMainStorySave(routeName = 'NORMAL') {
     if (!advanced.ok) throw new Error(`E41 diagnostic fixture could not reach its authored date: ${advanced.reason}`);
     return game.saveGame(advanced.state);
   }
-  if (main01Only) for (const quest of storyQuests.filter(item =>
-    (item.storyId ?? item.id.match(/MAIN0[135]/)?.[0]) && (item.storyId ?? item.id.match(/MAIN0[135]/)?.[0]) !== 'MAIN01')) {
+  if (main01Only) for (const quest of campaignStoryQuests.filter(item => storyIdForQuest(item) !== 'MAIN01')) {
     assert.equal(state.quests[quest.id]?.status, 'resolved', `MAIN01-only replay excludes ${quest.id}`);
   }
   return game.saveGame(state);
@@ -232,6 +232,58 @@ async function runRoute(browser, base, routeName) {
 
   async function use() { await page.keyboard.press('e'); await page.waitForTimeout(80); }
 
+  async function waitForEuropeNewsReadingReady() {
+    const readingStand = maps.printshop.layers.find(layer => layer.name === 'Interactions')?.objects
+      .find(object => object.id === 1184);
+    assert.ok(readingStand, 'E42 has a physical proclamation reading stand in the printshop');
+    await walkTo(readingStand, 'E42 proclamation reading stand');
+    let movementCount = 0;
+    for (let tick = 0; tick < 240; tick += 1) {
+      const state = await currentState(), event = state.world.livingEventStates?.E42;
+      if (event?.stage === 'READING_READY' && event.status === 'ACTIVE') return movementCount;
+      if (event?.status === 'RESOLVED') throw new Error(`E42 resolved before the players gathered: ${JSON.stringify({
+        event, clockMinutes: state.world.clockMinutes,
+        actors: ['clerk_alexei', 'printer_ekaterina', 'reader_darya', 'student_vasily'].map(id => ({
+          id, mapId: state.hosts[id]?.mapId, position: state.hosts[id]?.position,
+          alive: state.hosts[id]?.historicalAliveAndPresent, allowedPrintshop: state.hosts[id]?.allowedMaps?.includes('printshop'),
+          goal: state.hosts[id]?.activeGoal,
+        })),
+      })}`);
+      if ((tick + 1) % 30 === 0) console.log(`${routeName} E42 +${tick + 1} min`, JSON.stringify({
+        clockMinutes: state.world.clockMinutes, stage: event?.stage,
+        actors: ['clerk_alexei', 'printer_ekaterina', 'reader_darya', 'student_vasily'].map(id => ({
+          id, mapId: state.hosts[id]?.mapId, position: state.hosts[id]?.position,
+          goal: state.hosts[id]?.activeGoal?.taskId,
+        })),
+      }));
+      assert.equal(await currentMapId(), 'printshop', 'the E42 readers gather at the printshop while the player waits');
+      const map = maps.printshop, position = await currentPosition();
+      const collision = map.layers.find(layer => layer.name === 'Collision')?.data ?? [];
+      const scenePosition = event?.scenePosition ?? tileOf(readingStand);
+      let moved = false;
+      for (const direction of ['right', 'left', 'down', 'up']) {
+        const [dx, dy] = deltas[direction], x = position.x + dx, y = position.y + dy;
+        if (x < 0 || y < 0 || x >= map.width || y >= map.height || collision[y * map.width + x] !== 0) continue;
+        if (Math.abs(x - scenePosition.x) + Math.abs(y - scenePosition.y) > 5) continue;
+        await page.keyboard.press(movementKeys[direction]);
+        moved = await page.waitForFunction(previous => Number(document.body.dataset.playerX) !== previous.x
+          || Number(document.body.dataset.playerY) !== previous.y, position, { timeout: 700 }).then(() => true).catch(() => false);
+        if (moved) break;
+      }
+      assert.ok(moved, `E42 waiting step ${tick + 1} has an adjacent walkable tile`);
+      movementCount += 1;
+      if (movementCount % 8 === 0) await page.locator('#save').click();
+    }
+    const state = await currentState();
+    throw new Error(`E42 readers did not gather within 240 movement minutes: ${JSON.stringify({
+      event: state.world.livingEventStates?.E42,
+      actors: ['clerk_alexei', 'printer_ekaterina', 'reader_darya', 'student_vasily'].map(id => ({
+        id, mapId: state.hosts[id]?.mapId, position: state.hosts[id]?.position, goal: state.hosts[id]?.activeGoal,
+      })),
+      clockMinutes: state.world.clockMinutes,
+    })}`);
+  }
+
   async function travelTo(targetMapId, hostCard) {
     for (let hop = 0; hop < 12; hop += 1) {
       const from = await currentMapId();
@@ -284,9 +336,36 @@ async function runRoute(browser, base, routeName) {
     return card;
   }
 
+  async function revealContinuationFor(quest) {
+    const button = page.locator('#route-continue');
+    if (await button.isVisible().catch(() => false)) return;
+    const storyId = storyIdForQuest(quest);
+    assert.ok(storyId, `hidden continuation for ${quest.id} needs a selectable story tab`);
+    const storyTab = page.locator(`[data-v47-story="${storyId}"]`);
+    try { await storyTab.waitFor({ state: 'visible' }); }
+    catch (error) {
+      const diagnostic = await page.evaluate(() => {
+        const tracker = document.querySelector('#mission-tracker'), lower = document.querySelector('.lower');
+        return { trackerHidden: tracker?.hidden, trackerDisplay: tracker && getComputedStyle(tracker).display,
+          lowerClass: lower?.className, storyOverview: lower?.classList.contains('story-overview'),
+          tabs: [...document.querySelectorAll('[data-v47-story]')].map(item => ({ story: item.dataset.v47Story,
+            hidden: item.hidden, display: getComputedStyle(item).display, rect: (() => { const r = item.getBoundingClientRect(); return { x: r.x, y: r.y, width: r.width, height: r.height }; })() })),
+          routeButton: { hidden: document.querySelector('#route-continue')?.hidden,
+            text: document.querySelector('#route-continue')?.textContent },
+          mission: document.querySelector('#mission-title')?.textContent,
+          focusStoryId: JSON.parse(localStorage.getItem('v33-rpg-save') ?? 'null')?.state?.world?.v47?.focusStoryId };
+      });
+      const shot = path.join(outputDir, `${routeName}-HIDDEN-CONTINUATION-${quest.id}.png`);
+      await page.screenshot({ path: shot, fullPage: true }); screenshots.push(shot);
+      throw new Error(`Story tab ${storyId} stayed hidden for ${quest.id}: ${JSON.stringify(diagnostic)}; screenshot=${shot}; ${error.message}`);
+    }
+    await storyTab.click();
+    await button.waitFor({ state: 'visible' });
+  }
+
   async function advanceToDate(quest, before) {
     const button = page.locator('#route-continue');
-    await button.waitFor({ state: 'visible' });
+    await revealContinuationFor(quest);
     const label = await button.innerText();
     await button.click();
     await page.waitForFunction(expected => JSON.parse(localStorage.getItem('v33-rpg-save') ?? 'null')?.state?.world?.date === expected,
@@ -296,6 +375,8 @@ async function runRoute(browser, base, routeName) {
 
   async function advanceChapter(nextArc, before) {
     const button = page.locator('#route-continue');
+    const nextStoryQuest = nextArc.questIds.map(id => questsById.get(id)).find(item => storyIdForQuest(item));
+    if (nextStoryQuest) await revealContinuationFor(nextStoryQuest);
     await button.waitFor({ state: 'visible' });
     const label = await button.innerText();
     await button.click();
@@ -586,6 +667,47 @@ async function runRoute(browser, base, routeName) {
                   'v47-nekrasov-panaev-caricature'], screenshot: noticeShot });
               await walkTo(targetObject, `${quest.id} return to press`);
             }
+            if (quest.id === 'V37_EUROPE_NEWS_1848') {
+              const manifestoId = 'OBJ-NICHOLAS-MANIFESTO-1848';
+              const manifestoObject = interactions(targetMap).find(object => propertyMap(object).sourceId === manifestoId);
+              const manifesto = historicalPacketMap.get(manifestoId);
+              assert.ok(manifestoObject && manifesto?.paragraphs?.length >= 3,
+                'the MAIN03 opener exposes the proclamation as a contiguous physical source');
+              assert.equal(propertyMap(manifestoObject).availableDate, '1848-03-27',
+                'the proclamation does not appear before its newspaper issue reaches the printshop');
+              await walkTo(manifestoObject, 'MAIN03 E42 physical manifesto'); await use();
+              const dialog = page.locator('#source-reader');
+              const readButton = page.locator('#actions button').filter({ hasText: `자료 읽기 · ${manifesto.titleKo}` }).first();
+              await page.waitForFunction(() => document.querySelector('#source-reader')?.open
+                || [...document.querySelectorAll('#actions button')].some(button => button.textContent.includes('자료 읽기 ·')),
+              null, { timeout: 5000 });
+              if (!await dialog.evaluate(element => element.open)) await readButton.click();
+              await page.locator('#source-reader-complete').waitFor({ state: 'visible', timeout: 5000 });
+              const manifestoView = await page.evaluate(() => ({
+                title: document.querySelector('#source-reader-title')?.textContent ?? '',
+                dateLine: document.querySelector('#source-reader-dates')?.textContent ?? '',
+                paragraphs: document.querySelectorAll('#source-reader-passages .source-passage').length,
+                russian: [...document.querySelectorAll('#source-reader-passages .source-passage-ru')].map(node => node.textContent).join('\n'),
+                korean: [...document.querySelectorAll('#source-reader-passages .source-passage-ko')].map(node => node.textContent).join('\n'),
+              }));
+              assert.match(manifestoView.dateLine, /1848-03-14 \(Julian\).*1848-03-27/);
+              assert.equal(manifestoView.paragraphs, manifesto.paragraphs.length,
+                'the reader shows the full source excerpt before the related decision');
+              assert.match(manifestoView.russian, /Объявляем всенародно/);
+              assert.match(manifestoView.russian, /Но да не будет так/);
+              assert.ok(manifestoView.korean.length > 100, 'the matching Korean translation is present');
+              const sourceShot = path.join(outputDir, `${routeName}-MAIN03-E42-SOURCE-${viewport.width}x${viewport.height}.png`);
+              await page.screenshot({ path: sourceShot, fullPage: false }); screenshots.push(sourceShot);
+              await page.locator('#source-reader-complete').click();
+              const readState = await currentState();
+              sourceReads.push({ sourceId: manifestoId, date: readState.world.date,
+                hostId: readState.player.embodiment, mapId: 'printshop', paragraphCount: manifestoView.paragraphs,
+                screenshot: sourceShot });
+              const gatherMinutes = await waitForEuropeNewsReadingReady();
+              sourceReads.at(-1).eventStage = 'READING_READY';
+              sourceReads.at(-1).gatherMovementSteps = gatherMinutes;
+              await walkTo(targetObject, 'MAIN03 E42 decision after reading the proclamation');
+            }
             if (quest.id === 'V47_MAIN01_A03') {
               const authorId = routeName === 'NORMAL' ? 'panaev_1848' : 'panaeva_1848';
               await possess(authorId);
@@ -594,6 +716,11 @@ async function runRoute(browser, base, routeName) {
               await walkTo(physicalBook, `${quest.id} physical book`);
             }
             await use();
+            if (quest.id === 'V37_EUROPE_NEWS_1848') {
+              const inspectEvent = page.locator('#actions button').filter({ hasText: `사건 살펴보기 · ${quest.titleKo}` }).first();
+              await inspectEvent.waitFor({ state: 'visible', timeout: 3000 });
+              await inspectEvent.click();
+            }
             if (quest.id === 'V47_MAIN01_A03') {
               const source = historicalPacketMap.get('V47-PANAEVA-TALNIKOV-CH1-1848');
               assert.equal(source?.paragraphs?.length, 13, 'the current MAIN01 reader is built from the expanded passage');
@@ -731,7 +858,14 @@ async function runRoute(browser, base, routeName) {
             const choice = page.locator('#actions button').filter({ hasText: action.labelKo }).first();
             try { await choice.waitFor({ state: 'visible', timeout: 2500 }); }
             catch {
-              candidateFailures.push(`${action.id}/${card.id}: ${await page.locator('#record').innerText()}`);
+              const detail = quest.id === 'V37_EUROPE_NEWS_1848' ? await page.evaluate(() => {
+                const state = JSON.parse(localStorage.getItem('v33-rpg-save') ?? 'null')?.state;
+                return `event=${JSON.stringify(state?.world?.livingEventStates?.E42)} position=${JSON.stringify({
+                  mapId: document.body.dataset.worldMap, x: document.body.dataset.playerX, y: document.body.dataset.playerY,
+                  hostId: state?.player?.embodiment,
+                })} buttons=${JSON.stringify([...document.querySelectorAll('#actions button')].map(button => button.textContent))}`;
+              }) : await page.locator('#record').innerText();
+              candidateFailures.push(`${action.id}/${card.id}: ${detail}`);
               continue;
             }
             if (await choice.isDisabled()) { candidateFailures.push(`${action.id}/${card.id}: action is disabled`); continue; }

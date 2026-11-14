@@ -229,6 +229,7 @@
         "id": "BAKER_DAILY_MARKET_RESTOCK_1847",
         "repeatDaily": true,
         "requiresMarketStockout": true,
+        "requiresMarketStockAtMost": 4,
         "recipientHostId": "market_nadezhda",
         "notBeforeMinute": 1080,
         "deadlineMinute": 1260,

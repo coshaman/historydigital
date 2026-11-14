@@ -4,16 +4,33 @@ import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { chromium } from 'playwright';
 import { buildRoute, runtimeQuestIds } from './v33-ending-route-matrix.mjs';
+import { mimeTypeFor } from '../server-mime.mjs';
 
 const require = createRequire(import.meta.url);
 const engine = require('../rpg/engine/game-state.js');
 const campaign = JSON.parse(await readFile(new URL('../rpg/quests/campaign.json', import.meta.url), 'utf8'));
-const base = process.env.V33_RPG_URL || 'http://127.0.0.1:4173/';
+const previewRoot = path.resolve('dist-v33');
+const base = process.env.V33_RPG_URL || 'http://127.0.0.1:4175/';
+const mobileOnly = process.argv.includes('--mobile-only');
+const desktopOnly = process.argv.includes('--desktop-only');
 const browser = await chromium.launch({ headless: true, executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe' });
 const results = [];
 
+async function routeBuiltGame(page) {
+  await page.route('**/*', async route => {
+    const url = new URL(route.request().url());
+    if (url.hostname !== '127.0.0.1' || Number(url.port) !== 4175) return route.abort('blockedbyclient');
+    const relative = decodeURIComponent(url.pathname).replace(/^\/+/, '') || 'index.html';
+    const target = path.resolve(previewRoot, relative);
+    if (!target.startsWith(`${previewRoot}${path.sep}`) && target !== previewRoot) return route.fulfill({ status: 403, body: 'Forbidden' });
+    try {
+      return route.fulfill({ status: 200, body: await readFile(target), headers: { 'content-type': mimeTypeFor(target), 'cache-control': 'no-store' } });
+    } catch { return route.fulfill({ status: 404, body: 'Not found' }); }
+  });
+}
+
 try {
-  for (const ending of campaign.endings) {
+  for (const ending of (mobileOnly ? [] : campaign.endings)) {
     const { stateBeforeEnding } = buildRoute(ending.id, 0);
     const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
     const page = await context.newPage();
@@ -21,6 +38,7 @@ try {
     page.on('pageerror', error => errors.push(String(error)));
     page.on('close', () => console.log(`page closed · ${ending.id}`));
     page.on('crash', error => console.log(`page crashed · ${ending.id} · ${error}`));
+    await routeBuiltGame(page);
     await page.goto(base, { waitUntil: 'networkidle' });
     await page.evaluate(save => localStorage.setItem('v33-rpg-save', save), engine.saveGame(stateBeforeEnding));
     await page.reload({ waitUntil: 'networkidle' });
@@ -84,16 +102,17 @@ try {
     results.push({ endingId: ending.id, choiceVisible: true, resolvedInBrowser: true, errors });
     await context.close();
   }
-  {
+  if (!desktopOnly) {
     const ending = campaign.endings[0], { stateBeforeEnding } = buildRoute(ending.id, 0);
     const context = await browser.newContext({ viewport: { width: 360, height: 800 } });
     const page = await context.newPage();
+    await routeBuiltGame(page);
     await page.goto(base, { waitUntil: 'networkidle' });
     await page.evaluate(save => localStorage.setItem('v33-rpg-save', save), engine.saveGame(stateBeforeEnding));
     await page.reload({ waitUntil: 'networkidle' });
-    await page.keyboard.press('e');
-    await page.getByRole('button', { name: '마지막 기록을 정리한다' }).click();
-    await page.getByRole('button', { name: ending.titleKo, exact: false }).click();
+    const endingChoice = page.getByRole('button', { name: ending.titleKo, exact: false });
+    await endingChoice.waitFor({ state: 'visible' });
+    await endingChoice.click();
     await page.locator('#ending-screen:not([hidden])').waitFor();
     await page.emulateMedia({ reducedMotion: 'reduce' });
     assert.equal(await page.locator('.lower').isVisible(), false, 'ending must not expose a dialogue panel');
@@ -120,9 +139,10 @@ try {
   }
 } finally { await browser.close(); }
 
-assert.equal(results.filter(result => result.resolvedInBrowser).length, campaign.endings.length);
-assert.equal(results.filter(result => result.mobileViewport).length, 1);
-const report = { schemaVersion: 'V33_ENDING_BROWSER_SMOKE_V1', status: 'PASS', browserEndingCount: campaign.endings.length, mobileEndingChecked: true, results };
+if (!mobileOnly) assert.equal(results.filter(result => result.resolvedInBrowser).length, campaign.endings.length);
+if (!desktopOnly) assert.equal(results.filter(result => result.mobileViewport).length, 1);
+const report = { schemaVersion: 'V33_ENDING_BROWSER_SMOKE_V1', status: 'PASS', browserEndingCount: results.filter(result => result.resolvedInBrowser).length,
+  mobileEndingChecked: results.some(result => result.mobileViewport), results };
 await mkdir('artifacts/v33', { recursive: true });
 await writeFile(path.join('artifacts/v33', 'ENDING_BROWSER_SMOKE.json'), `${JSON.stringify(report, null, 2)}\n`);
 console.log(JSON.stringify(report, null, 2));

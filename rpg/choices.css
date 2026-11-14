@@ -154,6 +154,7 @@ kbd{font:11px 'IBM Plex Mono',monospace;color:#d8c59f}
   .type-setter-rack{grid-template-columns:repeat(6,minmax(0,1fr));gap:4px}
   .actions .type-tile{min-height:44px;font-size:20px}
   .lower.has-actions .record-line,.lower.has-actions .journal-tools{display:none}
+  .lower.has-actions.show-mission-context .journal-tools{display:flex}
   .mission-tracker{padding:9px 10px}
   .mission-tracker h2{font-size:18px}
   .mission-tracker p{font-size:16px;line-height:1.4}

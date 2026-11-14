@@ -421,18 +421,21 @@ function requestRender() {
 window.addEventListener('resize', requestRender, { passive: true });
 document.addEventListener('visibilitychange', requestRender);
 window.matchMedia?.('(prefers-reduced-motion: reduce)').addEventListener?.('change', requestRender);
-function say(title, text, actions = []) {
+function say(title, text, actions = [], { keepMissionContext = false } = {}) {
   $('#headline').textContent = title;
   $('#journal-text').textContent = text;
   const readyQuest = continuationQuest(state, campaign, questList);
   const persistentLabel = readyQuest ? continuationFor(readyQuest)[0].label : null;
   const visibleActions = actions.filter(action => action.label !== persistentLabel);
   const storyOverview = /^(금지된 삽화 연감|혁명의 소식과 마지막 금요일|콜레라가 도는 도시) ·/.test(title);
+  const showMissionContext = Boolean(keepMissionContext || activeDialogueHost || storyOverview);
   $('.lower').classList.toggle('has-actions', visibleActions.length > 0);
   $('.lower').classList.toggle('story-overview', storyOverview);
+  $('.lower').classList.toggle('show-mission-context', showMissionContext);
   $('.lower').classList.remove('has-typesetter');
   $('.actions').classList.remove('roster-options', 'type-setter-active', 'timeline-puzzle-active', 'history-event-options');
-  $('#mission-tracker').hidden = Boolean(state.endingId) || (visibleActions.length > 0 && !storyOverview);
+  $('#mission-tracker').hidden = !shouldShowQuestTracker({ ending: Boolean(state.endingId), hasActions: visibleActions.length > 0,
+    storyOverview, activeDialogue: Boolean(activeDialogueHost), keepVisible: keepMissionContext });
   $('#actions').replaceChildren(...visibleActions.map(({ label, subcopy, run, disabled = false }) => {
     const button = document.createElement('button');
     button.type = 'button'; button.disabled = disabled;
@@ -600,7 +603,10 @@ function updateHud() {
   if (queuedDiscussionInquiry && !inLiteraryScene) {
     const targetHost = state.hosts[queuedDiscussionInquiry.hostId];
     const targetGuide = targetHost ? guideToResident({ state, maps, hostCards: cards, targetHostId: targetHost.id }) : null;
-    const nextAction = !host ? '먼저 질문할 인물과 다른 주민의 몸을 빌리세요' : host.id === queuedDiscussionInquiry.hostId ? '다른 주민의 몸을 빌린 뒤 이 인물에게 말을 거세요' : '표시된 상대에게 가까이 가서 말을 거세요';
+    const nextAction = !host ? '먼저 다른 주민에게 빙의하세요'
+      : host.id === queuedDiscussionInquiry.hostId ? '다른 주민에게 빙의하세요. 자기 자신에게는 말을 걸 수 없습니다'
+        : targetGuide?.target ? `표시된 길을 따라 ${queuedDiscussionInquiry.hostNameKo}에게 다가가 말 걸기를 누르세요`
+          : `${queuedDiscussionInquiry.hostNameKo}에게 말 걸기를 누르세요`;
     const liveInquiry = currentDiscussionQuests().find(item => item.id === queuedDiscussionInquiry.questId);
     const inquiryInstruction = discussionQuestInstruction(liveInquiry, Object.fromEntries(cards.map(card => [card.id, card.displayNameKo])));
     missionGuidance = {
@@ -612,7 +618,7 @@ function updateHud() {
       questTitleKo: queuedDiscussionInquiry.titleKo,
       actionKo: `${queuedDiscussionInquiry.hostNameKo}에게 물어보기 · ${queuedDiscussionInquiry.progressKo}`,
       reasonKo: queuedDiscussionInquiry.stakesKo,
-      howKo: `${nextAction}. ${targetGuide?.howKo ?? ''}\n${inquiryInstruction?.howKo ?? `대화에서 “${queuedDiscussionInquiry.promptKo}”를 선택하세요.`}`,
+      howKo: `대상 · ${queuedDiscussionInquiry.hostNameKo}\n${nextAction}${targetGuide?.howKo ? ` · ${targetGuide.howKo}` : ''}\n물어볼 말 · “${queuedDiscussionInquiry.promptKo}”\n대화 선택지에서 이 질문을 골라 답을 들으세요. 일반 대화만으로는 진행되지 않습니다.\n완료 조건 · 서로 다른 두 사람의 답을 기록한 뒤 수첩에서 내 입장을 선택하세요.${inquiryInstruction?.phase === 'RECORD_POSITION' ? '\n지금 할 일 · 수첩에서 입장을 선택하면 이 퀘스트가 끝납니다.' : ''}`,
       placeKo: targetGuide?.placeKo ?? (targetHost ? maps[targetHost.mapId]?.metadata.displayNameKo : '위치를 확인할 수 없음'),
       target: targetGuide?.target ?? null,
       progress: { completedSteps: queuedDiscussionInquiry.completedPerspectives, totalSteps: queuedDiscussionInquiry.requiredPerspectives },
@@ -642,7 +648,7 @@ function updateHud() {
   if (shouldOpenDiscussionBoard({ queuedInquiry: Boolean(queuedDiscussionInquiry), positionPending: Boolean(discussionView.positionPrompts?.length), activeDialogue: Boolean(activeDialogueHost) })) discussionBoard.open = true;
   $('#discussion-quest-progress').textContent = discussionView.progressKo;
   $('#discussion-quest-guidance').textContent = queuedDiscussionInquiry
-    ? `다음 사람 · ${queuedDiscussionInquiry.hostNameKo}\n물어볼 말 · “${queuedDiscussionInquiry.promptKo}”\n두 사람의 답을 들은 뒤 수첩에서 내 입장을 기록하면 끝납니다.`
+    ? `다음 사람 · ${queuedDiscussionInquiry.hostNameKo}\n물어볼 말 · “${queuedDiscussionInquiry.promptKo}”\n질문을 대화 선택지에서 골라 답을 들으세요.\n완료 조건 · 서로 다른 두 사람의 답을 모은 뒤 수첩에서 내 입장을 선택하세요.`
     : discussionView.guidanceKo;
   if (!queuedDiscussionInquiry && discussionView.positionPrompts?.length && !inLiteraryScene && !state.endingId) {
     const pending = discussionView.positionPrompts[0];
@@ -1427,7 +1433,7 @@ function continuationFor(activeQuest) {
         if (!advanced.ok) { sayRecord(`날짜를 진행할 수 없음 · ${advanced.reason}`); return; }
         setState(advanced.state);
         localStorage.setItem('v33-rpg-save', saveGame(advanced.state));
-        say(activeQuest.titleKo, activeQuest.premiseKo, [{ label: '열람 가능한 자료 확인', run: openSourceDrawer }]);
+        say(activeQuest.titleKo, activeQuest.premiseKo, [{ label: '열람 가능한 자료 확인', run: openSourceDrawer }], { keepMissionContext: true });
       } }];
     }
     return [{ label: '현재 목표로 돌아가기', subcopy: '표시된 장소와 다음 행동을 다시 확인합니다 · 연표 날짜는 그대로 둡니다', run: returnToCurrentGoal }];
@@ -1462,7 +1468,7 @@ function continuationFor(activeQuest) {
       setState(advanced.state);
       localStorage.setItem('v33-rpg-save', saveGame(advanced.state));
     }
-    say(laterQuest.titleKo, laterQuest.premiseKo, [{ label: '열람 가능한 자료 확인', run: openSourceDrawer }]);
+    say(laterQuest.titleKo, laterQuest.premiseKo, [{ label: '열람 가능한 자료 확인', run: openSourceDrawer }], { keepMissionContext: true });
   } }]; }
   const nextArc = arcIndex >= 0 ? campaign.arcs[arcIndex + 1] : null;
   if (nextArc && arc?.questIds.every(id => state.quests[id]?.status === 'resolved')) return [{ label: `${nextArc.date.slice(0, 4)}년으로 이어가기`, subcopy: '다음 장을 시작합니다 · 역사 연표가 앞으로 이동합니다', run: () => {
@@ -1470,7 +1476,7 @@ function continuationFor(activeQuest) {
     if (!advanced.ok) { sayRecord(`다음 장을 열 수 없음 · ${advanced.reason}`); return; }
     setState(advanced.state);
     localStorage.setItem('v33-rpg-save', saveGame(advanced.state));
-    say(nextArc.titleKo, `기록은 다음 연도로 이어졌다. ${nextArc.date.slice(0, 4)}년의 거리에서 새 사건을 살펴보자.`, [{ label: '자료철 열기', run: openSourceDrawer }]);
+    say(nextArc.titleKo, `기록은 다음 연도로 이어졌다. ${nextArc.date.slice(0, 4)}년의 거리에서 새 사건을 살펴보자.`, [{ label: '자료철 열기', run: openSourceDrawer }], { keepMissionContext: true });
   } }];
   if (nextArc) return [{ label: '현재 장의 남은 목표 확인하기', subcopy: '이 장의 기록을 마친 뒤에만 다음 해로 이동합니다', run: returnToCurrentGoal }];
   return [{ label: '마지막 기록을 정리한다', subcopy: '독서 모임 선택과 진급 시험을 마친 뒤 다섯 결말을 확인합니다', run: showLearningHub }];

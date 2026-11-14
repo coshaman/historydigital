@@ -17,7 +17,7 @@ export function availableDiscussionQuests(state, definitions) {
       ...quest,
       perspectiveHostIds,
       requiredPerspectiveCount,
-      completed: perspectiveHostIds.length >= requiredPerspectiveCount,
+      completed: perspectiveHostIds.length >= requiredPerspectiveCount && positionByQuest.has(quest.id),
       comparisonNote,
       playerPosition: positionByQuest.get(quest.id) ?? null,
       positionPending: Boolean(comparisonNote && !positionByQuest.has(quest.id) && definitions.playerPositionChoices?.length),
@@ -67,12 +67,12 @@ export function discussionQuestInstruction(quest, hostNames = {}) {
   const promptKo = quest.hosts[hostId].promptKo;
   return {
     phase: 'ASK', hostId, hostNameKo, promptKo,
-    howKo: `${hostNameKo}에게 말을 거세요. 대화에서 “${promptKo}”를 선택하면 관점이 기록됩니다. 서로 다른 두 사람의 답을 들은 뒤 수첩에서 내 입장을 하나 고르면 이 퀘스트가 끝납니다.`,
+    howKo: `대상 · ${hostNameKo}에게 말 걸기\n물어볼 말 · “${promptKo}”\n진행 · ${heard.length}/${required}명\n대화 선택지에서 이 질문을 골라 답을 들으세요. 일반 대화만으로는 진행되지 않습니다.\n완료 조건 · 서로 다른 두 사람의 답을 기록하고 수첩에서 내 입장을 선택하세요.`,
   };
 }
 
-export function shouldShowQuestTracker({ ending = false, literaryScene = false, hasActions = false, storyOverview = false, activeDialogue = false } = {}) {
-  return !ending && !literaryScene && (!hasActions || storyOverview || activeDialogue);
+export function shouldShowQuestTracker({ ending = false, literaryScene = false, hasActions = false, storyOverview = false, activeDialogue = false, keepVisible = false } = {}) {
+  return !ending && !literaryScene && (!hasActions || storyOverview || activeDialogue || keepVisible);
 }
 
 export function shouldOpenDiscussionBoard({ queuedInquiry = false, positionPending = false, activeDialogue = false } = {}) {
@@ -140,9 +140,9 @@ export function discussionBoardView(quests, hostId = null, hostNames = {}, total
   return {
     progressKo: `쟁점 ${completedCount}/${(quests ?? []).length}${positionPrompts.length ? ` · 내 입장 ${positionPrompts.length}개` : ''}`,
     guidanceKo: positionPrompts.length
-      ? `두 사람의 관점을 모았습니다. 아래에서 내 입장을 골라 수첩에 남기면 이 쟁점 퀘스트가 끝납니다.`
+      ? `완료 조건 · 수첩에서 내 입장을 골라 기록하세요. 선택을 마치면 이 쟁점 퀘스트가 끝납니다.`
       : nextComparison
-      ? `${nextComparison?.perspectiveHostIds?.length ?? 1}/${nextComparison?.requiredPerspectiveCount ?? 2} 관점 · 다음은 ${nextComparisonName}에게 물어보세요: “${nextComparisonQuestion}” 다음에 수첩에서 내 입장을 고르면 끝납니다.`
+      ? `대상 · ${nextComparisonName}에게 말 걸기\n물어볼 말 · “${nextComparisonQuestion}”\n진행 · ${nextComparison.perspectiveHostIds?.length ?? 1}/${nextComparison.requiredPerspectiveCount ?? 2}명\n대화 선택지에서 질문을 골라 답을 들으세요.\n완료 조건 · 두 사람의 답을 기록한 뒤 수첩에서 내 입장을 선택하세요.`
       : active.length
         ? discussionQuestInstruction(active[0], hostNames)?.howKo
         : '질문을 담고 표시된 인물에게 말을 거세요. 대화에서 제시된 질문을 고르고, 서로 다른 두 사람의 답을 들은 뒤 수첩에서 내 입장을 기록하면 끝납니다.',

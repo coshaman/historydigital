@@ -4,7 +4,7 @@ import { readFile } from 'node:fs/promises';
 import { v47StoryBeats, toV47StoryQuests } from '../rpg/data/v47-story-beats.mjs';
 import { v47StoryQuests } from '../rpg/data/v47-main-stories.mjs';
 import { sourceAvailableOn } from '../rpg/engine/source-availability.mjs';
-import { resolveV47StoryEntry } from '../rpg/engine/v47-story-entry.mjs';
+import { resolveV47StoryEntry, storyIdForQuest } from '../rpg/engine/v47-story-entry.mjs';
 
 const sourceIndex = JSON.parse(await readFile(new URL('../rpg/data/source-reader-index.json', import.meta.url), 'utf8'));
 const campaign = JSON.parse(await readFile(new URL('../rpg/quests/campaign.json', import.meta.url), 'utf8'));
@@ -17,6 +17,7 @@ test('MAIN03 uses one Gregorian world clock for Russian Julian scene dates and s
   const publicArc = campaign.arcs.find(arc => arc.id === 'V33_1848_PUBLIC');
   const newsQuestIndex = publicArc.questIds.indexOf('V37_EUROPE_NEWS_1848');
   assert.equal(europeNewsQuest.storyId, 'MAIN03', 'the existing physical E42 event is the MAIN03 opening, not a parallel duplicate');
+  assert.equal(storyIdForQuest(europeNewsQuest), 'MAIN03', 'the campaign replay seed keeps E42 inside MAIN03 instead of resolving it as prior context');
   assert.equal(europeNewsQuest.date, '1848-03-27', 'the March 15 Julian newspaper issue reaches the Gregorian game clock on March 27');
   assert.equal(publicArc.questIds.includes('V47_MAIN03_REVOLUTION_NEWS'), false, 'the repeated read/register/note scene is removed');
   assert.ok(newsQuestIndex >= 0 && newsQuestIndex < publicArc.questIds.indexOf('V47_MAIN03_P01'));
