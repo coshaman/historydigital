@@ -15,6 +15,11 @@ const STORY_ENTRIES = Object.freeze([
 
 const storyIdFor = quest => quest?.storyId ?? (quest?.id?.includes('MAIN01') ? 'MAIN01'
   : quest?.id?.includes('MAIN03') ? 'MAIN03' : quest?.id?.includes('MAIN05') ? 'MAIN05' : null);
+const yearMonthKo = date => {
+  if (!/^\d{4}-\d{2}/.test(date ?? '')) return null;
+  const [year, month] = date.split('-');
+  return `${Number(year)}년 ${Number(month)}월`;
+};
 
 export function v47StoryMenuEntries() {
   return STORY_ENTRIES.map(entry => ({ ...entry }));
@@ -37,7 +42,12 @@ export function resolveV47StoryMenuEntries(state, quests = [], campaign = { arcs
       : guide.status === 'WAITING_FOR_DATE'
         ? `${guide.currentTaskKo} 그동안 표시된 목표를 따라 도시를 둘러보세요.`
         : guide.status === 'COMPLETE' ? '남긴 선택과 후일담을 수첩에서 다시 볼 수 있습니다.' : entry.introKo;
-    return { ...guide, statusLabelKo, menuTaskKo, introKo,
+    const currentPeriod = yearMonthKo(state?.world?.date);
+    const storyPeriod = yearMonthKo(guide.storyStartDate);
+    const timelineNoteKo = guide.status === 'WAITING_FOR_CAMPAIGN' && currentPeriod && storyPeriod
+      && currentPeriod !== storyPeriod
+      ? `현재 ${currentPeriod}입니다. 수첩의 도입 퀘스트를 따라가면 ${storyPeriod} 첫 장면이 열립니다.` : '';
+    return { ...guide, statusLabelKo, menuTaskKo, introKo, timelineNoteKo,
       activitiesKo: (entry.activitiesKo ?? []).map(activity => ({ ...activity })) };
   });
 }
@@ -49,6 +59,7 @@ export function resolveV47StoryEntry(state, storyId, quests = [], campaign = { a
       && state?.quests?.[quest.id]?.status !== 'resolved')
     .sort((a, b) => String(a.date ?? '').localeCompare(String(b.date ?? '')))[0];
   if (!storyQuest) return { ...entry, status: 'COMPLETE', storyQuestId: null, currentQuestId: null };
+  const storyStartDate = storyQuest.date ?? null;
 
   const targetArcIndex = campaign.arcs.findIndex(arc => arc.id === storyQuest.chapterId);
   const currentArcIndex = campaign.arcs.findIndex(arc => arc.id === state?.world?.chapterId);
@@ -58,24 +69,24 @@ export function resolveV47StoryEntry(state, storyId, quests = [], campaign = { a
   const currentQuestId = priorIds.find(id => state?.quests?.[id]?.status !== 'resolved') ?? null;
   if (currentQuestId) {
     const currentQuest = quests.find(quest => quest.id === currentQuestId);
-    return { ...entry, status: 'WAITING_FOR_CAMPAIGN', storyQuestId: storyQuest.id, currentQuestId,
+    return { ...entry, status: 'WAITING_FOR_CAMPAIGN', storyQuestId: storyQuest.id, storyStartDate, currentQuestId,
       currentTaskKo: currentQuest?.objectiveKo ?? currentQuest?.titleKo ?? '현재 열린 퀘스트를 진행한다.',
       currentContextKo: currentQuest?.premiseKo ?? currentQuest?.sourceContextKo ?? '',
       currentTitleKo: currentQuest?.titleKo ?? '현재 퀘스트', currentMapId: currentQuest?.entry?.mapId ?? null,
       currentChapterId: currentQuest?.chapterId ?? null };
   }
   if (storyQuest.chapterId !== state?.world?.chapterId || currentArcIndex < targetArcIndex) {
-    return { ...entry, status: 'WAITING_FOR_CAMPAIGN', storyQuestId: storyQuest.id, currentQuestId: null,
+    return { ...entry, status: 'WAITING_FOR_CAMPAIGN', storyQuestId: storyQuest.id, storyStartDate, currentQuestId: null,
       currentTaskKo: '현재 장을 마치면 이 이야기가 열린다.', currentTitleKo: '다음 장을 기다린다',
       currentMapId: campaign.arcs[targetArcIndex]?.startMapId ?? null, currentChapterId: storyQuest.chapterId };
   }
   if (storyQuest.date && storyQuest.date > state.world.date) {
-    return { ...entry, status: 'WAITING_FOR_DATE', storyQuestId: storyQuest.id, currentQuestId: null,
+    return { ...entry, status: 'WAITING_FOR_DATE', storyQuestId: storyQuest.id, storyStartDate, currentQuestId: null,
       currentTaskKo: `${storyQuest.date}에 첫 장면이 열린다. 그동안 이 거리의 사람들과 일을 살핀다.`,
       currentTitleKo: storyQuest.titleKo, currentMapId: storyQuest.entry?.mapId ?? null,
       currentChapterId: storyQuest.chapterId };
   }
-  return { ...entry, status: 'READY', storyQuestId: storyQuest.id, currentQuestId: storyQuest.id,
+  return { ...entry, status: 'READY', storyQuestId: storyQuest.id, storyStartDate, currentQuestId: storyQuest.id,
     currentTaskKo: storyQuest.objectiveKo ?? entry.firstTaskKo, currentTitleKo: storyQuest.titleKo,
     currentContextKo: storyQuest.premiseKo ?? storyQuest.sourceContextKo ?? '',
     currentMapId: storyQuest.entry?.mapId ?? null, currentChapterId: storyQuest.chapterId };

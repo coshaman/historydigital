@@ -46,6 +46,8 @@ test('historical locations menu tells the player whether MAIN01 can start and wh
   assert.match(entry.menuTaskKo, /교정쇄|인쇄소/);
   assert.match(entry.currentContextKo, /편집부 공고와 교정쇄/);
   assert.match(entry.introKo, /먼저.*교정쇄의 행선지/);
+  assert.match(entry.timelineNoteKo, /현재 1847년 6월.*1848년 2월.*첫 장면/,
+    'a selected 1848 story explains why the player is currently doing its 1847 opening tasks');
   assert.doesNotMatch(entry.introKo, /구독 장부에서 이름을 찾고/,
     'a gated story must not tell the player to do a later MAIN01 objective before the current campaign gate');
 });

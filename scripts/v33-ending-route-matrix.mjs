@@ -147,13 +147,30 @@ export function buildRoute(endingId, variant, choiceOverrides = {}) {
   state = parkNear(state, 'clerk_alexei', 'chancery');
   state = readForHost(state, arc4.sources[0], arc4.sources);
   const action3 = choiceOverrides.action3 ?? (endingId === 'UVAROV' || Math.floor(variant / 6) % 2 ? 'FILE_OFFICIAL_REPORT' : 'REFUSE_NAMING');
-  state = takeAction(state, 'CIRCLE_INVESTIGATION_1849', action3);
-  for (const id of ['V47_MAIN03_ARRESTS', 'V47_MAIN03_P09']) state.quests[id] = { ...(state.quests[id] ?? {}), status: 'resolved' };
+  // The investigation quest is dated 1849-12-22. Resolve the earlier fixed
+  // story beats in this reducer fixture, then let the May letter happen before
+  // advancing to the December investigation. The browser campaign separately
+  // verifies physical traversal and chronological presentation.
+  for (const id of ['V47_MAIN03_ARRESTS', 'V47_MAIN03_P09', 'V47_MAIN03_P10', 'V47_MAIN03_P11']) {
+    state.quests[id] = { ...(state.quests[id] ?? {}), status: 'resolved' };
+  }
   state.quests.CIRCLE_LETTER_1849_MAY = { ...(state.quests.CIRCLE_LETTER_1849_MAY ?? {}), status: 'open' };
   state = engine.advanceCampaignDate(state, '1849-05-05', campaign, quests).state;
   state = readForHost(state, arc4.sources[1], [arc4.sources[1]]);
   const action4 = choiceOverrides.action4 ?? (endingId === 'DOSTOEVSKY_PETRASHEVSKY' ? 'REFUSE_NAMING' : Math.floor(variant / 12) % 2 ? 'PRESERVE_LETTER' : 'REFUSE_NAMING');
   state = takeAction(state, 'CIRCLE_LETTER_1849_MAY', action4);
+  state.quests.CIRCLE_INVESTIGATION_1849 = { ...(state.quests.CIRCLE_INVESTIGATION_1849 ?? {}), status: 'open' };
+  const investigationQuest = quests.find(item => item.id === 'CIRCLE_INVESTIGATION_1849');
+  const investigationDate = investigationQuest.date;
+  const advancedToInvestigation = engine.advanceCampaignDate(state, investigationDate, campaign, quests);
+  assert.equal(advancedToInvestigation.ok, true,
+    `campaign date advances from the May letter to the dated investigation: ${advancedToInvestigation.reason ?? ''}`);
+  state = advancedToInvestigation.state;
+  state.world.clockMinutes = Math.max(state.world.clockMinutes ?? 0, 539);
+  state = engine.advanceNpcWorld(state, 1, maps, { pausedHostIds: Object.keys(state.hosts) });
+  assert.equal(state.world.livingEventStates?.E40?.status, 'ACTIVE',
+    'the December report investigation is entered only after the historical report event activates');
+  state = takeAction(state, 'CIRCLE_INVESTIGATION_1849', action3);
   resolveFixtureArcRemainder(state, arc4);
   state = finishLearning(state, endingId, variant);
   const stateBeforeEnding = state;

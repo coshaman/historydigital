@@ -28,6 +28,7 @@ try {
   });
   await page.goto('http://127.0.0.1:4175/', { waitUntil: 'domcontentloaded' });
   await page.waitForFunction(() => document.documentElement.dataset.gameReady === 'true');
+  if (await page.locator('#tutorial-skip').isVisible()) await page.locator('#tutorial-skip').click();
   assert.equal(await page.locator('#source-reader').evaluate(element => element.open), false, 'a fresh game does not open an empty source reader');
   assert.equal(await page.locator('#source-reader').evaluate(element => getComputedStyle(element).display), 'none', 'closed source reader stays visually hidden');
   const topButtons = await page.locator('.top-meta button').allTextContents();
@@ -51,12 +52,15 @@ try {
   assert.match(mission, /도입 퀘스트|먼저 할 퀘스트/);
   assert.match(mission, /인쇄|교정|구독|부록/);
   const selectedStory = await page.locator('#journal-text').textContent();
+  assert.match(selectedStory, /현재 1847년 6월.*1848년 2월.*첫 장면/s,
+    'the selected story explains the 1847 prologue to its first 1848 scene');
   for (const activity of ['날짜 퀴즈', '파벨 추격', '현장 문서 탐색', '신문 종이·잉크 구매']) {
     assert.ok(selectedStory.includes(activity), `MAIN01 selection surfaces its playable ${activity} activity`);
   }
   for (const direction of ['인쇄소 날짜 대조판', '파벨로 빙의해 책방 골목', '종이 모양 자료나 책', '레프의 가판']) {
     assert.ok(selectedStory.includes(direction), `MAIN01 activity explains where or how to start: ${direction}`);
   }
+  await page.screenshot({ path: path.join(output, 'MAIN01-SELECTED.png'), fullPage: true });
   await page.locator('#actions button').filter({ hasText: '현재 퀘스트 확인 · 교정쇄의 행선지' }).click();
   assert.equal(await page.locator('#quest-journal').evaluate(element => element.open), true,
     'the story selection opens the notebook directly on its current required task');
@@ -68,7 +72,7 @@ try {
   assert.equal(await page.locator('.roster-card').count() > 0, true,
     'the selected scenario can open the roster immediately to choose its quest character');
   assert.ok(errors.length === 0, `browser has no page errors: ${errors.join('; ')}`);
-  await page.screenshot({ path: path.join(output, 'MAIN01-SELECTED.png'), fullPage: true });
+  await page.screenshot({ path: path.join(output, 'MAIN01-ROSTER.png'), fullPage: true });
   await page.setViewportSize({ width: 390, height: 844 });
   const mobilePanel = await page.locator('.lower').evaluate(element => ({ height: element.getBoundingClientRect().height,
     maxHeight: getComputedStyle(element).maxHeight, viewportHeight: innerHeight }));

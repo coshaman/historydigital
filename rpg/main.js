@@ -1177,13 +1177,14 @@ function selectV47Story(storyId) {
       run: () => { destinationPinned = true; updateHud(); requestRender(); } }] : []),
     { label: '다른 현장 고르기', run: openHistoricalEventMenu },
   ];
-  say(`${entry.titleKo} · ${entry.statusLabelKo}`, `${entry.introKo}\n\n${activeTask}${activities}`, nextActions);
+  const timelineNote = entry.timelineNoteKo ? `\n\n${entry.timelineNoteKo}` : '';
+  say(`${entry.titleKo} · ${entry.statusLabelKo}`, `${entry.introKo}${timelineNote}\n\n${activeTask}${activities}`, nextActions);
 }
 function openHistoricalEventMenu() {
   eventButton.textContent = '역사 현장';
   const storyActions = resolveV47StoryMenuEntries(state, questList, campaign).map(entry => ({
     label: `${entry.titleKo} · ${entry.statusLabelKo}`,
-    subcopy: `${entry.dateKo}\n${entry.menuTaskKo}${entry.activitiesKo.length
+    subcopy: `${entry.dateKo}${entry.timelineNoteKo ? `\n${entry.timelineNoteKo}` : ''}\n${entry.menuTaskKo}${entry.activitiesKo.length
       ? `\n현장 활동\n${entry.activitiesKo.map(item => `· ${item.labelKo} — ${item.startKo}`).join('\n')}` : ''}`,
     run: () => selectV47Story(entry.id),
   }));
