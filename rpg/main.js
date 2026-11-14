@@ -18,6 +18,8 @@ import { contextualOpening } from './ai/authored-dialogue.mjs';
 import { attachV47StoryObjects, v47StoryQuests } from './data/v47-main-stories.mjs';
 import { createMain01PrintworkState, main01PrintworkStage, resolveMain01Printwork } from './engine/v47-printwork.mjs';
 import { createMain01TimelineState, main01TimelineSources, main01TimelineStage, resolveMain01Timeline } from './engine/v47-main01-timeline.mjs';
+import { resolveV47StoryEntry, v47StoryMenuEntries } from './engine/v47-story-entry.mjs';
+import { attachMain01PursuitObjects, createMain01PursuitState, MAIN01_PURSUIT_CHECKPOINTS, reachMain01PursuitCheckpoint, startMain01Pursuit } from './engine/v47-main01-pursuit.mjs';
 import { attachV47StoryBeatObjects, toV47StoryQuests } from './data/v47-story-beats.mjs';
 import { v47RoleProfiles } from './data/v47-character-roles.mjs';
 import { sourceAvailableOn } from './engine/source-availability.mjs';
@@ -51,6 +53,7 @@ const expansionMaps = Object.fromEntries(await Promise.all(expansionMapIds.map(a
 const maps = { nevsky: street, printshop: shop, chancery, courtyard, 'market-quay': marketMap, 'dead-souls': literaryMap, overcoat: overcoatMap, 'raskolnikov-tavern': raskolnikovMap, 'alyosha-snegiryov-room': alyoshaMap, 'police-station': policeMap, ...expansionMaps, ...Object.fromEntries(historicalSceneMaps) }, hostCards = cards;
 attachV47StoryObjects(maps);
 attachV47StoryBeatObjects(maps, v47StoryBeatQuests);
+attachMain01PursuitObjects(maps);
 const historicalScenes = new Map();
 const copy = value => structuredClone(value);
 for (const scene of historicalPlay) {
@@ -543,7 +546,37 @@ function updateHud() {
   document.querySelectorAll('[data-v47-story]').forEach(button => {
     button.setAttribute('aria-pressed', String(button.dataset.v47Story === activeStoryId));
   });
-  if (focusedV47Quest && !inLiteraryScene && !state.player.civic?.custody?.active) {
+  const storyEntry = activeStoryId ? resolveV47StoryEntry(state, activeStoryId, questList, campaign) : null;
+  if (focusedV47Quest && !questIsAvailable(focusedV47Quest) && storyEntry?.status === 'WAITING_FOR_CAMPAIGN'
+    && !inLiteraryScene && !state.player.civic?.custody?.active) {
+    const gateQuest = questList.find(quest => quest.id === storyEntry.currentQuestId);
+    const gateGuide = gateQuest ? resolveQuestGuidance({ state, quests: [gateQuest], maps, hostCards: cards }) : null;
+    if (gateGuide) {
+      missionGuidance = { ...gateGuide, questId: gateQuest.id, phaseId: 'v47-story-entry',
+        questTitleKo: `${storyEntry.titleKo} · 시작`,
+        actionKo: `먼저 할 일 · ${storyEntry.currentTitleKo}`,
+        reasonKo: `${storyEntry.firstTaskKo} 현재 장의 이 일을 마치면 첫 장면으로 이어집니다.`,
+        howKo: gateGuide.howKo };
+      $('#mission-title').textContent = missionGuidance.questTitleKo;
+      $('#mission-action').textContent = missionGuidance.actionKo;
+      $('#mission-reason').textContent = missionGuidance.reasonKo;
+      $('#mission-method').textContent = missionGuidance.howKo;
+      $('#mission-progress').textContent = '이야기 시작 준비';
+      $('#mission-pin').disabled = !missionGuidance.target;
+    }
+  } else if (focusedV47Quest && !questIsAvailable(focusedV47Quest) && storyEntry?.status === 'WAITING_FOR_DATE'
+    && !inLiteraryScene && !state.player.civic?.custody?.active) {
+    missionGuidance = { questId: storyEntry.storyQuestId, phaseId: 'v47-story-date', questTitleKo: storyEntry.titleKo,
+      actionKo: `첫 임무 · ${storyEntry.firstTaskKo}`, reasonKo: storyEntry.introKo,
+      howKo: `${storyEntry.storyQuestId.slice(-3)} 장면은 ${focusedV47Quest.date}에 열립니다.`,
+      placeKo: maps[storyEntry.currentMapId]?.metadata.displayNameKo ?? '', target: null, blocked: false };
+    $('#mission-title').textContent = missionGuidance.questTitleKo;
+    $('#mission-action').textContent = missionGuidance.actionKo;
+    $('#mission-reason').textContent = missionGuidance.reasonKo;
+    $('#mission-method').textContent = missionGuidance.howKo;
+    $('#mission-progress').textContent = '날짜를 기다리는 중';
+    $('#mission-pin').disabled = true;
+  } else if (focusedV47Quest && !inLiteraryScene && !state.player.civic?.custody?.active) {
     missionGuidance = resolveQuestGuidance({ state, quests: [focusedV47Quest], maps, hostCards: cards });
     $('#mission-title').textContent = missionGuidance.questTitleKo ?? focusedV47Quest.titleKo;
     $('#mission-action').textContent = formatMissionActionKo(missionGuidance, focusedV47Quest.objectiveKo);
@@ -773,7 +806,6 @@ function updateHud() {
   }
   fill('#journal-memory', remembered.length ? remembered : ['아직 기억해 둔 자료가 없습니다.']);
   const dialogueGrowth = state.player.dialogueGrowth ?? { insight: 0, aiReplies: 0, perspectiveNotes: [] };
-  $('#journal-growth-stats').textContent = `AI 대화 ${dialogueGrowth.aiReplies}회 · 모은 관점 ${dialogueGrowth.insight}개 · 대조 메모 ${dialogueGrowth.comparisonNotes?.length ?? 0}개 · 내 입장 ${dialogueGrowth.playerPositions?.length ?? 0}개`;
   const reflectionRows = (dialogueGrowth.perspectiveNotes ?? []).map(note => {
     const quest = discussionQuestById.get(note.discussionId), hostCard = cards.find(item => item.id === note.hostId);
     return `${note.date} · ${quest?.titleKo ?? '대화에서 얻은 관점'} · ${hostCard?.displayNameKo ?? '대화 상대'}의 시각`;
@@ -1111,13 +1143,37 @@ function openSourceDrawer() {
     : '읽은 자료가 기록에 남는다.', [...sourceButtons, ...realmActions]);
 }
 const eventButton = $('#history-events-open');
+function selectV47Story(storyId) {
+  if (state.historicalSession) { sayRecord('먼저 지금 진행 중인 현장을 나가야 다른 이야기를 고를 수 있습니다.'); return; }
+  const entry = v47StoryMenuEntries().find(item => item.id === storyId);
+  const guide = resolveV47StoryEntry(state, storyId, questList, campaign);
+  if (!entry || !guide) return;
+  const next = copy(state);
+  next.world.v47 ??= globalThis.V47MainStories.createV47State();
+  next.world.v47.focusStoryId = storyId;
+  setState(next);
+  localStorage.setItem('v33-rpg-save', saveGame(next));
+  const currentTask = guide.currentQuestId
+    ? `\n\n지금 할 일 · ${guide.currentTitleKo}\n${guide.currentTaskKo}`
+    : guide.status === 'WAITING_FOR_DATE' ? `\n\n첫 장면 · ${guide.currentTaskKo}` : '';
+  const openingTask = guide.status === 'READY'
+    ? `현재 목표 · ${guide.currentTitleKo}\n${guide.currentTaskKo}`
+    : `첫 임무 · ${entry.firstTaskKo}`;
+  say(entry.titleKo, `${entry.introKo}\n\n${openingTask}${currentTask}`, []);
+}
 function openHistoricalEventMenu() {
-  eventButton.textContent = '역사 현장 3';
-  say('역사 현장', '걸어서 사람들을 만나고, 그날의 일을 직접 겪어 보세요.', historicalEvents.map(event => ({
+  eventButton.textContent = '역사 현장';
+  const storyActions = v47StoryMenuEntries().map(entry => ({
+    label: entry.titleKo,
+    subcopy: `${entry.dateKo} · ${entry.firstTaskKo}`,
+    run: () => selectV47Story(entry.id),
+  }));
+  const historicalActions = historicalEvents.map(event => ({
     label: event.titleKo,
     subcopy: `${event.dateLabelKo} · ${event.openingKo}`,
     run: () => beginHistoricalEvent(event),
-  })));
+  }));
+  say('역사 현장', '이야기를 고르면 수첩에 지금 할 일과 첫 장면이 표시됩니다.', [...storyActions, ...historicalActions]);
 }
 function beginHistoricalEvent(event) {
   const scene = historicalScenes.get(event.id);
@@ -1148,7 +1204,7 @@ function finishHistoricalEvent(event, interventions, finalReaction) {
   try { records = JSON.parse(localStorage.getItem(key) ?? '{}'); } catch { /* ignore malformed local progress */ }
   records[event.id] = { date: event.date, interventions, completedAt: new Date().toISOString() };
   localStorage.setItem(key, JSON.stringify(records));
-  $('#history-events-open').textContent = '역사 현장 3';
+  $('#history-events-open').textContent = '역사 현장';
   const sourceActions = [{ label: '사료 원문 열기', subcopy: `${event.sourceLabelKo} · ${event.sourceRangeKo}`, run: () => window.open(event.sourceUrl, '_blank', 'noopener,noreferrer') }];
   if (event.secondarySourceUrl) sourceActions.push({ label: '초연 기록 열기', subcopy: '고골의 집 연구 자료 · 알렉산드린스키 극장 초연', run: () => window.open(event.secondarySourceUrl, '_blank', 'noopener,noreferrer') });
   sourceActions.unshift({ label: '다른 현장 보기', subcopy: '새로운 장면을 고릅니다', run: openHistoricalEventMenu });
@@ -1195,7 +1251,7 @@ function leaveHistoricalSession(record = true) {
     localStorage.setItem('v38-historical-event-records', JSON.stringify(records));
   }
   setState(exitHistoricalSession(state));
-  $('#history-events-open').textContent = '역사 현장 3';
+  $('#history-events-open').textContent = '역사 현장';
   if (!record) { say('거리로 돌아왔다', '현장을 나와 원래 자리로 돌아왔습니다.', []); return; }
   const sources = [{ label: '사료 원문 열기', subcopy: `${event.sourceLabelKo} · ${event.sourceRangeKo}`, run: () => window.open(event.sourceUrl, '_blank', 'noopener,noreferrer') }];
   if (event.secondarySourceUrl) sources.push({ label: '초연 자료 열기', run: () => window.open(event.secondarySourceUrl, '_blank', 'noopener,noreferrer') });
@@ -1544,8 +1600,37 @@ function openCivicService(serviceId, object) {
   }
   say(object.name || '시청할 기록', '이곳의 문서와 흔적을 살펴볼 수 있습니다.', []);
 }
+function startMain01ParcelPursuit() {
+  if (state.player.embodiment !== 'courier_pavel') { sayRecord('파벨의 몸으로만 소포를 쫓을 수 있다.'); return; }
+  const next = copy(state);
+  next.world.v47 ??= globalThis.V47MainStories.createV47State();
+  const previous = next.world.v47.main01Pursuit ?? createMain01PursuitState();
+  const result = startMain01Pursuit(previous, next.world.clockMinutes);
+  if (!result.accepted) { sayRecord('이 추격은 이미 끝났다.'); return; }
+  next.world.v47.main01Pursuit = result.state;
+  next.ledger.push({ eventType: 'V47_MAIN01_PURSUIT_STARTED', questId: 'V47_MAIN01_A08', hostId: 'courier_pavel', date: next.world.date, clockMinutes: next.world.clockMinutes });
+  setState(next); localStorage.setItem('v33-rpg-save', saveGame(next));
+  say('수레를 쫓다', `파벨이 소포를 실은 수레를 따라 골목으로 달린다. 첫 흔적 · ${result.checkpoint.labelKo}\n\n길을 따라 직접 이동해 금빛 흔적을 살펴보자. 45분 안에 세 곳을 차례로 확인해야 한다.`, []);
+}
+function inspectMain01PursuitCheckpoint(object, checkpointId) {
+  if (state.player.embodiment !== 'courier_pavel') { sayRecord('파벨이 직접 따라가야 할 흔적이다.'); return; }
+  const next = copy(state), previous = next.world.v47.main01Pursuit ?? createMain01PursuitState();
+  const result = reachMain01PursuitCheckpoint(previous, checkpointId, next.world.clockMinutes);
+  next.world.v47.main01Pursuit = result.state;
+  next.ledger.push({ eventType: 'V47_MAIN01_PURSUIT_CHECKPOINT', questId: 'V47_MAIN01_A08', hostId: 'courier_pavel', checkpointId, accepted: result.accepted, date: next.world.date, clockMinutes: next.world.clockMinutes });
+  setState(next); localStorage.setItem('v33-rpg-save', saveGame(next));
+  if (result.state.status === 'MISSED') {
+    say('흔적을 놓치다', '사람들과 수레에 막혀 자취를 놓쳤다. 시작 지점으로 돌아가 다시 쫓을 수 있다.', []);
+  } else if (result.state.status === 'COMPLETE') {
+    say('소포를 따라잡다', '책방 뒤편에서 수레를 따라잡았다. 봉인은 그대로다. 이제 소포와 운송표를 레프에게 가져가자.', []);
+  } else if (result.accepted) {
+    say(result.checkpoint.labelKo, `${result.checkpoint.promptKo}\n\n다음 흔적을 찾아 계속 달린다.`, []);
+  } else say('잘못 든 골목', '운송표에 적힌 방향과 다르다. 먼저 표시된 흔적을 찾아가자.', []);
+}
+
 function inspect(object) {
   const props = Object.fromEntries((object.properties ?? []).map(p => [p.name, p.value]));
+  if (props.v47PursuitCheckpoint) { inspectMain01PursuitCheckpoint(object, props.v47PursuitCheckpoint); return; }
   if (props.serviceId) { openCivicService(props.serviceId, object); return; }
   if (props.v47PuzzleId === 'MAIN01_TIMELINE') {
     if (state.quests?.V47_MAIN01_A11?.status !== 'resolved') {
@@ -1818,6 +1903,14 @@ function inspect(object) {
         })}${chainNote}`, actions);
       sayRecord('현장 행동을 장부에 기록했다.');
     } }));
+    if (activeQuest.id === 'V47_MAIN01_A08' && state.player.embodiment === 'courier_pavel'
+      && state.world.v47?.main01Pursuit?.status !== 'COMPLETE') {
+      const pursuit = state.world.v47?.main01Pursuit;
+      const nextCheckpoint = pursuit?.status === 'ACTIVE' ? MAIN01_PURSUIT_CHECKPOINTS[pursuit.nextCheckpoint] : null;
+      opts.unshift({ label: pursuit?.status === 'ACTIVE' ? '추격 계속하기' : '파벨로 소포를 쫓는다',
+        subcopy: nextCheckpoint ? `다음 흔적 · ${nextCheckpoint.labelKo} · 골목에서 직접 찾아야 합니다.` : '운하와 인쇄소 골목을 가로질러 세 흔적을 찾습니다 · 45분 제한.',
+        run: startMain01ParcelPursuit });
+    }
     let guidance = '';
     if (!choiceStates.length) {
       const names = [...new Set(activeQuest.actions.flatMap(action => action.hostIds))].map(id => cards.find(card => card.id === id)?.displayNameKo).filter(Boolean);

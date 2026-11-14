@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "viewports": [
+    "1440x900",
+    "390x844"
+  ],
+  "mobilePanel": {
+    "height": 371.25,
+    "maxHeight": "none",
+    "viewportHeight": 844
+  },
+  "menuLabels": [
+    "MAIN01",
+    "MAIN03",
+    "MAIN05"
+  ],
+  "mission": "금지된 삽화 연감 · 시작\n먼저 할 일 · 교정쇄의 행선지\n구독 장부에서 이름을 찾고 인쇄소에서 부록을 확인한다. 현재 장의 이 일을 마치면 첫 장면으로 이어집니다.\n왼쪽 4칸 이동한 뒤 E를 누르세요.",
+  "contentAudit": {
+    "quiz": "dated-source ordering puzzle",
+    "exploration": "multiple physical city maps",
+    "purchase": "city bookseller product transaction",
+    "chase": "three timed, walkable MAIN01 route checkpoints"
+  },
+  "pageErrors": []
+}

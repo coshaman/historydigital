@@ -140,6 +140,7 @@ kbd{font:11px 'IBM Plex Mono',monospace;color:#d8c59f}
 .record-line{font-size:13px;line-height:1.45}
 .journal-tools button:focus-visible,.mission-controls button:focus-visible,.quest-journal button:focus-visible,.tutorial-card button:focus-visible{outline:3px solid #d0ac6b;outline-offset:2px}
 @media(max-width:760px){
+  .lower{max-height:none}
   .lower.has-actions .journal{display:flex;flex-direction:column;overflow:hidden}
   .lower.has-actions #journal-text{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain}
   .lower.has-actions .actions{flex:0 0 auto;max-height:24dvh;overflow-y:auto;margin-top:6px;padding-bottom:3px;background:#241c17}
@@ -170,7 +171,7 @@ kbd{font:11px 'IBM Plex Mono',monospace;color:#d8c59f}
   .journal{max-height:none;min-height:0;overflow:visible}
 }
 
-.source-reader{display:flex;flex-direction:column;width:min(1040px,calc(100vw - 28px));max-height:min(92dvh,980px);padding:0;overflow:hidden;color:#34271c;background:#eadcba;border:2px solid #a27a48;box-shadow:0 0 0 5px #34251a,0 22px 80px #000c}
+.source-reader{display:flex;flex-direction:column;width:min(1040px,calc(100vw - 28px));max-height:min(92dvh,980px);padding:0;overflow:hidden;color:#34271c;background:#eadcba;border:2px solid #a27a48;box-shadow:0 0 0 5px #34251a,0 22px 80px #000c}.source-reader:not([open]){display:none}
 .source-reader-scroll{min-height:0;overflow:auto;overscroll-behavior:contain;scroll-padding-bottom:24px;padding:clamp(18px,3vw,34px)}
 .source-reader::backdrop{background:#100c09d9}
 .source-reader-head{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:start;gap:18px;border-bottom:1px solid #b9a078;padding-bottom:18px}

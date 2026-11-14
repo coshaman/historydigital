@@ -36,6 +36,7 @@ export function objectIsPresent(object, state, quests = []) {
   }
   if (p.availableChapterId && (chapters.indexOf(p.availableChapterId) < 0 || chapters.indexOf(state.world.chapterId) < chapters.indexOf(p.availableChapterId))) return false;
   if (p.availableDate && p.availableDate > state.world.date) return false;
+  if (p.v47PursuitCheckpoint) return state.world.v47?.main01Pursuit?.status === 'ACTIVE';
   if (object.type !== 'quest-object') return true;
   const quest = quests.find(item => item.id === p.questId);
   if (!quest) return false;
@@ -72,6 +73,8 @@ export function isActionableInteraction(object, state, map, quests = []) {
       && quest.actions?.some(action => action.hostIds?.includes(hostId)));
   }
   if (object.type === 'source') return Boolean(p.sourceId && (!p.availableDate || p.availableDate <= state.world.date));
+  if (p.v47PursuitCheckpoint) return state.player.embodiment === 'courier_pavel'
+    && state.world.v47?.main01Pursuit?.status === 'ACTIVE';
   if (object.type === 'map-exit') {
     if (state.player.civic?.custody?.active && p.targetMapId !== 'police-station') return false;
     if (!hostId) return p.publicAccess === true || p.publicAccess === 'true';
