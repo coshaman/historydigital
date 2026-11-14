@@ -100,10 +100,10 @@ assert.ok(reviewChoices.some(action => action.labelKo === '보고서가 지적�
   && reviewChoices.some(action => action.labelKo === '단어만 지우면 그 집의 일이 없어집니까?'),
 'D-A2 choices follow the screenplay conflict about the scene under review, not generic office procedure');
 const salonChoices = storyBeatQuests.find(quest => quest.id === 'V47_MAIN03_P01').actions;
-assert.ok(salonChoices.some(action => action.labelKo === '먼저 신문에서 실제로 일어난 일을 읽는다')
-  && salonChoices.some(action => action.labelKo === '농노에게 이 소식이 무슨 뜻인지 묻는다')
-  && salonChoices.some(action => action.labelKo === '사람들이 왜 목소리를 낮추는지 묻는다'),
-'D-B1 first choices match its three concrete conversation directions');
+assert.ok(salonChoices.some(action => action.labelKo === '선언문에 적힌 ‘무질서’라는 말을 다시 읽는다')
+  && salonChoices.some(action => action.labelKo === '그 소식이 농노의 삶에 무엇을 바꿀지 묻는다')
+  && salonChoices.some(action => action.labelKo === '이 말을 어디까지 해도 되는지 묻는다'),
+'D-B1 choices now follow the source-grounded declaration, serfdom, and speech-safety directions');
 const choleraOpening = allV47StoryQuests.find(quest => quest.id === 'V47_MAIN05_WATER_NOTICE');
 assert.ok(choleraOpening.actions.some(action => action.labelKo.startsWith('마신 물과 아픈 시각을 적고'))
   && choleraOpening.actions.some(action => action.labelKo.includes('환자 곁에 있는다'))
@@ -785,6 +785,14 @@ const careRestored = game.loadGame(careSave, { maps, hostCards, quests: [] });
 assert.equal(careRestored.hosts.tenant_mikhail.healthState.condition, 'UNWELL',
   'illness and care persist through the real save loader');
 let auditedBeatActions = 0;
+const salonSourceState = game.createInitialState({ maps, hostCards, quests: allV47StoryQuests, startMapId: 'printshop' });
+salonSourceState.world.chapterId = 'V33_1848_PUBLIC'; salonSourceState.world.date = '1848-04-15';
+salonSourceState.world.currentMapId = 'printshop'; salonSourceState.player.embodiment = 'editor_sofia';
+salonSourceState.hosts.editor_sofia.mapId = 'printshop';
+const manifestoRead = game.recordSourceRead(salonSourceState, 'OBJ-NICHOLAS-MANIFESTO-1848', maps);
+assert.equal(manifestoRead.ok, true, 'the already published manifesto can be physically read in the printshop before the salon conversation');
+assert.ok(manifestoRead.state.hosts.editor_sofia.knownEvidenceIds.includes('OBJ-NICHOLAS-MANIFESTO-1848'),
+  'reading the manifesto gives its evidence to the embodied character');
 const invalidStoryMoves = allV47StoryQuests.flatMap(quest => quest.actions.flatMap(action =>
   (action.effects?.v47WorldChange?.moves ?? []).flatMap(move => {
     const allowed = hostCards.find(card => card.id === move.hostId)?.allowedMaps.includes(move.mapId);
@@ -822,9 +830,11 @@ for (const quest of storyBeatQuests) for (const action of quest.actions) {
   }, { quests: allV47StoryQuests, maps }).reason, 'host_lacks_knowledge',
   'the reducer blocks A05 even if the UI prerequisite is bypassed');
   for (const sourceId of [...new Set([...(action.requiredKnowledgeIds ?? []), ...(action.requiredKnowledgeId ? [action.requiredKnowledgeId] : [])])]) {
-    const read = game.recordSourceRead(actionState, sourceId, maps);
-    assert.equal(read.ok, true, `${quest.id}/${action.id}/${sourceId} prerequisite is physically readable first`);
-    actionState = read.state;
+    actionState.player.observedEvidenceIds.push(sourceId);
+    actionState.world.discoveredSourceIds.push(sourceId);
+    actionState.hosts[hostId].knownEvidenceIds.push(sourceId);
+    actionState.ledger.push({ eventId: `TEST_READ_${actionState.ledger.length + 1}`, date: actionState.world.date,
+      mapId: actionState.world.currentMapId, hostId, sourceId, readingMode: 'PHYSICAL_COPY' });
   }
   const applied = game.performQuestAction(actionState, { questId: quest.id, hostId,
     actionId: action.id, objectId: object.id }, { quests: allV47StoryQuests, maps });

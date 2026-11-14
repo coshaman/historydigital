@@ -74,6 +74,17 @@ test('MAIN03 uses one Gregorian world clock for Russian Julian scene dates and s
 });
 
 test('MAIN03 requires reading the Belinsky letter and arrest order before their related choices', () => {
+  const salon = beatById.get('V47_MAIN03_P01');
+  assert.ok(salon.sourceIds.includes('OBJ-NICHOLAS-MANIFESTO-1848'),
+    'the first political conversation is grounded in the already available March manifesto');
+  assert.ok(salon.actions.every(action => action.requiredKnowledgeId === 'OBJ-NICHOLAS-MANIFESTO-1848'),
+    'players must read the actual source before choosing how the salon discusses it');
+  assert.ok(questChoices(salon, salon.actions[0].hostIds[0], [], null).every(action =>
+    action.missingSourceId === 'OBJ-NICHOLAS-MANIFESTO-1848'),
+  'the discussion choice stays unavailable until the source is read');
+  assert.ok(questChoices(salon, salon.actions[0].hostIds[0], ['OBJ-NICHOLAS-MANIFESTO-1848'], null).every(action =>
+    action.missingSourceId === null), 'reading the source unlocks every salon response');
+
   for (const [questId, sourceId] of [
     ['V47_MAIN03_P05', 'OBJ-BELINSKY-LETTER-GOGOL-1847'],
     ['V47_MAIN03_P07', 'OBJ-WS-DOSTOEVSKY-ARREST-ORDER-1849'],
