@@ -16,7 +16,7 @@ import { appendApiDiagnostic, clearApiDiagnostics, readApiDiagnostics } from './
 import { CITY_PRODUCTS, NEWSPAPER_STORIES, newspaperAssignment, purchaseCityProduct, publishNewspaperIssue, shareSourceWithEditor, readNewspaperIssue, circulateNewspaperIssue, commitSuspiciousAct, resolvePoliceCustody, publishedIssueLabel } from './engine/civic-life.mjs';
 import { contextualOpening } from './ai/authored-dialogue.mjs';
 import { attachV47StoryObjects, v47StoryQuests } from './data/v47-main-stories.mjs';
-import { createMain01PrintworkState, main01PrintworkStage, resolveMain01Printwork } from './engine/v47-printwork.mjs';
+import { createMain01PrintworkState, main01PrintworkStage, migrateMain01DistributionState, resolveMain01Printwork } from './engine/v47-printwork.mjs';
 import { createMain01TimelineState, main01TimelineSources, main01TimelineStage, resolveMain01Timeline } from './engine/v47-main01-timeline.mjs';
 import { resolveV47StoryEntry, resolveV47StoryMenuEntries } from './engine/v47-story-entry.mjs';
 import { attachMain01PursuitObjects, createMain01PursuitState, MAIN01_PURSUIT_CHECKPOINTS, reachMain01PursuitCheckpoint, startMain01Pursuit } from './engine/v47-main01-pursuit.mjs';
@@ -149,6 +149,9 @@ const initial = () => createInitialState({ maps, hostCards, quests: questList })
 let state;
 try { state = localStorage.getItem('v33-rpg-save') ? loadGame(localStorage.getItem('v33-rpg-save'), { maps, hostCards, quests: questList, learningExam }) : initial(); }
 catch (error) { console.warn('저장 기록을 불러오지 못했습니다.', error); state = initial(); }
+const preMigrationState = state;
+state = migrateMain01DistributionState(state);
+if (state !== preMigrationState && state) localStorage.setItem('v33-rpg-save', saveGame(state));
 const canvas = document.querySelector('#world'), renderer = createRenderer(canvas, { hostCards, quests: questList, ambientConversations });
 const $ = selector => document.querySelector(selector);
 const caseContextButton = document.createElement('button');
@@ -456,7 +459,8 @@ function say(title, text, actions = [], { keepMissionContext = false } = {}) {
   $('.journal').scrollTop = 0;
   $('#journal-text').scrollTop = 0;
 }
-const setState = next => {
+const setState = candidate => {
+  const next = migrateMain01DistributionState(candidate);
   const oldHost = state?.player?.embodiment, oldQuest = missionGuidance?.questId;
   if (next?.historicalSession && next.world.currentMapId !== state?.world?.currentMapId) {
     next.historicalSession.visitedMapIds ??= [];
@@ -526,14 +530,15 @@ function updateHud() {
           return firstContact ? `먼저 말 걸기 · ${firstContact}` : `이 구역에서 사람을 찾아 말을 건다 · 대화 ${Math.min(state.historicalSession.spokenActorIds?.length ?? 0, req.spokenActors)}/${req.spokenActors}`; })(),
         howKo: activeHistoricalGuide ? activeHistoricalGuide.completed
           ? '인물 목록을 열고 아직 맡지 않은 부탁을 고른다.'
-          : `1 · ${activeHistoricalGuide.placeKo}로 이동\n2 · ${activeHistoricalGuide.talkToNamesKo[0] ?? '현장 인물'}에게 “${activeHistoricalGuide.conversationPromptKo.slice(1, -1)}”라고 물으세요. 답변 뒤 대화 선택지 하나를 골라야 대화가 기록됩니다.${activeHistoricalGuide.requiredActorNameKo && activeHistoricalGuide.requiredActorNameKo !== host.displayNameKo ? `\n3 · 인물 바꾸기 · ${activeHistoricalGuide.requiredActorNameKo}의 몸을 빌리세요.` : ''}\n${activeHistoricalGuide.requiredActorNameKo && activeHistoricalGuide.requiredActorNameKo !== host.displayNameKo ? '4' : '3'} · 대화만으로 개인 퀘스트가 끝나지는 않습니다. ${activeHistoricalGuide.propKo}로 가서 E를 누르고 다음 중 하나를 실행하세요: ${activeHistoricalGuide.actionChoiceLabelsKo.map(label => `「${label}」`).join(' / ')}.\n완료 · 위 현장 행동을 실행하면 ‘${activeHistoricalGuide.objectiveTitleKo}’ 퀘스트가 끝납니다.\n현장 전체 진행 · ${historicalSessionProgressLabelKo(historicalSceneForState(), state.historicalSession)}. 조건을 모두 채우면 마지막 선택이 열립니다.`
+          : `갈 곳 · ${activeHistoricalGuide.placeKo}\n${activeHistoricalGuide.conversationComplete ? `완료 · ${activeHistoricalGuide.talkToNamesKo[0] ?? '지정 인물'}에게 질문하고 답변에 반응을 골랐습니다.` : `말 걸기 · ${activeHistoricalGuide.talkToNamesKo[0] ?? '현장 인물'}에게 “${activeHistoricalGuide.conversationPromptKo.slice(1, -1)}”라고 물으세요. 답변 뒤 대화 선택지 하나를 고르면 대화가 기록됩니다.`}\n${activeHistoricalGuide.currentStepKo}${activeHistoricalGuide.requiredActorNameKo && activeHistoricalGuide.requiredActorNameKo !== host.displayNameKo ? `\n인물 바꾸기 · ${activeHistoricalGuide.requiredActorNameKo}의 몸을 빌리세요.` : ''}\n완료 조건 · 위 현장 행동을 실행하면 ‘${activeHistoricalGuide.objectiveTitleKo}’ 퀘스트가 끝납니다.\n현장 전체 진행 · ${historicalSessionProgressLabelKo(historicalSceneForState(), state.historicalSession)}. 조건을 모두 채우면 마지막 선택이 열립니다.`
           : '가까이 가서 말 걸기 · 인물 목록에서 시야 바꾸기 · 출구를 따라 다음 구역으로 걷기', target: null,
         progress: { completedSteps: state.historicalSession.completedObjectives?.length ?? 0, totalSteps: historicalSceneForState()?.conclusionRequirements?.completedObjectives ?? 5 }, blocked: false }
     : inLiteraryScene
     ? { questTitleKo: '', actionKo: '', placeKo: '', reasonKo: '', howKo: '', target: null, progress: { completedSteps: 0, totalSteps: 0 }, blocked: false }
     : resolveQuestGuidance({ state, quests: questList, maps, hostCards: cards });
   const tracker = $('#mission-tracker'); tracker.hidden = !shouldShowQuestTracker({ ending: Boolean(state.endingId), literaryScene: inLiteraryScene,
-    hasActions: $('.lower').classList.contains('has-actions'), storyOverview: $('.lower').classList.contains('story-overview'), activeDialogue: Boolean(activeDialogueHost) });
+    hasActions: $('.lower').classList.contains('has-actions'), storyOverview: $('.lower').classList.contains('story-overview'), activeDialogue: Boolean(activeDialogueHost),
+    keepVisible: Boolean(state.historicalSession || queuedDiscussionInquiry || missionGuidance.questId) });
   $('#mission-identity').textContent = host ? `현재 빙의: ${host.displayNameKo} · ${host.occupation}` : '현재 인물: 관찰자';
   $('#mission-title').textContent = missionGuidance.questTitleKo ?? '지금 할 일';
   $('#mission-action').textContent = `${missionGuidance.actionKo}${missionGuidance.placeKo ? ` · ${missionGuidance.placeKo}` : ''}`;
@@ -1939,8 +1944,7 @@ function inspect(object) {
       label: choice.label, subcopy: choice.detail,
       disabled: (['V47_PRINT_CHECK_PROOF', 'V47_PRINT_RUSH_PROOF', 'V47_PRINT_USE_DRY_STOCK'].includes(choice.id)
         && (printwork.inventory.dryPaper < 1 || printwork.inventory.ink < 1))
-        || (choice.id === 'V47_PRINT_USE_DAMP_STOCK' && (printwork.inventory.dampPaper < 1 || printwork.inventory.ink < 2))
-        || (choice.id === 'V47_PRINT_CONSIGN_BOOKSHOP' && state.hosts.bookseller_lev.money.amount < 1),
+        || (choice.id === 'V47_PRINT_USE_DAMP_STOCK' && (printwork.inventory.dampPaper < 1 || printwork.inventory.ink < 2)),
       run: () => {
       const next = copy(state), saved = next.world.v47.printwork;
       const priorPrintwork = saved?.schemaVersion === 'V47_PRINTWORK_V2' ? saved : createMain01PrintworkState();

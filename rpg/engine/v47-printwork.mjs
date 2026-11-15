@@ -24,15 +24,15 @@ const stageRows = [
   {
     title: '구독 주문 묶음', prompt: '기다리는 구독자 몫을 먼저 어떻게 처리할까?',
     choices: [
-      ['V47_PRINT_SEND_SUBSCRIPTIONS', '구독자 몫을 파벨에게 맡긴다', '배달원이 한 묶음을 맡고, 인쇄소 밖의 사람이 배송 사실을 알게 된다.', true],
-      ['V47_PRINT_HOLD_SUBSCRIPTIONS', '구독자 몫을 편집실에 둔다', '책은 나가지 않고 보관 책임은 편집부에 남는다.', true],
+      ['V47_PRINT_SEND_SUBSCRIPTIONS', '구독자에게 지연을 알린다', '주문 장부를 정리해 알림을 보낸다. 인쇄된 책은 작업장에 남는다.', true],
+      ['V47_PRINT_HOLD_SUBSCRIPTIONS', '주문 장부를 편집실에 둔다', '주문을 보류하고 인쇄분과 함께 편집부에서 관리한다.', true],
     ],
   },
   {
-    title: '서점 위탁분', prompt: '서점 주문을 보낼지, 반품과 환불에 대비해 보류할지 정한다.',
+    title: '서점에 출고 보류 알리기', prompt: '인쇄분을 보내지 않고 서점에 주문 처리 방침을 전한다.',
     choices: [
-      ['V47_PRINT_CONSIGN_BOOKSHOP', '서점 위탁분을 레프에게 맡긴다', '레프가 한 묶음을 받고 편집부에 위탁 대금을 건넨다.', true],
-      ['V47_PRINT_RETURN_BOOKSHOP', '서점 몫을 편집실에 돌린다', '대금은 받지 않고 재고와 반품 책임을 편집부가 진다.', true],
+      ['V47_PRINT_CONSIGN_BOOKSHOP', '레프에게 출고 보류 통지를 보낸다', '파벨이 통지만 서점에 전한다. 책은 인쇄소를 떠나지 않고 대금도 오가지 않는다.', true],
+      ['V47_PRINT_RETURN_BOOKSHOP', '서점 주문을 취소하고 장부를 정리한다', '주문을 취소한다. 인쇄분은 편집부가 계속 보관한다.', true],
     ],
   },
   {
@@ -59,7 +59,66 @@ const typeTiles = [
 
 export function createMain01PrintworkState() {
   return { schemaVersion: 'V47_PRINTWORK_V2', step: 0, status: 'IN_PROGRESS', decisions: [], allocations: [], outgoingItems: [],
-    proofChecked: false, spoiledSheets: 0, workMinutes: 0, risk: 0, inventory: { dryPaper: 4, dampPaper: 4, ink: 8 } };
+    distributionInvariantVersion: 1, publicDistributionOccurred: false, proofChecked: false, spoiledSheets: 0, workMinutes: 0, risk: 0,
+    inventory: { dryPaper: 4, dampPaper: 4, ink: 8 } };
+}
+
+const legacyDistributionItems = new Set(['구독자 주문용 연감 묶음', '서점 위탁 연감 묶음']);
+const legacyDistributionActions = new Set(['V47_PRINT_SEND_SUBSCRIPTIONS', 'V47_PRINT_CONSIGN_BOOKSHOP']);
+
+export function migrateMain01DistributionState(campaignState) {
+  const currentPrintwork = campaignState?.world?.v47?.printwork;
+  if (!currentPrintwork || currentPrintwork.distributionInvariantVersion >= 1) return campaignState;
+  const next = structuredClone(campaignState);
+  const printwork = next.world.v47.printwork;
+  const packages = (printwork.outgoingItems ?? []).filter(item => legacyDistributionItems.has(item.itemKo));
+  const recoveredCount = packages.length;
+  printwork.outgoingItems = (printwork.outgoingItems ?? []).filter(item => !legacyDistributionItems.has(item.itemKo));
+  printwork.publicDistributionOccurred = false;
+  printwork.distributionInvariantVersion = 1;
+
+  for (const host of Object.values(next.hosts ?? {}))
+    if (Array.isArray(host.inventory)) host.inventory = host.inventory.filter(item => !legacyDistributionItems.has(item));
+  const editor = next.hosts?.editor_sofia;
+  if (editor && Array.isArray(editor.inventory))
+    editor.inventory.push(...Array.from({ length: recoveredCount }, () => '회수한 연감 인쇄분'));
+
+  let refund = 0;
+  for (const entry of next.ledger ?? []) {
+    if (entry.eventType !== 'V47_PRINTWORK_STEP' || !legacyDistributionActions.has(entry.actionId)) continue;
+    const effects = entry.effects ?? {};
+    for (const transfer of effects.money ?? [])
+      if (transfer.fromHostId === 'bookseller_lev' && transfer.toHostId === 'editor_sofia') refund += transfer.amount;
+    entry.effects = {
+      ...effects,
+      items: (effects.items ?? []).filter(item => !legacyDistributionItems.has(item.itemKo)),
+      money: (effects.money ?? []).filter(transfer => !(transfer.fromHostId === 'bookseller_lev' && transfer.toHostId === 'editor_sofia')),
+      moves: (effects.moves ?? []).filter(move => !(move.hostId === 'courier_pavel' && move.mapId === 'bookshop-interior')),
+    };
+    entry.historicalCorrectionKo = '배포 금지 전에는 책을 서점이나 구독자에게 보내지 않았다. 인쇄분은 회수해 보관하고 배송 대금은 취소했다.';
+  }
+  if (refund && next.hosts?.bookseller_lev?.money && editor?.money) {
+    next.hosts.bookseller_lev.money.amount += refund;
+    editor.money.amount -= refund;
+  }
+
+  for (const change of next.world.v47.worldChanges ?? []) {
+    if (change.questId !== 'V47_MAIN01_PERMISSION' || !legacyDistributionActions.has(change.actionId)) continue;
+    change.items = (change.items ?? []).filter(item => !legacyDistributionItems.has(item.itemKo));
+    change.money = (change.money ?? []).filter(transfer => !(transfer.fromHostId === 'bookseller_lev' && transfer.toHostId === 'editor_sofia'));
+    change.moves = (change.moves ?? []).filter(move => !(move.hostId === 'courier_pavel' && move.mapId === 'bookshop-interior'));
+    change.historicalCorrectionKo = '인쇄분의 발송을 취소하고 작업장 보관으로 되돌렸다.';
+  }
+  for (const consequence of next.world.v47.stories?.MAIN01?.consequences ?? []) {
+    if (!legacyDistributionActions.has(consequence.actionId)) continue;
+    consequence.itemRecipients = (consequence.itemRecipients ?? []).filter(id => id !== 'courier_pavel');
+    consequence.money = [];
+    consequence.historicalCorrectionKo = '서점 출고를 취소하고 인쇄분을 회수했다.';
+  }
+  const travel = next.hosts?.courier_pavel?.v47TravelGoal;
+  if (travel?.questId === 'V47_MAIN01_PERMISSION' && legacyDistributionActions.has(travel.actionId))
+    delete next.hosts.courier_pavel.v47TravelGoal;
+  return next;
 }
 
 export function main01PrintworkStage(state) {
@@ -100,13 +159,11 @@ function choiceEffects(state, id) {
   const producedItem = (hostId, itemKo) => effects.items.push({ hostId, itemKo });
   switch (id) {
     case 'V47_PRINT_SEND_SUBSCRIPTIONS':
-      producedItem('courier_pavel', '구독자 주문용 연감 묶음');
-      effects.moves.push({ hostId: 'courier_pavel', mapId: 'bookshop-interior', x: 7, y: 9, activityKo: '구독자 주문 묶음을 서점으로 나른다' }); break;
+      producedItem('editor_sofia', '구독자 주문 확인표'); break;
     case 'V47_PRINT_HOLD_SUBSCRIPTIONS': producedItem('editor_sofia', '보류한 구독자 주문 묶음'); break;
     case 'V47_PRINT_CONSIGN_BOOKSHOP':
-      producedItem('courier_pavel', '서점 위탁 연감 묶음');
-      effects.money.push({ fromHostId: 'bookseller_lev', toHostId: 'editor_sofia', amount: 1 });
-      effects.moves.push({ hostId: 'courier_pavel', mapId: 'bookshop-interior', x: 7, y: 9, activityKo: '서점 위탁 묶음을 구독자 주문과 함께 나른다' }); break;
+      producedItem('courier_pavel', '서점 출고 보류 통지');
+      effects.moves.push({ hostId: 'courier_pavel', mapId: 'bookshop-interior', x: 7, y: 9, activityKo: '연감 출고를 보류한다는 통지를 서점에 전한다' }); break;
     case 'V47_PRINT_RETURN_BOOKSHOP': producedItem('editor_sofia', '반품 대비 연감 묶음'); break;
     case 'V47_PRINT_SHARE_WORKER_COPY':
       producedItem('print_apprentice_stepan', '작업자 확인용 연감 한 부');

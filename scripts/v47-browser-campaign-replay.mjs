@@ -856,11 +856,11 @@ async function runRoute(browser, base, routeName) {
               && propertyMap(targetObject).v47PuzzleId === 'MAIN01_PRINTWORK') {
               const workChoices = routeName === 'ALTERNATE' ? [
                 '지금 인쇄대로 보낸다', '젖은 종이에 잉크를 더 올린다',
-                '구독자 몫을 편집실에 둔다', '서점 몫을 편집실에 돌린다',
+                '주문 장부를 편집실에 둔다', '서점 주문을 취소하고 장부를 정리한다',
                 '확인본을 편집부에 둔다', '제본 전 사본을 남긴다',
               ] : [
                 '교정쇄를 다시 대조한다', '마른 종이와 얇은 잉크를 쓴다',
-                '구독자 몫을 파벨에게 맡긴다', '서점 위탁분을 레프에게 맡긴다',
+                '구독자에게 지연을 알린다', '레프에게 출고 보류 통지를 보낸다',
                 '스테판에게 확인본을 건넨다', '남은 종이를 재료로 돌린다',
               ];
               await page.locator('#actions button').filter({ hasText: '활자대를 비우기' }).click();
@@ -1054,15 +1054,20 @@ async function runRoute(browser, base, routeName) {
         assert.equal(row.printwork.status, 'COMPLETE');
         assert.equal(row.printwork.decisions.length, 7);
         assert.equal(row.printwork.allocations.length, 4);
-        assert.ok((row.printwork.itemHolders.courier_pavel.includes('구독자 주문용 연감 묶음')
-          && row.printwork.courierTravel?.targetMapId === 'bookshop-interior')
+        assert.equal(row.printwork.publicDistributionOccurred, false,
+          `${routeName} keeps the documented failure to distribute the almanac fixed`);
+        assert.ok(row.printwork.itemHolders.editor_sofia.includes('구독자 주문 확인표')
           || row.printwork.itemHolders.editor_sofia.includes('보류한 구독자 주문 묶음'),
-        `${routeName} records the subscription package at its selected physical destination`);
+        `${routeName} records the subscriber decision while keeping the printed copies at the press`);
+        assert.equal(row.printwork.itemHolders.courier_pavel.some(item => /연감.*묶음/u.test(item)), false,
+          `${routeName} never places printed almanac stock in the courier's inventory`);
         if (routeName === 'NORMAL') {
-          assert.ok(row.printwork.itemHolders.courier_pavel.includes('서점 위탁 연감 묶음'));
+          assert.ok(row.printwork.itemHolders.courier_pavel.includes('서점 출고 보류 통지'));
           assert.ok(row.printwork.transactionLedger.some(item => item.actionId === 'V47_PRINT_CONSIGN_BOOKSHOP'
-            && item.effects.money.some(transfer => transfer.fromHostId === 'bookseller_lev' && transfer.toHostId === 'editor_sofia')),
-          'the normal route logs the consignment payment as well as the physical carrier');
+            && item.effects.moves.some(move => move.hostId === 'courier_pavel' && move.mapId === 'bookshop-interior')),
+          'the normal route records the courier delivering a hold notice to the bookseller');
+          assert.equal(row.printwork.transactionLedger.some(item => item.actionId === 'V47_PRINT_CONSIGN_BOOKSHOP'
+            && item.effects.money.length > 0), false, 'the bookseller does not pay for copies before distribution');
         }
       }
       assert.ok(!row.worldChange || (row.worldChange.questId === quest.id && row.worldChange.actionId === selected.action.id),

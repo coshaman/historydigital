@@ -51,6 +51,9 @@ export function historicalParticipantGuide(scene, actorId, activeSession = {}, c
   const actionChoiceLabelsKo = action?.options?.map(option => option.labelKo).filter(Boolean) ?? [];
   const firstChoiceKo = actionChoiceLabelsKo[0] ?? taskKo;
   const conversationPromptKo = `“${firstTopicKo} 이야기를 들었어요. ‘${firstChoiceKo}’부터 해보면 어떨까요?”`;
+  const requiredDialogueActorId = talkToIds[0] ?? null;
+  const conversationComplete = !requiredDialogueActorId
+    || (activeSession.spokenActorIds ?? []).includes(requiredDialogueActorId);
   const requiredActorNameKo = action?.requiredActorId
     ? scene.actors.find(person => person.id === action.requiredActorId)?.nameKo ?? null : null;
   const needsRoleSwitch = Boolean(action?.requiredActorId && action.requiredActorId !== currentActorId);
@@ -61,6 +64,13 @@ export function historicalParticipantGuide(scene, actorId, activeSession = {}, c
   const completionKo = action
     ? `대화 답변 뒤 반응을 선택하고, ${needsRoleSwitch ? `${requiredActorNameKo}로 바꾼 다음 ` : ''}${action.propKo}에서 E를 눌러 ${actionChoiceLabelsKo.map(label => `「${label}」`).join(' 또는 ')} 중 하나를 고르면 퀘스트 완료입니다.`
     : '인물의 답변을 들으면 이 대화 목표가 완료됩니다.';
+  const currentStepKo = action
+    ? activeSession.actionOutcomes?.[action.id]
+      ? `완료 · ‘${questTitleKo}’ 퀘스트를 마쳤습니다. 인물 목록에서 다음 부탁을 고르세요.`
+      : conversationComplete
+      ? `현장 행동 · ${needsRoleSwitch ? `${requiredActorNameKo}의 몸으로 바꾼 뒤 ` : ''}${action.propKo}에서 E를 누르고 ${actionChoiceLabelsKo.map(label => `「${label}」`).join(' 또는 ')} 중 하나를 고르세요.`
+      : `말 걸기 · ${firstContactKo}에게 “${conversationPromptKo.slice(1, -1)}”라고 물은 뒤 답변에 반응하세요.`
+    : `말 걸기 · ${firstContactKo}에게 질문하고 답변에 반응을 선택하세요.`;
   const roleStep = action?.requiredActorId && action.requiredActorId !== actor.id
     ? [`인물 바꾸기 · ${scene.actors.find(person => person.id === action.requiredActorId)?.nameKo ?? '맡을 인물'}로 전환`] : [];
   return {
@@ -68,6 +78,9 @@ export function historicalParticipantGuide(scene, actorId, activeSession = {}, c
     objectiveTitleKo: authoredGuide?.actionId === action?.id ? authoredGuide.titleKo : objective?.titleKo ?? actor.introductionKo ?? actor.lines?.[0] ?? '현장 사람들과 이야기를 나눈다',
     actionKo: authoredGuide?.actionId === action?.id ? authoredGuide.taskKo : objective?.actionKo ?? '가까운 사람에게 오늘 일을 물어본다',
     actionId: action?.id ?? null,
+    requiredDialogueActorId,
+    conversationComplete,
+    currentStepKo,
     talkToNamesKo,
     conversationTopicsKo: actor.sceneTopicsKo ?? [],
     conversationPromptKo,
@@ -79,11 +92,11 @@ export function historicalParticipantGuide(scene, actorId, activeSession = {}, c
     placeKo,
     questStepsKo: [
       `갈 곳 · ${placeKo}`,
-      `말 걸기 · ${firstContactKo}에게 “${conversationPromptKo.slice(1, -1)}”라고 물으세요`,
-      `대화 기록 · “${conversationPromptKo.slice(1, -1)}”를 묻고 답변 뒤 반응을 선택하세요`,
+      `${conversationComplete ? '완료 · ' : ''}말 걸기 · ${firstContactKo}에게 “${conversationPromptKo.slice(1, -1)}”라고 물으세요`,
+      `${conversationComplete ? '완료 · ' : ''}대화 기록 · 질문에 답변 뒤 반응을 선택하세요`,
       ...roleStep,
       `현장 행동 · ${action?.propKo ?? '주변 사람'} · ${action?.promptKo ?? taskKo}${actionChoiceLabelsKo.length ? ` · ${actionChoiceLabelsKo.map(label => `「${label}」`).join(' 또는 ')}` : ''}`,
-      `완료 조건 · ${action ? `${action.propKo}에서 선택지를 실행하면 개인 퀘스트가 끝납니다` : '대화 답변을 선택하면 이 목표가 끝납니다'}`,
+      `완료 조건 · ${action ? `지정 인물과 대화한 뒤 ${action.propKo}에서 선택지를 실행하면 개인 퀘스트가 끝납니다` : '대화 답변을 선택하면 이 목표가 끝납니다'}`,
     ],
     requiredActorNameKo,
     completed: Boolean((action && activeSession.actionOutcomes?.[action.id])
