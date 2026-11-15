@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
-import { historicalParticipantGuide } from '../rpg/engine/historical-session.mjs';
+import { historicalParticipantGuide, historicalSessionProgressLabelKo } from '../rpg/engine/historical-session.mjs';
 import { buildHistoricalSceneLayout } from '../rpg/engine/historical-scene-layout.mjs';
 const catalog = JSON.parse(await fs.readFile(new URL('../rpg/data/v38-historical-events.json', import.meta.url), 'utf8')).events;
 
@@ -17,9 +17,11 @@ for (const scene of scenes) {
     assert.ok(guide.talkToNamesKo.length >= 1, `${scene.eventId}/${actor.id} says whom to approach`);
     assert.ok(guide.propKo?.length >= 3, `${scene.eventId}/${actor.id} names a physical action object`);
     if (guide.requiredActorNameKo) assert.ok(scene.actors.some(person => person.nameKo === guide.requiredActorNameKo));
-    assert.ok(guide.questStepsKo?.length >= 3 && guide.questStepsKo.length <= 4, `${scene.eventId}/${actor.id} gives a short, visible route`);
+    assert.ok(guide.questStepsKo?.length >= 5 && guide.questStepsKo.length <= 6, `${scene.eventId}/${actor.id} gives a clear, visible route`);
     assert.ok(guide.questStepsKo?.[0].startsWith('갈 곳 · ') && guide.questStepsKo[0].includes(guide.placeKo));
     assert.ok(guide.questStepsKo?.[1].startsWith('말 걸기 · ') && guide.questStepsKo[1].includes(guide.talkToNamesKo[0]), `${scene.eventId}/${actor.id} names the first person to approach`);
+    assert.ok(guide.questStepsKo?.[2].startsWith('대화할 내용 · ') && guide.questStepsKo[2].length > 12, `${scene.eventId}/${actor.id} names a concrete conversation topic`);
+    assert.ok(guide.questStepsKo?.[3].includes('답변 선택지') && guide.questStepsKo[3].includes('대화로 셉니다'), `${scene.eventId}/${actor.id} states what makes a conversation count`);
     assert.ok(guide.questStepsKo?.at(-1).startsWith('할 일 · ') && guide.questStepsKo.at(-1).includes(guide.propKo), `${scene.eventId}/${actor.id} names the object/action to complete`);
     const action = scene.fieldActions.find(item => item.id === guide.actionId);
     if (scene.actorQuestGuides?.[actor.id]) assert.equal(action?.id, scene.actorQuestGuides[actor.id].actionId, `${scene.eventId}/${actor.id} follows its authored quest`);
@@ -30,6 +32,12 @@ for (const scene of scenes) {
         `${scene.eventId}/${actor.id} has a concise, natural task sentence`);
     }
   }
+  const progress = historicalSessionProgressLabelKo(scene, { spokenActorIds: [], completedObjectives: [], actionOutcomes: {}, visitedMapIds: [], elapsedMinutes: 0 });
+  assert.match(progress, /대화 0\/\d+/u);
+  assert.match(progress, /현장 일 0\/\d+/u);
+  assert.match(progress, /역할별 결정 0\/\d+/u);
+  assert.match(progress, new RegExp(`구역 0/${scene.maps.length}`, 'u'));
+  if (scene.conclusionRequirements?.minimumElapsedMinutes) assert.match(progress, new RegExp(`현장 시간 0/${scene.conclusionRequirements.minimumElapsedMinutes}분`, 'u'));
   for (const choice of scene.choices) {
     assert.ok(choice.label.length >= 6 && choice.label.length <= 30,
       `${scene.eventId}/${choice.id} is a short, direct visual-novel choice`);

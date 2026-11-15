@@ -5,6 +5,16 @@ export function historicalReplyText(actor, response) {
   return [actor?.lines?.[1], response?.reactionKo].filter(Boolean).join('\n\n');
 }
 
+export function historicalSessionProgressLabelKo(scene, active = {}) {
+  const requirements = scene?.conclusionRequirements ?? { spokenActors: 8, completedObjectives: 5 };
+  const roleActions = (scene?.fieldActions ?? []).filter(action => action.requiredActorId);
+  const requiredRoles = requirements.requiredRoleActions ?? roleActions.length;
+  const completedRoles = roleActions.filter(action => Boolean(active.actionOutcomes?.[action.id])).length;
+  const mapCount = scene?.maps?.length ?? 0;
+  const elapsedRequired = requirements.minimumElapsedMinutes ?? 0;
+  return `대화 ${Math.min(active.spokenActorIds?.length ?? 0, requirements.spokenActors)}/${requirements.spokenActors} · 현장 일 ${Math.min(active.completedObjectives?.length ?? 0, requirements.completedObjectives)}/${requirements.completedObjectives} · 역할별 결정 ${Math.min(completedRoles, requiredRoles)}/${requiredRoles} · 구역 ${active.visitedMapIds?.length ?? 0}/${mapCount}${elapsedRequired ? ` · 현장 시간 ${active.elapsedMinutes ?? 0}/${elapsedRequired}분` : ''}`;
+}
+
 export function historicalParticipantGuide(scene, actorId, activeSession = {}) {
   const actor = scene?.actors?.find(person => person.id === actorId);
   if (!actor) return null;
@@ -52,6 +62,8 @@ export function historicalParticipantGuide(scene, actorId, activeSession = {}) {
     questStepsKo: [
       `갈 곳 · ${placeKo}`,
       `말 걸기 · ${firstContactKo}`,
+      `대화할 내용 · ${(actor.sceneTopicsKo ?? []).join(' · ') || taskKo}`,
+      '대화 기록 · 말을 건 뒤 답변 선택지를 하나 골라야 대화로 셉니다',
       ...roleStep,
       `할 일 · ${action?.propKo ?? '주변 사람'} · ${taskKo}`,
     ],
