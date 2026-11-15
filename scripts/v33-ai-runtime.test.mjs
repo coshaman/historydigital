@@ -79,6 +79,33 @@ test('session is server-bound to one host; client cannot choose scene, inject me
   assert.equal((await service.handle(request('POST', '/api/rpg/dialogue', { ...body, requestId: 'request-invalid-historical-memory', sceneContext: { ...body.sceneContext, playerHistoricalEvents: [{ eventId: 'NOT_A_GAME_EVENT', choices: ['invented'] }] } }))).body.error, 'invalid_scene_context');
 });
 
+test('an authored discussion question reaches the AI with its verified scene and source context', async () => {
+  let input, instructions;
+  const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store: new MemorySessionStore(),
+    allowedOrigins: ['https://game.example'], provider: { generate: async request => {
+      input = request.input; instructions = request.instructions;
+      return validTurn(request.input.scene.id, request.input.character.id);
+    } } });
+  const opened = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'printer_ekaterina', actorHostId: 'seamstress_anna' }));
+  const prompt = require('../rpg/data/discussion-quests.json').quests.find(item => item.id === 'INQUIRY_CENSORSHIP_AND_LABOR').hosts.printer_ekaterina.promptKo;
+  const result = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken,
+    requestId: 'authored-inquiry-context-0001', playerInput: prompt, actorRelations: {}, actorActions: [],
+    sceneContext: { date: '1847-06-01', mapId: 'printshop', questId: 'PRINTSHOP_PROOF_1847',
+      discussionId: 'INQUIRY_CENSORSHIP_AND_LABOR' } }));
+  assert.equal(result.status, 200, JSON.stringify(result.body));
+  assert.equal(input.conversation.sceneContext.discussionContext.titleKo, '《호리와 칼리니치》의 문장을 옮기는 손');
+  assert.equal(input.conversation.sceneContext.discussionContext.questionKo, prompt);
+  assert.ok(input.conversation.sceneContext.discussionContext.situationKo);
+  assert.match(instructions, /첫 답부터 질문에 직접 답하고/);
+
+  const secondSession = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'printer_ekaterina', actorHostId: 'seamstress_anna' }));
+  const tampered = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: secondSession.body.sessionToken,
+    requestId: 'authored-inquiry-context-0002', playerInput: '요즘 날씨가 참 좋네요.', actorRelations: {}, actorActions: [],
+    sceneContext: { date: '1847-06-01', mapId: 'printshop', questId: 'PRINTSHOP_PROOF_1847',
+      discussionId: 'INQUIRY_CENSORSHIP_AND_LABOR' } }));
+  assert.equal(tampered.status, 400, 'the client cannot attach a quest anchor to unrelated dialogue');
+});
+
 test('V47 story conversations load the active beat, source context, and character-specific role on the server', async () => {
   let providerInput;
   const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long',

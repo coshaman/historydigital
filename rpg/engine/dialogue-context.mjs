@@ -6,7 +6,7 @@ function authoredCueSets(card) {
   return { activities, aims };
 }
 
-export function dialogueSceneContext(card, host, date, mapId, questId = null, playerHistoricalEvents = [], embodiedHost = null) {
+export function dialogueSceneContext(card, host, date, mapId, questId = null, playerHistoricalEvents = [], embodiedHost = null, discussionId = null) {
   const cues = authoredCueSets(card), activeGoal = host?.activeGoal, taskId = activeGoal?.taskId ?? '';
   const activityKo = cues.activities.has(host?.currentActivityKo) ? host.currentActivityKo : null;
   const persistentGoal = (card.persistentPersonalGoals ?? []).find(goal => taskId === goal.id || taskId.startsWith(`${goal.id}:`));
@@ -30,6 +30,6 @@ export function dialogueSceneContext(card, host, date, mapId, questId = null, pl
       historicalOutcomeFixed: row.historicalOutcomeFixed, fromHostId: row.fromHostId })) : [];
   const playerKnowledgeIds = embodiedHost ? [...new Set([...(embodiedHost.privateKnowledgeIds ?? []),
     ...(embodiedHost.witnessedKnowledgeIds ?? []), ...(embodiedHost.knownEvidenceIds ?? [])])].slice(-24) : [];
-  return { date, mapId, questId, activityKo, currentAimKo: cues.aims.has(currentAimKo) ? currentAimKo : null,
+  return { date, mapId, questId, ...(discussionId ? { discussionId } : {}), activityKo, currentAimKo: cues.aims.has(currentAimKo) ? currentAimKo : null,
     hungerBand, fatigueBand, healthCondition, heardRumors, heardEvents, playerHistoricalEvents, playerKnowledgeIds };
 }

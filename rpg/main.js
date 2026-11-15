@@ -7,7 +7,7 @@ import { questChoices, continuationQuest, resolveObjectQuest } from './engine/qu
 import { questOutcomeSummary } from './engine/quest-outcome-summary.mjs';
 import { formatMissionActionKo, guideToResident, resolveQuestGuidance } from './engine/quest-guidance.mjs';
 import { ownsKeyboardInput, observationText } from './engine/player-presentation.mjs';
-import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHost, discussionQuestInstruction, discussionReflectionPromptsForHost, discussionReplyChoices, formatDiscussionQuestTaskKo, nextDiscussionInstructionForQuest, shouldOpenDiscussionBoard, shouldShowQuestTracker } from './engine/discussion-quests.mjs';
+import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHost, discussionQuestInstruction, discussionReflectionPromptsForHost, discussionReplyChoices, formatDiscussionQuestTaskKo, formatQueuedDiscussionTaskKo, nextDiscussionInstructionForQuest, shouldOpenDiscussionBoard, shouldShowQuestTracker } from './engine/discussion-quests.mjs';
 import { dialogueSessionNeedsReconnect, dialogueSpeakerLabel, mayOfferDiscussionPrompt, selectDialogueTurn } from './engine/dialogue-response.mjs';
 import { dialogueSceneContext } from './engine/dialogue-context.mjs';
 import { advanceHistoricalSessionTime, beginHistoricalSession, canConcludeHistoricalSession, exitHistoricalSession, historicalParticipantGuide, historicalReplyText, historicalSessionProgressLabelKo, performHistoricalAction, recordHistoricalChoice } from './engine/historical-session.mjs';
@@ -632,7 +632,16 @@ function updateHud() {
       questTitleKo: queuedDiscussionInquiry.titleKo,
       actionKo: `${queuedDiscussionInquiry.hostNameKo}에게 물어보기 · ${queuedDiscussionInquiry.progressKo}`,
       reasonKo: queuedDiscussionInquiry.stakesKo,
-      howKo: `${discussionSituationKo(liveInquiry) ? `상황 · ${discussionSituationKo(liveInquiry)}\n` : ''}대상 · ${queuedDiscussionInquiry.hostNameKo}\n${nextAction}${targetGuide?.howKo ? ` · ${targetGuide.howKo}` : ''}\n대화 · 가까이서 말 걸기 → 열린 대화창에서 아래 질문을 선택 → 답변 확인\n질문 · “${queuedDiscussionInquiry.promptKo}”\n진행 · ${queuedDiscussionInquiry.completedPerspectives}/${queuedDiscussionInquiry.requiredPerspectives}명 답변\n일반 인사나 다른 대화는 진행되지 않습니다. 답변 생성에 실패하면 다시 연결해 같은 질문을 보내세요.\n끝내기 · 서로 다른 ${queuedDiscussionInquiry.requiredPerspectives}명의 답을 들은 뒤 수첩에서 「${queuedDiscussionInquiry.titleKo}」의 입장 하나를 선택하면 끝납니다.${inquiryInstruction?.phase === 'RECORD_POSITION' ? '\n지금 할 일 · 수첩에서 입장을 선택하면 이 퀘스트가 끝납니다.' : ''}`,
+      howKo: [
+        `이동 · ${nextAction}${targetGuide?.howKo ? ` · ${targetGuide.howKo}` : ''}`,
+        formatQueuedDiscussionTaskKo(liveInquiry, {
+          hostNameKo: queuedDiscussionInquiry.hostNameKo,
+          placeKo: targetHost ? maps[targetHost.mapId]?.metadata.displayNameKo : '',
+          promptKo: queuedDiscussionInquiry.promptKo,
+          nextHostNameKo: inquiryInstruction?.nextHostNameKo ?? '',
+          nextPromptKo: inquiryInstruction?.nextPromptKo ?? '',
+        }),
+      ].filter(Boolean).join('\n'),
       placeKo: targetGuide?.placeKo ?? (targetHost ? maps[targetHost.mapId]?.metadata.displayNameKo : '위치를 확인할 수 없음'),
       target: targetGuide?.target ?? null,
       progress: { completedSteps: queuedDiscussionInquiry.completedPerspectives, totalSteps: queuedDiscussionInquiry.requiredPerspectives },
@@ -715,7 +724,19 @@ function updateHud() {
   if (shouldOpenDiscussionBoard({ queuedInquiry: Boolean(queuedDiscussionInquiry), positionPending: Boolean(discussionView.positionPrompts?.length), activeDialogue: Boolean(activeDialogueHost), missionInquiry: missionDiscussion?.phase === 'ASK' })) discussionBoard.open = true;
   $('#discussion-quest-progress').textContent = discussionView.progressKo;
   $('#discussion-quest-guidance').textContent = queuedDiscussionInquiry
-    ? `다음 사람 · ${queuedDiscussionInquiry.hostNameKo}\n물어볼 말 · “${queuedDiscussionInquiry.promptKo}”\n진행 · 가까이서 말 걸기 → 대화창에서 이 질문 선택 → 답변 확인 (${queuedDiscussionInquiry.completedPerspectives}/${queuedDiscussionInquiry.requiredPerspectives})\n완료 · 서로 다른 ${queuedDiscussionInquiry.requiredPerspectives}명의 답을 모은 뒤 아래에서 내 입장을 기록하세요. 인사나 다른 대화는 세지 않습니다.`
+    ? formatQueuedDiscussionTaskKo(currentDiscussionQuests().find(item => item.id === queuedDiscussionInquiry.questId), {
+      hostNameKo: queuedDiscussionInquiry.hostNameKo,
+      placeKo: maps[state.hosts[queuedDiscussionInquiry.hostId]?.mapId]?.metadata.displayNameKo ?? '',
+      promptKo: queuedDiscussionInquiry.promptKo,
+      nextHostNameKo: discussionQuestInstruction(
+        currentDiscussionQuests().find(item => item.id === queuedDiscussionInquiry.questId),
+        Object.fromEntries(cards.map(item => [item.id, item.displayNameKo])),
+      )?.nextHostNameKo ?? '',
+      nextPromptKo: discussionQuestInstruction(
+        currentDiscussionQuests().find(item => item.id === queuedDiscussionInquiry.questId),
+        Object.fromEntries(cards.map(item => [item.id, item.displayNameKo])),
+      )?.nextPromptKo ?? '',
+    })
     : discussionView.guidanceKo;
   if (!queuedDiscussionInquiry && discussionView.positionPrompts?.length && !inLiteraryScene && !state.endingId) {
     const pending = discussionView.positionPrompts[0];
@@ -2606,7 +2627,7 @@ async function sendConversation(card, playerText, replyId = null) {
           && quest.actions?.some(action => action.hostIds.includes(card.id)) && questIsAvailable(quest)
           && state.quests[quest.id]?.status !== 'resolved');
       const inquiryQuestId = discussionPrompt ? inquiryQuest?.id ?? null : null;
-      const requestDialogue = (currentSession, relationshipHints) => fetch(`${aiBaseUrl}/api/rpg/dialogue`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ sessionToken: currentSession.token, requestId: crypto.randomUUID(), playerInput: playerText, actorRelations: relationshipHints, actorActions: playerActionHintsFor(actorCard.id), sceneContext: dialogueSceneContext(card, state.hosts[card.id], state.world.date, state.world.currentMapId, discussionPrompt ? inquiryQuestId : missionGuidance?.questId ?? null, readPlayerHistoricalChoices(), state.hosts[actorCard.id]) }), signal: controller.signal });
+      const requestDialogue = (currentSession, relationshipHints) => fetch(`${aiBaseUrl}/api/rpg/dialogue`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ sessionToken: currentSession.token, requestId: crypto.randomUUID(), playerInput: playerText, actorRelations: relationshipHints, actorActions: playerActionHintsFor(actorCard.id), sceneContext: dialogueSceneContext(card, state.hosts[card.id], state.world.date, state.world.currentMapId, discussionPrompt ? inquiryQuestId : missionGuidance?.questId ?? null, readPlayerHistoricalChoices(), state.hosts[actorCard.id], discussionPrompt?.discussionId ?? null) }), signal: controller.signal });
       let response = await requestDialogue(session, relationshipHintsFor(actorCard.id));
       if (response.status === 401) {
         sessionStorage.removeItem(sessionStorageKey); dialogueSessions.delete(key);

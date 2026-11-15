@@ -65,7 +65,9 @@ export function discussionQuestInstruction(quest, hostNames = {}) {
   };
   const hostNameKo = hostNames[hostId] ?? hostId;
   const promptKo = quest.hosts[hostId].promptKo;
-  const nextHostId = Object.keys(quest.hosts ?? {}).find(id => id !== hostId && !heard.includes(id));
+  const nextHostId = heard.length + 1 < required
+    ? Object.keys(quest.hosts ?? {}).find(id => id !== hostId && !heard.includes(id))
+    : null;
   const nextHostKo = nextHostId ? hostNames[nextHostId] ?? nextHostId : null;
   const nextPromptKo = nextHostId ? quest.hosts[nextHostId].promptKo : null;
   return {
@@ -90,6 +92,30 @@ export function formatDiscussionQuestTaskKo(instruction, { placeKo = '', travelH
     '답변이 표시되면 해당 인물의 관점 1개가 기록됩니다. 답변 생성에 실패하면 기록되지 않으니 같은 질문을 다시 선택하세요.',
     instruction.nextHostNameKo && instruction.nextPromptKo ? `그다음 · ${instruction.nextHostNameKo}에게 “${instruction.nextPromptKo}”라고 물으세요.` : '',
     `끝내기 · 서로 다른 ${required}명의 답을 듣고 수첩에서 내 입장 하나를 기록하면 끝납니다 (${count}/${required}명 답변).`,
+  ].filter(Boolean).join('\n');
+}
+
+export function formatQueuedDiscussionTaskKo(quest, {
+  hostNameKo = '표시된 인물', placeKo = '', promptKo = '',
+  nextHostNameKo = '', nextPromptKo = '',
+} = {}) {
+  if (!quest) return '';
+  const required = quest.requiredPerspectiveCount ?? 2;
+  const heard = quest.perspectiveHostIds?.length ?? 0;
+  if (heard >= required || quest.positionPending) return [
+    '지금 할 일 · 마지막 단계',
+    `수첩에서 「${quest.titleKo}」를 열고 내 입장 하나를 선택하세요.`,
+    '완료 · 내 입장을 기록하면 퀘스트 완료.',
+  ].join('\n');
+  return [
+    quest.situationKo ? `상황 · ${quest.situationKo}` : '',
+    `지금 할 일 · ${heard + 1}/${required + 1}단계 · ${hostNameKo}${placeKo ? ` · ${placeKo}` : ''}에게 묻기`,
+    `대화 · 가까이서 말을 건 뒤, 대화창에서 정확히 이 질문을 선택하세요: “${promptKo}”`,
+    '진행 인정 · 인물의 답변이 생성되어 기록되어야 관점 1개가 추가됩니다. 인사·다른 질문·AI 응답 실패는 진행되지 않습니다.',
+    heard + 1 < required
+      ? nextHostNameKo && nextPromptKo ? `다음 · ${nextHostNameKo}에게 “${nextPromptKo}”라고 물으세요.` : `다음 · 다른 인물에게 같은 쟁점을 물어 ${required}명의 답을 모으세요.`
+      : '다음 · 이 답변으로 필요한 관점이 모이면 수첩에서 입장을 기록하세요.',
+    `완료 · ${required}명의 답을 들은 뒤 수첩에서 「${quest.titleKo}」의 내 입장을 선택해 기록하세요.`,
   ].filter(Boolean).join('\n');
 }
 

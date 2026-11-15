@@ -2,8 +2,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { readFile } from 'node:fs/promises';
-import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHost, discussionQuestInstruction, discussionReflectionPromptsForHost, discussionReplyChoices } from '../rpg/engine/discussion-quests.mjs';
+import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHost, discussionQuestInstruction, discussionReflectionPromptsForHost, discussionReplyChoices, formatQueuedDiscussionTaskKo } from '../rpg/engine/discussion-quests.mjs';
 import definitions from '../rpg/data/discussion-quests.json' with { type: 'json' };
+import { dialogueSceneContext } from '../rpg/engine/dialogue-context.mjs';
 
 const require = createRequire(import.meta.url);
 const game = require('../rpg/engine/game-state.js');
@@ -139,6 +140,48 @@ test('a dialogue quest names the next person, exact question, and the action tha
   const stance = discussionQuestInstruction({ ...quest, perspectiveHostIds: ['baker_fyodor', 'buyer_anna'], positionPending: true });
   assert.equal(stance.phase, 'RECORD_POSITION');
   assert.match(stance.howKo, /수첩에서 「빵값을 둘러싼 말」에 대한 입장 하나를 기록하세요\. 기록하면 퀘스트가 끝납니다/);
+});
+
+test('the final required perspective never points the player to an unnecessary third speaker', () => {
+  const quest = {
+    id: 'INQUIRY_THREE', titleKo: '세 사람의 견해', requiredPerspectiveCount: 2,
+    perspectiveHostIds: ['baker_fyodor'], positionPending: false,
+    hosts: {
+      baker_fyodor: { promptKo: '빵값을 올려야 할까요?' },
+      buyer_anna: { promptKo: '품삯이 그대로인데 빵값이 오르면요?' },
+      bookseller_lev: { promptKo: '가게를 유지하려면 무엇부터 줄이겠소?' },
+    },
+  };
+  const instruction = discussionQuestInstruction(quest, { buyer_anna: '안나', bookseller_lev: '레프' });
+  assert.equal(instruction.hostId, 'buyer_anna');
+  assert.equal(instruction.nextHostNameKo, null, 'after Anna answers, the player records a stance instead of asking Lev');
+  const task = formatQueuedDiscussionTaskKo(quest, { hostNameKo: '안나', promptKo: instruction.promptKo });
+  assert.match(task, /이 답변으로 필요한 관점이 모이면.*수첩/u);
+  assert.doesNotMatch(task, /다른 인물에게 같은 쟁점을 물어/u);
+});
+
+test('the active conversation quest gives a numbered, trackable route from context to completion', () => {
+  const quest = {
+    id: 'INQUIRY_TEST', titleKo: '빵값을 둘러싼 말', situationKo: '밀가루 값이 올라 표도르가 빵값을 다시 정하고 있다.',
+    requiredPerspectiveCount: 2, perspectiveHostIds: [],
+    hosts: { baker_fyodor: { promptKo: '밀가루 값이 오르면 빵값도 바로 올려야 할까요?' } },
+  };
+  const task = formatQueuedDiscussionTaskKo(quest, {
+    hostNameKo: '표도르', placeKo: '시장', promptKo: quest.hosts.baker_fyodor.promptKo,
+  });
+  assert.match(task, /지금 할 일 · 1\/3/u);
+  assert.match(task, /표도르.*시장/u);
+  assert.match(task, /정확히 이 질문.*선택/u);
+  assert.match(task, /진행 인정 ·[\s\S]*관점/u);
+  assert.match(task, /다른 인물.*같은 쟁점/u);
+  assert.match(task, /완료 ·[\s\S]*내 입장.*기록하세요/u);
+});
+
+test('a selected opinion quest is sent as an authored dialogue context anchor', () => {
+  const quest = definitions.quests.find(item => item.id === 'INQUIRY_CENSORSHIP_AND_LABOR');
+  const context = dialogueSceneContext({ id: 'printer_ekaterina' }, { id: 'printer_ekaterina' },
+    '1847-06-01', 'printshop', null, [], { id: 'seamstress_anna' }, quest.id);
+  assert.equal(context.discussionId, quest.id);
 });
 
 test('a queued quest question remains selectable when AI already suggests three replies', () => {
