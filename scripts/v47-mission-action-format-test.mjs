@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { formatMissionActionKo } from '../rpg/engine/quest-guidance.mjs';
-import { formatDiscussionQuestTaskKo } from '../rpg/engine/discussion-quests.mjs';
+import { formatDiscussionQuestTaskKo, formatQueuedDiscussionTaskKo, discussionReplyAction } from '../rpg/engine/discussion-quests.mjs';
 
 test('mission guidance shows a destination once and keeps travel instructions concise', () => {
   assert.equal(
@@ -29,4 +29,26 @@ test('conversation quest guidance names who to ask, what to say, and how to fini
   assert.match(text, /서로 다른 2명의 답을 듣고 수첩에서 내 입장 하나를 기록/);
   assert.equal(formatDiscussionQuestTaskKo({ phase: 'RECORD_POSITION' }),
     '지금 할 일 · 수첩에서 이 쟁점에 대한 입장 하나를 기록하세요. 기록하면 퀘스트가 끝납니다.');
+});
+
+test('queued conversation quest has a distinct question button and a plain completion checklist', () => {
+  const promptKo = '검열관은 이 문장을 왜 문제 삼았소?';
+  assert.deepEqual(discussionReplyAction(promptKo, promptKo), {
+    label: '퀘스트 질문에 답하기',
+    subcopy: `이 질문을 선택해야 답변이 기록됩니다 · “${promptKo}”`,
+    questQuestion: true,
+  });
+  assert.deepEqual(discussionReplyAction('오늘은 바쁘세요?', promptKo), {
+    label: '오늘은 바쁘세요?', subcopy: '', questQuestion: false,
+  });
+  const task = formatQueuedDiscussionTaskKo({
+    titleKo: '검열 보고서의 서로 다른 목소리',
+    requiredPerspectiveCount: 2,
+    perspectiveHostIds: [],
+    situationKo: '검열관의 보고서와 모임 참석자의 기억이 엇갈린다.',
+  }, { hostNameKo: '이반 세묘노프', placeKo: '관청 앞', promptKo });
+  assert.match(task, /1\/3단계 · 이반 세묘노프에게 말 걸기 · 장소: 관청 앞/);
+  assert.match(task, /퀘스트 질문에 답하기/);
+  assert.match(task, /다른 인물/);
+  assert.match(task, /수첩에서 「검열 보고서의 서로 다른 목소리」의 내 입장을 선택/);
 });

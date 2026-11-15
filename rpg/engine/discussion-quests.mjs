@@ -103,20 +103,29 @@ export function formatQueuedDiscussionTaskKo(quest, {
   const required = quest.requiredPerspectiveCount ?? 2;
   const heard = quest.perspectiveHostIds?.length ?? 0;
   if (heard >= required || quest.positionPending) return [
-    '지금 할 일 · 마지막 단계',
-    `수첩에서 「${quest.titleKo}」를 열고 내 입장 하나를 선택하세요.`,
-    '완료 · 내 입장을 기록하면 퀘스트 완료.',
+    `마지막 단계 · 「${quest.titleKo}」`,
+    '수첩을 열고 이 쟁점에 대한 내 입장 하나를 고르세요.',
+    '완료 조건 · 입장을 기록하면 퀘스트가 끝납니다.',
   ].join('\n');
   return [
     quest.situationKo ? `상황 · ${quest.situationKo}` : '',
-    `지금 할 일 · ${heard + 1}/${required + 1}단계 · ${hostNameKo}${placeKo ? ` · ${placeKo}` : ''}에게 묻기`,
-    `대화 · 가까이서 말을 건 뒤, 대화창에서 정확히 이 질문을 선택하세요: “${promptKo}”`,
-    '진행 인정 · 인물의 답변이 생성되어 기록되어야 관점 1개가 추가됩니다. 인사·다른 질문·AI 응답 실패는 진행되지 않습니다.',
+    `${heard + 1}/${required + 1}단계 · ${hostNameKo}에게 말 걸기${placeKo ? ` · 장소: ${placeKo}` : ''}`,
+    `대화 · 가까이서 말을 건 뒤, 대화창의 「퀘스트 질문에 답하기」를 누르세요: “${promptKo}”`,
+    '진행 조건 · 답변이 생성되어 수첩에 기록되면 관점 1개가 추가됩니다. 응답 실패 시 진행되지 않습니다.',
     heard + 1 < required
-      ? nextHostNameKo && nextPromptKo ? `다음 · ${nextHostNameKo}에게 “${nextPromptKo}”라고 물으세요.` : `다음 · 다른 인물에게 같은 쟁점을 물어 ${required}명의 답을 모으세요.`
-      : '다음 · 이 답변으로 필요한 관점이 모이면 수첩에서 입장을 기록하세요.',
-    `완료 · ${required}명의 답을 들은 뒤 수첩에서 「${quest.titleKo}」의 내 입장을 선택해 기록하세요.`,
+      ? nextHostNameKo && nextPromptKo ? `다음 단계 · ${nextHostNameKo}에게 같은 쟁점을 물으세요: “${nextPromptKo}”` : `다음 단계 · 다른 인물에게 같은 쟁점을 물어 ${required}명의 답을 모으세요.`
+      : '다음 단계 · 두 번째 답변을 받은 뒤 수첩에서 내 입장을 기록하세요.',
+    `완료 조건 · 서로 다른 ${required}명의 답을 듣고 수첩에서 「${quest.titleKo}」의 내 입장을 선택해 기록하면 끝납니다.`,
   ].filter(Boolean).join('\n');
+}
+
+export function discussionReplyAction(replyText, queuedPrompt) {
+  if (queuedPrompt && replyText === queuedPrompt) return {
+    label: '퀘스트 질문에 답하기',
+    subcopy: `이 질문을 선택해야 답변이 기록됩니다 · “${queuedPrompt}”`,
+    questQuestion: true,
+  };
+  return { label: replyText, subcopy: '', questQuestion: false };
 }
 
 export function nextDiscussionInstructionForQuest(questId, quests, hostNames = {}, sourceIds = []) {

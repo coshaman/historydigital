@@ -7,7 +7,7 @@ import { questChoices, continuationQuest, resolveObjectQuest } from './engine/qu
 import { questOutcomeSummary } from './engine/quest-outcome-summary.mjs';
 import { formatMissionActionKo, guideToResident, resolveQuestGuidance } from './engine/quest-guidance.mjs';
 import { ownsKeyboardInput, observationText } from './engine/player-presentation.mjs';
-import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHost, discussionQuestInstruction, discussionReflectionPromptsForHost, discussionReplyChoices, formatDiscussionQuestTaskKo, formatQueuedDiscussionTaskKo, nextDiscussionInstructionForQuest, shouldOpenDiscussionBoard, shouldShowQuestTracker } from './engine/discussion-quests.mjs';
+import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHost, discussionQuestInstruction, discussionReflectionPromptsForHost, discussionReplyAction, discussionReplyChoices, formatDiscussionQuestTaskKo, formatQueuedDiscussionTaskKo, nextDiscussionInstructionForQuest, shouldOpenDiscussionBoard, shouldShowQuestTracker } from './engine/discussion-quests.mjs';
 import { dialogueSessionNeedsReconnect, dialogueSpeakerLabel, mayOfferDiscussionPrompt, selectDialogueTurn } from './engine/dialogue-response.mjs';
 import { dialogueSceneContext } from './engine/dialogue-context.mjs';
 import { advanceHistoricalSessionTime, beginHistoricalSession, canConcludeHistoricalSession, exitHistoricalSession, historicalParticipantGuide, historicalReplyText, historicalSessionProgressLabelKo, performHistoricalAction, recordHistoricalChoice } from './engine/historical-session.mjs';
@@ -448,9 +448,9 @@ function say(title, text, actions = [], { keepMissionContext = false } = {}) {
   $('.actions').classList.remove('roster-options', 'type-setter-active', 'timeline-puzzle-active', 'history-event-options');
   $('#mission-tracker').hidden = !shouldShowQuestTracker({ ending: Boolean(state.endingId), hasActions: visibleActions.length > 0,
     storyOverview, activeDialogue: Boolean(activeDialogueHost), keepVisible: keepMissionContext });
-  $('#actions').replaceChildren(...visibleActions.map(({ label, subcopy, run, disabled = false }) => {
+  $('#actions').replaceChildren(...visibleActions.map(({ label, subcopy, run, disabled = false, className = '' }) => {
     const button = document.createElement('button');
-    button.type = 'button'; button.disabled = disabled;
+    button.type = 'button'; button.disabled = disabled; if (className) button.className = className;
     const heading = document.createElement('span'); heading.textContent = label; button.append(heading);
     if (subcopy) { const detail = document.createElement('small'); detail.textContent = subcopy; button.append(detail); }
     button.addEventListener('click', run);
@@ -2430,7 +2430,12 @@ function showConversation(card, promptText, replies, statusText = '') {
       clearHistoricalDialogue();
       if (scene && actor) resolveHistoricalConversation(scene, actor, option);
     } }))
-    : replies.slice(0, 3).map((label, index) => ({ label, run: () => sendConversation(card, label, `R${index + 1}`) }));
+    : replies.slice(0, 3).map((label, index) => {
+      const queuedPrompt = queuedDiscussionInquiry?.hostId === card.id ? queuedDiscussionInquiry.promptKo : null;
+      const presentation = discussionReplyAction(label, queuedPrompt);
+      return { ...presentation, className: presentation.questQuestion ? 'quest-dialogue-choice' : '',
+        run: () => sendConversation(card, label, `R${index + 1}`) };
+    });
   replyActions.push({ label: '대화 마치기', run: () => finishConversation(card.id) });
   say('대화 중', promptText || dialogueCurrentLines.get(activeDialogueKey) || '', replyActions);
   if (dialogueRequestPending) $('#actions').querySelectorAll('.dialogue-input button').forEach(button => { button.disabled = true; });
