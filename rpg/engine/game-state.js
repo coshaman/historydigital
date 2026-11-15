@@ -7990,8 +7990,38 @@ function appendLedgerEvent(state, entry, priorState = state) {
 }
 
 function saveGame(state) {
+  // Long campaigns can create thousands of low-value NPC simulation rows.
+  // Keep those rows in the live game, but archive old simulation batches in
+  // the save envelope before Web Storage's small per-origin quota is reached.
   ensureLedgerDigest(state);
-  return JSON.stringify({ saveVersion: SAVE_VERSION, checksum: stateHash(state), state });
+  const savedState = clone(state);
+  const serialize = () => JSON.stringify({ saveVersion: SAVE_VERSION, checksum: stateHash(savedState), state: savedState });
+  let raw = serialize();
+  const targetChars = 3_500_000;
+  while (raw.length > targetChars) {
+    const simulationIndexes = [];
+    for (let index = 0; index < savedState.ledger.length; index += 1) {
+      if (savedState.ledger[index].eventType === 'NPC_SIMULATION') simulationIndexes.push(index);
+    }
+    if (simulationIndexes.length <= 200) break;
+    const removeCount = Math.max(1, Math.min(simulationIndexes.length - 200, Math.ceil(simulationIndexes.length * 0.25)));
+    const removedIndexes = new Set(simulationIndexes.slice(0, removeCount));
+    const removed = savedState.ledger.filter((_, index) => removedIndexes.has(index));
+    savedState.ledger = savedState.ledger.filter((_, index) => !removedIndexes.has(index));
+    savedState.ledgerArchive ??= { count: 0, digest: hashText('V36_LEDGER_ARCHIVE'), ranges: [] };
+    savedState.ledgerArchive.count += removed.length;
+    savedState.ledgerArchive.digest = hashText(`${savedState.ledgerArchive.digest}:${digestLedger(removed)}`);
+    const dates = removed.map(entry => entry.date).filter(Boolean).sort();
+    savedState.ledgerArchive.ranges.push({ count: removed.length, from: dates[0] ?? null, to: dates.at(-1) ?? null });
+    if (savedState.ledgerArchive.ranges.length > 24) {
+      const folded = savedState.ledgerArchive.ranges.splice(0, savedState.ledgerArchive.ranges.length - 24);
+      savedState.ledgerArchive.foldedRangeCount = (savedState.ledgerArchive.foldedRangeCount ?? 0) + folded.reduce((sum, row) => sum + row.count, 0);
+    }
+    savedState.ledgerDigest = digestLedger(savedState.ledger);
+    savedState.ledgerDigestCount = savedState.ledger.length;
+    raw = serialize();
+  }
+  return raw;
 }
 
 function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {}) {
