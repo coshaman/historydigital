@@ -34,8 +34,8 @@ test('conversation quest guidance names who to ask, what to say, and how to fini
 test('queued conversation quest has a distinct question button and a plain completion checklist', () => {
   const promptKo = '검열관은 이 문장을 왜 문제 삼았소?';
   assert.deepEqual(discussionReplyAction(promptKo, promptKo), {
-    label: '퀘스트 질문에 답하기',
-    subcopy: `이 질문을 선택해야 답변이 기록됩니다 · “${promptKo}”`,
+    label: '퀘스트 질문 묻기',
+    subcopy: `이 질문을 고르거나 같은 쟁점을 직접 물어보세요 · “${promptKo}”`,
     questQuestion: true,
   });
   assert.deepEqual(discussionReplyAction('오늘은 바쁘세요?', promptKo), {
@@ -48,7 +48,7 @@ test('queued conversation quest has a distinct question button and a plain compl
     situationKo: '검열관의 보고서와 모임 참석자의 기억이 엇갈린다.',
   }, { hostNameKo: '이반 세묘노프', placeKo: '관청 앞', promptKo });
   assert.match(task, /1\/3단계 · 이반 세묘노프에게 말 걸기 · 장소: 관청 앞/);
-  assert.match(task, /퀘스트 질문에 답하기/);
+  assert.match(task, /같은 일을 직접 물어도 됩니다/);
   assert.match(task, /다른 인물/);
   assert.match(task, /수첩에서 「검열 보고서의 서로 다른 목소리」의 내 입장을 선택/);
 });

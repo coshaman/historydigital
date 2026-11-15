@@ -110,8 +110,8 @@ export function formatQueuedDiscussionTaskKo(quest, {
   return [
     quest.situationKo ? `상황 · ${quest.situationKo}` : '',
     `${heard + 1}/${required + 1}단계 · ${hostNameKo}에게 말 걸기${placeKo ? ` · 장소: ${placeKo}` : ''}`,
-    `대화 · 가까이서 말을 건 뒤, 대화창의 「퀘스트 질문에 답하기」를 누르세요: “${promptKo}”`,
-    '진행 조건 · 답변이 생성되어 수첩에 기록되면 관점 1개가 추가됩니다. 응답 실패 시 진행되지 않습니다.',
+    `대화 · ${hostNameKo}에게 “${promptKo}”라고 물어보세요. 이 문장을 그대로 고르거나 같은 일을 직접 물어도 됩니다.`,
+    '진행 조건 · 이 인물의 답변을 받으면 관점 1개가 기록됩니다. 인사만 하거나 응답 생성에 실패하면 진행되지 않습니다.',
     heard + 1 < required
       ? nextHostNameKo && nextPromptKo ? `다음 단계 · ${nextHostNameKo}에게 같은 쟁점을 물으세요: “${nextPromptKo}”` : `다음 단계 · 다른 인물에게 같은 쟁점을 물어 ${required}명의 답을 모으세요.`
       : '다음 단계 · 두 번째 답변을 받은 뒤 수첩에서 내 입장을 기록하세요.',
@@ -121,11 +121,20 @@ export function formatQueuedDiscussionTaskKo(quest, {
 
 export function discussionReplyAction(replyText, queuedPrompt) {
   if (queuedPrompt && replyText === queuedPrompt) return {
-    label: '퀘스트 질문에 답하기',
-    subcopy: `이 질문을 선택해야 답변이 기록됩니다 · “${queuedPrompt}”`,
+    label: '퀘스트 질문 묻기',
+    subcopy: `이 질문을 고르거나 같은 쟁점을 직접 물어보세요 · “${queuedPrompt}”`,
     questQuestion: true,
   };
   return { label: replyText, subcopy: '', questQuestion: false };
+}
+
+export function resolveQueuedDiscussionPrompt(queuedInquiry, quests, hostId, playerText = '') {
+  if (!queuedInquiry || queuedInquiry.hostId !== hostId) return null;
+  const quest = (quests ?? []).find(item => item.id === queuedInquiry.questId && item.hosts?.[hostId]);
+  if (!quest) return null;
+  const plainText = String(playerText).trim();
+  if (/^(?:안녕하세요[!.?。]?|안녕하십니까[!.?。]?|좋은 아침(?:입니다)?[!.?。]?|잠깐 이야기 나눠도 될까요[!.?。]?|오늘은 무슨 일로 바쁘세요[!.?。]?|요즘 지내는 이야기를 들려주세요[!.?。]?)$/u.test(plainText)) return null;
+  return { discussionId: quest.id, questTitleKo: quest.titleKo, promptKo: quest.hosts[hostId].promptKo };
 }
 
 export function nextDiscussionInstructionForQuest(questId, quests, hostNames = {}, sourceIds = []) {

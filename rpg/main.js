@@ -7,7 +7,7 @@ import { questChoices, continuationQuest, resolveObjectQuest } from './engine/qu
 import { questOutcomeSummary } from './engine/quest-outcome-summary.mjs';
 import { formatMissionActionKo, guideToResident, resolveQuestGuidance } from './engine/quest-guidance.mjs';
 import { ownsKeyboardInput, observationText } from './engine/player-presentation.mjs';
-import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHost, discussionQuestInstruction, discussionReflectionPromptsForHost, discussionReplyAction, discussionReplyChoices, formatDiscussionQuestTaskKo, formatQueuedDiscussionTaskKo, nextDiscussionInstructionForQuest, shouldOpenDiscussionBoard, shouldShowQuestTracker } from './engine/discussion-quests.mjs';
+import { availableDiscussionQuests, discussionBoardView, discussionPromptsForHost, discussionQuestInstruction, discussionReflectionPromptsForHost, discussionReplyAction, discussionReplyChoices, formatDiscussionQuestTaskKo, formatQueuedDiscussionTaskKo, nextDiscussionInstructionForQuest, resolveQueuedDiscussionPrompt, shouldOpenDiscussionBoard, shouldShowQuestTracker } from './engine/discussion-quests.mjs';
 import { dialogueSessionNeedsReconnect, dialogueSpeakerLabel, mayOfferDiscussionPrompt, selectDialogueTurn } from './engine/dialogue-response.mjs';
 import { dialogueSceneContext } from './engine/dialogue-context.mjs';
 import { advanceHistoricalSessionTime, beginHistoricalSession, canConcludeHistoricalSession, exitHistoricalSession, historicalParticipantGuide, historicalReplyText, historicalSessionProgressLabelKo, performHistoricalAction, recordHistoricalChoice } from './engine/historical-session.mjs';
@@ -2485,8 +2485,12 @@ async function startConversation(card) {
   // Let the player hear about the resident's day before offering abstract
   // questions. The authored issue prompts appear after the first AI exchange.
   const remaining = ['오늘은 무슨 일로 바쁘세요?', '요즘 지내는 이야기를 들려주세요.', '잠깐 이야기 나눠도 될까요?'];
+  const queuedPrompt = queuedDiscussionInquiry?.hostId === card.id ? queuedDiscussionInquiry.promptKo : null;
+  const starterReplies = queuedPrompt ? [queuedPrompt, ...remaining].slice(0, 3) : remaining.slice(0, 3);
   dialogueCurrentLines.set(key, contextualOpening(card.id, actorCard.id));
-  showConversation(card, dialogueCurrentLines.get(key), remaining, '선택지는 빠른 대답입니다. 직접 입력해도 됩니다.');
+  showConversation(card, dialogueCurrentLines.get(key), starterReplies, queuedPrompt
+    ? '퀘스트 질문이 준비됐습니다. 이 질문을 고르거나 같은 쟁점을 직접 물어보세요.'
+    : '선택지는 빠른 대답입니다. 직접 입력해도 됩니다.');
   if (!session) {
     const controller = new AbortController(); activeDialogueController = controller;
     const timer = setTimeout(() => controller.abort(), 8000);
@@ -2504,8 +2508,6 @@ async function startConversation(card) {
     if (activeDialogueHost !== card.id || activeDialogueKey !== key || dialogueGeneration !== generation) return;
   }
 
-  const queuedPrompt = queuedDiscussionInquiry?.hostId === card.id ? queuedDiscussionInquiry.promptKo : null;
-  const starterReplies = queuedPrompt ? [queuedPrompt, ...remaining].slice(0, 3) : remaining.slice(0, 3);
   showConversation(card, dialogueCurrentLines.get(key), starterReplies,
     sessionFailure ? `AI 연결 실패 · ${sessionFailure}` : hasLiveDialogue(key)
       ? queuedPrompt ? '준비한 질문을 골라 답을 들으세요. 대화가 기록되면 다음 인물과 질문을 수첩에 표시합니다.' : '첫마디는 장면용 대사입니다. 아래에서 질문을 고르거나 직접 말하면 AI 생성 답변을 표시합니다.'
@@ -2593,12 +2595,9 @@ async function sendConversation(card, playerText, replyId = null) {
   const intentClass = classifyTypedResponse(playerText);
   const actorCard = cards.find(item => item.id === state.player.embodiment);
   const liveDiscussionQuests = currentDiscussionQuests();
-  const queuedPromptMatches = queuedDiscussionInquiry?.hostId === card.id && queuedDiscussionInquiry.promptKo === playerText;
-  const queuedPromptQuest = queuedPromptMatches
-    ? liveDiscussionQuests.find(item => item.id === queuedDiscussionInquiry.questId && item.hosts?.[card.id]?.promptKo === playerText)
-    : null;
+  const queuedPromptQuest = resolveQueuedDiscussionPrompt(queuedDiscussionInquiry, liveDiscussionQuests, card.id, playerText);
   const discussionPrompt = queuedPromptQuest
-    ? { discussionId: queuedPromptQuest.id, questTitleKo: queuedPromptQuest.titleKo, promptKo: playerText }
+    ? queuedPromptQuest
     : discussionPromptsForHost(card.id, liveDiscussionQuests).find(item => item.promptKo === playerText);
   const reflectionPrompt = discussionReflectionPromptsForHost(card.id, state, liveDiscussionQuests).find(item => item.promptKo === playerText);
   const lines = dialogueTranscripts.get(key) ?? [];
@@ -2694,7 +2693,8 @@ async function sendConversation(card, playerText, replyId = null) {
   const recorded = recordDialogueTurn(state, { hostId: card.id, actorHostId: actorCard.id, sceneId: local.sceneId, intentClass, discussionId: discussionPrompt?.discussionId ?? null, discussionTitleKo: discussionPrompt?.questTitleKo, reflectionId: reflectionPrompt?.reflectionId ?? null, aiGenerated }, maps);
   if (recorded.ok) setState(recorded.state);
   let discussionProgressStatus = '';
-  if (recorded.ok && queuedDiscussionInquiry?.hostId === card.id && queuedDiscussionInquiry?.promptKo === playerText) {
+  if (recorded.ok && discussionPrompt && queuedDiscussionInquiry?.hostId === card.id
+    && queuedDiscussionInquiry?.questId === discussionPrompt.discussionId) {
     const inquiryId = queuedDiscussionInquiry.questId;
     const nextInquiry = currentDiscussionQuests().find(item => item.id === inquiryId);
     const instruction = discussionQuestInstruction(nextInquiry, Object.fromEntries(cards.map(item => [item.id, item.displayNameKo])));
