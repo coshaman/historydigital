@@ -15,7 +15,7 @@ export function historicalSessionProgressLabelKo(scene, active = {}) {
   return `대화 ${Math.min(active.spokenActorIds?.length ?? 0, requirements.spokenActors)}/${requirements.spokenActors} · 현장 일 ${Math.min(active.completedObjectives?.length ?? 0, requirements.completedObjectives)}/${requirements.completedObjectives} · 역할별 결정 ${Math.min(completedRoles, requiredRoles)}/${requiredRoles} · 구역 ${active.visitedMapIds?.length ?? 0}/${mapCount}${elapsedRequired ? ` · 현장 시간 ${active.elapsedMinutes ?? 0}/${elapsedRequired}분` : ''}`;
 }
 
-export function historicalParticipantGuide(scene, actorId, activeSession = {}) {
+export function historicalParticipantGuide(scene, actorId, activeSession = {}, currentActorId = actorId) {
   const actor = scene?.actors?.find(person => person.id === actorId);
   if (!actor) return null;
   const objective = scene.objectives?.find(item => item.id === actor.objectiveId);
@@ -48,10 +48,18 @@ export function historicalParticipantGuide(scene, actorId, activeSession = {}) {
   const taskKo = authoredGuide?.actionId === action?.id
     ? authoredGuide.taskKo : objective?.actionKo ?? action?.promptKo ?? '맡은 일을 처리한다';
   const firstTopicKo = actor.sceneTopicsKo?.[0] ?? taskKo;
-  const conversationPromptKo = `“${firstTopicKo} 얘기 좀 들려주시겠어요? 지금 무슨 일이에요?”`;
   const actionChoiceLabelsKo = action?.options?.map(option => option.labelKo).filter(Boolean) ?? [];
+  const firstChoiceKo = actionChoiceLabelsKo[0] ?? taskKo;
+  const conversationPromptKo = `“${firstTopicKo} 이야기를 들었어요. ‘${firstChoiceKo}’부터 해보면 어떨까요?”`;
+  const requiredActorNameKo = action?.requiredActorId
+    ? scene.actors.find(person => person.id === action.requiredActorId)?.nameKo ?? null : null;
+  const needsRoleSwitch = Boolean(action?.requiredActorId && action.requiredActorId !== currentActorId);
+  const questTitleKo = authoredGuide?.titleKo ?? objective?.titleKo ?? '이 퀘스트';
+  const afterConversationKo = action
+    ? `답변 뒤 반응을 선택하면 대화가 기록됩니다. 이어서 ${needsRoleSwitch ? `${requiredActorNameKo}로 바꾸고 ` : ''}${action.propKo}에서 E를 누르세요. 「${actionChoiceLabelsKo.join('」 또는 「')}」 중 하나를 고르면 ‘${questTitleKo}’가 끝납니다.`
+    : '답변을 들은 뒤 반응을 선택하면 이 대화 퀘스트가 끝납니다.';
   const completionKo = action
-    ? `대화만으로는 개인 퀘스트가 끝나지 않습니다. ${action.propKo}에서 E를 누르고 ${actionChoiceLabelsKo.map(label => `「${label}」`).join(' 또는 ')} 중 하나를 고르면 퀘스트 완료입니다.`
+    ? `대화 답변 뒤 반응을 선택하고, ${needsRoleSwitch ? `${requiredActorNameKo}로 바꾼 다음 ` : ''}${action.propKo}에서 E를 눌러 ${actionChoiceLabelsKo.map(label => `「${label}」`).join(' 또는 ')} 중 하나를 고르면 퀘스트 완료입니다.`
     : '인물의 답변을 들으면 이 대화 목표가 완료됩니다.';
   const roleStep = action?.requiredActorId && action.requiredActorId !== actor.id
     ? [`인물 바꾸기 · ${scene.actors.find(person => person.id === action.requiredActorId)?.nameKo ?? '맡을 인물'}로 전환`] : [];
@@ -63,6 +71,7 @@ export function historicalParticipantGuide(scene, actorId, activeSession = {}) {
     talkToNamesKo,
     conversationTopicsKo: actor.sceneTopicsKo ?? [],
     conversationPromptKo,
+    afterConversationKo,
     actionChoiceLabelsKo,
     completionKo,
     taskKo,
@@ -71,13 +80,12 @@ export function historicalParticipantGuide(scene, actorId, activeSession = {}) {
     questStepsKo: [
       `갈 곳 · ${placeKo}`,
       `말 걸기 · ${firstContactKo}에게 “${conversationPromptKo.slice(1, -1)}”라고 물으세요`,
-      '대화 기록 · 답을 들은 뒤 대화 선택지 하나를 고르세요',
+      `대화 기록 · “${conversationPromptKo.slice(1, -1)}”를 묻고 답변 뒤 반응을 선택하세요`,
       ...roleStep,
       `현장 행동 · ${action?.propKo ?? '주변 사람'} · ${action?.promptKo ?? taskKo}${actionChoiceLabelsKo.length ? ` · ${actionChoiceLabelsKo.map(label => `「${label}」`).join(' 또는 ')}` : ''}`,
       `완료 조건 · ${action ? `${action.propKo}에서 선택지를 실행하면 개인 퀘스트가 끝납니다` : '대화 답변을 선택하면 이 목표가 끝납니다'}`,
     ],
-    requiredActorNameKo: action?.requiredActorId
-      ? scene.actors.find(person => person.id === action.requiredActorId)?.nameKo ?? null : null,
+    requiredActorNameKo,
     completed: Boolean((action && activeSession.actionOutcomes?.[action.id])
       || activeSession.completedObjectives?.includes(actor.objectiveId)),
     actionCompleted: Boolean(action && activeSession.actionOutcomes?.[action.id]),

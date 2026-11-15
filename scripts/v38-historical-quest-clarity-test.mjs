@@ -21,14 +21,24 @@ for (const scene of scenes) {
     assert.ok(guide.questStepsKo?.[0].startsWith('갈 곳 · ') && guide.questStepsKo[0].includes(guide.placeKo));
     assert.ok(guide.questStepsKo?.[1].startsWith('말 걸기 · ') && guide.questStepsKo[1].includes(guide.talkToNamesKo[0]), `${scene.eventId}/${actor.id} names the first person to approach`);
     assert.ok(guide.questStepsKo?.[1].includes(guide.conversationPromptKo), `${scene.eventId}/${actor.id} names a concrete conversation question`);
-    assert.ok(guide.questStepsKo?.[2].includes('대화 기록') && guide.questStepsKo[2].includes('답을 들은 뒤'), `${scene.eventId}/${actor.id} states what makes a conversation count`);
+    assert.ok(guide.questStepsKo?.[2].includes('대화 기록') && guide.questStepsKo[2].includes('반응을 선택'), `${scene.eventId}/${actor.id} states what makes a conversation count`);
     assert.ok(guide.questStepsKo?.some(step => step.startsWith('현장 행동 · ') && step.includes(guide.propKo)), `${scene.eventId}/${actor.id} names the object/action to complete`);
     assert.ok(guide.questStepsKo?.at(-1).startsWith('완료 조건 · '), `${scene.eventId}/${actor.id} ends with the exact completion condition`);
     assert.ok(guide.conversationPromptKo?.length >= 15, `${scene.eventId}/${actor.id} gives the player a concrete first question`);
+    assert.ok(guide.conversationPromptKo.includes(actor.sceneTopicsKo[0]), `${scene.eventId}/${actor.id} asks about the character's specific scene topic`);
+    assert.ok(guide.conversationPromptKo.includes(scene.fieldActions.find(item => item.id === guide.actionId).options[0].labelKo), `${scene.eventId}/${actor.id} anchors the question to a real next action`);
+    assert.doesNotMatch(guide.conversationPromptKo, /지금 무슨 일이에요/u, `${scene.eventId}/${actor.id} avoids a context-free stock question`);
+    assert.ok(guide.afterConversationKo?.includes(guide.propKo) && guide.afterConversationKo.includes('E'), `${scene.eventId}/${actor.id} sees the exact next action after a recorded reply`);
     assert.ok(guide.completionKo?.includes(guide.propKo) && /퀘스트 완료/u.test(guide.completionKo), `${scene.eventId}/${actor.id} explains that the talk alone is not enough and names the completion condition`);
     assert.ok(guide.actionChoiceLabelsKo?.length >= 2, `${scene.eventId}/${actor.id} shows the exact field choices that complete the quest`);
     assert.ok(guide.questStepsKo.some(step => step.includes(guide.conversationPromptKo)), `${scene.eventId}/${actor.id} includes the ready-to-use question in the quest steps`);
     const action = scene.fieldActions.find(item => item.id === guide.actionId);
+    if (action.requiredActorId) {
+      const alreadyInRole = historicalParticipantGuide(scene, actor.id, {}, action.requiredActorId);
+      assert.doesNotMatch(alreadyInRole.afterConversationKo, /로 바꾸고/u, `${scene.eventId}/${actor.id} does not tell a player already in the required role to switch again`);
+      const wrongRole = historicalParticipantGuide(scene, actor.id, {}, 'different-role');
+      assert.match(wrongRole.afterConversationKo, new RegExp(`${guide.requiredActorNameKo}로 바꾸고`, 'u'), `${scene.eventId}/${actor.id} names the necessary body switch`);
+    }
     if (scene.actorQuestGuides?.[actor.id]) assert.equal(action?.id, scene.actorQuestGuides[actor.id].actionId, `${scene.eventId}/${actor.id} follows its authored quest`);
     else assert.equal(action?.objectiveId, actor.objectiveId, `${scene.eventId}/${actor.id} is not sent to an unrelated task`);
     if (scene.eventId !== 'EMANCIPATION_1861') {

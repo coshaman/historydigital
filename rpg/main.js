@@ -1414,9 +1414,9 @@ function startHistoricalConversation(card) {
   if (joiningVoices.length) line += `\n\n${joiningVoices.join('\n')}`;
   dialogueCurrentLines.set(speakerKey, line);
   const topicGuide = person.sceneTopicsKo?.length ? ` 물어볼 내용 · ${person.sceneTopicsKo.join(' · ')}.` : '';
-  const guide = historicalParticipantGuide(scene, person.id, session);
+  const guide = historicalParticipantGuide(scene, person.id, session, state.player.embodiment?.split(':').at(-1));
   showConversation(card, line, [guide?.conversationPromptKo ?? person.sceneTopicsKo?.[0] ?? '지금 현장에서 벌어진 일을 묻는다'],
-    `아래 질문을 누르면 ${guide?.conversationTopicsKo?.[0] ?? '현장 상황'}에 관해 묻습니다. 답변을 읽은 뒤 상대의 반응 선택지를 골라야 대화가 기록됩니다.${topicGuide}`);
+    `퀘스트 대화 · ${guide?.talkToNamesKo[0] ?? person.nameKo}에게 이 질문을 하세요. 답변 뒤 반응을 선택해야 대화가 기록됩니다.${guide?.afterConversationKo ? ` 다음 할 일 · ${guide.afterConversationKo}` : ''}${topicGuide}`);
 }
 function resolveHistoricalConversation(scene, person, response) {
   let next = advanceHistoricalSessionTime(state, response.stance === 'defer' ? 1 : 2, maps, advanceWorldTime);
@@ -1442,10 +1442,9 @@ function resolveHistoricalConversation(scene, person, response) {
     { label: '현장 인물 목록', subcopy: historicalSessionProgressLabelKo(scene, next.historicalSession), run: openCharacterList },
     { label: '현장을 나간다', subcopy: '원래 자리로 돌아갑니다', run: () => leaveHistoricalSession(false) },
   ];
-  const actionHint = scene.fieldActions.find(action => action.objectiveId === person.objectiveId && !next.historicalSession.actionOutcomes?.[action.id]);
+  const participantGuide = historicalParticipantGuide(scene, person.id, next.historicalSession, next.player.embodiment?.split(':').at(-1));
   const reaction = historicalReplyText(person, response) || '그 사람은 고개를 끄덕이고 현장으로 돌아갔다.';
-  const nextHint = response.stance === 'defer' ? '조금 더 돌아본 뒤 판단을 바꿀 수 있다.'
-    : actionHint ? `이제 ${actionHint.propKo} 곁에서 실제로 처리할 수 있다.` : '다른 현장 일을 이어서 살펴보자.';
+  const nextHint = participantGuide?.afterConversationKo ?? '대화 답변을 기록했습니다. 현장 인물 목록에서 다음 부탁을 확인하세요.';
   say(person.nameKo, `${reaction}\n\n${nextHint}\n\n${historicalSessionProgressLabelKo(scene, next.historicalSession)}${unlocked ? `\n\n${historicalClimaxText(scene)}` : ''}`, actions);
 }
 function startHistoricalAction(scene, action) {
