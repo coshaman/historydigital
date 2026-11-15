@@ -46,6 +46,57 @@ function drawE41Scene(ctx, state, map, ox, oy, scale, reducedMotion) {
   ctx.restore();
 }
 
+function drawArrestOperation(ctx, state, map, ox, oy, scale, time, reducedMotion) {
+  const event = state?.world?.v47?.events?.MAIN03_PETRASHEVSKY_ARREST;
+  const operation = event?.npcAutonomy;
+  if (map?.mapId !== 'morskaya-intersection' && map?.mapId !== 'police-station') return;
+  if (!Array.isArray(operation?.squads)) return;
+  const px = x => ox + x * 16 * scale, py = y => oy + y * 16 * scale;
+  ctx.save();
+  for (const evidence of operation.evidenceItems ?? []) {
+    const carried = evidence.status === 'SEIZED' || evidence.status === 'STORED';
+    if (!carried && evidence.status !== 'ON_SCENE') continue;
+    const squad = carried ? operation.squads.find(item => item.id === evidence.holderSquadId) : null;
+    const mapId = squad?.mapId ?? evidence.mapId;
+    if (mapId !== map.mapId) continue;
+    const position = squad?.position ?? evidence.position;
+    const x = px(position.x), y = py(position.y);
+    drawGroundShadow(ctx, { x: x + 4 * scale, baseY: y + 13 * scale, width: 9, scale, strength: .8, elevation: 1 });
+    ctx.fillStyle = evidence.id === 'BOOK_PACKET' ? '#b18a58' : evidence.id === 'DELIVERY_RECEIPT' ? '#e2cf9d' : '#a97852';
+    ctx.fillRect(x + 4 * scale, y + 7 * scale, 8 * scale, 5 * scale);
+    ctx.fillStyle = '#392b22';
+    ctx.fillRect(x + 5 * scale, y + 8 * scale, 6 * scale, scale);
+    if (!carried) {
+      ctx.font = `bold ${Math.max(7, 8 * scale)}px 'Noto Serif KR', serif`;
+      const label = evidence.id === 'BOOK_PACKET' ? '책' : evidence.id === 'DELIVERY_RECEIPT' ? '영수증' : '서류';
+      const width = ctx.measureText(label).width + 6 * scale;
+      ctx.fillStyle = 'rgba(35,25,19,.9)'; ctx.fillRect(x + 8 * scale - width / 2, y - 7 * scale, width, 7 * scale);
+      ctx.fillStyle = '#f2e4c1'; ctx.fillText(label, x + 8 * scale - width / 2 + 3 * scale, y - 2 * scale);
+    }
+  }
+  for (const squad of operation.squads) {
+    if (squad.mapId !== map.mapId || squad.status === 'AT_STATION' && map.mapId !== 'police-station') continue;
+    const x = px(squad.position.x), y = py(squad.position.y);
+    const sway = reducedMotion ? 0 : Math.sin(time / 160 + squad.routeIndex) * .45 * scale;
+    drawGroundShadow(ctx, { x: x + 1 * scale, baseY: y + 15 * scale, width: 14, scale, strength: 1, elevation: 1 });
+    for (const [offset, coat] of [[1, '#493a32'], [6, '#394650'], [11, '#55463a']]) {
+      const lift = sway;
+      ctx.fillStyle = '#b88b69'; ctx.fillRect(x + (offset + 1) * scale, y + (2 + lift) * scale, 3 * scale, 3 * scale);
+      ctx.fillStyle = '#c2a86e'; ctx.fillRect(x + offset * scale, y + (1 + lift) * scale, 5 * scale, scale);
+      ctx.fillStyle = coat; ctx.fillRect(x + offset * scale, y + (5 + lift) * scale, 5 * scale, 7 * scale);
+      ctx.fillStyle = '#29231f'; ctx.fillRect(x + offset * scale, y + (12 + lift) * scale, 2 * scale, 3 * scale);
+      ctx.fillRect(x + (offset + 3) * scale, y + (12 + lift) * scale, 2 * scale, 3 * scale);
+    }
+    const shortName = squad.id === 'FRONT_DOOR' ? '정문조' : squad.id === 'COURTYARD_GATE' ? '안뜰조' : '차단조';
+    ctx.font = `bold ${Math.max(7, 8 * scale)}px 'Noto Serif KR', serif`;
+    const labelWidth = ctx.measureText(shortName).width + 8 * scale;
+    ctx.fillStyle = 'rgba(35,25,19,.92)'; ctx.fillRect(x + 8 * scale - labelWidth / 2, y - 9 * scale, labelWidth, 8 * scale);
+    ctx.strokeStyle = '#a77b4e'; ctx.lineWidth = Math.max(1, scale * .55); ctx.strokeRect(x + 8 * scale - labelWidth / 2, y - 9 * scale, labelWidth, 8 * scale);
+    ctx.fillStyle = '#f0dfb8'; ctx.fillText(shortName, x + 8 * scale - labelWidth / 2 + 4 * scale, y - 3 * scale);
+  }
+  ctx.restore();
+}
+
 export function calculateCamera({ viewportWidth, viewportHeight, mapWidth, mapHeight, tileSize = 16, position, zoom = 2.25 }) {
   const mapWidthWorld = mapWidth * tileSize, mapHeightWorld = mapHeight * tileSize;
   const fitScale = Math.min(viewportWidth / mapWidthWorld, viewportHeight / mapHeightWorld);
@@ -247,6 +298,7 @@ export function createRenderer(canvas, assets) {
         px, py - 8 * scale, frameWidth * scale, frameHeight * scale, scale, lift);
       if (active) { ctx.strokeStyle = '#f2d38b'; ctx.lineWidth = 1; ctx.beginPath(); ctx.ellipse(px + 8 * scale, py + 15 * scale, 8 * scale, 3 * scale, 0, 0, Math.PI * 2); ctx.stroke(); }
     }
+    drawArrestOperation(ctx, state, map, ox, oy, scale, time, reducedMotion);
     for (const object of visibleObjects) {
       if (!isActionableInteraction(object, state, map, assets.quests)) continue;
       const x = ox + object.x * scale, y = oy + object.y * scale;

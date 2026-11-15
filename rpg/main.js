@@ -52,6 +52,7 @@ const cards = decorateCardsWithEraProfiles([...rawCards, ...v47ExtraCards, rasko
 const expansionMapIds = ['bookshop-lane','canal-road','workyard','bookshop-interior','bakery-interior','inn-interior','sewing-room','communal-room','morskaya-intersection','sofiya-salon'];
 const expansionMaps = Object.fromEntries(await Promise.all(expansionMapIds.map(async id => [id, await readJson(`./rpg/maps/${id}.json`)])));
 const maps = { nevsky: street, printshop: shop, chancery, courtyard, 'market-quay': marketMap, 'dead-souls': literaryMap, overcoat: overcoatMap, 'raskolnikov-tavern': raskolnikovMap, 'alyosha-snegiryov-room': alyoshaMap, 'police-station': policeMap, ...expansionMaps, ...Object.fromEntries(historicalSceneMaps) }, hostCards = cards;
+globalThis.V47MainStories.registerV47Maps(maps);
 attachV47StoryObjects(maps);
 attachV47StoryBeatObjects(maps, v47StoryBeatQuests);
 attachMain01PursuitObjects(maps);

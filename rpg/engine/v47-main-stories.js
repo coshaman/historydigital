@@ -48,6 +48,141 @@ function syncCholeraRisk(cholera) {
 }
 
 let REGISTERED_STORY_BEATS = [];
+let REGISTERED_V47_MAPS = {};
+function registerV47Maps(maps) {
+  REGISTERED_V47_MAPS = maps ?? {};
+  return Object.keys(REGISTERED_V47_MAPS).length;
+}
+
+function tilePath(mapId, start, target) {
+  const map = REGISTERED_V47_MAPS[mapId];
+  const collision = map?.layers?.find(layer => layer.name === 'Collision')?.data;
+  if (!map || !collision || !start || !target) return null;
+  const key = ({ x, y }) => `${x},${y}`;
+  const queue = [{ ...start }], previous = new Map([[key(start), null]]);
+  const directions = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+  while (queue.length) {
+    const point = queue.shift(), pointKey = key(point);
+    if (point.x === target.x && point.y === target.y) {
+      const path = [];
+      let cursor = pointKey;
+      while (previous.get(cursor)) {
+        const [parent] = previous.get(cursor);
+        const [x, y] = cursor.split(',').map(Number);
+        path.unshift({ x, y });
+        cursor = parent;
+      }
+      return path;
+    }
+    for (const [dx, dy] of directions) {
+      const next = { x: point.x + dx, y: point.y + dy }, nextKey = key(next);
+      if (next.x < 0 || next.y < 0 || next.x >= map.width || next.y >= map.height
+        || collision[next.y * map.width + next.x] !== 0 || previous.has(nextKey)) continue;
+      previous.set(nextKey, [pointKey]);
+      queue.push(next);
+    }
+  }
+  return null;
+}
+
+const ARREST_SQUAD_LAYOUT = Object.freeze([
+  { id: 'FRONT_DOOR', nameKo: '정문 수색조', start: { x: 1, y: 13 }, approach: { x: 17, y: 12 }, exit: { x: 6, y: 16 }, evidenceIds: ['BOOK_PACKET', 'PAPER_BUNDLE'], delayMinutes: 6 },
+  { id: 'COURTYARD_GATE', nameKo: '안뜰 통로조', start: { x: 13, y: 18 }, approach: { x: 19, y: 12 }, exit: { x: 6, y: 16 }, evidenceIds: ['DELIVERY_RECEIPT'] },
+  { id: 'STREET_BLOCK', nameKo: '거리 차단조', start: { x: 28, y: 13 }, approach: { x: 14, y: 12 }, exit: { x: 6, y: 16 }, evidenceIds: [] },
+]);
+
+function createArrestSquads(clockMinutes) {
+  const mapId = 'morskaya-intersection';
+  return ARREST_SQUAD_LAYOUT.map(layout => {
+    const approachRoute = tilePath(mapId, layout.start, layout.approach);
+    const withdrawalRoute = tilePath(mapId, layout.approach, layout.exit);
+    if (!approachRoute || !withdrawalRoute) return null;
+    return { id: layout.id, nameKo: layout.nameKo, mapId, position: { ...layout.start }, status: 'ADVANCING',
+      phase: 'APPROACH', route: [...approachRoute, ...withdrawalRoute], approachRouteLength: approachRoute.length,
+      withdrawalRoute, routeIndex: 0, evidenceIds: [...layout.evidenceIds], nextMoveMinute: clockMinutes + 3 + (layout.delayMinutes ?? 0),
+      stepMinutes: 3, searchMinutes: 6, historicalOutcomeFixed: true };
+  }).filter(Boolean);
+}
+
+function advanceArrestSquads(event, date, clockMinutes, v47, hosts) {
+  const autonomy = event?.npcAutonomy, squads = autonomy?.squads;
+  if (event?.status !== 'ACTIVE' || event.playerIntervened || !Array.isArray(squads)) return;
+  for (const squad of squads) {
+    while (clockMinutes >= squad.nextMoveMinute) {
+      if (squad.phase === 'STORED') break;
+      if (squad.phase === 'APPROACH') {
+        const from = { ...squad.position }, next = squad.route[squad.routeIndex++];
+        if (next) {
+          squad.position = { ...next };
+          autonomy.squadMovementLog.push({ squadId: squad.id, date, minute: squad.nextMoveMinute,
+            mapId: squad.mapId, from, to: { ...next }, phase: 'APPROACH' });
+          if (squad.routeIndex >= squad.approachRouteLength) for (const evidence of autonomy.evidenceItems ?? []) {
+            if (!squad.evidenceIds.includes(evidence.id) || evidence.status !== 'ON_SCENE') continue;
+            evidence.status = 'SEIZED'; evidence.holderSquadId = squad.id; evidence.position = { ...next };
+            v47.worldChanges.push({ questId: event.id, actionId: 'NPC_ARREST_EVIDENCE_SEIZED', date,
+              assignedHostIds: [], mapId: squad.mapId, position: { ...next }, moves: [],
+              resources: { evidenceId: evidence.id, itemKo: evidence.labelKo, provenanceStatus: evidence.provenanceStatus,
+                holderSquadId: squad.id }, rumorId: null, unattended: true });
+          }
+          squad.nextMoveMinute += squad.stepMinutes;
+          if (squad.routeIndex >= squad.approachRouteLength) {
+            squad.phase = 'SEARCH'; squad.status = 'SEARCHING';
+            squad.searchUntilMinute = squad.nextMoveMinute + squad.searchMinutes;
+            squad.nextMoveMinute = squad.searchUntilMinute;
+          }
+          continue;
+        }
+        squad.phase = 'SEARCH'; squad.status = 'SEARCHING';
+        squad.searchUntilMinute = squad.nextMoveMinute + squad.searchMinutes;
+        squad.nextMoveMinute = squad.searchUntilMinute;
+      }
+      if (squad.phase === 'SEARCH') {
+        squad.phase = 'WITHDRAW'; squad.status = 'WITHDRAWING';
+        squad.nextMoveMinute += squad.stepMinutes;
+        continue;
+      }
+      if (squad.phase === 'WITHDRAW') {
+        const from = { ...squad.position }, next = squad.route[squad.routeIndex++];
+        if (next) {
+          squad.position = { ...next };
+          for (const evidence of autonomy.evidenceItems ?? []) if (evidence.holderSquadId === squad.id) evidence.position = { ...next };
+          autonomy.squadMovementLog.push({ squadId: squad.id, date, minute: squad.nextMoveMinute,
+            mapId: squad.mapId, from, to: { ...next }, phase: 'WITHDRAW' });
+          squad.nextMoveMinute += squad.stepMinutes;
+          if (squad.routeIndex >= squad.route.length) { squad.phase = 'EXIT'; squad.status = 'AT_EXIT'; }
+          continue;
+        }
+        squad.phase = 'EXIT'; squad.status = 'AT_EXIT';
+      }
+      if (squad.phase === 'EXIT') {
+        const from = { mapId: squad.mapId, position: { ...squad.position } };
+        squad.mapId = 'police-station'; squad.position = { x: 3, y: 5 };
+        squad.phase = 'STORED'; squad.status = 'AT_STATION';
+        for (const evidence of autonomy.evidenceItems ?? []) {
+          if (evidence.holderSquadId !== squad.id) continue;
+          evidence.status = 'STORED'; evidence.mapId = squad.mapId; evidence.position = { ...squad.position };
+        }
+        const storedEvidence = (autonomy.evidenceItems ?? []).filter(item => item.holderSquadId === squad.id);
+        const receivingOfficer = hosts?.police_sergeant_ivan;
+        if (receivingOfficer && storedEvidence.length) {
+          receivingOfficer.inventory ??= [];
+          for (const item of storedEvidence) {
+            item.holderHostId = receivingOfficer.id;
+            if (!receivingOfficer.inventory.includes(item.labelKo)) receivingOfficer.inventory.push(item.labelKo);
+          }
+        }
+        autonomy.squadMovementLog.push({ squadId: squad.id, date, minute: squad.nextMoveMinute,
+          fromMapId: from.mapId, from: from.position, toMapId: squad.mapId, to: { ...squad.position }, phase: 'STATION_ENTRY' });
+        v47.worldChanges.push({ questId: event.id, actionId: 'NPC_ARREST_EVIDENCE_STORED', date,
+          assignedHostIds: receivingOfficer ? [receivingOfficer.id] : [], mapId: squad.mapId, destination: { mapId: squad.mapId, position: { ...squad.position } }, moves: [],
+          resources: { squadId: squad.id, evidenceIds: storedEvidence.map(item => item.id),
+            ...(receivingOfficer ? { inventory: { [receivingOfficer.id]: { inventoryAdded: storedEvidence.map(item => item.labelKo) } } } : {}) },
+          rumorId: null, unattended: true });
+        squad.nextMoveMinute += squad.stepMinutes;
+      }
+    }
+  }
+}
 function julianDateToGregorian(value) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(value ?? '')) return value;
   const year = Number(value.slice(0, 4));
@@ -405,6 +540,16 @@ function fireAnchors(v47, date, clockMinutes, hosts) {
         historicalDetaineeHostIds: historicalDetainees.map(host => host.id), opensAtMinute: clockMinutes,
         destinationMapByHost,
         deadlineMinute: clockMinutes + 1440, branch: previouslyWarned ? 'WARNED_FICTIONAL_WITNESS; HISTORICAL_ARRESTS_FIXED' : 'BASE_OPERATION' };
+      event.npcAutonomy.squads = createArrestSquads(clockMinutes);
+      event.npcAutonomy.squadMovementLog = [];
+      event.npcAutonomy.evidenceItems = [
+        { id: 'BOOK_PACKET', labelKo: '책 묶음', mapId: 'morskaya-intersection', position: { x: 17, y: 12 },
+          status: 'ON_SCENE', provenanceStatus: 'FICTIONAL_GAMEPLAY_PROP' },
+        { id: 'PAPER_BUNDLE', labelKo: '서류 꾸러미', mapId: 'morskaya-intersection', position: { x: 16, y: 12 },
+          status: 'ON_SCENE', provenanceStatus: 'FICTIONAL_GAMEPLAY_PROP' },
+        { id: 'DELIVERY_RECEIPT', labelKo: '배달 영수증', mapId: 'morskaya-intersection', position: { x: 19, y: 12 },
+          status: 'ON_SCENE', provenanceStatus: 'FICTIONAL_GAMEPLAY_PROP' },
+      ];
       v47.worldChanges ??= [];
       v47.worldChanges.push({ questId: anchor.id, actionId: 'NPC_SEARCH_TEAM_DISPATCHED', date,
         moves: [], assignedHostIds: [...event.npcAutonomy.assignedHostIds], mapId: event.mapId,
@@ -541,6 +686,7 @@ function advanceV47World(state, { date = state?.world?.date, clockMinutes = stat
   const v47 = ensureV47State(next);
   ensureHostHealth(v47, next.hosts);
   fireAnchors(v47, date, clockMinutes, next.hosts);
+  advanceArrestSquads(v47.events.MAIN03_PETRASHEVSKY_ARREST, date, clockMinutes, v47, next.hosts);
   for (const event of Object.values(v47.events)) {
     if (!event.autonomousOutcome || event.status !== 'ACTIVE' || event.playerIntervened) continue;
     const assigned = event.npcAutonomy?.assignedHostIds ?? [];
@@ -616,6 +762,6 @@ function applyCholeraIntervention(state, { actionId, hostId = null, targetHostId
   return { ok: true, state: next };
 }
 
-const V47MainStories = { WORLD_EVENT_ANCHORS, STORY_GUIDANCE, createV47State, registerStoryBeats, advanceV47World, applyCholeraIntervention, getV47MissionQuest, getV47CompletionGuidance, julianDateToGregorian };
+const V47MainStories = { WORLD_EVENT_ANCHORS, STORY_GUIDANCE, createV47State, registerStoryBeats, registerV47Maps, advanceV47World, applyCholeraIntervention, getV47MissionQuest, getV47CompletionGuidance, julianDateToGregorian };
 if (typeof module !== 'undefined' && module.exports) module.exports = V47MainStories;
 globalThis.V47MainStories = V47MainStories;
