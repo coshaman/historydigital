@@ -640,6 +640,9 @@ function updateHud() {
   const discussionQuests = currentDiscussionQuests();
   const questHostNames = Object.fromEntries(cards.map(card => [card.id, card.displayNameKo]));
   const activeMissionQuest = questList.find(quest => quest.id === missionGuidance.questId);
+  const questNext = $('#mission-quest-next');
+  questNext.hidden = true;
+  questNext.textContent = '';
   const missionDiscussion = !queuedDiscussionInquiry
     ? nextDiscussionInstructionForQuest(missionGuidance.questId, discussionQuests, questHostNames, activeMissionQuest?.sourceIds ?? [])
     : null;
@@ -648,8 +651,8 @@ function updateHud() {
   for (const button of [missionDiscussionButton, journalDiscussionButton]) {
     button.hidden = !missionDiscussion || missionDiscussion.phase !== 'ASK';
     if (!button.hidden) {
-      button.textContent = `질문 담기 · ${missionDiscussion.hostNameKo}: “${missionDiscussion.promptKo}”`;
-      button.setAttribute('aria-label', `${missionDiscussion.hostNameKo}에게 묻기: ${missionDiscussion.promptKo}. 서로 다른 두 사람의 답을 듣고 수첩에서 입장을 고르면 대화 퀘스트가 끝납니다.`);
+      button.textContent = `대화 목표 · ${missionDiscussion.hostNameKo}: “${missionDiscussion.promptKo}”`;
+      button.setAttribute('aria-label', `${missionDiscussion.hostNameKo}에게 물을 질문을 목표로 선택: ${missionDiscussion.promptKo}. 서로 다른 ${missionDiscussion.quest.requiredPerspectiveCount}명의 답을 듣고 수첩에서 입장을 기록하면 끝납니다.`);
     }
   }
   if (missionDiscussion?.phase === 'ASK' && !queuedDiscussionInquiry && !inLiteraryScene && !state.endingId) {
@@ -665,6 +668,29 @@ function updateHud() {
     $('#mission-method').textContent = missionGuidance.howKo;
     $('#journal-goal-how').textContent = missionGuidance.howKo;
   }
+  if (activeMissionQuest && host && missionGuidance.actionId && !queuedDiscussionInquiry
+    && !missionDiscussion && !inLiteraryScene && !state.endingId) {
+    const embodied = state.hosts[host.id];
+    const known = new Set([...(embodied?.privateKnowledgeIds ?? []), ...(embodied?.knownEvidenceIds ?? [])]);
+    const actionChoices = activeMissionQuest.actions.filter(action => action.hostIds.includes(host.id)
+      && [...new Set([...(action.requiredKnowledgeIds ?? []), ...(action.requiredKnowledgeId ? [action.requiredKnowledgeId] : [])])].every(id => known.has(id)));
+    const targetMap = maps[activeMissionQuest.entry?.mapId];
+    const targetObject = targetMap?.layers?.find(layer => layer.name === 'Interactions')?.objects
+      .find(object => object.id === activeMissionQuest.entry?.objectId);
+    if (actionChoices.length) {
+      questNext.hidden = false;
+      const choiceCopy = actionChoices.map(action => {
+        const requiredPeople = (action.requiredPresentHostIds ?? [])
+          .map(id => cards.find(card => card.id === id)?.displayNameKo).filter(Boolean);
+        return `“${action.labelKo}”${requiredPeople.length ? ` · 함께 있어야 함: ${requiredPeople.join(' · ')}` : ''}`;
+      });
+      questNext.textContent = [
+        `현장 · ${targetObject?.name ?? targetMap?.metadata?.displayNameKo ?? '표시된 장소'}에서 E를 누르세요.`,
+        `할 일 · ${choiceCopy.join(' / ')}`,
+        '완료 · 현장 선택지 하나를 실행하면 이 단계가 기록됩니다.',
+      ].filter(Boolean).join('\n');
+    }
+  }
   const discussionBoard = $('#discussion-quest-board');
   const discussionHost = (activeDialogueHost && cards.find(card => card.id === activeDialogueHost)) || conversationPartner;
   const reflectionPrompts = discussionHost ? discussionReflectionPromptsForHost(discussionHost.id, state, discussionQuests) : [];
@@ -675,7 +701,7 @@ function updateHud() {
   if (shouldOpenDiscussionBoard({ queuedInquiry: Boolean(queuedDiscussionInquiry), positionPending: Boolean(discussionView.positionPrompts?.length), activeDialogue: Boolean(activeDialogueHost) })) discussionBoard.open = true;
   $('#discussion-quest-progress').textContent = discussionView.progressKo;
   $('#discussion-quest-guidance').textContent = queuedDiscussionInquiry
-    ? `다음 사람 · ${queuedDiscussionInquiry.hostNameKo}\n물어볼 말 · “${queuedDiscussionInquiry.promptKo}”\n가까이서 말 걸기를 누르고 열린 대화창에서 이 질문을 선택해 답변을 받으세요. 일반 대화는 진행에 반영되지 않습니다.\n완료 조건 · 서로 다른 ${queuedDiscussionInquiry.requiredPerspectives}명의 답을 모은 뒤 수첩에서 내 입장을 선택하세요.`
+    ? `다음 사람 · ${queuedDiscussionInquiry.hostNameKo}\n물어볼 말 · “${queuedDiscussionInquiry.promptKo}”\n진행 · 가까이서 말 걸기 → 대화창에서 이 질문 선택 → 답변 확인 (${queuedDiscussionInquiry.completedPerspectives}/${queuedDiscussionInquiry.requiredPerspectives})\n완료 · 서로 다른 ${queuedDiscussionInquiry.requiredPerspectives}명의 답을 모은 뒤 아래에서 내 입장을 기록하세요. 인사나 다른 대화는 세지 않습니다.`
     : discussionView.guidanceKo;
   if (!queuedDiscussionInquiry && discussionView.positionPrompts?.length && !inLiteraryScene && !state.endingId) {
     const pending = discussionView.positionPrompts[0];
@@ -763,7 +789,7 @@ function updateHud() {
         }
         const choose = document.createElement('button');
         choose.type = 'button'; choose.className = 'discussion-inquiry-select';
-        choose.textContent = queuedDiscussionInquiry?.questId === item.questId && queuedDiscussionInquiry?.hostId === item.hostId ? '선택됨' : '이 질문 담기';
+        choose.textContent = queuedDiscussionInquiry?.questId === item.questId && queuedDiscussionInquiry?.hostId === item.hostId ? '선택됨' : '대화 목표로 선택';
         choose.setAttribute('aria-pressed', String(queuedDiscussionInquiry?.questId === item.questId && queuedDiscussionInquiry?.hostId === item.hostId));
         choose.addEventListener('click', () => {
           queuedDiscussionInquiry = item;

@@ -82,6 +82,8 @@ body.learning-active{overflow:hidden}body.learning-active .game-shell{visibility
 .mission-tracker .mission-secondary{margin:0;color:#ddceb0}
 .mission-tracker #mission-progress{font:11px/1.4 'IBM Plex Mono',monospace;color:#cfaa70}
 .mission-tracker #mission-method{white-space:pre-line;padding-left:9px;border-left:2px solid #8a6b43;line-height:1.55}
+.mission-quest-next{white-space:pre-line;margin:2px 0 0;padding:8px 10px;border:1px solid #80633e;background:#241c17;color:#fff0cc;font-size:14px;line-height:1.45}
+.mission-quest-next[hidden]{display:none!important}
 .mission-discussion-button{display:block;width:100%;margin:6px 0;padding:9px 11px;border:1px solid #bd9557;background:#4a3523;color:#fff0cc;text-align:left;font:14px/1.5 'Noto Serif KR',serif;overflow-wrap:anywhere;cursor:pointer}
 .mission-discussion-button[hidden]{display:none}
 .mission-discussion-button:focus-visible{outline:3px solid #e3bb74;outline-offset:2px}
@@ -162,7 +164,8 @@ kbd{font:11px 'IBM Plex Mono',monospace;color:#d8c59f}
   .mission-tracker h2{font-size:18px}
   .mission-tracker p{font-size:16px;line-height:1.4}
   .mission-tracker #mission-reason{display:none}
-  .mission-tracker #mission-method{display:block;max-height:88px;overflow-y:auto;font-size:13px;line-height:1.35;overscroll-behavior:contain}
+  .mission-tracker #mission-method{display:block;max-height:min(18vh,128px);overflow-y:auto;font-size:13px;line-height:1.35;overscroll-behavior:contain}
+  .mission-tracker .mission-quest-next{max-height:min(21vh,156px);overflow-y:auto;font-size:13px;line-height:1.35;overscroll-behavior:contain}
   .mission-controls{position:sticky;bottom:0;z-index:2;display:grid;grid-template-columns:1fr 1fr;padding:5px 0;background:#30241b}
   .mission-controls button{width:100%;padding:7px 8px}
   .tutorial-card{font-size:15px}
