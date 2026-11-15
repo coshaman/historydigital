@@ -707,7 +707,7 @@ function updateHud() {
     Object.fromEntries(cards.map(card => [card.id, card.displayNameKo])), discussionQuestData.quests.length);
   discussionBoard.hidden = (!discussionView.visible && !reflectionPrompts.length)
     || Boolean(state.endingId) || inLiteraryScene;
-  if (shouldOpenDiscussionBoard({ queuedInquiry: Boolean(queuedDiscussionInquiry), positionPending: Boolean(discussionView.positionPrompts?.length), activeDialogue: Boolean(activeDialogueHost) })) discussionBoard.open = true;
+  if (shouldOpenDiscussionBoard({ queuedInquiry: Boolean(queuedDiscussionInquiry), positionPending: Boolean(discussionView.positionPrompts?.length), activeDialogue: Boolean(activeDialogueHost), missionInquiry: missionDiscussion?.phase === 'ASK' })) discussionBoard.open = true;
   $('#discussion-quest-progress').textContent = discussionView.progressKo;
   $('#discussion-quest-guidance').textContent = queuedDiscussionInquiry
     ? `다음 사람 · ${queuedDiscussionInquiry.hostNameKo}\n물어볼 말 · “${queuedDiscussionInquiry.promptKo}”\n진행 · 가까이서 말 걸기 → 대화창에서 이 질문 선택 → 답변 확인 (${queuedDiscussionInquiry.completedPerspectives}/${queuedDiscussionInquiry.requiredPerspectives})\n완료 · 서로 다른 ${queuedDiscussionInquiry.requiredPerspectives}명의 답을 모은 뒤 아래에서 내 입장을 기록하세요. 인사나 다른 대화는 세지 않습니다.`

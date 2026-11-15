@@ -74,7 +74,7 @@ export function discussionQuestInstruction(quest, hostNames = {}) {
 export function formatDiscussionQuestTaskKo(instruction, { placeKo = '', travelHowKo = '' } = {}) {
   if (!instruction) return '';
   if (instruction.phase === 'RECORD_POSITION')
-    return instruction.howKo ?? `대화는 끝났습니다. 지금 할 일 · 수첩에서 「${instruction.questTitleKo ?? '이 쟁점'}」에 대한 입장 하나를 기록하세요. 기록하면 퀘스트가 끝납니다.`;
+    return instruction.howKo ?? '지금 할 일 · 수첩에서 이 쟁점에 대한 입장 하나를 기록하세요. 기록하면 퀘스트가 끝납니다.';
   if (instruction.phase !== 'ASK') return '';
   const required = instruction.quest?.requiredPerspectiveCount ?? 2;
   const count = instruction.quest?.perspectiveHostIds?.length ?? 0;
@@ -85,7 +85,7 @@ export function formatDiscussionQuestTaskKo(instruction, { placeKo = '', travelH
     `물어볼 말 · “${instruction.promptKo}”`,
     '진행 방법 · 가까이서 말 걸기를 누른 뒤, 대화창에서 이 질문을 선택해 답변을 받으세요. 일반 대화만으로는 진행되지 않습니다.',
     '답변 생성에 실패하면 관점이 기록되지 않습니다. 연결을 확인하고 같은 질문을 다시 선택하세요.',
-    `끝내기 · 서로 다른 ${required}명의 답을 들은 뒤 수첩에서 이 쟁점의 입장 하나를 기록하세요 (${count}/${required}명 답변).`,
+    `끝내기 · 서로 다른 ${required}명의 답을 듣고 수첩에서 내 입장 하나를 기록하면 끝납니다 (${count}/${required}명 답변).`,
   ].filter(Boolean).join('\n');
 }
 
@@ -112,8 +112,8 @@ export function shouldShowQuestTracker({ ending = false, literaryScene = false, 
   return !ending && !literaryScene && (!hasActions || storyOverview || activeDialogue || keepVisible);
 }
 
-export function shouldOpenDiscussionBoard({ queuedInquiry = false, positionPending = false, activeDialogue = false } = {}) {
-  return queuedInquiry || positionPending || activeDialogue;
+export function shouldOpenDiscussionBoard({ queuedInquiry = false, positionPending = false, activeDialogue = false, missionInquiry = false } = {}) {
+  return queuedInquiry || positionPending || activeDialogue || missionInquiry;
 }
 
 export function discussionBoardView(quests, hostId = null, hostNames = {}, totalQuestCount = quests?.length ?? 0) {
