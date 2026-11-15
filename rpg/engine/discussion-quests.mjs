@@ -65,9 +65,12 @@ export function discussionQuestInstruction(quest, hostNames = {}) {
   };
   const hostNameKo = hostNames[hostId] ?? hostId;
   const promptKo = quest.hosts[hostId].promptKo;
+  const nextHostId = Object.keys(quest.hosts ?? {}).find(id => id !== hostId && !heard.includes(id));
+  const nextHostKo = nextHostId ? hostNames[nextHostId] ?? nextHostId : null;
+  const nextPromptKo = nextHostId ? quest.hosts[nextHostId].promptKo : null;
   return {
-    phase: 'ASK', hostId, hostNameKo, promptKo,
-    howKo: `${quest.situationKo ? `상황 · ${quest.situationKo}\n` : ''}대상 · ${hostNameKo}에게 말 걸기\n가까이 가서 말하기를 눌러 대화창을 여세요.\n물어볼 말 · “${promptKo}”\n진행 · ${heard.length}/${required}명 답변\n대화창에서 이 질문을 골라 답변을 받아야 관점이 기록됩니다. 인사나 다른 대화는 진행되지 않습니다.\n끝내기 · 서로 다른 ${required}명의 답을 들은 뒤 수첩에서 이 쟁점의 입장 하나를 선택하세요.`,
+    phase: 'ASK', hostId, hostNameKo, promptKo, nextHostNameKo: nextHostKo, nextPromptKo,
+    howKo: `${quest.situationKo ? `상황 · ${quest.situationKo}\n` : ''}대상 · ${hostNameKo}에게 말 걸기\n가까이 가서 말하기를 눌러 대화창을 여세요.\n물어볼 말 · “${promptKo}”\n진행 · ${heard.length}/${required}명 답변\n대화창에서 이 질문을 선택해 답변을 받아야 관점이 기록됩니다. 인사나 다른 대화는 진행되지 않습니다.\n${nextHostKo && nextPromptKo ? `그다음 · ${nextHostKo}에게 “${nextPromptKo}”라고 물으세요.\n` : ''}끝내기 · 서로 다른 ${required}명의 답을 들은 뒤 수첩에서 「${quest.titleKo}」의 입장을 하나 선택해 기록하세요.`,
   };
 }
 
@@ -83,8 +86,9 @@ export function formatDiscussionQuestTaskKo(instruction, { placeKo = '', travelH
     `대화 목표 · ${instruction.hostNameKo}에게 말 걸기${placeKo ? ` · ${placeKo}` : ''}`,
     travelHowKo ? `이동 · ${travelHowKo}` : '',
     `물어볼 말 · “${instruction.promptKo}”`,
-    '진행 방법 · 가까이서 말 걸기를 누른 뒤, 대화창에서 이 질문을 선택해 답변을 받으세요. 일반 대화만으로는 진행되지 않습니다.',
-    '답변 생성에 실패하면 관점이 기록되지 않습니다. 연결을 확인하고 같은 질문을 다시 선택하세요.',
+    '진행 방법 · 가까이서 말 걸기를 누른 뒤, 대화창에서 이 질문을 선택해 인물의 답을 받으세요. 인사나 다른 대화는 진행되지 않습니다.',
+    '답변이 표시되면 해당 인물의 관점 1개가 기록됩니다. 답변 생성에 실패하면 기록되지 않으니 같은 질문을 다시 선택하세요.',
+    instruction.nextHostNameKo && instruction.nextPromptKo ? `그다음 · ${instruction.nextHostNameKo}에게 “${instruction.nextPromptKo}”라고 물으세요.` : '',
     `끝내기 · 서로 다른 ${required}명의 답을 듣고 수첩에서 내 입장 하나를 기록하면 끝납니다 (${count}/${required}명 답변).`,
   ].filter(Boolean).join('\n');
 }

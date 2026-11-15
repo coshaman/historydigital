@@ -2562,7 +2562,13 @@ async function sendConversation(card, playerText, replyId = null) {
   const intentClass = classifyTypedResponse(playerText);
   const actorCard = cards.find(item => item.id === state.player.embodiment);
   const liveDiscussionQuests = currentDiscussionQuests();
-  const discussionPrompt = discussionPromptsForHost(card.id, liveDiscussionQuests).find(item => item.promptKo === playerText);
+  const queuedPromptMatches = queuedDiscussionInquiry?.hostId === card.id && queuedDiscussionInquiry.promptKo === playerText;
+  const queuedPromptQuest = queuedPromptMatches
+    ? liveDiscussionQuests.find(item => item.id === queuedDiscussionInquiry.questId && item.hosts?.[card.id]?.promptKo === playerText)
+    : null;
+  const discussionPrompt = queuedPromptQuest
+    ? { discussionId: queuedPromptQuest.id, questTitleKo: queuedPromptQuest.titleKo, promptKo: playerText }
+    : discussionPromptsForHost(card.id, liveDiscussionQuests).find(item => item.promptKo === playerText);
   const reflectionPrompt = discussionReflectionPromptsForHost(card.id, state, liveDiscussionQuests).find(item => item.promptKo === playerText);
   const lines = dialogueTranscripts.get(key) ?? [];
   if (lines.at(-1)?.speaker !== actorCard.displayNameKo || lines.at(-1)?.text !== playerText) lines.push({ speaker: actorCard.displayNameKo, text: playerText });
