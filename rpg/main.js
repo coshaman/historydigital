@@ -116,6 +116,15 @@ const sourceReaderRecords = new Map(sourceReaderIndex.records.map(record => [rec
 const caseContextsByQuest = new Map(caseContextData.cases.map(item => [item.questId, item]));
 const discussionQuestById = new Map(discussionQuestData.quests.map(item => [item.id, item]));
 const districtById = new Map(districtRegistry.districts.map(item => [item.id, item]));
+function discussionSituationKo(quest) {
+  if (!quest) return '';
+  const linked = quest.contextQuestId ? questsById.get(quest.contextQuestId) : null;
+  if (linked?.premiseKo) return linked.premiseKo;
+  if (linked?.titleKo) return `「${linked.titleKo}」에서 생긴 일과 이어지는 쟁점입니다.`;
+  const sourceTitles = (quest.sourceIds ?? []).map(id => sourceRecords.get(id)?.titleKo).filter(Boolean);
+  if (sourceTitles.length && quest.stakesKo) return `「${sourceTitles[0]}」의 내용과 ${quest.stakesKo}`;
+  return quest.stakesKo ?? '';
+}
 const currentDiscussionQuests = () => {
   if (state.world.activeRealm) return [];
   return availableDiscussionQuests(state, discussionQuestData).flatMap(quest => {
@@ -133,7 +142,7 @@ const currentDiscussionQuests = () => {
       const knownSources = new Set([...(knowledgeForHost(state, hostId) ?? []), ...(host?.heardEventReports ?? []).flatMap(report => report.sourceIds ?? [])]);
       return (quest.sourceIds ?? []).some(sourceId => knownSources.has(sourceId));
     }));
-    return Object.keys(hosts).length ? [{ ...quest, hosts }] : [];
+    return Object.keys(hosts).length ? [{ ...quest, hosts, situationKo: discussionSituationKo(quest) }] : [];
   });
 };
 const initial = () => createInitialState({ maps, hostCards, quests: questList });
@@ -618,7 +627,7 @@ function updateHud() {
       questTitleKo: queuedDiscussionInquiry.titleKo,
       actionKo: `${queuedDiscussionInquiry.hostNameKo}에게 물어보기 · ${queuedDiscussionInquiry.progressKo}`,
       reasonKo: queuedDiscussionInquiry.stakesKo,
-      howKo: `대상 · ${queuedDiscussionInquiry.hostNameKo}\n${nextAction}${targetGuide?.howKo ? ` · ${targetGuide.howKo}` : ''}\n대화 · 가까이서 말 걸기 → 열린 대화창에서 아래 질문을 선택 → 답변 확인\n질문 · “${queuedDiscussionInquiry.promptKo}”\n진행 · ${queuedDiscussionInquiry.completedPerspectives}/${queuedDiscussionInquiry.requiredPerspectives}명 답변\n일반 인사나 다른 대화는 진행되지 않습니다. 답변 생성에 실패하면 다시 연결해 같은 질문을 보내세요.\n완료 조건 · 서로 다른 ${queuedDiscussionInquiry.requiredPerspectives}명의 답을 들은 뒤 수첩에서 내 입장을 선택하면 끝납니다.${inquiryInstruction?.phase === 'RECORD_POSITION' ? '\n지금 할 일 · 수첩에서 입장을 선택하면 이 퀘스트가 끝납니다.' : ''}`,
+      howKo: `${discussionSituationKo(liveInquiry) ? `상황 · ${discussionSituationKo(liveInquiry)}\n` : ''}대상 · ${queuedDiscussionInquiry.hostNameKo}\n${nextAction}${targetGuide?.howKo ? ` · ${targetGuide.howKo}` : ''}\n대화 · 가까이서 말 걸기 → 열린 대화창에서 아래 질문을 선택 → 답변 확인\n질문 · “${queuedDiscussionInquiry.promptKo}”\n진행 · ${queuedDiscussionInquiry.completedPerspectives}/${queuedDiscussionInquiry.requiredPerspectives}명 답변\n일반 인사나 다른 대화는 진행되지 않습니다. 답변 생성에 실패하면 다시 연결해 같은 질문을 보내세요.\n끝내기 · 서로 다른 ${queuedDiscussionInquiry.requiredPerspectives}명의 답을 들은 뒤 수첩에서 「${queuedDiscussionInquiry.titleKo}」의 입장 하나를 선택하면 끝납니다.${inquiryInstruction?.phase === 'RECORD_POSITION' ? '\n지금 할 일 · 수첩에서 입장을 선택하면 이 퀘스트가 끝납니다.' : ''}`,
       placeKo: targetGuide?.placeKo ?? (targetHost ? maps[targetHost.mapId]?.metadata.displayNameKo : '위치를 확인할 수 없음'),
       target: targetGuide?.target ?? null,
       progress: { completedSteps: queuedDiscussionInquiry.completedPerspectives, totalSteps: queuedDiscussionInquiry.requiredPerspectives },
@@ -765,6 +774,9 @@ function updateHud() {
         const title = document.createElement('strong');
         title.className = 'discussion-inquiry-title';
         title.textContent = `${item.titleKo} · ${item.progressKo}`;
+        const situation = document.createElement('span');
+        situation.className = 'discussion-inquiry-situation';
+        situation.textContent = `상황 · ${item.situationKo || discussionSituationKo(discussionQuestById.get(item.questId)) || '관련 자료와 현재 사건의 쟁점을 놓고 이야기합니다.'}`;
         const target = document.createElement('span');
         target.className = 'discussion-inquiry-target';
         target.textContent = `먼저 물을 사람 · ${item.hostNameKo} / ${targetPlaceKo}`;
@@ -774,7 +786,7 @@ function updateHud() {
         const completion = document.createElement('span');
         completion.className = 'discussion-inquiry-completion';
         completion.textContent = `끝내기 · 서로 다른 ${item.requiredPerspectives}명의 답을 받은 뒤 수첩에서 내 입장을 선택`;
-        detail.append(title, target, question, completion);
+        detail.append(title, situation, target, question, completion);
         if (item.stakesKo) {
           const stakes = document.createElement('small');
           stakes.className = 'discussion-inquiry-stakes';

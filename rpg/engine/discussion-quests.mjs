@@ -55,8 +55,8 @@ export function discussionQuestInstruction(quest, hostNames = {}) {
   const required = quest.requiredPerspectiveCount ?? 2;
   const heard = quest.perspectiveHostIds ?? [];
   if (quest.positionPending || heard.length >= required) return {
-    phase: 'RECORD_POSITION', hostId: null, hostNameKo: null, promptKo: null,
-    howKo: '완료 조건 · 수첩에서 이 쟁점에 대한 내 입장을 하나 선택하세요. 기록하면 퀘스트가 끝납니다.',
+    phase: 'RECORD_POSITION', questTitleKo: quest.titleKo, hostId: null, hostNameKo: null, promptKo: null,
+    howKo: `대화는 끝났습니다. 지금 할 일 · 수첩에서 「${quest.titleKo}」에 대한 입장 하나를 기록하세요. 기록하면 퀘스트가 끝납니다.`,
   };
   const hostId = Object.keys(quest.hosts ?? {}).find(id => !heard.includes(id));
   if (!hostId) return {
@@ -67,24 +67,25 @@ export function discussionQuestInstruction(quest, hostNames = {}) {
   const promptKo = quest.hosts[hostId].promptKo;
   return {
     phase: 'ASK', hostId, hostNameKo, promptKo,
-    howKo: `대상 · ${hostNameKo}에게 말 걸기\n가까이 가서 대화창을 여세요.\n물어볼 말 · “${promptKo}”\n진행 · ${heard.length}/${required}명 답변\n대화창에서 이 질문을 누르면 답변과 함께 관점 1개가 기록됩니다. 일반 대화는 반영되지 않습니다.\n완료 조건 · 서로 다른 ${required}명의 답을 들은 뒤 수첩에서 내 입장을 선택하세요.`,
+    howKo: `${quest.situationKo ? `상황 · ${quest.situationKo}\n` : ''}대상 · ${hostNameKo}에게 말 걸기\n가까이 가서 말하기를 눌러 대화창을 여세요.\n물어볼 말 · “${promptKo}”\n진행 · ${heard.length}/${required}명 답변\n대화창에서 이 질문을 골라 답변을 받아야 관점이 기록됩니다. 인사나 다른 대화는 진행되지 않습니다.\n끝내기 · 서로 다른 ${required}명의 답을 들은 뒤 수첩에서 이 쟁점의 입장 하나를 선택하세요.`,
   };
 }
 
 export function formatDiscussionQuestTaskKo(instruction, { placeKo = '', travelHowKo = '' } = {}) {
   if (!instruction) return '';
   if (instruction.phase === 'RECORD_POSITION')
-    return '지금 할 일 · 수첩에서 이 쟁점에 대한 입장 하나를 기록하세요. 기록하면 퀘스트가 끝납니다.';
+    return instruction.howKo ?? `대화는 끝났습니다. 지금 할 일 · 수첩에서 「${instruction.questTitleKo ?? '이 쟁점'}」에 대한 입장 하나를 기록하세요. 기록하면 퀘스트가 끝납니다.`;
   if (instruction.phase !== 'ASK') return '';
   const required = instruction.quest?.requiredPerspectiveCount ?? 2;
   const count = instruction.quest?.perspectiveHostIds?.length ?? 0;
   return [
+    instruction.quest?.situationKo ? `상황 · ${instruction.quest.situationKo}` : '',
     `대화 목표 · ${instruction.hostNameKo}에게 말 걸기${placeKo ? ` · ${placeKo}` : ''}`,
     travelHowKo ? `이동 · ${travelHowKo}` : '',
     `물어볼 말 · “${instruction.promptKo}”`,
     '진행 방법 · 가까이서 말 걸기를 누른 뒤, 대화창에서 이 질문을 선택해 답변을 받으세요. 일반 대화만으로는 진행되지 않습니다.',
     '답변 생성에 실패하면 관점이 기록되지 않습니다. 연결을 확인하고 같은 질문을 다시 선택하세요.',
-    `완료 조건 · 서로 다른 ${required}명의 답을 듣고 수첩에서 내 입장 하나를 기록하세요 (${count}/${required}).`,
+    `끝내기 · 서로 다른 ${required}명의 답을 들은 뒤 수첩에서 이 쟁점의 입장 하나를 기록하세요 (${count}/${required}명 답변).`,
   ].filter(Boolean).join('\n');
 }
 
@@ -154,7 +155,7 @@ export function discussionBoardView(quests, hostId = null, hostNames = {}, total
       textKo: `${count + index + 1}/${required} · ${hostNames[id] ?? id}에게 “${quest.hosts?.[id]?.promptKo ?? quest.reflectionPromptKo ?? quest.titleKo}”라고 물으세요.`,
     }));
     return [...heard, ...remaining, { questId: quest.id, done: false,
-      textKo: `${required}명의 답을 들은 뒤 수첩에서 내 입장을 선택하면 이 쟁점이 끝납니다.` }];
+      textKo: `${required}명의 답을 들은 뒤 수첩에서 「${quest.titleKo}」의 입장을 하나 선택하면 끝납니다.` }];
   });
   const recommendations = active.map(quest => {
     const eligible = eligibleFor(quest);
@@ -166,6 +167,7 @@ export function discussionBoardView(quests, hostId = null, hostNames = {}, total
       hostId: selectedHostId,
       hostNameKo: hostNames[selectedHostId] ?? selectedHostId,
       titleKo: quest.titleKo,
+      situationKo: quest.situationKo ?? '',
       promptKo: prompt,
       progressKo: `${quest.perspectiveHostIds?.length ?? 0}/${quest.requiredPerspectiveCount ?? 2} 관점`,
       completedPerspectives: quest.perspectiveHostIds?.length ?? 0,
@@ -176,7 +178,7 @@ export function discussionBoardView(quests, hostId = null, hostNames = {}, total
   return {
     progressKo: `쟁점 ${completedCount}/${(quests ?? []).length}${positionPrompts.length ? ` · 내 입장 ${positionPrompts.length}개` : ''}`,
     guidanceKo: positionPrompts.length
-      ? `완료 조건 · 수첩에서 내 입장을 골라 기록하세요. 선택을 마치면 이 쟁점 퀘스트가 끝납니다.`
+      ? `지금 할 일 · 수첩에서 「${positionPrompts[0]?.titleKo ?? '이 쟁점'}」의 입장을 골라 기록하세요. 선택하면 퀘스트가 끝납니다.`
       : nextComparison
       ? discussionQuestInstruction(nextComparison, hostNames)?.howKo
       : active.length
@@ -185,7 +187,7 @@ export function discussionBoardView(quests, hostId = null, hostNames = {}, total
     rows,
     recommendations,
     steps: positionPrompts.length
-      ? [{ done: true, textKo: '서로 다른 두 인물의 답을 들었습니다.' }, { done: false, textKo: '아래에서 내 입장을 골라 수첩에 남기면 퀘스트가 끝납니다.' }]
+        ? [{ done: true, textKo: '서로 다른 두 인물의 답을 들었습니다.' }, { done: false, textKo: `수첩에서 「${positionPrompts[0]?.titleKo ?? '이 쟁점'}」의 입장을 하나 골라 기록하면 퀘스트가 끝납니다.` }]
       : steps,
     positionPrompts: positionPrompts.map(quest => ({
       questId: quest.id,
