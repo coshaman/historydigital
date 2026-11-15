@@ -109,6 +109,42 @@ test('MAIN03 requires reading the Belinsky letter and arrest order before their 
     'the physical arrest order appears before the fixed arrest chapter begins');
 });
 
+test('MAIN03 P03 exposes only its dated, source-grounded debate documents and gates their related choices', () => {
+  const debate = beatById.get('V47_MAIN03_P03');
+  const sourceIds = [
+    'OBJ-NICHOLAS-MANIFESTO-1848',
+    'V47-PETRASHESKY-FOURIER-NOVATORSTVO-1846',
+    'V47-KRYLOV-ASSESSMENT-1848-09-06',
+  ];
+  assert.ok(debate.sourceIds.length, 'P03 must identify the actual documents behind the discussion');
+  for (const sourceId of sourceIds) {
+    assert.ok(debate.sourceIds.includes(sourceId), `P03 links ${sourceId}`);
+    assert.equal(sourceAvailableOn(sourceById.get(sourceId), null, null, debate.date), true,
+      `${sourceId} was available by P03 (${debate.date})`);
+  }
+  const turgenev = sourceById.get('LIT-TURGENEV-KHOR-KALYNYCH-1847');
+  assert.match(turgenev?.publicationDate ?? '', /1847/u,
+    'the serfdom discussion uses a work published before the 1848 scene, not later testimony');
+  const requirements = new Map(debate.actions.map(action => [action.id,
+    [...(action.requiredKnowledgeIds ?? []), ...(action.requiredKnowledgeId ? [action.requiredKnowledgeId] : [])]]));
+  assert.ok(requirements.get('V47_P03_FOURIER_AND_LIVELIHOOD')?.includes('V47-PETRASHESKY-FOURIER-NOVATORSTVO-1846'));
+  assert.ok(requirements.get('V47_P03_FAITH_AND_FREEDOM')?.includes('OBJ-NICHOLAS-MANIFESTO-1848'));
+  assert.ok(requirements.get('V47_P03_PRESS_AND_ORDER')?.includes('OBJ-NICHOLAS-MANIFESTO-1848')
+    && requirements.get('V47_P03_PRESS_AND_ORDER')?.includes('V47-KRYLOV-ASSESSMENT-1848-09-06'));
+  for (const [actionId, sourceId] of [
+    ['V47_P03_FOURIER_AND_LIVELIHOOD', 'V47-PETRASHESKY-FOURIER-NOVATORSTVO-1846'],
+    ['V47_P03_FAITH_AND_FREEDOM', 'OBJ-NICHOLAS-MANIFESTO-1848'],
+  ]) {
+    const action = debate.actions.find(item => item.id === actionId);
+    assert.equal(questChoices(debate, action.hostIds[0], [], null).find(item => item.action.id === actionId)?.missingSourceId, sourceId,
+      `${actionId} points the player to its missing source before the choice`);
+  }
+  const pressChoice = questChoices(debate, debate.actions[0].hostIds[0], ['OBJ-NICHOLAS-MANIFESTO-1848'], null)
+    .find(item => item.action.id === 'V47_P03_PRESS_AND_ORDER');
+  assert.equal(pressChoice?.missingSourceId, 'V47-KRYLOV-ASSESSMENT-1848-09-06',
+    'the press-and-order choice asks for the newer review only after the earlier manifesto has been read');
+});
+
 test('MAIN03 follow-up report choices remain possible after the register correction costs money', () => {
   const followUp = beatById.get('V47_MAIN03_P10');
   assert.ok(followUp.actions.every(action => !action.effects.v47WorldChange.money

@@ -610,6 +610,9 @@ for (const actionId of ['V47_P04_CARRY_INVITATION', 'V47_P04_RETURN_INVITATION']
     state.player.embodiment = hostId; state.player.position = { x: x - 1, y };
     state.hosts[hostId].mapId = scene.entry.mapId; state.hosts[hostId].position = { x: x - 1, y };
     state.hosts.student_vasily.money.amount = 0;
+    state.hosts[hostId].knownEvidenceIds.push(...new Set([
+      ...(action.requiredKnowledgeIds ?? []), ...(action.requiredKnowledgeId ? [action.requiredKnowledgeId] : []),
+    ]));
     state.quests[scene.id] = { status: 'open', result: null };
     const selected = game.performQuestAction(state, { questId: scene.id, hostId, actionId: action.id, objectId: scene.entry.objectId },
       { quests: allV47StoryQuests, maps });
