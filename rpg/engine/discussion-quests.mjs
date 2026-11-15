@@ -71,8 +71,8 @@ export function discussionQuestInstruction(quest, hostNames = {}) {
   const nextHostKo = nextHostId ? hostNames[nextHostId] ?? nextHostId : null;
   const nextPromptKo = nextHostId ? quest.hosts[nextHostId].promptKo : null;
   return {
-    phase: 'ASK', hostId, hostNameKo, promptKo, nextHostNameKo: nextHostKo, nextPromptKo,
-    howKo: `${quest.situationKo ? `상황 · ${quest.situationKo}\n` : ''}대상 · ${hostNameKo}에게 말 걸기\n가까이 가서 말하기를 눌러 대화창을 여세요.\n물어볼 말 · “${promptKo}”\n진행 · ${heard.length}/${required}명 답변\n대화창에서 이 질문을 선택해 답변을 받아야 관점이 기록됩니다. 인사나 다른 대화는 진행되지 않습니다.\n${nextHostKo && nextPromptKo ? `그다음 · ${nextHostKo}에게 “${nextPromptKo}”라고 물으세요.\n` : ''}끝내기 · 서로 다른 ${required}명의 답을 들은 뒤 수첩에서 「${quest.titleKo}」의 입장을 하나 선택해 기록하세요.`,
+    phase: 'ASK', questTitleKo: quest.titleKo, hostId, hostNameKo, promptKo, nextHostNameKo: nextHostKo, nextPromptKo,
+    howKo: `${quest.situationKo ? `상황 · ${quest.situationKo}\n` : ''}1단계 · ${hostNameKo}에게 말 걸기\n질문 · “${promptKo}”를 고르거나 같은 내용을 직접 물으세요.\n진행 · 답변을 받으면 ${heard.length + 1}/${required} 관점 기록 (인사나 대화창 열기만으로는 진행되지 않음)\n${nextHostKo && nextPromptKo ? `다음 · ${nextHostKo}에게 “${nextPromptKo}”라고 물으세요.\n` : ''}완료 · 서로 다른 ${required}명의 답을 들은 뒤 수첩에서 「${quest.titleKo}」의 입장을 기록하세요.`,
   };
 }
 
@@ -85,13 +85,12 @@ export function formatDiscussionQuestTaskKo(instruction, { placeKo = '', travelH
   const count = instruction.quest?.perspectiveHostIds?.length ?? 0;
   return [
     instruction.quest?.situationKo ? `상황 · ${instruction.quest.situationKo}` : '',
-    `대화 목표 · ${instruction.hostNameKo}에게 말 걸기${placeKo ? ` · ${placeKo}` : ''}`,
+    `1단계 · ${instruction.hostNameKo}에게 말 걸기${placeKo ? ` · ${placeKo}` : ''}`,
     travelHowKo ? `이동 · ${travelHowKo}` : '',
-    `물어볼 말 · “${instruction.promptKo}”`,
-    '진행 방법 · 가까이서 말 걸기를 누른 뒤, 대화창에서 이 질문을 선택해 인물의 답을 받으세요. 인사나 다른 대화는 진행되지 않습니다.',
-    '답변이 표시되면 해당 인물의 관점 1개가 기록됩니다. 답변 생성에 실패하면 기록되지 않으니 같은 질문을 다시 선택하세요.',
-    instruction.nextHostNameKo && instruction.nextPromptKo ? `그다음 · ${instruction.nextHostNameKo}에게 “${instruction.nextPromptKo}”라고 물으세요.` : '',
-    `끝내기 · 서로 다른 ${required}명의 답을 듣고 수첩에서 내 입장 하나를 기록하면 끝납니다 (${count}/${required}명 답변).`,
+    `질문 · “${instruction.promptKo}”를 고르거나 같은 내용을 직접 물으세요.`,
+    `진행 인정 · 답변을 받으면 ${count + 1}/${required} 관점 기록. 인사·대화창 열기만으로는 진행되지 않으며, AI 답변 실패 시 다시 질문해야 합니다.`,
+    instruction.nextHostNameKo && instruction.nextPromptKo ? `다음 · ${instruction.nextHostNameKo}에게 “${instruction.nextPromptKo}”라고 물으세요.` : '',
+    `완료 · 서로 다른 ${required}명의 답을 들은 뒤 수첩에서 「${instruction.quest?.titleKo ?? instruction.questTitleKo ?? '이 쟁점'}」의 입장을 선택해 기록하세요 (${count}/${required}명 답변).`,
   ].filter(Boolean).join('\n');
 }
 
@@ -109,13 +108,13 @@ export function formatQueuedDiscussionTaskKo(quest, {
   ].join('\n');
   return [
     quest.situationKo ? `상황 · ${quest.situationKo}` : '',
-    `${heard + 1}/${required + 1}단계 · ${hostNameKo}에게 말 걸기${placeKo ? ` · 장소: ${placeKo}` : ''}`,
-    `대화 · ${hostNameKo}에게 “${promptKo}”라고 물어보세요. 이 문장을 그대로 고르거나 같은 일을 직접 물어도 됩니다.`,
-    '진행 조건 · 이 인물의 답변을 받으면 관점 1개가 기록됩니다. 인사만 하거나 응답 생성에 실패하면 진행되지 않습니다.',
+    `진행 · ${heard + 1}/${required + 1}단계 · ${hostNameKo}에게 말 걸기${placeKo ? ` · ${placeKo}` : ''}`,
+    `질문 · “${promptKo}”를 고르거나 같은 내용을 직접 물으세요.`,
+    `진행 인정 · 답변을 받아야 관점 ${heard + 1}/${required}가 기록됩니다. 인사·대화창 열기만으로는 진행되지 않습니다.`,
     heard + 1 < required
-      ? nextHostNameKo && nextPromptKo ? `다음 단계 · ${nextHostNameKo}에게 같은 쟁점을 물으세요: “${nextPromptKo}”` : `다음 단계 · 다른 인물에게 같은 쟁점을 물어 ${required}명의 답을 모으세요.`
-      : '다음 단계 · 두 번째 답변을 받은 뒤 수첩에서 내 입장을 기록하세요.',
-    `완료 조건 · 서로 다른 ${required}명의 답을 듣고 수첩에서 「${quest.titleKo}」의 내 입장을 선택해 기록하면 끝납니다.`,
+      ? nextHostNameKo && nextPromptKo ? `다음 · ${nextHostNameKo}에게 “${nextPromptKo}”라고 물으세요.` : `다음 · 다른 인물에게 물어 ${required}명의 답을 모으세요.`
+      : '다음 · 필요한 답을 모두 들었습니다. 수첩에서 내 입장을 기록하세요.',
+    `완료 · 서로 다른 ${required}명의 답을 듣고 수첩에서 「${quest.titleKo}」의 내 입장을 선택해 기록하세요.`,
   ].filter(Boolean).join('\n');
 }
 

@@ -27,8 +27,8 @@ test('quest guidance names the person, exact topic, next step, and the actual co
   assert.match(guide, /레프에게/);
   assert.match(guide, new RegExp(quest.hosts.bookseller_lev.promptKo));
   assert.match(guide, /다리야에게/);
-  assert.match(guide, /내 입장을 선택해 기록/);
-  assert.match(guide, /완료 조건/);
+  assert.match(guide, /수첩에서 「.+」의 내 입장을 선택해 기록하세요/);
+  assert.match(guide, /진행 인정 · 답변을 받아야/);
 });
 
 test('quest progress treats the player position as a separate final step', () => {

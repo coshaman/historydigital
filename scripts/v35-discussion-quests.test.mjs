@@ -115,8 +115,8 @@ test('the opening opinion quests tell a first-time player what to do before poss
   const nextPerspective = discussionBoardView([firstPerspective], 'clerk_alexei', { clerk_alexei: '알렉세이', senior_clerk_konstantin: '콘스탄틴' });
   assert.match(nextPerspective.rows[0], /1\/2 관점/);
   assert.match(nextPerspective.rows[0], /seamstress_anna에게 같은 쟁점을 물어보세요/);
-  assert.match(nextPerspective.guidanceKo, /대상 · seamstress_anna에게 말 걸기/);
-  assert.match(nextPerspective.guidanceKo, /물어볼 말 · “호리는 살림을 꾸리고 지주와도 잘 지내지만/);
+  assert.match(nextPerspective.guidanceKo, /seamstress_anna에게 말 걸기/);
+  assert.match(nextPerspective.guidanceKo, /질문 · “호리는 살림을 꾸리고 지주와도 잘 지내지만/);
 });
 
 test('a dialogue quest names the next person, exact question, and the action that ends it', () => {
@@ -130,8 +130,8 @@ test('a dialogue quest names the next person, exact question, and the action tha
   assert.equal(first.hostId, 'baker_fyodor');
   assert.match(first.howKo, /표도르에게 말 걸기/);
   assert.match(first.howKo, /“밀가루 값이 오르면 빵값도 바로 올려야 할까요\?”/);
-  assert.match(first.howKo, /대화창에서 이 질문을 선택해 답변을 받아야 관점이 기록됩니다/);
-  assert.match(first.howKo, /끝내기 · 서로 다른 2명의 답을 들은 뒤 수첩에서 「빵값을 둘러싼 말」의 입장을 하나 선택해 기록하세요/);
+  assert.match(first.howKo, /답변을 받으면 1\/2 관점 기록/);
+  assert.match(first.howKo, /완료 · 서로 다른 2명의 답을 들은 뒤 수첩에서 「빵값을 둘러싼 말」의 입장을 기록하세요/);
 
   const second = discussionQuestInstruction({ ...quest, perspectiveHostIds: ['baker_fyodor'] }, { baker_fyodor: '표도르', buyer_anna: '안나' });
   assert.equal(second.hostId, 'buyer_anna');
@@ -156,7 +156,7 @@ test('the final required perspective never points the player to an unnecessary t
   assert.equal(instruction.hostId, 'buyer_anna');
   assert.equal(instruction.nextHostNameKo, null, 'after Anna answers, the player records a stance instead of asking Lev');
   const task = formatQueuedDiscussionTaskKo(quest, { hostNameKo: '안나', promptKo: instruction.promptKo });
-  assert.match(task, /이 답변으로 필요한 관점이 모이면.*수첩/u);
+  assert.match(task, /필요한 답을 모두 들었습니다\. 수첩에서 내 입장을 기록하세요/u);
   assert.doesNotMatch(task, /다른 인물에게 같은 쟁점을 물어/u);
 });
 
@@ -169,12 +169,12 @@ test('the active conversation quest gives a numbered, trackable route from conte
   const task = formatQueuedDiscussionTaskKo(quest, {
     hostNameKo: '표도르', placeKo: '시장', promptKo: quest.hosts.baker_fyodor.promptKo,
   });
-  assert.match(task, /지금 할 일 · 1\/3/u);
+  assert.match(task, /진행 · 1\/3단계/u);
   assert.match(task, /표도르.*시장/u);
-  assert.match(task, /정확히 이 질문.*선택/u);
+  assert.match(task, /질문 ·[\s\S]*고르거나 같은 내용을 직접 물으세요/u);
   assert.match(task, /진행 인정 ·[\s\S]*관점/u);
-  assert.match(task, /다른 인물.*같은 쟁점/u);
-  assert.match(task, /완료 ·[\s\S]*내 입장.*기록하세요/u);
+  assert.match(task, /다른 인물.*답을 모으세요/u);
+  assert.match(task, /완료 ·[\s\S]*입장을 선택해 기록하세요/u);
 });
 
 test('a selected opinion quest is sent as an authored dialogue context anchor', () => {

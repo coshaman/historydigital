@@ -23,10 +23,10 @@ test('conversation quest guidance names who to ask, what to say, and how to fini
   }, { placeKo: '인쇄소', travelHowKo: '표시된 출구를 지나 인쇄소로 이동하세요.' });
   assert.match(text, /예카테리나 벨로바에게 말 걸기 · 인쇄소/);
   assert.match(text, /이동 · 표시된 출구를 지나 인쇄소로 이동하세요/);
-  assert.match(text, /물어볼 말 · “교정자는 문장을 그대로 옮기는 일만 책임지면 될까요\?”/);
-  assert.match(text, /대화창에서 이 질문을 선택해 인물의 답을 받으세요/);
-  assert.match(text, /인사나 다른 대화는 진행되지 않습니다/);
-  assert.match(text, /서로 다른 2명의 답을 듣고 수첩에서 내 입장 하나를 기록/);
+  assert.match(text, /질문 · “교정자는 문장을 그대로 옮기는 일만 책임지면 될까요\?”를 고르거나 같은 내용을 직접 물으세요/);
+  assert.match(text, /답변을 받으면 1\/2 관점 기록/);
+  assert.match(text, /인사·대화창 열기만으로는 진행되지 않으며/);
+  assert.match(text, /서로 다른 2명의 답을 들은 뒤 수첩에서 「이 쟁점」의 입장을 선택해 기록/);
   assert.equal(formatDiscussionQuestTaskKo({ phase: 'RECORD_POSITION' }),
     '지금 할 일 · 수첩에서 이 쟁점에 대한 입장 하나를 기록하세요. 기록하면 퀘스트가 끝납니다.');
 });
@@ -47,8 +47,8 @@ test('queued conversation quest has a distinct question button and a plain compl
     perspectiveHostIds: [],
     situationKo: '검열관의 보고서와 모임 참석자의 기억이 엇갈린다.',
   }, { hostNameKo: '이반 세묘노프', placeKo: '관청 앞', promptKo });
-  assert.match(task, /1\/3단계 · 이반 세묘노프에게 말 걸기 · 장소: 관청 앞/);
-  assert.match(task, /같은 일을 직접 물어도 됩니다/);
+  assert.match(task, /진행 · 1\/3단계 · 이반 세묘노프에게 말 걸기 · 관청 앞/);
+  assert.match(task, /같은 내용을 직접 물으세요/);
   assert.match(task, /다른 인물/);
-  assert.match(task, /수첩에서 「검열 보고서의 서로 다른 목소리」의 내 입장을 선택/);
+  assert.match(task, /수첩에서 「검열 보고서의 서로 다른 목소리」의 내 입장을 선택해 기록/);
 });
