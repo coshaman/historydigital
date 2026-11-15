@@ -129,8 +129,8 @@ test('a dialogue quest names the next person, exact question, and the action tha
   assert.equal(first.hostId, 'baker_fyodor');
   assert.match(first.howKo, /표도르에게 말 걸기/);
   assert.match(first.howKo, /“밀가루 값이 오르면 빵값도 바로 올려야 할까요\?”/);
-  assert.match(first.howKo, /대화창에서 이 질문을 누르면 답변과 함께 관점 1개가 기록됩니다/);
-  assert.match(first.howKo, /완료 조건 · 서로 다른 2명의 답을 들은 뒤 수첩에서 내 입장을 선택하세요/);
+  assert.match(first.howKo, /대화창에서 이 질문을 선택해 답변을 받아야 관점이 기록됩니다/);
+  assert.match(first.howKo, /끝내기 · 서로 다른 2명의 답을 들은 뒤 수첩에서 「빵값을 둘러싼 말」의 입장을 하나 선택해 기록하세요/);
 
   const second = discussionQuestInstruction({ ...quest, perspectiveHostIds: ['baker_fyodor'] }, { baker_fyodor: '표도르', buyer_anna: '안나' });
   assert.equal(second.hostId, 'buyer_anna');
@@ -138,7 +138,7 @@ test('a dialogue quest names the next person, exact question, and the action tha
 
   const stance = discussionQuestInstruction({ ...quest, perspectiveHostIds: ['baker_fyodor', 'buyer_anna'], positionPending: true });
   assert.equal(stance.phase, 'RECORD_POSITION');
-  assert.match(stance.howKo, /수첩에서 이 쟁점에 대한 내 입장을 하나 선택하세요\. 기록하면 퀘스트가 끝납니다/);
+  assert.match(stance.howKo, /수첩에서 「빵값을 둘러싼 말」에 대한 입장 하나를 기록하세요\. 기록하면 퀘스트가 끝납니다/);
 });
 
 test('a queued quest question remains selectable when AI already suggests three replies', () => {

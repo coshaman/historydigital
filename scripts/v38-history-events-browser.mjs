@@ -201,7 +201,8 @@ async function speakTwo(page, scene, zoneIndex, spokenNames) {
     } else {
       assert.match(rosterGuide, /(?:^|\n)(?:장소|갈 곳)(?: ·|\n)/);
       assert.match(rosterGuide, /(?:^|\n)말 걸기(?: ·|\n)/);
-      assert.match(rosterGuide, /(?:^|\n)할 일(?: ·|\n)/);
+      assert.match(rosterGuide, /(?:^|\n)현장 행동(?: ·|\n)/);
+      assert.match(rosterGuide, /(?:^|\n)완료 조건(?: ·|\n)/);
       assert.equal(rosterGuide.split('\n').filter(line => line.startsWith('먼저 말 걸기 ·')).length, 1,
         'each open roster quest shows one clear first person to approach');
     }

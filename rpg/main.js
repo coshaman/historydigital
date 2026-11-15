@@ -526,7 +526,7 @@ function updateHud() {
           return firstContact ? `먼저 말 걸기 · ${firstContact}` : `이 구역에서 사람을 찾아 말을 건다 · 대화 ${Math.min(state.historicalSession.spokenActorIds?.length ?? 0, req.spokenActors)}/${req.spokenActors}`; })(),
         howKo: activeHistoricalGuide ? activeHistoricalGuide.completed
           ? '인물 목록을 열고 아직 맡지 않은 부탁을 고른다.'
-          : `이동 · ${activeHistoricalGuide.placeKo}\n말 걸기 · ${activeHistoricalGuide.talkToNamesKo[0] ?? '현장 인물'}\n대화할 내용 · ${activeHistoricalGuide.conversationTopicsKo.join(' · ') || activeHistoricalGuide.actionKo}\n대화 기록 · 말을 건 뒤 답변 선택지를 하나 골라야 대화로 셉니다.\n할 일 · ${activeHistoricalGuide.taskKo}\n살펴보기 · ${activeHistoricalGuide.propKo}에서 현장 선택지를 골라 기록하세요.${activeHistoricalGuide.requiredActorNameKo && activeHistoricalGuide.requiredActorNameKo !== host.displayNameKo ? `\n맡을 인물 · ${activeHistoricalGuide.requiredActorNameKo}` : ''}\n현장 종료 조건 · ${historicalSessionProgressLabelKo(historicalSceneForState(), state.historicalSession)}. 모두 채우면 마지막 선택이 열립니다.`
+          : `1 · ${activeHistoricalGuide.placeKo}로 이동\n2 · ${activeHistoricalGuide.talkToNamesKo[0] ?? '현장 인물'}에게 “${activeHistoricalGuide.conversationPromptKo.slice(1, -1)}”라고 물으세요. 답변 뒤 대화 선택지 하나를 골라야 대화가 기록됩니다.${activeHistoricalGuide.requiredActorNameKo && activeHistoricalGuide.requiredActorNameKo !== host.displayNameKo ? `\n3 · 인물 바꾸기 · ${activeHistoricalGuide.requiredActorNameKo}의 몸을 빌리세요.` : ''}\n${activeHistoricalGuide.requiredActorNameKo && activeHistoricalGuide.requiredActorNameKo !== host.displayNameKo ? '4' : '3'} · 대화만으로 개인 퀘스트가 끝나지는 않습니다. ${activeHistoricalGuide.propKo}로 가서 E를 누르고 다음 중 하나를 실행하세요: ${activeHistoricalGuide.actionChoiceLabelsKo.map(label => `「${label}」`).join(' / ')}.\n완료 · 위 현장 행동을 실행하면 ‘${activeHistoricalGuide.objectiveTitleKo}’ 퀘스트가 끝납니다.\n현장 전체 진행 · ${historicalSessionProgressLabelKo(historicalSceneForState(), state.historicalSession)}. 조건을 모두 채우면 마지막 선택이 열립니다.`
           : '가까이 가서 말 걸기 · 인물 목록에서 시야 바꾸기 · 출구를 따라 다음 구역으로 걷기', target: null,
         progress: { completedSteps: state.historicalSession.completedObjectives?.length ?? 0, totalSteps: historicalSceneForState()?.conclusionRequirements?.completedObjectives ?? 5 }, blocked: false }
     : inLiteraryScene
@@ -1414,7 +1414,9 @@ function startHistoricalConversation(card) {
   if (joiningVoices.length) line += `\n\n${joiningVoices.join('\n')}`;
   dialogueCurrentLines.set(speakerKey, line);
   const topicGuide = person.sceneTopicsKo?.length ? ` 물어볼 내용 · ${person.sceneTopicsKo.join(' · ')}.` : '';
-  showConversation(card, line, [], `직접 물어보세요.${topicGuide} 답을 받은 뒤 아래 선택지 하나를 골라야 대화로 기록됩니다.`);
+  const guide = historicalParticipantGuide(scene, person.id, session);
+  showConversation(card, line, [guide?.conversationPromptKo ?? person.sceneTopicsKo?.[0] ?? '지금 현장에서 벌어진 일을 묻는다'],
+    `아래 질문을 누르면 ${guide?.conversationTopicsKo?.[0] ?? '현장 상황'}에 관해 묻습니다. 답변을 읽은 뒤 상대의 반응 선택지를 골라야 대화가 기록됩니다.${topicGuide}`);
 }
 function resolveHistoricalConversation(scene, person, response) {
   let next = advanceHistoricalSessionTime(state, response.stance === 'defer' ? 1 : 2, maps, advanceWorldTime);
