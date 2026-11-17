@@ -24,6 +24,9 @@
 .actions .timeline-date-card{display:grid;gap:3px;min-width:0;max-width:none;min-height:48px;padding:7px 9px;border:1px solid #94764a;background:#eadbb9;color:#30241a;text-align:left}
 .actions .timeline-date-card small{color:#70583a;font:10px/1.35 'IBM Plex Mono',monospace}
 .type-setter-board{grid-column:1/-1;padding:8px 10px;border:1px solid #907148;background:linear-gradient(145deg,#e2d1aa,#cbb78b);color:#30251b;box-shadow:inset 0 0 0 3px #d9c79e}
+.type-setter-model{display:grid;gap:3px;margin-bottom:8px;padding:7px 9px;border-left:3px solid #89663b;background:#f0e2c0}
+.type-setter-model span,.type-setter-model small{color:#614a31;font:12px/1.45 'Noto Serif KR',serif}
+.type-setter-model strong{color:#30251b;font:clamp(17px,2vw,22px)/1.35 Georgia,serif;letter-spacing:.02em;overflow-wrap:anywhere}
 .type-setter-caption{font:11px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:#715536}
 .type-setter-composition{min-height:42px;margin:5px 0 8px;padding:3px 7px;border-bottom:2px solid #785a36;background:#efe2c2;color:#2a211b;font:clamp(17px,2vw,24px)/1.5 Georgia,serif;letter-spacing:.05em;overflow-wrap:anywhere}
 .type-setter-rack{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:5px}

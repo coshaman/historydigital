@@ -131,6 +131,7 @@ export function main01PrintworkStage(state) {
     ...(state.step === 0 ? { typeSetter: {
       composition: [...(state.composition ?? [])],
       targetLength: [...almanacTitle].length,
+      modelTitle: almanacTitle,
       canImpress: (state.composition?.length ?? 0) === [...almanacTitle].length,
       rack: typeTiles.filter(tile => !(state.usedTypeTiles ?? []).includes(tile.id)),
     } } : {}),

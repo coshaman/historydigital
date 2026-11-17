@@ -18,7 +18,7 @@ import { contextualOpening } from './ai/authored-dialogue.mjs';
 import { attachV47StoryObjects, v47StoryQuests } from './data/v47-main-stories.mjs';
 import { createMain01PrintworkState, main01PrintworkStage, migrateMain01DistributionState, resolveMain01Printwork } from './engine/v47-printwork.mjs';
 import { createMain01TimelineState, main01TimelineSources, main01TimelineStage, resolveMain01Timeline } from './engine/v47-main01-timeline.mjs';
-import { resolveV47StoryEntry, resolveV47StoryMenuEntries, startV47StoryEntry } from './engine/v47-story-entry.mjs';
+import { campaignForV47StoryProgress, resolveV47StoryEntry, resolveV47StoryMenuEntries, startV47StoryEntry } from './engine/v47-story-entry.mjs';
 import { attachMain01PursuitObjects, createMain01PursuitState, MAIN01_PURSUIT_CHECKPOINTS, reachMain01PursuitCheckpoint, startMain01Pursuit } from './engine/v47-main01-pursuit.mjs';
 import { attachMain01StorageShelves, createMain01StorageState, MAIN01_STORAGE_PACKETS, MAIN01_STORAGE_SHELVES, placeMain01StoragePacket } from './engine/v47-main01-storage.mjs';
 import { attachV47StoryBeatObjects, toV47StoryQuests } from './data/v47-story-beats.mjs';
@@ -1535,7 +1535,9 @@ function startHistoricalAction(scene, action) {
 }
 function continuationFor(activeQuest) {
   if (activeQuest.realmId || activeQuest.chapterId?.startsWith('LITERARY_')) return [{ label: '장면에서 나가기', run: leaveCurrentLiteraryScene }, { label: '자료철 열기', run: openSourceDrawer }];
-  const arcIndex = campaign.arcs.findIndex(arc => arc.id === state.world.chapterId), arc = campaign.arcs[arcIndex];
+  const progressionCampaign = campaignForV47StoryProgress(campaign, state.world.v47?.focusStoryId,
+    state.world.chapterId, questList);
+  const arcIndex = progressionCampaign.arcs.findIndex(arc => arc.id === state.world.chapterId), arc = progressionCampaign.arcs[arcIndex];
   const questIndex = arc?.questIds.indexOf(activeQuest.id) ?? -1;
   const returnToCurrentGoal = () => {
     destinationPinned = Boolean(missionGuidance.target);
@@ -1547,7 +1549,7 @@ function continuationFor(activeQuest) {
       const [nextYear, nextMonth, nextDay] = activeQuest.date.split('-').map(Number);
       const dateLabel = nextYear !== Number(state.world.date.slice(0, 4)) ? `${nextYear}년 ${nextMonth}월 ${nextDay}일` : `${nextMonth}월 ${nextDay}일`;
       return [{ label: `${dateLabel} 자료로 이어가기`, subcopy: `연표 ${state.world.date} → ${activeQuest.date} · 다음 문서가 만들어진 뒤로 진행합니다`, run: () => {
-        const advanced = advanceCampaignDate(state, activeQuest.date, campaign, questList);
+        const advanced = advanceCampaignDate(state, activeQuest.date, progressionCampaign, questList);
         if (!advanced.ok) { sayRecord(`날짜를 진행할 수 없음 · ${advanced.reason}`); return; }
         setState(advanced.state);
         localStorage.setItem('v33-rpg-save', saveGame(advanced.state));
@@ -1581,7 +1583,7 @@ function continuationFor(activeQuest) {
     const dateLabel = nextYear !== Number(state.world.date.slice(0, 4)) ? `${nextYear}년 ${nextMonth}월 ${nextDay}일` : `${nextMonth}월 ${nextDay}일`;
     return [{ label: laterQuest.date > state.world.date ? `${dateLabel} 자료로 이어가기` : '같은 날의 다음 기록 열기', subcopy: `연표 ${state.world.date} → ${laterQuest.date} · 다음 문서가 만들어진 뒤로 진행합니다`, run: () => {
     if (laterQuest.date > state.world.date) {
-      const advanced = advanceCampaignDate(state, laterQuest.date, campaign, questList);
+      const advanced = advanceCampaignDate(state, laterQuest.date, progressionCampaign, questList);
       if (!advanced.ok) { sayRecord(`날짜를 진행할 수 없음 · ${advanced.reason}`); return; }
       setState(advanced.state);
       localStorage.setItem('v33-rpg-save', saveGame(advanced.state));
@@ -1946,6 +1948,8 @@ function inspect(object) {
       const slots = [...stage.typeSetter.composition];
       const empty = stage.typeSetter.targetLength - slots.length;
       const diagram = document.createElement('div'); diagram.className = 'type-setter-board';
+      const model = document.createElement('div'); model.className = 'type-setter-model';
+      model.innerHTML = `<span>표제 견본</span><strong lang="ru">${stage.typeSetter.modelTitle}</strong><small>위 글자와 띄어쓰기를 순서대로 활자대에 놓고 교정 인쇄를 누르세요.</small>`;
       const composed = document.createElement('div'); composed.className = 'type-setter-composition';
       composed.setAttribute('aria-label', `표제 활자 ${slots.length}/${stage.typeSetter.targetLength}개`);
       composed.textContent = `${slots.map(glyph => glyph === ' ' ? '　' : glyph).join('')}${'□'.repeat(Math.max(0, empty))}`;
@@ -1958,13 +1962,13 @@ function inspect(object) {
         button.setAttribute('aria-label', tile.glyph === ' ' ? '띄어쓰기 활자' : `활자 ${tile.glyph}`);
         button.addEventListener('click', () => runTypeAction(`V47_PRINT_TYPE_TILE:${tile.id}`)); rack.append(button);
       }
-      diagram.append(caption, composed, rack);
+      diagram.append(model, caption, composed, rack);
       say(stage.title, stage.prompt, [
         { label: '한 활자 되돌리기', run: () => runTypeAction('V47_PRINT_TYPE_UNDO') },
         { label: '활자대를 비우기', run: () => runTypeAction('V47_PRINT_TYPE_RESET') },
         { label: '교정 인쇄', disabled: !stage.typeSetter.canImpress, run: () => runTypeAction('V47_PRINT_IMPRESS_TITLE') },
       ]);
-      $('.lower').classList.add('has-typesetter'); $('.actions').classList.add('type-setter-active'); $('#actions').append(diagram);
+      $('.lower').classList.add('has-typesetter'); $('.actions').classList.add('type-setter-active'); $('#actions').prepend(diagram);
       return;
     }
     say(stage.title, stage.prompt, stage.choices.map(choice => ({

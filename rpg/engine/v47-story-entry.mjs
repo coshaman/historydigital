@@ -25,6 +25,22 @@ export function v47StoryMenuEntries() {
   return STORY_ENTRIES.map(entry => ({ ...entry }));
 }
 
+export function campaignForV47StoryProgress(campaign, storyId, chapterId, quests = []) {
+  if (!storyId || !chapterId || !campaign?.arcs) return campaign;
+  const belongsToStory = questId => {
+    const quest = quests.find(item => item.id === questId);
+    return quest?.storyId === storyId || questId.startsWith(`V47_${storyId}_`);
+  };
+  return {
+    ...campaign,
+    arcs: campaign.arcs.map(arc => arc.id !== chapterId ? arc : {
+      ...arc,
+      questIds: (arc.questIds ?? []).filter(belongsToStory),
+      optionalQuestIds: (arc.optionalQuestIds ?? []).filter(belongsToStory),
+    }),
+  };
+}
+
 export function resolveV47StoryMenuEntries(state, quests = [], campaign = { arcs: [] }) {
   return STORY_ENTRIES.map(entry => {
     const guide = resolveV47StoryEntry(state, entry.id, quests, campaign);

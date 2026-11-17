@@ -1,10 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { v47StoryMenuEntries, resolveV47StoryEntry, resolveV47StoryMenuEntries, startV47StoryEntry } from '../rpg/engine/v47-story-entry.mjs';
+import { campaignForV47StoryProgress, v47StoryMenuEntries, resolveV47StoryEntry, resolveV47StoryMenuEntries, startV47StoryEntry } from '../rpg/engine/v47-story-entry.mjs';
 import { toV47StoryQuests } from '../rpg/data/v47-story-beats.mjs';
 import { v47StoryQuests } from '../rpg/data/v47-main-stories.mjs';
 import { readFile } from 'node:fs/promises';
 import { CITY_PRODUCTS, purchaseCityProduct } from '../rpg/engine/civic-life.mjs';
+import { createMain01PrintworkState, main01PrintworkStage } from '../rpg/engine/v47-printwork.mjs';
 
 const quests = [...v47StoryQuests, ...toV47StoryQuests()];
 const campaign = JSON.parse(await readFile(new URL('../rpg/quests/campaign.json', import.meta.url), 'utf8'));
@@ -46,6 +47,18 @@ test('starting MAIN01 moves the player to its first scene and keeps a character 
   assert.deepEqual(result.state.hosts.bookseller_lev.position, { x: 11, y: 14 });
   assert.equal(result.state.quests.PRINTSHOP_PROOF_1847, undefined, 'starting a story does not falsely complete unrelated campaign work');
   assert.equal(state.world.date, '1847-06-01', 'starting a story leaves the prior save object untouched');
+});
+
+test('MAIN01 date progression ignores unrelated earlier quests in its shared chapter', () => {
+  const chapter = campaign.arcs.find(arc => arc.id === 'V33_1848_PUBLIC');
+  const focused = campaignForV47StoryProgress(campaign, 'MAIN01', chapter.id, quests);
+  const focusedChapter = focused.arcs.find(arc => arc.id === chapter.id);
+  assert.ok(focusedChapter.questIds.includes('V47_MAIN01_PERMISSION'));
+  assert.ok(focusedChapter.questIds.includes('V47_MAIN01_A02'));
+  assert.ok(!focusedChapter.questIds.includes('PUBLIC_DISCOURSE_1848'));
+  assert.ok(!focusedChapter.questIds.includes('V47_MAIN03_P01'));
+  assert.deepEqual(campaign.arcs.find(arc => arc.id === chapter.id).questIds, chapter.questIds,
+    'scoping one story must not mutate the shared campaign timeline');
 });
 
 test('MAIN01 selection becomes directly actionable once its dated campaign gates are resolved', () => {
@@ -101,4 +114,9 @@ test('MAIN01 purchase activity uses a real city-stall transaction with inventory
   assert.equal(result.state.hosts.reader_darya.money.amount, 7);
   assert.ok(result.state.hosts.reader_darya.inventory.includes('newsprint_sheet'));
   assert.equal(result.state.ledger.at(-1).eventType, 'CITY_PURCHASE');
+});
+
+test('MAIN01 typesetting stage shows the exact title the player must compose', () => {
+  const stage = main01PrintworkStage(createMain01PrintworkState());
+  assert.equal(stage.typeSetter.modelTitle, 'Семейство Тальниковых');
 });
