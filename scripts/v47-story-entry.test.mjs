@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { v47StoryMenuEntries, resolveV47StoryEntry, resolveV47StoryMenuEntries } from '../rpg/engine/v47-story-entry.mjs';
+import { v47StoryMenuEntries, resolveV47StoryEntry, resolveV47StoryMenuEntries, startV47StoryEntry } from '../rpg/engine/v47-story-entry.mjs';
 import { toV47StoryQuests } from '../rpg/data/v47-story-beats.mjs';
 import { v47StoryQuests } from '../rpg/data/v47-main-stories.mjs';
 import { readFile } from 'node:fs/promises';
@@ -17,13 +17,35 @@ test('history menu exposes all three V47 main stories with player-facing names',
   assert.match(entries[0].firstTaskKo, /구독 장부/);
 });
 
-test('MAIN01 selection identifies the current campaign task that unlocks its first scene', () => {
+test('MAIN01 selection starts its dated story instead of gating it behind 1847 campaign quests', () => {
   const state = { world: { chapterId: 'V33_1847_PRINT', date: '1847-06-01' }, quests: {} };
   const guide = resolveV47StoryEntry(state, 'MAIN01', quests, campaign);
-  assert.equal(guide.status, 'WAITING_FOR_CAMPAIGN');
+  assert.equal(guide.status, 'READY');
   assert.equal(guide.storyQuestId, 'V47_MAIN01_A01');
-  assert.equal(guide.currentQuestId, 'PRINTSHOP_PROOF_1847');
-  assert.ok(guide.currentTaskKo);
+  assert.equal(guide.currentQuestId, 'V47_MAIN01_A01');
+  assert.match(guide.currentTaskKo, /구독 장부/);
+});
+
+test('starting MAIN01 moves the player to its first scene and keeps a character in its role cast', () => {
+  const state = {
+    world: { chapterId: 'V33_1847_PRINT', date: '1847-06-01', currentMapId: 'nevsky', clockMinutes: 540, v47: {} },
+    player: { embodiment: 'courier_pavel', position: { x: 22, y: 10 } },
+    hosts: {
+      courier_pavel: { id: 'courier_pavel', mapId: 'nevsky', position: { x: 22, y: 10 }, historicalAliveAndPresent: true },
+      bookseller_lev: { id: 'bookseller_lev', mapId: 'nevsky', position: { x: 25, y: 16 }, historicalAliveAndPresent: true },
+    },
+    quests: {}, ledger: [],
+  };
+  const maps = { 'bookshop-interior': { metadata: { observerStart: { x: 11, y: 14 } } } };
+  const result = startV47StoryEntry(state, 'MAIN01', quests, campaign, maps);
+  assert.equal(result.ok, true);
+  assert.equal(result.state.world.chapterId, 'V33_1848_PUBLIC');
+  assert.equal(result.state.world.date, '1848-02-12');
+  assert.equal(result.state.world.currentMapId, 'bookshop-interior');
+  assert.equal(result.state.player.embodiment, 'bookseller_lev');
+  assert.deepEqual(result.state.hosts.bookseller_lev.position, { x: 11, y: 14 });
+  assert.equal(result.state.quests.PRINTSHOP_PROOF_1847, undefined, 'starting a story does not falsely complete unrelated campaign work');
+  assert.equal(state.world.date, '1847-06-01', 'starting a story leaves the prior save object untouched');
 });
 
 test('MAIN01 selection becomes directly actionable once its dated campaign gates are resolved', () => {
@@ -37,19 +59,14 @@ test('MAIN01 selection becomes directly actionable once its dated campaign gates
   assert.equal(guide.currentQuestId, 'V47_MAIN01_A01');
 });
 
-test('historical locations menu tells the player whether MAIN01 can start and what to do next', () => {
+test('historical locations menu identifies MAIN01 as directly startable from the initial 1847 save', () => {
   const state = { world: { chapterId: 'V33_1847_PRINT', date: '1847-06-01' }, quests: {} };
   const entry = resolveV47StoryMenuEntries(state, [...quests, printshopQuest], campaign).find(item => item.id === 'MAIN01');
-  assert.equal(entry.status, 'WAITING_FOR_CAMPAIGN');
-  assert.equal(entry.statusLabelKo, '도입 퀘스트');
-  assert.equal(entry.currentTitleKo, '교정쇄의 행선지');
-  assert.match(entry.menuTaskKo, /교정쇄|인쇄소/);
-  assert.match(entry.currentContextKo, /편집부 공고와 교정쇄/);
-  assert.match(entry.introKo, /먼저.*교정쇄의 행선지/);
-  assert.match(entry.timelineNoteKo, /현재 1847년 6월.*1848년 2월.*첫 장면/,
-    'a selected 1848 story explains why the player is currently doing its 1847 opening tasks');
-  assert.doesNotMatch(entry.introKo, /구독 장부에서 이름을 찾고/,
-    'a gated story must not tell the player to do a later MAIN01 objective before the current campaign gate');
+  assert.equal(entry.status, 'READY');
+  assert.equal(entry.statusLabelKo, '지금 시작');
+  assert.equal(entry.currentTitleKo, '부록은 어디 있습니까?');
+  assert.match(entry.menuTaskKo, /구독 장부/);
+  assert.doesNotMatch(entry.menuTaskKo, /교정쇄의 행선지/);
 });
 
 test('ready MAIN01 menu gives a direct first objective and lists playable activity types', () => {

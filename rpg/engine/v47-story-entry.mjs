@@ -61,6 +61,15 @@ export function resolveV47StoryEntry(state, storyId, quests = [], campaign = { a
   if (!storyQuest) return { ...entry, status: 'COMPLETE', storyQuestId: null, currentQuestId: null };
   const storyStartDate = storyQuest.date ?? null;
 
+  // MAIN01 is an authored story entry. Selecting it must not route a new
+  // player through every unrelated campaign quest in the earlier 1847 arc.
+  if (storyId === 'MAIN01') return { ...entry, status: 'READY', storyQuestId: storyQuest.id,
+    storyStartDate, currentQuestId: storyQuest.id,
+    currentTaskKo: storyQuest.objectiveKo ?? entry.firstTaskKo,
+    currentContextKo: storyQuest.premiseKo ?? storyQuest.sourceContextKo ?? '',
+    currentTitleKo: storyQuest.titleKo, currentMapId: storyQuest.entry?.mapId ?? null,
+    currentChapterId: storyQuest.chapterId };
+
   const targetArcIndex = campaign.arcs.findIndex(arc => arc.id === storyQuest.chapterId);
   const currentArcIndex = campaign.arcs.findIndex(arc => arc.id === state?.world?.chapterId);
   const priorIds = targetArcIndex < 0 ? [] : campaign.arcs.slice(0, targetArcIndex + 1)
@@ -90,4 +99,47 @@ export function resolveV47StoryEntry(state, storyId, quests = [], campaign = { a
     currentTaskKo: storyQuest.objectiveKo ?? entry.firstTaskKo, currentTitleKo: storyQuest.titleKo,
     currentContextKo: storyQuest.premiseKo ?? storyQuest.sourceContextKo ?? '',
     currentMapId: storyQuest.entry?.mapId ?? null, currentChapterId: storyQuest.chapterId };
+}
+
+export function startV47StoryEntry(state, storyId, quests = [], campaign = { arcs: [] }, maps = {}) {
+  if (storyId !== 'MAIN01') return { ok: false, reason: 'direct_start_unavailable', state };
+  const guide = resolveV47StoryEntry(state, storyId, quests, campaign);
+  if (!guide?.storyQuestId || guide.status === 'COMPLETE') return { ok: false, reason: 'story_unavailable', state };
+  const quest = quests.find(item => item.id === guide.storyQuestId);
+  const mapId = quest?.entry?.mapId ?? guide.currentMapId;
+  const map = maps[mapId];
+  if (!quest || !map) return { ok: false, reason: 'story_entry_missing', state };
+
+  const next = structuredClone(state);
+  const date = quest.date && quest.date > (next.world?.date ?? '') ? quest.date : next.world?.date ?? quest.date;
+  next.world.chapterId = quest.chapterId;
+  next.world.date = date;
+  next.world.currentMapId = mapId;
+  next.world.v47 ??= {};
+  next.world.v47.focusStoryId = storyId;
+
+  for (const host of Object.values(next.hosts ?? {})) {
+    if (!host.presenceWindow) continue;
+    host.historicalAliveAndPresent = host.presenceWindow.startDate <= date && date <= host.presenceWindow.endDate;
+    if (host.historicalAliveAndPresent && host.presenceWindow.start) {
+      host.mapId = host.presenceWindow.start.mapId;
+      host.position = { ...host.presenceWindow.start.position };
+    }
+  }
+
+  const spawn = map.metadata?.observerStart ?? { x: 2, y: 2 };
+  const eligibleHosts = (quest.metadata?.playerHosts ?? quest.hosts ?? []).filter(id => next.hosts?.[id]
+    && next.hosts[id].historicalAliveAndPresent !== false);
+  const currentHostId = eligibleHosts[0] ?? null;
+  next.player.embodiment = currentHostId;
+  next.player.position = { ...spawn };
+  if (currentHostId) {
+    next.hosts[currentHostId].historicalAliveAndPresent = true;
+    next.hosts[currentHostId].mapId = mapId;
+    next.hosts[currentHostId].position = { ...spawn };
+  }
+  next.ledger ??= [];
+  next.ledger.push({ eventId: `V47_STORY_ENTRY_${next.ledger.length + 1}`, eventType: 'V47_STORY_ENTRY',
+    storyId, questId: quest.id, date, chapterId: quest.chapterId, mapId });
+  return { ok: true, state: next, questId: quest.id };
 }

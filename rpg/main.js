@@ -18,7 +18,7 @@ import { contextualOpening } from './ai/authored-dialogue.mjs';
 import { attachV47StoryObjects, v47StoryQuests } from './data/v47-main-stories.mjs';
 import { createMain01PrintworkState, main01PrintworkStage, migrateMain01DistributionState, resolveMain01Printwork } from './engine/v47-printwork.mjs';
 import { createMain01TimelineState, main01TimelineSources, main01TimelineStage, resolveMain01Timeline } from './engine/v47-main01-timeline.mjs';
-import { resolveV47StoryEntry, resolveV47StoryMenuEntries } from './engine/v47-story-entry.mjs';
+import { resolveV47StoryEntry, resolveV47StoryMenuEntries, startV47StoryEntry } from './engine/v47-story-entry.mjs';
 import { attachMain01PursuitObjects, createMain01PursuitState, MAIN01_PURSUIT_CHECKPOINTS, reachMain01PursuitCheckpoint, startMain01Pursuit } from './engine/v47-main01-pursuit.mjs';
 import { attachMain01StorageShelves, createMain01StorageState, MAIN01_STORAGE_PACKETS, MAIN01_STORAGE_SHELVES, placeMain01StoragePacket } from './engine/v47-main01-storage.mjs';
 import { attachV47StoryBeatObjects, toV47StoryQuests } from './data/v47-story-beats.mjs';
@@ -1296,8 +1296,13 @@ function selectV47Story(storyId) {
   const entry = resolveV47StoryMenuEntries(state, questList, campaign).find(item => item.id === storyId);
   const guide = resolveV47StoryEntry(state, storyId, questList, campaign);
   if (!entry || !guide) return;
-  const next = copy(state);
-  next.world.v47 ??= globalThis.V47MainStories.createV47State();
+  let next = copy(state);
+  if (storyId === 'MAIN01') {
+    const started = startV47StoryEntry(state, storyId, questList, campaign, maps);
+    if (!started.ok) { sayRecord('이 이야기를 시작할 수 없습니다.'); return; }
+    next = started.state;
+  }
+  next.world.v47 = { ...globalThis.V47MainStories.createV47State(), ...(next.world.v47 ?? {}) };
   next.world.v47.focusStoryId = storyId;
   setState(next);
   localStorage.setItem('v33-rpg-save', saveGame(next));
