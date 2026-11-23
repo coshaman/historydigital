@@ -208,13 +208,17 @@ export function resolveMain01Printwork(previousState, actionId) {
     }
     const composedTitle = state.composition.join('');
     if (composedTitle !== almanacTitle) {
+      const proofSheetReserved = state.inventory.dryPaper <= 1;
       state.miscomposedTitles = (state.miscomposedTitles ?? 0) + 1;
-      state.spoiledSheets += 1;
+      if (!proofSheetReserved) {
+        state.spoiledSheets += 1;
+        state.inventory.dryPaper -= 1;
+      }
       state.workMinutes += 4;
-      state.inventory.dryPaper = Math.max(0, state.inventory.dryPaper - 1);
       state.composition = [];
       state.usedTypeTiles = [];
-      return { accepted: false, state, reason: 'title_mismatch', effects: { wasteDelta: 1 } };
+      return { accepted: false, state, reason: 'title_mismatch', proofSheetReserved,
+        effects: { wasteDelta: proofSheetReserved ? 0 : 1 } };
     }
     state.titleSet = true;
     state.decisions.push('V47_PRINT_TITLE_TALNIKOVY');

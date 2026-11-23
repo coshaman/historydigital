@@ -13,6 +13,8 @@ const sceneDialogue = (...turns) => turns.map(([speakerKo, lineKo]) => ({ speake
 export const v47StoryQuests = [
   {
     id: 'V47_MAIN01_PERMISSION', titleKo: '허가 도장과 아직 나가지 못한 책', chapterId: 'V33_1848_PUBLIC', date: '1848-03-09',
+    objectiveKo: '인쇄소에서 제목을 조판하고, 교정쇄와 종이 상태를 확인해 출고를 준비한다.',
+    premiseKo: '예카테리나가 활자함과 교정쇄를 앞에 두고 있다. 표제를 맞춘 뒤 종이 상태와 납기를 정하자.',
     entry: { mapId: 'printshop', objectId: 9047 }, sourceIds: [],
     actions: [
       action('V47_A01_COLLATE_PROOFS', ['printer_ekaterina', 'print_apprentice_stepan'], '교정쇄와 활자 수를 맞춘다', '작업대 위 교정쇄와 활자 수를 대조했다. 인쇄 부수와 실제 판본 내용은 확인 가능한 자료가 확보될 때까지 장부에 추정치로 남겼다.', { situationKo: '1848년 연감 인쇄 작업을 시작했다.', flags: { V47_MAIN01_PROOFS_COLLATION: true } }),
@@ -24,9 +26,8 @@ export const v47StoryQuests = [
     id: 'V47_MAIN01_DISTRIBUTION_BAN', titleKo: '배포가 막힌 날', chapterId: 'V33_1848_PUBLIC', date: '1848-11-01',
     prerequisiteQuestIds: ['V47_MAIN01_PERMISSION'], entry: { mapId: 'printshop', objectId: 9048 }, sourceIds: ['V47-MUSIN-PUSHKIN-REPORT-MARGIN-NOTE-1848-10-15'],
     dialogueStatus: 'NEWLY_AUTHORED_FROM_V47_SCENARIO', dialogue: sceneDialogue(
-      ['스테판', '판을 깨면 끝입니까? 이 종이 찍느라 사흘을 샜는데요.'],
-      ['네크라소프', '그 시간을 모르는 줄 아나. 내 이름으로 이미—'],
-      ['스테판', '그럼 제 임금은 누구 이름으로 줍니까?']),
+      ['스테판', '인쇄를 끝냈는데 책은 못 내보낸다고요? 사흘 밤을 매달렸습니다. 오늘 품삯은 누가 줍니까?'],
+      ['예카테리나', '창고에 묶음은 그대로 있어요. 수량부터 세고, 오늘 나눌 돈을 정해야겠어요.']),
     actions: [
       action('V47_A06_COUNT_STOCK', ['printer_ekaterina', 'bookseller_lev'], '창고의 묶음과 주문 장부를 맞춘다', '창고의 묶음 수와 서점 주문 장부를 한 줄씩 대조했다. 나갈 수 없는 책이 몇 권인지 이제 알 수 있다.', { situationKo: '창고 재고와 서점 주문을 대조했다.' }),
       action('V47_A06_PAY_WORKERS', ['nekrasov_reconstruction', 'courier_pavel'], '남은 돈을 품삯과 환불에 나눈다', '품삯과 구독자 환불에 남은 돈을 나누었다. 어느 쪽을 먼저 갚았는지가 뒤의 인물 관계와 생계에 남는다.', { situationKo: '배포 금지 뒤 품삯과 환불을 나누어 지급했다.', flags: { V47_MAIN01_COMPENSATION_CHOSEN: true }, v47WorldChange: { money: [{ fromHostId: 'editor_sofia', toHostId: 'seamstress_anna', amount: 1 }, { fromHostId: 'editor_sofia', toHostId: 'print_apprentice_stepan', amount: 1 }], relationships: [{ fromHostId: 'seamstress_anna', toHostId: 'editor_sofia', trustDelta: 2 }, { fromHostId: 'print_apprentice_stepan', toHostId: 'editor_sofia', trustDelta: 2 }] } }),

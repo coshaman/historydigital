@@ -1,0 +1,667 @@
+{
+  "status": "PASS",
+  "date": "2026-11-23",
+  "input": "Build from Git index files",
+  "routes": [
+    {
+      "actionId": "V47_A11_SETTLE_WORKERS",
+      "labelKo": "한 부를 감추고 작업자 품삯을 준다",
+      "outcomeKo": "편집부는 위험을 감수해 인쇄본 한 부를 따로 보관하고, 남은 돈으로 스테판의 품삯을 먼저 정산한다. 환불을 기다리는 손님은 더 기다려야 한다.",
+      "hostId": "nekrasov_reconstruction",
+      "chosenOn": "1848-12-12",
+      "nextChapterId": "V33_1849_PRELUDE",
+      "nextDate": "1849-03-20",
+      "screenshot": "workers/NORMAL-MAIN01-aftermath.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "pageErrors": [],
+      "pageCrashes": [],
+      "summary": {
+        "resolved": 12,
+        "uniqueHosts": 9,
+        "maps": [
+          "bookshop-interior",
+          "printshop",
+          "chancery",
+          "communal-room",
+          "bookshop-lane",
+          "sofiya-salon"
+        ],
+        "status": "PASS"
+      },
+      "transitions": 17,
+      "sourcesRead": [
+        {
+          "sourceId": "V47-NEKRASOV-ALMANAC-CONTENTS-1848",
+          "date": "1848-03-09",
+          "hostId": "printer_ekaterina"
+        },
+        {
+          "sourceId": "V47-PANAEVA-TALNIKOV-CH1-1848",
+          "date": "1848-05-18",
+          "hostId": "panaev_1848",
+          "paragraphCount": 13
+        },
+        {
+          "sourceId": "V47-PANAEVA-TALNIKOV-CH1-1848",
+          "date": "1848-05-18",
+          "hostId": "panaev_1848",
+          "paragraphCount": 13
+        },
+        {
+          "sourceId": "V47-PANAEV-LETTER-1848-08-20",
+          "date": "1848-09-18",
+          "hostId": "clerk_alexei",
+          "paragraphCount": 3
+        },
+        {
+          "sourceId": "V47-KRYLOV-ASSESSMENT-1848-09-06",
+          "date": "1848-09-18",
+          "hostId": "clerk_alexei",
+          "paragraphCount": 3
+        },
+        {
+          "sourceId": "V47-NEKRASOV-SUBSCRIBER-LETTER-1848",
+          "date": "1848-12-12",
+          "hostId": "printer_ekaterina",
+          "paragraphCount": 5
+        }
+      ],
+      "steps": [
+        {
+          "questId": "V47_MAIN01_A01",
+          "actionId": "V47_A01_OPEN_SUBSCRIBER_LEDGER",
+          "date": "1848-02-12",
+          "hostId": "bookseller_lev",
+          "mapId": "bookshop-interior",
+          "status": "resolved",
+          "ledgerSaved": true
+        },
+        {
+          "questId": "V47_MAIN01_PERMISSION",
+          "actionId": "V47_A01_COLLATE_PROOFS",
+          "date": "1848-03-09",
+          "hostId": "printer_ekaterina",
+          "mapId": "printshop",
+          "status": "resolved",
+          "ledgerSaved": true
+        },
+        {
+          "questId": "V47_MAIN01_A02",
+          "actionId": "V47_A02_REFUND_DEPOSIT",
+          "date": "1848-04-28",
+          "hostId": "bookseller_lev",
+          "mapId": "bookshop-interior",
+          "status": "resolved",
+          "ledgerSaved": true
+        },
+        {
+          "questId": "V47_MAIN01_A03",
+          "actionId": "V47_A03_PANAEV_CATALOGUE_NOTE",
+          "date": "1848-05-18",
+          "hostId": "panaev_1848",
+          "mapId": "printshop",
+          "status": "resolved",
+          "ledgerSaved": true
+        },
+        {
+          "questId": "V47_MAIN01_A04",
+          "actionId": "V47_A04_PAY_WAGES",
+          "date": "1848-07-22",
+          "hostId": "print_apprentice_stepan",
+          "mapId": "printshop",
+          "status": "resolved",
+          "ledgerSaved": true
+        },
+        {
+          "questId": "V47_MAIN01_A05",
+          "actionId": "V47_A05_COPY_LEDGER",
+          "date": "1848-09-18",
+          "hostId": "clerk_alexei",
+          "mapId": "chancery",
+          "status": "resolved",
+          "ledgerSaved": true
+        },
+        {
+          "questId": "V47_MAIN01_DISTRIBUTION_BAN",
+          "actionId": "V47_A06_COUNT_STOCK",
+          "date": "1848-11-01",
+          "hostId": "printer_ekaterina",
+          "mapId": "printshop",
+          "status": "resolved",
+          "ledgerSaved": true
+        },
+        {
+          "questId": "V47_MAIN01_A07",
+          "actionId": "V47_A07_CLAIM_WAGES",
+          "date": "1848-11-02",
+          "hostId": "landlady_polina",
+          "mapId": "communal-room",
+          "status": "resolved",
+          "ledgerSaved": true
+        },
+        {
+          "questId": "V47_MAIN01_A08",
+          "actionId": "V47_A08_RETURN_PACKAGE",
+          "date": "1848-11-06",
+          "hostId": "courier_pavel",
+          "mapId": "bookshop-lane",
+          "status": "resolved",
+          "ledgerSaved": true
+        },
+        {
+          "questId": "V47_MAIN01_SUBSCRIBER_REPLY",
+          "actionId": "V47_A08_REFUND_SUBSCRIBERS",
+          "date": "1848-11-29",
+          "hostId": "bookseller_lev",
+          "mapId": "bookshop-interior",
+          "status": "resolved",
+          "ledgerSaved": true
+        },
+        {
+          "questId": "V47_MAIN01_A10",
+          "actionId": "V47_A10_HOST_READING",
+          "date": "1848-12-06",
+          "hostId": "sofiya_salon_1848",
+          "mapId": "sofiya-salon",
+          "status": "resolved",
+          "ledgerSaved": true
+        },
+        {
+          "questId": "V47_MAIN01_A11",
+          "actionId": "V47_A11_SETTLE_WORKERS",
+          "date": "1848-12-12",
+          "hostId": "nekrasov_reconstruction",
+          "mapId": "printshop",
+          "status": "resolved",
+          "ledgerSaved": true
+        }
+      ],
+      "lastChoiceWorldChange": {
+        "questId": "V47_MAIN01_A11",
+        "actionId": "V47_A11_SETTLE_WORKERS",
+        "date": "1848-12-12",
+        "mapId": "printshop",
+        "money": [
+          {
+            "fromHostId": "editor_sofia",
+            "toHostId": "printer_ekaterina",
+            "amount": 2
+          },
+          {
+            "fromHostId": "printer_ekaterina",
+            "toHostId": "print_apprentice_stepan",
+            "amount": 2
+          }
+        ],
+        "inventory": [
+          {
+            "fromHostId": "printer_ekaterina",
+            "toHostId": "editor_sofia",
+            "itemKo": "정산 장부",
+            "quantity": 1,
+            "produceIfAbsent": true
+          },
+          {
+            "fromHostId": "printer_ekaterina",
+            "toHostId": "editor_sofia",
+            "itemKo": "비공개 보관 연감 한 부",
+            "quantity": 1,
+            "produceIfAbsent": true
+          }
+        ],
+        "moves": [
+          {
+            "hostId": "print_apprentice_stepan",
+            "mapId": "printshop",
+            "x": 13,
+            "y": 11
+          }
+        ],
+        "resources": {
+          "waterRiskDelta": 0,
+          "foodRiskDelta": 0,
+          "bedsDelta": 0,
+          "medicineDelta": 0
+        },
+        "rumorId": "V47_FINAL_WAGE_SETTLEMENT",
+        "observationIds": [],
+        "sourceObservationIds": []
+      }
+    },
+    {
+      "actionId": "V47_A11_SETTLE_SUBSCRIBERS",
+      "labelKo": "환불 명단을 서점에 넘긴다",
+      "outcomeKo": "레프가 환불 대상자를 확인한다. 작업자들은 남은 돈을 받지 못해 다른 일을 찾는다.",
+      "hostId": "nekrasov_reconstruction",
+      "chosenOn": "1848-12-12",
+      "nextChapterId": "V33_1849_PRELUDE",
+      "nextDate": "1849-03-20",
+      "screenshot": "subscribers/NORMAL-MAIN01-aftermath.png",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "pageErrors": [],
+      "pageCrashes": [],
+      "summary": {
+        "resolved": 12,
+        "uniqueHosts": 9,
+        "maps": [
+          "bookshop-interior",
+          "printshop",
+          "chancery",
+          "communal-room",
+          "bookshop-lane",
+          "sofiya-salon"
+        ],
+        "status": "PASS"
+      },
+      "transitions": 17,
+      "sourcesRead": [
+        {
+          "sourceId": "V47-NEKRASOV-ALMANAC-CONTENTS-1848",
+          "date": "1848-03-09",
+          "hostId": "printer_ekaterina"
+        },
+        {
+          "sourceId": "V47-PANAEVA-TALNIKOV-CH1-1848",
+          "date": "1848-05-18",
+          "hostId": "panaev_1848",
+          "paragraphCount": 13
+        },
+        {
+          "sourceId": "V47-PANAEVA-TALNIKOV-CH1-1848",
+          "date": "1848-05-18",
+          "hostId": "panaev_1848",
+          "paragraphCount": 13
+        },
+        {
+          "sourceId": "V47-PANAEV-LETTER-1848-08-20",
+          "date": "1848-09-18",
+          "hostId": "clerk_alexei",
+          "paragraphCount": 3
+        },
+        {
+          "sourceId": "V47-KRYLOV-ASSESSMENT-1848-09-06",
+          "date": "1848-09-18",
+          "hostId": "clerk_alexei",
+          "paragraphCount": 3
+        },
+        {
+          "sourceId": "V47-NEKRASOV-SUBSCRIBER-LETTER-1848",
+          "date": "1848-12-12",
+          "hostId": "printer_ekaterina",
+          "paragraphCount": 5
+        }
+      ],
+      "steps": [
+        {
+          "questId": "V47_MAIN01_A01",
+          "actionId": "V47_A01_OPEN_SUBSCRIBER_LEDGER",
+          "date": "1848-02-12",
+          "hostId": "bookseller_lev",
+          "mapId": "bookshop-interior",
+          "status": "resolved",
+          "ledgerSaved": true
+        },
+        {
+          "questId": "V47_MAIN01_PERMISSION",
+          "actionId": "V47_A01_COLLATE_PROOFS",
+          "date": "1848-03-09",
+          "hostId": "printer_ekaterina",
+          "mapId": "printshop",
+          "status": "resolved",
+          "ledgerSaved": true
+        },
+        {
+          "questId": "V47_MAIN01_A02",
+          "actionId": "V47_A02_REFUND_DEPOSIT",
+          "date": "1848-04-28",
+          "hostId": "bookseller_lev",
+          "mapId": "bookshop-interior",
+          "status": "resolved",
+          "ledgerSaved": true
+        },
+        {
+          "questId": "V47_MAIN01_A03",
+          "actionId": "V47_A03_PANAEV_CATALOGUE_NOTE",
+          "date": "1848-05-18",
+          "hostId": "panaev_1848",
+          "mapId": "printshop",
+          "status": "resolved",
+          "ledgerSaved": true
+        },
+        {
+          "questId": "V47_MAIN01_A04",
+          "actionId": "V47_A04_PAY_WAGES",
+          "date": "1848-07-22",
+          "hostId": "print_apprentice_stepan",
+          "mapId": "printshop",
+          "status": "resolved",
+          "ledgerSaved": true
+        },
+        {
+          "questId": "V47_MAIN01_A05",
+          "actionId": "V47_A05_COPY_LEDGER",
+          "date": "1848-09-18",
+          "hostId": "clerk_alexei",
+          "mapId": "chancery",
+          "status": "resolved",
+          "ledgerSaved": true
+        },
+        {
+          "questId": "V47_MAIN01_DISTRIBUTION_BAN",
+          "actionId": "V47_A06_COUNT_STOCK",
+          "date": "1848-11-01",
+          "hostId": "printer_ekaterina",
+          "mapId": "printshop",
+          "status": "resolved",
+          "ledgerSaved": true
+        },
+        {
+          "questId": "V47_MAIN01_A07",
+          "actionId": "V47_A07_CLAIM_WAGES",
+          "date": "1848-11-02",
+          "hostId": "landlady_polina",
+          "mapId": "communal-room",
+          "status": "resolved",
+          "ledgerSaved": true
+        },
+        {
+          "questId": "V47_MAIN01_A08",
+          "actionId": "V47_A08_RETURN_PACKAGE",
+          "date": "1848-11-06",
+          "hostId": "courier_pavel",
+          "mapId": "bookshop-lane",
+          "status": "resolved",
+          "ledgerSaved": true
+        },
+        {
+          "questId": "V47_MAIN01_SUBSCRIBER_REPLY",
+          "actionId": "V47_A08_REFUND_SUBSCRIBERS",
+          "date": "1848-11-29",
+          "hostId": "bookseller_lev",
+          "mapId": "bookshop-interior",
+          "status": "resolved",
+          "ledgerSaved": true
+        },
+        {
+          "questId": "V47_MAIN01_A10",
+          "actionId": "V47_A10_HOST_READING",
+          "date": "1848-12-06",
+          "hostId": "sofiya_salon_1848",
+          "mapId": "sofiya-salon",
+          "status": "resolved",
+          "ledgerSaved": true
+        },
+        {
+          "questId": "V47_MAIN01_A11",
+          "actionId": "V47_A11_SETTLE_SUBSCRIBERS",
+          "date": "1848-12-12",
+          "hostId": "nekrasov_reconstruction",
+          "mapId": "printshop",
+          "status": "resolved",
+          "ledgerSaved": true
+        }
+      ],
+      "lastChoiceWorldChange": {
+        "questId": "V47_MAIN01_A11",
+        "actionId": "V47_A11_SETTLE_SUBSCRIBERS",
+        "date": "1848-12-12",
+        "mapId": "printshop",
+        "money": [
+          {
+            "fromHostId": "editor_sofia",
+            "toHostId": "bookseller_lev",
+            "amount": 2
+          }
+        ],
+        "inventory": [
+          {
+            "fromHostId": "editor_sofia",
+            "toHostId": "bookseller_lev",
+            "itemKo": "환불 대상자 명단",
+            "quantity": 1,
+            "produceIfAbsent": true
+          }
+        ],
+        "moves": [
+          {
+            "hostId": "bookseller_lev",
+            "mapId": "bookshop-interior",
+            "x": 7,
+            "y": 11
+          },
+          {
+            "hostId": "print_apprentice_stepan",
+            "mapId": "bookshop-lane",
+            "x": 5,
+            "y": 9
+          }
+        ],
+        "resources": {
+          "waterRiskDelta": 0,
+          "foodRiskDelta": 0,
+          "bedsDelta": 0,
+          "medicineDelta": 0
+        },
+        "rumorId": "V47_SUBSCRIBER_LEDGER",
+        "observationIds": [],
+        "sourceObservationIds": []
+      }
+    },
+    {
+      "actionId": "V47_A11_FIND_REPLACEMENT_WORK",
+      "labelKo": "급료를 잇도록 새 인쇄 일을 구한다",
+      "outcomeKo": "레프가 다른 인쇄소에 보낼 소개장을 써 준다. 스테판은 새 일을 찾아 나서고 당장 받을 품삯은 줄어든다.",
+      "hostId": "nekrasov_reconstruction",
+      "chosenOn": "1848-12-12",
+      "nextChapterId": "V33_1849_PRELUDE",
+      "nextDate": "1849-03-20",
+      "screenshot": "work/NORMAL-MAIN01-aftermath.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "pageErrors": [],
+      "pageCrashes": [],
+      "summary": {
+        "resolved": 12,
+        "uniqueHosts": 9,
+        "maps": [
+          "bookshop-interior",
+          "printshop",
+          "chancery",
+          "communal-room",
+          "bookshop-lane",
+          "sofiya-salon"
+        ],
+        "status": "PASS"
+      },
+      "transitions": 17,
+      "sourcesRead": [
+        {
+          "sourceId": "V47-NEKRASOV-ALMANAC-CONTENTS-1848",
+          "date": "1848-03-09",
+          "hostId": "printer_ekaterina"
+        },
+        {
+          "sourceId": "V47-PANAEVA-TALNIKOV-CH1-1848",
+          "date": "1848-05-18",
+          "hostId": "panaev_1848",
+          "paragraphCount": 13
+        },
+        {
+          "sourceId": "V47-PANAEVA-TALNIKOV-CH1-1848",
+          "date": "1848-05-18",
+          "hostId": "panaev_1848",
+          "paragraphCount": 13
+        },
+        {
+          "sourceId": "V47-PANAEV-LETTER-1848-08-20",
+          "date": "1848-09-18",
+          "hostId": "clerk_alexei",
+          "paragraphCount": 3
+        },
+        {
+          "sourceId": "V47-KRYLOV-ASSESSMENT-1848-09-06",
+          "date": "1848-09-18",
+          "hostId": "clerk_alexei",
+          "paragraphCount": 3
+        },
+        {
+          "sourceId": "V47-NEKRASOV-SUBSCRIBER-LETTER-1848",
+          "date": "1848-12-12",
+          "hostId": "printer_ekaterina",
+          "paragraphCount": 5
+        }
+      ],
+      "steps": [
+        {
+          "questId": "V47_MAIN01_A01",
+          "actionId": "V47_A01_OPEN_SUBSCRIBER_LEDGER",
+          "date": "1848-02-12",
+          "hostId": "bookseller_lev",
+          "mapId": "bookshop-interior",
+          "status": "resolved",
+          "ledgerSaved": true
+        },
+        {
+          "questId": "V47_MAIN01_PERMISSION",
+          "actionId": "V47_A01_COLLATE_PROOFS",
+          "date": "1848-03-09",
+          "hostId": "printer_ekaterina",
+          "mapId": "printshop",
+          "status": "resolved",
+          "ledgerSaved": true
+        },
+        {
+          "questId": "V47_MAIN01_A02",
+          "actionId": "V47_A02_REFUND_DEPOSIT",
+          "date": "1848-04-28",
+          "hostId": "bookseller_lev",
+          "mapId": "bookshop-interior",
+          "status": "resolved",
+          "ledgerSaved": true
+        },
+        {
+          "questId": "V47_MAIN01_A03",
+          "actionId": "V47_A03_PANAEV_CATALOGUE_NOTE",
+          "date": "1848-05-18",
+          "hostId": "panaev_1848",
+          "mapId": "printshop",
+          "status": "resolved",
+          "ledgerSaved": true
+        },
+        {
+          "questId": "V47_MAIN01_A04",
+          "actionId": "V47_A04_PAY_WAGES",
+          "date": "1848-07-22",
+          "hostId": "print_apprentice_stepan",
+          "mapId": "printshop",
+          "status": "resolved",
+          "ledgerSaved": true
+        },
+        {
+          "questId": "V47_MAIN01_A05",
+          "actionId": "V47_A05_COPY_LEDGER",
+          "date": "1848-09-18",
+          "hostId": "clerk_alexei",
+          "mapId": "chancery",
+          "status": "resolved",
+          "ledgerSaved": true
+        },
+        {
+          "questId": "V47_MAIN01_DISTRIBUTION_BAN",
+          "actionId": "V47_A06_COUNT_STOCK",
+          "date": "1848-11-01",
+          "hostId": "printer_ekaterina",
+          "mapId": "printshop",
+          "status": "resolved",
+          "ledgerSaved": true
+        },
+        {
+          "questId": "V47_MAIN01_A07",
+          "actionId": "V47_A07_CLAIM_WAGES",
+          "date": "1848-11-02",
+          "hostId": "landlady_polina",
+          "mapId": "communal-room",
+          "status": "resolved",
+          "ledgerSaved": true
+        },
+        {
+          "questId": "V47_MAIN01_A08",
+          "actionId": "V47_A08_RETURN_PACKAGE",
+          "date": "1848-11-06",
+          "hostId": "courier_pavel",
+          "mapId": "bookshop-lane",
+          "status": "resolved",
+          "ledgerSaved": true
+        },
+        {
+          "questId": "V47_MAIN01_SUBSCRIBER_REPLY",
+          "actionId": "V47_A08_REFUND_SUBSCRIBERS",
+          "date": "1848-11-29",
+          "hostId": "bookseller_lev",
+          "mapId": "bookshop-interior",
+          "status": "resolved",
+          "ledgerSaved": true
+        },
+        {
+          "questId": "V47_MAIN01_A10",
+          "actionId": "V47_A10_HOST_READING",
+          "date": "1848-12-06",
+          "hostId": "sofiya_salon_1848",
+          "mapId": "sofiya-salon",
+          "status": "resolved",
+          "ledgerSaved": true
+        },
+        {
+          "questId": "V47_MAIN01_A11",
+          "actionId": "V47_A11_FIND_REPLACEMENT_WORK",
+          "date": "1848-12-12",
+          "hostId": "nekrasov_reconstruction",
+          "mapId": "printshop",
+          "status": "resolved",
+          "ledgerSaved": true
+        }
+      ],
+      "lastChoiceWorldChange": {
+        "questId": "V47_MAIN01_A11",
+        "actionId": "V47_A11_FIND_REPLACEMENT_WORK",
+        "date": "1848-12-12",
+        "mapId": "printshop",
+        "money": [],
+        "inventory": [
+          {
+            "fromHostId": "bookseller_lev",
+            "toHostId": "print_apprentice_stepan",
+            "itemKo": "인쇄 일자리 소개장",
+            "quantity": 1,
+            "produceIfAbsent": true
+          }
+        ],
+        "moves": [
+          {
+            "hostId": "print_apprentice_stepan",
+            "mapId": "bookshop-lane",
+            "x": 5,
+            "y": 9
+          }
+        ],
+        "resources": {
+          "waterRiskDelta": 0,
+          "foodRiskDelta": 0,
+          "bedsDelta": 0,
+          "medicineDelta": 0
+        },
+        "rumorId": "V47_APPRENTICE_SEEKS_WORK",
+        "observationIds": [],
+        "sourceObservationIds": []
+      }
+    }
+  ]
+}

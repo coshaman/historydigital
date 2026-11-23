@@ -10,7 +10,7 @@ import { attachV47StoryBeatObjects, toV47StoryQuests } from '../rpg/data/v47-sto
 import { v47RoleProfiles } from '../rpg/data/v47-character-roles.mjs';
 import { decorateCardsWithEraProfiles } from '../rpg/engine/era-profiles.mjs';
 import { attachMain01StorageShelves, MAIN01_STORAGE_PACKETS, MAIN01_STORAGE_SHELVES } from '../rpg/engine/v47-main01-storage.mjs';
-import { storyIdForQuest } from '../rpg/engine/v47-story-entry.mjs';
+import { storyIdForQuest, startV47StoryEntry, v47StoryMenuEntries } from '../rpg/engine/v47-story-entry.mjs';
 
 const root = process.cwd();
 const previewPort = Number(process.env.V47_PREVIEW_PORT ?? 4175);
@@ -21,9 +21,13 @@ const e41Only = process.argv.includes('--e41-only');
 const alternateOnly = process.argv.includes('--alternate-only');
 const normalOnly = process.argv.includes('--normal-only');
 const main01Only = process.argv.includes('--main01-only');
+const main01FinalChoice = process.env.V47_MAIN01_FINAL_CHOICE;
+assert.ok(!main01FinalChoice || main01Only, 'V47_MAIN01_FINAL_CHOICE requires --main01-only');
+const main03Only = process.argv.includes('--main03-only');
 const outputDir = process.env.V47_REPLAY_OUTPUT
   ? path.resolve(root, process.env.V47_REPLAY_OUTPUT)
-  : path.join(root, main01Only ? 'artifacts/v47/MAIN01_ONLY_REPLAY' : 'artifacts/v47/BROWSER_CAMPAIGN_REPLAY');
+  : path.join(root, main01Only ? 'artifacts/v47/MAIN01_ONLY_REPLAY'
+    : main03Only ? 'artifacts/v47/MAIN03_ONLY_REPLAY' : 'artifacts/v47/BROWSER_CAMPAIGN_REPLAY');
 const readJson = async relative => JSON.parse(await readFile(path.join(root, relative), 'utf8'));
 const require = createRequire(import.meta.url);
 require('../rpg/engine/game-state.js');
@@ -73,6 +77,8 @@ function initialMainStorySave(routeName = 'NORMAL') {
   const state = game.createInitialState({ maps, hostCards: runtimeCards, quests: questList, startMapId: arc.startMapId });
   state.world.chapterId = arc.id;
   state.world.date = arc.date;
+  if (main01Only) state.world.date = questsById.get('V47_MAIN01_A01')?.date ?? state.world.date;
+  if (main03Only) state.world.date = questsById.get('V37_EUROPE_NEWS_1848')?.date ?? state.world.date;
   if (main01Only && routeName === 'ALTERNATE') {
     state.world.date = '1848-05-18';
     for (const host of Object.values(state.hosts)) {
@@ -97,6 +103,9 @@ function initialMainStorySave(routeName = 'NORMAL') {
   if (main01Only) for (const quest of campaignStoryQuests.filter(item => storyIdForQuest(item) !== 'MAIN01')) {
     state.quests[quest.id] = { status: 'resolved', result: 'SEQUENTIAL_MAIN01_BROWSER_SCOPE' };
   }
+  if (main03Only) for (const quest of campaignStoryQuests.filter(item => storyIdForQuest(item) !== 'MAIN03')) {
+    state.quests[quest.id] = { status: 'resolved', result: 'SEQUENTIAL_MAIN03_BROWSER_SCOPE' };
+  }
   if (e41Only) {
     for (const storyArc of campaign.arcs) for (const questId of [...storyArc.questIds, ...(storyArc.optionalQuestIds ?? [])]) {
       state.quests[questId] = { status: 'resolved', result: 'PRIOR_CAMPAIGN_CONTEXT' };
@@ -110,8 +119,15 @@ function initialMainStorySave(routeName = 'NORMAL') {
     if (!advanced.ok) throw new Error(`E41 diagnostic fixture could not reach its authored date: ${advanced.reason}`);
     return game.saveGame(advanced.state);
   }
-  if (main01Only) for (const quest of campaignStoryQuests.filter(item => storyIdForQuest(item) !== 'MAIN01')) {
-    assert.equal(state.quests[quest.id]?.status, 'resolved', `MAIN01-only replay excludes ${quest.id}`);
+  if (main01Only || main03Only) for (const quest of campaignStoryQuests.filter(item =>
+    storyIdForQuest(item) !== (main03Only ? 'MAIN03' : 'MAIN01'))) {
+    assert.equal(state.quests[quest.id]?.status, 'resolved', `${main03Only ? 'MAIN03' : 'MAIN01'}-only replay excludes ${quest.id}`);
+  }
+  if (!e41Only) {
+    const openingStoryId = main03Only ? 'MAIN03' : 'MAIN01';
+    const started = startV47StoryEntry(state, openingStoryId, questList, campaign, maps);
+    if (!started.ok) throw new Error(`${openingStoryId} canonical entry failed: ${started.reason}`);
+    return game.saveGame(started.state);
   }
   return game.saveGame(state);
 }
@@ -162,7 +178,7 @@ async function runRoute(browser, base, routeName) {
     } catch { return route.fulfill({ status: 404, body: 'Not found' }); }
   });
   page.setDefaultTimeout(15000);
-  page.on('pageerror', error => pageErrors.push(error.message));
+  page.on('pageerror', error => pageErrors.push(error.stack || error.message));
   page.on('crash', () => {
     pageCrashes.push({ questId: activeQuestId });
     console.error(`${routeName} browser page crashed during ${activeQuestId}`);
@@ -175,12 +191,23 @@ async function runRoute(browser, base, routeName) {
   }, initialMainStorySave(routeName));
   await page.goto(`${base}#v47-campaign-${routeName.toLowerCase()}`, { waitUntil: 'domcontentloaded' });
   await page.waitForFunction(() => document.documentElement.dataset.gameReady === 'true');
+  await page.evaluate(() => {
+    window.__v47CampaignClicks = [];
+    document.addEventListener('click', event => {
+      const button = event.target.closest('#actions button');
+      if (button) window.__v47CampaignClicks.push({ text: button.innerText, trusted: event.isTrusted, time: performance.now() });
+    }, true);
+  });
   if (!e41Only) await page.locator('[data-v47-story="MAIN01"]').click();
-  await page.locator('#roster-open').click();
   const openingHost = runtimeCards.find(card => card.id === (e41Only ? 'dostoevsky_1849' : 'bookseller_lev'));
-  await page.locator('.roster-card').filter({ hasText: openingHost.displayNameKo }).first().click();
-  await page.waitForFunction(expected => document.querySelector('#bodyname')?.textContent.includes(expected), openingHost.displayNameKo);
-  await page.locator('#save').click();
+  const alreadyEmbodied = await page.evaluate(expected => JSON.parse(localStorage.getItem('v33-rpg-save') ?? 'null')?.state?.player?.embodiment === expected,
+    openingHost.id);
+  if (!alreadyEmbodied) {
+    await page.locator('#roster-open').click();
+    await page.locator('.roster-card').filter({ hasText: openingHost.displayNameKo }).first().click();
+    await page.waitForFunction(expected => document.querySelector('#bodyname')?.textContent.includes(expected), openingHost.displayNameKo);
+    await page.locator('#save').click();
+  }
   const openingState = await page.evaluate(() => ({ bodyname: document.querySelector('#bodyname')?.textContent,
     bodyId: document.body.dataset.playerId, savedHost: JSON.parse(localStorage.getItem('v33-rpg-save') ?? 'null')?.state?.player?.embodiment,
     currentDate: JSON.parse(localStorage.getItem('v33-rpg-save') ?? 'null')?.state?.world?.date,
@@ -260,17 +287,32 @@ async function runRoute(browser, base, routeName) {
       const map = maps.printshop, position = await currentPosition();
       const collision = map.layers.find(layer => layer.name === 'Collision')?.data ?? [];
       const scenePosition = event?.scenePosition ?? tileOf(readingStand);
-      let moved = false;
-      for (const direction of ['right', 'left', 'down', 'up']) {
-        const [dx, dy] = deltas[direction], x = position.x + dx, y = position.y + dy;
-        if (x < 0 || y < 0 || x >= map.width || y >= map.height || collision[y * map.width + x] !== 0) continue;
-        if (Math.abs(x - scenePosition.x) + Math.abs(y - scenePosition.y) > 5) continue;
-        await page.keyboard.press(movementKeys[direction]);
-        moved = await page.waitForFunction(previous => Number(document.body.dataset.playerX) !== previous.x
-          || Number(document.body.dataset.playerY) !== previous.y, position, { timeout: 700 }).then(() => true).catch(() => false);
-        if (moved) break;
+      const liveState = await currentState(), embodiedId = liveState.player.embodiment;
+      const occupied = new Set(Object.values(liveState.hosts).filter(host => host.id !== embodiedId
+        && host.historicalAliveAndPresent !== false && host.mapId === 'printshop')
+        .map(host => `${host.position.x},${host.position.y}`));
+      const waitTiles = [];
+      const openAdjacent = Object.entries(deltas).find(([, [dx, dy]]) => {
+        const x = position.x + dx, y = position.y + dy;
+        return x >= 0 && y >= 0 && x < map.width && y < map.height
+          && collision[y * map.width + x] === 0 && !occupied.has(`${x},${y}`)
+          && Math.abs(x - scenePosition.x) + Math.abs(y - scenePosition.y) <= 5;
+      })?.[0];
+      for (let y = 0; y < map.height; y += 1) for (let x = 0; x < map.width; x += 1) {
+        if (collision[y * map.width + x] !== 0 || occupied.has(`${x},${y}`)
+          || Math.abs(x - scenePosition.x) + Math.abs(y - scenePosition.y) > 5) continue;
+        const path = findPath(map, position, { x: x * 16, y: y * 16 }, occupied);
+        if (path?.length) waitTiles.push({ path, distance: Math.abs(x - position.x) + Math.abs(y - position.y) });
       }
-      assert.ok(moved, `E42 waiting step ${tick + 1} has an adjacent walkable tile`);
+      waitTiles.sort((a, b) => a.distance - b.distance || a.path.length - b.path.length);
+      const nextDirection = openAdjacent ?? waitTiles[0]?.path[0];
+      assert.ok(nextDirection, `E42 wait position remains movable without stepping into an NPC: ${JSON.stringify({
+        position, occupied: [...occupied], scenePosition,
+      })}`);
+      await page.keyboard.press(movementKeys[nextDirection]);
+      const moved = await page.waitForFunction(previous => Number(document.body.dataset.playerX) !== previous.x
+        || Number(document.body.dataset.playerY) !== previous.y, position, { timeout: 700 }).then(() => true).catch(() => false);
+      assert.ok(moved, `E42 waiting step ${tick + 1} avoids a resident-occupied tile`);
       movementCount += 1;
       if (movementCount % 8 === 0) await page.locator('#save').click();
     }
@@ -319,64 +361,123 @@ async function runRoute(browser, base, routeName) {
     assert.equal(await currentMapId(), targetMapId, `${routeName}: bounded map traversal reached ${targetMapId}`);
   }
 
-  async function possess(hostId) {
+  async function possess(hostId, fallbackHostIds = []) {
     const card = runtimeCards.find(item => item.id === hostId);
     assert.ok(card, `${hostId} role card exists`);
-    if ((await currentState()).player.embodiment === hostId) return card;
+    const currentHostId = (await currentState()).player.embodiment;
+    if ([hostId, ...fallbackHostIds].includes(currentHostId)) return runtimeCards.find(item => item.id === currentHostId);
     // The in-game roster transfers the observer to the selected host's map.
     // Do not require the previously embodied character to have a route there.
     await page.locator('#roster-open').click();
-    const rosterEntry = page.locator('.roster-card').filter({ hasText: card.displayNameKo }).first();
-    try { await rosterEntry.waitFor({ state: 'visible', timeout: 3000 }); }
-    catch { throw new Error(`${routeName}: ${hostId}/${card.displayNameKo} not present in the dated possession roster`); }
-    await rosterEntry.click();
-    await page.waitForFunction(expected => document.querySelector('#bodyname')?.textContent.includes(expected), card.displayNameKo);
+    let selectedCard = null;
+    for (const candidateId of [hostId, ...fallbackHostIds]) {
+      const candidate = runtimeCards.find(item => item.id === candidateId);
+      const rosterEntry = page.locator('.roster-card').filter({ hasText: candidate?.displayNameKo ?? '\u0000' }).first();
+      if (candidate && await rosterEntry.isVisible().catch(() => false)) { selectedCard = candidate; await rosterEntry.click(); break; }
+    }
+    if (!selectedCard) {
+      const diagnostic = await page.evaluate(() => ({
+        date: JSON.parse(localStorage.getItem('v33-rpg-save') ?? 'null')?.state?.world?.date,
+        available: [...document.querySelectorAll('.roster-card')].map(item => item.innerText.split('\n')[0]),
+      }));
+      throw new Error(`${routeName}: none of the eligible story readers are in the dated possession roster (${hostId}, ${fallbackHostIds.join(', ')}); ${JSON.stringify(diagnostic)}`);
+    }
+    await page.waitForFunction(expected => document.querySelector('#bodyname')?.textContent.includes(expected), selectedCard.displayNameKo);
     await page.locator('#save').click();
     await page.waitForTimeout(60);
-    return card;
-  }
-
-  async function revealContinuationFor(quest) {
-    const button = page.locator('#route-continue');
-    if (await button.isVisible().catch(() => false)) return;
-    const storyId = storyIdForQuest(quest);
-    assert.ok(storyId, `hidden continuation for ${quest.id} needs a selectable story tab`);
-    const storyTab = page.locator(`[data-v47-story="${storyId}"]`);
-    try { await storyTab.waitFor({ state: 'visible' }); }
-    catch (error) {
-      const diagnostic = await page.evaluate(() => {
-        const tracker = document.querySelector('#mission-tracker'), lower = document.querySelector('.lower');
-        return { trackerHidden: tracker?.hidden, trackerDisplay: tracker && getComputedStyle(tracker).display,
-          lowerClass: lower?.className, storyOverview: lower?.classList.contains('story-overview'),
-          tabs: [...document.querySelectorAll('[data-v47-story]')].map(item => ({ story: item.dataset.v47Story,
-            hidden: item.hidden, display: getComputedStyle(item).display, rect: (() => { const r = item.getBoundingClientRect(); return { x: r.x, y: r.y, width: r.width, height: r.height }; })() })),
-          routeButton: { hidden: document.querySelector('#route-continue')?.hidden,
-            text: document.querySelector('#route-continue')?.textContent },
-          mission: document.querySelector('#mission-title')?.textContent,
-          focusStoryId: JSON.parse(localStorage.getItem('v33-rpg-save') ?? 'null')?.state?.world?.v47?.focusStoryId };
-      });
-      const shot = path.join(outputDir, `${routeName}-HIDDEN-CONTINUATION-${quest.id}.png`);
-      await page.screenshot({ path: shot, fullPage: true }); screenshots.push(shot);
-      throw new Error(`Story tab ${storyId} stayed hidden for ${quest.id}: ${JSON.stringify(diagnostic)}; screenshot=${shot}; ${error.message}`);
-    }
-    await storyTab.click();
-    await button.waitFor({ state: 'visible' });
+    return selectedCard;
   }
 
   async function advanceToDate(quest, before) {
-    const button = page.locator('#route-continue');
-    await revealContinuationFor(quest);
+    const [year, month, day] = quest.date.split('-').map(Number);
+    const dateLabel = year !== Number(before.world.date.slice(0, 4))
+      ? `${year}년 ${month}월 ${day}일 자료로 이어가기` : `${month}월 ${day}일 자료로 이어가기`;
+    const sameDayLabel = '같은 날의 다음 기록 열기';
+    const expectedLabel = quest.date > before.world.date ? dateLabel : sameDayLabel;
+    let button = page.locator('#actions button').filter({ hasText: expectedLabel }).first();
+    let storyTabDiagnostic = null;
+    if (!(await button.isVisible().catch(() => false))) {
+      const storyId = storyIdForQuest(quest);
+      const story = v47StoryMenuEntries().find(item => item.id === storyId);
+      const storyTab = page.locator(`[data-v47-story="${storyId}"]`);
+      const visible = await storyTab.isVisible().catch(() => false);
+      storyTabDiagnostic = { storyId, visible, count: await storyTab.count(), focusBefore: (await currentState()).world.v47?.focusStoryId };
+      if (visible) {
+        await storyTab.click();
+        await page.waitForFunction(expected => JSON.parse(localStorage.getItem('v33-rpg-save') ?? 'null')?.state?.world?.v47?.focusStoryId === expected,
+          storyId, { timeout: 3000 });
+        storyTabDiagnostic.focusAfter = (await currentState()).world.v47?.focusStoryId;
+        console.log(`${routeName} STORY TAB ${quest.id}: ${JSON.stringify(storyTabDiagnostic)}`);
+      } else if (story && storyId !== storyTabDiagnostic.focusBefore) {
+        await page.locator('#history-events-open').click();
+        const storyAction = page.locator('#actions button').filter({ hasText: story.titleKo }).first();
+        await storyAction.waitFor({ state: 'visible', timeout: 5000 });
+        storyTabDiagnostic.pickerLabel = await storyAction.innerText();
+        await storyAction.click();
+        try {
+          await page.waitForFunction(expected => JSON.parse(localStorage.getItem('v33-rpg-save') ?? 'null')?.state?.world?.date === expected,
+            quest.date, { timeout: 5000 });
+        } catch (error) {
+          const diagnostic = await page.evaluate(() => {
+            const state = JSON.parse(localStorage.getItem('v33-rpg-save') ?? 'null')?.state;
+            return { date: state?.world?.date, focusStoryId: state?.world?.v47?.focusStoryId,
+              chapter: state?.world?.chapterId, headline: document.querySelector('#headline')?.textContent,
+              mission: document.querySelector('#mission-title')?.textContent,
+              actions: [...document.querySelectorAll('#actions button')].map(item => item.innerText).slice(0, 12) };
+          });
+          const shot = path.join(outputDir, `${routeName}-STORY-PICKER-STALL-${quest.id}.png`);
+          await page.screenshot({ path: shot, fullPage: true }).catch(() => {});
+          throw new Error(`Story picker did not advance to ${quest.date} for ${quest.id}: ${error.message}; ${JSON.stringify(diagnostic)}; screenshot=${shot}`);
+        }
+        storyTabDiagnostic.focusAfter = (await currentState()).world.v47?.focusStoryId;
+        console.log(`${routeName} STORY PICKER ${quest.id}: ${JSON.stringify(storyTabDiagnostic)}`);
+        return { label: `역사 현장 · ${story.titleKo}`, date: quest.date, startedFromPicker: true };
+      }
+      button = page.locator('#actions button').filter({ hasText: expectedLabel }).first();
+    }
+    try { await button.waitFor({ state: 'visible', timeout: 5000 }); }
+    catch (error) {
+      const diagnostic = await page.evaluate(storyTabDiagnostic => {
+        const state = JSON.parse(localStorage.getItem('v33-rpg-save') ?? 'null')?.state;
+        return { date: state?.world?.date, chapter: state?.world?.chapterId,
+          focusStoryId: state?.world?.v47?.focusStoryId,
+          unresolvedStory: Object.entries(state?.quests ?? {}).filter(([id, entry]) => id.startsWith('V47_MAIN01_') && entry.status !== 'resolved')
+            .map(([id, entry]) => [id, entry.status]),
+          headline: document.querySelector('#headline')?.textContent,
+          mission: document.querySelector('#mission-title')?.textContent,
+          actions: [...document.querySelectorAll('#actions button')].map(item => item.innerText), storyTabDiagnostic };
+      }, storyTabDiagnostic);
+      const shot = path.join(outputDir, `${routeName}-DATE-BUTTON-MISSING-${quest.id}.png`);
+      await page.screenshot({ path: shot, fullPage: true }).catch(() => {});
+      throw new Error(`No date continuation for ${quest.id} (${dateLabel}): ${error.message}; ${JSON.stringify(diagnostic)}; screenshot=${shot}`);
+    }
     const label = await button.innerText();
     await button.click();
-    await page.waitForFunction(expected => JSON.parse(localStorage.getItem('v33-rpg-save') ?? 'null')?.state?.world?.date === expected,
-      quest.date);
+    try {
+      await page.waitForFunction(expected => JSON.parse(localStorage.getItem('v33-rpg-save') ?? 'null')?.state?.world?.date === expected,
+        quest.date, { timeout: 5000 });
+    } catch (error) {
+      const diagnostic = await page.evaluate(() => {
+        const state = JSON.parse(localStorage.getItem('v33-rpg-save') ?? 'null')?.state;
+        return { date: state?.world?.date, chapter: state?.world?.chapterId,
+          focusStoryId: state?.world?.v47?.focusStoryId,
+          pending: Object.entries(state?.quests ?? {}).filter(([, entry]) => entry.status !== 'resolved')
+            .map(([id, entry]) => [id, entry.status]).slice(0, 20),
+          headline: document.querySelector('#headline')?.textContent,
+          record: document.querySelector('#record')?.textContent,
+          continuation: document.querySelector('#route-continue')?.textContent,
+          actions: [...document.querySelectorAll('#actions button')].map(item => item.textContent).slice(0, 12) };
+      });
+      const shot = path.join(outputDir, `${routeName}-DATE-STALL-${quest.id}.png`);
+      await page.screenshot({ path: shot, fullPage: true }).catch(() => {});
+      throw new Error(`Date did not advance to ${quest.date} using ${label}: ${error.message}; ${JSON.stringify(diagnostic)}; screenshot=${shot}`);
+    }
     transitions.push({ kind: 'DATE', from: before.world.date, to: quest.date, questId: quest.id, button: label });
   }
 
   async function advanceChapter(nextArc, before) {
-    const button = page.locator('#route-continue');
+    const button = page.locator('#actions button').filter({ hasText: `${nextArc.date.slice(0, 4)}년으로 이어가기` }).first();
     const nextStoryQuest = nextArc.questIds.map(id => questsById.get(id)).find(item => storyIdForQuest(item));
-    if (nextStoryQuest) await revealContinuationFor(nextStoryQuest);
     await button.waitFor({ state: 'visible' });
     const label = await button.innerText();
     await button.click();
@@ -500,8 +601,7 @@ async function runRoute(browser, base, routeName) {
         const letter = interactions(targetMap).find(object => propertyMap(object).sourceId === letterId);
         assert.ok(letter, 'MAIN01 A11 exposes the subscriber letter as a physical printshop object');
         assert.equal(propertyMap(letter).availableDate, '1848-11-29', 'the letter stays hidden until its documented arrival date');
-        const letterReader = runtimeCards.find(card => card.id === 'printer_ekaterina');
-        await possess(letterReader.id);
+        const letterReader = await possess('printer_ekaterina', ['editor_sofia', 'bookseller_lev', 'nekrasov_reconstruction']);
         await travelTo(quest.entry.mapId, letterReader);
         await walkTo(letter, 'MAIN01 A11 subscriber letter'); await use();
         const letterDialog = page.locator('#source-reader');
@@ -577,7 +677,9 @@ async function runRoute(browser, base, routeName) {
         : quest.id === 'V47_MAIN01_A10'
         ? routeName === 'NORMAL' ? 'V47_A10_HOST_READING' : 'V47_A10_STORE_COPY'
           : routeName === 'ALTERNATE' ? alternativeActions[quest.id] : null;
-      const sortedActions = [...quest.actions].sort((a, b) => Number(b.id === preferredId) - Number(a.id === preferredId));
+      const sortedActions = quest.id === 'V47_MAIN01_A11' && main01FinalChoice
+        ? quest.actions.filter(action => action.id === main01FinalChoice)
+        : [...quest.actions].sort((a, b) => Number(b.id === preferredId) - Number(a.id === preferredId));
       let selected = null, candidateFailures = [];
       for (const action of sortedActions) {
         const eligible = action.hostIds.map(hostId => runtimeCards.find(card => card.id === hostId))
@@ -719,12 +821,17 @@ async function runRoute(browser, base, routeName) {
               const state = await currentState();
               const readerHostId = state.player.embodiment;
               if (!state.hosts[readerHostId]?.knownEvidenceIds?.includes(requiredSourceId)) {
-                const sourceObject = interactions(targetMap).find(object => propertyMap(object).sourceId === requiredSourceId);
+                const sourceLocation = Object.values(maps).map(candidateMap => ({ map: candidateMap,
+                  object: interactions(candidateMap).find(object => propertyMap(object).sourceId === requiredSourceId) }))
+                  .find(candidate => candidate.object);
+                const sourceObject = sourceLocation?.object;
+                const sourceMapId = sourceLocation?.map.mapId;
                 const packet = historicalPacketMap.get(requiredSourceId);
                 const sourceRecord = sourceMap.get(requiredSourceId);
-                assert.ok(sourceObject && packet?.paragraphs?.length,
-                  `${quest.id}/${action.id} has a physical source object and contiguous reader text`);
+                assert.ok(sourceObject && sourceMapId && packet?.paragraphs?.length,
+                  `${quest.id}/${action.id} has a reachable physical source object and contiguous reader text`);
                 assert.ok(sourceRecord, `${requiredSourceId} has a provenance record`);
+                if (await currentMapId() !== sourceMapId) await travelTo(sourceMapId, runtimeCards.find(card => card.id === readerHostId));
                 await walkTo(sourceObject, `${quest.id} required source ${requiredSourceId}`);
                 await use();
                 const readerDialog = page.locator('#source-reader');
@@ -757,8 +864,9 @@ async function runRoute(browser, base, routeName) {
                 assert.ok(readState.hosts[readerHostId].knownEvidenceIds.includes(requiredSourceId),
                   `${readerHostId} personally reads ${requiredSourceId} before the choice`);
                 sourceReads.push({ sourceId: requiredSourceId, excerptId: sourceRecord.excerptId,
-                  date: readState.world.date, hostId: readerHostId, mapId: quest.entry.mapId,
+                  date: readState.world.date, hostId: readerHostId, mapId: sourceMapId,
                   paragraphCount: sourceView.paragraphs, questId: quest.id, beforeActionId: action.id, screenshot: sourceShot });
+                if (await currentMapId() !== quest.entry.mapId) await travelTo(quest.entry.mapId, runtimeCards.find(card => card.id === readerHostId));
                 await walkTo(targetObject, `${quest.id} return after reading required source`);
               }
             }
@@ -986,11 +1094,27 @@ async function runRoute(browser, base, routeName) {
       catch (error) {
         const diagnostic = await page.evaluate(questId => {
           const save = JSON.parse(localStorage.getItem('v33-rpg-save') ?? 'null')?.state;
+          const buttons = [...document.querySelectorAll('#actions button')];
+          const target = buttons.find(button => button.textContent.includes('직접 본 일과 전해 들은 말을 나눈다'));
+          const rect = target?.getBoundingClientRect();
+          const topElement = rect ? document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2) : null;
           return { quest: save?.quests?.[questId], map: document.body.dataset.worldMap,
+            clickEvents: window.__v47CampaignClicks ?? [], pageErrors: [...(window.__v47CampaignErrors ?? [])],
             position: { x: document.body.dataset.playerX, y: document.body.dataset.playerY },
             headline: document.querySelector('#headline')?.textContent, record: document.querySelector('#record')?.textContent,
-            actions: [...document.querySelectorAll('#actions button')].map(button => ({ text: button.textContent, disabled: button.disabled })) };
+            chapter: save?.world?.chapterId, date: save?.world?.date, clockMinutes: save?.world?.clockMinutes,
+            embodiment: save?.player?.embodiment,
+            anchorArrest: save?.world?.v47?.events?.MAIN03_PETRASHEVSKY_ARREST,
+            questEvent: save?.world?.v47?.events?.[questId],
+            recentLedger: save?.ledger?.slice(-8).map(row => ({ eventType: row.eventType, questId: row.questId,
+              actionId: row.actionId, date: row.date, mapId: row.mapId })),
+            target: target ? { text: target.textContent, html: target.outerHTML, rect: { x: rect.x, y: rect.y, width: rect.width, height: rect.height },
+              topElement: topElement?.outerHTML?.slice(0, 500), topIsTarget: topElement === target || target.contains(topElement) } : null,
+            actions: buttons.map(button => ({ text: button.textContent, disabled: button.disabled, html: button.outerHTML.slice(0, 500) })) };
         }, quest.id);
+        diagnostic.pageErrors = pageErrors;
+        await page.screenshot({ path: path.join(outputDir, `${routeName}-${quest.id}-${selected.action.id}-CLICK-DIAGNOSTIC.png`), fullPage: false });
+        await writeFile(path.join(outputDir, `${routeName}-${quest.id}-${selected.action.id}-CLICK-DIAGNOSTIC.json`), `${JSON.stringify(diagnostic, null, 2)}\n`);
         throw new Error(`${quest.id}/${selected.action.id}/${selected.host.id} did not resolve after choice: ${error.message}; ${JSON.stringify(diagnostic)}`);
       }
       const after = await currentState();
@@ -1114,12 +1238,42 @@ async function runRoute(browser, base, routeName) {
         await page.screenshot({ path: shot, fullPage: false }); screenshots.push(shot);
       }
       if (main01Only && rows.filter(item => item.storyId === 'MAIN01').length === 12) break;
+      if (main03Only && rows.filter(item => item.storyId === 'MAIN03').length === 12) break;
       if (rows.filter(item => item.storyId === 'MAIN01').length === 12
         && rows.filter(item => item.storyId === 'MAIN03').length === 12
         && rows.filter(item => item.storyId === 'MAIN05').length === 12) break;
     }
+    let storyEnding = null;
+    if (main01FinalChoice) {
+      const finalBeat = questsById.get('V47_MAIN01_A11');
+      const choice = finalBeat.actions.find(action => action.id === main01FinalChoice);
+      const finalRow = rows.find(row => row.questId === finalBeat.id);
+      assert.equal(finalRow?.actionId, main01FinalChoice, 'the requested final choice was actually selected');
+      const before = await currentState();
+      const consequence = before.world.v47.stories.MAIN01.consequences.find(row => row.questId === finalBeat.id);
+      assert.equal(consequence?.actionId, main01FinalChoice, 'the story save retains this particular aftermath');
+      const outcomeShown = await page.locator('#mission-reason').innerText();
+      assert.match(await page.locator('#mission-title').innerText(), /금지된 삽화 연감 · 이야기 완료/);
+      assert.ok(outcomeShown.includes(choice.resultKo), 'the notebook shows the authored result for this choice');
+      const sceneResult = page.locator('#journal-text').filter({ hasText: choice.resultKo });
+      await sceneResult.waitFor({ state: 'visible' });
+      const nextArc = campaign.arcs[campaign.arcs.findIndex(arc => arc.id === before.world.chapterId) + 1];
+      const nextChapter = page.locator('#actions button').filter({ hasText: '1849년으로 이어가기' });
+      const label = await nextChapter.innerText();
+      await nextChapter.click();
+      await page.waitForFunction(expected => JSON.parse(localStorage.getItem('v33-rpg-save'))?.state?.world?.chapterId === expected,
+        nextArc.id, { timeout: 6000 });
+      const after = await currentState();
+      transitions.push({ kind: 'CHAPTER', from: before.world.chapterId, to: after.world.chapterId, button: label });
+      assert.equal(after.world.v47.stories.MAIN01.consequences.find(row => row.questId === finalBeat.id)?.actionId,
+        main01FinalChoice, 'the chapter change preserves the final choice');
+      assert.equal(after.quests[finalBeat.id].status, 'resolved');
+      storyEnding = { actionId: main01FinalChoice, labelKo: choice.labelKo, outcomeKo: outcomeShown,
+        hostId: finalRow.hostId, chosenOn: finalRow.dateBefore, nextChapterId: after.world.chapterId,
+        nextDate: after.world.date, screenshot: `${routeName}-MAIN01-aftermath.png` };
+    }
     let timelinePuzzle = null;
-    if (main01Only) {
+    if (main01Only && !main01FinalChoice) {
       const timelineHost = runtimeCards.find(card => card.id === 'printer_ekaterina');
       await possess(timelineHost.id);
       if (await currentMapId() !== 'printshop') await travelTo('printshop', timelineHost);
@@ -1172,8 +1326,9 @@ async function runRoute(browser, base, routeName) {
         && row.paragraphCount === historicalPacketMap.get('V47-NEKRASOV-SUBSCRIBER-LETTER-1848')?.paragraphs?.length),
       'the main route logs the full five-paragraph subscriber letter before its related choice');
     }
+    else if (main03Only) assert.equal(storySummary.MAIN03.status, 'PASS', `${routeName}: browser completes MAIN03`);
     else for (const [storyId, result] of Object.entries(storySummary)) assert.equal(result.status, 'PASS', `${routeName}: full browser route completes ${storyId}`);
-    if (!e41Only) {
+    if (!e41Only && !main03Only) {
       const reviewSourceIds = ['V47-PANAEV-LETTER-1848-08-20', 'V47-KRYLOV-ASSESSMENT-1848-09-06'];
       const reviewReads = reviewSourceIds.map(sourceId => sourceReads.find(row => row.questId === 'V47_MAIN01_A05' && row.sourceId === sourceId));
       for (const [index, sourceId] of reviewSourceIds.entries()) {
@@ -1196,12 +1351,19 @@ async function runRoute(browser, base, routeName) {
     assert.deepEqual(pageErrors, [], `${routeName}: continuous browser route has no page errors`);
     await page.locator('#save').click();
     const finalSave = await page.evaluate(() => localStorage.getItem('v33-rpg-save'));
-    game.loadGame(finalSave, { maps, hostCards: runtimeCards, quests: questList });
-    const report = { routeName, scope: main01Only ? 'MAIN01 start-to-aftermath browser play' : e41Only ? 'E41 date gate and historical event browser play' : 'full V47 campaign browser play',
-      status: main01Only ? storySummary.MAIN01.status : 'PASS', stories: storySummary, quests: rows, transitions, sourceReads, screenshots, timelinePuzzle,
+    const restored = game.loadGame(finalSave, { maps, hostCards: runtimeCards, quests: questList });
+    if (storyEnding) {
+      assert.equal(restored.world.chapterId, storyEnding.nextChapterId);
+      assert.ok(restored.world.v47.stories.MAIN01.consequences.some(row => row.actionId === storyEnding.actionId));
+    }
+    const report = { routeName, scope: main01Only ? 'MAIN01 start-to-aftermath browser play'
+      : main03Only ? 'MAIN03 start-to-aftermath browser play' : e41Only ? 'E41 date gate and historical event browser play' : 'full V47 campaign browser play',
+      status: main01Only ? storySummary.MAIN01.status : main03Only ? storySummary.MAIN03.status : 'PASS',
+      stories: storySummary, quests: rows, transitions, sourceReads, screenshots, timelinePuzzle, storyEnding,
       fixedHistoricalEvent: rows.find(row => row.questId === 'E41_SEMENOVSKY_1849') ?? null,
       pageErrors, pageCrashes, viewport };
-    const reportName = main01Only ? `V47_${routeName}_MAIN01_BROWSER_CAMPAIGN.json` : `V47_${routeName}_BROWSER_CAMPAIGN.json`;
+    const reportName = main01Only ? `V47_${routeName}_MAIN01_BROWSER_CAMPAIGN.json`
+      : main03Only ? `V47_${routeName}_MAIN03_BROWSER_CAMPAIGN.json` : `V47_${routeName}_BROWSER_CAMPAIGN.json`;
     await writeFile(path.join(outputDir, reportName), `${JSON.stringify(report, null, 2)}\n`);
     return report;
   } finally { await context.close(); }
@@ -1217,7 +1379,7 @@ try {
   const routes = [];
   const routeNames = e41Only ? ['E41_ONLY'] : alternateOnly ? ['ALTERNATE'] : normalOnly ? ['NORMAL'] : ['NORMAL', 'ALTERNATE'];
   for (const routeName of routeNames) routes.push(await runRoute(browser, base, routeName));
-  if (!alternateOnly && !normalOnly && !main01Only) await writeFile(path.join(outputDir, 'V47_BROWSER_CAMPAIGN_INDEX.json'), `${JSON.stringify({ status: 'PASS',
+  if (!alternateOnly && !normalOnly && !main01Only && !main03Only) await writeFile(path.join(outputDir, 'V47_BROWSER_CAMPAIGN_INDEX.json'), `${JSON.stringify({ status: 'PASS',
     scope: 'continuous in-browser play through physical map traversal and UI choices from MAIN01 entry through MAIN03 aftermath; prior non-V47 campaign arcs are seeded as resolved context',
     routes: routes.map(route => ({ routeName: route.routeName, stories: route.stories,
       questCount: route.quests.filter(row => row.storyId?.startsWith('MAIN')).length,
@@ -1226,5 +1388,5 @@ try {
   console.log(JSON.stringify({ status: 'PASS', routes: routes.map(route => ({ routeName: route.routeName,
     stories: route.stories, questCount: route.quests.filter(row => row.storyId?.startsWith('MAIN')).length,
     transitions: route.transitions.length, pageErrors: route.pageErrors.length })),
-    report: main01Only ? outputDir : path.join(outputDir, 'V47_BROWSER_CAMPAIGN_INDEX.json') }, null, 2));
+    report: main01Only || main03Only ? outputDir : path.join(outputDir, 'V47_BROWSER_CAMPAIGN_INDEX.json') }, null, 2));
 } finally { await browser.close(); }

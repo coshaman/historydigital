@@ -132,3 +132,31 @@ test('MAIN01 composition uses individual Russian type pieces and rejects a mis-s
   assert.equal(result.state.titleSet, true);
   assert.equal(result.state.step, 1, 'a correctly composed and proofed title opens the next press stage');
 });
+
+test('repeated type mistakes preserve the last sheet needed for a proof and keep MAIN01 completable', () => {
+  let state = printwork.createMain01PrintworkState();
+  const compose = (source, wrongFirst = false) => {
+    let current = source;
+    const target = [...'Семейство Тальниковых'];
+    const sequence = wrongFirst ? ['я', ...target.slice(1)] : target;
+    for (const glyph of sequence) {
+      const tile = printwork.main01PrintworkStage(current).typeSetter.rack.find(row => row.glyph === glyph);
+      assert.ok(tile, `the rack includes ${glyph}`);
+      current = printwork.resolveMain01Printwork(current, `V47_PRINT_TYPE_TILE:${tile.id}`).state;
+    }
+    return current;
+  };
+  for (let attempt = 0; attempt < 4; attempt += 1) {
+    const printed = printwork.resolveMain01Printwork(compose(state, true), 'V47_PRINT_IMPRESS_TITLE');
+    assert.equal(printed.reason, 'title_mismatch');
+    state = printed.state;
+  }
+  assert.equal(state.inventory.dryPaper, 1, 'one dry sheet remains for the proof');
+  state = compose(state);
+  const correctedTitle = printwork.resolveMain01Printwork(state, 'V47_PRINT_IMPRESS_TITLE');
+  assert.equal(correctedTitle.accepted, true);
+  state = correctedTitle.state;
+  const proof = printwork.resolveMain01Printwork(state, 'V47_PRINT_CHECK_PROOF');
+  assert.equal(proof.accepted, true);
+  assert.equal(proof.state.inventory.dryPaper, 0);
+});

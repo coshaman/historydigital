@@ -1,5 +1,5 @@
 .lower{max-height:48dvh;overflow:hidden}
-.lower.has-typesetter{max-height:min(48dvh,440px)}
+.lower.has-typesetter{max-height:min(64dvh,620px)}
 .journal{min-height:0;max-height:100%;overflow:auto;overscroll-behavior:contain}
 .actions{max-height:min(22dvh,240px);overflow-y:auto;overscroll-behavior:contain}
 .lower.has-actions .journal{display:flex;min-height:0;max-height:100%;flex-direction:column;overflow:hidden}
@@ -15,7 +15,8 @@
 .journal-tools button:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
 .actions button:disabled{cursor:not-allowed;background:#27211c;border-color:#6c5b46;color:#cbbd9e;outline:none}
 .actions button:disabled small{color:#cbbd9e}
-.actions.type-setter-active{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:start;gap:6px;max-height:min(42dvh,390px);overflow-y:auto;padding:4px;background:#241c17}
+.actions.type-setter-active{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:start;gap:6px;max-height:min(60dvh,580px);overflow-y:auto;padding:4px;background:#241c17}
+.actions.type-setter-active::-webkit-scrollbar{width:8px}.actions.type-setter-active::-webkit-scrollbar-track{background:#241c17;border-left:1px solid #705536}.actions.type-setter-active::-webkit-scrollbar-thumb{background:#a98350;border:1px solid #d8bc84;border-radius:4px}
 .actions.timeline-puzzle-active{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:start;gap:6px;max-height:min(44dvh,410px);overflow-y:auto;padding:4px;background:#241c17}
 .timeline-puzzle-board{grid-column:1/-1;padding:10px;border:1px solid #907148;background:linear-gradient(145deg,#e2d1aa,#cbb78b);color:#30251b;box-shadow:inset 0 0 0 3px #d9c79e}
 .timeline-puzzle-placed{display:grid;gap:4px;margin:0 0 8px;padding:0;list-style:none;counter-reset:timeline}
@@ -156,9 +157,9 @@ kbd{font:11px 'IBM Plex Mono',monospace;color:#d8c59f}
   .lower.has-actions .journal{display:flex;flex-direction:column;overflow:hidden}
   .lower.has-actions #journal-text{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain}
   .lower.has-actions .actions{flex:0 0 auto;max-height:24dvh;overflow-y:auto;margin-top:6px;padding-bottom:3px;background:#241c17}
-  .lower.has-actions .actions.type-setter-active{max-height:min(42dvh,360px);grid-template-columns:repeat(3,minmax(0,1fr));}
+  .lower.has-actions .actions.type-setter-active{max-height:min(56dvh,450px);grid-template-columns:repeat(3,minmax(0,1fr));scrollbar-width:thin;scrollbar-color:#a98350 #241c17;}
   .lower.has-actions .actions.timeline-puzzle-active{max-height:min(44dvh,380px);grid-template-columns:repeat(3,minmax(0,1fr));}
-  .lower.has-typesetter{max-height:min(52dvh,450px)}
+  .lower.has-typesetter{max-height:min(70dvh,600px)}
   .type-setter-rack{grid-template-columns:repeat(6,minmax(0,1fr));gap:4px}
   .actions .type-tile{min-height:44px;font-size:20px}
   .lower.has-actions .record-line,.lower.has-actions .journal-tools{display:none}

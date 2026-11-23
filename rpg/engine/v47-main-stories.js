@@ -202,10 +202,9 @@ function getV47MissionQuest(state, quests = []) {
   const lastStoryAction = [...(state.ledger ?? [])].reverse().find(row => row.questId?.startsWith('V47_MAIN0'));
   const focusedStoryId = v47.focusStoryId ?? (lastStoryAction ? storyFromQuest({ id: lastStoryAction.questId }) : null);
   for (const storyId of focusedStoryId ? [focusedStoryId] : ['MAIN01', 'MAIN03', 'MAIN05']) {
-    const hasEnteredBeatGraph = Boolean(lastStoryAction && /_A[0-9]{2}$|_P[0-9]{2}$|_C[0-9]{2}$/.test(lastStoryAction.questId));
     const storyQuests = quests.filter(quest => storyFromQuest(quest) === storyId
-      && (!hasEnteredBeatGraph || /_A[0-9]{2}$|_P[0-9]{2}$|_C[0-9]{2}$/.test(quest.id))
-      && state.quests?.[quest.id]?.status !== 'resolved').sort((a, b) => (a.date ?? '').localeCompare(b.date ?? ''));
+      && state.quests?.[quest.id]?.status !== 'resolved')
+      .sort((a, b) => (a.date ?? '').localeCompare(b.date ?? ''));
     if (!storyQuests.length) continue;
     const current = storyQuests.find(quest => quest.id === v47.stories?.[storyId]?.currentEventId);
     const inChapter = quest => quest.chapterId === state.world.chapterId;
@@ -222,12 +221,13 @@ function getV47CompletionGuidance(state, quests = [], questStates = state?.quest
   const storyId = state?.world?.v47?.focusStoryId;
   if (!storyId || !['MAIN01', 'MAIN03', 'MAIN05'].includes(storyId)) return null;
   const storyQuests = quests.filter(quest => quest.storyId === storyId);
-  const lastAction = [...(state.ledger ?? [])].reverse().find(row => row.questId?.startsWith(`V47_${storyId}`));
-  if (!storyQuests.length || !lastAction || storyQuests.some(quest => questStates[quest.id]?.status !== 'resolved')) return null;
+  const lastResult = state.world.v47.stories?.[storyId]?.consequences?.findLast(row => row.resultKo)?.resultKo
+    ?? (state.ledger ?? []).findLast(row => row.questId?.startsWith(`V47_${storyId}_`) && row.outcomeKo)?.outcomeKo;
+  if (!storyQuests.length || storyQuests.some(quest => questStates[quest.id]?.status !== 'resolved')) return null;
   return {
     questTitleKo: storyId === 'MAIN01' ? '금지된 삽화 연감 · 이야기 완료' : storyId === 'MAIN03' ? '혁명의 소식과 마지막 금요일 · 이야기 완료' : '콜레라가 도는 도시 · 이야기 완료',
     actionKo: storyId === 'MAIN01' ? '마지막 장부의 선택이 남긴 결과를 확인한다.' : '이 장에서 내린 선택이 남긴 결과를 확인한다.',
-    reasonKo: lastAction.outcomeKo ?? '이 사건에서 내린 선택이 사람들의 삶에 남았다.',
+    reasonKo: lastResult ?? '이 사건에서 내린 선택이 사람들의 삶에 남았다.',
     howKo: storyId === 'MAIN01'
       ? '이 장은 끝났습니다. 1849년으로 이어가거나 수첩에서 선택의 결과를 다시 볼 수 있습니다.'
       : '이 장은 끝났습니다. 수첩에서 선택의 결과와 남은 사람들의 이야기를 다시 볼 수 있습니다.',

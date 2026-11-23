@@ -28,6 +28,20 @@ const require = createRequire(import.meta.url);
 require('../rpg/engine/game-state.js');
 const game = globalThis.V33GameState;
 
+test('MAIN01 completion shows the chosen aftermath even when the latest ledger row is bookkeeping', () => {
+  const quest = quests.find(item => item.id === 'V47_MAIN01_A11');
+  const questStates = { [quest.id]: { status: 'resolved' } };
+  for (const choice of quest.actions) {
+    const state = {
+      world: { v47: { focusStoryId: 'MAIN01', stories: { MAIN01: { consequences: [
+        { questId: quest.id, actionId: choice.id, resultKo: choice.resultKo },
+      ] } } } },
+      ledger: [{ questId: quest.id, actionId: choice.id }, { questId: quest.id, eventType: 'V47_WORLD_CHANGE' }],
+    };
+    assert.equal(globalThis.V47MainStories.getV47CompletionGuidance(state, [quest], questStates).reasonKo, choice.resultKo);
+  }
+});
+
 test('history menu exposes all three V47 main stories with player-facing names', () => {
   const entries = v47StoryMenuEntries();
   assert.deepEqual(entries.map(entry => entry.id), ['MAIN01', 'MAIN03', 'MAIN05']);

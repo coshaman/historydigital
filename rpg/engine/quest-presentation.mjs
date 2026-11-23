@@ -51,6 +51,16 @@ export function questChoices(quest, hostId, knowledge = [], state = null) {
   }));
 }
 
+export function formatStoryActionGuidanceKo({ hostNameKo = '현재 인물', placeKo = '표시된 현장', actions = [] } = {}) {
+  const choices = actions.filter(Boolean).join(' / ');
+  return [
+    `현장 · ${placeKo}에서 E를 누르세요.`,
+    `담당 · ${hostNameKo}의 몸으로 진행합니다.`,
+    choices ? `할 일 · ${choices}` : '',
+    '완료 · 현장 선택지 하나를 실행하면 이 단계가 기록됩니다.',
+  ].filter(Boolean).join('\n');
+}
+
 export function resolveObjectQuest(questId, state, quests) {
   const quest = quests.find(item => item.id === questId);
   if (!quest) return null;
@@ -87,8 +97,16 @@ export function continuationQuest(state, campaign, quests) {
     const prerequisitesMet = (quest.prerequisiteQuestIds ?? [])
       .every(prerequisiteId => state.quests[prerequisiteId]?.status === 'resolved');
     if (state.quests[id]?.status !== 'resolved' && prerequisitesMet) {
-      return quest.date > state.world.date ? previous : quest;
+      return quest;
     }
   }
   return previous;
+}
+
+// Keep dated transitions actionable after a scene replaces its dialog choices.
+export function retainProgressionAction(actions, continuationActions = []) {
+  const transition = continuationActions.find(({ label = '' }) =>
+    /자료로 이어가기|같은 날의 다음 기록 열기|다음 막으로 이어가기|다음 연도로 이어가기/.test(label));
+  if (!transition) return actions;
+  return [...actions.filter(action => action.label !== transition.label), transition];
 }

@@ -6,7 +6,7 @@ const { advanceV47World, applyCholeraIntervention, createV47State, getV47Mission
 import { attachV47StoryObjects, v47StoryQuests } from '../rpg/data/v47-main-stories.mjs';
 import { attachV47StoryBeatObjects, toV47StoryQuests, v47StoryBeatIds, v47StoryBeats } from '../rpg/data/v47-story-beats.mjs';
 import { objectIsPresent } from '../rpg/engine/world-presentation.mjs';
-import { continuationQuest, questChoices } from '../rpg/engine/quest-presentation.mjs';
+import { continuationQuest, questChoices, retainProgressionAction } from '../rpg/engine/quest-presentation.mjs';
 import { sourceAvailableOn } from '../rpg/engine/source-availability.mjs';
 import { questOutcomeSummary } from '../rpg/engine/quest-outcome-summary.mjs';
 import { v47RoleCards } from '../rpg/data/v47-character-roles.mjs';
@@ -77,6 +77,13 @@ const screenplayDialogueCoverage = [
   ['D-C4', 'V47_MAIN05_C03', '그분들이 돈을 못 내시는 건 압니다.'],
   ['D-C5', 'V47_MAIN05_C11', '지금은 그 방에 누가 남아 있죠?'],
 ];
+for (const questId of ['V47_MAIN01_DISTRIBUTION_BAN', 'V47_MAIN01_A11']) {
+  const scene = allV47StoryQuests.find(quest => quest.id === questId);
+  assert.equal(scene.dialogue.some(turn => turn.speakerKo === '네크라소프'), false,
+    `${questId} must not present the newly written wage line as a historical Nekrasov utterance`);
+  assert.ok(scene.dialogue.some(turn => turn.speakerKo === '스테판' && turn.lineKo.includes('품삯')),
+    `${questId} retains the fictional worker's concrete wage conflict`);
+}
 for (const [sceneId, questId, lineFragment] of screenplayDialogueCoverage) {
   const scene = allV47StoryQuests.find(quest => quest.id === questId);
   assert.ok(scene?.dialogue?.some(turn => turn.lineKo.includes(lineFragment)),
@@ -167,11 +174,11 @@ assert.deepEqual(aftermathTimeline.map(episode => episode.id), [
 assert.ok(aftermathTimeline[2].textKo.includes('바실리는 경고를 받고'));
 assert.ok(aftermathTimeline[3].textKo.includes('회복 2명, 사망 1명'));
 const focusedMissionState = {
-  world: { date: '1848-03-20', chapterId: 'V33_1848_PUBLIC', v47: { focusStoryId: 'MAIN01', stories: { MAIN01: { currentEventId: 'V47_MAIN01_A01' } } } },
+  world: { date: '1848-02-12', chapterId: 'V33_1848_PUBLIC', v47: { focusStoryId: 'MAIN01', stories: { MAIN01: { currentEventId: 'V47_MAIN01_A01' } } } },
   quests: { V47_MAIN01_A01: { status: 'resolved' } }, ledger: [{ questId: 'V47_MAIN01_A01', actionId: 'V47_A01_OPEN_SUBSCRIBER_LEDGER' }],
 };
-assert.equal(getV47MissionQuest(focusedMissionState, allV47StoryQuests)?.id, 'V47_MAIN01_A02',
-  'after a V47 action, mission focus advances to the next unresolved beat in the same story');
+assert.equal(getV47MissionQuest(focusedMissionState, allV47StoryQuests)?.id, 'V47_MAIN01_PERMISSION',
+  'after the opening, mission focus includes the dated permission and printshop event before the April beat');
 const alternateFocusState = structuredClone(focusedMissionState);
 alternateFocusState.world.v47.focusStoryId = 'MAIN03';
 assert.equal(getV47MissionQuest(alternateFocusState, allV47StoryQuests)?.id, 'V47_MAIN03_P01',
@@ -724,6 +731,22 @@ assert.equal(continuationQuest({ world: { chapterId: 'V33_1849_PRELUDE', date: '
   V47_MAIN03_P04: { status: 'open' },
 } }, { arcs: [{ id: 'V33_1849_PRELUDE', questIds: ['V47_MAIN03_P04'] }] }, [firstPreludeQuest])?.id,
 'V47_MAIN03_P04', 'the first future-dated beat appears as the chapter continuation before any earlier record exists');
+const dateContinuation = { label: '3월 9일 자료로 이어가기', run: () => 'advance' };
+assert.deepEqual(retainProgressionAction([], [dateContinuation]), [dateContinuation],
+  'the next dated story transition stays visible after scene actions clear');
+assert.deepEqual(retainProgressionAction([{ label: '대화를 이어간다' }], [dateContinuation]),
+  [{ label: '대화를 이어간다' }, dateContinuation], 'date transition remains alongside scene actions');
+assert.equal(retainProgressionAction([{ label: dateContinuation.label, run: () => 'stale' }], [dateContinuation])[0].run(), 'advance',
+  'the canonical date transition callback replaces stale duplicate buttons');
+const optionalCoda = { id: 'V47_MAIN03_P11', storyId: 'MAIN03', date: '1850-01-03', prerequisiteQuestIds: ['E41_SEMENOVSKY_1849'] };
+const resolvedArrestAftermath = { id: 'V47_MAIN03_P10', storyId: 'MAIN03', date: '1849-05-29' };
+const fixedArrestCoda = { id: 'E41_SEMENOVSKY_1849', date: '1849-12-22' };
+const codaCampaign = { arcs: [{ id: 'V33_1849_CIRCLE', questIds: [resolvedArrestAftermath.id, fixedArrestCoda.id], optionalQuestIds: [optionalCoda.id] }] };
+const codaState = { world: { chapterId: 'V33_1849_CIRCLE', date: '1849-12-22' },
+  quests: { [resolvedArrestAftermath.id]: { status: 'resolved' }, [fixedArrestCoda.id]: { status: 'resolved' },
+    [optionalCoda.id]: { status: 'open' } } };
+assert.equal(continuationQuest(codaState, codaCampaign, [resolvedArrestAftermath, fixedArrestCoda, optionalCoda]), optionalCoda,
+  'a future optional MAIN03 coda is itself returned so the date-continuation action can render');
 assert.ok(WORLD_EVENT_ANCHORS.length >= 1);
 assert.ok(WORLD_EVENT_ANCHORS.every(anchor => Array.isArray(anchor.sourceIds) && Array.isArray(anchor.sourceRefs)));
 const main03Guide = v47Runtime.STORY_GUIDANCE.MAIN03;

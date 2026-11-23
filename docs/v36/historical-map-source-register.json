@@ -192,6 +192,20 @@
       "rightsTermsUrl": "https://rusmuseumvrm.ru/terms/index.php"
     },
     {
+      "sourceId": "V47-PRLIB-PETERSBURG-MAP-1842",
+      "title": "План столичного города Санкт-Петербурга, 1842",
+      "sourceType": "HISTORICAL_CITY_PLAN",
+      "sourceUrl": "https://www.prlib.ru/item/1030062",
+      "date": "1842",
+      "locale": "Saint Petersburg",
+      "pageOrFolio": "Presidential Library item 1030062; digital reading room access restricted.",
+      "visualFeature": "The catalog record identifies an 1842 city plan. It is used only as broad spatial context for the fictional street layout; no exact game coordinate is claimed.",
+      "confidence": "HIGH for catalog identity and year; no feature-level georeferencing was performed.",
+      "rights": "The scan is restricted to electronic reading rooms and is not copied or redistributed.",
+      "creditedArtist": "Not established from the catalog record inspected.",
+      "gameTransformation": "Independent pixel-map reconstruction. The plan does not validate the fictional printshop address, exact facade, paving, or scene coordinates."
+    },
+    {
       "sourceId": "V36-ART-LABASTIDE-GATEKEEPER-1845",
       "title": "Labastide, Привратник (Gatekeeper)",
       "sourceType": "PERIOD_DRAWING",
@@ -274,6 +288,53 @@
       "creditedArtist": "Ignaty Shchedrovsky, compiled and lithographed by the artist as cataloged; hand-coloring noted in the bibliographic description.",
       "gameTransformation": "Luka receives an original small handled-pail role marker. Atlas tile GID 83 uses a simple stacked-short-wood silhouette informed only by the visible pile in this group plate. The image does not establish Luka's identity, clothing, a water-carrier's exact tool, wood species, dimensions, or universal storage practice.",
       "rightsTermsUrl": "https://rusneb.ru/catalog/000199_000009_009492648/"
+    },
+    {
+      "sourceId": "V47-ART-SADOVNIKOV-PASSAGE-1848",
+      "title": "V. S. Sadovnikov, Nevsky Prospect. Passage",
+      "sourceType": "PERIOD_WATERCOLOR",
+      "sourceUrl": "https://rusmuseumvrm.ru/data/collections/drawings/r-42572/index.php?lang=en",
+      "sourceImageUrl": "https://rusmuseumvrm.ru/data/collections/drawings/r-42572/40611_mainfoto_03.jpg",
+      "verifiedMetadata": "The State Russian Museum catalog names Vasily Semenovich Sadovnikov's watercolor on paper Nevsky Prospect. Passage, inventory R-42572, dated not earlier than 1848.",
+      "eraRange": "Not earlier than 1848",
+      "locale": "Nevsky Prospect, Saint Petersburg",
+      "pageOrFolio": "Russian Museum drawing record R-42572; catalog and displayed image inspected 2026-11-13.",
+      "visualFeature": "The displayed watercolor shows a long commercial frontage with repeated arched shop bays, tall windows, street lamps, carriages, and pedestrians. The image supports only these broad scene features; it is not a measured elevation or evidence for a particular shop's exact layout.",
+      "confidence": "HIGH for catalog title, artist, medium, inventory, and earliest date; MEDIUM for broad visible architectural and street-life features; no exact game coordinate or detailed construction is inferred.",
+      "rights": "The underlying 1848-or-later artwork is historical, but the Russian Museum digital reproduction terms were not cleared for republishing. No museum image is copied or redistributed; game tiles are independently authored.",
+      "creditedArtist": "Vasily Semenovich Sadovnikov (1800–1879), as cataloged.",
+      "gameTransformation": "The 16px ochre arcade facade, arch, window rhythm, and street fixtures are independently authored pixel tiles informed by the broad scene composition only. Their exact shape, color, material, dimensions, mapping, and presence on a particular game date remain project reconstruction, not surveyed architectural evidence.",
+      "rightsTermsUrl": "https://rusmuseumvrm.ru/terms/index.php"
+    },
+    {
+      "sourceId": "V47-ART-CHARLEMAGNE-GOSTINY-DVOR-1850S",
+      "title": "Joseph-Maria Charlemagne-Baudet, Nevskii prospect and Gostinii dvor",
+      "sourceType": "PERIOD_LITHOGRAPH",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Nevskii_prospect_and_Gostinii_dvor.jpg",
+      "verifiedMetadata": "Wikimedia Commons identifies the image as a lithograph by J. Jacottet after a drawing by I. Charlemagne, mid-19th century; source image metadata points to the Saint Petersburg encyclopaedia.",
+      "eraRange": "Mid-19th century; catalogued broadly as the 1850s",
+      "locale": "Nevsky Prospect and Gostiny Dvor, Saint Petersburg",
+      "pageOrFolio": "Wikimedia Commons file page and its source attribution inspected 2026-11-13.",
+      "visualFeature": "A long commercial frontage, repeating arcaded bays, street depth, carriages, and pedestrians appear in the lithograph.",
+      "confidence": "HIGH for the file's title, attribution, broad date, and depicted subject; LOW for using it as evidence of exact 1848 details.",
+      "rights": "Wikimedia Commons displays Public Domain Mark 1.0 for the historical work and faithful reproduction. The reference is not copied into the game.",
+      "creditedArtist": "Drawing attributed to Joseph-Maria Charlemagne-Baudet; lithography by J. Jacottet, as recorded on the file page.",
+      "gameTransformation": "The original pixel map uses only broad storefront rhythm and street scale as visual cues. This later view does not verify exact 1848 facade details, paving, shop locations, or map coordinates."
+    },
+    {
+      "sourceId": "V47-ART-DURAND-NEVSKY-1839",
+      "title": "André Durand, View of Nevsky Prospekt near the Politseisky Bridge",
+      "sourceType": "PERIOD_LITHOGRAPH",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+      "verifiedMetadata": "Wikimedia Commons identifies André Durand's lithograph Perspective de Newski from Voyage pittoresque et archéologique en Russie, number 20, dated 1839.",
+      "eraRange": "1839",
+      "locale": "Nevsky Prospect near the Politseisky Bridge, Saint Petersburg",
+      "pageOrFolio": "Wikimedia Commons file page inspected 2026-11-13.",
+      "visualFeature": "The lithograph shows the bridge, avenue perspective, and building mass along Nevsky Prospect.",
+      "confidence": "HIGH for artist, title, date, and cataloged scene; MEDIUM for broad composition cues; LOW for exact game coordinates or 1848 street details.",
+      "rights": "Wikimedia Commons displays Public Domain Mark 1.0 for the historical work and faithful reproduction. The reference is not copied into the game.",
+      "creditedArtist": "André Durand (1807–1867), as recorded on the file page.",
+      "gameTransformation": "The original pixel map uses only avenue depth, bridge placement, and building scale as broad composition references. Exact storefronts, paving, materials, or coordinates are not inferred."
     }
   ],
   "verifiedLimits": [
