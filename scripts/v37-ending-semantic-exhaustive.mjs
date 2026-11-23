@@ -1,8 +1,22 @@
 import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
+import { mimeTypeFor } from '../server-mime.mjs';
 
-const browser = await chromium.launch({ headless: true });
+const browser = await chromium.launch({ headless: true,
+  ...(process.env.PLAYWRIGHT_EXECUTABLE_PATH ? { executablePath: process.env.PLAYWRIGHT_EXECUTABLE_PATH } : {}) });
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+const staticRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../dist-v33');
+await page.route('**/*', async route => {
+  const url = new URL(route.request().url());
+  if (url.pathname.startsWith('/api/')) return route.fulfill({ status: 503, body: 'offline during deterministic ending audit' });
+  const relative = decodeURIComponent(url.pathname).replace(/^\/+/, '') || 'index.html';
+  const target = path.resolve(staticRoot, relative);
+  if (!target.startsWith(`${staticRoot}${path.sep}`) && target !== staticRoot) return route.fulfill({ status: 403, body: 'Forbidden' });
+  try { return route.fulfill({ status: 200, body: await fs.promises.readFile(target), headers: { 'content-type': mimeTypeFor(target), 'cache-control': 'no-store' } }); }
+  catch { return route.fulfill({ status: 404, body: 'Not found' }); }
+});
 await page.goto('http://127.0.0.1:4173/chancery.html?main20=1#v37-exhaustive', { waitUntil: 'domcontentloaded' });
 await page.waitForFunction(() => Boolean(window.__main20?.resolveEndingDetailedFor));
 const report = await page.evaluate(() => {

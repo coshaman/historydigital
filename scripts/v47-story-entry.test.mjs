@@ -279,6 +279,54 @@ test('MAIN01 courier can enter the bookstore for the reservation quest assigned 
   assert.equal(result.state.world.currentMapId, 'bookshop-interior');
 });
 
+test('quest guidance stays playable when an allowed action points to a source missing from every map', () => {
+  const missingSourceQuest = {
+    id: 'V47_TEST_MISSING_SOURCE', chapterId: 'V33_1848_PUBLIC', date: '1848-01-31',
+    titleKo: '연결되지 않은 자료', entry: { mapId: 'bookshop-interior', objectId: 9060 },
+    actions: [{ id: 'READ_MISSING_SOURCE', hostIds: ['bookseller_lev'], requiredKnowledgeId: 'SOURCE_NOT_ON_ANY_MAP' }],
+  };
+  const state = game.createInitialState({ maps, hostCards, quests: [missingSourceQuest], startMapId: 'bookshop-interior' });
+  state.world.chapterId = 'V33_1848_PUBLIC';
+  state.world.date = '1848-02-01';
+  state.world.currentMapId = 'bookshop-interior';
+  state.player.embodiment = 'bookseller_lev';
+  state.hosts.bookseller_lev.mapId = 'bookshop-interior';
+  state.hosts.bookseller_lev.position = { x: 5, y: 5 };
+  state.player.position = { ...state.hosts.bookseller_lev.position };
+
+  const guide = resolveQuestGuidance({ state, quests: [missingSourceQuest], maps, hostCards });
+  assert.equal(guide.blocked, true);
+  assert.equal(guide.target, null);
+  assert.match(guide.blockedReasonKo, /자료/u);
+  assert.doesNotMatch(guide.howKo, /undefined|null/u);
+});
+
+test('quest guidance switches to a role that can reach the required source', () => {
+  const sourceId = 'OBJ-WS-DOSTOEVSKY-ARREST-ORDER-1849';
+  const roleSwitchQuest = {
+    id: 'V47_TEST_SOURCE_ACCESS', chapterId: 'V33_1849_CIRCLE', date: '1849-05-05',
+    titleKo: '접근 권한이 다른 기록', entry: { mapId: 'inn-interior', objectId: 9069 },
+    actions: [{ id: 'READ_ARREST_ORDER', hostIds: ['bookseller_lev', 'clerk_alexei'], requiredKnowledgeId: sourceId }],
+  };
+  const state = game.createInitialState({ maps, hostCards, quests: [roleSwitchQuest], startMapId: 'inn-interior' });
+  state.world.chapterId = 'V33_1849_CIRCLE';
+  state.world.date = '1849-05-05';
+  state.world.currentMapId = 'inn-interior';
+  state.player.embodiment = 'bookseller_lev';
+  state.hosts.bookseller_lev.mapId = 'inn-interior';
+  state.hosts.bookseller_lev.position = { x: 5, y: 5 };
+  state.hosts.clerk_alexei.historicalAliveAndPresent = true;
+  state.hosts.clerk_alexei.mapId = 'chancery';
+  state.hosts.clerk_alexei.position = { x: 5, y: 5 };
+  state.player.position = { ...state.hosts.bookseller_lev.position };
+
+  const guide = resolveQuestGuidance({ state, quests: [roleSwitchQuest], maps, hostCards });
+  assert.equal(guide.blocked, false);
+  assert.equal(guide.taskType, 'SWITCH');
+  assert.match(guide.actionKo, /알렉세이/u);
+  assert.match(guide.howKo, /체포 명령|명령서/u);
+});
+
 test('MAIN01 roster possession recovers a host spawned on a blocked tile before routing to the source', () => {
   const storyQuest = {
     id: 'V47_MAIN01_A03', chapterId: 'V33_1848_PUBLIC', date: '1848-05-06',

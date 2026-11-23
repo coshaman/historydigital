@@ -309,6 +309,22 @@ export function resolveQuestGuidance({ state, quests, maps, hostCards }) {
         reasonKo: '이 자료를 읽어야 다음 선택지를 판단할 수 있습니다.', howKo: `${pathKo(place.walkDirections)}${place.target?.kind === 'exit' ? ' 문서를 살펴보세요.' : ' E를 누른 뒤 열린 문서에서 읽기를 선택하세요.'}${place.openingHint ? ` ${place.openingHint}` : ''}`,
         placeKo: place.placeKo, target: place.target, blocked: place.blocked, blockedReasonKo: place.blockedReasonKo, requiredKnowledgeId: missingSourceId };
     }
+    const sourceAnywhere = findSource(missingSourceId, null, maps, mapId);
+    const alternate = sourceAnywhere && [...new Set(quest.actions.flatMap(action => action.hostIds))]
+      .filter(hostId => hostId !== host.id)
+      .map(hostId => ({ hostId, person: state.hosts[hostId], card: hostCards.find(item => item.id === hostId),
+        action: quest.actions.find(action => action.hostIds.includes(hostId)
+          && requiredSources(action).includes(missingSourceId)) }))
+      .find(item => item.person?.historicalAliveAndPresent && item.card
+        && findSource(missingSourceId, item.card, maps, mapId));
+    if (alternate) return { ...base, taskType: 'SWITCH', actionKo: `${alternate.card.displayNameKo}에게 몸을 맡기세요`,
+      reasonKo: `${sourceAnywhere.name}을 읽은 뒤 「${alternate.action.labelKo}」를 선택할 수 있습니다.`,
+      howKo: `인물 목록에서 ${alternate.card.displayNameKo}를 고른 다음 ${sourceAnywhere.name}이 있는 곳으로 가세요. 자료를 읽고 이 목표로 돌아오면 됩니다.`,
+      placeKo: maps[sourceAnywhere.mapId]?.metadata.displayNameKo ?? sourceAnywhere.mapId, target: null, blocked: false };
+    return { ...base, taskType: 'READ', actionKo: '필요한 자료를 찾을 수 없습니다',
+      reasonKo: '이 선택에 필요한 문서가 지도에 연결되어 있지 않습니다.',
+      howKo: '역사 현장에서 다른 목표를 확인할 수 있습니다.', placeKo: map.metadata.displayNameKo,
+      target: null, blocked: true, blockedReasonKo: '필요한 자료를 현재 지도에서 찾을 수 없습니다.' };
   }
   if (!entryTarget) return { ...base, taskType: 'COMPLETE', actionKo: '이 사건 자료를 열 수 없습니다', reasonKo: '목표 문서가 지도에 연결되지 않았습니다.', howKo: '수첩에서 다른 인물의 일을 확인하세요.', placeKo: map.metadata.displayNameKo, target: null, blocked: true };
   const place = destination({ state, maps, host: embodied, target: entryTarget });
