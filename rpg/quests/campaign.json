@@ -163,10 +163,13 @@
     {
       "id": "UVAROV",
       "titleKo": "관청의 질서 안에 남다",
-      "choiceSubcopyKo": "보고서를 공식 접수해 상급자와 장부에 남깁니다 · 기관의 주장을 옮긴 책임도 기록에 남습니다",
-      "epilogueKo": "당신은 보고서를 접수해 공식 기록으로 남겼다. 작성자의 주장과 확인된 사실을 나누려 애썼지만, 문서에 이름을 올린 순간 그 판단의 책임도 함께 맡게 됐다.",
+      "choiceSubcopyKo": "관청 장부에 남긴 기록을 정리합니다 · 상급자가 검토하고 접수한 사람이 책임을 집니다",
+      "epilogueKo": "당신은 수사 문서를 관청의 장부에 접수했다. 판단이 필요한 대목도 함께 남겼다. 다음에는 상급자가 그 기록을 읽을 차례다. 장부를 넘긴 사람의 이름은 그 아래 남는다.",
       "requiredActions": [
         "FILE_OFFICIAL_REPORT"
+      ],
+      "alternativeRequiredActions": [
+        { "questId": "CIRCLE_INVESTIGATION_1849", "actionId": "REGISTER_SEPARATE_OWNERSHIP" }
       ]
     },
     {
@@ -199,13 +202,17 @@
     {
       "id": "DOSTOEVSKY_PETRASHEVSKY",
       "titleKo": "확인되지 않은 이름을 옮기지 않다",
-      "choiceSubcopyKo": "최종 편지의 이름을 새 장부에 옮기지 않습니다 · 직속 담당자에게 알려지고 전달 지연과 문책 위험을 감수합니다",
-      "epilogueKo": "당신은 최종 편지의 이름을 새 장부에 옮기지 않았다. 기록은 늦어졌고 그 선택의 책임은 당신에게 돌아올 수 있다.",
+      "choiceSubcopyKo": "확인되지 않은 이름을 장부에서 보류한 기록을 닫습니다 · 직속 담당자에게 전달됩니다",
+      "epilogueKo": "당신은 확인하지 못한 이름을 새 장부에 옮기지 않았다. 문서에는 한 번 더 확인해 달라는 메모가 남았다. 그날 장부가 늦어진 까닭은 당신이 설명해야 한다.",
       "requiredActions": [
         {
           "questId": "CIRCLE_LETTER_1849_MAY",
           "actionId": "REFUSE_NAMING"
         }
+      ],
+      "alternativeRequiredActions": [
+        { "questId": "CIRCLE_LETTER_1849_MAY", "actionId": "PRESERVE_LETTER" },
+        { "questId": "CIRCLE_INVESTIGATION_1849", "actionId": "REFUSE_NAMING" }
       ]
     }
   ]

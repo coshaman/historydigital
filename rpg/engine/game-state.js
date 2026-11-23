@@ -7908,9 +7908,12 @@ function resolveEnding(state, endingId, campaign) {
   const sources = new Set(state.ledger.flatMap(item => item.sourceIds ?? (item.sourceId ? [item.sourceId] : [])));
   sources.delete(campaign.literaryRealm?.sourceId);
   if (sources.size < 3) return { ok: false, reason: 'insufficient_evidence', state };
-  if (ending.requiredActions?.some(requirement => !state.ledger.some(item => typeof requirement === 'string'
+  const hasRecordedAction = requirement => state.ledger.some(item => typeof requirement === 'string'
     ? item.actionId === requirement
-    : item.actionId === requirement.actionId && item.questId === requirement.questId))) return { ok: false, reason: 'route_evidence_missing', state };
+    : item.actionId === requirement.actionId && item.questId === requirement.questId);
+  const originalRoute = (ending.requiredActions ?? []).every(hasRecordedAction);
+  const alternateRoute = ending.alternativeRequiredActions?.length && ending.alternativeRequiredActions.every(hasRecordedAction);
+  if (!originalRoute && !alternateRoute) return { ok: false, reason: 'route_evidence_missing', state };
   const next = clone(state);
   next.endingId = ending.id;
   next.endingStoryConsequences = getV47EndingConsequences(state);

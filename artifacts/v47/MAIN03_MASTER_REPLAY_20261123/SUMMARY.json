@@ -1,0 +1,517 @@
+{
+  "status": "PASS",
+  "verifiedCommit": "2e53d1b271b36546658b5e02344dd00f5fbea79d",
+  "scope": "Browser playback of MAIN03 and the fixed E41 event, with unrelated campaign progress seeded",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "story": {
+    "resolved": 12,
+    "uniqueHosts": 10,
+    "maps": [
+      "printshop",
+      "inn-interior",
+      "bookshop-interior",
+      "nevsky",
+      "chancery",
+      "morskaya-intersection",
+      "police-station",
+      "semenovsky-square"
+    ],
+    "status": "PASS"
+  },
+  "pageErrors": [],
+  "pageCrashes": [],
+  "transitions": [
+    {
+      "hostId": "student_vasily",
+      "from": "printshop",
+      "to": "nevsky",
+      "exitId": "printshop-nevsky-door",
+      "date": "1848-04-27"
+    },
+    {
+      "hostId": "student_vasily",
+      "from": "nevsky",
+      "to": "courtyard",
+      "exitId": "nevsky-courtyard-gate",
+      "date": "1848-04-27"
+    },
+    {
+      "hostId": "minor_noble_andrei",
+      "from": "nevsky",
+      "to": "courtyard",
+      "exitId": "nevsky-courtyard-gate",
+      "date": "1848-04-27"
+    },
+    {
+      "hostId": "student_vasily",
+      "from": "inn-interior",
+      "to": "courtyard",
+      "exitId": "inn-courtyard",
+      "date": "1848-04-27"
+    },
+    {
+      "hostId": "student_vasily",
+      "from": "courtyard",
+      "to": "nevsky",
+      "exitId": "courtyard-nevsky-gate",
+      "date": "1848-04-27"
+    },
+    {
+      "hostId": "student_vasily",
+      "from": "nevsky",
+      "to": "printshop",
+      "exitId": "nevsky-printshop-door",
+      "date": "1848-04-27"
+    },
+    {
+      "hostId": "student_vasily",
+      "from": "printshop",
+      "to": "nevsky",
+      "exitId": "printshop-nevsky-door",
+      "date": "1848-04-27"
+    },
+    {
+      "hostId": "student_vasily",
+      "from": "nevsky",
+      "to": "courtyard",
+      "exitId": "nevsky-courtyard-gate",
+      "date": "1848-04-27"
+    },
+    {
+      "hostId": "minor_noble_andrei",
+      "from": "inn-interior",
+      "to": "courtyard",
+      "exitId": "inn-courtyard",
+      "date": "1848-04-27"
+    },
+    {
+      "hostId": "minor_noble_andrei",
+      "from": "courtyard",
+      "to": "nevsky",
+      "exitId": "courtyard-nevsky-gate",
+      "date": "1848-04-27"
+    },
+    {
+      "hostId": "minor_noble_andrei",
+      "from": "nevsky",
+      "to": "printshop",
+      "exitId": "nevsky-printshop-door",
+      "date": "1848-04-27"
+    },
+    {
+      "hostId": "minor_noble_andrei",
+      "from": "printshop",
+      "to": "nevsky",
+      "exitId": "printshop-nevsky-door",
+      "date": "1848-04-27"
+    },
+    {
+      "hostId": "minor_noble_andrei",
+      "from": "nevsky",
+      "to": "courtyard",
+      "exitId": "nevsky-courtyard-gate",
+      "date": "1848-04-27"
+    },
+    {
+      "kind": "DATE",
+      "from": "1848-04-27",
+      "to": "1848-05-14",
+      "questId": "V47_MAIN03_P02",
+      "button": "5월 14일 자료로 이어가기\n연표 1848-04-27 → 1848-05-14 · 다음 문서가 만들어진 뒤로 진행합니다"
+    },
+    {
+      "kind": "DATE",
+      "from": "1848-05-14",
+      "to": "1848-10-02",
+      "questId": "V47_MAIN03_P03",
+      "button": "10월 2일 자료로 이어가기\n연표 1848-05-14 → 1848-10-02 · 다음 문서가 만들어진 뒤로 진행합니다"
+    },
+    {
+      "hostId": "printer_ekaterina",
+      "from": "nevsky",
+      "to": "courtyard",
+      "exitId": "nevsky-courtyard-gate",
+      "date": "1848-10-02"
+    },
+    {
+      "hostId": "printer_ekaterina",
+      "from": "inn-interior",
+      "to": "courtyard",
+      "exitId": "inn-courtyard",
+      "date": "1848-10-02"
+    },
+    {
+      "hostId": "printer_ekaterina",
+      "from": "courtyard",
+      "to": "nevsky",
+      "exitId": "courtyard-nevsky-gate",
+      "date": "1848-10-02"
+    },
+    {
+      "hostId": "printer_ekaterina",
+      "from": "nevsky",
+      "to": "printshop",
+      "exitId": "nevsky-printshop-door",
+      "date": "1848-10-02"
+    },
+    {
+      "hostId": "printer_ekaterina",
+      "from": "printshop",
+      "to": "nevsky",
+      "exitId": "printshop-nevsky-door",
+      "date": "1848-10-02"
+    },
+    {
+      "hostId": "printer_ekaterina",
+      "from": "nevsky",
+      "to": "courtyard",
+      "exitId": "nevsky-courtyard-gate",
+      "date": "1848-10-02"
+    },
+    {
+      "kind": "CHAPTER",
+      "from": "V33_1848_PUBLIC",
+      "to": "V33_1849_PRELUDE",
+      "questId": "V47_MAIN03_P04",
+      "button": "1849년으로 이어가기\n다음 장을 시작합니다 · 역사 연표가 앞으로 이동합니다"
+    },
+    {
+      "kind": "DATE",
+      "from": "1849-03-20",
+      "to": "1849-04-01",
+      "questId": "V47_MAIN03_P04",
+      "button": "4월 1일 자료로 이어가기\n연표 1849-03-20 → 1849-04-01 · 다음 문서가 만들어진 뒤로 진행합니다"
+    },
+    {
+      "hostId": "courier_pavel",
+      "from": "nevsky",
+      "to": "bookshop-lane",
+      "exitId": "nevsky-bookshop-lane",
+      "date": "1849-04-01"
+    },
+    {
+      "hostId": "courier_pavel",
+      "from": "bookshop-lane",
+      "to": "bookshop-interior",
+      "exitId": "bookshop-lane-bookshop",
+      "date": "1849-04-01"
+    },
+    {
+      "kind": "DATE",
+      "from": "1849-04-01",
+      "to": "1849-04-27",
+      "questId": "V47_MAIN03_P05",
+      "button": "4월 27일 자료로 이어가기\n연표 1849-04-01 → 1849-04-27 · 다음 문서가 만들어진 뒤로 진행합니다"
+    },
+    {
+      "hostId": "teacher_lyubov",
+      "from": "nevsky",
+      "to": "bookshop-lane",
+      "exitId": "nevsky-bookshop-lane",
+      "date": "1849-04-27"
+    },
+    {
+      "hostId": "teacher_lyubov",
+      "from": "bookshop-lane",
+      "to": "bookshop-interior",
+      "exitId": "bookshop-lane-bookshop",
+      "date": "1849-04-27"
+    },
+    {
+      "kind": "DATE",
+      "from": "1849-04-27",
+      "to": "1849-05-04",
+      "questId": "V47_MAIN03_P07",
+      "button": "5월 4일 자료로 이어가기\n연표 1849-04-27 → 1849-05-04 · 다음 문서가 만들어진 뒤로 진행합니다"
+    },
+    {
+      "kind": "CHAPTER",
+      "from": "V33_1849_PRELUDE",
+      "to": "V33_1849_CIRCLE",
+      "questId": "CIRCLE_INVESTIGATION_1849",
+      "button": "1849년으로 이어가기\n다음 장을 시작합니다 · 역사 연표가 앞으로 이동합니다"
+    },
+    {
+      "hostId": "scribal_yuri",
+      "from": "chancery",
+      "to": "nevsky",
+      "exitId": "chancery-nevsky-door",
+      "date": "1849-05-05"
+    },
+    {
+      "hostId": "scribal_yuri",
+      "from": "nevsky",
+      "to": "morskaya-intersection",
+      "exitId": "nevsky-morskaya",
+      "date": "1849-05-05"
+    },
+    {
+      "kind": "DATE",
+      "from": "1849-05-05",
+      "to": "1849-05-07",
+      "questId": "V47_MAIN03_P09",
+      "button": "5월 7일 자료로 이어가기\n연표 1849-05-05 → 1849-05-07 · 다음 문서가 만들어진 뒤로 진행합니다"
+    },
+    {
+      "hostId": "clerk_alexei",
+      "from": "nevsky",
+      "to": "chancery",
+      "exitId": "nevsky-chancery-door",
+      "date": "1849-05-07"
+    },
+    {
+      "kind": "DATE",
+      "from": "1849-05-07",
+      "to": "1849-05-29",
+      "questId": "V47_MAIN03_P10",
+      "button": "5월 29일 자료로 이어가기\n연표 1849-05-07 → 1849-05-29 · 다음 문서가 만들어진 뒤로 진행합니다"
+    },
+    {
+      "hostId": "police_sergeant_ivan",
+      "from": "morskaya-intersection",
+      "to": "police-station",
+      "exitId": "morskaya-police",
+      "date": "1849-05-29"
+    },
+    {
+      "kind": "DATE",
+      "from": "1849-05-29",
+      "to": "1850-01-03",
+      "questId": "E41_SEMENOVSKY_1849",
+      "button": "1850년 1월 3일 자료로 이어가기\n연표 1849-05-29 → 1850-01-03 · 다음 문서가 만들어진 뒤로 진행합니다"
+    },
+    {
+      "hostId": "dostoevsky_1849",
+      "from": "fortress-cell",
+      "to": "semenovsky-square",
+      "exitId": "fortress-square",
+      "date": "1850-01-03"
+    }
+  ],
+  "screenshots": [
+    "NORMAL-MAIN03-entry.png",
+    "NORMAL-MAIN03-aftermath.png"
+  ],
+  "steps": [
+    {
+      "storyId": "MAIN03",
+      "questId": "V37_EUROPE_NEWS_1848",
+      "hostId": "clerk_alexei",
+      "mapId": "printshop",
+      "actionId": "E42_KEEP_PRIVATE_NOTE",
+      "dateBefore": "1848-03-27",
+      "dateAfter": "1848-03-27",
+      "status": "resolved",
+      "ledgerSaved": true,
+      "autonomousStoryOutcomes": []
+    },
+    {
+      "storyId": "MAIN03",
+      "questId": "V47_MAIN03_P01",
+      "hostId": "student_vasily",
+      "mapId": "inn-interior",
+      "actionId": "V47_P01_READ_NEWS_FIRST",
+      "dateBefore": "1848-04-27",
+      "dateAfter": "1848-04-27",
+      "status": "resolved",
+      "ledgerSaved": true,
+      "autonomousStoryOutcomes": []
+    },
+    {
+      "storyId": "MAIN03",
+      "questId": "V47_MAIN03_P02",
+      "hostId": "bookseller_lev",
+      "mapId": "bookshop-interior",
+      "actionId": "V47_P02_LEND_BOOK",
+      "dateBefore": "1848-05-14",
+      "dateAfter": "1848-05-14",
+      "status": "resolved",
+      "ledgerSaved": true,
+      "autonomousStoryOutcomes": []
+    },
+    {
+      "storyId": "MAIN03",
+      "questId": "V47_MAIN03_P03",
+      "hostId": "minor_noble_andrei",
+      "mapId": "inn-interior",
+      "actionId": "V47_P03_FAITH_AND_FREEDOM",
+      "dateBefore": "1848-10-02",
+      "dateAfter": "1848-10-02",
+      "status": "resolved",
+      "ledgerSaved": true,
+      "autonomousStoryOutcomes": []
+    },
+    {
+      "storyId": "MAIN03",
+      "questId": "V47_MAIN03_P04",
+      "hostId": "courier_pavel",
+      "mapId": "bookshop-interior",
+      "actionId": "V47_P04_CARRY_INVITATION",
+      "dateBefore": "1849-04-01",
+      "dateAfter": "1849-04-01",
+      "status": "resolved",
+      "ledgerSaved": true,
+      "autonomousStoryOutcomes": []
+    },
+    {
+      "storyId": "MAIN03",
+      "questId": "V47_MAIN03_P05",
+      "hostId": "teacher_lyubov",
+      "mapId": "bookshop-interior",
+      "actionId": "V47_P05_SHARE_COPY",
+      "dateBefore": "1849-04-27",
+      "dateAfter": "1849-04-27",
+      "status": "resolved",
+      "ledgerSaved": true,
+      "autonomousStoryOutcomes": []
+    },
+    {
+      "storyId": "MAIN03",
+      "questId": "V47_MAIN03_P06",
+      "hostId": "police_sergeant_ivan",
+      "mapId": "nevsky",
+      "actionId": "V47_P06_FOLLOW_VISITOR",
+      "dateBefore": "1849-04-27",
+      "dateAfter": "1849-04-27",
+      "status": "resolved",
+      "ledgerSaved": true,
+      "autonomousStoryOutcomes": []
+    },
+    {
+      "storyId": "MAIN03",
+      "questId": "V47_MAIN03_P07",
+      "hostId": "senior_clerk_konstantin",
+      "mapId": "chancery",
+      "actionId": "V47_P07_SEPARATE_REPORTS",
+      "dateBefore": "1849-05-04",
+      "dateAfter": "1849-05-04",
+      "status": "resolved",
+      "ledgerSaved": true,
+      "autonomousStoryOutcomes": []
+    },
+    {
+      "storyId": "MAIN03",
+      "questId": "V47_MAIN03_ARRESTS",
+      "hostId": "scribal_yuri",
+      "mapId": "morskaya-intersection",
+      "actionId": "V47_P07_SEPARATE_WITNESS",
+      "dateBefore": "1849-05-05",
+      "dateAfter": "1849-05-05",
+      "status": "resolved",
+      "ledgerSaved": true,
+      "autonomousStoryOutcomes": []
+    },
+    {
+      "storyId": "MAIN03",
+      "questId": "V47_MAIN03_P09",
+      "hostId": "clerk_alexei",
+      "mapId": "chancery",
+      "actionId": "V47_P09_CORRECT_REGISTER",
+      "dateBefore": "1849-05-07",
+      "dateAfter": "1849-05-07",
+      "status": "resolved",
+      "ledgerSaved": true,
+      "autonomousStoryOutcomes": []
+    },
+    {
+      "storyId": "MAIN03",
+      "questId": "V47_MAIN03_P10",
+      "hostId": "police_sergeant_ivan",
+      "mapId": "police-station",
+      "actionId": "V47_P10_APPEND_WITNESS",
+      "dateBefore": "1849-05-29",
+      "dateAfter": "1849-05-29",
+      "status": "resolved",
+      "ledgerSaved": true,
+      "autonomousStoryOutcomes": []
+    },
+    {
+      "storyId": "HISTORICAL_GATE",
+      "questId": "E41_SEMENOVSKY_1849",
+      "hostId": "dostoevsky_1849",
+      "mapId": "semenovsky-square",
+      "actionId": "본 일을 개인 수첩에 적는다",
+      "status": "resolved",
+      "fixedOutcome": "COMMUTATION_ANNOUNCED"
+    },
+    {
+      "storyId": "MAIN03",
+      "questId": "V47_MAIN03_P11",
+      "hostId": "editor_sofia",
+      "mapId": "semenovsky-square",
+      "actionId": "V47_P11_GUIDE_FAMILIES",
+      "dateBefore": "1850-01-03",
+      "dateAfter": "1850-01-03",
+      "status": "resolved",
+      "ledgerSaved": true,
+      "autonomousStoryOutcomes": []
+    }
+  ],
+  "sourcesRead": [
+    {
+      "sourceId": "OBJ-NICHOLAS-MANIFESTO-1848",
+      "date": "1848-03-27",
+      "hostId": "clerk_alexei",
+      "mapId": "printshop",
+      "paragraphCount": 4
+    },
+    {
+      "sourceId": "OBJ-NICHOLAS-MANIFESTO-1848",
+      "date": "1848-03-27",
+      "hostId": "clerk_alexei",
+      "mapId": "printshop",
+      "paragraphCount": 4
+    },
+    {
+      "questId": "V47_MAIN03_P01",
+      "sourceId": "OBJ-NICHOLAS-MANIFESTO-1848",
+      "date": "1848-04-27",
+      "hostId": "student_vasily",
+      "mapId": "printshop",
+      "paragraphCount": 4
+    },
+    {
+      "questId": "V47_MAIN03_P01",
+      "sourceId": "OBJ-NICHOLAS-MANIFESTO-1848",
+      "date": "1848-04-27",
+      "hostId": "minor_noble_andrei",
+      "mapId": "printshop",
+      "paragraphCount": 4
+    },
+    {
+      "questId": "V47_MAIN03_P02",
+      "sourceId": "V47-PETRASHESKY-FOURIER-NOVATORSTVO-1846",
+      "date": "1848-05-14",
+      "hostId": "bookseller_lev",
+      "mapId": "bookshop-interior",
+      "paragraphCount": 8
+    },
+    {
+      "questId": "V47_MAIN03_P03",
+      "sourceId": "OBJ-NICHOLAS-MANIFESTO-1848",
+      "date": "1848-10-02",
+      "hostId": "printer_ekaterina",
+      "mapId": "printshop",
+      "paragraphCount": 4
+    },
+    {
+      "questId": "V47_MAIN03_P05",
+      "sourceId": "OBJ-BELINSKY-LETTER-GOGOL-1847",
+      "date": "1849-04-27",
+      "hostId": "teacher_lyubov",
+      "mapId": "bookshop-interior",
+      "paragraphCount": 7
+    },
+    {
+      "questId": "V47_MAIN03_P07",
+      "sourceId": "OBJ-WS-DOSTOEVSKY-ARREST-ORDER-1849",
+      "date": "1849-05-04",
+      "hostId": "senior_clerk_konstantin",
+      "mapId": "chancery",
+      "paragraphCount": 4
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import { buildRoute } from './v33-ending-route-matrix.mjs';
+import { additionalEndingRoutes, buildRoute } from './v33-ending-route-matrix.mjs';
 
 const root = process.cwd();
 const endingIds = ['UVAROV', 'BELINSKY', 'HERZEN', 'KHOMYAKOV', 'DOSTOEVSKY_PETRASHEVSKY'];
@@ -18,8 +18,14 @@ const routes = endingIds.map(endingId => {
     promotionStatus: result.summary.promotionStatus, finalDate: result.summary.date };
 });
 assert.deepEqual(new Set(routes.map(route => route.resultingEnding)), new Set(endingIds));
-const report = { schemaVersion: 'V47_FIVE_ENDING_REGRESSION_V1', status: 'PASS',
-  scope: 'one reducer route per authored ending; the exhaustive 121-vector matrix was not rerun', routes };
+const restoredRoutes = additionalEndingRoutes.map(({ endingId, choices }) => {
+  const { endingState, summary } = buildRoute(endingId, 0, choices);
+  assert.deepEqual(summary.actions, [choices.action1, choices.action2, choices.action4, choices.action3]);
+  assert.equal(endingState.endingId, endingId);
+  return { endingId, actions: summary.actions, sourcesRead: summary.sourcesRead, finalDate: summary.date };
+});
+const report = { schemaVersion: 'V47_FIVE_ENDING_REGRESSION_V2', status: 'PASS',
+  scope: 'one reducer route per authored ending and the four restored decision sequences', routes, restoredRoutes };
 await mkdir(path.join(root, 'artifacts/v47/ENDING_REGRESSION'), { recursive: true });
 await writeFile(path.join(root, 'artifacts/v47/ENDING_REGRESSION/V47_FIVE_ENDING_REGRESSION.json'),
   `${JSON.stringify(report, null, 2)}\n`);

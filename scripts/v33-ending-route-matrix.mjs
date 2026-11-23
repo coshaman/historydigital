@@ -18,6 +18,10 @@ export const runtimeQuestIds = (await fs.readdir(path.join(root, 'rpg/quests')))
 const quests = await Promise.all(runtimeQuestIds.map(name => read(`rpg/quests/${name}.json`)));
 const campaign = await read('rpg/quests/campaign.json');
 const learningExam = await read('rpg/data/learning-exam.json');
+export const additionalEndingRoutes = ['RETURN_MANUSCRIPT', 'HOLD_FOR_CORRECTION'].flatMap(action1 => [
+  { endingId: 'DOSTOEVSKY_PETRASHEVSKY', action3: 'REFUSE_NAMING' },
+  { endingId: 'UVAROV', action3: 'REGISTER_SEPARATE_OWNERSHIP' },
+].map(({ endingId, action3 }) => ({ endingId, choices: { action1, action2: 'HOLD_NOTICE', action3, action4: 'PRESERVE_LETTER' } })));
 
 function finishLearning(state, endingId, variant) {
   const circleChoice = endingId === 'HERZEN' ? 'declined' : endingId === 'KHOMYAKOV' ? 'attended' : variant ? 'attended-notes' : 'attended';
@@ -170,6 +174,10 @@ export function buildRoute(endingId, variant, choiceOverrides = {}) {
   state = engine.advanceNpcWorld(state, 1, maps, { pausedHostIds: Object.keys(state.hosts) });
   assert.equal(state.world.livingEventStates?.E40?.status, 'ACTIVE',
     'the December report investigation is entered only after the historical report event activates');
+  const requiredInvestigationSource = investigationQuest.actions.find(action => action.id === action3)?.requiredKnowledgeId;
+  if (requiredInvestigationSource && !engine.knowledgeForHost(state, 'clerk_alexei').includes(requiredInvestigationSource)) {
+    state = readForHost(state, requiredInvestigationSource, arc4.sources);
+  }
   state = takeAction(state, 'CIRCLE_INVESTIGATION_1849', action3);
   resolveFixtureArcRemainder(state, arc4);
   state = finishLearning(state, endingId, variant);
@@ -196,14 +204,13 @@ if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.ar
   assert.deepEqual(mixedRoute.summary.actions, ['HOLD_FOR_CORRECTION', 'HOLD_NOTICE', 'REFUSE_NAMING', 'REFUSE_NAMING']);
   assert.equal(mixedRoute.endingState.endingId, 'DOSTOEVSKY_PETRASHEVSKY', 'mixed route remains finishable through its authored REFUSE_NAMING judgment');
   routes.push(mixedRoute.summary);
-  assert.equal(routes.length, 121);
+  for (const { endingId, choices } of additionalEndingRoutes) routes.push(buildRoute(endingId, 0, choices).summary);
+  assert.equal(routes.length, 125);
   const actionVectors = new Set(routes.map(route => route.actions.join('|')));
-  const unavailableVector = ['HOLD_FOR_CORRECTION', 'HOLD_NOTICE', 'REFUSE_NAMING', 'PRESERVE_LETTER'].join('|');
-  assert.equal(actionVectors.size, 23, 'all 23 legally finishable action vectors are represented');
-  assert.equal(actionVectors.has(unavailableVector), false, 'the incompatible final-preservation vector is rejected by all five authored ending gates');
+  assert.equal(actionVectors.size, 27, 'the sample includes the four restored decision sequences');
   assert.deepEqual(mixedRoute.summary.actions, ['HOLD_FOR_CORRECTION', 'HOLD_NOTICE', 'REFUSE_NAMING', 'REFUSE_NAMING'], 'mixed route reaches the required refusal ending through earlier conflicting choices');
   assert.deepEqual(new Set(routes.map(route => route.endingId)), new Set(campaign.endings.map(ending => ending.id)));
-  const report = { schemaVersion: 'V33_ENDING_ROUTE_MATRIX_V4', status: 'PASS', fixtureType: 'reducer-route-vectors; host coordinates are fixtures, not physical traversal evidence', mixedActionVectorCount: actionVectors.size, unavailableActionVectors: [{ actions: unavailableVector.split('|'), reason: 'Ending actions are mutually exclusive: official filing, outbound delivery, local reading, or final refusal is required by the selected ending.' }], distinctEndingIds: [...new Set(routes.map(route => route.endingId))], routeCount: routes.length, routes };
+  const report = { schemaVersion: 'V33_ENDING_ROUTE_MATRIX_V5', status: 'PASS', fixtureType: 'reducer-route-vectors; host coordinates are fixtures, not physical traversal evidence', mixedActionVectorCount: actionVectors.size, distinctEndingIds: [...new Set(routes.map(route => route.endingId))], routeCount: routes.length, routes };
   await fs.mkdir(path.join(root, 'artifacts/v33'), { recursive: true });
   await fs.writeFile(path.join(root, 'artifacts/v33/ENDING_ROUTE_MATRIX.json'), `${JSON.stringify(report, null, 2)}\n`);
   console.log(JSON.stringify({ status: report.status, routeCount: report.routeCount, endings: report.distinctEndingIds }, null, 2));

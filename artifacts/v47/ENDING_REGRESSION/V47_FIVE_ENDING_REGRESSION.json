@@ -1,7 +1,7 @@
 {
-  "schemaVersion": "V47_FIVE_ENDING_REGRESSION_V1",
+  "schemaVersion": "V47_FIVE_ENDING_REGRESSION_V2",
   "status": "PASS",
-  "scope": "one reducer route per authored ending; the exhaustive 121-vector matrix was not rerun",
+  "scope": "one reducer route per authored ending and the four restored decision sequences",
   "routes": [
     {
       "endingId": "UVAROV",
@@ -12,7 +12,7 @@
       "circleLearning": "attended",
       "examOutcome": "passed",
       "promotionStatus": "promoted",
-      "finalDate": "1849-05-05"
+      "finalDate": "1849-12-22"
     },
     {
       "endingId": "BELINSKY",
@@ -23,7 +23,7 @@
       "circleLearning": "attended",
       "examOutcome": "failed",
       "promotionStatus": "not-promoted",
-      "finalDate": "1849-05-05"
+      "finalDate": "1849-12-22"
     },
     {
       "endingId": "HERZEN",
@@ -34,7 +34,7 @@
       "circleLearning": "declined",
       "examOutcome": "deferred",
       "promotionStatus": "pending",
-      "finalDate": "1849-05-05"
+      "finalDate": "1849-12-22"
     },
     {
       "endingId": "KHOMYAKOV",
@@ -45,7 +45,7 @@
       "circleLearning": "attended",
       "examOutcome": "helped-peer",
       "promotionStatus": "pending",
-      "finalDate": "1849-05-05"
+      "finalDate": "1849-12-22"
     },
     {
       "endingId": "DOSTOEVSKY_PETRASHEVSKY",
@@ -56,7 +56,87 @@
       "circleLearning": "attended",
       "examOutcome": "passed",
       "promotionStatus": "promoted",
-      "finalDate": "1849-05-05"
+      "finalDate": "1849-12-22"
+    }
+  ],
+  "restoredRoutes": [
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "actions": [
+        "RETURN_MANUSCRIPT",
+        "HOLD_NOTICE",
+        "PRESERVE_LETTER",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-BELINSKY-LETTER-GOGOL-1847",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "finalDate": "1849-12-22"
+    },
+    {
+      "endingId": "UVAROV",
+      "actions": [
+        "RETURN_MANUSCRIPT",
+        "HOLD_NOTICE",
+        "PRESERVE_LETTER",
+        "REGISTER_SEPARATE_OWNERSHIP"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-BELINSKY-LETTER-GOGOL-1847",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849",
+        "OBJ-WS-DOSTOEVSKY-ARREST-ORDER-1849"
+      ],
+      "finalDate": "1849-12-22"
+    },
+    {
+      "endingId": "DOSTOEVSKY_PETRASHEVSKY",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "HOLD_NOTICE",
+        "PRESERVE_LETTER",
+        "REFUSE_NAMING"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-BELINSKY-LETTER-GOGOL-1847",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849"
+      ],
+      "finalDate": "1849-12-22"
+    },
+    {
+      "endingId": "UVAROV",
+      "actions": [
+        "HOLD_FOR_CORRECTION",
+        "HOLD_NOTICE",
+        "PRESERVE_LETTER",
+        "REGISTER_SEPARATE_OWNERSHIP"
+      ],
+      "sourcesRead": [
+        "OBJ-SOV-1847",
+        "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+        "OBJ-WS-NEKRASOV-EDITORIAL-1848",
+        "OBJ-WS-NEKRASOV-1849-ISSUE-NOTICE",
+        "OBJ-BELINSKY-LETTER-GOGOL-1847",
+        "OBJ-WS-PETRASHEVSKY-REPORT-1849",
+        "OBJ-WS-MIKHAIL-DOSTOEVSKY-LETTER-1849",
+        "OBJ-WS-DOSTOEVSKY-ARREST-ORDER-1849"
+      ],
+      "finalDate": "1849-12-22"
     }
   ]
 }
