@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "provider": "mock",
+  "reports": [
+    {
+      "activity": "purchased-issue",
+      "sourceId": "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+      "readingMode": "PLAYER_ARCHIVE",
+      "screenshot": "purchased-issue.png",
+      "pageErrors": []
+    },
+    {
+      "activity": "bookshop-copy",
+      "sourceId": "LIT-TURGENEV-KHOR-KALYNYCH-1847",
+      "readingMode": "PHYSICAL_COPY",
+      "screenshot": "bookshop-copy.png",
+      "pageErrors": []
+    }
+  ]
+}

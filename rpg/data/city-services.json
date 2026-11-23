@@ -33,9 +33,20 @@
       ]
     }
   },
+  "dayJob": {
+    "mapId": "market-quay",
+    "payerId": "warehouse_pyotr",
+    "cargoKo": "창고 인수표가 달린 작은 상자",
+    "pay": 3,
+    "fatigue": 9,
+    "board": { "id": 3972, "name": "창고 일감판", "tile": { "x": 7, "y": 10 }, "assetTileId": 19 },
+    "delivery": { "id": 3973, "name": "강변 하역대", "tile": { "x": 22, "y": 10 }, "assetTileId": 64 },
+    "basisSourceIds": ["V36-GUIDE-PUSHKAREV-1843", "PORTER_LOAD_1847"]
+  },
   "topics": {
     "meal": {
       "questionKo": "어디서 따뜻한 저녁을 먹을 수 있나요?",
+      "basisSourceIds": ["LIFE-GOGOL-TAVERN-1842-CH1"],
       "terms": ["먹을", "먹으", "끼니", "밥", "저녁", "요리", "수프", "시치", "식사"],
       "residents": {
         "innkeeper_irina": "네 시 지나 내 여관 공동 식탁으로 와요. 시치에 작은 파이까지 내줄게요. 시치가 뭔지요? 양배추 넣고 푹 끓인 수프죠.",
@@ -45,6 +56,7 @@
     },
     "newspaper": {
       "questionKo": "신문은 어디서 구해 읽나요?",
+      "basisSourceIds": ["OBJ-SOV-1847"],
       "terms": ["신문", "호외", "가판", "기사"],
       "residents": {
         "bookseller_lev": "네프스키의 내 가판으로 오세요. 《현대인》을 사서 펼쳐 볼 수 있소. 방금 찍은 호외라면 가까운 신문 나눔 가판에도 한 부 남았는지 보시오.",
@@ -54,6 +66,7 @@
     },
     "books": {
       "questionKo": "책 한 권 읽으려면 어디로 가야 하나요?",
+      "basisSourceIds": ["LIT-TURGENEV-KHOR-KALYNYCH-1847"],
       "terms": ["책", "독서", "소설", "빌려", "서가", "읽을거리"],
       "residents": {
         "bookseller_lev": "골목 책방 안쪽에 읽어 볼 책을 펼쳐 뒀소. 투르게네프부터 볼 거면 안쪽 선반 곁의 《현대인》을 펼치면 돼요.",
@@ -63,15 +76,17 @@
     },
     "wages": {
       "questionKo": "오늘 품삯 받을 일감이 있나요?",
+      "basisSourceIds": ["V36-GUIDE-PUSHKAREV-1843"],
       "terms": ["일감", "품삯", "임금", "돈을 벌", "돈 벌", "일자리", "하역"],
       "residents": {
-        "porter_gavrila": "강변 장터에 짐 무게와 품삯 표가 있소. 나나 하역꾼에게 일이 떨어졌을 때는 짐과 받을 값을 거기서 먼저 보오.",
-        "warehouse_pyotr": "강변 장터의 하역장으로 오시오. 나갈 짐이 있으면 품삯부터 장부에 적을 테니, 값을 묻기 전에 상자부터 들지는 마시오.",
-        "courier_pavel": "품삯 받을 일이라면 강변 장터의 짐꾼들한테 물어요. 짐 무게와 품삯을 적은 표가 따로 있어요."
+        "porter_gavrila": "강변 장터 입구를 지나 창고 일감판부터 보오. 표트르한테서 상자를 맡으면 오른편 강변 하역대에 내려놓으시오. 거기서 품삯을 받는 거요.",
+        "warehouse_pyotr": "내가 강변 장터에 있을 때 창고 일감판으로 오시오. 인수표 달린 상자를 오른편 하역대에 내려놓으면 품삯을 치르겠소.",
+        "courier_pavel": "강변 장터에 창고 일감판이 있어요. 거기서 상자를 맡고 오른편 하역대로 옮기면 표트르가 품삯을 줘요."
       }
     },
     "tavern": {
       "questionKo": "술 한 잔 하면서 소식을 들을 만한 곳이 있나요?",
+      "basisSourceIds": ["LIFE-GOGOL-TAVERN-1842-CH4"],
       "terms": ["술집", "선술집", "술 한", "한잔", "한 잔", "여관", "아니스"],
       "residents": {
         "innkeeper_irina": "내 여관 공동방으로 오세요. 네 시부터 저녁을 내면서 아니스 술도 한 잔씩 따라 줘요. 얘기할 사람이 필요하면 자리를 봐 드리지요.",
@@ -81,6 +96,7 @@
     },
     "clothes": {
       "questionKo": "새로 입을 옷은 어디서 살 수 있나요?",
+      "basisSourceIds": ["V36-ART-KOLLMAN-FISH-SELLERS-1830S", "LIT-GOGOL-OVERCOAT-1842"],
       "terms": ["옷", "외투", "숄", "수선", "입을"],
       "residents": {
         "seamstress_anna": "정오 넘으면 안뜰로 와요. 내 수선대에 헌 외투랑 숄을 내놓을 테니까. 팔 들었을 때 당기면 사지 말아요.",

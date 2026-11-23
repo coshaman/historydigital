@@ -8,6 +8,13 @@ export function attachCityServiceCounters(maps, catalog) {
       properties: Object.entries({ serviceId, displayAsset: counter.asset, displayWidth: 25,
         displayHeight: 20, displayOffsetX: -4, displayOffsetY: -4 }).map(([name, value]) => ({ name, value })) });
   }
+  const job = catalog.dayJob;
+  const objects = maps[job.mapId]?.layers.find(layer => layer.name === 'Interactions')?.objects;
+  for (const [step, site] of Object.entries({ board: job.board, delivery: job.delivery })) {
+    if (!objects || objects.some(object => object.id === site.id)) continue;
+    objects.push({ id: site.id, type: 'inspectable', name: site.name, x: site.tile.x * 16, y: site.tile.y * 16,
+      properties: [{ name: 'serviceId', value: `day-job-${step}` }, { name: 'assetTileId', value: site.assetTileId }] });
+  }
 }
 
 export function residentServiceTopics(catalog, hostId, date) {
@@ -72,4 +79,41 @@ export function purchaseCityCounterOffer(state, counter, productId) {
     serviceDay: counterDay(next), productId, itemKo: product.labelKo, price: product.price,
     basisSourceIds: [...product.sourceIds], ...(product.kind === 'meal' ? { hungerBefore, hungerAfter: buyer.needs.hunger } : {}) });
   return { ok: true, state: next, product };
+}
+
+export function cityDayJobStatus(state, job, step) {
+  const worker = state.hosts[state.player.embodiment], payer = state.hosts[job.payerId];
+  const site = job[step];
+  if (!worker || !site || worker.historicalAliveAndPresent === false || worker.id === payer?.id
+    || worker.mapId !== job.mapId || state.world.currentMapId !== job.mapId || state.world.activeRealm
+    || state.player.civic?.custody?.active
+    || Math.abs(worker.position.x - site.tile.x) + Math.abs(worker.position.y - site.tile.y) > 1) return 'unavailable';
+  const latest = state.ledger.findLast(row => row.hostId === worker.id
+    && (row.eventType === 'CITY_JOB_ACCEPTED' || row.eventType === 'CITY_JOB_PAID'));
+  if (step === 'delivery') return latest?.eventType === 'CITY_JOB_ACCEPTED' && worker.inventory.includes(job.cargoKo) ? 'deliver' : 'no_cargo';
+  if (latest?.eventType === 'CITY_JOB_ACCEPTED') return 'carrying';
+  if (latest?.serviceDay === counterDay(state)) return 'done_today';
+  if (!payer || payer.historicalAliveAndPresent === false || payer.mapId !== job.mapId
+    || payer.money?.unit !== 'kopeks' || worker.money?.unit !== 'kopeks'
+    || !Number.isFinite(worker.money.amount) || !Number.isFinite(payer.money.amount) || payer.money.amount < job.pay) return 'no_work';
+  return 'accept';
+}
+
+export function performCityDayJobStep(state, job, step) {
+  const status = cityDayJobStatus(state, job, step);
+  if (status !== 'accept' && status !== 'deliver') return { ok: false, reason: status, state };
+  const next = structuredClone(state), worker = next.hosts[next.player.embodiment];
+  const accepting = status === 'accept';
+  if (accepting) {
+    next.hosts[job.payerId].money.amount -= job.pay;
+    worker.inventory.push(job.cargoKo);
+  } else {
+    worker.inventory.splice(worker.inventory.indexOf(job.cargoKo), 1);
+    worker.money.amount += job.pay;
+    worker.needs.fatigue = Math.min(100, worker.needs.fatigue + job.fatigue);
+  }
+  next.ledger.push({ eventId: `CITY_JOB_${next.ledger.length + 1}`, eventType: accepting ? 'CITY_JOB_ACCEPTED' : 'CITY_JOB_PAID',
+    date: next.world.date, serviceDay: counterDay(next), mapId: job.mapId, hostId: worker.id,
+    payerHostId: job.payerId, itemKo: job.cargoKo, amount: job.pay, basisSourceIds: [...job.basisSourceIds] });
+  return { ok: true, state: next };
 }

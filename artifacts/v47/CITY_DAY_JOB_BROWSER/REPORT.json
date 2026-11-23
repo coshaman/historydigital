@@ -1,0 +1,47 @@
+{
+  "status": "PASS",
+  "provider": "mock",
+  "reports": [
+    {
+      "activity": "day-job",
+      "worker": "courier_pavel",
+      "stages": [
+        {
+          "eventId": "CITY_JOB_1",
+          "eventType": "CITY_JOB_ACCEPTED",
+          "date": "1847-06-01",
+          "serviceDay": "1847-06-01:0",
+          "mapId": "market-quay",
+          "hostId": "courier_pavel",
+          "payerHostId": "warehouse_pyotr",
+          "itemKo": "창고 인수표가 달린 작은 상자",
+          "amount": 3,
+          "basisSourceIds": [
+            "V36-GUIDE-PUSHKAREV-1843",
+            "PORTER_LOAD_1847"
+          ]
+        },
+        {
+          "eventId": "CITY_JOB_8",
+          "eventType": "CITY_JOB_PAID",
+          "date": "1847-06-01",
+          "serviceDay": "1847-06-01:0",
+          "mapId": "market-quay",
+          "hostId": "courier_pavel",
+          "payerHostId": "warehouse_pyotr",
+          "itemKo": "창고 인수표가 달린 작은 상자",
+          "amount": 3,
+          "basisSourceIds": [
+            "V36-GUIDE-PUSHKAREV-1843",
+            "PORTER_LOAD_1847"
+          ]
+        }
+      ],
+      "screenshots": [
+        "carry-from-warehouse.png",
+        "wages-at-the-quay.png"
+      ],
+      "pageErrors": []
+    }
+  ]
+}

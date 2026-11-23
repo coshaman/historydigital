@@ -595,7 +595,8 @@ for (const [questId, leadId] of [['V47_MAIN03_P05', 'dostoevsky_1849'], ['V47_MA
 for (const actionId of ['V47_P04_CARRY_INVITATION', 'V47_P04_RETURN_INVITATION']) {
   const scene = storyBeatQuests.find(quest => quest.id === 'V47_MAIN03_P04');
   const state = game.createInitialState({ maps, hostCards, quests: allV47StoryQuests, startMapId: scene.entry.mapId });
-  const hostId = 'student_vasily', target = maps[scene.entry.mapId].layers.find(layer => layer.name === 'Interactions').objects
+  const hostId = actionId === 'V47_P04_CARRY_INVITATION' ? 'courier_pavel' : 'bookbinder_elizaveta';
+  const target = maps[scene.entry.mapId].layers.find(layer => layer.name === 'Interactions').objects
     .find(object => object.id === scene.entry.objectId);
   const x = Math.floor(target.x / 16), y = Math.floor(target.y / 16);
   state.world.chapterId = scene.chapterId; state.world.date = scene.date; state.world.currentMapId = scene.entry.mapId;

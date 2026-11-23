@@ -1,0 +1,146 @@
+{
+  "status": "PASS",
+  "scope": "MAIN03 normal browser route after restricting the invitation to its carrier or binder",
+  "story": {
+    "resolved": 12,
+    "uniqueHosts": 8,
+    "maps": [
+      "printshop",
+      "inn-interior",
+      "bookshop-interior",
+      "nevsky",
+      "chancery",
+      "morskaya-intersection",
+      "police-station",
+      "semenovsky-square"
+    ],
+    "status": "PASS"
+  },
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "pageErrors": [],
+  "pageCrashes": [],
+  "screenshots": [
+    "NORMAL-MAIN03-aftermath.png"
+  ],
+  "steps": [
+    {
+      "questId": "V37_EUROPE_NEWS_1848",
+      "actionId": "E42_KEEP_PRIVATE_NOTE",
+      "hostId": "clerk_alexei",
+      "mapId": "printshop",
+      "dateBefore": "1848-03-27",
+      "dateAfter": "1848-03-27",
+      "status": "resolved"
+    },
+    {
+      "questId": "V47_MAIN03_P01",
+      "actionId": "V47_P01_OPEN_DISCUSSION",
+      "hostId": "editor_sofia",
+      "mapId": "inn-interior",
+      "dateBefore": "1848-04-27",
+      "dateAfter": "1848-04-27",
+      "status": "resolved"
+    },
+    {
+      "questId": "V47_MAIN03_P02",
+      "actionId": "V47_P02_LEND_BOOK",
+      "hostId": "student_vasily",
+      "mapId": "bookshop-interior",
+      "dateBefore": "1848-05-14",
+      "dateAfter": "1848-05-14",
+      "status": "resolved"
+    },
+    {
+      "questId": "V47_MAIN03_P03",
+      "actionId": "V47_P03_FOURIER_AND_LIVELIHOOD",
+      "hostId": "student_vasily",
+      "mapId": "inn-interior",
+      "dateBefore": "1848-10-02",
+      "dateAfter": "1848-10-02",
+      "status": "resolved"
+    },
+    {
+      "questId": "V47_MAIN03_P04",
+      "actionId": "V47_P04_CARRY_INVITATION",
+      "hostId": "courier_pavel",
+      "mapId": "bookshop-interior",
+      "dateBefore": "1849-04-01",
+      "dateAfter": "1849-04-01",
+      "status": "resolved"
+    },
+    {
+      "questId": "V47_MAIN03_P05",
+      "actionId": "V47_P05_SHARE_COPY",
+      "hostId": "teacher_lyubov",
+      "mapId": "bookshop-interior",
+      "dateBefore": "1849-04-27",
+      "dateAfter": "1849-04-27",
+      "status": "resolved"
+    },
+    {
+      "questId": "V47_MAIN03_P06",
+      "actionId": "V47_P06_FOLLOW_VISITOR",
+      "hostId": "police_sergeant_ivan",
+      "mapId": "nevsky",
+      "dateBefore": "1849-04-27",
+      "dateAfter": "1849-04-27",
+      "status": "resolved"
+    },
+    {
+      "questId": "V47_MAIN03_P07",
+      "actionId": "V47_P07_SEPARATE_REPORTS",
+      "hostId": "senior_clerk_konstantin",
+      "mapId": "chancery",
+      "dateBefore": "1849-05-04",
+      "dateAfter": "1849-05-04",
+      "status": "resolved"
+    },
+    {
+      "questId": "V47_MAIN03_ARRESTS",
+      "actionId": "V47_P07_SEPARATE_WITNESS",
+      "hostId": "scribal_yuri",
+      "mapId": "morskaya-intersection",
+      "dateBefore": "1849-05-05",
+      "dateAfter": "1849-05-05",
+      "status": "resolved"
+    },
+    {
+      "questId": "V47_MAIN03_P09",
+      "actionId": "V47_P09_CORRECT_REGISTER",
+      "hostId": "clerk_alexei",
+      "mapId": "chancery",
+      "dateBefore": "1849-05-07",
+      "dateAfter": "1849-05-07",
+      "status": "resolved"
+    },
+    {
+      "questId": "V47_MAIN03_P10",
+      "actionId": "V47_P10_APPEND_WITNESS",
+      "hostId": "clerk_alexei",
+      "mapId": "police-station",
+      "dateBefore": "1849-05-29",
+      "dateAfter": "1849-05-29",
+      "status": "resolved"
+    },
+    {
+      "questId": "E41_SEMENOVSKY_1849",
+      "actionId": "본 일을 개인 수첩에 적는다",
+      "hostId": "dostoevsky_1849",
+      "mapId": "semenovsky-square",
+      "status": "resolved"
+    },
+    {
+      "questId": "V47_MAIN03_P11",
+      "actionId": "V47_P11_GUIDE_FAMILIES",
+      "hostId": "student_vasily",
+      "mapId": "semenovsky-square",
+      "dateBefore": "1850-01-03",
+      "dateAfter": "1850-01-03",
+      "status": "resolved"
+    }
+  ],
+  "transitionCount": 35
+}

@@ -28,6 +28,26 @@ const require = createRequire(import.meta.url);
 require('../rpg/engine/game-state.js');
 const game = globalThis.V33GameState;
 
+test('finishing either main story requires at least four distinct embodied residents', () => {
+  for (const storyId of ['MAIN01', 'MAIN03']) {
+    const finalId = storyId === 'MAIN01' ? 'V47_MAIN01_A11' : 'V47_MAIN03_P11';
+    const chapterQuests = quests.filter(quest => quest.id.startsWith(`V47_${storyId}_`));
+    const final = chapterQuests.find(quest => quest.id === finalId);
+    if (storyId === 'MAIN03') {
+      assert.ok(final.prerequisiteQuestIds.includes(semenovskyQuest.id), 'the historical square scene is required before P11');
+      chapterQuests.push(semenovskyQuest);
+    }
+    const byScene = chapterQuests.map(quest => new Set(quest.actions.flatMap(action => action.hostIds)));
+    const canCoverWith = (remaining, limit) => {
+      if (!remaining.length) return true;
+      if (!limit) return false;
+      const fewestRoles = remaining.reduce((smallest, roleSet) => roleSet.size < smallest.size ? roleSet : smallest);
+      return [...fewestRoles].some(hostId => canCoverWith(remaining.filter(roles => !roles.has(hostId)), limit - 1));
+    };
+    assert.equal(canCoverWith(byScene, 3), false, `${storyId} cannot resolve all scenes using only three identities`);
+  }
+});
+
 test('MAIN01 completion shows the chosen aftermath even when the latest ledger row is bookkeeping', () => {
   const quest = quests.find(item => item.id === 'V47_MAIN01_A11');
   const questStates = { [quest.id]: { status: 'resolved' } };

@@ -10,7 +10,7 @@ import { ownsKeyboardInput, observationText } from './engine/player-presentation
 import { availableDiscussionQuests, discussionBoardView, discussionFollowUpAfterTurn, discussionPromptsForHost, discussionQuestInstruction, discussionReflectionPromptsForHost, discussionReplyAction, discussionReplyChoices, formatDiscussionQuestTaskKo, formatQueuedDiscussionTaskKo, nextDiscussionInstructionForQuest, resolveQueuedDiscussionPrompt, shouldOpenDiscussionBoard, shouldShowQuestTracker } from './engine/discussion-quests.mjs';
 import { dialogueSessionNeedsReconnect, dialogueSpeakerLabel, mayOfferDiscussionPrompt, selectDialogueTurn } from './engine/dialogue-response.mjs';
 import { dialogueSceneContext } from './engine/dialogue-context.mjs';
-import { attachCityServiceCounters, cityCounterOffers, purchaseCityCounterOffer, residentServiceAnswer, residentServiceTopics } from './engine/city-services.mjs';
+import { attachCityServiceCounters, cityCounterOffers, cityDayJobStatus, performCityDayJobStep, purchaseCityCounterOffer, residentServiceAnswer, residentServiceTopics } from './engine/city-services.mjs';
 import { advanceHistoricalSessionTime, beginHistoricalSession, canConcludeHistoricalSession, exitHistoricalSession, historicalParticipantGuide, historicalReplyText, historicalSessionProgressLabelKo, performHistoricalAction, recordHistoricalChoice } from './engine/historical-session.mjs';
 import { buildHistoricalSceneLayout } from './engine/historical-scene-layout.mjs';
 import { appendApiDiagnostic, clearApiDiagnostics, readApiDiagnostics } from './engine/api-diagnostics.mjs';
@@ -1631,7 +1631,11 @@ function buyCityProduct(product, hostId) {
     sayRecord(reason); return;
   }
   setState(result.state);
-  say('가판대에서 물건을 샀다', `${product.titleKo} · ${product.priceKopeks} 코페이카를 지불했습니다. 소지품은 수첩에 기록됩니다.`, product.sourceId ? [{ label: '구입한 호를 읽는다', subcopy: '개인 소장본을 펼칩니다 · 읽은 자료에 남습니다.', run: () => sourceRead(product.sourceId, [product.sourceId], 'PLAYER_ARCHIVE') }] : []);
+  const readingChoices = product.id === 'newspaper_1847_01' ? [
+    { label: '구입한 호를 읽는다', run: () => sourceRead(source.sourceId, [source.sourceId], 'PLAYER_ARCHIVE') },
+    { label: '권호 정보 보기', run: () => sourceRead(product.sourceId, [product.sourceId], 'PLAYER_ARCHIVE') },
+  ] : [];
+  say('가판대에서 물건을 샀다', `${product.titleKo} · ${product.priceKopeks}코페이카`, readingChoices);
   sayRecord(`${product.titleKo} 구입 · ${product.priceKopeks} 코페이카`);
 }
 function openBooksellerCounter() {
@@ -1796,8 +1800,31 @@ function openCityCounter(counter) {
   }));
   say(counter.counterKo, `${counter.greetingKo}\n\n${buyer.money.amount}코페이카`, actions);
 }
+function openCityDayJob(step) {
+  const job = cityServices.dayJob, site = job[step];
+  const status = cityDayJobStatus(state, job, step);
+  const moveCue = '장터 오른편 강변 하역대에 상자를 내려놓으면 품삯을 받는다.';
+  const messages = { unavailable: '일을 맡을 주민의 몸으로 가까이 다가가자.', no_cargo: '먼저 입구 쪽 창고 일감판에서 상자를 맡아 오자.',
+    carrying: moveCue, done_today: '오늘 품삯은 이미 받았다.', no_work: '표트르가 창고로 돌아오면 일감을 다시 물어보자.' };
+  if (status !== 'accept' && status !== 'deliver') { say(site.name, messages[status], []); return; }
+  const accepting = status === 'accept';
+  say(site.name, accepting ? moveCue : '인수표를 맞추면 맡겨 둔 품삯을 받을 수 있다.', [{
+    label: accepting ? `상자를 맡는다 · 품삯 ${job.pay}코페이카` : `상자를 내려놓고 ${job.pay}코페이카를 받는다`,
+    run: () => {
+      const outcome = performCityDayJobStep(state, job, step);
+      if (!outcome.ok) { openCityDayJob(step); return; }
+      setState(outcome.state);
+      localStorage.setItem('v33-rpg-save', saveGame(state));
+      $('#load').disabled = false;
+      say(site.name, accepting ? moveCue : '인수표를 확인하고 품삯을 받았다. 팔이 묵직하다.', []);
+      sayRecord(accepting ? job.cargoKo : `품삯 ${job.pay}코페이카`);
+    },
+  }]);
+}
 function openCivicService(serviceId, object) {
   if (cityServices.counters[serviceId]) return openCityCounter(cityServices.counters[serviceId]);
+  if (serviceId === 'day-job-board') return openCityDayJob('board');
+  if (serviceId === 'day-job-delivery') return openCityDayJob('delivery');
   if (serviceId === 'bookseller-counter') return openBooksellerCounter();
   if (serviceId === 'newsstand') return openNewsstand();
   if (serviceId === 'newsroom-desk') return openNewsroomDesk();
