@@ -10,6 +10,7 @@ import { ownsKeyboardInput, observationText } from './engine/player-presentation
 import { availableDiscussionQuests, discussionBoardView, discussionFollowUpAfterTurn, discussionPromptsForHost, discussionQuestInstruction, discussionReflectionPromptsForHost, discussionReplyAction, discussionReplyChoices, formatDiscussionQuestTaskKo, formatQueuedDiscussionTaskKo, nextDiscussionInstructionForQuest, resolveQueuedDiscussionPrompt, shouldOpenDiscussionBoard, shouldShowQuestTracker } from './engine/discussion-quests.mjs';
 import { dialogueSessionNeedsReconnect, dialogueSpeakerLabel, mayOfferDiscussionPrompt, selectDialogueTurn } from './engine/dialogue-response.mjs';
 import { dialogueSceneContext } from './engine/dialogue-context.mjs';
+import { attachCityServiceCounters, cityCounterOffers, purchaseCityCounterOffer, residentServiceAnswer, residentServiceTopics } from './engine/city-services.mjs';
 import { advanceHistoricalSessionTime, beginHistoricalSession, canConcludeHistoricalSession, exitHistoricalSession, historicalParticipantGuide, historicalReplyText, historicalSessionProgressLabelKo, performHistoricalAction, recordHistoricalChoice } from './engine/historical-session.mjs';
 import { buildHistoricalSceneLayout } from './engine/historical-scene-layout.mjs';
 import { appendApiDiagnostic, clearApiDiagnostics, readApiDiagnostics } from './engine/api-diagnostics.mjs';
@@ -51,7 +52,9 @@ const v47ExtraCards = await Promise.all(['panaev_1848','panaeva_1848','sofiya_sa
 const cards = decorateCardsWithEraProfiles([...rawCards, ...v47ExtraCards, raskolnikovCard, marmeladovCard, ...alyoshaCards], { ...eraCharacterRegistry, runtime_profiles: { ...eraCharacterRegistry.runtime_profiles, ...v47RoleProfiles } });
 const expansionMapIds = ['bookshop-lane','canal-road','workyard','bookshop-interior','bakery-interior','inn-interior','sewing-room','communal-room','morskaya-intersection','sofiya-salon'];
 const expansionMaps = Object.fromEntries(await Promise.all(expansionMapIds.map(async id => [id, await readJson(`./rpg/maps/${id}.json`)])));
+const cityServices = await readJson('./rpg/data/city-services.json');
 const maps = { nevsky: street, printshop: shop, chancery, courtyard, 'market-quay': marketMap, 'dead-souls': literaryMap, overcoat: overcoatMap, 'raskolnikov-tavern': raskolnikovMap, 'alyosha-snegiryov-room': alyoshaMap, 'police-station': policeMap, ...expansionMaps, ...Object.fromEntries(historicalSceneMaps) }, hostCards = cards;
+attachCityServiceCounters(maps, cityServices);
 globalThis.V47MainStories.registerV47Maps(maps);
 attachV47StoryObjects(maps);
 attachV47StoryBeatObjects(maps, v47StoryBeatQuests);
@@ -1765,7 +1768,36 @@ function openPoliceDesk() {
     { label: '진술서를 쓰고 석방된다', subcopy: '돈은 들지 않습니다 · 사건 경위와 본인의 설명이 공식 기록으로 남습니다.', run: () => releaseFromCustody('give_statement') },
   ]);
 }
+const cityCounterReasonKo = {
+  counter_unavailable: '다른 인물로 작업대 곁에 서서 다시 살펴보세요.',
+  sold_out: '오늘 남은 것이 없다', already_owned: '이미 가지고 있다',
+  recently_ate: '조금 전에 먹었다', insufficient_funds: '돈이 모자란다',
+};
+function openCityCounter(counter) {
+  if (!requireCivicHost(counter.counterKo)) return;
+  const { reason, offers } = cityCounterOffers(state, counter);
+  if (reason) { say(counter.counterKo, reason === 'counter_closed' ? counter.closedKo : cityCounterReasonKo[reason], []); return; }
+  const buyer = state.hosts[state.player.embodiment];
+  const actions = offers.map(offer => ({
+    label: `${offer.labelKo} ${offer.kind === 'clothes' ? '사기' : '주문하기'} · ${offer.price}코페이카`,
+    subcopy: cityCounterReasonKo[offer.reason], disabled: Boolean(offer.reason), run: () => {
+      const purchase = purchaseCityCounterOffer(state, counter, offer.id);
+      if (!purchase.ok) { openCityCounter(counter); return; }
+      setState(purchase.state);
+      localStorage.setItem('v33-rpg-save', saveGame(state));
+      $('#load').disabled = false;
+      const seller = cards.find(card => card.id === counter.sellerId);
+      const partner = nearbyConversationPartner();
+      const followups = [{ label: '다시 살펴보기', run: () => openCityCounter(counter) }];
+      if (partner?.id === seller?.id) followups.unshift({ label: `${seller.displayNameKo}에게 말 걸기`, run: () => startConversation(seller) });
+      say(counter.counterKo, purchase.product.resultKo, followups);
+      sayRecord(`${offer.labelKo} · ${offer.price}코페이카`);
+    },
+  }));
+  say(counter.counterKo, `${counter.greetingKo}\n\n${buyer.money.amount}코페이카`, actions);
+}
 function openCivicService(serviceId, object) {
+  if (cityServices.counters[serviceId]) return openCityCounter(cityServices.counters[serviceId]);
   if (serviceId === 'bookseller-counter') return openBooksellerCounter();
   if (serviceId === 'newsstand') return openNewsstand();
   if (serviceId === 'newsroom-desk') return openNewsroomDesk();
@@ -2454,6 +2486,8 @@ function finishConversation(hostId) {
   activeDialogueController?.abort(); activeDialogueController = null; activeDialogueHost = null; activeDialogueKey = null; updateHud();
   $('.lower').classList.remove('is-talking');
   $('#dialogue-speaker').hidden = true;
+  $('#dialogue-history').hidden = true;
+  $('#dialogue-history').open = false;
   if (key) historicalDialogueChoicesByKey.delete(key);
   if (key && interruptedTurn) { dialogueSessions.delete(key); sessionStorage.removeItem(dialogueStorageKey(key)); }
   if (key && dialogueSessions.get(key)?.mode === 'BLOCKED_LIMIT') { dialogueSessions.delete(key); sessionStorage.removeItem(dialogueStorageKey(key)); }
@@ -2548,7 +2582,8 @@ async function startConversation(card) {
   // questions. The authored issue prompts appear after the first AI exchange.
   const remaining = ['오늘은 무슨 일로 바쁘세요?', '요즘 지내는 이야기를 들려주세요.', '잠깐 이야기 나눠도 될까요?'];
   const queuedPrompt = queuedDiscussionInquiry?.hostId === card.id ? queuedDiscussionInquiry.promptKo : null;
-  const starterReplies = queuedPrompt ? [queuedPrompt, ...remaining].slice(0, 3) : remaining.slice(0, 3);
+  const localTopics = residentServiceTopics(cityServices, card.id, state.world.date).map(topic => topic.questionKo);
+  const starterReplies = [queuedPrompt, remaining[0], ...localTopics, ...remaining.slice(1)].filter(Boolean).slice(0, 3);
   dialogueCurrentLines.set(key, contextualOpening(card.id, actorCard.id));
   showConversation(card, dialogueCurrentLines.get(key), starterReplies, queuedPrompt
     ? '퀘스트 질문이 준비됐습니다. 이 질문을 고르거나 같은 쟁점을 직접 물어보세요.'
@@ -2693,7 +2728,9 @@ async function sendConversation(card, playerText, replyId = null) {
           && quest.actions?.some(action => action.hostIds.includes(card.id)) && questIsAvailable(quest)
           && state.quests[quest.id]?.status !== 'resolved');
       const inquiryQuestId = discussionPrompt ? inquiryQuest?.id ?? null : null;
-      const requestDialogue = (currentSession, relationshipHints) => fetch(`${aiBaseUrl}/api/rpg/dialogue`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ sessionToken: currentSession.token, requestId: crypto.randomUUID(), playerInput: playerText, actorRelations: relationshipHints, actorActions: playerActionHintsFor(actorCard.id), sceneContext: dialogueSceneContext(card, state.hosts[card.id], state.world.date, state.world.currentMapId, discussionPrompt ? inquiryQuestId : missionGuidance?.questId ?? null, readPlayerHistoricalChoices(), state.hosts[actorCard.id], discussionPrompt?.discussionId ?? null) }), signal: controller.signal });
+      const missionQuest = questsById.get(missionGuidance?.questId);
+      const sceneQuestId = discussionPrompt ? inquiryQuestId : missionQuest && (!missionQuest.date || missionQuest.date <= state.world.date) ? missionQuest.id : null;
+      const requestDialogue = (currentSession, relationshipHints) => fetch(`${aiBaseUrl}/api/rpg/dialogue`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ sessionToken: currentSession.token, requestId: crypto.randomUUID(), playerInput: playerText, actorRelations: relationshipHints, actorActions: playerActionHintsFor(actorCard.id), sceneContext: dialogueSceneContext(card, state.hosts[card.id], state.world.date, state.world.currentMapId, sceneQuestId, readPlayerHistoricalChoices(), state.hosts[actorCard.id], discussionPrompt?.discussionId ?? null) }), signal: controller.signal });
       let response = await requestDialogue(session, relationshipHintsFor(actorCard.id));
       let refreshSession = response.status === 401;
       if (!refreshSession && hadExistingSession && response.status === 400) {
@@ -2745,13 +2782,21 @@ async function sendConversation(card, playerText, replyId = null) {
     if (activeDialogueHost !== card.id || activeDialogueKey !== key || dialogueGeneration !== generation) return;
   }
   const local = aiScenes.sessions[card.id];
+  const aiGenerated = Boolean(turn);
+  const localService = !turn && !discussionPrompt && !reflectionPrompt
+    ? residentServiceAnswer(cityServices, card.id, state.world.date, playerText) : null;
+  if (localService) {
+    turn = { beats: [{ speakerId: card.id, textKo: localService.replyKo }],
+      suggestedReplies: residentServiceTopics(cityServices, card.id, state.world.date)
+        .filter(topic => topic.topicId !== localService.topicId).map(topic => ({ textKo: topic.questionKo })) };
+    generationFailure = '';
+  }
   if (!turn && generationFailure) {
     dialogueCurrentLines.set(key, '이번 질문에 대한 생성 답변을 받지 못했습니다. 연결을 확인한 뒤 같은 질문을 다시 보낼 수 있습니다.');
     showConversation(card, dialogueCurrentLines.get(key), [], generationFailure);
     $('.journal').scrollTop = $('.journal').scrollHeight;
     return;
   }
-  const aiGenerated = Boolean(turn);
   if (!turn) return;
   dialogueFailedQuestions.delete(key);
   for (const beat of turn.beats) lines.push({ speaker: dialogueSpeakerLabel(beat.speakerId, card.displayNameKo), text: beat.textKo });
@@ -2783,7 +2828,8 @@ async function sendConversation(card, playerText, replyId = null) {
   const reward = recorded.ok ? recorded.state.ledger.at(-1)?.dialogueReward : null;
   const rewardStatus = reward === 'COMPARISON_NOTE' ? ' · 관점 대조 메모 획득 · 다른 인물에게 후속 질문 가능' : reward === 'PERSPECTIVE_NOTE' ? ' · 관점 메모와 통찰 +1' : '';
   const recordFailure = recorded.ok ? '' : `대화 기록 실패 · ${recorded.reason}`;
-  const conversationStatus = [generationFailure, recordFailure].filter(Boolean).join(' · ') || `AI 생성 답변 · ${card.displayNameKo}의 처지와 견해가 반영되었습니다.${rewardStatus}${discussionProgressStatus ? ` · ${discussionProgressStatus}` : ''}`;
+  const conversationStatus = [generationFailure, recordFailure].filter(Boolean).join(' · ')
+    || (localService ? '다른 일을 물어보거나 대화를 마치세요.' : `AI 생성 답변 · ${card.displayNameKo}의 처지와 견해가 반영되었습니다.${rewardStatus}${discussionProgressStatus ? ` · ${discussionProgressStatus}` : ''}`);
   showConversation(card, dialogueCurrentLines.get(key), replies.map(reply => reply.textKo), conversationStatus);
   $('.journal').scrollTop = $('.journal').scrollHeight;
 }

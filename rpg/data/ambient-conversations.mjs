@@ -29,6 +29,14 @@ export const ambientConversations = [
     { hostId: 'yardkeeper_semyon', lineKo: '문턱에 물 쏟지 마시오. 밤새 얼겠소.', mood: 'guarded' },
     { hostId: 'housemaid_olga', lineKo: '걸레로 닦을게요. 아침엔 괜찮을 거예요.', mood: 'steady' },
   ] },
+  { mapIds: ['courtyard'], speakers: [
+    { hostId: 'seamstress_anna', lineKo: '언니, 그 숄은 널지 마. 장에 내놓으려고 꿰맨 거야.', mood: 'focused' },
+    { hostId: 'laundress_mariya', lineKo: '팔리면 실부터 사. 내 실패도 다 비었어.', mood: 'calm' },
+  ] },
+  { mapIds: ['inn-interior'], speakers: [
+    { hostId: 'innkeeper_irina', lineKo: '시치 식겠어요. 안쪽에 한 자리 남았어요.', mood: 'warm' },
+    { hostId: 'lodging_tatyana', lineKo: '창가요? 신문 읽던 손님은 벌써 갔나 보네요.', mood: 'curious' },
+  ] },
   { mapIds: ['police-station'], speakers: [
     { hostId: 'police_sergeant_ivan', lineKo: '교대 전에 약방부터 들러야겠소.', mood: 'tired' },
     { hostId: 'junior_guard_sergey', lineKo: '길 비면 제가 먼저 나가 보겠습니다.', mood: 'helpful' },

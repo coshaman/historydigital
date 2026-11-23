@@ -1,0 +1,96 @@
+{
+  "counters": {
+    "anna-clothes": {
+      "sellerId": "seamstress_anna",
+      "mapId": "courtyard",
+      "objectId": 3970,
+      "tile": { "x": 10, "y": 13 },
+      "counterKo": "안나의 옷 수선대",
+      "asset": "../assets/v47/anna-clothes-counter.svg",
+      "opensMinute": 720,
+      "closesMinute": 1200,
+      "greetingKo": "안나가 꿰맨 옷을 내놓았다. 어깨에 둘러 보고 고르자.",
+      "closedKo": "안나는 정오가 지난 뒤 안뜰의 수선대에서 옷을 내놓는다.",
+      "products": [
+        { "id": "wool-shawl", "kind": "clothes", "labelKo": "모직 어깨숄", "price": 5, "stock": 2, "resultKo": "안나가 숄을 접어 줬다. 두꺼운 숄이라 어깨에 찬바람이 덜 스미겠다.", "sourceIds": ["V36-ART-KOLLMAN-FISH-SELLERS-1830S"] },
+        { "id": "mended-coat", "kind": "clothes", "labelKo": "덧댄 헌 외투", "price": 8, "stock": 1, "resultKo": "소맷단은 닳았지만 안감은 단단하다. 안나가 마지막 단추를 채워 보인다.", "sourceIds": ["LIT-GOGOL-OVERCOAT-1842"] }
+      ]
+    },
+    "irina-tavern": {
+      "sellerId": "innkeeper_irina",
+      "mapId": "inn-interior",
+      "objectId": 3971,
+      "tile": { "x": 12, "y": 12 },
+      "counterKo": "여관의 저녁 식탁",
+      "asset": "../assets/v47/irina-tavern-table.svg",
+      "opensMinute": 960,
+      "closesMinute": 1200,
+      "greetingKo": "이리나가 식탁에 수프 그릇과 작은 술잔을 내놓는다. 저녁 손님들이 가까운 자리에 앉아 있다.",
+      "closedKo": "이리나는 오후 네 시부터 여덟 시까지 공동 식탁에서 저녁을 낸다.",
+      "products": [
+        { "id": "shchi-and-pie", "kind": "meal", "labelKo": "시치와 작은 파이", "price": 3, "stock": 6, "hungerRelief": 32, "resultKo": "양배추 수프에 파이를 곁들여 저녁을 먹었다. 식탁 옆에선 손님들이 오늘 들은 얘기를 주고받는다.", "sourceIds": ["LIFE-GOGOL-TAVERN-1842-CH1"] },
+        { "id": "anise-spirit", "kind": "drink", "labelKo": "아니스 술 한 잔", "price": 1, "stock": 8, "resultKo": "이리나가 작은 잔에 아니스 술을 따른다. 옆자리에서는 누가 인쇄소에서 왔느냐는 말이 오간다.", "sourceIds": ["LIFE-GOGOL-TAVERN-1842-CH4"] }
+      ]
+    }
+  },
+  "topics": {
+    "meal": {
+      "questionKo": "어디서 따뜻한 저녁을 먹을 수 있나요?",
+      "terms": ["먹을", "먹으", "끼니", "밥", "저녁", "요리", "수프", "시치", "식사"],
+      "residents": {
+        "innkeeper_irina": "네 시 지나 내 여관 공동 식탁으로 와요. 시치에 작은 파이까지 내줄게요. 시치가 뭔지요? 양배추 넣고 푹 끓인 수프죠.",
+        "courier_pavel": "해 기울면 이리나 여관의 공동 식탁에 가요. 배달 끝날 때 들르면 냄비가 아직 따뜻하더군요.",
+        "tenant_mikhail": "안뜰에서 이리나 여관으로 들어가요. 네 시 지나면 공동 식탁에서 저녁을 내더라고요."
+      }
+    },
+    "newspaper": {
+      "questionKo": "신문은 어디서 구해 읽나요?",
+      "terms": ["신문", "호외", "가판", "기사"],
+      "residents": {
+        "bookseller_lev": "네프스키의 내 가판으로 오세요. 《현대인》을 사서 펼쳐 볼 수 있소. 방금 찍은 호외라면 가까운 신문 나눔 가판에도 한 부 남았는지 보시오.",
+        "printer_ekaterina": "네프스키에 레프 가판이 있어요. 막 찍은 호외를 나눔 가판에 놓을 때도 있으니 둘 다 보세요.",
+        "reader_darya": "신문을 사려면 네프스키로 나가 레프 가판을 찾아요. 다른 독자가 두고 간 호외가 있을 때는 나눔 가판에서 봐요."
+      }
+    },
+    "books": {
+      "questionKo": "책 한 권 읽으려면 어디로 가야 하나요?",
+      "terms": ["책", "독서", "소설", "빌려", "서가", "읽을거리"],
+      "residents": {
+        "bookseller_lev": "골목 책방 안쪽에 읽어 볼 책을 펼쳐 뒀소. 투르게네프부터 볼 거면 안쪽 선반 곁의 《현대인》을 펼치면 돼요.",
+        "reader_darya": "책방 안쪽으로 와요. 저는 「호리와 칼리니치」가 좋더라고요. 거기 펼쳐 둔 책을 먼저 보고, 마음에 걸리는 대목이 있으면 말해 줘요.",
+        "student_vasily": "레프의 책방 안에 펼쳐 둔 책이 있어요. 같은 줄을 읽어도 다리야랑 저는 다른 데서 멈추더라고요."
+      }
+    },
+    "wages": {
+      "questionKo": "오늘 품삯 받을 일감이 있나요?",
+      "terms": ["일감", "품삯", "임금", "돈을 벌", "돈 벌", "일자리", "하역"],
+      "residents": {
+        "porter_gavrila": "강변 장터에 짐 무게와 품삯 표가 있소. 나나 하역꾼에게 일이 떨어졌을 때는 짐과 받을 값을 거기서 먼저 보오.",
+        "warehouse_pyotr": "강변 장터의 하역장으로 오시오. 나갈 짐이 있으면 품삯부터 장부에 적을 테니, 값을 묻기 전에 상자부터 들지는 마시오.",
+        "courier_pavel": "품삯 받을 일이라면 강변 장터의 짐꾼들한테 물어요. 짐 무게와 품삯을 적은 표가 따로 있어요."
+      }
+    },
+    "tavern": {
+      "questionKo": "술 한 잔 하면서 소식을 들을 만한 곳이 있나요?",
+      "terms": ["술집", "선술집", "술 한", "한잔", "한 잔", "여관", "아니스"],
+      "residents": {
+        "innkeeper_irina": "내 여관 공동방으로 오세요. 네 시부터 저녁을 내면서 아니스 술도 한 잔씩 따라 줘요. 얘기할 사람이 필요하면 자리를 봐 드리지요.",
+        "courier_pavel": "안뜰에서 이리나 여관으로 들어가요. 공동방 식탁에 저녁 손님이 모여요. 한잔하며 소식 듣기엔 거기가 낫죠.",
+        "lodging_tatyana": "이리나 여관의 공동방에 앉아 봐요. 저녁 손님들이 밖에서 들은 말을 꼭 하나씩 갖고 오거든요."
+      }
+    },
+    "clothes": {
+      "questionKo": "새로 입을 옷은 어디서 살 수 있나요?",
+      "terms": ["옷", "외투", "숄", "수선", "입을"],
+      "residents": {
+        "seamstress_anna": "정오 넘으면 안뜰로 와요. 내 수선대에 헌 외투랑 숄을 내놓을 테니까. 팔 들었을 때 당기면 사지 말아요.",
+        "laundress_mariya": "정오 지나서 안뜰의 안나 수선대로 가 봐요. 동생이 손본 옷은 뒤집어 봐도 바느질이 야무져요.",
+        "tenant_mikhail": "안뜰 수선대가 안나 자리예요. 오후에 봐요. 저도 바람 들어오는 소매를 거기서 맡겼어요."
+      }
+    }
+  },
+  "references": {
+    "LIFE-GOGOL-TAVERN-1842-CH1": { "title": "N. V. Gogol, Dead Souls, vol. I, ch. I (1842)", "url": "https://ru.wikisource.org/wiki/Мёртвые_души_(Гоголь)/Том_I/Глава_I", "range": "The inn meal beginning «Покамест ему подавались разные обычные в трактирах блюда». Literary food reference only." },
+    "LIFE-GOGOL-TAVERN-1842-CH4": { "title": "N. V. Gogol, Dead Souls, vol. I, ch. IV (1842)", "url": "https://ru.wikisource.org/wiki/Мертвые_души._Том_первый_(Гоголь)", "range": "Chapter IV, the tavern exchange ending «Ну, давай анисовой». Literary drink reference only." }
+  }
+}

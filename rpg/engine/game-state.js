@@ -7980,24 +7980,23 @@ function recordEvidenceRead(state, evidenceId, maps) {
 
 function captureDialogueStartContext(state, hostId, actorHostId, maps = {}) {
   const map = maps?.[state?.world?.currentMapId], speaker = state?.hosts?.[hostId], actor = state?.hosts?.[actorHostId];
-  const speakerPresent = layer(map, 'NPCs')?.objects.some(item => properties(item).hostId === hostId);
-  if (!state?.player || state.player.embodiment !== actorHostId || !actor || actor.mapId !== state.world.currentMapId
-    || !speaker || speaker.mapId !== state.world.currentMapId || !speakerPresent || !nearTile(actor.position, speaker.position, 2)) return null;
+  if (!map || !state?.player || state.player.embodiment !== actorHostId || hostId === actorHostId
+    || !actor || actor.historicalAliveAndPresent === false || actor.mapId !== map.mapId
+    || !speaker || speaker.historicalAliveAndPresent === false || speaker.mapId !== map.mapId
+    || !nearTile(actor.position, speaker.position, 2)) return null;
   return { hostId, actorHostId, mapId: state.world.currentMapId, speakerPresent: true,
     actorPosition: { ...actor.position }, speakerPosition: { ...speaker.position } };
 }
 
 function recordDialogueTurn(state, { hostId, actorHostId, sceneId, intentClass = 'GENERAL_CONVERSATION', discussionId = null, discussionTitleKo = '', reflectionId = null, aiGenerated = false, dialogueStartContext = null } = {}, maps = {}) {
-  const map = maps?.[state?.world?.currentMapId], speaker = state?.hosts?.[hostId], actor = state?.hosts?.[actorHostId];
-  const speakerPresent = layer(map, 'NPCs')?.objects.some(item => properties(item).hostId === hostId);
+  const speaker = state?.hosts?.[hostId], actor = state?.hosts?.[actorHostId];
   const actorAvailable = Boolean(state?.player && state.player.embodiment === actorHostId && actor && actor.mapId === state.world.currentMapId);
-  const currentPartnerAvailable = Boolean(speaker && speaker.mapId === state.world.currentMapId && speakerPresent
-    && actor && nearTile(actor.position, speaker.position, 2));
+  const currentPartnerAvailable = Boolean(captureDialogueStartContext(state, hostId, actorHostId, maps));
   const openedNearbyContext = Boolean(dialogueStartContext?.hostId === hostId && dialogueStartContext?.actorHostId === actorHostId
     && dialogueStartContext?.mapId === state?.world?.currentMapId && dialogueStartContext?.speakerPresent === true
     && dialogueStartContext.actorPosition && dialogueStartContext.speakerPosition
     && nearTile(dialogueStartContext.actorPosition, dialogueStartContext.speakerPosition, 2));
-  if (!actorAvailable || !speaker || typeof sceneId !== 'string' || !/^V33_[A-Z0-9_]{3,64}$/.test(sceneId)
+  if (!actorAvailable || !speaker || typeof sceneId !== 'string' || !/^V(?:33|35|36|47)_[A-Z0-9_]{3,64}$/.test(sceneId)
     || (!currentPartnerAvailable && !openedNearbyContext)) return { ok: false, reason: 'dialogue_host_unavailable', state };
   if (hostId === actorHostId) return { ok: false, reason: 'dialogue_partner_unavailable', state };
   if (!['SOURCE_REQUEST', 'ACTION_REQUEST', 'RISK_QUESTION', 'PERSONAL_QUESTION', 'GENERAL_CONVERSATION'].includes(intentClass)) return { ok: false, reason: 'invalid_intent_class', state };

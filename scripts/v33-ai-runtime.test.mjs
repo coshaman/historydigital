@@ -12,6 +12,34 @@ function validTurn(sceneId, speakerId = 'printer_ekaterina') {
 }
 const request = (method, path, body, origin = 'https://game.example') => ({ method, path, body, origin });
 
+test('city service questions reach the AI in the actual venue with only the speaker’s local knowledge', async () => {
+  const catalog = require('../rpg/data/city-services.json');
+  const cases = [
+    ['meal', 'innkeeper_irina', 'inn-interior'], ['tavern', 'innkeeper_irina', 'inn-interior'],
+    ['books', 'bookseller_lev', 'bookshop-interior'], ['newspaper', 'bookseller_lev', 'nevsky'],
+    ['wages', 'porter_gavrila', 'market-quay'], ['clothes', 'seamstress_anna', 'courtyard'],
+  ];
+  for (const [topic, hostId, mapId] of cases) {
+    let received;
+    const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long', store: new MemorySessionStore(),
+      allowedOrigins: ['https://game.example'], provider: { generate: async ({ input }) => {
+        received = input;
+        return validTurn(input.scene.id, input.character.id);
+      } } });
+    const session = await service.handle(request('POST', '/api/rpg/session/start', { hostId, actorHostId: 'courier_pavel' }));
+    assert.equal(session.status, 201, JSON.stringify(session.body));
+    const response = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: session.body.sessionToken,
+      requestId: `request-city-${topic}`, playerInput: catalog.topics[topic].questionKo,
+      sceneContext: { date: '1848-07-01', mapId, questId: null } }));
+    assert.equal(response.status, 200, `${topic}: ${JSON.stringify(response.body)}`);
+    assert.equal(received.conversation.sceneContext.mapId, mapId);
+    assert.equal(received.character.cityServiceKnowledge.find(row => row.topicId === topic)?.knownKo, catalog.topics[topic].residents[hostId]);
+    assert.deepEqual(received.character.cityServiceKnowledge.map(row => row.topicId).sort(),
+      Object.keys(catalog.topics).filter(id => catalog.topics[id].residents[hostId]).sort());
+    assert.equal(received.conversation.embodiedPlayer.cityServiceKnowledge, undefined);
+  }
+});
+
 test('session is server-bound to one host; client cannot choose scene, inject memory, or mutate the RPG', async () => {
   let providerInput, providerInstructions;
   const store = new MemorySessionStore();

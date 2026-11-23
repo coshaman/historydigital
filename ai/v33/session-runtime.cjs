@@ -32,7 +32,19 @@ const discussionQuestDefinitions = require('../../rpg/data/discussion-quests.jso
 const historicalClaims = require('../../rpg/data/historical-claim-ledger.json').claims;
 const historicalPeople = require('../../rpg/data/historical-comparisons.json').comparisons;
 const livingEventCatalog = new Map(require('../../data/event_catalog_45.json').map(event => [event.event_id, event]));
-const mapRecords = new Map(['nevsky','printshop','chancery','courtyard','market-quay','dead-souls','overcoat','police-station'].map(id => [id, require(`../../rpg/maps/${id}.json`)]));
+const mapRecords = new Map([
+  ['nevsky', require('../../rpg/maps/nevsky.json')], ['printshop', require('../../rpg/maps/printshop.json')],
+  ['chancery', require('../../rpg/maps/chancery.json')], ['courtyard', require('../../rpg/maps/courtyard.json')],
+  ['market-quay', require('../../rpg/maps/market-quay.json')], ['police-station', require('../../rpg/maps/police-station.json')],
+  ['bookshop-lane', require('../../rpg/maps/bookshop-lane.json')], ['canal-road', require('../../rpg/maps/canal-road.json')],
+  ['workyard', require('../../rpg/maps/workyard.json')], ['bookshop-interior', require('../../rpg/maps/bookshop-interior.json')],
+  ['bakery-interior', require('../../rpg/maps/bakery-interior.json')], ['inn-interior', require('../../rpg/maps/inn-interior.json')],
+  ['sewing-room', require('../../rpg/maps/sewing-room.json')], ['communal-room', require('../../rpg/maps/communal-room.json')],
+  ['morskaya-intersection', require('../../rpg/maps/morskaya-intersection.json')], ['sofiya-salon', require('../../rpg/maps/sofiya-salon.json')],
+  ['fortress-cell', require('../../rpg/maps/fortress-cell.json')], ['semenovsky-square', require('../../rpg/maps/semenovsky-square.json')],
+  ['dead-souls', require('../../rpg/maps/dead-souls.json')], ['overcoat', require('../../rpg/maps/overcoat.json')],
+]);
+const cityServiceTopics = require('../../rpg/data/city-services.json').topics;
 const residentQuestBatchTwo = ['market-nadezhda-life-extra-1-1847','market-nadezhda-life-extra-2-1847','market-nadezhda-life-extra-3-1847','porter-gavrila-life-extra-1-1847','porter-gavrila-life-extra-2-1847','porter-gavrila-life-extra-3-1847','warehouse-pyotr-life-extra-1-1847','warehouse-pyotr-life-extra-2-1847','warehouse-pyotr-life-extra-3-1847','baker-fyodor-life-extra-1-1847','baker-fyodor-life-extra-2-1847','baker-fyodor-life-extra-3-1847','landlady-polina-life-extra-1-1847','landlady-polina-life-extra-2-1847','landlady-polina-life-extra-3-1847','carter-roman-life-extra-1-1847','carter-roman-life-extra-2-1847','carter-roman-life-extra-3-1847'];
 const v36PersonalLifeSlugs = ['laundress-mariya-life','apothecary-yakov-life','stepan-proof-life','elizaveta-binding-life','yuri-copying-life','irina-inn-life','vasily-reading-life','lyubov-lesson-life','andrei-debt-life','luka-water-life','klavdiya-fish-life','varvara-warning-life','nikita-type-life','matryona-stall-life'];
 const v36PersonalLifeQuests = v36PersonalLifeSlugs.flatMap(slug => [1,2,3].map(stage => require(`../../rpg/quests/${slug}-${stage}-1847.json`)));
@@ -200,6 +212,7 @@ const instructions = [
   'playerHistoricalEvents.groupGatherings는 현장 물건에서 플레이어의 선택 뒤 실제로 그 자리에 모이도록 움직인 사람들의 기록이다. 플레이어의 경험으로만 다루고, 대화 상대가 그 자리에 있었다는 근거가 없으면 그들이 이를 알았다고 말하지 않는다.',
   '생각이나 사회 문제를 묻는 대화도 먼저 눈앞의 생활 장면에 붙인다. 현재 장소에서 실제로 벌어진 일, 인물이 맡은 일, 자료에 적힌 구체적인 대목 중 하나를 짚고 나서 답한다. 사건이나 자료와 연결되지 않은 채 책임·자유·공정함 같은 추상 질문을 먼저 던지지 않는다. 먼저 평범한 인사와 그날의 용건을 주고받고, 플레이어가 꺼내지 않은 철학 토론으로 대화를 돌리지 않는다. 러시아의 제도·생활에 관해 말할 때도 현재 인물의 신분과 직접 아는 범위에 한정한다.',
   'conversation.sceneContext.discussionContext가 있으면 플레이어가 선택한 현재 쟁점이다. 첫 답부터 질문에 직접 답하고, 제공된 상황이나 자료의 구체적인 한 대목과 이 인물의 생활상 이해관계를 연결한다. 다른 주제로 돌리거나 플레이어에게 되묻지 말고, 짧은 대화 한두 문장으로 답한 뒤 자연스러운 반응 여지를 남긴다. 이 쟁점의 질문·상황은 서버가 게임 데이터에서 확인한 값이며, 퀘스트 상태나 결과를 바꾸는 권한은 없다.',
+  '동네에서 식사, 신문, 책, 품삯, 여관의 술, 옷을 어디서 구하는지 물으면 character.cityServiceKnowledge에 아는 내용이 있는지 확인한다. 아는 경우 첫 답변에 주민 이름이나 장소, 가서 할 일을 자연스러운 말로 한두 문장 안에 넣는다. 재고·현재 거기 있는 사람·가격을 새로 지어내지 않는다. 모르는 일에는 아는 척하거나 없는 가게를 만들지 않는다. 서로 다른 질문에는 직업과 생활에서 실제로 아는 만큼만 답한다.',
   'character.relationshipNetwork와 household는 체크인 카드에 기록된 인물의 관계·가족 정보다. 상대와의 관계가 대화에 실제로 중요할 때만 자연스럽게 반영하고, 목록을 외우듯 늘어놓지 않는다. 관계 설명은 역사적 증거가 아니라 허구 인물 설정이다. currentAim은 이 인물의 오늘 목표를 말투와 관심사에 반영하는 단서일 뿐이며, 해결됐거나 실제로 이뤄졌다고 말하지 않는다.',
   '역사적 사실을 새로 만들거나 단정하지 않는다. 역사 인물 재구성의 대사는 실제 발언이나 인용으로 주장하지 않는다. 문학 인물은 문학 세계 밖의 역사 증언자로 말하지 않는다. 인물의 직업, 말투, 대화 목표와 허용 주제 안에서만 답한다.',
   'character.worldview가 있으면 허구 캐릭터의 동기와 맹점을 표현하는 데만 쓴다. 이 항목은 실제 역사 인물의 견해나 출처 인용이 아니다. 정치적 입장을 역사 사실처럼 말하거나 다른 인물에게 전이하지 않는다.',
@@ -554,7 +567,7 @@ function normalizeSceneContext(value, actorHostId, speakerCard = null, playerInp
   if (value === undefined) return empty;
   if (!value || typeof value !== 'object' || Array.isArray(value) || Object.keys(value).some(key => !['date','mapId','questId','discussionId','activityKo','currentAimKo','hungerBand','fatigueBand','healthCondition','heardRumors','heardEvents','playerHistoricalEvents','playerKnowledgeIds'].includes(key))) return null;
   const date = value.date;
-  if (typeof date !== 'string' || !/^18(?:42|47|48|49)-\d{2}-\d{2}$/.test(date) || Number(date.slice(5,7)) < 1 || Number(date.slice(5,7)) > 12 || Number(date.slice(8,10)) < 1 || Number(date.slice(8,10)) > 31) return null;
+  if (typeof date !== 'string' || !/^18(?:42|47|48|49|50)-\d{2}-\d{2}$/.test(date) || Number(date.slice(5,7)) < 1 || Number(date.slice(5,7)) > 12 || Number(date.slice(8,10)) < 1 || Number(date.slice(8,10)) > 31) return null;
   const map = mapRecords.get(value.mapId), actor = embodiedCard;
   if (!map || (actor && !actor.allowedMaps.includes(value.mapId))) return null;
   let quest = null;
@@ -846,7 +859,11 @@ function createRpgAiService({ secret, store, allowedOrigins = [], provider = nul
     const actor = historical?.player ?? (context.actorHostId ? cards.get(context.actorHostId) : null);
     const speechSituation = speechSituationFor({ character: card, actor, actorRelations, sceneContext, recentTurns: context.recentTurns, playerInput: inputKo });
     const { playerKnowledgeIds, ...publicSceneContext } = sceneContext;
-    const input = { scene: { id: scene.sceneId, objective: scene.dialogueObjective, focusKo: scene.focusKo, allowedTopics: scene.allowedTopics, forbiddenTopics: scene.forbiddenTopics, allowedSourceIds: scene.allowedSourceIds, knownFactIds: scene.allowedSourceIds }, caseContext: dialogueCase, conversation: { embodiedPlayer: actor ? safeEmbodiedProfile(actor, speechSituation, playerKnowledgeIds) : null, sceneContext: publicSceneContext, speechSituation, playerResources, relationshipHints: context.actorHostId ? actorRelations : {}, playerActions: context.actorHostId ? actorActions : [], playerHistoricalEvents: publicSceneContext.playerHistoricalEvents }, sourceEvidence, sourceClaims, character: safeProfile(card, context.actorHostId, speechSituation, sceneContext.date), recentTurns: context.recentTurns.slice(-8), playerInput: inputKo };
+    const cityServiceKnowledge = !historical && sceneContext.date >= '1847-06-01'
+      ? Object.entries(cityServiceTopics).flatMap(([topicId, topic]) => topic.residents[card.id]
+        ? [{ topicId, knownKo: topic.residents[card.id] }] : []) : [];
+    const character = { ...safeProfile(card, context.actorHostId, speechSituation, sceneContext.date), cityServiceKnowledge };
+    const input = { scene: { id: scene.sceneId, objective: scene.dialogueObjective, focusKo: scene.focusKo, allowedTopics: scene.allowedTopics, forbiddenTopics: scene.forbiddenTopics, allowedSourceIds: scene.allowedSourceIds, knownFactIds: scene.allowedSourceIds }, caseContext: dialogueCase, conversation: { embodiedPlayer: actor ? safeEmbodiedProfile(actor, speechSituation, playerKnowledgeIds) : null, sceneContext: publicSceneContext, speechSituation, playerResources, relationshipHints: context.actorHostId ? actorRelations : {}, playerActions: context.actorHostId ? actorActions : [], playerHistoricalEvents: publicSceneContext.playerHistoricalEvents }, sourceEvidence, sourceClaims, character, recentTurns: context.recentTurns.slice(-8), playerInput: inputKo };
     if (!provider) { await store.release(sessionId, body.requestId, time); return response(503, { error: 'ai_not_configured', mode: 'BLOCKED_NO_KEY' }, request.origin, allowedOrigins); }
     provider.lastFailureCode = '';
     let responseBody;

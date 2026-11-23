@@ -1,0 +1,94 @@
+{
+  "status": "PASS",
+  "provider": "mock",
+  "reports": [
+    {
+      "counterId": "anna-clothes",
+      "viewport": [
+        1440,
+        900
+      ],
+      "topicsSeen": [
+        {
+          "mapId": "courtyard",
+          "topic": "clothes",
+          "npc": "seamstress_anna"
+        }
+      ],
+      "receipts": [
+        {
+          "eventId": "COUNTER_2",
+          "eventType": "CITY_COUNTER_PURCHASE",
+          "date": "1847-06-01",
+          "mapId": "courtyard",
+          "hostId": "courier_pavel",
+          "sellerHostId": "seamstress_anna",
+          "serviceDay": "1847-06-01:0",
+          "productId": "wool-shawl",
+          "itemKo": "모직 어깨숄",
+          "price": 5,
+          "basisSourceIds": [
+            "V36-ART-KOLLMAN-FISH-SELLERS-1830S"
+          ]
+        }
+      ],
+      "screenshots": [
+        "wool-shawl-1440.png"
+      ],
+      "pageErrors": []
+    },
+    {
+      "counterId": "irina-tavern",
+      "viewport": [
+        390,
+        844
+      ],
+      "topicsSeen": [
+        {
+          "mapId": "inn-interior",
+          "topic": "meal",
+          "npc": "innkeeper_irina"
+        }
+      ],
+      "receipts": [
+        {
+          "eventId": "COUNTER_2",
+          "eventType": "CITY_COUNTER_PURCHASE",
+          "date": "1847-06-01",
+          "mapId": "inn-interior",
+          "hostId": "courier_pavel",
+          "sellerHostId": "innkeeper_irina",
+          "serviceDay": "1847-06-01:0",
+          "productId": "shchi-and-pie",
+          "itemKo": "시치와 작은 파이",
+          "price": 3,
+          "basisSourceIds": [
+            "LIFE-GOGOL-TAVERN-1842-CH1"
+          ],
+          "hungerBefore": 60,
+          "hungerAfter": 28
+        },
+        {
+          "eventId": "COUNTER_3",
+          "eventType": "CITY_COUNTER_PURCHASE",
+          "date": "1847-06-01",
+          "mapId": "inn-interior",
+          "hostId": "courier_pavel",
+          "sellerHostId": "innkeeper_irina",
+          "serviceDay": "1847-06-01:0",
+          "productId": "anise-spirit",
+          "itemKo": "아니스 술 한 잔",
+          "price": 1,
+          "basisSourceIds": [
+            "LIFE-GOGOL-TAVERN-1842-CH4"
+          ]
+        }
+      ],
+      "screenshots": [
+        "shchi-and-pie-390.png",
+        "anise-spirit-390.png"
+      ],
+      "pageErrors": []
+    }
+  ]
+}
