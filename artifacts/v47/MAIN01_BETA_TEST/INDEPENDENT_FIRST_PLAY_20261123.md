@@ -23,7 +23,12 @@ The fresh-context browser check completed the opening objective and reached the 
 
 - No gameplay defect was reproduced in this route, so no game code was changed.
 - The first subagent browser attempt stopped at the menu because its probe queried a missing `#map-name` selector. This was a test-driver problem, not a game failure; the fresh-context replay used the actual visible UI and reached the next objective.
-- This is a partial beta route. It does not verify the full MAIN01 story, its endings, AI dialogue, or later branch recovery.
+- The context-isolated first-play check is partial: it does not test AI dialogue or ending presentation. Separately, the deterministic browser campaign replay resolved all 12 MAIN01 beats on both authored routes:
+
+  - **NORMAL:** 12/12 beats, 9 unique possessed hosts, 6 maps, 17 transitions, 0 page errors.
+  - **ALTERNATE:** 12/12 beats, 9 unique possessed hosts, 6 maps, 14 transitions, 0 page errors.
+
+- These scripted full-route replays verify beat completion and branch recovery; they are not blind playtests and do not verify the five global endings.
 
 ## Evidence
 
@@ -41,3 +46,8 @@ Screenshots are in `artifacts/v47/MAIN01_INDEPENDENT_FIRST_PLAY/`:
 - `08-role-action-mobile.png`
 
 Replay command: `node scripts/v47-main01-first-play-browser.mjs` (requires the `dist-v33` build and installed Chrome).
+
+Full-route browser results:
+
+- `artifacts/v47/MAIN01_FULL_NORMAL_RECHECK_20261123/V47_NORMAL_MAIN01_BROWSER_CAMPAIGN.json`
+- `artifacts/v47/MAIN01_FULL_ALTERNATE_RECHECK_20261123/V47_ALTERNATE_MAIN01_BROWSER_CAMPAIGN.json`
