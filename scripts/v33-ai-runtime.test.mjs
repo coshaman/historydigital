@@ -126,6 +126,15 @@ test('an authored discussion question reaches the AI with its verified scene and
   assert.ok(input.conversation.sceneContext.discussionContext.situationKo);
   assert.match(instructions, /첫 답부터 질문에 직접 답하고/);
 
+  const paraphrased = '교정자가 그 문장을 옮길 때 어디까지 책임져야 해요?';
+  const typed = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: opened.body.sessionToken,
+    requestId: 'authored-inquiry-paraphrase', playerInput: paraphrased, actorRelations: {}, actorActions: [],
+    sceneContext: { date: '1847-06-01', mapId: 'printshop', questId: 'PRINTSHOP_PROOF_1847',
+      discussionId: 'INQUIRY_CENSORSHIP_AND_LABOR' } }));
+  assert.equal(typed.status, 200, JSON.stringify(typed.body));
+  assert.equal(input.playerInput, paraphrased, 'the model sees the player’s phrasing');
+  assert.equal(input.conversation.sceneContext.discussionContext.questionKo, prompt, 'the authored issue remains the reference');
+
   const secondSession = await service.handle(request('POST', '/api/rpg/session/start', { hostId: 'printer_ekaterina', actorHostId: 'seamstress_anna' }));
   const tampered = await service.handle(request('POST', '/api/rpg/dialogue', { sessionToken: secondSession.body.sessionToken,
     requestId: 'authored-inquiry-context-0002', playerInput: '요즘 날씨가 참 좋네요.', actorRelations: {}, actorActions: [],

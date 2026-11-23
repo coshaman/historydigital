@@ -559,7 +559,7 @@ function authoredDialogueCues(card) {
     ...(card.persistentPersonalGoals ?? []).flatMap(goal => [goal.descriptionKo, ...(goal.autonomyStages ?? []).map(stage => stage.activityKo)])].filter(Boolean));
   return { activities, aims };
 }
-function normalizeSceneContext(value, actorHostId, speakerCard = null, playerInput = '') {
+async function normalizeSceneContext(value, actorHostId, speakerCard = null, playerInput = '') {
   const embodiedCard = actorHostId ? cards.get(actorHostId) : null;
   const empty = { date: null, mapId: null, placeKo: null, questId: null, questTitleKo: null,
     activityKo: null, currentAimKo: null, hungerBand: null, fatigueBand: null, healthCondition: null, heardRumors: [], heardEvents: [], playerHistoricalEvents: [],
@@ -579,7 +579,13 @@ function normalizeSceneContext(value, actorHostId, speakerCard = null, playerInp
   if (value.discussionId !== undefined && value.discussionId !== null) {
     const inquiry = discussionQuestDefinitions.find(item => item.id === value.discussionId && item.date <= date);
     const prompt = inquiry?.hosts?.[speakerCard?.id]?.promptKo;
-    if (!inquiry || !prompt || prompt !== playerInput) return null;
+    if (!inquiry || !prompt) return null;
+    if (prompt !== playerInput) {
+      const { resolveQueuedDiscussionPrompt } = await import('../../rpg/engine/discussion-quests.mjs');
+      const recognized = resolveQueuedDiscussionPrompt({ questId: inquiry.id, hostId: speakerCard.id, promptKo: prompt },
+        [inquiry], speakerCard.id, playerInput);
+      if (!recognized) return null;
+    }
     const linkedQuest = inquiry.contextQuestId ? questRecords.get(inquiry.contextQuestId) : null;
     const sourceTitles = (inquiry.sourceIds ?? []).filter(sourceId => sourceAvailableAtDate(sourceId, date))
       .map(sourceId => sourceRecords.get(sourceId)?.titleKo).filter(Boolean);
@@ -793,7 +799,7 @@ function createRpgAiService({ secret, store, allowedOrigins = [], provider = nul
       questId: null, questTitleKo: historical.objective?.titleKo ?? null, activityKo: null,
       currentAimKo: historical.objective?.actionKo ?? null, hungerBand: null, fatigueBand: null, healthCondition: null,
       heardRumors: [], heardEvents: [], playerHistoricalEvents: [], playerKnowledgeIds: [] }
-      : normalizeSceneContext(body.sceneContext, context.actorHostId, card, inputKo);
+      : await normalizeSceneContext(body.sceneContext, context.actorHostId, card, inputKo);
     if (!sceneContext) { await store.release(sessionId, body.requestId, time); return response(400, { error: 'invalid_scene_context' }, request.origin, allowedOrigins); }
     if (globalLimiter ? !(await globalLimiter.consume(time)) : !(await store.consumeGlobal(time))) { await store.release(sessionId, body.requestId, time); return response(429, { error: 'global_rate_limit' }, request.origin, allowedOrigins); }
     const v47Quest = v47StoryQuestsById.get(sceneContext.questId);
