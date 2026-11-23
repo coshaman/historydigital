@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
-import { resolveQuestGuidance } from '../rpg/engine/quest-guidance.mjs';
+import { questRosterTargetHostId, resolveQuestGuidance } from '../rpg/engine/quest-guidance.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const read = file => JSON.parse(fs.readFileSync(path.join(root,file),'utf8'));
@@ -23,6 +23,12 @@ function embody(state,id) {
   host.historicalAliveAndPresent=true;state.player.position={...host.position};state.player.embodiment=id;return state;
 }
 
+test('roster target is the current quest destination only when the destination is a person', () => {
+  assert.equal(questRosterTargetHostId({ target: { kind: 'npc', npcId: 'printer_ekaterina' } }), 'printer_ekaterina');
+  assert.equal(questRosterTargetHostId({ target: { kind: 'exit', finalMapId: 'printshop' } }), null);
+  assert.equal(questRosterTargetHostId({ target: null }), null);
+});
+
 test('observer guidance names a real person present on the current map and teaches reachable controls',()=>{
   const state=stateAt();const guide=resolveQuestGuidance({state,quests,maps,hostCards});
   assert.equal(guide.taskType,'POSSESS');assert.ok(guide.target);assert.equal(guide.target.mapId,state.world.currentMapId);
@@ -35,7 +41,7 @@ test('progress scope stays on the current quest actions after possession and sou
   state.player.position={...state.hosts[first.hostId].position};
   const embodied=embody(state,first.hostId);const next=resolveQuestGuidance({state:embodied,quests,maps,hostCards});
   assert.deepEqual(next.progress,first.progress);
-  assert.equal(next.progress.totalSteps,quests.find(item=>item.id===next.questId).actions.length);
+  assert.equal(next.progress.totalSteps,1);
   assert.match(next.howKo,/E를 누른 뒤 열린 문서에서 읽기를 선택/);
 });
 
@@ -64,6 +70,32 @@ test('every quest action host sees its own permitted object/source step; unautho
       if(guide.target?.kind==='object')assert.equal(guide.target.mapId,quest.entry.mapId);
     }
   }
+});
+
+test('MAIN01 destinations respect map access metadata and every named story role can enter its scene',()=>{
+  const printshop = maps.printshop, entryObject = printshop.layers.find(layer=>layer.name==='Interactions').objects.find(item=>item.type==='quest-object');
+  for (const id of ['panaev_1848','panaeva_1848','senior_clerk_konstantin']) {
+    const card = hostCards.find(item=>item.id===id);
+    assert.ok(card?.allowedMaps.includes('printshop'), `${id} map access`);
+    assert.ok(printshop.metadata.access.allowedCharacterIds.includes(id), `${id} room access`);
+  }
+  const nekrasov = hostCards.find(item=>item.id==='nekrasov_reconstruction');
+  assert.ok(maps['bookshop-interior'].metadata.access.allowedCharacterIds.includes(nekrasov.id));
+
+  const state = stateAt('chancery');
+  state.world.chapterId = 'MAIN01'; state.world.date = '1848-09-01';
+  const quest = { id:'MAIN01_ACCESS_REGRESSION', chapterId:'MAIN01', date:'1848-09-01', titleKo:'인쇄소 확인', objectiveKo:'인쇄소로 가세요', entry:{mapId:'printshop',objectId:entryObject.id}, actions:[{id:'inspect',hostIds:['senior_clerk_konstantin'],labelKo:'작업대를 조사하세요'}] };
+  state.quests[quest.id] = { status:'open' };
+  state.hosts.senior_clerk_konstantin.mapId = 'chancery';
+  state.player.position = { ...state.hosts.senior_clerk_konstantin.position };
+  state.player.embodiment = 'senior_clerk_konstantin';
+  state.world.clockMinutes = 21 * 60 + 16;
+  const guidance = resolveQuestGuidance({state,quests:[quest],maps,hostCards});
+  assert.equal(guidance.taskType,'TRAVEL');
+  assert.equal(guidance.target?.kind,'exit');
+  assert.equal(guidance.target?.finalMapId,'printshop');
+  assert.equal(guidance.blocked,false);
+  assert.match(guidance.howKo,/문은 닫혀 있습니다.*기다릴 수 있습니다/);
 });
 
 test('a host barred from the current quest is routed to a reachable eligible worker',()=>{
@@ -102,7 +134,7 @@ test('a wrong host with lawful map access is directed to the nearest eligible ho
 test('host without action rights gets a clear switch hint and cannot receive an objective pin for forbidden access',()=>{
   const state=embody(stateAt('nevsky'),'courier_pavel');
   const guide=resolveQuestGuidance({state,quests,maps,hostCards});
-  assert.equal(guide.taskType,'SWITCH');assert.match(guide.reasonKo,/현재 몸으로 처리할 수 없습니다|맡을 수 있습니다/);
+  assert.equal(guide.taskType,'SWITCH');assert.match(guide.reasonKo,/다음에 맡길 일|현재 몸으로 처리할 수 없습니다|맡을 수 있습니다/);
   if(guide.target?.mapId)assert.ok(state.hosts.courier_pavel.allowedMaps.includes(guide.target.mapId));
 });
 

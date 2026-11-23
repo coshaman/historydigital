@@ -36,6 +36,8 @@
 .dialogue-speaker{display:flex;align-items:center;gap:10px;margin:6px 0 4px;color:#d5b579;font-size:13px}.dialogue-speaker[hidden]{display:none}.dialogue-speaker img{width:64px;height:64px;flex:none;object-fit:cover;image-rendering:pixelated;border:1px solid #9b774e;box-shadow:3px 3px 0 #100c09}.lower.is-talking .journal p{max-height:22vh;overflow-y:auto;overscroll-behavior:contain}@media(max-width:760px){.dialogue-speaker{margin:4px 0}.dialogue-speaker img{width:48px;height:48px}}
 .actions.roster-options{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:7px;max-height:min(40dvh,390px);overflow:auto;overscroll-behavior:contain;padding:3px 7px 4px 0}
 .actions .roster-card{display:grid;grid-template-columns:42px minmax(0,1fr);align-items:center;gap:10px;min-width:0;max-width:none;padding:8px;text-align:left;background:#2a211b;border-color:#735637}
+.actions .roster-card.is-quest-target{border-color:#d5b16e;background:#382b1d;box-shadow:inset 3px 0 #d5b16e,0 0 0 1px #d5b16e66}
+.roster-card-copy .roster-card-quest-target{display:block;width:max-content;padding:1px 6px;border:1px solid #a98548;border-radius:2px;color:#f0d59b;font:700 11px/1.5 'Noto Serif KR',serif}
 .roster-card>img{width:42px;height:52px;object-fit:cover;border:1px solid #8b6b43;background:#171310}
 .roster-card-copy{display:grid;gap:2px;min-width:0}
 .roster-card-copy strong{font:15px 'Noto Serif KR',serif;color:#f0dfbd}
@@ -49,3 +51,13 @@
 @media(max-width:760px){.actions.roster-options{grid-template-columns:minmax(0,1fr);max-height:min(38dvh,310px)}}
 @media(max-width:600px){.topline{display:grid;grid-template-columns:minmax(0,1fr);align-items:start;gap:8px}.topline>div:first-child{min-width:0}.topline h1{white-space:nowrap;font-size:22px}.top-meta{justify-content:flex-start;flex-wrap:wrap;gap:6px;text-align:left}.top-meta button{padding:6px 8px}}
  .actions button.quest-dialogue-choice{border-color:#d2a85e;background:#584027;color:#fff0cb;box-shadow:inset 3px 0 #d2a85e}.actions button.quest-dialogue-choice small{display:block;color:#e2c994;line-height:1.45;margin-top:3px}
+/* Give the physical typesetting puzzle room in the grid, not just a taller inner scroll area. */
+@media(min-width:761px){.game-shell:has(.lower.has-typesetter){grid-template-rows:auto minmax(180px,.55fr) minmax(390px,1.45fr) auto}}
+@media(max-width:760px){.game-shell:has(.lower.has-typesetter){grid-template-rows:auto minmax(150px,.5fr) minmax(420px,1.4fr)}.game-shell:has(.lower.has-typesetter) .playfield{min-height:150px}}
+@media(max-width:760px){.lower:has(.actions.type-setter-active) .touch-pad{display:none}}
+@media(max-width:760px){.lower:has(.actions.type-setter-active) .section-head{display:none}}
+@media(max-width:760px){.lower:has(.actions.type-setter-active) .journal h2,.lower:has(.actions.type-setter-active) .journal p{display:none}}
+
+.v47-story-tabs{display:flex;flex-wrap:wrap;gap:6px;min-width:0;margin:0 0 10px}.v47-story-tabs button{flex:1 1 30%;min-width:0;white-space:normal;line-height:1.3;padding:6px 8px;font-size:clamp(10px,.85vw,13px)}@media(max-width:600px){.v47-story-tabs{gap:4px}.v47-story-tabs button{flex-basis:100%;text-align:left;font-size:11px;padding:5px 8px}}
+.startup-loading{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#211a16;color:#e4d5b4;font:clamp(18px,2.5vw,26px) 'Noto Serif KR',serif;letter-spacing:.08em;pointer-events:all}
+html[data-game-ready="true"] .startup-loading{display:none}

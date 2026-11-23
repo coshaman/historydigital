@@ -88,7 +88,7 @@
   "schedule": [
     {
       "atMinute": 540,
-      "mapId": "inn-interior",
+      "mapId": "fortress-cell",
       "position": {
         "x": 13,
         "y": 8
@@ -116,18 +116,15 @@
       },
       "activityKo": "수감 생활을 이어 간다",
       "activeFromDate": "1849-05-06",
-      "activeThroughDate": "1849-12-21"
+      "activeThroughDate": "1850-01-02"
     },
     {
       "atMinute": 420,
-      "mapId": "semenovsky-square",
-      "position": {
-        "x": 15,
-        "y": 10
-      },
-      "activityKo": "광장으로 호송된다",
-      "activeFromDate": "1849-12-22",
-      "activeThroughDate": "1849-12-22"
+      "mapId": "fortress-cell",
+      "position": { "x": 7, "y": 6 },
+      "activityKo": "호송을 기다린다",
+      "activeFromDate": "1850-01-03",
+      "activeThroughDate": "1850-01-03"
     }
   ],
   "portrait": {
@@ -156,12 +153,12 @@
   "wealthBracketStatus": "인용한 편집 공고는 개인 재산을 밝히지 않는다.",
   "presenceWindow": {
     "startDate": "1849-04-27",
-    "endDate": "1849-12-22",
+    "endDate": "1850-01-03",
     "start": {
-      "mapId": "inn-interior",
+      "mapId": "fortress-cell",
       "position": {
-        "x": 13,
-        "y": 8
+        "x": 7,
+        "y": 6
       }
     }
   }

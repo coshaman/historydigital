@@ -1,15 +1,32 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { createRequire } from 'node:module';
 import { campaignForV47StoryProgress, v47StoryMenuEntries, resolveV47StoryEntry, resolveV47StoryMenuEntries, startV47StoryEntry } from '../rpg/engine/v47-story-entry.mjs';
-import { toV47StoryQuests } from '../rpg/data/v47-story-beats.mjs';
-import { v47StoryQuests } from '../rpg/data/v47-main-stories.mjs';
-import { readFile } from 'node:fs/promises';
+import { toV47StoryQuests, attachV47StoryBeatObjects } from '../rpg/data/v47-story-beats.mjs';
+import { v47StoryQuests, attachV47StoryObjects } from '../rpg/data/v47-main-stories.mjs';
+import { resolveQuestGuidance } from '../rpg/engine/quest-guidance.mjs';
+import { readFile, readdir } from 'node:fs/promises';
 import { CITY_PRODUCTS, purchaseCityProduct } from '../rpg/engine/civic-life.mjs';
 import { createMain01PrintworkState, main01PrintworkStage } from '../rpg/engine/v47-printwork.mjs';
 
 const quests = [...v47StoryQuests, ...toV47StoryQuests()];
+const europeNewsQuest = JSON.parse(await readFile(new URL('../rpg/quests/europe-news-1848.json', import.meta.url), 'utf8'));
+const semenovskyQuest = JSON.parse(await readFile(new URL('../rpg/quests/dostoevsky-execution-1849.json', import.meta.url), 'utf8'));
+quests.push(europeNewsQuest, semenovskyQuest);
 const campaign = JSON.parse(await readFile(new URL('../rpg/quests/campaign.json', import.meta.url), 'utf8'));
 const printshopQuest = JSON.parse(await readFile(new URL('../rpg/quests/printshop-article.json', import.meta.url), 'utf8'));
+const mapFiles = (await readdir(new URL('../rpg/maps/', import.meta.url))).filter(file => file.endsWith('.json'));
+const maps = Object.fromEntries(await Promise.all(mapFiles.map(async file => {
+  const map = JSON.parse(await readFile(new URL(`../rpg/maps/${file}`, import.meta.url), 'utf8'));
+  return [map.mapId, map];
+})));
+const characterFiles = (await readdir(new URL('../rpg/characters/', import.meta.url))).filter(file => file.endsWith('.json'));
+const hostCards = await Promise.all(characterFiles.map(file => readFile(new URL(`../rpg/characters/${file}`, import.meta.url), 'utf8').then(JSON.parse)));
+attachV47StoryObjects(maps);
+attachV47StoryBeatObjects(maps, quests.filter(quest => quest.storyId));
+const require = createRequire(import.meta.url);
+require('../rpg/engine/game-state.js');
+const game = globalThis.V33GameState;
 
 test('history menu exposes all three V47 main stories with player-facing names', () => {
   const entries = v47StoryMenuEntries();
@@ -29,7 +46,8 @@ test('MAIN01 selection starts its dated story instead of gating it behind 1847 c
 
 test('starting MAIN01 moves the player to its first scene and keeps a character in its role cast', () => {
   const state = {
-    world: { chapterId: 'V33_1847_PRINT', date: '1847-06-01', currentMapId: 'nevsky', clockMinutes: 540, v47: {} },
+    world: { chapterId: 'V33_1847_PRINT', date: '1847-06-01', currentMapId: 'nevsky', clockMinutes: 15 * 60,
+      v47: { stories: { MAIN03: { currentEventId: 'V47_MAIN03_P01' } } } },
     player: { embodiment: 'courier_pavel', position: { x: 22, y: 10 } },
     hosts: {
       courier_pavel: { id: 'courier_pavel', mapId: 'nevsky', position: { x: 22, y: 10 }, historicalAliveAndPresent: true },
@@ -59,6 +77,17 @@ test('MAIN01 date progression ignores unrelated earlier quests in its shared cha
   assert.ok(!focusedChapter.questIds.includes('V47_MAIN03_P01'));
   assert.deepEqual(campaign.arcs.find(arc => arc.id === chapter.id).questIds, chapter.questIds,
     'scoping one story must not mutate the shared campaign timeline');
+});
+
+test('MAIN03 progression retains the historical E41 prerequisite required to open its Semenovsky finale', () => {
+  const chapter = campaign.arcs.find(arc => arc.id === 'V33_1849_CIRCLE');
+  const focused = campaignForV47StoryProgress(campaign, 'MAIN03', chapter.id, quests);
+  const focusedChapter = focused.arcs.find(arc => arc.id === chapter.id);
+  assert.ok(focusedChapter.questIds.includes('V47_MAIN03_P10'));
+  assert.ok(focusedChapter.questIds.includes('E41_SEMENOVSKY_1849'), 'the P11 prerequisite must remain reachable after P10');
+  assert.ok(focusedChapter.optionalQuestIds.includes('V47_MAIN03_P11'));
+  assert.equal(semenovskyQuest.date, '1850-01-03', 'the game clock uses the Gregorian date for the event');
+  assert.equal(semenovskyQuest.originalJulianDate, '1849-12-22', 'the source keeps the date written in the letter');
 });
 
 test('MAIN01 selection becomes directly actionable once its dated campaign gates are resolved', () => {
@@ -98,6 +127,179 @@ test('ready MAIN01 menu gives a direct first objective and lists playable activi
   ], 'every listed activity tells the player when, where, and how to begin');
   assert.ok(CITY_PRODUCTS.some(product => product.id === 'newsprint_sheet'));
   assert.ok(CITY_PRODUCTS.some(product => product.id === 'printing_ink'));
+});
+
+test('MAIN01 story menu replaces the opening hint with the current task after the first beat is resolved', () => {
+  const state = { world: { chapterId: 'V33_1848_PUBLIC', date: '1848-03-09' }, quests: {} };
+  state.quests.V47_MAIN01_A01 = { status: 'resolved' };
+  state.quests.V47_MAIN01_PERMISSION = { status: 'open' };
+  const entry = resolveV47StoryMenuEntries(state, quests, campaign).find(item => item.id === 'MAIN01');
+  assert.equal(entry.status, 'READY');
+  assert.equal(entry.currentTitleKo, '허가 도장과 아직 나가지 못한 책');
+  assert.match(entry.introKo, /활자/u);
+  assert.match(entry.introKo, /교정쇄/u);
+  assert.doesNotMatch(entry.introKo, /구독 장부부터 확인/u);
+});
+
+test('MAIN03 can start directly at its first dated scene without completing earlier campaign arcs', () => {
+  const state = {
+    world: { chapterId: 'V33_1847_PRINT', date: '1847-06-01', currentMapId: 'nevsky', clockMinutes: 540, v47: {} },
+    player: { embodiment: null, position: { x: 2, y: 2 } },
+    hosts: Object.fromEntries(hostCards.map(card => [card.id, {
+      id: card.id, mapId: 'nevsky', position: { x: 4, y: 4 }, historicalAliveAndPresent: true,
+      ...(card.presenceWindow ? { presenceWindow: card.presenceWindow } : {}),
+    }])),
+    quests: {}, ledger: [],
+  };
+  const entry = resolveV47StoryMenuEntries(state, quests, campaign).find(item => item.id === 'MAIN03');
+  assert.equal(entry.statusLabelKo, '지금 시작');
+  assert.equal(entry.currentQuestId, 'V37_EUROPE_NEWS_1848');
+  const firstQuest = quests.find(quest => quest.id === 'V37_EUROPE_NEWS_1848');
+  const result = startV47StoryEntry(state, 'MAIN03', quests, campaign, maps);
+  assert.equal(result.ok, true, result.reason);
+  assert.equal(result.state.world.chapterId, firstQuest.chapterId);
+  assert.equal(result.state.world.date, firstQuest.date);
+  assert.equal(result.state.world.clockMinutes, 540, 'a directly started dated story opens at a playable morning time');
+  assert.equal(result.state.world.v47.stories.MAIN03.currentEventId, firstQuest.id,
+    'direct start replaces a stale future beat pointer with the earliest unresolved historical scene');
+  assert.equal(result.state.world.currentMapId, firstQuest.entry.mapId);
+  assert.equal(result.state.player.embodiment, 'clerk_alexei', 'the opening role follows the dated scene action');
+  assert.equal(state.world.date, '1847-06-01', 'starting MAIN03 leaves the previous save unchanged');
+});
+
+test('MAIN01 guidance still finds the exit when a temporary crowd surrounds the selected editor', () => {
+  const map = maps.nevsky;
+  const state = game.createInitialState({ maps, hostCards, quests, startMapId: 'nevsky' });
+  state.world.chapterId = 'V33_1848_PUBLIC';
+  state.world.date = '1848-03-09';
+  state.world.clockMinutes = 751;
+  state.world.currentMapId = 'nevsky';
+  state.world.v47.focusStoryId = 'MAIN01';
+  state.quests.V47_MAIN01_A01 = { status: 'resolved' };
+  state.quests.V47_MAIN01_PERMISSION = { status: 'open' };
+  state.player.embodiment = 'editor_sofia';
+  state.player.position = { x: 20, y: 13 };
+  state.hosts.editor_sofia.mapId = 'nevsky';
+  state.hosts.editor_sofia.position = { ...state.player.position };
+  const collision = map.layers.find(layer => layer.name === 'Collision').data;
+  const occupied = [
+    ['bookseller_lev', -1, 0], ['printer_ekaterina', 1, 0],
+    ['print_apprentice_stepan', 0, -1], ['nekrasov_reconstruction', 0, 1],
+  ];
+  for (const [hostId, dx, dy] of occupied) {
+    const x = state.player.position.x + dx, y = state.player.position.y + dy;
+    if (collision[y * map.width + x] !== 0) continue;
+    state.hosts[hostId].historicalAliveAndPresent = true;
+    state.hosts[hostId].mapId = 'nevsky';
+    state.hosts[hostId].position = { x, y };
+  }
+  const guide = resolveQuestGuidance({ state, quests, maps, hostCards });
+  assert.equal(guide.blocked, false);
+  assert.equal(guide.target?.kind, 'exit');
+  assert.equal(guide.target?.finalMapId, 'printshop');
+  assert.match(guide.howKo, /칸 이동한 뒤 E를 누르세요/);
+});
+
+test('MAIN01 role-switch guidance names the action the selected character can actually complete', () => {
+  const state = game.createInitialState({ maps, hostCards, quests, startMapId: 'nevsky' });
+  state.world.chapterId = 'V33_1848_PUBLIC';
+  state.world.date = '1848-03-09';
+  state.world.currentMapId = 'nevsky';
+  state.world.v47.focusStoryId = 'MAIN01';
+  state.quests.V47_MAIN01_A01 = { status: 'resolved' };
+  state.quests.V47_MAIN01_PERMISSION = { status: 'open' };
+  state.player.embodiment = 'bookseller_lev';
+  state.hosts.bookseller_lev.mapId = 'nevsky';
+  state.hosts.bookseller_lev.position = { x: 10, y: 10 };
+  state.player.position = { ...state.hosts.bookseller_lev.position };
+
+  const guide = resolveQuestGuidance({ state, quests, maps, hostCards });
+  const targetId = hostCards.find(card => guide.actionKo.includes(card.displayNameKo))?.id;
+  const targetCard = hostCards.find(card => card.id === targetId);
+  const targetTask = quests.find(quest => quest.id === guide.questId)?.actions
+    .find(action => action.hostIds.includes(targetId))?.labelKo;
+  assert.ok(targetCard, 'the guide should point to an eligible character');
+  assert.ok(targetTask, 'the target character should have a concrete MAIN01 task');
+  assert.ok(guide.reasonKo.includes(targetTask), `the journal should name the task: ${guide.reasonKo}`);
+  assert.ok(guide.howKo.includes(targetTask), 'the route guidance should repeat the task to do after arrival');
+  assert.match(guide.howKo, /완료/u, 'the journal should explain how to record completion');
+});
+
+test('MAIN01 printwork guidance explains the seven physical stages and when the quest step is recorded', () => {
+  const state = game.createInitialState({ maps, hostCards, quests, startMapId: 'printshop' });
+  state.world.chapterId = 'V33_1848_PUBLIC';
+  state.world.date = '1848-03-09';
+  state.world.currentMapId = 'printshop';
+  state.world.v47.focusStoryId = 'MAIN01';
+  state.quests.V47_MAIN01_A01 = { status: 'resolved' };
+  state.quests.V47_MAIN01_PERMISSION = { status: 'open' };
+  state.player.embodiment = 'printer_ekaterina';
+  state.hosts.printer_ekaterina.mapId = 'printshop';
+  const printTarget = maps.printshop.layers.find(layer => layer.name === 'Interactions').objects
+    .find(object => object.id === quests.find(quest => quest.id === 'V47_MAIN01_PERMISSION').entry.objectId);
+  state.hosts.printer_ekaterina.position = { x: Math.floor(printTarget.x / 16), y: Math.floor(printTarget.y / 16) };
+  state.player.position = { ...state.hosts.printer_ekaterina.position };
+
+  const guide = resolveQuestGuidance({ state, quests, maps, hostCards });
+  assert.equal(guide.blocked, false);
+  assert.deepEqual(guide.progress, { completedSteps: 0, totalSteps: 1 }, 'the three role actions are alternative ways to resolve one objective');
+  assert.match(guide.actionKo, /인쇄 작업 1\/7/u);
+  assert.match(guide.howKo, /7단계를 모두 끝낸 뒤.*교정쇄와 활자 수/u);
+
+  state.world.v47.printwork = { ...createMain01PrintworkState(), step: 4 };
+  const midway = resolveQuestGuidance({ state, quests, maps, hostCards });
+  assert.match(midway.actionKo, /인쇄 작업 5\/7.*서점에 출고 보류 알리기/u);
+
+  state.world.v47.printwork = { ...createMain01PrintworkState(), step: 7, status: 'COMPLETE' };
+  const finished = resolveQuestGuidance({ state, quests, maps, hostCards });
+  assert.match(finished.actionKo, /교정쇄와 활자 수를 맞춘다 · 인쇄 작업 완료/u);
+  assert.match(finished.howKo, /선택하면 이 목표가 완료/u);
+
+  state.player.embodiment = 'clerk_alexei';
+  state.hosts.clerk_alexei.mapId = 'printshop';
+  state.hosts.clerk_alexei.position = { ...state.player.position };
+  const alternateRole = resolveQuestGuidance({ state, quests, maps, hostCards });
+  assert.match(alternateRole.actionKo, /허가 도장을 장부에 옮긴다/u);
+  assert.match(alternateRole.howKo, /「허가 도장을 장부에 옮긴다」를 선택/u);
+});
+
+test('MAIN01 courier can enter the bookstore for the reservation quest assigned to Pavel', () => {
+  const state = game.createInitialState({ maps, hostCards, quests, startMapId: 'bookshop-lane' });
+  state.world.chapterId = 'V33_1848_PUBLIC';
+  state.world.date = '1848-04-28';
+  state.world.clockMinutes = 12 * 60;
+  state.world.currentMapId = 'bookshop-lane';
+  state.player.embodiment = 'courier_pavel';
+  state.player.position = { x: 11, y: 11 };
+  state.hosts.courier_pavel.mapId = 'bookshop-lane';
+  state.hosts.courier_pavel.position = { ...state.player.position };
+
+  const result = game.transitionMap(state, 'bookshop-lane-bookshop', maps);
+  assert.equal(result.ok, true, `Pavel should be allowed into the bookstore for MAIN01: ${result.reason}`);
+  assert.equal(result.state.world.currentMapId, 'bookshop-interior');
+});
+
+test('MAIN01 roster possession recovers a host spawned on a blocked tile before routing to the source', () => {
+  const storyQuest = {
+    id: 'V47_MAIN01_A03', chapterId: 'V33_1848_PUBLIC', date: '1848-05-06',
+    titleKo: '작품의 가족을 두고 말하다', entry: { mapId: 'printshop', objectId: 9062 },
+    actions: [{ id: 'READ_TALNIKOV', hostIds: ['editor_sofia'], requiredKnowledgeId: 'V47-PANAEVA-TALNIKOV-CH1-1848' }],
+  };
+  const state = game.createInitialState({ maps, hostCards, quests: [storyQuest], startMapId: 'nevsky' });
+  state.world.chapterId = 'V33_1848_PUBLIC';
+  state.world.date = '1848-05-18';
+  state.world.clockMinutes = 12 * 60;
+  state.world.currentMapId = 'nevsky';
+  state.hosts.editor_sofia.historicalAliveAndPresent = true;
+  state.hosts.editor_sofia.mapId = 'nevsky';
+  state.hosts.editor_sofia.position = { x: 14, y: 1 };
+
+  const possessed = game.possessHostFromRoster(state, 'editor_sofia', maps);
+  assert.equal(possessed.ok, true, possessed.reason);
+  const guide = resolveQuestGuidance({ state: possessed.state, quests: [storyQuest], maps, hostCards });
+  assert.equal(guide.blocked, false, guide.blockedReasonKo);
+  assert.equal(guide.target?.kind, 'exit');
+  assert.equal(possessed.state.hosts.editor_sofia.position.y > 1, true);
 });
 
 test('MAIN01 purchase activity uses a real city-stall transaction with inventory and money changes', () => {

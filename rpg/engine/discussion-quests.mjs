@@ -76,6 +76,31 @@ export function discussionQuestInstruction(quest, hostNames = {}) {
   };
 }
 
+export function discussionFollowUpAfterTurn(quest, hostNames = {}) {
+  if (!quest) return null;
+  const instruction = discussionQuestInstruction(quest, hostNames);
+  if (instruction?.phase === 'ASK') return {
+    phase: 'ASK',
+    queuedInquiry: {
+      questId: quest.id,
+      hostId: instruction.hostId,
+      hostNameKo: instruction.hostNameKo,
+      titleKo: quest.titleKo,
+      promptKo: instruction.promptKo,
+      progressKo: `${quest.perspectiveHostIds?.length ?? 0}/${quest.requiredPerspectiveCount ?? 2} 관점`,
+      completedPerspectives: quest.perspectiveHostIds?.length ?? 0,
+      requiredPerspectives: quest.requiredPerspectiveCount ?? 2,
+      stakesKo: quest.stakesKo ?? '',
+    },
+    statusKo: `질문 답변 기록 · ${quest.perspectiveHostIds?.length ?? 0}/${quest.requiredPerspectiveCount ?? 2}명. 다음은 ${instruction.hostNameKo}에게 “${instruction.promptKo}”라고 물어보세요.`,
+  };
+  return {
+    phase: 'RECORD_POSITION',
+    queuedInquiry: null,
+    statusKo: '필요한 답을 모두 기록했습니다. 수첩에서 내 입장을 고르면 이 퀘스트가 끝납니다.',
+  };
+}
+
 export function formatDiscussionQuestTaskKo(instruction, { placeKo = '', travelHowKo = '' } = {}) {
   if (!instruction) return '';
   if (instruction.phase === 'RECORD_POSITION')
@@ -88,7 +113,7 @@ export function formatDiscussionQuestTaskKo(instruction, { placeKo = '', travelH
     `1단계 · ${instruction.hostNameKo}에게 말 걸기${placeKo ? ` · ${placeKo}` : ''}`,
     travelHowKo ? `이동 · ${travelHowKo}` : '',
     `질문 · “${instruction.promptKo}”를 고르거나 같은 내용을 직접 물으세요.`,
-    `진행 인정 · 답변을 받으면 ${count + 1}/${required} 관점 기록. 인사·대화창 열기만으로는 진행되지 않으며, AI 답변 실패 시 다시 질문해야 합니다.`,
+    `진행 · 답변을 받으면 ${count + 1}/${required} 관점이 기록됩니다. 인사만으로는 기록되지 않습니다.`,
     instruction.nextHostNameKo && instruction.nextPromptKo ? `다음 · ${instruction.nextHostNameKo}에게 “${instruction.nextPromptKo}”라고 물으세요.` : '',
     `완료 · 서로 다른 ${required}명의 답을 들은 뒤 수첩에서 「${instruction.quest?.titleKo ?? instruction.questTitleKo ?? '이 쟁점'}」의 입장을 선택해 기록하세요 (${count}/${required}명 답변).`,
   ].filter(Boolean).join('\n');
@@ -133,6 +158,16 @@ export function resolveQueuedDiscussionPrompt(queuedInquiry, quests, hostId, pla
   if (!quest) return null;
   const plainText = String(playerText).trim();
   if (/^(?:안녕하세요[!.?。]?|안녕하십니까[!.?。]?|좋은 아침(?:입니다)?[!.?。]?|잠깐 이야기 나눠도 될까요[!.?。]?|오늘은 무슨 일로 바쁘세요[!.?。]?|요즘 지내는 이야기를 들려주세요[!.?。]?)$/u.test(plainText)) return null;
+  const stripKoreanEnding = token => token.replace(/(?:에게서|에서는|으로는|이라면|라면|다면|습니까|인가요|까요|에게|에서|으로|부터|까지|은|는|이|가|을|를|의|에|와|과|도|만|로|고|면|서|다|요|오|죠)$/u, '');
+  const ignored = new Set(['좋', '담', '못', '그', '누구', '무엇', '어떤', '어떻게', '어디', '우리', '당신', '것']);
+  const relatedTerms = [['책', '도서', '읽기'], ['비싸', '값', '가격', '저렴', '싸'], ['품삯', '임금', '월급']];
+  const topicTerms = [...new Set((queuedInquiry.promptKo ?? quest.hosts[hostId].promptKo).match(/[가-힣]{2,}/gu)
+    .map(stripKoreanEnding).filter(term => (term.length >= 2 || relatedTerms.some(group => group.includes(term))) && !ignored.has(term)))];
+  const playerTerms = new Set((plainText.match(/[가-힣]{2,}/gu) ?? []).map(stripKoreanEnding).filter(Boolean));
+  const matchesPlayer = term => playerTerms.has(term) || [...playerTerms].some(word => word.includes(term) || term.includes(word));
+  const overlap = topicTerms.filter(term => matchesPlayer(term)
+    || relatedTerms.some(group => group.includes(term) && group.some(alias => matchesPlayer(alias)))).length;
+  if (plainText !== (queuedInquiry.promptKo ?? quest.hosts[hostId].promptKo) && overlap < Math.min(2, topicTerms.length)) return null;
   return { discussionId: quest.id, questTitleKo: quest.titleKo, promptKo: quest.hosts[hostId].promptKo };
 }
 

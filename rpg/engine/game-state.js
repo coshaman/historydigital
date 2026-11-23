@@ -191,6 +191,12 @@ function advanceFoodDeprivation(state, minuteOffset, maps, careRows) {
   for (const host of Object.values(state.hosts)) {
     if (host.kind !== 'FICTIONAL' || host.historicalAliveAndPresent === false || host.lifeStatus === 'DECEASED') continue;
     host.needs ??= initialNpcNeeds(host, state.world.clockMinutes);
+    // Unknown finances are not evidence that a resident cannot obtain food.
+    // Keep the survival model from turning unrecorded wealth into starvation.
+    if (!Number.isFinite(host.money?.amount) || typeof host.money?.unit !== 'string') {
+      host.needs.foodDeprivationMinutes = 0;
+      continue;
+    }
     if (host.needs.hunger < 100) { host.needs.foodDeprivationMinutes = 0; continue; }
     host.needs.foodDeprivationMinutes = Math.min(FOOD_DEPRIVATION_FATAL_MINUTES, (host.needs.foodDeprivationMinutes ?? 0) + 1);
     const deprivationMinutes = host.needs.foodDeprivationMinutes;
@@ -3619,6 +3625,29 @@ function selectV47GatheringGoal(state, host, maps) {
 
 function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
   const localMinute = ((state.world.clockMinutes % 1440) + 1440) % 1440;
+  if (host.kind === 'FICTIONAL' && host.healthState?.condition === 'UNWELL' && host.needs?.hunger >= 85) {
+    const urgentFood = Object.values(state.hosts).flatMap(seller => seller.id !== host.id
+      && seller.id !== state.player.embodiment && seller.historicalAliveAndPresent !== false
+      && host.allowedMaps.includes(seller.mapId) && seller.money?.unit === host.money?.unit
+      && npcMapRoute(host.mapId, seller.mapId, host, maps, state.world.clockMinutes) !== null
+      ? (seller.marketOffers ?? []).filter(offer => offer.category === 'food'
+        && seller.money?.unit === offer.unit
+        && (seller.marketStock?.[offer.itemKo] ?? 0) - reservedMealPortions(state, seller.id, offer.itemKo, host.id) > 0
+        && Number.isInteger(marketOfferPrice(state, seller, offer)) && marketOfferPrice(state, seller, offer) > 0
+        && Number.isFinite(host.money?.amount) && host.money.amount >= marketOfferPrice(state, seller, offer)
+        && (isMarketOfferOpen(seller, offer, state.world.clockMinutes)
+          || host.activeGoal?.type === 'PURCHASE_MEAL' && host.activeGoal.targetHostId === seller.id
+            && host.activeGoal.taskId === `FOOD:${seller.id}:${offer.itemKo}`))
+        .map(offer => ({ seller, offer, travelMinutes: estimateMealWalkingMinutes(host, seller.mapId,
+          seller.position, maps, state.world.clockMinutes), price: marketOfferPrice(state, seller, offer) }))
+      : []).sort((a, b) => a.travelMinutes - b.travelMinutes || a.price - b.price || a.seller.id.localeCompare(b.seller.id))[0];
+    if (urgentFood) return { slot: { mapId: urgentFood.seller.mapId, position: { ...urgentFood.seller.position },
+      activityKo: '몸이 좋지 않아도 끼니를 구하러 시장에 간다' }, goalType: 'PURCHASE_MEAL',
+    targetHostId: urgentFood.seller.id, taskId: `FOOD:${urgentFood.seller.id}:${urgentFood.offer.itemKo}`,
+    reason: 'unwell_resident_seeks_an_available_meal_before_starvation',
+    selectionBasis: { utilityScore: 220, hunger: host.needs.hunger, price: urgentFood.price,
+      itemKo: urgentFood.offer.itemKo } };
+  }
   const v47Travel = host.v47TravelGoal;
   if (v47Travel?.status === 'EN_ROUTE' && host.historicalAliveAndPresent !== false
     && host.allowedMaps.includes(v47Travel.targetMapId) && maps?.[v47Travel.targetMapId]
@@ -4704,7 +4733,8 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
       canalTraffic.waitMinutesByHost[host.id] = (canalTraffic.waitMinutesByHost[host.id] ?? 0) + 1;
       host.currentActivityKo = '배가 지나는 동안 운하 길목에서 기다린다';
     } else if (medicallyRestricted) host.currentActivityKo = host.healthState?.condition === 'UNWELL'
-      ? '몸이 좋지 않아 일을 쉬고 있다' : '어깨를 다쳐 무거운 일을 쉬고 있다';
+      ? goal.goalType === 'PURCHASE_MEAL' && host.needs.hunger >= 85 ? '몸이 좋지 않아도 끼니를 구하러 시장에 간다' : '몸이 좋지 않아 일을 쉬고 있다'
+      : '어깨를 다쳐 무거운 일을 쉬고 있다';
     else host.currentActivityKo = host.id === 'coachman_timofey' && host.transportState?.carriageCondition === 'AT_RISK'
       && slot.workAction?.id === 'V36_COACHMAN_CHECK_FARE_BOARD'
       ? '말굽과 마차 바퀴를 손봐 다시 운행할 수 있게 한다' : slot.activityKo ?? '';
@@ -4716,7 +4746,9 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
       ? { ...scheduledWorkAction, durationMinutes: 30, outputKo: '말굽과 마차 바퀴를 손봐 운행 가능한 상태로 돌려놓는다' }
       : scheduledWorkAction;
     const atWorkplace = host.mapId === slot.mapId && nearTile(host.position, slot.position, workAction ? 2 : 1);
-    const routine = medicallyRestricted ? 'RESTING' : heldByCanalTraffic ? 'TRAVELLING'
+    const urgentFoodTravel = medicallyRestricted && host.healthState?.condition === 'UNWELL'
+      && goal.goalType === 'PURCHASE_MEAL' && host.needs.hunger >= 85;
+    const routine = medicallyRestricted && !urgentFoodTravel ? 'RESTING' : heldByCanalTraffic ? 'TRAVELLING'
       : atWorkplace ? (goal.goalType === 'PERSONAL_LIFE_FOCUS' || workAction ? 'WORKING' : routineActivityState(host.currentActivityKo, slot.task)) : 'TRAVELLING';
     const previousRoutine = host.routineState?.state ?? 'IDLE';
     const fatigueBeforeRoutine = host.needs.fatigue;
@@ -4858,7 +4890,8 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
     const before = { mapId: host.mapId, position: { ...host.position } };
     const newOrActiveInjury = state.world.livingEventStates?.E12?.status === 'ACTIVE'
       && state.world.livingEventStates.E12.porterHostId === host.id;
-    const step = medicallyRestricted || newOrActiveInjury ? null : nextNpcStep(state, host, slot, maps, reservedTiles);
+    const step = medicallyRestricted && !urgentFoodTravel || newOrActiveInjury
+      ? null : nextNpcStep(state, host, slot, maps, reservedTiles);
     if (step) { host.mapId = step.mapId; host.position = step.position; host.facing = step.facing; }
     if (before.mapId !== host.mapId || before.position.x !== host.position.x || before.position.y !== host.position.y) {
       const row = { hostId: host.id, minute: minuteOffset, scheduleId, activityKo: host.currentActivityKo, fromMapId: before.mapId, from: before.position, toMapId: host.mapId, to: { ...host.position }, viaExit: step?.viaExit ?? null,
@@ -4981,6 +5014,22 @@ function simulateNpcMinute(state, maps, options, minuteOffset, movementLog, stat
   for (const host of hosts) {
     const localMinute = ((state.world.clockMinutes % 1440) + 1440) % 1440;
     const goal = host.activeGoal;
+    const pantryIndex = host.inventory.findIndex(item => foodOfferByItem.has(item));
+    const pantryMealDue = host.id !== embodiedId && !paused.has(host.id)
+      && host.historicalAliveAndPresent !== false && host.needs?.hunger >= 60 && pantryIndex >= 0
+      && (!Number.isFinite(host.needs.lastMealAtMinute) || state.world.clockMinutes - host.needs.lastMealAtMinute >= 90);
+    if (pantryMealDue) {
+      const itemKo = host.inventory.splice(pantryIndex, 1)[0];
+      const offer = foodOfferByItem.get(itemKo);
+      const hungerBefore = host.needs.hunger;
+      host.needs.hunger = Math.max(0, hungerBefore - (Number.isFinite(offer.hungerRelief) ? offer.hungerRelief : 32));
+      host.needs.lastMealAtMinute = state.world.clockMinutes;
+      noteFoodConsumed(host, state);
+      mealRows.push({ kind: 'PANTRY_MEAL', hostId: host.id, itemKo, hungerBefore, hungerAfter: host.needs.hunger,
+        mapId: host.mapId, position: { ...host.position }, minute: minuteOffset,
+        witnessedByPlayer: playerCanObserveWorldEvent(state, host.mapId, host.position, 6, maps) });
+      continue;
+    }
     const wantsMeal = goal?.type === 'PURCHASE_MEAL' || host.id === embodiedId;
     const seller = wantsMeal ? state.hosts[goal?.targetHostId ?? 'innkeeper_irina'] : null;
     const offer = seller?.marketOffers?.find(item => item.category === 'food' && (seller.marketStock?.[item.itemKo] ?? 0) > 0
@@ -5659,6 +5708,23 @@ function nearestOpenArrival(map, preferred, hostId, hosts, world = null) {
   return null;
 }
 
+function nearestNavigableSpawn(map, preferred, hostId, hosts, world = null) {
+  if (!map || !preferred) return null;
+  const canStep = tile => canOccupy(map, tile.x, tile.y, hostId, hosts, world);
+  const exits = [...exitClearanceTiles(map)].map(key => {
+    const [x, y] = key.split(',').map(Number);
+    return { x, y };
+  });
+  const candidates = [];
+  for (let y = 0; y < map.height; y += 1) for (let x = 0; x < map.width; x += 1) {
+    const position = { x, y };
+    if (canStep(position)) candidates.push(position);
+  }
+  const distanceFromPreferred = position => Math.abs(position.x - preferred.x) + Math.abs(position.y - preferred.y);
+  candidates.sort((a, b) => distanceFromPreferred(a) - distanceFromPreferred(b));
+  return candidates.find(position => exits.some(exit => findGridPath(map, position, [exit], canStep) !== null)) ?? null;
+}
+
 function yieldBlockingResident(state, map, x, y, movingHostId) {
   const blocker = Object.values(state.hosts).find(host => host.id !== movingHostId && host.historicalAliveAndPresent !== false && host.mapId === map.mapId && host.position.x === x && host.position.y === y);
   if (!blocker) return null;
@@ -5751,7 +5817,10 @@ function possessHostFromRoster(state, hostId, maps) {
   }
   const positioned = clone(next);
   positioned.world.currentMapId = host.mapId;
-  positioned.player.position = { ...host.position };
+  const safePosition = nearestNavigableSpawn(map, host.position, hostId, positioned.hosts, positioned.world);
+  if (!safePosition) return { ok: false, reason: 'host_position_blocked', state };
+  positioned.hosts[hostId].position = { ...safePosition };
+  positioned.player.position = { ...safePosition };
   return possessHost(positioned, hostId, map);
 }
 
@@ -7797,6 +7866,18 @@ function advanceCampaignDate(state, date, campaign, quests = []) {
       occurrenceType: 'DOCUMENTED_HISTORICAL_EVENT', validationStatus: 'PRIMARY_SOURCE_VERIFIED',
       valueStatus: 'HISTORICAL_OUTCOME_FIXED', resolutionActionId: null, resolvedAtMinute: null,
     };
+    for (const actorHostId of actorHostIds) {
+      const actor = next.hosts[actorHostId];
+      if (!actor || actor.mapId === fixedEvent.venueMapId
+        && nearTile(actor.position, fixedEvent.scenePosition, 2)) continue;
+      actor.v47TravelGoal = { status: 'EN_ROUTE', targetMapId: fixedEvent.venueMapId,
+        targetPosition: { ...fixedEvent.scenePosition }, storyId: nextQuest.storyId ?? 'MAIN03',
+        questId: nextQuest.id, actionId: `FIXED_${fixedEvent.id}_ARRIVAL`,
+        taskId: `V47:TRAVEL:${nextQuest.id}:FIXED_${fixedEvent.id}_ARRIVAL:${actorHostId}`,
+        activityKo: '광장으로 이동한다', startedDate: date };
+      delete actor.plannedPath;
+      delete actor.mapRoutePlan;
+    }
     next.ledger.push({ eventId: `WORLD_EVENT_${next.ledger.length + 1}`, eventType: 'HISTORICAL_EVENT_TRIGGER', date,
       chapterId: arc.id, questId: pending, catalogEventId: fixedEvent.catalogEventId,
       stage: event.stage, sourceIds: [...event.outcomeSourceIds], outcomeFixed: true });

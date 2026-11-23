@@ -1,18 +1,22 @@
 import { questPrerequisitesMet } from './world-presentation.mjs';
+import { createMain01PrintworkState, main01PrintworkStage } from './v47-printwork.mjs';
 
 const propsOf = object => Object.fromEntries((object?.properties ?? []).map(item => [item.name, item.value]));
 const tileOf = object => ({ x: Math.floor(object.x / 16), y: Math.floor(object.y / 16) });
 const distance = (a, b) => Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
+export function questRosterTargetHostId(guidance) {
+  return guidance?.target?.kind === 'npc' ? guidance.target.npcId ?? null : null;
+}
 const questLabel = quest => quest?.socialChain ? `이웃 연쇄 · ${quest.titleKo}` : quest?.titleKo;
 const DIRECTIONS = [{ id: 'left', dx: -1, dy: 0, ko: '왼쪽' }, { id: 'right', dx: 1, dy: 0, ko: '오른쪽' }, { id: 'up', dx: 0, dy: -1, ko: '위' }, { id: 'down', dx: 0, dy: 1, ko: '아래' }];
 
-function walkPath(state, map, target, { radius = 1, targetHostId = null } = {}) {
+function walkPath(state, map, target, { radius = 1, targetHostId = null, ignoreResidents = false } = {}) {
   if (!map || !target) return null;
   const actor = state.player.embodiment ? state.hosts[state.player.embodiment] : state.player;
   const start = actor?.position;
   if (!start) return null;
   const collision = map.layers?.find(layer => layer.name === 'Collision');
-  const blocked = new Set(Object.values(state.hosts).filter(person => person.historicalAliveAndPresent && person.mapId === map.mapId && person.id !== state.player.embodiment && person.id !== targetHostId).map(person => `${person.position.x},${person.position.y}`));
+  const blocked = ignoreResidents ? new Set() : new Set(Object.values(state.hosts).filter(person => person.historicalAliveAndPresent && person.mapId === map.mapId && person.id !== state.player.embodiment && person.id !== targetHostId).map(person => `${person.position.x},${person.position.y}`));
   const isOpen = (x, y) => x >= 0 && y >= 0 && x < map.width && y < map.height && collision?.data?.[y * map.width + x] === 0 && !blocked.has(`${x},${y}`);
   const key = point => `${point.x},${point.y}`;
   const queue = [{ x: start.x, y: start.y, path: [] }], seen = new Set([key(start)]);
@@ -25,7 +29,10 @@ function walkPath(state, map, target, { radius = 1, targetHostId = null } = {}) 
       seen.add(nextKey); queue.push({ ...next, path: [...point.path, direction] });
     }
   }
-  return null;
+  if (ignoreResidents) return null;
+  const crowdFallback = walkPath(state, map, target, { radius, targetHostId, ignoreResidents: true });
+  if (crowdFallback) crowdFallback.crowdFallback = true;
+  return crowdFallback;
 }
 function pathKo(path) {
   if (!path?.length) return '목적지 곁에 있습니다.';
@@ -35,10 +42,36 @@ function pathKo(path) {
     if (last?.id === direction.id) last.count++;
     else groups.push({ id: direction.id, ko: direction.ko, count: 1 });
   }
-  return `${groups.map(item => `${item.ko} ${item.count}칸`).join(' → ')} 이동한 뒤 E를 누르세요.`;
+  return `${groups.map(item => `${item.ko} ${item.count}칸`).join(' → ')} 이동한 뒤 E를 누르세요.${path.crowdFallback ? ' 사람이 길을 막으면 한 번 더 이동해 길을 비켜 주세요.' : ''}`;
 }
 
-function routeFrom(startMapId, targetMapId, host, maps) {
+function mapAccessFailure(map, host, date) {
+  if (!host) return null;
+  const access = map?.metadata?.access;
+  if (access) {
+    const explicitlyAllowed = Array.isArray(access.allowedCharacterIds) && access.allowedCharacterIds.includes(host.id);
+    if (Array.isArray(access.allowedCharacterIds) && !explicitlyAllowed) return 'host_lacks_access';
+    if (Array.isArray(access.allowedEstates) && !access.allowedEstates.includes(host.socialEstate) && !explicitlyAllowed) return 'host_lacks_access';
+  }
+  if (date && ((map.metadata?.validFrom && date < map.metadata.validFrom)
+    || (map.metadata?.validTo && date > map.metadata.validTo))) return 'map_out_of_date';
+  return null;
+}
+
+function openingHint(map, state) {
+  const access = map?.metadata?.access;
+  if (!Number.isInteger(access?.opensMinute) || !Number.isInteger(access?.closesMinute)) return null;
+  const now = ((state.world.clockMinutes % 1440) + 1440) % 1440;
+  const open = access.opensMinute <= access.closesMinute
+    ? now >= access.opensMinute && now < access.closesMinute
+    : now >= access.opensMinute || now < access.closesMinute;
+  if (open) return null;
+  const hour = String(Math.floor(access.opensMinute / 60)).padStart(2, '0');
+  const minute = String(access.opensMinute % 60).padStart(2, '0');
+  return `문은 닫혀 있습니다. 출구에 도착해 E를 누르면 ${hour}:${minute}까지 기다릴 수 있습니다.`;
+}
+
+function routeFrom(startMapId, targetMapId, host, maps, date) {
   if (startMapId === targetMapId) return [];
   const queue = [[startMapId, []]], visited = new Set([startMapId]);
   while (queue.length) {
@@ -46,7 +79,8 @@ function routeFrom(startMapId, targetMapId, host, maps) {
     for (const exit of map?.layers?.find(layer => layer.name === 'Interactions')?.objects ?? []) {
       if (exit.type !== 'map-exit') continue;
       const props = propsOf(exit), nextId = props.targetMapId;
-      if (!maps[nextId] || visited.has(nextId) || (host && !host.allowedMaps.includes(nextId))) continue;
+      if (!maps[nextId] || visited.has(nextId) || (host && (!host.allowedMaps.includes(nextId)
+        || mapAccessFailure(maps[nextId], host, date)))) continue;
       if (props.requiredHostId && (!host || props.requiredHostId !== host.id)) continue;
       if (!host && props.publicAccess === false) continue;
       const nextPath = [...path, { mapId, objectId: exit.id, name: exit.name, x: tileOf(exit).x, y: tileOf(exit).y, targetMapId: nextId }];
@@ -73,17 +107,23 @@ function findSource(sourceId, host, maps, currentMapId) {
 
 function destination({ state, maps, host, target }) {
   if (!target) return { target: null, route: [], blocked: true, blockedReasonKo: '목적지 기록을 찾지 못했습니다.' };
-  const path = routeFrom(state.world.currentMapId, target.mapId, host, maps);
+  const targetMap = maps[target.mapId];
+  const accessFailure = mapAccessFailure(targetMap, host, state.world.date);
+  if (accessFailure) return { target: null, route: [], blocked: true,
+    blockedReasonKo: accessFailure === 'map_out_of_date' ? '이 장소는 현재 날짜에 열려 있지 않습니다.' : `현재 인물은 ${targetMap?.metadata.displayNameKo ?? target.mapId}에 들어갈 수 없습니다. 수첩에서 가능한 인물을 확인하세요.` };
+  const path = routeFrom(state.world.currentMapId, target.mapId, host, maps, state.world.date);
   if (path === null) return { target: null, route: [], blocked: true, blockedReasonKo: `현재 인물은 ${maps[target.mapId]?.metadata.displayNameKo ?? target.mapId}에 갈 수 없습니다. 몸을 놓아주고 출입할 수 있는 인물을 찾아보세요.` };
   if (path.length) {
     const exitTarget = path[0], exitMap = maps[exitTarget.mapId];
     const directions = walkPath(state, exitMap, exitTarget, { radius: 1 });
     if (!directions) return { target: null, route: path, blocked: true, blockedReasonKo: '출구까지 갈 수 있는 길을 찾지 못했습니다.' };
-    return { target: { ...exitTarget, kind: 'exit', finalMapId: target.mapId }, route: path, walkDirections: directions, blocked: false, placeKo: maps[target.mapId]?.metadata.displayNameKo ?? target.mapId };
+    return { target: { ...exitTarget, kind: 'exit', finalMapId: target.mapId }, route: path, walkDirections: directions, blocked: false,
+      placeKo: maps[target.mapId]?.metadata.displayNameKo ?? target.mapId, openingHint: openingHint(targetMap, state) };
   }
   const objectMap = maps[target.mapId], directions = walkPath(state, objectMap, target, { radius: target.kind === 'npc' ? 2 : 1, targetHostId: target.npcId });
   if (!directions) return { target: null, route: [], blocked: true, blockedReasonKo: '목적지까지 이어지는 걸을 수 있는 길이 없습니다.' };
-  return { target: { ...target, kind: target.kind ?? 'object' }, route: [], walkDirections: directions, blocked: false, placeKo: maps[target.mapId]?.metadata.displayNameKo ?? target.mapId };
+  return { target: { ...target, kind: target.kind ?? 'object' }, route: [], walkDirections: directions, blocked: false,
+    placeKo: maps[target.mapId]?.metadata.displayNameKo ?? target.mapId, openingHint: openingHint(targetMap, state) };
 }
 
 export function guideToResident({ state, maps, hostCards, targetHostId }) {
@@ -107,6 +147,13 @@ export function formatMissionActionKo(guidance, fallback = '') {
   return place && !action.includes(place) ? `${action} · ${place}` : action;
 }
 
+export function questChoiceProgress(quest, ledger = []) {
+  const completed = ledger.filter(entry => entry.questId === quest.id
+    && ['HISTORICAL_ACTION', 'LITERARY_ACTION'].includes(entry.eventType)).length;
+  const totalSteps = quest.actions?.length ? 1 : 0;
+  return { completedSteps: Math.min(completed, totalSteps), totalSteps: Math.max(1, totalSteps) };
+}
+
 export function resolveQuestGuidance({ state, quests, maps, hostCards }) {
   if (state.endingId) return { taskType: 'COMPLETE', actionKo: '기록을 읽고 새로 시작하세요', reasonKo: '이번 기록은 끝났습니다.', howKo: '새 기록 시작을 누르세요.', target: null, progress: { completedSteps: 1, totalSteps: 1 }, known: true, blocked: false };
   const mapId = state.world.currentMapId, map = maps[mapId];
@@ -120,7 +167,7 @@ export function resolveQuestGuidance({ state, quests, maps, hostCards }) {
     const eligibleIds = observerQuest ? new Set(observerQuest.actions.flatMap(action => action.hostIds)) : null;
     const candidates = Object.values(state.hosts).filter(person => person.historicalAliveAndPresent && (!eligibleIds || eligibleIds.has(person.id)))
       .map(person => {
-        const route = routeFrom(mapId, person.mapId, null, maps);
+        const route = routeFrom(mapId, person.mapId, null, maps, state.world.date);
         const walkDirections = route?.length ? walkPath(state, map, route[0], { radius: 1 }) : route ? walkPath(state, map, person.position, { radius: 2, targetHostId: person.id }) : null;
         return { person, card: hostCards.find(item => item.id === person.id), route, walkDirections };
       })
@@ -136,7 +183,7 @@ export function resolveQuestGuidance({ state, quests, maps, hostCards }) {
       reasonKo: next ? observerQuest ? `${observerQuest.titleKo}은(는) ${next.card.displayNameKo}가 맡을 수 있습니다.` : `${next.card.displayNameKo}의 일과 아는 것을 직접 확인할 수 있습니다.` : '이 거리에서 만날 수 있는 사람을 찾고 있습니다.',
       howKo: traveling ? `${pathKo(walkDirections)} 관찰자는 공개된 길을 이용할 수 있습니다.` : pathKo(walkDirections),
       placeKo: targetPlace, target: immediate,
-      progress: { completedSteps: 0, totalSteps: observerQuest ? Math.max(1,observerQuest.actions.length) : 1 }, known: Boolean(next), blocked: !next, blockedReasonKo: next ? null : '지금 만날 수 있는 인물이 없습니다.' };
+      progress: { completedSteps: 0, totalSteps: 1 }, known: Boolean(next), blocked: !next, blockedReasonKo: next ? null : '지금 만날 수 있는 인물이 없습니다.' };
   }
 
   const candidates = quests.filter(quest => (quest.realmId || quest.chapterId?.startsWith('LITERARY_'))
@@ -168,7 +215,7 @@ export function resolveQuestGuidance({ state, quests, maps, hostCards }) {
     const owner = ownerId ? state.hosts[ownerId] : null;
     const ownerCard = hostCards.find(item => item.id === ownerId);
     if (owner && ownerCard && owner.historicalAliveAndPresent) {
-      const route = routeFrom(mapId, owner.mapId, embodied, maps);
+      const route = routeFrom(mapId, owner.mapId, embodied, maps, state.world.date);
       if (route?.length) {
         const exit = route[0], exitMap = maps[exit.mapId];
         const directions = walkPath(state, exitMap, exit, { radius: 1 });
@@ -206,15 +253,14 @@ export function resolveQuestGuidance({ state, quests, maps, hostCards }) {
   const entryMapId = quest.entry?.mapId, entryMap = maps[entryMapId];
   const entryObject = entryMap?.layers?.find(layer => layer.name === 'Interactions')?.objects.find(item => item.id === quest.entry?.objectId);
   const entryTarget = entryObject ? { mapId: entryMapId, objectId: entryObject.id, name: entryObject.name, ...tileOf(entryObject), kind: 'object' } : null;
-  const completed = state.ledger.filter(entry => entry.questId === quest.id && ['HISTORICAL_ACTION','LITERARY_ACTION'].includes(entry.eventType)).length;
-  const total = (quest.actions ?? []).length;
+  const progress = questChoiceProgress(quest, state.ledger);
   const chain = quest.lifeChain;
   const chainPrefix = quest.socialChain ? '이웃 연쇄 · ' : '';
   const chainTitle = chain && quest.titleKo.includes(chain.titleKo)
     ? `${chainPrefix}${chain.titleKo} · ${chain.stage}/${chain.stageCount}`
     : chain ? `${chainPrefix}${chain.titleKo} · ${chain.stage}/${chain.stageCount} — ${quest.titleKo}` : questLabel(quest);
   const base = { questId: quest.id, phaseId: state.quests[quest.id]?.status ?? 'open', hostId: host.id, questTitleKo: chainTitle,
-    progress: { completedSteps: Math.min(completed, total), totalSteps: Math.max(1,total) }, known: true };
+    progress, known: true };
 
   if (!allowed.length) {
     const requiredIds = [...new Set((quest.actions ?? []).flatMap(action => action.hostIds))];
@@ -227,7 +273,7 @@ export function resolveQuestGuidance({ state, quests, maps, hostCards }) {
     const reachableHosts = requiredIds.map(id => ({ person: state.hosts[id], card: hostCards.find(item => item.id === id) }))
       .filter(item => item.person && item.card && item.person.historicalAliveAndPresent)
       .map(item => {
-        const route = routeFrom(mapId,item.person.mapId,embodied,maps), publicRoute = routeFrom(mapId,item.person.mapId,null,maps);
+        const route = routeFrom(mapId,item.person.mapId,embodied,maps,state.world.date), publicRoute = routeFrom(mapId,item.person.mapId,null,maps,state.world.date);
         const walkDirections = route?.length ? walkPath(state, map, route[0], { radius: 1 }) : route ? walkPath(state, map, item.person.position, { radius: 2, targetHostId: item.person.id }) : null;
         return { ...item, route, publicRoute, walkDirections };
       })
@@ -235,12 +281,17 @@ export function resolveQuestGuidance({ state, quests, maps, hostCards }) {
       .sort((a,b)=>((a.route?.length ?? Infinity)*1000+(a.walkDirections?.length ?? Infinity))-((b.route?.length ?? Infinity)*1000+(b.walkDirections?.length ?? Infinity)));
     const futureHost = reachableHosts.find(item => item.route !== null) ?? reachableHosts[0];
     const targetHost = available ?? futureHost;
-    if (targetHost && available) return { ...base, taskType: 'SWITCH', actionKo: `${targetHost.card.displayNameKo}에게 몸을 맡기세요`, reasonKo: `${quest.titleKo}은(는) ${targetHost.card.displayNameKo}가 맡을 수 있습니다.`, howKo: `${pathKo(available.walkDirections)} 가까이서 E로 살펴보세요.`, placeKo: map.metadata.displayNameKo, target: { mapId, kind: 'npc', npcId: targetHost.person.id, x: targetHost.person.position.x, y: targetHost.person.position.y }, blocked: false };
+    const targetAction = targetHost && quest.actions?.find(action => action.hostIds.includes(targetHost.person.id));
+    const targetActionLabel = targetAction?.labelKo ?? quest.objectiveKo ?? quest.titleKo;
+    const completionGuide = quest.id === 'V47_MAIN01_PERMISSION'
+      ? `인쇄소 작업대에서 7단계를 끝낸 뒤 ‘${targetActionLabel}’를 선택하면 이 목표가 완료됩니다.`
+      : `도착해 ‘${targetActionLabel}’를 실행하면 이 목표가 완료됩니다.`;
+    if (targetHost && available) return { ...base, taskType: 'SWITCH', actionKo: `${targetHost.card.displayNameKo}에게 몸을 맡기세요`, reasonKo: `다음에 맡길 일 · ${targetActionLabel}`, howKo: `${pathKo(available.walkDirections)} 가까이서 E로 몸을 맡기세요. ${completionGuide}`, placeKo: map.metadata.displayNameKo, target: { mapId, kind: 'npc', npcId: targetHost.person.id, x: targetHost.person.position.x, y: targetHost.person.position.y }, blocked: false };
     if (targetHost?.person && targetHost.person.mapId !== mapId) {
-      const route = targetHost.route ?? routeFrom(mapId, targetHost.person.mapId, embodied, maps);
-      if (route?.length && targetHost.walkDirections) return { ...base, taskType: 'TRAVEL', actionKo: `${targetHost.card.displayNameKo}에게 가세요 · 표시된 출구로 이동하세요`, reasonKo: `${quest.titleKo}은(는) ${targetHost.card.displayNameKo}가 맡을 수 있습니다.`, howKo: `${pathKo(targetHost.walkDirections)} 현재 몸이 통과할 수 있는 길입니다.`, placeKo: maps[targetHost.person.mapId]?.metadata.displayNameKo, target: { ...route[0], kind: 'exit', finalMapId: targetHost.person.mapId }, route, blocked: false };
-      const publicRoute = targetHost.publicRoute ?? routeFrom(mapId, targetHost.person.mapId, null, maps);
-      if (publicRoute?.length) return { ...base, taskType: 'RELEASE', actionKo: `현재 몸을 놓아주세요`, reasonKo: `${quest.titleKo}은(는) ${targetHost.card.displayNameKo}가 맡을 수 있습니다.`, howKo: '화면의 놓아주기를 누르세요. 관찰자가 되면 공개된 길로 그 사람을 찾아갈 수 있습니다.', placeKo: maps[targetHost.person.mapId]?.metadata.displayNameKo, target: null, blocked: false };
+      const route = targetHost.route ?? routeFrom(mapId, targetHost.person.mapId, embodied, maps, state.world.date);
+      if (route?.length && targetHost.walkDirections) return { ...base, taskType: 'TRAVEL', actionKo: `${targetHost.card.displayNameKo}에게 가세요 · 표시된 출구로 이동하세요`, reasonKo: `다음에 맡길 일 · ${targetActionLabel}`, howKo: `${pathKo(targetHost.walkDirections)} 현재 몸이 통과할 수 있는 길입니다. 도착하면 ${completionGuide}`, placeKo: maps[targetHost.person.mapId]?.metadata.displayNameKo, target: { ...route[0], kind: 'exit', finalMapId: targetHost.person.mapId }, route, blocked: false };
+      const publicRoute = targetHost.publicRoute ?? routeFrom(mapId, targetHost.person.mapId, null, maps, state.world.date);
+      if (publicRoute?.length) return { ...base, taskType: 'RELEASE', actionKo: `현재 몸을 놓아주세요`, reasonKo: `다음에 맡길 일 · ${targetActionLabel}`, howKo: `화면의 놓아주기를 누르세요. 관찰자가 되면 공개된 길로 ${targetHost.card.displayNameKo}를 찾아가 몸을 맡기세요. ${completionGuide}`, placeKo: maps[targetHost.person.mapId]?.metadata.displayNameKo, target: null, blocked: false };
     }
     return { ...base, taskType: 'SWITCH', actionKo: `${targetHost?.card.displayNameKo ?? requiredIds.map(id=>hostCards.find(c=>c.id===id)?.displayNameKo).filter(Boolean).join(' 또는 ')}의 시야로 바꾸세요`, reasonKo: `이 단계는 현재 몸으로 처리할 수 없습니다.`, howKo: '몸을 놓아준 뒤 해당 인물을 찾아가세요. 수첩의 목적지는 허용된 길만 표시합니다.', placeKo: targetHost?.person ? maps[targetHost.person.mapId]?.metadata.displayNameKo : map.metadata.displayNameKo, target: null, blocked: true, blockedReasonKo: '이 인물은 이 기록을 처리할 권한이 없습니다.' };
   }
@@ -255,15 +306,30 @@ export function resolveQuestGuidance({ state, quests, maps, hostCards }) {
     if (source) {
       const place = destination({ state, maps, host: embodied, target: source });
       return { ...base, taskType: place.target?.kind === 'exit' ? 'TRAVEL' : 'READ', actionKo: place.target?.kind === 'exit' ? `자료가 있는 ${place.placeKo}로 가세요` : `${source.name}에서 자료를 읽으세요`,
-        reasonKo: '이 자료를 읽어야 다음 선택지를 판단할 수 있습니다.', howKo: `${pathKo(place.walkDirections)}${place.target?.kind === 'exit' ? ' 문서를 살펴보세요.' : ' E를 누른 뒤 열린 문서에서 읽기를 선택하세요.'}`,
+        reasonKo: '이 자료를 읽어야 다음 선택지를 판단할 수 있습니다.', howKo: `${pathKo(place.walkDirections)}${place.target?.kind === 'exit' ? ' 문서를 살펴보세요.' : ' E를 누른 뒤 열린 문서에서 읽기를 선택하세요.'}${place.openingHint ? ` ${place.openingHint}` : ''}`,
         placeKo: place.placeKo, target: place.target, blocked: place.blocked, blockedReasonKo: place.blockedReasonKo, requiredKnowledgeId: missingSourceId };
     }
   }
   if (!entryTarget) return { ...base, taskType: 'COMPLETE', actionKo: '이 사건 자료를 열 수 없습니다', reasonKo: '목표 문서가 지도에 연결되지 않았습니다.', howKo: '수첩에서 다른 인물의 일을 확인하세요.', placeKo: map.metadata.displayNameKo, target: null, blocked: true };
   const place = destination({ state, maps, host: embodied, target: entryTarget });
   const stepAction = place.target?.kind === 'exit' ? '표시된 출구로 이동하세요' : `「${entryTarget.name}」 곁에서 E를 눌러 살펴보세요`;
+  if (quest.id === 'V47_MAIN01_PERMISSION' && propsOf(entryObject).v47PuzzleId === 'MAIN01_PRINTWORK') {
+    const savedPrintwork = state.world.v47?.printwork;
+    const printwork = savedPrintwork?.schemaVersion === 'V47_PRINTWORK_V2' ? savedPrintwork : createMain01PrintworkState();
+    const stage = main01PrintworkStage(printwork);
+    if (stage) return { ...base, taskType: place.target?.kind === 'exit' ? 'TRAVEL' : 'INSPECT',
+      actionKo: `인쇄 작업 ${printwork.step + 1}/7 · ${stage.title}`,
+      reasonKo: stage.prompt,
+      howKo: `${pathKo(place.walkDirections)} 7단계를 모두 끝낸 뒤 「${feasibleAction.labelKo}」를 선택해 이 목표를 완료하세요.${place.openingHint ? ` ${place.openingHint}` : ''}`,
+      placeKo: place.placeKo, target: place.target, blocked: place.blocked, blockedReasonKo: place.blockedReasonKo, actionId: feasibleAction.id };
+    return { ...base, taskType: place.target?.kind === 'exit' ? 'TRAVEL' : 'INSPECT',
+      actionKo: `${feasibleAction.labelKo} · 인쇄 작업 완료`,
+      reasonKo: '인쇄 작업 일곱 단계를 모두 마쳤습니다.',
+      howKo: `${pathKo(place.walkDirections)} 「${feasibleAction.labelKo}」를 선택하면 이 목표가 완료됩니다.`,
+      placeKo: place.placeKo, target: place.target, blocked: place.blocked, blockedReasonKo: place.blockedReasonKo, actionId: feasibleAction.id };
+  }
   return { ...base, taskType: place.target?.kind === 'exit' ? 'TRAVEL' : 'INSPECT', actionKo: stepAction,
     reasonKo: '이 자료를 확인해야 이 사건에서 할 수 있는 선택을 알 수 있습니다.',
-    howKo: place.target?.kind === 'exit' ? `${pathKo(place.walkDirections)} 인물이 갈 수 있는 곳만 이동합니다.` : `${pathKo(place.walkDirections)}${place.target?.kind === 'object' ? ' E를 누르세요.' : ''}`,
+    howKo: `${place.target?.kind === 'exit' ? `${pathKo(place.walkDirections)} 인물이 갈 수 있는 곳만 이동합니다.` : pathKo(place.walkDirections)}${place.openingHint ? ` ${place.openingHint}` : ''}`,
     placeKo: place.placeKo, target: place.target, blocked: place.blocked, blockedReasonKo: place.blockedReasonKo, actionId: feasibleAction.id };
 }

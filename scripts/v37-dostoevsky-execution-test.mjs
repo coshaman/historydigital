@@ -26,12 +26,13 @@ const actor = cards.find(card => card.id === 'dostoevsky_1849');
 assert.ok(actor, 'the historical scene has a dedicated runtime host');
 assert.equal(actor.kind, 'HISTORICAL_RECONSTRUCTION');
 assert.equal(actor.presenceWindow.startDate, '1849-04-27', 'the historical reconstruction enters the timeline from the verified spring source range');
-assert.equal(actor.presenceWindow.endDate, '1849-12-22', 'the execution scene remains fixed to its dated primary letter');
+assert.equal(actor.presenceWindow.endDate, '1850-01-03', 'the execution scene uses the Gregorian day of the Julian-dated letter');
 assert.equal(registry.runtime_profiles.dostoevsky_1849.layer, 'HISTORICAL_RECONSTRUCTION');
 assert.ok(registry.runtime_profiles.dostoevsky_1849.sourceIds.includes(sourceId));
 assert.ok(registry.runtime_profiles.dostoevsky_1849.sourceIds.includes('OBJ-WS-PETRASHEVSKY-REPORT-1849'));
 assert.ok(decorateCardsWithEraProfiles(cards, registry).some(card => card.id === actor.id && card.eraProfile.allowedChapterIds.includes(quest.chapterId)));
-assert.equal(quest.date, '1849-12-22');
+assert.equal(quest.date, '1850-01-03');
+assert.equal(quest.originalJulianDate, '1849-12-22');
 assert.deepEqual(campaign.arcs.find(arc => arc.id === quest.chapterId).questIds.slice(-1), [quest.id]);
 assert.deepEqual(quest.historicalOutcome.sourceIds, [sourceId]);
 assert.equal(sources.records.find(record => record.sourceId === sourceId).range,

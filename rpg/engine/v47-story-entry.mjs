@@ -31,11 +31,25 @@ export function campaignForV47StoryProgress(campaign, storyId, chapterId, quests
     const quest = quests.find(item => item.id === questId);
     return quest?.storyId === storyId || questId.startsWith(`V47_${storyId}_`);
   };
+  const currentArc = campaign.arcs.find(arc => arc.id === chapterId);
+  const storyQuestIds = new Set([...(currentArc?.questIds ?? []), ...(currentArc?.optionalQuestIds ?? [])].filter(belongsToStory));
+  const prerequisiteIds = new Set();
+  const pending = [...storyQuestIds];
+  while (pending.length) {
+    const pendingId = pending.pop();
+    const quest = quests.find(item => item.id === pendingId);
+    for (const prerequisiteId of quest?.prerequisiteQuestIds ?? []) {
+      if (prerequisiteIds.has(prerequisiteId)) continue;
+      prerequisiteIds.add(prerequisiteId);
+      pending.push(prerequisiteId);
+    }
+  }
+  const belongsToStoryOrPrerequisite = questId => belongsToStory(questId) || prerequisiteIds.has(questId);
   return {
     ...campaign,
     arcs: campaign.arcs.map(arc => arc.id !== chapterId ? arc : {
       ...arc,
-      questIds: (arc.questIds ?? []).filter(belongsToStory),
+      questIds: (arc.questIds ?? []).filter(belongsToStoryOrPrerequisite),
       optionalQuestIds: (arc.optionalQuestIds ?? []).filter(belongsToStory),
     }),
   };
@@ -44,7 +58,8 @@ export function campaignForV47StoryProgress(campaign, storyId, chapterId, quests
 export function resolveV47StoryMenuEntries(state, quests = [], campaign = { arcs: [] }) {
   return STORY_ENTRIES.map(entry => {
     const guide = resolveV47StoryEntry(state, entry.id, quests, campaign);
-    const statusLabelKo = guide.status === 'READY' ? '지금 시작'
+    const statusLabelKo = guide.status === 'READY'
+      ? state?.world?.v47?.focusStoryId === entry.id ? '계속하기' : '지금 시작'
       : guide.status === 'WAITING_FOR_DATE' ? '날짜를 기다리는 중'
         : guide.status === 'COMPLETE' ? '완료'
           : '도입 퀘스트';
@@ -53,11 +68,14 @@ export function resolveV47StoryMenuEntries(state, quests = [], campaign = { arcs
       : guide.status === 'WAITING_FOR_DATE' ? guide.currentTaskKo
         : guide.status === 'COMPLETE' ? '기록된 선택과 후일담을 다시 볼 수 있습니다.'
           : `${guide.currentTitleKo} · ${guide.currentTaskKo}`;
+    const readyIntroKo = guide.currentTitleKo === '부록은 어디 있습니까?'
+      ? entry.introKo : guide.currentContextKo || `${guide.currentTitleKo}. ${guide.currentTaskKo}`;
     const introKo = guide.status === 'WAITING_FOR_CAMPAIGN'
       ? `먼저 ‘${guide.currentTitleKo}’ 일을 마치자.\n${guide.currentTaskKo}`
       : guide.status === 'WAITING_FOR_DATE'
         ? `${guide.currentTaskKo} 그동안 표시된 목표를 따라 도시를 둘러보세요.`
-        : guide.status === 'COMPLETE' ? '남긴 선택과 후일담을 수첩에서 다시 볼 수 있습니다.' : entry.introKo;
+        : guide.status === 'COMPLETE' ? '남긴 선택과 후일담을 수첩에서 다시 볼 수 있습니다.'
+          : guide.status === 'READY' ? readyIntroKo : entry.introKo;
     const currentPeriod = yearMonthKo(state?.world?.date);
     const storyPeriod = yearMonthKo(guide.storyStartDate);
     const timelineNoteKo = guide.status === 'WAITING_FOR_CAMPAIGN' && currentPeriod && storyPeriod
@@ -79,7 +97,7 @@ export function resolveV47StoryEntry(state, storyId, quests = [], campaign = { a
 
   // MAIN01 is an authored story entry. Selecting it must not route a new
   // player through every unrelated campaign quest in the earlier 1847 arc.
-  if (storyId === 'MAIN01') return { ...entry, status: 'READY', storyQuestId: storyQuest.id,
+  if (storyId === 'MAIN01' || storyId === 'MAIN03') return { ...entry, status: 'READY', storyQuestId: storyQuest.id,
     storyStartDate, currentQuestId: storyQuest.id,
     currentTaskKo: storyQuest.objectiveKo ?? entry.firstTaskKo,
     currentContextKo: storyQuest.premiseKo ?? storyQuest.sourceContextKo ?? '',
@@ -118,7 +136,7 @@ export function resolveV47StoryEntry(state, storyId, quests = [], campaign = { a
 }
 
 export function startV47StoryEntry(state, storyId, quests = [], campaign = { arcs: [] }, maps = {}) {
-  if (storyId !== 'MAIN01') return { ok: false, reason: 'direct_start_unavailable', state };
+  if (!['MAIN01', 'MAIN03'].includes(storyId)) return { ok: false, reason: 'direct_start_unavailable', state };
   const guide = resolveV47StoryEntry(state, storyId, quests, campaign);
   if (!guide?.storyQuestId || guide.status === 'COMPLETE') return { ok: false, reason: 'story_unavailable', state };
   const quest = quests.find(item => item.id === guide.storyQuestId);
@@ -127,12 +145,18 @@ export function startV47StoryEntry(state, storyId, quests = [], campaign = { arc
   if (!quest || !map) return { ok: false, reason: 'story_entry_missing', state };
 
   const next = structuredClone(state);
-  const date = quest.date && quest.date > (next.world?.date ?? '') ? quest.date : next.world?.date ?? quest.date;
+  const switchingStory = next.world?.v47?.focusStoryId !== storyId;
+  const date = switchingStory ? quest.date
+    : quest.date && quest.date > (next.world?.date ?? '') ? quest.date : next.world?.date ?? quest.date;
+  if (switchingStory) next.world.clockMinutes = 540;
   next.world.chapterId = quest.chapterId;
   next.world.date = date;
   next.world.currentMapId = mapId;
   next.world.v47 ??= {};
   next.world.v47.focusStoryId = storyId;
+  next.world.v47.stories ??= {};
+  next.world.v47.stories[storyId] ??= {};
+  next.world.v47.stories[storyId].currentEventId = quest.id;
 
   for (const host of Object.values(next.hosts ?? {})) {
     if (!host.presenceWindow) continue;
@@ -144,7 +168,9 @@ export function startV47StoryEntry(state, storyId, quests = [], campaign = { arc
   }
 
   const spawn = map.metadata?.observerStart ?? { x: 2, y: 2 };
-  const eligibleHosts = (quest.metadata?.playerHosts ?? quest.hosts ?? []).filter(id => next.hosts?.[id]
+  const roleCandidates = quest.metadata?.playerHosts ?? quest.hosts
+    ?? (quest.actions ?? []).flatMap(action => action.hostIds ?? []);
+  const eligibleHosts = [...new Set(roleCandidates)].filter(id => next.hosts?.[id]
     && next.hosts[id].historicalAliveAndPresent !== false);
   const currentHostId = eligibleHosts[0] ?? null;
   next.player.embodiment = currentHostId;
