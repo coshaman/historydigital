@@ -7975,11 +7975,28 @@ function recordEvidenceRead(state, evidenceId, maps) {
   return { ok: true, state: next };
 }
 
-function recordDialogueTurn(state, { hostId, actorHostId, sceneId, intentClass = 'GENERAL_CONVERSATION', discussionId = null, discussionTitleKo = '', reflectionId = null, aiGenerated = false } = {}, maps = {}) {
+function captureDialogueStartContext(state, hostId, actorHostId, maps = {}) {
   const map = maps?.[state?.world?.currentMapId], speaker = state?.hosts?.[hostId], actor = state?.hosts?.[actorHostId];
   const speakerPresent = layer(map, 'NPCs')?.objects.some(item => properties(item).hostId === hostId);
-  if (!state?.player || state.player.embodiment !== actorHostId || !actor || actor.mapId !== state.world.currentMapId || !speaker || speaker.mapId !== state.world.currentMapId || !speakerPresent || typeof sceneId !== 'string' || !/^V33_[A-Z0-9_]{3,64}$/.test(sceneId)) return { ok: false, reason: 'dialogue_host_unavailable', state };
-  if (hostId === actorHostId || !nearTile(actor.position, speaker.position, 2)) return { ok: false, reason: 'dialogue_partner_unavailable', state };
+  if (!state?.player || state.player.embodiment !== actorHostId || !actor || actor.mapId !== state.world.currentMapId
+    || !speaker || speaker.mapId !== state.world.currentMapId || !speakerPresent || !nearTile(actor.position, speaker.position, 2)) return null;
+  return { hostId, actorHostId, mapId: state.world.currentMapId, speakerPresent: true,
+    actorPosition: { ...actor.position }, speakerPosition: { ...speaker.position } };
+}
+
+function recordDialogueTurn(state, { hostId, actorHostId, sceneId, intentClass = 'GENERAL_CONVERSATION', discussionId = null, discussionTitleKo = '', reflectionId = null, aiGenerated = false, dialogueStartContext = null } = {}, maps = {}) {
+  const map = maps?.[state?.world?.currentMapId], speaker = state?.hosts?.[hostId], actor = state?.hosts?.[actorHostId];
+  const speakerPresent = layer(map, 'NPCs')?.objects.some(item => properties(item).hostId === hostId);
+  const actorAvailable = Boolean(state?.player && state.player.embodiment === actorHostId && actor && actor.mapId === state.world.currentMapId);
+  const currentPartnerAvailable = Boolean(speaker && speaker.mapId === state.world.currentMapId && speakerPresent
+    && actor && nearTile(actor.position, speaker.position, 2));
+  const openedNearbyContext = Boolean(dialogueStartContext?.hostId === hostId && dialogueStartContext?.actorHostId === actorHostId
+    && dialogueStartContext?.mapId === state?.world?.currentMapId && dialogueStartContext?.speakerPresent === true
+    && dialogueStartContext.actorPosition && dialogueStartContext.speakerPosition
+    && nearTile(dialogueStartContext.actorPosition, dialogueStartContext.speakerPosition, 2));
+  if (!actorAvailable || !speaker || typeof sceneId !== 'string' || !/^V33_[A-Z0-9_]{3,64}$/.test(sceneId)
+    || (!currentPartnerAvailable && !openedNearbyContext)) return { ok: false, reason: 'dialogue_host_unavailable', state };
+  if (hostId === actorHostId) return { ok: false, reason: 'dialogue_partner_unavailable', state };
   if (!['SOURCE_REQUEST', 'ACTION_REQUEST', 'RISK_QUESTION', 'PERSONAL_QUESTION', 'GENERAL_CONVERSATION'].includes(intentClass)) return { ok: false, reason: 'invalid_intent_class', state };
   if (discussionId !== null && (typeof discussionId !== 'string' || !/^INQUIRY_[A-Z0-9_]{3,64}$/.test(discussionId))) return { ok: false, reason: 'invalid_discussion_id', state };
   if (reflectionId !== null && (typeof reflectionId !== 'string' || !/^INQUIRY_[A-Z0-9_]{3,64}$/.test(reflectionId))) return { ok: false, reason: 'invalid_reflection_id', state };
@@ -9154,6 +9171,6 @@ function loadGame(raw, { maps, hostCards, quests = [], learningExam = null } = {
   return state;
 }
 
-const V33GameState = { describeHostMoney, createInitialState, moveActor, possessHost, possessHostFromRoster, enterLiteraryRealm, leaveLiteraryRealm, releaseHost, transitionMap, performQuestAction, payRent, knowledgeForHost, recordSourceRead, recordEvidenceRead, recordDialogueTurn, recordDiscussionPosition, advanceNpcWorld, advanceWorldTime, advanceChapter, advanceCampaignDate, getV47EndingConsequences, resolveEnding, saveGame, loadGame, stateHash, canOccupy, nearTile, npcMapRoute, hostCanObserveHost, hostCanHearHost, playerCanObserveWorldEvent, applyCholeraIntervention };
+const V33GameState = { describeHostMoney, createInitialState, moveActor, possessHost, possessHostFromRoster, enterLiteraryRealm, leaveLiteraryRealm, releaseHost, transitionMap, performQuestAction, payRent, knowledgeForHost, recordSourceRead, recordEvidenceRead, captureDialogueStartContext, recordDialogueTurn, recordDiscussionPosition, advanceNpcWorld, advanceWorldTime, advanceChapter, advanceCampaignDate, getV47EndingConsequences, resolveEnding, saveGame, loadGame, stateHash, canOccupy, nearTile, npcMapRoute, hostCanObserveHost, hostCanHearHost, playerCanObserveWorldEvent, applyCholeraIntervention };
 if (typeof module !== 'undefined' && module.exports) module.exports = V33GameState;
 if (typeof globalThis !== 'undefined') globalThis.V33GameState = V33GameState;

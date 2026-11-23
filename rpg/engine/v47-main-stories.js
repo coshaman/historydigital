@@ -225,10 +225,12 @@ function getV47CompletionGuidance(state, quests = [], questStates = state?.quest
   const lastAction = [...(state.ledger ?? [])].reverse().find(row => row.questId?.startsWith(`V47_${storyId}`));
   if (!storyQuests.length || !lastAction || storyQuests.some(quest => questStates[quest.id]?.status !== 'resolved')) return null;
   return {
-    questTitleKo: storyId === 'MAIN01' ? '인쇄 연감의 뒷이야기' : storyId === 'MAIN03' ? '모임 뒤의 사람들' : '콜레라가 지나간 자리',
-    actionKo: '다른 사건을 고르거나, 이곳에 남은 사람들을 만나보자.',
+    questTitleKo: storyId === 'MAIN01' ? '금지된 삽화 연감 · 이야기 완료' : storyId === 'MAIN03' ? '혁명의 소식과 마지막 금요일 · 이야기 완료' : '콜레라가 도는 도시 · 이야기 완료',
+    actionKo: storyId === 'MAIN01' ? '마지막 장부의 선택이 남긴 결과를 확인한다.' : '이 장에서 내린 선택이 남긴 결과를 확인한다.',
     reasonKo: lastAction.outcomeKo ?? '이 사건에서 내린 선택이 사람들의 삶에 남았다.',
-    howKo: '사건 목록에서 다음 이야기를 고른다.',
+    howKo: storyId === 'MAIN01'
+      ? '이 장은 끝났습니다. 1849년으로 이어가거나 수첩에서 선택의 결과를 다시 볼 수 있습니다.'
+      : '이 장은 끝났습니다. 수첩에서 선택의 결과와 남은 사람들의 이야기를 다시 볼 수 있습니다.',
     target: null,
   };
 }

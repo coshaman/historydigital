@@ -141,8 +141,8 @@ assert.equal(julianDateToGregorian('1849-04-23'), '1849-05-05', 'Russian histori
 assert.deepEqual(getV47CompletionGuidance({ world: { v47: { focusStoryId: 'MAIN01' } }, ledger: [
   { questId: 'V47_MAIN01_A11', outcomeKo: '사본은 안나의 손에 남았다.' },
 ] }, [{ id: 'V47_MAIN01_A11', storyId: 'MAIN01' }], { 'V47_MAIN01_A11': { status: 'resolved' } }), {
-  questTitleKo: '인쇄 연감의 뒷이야기', actionKo: '다른 사건을 고르거나, 이곳에 남은 사람들을 만나보자.',
-  reasonKo: '사본은 안나의 손에 남았다.', howKo: '사건 목록에서 다음 이야기를 고른다.', target: null,
+  questTitleKo: '금지된 삽화 연감 · 이야기 완료', actionKo: '마지막 장부의 선택이 남긴 결과를 확인한다.',
+  reasonKo: '사본은 안나의 손에 남았다.', howKo: '이 장은 끝났습니다. 1849년으로 이어가거나 수첩에서 선택의 결과를 다시 볼 수 있습니다.', target: null,
 }, 'after the focused story ends, the journal replaces stale unrelated legacy guidance with its actual aftermath');
 const historicalAnchors = WORLD_EVENT_ANCHORS;
 assert.ok(historicalAnchors.every(row => row.sourceIds.length > 0), 'fixed historical anchors cite checked-in source records');

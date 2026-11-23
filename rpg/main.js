@@ -28,7 +28,7 @@ import { formatCivicReaction, formatObservedNpcReactions, recentJournalEntries }
 import { advanceStudy, beginExam, buildLifeTimeline, chooseCirclePath, completeLearning, getExamQuestions, selectExamAnswer, submitExam } from './engine/learning-life.mjs';
 import './engine/v47-main-stories.js';
 import './engine/game-state.js';
-const { createInitialState, moveActor, possessHost, possessHostFromRoster, releaseHost, transitionMap, performQuestAction, payRent, saveGame, loadGame, nearTile, knowledgeForHost, recordSourceRead, recordEvidenceRead, recordDialogueTurn, recordDiscussionPosition, enterLiteraryRealm, leaveLiteraryRealm, advanceChapter, advanceCampaignDate, advanceWorldTime, resolveEnding, describeHostMoney } = globalThis.V33GameState;
+const { createInitialState, moveActor, possessHost, possessHostFromRoster, releaseHost, transitionMap, performQuestAction, payRent, saveGame, loadGame, nearTile, knowledgeForHost, recordSourceRead, recordEvidenceRead, captureDialogueStartContext, recordDialogueTurn, recordDiscussionPosition, enterLiteraryRealm, leaveLiteraryRealm, advanceChapter, advanceCampaignDate, advanceWorldTime, resolveEnding, describeHostMoney } = globalThis.V33GameState;
 
 const readJson = async path => (await fetch(path)).json();
 const [street, shop, chancery, courtyard, marketMap, literaryMap, overcoatMap, policeMap, firstQuest, marketPersonalQuests, source, firstIssue, historicalSources, literarySource, overcoatSource, campaign, publicQuest, europeNewsQuest, circleQuest, letterQuest, literaryQuest, overcoatQuest, sceneObservations, aiScenes, learningExam, learningSourceData, lifeTemplates] = await Promise.all([readJson('./rpg/maps/nevsky.json'), readJson('./rpg/maps/printshop.json'), readJson('./rpg/maps/chancery.json'), readJson('./rpg/maps/courtyard.json'), readJson('./rpg/maps/market-quay.json'), readJson('./rpg/maps/dead-souls.json'), readJson('./rpg/maps/overcoat.json'), readJson('./rpg/maps/police-station.json'), readJson('./rpg/quests/printshop-article.json'), Promise.all(['yard-ledger-1847','laundry-wages-1847','bakery-flour-1847','market-prices-1847','porter-load-1847','coach-fare-1847','warehouse-injury-1847','pavel-missing-parcel-1847','household-privacy-1847','midwife-care-cost-1847','apothecary-limits-1847','apprentice-authorship-1847','bookbinder-damage-1847','scribal-copy-1847','inn-debt-rumor-1847','student-circle-risk-1847','teacher-access-cost-1847','household-tutor-offer-1847','market-theft-1847','noble-status-debt-1847','landlady-rent-commons-1847','water-access-queue-1847','fish-storage-time-1847','warehouse-loss-record-1847','servant-private-warning-1847','guard-entry-bribe-1847','carter-delivery-delay-1847','street-vendor-weather-1847','typesetter-speed-censorship-1847','lodging-reading-income-1847','clerk-alexei-life-1-1847','clerk-alexei-life-2-1847','clerk-alexei-life-3-1847','courier-pavel-life-1-1847','courier-pavel-life-2-1847','courier-pavel-life-3-1847','seamstress-anna-life-1-1847','seamstress-anna-life-2-1847','seamstress-anna-life-3-1847','bookseller-lev-life-1-1847','bookseller-lev-life-2-1847','bookseller-lev-life-3-1847'].map(id => readJson(`./rpg/quests/${id}.json`))), readJson('./rpg/data/khor-kalynych-source.json'), readJson('./rpg/data/sovremennik-1847-issue.json'), readJson('./rpg/data/historical-source-packets.json'), readJson('./rpg/data/dead-souls-source.json'), readJson('./rpg/data/overcoat-source.json'), readJson('./rpg/quests/campaign.json'), readJson('./rpg/quests/public-discourse-1848.json'), readJson('./rpg/quests/europe-news-1848.json'), readJson('./rpg/quests/circle-investigation-1849.json'), readJson('./rpg/quests/circle-letter-1849-may.json'), readJson('./rpg/quests/literary-dead-souls.json'), readJson('./rpg/quests/literary-overcoat.json'), readJson('./rpg/data/scene-observations.json'), readJson('./rpg/ai/scenes.json'), readJson('./rpg/data/learning-exam.json'), readJson('./rpg/data/learning-sources.json'), readJson('./rpg/data/life-simulation.json')]);
@@ -177,6 +177,7 @@ $('.mission-controls').append(caseContextButton);
 $('#roster-open').addEventListener('click', openCharacterList);
 let lastMoveAt = 0, renderFrame = null, renderTimer = null, activeDialogueHost = null, activeDialogueKey = null, activeDialogueController = null, dialogueGeneration = 0, dialogueRequestPending = false;
 const dialogueSessions = new Map(), dialogueTranscripts = new Map(), dialogueOrdinaryExchanges = new Map();
+const dialogueOpeningContexts = new Map();
 const historicalDialogueChoicesByKey = new Map();
 const dialogueCurrentLines = new Map();
 const dialogueFailedQuestions = new Map();
@@ -1601,7 +1602,7 @@ function continuationFor(activeQuest) {
   } }]; }
   const nextArc = arcIndex >= 0 ? campaign.arcs[arcIndex + 1] : null;
   if (nextArc && arc?.questIds.every(id => state.quests[id]?.status === 'resolved')) return [{ label: `${nextArc.date.slice(0, 4)}년으로 이어가기`, subcopy: '다음 장을 시작합니다 · 역사 연표가 앞으로 이동합니다', run: () => {
-    const advanced = advanceChapter(state, nextArc.id, campaign, maps);
+    const advanced = advanceChapter(state, nextArc.id, progressionCampaign, maps);
     if (!advanced.ok) { sayRecord(`다음 장을 열 수 없음 · ${advanced.reason}`); return; }
     setState(advanced.state);
     localStorage.setItem('v33-rpg-save', saveGame(advanced.state));
@@ -2456,6 +2457,7 @@ function finishConversation(hostId) {
   if (key) historicalDialogueChoicesByKey.delete(key);
   if (key && interruptedTurn) { dialogueSessions.delete(key); sessionStorage.removeItem(dialogueStorageKey(key)); }
   if (key && dialogueSessions.get(key)?.mode === 'BLOCKED_LIMIT') { dialogueSessions.delete(key); sessionStorage.removeItem(dialogueStorageKey(key)); }
+  if (key) dialogueOpeningContexts.delete(key);
   const card = cards.find(item => item.id === hostId);
   tutorialAdvance('finish');
   say(card.displayNameKo, '대화를 마쳤다. 그 사람은 지금 하던 일을 이어간다.', []);
@@ -2465,7 +2467,7 @@ function clearHistoricalDialogue() {
   const key = activeDialogueKey;
   dialogueGeneration += 1; dialogueRequestPending = false;
   activeDialogueController?.abort(); activeDialogueController = null;
-  if (key) { dialogueSessions.delete(key); historicalDialogueChoicesByKey.delete(key); }
+  if (key) { dialogueSessions.delete(key); dialogueOpeningContexts.delete(key); historicalDialogueChoicesByKey.delete(key); }
   activeDialogueHost = null; activeDialogueKey = null;
   $('.lower').classList.remove('is-talking'); $('#dialogue-speaker').hidden = true; updateHud();
 }
@@ -2528,6 +2530,9 @@ async function startConversation(card) {
     startHistoricalConversation(card); return;
   }
   const key = dialogueKey(actorCard.id, card.id);
+  const openingContext = captureDialogueStartContext(state, card.id, actorCard.id, maps);
+  if (!openingContext) { sayRecord('말을 건넬 사람이 가까이 있지 않다.'); return; }
+  dialogueOpeningContexts.set(key, openingContext);
   const generation = ++dialogueGeneration;
   dialogueOrdinaryExchanges.set(key, 0);
   dialogueRequestPending = false;
@@ -2752,7 +2757,7 @@ async function sendConversation(card, playerText, replyId = null) {
   for (const beat of turn.beats) lines.push({ speaker: dialogueSpeakerLabel(beat.speakerId, card.displayNameKo), text: beat.textKo });
   dialogueTranscripts.set(key, lines.slice(-24));
   dialogueCurrentLines.set(key, turn.beats.map(beat => beat.textKo).join('\n'));
-  const recorded = recordDialogueTurn(state, { hostId: card.id, actorHostId: actorCard.id, sceneId: local.sceneId, intentClass, discussionId: discussionPrompt?.discussionId ?? null, discussionTitleKo: discussionPrompt?.questTitleKo, reflectionId: reflectionPrompt?.reflectionId ?? null, aiGenerated }, maps);
+  const recorded = recordDialogueTurn(state, { hostId: card.id, actorHostId: actorCard.id, sceneId: local.sceneId, intentClass, discussionId: discussionPrompt?.discussionId ?? null, discussionTitleKo: discussionPrompt?.questTitleKo, reflectionId: reflectionPrompt?.reflectionId ?? null, aiGenerated, dialogueStartContext: dialogueOpeningContexts.get(key) }, maps);
   if (recorded.ok) setState(recorded.state);
   let discussionProgressStatus = '';
   if (recorded.ok && discussionPrompt) {

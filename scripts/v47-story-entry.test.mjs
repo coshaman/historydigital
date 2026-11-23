@@ -327,6 +327,27 @@ test('quest guidance switches to a role that can reach the required source', () 
   assert.match(guide.howKo, /체포 명령|명령서/u);
 });
 
+test('MAIN01 completion advances with its story-scoped chapter requirements', async () => {
+  const state = game.createInitialState({ maps, hostCards, quests, startMapId: 'printshop' });
+  state.world.chapterId = 'V33_1848_PUBLIC';
+  state.world.date = '1848-12-12';
+  state.world.currentMapId = 'printshop';
+  state.world.v47.focusStoryId = 'MAIN01';
+  const scopedCampaign = campaignForV47StoryProgress(campaign, 'MAIN01', 'V33_1848_PUBLIC', quests);
+  const scopedCurrentArc = scopedCampaign.arcs.find(arc => arc.id === 'V33_1848_PUBLIC');
+  for (const questId of scopedCurrentArc.questIds) state.quests[questId] = { status: 'resolved' };
+
+  const unscopedAttempt = game.advanceChapter(state, 'V33_1849_PRELUDE', campaign, maps);
+  assert.equal(unscopedAttempt.reason, 'prior_chapter_incomplete', 'unrelated MAIN03/MAIN05 quests must not block MAIN01 continuation');
+  const scopedAttempt = game.advanceChapter(state, 'V33_1849_PRELUDE', scopedCampaign, maps);
+  assert.equal(scopedAttempt.ok, true);
+  assert.equal(scopedAttempt.state.world.date, '1849-03-20');
+
+  const mainSource = await readFile(new URL('../rpg/main.js', import.meta.url), 'utf8');
+  assert.match(mainSource, /advanceChapter\(state, nextArc\.id, progressionCampaign, maps\)/,
+    'the visible year-advance action must use the same story-scoped requirements it displays');
+});
+
 test('MAIN01 roster possession recovers a host spawned on a blocked tile before routing to the source', () => {
   const storyQuest = {
     id: 'V47_MAIN01_A03', chapterId: 'V33_1848_PUBLIC', date: '1848-05-06',
