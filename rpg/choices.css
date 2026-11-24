@@ -140,6 +140,10 @@ kbd{font:11px 'IBM Plex Mono',monospace;color:#d8c59f}
 .journal-tab-panel[hidden]{display:none}
 .journal-done{padding:10px 0;border-top:1px solid #b39c70}
 .journal-done{color:#59442c}
+#journal-discussion-positions{list-style:none;padding:0;margin:12px 0 16px;display:grid;gap:8px}
+#journal-discussion-positions[hidden]{display:none}
+#journal-discussion-positions li{display:grid;gap:5px;padding:8px 10px;border-left:2px solid #8a6b43;background:#e9dabb;color:#422f20}
+#journal-discussion-positions button{width:fit-content;min-height:44px;text-align:left}
 .dialogue-history{margin:8px 0;border-top:1px solid #6c5038;padding-top:6px}
 .dialogue-history summary{cursor:pointer;color:#d0b47e;font-size:14px;min-height:32px}
 .dialogue-history ol{max-height:24vh;overflow:auto;margin:6px 0;padding-left:23px;font-size:14px;line-height:1.6}

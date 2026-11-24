@@ -23,6 +23,86 @@
   ],
   "quests": [
     {
+      "id": "INQUIRY_MAIN01_TALNIKOV_HOME",
+      "storyId": "MAIN01",
+      "date": "1848-05-18",
+      "contextQuestId": "V47_MAIN01_A03",
+      "titleKo": "어린아이의 눈으로 본 탈니코프 집안",
+      "situationKo": "원고 첫 장에서 어린 화자는 여동생 곁의 어른들을 지켜본다. 편집대에서는 이 대목을 그대로 실을지 의견이 갈린다.",
+      "stakesKo": "집안의 일을 독자에게 보여 줄지, 글에서 확인할 수 있는 범위를 어디까지로 볼지 정한다.",
+      "topicId": "literature",
+      "requiredPerspectiveCount": 2,
+      "sourceIds": ["V47-PANAEVA-TALNIKOV-CH1-1848"],
+      "hosts": {
+        "editor_sofia": { "promptKo": "아이가 본 탈니코프 집안 이야기를 연감에 그대로 실으면 독자에게 뭐가 전해질까요?", "viewKo": "아이의 눈으로 쓰인 대목을 살리고 싶다. 독자가 이 집의 어른들을 보게 하되 이 한 집을 모든 집안의 모습처럼 내세우고 싶지는 않다.", "answerKo": "전 아이의 눈으로 본 그대로 싣고 싶어요. 어른이 사정을 풀어 주기 시작하면, 그 아이가 방에서 보고도 이해하지 못한 것까지 대신 설명하게 되잖아요." },
+        "midwife_avdotya": { "promptKo": "아기가 죽은 방에서 유모는 받기로 한 옷을 잃고 울어요. 그 눈물을 어떻게 읽으셨어요?", "viewKo": "유모가 무엇을 잃었는지부터 따져 본다. 아이를 돌본 일과 약속된 대가는 연결되어 있다. 소설의 한 장면만으로 유모에게 아이가 아무 의미도 없었다고 말하고 싶지는 않다.", "answerKo": "유모가 옷 때문에 울었다고 해서 아이가 안 가여웠겠어요? 잠도 못 자고 애를 돌봤을 텐데, 받기로 한 옷마저 못 받는 거잖아요." }
+      },
+      "playerPositionChoices": [
+        { "id": "KEEP_CHILD_VIEW", "labelKo": "아이의 시선을 그대로 싣는다", "stanceKo": "어른들의 설명을 붙이기 전에 아이가 본 장면을 독자에게 보여 주고 싶다." },
+        { "id": "KEEP_NURSE_WAGES_VISIBLE", "labelKo": "유모가 받기로 한 대가를 눈여겨본다", "stanceKo": "유모가 무슨 마음이었는지 단정하기보다 아이를 돌본 노동과 약속이 함께 드러나야 한다." }
+      ]
+    },
+    {
+      "id": "INQUIRY_MAIN01_BOUND_VOLUME",
+      "storyId": "MAIN01",
+      "date": "1848-09-18",
+      "contextQuestId": "V47_MAIN01_A05",
+      "titleKo": "글 한 편과 연감 한 권",
+      "situationKo": "크릴로프는 심사 의견에서 따로 읽을 때와 한 연감에 묶여 읽힐 때 인상이 다르다고 적었다.",
+      "stakesKo": "한 작품과 책 전체를 같은 이유로 막아도 되는지 묻는다.",
+      "topicId": "censorship",
+      "requiredPerspectiveCount": 2,
+      "sourceIds": ["V47-KRYLOV-ASSESSMENT-1848-09-06"],
+      "hosts": {
+        "clerk_alexei": { "promptKo": "크릴로프는 글을 묶어 읽으면 인상이 달라진다는데, 그 이유로 연감 한 권을 막아도 될까요?", "viewKo": "심사관이 작품들을 나란히 읽는 것은 이해하지만 책 전체를 막는다면 어떤 작품과 어떤 대목이 이유인지 적어야 한다고 생각한다.", "answerKo": "책 한 권을 세울 거라면 어느 쪽, 어느 줄 때문인지 써야죠. ‘느낌이 달랐다’만 적어 보내면 편집자가 뭘 고칩니까?" },
+        "senior_clerk_konstantin": { "promptKo": "따로 읽을 때는 고칠 수 있다는 글도 함께 묶이면 다르게 읽힌다는 게 납득되십니까?", "viewKo": "편집은 글들 사이의 관계를 만든다고 본다. 그러나 불허 결정이라면 누가 무엇을 읽고 판단했는지가 남아야 한다.", "answerKo": "납득하오. 앞에 무슨 글이 실리느냐에 따라 뒷글도 달리 읽히는 법이니까. 그게 불허의 까닭이라면 어느 글을 나란히 놓고 읽었는지 심사관이 적어야지요." }
+      },
+      "playerPositionChoices": [
+        { "id": "JUDGE_THE_PASSAGE", "labelKo": "문제가 된 대목부터 특정한다", "stanceKo": "연감 전체의 인상보다 심사에서 문제 삼은 작품과 문장을 먼저 확인한다." },
+        { "id": "JUDGE_THE_VOLUME", "labelKo": "묶어 낸 편집도 판단한다", "stanceKo": "글이 놓인 순서와 다른 글과의 관계도 책을 읽는 데 영향을 준다고 본다." }
+      ]
+    },
+    {
+      "id": "INQUIRY_MAIN03_ORDER_AND_CHANGE",
+      "storyId": "MAIN03",
+      "date": "1848-10-02",
+      "contextQuestId": "V47_MAIN03_P03",
+      "titleKo": "혼란을 막을 권리와 삶을 바꿀 권리",
+      "situationKo": "선언문은 유럽에서 일어난 변화를 위협으로 규정했다. 모임의 사전에는 푸리에가 일과 재산을 다르게 나누려 했다는 설명이 실려 있다.",
+      "stakesKo": "농노의 처지를 바꾸자는 말을 질서에 대한 위협으로 볼지, 필요한 첫걸음으로 볼지 따져 본다.",
+      "topicId": "serfdom",
+      "requiredPerspectiveCount": 2,
+      "sourceIds": ["OBJ-NICHOLAS-MANIFESTO-1848", "V47-PETRASHESKY-FOURIER-NOVATORSTVO-1846"],
+      "hosts": {
+        "student_vasily": { "promptKo": "황제는 유럽의 변화를 혼란이라 했지요. 푸리에처럼 일과 재산을 다르게 나누면 농노의 삶이 달라질까요?", "viewKo": "농노가 자기 일과 거처를 정할 수 있어야 질서도 정당하다고 생각한다. 푸리에의 책이 지주와 농노의 현실에 그대로 들어맞는다고 장담하지는 않는다.", "answerKo": "당장 책대로 농장을 꾸리자는 건 아녜요. 하지만 일할 곳 하나도 제 손으로 못 고르는 사람한테 지금 질서가 좋으냐고 물으면, 무슨 말을 하겠어요?" },
+        "minor_noble_andrei": { "promptKo": "선언문을 믿는 지주라면 농노가 자기 일을 정하게 해 달라는 요구까지 혼란으로 보겠습니까?", "viewKo": "농노의 처지를 돌보아야 한다고 보지만 땅과 소득을 갑자기 바꾸면 생활이 흔들릴까 걱정한다. 개혁을 말하려면 다음 수확과 분쟁을 누가 맡을지부터 듣고 싶다.", "answerKo": "나는 떠날 수 있게 해야 한다고 생각하오. 다만 남은 식구들은 어느 땅에 씨를 뿌립니까? 그 몫을 정하지 않고 봄을 맞으면, 가장 먼저 굶는 건 그 집 아이들이오." }
+      },
+      "playerPositionChoices": [
+        { "id": "START_WITH_FREEDOM_TO_LEAVE", "labelKo": "농노가 일과 거처를 고를 권리부터", "stanceKo": "질서를 지킨다는 말에 앞서 사람이 자기 일과 거처를 정할 권리를 요구한다." },
+        { "id": "SECURE_LIVELIHOOD_IN_REFORM", "labelKo": "개혁과 함께 수확과 생계를 보장한다", "stanceKo": "농노의 권리를 넓히면서도 다음 수확과 생계가 끊기지 않을 방법을 함께 정한다." }
+      ]
+    },
+    {
+      "id": "INQUIRY_MAIN03_LETTER_AND_PULPIT",
+      "storyId": "MAIN03",
+      "date": "1849-04-27",
+      "contextQuestId": "V47_MAIN03_P05",
+      "titleKo": "신앙을 말하는 글과 체벌을 받는 사람",
+      "situationKo": "벨린스키의 편지를 필사본으로 돌려 읽었다. 고골의 책을 비판하는 편지에는 농노제와 체벌 이야기가 나온다.",
+      "stakesKo": "종교적 권위의 남용을 비판하는 말과 신앙을 공격하는 말을 구분해 본다.",
+      "topicId": "religion_and_authority",
+      "requiredPerspectiveCount": 2,
+      "sourceIds": ["OBJ-BELINSKY-LETTER-GOGOL-1847"],
+      "hosts": {
+        "teacher_lyubov": { "promptKo": "벨린스키가 고골에게 따진 것은 신앙 자체일까요, 체벌을 정당하다고 하는 말일까요?", "viewKo": "신앙이 사람을 돌보라고 가르칠 수 있고 권위가 매질을 두둔하는 데 이용될 수도 있다고 본다. 읽은 대목으로 두 주장을 가려 보고 싶다.", "answerKo": "저는 매질을 두둔한 말을 따졌다고 읽었어요. 이웃을 돌보라고 가르치는 일과, 맞는 사람더러 그게 옳다고 가르치는 일이 어떻게 같겠어요?" },
+        "student_vasily": { "promptKo": "편지에서 농노제와 체벌을 함께 꺼낸 까닭이 뭐라고 생각하세요?", "viewKo": "체벌을 받는 사람에게는 그것을 정당화하는 말도 생활의 일부라고 생각한다. 그래서 고골의 명성이나 이 자리에 박수 친 사람 수부터 따지고 싶지 않다.", "answerKo": "싫으면 떠날 수 있는 사람과 매를 맞고도 그 집에 있어야 하는 사람은 다르잖아요. 편지를 읽으면서 전 자꾸 뒷사람 생각이 났어요." }
+      },
+      "playerPositionChoices": [
+        { "id": "CRITICIZE_AUTHORITY_NOT_FAITH", "labelKo": "신앙과 체벌을 두둔하는 권위를 가른다", "stanceKo": "신앙 전체를 재단할 필요 없이 그것을 빌려 체벌을 두둔하는 주장은 비판할 수 있다고 본다." },
+        { "id": "START_WITH_THE_PUNISHED", "labelKo": "체벌을 받는 사람의 처지에서 읽는다", "stanceKo": "편지를 읽을 때 고골이나 벨린스키의 이름보다 글에서 다루는 사람들의 처지가 먼저라고 본다." }
+      ]
+    },
+    {
       "id": "INQUIRY_OFFICIAL_DUTY_AND_MORALITY",
       "date": "1849-05-05",
       "contextQuestId": "CIRCLE_LETTER_1849_MAY",

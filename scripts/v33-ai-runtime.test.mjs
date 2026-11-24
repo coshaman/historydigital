@@ -166,6 +166,30 @@ test('V47 story conversations load the active beat, source context, and characte
   assert.equal(providerInput.conversation.embodiedPlayer.id, 'print_apprentice_stepan');
 });
 
+test('the MAIN01 reading discussion gives the model the witness position and the matching historical passage', async () => {
+  let providerInput;
+  const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long',
+    store: new MemorySessionStore(), allowedOrigins: ['https://game.example'],
+    provider: { generate: async request => { providerInput = request.input; return validTurn(request.input.scene.id, request.input.character.id); } } });
+  const opened = await service.handle(request('POST', '/api/rpg/session/start', {
+    hostId: 'editor_sofia', actorHostId: 'panaeva_1848',
+  }));
+  const inquiry = require('../rpg/data/discussion-quests.json').quests.find(item => item.id === 'INQUIRY_MAIN01_TALNIKOV_HOME');
+  const speaker = inquiry.hosts.editor_sofia;
+  const result = await service.handle(request('POST', '/api/rpg/dialogue', {
+    sessionToken: opened.body.sessionToken, requestId: 'v47-main01-reading-inquiry-0001', playerInput: speaker.promptKo,
+    sceneContext: { date: inquiry.date, mapId: 'printshop', questId: inquiry.contextQuestId, discussionId: inquiry.id },
+  }));
+  assert.equal(result.status, 200, JSON.stringify(result.body));
+  const context = providerInput.conversation.sceneContext.discussionContext;
+  assert.equal(context.situationKo, inquiry.situationKo);
+  assert.equal(context.speakerViewKo, speaker.viewKo);
+  assert.deepEqual(context.sourceIds, inquiry.sourceIds);
+  const evidence = providerInput.sourceEvidence.find(record => record.sourceId === inquiry.sourceIds[0]);
+  assert.ok(evidence?.paragraphs.length && evidence.paragraphs.every(paragraph => paragraph.ru && paragraph.ko),
+    'the model receives the aligned source passage');
+});
+
 test('AI excludes the April 22 Petrashevsky investigation report until its December 22 in-game access date', async () => {
   let providerInput;
   const service = createRpgAiService({ secret: 'test-signing-secret-at-least-32-bytes-long',

@@ -136,10 +136,17 @@ const currentDiscussionQuests = () => {
     // actually reached that case. Reading a related title alone must not
     // launch a free-floating ethics prompt before the scene exists.
     if (quest.contextQuestId) {
-      const contextReached = missionGuidance?.questId === quest.contextQuestId
+      const contextReached = missionGuidance?.questId === quest.contextQuestId || quest.perspectiveHostIds.length > 0
         || queuedDiscussionInquiry?.questId === quest.id
         || (state.ledger ?? []).some(entry => entry.questId === quest.contextQuestId);
       if (!contextReached) return [];
+    }
+    if (quest.storyId) {
+      const evidenceRead = (quest.sourceIds ?? []).some(id => state.player.observedEvidenceIds?.includes(id));
+      if (!evidenceRead && !quest.perspectiveHostIds.length) return [];
+      // The two authored scene participants can discuss the text they encountered there.
+      const hosts = Object.fromEntries(Object.entries(quest.hosts).filter(([id]) => state.hosts[id]?.historicalAliveAndPresent));
+      return [{ ...quest, hosts, situationKo: quest.situationKo }];
     }
     const hosts = Object.fromEntries(Object.entries(quest.hosts ?? {}).filter(([hostId]) => {
       const host = state.hosts[hostId];
@@ -493,13 +500,13 @@ function mapWithSource(sourceId) {
   const candidates = Object.values(maps).filter(map => map.layers?.find(layer => layer.name === 'Interactions')?.objects.some(object => mapObjectProperties(object).sourceId === sourceId));
   return candidates.find(map => map.mapId === state.world.currentMapId) ?? candidates[0] ?? null;
 }
-function nearbyConversationPartner() {
+function nearbyConversationPartner(preferredHostId = null) {
   const actorId = state.player.embodiment;
   if (!actorId) return null;
   const position = state.hosts[actorId].position;
   const spokenHistoricalActors = new Set(state.historicalSession?.spokenActorIds ?? []);
   return Object.values(state.hosts).map(person => ({ person, card: cards.find(card => card.id === person.id) })).filter(({ person, card }) => {
-    return card && person.historicalAliveAndPresent && card.id !== actorId && person.mapId === state.world.currentMapId && Math.abs(person.position.x - position.x) + Math.abs(person.position.y - position.y) <= 2;
+    return card && (!preferredHostId || card.id === preferredHostId) && person.historicalAliveAndPresent && card.id !== actorId && person.mapId === state.world.currentMapId && Math.abs(person.position.x - position.x) + Math.abs(person.position.y - position.y) <= 2;
   }).sort((a, b) => {
     const aPosition = a.person.position, bPosition = b.person.position;
     if (state.historicalSession) {
@@ -509,6 +516,10 @@ function nearbyConversationPartner() {
     }
     return Math.abs(aPosition.x - position.x) + Math.abs(aPosition.y - position.y) - Math.abs(bPosition.x - position.x) - Math.abs(bPosition.y - position.y);
   })[0]?.card ?? null;
+}
+function guidedConversationPartner() {
+  const targetId = queuedDiscussionInquiry?.hostId;
+  return (targetId && nearbyConversationPartner(targetId)) || nearbyConversationPartner();
 }
 function updateHud() {
   const map = currentMap(), host = state.player.embodiment ? cards.find(card => card.id === state.player.embodiment) : null;
@@ -523,7 +534,7 @@ function updateHud() {
   $('#bodyname').textContent = state.player.civic?.custody?.active ? `경찰 접수실 · 조사 대기 · ${cards.find(card => card.id === state.player.civic.custody.hostId)?.displayNameKo ?? '당사자'}` : host ? `몸을 빌림 · ${host.displayNameKo}` : '바깥에서 바라보는 중';
   $('#coins').textContent = host ? (state.hosts[host.id].money.amount == null ? '자금 기록 없음' : `${state.hosts[host.id].money.amount} 코페이카`) : '몸을 빌리면 주머니를 확인할 수 있습니다';
   $('#release').disabled = !host || Boolean(activeDialogueHost);
-  const conversationPartner = nearbyConversationPartner();
+  const conversationPartner = guidedConversationPartner();
   $('#talk').textContent = conversationPartner ? `말 걸기 · ${conversationPartner.displayNameKo}` : '가까이서 말하기';
   $('#talk').disabled = !host || !conversationPartner || Boolean(activeDialogueHost);
   document.querySelectorAll('.touch-pad button').forEach(button => { button.disabled = Boolean(activeDialogueHost && !button.hasAttribute('data-move')); });
@@ -683,6 +694,12 @@ function updateHud() {
   const missionDiscussionButton = $('#mission-queue-discussion');
   const journalDiscussionButton = $('#journal-queue-discussion');
   for (const button of [missionDiscussionButton, journalDiscussionButton]) {
+    if (queuedDiscussionInquiry && !inLiteraryScene && !state.endingId) {
+      button.hidden = false;
+      button.textContent = '메인 목표로 돌아가기';
+      button.removeAttribute('aria-label');
+      continue;
+    }
     button.hidden = !missionDiscussion || missionDiscussion.phase !== 'ASK';
     if (!button.hidden) {
       button.textContent = `대화 목표 · ${missionDiscussion.hostNameKo}: “${missionDiscussion.promptKo}”`;
@@ -782,15 +799,17 @@ function updateHud() {
   const positionRows = (discussionView.positionPrompts ?? []).flatMap(prompt => prompt.choices.map(choice => {
     const li = document.createElement('li');
     const detail = document.createElement('span');
-    detail.textContent = `${prompt.titleKo} · 내 입장: ${choice.labelKo} — ${choice.consequenceKo}`;
+    detail.textContent = `${prompt.titleKo} · ${choice.stanceKo}`;
     const choose = document.createElement('button');
     choose.type = 'button';
     choose.className = 'discussion-position-select';
-    choose.textContent = '이 입장으로 기록';
+    choose.textContent = choice.labelKo;
     choose.addEventListener('click', () => {
       const result = recordDiscussionPosition(state, { discussionId: prompt.questId, positionId: choice.id }, discussionQuestData);
       if (!result.ok) { sayRecord(result.reason === 'position_already_recorded' ? '이 쟁점에 대한 내 입장은 이미 수첩에 남아 있습니다.' : '두 인물의 관점을 먼저 모아야 내 입장을 기록할 수 있습니다.'); return; }
       setState(result.state);
+      localStorage.setItem('v33-rpg-save', saveGame(state));
+      $('#load').disabled = false;
       queuedDiscussionInquiry = null;
       destinationPinned = false;
       sayRecord(`내 입장을 수첩에 남겼습니다 · ${choice.labelKo}`);
@@ -798,9 +817,23 @@ function updateHud() {
     li.append(detail, choose);
     return li;
   }));
-  inquiryList.replaceChildren(...(visibleInquiries.length || followUpRows.length
+  let journalChoices = $('#journal-discussion-positions');
+  if (!journalChoices) {
+    journalChoices = document.createElement('ul');
+    journalChoices.id = 'journal-discussion-positions';
+    $('#journal-completed').after(journalChoices);
+  }
+  journalChoices.hidden = !positionRows.length;
+  journalChoices.replaceChildren(...positionRows);
+  const journalLink = document.createElement('button');
+  journalLink.type = 'button';
+  journalLink.textContent = '수첩에서 내 입장 고르기';
+  journalLink.addEventListener('click', openJournal);
+  const journalLinkRow = document.createElement('li');
+  journalLinkRow.append(journalLink);
+  inquiryList.replaceChildren(...(positionRows.length || visibleInquiries.length || followUpRows.length
     ? [
-      ...positionRows,
+      ...(positionRows.length ? [journalLinkRow] : []),
       ...visibleInquiries.map(item => {
         const li = document.createElement('li');
         const detail = document.createElement('div');
@@ -946,7 +979,7 @@ function updateHud() {
   const dialogueGrowth = state.player.dialogueGrowth ?? { insight: 0, aiReplies: 0, perspectiveNotes: [] };
   const reflectionRows = (dialogueGrowth.perspectiveNotes ?? []).map(note => {
     const quest = discussionQuestById.get(note.discussionId), hostCard = cards.find(item => item.id === note.hostId);
-    return `${note.date} · ${quest?.titleKo ?? '대화에서 얻은 관점'} · ${hostCard?.displayNameKo ?? '대화 상대'}의 시각`;
+    return `${note.date} · ${quest?.titleKo ?? '대화에서 얻은 관점'} · ${hostCard?.displayNameKo ?? '대화 상대'}${note.answerKo ? `: ${note.answerKo}` : '의 시각'}`;
   });
   for (const note of dialogueGrowth.comparisonNotes ?? []) {
     const quest = discussionQuestById.get(note.discussionId);
@@ -1047,6 +1080,13 @@ function toggleDestinationPin() {
   updateHud(); requestRender();
 }
 function queueActiveMissionDiscussion() {
+  if (queuedDiscussionInquiry) {
+    queuedDiscussionInquiry = null;
+    destinationPinned = false;
+    updateHud();
+    requestRender();
+    return;
+  }
   const discussionQuests = currentDiscussionQuests();
   const activeMissionQuest = questList.find(quest => quest.id === missionGuidance.questId);
   const instruction = nextDiscussionInstructionForQuest(missionGuidance.questId, discussionQuests,
@@ -1791,9 +1831,8 @@ function openCityCounter(counter) {
       localStorage.setItem('v33-rpg-save', saveGame(state));
       $('#load').disabled = false;
       const seller = cards.find(card => card.id === counter.sellerId);
-      const partner = nearbyConversationPartner();
       const followups = [{ label: '다시 살펴보기', run: () => openCityCounter(counter) }];
-      if (partner?.id === seller?.id) followups.unshift({ label: `${seller.displayNameKo}에게 말 걸기`, run: () => startConversation(seller) });
+      if (seller && nearbyConversationPartner(seller.id)) followups.unshift({ label: `${seller.displayNameKo}에게 말 걸기`, run: () => startConversation(seller) });
       say(counter.counterKo, purchase.product.resultKo, followups);
       sayRecord(`${offer.labelKo} · ${offer.price}코페이카`);
     },
@@ -2585,8 +2624,8 @@ function showConversation(card, promptText, replies, statusText = '') {
   sayRecord(statusText || (hasLiveDialogue(activeDialogueKey) ? '직접 말하거나 준비된 대답을 고르세요.' : 'AI 연결이 필요합니다. 설정에서 연결 상태를 확인하세요.'));
 }
 async function startConversation(card) {
-  const actorCard = cards.find(item => item.id === state.player.embodiment), partner = nearbyConversationPartner();
-  if (!actorCard || partner?.id !== card.id || activeDialogueHost) { sayRecord('말을 건넬 사람이 가까이 있지 않다.'); return; }
+  const actorCard = cards.find(item => item.id === state.player.embodiment);
+  if (!actorCard || !nearbyConversationPartner(card.id) || activeDialogueHost) { sayRecord('말을 건넬 사람이 가까이 있지 않다.'); return; }
   if (state.historicalSession && card.id.startsWith(`historical:${state.historicalSession.eventId}:`)) {
     startHistoricalConversation(card); return;
   }
@@ -2810,6 +2849,11 @@ async function sendConversation(card, playerText, replyId = null) {
   }
   const local = aiScenes.sessions[card.id];
   const aiGenerated = Boolean(turn);
+  const authoredAnswer = discussionQuestById.get(discussionPrompt?.discussionId)?.hosts?.[card.id]?.answerKo;
+  if (!turn && authoredAnswer) {
+    turn = { beats: [{ speakerId: card.id, textKo: authoredAnswer }], suggestedReplies: [] };
+    generationFailure = '';
+  }
   const localService = !turn && !discussionPrompt && !reflectionPrompt
     ? residentServiceAnswer(cityServices, card.id, state.world.date, playerText) : null;
   if (localService) {
@@ -2820,7 +2864,8 @@ async function sendConversation(card, playerText, replyId = null) {
   }
   if (!turn && generationFailure) {
     dialogueCurrentLines.set(key, '이번 질문에 대한 생성 답변을 받지 못했습니다. 연결을 확인한 뒤 같은 질문을 다시 보낼 수 있습니다.');
-    showConversation(card, dialogueCurrentLines.get(key), [], generationFailure);
+    const preparedQuestion = queuedDiscussionInquiry?.hostId === card.id ? [queuedDiscussionInquiry.promptKo] : [];
+    showConversation(card, dialogueCurrentLines.get(key), preparedQuestion, generationFailure);
     $('.journal').scrollTop = $('.journal').scrollHeight;
     return;
   }
@@ -2829,10 +2874,13 @@ async function sendConversation(card, playerText, replyId = null) {
   for (const beat of turn.beats) lines.push({ speaker: dialogueSpeakerLabel(beat.speakerId, card.displayNameKo), text: beat.textKo });
   dialogueTranscripts.set(key, lines.slice(-24));
   dialogueCurrentLines.set(key, turn.beats.map(beat => beat.textKo).join('\n'));
-  const recorded = recordDialogueTurn(state, { hostId: card.id, actorHostId: actorCard.id, sceneId: local.sceneId, intentClass, discussionId: discussionPrompt?.discussionId ?? null, discussionTitleKo: discussionPrompt?.questTitleKo, reflectionId: reflectionPrompt?.reflectionId ?? null, aiGenerated, dialogueStartContext: dialogueOpeningContexts.get(key) }, maps);
+  const discussionAnswerKo = discussionPrompt ? turn.beats.filter(beat => beat.speakerId === card.id).map(beat => beat.textKo).join('\n') : '';
+  const recorded = recordDialogueTurn(state, { hostId: card.id, actorHostId: actorCard.id, sceneId: local.sceneId, intentClass, discussionId: discussionPrompt?.discussionId ?? null, discussionTitleKo: discussionPrompt?.questTitleKo, discussionAnswerKo, reflectionId: reflectionPrompt?.reflectionId ?? null, aiGenerated, dialogueStartContext: dialogueOpeningContexts.get(key) }, maps);
   if (recorded.ok) setState(recorded.state);
   let discussionProgressStatus = '';
   if (recorded.ok && discussionPrompt) {
+    localStorage.setItem('v33-rpg-save', saveGame(state));
+    $('#load').disabled = false;
     const inquiryId = discussionPrompt.discussionId;
     const nextInquiry = currentDiscussionQuests().find(item => item.id === inquiryId);
     const followUp = discussionFollowUpAfterTurn(nextInquiry, Object.fromEntries(cards.map(item => [item.id, item.displayNameKo])));
@@ -2881,7 +2929,7 @@ document.addEventListener('keydown', event => {
 });
 document.querySelectorAll('[data-move]').forEach(button => button.addEventListener('click', () => move(button.dataset.move)));
 $('#use').addEventListener('click', interact);
-$('#talk').addEventListener('click', () => { const partner = nearbyConversationPartner(); if (partner) startConversation(partner); else sayRecord('먼저 다른 사람 곁으로 다가가자.'); });
+$('#talk').addEventListener('click', () => { const partner = guidedConversationPartner(); if (partner) startConversation(partner); else sayRecord('먼저 다른 사람 곁으로 다가가자.'); });
 $('#release').addEventListener('click', () => { const result = releaseHost(state, currentMap()); if (result.ok) { setState(result.state); say('몸을 놓아주다', '그 사람은 자기 자리에서 계속 살아간다. 네가 본 것과 그 사람이 아는 것은 섞이지 않는다.', []); } });
 $('#save').addEventListener('click', () => { localStorage.setItem('v33-rpg-save', saveGame(state)); $('#load').disabled = false; sayRecord('기록을 저장했다.'); });
 $('#load').addEventListener('click', () => {

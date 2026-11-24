@@ -587,13 +587,14 @@ async function normalizeSceneContext(value, actorHostId, speakerCard = null, pla
       if (!recognized) return null;
     }
     const linkedQuest = inquiry.contextQuestId ? questRecords.get(inquiry.contextQuestId) : null;
-    const sourceTitles = (inquiry.sourceIds ?? []).filter(sourceId => sourceAvailableAtDate(sourceId, date))
-      .map(sourceId => sourceRecords.get(sourceId)?.titleKo).filter(Boolean);
-    const situationKo = linkedQuest?.premiseKo
+    const sourceIds = (inquiry.sourceIds ?? []).filter(sourceId => sourceAvailableAtDate(sourceId, date));
+    const sourceTitles = sourceIds.map(sourceId => sourceRecords.get(sourceId)?.titleKo).filter(Boolean);
+    const situationKo = inquiry.situationKo ?? linkedQuest?.premiseKo
       ?? (linkedQuest?.titleKo ? `「${linkedQuest.titleKo}」에서 벌어진 일` : '')
       ?? '';
     discussionContext = { titleKo: inquiry.titleKo, situationKo: situationKo || inquiry.stakesKo,
-      stakesKo: inquiry.stakesKo, questionKo: prompt, sourceTitles };
+      stakesKo: inquiry.stakesKo, questionKo: prompt, sourceTitles,
+      ...(inquiry.storyId ? { sourceIds, speakerViewKo: inquiry.hosts[speakerCard.id].viewKo } : {}) };
   }
   const cues = authoredDialogueCues(speakerCard ?? {});
   for (const key of ['activityKo', 'currentAimKo']) {
@@ -855,8 +856,9 @@ function createRpgAiService({ secret, store, allowedOrigins = [], provider = nul
       sourceIds: caseRecord?.sourceIds ?? v47Quest.sourceIds ?? [],
     } : null;
     const caseSourceIds = dialogueCase?.sourceIds ?? [];
+    const discussionSourceIds = sceneContext.discussionContext?.sourceIds ?? [];
     const playerSourceIds = (sceneContext.playerKnowledgeIds ?? []).filter(id => sourceRecords.has(id));
-    const scene = { ...configuration, hostId: card.id, allowedSourceIds: [...new Set([...(configuration.allowedSourceIds ?? []), ...caseSourceIds, ...playerSourceIds])]
+    const scene = { ...configuration, hostId: card.id, allowedSourceIds: [...new Set([...(configuration.allowedSourceIds ?? []), ...caseSourceIds, ...discussionSourceIds, ...playerSourceIds])]
       .filter(id => sourceRecords.has(id) && sourceAvailableAtDate(id, sceneContext.date)) };
     const sourceEvidence = (scene.allowedSourceIds ?? []).map(sourceId => sourceRecords.get(sourceId))
       .map(source => ({ sourceId: source.sourceId, titleKo: source.titleKo, titleRu: source.titleRu, documentDate: source.documentDate, contextKo: source.contextKo, paragraphs: (source.paragraphs ?? []).map(paragraph => ({ ru: paragraph.ru, ko: paragraph.ko })) }));

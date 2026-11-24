@@ -7988,7 +7988,7 @@ function captureDialogueStartContext(state, hostId, actorHostId, maps = {}) {
     actorPosition: { ...actor.position }, speakerPosition: { ...speaker.position } };
 }
 
-function recordDialogueTurn(state, { hostId, actorHostId, sceneId, intentClass = 'GENERAL_CONVERSATION', discussionId = null, discussionTitleKo = '', reflectionId = null, aiGenerated = false, dialogueStartContext = null } = {}, maps = {}) {
+function recordDialogueTurn(state, { hostId, actorHostId, sceneId, intentClass = 'GENERAL_CONVERSATION', discussionId = null, discussionTitleKo = '', discussionAnswerKo = '', reflectionId = null, aiGenerated = false, dialogueStartContext = null } = {}, maps = {}) {
   const speaker = state?.hosts?.[hostId], actor = state?.hosts?.[actorHostId];
   const actorAvailable = Boolean(state?.player && state.player.embodiment === actorHostId && actor && actor.mapId === state.world.currentMapId);
   const currentPartnerAvailable = Boolean(captureDialogueStartContext(state, hostId, actorHostId, maps));
@@ -8018,7 +8018,9 @@ function recordDialogueTurn(state, { hostId, actorHostId, sceneId, intentClass =
   let dialogueReward = null;
   if (earnsInsight) {
     next.player.dialogueGrowth.insight += 1;
-    next.player.dialogueGrowth.perspectiveNotes.push({ discussionId, hostId, date: next.world.date });
+    const answerKo = String(discussionAnswerKo).trim().slice(0, 840);
+    next.player.dialogueGrowth.perspectiveNotes.push({ discussionId, hostId, date: next.world.date,
+      ...(answerKo ? { answerKo } : {}) });
     dialogueReward = 'PERSPECTIVE_NOTE';
     if (priorPerspectiveCount >= 1 && !next.player.dialogueGrowth.comparisonNotes.some(note => note.discussionId === discussionId)) {
       const comparisonNote = { discussionId, titleKo: String(discussionTitleKo).slice(0, 100) || '생각의 차이를 살핀 기록', hostIds: [...new Set([...next.player.dialogueGrowth.perspectiveNotes.filter(note => note.discussionId === discussionId).map(note => note.hostId), hostId])], date: next.world.date };
@@ -8035,9 +8037,12 @@ function recordDialogueTurn(state, { hostId, actorHostId, sceneId, intentClass =
 
 function recordDiscussionPosition(state, { discussionId, positionId } = {}, definitions = {}) {
   const quest = definitions?.quests?.find(item => item.id === discussionId);
-  const choice = definitions?.playerPositionChoices?.find(item => item.id === positionId);
+  const choice = (quest?.playerPositionChoices ?? definitions?.playerPositionChoices)?.find(item => item.id === positionId);
   const growth = state?.player?.dialogueGrowth;
-  if (!quest || !choice || !growth?.comparisonNotes?.some(note => note.discussionId === discussionId)) return { ok: false, reason: 'comparison_required', state };
+  const validHosts = new Set((state?.ledger ?? []).filter(row => row.eventType === 'DIALOGUE_TURN'
+    && row.discussionId === discussionId && quest?.hosts?.[row.hostId]).map(row => row.hostId));
+  if (!quest || !choice || state.world.date < quest.date || validHosts.size < (quest.requiredPerspectiveCount ?? 2)
+    || !growth?.comparisonNotes?.some(note => note.discussionId === discussionId)) return { ok: false, reason: 'comparison_required', state };
   if ((growth.playerPositions ?? []).some(note => note.discussionId === discussionId)) return { ok: false, reason: 'position_already_recorded', state };
   const next = clone(state);
   next.player.dialogueGrowth.playerPositions ??= [];

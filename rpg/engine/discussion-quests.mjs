@@ -10,7 +10,7 @@ export function availableDiscussionQuests(state, definitions) {
     perspectivesByQuest.set(entry.discussionId, perspectives);
   }
   return definitions.quests.filter(quest => quest.date <= state.world.date).map(quest => {
-    const perspectiveHostIds = [...(perspectivesByQuest.get(quest.id) ?? [])];
+    const perspectiveHostIds = [...(perspectivesByQuest.get(quest.id) ?? [])].filter(hostId => quest.hosts?.[hostId]);
     const requiredPerspectiveCount = Math.min(quest.requiredPerspectiveCount ?? 2, Object.keys(quest.hosts ?? {}).length);
     const comparisonNote = comparisonByQuest.get(quest.id) ?? null;
     return {
@@ -20,8 +20,9 @@ export function availableDiscussionQuests(state, definitions) {
       completed: perspectiveHostIds.length >= requiredPerspectiveCount && positionByQuest.has(quest.id),
       comparisonNote,
       playerPosition: positionByQuest.get(quest.id) ?? null,
-      positionPending: Boolean(comparisonNote && !positionByQuest.has(quest.id) && definitions.playerPositionChoices?.length),
-      playerPositionChoices: definitions.playerPositionChoices ?? [],
+      positionPending: Boolean(comparisonNote && perspectiveHostIds.length >= requiredPerspectiveCount
+        && !positionByQuest.has(quest.id) && (quest.playerPositionChoices ?? definitions.playerPositionChoices)?.length),
+      playerPositionChoices: quest.playerPositionChoices ?? definitions.playerPositionChoices ?? [],
     };
   });
 }
@@ -138,7 +139,7 @@ export function formatQueuedDiscussionTaskKo(quest, {
     `진행 인정 · 답변을 받아야 관점 ${heard + 1}/${required}가 기록됩니다. 인사·대화창 열기만으로는 진행되지 않습니다.`,
     heard + 1 < required
       ? nextHostNameKo && nextPromptKo ? `다음 · ${nextHostNameKo}에게 “${nextPromptKo}”라고 물으세요.` : `다음 · 다른 인물에게 물어 ${required}명의 답을 모으세요.`
-      : '다음 · 필요한 답을 모두 들었습니다. 수첩에서 내 입장을 기록하세요.',
+      : '다음 · 이 답을 들은 뒤 수첩에서 내 입장을 기록하세요.',
     `완료 · 서로 다른 ${required}명의 답을 듣고 수첩에서 「${quest.titleKo}」의 내 입장을 선택해 기록하세요.`,
   ].filter(Boolean).join('\n');
 }
@@ -174,8 +175,9 @@ export function resolveQueuedDiscussionPrompt(queuedInquiry, quests, hostId, pla
 export function nextDiscussionInstructionForQuest(questId, quests, hostNames = {}, sourceIds = []) {
   if (!questId) return null;
   const sources = new Set(sourceIds);
-  const quest = (quests ?? []).find(item => !item.completed && (item.contextQuestId === questId
-    || (item.sourceIds ?? []).some(id => sources.has(id))));
+  const active = (quests ?? []).filter(item => !item.completed);
+  const quest = active.find(item => item.contextQuestId === questId)
+    ?? active.find(item => !item.contextQuestId && (item.sourceIds ?? []).some(id => sources.has(id)));
   if (!quest) return null;
   return { quest, ...discussionQuestInstruction(quest, hostNames) };
 }
