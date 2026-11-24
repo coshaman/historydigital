@@ -38,7 +38,7 @@ export const v47StoryQuests = [
     id: 'V47_MAIN01_SUBSCRIBER_REPLY', titleKo: '구독자에게 답장을 쓰다', chapterId: 'V33_1848_PUBLIC', date: '1848-11-29',
     prerequisiteQuestIds: ['V47_MAIN01_DISTRIBUTION_BAN'], entry: { mapId: 'bookshop-interior', objectId: 9049 }, sourceIds: ['V47-NEKRASOV-SUBSCRIBER-LETTER-1848'],
     dialogueStatus: 'NEWLY_AUTHORED_FROM_V47_SCENARIO', dialogue: sceneDialogue(
-      ['파나예프', '계약서엔 지급한다고 써 있습니다. 지금 제 손엔 지급할 책이 없고요.'],
+      ['파나예프', '구독자에게 보내기로 했소. 그런데 지금 내 손엔 보낼 책이 없소.'],
       ['레프', '손님들은 검열위원회보다 제 얼굴을 먼저 봅니다.']),
     actions: [
       action('V47_A08_REFUND_SUBSCRIBERS', ['bookseller_lev', 'nekrasov_reconstruction'], '구독료를 돌려보낸다', '레프가 이름을 확인한 구독자에게 돈을 돌려보냈다. 장부에 남은 사람은 아직 기다리고 있다.', { situationKo: '구독료 일부를 돌려보냈다.' }),

@@ -68,7 +68,7 @@
   "tileheight": 16,
   "infinite": false,
   "nextlayerid": 7,
-  "nextobjectid": 4023,
+  "nextobjectid": 7013,
   "properties": [
     {
       "name": "mapId",
@@ -1960,6 +1960,66 @@
               "name": "districtId",
               "type": "string",
               "value": "BOOKS_AND_READING"
+            },
+            {
+              "name": "castShadow",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "castShadow",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "castShadow",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "castShadow",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "castShadow",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "castShadow",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/paneled-entry-door.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 64
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "castShadow",
+              "type": "bool",
+              "value": false
             }
           ]
         },
@@ -2257,6 +2317,630 @@
               "name": "storyTextKo",
               "type": "string",
               "value": "낮은 탁자 둘레에 의자를 놓았다. 책을 읽는 자리와 차를 나누는 자리를 함께 마련했다."
+            }
+          ]
+        },
+        {
+          "id": 7001,
+          "name": "장식 · carved-chair",
+          "type": "decoration",
+          "x": 32,
+          "y": 48,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/carved-chair.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
+            }
+          ]
+        },
+        {
+          "id": 7002,
+          "name": "장식 · tea-tray",
+          "type": "decoration",
+          "x": 96,
+          "y": 48,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/tea-tray.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
+            }
+          ]
+        },
+        {
+          "id": 7003,
+          "name": "장식 · samovar-tongs",
+          "type": "decoration",
+          "x": 160,
+          "y": 48,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/samovar-tongs.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
+            }
+          ]
+        },
+        {
+          "id": 7004,
+          "name": "장식 · porcelain-cups",
+          "type": "decoration",
+          "x": 240,
+          "y": 48,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/porcelain-cups.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
+            }
+          ]
+        },
+        {
+          "id": 7005,
+          "name": "장식 · manuscript-envelope",
+          "type": "decoration",
+          "x": 320,
+          "y": 48,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/manuscript-envelope.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
+            }
+          ]
+        },
+        {
+          "id": 7006,
+          "name": "장식 · inkstand",
+          "type": "decoration",
+          "x": 32,
+          "y": 112,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/inkstand.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
+            }
+          ]
+        },
+        {
+          "id": 7007,
+          "name": "장식 · stitched-cushion",
+          "type": "decoration",
+          "x": 96,
+          "y": 112,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/stitched-cushion.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
+            }
+          ]
+        },
+        {
+          "id": 7008,
+          "name": "장식 · rug-edge",
+          "type": "decoration",
+          "x": 272,
+          "y": 112,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/rug-edge.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
+            }
+          ]
+        },
+        {
+          "id": 7009,
+          "name": "장식 · wall-lamp",
+          "type": "decoration",
+          "x": 336,
+          "y": 112,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/wall-lamp.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
+            }
+          ]
+        },
+        {
+          "id": 7010,
+          "name": "장식 · curtain-tieback",
+          "type": "decoration",
+          "x": 64,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/curtain-tieback.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
+            }
+          ]
+        },
+        {
+          "id": 7011,
+          "name": "장식 · firewood-stove",
+          "type": "decoration",
+          "x": 112,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/firewood-stove.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
+            }
+          ]
+        },
+        {
+          "id": 7012,
+          "name": "장식 · umbrella-stand",
+          "type": "decoration",
+          "x": 304,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/umbrella-stand.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
             }
           ]
         }

@@ -8,8 +8,12 @@
       "generatedBy": "Hand-authored SVG based on 1830s Petersburg street views",
       "license": "Project-authored; no external image embedded",
       "historicalConfidence": "VISUAL_RECONSTRUCTION_NOT_HISTORICAL_OBJECT_IMAGE",
-      "intendedScene": ["Malaya Morskaya street · MAIN03"],
-      "sourceIds": ["V36-ART-SADOVNIKOV-NEVSKY-PANORAMA"],
+      "intendedScene": [
+        "Malaya Morskaya street · MAIN03"
+      ],
+      "sourceIds": [
+        "V36-ART-SADOVNIKOV-NEVSKY-PANORAMA"
+      ],
       "sourceUrls": [
         "https://commons.wikimedia.org/wiki/File:1830-1835_V-S_Sadovnikov_Nevsky.jpg",
         "https://expositions.nlr.ru/eng/ex_map/mozaika_Saint-Petersburg/plans_19_century.php"
@@ -24,8 +28,12 @@
       "generatedBy": "Hand-authored vector sign based on 1830s Petersburg commercial facade references",
       "license": "Project-authored; no external image embedded",
       "historicalConfidence": "FICTIONAL_SCENE_PROP_WITH_PERIOD_DESIGN_REFERENCE",
-      "intendedScene": ["bookshop lane · MAIN01"],
-      "sourceIds": ["V36-ART-SADOVNIKOV-NEVSKY-PANORAMA"],
+      "intendedScene": [
+        "bookshop lane · MAIN01"
+      ],
+      "sourceIds": [
+        "V36-ART-SADOVNIKOV-NEVSKY-PANORAMA"
+      ],
       "sourceUrls": [
         "https://commons.wikimedia.org/wiki/File:1830-1835_V-S_Sadovnikov_Nevsky.jpg",
         "https://expositions.nlr.ru/eng/ex_map/mozaika_Saint-Petersburg/plans_19_century.php"
@@ -40,7 +48,9 @@
       "generatedBy": "Hand-authored SVG based on period printing-process references",
       "license": "Project-authored; no external image embedded",
       "historicalConfidence": "VISUAL_RECONSTRUCTION_NOT_HISTORICAL_OBJECT_IMAGE",
-      "intendedScene": ["printshop · MAIN01"],
+      "intendedScene": [
+        "printshop · MAIN01"
+      ],
       "sourceIds": [],
       "sourceUrls": [
         "https://www.si.edu/object/ramage-foolscap-press:nmah_829645",
@@ -56,7 +66,9 @@
       "generatedBy": "Hand-authored SVG; palette and forms matched to the original project pixel atlas",
       "license": "Project-authored; no external image embedded",
       "historicalConfidence": "FICTIONAL_INTERIOR_RECONSTRUCTION",
-      "intendedScene": ["printshop · MAIN01"],
+      "intendedScene": [
+        "printshop · MAIN01"
+      ],
       "sourceIds": [],
       "sourceUrls": [
         "https://www.si.edu/object/ramage-foolscap-press:nmah_829645",
@@ -1235,9 +1247,15 @@
       "generatedBy": "Google Books scanned volume page image RA5-PT215",
       "license": "Public domain underlying periodical, published 1848",
       "historicalConfidence": "CONTEMPORARY_1848_EDITORIAL_NOTICE_PRECEDING_PAGE",
-      "intendedScene": ["source-reader · V47-NEKRASOV-ALMANAC-CONTENTS-1848"],
-      "sourceIds": ["V47-GOOGLE-SOVREMENNIK-V7-1848-SCAN"],
-      "sourceUrls": ["https://books.google.com/books?id=yyoYAAAAYAAJ&hl=ru&pg=RA5-PT215"],
+      "intendedScene": [
+        "source-reader · V47-NEKRASOV-ALMANAC-CONTENTS-1848"
+      ],
+      "sourceIds": [
+        "V47-GOOGLE-SOVREMENNIK-V7-1848-SCAN"
+      ],
+      "sourceUrls": [
+        "https://books.google.com/books?id=yyoYAAAAYAAJ&hl=ru&pg=RA5-PT215"
+      ],
       "sha256": "FEF1B505258C82FF01634D339DB7B49F2A7778A10711FBCEE45EC3BCF0B311E1",
       "notes": "Page 215 begins an editorial notice to subscribers. Shown together with pages 216–217 as contiguous issue context."
     },
@@ -1248,9 +1266,15 @@
       "generatedBy": "Google Books scanned volume page image RA5-PT216",
       "license": "Public domain underlying periodical, published 1848",
       "historicalConfidence": "CONTEMPORARY_1848_ALMANAC_CONTENTS_NOTICE_PAGE",
-      "intendedScene": ["source-reader · V47-NEKRASOV-ALMANAC-CONTENTS-1848"],
-      "sourceIds": ["V47-GOOGLE-SOVREMENNIK-V7-1848-SCAN"],
-      "sourceUrls": ["https://books.google.com/books?id=yyoYAAAAYAAJ&hl=ru&pg=RA5-PT216"],
+      "intendedScene": [
+        "source-reader · V47-NEKRASOV-ALMANAC-CONTENTS-1848"
+      ],
+      "sourceIds": [
+        "V47-GOOGLE-SOVREMENNIK-V7-1848-SCAN"
+      ],
+      "sourceUrls": [
+        "https://books.google.com/books?id=yyoYAAAAYAAJ&hl=ru&pg=RA5-PT216"
+      ],
       "sha256": "C8F50CEE770B4432A6172DCDB027E79250693B8ECAF7545BD00E688BEB60CA5E",
       "notes": "The original page containing the ‘Скоро отпечатается’ announcement, almanac contents and illustration list. The wording is visually collated with the checked-in transcription."
     },
@@ -1261,9 +1285,15 @@
       "generatedBy": "Google Books scanned volume page image RA5-PT217",
       "license": "Public domain underlying periodical, published 1848",
       "historicalConfidence": "CONTEMPORARY_1848_VOLUME_TABLE_OF_CONTENTS_PAGE",
-      "intendedScene": ["source-reader · V47-NEKRASOV-ALMANAC-CONTENTS-1848"],
-      "sourceIds": ["V47-GOOGLE-SOVREMENNIK-V7-1848-SCAN"],
-      "sourceUrls": ["https://books.google.com/books?id=yyoYAAAAYAAJ&hl=ru&pg=RA5-PT217"],
+      "intendedScene": [
+        "source-reader · V47-NEKRASOV-ALMANAC-CONTENTS-1848"
+      ],
+      "sourceIds": [
+        "V47-GOOGLE-SOVREMENNIK-V7-1848-SCAN"
+      ],
+      "sourceUrls": [
+        "https://books.google.com/books?id=yyoYAAAAYAAJ&hl=ru&pg=RA5-PT217"
+      ],
       "sha256": "F6EEA0BE4B132AE49F8C22DC37F922602DCEA1A17D4017B62D18E1522E9C967A",
       "notes": "Page 217 continues with the volume contents and is displayed with pages 215–216 to preserve the contiguous periodical context."
     },
@@ -1274,9 +1304,15 @@
       "generatedBy": "Internet Archive 1848 volume PDF page render, 1200px",
       "license": "Public domain underlying work, published 1848",
       "historicalConfidence": "CONTEMPORARY_1848_TALNIKOV_CHAPTER_OPENING",
-      "intendedScene": ["source-reader · V47-PANAEVA-TALNIKOV-CH1-1848"],
-      "sourceIds": ["V47-IA-ILLUSTRATED-ALMANAC-1848-SCAN"],
-      "sourceUrls": ["https://archive.org/details/1848_20240901"],
+      "intendedScene": [
+        "source-reader · V47-PANAEVA-TALNIKOV-CH1-1848"
+      ],
+      "sourceIds": [
+        "V47-IA-ILLUSTRATED-ALMANAC-1848-SCAN"
+      ],
+      "sourceUrls": [
+        "https://archive.org/details/1848_20240901"
+      ],
       "sha256": "499D5A3F085BC435C63D87201DCA40F34358608B7FA87A0AE95BB6B606D720B6",
       "notes": "Scan leaf 9 contains the chapter heading and opening paragraphs. Visually inspected against the reader transcription."
     },
@@ -1287,9 +1323,15 @@
       "generatedBy": "Internet Archive 1848 volume PDF page render, 1200px",
       "license": "Public domain underlying work, published 1848",
       "historicalConfidence": "CONTEMPORARY_1848_TALNIKOV_CHAPTER_PAGE",
-      "intendedScene": ["source-reader · V47-PANAEVA-TALNIKOV-CH1-1848"],
-      "sourceIds": ["V47-IA-ILLUSTRATED-ALMANAC-1848-SCAN"],
-      "sourceUrls": ["https://archive.org/details/1848_20240901"],
+      "intendedScene": [
+        "source-reader · V47-PANAEVA-TALNIKOV-CH1-1848"
+      ],
+      "sourceIds": [
+        "V47-IA-ILLUSTRATED-ALMANAC-1848-SCAN"
+      ],
+      "sourceUrls": [
+        "https://archive.org/details/1848_20240901"
+      ],
       "sha256": "EC752ADFF6B7E39F8AEA939E02C81B25D406D3BD8AC67C506066C053EA90E94C",
       "notes": "Scan leaf 10 continues the chapter excerpt. Visually inspected against the reader transcription."
     },
@@ -1300,9 +1342,15 @@
       "generatedBy": "Internet Archive 1848 volume PDF page render, 1200px",
       "license": "Public domain underlying work, published 1848",
       "historicalConfidence": "CONTEMPORARY_1848_TALNIKOV_CHAPTER_PAGE",
-      "intendedScene": ["source-reader · V47-PANAEVA-TALNIKOV-CH1-1848"],
-      "sourceIds": ["V47-IA-ILLUSTRATED-ALMANAC-1848-SCAN"],
-      "sourceUrls": ["https://archive.org/details/1848_20240901"],
+      "intendedScene": [
+        "source-reader · V47-PANAEVA-TALNIKOV-CH1-1848"
+      ],
+      "sourceIds": [
+        "V47-IA-ILLUSTRATED-ALMANAC-1848-SCAN"
+      ],
+      "sourceUrls": [
+        "https://archive.org/details/1848_20240901"
+      ],
       "sha256": "A1D121CAE740FB42C2A140E71C5FC23D439E907794921B0618BFE0F7FB900D8A",
       "notes": "Scan leaf 11 contains the final paragraph in the selected thirteen-paragraph range. Visually inspected against the reader transcription."
     },
@@ -1332,7 +1380,9 @@
       "generatedBy": "donte, Rain Particle Animated (five-frame sprite sequence)",
       "license": "CC0 1.0; attribution not required",
       "historicalConfidence": "VISUAL_WEATHER_EFFECT_ONLY",
-      "intendedScene": ["outdoor maps during drizzle"],
+      "intendedScene": [
+        "outdoor maps during drizzle"
+      ],
       "sourceIds": [],
       "sourceUrls": [
         "https://opengameart.org/content/rain-particle-animated",
@@ -1346,15 +1396,17 @@
         "D812BD2BA57D392E24B72FD0F406094EC04D9CF505407ABD81752F5B58025454"
       ],
       "notes": "The five locally packaged 40×40 PNG frames are used only as small animated drizzle particles; they do not claim to depict a historically recorded Petersburg weather event. The archive page identifies the author as donte, five frames, and CC0 reuse."
-    }
-    ,{
+    },
+    {
       "id": "v47-authored-sofiya-salon-portrait",
       "path": "rpg/assets/v47/sofiya-salon-portrait.svg",
       "type": "AUTHORED_FICTIONAL_CHARACTER_PORTRAIT",
       "generatedBy": "Original project-authored SVG illustration",
       "license": "Project-authored; no external image embedded",
       "historicalConfidence": "FICTIONAL_CHARACTER_ART",
-      "intendedScene": ["sofiya-salon · MAIN01"],
+      "intendedScene": [
+        "sofiya-salon · MAIN01"
+      ],
       "sourceIds": [],
       "sourceUrls": [],
       "sha256": "EF3E0A6938B5CF1E736AA83EDCDBE760EBB67E19EC1F97E0C144F435EBD652F6",
@@ -1367,7 +1419,9 @@
       "generatedBy": "Original project-authored SVG pixel sprite",
       "license": "Project-authored; no external image embedded",
       "historicalConfidence": "FICTIONAL_CHARACTER_ART",
-      "intendedScene": ["sofiya-salon · MAIN01"],
+      "intendedScene": [
+        "sofiya-salon · MAIN01"
+      ],
       "sourceIds": [],
       "sourceUrls": [],
       "sha256": "EEA08A37E0C6DB57D4032AB217F9AAD4028D79FC31EB43D456E0E548D44625C6",
@@ -1380,7 +1434,9 @@
       "generatedBy": "Original project-authored SVG illustration",
       "license": "Project-authored; no external image embedded",
       "historicalConfidence": "STYLIZED_PERIOD_INSPIRED_ART_NOT_HISTORICAL_OBJECT_IMAGE",
-      "intendedScene": ["sofiya-salon · MAIN01"],
+      "intendedScene": [
+        "sofiya-salon · MAIN01"
+      ],
       "sourceIds": [],
       "sourceUrls": [],
       "sha256": "BDDF94086C6592C39C7564D27FA565F5240EC95B571908FD1C6A1DEDE690A6B7",
@@ -1393,7 +1449,9 @@
       "generatedBy": "Original project-authored SVG illustration",
       "license": "Project-authored; no external image embedded",
       "historicalConfidence": "STYLIZED_PERIOD_INSPIRED_ART_NOT_HISTORICAL_OBJECT_IMAGE",
-      "intendedScene": ["sofiya-salon · MAIN01"],
+      "intendedScene": [
+        "sofiya-salon · MAIN01"
+      ],
       "sourceIds": [],
       "sourceUrls": [],
       "sha256": "8A5ADA85BC3877C81E53AA16BA9D7DFC968A51609E0D9364F0175EFB67E93014",
@@ -1406,7 +1464,9 @@
       "generatedBy": "Original project-authored SVG illustration",
       "license": "Project-authored; no external image embedded",
       "historicalConfidence": "STYLIZED_PERIOD_INSPIRED_ART_NOT_HISTORICAL_OBJECT_IMAGE",
-      "intendedScene": ["sofiya-salon · MAIN01"],
+      "intendedScene": [
+        "sofiya-salon · MAIN01"
+      ],
       "sourceIds": [],
       "sourceUrls": [],
       "sha256": "A5DD9F6AF61DFDDD8BF4BE3F59A5F63213BCFD3B5A045B84B772740B2C715E45",
@@ -1419,11 +1479,790 @@
       "generatedBy": "Original project-authored pixel SVG illustration",
       "license": "Project-authored; no external image embedded",
       "historicalConfidence": "STYLIZED_PERIOD_INSPIRED_ART_NOT_HISTORICAL_OBJECT_IMAGE",
-      "intendedScene": ["sofiya-salon · MAIN01"],
+      "intendedScene": [
+        "sofiya-salon · MAIN01"
+      ],
       "sourceIds": [],
       "sourceUrls": [],
       "sha256": "B4BEAC2D3BCA4C1B6017CBD039C541CCB73548A434EF2DF49902185F8A1B65FD",
       "notes": "Original fictional parlor group with a low table, upholstered seating, and lamp."
+    },
+    {
+      "id": "v47-period-inspired-proof-folded",
+      "path": "rpg/assets/v47/interiors/proof-folded.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "printshop"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "2370E0546F89942CB0EBCEFE7B949086B55B86B9A43F7DBB60A8D0B00DD70C3D",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-proof-red-pencil",
+      "path": "rpg/assets/v47/interiors/proof-red-pencil.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "printshop"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "8F312B03A1FBBA70FD3D746C62B6E5371384EEE9C710BE9B4C0FA1E30597C82B",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-proof-stack",
+      "path": "rpg/assets/v47/interiors/proof-stack.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "printshop"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "AD6540FD3A31CE5BBBB718832E1FDD0193953D357EC6DB87AF5B49F725977519",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-ledger-brass-clasp",
+      "path": "rpg/assets/v47/interiors/ledger-brass-clasp.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "printshop"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "5AC4C80A3F04615A5F4D01B1B6432CA124FC68C181B7EE624F3E74A724E4906C",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-loose-type",
+      "path": "rpg/assets/v47/interiors/loose-type.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "printshop"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "1BC504A3B3D416AED51535296F36E0EDC693BAE127B2D0DB10E4F4EBAAAA2052",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-composing-stick",
+      "path": "rpg/assets/v47/interiors/composing-stick.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "printshop"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "19F4E3D6592C5CDC4295CC62557292E11507B574281527940A3E933BDC6B0753",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-ink-pot-feather",
+      "path": "rpg/assets/v47/interiors/ink-pot-feather.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "printshop"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "B05104B38B927488B0E2A43DC5558B064B2F612A6A781906C21B5ED5CBFC4A9F",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-paper-ream",
+      "path": "rpg/assets/v47/interiors/paper-ream.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "printshop"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "DC4FA92B0CB52CA1F1A308A969368F1B46EC3E2856CFDDCD6C0812A7529D6CF0",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-wax-seal",
+      "path": "rpg/assets/v47/interiors/wax-seal.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "printshop"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "7F3E2E0C286840B2A237D7A4EAC9EDE5D0009593CB9C43008BAEDA009CE610F1",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-thread-spool",
+      "path": "rpg/assets/v47/interiors/thread-spool.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "printshop"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "13765FFA3533D45547CF8DB2CD55136F46CDE79AC8FE05842124C2E9AB9C2CBB",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-binding-awl",
+      "path": "rpg/assets/v47/interiors/binding-awl.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "printshop"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "19A3B9DA08340A30FFE81C19BEC1BBCA9A910B00413D673E33145C822B045727",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-courier-satchel",
+      "path": "rpg/assets/v47/interiors/courier-satchel.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "printshop"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "39E662B1199A206AAC8AF42E6178F13041442F14C84D54724B09DEB0A4F7D531",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-open-novel",
+      "path": "rpg/assets/v47/interiors/open-novel.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "bookshop-interior"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "4A797D85D1CD9054D23905BBB8D55122C49D5D78AB4BFFBFEF2EA3740BB44FCC",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-stitched-almanac",
+      "path": "rpg/assets/v47/interiors/stitched-almanac.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "bookshop-interior"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "3A55B66A006B34E317DFDED30A7979AC1C9DFB5F32A7E26423C1E0DFD11ABB13",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-returned-parcel",
+      "path": "rpg/assets/v47/interiors/returned-parcel.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "bookshop-interior"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "BBD1E689BF302FAA8528E166F3AFBC481C0643DE4FAFFD0EDBF374693DF74883",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-price-tokens",
+      "path": "rpg/assets/v47/interiors/price-tokens.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "bookshop-interior"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "3D4CEAC8B97088D1E1D06F6ACC20548DA746DCED4117E8A1A612565B0CC70C74",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-counter-bell",
+      "path": "rpg/assets/v47/interiors/counter-bell.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "bookshop-interior"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "08305F6C93177B25838B88173DC0EFE54428F75C1D3D4C0ECC25EB2273B74E7A",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-reading-lamp",
+      "path": "rpg/assets/v47/interiors/reading-lamp.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "bookshop-interior"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "3245995C1E30D8F2F3DA5AAB46D0A70225A1C67122243EB9B04F737663B14527",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-tea-glass-holder",
+      "path": "rpg/assets/v47/interiors/tea-glass-holder.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "bookshop-interior"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "29E1D34A2AFC3E5C33912EF1FF4CA59F4554A229ACFA85384D912F109590880E",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-wool-shawl",
+      "path": "rpg/assets/v47/interiors/wool-shawl.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "bookshop-interior"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "795A72E55834EE3552CF8AE620F994868A78D96C258ED3A3449B6D649EC2D4CA",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-icon-corner",
+      "path": "rpg/assets/v47/interiors/icon-corner.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "bookshop-interior"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "FE117FE126E5E217AECD0477516DAA199A7ACCA660025CE7656ACBFA3D4EA8B8",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-coat-rack",
+      "path": "rpg/assets/v47/interiors/coat-rack.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "bookshop-interior"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "E03BB6C3D4C8EEB6C32AD6151E27DD145159A46786CD52A0870B0D6A9077AB61",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-felt-boots",
+      "path": "rpg/assets/v47/interiors/felt-boots.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "bookshop-interior"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "43C61D5B6DF2479B1CE07E0059E779BEDDC42A83AF7C06A195A442651111CC94",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-hand-broom",
+      "path": "rpg/assets/v47/interiors/hand-broom.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "bookshop-interior"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "1A585AA8FEEDBB11CC28C690DFBA588297821CCE0D7BD99C083A0057C94B839B",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-carved-chair",
+      "path": "rpg/assets/v47/interiors/carved-chair.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "sofiya-salon"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "729FC6DC4748E2E1B26B0E995BCBD1CC016EE033F7C673C4338C5981B90A381A",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-tea-tray",
+      "path": "rpg/assets/v47/interiors/tea-tray.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "sofiya-salon"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "CBBDD53D1EEBDACAAC926121162E68BD3B4D1A33E6D8BADD4D076AC445B20E65",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-samovar-tongs",
+      "path": "rpg/assets/v47/interiors/samovar-tongs.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "sofiya-salon"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "7526C110C50530A2CE11CE91694053800B992390D6B1647433B4FF84D157E17F",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-porcelain-cups",
+      "path": "rpg/assets/v47/interiors/porcelain-cups.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "sofiya-salon"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "373608822B5B005AF19DCECA2DC5B995606DF79B1093B42EF90767482DB9DCCF",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-manuscript-envelope",
+      "path": "rpg/assets/v47/interiors/manuscript-envelope.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "sofiya-salon"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "6F3708F2A14DB1B049799C47865D83691199F0A123F986D0C937032035174D33",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-inkstand",
+      "path": "rpg/assets/v47/interiors/inkstand.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "sofiya-salon"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "495C95AA8D31B6759EB02FBACD3B59DC1E0E156C7305E17D771191DA869A00B5",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-stitched-cushion",
+      "path": "rpg/assets/v47/interiors/stitched-cushion.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "sofiya-salon"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "EADC378DBDB966ECAD2A2493BF754C23FB7F04BC33940EF38980F891F5D7ED54",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-rug-edge",
+      "path": "rpg/assets/v47/interiors/rug-edge.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "sofiya-salon"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "31C232C157B553B4AC56E7A6B5CF6DFD5D17B60C7045FC41CE1630A600B0479F",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-wall-lamp",
+      "path": "rpg/assets/v47/interiors/wall-lamp.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "sofiya-salon"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "CA0A56F3F9BE20918259D7AF5EF966B6310066D15803BFAD72E71C80C9F3C541",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-curtain-tieback",
+      "path": "rpg/assets/v47/interiors/curtain-tieback.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "sofiya-salon"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "B5ADE587C96257FBAC1798A675BE8E8A54F9401EB6FFDD91AF30F626EE199569",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-firewood-stove",
+      "path": "rpg/assets/v47/interiors/firewood-stove.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "sofiya-salon"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "9E129E0DBF79E0BEEF61D21F694372C5F8464FA847DD7FF2F4BE52E15312CF29",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-period-inspired-umbrella-stand",
+      "path": "rpg/assets/v47/interiors/umbrella-stand.svg",
+      "type": "AUTHORED_PIXEL_ART_SCENE_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_SCENE_PROP_NOT_A_DOCUMENTED_OBJECT",
+      "intendedScene": [
+        "sofiya-salon"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839",
+        "OBJ-SOV-1847"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg",
+        "https://rusneb.ru/catalog/000199_000009_007828983/"
+      ],
+      "sha256": "4A9E94BB1D317B4A441B3FE022601890C1A85D7E67AD2075B614E6C93D07D484",
+      "notes": "Original decorative artwork based on period street/interior materials and documented urban setting. It is a fictional room prop, not an image of a specific surviving historical object."
+    },
+    {
+      "id": "v47-authored-paneled-entry-door",
+      "path": "rpg/assets/v47/interiors/paneled-entry-door.svg",
+      "type": "AUTHORED_PIXEL_ART_ARCHITECTURAL_PROP",
+      "generatedBy": "Project-authored crisp-edge SVG pixel illustration",
+      "license": "Project-authored; no external image embedded",
+      "historicalConfidence": "PERIOD_INSPIRED_FICTIONAL_ARCHITECTURAL_DETAIL_NOT_A_DOCUMENTED_DOOR",
+      "intendedScene": [
+        "printshop",
+        "bookshop-interior",
+        "sofiya-salon"
+      ],
+      "sourceIds": [
+        "V47-ART-DURAND-NEVSKY-1839"
+      ],
+      "sourceUrls": [
+        "https://commons.wikimedia.org/wiki/File:Durand_-_View_of_Nevsky_Prospekt_near_the_Politseisky_Bridge_1839.jpg"
+      ],
+      "sha256": "7F2E71D8BECFB23B7234B7ED80E510567ADBBD5DBD2112557D8A33A0438B20AF",
+      "notes": "Replaces a misleading decorative doorway with a paneled entrance drawn at each actual map exit. It is not a claim about a specific surviving door."
     }
   ]
 }

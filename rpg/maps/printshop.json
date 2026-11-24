@@ -92,7 +92,7 @@
   "tileheight": 16,
   "infinite": false,
   "nextlayerid": 7,
-  "nextobjectid": 4020,
+  "nextobjectid": 9063,
   "properties": [
     {
       "name": "mapId",
@@ -2060,6 +2060,66 @@
               "name": "publicAccess",
               "type": "string",
               "value": true
+            },
+            {
+              "name": "castShadow",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "castShadow",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "castShadow",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "castShadow",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "castShadow",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "castShadow",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/paneled-entry-door.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 64
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "castShadow",
+              "type": "bool",
+              "value": false
             }
           ]
         },
@@ -2746,31 +2806,31 @@
               "type": "int",
               "value": 106
             },
-        {
-          "name": "displayAsset",
-          "type": "string",
-          "value": "../assets/letterpress-handpress.svg"
-        },
-        {
-          "name": "displayWidth",
-          "type": "int",
-          "value": 64
-        },
-        {
-          "name": "displayHeight",
-          "type": "int",
-          "value": 64
-        },
-        {
-          "name": "displayOffsetX",
-          "type": "int",
-          "value": -32
-        },
-        {
-          "name": "displayOffsetY",
-          "type": "int",
-          "value": 0
-        },
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/letterpress-handpress.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 64
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 64
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": 0
+            },
             {
               "name": "storyTextKo",
               "type": "string",
@@ -2877,6 +2937,652 @@
               "name": "displayHeight",
               "type": "int",
               "value": 48
+            }
+          ]
+        },
+        {
+          "id": 7001,
+          "name": "장식 · proof-folded",
+          "type": "decoration",
+          "x": 32,
+          "y": 32,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/proof-folded.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
+            }
+          ]
+        },
+        {
+          "id": 7002,
+          "name": "장식 · proof-red-pencil",
+          "type": "decoration",
+          "x": 96,
+          "y": 32,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/proof-red-pencil.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
+            }
+          ]
+        },
+        {
+          "id": 7003,
+          "name": "장식 · proof-stack",
+          "type": "decoration",
+          "x": 160,
+          "y": 32,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/proof-stack.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
+            }
+          ]
+        },
+        {
+          "id": 7004,
+          "name": "장식 · ledger-brass-clasp",
+          "type": "decoration",
+          "x": 272,
+          "y": 32,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/ledger-brass-clasp.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
+            }
+          ]
+        },
+        {
+          "id": 7005,
+          "name": "장식 · loose-type",
+          "type": "decoration",
+          "x": 336,
+          "y": 32,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/loose-type.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
+            }
+          ]
+        },
+        {
+          "id": 7006,
+          "name": "장식 · composing-stick",
+          "type": "decoration",
+          "x": 48,
+          "y": 96,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/composing-stick.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
+            }
+          ]
+        },
+        {
+          "id": 7007,
+          "name": "장식 · ink-pot-feather",
+          "type": "decoration",
+          "x": 112,
+          "y": 96,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/ink-pot-feather.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
+            }
+          ]
+        },
+        {
+          "id": 7008,
+          "name": "장식 · paper-ream",
+          "type": "decoration",
+          "x": 112,
+          "y": 64,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/paper-ream.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
+            }
+          ]
+        },
+        {
+          "id": 7009,
+          "name": "장식 · wax-seal",
+          "type": "decoration",
+          "x": 256,
+          "y": 96,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/wax-seal.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
+            }
+          ]
+        },
+        {
+          "id": 7010,
+          "name": "장식 · thread-spool",
+          "type": "decoration",
+          "x": 336,
+          "y": 96,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/thread-spool.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
+            }
+          ]
+        },
+        {
+          "id": 7011,
+          "name": "장식 · binding-awl",
+          "type": "decoration",
+          "x": 64,
+          "y": 160,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/binding-awl.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
+            }
+          ]
+        },
+        {
+          "id": 7012,
+          "name": "장식 · courier-satchel",
+          "type": "decoration",
+          "x": 304,
+          "y": 160,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/courier-satchel.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
+            }
+          ]
+        },
+        {
+          "id": 9062,
+          "name": "「탈니코프 가족」을 읽고 장면으로 돌아가기",
+          "type": "quest-object",
+          "x": 176,
+          "y": 112,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "questId",
+              "type": "string",
+              "value": "V47_MAIN01_A03"
+            },
+            {
+              "name": "sourceId",
+              "type": "string",
+              "value": "V47-PANAEVA-TALNIKOV-CH1-1848"
             }
           ]
         }

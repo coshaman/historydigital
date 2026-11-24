@@ -76,7 +76,7 @@
   "tileheight": 16,
   "infinite": false,
   "nextlayerid": 7,
-  "nextobjectid": 4024,
+  "nextobjectid": 7013,
   "properties": [
     {
       "name": "mapId",
@@ -2082,33 +2082,6 @@
           ]
         },
         {
-          "id": 4006,
-          "name": "골목 쪽 문",
-          "type": "inspectable",
-          "x": 192,
-          "y": 0,
-          "width": 16,
-          "height": 16,
-          "visible": true,
-          "properties": [
-            {
-              "name": "assetTileId",
-              "type": "int",
-              "value": 28
-            },
-            {
-              "name": "scope",
-              "type": "string",
-              "value": "fictional_scene_prop"
-            },
-            {
-              "name": "storyTextKo",
-              "type": "string",
-              "value": "책방 골목으로 통하는 문이다. 출입은 표시된 문 출구를 이용한다."
-            }
-          ]
-        },
-        {
           "id": 4007,
           "name": "거리로 나가는 문",
           "type": "map-exit",
@@ -2157,6 +2130,66 @@
               "name": "districtId",
               "type": "string",
               "value": "BOOKS_AND_READING"
+            },
+            {
+              "name": "castShadow",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "castShadow",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "castShadow",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "castShadow",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "castShadow",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "castShadow",
+              "type": "bool",
+              "value": false
+            },
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/paneled-entry-door.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 64
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": 0
+            },
+            {
+              "name": "castShadow",
+              "type": "bool",
+              "value": false
             }
           ]
         },
@@ -2506,6 +2539,630 @@
               "name": "assetTileId",
               "type": "int",
               "value": 24
+            }
+          ]
+        },
+        {
+          "id": 7001,
+          "name": "장식 · open-novel",
+          "type": "decoration",
+          "x": 48,
+          "y": 32,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/open-novel.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
+            }
+          ]
+        },
+        {
+          "id": 7002,
+          "name": "장식 · stitched-almanac",
+          "type": "decoration",
+          "x": 112,
+          "y": 32,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/stitched-almanac.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
+            }
+          ]
+        },
+        {
+          "id": 7003,
+          "name": "장식 · returned-parcel",
+          "type": "decoration",
+          "x": 176,
+          "y": 32,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/returned-parcel.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
+            }
+          ]
+        },
+        {
+          "id": 7004,
+          "name": "장식 · price-tokens",
+          "type": "decoration",
+          "x": 240,
+          "y": 32,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/price-tokens.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
+            }
+          ]
+        },
+        {
+          "id": 7005,
+          "name": "장식 · counter-bell",
+          "type": "decoration",
+          "x": 320,
+          "y": 32,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/counter-bell.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
+            }
+          ]
+        },
+        {
+          "id": 7006,
+          "name": "장식 · reading-lamp",
+          "type": "decoration",
+          "x": 48,
+          "y": 112,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/reading-lamp.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
+            }
+          ]
+        },
+        {
+          "id": 7007,
+          "name": "장식 · tea-glass-holder",
+          "type": "decoration",
+          "x": 112,
+          "y": 112,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/tea-glass-holder.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
+            }
+          ]
+        },
+        {
+          "id": 7008,
+          "name": "장식 · wool-shawl",
+          "type": "decoration",
+          "x": 256,
+          "y": 112,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/wool-shawl.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
+            }
+          ]
+        },
+        {
+          "id": 7009,
+          "name": "장식 · icon-corner",
+          "type": "decoration",
+          "x": 320,
+          "y": 112,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/icon-corner.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
+            }
+          ]
+        },
+        {
+          "id": 7010,
+          "name": "장식 · coat-rack",
+          "type": "decoration",
+          "x": 64,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/coat-rack.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
+            }
+          ]
+        },
+        {
+          "id": 7011,
+          "name": "장식 · felt-boots",
+          "type": "decoration",
+          "x": 112,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/felt-boots.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
+            }
+          ]
+        },
+        {
+          "id": 7012,
+          "name": "장식 · hand-broom",
+          "type": "decoration",
+          "x": 304,
+          "y": 192,
+          "width": 16,
+          "height": 16,
+          "visible": true,
+          "properties": [
+            {
+              "name": "displayAsset",
+              "type": "string",
+              "value": "../assets/v47/interiors/hand-broom.svg"
+            },
+            {
+              "name": "displayWidth",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayHeight",
+              "type": "int",
+              "value": 48
+            },
+            {
+              "name": "displayOffsetX",
+              "type": "int",
+              "value": -16
+            },
+            {
+              "name": "displayOffsetY",
+              "type": "int",
+              "value": -32
+            },
+            {
+              "name": "shadowElevation",
+              "type": "int",
+              "value": 9
+            },
+            {
+              "name": "shadowStrength",
+              "type": "float",
+              "value": 1.05
+            },
+            {
+              "name": "historicalScope",
+              "type": "string",
+              "value": "fictional-period-inspired-scene-prop"
             }
           ]
         }
