@@ -1,0 +1,1135 @@
+{
+  "routeName": "NORMAL",
+  "scope": "MAIN03 start-to-aftermath browser play",
+  "status": "PASS",
+  "stories": {
+    "MAIN01": {
+      "resolved": 0,
+      "uniqueHosts": 0,
+      "maps": [],
+      "status": "INCOMPLETE"
+    },
+    "MAIN03": {
+      "resolved": 12,
+      "uniqueHosts": 8,
+      "maps": [
+        "printshop",
+        "inn-interior",
+        "bookshop-interior",
+        "nevsky",
+        "chancery",
+        "morskaya-intersection",
+        "police-station",
+        "semenovsky-square"
+      ],
+      "status": "PASS"
+    },
+    "MAIN05": {
+      "resolved": 0,
+      "uniqueHosts": 0,
+      "maps": [],
+      "status": "INCOMPLETE"
+    }
+  },
+  "quests": [
+    {
+      "storyId": "MAIN03",
+      "questId": "V37_EUROPE_NEWS_1848",
+      "beatId": "V37_EUROPE_NEWS_1848",
+      "dateBefore": "1848-03-27",
+      "dateAfter": "1848-03-27",
+      "hostId": "clerk_alexei",
+      "mapId": "printshop",
+      "arrivalPosition": {
+        "x": 13,
+        "y": 9
+      },
+      "actionId": "E42_KEEP_PRIVATE_NOTE",
+      "status": "resolved",
+      "personalStoryGoal": [],
+      "ledgerSaved": true,
+      "worldChange": null,
+      "autonomousStoryOutcomes": [],
+      "cholera": {
+        "counters": {
+          "exposures": 0,
+          "recoveries": 0,
+          "deaths": 0
+        },
+        "waterRisk": 0.72,
+        "foodRisk": 0.38
+      }
+    },
+    {
+      "storyId": "MAIN03",
+      "questId": "V47_MAIN03_P01",
+      "beatId": "P01",
+      "dateBefore": "1848-04-27",
+      "dateAfter": "1848-04-27",
+      "hostId": "editor_sofia",
+      "mapId": "inn-interior",
+      "arrivalPosition": {
+        "x": 15,
+        "y": 10
+      },
+      "actionId": "V47_P01_OPEN_DISCUSSION",
+      "status": "resolved",
+      "personalStoryGoal": [],
+      "ledgerSaved": true,
+      "worldChange": {
+        "questId": "V47_MAIN03_P01",
+        "actionId": "V47_P01_OPEN_DISCUSSION",
+        "date": "1848-04-27",
+        "mapId": "inn-interior",
+        "money": [
+          {
+            "fromHostId": "editor_sofia",
+            "toHostId": "innkeeper_irina",
+            "amount": 2
+          }
+        ],
+        "inventory": [
+          {
+            "fromHostId": "bookseller_lev",
+            "toHostId": "student_vasily",
+            "itemKo": "선언문 발췌 메모",
+            "quantity": 1,
+            "produceIfAbsent": true
+          }
+        ],
+        "moves": [
+          {
+            "hostId": "student_vasily",
+            "mapId": "inn-interior",
+            "x": 10,
+            "y": 9
+          },
+          {
+            "hostId": "minor_noble_andrei",
+            "mapId": "inn-interior",
+            "x": 12,
+            "y": 9
+          }
+        ],
+        "resources": {
+          "waterRiskDelta": 0,
+          "foodRiskDelta": 0,
+          "bedsDelta": 0,
+          "medicineDelta": 0
+        },
+        "rumorId": "V47_SALON_NEWS_DISCUSSION",
+        "observationIds": [],
+        "sourceObservationIds": []
+      },
+      "autonomousStoryOutcomes": [],
+      "cholera": {
+        "counters": {
+          "exposures": 0,
+          "recoveries": 0,
+          "deaths": 0
+        },
+        "waterRisk": 0.72,
+        "foodRisk": 0.38
+      }
+    },
+    {
+      "storyId": "MAIN03",
+      "questId": "V47_MAIN03_P02",
+      "beatId": "P02",
+      "dateBefore": "1848-05-14",
+      "dateAfter": "1848-05-14",
+      "hostId": "student_vasily",
+      "mapId": "bookshop-interior",
+      "arrivalPosition": {
+        "x": 19,
+        "y": 6
+      },
+      "actionId": "V47_P02_LEND_BOOK",
+      "status": "resolved",
+      "personalStoryGoal": [],
+      "ledgerSaved": true,
+      "worldChange": {
+        "questId": "V47_MAIN03_P02",
+        "actionId": "V47_P02_LEND_BOOK",
+        "date": "1848-05-14",
+        "mapId": "bookshop-interior",
+        "money": [
+          {
+            "fromHostId": "student_vasily",
+            "toHostId": "bookseller_lev",
+            "amount": 1
+          }
+        ],
+        "inventory": [
+          {
+            "fromHostId": "bookseller_lev",
+            "toHostId": "student_vasily",
+            "itemKo": "외래어 소사전",
+            "quantity": 1,
+            "produceIfAbsent": true
+          }
+        ],
+        "moves": [
+          {
+            "hostId": "student_vasily",
+            "mapId": "communal-room",
+            "x": 7,
+            "y": 9
+          }
+        ],
+        "resources": {
+          "waterRiskDelta": 0,
+          "foodRiskDelta": 0,
+          "bedsDelta": 0,
+          "medicineDelta": 0
+        },
+        "rumorId": "V47_DICTIONARY_CIRCULATES",
+        "observationIds": [],
+        "sourceObservationIds": []
+      },
+      "autonomousStoryOutcomes": [],
+      "cholera": {
+        "counters": {
+          "exposures": 0,
+          "recoveries": 0,
+          "deaths": 0
+        },
+        "waterRisk": 0.72,
+        "foodRisk": 0.38
+      }
+    },
+    {
+      "storyId": "MAIN03",
+      "questId": "V47_MAIN03_P03",
+      "beatId": "P03",
+      "dateBefore": "1848-10-02",
+      "dateAfter": "1848-10-02",
+      "hostId": "student_vasily",
+      "mapId": "inn-interior",
+      "arrivalPosition": {
+        "x": 4,
+        "y": 15
+      },
+      "actionId": "V47_P03_FOURIER_AND_LIVELIHOOD",
+      "status": "resolved",
+      "personalStoryGoal": [],
+      "ledgerSaved": true,
+      "worldChange": {
+        "questId": "V47_MAIN03_P03",
+        "actionId": "V47_P03_FOURIER_AND_LIVELIHOOD",
+        "date": "1848-10-02",
+        "mapId": "inn-interior",
+        "money": [],
+        "inventory": [
+          {
+            "fromHostId": "printer_ekaterina",
+            "toHostId": "student_vasily",
+            "itemKo": "공동 지출 메모",
+            "quantity": 1,
+            "produceIfAbsent": true
+          }
+        ],
+        "moves": [],
+        "resources": {
+          "waterRiskDelta": 0,
+          "foodRiskDelta": 0,
+          "bedsDelta": 0,
+          "medicineDelta": 0
+        },
+        "rumorId": "V47_DEBATE_LIVELIHOOD",
+        "observationIds": [],
+        "sourceObservationIds": []
+      },
+      "autonomousStoryOutcomes": [],
+      "cholera": {
+        "counters": {
+          "exposures": 0,
+          "recoveries": 0,
+          "deaths": 0
+        },
+        "waterRisk": 0.72,
+        "foodRisk": 0.38
+      }
+    },
+    {
+      "storyId": "MAIN03",
+      "questId": "V47_MAIN03_P04",
+      "beatId": "P04",
+      "dateBefore": "1849-04-01",
+      "dateAfter": "1849-04-01",
+      "hostId": "courier_pavel",
+      "mapId": "bookshop-interior",
+      "arrivalPosition": {
+        "x": 7,
+        "y": 8
+      },
+      "actionId": "V47_P04_CARRY_INVITATION",
+      "status": "resolved",
+      "personalStoryGoal": [],
+      "ledgerSaved": true,
+      "worldChange": {
+        "questId": "V47_MAIN03_P04",
+        "actionId": "V47_P04_CARRY_INVITATION",
+        "date": "1849-04-01",
+        "mapId": "bookshop-interior",
+        "money": [],
+        "inventory": [
+          {
+            "fromHostId": "bookbinder_elizaveta",
+            "toHostId": "courier_pavel",
+            "itemKo": "접힌 초대장",
+            "quantity": 1,
+            "produceIfAbsent": true
+          }
+        ],
+        "moves": [
+          {
+            "hostId": "courier_pavel",
+            "mapId": "communal-room",
+            "x": 10,
+            "y": 9
+          }
+        ],
+        "resources": {
+          "waterRiskDelta": 0,
+          "foodRiskDelta": 0,
+          "bedsDelta": 0,
+          "medicineDelta": 0
+        },
+        "rumorId": "V47_INVITATION_ROUTE",
+        "observationIds": [],
+        "sourceObservationIds": []
+      },
+      "autonomousStoryOutcomes": [],
+      "cholera": {
+        "counters": {
+          "exposures": 0,
+          "recoveries": 0,
+          "deaths": 0
+        },
+        "waterRisk": 0.72,
+        "foodRisk": 0.38
+      }
+    },
+    {
+      "storyId": "MAIN03",
+      "questId": "V47_MAIN03_P05",
+      "beatId": "P05",
+      "dateBefore": "1849-04-27",
+      "dateAfter": "1849-04-27",
+      "hostId": "teacher_lyubov",
+      "mapId": "bookshop-interior",
+      "arrivalPosition": {
+        "x": 4,
+        "y": 9
+      },
+      "actionId": "V47_P05_SHARE_COPY",
+      "status": "resolved",
+      "personalStoryGoal": [],
+      "ledgerSaved": true,
+      "worldChange": {
+        "questId": "V47_MAIN03_P05",
+        "actionId": "V47_P05_SHARE_COPY",
+        "date": "1849-04-27",
+        "mapId": "bookshop-interior",
+        "money": [
+          {
+            "fromHostId": "editor_sofia",
+            "toHostId": "bookbinder_elizaveta",
+            "amount": 1
+          }
+        ],
+        "inventory": [
+          {
+            "fromHostId": "editor_sofia",
+            "toHostId": "student_vasily",
+            "itemKo": "벨린스키 편지 필사본",
+            "quantity": 1,
+            "produceIfAbsent": true
+          }
+        ],
+        "moves": [
+          {
+            "hostId": "teacher_lyubov",
+            "mapId": "communal-room",
+            "x": 11,
+            "y": 9
+          }
+        ],
+        "resources": {
+          "waterRiskDelta": 0,
+          "foodRiskDelta": 0,
+          "bedsDelta": 0,
+          "medicineDelta": 0
+        },
+        "rumorId": "V47_LETTER_COPIED",
+        "observationIds": [],
+        "sourceObservationIds": []
+      },
+      "autonomousStoryOutcomes": [],
+      "cholera": {
+        "counters": {
+          "exposures": 0,
+          "recoveries": 0,
+          "deaths": 0
+        },
+        "waterRisk": 0.72,
+        "foodRisk": 0.38
+      }
+    },
+    {
+      "storyId": "MAIN03",
+      "questId": "V47_MAIN03_P06",
+      "beatId": "P06",
+      "dateBefore": "1849-04-27",
+      "dateAfter": "1849-04-27",
+      "hostId": "police_sergeant_ivan",
+      "mapId": "nevsky",
+      "arrivalPosition": {
+        "x": 6,
+        "y": 16
+      },
+      "actionId": "V47_P06_FOLLOW_VISITOR",
+      "status": "resolved",
+      "personalStoryGoal": [],
+      "ledgerSaved": true,
+      "worldChange": {
+        "questId": "V47_MAIN03_P06",
+        "actionId": "V47_P06_FOLLOW_VISITOR",
+        "date": "1849-04-27",
+        "mapId": "nevsky",
+        "money": [
+          {
+            "fromHostId": "courier_pavel",
+            "toHostId": "porter_gavrila",
+            "amount": 1
+          }
+        ],
+        "inventory": [
+          {
+            "fromHostId": "courier_pavel",
+            "toHostId": "police_sergeant_ivan",
+            "itemKo": "거리 관찰 메모",
+            "quantity": 1,
+            "produceIfAbsent": true
+          }
+        ],
+        "moves": [
+          {
+            "hostId": "courier_pavel",
+            "mapId": "nevsky",
+            "x": 11,
+            "y": 8
+          },
+          {
+            "hostId": "student_vasily",
+            "mapId": "bookshop-lane",
+            "x": 8,
+            "y": 10
+          }
+        ],
+        "resources": {
+          "waterRiskDelta": 0,
+          "foodRiskDelta": 0,
+          "bedsDelta": 0,
+          "medicineDelta": 0
+        },
+        "rumorId": "V47_VISITOR_FOLLOWED",
+        "observationIds": [],
+        "sourceObservationIds": []
+      },
+      "autonomousStoryOutcomes": [],
+      "cholera": {
+        "counters": {
+          "exposures": 0,
+          "recoveries": 0,
+          "deaths": 0
+        },
+        "waterRisk": 0.72,
+        "foodRisk": 0.38
+      }
+    },
+    {
+      "storyId": "MAIN03",
+      "questId": "V47_MAIN03_P07",
+      "beatId": "P07",
+      "dateBefore": "1849-05-04",
+      "dateAfter": "1849-05-04",
+      "hostId": "senior_clerk_konstantin",
+      "mapId": "chancery",
+      "arrivalPosition": {
+        "x": 20,
+        "y": 8
+      },
+      "actionId": "V47_P07_SEPARATE_REPORTS",
+      "status": "resolved",
+      "personalStoryGoal": [],
+      "ledgerSaved": true,
+      "worldChange": {
+        "questId": "V47_MAIN03_P07",
+        "actionId": "V47_P07_SEPARATE_REPORTS",
+        "date": "1849-05-04",
+        "mapId": "chancery",
+        "money": [
+          {
+            "fromHostId": "clerk_alexei",
+            "toHostId": "scribal_yuri",
+            "amount": 1
+          }
+        ],
+        "inventory": [
+          {
+            "fromHostId": "clerk_alexei",
+            "toHostId": "senior_clerk_konstantin",
+            "itemKo": "분리 정리한 문서철",
+            "quantity": 1,
+            "produceIfAbsent": true
+          }
+        ],
+        "moves": [
+          {
+            "hostId": "scribal_yuri",
+            "mapId": "police-station",
+            "x": 8,
+            "y": 6
+          }
+        ],
+        "resources": {
+          "waterRiskDelta": 0,
+          "foodRiskDelta": 0,
+          "bedsDelta": 0,
+          "medicineDelta": 0
+        },
+        "rumorId": "V47_SEPARATE_REPORTS",
+        "observationIds": [],
+        "sourceObservationIds": []
+      },
+      "autonomousStoryOutcomes": [],
+      "cholera": {
+        "counters": {
+          "exposures": 0,
+          "recoveries": 0,
+          "deaths": 0
+        },
+        "waterRisk": 0.72,
+        "foodRisk": 0.38
+      }
+    },
+    {
+      "storyId": "MAIN03",
+      "questId": "V47_MAIN03_ARRESTS",
+      "beatId": "V47_MAIN03_ARRESTS",
+      "dateBefore": "1849-05-05",
+      "dateAfter": "1849-05-05",
+      "hostId": "scribal_yuri",
+      "mapId": "morskaya-intersection",
+      "arrivalPosition": {
+        "x": 14,
+        "y": 9
+      },
+      "actionId": "V47_P07_SEPARATE_WITNESS",
+      "status": "resolved",
+      "personalStoryGoal": [],
+      "ledgerSaved": true,
+      "worldChange": {
+        "questId": "V47_MAIN03_ARRESTS",
+        "actionId": "V47_P07_SEPARATE_WITNESS",
+        "date": "1849-05-05",
+        "mapId": "morskaya-intersection",
+        "money": [],
+        "inventory": [
+          {
+            "fromHostId": "porter_gavrila",
+            "toHostId": "clerk_alexei",
+            "itemKo": "문 앞 직접 목격 진술서",
+            "quantity": 1,
+            "produceIfAbsent": true
+          }
+        ],
+        "moves": [],
+        "resources": null,
+        "rumorId": "V47_WITNESS_AND_HEARSAY_SEPARATED",
+        "observationIds": [],
+        "sourceObservationIds": []
+      },
+      "autonomousStoryOutcomes": [],
+      "cholera": {
+        "counters": {
+          "exposures": 0,
+          "recoveries": 0,
+          "deaths": 0
+        },
+        "waterRisk": 0.72,
+        "foodRisk": 0.38
+      }
+    },
+    {
+      "storyId": "MAIN03",
+      "questId": "V47_MAIN03_P09",
+      "beatId": "P09",
+      "dateBefore": "1849-05-07",
+      "dateAfter": "1849-05-07",
+      "hostId": "clerk_alexei",
+      "mapId": "chancery",
+      "arrivalPosition": {
+        "x": 8,
+        "y": 4
+      },
+      "actionId": "V47_P09_CORRECT_REGISTER",
+      "status": "resolved",
+      "personalStoryGoal": [],
+      "ledgerSaved": true,
+      "worldChange": {
+        "questId": "V47_MAIN03_P09",
+        "actionId": "V47_P09_CORRECT_REGISTER",
+        "date": "1849-05-07",
+        "mapId": "chancery",
+        "money": [
+          {
+            "fromHostId": "clerk_alexei",
+            "toHostId": "scribal_yuri",
+            "amount": 1
+          }
+        ],
+        "inventory": [
+          {
+            "fromHostId": "police_sergeant_ivan",
+            "toHostId": "clerk_alexei",
+            "itemKo": "수취 확인표",
+            "quantity": 1,
+            "produceIfAbsent": true
+          }
+        ],
+        "moves": [
+          {
+            "hostId": "scribal_yuri",
+            "mapId": "police-station",
+            "x": 8,
+            "y": 6
+          }
+        ],
+        "resources": {
+          "waterRiskDelta": 0,
+          "foodRiskDelta": 0,
+          "bedsDelta": 0,
+          "medicineDelta": 0
+        },
+        "rumorId": "V47_NAME_CORRECTION",
+        "observationIds": [],
+        "sourceObservationIds": []
+      },
+      "autonomousStoryOutcomes": [],
+      "cholera": {
+        "counters": {
+          "exposures": 0,
+          "recoveries": 0,
+          "deaths": 0
+        },
+        "waterRisk": 0.72,
+        "foodRisk": 0.38
+      }
+    },
+    {
+      "storyId": "MAIN03",
+      "questId": "V47_MAIN03_P10",
+      "beatId": "P10",
+      "dateBefore": "1849-05-29",
+      "dateAfter": "1849-05-29",
+      "hostId": "police_sergeant_ivan",
+      "mapId": "police-station",
+      "arrivalPosition": {
+        "x": 2,
+        "y": 2
+      },
+      "actionId": "V47_P10_APPEND_WITNESS",
+      "status": "resolved",
+      "personalStoryGoal": [],
+      "ledgerSaved": true,
+      "worldChange": {
+        "questId": "V47_MAIN03_P10",
+        "actionId": "V47_P10_APPEND_WITNESS",
+        "date": "1849-05-29",
+        "mapId": "police-station",
+        "money": [],
+        "inventory": [
+          {
+            "fromHostId": "police_sergeant_ivan",
+            "toHostId": "clerk_alexei",
+            "itemKo": "현장 목격 메모",
+            "quantity": 1,
+            "produceIfAbsent": true
+          }
+        ],
+        "moves": [
+          {
+            "hostId": "clerk_alexei",
+            "mapId": "chancery",
+            "x": 9,
+            "y": 10
+          }
+        ],
+        "resources": {
+          "waterRiskDelta": 0,
+          "foodRiskDelta": 0,
+          "bedsDelta": 0,
+          "medicineDelta": 0
+        },
+        "rumorId": "V47_WITNESS_APPENDIX",
+        "observationIds": [],
+        "sourceObservationIds": []
+      },
+      "autonomousStoryOutcomes": [],
+      "cholera": {
+        "counters": {
+          "exposures": 0,
+          "recoveries": 0,
+          "deaths": 0
+        },
+        "waterRisk": 0.72,
+        "foodRisk": 0.38
+      }
+    },
+    {
+      "storyId": "HISTORICAL_GATE",
+      "questId": "E41_SEMENOVSKY_1849",
+      "date": "1850-01-03",
+      "hostId": "dostoevsky_1849",
+      "mapId": "semenovsky-square",
+      "actionId": "본 일을 개인 수첩에 적는다",
+      "status": "resolved",
+      "fixedOutcome": "COMMUTATION_ANNOUNCED"
+    },
+    {
+      "storyId": "MAIN03",
+      "questId": "V47_MAIN03_P11",
+      "beatId": "P11",
+      "dateBefore": "1850-01-03",
+      "dateAfter": "1850-01-03",
+      "hostId": "student_vasily",
+      "mapId": "semenovsky-square",
+      "arrivalPosition": {
+        "x": 19,
+        "y": 3
+      },
+      "actionId": "V47_P11_GUIDE_FAMILIES",
+      "status": "resolved",
+      "personalStoryGoal": [],
+      "ledgerSaved": true,
+      "worldChange": {
+        "questId": "V47_MAIN03_P11",
+        "actionId": "V47_P11_GUIDE_FAMILIES",
+        "date": "1850-01-03",
+        "mapId": "semenovsky-square",
+        "money": [
+          {
+            "fromHostId": "editor_sofia",
+            "toHostId": "innkeeper_irina",
+            "amount": 2
+          }
+        ],
+        "inventory": [
+          {
+            "fromHostId": "courier_pavel",
+            "toHostId": "student_vasily",
+            "itemKo": "대기 장소 쪽지",
+            "quantity": 1,
+            "produceIfAbsent": true
+          }
+        ],
+        "moves": [
+          {
+            "hostId": "student_vasily",
+            "mapId": "inn-interior",
+            "x": 9,
+            "y": 9
+          },
+          {
+            "hostId": "courier_pavel",
+            "mapId": "inn-interior",
+            "x": 10,
+            "y": 10
+          }
+        ],
+        "resources": {
+          "waterRiskDelta": 0,
+          "foodRiskDelta": 0,
+          "bedsDelta": 0,
+          "medicineDelta": 0
+        },
+        "rumorId": "V47_FAMILY_WAITING_PLACE",
+        "observationIds": [],
+        "sourceObservationIds": []
+      },
+      "autonomousStoryOutcomes": [],
+      "cholera": {
+        "counters": {
+          "exposures": 0,
+          "recoveries": 0,
+          "deaths": 0
+        },
+        "waterRisk": 0.72,
+        "foodRisk": 0.38
+      }
+    }
+  ],
+  "transitions": [
+    {
+      "kind": "DATE",
+      "from": "1848-03-27",
+      "to": "1848-04-27",
+      "questId": "V47_MAIN03_P01",
+      "button": "4월 27일 자료로 이어가기\n연표 1848-03-27 → 1848-04-27 · 다음 문서가 만들어진 뒤로 진행합니다"
+    },
+    {
+      "hostId": "editor_sofia",
+      "from": "printshop",
+      "to": "nevsky",
+      "exitId": "printshop-nevsky-door",
+      "date": "1848-04-27"
+    },
+    {
+      "hostId": "editor_sofia",
+      "from": "nevsky",
+      "to": "courtyard",
+      "exitId": "nevsky-courtyard-gate",
+      "date": "1848-04-27"
+    },
+    {
+      "hostId": "editor_sofia",
+      "from": "courtyard",
+      "to": "inn-interior",
+      "exitId": "courtyard-inn",
+      "date": "1848-04-27"
+    },
+    {
+      "hostId": "editor_sofia",
+      "from": "inn-interior",
+      "to": "courtyard",
+      "exitId": "inn-courtyard",
+      "date": "1848-04-27"
+    },
+    {
+      "hostId": "editor_sofia",
+      "from": "courtyard",
+      "to": "nevsky",
+      "exitId": "courtyard-nevsky-gate",
+      "date": "1848-04-27"
+    },
+    {
+      "hostId": "editor_sofia",
+      "from": "nevsky",
+      "to": "printshop",
+      "exitId": "nevsky-printshop-door",
+      "date": "1848-04-27"
+    },
+    {
+      "hostId": "editor_sofia",
+      "from": "printshop",
+      "to": "nevsky",
+      "exitId": "printshop-nevsky-door",
+      "date": "1848-04-27"
+    },
+    {
+      "hostId": "editor_sofia",
+      "from": "nevsky",
+      "to": "courtyard",
+      "exitId": "nevsky-courtyard-gate",
+      "date": "1848-04-27"
+    },
+    {
+      "hostId": "editor_sofia",
+      "from": "courtyard",
+      "to": "inn-interior",
+      "exitId": "courtyard-inn",
+      "date": "1848-04-27"
+    },
+    {
+      "kind": "DATE",
+      "from": "1848-04-27",
+      "to": "1848-05-14",
+      "questId": "V47_MAIN03_P02",
+      "button": "5월 14일 자료로 이어가기\n연표 1848-04-27 → 1848-05-14 · 다음 문서가 만들어진 뒤로 진행합니다"
+    },
+    {
+      "hostId": "student_vasily",
+      "from": "nevsky",
+      "to": "bookshop-lane",
+      "exitId": "nevsky-bookshop-lane",
+      "date": "1848-05-14"
+    },
+    {
+      "hostId": "student_vasily",
+      "from": "bookshop-lane",
+      "to": "bookshop-interior",
+      "exitId": "bookshop-lane-bookshop",
+      "date": "1848-05-14"
+    },
+    {
+      "kind": "DATE",
+      "from": "1848-05-14",
+      "to": "1848-10-02",
+      "questId": "V47_MAIN03_P03",
+      "button": "10월 2일 자료로 이어가기\n연표 1848-05-14 → 1848-10-02 · 다음 문서가 만들어진 뒤로 진행합니다"
+    },
+    {
+      "hostId": "printer_ekaterina",
+      "from": "nevsky",
+      "to": "courtyard",
+      "exitId": "nevsky-courtyard-gate",
+      "date": "1848-10-02"
+    },
+    {
+      "hostId": "student_vasily",
+      "from": "bookshop-interior",
+      "to": "bookshop-lane",
+      "exitId": "bookshop-interior-lane",
+      "date": "1848-10-02"
+    },
+    {
+      "hostId": "student_vasily",
+      "from": "bookshop-lane",
+      "to": "nevsky",
+      "exitId": "bookshop-lane-nevsky",
+      "date": "1848-10-02"
+    },
+    {
+      "hostId": "student_vasily",
+      "from": "nevsky",
+      "to": "courtyard",
+      "exitId": "nevsky-courtyard-gate",
+      "date": "1848-10-02"
+    },
+    {
+      "hostId": "student_vasily",
+      "from": "courtyard",
+      "to": "inn-interior",
+      "exitId": "courtyard-inn",
+      "date": "1848-10-02"
+    },
+    {
+      "kind": "CHAPTER",
+      "from": "V33_1848_PUBLIC",
+      "to": "V33_1849_PRELUDE",
+      "questId": "V47_MAIN03_P04",
+      "button": "1849년으로 이어가기\n다음 장을 시작합니다 · 역사 연표가 앞으로 이동합니다"
+    },
+    {
+      "kind": "DATE",
+      "from": "1849-03-20",
+      "to": "1849-04-01",
+      "questId": "V47_MAIN03_P04",
+      "button": "4월 1일 자료로 이어가기\n연표 1849-03-20 → 1849-04-01 · 다음 문서가 만들어진 뒤로 진행합니다"
+    },
+    {
+      "hostId": "courier_pavel",
+      "from": "nevsky",
+      "to": "bookshop-lane",
+      "exitId": "nevsky-bookshop-lane",
+      "date": "1849-04-01"
+    },
+    {
+      "hostId": "courier_pavel",
+      "from": "bookshop-lane",
+      "to": "bookshop-interior",
+      "exitId": "bookshop-lane-bookshop",
+      "date": "1849-04-01"
+    },
+    {
+      "kind": "DATE",
+      "from": "1849-04-01",
+      "to": "1849-04-27",
+      "questId": "V47_MAIN03_P05",
+      "button": "4월 27일 자료로 이어가기\n연표 1849-04-01 → 1849-04-27 · 다음 문서가 만들어진 뒤로 진행합니다"
+    },
+    {
+      "hostId": "teacher_lyubov",
+      "from": "nevsky",
+      "to": "bookshop-lane",
+      "exitId": "nevsky-bookshop-lane",
+      "date": "1849-04-27"
+    },
+    {
+      "hostId": "teacher_lyubov",
+      "from": "bookshop-lane",
+      "to": "bookshop-interior",
+      "exitId": "bookshop-lane-bookshop",
+      "date": "1849-04-27"
+    },
+    {
+      "kind": "DATE",
+      "from": "1849-04-27",
+      "to": "1849-05-04",
+      "questId": "V47_MAIN03_P07",
+      "button": "5월 4일 자료로 이어가기\n연표 1849-04-27 → 1849-05-04 · 다음 문서가 만들어진 뒤로 진행합니다"
+    },
+    {
+      "hostId": "senior_clerk_konstantin",
+      "from": "nevsky",
+      "to": "chancery",
+      "exitId": "nevsky-chancery-door",
+      "date": "1849-05-04"
+    },
+    {
+      "kind": "CHAPTER",
+      "from": "V33_1849_PRELUDE",
+      "to": "V33_1849_CIRCLE",
+      "questId": "CIRCLE_INVESTIGATION_1849",
+      "button": "1849년으로 이어가기\n다음 장을 시작합니다 · 역사 연표가 앞으로 이동합니다"
+    },
+    {
+      "hostId": "scribal_yuri",
+      "from": "chancery",
+      "to": "nevsky",
+      "exitId": "chancery-nevsky-door",
+      "date": "1849-05-05"
+    },
+    {
+      "hostId": "scribal_yuri",
+      "from": "nevsky",
+      "to": "morskaya-intersection",
+      "exitId": "nevsky-morskaya",
+      "date": "1849-05-05"
+    },
+    {
+      "kind": "DATE",
+      "from": "1849-05-05",
+      "to": "1849-05-07",
+      "questId": "V47_MAIN03_P09",
+      "button": "5월 7일 자료로 이어가기\n연표 1849-05-05 → 1849-05-07 · 다음 문서가 만들어진 뒤로 진행합니다"
+    },
+    {
+      "hostId": "clerk_alexei",
+      "from": "courtyard",
+      "to": "nevsky",
+      "exitId": "courtyard-nevsky-gate",
+      "date": "1849-05-07"
+    },
+    {
+      "hostId": "clerk_alexei",
+      "from": "nevsky",
+      "to": "chancery",
+      "exitId": "nevsky-chancery-door",
+      "date": "1849-05-07"
+    },
+    {
+      "kind": "DATE",
+      "from": "1849-05-07",
+      "to": "1849-05-29",
+      "questId": "V47_MAIN03_P10",
+      "button": "5월 29일 자료로 이어가기\n연표 1849-05-07 → 1849-05-29 · 다음 문서가 만들어진 뒤로 진행합니다"
+    },
+    {
+      "hostId": "police_sergeant_ivan",
+      "from": "morskaya-intersection",
+      "to": "police-station",
+      "exitId": "morskaya-police",
+      "date": "1849-05-29"
+    },
+    {
+      "kind": "DATE",
+      "from": "1849-05-29",
+      "to": "1850-01-03",
+      "questId": "E41_SEMENOVSKY_1849",
+      "button": "1850년 1월 3일 자료로 이어가기\n연표 1849-05-29 → 1850-01-03 · 다음 문서가 만들어진 뒤로 진행합니다"
+    },
+    {
+      "hostId": "dostoevsky_1849",
+      "from": "fortress-cell",
+      "to": "semenovsky-square",
+      "exitId": "fortress-square",
+      "date": "1850-01-03"
+    }
+  ],
+  "sourceReads": [
+    {
+      "sourceId": "OBJ-NICHOLAS-MANIFESTO-1848",
+      "date": "1848-03-27",
+      "hostId": "clerk_alexei",
+      "mapId": "printshop",
+      "paragraphCount": 4,
+      "screenshot": "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN03_GUIDED_WAIT_20261124\\NORMAL-MAIN03-E42-SOURCE-1440x900.png"
+    },
+    {
+      "sourceId": "OBJ-NICHOLAS-MANIFESTO-1848",
+      "date": "1848-03-27",
+      "hostId": "clerk_alexei",
+      "mapId": "printshop",
+      "paragraphCount": 4,
+      "screenshot": "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN03_GUIDED_WAIT_20261124\\NORMAL-MAIN03-E42-SOURCE-1440x900.png",
+      "eventStage": "READING_READY",
+      "gatherWaitMinutes": 0
+    },
+    {
+      "sourceId": "OBJ-NICHOLAS-MANIFESTO-1848",
+      "excerptId": "EX-NICHOLAS-MANIFESTO-1848-NB59-ANNOUNCEMENT-001",
+      "date": "1848-04-27",
+      "hostId": "editor_sofia",
+      "mapId": "printshop",
+      "paragraphCount": 4,
+      "questId": "V47_MAIN03_P01",
+      "beforeActionId": "V47_P01_OPEN_DISCUSSION",
+      "screenshot": "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN03_GUIDED_WAIT_20261124\\NORMAL-V47_MAIN03_P01-OBJ-NICHOLAS-MANIFESTO-1848-1440x900.png"
+    },
+    {
+      "sourceId": "V47-PETRASHESKY-FOURIER-NOVATORSTVO-1846",
+      "excerptId": "EX-V47-PETRASHESKY-NOVATORSTVO-1846-L299-306",
+      "date": "1848-05-14",
+      "hostId": "student_vasily",
+      "mapId": "bookshop-interior",
+      "paragraphCount": 8,
+      "questId": "V47_MAIN03_P02",
+      "beforeActionId": "V47_P02_LEND_BOOK",
+      "screenshot": "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN03_GUIDED_WAIT_20261124\\NORMAL-V47_MAIN03_P02-V47-PETRASHESKY-FOURIER-NOVATORSTVO-1846-1440x900.png"
+    },
+    {
+      "sourceId": "OBJ-BELINSKY-LETTER-GOGOL-1847",
+      "excerptId": "EX-BELINSKY-LETTER-GOGOL-1847-FEB-500-502",
+      "date": "1849-04-27",
+      "hostId": "teacher_lyubov",
+      "mapId": "bookshop-interior",
+      "paragraphCount": 7,
+      "questId": "V47_MAIN03_P05",
+      "beforeActionId": "V47_P05_SHARE_COPY",
+      "screenshot": "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN03_GUIDED_WAIT_20261124\\NORMAL-V47_MAIN03_P05-OBJ-BELINSKY-LETTER-GOGOL-1847-1440x900.png"
+    },
+    {
+      "sourceId": "OBJ-WS-DOSTOEVSKY-ARREST-ORDER-1849",
+      "excerptId": "EX-DOSTOEVSKY-ARREST-ORDER-1849-L2779-2810",
+      "date": "1849-05-04",
+      "hostId": "senior_clerk_konstantin",
+      "mapId": "chancery",
+      "paragraphCount": 4,
+      "questId": "V47_MAIN03_P07",
+      "beforeActionId": "V47_P07_SEPARATE_REPORTS",
+      "screenshot": "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN03_GUIDED_WAIT_20261124\\NORMAL-V47_MAIN03_P07-OBJ-WS-DOSTOEVSKY-ARREST-ORDER-1849-1440x900.png"
+    }
+  ],
+  "screenshots": [
+    "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN03_GUIDED_WAIT_20261124\\NORMAL-MAIN03-E42-SOURCE-1440x900.png",
+    "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN03_GUIDED_WAIT_20261124\\NORMAL-MAIN03-E42-SOURCE-1440x900.png",
+    "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN03_GUIDED_WAIT_20261124\\NORMAL-MAIN03-entry.png",
+    "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN03_GUIDED_WAIT_20261124\\NORMAL-V47_MAIN03_P01-OBJ-NICHOLAS-MANIFESTO-1848-1440x900.png",
+    "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN03_GUIDED_WAIT_20261124\\NORMAL-V47_MAIN03_P02-V47-PETRASHESKY-FOURIER-NOVATORSTVO-1846-1440x900.png",
+    "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN03_GUIDED_WAIT_20261124\\NORMAL-V47_MAIN03_P05-OBJ-BELINSKY-LETTER-GOGOL-1847-1440x900.png",
+    "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN03_GUIDED_WAIT_20261124\\NORMAL-V47_MAIN03_P07-OBJ-WS-DOSTOEVSKY-ARREST-ORDER-1849-1440x900.png",
+    "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN03_GUIDED_WAIT_20261124\\NORMAL-MAIN03-aftermath.png"
+  ],
+  "timelinePuzzle": null,
+  "storyEnding": null,
+  "fixedHistoricalEvent": {
+    "storyId": "HISTORICAL_GATE",
+    "questId": "E41_SEMENOVSKY_1849",
+    "date": "1850-01-03",
+    "hostId": "dostoevsky_1849",
+    "mapId": "semenovsky-square",
+    "actionId": "본 일을 개인 수첩에 적는다",
+    "status": "resolved",
+    "fixedOutcome": "COMMUTATION_ANNOUNCED"
+  },
+  "pageErrors": [],
+  "pageCrashes": [],
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  }
+}

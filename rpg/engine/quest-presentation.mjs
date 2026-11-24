@@ -96,6 +96,21 @@ export function fixedEventWaitForWitness(state, quest) {
   return null;
 }
 
+// E42 is a scheduled public reading. Let a nearby participant wait in short,
+// observable intervals while the other readers travel through the live world.
+export function europeNewsWaitForReaders(state) {
+  const event = state?.world?.livingEventStates?.E42;
+  const actor = state?.hosts?.[state.player?.embodiment];
+  if (event?.status !== 'ACTIVE' || event.stage !== 'NOTICE_ARRIVED'
+    || !event.actorHostIds?.includes(actor?.id) || actor.historicalAliveAndPresent === false
+    || state.world.currentMapId !== event.venueMapId || actor.mapId !== event.venueMapId
+    || Math.abs(actor.position.x - event.scenePosition.x) + Math.abs(actor.position.y - event.scenePosition.y) > 8) return null;
+  return {
+    eventId: 'E42', label: '선언문을 읽으러 사람들이 올 때까지 기다린다',
+    minutes: Math.max(1, Math.min(15, event.resolvesAtMinute - state.world.clockMinutes)),
+  };
+}
+
 export function continuationQuest(state, campaign, quests) {
   if (state.endingId || state.world.activeRealm) return null;
   const arc = campaign.arcs.find(item => item.id === state.world.chapterId);

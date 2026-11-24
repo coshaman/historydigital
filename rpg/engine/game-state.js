@@ -2600,7 +2600,7 @@ function advanceEuropeNewsEvent(state, minuteOffset, maps, livingEventRows) {
   const gathered = event.actorHostIds.every(id => {
     const host = state.hosts[id];
     return host && host.historicalAliveAndPresent !== false && host.mapId === event.venueMapId
-      && nearTile(host.position, event.scenePosition, 5);
+      && nearTile(host.position, event.scenePosition, 8);
   });
   if (gathered && event.stage === 'NOTICE_ARRIVED') {
     event.stage = 'READING_READY'; event.gatheredAtMinute = state.world.clockMinutes;
@@ -3648,6 +3648,19 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
     selectionBasis: { utilityScore: 220, hunger: host.needs.hunger, price: urgentFood.price,
       itemKo: urgentFood.offer.itemKo } };
   }
+  const europeNews = state.world.livingEventStates?.E42;
+  if (europeNews?.status === 'ACTIVE' && europeNews.actorHostIds.includes(host.id)
+    && host.allowedMaps.includes(europeNews.venueMapId)
+    && npcMapRoute(host.mapId, europeNews.venueMapId, host, maps, state.world.clockMinutes,
+      { allowClosedMapIds: [europeNews.venueMapId] }) !== null) {
+    const activities = { clerk_alexei: '황제 선언문의 접수 위치를 살핀다', printer_ekaterina: '선언문 인쇄본을 작업대에 편다',
+      reader_darya: '선언문의 표현을 읽어 본다', student_vasily: '유럽 소식과 선언문을 함께 읽으러 간다' };
+    return { slot: { mapId: europeNews.venueMapId, position: { ...europeNews.scenePosition },
+      activityKo: activities[host.id] ?? '인쇄소에 도착한 선언문을 살핀다' },
+      goalType: 'LIVING_EVENT_RESPONSE', targetHostId: host.id === 'clerk_alexei' ? 'printer_ekaterina' : 'clerk_alexei',
+      taskId: `V37:E42:${europeNews.stage}:${host.id}`, reason: 'read_the_1848_manifesto_with_local_readers',
+      selectionBasis: { utilityScore: 224, eventId: 'E42', stage: europeNews.stage } };
+  }
   const v47Travel = host.v47TravelGoal;
   if (v47Travel?.status === 'EN_ROUTE' && host.historicalAliveAndPresent !== false
     && host.allowedMaps.includes(v47Travel.targetMapId) && maps?.[v47Travel.targetMapId]
@@ -4018,19 +4031,6 @@ function selectNpcRoutineGoal(state, host, scheduledSlot, maps) {
         ? marketTheft.watchmanHostId : marketTheft.sellerHostId,
       taskId: `V37:E36:${marketTheft.stage}:${host.id}`, reason: 'market_loss_witness_and_watchman_gather_at_stall',
       selectionBasis: { utilityScore: 184, eventId: 'E36', stage: marketTheft.stage } };
-  }
-  const europeNews = state.world.livingEventStates?.E42;
-  if (europeNews?.status === 'ACTIVE' && europeNews.actorHostIds.includes(host.id)
-    && host.allowedMaps.includes(europeNews.venueMapId)
-    && npcMapRoute(host.mapId, europeNews.venueMapId, host, maps, state.world.clockMinutes,
-      { allowClosedMapIds: [europeNews.venueMapId] }) !== null) {
-    const activities = { clerk_alexei: '황제 선언문의 접수 위치를 살핀다', printer_ekaterina: '선언문 인쇄본을 작업대에 편다',
-      reader_darya: '선언문의 표현을 읽어 본다', student_vasily: '유럽 소식과 선언문을 함께 읽으러 간다' };
-    return { slot: { mapId: europeNews.venueMapId, position: { ...europeNews.scenePosition },
-      activityKo: activities[host.id] ?? '인쇄소에 도착한 선언문을 살핀다' },
-      goalType: 'LIVING_EVENT_RESPONSE', targetHostId: host.id === 'clerk_alexei' ? 'printer_ekaterina' : 'clerk_alexei',
-      taskId: `V37:E42:${europeNews.stage}:${host.id}`, reason: 'read_the_1848_manifesto_with_local_readers',
-      selectionBasis: { utilityScore: 184, eventId: 'E42', stage: europeNews.stage } };
   }
   const pushkinObituary = state.world.livingEventStates?.E43;
   if (pushkinObituary?.status === 'ACTIVE' && pushkinObituary.actorHostIds.includes(host.id)

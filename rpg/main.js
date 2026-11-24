@@ -3,7 +3,7 @@ import { ambientConversations } from './data/ambient-conversations.mjs';
 import { historicalConversationChoices as getHistoricalConversationChoices } from './data/historical-conversation-choices.mjs';
 import { decorateCardsWithEraProfiles } from './engine/era-profiles.mjs';
 import { objectIsPresent, questPrerequisitesMet } from './engine/world-presentation.mjs';
-import { questChoices, continuationQuest, fixedEventWaitForWitness, resolveObjectQuest, retainProgressionAction, formatStoryActionGuidanceKo } from './engine/quest-presentation.mjs';
+import { questChoices, continuationQuest, fixedEventWaitForWitness, europeNewsWaitForReaders, resolveObjectQuest, retainProgressionAction, formatStoryActionGuidanceKo } from './engine/quest-presentation.mjs';
 import { questOutcomeSummary } from './engine/quest-outcome-summary.mjs';
 import { formatMissionActionKo, guideToResident, questRosterTargetHostId, resolveQuestGuidance } from './engine/quest-guidance.mjs';
 import { ownsKeyboardInput, observationText } from './engine/player-presentation.mjs';
@@ -898,7 +898,7 @@ function updateHud() {
   $('#mission-pin').textContent = destinationPinned && missionGuidance.target ? '목적지 표시 중' : '목적지 표시';
   $('#pin-legend').hidden = !(destinationPinned && missionGuidance.target);
   const readyQuest = continuationQuest(state, campaign, questList);
-  const squareWait = fixedEventWaitForWitness(state, dostoevskyExecutionQuest);
+  const squareWait = fixedEventWaitForWitness(state, dostoevskyExecutionQuest) ?? europeNewsWaitForReaders(state);
   const routeButton = $('#route-continue');
   routeButton.hidden = !(squareWait || readyQuest) || Boolean(activeDialogueHost);
   routeButton.toggleAttribute('data-square-wait', Boolean(squareWait && !activeDialogueHost));
@@ -3025,16 +3025,27 @@ $('#api-diagnostics-copy').addEventListener('click', async () => {
 $('#source-drawer-open').addEventListener('click', openSourceDrawer);
 $('#route-continue').addEventListener('click', () => {
   if (activeDialogueHost) return;
-  const squareWait = fixedEventWaitForWitness(state, dostoevskyExecutionQuest);
+  const squareWait = fixedEventWaitForWitness(state, dostoevskyExecutionQuest) ?? europeNewsWaitForReaders(state);
   if (squareWait) {
     const next = advanceWorldTime(state, squareWait.minutes, maps);
     setState(next);
     localStorage.setItem('v33-rpg-save', saveGame(state));
     $('#load').disabled = false;
-    const resolved = state.world.livingEventStates.E41.status === 'RESOLVED';
+    const eventId = squareWait.eventId ?? 'E41';
+    const event = state.world.livingEventStates[eventId];
+    const ready = eventId === 'E42' ? event?.stage === 'READING_READY' && event.status === 'ACTIVE'
+      : event?.status === 'RESOLVED';
+    if (eventId === 'E42') {
+      const nearbySource = currentNearby().find(object => mapObjectProperties(object).sourceId === 'OBJ-NICHOLAS-MANIFESTO-1848');
+      if (ready && nearbySource) { inspect(nearbySource); return; }
+      say('인쇄소', ready
+        ? '사람들이 모였다. 선언문을 읽고, 곁의 탁자에서 기록을 남기세요.'
+        : '사람들이 인쇄소로 오고 있다. 잠시 더 기다릴 수 있습니다.', []);
+      return;
+    }
     const nearbyScene = currentNearby().find(object => mapObjectProperties(object).questId === dostoevskyExecutionQuest.id);
-    if (!resolved && nearbyScene) { inspect(nearbyScene); return; }
-    say('세묘노프스키 열병장', resolved
+    if (ready && nearbyScene) { inspect(nearbyScene); return; }
+    say('세묘노프스키 열병장', ready
       ? '감형 소식이 광장에 전해졌다. 수첩에서 다음 할 일을 확인하세요.'
       : '선고가 곧 시작됩니다. 광장에서 E를 눌러 살펴보세요.', []);
     return;

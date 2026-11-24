@@ -75,6 +75,13 @@ assert.equal(scheduledMinute.world.livingEventStates.E42.stage, 'READING_READY')
 assert.match(scheduledMinute.hosts.printer_ekaterina.activeGoal?.taskId ?? '', /^V37:E42:/,
   'the imminent printer work shift cannot replace her active event gathering goal');
 
+const slightlySpacedReaders = structuredClone(scheduledGather);
+slightlySpacedReaders.hosts.reader_darya.position = { x: 12, y: 14 };
+const spacedReading = game.advanceNpcWorld(slightlySpacedReaders, 1, maps,
+  { pausedHostIds: ['clerk_alexei', 'printer_ekaterina', 'reader_darya', 'student_vasily'] });
+assert.equal(spacedReading.world.livingEventStates.E42.stage, 'READING_READY',
+  'a reader visibly gathered within the printshop can join even when crowding prevents the exact marker tile');
+
 const closedShopArrival = game.createInitialState({ maps, hostCards: cards, quests: [quest], startMapId: 'printshop' });
 closedShopArrival.world.chapterId = 'V33_1848_PUBLIC'; closedShopArrival.world.date = '1848-03-27';
 closedShopArrival.world.clockMinutes = 850; closedShopArrival.world.currentMapId = 'printshop';

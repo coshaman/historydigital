@@ -265,10 +265,15 @@ async function runRoute(browser, base, routeName) {
       .find(object => object.id === 1184);
     assert.ok(readingStand, 'E42 has a physical proclamation reading stand in the printshop');
     await walkTo(readingStand, 'E42 proclamation reading stand');
-    let movementCount = 0;
-    for (let tick = 0; tick < 240; tick += 1) {
+    let waitMinutes = 0;
+    for (let tick = 0; tick < 32; tick += 1) {
       const state = await currentState(), event = state.world.livingEventStates?.E42;
-      if (event?.stage === 'READING_READY' && event.status === 'ACTIVE') return movementCount;
+      if (event?.stage === 'READING_READY' && event.status === 'ACTIVE') {
+        if (await page.locator('#source-reader').evaluate(element => element.open).catch(() => false)) {
+          await page.locator('#source-reader-close').click();
+        }
+        return waitMinutes;
+      }
       if (event?.status === 'RESOLVED') throw new Error(`E42 resolved before the players gathered: ${JSON.stringify({
         event, clockMinutes: state.world.clockMinutes,
         actors: ['clerk_alexei', 'printer_ekaterina', 'reader_darya', 'student_vasily'].map(id => ({
@@ -285,40 +290,22 @@ async function runRoute(browser, base, routeName) {
         })),
       }));
       assert.equal(await currentMapId(), 'printshop', 'the E42 readers gather at the printshop while the player waits');
-      const map = maps.printshop, position = await currentPosition();
-      const collision = map.layers.find(layer => layer.name === 'Collision')?.data ?? [];
-      const scenePosition = event?.scenePosition ?? tileOf(readingStand);
-      const liveState = await currentState(), embodiedId = liveState.player.embodiment;
-      const occupied = new Set(Object.values(liveState.hosts).filter(host => host.id !== embodiedId
-        && host.historicalAliveAndPresent !== false && host.mapId === 'printshop')
-        .map(host => `${host.position.x},${host.position.y}`));
-      const waitTiles = [];
-      const openAdjacent = Object.entries(deltas).find(([, [dx, dy]]) => {
-        const x = position.x + dx, y = position.y + dy;
-        return x >= 0 && y >= 0 && x < map.width && y < map.height
-          && collision[y * map.width + x] === 0 && !occupied.has(`${x},${y}`)
-          && Math.abs(x - scenePosition.x) + Math.abs(y - scenePosition.y) <= 5;
-      })?.[0];
-      for (let y = 0; y < map.height; y += 1) for (let x = 0; x < map.width; x += 1) {
-        if (collision[y * map.width + x] !== 0 || occupied.has(`${x},${y}`)
-          || Math.abs(x - scenePosition.x) + Math.abs(y - scenePosition.y) > 5) continue;
-        const path = findPath(map, position, { x: x * 16, y: y * 16 }, occupied);
-        if (path?.length) waitTiles.push({ path, distance: Math.abs(x - position.x) + Math.abs(y - position.y) });
-      }
-      waitTiles.sort((a, b) => a.distance - b.distance || a.path.length - b.path.length);
-      const nextDirection = openAdjacent ?? waitTiles[0]?.path[0];
-      assert.ok(nextDirection, `E42 wait position remains movable without stepping into an NPC: ${JSON.stringify({
-        position, occupied: [...occupied], scenePosition,
-      })}`);
-      await page.keyboard.press(movementKeys[nextDirection]);
-      const moved = await page.waitForFunction(previous => Number(document.body.dataset.playerX) !== previous.x
-        || Number(document.body.dataset.playerY) !== previous.y, position, { timeout: 700 }).then(() => true).catch(() => false);
-      assert.ok(moved, `E42 waiting step ${tick + 1} avoids a resident-occupied tile`);
-      movementCount += 1;
-      if (movementCount % 8 === 0) await page.locator('#save').click();
+      const waitButton = page.locator('#route-continue');
+      await waitButton.waitFor({ state: 'visible', timeout: 5000 });
+      assert.match(await waitButton.textContent(), /선언문을 읽으러 사람들이 올 때까지 기다린다/,
+        'the quest panel gives the player a direct wait action while the witnesses travel');
+      const beforeMinute = state.world.clockMinutes;
+      await waitButton.click();
+      await page.waitForFunction(previous => {
+        const save = JSON.parse(localStorage.getItem('v33-rpg-save') ?? 'null')?.state;
+        return (save?.world?.clockMinutes ?? previous) > previous;
+      }, beforeMinute, { timeout: 5000 });
+      const after = await currentState();
+      waitMinutes += after.world.clockMinutes - beforeMinute;
+      await page.locator('#save').click();
     }
     const state = await currentState();
-    throw new Error(`E42 readers did not gather within 240 movement minutes: ${JSON.stringify({
+    throw new Error(`E42 readers did not gather within ${waitMinutes} guided wait minutes: ${JSON.stringify({
       event: state.world.livingEventStates?.E42,
       actors: ['clerk_alexei', 'printer_ekaterina', 'reader_darya', 'student_vasily'].map(id => ({
         id, mapId: state.hosts[id]?.mapId, position: state.hosts[id]?.position, goal: state.hosts[id]?.activeGoal,
@@ -810,7 +797,7 @@ async function runRoute(browser, base, routeName) {
                 screenshot: sourceShot });
               const gatherMinutes = await waitForEuropeNewsReadingReady();
               sourceReads.at(-1).eventStage = 'READING_READY';
-              sourceReads.at(-1).gatherMovementSteps = gatherMinutes;
+              sourceReads.at(-1).gatherWaitMinutes = gatherMinutes;
               await walkTo(targetObject, 'MAIN03 E42 decision after reading the proclamation');
             }
             if (quest.id === 'V47_MAIN01_A03') {

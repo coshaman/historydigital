@@ -13,6 +13,10 @@
 
 일반 경로는 브라우저에서 12개 장면을 완료했다. 아홉 명에게 빙의해 여덟 곳을 방문했고 페이지 오류는 없었다. [완주 경로와 선택 기록](../MAIN03_DISCUSSION_ROUTE/V47_NORMAL_MAIN03_BROWSER_CAMPAIGN.json) · [광장 후일담](../MAIN03_DISCUSSION_ROUTE/NORMAL-MAIN03-aftermath.png)
 
+2026-11-24 재검수에서도 정상·대체 경로 모두 12/12 장면을 마쳤다. 각각 8명·9명에게 빙의했고, 두 경로에서 여덟 장소를 거쳤으며 브라우저 오류는 없었다. 선언문 독서 화면은 두 경로 모두에서 실제 캡처했다. [정상 경로 기록](../MAIN03_GUIDED_WAIT_20261124/V47_NORMAL_MAIN03_BROWSER_CAMPAIGN.json) · [대체 경로 기록](../MAIN03_GUIDED_WAIT_20261124/V47_ALTERNATE_MAIN03_BROWSER_CAMPAIGN.json) · [선언문 화면](../MAIN03_GUIDED_WAIT_20261124/NORMAL-MAIN03-E42-SOURCE-1440x900.png) · [후일담 화면](../MAIN03_GUIDED_WAIT_20261124/NORMAL-MAIN03-aftermath.png)
+
+선언문 독자는 인쇄소 안에서 조금 떨어져 서도 모임에 합류할 수 있다. 인물이 아직 오는 중이면 수첩의 대기 버튼이 15분씩 시간을 진행한다. 모임이 시작되면 원문을 읽고 기록 방식을 선택한다.
+
 대기 버튼을 추가한 빌드에서 광장 장면과 후일담을 390×844 브라우저로 다시 플레이했다. 두 번의 대기 사이에 기록 여부를 직접 골랐고 감형 발표가 끝난 뒤 후일담이 열렸다. [모바일 대기 버튼](../MAIN03_SQUARE_WAIT/wait-for-square-announcement-390.png) · [선택 기록](../MAIN03_SQUARE_WAIT/V47_E41_ONLY_BROWSER_CAMPAIGN.json)
 
 ## 토론을 이어서 하기
