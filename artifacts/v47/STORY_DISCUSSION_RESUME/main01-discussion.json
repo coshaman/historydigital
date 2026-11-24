@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "storyId": "MAIN01",
+  "width": 390,
+  "api": "503",
+  "targetRestoredAfterReload": true,
+  "notes": [
+    {
+      "discussionId": "INQUIRY_MAIN01_TALNIKOV_HOME",
+      "hostId": "editor_sofia",
+      "date": "1848-05-18",
+      "answerKo": "전 아이의 눈으로 본 그대로 싣고 싶어요. 어른이 사정을 풀어 주기 시작하면, 그 아이가 방에서 보고도 이해하지 못한 것까지 대신 설명하게 되잖아요."
+    },
+    {
+      "discussionId": "INQUIRY_MAIN01_TALNIKOV_HOME",
+      "hostId": "midwife_avdotya",
+      "date": "1848-05-18",
+      "answerKo": "유모가 옷 때문에 울었다고 해서 아이가 안 가여웠겠어요? 잠도 못 자고 애를 돌봤을 텐데, 받기로 한 옷마저 못 받는 거잖아요."
+    }
+  ],
+  "stance": "KEEP_CHILD_VIEW",
+  "modelQuestions": [],
+  "browserErrors": []
+}

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { readFile } from 'node:fs/promises';
-import { availableDiscussionQuests, discussionFollowUpAfterTurn, formatQueuedDiscussionTaskKo, resolveQueuedDiscussionPrompt } from '../rpg/engine/discussion-quests.mjs';
+import { availableDiscussionQuests, discussionBoardView, discussionFollowUpAfterTurn, formatQueuedDiscussionTaskKo, nextDiscussionInstructionForQuest, resolveQueuedDiscussionPrompt } from '../rpg/engine/discussion-quests.mjs';
 
 const definitions = JSON.parse(await readFile(new URL('../rpg/data/discussion-quests.json', import.meta.url), 'utf8'));
 
@@ -87,4 +87,15 @@ test('after the required replies, follow-up guidance switches to the notebook ac
   assert.equal(next.phase, 'RECORD_POSITION');
   assert.equal(next.queuedInquiry, null);
   assert.match(next.statusKo, /수첩에서 내 입장을 고르면/);
+});
+
+test('the MAIN03 discussion guides an embodied witness to the other participant first', () => {
+  const quest = definitions.quests.find(item => item.id === 'INQUIRY_MAIN03_ORDER_AND_CHANGE');
+  const options = { actorHostId: 'student_vasily' };
+  const first = nextDiscussionInstructionForQuest(quest.contextQuestId, [quest], {}, [], options);
+  assert.equal(first.hostId, 'minor_noble_andrei');
+  assert.equal(first.nextHostNameKo, 'student_vasily');
+  assert.equal(discussionBoardView([quest], null, {}, 1, options.actorHostId).recommendations[0].hostId, first.hostId);
+  const resumed = discussionFollowUpAfterTurn({ ...quest, perspectiveHostIds: ['minor_noble_andrei'] }, {}, options);
+  assert.equal(resumed.queuedInquiry.hostId, 'student_vasily', 'the player still needs the second perspective after changing bodies');
 });

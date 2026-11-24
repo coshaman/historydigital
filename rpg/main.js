@@ -137,7 +137,7 @@ const currentDiscussionQuests = () => {
     // launch a free-floating ethics prompt before the scene exists.
     if (quest.contextQuestId) {
       const contextReached = missionGuidance?.questId === quest.contextQuestId || quest.perspectiveHostIds.length > 0
-        || queuedDiscussionInquiry?.questId === quest.id
+        || state.player.dialogueGrowth?.trackedDiscussion?.questId === quest.id
         || (state.ledger ?? []).some(entry => entry.questId === quest.contextQuestId);
       if (!contextReached) return [];
     }
@@ -536,9 +536,6 @@ function updateHud() {
   $('#bodyname').textContent = state.player.civic?.custody?.active ? `경찰 접수실 · 조사 대기 · ${cards.find(card => card.id === state.player.civic.custody.hostId)?.displayNameKo ?? '당사자'}` : host ? `몸을 빌림 · ${host.displayNameKo}` : '바깥에서 바라보는 중';
   $('#coins').textContent = host ? (state.hosts[host.id].money.amount == null ? '자금 기록 없음' : `${state.hosts[host.id].money.amount} 코페이카`) : '몸을 빌리면 주머니를 확인할 수 있습니다';
   $('#release').disabled = !host || Boolean(activeDialogueHost);
-  const conversationPartner = guidedConversationPartner();
-  $('#talk').textContent = conversationPartner ? `말 걸기 · ${conversationPartner.displayNameKo}` : '가까이서 말하기';
-  $('#talk').disabled = !host || !conversationPartner || Boolean(activeDialogueHost);
   document.querySelectorAll('.touch-pad button').forEach(button => { button.disabled = Boolean(activeDialogueHost && !button.hasAttribute('data-move')); });
   $('#load').disabled = !localStorage.getItem('v33-rpg-save');
   const inLiteraryScene = Boolean(state.world.activeRealm);
@@ -562,7 +559,7 @@ function updateHud() {
     : resolveQuestGuidance({ state, quests: questList, maps, hostCards: cards });
   const tracker = $('#mission-tracker'); tracker.hidden = !shouldShowQuestTracker({ ending: Boolean(state.endingId), literaryScene: inLiteraryScene,
     hasActions: $('.lower').classList.contains('has-actions'), storyOverview: $('.lower').classList.contains('story-overview'), activeDialogue: Boolean(activeDialogueHost),
-    keepVisible: Boolean(state.historicalSession || queuedDiscussionInquiry || missionGuidance.questId) });
+    keepVisible: Boolean(state.historicalSession || state.player.dialogueGrowth?.trackedDiscussion || missionGuidance.questId) });
   $('#mission-identity').textContent = host ? `현재 빙의: ${host.displayNameKo} · ${host.occupation}` : '현재 인물: 관찰자';
   $('#mission-title').textContent = missionGuidance.questTitleKo ?? '지금 할 일';
   $('#mission-action').textContent = `${missionGuidance.actionKo}${missionGuidance.placeKo ? ` · ${missionGuidance.placeKo}` : ''}`;
@@ -638,27 +635,38 @@ function updateHud() {
       $('#mission-method').textContent = completedStory.howKo;
     }
   }
-  if (queuedDiscussionInquiry && !inLiteraryScene) {
+  const discussionQuests = currentDiscussionQuests();
+  const questHostNames = Object.fromEntries(cards.map(card => [card.id, card.displayNameKo]));
+  const trackedDiscussion = state.player.dialogueGrowth?.trackedDiscussion;
+  const focusedInquiry = !inLiteraryScene && !state.historicalSession && !state.endingId && !state.player.civic?.custody?.active
+    ? discussionQuests.find(quest => quest.id === trackedDiscussion?.questId && !quest.completed) : null;
+  const dialogueOptions = { actorHostId: host?.id, preferredHostId: trackedDiscussion?.hostId };
+  const inquiryInstruction = discussionQuestInstruction(focusedInquiry, questHostNames, dialogueOptions);
+  queuedDiscussionInquiry = discussionFollowUpAfterTurn(focusedInquiry, questHostNames, dialogueOptions)?.queuedInquiry ?? null;
+  const conversationPartner = guidedConversationPartner();
+  $('#talk').textContent = conversationPartner ? `말 걸기 · ${conversationPartner.displayNameKo}` : '가까이서 말하기';
+  $('#talk').disabled = !host || !conversationPartner || Boolean(activeDialogueHost);
+  if (queuedDiscussionInquiry) {
     const targetHost = state.hosts[queuedDiscussionInquiry.hostId];
-    const targetGuide = targetHost ? guideToResident({ state, maps, hostCards: cards, targetHostId: targetHost.id }) : null;
+    const isOwnBody = host?.id === queuedDiscussionInquiry.hostId;
+    const targetGuide = host && targetHost && !isOwnBody
+      ? guideToResident({ state, maps, hostCards: cards, targetHostId: targetHost.id }) : null;
     const nextAction = !host ? '먼저 다른 주민에게 빙의하세요'
-      : host.id === queuedDiscussionInquiry.hostId ? '다른 주민에게 빙의하세요. 자기 자신에게는 말을 걸 수 없습니다'
+      : isOwnBody ? '인물 목록에서 다른 주민에게 빙의하세요. 자기 자신에게는 말을 걸 수 없습니다'
         : targetGuide?.target ? `표시된 길을 따라 ${queuedDiscussionInquiry.hostNameKo}에게 다가가 말 걸기를 누르세요`
           : `${queuedDiscussionInquiry.hostNameKo}에게 말 걸기를 누르세요`;
-    const liveInquiry = currentDiscussionQuests().find(item => item.id === queuedDiscussionInquiry.questId);
-    const inquiryInstruction = discussionQuestInstruction(liveInquiry, Object.fromEntries(cards.map(card => [card.id, card.displayNameKo])));
     missionGuidance = {
       ...missionGuidance,
       questId: queuedDiscussionInquiry.questId,
       phaseId: 'opinion-inquiry',
       hostId: queuedDiscussionInquiry.hostId,
-      taskType: host?.id === queuedDiscussionInquiry.hostId ? 'TALK' : host ? 'TRAVEL' : 'POSSESS',
+      taskType: isOwnBody ? 'TALK' : host ? 'TRAVEL' : 'POSSESS',
       questTitleKo: queuedDiscussionInquiry.titleKo,
       actionKo: `${queuedDiscussionInquiry.hostNameKo}에게 물어보기 · ${queuedDiscussionInquiry.progressKo}`,
       reasonKo: queuedDiscussionInquiry.stakesKo,
       howKo: [
         `이동 · ${nextAction}${targetGuide?.howKo ? ` · ${targetGuide.howKo}` : ''}`,
-        formatQueuedDiscussionTaskKo(liveInquiry, {
+        formatQueuedDiscussionTaskKo(focusedInquiry, {
           hostNameKo: queuedDiscussionInquiry.hostNameKo,
           placeKo: targetHost ? maps[targetHost.mapId]?.metadata.displayNameKo : '',
           promptKo: queuedDiscussionInquiry.promptKo,
@@ -684,19 +692,17 @@ function updateHud() {
   }
   const caseContext = host ? caseContextsByQuest.get(missionGuidance.questId) : null;
   caseContextButton.hidden = !caseContext?.roles?.[host.id] || Boolean(state.endingId);
-  const discussionQuests = currentDiscussionQuests();
-  const questHostNames = Object.fromEntries(cards.map(card => [card.id, card.displayNameKo]));
   const activeMissionQuest = questList.find(quest => quest.id === missionGuidance.questId);
   const questNext = $('#mission-quest-next');
   questNext.hidden = true;
   questNext.textContent = '';
-  const missionDiscussion = !queuedDiscussionInquiry
-    ? nextDiscussionInstructionForQuest(missionGuidance.questId, discussionQuests, questHostNames, activeMissionQuest?.sourceIds ?? [])
+  const missionDiscussion = !focusedInquiry
+    ? nextDiscussionInstructionForQuest(missionGuidance.questId, discussionQuests, questHostNames, activeMissionQuest?.sourceIds ?? [], { actorHostId: host?.id })
     : null;
   const missionDiscussionButton = $('#mission-queue-discussion');
   const journalDiscussionButton = $('#journal-queue-discussion');
   for (const button of [missionDiscussionButton, journalDiscussionButton]) {
-    if (queuedDiscussionInquiry && !inLiteraryScene && !state.endingId) {
+    if (focusedInquiry) {
       button.hidden = false;
       button.textContent = '메인 목표로 돌아가기';
       button.removeAttribute('aria-label');
@@ -748,37 +754,26 @@ function updateHud() {
   const discussionHost = (activeDialogueHost && cards.find(card => card.id === activeDialogueHost)) || conversationPartner;
   const reflectionPrompts = discussionHost ? discussionReflectionPromptsForHost(discussionHost.id, state, discussionQuests) : [];
   const discussionView = discussionBoardView(discussionQuests, discussionHost?.id ?? null,
-    Object.fromEntries(cards.map(card => [card.id, card.displayNameKo])), discussionQuestData.quests.length);
+    questHostNames, discussionQuestData.quests.length, host?.id);
   discussionBoard.hidden = (!discussionView.visible && !reflectionPrompts.length)
     || Boolean(state.endingId) || inLiteraryScene;
   if (shouldOpenDiscussionBoard({ queuedInquiry: Boolean(queuedDiscussionInquiry), positionPending: Boolean(discussionView.positionPrompts?.length), activeDialogue: Boolean(activeDialogueHost), missionInquiry: missionDiscussion?.phase === 'ASK' })) discussionBoard.open = true;
   $('#discussion-quest-progress').textContent = discussionView.progressKo;
   $('#discussion-quest-guidance').textContent = queuedDiscussionInquiry
-    ? formatQueuedDiscussionTaskKo(currentDiscussionQuests().find(item => item.id === queuedDiscussionInquiry.questId), {
+    ? formatQueuedDiscussionTaskKo(focusedInquiry, {
       hostNameKo: queuedDiscussionInquiry.hostNameKo,
       placeKo: maps[state.hosts[queuedDiscussionInquiry.hostId]?.mapId]?.metadata.displayNameKo ?? '',
       promptKo: queuedDiscussionInquiry.promptKo,
-      nextHostNameKo: discussionQuestInstruction(
-        currentDiscussionQuests().find(item => item.id === queuedDiscussionInquiry.questId),
-        Object.fromEntries(cards.map(item => [item.id, item.displayNameKo])),
-      )?.nextHostNameKo ?? '',
-      nextPromptKo: discussionQuestInstruction(
-        currentDiscussionQuests().find(item => item.id === queuedDiscussionInquiry.questId),
-        Object.fromEntries(cards.map(item => [item.id, item.displayNameKo])),
-      )?.nextPromptKo ?? '',
+      nextHostNameKo: inquiryInstruction?.nextHostNameKo ?? '',
+      nextPromptKo: inquiryInstruction?.nextPromptKo ?? '',
     })
     : discussionView.guidanceKo;
-  if (!queuedDiscussionInquiry && discussionView.positionPrompts?.length && !inLiteraryScene && !state.endingId) {
-    const pending = discussionView.positionPrompts[0];
-    const pendingQuest = discussionQuests.find(item => item.id === pending.questId);
-    const perspectiveCount = pendingQuest?.requiredPerspectiveCount ?? 2;
-    missionGuidance = { ...missionGuidance, questId: pending.questId, taskType: 'RECORD_POSITION',
-      questTitleKo: pending.titleKo, actionKo: '수첩에서 내 입장을 기록하세요',
-      reasonKo: '서로 다른 두 사람의 답을 모았습니다.',
-      howKo: discussionQuestInstruction(pendingQuest,
-        Object.fromEntries(cards.map(card => [card.id, card.displayNameKo])))?.howKo
-        ?? '수첩을 열고 입장 하나를 선택하면 이 퀘스트가 끝납니다.',
-      target: null, progress: { completedSteps: perspectiveCount, totalSteps: perspectiveCount + 1 }, blocked: false };
+  if (focusedInquiry?.positionPending) {
+    const perspectiveCount = focusedInquiry.requiredPerspectiveCount ?? 2;
+    missionGuidance = { ...missionGuidance, questId: focusedInquiry.id, taskType: 'RECORD_POSITION',
+      questTitleKo: focusedInquiry.titleKo, actionKo: '수첩에서 내 입장을 고르면 토론이 끝납니다.',
+      reasonKo: '', howKo: '', placeKo: null, target: null,
+      progress: { completedSteps: perspectiveCount, totalSteps: perspectiveCount + 1 }, blocked: false };
     for (const [selector, value] of [['#mission-title', missionGuidance.questTitleKo], ['#mission-action', missionGuidance.actionKo],
       ['#mission-reason', missionGuidance.reasonKo], ['#mission-method', missionGuidance.howKo],
       ['#journal-quest-title', missionGuidance.questTitleKo], ['#journal-goal-action', missionGuidance.actionKo],
@@ -798,10 +793,13 @@ function updateHud() {
   const followUpRows = reflectionPrompts.slice(0, 2).map(prompt => `비교 메모 후속 대화 · ${discussionHost.displayNameKo}에게: “${prompt.promptKo}”`);
   const inquiryList = $('#discussion-quest-items');
   const visibleInquiries = showAllDiscussionQuestions ? inquiryRows : inquiryRows.slice(0, 8);
-  const positionRows = (discussionView.positionPrompts ?? []).flatMap(prompt => prompt.choices.map(choice => {
+  const positionPrompts = focusedInquiry?.positionPending
+    ? discussionView.positionPrompts.filter(prompt => prompt.questId === focusedInquiry.id)
+    : discussionView.positionPrompts;
+  const positionRows = positionPrompts.flatMap(prompt => prompt.choices.map(choice => {
     const li = document.createElement('li');
     const detail = document.createElement('span');
-    detail.textContent = `${prompt.titleKo} · ${choice.stanceKo}`;
+    detail.textContent = focusedInquiry?.id === prompt.questId ? choice.stanceKo : `${prompt.titleKo} · ${choice.stanceKo}`;
     const choose = document.createElement('button');
     choose.type = 'button';
     choose.className = 'discussion-position-select';
@@ -809,10 +807,10 @@ function updateHud() {
     choose.addEventListener('click', () => {
       const result = recordDiscussionPosition(state, { discussionId: prompt.questId, positionId: choice.id }, discussionQuestData);
       if (!result.ok) { sayRecord(result.reason === 'position_already_recorded' ? '이 쟁점에 대한 내 입장은 이미 수첩에 남아 있습니다.' : '두 인물의 관점을 먼저 모아야 내 입장을 기록할 수 있습니다.'); return; }
+      if (trackedDiscussion?.questId === prompt.questId) delete result.state.player.dialogueGrowth.trackedDiscussion;
       setState(result.state);
       localStorage.setItem('v33-rpg-save', saveGame(state));
       $('#load').disabled = false;
-      queuedDiscussionInquiry = null;
       destinationPinned = false;
       sayRecord(`내 입장을 수첩에 남겼습니다 · ${choice.labelKo}`);
     });
@@ -876,13 +874,11 @@ function updateHud() {
         choose.textContent = queuedDiscussionInquiry?.questId === item.questId && queuedDiscussionInquiry?.hostId === item.hostId ? '선택됨' : '대화 목표로 선택';
         choose.setAttribute('aria-pressed', String(queuedDiscussionInquiry?.questId === item.questId && queuedDiscussionInquiry?.hostId === item.hostId));
         choose.addEventListener('click', () => {
-          queuedDiscussionInquiry = item;
-          destinationPinned = true;
+          setDiscussionFocus({ questId: item.questId, hostId: item.hostId });
           discussionBoard.open = true;
-          updateHud();
-          const target = state.hosts[item.hostId];
+          const target = state.hosts[queuedDiscussionInquiry?.hostId];
           const place = maps[target?.mapId]?.metadata.displayNameKo ?? '현재 위치';
-          sayRecord(`${item.titleKo} 질문을 담았습니다. ${place}에 있는 ${item.hostNameKo}에게 물어보세요. 먼저 다른 주민의 몸을 빌린 뒤, 그 인물 가까이서 말 걸기를 누르면 질문이 대화 선택지 맨 앞에 나타납니다.`);
+          if (queuedDiscussionInquiry) sayRecord(`${place}에 있는 ${queuedDiscussionInquiry.hostNameKo}에게 물어보세요.`);
         });
         li.append(detail, choose);
         return li;
@@ -913,7 +909,9 @@ function updateHud() {
   $('#journal-goal-action').textContent = missionGuidance.actionKo ?? '';
   $('#journal-goal-reason').textContent = missionGuidance.reasonKo ?? '';
   $('#journal-goal-how').textContent = missionGuidance.howKo ?? '';
-  $('#journal-goal-place').textContent = `장소 · ${missionGuidance.placeKo ?? map.metadata.displayNameKo}`;
+  const goalPlace = $('#journal-goal-place');
+  goalPlace.hidden = missionGuidance.taskType === 'RECORD_POSITION';
+  goalPlace.textContent = goalPlace.hidden ? '' : `장소 · ${missionGuidance.placeKo ?? map.metadata.displayNameKo}`;
   $('#journal-completed').textContent = missionGuidance.progress?.totalSteps ? `이 사건 진행 · ${missionGuidance.progress.completedSteps} / ${missionGuidance.progress.totalSteps} 완료` : '';
   $('#journal-pin').disabled = !missionGuidance.target;
   $('#journal-pin').textContent = destinationPinned ? '목적지 표시 중' : '목적지 표시';
@@ -1081,29 +1079,30 @@ function toggleDestinationPin() {
   destinationPinned = !destinationPinned;
   updateHud(); requestRender();
 }
-function queueActiveMissionDiscussion() {
-  if (queuedDiscussionInquiry) {
-    queuedDiscussionInquiry = null;
-    destinationPinned = false;
-    updateHud();
-    requestRender();
-    return;
-  }
-  const discussionQuests = currentDiscussionQuests();
-  const activeMissionQuest = questList.find(quest => quest.id === missionGuidance.questId);
-  const instruction = nextDiscussionInstructionForQuest(missionGuidance.questId, discussionQuests,
-    Object.fromEntries(cards.map(card => [card.id, card.displayNameKo])), activeMissionQuest?.sourceIds ?? []);
-  if (!instruction || instruction.phase !== 'ASK') return;
-  queuedDiscussionInquiry = {
-    questId: instruction.quest.id, hostId: instruction.hostId, hostNameKo: instruction.hostNameKo,
-    titleKo: instruction.quest.titleKo, promptKo: instruction.promptKo,
-    progressKo: `${instruction.quest.perspectiveHostIds?.length ?? 0}/${instruction.quest.requiredPerspectiveCount} 관점`,
-    completedPerspectives: instruction.quest.perspectiveHostIds?.length ?? 0,
-    requiredPerspectives: instruction.quest.requiredPerspectiveCount, stakesKo: instruction.quest.stakesKo ?? '',
-  };
-  destinationPinned = true;
+function setDiscussionFocus(target) {
+  const next = copy(state);
+  if (target) next.player.dialogueGrowth.trackedDiscussion = target;
+  else delete next.player.dialogueGrowth.trackedDiscussion;
+  setState(next);
+  localStorage.setItem('v33-rpg-save', saveGame(state));
+  $('#load').disabled = false;
+  destinationPinned = Boolean(target && missionGuidance.target);
   updateHud();
   requestRender();
+}
+function queueActiveMissionDiscussion() {
+  const discussionQuests = currentDiscussionQuests();
+  const trackedId = state.player.dialogueGrowth?.trackedDiscussion?.questId;
+  if (discussionQuests.some(quest => quest.id === trackedId && !quest.completed)) {
+    setDiscussionFocus(null);
+    return;
+  }
+  const activeMissionQuest = questList.find(quest => quest.id === missionGuidance.questId);
+  const instruction = nextDiscussionInstructionForQuest(missionGuidance.questId, discussionQuests,
+    Object.fromEntries(cards.map(card => [card.id, card.displayNameKo])), activeMissionQuest?.sourceIds ?? [],
+    { actorHostId: state.player.embodiment });
+  if (!instruction || instruction.phase !== 'ASK') return;
+  setDiscussionFocus({ questId: instruction.quest.id, hostId: instruction.hostId });
   sayRecord(`${instruction.hostNameKo}에게 물을 질문을 담았습니다. 질문에 답을 받은 다음 수첩에서 다음 인물과 완료 조건을 확인하세요.`);
 }
 function renderApiDiagnostics() {
@@ -1359,6 +1358,7 @@ function selectV47Story(storyId) {
   }
   next.world.v47 = { ...globalThis.V47MainStories.createV47State(), ...(next.world.v47 ?? {}) };
   next.world.v47.focusStoryId = storyId;
+  if (enteringStory) delete next.player.dialogueGrowth.trackedDiscussion;
   setState(next);
   localStorage.setItem('v33-rpg-save', saveGame(next));
   const activeTask = guide.status === 'READY'
@@ -2898,15 +2898,18 @@ async function sendConversation(card, playerText, replyId = null) {
   dialogueCurrentLines.set(key, turn.beats.map(beat => beat.textKo).join('\n'));
   const discussionAnswerKo = discussionPrompt ? turn.beats.filter(beat => beat.speakerId === card.id).map(beat => beat.textKo).join('\n') : '';
   const recorded = recordDialogueTurn(state, { hostId: card.id, actorHostId: actorCard.id, sceneId: local.sceneId, intentClass, discussionId: discussionPrompt?.discussionId ?? null, discussionTitleKo: discussionPrompt?.questTitleKo, discussionAnswerKo, reflectionId: reflectionPrompt?.reflectionId ?? null, aiGenerated, dialogueStartContext: dialogueOpeningContexts.get(key) }, maps);
-  if (recorded.ok) setState(recorded.state);
+  if (recorded.ok) {
+    if (discussionPrompt) recorded.state.player.dialogueGrowth.trackedDiscussion ??= { questId: discussionPrompt.discussionId };
+    setState(recorded.state);
+  }
   let discussionProgressStatus = '';
   if (recorded.ok && discussionPrompt) {
     localStorage.setItem('v33-rpg-save', saveGame(state));
     $('#load').disabled = false;
     const inquiryId = discussionPrompt.discussionId;
     const nextInquiry = currentDiscussionQuests().find(item => item.id === inquiryId);
-    const followUp = discussionFollowUpAfterTurn(nextInquiry, Object.fromEntries(cards.map(item => [item.id, item.displayNameKo])));
-    queuedDiscussionInquiry = followUp?.queuedInquiry ?? null;
+    const followUp = discussionFollowUpAfterTurn(nextInquiry, Object.fromEntries(cards.map(item => [item.id, item.displayNameKo])),
+      { actorHostId: actorCard.id });
     discussionProgressStatus = followUp?.statusKo ?? '';
   }
   let replies = (turn.suggestedReplies ?? []).slice(0, 3);
@@ -2926,7 +2929,7 @@ async function sendConversation(card, playerText, replyId = null) {
   const rewardStatus = reward === 'COMPARISON_NOTE' ? ' · 관점 대조 메모 획득 · 다른 인물에게 후속 질문 가능' : reward === 'PERSPECTIVE_NOTE' ? ' · 관점 메모와 통찰 +1' : '';
   const recordFailure = recorded.ok ? '' : `대화 기록 실패 · ${recorded.reason}`;
   const conversationStatus = [generationFailure, recordFailure].filter(Boolean).join(' · ')
-    || (localService ? '다른 일을 물어보거나 대화를 마치세요.' : `AI 생성 답변 · ${card.displayNameKo}의 처지와 견해가 반영되었습니다.${rewardStatus}${discussionProgressStatus ? ` · ${discussionProgressStatus}` : ''}`);
+    || (localService ? '다른 일을 물어보거나 대화를 마치세요.' : [aiGenerated ? `AI 생성 답변 · ${card.displayNameKo}${rewardStatus}` : '', discussionProgressStatus].filter(Boolean).join(' · '));
   showConversation(card, dialogueCurrentLines.get(key), replies.map(reply => reply.textKo), conversationStatus);
   $('.journal').scrollTop = $('.journal').scrollHeight;
 }

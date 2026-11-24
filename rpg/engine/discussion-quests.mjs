@@ -51,7 +51,7 @@ export function discussionReflectionPromptsForHost(hostId, state, quests) {
     }));
 }
 
-export function discussionQuestInstruction(quest, hostNames = {}) {
+export function discussionQuestInstruction(quest, hostNames = {}, { actorHostId = null, preferredHostId = null } = {}) {
   if (!quest) return null;
   const required = quest.requiredPerspectiveCount ?? 2;
   const heard = quest.perspectiveHostIds ?? [];
@@ -59,7 +59,9 @@ export function discussionQuestInstruction(quest, hostNames = {}) {
     phase: 'RECORD_POSITION', questTitleKo: quest.titleKo, hostId: null, hostNameKo: null, promptKo: null,
     howKo: `대화는 끝났습니다. 지금 할 일 · 수첩에서 「${quest.titleKo}」에 대한 입장 하나를 기록하세요. 기록하면 퀘스트가 끝납니다.`,
   };
-  const hostId = Object.keys(quest.hosts ?? {}).find(id => !heard.includes(id));
+  const remaining = Object.keys(quest.hosts ?? {}).filter(id => !heard.includes(id));
+  const hostId = remaining.find(id => id === preferredHostId && id !== actorHostId)
+    ?? remaining.find(id => id !== actorHostId) ?? remaining[0];
   if (!hostId) return {
     phase: 'WAIT', hostId: null, hostNameKo: null, promptKo: null,
     howKo: '수첩의 쟁점 목록을 확인하세요.',
@@ -67,7 +69,7 @@ export function discussionQuestInstruction(quest, hostNames = {}) {
   const hostNameKo = hostNames[hostId] ?? hostId;
   const promptKo = quest.hosts[hostId].promptKo;
   const nextHostId = heard.length + 1 < required
-    ? Object.keys(quest.hosts ?? {}).find(id => id !== hostId && !heard.includes(id))
+    ? remaining.find(id => id !== hostId)
     : null;
   const nextHostKo = nextHostId ? hostNames[nextHostId] ?? nextHostId : null;
   const nextPromptKo = nextHostId ? quest.hosts[nextHostId].promptKo : null;
@@ -77,9 +79,9 @@ export function discussionQuestInstruction(quest, hostNames = {}) {
   };
 }
 
-export function discussionFollowUpAfterTurn(quest, hostNames = {}) {
+export function discussionFollowUpAfterTurn(quest, hostNames = {}, options = {}) {
   if (!quest) return null;
-  const instruction = discussionQuestInstruction(quest, hostNames);
+  const instruction = discussionQuestInstruction(quest, hostNames, options);
   if (instruction?.phase === 'ASK') return {
     phase: 'ASK',
     queuedInquiry: {
@@ -95,6 +97,7 @@ export function discussionFollowUpAfterTurn(quest, hostNames = {}) {
     },
     statusKo: `질문 답변 기록 · ${quest.perspectiveHostIds?.length ?? 0}/${quest.requiredPerspectiveCount ?? 2}명. 다음은 ${instruction.hostNameKo}에게 “${instruction.promptKo}”라고 물어보세요.`,
   };
+  if (instruction.phase === 'WAIT') return { phase: 'WAIT', queuedInquiry: null, statusKo: '' };
   return {
     phase: 'RECORD_POSITION',
     queuedInquiry: null,
@@ -172,14 +175,14 @@ export function resolveQueuedDiscussionPrompt(queuedInquiry, quests, hostId, pla
   return { discussionId: quest.id, questTitleKo: quest.titleKo, promptKo: quest.hosts[hostId].promptKo };
 }
 
-export function nextDiscussionInstructionForQuest(questId, quests, hostNames = {}, sourceIds = []) {
+export function nextDiscussionInstructionForQuest(questId, quests, hostNames = {}, sourceIds = [], options = {}) {
   if (!questId) return null;
   const sources = new Set(sourceIds);
   const active = (quests ?? []).filter(item => !item.completed);
   const quest = active.find(item => item.contextQuestId === questId)
     ?? active.find(item => !item.contextQuestId && (item.sourceIds ?? []).some(id => sources.has(id)));
   if (!quest) return null;
-  return { quest, ...discussionQuestInstruction(quest, hostNames) };
+  return { quest, ...discussionQuestInstruction(quest, hostNames, options) };
 }
 
 export function discussionReplyChoices(queuedPrompt, suggestedReplies = []) {
@@ -200,13 +203,14 @@ export function shouldOpenDiscussionBoard({ queuedInquiry = false, positionPendi
   return queuedInquiry || positionPending || activeDialogue || missionInquiry;
 }
 
-export function discussionBoardView(quests, hostId = null, hostNames = {}, totalQuestCount = quests?.length ?? 0) {
+export function discussionBoardView(quests, hostId = null, hostNames = {}, totalQuestCount = quests?.length ?? 0, actorHostId = null) {
   const active = (quests ?? []).filter(quest => !quest.completed)
     .sort((a, b) => (b.perspectiveHostIds?.length ?? 0) - (a.perspectiveHostIds?.length ?? 0));
   const completedCount = (quests ?? []).length - active.length;
   const positionPrompts = (quests ?? []).filter(quest => quest.positionPending);
   const eligibleFor = quest => Object.keys(quest.hosts ?? {})
-    .filter(id => !quest.perspectiveHostIds?.includes(id));
+    .filter(id => !quest.perspectiveHostIds?.includes(id))
+    .sort((a, b) => Number(a === actorHostId) - Number(b === actorHostId));
   const rows = hostId
     ? active.flatMap(quest => {
         const count = quest.perspectiveHostIds?.length ?? 0;
@@ -264,9 +268,9 @@ export function discussionBoardView(quests, hostId = null, hostNames = {}, total
     guidanceKo: positionPrompts.length
       ? `지금 할 일 · 수첩에서 「${positionPrompts[0]?.titleKo ?? '이 쟁점'}」의 입장을 골라 기록하세요. 선택하면 퀘스트가 끝납니다.`
       : nextComparison
-      ? discussionQuestInstruction(nextComparison, hostNames)?.howKo
+      ? discussionQuestInstruction(nextComparison, hostNames, { actorHostId })?.howKo
       : active.length
-        ? discussionQuestInstruction(active[0], hostNames)?.howKo
+        ? discussionQuestInstruction(active[0], hostNames, { actorHostId })?.howKo
         : '질문을 담고 표시된 인물에게 말을 거세요. 대화에서 제시된 질문을 고르고, 서로 다른 두 사람의 답을 들은 뒤 수첩에서 내 입장을 기록하면 끝납니다.',
     rows,
     recommendations,

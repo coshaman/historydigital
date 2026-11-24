@@ -44,11 +44,15 @@ test('opinion quests collect two distinct character perspectives before comparis
   assert.equal(inProgress.perspectiveHostIds.length, 1);
   assert.equal(discussionPromptsForHost('clerk_alexei', [inProgress]).length, 0, 'the same character cannot be counted twice');
   assert.equal(discussionPromptsForHost('courier_pavel', [inProgress]).length, 1, 'the second perspective remains available');
-  const twoPerspectives = { ...firstView, ledger: [...firstView.ledger, { eventType: 'DIALOGUE_TURN', hostId: 'senior_clerk_konstantin', discussionId: prompt.discussionId }], player: { dialogueGrowth: { comparisonNotes: [{ discussionId: prompt.discussionId }], playerPositions: [], reflectionIds: [] } } };
+  const outsider = { eventType: 'DIALOGUE_TURN', hostId: 'senior_clerk_konstantin', discussionId: prompt.discussionId };
+  assert.deepEqual(availableDiscussionQuests({ ...firstView, ledger: [...firstView.ledger, outsider] }, definitions)
+    .find(item => item.id === prompt.discussionId).perspectiveHostIds, ['clerk_alexei']);
+  const twoPerspectives = { ...firstView, ledger: [...firstView.ledger, { eventType: 'DIALOGUE_TURN', hostId: 'courier_pavel', discussionId: prompt.discussionId }], player: { dialogueGrowth: { comparisonNotes: [{ discussionId: prompt.discussionId }], playerPositions: [], reflectionIds: [] } } };
   const pendingPosition = availableDiscussionQuests(twoPerspectives, definitions).find(item => item.id === prompt.discussionId);
   assert.equal(pendingPosition.completed, false, 'hearing two people opens the final notebook step');
   assert.equal(pendingPosition.positionPending, true);
-  const completed = availableDiscussionQuests({ ...twoPerspectives, player: { dialogueGrowth: { ...twoPerspectives.player.dialogueGrowth, playerPositions: [{ discussionId: prompt.discussionId, positionId: 'TEST_POSITION' }] } } }, definitions).find(item => item.id === prompt.discussionId);
+  const positionId = pendingPosition.playerPositionChoices[0].id;
+  const completed = availableDiscussionQuests({ ...twoPerspectives, player: { dialogueGrowth: { ...twoPerspectives.player.dialogueGrowth, playerPositions: [{ discussionId: prompt.discussionId, positionId }] } } }, definitions).find(item => item.id === prompt.discussionId);
   assert.equal(completed.completed, true, 'the quest ends after recording a position');
   const stateWithNote = { ...state, player: { dialogueGrowth: { comparisonNotes: [{ discussionId: prompt.discussionId }], reflectionIds: [] } } };
   assert.equal(discussionReflectionPromptsForHost('clerk_alexei', stateWithNote, [completed]).length, 1);
@@ -156,7 +160,7 @@ test('the final required perspective never points the player to an unnecessary t
   assert.equal(instruction.hostId, 'buyer_anna');
   assert.equal(instruction.nextHostNameKo, null, 'after Anna answers, the player records a stance instead of asking Lev');
   const task = formatQueuedDiscussionTaskKo(quest, { hostNameKo: '안나', promptKo: instruction.promptKo });
-  assert.match(task, /필요한 답을 모두 들었습니다\. 수첩에서 내 입장을 기록하세요/u);
+  assert.match(task, /이 답을 들은 뒤 수첩에서 내 입장을 기록하세요/u);
   assert.doesNotMatch(task, /다른 인물에게 같은 쟁점을 물어/u);
 });
 
