@@ -1,0 +1,1714 @@
+{
+  "routeName": "NORMAL",
+  "scope": "MAIN01 start-to-aftermath browser play",
+  "status": "PASS",
+  "stories": {
+    "MAIN01": {
+      "resolved": 12,
+      "uniqueHosts": 9,
+      "maps": [
+        "bookshop-interior",
+        "printshop",
+        "chancery",
+        "communal-room",
+        "bookshop-lane",
+        "sofiya-salon"
+      ],
+      "status": "PASS"
+    },
+    "MAIN03": {
+      "resolved": 0,
+      "uniqueHosts": 0,
+      "maps": [],
+      "status": "INCOMPLETE"
+    },
+    "MAIN05": {
+      "resolved": 0,
+      "uniqueHosts": 0,
+      "maps": [],
+      "status": "INCOMPLETE"
+    }
+  },
+  "quests": [
+    {
+      "storyId": "MAIN01",
+      "questId": "V47_MAIN01_A01",
+      "beatId": "A01",
+      "dateBefore": "1848-02-12",
+      "dateAfter": "1848-02-12",
+      "hostId": "bookseller_lev",
+      "mapId": "bookshop-interior",
+      "arrivalPosition": {
+        "x": 2,
+        "y": 16
+      },
+      "actionId": "V47_A01_OPEN_SUBSCRIBER_LEDGER",
+      "status": "resolved",
+      "personalStoryGoal": [],
+      "ledgerSaved": true,
+      "worldChange": {
+        "questId": "V47_MAIN01_A01",
+        "actionId": "V47_A01_OPEN_SUBSCRIBER_LEDGER",
+        "date": "1848-02-12",
+        "mapId": "bookshop-interior",
+        "money": [],
+        "inventory": [
+          {
+            "fromHostId": "bookseller_lev",
+            "toHostId": "reader_darya",
+            "itemKo": "부록 예약 영수증",
+            "quantity": 1,
+            "produceIfAbsent": true
+          }
+        ],
+        "moves": [],
+        "resources": {
+          "waterRiskDelta": 0,
+          "foodRiskDelta": 0,
+          "bedsDelta": 0,
+          "medicineDelta": 0
+        },
+        "rumorId": "V47_SUBSCRIBER_LEDGER_CHECKED",
+        "observationIds": [],
+        "sourceObservationIds": []
+      },
+      "autonomousStoryOutcomes": [],
+      "cholera": {
+        "counters": {
+          "exposures": 0,
+          "recoveries": 0,
+          "deaths": 0
+        },
+        "waterRisk": 0.72,
+        "foodRisk": 0.38
+      }
+    },
+    {
+      "storyId": "MAIN01",
+      "questId": "V47_MAIN01_PERMISSION",
+      "beatId": "V47_MAIN01_PERMISSION",
+      "dateBefore": "1848-03-09",
+      "dateAfter": "1848-03-09",
+      "hostId": "printer_ekaterina",
+      "mapId": "printshop",
+      "arrivalPosition": {
+        "x": 14,
+        "y": 6
+      },
+      "actionId": "V47_A01_COLLATE_PROOFS",
+      "status": "resolved",
+      "personalStoryGoal": [],
+      "ledgerSaved": true,
+      "worldChange": null,
+      "autonomousStoryOutcomes": [],
+      "printwork": {
+        "schemaVersion": "V47_PRINTWORK_V2",
+        "step": 7,
+        "status": "COMPLETE",
+        "decisions": [
+          "V47_PRINT_TITLE_TALNIKOVY",
+          "V47_PRINT_CHECK_PROOF",
+          "V47_PRINT_USE_DRY_STOCK",
+          "V47_PRINT_SEND_SUBSCRIPTIONS",
+          "V47_PRINT_CONSIGN_BOOKSHOP",
+          "V47_PRINT_SHARE_WORKER_COPY",
+          "V47_PRINT_RECYCLE_REMAINDER"
+        ],
+        "allocations": [
+          {
+            "stage": 3,
+            "actionId": "V47_PRINT_SEND_SUBSCRIPTIONS"
+          },
+          {
+            "stage": 4,
+            "actionId": "V47_PRINT_CONSIGN_BOOKSHOP"
+          },
+          {
+            "stage": 5,
+            "actionId": "V47_PRINT_SHARE_WORKER_COPY"
+          },
+          {
+            "stage": 6,
+            "actionId": "V47_PRINT_RECYCLE_REMAINDER"
+          }
+        ],
+        "outgoingItems": [
+          {
+            "hostId": "editor_sofia",
+            "itemKo": "대조한 연감 교정쇄",
+            "toHostId": "editor_sofia",
+            "stage": 1
+          },
+          {
+            "hostId": "editor_sofia",
+            "itemKo": "마른 종이로 찍은 연감 인쇄지",
+            "toHostId": "editor_sofia",
+            "stage": 2
+          },
+          {
+            "hostId": "editor_sofia",
+            "itemKo": "구독자 주문 확인표",
+            "toHostId": "editor_sofia",
+            "stage": 3
+          },
+          {
+            "hostId": "courier_pavel",
+            "itemKo": "서점 출고 보류 통지",
+            "toHostId": "courier_pavel",
+            "stage": 4
+          },
+          {
+            "hostId": "print_apprentice_stepan",
+            "itemKo": "작업자 확인용 연감 한 부",
+            "toHostId": "print_apprentice_stepan",
+            "stage": 5
+          },
+          {
+            "hostId": "printer_ekaterina",
+            "itemKo": "종이 조각",
+            "toHostId": "printer_ekaterina",
+            "stage": 6
+          }
+        ],
+        "distributionInvariantVersion": 1,
+        "publicDistributionOccurred": false,
+        "proofChecked": true,
+        "spoiledSheets": 0,
+        "workMinutes": 20,
+        "risk": 0,
+        "inventory": {
+          "dryPaper": 2,
+          "dampPaper": 4,
+          "ink": 6
+        },
+        "composition": [
+          "С",
+          "е",
+          "м",
+          "е",
+          "й",
+          "с",
+          "т",
+          "в",
+          "о",
+          " ",
+          "Т",
+          "а",
+          "л",
+          "ь",
+          "н",
+          "и",
+          "к",
+          "о",
+          "в",
+          "ы",
+          "х"
+        ],
+        "usedTypeTiles": [
+          "sort-00",
+          "sort-01",
+          "sort-02",
+          "sort-03",
+          "sort-04",
+          "sort-05",
+          "sort-06",
+          "sort-07",
+          "sort-08",
+          "sort-09",
+          "sort-10",
+          "sort-11",
+          "sort-12",
+          "sort-13",
+          "sort-14",
+          "sort-15",
+          "sort-16",
+          "sort-17",
+          "sort-18",
+          "sort-19",
+          "sort-20"
+        ],
+        "titleSet": true,
+        "itemHolders": {
+          "courier_pavel": [
+            "서점 출고 보류 통지"
+          ],
+          "bookseller_lev": [],
+          "print_apprentice_stepan": [
+            "작업자 확인용 연감 한 부"
+          ],
+          "printer_ekaterina": [
+            "종이 조각"
+          ],
+          "editor_sofia": [
+            "대조한 연감 교정쇄",
+            "마른 종이로 찍은 연감 인쇄지",
+            "구독자 주문 확인표"
+          ]
+        },
+        "courierTravel": {
+          "status": "EN_ROUTE",
+          "targetMapId": "bookshop-interior",
+          "targetPosition": {
+            "x": 7,
+            "y": 9
+          },
+          "storyId": "MAIN01",
+          "questId": "V47_MAIN01_PERMISSION",
+          "actionId": "V47_PRINT_CONSIGN_BOOKSHOP",
+          "taskId": "V47:TRAVEL:V47_MAIN01_PERMISSION:V47_PRINT_CONSIGN_BOOKSHOP:courier_pavel",
+          "activityKo": "연감 출고를 보류한다는 통지를 서점에 전한다",
+          "startedDate": "1848-03-09",
+          "destinationPosition": {
+            "x": 7,
+            "y": 9
+          }
+        },
+        "moneyByHost": {
+          "bookseller_lev": 83,
+          "editor_sofia": 24
+        },
+        "transactionLedger": [
+          {
+            "eventType": "V47_PRINTWORK_STEP",
+            "questId": "V47_MAIN01_PERMISSION",
+            "actorHostId": "printer_ekaterina",
+            "actionId": "V47_PRINT_TYPE_RESET",
+            "stage": 0,
+            "accepted": true,
+            "reason": null,
+            "effects": {
+              "items": [],
+              "money": [],
+              "relationships": [],
+              "moves": [],
+              "riskDelta": 0,
+              "wasteDelta": 0
+            },
+            "clockMinutes": 581,
+            "date": "1848-03-09"
+          },
+          {
+            "eventType": "V47_PRINTWORK_STEP",
+            "questId": "V47_MAIN01_PERMISSION",
+            "actorHostId": "printer_ekaterina",
+            "actionId": "V47_PRINT_TYPE_TILE:sort-00",
+            "stage": 0,
+            "accepted": true,
+            "reason": null,
+            "effects": {
+              "items": [],
+              "money": [],
+              "relationships": [],
+              "moves": [],
+              "riskDelta": 0,
+              "wasteDelta": 0
+            },
+            "clockMinutes": 581,
+            "date": "1848-03-09"
+          },
+          {
+            "eventType": "V47_PRINTWORK_STEP",
+            "questId": "V47_MAIN01_PERMISSION",
+            "actorHostId": "printer_ekaterina",
+            "actionId": "V47_PRINT_TYPE_TILE:sort-01",
+            "stage": 0,
+            "accepted": true,
+            "reason": null,
+            "effects": {
+              "items": [],
+              "money": [],
+              "relationships": [],
+              "moves": [],
+              "riskDelta": 0,
+              "wasteDelta": 0
+            },
+            "clockMinutes": 581,
+            "date": "1848-03-09"
+          },
+          {
+            "eventType": "V47_PRINTWORK_STEP",
+            "questId": "V47_MAIN01_PERMISSION",
+            "actorHostId": "printer_ekaterina",
+            "actionId": "V47_PRINT_TYPE_TILE:sort-02",
+            "stage": 0,
+            "accepted": true,
+            "reason": null,
+            "effects": {
+              "items": [],
+              "money": [],
+              "relationships": [],
+              "moves": [],
+              "riskDelta": 0,
+              "wasteDelta": 0
+            },
+            "clockMinutes": 581,
+            "date": "1848-03-09"
+          },
+          {
+            "eventType": "V47_PRINTWORK_STEP",
+            "questId": "V47_MAIN01_PERMISSION",
+            "actorHostId": "printer_ekaterina",
+            "actionId": "V47_PRINT_TYPE_TILE:sort-03",
+            "stage": 0,
+            "accepted": true,
+            "reason": null,
+            "effects": {
+              "items": [],
+              "money": [],
+              "relationships": [],
+              "moves": [],
+              "riskDelta": 0,
+              "wasteDelta": 0
+            },
+            "clockMinutes": 581,
+            "date": "1848-03-09"
+          },
+          {
+            "eventType": "V47_PRINTWORK_STEP",
+            "questId": "V47_MAIN01_PERMISSION",
+            "actorHostId": "printer_ekaterina",
+            "actionId": "V47_PRINT_TYPE_TILE:sort-04",
+            "stage": 0,
+            "accepted": true,
+            "reason": null,
+            "effects": {
+              "items": [],
+              "money": [],
+              "relationships": [],
+              "moves": [],
+              "riskDelta": 0,
+              "wasteDelta": 0
+            },
+            "clockMinutes": 581,
+            "date": "1848-03-09"
+          },
+          {
+            "eventType": "V47_PRINTWORK_STEP",
+            "questId": "V47_MAIN01_PERMISSION",
+            "actorHostId": "printer_ekaterina",
+            "actionId": "V47_PRINT_TYPE_TILE:sort-05",
+            "stage": 0,
+            "accepted": true,
+            "reason": null,
+            "effects": {
+              "items": [],
+              "money": [],
+              "relationships": [],
+              "moves": [],
+              "riskDelta": 0,
+              "wasteDelta": 0
+            },
+            "clockMinutes": 581,
+            "date": "1848-03-09"
+          },
+          {
+            "eventType": "V47_PRINTWORK_STEP",
+            "questId": "V47_MAIN01_PERMISSION",
+            "actorHostId": "printer_ekaterina",
+            "actionId": "V47_PRINT_TYPE_TILE:sort-06",
+            "stage": 0,
+            "accepted": true,
+            "reason": null,
+            "effects": {
+              "items": [],
+              "money": [],
+              "relationships": [],
+              "moves": [],
+              "riskDelta": 0,
+              "wasteDelta": 0
+            },
+            "clockMinutes": 581,
+            "date": "1848-03-09"
+          },
+          {
+            "eventType": "V47_PRINTWORK_STEP",
+            "questId": "V47_MAIN01_PERMISSION",
+            "actorHostId": "printer_ekaterina",
+            "actionId": "V47_PRINT_TYPE_TILE:sort-07",
+            "stage": 0,
+            "accepted": true,
+            "reason": null,
+            "effects": {
+              "items": [],
+              "money": [],
+              "relationships": [],
+              "moves": [],
+              "riskDelta": 0,
+              "wasteDelta": 0
+            },
+            "clockMinutes": 581,
+            "date": "1848-03-09"
+          },
+          {
+            "eventType": "V47_PRINTWORK_STEP",
+            "questId": "V47_MAIN01_PERMISSION",
+            "actorHostId": "printer_ekaterina",
+            "actionId": "V47_PRINT_TYPE_TILE:sort-08",
+            "stage": 0,
+            "accepted": true,
+            "reason": null,
+            "effects": {
+              "items": [],
+              "money": [],
+              "relationships": [],
+              "moves": [],
+              "riskDelta": 0,
+              "wasteDelta": 0
+            },
+            "clockMinutes": 581,
+            "date": "1848-03-09"
+          },
+          {
+            "eventType": "V47_PRINTWORK_STEP",
+            "questId": "V47_MAIN01_PERMISSION",
+            "actorHostId": "printer_ekaterina",
+            "actionId": "V47_PRINT_TYPE_TILE:sort-09",
+            "stage": 0,
+            "accepted": true,
+            "reason": null,
+            "effects": {
+              "items": [],
+              "money": [],
+              "relationships": [],
+              "moves": [],
+              "riskDelta": 0,
+              "wasteDelta": 0
+            },
+            "clockMinutes": 581,
+            "date": "1848-03-09"
+          },
+          {
+            "eventType": "V47_PRINTWORK_STEP",
+            "questId": "V47_MAIN01_PERMISSION",
+            "actorHostId": "printer_ekaterina",
+            "actionId": "V47_PRINT_TYPE_TILE:sort-10",
+            "stage": 0,
+            "accepted": true,
+            "reason": null,
+            "effects": {
+              "items": [],
+              "money": [],
+              "relationships": [],
+              "moves": [],
+              "riskDelta": 0,
+              "wasteDelta": 0
+            },
+            "clockMinutes": 581,
+            "date": "1848-03-09"
+          },
+          {
+            "eventType": "V47_PRINTWORK_STEP",
+            "questId": "V47_MAIN01_PERMISSION",
+            "actorHostId": "printer_ekaterina",
+            "actionId": "V47_PRINT_TYPE_TILE:sort-11",
+            "stage": 0,
+            "accepted": true,
+            "reason": null,
+            "effects": {
+              "items": [],
+              "money": [],
+              "relationships": [],
+              "moves": [],
+              "riskDelta": 0,
+              "wasteDelta": 0
+            },
+            "clockMinutes": 581,
+            "date": "1848-03-09"
+          },
+          {
+            "eventType": "V47_PRINTWORK_STEP",
+            "questId": "V47_MAIN01_PERMISSION",
+            "actorHostId": "printer_ekaterina",
+            "actionId": "V47_PRINT_TYPE_TILE:sort-12",
+            "stage": 0,
+            "accepted": true,
+            "reason": null,
+            "effects": {
+              "items": [],
+              "money": [],
+              "relationships": [],
+              "moves": [],
+              "riskDelta": 0,
+              "wasteDelta": 0
+            },
+            "clockMinutes": 581,
+            "date": "1848-03-09"
+          },
+          {
+            "eventType": "V47_PRINTWORK_STEP",
+            "questId": "V47_MAIN01_PERMISSION",
+            "actorHostId": "printer_ekaterina",
+            "actionId": "V47_PRINT_TYPE_TILE:sort-13",
+            "stage": 0,
+            "accepted": true,
+            "reason": null,
+            "effects": {
+              "items": [],
+              "money": [],
+              "relationships": [],
+              "moves": [],
+              "riskDelta": 0,
+              "wasteDelta": 0
+            },
+            "clockMinutes": 581,
+            "date": "1848-03-09"
+          },
+          {
+            "eventType": "V47_PRINTWORK_STEP",
+            "questId": "V47_MAIN01_PERMISSION",
+            "actorHostId": "printer_ekaterina",
+            "actionId": "V47_PRINT_TYPE_TILE:sort-14",
+            "stage": 0,
+            "accepted": true,
+            "reason": null,
+            "effects": {
+              "items": [],
+              "money": [],
+              "relationships": [],
+              "moves": [],
+              "riskDelta": 0,
+              "wasteDelta": 0
+            },
+            "clockMinutes": 581,
+            "date": "1848-03-09"
+          },
+          {
+            "eventType": "V47_PRINTWORK_STEP",
+            "questId": "V47_MAIN01_PERMISSION",
+            "actorHostId": "printer_ekaterina",
+            "actionId": "V47_PRINT_TYPE_TILE:sort-15",
+            "stage": 0,
+            "accepted": true,
+            "reason": null,
+            "effects": {
+              "items": [],
+              "money": [],
+              "relationships": [],
+              "moves": [],
+              "riskDelta": 0,
+              "wasteDelta": 0
+            },
+            "clockMinutes": 581,
+            "date": "1848-03-09"
+          },
+          {
+            "eventType": "V47_PRINTWORK_STEP",
+            "questId": "V47_MAIN01_PERMISSION",
+            "actorHostId": "printer_ekaterina",
+            "actionId": "V47_PRINT_TYPE_TILE:sort-16",
+            "stage": 0,
+            "accepted": true,
+            "reason": null,
+            "effects": {
+              "items": [],
+              "money": [],
+              "relationships": [],
+              "moves": [],
+              "riskDelta": 0,
+              "wasteDelta": 0
+            },
+            "clockMinutes": 581,
+            "date": "1848-03-09"
+          },
+          {
+            "eventType": "V47_PRINTWORK_STEP",
+            "questId": "V47_MAIN01_PERMISSION",
+            "actorHostId": "printer_ekaterina",
+            "actionId": "V47_PRINT_TYPE_TILE:sort-17",
+            "stage": 0,
+            "accepted": true,
+            "reason": null,
+            "effects": {
+              "items": [],
+              "money": [],
+              "relationships": [],
+              "moves": [],
+              "riskDelta": 0,
+              "wasteDelta": 0
+            },
+            "clockMinutes": 581,
+            "date": "1848-03-09"
+          },
+          {
+            "eventType": "V47_PRINTWORK_STEP",
+            "questId": "V47_MAIN01_PERMISSION",
+            "actorHostId": "printer_ekaterina",
+            "actionId": "V47_PRINT_TYPE_TILE:sort-18",
+            "stage": 0,
+            "accepted": true,
+            "reason": null,
+            "effects": {
+              "items": [],
+              "money": [],
+              "relationships": [],
+              "moves": [],
+              "riskDelta": 0,
+              "wasteDelta": 0
+            },
+            "clockMinutes": 581,
+            "date": "1848-03-09"
+          },
+          {
+            "eventType": "V47_PRINTWORK_STEP",
+            "questId": "V47_MAIN01_PERMISSION",
+            "actorHostId": "printer_ekaterina",
+            "actionId": "V47_PRINT_TYPE_TILE:sort-19",
+            "stage": 0,
+            "accepted": true,
+            "reason": null,
+            "effects": {
+              "items": [],
+              "money": [],
+              "relationships": [],
+              "moves": [],
+              "riskDelta": 0,
+              "wasteDelta": 0
+            },
+            "clockMinutes": 581,
+            "date": "1848-03-09"
+          },
+          {
+            "eventType": "V47_PRINTWORK_STEP",
+            "questId": "V47_MAIN01_PERMISSION",
+            "actorHostId": "printer_ekaterina",
+            "actionId": "V47_PRINT_TYPE_TILE:sort-20",
+            "stage": 0,
+            "accepted": true,
+            "reason": null,
+            "effects": {
+              "items": [],
+              "money": [],
+              "relationships": [],
+              "moves": [],
+              "riskDelta": 0,
+              "wasteDelta": 0
+            },
+            "clockMinutes": 581,
+            "date": "1848-03-09"
+          },
+          {
+            "eventType": "V47_PRINTWORK_STEP",
+            "questId": "V47_MAIN01_PERMISSION",
+            "actorHostId": "printer_ekaterina",
+            "actionId": "V47_PRINT_IMPRESS_TITLE",
+            "stage": 0,
+            "accepted": true,
+            "reason": null,
+            "effects": {
+              "items": [],
+              "money": [],
+              "relationships": [],
+              "moves": [],
+              "riskDelta": 0,
+              "wasteDelta": 0
+            },
+            "clockMinutes": 581,
+            "date": "1848-03-09"
+          },
+          {
+            "eventType": "V47_PRINTWORK_STEP",
+            "questId": "V47_MAIN01_PERMISSION",
+            "actorHostId": "printer_ekaterina",
+            "actionId": "V47_PRINT_CHECK_PROOF",
+            "stage": 1,
+            "accepted": true,
+            "reason": null,
+            "effects": {
+              "items": [
+                {
+                  "hostId": "editor_sofia",
+                  "itemKo": "대조한 연감 교정쇄"
+                }
+              ],
+              "money": [],
+              "relationships": [],
+              "moves": [],
+              "riskDelta": 0,
+              "wasteDelta": 0
+            },
+            "clockMinutes": 581,
+            "date": "1848-03-09"
+          },
+          {
+            "eventType": "V47_PRINTWORK_STEP",
+            "questId": "V47_MAIN01_PERMISSION",
+            "actorHostId": "printer_ekaterina",
+            "actionId": "V47_PRINT_USE_DRY_STOCK",
+            "stage": 2,
+            "accepted": true,
+            "reason": null,
+            "effects": {
+              "items": [
+                {
+                  "hostId": "editor_sofia",
+                  "itemKo": "마른 종이로 찍은 연감 인쇄지"
+                }
+              ],
+              "money": [],
+              "relationships": [],
+              "moves": [],
+              "riskDelta": 0,
+              "wasteDelta": 0
+            },
+            "clockMinutes": 581,
+            "date": "1848-03-09"
+          },
+          {
+            "eventType": "V47_PRINTWORK_STEP",
+            "questId": "V47_MAIN01_PERMISSION",
+            "actorHostId": "printer_ekaterina",
+            "actionId": "V47_PRINT_SEND_SUBSCRIPTIONS",
+            "stage": 3,
+            "accepted": true,
+            "reason": null,
+            "effects": {
+              "items": [
+                {
+                  "hostId": "editor_sofia",
+                  "itemKo": "구독자 주문 확인표"
+                }
+              ],
+              "money": [],
+              "relationships": [],
+              "moves": [],
+              "riskDelta": 0,
+              "wasteDelta": 0
+            },
+            "clockMinutes": 581,
+            "date": "1848-03-09"
+          },
+          {
+            "eventType": "V47_PRINTWORK_STEP",
+            "questId": "V47_MAIN01_PERMISSION",
+            "actorHostId": "printer_ekaterina",
+            "actionId": "V47_PRINT_CONSIGN_BOOKSHOP",
+            "stage": 4,
+            "accepted": true,
+            "reason": null,
+            "effects": {
+              "items": [
+                {
+                  "hostId": "courier_pavel",
+                  "itemKo": "서점 출고 보류 통지"
+                }
+              ],
+              "money": [],
+              "relationships": [],
+              "moves": [
+                {
+                  "hostId": "courier_pavel",
+                  "mapId": "bookshop-interior",
+                  "x": 7,
+                  "y": 9,
+                  "activityKo": "연감 출고를 보류한다는 통지를 서점에 전한다"
+                }
+              ],
+              "riskDelta": 0,
+              "wasteDelta": 0
+            },
+            "clockMinutes": 581,
+            "date": "1848-03-09"
+          },
+          {
+            "eventType": "V47_PRINTWORK_STEP",
+            "questId": "V47_MAIN01_PERMISSION",
+            "actorHostId": "printer_ekaterina",
+            "actionId": "V47_PRINT_SHARE_WORKER_COPY",
+            "stage": 5,
+            "accepted": true,
+            "reason": null,
+            "effects": {
+              "items": [
+                {
+                  "hostId": "print_apprentice_stepan",
+                  "itemKo": "작업자 확인용 연감 한 부"
+                }
+              ],
+              "money": [],
+              "relationships": [
+                {
+                  "fromHostId": "print_apprentice_stepan",
+                  "toHostId": "editor_sofia",
+                  "trustDelta": 1
+                }
+              ],
+              "moves": [],
+              "riskDelta": 0,
+              "wasteDelta": 0
+            },
+            "clockMinutes": 581,
+            "date": "1848-03-09"
+          },
+          {
+            "eventType": "V47_PRINTWORK_STEP",
+            "questId": "V47_MAIN01_PERMISSION",
+            "actorHostId": "printer_ekaterina",
+            "actionId": "V47_PRINT_RECYCLE_REMAINDER",
+            "stage": 6,
+            "accepted": true,
+            "reason": null,
+            "effects": {
+              "items": [
+                {
+                  "hostId": "printer_ekaterina",
+                  "itemKo": "종이 조각"
+                }
+              ],
+              "money": [],
+              "relationships": [],
+              "moves": [],
+              "riskDelta": 0,
+              "wasteDelta": 0
+            },
+            "clockMinutes": 581,
+            "date": "1848-03-09"
+          }
+        ]
+      },
+      "cholera": {
+        "counters": {
+          "exposures": 0,
+          "recoveries": 0,
+          "deaths": 0
+        },
+        "waterRisk": 0.72,
+        "foodRisk": 0.38
+      }
+    },
+    {
+      "storyId": "MAIN01",
+      "questId": "V47_MAIN01_A02",
+      "beatId": "A02",
+      "dateBefore": "1848-04-28",
+      "dateAfter": "1848-04-28",
+      "hostId": "bookseller_lev",
+      "mapId": "bookshop-interior",
+      "arrivalPosition": {
+        "x": 5,
+        "y": 1
+      },
+      "actionId": "V47_A02_REFUND_DEPOSIT",
+      "status": "resolved",
+      "personalStoryGoal": [],
+      "ledgerSaved": true,
+      "worldChange": {
+        "questId": "V47_MAIN01_A02",
+        "actionId": "V47_A02_REFUND_DEPOSIT",
+        "date": "1848-04-28",
+        "mapId": "bookshop-interior",
+        "money": [
+          {
+            "fromHostId": "bookseller_lev",
+            "toHostId": "seamstress_anna",
+            "amount": 2
+          }
+        ],
+        "inventory": [
+          {
+            "fromHostId": "bookseller_lev",
+            "toHostId": "reader_darya",
+            "itemKo": "예약 영수증",
+            "quantity": 1,
+            "produceIfAbsent": true
+          }
+        ],
+        "moves": [
+          {
+            "hostId": "reader_darya",
+            "mapId": "bookshop-interior",
+            "x": 7,
+            "y": 9
+          }
+        ],
+        "resources": {
+          "waterRiskDelta": 0,
+          "foodRiskDelta": 0,
+          "bedsDelta": 0,
+          "medicineDelta": 0
+        },
+        "rumorId": "V47_SUBSCRIBER_REFUND",
+        "observationIds": [],
+        "sourceObservationIds": []
+      },
+      "autonomousStoryOutcomes": [],
+      "cholera": {
+        "counters": {
+          "exposures": 0,
+          "recoveries": 0,
+          "deaths": 0
+        },
+        "waterRisk": 0.72,
+        "foodRisk": 0.38
+      }
+    },
+    {
+      "storyId": "MAIN01",
+      "questId": "V47_MAIN01_A03",
+      "beatId": "A03",
+      "dateBefore": "1848-05-18",
+      "dateAfter": "1848-05-18",
+      "hostId": "panaev_1848",
+      "mapId": "printshop",
+      "arrivalPosition": {
+        "x": 11,
+        "y": 7
+      },
+      "actionId": "V47_A03_PANAEV_CATALOGUE_NOTE",
+      "status": "resolved",
+      "personalStoryGoal": [
+        {
+          "id": "V47_PANAEV_EDITORIAL_RECORD",
+          "status": "SATISFIED"
+        }
+      ],
+      "ledgerSaved": true,
+      "worldChange": {
+        "questId": "V47_MAIN01_A03",
+        "actionId": "V47_A03_PANAEV_CATALOGUE_NOTE",
+        "date": "1848-05-18",
+        "mapId": "printshop",
+        "money": [],
+        "inventory": [
+          {
+            "fromHostId": "panaev_1848",
+            "toHostId": "clerk_alexei",
+            "itemKo": "연감 작품·저자 대조 메모",
+            "quantity": 1,
+            "produceIfAbsent": true
+          }
+        ],
+        "moves": [],
+        "resources": {
+          "waterRiskDelta": 0,
+          "foodRiskDelta": 0,
+          "bedsDelta": 0,
+          "medicineDelta": 0
+        },
+        "rumorId": "V47_PANAEV_CATALOGUE_SHARED",
+        "observationIds": [],
+        "sourceObservationIds": []
+      },
+      "autonomousStoryOutcomes": [],
+      "cholera": {
+        "counters": {
+          "exposures": 0,
+          "recoveries": 0,
+          "deaths": 0
+        },
+        "waterRisk": 0.72,
+        "foodRisk": 0.38
+      }
+    },
+    {
+      "storyId": "MAIN01",
+      "questId": "V47_MAIN01_A04",
+      "beatId": "A04",
+      "dateBefore": "1848-07-22",
+      "dateAfter": "1848-07-22",
+      "hostId": "print_apprentice_stepan",
+      "mapId": "printshop",
+      "arrivalPosition": {
+        "x": 15,
+        "y": 5
+      },
+      "actionId": "V47_A04_PAY_WAGES",
+      "status": "resolved",
+      "personalStoryGoal": [],
+      "ledgerSaved": true,
+      "worldChange": {
+        "questId": "V47_MAIN01_A04",
+        "actionId": "V47_A04_PAY_WAGES",
+        "date": "1848-07-22",
+        "mapId": "printshop",
+        "money": [
+          {
+            "fromHostId": "printer_ekaterina",
+            "toHostId": "print_apprentice_stepan",
+            "amount": 3
+          }
+        ],
+        "inventory": [
+          {
+            "fromHostId": "printer_ekaterina",
+            "toHostId": "print_apprentice_stepan",
+            "itemKo": "작업 시간표",
+            "quantity": 1,
+            "produceIfAbsent": true
+          }
+        ],
+        "moves": [
+          {
+            "hostId": "print_apprentice_stepan",
+            "mapId": "printshop",
+            "x": 12,
+            "y": 11
+          }
+        ],
+        "resources": {
+          "waterRiskDelta": 0,
+          "foodRiskDelta": 0,
+          "bedsDelta": 0,
+          "medicineDelta": 0
+        },
+        "rumorId": "V47_WAGES_PAID",
+        "observationIds": [],
+        "sourceObservationIds": []
+      },
+      "autonomousStoryOutcomes": [],
+      "cholera": {
+        "counters": {
+          "exposures": 0,
+          "recoveries": 0,
+          "deaths": 0
+        },
+        "waterRisk": 0.72,
+        "foodRisk": 0.38
+      }
+    },
+    {
+      "storyId": "MAIN01",
+      "questId": "V47_MAIN01_A05",
+      "beatId": "A05",
+      "dateBefore": "1848-09-18",
+      "dateAfter": "1848-09-18",
+      "hostId": "clerk_alexei",
+      "mapId": "chancery",
+      "arrivalPosition": {
+        "x": 22,
+        "y": 4
+      },
+      "actionId": "V47_A05_COPY_LEDGER",
+      "status": "resolved",
+      "personalStoryGoal": [],
+      "ledgerSaved": true,
+      "worldChange": {
+        "questId": "V47_MAIN01_A05",
+        "actionId": "V47_A05_COPY_LEDGER",
+        "date": "1848-09-18",
+        "mapId": "chancery",
+        "money": [
+          {
+            "fromHostId": "clerk_alexei",
+            "toHostId": "scribal_yuri",
+            "amount": 1
+          }
+        ],
+        "inventory": [
+          {
+            "fromHostId": "clerk_alexei",
+            "toHostId": "senior_clerk_konstantin",
+            "itemKo": "작품 장면 대조 기록",
+            "quantity": 1,
+            "produceIfAbsent": true
+          }
+        ],
+        "moves": [
+          {
+            "hostId": "clerk_alexei",
+            "mapId": "chancery",
+            "x": 10,
+            "y": 9
+          }
+        ],
+        "resources": {
+          "waterRiskDelta": 0,
+          "foodRiskDelta": 0,
+          "bedsDelta": 0,
+          "medicineDelta": 0
+        },
+        "rumorId": "V47_REVIEW_COPY",
+        "observationIds": [],
+        "sourceObservationIds": []
+      },
+      "autonomousStoryOutcomes": [],
+      "cholera": {
+        "counters": {
+          "exposures": 0,
+          "recoveries": 0,
+          "deaths": 0
+        },
+        "waterRisk": 0.54,
+        "foodRisk": 0.38
+      }
+    },
+    {
+      "storyId": "MAIN01",
+      "questId": "V47_MAIN01_DISTRIBUTION_BAN",
+      "beatId": "V47_MAIN01_DISTRIBUTION_BAN",
+      "dateBefore": "1848-11-01",
+      "dateAfter": "1848-11-01",
+      "hostId": "printer_ekaterina",
+      "mapId": "printshop",
+      "arrivalPosition": {
+        "x": 15,
+        "y": 14
+      },
+      "actionId": "V47_A06_COUNT_STOCK",
+      "status": "resolved",
+      "personalStoryGoal": [],
+      "ledgerSaved": true,
+      "worldChange": null,
+      "autonomousStoryOutcomes": [],
+      "cholera": {
+        "counters": {
+          "exposures": 0,
+          "recoveries": 0,
+          "deaths": 0
+        },
+        "waterRisk": 0.54,
+        "foodRisk": 0.38
+      }
+    },
+    {
+      "storyId": "MAIN01",
+      "questId": "V47_MAIN01_A07",
+      "beatId": "A07",
+      "dateBefore": "1848-11-02",
+      "dateAfter": "1848-11-02",
+      "hostId": "seamstress_anna",
+      "mapId": "communal-room",
+      "arrivalPosition": {
+        "x": 9,
+        "y": 6
+      },
+      "actionId": "V47_A07_CLAIM_WAGES",
+      "status": "resolved",
+      "personalStoryGoal": [],
+      "ledgerSaved": true,
+      "worldChange": {
+        "questId": "V47_MAIN01_A07",
+        "actionId": "V47_A07_CLAIM_WAGES",
+        "date": "1848-11-02",
+        "mapId": "communal-room",
+        "money": [
+          {
+            "fromHostId": "bookseller_lev",
+            "toHostId": "seamstress_anna",
+            "amount": 2
+          },
+          {
+            "fromHostId": "seamstress_anna",
+            "toHostId": "landlady_polina",
+            "amount": 1
+          }
+        ],
+        "inventory": [
+          {
+            "fromHostId": "seamstress_anna",
+            "toHostId": "bookseller_lev",
+            "itemKo": "수선 인수표",
+            "quantity": 1,
+            "produceIfAbsent": true
+          }
+        ],
+        "moves": [
+          {
+            "hostId": "seamstress_anna",
+            "mapId": "bookshop-interior",
+            "x": 7,
+            "y": 10
+          }
+        ],
+        "resources": {
+          "waterRiskDelta": 0,
+          "foodRiskDelta": 0,
+          "bedsDelta": 0,
+          "medicineDelta": 0
+        },
+        "rumorId": "V47_UNPAID_REPAIR",
+        "observationIds": [],
+        "sourceObservationIds": []
+      },
+      "autonomousStoryOutcomes": [],
+      "cholera": {
+        "counters": {
+          "exposures": 0,
+          "recoveries": 0,
+          "deaths": 0
+        },
+        "waterRisk": 0.54,
+        "foodRisk": 0.38
+      }
+    },
+    {
+      "storyId": "MAIN01",
+      "questId": "V47_MAIN01_A08",
+      "beatId": "A08",
+      "dateBefore": "1848-11-06",
+      "dateAfter": "1848-11-06",
+      "hostId": "courier_pavel",
+      "mapId": "bookshop-lane",
+      "arrivalPosition": {
+        "x": 23,
+        "y": 3
+      },
+      "actionId": "V47_A08_RETURN_PACKAGE",
+      "status": "resolved",
+      "personalStoryGoal": [],
+      "ledgerSaved": true,
+      "worldChange": {
+        "questId": "V47_MAIN01_A08",
+        "actionId": "V47_A08_RETURN_PACKAGE",
+        "date": "1848-11-06",
+        "mapId": "bookshop-lane",
+        "money": [
+          {
+            "fromHostId": "bookseller_lev",
+            "toHostId": "courier_pavel",
+            "amount": 1
+          }
+        ],
+        "inventory": [
+          {
+            "fromHostId": "courier_pavel",
+            "toHostId": "bookseller_lev",
+            "itemKo": "반송된 소포",
+            "quantity": 1,
+            "produceIfAbsent": true
+          }
+        ],
+        "moves": [
+          {
+            "hostId": "courier_pavel",
+            "mapId": "bookshop-interior",
+            "x": 9,
+            "y": 11
+          }
+        ],
+        "resources": {
+          "waterRiskDelta": 0,
+          "foodRiskDelta": 0,
+          "bedsDelta": 0,
+          "medicineDelta": 0
+        },
+        "rumorId": "V47_RETURNED_PACKAGE",
+        "observationIds": [],
+        "sourceObservationIds": []
+      },
+      "autonomousStoryOutcomes": [],
+      "cholera": {
+        "counters": {
+          "exposures": 0,
+          "recoveries": 0,
+          "deaths": 0
+        },
+        "waterRisk": 0.54,
+        "foodRisk": 0.38
+      }
+    },
+    {
+      "storyId": "MAIN01",
+      "questId": "V47_MAIN01_SUBSCRIBER_REPLY",
+      "beatId": "V47_MAIN01_SUBSCRIBER_REPLY",
+      "dateBefore": "1848-11-29",
+      "dateAfter": "1848-11-29",
+      "hostId": "bookseller_lev",
+      "mapId": "bookshop-interior",
+      "arrivalPosition": {
+        "x": 11,
+        "y": 8
+      },
+      "actionId": "V47_A08_REFUND_SUBSCRIBERS",
+      "status": "resolved",
+      "personalStoryGoal": [],
+      "ledgerSaved": true,
+      "worldChange": null,
+      "autonomousStoryOutcomes": [],
+      "cholera": {
+        "counters": {
+          "exposures": 0,
+          "recoveries": 0,
+          "deaths": 0
+        },
+        "waterRisk": 0.54,
+        "foodRisk": 0.38
+      }
+    },
+    {
+      "storyId": "MAIN01",
+      "questId": "V47_MAIN01_A10",
+      "beatId": "A10",
+      "dateBefore": "1848-12-06",
+      "dateAfter": "1848-12-06",
+      "hostId": "sofiya_salon_1848",
+      "mapId": "sofiya-salon",
+      "arrivalPosition": {
+        "x": 20,
+        "y": 8
+      },
+      "actionId": "V47_A10_HOST_READING",
+      "status": "resolved",
+      "personalStoryGoal": [
+        {
+          "id": "V47_SOFIYA_COPY_AND_INVITATION",
+          "status": "SATISFIED"
+        }
+      ],
+      "ledgerSaved": true,
+      "worldChange": {
+        "questId": "V47_MAIN01_A10",
+        "actionId": "V47_A10_HOST_READING",
+        "date": "1848-12-06",
+        "mapId": "sofiya-salon",
+        "money": [
+          {
+            "fromHostId": "sofiya_salon_1848",
+            "toHostId": "baker_fyodor",
+            "amount": 2
+          }
+        ],
+        "inventory": [
+          {
+            "fromHostId": "sofiya_salon_1848",
+            "toHostId": "reader_darya",
+            "itemKo": "보관 중인 연감 한 권",
+            "quantity": 1,
+            "produceIfAbsent": true
+          },
+          {
+            "fromHostId": "sofiya_salon_1848",
+            "toHostId": "editor_sofia",
+            "itemKo": "독서회 초대장",
+            "quantity": 1,
+            "produceIfAbsent": true
+          }
+        ],
+        "moves": [
+          {
+            "hostId": "reader_darya",
+            "mapId": "sofiya-salon",
+            "x": 11,
+            "y": 9
+          },
+          {
+            "hostId": "editor_sofia",
+            "mapId": "sofiya-salon",
+            "x": 13,
+            "y": 9
+          }
+        ],
+        "resources": {
+          "waterRiskDelta": 0,
+          "foodRiskDelta": 0,
+          "bedsDelta": 0,
+          "medicineDelta": 0
+        },
+        "rumorId": "V47_PRIVATE_READING",
+        "observationIds": [],
+        "sourceObservationIds": []
+      },
+      "autonomousStoryOutcomes": [],
+      "cholera": {
+        "counters": {
+          "exposures": 0,
+          "recoveries": 0,
+          "deaths": 0
+        },
+        "waterRisk": 0.54,
+        "foodRisk": 0.38
+      }
+    },
+    {
+      "storyId": "MAIN01",
+      "questId": "V47_MAIN01_A11",
+      "beatId": "A11",
+      "dateBefore": "1848-12-12",
+      "dateAfter": "1848-12-12",
+      "hostId": "nekrasov_reconstruction",
+      "mapId": "printshop",
+      "arrivalPosition": {
+        "x": 9,
+        "y": 16
+      },
+      "actionId": "V47_A11_SETTLE_WORKERS",
+      "status": "resolved",
+      "personalStoryGoal": [],
+      "ledgerSaved": true,
+      "worldChange": {
+        "questId": "V47_MAIN01_A11",
+        "actionId": "V47_A11_SETTLE_WORKERS",
+        "date": "1848-12-12",
+        "mapId": "printshop",
+        "money": [
+          {
+            "fromHostId": "editor_sofia",
+            "toHostId": "printer_ekaterina",
+            "amount": 2
+          },
+          {
+            "fromHostId": "printer_ekaterina",
+            "toHostId": "print_apprentice_stepan",
+            "amount": 2
+          }
+        ],
+        "inventory": [
+          {
+            "fromHostId": "printer_ekaterina",
+            "toHostId": "editor_sofia",
+            "itemKo": "정산 장부",
+            "quantity": 1,
+            "produceIfAbsent": true
+          },
+          {
+            "fromHostId": "printer_ekaterina",
+            "toHostId": "editor_sofia",
+            "itemKo": "비공개 보관 연감 한 부",
+            "quantity": 1,
+            "produceIfAbsent": true
+          }
+        ],
+        "moves": [
+          {
+            "hostId": "print_apprentice_stepan",
+            "mapId": "printshop",
+            "x": 13,
+            "y": 11
+          }
+        ],
+        "resources": {
+          "waterRiskDelta": 0,
+          "foodRiskDelta": 0,
+          "bedsDelta": 0,
+          "medicineDelta": 0
+        },
+        "rumorId": "V47_FINAL_WAGE_SETTLEMENT",
+        "observationIds": [],
+        "sourceObservationIds": []
+      },
+      "autonomousStoryOutcomes": [],
+      "cholera": {
+        "counters": {
+          "exposures": 0,
+          "recoveries": 0,
+          "deaths": 0
+        },
+        "waterRisk": 0.54,
+        "foodRisk": 0.38
+      }
+    }
+  ],
+  "transitions": [
+    {
+      "kind": "DATE",
+      "from": "1848-02-12",
+      "to": "1848-03-09",
+      "questId": "V47_MAIN01_PERMISSION",
+      "button": "3월 9일 자료로 이어가기\n연표 1848-02-12 → 1848-03-09 · 다음 문서가 만들어진 뒤로 진행합니다"
+    },
+    {
+      "kind": "DATE",
+      "from": "1848-03-09",
+      "to": "1848-04-28",
+      "questId": "V47_MAIN01_A02",
+      "button": "4월 28일 자료로 이어가기\n연표 1848-03-09 → 1848-04-28 · 다음 문서가 만들어진 뒤로 진행합니다"
+    },
+    {
+      "kind": "DATE",
+      "from": "1848-04-28",
+      "to": "1848-05-18",
+      "questId": "V47_MAIN01_A03",
+      "button": "5월 18일 자료로 이어가기\n연표 1848-04-28 → 1848-05-18 · 다음 문서가 만들어진 뒤로 진행합니다"
+    },
+    {
+      "kind": "DATE",
+      "from": "1848-05-18",
+      "to": "1848-07-22",
+      "questId": "V47_MAIN01_A04",
+      "button": "7월 22일 자료로 이어가기\n연표 1848-05-18 → 1848-07-22 · 다음 문서가 만들어진 뒤로 진행합니다"
+    },
+    {
+      "kind": "DATE",
+      "from": "1848-07-22",
+      "to": "1848-09-18",
+      "questId": "V47_MAIN01_A05",
+      "button": "9월 18일 자료로 이어가기\n연표 1848-07-22 → 1848-09-18 · 다음 문서가 만들어진 뒤로 진행합니다"
+    },
+    {
+      "hostId": "clerk_alexei",
+      "from": "nevsky",
+      "to": "chancery",
+      "exitId": "nevsky-chancery-door",
+      "date": "1848-09-18"
+    },
+    {
+      "kind": "DATE",
+      "from": "1848-09-18",
+      "to": "1848-11-01",
+      "questId": "V47_MAIN01_DISTRIBUTION_BAN",
+      "button": "11월 1일 자료로 이어가기\n연표 1848-09-18 → 1848-11-01 · 다음 문서가 만들어진 뒤로 진행합니다"
+    },
+    {
+      "kind": "DATE",
+      "from": "1848-11-01",
+      "to": "1848-11-02",
+      "questId": "V47_MAIN01_A07",
+      "button": "11월 2일 자료로 이어가기\n연표 1848-11-01 → 1848-11-02 · 다음 문서가 만들어진 뒤로 진행합니다"
+    },
+    {
+      "hostId": "seamstress_anna",
+      "from": "courtyard",
+      "to": "workyard",
+      "exitId": "courtyard-workyard",
+      "date": "1848-11-02"
+    },
+    {
+      "hostId": "seamstress_anna",
+      "from": "workyard",
+      "to": "communal-room",
+      "exitId": "workyard-communal",
+      "date": "1848-11-02"
+    },
+    {
+      "kind": "DATE",
+      "from": "1848-11-02",
+      "to": "1848-11-06",
+      "questId": "V47_MAIN01_A08",
+      "button": "11월 6일 자료로 이어가기\n연표 1848-11-02 → 1848-11-06 · 다음 문서가 만들어진 뒤로 진행합니다"
+    },
+    {
+      "hostId": "courier_pavel",
+      "from": "bookshop-interior",
+      "to": "bookshop-lane",
+      "exitId": "bookshop-interior-lane",
+      "date": "1848-11-06"
+    },
+    {
+      "kind": "DATE",
+      "from": "1848-11-06",
+      "to": "1848-11-29",
+      "questId": "V47_MAIN01_SUBSCRIBER_REPLY",
+      "button": "11월 29일 자료로 이어가기\n연표 1848-11-06 → 1848-11-29 · 다음 문서가 만들어진 뒤로 진행합니다"
+    },
+    {
+      "hostId": "bookseller_lev",
+      "from": "bookshop-lane",
+      "to": "bookshop-interior",
+      "exitId": "bookshop-lane-bookshop",
+      "date": "1848-11-29"
+    },
+    {
+      "kind": "DATE",
+      "from": "1848-11-29",
+      "to": "1848-12-06",
+      "questId": "V47_MAIN01_A10",
+      "button": "12월 6일 자료로 이어가기\n연표 1848-11-29 → 1848-12-06 · 다음 문서가 만들어진 뒤로 진행합니다"
+    },
+    {
+      "kind": "DATE",
+      "from": "1848-12-06",
+      "to": "1848-12-12",
+      "questId": "V47_MAIN01_A11",
+      "button": "12월 12일 자료로 이어가기\n연표 1848-12-06 → 1848-12-12 · 다음 문서가 만들어진 뒤로 진행합니다"
+    },
+    {
+      "hostId": "printer_ekaterina",
+      "from": "nevsky",
+      "to": "printshop",
+      "exitId": "nevsky-printshop-door",
+      "date": "1848-12-12"
+    }
+  ],
+  "sourceReads": [
+    {
+      "sourceId": "V47-NEKRASOV-ALMANAC-CONTENTS-1848",
+      "excerptId": "EX-V47-NEKRASOV-ALMANAC-CONTENTS-1848-L121-178",
+      "date": "1848-03-09",
+      "hostId": "printer_ekaterina",
+      "mapId": "printshop",
+      "artworks": [
+        "v47-illustrated-almanac-titlepage",
+        "v47-sovremennik-v7-page-215",
+        "v47-sovremennik-v7-page-216",
+        "v47-sovremennik-v7-page-217",
+        "v47-nekrasov-panaev-caricature"
+      ],
+      "screenshot": "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN01_BETA_20261124\\ROUTE\\NORMAL-MAIN01-ALMANAC-NOTICE-1365x768.png"
+    },
+    {
+      "sourceId": "V47-PANAEVA-TALNIKOV-CH1-1848",
+      "excerptId": "EX-V47-PANAEVA-TALNIKOV-CH1-BIBRA-L27-40",
+      "date": "1848-05-18",
+      "hostId": "panaev_1848",
+      "mapId": "printshop",
+      "paragraphCount": 13,
+      "questId": "V47_MAIN01_A03",
+      "beforeActionId": "V47_A03_PANAEV_CATALOGUE_NOTE",
+      "screenshot": "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN01_BETA_20261124\\ROUTE\\NORMAL-V47_MAIN01_A03-V47-PANAEVA-TALNIKOV-CH1-1848-1365x768.png"
+    },
+    {
+      "sourceId": "V47-PANAEVA-TALNIKOV-CH1-1848",
+      "date": "1848-05-18",
+      "hostId": "panaev_1848",
+      "mapId": "printshop",
+      "paragraphCount": 13,
+      "screenshot": "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN01_BETA_20261124\\ROUTE\\NORMAL-MAIN01-TALNIKOV-DOCUMENT-1365x768.png"
+    },
+    {
+      "sourceId": "V47-PANAEV-LETTER-1848-08-20",
+      "excerptId": "EX-PANAEV-LETTER-1848-08-20-RGIA-772-1-2157-L10",
+      "date": "1848-09-18",
+      "hostId": "clerk_alexei",
+      "mapId": "chancery",
+      "paragraphCount": 3,
+      "questId": "V47_MAIN01_A05",
+      "beforeActionId": "V47_A05_COPY_LEDGER",
+      "screenshot": "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN01_BETA_20261124\\ROUTE\\NORMAL-V47_MAIN01_A05-V47-PANAEV-LETTER-1848-08-20-1365x768.png"
+    },
+    {
+      "sourceId": "V47-KRYLOV-ASSESSMENT-1848-09-06",
+      "excerptId": "EX-V47-KRYLOV-ASSESSMENT-1848-09-06-RGIA-772-1-2157-L11-14",
+      "date": "1848-09-18",
+      "hostId": "clerk_alexei",
+      "mapId": "chancery",
+      "paragraphCount": 3,
+      "questId": "V47_MAIN01_A05",
+      "beforeActionId": "V47_A05_COPY_LEDGER",
+      "screenshot": "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN01_BETA_20261124\\ROUTE\\NORMAL-V47_MAIN01_A05-V47-KRYLOV-ASSESSMENT-1848-09-06-1365x768.png"
+    },
+    {
+      "sourceId": "V47-NEKRASOV-SUBSCRIBER-LETTER-1848",
+      "date": "1848-12-12",
+      "hostId": "printer_ekaterina",
+      "mapId": "printshop",
+      "paragraphCount": 5,
+      "screenshot": "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN01_BETA_20261124\\ROUTE\\NORMAL-MAIN01-SUBSCRIBER-LETTER-1365x768.png"
+    }
+  ],
+  "screenshots": [
+    "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN01_BETA_20261124\\ROUTE\\NORMAL-MAIN01-entry.png",
+    "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN01_BETA_20261124\\ROUTE\\NORMAL-MAIN01-ALMANAC-NOTICE-1365x768.png",
+    "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN01_BETA_20261124\\ROUTE\\NORMAL-MAIN01-PRINTWORK-TYPESET-1365x768.png",
+    "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN01_BETA_20261124\\ROUTE\\NORMAL-V47_MAIN01_A03-V47-PANAEVA-TALNIKOV-CH1-1848-1365x768.png",
+    "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN01_BETA_20261124\\ROUTE\\NORMAL-MAIN01-TALNIKOV-DOCUMENT-LAST-PARAGRAPH-1365x768.png",
+    "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN01_BETA_20261124\\ROUTE\\NORMAL-MAIN01-TALNIKOV-DOCUMENT-1365x768.png",
+    "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN01_BETA_20261124\\ROUTE\\NORMAL-MAIN01-TALNIKOV-CHOICE-1365x768.png",
+    "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN01_BETA_20261124\\ROUTE\\NORMAL-V47_MAIN01_A05-V47-PANAEV-LETTER-1848-08-20-1365x768.png",
+    "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN01_BETA_20261124\\ROUTE\\NORMAL-V47_MAIN01_A05-V47-KRYLOV-ASSESSMENT-1848-09-06-1365x768.png",
+    "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN01_BETA_20261124\\ROUTE\\NORMAL-MAIN01-STORAGE-SHELVES-1365x768.png",
+    "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN01_BETA_20261124\\ROUTE\\NORMAL-MAIN01-SOFIYA-SALON-AFTERMATH-1365x768.png",
+    "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN01_BETA_20261124\\ROUTE\\NORMAL-MAIN01-SUBSCRIBER-LETTER-1365x768.png",
+    "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN01_BETA_20261124\\ROUTE\\NORMAL-MAIN01-SUBSCRIBER-LETTER-LAST-PARAGRAPH-1365x768.png",
+    "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN01_BETA_20261124\\ROUTE\\NORMAL-MAIN01-aftermath.png",
+    "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN01_BETA_20261124\\ROUTE\\NORMAL-MAIN01-CHRONOLOGY-BOARD-1365x768.png",
+    "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN01_BETA_20261124\\ROUTE\\NORMAL-MAIN01-CHRONOLOGY-SOLVED.png"
+  ],
+  "timelinePuzzle": {
+    "status": "PASS",
+    "orderedSourceIds": [
+      "V47-NEKRASOV-ALMANAC-CONTENTS-1848",
+      "V47-PANAEV-LETTER-1848-08-20",
+      "V47-ALMANAC-CENSORSHIP-EDITORIAL",
+      "V47-NEKRASOV-SUBSCRIBER-LETTER-1848"
+    ],
+    "itemHolder": "editor_sofia",
+    "screenshot": "C:\\Users\\owner\\.codex\\worktrees\\v33-possession-rpg\\history\\artifacts\\v47\\MAIN01_BETA_20261124\\ROUTE\\NORMAL-MAIN01-CHRONOLOGY-SOLVED.png"
+  },
+  "storyEnding": null,
+  "fixedHistoricalEvent": null,
+  "pageErrors": [],
+  "pageCrashes": [],
+  "viewport": {
+    "width": 1365,
+    "height": 768
+  }
+}

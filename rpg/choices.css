@@ -190,6 +190,12 @@ kbd{font:11px 'IBM Plex Mono',monospace;color:#d8c59f}
 }
 @media(prefers-reduced-motion:reduce){.mission-tracker,.quest-journal,.tutorial-card{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 
+@media(max-width:760px) and (min-height:650px){
+  .has-focused-story .game-shell:has(.lower.has-actions:not(.has-typesetter)){grid-template-rows:auto clamp(165px,22dvh,215px) minmax(0,1fr)}
+  .has-focused-story .game-shell:has(.lower.has-actions:not(.has-typesetter)) .playfield{min-height:0}
+  .has-focused-story .lower.has-actions #journal-text{scrollbar-width:thin;scrollbar-color:#a98350 #241c17}
+}
+
 @media(max-height:500px){
   body:not(.ending-active):not(.learning-active){overflow-y:auto}
   .game-shell{height:auto;min-height:100dvh;grid-template-rows:auto minmax(180px,42dvh) auto;align-content:start}

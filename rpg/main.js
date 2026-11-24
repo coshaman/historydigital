@@ -476,6 +476,7 @@ function say(title, text, actions = [], { keepMissionContext = false } = {}) {
   }));
   $('.journal').scrollTop = 0;
   $('#journal-text').scrollTop = 0;
+  requestRender();
 }
 const setState = candidate => {
   const next = migrateMain01DistributionState(candidate);
@@ -589,7 +590,7 @@ function updateHud() {
   const focusedV47Quest = globalThis.V47MainStories?.getV47MissionQuest(state, questList);
   const activeStoryId = state.world.v47?.focusStoryId ?? 'MAIN01';
   document.querySelectorAll('[data-v47-story]').forEach(button => {
-    button.setAttribute('aria-pressed', String(button.dataset.v47Story === activeStoryId));
+    button.setAttribute('aria-pressed', String(button.dataset.v47Story === state.world.v47?.focusStoryId));
   });
   const storyEntry = activeStoryId ? resolveV47StoryEntry(state, activeStoryId, questList, campaign) : null;
   if (focusedV47Quest && !questIsAvailable(focusedV47Quest) && storyEntry?.status === 'WAITING_FOR_CAMPAIGN'
@@ -2373,6 +2374,21 @@ function interact() {
   if (activeDialogueHost || state.endingId || !$('#learning-screen').hidden) return;
   const near = currentNearby();
   if (!near.length) { say('아직 손이 닿지 않는다', '주변을 조금 더 걸어 가까이 가 보자. 사람에게 다가가면 그 사람의 자리에서 도시를 볼 수 있다.', []); return; }
+  const pickingBody = ['POSSESS', 'SWITCH'].includes(missionGuidance?.taskType);
+  const targetId = pickingBody ? questRosterTargetHostId(missionGuidance) : null;
+  const target = targetId && near.find(item => item.type === 'npc' && mapObjectProperties(item).hostId === targetId);
+  if (target) {
+    if (!state.player.embodiment) { inspect(target); return; }
+    const card = cards.find(item => item.id === targetId);
+    say(card.displayNameKo, card.occupation, [{
+      label: `${card.displayNameKo}에게 빙의하기`,
+      run: () => {
+        if (!nearbyConversationPartner(card.id)) { sayRecord('그 사람에게 다시 다가가세요.'); return; }
+        switchToRosterCharacter(card);
+      },
+    }]);
+    return;
+  }
   const civicService = near.find(item => mapObjectProperties(item).serviceId);
   const nearbyPeople = near.filter(item => item.type === 'npc');
   const actionableNearby = near.filter(item => ['source', 'map-exit', 'quest-object', 'inspectable'].includes(item.type)
@@ -2432,6 +2448,17 @@ function interact() {
     ?? near[0];
   inspect(object);
 }
+function switchToRosterCharacter(card) {
+  const result = possessHostFromRoster(state, card.id, maps);
+  if (!result.ok) {
+    sayRecord(result.reason === 'era_layer_mismatch' ? '지금은 그 시기의 사람이 아니다.' : '지금은 그 사람의 몸으로 들어갈 수 없다.');
+    return;
+  }
+  setState(result.state);
+  tutorialAdvance('possess');
+  say(card.displayNameKo, `${card.occupation}. ${card.personalObjective}`, []);
+  sayRecord(`시야 전환 · ${card.displayNameKo}`);
+}
 function openCharacterList() {
   const returnView = characterListOpen ? characterListReturnView : {
     title: $('#headline').textContent,
@@ -2466,13 +2493,7 @@ function openCharacterList() {
     const activity = host.currentActivityKo || host.activeGoal?.descriptionKo || card.personalObjective;
     const guide = state.historicalSession
       ? historicalParticipantGuide(historicalSceneForState(), card.id.split(':').at(-1), state.historicalSession) : null;
-    return { card, host, activity, guide, run: () => {
-      const result = possessHostFromRoster(state, card.id, maps);
-      if (!result.ok) { sayRecord(result.reason === 'era_layer_mismatch' ? '지금은 그 시기의 사람이 아니다.' : '지금은 그 사람의 몸으로 들어갈 수 없다.'); return; }
-      setState(result.state); tutorialAdvance('possess');
-      say(card.displayNameKo, `${card.occupation}. ${card.personalObjective}`, []);
-      sayRecord(`시야 전환 · ${card.displayNameKo}`);
-    } };
+    return { card, host, activity, guide, run: () => switchToRosterCharacter(card) };
   });
   say('누구의 하루로 들어갈까요?', '이름을 누르면 곧바로 그 인물로 시작합니다.', []);
   characterListOpen = true;
@@ -2947,18 +2968,9 @@ $('#load').addEventListener('click', () => {
   catch { sayRecord('저장 기록을 읽지 못했다. 새 기록으로 시작해 주세요.'); }
 });
 $('#ending-restart').addEventListener('click', () => { localStorage.removeItem('v33-rpg-save'); location.reload(); });
-document.querySelectorAll('[data-v47-story]').forEach(button => button.addEventListener('click', () => {
-  const currentTitle = $('#headline').textContent;
-  const currentText = $('#journal-text').textContent;
-  const currentActions = lastDialogActions;
-  const currentOptions = lastDialogOptions;
-  const next = copy(state);
-  next.world.v47 ??= globalThis.V47MainStories.createV47State();
-  next.world.v47.focusStoryId = button.dataset.v47Story;
-  setState(next);
-  localStorage.setItem('v33-rpg-save', saveGame(next));
-  say(currentTitle, currentText, currentActions, currentOptions);
-}));
+document.querySelectorAll('[data-v47-story]').forEach(button => {
+  button.addEventListener('click', () => selectV47Story(button.dataset.v47Story));
+});
 $('#mission-pin').addEventListener('click', toggleDestinationPin);
 $('#journal-pin').addEventListener('click', toggleDestinationPin);
 $('#mission-queue-discussion').addEventListener('click', queueActiveMissionDiscussion);

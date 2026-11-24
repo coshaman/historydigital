@@ -12,22 +12,23 @@ const output = path.join(root, 'artifacts/v47/MAIN01_INDEPENDENT_FIRST_PLAY');
 const require = createRequire(import.meta.url);
 const executablePath = process.env.PLAYWRIGHT_EXECUTABLE_PATH || 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 require('../rpg/engine/game-state.js');
+async function serveBuild(route) {
+  const url = new URL(route.request().url());
+  if (url.origin !== 'http://127.0.0.1:4185') return route.abort('blockedbyclient');
+  if (url.pathname.startsWith('/api/')) return route.fulfill({ status: 503, body: 'offline during first-play UI check' });
+  const relative = decodeURIComponent(url.pathname).replace(/^\/+/, '') || 'index.html';
+  const target = path.resolve(staticRoot, relative);
+  if (!target.startsWith(`${staticRoot}${path.sep}`)) return route.fulfill({ status: 403, body: 'Forbidden' });
+  try { return route.fulfill({ body: await readFile(target), contentType: mimeTypeFor(target) }); }
+  catch { return route.fulfill({ status: 404, body: 'Not found' }); }
+}
 const browser = await chromium.launch({ headless: true, executablePath });
 try {
   const context = await browser.newContext({ viewport: { width: 1365, height: 768 } });
   const page = await context.newPage();
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
-  await page.route('**/*', async route => {
-    const url = new URL(route.request().url());
-    if (url.hostname !== '127.0.0.1' || url.port !== '4185') return route.abort('blockedbyclient');
-    if (url.pathname.startsWith('/api/')) return route.fulfill({ status: 503, body: 'offline during first-play UI check' });
-    const relative = decodeURIComponent(url.pathname).replace(/^\/+/, '') || 'index.html';
-    const target = path.resolve(staticRoot, relative);
-    if (!target.startsWith(`${staticRoot}${path.sep}`) && target !== staticRoot) return route.fulfill({ status: 403, body: 'Forbidden' });
-    try { return route.fulfill({ status: 200, body: await readFile(target), headers: { 'content-type': mimeTypeFor(target), 'cache-control': 'no-store' } }); }
-    catch { return route.fulfill({ status: 404, body: 'Not found' }); }
-  });
+  await page.route('**/*', serveBuild);
   await page.goto('http://127.0.0.1:4185/', { waitUntil: 'domcontentloaded' });
   await page.waitForFunction(() => document.documentElement.dataset.gameReady === 'true', null, { timeout: 20000 });
   assert.equal(await page.locator('#history-events-open').isVisible(), true);
@@ -76,6 +77,14 @@ try {
   const firstChoice = page.locator('#actions button').filter({ hasText: '구독 장부에서 이름을 찾는다' });
   await firstChoice.waitFor({ state: 'visible', timeout: 10000 });
   await page.screenshot({ path: path.join(output, '04-first-choice.png'), fullPage: true });
+  await page.setViewportSize({ width: 390, height: 844 });
+  const openingText = await page.locator('#journal-text').evaluate(text => ({
+    visible: text.clientHeight, full: text.scrollHeight,
+  }));
+  assert.ok(openingText.visible + 2 >= openingText.full,
+    `the full opening exchange fits before the mobile choices: ${JSON.stringify(openingText)}`);
+  await page.screenshot({ path: path.join(output, '09-opening-dialogue-mobile.png'), fullPage: true });
+  await page.setViewportSize({ width: 1365, height: 768 });
   await firstChoice.click();
   const journalAfterChoice = await page.locator('#journal-text').innerText();
   assert.match(journalAfterChoice, /예약 영수증/);
@@ -133,6 +142,38 @@ try {
   assert.equal(actionVisibleWithoutScroll, true, 'the focused story shows the next action without scrolling on mobile');
   assert.ok(mobileLayout.method.top >= 0 && mobileLayout.method.bottom <= mobileLayout.viewport[1]
     || mobileLayout.journalScroll.overflow === 'auto', `mobile task guidance is clipped without a scroll path: ${JSON.stringify(mobileLayout)}`);
+  const directEntry = await browser.newPage({ viewport: { width: 1365, height: 768 } });
+  await directEntry.route('**/*', serveBuild);
+  await directEntry.goto('http://127.0.0.1:4185/', { waitUntil: 'domcontentloaded' });
+  await directEntry.waitForFunction(() => document.documentElement.dataset.gameReady === 'true');
+  await directEntry.locator('[data-v47-story="MAIN01"]').click();
+  assert.match(await directEntry.locator('#bodyname').innerText(), /레프/, 'the main-story tab starts the story from a fresh visit');
+  assert.match(await directEntry.locator('#mission-title').innerText(), /부록은 어디 있습니까/);
+  await directEntry.close();
+
+  const switchSave = await page.evaluate(() => {
+    const saved = JSON.parse(localStorage.getItem('v33-rpg-save')).state;
+    const targetPosition = { x: 12, y: 10 };
+    saved.player.embodiment = 'bookseller_lev';
+    saved.player.position = { x: 10, y: 10 };
+    saved.world.currentMapId = 'printshop';
+    for (const host of Object.values(saved.hosts)) {
+      if (host.mapId === 'printshop') host.position = { x: 2, y: 2 };
+    }
+    for (const [id, position] of [['bookseller_lev', saved.player.position], ['printer_ekaterina', targetPosition],
+      ['courier_pavel', { x: 10, y: 9 }]]) {
+      Object.assign(saved.hosts[id], { position, mapId: 'printshop', historicalAliveAndPresent: true });
+    }
+    return window.V33GameState.saveGame(saved);
+  });
+  await page.evaluate(save => localStorage.setItem('v33-rpg-save', save), switchSave);
+  await page.locator('#load').click();
+  await page.waitForFunction(() => document.querySelector('#mission-action').textContent.includes('예카테리나'));
+  await page.locator('#use').click();
+  const switchBody = page.locator('#actions').getByRole('button', { name: '예카테리나 벨로바에게 빙의하기' });
+  await switchBody.click({ timeout: 5000 });
+  assert.match(await page.locator('#bodyname').innerText(), /예카테리나/);
+  assert.match(await page.locator('#mission-action').innerText(), /인쇄 작업 1\/7/);
   console.log(JSON.stringify({ status: 'PASS', actionText, firstObjective: objective, openingChoice: '구독 장부에서 이름을 찾는다', journal: journalAfterChoice,
     nextTitle: await page.locator('#mission-title').innerText(), nextAction: await page.locator('#mission-action').innerText(), nextMethod,
     roleGuidance, desktopLayout, mobileLayout, pageErrors: errors, screenshots: output }, null, 2));
