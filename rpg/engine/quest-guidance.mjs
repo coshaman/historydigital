@@ -1,11 +1,21 @@
 import { questPrerequisitesMet } from './world-presentation.mjs';
 import { createMain01PrintworkState, main01PrintworkStage } from './v47-printwork.mjs';
+import { MAIN01_PURSUIT_CHECKPOINTS } from './v47-main01-pursuit.mjs';
 
 const propsOf = object => Object.fromEntries((object?.properties ?? []).map(item => [item.name, item.value]));
 const tileOf = object => ({ x: Math.floor(object.x / 16), y: Math.floor(object.y / 16) });
 const distance = (a, b) => Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 export function questRosterTargetHostId(guidance) {
-  return guidance?.target?.kind === 'npc' ? guidance.target.npcId ?? null : null;
+  return guidance?.target?.kind === 'npc' ? guidance.target.npcId ?? null
+    : ['POSSESS', 'SWITCH'].includes(guidance?.taskType) ? guidance.hostId ?? null : null;
+}
+export function resolveGuidedPossessionInteraction(guidance, nearby = []) {
+  if (!['POSSESS', 'SWITCH'].includes(guidance?.taskType))
+    return { applicable: false, targetHostId: null, target: null, waiting: false };
+  const targetHostId = questRosterTargetHostId(guidance);
+  if (!targetHostId) return { applicable: false, targetHostId: null, target: null, waiting: false };
+  const target = nearby.find(item => item.type === 'npc' && propsOf(item).hostId === targetHostId) ?? null;
+  return { applicable: true, targetHostId, target, waiting: !target };
 }
 const questLabel = quest => quest?.socialChain ? `이웃 연쇄 · ${quest.titleKo}` : quest?.titleKo;
 const DIRECTIONS = [{ id: 'left', dx: -1, dy: 0, ko: '왼쪽' }, { id: 'right', dx: 1, dy: 0, ko: '오른쪽' }, { id: 'up', dx: 0, dy: -1, ko: '위' }, { id: 'down', dx: 0, dy: 1, ko: '아래' }];
@@ -262,6 +272,27 @@ export function resolveQuestGuidance({ state, quests, maps, hostCards }) {
   const base = { questId: quest.id, phaseId: state.quests[quest.id]?.status ?? 'open', hostId: host.id, questTitleKo: chainTitle,
     progress, known: true };
 
+  const pursuit = state.world.v47?.main01Pursuit;
+  if (quest.id === 'V47_MAIN01_A08' && pursuit?.status === 'ACTIVE') {
+    const checkpoint = MAIN01_PURSUIT_CHECKPOINTS[pursuit.nextCheckpoint];
+    const checkpointObject = checkpoint && maps['bookshop-lane']?.layers?.find(layer => layer.name === 'Interactions')?.objects
+      .find(object => propsOf(object).v47PursuitCheckpoint === checkpoint.id);
+    const target = checkpointObject ? { mapId: 'bookshop-lane', objectId: checkpointObject.id,
+      name: checkpointObject.name, ...tileOf(checkpointObject), kind: 'object' } : null;
+    if (host.id !== 'courier_pavel') return { ...base, hostId: 'courier_pavel', taskType: 'SWITCH',
+      actionKo: '파벨의 몸으로 추격을 이어가세요', reasonKo: '소포를 쫓는 동안에는 파벨이 직접 흔적을 찾아야 합니다.',
+      howKo: '인물 목록에서 파벨을 선택하세요. 다음 흔적은 ' + (checkpoint?.labelKo ?? '운하 골목') + '에 있습니다.',
+      placeKo: maps['bookshop-lane']?.metadata.displayNameKo ?? '책방 골목', target: null, blocked: false };
+    if (target) {
+      const place = destination({ state, maps, host: embodied, target });
+      return { ...base, taskType: place.target?.kind === 'exit' ? 'TRAVEL' : 'INSPECT',
+        actionKo: `추격 · ${checkpoint.labelKo}의 흔적 찾기`,
+        reasonKo: `45분 안에 세 흔적을 차례로 찾아야 합니다. 현재 찾을 곳은 ${checkpoint.labelKo}입니다.`,
+        howKo: `${pathKo(place.walkDirections)} ${place.target?.kind === 'exit' ? '책방 골목으로 들어가세요.' : '금빛 흔적 곁에서 E를 누르세요. 찾으면 다음 장소가 표시됩니다.'}`,
+        placeKo: place.placeKo, target: place.target, blocked: place.blocked, blockedReasonKo: place.blockedReasonKo };
+    }
+  }
+
   if (!allowed.length) {
     const requiredIds = [...new Set((quest.actions ?? []).flatMap(action => action.hostIds))];
     const available = requiredIds.map(id => {
@@ -328,6 +359,25 @@ export function resolveQuestGuidance({ state, quests, maps, hostCards }) {
   }
   if (!entryTarget) return { ...base, taskType: 'COMPLETE', actionKo: '이 사건 자료를 열 수 없습니다', reasonKo: '목표 문서가 지도에 연결되지 않았습니다.', howKo: '수첩에서 다른 인물의 일을 확인하세요.', placeKo: map.metadata.displayNameKo, target: null, blocked: true };
   const place = destination({ state, maps, host: embodied, target: entryTarget });
+  if (place.blocked && allowed.length) {
+    const alternate = [...new Set(allowed.flatMap(action => action.hostIds))]
+      .filter(id => id !== host.id)
+      .map(id => ({ id, person: state.hosts[id], card: hostCards.find(item => item.id === id) }))
+      .filter(item => item.person?.historicalAliveAndPresent && item.card
+        && routeFrom(mapId, item.person.mapId, item.card, maps, state.world.date) !== null
+        && !mapAccessFailure(maps[quest.entry.mapId], item.card, state.world.date))
+      .sort((a, b) => Number(b.person.mapId === quest.entry.mapId) - Number(a.person.mapId === quest.entry.mapId)
+        || a.person.id.localeCompare(b.person.id))[0];
+    if (alternate) {
+      const action = quest.actions.find(item => item.hostIds.includes(alternate.id));
+      return { ...base, hostId: alternate.id, taskType: 'SWITCH',
+        actionKo: `${alternate.card.displayNameKo}의 몸으로 진행하세요`,
+        reasonKo: `현재 인물은 이 장소에 들어갈 수 없습니다. 이 목표는 ${alternate.card.displayNameKo}도 맡을 수 있습니다.`,
+        howKo: `인물 목록에서 ${alternate.card.displayNameKo}를 선택하세요. ${maps[quest.entry.mapId]?.metadata.displayNameKo ?? quest.entry.mapId}에 가서 「${action?.labelKo ?? quest.objectiveKo ?? quest.titleKo}」를 실행하면 이 단계가 끝납니다.`,
+        placeKo: maps[quest.entry.mapId]?.metadata.displayNameKo ?? quest.entry.mapId,
+        target: null, blocked: false, blockedReasonKo: null };
+    }
+  }
   const stepAction = place.target?.kind === 'exit' ? '표시된 출구로 이동하세요' : `「${entryTarget.name}」 곁에서 E를 눌러 살펴보세요`;
   if (quest.id === 'V47_MAIN01_PERMISSION' && propsOf(entryObject).v47PuzzleId === 'MAIN01_PRINTWORK') {
     const savedPrintwork = state.world.v47?.printwork;

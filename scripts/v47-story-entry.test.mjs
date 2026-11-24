@@ -4,7 +4,8 @@ import { createRequire } from 'node:module';
 import { campaignForV47StoryProgress, v47StoryMenuEntries, resolveV47StoryEntry, resolveV47StoryMenuEntries, startV47StoryEntry } from '../rpg/engine/v47-story-entry.mjs';
 import { toV47StoryQuests, attachV47StoryBeatObjects } from '../rpg/data/v47-story-beats.mjs';
 import { v47StoryQuests, attachV47StoryObjects } from '../rpg/data/v47-main-stories.mjs';
-import { resolveQuestGuidance } from '../rpg/engine/quest-guidance.mjs';
+import { questRosterTargetHostId, resolveQuestGuidance } from '../rpg/engine/quest-guidance.mjs';
+import { attachMain01PursuitObjects, MAIN01_PURSUIT_CHECKPOINTS } from '../rpg/engine/v47-main01-pursuit.mjs';
 import { readFile, readdir } from 'node:fs/promises';
 import { CITY_PRODUCTS, purchaseCityProduct } from '../rpg/engine/civic-life.mjs';
 import { createMain01PrintworkState, main01PrintworkStage } from '../rpg/engine/v47-printwork.mjs';
@@ -24,6 +25,7 @@ const characterFiles = (await readdir(new URL('../rpg/characters/', import.meta.
 const hostCards = await Promise.all(characterFiles.map(file => readFile(new URL(`../rpg/characters/${file}`, import.meta.url), 'utf8').then(JSON.parse)));
 attachV47StoryObjects(maps);
 attachV47StoryBeatObjects(maps, quests.filter(quest => quest.storyId));
+attachMain01PursuitObjects(maps);
 const require = createRequire(import.meta.url);
 require('../rpg/engine/game-state.js');
 const game = globalThis.V33GameState;
@@ -403,6 +405,77 @@ test('MAIN01 roster possession recovers a host spawned on a blocked tile before 
   assert.equal(guide.blocked, false, guide.blockedReasonKo);
   assert.equal(guide.target?.kind, 'exit');
   assert.equal(possessed.state.hosts.editor_sofia.position.y > 1, true);
+});
+
+test('MAIN01 names and targets a quest character who can enter the required scene', () => {
+  const sceneQuest = {
+    id: 'V47_MAIN01_A07', storyId: 'MAIN01', chapterId: 'V33_1848_PUBLIC', date: '1848-10-21',
+    titleKo: '계약을 잃은 노동자', objectiveKo: '밀린 수선값을 받거나 새 일감을 찾는다',
+    entry: { mapId: 'communal-room', objectId: 9065 },
+    actions: [{ id: 'V47_A07_CLAIM_WAGES', hostIds: ['seamstress_anna', 'landlady_polina'], labelKo: '서점에 미지급 수선값을 청구한다' }],
+  };
+  const state = game.createInitialState({ maps, hostCards, quests: [sceneQuest], startMapId: 'printshop' });
+  state.world.chapterId = 'V33_1848_PUBLIC'; state.world.date = '1848-11-02';
+  state.world.currentMapId = 'printshop'; state.world.v47.focusStoryId = 'MAIN01';
+  state.player.embodiment = 'seamstress_anna';
+  state.hosts.seamstress_anna.mapId = 'printshop'; state.hosts.seamstress_anna.position = { x: 10, y: 10 };
+  state.player.position = { ...state.hosts.seamstress_anna.position };
+  state.hosts.landlady_polina.historicalAliveAndPresent = true;
+  state.hosts.landlady_polina.mapId = 'communal-room';
+  state.hosts.landlady_polina.position = { x: 11, y: 14 };
+
+  const guide = resolveQuestGuidance({ state, quests: [sceneQuest], maps, hostCards });
+  assert.equal(guide.blocked, false);
+  assert.equal(guide.taskType, 'SWITCH');
+  assert.equal(guide.hostId, 'landlady_polina');
+  assert.equal(guide.placeKo, '안뜰 공동 부엌');
+  assert.match(guide.actionKo, /폴리나/u);
+  assert.match(guide.howKo, /인물 목록에서.*폴리나/u);
+  assert.equal(questRosterTargetHostId(guide), 'landlady_polina');
+});
+
+test('MAIN01 November labor aftermath is dated after the distribution ban', () => {
+  const distributionBan = v47StoryQuests.find(quest => quest.id === 'V47_MAIN01_DISTRIBUTION_BAN');
+  const laborAftermath = toV47StoryQuests().find(quest => quest.id === 'V47_MAIN01_A07');
+  assert.ok(laborAftermath.date >= distributionBan.date,
+    `the post-ban labor scene must not appear before the fixed ban date (${laborAftermath.date} < ${distributionBan.date})`);
+});
+
+test('guided possession never falls through to a different nearby person', async () => {
+  const module = await import('../rpg/engine/quest-guidance.mjs');
+  assert.equal(typeof module.resolveGuidedPossessionInteraction, 'function',
+    'E interaction should resolve or wait for the named quest character instead of selecting another nearby NPC');
+  const guide = { taskType: 'SWITCH', target: { kind: 'npc', npcId: 'printer_ekaterina' } };
+  const nearby = [{ type: 'npc', properties: [{ name: 'hostId', value: 'editor_sofia' }] }];
+  const result = module.resolveGuidedPossessionInteraction(guide, nearby);
+  assert.equal(result.waiting, true);
+  assert.equal(result.target, null);
+  assert.equal(result.targetHostId, 'printer_ekaterina');
+});
+
+test('active MAIN01 parcel pursuit pins and routes to the next named trail', () => {
+  const pursuitQuest = {
+    id: 'V47_MAIN01_A08', storyId: 'MAIN01', chapterId: 'V33_1848_PUBLIC', date: '1848-10-25',
+    titleKo: '서점에 닿지 않은 책', objectiveKo: '반송된 소포와 배달 경로를 확인한다',
+    entry: { mapId: 'bookshop-lane', objectId: 9066 },
+    actions: [{ id: 'CHASE_PARCEL', hostIds: ['courier_pavel', 'bookseller_lev'], labelKo: '소포를 따라간다' }],
+  };
+  const state = game.createInitialState({ maps, hostCards, quests: [pursuitQuest], startMapId: 'bookshop-lane' });
+  state.world.chapterId = 'V33_1848_PUBLIC'; state.world.date = '1848-11-06';
+  state.world.currentMapId = 'bookshop-lane'; state.world.v47.focusStoryId = 'MAIN01';
+  state.player.embodiment = 'courier_pavel';
+  state.hosts.courier_pavel.mapId = 'bookshop-lane';
+  state.hosts.courier_pavel.position = { x: 1, y: 1 };
+  state.player.position = { ...state.hosts.courier_pavel.position };
+  state.world.v47.main01Pursuit = { status: 'ACTIVE', nextCheckpoint: 0, startedAtMinute: 600 };
+
+  const guide = resolveQuestGuidance({ state, quests: [pursuitQuest], maps, hostCards });
+  const checkpoint = MAIN01_PURSUIT_CHECKPOINTS[0];
+  const checkpointObject = maps['bookshop-lane'].layers.find(layer => layer.name === 'Interactions').objects
+    .find(object => object.properties.some(property => property.name === 'v47PursuitCheckpoint' && property.value === checkpoint.id));
+  assert.equal(guide.target?.objectId, checkpointObject.id);
+  assert.match(guide.actionKo, new RegExp(checkpoint.labelKo));
+  assert.match(guide.reasonKo, /45분/u);
 });
 
 test('MAIN01 purchase activity uses a real city-stall transaction with inventory and money changes', () => {

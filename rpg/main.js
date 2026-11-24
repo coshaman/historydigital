@@ -5,7 +5,7 @@ import { decorateCardsWithEraProfiles } from './engine/era-profiles.mjs';
 import { objectIsPresent, questPrerequisitesMet } from './engine/world-presentation.mjs';
 import { questChoices, continuationQuest, fixedEventWaitForWitness, europeNewsWaitForReaders, resolveObjectQuest, retainProgressionAction, formatStoryActionGuidanceKo } from './engine/quest-presentation.mjs';
 import { questOutcomeSummary } from './engine/quest-outcome-summary.mjs';
-import { formatMissionActionKo, guideToResident, questRosterTargetHostId, resolveQuestGuidance } from './engine/quest-guidance.mjs';
+import { formatMissionActionKo, guideToResident, questRosterTargetHostId, resolveGuidedPossessionInteraction, resolveQuestGuidance } from './engine/quest-guidance.mjs';
 import { ownsKeyboardInput, observationText } from './engine/player-presentation.mjs';
 import { availableDiscussionQuests, discussionBoardView, discussionFollowUpAfterTurn, discussionPromptsForHost, discussionQuestInstruction, discussionReflectionPromptsForHost, discussionReplyAction, discussionReplyChoices, formatDiscussionQuestTaskKo, formatQueuedDiscussionTaskKo, nextDiscussionInstructionForQuest, resolveQueuedDiscussionPrompt, shouldOpenDiscussionBoard, shouldShowQuestTracker } from './engine/discussion-quests.mjs';
 import { dialogueSessionNeedsReconnect, dialogueSpeakerLabel, mayOfferDiscussionPrompt, selectDialogueTurn } from './engine/dialogue-response.mjs';
@@ -723,7 +723,7 @@ function updateHud() {
         ? '현재 빌린 몸이 질문 대상입니다. 다른 인물의 몸을 빌린 뒤 말을 거세요.'
         : targetGuide?.howKo ?? '',
     });
-    missionGuidance = { ...missionGuidance, howKo: [missionGuidance.howKo, task].filter(Boolean).join('\n\n') };
+    missionGuidance = { ...missionGuidance, howKo: [missionGuidance.howKo, task ? `선택 대화 · ${task}` : ''].filter(Boolean).join('\n\n') };
     $('#mission-method').textContent = missionGuidance.howKo;
     $('#journal-goal-how').textContent = missionGuidance.howKo;
   }
@@ -2378,9 +2378,14 @@ function interact() {
   if (activeDialogueHost || state.endingId || !$('#learning-screen').hidden) return;
   const near = currentNearby();
   if (!near.length) { say('아직 손이 닿지 않는다', '주변을 조금 더 걸어 가까이 가 보자. 사람에게 다가가면 그 사람의 자리에서 도시를 볼 수 있다.', []); return; }
-  const pickingBody = ['POSSESS', 'SWITCH'].includes(missionGuidance?.taskType);
-  const targetId = pickingBody ? questRosterTargetHostId(missionGuidance) : null;
-  const target = targetId && near.find(item => item.type === 'npc' && mapObjectProperties(item).hostId === targetId);
+  const guidedPossession = resolveGuidedPossessionInteraction(missionGuidance, near);
+  const targetId = guidedPossession.targetHostId;
+  const target = guidedPossession.target;
+  if (guidedPossession.waiting) {
+    const card = cards.find(item => item.id === targetId);
+    say(`${card?.displayNameKo ?? '지정한 인물'}에게 가까이 가세요`, '수첩이 가리키는 인물이 아직 손 닿는 곳에 없습니다. 그 사람에게 다가가 E를 누르거나 인물 목록에서 바로 선택하세요.', []);
+    return;
+  }
   if (target) {
     if (!state.player.embodiment) { inspect(target); return; }
     const card = cards.find(item => item.id === targetId);
