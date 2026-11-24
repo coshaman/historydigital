@@ -525,6 +525,7 @@ function updateHud() {
   const map = currentMap(), host = state.player.embodiment ? cards.find(card => card.id === state.player.embodiment) : null;
   $('#place').textContent = districtById.get(map.metadata.districtId)?.nameKo ?? map.metadata.displayNameKo; $('#mapname').textContent = map.metadata.displayNameKo;
   document.body.classList.toggle('literary-world', Boolean(state.world.activeRealm));
+  document.body.classList.toggle('has-focused-story', Boolean(state.world.v47?.focusStoryId));
   const [year, month, day] = state.world.date.split('-').map(Number);
   const yearOnlyRealm = state.world.activeRealm && currentMap().metadata.datePrecision === 'YEAR';
   $('#world-date').textContent = yearOnlyRealm ? currentMap().metadata.dateDisplayKo : `${year}년 ${month}월`;

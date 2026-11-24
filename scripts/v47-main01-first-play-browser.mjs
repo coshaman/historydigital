@@ -125,6 +125,12 @@ try {
   const mobileLayout = await layoutMetrics();
   await page.screenshot({ path: path.join(output, '08-role-action-mobile.png'), fullPage: true });
   assert.ok(mobileLayout.page[0] <= mobileLayout.viewport[0], `mobile width overflow: ${JSON.stringify(mobileLayout)}`);
+  const actionVisibleWithoutScroll = await page.locator('#mission-action').evaluate(action => {
+    const bounds = action.getBoundingClientRect();
+    const hit = document.elementFromPoint(bounds.left + bounds.width / 2, bounds.top + bounds.height / 2);
+    return action.contains(hit);
+  });
+  assert.equal(actionVisibleWithoutScroll, true, 'the focused story shows the next action without scrolling on mobile');
   assert.ok(mobileLayout.method.top >= 0 && mobileLayout.method.bottom <= mobileLayout.viewport[1]
     || mobileLayout.journalScroll.overflow === 'auto', `mobile task guidance is clipped without a scroll path: ${JSON.stringify(mobileLayout)}`);
   console.log(JSON.stringify({ status: 'PASS', actionText, firstObjective: objective, openingChoice: '구독 장부에서 이름을 찾는다', journal: journalAfterChoice,
