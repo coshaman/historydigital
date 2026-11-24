@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { readdir, readFile } from 'node:fs/promises';
 import { objectIsPresent } from '../rpg/engine/world-presentation.mjs';
-import { questChoices } from '../rpg/engine/quest-presentation.mjs';
+import { fixedEventWaitForWitness, questChoices } from '../rpg/engine/quest-presentation.mjs';
 import { decorateCardsWithEraProfiles } from '../rpg/engine/era-profiles.mjs';
 
 const require = createRequire(import.meta.url);
@@ -81,6 +81,13 @@ assert.equal(objectIsPresent(squareExit, advanced.state, quests), true, 'the rou
 const reachedSquare = game.transitionMap(advanced.state, 'nevsky-semenovsky-square', maps);
 assert.equal(reachedSquare.ok, true, reachedSquare.reason);
 assert.equal(reachedSquare.state.world.currentMapId, 'semenovsky-square');
+const waiting = structuredClone(reachedSquare.state);
+waiting.player.embodiment = actor.id;
+Object.assign(waiting.hosts[actor.id], { mapId: quest.fixedEvent.venueMapId, position: quest.fixedEvent.scenePosition });
+assert.equal(fixedEventWaitForWitness(waiting, quest)?.minutes, quest.fixedEvent.startsAtMinute - waiting.world.clockMinutes);
+const afterWaiting = game.advanceWorldTime(waiting, fixedEventWaitForWitness(waiting, quest).minutes, maps);
+assert.equal(afterWaiting.world.livingEventStates.E41.status, 'ACTIVE');
+assert.equal(fixedEventWaitForWitness(afterWaiting, quest), null, 'waiting cannot skip the unmade witness choice');
 const started = game.advanceNpcWorld(advanced.state, 240, maps);
 assert.equal(started.world.livingEventStates.E41.status, 'ACTIVE', JSON.stringify({ clock: started.world.clockMinutes,
   host: started.hosts.dostoevsky_1849 && { mapId: started.hosts.dostoevsky_1849.mapId,
@@ -100,6 +107,14 @@ const chosen = game.performQuestAction(read.state, { questId: quest.id, hostId: 
 assert.equal(chosen.ok, true, chosen.reason);
 assert.equal(chosen.state.world.livingEventStates.E41.status, 'ACTIVE', 'private recording does not change the fixed historical sequence');
 assert.equal(chosen.state.world.livingEventStates.E41.playerChoiceActionId, 'KEEP_PRIVATE_NOTE');
+const finishing = structuredClone(chosen.state);
+finishing.hosts[actor.id].position = quest.fixedEvent.scenePosition;
+const wait = fixedEventWaitForWitness(finishing, quest);
+assert.equal(wait.minutes, finishing.world.livingEventStates.E41.closesAtMinute - finishing.world.clockMinutes);
+const finished = game.advanceWorldTime(finishing, wait.minutes, maps);
+assert.equal(finished.world.livingEventStates.E41.stage, 'COMMUTATION_ANNOUNCED');
+assert.equal(finished.world.livingEventStates.E41.playerChoiceActionId, 'KEEP_PRIVATE_NOTE');
+assert.equal(fixedEventWaitForWitness(finished, quest), null, 'a resolved scene offers no further waits');
 
 const unattended = game.advanceNpcWorld(structuredClone(started), 181, maps);
 assert.equal(unattended.world.livingEventStates.E41.status, 'RESOLVED');

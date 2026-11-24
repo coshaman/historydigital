@@ -81,6 +81,21 @@ export function resolveObjectQuest(questId, state, quests) {
 
 // Keep continuation available after reading, conversation, movement and save/reload.
 // A current playable quest still needs to be completed at its physical object.
+export function fixedEventWaitForWitness(state, quest) {
+  const event = state?.world?.livingEventStates?.[quest?.fixedEvent?.id];
+  const actor = state?.hosts?.[state.player?.embodiment];
+  if (!event || !actor?.historicalAliveAndPresent || !event.actorHostIds.includes(actor.id)
+    || state.world.currentMapId !== event.venueMapId || actor.mapId !== event.venueMapId
+    || Math.abs(actor.position.x - event.scenePosition.x) + Math.abs(actor.position.y - event.scenePosition.y) > 8) return null;
+  if (event.status === 'SCHEDULED') return {
+    label: '광장에서 선고를 기다린다', minutes: Math.max(1, event.startsAtMinute - state.world.clockMinutes),
+  };
+  if (event.status === 'ACTIVE' && event.playerChoiceActionId) return {
+    label: '광장에서 다음 발표를 기다린다', minutes: Math.max(1, event.closesAtMinute - state.world.clockMinutes),
+  };
+  return null;
+}
+
 export function continuationQuest(state, campaign, quests) {
   if (state.endingId || state.world.activeRealm) return null;
   const arc = campaign.arcs.find(item => item.id === state.world.chapterId);

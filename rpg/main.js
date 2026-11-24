@@ -3,7 +3,7 @@ import { ambientConversations } from './data/ambient-conversations.mjs';
 import { historicalConversationChoices as getHistoricalConversationChoices } from './data/historical-conversation-choices.mjs';
 import { decorateCardsWithEraProfiles } from './engine/era-profiles.mjs';
 import { objectIsPresent, questPrerequisitesMet } from './engine/world-presentation.mjs';
-import { questChoices, continuationQuest, resolveObjectQuest, retainProgressionAction, formatStoryActionGuidanceKo } from './engine/quest-presentation.mjs';
+import { questChoices, continuationQuest, fixedEventWaitForWitness, resolveObjectQuest, retainProgressionAction, formatStoryActionGuidanceKo } from './engine/quest-presentation.mjs';
 import { questOutcomeSummary } from './engine/quest-outcome-summary.mjs';
 import { formatMissionActionKo, guideToResident, questRosterTargetHostId, resolveQuestGuidance } from './engine/quest-guidance.mjs';
 import { ownsKeyboardInput, observationText } from './engine/player-presentation.mjs';
@@ -455,7 +455,7 @@ function say(title, text, actions = [], { keepMissionContext = false } = {}) {
   lastDialogOptions = { keepMissionContext };
   $('#headline').textContent = title;
   $('#journal-text').textContent = text;
-  const readyQuest = continuationQuest(state, campaign, questList);
+  const readyQuest = fixedEventWaitForWitness(state, dostoevskyExecutionQuest) ? null : continuationQuest(state, campaign, questList);
   const visibleActions = retainProgressionAction(actions, readyQuest ? continuationFor(readyQuest) : []);
   const storyOverview = /^(금지된 삽화 연감|혁명의 소식과 마지막 금요일|콜레라가 도는 도시) ·/.test(title);
   const showMissionContext = Boolean(keepMissionContext || activeDialogueHost || storyOverview);
@@ -898,9 +898,11 @@ function updateHud() {
   $('#mission-pin').textContent = destinationPinned && missionGuidance.target ? '목적지 표시 중' : '목적지 표시';
   $('#pin-legend').hidden = !(destinationPinned && missionGuidance.target);
   const readyQuest = continuationQuest(state, campaign, questList);
+  const squareWait = fixedEventWaitForWitness(state, dostoevskyExecutionQuest);
   const routeButton = $('#route-continue');
-  routeButton.hidden = !readyQuest || Boolean(activeDialogueHost);
-  if (readyQuest) routeButton.textContent = continuationFor(readyQuest)[0].label;
+  routeButton.hidden = !(squareWait || readyQuest) || Boolean(activeDialogueHost);
+  routeButton.toggleAttribute('data-square-wait', Boolean(squareWait && !activeDialogueHost));
+  if (squareWait || readyQuest) routeButton.textContent = squareWait?.label ?? continuationFor(readyQuest)[0].label;
   $('#host-notebook').hidden = true;
   const oldFacts = $('#host-facts'); if (oldFacts) oldFacts.replaceChildren();
   $('#journal-host-name').textContent = host ? `${host.displayNameKo} · ${host.occupation}` : '관찰자';
@@ -2240,12 +2242,14 @@ function inspect(object) {
       localStorage.setItem('v33-rpg-save', saveGame(result.state));
       $('#load').disabled = false;
       tutorialAdvance('target');
-      const actions = continuationFor(activeQuest);
+      const awaitingFixedOutcome = activeQuest.fixedEvent && state.world.livingEventStates?.[activeQuest.fixedEvent.id]?.status === 'ACTIVE';
+      const actions = awaitingFixedOutcome ? [] : continuationFor(activeQuest);
+      const followup = !awaitingFixedOutcome && action.followupKo ? `\n\n${action.followupKo}` : '';
       const chain = activeQuest.lifeChain, chainProgress = chain ? result.state.world.lifeChains?.[chain.id] : null;
       const changedMetrics = chainProgress ? Object.entries(chainProgress.metrics).filter(([, value]) => value !== 0).map(([key, value]) => `${chain.metricsKo?.[key] ?? key} ${value > 0 ? '+' : ''}${value}`).join(' · ') : '';
       const chainNote = chain ? `\n\n${chain.titleKo} · ${chainProgress.stage}/${chain.stageCount}${changedMetrics ? `\n이어진 장부: ${changedMetrics}` : ''}` : '';
       say(chain ? activeQuest.titleKo : action.followupTitleKo ?? activeQuest.titleKo,
-        `${action.resultKo}${action.followupKo ? `\n\n${action.followupKo}` : ''}${questOutcomeSummary(action, {
+        `${action.resultKo}${followup}${questOutcomeSummary(action, {
           hostNames: new Map(cards.map(card => [card.id, card.displayNameKo])),
           mapNames: new Map(Object.entries(maps).map(([id, map]) => [id, map.metadata?.displayNameKo ?? id])),
         })}${chainNote}`, actions);
@@ -3020,8 +3024,23 @@ $('#api-diagnostics-copy').addEventListener('click', async () => {
 });
 $('#source-drawer-open').addEventListener('click', openSourceDrawer);
 $('#route-continue').addEventListener('click', () => {
+  if (activeDialogueHost) return;
+  const squareWait = fixedEventWaitForWitness(state, dostoevskyExecutionQuest);
+  if (squareWait) {
+    const next = advanceWorldTime(state, squareWait.minutes, maps);
+    setState(next);
+    localStorage.setItem('v33-rpg-save', saveGame(state));
+    $('#load').disabled = false;
+    const resolved = state.world.livingEventStates.E41.status === 'RESOLVED';
+    const nearbyScene = currentNearby().find(object => mapObjectProperties(object).questId === dostoevskyExecutionQuest.id);
+    if (!resolved && nearbyScene) { inspect(nearbyScene); return; }
+    say('세묘노프스키 열병장', resolved
+      ? '감형 소식이 광장에 전해졌다. 수첩에서 다음 할 일을 확인하세요.'
+      : '선고가 곧 시작됩니다. 광장에서 E를 눌러 살펴보세요.', []);
+    return;
+  }
   const quest = continuationQuest(state, campaign, questList);
-  if (quest && !activeDialogueHost) continuationFor(quest)[0].run();
+  if (quest) continuationFor(quest)[0].run();
 });
 $('#roster-open').disabled = false;
 document.documentElement.dataset.gameReady = 'true';

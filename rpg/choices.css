@@ -173,6 +173,7 @@ kbd{font:11px 'IBM Plex Mono',monospace;color:#d8c59f}
   .lower.has-actions .record-line,.lower.has-actions .journal-tools{display:none}
   .lower.has-actions.show-mission-context .journal-tools{display:flex}
   .lower.is-talking.has-actions.show-mission-context .journal-tools{display:none}
+  .lower.has-actions .journal-tools:has(#route-continue[data-square-wait]){display:flex}
   .lower.is-talking .journal{grid-row:1/-1}
   .mission-tracker{padding:9px 10px}
   .has-focused-story .v47-story-tabs{display:none}

@@ -112,10 +112,11 @@ function initialMainStorySave(routeName = 'NORMAL') {
     }
     state.quests.E41_SEMENOVSKY_1849 = { status: 'open', result: null };
     state.quests.V47_MAIN03_P11 = { status: 'open', result: null };
+    state.world.v47.focusStoryId = 'MAIN03';
     state.world.chapterId = 'V33_1849_CIRCLE'; state.world.date = '1849-05-29'; state.world.clockMinutes = 540;
     state.world.currentMapId = campaign.arcs.find(item => item.id === 'V33_1849_CIRCLE').startMapId;
     state.player.embodiment = null;
-    const advanced = game.advanceCampaignDate(state, '1849-12-22', campaign, questList);
+    const advanced = game.advanceCampaignDate(state, questsById.get('E41_SEMENOVSKY_1849').date, campaign, questList);
     if (!advanced.ok) throw new Error(`E41 diagnostic fixture could not reach its authored date: ${advanced.reason}`);
     return game.saveGame(advanced.state);
   }
@@ -540,21 +541,24 @@ async function runRoute(browser, base, routeName) {
         }
         await page.locator('#source-reader-complete').click();
         const eventObject = interactions(maps['semenovsky-square']).find(object => object.id === quest.entry.objectId);
-        const square = maps['semenovsky-square'];
-        for (let tick = 0; tick < 400 && (await currentState()).world.livingEventStates?.E41?.status === 'SCHEDULED'; tick += 1) {
-          const here = await currentPosition(), collision = square.layers.find(layer => layer.name === 'Collision').data;
-          const direction = ['right', 'left', 'down', 'up'].find(name => {
-            const [dx, dy] = deltas[name], x = here.x + dx, y = here.y + dy;
-            return x >= 0 && y >= 0 && x < square.width && y < square.height && collision[y * square.width + x] === 0;
-          });
-          assert.ok(direction, 'fixed event can be awaited on a walkable public-square tile');
-          await page.keyboard.press(movementKeys[direction]);
-          await page.locator('#save').click();
+        await walkTo(eventObject, 'E41 historical event');
+        await page.locator('#save').click();
+        const beforeWait = (await currentState()).world.livingEventStates.E41;
+        if (beforeWait.status === 'SCHEDULED') {
+          const positionBeforeWait = await currentPosition();
+          await page.getByRole('button', { name: '광장에서 선고를 기다린다' }).click();
+          assert.deepEqual(await currentPosition(), positionBeforeWait, 'the witness can wait without pacing around the square');
+          assert.equal((await currentState()).world.clockMinutes, beforeWait.startsAtMinute);
         }
         assert.equal((await currentState()).world.livingEventStates.E41.status, 'ACTIVE',
           'the fixed event opens after its authored start time while the witness is present');
-        await walkTo(eventObject, 'E41 historical event'); await use();
+        assert.equal(await page.locator('#route-continue[data-square-wait]').count(), 0, 'waiting cannot replace the open witness choice');
         const eventAction = page.locator('#actions button').filter({ hasText: '본 일을 개인 수첩에 적는다' }).first();
+        if (!await eventAction.isVisible()) {
+          await use();
+          const chooseScene = page.getByRole('button', { name: /사건 살펴보기 · 세묘노프스키 열병장/ });
+          if (await chooseScene.isVisible()) await chooseScene.click();
+        }
         try { await eventAction.waitFor({ state: 'visible', timeout: 4000 }); }
         catch (error) {
           const diagnostic = await page.evaluate(() => {
@@ -570,21 +574,20 @@ async function runRoute(browser, base, routeName) {
         await eventAction.click();
         const eventState = await currentState();
         assert.ok(eventState.world.livingEventStates?.E41, '1849 fixed event has a runtime state');
+        assert.doesNotMatch(await page.locator('#journal-text').innerText(), /감형/u, 'the announcement remains ahead of the current moment');
+        assert.equal(await page.getByRole('button', { name: /같은 날의 다음 기록/ }).count(), 0,
+          'the aftermath is reached after the fixed event advances');
         assert.ok(eventState.ledger.some(row => row.eventType === 'HISTORICAL_EVENT_STAGE' && row.catalogEventId === 'E41'),
           'E41 has reached the source-backed historical stage in the live world');
-        // Advance in place by walking a short safe loop until the fixed commutation is announced.
-        for (let tick = 0; tick < 240 && (await currentState()).world.livingEventStates.E41.status !== 'RESOLVED'; tick += 1) {
-          const here = await currentPosition();
-          const candidate = Object.entries(deltas).find(([, [dx, dy]]) => {
-            const x = here.x + dx, y = here.y + dy;
-            return x >= 0 && y >= 0 && x < square.width && y < square.height
-              && square.layers.find(layer => layer.name === 'Collision').data[y * square.width + x] === 0;
-          });
-          assert.ok(candidate, 'fixed-event timer has a nearby walkable tile');
-          await page.keyboard.press(movementKeys[candidate[0]]);
-          await page.locator('#save').click();
+        if (e41Only) {
+          const shot = path.join(outputDir, 'wait-for-square-announcement-390.png');
+          await page.locator('#route-continue[data-square-wait]').scrollIntoViewIfNeeded();
+          await page.screenshot({ path: shot, fullPage: true });
+          screenshots.push(shot);
         }
+        await page.getByRole('button', { name: '광장에서 다음 발표를 기다린다' }).click();
         const afterE41 = await currentState();
+        assert.equal(afterE41.world.clockMinutes, eventState.world.livingEventStates.E41.closesAtMinute);
         assert.equal(afterE41.quests.E41_SEMENOVSKY_1849.status, 'resolved', 'the fixed historical outcome resolves on its own timeline');
         assert.equal(afterE41.world.livingEventStates.E41.stage, 'COMMUTATION_ANNOUNCED', 'the commutation is announced as the immutable outcome');
         rows.push({ storyId: 'HISTORICAL_GATE', questId: quest.id, date: afterE41.world.date,
