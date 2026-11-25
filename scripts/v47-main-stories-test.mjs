@@ -423,7 +423,7 @@ for (const beat of v47StoryBeats.filter(row => row.storyId === 'MAIN01')) {
 const a10 = v47StoryBeats.find(row => row.id === 'V47_MAIN01_A10');
 assert.equal(a10.date, '1848-12-06', 'the November 24 Julian book scene is dated correctly on the Gregorian game clock');
 assert.deepEqual(a10.sourceIds, [], 'the bookshop scene leaves the subscriber letter for the following printshop scene');
-assert.match(a10.sourceContextKo, /다친 사람/);
+assert.match(a10.sourceContextKo, /수레에 깔린 마르파/);
 assert.ok(a10.actions[0].effects.v47WorldChange.flags.V47_A10_INJURED_RIDES);
 assert.ok(a10.actions[1].effects.v47WorldChange.flags.V47_A10_BOOK_RIDES);
 const carriageAftermath = v47StoryBeats.find(row => row.id === 'V47_MAIN01_A11');

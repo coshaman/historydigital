@@ -2328,9 +2328,15 @@ function inspect(object) {
       const sideGate = almanacChased
         ? '\n\n파벨 · 그날 수레 쫓다가 이 집 옆 대문을 봤어요. 나갈 때는 거기로 갑시다. 큰길 어귀는 아직 막혀 있습니다.'
         : '';
-      const showCarriage = () => say(title, formatTurns(turns.slice(4)) + sideGate + guidance, opts);
-      say(title, `${activeQuest.premiseKo}\n\n${formatTurns(turns.slice(0, 4))}`, [
-        { label: '마부를 문 안으로 부른다', run: showCarriage },
+      const showChoice = () => say(title, formatTurns(turns.slice(10)) + sideGate + guidance, opts);
+      const hearVasily = () => say(title, formatTurns(turns.slice(5, 10)), [
+        { label: '마부에게 내일 일을 묻는다', run: showChoice },
+      ]);
+      const hearMarfa = () => say(title, formatTurns(turns.slice(2, 5)), [
+        { label: '마부를 문 안으로 부른다', run: hearVasily },
+      ]);
+      say(title, `${activeQuest.premiseKo}\n\n${formatTurns(turns.slice(0, 2))}`, [
+        { label: '마르파에게 무엇이 필요한지 묻는다', run: hearMarfa },
       ]);
       return;
     }
@@ -2340,9 +2346,9 @@ function inspect(object) {
       : '';
     const carriageFollowup = activeQuest.id === 'V47_MAIN01_A11'
       ? flags.V47_A10_INJURED_RIDES
-        ? decisionInAbsence + '스테판 · 센나야에서 언니를 찾아 병원에 데려갔어요. 아직 눈을 못 뜨셨대요. 형은요? 마부가 일하던 집엔 갔어요?\n알렉세이 · 정문으로 갔어. 주인이 차를 권하더군. 마부를 부엌으로 불러내는 걸 보고도, 그 차를 다 마시고 나왔네.\n스테판 · 그럼 다시 가요. 오늘은 나도 갈 테니.'
+        ? decisionInAbsence + '스테판 · 마르파 언니를 센나야에서 찾았어요. 병원에 가 보니 침상 밑에 신이 둘인데 한 짝만 자기 것이래요. 나머지 한 짝은 동생이 깨면 어디 돌려줄지 묻겠답니다. 형은요? 마부가 일하던 집엔 갔어요?\n알렉세이 · 정문으로 갔어. 주인이 차를 권하더군. 마부를 부엌으로 불러내는 걸 보고도, 그 차를 다 마시고 나왔네.\n스테판 · 그럼 다시 가요. 오늘은 내가 문을 두드릴 테니.'
         : flags.V47_A10_BOOK_RIDES
-          ? '스테판 · 대로까지 뛰었지만 돈부터 달라는 사람들뿐이었어요. 이리나에게 아브도티야의 외투를 맡기고서야 삯을 얻었어요. 어젯밤 산모 집에 가실 땐 도제들 이불을 접어 어깨에 걸치셨고요.\n예카테리나 · 바실리는?\n스테판 · 책은 파벨한테 갔죠. 바실리는 그게 자기 할 일이었다더군요.'
+          ? '스테판 · 이리나가 외투를 맡아 두고 로만에게 삯을 냈어요. 로만이 마르파를 데려갔고요. 어젯밤 산파님이 산모 집에 가실 땐 도제들 이불을 접어 어깨에 걸치셨습니다.\n예카테리나 · 그분은 하루에 두 사람 몫을 하시고 자기 옷 한 벌을 못 갖고 계시는구나. 바실리는?\n스테판 · 파벨한테 책을 건넸대요. 거기가 자기가 갈 데의 끝이었답니다.'
           : flags.V47_A10_COPY_STORED
             ? '다리야 · 그날은 소피야의 장롱에 책을 두고 왔어요. 여기서 일하는 사람들은 그 뒤로 이 책을 구경도 못 했지요.'
             : '스테판 · 소피야네 모임에 오던 사람들이 또 왔어요. 책이 안 나온다는 걸 알면서도 오늘은 함께 읽을 자리를 물어보러 왔대요.'

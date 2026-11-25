@@ -1043,7 +1043,26 @@ async function runRoute(browser, base, routeName) {
             if (quest.id === 'V47_MAIN01_A10') {
               const nearbyScene = page.getByRole('button', { name: `사건 살펴보기 · ${quest.titleKo}` });
               if (await nearbyScene.isVisible()) await nearbyScene.click();
+              assert.equal(await page.getByRole('button', { name: action.labelKo, exact: true }).count(), 0,
+                'the carriage decision waits until the player speaks to Marfa and the driver');
+              await page.getByRole('button', { name: '마르파에게 무엇이 필요한지 묻는다' }).click();
+              assert.match(await page.locator('#journal-text').innerText(), /센나야에서 언니하고 생선을 팔아요.*나는 병원에 가겠어요/s);
               await page.getByRole('button', { name: '마부를 문 안으로 부른다' }).click();
+              await page.getByRole('button', { name: '마부에게 내일 일을 묻는다' }).click();
+              assert.match(await page.locator('#journal-text').innerText(), /마부 · 나리, 그 댁 정문/);
+              const choiceView = await page.locator('#journal-text').evaluate(element => ({
+                fits: element.scrollHeight <= element.clientHeight + 1,
+                offersSecondCarriage: element.textContent.includes('내 외투를 이리나에게 맡겨요'),
+              }));
+              assert.ok(choiceView.fits && choiceView.offersSecondCarriage,
+                'the driver’s bargain and the second carriage are both readable before choosing');
+              const shot = path.join(outputDir, `${routeName}-MAIN01-CARRIAGE-DECISION-${viewport.width}x${viewport.height}.png`);
+              await page.screenshot({ path: shot, fullPage: false }); screenshots.push(shot);
+            }
+            if (main01Only && quest.id === 'V47_MAIN01_A11') {
+              const aftermath = await page.locator('#journal-text').innerText();
+              assert.match(aftermath, routeName === 'NORMAL' ? /마르파 언니를 센나야에서.*그 차를 다 마시고 나왔네/s
+                : /이리나가 외투를 맡아 두고 로만에게 삯을 냈어요.*파벨한테 책을 건넸대요/s);
             }
             const choice = page.locator('#actions button').filter({ hasText: action.labelKo }).first();
             try { await choice.waitFor({ state: 'visible', timeout: 2500 }); }
@@ -1129,8 +1148,10 @@ async function runRoute(browser, base, routeName) {
       }
       const positionBefore = await currentPosition();
       const mapBefore = await currentMapId();
-      const dateBefore = (await currentState()).world.date;
-      const ledgerLengthBefore = (await currentState()).ledger.length;
+      if (['V47_A10_STORE_COPY', 'V47_A08_REFUND_SUBSCRIBERS'].includes(selected.action.id)) await page.locator('#save').click();
+      const beforeChoice = await currentState();
+      const dateBefore = beforeChoice.world.date;
+      const ledgerLengthBefore = beforeChoice.ledger.length;
       await selected.choice.click();
       try { await page.waitForFunction(({ questId }) => JSON.parse(localStorage.getItem('v33-rpg-save') ?? 'null')?.state?.quests?.[questId]?.status === 'resolved',
         { questId: quest.id }, { timeout: 7000 }); }
@@ -1203,18 +1224,23 @@ async function runRoute(browser, base, routeName) {
       if (quest.id === 'V47_MAIN01_A10') {
         assert.ok(['sofiya_salon_1848', 'reader_darya'].includes(selected.host.id),
           `${routeName} resolves the disposition through the patron or the reader who returns her copy`);
+        if (selected.action.id === 'V47_A10_STORE_COPY') {
+          assert.ok(row.worldChange.inventory.some(item => item.fromHostId === 'midwife_avdotya' && item.toHostId === 'innkeeper_irina'));
+          assert.ok(after.hosts.innkeeper_irina.inventory.includes('마차 삯에 맡긴 산파의 겨울 외투'));
+          assert.equal(after.hosts.carter_roman.money.amount, beforeChoice.hosts.carter_roman.money.amount + 1);
+          assert.equal(after.hosts.innkeeper_irina.money.amount, beforeChoice.hosts.innkeeper_irina.money.amount - 1);
+        }
         if (selected.host.id === 'sofiya_salon_1848') {
           assert.equal(row.personalStoryGoal.length, 1, 'Sofiya’s A10 individual objective is tracked');
           assert.equal(row.personalStoryGoal[0].status, 'SATISFIED', 'Sofiya’s chosen reading or storage outcome completes her objective');
-        } else if (selected.action.id === 'V47_A10_STORE_COPY') {
-          assert.equal(row.worldChange.inventory.filter(item => item.fromHostId === 'reader_darya'
-            && item.toHostId === 'sofiya_salon_1848').length, 2,
-          'Darya physically returns the book and invitation to Sofiya when she makes this choice');
         } else {
-          assert.equal(selected.action.id, 'V47_A10_HOST_READING');
-          assert.ok(questsById.get(quest.id).actions.find(action => action.id === selected.action.id)?.hostIds.includes('reader_darya'),
-            'Darya is an authored host for the reading-room branch as well as the storage branch');
+          assert.ok(quest.actions.find(action => action.id === selected.action.id)?.hostIds.includes('reader_darya'),
+            'Darya can make either carriage decision');
         }
+      }
+      if (quest.id === 'V47_MAIN01_SUBSCRIBER_REPLY' && selected.action.id === 'V47_A08_REFUND_SUBSCRIBERS') {
+        assert.equal(after.hosts.seamstress_anna.money.amount, beforeChoice.hosts.seamstress_anna.money.amount + 1);
+        assert.equal(after.hosts.bookseller_lev.money.amount, beforeChoice.hosts.bookseller_lev.money.amount - 1);
       }
       if (quest.id === 'V47_MAIN01_PERMISSION') {
         assert.equal(row.printwork.schemaVersion, 'V47_PRINTWORK_V2');

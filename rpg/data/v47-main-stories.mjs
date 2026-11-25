@@ -27,9 +27,9 @@ export const v47StoryQuests = [
     premiseKo: '상트페테르부르크 검열위원회의 재심을 거쳐 국민계몽부 검열총국이 연감 발행을 금했다. 구력 10월 20일.',
     prerequisiteQuestIds: ['V47_MAIN01_PERMISSION'], entry: { mapId: 'printshop', objectId: 9048 }, sourceIds: ['V47-MUSIN-PUSHKIN-REPORT-MARGIN-NOTE-1848-10-15'],
     dialogueStatus: 'NEWLY_AUTHORED_FROM_V47_SCENARIO', dialogue: sceneDialogue(
-      ['스테판', '사흘 밤이오. 식자공은 잠이 와도 글자를 거꾸로 놓으면 안 되는 줄 알았소. 저분들은 허가를 거꾸로 놓고도 아침에 제 잠을 다 자고 오셨겠지요.'],
+      ['스테판', '활자는 거꾸로 놓아야 종이에서 바로 섭니다. 허가도 그런 줄 알았으면 제 손에 그 도장이 마를 때까진 기다려 봤겠소. 사흘 밤을 새우기 전에.'],
       ['예카테리나', '쉿. 사람들은 문을 안 열면 우리가 돈을 가지고 달아난 줄 알 거야.'],
-      ['스테판', '못 읽게 하면 얌전한 책이 됩니까? 그럼 얌전해져야 할 건 책이 아니라 사람들 아닙니까?'],
+      ['스테판', '어제까지는 글자 하나 빠지면 처음부터 찾았소. 오늘은 책 한 권이 없어졌는데 다들 고개를 들지 말라네요.'],
       ['예카테리나', '문 열어 봐. 술집에서 하던 말이 밖에서도 나오는지 나도 좀 듣자.']),
     actions: [
       action('V47_A06_COUNT_STOCK', ['printer_ekaterina', 'bookseller_lev'], '인쇄소 문을 닫는다', '예카테리나가 작업자들을 먼저 내보내고 인쇄소 문을 닫는다. 사람들은 한동안 문 앞에서 기다린다.', { situationKo: '인쇄소를 닫아 작업자들을 내보냈다.' }),
@@ -42,9 +42,9 @@ export const v47StoryQuests = [
     prerequisiteQuestIds: ['V47_MAIN01_DISTRIBUTION_BAN'], entry: { mapId: 'bookshop-interior', objectId: 9049 }, sourceIds: ['V47-NEKRASOV-SUBSCRIBER-LETTER-1848'],
     dialogueStatus: 'NEWLY_AUTHORED_FROM_V47_SCENARIO', dialogue: sceneDialogue(
       ['파나예프', '구독자에게 보내기로 했소. 그런데 지금 내 손엔 보낼 책이 없소.'],
-      ['레프', '손님들은 검열위원회보다 제 얼굴을 먼저 봅니다.']),
+      ['레프', '손님들한테는 검열총국의 주소가 없어요. 내가 매일 아침 문을 여는 곳은 아시지요.']),
     actions: [
-      action('V47_A08_REFUND_SUBSCRIBERS', ['bookseller_lev', 'nekrasov_reconstruction'], '구독료를 돌려보낸다', '레프가 모인 구독자들에게 먼저 돈 일부를 돌려준다. 집에 돌아가지 않는 손님도 있다.', { situationKo: '구독료 일부를 돌려보냈다.' }),
+      action('V47_A08_REFUND_SUBSCRIBERS', ['bookseller_lev', 'nekrasov_reconstruction'], '구독료 일부를 돌려준다', '레프가 안나에게 먼저 돈 일부를 돌려준다. 아직 차례가 오지 않은 사람들은 서점에 남는다.', { situationKo: '구독료 일부를 돌려보냈다.', v47WorldChange: { money: [{ fromHostId: 'bookseller_lev', toHostId: 'seamstress_anna', amount: 1 }], relationships: [{ fromHostId: 'seamstress_anna', toHostId: 'bookseller_lev', trustDelta: 1 }] } }),
       action('V47_A08_SEND_LETTER', ['courier_pavel', 'editor_sofia'], '답신을 우편으로 보낸다', '파벨이 소식을 받아 우편 창구로 가져간다. 서점 앞에선 구독자들이 서로 소식을 전한다.', { situationKo: '구독자 답신을 발송했다.', v47WorldChange: { inventory: [{ fromHostId: 'editor_sofia', toHostId: 'courier_pavel', itemKo: '구독자 답신 봉투', quantity: 1 }], moves: [{ hostId: 'courier_pavel', mapId: 'bookshop-lane', x: 7, y: 9 }], rumor: { id: 'V47_SUBSCRIBER_REPLY_IN_TRANSIT', fromHostId: 'courier_pavel', hostIds: ['bookseller_lev', 'editor_sofia'] }, flags: { V47_MAIN01_REPLY_SENT: true } }, flags: { V47_MAIN01_REPLY_SENT: true } }),
       action('V47_A08_PROMISE_UNAVAILABLE_COPY', ['bookseller_lev', 'courier_pavel'], '곧 책을 보내겠다고 둘러댄다', '레프는 기다리는 손님에게 출고가 임박했다고 말하지만, 실제 책은 없다. 답신은 빨리 나가고 다음에 들킬 위험과 손님들의 불신이 남는다.', { situationKo: '없는 재고를 약속한 답신을 보냈다.', v47WorldChange: { inventory: [{ fromHostId: 'bookseller_lev', toHostId: 'courier_pavel', itemKo: '출고를 약속한 답신 봉투', quantity: 1 }], moves: [{ hostId: 'courier_pavel', mapId: 'bookshop-lane', x: 7, y: 9 }], relationships: [{ fromHostId: 'bookseller_lev', toHostId: 'reader_darya', trustDelta: -2 }], rumor: { id: 'V47_UNAVAILABLE_COPY_PROMISED', fromHostId: 'bookseller_lev', hostIds: ['reader_darya', 'seamstress_anna'] }, flags: { V47_MAIN01_FALSE_PROMISE_SENT: true } }, flags: { V47_MAIN01_FALSE_PROMISE_SENT: true } }),
     ],

@@ -103,7 +103,7 @@ export const v47StoryBeats = [
     choice('V47_A05_ASK_OFFICE', ['clerk_alexei', 'senior_clerk_konstantin'], '위원장에게 이의를 전한다', '알렉세이는 집안의 폭력을 읽을 수 있어야 한다고 주장한다. 위원회의 판단은 달라지지 않지만 인쇄소는 그가 반대했다는 사실을 안다.', { money: [{ fromHostId: 'clerk_alexei', toHostId: 'scribal_yuri', amount: 1 }], inventory: [{ fromHostId: 'senior_clerk_konstantin', toHostId: 'clerk_alexei', itemKo: '위원장실 면담 통지', quantity: 1 }], moves: [{ hostId: 'senior_clerk_konstantin', mapId: 'chancery', x: 192, y: 160 }], relationships: [{ fromHostId: 'clerk_alexei', toHostId: 'senior_clerk_konstantin', trustDelta: 1 }], rumor: { id: 'V47_REVIEW_DELAY', fromHostId: 'clerk_alexei', hostIds: ['printer_ekaterina', 'bookseller_lev'] }, flags: { V47_A05_ORAL_INQUIRY: true } }, { requiredKnowledgeIds: ['V47-PANAEV-LETTER-1848-08-20', 'V47-KRYLOV-ASSESSMENT-1848-09-06'] }),
     choice('V47_A05_WITHHOLD_SIGNATURE', ['clerk_alexei', 'senior_clerk_konstantin'], '심사 업무에서 물러난다', '알렉세이는 심사에서 손을 뗀다. 콘스탄틴은 그가 끝까지 곁에 서지 않았음을 기억한다.', { inventory: [{ fromHostId: 'clerk_alexei', toHostId: 'senior_clerk_konstantin', itemKo: '업무에서 물러나는 청원', quantity: 1 }], relationships: [{ fromHostId: 'clerk_alexei', toHostId: 'senior_clerk_konstantin', trustDelta: -1 }], rumor: { id: 'V47_REVIEW_SIGNATURE_WITHHELD', fromHostId: 'senior_clerk_konstantin', hostIds: ['printer_ekaterina'] }, flags: { V47_A05_SIGNATURE_WITHHELD: true } }, { requiredKnowledgeIds: ['V47-PANAEV-LETTER-1848-08-20', 'V47-KRYLOV-ASSESSMENT-1848-09-06'] }),
   ]}),
-  beat({ storyId: 'MAIN01', beatId: 'A07', date: '1848-10-21', titleKo: '하숙집 열쇠', objectiveKo: '폴리나에게 오늘 방을 내줄 수 있는지 묻고 안나와 해결한다', mapId: 'communal-room', objectId: 9065, sourceContextKo: '밀린 방세 때문에 안나는 하숙방을 잃을 처지다. 바깥으로 내보내면 제대로 걸을 수 없는 세탁부 마리야도 함께 나가야 한다.', hosts: ['seamstress_anna', 'landlady_polina'], choices: [
+  beat({ storyId: 'MAIN01', beatId: 'A07', date: '1848-10-21', titleKo: '하숙집 열쇠', objectiveKo: '안나나 폴리나로 하숙집 열쇠를 살펴보고 밀린 수선값을 받거나 새 일감을 맡는다', mapId: 'communal-room', objectId: 9065, sourceContextKo: '연감이 막히자 서점은 안나에게 외투 수선값을 줄 돈도 아낀다. 안나가 오늘 방세를 못 내면, 다리를 저는 세탁부 마리야도 그 방에서 나와야 한다.', hosts: ['seamstress_anna', 'landlady_polina'], choices: [
     choice('V47_A07_CLAIM_WAGES', ['seamstress_anna', 'landlady_polina'], '서점에 미지급 수선값을 청구한다', '레프가 일부를 먼저 건넨다. 안나는 집주인에게 방세 일부를 낸다.', { money: [{ fromHostId: 'bookseller_lev', toHostId: 'seamstress_anna', amount: 2 }, { fromHostId: 'seamstress_anna', toHostId: 'landlady_polina', amount: 1 }], inventory: [{ fromHostId: 'seamstress_anna', toHostId: 'bookseller_lev', itemKo: '수선 인수표', quantity: 1 }], moves: [{ hostId: 'seamstress_anna', mapId: 'bookshop-interior', x: 112, y: 160 }], relationships: [{ fromHostId: 'seamstress_anna', toHostId: 'bookseller_lev', trustDelta: 1 }], rumor: { id: 'V47_UNPAID_REPAIR', fromHostId: 'seamstress_anna', hostIds: ['print_apprentice_stepan'] }, flags: { V47_A07_WAGES_CLAIMED: true } }),
     choice('V47_A07_FIND_WORK', ['seamstress_anna', 'landlady_polina'], '이웃의 세탁 일을 맡는다', '새 일감으로 당일 품삯을 받지만 안나는 하숙집을 비운다.', { money: [{ fromHostId: 'laundress_mariya', toHostId: 'seamstress_anna', amount: 2 }], inventory: [{ fromHostId: 'laundress_mariya', toHostId: 'seamstress_anna', itemKo: '세탁물 꾸러미', quantity: 1 }], moves: [{ hostId: 'seamstress_anna', mapId: 'sewing-room', x: 128, y: 160 }], relationships: [{ fromHostId: 'seamstress_anna', toHostId: 'laundress_mariya', trustDelta: 1 }], rumor: { id: 'V47_NEW_SEWING_WORK', fromHostId: 'laundress_mariya', hostIds: ['landlady_polina'] }, flags: { V47_A07_NEW_WORK: true } }),
   ]}),
@@ -111,11 +111,11 @@ export const v47StoryBeats = [
     choice('V47_A08_RETURN_PACKAGE', ['courier_pavel', 'bookseller_lev'], '봉인된 소포를 서점으로 돌린다', '레프가 소포를 자기 가게 안으로 들이고 파벨에게 돌아오는 데 든 운임을 준다.', { money: [{ fromHostId: 'bookseller_lev', toHostId: 'courier_pavel', amount: 1 }], inventory: [{ fromHostId: 'courier_pavel', toHostId: 'bookseller_lev', itemKo: '반송된 소포', quantity: 1 }], moves: [{ hostId: 'courier_pavel', mapId: 'bookshop-interior', x: 144, y: 176 }], relationships: [{ fromHostId: 'courier_pavel', toHostId: 'bookseller_lev', trustDelta: 1 }], rumor: { id: 'V47_RETURNED_PACKAGE', fromHostId: 'courier_pavel', hostIds: ['reader_darya'] }, flags: { V47_A08_PACKAGE_RETURNED: true } }),
     choice('V47_A08_VERIFY_ROUTE', ['courier_pavel', 'bookseller_lev'], '파벨을 큰길로 먼저 보낸다', '파벨은 소포를 먼저 큰길 쪽으로 가져간다. 레프가 뒤에 남아 골목 사람들을 물린다.', { money: [{ fromHostId: 'bookseller_lev', toHostId: 'courier_pavel', amount: 2 }], inventory: [{ fromHostId: 'courier_pavel', toHostId: 'bookseller_lev', itemKo: '운송표', quantity: 1 }], moves: [{ hostId: 'courier_pavel', mapId: 'nevsky', x: 144, y: 160 }], relationships: [{ fromHostId: 'courier_pavel', toHostId: 'bookseller_lev', trustDelta: 1 }], rumor: { id: 'V47_ROUTE_CHECKED', fromHostId: 'courier_pavel', hostIds: ['police_sergeant_ivan'] }, flags: { V47_A08_ROUTE_CHECKED: true } }),
   ]}),
-  beat({ storyId: 'MAIN01', beatId: 'A10', date: '1848-11-24', titleKo: '현관의 마차', objectiveKo: '소피야의 독서 모임에서 골목의 부상자와 금지된 책 중 마차를 어디에 쓸지 정한다', mapId: 'sofiya-salon', objectId: 9067, sourceContextKo: '소피야의 방에 금지된 연감이 한 권 있다. 바실리가 책을 빼내려고 마차를 불렀다. 골목에서 다친 사람이 실려 온다.', hosts: ['sofiya_salon_1848', 'reader_darya', 'editor_sofia'], choices: [
+  beat({ storyId: 'MAIN01', beatId: 'A10', date: '1848-11-24', titleKo: '현관의 마차', objectiveKo: '소피야의 집에서 마르파와 마부의 말을 듣고 마차를 어디에 보낼지 정한다', mapId: 'sofiya-salon', objectId: 9067, sourceContextKo: '바실리가 금지된 연감 한 권을 빼내려고 마차를 불렀다. 바로 그때 수레에 깔린 마르파가 소피야의 집으로 실려 온다.', hosts: ['sofiya_salon_1848', 'reader_darya', 'editor_sofia'], choices: [
 
     // Legacy action IDs also identify the branch in saves made before this scene was rewritten.
     choice('V47_A10_HOST_READING', ['sofiya_salon_1848', 'reader_darya', 'editor_sofia'],
-      '부상자를 마차에 태운다', '알렉세이가 순경 앞에서 자기가 책임지겠다고 한다. 마부는 그제야 발판을 내린다. 다리야가 부상자와 함께 마리인스카야 병원으로 떠나는 동안, 연감은 방에 남는다.', {
+      '마르파를 병원으로 보낸다', '마르파가 마부에게 직접 태워 달라고 한다. 알렉세이가 내일 마부와 함께 주인 앞에 서겠다고 하고, 다리야가 마르파를 데리고 마리인스카야 병원으로 떠난다. 연감은 방에 남는다.', {
         inventory: [{ fromHostId: 'sofiya_salon_1848', toHostId: 'reader_darya', itemKo: '부상자에게 덮어 줄 숄', quantity: 1 }],
         moves: [{ hostId: 'midwife_avdotya', mapId: 'inn-interior', x: 160, y: 160 }],
         relationships: [{ fromHostId: 'reader_darya', toHostId: 'clerk_alexei', trustDelta: 4 },
@@ -124,7 +124,8 @@ export const v47StoryBeats = [
         flags: { V47_A10_READING_HELD: true, V47_A10_INJURED_RIDES: true },
       }),
     choice('V47_A10_STORE_COPY', ['sofiya_salon_1848', 'reader_darya', 'editor_sofia'],
-      '연감을 먼저 내보낸다', '바실리가 책을 들고 오른다. 다리야는 마부까지 쫓겨나게 할 수는 없다며 여자의 손을 잡는다. 아브도티야는 스테판 편에 외투를 내준다. 스테판은 이리나의 선술집에 그 옷을 맡겨 삯을 빌리고 나서야 두 번째 마차를 데려온다.', {
+      '연감을 먼저 내보낸다', '바실리가 연감을 들고 오른다. 다리야는 마르파 곁에 남는다. 이리나는 스테판이 가져온 산파의 겨울 외투를 맡고, 로만에게 두 번째 마차의 삯을 건넨다.', {
+        money: [{ fromHostId: 'innkeeper_irina', toHostId: 'carter_roman', amount: 1 }],
         inventory: [{ fromHostId: 'sofiya_salon_1848', toHostId: 'student_vasily', itemKo: '보관 중인 연감 한 권', quantity: 1 },
           { fromHostId: 'midwife_avdotya', toHostId: 'innkeeper_irina', itemKo: '마차 삯에 맡긴 산파의 겨울 외투', quantity: 1 }],
         moves: [{ hostId: 'student_vasily', mapId: 'bookshop-lane', x: 112, y: 144 }, { hostId: 'print_apprentice_stepan', mapId: 'nevsky', x: 144, y: 160 }],
@@ -279,15 +280,15 @@ const scriptedDialogue = {
     ['콘스탄틴', '나는 원로원 광장에서 앞으로만 걷는 말과 뒤로만 뛰는 사람을 보았네. 둘 다 같은 황제의 말과 백성이었어. 자네가 그 눈밭을 보고도 질서를 쉽게 버릴지 들어 보고 싶군.'],
     ['알렉세이', '제 어머니에게는 들어서 아는 질서도 있습니다. 저를 속량해 주신 날 어머니 손엔 제 옷이 들려 있었지요. 그날도 어머니는 주인댁 부엌으로 돌아갔습니다.'],
     ['콘스탄틴', '장교의 잔에서 아버지 손까지 옮겨 간 것이 자네 하나일까. 책을 한 권 손에 쥔 사람마다 그리하면 그다음엔 우리가 누구 집 문을 두드려야 하나. 「신부를 보러 가다」만이라도 이쪽에 놓게.'],
-    ['알렉세이', '그 집 아이를 들여놓지 않는 값으로 나머지가 들어갑니까? 아이에게는 그 문 앞에서 사흘 더 기다리라 이를까요.'],
+    ['알렉세이', '신부 보러 가는 길은 열어 주시고 저 아이 방은 또 잠그시겠군요. 문 하나만 닫은 줄 아시겠지만, 그 방에서 보면 집 안의 문은 그게 다입니다.'],
     ['콘스탄틴', '어머니도 그 집 안주인도 같은 그리스도 앞에 무릎을 꿇네. 자네는 그런 데서도 러시아를 찾을 수 있어. 프랑스에서 가져오는 자로만 치수를 재지 말게.'],
     ['알렉세이', '예, 두 분이 일요일이면 똑같은 바닥에 무릎을 꿇으십니다. 월요일에 어머니의 무릎을 제가 일으켜 드릴 수 있으면 좋겠습니다.'],
   ],
   V47_MAIN01_A07: [
     ['폴리나', '안나 이바노브나, 오늘 주인이 열쇠를 가져간단다. 네가 비워도 마리야는 들이지 말라더구나. 나더러 그 애의 자리를 어디에 펴 주라는 것인지.'],
-    ['안나', '그 양반 저번 주일에 헌금 접시까지 붙들고 서 있었소. 마리야가 빨아 준 수건이 그 손에 들려 있었지요.'],
-    ['폴리나', '수요일이면 내 이자 받으러 오신다. 주일하고는 두 사람 같지. 나도 그 두 분을 다 한 분이라 부르며 산다.'],
-    ['안나', '문에 부채 달아 놓듯 제 이름을 달아 두고 마리야를 안에 두오. 내가 한 푼 못 받아 돌아와도 적어도 있던 자리는 있어야지요.'],
+    ['안나', '레프는 책을 못 팔아서 돈을 못 준다지요. 내가 기운 외투는 벌써 입고 다니던데. 책은 못 나갔어도 그 양반은 날마다 문밖으로 나가오.'],
+    ['폴리나', '나도 수요일이면 이자를 낸다. 집주인한테는 그 말이 참 쉬운데, 네 앞에서 하려니 입이 떨어지지 않는구나.'],
+    ['안나', '주인이 묻거든 내가 아직 그 방에 산다고 해 줘요. 마리야는 서서 신 한 짝도 못 신는 사람인데 오늘 밤 어디로 보냅니까.'],
   ],
   V47_MAIN01_A08: [
     ['파벨', '인쇄소 끈이 수레 뒤에 끌렸소. 차양이 내려와 누가 몰았는지는 못 봤지만, 바퀴가 돌을 때릴 때 한 짝만 덜컹거렸지요.'],
@@ -297,15 +298,17 @@ const scriptedDialogue = {
   V47_MAIN01_A10: [
     ['바실리', '다리야, 내 모자를 본 적 있소? 됐소, 책부터 내주오. 파벨이 네프스키 끝에서 기다린다오. 내일은 그 가게 뒷문마저 닫힐 테니.'],
     ['다리야', '모자는 거기 있어요. 이리 와서 이 사람 손이나 받쳐요. 숨이 올 때마다 제 손이 내려가니 혼자서는 못 받치겠소.'],
-    ['부상자', '신을 빌렸소. 그 한 짝을 못 찾으면 언니가 내일 장에 맨발로 나가요.'],
-    ['바실리', '책 한 짐이라야 아버지 댁의 마부도 승낙한단 말이오. 이분이 가다가 죽으면 그 사람이 짐을 쌀 테고.'],
+    ['마르파', '센나야에서 언니하고 생선을 팔아요. 인쇄소에서 못 쓰는 종이가 있으면 좀 사려 했는데요. 신 한 짝 떨어진 건 못 보셨소? 내일은 언니가 신고 나가야 해요.'],
+    ['다리야', '주소만 일러 줘요. 신은 내가 찾아 보낼게요.'],
+    ['마르파', '고맙소. 그리고 나는 병원에 가겠어요. 아까부터 내가 죽으면 어쩌는지는 다들 묻던데, 아직 내게 물으실 것도 있잖소.'],
+    ['바실리', '다리야, 마부가 맡은 건 책 한 짐이었소. 이분이 가다가 죽으면 아버님은 그자에게 왜 태웠느냐고 물으실 거요.'],
     ['소피야', '손을 받으라는데 어른 이름부터 꺼내시는군. 그 어른 댁 정문에 들어갈 줄 아는 사람은 여기 당신뿐입니까?'],
-    ['바실리', '나는 내일도 아버님 상에서 차를 마십니다. 그자는 그동안 부엌에서 짐을 싸지요. 그 집 사정을 모르시면 책이나 주시오.'],
+    ['바실리', '내일 아버님이 나를 용서하실 때면 저 사람은 문밖일 거요. 우리 집에선 죄를 용서하는 데 자리가 두 개 듭니다. 하나는 차 마실 자리요. 하나는 짐을 쌀 자리지.'],
     ['알렉세이', '그럼 이 집에 처음 들어온 사람을 불러 주십시오. 부도치니크가 문 앞에 왔습니다. 마부도 들이라 하시고요.'],
     ['다리야', '짐수레가 큰길 어귀를 가로막았습니다. 안뜰 옆 대문은 열려 있어요. 거기 있는 마차는 한 대요.'],
-    ['마부', '나리, 부엌문에 서 본 적 있으시오? 주인어른은 도련님보다 먼저 저를 거기 불러 세웁니다. 아침에 어디로 오실 겁니까?'],
-    ['알렉세이', '이 사람을 태우면, 자네보다 먼저 정문에 가겠네. 우리 둘을 보아야 문을 열도록 하겠어. 이 등불 든 분도 듣고 계시니.'],
-    ['산파 아브도티야', '마부 양반, 저분 약속을 믿으시겠소? 못 믿겠거든 스테판, 내 외투를 가지고 큰길로 가요. 다만 외투를 벗어 넘길 동안 이분 곁에는 누가 있소?'],
+    ['마부', '나리, 그 댁 정문은 제가 열어 드리오. 내 이름을 부르는 건 언제나 부엌 쪽인데. 아침에 어디로 오실 겁니까?'],
+    ['알렉세이', '내가 정문으로 먼저 가겠네. 이분도 들으셨으니 내일 문 안에서 자네 이름을 부르거든 내 이름부터 대게.'],
+    ['산파 아브도티야', '못 믿겠거든 스테판, 내 외투를 이리나에게 맡겨요. 그 삯으로 큰길에서 다른 마차를 부릅시다.'],
   ],
   V47_MAIN01_A11: [
     ['편집자 소피야', '《동시대인》에서 구독자들에게 편지를 보냈어요. 인쇄된 연감을 우리 손으로 못 내놓았다고. 아침부터 사람을 기다리고는 있는데 책을 달라 할까 보아 자꾸 문간으로 나가 보게 되는군요.'],
@@ -409,7 +412,7 @@ export function toV47StoryQuests() {
       prerequisiteQuestIds: beatData.prerequisiteQuestIds,
       titleKo: beatData.titleKo,
       chapterId,
-      premiseKo: beatData.objectiveKo,
+      premiseKo: beatData.storyId === 'MAIN01' ? beatData.sourceContextKo : beatData.objectiveKo,
       storyContextKo: beatData.sourceContextKo,
       actions: beatData.actions,
       optionalStoryBeat: true,

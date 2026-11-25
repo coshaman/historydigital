@@ -29,7 +29,7 @@
       "contextQuestId": "V47_MAIN01_A03",
       "titleKo": "어린아이의 눈으로 본 탈니코프 집안",
       "situationKo": "아이의 장례를 다 읽고도 인쇄소 사람들은 모피옷 얘기를 한다. 소피야는 원고를 덮지 않았고 산파는 돌아갈 채비를 한다.",
-      "stakesKo": "집안의 일을 독자에게 보여 줄지, 글에서 확인할 수 있는 범위를 어디까지로 볼지 정한다.",
+      "stakesKo": "아이를 잃은 집에서 누가 울 수 있고, 누가 아이를 돌보는 값을 요구할 수 있는지 이야기한다.",
       "topicId": "literature",
       "requiredPerspectiveCount": 2,
       "sourceIds": ["V47-PANAEVA-TALNIKOV-CH1-1848"],
