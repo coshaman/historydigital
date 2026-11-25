@@ -1371,7 +1371,7 @@ function selectV47Story(storyId) {
   if (!entry || !guide) return;
   let next = copy(state);
   const enteringStory = state.world.v47?.focusStoryId !== storyId;
-  if (enteringStory && (storyId === 'MAIN01' || storyId === 'MAIN03')) {
+  if (enteringStory && guide.status !== 'COMPLETE' && (storyId === 'MAIN01' || storyId === 'MAIN03')) {
     const started = startV47StoryEntry(state, storyId, questList, campaign, maps);
     if (!started.ok) { sayRecord('이 이야기를 시작할 수 없습니다.'); return; }
     next = started.state;
@@ -1382,13 +1382,18 @@ function selectV47Story(storyId) {
   if (enteringStory) delete next.player.dialogueGrowth.trackedDiscussion;
   setState(next);
   localStorage.setItem('v33-rpg-save', saveGame(next));
+  if (guide.status === 'COMPLETE') {
+    say(`${entry.titleKo} · ${entry.statusLabelKo}`, entry.introKo, [
+      { label: '후일담 다시 보기', run: openJournal },
+      { label: '다른 현장 고르기', run: openHistoricalEventMenu },
+    ]);
+    return;
+  }
   const activeTask = guide.status === 'READY'
     ? `지금 할 일 · ${guide.currentTitleKo}\n${guide.currentTaskKo}`
     : guide.status === 'WAITING_FOR_DATE'
       ? `첫 장면 · ${guide.currentTaskKo}`
-      : guide.status === 'WAITING_FOR_CAMPAIGN'
-        ? `먼저 할 퀘스트 · ${guide.currentTitleKo}\n${guide.currentContextKo || guide.currentTaskKo}`
-        : '이 이야기는 끝났습니다. 수첩에서 남긴 선택을 확인하거나 다른 현장을 고르세요.';
+      : `먼저 할 퀘스트 · ${guide.currentTitleKo}\n${guide.currentContextKo || guide.currentTaskKo}`;
   const activities = entry.activitiesKo?.length
     ? `\n\n현장 활동\n${entry.activitiesKo.map(item => `· ${item.labelKo} — ${item.startKo}`).join('\n')}` : '';
   const nextActions = [

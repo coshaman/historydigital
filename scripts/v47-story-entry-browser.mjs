@@ -1,15 +1,14 @@
 import assert from 'node:assert/strict';
 import { readFile, mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
-import { chromium } from 'playwright';
 import { mimeTypeFor } from '../server-mime.mjs';
+
+const { chromium } = await import(process.env.V47_PLAYWRIGHT_MODULE ?? 'playwright');
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staticRoot = path.join(root, 'dist-v33');
 const output = path.resolve(process.env.V47_STORY_ENTRY_OUTPUT ?? path.join(root, 'artifacts/v47/STORY_ENTRY'));
-const require = createRequire(import.meta.url);
 const executablePath = process.env.PLAYWRIGHT_EXECUTABLE_PATH || 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 const browser = await chromium.launch({ headless: true, executablePath });
 try {
@@ -50,28 +49,27 @@ try {
     await page.locator('#mission-reason').textContent(), await page.locator('#mission-method').textContent()].join('\n');
   assert.match(mission, /금지된 삽화 연감/);
   assert.match(mission, /도입 퀘스트|먼저 할 퀘스트/);
-  assert.match(mission, /인쇄|교정|구독|부록/);
+  assert.match(mission, /《동시대인》을 기다리는 사람들.*E를 눌러 살펴보세요 · 책방 안쪽/);
   const selectedStory = await page.locator('#journal-text').textContent();
-  assert.match(selectedStory, /기다리는 손님은 늘고.*구독 장부부터 확인해 보자/s,
+  assert.match(selectedStory, /지금 할 일 · 《동시대인》을 기다리는 사람들\s+서점에서 다리야와 연감 이야기를 하고 인쇄소에 갈 사람을 정한다/,
     'a first-time player sees the opening situation and first concrete action');
-  for (const activity of ['날짜 퀴즈', '파벨 추격', '현장 문서 탐색', '신문 종이·잉크 구매']) {
+  for (const activity of ['날짜 퀴즈', '수레 추격과 도주', '현장 문서 탐색', '신문 종이·잉크 구매']) {
     assert.ok(selectedStory.includes(activity), `MAIN01 selection surfaces its playable ${activity} activity`);
   }
-  for (const direction of ['인쇄소 날짜 대조판', '파벨로 빙의해 책방 골목', '종이 모양 자료나 책', '레프의 가판']) {
+  for (const direction of ['인쇄소 날짜 대조판', '책방 골목 · 파벨로', '종이 모양 자료나 책', '레프의 가판']) {
     assert.ok(selectedStory.includes(direction), `MAIN01 activity explains where or how to start: ${direction}`);
   }
   await page.screenshot({ path: path.join(output, 'MAIN01-SELECTED.png'), fullPage: true });
   await page.locator('#actions button').filter({ hasText: '현재 퀘스트 확인 · 《동시대인》을 기다리는 사람들' }).click();
   assert.equal(await page.locator('#quest-journal').evaluate(element => element.open), true,
     'the story selection opens the notebook directly on its current required task');
-  assert.match(await page.locator('#journal-goal-action').textContent(), /구독 장부|부록/);
+  assert.match(await page.locator('#journal-goal-action').textContent(), /《동시대인》을 기다리는 사람들.*E를 눌러 살펴보세요/);
   await page.locator('#journal-close').click();
   await page.locator('#history-events-open').click();
   await page.locator('#actions button').filter({ hasText: '금지된 삽화 연감' }).click();
   await page.locator('#actions button').filter({ hasText: '퀘스트에 맞는 인물 고르기' }).click();
   assert.equal(await page.locator('.roster-card').count() > 0, true,
     'the selected scenario can open the roster immediately to choose its quest character');
-  assert.ok(errors.length === 0, `browser has no page errors: ${errors.join('; ')}`);
   await page.screenshot({ path: path.join(output, 'MAIN01-ROSTER.png'), fullPage: true });
   await page.setViewportSize({ width: 390, height: 844 });
   const mobilePanel = await page.locator('.lower').evaluate(element => ({ height: element.getBoundingClientRect().height,
@@ -79,7 +77,28 @@ try {
   assert.equal(mobilePanel.maxHeight, 'none', 'mobile journal panel is not clipped by a desktop height cap');
   assert.ok(mobilePanel.height >= 300 && mobilePanel.height <= mobilePanel.viewportHeight, 'mobile panel fits the viewport while retaining usable space');
   await page.screenshot({ path: path.join(output, 'MAIN01-SELECTED-390x844.png'), fullPage: true });
+  await page.evaluate(() => {
+    const key = 'v33-rpg-save';
+    const { state } = JSON.parse(localStorage.getItem(key));
+    for (const [id, quest] of Object.entries(state.quests)) {
+      if (id.startsWith('V47_MAIN01_')) quest.status = 'resolved';
+    }
+    state.world.v47.focusStoryId = 'MAIN03';
+    localStorage.setItem(key, globalThis.V33GameState.saveGame(state));
+  });
+  await page.reload({ waitUntil: 'domcontentloaded' });
+  await page.waitForFunction(() => document.documentElement.dataset.gameReady === 'true');
+  if (await page.locator('#tutorial-skip').isVisible()) await page.locator('#tutorial-skip').click();
+  await page.locator('#history-events-open').click();
+  await page.locator('#actions button').filter({ hasText: '금지된 삽화 연감 · 완료' }).click();
+  assert.equal(await page.locator('#headline').textContent(), '금지된 삽화 연감 · 완료',
+    'a completed story can be selected even when another story was focused');
+  assert.doesNotMatch(await page.locator('#actions').textContent(), /undefined|현재 퀘스트 확인|퀘스트에 맞는 인물/);
+  await page.getByRole('button', { name: '후일담 다시 보기', exact: true }).click();
+  assert.equal(await page.locator('#quest-journal').evaluate(element => element.open), true);
+  assert.equal(await page.locator('#journal-quest-title').textContent(), '금지된 삽화 연감 · 이야기 완료');
+  assert.deepEqual(errors, [], 'fresh entry and completed-story review do not raise browser errors');
   await mkdir(output, { recursive: true });
-  await writeFile(path.join(output, 'BROWSER-ENTRY-TRACE.json'), `${JSON.stringify({ status: 'PASS', viewports: ['1440x900', '390x844'], mobilePanel, menuLabels: ['MAIN01', 'MAIN03', 'MAIN05'], mission, contentAudit: { quiz: 'dated-source ordering puzzle', exploration: 'multiple physical city maps', purchase: 'city bookseller product transaction', chase: 'three timed, walkable MAIN01 route checkpoints' }, pageErrors: errors }, null, 2)}\n`);
+  await writeFile(path.join(output, 'BROWSER-ENTRY-TRACE.json'), `${JSON.stringify({ status: 'PASS', viewports: ['1440x900', '390x844'], mobilePanel, menuLabels: ['MAIN01', 'MAIN03', 'MAIN05'], mission, completedStoryReview: 'PASS', contentAudit: { quiz: 'dated-source ordering puzzle', exploration: 'multiple physical city maps', purchase: 'city bookseller product transaction', chase: 'four timed, walkable MAIN01 route checkpoints' }, pageErrors: errors }, null, 2)}\n`);
   console.log(JSON.stringify({ status: 'PASS', menuLabels: ['MAIN01', 'MAIN03', 'MAIN05'], mission, mobilePanel, pageErrors: errors, screenshots: output }, null, 2));
 } finally { await browser.close(); }
