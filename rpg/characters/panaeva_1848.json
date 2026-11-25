@@ -45,7 +45,7 @@
       "id": "V47_PANAEVA_TALNIKOV_READING",
       "kind": "STORY",
       "titleKo": "작가의 첫 장",
-      "descriptionKo": "탈니코프 가족의 첫 장을 읽고 독자에게 전할 메모를 남긴다.",
+      "descriptionKo": "탈니코프 가족의 첫 장을 아브도티야에게 건네 다른 일터에서도 읽게 한다.",
       "fallbackKo": "인쇄소에서 본문을 읽은 뒤 첫 장 메모를 독자에게 맡긴다.",
       "successCondition": { "type": "QUEST_ACTION", "questId": "V47_MAIN01_A03", "actionId": "V47_A03_PANAEVA_READING_NOTE" }
     }

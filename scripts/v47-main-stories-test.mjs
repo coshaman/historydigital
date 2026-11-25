@@ -20,15 +20,15 @@ const almanacOpening = storyBeatQuests.find(quest => quest.id === 'V47_MAIN01_A0
 assert.deepEqual(almanacOpening.actions.map(action => action.id), [
   'V47_A01_OPEN_SUBSCRIBER_LEDGER', 'V47_A01_SEND_PAVEL_TO_PRINTSHOP',
 ], 'the first almanac scene lets the player confirm the subscriber or send a courier to the printshop');
-assert.ok(almanacOpening.actions[0].effects.v47WorldChange.inventory.some(item => item.itemKo === '부록 예약 영수증')
+assert.ok(almanacOpening.actions[0].effects.v47WorldChange.inventory.some(item => item.itemKo === '함께 읽는 《동시대인》')
   && almanacOpening.actions[1].effects.v47WorldChange.inventory.some(item => item.itemKo === '인쇄소 확인 쪽지'),
-'the opening branches leave a receipt or a physical inquiry note and dispatch the courier');
+'the opening branches hand over a magazine or a physical inquiry note and dispatch the courier');
 const visibleAlmanacChanges = questOutcomeSummary(almanacOpening.actions[0], {
   hostNames: new Map([['printer_ekaterina', '예카테리나'], ['print_apprentice_stepan', '스테판'], ['bookseller_lev', '레프']]),
   mapNames: new Map([['printshop', '인쇄소']]),
 });
-assert.ok(visibleAlmanacChanges.includes('부록 예약 영수증') && visibleAlmanacChanges.includes('신뢰가 쌓임'),
-'the subscriber-ledger action visibly shows its concrete receipt and relationship effect');
+assert.ok(visibleAlmanacChanges.includes('함께 읽는 《동시대인》') && visibleAlmanacChanges.includes('신뢰가 쌓임'),
+'shared reading shows the magazine transfer and relationship effect');
 const almanacStorySource = JSON.parse(await readFile(new URL('../rpg/data/historical-source-packets.json', import.meta.url), 'utf8'))
   .records.find(record => record.sourceId === 'V47-PANAEVA-TALNIKOV-CH1-1848');
 const almanacStoryIndex = JSON.parse(await readFile(new URL('../rpg/data/source-reader-index.json', import.meta.url), 'utf8'))
@@ -62,9 +62,9 @@ for (const questId of [
   assert.ok(scene.dialogue.every(turn => turn.speakerKo && turn.lineKo), `${questId} has readable speaker lines`);
 }
 const screenplayDialogueCoverage = [
-  ['D-A1', 'V47_MAIN01_A01', '부록 주문은 장부에 있는데'],
-  ['D-A2', 'V47_MAIN01_A05', '누가 한 말인지 흐려지겠어'],
-  ['D-A3', 'V47_MAIN01_A11', '그럼 제 품삯은 누구 이름으로 미룹니까?'],
+  ['D-A1', 'V47_MAIN01_A01', '부디 우리 집으로는 보내지 마세요.'],
+  ['D-A2', 'V47_MAIN01_A05', '그 주막이 낯설어졌습니다.'],
+  ['D-A3', 'V47_MAIN01_A11', '자기 부엌에서 남들보다 한 시간 늦게 일어나고 싶다'],
   ['D-A4', 'V47_MAIN01_SUBSCRIBER_REPLY', '지금 내 손엔 보낼 책이 없소.'],
   ['D-B1', 'V47_MAIN03_P01', '길에서도 같은 말을 할 수 있을지는 사람마다 다르겠지요.'],
   ['D-B2', 'V47_MAIN03_P03', '가진 돈이 없는 사람은 어디서부터 함께할 수 있습니까?'],
@@ -81,8 +81,8 @@ for (const questId of ['V47_MAIN01_DISTRIBUTION_BAN', 'V47_MAIN01_A11']) {
   const scene = allV47StoryQuests.find(quest => quest.id === questId);
   assert.equal(scene.dialogue.some(turn => turn.speakerKo === '네크라소프'), false,
     `${questId} must not present the newly written wage line as a historical Nekrasov utterance`);
-  assert.ok(scene.dialogue.some(turn => turn.speakerKo === '스테판' && turn.lineKo.includes('품삯')),
-    `${questId} retains the fictional worker's concrete wage conflict`);
+  assert.ok(scene.dialogue.some(turn => turn.speakerKo === '스테판'),
+    `${questId} keeps the apprentice in the scene`);
 }
 for (const [sceneId, questId, lineFragment] of screenplayDialogueCoverage) {
   const scene = allV47StoryQuests.find(quest => quest.id === questId);
@@ -103,8 +103,8 @@ assert.equal(questChoices(storyBeatQuests.find(quest => quest.id === 'V47_MAIN01
   'reading only the earlier letter still leaves the new assessment required');
 assert.equal(questChoices(storyBeatQuests.find(quest => quest.id === 'V47_MAIN01_A05'), 'clerk_alexei', ['V47-PANAEV-LETTER-1848-08-20', 'V47-KRYLOV-ASSESSMENT-1848-09-06']).every(row => row.missingSourceId === null), true,
   'A05 decisions unlock after both sources are read');
-assert.ok(reviewChoices.some(action => action.labelKo === '보고서가 지적한 장면을 그대로 적는다')
-  && reviewChoices.some(action => action.labelKo === '단어만 지우면 그 집의 일이 없어집니까?'),
+assert.ok(reviewChoices.some(action => action.labelKo === '「탈니코프 가족」을 빼고 다시 청한다')
+  && reviewChoices.some(action => action.labelKo === '위원장에게 이의를 전한다'),
 'D-A2 choices follow the screenplay conflict about the scene under review, not generic office procedure');
 const salonChoices = storyBeatQuests.find(quest => quest.id === 'V47_MAIN03_P01').actions;
 assert.ok(salonChoices.some(action => action.labelKo === '선언문에 적힌 ‘무질서’라는 말을 다시 읽는다')
@@ -148,7 +148,7 @@ assert.equal(julianDateToGregorian('1849-04-23'), '1849-05-05', 'Russian histori
 assert.deepEqual(getV47CompletionGuidance({ world: { v47: { focusStoryId: 'MAIN01' } }, ledger: [
   { questId: 'V47_MAIN01_A11', outcomeKo: '사본은 안나의 손에 남았다.' },
 ] }, [{ id: 'V47_MAIN01_A11', storyId: 'MAIN01' }], { 'V47_MAIN01_A11': { status: 'resolved' } }), {
-  questTitleKo: '금지된 삽화 연감 · 이야기 완료', actionKo: '마지막 장부의 선택이 남긴 결과를 확인한다.',
+  questTitleKo: '금지된 삽화 연감 · 이야기 완료', actionKo: '마차가 떠난 뒤 사람들의 이야기를 확인한다.',
   reasonKo: '사본은 안나의 손에 남았다.', howKo: '이 장은 끝났습니다. 1849년으로 이어가거나 수첩에서 선택의 결과를 다시 볼 수 있습니다.', target: null,
 }, 'after the focused story ends, the journal replaces stale unrelated legacy guidance with its actual aftermath');
 const historicalAnchors = WORLD_EVENT_ANCHORS;
@@ -423,7 +423,26 @@ for (const beat of v47StoryBeats.filter(row => row.storyId === 'MAIN01')) {
 const a10 = v47StoryBeats.find(row => row.id === 'V47_MAIN01_A10');
 assert.equal(a10.date, '1848-12-06', 'the November 24 Julian book scene is dated correctly on the Gregorian game clock');
 assert.deepEqual(a10.sourceIds, [], 'the bookshop scene leaves the subscriber letter for the following printshop scene');
-assert.match(a10.sourceContextKo, /이 장면에서 다루지 않고 다음 인쇄소 장면에서 확인한다/);
+assert.match(a10.sourceContextKo, /다친 사람/);
+assert.ok(a10.actions[0].effects.v47WorldChange.flags.V47_A10_INJURED_RIDES);
+assert.ok(a10.actions[1].effects.v47WorldChange.flags.V47_A10_BOOK_RIDES);
+const carriageAftermath = v47StoryBeats.find(row => row.id === 'V47_MAIN01_A11');
+assert.ok(carriageAftermath.prerequisiteQuestIds.includes(a10.id));
+assert.ok(carriageAftermath.actions.every(action => action.requiredKnowledgeId === 'V47-NEKRASOV-SUBSCRIBER-LETTER-1848'));
+const delayedAftermath = advanceV47World({
+  world: { date: carriageAftermath.date, clockMinutes: 540 }, hosts: {},
+  quests: { [a10.id]: { status: 'resolved' }, [carriageAftermath.id]: { status: 'open' } },
+}, { date: '1848-12-14', clockMinutes: 540 });
+assert.equal(delayedAftermath.world.v47.events[carriageAftermath.id].autonomousOutcome, undefined);
+assert.equal(delayedAftermath.quests[carriageAftermath.id].status, 'open');
+const oldSalonSave = advanceV47World({
+  world: { date: a10.date, clockMinutes: 540, v47: { events: {
+    [a10.id]: { id: a10.id, status: 'RESOLVED', npcAutonomy: { status: 'RESOLVED_UNATTENDED', outcomeApplied: true } },
+  } } },
+  hosts: {}, quests: { [a10.id]: { status: 'open' } },
+}, { date: a10.date, clockMinutes: 541 });
+assert.equal(oldSalonSave.quests[a10.id].status, 'resolved', 'an applied legacy salon choice unblocks the aftermath');
+assert.equal(oldSalonSave.world.worldFlags?.V47_A10_INJURED_RIDES, undefined, 'a legacy reading is not a new carriage decision');
 assert.equal(datedSourceAccess('OBJ-BELINSKY-LETTER-GOGOL-1847', '1849-04-26'), false,
   'the private letter appears only when the documented meeting copy is available');
 assert.equal(datedSourceAccess('OBJ-BELINSKY-LETTER-GOGOL-1847', '1849-04-27'), true);

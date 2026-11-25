@@ -68,7 +68,7 @@ test('history menu exposes all three V47 main stories with player-facing names',
   const entries = v47StoryMenuEntries();
   assert.deepEqual(entries.map(entry => entry.id), ['MAIN01', 'MAIN03', 'MAIN05']);
   assert.match(entries[0].titleKo, /금지된 삽화 연감/);
-  assert.match(entries[0].firstTaskKo, /구독 장부/);
+  assert.match(entries[0].firstTaskKo, /다리야/);
 });
 
 test('MAIN01 selection starts its dated story instead of gating it behind 1847 campaign quests', () => {
@@ -77,7 +77,7 @@ test('MAIN01 selection starts its dated story instead of gating it behind 1847 c
   assert.equal(guide.status, 'READY');
   assert.equal(guide.storyQuestId, 'V47_MAIN01_A01');
   assert.equal(guide.currentQuestId, 'V47_MAIN01_A01');
-  assert.match(guide.currentTaskKo, /구독 장부/);
+  assert.match(guide.currentTaskKo, /다리야/);
 });
 
 test('starting MAIN01 moves the player to its first scene and keeps a character in its role cast', () => {
@@ -142,8 +142,8 @@ test('historical locations menu identifies MAIN01 as directly startable from the
   const entry = resolveV47StoryMenuEntries(state, [...quests, printshopQuest], campaign).find(item => item.id === 'MAIN01');
   assert.equal(entry.status, 'READY');
   assert.equal(entry.statusLabelKo, '지금 시작');
-  assert.equal(entry.currentTitleKo, '부록은 어디 있습니까?');
-  assert.match(entry.menuTaskKo, /구독 장부/);
+  assert.equal(entry.currentTitleKo, '《동시대인》을 기다리는 사람들');
+  assert.match(entry.menuTaskKo, /다리야/);
   assert.doesNotMatch(entry.menuTaskKo, /교정쇄의 행선지/);
 });
 
@@ -153,11 +153,11 @@ test('ready MAIN01 menu gives a direct first objective and lists playable activi
   state.quests.V47_MAIN01_A01 = { status: 'open' };
   const entry = resolveV47StoryMenuEntries(state, quests, campaign).find(item => item.id === 'MAIN01');
   assert.equal(entry.status, 'READY');
-  assert.match(entry.menuTaskKo, /구독 장부/);
+  assert.match(entry.menuTaskKo, /다리야/);
   assert.deepEqual(entry.activitiesKo.map(item => item.type), ['quiz', 'chase', 'exploration', 'purchase']);
   assert.deepEqual(entry.activitiesKo.map(item => item.startKo), [
     '1848년 11월 30일 · 인쇄소 날짜 대조판에서 기록 네 장을 순서대로 놓는다',
-    '1848년 10월 25일 · 파벨로 빙의해 책방 골목에서 세 흔적을 45분 안에 쫓는다',
+    '책방 골목 · 파벨로 수레를 따라가 꾸러미를 챙기고 안뜰 대문으로 빠져나간다',
     '각 장면 · 종이 모양 자료나 책 가까이에서 살펴보기를 눌러 읽는다',
     '네프스키 거리 · 레프의 가판을 살펴보고 종이와 잉크를 산다',
   ], 'every listed activity tells the player when, where, and how to begin');
@@ -295,8 +295,8 @@ test('MAIN01 printwork guidance explains the seven physical stages and when the 
   state.hosts.clerk_alexei.mapId = 'printshop';
   state.hosts.clerk_alexei.position = { ...state.player.position };
   const alternateRole = resolveQuestGuidance({ state, quests, maps, hostCards });
-  assert.match(alternateRole.actionKo, /허가 도장을 장부에 옮긴다/u);
-  assert.match(alternateRole.howKo, /「허가 도장을 장부에 옮긴다」를 선택/u);
+  assert.match(alternateRole.actionKo, /인쇄소에 작업을 시작하라고 알린다/u);
+  assert.match(alternateRole.howKo, /「인쇄소에 작업을 시작하라고 알린다」를 선택/u);
 });
 
 test('MAIN01 courier can enter the bookstore for the reservation quest assigned to Pavel', () => {
@@ -387,7 +387,7 @@ test('MAIN01 completion advances with its story-scoped chapter requirements', as
 test('MAIN01 roster possession recovers a host spawned on a blocked tile before routing to the source', () => {
   const storyQuest = {
     id: 'V47_MAIN01_A03', chapterId: 'V33_1848_PUBLIC', date: '1848-05-06',
-    titleKo: '작품의 가족을 두고 말하다', entry: { mapId: 'printshop', objectId: 9062 },
+    titleKo: '아버지의 집', entry: { mapId: 'printshop', objectId: 9062 },
     actions: [{ id: 'READ_TALNIKOV', hostIds: ['editor_sofia'], requiredKnowledgeId: 'V47-PANAEVA-TALNIKOV-CH1-1848' }],
   };
   const state = game.createInitialState({ maps, hostCards, quests: [storyQuest], startMapId: 'nevsky' });
@@ -475,7 +475,7 @@ test('active MAIN01 parcel pursuit pins and routes to the next named trail', () 
     .find(object => object.properties.some(property => property.name === 'v47PursuitCheckpoint' && property.value === checkpoint.id));
   assert.equal(guide.target?.objectId, checkpointObject.id);
   assert.match(guide.actionKo, new RegExp(checkpoint.labelKo));
-  assert.match(guide.reasonKo, /45분/u);
+  assert.match(guide.reasonKo, /남은 시간 \d+분/u);
 });
 
 test('MAIN01 purchase activity uses a real city-stall transaction with inventory and money changes', () => {

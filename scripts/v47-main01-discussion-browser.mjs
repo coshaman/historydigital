@@ -2,8 +2,9 @@ import assert from 'node:assert/strict';
 import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { createRequire } from 'node:module';
-import { chromium } from 'playwright';
+const { chromium } = await import(process.env.V47_PLAYWRIGHT_MODULE ?? 'playwright');
 import { mimeTypeFor } from '../server-mime.mjs';
+import { attachV47StoryObjects } from '../rpg/data/v47-main-stories.mjs';
 import { attachV47StoryBeatObjects, toV47StoryQuests } from '../rpg/data/v47-story-beats.mjs';
 import { availableDiscussionQuests } from '../rpg/engine/discussion-quests.mjs';
 
@@ -11,6 +12,7 @@ const require = createRequire(import.meta.url);
 const game = require('../rpg/engine/game-state.js');
 const definitions = require('../rpg/data/discussion-quests.json');
 const main03 = process.argv.includes('--main03');
+const almanacReview = process.argv.includes('--almanac-review');
 const sample = main03
   ? { inquiryId: 'INQUIRY_MAIN03_ORDER_AND_CHANGE', actorId: 'student_vasily', firstId: 'minor_noble_andrei',
       secondId: 'student_vasily', nearbyId: 'printer_ekaterina', firstName: '안드레이', secondName: '바실리',
@@ -18,10 +20,18 @@ const sample = main03
       firstAnswer: '내가 아는 지주들은 소작지가 비게 될까 걱정할 거요. 그렇다고 농노에게 이사를 금할 까닭이 될 수는 없소.',
       secondAnswer: '일할 곳과 살 곳부터 자기가 고를 수 있어야죠. 그걸 내놓으라고 하면 지주가 무얼 잃는지부터 셉디다.',
       typedQuestion: '지주는 농노가 스스로 일을 정하게 해 달라고 하면 혼란이라고 보겠습니까?' }
-  : { inquiryId: 'INQUIRY_MAIN01_TALNIKOV_HOME', actorId: 'panaeva_1848', firstId: 'editor_sofia',
+  : almanacReview
+    ? { inquiryId: 'INQUIRY_MAIN01_BOUND_VOLUME', actorId: 'scribal_yuri', firstId: 'clerk_alexei',
+      secondId: 'senior_clerk_konstantin', nearbyId: 'senior_clerk_konstantin', firstName: '알렉세이', secondName: '콘스탄틴 바라노프',
+      nearbyName: '콘스탄틴', question: /알렉세이.*크릴로프/, sceneTitle: /크릴로프가 겁낸 독자/ }
+    : { inquiryId: 'INQUIRY_MAIN01_TALNIKOV_HOME', actorId: 'panaeva_1848', firstId: 'editor_sofia',
       secondId: 'midwife_avdotya', nearbyId: 'midwife_avdotya', firstName: '소피야', secondName: '아브도티야',
-      nearbyName: '아브도티야', question: /소피야.*탈니코프/, sceneTitle: /작품의 가족을 두고 말하다/ };
+      nearbyName: '아브도티야', question: /소피야.*탈니코프/, sceneTitle: /아버지의 집/ };
 const inquiry = definitions.quests.find(quest => quest.id === sample.inquiryId);
+if (almanacReview) {
+  sample.firstAnswer = inquiry.hosts[sample.firstId].answerKo;
+  sample.secondAnswer = inquiry.hosts[sample.secondId].answerKo;
+}
 const quests = toV47StoryQuests();
 const scene = quests.find(quest => quest.id === inquiry.contextQuestId);
 const mapId = scene.entry.mapId;
@@ -29,6 +39,7 @@ const loadDirectory = async directory => Promise.all((await readdir(directory))
   .filter(name => name.endsWith('.json')).map(async name => JSON.parse(await readFile(path.join(directory, name), 'utf8'))));
 const [mapList, hostCards] = await Promise.all([loadDirectory('rpg/maps'), loadDirectory('rpg/characters')]);
 const maps = Object.fromEntries(mapList.map(map => [map.mapId, map]));
+attachV47StoryObjects(maps);
 attachV47StoryBeatObjects(maps, quests);
 const seed = game.createInitialState({ maps, hostCards, quests, startMapId: mapId });
 seed.world.date = scene.date;
@@ -156,7 +167,7 @@ try {
   if (process.env.V47_BROWSER_OUTPUT) {
     await mkdir(process.env.V47_BROWSER_OUTPUT, { recursive: true });
     await stance.scrollIntoViewIfNeeded();
-    await page.screenshot({ path: path.join(process.env.V47_BROWSER_OUTPUT, `${scene.storyId.toLowerCase()}-discussion-stance-390.png`) });
+    await page.screenshot({ path: path.join(process.env.V47_BROWSER_OUTPUT, `${almanacReview ? 'main01-review' : scene.storyId.toLowerCase()}-discussion-stance-390.png`) });
   }
   await stance.click();
   const saved = await page.evaluate(() => JSON.parse(localStorage.getItem('v33-rpg-save')).state);
@@ -176,7 +187,7 @@ try {
   const report = { status: 'PASS', storyId: scene.storyId, width: 390, api: service ? 'mock-model' : '503',
     targetRestoredAfterReload: true, notes, stance: inquiry.playerPositionChoices[0].id, modelQuestions, browserErrors };
   if (process.env.V47_BROWSER_OUTPUT) {
-    await writeFile(path.join(process.env.V47_BROWSER_OUTPUT, `${scene.storyId.toLowerCase()}-discussion.json`), JSON.stringify(report, null, 2) + '\n');
+    await writeFile(path.join(process.env.V47_BROWSER_OUTPUT, `${almanacReview ? 'main01-review' : scene.storyId.toLowerCase()}-discussion.json`), JSON.stringify(report, null, 2) + '\n');
   }
   console.log(JSON.stringify(report));
 } finally {

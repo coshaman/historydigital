@@ -1,9 +1,11 @@
 import { walkableTilesReachableFromArrivals } from '../data/walkable-placement.mjs';
 
+export const MAIN01_PURSUIT_LIMIT = 70;
 export const MAIN01_PURSUIT_CHECKPOINTS = Object.freeze([
   { id: 'CANAL_END', labelKo: '운하 다리 아래', promptKo: '수레 자국이 젖은 포장길로 꺾인다.' },
   { id: 'PRINTSHOP_CORNER', labelKo: '인쇄소 모퉁이', promptKo: '바퀴 자국이 다시 큰길 쪽으로 이어진다.' },
-  { id: 'BOOKSHOP_GATE', labelKo: '책방 뒤편 문', promptKo: '문 앞에 멈춘 수레에서 봉인된 소포를 찾는다.' },
+  { id: 'BOOKSHOP_GATE', labelKo: '책방 뒤편 문', promptKo: '문 앞에 멈춘 수레에서 꾸러미를 찾는다. 큰길에서 초소의 등불이 다가온다.' },
+  { id: 'SIDE_GATE', labelKo: '안뜰의 작은 대문', promptKo: '파벨이 꾸러미를 안고 대문 안으로 빠져든다.' },
 ]);
 
 export function attachMain01PursuitObjects(maps) {
@@ -15,7 +17,7 @@ export function attachMain01PursuitObjects(maps) {
   const collision = map.layers.find(item => item.name === 'Collision')?.data ?? [];
   const reachable = walkableTilesReachableFromArrivals(map.mapId, maps);
   const occupied = map.layers.flatMap(item => item.objects ?? []).map(object => ({ x: Math.floor(object.x / 16), y: Math.floor(object.y / 16) }));
-  const preferred = [{ x: 4, y: 5 }, { x: 15, y: 13 }, { x: 25, y: 6 }];
+  const preferred = [{ x: 4, y: 5 }, { x: 15, y: 13 }, { x: 25, y: 6 }, { x: 17, y: 5 }];
   let nextId = Math.max(map.nextobjectid ?? 1, ...map.layers.flatMap(item => (item.objects ?? []).map(object => object.id + 1)));
   for (let index = 0; index < MAIN01_PURSUIT_CHECKPOINTS.length; index += 1) {
     const checkpoint = MAIN01_PURSUIT_CHECKPOINTS[index];
@@ -54,7 +56,7 @@ export function startMain01Pursuit(previousState, clockMinutes) {
 export function reachMain01PursuitCheckpoint(previousState, checkpointId, clockMinutes) {
   const state = structuredClone(previousState ?? createMain01PursuitState());
   if (state.status !== 'ACTIVE') return { accepted: false, state, reason: 'not_active' };
-  if (!Number.isInteger(clockMinutes) || clockMinutes - state.startedAtMinute > 45) {
+  if (!Number.isInteger(clockMinutes) || clockMinutes - state.startedAtMinute > MAIN01_PURSUIT_LIMIT) {
     state.status = 'MISSED'; state.finishedAtMinute = clockMinutes;
     return { accepted: false, state, reason: 'lost_trail' };
   }

@@ -158,10 +158,10 @@ test('V47 story conversations load the active beat, source context, and characte
   }));
   assert.equal(result.status, 200, JSON.stringify(result.body));
   assert.equal(providerInput.caseContext.questId, 'V47_MAIN01_A04');
-  assert.equal(providerInput.caseContext.sceneTitleKo, '마감 비용은 누가 낼까');
-  assert.match(providerInput.caseContext.premiseKo, /허구/);
-  assert.match(providerInput.caseContext.speakerPerspectiveKo, /임금 체불/);
-  assert.match(providerInput.caseContext.playerPerspectiveKo, /임금 체불/);
+  assert.equal(providerInput.caseContext.sceneTitleKo, '활자함을 닫는 사람');
+  assert.match(providerInput.caseContext.premiseKo, /밀린 품삯/);
+  assert.match(providerInput.caseContext.speakerPerspectiveKo, /밀린 품삯/);
+  assert.match(providerInput.caseContext.playerPerspectiveKo, /밀린 품삯/);
   assert.equal(providerInput.conversation.sceneContext.questId, 'V47_MAIN01_A04');
   assert.equal(providerInput.conversation.embodiedPlayer.id, 'print_apprentice_stepan');
 });

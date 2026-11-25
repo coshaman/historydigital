@@ -1,6 +1,6 @@
 import { questPrerequisitesMet } from './world-presentation.mjs';
 import { createMain01PrintworkState, main01PrintworkStage } from './v47-printwork.mjs';
-import { MAIN01_PURSUIT_CHECKPOINTS } from './v47-main01-pursuit.mjs';
+import { MAIN01_PURSUIT_CHECKPOINTS, MAIN01_PURSUIT_LIMIT } from './v47-main01-pursuit.mjs';
 
 const propsOf = object => Object.fromEntries((object?.properties ?? []).map(item => [item.name, item.value]));
 const tileOf = object => ({ x: Math.floor(object.x / 16), y: Math.floor(object.y / 16) });
@@ -287,7 +287,7 @@ export function resolveQuestGuidance({ state, quests, maps, hostCards }) {
       const place = destination({ state, maps, host: embodied, target });
       return { ...base, taskType: place.target?.kind === 'exit' ? 'TRAVEL' : 'INSPECT',
         actionKo: `추격 · ${checkpoint.labelKo}의 흔적 찾기`,
-        reasonKo: `45분 안에 세 흔적을 차례로 찾아야 합니다. 현재 찾을 곳은 ${checkpoint.labelKo}입니다.`,
+        reasonKo: `남은 시간 ${Math.max(0, MAIN01_PURSUIT_LIMIT - (state.world.clockMinutes - pursuit.startedAtMinute))}분 · ${checkpoint.labelKo}`,
         howKo: `${pathKo(place.walkDirections)} ${place.target?.kind === 'exit' ? '책방 골목으로 들어가세요.' : '금빛 흔적 곁에서 E를 누르세요. 찾으면 다음 장소가 표시됩니다.'}`,
         placeKo: place.placeKo, target: place.target, blocked: place.blocked, blockedReasonKo: place.blockedReasonKo };
     }

@@ -361,6 +361,18 @@
       "rights": "Public-domain 1848 assessment as cited in a scholarly edition; fresh project Korean translation."
     },
     {
+      "sourceId": "V47-KRYLOV-STATION-1848-WITNESS",
+      "type": "PRIMARY_CENSOR_ASSESSMENT_SCHOLARLY_TRANSCRIPTION",
+      "title": "Из отзыва А. Л. Крылова о повести «Встреча на станции»",
+      "creator": "А. Л. Крылов, цензор Санкт-Петербургского цензурного комитета",
+      "date": "1848-09-06 (Julian)",
+      "edition": "И. И. Панаев, Избранные произведения. Москва: ГИХЛ, 1962, предисловие, печатные с. 13–14.",
+      "url": "https://imwerden.de/pdf/panaev_izbrannye_proizvedeniya_1962__ocr.pdf#page=13",
+      "archiveLocator": "ф. 772, оп. 1, № 2157, л. 13",
+      "verificationStatus": "SCHOLARLY_TRANSCRIPTION_OF_PRIMARY_ARCHIVAL_REPORT; ARCHIVAL_FOLIO_NOT_VISUALLY_INSPECTED",
+      "rights": "Separate scholarly witness to the 1848 assessment; not a separate text circulating in 1848."
+    },
+    {
       "sourceId": "V47-MUSIN-PUSHKIN-REPORT-MARGIN-NOTE-1848-10-15",
       "type": "UNSIGNED_ARCHIVAL_MARGIN_NOTE_SCHOLARLY_TRANSCRIPTION",
       "title": "Карандашная помета на полях рапорта М. Н. Мусина-Пушкина",

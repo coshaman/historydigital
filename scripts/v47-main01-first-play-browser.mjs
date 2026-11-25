@@ -44,7 +44,7 @@ try {
   await page.locator('#actions button').filter({ hasText: '금지된 삽화 연감' }).click();
   const objective = await page.locator('#mission-method').innerText();
   const actionText = await page.locator('#mission-action').innerText();
-  assert.match(await page.locator('#mission-title').innerText(), /부록은 어디 있습니까/);
+  assert.match(await page.locator('#mission-title').innerText(), /《동시대인》을 기다리는 사람들/);
   assert.match(objective, /칸 이동한 뒤 E를 누르세요/);
   await page.screenshot({ path: path.join(output, '03-first-objective.png'), fullPage: true });
 
@@ -74,7 +74,7 @@ try {
   await page.locator('#use').click();
   await page.waitForTimeout(300);
   await page.screenshot({ path: path.join(output, '04-first-interaction.png'), fullPage: true });
-  const firstChoice = page.locator('#actions button').filter({ hasText: '구독 장부에서 이름을 찾는다' });
+  const firstChoice = page.locator('#actions button').filter({ hasText: '다리야와 《동시대인》을 함께 읽는다' });
   await firstChoice.waitFor({ state: 'visible', timeout: 10000 });
   await page.screenshot({ path: path.join(output, '04-first-choice.png'), fullPage: true });
   await page.setViewportSize({ width: 390, height: 844 });
@@ -148,7 +148,33 @@ try {
   await directEntry.waitForFunction(() => document.documentElement.dataset.gameReady === 'true');
   await directEntry.locator('[data-v47-story="MAIN01"]').click();
   assert.match(await directEntry.locator('#bodyname').innerText(), /레프/, 'the main-story tab starts the story from a fresh visit');
-  assert.match(await directEntry.locator('#mission-title').innerText(), /부록은 어디 있습니까/);
+  assert.match(await directEntry.locator('#mission-title').innerText(), /《동시대인》을 기다리는 사람들/);
+  const sessionStarts = [];
+  directEntry.on('request', request => { if (new URL(request.url()).pathname === '/api/rpg/session/start') sessionStarts.push(request.url()); });
+  const dialogueSave = await directEntry.evaluate(() => {
+    const saved = JSON.parse(localStorage.getItem('v33-rpg-save')).state;
+    const player = saved.hosts[saved.player.embodiment];
+    saved.player.position = { x: 12, y: 10 };
+    player.mapId = saved.world.currentMapId; player.position = { x: 12, y: 10 };
+    for (const host of Object.values(saved.hosts)) {
+      if (host.id !== player.id && host.mapId === saved.world.currentMapId) host.position = { x: 2, y: 2 };
+    }
+    Object.assign(saved.hosts.reader_darya, { mapId: saved.world.currentMapId, position: { x: 13, y: 10 }, historicalAliveAndPresent: true });
+    return window.V33GameState.saveGame(saved);
+  });
+  await directEntry.evaluate(save => localStorage.setItem('v33-rpg-save', save), dialogueSave);
+  await directEntry.reload({ waitUntil: 'domcontentloaded' });
+  await directEntry.waitForFunction(() => document.documentElement.dataset.gameReady === 'true');
+  await directEntry.locator('#talk').click({ timeout: 3000 });
+  assert.equal(await directEntry.locator('.dialogue-input').count(), 0, 'free text stays closed at the beginning of the story conversation');
+  assert.equal((await directEntry.locator('#actions button').count()) >= 4, true, 'three story choices and an exit are available');
+  for (let exchange = 0; exchange < 3; exchange += 1) {
+    await directEntry.locator('#actions button.quest-dialogue-choice').first().click();
+    if (exchange < 2) assert.equal(await directEntry.locator('.dialogue-input').count(), 0);
+  }
+  assert.equal(await directEntry.locator('.dialogue-input').count(), 1, 'free text opens only after the third authored exchange');
+  assert.equal(sessionStarts.length, 0, 'the game has not opened an AI session before the player elects to type');
+  assert.equal(errors.length, 0, `dialogue browser has no page errors: ${errors.join('; ')}`);
   await directEntry.close();
 
   const switchSave = await page.evaluate(() => {
@@ -174,7 +200,33 @@ try {
   await switchBody.click({ timeout: 5000 });
   assert.match(await page.locator('#bodyname').innerText(), /예카테리나/);
   assert.match(await page.locator('#mission-action').innerText(), /인쇄 작업 1\/7/);
-  console.log(JSON.stringify({ status: 'PASS', actionText, firstObjective: objective, openingChoice: '구독 장부에서 이름을 찾는다', journal: journalAfterChoice,
+  for (let step = 0; step < 12; step += 1) {
+    const instruction = await page.locator('#mission-method').innerText();
+    const move = instruction.match(/(왼쪽|오른쪽|위쪽?|아래쪽?)\s+(\d+)칸/);
+    if (!move) break;
+    const direction = move[1] === '위' ? '위쪽' : move[1] === '아래' ? '아래쪽' : move[1];
+    const key = { 왼쪽: 'ArrowLeft', 오른쪽: 'ArrowRight', 위쪽: 'ArrowUp', 아래쪽: 'ArrowDown' }[direction];
+    for (let i = 0; i < Number(move[2]); i += 1) { await page.keyboard.press(key); await page.waitForTimeout(120); }
+  }
+  await page.locator('#use').click();
+  const typeRack = page.locator('.type-setter-rack');
+  await typeRack.waitFor({ state: 'visible', timeout: 5000 });
+  await typeRack.scrollIntoViewIfNeeded();
+  const journalBeforeType = await page.locator('.journal').evaluate((element, rack) => ({ top: element.scrollTop,
+    rackBottom: rack.getBoundingClientRect().bottom, viewportBottom: element.getBoundingClientRect().bottom }), await typeRack.elementHandle());
+  const firstTile = page.locator('.type-tile').first();
+  assert.equal(await firstTile.isVisible(), true, 'the player can see and click the first Russian type tile');
+  await firstTile.click();
+  await page.waitForTimeout(80);
+  const journalAfterType = await page.locator('.journal').evaluate(element => ({ top: element.scrollTop,
+    client: element.clientHeight, scroll: element.scrollHeight }));
+  assert.equal(journalAfterType.top, journalBeforeType.top, 'choosing a type tile preserves the scroll position');
+  assert.match(await page.locator('.type-setter-composition').getAttribute('aria-label'), /활자 1\//);
+  await typeRack.scrollIntoViewIfNeeded();
+  assert.equal(await firstTile.isVisible(), true, 'the next type tile remains clickable after the screen redraws');
+  assert.equal(errors.length, 0, `page errors after opening printwork: ${errors.join('; ')}`);
+  await page.screenshot({ path: path.join(output, '10-printwork-typesetter-after-first-tile.png'), fullPage: true });
+  console.log(JSON.stringify({ status: 'PASS', actionText, firstObjective: objective, openingChoice: '다리야와 《동시대인》을 함께 읽는다', journal: journalAfterChoice,
     nextTitle: await page.locator('#mission-title').innerText(), nextAction: await page.locator('#mission-action').innerText(), nextMethod,
     roleGuidance, desktopLayout, mobileLayout, pageErrors: errors, screenshots: output }, null, 2));
   await context.close();

@@ -226,7 +226,7 @@ function getV47CompletionGuidance(state, quests = [], questStates = state?.quest
   if (!storyQuests.length || storyQuests.some(quest => questStates[quest.id]?.status !== 'resolved')) return null;
   return {
     questTitleKo: storyId === 'MAIN01' ? '금지된 삽화 연감 · 이야기 완료' : storyId === 'MAIN03' ? '혁명의 소식과 마지막 금요일 · 이야기 완료' : '콜레라가 도는 도시 · 이야기 완료',
-    actionKo: storyId === 'MAIN01' ? '마지막 장부의 선택이 남긴 결과를 확인한다.' : '이 장에서 내린 선택이 남긴 결과를 확인한다.',
+    actionKo: storyId === 'MAIN01' ? '마차가 떠난 뒤 사람들의 이야기를 확인한다.' : '이 장에서 내린 선택이 남긴 결과를 확인한다.',
     reasonKo: lastResult ?? '이 사건에서 내린 선택이 사람들의 삶에 남았다.',
     howKo: storyId === 'MAIN01'
       ? '이 장은 끝났습니다. 1849년으로 이어가거나 수첩에서 선택의 결과를 다시 볼 수 있습니다.'
@@ -249,7 +249,8 @@ function registerStoryBeats(quests = []) {
     historicalOutcomeFixed: ['V47_MAIN01_A06', 'V47_MAIN03_P11'].includes(quest.id),
     stage: quest.titleKo, titleKo: quest.titleKo, objectiveKo: quest.objectiveKo,
     mapId: quest.entry.mapId, objectId: quest.entry.objectId, hostIds: [...new Set(quest.actions.flatMap(action => action.hostIds))],
-    autonomousOutcome: quest.actions.find(action => action.effects?.v47WorldChange)?.effects?.v47WorldChange
+    // The printshop aftermath remains a player decision after reading the letter.
+    autonomousOutcome: quest.id !== 'V47_MAIN01_A11' && quest.actions.find(action => action.effects?.v47WorldChange)?.effects?.v47WorldChange
       ? { actionId: quest.actions.find(action => action.effects?.v47WorldChange).id,
         worldChange: quest.actions.find(action => action.effects?.v47WorldChange).effects.v47WorldChange }
       : null,
@@ -288,6 +289,21 @@ function ensureV47State(state) {
   state.world.v47 ??= createV47State();
   const v47 = state.world.v47;
   v47.events ??= {};
+  const oldSalon = v47.events.V47_MAIN01_A10?.npcAutonomy;
+  const salonQuest = state.quests?.V47_MAIN01_A10;
+  if (salonQuest?.status === 'open' && oldSalon?.status === 'RESOLVED_UNATTENDED' && oldSalon.outcomeApplied) {
+    salonQuest.status = 'resolved';
+  }
+  const oldAftermath = v47.events.V47_MAIN01_A11;
+  if (oldAftermath?.autonomousOutcome) {
+    delete oldAftermath.autonomousOutcome;
+    if (oldAftermath.npcAutonomy?.status === 'RESOLVED_UNATTENDED' && state.quests?.V47_MAIN01_A11?.status === 'open') {
+      state.quests.V47_MAIN01_A11.status = 'resolved';
+    } else if (oldAftermath.npcAutonomy?.status !== 'PLAYER_CHOSEN') {
+      oldAftermath.status = 'ACTIVE';
+      oldAftermath.npcAutonomy = { status: 'WAITING_FOR_PLAYER' };
+    }
+  }
   v47.observations ??= [];
   v47.relationships ??= {};
   v47.stories ??= createV47State().stories;

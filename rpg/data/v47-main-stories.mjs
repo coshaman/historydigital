@@ -13,25 +13,28 @@ const sceneDialogue = (...turns) => turns.map(([speakerKo, lineKo]) => ({ speake
 export const v47StoryQuests = [
   {
     id: 'V47_MAIN01_PERMISSION', titleKo: '허가 도장과 아직 나가지 못한 책', chapterId: 'V33_1848_PUBLIC', date: '1848-03-09',
-    objectiveKo: '인쇄소에서 제목을 조판하고, 교정쇄와 종이 상태를 확인해 출고를 준비한다.',
+    objectiveKo: '인쇄소에서 「탈니코프 가족」의 제목을 조판하고 첫 장을 찍을 준비를 한다.',
     premiseKo: '예카테리나가 활자함과 교정쇄를 앞에 두고 있다. 표제를 맞춘 뒤 종이 상태와 납기를 정하자.',
     entry: { mapId: 'printshop', objectId: 9047 }, sourceIds: [],
     actions: [
-      action('V47_A01_COLLATE_PROOFS', ['printer_ekaterina', 'print_apprentice_stepan'], '교정쇄와 활자 수를 맞춘다', '작업대 위 교정쇄와 활자 수를 대조했다. 인쇄 부수와 실제 판본 내용은 확인 가능한 자료가 확보될 때까지 장부에 추정치로 남겼다.', { situationKo: '1848년 연감 인쇄 작업을 시작했다.', flags: { V47_MAIN01_PROOFS_COLLATION: true } }),
+      action('V47_A01_COLLATE_PROOFS', ['printer_ekaterina', 'print_apprentice_stepan'], '교정쇄와 활자 수를 맞춘다', '스테판과 예카테리나가 표제를 맞춰 첫 장을 찍었다. 읽기에 앞서 책장을 제일 먼저 펼친 사람은 식자공이었다.', { situationKo: '1848년 연감 인쇄 작업을 시작했다.', flags: { V47_MAIN01_PROOFS_COLLATION: true } }),
       action('V47_A01_SECURE_WAGES', ['nekrasov_reconstruction', 'editor_sofia'], '먼저 작업자 품삯을 마련한다', '종이 대금보다 작업자 품삯부터 계산했다. 편집부는 출고가 늦어질 수 있다는 사실을 서점에 전해야 했다.', { situationKo: '연감 인쇄 작업의 임금 지급을 우선했다.', flags: { V47_MAIN01_WAGES_PRIORITIZED: true }, v47WorldChange: { money: [{ fromHostId: 'editor_sofia', toHostId: 'print_apprentice_stepan', amount: 2 }], relationships: [{ fromHostId: 'print_apprentice_stepan', toHostId: 'editor_sofia', trustDelta: 4 }] } }),
-      action('V47_A01_RECORD_PERMISSION', ['clerk_alexei'], '허가 도장을 장부에 옮긴다', '도장에 적힌 날짜를 장부에 옮겼다. 새 공문이 오면 다시 대조해야 한다.', { situationKo: '연감 허가 기록을 장부에 옮겼다.' }),
+      action('V47_A01_RECORD_PERMISSION', ['clerk_alexei'], '인쇄소에 작업을 시작하라고 알린다', '알렉세이가 예카테리나에게 허가 소식을 전한다. 인쇄소에 불이 들어온다.', { situationKo: '인쇄소에 연감 인쇄 허가를 알렸다.' }),
     ],
   },
   {
     id: 'V47_MAIN01_DISTRIBUTION_BAN', titleKo: '배포가 막힌 날', chapterId: 'V33_1848_PUBLIC', date: '1848-11-01',
+    premiseKo: '상트페테르부르크 검열위원회의 재심을 거쳐 국민계몽부 검열총국이 연감 발행을 금했다. 구력 10월 20일.',
     prerequisiteQuestIds: ['V47_MAIN01_PERMISSION'], entry: { mapId: 'printshop', objectId: 9048 }, sourceIds: ['V47-MUSIN-PUSHKIN-REPORT-MARGIN-NOTE-1848-10-15'],
     dialogueStatus: 'NEWLY_AUTHORED_FROM_V47_SCENARIO', dialogue: sceneDialogue(
-      ['스테판', '인쇄를 끝냈는데 책은 못 내보낸다고요? 사흘 밤을 매달렸습니다. 오늘 품삯은 누가 줍니까?'],
-      ['예카테리나', '창고에 묶음은 그대로 있어요. 수량부터 세고, 오늘 나눌 돈을 정해야겠어요.']),
+      ['스테판', '사흘 밤이오. 식자공은 잠이 와도 글자를 거꾸로 놓으면 안 되는 줄 알았소. 저분들은 허가를 거꾸로 놓고도 아침에 제 잠을 다 자고 오셨겠지요.'],
+      ['예카테리나', '쉿. 사람들은 문을 안 열면 우리가 돈을 가지고 달아난 줄 알 거야.'],
+      ['스테판', '못 읽게 하면 얌전한 책이 됩니까? 그럼 얌전해져야 할 건 책이 아니라 사람들 아닙니까?'],
+      ['예카테리나', '문 열어 봐. 술집에서 하던 말이 밖에서도 나오는지 나도 좀 듣자.']),
     actions: [
-      action('V47_A06_COUNT_STOCK', ['printer_ekaterina', 'bookseller_lev'], '창고의 묶음과 주문 장부를 맞춘다', '창고의 묶음 수와 서점 주문 장부를 한 줄씩 대조했다. 나갈 수 없는 책이 몇 권인지 이제 알 수 있다.', { situationKo: '창고 재고와 서점 주문을 대조했다.' }),
+      action('V47_A06_COUNT_STOCK', ['printer_ekaterina', 'bookseller_lev'], '인쇄소 문을 닫는다', '예카테리나가 작업자들을 먼저 내보내고 인쇄소 문을 닫는다. 사람들은 한동안 문 앞에서 기다린다.', { situationKo: '인쇄소를 닫아 작업자들을 내보냈다.' }),
       action('V47_A06_PAY_WORKERS', ['nekrasov_reconstruction', 'courier_pavel'], '남은 돈을 품삯과 환불에 나눈다', '품삯과 구독자 환불에 남은 돈을 나누었다. 어느 쪽을 먼저 갚았는지가 뒤의 인물 관계와 생계에 남는다.', { situationKo: '배포 금지 뒤 품삯과 환불을 나누어 지급했다.', flags: { V47_MAIN01_COMPENSATION_CHOSEN: true }, v47WorldChange: { money: [{ fromHostId: 'editor_sofia', toHostId: 'seamstress_anna', amount: 1 }, { fromHostId: 'editor_sofia', toHostId: 'print_apprentice_stepan', amount: 1 }], relationships: [{ fromHostId: 'seamstress_anna', toHostId: 'editor_sofia', trustDelta: 2 }, { fromHostId: 'print_apprentice_stepan', toHostId: 'editor_sofia', trustDelta: 2 }] } }),
-      action('V47_A06_KEEP_COPY', ['bookseller_lev', 'seamstress_anna'], '한 부를 따로 보관한다', '레프가 주문 묶음에서 한 부를 떼어 안나에게 맡겼다. 사본은 실제로 안나의 소지품에 남고, 보관 사실은 들은 사람에게만 알려진다.', { situationKo: '허구의 인쇄본 한 부를 따로 보관했다.', v47WorldChange: { inventory: [{ fromHostId: 'bookseller_lev', toHostId: 'seamstress_anna', itemKo: '보관 중인 연감 한 부', quantity: 1 }], relationships: [{ fromHostId: 'bookseller_lev', toHostId: 'seamstress_anna', trustDelta: 2 }], rumor: { id: 'V47_ALMANAC_COPY_STORED', fromHostId: 'bookseller_lev', hostIds: ['seamstress_anna'] }, flags: { V47_MAIN01_PRIVATE_COPY: true } }, flags: { V47_MAIN01_PRIVATE_COPY: true } }),
+      action('V47_A06_KEEP_COPY', ['bookseller_lev', 'seamstress_anna'], '한 부를 따로 보관한다', '레프가 묶음에서 한 부를 뽑는다. 안나는 연감을 수선 끝난 외투에 싸 안고 인쇄소를 나선다.', { situationKo: '허구의 인쇄본 한 부를 따로 보관했다.', v47WorldChange: { inventory: [{ fromHostId: 'bookseller_lev', toHostId: 'seamstress_anna', itemKo: '보관 중인 연감 한 부', quantity: 1 }], relationships: [{ fromHostId: 'bookseller_lev', toHostId: 'seamstress_anna', trustDelta: 2 }], rumor: { id: 'V47_ALMANAC_COPY_STORED', fromHostId: 'bookseller_lev', hostIds: ['seamstress_anna'] }, flags: { V47_MAIN01_PRIVATE_COPY: true } }, flags: { V47_MAIN01_PRIVATE_COPY: true } }),
     ],
   },
   {
@@ -41,8 +44,8 @@ export const v47StoryQuests = [
       ['파나예프', '구독자에게 보내기로 했소. 그런데 지금 내 손엔 보낼 책이 없소.'],
       ['레프', '손님들은 검열위원회보다 제 얼굴을 먼저 봅니다.']),
     actions: [
-      action('V47_A08_REFUND_SUBSCRIBERS', ['bookseller_lev', 'nekrasov_reconstruction'], '구독료를 돌려보낸다', '레프가 이름을 확인한 구독자에게 돈을 돌려보냈다. 장부에 남은 사람은 아직 기다리고 있다.', { situationKo: '구독료 일부를 돌려보냈다.' }),
-      action('V47_A08_SEND_LETTER', ['courier_pavel', 'editor_sofia'], '답신을 우편으로 보낸다', '파벨이 답신을 받아 우편 창구로 가져간다. 장부에는 발송이, 파벨의 소지품에는 전달할 봉투가 남는다.', { situationKo: '구독자 답신을 발송했다.', v47WorldChange: { inventory: [{ fromHostId: 'editor_sofia', toHostId: 'courier_pavel', itemKo: '구독자 답신 봉투', quantity: 1 }], moves: [{ hostId: 'courier_pavel', mapId: 'bookshop-lane', x: 7, y: 9 }], rumor: { id: 'V47_SUBSCRIBER_REPLY_IN_TRANSIT', fromHostId: 'courier_pavel', hostIds: ['bookseller_lev', 'editor_sofia'] }, flags: { V47_MAIN01_REPLY_SENT: true } }, flags: { V47_MAIN01_REPLY_SENT: true } }),
+      action('V47_A08_REFUND_SUBSCRIBERS', ['bookseller_lev', 'nekrasov_reconstruction'], '구독료를 돌려보낸다', '레프가 모인 구독자들에게 먼저 돈 일부를 돌려준다. 집에 돌아가지 않는 손님도 있다.', { situationKo: '구독료 일부를 돌려보냈다.' }),
+      action('V47_A08_SEND_LETTER', ['courier_pavel', 'editor_sofia'], '답신을 우편으로 보낸다', '파벨이 소식을 받아 우편 창구로 가져간다. 서점 앞에선 구독자들이 서로 소식을 전한다.', { situationKo: '구독자 답신을 발송했다.', v47WorldChange: { inventory: [{ fromHostId: 'editor_sofia', toHostId: 'courier_pavel', itemKo: '구독자 답신 봉투', quantity: 1 }], moves: [{ hostId: 'courier_pavel', mapId: 'bookshop-lane', x: 7, y: 9 }], rumor: { id: 'V47_SUBSCRIBER_REPLY_IN_TRANSIT', fromHostId: 'courier_pavel', hostIds: ['bookseller_lev', 'editor_sofia'] }, flags: { V47_MAIN01_REPLY_SENT: true } }, flags: { V47_MAIN01_REPLY_SENT: true } }),
       action('V47_A08_PROMISE_UNAVAILABLE_COPY', ['bookseller_lev', 'courier_pavel'], '곧 책을 보내겠다고 둘러댄다', '레프는 기다리는 손님에게 출고가 임박했다고 말하지만, 실제 책은 없다. 답신은 빨리 나가고 다음에 들킬 위험과 손님들의 불신이 남는다.', { situationKo: '없는 재고를 약속한 답신을 보냈다.', v47WorldChange: { inventory: [{ fromHostId: 'bookseller_lev', toHostId: 'courier_pavel', itemKo: '출고를 약속한 답신 봉투', quantity: 1 }], moves: [{ hostId: 'courier_pavel', mapId: 'bookshop-lane', x: 7, y: 9 }], relationships: [{ fromHostId: 'bookseller_lev', toHostId: 'reader_darya', trustDelta: -2 }], rumor: { id: 'V47_UNAVAILABLE_COPY_PROMISED', fromHostId: 'bookseller_lev', hostIds: ['reader_darya', 'seamstress_anna'] }, flags: { V47_MAIN01_FALSE_PROMISE_SENT: true } }, flags: { V47_MAIN01_FALSE_PROMISE_SENT: true } }),
     ],
   },
@@ -94,9 +97,9 @@ export const v47StoryQuests = [
 import { walkableTilesReachableFromArrivals } from './walkable-placement.mjs';
 
 const objectSpec = [
-  ['printshop', 9047, '연감 교정쇄와 인쇄 장부', 'V47_MAIN01_PERMISSION', 208, 176],
+  ['printshop', 9047, '연감 교정쇄와 활자함', 'V47_MAIN01_PERMISSION', 208, 176],
   ['printshop', 9048, '배포 중지 뒤 남은 인쇄 묶음', 'V47_MAIN01_DISTRIBUTION_BAN', 224, 176],
-  ['bookshop-interior', 9049, '구독자 답신과 주문 장부', 'V47_MAIN01_SUBSCRIBER_REPLY', 160, 176],
+  ['bookshop-interior', 9049, '구독자들에게 온 편지', 'V47_MAIN01_SUBSCRIBER_REPLY', 160, 176],
   ['morskaya-intersection', 9051, '닫힌 문 앞의 체포 명령', 'V47_MAIN03_ARRESTS', 224, 128],
   ['inn-interior', 9052, '여관의 첫 환자와 물통 장부', 'V47_MAIN05_WATER_NOTICE', 240, 208],
   ['inn-interior', 9053, '하숙집 환자 방문부', 'V47_MAIN05_MARKET_RESPONSE', 192, 144],

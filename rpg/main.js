@@ -20,9 +20,10 @@ import { attachV47StoryObjects, v47StoryQuests } from './data/v47-main-stories.m
 import { createMain01PrintworkState, main01PrintworkStage, migrateMain01DistributionState, resolveMain01Printwork } from './engine/v47-printwork.mjs';
 import { createMain01TimelineState, main01TimelineSources, main01TimelineStage, resolveMain01Timeline } from './engine/v47-main01-timeline.mjs';
 import { campaignForV47StoryProgress, resolveV47StoryEntry, resolveV47StoryMenuEntries, startV47StoryEntry } from './engine/v47-story-entry.mjs';
-import { attachMain01PursuitObjects, createMain01PursuitState, MAIN01_PURSUIT_CHECKPOINTS, reachMain01PursuitCheckpoint, startMain01Pursuit } from './engine/v47-main01-pursuit.mjs';
+import { attachMain01PursuitObjects, createMain01PursuitState, MAIN01_PURSUIT_CHECKPOINTS, MAIN01_PURSUIT_LIMIT, reachMain01PursuitCheckpoint, startMain01Pursuit } from './engine/v47-main01-pursuit.mjs';
 import { attachMain01StorageShelves, createMain01StorageState, MAIN01_STORAGE_PACKETS, MAIN01_STORAGE_SHELVES, placeMain01StoragePacket } from './engine/v47-main01-storage.mjs';
 import { attachV47StoryBeatObjects, toV47StoryQuests } from './data/v47-story-beats.mjs';
+import { advanceMain01StoryDialogue, main01StoryDialogueAllowsAi, main01StoryDialogueStage, main01StoryDialogueTrack } from './engine/v47-story-dialogue.mjs';
 import { v47RoleProfiles } from './data/v47-character-roles.mjs';
 import { sourceAvailableOn } from './engine/source-availability.mjs';
 import { formatCivicReaction, formatObservedNpcReactions, recentJournalEntries } from './engine/world-reaction-presentation.mjs';
@@ -621,6 +622,21 @@ function updateHud() {
     $('#mission-pin').disabled = true;
   } else if (focusedV47Quest && !inLiteraryScene && !state.player.civic?.custody?.active) {
     missionGuidance = resolveQuestGuidance({ state, quests: [focusedV47Quest], maps, hostCards: cards });
+    if (missionGuidance.taskType === 'WAIT' && focusedV47Quest.date > state.world.date) {
+      const [year, month, day] = focusedV47Quest.date.split('-').map(Number);
+      const dateLabel = year !== Number(state.world.date.slice(0, 4)) ? `${year}년 ${month}월 ${day}일` : `${month}월 ${day}일`;
+      missionGuidance = { ...missionGuidance,
+        actionKo: `${dateLabel}에 다음 장면이 열립니다`,
+        reasonKo: `${focusedV47Quest.titleKo}를 시작할 날짜입니다.`,
+        howKo: `화면 아래 ‘${dateLabel} 자료로 이어가기’를 누르세요.`,
+      };
+    }
+    if (storyEntry?.status === 'READY' && storyEntry.currentQuestId === focusedV47Quest.id) {
+      const isOpeningQuest = /_(?:A01|P01)$/.test(focusedV47Quest.id);
+      const phaseLabel = isOpeningQuest ? '도입 퀘스트 · ' : '';
+      missionGuidance = { ...missionGuidance,
+        questTitleKo: `${storyEntry.titleKo} · ${phaseLabel}${missionGuidance.questTitleKo ?? focusedV47Quest.titleKo}` };
+    }
     $('#mission-title').textContent = missionGuidance.questTitleKo ?? focusedV47Quest.titleKo;
     $('#mission-action').textContent = formatMissionActionKo(missionGuidance, focusedV47Quest.objectiveKo);
     $('#mission-reason').textContent = missionGuidance.reasonKo ?? focusedV47Quest.sourceContextKo ?? '';
@@ -899,10 +915,13 @@ function updateHud() {
   $('#pin-legend').hidden = !(destinationPinned && missionGuidance.target);
   const readyQuest = continuationQuest(state, campaign, questList);
   const squareWait = fixedEventWaitForWitness(state, dostoevskyExecutionQuest) ?? europeNewsWaitForReaders(state);
+  const storyDateWait = focusedV47Quest && missionGuidance.taskType === 'WAIT'
+    && focusedV47Quest.date > state.world.date && state.quests[focusedV47Quest.id]?.status !== 'resolved'
+    ? continuationFor(focusedV47Quest)[0] : null;
   const routeButton = $('#route-continue');
-  routeButton.hidden = !(squareWait || readyQuest) || Boolean(activeDialogueHost);
+  routeButton.hidden = !(squareWait || storyDateWait || readyQuest) || Boolean(activeDialogueHost);
   routeButton.toggleAttribute('data-square-wait', Boolean(squareWait && !activeDialogueHost));
-  if (squareWait || readyQuest) routeButton.textContent = squareWait?.label ?? continuationFor(readyQuest)[0].label;
+  if (squareWait || storyDateWait || readyQuest) routeButton.textContent = squareWait?.label ?? storyDateWait?.label ?? continuationFor(readyQuest)[0].label;
   $('#host-notebook').hidden = true;
   const oldFacts = $('#host-facts'); if (oldFacts) oldFacts.replaceChildren();
   $('#journal-host-name').textContent = host ? `${host.displayNameKo} · ${host.occupation}` : '관찰자';
@@ -1893,21 +1912,24 @@ function startMain01ParcelPursuit() {
   next.world.v47.main01Pursuit = result.state;
   next.ledger.push({ eventType: 'V47_MAIN01_PURSUIT_STARTED', questId: 'V47_MAIN01_A08', hostId: 'courier_pavel', date: next.world.date, clockMinutes: next.world.clockMinutes });
   setState(next); localStorage.setItem('v33-rpg-save', saveGame(next));
-  say('수레를 쫓다', `파벨이 소포를 실은 수레를 따라 골목으로 달린다. 첫 흔적 · ${result.checkpoint.labelKo}\n\n길을 따라 직접 이동해 금빛 흔적을 살펴보자. 45분 안에 세 곳을 차례로 확인해야 한다.`, []);
+  say('수레를 쫓다', `첫 흔적 · ${result.checkpoint.labelKo}\n\n${MAIN01_PURSUIT_LIMIT}분 안에 수레를 찾아 꾸러미를 챙기고 안뜰 대문으로 빠져나가세요.`, []);
 }
 function inspectMain01PursuitCheckpoint(object, checkpointId) {
   if (state.player.embodiment !== 'courier_pavel') { sayRecord('파벨이 직접 따라가야 할 흔적이다.'); return; }
   const next = copy(state), previous = next.world.v47.main01Pursuit ?? createMain01PursuitState();
   const result = reachMain01PursuitCheckpoint(previous, checkpointId, next.world.clockMinutes);
   next.world.v47.main01Pursuit = result.state;
+  if (result.accepted && result.state.status === 'COMPLETE' && !next.hosts.courier_pavel.inventory.includes('반송된 소포')) {
+    next.hosts.courier_pavel.inventory.push('반송된 소포');
+  }
   next.ledger.push({ eventType: 'V47_MAIN01_PURSUIT_CHECKPOINT', questId: 'V47_MAIN01_A08', hostId: 'courier_pavel', checkpointId, accepted: result.accepted, date: next.world.date, clockMinutes: next.world.clockMinutes });
   setState(next); localStorage.setItem('v33-rpg-save', saveGame(next));
   if (result.state.status === 'MISSED') {
     say('흔적을 놓치다', '사람들과 수레에 막혀 자취를 놓쳤다. 시작 지점으로 돌아가 다시 쫓을 수 있다.', []);
   } else if (result.state.status === 'COMPLETE') {
-    say('소포를 따라잡다', '책방 뒤편에서 수레를 따라잡았다. 봉인은 그대로다. 이제 소포와 운송표를 레프에게 가져가자.', []);
+    say('안뜰로 빠져나오다', '등불이 골목 어귀에 남았다. 파벨은 품에서 젖은 꾸러미를 꺼낸다. 봉인은 그대로다. 이제 레프에게 돌아가자.', []);
   } else if (result.accepted) {
-    say(result.checkpoint.labelKo, `${result.checkpoint.promptKo}\n\n다음 흔적을 찾아 계속 달린다.`, []);
+    say(object.name, `${MAIN01_PURSUIT_CHECKPOINTS[result.state.nextCheckpoint - 1].promptKo}\n\n다음 · ${result.checkpoint.labelKo}`, []);
   } else say('잘못 든 골목', '운송표에 적힌 방향과 다르다. 먼저 표시된 흔적을 찾아가자.', []);
 }
 
@@ -2042,6 +2064,8 @@ function inspect(object) {
     }
     if (stage.typeSetter) {
       const runTypeAction = actionId => {
+        const journalScrollTop = $('.journal').scrollTop;
+        const actionScrollTop = $('#actions').scrollTop;
         const next = copy(state), previous = next.world.v47.printwork?.schemaVersion === 'V47_PRINTWORK_V2'
           ? next.world.v47.printwork : createMain01PrintworkState();
         const result = resolveMain01Printwork(previous, actionId);
@@ -2060,7 +2084,14 @@ function inspect(object) {
               : '활자를 놓을 수 없습니다. 다시 살펴보고 놓아 주세요.';
           say('교정쇄를 다시 보다', errorText,
             [{ label: '활자판 다시 열기', run: () => inspect(object) }]);
-        } else inspect(object);
+        } else {
+          inspect(object);
+          requestAnimationFrame(() => {
+            if (!$('.lower').classList.contains('has-typesetter')) return;
+            $('.journal').scrollTop = journalScrollTop;
+            $('#actions').scrollTop = actionScrollTop;
+          });
+        }
       };
       const slots = [...stage.typeSetter.composition];
       const empty = stage.typeSetter.targetLength - slots.length;
@@ -2253,14 +2284,14 @@ function inspect(object) {
           hostNames: new Map(cards.map(card => [card.id, card.displayNameKo])),
           mapNames: new Map(Object.entries(maps).map(([id, map]) => [id, map.metadata?.displayNameKo ?? id])),
         })}${chainNote}`, actions);
-      sayRecord('현장 행동을 장부에 기록했다.');
+      sayRecord(activeQuest.id.startsWith('V47_MAIN01_') ? '다음 할 일은 수첩에서 확인할 수 있습니다.' : '현장 행동을 장부에 기록했다.');
     } }));
     if (activeQuest.id === 'V47_MAIN01_A08' && state.player.embodiment === 'courier_pavel'
       && state.world.v47?.main01Pursuit?.status !== 'COMPLETE') {
       const pursuit = state.world.v47?.main01Pursuit;
       const nextCheckpoint = pursuit?.status === 'ACTIVE' ? MAIN01_PURSUIT_CHECKPOINTS[pursuit.nextCheckpoint] : null;
       opts.unshift({ label: pursuit?.status === 'ACTIVE' ? '추격 계속하기' : '파벨로 소포를 쫓는다',
-        subcopy: nextCheckpoint ? `다음 흔적 · ${nextCheckpoint.labelKo} · 골목에서 직접 찾아야 합니다.` : '운하와 인쇄소 골목을 가로질러 세 흔적을 찾습니다 · 45분 제한.',
+        subcopy: nextCheckpoint ? `다음 · ${nextCheckpoint.labelKo}` : `수레를 따라가 꾸러미를 찾고 안뜰 대문으로 빠져나갑니다 · ${MAIN01_PURSUIT_LIMIT}분 제한`,
         run: startMain01ParcelPursuit });
     }
     let guidance = '';
@@ -2285,8 +2316,33 @@ function inspect(object) {
     const priorAction = priorEntry ? priorQuest?.actions.find(item => item.id === priorEntry.actionId) : null;
     const chainContext = priorAction ? `\n\n앞선 일 · ${priorAction.resultKo}` : '';
     const title = chain ? `${chain.titleKo} · ${chain.stage}/${chain.stageCount}` : activeQuest.titleKo;
-    const authoredExchange = activeQuest.dialogue?.length
-      ? `\n\n${activeQuest.dialogue.map(line => `${line.speakerKo} · ${line.lineKo}`).join('\n')}` : '';
+    const turns = activeQuest.dialogue ?? [];
+    const formatTurns = lines => lines.map(line => `${line.speakerKo} · ${line.lineKo}`).join('\n');
+    if (activeQuest.id === 'V47_MAIN01_A10' && choiceStates.length) {
+      const almanacChased = state.world.v47?.main01Pursuit?.status === 'COMPLETE';
+      const sideGate = almanacChased
+        ? '\n\n파벨 · 그날 수레 쫓다가 이 집 옆 대문을 봤어요. 나갈 때는 거기로 갑시다. 큰길 어귀는 아직 막혀 있습니다.'
+        : '';
+      const showCarriage = () => say(title, formatTurns(turns.slice(4)) + sideGate + guidance, opts);
+      say(title, `${activeQuest.premiseKo}\n\n${formatTurns(turns.slice(0, 4))}`, [
+        { label: '마부를 문 안으로 부른다', run: showCarriage },
+      ]);
+      return;
+    }
+    const flags = state.world.worldFlags ?? {};
+    const decisionInAbsence = flags.V47_A10_SOFIYA_DECIDED
+      ? '예카테리나 · 당신이 안 왔을 때 소피야가 뒤뜰에서 마차를 잡았어. 알렉세이가 마부 집에 함께 가기로 약속하고 부상자를 보냈지.\n'
+      : '';
+    const carriageFollowup = activeQuest.id === 'V47_MAIN01_A11'
+      ? flags.V47_A10_INJURED_RIDES
+        ? decisionInAbsence + '스테판 · 센나야에서 언니를 찾아 병원에 데려갔어요. 아직 눈을 못 뜨셨대요. 형은요? 마부가 일하던 집엔 갔어요?\n알렉세이 · 정문으로 갔어. 주인이 차를 권하더군. 마부를 부엌으로 불러내는 걸 보고도, 그 차를 다 마시고 나왔네.\n스테판 · 그럼 다시 가요. 오늘은 나도 갈 테니.'
+        : flags.V47_A10_BOOK_RIDES
+          ? '스테판 · 대로까지 뛰었지만 돈부터 달라는 사람들뿐이었어요. 이리나에게 아브도티야의 외투를 맡기고서야 삯을 얻었어요. 어젯밤 산모 집에 가실 땐 도제들 이불을 접어 어깨에 걸치셨고요.\n예카테리나 · 바실리는?\n스테판 · 책은 파벨한테 갔죠. 바실리는 그게 자기 할 일이었다더군요.'
+          : flags.V47_A10_COPY_STORED
+            ? '다리야 · 그날은 소피야의 장롱에 책을 두고 왔어요. 여기서 일하는 사람들은 그 뒤로 이 책을 구경도 못 했지요.'
+            : '스테판 · 소피야네 모임에 오던 사람들이 또 왔어요. 책이 안 나온다는 걸 알면서도 오늘은 함께 읽을 자리를 물어보러 왔대요.'
+      : '';
+    const authoredExchange = [carriageFollowup, formatTurns(turns)].filter(Boolean).map(line => `\n\n${line}`).join('');
     say(title, `${activeQuest.premiseKo ?? activeQuest.objectiveKo ?? ''}${authoredExchange}${chainContext}${guidance}`, opts);
   } else {
     const title = object.name || '작업장';
@@ -2378,10 +2434,17 @@ function interact() {
   if (activeDialogueHost || state.endingId || !$('#learning-screen').hidden) return;
   const near = currentNearby();
   if (!near.length) { say('아직 손이 닿지 않는다', '주변을 조금 더 걸어 가까이 가 보자. 사람에게 다가가면 그 사람의 자리에서 도시를 볼 수 있다.', []); return; }
+  const pursuit = state.world.v47?.main01Pursuit;
+  if (state.player.embodiment === 'courier_pavel' && state.quests.V47_MAIN01_A08?.status === 'open'
+    && pursuit?.status === 'ACTIVE') {
+    const checkpoint = MAIN01_PURSUIT_CHECKPOINTS[pursuit.nextCheckpoint];
+    const marker = checkpoint && near.find(item => mapObjectProperties(item).v47PursuitCheckpoint === checkpoint.id);
+    if (marker) { inspectMain01PursuitCheckpoint(marker, checkpoint.id); return; }
+  }
   const guidedPossession = resolveGuidedPossessionInteraction(missionGuidance, near);
   const targetId = guidedPossession.targetHostId;
   const target = guidedPossession.target;
-  if (guidedPossession.waiting) {
+  if (guidedPossession.waiting && near.every(item => item.type === 'npc')) {
     const card = cards.find(item => item.id === targetId);
     say(`${card?.displayNameKo ?? '지정한 인물'}에게 가까이 가세요`, '수첩이 가리키는 인물이 아직 손 닿는 곳에 없습니다. 그 사람에게 다가가 E를 누르거나 인물 목록에서 바로 선택하세요.', []);
     return;
@@ -2602,6 +2665,29 @@ function clearHistoricalDialogue() {
   activeDialogueHost = null; activeDialogueKey = null;
   $('.lower').classList.remove('is-talking'); $('#dialogue-speaker').hidden = true; updateHud();
 }
+function main01FixedDialogue(cardId) {
+  const track = main01StoryDialogueTrack({ storyId: state.world.v47?.focusStoryId,
+    questId: missionGuidance?.questId, hostId: cardId });
+  if (!track) return null;
+  const progress = state.world.v47?.storyDialogueProgress?.[track.id] ?? { step: 0 };
+  return { track, progress, stage: main01StoryDialogueStage(track, progress), locked: !main01StoryDialogueAllowsAi(progress) };
+}
+function chooseMain01StoryDialogue(card, track, option) {
+  const next = copy(state), allProgress = { ...(next.world.v47?.storyDialogueProgress ?? {}) };
+  const progress = advanceMain01StoryDialogue(allProgress[track.id] ?? { step: 0 }, option);
+  allProgress[track.id] = progress;
+  next.world.v47.storyDialogueProgress = allProgress;
+  setState(next); localStorage.setItem('v33-rpg-save', saveGame(next)); $('#load').disabled = false;
+  const actor = cards.find(item => item.id === next.player.embodiment);
+  const lines = dialogueTranscripts.get(activeDialogueKey) ?? [];
+  lines.push({ speaker: actor?.displayNameKo ?? '나', text: option.labelKo }, { speaker: card.displayNameKo, text: option.replyKo });
+  dialogueTranscripts.set(activeDialogueKey, lines.slice(-24));
+  dialogueCurrentLines.set(activeDialogueKey, option.replyKo);
+  const nextStage = main01StoryDialogueStage(track, progress);
+  showConversation(card, option.replyKo, nextStage.options.map(row => row.labelKo), progress.completed
+    ? '이야기의 핵심을 짚었습니다. 이제 직접 묻거나 대화를 마칠 수 있습니다.'
+    : '장면에 맞는 이야기를 이어가세요.');
+}
 function showConversation(card, promptText, replies, statusText = '') {
   $('.lower').classList.add('is-talking');
   $('#dialogue-portrait').src = `./rpg/${card.portrait.file}`;
@@ -2610,10 +2696,14 @@ function showConversation(card, promptText, replies, statusText = '') {
   $('#dialogue-speaker').hidden = false;
   $('#host-notebook').open = false; $('#host-notebook').hidden = true;
   const lines = dialogueTranscripts.get(activeDialogueKey) ?? [];
+  const storyDialogue = main01FixedDialogue(card.id);
   const history = $('#dialogue-history'), historyLines = $('#dialogue-history-lines');
   history.hidden = !lines.length; historyLines.replaceChildren(...lines.slice(-12).map(line => { const li=document.createElement('li'); li.textContent=`${line.speaker} · ${line.text}`; return li; }));
   const historicalChoices = historicalDialogueChoicesByKey.get(activeDialogueKey);
-  const replyActions = historicalChoices
+  const replyActions = storyDialogue?.locked
+    ? storyDialogue.stage.options.map(option => ({ label: option.labelKo, className: 'quest-dialogue-choice',
+      run: () => chooseMain01StoryDialogue(card, storyDialogue.track, option) }))
+    : historicalChoices
     ? historicalChoices.map(option => ({ label: option.labelKo, run: () => {
       const scene = historicalSceneForState(), actor = scene?.actors.find(item => card.id.endsWith(`:${item.id}`));
       historicalDialogueChoicesByKey.delete(activeDialogueKey);
@@ -2627,9 +2717,10 @@ function showConversation(card, promptText, replies, statusText = '') {
         run: () => sendConversation(card, label, `R${index + 1}`) };
     });
   replyActions.push({ label: '대화 마치기', run: () => finishConversation(card.id) });
-  say('대화 중', promptText || dialogueCurrentLines.get(activeDialogueKey) || '', replyActions);
+  say('대화 중', storyDialogue?.locked ? `${promptText || dialogueCurrentLines.get(activeDialogueKey) || ''}\n\n${storyDialogue.stage.promptKo}`
+    : promptText || dialogueCurrentLines.get(activeDialogueKey) || '', replyActions);
   if (dialogueRequestPending) $('#actions').querySelectorAll('.dialogue-input button').forEach(button => { button.disabled = true; });
-  {
+  if (!storyDialogue?.locked) {
   const form = document.createElement('form'); form.className = 'dialogue-input';
   const input = document.createElement('input'); input.type = 'text'; input.maxLength = 800; input.autocomplete = 'off'; input.placeholder = '직접 하고 싶은 말을 적어보세요'; input.setAttribute('aria-label', '대사 입력, 최대 800자'); input.disabled = dialogueRequestPending;
   const counter = document.createElement('span'); counter.className = 'dialogue-char-count'; counter.setAttribute('aria-live','polite'); counter.textContent = `${input.value.length} / 800자`;
@@ -2685,6 +2776,13 @@ async function startConversation(card) {
   showConversation(card, dialogueCurrentLines.get(key), starterReplies, queuedPrompt
     ? '퀘스트 질문이 준비됐습니다. 이 질문을 고르거나 같은 쟁점을 직접 물어보세요.'
     : '선택지는 빠른 대답입니다. 직접 입력해도 됩니다.');
+  const fixedStoryDialogue = main01FixedDialogue(card.id);
+  if (fixedStoryDialogue?.locked) {
+    dialogueCurrentLines.set(key, fixedStoryDialogue.track.openingKo);
+    showConversation(card, fixedStoryDialogue.track.openingKo, fixedStoryDialogue.stage.options.map(option => option.labelKo),
+      '이 장면의 세 가지 대화를 먼저 이어가세요.');
+    return;
+  }
   if (!session) {
     const controller = new AbortController(); activeDialogueController = controller;
     const timer = setTimeout(() => controller.abort(), 8000);
@@ -2782,6 +2880,7 @@ async function sendConversation(card, playerText, replyId = null) {
   if (state.historicalSession && card.id.startsWith(`historical:${state.historicalSession.eventId}:`))
     return sendHistoricalConversation(card, playerText);
   const key = activeDialogueKey;
+  if (main01FixedDialogue(card.id)?.locked) return;
   const generation = dialogueGeneration;
   // Proximity is checked when the conversation opens. Keep the opened turn
   // usable if a resident's ambient movement carries them a tile away.
@@ -3054,6 +3153,15 @@ $('#route-continue').addEventListener('click', () => {
       ? '감형 소식이 광장에 전해졌다. 수첩에서 다음 할 일을 확인하세요.'
       : '선고가 곧 시작됩니다. 광장에서 E를 눌러 살펴보세요.', []);
     return;
+  }
+  const focusedStoryQuest = globalThis.V47MainStories?.getV47MissionQuest(state, questList);
+  if (focusedStoryQuest && focusedStoryQuest.date > state.world.date
+    && state.quests[focusedStoryQuest.id]?.status !== 'resolved') {
+    const guide = resolveQuestGuidance({ state, quests: [focusedStoryQuest], maps, hostCards: cards });
+    if (guide.taskType === 'WAIT') {
+      continuationFor(focusedStoryQuest)[0].run();
+      return;
+    }
   }
   const quest = continuationQuest(state, campaign, questList);
   if (quest) continuationFor(quest)[0].run();

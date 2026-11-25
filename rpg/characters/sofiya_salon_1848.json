@@ -101,13 +101,13 @@
       "id": "V47_SOFIYA_COPY_AND_INVITATION",
       "kind": "STORY",
       "titleKo": "남은 한 권",
-      "descriptionKo": "독서회를 열거나 책을 보관하고, 그 선택의 비용과 위험을 감당한다.",
-      "fallbackKo": "살롱에서 독서회를 열거나 남은 연감을 잠가 둔다.",
+      "descriptionKo": "독서회가 열린 밤, 마차의 빈자리를 누구에게 내줄지 정한다.",
+      "fallbackKo": "살롱에서 다리야와 마부의 말을 듣는다.",
       "successCondition": { "type": "QUEST_ACTION", "questId": "V47_MAIN01_A10", "actionIds": ["V47_A10_HOST_READING", "V47_A10_STORE_COPY"] }
     }
   ],
   "objectiveByChapter": {
-    "V33_1848_PUBLIC": "작은 독서회를 열거나 초대를 거두고, 책과 초대 명단의 행방을 정한다",
+    "V33_1848_PUBLIC": "독서 모임을 열고, 골목에서 사고가 나면 마차를 내줄지 결정한다",
     "V33_1849_PRELUDE": "사람을 돕는 일이 보호인지 통제인지 자신의 선택으로 확인한다",
     "V33_1849_CIRCLE": "연결된 사람들의 안전과 독서 모임을 이어 갈지 결정한다"
   },

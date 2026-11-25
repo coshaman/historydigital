@@ -1,9 +1,9 @@
 const STORY_ENTRIES = Object.freeze([
-  { id: 'MAIN01', titleKo: '금지된 삽화 연감', dateKo: '1848년', firstTaskKo: '구독 장부에서 이름을 찾고 인쇄소에서 부록을 확인한다.',
-    introKo: '기다리는 손님은 늘고, 인쇄소에서는 아직 책이 나가지 못했다는 말만 들린다. 구독 장부부터 확인해 보자.',
+  { id: 'MAIN01', titleKo: '금지된 삽화 연감', dateKo: '1848년', firstTaskKo: '네프스키에서 다리야를 만나고 인쇄소로 이어간다.',
+    introKo: '네프스키에서 다리야가 《삽화 연감》을 기다린다. 인쇄를 마친 책 한 권이 페테르부르크 사람들을 불러모은다.',
     activitiesKo: [
       { type: 'quiz', labelKo: '날짜 퀴즈', startKo: '1848년 11월 30일 · 인쇄소 날짜 대조판에서 기록 네 장을 순서대로 놓는다' },
-      { type: 'chase', labelKo: '파벨 추격', startKo: '1848년 10월 25일 · 파벨로 빙의해 책방 골목에서 세 흔적을 45분 안에 쫓는다' },
+      { type: 'chase', labelKo: '수레 추격과 도주', startKo: '책방 골목 · 파벨로 수레를 따라가 꾸러미를 챙기고 안뜰 대문으로 빠져나간다' },
       { type: 'exploration', labelKo: '현장 문서 탐색', startKo: '각 장면 · 종이 모양 자료나 책 가까이에서 살펴보기를 눌러 읽는다' },
       { type: 'purchase', labelKo: '신문 종이·잉크 구매', startKo: '네프스키 거리 · 레프의 가판을 살펴보고 종이와 잉크를 산다' },
     ] },

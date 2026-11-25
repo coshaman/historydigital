@@ -7,9 +7,15 @@ import { toV47StoryQuests } from '../rpg/data/v47-story-beats.mjs';
 const questById = new Map(toV47StoryQuests().map(quest => [quest.id, quest]));
 
 test('MAIN01 Talnikov exchange names the child’s concrete experience', () => {
-  const lines = questById.get('V47_MAIN01_A03').dialogue
+  const dialogue = questById.get('V47_MAIN01_A03').dialogue;
+  const lines = dialogue
     .filter(turn => turn.speakerKo === '파나예바').map(turn => turn.lineKo);
-  assert.equal(lines[0], '저라면 아이를 맡기기 어려워요. 어른들이 다투는 동안 아이는 다 보고 있잖아요.');
+  const sceneText = dialogue.map(turn => turn.lineKo).join('\n');
+  assert.match(sceneText, /아이/);
+  assert.match(sceneText, /집|방/);
+  assert.match(sceneText, /유모/);
+  assert.doesNotMatch(lines.join('\n'), /맡기기 어려워/,
+    'Panayeva discusses the child’s documented perspective without inventing a child-care judgment');
 });
 
 test('MAIN03 Vasily answers the question about the proclamation wording', () => {

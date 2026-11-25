@@ -122,6 +122,7 @@
     "1847": "읽을거리의 값과 유통 경로를 확인한다"
   },
   "allowedMaps": [
+    "inn-interior",
     "nevsky",
     "market-quay",
     "printshop",

@@ -52,8 +52,8 @@ try {
   assert.match(mission, /도입 퀘스트|먼저 할 퀘스트/);
   assert.match(mission, /인쇄|교정|구독|부록/);
   const selectedStory = await page.locator('#journal-text').textContent();
-  assert.match(selectedStory, /현재 1847년 6월.*1848년 2월.*첫 장면/s,
-    'the selected story explains the 1847 prologue to its first 1848 scene');
+  assert.match(selectedStory, /기다리는 손님은 늘고.*구독 장부부터 확인해 보자/s,
+    'a first-time player sees the opening situation and first concrete action');
   for (const activity of ['날짜 퀴즈', '파벨 추격', '현장 문서 탐색', '신문 종이·잉크 구매']) {
     assert.ok(selectedStory.includes(activity), `MAIN01 selection surfaces its playable ${activity} activity`);
   }
@@ -61,10 +61,10 @@ try {
     assert.ok(selectedStory.includes(direction), `MAIN01 activity explains where or how to start: ${direction}`);
   }
   await page.screenshot({ path: path.join(output, 'MAIN01-SELECTED.png'), fullPage: true });
-  await page.locator('#actions button').filter({ hasText: '현재 퀘스트 확인 · 교정쇄의 행선지' }).click();
+  await page.locator('#actions button').filter({ hasText: '현재 퀘스트 확인 · 《동시대인》을 기다리는 사람들' }).click();
   assert.equal(await page.locator('#quest-journal').evaluate(element => element.open), true,
     'the story selection opens the notebook directly on its current required task');
-  assert.match(await page.locator('#journal-goal-action').textContent(), /교정쇄의 행선지/);
+  assert.match(await page.locator('#journal-goal-action').textContent(), /구독 장부|부록/);
   await page.locator('#journal-close').click();
   await page.locator('#history-events-open').click();
   await page.locator('#actions button').filter({ hasText: '금지된 삽화 연감' }).click();

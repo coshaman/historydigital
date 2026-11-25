@@ -137,12 +137,17 @@ export function buildLifeTimeline(state, templates) {
     const replySent = selected('V47_MAIN01_', ['V47_A08_SEND_LETTER']);
     const workersPaid = selected('V47_MAIN01_', ['V47_A06_PAY_WORKERS', 'V47_A11_SETTLE_WORKERS']);
     const details = [
+      state.world?.worldFlags?.V47_A10_INJURED_RIDES
+        ? '스테판은 센나야에서 부상자의 언니를 찾아 병원으로 데려갔다. 뒤늦게 형을 설득해 마부가 일하던 집 앞에도 함께 갔다.'
+        : state.world?.worldFlags?.V47_A10_BOOK_RIDES
+          ? '금지된 한 권은 파벨에게 갔다. 아브도티야는 부상자를 태울 마차를 부르느라 외투를 맡겼고, 겨울 내내 예카테리나의 낡은 겉옷을 빌려 입었다.'
+          : null,
       copyKept ? '레프가 맡긴 한 부는 안나의 물건으로 남았다.' : null,
       replySent ? '구독자에게 보낸 답장은 파벨의 배달 경로에 올랐다.' : null,
       workersPaid ? '배포가 멈춘 뒤에도 작업자 품삯 일부가 지급되었다.' : null,
     ].filter(Boolean);
     aftermath.push({ id: 'V47-LIFE-ALMANAC-AFTERMATH', title: '연감 뒤에 남은 사람들',
-      textKo: details.length ? details.join(' ') : '연감의 배포 금지 뒤 재고와 약속이 각자의 장부에 남았다.',
+      textKo: details.length ? details.join(' ') : '연감의 배포는 막혔다. 스테판은 작업대에 다시 앉아, 남의 집에서 일하는 아이도 읽을 수 있는 이야기를 만들고 싶다고 말했다.',
       fictional: true, basis: v47Rows.filter(row => row.questId.startsWith('V47_MAIN01_')).map(row => `${row.questId}:${row.actionId}`) });
   }
   if (v47Rows.some(row => row.questId.startsWith('V47_MAIN03_'))) {

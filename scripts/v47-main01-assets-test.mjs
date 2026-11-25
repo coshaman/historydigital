@@ -94,23 +94,28 @@ for (const link of talnikovReader?.catalogLinks ?? []) {
 
 const talnikovScene = toV47StoryQuests().find(quest => quest.id === 'V47_MAIN01_A03');
 assert.ok(talnikovScene.dialogue?.length >= 4, 'the Talnikov scene opens with a contextual authored exchange');
-assert.equal(new Set(talnikovScene.dialogue.map(line => line.speakerKo)).size, 4,
-  'the Talnikov exchange gives all four present characters a voice');
+assert.equal(new Set(talnikovScene.dialogue.map(line => line.speakerKo.replace(/^(?:산파|편집자) /, ''))).size, 4,
+  'the Talnikov exchange gives all four present characters a voice regardless of role labels');
 assert.ok(talnikovScene.actions.every(action => action.subcopyKo?.trim()),
   'both Talnikov choices explain their immediate audience and practical direction');
 
 const openingScene = toV47StoryQuests().find(quest => quest.id === 'V47_MAIN01_A01');
 assert.equal(openingScene?.entry?.mapId, 'bookshop-interior', 'MAIN01 opens at the subscriber-facing bookshop scene');
 assert.equal(openingScene?.date, '1848-02-12', 'the opening is available on the contemporary almanac notice date');
-assert.ok(openingScene?.dialogue?.some(line => line.speakerKo === '레프' && /부록/.test(line.lineKo)),
-  'Lev answers the subscriber asking about the promised supplement');
+assert.ok(openingScene?.dialogue?.some(line => line.speakerKo === '레프' && /인쇄소/.test(line.lineKo) && /아직 소식이 없/.test(line.lineKo)),
+  'Lev confirms that the almanac has not yet arrived');
 assert.ok(openingScene?.dialogue?.some(line => line.speakerKo === '다리야'),
   'the subscriber has a speaking role in the opening');
-assert.match(openingScene?.dialogue?.find(line => line.speakerKo === '파벨')?.lineKo ?? '', /제가 다녀올까요/,
-  'the dialogue leaves the courier decision to the player choices');
+assert.match(openingScene?.dialogue?.find(line => line.speakerKo === '파벨')?.lineKo ?? '', /다녀오/,
+  'the courier states his intent before the player chooses the next action');
 assert.ok(openingScene?.actions?.some(action => action.id === 'V47_A01_OPEN_SUBSCRIBER_LEDGER'),
-  'the opening gives the player a physical ledger action');
+  'the opening lets the player choose shared reading at the shop');
 const krylovAssessment = sourcePackets.records.find(record => record.sourceId === 'V47-KRYLOV-ASSESSMENT-1848-09-06');
+const stationWitness = historicalSourceRegister.sources.find(record => record.sourceId === 'V47-KRYLOV-STATION-1848-WITNESS');
+const krylovReader = readerIndex.records.find(record => record.sourceId === krylovAssessment?.sourceId);
+assert.ok(stationWitness && krylovReader?.catalogLinks?.some(link => link.sourceId === stationWitness.sourceId
+  && link.href === stationWitness.url && link.detail.includes('л. 13')),
+'the assessment reader can follow the archival witness for Panaev’s retired officer');
 assert.equal(krylovAssessment?.paragraphs.length, 3, 'the censorship assessment includes contiguous context');
 assert.match(krylovAssessment?.range ?? '', /Wikisource lines 232–234.*RGIA ф\. 772, оп\. 1, ед\. хр\. 2157, л\. 11–14/s,
   'the continuous assessment excerpt carries its exact transcription and archival folio range');

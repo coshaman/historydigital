@@ -45,7 +45,7 @@
       "id": "V47_PANAEV_EDITORIAL_RECORD",
       "kind": "STORY",
       "titleKo": "편집자의 장부",
-      "descriptionKo": "본문의 작품과 저자 표기를 확인하고, 편집 장부에 남긴다.",
+      "descriptionKo": "인쇄소의 독서 모임에 알렉세이를 부른다.",
       "fallbackKo": "인쇄소에서 탈니코프 가족의 첫 장을 읽고, 작품·저자 대조 메모를 서기에게 전한다.",
       "successCondition": { "type": "QUEST_ACTION", "questId": "V47_MAIN01_A03", "actionId": "V47_A03_PANAEV_CATALOGUE_NOTE" }
     }

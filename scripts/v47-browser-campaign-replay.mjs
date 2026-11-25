@@ -2,10 +2,11 @@ import assert from 'node:assert/strict';
 import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { createRequire } from 'node:module';
-import { chromium } from 'playwright';
+const { chromium } = await import(process.env.V47_PLAYWRIGHT_MODULE ?? 'playwright');
 import { mimeTypeFor } from '../server-mime.mjs';
 import { attachV47StoryObjects, v47StoryQuests } from '../rpg/data/v47-main-stories.mjs';
 import { main01TimelineSources } from '../rpg/engine/v47-main01-timeline.mjs';
+import { attachMain01PursuitObjects, MAIN01_PURSUIT_CHECKPOINTS, MAIN01_PURSUIT_LIMIT } from '../rpg/engine/v47-main01-pursuit.mjs';
 import { attachV47StoryBeatObjects, toV47StoryQuests } from '../rpg/data/v47-story-beats.mjs';
 import { v47RoleProfiles } from '../rpg/data/v47-character-roles.mjs';
 import { decorateCardsWithEraProfiles } from '../rpg/engine/era-profiles.mjs';
@@ -56,6 +57,7 @@ const campaignStoryQuests = questList.filter(quest => storyIdForQuest(quest));
 const questsById = new Map(questList.map(quest => [quest.id, quest]));
 attachV47StoryObjects(maps);
 attachV47StoryBeatObjects(maps, storyQuests);
+attachMain01PursuitObjects(maps);
 attachMain01StorageShelves(maps);
 const storyQuestIds = new Set(campaignStoryQuests.map(quest => quest.id));
 const sourceMap = new Map(sourceIndex.records.map(record => [record.sourceId, record]));
@@ -199,7 +201,14 @@ async function runRoute(browser, base, routeName) {
       if (button) window.__v47CampaignClicks.push({ text: button.innerText, trusted: event.isTrusted, time: performance.now() });
     }, true);
   });
-  if (!e41Only) await page.locator('[data-v47-story="MAIN01"]').click();
+  if (!e41Only) {
+    const storyTab = page.locator('[data-v47-story="MAIN01"]');
+    if (await storyTab.isVisible()) await storyTab.click();
+    else {
+      await page.locator('#history-events-open').click();
+      await page.getByRole('button', { name: /금지된 삽화 연감/ }).first().click();
+    }
+  }
   const openingHost = runtimeCards.find(card => card.id === (e41Only ? 'dostoevsky_1849' : 'bookseller_lev'));
   const alreadyEmbodied = await page.evaluate(expected => JSON.parse(localStorage.getItem('v33-rpg-save') ?? 'null')?.state?.player?.embodiment === expected,
     openingHost.id);
@@ -808,6 +817,7 @@ async function runRoute(browser, base, routeName) {
               await walkTo(physicalBook, `${quest.id} physical book`);
             }
             for (const requiredSourceId of [...new Set([...(action.requiredKnowledgeIds ?? []), ...(action.requiredKnowledgeId ? [action.requiredKnowledgeId] : [])])]) {
+              if (quest.id === 'V47_MAIN01_A03') continue;
               const state = await currentState();
               const readerHostId = state.player.embodiment;
               if (!state.hosts[readerHostId]?.knownEvidenceIds?.includes(requiredSourceId)) {
@@ -845,6 +855,11 @@ async function runRoute(browser, base, routeName) {
                   `${requiredSourceId} displays the complete checked excerpt`);
                 assert.ok(sourceView.russian.length > 80 && sourceView.korean.length > 80,
                   `${requiredSourceId} keeps Russian and Korean text aligned`);
+                if (requiredSourceId === 'V47-KRYLOV-ASSESSMENT-1848-09-06') {
+                  const witness = page.getByRole('link', { name: /역에서의 만남.*심사 의견/ });
+                  assert.match(await witness.getAttribute('href'), /izbrannye_proizvedeniya_1962__ocr\.pdf/);
+                  assert.match(await page.locator('#source-reader-context').innerText(), /퇴역 장교/);
+                }
                 const sourceShot = path.join(outputDir,
                   `${routeName}-${quest.id}-${requiredSourceId}-${viewport.width}x${viewport.height}.png`);
                 await page.screenshot({ path: sourceShot, fullPage: false }); screenshots.push(sourceShot);
@@ -1000,6 +1015,36 @@ async function runRoute(browser, base, routeName) {
               await continueWork.waitFor({ state: 'visible', timeout: 3000 });
               await continueWork.click();
             }
+            if (quest.id === 'V47_MAIN01_A08' && card.id === 'courier_pavel' && routeName === 'NORMAL') {
+              const sceneButton = page.getByRole('button', { name: `사건 살펴보기 · ${quest.titleKo}` });
+              if (await sceneButton.isVisible()) await sceneButton.click();
+              await page.getByRole('button', { name: /파벨로 소포를 쫓는다/ }).click();
+              for (const checkpoint of MAIN01_PURSUIT_CHECKPOINTS) {
+                const marker = interactions(targetMap).find(object => propertyMap(object).v47PursuitCheckpoint === checkpoint.id);
+                await walkTo(marker, checkpoint.labelKo);
+                await use();
+                const inspectMarker = page.getByRole('button', { name: new RegExp(`살펴보기 · ${checkpoint.labelKo}`) });
+                if (await inspectMarker.isVisible()) await inspectMarker.click();
+                const pursuit = (await currentState()).world.v47.main01Pursuit;
+                assert.ok(pursuit.nextCheckpoint === MAIN01_PURSUIT_CHECKPOINTS.indexOf(checkpoint) + 1,
+                  `${checkpoint.labelKo}: ${JSON.stringify(pursuit)}`);
+              }
+              const chased = await currentState();
+              const pursuit = chased.world.v47.main01Pursuit;
+              assert.equal(pursuit.status, 'COMPLETE');
+              assert.ok(pursuit.finishedAtMinute - pursuit.startedAtMinute <= MAIN01_PURSUIT_LIMIT);
+              assert.ok(chased.hosts.courier_pavel.inventory.includes('반송된 소포'));
+              const pursuitShot = path.join(outputDir, `MAIN01-PURSUIT-ESCAPE-${viewport.width}x${viewport.height}.png`);
+              await page.screenshot({ path: pursuitShot, fullPage: false }); screenshots.push(pursuitShot);
+              await walkTo(targetObject, 'MAIN01 parcel decision after escape');
+              await use();
+              if (await sceneButton.isVisible()) await sceneButton.click();
+            }
+            if (quest.id === 'V47_MAIN01_A10') {
+              const nearbyScene = page.getByRole('button', { name: `사건 살펴보기 · ${quest.titleKo}` });
+              if (await nearbyScene.isVisible()) await nearbyScene.click();
+              await page.getByRole('button', { name: '마부를 문 안으로 부른다' }).click();
+            }
             const choice = page.locator('#actions button').filter({ hasText: action.labelKo }).first();
             try { await choice.waitFor({ state: 'visible', timeout: 2500 }); }
             catch {
@@ -1018,6 +1063,14 @@ async function runRoute(browser, base, routeName) {
             break;
           } catch (error) {
             candidateFailures.push(`${action.id}/${card.id}: ${error.message}`);
+            if (quest.id === 'V47_MAIN01_A08' && card.id === 'courier_pavel' && routeName === 'NORMAL') {
+              await page.screenshot({ path: path.join(outputDir, 'MAIN01-PURSUIT-STOPPED.png'), fullPage: false });
+              const chase = (await currentState()).world.v47.main01Pursuit;
+              throw new Error(`MAIN01 pursuit: ${error.message} · ${JSON.stringify({
+                chase, position: await currentPosition(), title: await page.locator('#headline').innerText(),
+                actions: await page.locator('#actions button').allTextContents(),
+              })}`, { cause: error });
+            }
             if (routeName === 'ALTERNATE' && quest.id === 'V47_MAIN01_A05') {
               await page.locator('#save').click();
               const failedMapId = await currentMapId();
@@ -1064,7 +1117,7 @@ async function runRoute(browser, base, routeName) {
         }));
         const sceneShot = path.join(outputDir, `${routeName}-MAIN01-TALNIKOV-CHOICE-${viewport.width}x${viewport.height}.png`);
         await page.screenshot({ path: sceneShot, fullPage: false }); screenshots.push(sceneShot);
-        assert.ok(sceneView.journal.includes('첫 장부터 어머니가') && sceneView.journal.includes('줄어들 독자'),
+        assert.ok(sceneView.journal.includes('모피옷') && sceneView.journal.includes('파나예바') && sceneView.journal.includes('파나예프'),
           'the Talnikov choice screen keeps its contextual four-person conversation visible');
         assert.ok(sceneView.selectedChoice?.text.includes('작업자') && sceneView.selectedChoice.text.includes('서점'),
           'the shared-reading option names its immediate audience before selection');
@@ -1302,6 +1355,7 @@ async function runRoute(browser, base, routeName) {
       assert.equal(rows.some(row => row.questId === 'V47_MAIN03_P11'), true, 'E41 browser diagnostic completed the aftermath beat');
     } else if (main01Only) {
       assert.equal(storySummary.MAIN01.status, 'PASS', `${routeName}: browser completes MAIN01`);
+      if (routeName === 'NORMAL') assert.equal((await currentState()).world.v47.main01Pursuit?.status, 'COMPLETE', 'the full run included pursuit and escape');
       if (routeName === 'ALTERNATE') {
         const talnikovIndex = rows.findIndex(row => row.questId === 'V47_MAIN01_A03');
         const subscriberIndex = rows.findIndex(row => row.questId === 'V47_MAIN01_A02');

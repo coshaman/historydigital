@@ -253,7 +253,15 @@
       "accessibleToPlayerAt": "1848-09-18",
       "publicationDate": "Quoted in a 1977 scholarly article; archival assessment dated 6 September 1848",
       "pageLocator": "RGIA ф. 772, оп. 1, ед. хр. 2157, л. 11–14 · 학술 전사 위치: Wikisource 232–234행",
-      "contextKo": "크릴로프는 개별 작품과 한 권으로 묶인 연감의 인상이 다르다고 보고하고 「탈니코프 가족」 등 네 작품을 지목합니다.",
+      "contextKo": "크릴로프는 개별 작품과 한 권으로 묶인 연감의 인상이 다르다고 보고하고 「탈니코프 가족」 등 네 작품을 지목합니다. 「역에서의 만남」에 대해서는 퇴역 장교가 술 한 잔을 얻으려고 주막에서 시중드는 대목을 문제 삼았습니다.",
+      "catalogLinks": [
+        {
+          "sourceId": "V47-KRYLOV-STATION-1848-WITNESS",
+          "label": "「역에서의 만남」을 다룬 심사 의견",
+          "href": "https://imwerden.de/pdf/panaev_izbrannye_proizvedeniya_1962__ocr.pdf#page=13",
+          "detail": "1962년 파나예프 선집 서문 13–14쪽 · ф. 772, оп. 1, № 2157, л. 13"
+        }
+      ],
       "rightsNoteKo": "학술 논문에 인용된 공식 심사 의견의 전사문이다. 보관소 원본 이미지는 대조하지 못했고 한국어는 새 번역이다."
     },
     {

@@ -5403,6 +5403,10 @@ function advanceNpcWorld(state, elapsedMinutes, maps, options = {}) {
     event.npcAutonomy.status = 'RESOLVED_UNATTENDED';
     event.npcAutonomy.outcomeApplied = true;
     event.npcAutonomy.defaultActionId = event.autonomousOutcome.actionId;
+    if (event.id === 'V47_MAIN01_A10' && next.quests[event.id]?.status === 'open') {
+      next.quests[event.id].status = 'resolved';
+      next.world.worldFlags.V47_A10_SOFIYA_DECIDED = true;
+    }
     appendLedgerEvent(next, { eventId: `V47_AUTO_${next.ledger.length + 1}`, eventType: 'V47_AUTONOMOUS_STORY_OUTCOME',
       date: next.world.date, storyId: event.story, questId: event.id, actionId: event.autonomousOutcome.actionId,
       mapId: event.mapId, sourceIds: [...event.sourceIds], moves: worldChange.moves, money: worldChange.money,

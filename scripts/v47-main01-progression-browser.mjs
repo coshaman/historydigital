@@ -31,14 +31,14 @@ try {
   await page.locator('#history-events-open').click();
   await page.locator('#actions button').filter({ hasText: '금지된 삽화 연감' }).click();
   assert.match(await page.locator('#headline').textContent(), /^금지된 삽화 연감 ·/);
-  assert.match(await page.locator('#mission-title').textContent(), /부록은 어디 있습니까/);
+  assert.match(await page.locator('#mission-title').textContent(), /《동시대인》을 기다리는 사람들/);
 
   for (let i = 0; i < 10; i += 1) await page.keyboard.press('ArrowLeft');
   await page.keyboard.press('ArrowDown');
   await page.keyboard.press('e');
-  await page.locator('#actions button').filter({ hasText: '구독 장부에서 이름을 찾는다' }).waitFor({ state: 'visible', timeout: 10000 });
-  await page.locator('#actions button').filter({ hasText: '구독 장부에서 이름을 찾는다' }).click();
-  assert.match(await page.locator('#journal-text').textContent(), /부록 예약 영수증/);
+  await page.locator('#actions button').filter({ hasText: '다리야와 《동시대인》을 함께 읽는다' }).waitFor({ state: 'visible', timeout: 10000 });
+  await page.locator('#actions button').filter({ hasText: '다리야와 《동시대인》을 함께 읽는다' }).click();
+  assert.match(await page.locator('#journal-text').textContent(), /함께 읽는 《동시대인》/);
   await page.locator('#actions button').filter({ hasText: '3월 9일 자료로 이어가기' }).click();
   await page.waitForTimeout(300);
   if (!String(await page.locator('#headline').textContent()).includes('허가 도장')) {
@@ -138,7 +138,7 @@ try {
   assert.ok(afterTypesetting.choices.some(label => label.includes('교정쇄를 다시 대조')));
   assert.equal(errors.length, 0, `browser page errors after field choice: ${errors.join('; ')}`);
   await page.screenshot({ path: path.join(output, 'MAIN01-PRINT-CHOICE-1365x768.png'), fullPage: true });
-  console.log(JSON.stringify({ status: 'PASS', startTask: '부록은 어디 있습니까?', firstChoice: '구독 장부에서 이름을 찾는다',
+  console.log(JSON.stringify({ status: 'PASS', startTask: '《동시대인》을 기다리는 사람들', firstChoice: '다리야와 《동시대인》을 함께 읽는다',
     nextTask: await page.locator('#mission-title').textContent(), date: '1848-03-09', pageErrors: errors,
     followup: nextScene, printshopArrival, possessedHost, alexeiExit, printshopAction, printChoiceButtons, printChoiceOutcome,
     afterTypesetting, mobilePuzzle, screenshots: [path.join(output, 'MAIN01-PROGRESSION-1365x768.png'),
