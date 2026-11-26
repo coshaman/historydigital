@@ -1046,13 +1046,13 @@ async function runRoute(browser, base, routeName) {
               assert.equal(await page.getByRole('button', { name: action.labelKo, exact: true }).count(), 0,
                 'the carriage decision waits until the player speaks to Marfa and the driver');
               await page.getByRole('button', { name: '마르파에게 무엇이 필요한지 묻는다' }).click();
-              assert.match(await page.locator('#journal-text').innerText(), /센나야에서 언니하고 생선을 팔아요.*나는 병원에 가겠어요/s);
+              assert.match(await page.locator('#journal-text').innerText(), /센나야에서 언니하고 생선을 파는데.*병원에 데려다주세요/s);
               await page.getByRole('button', { name: '마부를 문 안으로 부른다' }).click();
               await page.getByRole('button', { name: '마부에게 내일 일을 묻는다' }).click();
-              assert.match(await page.locator('#journal-text').innerText(), /마부 · 나리, 그 댁 정문/);
+              assert.match(await page.locator('#journal-text').innerText(), /마부 · .*내일 주인어른 앞에 같이 가 주시겠습니까/);
               const choiceView = await page.locator('#journal-text').evaluate(element => ({
                 fits: element.scrollHeight <= element.clientHeight + 1,
-                offersSecondCarriage: element.textContent.includes('내 외투를 이리나에게 맡겨요'),
+                offersSecondCarriage: element.textContent.includes('내 외투를 이리나한테 맡겨요'),
               }));
               assert.ok(choiceView.fits && choiceView.offersSecondCarriage,
                 'the driver’s bargain and the second carriage are both readable before choosing');
@@ -1062,7 +1062,7 @@ async function runRoute(browser, base, routeName) {
             if (main01Only && quest.id === 'V47_MAIN01_A11') {
               const aftermath = await page.locator('#journal-text').innerText();
               assert.match(aftermath, routeName === 'NORMAL' ? /마르파 언니를 센나야에서.*그 차를 다 마시고 나왔네/s
-                : /이리나가 외투를 맡아 두고 로만에게 삯을 냈어요.*파벨한테 책을 건넸대요/s);
+                : /이리나가 외투를 맡아 두고 로만에게 삯을 냈어요.*파벨이 책은 받았대요/s);
             }
             const choice = page.locator('#actions button').filter({ hasText: action.labelKo }).first();
             try { await choice.waitFor({ state: 'visible', timeout: 2500 }); }

@@ -14,7 +14,7 @@ from xml.sax.saxutils import escape
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "narrative" / "MAIN01-short-story-ko.md"
 OUTPUT = ROOT / "output" / "pdf" / "MAIN01-short-story-ko.pdf"
-BODY_LIMIT = "## 사료와 문학적 근거"
+SOURCE_HEADING = "사료"
 FONT = Path("C:/Windows/Fonts/malgun.ttf")
 FONT_BOLD = Path("C:/Windows/Fonts/malgunbd.ttf")
 FONT_SERIF = Path("C:/Windows/Fonts/batang.ttc")
@@ -44,7 +44,7 @@ def main():
     if not FONT.exists() or not FONT_BOLD.exists():
         raise SystemExit("맑은 고딕 글꼴을 찾을 수 없습니다.")
     markdown = SOURCE.read_text(encoding="utf-8")
-    title_and_body, source_notes = markdown.split(BODY_LIMIT, 1)
+    title_and_body, source_notes = markdown.split(f"\n## {SOURCE_HEADING}\n", 1)
     title_match = re.search(r"(?m)^# (.+)$", title_and_body)
     title = title_match.group(1).strip() if title_match else "자유인의 마차"
     body = re.sub(r"(?m)^# .+\r?\n", "", title_and_body).strip()
@@ -102,7 +102,7 @@ def main():
         if text:
             story.append(Paragraph(to_markup(text), styles["StoryBody"]))
 
-    story.extend([PageBreak(), Paragraph("사료와 문학적 근거", styles["SourceHeading"])])
+    story.extend([PageBreak(), Paragraph(SOURCE_HEADING, styles["SourceHeading"])])
     for line in source_notes.strip().splitlines():
         line = line.strip()
         if not line:
