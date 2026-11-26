@@ -1061,7 +1061,7 @@ async function runRoute(browser, base, routeName) {
             }
             if (main01Only && quest.id === 'V47_MAIN01_A11') {
               const aftermath = await page.locator('#journal-text').innerText();
-              assert.match(aftermath, routeName === 'NORMAL' ? /마르파 언니를 센나야에서.*그 차를 다 마시고 나왔네/s
+              assert.match(aftermath, routeName === 'NORMAL' ? /센나야에서 마르파 언니를 찾아.*그래서 뭐라고 하셨어요\?.*차 잘 마셨다고 인사는 했어/s
                 : /이리나가 외투를 맡아 두고 로만에게 삯을 냈어요.*파벨이 책은 받았대요/s);
             }
             const choice = page.locator('#actions button').filter({ hasText: action.labelKo }).first();
