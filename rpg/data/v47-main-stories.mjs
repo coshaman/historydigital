@@ -27,7 +27,7 @@ export const v47StoryQuests = [
     premiseKo: '상트페테르부르크 검열위원회의 재심을 거쳐 국민계몽부 검열총국이 연감 발행을 금했다. 구력 10월 20일.',
     prerequisiteQuestIds: ['V47_MAIN01_PERMISSION'], entry: { mapId: 'printshop', objectId: 9048 }, sourceIds: ['V47-MUSIN-PUSHKIN-REPORT-MARGIN-NOTE-1848-10-15'],
     dialogueStatus: 'NEWLY_AUTHORED_FROM_V47_SCENARIO', dialogue: sceneDialogue(
-      ['스테판', '어제 새벽에야 마지막 장을 찍었어요. 이 묶음은 이제 어떻게 합니까?'],
+      ['스테판', '어제 새벽에야 마지막 장을 찍었지요. 잉크도 아직 손에서 안 지워졌는데, 이 묶음을 창고에 갖다 두면 됩니까?'],
       ['예카테리나', '창고에 넣어 둬. 밖에 구독자들이 와 있어. 한 부라도 보이면 달라고 할 거야.'],
       ['스테판', '버릴 교정쇄 한 장만 주시면 안 돼요? 어머니는 제가 여기서 뭘 찍는지 한 번도 못 보셨어요.'],
       ['예카테리나', '종이 더미에서 찾아봐. 불 켜 줄게. 손님들은 내가 만나마.']),
