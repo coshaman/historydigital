@@ -29,8 +29,8 @@ export const v47StoryQuests = [
     dialogueStatus: 'NEWLY_AUTHORED_FROM_V47_SCENARIO', dialogue: sceneDialogue(
       ['스테판', '어제 새벽에야 마지막 장을 찍었어요. 이 묶음은 이제 어떻게 합니까?'],
       ['예카테리나', '창고에 넣어 둬. 밖에 구독자들이 와 있어. 한 부라도 보이면 달라고 할 거야.'],
-      ['스테판', '어제 어머니한테 한 부 보내겠다고 편지를 썼는데요. 제 돈 내고 한 부 사는 것도 안 됩니까?'],
-      ['예카테리나', '안 돼. 일단 손님들한테 내가 나가 본다고 해. 넌 손부터 씻어.']),
+      ['스테판', '버릴 교정쇄 한 장만 주시면 안 돼요? 어머니는 제가 여기서 뭘 찍는지 한 번도 못 보셨어요.'],
+      ['예카테리나', '종이 더미에서 찾아봐. 불 켜 줄게. 손님들은 내가 만나마.']),
     actions: [
       action('V47_A06_COUNT_STOCK', ['printer_ekaterina', 'bookseller_lev'], '인쇄소 문을 닫는다', '예카테리나가 작업자들을 먼저 내보내고 인쇄소 문을 닫는다. 사람들은 한동안 문 앞에서 기다린다.', { situationKo: '인쇄소를 닫아 작업자들을 내보냈다.' }),
       action('V47_A06_PAY_WORKERS', ['nekrasov_reconstruction', 'courier_pavel'], '남은 돈을 품삯과 환불에 나눈다', '품삯과 구독자 환불에 남은 돈을 나누었다. 어느 쪽을 먼저 갚았는지가 뒤의 인물 관계와 생계에 남는다.', { situationKo: '배포 금지 뒤 품삯과 환불을 나누어 지급했다.', flags: { V47_MAIN01_COMPENSATION_CHOSEN: true }, v47WorldChange: { money: [{ fromHostId: 'editor_sofia', toHostId: 'seamstress_anna', amount: 1 }, { fromHostId: 'editor_sofia', toHostId: 'print_apprentice_stepan', amount: 1 }], relationships: [{ fromHostId: 'seamstress_anna', toHostId: 'editor_sofia', trustDelta: 2 }, { fromHostId: 'print_apprentice_stepan', toHostId: 'editor_sofia', trustDelta: 2 }] } }),
