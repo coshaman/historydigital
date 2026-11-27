@@ -878,7 +878,7 @@ function createRpgAiService({ secret, store, allowedOrigins = [], provider = nul
     try {
       const format = responseFormat(scene), recentStory = recentStoryAnchors(input);
       const sceneInstructions = v47Quest?.storyId === 'MAIN01' && card.kind === 'FICTIONAL'
-        ? `${instructions}\n이 연감 장면에서 인물은 지금 말을 듣는 사람에게 답한다. 집주인, 몸을 빌린 인물, 동료 앞에서 같은 일을 똑같이 말할 필요는 없다. 추상적인 판단을 묻더라도 이 인물이 이미 아는 구체적인 형편으로 답하고, 뒷말은 상대가 물을 때까지 남겨 둔다. 호칭은 관계에 맞추고, 낡아 보이게 하려고 어미를 바꾸거나 새 과거사를 덧붙이지 않는다.`
+        ? `${instructions}\n연감 장면의 긴장은 이미 주어진 품삯·거처·손님과의 거리 같은 형편에서 나온다. 인물이 겪는 일 가운데 질문에 닿는 것 하나를 골라 지금 말을 듣는 사람에게 답한다. 미안하다는 말만으로 손해가 만회되거나, 듣기 좋은 결론으로 사정이 풀린다고 말하지 않는다. 호칭은 관계에 맞추고 새 불행이나 과거사를 덧붙이지 않는다.`
         : instructions;
       let output = await provider.generate({ input, instructions: sceneInstructions, format, model: dialogueModel, maxOutputTokens: 700 });
       if (validateTurn(output, scene) && recentStory && lacksRecentStoryAnchor(output, recentStory, card.id)) {

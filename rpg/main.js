@@ -1723,7 +1723,7 @@ function inspectMain01ReturnDoor(door) {
     say('바실리 댁 정문', '알렉세이가 정문을 두드리려다 손을 내렸다.\n\n알렉세이 · 이쪽으로 오너라. 부엌문은 담 끝에 있다.', [], { keepMissionContext: true });
     return;
   }
-  say('담장 끝 부엌문', '스테판은 빵을 싼 종이를 고쳐 쥐었다.', [
+  say('담장 끝 부엌문', '문틈에 불빛이 비쳤다. 안에서 무거운 짐을 끄는 소리가 났다.', [
     { label: '문을 두드리고 마부를 기다린다', run: () => {
       if (main01ReturnDoor(state)?.step !== door || !currentNearby().some(object => mapObjectProperties(object).v47DriverDoor === door)) return;
       const next = copy(state);
@@ -1732,7 +1732,7 @@ function inspectMain01ReturnDoor(door) {
         actorHostId: next.player.embodiment, mapId: 'nevsky', date: next.world.date });
       setState(next);
       localStorage.setItem('v33-rpg-save', saveGame(state));
-      say('담장 끝 부엌문', '안에서 마부가 누구냐고 물었다. 알렉세이는 모자를 벗어 들고 제 이름을 댔다. 빗장이 풀렸다. 스테판이 마부에게 빵을 건넸다.', continuationFor(questsById.get('V47_MAIN01_A11')));
+      say('담장 끝 부엌문', '알렉세이가 제 이름을 대고 나서 한참 뒤에 빗장이 풀렸다. 문 옆에 이불이 묶여 있었다.\n\n마부 · 이 방을 아침까지 비우랍니다.\n알렉세이 · 주인께 다시 가 보겠네.\n마부 · 벌써 주무십니다, 나리.\n\n마부는 스테판이 내민 빵을 반으로 갈라 한쪽을 도로 쌌다.', continuationFor(questsById.get('V47_MAIN01_A11')));
     } },
   ], { keepMissionContext: true });
 }
@@ -2405,7 +2405,7 @@ function inspect(object) {
       ? flags.V47_A10_INJURED_RIDES
         ? decisionInAbsence + '스테판 · 센나야에서 마르파 언니를 찾아 병원에 갔어요. 아직 눈을 못 떴더군요. 형님은 어느 문으로 가셨어요?\n알렉세이 · 정문으로 갔다. 주인이 차를 권하더구나.\n스테판 · 마부는요?\n알렉세이 · 복도에서 보았다. 나를 보더니 모자를 벗더군. 나는 모른 체했다. 차를 한 잔 더 달라고 했다. 그 복도로 다시 나가기가 싫어서.'
         : flags.V47_A10_BOOK_RIDES
-          ? '스테판 · 이리나가 외투를 맡아 두고 로만에게 삯을 냈어요. 로만이 마르파를 데려갔고요. 산파님은 어젯밤 우리 이불을 어깨에 두르고 산모 집에 가셨어요.\n예카테리나 · 내 외투가 뒤에 걸려 있어. 가실 때 드려. 바실리는 어디 있니?\n스테판 · 파벨이 책은 받았대요. 바실리는 그 뒤로 못 봤고요.'
+          ? '스테판 · 이리나가 외투를 맡아 두고 로만에게 삯을 냈어요. 로만이 마르파를 데려갔고요. 산파님은 어젯밤 우리 이불을 둘러쓰고 산모 집에 가셨어요.\n예카테리나 · 뒤에 내 외투 있지. 소매가 다 닳았어도 그걸 갖다 드려. 바실리는 어디 있니?\n스테판 · 파벨이 책은 받았대요. 바실리는 그 뒤로 못 봤고요.'
           : flags.V47_A10_COPY_STORED
             ? '다리야 · 그날은 소피야의 장롱에 책을 두고 왔어요. 여기서 일하는 사람들은 그 뒤로 이 책을 구경도 못 했지요.'
             : '스테판 · 소피야네 모임에 오던 사람들이 또 왔어요. 책이 안 나온다는 걸 알면서도 오늘은 함께 읽을 자리를 물어보러 왔대요.'

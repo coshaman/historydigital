@@ -139,7 +139,7 @@ export function buildLifeTimeline(state, templates) {
     const details = [
       state.world?.worldFlags?.V47_A10_INJURED_RIDES
         ? '스테판은 센나야에서 부상자의 언니를 찾아 병원으로 데려갔다.' + (state.world.worldFlags.V47_A11_DRIVER_MET
-          ? ' 그는 형과 함께 마부를 찾아가 부엌문 앞에서 빵을 건넸다.' : '')
+          ? ' 형과 함께 마부를 찾아갔을 때는 이미 새벽까지 방을 비우라는 말이 떨어진 뒤였다. 마부는 스테판이 건넨 빵의 반을 종이에 도로 쌌다.' : '')
         : state.world?.worldFlags?.V47_A10_BOOK_RIDES
           ? '금지된 한 권은 파벨에게 갔다. 아브도티야는 부상자를 태울 마차를 부르느라 외투를 맡겼고, 겨울 내내 예카테리나의 낡은 겉옷을 빌려 입었다.'
           : null,

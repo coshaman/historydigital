@@ -1051,7 +1051,7 @@ async function runRoute(browser, base, routeName) {
               assert.match(await page.locator('#journal-text').innerText(), /언니 걸 빌려 신었어요.*센나야 생선 좌판 끝이에요.*병원에 데려다주세요/s);
               await page.getByRole('button', { name: '마부를 문 안으로 부른다' }).click();
               await page.getByRole('button', { name: '마부에게 내일 일을 묻는다' }).click();
-              assert.match(await page.locator('#journal-text').innerText(), /마부 · .*내일 주인어른 앞에 같이 가 주시겠습니까/);
+              assert.match(await page.locator('#journal-text').innerText(), /마부 · .*내일 주인어른 앞에 같이 가 주시겠습니까.*마구간 옆 방도 비워야 합니다/);
               const choiceView = await page.locator('#journal-text').evaluate(element => ({
                 fits: element.scrollHeight <= element.clientHeight + 1,
                 offersSecondCarriage: element.textContent.includes('내 외투를 이리나한테 맡겨요'),
@@ -1328,7 +1328,7 @@ async function runRoute(browser, base, routeName) {
         assert.equal(await page.locator('#headline').textContent(), door.name);
       }
       await page.getByRole('button', { name: '문을 두드리고 마부를 기다린다', exact: true }).click();
-      assert.match(await page.locator('#journal-text').textContent(), /제 이름을 댔다\. 빗장이 풀렸다/);
+      assert.match(await page.locator('#journal-text').textContent(), /이 방을 아침까지 비우랍니다.*빵을 반으로 갈라 한쪽을 도로 쌌다/s);
       const saved = await currentState();
       assert.equal(saved.world.worldFlags.V47_A11_DRIVER_MET, true);
       const rows = saved.ledger.filter(row => row.eventType === 'V47_MAIN01_DRIVER_VISIT');
