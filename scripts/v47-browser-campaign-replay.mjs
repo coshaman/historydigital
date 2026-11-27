@@ -7,6 +7,7 @@ import { mimeTypeFor } from '../server-mime.mjs';
 import { attachV47StoryObjects, v47StoryQuests } from '../rpg/data/v47-main-stories.mjs';
 import { main01TimelineSources } from '../rpg/engine/v47-main01-timeline.mjs';
 import { attachMain01PursuitObjects, MAIN01_PURSUIT_CHECKPOINTS, MAIN01_PURSUIT_LIMIT } from '../rpg/engine/v47-main01-pursuit.mjs';
+import { attachMain01ReturnDoors, MAIN01_RETURN_DOORS } from '../rpg/engine/v47-story-dialogue.mjs';
 import { attachV47StoryBeatObjects, toV47StoryQuests } from '../rpg/data/v47-story-beats.mjs';
 import { v47RoleProfiles } from '../rpg/data/v47-character-roles.mjs';
 import { decorateCardsWithEraProfiles } from '../rpg/engine/era-profiles.mjs';
@@ -59,6 +60,7 @@ attachV47StoryObjects(maps);
 attachV47StoryBeatObjects(maps, storyQuests);
 attachMain01PursuitObjects(maps);
 attachMain01StorageShelves(maps);
+attachMain01ReturnDoors(maps.nevsky);
 const storyQuestIds = new Set(campaignStoryQuests.map(quest => quest.id));
 const sourceMap = new Map(sourceIndex.records.map(record => [record.sourceId, record]));
 const historicalPacketMap = new Map(historicalPackets.records.map(record => [record.sourceId, record]));
@@ -1046,7 +1048,7 @@ async function runRoute(browser, base, routeName) {
               assert.equal(await page.getByRole('button', { name: action.labelKo, exact: true }).count(), 0,
                 'the carriage decision waits until the player speaks to Marfa and the driver');
               await page.getByRole('button', { name: '마르파에게 무엇이 필요한지 묻는다' }).click();
-              assert.match(await page.locator('#journal-text').innerText(), /센나야에서 언니하고 생선을 파는데.*병원에 데려다주세요/s);
+              assert.match(await page.locator('#journal-text').innerText(), /언니 걸 빌려 신었어요.*센나야 생선 좌판 끝이에요.*병원에 데려다주세요/s);
               await page.getByRole('button', { name: '마부를 문 안으로 부른다' }).click();
               await page.getByRole('button', { name: '마부에게 내일 일을 묻는다' }).click();
               assert.match(await page.locator('#journal-text').innerText(), /마부 · .*내일 주인어른 앞에 같이 가 주시겠습니까/);
@@ -1061,7 +1063,7 @@ async function runRoute(browser, base, routeName) {
             }
             if (main01Only && quest.id === 'V47_MAIN01_A11') {
               const aftermath = await page.locator('#journal-text').innerText();
-              assert.match(aftermath, routeName === 'NORMAL' ? /센나야에서 마르파 언니를 찾아.*그래서 뭐라고 하셨어요\?.*차 잘 마셨다고 인사는 했어/s
+              assert.match(aftermath, routeName === 'NORMAL' ? /어느 문으로 가셨어요\?.*마부는요\?.*차를 한 잔 더 달라고 했다\. 그 복도로 다시 나가기가 싫어서/s
                 : /이리나가 외투를 맡아 두고 로만에게 삯을 냈어요.*파벨이 책은 받았대요/s);
             }
             const choice = page.locator('#actions button').filter({ hasText: action.labelKo }).first();
@@ -1312,6 +1314,32 @@ async function runRoute(browser, base, routeName) {
         && rows.filter(item => item.storyId === 'MAIN03').length === 12
         && rows.filter(item => item.storyId === 'MAIN05').length === 12) break;
     }
+    let driverVisit = null;
+    if (main01Only && routeName === 'NORMAL') {
+      const hostId = (await currentState()).player.embodiment;
+      const actor = runtimeCards.find(card => card.id === hostId);
+      const visit = page.getByRole('button', { name: '마부에게 돌아간다', exact: true });
+      await visit.click();
+      await travelTo('nevsky', actor);
+      for (const door of MAIN01_RETURN_DOORS) {
+        assert.match(await page.locator('#mission-action').textContent(), new RegExp(door.step === 'front' ? '정문' : '부엌문'));
+        await walkTo(door, door.name);
+        await use();
+        assert.equal(await page.locator('#headline').textContent(), door.name);
+      }
+      await page.getByRole('button', { name: '문을 두드리고 마부를 기다린다', exact: true }).click();
+      assert.match(await page.locator('#journal-text').textContent(), /제 이름을 댔다\. 빗장이 풀렸다/);
+      const saved = await currentState();
+      assert.equal(saved.world.worldFlags.V47_A11_DRIVER_MET, true);
+      const rows = saved.ledger.filter(row => row.eventType === 'V47_MAIN01_DRIVER_VISIT');
+      assert.equal(rows.length, 1);
+      assert.equal(rows[0].mapId, 'nevsky');
+      const shot = path.join(outputDir, `${routeName}-MAIN01-DRIVER-RETURN.png`);
+      await page.screenshot({ path: shot }); screenshots.push(shot);
+      driverVisit = { status: 'PASS', mapId: rows[0].mapId, screenshot: shot };
+    } else if (main01Only) {
+      assert.equal(await page.getByRole('button', { name: '마부에게 돌아간다', exact: true }).count(), 0);
+    }
     let storyEnding = null;
     if (main01FinalChoice) {
       const finalBeat = questsById.get('V47_MAIN01_A11');
@@ -1429,7 +1457,7 @@ async function runRoute(browser, base, routeName) {
     const report = { routeName, scope: main01Only ? 'MAIN01 start-to-aftermath browser play'
       : main03Only ? 'MAIN03 start-to-aftermath browser play' : e41Only ? 'E41 date gate and historical event browser play' : 'full V47 campaign browser play',
       status: main01Only ? storySummary.MAIN01.status : main03Only ? storySummary.MAIN03.status : 'PASS',
-      stories: storySummary, quests: rows, transitions, sourceReads, screenshots, timelinePuzzle, storyEnding,
+      stories: storySummary, quests: rows, transitions, sourceReads, screenshots, timelinePuzzle, storyEnding, driverVisit,
       fixedHistoricalEvent: rows.find(row => row.questId === 'E41_SEMENOVSKY_1849') ?? null,
       pageErrors, pageCrashes, viewport };
     const reportName = main01Only ? `V47_${routeName}_MAIN01_BROWSER_CAMPAIGN.json`

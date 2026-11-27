@@ -1,3 +1,5 @@
+import { main01ReturnDoor } from './v47-story-dialogue.mjs';
+
 const chapters = ['V33_1847_PRINT', 'V33_1848_PUBLIC', 'V33_1849_PRELUDE', 'V33_1849_CIRCLE'];
 
 export function ambientBubbleFor(state, hostCards, map, time, paused = false, exchanges = []) {
@@ -36,6 +38,7 @@ export function objectIsPresent(object, state, quests = []) {
   }
   if (p.availableChapterId && (chapters.indexOf(p.availableChapterId) < 0 || chapters.indexOf(state.world.chapterId) < chapters.indexOf(p.availableChapterId))) return false;
   if (p.availableDate && p.availableDate > state.world.date) return false;
+  if (p.v47DriverDoor) return Boolean(state.player.embodiment && main01ReturnDoor(state)?.step === p.v47DriverDoor);
   if (p.v47PursuitCheckpoint) return state.world.v47?.main01Pursuit?.status === 'ACTIVE';
   if (object.type !== 'quest-object') return true;
   const quest = quests.find(item => item.id === p.questId);

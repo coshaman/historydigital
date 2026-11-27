@@ -877,10 +877,13 @@ function createRpgAiService({ secret, store, allowedOrigins = [], provider = nul
     let responseBody;
     try {
       const format = responseFormat(scene), recentStory = recentStoryAnchors(input);
-      let output = await provider.generate({ input, instructions, format, model: dialogueModel, maxOutputTokens: 700 });
+      const sceneInstructions = v47Quest?.storyId === 'MAIN01' && card.kind === 'FICTIONAL'
+        ? `${instructions}\n이 연감 장면에서 인물은 지금 말을 듣는 사람에게 답한다. 집주인, 몸을 빌린 인물, 동료 앞에서 같은 일을 똑같이 말할 필요는 없다. 추상적인 판단을 묻더라도 이 인물이 이미 아는 구체적인 형편으로 답하고, 뒷말은 상대가 물을 때까지 남겨 둔다. 호칭은 관계에 맞추고, 낡아 보이게 하려고 어미를 바꾸거나 새 과거사를 덧붙이지 않는다.`
+        : instructions;
+      let output = await provider.generate({ input, instructions: sceneInstructions, format, model: dialogueModel, maxOutputTokens: 700 });
       if (validateTurn(output, scene) && recentStory && lacksRecentStoryAnchor(output, recentStory, card.id)) {
         const repairAnchors = [...recentStory.primary, ...recentStory.secondary].slice(0, 8);
-        const repairInstructions = `${instructions}\n이번 질문에는 이 인물이 아는 구체적인 소식이 있다. 첫 답변은 너무 막연했다. ${repairAnchors.join('·')} 가운데 실제 장면에 맞는 이름이나 장소 하나를 넣어, 인물 말씨로 짧게 다시 답하라. 소식의 목록이나 시스템 설명은 쓰지 않는다.`;
+        const repairInstructions = `${sceneInstructions}\n이번 질문에는 이 인물이 아는 구체적인 소식이 있다. 첫 답변은 너무 막연했다. ${repairAnchors.join('·')} 가운데 실제 장면에 맞는 이름이나 장소 하나를 넣어, 인물 말씨로 짧게 다시 답하라. 소식의 목록이나 시스템 설명은 쓰지 않는다.`;
         provider.lastFailureCode = 'non_concrete_recent_event';
         output = await provider.generate({ input, instructions: repairInstructions, format, model: dialogueModel, maxOutputTokens: 700 });
       }

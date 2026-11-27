@@ -151,6 +151,13 @@ export function guideToResident({ state, maps, hostCards, targetHostId }) {
   return { ...place, howKo: `${pathKo(place.walkDirections)}${place.target?.kind === 'exit' ? ' 출구를 지나 표시된 구역으로 가세요.' : ' 인물 곁에서 말을 거세요.'}` };
 }
 
+export function guideToMapObject({ state, maps, host, mapId, object }) {
+  const target = { mapId, objectId: object.id, name: object.name, ...tileOf(object), kind: 'object' };
+  const place = destination({ state, maps, host, target });
+  return { ...place, howKo: place.blocked ? place.blockedReasonKo
+    : `${pathKo(place.walkDirections)} ${place.target.kind === 'exit' ? '표시된 출구로 나가세요.' : '문 곁에서 E를 누르거나 살펴보기를 누르세요.'}`.trim() };
+}
+
 export function formatMissionActionKo(guidance, fallback = '') {
   const action = guidance?.actionKo ?? fallback;
   const place = guidance?.placeKo?.trim();

@@ -5,7 +5,7 @@ import { decorateCardsWithEraProfiles } from './engine/era-profiles.mjs';
 import { objectIsPresent, questPrerequisitesMet } from './engine/world-presentation.mjs';
 import { questChoices, continuationQuest, fixedEventWaitForWitness, europeNewsWaitForReaders, resolveObjectQuest, retainProgressionAction, formatStoryActionGuidanceKo } from './engine/quest-presentation.mjs';
 import { questOutcomeSummary } from './engine/quest-outcome-summary.mjs';
-import { formatMissionActionKo, guideToResident, questRosterTargetHostId, resolveGuidedPossessionInteraction, resolveQuestGuidance } from './engine/quest-guidance.mjs';
+import { formatMissionActionKo, guideToMapObject, guideToResident, questRosterTargetHostId, resolveGuidedPossessionInteraction, resolveQuestGuidance } from './engine/quest-guidance.mjs';
 import { ownsKeyboardInput, observationText } from './engine/player-presentation.mjs';
 import { availableDiscussionQuests, discussionBoardView, discussionFollowUpAfterTurn, discussionPromptsForHost, discussionQuestInstruction, discussionReflectionPromptsForHost, discussionReplyAction, discussionReplyChoices, formatDiscussionQuestTaskKo, formatQueuedDiscussionTaskKo, nextDiscussionInstructionForQuest, resolveQueuedDiscussionPrompt, shouldOpenDiscussionBoard, shouldShowQuestTracker } from './engine/discussion-quests.mjs';
 import { dialogueSessionNeedsReconnect, dialogueSpeakerLabel, mayOfferDiscussionPrompt, selectDialogueTurn } from './engine/dialogue-response.mjs';
@@ -23,7 +23,7 @@ import { campaignForV47StoryProgress, resolveV47StoryEntry, resolveV47StoryMenuE
 import { attachMain01PursuitObjects, createMain01PursuitState, MAIN01_PURSUIT_CHECKPOINTS, MAIN01_PURSUIT_LIMIT, reachMain01PursuitCheckpoint, startMain01Pursuit } from './engine/v47-main01-pursuit.mjs';
 import { attachMain01StorageShelves, createMain01StorageState, MAIN01_STORAGE_PACKETS, MAIN01_STORAGE_SHELVES, placeMain01StoragePacket } from './engine/v47-main01-storage.mjs';
 import { attachV47StoryBeatObjects, toV47StoryQuests } from './data/v47-story-beats.mjs';
-import { advanceMain01StoryDialogue, main01StoryDialogueAllowsAi, main01StoryDialogueStage, main01StoryDialogueTrack } from './engine/v47-story-dialogue.mjs';
+import { advanceMain01StoryDialogue, attachMain01ReturnDoors, canReturnToMain01Driver, main01ReturnDoor, main01StoryDialogueAllowsAi, main01StoryDialogueStage, main01StoryDialogueTrack } from './engine/v47-story-dialogue.mjs';
 import { v47RoleProfiles } from './data/v47-character-roles.mjs';
 import { sourceAvailableOn } from './engine/source-availability.mjs';
 import { formatCivicReaction, formatObservedNpcReactions, recentJournalEntries } from './engine/world-reaction-presentation.mjs';
@@ -61,6 +61,7 @@ attachV47StoryObjects(maps);
 attachV47StoryBeatObjects(maps, v47StoryBeatQuests);
 attachMain01PursuitObjects(maps);
 attachMain01StorageShelves(maps);
+attachMain01ReturnDoors(maps.nevsky);
 const historicalScenes = new Map();
 const copy = value => structuredClone(value);
 for (const scene of historicalPlay) {
@@ -705,6 +706,19 @@ function updateHud() {
     $('#mission-pin').setAttribute('aria-pressed', String(destinationPinned && Boolean(missionGuidance.target)));
     $('#mission-pin').textContent = destinationPinned && missionGuidance.target ? '목적지 표시 중' : '목적지 표시';
     $('#pin-legend').hidden = !(destinationPinned && missionGuidance.target);
+  }
+  const returnDoor = !inLiteraryScene && !state.historicalSession && !state.player.civic?.custody?.active
+    ? main01ReturnDoor(state) : null;
+  if (returnDoor) {
+    const place = host ? guideToMapObject({ state, maps, host, mapId: 'nevsky', object: returnDoor }) : null;
+    missionGuidance = { questId: 'V47_MAIN01_DRIVER_RETURN', questTitleKo: '마부에게 돌아가다',
+      actionKo: returnDoor.step === 'front' ? '바실리 댁 정문에서 두 형제를 만난다' : '담장 끝 부엌문에서 마부를 부른다',
+      howKo: place?.howKo ?? '인물 목록에서 거리에 나갈 수 있는 인물을 빌리세요.', placeKo: '네프스키 거리',
+      target: place?.target ?? null, blocked: Boolean(place?.blocked) };
+    $('#mission-title').textContent = missionGuidance.questTitleKo;
+    $('#mission-action').textContent = missionGuidance.actionKo;
+    $('#mission-reason').textContent = '';
+    $('#mission-method').textContent = missionGuidance.howKo;
   }
   const caseContext = host ? caseContextsByQuest.get(missionGuidance.questId) : null;
   caseContextButton.hidden = !caseContext?.roles?.[host.id] || Boolean(state.endingId);
@@ -1384,6 +1398,7 @@ function selectV47Story(storyId) {
   localStorage.setItem('v33-rpg-save', saveGame(next));
   if (guide.status === 'COMPLETE') {
     say(`${entry.titleKo} · ${entry.statusLabelKo}`, entry.introKo, [
+      ...(storyId === 'MAIN01' ? main01DriverReturnOption() : []),
       { label: '후일담 다시 보기', run: openJournal },
       { label: '다른 현장 고르기', run: openHistoricalEventMenu },
     ]);
@@ -1681,6 +1696,45 @@ function continuationFor(activeQuest) {
   } }];
   if (nextArc) return [{ label: '현재 장의 남은 목표 확인하기', subcopy: '이 장의 기록을 마친 뒤에만 다음 해로 이동합니다', run: returnToCurrentGoal }];
   return [{ label: '마지막 기록을 정리한다', subcopy: '독서 모임 선택과 진급 시험을 마친 뒤 다섯 결말을 확인합니다', run: showLearningHub }];
+}
+
+function main01DriverReturnOption() {
+  const flags = state.world.worldFlags ?? {};
+  if (!state.player.embodiment || !canReturnToMain01Driver(state) || flags.V47_A11_RETURN_STARTED) return [];
+  return [{ label: '마부에게 돌아간다', run: () => {
+    const next = copy(state);
+    next.world.worldFlags.V47_A11_RETURN_STARTED = true;
+    setState(next);
+    localStorage.setItem('v33-rpg-save', saveGame(state));
+    destinationPinned = true;
+    updateHud();
+    say('마부에게 돌아가다', '스테판 · 어머니가 보내신 빵이에요. 제 몫은 제가 가져갈게요. 형님도 오시겠어요?\n\n알렉세이는 장갑을 집어 들었다.', [], { keepMissionContext: true });
+  } }];
+}
+
+function inspectMain01ReturnDoor(door) {
+  if (!state.player.embodiment || main01ReturnDoor(state)?.step !== door || currentMap().mapId !== 'nevsky'
+    || !currentNearby().some(object => mapObjectProperties(object).v47DriverDoor === door)) return;
+  if (door === 'front') {
+    const next = copy(state);
+    next.world.worldFlags.V47_A11_FRONT_DOOR_SEEN = true;
+    setState(next);
+    localStorage.setItem('v33-rpg-save', saveGame(state));
+    say('바실리 댁 정문', '알렉세이가 정문을 두드리려다 손을 내렸다.\n\n알렉세이 · 이쪽으로 오너라. 부엌문은 담 끝에 있다.', [], { keepMissionContext: true });
+    return;
+  }
+  say('담장 끝 부엌문', '스테판은 빵을 싼 종이를 고쳐 쥐었다.', [
+    { label: '문을 두드리고 마부를 기다린다', run: () => {
+      if (main01ReturnDoor(state)?.step !== door || !currentNearby().some(object => mapObjectProperties(object).v47DriverDoor === door)) return;
+      const next = copy(state);
+      next.world.worldFlags.V47_A11_DRIVER_MET = true;
+      next.ledger.push({ eventType: 'V47_MAIN01_DRIVER_VISIT', questId: 'V47_MAIN01_A11', actionId: 'V47_A11_KNOCK_KITCHEN_DOOR',
+        actorHostId: next.player.embodiment, mapId: 'nevsky', date: next.world.date });
+      setState(next);
+      localStorage.setItem('v33-rpg-save', saveGame(state));
+      say('담장 끝 부엌문', '안에서 마부가 누구냐고 물었다. 알렉세이는 모자를 벗어 들고 제 이름을 댔다. 빗장이 풀렸다. 스테판이 마부에게 빵을 건넸다.', continuationFor(questsById.get('V47_MAIN01_A11')));
+    } },
+  ], { keepMissionContext: true });
 }
 function civicWitnesses(object, offenderId) {
   const tile = { x: Math.floor(object.x / 16), y: Math.floor(object.y / 16) };
@@ -2000,6 +2054,7 @@ function inspectMain01StorageShelf(shelfId) {
 }
 function inspect(object) {
   const props = Object.fromEntries((object.properties ?? []).map(p => [p.name, p.value]));
+  if (props.v47DriverDoor) { inspectMain01ReturnDoor(props.v47DriverDoor); return; }
   if (props.v47StorageShelf) { inspectMain01StorageShelf(props.v47StorageShelf); return; }
   if (props.v47PursuitCheckpoint) { inspectMain01PursuitCheckpoint(object, props.v47PursuitCheckpoint); return; }
   if (props.serviceId) { openCivicService(props.serviceId, object); return; }
@@ -2266,7 +2321,8 @@ function inspect(object) {
     const activeQuest = resolveObjectQuest(props.questId, state, questList);
     if (!questIsAvailable(activeQuest)) { say('아직 시작할 때가 아니다', '이 장의 사건이 열리면 여기서 이어진다.', []); return; }
     if (state.quests[activeQuest.id]?.status === 'resolved') {
-      say(activeQuest.titleKo, '이 장의 선택은 이미 기록되어 있다. 다음으로 이어갈 수 있다.', continuationFor(activeQuest));
+      const returnOptions = activeQuest.id === 'V47_MAIN01_A11' ? main01DriverReturnOption() : [];
+      say(activeQuest.titleKo, '이 장의 선택은 이미 기록되어 있다. 다음으로 이어갈 수 있다.', [...returnOptions, ...continuationFor(activeQuest)]);
       return;
     }
     const choiceStates = questChoices(activeQuest, state.player.embodiment, knowledgeForHost(state, state.player.embodiment), state);
@@ -2279,7 +2335,8 @@ function inspect(object) {
       $('#load').disabled = false;
       tutorialAdvance('target');
       const awaitingFixedOutcome = activeQuest.fixedEvent && state.world.livingEventStates?.[activeQuest.fixedEvent.id]?.status === 'ACTIVE';
-      const actions = awaitingFixedOutcome ? [] : continuationFor(activeQuest);
+      const returnOptions = activeQuest.id === 'V47_MAIN01_A11' ? main01DriverReturnOption() : [];
+      const actions = awaitingFixedOutcome ? [] : [...returnOptions, ...continuationFor(activeQuest)];
       const followup = !awaitingFixedOutcome && action.followupKo ? `\n\n${action.followupKo}` : '';
       const chain = activeQuest.lifeChain, chainProgress = chain ? result.state.world.lifeChains?.[chain.id] : null;
       const changedMetrics = chainProgress ? Object.entries(chainProgress.metrics).filter(([, value]) => value !== 0).map(([key, value]) => `${chain.metricsKo?.[key] ?? key} ${value > 0 ? '+' : ''}${value}`).join(' · ') : '';
@@ -2342,11 +2399,11 @@ function inspect(object) {
     }
     const flags = state.world.worldFlags ?? {};
     const decisionInAbsence = flags.V47_A10_SOFIYA_DECIDED
-      ? '예카테리나 · 당신이 안 왔을 때 소피야가 뒤뜰에서 마차를 잡았어. 알렉세이가 마부 집에 함께 가기로 약속하고 부상자를 보냈지.\n'
+      ? '예카테리나 · 소피야가 뒤뜰에서 마차를 잡았어. 알렉세이는 마부한테 바실리 댁으로 함께 가 주마 했지.\n'
       : '';
     const carriageFollowup = activeQuest.id === 'V47_MAIN01_A11'
       ? flags.V47_A10_INJURED_RIDES
-        ? decisionInAbsence + '스테판 · 센나야에서 마르파 언니를 찾아 병원에 갔어요. 마르파는 아직 눈을 못 떴고요. 형님은 그 집에 갔어요?\n알렉세이 · 갔어. 정문으로 갔지. 마부가 부엌으로 불려갈 때 나를 봤어.\n스테판 · 그래서 뭐라고 하셨어요?\n알렉세이 · 아무 말도 안 했다. 나올 때 주인한테 차 잘 마셨다고 인사는 했어.\n스테판 · 그 집에 같이 가요, 형님. 이번엔 내가 마부부터 불러 달라고 할게요.'
+        ? decisionInAbsence + '스테판 · 센나야에서 마르파 언니를 찾아 병원에 갔어요. 아직 눈을 못 떴더군요. 형님은 어느 문으로 가셨어요?\n알렉세이 · 정문으로 갔다. 주인이 차를 권하더구나.\n스테판 · 마부는요?\n알렉세이 · 복도에서 보았다. 나를 보더니 모자를 벗더군. 나는 모른 체했다. 차를 한 잔 더 달라고 했다. 그 복도로 다시 나가기가 싫어서.'
         : flags.V47_A10_BOOK_RIDES
           ? '스테판 · 이리나가 외투를 맡아 두고 로만에게 삯을 냈어요. 로만이 마르파를 데려갔고요. 산파님은 어젯밤 우리 이불을 어깨에 두르고 산모 집에 가셨어요.\n예카테리나 · 내 외투가 뒤에 걸려 있어. 가실 때 드려. 바실리는 어디 있니?\n스테판 · 파벨이 책은 받았대요. 바실리는 그 뒤로 못 봤고요.'
           : flags.V47_A10_COPY_STORED
@@ -2445,6 +2502,8 @@ function interact() {
   if (activeDialogueHost || state.endingId || !$('#learning-screen').hidden) return;
   const near = currentNearby();
   if (!near.length) { say('아직 손이 닿지 않는다', '주변을 조금 더 걸어 가까이 가 보자. 사람에게 다가가면 그 사람의 자리에서 도시를 볼 수 있다.', []); return; }
+  const returnDoor = near.find(object => mapObjectProperties(object).v47DriverDoor);
+  if (returnDoor) { inspect(returnDoor); return; }
   const pursuit = state.world.v47?.main01Pursuit;
   if (state.player.embodiment === 'courier_pavel' && state.quests.V47_MAIN01_A08?.status === 'open'
     && pursuit?.status === 'ACTIVE') {
