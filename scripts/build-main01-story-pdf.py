@@ -7,7 +7,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
-from reportlab.platypus import PageBreak, Paragraph, SimpleDocTemplate, Spacer
+from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer
 from xml.sax.saxutils import escape
 
 
@@ -18,13 +18,6 @@ SOURCE_HEADING = "사료"
 FONT = Path("C:/Windows/Fonts/malgun.ttf")
 FONT_BOLD = Path("C:/Windows/Fonts/malgunbd.ttf")
 FONT_SERIF = Path("C:/Windows/Fonts/batang.ttc")
-
-
-def to_markup(text: str) -> str:
-    text = escape(text)
-    text = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", text)
-    text = re.sub(r"`(.+?)`", r"<font name='Story'>\1</font>", text)
-    return text
 
 
 def add_footer(canvas, doc):
@@ -44,13 +37,13 @@ def main():
     if not FONT.exists() or not FONT_BOLD.exists():
         raise SystemExit("맑은 고딕 글꼴을 찾을 수 없습니다.")
     markdown = SOURCE.read_text(encoding="utf-8")
-    title_and_body, source_notes = markdown.split(f"\n## {SOURCE_HEADING}\n", 1)
+    title_and_body = markdown.split(f"\n## {SOURCE_HEADING}\n", 1)[0]
     title_match = re.search(r"(?m)^# (.+)$", title_and_body)
     title = title_match.group(1).strip() if title_match else "자유인의 마차"
     body = re.sub(r"(?m)^# .+\r?\n", "", title_and_body).strip()
     body_chars = len(re.sub(r"\s", "", body))
-    if body_chars <= 4000:
-        raise SystemExit(f"소설 본문이 4,000자 미만입니다: 공백 제외 {body_chars}자")
+    if body_chars < 3000:
+        raise SystemExit(f"소설 본문이 3,000자 미만입니다: 공백 제외 {body_chars}자")
 
     pdfmetrics.registerFont(TTFont("Story", str(FONT), subfontIndex=0))
     pdfmetrics.registerFont(TTFont("Story-Bold", str(FONT_BOLD), subfontIndex=0))
@@ -60,29 +53,12 @@ def main():
     styles = getSampleStyleSheet()
     styles.add(ParagraphStyle(
         name="StoryTitle", fontName="Story-Bold", fontSize=24, leading=32,
-        alignment=TA_CENTER, textColor=colors.HexColor("#29251f"), spaceAfter=12,
+        alignment=TA_CENTER, textColor=colors.HexColor("#29251f"), spaceAfter=31,
     ))
     styles.add(ParagraphStyle(
-        name="StoryDeck", fontName="Story", fontSize=9, leading=15,
-        alignment=TA_CENTER, textColor=colors.HexColor("#897858"), spaceAfter=26,
-    ))
-    styles.add(ParagraphStyle(
-        name="StoryBody", fontName="Story-Body", fontSize=11.2, leading=18.1,
+        name="StoryBody", fontName="Story-Body", fontSize=11.2, leading=17.4,
         alignment=TA_LEFT, textColor=colors.HexColor("#2d2924"),
-        spaceAfter=9.2, wordWrap="CJK", allowWidows=0, allowOrphans=0,
-    ))
-    styles.add(ParagraphStyle(
-        name="SourceHeading", fontName="Story-Bold", fontSize=16, leading=24,
-        textColor=colors.HexColor("#29251f"), spaceAfter=14,
-    ))
-    styles.add(ParagraphStyle(
-        name="SourceNote", fontName="Story", fontSize=8.5, leading=14,
-        textColor=colors.HexColor("#514a3f"), leftIndent=10, firstLineIndent=-10,
-        spaceAfter=8, wordWrap="CJK",
-    ))
-    styles.add(ParagraphStyle(
-        name="SourceAfterword", fontName="Story", fontSize=8.5, leading=14,
-        textColor=colors.HexColor("#514a3f"), spaceBefore=8, wordWrap="CJK",
+        spaceAfter=8.4, splitLongWords=0, allowWidows=0, allowOrphans=0,
     ))
 
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
@@ -95,22 +71,11 @@ def main():
     story = [
         Spacer(1, 8 * 2.54),
         Paragraph(escape(title), styles["StoryTitle"]),
-        Paragraph("러시아 제국, 1848년 · 금지된 삽화 연감", styles["StoryDeck"]),
     ]
     for paragraph in re.split(r"\n\s*\n", body):
         text = paragraph.strip()
         if text:
-            story.append(Paragraph(to_markup(text), styles["StoryBody"]))
-
-    story.extend([PageBreak(), Paragraph(SOURCE_HEADING, styles["SourceHeading"])])
-    for line in source_notes.strip().splitlines():
-        line = line.strip()
-        if not line:
-            continue
-        if line.startswith("- "):
-            story.append(Paragraph("• " + to_markup(line[2:]), styles["SourceNote"]))
-        else:
-            story.append(Paragraph(to_markup(line), styles["SourceAfterword"]))
+            story.append(Paragraph(escape(text), styles["StoryBody"]))
 
     doc.build(story, onFirstPage=add_footer, onLaterPages=add_footer)
     print(f"PDF={OUTPUT}")

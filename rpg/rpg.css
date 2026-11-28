@@ -52,8 +52,6 @@
 @media(max-width:600px){.topline{display:grid;grid-template-columns:minmax(0,1fr);align-items:start;gap:8px}.topline>div:first-child{min-width:0}.topline h1{white-space:nowrap;font-size:22px}.top-meta{justify-content:flex-start;flex-wrap:wrap;gap:6px;text-align:left}.top-meta button{padding:6px 8px}}
  .actions button.quest-dialogue-choice{border-color:#d2a85e;background:#584027;color:#fff0cb;box-shadow:inset 3px 0 #d2a85e}.actions button.quest-dialogue-choice small{display:block;color:#e2c994;line-height:1.45;margin-top:3px}
 /* Give the physical typesetting puzzle room in the grid, not just a taller inner scroll area. */
-@media(min-width:761px){.game-shell:has(.lower.has-typesetter){grid-template-rows:auto minmax(180px,.55fr) minmax(390px,1.45fr) auto}}
-@media(max-width:760px){.game-shell:has(.lower.has-typesetter){grid-template-rows:auto minmax(150px,.5fr) minmax(420px,1.4fr)}.game-shell:has(.lower.has-typesetter) .playfield{min-height:150px}}
 @media(max-width:760px){.lower:has(.actions.type-setter-active) .touch-pad{display:none}}
 @media(max-width:760px){.lower:has(.actions.type-setter-active) .section-head{display:none}}
 @media(max-width:760px){.lower:has(.actions.type-setter-active) .journal h2,.lower:has(.actions.type-setter-active) .journal p{display:none}}

@@ -1,0 +1,32 @@
+Game review — 2026-11-29
+
+Changes
+- Removed the retired Senate Square 1825, Inspector 1836 and emancipation 1861 entry buttons from the historical scene menu. Data/session readers remain for saved-game compatibility.
+- The authored MAIN01/MAIN03/MAIN05 entries remain. Shortened their menu descriptions; activity details remain on the selected story screen.
+- Fixed explicit outer grid width and the dialogue/movement columns. Removed content-dependent map height changes for typesetting and story choices. Reserved scrollbar space. Mobile conversation keeps the same lower-panel geometry.
+- Removed the duplicate mission panel on the story overview and corrected the Korean particle in the next-date explanation.
+
+Actual UI play (CUA clicks, local port 4178)
+New save: skip tutorial -> historical menu -> MAIN01 -> six right moves -> inspect -> read with Darya -> March 9 continuation -> select Ekaterina -> two right/six up -> inspect typesetter.
+Entered the Cyrillic title with individual tile clicks, proofed it, then completed proofreading, paper/ink, subscriber notification, bookstore notification, worker copy and remaining-paper decisions.
+Clicked continue and the quest completion action; April 28 continuation appeared and worked.
+Opened Ivan Panaev conversation, ended it, opened the source archive, read the March 1848 manifesto in RU/KO, and clicked the completion control to return.
+Checked possession list, historical menu and source modal. No browser console errors returned by the inspected tab.
+
+Measured geometry after fix
+1280x720: document scrollWidth=1280; playfield and lower widths=1228.8125, heights=274.40625; journal width=980.8125. Same dimensions in source-list and conversation views.
+390x844: document scrollWidth=390; playfield width=370, height=202.5521; lower width=370, height=476.1146; journal width=350, height=375.4479. Same dimensions during printing choices, completion and conversation.
+Viewport override reset after testing. Mobile screenshots were visually inspected, including the conversation buttons/input and final printing choices.
+The final static build was served separately on port 4179. Its menu showed only the three authored main stories; the shortened introduction was visible above the buttons after dismissing the tutorial.
+
+Checks
+- npm run check: exit 0 (full repository check chain).
+- npm run build:v33: PASS, 595 static files.
+- npm run build: static readability/syntax/JSON integrity PASS.
+- npm run lint: PASS.
+- node --test scripts/v47-story-entry.test.mjs: 26/26 passed.
+
+Limits
+This session replay covered the opening, all seven printing stages, date progression, source reader, possession and dialogue UI; it was not a fresh end-to-end replay of every later MAIN01 branch or all five endings.
+The local server was deliberately static-only: no paid OpenAI request was made. The local AI-unavailable message is not evidence of a production API failure or success.
+Submission screenshots are existing genuine gameplay captures, not newly captured evidence of this CSS patch.

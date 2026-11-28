@@ -628,7 +628,7 @@ function updateHud() {
       const dateLabel = year !== Number(state.world.date.slice(0, 4)) ? `${year}년 ${month}월 ${day}일` : `${month}월 ${day}일`;
       missionGuidance = { ...missionGuidance,
         actionKo: `${dateLabel}에 다음 장면이 열립니다`,
-        reasonKo: `${focusedV47Quest.titleKo}를 시작할 날짜입니다.`,
+        reasonKo: `‘${focusedV47Quest.titleKo}’ 장면이 시작됩니다.`,
         howKo: `화면 아래 ‘${dateLabel} 자료로 이어가기’를 누르세요.`,
       };
     }
@@ -1426,16 +1426,12 @@ function openHistoricalEventMenu() {
   eventButton.textContent = '역사 현장';
   const storyActions = resolveV47StoryMenuEntries(state, questList, campaign).map(entry => ({
     label: `${entry.titleKo} · ${entry.statusLabelKo}`,
-    subcopy: `${entry.dateKo}${entry.timelineNoteKo ? `\n${entry.timelineNoteKo}` : ''}\n${entry.menuTaskKo}${entry.activitiesKo.length
-      ? `\n현장 활동\n${entry.activitiesKo.map(item => `· ${item.labelKo} — ${item.startKo}`).join('\n')}` : ''}`,
+    subcopy: `${entry.dateKo}\n${entry.menuTaskKo}`,
     run: () => selectV47Story(entry.id),
   }));
-  const historicalActions = historicalEvents.map(event => ({
-    label: event.titleKo,
-    subcopy: `${event.dateLabelKo} · ${event.openingKo}`,
-    run: () => beginHistoricalEvent(event),
-  }));
-  say('역사 현장', '이야기를 고르세요. 선택하면 지금 할 일과 맡을 인물을 바로 안내합니다.', [...storyActions, ...historicalActions]);
+  // Retain the old session readers for existing saves, but do not offer the
+  // retired 1825/1836/1861 prototypes alongside the authored 1848 stories.
+  say('역사 현장', '이야기를 고르면 맡을 인물과 첫 번째 할 일이 나옵니다.', storyActions);
   $('.actions').classList.add('history-event-options');
 }
 function beginHistoricalEvent(event) {

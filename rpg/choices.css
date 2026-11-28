@@ -174,7 +174,7 @@ kbd{font:11px 'IBM Plex Mono',monospace;color:#d8c59f}
   .lower.has-actions.show-mission-context .journal-tools{display:flex}
   .lower.is-talking.has-actions.show-mission-context .journal-tools{display:none}
   .lower.has-actions .journal-tools:has(#route-continue[data-square-wait]){display:flex}
-  .lower.is-talking .journal{grid-row:1/-1}
+  .lower.is-talking .journal{grid-row:1}
   .mission-tracker{padding:9px 10px}
   .has-focused-story .v47-story-tabs{display:none}
   .mission-tracker h2{font-size:18px}
@@ -192,8 +192,6 @@ kbd{font:11px 'IBM Plex Mono',monospace;color:#d8c59f}
 @media(prefers-reduced-motion:reduce){.mission-tracker,.quest-journal,.tutorial-card{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 
 @media(max-width:760px) and (min-height:650px){
-  .has-focused-story .game-shell:has(.lower.has-actions:not(.has-typesetter)){grid-template-rows:auto clamp(165px,22dvh,215px) minmax(0,1fr)}
-  .has-focused-story .game-shell:has(.lower.has-actions:not(.has-typesetter)) .playfield{min-height:0}
   .has-focused-story .lower.has-actions #journal-text{scrollbar-width:thin;scrollbar-color:#a98350 #241c17}
 }
 
@@ -262,3 +260,33 @@ kbd{font:11px 'IBM Plex Mono',monospace;color:#d8c59f}
 .lower.has-typesetter{align-items:start}
 .lower.has-typesetter .journal{overflow-y:auto;scrollbar-width:thin;scrollbar-color:#a98350 #241c17}
 .lower.has-typesetter .actions.type-setter-active{max-height:none;overflow:visible}
+
+/* A change of dialogue must not resize the map or its surrounding columns. */
+.game-shell{width:100%;grid-template-columns:minmax(0,1fr)}
+.game-shell>*{min-width:0}
+.lower{grid-template-columns:minmax(0,1fr) 196px;min-width:0}
+.lower .journal{grid-column:1;min-width:0;scrollbar-gutter:stable}
+.lower .touch-pad{grid-column:2}
+.actions,#journal-text{scrollbar-gutter:stable;overflow-wrap:anywhere}
+.actions.history-event-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:start}
+.actions.history-event-options button{width:100%;max-width:none}
+.lower:has(.history-event-options) #journal-text{flex:0 0 auto;min-height:1.6em}
+.lower.story-overview #mission-tracker{display:none!important}
+@media(max-width:760px){
+  .lower{grid-template-columns:minmax(0,1fr)}
+  .lower .touch-pad{grid-column:1}
+}
+@media(min-width:761px) and (min-height:501px){
+  .game-shell{min-height:0;grid-template-rows:auto minmax(0,1fr) minmax(0,1fr) auto}
+  .playfield{min-height:0}
+  .lower,.lower.has-typesetter{height:100%;max-height:none;min-height:0;align-items:stretch}
+  .lower .touch-pad{align-self:center}
+}
+@media(max-width:760px) and (min-height:501px){
+  .game-shell{grid-template-rows:auto clamp(160px,24dvh,230px) minmax(0,1fr)}
+  .playfield{min-height:0}
+  .lower,.lower.has-typesetter{max-height:none;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) 76px}
+  .lower .touch-pad{grid-column:1;grid-row:2;height:76px}
+  .lower.is-talking .touch-pad,.lower:has(.actions.type-setter-active) .touch-pad{display:grid;visibility:hidden}
+  .actions.history-event-options{grid-template-columns:minmax(0,1fr)}
+}
