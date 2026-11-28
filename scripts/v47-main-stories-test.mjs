@@ -62,8 +62,8 @@ for (const questId of [
   assert.ok(scene.dialogue.every(turn => turn.speakerKo && turn.lineKo), `${questId} has readable speaker lines`);
 }
 const screenplayDialogueCoverage = [
-  ['D-A1', 'V47_MAIN01_A01', '부디 우리 집으로는 보내지 마세요.'],
-  ['D-A2', 'V47_MAIN01_A05', '저 양반이 집에선 누구더러 술을 따르라고 할까'],
+  ['D-A1', 'V47_MAIN01_A01', '그 별책은 부디 저희 댁으로 보내지 마십시오.'],
+  ['D-A2', 'V47_MAIN01_A05', '귀가하여 누구에게 잔을 채우라 명할지'],
   ['D-A3', 'V47_MAIN01_A11', '겨울에도 해 뜨고 나서 일어나도 되느냐고요'],
   ['D-A4', 'V47_MAIN01_SUBSCRIBER_REPLY', '지금 내 손엔 보낼 책이 없소.'],
   ['D-B1', 'V47_MAIN03_P01', '길에서도 같은 말을 할 수 있을지는 사람마다 다르겠지요.'],

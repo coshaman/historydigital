@@ -878,7 +878,7 @@ function createRpgAiService({ secret, store, allowedOrigins = [], provider = nul
     try {
       const format = responseFormat(scene), recentStory = recentStoryAnchors(input);
       const sceneInstructions = v47Quest?.storyId === 'MAIN01' && card.kind === 'FICTIONAL'
-        ? `${instructions}\n연감 장면의 긴장은 이미 주어진 품삯·거처·손님과의 거리 같은 형편에서 나온다. 인물이 겪는 일 가운데 질문에 닿는 것 하나를 골라 지금 말을 듣는 사람에게 답한다. 미안하다는 말만으로 손해가 만회되거나, 듣기 좋은 결론으로 사정이 풀린다고 말하지 않는다. 호칭은 관계에 맞추고 새 불행이나 과거사를 덧붙이지 않는다.`
+        ? `${instructions}\n연감 장면에서는 관계와 생업에 맞춰 어휘를 고른다. 서기나 편집자가 공적으로 말할 때는 상신·소견·간행·서한처럼 용건에 정확한 문어를 쓴다. 인쇄공이나 마부가 자기 일을 말할 때는 조판·교정쇄·품삯·운임처럼 현장에서 쓰는 말을 고른다. 가까운 사이의 말은 문장이 짧아져도 인물의 말씨와 호칭을 따른다. 한자 표기와 상투적인 옛 말끝을 남발하지 않는다. 주어진 형편 가운데 질문에 닿는 것에 답하고, 사과만으로 손해를 만회하거나 새로운 과거사를 붙이지 않는다.`
         : instructions;
       let output = await provider.generate({ input, instructions: sceneInstructions, format, model: dialogueModel, maxOutputTokens: 700 });
       if (validateTurn(output, scene) && recentStory && lacksRecentStoryAnchor(output, recentStory, card.id)) {

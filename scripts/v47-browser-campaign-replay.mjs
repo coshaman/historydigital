@@ -1063,7 +1063,7 @@ async function runRoute(browser, base, routeName) {
             }
             if (main01Only && quest.id === 'V47_MAIN01_A11') {
               const aftermath = await page.locator('#journal-text').innerText();
-              assert.match(aftermath, routeName === 'NORMAL' ? /어느 문으로 가셨어요\?.*마부는요\?.*차를 한 잔 더 달라고 했다\. 그 복도로 다시 나가기가 싫어서/s
+              assert.match(aftermath, routeName === 'NORMAL' ? /어느 문으로 가셨습니까\?.*마부는요\?.*차를 한 잔 더 청했다\. 그 복도를 다시 지나기가 싫어서/s
                 : /이리나가 외투를 맡아 두고 로만에게 삯을 냈어요.*파벨이 책은 받았대요/s);
             }
             const choice = page.locator('#actions button').filter({ hasText: action.labelKo }).first();
